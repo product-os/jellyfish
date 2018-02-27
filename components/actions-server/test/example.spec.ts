@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-'use strict'
-
 import ava = require('ava')
 
 ava.test('should pass', (test) => {

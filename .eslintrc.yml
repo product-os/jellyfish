@@ -7,14 +7,17 @@ plugins:
   - lodash
   - jsdoc
 extends: 'standard'
-parserOptions:
-  sourceType: 'script'
+parser: 'typescript-eslint-parser'
 settings:
   jsdoc:
     additionalTagNames:
       customTags:
         - fulfil
 rules:
+
+  # See https://github.com/eslint/typescript-eslint-parser/issues/416
+  no-undef:
+    - off
 
   # Possible Errors
 
@@ -275,6 +278,9 @@ rules:
         ClassDeclaration: true
         MethodDefinition: true
         ArrowFunctionExpression: true
+  semi:
+    - error
+    - never
   space-before-function-paren:
     - error
     - anonymous: always

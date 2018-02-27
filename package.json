@@ -12,7 +12,7 @@
   "scripts": {
     "start": "ts-node components/server.ts",
     "test": "npm run lint && ava-ts",
-    "lint": "eslint components"
+    "lint": "eslint components --ext .ts"
   },
   "ava": {
     "files": [
@@ -33,7 +33,8 @@
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
     "nyc": "^11.1.0",
-    "typescript": "^2.7.2"
+    "typescript": "^2.7.2",
+    "typescript-eslint-parser": "^14.0.0"
   },
   "dependencies": {
     "express": "^4.16.2",
