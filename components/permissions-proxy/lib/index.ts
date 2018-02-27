@@ -64,7 +64,9 @@ export const listen = (options) => {
   }
 
   if (options.db.certificate) {
-    dbOptions.ssl.ca = Buffer.from(options.db.certificate)
+    dbOptions.ssl = {
+      ca: Buffer.from(options.db.certificate)
+    }
   }
 
   rethinkdb.connect(dbOptions).then((connection) => {
