@@ -14,4 +14,13 @@
  * limitations under the License.
  */
 
-'use strict'
+import express = require('express')
+const app = express()
+
+app.get('/', (request, response) => {
+  response.send('Hey there!')
+})
+
+export {
+  app
+}

@@ -15,6 +15,7 @@
  */
 
 import express = require('express')
+import ui = require('./ui/lib/index')
 const app = express()
 
 if (app.get('env') === 'production') {
@@ -23,8 +24,10 @@ if (app.get('env') === 'production') {
   app.set('port', 8000)
 }
 
+app.use('/ui', ui.app)
+
 app.get('/', (request, response) => {
-  response.send('Hello World!')
+  response.redirect('/ui')
 })
 
 app.listen(app.get('port'), () => {
