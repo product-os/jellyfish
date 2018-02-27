@@ -14,15 +14,19 @@
  * limitations under the License.
  */
 
-'use strict'
-
-const express = require('express')
+import express = require('express')
 const app = express()
+
+if (app.get('env') === 'production') {
+  app.set('port', process.env.PORT)
+} else {
+  app.set('port', 8000)
+}
 
 app.get('/', (request, response) => {
   response.send('Hello World!')
 })
 
-app.listen(process.env.PORT, () => {
-  console.log(`Example app listening on port ${process.env.PORT}!`)
+app.listen(app.get('port'), () => {
+  console.log(`Example app listening on port ${app.get('port')}!`)
 })
