@@ -3,26 +3,27 @@
   "version": "1.0.0",
   "private": true,
   "description": "The Jellyfish Project",
-  "main": "components/server.js",
+  "main": "components/server.ts",
   "homepage": "https://github.com/resin-io/jellyfish",
   "repository": {
     "type": "git",
     "url": "git@github.com:resin-io/jellyfish.git"
   },
   "scripts": {
-    "start": "node components/server.js",
-    "test": "npm run lint && nyc --reporter=lcov ava",
+    "start": "ts-node components/server.ts",
+    "test": "npm run lint && ava-ts",
     "lint": "eslint components"
   },
   "ava": {
     "files": [
-      "components/**/*.spec.js"
+      "components/**/*.spec.ts"
     ]
   },
   "author": "Resin Inc. <hello@resin.io>",
   "license": "Apache-2.0",
   "devDependencies": {
     "ava": "^0.22.0",
+    "ava-ts": "^0.24.2",
     "eslint": "^4.5.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-import": "^2.7.0",
@@ -31,9 +32,11 @@
     "eslint-plugin-node": "^5.1.1",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
-    "nyc": "^11.1.0"
+    "nyc": "^11.1.0",
+    "typescript": "^2.7.2"
   },
   "dependencies": {
-    "express": "^4.16.2"
+    "express": "^4.16.2",
+    "ts-node": "^5.0.0"
   }
 }

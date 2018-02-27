@@ -16,7 +16,7 @@
 
 'use strict'
 
-const ava = require('ava')
+import ava = require('ava')
 
 ava.test('should pass', (test) => {
   test.true(true)
