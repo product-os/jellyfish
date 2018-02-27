@@ -6,7 +6,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:9.6
+      - image: rethinkdb
 
     working_directory: ~/repo
 
