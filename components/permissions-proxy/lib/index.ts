@@ -89,7 +89,7 @@ export const listen = (options) => {
     })
 
     server.listen(options.port, () => {
-      emitter.emit('ready')
+      emitter.emit('ready', server)
     })
   }).catch((error) => {
     emitter.emit('error', error)

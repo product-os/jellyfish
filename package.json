@@ -11,10 +11,12 @@
   },
   "scripts": {
     "start": "ts-node components/server.ts",
-    "test": "npm run lint && NODE_ENV=test nyc ava-ts",
+    "test": "npm run lint && TEST_HOST=localhost TEST_PROXY_PORT=9999 TEST_DB_PORT=28015 TEST_DB=test NODE_ENV=test nyc ava-ts",
     "lint": "eslint components --ext .ts"
   },
   "ava": {
+    "serial": true,
+    "verbose": true,
     "files": [
       "components/**/*.spec.ts"
     ]
