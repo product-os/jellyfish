@@ -31,6 +31,7 @@ import rethinkdb = require('rethinkdb')
  * @param {Number} options.db.port - database port
  * @param {String} options.db.user - database user
  * @param {String} options.db.password - database password
+ * @param {String} [options.db.certificate] - database SSL certificate
  * @returns {EventEmitter}
  *
  * @example
@@ -55,12 +56,18 @@ import rethinkdb = require('rethinkdb')
 export const listen = (options) => {
   const emitter = new EventEmitter()
 
-  rethinkdb.connect({
+  const dbOptions = {
     host: options.db.host,
     port: options.db.port,
     user: options.db.user,
     password: options.db.password
-  }).then((connection) => {
+  }
+
+  if (options.db.certificate) {
+    dbOptions.ssl.ca = Buffer.from(options.db.certificate)
+  }
+
+  rethinkdb.connect(dbOptions).then((connection) => {
     emitter.server = net.createServer()
 
     emitter.server.on('connection', (client) => {
