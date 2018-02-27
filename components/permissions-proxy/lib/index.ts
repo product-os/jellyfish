@@ -61,9 +61,9 @@ export const listen = (options) => {
     user: options.db.user,
     password: options.db.password
   }).then((connection) => {
-    const server = net.createServer()
+    emitter.server = net.createServer()
 
-    server.on('connection', (client) => {
+    emitter.server.on('connection', (client) => {
       client.on('data', (data) => {
         return Bluebird.fromCallback((callback) => {
           // eslint-disable-next-line no-underscore-dangle
@@ -84,18 +84,45 @@ export const listen = (options) => {
       })
     })
 
-    server.on('error', (error) => {
+    emitter.server.on('error', (error) => {
       emitter.emit('error', error)
     })
 
-    server.listen(options.port, () => {
-      emitter.emit('ready', server)
+    emitter.server.listen(options.port, () => {
+      emitter.emit('ready')
     })
   }).catch((error) => {
     emitter.emit('error', error)
   })
 
   return emitter
+}
+
+/**
+ * @summary Terminate a permissions proxy
+ * @function
+ * @public
+ *
+ * @param {Object} proxy - proxy instance
+ * @returns {Promise}
+ *
+ * @example
+ * const server = proxy.listen({
+ *   port: 9999,
+ *   db: {
+ *     host: 'localhost',
+ *     port: 28015,
+ *     username: 'admin',
+ *     password: 'secret'
+ *   }
+ * })
+ *
+ * proxy.close(server)
+ */
+export const close = (proxy) => {
+  return Bluebird.fromCallback((callback) => {
+    return proxy.server.close(callback)
+  })
 }
 
 /**

@@ -57,18 +57,14 @@ ava.test.beforeEach(async (test) => {
     db: dbOptions
   })
 
-  test.context.server = await Bluebird.fromCallback((callback) => {
-    test.context.proxy.on('ready', (instance) => {
-      return callback(null, instance)
-    })
+  await Bluebird.fromCallback((callback) => {
+    test.context.proxy.on('ready', callback)
   })
 })
 
 ava.test.afterEach(async (test) => {
   await test.context.connection.close()
-  await Bluebird.fromCallback((callback) => {
-    test.context.server.close(callback)
-  })
+  await proxy.close(test.context.proxy)
 })
 
 const queries = [
