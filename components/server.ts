@@ -50,7 +50,8 @@ const proxy = permissionsProxy.listen({
     host: app.get('db-host'),
     port: app.get('db-port'),
     user: app.get('db-user'),
-    password: app.get('db-password')
+    password: app.get('db-password'),
+    certificate: app.get('db-cert')
   }
 })
 
