@@ -73,11 +73,9 @@ export const listen = (options) => {
             }
           }, callback, {})
         }).then((result) => {
-          if (!result.toArray) {
-            return result
-          }
-
-          return Bluebird.fromCallback(result.toArray.bind(result))
+          return result.toArray
+            ? Bluebird.fromCallback(result.toArray.bind(result))
+            : result
         }).then((result) => {
           client.write(JSON.stringify(result))
         }).catch((error) => {
