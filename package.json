@@ -11,7 +11,7 @@
   },
   "scripts": {
     "start": "ts-node components/server.ts",
-    "test": "npm run lint && nyc ava-ts",
+    "test": "npm run lint && NODE_ENV=test nyc ava-ts",
     "lint": "eslint components --ext .ts"
   },
   "ava": {
