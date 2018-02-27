@@ -13,6 +13,9 @@ jobs:
     steps:
       - checkout
 
+      - run: curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+      - run: apt-get install -y nodejs build-essential
+
       # Download and cache dependencies
       - restore_cache:
           keys:
