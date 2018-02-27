@@ -62,3 +62,5 @@ typings/
 
 
 # End of https://www.gitignore.io/api/node
+
+rethinkdb_data
