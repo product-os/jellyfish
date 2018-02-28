@@ -17,7 +17,7 @@
 const _ = require('lodash')
 const jsonSchema = require('./json-schema')
 const SCHEMA_CARD = require('./schemas/card.json')
-const SCHEMA_CARD_TYPE = require('./schemas/tables/type.json')
+const SCHEMA_CARD_TYPE = require('./schemas/type.json')
 const TABLE_CARD_TYPE = SCHEMA_CARD_TYPE.properties.type.constant
 
 const ensureObjectMatchesSchema = (schema, object) => {
@@ -39,12 +39,12 @@ module.exports = class Database {
 
     // Built-in tables
     await this.backend.createTable(TABLE_CARD_TYPE)
-    await this.backend.createTable('jellyfish.operator')
-    await this.backend.createTable('jellyfish.action')
-    await this.backend.createTable('jellyfish.event')
-    await this.backend.createTable('jellyfish.filter')
-    await this.backend.createTable('jellyfish.user')
-    await this.backend.createTable('jellyfish.role')
+    await this.backend.createTable('operator')
+    await this.backend.createTable('action')
+    await this.backend.createTable('event')
+    await this.backend.createTable('filter')
+    await this.backend.createTable('user')
+    await this.backend.createTable('role')
   }
 
   async getSchema (type) {

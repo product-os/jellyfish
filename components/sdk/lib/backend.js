@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-const _ = require('lodash')
 const Bluebird = require('bluebird')
-const rethinkdb = require('rethinkdb')
 
 module.exports = class Backend {
   constructor (database) {

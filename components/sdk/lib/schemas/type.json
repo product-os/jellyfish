@@ -1,0 +1,27 @@
+{
+  "description": "Jellyfish Card Type",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "type": {
+      "type": "string",
+      "constant": "type"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true,
+      "required": [ "schema" ]
+    }
+  },
+  "additionalProperties": true,
+  "required": [ "id", "type", "data" ]
+}

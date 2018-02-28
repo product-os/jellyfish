@@ -1,0 +1,63 @@
+{
+  "id": "event",
+  "type": "type",
+  "access": {
+    "read": [],
+    "write": []
+  },
+  "data": {
+    "tags": [],
+    "links": [],
+    "schema": {
+      "description": "Jellyfish Event",
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "constant": "event"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "timestamp": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "target": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9-]+$"
+                },
+                "type": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9-]+$"
+                }
+              },
+              "additionalProperties": false,
+              "required": [ "id", "type" ]
+            },
+            "type": {
+              "type": "string",
+              "pattern": "^[a-z0-9-]+$"
+            },
+            "actor": {
+              "type": "string",
+              "pattern": "^[a-z0-9-]+$"
+            }
+          },
+          "additionalProperties": true,
+          "required": [
+            "timestamp",
+            "target",
+            "type",
+            "actor"
+          ]
+        }
+      },
+      "additionalProperties": true,
+      "required": [ "id", "type", "data" ]
+    }
+  }
+}

@@ -15,7 +15,6 @@
  */
 
 const _ = require('lodash')
-const Bluebird = require('bluebird')
 const rethinkdb = require('rethinkdb')
 const Backend = require('./backend')
 

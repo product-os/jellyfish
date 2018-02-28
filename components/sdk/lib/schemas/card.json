@@ -4,11 +4,11 @@
   "properties": {
     "id": {
       "type": "string",
-      "pattern": "^[a-z0-9]+$"
+      "pattern": "^[a-z0-9-]+$"
     },
     "type": {
       "type": "string",
-      "pattern": "^[a-z0-9.]+$"
+      "pattern": "^[a-z0-9-]+$"
     },
     "access": {
       "type": "object",
@@ -18,7 +18,7 @@
           "minItems": 0,
           "items": {
             "type": "string",
-            "pattern": "^[a-z0-9]+$"
+            "pattern": "^[a-z0-9-]+$"
           },
           "uniqueItems": true
         },
@@ -27,7 +27,7 @@
           "minItems": 0,
           "items": {
             "type": "string",
-            "pattern": "^[a-z0-9]+$"
+            "pattern": "^[a-z0-9-]+$"
           },
           "uniqueItems": true
         }
@@ -43,7 +43,7 @@
           "minItems": 0,
           "items": {
             "type": "string",
-            "pattern": "^[a-z0-9-_]+$"
+            "pattern": "^[a-z0-9-]+$"
           },
           "uniqueItems": true
         },
@@ -52,7 +52,7 @@
           "minItems": 0,
           "items": {
             "type": "string",
-            "pattern": "^[a-z0-9]+$"
+            "pattern": "^[a-z0-9-]+$"
           },
           "uniqueItems": true
         }
