@@ -272,7 +272,7 @@ rules:
     - error
     - as-needed
   require-jsdoc:
-    - error
+    - off
     - require:
         FunctionDeclaration: true
         ClassDeclaration: true
