@@ -19,6 +19,31 @@ import Bluebird = require('bluebird')
 import net = require('net')
 import rethinkdb = require('rethinkdb')
 
+interface DBSSLOptions {
+  ca: NodeBuffer;
+}
+
+interface DBOptions {
+  host: string;
+  port: number;
+  user?: string;
+  password?: string;
+  ssl?: DBSSLOptions;
+}
+
+export interface ProxyDBOptions {
+  host: string;
+  port: number;
+  user?: string;
+  password?: string;
+  certificate?: NodeBuffer;
+}
+
+export interface ProxyOptions {
+  port: number;
+  db: ProxyDBOptions;
+}
+
 /**
  * @summary Start the permissions proxy
  * @function
@@ -53,10 +78,10 @@ import rethinkdb = require('rethinkdb')
  *   console.log('The proxy is accepting connections')
  * })
  */
-export const listen = (options) => {
-  const emitter = new EventEmitter()
+export const listen = (options: ProxyOptions) => {
+  const emitter: any = new EventEmitter()
 
-  const dbOptions = {
+  const dbOptions: DBOptions = {
     host: options.db.host,
     port: options.db.port,
     user: options.db.user,
