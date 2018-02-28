@@ -14,24 +14,11 @@
  * limitations under the License.
  */
 
-import {
-  JSV
-} from 'JSV'
+const express = require('express')
+const app = express()
 
-const sanitizeSchemaURI = (uri) => {
-  return uri.slice(uri.indexOf('#'))
-}
+app.get('/', (request, response) => {
+  response.send('Hey there!')
+})
 
-export const validate = (schema, object) => {
-  const environment = JSV.createEnvironment()
-  const report = environment.validate(object, schema)
-
-  return {
-    valid: report.errors.length === 0,
-    errors: report.errors.map((error) => {
-      error.schemaUri = sanitizeSchemaURI(error.schemaUri)
-      error.uri = sanitizeSchemaURI(error.uri)
-      return error
-    })
-  }
-}
+module.exports = app

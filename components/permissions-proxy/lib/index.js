@@ -14,35 +14,10 @@
  * limitations under the License.
  */
 
-import EventEmitter = require('events')
-import Bluebird = require('bluebird')
-import net = require('net')
-import rethinkdb = require('rethinkdb')
-
-interface DBSSLOptions {
-  ca: NodeBuffer;
-}
-
-interface DBOptions {
-  host: string;
-  port: number;
-  user?: string;
-  password?: string;
-  ssl?: DBSSLOptions;
-}
-
-export interface ProxyDBOptions {
-  host: string;
-  port: number;
-  user?: string;
-  password?: string;
-  certificate?: NodeBuffer;
-}
-
-export interface ProxyOptions {
-  port: number;
-  db: ProxyDBOptions;
-}
+const EventEmitter = require('events')
+const Bluebird = require('bluebird')
+const net = require('net')
+const rethinkdb = require('rethinkdb')
 
 /**
  * @summary Start the permissions proxy
@@ -78,10 +53,10 @@ export interface ProxyOptions {
  *   console.log('The proxy is accepting connections')
  * })
  */
-export const listen = (options: ProxyOptions) => {
-  const emitter: any = new EventEmitter()
+exports.listen = (options) => {
+  const emitter = new EventEmitter()
 
-  const dbOptions: DBOptions = {
+  const dbOptions = {
     host: options.db.host,
     port: options.db.port,
     user: options.db.user,
@@ -153,7 +128,7 @@ export const listen = (options: ProxyOptions) => {
  *
  * proxy.close(server)
  */
-export const close = (proxy) => {
+exports.close = (proxy) => {
   return Bluebird.fromCallback((callback) => {
     return proxy.server.close(callback)
   })
@@ -190,7 +165,7 @@ export const close = (proxy) => {
  *   console.log(result)
  * })
  */
-export const sendQuery = (query, options) => {
+exports.sendQuery = (query, options) => {
   const emitter = new EventEmitter()
   const client = net.createConnection({
     host: options.host,

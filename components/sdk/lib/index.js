@@ -14,4 +14,9 @@
  * limitations under the License.
  */
 
-'use strict'
+const jsonSchema = require('./json-schema')
+const SCHEMA_CARD = require('./schemas/card.json')
+
+exports.isCard = (object) => {
+  return jsonSchema.validate(SCHEMA_CARD, object).valid
+}

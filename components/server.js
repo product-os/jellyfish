@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-import express = require('express')
-import Bluebird = require('bluebird')
-import ui = require('./ui/lib/index')
-import permissionsProxy = require('./permissions-proxy/lib/index')
+const express = require('express')
+const ui = require('./ui/lib/index')
+const permissionsProxy = require('./permissions-proxy/lib/index')
 const app = express()
 
 if (app.get('env') === 'production') {

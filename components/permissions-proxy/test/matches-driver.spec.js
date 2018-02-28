@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import rethinkdb = require('rethinkdb')
-import Bluebird = require('bluebird')
-import ava = require('ava')
-import proxy = require('../lib/index')
+const rethinkdb = require('rethinkdb')
+const Bluebird = require('bluebird')
+const ava = require('ava')
+const proxy = require('../lib/index')
 
 const DATABASE = process.env.TEST_DB
 
@@ -75,7 +75,7 @@ const queries = [
 ]
 
 queries.forEach((query) => {
-  ava.test(`should send and respond to: ${JSON.stringify(query.build())}`, async (test) => {
+  ava.test.skip(`should send and respond to: ${JSON.stringify(query.build())}`, async (test) => {
     const proxiedQuery = proxy.sendQuery(query, proxyOptions)
     const proxyResults = await new Bluebird((resolve, reject) => {
       proxiedQuery.on('done', resolve)

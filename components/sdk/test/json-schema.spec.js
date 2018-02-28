@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import ava = require('ava')
-import jsonSchema = require('../lib/json-schema')
+const ava = require('ava')
+const jsonSchema = require('../lib/json-schema')
 
 ava.test('should validate a matching object', (test) => {
   const result = jsonSchema.validate({

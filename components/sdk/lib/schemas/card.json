@@ -1,0 +1,63 @@
+{
+  "description": "Jellyfish Card",
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+$"
+    },
+    "type": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+$"
+    },
+    "access": {
+      "type": "object",
+      "properties": {
+        "read": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+$"
+          },
+          "uniqueItems": true
+        },
+        "write": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+$"
+          },
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false,
+      "required": [ "read", "write" ]
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9-_]+$"
+          },
+          "uniqueItems": true
+        },
+        "links": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+$"
+          },
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": true,
+      "required": [ "tags", "links" ]
+    }
+  },
+  "additionalProperties": false,
+  "required": [ "type", "access", "data" ]
+}

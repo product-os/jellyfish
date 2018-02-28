@@ -14,4 +14,23 @@
  * limitations under the License.
  */
 
-'use strict'
+const ava = require('ava')
+const sdk = require('../lib/index')
+
+ava.test('should return true if its card', (test) => {
+  const result = sdk.isCard({
+    id: 'jviotti',
+    type: 'jellyfish.person',
+    access: {
+      read: [],
+      write: []
+    },
+    data: {
+      tags: [],
+      links: [],
+      email: 'johndoe@example.com'
+    }
+  })
+
+  test.true(result)
+})
