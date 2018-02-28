@@ -35,7 +35,7 @@
     "nyc": "^11.4.1"
   },
   "dependencies": {
-    "JSV": "^4.0.2",
+    "ajv": "^6.2.0",
     "bluebird": "^3.5.1",
     "express": "^4.16.2",
     "rethinkdb": "^2.3.3"

@@ -45,13 +45,32 @@ ava.test('should report back a single error', (test) => {
   test.deepEqual(result, {
     valid: false,
     errors: [
-      {
-        attribute: 'type',
-        details: [ 'number' ],
-        message: 'Instance is not a required type',
-        schemaUri: '#/properties/foo',
-        uri: '#/foo'
+      'data.foo should be number'
+    ]
+  })
+})
+
+ava.test('should report back more than one error', (test) => {
+  const result = jsonSchema.validate({
+    type: 'object',
+    properties: {
+      foo: {
+        type: 'number'
+      },
+      bar: {
+        type: 'string'
       }
+    },
+    required: [ 'foo', 'bar' ]
+  }, {
+    foo: 'bar'
+  })
+
+  test.deepEqual(result, {
+    valid: false,
+    errors: [
+      'data.foo should be number',
+      'data should have required property \'bar\''
     ]
   })
 })

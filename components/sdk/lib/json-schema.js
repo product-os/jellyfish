@@ -14,24 +14,16 @@
  * limitations under the License.
  */
 
-const {
-  JSV
-} = require('JSV')
-
-const sanitizeSchemaURI = (uri) => {
-  return uri.slice(uri.indexOf('#'))
-}
+const AJV = require('ajv')
 
 exports.validate = (schema, object) => {
-  const environment = JSV.createEnvironment()
-  const report = environment.validate(object, schema)
+  const ajv = new AJV({
+    allErrors: true
+  })
 
+  const valid = ajv.addSchema(schema, 'card').validate('card', object)
   return {
-    valid: report.errors.length === 0,
-    errors: report.errors.map((error) => {
-      error.schemaUri = sanitizeSchemaURI(error.schemaUri)
-      error.uri = sanitizeSchemaURI(error.uri)
-      return error
-    })
+    valid,
+    errors: valid ? [] : ajv.errorsText().split(', ')
   }
 }
