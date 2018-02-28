@@ -17,20 +17,89 @@
 const ava = require('ava')
 const sdk = require('../lib/index')
 
-ava.test('should return true if its card', (test) => {
-  const result = sdk.isCard({
-    id: 'jviotti',
-    type: 'jellyfish.person',
-    access: {
-      read: [],
-      write: []
+const testCases = [
+  {
+    card: {
+      id: 'jviotti',
+      type: 'jellyfish.person',
+      access: {
+        read: [],
+        write: []
+      },
+      data: {
+        tags: [],
+        links: [],
+        email: 'johndoe@example.com'
+      }
     },
-    data: {
-      tags: [],
-      links: [],
-      email: 'johndoe@example.com'
+    expected: {
+      valid: true,
+      errors: []
     }
-  })
+  },
+  {
+    card: {
+      id: 'xxxxxxxxxxxxxxxxx',
+      type: 'jellyfish.thread',
+      access: {
+        read: [ 'foo' ],
+        write: [ 'bar' ]
+      },
+      data: {
+        tags: [ 'admin' ],
+        links: [ 'yyyyyyyyy' ]
+      }
+    },
+    expected: {
+      valid: true,
+      errors: []
+    }
+  },
+  {
+    card: {
+      id: '....',
+      type: 'jellyfish.thread',
+      access: {
+        read: [ 'foo' ],
+        write: [ 'bar' ]
+      },
+      data: {
+        tags: [ 'admin' ],
+        links: [ 'yyyyyyyyy' ]
+      }
+    },
+    expected: {
+      valid: false,
+      errors: [
+        'data.id should match pattern "^[a-z0-9]+$"'
+      ]
+    }
+  },
+  {
+    card: {
+      id: 'jviotti',
+      access: {
+        read: [],
+        write: []
+      },
+      data: {
+        tags: [],
+        links: [],
+        email: 'johndoe@example.com'
+      }
+    },
+    expected: {
+      valid: false,
+      errors: [
+        'data should have required property \'type\''
+      ]
+    }
+  }
+]
 
-  test.true(result)
+testCases.forEach((testCase) => {
+  ava.test(`should return ${testCase.expected.valid} for ${testCase.card.type} example`, (test) => {
+    const result = sdk.isCard(testCase.card)
+    test.deepEqual(result, testCase.expected)
+  })
 })
