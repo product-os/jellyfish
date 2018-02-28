@@ -16,6 +16,7 @@
 
 const _ = require('lodash')
 const jsonSchema = require('./json-schema')
+const CARD_EVENT = require('./cards/event.json')
 const SCHEMA_CARD = require('./schemas/card.json')
 const SCHEMA_CARD_TYPE = require('./schemas/type.json')
 const TABLE_CARD_TYPE = SCHEMA_CARD_TYPE.properties.type.constant
@@ -45,6 +46,9 @@ module.exports = class Database {
     await this.backend.createTable('filter')
     await this.backend.createTable('user')
     await this.backend.createTable('role')
+
+    // Built-in cards
+    await this.upsertCard(CARD_EVENT)
   }
 
   async getSchema (type) {
@@ -69,5 +73,23 @@ module.exports = class Database {
     if (card.type === TABLE_CARD_TYPE) {
       await this.backend.createTable(card.id)
     }
+  }
+
+  async updateCard (card) {
+    ensureObjectMatchesSchema(SCHEMA_CARD, card)
+    const schema = await this.getSchema(card.type)
+    if (!schema) {
+      throw new Error(`Unknown type: ${card.type}`)
+    }
+
+    ensureObjectMatchesSchema(schema, card)
+    await this.backend.updateElement(card.type, card)
+  }
+
+  async upsertCard (card) {
+    ensureObjectMatchesSchema(SCHEMA_CARD, card)
+    return await this.backend.getElement(card.type, card.id)
+      ? this.updateCard(card)
+      : this.insertCard(card)
   }
 }
