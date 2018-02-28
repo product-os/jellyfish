@@ -1,6 +1,5 @@
 {
   "description": "Jellyfish Card",
-  "$schema": "http://json-schema.org/draft-06/schema#",
   "type": "object",
   "properties": {
     "id": {
@@ -9,13 +8,14 @@
     },
     "type": {
       "type": "string",
-      "pattern": "^[a-z0-9]+$"
+      "pattern": "^[a-z0-9.]+$"
     },
     "access": {
       "type": "object",
       "properties": {
         "read": {
           "type": "array",
+          "minItems": 0,
           "items": {
             "type": "string",
             "pattern": "^[a-z0-9]+$"
@@ -24,6 +24,7 @@
         },
         "write": {
           "type": "array",
+          "minItems": 0,
           "items": {
             "type": "string",
             "pattern": "^[a-z0-9]+$"
@@ -39,6 +40,7 @@
       "properties": {
         "tags": {
           "type": "array",
+          "minItems": 0,
           "items": {
             "type": "string",
             "pattern": "^[a-z0-9-_]+$"
@@ -47,6 +49,7 @@
         },
         "links": {
           "type": "array",
+          "minItems": 0,
           "items": {
             "type": "string",
             "pattern": "^[a-z0-9]+$"
