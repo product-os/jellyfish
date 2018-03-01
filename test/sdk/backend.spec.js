@@ -38,6 +38,27 @@ ava.test('.getElement() should return null if the table does not exist', async (
   test.deepEqual(result, null)
 })
 
+ava.test('.getElement() should return null if the element is not present', async (test) => {
+  await test.context.backend.createTable('test')
+  const result = await test.context.backend.getElement('test', '4a962ad9-20b5-4dd8-a707-bf819593cc84')
+  test.deepEqual(result, null)
+})
+
+ava.test('.getElement() should fetch an element given its slug', async (test) => {
+  await test.context.backend.createTable('test')
+  const uuid = await test.context.backend.insertElement('test', {
+    slug: 'example',
+    test: 'foo'
+  })
+
+  const result = await test.context.backend.getElement('test', 'example')
+  test.deepEqual(result, {
+    id: uuid,
+    slug: 'example',
+    test: 'foo'
+  })
+})
+
 ava.test('.createTable() should be able to create a table', async (test) => {
   test.false(await test.context.backend.hasTable('foobar'))
   await test.context.backend.createTable('foobar')
@@ -118,10 +139,11 @@ ava.test('.insertElement() should insert a card with an id', async (test) => {
   })
 })
 
-ava.test('.insertElement() should update an element given an insertion to the same id', async (test) => {
+ava.test('.insertElement() should replace an element given an insertion to the same id', async (test) => {
   await test.context.backend.createTable('test')
   const uuid1 = await test.context.backend.insertElement('test', {
-    test: 'foo'
+    test: 'foo',
+    hello: 'world'
   })
 
   const uuid2 = await test.context.backend.insertElement('test', {
@@ -134,6 +156,49 @@ ava.test('.insertElement() should update an element given an insertion to the sa
   const element = await test.context.backend.getElement('test', uuid1)
   test.deepEqual(element, {
     id: uuid1,
+    test: 'bar'
+  })
+})
+
+ava.test('.insertElement() should insert a card with a slug', async (test) => {
+  await test.context.backend.createTable('test')
+  const uuid = await test.context.backend.insertElement('test', {
+    slug: 'example',
+    test: 'foo'
+  })
+
+  test.not(uuid, 'example')
+
+  const element = await test.context.backend.getElement('test', uuid)
+
+  test.deepEqual(element, {
+    id: uuid,
+    slug: 'example',
+    test: 'foo'
+  })
+})
+
+ava.test('.insertElement() should replace an element given the slug but no id', async (test) => {
+  await test.context.backend.createTable('test')
+
+  const uuid1 = await test.context.backend.insertElement('test', {
+    slug: 'example',
+    test: 'foo',
+    hello: 'world'
+  })
+
+  const uuid2 = await test.context.backend.insertElement('test', {
+    slug: 'example',
+    test: 'bar'
+  })
+
+  test.is(uuid1, uuid2)
+
+  const element = await test.context.backend.getElement('test', uuid1)
+
+  test.deepEqual(element, {
+    id: uuid1,
+    slug: 'example',
     test: 'bar'
   })
 })
