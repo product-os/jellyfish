@@ -38,6 +38,8 @@ _.each(_.map(fs.readdirSync(path.join(__dirname, 'cards')), (file) => {
   ava.test('examples', isCardMacro, testCase.name, testCase.json.card, testCase.json.valid)
 })
 
-_.each(CARDS, (value, key) => {
-  ava.test('built-in', isCardMacro, key, value, true)
+_.each(CARDS, (type) => {
+  _.each(type, (value, key) => {
+    ava.test('built-in', isCardMacro, key, value, true)
+  })
 })
