@@ -103,7 +103,16 @@ module.exports = class Backend {
       .run(this.connection)
   }
 
-  // Will already return null if the ID doesn't exist
+  async upsertElement (table, object) {
+    await this.checkTable(table)
+    await rethinkdb
+      .db(this.database)
+      .table(table)
+      .get(object.id)
+      .replace(object)
+      .run(this.connection)
+  }
+
   async getElement (table, id) {
     await this.checkTable(table)
 

@@ -86,11 +86,8 @@ module.exports = class Database {
     await this.backend.updateElement(card.type, card)
   }
 
-  // TODO: Create an upsertElement function in the backend instead
   async upsertCard (card) {
     ensureObjectMatchesSchema(SCHEMA_CARD, card)
-    return await this.backend.getElement(card.type, card.id)
-      ? this.updateCard(card)
-      : this.insertCard(card)
+    await this.backend.upsertCard(card.type, card)
   }
 }
