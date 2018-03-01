@@ -22,7 +22,7 @@ const utils = require('../../lib/sdk/utils')
 const CARDS = require('../../lib/sdk/cards')
 
 const isCardMacro = (test, name, card, expected) => {
-  test.deepEqual(utils.isCard(card).valid, expected)
+  test.deepEqual(utils.isCard(card), expected)
 }
 
 isCardMacro.title = (title, name, card, expected) => {

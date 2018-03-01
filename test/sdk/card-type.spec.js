@@ -14,27 +14,24 @@
  * limitations under the License.
  */
 
-const CARDS = require('./cards')
-const jsonSchema = require('./json-schema')
-const cardType = require('./card-type')
+const ava = require('ava')
+const _ = require('lodash')
+const cardType = require('../../lib/sdk/card-type')
+const CARDS = require('../../lib/sdk/cards')
 
-/**
- * @summary Check if an object is a card
- * @function
- * @public
- *
- * @param {Object} object - object
- * @returns {Boolean} whether the object is a card
- *
- * @example
- * if (utils.isCard({ ... })) {
- *   console.log('This is a card!')
- * }
- */
-exports.isCard = (object) => {
-  return jsonSchema.validate(cardType.getSchema(CARDS.CARD), object).valid
-}
+ava.test('.getSchema() should return the schema of a card type', (test) => {
+  const schema = cardType.getSchema(CARDS.CARD)
+  test.true(_.isPlainObject(schema))
+  test.is(schema.type, 'object')
+})
 
-exports.isCardType = (object) => {
-  return jsonSchema.validate(cardType.getSchema(CARDS.TYPE), object).valid
-}
+ava.test('.getSchema() should return null if the card is not a type card', (test) => {
+  const schema = cardType.getSchema({
+    type: 'foo',
+    links: [],
+    tags: [],
+    data: {}
+  })
+
+  test.true(_.isNil(schema))
+})
