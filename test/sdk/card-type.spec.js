@@ -35,3 +35,25 @@ ava.test('.getSchema() should return null if the card is not a type card', (test
 
   test.true(_.isNil(schema))
 })
+
+ava.test('.matchesCard() should return true given a card type and a matching card', (test) => {
+  test.true(cardType.matchesCard(CARDS.TYPE, CARDS.EVENT))
+})
+
+ava.test('.matchesCard() should return false given a card type and a non-matching card', (test) => {
+  test.false(cardType.matchesCard(CARDS.TYPE, {
+    type: 'foo',
+    links: [],
+    tags: [],
+    data: {}
+  }))
+})
+
+ava.test('.matchesCard() should return false given a non card type', (test) => {
+  test.false(cardType.matchesCard({
+    type: 'foo',
+    links: [],
+    tags: [],
+    data: {}
+  }, CARDS.EVENT))
+})
