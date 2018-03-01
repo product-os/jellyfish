@@ -11,7 +11,7 @@
   },
   "scripts": {
     "start": "node lib/server.js",
-    "test": "npm run lint && TEST_HOST=localhost TEST_PROXY_PORT=9999 TEST_DB_PORT=28015 TEST_DB=test NODE_ENV=test nyc ava",
+    "test": "npm run lint && TEST_DB_HOST=localhost TEST_PROXY_PORT=9999 TEST_DB_PORT=28015 NODE_ENV=test nyc --reporter=lcov ava",
     "lint": "eslint lib test"
   },
   "ava": {
