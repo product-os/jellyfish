@@ -14,16 +14,31 @@
  * limitations under the License.
  */
 
+const _ = require('lodash')
+const rethinkdb = require('rethinkdb')
 const Bluebird = require('bluebird')
 
 module.exports = class Backend {
-  constructor (database) {
-    this.database = database
+  constructor (options) {
+    this.options = {
+      host: options.host,
+      port: options.port,
+      user: options.user,
+      password: options.password
+    }
+
+    if (options.certificate) {
+      this.options.ssl = {
+        ca: Buffer.from(options.certificate)
+      }
+    }
+
+    this.database = options.database
   }
 
   async connect () {
     if (!this.connection) {
-      this.connection = await this.onConnect()
+      this.connection = await rethinkdb.connect(this.options)
     }
 
     return this.connection
@@ -31,10 +46,19 @@ module.exports = class Backend {
 
   disconnect () {
     if (this.connection) {
-      return this.onDisconnect()
+      return this.connection.close()
     }
 
     return Bluebird.resolve()
+  }
+
+  async hasTable (name) {
+    const tables = await rethinkdb
+      .db(this.database)
+      .tableList()
+      .run(this.connection)
+
+    return tables.includes(name)
   }
 
   async checkTable (name) {
@@ -45,23 +69,49 @@ module.exports = class Backend {
 
   async createTable (name) {
     if (!await this.hasTable(name)) {
-      await this.onCreateTable(name)
+      await rethinkdb
+        .db(this.database)
+        .tableCreate(name)
+        .run(this.connection)
     }
   }
 
   async insertElement (table, object) {
     await this.checkTable(table)
-    return this.onInsertElement(table, object)
+
+    const results = await rethinkdb
+      .db(this.database)
+      .table(table)
+      .insert(object)
+      .run(this.connection)
+
+    // Return the inserted element key
+    if (results.errors === 0) {
+      return _.first(_.get(results, [ 'generated_keys' ], [ object.id ]))
+    }
+
+    throw new Error(results.first_error)
   }
 
   async updateElement (table, object) {
     await this.checkTable(table)
-    await this.onUpdateElement(table, object)
+    await rethinkdb
+      .db(this.database)
+      .table(table)
+      .get(object.id)
+      .update(_.omit(object, [ 'id' ]))
+      .run(this.connection)
   }
 
   // Will already return null if the ID doesn't exist
   async getElement (table, id) {
     await this.checkTable(table)
-    return this.onGetElement(table, id)
+
+    // Will already return null if the ID doesn't exist
+    return rethinkdb
+      .db(this.database)
+      .table(table)
+      .get(id)
+      .run(this.connection)
   }
 }

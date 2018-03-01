@@ -1,4 +1,7 @@
-const Backend = require('./components/sdk/lib/rethink-backend')
+const Bluebird = require('bluebird')
+const Backend = require('./components/sdk/lib/backend')
+const Database = require('./components/sdk/lib/database')
+const EVENT_CARD = require('./components/sdk/lib/cards/event.json')
 
 const backend = new Backend({
   host: 'localhost',
@@ -6,13 +9,12 @@ const backend = new Backend({
   database: 'test'
 })
 
-backend.connect().then(() => {
-  console.log('CONNECTED!')
-  return backend.getElement('example', '761d82cb-3a06-4374-867c-65bfccc48fb9')
-  // return backend.updateElement('example', {
-    // id: '2dff887a-9d6f-4003-8d24-80fda4f92c79',
-    // title: 'BAZ'
-  // })
+const database = new Database(backend)
+
+database.initialize().then(() => {
+  // console.log('CONNECTED!')
+  return backend.getElement('type', 'event')
+  // return database.upsertCard(EVENT_CARD)
 }).then((result) => {
   console.log(result)
   return backend.disconnect()
