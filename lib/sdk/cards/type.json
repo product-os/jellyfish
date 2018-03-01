@@ -24,7 +24,7 @@
               "additionalProperties": true
             }
           },
-          "additionalProperties": true,
+          "additionalProperties": false,
           "required": [ "schema" ]
         }
       },
