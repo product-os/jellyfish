@@ -22,10 +22,6 @@ const testCases = [
     card: {
       id: 'jviotti',
       type: 'person',
-      access: {
-        read: [],
-        write: []
-      },
       data: {
         tags: [],
         links: [],
@@ -41,10 +37,6 @@ const testCases = [
     card: {
       id: 'xxxxxxxxxxxxxxxxx',
       type: 'thread',
-      access: {
-        read: [ 'foo' ],
-        write: [ 'bar' ]
-      },
       data: {
         tags: [ 'admin' ],
         links: [ 'yyyyyyyyy' ]
@@ -59,10 +51,6 @@ const testCases = [
     card: {
       id: '....',
       type: 'thread',
-      access: {
-        read: [ 'foo' ],
-        write: [ 'bar' ]
-      },
       data: {
         tags: [ 'admin' ],
         links: [ 'yyyyyyyyy' ]
@@ -78,10 +66,6 @@ const testCases = [
   {
     card: {
       id: 'jviotti',
-      access: {
-        read: [],
-        write: []
-      },
       data: {
         tags: [],
         links: [],

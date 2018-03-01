@@ -10,31 +10,6 @@
       "type": "string",
       "pattern": "^[a-z0-9-]+$"
     },
-    "access": {
-      "type": "object",
-      "properties": {
-        "read": {
-          "type": "array",
-          "minItems": 0,
-          "items": {
-            "type": "string",
-            "pattern": "^[a-z0-9-]+$"
-          },
-          "uniqueItems": true
-        },
-        "write": {
-          "type": "array",
-          "minItems": 0,
-          "items": {
-            "type": "string",
-            "pattern": "^[a-z0-9-]+$"
-          },
-          "uniqueItems": true
-        }
-      },
-      "additionalProperties": false,
-      "required": [ "read", "write" ]
-    },
     "data": {
       "type": "object",
       "properties": {
@@ -62,5 +37,5 @@
     }
   },
   "additionalProperties": false,
-  "required": [ "type", "access", "data" ]
+  "required": [ "type", "data" ]
 }

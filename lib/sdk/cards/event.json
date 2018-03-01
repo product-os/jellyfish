@@ -1,10 +1,6 @@
 {
   "id": "event",
   "type": "type",
-  "access": {
-    "read": [],
-    "write": []
-  },
   "data": {
     "tags": [],
     "links": [],
