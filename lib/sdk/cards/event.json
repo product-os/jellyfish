@@ -8,10 +8,6 @@
       "description": "Jellyfish Event",
       "type": "object",
       "properties": {
-        "type": {
-          "type": "string",
-          "constant": "event"
-        },
         "data": {
           "type": "object",
           "properties": {
@@ -20,23 +16,8 @@
               "format": "date-time"
             },
             "target": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "string",
-                  "pattern": "^[a-z0-9-]+$"
-                },
-                "type": {
-                  "type": "string",
-                  "pattern": "^[a-z0-9-]+$"
-                }
-              },
-              "additionalProperties": false,
-              "required": [ "id", "type" ]
-            },
-            "type": {
               "type": "string",
-              "pattern": "^[a-z0-9-]+$"
+              "pattern": "^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$"
             },
             "actor": {
               "type": "string",
@@ -47,13 +28,12 @@
           "required": [
             "timestamp",
             "target",
-            "type",
             "actor"
           ]
         }
       },
       "additionalProperties": true,
-      "required": [ "id", "type", "data" ]
+      "required": [ "data" ]
     }
   }
 }
