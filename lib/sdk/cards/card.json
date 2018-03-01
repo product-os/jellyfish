@@ -1,0 +1,49 @@
+{
+  "slug": "card",
+  "type": "type",
+  "tags": [],
+  "links": [],
+  "data": {
+    "schema": {
+      "description": "Jellyfish Card",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$"
+        },
+        "slug": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$"
+        },
+        "type": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$"
+        },
+        "tags": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]+$"
+          },
+          "uniqueItems": true
+        },
+        "links": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$"
+          },
+          "uniqueItems": true
+        },
+        "data": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": false,
+      "required": [ "type", "tags", "links", "data" ]
+    }
+  }
+}

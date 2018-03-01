@@ -18,6 +18,7 @@ const ava = require('ava')
 const path = require('path')
 const fs = require('fs')
 const sdk = require('../../lib/sdk')
+const CARD_CARD = require('../../lib/sdk/cards/card.json')
 
 const testCases = fs.readdirSync(path.join(__dirname, 'cards')).map((card) => {
   return {
@@ -31,4 +32,9 @@ testCases.forEach((testCase) => {
     const result = sdk.isCard(testCase.json.card)
     test.deepEqual(result.valid, testCase.json.valid)
   })
+})
+
+ava.test('should return true for the card definition itself', (test) => {
+  const result = sdk.isCard(CARD_CARD)
+  test.deepEqual(result.valid, true)
 })
