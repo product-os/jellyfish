@@ -17,11 +17,11 @@
             },
             "target": {
               "type": "string",
-              "pattern": "^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$"
+              "format": "uuid"
             },
             "actor": {
               "type": "string",
-              "pattern": "^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$"
+              "format": "uuid"
             }
           },
           "additionalProperties": true,

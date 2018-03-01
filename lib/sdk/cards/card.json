@@ -10,7 +10,7 @@
       "properties": {
         "id": {
           "type": "string",
-          "pattern": "^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$"
+          "format": "uuid"
         },
         "slug": {
           "type": "string",
@@ -34,7 +34,7 @@
           "minItems": 0,
           "items": {
             "type": "string",
-            "pattern": "^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$"
+            "format": "uuid"
           },
           "uniqueItems": true
         },
