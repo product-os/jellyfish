@@ -4,7 +4,7 @@
   "properties": {
     "id": {
       "type": "string",
-      "pattern": "^[a-z0-9-]+$"
+      "pattern": "^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$"
     },
     "type": {
       "type": "string",
@@ -15,7 +15,7 @@
       "minItems": 0,
       "items": {
         "type": "string",
-        "pattern": "^[a-z0-9-]+$"
+        "pattern": "^[a-zA-Z0-9-]+$"
       },
       "uniqueItems": true
     },
@@ -24,7 +24,7 @@
       "minItems": 0,
       "items": {
         "type": "string",
-        "pattern": "^[a-z0-9-]+$"
+        "pattern": "^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$"
       },
       "uniqueItems": true
     },
@@ -33,5 +33,5 @@
     }
   },
   "additionalProperties": false,
-  "required": [ "id", "type", "tags", "links", "data" ]
+  "required": [ "type", "tags", "links", "data" ]
 }

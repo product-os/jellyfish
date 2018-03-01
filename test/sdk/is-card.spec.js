@@ -15,73 +15,20 @@
  */
 
 const ava = require('ava')
+const path = require('path')
+const fs = require('fs')
 const sdk = require('../../lib/sdk')
 
-const testCases = [
-  {
-    card: {
-      id: 'jviotti',
-      type: 'person',
-      tags: [],
-      links: [],
-      data: {
-        email: 'johndoe@example.com'
-      }
-    },
-    expected: {
-      valid: true,
-      errors: []
-    }
-  },
-  {
-    card: {
-      id: 'xxxxxxxxxxxxxxxxx',
-      type: 'thread',
-      tags: [ 'admin' ],
-      links: [ 'yyyyyyyyy' ],
-      data: {}
-    },
-    expected: {
-      valid: true,
-      errors: []
-    }
-  },
-  {
-    card: {
-      id: '....',
-      type: 'thread',
-      tags: [ 'admin' ],
-      links: [ 'yyyyyyyyy' ],
-      data: {}
-    },
-    expected: {
-      valid: false,
-      errors: [
-        'data.id should match pattern "^[a-z0-9-]+$"'
-      ]
-    }
-  },
-  {
-    card: {
-      id: 'jviotti',
-      tags: [],
-      links: [],
-      data: {
-        email: 'johndoe@example.com'
-      }
-    },
-    expected: {
-      valid: false,
-      errors: [
-        'data should have required property \'type\''
-      ]
-    }
+const testCases = fs.readdirSync(path.join(__dirname, 'cards')).map((card) => {
+  return {
+    name: card,
+    json: require(path.join(__dirname, 'cards', card))
   }
-]
+})
 
 testCases.forEach((testCase) => {
-  ava.test(`should return ${testCase.expected.valid} for ${testCase.card.type} example`, (test) => {
-    const result = sdk.isCard(testCase.card)
-    test.deepEqual(result, testCase.expected)
+  ava.test(`should return ${testCase.json.valid} for ${testCase.name} example`, (test) => {
+    const result = sdk.isCard(testCase.json.card)
+    test.deepEqual(result.valid, testCase.json.valid)
   })
 })
