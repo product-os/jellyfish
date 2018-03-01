@@ -1,7 +1,7 @@
 const Bluebird = require('bluebird')
-const Backend = require('./components/sdk/lib/backend')
-const Database = require('./components/sdk/lib/database')
-const EVENT_CARD = require('./components/sdk/lib/cards/event.json')
+const Backend = require('./lib/sdk/backend')
+const Database = require('./lib/sdk/database')
+const EVENT_CARD = require('./lib/sdk/cards/event.json')
 
 const backend = new Backend({
   host: 'localhost',

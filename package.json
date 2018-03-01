@@ -3,22 +3,19 @@
   "version": "1.0.0",
   "private": true,
   "description": "The Jellyfish Project",
-  "main": "components/server.js",
+  "main": "lib/server.js",
   "homepage": "https://github.com/resin-io/jellyfish",
   "repository": {
     "type": "git",
     "url": "git@github.com:resin-io/jellyfish.git"
   },
   "scripts": {
-    "start": "node components/server.js",
+    "start": "node lib/server.js",
     "test": "npm run lint && TEST_HOST=localhost TEST_PROXY_PORT=9999 TEST_DB_PORT=28015 TEST_DB=test NODE_ENV=test nyc ava",
-    "lint": "eslint components"
+    "lint": "eslint lib test"
   },
   "ava": {
-    "verbose": true,
-    "files": [
-      "components/**/*.spec.js"
-    ]
+    "verbose": true
   },
   "author": "Resin Inc. <hello@resin.io>",
   "license": "Apache-2.0",

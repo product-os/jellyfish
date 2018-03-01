@@ -15,7 +15,7 @@
  */
 
 const ava = require('ava')
-const jsonSchema = require('../lib/json-schema')
+const jsonSchema = require('../../lib/sdk/json-schema')
 
 ava.test('should validate a matching object', (test) => {
   const result = jsonSchema.validate({

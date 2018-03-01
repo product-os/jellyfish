@@ -17,7 +17,7 @@
 const rethinkdb = require('rethinkdb')
 const Bluebird = require('bluebird')
 const ava = require('ava')
-const proxy = require('../lib/index')
+const proxy = require('../../lib/permissions-proxy')
 
 const DATABASE = process.env.TEST_DB
 

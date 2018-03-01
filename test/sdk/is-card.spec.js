@@ -15,13 +15,13 @@
  */
 
 const ava = require('ava')
-const sdk = require('../lib/index')
+const sdk = require('../../lib/sdk')
 
 const testCases = [
   {
     card: {
       id: 'jviotti',
-      type: 'jellyfish.person',
+      type: 'person',
       access: {
         read: [],
         write: []
@@ -40,7 +40,7 @@ const testCases = [
   {
     card: {
       id: 'xxxxxxxxxxxxxxxxx',
-      type: 'jellyfish.thread',
+      type: 'thread',
       access: {
         read: [ 'foo' ],
         write: [ 'bar' ]
@@ -58,7 +58,7 @@ const testCases = [
   {
     card: {
       id: '....',
-      type: 'jellyfish.thread',
+      type: 'thread',
       access: {
         read: [ 'foo' ],
         write: [ 'bar' ]
@@ -71,7 +71,7 @@ const testCases = [
     expected: {
       valid: false,
       errors: [
-        'data.id should match pattern "^[a-z0-9]+$"'
+        'data.id should match pattern "^[a-z0-9-]+$"'
       ]
     }
   },
