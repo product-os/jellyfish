@@ -14,27 +14,30 @@
  * limitations under the License.
  */
 
+const _ = require('lodash')
 const ava = require('ava')
 const path = require('path')
 const fs = require('fs')
-const sdk = require('../../lib/sdk')
-const CARD_CARD = require('../../lib/sdk/cards/card.json')
+const utils = require('../../lib/sdk/utils')
+const CARDS = require('../../lib/sdk/cards')
 
-const testCases = fs.readdirSync(path.join(__dirname, 'cards')).map((card) => {
+const isCardMacro = (test, name, card, expected) => {
+  test.deepEqual(utils.isCard(card).valid, expected)
+}
+
+isCardMacro.title = (title, name, card, expected) => {
+  return `(${title}) isCard() should return ${expected} for ${name}`
+}
+
+_.each(_.map(fs.readdirSync(path.join(__dirname, 'cards')), (file) => {
   return {
-    name: card,
-    json: require(path.join(__dirname, 'cards', card))
+    name: file,
+    json: require(path.join(__dirname, 'cards', file))
   }
+}), (testCase) => {
+  ava.test('examples', isCardMacro, testCase.name, testCase.json.card, testCase.json.valid)
 })
 
-testCases.forEach((testCase) => {
-  ava.test(`should return ${testCase.json.valid} for ${testCase.name} example`, (test) => {
-    const result = sdk.isCard(testCase.json.card)
-    test.deepEqual(result.valid, testCase.json.valid)
-  })
-})
-
-ava.test('should return true for the card definition itself', (test) => {
-  const result = sdk.isCard(CARD_CARD)
-  test.deepEqual(result.valid, true)
+_.each(CARDS, (value, key) => {
+  ava.test('built-in', isCardMacro, key, value, true)
 })
