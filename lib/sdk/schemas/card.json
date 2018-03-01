@@ -10,32 +10,28 @@
       "type": "string",
       "pattern": "^[a-z0-9-]+$"
     },
-    "data": {
-      "type": "object",
-      "properties": {
-        "tags": {
-          "type": "array",
-          "minItems": 0,
-          "items": {
-            "type": "string",
-            "pattern": "^[a-z0-9-]+$"
-          },
-          "uniqueItems": true
-        },
-        "links": {
-          "type": "array",
-          "minItems": 0,
-          "items": {
-            "type": "string",
-            "pattern": "^[a-z0-9-]+$"
-          },
-          "uniqueItems": true
-        }
+    "tags": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9-]+$"
       },
-      "additionalProperties": true,
-      "required": [ "tags", "links" ]
+      "uniqueItems": true
+    },
+    "links": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9-]+$"
+      },
+      "uniqueItems": true
+    },
+    "data": {
+      "type": "object"
     }
   },
   "additionalProperties": false,
-  "required": [ "type", "data" ]
+  "required": [ "id", "type", "tags", "links", "data" ]
 }

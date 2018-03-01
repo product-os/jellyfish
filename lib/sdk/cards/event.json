@@ -1,9 +1,9 @@
 {
   "id": "event",
   "type": "type",
+  "tags": [],
+  "links": [],
   "data": {
-    "tags": [],
-    "links": [],
     "schema": {
       "description": "Jellyfish Event",
       "type": "object",

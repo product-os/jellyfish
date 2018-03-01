@@ -22,9 +22,9 @@ const testCases = [
     card: {
       id: 'jviotti',
       type: 'person',
+      tags: [],
+      links: [],
       data: {
-        tags: [],
-        links: [],
         email: 'johndoe@example.com'
       }
     },
@@ -37,10 +37,9 @@ const testCases = [
     card: {
       id: 'xxxxxxxxxxxxxxxxx',
       type: 'thread',
-      data: {
-        tags: [ 'admin' ],
-        links: [ 'yyyyyyyyy' ]
-      }
+      tags: [ 'admin' ],
+      links: [ 'yyyyyyyyy' ],
+      data: {}
     },
     expected: {
       valid: true,
@@ -51,10 +50,9 @@ const testCases = [
     card: {
       id: '....',
       type: 'thread',
-      data: {
-        tags: [ 'admin' ],
-        links: [ 'yyyyyyyyy' ]
-      }
+      tags: [ 'admin' ],
+      links: [ 'yyyyyyyyy' ],
+      data: {}
     },
     expected: {
       valid: false,
@@ -66,9 +64,9 @@ const testCases = [
   {
     card: {
       id: 'jviotti',
+      tags: [],
+      links: [],
       data: {
-        tags: [],
-        links: [],
         email: 'johndoe@example.com'
       }
     },
