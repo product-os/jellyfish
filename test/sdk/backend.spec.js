@@ -33,6 +33,14 @@ ava.test.afterEach(async (test) => {
   await test.context.backend.disconnect()
 })
 
+ava.test('.disconnect() should not throw if called multiple times', async (test) => {
+  test.notThrows(async () => {
+    await test.context.backend.disconnect()
+    await test.context.backend.disconnect()
+    await test.context.backend.disconnect()
+  })
+})
+
 ava.test('.getElement() should return null if the table does not exist', async (test) => {
   const result = await test.context.backend.getElement('foobarbaz', 'xxxxxxxxx')
   test.deepEqual(result, null)
