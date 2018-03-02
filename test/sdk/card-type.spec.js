@@ -19,6 +19,11 @@ const _ = require('lodash')
 const cardType = require('../../lib/sdk/card-type')
 const CARDS = require('../../lib/sdk/cards')
 
+ava.test('.getSchema() should return null given no card', (test) => {
+  const schema = cardType.getSchema()
+  test.deepEqual(schema, null)
+})
+
 ava.test('.getSchema() should return the schema of a card type', (test) => {
   const schema = cardType.getSchema(CARDS.TYPE.CARD)
   test.true(_.isPlainObject(schema))
