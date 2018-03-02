@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-'use strict'
-
 const ava = require('ava')
 const jsonSchema = require('../../lib/sdk/json-schema')
 

@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-'use strict'
-
 const _ = require('lodash')
 const ava = require('ava')
 const path = require('path')
