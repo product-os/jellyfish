@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+'use strict'
+
 const ava = require('ava')
 const randomstring = require('randomstring')
 const Backend = require('../../lib/sdk/backend')

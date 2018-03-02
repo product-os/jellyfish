@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+'use strict'
+
 const ava = require('ava')
 const _ = require('lodash')
 const cardType = require('../../lib/sdk/card-type')
