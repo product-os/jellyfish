@@ -38,9 +38,15 @@ ava.test('.getElement() should return null if the table does not exist', async (
   test.deepEqual(result, null)
 })
 
-ava.test('.getElement() should return null if the element is not present', async (test) => {
+ava.test('.getElement() should return null if the element id is not present', async (test) => {
   await test.context.backend.createTable('test')
   const result = await test.context.backend.getElement('test', '4a962ad9-20b5-4dd8-a707-bf819593cc84')
+  test.deepEqual(result, null)
+})
+
+ava.test('.getElement() should return null if the element slug is not present', async (test) => {
+  await test.context.backend.createTable('test')
+  const result = await test.context.backend.getElement('test', 'foo')
   test.deepEqual(result, null)
 })
 
@@ -214,6 +220,139 @@ ava.test('.insertElement() should fail to insert an element with a non-existent 
   }))
 
   test.is(error.message, 'There is already an element with slug foo')
+})
+
+ava.test('.updateElement() should fail to update an element with no id nor slug', async (test) => {
+  await test.context.backend.createTable('test')
+  const error = await test.throws(test.context.backend.updateElement('test', {
+    foo: 'baz'
+  }))
+
+  test.is(error.message, 'You can\'t perform an update without an id nor slug')
+})
+
+ava.test('.updateElement() should fail to update an element by an id that does not exist', async (test) => {
+  await test.context.backend.createTable('test')
+
+  const element = await test.context.backend.getElement('test', '4a962ad9-20b5-4dd8-a707-bf819593cc84')
+  test.deepEqual(element, null)
+
+  const error = await test.throws(test.context.backend.updateElement('test', {
+    id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+    foo: 'baz'
+  }))
+
+  test.is(error.message, 'Can\'t find element with id 4a962ad9-20b5-4dd8-a707-bf819593cc84')
+})
+
+ava.test('.updateElement() should fail to update an element by a slug that does not exist', async (test) => {
+  await test.context.backend.createTable('test')
+
+  const element = await test.context.backend.getElement('test', 'foo')
+  test.deepEqual(element, null)
+
+  const error = await test.throws(test.context.backend.updateElement('test', {
+    slug: 'foo',
+    foo: 'baz'
+  }))
+
+  test.is(error.message, 'Can\'t find element with slug foo')
+})
+
+ava.test('.updateElement() should fail to update an element by an id and a slug where none exist', async (test) => {
+  await test.context.backend.createTable('test')
+
+  const error = await test.throws(test.context.backend.updateElement('test', {
+    id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+    slug: 'hello',
+    foo: 'baz'
+  }))
+
+  test.is(error.message, 'Can\'t find element with id 4a962ad9-20b5-4dd8-a707-bf819593cc84')
+})
+
+ava.test('.updateElement() should replace an element given an update to the same id', async (test) => {
+  await test.context.backend.createTable('test')
+  const uuid1 = await test.context.backend.insertElement('test', {
+    test: 'foo',
+    hello: 'world'
+  })
+
+  const uuid2 = await test.context.backend.updateElement('test', {
+    id: uuid1,
+    test: 'bar'
+  })
+
+  test.is(uuid1, uuid2)
+
+  const element = await test.context.backend.getElement('test', uuid1)
+  test.deepEqual(element, {
+    id: uuid1,
+    test: 'bar'
+  })
+})
+
+ava.test('.updateElement() should replace an element given an update to the same slug', async (test) => {
+  await test.context.backend.createTable('test')
+  const uuid1 = await test.context.backend.insertElement('test', {
+    slug: 'foo',
+    name: 'johndoe'
+  })
+
+  const uuid2 = await test.context.backend.updateElement('test', {
+    slug: 'foo',
+    name: 'janedoe'
+  })
+
+  test.is(uuid1, uuid2)
+
+  const element = await test.context.backend.getElement('test', uuid1)
+  test.deepEqual(element, {
+    id: uuid1,
+    slug: 'foo',
+    name: 'janedoe'
+  })
+})
+
+ava.test('.updateElement() should replace an element given an update to the same id and slug', async (test) => {
+  await test.context.backend.createTable('test')
+  const uuid1 = await test.context.backend.insertElement('test', {
+    slug: 'foo',
+    name: 'johndoe'
+  })
+
+  const uuid2 = await test.context.backend.updateElement('test', {
+    id: uuid1,
+    slug: 'foo',
+    name: 'janedoe'
+  })
+
+  test.is(uuid1, uuid2)
+
+  const element = await test.context.backend.getElement('test', uuid1)
+  test.deepEqual(element, {
+    id: uuid1,
+    slug: 'foo',
+    name: 'janedoe'
+  })
+})
+
+ava.test('.updateElement() should fail to update an element by an id and a slug where the slug already exist', async (test) => {
+  await test.context.backend.createTable('test')
+
+  const uuid = await test.context.backend.insertElement('test', {
+    slug: 'hello'
+  })
+
+  test.not(uuid, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
+
+  const error = await test.throws(test.context.backend.updateElement('test', {
+    id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+    slug: 'hello',
+    foo: 'baz'
+  }))
+
+  test.is(error.message, 'There is already an element with slug hello but the id is not 4a962ad9-20b5-4dd8-a707-bf819593cc84')
 })
 
 ava.test('.upsertElement() should insert a card without a slug nor an id', async (test) => {
@@ -406,7 +545,7 @@ ava.test('.upsertElement() should fail to insert an element with an existing id'
     test: 'foo'
   }))
 
-  test.is(error.message, `No match for id ${uuid} and slug example`)
+  test.is(error.message, `There is already an element with slug example but the id is not ${uuid}`)
 })
 
 ava.test('.upsertElement() should replace an element with an existing id and a non-matching slug', async (test) => {
@@ -476,7 +615,7 @@ ava.test('.upsertElement() should fail to insert an element with a non existing 
     test: 'foo'
   }))
 
-  test.is(error.message, 'No match for id 9af7cf33-1a29-4f0c-a73b-f6a2b149850c and slug example')
+  test.is(error.message, 'There is already an element with slug example but the id is not 9af7cf33-1a29-4f0c-a73b-f6a2b149850c')
 })
 
 ava.test('.upsertElement() should insert an element with a non-matching id nor slug', async (test) => {
