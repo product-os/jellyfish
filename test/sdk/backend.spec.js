@@ -46,7 +46,7 @@ ava.test('.getElement() should return null if the element is not present', async
 
 ava.test('.getElement() should fetch an element given its slug', async (test) => {
   await test.context.backend.createTable('test')
-  const uuid = await test.context.backend.insertElement('test', {
+  const uuid = await test.context.backend.upsertElement('test', {
     slug: 'example',
     test: 'foo'
   })
@@ -73,7 +73,7 @@ ava.test('.createTable() should ignore continuous attempts to create the same ta
   test.true(await test.context.backend.hasTable('foobar'))
 })
 
-ava.test('.insertElement() should insert a card without a slug nor an id', async (test) => {
+ava.test('.insertElement() should insert an element without a slug nor an id to an existing table', async (test) => {
   await test.context.backend.createTable('test')
   const uuid = await test.context.backend.insertElement('test', {
     test: 'foo'
@@ -87,16 +87,159 @@ ava.test('.insertElement() should insert a card without a slug nor an id', async
   })
 })
 
-ava.test('.insertElement() should create multiple elements given same content and no id', async (test) => {
+ava.test('.insertElement() should insert an element without a slug nor an id to a non-existing table', async (test) => {
+  const uuid = await test.context.backend.insertElement('foobar', {
+    test: 'foo'
+  })
+
+  const element = await test.context.backend.getElement('foobar', uuid)
+
+  test.deepEqual(element, {
+    id: uuid,
+    test: 'foo'
+  })
+})
+
+ava.test('.insertElement() should insert an element with a non-existent slug', async (test) => {
+  await test.context.backend.createTable('test')
+  const uuid = await test.context.backend.insertElement('test', {
+    slug: 'foo'
+  })
+
+  const element = await test.context.backend.getElement('test', uuid)
+
+  test.deepEqual(element, {
+    id: uuid,
+    slug: 'foo'
+  })
+})
+
+ava.test('.insertElement() should insert an element with a non-existent id', async (test) => {
+  await test.context.backend.createTable('test')
+  const uuid = await test.context.backend.insertElement('test', {
+    id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+    foo: 'bar'
+  })
+
+  test.is(uuid, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
+
+  const element = await test.context.backend.getElement('test', uuid)
+
+  test.deepEqual(element, {
+    id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+    foo: 'bar'
+  })
+})
+
+ava.test('.insertElement() should insert an element with a non-existent id and slug', async (test) => {
+  await test.context.backend.createTable('test')
+  const uuid = await test.context.backend.insertElement('test', {
+    id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+    slug: 'example',
+    foo: 'bar'
+  })
+
+  test.is(uuid, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
+
+  const element = await test.context.backend.getElement('test', uuid)
+
+  test.deepEqual(element, {
+    id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+    slug: 'example',
+    foo: 'bar'
+  })
+})
+
+ava.test('.insertElement() should fail to insert an element with an existent id', async (test) => {
+  await test.context.backend.createTable('test')
+
+  const uuid = await test.context.backend.insertElement('test', {
+    foo: 'bar'
+  })
+
+  const error = await test.throws(test.context.backend.insertElement('test', {
+    id: uuid,
+    foo: 'baz'
+  }))
+
+  test.is(error.message, `There is already an element with id ${uuid}`)
+})
+
+ava.test('.insertElement() should fail to insert an element with an existent slug', async (test) => {
+  await test.context.backend.createTable('test')
+
+  await test.context.backend.insertElement('test', {
+    slug: 'bar'
+  })
+
+  const error = await test.throws(test.context.backend.insertElement('test', {
+    slug: 'bar',
+    foo: 'baz'
+  }))
+
+  test.is(error.message, 'There is already an element with slug bar')
+})
+
+ava.test('.insertElement() should fail to insert an element with an existent id but non-existent slug', async (test) => {
+  await test.context.backend.createTable('test')
+
+  const uuid = await test.context.backend.insertElement('test', {
+    slug: 'foo',
+    foo: 'bar'
+  })
+
+  const error = await test.throws(test.context.backend.insertElement('test', {
+    id: uuid,
+    slug: 'bar',
+    foo: 'baz'
+  }))
+
+  test.is(error.message, `There is already an element with id ${uuid}`)
+})
+
+ava.test('.insertElement() should fail to insert an element with a non-existent id but existent slug', async (test) => {
+  await test.context.backend.createTable('test')
+
+  const uuid = await test.context.backend.insertElement('test', {
+    slug: 'foo',
+    foo: 'bar'
+  })
+
+  test.not(uuid, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
+
+  const error = await test.throws(test.context.backend.insertElement('test', {
+    id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+    slug: 'foo',
+    foo: 'baz'
+  }))
+
+  test.is(error.message, 'There is already an element with slug foo')
+})
+
+ava.test('.upsertElement() should insert a card without a slug nor an id', async (test) => {
+  await test.context.backend.createTable('test')
+  const uuid = await test.context.backend.upsertElement('test', {
+    test: 'foo'
+  })
+
+  const element = await test.context.backend.getElement('test', uuid)
+
+  test.deepEqual(element, {
+    id: uuid,
+    test: 'foo'
+  })
+})
+
+ava.test('.upsertElement() should create multiple elements given same content and no id', async (test) => {
   await test.context.backend.createTable('test')
 
   const object = {
     test: 'foo'
   }
 
-  const uuid1 = await test.context.backend.insertElement('test', object)
-  const uuid2 = await test.context.backend.insertElement('test', object)
-  const uuid3 = await test.context.backend.insertElement('test', object)
+  const uuid1 = await test.context.backend.upsertElement('test', object)
+  const uuid2 = await test.context.backend.upsertElement('test', object)
+  const uuid3 = await test.context.backend.upsertElement('test', object)
 
   test.not(uuid1, uuid2)
   test.not(uuid2, uuid3)
@@ -122,9 +265,9 @@ ava.test('.insertElement() should create multiple elements given same content an
   })
 })
 
-ava.test('.insertElement() should insert a card with an id', async (test) => {
+ava.test('.upsertElement() should insert a card with an id', async (test) => {
   await test.context.backend.createTable('test')
-  const uuid = await test.context.backend.insertElement('test', {
+  const uuid = await test.context.backend.upsertElement('test', {
     id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
     test: 'foo'
   })
@@ -139,14 +282,14 @@ ava.test('.insertElement() should insert a card with an id', async (test) => {
   })
 })
 
-ava.test('.insertElement() should replace an element given an insertion to the same id', async (test) => {
+ava.test('.upsertElement() should replace an element given an insertion to the same id', async (test) => {
   await test.context.backend.createTable('test')
-  const uuid1 = await test.context.backend.insertElement('test', {
+  const uuid1 = await test.context.backend.upsertElement('test', {
     test: 'foo',
     hello: 'world'
   })
 
-  const uuid2 = await test.context.backend.insertElement('test', {
+  const uuid2 = await test.context.backend.upsertElement('test', {
     id: uuid1,
     test: 'bar'
   })
@@ -160,9 +303,9 @@ ava.test('.insertElement() should replace an element given an insertion to the s
   })
 })
 
-ava.test('.insertElement() should insert a card with a slug', async (test) => {
+ava.test('.upsertElement() should insert a card with a slug', async (test) => {
   await test.context.backend.createTable('test')
-  const uuid = await test.context.backend.insertElement('test', {
+  const uuid = await test.context.backend.upsertElement('test', {
     slug: 'example',
     test: 'foo'
   })
@@ -178,16 +321,16 @@ ava.test('.insertElement() should insert a card with a slug', async (test) => {
   })
 })
 
-ava.test('.insertElement() should replace an element given the slug but no id', async (test) => {
+ava.test('.upsertElement() should replace an element given the slug but no id', async (test) => {
   await test.context.backend.createTable('test')
 
-  const uuid1 = await test.context.backend.insertElement('test', {
+  const uuid1 = await test.context.backend.upsertElement('test', {
     slug: 'example',
     test: 'foo',
     hello: 'world'
   })
 
-  const uuid2 = await test.context.backend.insertElement('test', {
+  const uuid2 = await test.context.backend.upsertElement('test', {
     slug: 'example',
     test: 'bar'
   })
@@ -203,9 +346,9 @@ ava.test('.insertElement() should replace an element given the slug but no id', 
   })
 })
 
-ava.test('.insertElement() should insert a card with an id and a slug', async (test) => {
+ava.test('.upsertElement() should insert a card with an id and a slug', async (test) => {
   await test.context.backend.createTable('test')
-  const uuid = await test.context.backend.insertElement('test', {
+  const uuid = await test.context.backend.upsertElement('test', {
     id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
     slug: 'example',
     test: 'foo'
@@ -222,13 +365,13 @@ ava.test('.insertElement() should insert a card with an id and a slug', async (t
   })
 })
 
-ava.test('.insertElement() should replace a card with no slug with an id and a non-existent slug', async (test) => {
+ava.test('.upsertElement() should replace a card with no slug with an id and a non-existent slug', async (test) => {
   await test.context.backend.createTable('test')
-  const uuid1 = await test.context.backend.insertElement('test', {
+  const uuid1 = await test.context.backend.upsertElement('test', {
     test: 'foo'
   })
 
-  const uuid2 = await test.context.backend.insertElement('test', {
+  const uuid2 = await test.context.backend.upsertElement('test', {
     id: uuid1,
     slug: 'example',
     test: 'foo'
@@ -245,19 +388,19 @@ ava.test('.insertElement() should replace a card with no slug with an id and a n
   })
 })
 
-ava.test('.insertElement() should fail to insert an element with an existing id' +
+ava.test('.upsertElement() should fail to insert an element with an existing id' +
          ', but matching the slug of another element', async (test) => {
   await test.context.backend.createTable('test')
 
-  await test.context.backend.insertElement('test', {
+  await test.context.backend.upsertElement('test', {
     slug: 'example'
   })
 
-  const uuid = await test.context.backend.insertElement('test', {
+  const uuid = await test.context.backend.upsertElement('test', {
     test: 'foo'
   })
 
-  const error = await test.throws(test.context.backend.insertElement('test', {
+  const error = await test.throws(test.context.backend.upsertElement('test', {
     id: uuid,
     slug: 'example',
     test: 'foo'
@@ -266,18 +409,18 @@ ava.test('.insertElement() should fail to insert an element with an existing id'
   test.is(error.message, `No match for id ${uuid} and slug example`)
 })
 
-ava.test('.insertElement() should replace an element with an existing id and a non-matching slug', async (test) => {
+ava.test('.upsertElement() should replace an element with an existing id and a non-matching slug', async (test) => {
   await test.context.backend.createTable('test')
 
-  await test.context.backend.insertElement('test', {
+  await test.context.backend.upsertElement('test', {
     slug: 'example'
   })
 
-  const uuid1 = await test.context.backend.insertElement('test', {
+  const uuid1 = await test.context.backend.upsertElement('test', {
     test: 'foo'
   })
 
-  const uuid2 = await test.context.backend.insertElement('test', {
+  const uuid2 = await test.context.backend.upsertElement('test', {
     id: uuid1,
     slug: 'bar',
     test: 'foo'
@@ -294,14 +437,14 @@ ava.test('.insertElement() should replace an element with an existing id and a n
   })
 })
 
-ava.test('.insertElement() should replace an element with an existing id and the slug of the same element', async (test) => {
+ava.test('.upsertElement() should replace an element with an existing id and the slug of the same element', async (test) => {
   await test.context.backend.createTable('test')
 
-  const uuid1 = await test.context.backend.insertElement('test', {
+  const uuid1 = await test.context.backend.upsertElement('test', {
     slug: 'example'
   })
 
-  const uuid2 = await test.context.backend.insertElement('test', {
+  const uuid2 = await test.context.backend.upsertElement('test', {
     id: uuid1,
     slug: 'example',
     test: 'foo'
@@ -318,16 +461,16 @@ ava.test('.insertElement() should replace an element with an existing id and the
   })
 })
 
-ava.test('.insertElement() should fail to insert an element with a non existing id and the slug of an element', async (test) => {
+ava.test('.upsertElement() should fail to insert an element with a non existing id and the slug of an element', async (test) => {
   await test.context.backend.createTable('test')
 
-  const uuid = await test.context.backend.insertElement('test', {
+  const uuid = await test.context.backend.upsertElement('test', {
     slug: 'example'
   })
 
   test.not(uuid, '9af7cf33-1a29-4f0c-a73b-f6a2b149850c')
 
-  const error = await test.throws(test.context.backend.insertElement('test', {
+  const error = await test.throws(test.context.backend.upsertElement('test', {
     id: '9af7cf33-1a29-4f0c-a73b-f6a2b149850c',
     slug: 'example',
     test: 'foo'
@@ -336,10 +479,10 @@ ava.test('.insertElement() should fail to insert an element with a non existing 
   test.is(error.message, 'No match for id 9af7cf33-1a29-4f0c-a73b-f6a2b149850c and slug example')
 })
 
-ava.test('.insertElement() should insert an element with a non-matching id nor slug', async (test) => {
+ava.test('.upsertElement() should insert an element with a non-matching id nor slug', async (test) => {
   await test.context.backend.createTable('test')
 
-  const uuid = await test.context.backend.insertElement('test', {
+  const uuid = await test.context.backend.upsertElement('test', {
     id: '9af7cf33-1a29-4f0c-a73b-f6a2b149850c',
     slug: 'example',
     test: 'foo'
