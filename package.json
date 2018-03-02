@@ -37,6 +37,7 @@
     "bluebird": "^3.5.1",
     "express": "^4.16.2",
     "lodash": "^4.17.5",
-    "rethinkdb": "^2.3.3"
+    "rethinkdb": "^2.3.3",
+    "typed-errors": "^1.1.0"
   }
 }

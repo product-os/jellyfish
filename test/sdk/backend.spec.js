@@ -17,6 +17,7 @@
 const ava = require('ava')
 const randomstring = require('randomstring')
 const Backend = require('../../lib/sdk/backend')
+const errors = require('../../lib/sdk/errors')
 
 ava.test.beforeEach(async (test) => {
   test.context.backend = new Backend({
@@ -171,12 +172,10 @@ ava.test('.insertElement() should fail to insert an element with an existent id'
     foo: 'bar'
   })
 
-  const error = await test.throws(test.context.backend.insertElement('test', {
+  await test.throws(test.context.backend.insertElement('test', {
     id: uuid,
     foo: 'baz'
-  }))
-
-  test.is(error.message, `There is already an element with id ${uuid}`)
+  }), errors.JellyfishElementAlreadyExists)
 })
 
 ava.test('.insertElement() should fail to insert an element with an existent slug', async (test) => {
@@ -186,12 +185,10 @@ ava.test('.insertElement() should fail to insert an element with an existent slu
     slug: 'bar'
   })
 
-  const error = await test.throws(test.context.backend.insertElement('test', {
+  await test.throws(test.context.backend.insertElement('test', {
     slug: 'bar',
     foo: 'baz'
-  }))
-
-  test.is(error.message, 'There is already an element with slug bar')
+  }), errors.JellyfishElementAlreadyExists)
 })
 
 ava.test('.insertElement() should fail to insert an element with an existent id but non-existent slug', async (test) => {
@@ -202,13 +199,11 @@ ava.test('.insertElement() should fail to insert an element with an existent id 
     foo: 'bar'
   })
 
-  const error = await test.throws(test.context.backend.insertElement('test', {
+  await test.throws(test.context.backend.insertElement('test', {
     id: uuid,
     slug: 'bar',
     foo: 'baz'
-  }))
-
-  test.is(error.message, `There is already an element with id ${uuid}`)
+  }), errors.JellyfishElementAlreadyExists)
 })
 
 ava.test('.insertElement() should fail to insert an element with a non-existent id but existent slug', async (test) => {
@@ -221,22 +216,18 @@ ava.test('.insertElement() should fail to insert an element with a non-existent 
 
   test.not(uuid, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
 
-  const error = await test.throws(test.context.backend.insertElement('test', {
+  await test.throws(test.context.backend.insertElement('test', {
     id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
     slug: 'foo',
     foo: 'baz'
-  }))
-
-  test.is(error.message, 'There is already an element with slug foo')
+  }), errors.JellyfishElementAlreadyExists)
 })
 
 ava.test('.updateElement() should fail to update an element with no id nor slug', async (test) => {
   await test.context.backend.createTable('test')
-  const error = await test.throws(test.context.backend.updateElement('test', {
+  await test.throws(test.context.backend.updateElement('test', {
     foo: 'baz'
-  }))
-
-  test.is(error.message, 'You can\'t perform an update without an id nor slug')
+  }), errors.JellyfishNoIdentifier)
 })
 
 ava.test('.updateElement() should fail to update an element by an id that does not exist', async (test) => {
@@ -245,12 +236,10 @@ ava.test('.updateElement() should fail to update an element by an id that does n
   const element = await test.context.backend.getElement('test', '4a962ad9-20b5-4dd8-a707-bf819593cc84')
   test.deepEqual(element, null)
 
-  const error = await test.throws(test.context.backend.updateElement('test', {
+  await test.throws(test.context.backend.updateElement('test', {
     id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
     foo: 'baz'
-  }))
-
-  test.is(error.message, 'Can\'t find element with id 4a962ad9-20b5-4dd8-a707-bf819593cc84')
+  }), errors.JellyfishNoElement)
 })
 
 ava.test('.updateElement() should fail to update an element by a slug that does not exist', async (test) => {
@@ -259,24 +248,20 @@ ava.test('.updateElement() should fail to update an element by a slug that does 
   const element = await test.context.backend.getElement('test', 'foo')
   test.deepEqual(element, null)
 
-  const error = await test.throws(test.context.backend.updateElement('test', {
+  await test.throws(test.context.backend.updateElement('test', {
     slug: 'foo',
     foo: 'baz'
-  }))
-
-  test.is(error.message, 'Can\'t find element with slug foo')
+  }), errors.JellyfishNoElement)
 })
 
 ava.test('.updateElement() should fail to update an element by an id and a slug where none exist', async (test) => {
   await test.context.backend.createTable('test')
 
-  const error = await test.throws(test.context.backend.updateElement('test', {
+  await test.throws(test.context.backend.updateElement('test', {
     id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
     slug: 'hello',
     foo: 'baz'
-  }))
-
-  test.is(error.message, 'Can\'t find element with id 4a962ad9-20b5-4dd8-a707-bf819593cc84')
+  }), errors.JellyfishNoElement)
 })
 
 ava.test('.updateElement() should replace an element given an update to the same id', async (test) => {
@@ -354,13 +339,11 @@ ava.test('.updateElement() should fail to update an element by an id and a slug 
 
   test.not(uuid, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
 
-  const error = await test.throws(test.context.backend.updateElement('test', {
+  await test.throws(test.context.backend.updateElement('test', {
     id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
     slug: 'hello',
     foo: 'baz'
-  }))
-
-  test.is(error.message, 'There is already an element with slug hello but the id is not 4a962ad9-20b5-4dd8-a707-bf819593cc84')
+  }), errors.JellyfishElementAlreadyExists)
 })
 
 ava.test('.upsertElement() should insert a card without a slug nor an id', async (test) => {
@@ -547,13 +530,11 @@ ava.test('.upsertElement() should fail to insert an element with an existing id'
     test: 'foo'
   })
 
-  const error = await test.throws(test.context.backend.upsertElement('test', {
+  await test.throws(test.context.backend.upsertElement('test', {
     id: uuid,
     slug: 'example',
     test: 'foo'
-  }))
-
-  test.is(error.message, `There is already an element with slug example but the id is not ${uuid}`)
+  }), errors.JellyfishElementAlreadyExists)
 })
 
 ava.test('.upsertElement() should replace an element with an existing id and a non-matching slug', async (test) => {
@@ -617,13 +598,11 @@ ava.test('.upsertElement() should fail to insert an element with a non existing 
 
   test.not(uuid, '9af7cf33-1a29-4f0c-a73b-f6a2b149850c')
 
-  const error = await test.throws(test.context.backend.upsertElement('test', {
+  await test.throws(test.context.backend.upsertElement('test', {
     id: '9af7cf33-1a29-4f0c-a73b-f6a2b149850c',
     slug: 'example',
     test: 'foo'
-  }))
-
-  test.is(error.message, 'There is already an element with slug example but the id is not 9af7cf33-1a29-4f0c-a73b-f6a2b149850c')
+  }), errors.JellyfishElementAlreadyExists)
 })
 
 ava.test('.upsertElement() should insert an element with a non-matching id nor slug', async (test) => {

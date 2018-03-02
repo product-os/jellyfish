@@ -16,6 +16,7 @@
 
 const ava = require('ava')
 const jsonSchema = require('../../lib/sdk/json-schema')
+const errors = require('../../lib/sdk/errors')
 
 ava.test('.match() should validate a matching object', (test) => {
   const result = jsonSchema.match({
@@ -135,15 +136,7 @@ ava.test('.validate() should throw if there is a single error', (test) => {
     }, {
       foo: 'bar'
     })
-  }, [
-    'Invalid object:',
-    '',
-    '{',
-    '  "foo": "bar"',
-    '}',
-    '',
-    '- data.foo should be number'
-  ].join('\n'))
+  }, errors.JellyfishSchemaMismatch)
 })
 
 ava.test('.validate() should throw if there is more than one error', (test) => {
@@ -162,14 +155,5 @@ ava.test('.validate() should throw if there is more than one error', (test) => {
     }, {
       foo: 'bar'
     })
-  }, [
-    'Invalid object:',
-    '',
-    '{',
-    '  "foo": "bar"',
-    '}',
-    '',
-    '- data.foo should be number',
-    '- data should have required property \'bar\''
-  ].join('\n'))
+  }, errors.JellyfishSchemaMismatch)
 })
