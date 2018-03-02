@@ -8,13 +8,13 @@
       "description": "Jellyfish User",
       "type": "object",
       "properties": {
+        "slug": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$"
+        },
         "data": {
           "type": "object",
           "properties": {
-            "username": {
-              "type": "string",
-              "pattern": "^[a-z0-9_]+$"
-            },
             "email": {
               "type": "string",
               "format": "email"
@@ -22,13 +22,12 @@
           },
           "additionalProperties": false,
           "required": [
-            "username",
             "email"
           ]
         }
       },
       "additionalProperties": true,
-      "required": [ "data" ]
+      "required": [ "slug", "data" ]
     }
   }
 }

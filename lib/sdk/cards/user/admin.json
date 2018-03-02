@@ -1,0 +1,9 @@
+{
+  "slug": "admin",
+  "type": "user",
+  "tags": [],
+  "links": [],
+  "data": {
+    "email": "accounts+jellyfish@resin.io"
+  }
+}
