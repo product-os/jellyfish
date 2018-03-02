@@ -30,6 +30,19 @@ ava.test('.match() should validate a matching object', (test) => {
   })
 })
 
+ava.test('.match() should report back an error if no schema', (test) => {
+  const result = jsonSchema.match(null, {
+    foo: 'bar'
+  })
+
+  test.deepEqual(result, {
+    valid: false,
+    errors: [
+      'no schema'
+    ]
+  })
+})
+
 ava.test('.match() should report back a single error', (test) => {
   const result = jsonSchema.match({
     type: 'object',
@@ -73,4 +86,90 @@ ava.test('.match() should report back more than one error', (test) => {
       'data should have required property \'bar\''
     ]
   })
+})
+
+ava.test('.isValid() should return true if there is a match', (test) => {
+  const result = jsonSchema.isValid({
+    type: 'object'
+  }, {
+    foo: 'bar'
+  })
+
+  test.true(result)
+})
+
+ava.test('.isValid() should return false if there is no match', (test) => {
+  const result = jsonSchema.isValid({
+    type: 'object',
+    properties: {
+      foo: {
+        type: 'number'
+      }
+    }
+  }, {
+    foo: 'bar'
+  })
+
+  test.false(result)
+})
+
+ava.test('.validate() should not throw if the object matches the schema', (test) => {
+  test.notThrows(() => {
+    jsonSchema.validate({
+      type: 'object'
+    }, {
+      foo: 'bar'
+    })
+  })
+})
+
+ava.test('.validate() should throw if there is a single error', (test) => {
+  test.throws(() => {
+    jsonSchema.validate({
+      type: 'object',
+      properties: {
+        foo: {
+          type: 'number'
+        }
+      }
+    }, {
+      foo: 'bar'
+    })
+  }, [
+    'Invalid object:',
+    '',
+    '{',
+    '  "foo": "bar"',
+    '}',
+    '',
+    '- data.foo should be number'
+  ].join('\n'))
+})
+
+ava.test('.validate() should throw if there is more than one error', (test) => {
+  test.throws(() => {
+    jsonSchema.validate({
+      type: 'object',
+      properties: {
+        foo: {
+          type: 'number'
+        },
+        bar: {
+          type: 'string'
+        }
+      },
+      required: [ 'foo', 'bar' ]
+    }, {
+      foo: 'bar'
+    })
+  }, [
+    'Invalid object:',
+    '',
+    '{',
+    '  "foo": "bar"',
+    '}',
+    '',
+    '- data.foo should be number',
+    '- data should have required property \'bar\''
+  ].join('\n'))
 })
