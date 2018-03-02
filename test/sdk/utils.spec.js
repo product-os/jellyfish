@@ -14,35 +14,8 @@
  * limitations under the License.
  */
 
-const _ = require('lodash')
 const ava = require('ava')
-const path = require('path')
-const fs = require('fs')
 const utils = require('../../lib/sdk/utils')
-const CARDS = require('../../lib/sdk/cards')
-
-const isCardMacro = (test, name, card, expected) => {
-  test.deepEqual(utils.isCard(card), expected)
-}
-
-isCardMacro.title = (title, name, card, expected) => {
-  return `(${title}) isCard() should return ${expected} for ${name}`
-}
-
-_.each(_.map(fs.readdirSync(path.join(__dirname, 'cards')), (file) => {
-  return {
-    name: file,
-    json: require(path.join(__dirname, 'cards', file))
-  }
-}), (testCase) => {
-  ava.test('examples', isCardMacro, testCase.name, testCase.json.card, testCase.json.valid)
-})
-
-_.each(CARDS, (type) => {
-  _.each(type, (value, key) => {
-    ava.test('built-in', isCardMacro, key, value, true)
-  })
-})
 
 ava.test('.isUUID() should return true given a uuid', (test) => {
   test.true(utils.isUUID('4a962ad9-20b5-4dd8-a707-bf819593cc84'))
