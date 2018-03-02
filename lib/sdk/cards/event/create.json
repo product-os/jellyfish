@@ -1,0 +1,38 @@
+{
+  "slug": "create",
+  "type": "type",
+  "tags": [],
+  "links": [],
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "properties": {
+            "timestamp": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "target": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "actor": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "additionalProperties": true,
+          "required": [
+            "timestamp",
+            "target",
+            "actor"
+          ]
+        }
+      },
+      "additionalProperties": true,
+      "required": [ "data" ]
+    }
+  }
+}

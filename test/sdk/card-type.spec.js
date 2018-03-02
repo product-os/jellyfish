@@ -68,3 +68,9 @@ _.each(CARDS.TYPE, (value, key) => {
     test.true(cardType.matchesCard(CARDS.TYPE.TYPE, value))
   })
 })
+
+_.each(CARDS.EVENT, (value, key) => {
+  ava.test(`.matchesCard() should ensure built-in event ${key} is a card type`, (test) => {
+    test.true(cardType.matchesCard(CARDS.TYPE.TYPE, value))
+  })
+})
