@@ -17,8 +17,8 @@
 const ava = require('ava')
 const jsonSchema = require('../../lib/sdk/json-schema')
 
-ava.test('should validate a matching object', (test) => {
-  const result = jsonSchema.validate({
+ava.test('.match() should validate a matching object', (test) => {
+  const result = jsonSchema.match({
     type: 'object'
   }, {
     foo: 'bar'
@@ -30,8 +30,8 @@ ava.test('should validate a matching object', (test) => {
   })
 })
 
-ava.test('should report back a single error', (test) => {
-  const result = jsonSchema.validate({
+ava.test('.match() should report back a single error', (test) => {
+  const result = jsonSchema.match({
     type: 'object',
     properties: {
       foo: {
@@ -50,8 +50,8 @@ ava.test('should report back a single error', (test) => {
   })
 })
 
-ava.test('should report back more than one error', (test) => {
-  const result = jsonSchema.validate({
+ava.test('.match() should report back more than one error', (test) => {
+  const result = jsonSchema.match({
     type: 'object',
     properties: {
       foo: {
