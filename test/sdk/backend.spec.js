@@ -265,3 +265,91 @@ ava.test('.insertElement() should fail to insert an element with an existing id'
 
   test.is(error.message, `No match for id ${uuid} and slug example`)
 })
+
+ava.test('.insertElement() should replace an element with an existing id and a non-matching slug', async (test) => {
+  await test.context.backend.createTable('test')
+
+  await test.context.backend.insertElement('test', {
+    slug: 'example'
+  })
+
+  const uuid1 = await test.context.backend.insertElement('test', {
+    test: 'foo'
+  })
+
+  const uuid2 = await test.context.backend.insertElement('test', {
+    id: uuid1,
+    slug: 'bar',
+    test: 'foo'
+  })
+
+  test.is(uuid1, uuid2)
+
+  const element = await test.context.backend.getElement('test', uuid1)
+
+  test.deepEqual(element, {
+    id: uuid1,
+    slug: 'bar',
+    test: 'foo'
+  })
+})
+
+ava.test('.insertElement() should replace an element with an existing id and the slug of the same element', async (test) => {
+  await test.context.backend.createTable('test')
+
+  const uuid1 = await test.context.backend.insertElement('test', {
+    slug: 'example'
+  })
+
+  const uuid2 = await test.context.backend.insertElement('test', {
+    id: uuid1,
+    slug: 'example',
+    test: 'foo'
+  })
+
+  test.is(uuid1, uuid2)
+
+  const element = await test.context.backend.getElement('test', uuid1)
+
+  test.deepEqual(element, {
+    id: uuid1,
+    slug: 'example',
+    test: 'foo'
+  })
+})
+
+ava.test('.insertElement() should fail to insert an element with a non existing id and the slug of an element', async (test) => {
+  await test.context.backend.createTable('test')
+
+  const uuid = await test.context.backend.insertElement('test', {
+    slug: 'example'
+  })
+
+  test.not(uuid, '9af7cf33-1a29-4f0c-a73b-f6a2b149850c')
+
+  const error = await test.throws(test.context.backend.insertElement('test', {
+    id: '9af7cf33-1a29-4f0c-a73b-f6a2b149850c',
+    slug: 'example',
+    test: 'foo'
+  }))
+
+  test.is(error.message, 'No match for id 9af7cf33-1a29-4f0c-a73b-f6a2b149850c and slug example')
+})
+
+ava.test('.insertElement() should insert an element with a non-matching id nor slug', async (test) => {
+  await test.context.backend.createTable('test')
+
+  const uuid = await test.context.backend.insertElement('test', {
+    id: '9af7cf33-1a29-4f0c-a73b-f6a2b149850c',
+    slug: 'example',
+    test: 'foo'
+  })
+
+  const element = await test.context.backend.getElement('test', uuid)
+
+  test.deepEqual(element, {
+    id: '9af7cf33-1a29-4f0c-a73b-f6a2b149850c',
+    slug: 'example',
+    test: 'foo'
+  })
+})
