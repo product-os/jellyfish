@@ -43,3 +43,11 @@ _.each(CARDS, (type) => {
     ava.test('built-in', isCardMacro, key, value, true)
   })
 })
+
+ava.test('.isUUID() should return true given a uuid', (test) => {
+  test.true(utils.isUUID('4a962ad9-20b5-4dd8-a707-bf819593cc84'))
+})
+
+ava.test('.isUUID() should return false given a non-uuid string', (test) => {
+  test.false(utils.isUUID('foo'))
+})
