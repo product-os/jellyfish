@@ -22,9 +22,12 @@
             "actor": {
               "type": "string",
               "format": "uuid"
+            },
+            "payload": {
+              "type": "object"
             }
           },
-          "additionalProperties": true,
+          "additionalProperties": false,
           "required": [
             "timestamp",
             "target",
