@@ -1,0 +1,54 @@
+{
+  "slug": "action",
+  "type": "type",
+  "tags": [],
+  "links": [],
+  "data": {
+    "schema": {
+      "description": "Jellyfish Action",
+      "type": "object",
+      "properties": {
+        "slug": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$"
+        },
+        "type": {
+          "type": "string",
+          "constant": "action"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "extends": {
+              "type": "string",
+              "pattern": "^[a-z0-9-]+$"
+            },
+            "filter": {
+              "type": "object"
+            },
+            "arguments": {
+              "type": "object",
+              "patternProperties": {
+                "^[a-z0-9]+$": {
+                  "type": "object"
+                }
+              }
+            },
+            "options": {
+              "type": "object",
+              "patternProperties": {
+                "^[a-z0-9]+$": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "additionalProperties": false,
+          "required": [ "arguments", "options" ]
+        }
+      },
+      "additionalProperties": true,
+      "required": [ "slug", "type", "data" ]
+    }
+  }
+}

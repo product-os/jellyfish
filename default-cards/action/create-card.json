@@ -1,0 +1,27 @@
+{
+  "slug": "action-create-card",
+  "type": "action",
+  "tags": [],
+  "links": [],
+  "data": {
+    "filter": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "constant": "type"
+        }
+      },
+      "required": [ "type" ]
+    },
+    "arguments": {
+      "data": {
+        "type": "object"
+      }
+    },
+    "options": {
+      "type": "{{card.slug}}",
+      "data": "{{arguments.data}}"
+    }
+  }
+}

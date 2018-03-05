@@ -22,12 +22,12 @@ const jsonSchema = require('../../lib/sdk/json-schema')
 const cardType = require('../../lib/sdk/card-type')
 const CARDS = require('../../lib/sdk/cards')
 
-const isCardMacro = (test, name, card, expected) => {
-  test.deepEqual(jsonSchema.isValid(cardType.getSchema(CARDS.TYPE.CARD), card), expected)
+const isCardMacro = (test, type, name, card, expected) => {
+  test.deepEqual(jsonSchema.isValid(cardType.getSchema(type), card), expected)
 }
 
-isCardMacro.title = (title, name, card, expected) => {
-  return `(${title}) isCard() should return ${expected} for ${name}`
+isCardMacro.title = (title, type, name, card, expected) => {
+  return `(${title}) jsonSchema.valid() should return ${expected} for ${name} using type ${type.slug}`
 }
 
 _.each(_.map(fs.readdirSync(path.join(__dirname, 'cards')), (file) => {
@@ -36,11 +36,15 @@ _.each(_.map(fs.readdirSync(path.join(__dirname, 'cards')), (file) => {
     json: require(path.join(__dirname, 'cards', file))
   }
 }), (testCase) => {
-  ava.test('examples', isCardMacro, testCase.name, testCase.json.card, testCase.json.valid)
+  ava.test('examples', isCardMacro, CARDS.TYPE.CARD, testCase.name, testCase.json.card, testCase.json.valid)
 })
 
 _.each(CARDS, (type) => {
   _.each(type, (value, key) => {
-    ava.test('built-in', isCardMacro, key, value, true)
+    ava.test('built-in', isCardMacro, CARDS.TYPE.CARD, key, value, true)
   })
+})
+
+_.each(CARDS.ACTION, (value, key) => {
+  ava.test('actions', isCardMacro, CARDS.TYPE.ACTION, key, value, true)
 })
