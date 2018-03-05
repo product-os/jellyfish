@@ -89,6 +89,21 @@ ava.test('.match() should report back more than one error', (test) => {
   })
 })
 
+ava.test('.match() should not match if the schema is not a valid JSON Schema', (test) => {
+  const result = jsonSchema.match({
+    hello: 'foobar'
+  }, {
+    foo: 'bar'
+  })
+
+  test.deepEqual(result, {
+    valid: false,
+    errors: [
+      'invalid schema'
+    ]
+  })
+})
+
 ava.test('.isValid() should return true if there is a match', (test) => {
   const result = jsonSchema.isValid({
     type: 'object'
