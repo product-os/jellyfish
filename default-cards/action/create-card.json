@@ -20,7 +20,6 @@
       }
     },
     "options": {
-      "type": "{{card.slug}}",
       "data": "{{arguments.data}}"
     }
   }
