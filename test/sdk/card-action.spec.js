@@ -167,3 +167,28 @@ ava.test('.compileOptions() should compile options using context interpolation',
     bar: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
   })
 })
+
+ava.test('.compileOptions() should compile an object argument', (test) => {
+  const options = cardAction.compileOptions({
+    data: {
+      arguments: {
+        foo: {
+          type: 'object'
+        }
+      },
+      options: {
+        bar: '{{arguments.foo}}'
+      }
+    }
+  }, CARDS.TYPE.ACTION, {}, {
+    foo: {
+      bar: 'baz'
+    }
+  })
+
+  test.deepEqual(options, {
+    bar: {
+      bar: 'baz'
+    }
+  })
+})
