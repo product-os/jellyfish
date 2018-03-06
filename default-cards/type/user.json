@@ -3,6 +3,7 @@
   "type": "type",
   "tags": [],
   "links": [],
+  "active": true,
   "data": {
     "schema": {
       "description": "Jellyfish User",

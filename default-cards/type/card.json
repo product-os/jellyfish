@@ -3,6 +3,7 @@
   "type": "type",
   "tags": [],
   "links": [],
+  "active": true,
   "data": {
     "schema": {
       "description": "Jellyfish Card",
@@ -38,12 +39,15 @@
           },
           "uniqueItems": true
         },
+        "active": {
+          "type": "boolean"
+        },
         "data": {
           "type": "object"
         }
       },
       "additionalProperties": false,
-      "required": [ "type", "tags", "links", "data" ]
+      "required": [ "type", "tags", "links", "active", "data" ]
     }
   }
 }

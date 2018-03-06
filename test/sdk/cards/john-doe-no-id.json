@@ -3,6 +3,7 @@
     "type": "person",
     "tags": [ "premium" ],
     "links": [],
+    "active": true,
     "data": {
       "email": "johndoe@example.com",
       "name": {
