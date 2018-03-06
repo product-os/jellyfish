@@ -192,3 +192,38 @@ ava.test('.compileOptions() should compile an object argument', (test) => {
     }
   })
 })
+
+ava.test('.getSuperActionSlug() should return null if no super action', (test) => {
+  const superAction = cardAction.getSuperActionSlug({
+    data: {
+      arguments: {
+        foo: {
+          type: 'object'
+        }
+      },
+      options: {
+        bar: '{{arguments.foo}}'
+      }
+    }
+  })
+
+  test.deepEqual(superAction, null)
+})
+
+ava.test('.getSuperActionSlug() should return the super action slug', (test) => {
+  const superAction = cardAction.getSuperActionSlug({
+    data: {
+      extends: 'action-foo-bar',
+      arguments: {
+        foo: {
+          type: 'object'
+        }
+      },
+      options: {
+        bar: '{{arguments.foo}}'
+      }
+    }
+  })
+
+  test.deepEqual(superAction, 'action-foo-bar')
+})
