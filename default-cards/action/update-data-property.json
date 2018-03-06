@@ -5,6 +5,7 @@
   "links": [],
   "active": true,
   "data": {
+    "extends": "action-update-property",
     "arguments": {
       "property": {
         "type": "string",
@@ -22,7 +23,7 @@
       }
     },
     "options": {
-      "property": "{{arguments.property}}",
+      "property": "data.{{arguments.property}}",
       "value": "{{arguments.value}}",
       "eventName": "{{arguments.eventName}}",
       "eventPayload": "{{arguments.eventPayload}}"
