@@ -5,7 +5,13 @@
   "links": [],
   "active": true,
   "data": {
+    "extends": "action-update-header-property",
     "arguments": {},
-    "options": {}
+    "options": {
+      "property": "active",
+      "value": false,
+      "eventName": "delete",
+      "eventPayload": {}
+    }
   }
 }

@@ -1,0 +1,31 @@
+{
+  "slug": "action-update-header-property",
+  "type": "action",
+  "tags": [],
+  "links": [],
+  "active": true,
+  "data": {
+    "arguments": {
+      "property": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9.]+$"
+      },
+      "value": {
+        "type": [ "string", "array", "number", "object", "boolean" ]
+      },
+      "eventName": {
+        "type": "string",
+        "pattern": "^[a-z0-9-]+$"
+      },
+      "eventPayload": {
+        "type": "object"
+      }
+    },
+    "options": {
+      "property": "{{arguments.property}}",
+      "value": "{{arguments.value}}",
+      "eventName": "{{arguments.eventName}}",
+      "eventPayload": "{{arguments.eventPayload}}"
+    }
+  }
+}
