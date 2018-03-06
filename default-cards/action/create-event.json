@@ -1,0 +1,21 @@
+{
+  "slug": "action-create-event",
+  "type": "action",
+  "tags": [],
+  "links": [],
+  "data": {
+    "arguments": {
+      "type": {
+        "type": "string",
+        "pattern": "^[a-z0-9-]+$"
+      },
+      "payload": {
+        "type": "object"
+      }
+    },
+    "options": {
+      "type": "{{arguments.type}}",
+      "payload": "{{arguments.payload}}"
+    }
+  }
+}
