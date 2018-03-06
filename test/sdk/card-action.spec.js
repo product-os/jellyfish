@@ -193,6 +193,27 @@ ava.test('.compileOptions() should compile an object argument', (test) => {
   })
 })
 
+ava.test('.compileOptions() should compile a boolean argument', (test) => {
+  const options = cardAction.compileOptions({
+    data: {
+      arguments: {
+        foo: {
+          type: 'boolean'
+        }
+      },
+      options: {
+        bar: '{{arguments.foo}}'
+      }
+    }
+  }, CARDS.TYPE.ACTION, {}, {
+    foo: true
+  })
+
+  test.deepEqual(options, {
+    bar: true
+  })
+})
+
 ava.test('.getSuperActionSlug() should return null if no super action', (test) => {
   const superAction = cardAction.getSuperActionSlug({
     data: {
