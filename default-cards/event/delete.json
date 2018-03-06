@@ -1,0 +1,42 @@
+{
+  "slug": "delete",
+  "type": "type",
+  "tags": [],
+  "links": [],
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "properties": {
+            "timestamp": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "target": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "actor": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "payload": {
+              "type": "object"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "timestamp",
+            "target",
+            "actor"
+          ]
+        }
+      },
+      "additionalProperties": true,
+      "required": [ "data" ]
+    }
+  }
+}

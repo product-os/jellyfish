@@ -1,0 +1,11 @@
+{
+  "slug": "action-delete-card",
+  "type": "action",
+  "tags": [],
+  "links": [],
+  "active": true,
+  "data": {
+    "arguments": {},
+    "options": {}
+  }
+}
