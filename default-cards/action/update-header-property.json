@@ -7,8 +7,12 @@
   "data": {
     "arguments": {
       "property": {
-        "type": "string",
-        "pattern": "^[a-zA-Z0-9.]+$"
+        "anyOf": [
+          { "type": "string", "constant": "active" },
+          { "type": "string", "constant": "links" },
+          { "type": "string", "constant": "tags" },
+          { "type": "string", "constant": "slug" }
+        ]
       },
       "value": {
         "type": [ "string", "array", "number", "object", "boolean" ]
