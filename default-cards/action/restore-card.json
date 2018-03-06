@@ -1,0 +1,11 @@
+{
+  "slug": "action-restore-card",
+  "type": "action",
+  "tags": [],
+  "links": [],
+  "active": true,
+  "data": {
+    "arguments": {},
+    "options": {}
+  }
+}
