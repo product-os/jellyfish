@@ -1,0 +1,71 @@
+{
+  "slug": "update",
+  "type": "type",
+  "tags": [],
+  "links": [],
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "properties": {
+            "timestamp": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "target": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "actor": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "slug": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9-]+$"
+                },
+                "tags": {
+                  "type": "array",
+                  "minItems": 0,
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[a-zA-Z0-9-]+$"
+                  },
+                  "uniqueItems": true
+                },
+                "links": {
+                  "type": "array",
+                  "minItems": 0,
+                  "items": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "uniqueItems": true
+                },
+                "data": {
+                  "type": "object"
+                }
+              },
+              "additionalProperties": false,
+              "required": []
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "timestamp",
+            "target",
+            "actor",
+            "payload"
+          ]
+        }
+      },
+      "additionalProperties": true,
+      "required": [ "data" ]
+    }
+  }
+}
