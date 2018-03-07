@@ -20,6 +20,7 @@ const randomstring = require('randomstring')
 const Backend = require('../../lib/sdk/backend')
 const Database = require('../../lib/sdk/database')
 const CARDS = require('../../lib/sdk/cards')
+const errors = require('../../lib/sdk/errors')
 
 ava.test.beforeEach(async (test) => {
   // TODO: Stop exposing the backend instance once we
@@ -80,4 +81,119 @@ ava.test('.getSchema() should return null given an known card that is not a type
   test.not(element.type, 'type')
   const schema = await test.context.database.getSchema('admin')
   test.deepEqual(schema, null)
+})
+
+ava.test('.insertCard() should throw an error if the element is not a valid card', async (test) => {
+  await test.throws(test.context.database.insertCard({
+    hello: 'world'
+  }), errors.JellyfishSchemaMismatch)
+})
+
+ava.test('.insertCard() should throw an error if the element does not adhere to the type', async (test) => {
+  await test.throws(test.context.database.insertCard({
+    slug: 'foo',
+    type: 'user',
+    active: true,
+    links: [],
+    tags: [],
+    data: {}
+  }), errors.JellyfishSchemaMismatch)
+})
+
+ava.test('.insertCard() should throw an error if the card type does not exist', async (test) => {
+  const schema = await test.context.database.getSchema('foobarbazqux')
+  test.deepEqual(schema, null)
+
+  await test.throws(test.context.database.insertCard({
+    type: 'foobarbazqux',
+    active: true,
+    links: [],
+    tags: [],
+    data: {}
+  }), errors.JellyfishUnknownCardType)
+})
+
+ava.test('.insertCard() should be able to insert a card', async (test) => {
+  const id = await test.context.database.insertCard({
+    slug: 'johndoe',
+    type: 'user',
+    active: true,
+    links: [],
+    tags: [],
+    data: {
+      email: 'johndoe@example.com'
+    }
+  })
+
+  const element = await test.context.backend.getElement(test.context.table, id)
+
+  test.deepEqual(element, {
+    id,
+    slug: 'johndoe',
+    type: 'user',
+    active: true,
+    links: [],
+    tags: [],
+    data: {
+      email: 'johndoe@example.com'
+    }
+  })
+})
+
+ava.test('.insertCard() should throw if the card already exists', async (test) => {
+  const card = {
+    slug: 'johndoe',
+    type: 'user',
+    active: true,
+    links: [],
+    tags: [],
+    data: {
+      email: 'johndoe@example.com'
+    }
+  }
+
+  await test.context.database.insertCard(card)
+  await test.throws(test.context.database.insertCard(card), errors.JellyfishElementAlreadyExists)
+})
+
+ava.test('.insertCard() should replace an element given override is true', async (test) => {
+  const id1 = await test.context.database.insertCard({
+    slug: 'johndoe',
+    type: 'user',
+    active: true,
+    links: [],
+    tags: [],
+    data: {
+      email: 'johndoe@example.com'
+    }
+  })
+
+  const id2 = await test.context.database.insertCard({
+    slug: 'johndoe',
+    type: 'user',
+    active: true,
+    links: [],
+    tags: [],
+    data: {
+      email: 'johndoe@example.io'
+    }
+  }, {
+    override: true
+  })
+
+  test.is(id1, id2)
+
+  const element = await test.context.backend.getElement(test.context.table, id1)
+
+  test.deepEqual(element, {
+    id: id1,
+    slug: 'johndoe',
+    type: 'user',
+    active: true,
+    links: [],
+    tags: [],
+    data: {
+      email: 'johndoe@example.io'
+    }
+  })
 })
