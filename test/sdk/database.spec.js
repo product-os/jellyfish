@@ -20,6 +20,7 @@ const randomstring = require('randomstring')
 const Backend = require('../../lib/sdk/backend')
 const Database = require('../../lib/sdk/database')
 const CARDS = require('../../lib/sdk/cards')
+const jsonSchema = require('../../lib/sdk/json-schema')
 const errors = require('../../lib/sdk/errors')
 
 ava.test.beforeEach(async (test) => {
@@ -196,4 +197,18 @@ ava.test('.insertCard() should replace an element given override is true', async
       email: 'johndoe@example.io'
     }
   })
+})
+
+ava.test('.getContext() should return a valid actor', async (test) => {
+  const context = await test.context.database.getContext()
+  test.true(jsonSchema.isValid(await test.context.database.getSchema('card'), context.actor))
+  test.true(jsonSchema.isValid(await test.context.database.getSchema('user'), context.actor))
+})
+
+ava.test('.getContext() should return a valid timestamp', async (test) => {
+  const context = await test.context.database.getContext()
+  test.true(jsonSchema.isValid({
+    type: 'string',
+    format: 'date-time'
+  }, context.timestamp))
 })
