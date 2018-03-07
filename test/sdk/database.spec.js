@@ -53,3 +53,31 @@ for (const category of _.keys(CARDS)) {
     })
   }
 }
+
+ava.test.skip('should be able to initialize the database multiple times without errors', async (test) => {
+  test.notThrows(async () => {
+    await test.context.database.initialize()
+    await test.context.database.initialize()
+    await test.context.database.initialize()
+  })
+})
+
+ava.test('.getSchema() should return the schema of an existing type card', async (test) => {
+  const schema = await test.context.database.getSchema(CARDS.core.type.slug)
+  test.deepEqual(schema, CARDS.core.type.data.schema)
+})
+
+ava.test('.getSchema() should return null given an unknown type', async (test) => {
+  const element = await test.context.backend.getElement(test.context.table, 'foobarbazqux')
+  test.deepEqual(element, null)
+  const schema = await test.context.database.getSchema('foobarbazqux')
+  test.deepEqual(schema, null)
+})
+
+ava.test('.getSchema() should return null given an known card that is not a type card ', async (test) => {
+  const element = await test.context.backend.getElement(test.context.table, 'admin')
+  test.truthy(element)
+  test.not(element.type, 'type')
+  const schema = await test.context.database.getSchema('admin')
+  test.deepEqual(schema, null)
+})
