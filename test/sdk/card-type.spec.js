@@ -25,7 +25,7 @@ ava.test('.getSchema() should return null given no card', (test) => {
 })
 
 ava.test('.getSchema() should return the schema of a card type', (test) => {
-  const schema = cardType.getSchema(CARDS.CORE.card)
+  const schema = cardType.getSchema(CARDS.core.card)
   test.true(_.isPlainObject(schema))
   test.is(schema.type, 'object')
 })
@@ -42,11 +42,11 @@ ava.test('.getSchema() should return null if the card is not a type card', (test
 })
 
 ava.test('.matchesCard() should return true given a card type and a matching card', (test) => {
-  test.true(cardType.matchesCard(CARDS.CORE.type, CARDS.CORE.event))
+  test.true(cardType.matchesCard(CARDS.core.type, CARDS.core.event))
 })
 
 ava.test('.matchesCard() should return false given a card type and a non-matching card', (test) => {
-  test.false(cardType.matchesCard(CARDS.CORE.type, {
+  test.false(cardType.matchesCard(CARDS.core.type, {
     type: 'foo',
     links: [],
     tags: [],
@@ -60,5 +60,5 @@ ava.test('.matchesCard() should return false given a non card type', (test) => {
     links: [],
     tags: [],
     data: {}
-  }, CARDS.CORE.event))
+  }, CARDS.core.event))
 })

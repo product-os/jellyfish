@@ -36,13 +36,13 @@ _.each(_.map(fs.readdirSync(path.join(__dirname, 'cards')), (file) => {
     json: require(path.join(__dirname, 'cards', file))
   }
 }), (testCase) => {
-  ava.test('examples', isCardMacro, CARDS.CORE.card, testCase.name, testCase.json.card, testCase.json.valid)
+  ava.test('examples', isCardMacro, CARDS.core.card, testCase.name, testCase.json.card, testCase.json.valid)
 })
 
 _.each(CARDS, (cards, category) => {
   _.each(cards, (value, key) => {
-    ava.test(category, isCardMacro, CARDS.CORE.card, key, value, true)
-    const type = CARDS.CORE[value.type] || CARDS.ESSENTIAL[value.type] || CARDS.CONTRIB[value.type]
+    ava.test(category, isCardMacro, CARDS.core.card, key, value, true)
+    const type = CARDS.core[value.type] || CARDS.essential[value.type] || CARDS.contrib[value.type]
     ava.test(category, isCardMacro, type, key, value, true)
   })
 })
