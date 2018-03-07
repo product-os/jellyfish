@@ -27,9 +27,9 @@ ava.test('.getFilterSchema() should return a wildcard schema given no card', (te
 })
 
 ava.test('.getFilterSchema() should return the filter schema of a card type', (test) => {
-  const schema = cardAction.getFilterSchema(CARDS.ACTION.CREATE_CARD)
+  const schema = cardAction.getFilterSchema(CARDS.CORE['action-create-card'])
   test.true(_.isPlainObject(schema))
-  test.deepEqual(schema, CARDS.ACTION.CREATE_CARD.data.filter)
+  test.deepEqual(schema, CARDS.CORE['action-create-card'].data.filter)
 })
 
 ava.test('.getArgumentsSchema() should return a schema out of a single argument definition', (test) => {
@@ -125,7 +125,7 @@ ava.test('.compileOptions() should compile options using arguments interpolation
         bar: '{{arguments.foo}}'
       }
     }
-  }, CARDS.TYPE.ACTION, {}, {
+  }, CARDS.CORE.action, {}, {
     foo: 5
   })
 
@@ -142,7 +142,7 @@ ava.test('.compileOptions() should compile options using card interpolation', (t
         bar: '{{card.type}}'
       }
     }
-  }, CARDS.TYPE.ACTION, {}, {})
+  }, CARDS.CORE.action, {}, {})
 
   test.deepEqual(options, {
     bar: 'type'
@@ -157,7 +157,7 @@ ava.test('.compileOptions() should compile options using context interpolation',
         bar: '{{context.actor.id}}'
       }
     }
-  }, CARDS.TYPE.ACTION, {
+  }, CARDS.CORE.action, {
     actor: {
       id: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
     }
@@ -180,7 +180,7 @@ ava.test('.compileOptions() should compile an object argument', (test) => {
         bar: '{{arguments.foo}}'
       }
     }
-  }, CARDS.TYPE.ACTION, {}, {
+  }, CARDS.CORE.action, {}, {
     foo: {
       bar: 'baz'
     }
@@ -205,7 +205,7 @@ ava.test('.compileOptions() should compile a boolean argument', (test) => {
         bar: '{{arguments.foo}}'
       }
     }
-  }, CARDS.TYPE.ACTION, {}, {
+  }, CARDS.CORE.action, {}, {
     foo: true
   })
 
