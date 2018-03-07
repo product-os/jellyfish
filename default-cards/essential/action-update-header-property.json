@@ -9,10 +9,10 @@
     "arguments": {
       "property": {
         "anyOf": [
-          { "type": "string", "constant": "active" },
-          { "type": "string", "constant": "links" },
-          { "type": "string", "constant": "tags" },
-          { "type": "string", "constant": "slug" }
+          { "type": "string", "pattern": "^active$" },
+          { "type": "string", "pattern": "^links$" },
+          { "type": "string", "pattern": "^tags$" },
+          { "type": "string", "pattern": "^slug$" }
         ]
       },
       "value": {

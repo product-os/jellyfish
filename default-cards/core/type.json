@@ -15,7 +15,7 @@
         },
         "type": {
           "type": "string",
-          "constant": "type"
+          "pattern": "^type$"
         },
         "data": {
           "type": "object",

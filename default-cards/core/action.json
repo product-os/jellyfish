@@ -15,7 +15,7 @@
         },
         "type": {
           "type": "string",
-          "constant": "action"
+          "pattern": "^action$"
         },
         "data": {
           "type": "object",
