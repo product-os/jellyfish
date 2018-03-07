@@ -15,6 +15,7 @@
  */
 
 const ava = require('ava')
+const _ = require('lodash')
 const randomstring = require('randomstring')
 const Backend = require('../../lib/sdk/backend')
 const errors = require('../../lib/sdk/errors')
@@ -621,4 +622,48 @@ ava.test('.upsertElement() should insert an element with a non-matching id nor s
     slug: 'example',
     test: 'foo'
   })
+})
+
+ava.test('.querySchema() should query the database using JSON schema', async (test) => {
+  await test.context.backend.createTable('test')
+
+  const uuid1 = await test.context.backend.upsertElement('test', {
+    type: 'example',
+    test: 1
+  })
+
+  await test.context.backend.upsertElement('test', {
+    type: 'test',
+    test: 2
+  })
+
+  const uuid2 = await test.context.backend.upsertElement('test', {
+    type: 'example',
+    test: 3
+  })
+
+  const results = await test.context.backend.querySchema('test', {
+    type: 'object',
+    additionalProperties: true,
+    properties: {
+      type: {
+        type: 'string',
+        pattern: '^example$'
+      }
+    },
+    required: [ 'type' ]
+  })
+
+  test.deepEqual(_.sortBy(results, [ 'test' ]), [
+    {
+      id: uuid1,
+      type: 'example',
+      test: 1
+    },
+    {
+      id: uuid2,
+      type: 'example',
+      test: 3
+    }
+  ])
 })
