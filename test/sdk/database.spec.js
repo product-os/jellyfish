@@ -48,19 +48,8 @@ ava.test.afterEach(async (test) => {
 for (const category of _.keys(CARDS)) {
   for (const card of _.values(CARDS[category])) {
     ava.test(`should contain the ${category} card ${card.slug} by default`, async (test) => {
-      const elements = await test.context.database.querySchema({
-        type: 'object',
-        properties: {
-          slug: {
-            type: 'string',
-            pattern: `^${card.slug}$`
-          }
-        },
-        required: [ 'slug' ]
-      })
-
-      test.is(elements.length, 1)
-      test.deepEqual(CARDS[category][card.slug], _.omit(elements[0], [ 'id' ]))
+      const element = await test.context.database.getCard(card.slug)
+      test.deepEqual(CARDS[category][card.slug], _.omit(element, [ 'id' ]))
     })
   }
 }
@@ -79,36 +68,16 @@ ava.test('.getSchema() should return the schema of an existing type card', async
 })
 
 ava.test('.getSchema() should return null given an unknown type', async (test) => {
-  const element = await test.context.database.querySchema({
-    type: 'object',
-    properties: {
-      slug: {
-        type: 'string',
-        pattern: '^foobarbazqux$'
-      }
-    },
-    required: [ 'slug' ]
-  })
-
-  test.is(element.length, 0)
+  const element = await test.context.database.getCard('foobarbazqux')
+  test.falsy(element)
   const schema = await test.context.database.getSchema('foobarbazqux')
   test.deepEqual(schema, null)
 })
 
 ava.test('.getSchema() should return null given an known card that is not a type card ', async (test) => {
-  const element = await test.context.database.querySchema({
-    type: 'object',
-    properties: {
-      slug: {
-        type: 'string',
-        pattern: '^admin$'
-      }
-    },
-    required: [ 'slug' ]
-  })
-
-  test.is(element.length, 1)
-  test.not(element[0].type, 'type')
+  const element = await test.context.database.getCard('admin')
+  test.truthy(element)
+  test.not(element.type, 'type')
   const schema = await test.context.database.getSchema('admin')
   test.deepEqual(schema, null)
 })
@@ -155,30 +124,19 @@ ava.test('.insertCard() should be able to insert a card', async (test) => {
     }
   })
 
-  const element = await test.context.database.querySchema({
-    type: 'object',
-    properties: {
-      id: {
-        type: 'string',
-        pattern: `^${id}$`
-      }
-    },
-    required: [ 'id' ]
-  })
+  const element = await test.context.database.getCard(id)
 
-  test.deepEqual(element, [
-    {
-      id,
-      slug: 'johndoe',
-      type: 'user',
-      active: true,
-      links: [],
-      tags: [],
-      data: {
-        email: 'johndoe@example.com'
-      }
+  test.deepEqual(element, {
+    id,
+    slug: 'johndoe',
+    type: 'user',
+    active: true,
+    links: [],
+    tags: [],
+    data: {
+      email: 'johndoe@example.com'
     }
-  ])
+  })
 })
 
 ava.test('.insertCard() should throw if the card already exists', async (test) => {
@@ -224,30 +182,19 @@ ava.test('.insertCard() should replace an element given override is true', async
 
   test.is(id1, id2)
 
-  const element = await test.context.database.querySchema({
-    type: 'object',
-    properties: {
-      id: {
-        type: 'string',
-        pattern: `^${id1}$`
-      }
-    },
-    required: [ 'id' ]
-  })
+  const element = await test.context.database.getCard(id1)
 
-  test.deepEqual(element, [
-    {
-      id: id1,
-      slug: 'johndoe',
-      type: 'user',
-      active: true,
-      links: [],
-      tags: [],
-      data: {
-        email: 'johndoe@example.io'
-      }
+  test.deepEqual(element, {
+    id: id1,
+    slug: 'johndoe',
+    type: 'user',
+    active: true,
+    links: [],
+    tags: [],
+    data: {
+      email: 'johndoe@example.io'
     }
-  ])
+  })
 })
 
 ava.test('.getContext() should return a valid actor', async (test) => {
