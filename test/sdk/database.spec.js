@@ -210,3 +210,67 @@ ava.test('.getContext() should return a valid timestamp', async (test) => {
     format: 'date-time'
   }, context.timestamp))
 })
+
+ava.test('.getCard() should get a card by its id', async (test) => {
+  const id = await test.context.database.insertCard({
+    slug: 'johndoe',
+    type: 'user',
+    active: true,
+    links: [],
+    tags: [],
+    data: {
+      email: 'johndoe@example.com'
+    }
+  })
+
+  const card = await test.context.database.getCard(id)
+
+  test.deepEqual(card, {
+    id,
+    slug: 'johndoe',
+    type: 'user',
+    active: true,
+    links: [],
+    tags: [],
+    data: {
+      email: 'johndoe@example.com'
+    }
+  })
+})
+
+ava.test('.getCard() should get a card by its slug', async (test) => {
+  const id = await test.context.database.insertCard({
+    slug: 'johndoe',
+    type: 'user',
+    active: true,
+    links: [],
+    tags: [],
+    data: {
+      email: 'johndoe@example.com'
+    }
+  })
+
+  const card = await test.context.database.getCard('johndoe')
+
+  test.deepEqual(card, {
+    id,
+    slug: 'johndoe',
+    type: 'user',
+    active: true,
+    links: [],
+    tags: [],
+    data: {
+      email: 'johndoe@example.com'
+    }
+  })
+})
+
+ava.test('.getCard() should return null if the id does not exist', async (test) => {
+  const card = await test.context.database.getCard('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa')
+  test.deepEqual(card, null)
+})
+
+ava.test('.getCard() should return null if the slug does not exist', async (test) => {
+  const card = await test.context.database.getCard('foobarbazqux')
+  test.deepEqual(card, null)
+})
