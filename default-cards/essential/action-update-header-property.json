@@ -8,11 +8,12 @@
     "extends": "action-update-property",
     "arguments": {
       "property": {
+        "type": "string",
         "anyOf": [
-          { "type": "string", "pattern": "^active$" },
-          { "type": "string", "pattern": "^links$" },
-          { "type": "string", "pattern": "^tags$" },
-          { "type": "string", "pattern": "^slug$" }
+          { "const": "active" },
+          { "const": "links" },
+          { "const": "tags" },
+          { "const": "slug" }
         ]
       },
       "value": {

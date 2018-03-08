@@ -10,7 +10,7 @@
       "properties": {
         "type": {
           "type": "string",
-          "pattern": "^type$"
+          "const": "type"
         }
       },
       "required": [ "type" ]
