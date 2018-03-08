@@ -274,3 +274,142 @@ ava.test('.getCard() should return null if the slug does not exist', async (test
   const card = await test.context.database.getCard('foobarbazqux')
   test.deepEqual(card, null)
 })
+
+ava.test('.query() should throw if the view does not exist', async (test) => {
+  await test.throws(test.context.database.query('xxxxxxxxxxxxxxxxxxx'), errors.JellyfishNoView)
+})
+
+ava.test('.query() should throw if the view is not of type view', async (test) => {
+  const card = await test.context.database.getCard('card')
+  test.truthy(card.id)
+  await test.throws(test.context.database.query(card.id), errors.JellyfishSchemaMismatch)
+})
+
+ava.test('.query() should execute a view with one filter', async (test) => {
+  const elementId = await test.context.database.insertCard({
+    type: 'card',
+    tags: [],
+    links: [],
+    active: true,
+    data: {
+      number: 1
+    }
+  })
+
+  const id = await test.context.database.insertCard({
+    type: 'view',
+    tags: [],
+    links: [],
+    active: true,
+    data: {
+      filters: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              properties: {
+                number: {
+                  type: 'number',
+                  const: 1
+                }
+              },
+              required: [ 'number' ]
+            }
+          },
+          required: [ 'data' ]
+        }
+      ]
+    }
+  })
+
+  const results = await test.context.database.query(id)
+  test.deepEqual(results, [
+    {
+      id: elementId,
+      type: 'card',
+      tags: [],
+      links: [],
+      active: true,
+      data: {
+        number: 1
+      }
+    }
+  ])
+})
+
+ava.test('.query() should execute a view with more than one filter', async (test) => {
+  const elementId = await test.context.database.insertCard({
+    type: 'card',
+    tags: [ 'foo' ],
+    links: [],
+    active: true,
+    data: {
+      number: 1
+    }
+  })
+
+  await test.context.database.insertCard({
+    type: 'card',
+    tags: [],
+    links: [],
+    active: true,
+    data: {
+      number: 1
+    }
+  })
+
+  const id = await test.context.database.insertCard({
+    type: 'view',
+    tags: [],
+    links: [],
+    active: true,
+    data: {
+      filters: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              properties: {
+                number: {
+                  type: 'number',
+                  const: 1
+                }
+              },
+              required: [ 'number' ]
+            }
+          },
+          required: [ 'data' ]
+        },
+        {
+          type: 'object',
+          properties: {
+            tags: {
+              type: 'array',
+              contains: {
+                type: 'string',
+                const: 'foo'
+              }
+            }
+          },
+          required: [ 'tags' ]
+        }
+      ]
+    }
+  })
+
+  const results = await test.context.database.query(id)
+  test.deepEqual(results, [
+    {
+      id: elementId,
+      type: 'card',
+      tags: [ 'foo' ],
+      links: [],
+      active: true,
+      data: {
+        number: 1
+      }
+    }
+  ])
+})

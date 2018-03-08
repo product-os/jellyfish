@@ -1,0 +1,22 @@
+{
+  "slug": "view-all-views",
+  "type": "view",
+  "tags": [],
+  "links": [],
+  "active": true,
+  "data": {
+    "filters": [
+      {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "view"
+          }
+        },
+        "additionalProperties": true,
+        "required": [ "type" ]
+      }
+    ]
+  }
+}
