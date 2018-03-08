@@ -36,6 +36,7 @@
     "ajv": "^6.2.0",
     "bluebird": "^3.5.1",
     "express": "^4.16.2",
+    "json-schema-merge-allof": "^0.6.0",
     "lodash": "^4.17.5",
     "object-template": "^1.1.0",
     "rethinkdb": "^2.3.3",

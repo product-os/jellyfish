@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
+const _ = require('lodash')
 const ava = require('ava')
 const jsonSchema = require('../../lib/sdk/json-schema')
 const errors = require('../../lib/sdk/errors')
+const MERGE_TEST_CASES = require('./merge.json')
 
 ava.test('.match() should validate a matching object', (test) => {
   const result = jsonSchema.match({
@@ -171,4 +173,84 @@ ava.test('.validate() should throw if there is more than one error', (test) => {
       foo: 'bar'
     })
   }, errors.JellyfishSchemaMismatch)
+})
+
+ava.test.skip('.merge() should not merge type incompatible fragments', (test) => {
+  test.throws(() => {
+    jsonSchema.merge({
+      type: 'object',
+      properties: {
+        foo: {
+          type: 'string'
+        }
+      },
+      required: [ 'foo' ]
+    }, {
+      type: 'object',
+      properties: {
+        foo: {
+          type: 'number'
+        }
+      },
+      required: [ 'foo' ]
+    })
+  }, 'Incompatible fragments')
+})
+
+ava.test.skip('.merge() should not merge pattern incompatible fragments', (test) => {
+  test.throws(() => {
+    jsonSchema.merge({
+      type: 'object',
+      properties: {
+        foo: {
+          type: 'string',
+          pattern: '^foo$'
+        }
+      },
+      required: [ 'foo' ]
+    }, {
+      type: 'object',
+      properties: {
+        foo: {
+          type: 'string',
+          pattern: '^bar$'
+        }
+      },
+      required: [ 'foo' ]
+    })
+  }, 'Incompatible fragments')
+})
+
+ava.test.skip('.merge() should not merge incompatible fragments with multiple disjoint types', (test) => {
+  test.throws(() => {
+    jsonSchema.merge({
+      type: 'object',
+      properties: {
+        foo: {
+          type: [ 'string', 'number' ]
+        }
+      }
+    }, {
+      type: 'object',
+      properties: {
+        foo: {
+          type: 'array'
+        }
+      },
+      required: [ 'foo' ]
+    })
+  }, 'Incompatible fragments')
+})
+
+_.each(MERGE_TEST_CASES, (testCase, index) => {
+  ava.test(`.merge() should merge test case ${index}`, (test) => {
+    if (testCase.expected) {
+      const result = jsonSchema.merge(testCase.schemas)
+      test.deepEqual(result, testCase.expected)
+    } else {
+      test.throws(() => {
+        jsonSchema.merge(testCase.schemas)
+      }, errors.JellyfishIncompatibleSchemas)
+    }
+  })
 })
