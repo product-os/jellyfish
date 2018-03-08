@@ -246,5 +246,64 @@
       }
     ],
     "expected": null
+  },
+  {
+    "schemas": [
+      {
+        "type": "object",
+        "properties": {
+          "foo": {
+            "type": "string",
+            "pattern": "^foo$"
+          }
+        },
+        "required": [ "foo" ]
+      },
+      {
+        "type": "object",
+        "properties": {
+          "foo": {
+            "type": "string",
+            "pattern": "^bar$"
+          }
+        },
+        "required": [ "foo" ]
+      }
+    ],
+    "expected": {
+      "type": "object",
+      "properties": {
+        "foo": {
+          "type": "string",
+          "allOf": [
+            { "pattern": "^foo$" },
+            { "pattern": "^bar$" }
+          ]
+        }
+      },
+      "required": [ "foo" ]
+    }
+  },
+  {
+    "schemas": [
+      {
+        "type": "object",
+        "properties": {
+          "foo": {
+            "type": [ "string", "number" ]
+          }
+        }
+      },
+      {
+        "type": "object",
+        "properties": {
+          "foo": {
+            "type": "array"
+          }
+        },
+        "required": [ "foo" ]
+      }
+    ],
+    "expected": null
   }
 ]
