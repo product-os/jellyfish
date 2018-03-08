@@ -1,0 +1,40 @@
+{
+  "slug": "view",
+  "type": "type",
+  "tags": [],
+  "links": [],
+  "active": true,
+  "data": {
+    "schema": {
+      "description": "Jellyfish View",
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "properties": {
+            "filters": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "const": "object"
+                  }
+                },
+                "additionalProperties": true,
+                "required": [ "type" ]
+              }
+            }
+          },
+          "additionalProperties": false,
+          "required": [ "filters" ]
+        }
+      },
+      "additionalProperties": true,
+      "required": [ "data" ]
+    }
+  }
+}
