@@ -15,7 +15,6 @@
  */
 
 const ava = require('ava')
-const _ = require('lodash')
 const cardView = require('../../lib/sdk/card-view')
 const CARDS = require('../../lib/sdk/cards')
 
