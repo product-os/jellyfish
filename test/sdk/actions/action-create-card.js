@@ -73,3 +73,29 @@ ava.test('should fail if the card already exists', async (test) => {
   const timeline = _.map(await test.context.database.getTimeline(id), 'type')
   test.deepEqual(timeline, [ 'create' ])
 })
+
+ava.test('should create an inactive card', async (test) => {
+  const id = await test.context.database.executeAction('action-create-card', 'user', {
+    properties: {
+      slug: 'johndoe',
+      active: false,
+      data: {
+        email: 'johndoe@example.com'
+      }
+    }
+  })
+
+  const card = await test.context.database.getCard(id)
+
+  test.deepEqual(card, {
+    id,
+    slug: 'johndoe',
+    type: 'user',
+    tags: [],
+    links: [],
+    active: false,
+    data: {
+      email: 'johndoe@example.com'
+    }
+  })
+})
