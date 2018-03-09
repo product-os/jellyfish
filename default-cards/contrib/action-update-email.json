@@ -1,6 +1,7 @@
 {
   "slug": "action-update-email",
   "type": "action",
+  "name": "Update a user email",
   "tags": [],
   "links": [],
   "active": true,

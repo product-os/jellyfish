@@ -1,6 +1,7 @@
 {
   "slug": "action-restore-card",
   "type": "action",
+  "name": "Restore a deleted card",
   "tags": [],
   "links": [],
   "active": true,

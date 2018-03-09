@@ -1,6 +1,7 @@
 {
   "slug": "action-insert-card",
   "type": "action",
+  "name": "Insert a card",
   "tags": [],
   "links": [],
   "active": true,
@@ -29,6 +30,10 @@
           },
           "active": {
             "type": "boolean"
+          },
+          "name": {
+            "type": "string",
+            "pattern": "^.*\\S.*$"
           },
           "tags": {
             "type": "array",

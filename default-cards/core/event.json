@@ -1,12 +1,12 @@
 {
   "slug": "event",
   "type": "type",
+  "name": "Jellyfish Event",
   "tags": [],
   "links": [],
   "active": true,
   "data": {
     "schema": {
-      "description": "Jellyfish Event",
       "type": "object",
       "properties": {
         "data": {

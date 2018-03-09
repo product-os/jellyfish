@@ -1,12 +1,12 @@
 {
   "slug": "type",
   "type": "type",
+  "name": "Jellyfish Card Type",
   "tags": [],
   "links": [],
   "active": true,
   "data": {
     "schema": {
-      "description": "Jellyfish Card Type",
       "type": "object",
       "properties": {
         "slug": {

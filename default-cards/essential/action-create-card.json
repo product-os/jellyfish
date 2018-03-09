@@ -1,6 +1,7 @@
 {
   "slug": "action-create-card",
   "type": "action",
+  "name": "Create a new card",
   "tags": [],
   "links": [],
   "active": true,
@@ -24,6 +25,10 @@
           "slug": {
             "type": "string",
             "pattern": "^[a-z0-9-]+$"
+          },
+          "name": {
+            "type": "string",
+            "pattern": "^.*\\S.*$"
           },
           "active": {
             "type": "boolean"

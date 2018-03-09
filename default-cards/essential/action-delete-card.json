@@ -1,6 +1,7 @@
 {
   "slug": "action-delete-card",
   "type": "action",
+  "name": "Delete a card",
   "tags": [],
   "links": [],
   "active": true,

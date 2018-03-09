@@ -1,6 +1,7 @@
 {
   "slug": "action-update-header-property",
   "type": "action",
+  "name": "Update a top-level property of a card",
   "tags": [],
   "links": [],
   "active": true,
@@ -13,7 +14,8 @@
           { "const": "active" },
           { "const": "links" },
           { "const": "tags" },
-          { "const": "slug" }
+          { "const": "slug" },
+          { "const": "name" }
         ]
       },
       "value": {

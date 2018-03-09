@@ -1,12 +1,12 @@
 {
   "slug": "user",
   "type": "type",
+  "name": "Jellyfish User",
   "tags": [],
   "links": [],
   "active": true,
   "data": {
     "schema": {
-      "description": "Jellyfish User",
       "type": "object",
       "properties": {
         "slug": {

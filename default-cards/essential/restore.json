@@ -1,6 +1,7 @@
 {
   "slug": "restore",
   "type": "type",
+  "name": "The card restore event",
   "tags": [],
   "links": [],
   "active": true,

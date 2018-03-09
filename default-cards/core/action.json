@@ -1,12 +1,12 @@
 {
   "slug": "action",
   "type": "type",
+  "name": "Jellyfish action",
   "tags": [],
   "links": [],
   "active": true,
   "data": {
     "schema": {
-      "description": "Jellyfish Action",
       "type": "object",
       "properties": {
         "slug": {

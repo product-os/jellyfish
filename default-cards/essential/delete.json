@@ -1,6 +1,7 @@
 {
   "slug": "delete",
   "type": "type",
+  "name": "The card deletion event",
   "tags": [],
   "links": [],
   "active": true,

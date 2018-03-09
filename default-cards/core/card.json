@@ -1,12 +1,12 @@
 {
   "slug": "card",
+  "name": "Jellyfish Card",
   "type": "type",
   "tags": [],
   "links": [],
   "active": true,
   "data": {
     "schema": {
-      "description": "Jellyfish Card",
       "type": "object",
       "properties": {
         "id": {
@@ -16,6 +16,10 @@
         "slug": {
           "type": "string",
           "pattern": "^[a-z0-9-]+$"
+        },
+        "name": {
+          "type": "string",
+          "pattern": "^.*\\S.*$"
         },
         "type": {
           "type": "string",

@@ -1,6 +1,7 @@
 {
   "slug": "admin",
   "type": "user",
+  "name": "The admin user",
   "tags": [],
   "links": [],
   "active": true,
