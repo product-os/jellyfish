@@ -3,6 +3,11 @@ Jellyfish
 
 [![CircleCI](https://circleci.com/gh/resin-io/jellyfish/tree/master.svg?style=svg&circle-token=a2fd174edea733705e39a120177472b9c949cc5b)](https://circleci.com/gh/resin-io/jellyfish/tree/master)
 
+Installing RethinkDB
+--------------------
+
+- On macOS, run `brew install rethinkdb`
+
 RethinkDB Setup
 ---------------
 
@@ -33,8 +38,14 @@ RethinkDB Setup
     })
     ```
 
-Running
--------
+Running in testing mode
+-----------------------
+
+Run the `rethinkdb` binary on a separate terminal, and then run `npm start`
+without any special environment variables.
+
+Running in production mode
+--------------------------
 
 Set the following environment variables:
 
