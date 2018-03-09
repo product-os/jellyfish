@@ -15,7 +15,10 @@
     "lint": "eslint lib test"
   },
   "ava": {
-    "verbose": true
+    "verbose": true,
+    "files": [
+      "test/**/*.spec.js"
+    ]
   },
   "author": "Resin Inc. <hello@resin.io>",
   "license": "Apache-2.0",
