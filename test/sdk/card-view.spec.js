@@ -37,24 +37,30 @@ ava.test('.getSchema() should return a schema given a view card', (test) => {
     data: {
       filters: [
         {
-          type: 'object',
-          properties: {
-            foo: {
-              type: 'string',
-              minLength: 1
-            }
-          },
-          required: [ 'foo' ]
+          name: 'foo',
+          schema: {
+            type: 'object',
+            properties: {
+              foo: {
+                type: 'string',
+                minLength: 1
+              }
+            },
+            required: [ 'foo' ]
+          }
         },
         {
-          type: 'object',
-          properties: {
-            foo: {
-              type: 'string',
-              maxLength: 5
-            }
-          },
-          required: [ 'foo' ]
+          name: 'bar',
+          schema: {
+            type: 'object',
+            properties: {
+              foo: {
+                type: 'string',
+                maxLength: 5
+              }
+            },
+            required: [ 'foo' ]
+          }
         }
       ]
     }

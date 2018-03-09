@@ -8,15 +8,18 @@
   "data": {
     "filters": [
       {
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string",
-            "const": "view"
-          }
-        },
-        "additionalProperties": true,
-        "required": [ "type" ]
+        "name": "Card type view",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "view"
+            }
+          },
+          "additionalProperties": true,
+          "required": [ "type" ]
+        }
       }
     ]
   }

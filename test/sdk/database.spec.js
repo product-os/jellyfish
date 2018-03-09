@@ -421,20 +421,23 @@ ava.test('.query() should execute a view with one filter', async (test) => {
     data: {
       filters: [
         {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              properties: {
-                number: {
-                  type: 'number',
-                  const: 1
-                }
-              },
-              required: [ 'number' ]
-            }
-          },
-          required: [ 'data' ]
+          name: 'foo',
+          schema: {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                properties: {
+                  number: {
+                    type: 'number',
+                    const: 1
+                  }
+                },
+                required: [ 'number' ]
+              }
+            },
+            required: [ 'data' ]
+          }
         }
       ]
     }
@@ -484,33 +487,39 @@ ava.test('.query() should execute a view with more than one filter', async (test
     data: {
       filters: [
         {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              properties: {
-                number: {
-                  type: 'number',
-                  const: 1
-                }
-              },
-              required: [ 'number' ]
-            }
-          },
-          required: [ 'data' ]
+          name: 'foo',
+          schema: {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                properties: {
+                  number: {
+                    type: 'number',
+                    const: 1
+                  }
+                },
+                required: [ 'number' ]
+              }
+            },
+            required: [ 'data' ]
+          }
         },
         {
-          type: 'object',
-          properties: {
-            tags: {
-              type: 'array',
-              contains: {
-                type: 'string',
-                const: 'foo'
+          name: 'bar',
+          schema: {
+            type: 'object',
+            properties: {
+              tags: {
+                type: 'array',
+                contains: {
+                  type: 'string',
+                  const: 'foo'
+                }
               }
-            }
-          },
-          required: [ 'tags' ]
+            },
+            required: [ 'tags' ]
+          }
         }
       ]
     }

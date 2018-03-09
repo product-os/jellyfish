@@ -20,13 +20,24 @@
               "items": {
                 "type": "object",
                 "properties": {
-                  "type": {
+                  "name": {
                     "type": "string",
-                    "const": "object"
+                    "pattern": "^.*\\S.*$"
+                  },
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "const": "object"
+                      }
+                    },
+                    "additionalProperties": true,
+                    "required": [ "type" ]
                   }
                 },
-                "additionalProperties": true,
-                "required": [ "type" ]
+                "additionalProperties": false,
+                "required": [ "name", "schema" ]
               }
             }
           },
