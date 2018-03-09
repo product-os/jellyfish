@@ -1,5 +1,5 @@
 {
-  "slug": "action-create-card",
+  "slug": "action-insert-card",
   "type": "action",
   "tags": [],
   "links": [],
@@ -16,6 +16,9 @@
       "required": [ "type" ]
     },
     "arguments": {
+      "upsert": {
+        "type": "boolean"
+      },
       "properties": {
         "type": "object",
         "additionalProperties": false,
@@ -53,7 +56,8 @@
       }
     },
     "options": {
-      "properties": "{{arguments.properties}}"
+      "properties": "{{arguments.properties}}",
+      "upsert": "{{arguments.upsert}}"
     }
   }
 }
