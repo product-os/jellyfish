@@ -310,6 +310,88 @@ ava.test('.getCard() should return null if the slug does not exist', async (test
   test.deepEqual(card, null)
 })
 
+ava.test('.getTimeline() should return an empty list of the card has no timeline', async (test) => {
+  const id = await test.context.database.insertCard({
+    type: 'card',
+    tags: [],
+    links: [],
+    active: true,
+    data: {
+      number: 1
+    }
+  })
+
+  test.deepEqual(await test.context.database.getTimeline(id), [])
+})
+
+ava.test('.getTimeline() should return the timeline ordered by time', async (test) => {
+  const id = await test.context.database.insertCard({
+    type: 'card',
+    tags: [],
+    links: [],
+    active: true,
+    data: {
+      number: 1
+    }
+  })
+
+  const admin = await test.context.database.getCard('admin')
+  test.truthy(admin)
+
+  await test.context.database.insertCard({
+    type: 'event',
+    tags: [],
+    links: [],
+    active: true,
+    data: {
+      timestamp: '2018-03-09T19:57:40.963Z',
+      target: id,
+      actor: admin.id,
+      payload: {}
+    }
+  })
+
+  await test.context.database.insertCard({
+    type: 'event',
+    tags: [],
+    links: [],
+    active: true,
+    data: {
+      timestamp: '2018-04-09T19:57:40.963Z',
+      target: id,
+      actor: admin.id,
+      payload: {}
+    }
+  })
+
+  await test.context.database.insertCard({
+    type: 'event',
+    tags: [],
+    links: [],
+    active: true,
+    data: {
+      timestamp: '2018-02-09T19:57:40.963Z',
+      target: id,
+      actor: admin.id,
+      payload: {}
+    }
+  })
+
+  const timeline = await test.context.database.getTimeline(id)
+
+  test.deepEqual(_.map(timeline, 'data.timestamp'), [
+    '2018-02-09T19:57:40.963Z',
+    '2018-03-09T19:57:40.963Z',
+    '2018-04-09T19:57:40.963Z'
+  ])
+})
+
+ava.test('.getTimeline() should fail if the id does not exist', async (test) => {
+  const card = await test.context.database.getCard('4a962ad9-20b5-4dd8-a707-bf819593cc84')
+  test.falsy(card)
+  await test.throws(test.context.database.getTimeline('4a962ad9-20b5-4dd8-a707-bf819593cc84'), errors.JellyfishNoElement)
+})
+
 ava.test('.query() should throw if the view does not exist', async (test) => {
   await test.throws(test.context.database.query('xxxxxxxxxxxxxxxxxxx'), errors.JellyfishNoView)
 })
