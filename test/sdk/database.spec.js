@@ -51,6 +51,15 @@ for (const category of _.keys(CARDS)) {
       const element = await test.context.database.getCard(card.slug)
       test.deepEqual(CARDS[category][card.slug], _.omit(element, [ 'id' ]))
     })
+
+    if (category !== 'core') {
+      ava.test(`should contain a create event for the ${card.slug} card`, async (test) => {
+        const element = await test.context.database.getCard(card.slug)
+        const timeline = await test.context.database.getTimeline(element.id)
+        test.is(timeline.length, 1)
+        test.is(timeline[0].type, 'create')
+      })
+    }
   }
 }
 
