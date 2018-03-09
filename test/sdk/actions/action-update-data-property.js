@@ -44,3 +44,26 @@ ava.test('should update a data property', async (test) => {
     }
   })
 })
+
+ava.test('should not create an event if the change is already there', async (test) => {
+  const target = await test.context.database.getCard('admin')
+
+  const id = await test.context.database.executeAction('action-update-data-property', target.slug, {
+    property: 'email',
+    value: target.data.email,
+    eventName: 'update',
+    eventPayload: {
+      data: {
+        email: target.data.email
+      }
+    }
+  })
+
+  test.is(id, target.id)
+
+  const card = await test.context.database.getCard(id)
+  test.is(card.data.email, target.data.email)
+
+  const timeline = await test.context.database.getTimeline(id)
+  test.is(timeline.length, 0)
+})

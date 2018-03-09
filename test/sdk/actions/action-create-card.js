@@ -16,6 +16,7 @@
 
 const _ = require('lodash')
 const ava = require('ava')
+const errors = require('../../../lib/sdk/errors')
 
 ava.test('should create a card', async (test) => {
   const id = await test.context.database.executeAction('action-create-card', 'user', {
@@ -43,4 +44,12 @@ ava.test('should create a card', async (test) => {
 
   const timeline = _.map(await test.context.database.getTimeline(id), 'type')
   test.deepEqual(timeline, [ 'create' ])
+})
+
+ava.test('should fail if the card type does not exist', async (test) => {
+  await test.throws(test.context.database.executeAction('action-create-card', 'foobarbazqux', {
+    properties: {
+      slug: 'hello'
+    }
+  }), errors.JellyfishNoElement)
 })

@@ -211,6 +211,32 @@ ava.test('.getContext() should return a valid timestamp', async (test) => {
   }, context.timestamp))
 })
 
+ava.test('.executeAction() should fail if the action id does not exist', async (test) => {
+  await test.throws(test.context.database.executeAction('xxxxxxxxx', 'event', {
+    properties: {
+      slug: 'hello'
+    }
+  }), errors.JellyfishNoAction)
+})
+
+ava.test('.executeAction() should fail if there is no implementation', async (test) => {
+  await test.context.database.insertCard({
+    slug: 'action-demo',
+    type: 'action',
+    tags: [],
+    links: [],
+    active: true,
+    data: {
+      arguments: {},
+      options: {
+        foo: 'bar'
+      }
+    }
+  })
+
+  await test.throws(test.context.database.executeAction('action-demo', 'event', {}), errors.JellyfishNoAction)
+})
+
 ava.test('.getCard() should get a card by its id', async (test) => {
   const id = await test.context.database.insertCard({
     slug: 'johndoe',
