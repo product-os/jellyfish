@@ -48,6 +48,9 @@
                   },
                   "uniqueItems": true
                 },
+                "active": {
+                  "type": "boolean"
+                },
                 "data": {
                   "type": "object"
                 }
