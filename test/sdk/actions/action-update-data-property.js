@@ -17,10 +17,9 @@
 const ava = require('ava')
 
 ava.test('should update a data property', async (test) => {
-  const action = await test.context.database.getCard('action-update-data-property')
   const target = await test.context.database.getCard('admin')
 
-  const id = await test.context.database.executeAction(action, target, {
+  const id = await test.context.database.executeAction('action-update-data-property', target.slug, {
     property: 'email',
     value: 'foobar@example.com',
     eventName: 'update',

@@ -18,10 +18,7 @@ const _ = require('lodash')
 const ava = require('ava')
 
 ava.test('should create a card', async (test) => {
-  const action = await test.context.database.getCard('action-create-card')
-  const type = await test.context.database.getCard('user')
-
-  const id = await test.context.database.executeAction(action, type, {
+  const id = await test.context.database.executeAction('action-create-card', 'user', {
     properties: {
       slug: 'johndoe',
       data: {
