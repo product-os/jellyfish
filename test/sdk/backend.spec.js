@@ -672,3 +672,63 @@ ava.test('.querySchema() should query the database using JSON schema', async (te
     }
   ])
 })
+
+ava.test('.querySchema() should query an element by its id', async (test) => {
+  await test.context.backend.createTable('test')
+
+  const uuid = await test.context.backend.upsertElement('test', {
+    type: 'example',
+    test: 1
+  })
+
+  const results = await test.context.backend.querySchema('test', {
+    type: 'object',
+    additionalProperties: true,
+    properties: {
+      id: {
+        type: 'string',
+        const: uuid
+      }
+    },
+    required: [ 'id' ]
+  })
+
+  test.deepEqual(results, [
+    {
+      id: uuid,
+      type: 'example',
+      test: 1
+    }
+  ])
+})
+
+ava.test('.querySchema() should query an element by its slug', async (test) => {
+  await test.context.backend.createTable('test')
+
+  const uuid = await test.context.backend.upsertElement('test', {
+    type: 'example',
+    slug: 'hello',
+    test: 1
+  })
+
+  const results = await test.context.backend.querySchema('test', {
+    type: 'object',
+    additionalProperties: true,
+    properties: {
+      slug: {
+        type: 'string',
+        const: 'hello'
+      }
+    },
+    required: [ 'slug' ]
+  })
+
+  test.deepEqual(results, [
+    {
+      id: uuid,
+      type: 'example',
+      slug: 'hello',
+      test: 1
+    }
+  ])
+})
