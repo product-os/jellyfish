@@ -43,31 +43,36 @@ ava.test('.disconnect() should not throw if called multiple times', async (test)
   })
 })
 
-ava.test('.getElement() should return null if the table does not exist', async (test) => {
-  const result = await test.context.backend.getElement('foobarbaz', 'xxxxxxxxx')
+ava.test('.getElementById() should return null if the table does not exist', async (test) => {
+  const result = await test.context.backend.getElementById('foobarbaz', '4a962ad9-20b5-4dd8-a707-bf819593cc84')
   test.deepEqual(result, null)
 })
 
-ava.test('.getElement() should return null if the element id is not present', async (test) => {
+ava.test('.getElementBySlug() should return null if the table does not exist', async (test) => {
+  const result = await test.context.backend.getElementBySlug('foobarbaz', 'card')
+  test.deepEqual(result, null)
+})
+
+ava.test('.getElementById() should return null if the element id is not present', async (test) => {
   await test.context.backend.createTable('test')
-  const result = await test.context.backend.getElement('test', '4a962ad9-20b5-4dd8-a707-bf819593cc84')
+  const result = await test.context.backend.getElementById('test', '4a962ad9-20b5-4dd8-a707-bf819593cc84')
   test.deepEqual(result, null)
 })
 
-ava.test('.getElement() should return null if the element slug is not present', async (test) => {
+ava.test('.getElementBySlug() should return null if the element slug is not present', async (test) => {
   await test.context.backend.createTable('test')
-  const result = await test.context.backend.getElement('test', 'foo')
+  const result = await test.context.backend.getElementBySlug('test', 'foo')
   test.deepEqual(result, null)
 })
 
-ava.test('.getElement() should fetch an element given its slug', async (test) => {
+ava.test('.getElementBySlug() should fetch an element given its slug', async (test) => {
   await test.context.backend.createTable('test')
   const uuid = await test.context.backend.upsertElement('test', {
     slug: 'example',
     test: 'foo'
   })
 
-  const result = await test.context.backend.getElement('test', 'example')
+  const result = await test.context.backend.getElementBySlug('test', 'example')
   test.deepEqual(result, {
     id: uuid,
     slug: 'example',
@@ -95,7 +100,7 @@ ava.test('.insertElement() should insert an element without a slug nor an id to 
     test: 'foo'
   })
 
-  const element = await test.context.backend.getElement('test', uuid)
+  const element = await test.context.backend.getElementById('test', uuid)
 
   test.deepEqual(element, {
     id: uuid,
@@ -108,7 +113,7 @@ ava.test('.insertElement() should insert an element without a slug nor an id to 
     test: 'foo'
   })
 
-  const element = await test.context.backend.getElement('foobar', uuid)
+  const element = await test.context.backend.getElementById('foobar', uuid)
 
   test.deepEqual(element, {
     id: uuid,
@@ -122,7 +127,7 @@ ava.test('.insertElement() should insert an element with a non-existent slug', a
     slug: 'foo'
   })
 
-  const element = await test.context.backend.getElement('test', uuid)
+  const element = await test.context.backend.getElementById('test', uuid)
 
   test.deepEqual(element, {
     id: uuid,
@@ -139,7 +144,7 @@ ava.test('.insertElement() should insert an element with a non-existent id', asy
 
   test.is(uuid, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
 
-  const element = await test.context.backend.getElement('test', uuid)
+  const element = await test.context.backend.getElementById('test', uuid)
 
   test.deepEqual(element, {
     id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
@@ -157,7 +162,7 @@ ava.test('.insertElement() should insert an element with a non-existent id and s
 
   test.is(uuid, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
 
-  const element = await test.context.backend.getElement('test', uuid)
+  const element = await test.context.backend.getElementById('test', uuid)
 
   test.deepEqual(element, {
     id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
@@ -234,7 +239,7 @@ ava.test('.updateElement() should fail to update an element with no id nor slug'
 ava.test('.updateElement() should fail to update an element by an id that does not exist', async (test) => {
   await test.context.backend.createTable('test')
 
-  const element = await test.context.backend.getElement('test', '4a962ad9-20b5-4dd8-a707-bf819593cc84')
+  const element = await test.context.backend.getElementById('test', '4a962ad9-20b5-4dd8-a707-bf819593cc84')
   test.deepEqual(element, null)
 
   await test.throws(test.context.backend.updateElement('test', {
@@ -246,7 +251,7 @@ ava.test('.updateElement() should fail to update an element by an id that does n
 ava.test('.updateElement() should fail to update an element by a slug that does not exist', async (test) => {
   await test.context.backend.createTable('test')
 
-  const element = await test.context.backend.getElement('test', 'foo')
+  const element = await test.context.backend.getElementBySlug('test', 'foo')
   test.deepEqual(element, null)
 
   await test.throws(test.context.backend.updateElement('test', {
@@ -279,7 +284,7 @@ ava.test('.updateElement() should replace an element given an update to the same
 
   test.is(uuid1, uuid2)
 
-  const element = await test.context.backend.getElement('test', uuid1)
+  const element = await test.context.backend.getElementById('test', uuid1)
   test.deepEqual(element, {
     id: uuid1,
     test: 'bar'
@@ -300,7 +305,7 @@ ava.test('.updateElement() should replace an element given an update to the same
 
   test.is(uuid1, uuid2)
 
-  const element = await test.context.backend.getElement('test', uuid1)
+  const element = await test.context.backend.getElementById('test', uuid1)
   test.deepEqual(element, {
     id: uuid1,
     slug: 'foo',
@@ -323,7 +328,7 @@ ava.test('.updateElement() should replace an element given an update to the same
 
   test.is(uuid1, uuid2)
 
-  const element = await test.context.backend.getElement('test', uuid1)
+  const element = await test.context.backend.getElementById('test', uuid1)
   test.deepEqual(element, {
     id: uuid1,
     slug: 'foo',
@@ -353,7 +358,7 @@ ava.test('.upsertElement() should insert a card without a slug nor an id', async
     test: 'foo'
   })
 
-  const element = await test.context.backend.getElement('test', uuid)
+  const element = await test.context.backend.getElementById('test', uuid)
 
   test.deepEqual(element, {
     id: uuid,
@@ -376,9 +381,9 @@ ava.test('.upsertElement() should create multiple elements given same content an
   test.not(uuid2, uuid3)
   test.not(uuid3, uuid1)
 
-  const element1 = await test.context.backend.getElement('test', uuid1)
-  const element2 = await test.context.backend.getElement('test', uuid2)
-  const element3 = await test.context.backend.getElement('test', uuid3)
+  const element1 = await test.context.backend.getElementById('test', uuid1)
+  const element2 = await test.context.backend.getElementById('test', uuid2)
+  const element3 = await test.context.backend.getElementById('test', uuid3)
 
   test.deepEqual(element1, {
     id: uuid1,
@@ -405,7 +410,7 @@ ava.test('.upsertElement() should insert a card with an id', async (test) => {
 
   test.is(uuid, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
 
-  const element = await test.context.backend.getElement('test', uuid)
+  const element = await test.context.backend.getElementById('test', uuid)
 
   test.deepEqual(element, {
     id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
@@ -427,7 +432,7 @@ ava.test('.upsertElement() should replace an element given an insertion to the s
 
   test.is(uuid1, uuid2)
 
-  const element = await test.context.backend.getElement('test', uuid1)
+  const element = await test.context.backend.getElementById('test', uuid1)
   test.deepEqual(element, {
     id: uuid1,
     test: 'bar'
@@ -443,7 +448,7 @@ ava.test('.upsertElement() should insert a card with a slug', async (test) => {
 
   test.not(uuid, 'example')
 
-  const element = await test.context.backend.getElement('test', uuid)
+  const element = await test.context.backend.getElementById('test', uuid)
 
   test.deepEqual(element, {
     id: uuid,
@@ -468,7 +473,7 @@ ava.test('.upsertElement() should replace an element given the slug but no id', 
 
   test.is(uuid1, uuid2)
 
-  const element = await test.context.backend.getElement('test', uuid1)
+  const element = await test.context.backend.getElementById('test', uuid1)
 
   test.deepEqual(element, {
     id: uuid1,
@@ -487,7 +492,7 @@ ava.test('.upsertElement() should insert a card with an id and a slug', async (t
 
   test.is(uuid, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
 
-  const element = await test.context.backend.getElement('test', uuid)
+  const element = await test.context.backend.getElementById('test', uuid)
 
   test.deepEqual(element, {
     id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
@@ -510,7 +515,7 @@ ava.test('.upsertElement() should replace a card with no slug with an id and a n
 
   test.is(uuid1, uuid2)
 
-  const element = await test.context.backend.getElement('test', uuid1)
+  const element = await test.context.backend.getElementById('test', uuid1)
 
   test.deepEqual(element, {
     id: uuid1,
@@ -557,7 +562,7 @@ ava.test('.upsertElement() should replace an element with an existing id and a n
 
   test.is(uuid1, uuid2)
 
-  const element = await test.context.backend.getElement('test', uuid1)
+  const element = await test.context.backend.getElementById('test', uuid1)
 
   test.deepEqual(element, {
     id: uuid1,
@@ -581,7 +586,7 @@ ava.test('.upsertElement() should replace an element with an existing id and the
 
   test.is(uuid1, uuid2)
 
-  const element = await test.context.backend.getElement('test', uuid1)
+  const element = await test.context.backend.getElementById('test', uuid1)
 
   test.deepEqual(element, {
     id: uuid1,
@@ -615,7 +620,7 @@ ava.test('.upsertElement() should insert an element with a non-matching id nor s
     test: 'foo'
   })
 
-  const element = await test.context.backend.getElement('test', uuid)
+  const element = await test.context.backend.getElementById('test', uuid)
 
   test.deepEqual(element, {
     id: '9af7cf33-1a29-4f0c-a73b-f6a2b149850c',
