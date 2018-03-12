@@ -18,7 +18,7 @@ const _ = require('lodash')
 const ava = require('ava')
 
 ava.test('should replace an existing card and add an update event if upsert is true', async (test) => {
-  const id1 = await test.context.kernel.executeAction('action-insert-card', 'user', {
+  const id1 = await test.context.surface.executeAction('action-insert-card', 'user', {
     properties: {
       slug: 'johndoe',
       data: {
@@ -28,7 +28,7 @@ ava.test('should replace an existing card and add an update event if upsert is t
     upsert: false
   })
 
-  const id2 = await test.context.kernel.executeAction('action-insert-card', 'user', {
+  const id2 = await test.context.surface.executeAction('action-insert-card', 'user', {
     properties: {
       slug: 'johndoe',
       data: {
@@ -40,7 +40,7 @@ ava.test('should replace an existing card and add an update event if upsert is t
 
   test.is(id1, id2)
 
-  const card = await test.context.kernel.getCard(id1)
+  const card = await test.context.surface.getCard(id1)
 
   test.deepEqual(card, {
     id: id1,
@@ -54,7 +54,7 @@ ava.test('should replace an existing card and add an update event if upsert is t
     }
   })
 
-  const timeline = await test.context.kernel.getTimeline(id1)
+  const timeline = await test.context.surface.getTimeline(id1)
   test.deepEqual(_.map(timeline, 'type'), [ 'create', 'update' ])
 
   test.deepEqual(timeline[1].data.payload, {
@@ -69,7 +69,7 @@ ava.test('should replace an existing card and add an update event if upsert is t
 })
 
 ava.test('should create a card while upsert is true and add a create but not update event', async (test) => {
-  const id = await test.context.kernel.executeAction('action-insert-card', 'user', {
+  const id = await test.context.surface.executeAction('action-insert-card', 'user', {
     properties: {
       slug: 'johndoe',
       data: {
@@ -79,7 +79,7 @@ ava.test('should create a card while upsert is true and add a create but not upd
     upsert: true
   })
 
-  const card = await test.context.kernel.getCard(id)
+  const card = await test.context.surface.getCard(id)
 
   test.deepEqual(card, {
     id,
@@ -93,6 +93,6 @@ ava.test('should create a card while upsert is true and add a create but not upd
     }
   })
 
-  const timeline = _.map(await test.context.kernel.getTimeline(id), 'type')
+  const timeline = _.map(await test.context.surface.getTimeline(id), 'type')
   test.deepEqual(timeline, [ 'create' ])
 })

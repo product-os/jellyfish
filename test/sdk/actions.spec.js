@@ -18,6 +18,7 @@ const ava = require('ava')
 const randomstring = require('randomstring')
 const Backend = require('../../lib/sdk/backend')
 const Kernel = require('../../lib/sdk/kernel')
+const Surface = require('../../lib/sdk/surface')
 
 ava.test.beforeEach(async (test) => {
   test.context.backend = new Backend({
@@ -34,7 +35,9 @@ ava.test.beforeEach(async (test) => {
     bucket: test.context.table
   })
 
-  await test.context.kernel.initialize()
+  test.context.surface = new Surface(test.context.kernel)
+
+  await test.context.surface.initialize()
 })
 
 ava.test.afterEach(async (test) => {

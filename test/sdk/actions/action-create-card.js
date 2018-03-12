@@ -19,7 +19,7 @@ const ava = require('ava')
 const errors = require('../../../lib/sdk/errors')
 
 ava.test('should create a card', async (test) => {
-  const id = await test.context.kernel.executeAction('action-create-card', 'user', {
+  const id = await test.context.surface.executeAction('action-create-card', 'user', {
     properties: {
       slug: 'johndoe',
       data: {
@@ -28,7 +28,7 @@ ava.test('should create a card', async (test) => {
     }
   })
 
-  const card = await test.context.kernel.getCard(id)
+  const card = await test.context.surface.getCard(id)
 
   test.deepEqual(card, {
     id,
@@ -42,12 +42,12 @@ ava.test('should create a card', async (test) => {
     }
   })
 
-  const timeline = _.map(await test.context.kernel.getTimeline(id), 'type')
+  const timeline = _.map(await test.context.surface.getTimeline(id), 'type')
   test.deepEqual(timeline, [ 'create' ])
 })
 
 ava.test('should fail if the card type does not exist', async (test) => {
-  await test.throws(test.context.kernel.executeAction('action-create-card', 'foobarbazqux', {
+  await test.throws(test.context.surface.executeAction('action-create-card', 'foobarbazqux', {
     properties: {
       slug: 'hello'
     }
@@ -62,20 +62,20 @@ ava.test('should fail if the card already exists', async (test) => {
     }
   }
 
-  const id = await test.context.kernel.executeAction('action-create-card', 'user', {
+  const id = await test.context.surface.executeAction('action-create-card', 'user', {
     properties: card
   })
 
-  await test.throws(test.context.kernel.executeAction('action-create-card', 'user', {
+  await test.throws(test.context.surface.executeAction('action-create-card', 'user', {
     properties: card
   }), errors.JellyfishElementAlreadyExists)
 
-  const timeline = _.map(await test.context.kernel.getTimeline(id), 'type')
+  const timeline = _.map(await test.context.surface.getTimeline(id), 'type')
   test.deepEqual(timeline, [ 'create' ])
 })
 
 ava.test('should create an inactive card', async (test) => {
-  const id = await test.context.kernel.executeAction('action-create-card', 'user', {
+  const id = await test.context.surface.executeAction('action-create-card', 'user', {
     properties: {
       slug: 'johndoe',
       active: false,
@@ -85,7 +85,7 @@ ava.test('should create an inactive card', async (test) => {
     }
   })
 
-  const card = await test.context.kernel.getCard(id)
+  const card = await test.context.surface.getCard(id)
 
   test.deepEqual(card, {
     id,
