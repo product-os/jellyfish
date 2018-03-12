@@ -1,0 +1,26 @@
+{
+  "slug": "view-active",
+  "name": "Active cards",
+  "type": "view",
+  "tags": [],
+  "links": [],
+  "active": true,
+  "data": {
+    "filters": [
+      {
+        "name": "Active cards",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "active": {
+              "type": "boolean",
+              "const": true
+            }
+          },
+          "additionalProperties": true,
+          "required": [ "active" ]
+        }
+      }
+    ]
+  }
+}
