@@ -22,7 +22,6 @@ const Kernel = require('../../lib/sdk/kernel')
 const Surface = require('../../lib/sdk/surface')
 const CARDS = require('../../lib/sdk/cards')
 const errors = require('../../lib/sdk/errors')
-const jsonSchema = require('../../lib/sdk/json-schema')
 
 ava.test.beforeEach(async (test) => {
   test.context.backend = new Backend({
