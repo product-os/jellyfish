@@ -17,9 +17,9 @@
 const ava = require('ava')
 
 ava.test('should update a data property', async (test) => {
-  const target = await test.context.database.getCard('admin')
+  const target = await test.context.kernel.getCard('admin')
 
-  const id = await test.context.database.executeAction('action-update-data-property', target.slug, {
+  const id = await test.context.kernel.executeAction('action-update-data-property', target.slug, {
     property: 'email',
     value: 'foobar@example.com',
     eventName: 'update',
@@ -32,10 +32,10 @@ ava.test('should update a data property', async (test) => {
 
   test.is(id, target.id)
 
-  const card = await test.context.database.getCard(id)
+  const card = await test.context.kernel.getCard(id)
   test.is(card.data.email, 'foobar@example.com')
 
-  const timeline = await test.context.database.getTimeline(id)
+  const timeline = await test.context.kernel.getTimeline(id)
   test.is(timeline.length, 1)
   test.is(timeline[0].type, 'update')
   test.deepEqual(timeline[0].data.payload, {
@@ -46,9 +46,9 @@ ava.test('should update a data property', async (test) => {
 })
 
 ava.test('should not create an event if the change is already there', async (test) => {
-  const target = await test.context.database.getCard('admin')
+  const target = await test.context.kernel.getCard('admin')
 
-  const id = await test.context.database.executeAction('action-update-data-property', target.slug, {
+  const id = await test.context.kernel.executeAction('action-update-data-property', target.slug, {
     property: 'email',
     value: target.data.email,
     eventName: 'update',
@@ -61,9 +61,9 @@ ava.test('should not create an event if the change is already there', async (tes
 
   test.is(id, target.id)
 
-  const card = await test.context.database.getCard(id)
+  const card = await test.context.kernel.getCard(id)
   test.is(card.data.email, target.data.email)
 
-  const timeline = await test.context.database.getTimeline(id)
+  const timeline = await test.context.kernel.getTimeline(id)
   test.is(timeline.length, 0)
 })

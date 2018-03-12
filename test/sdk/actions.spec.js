@@ -17,7 +17,7 @@
 const ava = require('ava')
 const randomstring = require('randomstring')
 const Backend = require('../../lib/sdk/backend')
-const Database = require('../../lib/sdk/database')
+const Kernel = require('../../lib/sdk/kernel')
 
 ava.test.beforeEach(async (test) => {
   test.context.backend = new Backend({
@@ -30,11 +30,11 @@ ava.test.beforeEach(async (test) => {
   await test.context.backend.reset()
 
   test.context.table = 'cards'
-  test.context.database = new Database(test.context.backend, {
+  test.context.kernel = new Kernel(test.context.backend, {
     bucket: test.context.table
   })
 
-  await test.context.database.initialize()
+  await test.context.kernel.initialize()
 })
 
 ava.test.afterEach(async (test) => {

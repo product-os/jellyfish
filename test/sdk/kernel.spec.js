@@ -18,7 +18,7 @@ const ava = require('ava')
 const _ = require('lodash')
 const randomstring = require('randomstring')
 const Backend = require('../../lib/sdk/backend')
-const Database = require('../../lib/sdk/database')
+const Kernel = require('../../lib/sdk/kernel')
 const CARDS = require('../../lib/sdk/cards')
 const jsonSchema = require('../../lib/sdk/json-schema')
 const errors = require('../../lib/sdk/errors')
@@ -34,11 +34,11 @@ ava.test.beforeEach(async (test) => {
   await test.context.backend.reset()
 
   test.context.table = 'cards'
-  test.context.database = new Database(test.context.backend, {
+  test.context.kernel = new Kernel(test.context.backend, {
     bucket: test.context.table
   })
 
-  await test.context.database.initialize()
+  await test.context.kernel.initialize()
 })
 
 ava.test.afterEach(async (test) => {
@@ -48,14 +48,14 @@ ava.test.afterEach(async (test) => {
 for (const category of _.keys(CARDS)) {
   for (const card of _.values(CARDS[category])) {
     ava.test(`should contain the ${category} card ${card.slug} by default`, async (test) => {
-      const element = await test.context.database.getCard(card.slug)
+      const element = await test.context.kernel.getCard(card.slug)
       test.deepEqual(CARDS[category][card.slug], _.omit(element, [ 'id' ]))
     })
 
     if (category !== 'core') {
       ava.test(`should contain a create event for the ${card.slug} card`, async (test) => {
-        const element = await test.context.database.getCard(card.slug)
-        const timeline = await test.context.database.getTimeline(element.id)
+        const element = await test.context.kernel.getCard(card.slug)
+        const timeline = await test.context.kernel.getTimeline(element.id)
         test.is(timeline.length, 1)
         test.is(timeline[0].type, 'create')
       })
@@ -63,42 +63,42 @@ for (const category of _.keys(CARDS)) {
   }
 }
 
-ava.test.skip('should be able to initialize the database multiple times without errors', async (test) => {
+ava.test.skip('should be able to initialize the kernel multiple times without errors', async (test) => {
   test.notThrows(async () => {
-    await test.context.database.initialize()
-    await test.context.database.initialize()
-    await test.context.database.initialize()
+    await test.context.kernel.initialize()
+    await test.context.kernel.initialize()
+    await test.context.kernel.initialize()
   })
 })
 
 ava.test('.getSchema() should return the schema of an existing type card', async (test) => {
-  const schema = await test.context.database.getSchema(CARDS.core.type.slug)
+  const schema = await test.context.kernel.getSchema(CARDS.core.type.slug)
   test.deepEqual(schema, CARDS.core.type.data.schema)
 })
 
 ava.test('.getSchema() should return null given an unknown type', async (test) => {
-  const element = await test.context.database.getCard('foobarbazqux')
+  const element = await test.context.kernel.getCard('foobarbazqux')
   test.falsy(element)
-  const schema = await test.context.database.getSchema('foobarbazqux')
+  const schema = await test.context.kernel.getSchema('foobarbazqux')
   test.deepEqual(schema, null)
 })
 
 ava.test('.getSchema() should return null given an known card that is not a type card ', async (test) => {
-  const element = await test.context.database.getCard('admin')
+  const element = await test.context.kernel.getCard('admin')
   test.truthy(element)
   test.not(element.type, 'type')
-  const schema = await test.context.database.getSchema('admin')
+  const schema = await test.context.kernel.getSchema('admin')
   test.deepEqual(schema, null)
 })
 
 ava.test('.insertCard() should throw an error if the element is not a valid card', async (test) => {
-  await test.throws(test.context.database.insertCard({
+  await test.throws(test.context.kernel.insertCard({
     hello: 'world'
   }), errors.JellyfishSchemaMismatch)
 })
 
 ava.test('.insertCard() should throw an error if the element does not adhere to the type', async (test) => {
-  await test.throws(test.context.database.insertCard({
+  await test.throws(test.context.kernel.insertCard({
     slug: 'foo',
     type: 'user',
     active: true,
@@ -109,10 +109,10 @@ ava.test('.insertCard() should throw an error if the element does not adhere to 
 })
 
 ava.test('.insertCard() should throw an error if the card type does not exist', async (test) => {
-  const schema = await test.context.database.getSchema('foobarbazqux')
+  const schema = await test.context.kernel.getSchema('foobarbazqux')
   test.deepEqual(schema, null)
 
-  await test.throws(test.context.database.insertCard({
+  await test.throws(test.context.kernel.insertCard({
     type: 'foobarbazqux',
     active: true,
     links: [],
@@ -122,7 +122,7 @@ ava.test('.insertCard() should throw an error if the card type does not exist', 
 })
 
 ava.test('.insertCard() should be able to insert a card', async (test) => {
-  const id = await test.context.database.insertCard({
+  const id = await test.context.kernel.insertCard({
     slug: 'johndoe',
     type: 'user',
     active: true,
@@ -133,7 +133,7 @@ ava.test('.insertCard() should be able to insert a card', async (test) => {
     }
   })
 
-  const element = await test.context.database.getCard(id)
+  const element = await test.context.kernel.getCard(id)
 
   test.deepEqual(element, {
     id,
@@ -160,12 +160,12 @@ ava.test('.insertCard() should throw if the card already exists', async (test) =
     }
   }
 
-  await test.context.database.insertCard(card)
-  await test.throws(test.context.database.insertCard(card), errors.JellyfishElementAlreadyExists)
+  await test.context.kernel.insertCard(card)
+  await test.throws(test.context.kernel.insertCard(card), errors.JellyfishElementAlreadyExists)
 })
 
 ava.test('.insertCard() should replace an element given override is true', async (test) => {
-  const id1 = await test.context.database.insertCard({
+  const id1 = await test.context.kernel.insertCard({
     slug: 'johndoe',
     type: 'user',
     active: true,
@@ -176,7 +176,7 @@ ava.test('.insertCard() should replace an element given override is true', async
     }
   })
 
-  const id2 = await test.context.database.insertCard({
+  const id2 = await test.context.kernel.insertCard({
     slug: 'johndoe',
     type: 'user',
     active: true,
@@ -191,7 +191,7 @@ ava.test('.insertCard() should replace an element given override is true', async
 
   test.is(id1, id2)
 
-  const element = await test.context.database.getCard(id1)
+  const element = await test.context.kernel.getCard(id1)
 
   test.deepEqual(element, {
     id: id1,
@@ -207,13 +207,13 @@ ava.test('.insertCard() should replace an element given override is true', async
 })
 
 ava.test('.getContext() should return a valid actor', async (test) => {
-  const context = await test.context.database.getContext()
-  test.true(jsonSchema.isValid(await test.context.database.getSchema('card'), context.actor))
-  test.true(jsonSchema.isValid(await test.context.database.getSchema('user'), context.actor))
+  const context = await test.context.kernel.getContext()
+  test.true(jsonSchema.isValid(await test.context.kernel.getSchema('card'), context.actor))
+  test.true(jsonSchema.isValid(await test.context.kernel.getSchema('user'), context.actor))
 })
 
 ava.test('.getContext() should return a valid timestamp', async (test) => {
-  const context = await test.context.database.getContext()
+  const context = await test.context.kernel.getContext()
   test.true(jsonSchema.isValid({
     type: 'string',
     format: 'date-time'
@@ -221,7 +221,7 @@ ava.test('.getContext() should return a valid timestamp', async (test) => {
 })
 
 ava.test('.executeAction() should fail if the action id does not exist', async (test) => {
-  await test.throws(test.context.database.executeAction('xxxxxxxxx', 'event', {
+  await test.throws(test.context.kernel.executeAction('xxxxxxxxx', 'event', {
     properties: {
       slug: 'hello'
     }
@@ -229,7 +229,7 @@ ava.test('.executeAction() should fail if the action id does not exist', async (
 })
 
 ava.test('.executeAction() should fail if there is no implementation', async (test) => {
-  await test.context.database.insertCard({
+  await test.context.kernel.insertCard({
     slug: 'action-demo',
     type: 'action',
     tags: [],
@@ -243,11 +243,11 @@ ava.test('.executeAction() should fail if there is no implementation', async (te
     }
   })
 
-  await test.throws(test.context.database.executeAction('action-demo', 'event', {}), errors.JellyfishNoAction)
+  await test.throws(test.context.kernel.executeAction('action-demo', 'event', {}), errors.JellyfishNoAction)
 })
 
 ava.test('.getCard() should get a card by its id', async (test) => {
-  const id = await test.context.database.insertCard({
+  const id = await test.context.kernel.insertCard({
     slug: 'johndoe',
     type: 'user',
     active: true,
@@ -258,7 +258,7 @@ ava.test('.getCard() should get a card by its id', async (test) => {
     }
   })
 
-  const card = await test.context.database.getCard(id)
+  const card = await test.context.kernel.getCard(id)
 
   test.deepEqual(card, {
     id,
@@ -274,7 +274,7 @@ ava.test('.getCard() should get a card by its id', async (test) => {
 })
 
 ava.test('.getCard() should get a card by its slug', async (test) => {
-  const id = await test.context.database.insertCard({
+  const id = await test.context.kernel.insertCard({
     slug: 'johndoe',
     type: 'user',
     active: true,
@@ -285,7 +285,7 @@ ava.test('.getCard() should get a card by its slug', async (test) => {
     }
   })
 
-  const card = await test.context.database.getCard('johndoe')
+  const card = await test.context.kernel.getCard('johndoe')
 
   test.deepEqual(card, {
     id,
@@ -301,17 +301,17 @@ ava.test('.getCard() should get a card by its slug', async (test) => {
 })
 
 ava.test('.getCard() should return null if the id does not exist', async (test) => {
-  const card = await test.context.database.getCard('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa')
+  const card = await test.context.kernel.getCard('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa')
   test.deepEqual(card, null)
 })
 
 ava.test('.getCard() should return null if the slug does not exist', async (test) => {
-  const card = await test.context.database.getCard('foobarbazqux')
+  const card = await test.context.kernel.getCard('foobarbazqux')
   test.deepEqual(card, null)
 })
 
 ava.test('.getTimeline() should return an empty list of the card has no timeline', async (test) => {
-  const id = await test.context.database.insertCard({
+  const id = await test.context.kernel.insertCard({
     type: 'card',
     tags: [],
     links: [],
@@ -321,11 +321,11 @@ ava.test('.getTimeline() should return an empty list of the card has no timeline
     }
   })
 
-  test.deepEqual(await test.context.database.getTimeline(id), [])
+  test.deepEqual(await test.context.kernel.getTimeline(id), [])
 })
 
 ava.test('.getTimeline() should return the timeline ordered by time', async (test) => {
-  const id = await test.context.database.insertCard({
+  const id = await test.context.kernel.insertCard({
     type: 'card',
     tags: [],
     links: [],
@@ -335,10 +335,10 @@ ava.test('.getTimeline() should return the timeline ordered by time', async (tes
     }
   })
 
-  const admin = await test.context.database.getCard('admin')
+  const admin = await test.context.kernel.getCard('admin')
   test.truthy(admin)
 
-  await test.context.database.insertCard({
+  await test.context.kernel.insertCard({
     type: 'event',
     tags: [],
     links: [],
@@ -351,7 +351,7 @@ ava.test('.getTimeline() should return the timeline ordered by time', async (tes
     }
   })
 
-  await test.context.database.insertCard({
+  await test.context.kernel.insertCard({
     type: 'event',
     tags: [],
     links: [],
@@ -364,7 +364,7 @@ ava.test('.getTimeline() should return the timeline ordered by time', async (tes
     }
   })
 
-  await test.context.database.insertCard({
+  await test.context.kernel.insertCard({
     type: 'event',
     tags: [],
     links: [],
@@ -377,7 +377,7 @@ ava.test('.getTimeline() should return the timeline ordered by time', async (tes
     }
   })
 
-  const timeline = await test.context.database.getTimeline(id)
+  const timeline = await test.context.kernel.getTimeline(id)
 
   test.deepEqual(_.map(timeline, 'data.timestamp'), [
     '2018-02-09T19:57:40.963Z',
@@ -387,23 +387,23 @@ ava.test('.getTimeline() should return the timeline ordered by time', async (tes
 })
 
 ava.test('.getTimeline() should fail if the id does not exist', async (test) => {
-  const card = await test.context.database.getCard('4a962ad9-20b5-4dd8-a707-bf819593cc84')
+  const card = await test.context.kernel.getCard('4a962ad9-20b5-4dd8-a707-bf819593cc84')
   test.falsy(card)
-  await test.throws(test.context.database.getTimeline('4a962ad9-20b5-4dd8-a707-bf819593cc84'), errors.JellyfishNoElement)
+  await test.throws(test.context.kernel.getTimeline('4a962ad9-20b5-4dd8-a707-bf819593cc84'), errors.JellyfishNoElement)
 })
 
 ava.test('.queryView() should throw if the view does not exist', async (test) => {
-  await test.throws(test.context.database.queryView('xxxxxxxxxxxxxxxxxxx'), errors.JellyfishNoView)
+  await test.throws(test.context.kernel.queryView('xxxxxxxxxxxxxxxxxxx'), errors.JellyfishNoView)
 })
 
 ava.test('.queryView() should throw if the view is not of type view', async (test) => {
-  const card = await test.context.database.getCard('card')
+  const card = await test.context.kernel.getCard('card')
   test.truthy(card.id)
-  await test.throws(test.context.database.queryView(card.id), errors.JellyfishSchemaMismatch)
+  await test.throws(test.context.kernel.queryView(card.id), errors.JellyfishSchemaMismatch)
 })
 
 ava.test('.queryView() should execute a view with one filter', async (test) => {
-  const elementId = await test.context.database.insertCard({
+  const elementId = await test.context.kernel.insertCard({
     type: 'card',
     tags: [],
     links: [],
@@ -413,7 +413,7 @@ ava.test('.queryView() should execute a view with one filter', async (test) => {
     }
   })
 
-  const id = await test.context.database.insertCard({
+  const id = await test.context.kernel.insertCard({
     type: 'view',
     tags: [],
     links: [],
@@ -443,7 +443,7 @@ ava.test('.queryView() should execute a view with one filter', async (test) => {
     }
   })
 
-  const results = await test.context.database.queryView(id)
+  const results = await test.context.kernel.queryView(id)
   test.deepEqual(results, [
     {
       id: elementId,
@@ -459,7 +459,7 @@ ava.test('.queryView() should execute a view with one filter', async (test) => {
 })
 
 ava.test('.queryView() should execute a view with more than one filter', async (test) => {
-  const elementId = await test.context.database.insertCard({
+  const elementId = await test.context.kernel.insertCard({
     type: 'card',
     tags: [ 'foo' ],
     links: [],
@@ -469,7 +469,7 @@ ava.test('.queryView() should execute a view with more than one filter', async (
     }
   })
 
-  await test.context.database.insertCard({
+  await test.context.kernel.insertCard({
     type: 'card',
     tags: [],
     links: [],
@@ -479,7 +479,7 @@ ava.test('.queryView() should execute a view with more than one filter', async (
     }
   })
 
-  const id = await test.context.database.insertCard({
+  const id = await test.context.kernel.insertCard({
     type: 'view',
     tags: [],
     links: [],
@@ -525,7 +525,7 @@ ava.test('.queryView() should execute a view with more than one filter', async (
     }
   })
 
-  const results = await test.context.database.queryView(id)
+  const results = await test.context.kernel.queryView(id)
   test.deepEqual(results, [
     {
       id: elementId,
