@@ -392,17 +392,17 @@ ava.test('.getTimeline() should fail if the id does not exist', async (test) => 
   await test.throws(test.context.database.getTimeline('4a962ad9-20b5-4dd8-a707-bf819593cc84'), errors.JellyfishNoElement)
 })
 
-ava.test('.query() should throw if the view does not exist', async (test) => {
-  await test.throws(test.context.database.query('xxxxxxxxxxxxxxxxxxx'), errors.JellyfishNoView)
+ava.test('.queryView() should throw if the view does not exist', async (test) => {
+  await test.throws(test.context.database.queryView('xxxxxxxxxxxxxxxxxxx'), errors.JellyfishNoView)
 })
 
-ava.test('.query() should throw if the view is not of type view', async (test) => {
+ava.test('.queryView() should throw if the view is not of type view', async (test) => {
   const card = await test.context.database.getCard('card')
   test.truthy(card.id)
-  await test.throws(test.context.database.query(card.id), errors.JellyfishSchemaMismatch)
+  await test.throws(test.context.database.queryView(card.id), errors.JellyfishSchemaMismatch)
 })
 
-ava.test('.query() should execute a view with one filter', async (test) => {
+ava.test('.queryView() should execute a view with one filter', async (test) => {
   const elementId = await test.context.database.insertCard({
     type: 'card',
     tags: [],
@@ -443,7 +443,7 @@ ava.test('.query() should execute a view with one filter', async (test) => {
     }
   })
 
-  const results = await test.context.database.query(id)
+  const results = await test.context.database.queryView(id)
   test.deepEqual(results, [
     {
       id: elementId,
@@ -458,7 +458,7 @@ ava.test('.query() should execute a view with one filter', async (test) => {
   ])
 })
 
-ava.test('.query() should execute a view with more than one filter', async (test) => {
+ava.test('.queryView() should execute a view with more than one filter', async (test) => {
   const elementId = await test.context.database.insertCard({
     type: 'card',
     tags: [ 'foo' ],
@@ -525,7 +525,7 @@ ava.test('.query() should execute a view with more than one filter', async (test
     }
   })
 
-  const results = await test.context.database.query(id)
+  const results = await test.context.database.queryView(id)
   test.deepEqual(results, [
     {
       id: elementId,
