@@ -84,20 +84,6 @@ ava.test('.getSchema() should return null given an known card that is not a type
   test.deepEqual(schema, null)
 })
 
-ava.test('.getContext() should return a valid actor', async (test) => {
-  const context = await test.context.surface.getContext()
-  test.true(jsonSchema.isValid(await test.context.surface.getSchema('card'), context.actor))
-  test.true(jsonSchema.isValid(await test.context.surface.getSchema('user'), context.actor))
-})
-
-ava.test('.getContext() should return a valid timestamp', async (test) => {
-  const context = await test.context.surface.getContext()
-  test.true(jsonSchema.isValid({
-    type: 'string',
-    format: 'date-time'
-  }, context.timestamp))
-})
-
 ava.test('.executeAction() should fail if the action id does not exist', async (test) => {
   await test.throws(test.context.surface.executeAction('xxxxxxxxx', 'event', {
     properties: {
