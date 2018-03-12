@@ -88,11 +88,12 @@ ava.test('.insertCard() should be able to insert a card', async (test) => {
     links: [],
     tags: [],
     data: {
-      email: 'johndoe@example.com'
+      email: 'johndoe@example.com',
+      roles: []
     }
   })
 
-  const element = await test.context.backend.getElementById(test.context.table, id)
+  const element = await test.context.kernel.getCard(id)
 
   test.deepEqual(element, {
     id,
@@ -102,7 +103,8 @@ ava.test('.insertCard() should be able to insert a card', async (test) => {
     links: [],
     tags: [],
     data: {
-      email: 'johndoe@example.com'
+      email: 'johndoe@example.com',
+      roles: []
     }
   })
 })
@@ -115,7 +117,8 @@ ava.test('.insertCard() should throw if the card already exists', async (test) =
     links: [],
     tags: [],
     data: {
-      email: 'johndoe@example.com'
+      email: 'johndoe@example.com',
+      roles: []
     }
   }
 
@@ -131,7 +134,8 @@ ava.test('.insertCard() should replace an element given override is true', async
     links: [],
     tags: [],
     data: {
-      email: 'johndoe@example.com'
+      email: 'johndoe@example.com',
+      roles: []
     }
   })
 
@@ -142,7 +146,8 @@ ava.test('.insertCard() should replace an element given override is true', async
     links: [],
     tags: [],
     data: {
-      email: 'johndoe@example.io'
+      email: 'johndoe@example.io',
+      roles: []
     }
   }, {
     override: true
@@ -150,7 +155,7 @@ ava.test('.insertCard() should replace an element given override is true', async
 
   test.is(id1, id2)
 
-  const element = await test.context.backend.getElementById(test.context.table, id1)
+  const element = await test.context.kernel.getCard(id1)
 
   test.deepEqual(element, {
     id: id1,
@@ -160,7 +165,8 @@ ava.test('.insertCard() should replace an element given override is true', async
     links: [],
     tags: [],
     data: {
-      email: 'johndoe@example.io'
+      email: 'johndoe@example.io',
+      roles: []
     }
   })
 })

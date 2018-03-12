@@ -117,7 +117,8 @@ ava.test('.getCard() should get a card by its id', async (test) => {
     links: [],
     tags: [],
     data: {
-      email: 'johndoe@example.com'
+      email: 'johndoe@example.com',
+      roles: []
     }
   })
 
@@ -131,7 +132,8 @@ ava.test('.getCard() should get a card by its id', async (test) => {
     links: [],
     tags: [],
     data: {
-      email: 'johndoe@example.com'
+      email: 'johndoe@example.com',
+      roles: []
     }
   })
 })
@@ -144,7 +146,8 @@ ava.test('.getCard() should get a card by its slug', async (test) => {
     links: [],
     tags: [],
     data: {
-      email: 'johndoe@example.com'
+      email: 'johndoe@example.com',
+      roles: []
     }
   })
 
@@ -158,7 +161,8 @@ ava.test('.getCard() should get a card by its slug', async (test) => {
     links: [],
     tags: [],
     data: {
-      email: 'johndoe@example.com'
+      email: 'johndoe@example.com',
+      roles: []
     }
   })
 })

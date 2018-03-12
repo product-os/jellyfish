@@ -22,7 +22,8 @@ ava.test('should replace an existing card and add an update event if upsert is t
     properties: {
       slug: 'johndoe',
       data: {
-        email: 'johndoe@example.com'
+        email: 'johndoe@example.com',
+        roles: []
       }
     },
     upsert: false
@@ -32,7 +33,8 @@ ava.test('should replace an existing card and add an update event if upsert is t
     properties: {
       slug: 'johndoe',
       data: {
-        email: 'johndoe@gmail.com'
+        email: 'johndoe@gmail.com',
+        roles: []
       }
     },
     upsert: true
@@ -50,7 +52,8 @@ ava.test('should replace an existing card and add an update event if upsert is t
     links: [],
     active: true,
     data: {
-      email: 'johndoe@gmail.com'
+      email: 'johndoe@gmail.com',
+      roles: []
     }
   })
 
@@ -63,7 +66,8 @@ ava.test('should replace an existing card and add an update event if upsert is t
     links: [],
     active: true,
     data: {
-      email: 'johndoe@gmail.com'
+      email: 'johndoe@gmail.com',
+      roles: []
     }
   })
 })
@@ -73,7 +77,8 @@ ava.test('should create a card while upsert is true and add a create but not upd
     properties: {
       slug: 'johndoe',
       data: {
-        email: 'johndoe@example.com'
+        email: 'johndoe@example.com',
+        roles: []
       }
     },
     upsert: true
@@ -89,7 +94,8 @@ ava.test('should create a card while upsert is true and add a create but not upd
     links: [],
     active: true,
     data: {
-      email: 'johndoe@example.com'
+      email: 'johndoe@example.com',
+      roles: []
     }
   })
 

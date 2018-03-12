@@ -19,11 +19,21 @@
             "email": {
               "type": "string",
               "format": "email"
+            },
+            "roles": {
+              "type": "array",
+              "minItems": 0,
+              "items": {
+                "type": "string",
+                "pattern": "^[a-z0-9-]+$"
+              },
+              "uniqueItems": true
             }
           },
           "additionalProperties": false,
           "required": [
-            "email"
+            "email",
+            "roles"
           ]
         }
       },

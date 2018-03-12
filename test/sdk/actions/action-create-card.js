@@ -23,7 +23,8 @@ ava.test('should create a card', async (test) => {
     properties: {
       slug: 'johndoe',
       data: {
-        email: 'johndoe@example.com'
+        email: 'johndoe@example.com',
+        roles: []
       }
     }
   })
@@ -38,7 +39,8 @@ ava.test('should create a card', async (test) => {
     links: [],
     active: true,
     data: {
-      email: 'johndoe@example.com'
+      email: 'johndoe@example.com',
+      roles: []
     }
   })
 
@@ -58,7 +60,8 @@ ava.test('should fail if the card already exists', async (test) => {
   const card = {
     slug: 'johndoe',
     data: {
-      email: 'johndoe@example.com'
+      email: 'johndoe@example.com',
+      roles: []
     }
   }
 
@@ -80,7 +83,8 @@ ava.test('should create an inactive card', async (test) => {
       slug: 'johndoe',
       active: false,
       data: {
-        email: 'johndoe@example.com'
+        email: 'johndoe@example.com',
+        roles: []
       }
     }
   })
@@ -95,7 +99,8 @@ ava.test('should create an inactive card', async (test) => {
     links: [],
     active: false,
     data: {
-      email: 'johndoe@example.com'
+      email: 'johndoe@example.com',
+      roles: []
     }
   })
 })
