@@ -10,7 +10,7 @@
     "url": "git@github.com:resin-io/jellyfish.git"
   },
   "scripts": {
-    "start": "node lib/server.js",
+    "start": "DEBUG=jellyfish:* node lib/server.js",
     "test": "npm run lint && TEST_DB_HOST=localhost TEST_PROXY_PORT=9999 TEST_DB_PORT=28015 NODE_ENV=test nyc --reporter=lcov ava",
     "lint": "eslint lib test"
   },
@@ -39,6 +39,7 @@
   "dependencies": {
     "ajv": "^6.2.0",
     "bluebird": "^3.5.1",
+    "debug": "^3.1.0",
     "express": "^4.16.2",
     "json-schema-merge-allof": "^0.6.0",
     "lodash": "^4.17.5",
