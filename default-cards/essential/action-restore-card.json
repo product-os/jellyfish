@@ -10,9 +10,7 @@
     "arguments": {},
     "options": {
       "property": "active",
-      "value": true,
-      "eventName": "restore",
-      "eventPayload": {}
+      "value": true
     }
   }
 }

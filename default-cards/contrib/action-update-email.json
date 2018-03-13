@@ -25,13 +25,7 @@
     },
     "options": {
       "property": "email",
-      "value": "{{arguments.email}}",
-      "eventName": "update",
-      "eventPayload": {
-        "data": {
-          "email": "{{arguments.email}}"
-        }
-      }
+      "value": "{{arguments.email}}"
     }
   }
 }

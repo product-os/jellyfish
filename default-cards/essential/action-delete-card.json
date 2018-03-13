@@ -10,9 +10,7 @@
     "arguments": {},
     "options": {
       "property": "active",
-      "value": false,
-      "eventName": "delete",
-      "eventPayload": {}
+      "value": false
     }
   }
 }

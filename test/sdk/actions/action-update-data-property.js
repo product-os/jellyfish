@@ -21,13 +21,7 @@ ava.test('should update a data property', async (test) => {
 
   const id = await test.context.surface.executeAction('action-update-data-property', target.slug, {
     property: 'email',
-    value: 'foobar@example.com',
-    eventName: 'update',
-    eventPayload: {
-      data: {
-        email: 'foobar@example.com'
-      }
-    }
+    value: 'foobar@example.com'
   })
 
   test.is(id, target.id)
@@ -50,13 +44,7 @@ ava.test('should not create an event if the change is already there', async (tes
 
   const id = await test.context.surface.executeAction('action-update-data-property', target.slug, {
     property: 'email',
-    value: target.data.email,
-    eventName: 'update',
-    eventPayload: {
-      data: {
-        email: target.data.email
-      }
-    }
+    value: target.data.email
   })
 
   test.is(id, target.id)
