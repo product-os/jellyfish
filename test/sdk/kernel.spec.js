@@ -171,6 +171,305 @@ ava.test('.insertCard() should replace an element given override is true', async
   })
 })
 
+ava.test('.getCard() should find an active card by its id', async (test) => {
+  const id = await test.context.kernel.insertCard({
+    slug: 'johndoe',
+    type: 'user',
+    active: true,
+    links: [],
+    tags: [],
+    data: {
+      email: 'johndoe@example.io',
+      roles: []
+    }
+  })
+
+  const card = await test.context.kernel.getCard(id)
+
+  test.deepEqual(card, {
+    id,
+    slug: 'johndoe',
+    type: 'user',
+    active: true,
+    links: [],
+    tags: [],
+    data: {
+      email: 'johndoe@example.io',
+      roles: []
+    }
+  })
+})
+
+ava.test('.getCard() should find an active card by its slug', async (test) => {
+  const id = await test.context.kernel.insertCard({
+    slug: 'johndoe',
+    type: 'user',
+    active: true,
+    links: [],
+    tags: [],
+    data: {
+      email: 'johndoe@example.io',
+      roles: []
+    }
+  })
+
+  const card = await test.context.kernel.getCard('johndoe')
+
+  test.deepEqual(card, {
+    id,
+    slug: 'johndoe',
+    type: 'user',
+    active: true,
+    links: [],
+    tags: [],
+    data: {
+      email: 'johndoe@example.io',
+      roles: []
+    }
+  })
+})
+
+ava.test('.getCard() should not return an inactive card by its id', async (test) => {
+  const id = await test.context.kernel.insertCard({
+    slug: 'johndoe',
+    type: 'user',
+    active: false,
+    links: [],
+    tags: [],
+    data: {
+      email: 'johndoe@example.io',
+      roles: []
+    }
+  })
+
+  const card = await test.context.kernel.getCard(id)
+  test.deepEqual(card, null)
+})
+
+ava.test('.getCard() should not return an inactive card by its slug', async (test) => {
+  await test.context.kernel.insertCard({
+    slug: 'johndoe',
+    type: 'user',
+    active: false,
+    links: [],
+    tags: [],
+    data: {
+      email: 'johndoe@example.io',
+      roles: []
+    }
+  })
+
+  const card = await test.context.kernel.getCard('johndoe')
+  test.deepEqual(card, null)
+})
+
+ava.test('.getCard() should return an inactive card by its id if the inactive option is true', async (test) => {
+  const id = await test.context.kernel.insertCard({
+    slug: 'johndoe',
+    type: 'user',
+    active: false,
+    links: [],
+    tags: [],
+    data: {
+      email: 'johndoe@example.io',
+      roles: []
+    }
+  })
+
+  const card = await test.context.kernel.getCard(id, {
+    inactive: true
+  })
+
+  test.deepEqual(card, {
+    id,
+    slug: 'johndoe',
+    type: 'user',
+    active: false,
+    links: [],
+    tags: [],
+    data: {
+      email: 'johndoe@example.io',
+      roles: []
+    }
+  })
+})
+
+ava.test('.getCard() should return an inactive card by its slug if the inactive option is true', async (test) => {
+  const id = await test.context.kernel.insertCard({
+    slug: 'johndoe',
+    type: 'user',
+    active: false,
+    links: [],
+    tags: [],
+    data: {
+      email: 'johndoe@example.io',
+      roles: []
+    }
+  })
+
+  const card = await test.context.kernel.getCard('johndoe', {
+    inactive: true
+  })
+
+  test.deepEqual(card, {
+    id,
+    slug: 'johndoe',
+    type: 'user',
+    active: false,
+    links: [],
+    tags: [],
+    data: {
+      email: 'johndoe@example.io',
+      roles: []
+    }
+  })
+})
+
+ava.test('.query() should return the cards that match a schema', async (test) => {
+  const id1 = await test.context.kernel.insertCard({
+    slug: 'johndoe',
+    type: 'user',
+    active: true,
+    links: [],
+    tags: [],
+    data: {
+      email: 'johndoe@example.io',
+      roles: []
+    }
+  })
+
+  await test.context.kernel.insertCard({
+    slug: 'johnsmith',
+    type: 'user',
+    active: true,
+    links: [],
+    tags: [],
+    data: {
+      email: 'johnsmith@example.io',
+      roles: []
+    }
+  })
+
+  const results = await test.context.kernel.query({
+    type: 'object',
+    properties: {
+      slug: {
+        type: 'string',
+        pattern: 'doe$'
+      }
+    },
+    required: [ 'slug' ]
+  })
+
+  test.deepEqual(results, [
+    {
+      id: id1,
+      slug: 'johndoe',
+      type: 'user',
+      active: true,
+      links: [],
+      tags: [],
+      data: {
+        email: 'johndoe@example.io',
+        roles: []
+      }
+    }
+  ])
+})
+
+ava.test('.query() should not return inactive cards by default', async (test) => {
+  await test.context.kernel.insertCard({
+    slug: 'johndoe',
+    type: 'user',
+    active: false,
+    links: [],
+    tags: [],
+    data: {
+      email: 'johndoe@example.io',
+      roles: []
+    }
+  })
+
+  await test.context.kernel.insertCard({
+    slug: 'johnsmith',
+    type: 'user',
+    active: false,
+    links: [],
+    tags: [],
+    data: {
+      email: 'johnsmith@example.io',
+      roles: []
+    }
+  })
+
+  const results = await test.context.kernel.query({
+    type: 'object',
+    properties: {
+      slug: {
+        type: 'string',
+        pattern: 'doe$'
+      }
+    },
+    required: [ 'slug' ]
+  })
+
+  test.deepEqual(results, [])
+})
+
+ava.test('.query() should return inactive cards if the inactive option is true', async (test) => {
+  await test.context.kernel.insertCard({
+    slug: 'johndoe',
+    type: 'user',
+    active: true,
+    links: [],
+    tags: [],
+    data: {
+      email: 'johndoe@example.io',
+      roles: []
+    }
+  })
+
+  const id = await test.context.kernel.insertCard({
+    slug: 'johnsmith',
+    type: 'user',
+    active: false,
+    links: [],
+    tags: [],
+    data: {
+      email: 'johnsmith@example.io',
+      roles: []
+    }
+  })
+
+  const results = await test.context.kernel.query({
+    type: 'object',
+    properties: {
+      slug: {
+        type: 'string',
+        pattern: 'smith$'
+      }
+    },
+    required: [ 'slug' ]
+  }, {
+    inactive: true
+  })
+
+  test.deepEqual(results, [
+    {
+      id,
+      slug: 'johnsmith',
+      type: 'user',
+      active: false,
+      links: [],
+      tags: [],
+      data: {
+        email: 'johnsmith@example.io',
+        roles: []
+      }
+    }
+  ])
+})
+
 ava.test('.getContext() should return a valid actor', async (test) => {
   const context = await test.context.kernel.getContext()
   test.true(jsonSchema.isValid(cardType.getSchema(CARDS.core.card), context.actor))

@@ -89,7 +89,9 @@ ava.test('should create an inactive card', async (test) => {
     }
   })
 
-  const card = await test.context.surface.getCard(id)
+  const card = await test.context.surface.getCard(id, {
+    inactive: true
+  })
 
   test.deepEqual(card, {
     id,
