@@ -34,18 +34,24 @@
             },
             "executed": {
               "type": "boolean",
-              "dependencies": [
-                { "value": true, "id": "result" }
-              ]
+              "dependencies": {
+                "result": {
+                  "const": true
+                }
+              }
             },
             "result": {
               "type": "object",
               "properties": {
+                "timestamp": {
+                  "type": "string",
+                  "format": "date-time"
+                },
                 "data": {
                   "type": "object"
                 }
               },
-              "required": []
+              "required": [ "timestamp", "data" ]
             },
             "arguments": {
               "type": "object"

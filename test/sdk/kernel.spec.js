@@ -33,11 +33,13 @@ ava.test.beforeEach(async (test) => {
   await test.context.backend.connect()
   await test.context.backend.reset()
 
+  test.context.buckets = {
+    cards: 'cards',
+    requests: 'requests'
+  }
+
   test.context.kernel = new Kernel(test.context.backend, {
-    buckets: {
-      cards: 'cards',
-      requests: 'requests'
-    }
+    buckets: test.context.buckets
   })
 
   await test.context.kernel.initialize()
@@ -171,6 +173,31 @@ ava.test('.insertCard() should replace an element given override is true', async
       roles: []
     }
   })
+})
+
+ava.test('.insertCard() should insert action requests on a different bucket', async (test) => {
+  const request = {
+    type: 'action-request',
+    active: true,
+    links: [],
+    tags: [],
+    data: {
+      action: 'action-foo',
+      actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+      target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+      timestamp: '2018-03-14T21:10:45.921Z',
+      executed: false,
+      arguments: {
+        foo: 'bar'
+      }
+    }
+  }
+
+  const id = await test.context.kernel.insertCard(request)
+  test.deepEqual(await test.context.backend.getElementById(test.context.buckets.cards, id), null)
+  test.deepEqual(await test.context.backend.getElementById(test.context.buckets.requests, id), Object.assign({
+    id
+  }, request))
 })
 
 ava.test('.getCard() should find an active card by its id', async (test) => {
