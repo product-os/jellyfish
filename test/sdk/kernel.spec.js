@@ -15,6 +15,7 @@
  */
 
 const ava = require('ava')
+const _ = require('lodash')
 const randomstring = require('randomstring')
 const Backend = require('../../lib/sdk/backend')
 const Kernel = require('../../lib/sdk/kernel')
@@ -443,6 +444,119 @@ ava.test('.query() should not return inactive cards by default', async (test) =>
   })
 
   test.deepEqual(results, [])
+})
+
+ava.test('.query() should query all cards of a certain type', async (test) => {
+  await test.context.kernel.insertCard({
+    slug: 'johndoe',
+    type: 'user',
+    active: true,
+    links: [],
+    tags: [],
+    data: {
+      email: 'johndoe@example.io',
+      roles: []
+    }
+  })
+
+  const results = await test.context.kernel.query({
+    type: 'object',
+    properties: {
+      type: {
+        type: 'string',
+        const: 'user'
+      }
+    },
+    required: [ 'type' ]
+  })
+
+  test.deepEqual(_.sortBy(_.map(results, 'slug')), [ 'admin', 'johndoe' ])
+})
+
+ava.test('.query() should return all action request cards', async (test) => {
+  const request = {
+    type: 'action-request',
+    active: true,
+    links: [],
+    tags: [],
+    data: {
+      action: 'action-foo',
+      actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+      target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+      timestamp: '2018-03-14T21:10:45.921Z',
+      executed: false,
+      arguments: {
+        foo: 'bar'
+      }
+    }
+  }
+
+  const id = await test.context.kernel.insertCard(request)
+
+  const results = await test.context.kernel.query({
+    type: 'object',
+    properties: {
+      type: {
+        type: 'string',
+        const: 'action-request'
+      }
+    },
+    required: [ 'type' ]
+  })
+
+  test.deepEqual(results, [
+    Object.assign({
+      id
+    }, request)
+  ])
+})
+
+ava.test('.query() should be able to return both action requests and other cards', async (test) => {
+  const id1 = await test.context.kernel.insertCard({
+    type: 'action-request',
+    active: true,
+    links: [],
+    tags: [],
+    data: {
+      action: 'action-foo',
+      actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+      target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+      timestamp: '2018-03-14T21:10:45.921Z',
+      executed: false,
+      arguments: {
+        foo: 'bar'
+      }
+    }
+  })
+
+  const id2 = await test.context.kernel.insertCard({
+    type: 'card',
+    active: true,
+    links: [],
+    tags: [],
+    data: {
+      executed: false
+    }
+  })
+
+  const results = await test.context.kernel.query({
+    type: 'object',
+    properties: {
+      data: {
+        type: 'object',
+        properties: {
+          executed: {
+            type: 'boolean',
+            const: false
+          }
+        },
+        required: [ 'executed' ]
+      }
+    },
+    required: [ 'data' ]
+  })
+
+  test.deepEqual(_.orderBy(_.map(results, 'id')), _.orderBy([ id1, id2 ]))
 })
 
 ava.test('.query() should return inactive cards if the inactive option is true', async (test) => {
