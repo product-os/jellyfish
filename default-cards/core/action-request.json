@@ -1,0 +1,68 @@
+{
+  "slug": "action-request",
+  "type": "type",
+  "name": "Jellyfish Action Request",
+  "tags": [],
+  "links": [],
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "action-request"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "pattern": "^[a-z0-9-]+$"
+            },
+            "actor": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "target": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "timestamp": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "executed": {
+              "type": "boolean",
+              "dependencies": [
+                { "value": true, "id": "result" }
+              ]
+            },
+            "result": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "object"
+                }
+              },
+              "required": []
+            },
+            "arguments": {
+              "type": "object"
+            }
+          },
+          "required": [
+            "action",
+            "actor",
+            "target",
+            "timestamp",
+            "executed",
+            "arguments"
+          ]
+        }
+      },
+      "additionalProperties": true,
+      "required": [ "type", "data" ]
+    }
+  }
+}
