@@ -48,7 +48,7 @@
                   "format": "date-time"
                 },
                 "data": {
-                  "type": "object"
+                  "type": [ "object", "string", "number", "boolean", "array" ]
                 }
               },
               "required": [ "timestamp", "data" ]
