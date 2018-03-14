@@ -30,10 +30,10 @@ ava.test.beforeEach(async (test) => {
   await test.context.backend.connect()
   await test.context.backend.reset()
 
-  test.context.table = 'cards'
   test.context.kernel = new Kernel(test.context.backend, {
     buckets: {
-      cards: test.context.table
+      cards: 'cards',
+      requests: 'requests'
     }
   })
 

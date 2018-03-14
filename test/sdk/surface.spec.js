@@ -35,7 +35,8 @@ ava.test.beforeEach(async (test) => {
 
   test.context.kernel = new Kernel(test.context.backend, {
     buckets: {
-      cards: 'cards'
+      cards: 'cards',
+      requests: 'requests'
     }
   })
 
