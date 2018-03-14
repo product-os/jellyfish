@@ -32,7 +32,9 @@ ava.test.beforeEach(async (test) => {
 
   test.context.table = 'cards'
   test.context.kernel = new Kernel(test.context.backend, {
-    bucket: test.context.table
+    buckets: {
+      cards: test.context.table
+    }
   })
 
   test.context.surface = new Surface(test.context.kernel)

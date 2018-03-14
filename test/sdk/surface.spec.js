@@ -34,7 +34,9 @@ ava.test.beforeEach(async (test) => {
   await test.context.backend.reset()
 
   test.context.kernel = new Kernel(test.context.backend, {
-    bucket: 'cards'
+    buckets: {
+      cards: 'cards'
+    }
   })
 
   test.context.surface = new Surface(test.context.kernel)
