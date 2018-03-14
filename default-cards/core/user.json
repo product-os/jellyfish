@@ -30,14 +30,12 @@
               "uniqueItems": true
             }
           },
-          "additionalProperties": false,
           "required": [
             "email",
             "roles"
           ]
         }
       },
-      "additionalProperties": true,
       "required": [ "slug", "data" ]
     }
   }

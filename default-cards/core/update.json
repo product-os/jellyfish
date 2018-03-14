@@ -64,7 +64,6 @@
               "required": []
             }
           },
-          "additionalProperties": false,
           "required": [
             "timestamp",
             "target",
@@ -73,7 +72,6 @@
           ]
         }
       },
-      "additionalProperties": true,
       "required": [ "data" ]
     }
   }

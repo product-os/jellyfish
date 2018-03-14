@@ -28,7 +28,6 @@
               "type": "object"
             }
           },
-          "additionalProperties": false,
           "required": [
             "timestamp",
             "target",

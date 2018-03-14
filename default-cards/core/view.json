@@ -32,7 +32,6 @@
                         "const": "object"
                       }
                     },
-                    "additionalProperties": true,
                     "required": [ "type" ]
                   }
                 },
@@ -41,11 +40,9 @@
               }
             }
           },
-          "additionalProperties": false,
           "required": [ "filters" ]
         }
       },
-      "additionalProperties": true,
       "required": [ "data" ]
     }
   }
