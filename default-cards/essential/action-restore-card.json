@@ -6,11 +6,12 @@
   "links": [],
   "active": true,
   "data": {
-    "extends": "action-update-header-property",
+    "extends": "action-update-card",
     "arguments": {},
     "options": {
-      "property": "active",
-      "value": true
+      "properties": {
+        "active": true
+      }
     }
   }
 }
