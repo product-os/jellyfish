@@ -629,7 +629,7 @@ ava.test('.upsertElement() should insert an element with a non-matching id nor s
   })
 })
 
-ava.test('.querySchema() should query the database using JSON schema', async (test) => {
+ava.test('.query() should query the database using JSON schema', async (test) => {
   await test.context.backend.createTable('test')
 
   const uuid1 = await test.context.backend.upsertElement('test', {
@@ -647,7 +647,7 @@ ava.test('.querySchema() should query the database using JSON schema', async (te
     test: 3
   })
 
-  const results = await test.context.backend.querySchema('test', {
+  const results = await test.context.backend.query('test', {
     type: 'object',
     additionalProperties: true,
     properties: {
@@ -673,7 +673,7 @@ ava.test('.querySchema() should query the database using JSON schema', async (te
   ])
 })
 
-ava.test('.querySchema() should query an element by its id', async (test) => {
+ava.test('.query() should query an element by its id', async (test) => {
   await test.context.backend.createTable('test')
 
   const uuid = await test.context.backend.upsertElement('test', {
@@ -681,7 +681,7 @@ ava.test('.querySchema() should query an element by its id', async (test) => {
     test: 1
   })
 
-  const results = await test.context.backend.querySchema('test', {
+  const results = await test.context.backend.query('test', {
     type: 'object',
     additionalProperties: true,
     properties: {
@@ -702,7 +702,7 @@ ava.test('.querySchema() should query an element by its id', async (test) => {
   ])
 })
 
-ava.test('.querySchema() should query an element by its slug', async (test) => {
+ava.test('.query() should query an element by its slug', async (test) => {
   await test.context.backend.createTable('test')
 
   const uuid = await test.context.backend.upsertElement('test', {
@@ -711,7 +711,7 @@ ava.test('.querySchema() should query an element by its slug', async (test) => {
     test: 1
   })
 
-  const results = await test.context.backend.querySchema('test', {
+  const results = await test.context.backend.query('test', {
     type: 'object',
     additionalProperties: true,
     properties: {

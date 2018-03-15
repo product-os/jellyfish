@@ -12,7 +12,7 @@ const backend = new Backend({
 })
 
 backend.connect().then(() => {
-  return backend.querySchema('cards', {
+  return backend.query('cards', {
     type: 'object',
     additionalProperties: true,
     properties: {
