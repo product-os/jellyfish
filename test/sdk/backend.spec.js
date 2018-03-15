@@ -829,6 +829,12 @@ ava.test.cb('.stream() should report back changes to certain elements', (test) =
       test: 1
     })
   }).then(() => {
+    return test.context.backend.insertElement('test', {
+      type: 'bar',
+      slug: 'qux',
+      test: 1
+    })
+  }).then(() => {
     return test.context.backend.stream('test', {
       type: 'object',
       properties: {
@@ -862,6 +868,12 @@ ava.test.cb('.stream() should report back changes to certain elements', (test) =
       slug: 'hello',
       type: 'foo',
       test: 2
+    }).then(() => {
+      return test.context.backend.updateElement('test', {
+        slug: 'qux',
+        type: 'bar',
+        test: 2
+      })
     })
   }).catch(test.end)
 })
