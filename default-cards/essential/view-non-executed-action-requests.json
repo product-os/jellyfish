@@ -1,0 +1,44 @@
+{
+  "slug": "view-non-executed-action-requests",
+  "name": "Non-executed action requests",
+  "type": "view",
+  "tags": [],
+  "links": [],
+  "active": true,
+  "data": {
+    "filters": [
+      {
+        "name": "Action Requests",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "action-request"
+            }
+          },
+          "required": [ "type" ]
+        }
+      },
+      {
+        "name": "Non-executed",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "object",
+              "properties": {
+                "executed": {
+                  "type": "boolean",
+                  "const": false
+                }
+              },
+              "required": [ "executed" ]
+            }
+          },
+          "required": [ "data" ]
+        }
+      }
+    ]
+  }
+}
