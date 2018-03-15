@@ -470,7 +470,7 @@ ava.test('.query() should query all cards of a certain type', async (test) => {
     required: [ 'type' ]
   })
 
-  test.deepEqual(_.sortBy(_.map(results, 'slug')), [ 'admin', 'johndoe' ])
+  test.deepEqual(_.sortBy(_.map(results, 'slug')), [ 'admin', 'johndoe', 'user-actions' ])
 })
 
 ava.test('.query() should return all action request cards', async (test) => {
