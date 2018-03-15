@@ -703,6 +703,31 @@ ava.test('.query() should query an element by its id', async (test) => {
   ])
 })
 
+ava.test('.query() should fail to query an element by its id', async (test) => {
+  await test.context.backend.createTable('test')
+
+  const uuid = await test.context.backend.upsertElement('test', {
+    type: 'example',
+    test: 1
+  })
+
+  test.not(uuid, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
+
+  const results = await test.context.backend.query('test', {
+    type: 'object',
+    additionalProperties: true,
+    properties: {
+      id: {
+        type: 'string',
+        const: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
+      }
+    },
+    required: [ 'id' ]
+  })
+
+  test.deepEqual(results, [])
+})
+
 ava.test('.query() should query an element by its slug', async (test) => {
   await test.context.backend.createTable('test')
 
@@ -732,6 +757,30 @@ ava.test('.query() should query an element by its slug', async (test) => {
       test: 1
     }
   ])
+})
+
+ava.test('.query() should fail to query an element by its slug', async (test) => {
+  await test.context.backend.createTable('test')
+
+  await test.context.backend.upsertElement('test', {
+    type: 'example',
+    slug: 'hello',
+    test: 1
+  })
+
+  const results = await test.context.backend.query('test', {
+    type: 'object',
+    additionalProperties: true,
+    properties: {
+      slug: {
+        type: 'string',
+        const: 'xxxxxxxxx'
+      }
+    },
+    required: [ 'slug' ]
+  })
+
+  test.deepEqual(results, [])
 })
 
 ava.test.cb('.stream() should report back new elements that match a certain type', (test) => {
