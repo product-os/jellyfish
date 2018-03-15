@@ -18,7 +18,7 @@ const _ = require('lodash')
 const ava = require('ava')
 const errors = require('../../../lib/sdk/errors')
 
-ava.test('should replace an existing card and add an update event', async (test) => {
+ava.test('should replace an existing card and add an update event using a slug', async (test) => {
   const id1 = await test.context.surface.executeAction('action-create-card', 'user', {
     properties: {
       slug: 'johndoe',
@@ -66,6 +66,51 @@ ava.test('should replace an existing card and add an update event', async (test)
     data: {
       email: 'johndoe@gmail.com',
       roles: []
+    }
+  })
+})
+
+ava.test('should replace an existing card and add an update event without using a slug', async (test) => {
+  const id1 = await test.context.surface.executeAction('action-create-card', 'card', {
+    properties: {
+      data: {
+        foo: 'bar'
+      }
+    }
+  })
+
+  const id2 = await test.context.surface.executeAction('action-update-card', id1, {
+    properties: {
+      data: {
+        foo: 'baz'
+      }
+    }
+  })
+
+  test.is(id1, id2)
+
+  const card = await test.context.surface.getCard(id1)
+
+  test.deepEqual(card, {
+    id: id1,
+    type: 'card',
+    tags: [],
+    links: [],
+    active: true,
+    data: {
+      foo: 'baz'
+    }
+  })
+
+  const timeline = await test.context.surface.getTimeline(id1)
+  test.deepEqual(_.map(timeline, 'type'), [ 'create', 'update' ])
+
+  test.deepEqual(timeline[1].data.payload, {
+    tags: [],
+    links: [],
+    active: true,
+    data: {
+      foo: 'baz'
     }
   })
 })
