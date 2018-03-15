@@ -796,8 +796,9 @@ ava.test.cb('.stream() should report back new elements that match a certain type
       required: [ 'type' ]
     })
   }).then((emitter) => {
-    emitter.on('add', (element) => {
-      test.deepEqual(_.omit(element, [ 'id' ]), {
+    emitter.on('data', (change) => {
+      test.deepEqual(change.before, null)
+      test.deepEqual(_.omit(change.after, [ 'id' ]), {
         type: 'foo',
         test: 1
       })
@@ -822,6 +823,12 @@ ava.test.cb('.stream() should report back new elements that match a certain type
 
 ava.test.cb('.stream() should report back changes to certain elements', (test) => {
   test.context.backend.createTable('test').then(() => {
+    return test.context.backend.insertElement('test', {
+      type: 'foo',
+      slug: 'hello',
+      test: 1
+    })
+  }).then(() => {
     return test.context.backend.stream('test', {
       type: 'object',
       properties: {
@@ -833,8 +840,15 @@ ava.test.cb('.stream() should report back changes to certain elements', (test) =
       required: [ 'type' ]
     })
   }).then((emitter) => {
-    emitter.on('change', (element) => {
-      test.deepEqual(_.omit(element, [ 'id' ]), {
+    emitter.on('data', (change) => {
+      test.deepEqual(_.omit(change.before, [ 'id' ]), {
+        slug: 'hello',
+        type: 'foo',
+        test: 1
+      })
+
+      test.deepEqual(_.omit(change.after, [ 'id' ]), {
+        slug: 'hello',
         type: 'foo',
         test: 2
       })
@@ -844,15 +858,10 @@ ava.test.cb('.stream() should report back changes to certain elements', (test) =
 
     emitter.on('closed', test.end)
 
-    return test.context.backend.insertElement('test', {
+    return test.context.backend.updateElement('test', {
+      slug: 'hello',
       type: 'foo',
-      test: 1
-    }).then((id) => {
-      return test.context.backend.updateElement('test', {
-        id,
-        type: 'foo',
-        test: 2
-      })
+      test: 2
     })
   }).catch(test.end)
 })
