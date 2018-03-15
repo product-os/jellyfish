@@ -16,6 +16,7 @@
 
 const ava = require('ava')
 const _ = require('lodash')
+const Bluebird = require('bluebird')
 const randomstring = require('randomstring')
 const Backend = require('../../lib/sdk/backend')
 const errors = require('../../lib/sdk/errors')
@@ -731,4 +732,78 @@ ava.test('.query() should query an element by its slug', async (test) => {
       test: 1
     }
   ])
+})
+
+ava.test.cb('.stream() should report back new elements that match a certain type', (test) => {
+  test.context.backend.createTable('test').then(() => {
+    return test.context.backend.stream('test', {
+      type: 'object',
+      properties: {
+        type: {
+          type: 'string',
+          const: 'foo'
+        }
+      },
+      required: [ 'type' ]
+    })
+  }).then((emitter) => {
+    emitter.on('add', (element) => {
+      test.deepEqual(_.omit(element, [ 'id' ]), {
+        type: 'foo',
+        test: 1
+      })
+
+      emitter.close()
+    })
+
+    emitter.on('closed', test.end)
+
+    return Bluebird.all([
+      test.context.backend.insertElement('test', {
+        type: 'foo',
+        test: 1
+      }),
+      test.context.backend.insertElement('test', {
+        type: 'bar',
+        test: 3
+      })
+    ])
+  }).catch(test.end)
+})
+
+ava.test.cb('.stream() should report back changes to certain elements', (test) => {
+  test.context.backend.createTable('test').then(() => {
+    return test.context.backend.stream('test', {
+      type: 'object',
+      properties: {
+        type: {
+          type: 'string',
+          const: 'foo'
+        }
+      },
+      required: [ 'type' ]
+    })
+  }).then((emitter) => {
+    emitter.on('change', (element) => {
+      test.deepEqual(_.omit(element, [ 'id' ]), {
+        type: 'foo',
+        test: 2
+      })
+
+      emitter.close()
+    })
+
+    emitter.on('closed', test.end)
+
+    return test.context.backend.insertElement('test', {
+      type: 'foo',
+      test: 1
+    }).then((id) => {
+      return test.context.backend.updateElement('test', {
+        id,
+        type: 'foo',
+        test: 2
+      })
+    })
+  }).catch(test.end)
 })
