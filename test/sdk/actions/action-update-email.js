@@ -16,12 +16,11 @@
 
 const ava = require('ava')
 
-ava.test('should update a data property', async (test) => {
+ava.test('should update the user email', async (test) => {
   const target = await test.context.surface.getCard('admin')
 
-  const id = await test.context.surface.executeAction('action-update-data-property', target.slug, {
-    property: 'email',
-    value: 'foobar@example.com'
+  const id = await test.context.surface.executeAction('action-update-email', target.slug, {
+    email: 'foobar@example.com'
   })
 
   test.is(id, target.id)
@@ -48,9 +47,8 @@ ava.test('should update a data property', async (test) => {
 ava.test('should not create an event if the change is already there', async (test) => {
   const target = await test.context.surface.getCard('admin')
 
-  const id = await test.context.surface.executeAction('action-update-data-property', target.slug, {
-    property: 'email',
-    value: target.data.email
+  const id = await test.context.surface.executeAction('action-update-email', target.slug, {
+    email: target.data.email
   })
 
   test.is(id, target.id)

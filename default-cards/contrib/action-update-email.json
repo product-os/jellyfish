@@ -16,7 +16,7 @@
       },
       "required": [ "type" ]
     },
-    "extends": "action-update-data-property",
+    "extends": "action-update-card",
     "arguments": {
       "email": {
         "type": "string",
@@ -24,8 +24,11 @@
       }
     },
     "options": {
-      "property": "email",
-      "value": "{{arguments.email}}"
+      "properties": {
+        "data": {
+          "email": "{{arguments.email}}"
+        }
+      }
     }
   }
 }
