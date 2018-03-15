@@ -16,7 +16,6 @@
       },
       "required": [ "type" ]
     },
-    "extends": "action-insert-card",
     "arguments": {
       "properties": {
         "type": "object",
@@ -59,8 +58,7 @@
       }
     },
     "options": {
-      "properties": "{{arguments.properties}}",
-      "upsert": false
+      "properties": "{{arguments.properties}}"
     }
   }
 }

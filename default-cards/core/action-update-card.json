@@ -1,28 +1,14 @@
 {
-  "slug": "action-insert-card",
+  "slug": "action-update-card",
   "type": "action",
-  "name": "Insert a card",
+  "name": "Update properties of a card",
   "tags": [],
   "links": [],
   "active": true,
   "data": {
-    "filter": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string",
-          "const": "type"
-        }
-      },
-      "required": [ "type" ]
-    },
     "arguments": {
-      "upsert": {
-        "type": "boolean"
-      },
       "properties": {
         "type": "object",
-        "additionalProperties": false,
         "properties": {
           "slug": {
             "type": "string",
@@ -62,8 +48,7 @@
       }
     },
     "options": {
-      "properties": "{{arguments.properties}}",
-      "upsert": "{{arguments.upsert}}"
+      "properties": "{{arguments.properties}}"
     }
   }
 }

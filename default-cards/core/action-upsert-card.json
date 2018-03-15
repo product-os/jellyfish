@@ -1,0 +1,64 @@
+{
+  "slug": "action-upsert-card",
+  "type": "action",
+  "name": "Upsert a card",
+  "tags": [],
+  "links": [],
+  "active": true,
+  "data": {
+    "filter": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "type"
+        }
+      },
+      "required": [ "type" ]
+    },
+    "arguments": {
+      "properties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "slug": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$"
+          },
+          "name": {
+            "type": "string",
+            "pattern": "^.*\\S.*$"
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "tags": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9-]+$"
+            },
+            "uniqueItems": true
+          },
+          "links": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "uniqueItems": true
+          },
+          "data": {
+            "type": "object"
+          }
+        },
+        "required": []
+      }
+    },
+    "options": {
+      "properties": "{{arguments.properties}}"
+    }
+  }
+}

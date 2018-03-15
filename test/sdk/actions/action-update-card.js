@@ -16,28 +16,26 @@
 
 const _ = require('lodash')
 const ava = require('ava')
+const errors = require('../../../lib/sdk/errors')
 
-ava.test('should replace an existing card and add an update event if upsert is true', async (test) => {
-  const id1 = await test.context.surface.executeAction('action-insert-card', 'user', {
+ava.test('should replace an existing card and add an update event', async (test) => {
+  const id1 = await test.context.surface.executeAction('action-create-card', 'user', {
     properties: {
       slug: 'johndoe',
       data: {
         email: 'johndoe@example.com',
         roles: []
       }
-    },
-    upsert: false
+    }
   })
 
-  const id2 = await test.context.surface.executeAction('action-insert-card', 'user', {
+  const id2 = await test.context.surface.executeAction('action-update-card', id1, {
     properties: {
-      slug: 'johndoe',
       data: {
         email: 'johndoe@gmail.com',
         roles: []
       }
-    },
-    upsert: true
+    }
   })
 
   test.is(id1, id2)
@@ -72,33 +70,14 @@ ava.test('should replace an existing card and add an update event if upsert is t
   })
 })
 
-ava.test('should create a card while upsert is true and add a create but not update event', async (test) => {
-  const id = await test.context.surface.executeAction('action-insert-card', 'user', {
+ava.test('should fail if the target does not exist', async (test) => {
+  await test.throws(test.context.surface.executeAction('action-update-card', '4a962ad9-20b5-4dd8-a707-bf819593cc84', {
     properties: {
       slug: 'johndoe',
       data: {
         email: 'johndoe@example.com',
         roles: []
       }
-    },
-    upsert: true
-  })
-
-  const card = await test.context.surface.getCard(id)
-
-  test.deepEqual(card, {
-    id,
-    slug: 'johndoe',
-    type: 'user',
-    tags: [],
-    links: [],
-    active: true,
-    data: {
-      email: 'johndoe@example.com',
-      roles: []
     }
-  })
-
-  const timeline = _.map(await test.context.surface.getTimeline(id), 'type')
-  test.deepEqual(timeline, [ 'create' ])
+  }), errors.JellyfishNoElement)
 })

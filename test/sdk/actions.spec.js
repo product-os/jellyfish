@@ -47,5 +47,5 @@ ava.test.afterEach(async (test) => {
 })
 
 require('./actions/action-create-card')
-require('./actions/action-insert-card')
+require('./actions/action-update-card')
 require('./actions/action-update-data-property')

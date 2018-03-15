@@ -33,8 +33,14 @@ ava.test('should update a data property', async (test) => {
   test.is(timeline.length, 1)
   test.is(timeline[0].type, 'update')
   test.deepEqual(timeline[0].data.payload, {
+    slug: 'admin',
+    name: 'The admin user',
+    links: [],
+    tags: [],
+    active: true,
     data: {
-      email: 'foobar@example.com'
+      email: 'foobar@example.com',
+      roles: []
     }
   })
 })
