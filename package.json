@@ -10,9 +10,11 @@
     "url": "git@github.com:resin-io/jellyfish.git"
   },
   "scripts": {
-    "start": "DEBUG=jellyfish:* node lib/server.js",
+    "start": "DEBUG=jellyfish:* npm run build:ui && node lib/server.js",
     "test": "npm run lint && TEST_DB_HOST=localhost TEST_PROXY_PORT=9999 TEST_DB_PORT=28015 NODE_ENV=test nyc --reporter=lcov ava",
-    "lint": "eslint lib test"
+    "lint": "eslint lib test webpack.config.js",
+    "build:ui": "webpack",
+    "dev:ui": "webpack-dev-server"
   },
   "ava": {
     "verbose": true,
@@ -33,10 +35,19 @@
     "eslint-plugin-node": "^5.1.1",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
+    "html-webpack-plugin": "^3.0.6",
     "nyc": "^11.4.1",
-    "randomstring": "^1.1.5"
+    "randomstring": "^1.1.5",
+    "source-map-loader": "^0.2.3",
+    "ts-loader": "^4.0.1",
+    "typescript": "^2.7.2",
+    "webpack": "^4.1.1",
+    "webpack-cli": "^2.0.12",
+    "webpack-dev-server": "^3.1.1"
   },
   "dependencies": {
+    "@types/react": "^16.0.40",
+    "@types/react-dom": "^16.0.4",
     "ajv": "^6.2.0",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
@@ -45,6 +56,8 @@
     "json-schema-merge-allof": "^0.6.0",
     "lodash": "^4.17.5",
     "object-template": "^1.1.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
     "rethinkdb": "^2.3.3",
     "typed-errors": "^1.1.0"
   }
