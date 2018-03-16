@@ -18,31 +18,31 @@ const _ = require('lodash')
 const ava = require('ava')
 
 ava.test('should create a card and add a create but not update event', async (test) => {
-  const id = await test.context.surface.executeAction('action-upsert-card', 'user', {
-    properties: {
-      slug: 'johndoe',
-      data: {
-        email: 'johndoe@example.com',
-        roles: []
-      }
-    }
-  })
+	const id = await test.context.surface.executeAction('action-upsert-card', 'user', {
+		properties: {
+			slug: 'johndoe',
+			data: {
+				email: 'johndoe@example.com',
+				roles: []
+			}
+		}
+	})
 
-  const card = await test.context.surface.getCard(id)
+	const card = await test.context.surface.getCard(id)
 
-  test.deepEqual(card, {
-    id,
-    slug: 'johndoe',
-    type: 'user',
-    tags: [],
-    links: [],
-    active: true,
-    data: {
-      email: 'johndoe@example.com',
-      roles: []
-    }
-  })
+	test.deepEqual(card, {
+		id,
+		slug: 'johndoe',
+		type: 'user',
+		tags: [],
+		links: [],
+		active: true,
+		data: {
+			email: 'johndoe@example.com',
+			roles: []
+		}
+	})
 
-  const timeline = _.map(await test.context.surface.getTimeline(id), 'type')
-  test.deepEqual(timeline, [ 'create' ])
+	const timeline = _.map(await test.context.surface.getTimeline(id), 'type')
+	test.deepEqual(timeline, [ 'create' ])
 })

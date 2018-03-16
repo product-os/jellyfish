@@ -21,29 +21,29 @@ const Kernel = require('../../lib/sdk/kernel')
 const Surface = require('../../lib/sdk/surface')
 
 ava.test.beforeEach(async (test) => {
-  test.context.backend = new Backend({
-    host: process.env.TEST_DB_HOST,
-    port: process.env.TEST_DB_PORT,
-    database: `test_${randomstring.generate()}`
-  })
+	test.context.backend = new Backend({
+		host: process.env.TEST_DB_HOST,
+		port: process.env.TEST_DB_PORT,
+		database: `test_${randomstring.generate()}`
+	})
 
-  await test.context.backend.connect()
-  await test.context.backend.reset()
+	await test.context.backend.connect()
+	await test.context.backend.reset()
 
-  test.context.kernel = new Kernel(test.context.backend, {
-    buckets: {
-      cards: 'cards',
-      requests: 'requests'
-    }
-  })
+	test.context.kernel = new Kernel(test.context.backend, {
+		buckets: {
+			cards: 'cards',
+			requests: 'requests'
+		}
+	})
 
-  test.context.surface = new Surface(test.context.kernel)
+	test.context.surface = new Surface(test.context.kernel)
 
-  await test.context.surface.initialize()
+	await test.context.surface.initialize()
 })
 
 ava.test.afterEach(async (test) => {
-  await test.context.backend.disconnect()
+	await test.context.backend.disconnect()
 })
 
 require('./actions/action-create-card')

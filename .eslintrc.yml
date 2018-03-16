@@ -185,6 +185,9 @@ rules:
     - min: 2
       exceptions:
         - "_"
+  indent:
+    - error
+    - tab
   line-comment-position:
     - error
     - position: above
@@ -245,6 +248,8 @@ rules:
     - WithStatement
   no-spaced-func:
     - error
+  no-tabs:
+    - off
   no-underscore-dangle:
     - error
     - allowAfterThis: false

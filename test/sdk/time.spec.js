@@ -18,6 +18,6 @@ const ava = require('ava')
 const time = require('../../lib/sdk/time')
 
 ava.test('should return a RFC 3339 timestamp', (test) => {
-  const timestamp = time.getCurrentTimestamp()
-  test.regex(timestamp, /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/)
+	const timestamp = time.getCurrentTimestamp()
+	test.regex(timestamp, /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/)
 })

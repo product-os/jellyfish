@@ -19,246 +19,246 @@ const ava = require('ava')
 const errors = require('../../../lib/sdk/errors')
 
 ava.test('should replace an existing card and add an update event using a slug', async (test) => {
-  const id1 = await test.context.surface.executeAction('action-create-card', 'user', {
-    properties: {
-      slug: 'johndoe',
-      data: {
-        email: 'johndoe@example.com',
-        roles: []
-      }
-    }
-  })
+	const id1 = await test.context.surface.executeAction('action-create-card', 'user', {
+		properties: {
+			slug: 'johndoe',
+			data: {
+				email: 'johndoe@example.com',
+				roles: []
+			}
+		}
+	})
 
-  const id2 = await test.context.surface.executeAction('action-update-card', id1, {
-    properties: {
-      data: {
-        email: 'johndoe@gmail.com',
-        roles: []
-      }
-    }
-  })
+	const id2 = await test.context.surface.executeAction('action-update-card', id1, {
+		properties: {
+			data: {
+				email: 'johndoe@gmail.com',
+				roles: []
+			}
+		}
+	})
 
-  test.is(id1, id2)
+	test.is(id1, id2)
 
-  const card = await test.context.surface.getCard(id1)
+	const card = await test.context.surface.getCard(id1)
 
-  test.deepEqual(card, {
-    id: id1,
-    slug: 'johndoe',
-    type: 'user',
-    tags: [],
-    links: [],
-    active: true,
-    data: {
-      email: 'johndoe@gmail.com',
-      roles: []
-    }
-  })
+	test.deepEqual(card, {
+		id: id1,
+		slug: 'johndoe',
+		type: 'user',
+		tags: [],
+		links: [],
+		active: true,
+		data: {
+			email: 'johndoe@gmail.com',
+			roles: []
+		}
+	})
 
-  const timeline = await test.context.surface.getTimeline(id1)
-  test.deepEqual(_.map(timeline, 'type'), [ 'create', 'update' ])
+	const timeline = await test.context.surface.getTimeline(id1)
+	test.deepEqual(_.map(timeline, 'type'), [ 'create', 'update' ])
 
-  test.deepEqual(timeline[1].data.payload, {
-    slug: 'johndoe',
-    tags: [],
-    links: [],
-    active: true,
-    data: {
-      email: 'johndoe@gmail.com',
-      roles: []
-    }
-  })
+	test.deepEqual(timeline[1].data.payload, {
+		slug: 'johndoe',
+		tags: [],
+		links: [],
+		active: true,
+		data: {
+			email: 'johndoe@gmail.com',
+			roles: []
+		}
+	})
 })
 
 ava.test('should replace an existing card and add an update event without using a slug', async (test) => {
-  const id1 = await test.context.surface.executeAction('action-create-card', 'card', {
-    properties: {
-      data: {
-        foo: 'bar'
-      }
-    }
-  })
+	const id1 = await test.context.surface.executeAction('action-create-card', 'card', {
+		properties: {
+			data: {
+				foo: 'bar'
+			}
+		}
+	})
 
-  const id2 = await test.context.surface.executeAction('action-update-card', id1, {
-    properties: {
-      data: {
-        foo: 'baz'
-      }
-    }
-  })
+	const id2 = await test.context.surface.executeAction('action-update-card', id1, {
+		properties: {
+			data: {
+				foo: 'baz'
+			}
+		}
+	})
 
-  test.is(id1, id2)
+	test.is(id1, id2)
 
-  const card = await test.context.surface.getCard(id1)
+	const card = await test.context.surface.getCard(id1)
 
-  test.deepEqual(card, {
-    id: id1,
-    type: 'card',
-    tags: [],
-    links: [],
-    active: true,
-    data: {
-      foo: 'baz'
-    }
-  })
+	test.deepEqual(card, {
+		id: id1,
+		type: 'card',
+		tags: [],
+		links: [],
+		active: true,
+		data: {
+			foo: 'baz'
+		}
+	})
 
-  const timeline = await test.context.surface.getTimeline(id1)
-  test.deepEqual(_.map(timeline, 'type'), [ 'create', 'update' ])
+	const timeline = await test.context.surface.getTimeline(id1)
+	test.deepEqual(_.map(timeline, 'type'), [ 'create', 'update' ])
 
-  test.deepEqual(timeline[1].data.payload, {
-    tags: [],
-    links: [],
-    active: true,
-    data: {
-      foo: 'baz'
-    }
-  })
+	test.deepEqual(timeline[1].data.payload, {
+		tags: [],
+		links: [],
+		active: true,
+		data: {
+			foo: 'baz'
+		}
+	})
 })
 
 ava.test('should fail if the target does not exist', async (test) => {
-  await test.throws(test.context.surface.executeAction('action-update-card', '4a962ad9-20b5-4dd8-a707-bf819593cc84', {
-    properties: {
-      slug: 'johndoe',
-      data: {
-        email: 'johndoe@example.com',
-        roles: []
-      }
-    }
-  }), errors.JellyfishNoElement)
+	await test.throws(test.context.surface.executeAction('action-update-card', '4a962ad9-20b5-4dd8-a707-bf819593cc84', {
+		properties: {
+			slug: 'johndoe',
+			data: {
+				email: 'johndoe@example.com',
+				roles: []
+			}
+		}
+	}), errors.JellyfishNoElement)
 })
 
 ava.test('should fail if the schema does not match', async (test) => {
-  const id = await test.context.surface.executeAction('action-create-card', 'card', {
-    properties: {
-      data: {
-        foo: 'bar'
-      }
-    }
-  })
+	const id = await test.context.surface.executeAction('action-create-card', 'card', {
+		properties: {
+			data: {
+				foo: 'bar'
+			}
+		}
+	})
 
-  await test.throws(test.context.surface.executeAction('action-update-card', id, {
-    properties: {
-      foobar: true
-    }
-  }), errors.JellyfishSchemaMismatch)
+	await test.throws(test.context.surface.executeAction('action-update-card', id, {
+		properties: {
+			foobar: true
+		}
+	}), errors.JellyfishSchemaMismatch)
 })
 
 ava.test('should add an extra property to a card', async (test) => {
-  const id1 = await test.context.surface.executeAction('action-create-card', 'user', {
-    properties: {
-      slug: 'johndoe',
-      data: {
-        email: 'johndoe@example.com',
-        roles: []
-      }
-    }
-  })
+	const id1 = await test.context.surface.executeAction('action-create-card', 'user', {
+		properties: {
+			slug: 'johndoe',
+			data: {
+				email: 'johndoe@example.com',
+				roles: []
+			}
+		}
+	})
 
-  const id2 = await test.context.surface.executeAction('action-update-card', id1, {
-    properties: {
-      data: {
-        email: 'johndoe@gmail.com',
-        foobar: true,
-        roles: []
-      }
-    }
-  })
+	const id2 = await test.context.surface.executeAction('action-update-card', id1, {
+		properties: {
+			data: {
+				email: 'johndoe@gmail.com',
+				foobar: true,
+				roles: []
+			}
+		}
+	})
 
-  test.is(id1, id2)
+	test.is(id1, id2)
 
-  const card = await test.context.surface.getCard(id1)
+	const card = await test.context.surface.getCard(id1)
 
-  test.deepEqual(card, {
-    id: id1,
-    slug: 'johndoe',
-    type: 'user',
-    tags: [],
-    links: [],
-    active: true,
-    data: {
-      email: 'johndoe@gmail.com',
-      foobar: true,
-      roles: []
-    }
-  })
+	test.deepEqual(card, {
+		id: id1,
+		slug: 'johndoe',
+		type: 'user',
+		tags: [],
+		links: [],
+		active: true,
+		data: {
+			email: 'johndoe@gmail.com',
+			foobar: true,
+			roles: []
+		}
+	})
 
-  const timeline = await test.context.surface.getTimeline(id1)
-  test.deepEqual(_.map(timeline, 'type'), [ 'create', 'update' ])
+	const timeline = await test.context.surface.getTimeline(id1)
+	test.deepEqual(_.map(timeline, 'type'), [ 'create', 'update' ])
 
-  test.deepEqual(timeline[1].data.payload, {
-    slug: 'johndoe',
-    tags: [],
-    links: [],
-    active: true,
-    data: {
-      email: 'johndoe@gmail.com',
-      foobar: true,
-      roles: []
-    }
-  })
+	test.deepEqual(timeline[1].data.payload, {
+		slug: 'johndoe',
+		tags: [],
+		links: [],
+		active: true,
+		data: {
+			email: 'johndoe@gmail.com',
+			foobar: true,
+			roles: []
+		}
+	})
 })
 
 ava.test('should be able to add a slug', async (test) => {
-  const id1 = await test.context.surface.executeAction('action-create-card', 'card', {
-    properties: {
-      data: {
-        foo: 'bar'
-      }
-    }
-  })
+	const id1 = await test.context.surface.executeAction('action-create-card', 'card', {
+		properties: {
+			data: {
+				foo: 'bar'
+			}
+		}
+	})
 
-  const id2 = await test.context.surface.executeAction('action-update-card', id1, {
-    properties: {
-      slug: 'hey-there'
-    }
-  })
+	const id2 = await test.context.surface.executeAction('action-update-card', id1, {
+		properties: {
+			slug: 'hey-there'
+		}
+	})
 
-  test.is(id1, id2)
+	test.is(id1, id2)
 
-  const card = await test.context.surface.getCard(id1)
+	const card = await test.context.surface.getCard(id1)
 
-  test.deepEqual(card, {
-    id: id1,
-    slug: 'hey-there',
-    type: 'card',
-    tags: [],
-    links: [],
-    active: true,
-    data: {
-      foo: 'bar'
-    }
-  })
+	test.deepEqual(card, {
+		id: id1,
+		slug: 'hey-there',
+		type: 'card',
+		tags: [],
+		links: [],
+		active: true,
+		data: {
+			foo: 'bar'
+		}
+	})
 })
 
 ava.test('should be able to set active to false', async (test) => {
-  const id1 = await test.context.surface.executeAction('action-create-card', 'card', {
-    properties: {
-      data: {
-        foo: 'bar'
-      }
-    }
-  })
+	const id1 = await test.context.surface.executeAction('action-create-card', 'card', {
+		properties: {
+			data: {
+				foo: 'bar'
+			}
+		}
+	})
 
-  const id2 = await test.context.surface.executeAction('action-update-card', id1, {
-    properties: {
-      active: false
-    }
-  })
+	const id2 = await test.context.surface.executeAction('action-update-card', id1, {
+		properties: {
+			active: false
+		}
+	})
 
-  test.is(id1, id2)
+	test.is(id1, id2)
 
-  const card = await test.context.surface.getCard(id1, {
-    inactive: true
-  })
+	const card = await test.context.surface.getCard(id1, {
+		inactive: true
+	})
 
-  test.deepEqual(card, {
-    id: id1,
-    type: 'card',
-    tags: [],
-    links: [],
-    active: false,
-    data: {
-      foo: 'bar'
-    }
-  })
+	test.deepEqual(card, {
+		id: id1,
+		type: 'card',
+		tags: [],
+		links: [],
+		active: false,
+		data: {
+			foo: 'bar'
+		}
+	})
 })

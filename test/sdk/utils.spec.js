@@ -18,9 +18,9 @@ const ava = require('ava')
 const utils = require('../../lib/sdk/utils')
 
 ava.test('.isUUID() should return true given a uuid', (test) => {
-  test.true(utils.isUUID('4a962ad9-20b5-4dd8-a707-bf819593cc84'))
+	test.true(utils.isUUID('4a962ad9-20b5-4dd8-a707-bf819593cc84'))
 })
 
 ava.test('.isUUID() should return false given a non-uuid string', (test) => {
-  test.false(utils.isUUID('foo'))
+	test.false(utils.isUUID('foo'))
 })

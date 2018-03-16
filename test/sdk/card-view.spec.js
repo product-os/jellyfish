@@ -19,62 +19,62 @@ const cardView = require('../../lib/sdk/card-view')
 const CARDS = require('../../lib/sdk/cards')
 
 ava.test('.getSchema() should return null given no card', (test) => {
-  const schema = cardView.getSchema()
-  test.deepEqual(schema, null)
+	const schema = cardView.getSchema()
+	test.deepEqual(schema, null)
 })
 
 ava.test('.getSchema() should return null if the card is not a view', (test) => {
-  const schema = cardView.getSchema(CARDS.core.card)
-  test.deepEqual(schema, null)
+	const schema = cardView.getSchema(CARDS.core.card)
+	test.deepEqual(schema, null)
 })
 
 ava.test('.getSchema() should return a schema given a view card', (test) => {
-  const schema = cardView.getSchema({
-    type: 'view',
-    links: [],
-    tags: [],
-    active: true,
-    data: {
-      filters: [
-        {
-          name: 'foo',
-          schema: {
-            type: 'object',
-            properties: {
-              foo: {
-                type: 'string',
-                minLength: 1
-              }
-            },
-            required: [ 'foo' ]
-          }
-        },
-        {
-          name: 'bar',
-          schema: {
-            type: 'object',
-            properties: {
-              foo: {
-                type: 'string',
-                maxLength: 5
-              }
-            },
-            required: [ 'foo' ]
-          }
-        }
-      ]
-    }
-  })
+	const schema = cardView.getSchema({
+		type: 'view',
+		links: [],
+		tags: [],
+		active: true,
+		data: {
+			filters: [
+				{
+					name: 'foo',
+					schema: {
+						type: 'object',
+						properties: {
+							foo: {
+								type: 'string',
+								minLength: 1
+							}
+						},
+						required: [ 'foo' ]
+					}
+				},
+				{
+					name: 'bar',
+					schema: {
+						type: 'object',
+						properties: {
+							foo: {
+								type: 'string',
+								maxLength: 5
+							}
+						},
+						required: [ 'foo' ]
+					}
+				}
+			]
+		}
+	})
 
-  test.deepEqual(schema, {
-    type: 'object',
-    properties: {
-      foo: {
-        type: 'string',
-        minLength: 1,
-        maxLength: 5
-      }
-    },
-    required: [ 'foo' ]
-  })
+	test.deepEqual(schema, {
+		type: 'object',
+		properties: {
+			foo: {
+				type: 'string',
+				minLength: 1,
+				maxLength: 5
+			}
+		},
+		required: [ 'foo' ]
+	})
 })
