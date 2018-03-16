@@ -48,5 +48,7 @@ ava.test.afterEach(async (test) => {
 
 require('./actions/action-create-card')
 require('./actions/action-update-card')
+require('./actions/action-delete-card')
+require('./actions/action-restore-card')
 require('./actions/action-upsert-card')
 require('./actions/action-update-email')

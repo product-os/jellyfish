@@ -304,10 +304,88 @@ ava.test('.getTimeline() should return the timeline ordered by time', async (tes
   ])
 })
 
+ava.test('.getTimeline() should return the timeline of an inactive card if the inactive option is true', async (test) => {
+  const id = await test.context.kernel.insertCard({
+    type: 'card',
+    tags: [],
+    links: [],
+    active: false,
+    data: {
+      number: 1
+    }
+  })
+
+  const admin = await test.context.surface.getCard('admin')
+  test.truthy(admin)
+
+  await test.context.kernel.insertCard({
+    type: 'event',
+    tags: [],
+    links: [],
+    active: true,
+    data: {
+      timestamp: '2018-03-09T19:57:40.963Z',
+      target: id,
+      actor: admin.id,
+      payload: {}
+    }
+  })
+
+  await test.context.kernel.insertCard({
+    type: 'event',
+    tags: [],
+    links: [],
+    active: true,
+    data: {
+      timestamp: '2018-04-09T19:57:40.963Z',
+      target: id,
+      actor: admin.id,
+      payload: {}
+    }
+  })
+
+  await test.context.kernel.insertCard({
+    type: 'event',
+    tags: [],
+    links: [],
+    active: true,
+    data: {
+      timestamp: '2018-02-09T19:57:40.963Z',
+      target: id,
+      actor: admin.id,
+      payload: {}
+    }
+  })
+
+  const timeline = await test.context.surface.getTimeline(id, {
+    inactive: true
+  })
+
+  test.deepEqual(_.map(timeline, 'data.timestamp'), [
+    '2018-02-09T19:57:40.963Z',
+    '2018-03-09T19:57:40.963Z',
+    '2018-04-09T19:57:40.963Z'
+  ])
+})
+
 ava.test('.getTimeline() should fail if the id does not exist', async (test) => {
   const card = await test.context.surface.getCard('4a962ad9-20b5-4dd8-a707-bf819593cc84')
   test.falsy(card)
   await test.throws(test.context.surface.getTimeline('4a962ad9-20b5-4dd8-a707-bf819593cc84'), errors.JellyfishNoElement)
+})
+
+ava.test('.getTimeline() should fail if the card is inactive and the inactive option is not true', async (test) => {
+  const id = await test.context.kernel.insertCard({
+    type: 'card',
+    tags: [],
+    links: [],
+    active: false,
+    data: {
+      number: 1
+    }
+  })
+
+  await test.throws(test.context.surface.getTimeline(id), errors.JellyfishNoElement)
 })
 
 ava.test('.queryView() should throw if the view does not exist', async (test) => {

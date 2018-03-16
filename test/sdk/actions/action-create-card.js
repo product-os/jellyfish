@@ -77,6 +77,27 @@ ava.test('should fail if the card already exists', async (test) => {
   test.deepEqual(timeline, [ 'create' ])
 })
 
+ava.test('should fail if there is a schema mismatch', async (test) => {
+  await test.throws(test.context.surface.executeAction('action-create-card', 'user', {
+    properties: {
+      slug: 'johndoe',
+      data: {
+        email: 1,
+        roles: []
+      }
+    }
+  }), errors.JellyfishSchemaMismatch)
+})
+
+ava.test('should fail if the element is not a valid card', async (test) => {
+  await test.throws(test.context.surface.executeAction('action-create-card', 'user', {
+    properties: {
+      slug: 'johndoe',
+      foo: 'bar'
+    }
+  }), errors.JellyfishSchemaMismatch)
+})
+
 ava.test('should create an inactive card', async (test) => {
   const id = await test.context.surface.executeAction('action-create-card', 'user', {
     properties: {

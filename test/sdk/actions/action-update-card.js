@@ -127,6 +127,22 @@ ava.test('should fail if the target does not exist', async (test) => {
   }), errors.JellyfishNoElement)
 })
 
+ava.test('should fail if the schema does not match', async (test) => {
+  const id = await test.context.surface.executeAction('action-create-card', 'card', {
+    properties: {
+      data: {
+        foo: 'bar'
+      }
+    }
+  })
+
+  await test.throws(test.context.surface.executeAction('action-update-card', id, {
+    properties: {
+      foobar: true
+    }
+  }), errors.JellyfishSchemaMismatch)
+})
+
 ava.test('should add an extra property to a card', async (test) => {
   const id1 = await test.context.surface.executeAction('action-create-card', 'user', {
     properties: {
@@ -178,6 +194,71 @@ ava.test('should add an extra property to a card', async (test) => {
       email: 'johndoe@gmail.com',
       foobar: true,
       roles: []
+    }
+  })
+})
+
+ava.test('should be able to add a slug', async (test) => {
+  const id1 = await test.context.surface.executeAction('action-create-card', 'card', {
+    properties: {
+      data: {
+        foo: 'bar'
+      }
+    }
+  })
+
+  const id2 = await test.context.surface.executeAction('action-update-card', id1, {
+    properties: {
+      slug: 'hey-there'
+    }
+  })
+
+  test.is(id1, id2)
+
+  const card = await test.context.surface.getCard(id1)
+
+  test.deepEqual(card, {
+    id: id1,
+    slug: 'hey-there',
+    type: 'card',
+    tags: [],
+    links: [],
+    active: true,
+    data: {
+      foo: 'bar'
+    }
+  })
+})
+
+ava.test('should be able to set active to false', async (test) => {
+  const id1 = await test.context.surface.executeAction('action-create-card', 'card', {
+    properties: {
+      data: {
+        foo: 'bar'
+      }
+    }
+  })
+
+  const id2 = await test.context.surface.executeAction('action-update-card', id1, {
+    properties: {
+      active: false
+    }
+  })
+
+  test.is(id1, id2)
+
+  const card = await test.context.surface.getCard(id1, {
+    inactive: true
+  })
+
+  test.deepEqual(card, {
+    id: id1,
+    type: 'card',
+    tags: [],
+    links: [],
+    active: false,
+    data: {
+      foo: 'bar'
     }
   })
 })

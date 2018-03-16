@@ -115,6 +115,23 @@ ava.test('.insertCard() should be able to insert a card', async (test) => {
   })
 })
 
+ava.test('.insertCard() should provide sensible defaults', async (test) => {
+  const id = await test.context.kernel.insertCard({
+    type: 'card'
+  })
+
+  const element = await test.context.kernel.getCard(id)
+
+  test.deepEqual(element, {
+    id,
+    type: 'card',
+    active: true,
+    links: [],
+    tags: [],
+    data: {}
+  })
+})
+
 ava.test('.insertCard() should throw if the card already exists', async (test) => {
   const card = {
     slug: 'johndoe',
