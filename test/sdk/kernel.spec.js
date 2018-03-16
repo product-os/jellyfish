@@ -50,11 +50,11 @@ ava.test.afterEach(async (test) => {
   await test.context.backend.disconnect()
 })
 
-ava.test.skip('should be able to initialize the kernel multiple times without errors', async (test) => {
+ava.test('should be able to disconnect the kernel multiple times without errors', async (test) => {
   test.notThrows(async () => {
-    await test.context.kernel.initialize()
-    await test.context.kernel.initialize()
-    await test.context.kernel.initialize()
+    await test.context.kernel.disconnect()
+    await test.context.kernel.disconnect()
+    await test.context.kernel.disconnect()
   })
 })
 
