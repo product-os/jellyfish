@@ -16,6 +16,7 @@
 
 const ava = require('ava')
 const _ = require('lodash')
+const Bluebird = require('bluebird')
 const randomstring = require('randomstring')
 const Backend = require('../../lib/sdk/backend')
 const Kernel = require('../../lib/sdk/kernel')
@@ -631,4 +632,53 @@ ava.test('.executeInternalAction() should fail if the action does not exist', as
   await test.throws(test.context.kernel.executeInternalAction('foobarbazqux', 'user', {
     hello: 'world'
   }), errors.JellyfishNoAction)
+})
+
+ava.test.cb('.stream() should report back new elements that match a certain slug', (test) => {
+  test.context.kernel.stream({
+    type: 'object',
+    properties: {
+      slug: {
+        type: 'string',
+        const: 'card-foo'
+      }
+    },
+    required: [ 'slug' ]
+  }).then((emitter) => {
+    emitter.on('data', (change) => {
+      test.deepEqual(change.before, null)
+      test.deepEqual(_.omit(change.after, [ 'id' ]), {
+        type: 'card',
+        slug: 'card-foo',
+        active: true,
+        links: [],
+        tags: [],
+        data: {
+          test: 1
+        }
+      })
+
+      emitter.close()
+    })
+
+    emitter.on('error', test.end)
+    emitter.on('closed', test.end)
+
+    return Bluebird.all([
+      test.context.kernel.insertCard({
+        slug: 'card-foo',
+        type: 'card',
+        data: {
+          test: 1
+        }
+      }),
+      test.context.kernel.insertCard({
+        slug: 'card-bar',
+        type: 'card',
+        data: {
+          test: 2
+        }
+      })
+    ])
+  }).catch(test.end)
 })
