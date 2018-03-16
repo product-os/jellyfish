@@ -126,3 +126,58 @@ ava.test('should fail if the target does not exist', async (test) => {
     }
   }), errors.JellyfishNoElement)
 })
+
+ava.test('should add an extra property to a card', async (test) => {
+  const id1 = await test.context.surface.executeAction('action-create-card', 'user', {
+    properties: {
+      slug: 'johndoe',
+      data: {
+        email: 'johndoe@example.com',
+        roles: []
+      }
+    }
+  })
+
+  const id2 = await test.context.surface.executeAction('action-update-card', id1, {
+    properties: {
+      data: {
+        email: 'johndoe@gmail.com',
+        foobar: true,
+        roles: []
+      }
+    }
+  })
+
+  test.is(id1, id2)
+
+  const card = await test.context.surface.getCard(id1)
+
+  test.deepEqual(card, {
+    id: id1,
+    slug: 'johndoe',
+    type: 'user',
+    tags: [],
+    links: [],
+    active: true,
+    data: {
+      email: 'johndoe@gmail.com',
+      foobar: true,
+      roles: []
+    }
+  })
+
+  const timeline = await test.context.surface.getTimeline(id1)
+  test.deepEqual(_.map(timeline, 'type'), [ 'create', 'update' ])
+
+  test.deepEqual(timeline[1].data.payload, {
+    slug: 'johndoe',
+    tags: [],
+    links: [],
+    active: true,
+    data: {
+      email: 'johndoe@gmail.com',
+      foobar: true,
+      roles: []
+    }
+  })
+})

@@ -106,3 +106,35 @@ ava.test('should create an inactive card', async (test) => {
     }
   })
 })
+
+ava.test('should create a card with more extra data properties', async (test) => {
+  const id = await test.context.surface.executeAction('action-create-card', 'user', {
+    properties: {
+      slug: 'johndoe',
+      data: {
+        email: 'johndoe@example.com',
+        foobar: true,
+        roles: []
+      }
+    }
+  })
+
+  const card = await test.context.surface.getCard(id)
+
+  test.deepEqual(card, {
+    id,
+    slug: 'johndoe',
+    type: 'user',
+    tags: [],
+    links: [],
+    active: true,
+    data: {
+      email: 'johndoe@example.com',
+      foobar: true,
+      roles: []
+    }
+  })
+
+  const timeline = _.map(await test.context.surface.getTimeline(id), 'type')
+  test.deepEqual(timeline, [ 'create' ])
+})
