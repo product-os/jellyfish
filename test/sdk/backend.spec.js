@@ -806,6 +806,7 @@ ava.test.cb('.stream() should report back new elements that match a certain type
       emitter.close()
     })
 
+    emitter.on('error', test.end)
     emitter.on('closed', test.end)
 
     return Bluebird.all([
@@ -862,6 +863,7 @@ ava.test.cb('.stream() should report back changes to certain elements', (test) =
       emitter.close()
     })
 
+    emitter.on('error', test.end)
     emitter.on('closed', test.end)
 
     return test.context.backend.updateElement('test', {
@@ -875,5 +877,24 @@ ava.test.cb('.stream() should report back changes to certain elements', (test) =
         test: 2
       })
     })
+  }).catch(test.end)
+})
+
+ava.test.cb('.stream() should close without finding anything', (test) => {
+  test.context.backend.createTable('test').then(() => {
+    return test.context.backend.stream('test', {
+      type: 'object',
+      properties: {
+        slug: {
+          type: 'string',
+          const: 'foobarbazqux'
+        }
+      },
+      required: [ 'slug' ]
+    })
+  }).then((emitter) => {
+    emitter.close()
+    emitter.on('error', test.end)
+    emitter.on('closed', test.end)
   }).catch(test.end)
 })
