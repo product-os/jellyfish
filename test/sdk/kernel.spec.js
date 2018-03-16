@@ -699,3 +699,321 @@ ava.test.cb('.stream() should report back new elements that match a certain slug
     ])
   }).catch(test.end)
 })
+
+ava.test.cb('.stream() should report back elements of a certain type', (test) => {
+  test.context.kernel.stream({
+    type: 'object',
+    properties: {
+      type: {
+        type: 'string',
+        const: 'user'
+      }
+    },
+    required: [ 'type' ]
+  }).then((emitter) => {
+    emitter.on('data', (change) => {
+      test.deepEqual(change.before, null)
+      test.deepEqual(_.omit(change.after, [ 'id' ]), {
+        slug: 'johndoe',
+        type: 'user',
+        active: true,
+        links: [],
+        tags: [],
+        data: {
+          email: 'johndoe@example.com',
+          roles: []
+        }
+      })
+
+      emitter.close()
+    })
+
+    emitter.on('error', test.end)
+    emitter.on('closed', test.end)
+
+    return Bluebird.all([
+      test.context.kernel.insertCard({
+        slug: 'card-foo',
+        type: 'card',
+        data: {
+          test: 1
+        }
+      }),
+      test.context.kernel.insertCard({
+        slug: 'johndoe',
+        type: 'user',
+        data: {
+          email: 'johndoe@example.com',
+          roles: []
+        }
+      })
+    ])
+  }).catch(test.end)
+})
+
+ava.test.cb('.stream() should report back action requests', (test) => {
+  test.context.kernel.stream({
+    type: 'object',
+    properties: {
+      type: {
+        type: 'string',
+        const: 'action-request'
+      }
+    },
+    required: [ 'type' ]
+  }).then((emitter) => {
+    emitter.on('data', (change) => {
+      test.deepEqual(change.before, null)
+      test.deepEqual(_.omit(change.after, [ 'id' ]), {
+        type: 'action-request',
+        active: true,
+        links: [],
+        tags: [],
+        data: {
+          action: 'action-delete-card',
+          actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+          target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+          timestamp: '2018-03-16T03:29:29.543Z',
+          executed: false,
+          arguments: {}
+        }
+      })
+
+      emitter.close()
+    })
+
+    emitter.on('error', test.end)
+    emitter.on('closed', test.end)
+
+    return Bluebird.all([
+      test.context.kernel.insertCard({
+        type: 'action-request',
+        data: {
+          action: 'action-delete-card',
+          actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+          target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+          timestamp: '2018-03-16T03:29:29.543Z',
+          executed: false,
+          arguments: {}
+        }
+      }),
+      test.context.kernel.insertCard({
+        slug: 'johndoe',
+        type: 'user',
+        data: {
+          email: 'johndoe@example.com',
+          roles: []
+        }
+      })
+    ])
+  }).catch(test.end)
+})
+
+ava.test.cb('.stream() should report both action requests and users', (test) => {
+  test.context.kernel.stream({
+    type: 'object',
+    properties: {
+      type: {
+        type: 'string',
+        anyOf: [
+          {
+            const: 'action-request'
+          },
+          {
+            const: 'user'
+          }
+        ]
+      }
+    },
+    required: [ 'type' ]
+  }).then((emitter) => {
+    const changes = []
+
+    emitter.on('data', (change) => {
+      changes.push(change)
+
+      if (changes.length === 2) {
+        emitter.close()
+      }
+    })
+
+    emitter.on('error', test.end)
+    emitter.on('closed', () => {
+      test.deepEqual(changes, [
+        {
+          before: null,
+          after: {
+            id: changes[0].after.id,
+            active: true,
+            tags: [],
+            links: [],
+            type: 'action-request',
+            data: {
+              action: 'action-delete-card',
+              actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+              target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+              timestamp: '2018-03-16T03:29:29.543Z',
+              executed: false,
+              arguments: {}
+            }
+          }
+        },
+        {
+          before: null,
+          after: {
+            id: changes[1].after.id,
+            active: true,
+            tags: [],
+            links: [],
+            slug: 'johndoe',
+            type: 'user',
+            data: {
+              email: 'johndoe@example.com',
+              roles: []
+            }
+          }
+        }
+      ])
+
+      test.end()
+    })
+
+    return test.context.kernel.insertCard({
+      type: 'action-request',
+      data: {
+        action: 'action-delete-card',
+        actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+        target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+        timestamp: '2018-03-16T03:29:29.543Z',
+        executed: false,
+        arguments: {}
+      }
+    }).then(() => {
+      return test.context.kernel.insertCard({
+        type: 'card',
+        data: {
+          test: 1
+        }
+      })
+    }).then(() => {
+      return test.context.kernel.insertCard({
+        slug: 'johndoe',
+        type: 'user',
+        data: {
+          email: 'johndoe@example.com',
+          roles: []
+        }
+      })
+    })
+  }).catch(test.end)
+})
+
+ava.test.cb('.stream() should close without finding anything', (test) => {
+  test.context.kernel.stream({
+    type: 'object',
+    properties: {
+      slug: {
+        type: 'string',
+        const: 'foobarbazqux'
+      }
+    },
+    required: [ 'slug' ]
+  }).then((emitter) => {
+    emitter.close()
+    emitter.on('error', test.end)
+    emitter.on('closed', test.end)
+  }).catch(test.end)
+})
+
+ava.test.cb('.stream() should not report back inactive elements by default', (test) => {
+  test.context.kernel.stream({
+    type: 'object',
+    properties: {
+      type: {
+        type: 'string',
+        const: 'card'
+      }
+    },
+    required: [ 'type' ]
+  }).then((emitter) => {
+    emitter.on('data', (change) => {
+      test.deepEqual(change.before, null)
+      test.deepEqual(_.omit(change.after, [ 'id' ]), {
+        type: 'card',
+        slug: 'card-foo',
+        active: true,
+        links: [],
+        tags: [],
+        data: {
+          test: 1
+        }
+      })
+
+      emitter.close()
+    })
+
+    emitter.on('error', test.end)
+    emitter.on('closed', test.end)
+
+    return test.context.kernel.insertCard({
+      slug: 'card-bar',
+      active: false,
+      type: 'card',
+      data: {
+        test: 2
+      }
+    }).then(() => {
+      return test.context.kernel.insertCard({
+        slug: 'card-foo',
+        active: true,
+        type: 'card',
+        data: {
+          test: 1
+        }
+      })
+    })
+  }).catch(test.end)
+})
+
+ava.test.cb('.stream() should report back inactive elements if the inactive option is true', (test) => {
+  test.context.kernel.stream({
+    type: 'object',
+    properties: {
+      type: {
+        type: 'string',
+        const: 'card'
+      }
+    },
+    required: [ 'type' ]
+  }, {
+    inactive: true
+  }).then((emitter) => {
+    emitter.on('data', (change) => {
+      test.deepEqual(change.before, null)
+      test.deepEqual(_.omit(change.after, [ 'id' ]), {
+        type: 'card',
+        slug: 'card-bar',
+        active: false,
+        links: [],
+        tags: [],
+        data: {
+          test: 2
+        }
+      })
+
+      emitter.close()
+    })
+
+    emitter.on('error', test.end)
+    emitter.on('closed', test.end)
+
+    return test.context.kernel.insertCard({
+      slug: 'card-bar',
+      active: false,
+      type: 'card',
+      data: {
+        test: 2
+      }
+    })
+  }).catch(test.end)
+})
