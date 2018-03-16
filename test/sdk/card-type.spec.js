@@ -20,45 +20,45 @@ const cardType = require('../../lib/sdk/card-type')
 const CARDS = require('../../lib/sdk/cards')
 
 ava.test('.getSchema() should return null given no card', (test) => {
-  const schema = cardType.getSchema()
-  test.deepEqual(schema, null)
+	const schema = cardType.getSchema()
+	test.deepEqual(schema, null)
 })
 
 ava.test('.getSchema() should return the schema of a card type', (test) => {
-  const schema = cardType.getSchema(CARDS.core.card)
-  test.true(_.isPlainObject(schema))
-  test.is(schema.type, 'object')
+	const schema = cardType.getSchema(CARDS.core.card)
+	test.true(_.isPlainObject(schema))
+	test.is(schema.type, 'object')
 })
 
 ava.test('.getSchema() should return null if the card is not a type card', (test) => {
-  const schema = cardType.getSchema({
-    type: 'foo',
-    links: [],
-    tags: [],
-    data: {}
-  })
+	const schema = cardType.getSchema({
+		type: 'foo',
+		links: [],
+		tags: [],
+		data: {}
+	})
 
-  test.true(_.isNil(schema))
+	test.true(_.isNil(schema))
 })
 
 ava.test('.matchesCard() should return true given a card type and a matching card', (test) => {
-  test.true(cardType.matchesCard(CARDS.core.type, CARDS.core.event))
+	test.true(cardType.matchesCard(CARDS.core.type, CARDS.core.event))
 })
 
 ava.test('.matchesCard() should return false given a card type and a non-matching card', (test) => {
-  test.false(cardType.matchesCard(CARDS.core.type, {
-    type: 'foo',
-    links: [],
-    tags: [],
-    data: {}
-  }))
+	test.false(cardType.matchesCard(CARDS.core.type, {
+		type: 'foo',
+		links: [],
+		tags: [],
+		data: {}
+	}))
 })
 
 ava.test('.matchesCard() should return false given a non card type', (test) => {
-  test.false(cardType.matchesCard({
-    type: 'foo',
-    links: [],
-    tags: [],
-    data: {}
-  }, CARDS.core.event))
+	test.false(cardType.matchesCard({
+		type: 'foo',
+		links: [],
+		tags: [],
+		data: {}
+	}, CARDS.core.event))
 })

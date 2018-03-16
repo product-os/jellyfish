@@ -19,143 +19,143 @@ const ava = require('ava')
 const errors = require('../../../lib/sdk/errors')
 
 ava.test('should create a card', async (test) => {
-  const id = await test.context.surface.executeAction('action-create-card', 'user', {
-    properties: {
-      slug: 'johndoe',
-      data: {
-        email: 'johndoe@example.com',
-        roles: []
-      }
-    }
-  })
+	const id = await test.context.surface.executeAction('action-create-card', 'user', {
+		properties: {
+			slug: 'johndoe',
+			data: {
+				email: 'johndoe@example.com',
+				roles: []
+			}
+		}
+	})
 
-  const card = await test.context.surface.getCard(id)
+	const card = await test.context.surface.getCard(id)
 
-  test.deepEqual(card, {
-    id,
-    slug: 'johndoe',
-    type: 'user',
-    tags: [],
-    links: [],
-    active: true,
-    data: {
-      email: 'johndoe@example.com',
-      roles: []
-    }
-  })
+	test.deepEqual(card, {
+		id,
+		slug: 'johndoe',
+		type: 'user',
+		tags: [],
+		links: [],
+		active: true,
+		data: {
+			email: 'johndoe@example.com',
+			roles: []
+		}
+	})
 
-  const timeline = _.map(await test.context.surface.getTimeline(id), 'type')
-  test.deepEqual(timeline, [ 'create' ])
+	const timeline = _.map(await test.context.surface.getTimeline(id), 'type')
+	test.deepEqual(timeline, [ 'create' ])
 })
 
 ava.test('should fail if the card type does not exist', async (test) => {
-  await test.throws(test.context.surface.executeAction('action-create-card', 'foobarbazqux', {
-    properties: {
-      slug: 'hello'
-    }
-  }), errors.JellyfishNoElement)
+	await test.throws(test.context.surface.executeAction('action-create-card', 'foobarbazqux', {
+		properties: {
+			slug: 'hello'
+		}
+	}), errors.JellyfishNoElement)
 })
 
 ava.test('should fail if the card already exists', async (test) => {
-  const card = {
-    slug: 'johndoe',
-    data: {
-      email: 'johndoe@example.com',
-      roles: []
-    }
-  }
+	const card = {
+		slug: 'johndoe',
+		data: {
+			email: 'johndoe@example.com',
+			roles: []
+		}
+	}
 
-  const id = await test.context.surface.executeAction('action-create-card', 'user', {
-    properties: card
-  })
+	const id = await test.context.surface.executeAction('action-create-card', 'user', {
+		properties: card
+	})
 
-  await test.throws(test.context.surface.executeAction('action-create-card', 'user', {
-    properties: card
-  }), errors.JellyfishElementAlreadyExists)
+	await test.throws(test.context.surface.executeAction('action-create-card', 'user', {
+		properties: card
+	}), errors.JellyfishElementAlreadyExists)
 
-  const timeline = _.map(await test.context.surface.getTimeline(id), 'type')
-  test.deepEqual(timeline, [ 'create' ])
+	const timeline = _.map(await test.context.surface.getTimeline(id), 'type')
+	test.deepEqual(timeline, [ 'create' ])
 })
 
 ava.test('should fail if there is a schema mismatch', async (test) => {
-  await test.throws(test.context.surface.executeAction('action-create-card', 'user', {
-    properties: {
-      slug: 'johndoe',
-      data: {
-        email: 1,
-        roles: []
-      }
-    }
-  }), errors.JellyfishSchemaMismatch)
+	await test.throws(test.context.surface.executeAction('action-create-card', 'user', {
+		properties: {
+			slug: 'johndoe',
+			data: {
+				email: 1,
+				roles: []
+			}
+		}
+	}), errors.JellyfishSchemaMismatch)
 })
 
 ava.test('should fail if the element is not a valid card', async (test) => {
-  await test.throws(test.context.surface.executeAction('action-create-card', 'user', {
-    properties: {
-      slug: 'johndoe',
-      foo: 'bar'
-    }
-  }), errors.JellyfishSchemaMismatch)
+	await test.throws(test.context.surface.executeAction('action-create-card', 'user', {
+		properties: {
+			slug: 'johndoe',
+			foo: 'bar'
+		}
+	}), errors.JellyfishSchemaMismatch)
 })
 
 ava.test('should create an inactive card', async (test) => {
-  const id = await test.context.surface.executeAction('action-create-card', 'user', {
-    properties: {
-      slug: 'johndoe',
-      active: false,
-      data: {
-        email: 'johndoe@example.com',
-        roles: []
-      }
-    }
-  })
+	const id = await test.context.surface.executeAction('action-create-card', 'user', {
+		properties: {
+			slug: 'johndoe',
+			active: false,
+			data: {
+				email: 'johndoe@example.com',
+				roles: []
+			}
+		}
+	})
 
-  const card = await test.context.surface.getCard(id, {
-    inactive: true
-  })
+	const card = await test.context.surface.getCard(id, {
+		inactive: true
+	})
 
-  test.deepEqual(card, {
-    id,
-    slug: 'johndoe',
-    type: 'user',
-    tags: [],
-    links: [],
-    active: false,
-    data: {
-      email: 'johndoe@example.com',
-      roles: []
-    }
-  })
+	test.deepEqual(card, {
+		id,
+		slug: 'johndoe',
+		type: 'user',
+		tags: [],
+		links: [],
+		active: false,
+		data: {
+			email: 'johndoe@example.com',
+			roles: []
+		}
+	})
 })
 
 ava.test('should create a card with more extra data properties', async (test) => {
-  const id = await test.context.surface.executeAction('action-create-card', 'user', {
-    properties: {
-      slug: 'johndoe',
-      data: {
-        email: 'johndoe@example.com',
-        foobar: true,
-        roles: []
-      }
-    }
-  })
+	const id = await test.context.surface.executeAction('action-create-card', 'user', {
+		properties: {
+			slug: 'johndoe',
+			data: {
+				email: 'johndoe@example.com',
+				foobar: true,
+				roles: []
+			}
+		}
+	})
 
-  const card = await test.context.surface.getCard(id)
+	const card = await test.context.surface.getCard(id)
 
-  test.deepEqual(card, {
-    id,
-    slug: 'johndoe',
-    type: 'user',
-    tags: [],
-    links: [],
-    active: true,
-    data: {
-      email: 'johndoe@example.com',
-      foobar: true,
-      roles: []
-    }
-  })
+	test.deepEqual(card, {
+		id,
+		slug: 'johndoe',
+		type: 'user',
+		tags: [],
+		links: [],
+		active: true,
+		data: {
+			email: 'johndoe@example.com',
+			foobar: true,
+			roles: []
+		}
+	})
 
-  const timeline = _.map(await test.context.surface.getTimeline(id), 'type')
-  test.deepEqual(timeline, [ 'create' ])
+	const timeline = _.map(await test.context.surface.getTimeline(id), 'type')
+	test.deepEqual(timeline, [ 'create' ])
 })

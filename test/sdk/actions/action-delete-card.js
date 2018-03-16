@@ -18,78 +18,78 @@ const _ = require('lodash')
 const ava = require('ava')
 
 ava.test('should delete an active card', async (test) => {
-  const id = await test.context.surface.executeAction('action-create-card', 'user', {
-    properties: {
-      slug: 'johndoe',
-      data: {
-        email: 'johndoe@example.com',
-        roles: []
-      }
-    }
-  })
+	const id = await test.context.surface.executeAction('action-create-card', 'user', {
+		properties: {
+			slug: 'johndoe',
+			data: {
+				email: 'johndoe@example.com',
+				roles: []
+			}
+		}
+	})
 
-  const result = await test.context.surface.executeAction('action-delete-card', id, {})
-  test.is(result, id)
+	const result = await test.context.surface.executeAction('action-delete-card', id, {})
+	test.is(result, id)
 
-  const card = await test.context.surface.getCard(id, {
-    inactive: true
-  })
+	const card = await test.context.surface.getCard(id, {
+		inactive: true
+	})
 
-  test.deepEqual(card, {
-    id,
-    slug: 'johndoe',
-    type: 'user',
-    tags: [],
-    links: [],
-    active: false,
-    data: {
-      email: 'johndoe@example.com',
-      roles: []
-    }
-  })
+	test.deepEqual(card, {
+		id,
+		slug: 'johndoe',
+		type: 'user',
+		tags: [],
+		links: [],
+		active: false,
+		data: {
+			email: 'johndoe@example.com',
+			roles: []
+		}
+	})
 
-  const timeline = _.map(await test.context.surface.getTimeline(id, {
-    inactive: true
-  }), 'type')
+	const timeline = _.map(await test.context.surface.getTimeline(id, {
+		inactive: true
+	}), 'type')
 
-  test.deepEqual(timeline, [ 'create', 'update' ])
+	test.deepEqual(timeline, [ 'create', 'update' ])
 })
 
 ava.test('should delete an inactive card', async (test) => {
-  const id = await test.context.surface.executeAction('action-create-card', 'user', {
-    properties: {
-      active: false,
-      slug: 'johndoe',
-      data: {
-        email: 'johndoe@example.com',
-        roles: []
-      }
-    }
-  })
+	const id = await test.context.surface.executeAction('action-create-card', 'user', {
+		properties: {
+			active: false,
+			slug: 'johndoe',
+			data: {
+				email: 'johndoe@example.com',
+				roles: []
+			}
+		}
+	})
 
-  const result = await test.context.surface.executeAction('action-delete-card', id, {})
-  test.is(result, id)
+	const result = await test.context.surface.executeAction('action-delete-card', id, {})
+	test.is(result, id)
 
-  const card = await test.context.surface.getCard(id, {
-    inactive: true
-  })
+	const card = await test.context.surface.getCard(id, {
+		inactive: true
+	})
 
-  test.deepEqual(card, {
-    id,
-    slug: 'johndoe',
-    type: 'user',
-    tags: [],
-    links: [],
-    active: false,
-    data: {
-      email: 'johndoe@example.com',
-      roles: []
-    }
-  })
+	test.deepEqual(card, {
+		id,
+		slug: 'johndoe',
+		type: 'user',
+		tags: [],
+		links: [],
+		active: false,
+		data: {
+			email: 'johndoe@example.com',
+			roles: []
+		}
+	})
 
-  const timeline = _.map(await test.context.surface.getTimeline(id, {
-    inactive: true
-  }), 'type')
+	const timeline = _.map(await test.context.surface.getTimeline(id, {
+		inactive: true
+	}), 'type')
 
-  test.deepEqual(timeline, [ 'create' ])
+	test.deepEqual(timeline, [ 'create' ])
 })

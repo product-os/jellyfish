@@ -23,26 +23,26 @@ const cardType = require('../../lib/sdk/card-type')
 const CARDS = require('../../lib/sdk/cards')
 
 const isCardMacro = (test, type, name, card, expected) => {
-  test.deepEqual(jsonSchema.isValid(cardType.getSchema(type), card), expected)
+	test.deepEqual(jsonSchema.isValid(cardType.getSchema(type), card), expected)
 }
 
 isCardMacro.title = (title, type, name, card, expected) => {
-  return `(${title}) jsonSchema.valid() should return ${expected} for ${name} using type ${type.slug}`
+	return `(${title}) jsonSchema.valid() should return ${expected} for ${name} using type ${type.slug}`
 }
 
 _.each(_.map(fs.readdirSync(path.join(__dirname, 'cards')), (file) => {
-  return {
-    name: file,
-    json: require(path.join(__dirname, 'cards', file))
-  }
+	return {
+		name: file,
+		json: require(path.join(__dirname, 'cards', file))
+	}
 }), (testCase) => {
-  ava.test('examples', isCardMacro, CARDS.core.card, testCase.name, testCase.json.card, testCase.json.valid)
+	ava.test('examples', isCardMacro, CARDS.core.card, testCase.name, testCase.json.card, testCase.json.valid)
 })
 
 _.each(CARDS, (cards, category) => {
-  _.each(cards, (value, key) => {
-    ava.test(category, isCardMacro, CARDS.core.card, key, value, true)
-    const type = CARDS.core[value.type] || CARDS.essential[value.type] || CARDS.contrib[value.type]
-    ava.test(category, isCardMacro, type, key, value, true)
-  })
+	_.each(cards, (value, key) => {
+		ava.test(category, isCardMacro, CARDS.core.card, key, value, true)
+		const type = CARDS.core[value.type] || CARDS.essential[value.type] || CARDS.contrib[value.type]
+		ava.test(category, isCardMacro, type, key, value, true)
+	})
 })

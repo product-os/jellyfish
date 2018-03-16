@@ -20,197 +20,197 @@ const cardAction = require('../../lib/sdk/card-action')
 const CARDS = require('../../lib/sdk/cards')
 
 ava.test('.getFilterSchema() should return a wildcard schema given no card', (test) => {
-  const schema = cardAction.getFilterSchema()
-  test.deepEqual(schema, {
-    type: 'object'
-  })
+	const schema = cardAction.getFilterSchema()
+	test.deepEqual(schema, {
+		type: 'object'
+	})
 })
 
 ava.test('.getFilterSchema() should return the filter schema of a card type', (test) => {
-  const schema = cardAction.getFilterSchema(CARDS.core['action-create-card'])
-  test.true(_.isPlainObject(schema))
-  test.deepEqual(schema, CARDS.core['action-create-card'].data.filter)
+	const schema = cardAction.getFilterSchema(CARDS.core['action-create-card'])
+	test.true(_.isPlainObject(schema))
+	test.deepEqual(schema, CARDS.core['action-create-card'].data.filter)
 })
 
 ava.test('.getArgumentsSchema() should return a schema out of a single argument definition', (test) => {
-  const schema = cardAction.getArgumentsSchema({
-    data: {
-      arguments: {
-        foo: {
-          type: 'number'
-        }
-      }
-    }
-  })
+	const schema = cardAction.getArgumentsSchema({
+		data: {
+			arguments: {
+				foo: {
+					type: 'number'
+				}
+			}
+		}
+	})
 
-  test.deepEqual(schema, {
-    type: 'object',
-    additionalProperties: false,
-    required: [ 'foo' ],
-    properties: {
-      foo: {
-        type: 'number'
-      }
-    }
-  })
+	test.deepEqual(schema, {
+		type: 'object',
+		additionalProperties: false,
+		required: [ 'foo' ],
+		properties: {
+			foo: {
+				type: 'number'
+			}
+		}
+	})
 })
 
 ava.test('.getArgumentsSchema() should return a schema out of multiple arguments definition', (test) => {
-  const schema = cardAction.getArgumentsSchema({
-    data: {
-      arguments: {
-        foo: {
-          type: 'number'
-        },
-        bar: {
-          type: 'string'
-        }
-      }
-    }
-  })
+	const schema = cardAction.getArgumentsSchema({
+		data: {
+			arguments: {
+				foo: {
+					type: 'number'
+				},
+				bar: {
+					type: 'string'
+				}
+			}
+		}
+	})
 
-  test.deepEqual(schema, {
-    type: 'object',
-    additionalProperties: false,
-    required: [ 'foo', 'bar' ],
-    properties: {
-      foo: {
-        type: 'number'
-      },
-      bar: {
-        type: 'string'
-      }
-    }
-  })
+	test.deepEqual(schema, {
+		type: 'object',
+		additionalProperties: false,
+		required: [ 'foo', 'bar' ],
+		properties: {
+			foo: {
+				type: 'number'
+			},
+			bar: {
+				type: 'string'
+			}
+		}
+	})
 })
 
 ava.test('.getArgumentsSchema() should return a wildcard schema if no arguments', (test) => {
-  const schema = cardAction.getArgumentsSchema({
-    data: {
-      arguments: {}
-    }
-  })
+	const schema = cardAction.getArgumentsSchema({
+		data: {
+			arguments: {}
+		}
+	})
 
-  test.deepEqual(schema, {
-    type: 'object'
-  })
+	test.deepEqual(schema, {
+		type: 'object'
+	})
 })
 
 ava.test('.compileOptions() should compile options using no interpolation', (test) => {
-  const options = cardAction.compileOptions({
-    data: {
-      arguments: {},
-      options: {
-        foo: 'bar',
-        bar: 'baz'
-      }
-    }
-  }, {})
+	const options = cardAction.compileOptions({
+		data: {
+			arguments: {},
+			options: {
+				foo: 'bar',
+				bar: 'baz'
+			}
+		}
+	}, {})
 
-  test.deepEqual(options, {
-    foo: 'bar',
-    bar: 'baz'
-  })
+	test.deepEqual(options, {
+		foo: 'bar',
+		bar: 'baz'
+	})
 })
 
 ava.test('.compileOptions() should compile options using arguments interpolation', (test) => {
-  const options = cardAction.compileOptions({
-    data: {
-      arguments: {
-        foo: {
-          type: 'number'
-        }
-      },
-      options: {
-        bar: '{{arguments.foo}}'
-      }
-    }
-  }, {
-    foo: 5
-  })
+	const options = cardAction.compileOptions({
+		data: {
+			arguments: {
+				foo: {
+					type: 'number'
+				}
+			},
+			options: {
+				bar: '{{arguments.foo}}'
+			}
+		}
+	}, {
+		foo: 5
+	})
 
-  test.deepEqual(options, {
-    bar: 5
-  })
+	test.deepEqual(options, {
+		bar: 5
+	})
 })
 
 ava.test('.compileOptions() should compile an object argument', (test) => {
-  const options = cardAction.compileOptions({
-    data: {
-      arguments: {
-        foo: {
-          type: 'object'
-        }
-      },
-      options: {
-        bar: '{{arguments.foo}}'
-      }
-    }
-  }, {
-    foo: {
-      bar: 'baz'
-    }
-  })
+	const options = cardAction.compileOptions({
+		data: {
+			arguments: {
+				foo: {
+					type: 'object'
+				}
+			},
+			options: {
+				bar: '{{arguments.foo}}'
+			}
+		}
+	}, {
+		foo: {
+			bar: 'baz'
+		}
+	})
 
-  test.deepEqual(options, {
-    bar: {
-      bar: 'baz'
-    }
-  })
+	test.deepEqual(options, {
+		bar: {
+			bar: 'baz'
+		}
+	})
 })
 
 ava.test('.compileOptions() should compile a boolean argument', (test) => {
-  const options = cardAction.compileOptions({
-    data: {
-      arguments: {
-        foo: {
-          type: 'boolean'
-        }
-      },
-      options: {
-        bar: '{{arguments.foo}}'
-      }
-    }
-  }, {
-    foo: true
-  })
+	const options = cardAction.compileOptions({
+		data: {
+			arguments: {
+				foo: {
+					type: 'boolean'
+				}
+			},
+			options: {
+				bar: '{{arguments.foo}}'
+			}
+		}
+	}, {
+		foo: true
+	})
 
-  test.deepEqual(options, {
-    bar: true
-  })
+	test.deepEqual(options, {
+		bar: true
+	})
 })
 
 ava.test('.getSuperActionSlug() should return null if no super action', (test) => {
-  const superAction = cardAction.getSuperActionSlug({
-    data: {
-      arguments: {
-        foo: {
-          type: 'object'
-        }
-      },
-      options: {
-        bar: '{{arguments.foo}}'
-      }
-    }
-  })
+	const superAction = cardAction.getSuperActionSlug({
+		data: {
+			arguments: {
+				foo: {
+					type: 'object'
+				}
+			},
+			options: {
+				bar: '{{arguments.foo}}'
+			}
+		}
+	})
 
-  test.deepEqual(superAction, null)
+	test.deepEqual(superAction, null)
 })
 
 ava.test('.getSuperActionSlug() should return the super action slug', (test) => {
-  const superAction = cardAction.getSuperActionSlug({
-    data: {
-      extends: 'action-foo-bar',
-      arguments: {
-        foo: {
-          type: 'object'
-        }
-      },
-      options: {
-        bar: '{{arguments.foo}}'
-      }
-    }
-  })
+	const superAction = cardAction.getSuperActionSlug({
+		data: {
+			extends: 'action-foo-bar',
+			arguments: {
+				foo: {
+					type: 'object'
+				}
+			},
+			options: {
+				bar: '{{arguments.foo}}'
+			}
+		}
+	})
 
-  test.deepEqual(superAction, 'action-foo-bar')
+	test.deepEqual(superAction, 'action-foo-bar')
 })

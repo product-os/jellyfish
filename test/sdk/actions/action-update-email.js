@@ -17,45 +17,45 @@
 const ava = require('ava')
 
 ava.test('should update the user email', async (test) => {
-  const target = await test.context.surface.getCard('admin')
+	const target = await test.context.surface.getCard('admin')
 
-  const id = await test.context.surface.executeAction('action-update-email', target.slug, {
-    email: 'foobar@example.com'
-  })
+	const id = await test.context.surface.executeAction('action-update-email', target.slug, {
+		email: 'foobar@example.com'
+	})
 
-  test.is(id, target.id)
+	test.is(id, target.id)
 
-  const card = await test.context.surface.getCard(id)
-  test.is(card.data.email, 'foobar@example.com')
+	const card = await test.context.surface.getCard(id)
+	test.is(card.data.email, 'foobar@example.com')
 
-  const timeline = await test.context.surface.getTimeline(id)
-  test.is(timeline.length, 1)
-  test.is(timeline[0].type, 'update')
-  test.deepEqual(timeline[0].data.payload, {
-    slug: 'admin',
-    name: 'The admin user',
-    links: [],
-    tags: [],
-    active: true,
-    data: {
-      email: 'foobar@example.com',
-      roles: []
-    }
-  })
+	const timeline = await test.context.surface.getTimeline(id)
+	test.is(timeline.length, 1)
+	test.is(timeline[0].type, 'update')
+	test.deepEqual(timeline[0].data.payload, {
+		slug: 'admin',
+		name: 'The admin user',
+		links: [],
+		tags: [],
+		active: true,
+		data: {
+			email: 'foobar@example.com',
+			roles: []
+		}
+	})
 })
 
 ava.test('should not create an event if the change is already there', async (test) => {
-  const target = await test.context.surface.getCard('admin')
+	const target = await test.context.surface.getCard('admin')
 
-  const id = await test.context.surface.executeAction('action-update-email', target.slug, {
-    email: target.data.email
-  })
+	const id = await test.context.surface.executeAction('action-update-email', target.slug, {
+		email: target.data.email
+	})
 
-  test.is(id, target.id)
+	test.is(id, target.id)
 
-  const card = await test.context.surface.getCard(id)
-  test.is(card.data.email, target.data.email)
+	const card = await test.context.surface.getCard(id)
+	test.is(card.data.email, target.data.email)
 
-  const timeline = await test.context.surface.getTimeline(id)
-  test.is(timeline.length, 0)
+	const timeline = await test.context.surface.getTimeline(id)
+	test.is(timeline.length, 0)
 })
