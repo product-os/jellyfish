@@ -67,7 +67,7 @@ ava.test('.insertCard() should throw an error if the element is not a valid card
 
 ava.test('.insertCard() should throw an error if the element does not adhere to the type', async (test) => {
 	await test.throws(test.context.kernel.insertCard({
-		slug: 'foo',
+		slug: 'user-foo',
 		type: 'user',
 		active: true,
 		links: [],
@@ -88,7 +88,7 @@ ava.test('.insertCard() should throw an error if the card type does not exist', 
 
 ava.test('.insertCard() should be able to insert a card', async (test) => {
 	const id = await test.context.kernel.insertCard({
-		slug: 'johndoe',
+		slug: 'user-johndoe',
 		type: 'user',
 		active: true,
 		links: [],
@@ -103,7 +103,7 @@ ava.test('.insertCard() should be able to insert a card', async (test) => {
 
 	test.deepEqual(element, {
 		id,
-		slug: 'johndoe',
+		slug: 'user-johndoe',
 		type: 'user',
 		active: true,
 		links: [],
@@ -134,7 +134,7 @@ ava.test('.insertCard() should provide sensible defaults', async (test) => {
 
 ava.test('.insertCard() should throw if the card already exists', async (test) => {
 	const card = {
-		slug: 'johndoe',
+		slug: 'user-johndoe',
 		type: 'user',
 		active: true,
 		links: [],
@@ -151,7 +151,7 @@ ava.test('.insertCard() should throw if the card already exists', async (test) =
 
 ava.test('.insertCard() should replace an element given override is true', async (test) => {
 	const id1 = await test.context.kernel.insertCard({
-		slug: 'johndoe',
+		slug: 'user-johndoe',
 		type: 'user',
 		active: true,
 		links: [],
@@ -163,7 +163,7 @@ ava.test('.insertCard() should replace an element given override is true', async
 	})
 
 	const id2 = await test.context.kernel.insertCard({
-		slug: 'johndoe',
+		slug: 'user-johndoe',
 		type: 'user',
 		active: true,
 		links: [],
@@ -182,7 +182,7 @@ ava.test('.insertCard() should replace an element given override is true', async
 
 	test.deepEqual(element, {
 		id: id1,
-		slug: 'johndoe',
+		slug: 'user-johndoe',
 		type: 'user',
 		active: true,
 		links: [],
@@ -221,7 +221,7 @@ ava.test('.insertCard() should insert action requests on a different bucket', as
 
 ava.test('.getCard() should find an active card by its id', async (test) => {
 	const id = await test.context.kernel.insertCard({
-		slug: 'johndoe',
+		slug: 'user-johndoe',
 		type: 'user',
 		active: true,
 		links: [],
@@ -236,7 +236,7 @@ ava.test('.getCard() should find an active card by its id', async (test) => {
 
 	test.deepEqual(card, {
 		id,
-		slug: 'johndoe',
+		slug: 'user-johndoe',
 		type: 'user',
 		active: true,
 		links: [],
@@ -250,7 +250,7 @@ ava.test('.getCard() should find an active card by its id', async (test) => {
 
 ava.test('.getCard() should find an active card by its slug', async (test) => {
 	const id = await test.context.kernel.insertCard({
-		slug: 'johndoe',
+		slug: 'user-johndoe',
 		type: 'user',
 		active: true,
 		links: [],
@@ -261,11 +261,11 @@ ava.test('.getCard() should find an active card by its slug', async (test) => {
 		}
 	})
 
-	const card = await test.context.kernel.getCard('johndoe')
+	const card = await test.context.kernel.getCard('user-johndoe')
 
 	test.deepEqual(card, {
 		id,
-		slug: 'johndoe',
+		slug: 'user-johndoe',
 		type: 'user',
 		active: true,
 		links: [],
@@ -279,7 +279,7 @@ ava.test('.getCard() should find an active card by its slug', async (test) => {
 
 ava.test('.getCard() should not return an inactive card by its id', async (test) => {
 	const id = await test.context.kernel.insertCard({
-		slug: 'johndoe',
+		slug: 'user-johndoe',
 		type: 'user',
 		active: false,
 		links: [],
@@ -296,7 +296,7 @@ ava.test('.getCard() should not return an inactive card by its id', async (test)
 
 ava.test('.getCard() should not return an inactive card by its slug', async (test) => {
 	await test.context.kernel.insertCard({
-		slug: 'johndoe',
+		slug: 'user-johndoe',
 		type: 'user',
 		active: false,
 		links: [],
@@ -307,13 +307,13 @@ ava.test('.getCard() should not return an inactive card by its slug', async (tes
 		}
 	})
 
-	const card = await test.context.kernel.getCard('johndoe')
+	const card = await test.context.kernel.getCard('user-johndoe')
 	test.deepEqual(card, null)
 })
 
 ava.test('.getCard() should return an inactive card by its id if the inactive option is true', async (test) => {
 	const id = await test.context.kernel.insertCard({
-		slug: 'johndoe',
+		slug: 'user-johndoe',
 		type: 'user',
 		active: false,
 		links: [],
@@ -330,7 +330,7 @@ ava.test('.getCard() should return an inactive card by its id if the inactive op
 
 	test.deepEqual(card, {
 		id,
-		slug: 'johndoe',
+		slug: 'user-johndoe',
 		type: 'user',
 		active: false,
 		links: [],
@@ -344,7 +344,7 @@ ava.test('.getCard() should return an inactive card by its id if the inactive op
 
 ava.test('.getCard() should return an inactive card by its slug if the inactive option is true', async (test) => {
 	const id = await test.context.kernel.insertCard({
-		slug: 'johndoe',
+		slug: 'user-johndoe',
 		type: 'user',
 		active: false,
 		links: [],
@@ -355,13 +355,13 @@ ava.test('.getCard() should return an inactive card by its slug if the inactive 
 		}
 	})
 
-	const card = await test.context.kernel.getCard('johndoe', {
+	const card = await test.context.kernel.getCard('user-johndoe', {
 		inactive: true
 	})
 
 	test.deepEqual(card, {
 		id,
-		slug: 'johndoe',
+		slug: 'user-johndoe',
 		type: 'user',
 		active: false,
 		links: [],
@@ -375,7 +375,7 @@ ava.test('.getCard() should return an inactive card by its slug if the inactive 
 
 ava.test('.query() should return the cards that match a schema', async (test) => {
 	const id1 = await test.context.kernel.insertCard({
-		slug: 'johndoe',
+		slug: 'user-johndoe',
 		type: 'user',
 		active: true,
 		links: [],
@@ -387,7 +387,7 @@ ava.test('.query() should return the cards that match a schema', async (test) =>
 	})
 
 	await test.context.kernel.insertCard({
-		slug: 'johnsmith',
+		slug: 'user-johnsmith',
 		type: 'user',
 		active: true,
 		links: [],
@@ -431,7 +431,7 @@ ava.test('.query() should return the cards that match a schema', async (test) =>
 		{
 			id: id1,
 			active: true,
-			slug: 'johndoe',
+			slug: 'user-johndoe',
 			type: 'user',
 			data: {
 				email: 'johndoe@example.io',
@@ -443,7 +443,7 @@ ava.test('.query() should return the cards that match a schema', async (test) =>
 
 ava.test('.query() should not return inactive cards by default', async (test) => {
 	await test.context.kernel.insertCard({
-		slug: 'johndoe',
+		slug: 'user-johndoe',
 		type: 'user',
 		active: false,
 		links: [],
@@ -455,7 +455,7 @@ ava.test('.query() should not return inactive cards by default', async (test) =>
 	})
 
 	await test.context.kernel.insertCard({
-		slug: 'johnsmith',
+		slug: 'user-johnsmith',
 		type: 'user',
 		active: false,
 		links: [],
@@ -482,7 +482,7 @@ ava.test('.query() should not return inactive cards by default', async (test) =>
 
 ava.test('.query() should query all cards of a certain type', async (test) => {
 	await test.context.kernel.insertCard({
-		slug: 'johndoe',
+		slug: 'user-johndoe',
 		type: 'user',
 		active: true,
 		links: [],
@@ -507,7 +507,11 @@ ava.test('.query() should query all cards of a certain type', async (test) => {
 		required: [ 'slug', 'type' ]
 	})
 
-	test.deepEqual(_.sortBy(_.map(results, 'slug')), [ 'admin', 'johndoe', 'user-actions' ])
+	test.deepEqual(_.sortBy(_.map(results, 'slug')), [
+		'user-actions',
+		'user-admin',
+		'user-johndoe'
+	])
 })
 
 ava.test('.query() should return all action request cards', async (test) => {
@@ -636,7 +640,7 @@ ava.test('.query() should be able to return both action requests and other cards
 
 ava.test('.query() should return inactive cards if the inactive option is true', async (test) => {
 	await test.context.kernel.insertCard({
-		slug: 'johndoe',
+		slug: 'user-johndoe',
 		type: 'user',
 		active: true,
 		links: [],
@@ -648,7 +652,7 @@ ava.test('.query() should return inactive cards if the inactive option is true',
 	})
 
 	await test.context.kernel.insertCard({
-		slug: 'johnsmith',
+		slug: 'user-johnsmith',
 		type: 'user',
 		active: false,
 		links: [],
@@ -674,7 +678,7 @@ ava.test('.query() should return inactive cards if the inactive option is true',
 
 	test.deepEqual(results, [
 		{
-			slug: 'johnsmith'
+			slug: 'user-johnsmith'
 		}
 	])
 })
@@ -796,7 +800,7 @@ ava.test.cb('.stream() should report back elements of a certain type', (test) =>
 		emitter.on('data', (change) => {
 			test.deepEqual(change.before, null)
 			test.deepEqual(_.omit(change.after, [ 'id' ]), {
-				slug: 'johndoe',
+				slug: 'user-johndoe',
 				active: true,
 				type: 'user',
 				data: {
@@ -820,7 +824,7 @@ ava.test.cb('.stream() should report back elements of a certain type', (test) =>
 				}
 			}),
 			test.context.kernel.insertCard({
-				slug: 'johndoe',
+				slug: 'user-johndoe',
 				type: 'user',
 				data: {
 					email: 'johndoe@example.com',
@@ -900,7 +904,7 @@ ava.test.cb('.stream() should report back action requests', (test) => {
 				}
 			}),
 			test.context.kernel.insertCard({
-				slug: 'johndoe',
+				slug: 'user-johndoe',
 				type: 'user',
 				data: {
 					email: 'johndoe@example.com',
@@ -985,7 +989,7 @@ ava.test.cb('.stream() should report both action requests and users', (test) => 
 			})
 		}).then(() => {
 			return test.context.kernel.insertCard({
-				slug: 'johndoe',
+				slug: 'user-johndoe',
 				type: 'user',
 				data: {
 					email: 'johndoe@example.com',

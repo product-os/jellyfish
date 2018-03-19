@@ -20,7 +20,7 @@ const ava = require('ava')
 ava.test('should create a card and add a create but not update event', async (test) => {
 	const id = await test.context.surface.executeAction('action-upsert-card', 'user', {
 		properties: {
-			slug: 'johndoe',
+			slug: 'user-johndoe',
 			data: {
 				email: 'johndoe@example.com',
 				roles: []
@@ -32,7 +32,7 @@ ava.test('should create a card and add a create but not update event', async (te
 
 	test.deepEqual(card, {
 		id,
-		slug: 'johndoe',
+		slug: 'user-johndoe',
 		type: 'user',
 		tags: [],
 		links: [],

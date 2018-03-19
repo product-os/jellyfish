@@ -21,7 +21,7 @@ const errors = require('../../../lib/sdk/errors')
 ava.test('should create a card', async (test) => {
 	const id = await test.context.surface.executeAction('action-create-card', 'user', {
 		properties: {
-			slug: 'johndoe',
+			slug: 'user-johndoe',
 			data: {
 				email: 'johndoe@example.com',
 				roles: []
@@ -33,7 +33,7 @@ ava.test('should create a card', async (test) => {
 
 	test.deepEqual(card, {
 		id,
-		slug: 'johndoe',
+		slug: 'user-johndoe',
 		type: 'user',
 		tags: [],
 		links: [],
@@ -58,7 +58,7 @@ ava.test('should fail if the card type does not exist', async (test) => {
 
 ava.test('should fail if the card already exists', async (test) => {
 	const card = {
-		slug: 'johndoe',
+		slug: 'user-johndoe',
 		data: {
 			email: 'johndoe@example.com',
 			roles: []
@@ -80,7 +80,7 @@ ava.test('should fail if the card already exists', async (test) => {
 ava.test('should fail if there is a schema mismatch', async (test) => {
 	await test.throws(test.context.surface.executeAction('action-create-card', 'user', {
 		properties: {
-			slug: 'johndoe',
+			slug: 'user-johndoe',
 			data: {
 				email: 1,
 				roles: []
@@ -92,7 +92,7 @@ ava.test('should fail if there is a schema mismatch', async (test) => {
 ava.test('should fail if the element is not a valid card', async (test) => {
 	await test.throws(test.context.surface.executeAction('action-create-card', 'user', {
 		properties: {
-			slug: 'johndoe',
+			slug: 'user-johndoe',
 			foo: 'bar'
 		}
 	}), errors.JellyfishSchemaMismatch)
@@ -101,7 +101,7 @@ ava.test('should fail if the element is not a valid card', async (test) => {
 ava.test('should create an inactive card', async (test) => {
 	const id = await test.context.surface.executeAction('action-create-card', 'user', {
 		properties: {
-			slug: 'johndoe',
+			slug: 'user-johndoe',
 			active: false,
 			data: {
 				email: 'johndoe@example.com',
@@ -116,7 +116,7 @@ ava.test('should create an inactive card', async (test) => {
 
 	test.deepEqual(card, {
 		id,
-		slug: 'johndoe',
+		slug: 'user-johndoe',
 		type: 'user',
 		tags: [],
 		links: [],
@@ -131,7 +131,7 @@ ava.test('should create an inactive card', async (test) => {
 ava.test('should create a card with more extra data properties', async (test) => {
 	const id = await test.context.surface.executeAction('action-create-card', 'user', {
 		properties: {
-			slug: 'johndoe',
+			slug: 'user-johndoe',
 			data: {
 				email: 'johndoe@example.com',
 				foobar: true,
@@ -144,7 +144,7 @@ ava.test('should create a card with more extra data properties', async (test) =>
 
 	test.deepEqual(card, {
 		id,
-		slug: 'johndoe',
+		slug: 'user-johndoe',
 		type: 'user',
 		tags: [],
 		links: [],

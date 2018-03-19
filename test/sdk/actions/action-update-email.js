@@ -17,7 +17,7 @@
 const ava = require('ava')
 
 ava.test('should update the user email', async (test) => {
-	const target = await test.context.surface.getCard('admin')
+	const target = await test.context.surface.getCard('user-admin')
 
 	const id = await test.context.surface.executeAction('action-update-email', target.slug, {
 		email: 'foobar@example.com'
@@ -32,7 +32,7 @@ ava.test('should update the user email', async (test) => {
 	test.is(timeline.length, 1)
 	test.is(timeline[0].type, 'update')
 	test.deepEqual(timeline[0].data.payload, {
-		slug: 'admin',
+		slug: 'user-admin',
 		name: 'The admin user',
 		links: [],
 		tags: [],
@@ -45,7 +45,7 @@ ava.test('should update the user email', async (test) => {
 })
 
 ava.test('should not create an event if the change is already there', async (test) => {
-	const target = await test.context.surface.getCard('admin')
+	const target = await test.context.surface.getCard('user-admin')
 
 	const id = await test.context.surface.executeAction('action-update-email', target.slug, {
 		email: target.data.email

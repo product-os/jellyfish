@@ -20,7 +20,7 @@ const ava = require('ava')
 ava.test('should delete an active card', async (test) => {
 	const id = await test.context.surface.executeAction('action-create-card', 'user', {
 		properties: {
-			slug: 'johndoe',
+			slug: 'user-johndoe',
 			data: {
 				email: 'johndoe@example.com',
 				roles: []
@@ -37,7 +37,7 @@ ava.test('should delete an active card', async (test) => {
 
 	test.deepEqual(card, {
 		id,
-		slug: 'johndoe',
+		slug: 'user-johndoe',
 		type: 'user',
 		tags: [],
 		links: [],
@@ -59,7 +59,7 @@ ava.test('should delete an inactive card', async (test) => {
 	const id = await test.context.surface.executeAction('action-create-card', 'user', {
 		properties: {
 			active: false,
-			slug: 'johndoe',
+			slug: 'user-johndoe',
 			data: {
 				email: 'johndoe@example.com',
 				roles: []
@@ -76,7 +76,7 @@ ava.test('should delete an inactive card', async (test) => {
 
 	test.deepEqual(card, {
 		id,
-		slug: 'johndoe',
+		slug: 'user-johndoe',
 		type: 'user',
 		tags: [],
 		links: [],
