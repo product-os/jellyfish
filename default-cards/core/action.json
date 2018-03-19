@@ -11,7 +11,7 @@
       "properties": {
         "slug": {
           "type": "string",
-          "pattern": "^[a-z0-9-]+$"
+          "pattern": "^action-[a-z0-9-]+$"
         },
         "type": {
           "type": "string",
