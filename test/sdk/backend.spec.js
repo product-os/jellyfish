@@ -939,3 +939,104 @@ ava.test.cb('.stream() should close without finding anything', (test) => {
 		emitter.on('closed', test.end)
 	}).catch(test.end)
 })
+
+ava.test.cb('.stream() should set "before" to an empty object if it previously did not match the schema', (test) => {
+	test.context.backend.createTable('test').then(() => {
+		return test.context.backend.insertElement('test', {
+			slug: 'foobarbaz',
+			type: 'foo',
+			test: '1'
+		})
+	}).then((emitter) => {
+		return test.context.backend.stream('test', {
+			type: 'object',
+			properties: {
+				slug: {
+					type: 'string'
+				},
+				type: {
+					type: 'string',
+					const: 'foo'
+				},
+				test: {
+					type: 'number'
+				}
+			},
+			required: [ 'type' ]
+		})
+	}).then((emitter) => {
+		emitter.on('data', (change) => {
+			test.deepEqual(change.before, {})
+			test.deepEqual(_.omit(change.after, [ 'id' ]), {
+				slug: 'foobarbaz',
+				type: 'foo',
+				test: 1
+			})
+
+			emitter.close()
+		})
+
+		emitter.on('error', test.end)
+		emitter.on('closed', test.end)
+
+		return test.context.backend.updateElement('test', {
+			slug: 'foobarbaz',
+			type: 'foo',
+			test: 1
+		})
+	}).catch(test.end)
+})
+
+ava.test.cb('.stream() should filter the "before" section of a change', (test) => {
+	test.context.backend.createTable('test').then(() => {
+		return test.context.backend.insertElement('test', {
+			type: 'foo',
+			slug: 'hello',
+			test: 1,
+			extra: true
+		})
+	}).then(() => {
+		return test.context.backend.stream('test', {
+			type: 'object',
+			properties: {
+				slug: {
+					type: 'string'
+				},
+				type: {
+					type: 'string',
+					const: 'foo'
+				},
+				test: {
+					type: 'number'
+				}
+			},
+			required: [ 'type' ]
+		})
+	}).then((emitter) => {
+		emitter.on('data', (change) => {
+			test.deepEqual(_.omit(change.before, [ 'id' ]), {
+				slug: 'hello',
+				type: 'foo',
+				test: 1
+			})
+
+			test.deepEqual(_.omit(change.after, [ 'id' ]), {
+				slug: 'hello',
+				type: 'foo',
+				test: 2
+			})
+
+			emitter.close()
+		})
+
+		emitter.on('error', test.end)
+		emitter.on('closed', test.end)
+
+		return test.context.backend.updateElement('test', {
+			slug: 'hello',
+			type: 'foo',
+			test: 2,
+			extra: true
+		})
+	}).catch(test.end)
+})
