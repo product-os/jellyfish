@@ -401,22 +401,38 @@ ava.test('.query() should return the cards that match a schema', async (test) =>
 	const results = await test.context.kernel.query({
 		type: 'object',
 		properties: {
+			id: {
+				type: 'string'
+			},
 			slug: {
 				type: 'string',
 				pattern: 'doe$'
+			},
+			type: {
+				type: 'string'
+			},
+			data: {
+				type: 'object',
+				properties: {
+					email: {
+						type: 'string'
+					},
+					roles: {
+						type: 'array'
+					}
+				},
+				required: [ 'email', 'roles' ]
 			}
 		},
-		required: [ 'slug' ]
+		required: [ 'id', 'slug', 'type', 'data' ]
 	})
 
 	test.deepEqual(results, [
 		{
 			id: id1,
+			active: true,
 			slug: 'johndoe',
 			type: 'user',
-			active: true,
-			links: [],
-			tags: [],
 			data: {
 				email: 'johndoe@example.io',
 				roles: []
@@ -480,12 +496,15 @@ ava.test('.query() should query all cards of a certain type', async (test) => {
 	const results = await test.context.kernel.query({
 		type: 'object',
 		properties: {
+			slug: {
+				type: 'string'
+			},
 			type: {
 				type: 'string',
 				const: 'user'
 			}
 		},
-		required: [ 'type' ]
+		required: [ 'slug', 'type' ]
 	})
 
 	test.deepEqual(_.sortBy(_.map(results, 'slug')), [ 'admin', 'johndoe', 'user-actions' ])
@@ -509,7 +528,7 @@ ava.test('.query() should return all action request cards', async (test) => {
 		}
 	}
 
-	const id = await test.context.kernel.insertCard(request)
+	await test.context.kernel.insertCard(request)
 
 	const results = await test.context.kernel.query({
 		type: 'object',
@@ -517,15 +536,50 @@ ava.test('.query() should return all action request cards', async (test) => {
 			type: {
 				type: 'string',
 				const: 'action-request'
+			},
+			data: {
+				type: 'object',
+				properties: {
+					action: {
+						type: 'string'
+					},
+					actor: {
+						type: 'string'
+					},
+					target: {
+						type: 'string'
+					},
+					timestamp: {
+						type: 'string'
+					},
+					executed: {
+						type: 'boolean'
+					},
+					arguments: {
+						additionalProperties: true,
+						type: 'object'
+					}
+				}
 			}
 		},
 		required: [ 'type' ]
 	})
 
 	test.deepEqual(results, [
-		Object.assign({
-			id
-		}, request)
+		{
+			type: 'action-request',
+			active: true,
+			data: {
+				action: 'action-foo',
+				actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				timestamp: '2018-03-14T21:10:45.921Z',
+				executed: false,
+				arguments: {
+					foo: 'bar'
+				}
+			}
+		}
 	])
 })
 
@@ -560,6 +614,9 @@ ava.test('.query() should be able to return both action requests and other cards
 	const results = await test.context.kernel.query({
 		type: 'object',
 		properties: {
+			id: {
+				type: 'string'
+			},
 			data: {
 				type: 'object',
 				properties: {
@@ -571,7 +628,7 @@ ava.test('.query() should be able to return both action requests and other cards
 				required: [ 'executed' ]
 			}
 		},
-		required: [ 'data' ]
+		required: [ 'id', 'data' ]
 	})
 
 	test.deepEqual(_.orderBy(_.map(results, 'id')), _.orderBy([ id1, id2 ]))
@@ -590,7 +647,7 @@ ava.test('.query() should return inactive cards if the inactive option is true',
 		}
 	})
 
-	const id = await test.context.kernel.insertCard({
+	await test.context.kernel.insertCard({
 		slug: 'johnsmith',
 		type: 'user',
 		active: false,
@@ -617,16 +674,7 @@ ava.test('.query() should return inactive cards if the inactive option is true',
 
 	test.deepEqual(results, [
 		{
-			id,
-			slug: 'johnsmith',
-			type: 'user',
-			active: false,
-			links: [],
-			tags: [],
-			data: {
-				email: 'johnsmith@example.io',
-				roles: []
-			}
+			slug: 'johnsmith'
 		}
 	])
 })

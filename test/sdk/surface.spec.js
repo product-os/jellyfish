@@ -399,7 +399,7 @@ ava.test('.queryView() should throw if the view is not of type view', async (tes
 })
 
 ava.test('.queryView() should execute a view with one filter', async (test) => {
-	const elementId = await test.context.kernel.insertCard({
+	await test.context.kernel.insertCard({
 		type: 'card',
 		tags: [],
 		links: [],
@@ -442,10 +442,6 @@ ava.test('.queryView() should execute a view with one filter', async (test) => {
 	const results = await test.context.surface.queryView(id)
 	test.deepEqual(results, [
 		{
-			id: elementId,
-			type: 'card',
-			tags: [],
-			links: [],
 			active: true,
 			data: {
 				number: 1
@@ -455,7 +451,7 @@ ava.test('.queryView() should execute a view with one filter', async (test) => {
 })
 
 ava.test('.queryView() should execute a view with more than one filter', async (test) => {
-	const elementId = await test.context.kernel.insertCard({
+	await test.context.kernel.insertCard({
 		type: 'card',
 		tags: [ 'foo' ],
 		links: [],
@@ -524,10 +520,7 @@ ava.test('.queryView() should execute a view with more than one filter', async (
 	const results = await test.context.surface.queryView(id)
 	test.deepEqual(results, [
 		{
-			id: elementId,
-			type: 'card',
 			tags: [ 'foo' ],
-			links: [],
 			active: true,
 			data: {
 				number: 1

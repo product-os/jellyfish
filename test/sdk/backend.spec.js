@@ -650,14 +650,19 @@ ava.test('.query() should query the database using JSON schema', async (test) =>
 
 	const results = await test.context.backend.query('test', {
 		type: 'object',
-		additionalProperties: true,
 		properties: {
+			id: {
+				type: 'string'
+			},
+			test: {
+				type: 'number'
+			},
 			type: {
 				type: 'string',
 				pattern: '^example$'
 			}
 		},
-		required: [ 'type' ]
+		required: [ 'id', 'test', 'type' ]
 	})
 
 	test.deepEqual(_.sortBy(results, [ 'test' ]), [
@@ -684,7 +689,6 @@ ava.test('.query() should query an element by its id', async (test) => {
 
 	const results = await test.context.backend.query('test', {
 		type: 'object',
-		additionalProperties: true,
 		properties: {
 			id: {
 				type: 'string',
@@ -715,7 +719,6 @@ ava.test('.query() should fail to query an element by its id', async (test) => {
 
 	const results = await test.context.backend.query('test', {
 		type: 'object',
-		additionalProperties: true,
 		properties: {
 			id: {
 				type: 'string',
@@ -739,7 +742,6 @@ ava.test('.query() should query an element by its slug', async (test) => {
 
 	const results = await test.context.backend.query('test', {
 		type: 'object',
-		additionalProperties: true,
 		properties: {
 			slug: {
 				type: 'string',
@@ -770,7 +772,6 @@ ava.test('.query() should fail to query an element by its slug', async (test) =>
 
 	const results = await test.context.backend.query('test', {
 		type: 'object',
-		additionalProperties: true,
 		properties: {
 			slug: {
 				type: 'string',
@@ -781,6 +782,37 @@ ava.test('.query() should fail to query an element by its slug', async (test) =>
 	})
 
 	test.deepEqual(results, [])
+})
+
+ava.test('.query() should not return unspecified properties', async (test) => {
+	await test.context.backend.createTable('test')
+
+	const uuid = await test.context.backend.upsertElement('test', {
+		type: 'example',
+		slug: 'hello',
+		test: 1
+	})
+
+	const results = await test.context.backend.query('test', {
+		type: 'object',
+		properties: {
+			id: {
+				type: 'string'
+			},
+			slug: {
+				type: 'string',
+				const: 'hello'
+			}
+		},
+		required: [ 'id', 'slug' ]
+	})
+
+	test.deepEqual(results, [
+		{
+			id: uuid,
+			slug: 'hello'
+		}
+	])
 })
 
 ava.test.cb('.stream() should report back new elements that match a certain type', (test) => {
