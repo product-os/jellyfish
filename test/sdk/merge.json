@@ -305,5 +305,43 @@
       }
     ],
     "expected": null
-  }
+  },
+	{
+		"schemas": [
+			{
+				"type": "object",
+				"properties": {
+					"slug": {
+						"type": "string"
+					}
+				},
+				"required": [ "slug" ],
+				"additionalProperties": true
+			},
+			{
+				"type": "object",
+				"properties": {
+					"active": {
+						"type": "boolean",
+						"const": true
+					}
+				},
+				"required": [ "active" ]
+			}
+		],
+		"expected": {
+			"type": "object",
+			"additionalProperties": true,
+			"required": [ "active", "slug" ],
+			"properties": {
+				"slug": {
+					"type": "string"
+				},
+				"active": {
+					"type": "boolean",
+					"const": true
+				}
+			}
+		}
+	}
 ]
