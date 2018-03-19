@@ -225,6 +225,33 @@ ava.test('.filter() should not remove properties given explicit additionalProper
 	})
 })
 
+ava.test('.filter() should not remove properties given explicit additionalProperties and force: true', (test) => {
+	const result = jsonSchema.filter({
+		type: 'object',
+		additionalProperties: true,
+		properties: {
+			foo: {
+				type: 'number'
+			},
+			bar: {
+				type: 'string'
+			}
+		},
+		required: [ 'foo', 'bar' ]
+	}, {
+		foo: 1,
+		bar: 'foo',
+		baz: 'qux'
+	}, {
+		force: true
+	})
+
+	test.deepEqual(result, {
+		foo: 1,
+		bar: 'foo'
+	})
+})
+
 ava.test('.filter() should return null if there is no match', (test) => {
 	const result = jsonSchema.filter({
 		type: 'object',
