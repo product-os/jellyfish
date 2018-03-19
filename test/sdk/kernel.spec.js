@@ -703,9 +703,29 @@ ava.test.cb('.stream() should report back new elements that match a certain slug
 	test.context.kernel.stream({
 		type: 'object',
 		properties: {
+			type: {
+				type: 'string'
+			},
 			slug: {
 				type: 'string',
 				const: 'card-foo'
+			},
+			active: {
+				type: 'boolean'
+			},
+			links: {
+				type: 'array'
+			},
+			tags: {
+				type: 'array'
+			},
+			data: {
+				type: 'object',
+				properties: {
+					test: {
+						type: 'number'
+					}
+				}
 			}
 		},
 		required: [ 'slug' ]
@@ -752,9 +772,23 @@ ava.test.cb('.stream() should report back elements of a certain type', (test) =>
 	test.context.kernel.stream({
 		type: 'object',
 		properties: {
+			slug: {
+				type: 'string'
+			},
 			type: {
 				type: 'string',
 				const: 'user'
+			},
+			data: {
+				type: 'object',
+				properties: {
+					email: {
+						type: 'string'
+					},
+					roles: {
+						type: 'array'
+					}
+				}
 			}
 		},
 		required: [ 'type' ]
@@ -763,10 +797,8 @@ ava.test.cb('.stream() should report back elements of a certain type', (test) =>
 			test.deepEqual(change.before, null)
 			test.deepEqual(_.omit(change.after, [ 'id' ]), {
 				slug: 'johndoe',
-				type: 'user',
 				active: true,
-				links: [],
-				tags: [],
+				type: 'user',
 				data: {
 					email: 'johndoe@example.com',
 					roles: []
@@ -806,6 +838,30 @@ ava.test.cb('.stream() should report back action requests', (test) => {
 			type: {
 				type: 'string',
 				const: 'action-request'
+			},
+			data: {
+				type: 'object',
+				properties: {
+					action: {
+						type: 'string'
+					},
+					actor: {
+						type: 'string'
+					},
+					target: {
+						type: 'string'
+					},
+					timestamp: {
+						type: 'string'
+					},
+					executed: {
+						type: 'boolean'
+					},
+					arguments: {
+						type: 'object',
+						additionalProperties: true
+					}
+				}
 			}
 		},
 		required: [ 'type' ]
@@ -815,8 +871,6 @@ ava.test.cb('.stream() should report back action requests', (test) => {
 			test.deepEqual(_.omit(change.after, [ 'id' ]), {
 				type: 'action-request',
 				active: true,
-				links: [],
-				tags: [],
 				data: {
 					action: 'action-delete-card',
 					actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
@@ -861,6 +915,9 @@ ava.test.cb('.stream() should report both action requests and users', (test) => 
 	test.context.kernel.stream({
 		type: 'object',
 		properties: {
+			id: {
+				type: 'string'
+			},
 			type: {
 				type: 'string',
 				anyOf: [
@@ -893,17 +950,7 @@ ava.test.cb('.stream() should report both action requests and users', (test) => 
 					after: {
 						id: changes[0].after.id,
 						active: true,
-						tags: [],
-						links: [],
-						type: 'action-request',
-						data: {
-							action: 'action-delete-card',
-							actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-							target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-							timestamp: '2018-03-16T03:29:29.543Z',
-							executed: false,
-							arguments: {}
-						}
+						type: 'action-request'
 					}
 				},
 				{
@@ -911,14 +958,7 @@ ava.test.cb('.stream() should report both action requests and users', (test) => 
 					after: {
 						id: changes[1].after.id,
 						active: true,
-						tags: [],
-						links: [],
-						slug: 'johndoe',
-						type: 'user',
-						data: {
-							email: 'johndoe@example.com',
-							roles: []
-						}
+						type: 'user'
 					}
 				}
 			])
@@ -977,9 +1017,23 @@ ava.test.cb('.stream() should not report back inactive elements by default', (te
 	test.context.kernel.stream({
 		type: 'object',
 		properties: {
+			slug: {
+				type: 'string'
+			},
+			active: {
+				type: 'boolean'
+			},
 			type: {
 				type: 'string',
 				const: 'card'
+			},
+			data: {
+				type: 'object',
+				properties: {
+					test: {
+						type: 'number'
+					}
+				}
 			}
 		},
 		required: [ 'type' ]
@@ -990,8 +1044,6 @@ ava.test.cb('.stream() should not report back inactive elements by default', (te
 				type: 'card',
 				slug: 'card-foo',
 				active: true,
-				links: [],
-				tags: [],
 				data: {
 					test: 1
 				}
@@ -1027,6 +1079,9 @@ ava.test.cb('.stream() should report back inactive elements if the inactive opti
 	test.context.kernel.stream({
 		type: 'object',
 		properties: {
+			slug: {
+				type: 'string'
+			},
 			type: {
 				type: 'string',
 				const: 'card'
@@ -1040,13 +1095,7 @@ ava.test.cb('.stream() should report back inactive elements if the inactive opti
 			test.deepEqual(change.before, null)
 			test.deepEqual(_.omit(change.after, [ 'id' ]), {
 				type: 'card',
-				slug: 'card-bar',
-				active: false,
-				links: [],
-				tags: [],
-				data: {
-					test: 2
-				}
+				slug: 'card-bar'
 			})
 
 			emitter.close()

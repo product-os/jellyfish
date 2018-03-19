@@ -823,6 +823,9 @@ ava.test.cb('.stream() should report back new elements that match a certain type
 				type: {
 					type: 'string',
 					const: 'foo'
+				},
+				test: {
+					type: 'number'
 				}
 			},
 			required: [ 'type' ]
@@ -871,9 +874,15 @@ ava.test.cb('.stream() should report back changes to certain elements', (test) =
 		return test.context.backend.stream('test', {
 			type: 'object',
 			properties: {
+				slug: {
+					type: 'string'
+				},
 				type: {
 					type: 'string',
 					const: 'foo'
+				},
+				test: {
+					type: 'number'
 				}
 			},
 			required: [ 'type' ]
