@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *		http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -173,6 +173,114 @@ ava.test('.validate() should throw if there is more than one error', (test) => {
 			foo: 'bar'
 		})
 	}, errors.JellyfishSchemaMismatch)
+})
+
+ava.test('.filter() should remove additional properties from a top level object', (test) => {
+	const result = jsonSchema.filter({
+		type: 'object',
+		properties: {
+			foo: {
+				type: 'number'
+			},
+			bar: {
+				type: 'string'
+			}
+		},
+		required: [ 'foo', 'bar' ]
+	}, {
+		foo: 1,
+		bar: 'foo',
+		baz: 'qux'
+	})
+
+	test.deepEqual(result, {
+		foo: 1,
+		bar: 'foo'
+	})
+})
+
+ava.test('.filter() should not remove properties given explicit additionalProperties', (test) => {
+	const result = jsonSchema.filter({
+		type: 'object',
+		additionalProperties: true,
+		properties: {
+			foo: {
+				type: 'number'
+			},
+			bar: {
+				type: 'string'
+			}
+		},
+		required: [ 'foo', 'bar' ]
+	}, {
+		foo: 1,
+		bar: 'foo',
+		baz: 'qux'
+	})
+
+	test.deepEqual(result, {
+		foo: 1,
+		bar: 'foo',
+		baz: 'qux'
+	})
+})
+
+ava.test('.filter() should return null if there is no match', (test) => {
+	const result = jsonSchema.filter({
+		type: 'object',
+		properties: {
+			foo: {
+				type: 'number'
+			},
+			bar: {
+				type: 'string'
+			}
+		},
+		required: [ 'foo', 'bar' ]
+	}, {
+		foo: 'hello',
+		bar: 'foo',
+		baz: 'qux'
+	})
+
+	test.deepEqual(result, null)
+})
+
+ava.test('.filter() should remove additional properties from a nested object', (test) => {
+	const result = jsonSchema.filter({
+		type: 'object',
+		properties: {
+			foo: {
+				type: 'number'
+			},
+			bar: {
+				type: 'object',
+				properties: {
+					baz: {
+						type: 'string'
+					}
+				},
+				required: [ 'baz' ]
+			}
+		},
+		required: [ 'foo', 'bar' ]
+	}, {
+		foo: 1,
+		bar: {
+			baz: 'hello',
+			qux: {
+				foo: 'bar'
+			}
+		},
+		baz: 'qux'
+	})
+
+	test.deepEqual(result, {
+		foo: 1,
+		bar: {
+			baz: 'hello'
+		}
+	})
 })
 
 _.each(MERGE_TEST_CASES, (testCase, index) => {
