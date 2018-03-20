@@ -19,7 +19,7 @@
   },
   "ava": {
     "verbose": true,
-    "concurrency": 5,
+    "concurrency": 3,
     "files": [
       "test/**/*.spec.js"
     ]
