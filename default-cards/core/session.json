@@ -1,0 +1,26 @@
+{
+  "slug": "session",
+  "type": "type",
+  "name": "Jellyfish Session",
+  "tags": [],
+  "links": [],
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "properties": {
+            "expiration": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          "required": [ "expiration" ]
+        }
+      },
+      "required": [ "data" ]
+    }
+  }
+}

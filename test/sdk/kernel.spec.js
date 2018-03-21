@@ -37,7 +37,8 @@ ava.test.beforeEach(async (test) => {
 
 	test.context.buckets = {
 		cards: 'cards',
-		requests: 'requests'
+		requests: 'requests',
+		sessions: 'sessions'
 	}
 
 	test.context.kernel = new Kernel(test.context.backend, {
