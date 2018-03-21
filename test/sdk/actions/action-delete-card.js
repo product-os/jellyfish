@@ -16,6 +16,7 @@
 
 const _ = require('lodash')
 const ava = require('ava')
+const utils = require('../../../lib/utils')
 
 ava.test('should delete an active card', async (test) => {
 	const id = await test.context.surface.executeAction('action-create-card', 'card', {
@@ -46,7 +47,7 @@ ava.test('should delete an active card', async (test) => {
 		}
 	})
 
-	const timeline = _.map(await test.context.surface.getTimeline(id, {
+	const timeline = _.map(await utils.getTimeline(test.context.surface, id, {
 		inactive: true
 	}), 'type')
 
@@ -83,7 +84,7 @@ ava.test('should delete an inactive card', async (test) => {
 		}
 	})
 
-	const timeline = _.map(await test.context.surface.getTimeline(id, {
+	const timeline = _.map(await utils.getTimeline(test.context.surface, id, {
 		inactive: true
 	}), 'type')
 

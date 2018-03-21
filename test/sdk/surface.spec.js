@@ -22,6 +22,7 @@ const Kernel = require('../../lib/sdk/kernel')
 const Surface = require('../../lib/sdk/surface')
 const CARDS = require('../../lib/sdk/cards')
 const errors = require('../../lib/sdk/errors')
+const utils = require('../../lib/utils')
 
 ava.test.beforeEach(async (test) => {
 	test.context.backend = new Backend({
@@ -59,7 +60,7 @@ for (const category of _.keys(CARDS)) {
 		if (category !== 'core') {
 			ava.test(`should contain a create event for the ${card.slug} card`, async (test) => {
 				const element = await test.context.surface.getCard(card.slug)
-				const timeline = await test.context.surface.getTimeline(element.id)
+				const timeline = await utils.getTimeline(test.context.surface, element.id)
 				test.is(timeline.length, 1)
 				test.is(timeline[0].type, 'create')
 			})
@@ -208,165 +209,6 @@ ava.test('.getCard() should return null if the slug does not exist', async (test
 	test.deepEqual(card, null)
 })
 
-ava.test('.getTimeline() should return an empty list of the card has no timeline', async (test) => {
-	const id = await test.context.kernel.insertCard({
-		type: 'card',
-		tags: [],
-		links: [],
-		active: true,
-		data: {
-			number: 1
-		}
-	})
-
-	test.deepEqual(await test.context.surface.getTimeline(id), [])
-})
-
-ava.test('.getTimeline() should return the timeline ordered by time', async (test) => {
-	const id = await test.context.kernel.insertCard({
-		type: 'card',
-		tags: [],
-		links: [],
-		active: true,
-		data: {
-			number: 1
-		}
-	})
-
-	const admin = await test.context.surface.getCard('user-admin')
-	test.truthy(admin)
-
-	await test.context.kernel.insertCard({
-		type: 'event',
-		tags: [],
-		links: [],
-		active: true,
-		data: {
-			timestamp: '2018-03-09T19:57:40.963Z',
-			target: id,
-			actor: admin.id,
-			payload: {}
-		}
-	})
-
-	await test.context.kernel.insertCard({
-		type: 'event',
-		tags: [],
-		links: [],
-		active: true,
-		data: {
-			timestamp: '2018-04-09T19:57:40.963Z',
-			target: id,
-			actor: admin.id,
-			payload: {}
-		}
-	})
-
-	await test.context.kernel.insertCard({
-		type: 'event',
-		tags: [],
-		links: [],
-		active: true,
-		data: {
-			timestamp: '2018-02-09T19:57:40.963Z',
-			target: id,
-			actor: admin.id,
-			payload: {}
-		}
-	})
-
-	const timeline = await test.context.surface.getTimeline(id)
-
-	test.deepEqual(_.map(timeline, 'data.timestamp'), [
-		'2018-02-09T19:57:40.963Z',
-		'2018-03-09T19:57:40.963Z',
-		'2018-04-09T19:57:40.963Z'
-	])
-})
-
-ava.test('.getTimeline() should return the timeline of an inactive card if the inactive option is true', async (test) => {
-	const id = await test.context.kernel.insertCard({
-		type: 'card',
-		tags: [],
-		links: [],
-		active: false,
-		data: {
-			number: 1
-		}
-	})
-
-	const admin = await test.context.surface.getCard('user-admin')
-	test.truthy(admin)
-
-	await test.context.kernel.insertCard({
-		type: 'event',
-		tags: [],
-		links: [],
-		active: true,
-		data: {
-			timestamp: '2018-03-09T19:57:40.963Z',
-			target: id,
-			actor: admin.id,
-			payload: {}
-		}
-	})
-
-	await test.context.kernel.insertCard({
-		type: 'event',
-		tags: [],
-		links: [],
-		active: true,
-		data: {
-			timestamp: '2018-04-09T19:57:40.963Z',
-			target: id,
-			actor: admin.id,
-			payload: {}
-		}
-	})
-
-	await test.context.kernel.insertCard({
-		type: 'event',
-		tags: [],
-		links: [],
-		active: true,
-		data: {
-			timestamp: '2018-02-09T19:57:40.963Z',
-			target: id,
-			actor: admin.id,
-			payload: {}
-		}
-	})
-
-	const timeline = await test.context.surface.getTimeline(id, {
-		inactive: true
-	})
-
-	test.deepEqual(_.map(timeline, 'data.timestamp'), [
-		'2018-02-09T19:57:40.963Z',
-		'2018-03-09T19:57:40.963Z',
-		'2018-04-09T19:57:40.963Z'
-	])
-})
-
-ava.test('.getTimeline() should fail if the id does not exist', async (test) => {
-	const card = await test.context.surface.getCard('4a962ad9-20b5-4dd8-a707-bf819593cc84')
-	test.falsy(card)
-	await test.throws(test.context.surface.getTimeline('4a962ad9-20b5-4dd8-a707-bf819593cc84'), errors.JellyfishNoElement)
-})
-
-ava.test('.getTimeline() should fail if the card is inactive and the inactive option is not true', async (test) => {
-	const id = await test.context.kernel.insertCard({
-		type: 'card',
-		tags: [],
-		links: [],
-		active: false,
-		data: {
-			number: 1
-		}
-	})
-
-	await test.throws(test.context.surface.getTimeline(id), errors.JellyfishNoElement)
-})
 
 ava.test('.queryView() should throw if the view does not exist', async (test) => {
 	await test.throws(test.context.surface.queryView('xxxxxxxxxxxxxxxxxxx'), errors.JellyfishNoView)

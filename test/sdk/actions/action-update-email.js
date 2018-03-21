@@ -15,6 +15,7 @@
  */
 
 const ava = require('ava')
+const utils = require('../../../lib/utils')
 
 ava.test('should update the user email', async (test) => {
 	const target = await test.context.surface.getCard('user-admin')
@@ -28,7 +29,7 @@ ava.test('should update the user email', async (test) => {
 	const card = await test.context.surface.getCard(id)
 	test.is(card.data.email, 'foobar@example.com')
 
-	const timeline = await test.context.surface.getTimeline(id)
+	const timeline = await utils.getTimeline(test.context.surface, id)
 	test.is(timeline.length, 1)
 	test.is(timeline[0].type, 'update')
 	test.deepEqual(timeline[0].data.payload, {
@@ -56,6 +57,6 @@ ava.test('should not create an event if the change is already there', async (tes
 	const card = await test.context.surface.getCard(id)
 	test.is(card.data.email, target.data.email)
 
-	const timeline = await test.context.surface.getTimeline(id)
+	const timeline = await utils.getTimeline(test.context.surface, id)
 	test.is(timeline.length, 0)
 })

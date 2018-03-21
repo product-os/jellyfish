@@ -17,6 +17,7 @@
 const _ = require('lodash')
 const ava = require('ava')
 const errors = require('../../../lib/sdk/errors')
+const utils = require('../../../lib/utils')
 
 ava.test('should create a card', async (test) => {
 	const id = await test.context.surface.executeAction('action-create-card', 'card', {
@@ -42,7 +43,7 @@ ava.test('should create a card', async (test) => {
 		}
 	})
 
-	const timeline = _.map(await test.context.surface.getTimeline(id), 'type')
+	const timeline = _.map(await utils.getTimeline(test.context.surface, id), 'type')
 	test.deepEqual(timeline, [ 'create' ])
 })
 
@@ -70,7 +71,7 @@ ava.test('should fail if the card already exists', async (test) => {
 		properties: card
 	}), errors.JellyfishElementAlreadyExists)
 
-	const timeline = _.map(await test.context.surface.getTimeline(id), 'type')
+	const timeline = _.map(await utils.getTimeline(test.context.surface, id), 'type')
 	test.deepEqual(timeline, [ 'create' ])
 })
 
@@ -148,6 +149,6 @@ ava.test('should create a card with more extra data properties', async (test) =>
 		}
 	})
 
-	const timeline = _.map(await test.context.surface.getTimeline(id), 'type')
+	const timeline = _.map(await utils.getTimeline(test.context.surface, id), 'type')
 	test.deepEqual(timeline, [ 'create' ])
 })
