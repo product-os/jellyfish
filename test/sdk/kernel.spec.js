@@ -205,6 +205,11 @@ ava.test('.insertCard() should insert action requests on a different bucket', as
 	}, request))
 })
 
+ava.test('.getCard() there should be an admin card', async (test) => {
+	const card = await test.context.kernel.getCard('user-admin')
+	test.truthy(card)
+})
+
 ava.test('.getCard() should find an active card by its id', async (test) => {
 	const id = await test.context.kernel.insertCard({
 		slug: 'foo-bar',
@@ -418,10 +423,7 @@ ava.test('.query() should query all cards of a certain type', async (test) => {
 		required: [ 'slug', 'type' ]
 	})
 
-	test.deepEqual(_.sortBy(_.map(results, 'slug')), [
-		'user-actions',
-		'user-admin'
-	])
+	test.deepEqual(_.sortBy(_.map(results, 'slug')), [ 'user-admin' ])
 })
 
 ava.test('.query() should return all action request cards', async (test) => {
@@ -1001,4 +1003,36 @@ ava.test.cb('.stream() should report back inactive elements if the inactive opti
 			}
 		})
 	}).catch(test.end)
+})
+
+ava.test('.signup() should create a user', async (test) => {
+	const id = await test.context.kernel.signup({
+		username: 'johndoe',
+		email: 'johndoe@example.com',
+		password: 'secret'
+	})
+
+	const card = await test.context.kernel.getCard(id)
+
+	test.deepEqual(_.omit(card, [ 'data' ]), {
+		id,
+		slug: 'user-johndoe',
+		type: 'user',
+		active: true,
+		links: [],
+		tags: []
+	})
+
+	test.is(card.data.email, 'johndoe@example.com')
+	test.deepEqual(card.data.roles, [])
+	test.true(_.isString(card.data.password.hash))
+	test.true(_.isString(card.data.password.salt))
+})
+
+ava.test('.signup() should fail if the user already exists', async (test) => {
+	await test.throws(test.context.kernel.signup({
+		username: 'admin',
+		email: 'foo@bar.com',
+		password: 'secret'
+	}), errors.JellyfishElementAlreadyExists)
 })
