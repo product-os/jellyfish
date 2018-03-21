@@ -15,20 +15,20 @@
  */
 
 const ava = require('ava')
-const password = require('../../lib/sdk/password')
+const credentials = require('../../lib/sdk/credentials')
 
 ava.test('.check() should return true if the password matches', async (test) => {
-	const result = await password.hash('foobarbaz')
-	test.true(await password.check('foobarbaz', result))
+	const result = await credentials.hash('foobarbaz')
+	test.true(await credentials.check('foobarbaz', result))
 })
 
 ava.test('.check() should return false if the password do not match', async (test) => {
-	const result = await password.hash('foobarbaz')
-	test.false(await password.check('foobarqux', result))
+	const result = await credentials.hash('foobarbaz')
+	test.false(await credentials.check('foobarqux', result))
 })
 
 ava.test('.check() should return false given a different salt', async (test) => {
-	const result = await password.hash('foobarbaz')
+	const result = await credentials.hash('foobarbaz')
 	result.salt = 'xxxxxxxxxxxxxxxxxxxx'
-	test.false(await password.check('foobarbaz', result))
+	test.false(await credentials.check('foobarbaz', result))
 })
