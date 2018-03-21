@@ -206,3 +206,146 @@ ava.test('.getTimeline() should fail if the card is inactive and the inactive op
 
 	await test.throws(utils.getTimeline(test.context.jellyfish, id), errors.JellyfishNoElement)
 })
+
+ava.test('.queryView() should throw if the view does not exist', async (test) => {
+	const errors = test.context.jellyfish.errors
+	await test.throws(utils.queryView(test.context.jellyfish, 'xxxxxxxxxxxxxxxxxxx'), errors.JellyfishNoView)
+})
+
+ava.test('.queryView() should throw if the view is not of type view', async (test) => {
+	const errors = test.context.jellyfish.errors
+	const card = await test.context.jellyfish.getCard('card')
+	test.truthy(card.id)
+	await test.throws(utils.queryView(test.context.jellyfish, card.id), errors.JellyfishNoView)
+})
+
+ava.test('.queryView() should execute a view with one filter', async (test) => {
+	await test.context.kernel.insertCard({
+		type: 'card',
+		tags: [],
+		links: [],
+		active: true,
+		data: {
+			number: 1
+		}
+	})
+
+	const id = await test.context.kernel.insertCard({
+		type: 'view',
+		tags: [],
+		links: [],
+		active: true,
+		data: {
+			filters: [
+				{
+					name: 'foo',
+					schema: {
+						type: 'object',
+						properties: {
+							data: {
+								type: 'object',
+								properties: {
+									number: {
+										type: 'number',
+										const: 1
+									}
+								},
+								required: [ 'number' ]
+							}
+						},
+						required: [ 'data' ]
+					}
+				}
+			]
+		}
+	})
+
+	const results = await utils.queryView(test.context.jellyfish, id)
+	test.deepEqual(results, [
+		{
+			active: true,
+			data: {
+				number: 1
+			}
+		}
+	])
+})
+
+ava.test('.queryView() should execute a view with more than one filter', async (test) => {
+	await test.context.kernel.insertCard({
+		type: 'card',
+		tags: [ 'foo' ],
+		links: [],
+		active: true,
+		data: {
+			number: 1
+		}
+	})
+
+	await test.context.kernel.insertCard({
+		type: 'card',
+		tags: [],
+		links: [],
+		active: true,
+		data: {
+			number: 1
+		}
+	})
+
+	const id = await test.context.kernel.insertCard({
+		type: 'view',
+		tags: [],
+		links: [],
+		active: true,
+		data: {
+			filters: [
+				{
+					name: 'foo',
+					schema: {
+						type: 'object',
+						properties: {
+							data: {
+								type: 'object',
+								properties: {
+									number: {
+										type: 'number',
+										const: 1
+									}
+								},
+								required: [ 'number' ]
+							}
+						},
+						required: [ 'data' ]
+					}
+				},
+				{
+					name: 'bar',
+					schema: {
+						type: 'object',
+						properties: {
+							tags: {
+								type: 'array',
+								contains: {
+									type: 'string',
+									const: 'foo'
+								}
+							}
+						},
+						required: [ 'tags' ]
+					}
+				}
+			]
+		}
+	})
+
+	const results = await utils.queryView(test.context.jellyfish, id)
+	test.deepEqual(results, [
+		{
+			tags: [ 'foo' ],
+			active: true,
+			data: {
+				number: 1
+			}
+		}
+	])
+})
