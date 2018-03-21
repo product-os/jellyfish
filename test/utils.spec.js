@@ -34,6 +34,7 @@ ava.test.beforeEach(async (test) => {
 		}
 	})
 
+	// TODO: Do not rely on kernel directly here
 	test.context.kernel = test.context.jellyfish.kernel
 
 	await test.context.jellyfish.initialize()
