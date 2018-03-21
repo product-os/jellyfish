@@ -186,9 +186,10 @@ ava.test('.getTimeline() should return the timeline of an inactive card if the i
 
 ava.test('.getTimeline() should fail if the id does not exist', async (test) => {
 	const errors = test.context.jellyfish.errors
-	const card = await test.context.jellyfish.getCard('4a962ad9-20b5-4dd8-a707-bf819593cc84')
+	const id = '4a962ad9-20b5-4dd8-a707-bf819593cc84'
+	const card = await test.context.jellyfish.getCard(id)
 	test.falsy(card)
-	await test.throws(utils.getTimeline(test.context.jellyfish, '4a962ad9-20b5-4dd8-a707-bf819593cc84'), errors.JellyfishNoElement)
+	await test.throws(utils.getTimeline(test.context.jellyfish, id), errors.JellyfishNoElement)
 })
 
 ava.test('.getTimeline() should fail if the card is inactive and the inactive option is not true', async (test) => {

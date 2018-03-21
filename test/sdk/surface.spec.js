@@ -209,7 +209,6 @@ ava.test('.getCard() should return null if the slug does not exist', async (test
 	test.deepEqual(card, null)
 })
 
-
 ava.test('.queryView() should throw if the view does not exist', async (test) => {
 	await test.throws(test.context.surface.queryView('xxxxxxxxxxxxxxxxxxx'), errors.JellyfishNoView)
 })
