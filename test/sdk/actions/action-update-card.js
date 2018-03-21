@@ -19,12 +19,11 @@ const ava = require('ava')
 const errors = require('../../../lib/sdk/errors')
 
 ava.test('should replace an existing card and add an update event using a slug', async (test) => {
-	const id1 = await test.context.surface.executeAction('action-create-card', 'user', {
+	const id1 = await test.context.surface.executeAction('action-create-card', 'card', {
 		properties: {
-			slug: 'user-johndoe',
+			slug: 'johndoe',
 			data: {
-				email: 'johndoe@example.com',
-				roles: []
+				email: 'johndoe@example.com'
 			}
 		}
 	})
@@ -32,8 +31,7 @@ ava.test('should replace an existing card and add an update event using a slug',
 	const id2 = await test.context.surface.executeAction('action-update-card', id1, {
 		properties: {
 			data: {
-				email: 'johndoe@gmail.com',
-				roles: []
+				email: 'johndoe@gmail.com'
 			}
 		}
 	})
@@ -44,14 +42,13 @@ ava.test('should replace an existing card and add an update event using a slug',
 
 	test.deepEqual(card, {
 		id: id1,
-		slug: 'user-johndoe',
-		type: 'user',
+		slug: 'johndoe',
+		type: 'card',
 		tags: [],
 		links: [],
 		active: true,
 		data: {
-			email: 'johndoe@gmail.com',
-			roles: []
+			email: 'johndoe@gmail.com'
 		}
 	})
 
@@ -59,13 +56,12 @@ ava.test('should replace an existing card and add an update event using a slug',
 	test.deepEqual(_.map(timeline, 'type'), [ 'create', 'update' ])
 
 	test.deepEqual(timeline[1].data.payload, {
-		slug: 'user-johndoe',
+		slug: 'johndoe',
 		tags: [],
 		links: [],
 		active: true,
 		data: {
-			email: 'johndoe@gmail.com',
-			roles: []
+			email: 'johndoe@gmail.com'
 		}
 	})
 })
@@ -118,10 +114,9 @@ ava.test('should replace an existing card and add an update event without using 
 ava.test('should fail if the target does not exist', async (test) => {
 	await test.throws(test.context.surface.executeAction('action-update-card', '4a962ad9-20b5-4dd8-a707-bf819593cc84', {
 		properties: {
-			slug: 'user-johndoe',
+			slug: 'johndoe',
 			data: {
-				email: 'johndoe@example.com',
-				roles: []
+				email: 'johndoe@example.com'
 			}
 		}
 	}), errors.JellyfishNoElement)
@@ -144,12 +139,11 @@ ava.test('should fail if the schema does not match', async (test) => {
 })
 
 ava.test('should add an extra property to a card', async (test) => {
-	const id1 = await test.context.surface.executeAction('action-create-card', 'user', {
+	const id1 = await test.context.surface.executeAction('action-create-card', 'card', {
 		properties: {
-			slug: 'user-johndoe',
+			slug: 'johndoe',
 			data: {
-				email: 'johndoe@example.com',
-				roles: []
+				email: 'johndoe@example.com'
 			}
 		}
 	})
@@ -158,8 +152,7 @@ ava.test('should add an extra property to a card', async (test) => {
 		properties: {
 			data: {
 				email: 'johndoe@gmail.com',
-				foobar: true,
-				roles: []
+				foobar: true
 			}
 		}
 	})
@@ -170,15 +163,14 @@ ava.test('should add an extra property to a card', async (test) => {
 
 	test.deepEqual(card, {
 		id: id1,
-		slug: 'user-johndoe',
-		type: 'user',
+		slug: 'johndoe',
+		type: 'card',
 		tags: [],
 		links: [],
 		active: true,
 		data: {
 			email: 'johndoe@gmail.com',
-			foobar: true,
-			roles: []
+			foobar: true
 		}
 	})
 
@@ -186,14 +178,13 @@ ava.test('should add an extra property to a card', async (test) => {
 	test.deepEqual(_.map(timeline, 'type'), [ 'create', 'update' ])
 
 	test.deepEqual(timeline[1].data.payload, {
-		slug: 'user-johndoe',
+		slug: 'johndoe',
 		tags: [],
 		links: [],
 		active: true,
 		data: {
 			email: 'johndoe@gmail.com',
-			foobar: true,
-			roles: []
+			foobar: true
 		}
 	})
 })

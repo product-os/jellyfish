@@ -18,12 +18,11 @@ const _ = require('lodash')
 const ava = require('ava')
 
 ava.test('should restore an active card', async (test) => {
-	const id = await test.context.surface.executeAction('action-create-card', 'user', {
+	const id = await test.context.surface.executeAction('action-create-card', 'card', {
 		properties: {
-			slug: 'user-johndoe',
+			slug: 'johndoe',
 			data: {
-				email: 'johndoe@example.com',
-				roles: []
+				email: 'johndoe@example.com'
 			}
 		}
 	})
@@ -35,14 +34,13 @@ ava.test('should restore an active card', async (test) => {
 
 	test.deepEqual(card, {
 		id,
-		slug: 'user-johndoe',
-		type: 'user',
+		slug: 'johndoe',
+		type: 'card',
 		tags: [],
 		links: [],
 		active: true,
 		data: {
-			email: 'johndoe@example.com',
-			roles: []
+			email: 'johndoe@example.com'
 		}
 	})
 
@@ -51,13 +49,12 @@ ava.test('should restore an active card', async (test) => {
 })
 
 ava.test('should restore an inactive card', async (test) => {
-	const id = await test.context.surface.executeAction('action-create-card', 'user', {
+	const id = await test.context.surface.executeAction('action-create-card', 'card', {
 		properties: {
 			active: false,
-			slug: 'user-johndoe',
+			slug: 'johndoe',
 			data: {
-				email: 'johndoe@example.com',
-				roles: []
+				email: 'johndoe@example.com'
 			}
 		}
 	})
@@ -69,14 +66,13 @@ ava.test('should restore an inactive card', async (test) => {
 
 	test.deepEqual(card, {
 		id,
-		slug: 'user-johndoe',
-		type: 'user',
+		slug: 'johndoe',
+		type: 'card',
 		tags: [],
 		links: [],
 		active: true,
 		data: {
-			email: 'johndoe@example.com',
-			roles: []
+			email: 'johndoe@example.com'
 		}
 	})
 

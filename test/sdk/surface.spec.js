@@ -114,73 +114,58 @@ ava.test('.executeAction() should fail if there is no implementation', async (te
 
 ava.test('.getCard() should get a card by its id', async (test) => {
 	const id = await test.context.kernel.insertCard({
-		slug: 'user-johndoe',
-		type: 'user',
+		slug: 'johndoe',
+		type: 'card',
 		active: true,
 		links: [],
 		tags: [],
-		data: {
-			email: 'johndoe@example.com',
-			roles: []
-		}
+		data: {}
 	})
 
 	const card = await test.context.surface.getCard(id)
 
 	test.deepEqual(card, {
 		id,
-		slug: 'user-johndoe',
-		type: 'user',
+		slug: 'johndoe',
+		type: 'card',
 		active: true,
 		links: [],
 		tags: [],
-		data: {
-			email: 'johndoe@example.com',
-			roles: []
-		}
+		data: {}
 	})
 })
 
 ava.test('.getCard() should get a card by its slug', async (test) => {
 	const id = await test.context.kernel.insertCard({
-		slug: 'user-johndoe',
-		type: 'user',
+		slug: 'johndoe',
+		type: 'card',
 		active: true,
 		links: [],
 		tags: [],
-		data: {
-			email: 'johndoe@example.com',
-			roles: []
-		}
+		data: {}
 	})
 
-	const card = await test.context.surface.getCard('user-johndoe')
+	const card = await test.context.surface.getCard('johndoe')
 
 	test.deepEqual(card, {
 		id,
-		slug: 'user-johndoe',
-		type: 'user',
+		slug: 'johndoe',
+		type: 'card',
 		active: true,
 		links: [],
 		tags: [],
-		data: {
-			email: 'johndoe@example.com',
-			roles: []
-		}
+		data: {}
 	})
 })
 
 ava.test('.getCard() should return null if the id is inactive', async (test) => {
 	const id = await test.context.kernel.insertCard({
-		slug: 'user-johndoe',
-		type: 'user',
+		slug: 'johndoe',
+		type: 'card',
 		active: false,
 		links: [],
 		tags: [],
-		data: {
-			email: 'johndoe@example.com',
-			roles: []
-		}
+		data: {}
 	})
 
 	const card = await test.context.surface.getCard(id)
@@ -189,15 +174,12 @@ ava.test('.getCard() should return null if the id is inactive', async (test) => 
 
 ava.test('.getCard() should return an inactive card if the inactive option is true', async (test) => {
 	const id = await test.context.kernel.insertCard({
-		slug: 'user-johndoe',
-		type: 'user',
+		slug: 'johndoe',
+		type: 'card',
 		active: false,
 		links: [],
 		tags: [],
-		data: {
-			email: 'johndoe@example.com',
-			roles: []
-		}
+		data: {}
 	})
 
 	const card = await test.context.surface.getCard(id, {
@@ -206,15 +188,12 @@ ava.test('.getCard() should return an inactive card if the inactive option is tr
 
 	test.deepEqual(card, {
 		id,
-		slug: 'user-johndoe',
-		type: 'user',
+		slug: 'johndoe',
+		type: 'card',
 		active: false,
 		links: [],
 		tags: [],
-		data: {
-			email: 'johndoe@example.com',
-			roles: []
-		}
+		data: {}
 	})
 })
 

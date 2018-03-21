@@ -18,12 +18,11 @@ const _ = require('lodash')
 const ava = require('ava')
 
 ava.test('should create a card and add a create but not update event', async (test) => {
-	const id = await test.context.surface.executeAction('action-upsert-card', 'user', {
+	const id = await test.context.surface.executeAction('action-upsert-card', 'card', {
 		properties: {
-			slug: 'user-johndoe',
+			slug: 'johndoe',
 			data: {
-				email: 'johndoe@example.com',
-				roles: []
+				email: 'johndoe@example.com'
 			}
 		}
 	})
@@ -32,14 +31,13 @@ ava.test('should create a card and add a create but not update event', async (te
 
 	test.deepEqual(card, {
 		id,
-		slug: 'user-johndoe',
-		type: 'user',
+		slug: 'johndoe',
+		type: 'card',
 		tags: [],
 		links: [],
 		active: true,
 		data: {
-			email: 'johndoe@example.com',
-			roles: []
+			email: 'johndoe@example.com'
 		}
 	})
 
