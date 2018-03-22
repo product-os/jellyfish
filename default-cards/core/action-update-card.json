@@ -51,7 +51,7 @@
       }
     },
     "options": {
-      "properties": "{{arguments.properties}}"
+      "properties": "[arguments.properties]"
     }
   }
 }

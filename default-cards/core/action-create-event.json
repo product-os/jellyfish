@@ -16,8 +16,8 @@
       }
     },
     "options": {
-      "type": "{{arguments.type}}",
-      "payload": "{{arguments.payload}}"
+      "type": "[arguments.type]",
+      "payload": "[arguments.payload]"
     }
   }
 }
