@@ -693,6 +693,32 @@ ava.test('.executeInternalAction() should fail if the action does not exist', as
 	}), errors.JellyfishNoAction)
 })
 
+ava.test('.executeAction() should fail if the action id does not exist', async (test) => {
+	await test.throws(test.context.kernel.executeAction('xxxxxxxxx', 'event', {
+		properties: {
+			slug: 'hello'
+		}
+	}), errors.JellyfishNoAction)
+})
+
+ava.test('.executeAction() should fail if there is no implementation', async (test) => {
+	await test.context.kernel.insertCard({
+		slug: 'action-demo',
+		type: 'action',
+		tags: [],
+		links: [],
+		active: true,
+		data: {
+			arguments: {},
+			options: {
+				foo: 'bar'
+			}
+		}
+	})
+
+	await test.throws(test.context.kernel.executeAction('action-demo', 'event', {}), errors.JellyfishNoAction)
+})
+
 ava.test.cb('.stream() should report back new elements that match a certain slug', (test) => {
 	test.context.kernel.stream({
 		type: 'object',

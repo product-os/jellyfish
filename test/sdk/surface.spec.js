@@ -21,7 +21,6 @@ const Backend = require('../../lib/sdk/backend')
 const Kernel = require('../../lib/sdk/kernel')
 const Surface = require('../../lib/sdk/surface')
 const CARDS = require('../../lib/sdk/cards')
-const errors = require('../../lib/sdk/errors')
 const utils = require('../../lib/utils')
 
 ava.test.beforeEach(async (test) => {
@@ -87,32 +86,6 @@ ava.test('.getSchema() should return null given an known card that is not a type
 	test.not(card.type, 'type')
 	const schema = await test.context.surface.getSchema(card)
 	test.deepEqual(schema, null)
-})
-
-ava.test('.executeAction() should fail if the action id does not exist', async (test) => {
-	await test.throws(test.context.surface.executeAction('xxxxxxxxx', 'event', {
-		properties: {
-			slug: 'hello'
-		}
-	}), errors.JellyfishNoAction)
-})
-
-ava.test('.executeAction() should fail if there is no implementation', async (test) => {
-	await test.context.kernel.insertCard({
-		slug: 'action-demo',
-		type: 'action',
-		tags: [],
-		links: [],
-		active: true,
-		data: {
-			arguments: {},
-			options: {
-				foo: 'bar'
-			}
-		}
-	})
-
-	await test.throws(test.context.surface.executeAction('action-demo', 'event', {}), errors.JellyfishNoAction)
 })
 
 ava.test('.getCard() should get a card by its id', async (test) => {
