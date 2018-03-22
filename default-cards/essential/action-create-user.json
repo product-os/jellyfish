@@ -1,0 +1,42 @@
+{
+  "slug": "action-create-user",
+  "type": "action",
+  "name": "Create a user",
+  "tags": [],
+  "links": [],
+  "active": true,
+  "data": {
+    "extends": "action-create-card",
+    "arguments": {
+      "username": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9-]{5,}$"
+      },
+      "email": {
+        "type": "string",
+        "format": "email"
+      },
+      "hash": {
+        "type": "string",
+        "pattern": "^[a-f0-9]+$"
+      },
+      "salt": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9/+]+==?$"
+      }
+    },
+    "options": {
+      "properties": {
+        "slug": "user-[arguments.username]",
+        "data": {
+          "email": "[arguments.email]",
+          "password": {
+            "hash": "[arguments.hash]",
+            "salt": "[arguments.salt]"
+          },
+          "roles": []
+        }
+      }
+    }
+  }
+}
