@@ -23,6 +23,7 @@ const Kernel = require('../../lib/sdk/kernel')
 const errors = require('../../lib/sdk/errors')
 const CARDS = require('../../lib/sdk/cards')
 const jsonSchema = require('../../lib/sdk/json-schema')
+const utils = require('../../lib/utils')
 
 ava.test.beforeEach(async (test) => {
 	test.context.backend = new Backend({
@@ -50,6 +51,24 @@ ava.test.beforeEach(async (test) => {
 ava.test.afterEach(async (test) => {
 	await test.context.backend.disconnect()
 })
+
+for (const category of _.keys(CARDS)) {
+	for (const card of _.values(CARDS[category])) {
+		ava.test(`should contain the ${category} card ${card.slug} by default`, async (test) => {
+			const element = await test.context.kernel.getCard(card.slug)
+			test.deepEqual(CARDS[category][card.slug], _.omit(element, [ 'id' ]))
+		})
+
+		if (category !== 'core') {
+			ava.test(`should contain a create event for the ${card.slug} card`, async (test) => {
+				const element = await test.context.kernel.getCard(card.slug)
+				const timeline = await utils.getTimeline(test.context.kernel, element.id)
+				test.is(timeline.length, 1)
+				test.is(timeline[0].type, 'create')
+			})
+		}
+	}
+}
 
 ava.test('should be able to disconnect the kernel multiple times without errors', async (test) => {
 	test.notThrows(async () => {

@@ -34,9 +34,6 @@ ava.test.beforeEach(async (test) => {
 		}
 	})
 
-	// TODO: Do not rely on kernel directly here
-	test.context.kernel = test.context.jellyfish.kernel
-
 	await test.context.jellyfish.initialize()
 })
 
@@ -45,7 +42,7 @@ ava.test.afterEach(async (test) => {
 })
 
 ava.test('.getTimeline() should return an empty list of the card has no timeline', async (test) => {
-	const id = await test.context.kernel.insertCard({
+	const id = await test.context.jellyfish.insertCard({
 		type: 'card',
 		tags: [],
 		links: [],
@@ -59,7 +56,7 @@ ava.test('.getTimeline() should return an empty list of the card has no timeline
 })
 
 ava.test('.getTimeline() should return the timeline ordered by time', async (test) => {
-	const id = await test.context.kernel.insertCard({
+	const id = await test.context.jellyfish.insertCard({
 		type: 'card',
 		tags: [],
 		links: [],
@@ -72,7 +69,7 @@ ava.test('.getTimeline() should return the timeline ordered by time', async (tes
 	const admin = await test.context.jellyfish.getCard('user-admin')
 	test.truthy(admin)
 
-	await test.context.kernel.insertCard({
+	await test.context.jellyfish.insertCard({
 		type: 'event',
 		tags: [],
 		links: [],
@@ -85,7 +82,7 @@ ava.test('.getTimeline() should return the timeline ordered by time', async (tes
 		}
 	})
 
-	await test.context.kernel.insertCard({
+	await test.context.jellyfish.insertCard({
 		type: 'event',
 		tags: [],
 		links: [],
@@ -98,7 +95,7 @@ ava.test('.getTimeline() should return the timeline ordered by time', async (tes
 		}
 	})
 
-	await test.context.kernel.insertCard({
+	await test.context.jellyfish.insertCard({
 		type: 'event',
 		tags: [],
 		links: [],
@@ -121,7 +118,7 @@ ava.test('.getTimeline() should return the timeline ordered by time', async (tes
 })
 
 ava.test('.getTimeline() should return the timeline of an inactive card if the inactive option is true', async (test) => {
-	const id = await test.context.kernel.insertCard({
+	const id = await test.context.jellyfish.insertCard({
 		type: 'card',
 		tags: [],
 		links: [],
@@ -134,7 +131,7 @@ ava.test('.getTimeline() should return the timeline of an inactive card if the i
 	const admin = await test.context.jellyfish.getCard('user-admin')
 	test.truthy(admin)
 
-	await test.context.kernel.insertCard({
+	await test.context.jellyfish.insertCard({
 		type: 'event',
 		tags: [],
 		links: [],
@@ -147,7 +144,7 @@ ava.test('.getTimeline() should return the timeline of an inactive card if the i
 		}
 	})
 
-	await test.context.kernel.insertCard({
+	await test.context.jellyfish.insertCard({
 		type: 'event',
 		tags: [],
 		links: [],
@@ -160,7 +157,7 @@ ava.test('.getTimeline() should return the timeline of an inactive card if the i
 		}
 	})
 
-	await test.context.kernel.insertCard({
+	await test.context.jellyfish.insertCard({
 		type: 'event',
 		tags: [],
 		links: [],
@@ -194,7 +191,7 @@ ava.test('.getTimeline() should fail if the id does not exist', async (test) => 
 
 ava.test('.getTimeline() should fail if the card is inactive and the inactive option is not true', async (test) => {
 	const errors = test.context.jellyfish.errors
-	const id = await test.context.kernel.insertCard({
+	const id = await test.context.jellyfish.insertCard({
 		type: 'card',
 		tags: [],
 		links: [],
@@ -220,7 +217,7 @@ ava.test('.queryView() should throw if the view is not of type view', async (tes
 })
 
 ava.test('.queryView() should execute a view with one filter', async (test) => {
-	await test.context.kernel.insertCard({
+	await test.context.jellyfish.insertCard({
 		type: 'card',
 		tags: [],
 		links: [],
@@ -230,7 +227,7 @@ ava.test('.queryView() should execute a view with one filter', async (test) => {
 		}
 	})
 
-	const id = await test.context.kernel.insertCard({
+	const id = await test.context.jellyfish.insertCard({
 		type: 'view',
 		tags: [],
 		links: [],
@@ -272,7 +269,7 @@ ava.test('.queryView() should execute a view with one filter', async (test) => {
 })
 
 ava.test('.queryView() should execute a view with more than one filter', async (test) => {
-	await test.context.kernel.insertCard({
+	await test.context.jellyfish.insertCard({
 		type: 'card',
 		tags: [ 'foo' ],
 		links: [],
@@ -282,7 +279,7 @@ ava.test('.queryView() should execute a view with more than one filter', async (
 		}
 	})
 
-	await test.context.kernel.insertCard({
+	await test.context.jellyfish.insertCard({
 		type: 'card',
 		tags: [],
 		links: [],
@@ -292,7 +289,7 @@ ava.test('.queryView() should execute a view with more than one filter', async (
 		}
 	})
 
-	const id = await test.context.kernel.insertCard({
+	const id = await test.context.jellyfish.insertCard({
 		type: 'view',
 		tags: [],
 		links: [],

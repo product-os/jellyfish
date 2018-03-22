@@ -19,7 +19,7 @@ const ava = require('ava')
 const utils = require('../../../lib/utils')
 
 ava.test('should create a card and add a create but not update event', async (test) => {
-	const id = await test.context.surface.executeAction('action-upsert-card', 'card', {
+	const id = await test.context.kernel.executeAction('action-upsert-card', 'card', {
 		properties: {
 			slug: 'johndoe',
 			data: {
@@ -28,7 +28,7 @@ ava.test('should create a card and add a create but not update event', async (te
 		}
 	})
 
-	const card = await test.context.surface.getCard(id)
+	const card = await test.context.kernel.getCard(id)
 
 	test.deepEqual(card, {
 		id,
@@ -42,6 +42,6 @@ ava.test('should create a card and add a create but not update event', async (te
 		}
 	})
 
-	const timeline = _.map(await utils.getTimeline(test.context.surface, id), 'type')
+	const timeline = _.map(await utils.getTimeline(test.context.kernel, id), 'type')
 	test.deepEqual(timeline, [ 'create' ])
 })

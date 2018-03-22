@@ -19,7 +19,7 @@ const ava = require('ava')
 const utils = require('../../../lib/utils')
 
 ava.test('should restore an active card', async (test) => {
-	const id = await test.context.surface.executeAction('action-create-card', 'card', {
+	const id = await test.context.kernel.executeAction('action-create-card', 'card', {
 		properties: {
 			slug: 'johndoe',
 			data: {
@@ -28,10 +28,10 @@ ava.test('should restore an active card', async (test) => {
 		}
 	})
 
-	const result = await test.context.surface.executeAction('action-restore-card', id, {})
+	const result = await test.context.kernel.executeAction('action-restore-card', id, {})
 	test.is(result, id)
 
-	const card = await test.context.surface.getCard(id)
+	const card = await test.context.kernel.getCard(id)
 
 	test.deepEqual(card, {
 		id,
@@ -45,12 +45,12 @@ ava.test('should restore an active card', async (test) => {
 		}
 	})
 
-	const timeline = _.map(await utils.getTimeline(test.context.surface, id), 'type')
+	const timeline = _.map(await utils.getTimeline(test.context.kernel, id), 'type')
 	test.deepEqual(timeline, [ 'create' ])
 })
 
 ava.test('should restore an inactive card', async (test) => {
-	const id = await test.context.surface.executeAction('action-create-card', 'card', {
+	const id = await test.context.kernel.executeAction('action-create-card', 'card', {
 		properties: {
 			active: false,
 			slug: 'johndoe',
@@ -60,10 +60,10 @@ ava.test('should restore an inactive card', async (test) => {
 		}
 	})
 
-	const result = await test.context.surface.executeAction('action-restore-card', id, {})
+	const result = await test.context.kernel.executeAction('action-restore-card', id, {})
 	test.is(result, id)
 
-	const card = await test.context.surface.getCard(id)
+	const card = await test.context.kernel.getCard(id)
 
 	test.deepEqual(card, {
 		id,
@@ -77,6 +77,6 @@ ava.test('should restore an inactive card', async (test) => {
 		}
 	})
 
-	const timeline = _.map(await utils.getTimeline(test.context.surface, id), 'type')
+	const timeline = _.map(await utils.getTimeline(test.context.kernel, id), 'type')
 	test.deepEqual(timeline, [ 'create', 'update' ])
 })
