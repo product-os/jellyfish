@@ -22,7 +22,6 @@ const Backend = require('../../lib/sdk/backend')
 const Kernel = require('../../lib/sdk/kernel')
 const errors = require('../../lib/sdk/errors')
 const CARDS = require('../../lib/sdk/cards')
-const jsonSchema = require('../../lib/sdk/json-schema')
 const utils = require('../../lib/utils')
 
 ava.test.beforeEach(async (test) => {
@@ -688,22 +687,6 @@ ava.test('.query() should return inactive cards if the inactive option is true',
 			slug: 'johnsmith'
 		}
 	])
-})
-
-ava.test('.getContext() should return a valid actor', async (test) => {
-	const context = await test.context.kernel.getContext()
-	const cardSchema = test.context.kernel.getSchema(CARDS.core.card)
-	const userSchema = test.context.kernel.getSchema(CARDS.core.user)
-	test.true(jsonSchema.isValid(cardSchema, context.actor))
-	test.true(jsonSchema.isValid(userSchema, context.actor))
-})
-
-ava.test('.getContext() should return a valid timestamp', async (test) => {
-	const context = await test.context.kernel.getContext()
-	test.true(jsonSchema.isValid({
-		type: 'string',
-		format: 'date-time'
-	}, context.timestamp))
 })
 
 ava.test('.executeAction() should fail if the action id does not exist', async (test) => {
