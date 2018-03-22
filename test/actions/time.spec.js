@@ -15,7 +15,7 @@
  */
 
 const ava = require('ava')
-const time = require('../../lib/sdk/time')
+const time = require('../../lib/actions/time')
 
 ava.test('should return a RFC 3339 timestamp', (test) => {
 	const timestamp = time.getCurrentTimestamp()
