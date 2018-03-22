@@ -19,7 +19,7 @@ const ava = require('ava')
 const utils = require('../../../lib/utils')
 
 ava.test('should delete an active card', async (test) => {
-	const id = await test.context.kernel.executeAction('action-create-card', 'card', {
+	const id = await test.context.executeAction('action-create-card', 'card', {
 		properties: {
 			slug: 'johndoe',
 			data: {
@@ -28,10 +28,10 @@ ava.test('should delete an active card', async (test) => {
 		}
 	})
 
-	const result = await test.context.kernel.executeAction('action-delete-card', id, {})
+	const result = await test.context.executeAction('action-delete-card', id, {})
 	test.is(result, id)
 
-	const card = await test.context.kernel.getCard(id, {
+	const card = await test.context.jellyfish.getCard(id, {
 		inactive: true
 	})
 
@@ -47,7 +47,7 @@ ava.test('should delete an active card', async (test) => {
 		}
 	})
 
-	const timeline = _.map(await utils.getTimeline(test.context.kernel, id, {
+	const timeline = _.map(await utils.getTimeline(test.context.jellyfish, id, {
 		inactive: true
 	}), 'type')
 
@@ -55,7 +55,7 @@ ava.test('should delete an active card', async (test) => {
 })
 
 ava.test('should delete an inactive card', async (test) => {
-	const id = await test.context.kernel.executeAction('action-create-card', 'card', {
+	const id = await test.context.executeAction('action-create-card', 'card', {
 		properties: {
 			active: false,
 			slug: 'johndoe',
@@ -65,10 +65,10 @@ ava.test('should delete an inactive card', async (test) => {
 		}
 	})
 
-	const result = await test.context.kernel.executeAction('action-delete-card', id, {})
+	const result = await test.context.executeAction('action-delete-card', id, {})
 	test.is(result, id)
 
-	const card = await test.context.kernel.getCard(id, {
+	const card = await test.context.jellyfish.getCard(id, {
 		inactive: true
 	})
 
@@ -84,7 +84,7 @@ ava.test('should delete an inactive card', async (test) => {
 		}
 	})
 
-	const timeline = _.map(await utils.getTimeline(test.context.kernel, id, {
+	const timeline = _.map(await utils.getTimeline(test.context.jellyfish, id, {
 		inactive: true
 	}), 'type')
 

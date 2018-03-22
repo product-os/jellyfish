@@ -15,33 +15,33 @@
  */
 
 const ava = require('ava')
+const _ = require('lodash')
 const randomstring = require('randomstring')
-const Backend = require('../../lib/sdk/backend')
-const Kernel = require('../../lib/sdk/kernel')
+const sdk = require('../../lib/sdk')
+const actions = require('../../lib/actions')
 
 ava.test.beforeEach(async (test) => {
-	const backend = new Backend({
-		host: process.env.TEST_DB_HOST,
-		port: process.env.TEST_DB_PORT,
-		database: `test_${randomstring.generate()}`
-	})
-
-	await backend.connect()
-	await backend.reset()
-
-	test.context.kernel = new Kernel(backend, {
-		buckets: {
+	test.context.jellyfish = await sdk.create({
+		backend: {
+			host: process.env.TEST_DB_HOST,
+			port: process.env.TEST_DB_PORT,
+			database: `test_${randomstring.generate()}`
+		},
+		tables: {
 			cards: 'cards',
 			requests: 'requests',
 			sessions: 'sessions'
 		}
 	})
 
-	await test.context.kernel.initialize()
+	test.context.executeAction =
+		_.partial(actions.executeAction, test.context.jellyfish)
+
+	await test.context.jellyfish.initialize()
 })
 
 ava.test.afterEach(async (test) => {
-	await test.context.kernel.disconnect()
+	await test.context.jellyfish.disconnect()
 })
 
 require('./actions/action-create-card')

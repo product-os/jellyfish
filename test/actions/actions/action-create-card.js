@@ -16,11 +16,10 @@
 
 const _ = require('lodash')
 const ava = require('ava')
-const errors = require('../../../lib/sdk/errors')
 const utils = require('../../../lib/utils')
 
 ava.test('should create a card', async (test) => {
-	const id = await test.context.kernel.executeAction('action-create-card', 'card', {
+	const id = await test.context.executeAction('action-create-card', 'card', {
 		properties: {
 			slug: 'johndoe',
 			data: {
@@ -29,7 +28,7 @@ ava.test('should create a card', async (test) => {
 		}
 	})
 
-	const card = await test.context.kernel.getCard(id)
+	const card = await test.context.jellyfish.getCard(id)
 
 	test.deepEqual(card, {
 		id,
@@ -43,16 +42,16 @@ ava.test('should create a card', async (test) => {
 		}
 	})
 
-	const timeline = _.map(await utils.getTimeline(test.context.kernel, id), 'type')
+	const timeline = _.map(await utils.getTimeline(test.context.jellyfish, id), 'type')
 	test.deepEqual(timeline, [ 'create' ])
 })
 
 ava.test('should fail if the card type does not exist', async (test) => {
-	await test.throws(test.context.kernel.executeAction('action-create-card', 'foobarbazqux', {
+	await test.throws(test.context.executeAction('action-create-card', 'foobarbazqux', {
 		properties: {
 			slug: 'hello'
 		}
-	}), errors.JellyfishNoElement)
+	}), test.context.jellyfish.errors.JellyfishNoElement)
 })
 
 ava.test('should fail if the card already exists', async (test) => {
@@ -63,40 +62,40 @@ ava.test('should fail if the card already exists', async (test) => {
 		}
 	}
 
-	const id = await test.context.kernel.executeAction('action-create-card', 'card', {
+	const id = await test.context.executeAction('action-create-card', 'card', {
 		properties: card
 	})
 
-	await test.throws(test.context.kernel.executeAction('action-create-card', 'card', {
+	await test.throws(test.context.executeAction('action-create-card', 'card', {
 		properties: card
-	}), errors.JellyfishElementAlreadyExists)
+	}), test.context.jellyfish.errors.JellyfishElementAlreadyExists)
 
-	const timeline = _.map(await utils.getTimeline(test.context.kernel, id), 'type')
+	const timeline = _.map(await utils.getTimeline(test.context.jellyfish, id), 'type')
 	test.deepEqual(timeline, [ 'create' ])
 })
 
 ava.test('should fail if there is a schema mismatch', async (test) => {
-	await test.throws(test.context.kernel.executeAction('action-create-card', 'user', {
+	await test.throws(test.context.executeAction('action-create-card', 'user', {
 		properties: {
 			slug: 'foobar',
 			data: {
 				email: 1
 			}
 		}
-	}), errors.JellyfishSchemaMismatch)
+	}), test.context.jellyfish.errors.JellyfishSchemaMismatch)
 })
 
 ava.test('should fail if the element is not a valid card', async (test) => {
-	await test.throws(test.context.kernel.executeAction('action-create-card', 'card', {
+	await test.throws(test.context.executeAction('action-create-card', 'card', {
 		properties: {
 			slug: 'johndoe',
 			foo: 'bar'
 		}
-	}), errors.JellyfishSchemaMismatch)
+	}), test.context.jellyfish.errors.JellyfishSchemaMismatch)
 })
 
 ava.test('should create an inactive card', async (test) => {
-	const id = await test.context.kernel.executeAction('action-create-card', 'card', {
+	const id = await test.context.executeAction('action-create-card', 'card', {
 		properties: {
 			slug: 'johndoe',
 			active: false,
@@ -124,7 +123,7 @@ ava.test('should create an inactive card', async (test) => {
 })
 
 ava.test('should create a card with more extra data properties', async (test) => {
-	const id = await test.context.kernel.executeAction('action-create-card', 'card', {
+	const id = await test.context.executeAction('action-create-card', 'card', {
 		properties: {
 			slug: 'johndoe',
 			data: {
