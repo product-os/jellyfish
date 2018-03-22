@@ -155,7 +155,7 @@ ava.test('should create a card with more extra data properties', async (test) =>
 ava.test('should create a card with a computed slug', async (test) => {
 	const id = await test.context.executeAction('action-create-card', 'card', {
 		properties: {
-			slug: '{properties.data.firstName}-{properties.data.lastName}',
+			slug: '{{properties.data.firstName}}-{{properties.data.lastName}}',
 			data: {
 				firstName: 'john',
 				lastName: 'doe',
@@ -187,7 +187,7 @@ ava.test('should create a card using computed formulas', async (test) => {
 			slug: 'johndoe',
 			data: {
 				age: 25,
-				foo: '{POWER(properties.data.age, 2)}',
+				foo: '{{POWER(properties.data.age, 2)}}',
 				email: 'johndoe@example.com'
 			}
 		}
