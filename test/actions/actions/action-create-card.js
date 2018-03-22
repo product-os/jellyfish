@@ -105,7 +105,7 @@ ava.test('should create an inactive card', async (test) => {
 		}
 	})
 
-	const card = await test.context.kernel.getCard(id, {
+	const card = await test.context.jellyfish.getCard(id, {
 		inactive: true
 	})
 
@@ -133,7 +133,7 @@ ava.test('should create a card with more extra data properties', async (test) =>
 		}
 	})
 
-	const card = await test.context.kernel.getCard(id)
+	const card = await test.context.jellyfish.getCard(id)
 
 	test.deepEqual(card, {
 		id,
@@ -148,6 +148,6 @@ ava.test('should create a card with more extra data properties', async (test) =>
 		}
 	})
 
-	const timeline = _.map(await utils.getTimeline(test.context.kernel, id), 'type')
+	const timeline = _.map(await utils.getTimeline(test.context.jellyfish, id), 'type')
 	test.deepEqual(timeline, [ 'create' ])
 })
