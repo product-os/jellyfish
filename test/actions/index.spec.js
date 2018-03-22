@@ -15,9 +15,11 @@
  */
 
 const ava = require('ava')
+const _ = require('lodash')
 const randomstring = require('randomstring')
 const sdk = require('../../lib/sdk')
 const actions = require('../../lib/actions')
+const credentials = require('../../lib/actions/credentials')
 
 ava.test.beforeEach(async (test) => {
 	test.context.jellyfish = await sdk.create({
@@ -69,4 +71,51 @@ ava.test('.executeAction() should fail if there is no implementation', async (te
 		'event',
 		{}
 	), test.context.jellyfish.errors.JellyfishNoAction)
+})
+
+ava.test('.createRequest() should be able to create a user using action-create-user', async (test) => {
+	const id = await actions.createRequest(test.context.jellyfish, {
+		targetId: 'user',
+		actorId: 'user-admin',
+		action: 'action-create-user',
+		transient: {
+			password: 'foobarbaz'
+		},
+		arguments: {
+			email: 'johndoe@example.com',
+			username: 'johndoe',
+			salt: '{{ GENERATESALT() }}',
+			hash: '{{ HASH(properties.transient.password, properties.data.arguments.salt) }}'
+		}
+	})
+
+	const pendingRequest = await test.context.jellyfish.getCard(id)
+	test.is(pendingRequest.id, id)
+	test.false(pendingRequest.data.executed)
+	test.falsy(pendingRequest.transient)
+	test.falsy(pendingRequest.data.transient)
+
+	test.deepEqual(_.keys(pendingRequest.data.arguments), [
+		'email',
+		'hash',
+		'salt',
+		'username'
+	])
+
+	const requestId = await actions.processRequest(test.context.jellyfish, pendingRequest)
+	test.is(requestId, id)
+
+	const finishedRequest = await test.context.jellyfish.getCard(id)
+	test.is(finishedRequest.id, id)
+	test.true(finishedRequest.data.executed)
+
+	const user = await test.context.jellyfish.getCard(finishedRequest.data.result.data)
+
+	test.is(user.slug, 'user-johndoe')
+	test.is(user.type, 'user')
+	test.is(user.data.email, 'johndoe@example.com')
+	test.deepEqual(user.data.roles, [])
+
+	test.true(credentials.check('foobarbaz', user.data.password))
+	test.false(credentials.check('fooquxbaz', user.data.password))
 })
