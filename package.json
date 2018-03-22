@@ -19,6 +19,7 @@
 	},
 	"ava": {
 		"verbose": true,
+		"failFast": true,
 		"files": [
 			"test/**/*.spec.js"
 		]
