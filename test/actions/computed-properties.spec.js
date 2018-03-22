@@ -165,51 +165,11 @@ ava.test('should evaluate function expressions that depend on other expressions'
 	})
 })
 
-ava.test('should have a GENERATESALT function', (test) => {
-	const salt = computedProperties.compile({
-		result: '{{ GENERATESALT() }}'
-	}).result
-
-	test.regex(salt, /^[A-Za-z0-9/+]+==?/)
-})
-
-ava.test('GENERATESALT: should generate random values', (test) => {
-	const salt1 = computedProperties.compile({
-		result: '{{ GENERATESALT() }}'
-	}).result
-
-	const salt2 = computedProperties.compile({
-		result: '{{ GENERATESALT() }}'
-	}).result
-
-	const salt3 = computedProperties.compile({
-		result: '{{ GENERATESALT() }}'
-	}).result
-
-	test.not(salt1, salt2)
-	test.not(salt2, salt3)
-	test.not(salt3, salt1)
-})
-
-ava.test('HASH: should hash a string with a salt', (test) => {
-	const salt = credentials.generateSalt()
-	const hash = computedProperties.compile({
-		salt,
-		hash: '{{ HASH("foobar", salt) }}'
-	}).hash
-
-	test.true(credentials.check('foobar', {
-		hash,
-		salt
-	}))
-})
-
-ava.test('HASH: should hash a string with a salt that is also generated on the card', (test) => {
+ava.test('HASH: should hash a string', (test) => {
 	const result = computedProperties.compile({
-		salt: '{{ GENERATESALT() }}',
-		hash: '{{ HASH("foobar", salt) }}'
+		hash: '{{ HASH("foobar") }}'
 	})
 
-	test.true(credentials.check('foobar', result))
-	test.false(credentials.check('baz', result))
+	test.true(credentials.check('foobar', result.hash))
+	test.false(credentials.check('baz', result.hash))
 })

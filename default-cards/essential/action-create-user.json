@@ -32,11 +32,7 @@
       },
       "hash": {
         "type": "string",
-        "pattern": "^[a-f0-9]+$"
-      },
-      "salt": {
-        "type": "string",
-        "pattern": "^[a-zA-Z0-9/+]+==?$"
+        "pattern": "^[a-zA-Z0-9$.]+$"
       }
     },
     "options": {
@@ -45,8 +41,7 @@
         "data": {
           "email": "[arguments.email]",
           "password": {
-            "hash": "[arguments.hash]",
-            "salt": "[arguments.salt]"
+            "hash": "[arguments.hash]"
           },
           "roles": []
         }
