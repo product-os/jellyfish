@@ -121,6 +121,82 @@ ava.test('.insertCard() should be able to insert a card', async (test) => {
 	})
 })
 
+ava.test('.insertCard() should ignore the transient property', async (test) => {
+	const id = await test.context.kernel.insertCard({
+		slug: 'hello-world',
+		type: 'card',
+		active: true,
+		transient: {
+			hello: 'world'
+		},
+		links: [],
+		tags: [],
+		data: {
+			foo: 'bar'
+		}
+	})
+
+	const element = await test.context.kernel.getCard(id)
+
+	test.deepEqual(element, {
+		id,
+		slug: 'hello-world',
+		type: 'card',
+		active: true,
+		links: [],
+		tags: [],
+		data: {
+			foo: 'bar'
+		}
+	})
+})
+
+ava.test('.insertCard() should ignore the transient property when upserting', async (test) => {
+	const id1 = await test.context.kernel.insertCard({
+		slug: 'hello-world',
+		type: 'card',
+		active: true,
+		links: [],
+		tags: [],
+		data: {
+			foo: 'bar'
+		}
+	})
+
+	const id2 = await test.context.kernel.insertCard({
+		id: id1,
+		slug: 'hello-world',
+		type: 'card',
+		active: true,
+		transient: {
+			hello: 'world'
+		},
+		links: [],
+		tags: [],
+		data: {
+			foo: 'bar'
+		}
+	}, {
+		override: true
+	})
+
+	test.is(id1, id2)
+
+	const element = await test.context.kernel.getCard(id1)
+
+	test.deepEqual(element, {
+		id: id1,
+		slug: 'hello-world',
+		type: 'card',
+		active: true,
+		links: [],
+		tags: [],
+		data: {
+			foo: 'bar'
+		}
+	})
+})
+
 ava.test('.insertCard() should provide sensible defaults', async (test) => {
 	const id = await test.context.kernel.insertCard({
 		type: 'card'

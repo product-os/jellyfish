@@ -253,3 +253,54 @@ ava.test('should be able to set active to false', async (test) => {
 		}
 	})
 })
+
+ava.test('should not store a change that adds a transient property', async (test) => {
+	const id1 = await test.context.executeAction('action-create-card', 'card', {
+		properties: {
+			slug: 'johndoe',
+			data: {
+				email: 'johndoe@example.com'
+			}
+		}
+	})
+
+	const id2 = await test.context.executeAction('action-update-card', id1, {
+		properties: {
+			transient: {
+				hello: 'world'
+			},
+			data: {
+				email: 'johndoe@gmail.com'
+			}
+		}
+	})
+
+	test.is(id1, id2)
+
+	const card = await test.context.jellyfish.getCard(id1)
+
+	test.deepEqual(card, {
+		id: id1,
+		slug: 'johndoe',
+		type: 'card',
+		tags: [],
+		links: [],
+		active: true,
+		data: {
+			email: 'johndoe@gmail.com'
+		}
+	})
+
+	const timeline = await utils.getTimeline(test.context.jellyfish, id1)
+	test.deepEqual(_.map(timeline, 'type'), [ 'create', 'update' ])
+
+	test.deepEqual(timeline[1].data.payload, {
+		slug: 'johndoe',
+		tags: [],
+		links: [],
+		active: true,
+		data: {
+			email: 'johndoe@gmail.com'
+		}
+	})
+})

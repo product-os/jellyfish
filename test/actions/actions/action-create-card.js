@@ -209,3 +209,31 @@ ava.test('should create a card using computed formulas', async (test) => {
 		}
 	})
 })
+
+ava.test('should not store the transient property', async (test) => {
+	const id = await test.context.executeAction('action-create-card', 'card', {
+		properties: {
+			slug: 'johndoe',
+			transient: {
+				hello: 'world'
+			},
+			data: {
+				email: 'johndoe@example.com'
+			}
+		}
+	})
+
+	const card = await test.context.jellyfish.getCard(id)
+
+	test.deepEqual(card, {
+		id,
+		slug: 'johndoe',
+		type: 'card',
+		tags: [],
+		links: [],
+		active: true,
+		data: {
+			email: 'johndoe@example.com'
+		}
+	})
+})
