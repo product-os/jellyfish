@@ -17,18 +17,30 @@
 const ava = require('ava')
 const credentials = require('../../lib/actions/credentials')
 
-ava.test('.check() should return true if the password matches', async (test) => {
-	const result = await credentials.hash('foobarbaz')
-	test.true(await credentials.check('foobarbaz', result))
+ava.test('.check() should return true if the password and salt matches', (test) => {
+	const salt = credentials.generateSalt()
+	const hash = credentials.hash('foobarbaz', salt)
+	test.true(credentials.check('foobarbaz', {
+		hash,
+		salt
+	}))
 })
 
-ava.test('.check() should return false if the password do not match', async (test) => {
-	const result = await credentials.hash('foobarbaz')
-	test.false(await credentials.check('foobarqux', result))
+ava.test('.check() should return false if the password do not match', (test) => {
+	const salt = credentials.generateSalt()
+	const hash = credentials.hash('foobarbaz', salt)
+	test.false(credentials.check('foobarqux', {
+		hash,
+		salt
+	}))
 })
 
-ava.test('.check() should return false given a different salt', async (test) => {
-	const result = await credentials.hash('foobarbaz')
-	result.salt = 'xxxxxxxxxxxxxxxxxxxx'
-	test.false(await credentials.check('foobarbaz', result))
+ava.test('.check() should return false given a different salt', (test) => {
+	const salt1 = credentials.generateSalt()
+	const salt2 = credentials.generateSalt()
+	const hash = credentials.hash('foobarbaz', salt1)
+	test.false(credentials.check('foobarbaz', {
+		salt: salt2,
+		hash
+	}))
 })
