@@ -22,7 +22,6 @@ const Backend = require('../../lib/sdk/backend')
 const Kernel = require('../../lib/sdk/kernel')
 const errors = require('../../lib/sdk/errors')
 const CARDS = require('../../lib/sdk/cards')
-const utils = require('../../lib/utils')
 
 ava.test.beforeEach(async (test) => {
 	test.context.backend = new Backend({
