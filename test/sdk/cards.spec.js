@@ -16,14 +16,43 @@
 
 const _ = require('lodash')
 const ava = require('ava')
+const randomstring = require('randomstring')
 const path = require('path')
 const fs = require('fs')
 const jsonSchema = require('../../lib/sdk/json-schema')
-const cardType = require('../../lib/sdk/card-type')
 const CARDS = require('../../lib/sdk/cards')
+const Kernel = require('../../lib/sdk/kernel')
+const Backend = require('../../lib/sdk/backend')
 
-const isCardMacro = (test, type, name, card, expected) => {
-	test.deepEqual(jsonSchema.isValid(cardType.getSchema(type), card), expected)
+ava.test.beforeEach(async (test) => {
+	test.context.backend = new Backend({
+		host: process.env.TEST_DB_HOST,
+		port: process.env.TEST_DB_PORT,
+		database: `test_${randomstring.generate()}`
+	})
+
+	await test.context.backend.connect()
+	await test.context.backend.reset()
+
+	test.context.buckets = {
+		cards: 'cards',
+		requests: 'requests',
+		sessions: 'sessions'
+	}
+
+	test.context.kernel = new Kernel(test.context.backend, {
+		buckets: test.context.buckets
+	})
+
+	await test.context.kernel.initialize()
+})
+
+ava.test.afterEach(async (test) => {
+	await test.context.backend.disconnect()
+})
+
+const isCardMacro = async (test, type, name, card, expected) => {
+	test.deepEqual(jsonSchema.isValid(test.context.kernel.getSchema(type), card), expected)
 }
 
 isCardMacro.title = (title, type, name, card, expected) => {

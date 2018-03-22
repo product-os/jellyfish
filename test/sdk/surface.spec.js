@@ -69,22 +69,23 @@ for (const category of _.keys(CARDS)) {
 }
 
 ava.test('.getSchema() should return the schema of an existing type card', async (test) => {
-	const schema = await test.context.surface.getSchema(CARDS.core.type.slug)
+	const card = await test.context.surface.getCard(CARDS.core.type.slug)
+	const schema = await test.context.surface.getSchema(card)
 	test.deepEqual(schema, CARDS.core.type.data.schema)
 })
 
 ava.test('.getSchema() should return null given an unknown type', async (test) => {
-	const element = await test.context.surface.getCard('foobarbazqux')
-	test.falsy(element)
-	const schema = await test.context.surface.getSchema('foobarbazqux')
+	const card = await test.context.surface.getCard('foobarbazqux')
+	test.falsy(card)
+	const schema = await test.context.surface.getSchema(card)
 	test.deepEqual(schema, null)
 })
 
 ava.test('.getSchema() should return null given an known card that is not a type card ', async (test) => {
-	const element = await test.context.surface.getCard('user-admin')
-	test.truthy(element)
-	test.not(element.type, 'type')
-	const schema = await test.context.surface.getSchema('user-admin')
+	const card = await test.context.surface.getCard('user-admin')
+	test.truthy(card)
+	test.not(card.type, 'type')
+	const schema = await test.context.surface.getSchema(card)
 	test.deepEqual(schema, null)
 })
 

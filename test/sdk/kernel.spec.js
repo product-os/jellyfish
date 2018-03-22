@@ -22,7 +22,6 @@ const Backend = require('../../lib/sdk/backend')
 const Kernel = require('../../lib/sdk/kernel')
 const errors = require('../../lib/sdk/errors')
 const CARDS = require('../../lib/sdk/cards')
-const cardType = require('../../lib/sdk/card-type')
 const jsonSchema = require('../../lib/sdk/json-schema')
 
 ava.test.beforeEach(async (test) => {
@@ -310,6 +309,94 @@ ava.test('.getCard() should return an inactive card by its id if the inactive op
 	})
 })
 
+ava.test('.getSchema() should return the schema of an existing type card', async (test) => {
+	const card = await test.context.kernel.getCard(CARDS.core.type.slug)
+	const schema = await test.context.kernel.getSchema(card)
+	test.deepEqual(schema, CARDS.core.type.data.schema)
+})
+
+ava.test('.getSchema() should return null given an unknown type', async (test) => {
+	const card = await test.context.kernel.getCard('foobarbazqux')
+	test.falsy(card)
+	const schema = await test.context.kernel.getSchema(card)
+	test.deepEqual(schema, null)
+})
+
+ava.test('.getSchema() should return null given an known card that is not a type card ', async (test) => {
+	const card = await test.context.kernel.getCard('user-admin')
+	test.truthy(card)
+	test.not(card.type, 'type')
+	const schema = await test.context.kernel.getSchema(card)
+	test.deepEqual(schema, null)
+})
+
+ava.test('.getSchema() should return null given no card', (test) => {
+	const schema = test.context.kernel.getSchema()
+	test.deepEqual(schema, null)
+})
+
+ava.test('.getSchema() should return null if the card is not a view', (test) => {
+	const schema = test.context.kernel.getSchema(CARDS.core['action-create-card'])
+	test.deepEqual(schema, null)
+})
+
+ava.test('.getSchema() should return a schema given a view card', (test) => {
+	const schema = test.context.kernel.getSchema({
+		type: 'view',
+		links: [],
+		tags: [],
+		active: true,
+		data: {
+			filters: [
+				{
+					name: 'foo',
+					schema: {
+						type: 'object',
+						properties: {
+							foo: {
+								type: 'string',
+								minLength: 1
+							}
+						},
+						required: [ 'foo' ]
+					}
+				},
+				{
+					name: 'bar',
+					schema: {
+						type: 'object',
+						properties: {
+							foo: {
+								type: 'string',
+								maxLength: 5
+							}
+						},
+						required: [ 'foo' ]
+					}
+				}
+			]
+		}
+	})
+
+	test.deepEqual(schema, {
+		type: 'object',
+		properties: {
+			foo: {
+				type: 'string',
+				minLength: 1,
+				maxLength: 5
+			}
+		},
+		required: [ 'foo' ]
+	})
+})
+
+ava.test('.getSchema() should return the schema of a card type', (test) => {
+	const schema = test.context.kernel.getSchema(CARDS.core.card)
+	test.true(_.isPlainObject(schema))
+	test.is(schema.type, 'object')
+})
+
 ava.test('.query() should return the cards that match a schema', async (test) => {
 	const id1 = await test.context.kernel.insertCard({
 		slug: 'johndoe',
@@ -586,8 +673,10 @@ ava.test('.query() should return inactive cards if the inactive option is true',
 
 ava.test('.getContext() should return a valid actor', async (test) => {
 	const context = await test.context.kernel.getContext()
-	test.true(jsonSchema.isValid(cardType.getSchema(CARDS.core.card), context.actor))
-	test.true(jsonSchema.isValid(cardType.getSchema(CARDS.core.user), context.actor))
+	const cardSchema = test.context.kernel.getSchema(CARDS.core.card)
+	const userSchema = test.context.kernel.getSchema(CARDS.core.user)
+	test.true(jsonSchema.isValid(cardSchema, context.actor))
+	test.true(jsonSchema.isValid(userSchema, context.actor))
 })
 
 ava.test('.getContext() should return a valid timestamp', async (test) => {
