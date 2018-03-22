@@ -209,35 +209,3 @@ ava.test('.getCard() should return null if the slug does not exist', async (test
 	const card = await test.context.surface.getCard('foobarbazqux')
 	test.deepEqual(card, null)
 })
-
-ava.test('.signup() should create a user', async (test) => {
-	const id = await test.context.surface.signup({
-		username: 'johndoe',
-		email: 'johndoe@example.com',
-		password: 'secret'
-	})
-
-	const card = await test.context.surface.getCard(id)
-
-	test.deepEqual(_.omit(card, [ 'data' ]), {
-		id,
-		slug: 'user-johndoe',
-		type: 'user',
-		active: true,
-		links: [],
-		tags: []
-	})
-
-	test.is(card.data.email, 'johndoe@example.com')
-	test.deepEqual(card.data.roles, [])
-	test.true(_.isString(card.data.password.hash))
-	test.true(_.isString(card.data.password.salt))
-})
-
-ava.test('.signup() should fail if the user already exists', async (test) => {
-	await test.throws(test.context.surface.signup({
-		username: 'admin',
-		email: 'foo@bar.com',
-		password: 'secret'
-	}), errors.JellyfishElementAlreadyExists)
-})
