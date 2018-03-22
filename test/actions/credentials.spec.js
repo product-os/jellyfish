@@ -15,7 +15,7 @@
  */
 
 const ava = require('ava')
-const credentials = require('../../lib/sdk/credentials')
+const credentials = require('../../lib/actions/credentials')
 
 ava.test('.check() should return true if the password matches', async (test) => {
 	const result = await credentials.hash('foobarbaz')
