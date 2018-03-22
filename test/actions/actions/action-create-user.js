@@ -17,7 +17,7 @@
 const ava = require('ava')
 const credentials = require('../../../lib/actions/credentials')
 
-ava.test.only('should restore an active card', async (test) => {
+ava.test('should restore an active card', async (test) => {
 	const salt = credentials.generateSalt()
 	const hash = credentials.hash('foobar', salt)
 
