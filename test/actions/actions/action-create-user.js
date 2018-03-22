@@ -18,11 +18,13 @@ const ava = require('ava')
 const credentials = require('../../../lib/actions/credentials')
 
 ava.test('should restore an active card', async (test) => {
-	const hash = credentials.hash('foobar')
+	const salt = credentials.generateSalt()
+	const hash = credentials.hash('foobar', salt)
 
 	const id = await test.context.executeAction('action-create-user', 'user', {
 		email: 'johndoe@example.com',
 		username: 'johndoe',
+		salt,
 		hash
 	})
 
@@ -38,6 +40,7 @@ ava.test('should restore an active card', async (test) => {
 		data: {
 			email: 'johndoe@example.com',
 			password: {
+				salt,
 				hash
 			},
 			roles: []

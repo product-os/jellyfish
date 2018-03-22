@@ -20,16 +20,20 @@
               "type": "string",
               "format": "email"
             },
-            "password": {
-              "type": "object",
-              "properties": {
-                "hash": {
-                  "type": "string",
-                  "pattern": "^[a-zA-Z0-9$.]+$"
-                }
-              },
-              "required": [ "hash" ]
-            },
+						"password": {
+							"type": "object",
+							"properties": {
+								"hash": {
+									"type": "string",
+									"pattern": "^[a-f0-9]+$"
+								},
+								"salt": {
+									"type": "string",
+									"pattern": "^[a-zA-Z0-9/+]+==?$"
+								}
+							},
+							"required": [ "hash", "salt" ]
+						},
             "roles": {
               "type": "array",
               "minItems": 0,

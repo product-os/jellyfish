@@ -84,7 +84,8 @@ ava.test('.createRequest() should be able to create a user using action-create-u
 		arguments: {
 			email: 'johndoe@example.com',
 			username: 'johndoe',
-			hash: '{{ HASH(properties.transient.password) }}'
+			salt: '{{ GENERATESALT() }}',
+			hash: '{{ HASH(properties.transient.password, properties.data.arguments.salt) }}'
 		}
 	})
 
@@ -97,6 +98,7 @@ ava.test('.createRequest() should be able to create a user using action-create-u
 	test.deepEqual(_.keys(pendingRequest.data.arguments), [
 		'email',
 		'hash',
+		'salt',
 		'username'
 	])
 
@@ -114,6 +116,6 @@ ava.test('.createRequest() should be able to create a user using action-create-u
 	test.is(user.data.email, 'johndoe@example.com')
 	test.deepEqual(user.data.roles, [])
 
-	test.true(credentials.check('foobarbaz', user.data.password.hash))
-	test.false(credentials.check('fooquxbaz', user.data.password.hash))
+	test.true(credentials.check('foobarbaz', user.data.password))
+	test.false(credentials.check('fooquxbaz', user.data.password))
 })
