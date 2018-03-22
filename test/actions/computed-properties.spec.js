@@ -131,140 +131,18 @@ ava.test('should leave missing values as interpolations', (test) => {
 	})
 })
 
-ava.test('should be able to blacklist a top level element', (test) => {
-	const result = computedProperties.compile({
+ava.test.skip('should leave missing values as interpolations', (test) => {
+	test.deepEqual(computedProperties.compile({
 		type: 'distro',
-		version: '7',
-		name: 'Debian v{{version}}',
-		data: {
-			name: 'debian'
-		},
-		slug: '{{data.name}}'
-	}, {
-		blacklist: new Set([ 'name' ])
-	})
-
-	test.deepEqual(result, {
-		type: 'distro',
-		version: '7',
-		name: 'Debian v{{version}}',
-		data: {
-			name: 'debian'
-		},
+		name: '{{slug}}',
+		version: '{{name}} v1.0.0',
+		summary: 'Distro: {{version}}',
 		slug: 'debian'
-	})
-})
-
-ava.test('should be able to blacklist a nested element', (test) => {
-	const result = computedProperties.compile({
+	}), {
 		type: 'distro',
-		version: '7',
-		name: 'Debian v{{version}}',
-		data: {
-			name: 'debian',
-			foo: {
-				type: '{{type}}'
-			}
-		},
-		slug: '{{data.name}}'
-	}, {
-		blacklist: new Set([ 'data.foo.type' ])
-	})
-
-	test.deepEqual(result, {
-		type: 'distro',
-		version: '7',
-		name: 'Debian v7',
-		data: {
-			name: 'debian',
-			foo: {
-				type: '{{type}}'
-			}
-		},
-		slug: 'debian'
-	})
-})
-
-ava.test('should be able to blacklist more than one element', (test) => {
-	const result = computedProperties.compile({
-		type: 'distro',
-		version: '7',
-		name: 'Debian v{{version}}',
-		data: {
-			name: 'debian',
-			foo: {
-				type: '{{type}}'
-			}
-		},
-		slug: '{{data.name}}'
-	}, {
-		blacklist: new Set([ 'data.foo.type', 'name' ])
-	})
-
-	test.deepEqual(result, {
-		type: 'distro',
-		version: '7',
-		name: 'Debian v{{version}}',
-		data: {
-			name: 'debian',
-			foo: {
-				type: '{{type}}'
-			}
-		},
-		slug: 'debian'
-	})
-})
-
-ava.test('should be able to blacklist elements inside arrays', (test) => {
-	const result = computedProperties.compile({
-		slug: 'debian',
-		type: 'distro',
-		random: [
-			'{{slug}}',
-			'{{slug}}',
-			'{{slug}}'
-		]
-	}, {
-		blacklist: new Set([ 'random.1' ])
-	})
-
-	test.deepEqual(result, {
-		slug: 'debian',
-		type: 'distro',
-		random: [
-			'debian',
-			'{{slug}}',
-			'debian'
-		]
-	})
-})
-
-ava.test('should be able to blacklist a whole subtree', (test) => {
-	const result = computedProperties.compile({
-		type: 'distro',
-		version: '7',
-		name: 'Debian v{{version}}',
-		data: {
-			name: 'debian',
-			foo: {
-				type: '{{type}}'
-			}
-		},
-		slug: '{{data.name}}'
-	}, {
-		blacklist: new Set([ 'data' ])
-	})
-
-	test.deepEqual(result, {
-		type: 'distro',
-		version: '7',
-		name: 'Debian v7',
-		data: {
-			name: 'debian',
-			foo: {
-				type: '{{type}}'
-			}
-		},
+		name: 'debian',
+		version: 'debian v1.0.0',
+		summary: 'Distro: debian v1.0.0',
 		slug: 'debian'
 	})
 })
