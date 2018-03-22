@@ -118,20 +118,17 @@ ava.test('should compile a single nested template', (test) => {
 })
 
 ava.test('should leave missing values as interpolations', (test) => {
-	test.deepEqual(computedProperties.compile({
-		type: 'distro',
-		name: 'Debian',
-		version: '{{data.distroName}}',
-		slug: 'debian'
-	}), {
-		type: 'distro',
-		name: 'Debian',
-		version: '{{data.distroName}}',
-		slug: 'debian'
-	})
+	test.throws(() => {
+		computedProperties.compile({
+			type: 'distro',
+			name: 'Debian',
+			version: '{{data.distroName}}',
+			slug: 'debian'
+		})
+	}, 'Could not compile card')
 })
 
-ava.test.skip('should leave missing values as interpolations', (test) => {
+ava.test('should resolve interpolations that depend on other interpolations', (test) => {
 	test.deepEqual(computedProperties.compile({
 		type: 'distro',
 		name: '{{slug}}',
