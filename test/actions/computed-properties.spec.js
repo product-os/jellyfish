@@ -16,6 +16,7 @@
 
 const ava = require('ava')
 const computedProperties = require('../../lib/actions/computed-properties')
+const credentials = require('../../lib/actions/credentials')
 
 ava.test('should compile a card without templates', (test) => {
 	test.deepEqual(computedProperties.compile({
@@ -142,4 +143,73 @@ ava.test('should resolve interpolations that depend on other interpolations', (t
 		summary: 'Distro: debian v1.0.0',
 		slug: 'debian'
 	})
+})
+
+ava.test('should execute Excel functions', (test) => {
+	test.deepEqual(computedProperties.compile({
+		test: '{{ MAX(5, 3) }}'
+	}), {
+		test: '5'
+	})
+})
+
+ava.test('should evaluate function expressions that depend on other expressions', (test) => {
+	const result = computedProperties.compile({
+		foo: '{{ POW(2, 2) }}',
+		test: '{{ POW(foo, 2) }}'
+	})
+
+	test.deepEqual(computedProperties.compile(result), {
+		foo: '4',
+		test: '16'
+	})
+})
+
+ava.test('should have a GENERATESALT function', (test) => {
+	const salt = computedProperties.compile({
+		result: '{{ GENERATESALT() }}'
+	}).result
+
+	test.regex(salt, /^[A-Za-z0-9/+]+==?/)
+})
+
+ava.test('GENERATESALT: should generate random values', (test) => {
+	const salt1 = computedProperties.compile({
+		result: '{{ GENERATESALT() }}'
+	}).result
+
+	const salt2 = computedProperties.compile({
+		result: '{{ GENERATESALT() }}'
+	}).result
+
+	const salt3 = computedProperties.compile({
+		result: '{{ GENERATESALT() }}'
+	}).result
+
+	test.not(salt1, salt2)
+	test.not(salt2, salt3)
+	test.not(salt3, salt1)
+})
+
+ava.test('HASH: should hash a string with a salt', (test) => {
+	const salt = credentials.generateSalt()
+	const hash = computedProperties.compile({
+		salt,
+		hash: '{{ HASH("foobar", salt) }}'
+	}).hash
+
+	test.true(credentials.check('foobar', {
+		hash,
+		salt
+	}))
+})
+
+ava.test('HASH: should hash a string with a salt that is also generated on the card', (test) => {
+	const result = computedProperties.compile({
+		salt: '{{ GENERATESALT() }}',
+		hash: '{{ HASH("foobar", salt) }}'
+	})
+
+	test.true(credentials.check('foobar', result))
+	test.false(credentials.check('baz', result))
 })
