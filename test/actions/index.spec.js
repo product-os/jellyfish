@@ -119,3 +119,61 @@ ava.test('.createRequest() should be able to create a user using action-create-u
 	test.true(credentials.check('foobarbaz', user.data.password))
 	test.false(credentials.check('fooquxbaz', user.data.password))
 })
+
+ava.test('.createRequest() should login as a user', async (test) => {
+	const signupRequestId = await actions.createRequest(test.context.jellyfish, {
+		targetId: 'user',
+		actorId: 'user-admin',
+		action: 'action-create-user',
+		transient: {
+			password: 'foobarbaz'
+		},
+		arguments: {
+			email: 'johndoe@example.com',
+			username: 'johndoe',
+			salt: '{{ GENERATESALT() }}',
+			hash: '{{ HASH(properties.transient.password, properties.data.arguments.salt) }}'
+		}
+	})
+
+	const signupRequest = await test.context.jellyfish.getCard(signupRequestId)
+	await actions.processRequest(test.context.jellyfish, signupRequest)
+
+	const user = await test.context.jellyfish.getCard('user-johndoe')
+
+	const loginRequestId = await actions.createRequest(test.context.jellyfish, {
+		targetId: 'user-johndoe',
+		actorId: 'user-admin',
+		action: 'action-user-login',
+		transient: {
+			password: 'foobarbaz'
+		},
+		arguments: {
+			hash: `{{ HASH(properties.transient.password, '${user.data.password.salt}') }}`
+		}
+	})
+
+	const loginRequest = await test.context.jellyfish.getCard(loginRequestId)
+	await actions.processRequest(test.context.jellyfish, loginRequest)
+
+	const finishedLoginRequest = await test.context.jellyfish.getCard(loginRequestId)
+	const token = finishedLoginRequest.data.result.data
+
+	test.is(loginRequest.id, loginRequestId)
+	test.not(token, loginRequestId)
+	test.not(token, signupRequestId)
+	test.not(token, user.id)
+
+	const session = await test.context.jellyfish.getCard(token)
+
+	test.deepEqual(_.omit(session, [ 'data' ]), {
+		id: token,
+		type: 'session',
+		active: true,
+		links: [],
+		tags: []
+	})
+
+	const currentDate = new Date()
+	test.true(new Date(session.data.expiration) > currentDate)
+})

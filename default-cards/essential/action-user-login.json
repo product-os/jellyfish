@@ -1,0 +1,29 @@
+{
+  "slug": "action-user-login",
+  "type": "action",
+  "name": "Login as a user",
+  "tags": [],
+  "links": [],
+  "active": true,
+  "data": {
+    "filter": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "user"
+        }
+      },
+      "required": [ "type" ]
+    },
+    "arguments": {
+      "hash": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9$./]+$"
+      }
+    },
+    "options": {
+      "hash": "[arguments.hash]"
+    }
+  }
+}
