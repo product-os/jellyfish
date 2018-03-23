@@ -120,7 +120,7 @@ ava.test('.createRequest() should be able to create a user using action-create-u
 	test.false(credentials.check('fooquxbaz', user.data.password))
 })
 
-ava.test('.createRequest() should login as a user', async (test) => {
+ava.test('.createRequest() should login as a user with a password', async (test) => {
 	const signupRequestId = await actions.createRequest(test.context.jellyfish, {
 		targetId: 'user',
 		actorId: 'user-admin',
@@ -149,7 +149,9 @@ ava.test('.createRequest() should login as a user', async (test) => {
 			password: 'foobarbaz'
 		},
 		arguments: {
-			hash: `{{ HASH(properties.transient.password, '${user.data.password.salt}') }}`
+			password: {
+				hash: `{{ HASH(properties.transient.password, '${user.data.password.salt}') }}`
+			}
 		}
 	})
 
@@ -164,6 +166,88 @@ ava.test('.createRequest() should login as a user', async (test) => {
 	test.not(token, signupRequestId)
 	test.not(token, user.id)
 
+	const session = await test.context.jellyfish.getCard(token)
+
+	test.deepEqual(_.omit(session, [ 'data' ]), {
+		id: token,
+		type: 'session',
+		active: true,
+		links: [],
+		tags: []
+	})
+
+	const currentDate = new Date()
+	test.true(new Date(session.data.expiration) > currentDate)
+})
+
+ava.test('.createRequest() should throw an error if login in with the wrong password', async (test) => {
+	const signupRequestId = await actions.createRequest(test.context.jellyfish, {
+		targetId: 'user',
+		actorId: 'user-admin',
+		action: 'action-create-user',
+		transient: {
+			password: 'foobarbaz'
+		},
+		arguments: {
+			email: 'johndoe@example.com',
+			username: 'johndoe',
+			salt: '{{ GENERATESALT() }}',
+			hash: '{{ HASH(properties.transient.password, properties.data.arguments.salt) }}'
+		}
+	})
+
+	const signupRequest = await test.context.jellyfish.getCard(signupRequestId)
+	await actions.processRequest(test.context.jellyfish, signupRequest)
+
+	const user = await test.context.jellyfish.getCard('user-johndoe')
+
+	const loginRequestId = await actions.createRequest(test.context.jellyfish, {
+		targetId: 'user-johndoe',
+		actorId: 'user-admin',
+		action: 'action-user-login',
+		transient: {
+			password: 'xxxxxxxxxxxxxxxxxx'
+		},
+		arguments: {
+			password: {
+				hash: `{{ HASH(properties.transient.password, '${user.data.password.salt}') }}`
+			}
+		}
+	})
+
+	const loginRequest = await test.context.jellyfish.getCard(loginRequestId)
+	await test.throws(actions.processRequest(test.context.jellyfish, loginRequest), 'Invalid password')
+})
+
+ava.test('.createRequest() should login as a password-less user', async (test) => {
+	const id = await test.context.jellyfish.insertCard({
+		type: 'user',
+		slug: 'user-johndoe',
+		active: true,
+		links: [],
+		tags: [],
+		data: {
+			email: 'johndoe@example.com',
+			roles: []
+		}
+	})
+
+	const user = await test.context.jellyfish.getCard(id)
+
+	const loginRequestId = await actions.createRequest(test.context.jellyfish, {
+		targetId: 'user-johndoe',
+		actorId: 'user-admin',
+		action: 'action-user-login',
+		arguments: {
+			password: {}
+		}
+	})
+
+	const loginRequest = await test.context.jellyfish.getCard(loginRequestId)
+	await actions.processRequest(test.context.jellyfish, loginRequest)
+
+	const finishedLoginRequest = await test.context.jellyfish.getCard(loginRequestId)
+	const token = finishedLoginRequest.data.result.data
 	const session = await test.context.jellyfish.getCard(token)
 
 	test.deepEqual(_.omit(session, [ 'data' ]), {

@@ -17,13 +17,18 @@
       "required": [ "type" ]
     },
     "arguments": {
-      "hash": {
-        "type": "string",
-        "pattern": "^[a-zA-Z0-9$./]+$"
+      "password": {
+        "type": "object",
+        "properties": {
+          "hash": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9$./]+$"
+          }
+        }
       }
     },
     "options": {
-      "hash": "[arguments.hash]"
+      "password": "[arguments.password]"
     }
   }
 }
