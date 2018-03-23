@@ -47,9 +47,12 @@
     "webpack-dev-server": "^3.1.1"
   },
   "dependencies": {
+    "@types/json-schema": "^6.0.1",
+    "@types/lodash": "^4.14.104",
     "@types/react": "^16.0.40",
     "@types/react-dom": "^16.0.4",
     "ajv": "^6.2.0",
+    "axios": "^0.18.0",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
     "debug": "^3.1.0",
@@ -60,6 +63,7 @@
     "object-template": "^1.2.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "rendition": "^4.0.0-beta4",
     "rethinkdb": "^2.3.3",
     "typed-errors": "^1.1.0"
   }
