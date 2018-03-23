@@ -220,7 +220,7 @@ ava.test('.createRequest() should throw an error if login in with the wrong pass
 })
 
 ava.test('.createRequest() should login as a password-less user', async (test) => {
-	const id = await test.context.jellyfish.insertCard({
+	await test.context.jellyfish.insertCard({
 		type: 'user',
 		slug: 'user-johndoe',
 		active: true,
@@ -231,8 +231,6 @@ ava.test('.createRequest() should login as a password-less user', async (test) =
 			roles: []
 		}
 	})
-
-	const user = await test.context.jellyfish.getCard(id)
 
 	const loginRequestId = await actions.createRequest(test.context.jellyfish, {
 		targetId: 'user-johndoe',
