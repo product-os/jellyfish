@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
+import { Card } from '../../Types';
 
 const API_PREFIX = '/api/v1/';
 const API_URL = 'http://localhost:8000';
@@ -36,8 +37,10 @@ const queryStringEncode = (input: any) => {
 	).join('&');
 };
 
-export const get = (schema: JSONSchema6) =>
-	axios.get(`${API_URL}${API_PREFIX}query?${queryStringEncode(schema)}`, {
-//		params: { schema: queryStringEncode(schema) },
-	})
-	.then(response => response.data);
+export const get = (schema: JSONSchema6): Promise<Card[]> =>
+	axios.get(`${API_URL}${API_PREFIX}query?${queryStringEncode(schema)}`)
+	.then(response => response.data.data);
+
+export const queryView = (id: string): Promise<Card[]> =>
+	axios.get(`${API_URL}${API_PREFIX}query-view/${id}`)
+	.then(response => response.data.data);
