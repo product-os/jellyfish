@@ -24,3 +24,7 @@ ava.test('.isUUID() should return true given a uuid', (test) => {
 ava.test('.isUUID() should return false given a non-uuid string', (test) => {
 	test.false(utils.isUUID('foo'))
 })
+
+ava.test('.isUUID() should return false given a non-uuid string', (test) => {
+	test.false(utils.isUUID('foo'))
+})
