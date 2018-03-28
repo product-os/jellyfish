@@ -2,3 +2,4 @@
 --ignore-dir=node_modules
 --ignore-dir=.nyc_output
 --ignore-dir=coverage
+--ignore-dir=dist
