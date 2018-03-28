@@ -28,7 +28,7 @@ ava.test('should restore an active card', async (test) => {
 		hash
 	})
 
-	const card = await test.context.jellyfish.getCard(id)
+	const card = await test.context.jellyfish.getCard(test.context.session, id)
 
 	test.deepEqual(card, {
 		id,

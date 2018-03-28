@@ -28,7 +28,7 @@ ava.test('should create a card', async (test) => {
 		}
 	})
 
-	const card = await test.context.jellyfish.getCard(id)
+	const card = await test.context.jellyfish.getCard(test.context.session, id)
 
 	test.deepEqual(card, {
 		id,
@@ -42,7 +42,7 @@ ava.test('should create a card', async (test) => {
 		}
 	})
 
-	const timeline = _.map(await utils.getTimeline(test.context.jellyfish, id), 'type')
+	const timeline = _.map(await utils.getTimeline(test.context.jellyfish, test.context.session, id), 'type')
 	test.deepEqual(timeline, [ 'create' ])
 })
 
@@ -70,7 +70,7 @@ ava.test('should fail if the card already exists', async (test) => {
 		properties: card
 	}), test.context.jellyfish.errors.JellyfishElementAlreadyExists)
 
-	const timeline = _.map(await utils.getTimeline(test.context.jellyfish, id), 'type')
+	const timeline = _.map(await utils.getTimeline(test.context.jellyfish, test.context.session, id), 'type')
 	test.deepEqual(timeline, [ 'create' ])
 })
 
@@ -105,7 +105,7 @@ ava.test('should create an inactive card', async (test) => {
 		}
 	})
 
-	const card = await test.context.jellyfish.getCard(id, {
+	const card = await test.context.jellyfish.getCard(test.context.session, id, {
 		inactive: true
 	})
 
@@ -133,7 +133,7 @@ ava.test('should create a card with more extra data properties', async (test) =>
 		}
 	})
 
-	const card = await test.context.jellyfish.getCard(id)
+	const card = await test.context.jellyfish.getCard(test.context.session, id)
 
 	test.deepEqual(card, {
 		id,
@@ -148,7 +148,7 @@ ava.test('should create a card with more extra data properties', async (test) =>
 		}
 	})
 
-	const timeline = _.map(await utils.getTimeline(test.context.jellyfish, id), 'type')
+	const timeline = _.map(await utils.getTimeline(test.context.jellyfish, test.context.session, id), 'type')
 	test.deepEqual(timeline, [ 'create' ])
 })
 
@@ -164,7 +164,7 @@ ava.test('should create a card with a computed slug', async (test) => {
 		}
 	})
 
-	const card = await test.context.jellyfish.getCard(id)
+	const card = await test.context.jellyfish.getCard(test.context.session, id)
 
 	test.deepEqual(card, {
 		id,
@@ -193,7 +193,7 @@ ava.test('should create a card using computed formulas', async (test) => {
 		}
 	})
 
-	const card = await test.context.jellyfish.getCard(id)
+	const card = await test.context.jellyfish.getCard(test.context.session, id)
 
 	test.deepEqual(card, {
 		id,
@@ -223,7 +223,7 @@ ava.test('should not store the transient property', async (test) => {
 		}
 	})
 
-	const card = await test.context.jellyfish.getCard(id)
+	const card = await test.context.jellyfish.getCard(test.context.session, id)
 
 	test.deepEqual(card, {
 		id,

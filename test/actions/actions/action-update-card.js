@@ -38,7 +38,7 @@ ava.test('should replace an existing card and add an update event using a slug',
 
 	test.is(id1, id2)
 
-	const card = await test.context.jellyfish.getCard(id1)
+	const card = await test.context.jellyfish.getCard(test.context.session, id1)
 
 	test.deepEqual(card, {
 		id: id1,
@@ -52,7 +52,7 @@ ava.test('should replace an existing card and add an update event using a slug',
 		}
 	})
 
-	const timeline = await utils.getTimeline(test.context.jellyfish, id1)
+	const timeline = await utils.getTimeline(test.context.jellyfish, test.context.session, id1)
 	test.deepEqual(_.map(timeline, 'type'), [ 'create', 'update' ])
 
 	test.deepEqual(timeline[1].data.payload, {
@@ -85,7 +85,7 @@ ava.test('should replace an existing card and add an update event without using 
 
 	test.is(id1, id2)
 
-	const card = await test.context.jellyfish.getCard(id1)
+	const card = await test.context.jellyfish.getCard(test.context.session, id1)
 
 	test.deepEqual(card, {
 		id: id1,
@@ -98,7 +98,7 @@ ava.test('should replace an existing card and add an update event without using 
 		}
 	})
 
-	const timeline = await utils.getTimeline(test.context.jellyfish, id1)
+	const timeline = await utils.getTimeline(test.context.jellyfish, test.context.session, id1)
 	test.deepEqual(_.map(timeline, 'type'), [ 'create', 'update' ])
 
 	test.deepEqual(timeline[1].data.payload, {
@@ -159,7 +159,7 @@ ava.test('should add an extra property to a card', async (test) => {
 
 	test.is(id1, id2)
 
-	const card = await test.context.jellyfish.getCard(id1)
+	const card = await test.context.jellyfish.getCard(test.context.session, id1)
 
 	test.deepEqual(card, {
 		id: id1,
@@ -174,7 +174,7 @@ ava.test('should add an extra property to a card', async (test) => {
 		}
 	})
 
-	const timeline = await utils.getTimeline(test.context.jellyfish, id1)
+	const timeline = await utils.getTimeline(test.context.jellyfish, test.context.session, id1)
 	test.deepEqual(_.map(timeline, 'type'), [ 'create', 'update' ])
 
 	test.deepEqual(timeline[1].data.payload, {
@@ -206,7 +206,7 @@ ava.test('should be able to add a slug', async (test) => {
 
 	test.is(id1, id2)
 
-	const card = await test.context.jellyfish.getCard(id1)
+	const card = await test.context.jellyfish.getCard(test.context.session, id1)
 
 	test.deepEqual(card, {
 		id: id1,
@@ -238,7 +238,7 @@ ava.test('should be able to set active to false', async (test) => {
 
 	test.is(id1, id2)
 
-	const card = await test.context.jellyfish.getCard(id1, {
+	const card = await test.context.jellyfish.getCard(test.context.session, id1, {
 		inactive: true
 	})
 
@@ -277,7 +277,7 @@ ava.test('should not store a change that adds a transient property', async (test
 
 	test.is(id1, id2)
 
-	const card = await test.context.jellyfish.getCard(id1)
+	const card = await test.context.jellyfish.getCard(test.context.session, id1)
 
 	test.deepEqual(card, {
 		id: id1,
@@ -291,7 +291,7 @@ ava.test('should not store a change that adds a transient property', async (test
 		}
 	})
 
-	const timeline = await utils.getTimeline(test.context.jellyfish, id1)
+	const timeline = await utils.getTimeline(test.context.jellyfish, test.context.session, id1)
 	test.deepEqual(_.map(timeline, 'type'), [ 'create', 'update' ])
 
 	test.deepEqual(timeline[1].data.payload, {

@@ -31,7 +31,7 @@ ava.test('should restore an active card', async (test) => {
 	const result = await test.context.executeAction('action-restore-card', id, {})
 	test.is(result, id)
 
-	const card = await test.context.jellyfish.getCard(id)
+	const card = await test.context.jellyfish.getCard(test.context.session, id)
 
 	test.deepEqual(card, {
 		id,
@@ -45,7 +45,7 @@ ava.test('should restore an active card', async (test) => {
 		}
 	})
 
-	const timeline = _.map(await utils.getTimeline(test.context.jellyfish, id), 'type')
+	const timeline = _.map(await utils.getTimeline(test.context.jellyfish, test.context.session, id), 'type')
 	test.deepEqual(timeline, [ 'create' ])
 })
 
@@ -63,7 +63,7 @@ ava.test('should restore an inactive card', async (test) => {
 	const result = await test.context.executeAction('action-restore-card', id, {})
 	test.is(result, id)
 
-	const card = await test.context.jellyfish.getCard(id)
+	const card = await test.context.jellyfish.getCard(test.context.session, id)
 
 	test.deepEqual(card, {
 		id,
@@ -77,6 +77,6 @@ ava.test('should restore an inactive card', async (test) => {
 		}
 	})
 
-	const timeline = _.map(await utils.getTimeline(test.context.jellyfish, id), 'type')
+	const timeline = _.map(await utils.getTimeline(test.context.jellyfish, test.context.session, id), 'type')
 	test.deepEqual(timeline, [ 'create', 'update' ])
 })
