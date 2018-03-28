@@ -19,7 +19,7 @@
   },
   "ava": {
     "verbose": true,
-    "serial": true,
+    "concurrency": 3,
     "failFast": true,
     "files": [
       "test/**/*.spec.js"
