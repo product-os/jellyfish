@@ -36,7 +36,7 @@ ava.test.beforeEach(async (test) => {
 	})
 
 	await test.context.jellyfish.initialize()
-	test.context.session = test.context.jellyfish.sessions.admin
+	test.context.session = test.context.jellyfish.sessions.admin.uuid
 })
 
 ava.test.afterEach(async (test) => {
