@@ -47,11 +47,14 @@
                   "type": "string",
                   "format": "date-time"
                 },
+                "error": {
+                  "type": "boolean"
+                },
                 "data": {
                   "type": [ "object", "string", "number", "boolean", "array" ]
                 }
               },
-              "required": [ "timestamp", "data" ]
+              "required": [ "timestamp", "error", "data" ]
             },
             "arguments": {
               "type": "object"

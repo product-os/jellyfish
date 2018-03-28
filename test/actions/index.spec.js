@@ -108,6 +108,7 @@ ava.test('.createRequest() should be able to create a user using action-create-u
 	const finishedRequest = await test.context.jellyfish.getCard(id)
 	test.is(finishedRequest.id, id)
 	test.true(finishedRequest.data.executed)
+	test.false(finishedRequest.data.result.error)
 
 	const user = await test.context.jellyfish.getCard(finishedRequest.data.result.data)
 
@@ -161,6 +162,7 @@ ava.test('.createRequest() should login as a user with a password', async (test)
 	const finishedLoginRequest = await test.context.jellyfish.getCard(loginRequestId)
 	const token = finishedLoginRequest.data.result.data
 
+	test.false(finishedLoginRequest.data.result.error)
 	test.is(loginRequest.id, loginRequestId)
 	test.not(token, loginRequestId)
 	test.not(token, signupRequestId)
@@ -246,6 +248,7 @@ ava.test('.createRequest() should login as a password-less user', async (test) =
 
 	const finishedLoginRequest = await test.context.jellyfish.getCard(loginRequestId)
 	const token = finishedLoginRequest.data.result.data
+	test.false(finishedLoginRequest.data.result.error)
 	const session = await test.context.jellyfish.getCard(token)
 
 	test.deepEqual(_.omit(session, [ 'data' ]), {
