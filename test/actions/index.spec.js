@@ -262,3 +262,33 @@ ava.test('.createRequest() should login as a password-less user', async (test) =
 	const currentDate = new Date()
 	test.true(new Date(session.data.expiration) > currentDate)
 })
+
+ava.test('.processRequest() should set error to true given an arguments schema mismatch', async (test) => {
+	const id = await actions.createRequest(test.context.jellyfish, {
+		targetId: 'user',
+		actorId: 'user-admin',
+		action: 'action-create-user',
+		transient: {
+			password: 'foobarbaz'
+		},
+		arguments: {
+			email: 'xxxxxxxxxxx',
+			username: 'johndoe',
+			salt: '{{ GENERATESALT() }}',
+			hash: '{{ HASH(properties.transient.password, properties.data.arguments.salt) }}'
+		}
+	})
+
+	const pendingRequest = await test.context.jellyfish.getCard(id)
+	test.is(pendingRequest.id, id)
+	test.false(pendingRequest.data.executed)
+
+	const requestId = await actions.processRequest(test.context.jellyfish, pendingRequest)
+	test.is(requestId, id)
+
+	const finishedRequest = await test.context.jellyfish.getCard(id)
+	test.is(finishedRequest.id, id)
+	test.true(finishedRequest.data.result.error)
+	test.true(finishedRequest.data.executed)
+	test.is(finishedRequest.data.result.data, 'Arguments do not match')
+})
