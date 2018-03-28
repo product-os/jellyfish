@@ -182,7 +182,7 @@ ava.test('.createRequest() should login as a user with a password', async (test)
 	test.true(new Date(session.data.expiration) > currentDate)
 })
 
-ava.test('.createRequest() should throw an error if login in with the wrong password', async (test) => {
+ava.test('.createRequest() should fail if login in with the wrong password', async (test) => {
 	const signupRequestId = await actions.createRequest(test.context.jellyfish, {
 		targetId: 'user',
 		actorId: 'user-admin',
@@ -218,7 +218,12 @@ ava.test('.createRequest() should throw an error if login in with the wrong pass
 	})
 
 	const loginRequest = await test.context.jellyfish.getCard(loginRequestId)
-	await test.throws(actions.processRequest(test.context.jellyfish, loginRequest), 'Invalid password')
+	await actions.processRequest(test.context.jellyfish, loginRequest)
+	const finishedLoginRequest = await test.context.jellyfish.getCard(loginRequestId)
+
+	test.true(finishedLoginRequest.data.result.error)
+	test.true(finishedLoginRequest.data.executed)
+	test.is(finishedLoginRequest.data.result.data, 'Invalid password')
 })
 
 ava.test('.createRequest() should login as a password-less user', async (test) => {
