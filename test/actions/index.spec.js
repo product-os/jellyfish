@@ -178,6 +178,7 @@ ava.test('.createRequest() should login as a user with a password', async (test)
 		tags: []
 	})
 
+	test.is(session.data.actor, user.id)
 	const currentDate = new Date()
 	test.true(new Date(session.data.expiration) > currentDate)
 })
@@ -263,6 +264,9 @@ ava.test('.createRequest() should login as a password-less user', async (test) =
 		links: [],
 		tags: []
 	})
+
+	const user = await test.context.jellyfish.getCard('user-johndoe')
+	test.is(session.data.actor, user.id)
 
 	const currentDate = new Date()
 	test.true(new Date(session.data.expiration) > currentDate)

@@ -12,6 +12,10 @@
         "data": {
           "type": "object",
           "properties": {
+            "actor": {
+              "type": "string",
+              "format": "uuid"
+            },
             "expiration": {
               "type": "string",
               "format": "date-time"
