@@ -10,7 +10,7 @@
     "url": "git@github.com:resin-io/jellyfish.git"
   },
   "scripts": {
-    "start": "npm run build:ui && DEBUG=jellyfish:* node lib/server.js",
+    "start": "DEBUG=jellyfish:* node lib/server.js",
     "test": "npm run lint && TEST_DB_HOST=localhost TEST_PROXY_PORT=9999 TEST_DB_PORT=28015 NODE_ENV=test nyc --reporter=lcov ava",
     "lint": "eslint lib test webpack.config.js",
     "lint:fix": "eslint --fix lib test webpack.config.js",
@@ -19,7 +19,7 @@
   },
   "ava": {
     "verbose": true,
-    "concurrency": 3,
+    "serial": true,
     "failFast": true,
     "files": [
       "test/**/*.spec.js"

@@ -31,7 +31,7 @@ ava.test('should delete an active card', async (test) => {
 	const result = await test.context.executeAction('action-delete-card', id, {})
 	test.is(result, id)
 
-	const card = await test.context.jellyfish.getCard(id, {
+	const card = await test.context.jellyfish.getCard(test.context.session, id, {
 		inactive: true
 	})
 
@@ -47,7 +47,7 @@ ava.test('should delete an active card', async (test) => {
 		}
 	})
 
-	const timeline = _.map(await utils.getTimeline(test.context.jellyfish, id, {
+	const timeline = _.map(await utils.getTimeline(test.context.jellyfish, test.context.session, id, {
 		inactive: true
 	}), 'type')
 
@@ -68,7 +68,7 @@ ava.test('should delete an inactive card', async (test) => {
 	const result = await test.context.executeAction('action-delete-card', id, {})
 	test.is(result, id)
 
-	const card = await test.context.jellyfish.getCard(id, {
+	const card = await test.context.jellyfish.getCard(test.context.session, id, {
 		inactive: true
 	})
 
@@ -84,7 +84,7 @@ ava.test('should delete an inactive card', async (test) => {
 		}
 	})
 
-	const timeline = _.map(await utils.getTimeline(test.context.jellyfish, id, {
+	const timeline = _.map(await utils.getTimeline(test.context.jellyfish, test.context.session, id, {
 		inactive: true
 	}), 'type')
 
