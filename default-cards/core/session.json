@@ -21,7 +21,7 @@
               "format": "date-time"
             }
           },
-          "required": [ "expiration" ]
+          "required": [ "actor" ]
         }
       },
       "required": [ "data" ]
