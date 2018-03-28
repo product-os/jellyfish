@@ -1,0 +1,12 @@
+{
+  "slug": "user-guest",
+  "type": "user",
+  "name": "The guest user",
+  "tags": [],
+  "links": [],
+  "active": true,
+  "data": {
+    "email": "accounts+jellyfish@resin.io",
+    "roles": []
+  }
+}
