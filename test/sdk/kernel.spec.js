@@ -478,6 +478,58 @@ ava.test('.getSchema() should return a schema given a view card with two conjunc
 	})
 })
 
+ava.test('.getSchema() should return a schema given a view card with two conjunctions and empty disjunctions', (test) => {
+	const schema = test.context.kernel.getSchema({
+		type: 'view',
+		links: [],
+		tags: [],
+		active: true,
+		data: {
+			anyOf: [],
+			allOf: [
+				{
+					name: 'foo',
+					schema: {
+						type: 'object',
+						properties: {
+							foo: {
+								type: 'string',
+								minLength: 1
+							}
+						},
+						required: [ 'foo' ]
+					}
+				},
+				{
+					name: 'bar',
+					schema: {
+						type: 'object',
+						properties: {
+							foo: {
+								type: 'string',
+								maxLength: 5
+							}
+						},
+						required: [ 'foo' ]
+					}
+				}
+			]
+		}
+	})
+
+	test.deepEqual(schema, {
+		type: 'object',
+		properties: {
+			foo: {
+				type: 'string',
+				minLength: 1,
+				maxLength: 5
+			}
+		},
+		required: [ 'foo' ]
+	})
+})
+
 ava.test('.getSchema() should return a schema given a view card with two disjunctions', (test) => {
 	const schema = test.context.kernel.getSchema({
 		type: 'view',
@@ -485,6 +537,72 @@ ava.test('.getSchema() should return a schema given a view card with two disjunc
 		tags: [],
 		active: true,
 		data: {
+			anyOf: [
+				{
+					name: 'foo',
+					schema: {
+						type: 'object',
+						properties: {
+							type: {
+								type: 'string',
+								const: 'view'
+							}
+						},
+						required: [ 'type' ]
+					}
+				},
+				{
+					name: 'bar',
+					schema: {
+						type: 'object',
+						properties: {
+							type: {
+								type: 'string',
+								const: 'action'
+							}
+						},
+						required: [ 'type' ]
+					}
+				}
+			]
+		}
+	})
+
+	test.deepEqual(schema, {
+		type: 'object',
+		anyOf: [
+			{
+				type: 'object',
+				properties: {
+					type: {
+						type: 'string',
+						const: 'view'
+					}
+				},
+				required: [ 'type' ]
+			},
+			{
+				type: 'object',
+				properties: {
+					type: {
+						type: 'string',
+						const: 'action'
+					}
+				},
+				required: [ 'type' ]
+			}
+		]
+	})
+})
+
+ava.test('.getSchema() should return a schema given a view card with two disjunctions and empty conjunctions', (test) => {
+	const schema = test.context.kernel.getSchema({
+		type: 'view',
+		links: [],
+		tags: [],
+		active: true,
+		data: {
+			allOf: [],
 			anyOf: [
 				{
 					name: 'foo',
