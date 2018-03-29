@@ -239,7 +239,7 @@ ava.test('.queryView() should execute a view with one filter', async (test) => {
 		links: [],
 		active: true,
 		data: {
-			filters: [
+			allOf: [
 				{
 					name: 'foo',
 					schema: {
@@ -301,7 +301,7 @@ ava.test('.queryView() should execute a view with more than one filter', async (
 		links: [],
 		active: true,
 		data: {
-			filters: [
+			allOf: [
 				{
 					name: 'foo',
 					schema: {

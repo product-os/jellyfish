@@ -9,38 +9,45 @@
     "schema": {
       "description": "Jellyfish View",
       "type": "object",
+      "definitions": {
+        "filters": {
+          "type": "array",
+          "minItems": 0,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "pattern": "^.*\\S.*$"
+              },
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "const": "object"
+                  }
+                },
+                "required": [ "type" ]
+              }
+            },
+            "additionalProperties": false,
+            "required": [ "name", "schema" ]
+          }
+        }
+      },
       "properties": {
         "data": {
           "type": "object",
           "properties": {
-            "filters": {
-              "type": "array",
-              "minItems": 1,
-              "uniqueItems": true,
-              "items": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string",
-                    "pattern": "^.*\\S.*$"
-                  },
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "type": {
-                        "type": "string",
-                        "const": "object"
-                      }
-                    },
-                    "required": [ "type" ]
-                  }
-                },
-                "additionalProperties": false,
-                "required": [ "name", "schema" ]
-              }
+            "anyOf": {
+              "$ref": "#/definitions/filters"
+            },
+            "allOf": {
+              "$ref": "#/definitions/filters"
             }
-          },
-          "required": [ "filters" ]
+          }
         }
       },
       "required": [ "data" ]
