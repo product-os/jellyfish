@@ -67,6 +67,112 @@ ava.test('should be able to disconnect the kernel multiple times without errors'
 	})
 })
 
+ava.test('.getSessionRoles() should throw if the session is invalid', async (test) => {
+	await test.throws(test.context.kernel.getSessionRoles('xxxxxxxxxxxxxxxxxxxxxxxxxx'), errors.JellyfishNoElement)
+})
+
+ava.test('.getSessionRoles() should throw if the session actor is invalid', async (test) => {
+	const session = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'session',
+		active: true,
+		links: [],
+		tags: [],
+		data: {
+			actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
+		}
+	})
+
+	await test.throws(test.context.kernel.getSessionRoles(session), errors.JellyfishNoElement)
+})
+
+ava.test('.getSessionRoles() should get the session user roles', async (test) => {
+	const user = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'user-johndoe',
+		type: 'user',
+		active: true,
+		links: [],
+		tags: [],
+		data: {
+			email: 'johndoe@example.com',
+			roles: [ 'foo', 'bar' ]
+		}
+	})
+
+	const session = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'session',
+		active: true,
+		links: [],
+		tags: [],
+		data: {
+			actor: user
+		}
+	})
+
+	const roles = await test.context.kernel.getSessionRoles(session)
+	test.deepEqual(roles, [ 'view-user-johndoe', 'view-foo', 'view-bar' ])
+})
+
+ava.test('.getSessionRoles() should get the session user roles given the session did not expire', async (test) => {
+	const user = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'user-johndoe',
+		type: 'user',
+		active: true,
+		links: [],
+		tags: [],
+		data: {
+			email: 'johndoe@example.com',
+			roles: [ 'foo', 'bar' ]
+		}
+	})
+
+	const date = new Date()
+	date.setDate(date.getDate() + 1)
+
+	const session = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'session',
+		active: true,
+		links: [],
+		tags: [],
+		data: {
+			actor: user,
+			expiration: date.toISOString()
+		}
+	})
+
+	const roles = await test.context.kernel.getSessionRoles(session)
+	test.deepEqual(roles, [ 'view-user-johndoe', 'view-foo', 'view-bar' ])
+})
+
+ava.test('.getSessionRoles() should throw if the session expired', async (test) => {
+	const user = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'user-johndoe',
+		type: 'user',
+		active: true,
+		links: [],
+		tags: [],
+		data: {
+			email: 'johndoe@example.com',
+			roles: [ 'foo', 'bar' ]
+		}
+	})
+
+	const date = new Date()
+	date.setDate(date.getDate() - 1)
+
+	const session = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'session',
+		active: true,
+		links: [],
+		tags: [],
+		data: {
+			actor: user,
+			expiration: date.toISOString()
+		}
+	})
+
+	await test.throws(test.context.kernel.getSessionRoles(session), errors.JellyfishSessionExpired)
+})
+
 ava.test('.insertCard() should throw an error if the element is not a valid card', async (test) => {
 	await test.throws(test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		hello: 'world'
