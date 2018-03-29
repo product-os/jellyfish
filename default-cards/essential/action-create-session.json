@@ -1,5 +1,5 @@
 {
-  "slug": "action-user-login",
+  "slug": "action-create-session",
   "type": "action",
   "name": "Login as a user",
   "tags": [],

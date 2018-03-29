@@ -147,7 +147,7 @@ ava.test('.createRequest() should login as a user with a password', async (test)
 	const loginRequestId = await actions.createRequest(test.context.jellyfish, test.context.session, {
 		targetId: 'user-johndoe',
 		actorId: 'user-admin',
-		action: 'action-user-login',
+		action: 'action-create-session',
 		transient: {
 			password: 'foobarbaz'
 		},
@@ -209,7 +209,7 @@ ava.test('.createRequest() should fail if login in with the wrong password', asy
 	const loginRequestId = await actions.createRequest(test.context.jellyfish, test.context.session, {
 		targetId: 'user-johndoe',
 		actorId: 'user-admin',
-		action: 'action-user-login',
+		action: 'action-create-session',
 		transient: {
 			password: 'xxxxxxxxxxxxxxxxxx'
 		},
@@ -245,7 +245,7 @@ ava.test('.createRequest() should login as a password-less user', async (test) =
 	const loginRequestId = await actions.createRequest(test.context.jellyfish, test.context.session, {
 		targetId: 'user-johndoe',
 		actorId: 'user-admin',
-		action: 'action-user-login',
+		action: 'action-create-session',
 		arguments: {
 			password: {}
 		}
