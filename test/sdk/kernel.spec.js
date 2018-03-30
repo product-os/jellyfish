@@ -1301,7 +1301,7 @@ ava.test('.query() should ignore queries to properties not whitelisted by a role
 	])
 })
 
-ava.test('.query() should ignore queries to properties not whitelisted by a role even with additionalProperties: true', async (test) => {
+ava.test('.query() should ignore queries to disallowed properties with additionalProperties: true', async (test) => {
 	const actor = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'johndoe',
 		type: 'card',
