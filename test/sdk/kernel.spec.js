@@ -173,6 +173,235 @@ ava.test('.getSessionRoles() should throw if the session expired', async (test) 
 	await test.throws(test.context.kernel.getSessionRoles(session), errors.JellyfishSessionExpired)
 })
 
+ava.test('.getQueryFilters() should return an empty array given no roles', async (test) => {
+	const filters = await test.context.kernel.getQueryFilters([])
+	test.deepEqual(filters, [])
+})
+
+ava.test('.getQueryFilters() should return the schema of a single role', async (test) => {
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'view-read-foo',
+		type: 'view',
+		tags: [],
+		links: [],
+		active: true,
+		data: {
+			allOf: [
+				{
+					name: 'Active cards',
+					schema: {
+						type: 'object',
+						properties: {
+							active: {
+								type: 'boolean',
+								const: true
+							}
+						},
+						required: [ 'active' ]
+					}
+				}
+			]
+		}
+	})
+
+	const filters = await test.context.kernel.getQueryFilters([ 'foo' ])
+	test.deepEqual(filters, [
+		{
+			type: 'object',
+			properties: {
+				active: {
+					type: 'boolean',
+					const: true
+				}
+			},
+			required: [ 'active' ]
+		}
+	])
+})
+
+ava.test('.getQueryFilters() should ignore undefined roles', async (test) => {
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'view-read-foo',
+		type: 'view',
+		tags: [],
+		links: [],
+		active: true,
+		data: {
+			allOf: [
+				{
+					name: 'Active cards',
+					schema: {
+						type: 'object',
+						properties: {
+							active: {
+								type: 'boolean',
+								const: true
+							}
+						},
+						required: [ 'active' ]
+					}
+				}
+			]
+		}
+	})
+
+	const filters = await test.context.kernel.getQueryFilters([ 'hello', 'foo', 'world' ])
+	test.deepEqual(filters, [
+		{
+			type: 'object',
+			properties: {
+				active: {
+					type: 'boolean',
+					const: true
+				}
+			},
+			required: [ 'active' ]
+		}
+	])
+})
+
+ava.test('.getQueryFilters() should ignore roles that are not views', async (test) => {
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'view-read-hello',
+		type: 'card',
+		tags: [],
+		links: [],
+		active: true,
+		data: {
+			allOf: [
+				{
+					name: 'Action cards',
+					schema: {
+						type: 'object',
+						properties: {
+							type: {
+								type: 'string',
+								const: 'action'
+							}
+						},
+						required: [ 'type' ]
+					}
+				}
+			]
+		}
+	})
+
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'view-read-foo',
+		type: 'view',
+		tags: [],
+		links: [],
+		active: true,
+		data: {
+			allOf: [
+				{
+					name: 'Active cards',
+					schema: {
+						type: 'object',
+						properties: {
+							active: {
+								type: 'boolean',
+								const: true
+							}
+						},
+						required: [ 'active' ]
+					}
+				}
+			]
+		}
+	})
+
+	const filters = await test.context.kernel.getQueryFilters([ 'hello', 'foo' ])
+	test.deepEqual(filters, [
+		{
+			type: 'object',
+			properties: {
+				active: {
+					type: 'boolean',
+					const: true
+				}
+			},
+			required: [ 'active' ]
+		}
+	])
+})
+
+ava.test('.getQueryFilters() should return the schemas of two roles', async (test) => {
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'view-read-foo',
+		type: 'view',
+		tags: [],
+		links: [],
+		active: true,
+		data: {
+			allOf: [
+				{
+					name: 'Active cards',
+					schema: {
+						type: 'object',
+						properties: {
+							active: {
+								type: 'boolean',
+								const: true
+							}
+						},
+						required: [ 'active' ]
+					}
+				}
+			]
+		}
+	})
+
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'view-read-bar',
+		type: 'view',
+		tags: [],
+		links: [],
+		active: true,
+		data: {
+			allOf: [
+				{
+					name: 'Action cards',
+					schema: {
+						type: 'object',
+						properties: {
+							type: {
+								type: 'string',
+								const: 'action'
+							}
+						},
+						required: [ 'type' ]
+					}
+				}
+			]
+		}
+	})
+
+	const filters = await test.context.kernel.getQueryFilters([ 'foo', 'bar' ])
+	test.deepEqual(filters, [
+		{
+			type: 'object',
+			properties: {
+				active: {
+					type: 'boolean',
+					const: true
+				}
+			},
+			required: [ 'active' ]
+		},
+		{
+			type: 'object',
+			properties: {
+				type: {
+					type: 'string',
+					const: 'action'
+				}
+			},
+			required: [ 'type' ]
+		}
+	])
+})
+
 ava.test('.insertCard() should throw an error if the element is not a valid card', async (test) => {
 	await test.throws(test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		hello: 'world'
