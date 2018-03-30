@@ -1137,7 +1137,6 @@ ava.test('.query() should return the cards that match a schema', async (test) =>
 	test.deepEqual(results, [
 		{
 			id: id1,
-			active: true,
 			slug: 'johndoe',
 			type: 'card',
 			data: {
@@ -1306,7 +1305,6 @@ ava.test('.query() should return all action request cards', async (test) => {
 	test.deepEqual(results, [
 		{
 			type: 'action-request',
-			active: true,
 			data: {
 				action: 'action-foo',
 				actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
