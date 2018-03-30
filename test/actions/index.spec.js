@@ -76,7 +76,7 @@ ava.test('.executeAction() should fail if there is no implementation', async (te
 })
 
 ava.test('.createRequest() should be able to create a user using action-create-user', async (test) => {
-	const id = await actions.createRequest(test.context.jellyfish, test.context.session, {
+	const id = await actions.createRequest(test.context.jellyfish, test.context.jellyfish.sessions.guest, {
 		targetId: 'user',
 		actorId: 'user-admin',
 		action: 'action-create-user',
@@ -124,7 +124,7 @@ ava.test('.createRequest() should be able to create a user using action-create-u
 })
 
 ava.test('.createRequest() should login as a user with a password', async (test) => {
-	const signupRequestId = await actions.createRequest(test.context.jellyfish, test.context.session, {
+	const signupRequestId = await actions.createRequest(test.context.jellyfish, test.context.jellyfish.sessions.guest, {
 		targetId: 'user',
 		actorId: 'user-admin',
 		action: 'action-create-user',
@@ -144,7 +144,7 @@ ava.test('.createRequest() should login as a user with a password', async (test)
 
 	const user = await test.context.jellyfish.getCard(test.context.session, 'user-johndoe')
 
-	const loginRequestId = await actions.createRequest(test.context.jellyfish, test.context.session, {
+	const loginRequestId = await actions.createRequest(test.context.jellyfish, test.context.jellyfish.sessions.guest, {
 		targetId: 'user-johndoe',
 		actorId: 'user-admin',
 		action: 'action-create-session',
@@ -186,7 +186,7 @@ ava.test('.createRequest() should login as a user with a password', async (test)
 })
 
 ava.test('.createRequest() should fail if login in with the wrong password', async (test) => {
-	const signupRequestId = await actions.createRequest(test.context.jellyfish, test.context.session, {
+	const signupRequestId = await actions.createRequest(test.context.jellyfish, test.context.jellyfish.sessions.guest, {
 		targetId: 'user',
 		actorId: 'user-admin',
 		action: 'action-create-user',
@@ -206,7 +206,7 @@ ava.test('.createRequest() should fail if login in with the wrong password', asy
 
 	const user = await test.context.jellyfish.getCard(test.context.session, 'user-johndoe')
 
-	const loginRequestId = await actions.createRequest(test.context.jellyfish, test.context.session, {
+	const loginRequestId = await actions.createRequest(test.context.jellyfish, test.context.jellyfish.sessions.guest, {
 		targetId: 'user-johndoe',
 		actorId: 'user-admin',
 		action: 'action-create-session',
@@ -242,7 +242,7 @@ ava.test('.createRequest() should login as a password-less user', async (test) =
 		}
 	})
 
-	const loginRequestId = await actions.createRequest(test.context.jellyfish, test.context.session, {
+	const loginRequestId = await actions.createRequest(test.context.jellyfish, test.context.jellyfish.sessions.guest, {
 		targetId: 'user-johndoe',
 		actorId: 'user-admin',
 		action: 'action-create-session',
@@ -275,7 +275,7 @@ ava.test('.createRequest() should login as a password-less user', async (test) =
 })
 
 ava.test('.processRequest() should set error to true given an arguments schema mismatch', async (test) => {
-	const id = await actions.createRequest(test.context.jellyfish, test.context.session, {
+	const id = await actions.createRequest(test.context.jellyfish, test.context.jellyfish.sessions.guest, {
 		targetId: 'user',
 		actorId: 'user-admin',
 		action: 'action-create-user',
