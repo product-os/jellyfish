@@ -29,12 +29,7 @@
           "properties": {
             "slug": {
               "type": "string",
-              "anyOf": [
-                { "const": "action-request" },
-                { "const": "user" },
-                { "const": "action" },
-                { "const": "card" }
-              ]
+              "const": "action-request"
             },
             "type": {
               "type": "string",
@@ -98,41 +93,6 @@
             }
           },
           "additionalProperties": true,
-          "required": [ "slug", "type" ]
-        }
-      },
-      {
-        "name": "Others",
-        "schema": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string"
-            },
-            "slug": {
-              "type": "string"
-            },
-            "type": {
-              "type": "string",
-              "const": "user"
-            },
-            "data": {
-              "type": "object",
-              "additionalProperties": false,
-              "properties": {
-                "password": {
-                  "type": "object",
-                  "additionalProperties": false,
-                  "properties": {
-                    "salt": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "additionalProperties": false,
           "required": [ "slug", "type" ]
         }
       }
