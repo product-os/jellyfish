@@ -109,10 +109,7 @@ ava.test('.getSessionRoles() should get the session user roles', async (test) =>
 	})
 
 	const roles = await test.context.kernel.getSessionRoles(session)
-	test.deepEqual(roles, {
-		read: [ 'view-read-user-johndoe', 'view-read-foo', 'view-read-bar' ],
-		write: [ 'view-write-user-johndoe', 'view-write-foo', 'view-write-bar' ]
-	})
+	test.deepEqual(roles, [ 'user-johndoe', 'foo', 'bar' ])
 })
 
 ava.test('.getSessionRoles() should get the session user roles given the session did not expire', async (test) => {
@@ -143,10 +140,7 @@ ava.test('.getSessionRoles() should get the session user roles given the session
 	})
 
 	const roles = await test.context.kernel.getSessionRoles(session)
-	test.deepEqual(roles, {
-		read: [ 'view-read-user-johndoe', 'view-read-foo', 'view-read-bar' ],
-		write: [ 'view-write-user-johndoe', 'view-write-foo', 'view-write-bar' ]
-	})
+	test.deepEqual(roles, [ 'user-johndoe', 'foo', 'bar' ])
 })
 
 ava.test('.getSessionRoles() should throw if the session expired', async (test) => {
