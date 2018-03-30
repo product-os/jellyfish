@@ -6,7 +6,7 @@
   "links": [],
   "active": true,
   "data": {
-    "filters": [
+    "allOf": [
       {
         "name": "Action Requests",
         "schema": {

@@ -15,10 +15,9 @@
  */
 
 const ava = require('ava')
-const _ = require('lodash')
 const randomstring = require('randomstring')
 const sdk = require('../../lib/sdk')
-const actions = require('../../lib/actions')
+const ActionRequestWorker = require('../../lib/actions')
 
 ava.test.beforeEach(async (test) => {
 	test.context.jellyfish = await sdk.create({
@@ -36,9 +35,7 @@ ava.test.beforeEach(async (test) => {
 
 	await test.context.jellyfish.initialize()
 	test.context.session = test.context.jellyfish.sessions.admin
-
-	test.context.executeAction =
-		_.partial(actions.executeAction, test.context.jellyfish, test.context.session)
+	test.context.worker = new ActionRequestWorker(test.context.jellyfish, test.context.session)
 })
 
 ava.test.afterEach(async (test) => {

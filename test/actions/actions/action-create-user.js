@@ -21,7 +21,7 @@ ava.test('should restore an active card', async (test) => {
 	const salt = credentials.generateSalt()
 	const hash = credentials.hash('foobar', salt)
 
-	const id = await test.context.executeAction('action-create-user', 'user', {
+	const id = await test.context.worker.executeAction(test.context.session, 'action-create-user', 'user', {
 		email: 'johndoe@example.com',
 		username: 'johndoe',
 		salt,

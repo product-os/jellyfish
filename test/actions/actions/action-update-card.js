@@ -19,7 +19,7 @@ const ava = require('ava')
 const utils = require('../../../lib/utils')
 
 ava.test('should replace an existing card and add an update event using a slug', async (test) => {
-	const id1 = await test.context.executeAction('action-create-card', 'card', {
+	const id1 = await test.context.worker.executeAction(test.context.session, 'action-create-card', 'card', {
 		properties: {
 			slug: 'johndoe',
 			data: {
@@ -28,7 +28,7 @@ ava.test('should replace an existing card and add an update event using a slug',
 		}
 	})
 
-	const id2 = await test.context.executeAction('action-update-card', id1, {
+	const id2 = await test.context.worker.executeAction(test.context.session, 'action-update-card', id1, {
 		properties: {
 			data: {
 				email: 'johndoe@gmail.com'
@@ -67,7 +67,7 @@ ava.test('should replace an existing card and add an update event using a slug',
 })
 
 ava.test('should replace an existing card and add an update event without using a slug', async (test) => {
-	const id1 = await test.context.executeAction('action-create-card', 'card', {
+	const id1 = await test.context.worker.executeAction(test.context.session, 'action-create-card', 'card', {
 		properties: {
 			data: {
 				foo: 'bar'
@@ -75,7 +75,7 @@ ava.test('should replace an existing card and add an update event without using 
 		}
 	})
 
-	const id2 = await test.context.executeAction('action-update-card', id1, {
+	const id2 = await test.context.worker.executeAction(test.context.session, 'action-update-card', id1, {
 		properties: {
 			data: {
 				foo: 'baz'
@@ -112,7 +112,8 @@ ava.test('should replace an existing card and add an update event without using 
 })
 
 ava.test('should fail if the target does not exist', async (test) => {
-	await test.throws(test.context.executeAction('action-update-card', '4a962ad9-20b5-4dd8-a707-bf819593cc84', {
+	const id = '4a962ad9-20b5-4dd8-a707-bf819593cc84'
+	await test.throws(test.context.worker.executeAction(test.context.session, 'action-update-card', id, {
 		properties: {
 			slug: 'johndoe',
 			data: {
@@ -123,7 +124,7 @@ ava.test('should fail if the target does not exist', async (test) => {
 })
 
 ava.test('should fail if the schema does not match', async (test) => {
-	const id = await test.context.executeAction('action-create-card', 'card', {
+	const id = await test.context.worker.executeAction(test.context.session, 'action-create-card', 'card', {
 		properties: {
 			data: {
 				foo: 'bar'
@@ -131,7 +132,7 @@ ava.test('should fail if the schema does not match', async (test) => {
 		}
 	})
 
-	await test.throws(test.context.executeAction('action-update-card', id, {
+	await test.throws(test.context.worker.executeAction(test.context.session, 'action-update-card', id, {
 		properties: {
 			foobar: true
 		}
@@ -139,7 +140,7 @@ ava.test('should fail if the schema does not match', async (test) => {
 })
 
 ava.test('should add an extra property to a card', async (test) => {
-	const id1 = await test.context.executeAction('action-create-card', 'card', {
+	const id1 = await test.context.worker.executeAction(test.context.session, 'action-create-card', 'card', {
 		properties: {
 			slug: 'johndoe',
 			data: {
@@ -148,7 +149,7 @@ ava.test('should add an extra property to a card', async (test) => {
 		}
 	})
 
-	const id2 = await test.context.executeAction('action-update-card', id1, {
+	const id2 = await test.context.worker.executeAction(test.context.session, 'action-update-card', id1, {
 		properties: {
 			data: {
 				email: 'johndoe@gmail.com',
@@ -190,7 +191,7 @@ ava.test('should add an extra property to a card', async (test) => {
 })
 
 ava.test('should be able to add a slug', async (test) => {
-	const id1 = await test.context.executeAction('action-create-card', 'card', {
+	const id1 = await test.context.worker.executeAction(test.context.session, 'action-create-card', 'card', {
 		properties: {
 			data: {
 				foo: 'bar'
@@ -198,7 +199,7 @@ ava.test('should be able to add a slug', async (test) => {
 		}
 	})
 
-	const id2 = await test.context.executeAction('action-update-card', id1, {
+	const id2 = await test.context.worker.executeAction(test.context.session, 'action-update-card', id1, {
 		properties: {
 			slug: 'hey-there'
 		}
@@ -222,7 +223,7 @@ ava.test('should be able to add a slug', async (test) => {
 })
 
 ava.test('should be able to set active to false', async (test) => {
-	const id1 = await test.context.executeAction('action-create-card', 'card', {
+	const id1 = await test.context.worker.executeAction(test.context.session, 'action-create-card', 'card', {
 		properties: {
 			data: {
 				foo: 'bar'
@@ -230,7 +231,7 @@ ava.test('should be able to set active to false', async (test) => {
 		}
 	})
 
-	const id2 = await test.context.executeAction('action-update-card', id1, {
+	const id2 = await test.context.worker.executeAction(test.context.session, 'action-update-card', id1, {
 		properties: {
 			active: false
 		}
@@ -253,7 +254,7 @@ ava.test('should be able to set active to false', async (test) => {
 })
 
 ava.test('should not store a change that adds a transient property', async (test) => {
-	const id1 = await test.context.executeAction('action-create-card', 'card', {
+	const id1 = await test.context.worker.executeAction(test.context.session, 'action-create-card', 'card', {
 		properties: {
 			slug: 'johndoe',
 			data: {
@@ -262,7 +263,7 @@ ava.test('should not store a change that adds a transient property', async (test
 		}
 	})
 
-	const id2 = await test.context.executeAction('action-update-card', id1, {
+	const id2 = await test.context.worker.executeAction(test.context.session, 'action-update-card', id1, {
 		properties: {
 			transient: {
 				hello: 'world'

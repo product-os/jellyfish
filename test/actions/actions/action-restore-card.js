@@ -19,7 +19,7 @@ const ava = require('ava')
 const utils = require('../../../lib/utils')
 
 ava.test('should restore an active card', async (test) => {
-	const id = await test.context.executeAction('action-create-card', 'card', {
+	const id = await test.context.worker.executeAction(test.context.session, 'action-create-card', 'card', {
 		properties: {
 			slug: 'johndoe',
 			data: {
@@ -28,7 +28,7 @@ ava.test('should restore an active card', async (test) => {
 		}
 	})
 
-	const result = await test.context.executeAction('action-restore-card', id, {})
+	const result = await test.context.worker.executeAction(test.context.session, 'action-restore-card', id, {})
 	test.is(result, id)
 
 	const card = await test.context.jellyfish.getCard(test.context.session, id)
@@ -50,7 +50,7 @@ ava.test('should restore an active card', async (test) => {
 })
 
 ava.test('should restore an inactive card', async (test) => {
-	const id = await test.context.executeAction('action-create-card', 'card', {
+	const id = await test.context.worker.executeAction(test.context.session, 'action-create-card', 'card', {
 		properties: {
 			active: false,
 			slug: 'johndoe',
@@ -60,7 +60,7 @@ ava.test('should restore an inactive card', async (test) => {
 		}
 	})
 
-	const result = await test.context.executeAction('action-restore-card', id, {})
+	const result = await test.context.worker.executeAction(test.context.session, 'action-restore-card', id, {})
 	test.is(result, id)
 
 	const card = await test.context.jellyfish.getCard(test.context.session, id)

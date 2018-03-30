@@ -19,7 +19,7 @@ const ava = require('ava')
 const utils = require('../../../lib/utils')
 
 ava.test('should create a card and add a create but not update event', async (test) => {
-	const id = await test.context.executeAction('action-upsert-card', 'card', {
+	const id = await test.context.worker.executeAction(test.context.session, 'action-upsert-card', 'card', {
 		properties: {
 			slug: 'johndoe',
 			data: {
@@ -47,7 +47,7 @@ ava.test('should create a card and add a create but not update event', async (te
 })
 
 ava.test('should not keep the transient top level property', async (test) => {
-	const id = await test.context.executeAction('action-upsert-card', 'card', {
+	const id = await test.context.worker.executeAction(test.context.session, 'action-upsert-card', 'card', {
 		properties: {
 			slug: 'johndoe',
 			transient: {
