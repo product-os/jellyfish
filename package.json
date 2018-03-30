@@ -20,7 +20,7 @@
   "ava": {
     "verbose": true,
     "concurrency": 3,
-    "failFast": true,
+    "failFast": false,
     "files": [
       "test/**/*.spec.js"
     ]
