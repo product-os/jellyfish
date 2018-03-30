@@ -1177,6 +1177,86 @@ ava.test('.query() should return the cards that match a schema', async (test) =>
 	])
 })
 
+ava.test('.query() should take roles into account', async (test) => {
+	const actor = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'johndoe',
+		type: 'card',
+		active: false,
+		links: [],
+		tags: [],
+		data: {
+			email: 'johndoe@example.io',
+			roles: [ 'foo' ]
+		}
+	})
+
+	const session = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'session',
+		links: [],
+		tags: [],
+		active: true,
+		data: {
+			actor
+		}
+	})
+
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'view-read-foo',
+		type: 'view',
+		active: false,
+		links: [],
+		tags: [],
+		data: {
+			allOf: [
+				{
+					name: 'Types',
+					schema: {
+						type: 'object',
+						properties: {
+							type: {
+								type: 'string',
+								const: 'type'
+							},
+							data: {
+								type: 'object',
+								properties: {
+									schema: {
+										type: 'object',
+										additionalProperties: true
+									}
+								}
+							}
+						}
+					}
+				}
+			]
+		}
+	})
+
+	const results = await test.context.kernel.query(session, {
+		type: 'object',
+		properties: {
+			type: {
+				type: 'string'
+			},
+			slug: {
+				type: 'string',
+				pattern: '^user'
+			},
+			active: {
+				type: 'boolean'
+			},
+			data: {
+				type: 'object'
+			}
+		}
+	})
+
+	test.deepEqual(results, [
+		_.pick(CARDS.core.user, [ 'type', 'slug', 'active', 'data' ])
+	])
+})
+
 ava.test('.query() should not return inactive cards by default', async (test) => {
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'johndoe',
