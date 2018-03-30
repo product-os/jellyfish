@@ -286,7 +286,7 @@ ava.test('.getViewFilters() should ignore cards that are not views', async (test
 		}
 	})
 
-	const filters = await test.context.kernel.getViewFilters([ 'hello', 'foo' ])
+	const filters = await test.context.kernel.getViewFilters([ 'view-read-hello', 'view-read-foo' ])
 	test.deepEqual(filters, [
 		{
 			type: 'object',
