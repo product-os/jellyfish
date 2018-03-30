@@ -1570,7 +1570,6 @@ ava.test.cb('.stream() should report back action requests', (test) => {
 			test.deepEqual(change.before, null)
 			test.deepEqual(_.omit(change.after, [ 'id' ]), {
 				type: 'action-request',
-				active: true,
 				data: {
 					action: 'action-delete-card',
 					actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
@@ -1648,7 +1647,6 @@ ava.test.cb('.stream() should report both action requests and other types', (tes
 					before: null,
 					after: {
 						id: changes[0].after.id,
-						active: true,
 						type: 'action-request'
 					}
 				},
@@ -1656,7 +1654,6 @@ ava.test.cb('.stream() should report both action requests and other types', (tes
 					before: null,
 					after: {
 						id: changes[1].after.id,
-						active: true,
 						type: 'card'
 					}
 				}

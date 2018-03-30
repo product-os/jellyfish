@@ -249,7 +249,6 @@ ava.test('.queryView() should execute a view with one filter', async (test) => {
 	const results = await utils.queryView(test.context.jellyfish, test.context.session, id)
 	test.deepEqual(results, [
 		{
-			active: true,
 			data: {
 				number: 1
 			}
