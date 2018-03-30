@@ -7,8 +7,6 @@ jobs:
   build:
     docker:
       - image: rethinkdb
-    machine:
-      docker_layer_caching: true
 
     working_directory: ~/repo
 
