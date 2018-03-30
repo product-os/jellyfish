@@ -707,6 +707,78 @@ ava.test('.getSchema() should return null if the card is not a view', (test) => 
 	test.deepEqual(schema, null)
 })
 
+ava.test('.getSchema() should preserve template interpolations in user properties', (test) => {
+	const schema = test.context.kernel.getSchema({
+		type: 'view',
+		links: [],
+		tags: [],
+		active: true,
+		data: {
+			allOf: [
+				{
+					name: 'foo',
+					schema: {
+						type: 'object',
+						properties: {
+							foo: {
+								type: 'string',
+								const: '[user.slug]'
+							}
+						},
+						required: [ 'foo' ]
+					}
+				}
+			]
+		}
+	})
+
+	test.deepEqual(schema, {
+		type: 'object',
+		properties: {
+			foo: {
+				type: 'string',
+				const: '[user.slug]'
+			}
+		},
+		required: [ 'foo' ]
+	})
+})
+
+ava.test('.getSchema() should preserve template interpolations in schema properties', (test) => {
+	const schema = test.context.kernel.getSchema({
+		type: 'view',
+		links: [],
+		tags: [],
+		active: true,
+		data: {
+			allOf: [
+				{
+					name: 'foo',
+					schema: {
+						type: 'object',
+						properties: {
+							foo: {
+								type: '[user.type]'
+							}
+						},
+						required: [ 'foo' ]
+					}
+				}
+			]
+		}
+	})
+
+	test.deepEqual(schema, {
+		type: 'object',
+		properties: {
+			foo: {
+				type: '[user.type]'
+			}
+		},
+		required: [ 'foo' ]
+	})
+})
+
 ava.test('.getSchema() should return a schema given a view card with two conjunctions', (test) => {
 	const schema = test.context.kernel.getSchema({
 		type: 'view',
@@ -1058,6 +1130,23 @@ ava.test('.getSchema() should return the schema of a card type', (test) => {
 	const schema = test.context.kernel.getSchema(CARDS.core.card)
 	test.true(_.isPlainObject(schema))
 	test.is(schema.type, 'object')
+})
+
+ava.test('.query() should only return the user itself for the guest user', async (test) => {
+	const results = await test.context.kernel.query(test.context.kernel.sessions.guest, {
+		type: 'object',
+		properties: {
+			slug: {
+				type: 'string'
+			},
+			type: {
+				type: 'string',
+				const: 'user'
+			}
+		}
+	})
+
+	test.deepEqual(_.map(results, 'slug'), [ 'user-guest' ])
 })
 
 ava.test('.query() should return the cards that match a schema', async (test) => {

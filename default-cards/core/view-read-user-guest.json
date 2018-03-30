@@ -85,7 +85,7 @@
           "properties": {
             "slug": {
               "type": "string",
-              "const": "user-guest"
+              "const": "[user.slug]"
             },
             "type": {
               "type": "string",
