@@ -148,12 +148,12 @@ ava.test('.getSessionUser() should throw if the session expired', async (test) =
 	await test.throws(test.context.kernel.getSessionUser(session), errors.JellyfishSessionExpired)
 })
 
-ava.test('.getQueryFilters() should return an empty array given no roles', async (test) => {
-	const filters = await test.context.kernel.getQueryFilters([])
+ava.test('.getViewFilters() should return an empty array given no views', async (test) => {
+	const filters = await test.context.kernel.getViewFilters([])
 	test.deepEqual(filters, [])
 })
 
-ava.test('.getQueryFilters() should return the schema of a single role', async (test) => {
+ava.test('.getViewFilters() should return the schema of a single view', async (test) => {
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'view-read-foo',
 		type: 'view',
@@ -179,7 +179,7 @@ ava.test('.getQueryFilters() should return the schema of a single role', async (
 		}
 	})
 
-	const filters = await test.context.kernel.getQueryFilters([ 'foo' ])
+	const filters = await test.context.kernel.getViewFilters([ 'view-read-foo' ])
 	test.deepEqual(filters, [
 		{
 			type: 'object',
@@ -194,7 +194,7 @@ ava.test('.getQueryFilters() should return the schema of a single role', async (
 	])
 })
 
-ava.test('.getQueryFilters() should ignore undefined roles', async (test) => {
+ava.test('.getViewFilters() should ignore undefined views', async (test) => {
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'view-read-foo',
 		type: 'view',
@@ -220,7 +220,7 @@ ava.test('.getQueryFilters() should ignore undefined roles', async (test) => {
 		}
 	})
 
-	const filters = await test.context.kernel.getQueryFilters([ 'hello', 'foo', 'world' ])
+	const filters = await test.context.kernel.getViewFilters([ 'view-hello', 'view-read-foo', 'view-world' ])
 	test.deepEqual(filters, [
 		{
 			type: 'object',
@@ -235,7 +235,7 @@ ava.test('.getQueryFilters() should ignore undefined roles', async (test) => {
 	])
 })
 
-ava.test('.getQueryFilters() should ignore roles that are not views', async (test) => {
+ava.test('.getViewFilters() should ignore cards that are not views', async (test) => {
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'view-read-hello',
 		type: 'card',
@@ -286,7 +286,7 @@ ava.test('.getQueryFilters() should ignore roles that are not views', async (tes
 		}
 	})
 
-	const filters = await test.context.kernel.getQueryFilters([ 'hello', 'foo' ])
+	const filters = await test.context.kernel.getViewFilters([ 'hello', 'foo' ])
 	test.deepEqual(filters, [
 		{
 			type: 'object',
@@ -301,7 +301,7 @@ ava.test('.getQueryFilters() should ignore roles that are not views', async (tes
 	])
 })
 
-ava.test('.getQueryFilters() should return the schemas of two roles', async (test) => {
+ava.test('.getViewFilters() should return the schemas of two roles', async (test) => {
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'view-read-foo',
 		type: 'view',
@@ -352,7 +352,7 @@ ava.test('.getQueryFilters() should return the schemas of two roles', async (tes
 		}
 	})
 
-	const filters = await test.context.kernel.getQueryFilters([ 'foo', 'bar' ])
+	const filters = await test.context.kernel.getViewFilters([ 'view-read-foo', 'view-read-bar' ])
 	test.deepEqual(filters, [
 		{
 			type: 'object',
