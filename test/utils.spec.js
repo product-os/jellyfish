@@ -119,7 +119,7 @@ ava.test('.getTimeline() should return the timeline ordered by time', async (tes
 	])
 })
 
-ava.test('.getTimeline() should return the timeline of an inactive card if the inactive option is true', async (test) => {
+ava.test('.getTimeline() should return the timeline of an inactive card', async (test) => {
 	const id = await test.context.jellyfish.insertCard(test.context.session, {
 		type: 'card',
 		tags: [],
@@ -172,9 +172,7 @@ ava.test('.getTimeline() should return the timeline of an inactive card if the i
 		}
 	})
 
-	const timeline = await utils.getTimeline(test.context.jellyfish, test.context.session, id, {
-		inactive: true
-	})
+	const timeline = await utils.getTimeline(test.context.jellyfish, test.context.session, id)
 
 	test.deepEqual(_.map(timeline, 'data.timestamp'), [
 		'2018-02-09T19:57:40.963Z',
@@ -188,21 +186,6 @@ ava.test('.getTimeline() should fail if the id does not exist', async (test) => 
 	const id = '4a962ad9-20b5-4dd8-a707-bf819593cc84'
 	const card = await test.context.jellyfish.getCard(test.context.session, id)
 	test.falsy(card)
-	await test.throws(utils.getTimeline(test.context.jellyfish, test.context.session, id), errors.JellyfishNoElement)
-})
-
-ava.test('.getTimeline() should fail if the card is inactive and the inactive option is not true', async (test) => {
-	const errors = test.context.jellyfish.errors
-	const id = await test.context.jellyfish.insertCard(test.context.session, {
-		type: 'card',
-		tags: [],
-		links: [],
-		active: false,
-		data: {
-			number: 1
-		}
-	})
-
 	await test.throws(utils.getTimeline(test.context.jellyfish, test.context.session, id), errors.JellyfishNoElement)
 })
 

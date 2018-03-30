@@ -678,7 +678,7 @@ ava.test('.getCard() should find an active card by its slug', async (test) => {
 	})
 })
 
-ava.test('.getCard() should not return an inactive card by its id', async (test) => {
+ava.test('.getCard() should return an inactive card by its id', async (test) => {
 	const id = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'foo-bar',
 		type: 'card',
@@ -689,36 +689,6 @@ ava.test('.getCard() should not return an inactive card by its id', async (test)
 	})
 
 	const card = await test.context.kernel.getCard(test.context.kernel.sessions.admin, id)
-	test.deepEqual(card, null)
-})
-
-ava.test('.getCard() should not return an inactive card by its slug', async (test) => {
-	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
-		slug: 'foo-bar',
-		type: 'card',
-		active: false,
-		links: [],
-		tags: [],
-		data: {}
-	})
-
-	const card = await test.context.kernel.getCard(test.context.kernel.sessions.admin, 'foo-bar')
-	test.deepEqual(card, null)
-})
-
-ava.test('.getCard() should return an inactive card by its id if the inactive option is true', async (test) => {
-	const id = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
-		slug: 'foo-bar',
-		type: 'card',
-		active: false,
-		links: [],
-		tags: [],
-		data: {}
-	})
-
-	const card = await test.context.kernel.getCard(test.context.kernel.sessions.admin, id, {
-		inactive: true
-	})
 
 	test.deepEqual(card, {
 		id,
@@ -1257,43 +1227,6 @@ ava.test('.query() should take roles into account', async (test) => {
 	])
 })
 
-ava.test('.query() should not return inactive cards by default', async (test) => {
-	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
-		slug: 'johndoe',
-		type: 'card',
-		active: false,
-		links: [],
-		tags: [],
-		data: {
-			email: 'johndoe@example.io'
-		}
-	})
-
-	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
-		slug: 'johnsmith',
-		type: 'card',
-		active: false,
-		links: [],
-		tags: [],
-		data: {
-			email: 'johnsmith@example.io'
-		}
-	})
-
-	const results = await test.context.kernel.query(test.context.kernel.sessions.admin, {
-		type: 'object',
-		properties: {
-			slug: {
-				type: 'string',
-				pattern: 'doe$'
-			}
-		},
-		required: [ 'slug' ]
-	})
-
-	test.deepEqual(results, [])
-})
-
 ava.test('.query() should query all cards of a certain type', async (test) => {
 	const results = await test.context.kernel.query(test.context.kernel.sessions.admin, {
 		type: 'object',
@@ -1439,7 +1372,7 @@ ava.test('.query() should be able to return both action requests and other cards
 	test.deepEqual(_.orderBy(_.map(results, 'id')), _.orderBy([ id1, id2 ]))
 })
 
-ava.test('.query() should return inactive cards if the inactive option is true', async (test) => {
+ava.test('.query() should return inactive cards', async (test) => {
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'johnsmith',
 		type: 'card',
@@ -1461,8 +1394,6 @@ ava.test('.query() should return inactive cards if the inactive option is true',
 			}
 		},
 		required: [ 'slug' ]
-	}, {
-		inactive: true
 	})
 
 	test.deepEqual(results, [
@@ -1772,69 +1703,7 @@ ava.test.cb('.stream() should close without finding anything', (test) => {
 	}).catch(test.end)
 })
 
-ava.test.cb('.stream() should not report back inactive elements by default', (test) => {
-	test.context.kernel.stream(test.context.kernel.sessions.admin, {
-		type: 'object',
-		properties: {
-			slug: {
-				type: 'string'
-			},
-			active: {
-				type: 'boolean'
-			},
-			type: {
-				type: 'string',
-				const: 'card'
-			},
-			data: {
-				type: 'object',
-				properties: {
-					test: {
-						type: 'number'
-					}
-				}
-			}
-		},
-		required: [ 'type' ]
-	}).then((emitter) => {
-		emitter.on('data', (change) => {
-			test.deepEqual(change.before, null)
-			test.deepEqual(_.omit(change.after, [ 'id' ]), {
-				type: 'card',
-				slug: 'card-foo',
-				active: true,
-				data: {
-					test: 1
-				}
-			})
-
-			emitter.close()
-		})
-
-		emitter.on('error', test.end)
-		emitter.on('closed', test.end)
-
-		return test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
-			slug: 'card-bar',
-			active: false,
-			type: 'card',
-			data: {
-				test: 2
-			}
-		}).then(() => {
-			return test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
-				slug: 'card-foo',
-				active: true,
-				type: 'card',
-				data: {
-					test: 1
-				}
-			})
-		})
-	}).catch(test.end)
-})
-
-ava.test.cb('.stream() should report back inactive elements if the inactive option is true', (test) => {
+ava.test.cb('.stream() should report back inactive elements', (test) => {
 	test.context.kernel.stream(test.context.kernel.sessions.admin, {
 		type: 'object',
 		properties: {
@@ -1847,8 +1716,6 @@ ava.test.cb('.stream() should report back inactive elements if the inactive opti
 			}
 		},
 		required: [ 'type' ]
-	}, {
-		inactive: true
 	}).then((emitter) => {
 		emitter.on('data', (change) => {
 			test.deepEqual(change.before, null)

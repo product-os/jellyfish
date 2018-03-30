@@ -238,9 +238,7 @@ ava.test('should be able to set active to false', async (test) => {
 
 	test.is(id1, id2)
 
-	const card = await test.context.jellyfish.getCard(test.context.session, id1, {
-		inactive: true
-	})
+	const card = await test.context.jellyfish.getCard(test.context.session, id1)
 
 	test.deepEqual(card, {
 		id: id1,

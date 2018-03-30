@@ -105,9 +105,7 @@ ava.test('should create an inactive card', async (test) => {
 		}
 	})
 
-	const card = await test.context.jellyfish.getCard(test.context.session, id, {
-		inactive: true
-	})
+	const card = await test.context.jellyfish.getCard(test.context.session, id)
 
 	test.deepEqual(card, {
 		id,
