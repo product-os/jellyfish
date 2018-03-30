@@ -1499,7 +1499,6 @@ ava.test.cb('.stream() should report back elements of a certain type', (test) =>
 			test.deepEqual(change.before, null)
 			test.deepEqual(_.omit(change.after, [ 'id' ]), {
 				slug: 'johndoe',
-				active: true,
 				type: 'card',
 				data: {
 					email: 'johndoe@example.com'

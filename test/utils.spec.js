@@ -327,7 +327,6 @@ ava.test('.queryView() should execute a view with more than one filter', async (
 	test.deepEqual(results, [
 		{
 			tags: [ 'foo' ],
-			active: true,
 			data: {
 				number: 1
 			}
