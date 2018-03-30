@@ -1226,6 +1226,157 @@ ava.test('.query() should take roles into account', async (test) => {
 	])
 })
 
+ava.test('.query() should ignore queries to properties not whitelisted by a role', async (test) => {
+	const actor = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'johndoe',
+		type: 'card',
+		active: false,
+		links: [],
+		tags: [],
+		data: {
+			email: 'johndoe@example.io',
+			roles: [ 'foo' ]
+		}
+	})
+
+	const session = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'session',
+		links: [],
+		tags: [],
+		active: true,
+		data: {
+			actor
+		}
+	})
+
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'view-read-foo',
+		type: 'view',
+		active: false,
+		links: [],
+		tags: [],
+		data: {
+			allOf: [
+				{
+					name: 'Types',
+					schema: {
+						type: 'object',
+						additionalProperties: false,
+						properties: {
+							slug: {
+								type: 'string'
+							},
+							type: {
+								type: 'string',
+								const: 'type'
+							}
+						}
+					}
+				}
+			]
+		}
+	})
+
+	const results = await test.context.kernel.query(session, {
+		type: 'object',
+		properties: {
+			id: {
+				type: 'string'
+			},
+			type: {
+				type: 'string'
+			},
+			slug: {
+				type: 'string',
+				pattern: '^user'
+			}
+		}
+	})
+
+	test.deepEqual(results, [
+		{
+			type: 'type',
+			slug: 'user'
+		}
+	])
+})
+
+ava.test('.query() should ignore queries to properties not whitelisted by a role even with additionalProperties: true', async (test) => {
+	const actor = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'johndoe',
+		type: 'card',
+		active: false,
+		links: [],
+		tags: [],
+		data: {
+			email: 'johndoe@example.io',
+			roles: [ 'foo' ]
+		}
+	})
+
+	const session = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'session',
+		links: [],
+		tags: [],
+		active: true,
+		data: {
+			actor
+		}
+	})
+
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'view-read-foo',
+		type: 'view',
+		active: false,
+		links: [],
+		tags: [],
+		data: {
+			allOf: [
+				{
+					name: 'Types',
+					schema: {
+						type: 'object',
+						additionalProperties: false,
+						properties: {
+							slug: {
+								type: 'string'
+							},
+							type: {
+								type: 'string',
+								const: 'type'
+							}
+						}
+					}
+				}
+			]
+		}
+	})
+
+	const results = await test.context.kernel.query(session, {
+		type: 'object',
+		additionalProperties: true,
+		properties: {
+			id: {
+				type: 'string'
+			},
+			type: {
+				type: 'string'
+			},
+			slug: {
+				type: 'string',
+				pattern: '^user'
+			}
+		}
+	})
+
+	test.deepEqual(results, [
+		{
+			type: 'type',
+			slug: 'user'
+		}
+	])
+})
+
 ava.test('.query() should query all cards of a certain type', async (test) => {
 	const results = await test.context.kernel.query(test.context.kernel.sessions.admin, {
 		type: 'object',
