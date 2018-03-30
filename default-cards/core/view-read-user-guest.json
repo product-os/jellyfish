@@ -122,6 +122,33 @@
           "additionalProperties": true,
           "required": [ "slug", "type" ]
         }
+      },
+      {
+        "name": "My sessions",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string",
+              "const": "session"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "actor": {
+                  "type": "string",
+                  "const": "[user.id]"
+                }
+              },
+              "additionalProperties": true
+            }
+          },
+          "additionalProperties": true,
+          "required": [ "slug", "type" ]
+        }
       }
     ]
   }
