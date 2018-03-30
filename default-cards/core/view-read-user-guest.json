@@ -1,0 +1,141 @@
+{
+  "slug": "view-read-user-guest",
+  "name": "Guest Role",
+  "type": "view",
+  "tags": [],
+  "links": [],
+  "active": true,
+  "data": {
+    "allOf": [
+      {
+        "name": "Active cards",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "active": {
+              "type": "boolean",
+              "const": true
+            }
+          },
+          "required": [ "active" ]
+        }
+      }
+    ],
+    "anyOf": [
+      {
+        "name": "Types",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "slug": {
+              "type": "string",
+              "anyOf": [
+                { "const": "action-request" },
+                { "const": "user" },
+                { "const": "action" },
+                { "const": "card" }
+              ]
+            },
+            "type": {
+              "type": "string",
+              "const": "type"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              },
+              "required": [ "schema" ]
+            }
+          },
+          "additionalProperties": true,
+          "required": [ "slug", "type", "data" ]
+        }
+      },
+      {
+        "name": "Actions",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "slug": {
+              "type": "string",
+              "anyOf": [
+                { "const": "action-create-session" },
+                { "const": "action-create-user" },
+                { "const": "action-create-card" }
+              ]
+            },
+            "type": {
+              "type": "string",
+              "const": "action"
+            },
+            "data": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "required": [ "id", "slug", "type", "data" ]
+        }
+      },
+      {
+        "name": "Myself",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "slug": {
+              "type": "string",
+              "const": "user-guest"
+            },
+            "type": {
+              "type": "string",
+              "const": "user"
+            }
+          },
+          "additionalProperties": true,
+          "required": [ "slug", "type" ]
+        }
+      },
+      {
+        "name": "Others",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "slug": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string",
+              "const": "user"
+            },
+            "data": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "password": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "salt": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "additionalProperties": false,
+          "required": [ "slug", "type" ]
+        }
+      }
+    ]
+  }
+}
