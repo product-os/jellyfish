@@ -602,6 +602,130 @@ ava.test('.insertCard() should insert action requests on a different bucket', as
 	}, request))
 })
 
+ava.test('.insertCard() should restrict the visibility of the user using write roles', async (test) => {
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'view-read-user-johndoe',
+		type: 'view',
+		active: true,
+		links: [],
+		tags: [],
+		data: {
+			allOf: [
+				{
+					name: 'Types',
+					schema: {
+						type: 'object',
+						properties: {
+							slug: {
+								type: 'string',
+								anyOf: [
+									{
+										const: 'user'
+									},
+									{
+										const: 'type'
+									}
+								]
+							},
+							type: {
+								type: 'string',
+								const: 'type'
+							},
+							data: {
+								type: 'object',
+								additionalProperties: true
+							}
+						},
+						required: [ 'slug', 'type', 'data' ]
+					}
+				}
+			]
+		}
+	})
+
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'view-write-user-johndoe',
+		type: 'view',
+		active: true,
+		links: [],
+		tags: [],
+		data: {
+			allOf: [
+				{
+					name: 'Types',
+					schema: {
+						type: 'object',
+						properties: {
+							slug: {
+								type: 'string',
+								anyOf: [
+									{
+										const: 'type'
+									}
+								]
+							},
+							type: {
+								type: 'string',
+								const: 'type'
+							},
+							data: {
+								type: 'object',
+								additionalProperties: true
+							}
+						},
+						required: [ 'slug', 'type', 'data' ]
+					}
+				}
+			]
+		}
+	})
+
+	const userId = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'user-johndoe',
+		type: 'user',
+		active: true,
+		links: [],
+		tags: [],
+		data: {
+			email: 'johndoe@example.com',
+			roles: []
+		}
+	})
+
+	const session = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'session',
+		active: true,
+		links: [],
+		tags: [],
+		data: {
+			actor: userId
+		}
+	})
+
+	const readUserType = await test.context.kernel.getCard(session, 'user')
+	test.is(readUserType.slug, 'user')
+
+	const writeUserType = await test.context.kernel.getCard(session, 'user', {
+		writeMode: true
+	})
+
+	test.deepEqual(writeUserType, null)
+
+	await test.throws(test.context.kernel.insertCard(session, {
+		slug: 'user-janedoe',
+		type: 'user',
+		active: true,
+		links: [],
+		tags: [],
+		data: {
+			email: 'janedoe@example.com',
+			roles: []
+		}
+	}, {
+		writeMode: true
+	}), errors.JellyfishUnknownCardType)
+})
+
 ava.test('.getCard() there should be an admin card', async (test) => {
 	const card = await test.context.kernel.getCard(test.context.kernel.sessions.admin, 'user-admin')
 	test.truthy(card)
