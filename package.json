@@ -15,7 +15,7 @@
     "lint": "eslint lib test webpack.config.js",
     "lint:fix": "eslint --fix lib test webpack.config.js",
     "build:ui": "webpack",
-    "dev:ui": "webpack-dev-server"
+    "dev:ui": "webpack-dev-server --color"
   },
   "ava": {
     "verbose": true,
@@ -28,7 +28,10 @@
   "author": "Resin Inc. <hello@resin.io>",
   "license": "Apache-2.0",
   "devDependencies": {
+    "@types/bluebird": "^3.5.20",
     "ava": "^0.22.0",
+    "cache-loader": "^1.2.2",
+    "copy-webpack-plugin": "^4.5.1",
     "eslint": "^4.5.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-import": "^2.7.0",
@@ -37,10 +40,12 @@
     "eslint-plugin-node": "^5.1.1",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
+    "fork-ts-checker-webpack-plugin": "^0.4.1",
     "html-webpack-plugin": "^3.0.6",
     "nyc": "^11.4.1",
     "randomstring": "^1.1.5",
     "source-map-loader": "^0.2.3",
+    "thread-loader": "^1.1.5",
     "ts-loader": "^4.0.1",
     "typescript": "^2.7.2",
     "webpack": "^4.1.1",
@@ -48,24 +53,31 @@
     "webpack-dev-server": "^3.1.1"
   },
   "dependencies": {
+    "@types/blueimp-md5": "^2.7.0",
     "@types/json-schema": "^6.0.1",
     "@types/lodash": "^4.14.104",
     "@types/react": "^16.0.40",
     "@types/react-dom": "^16.0.4",
+    "@types/react-redux": "^5.0.15",
     "ajv": "^6.2.0",
     "axios": "^0.18.0",
     "bluebird": "^3.5.1",
+    "blueimp-md5": "^2.10.0",
     "body-parser": "^1.18.2",
     "debug": "^3.1.0",
     "express": "^4.16.2",
     "formulajs": "^1.0.8",
     "json-schema-merge-allof": "^0.6.0",
+    "localforage": "^1.6.0",
     "lodash": "^4.17.5",
     "object-template": "^1.2.3",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "rendition": "^4.0.0-beta4",
+    "react-redux": "^5.0.7",
+    "redux": "^3.7.2",
+    "rendition": "^4.0.0-beta9",
     "rethinkdb": "^2.3.3",
-    "typed-errors": "^1.1.0"
+    "typed-errors": "^1.1.0",
+    "uuid": "^3.2.1"
   }
 }

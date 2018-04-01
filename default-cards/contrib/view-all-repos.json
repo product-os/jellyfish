@@ -1,6 +1,6 @@
 {
-  "slug": "view-all-views",
-  "name": "All views",
+  "slug": "view-all-repos",
+  "name": "All repositories",
   "type": "view",
   "tags": [],
   "links": [],
@@ -14,7 +14,7 @@
           "properties": {
             "type": {
               "type": "string",
-              "const": "view"
+              "const": "repo"
             }
           },
           "additionalProperties": true,

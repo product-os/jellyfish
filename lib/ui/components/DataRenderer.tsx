@@ -24,8 +24,8 @@ const DataRenderer = (props: DataRendererProps): JSX.Element => {
 
 	return (
 		<Box mb={3}>
-			{labelText.length > 0 && labelText.join('.')}
-			<Text monospace>
+			{labelText.length > 0 && <strong>{labelText.join('.')}</strong>}
+			<Text>
 				{`${data}`}
 			</Text>
 		</Box>
