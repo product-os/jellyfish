@@ -1,0 +1,105 @@
+{
+  "slug": "repo",
+  "type": "type",
+  "name": "Repository",
+  "tags": [],
+  "links": [],
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "Description": {
+              "type": "string"
+            },
+            "Link": {
+              "type": "string"
+            },
+            "Maintainer": {
+              "type": "string"
+            },
+            "Top Contributors": {
+              "type": "string"
+            },
+            "Version": {
+              "type": "string"
+            },
+            "Last Commit Date": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "Open Issues": {
+              "type": "number"
+            },
+            "Open Pull Requests": {
+              "type": "number"
+            },
+            "License": {
+              "type": "string"
+            },
+            "Is Public": {
+              "type": "boolean"
+            },
+            "Has README doc": {
+              "type": "boolean"
+            },
+            "Has Architecture documentation": {
+              "type": "boolean"
+            },
+            "Has API documentation": {
+              "type": "boolean"
+            },
+            "Has Contribution guidelines": {
+              "type": "boolean"
+            },
+            "Has Issue template": {
+              "type": "boolean"
+            },
+            "Has Pull Request template": {
+              "type": "boolean"
+            },
+            "Has VersionBot Integration": {
+              "type": "boolean"
+            },
+            "Integrations": {
+              "type": "string"
+            },
+            "Dependencies": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "required": [ "name" ],
+      "additionalProperties": true
+    },
+    "fieldOrder": [
+      "Name",
+      "Description",
+      "Link",
+      "Maintainer",
+      "Top Contributors",
+      "Version",
+      "Last Commit Date",
+      "Open Issues",
+      "Open Pull Requests",
+      "License",
+      "Is Public",
+      "Has README doc",
+      "Has Architecture documentation",
+      "Has API documentation",
+      "Has Contribution guidelines",
+      "Has Issue template",
+      "Has Pull Request template",
+      "Has VersionBot Integration",
+      "Integrations",
+      "Dependencies"
+    ]
+  }
+}

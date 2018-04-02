@@ -1,29 +1,53 @@
+import * as _ from 'lodash';
 import * as React from 'react';
-import { Badge, Box, Divider, Heading, Text } from 'rendition';
+import { Box, Divider, Heading, Text } from 'rendition';
 import { Card } from '../../Types';
-import DataRenderer from './DataRenderer';
+import CardActions from './CardActions';
 
-export interface CardRendererProps {
+const RepoField = ({ field, payload }: {
+	field: string;
+	payload: { [key: string]: any };
+}) =>
+	<React.Fragment>
+		<Heading.h4 my={3}>{field}</Heading.h4>
+		<Text>{`${payload[field]}`}</Text>
+	</React.Fragment>;
+
+interface RepoProps {
 	card: Card;
-	openChannel: (promise: Promise<Card[]>) => void;
+	fieldOrder?: string[];
+	refresh: () => void;
 }
 
-export default class CardRenderer extends React.Component<CardRendererProps, {}> {
+export default class Repo extends React.Component<RepoProps, {}> {
 	public render() {
-		const { card } = this.props;
+		const payload = this.props.card.data;
+		const { fieldOrder } = this.props;
+
+		const unorderedKeys = _.filter(
+			_.keys(payload),
+			(key) => !_.includes(fieldOrder, key),
+		);
+
 		return (
-			<Box mb={3}>
-				{card.name && <Heading.h3>{card.name}</Heading.h3>}
-				<Text>{card.id}</Text>
-				{card.tags && card.tags.map(tag => <Badge key={tag} text={tag} />)}
-				{card.data &&
-						<Box>
-							<Heading.h4 mb={2}>Data</Heading.h4>
-							<DataRenderer data={card.data} />
-						</Box>
-				}
-				<Divider />
-			</Box>
+			<React.Fragment>
+				<Box mb={3}>
+					<CardActions card={this.props.card} refresh={this.props.refresh} />
+
+					<Heading.h3 my={3}>{this.props.card.name}</Heading.h3>
+
+					{_.map(fieldOrder, (key) =>
+						!!payload[key] ?
+							<RepoField key={key} field={key} payload={payload} />
+							: null)
+					}
+
+					{_.map(unorderedKeys, (key) =>
+						<RepoField key={key} field={key} payload={payload} />)}
+
+				</Box>
+				<Divider color='#ccc' mb={4} />
+			</React.Fragment>
 		);
 	}
 }

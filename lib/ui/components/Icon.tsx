@@ -1,3 +1,3 @@
 import * as React from 'react';
 
-export default ({ name }: { name: string }) => <i className={`fas fa-${name}`} />;
+export default ({ name, ...props }: any) => <i {...props} className={`fas fa-${name}`} />;

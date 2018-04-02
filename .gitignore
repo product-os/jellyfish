@@ -62,6 +62,7 @@ typings/
 
 # UI build files
 dist/
+.cache-loader/
 
 
 # End of https://www.gitignore.io/api/node

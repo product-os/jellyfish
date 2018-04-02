@@ -1,97 +1,172 @@
+import * as Promise from 'bluebird';
 import * as _ from 'lodash';
 import * as React from 'react';
-import { Box, Flex, Provider, Text } from 'rendition';
-import { Card } from '../Types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Box, Button, Flex, Provider } from 'rendition';
+import { Channel, JellyfishState } from '../Types';
+import ChannelRenderer from './components/ChannelRenderer';
+import Gravatar from './components/Gravatar';
+import Login from './components/Login';
+import TopBar from './components/TopBar';
+import { createChannel } from './services/helpers';
 import * as sdk from './services/sdk';
-
-// Load renderers
-import CardRenderer, { CardRendererProps } from './components/CardRenderer';
-import ViewRenderer from './components/ViewRenderer';
+import { actionCreators } from './services/store';
 
 (window as any).sdk = sdk;
 
-// Selects an appropriate renderer for a card
-const Renderer = (props: CardRendererProps) => {
-	if (props.card.type === 'view') {
-		return <ViewRenderer {...props} />;
+const loadChannelData = (channel: Channel): Promise<Channel['data']> => {
+	if (channel.data.type === 'view') {
+		return Promise.props({
+			...channel.data,
+			head: sdk.getCard(channel.data.card),
+			tail: sdk.queryView(channel.data.card),
+		});
 	}
-	return <CardRenderer {...props} />;
+	if (channel.data.type === 'pensieve') {
+		return sdk.getCard(channel.data.card)
+		.then(pensieveCard =>
+			Promise.props({
+				...channel.data,
+				head: pensieveCard,
+				tail: sdk.query({
+					type: 'object',
+					properties: {
+						type: {
+							const: 'pensieve-entry',
+						},
+						data: {
+							type: 'object',
+							properties: {
+								target: {
+									const: pensieveCard.id,
+								},
+							},
+							additionalProperties: true,
+						},
+					},
+					additionalProperties: true,
+				}),
+			}));
+	}
+
+	return Promise.resolve(channel.data);
 };
 
-// A null value indicates that the channel is loading data, and an Error value
-// indicates that the channel should display an error
-type Channel = null | Error | Card[];
-
-interface AppState {
-	channels: Channel[];
+interface AppProps {
+	channels: JellyfishState['channels'];
+	session: JellyfishState['session'];
+	actions: typeof actionCreators;
 }
 
-export default class App extends React.Component<{}, AppState> {
-	constructor() {
-		super({});
+class App extends React.Component<AppProps, {}> {
+	private channelDOMElement: HTMLDivElement;
 
-		this.state = {
-			channels: [],
-		};
+	constructor(props: AppProps) {
+		super(props);
 
-		sdk.get({
-			type: 'object',
-			properties: {
-				type: {
-					type: 'string',
-					const: 'view',
-				},
-			},
-			required: ['type'],
-			additionalProperties: true,
-		})
-		.then((cards) => {
-			this.setState({ channels: [cards] });
-			console.log('GOT VIEWS', cards);
+		this.state = {};
+
+		this.loadAllChannels();
+	}
+
+	public componentDidUpdate(prevProps: AppProps) {
+		if (!prevProps.session && this.props.session) {
+			this.loadAllChannels();
+		}
+	}
+
+	public loadAllChannels(): Promise<any> {
+		return Promise.try<any>(() => {
+			// Only run requests if there is session data available
+			if (this.props.session) {
+				return Promise.all(
+					this.props.channels.map(channel => this.loadChannel(channel)),
+				);
+			}
 		});
 	}
 
-	public openChannel(getChannelData: Promise<Card[]>) {
-		const channelIndex = this.state.channels.length;
-		this.setState((prevState) => ({
-			channels: prevState.channels.concat(null),
-		}));
+	public loadChannel(channel: Channel) {
+		return loadChannelData(channel)
+			.then((channelData) => {
+				this.props.actions.updateChannel(_.assign(channel, { data: channelData }));
+			})
+			.catch((error: Error) => {
+					const clone = _.cloneDeep(channel);
+					clone.data.error = error;
+					this.props.actions.updateChannel(clone);
+			});
+	}
 
-		getChannelData.then(
-			(cards) => this.setState((prevState) => {
-				prevState.channels.splice(channelIndex, 1, cards);
-				return {
-					channels: prevState.channels,
-				};
-			}),
-		)
-		.catch(
-			(error: Error) => this.setState((prevState) => {
-				prevState.channels.splice(channelIndex, 1, error);
-				return {
-					channels: prevState.channels,
-				};
-			}),
-		);
+	public openChannel(data: Channel['data'], triggerIndex: number) {
+		const newChannel = createChannel(data);
 
+		// if the triggering channel is not the last channel, remove trailing
+		// channels. This creates a 'breadcrumb' effect when navigating channels
+		const shouldTrim = triggerIndex + 1 < this.props.channels.length;
+		if (shouldTrim) {
+			this.props.actions.trimChannels(triggerIndex + 1);
+		}
+		this.props.actions.addChannel(newChannel);
+
+		this.loadChannel(newChannel)
+		.then(() => {
+			// If a channel has been added, once its data is loaded, scroll to the right
+			if (!shouldTrim) {
+				this.channelDOMElement.scrollLeft = this.channelDOMElement.clientWidth;
+			}
+		});
+	}
+
+	public logout() {
+		this.props.actions.logout();
 	}
 
 	public render() {
-		console.log(this.state);
+		if (!this.props.session) {
+			return (
+				<Provider>
+					<Login />
+				</Provider>
+			);
+		}
+
+		const email = this.props.session.user && this.props.session.user.email;
+
 		return (
-			<Provider>
-				<Flex>
-					{this.state.channels.map((channel) => (
-						<Box p={3} style={{ borderRight: '1px solid #ccc' }}>
-							{channel === null && <i className='fas fa-cog fa-spin' />}
-							{!_.isArray(channel) && channel !== null && <Text>{`${channel}`}</Text>}
-							{_.isArray(channel) && channel.map(card =>
-								<Renderer card={card} openChannel={p => this.openChannel(p)} />,
-							)}
+			<Provider style={{height: '100%'}}>
+				<Flex flexDirection='column' style={{height: '100%'}}>
+					<TopBar>
+						<Box pl={3} py={18}>
+							<Gravatar email={email} />
 						</Box>
-					))}
+						<Button mr={3} onClick={() => this.logout()}>Log out</Button>
+					</TopBar>
+					<Flex flex='1' style={{overflowX: 'auto'}}
+						innerRef={(element) => this.channelDOMElement = element}>
+						{this.props.channels.map((channel, index) => (
+							<ChannelRenderer
+								key={channel.id}
+								channel={channel}
+								refresh={() => this.loadChannel(channel)}
+								openChannel={p => this.openChannel(p, index)}
+							/>
+						))}
+					</Flex>
 				</Flex>
 			</Provider>
 		);
 	}
 }
+
+const mapStateToProps = (state: JellyfishState) => ({
+	channels: state.channels,
+	session: state.session,
+});
+
+const mapDispatchToProps = (dispatch: any) => ({
+	actions: bindActionCreators(actionCreators, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
