@@ -42,9 +42,7 @@ export interface JellyfishState {
 	types: Type[];
 	session: null | {
 		authToken: string | null;
-		user?: {
-			email: string;
-		}
+		user?: Card;
 	};
 }
 

@@ -3,12 +3,11 @@ import * as _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Box, Button, Flex, Provider } from 'rendition';
+import { Flex, Provider } from 'rendition';
 import { Channel, JellyfishState } from '../Types';
 import ChannelRenderer from './components/ChannelRenderer';
-import Gravatar from './components/Gravatar';
+import HomeChannel from './components/HomeChannel';
 import Login from './components/Login';
-import TopBar from './components/TopBar';
 import { createChannel } from './services/helpers';
 import * as sdk from './services/sdk';
 import { actionCreators } from './services/store';
@@ -119,10 +118,6 @@ class App extends React.Component<AppProps, {}> {
 		});
 	}
 
-	public logout() {
-		this.props.actions.logout();
-	}
-
 	public render() {
 		if (!this.props.session) {
 			return (
@@ -132,27 +127,28 @@ class App extends React.Component<AppProps, {}> {
 			);
 		}
 
-		const email = this.props.session.user && this.props.session.user.email;
-
 		return (
 			<Provider style={{height: '100%'}}>
 				<Flex flexDirection='column' style={{height: '100%'}}>
-					<TopBar>
-						<Box pl={3} py={18}>
-							<Gravatar email={email} />
-						</Box>
-						<Button mr={3} onClick={() => this.logout()}>Log out</Button>
-					</TopBar>
 					<Flex flex='1' style={{overflowX: 'auto'}}
 						innerRef={(element) => this.channelDOMElement = element}>
-						{this.props.channels.map((channel, index) => (
-							<ChannelRenderer
+						{this.props.channels.map((channel, index) => {
+							if (index === 0) {
+								return <HomeChannel
+									key={channel.id}
+									channel={channel}
+									refresh={() => this.loadChannel(channel)}
+									openChannel={(c: Channel['data']) => this.openChannel(c, index)}
+								/>;
+							}
+
+							return <ChannelRenderer
 								key={channel.id}
 								channel={channel}
 								refresh={() => this.loadChannel(channel)}
-								openChannel={p => this.openChannel(p, index)}
-							/>
-						))}
+								openChannel={c => this.openChannel(c, index)}
+							/>;
+						})}
 					</Flex>
 				</Flex>
 			</Provider>

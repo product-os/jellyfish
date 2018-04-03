@@ -173,12 +173,12 @@ export const login = (payload: {
 				.then((card) => getCard(card.data.actor))
 				.then((userCard) => {
 					debug('GOT USER', userCard);
-					return userCard.data;
+					return userCard;
 				}),
 				getTypes(),
 			])
 			.then(([user, types]) => {
-				store.dispatch(actionCreators.setUser({ email: user.email }));
+				store.dispatch(actionCreators.setUser(user));
 				store.dispatch(actionCreators.setTypes(types));
 			});
 		});
