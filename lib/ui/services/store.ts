@@ -1,8 +1,12 @@
 import * as localForage from 'localforage';
 import * as _ from 'lodash';
 import { applyMiddleware, createStore, Middleware } from 'redux';
-import { Channel, JellyfishState, Type } from '../../Types';
+import { Card, Channel, JellyfishState, Type } from '../../Types';
 import { createChannel, debug } from '../services/helpers';
+
+// Set localStorage as the backend driver, as it is a little easier to work
+// with.
+localForage.setDriver(localForage.LOCALSTORAGE);
 
 interface Action {
 	type: 'string';
@@ -42,7 +46,7 @@ export const actionCreators = {
 	logout: () => ({
 		type: actions.LOGOUT,
 	}),
-	setUser: (user: { email: string }) => ({
+	setUser: (user: Card) => ({
 		type: actions.SET_USER,
 		value: user,
 	}),

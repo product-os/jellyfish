@@ -23,7 +23,7 @@ interface GravatarState {
 }
 
 interface GravatarProps {
-	email?: string;
+	email?: string | null;
 }
 
 export default class Gravatar extends React.Component<GravatarProps, GravatarState> {

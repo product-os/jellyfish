@@ -10,7 +10,7 @@
     "url": "git@github.com:resin-io/jellyfish.git"
   },
   "scripts": {
-    "start": "npm run build:ui && DEBUG=jellyfish:* node lib/server.js",
+    "start": "DEBUG=jellyfish:* node lib/server.js",
     "test": "npm run lint && TEST_DB_HOST=localhost TEST_PROXY_PORT=9999 TEST_DB_PORT=28015 NODE_ENV=test nyc --reporter=lcov ava",
     "lint": "eslint lib test webpack.config.js",
     "lint:fix": "eslint --fix lib test webpack.config.js",
@@ -77,6 +77,7 @@
     "redux": "^3.7.2",
     "rendition": "^4.0.0-beta9",
     "rethinkdb": "^2.3.3",
+    "styled-components": "^3.2.5",
     "typed-errors": "^1.1.0",
     "uuid": "^3.2.1"
   }
