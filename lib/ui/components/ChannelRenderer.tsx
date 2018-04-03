@@ -1,16 +1,14 @@
-import * as _ from 'lodash';
 import * as React from 'react';
-import { Alert, Box, Divider } from 'rendition';
+import { Alert, Box } from 'rendition';
 import { RendererProps } from '../../Types';
 
-// Load renderers
-import CardRenderer from './CardRenderer';
-import ViewRenderer from './ViewRenderer';
+// Load lens service
+import LensService from '../lens';
 
 // Selects an appropriate renderer for a card
 const ChannelRenderer = (props: RendererProps) => {
 	const { channel } = props;
-	if (!channel.data.head && !channel.data.tail) {
+	if (!channel.data.head) {
 		if (channel.data.error) {
 			return <Alert m={2} danger>{channel.data.error.toString()}</Alert>;
 		}
@@ -18,22 +16,11 @@ const ChannelRenderer = (props: RendererProps) => {
 		return <Box p={3}><i className='fas fa-cog fa-spin' /></Box>;
 	}
 
-	const baseType = channel.data.type;
+	const lenses = LensService.getLenses(channel.data.head!);
 
-	if (baseType === 'view') {
-		return <ViewRenderer {...props} />;
-	}
+	const lens = lenses[0];
 
-	return (
-		<Box>
-			<CardRenderer card={channel.data.head!} refresh={this.props.refresh} />
-			<Divider />
-			<Box>
-				{_.map(channel.data.tail, card =>
-					<CardRenderer key={card.id} card={card} refresh={this.props.refresh} />)}
-			</Box>
-		</Box>
-	);
+	return <lens.data.renderer {...props} />;
 };
 
 export default ChannelRenderer;

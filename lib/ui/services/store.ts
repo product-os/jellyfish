@@ -1,8 +1,10 @@
 import * as localForage from 'localforage';
 import * as _ from 'lodash';
 import { applyMiddleware, createStore, Middleware } from 'redux';
+import thunk, { ThunkAction } from 'redux-thunk';
 import { Card, Channel, JellyfishState, Type } from '../../Types';
 import { createChannel, debug } from '../services/helpers';
+import * as sdk from './sdk';
 
 // Set localStorage as the backend driver, as it is a little easier to work
 // with.
@@ -20,13 +22,27 @@ const actions = {
 	SET_TYPES: 'SET_TYPES',
 	UPDATE_CHANNEL: 'UPDATE_CHANNEL',
 	ADD_CHANNEL: 'ADD_CHANNEL',
-	TRIM_CHANNELS: 'TRIM_CHANNELS',
+	REMOVE_CHANNEL: 'REMOVE_CHANNEL',
 	SET_AUTHTOKEN: 'SET_AUTHTOKEN',
 	LOGOUT: 'LOGOUT',
 	SET_USER: 'SET_USER',
 };
 
+type JellyThunk = ThunkAction<void, JellyfishState, void>;
+
 export const actionCreators = {
+	loadChannelData: (channel: Channel): JellyThunk => (dispatch) => {
+		sdk.getCard(channel.data.target)
+		.then((head) => {
+			const clonedChannel = _.cloneDeep(channel);
+			clonedChannel.data.head = head;
+
+			dispatch({
+				type: actions.UPDATE_CHANNEL,
+				value: clonedChannel,
+			});
+		});
+	},
 	updateChannel: (channel: Partial<Channel>) => ({
 		type: actions.UPDATE_CHANNEL,
 		value: channel,
@@ -35,9 +51,9 @@ export const actionCreators = {
 		type: actions.ADD_CHANNEL,
 		value: channel,
 	}),
-	trimChannels: (length: number) => ({
-		type: actions.TRIM_CHANNELS,
-		value: length,
+	removeChannel: (channel: Channel) => ({
+		type: actions.REMOVE_CHANNEL,
+		value: channel,
 	}),
 	setAuthToken: (token: string) => ({
 		type: actions.SET_AUTHTOKEN,
@@ -56,7 +72,7 @@ export const actionCreators = {
 	}),
 };
 
-const logger: Middleware = (store) => (next) => (action) => {
+const logger: Middleware = (store) => (next) => (action: any) => {
 	debug('DISPATCHING REDUX ACTION', action);
 	const result = next(action);
 	debug('NEXT REDUX STATE', store.getState());
@@ -66,8 +82,7 @@ const logger: Middleware = (store) => (next) => (action) => {
 const defaultState = (): JellyfishState => ({
 	channels: [
 		createChannel({
-			card: 'view-all-views',
-			type: 'view',
+			target: 'view-all-views',
 		}),
 	],
 	types: [],
@@ -107,12 +122,24 @@ const reducer = (state: JellyfishState, action: Action) => {
 			return newState;
 
 		case actions.ADD_CHANNEL:
+			if (action.value.data.parentChannel) {
+				// if the triggering channel is not the last channel, remove trailing
+				// channels. This creates a 'breadcrumb' effect when navigating channels
+				const triggerIndex = _.findIndex(newState.channels, { id: action.value.data.parentChannel });
+				if (triggerIndex > -1) {
+					const shouldTrim = triggerIndex + 1 < newState.channels.length;
+					if (shouldTrim) {
+						newState.channels = _.take(newState.channels, triggerIndex + 1);
+					}
+				}
+			}
+
 			newState.channels.push(action.value);
 
 			return newState;
 
-		case actions.TRIM_CHANNELS:
-			newState.channels = _.take(newState.channels, action.value);
+		case actions.REMOVE_CHANNEL:
+			_.remove(newState.channels, { id: action.value.id });
 
 			return newState;
 
@@ -159,7 +186,7 @@ const reducerWrapper = (state: JellyfishState, action: Action) => {
 	return newState;
 };
 
-const store = createStore<JellyfishState>(reducerWrapper, applyMiddleware(logger));
+const store = createStore<JellyfishState>(reducerWrapper, applyMiddleware(logger, thunk));
 
 load();
 

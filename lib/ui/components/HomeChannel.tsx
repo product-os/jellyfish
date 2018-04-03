@@ -13,6 +13,8 @@ import {
 } from 'rendition';
 import styled from 'styled-components';
 import { Card, JellyfishState, RendererProps } from '../../Types';
+import { createChannel } from '../services/helpers';
+import { queryView } from '../services/sdk';
 import { actionCreators } from '../services/store';
 import Gravatar from './Gravatar';
 import Icon from './Icon';
@@ -46,6 +48,7 @@ interface HomeChannelProps extends RendererProps {
 
 interface HomeChannelState {
 	showMenu: boolean;
+	tail: null | Card[];
 }
 
 class HomeChannel extends React.Component<HomeChannelProps, HomeChannelState> {
@@ -54,14 +57,23 @@ class HomeChannel extends React.Component<HomeChannelProps, HomeChannelState> {
 
 		this.state = {
 			showMenu: false,
+			tail: null,
 		};
+
+		this.loadTail();
+	}
+
+	public loadTail() {
+		queryView(this.props.channel.data.target)
+		.then((tail) => this.setState({ tail }));
 	}
 
 	public open(card: Card) {
-		this.props.openChannel({
-			card: card.slug || card.id,
-			type: card.type,
-		});
+		this.props.actions.addChannel(createChannel({
+			target: card.id,
+			head: card,
+			parentChannel: this.props.channel.id,
+		}));
 	}
 
 	public logout() {
@@ -69,10 +81,15 @@ class HomeChannel extends React.Component<HomeChannelProps, HomeChannelState> {
 	}
 
 	public render() {
-		const { head, tail } = this.props.channel.data;
+		const { head } = this.props.channel.data;
+		const { tail } = this.state;
 
 		const email = this.props.user ? this.props.user.data!.email : null;
 		const username = this.props.user ? this.props.user.slug!.replace(/user-/, '') : null;
+
+		if (!head) {
+			return <Icon style={{color: 'white'}} name='cog fa-spin' />;
+		}
 
 		return (
 			<Flex flexDirection='column'
@@ -101,7 +118,9 @@ class HomeChannel extends React.Component<HomeChannelProps, HomeChannelState> {
 				}
 
 				<Box flex='1' p={3} bg='#333'>
-					{_.map(tail, (card) => {
+					{!tail && <Icon style={{color: 'white'}} name='cog fa-spin' />}
+
+					{!!tail && _.map(tail, (card) => {
 						// A view shouldn't be able to display itself
 						if (card.id === head!.id) {
 							return null;

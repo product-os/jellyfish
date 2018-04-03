@@ -64,17 +64,13 @@ export interface Channel extends Card {
 	type: 'channel';
 	data: {
 		// The uuid or slug of the head card
-		card: string;
-		// The type of the head card
-		type: string;
+		target: string;
+		// The head card for this channel
+		head?: Card;
 		// Any error to be displayed
 		error?: Error;
-		// The id of the card that created this channel
-		actor?: string;
-		// The head to show in this channel
-		head?: Card;
-		// The tail to show in this channel
-		tail?: Card[];
+		// The id of the channel that created this channel
+		parentChannel?: string;
 	};
 }
 
@@ -89,7 +85,17 @@ export interface Type extends Card {
 
 export interface RendererProps {
 	channel: Channel;
-	refresh: () => void;
-	openChannel: (data: Channel['data']) => void;
+	tail?: Card[];
 }
 
+export interface Lens {
+	slug: string;
+	type: string;
+	name: string;
+	data: {
+		renderer: any,
+		icon: string,
+		type?: string;
+		filter?: JSONSchema6,
+	};
+}

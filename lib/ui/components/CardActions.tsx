@@ -16,6 +16,7 @@ interface CardActionsState {
 interface CardActionProps {
 	card: Card;
 	refresh: () => void;
+	delete: () => void;
 }
 
 export default class CardActions extends React.Component<
@@ -38,7 +39,7 @@ export default class CardActions extends React.Component<
 
 	public deleteEntry() {
 		sdk.deleteCard(this.props.card.id)
-		.then(() => this.props.refresh());
+		.then(() => this.props.delete());
 
 		this.setState({ showDeleteModal: false });
 	}

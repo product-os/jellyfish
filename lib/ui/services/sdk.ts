@@ -6,6 +6,14 @@ import { Card, Type } from '../../Types';
 import { debug } from './helpers';
 import store, { actionCreators } from './store';
 
+import Ajv = require('ajv');
+import ajvKeywords = require('ajv-keywords');
+import metaSchema6 = require('ajv/lib/refs/json-schema-draft-06.json');
+
+const ajv = new Ajv();
+ajvKeywords(ajv);
+ajv.addMetaSchema(metaSchema6);
+
 const API_PREFIX = '/api/v1/';
 const API_URL = 'http://localhost:8000';
 
@@ -102,19 +110,22 @@ export const queryView = (id: string): Promise<Card[]> =>
 
 export const getTimeline = (id: string): Promise<Card[]> => {
 	const schema: JSONSchema6 = {
+		type: 'object',
 		properties: {
 			data: {
 				type: 'object',
 				properties: {
 					target: {
+						type: 'string',
 						const: id,
 					},
 				},
-				required: ['target'],
 				additionalProperties: true,
+				required: [ 'target' ],
 			},
 		},
 		additionalProperties: true,
+		required: [ 'data' ],
 	};
 
 	return query(schema)
@@ -186,3 +197,4 @@ export const login = (payload: {
 export const getTypeCard = (type: string) =>
 	_.find(store.getState().types, { slug: type });
 
+export const compileSchema = (schema: JSONSchema6) => ajv.compile(schema);
