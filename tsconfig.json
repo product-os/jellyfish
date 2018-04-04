@@ -13,8 +13,9 @@
         "noUnusedLocals": true
     },
     "include": [
-        "lib/ui/**/*.ts",
-        "lib/ui/**/*.tsx"
+        "./lib/ui/**/*.ts",
+        "./lib/ui/**/*.tsx",
+        "./lib/typings/**/*.d.ts"
     ]
 }
 
