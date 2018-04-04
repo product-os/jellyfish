@@ -110,7 +110,7 @@ class HomeChannel extends React.Component<HomeChannelProps, HomeChannelState> {
 				<Divider color='#ccc' m={0} />
 
 				{this.state.showMenu &&
-					<Fixed onClick={() => this.setState({ showMenu: false })}>
+					<Fixed z={9999999} onClick={() => this.setState({ showMenu: false })}>
 						<MenuPanel mx={3} p={3}>
 							<Button plaintext onClick={() => this.logout()}>Log out</Button>
 						</MenuPanel>

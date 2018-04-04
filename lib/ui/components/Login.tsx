@@ -11,6 +11,7 @@ import {
 	Text,
 } from 'rendition';
 import * as sdk from '../services/sdk';
+import Icon from './Icon';
 import TopBar from './TopBar';
 
 interface LoginState {
@@ -18,6 +19,7 @@ interface LoginState {
 	username: string;
 	password: string;
 	email: string;
+	loggingIn: boolean;
 }
 
 export default class Login extends React.Component<{}, LoginState> {
@@ -29,6 +31,7 @@ export default class Login extends React.Component<{}, LoginState> {
 			username: '',
 			password: '',
 			email: '',
+			loggingIn: false,
 		};
 	}
 
@@ -43,10 +46,12 @@ export default class Login extends React.Component<{}, LoginState> {
 
 	public login() {
 		const { username, password } = this.state;
+		this.setState({ loggingIn: true })
 		sdk.login({
 			username,
 			password,
-		});
+		})
+		.finally(() => this.setState({ loggingIn: false }));
 	}
 
 	public render() {
@@ -153,9 +158,11 @@ export default class Login extends React.Component<{}, LoginState> {
 											w='100%'
 											primary
 											emphasized
-											disabled={!this.state.username || !this.state.password}
+											disabled={!this.state.username || !this.state.password || this.state.loggingIn}
 											onClick={(e) => e.preventDefault() || this.login()}
-										>Log in</Button>
+										>
+											{this.state.loggingIn ? <Icon name='cog fa-spin' /> : 'Log in' }
+										</Button>
 									</Box>
 								</form>
 							</React.Fragment>
