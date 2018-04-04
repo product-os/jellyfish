@@ -28,6 +28,7 @@ interface ViewRendererState {
 	tail: null | Card[];
 	lenses: Lens[];
 	activeLens: null | Lens;
+	tailType: Type | null;
 }
 
 interface ViewRendererProps extends RendererProps {
@@ -45,21 +46,52 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 			tail: null,
 			lenses: [],
 			activeLens: null,
+			tailType: null,
 		};
 
 		this.loadTail();
+
+		setInterval(() => {
+			this.loadTail();
+		}, 6000);
 	}
 
 	public loadTail() {
 		queryView(this.props.channel.data.target)
 		.then((tail) => {
-			const lenses = (tail && tail.length > 0) ? LensService.getLenses(tail) : [];
-			const activeLens = lenses[0] || null;
+			const { head } = this.props.channel.data;
+
+			let tailType: Type | null = null;
+
+			if (tail && tail.length) {
+				tailType = getTypeCard(tail[0].type) || null;
+			}
+
+			// If there is no tail, make a best guess at the type
+			if (tail && !tail.length) {
+				const foundType = _.get(head, 'data.allOf[0].schema.properties.type.const')
+					|| _.get(head, 'data.oneOf[0].schema.properties.type.const');
+
+				if (foundType) {
+					tailType = getTypeCard(foundType) || null;
+				}
+
+			}
+
+			const lenses: Lens[] = tail.length > 0 ?
+				LensService.getLenses(tail)
+				: LensService.getLensesByType(tailType ? tailType.slug : null);
+
+			console.log(lenses);
+
+			const activeLens = this.state.activeLens || lenses[0] || null;
+
 			this.setState({
 				tail,
 				lenses,
 				activeLens,
-			})
+				tailType,
+			});
 		});
 	}
 
@@ -88,25 +120,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 
 	public render() {
 		const { head } = this.props.channel.data;
-		const { tail } = this.state;
-		let tailType: Type | null = null;
-
-		if (tail && tail.length) {
-			tailType = getTypeCard(tail[0].type) || null;
-		}
-
-		// If there is no tail, make a best guess at the type
-		if (tail && !tail.length) {
-			const foundType = _.get(head, 'data.allOf[0].schema.properties.type.const')
-				|| _.get(head, 'data.oneOf[0].schema.properties.type.const');
-
-			if (foundType) {
-				tailType = getTypeCard(foundType) || null;
-			}
-		}
-
-		const lenses = (tail && tail.length > 0) ? LensService.getLenses(tail) : [];
-
+		const { tail, tailType } = this.state;
 		const useFilters = !!tailType && tailType.slug !== 'view';
 
 		const { activeLens } = this.state;
@@ -121,8 +135,11 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 				SchemaSieve.filter(this.state.filters, [card.data]).length > 0);
 		}
 
+		console.log(filteredTail);
+		console.log(this.state.lenses);
+
 		return (
-			<Box style={{ height: '100%', overflowY: 'auto', borderRight: '1px solid #ccc', minWidth: 450 }}>
+			<Box style={{ height: '100%', overflowY: 'auto', borderRight: '1px solid #ccc', minWidth: 450, position: 'relative' }}>
 				{head &&
 					<React.Fragment>
 						<Flex justify='space-between' m={3}>
@@ -146,7 +163,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 								</Button>
 							}
 							<Box>
-								{_.map(lenses, lens =>
+								{_.map(this.state.lenses, lens =>
 									<Button
 										key={lens.slug}
 										bg={this.state.activeLens!.slug === lens.slug  ? '#333' : undefined}

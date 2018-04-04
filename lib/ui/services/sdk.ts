@@ -86,7 +86,7 @@ const patchRequest = (endpoint: string, body: any, options?: AxiosRequestConfig)
 			return response.data.data;
 		});
 
-export const addCard = (card: Card): Promise<Card> =>
+export const addCard = (card: Partial<Card>): Promise<{ id: string, results: any }> =>
 	postRequest('card', card)
 		.then(response => response.data.data);
 

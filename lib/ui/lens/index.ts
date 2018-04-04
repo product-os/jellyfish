@@ -4,6 +4,9 @@ import { Card, Lens } from '../../Types';
 import * as sdk from '../services/sdk';
 
 // Load lenses
+import ChatThreadLens from './ChatThread';
+
+import ChatMessageCardLens from './ChatMessageCard';
 import DefaultLens from './Default';
 import DefaultCardLens from './DefaultCard';
 import DefaultListLens from './DefaultList';
@@ -19,9 +22,11 @@ class LensService {
 		],
 		table: [],
 		card: [
+			ChatMessageCardLens,
 			DefaultCardLens,
 		],
 		single: [
+			ChatThreadLens,
 			ViewLens,
 			DefaultLens,
 		],
@@ -50,6 +55,20 @@ class LensService {
 
 		const lenses = _.reduce(this.lenses, (carry, items) => {
 			const result = _.find(items, (lens) => this.getValidator(lens)(data));
+			return result ? carry.concat(result) : carry;
+		}, [] as Lens[]);
+
+		return lenses;
+	}
+
+	// Returns an array of lenses that can be used to render `data`.
+	public getLensesByType(type: string | null) {
+		if (!type) {
+			return [];
+		}
+
+		const lenses = _.reduce(this.lenses, (carry, items) => {
+			const result = _.find(items, (lens) => lens.data.type === type);
 			return result ? carry.concat(result) : carry;
 		}, [] as Lens[]);
 

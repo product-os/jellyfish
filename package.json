@@ -64,6 +64,7 @@
     "bluebird": "^3.5.1",
     "blueimp-md5": "^2.10.0",
     "body-parser": "^1.18.2",
+    "color-hash": "^1.0.3",
     "debug": "^3.1.0",
     "express": "^4.16.2",
     "formulajs": "^1.0.8",

@@ -1,0 +1,49 @@
+{
+  "slug": "chat-message",
+  "type": "type",
+  "name": "Chat message",
+  "tags": [],
+  "links": [],
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "properties": {
+            "timestamp": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "target": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "actor": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              },
+              "required": [ "message" ],
+              "additionalProperties": true
+            }
+          },
+          "required": [
+            "timestamp",
+            "target",
+            "actor",
+            "payload"
+          ]
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}
