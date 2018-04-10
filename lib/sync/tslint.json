@@ -1,0 +1,30 @@
+{
+    "extends": "tslint:recommended",
+    "rules": {
+        "indent": [ true, "tabs" ],
+        "jsdoc-format": false,
+        "whitespace": [
+            true,
+            "check-branch",
+            "check-type"
+        ],
+        "arrow-parens": false,
+        "only-arrow-functions": false,
+        "object-literal-key-quotes": [true, "as-needed"],
+        "object-literal-sort-keys": false,
+        "quotemark": [true, "single", "avoid-escape"],
+        "max-classes-per-file": [ false ],
+        "no-var-requires": false,
+        "no-console": false,
+        "trailing-comma": false,
+        "no-string-literal": false,
+        "interface-name": false,
+        "variable-name": [
+            true,
+            "ban-keywords",
+            "check-format",
+            "allow-leading-underscore",
+            "allow-pascal-case"
+        ]
+    }
+}

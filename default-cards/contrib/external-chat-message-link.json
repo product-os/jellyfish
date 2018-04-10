@@ -1,0 +1,63 @@
+{
+  "slug": "external-chat-message-link",
+  "name": "Chat Message Connection",
+  "type": "type",
+  "tags": [],
+  "links": [],
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "required": [
+        "data"
+      ],
+      "properties": {
+        "data": {
+          "type": "object",
+          "required": [
+            "external",
+            "internal"
+          ],
+          "properties": {
+            "external": {
+              "type": "object",
+              "required": [
+                "service",
+                "instance",
+                "flow",
+                "thread",
+                "message"
+              ],
+              "properties": {
+                "service": {
+                  "type": "string",
+                  "pattern": "^.+$"
+                },
+                "instance": {
+                  "type": "string",
+                  "pattern": "^.+$"
+                },
+                "flow": {
+                  "type": "string",
+                  "pattern": "^.+$"
+                },
+                "thread": {
+                  "type": "string",
+                  "pattern": "^.+$"
+                },
+                "message": {
+                  "type": "string",
+                  "pattern": "^.+$"
+                }
+              }
+            },
+            "internal": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        }
+      }
+    }
+  }
+}

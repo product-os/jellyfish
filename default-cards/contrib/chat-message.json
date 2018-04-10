@@ -29,9 +29,13 @@
               "properties": {
                 "message": {
                   "type": "string"
+                },
+                "hidden": {
+                  "type": "string",
+                  "enum": ["ALWAYS", "PREFERRED", "NEVER"]
                 }
               },
-              "required": [ "message" ],
+              "required": [ "message", "hidden" ],
               "additionalProperties": true
             }
           },

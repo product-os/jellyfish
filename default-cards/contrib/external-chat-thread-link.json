@@ -1,0 +1,62 @@
+{
+  "slug": "external-chat-thread-link",
+  "name": "Chat Thread Connection",
+  "type": "type",
+  "tags": [],
+  "links": [],
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "required": [
+        "data"
+      ],
+      "properties": {
+        "data": {
+          "type": "object",
+          "required": [
+            "external",
+            "internal"
+          ],
+          "properties": {
+            "external": {
+              "type": "object",
+              "required": [
+                "service",
+                "instance",
+                "flow",
+                "thread"
+              ],
+              "properties": {
+                "service": {
+                  "type": "string",
+                  "pattern": "^.+$"
+                },
+                "instance": {
+                  "type": "string",
+                  "pattern": "^.+$"
+                },
+                "flow": {
+                  "type": "string",
+                  "pattern": "^.+$"
+                },
+                "thread": {
+                  "type": "string",
+                  "pattern": "^.+$"
+                },
+                "url": {
+                  "type": "string",
+                  "format": "url"
+                }
+              }
+            },
+            "internal": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        }
+      }
+    }
+  }
+}

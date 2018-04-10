@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist/",
+        "sourceMap": true,
+        "noImplicitAny": true,
+        "module": "commonjs",
+        "target": "es5",
+        "jsx": "react",
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "strictNullChecks": true,
+        "noUnusedParameters": true,
+        "noUnusedLocals": true
+    },
+    "include": [
+      "./src/**/*.ts",
+      "./typings/**/*.d.ts"
+    ]
+}

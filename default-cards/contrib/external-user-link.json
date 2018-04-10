@@ -1,0 +1,53 @@
+{
+  "slug": "external-user-link",
+  "name": "Chat User Connection",
+  "type": "type",
+  "tags": [],
+  "links": [],
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "required": [
+        "data"
+      ],
+      "properties": {
+        "data": {
+          "type": "object",
+          "required": [
+            "external",
+            "internal"
+          ],
+          "properties": {
+            "external": {
+              "type": "object",
+              "required": [
+                "service",
+                "instance",
+                "username"
+              ],
+              "properties": {
+                "service": {
+                  "type": "string",
+                  "pattern": "^.+$"
+                },
+                "instance": {
+                  "type": "string",
+                  "pattern": "^.+$"
+                },
+                "username": {
+                  "type": "string",
+                  "pattern": "^.+$"
+                }
+              }
+            },
+            "internal": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        }
+      }
+    }
+  }
+}

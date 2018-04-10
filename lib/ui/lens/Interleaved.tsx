@@ -115,6 +115,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 				actor: this.props.session!.user!.id,
 				payload: {
 					message: newMessage,
+					hidden: 'never',
 				},
 			},
 		})
