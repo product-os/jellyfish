@@ -1,6 +1,6 @@
 {
-  "slug": "view-all-repos",
-  "name": "All repositories",
+  "slug": "view-all-chat-messages",
+  "name": "All chat messages",
   "type": "view",
   "tags": [],
   "links": [],
@@ -8,13 +8,13 @@
   "data": {
     "allOf": [
       {
-        "name": "All repositories",
+        "name": "All chat messages",
         "schema": {
           "type": "object",
           "properties": {
             "type": {
               "type": "string",
-              "const": "repo"
+              "const": "chat-message"
             }
           },
           "additionalProperties": true,
