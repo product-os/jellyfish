@@ -2,12 +2,12 @@ import * as _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Box, Flex, Heading, Textarea } from 'rendition';
+import { Box, Textarea } from 'rendition';
 import { Card, JellyfishState, Lens, RendererProps } from '../../Types';
 import ChatMessage from '../components/ChatMessage';
 import Icon from '../components/Icon';
 import { getCurrentTimestamp } from '../services/helpers';
-import { addCard, query } from '../services/sdk';
+import { addCard, JellyfishStream, streamQuery } from '../services/sdk';
 import { actionCreators } from '../services/store';
 
 interface RendererState {
@@ -22,6 +22,8 @@ interface DefaultRendererProps extends RendererProps {
 
 // Default renderer for a card and a timeline
 export class Renderer extends React.Component<DefaultRendererProps, RendererState> {
+	private stream: JellyfishStream;
+
 	constructor(props: DefaultRendererProps) {
 		super(props);
 
@@ -30,11 +32,15 @@ export class Renderer extends React.Component<DefaultRendererProps, RendererStat
 			newMessage: '',
 		};
 
-		this.loadTail();
+		this.streamTail();
 	}
 
-	public loadTail() {
-		query<Card>({
+	public componentWillUnmount() {
+		this.stream.destroy();
+	}
+
+	public streamTail() {
+		this.stream = streamQuery({
 			type: 'object',
 			properties: {
 				type: {
@@ -53,9 +59,30 @@ export class Renderer extends React.Component<DefaultRendererProps, RendererStat
 			},
 			required: [ 'type', 'data' ],
 			additionalProperties: true,
-		})
-		.tap((tail) => console.log('GOT TAIL', tail))
-		.then((tail) => this.setState({ tail }));
+		});
+
+		this.stream.on('data', (response) => {
+			this.setState({ tail: response.data });
+		});
+
+		this.stream.on('update', (response) => {
+			// If `before` is non-null then the card has been updated
+			if (response.data.before) {
+				return this.setState((prevState) => {
+					if (prevState.tail) {
+						const index = _.findIndex(prevState.tail, { id: response.data.before.id });
+						prevState.tail.splice(index, 1, response.data.after);
+					}
+					return { tail: prevState.tail };
+				});
+			}
+
+			return this.setState((prevState) => {
+				const tail = prevState.tail || [];
+				tail.push(response.data.after);
+				return { tail };
+			});
+		});
 	}
 
 	public delete() {
@@ -78,8 +105,7 @@ export class Renderer extends React.Component<DefaultRendererProps, RendererStat
 					message: newMessage,
 				},
 			},
-		})
-		.then(() => this.loadTail());
+		});
 	}
 
 	public render() {
@@ -89,7 +115,7 @@ export class Renderer extends React.Component<DefaultRendererProps, RendererStat
 			<Box p={3} style={{ height: '100%', overflowY: 'auto', borderRight: '1px solid #ccc', minWidth: 300, position: 'relative' }}>
 				<Box>
 					{!tail && <Icon name='cog fa-spin' />}
-					{!!tail && _.map(tail, card => <Box my={3}><ChatMessage card={card} /></Box>)}
+					{!!tail && _.map(tail, card => <Box key={card.id} my={3}><ChatMessage card={card} /></Box>)}
 				</Box>
 				<Box p={3} style={{position: 'absolute', left: 0, bottom: 0, right: 0, borderTop: '1px solid #eee'}}>
 					<Textarea

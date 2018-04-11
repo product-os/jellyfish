@@ -2,7 +2,6 @@ import * as _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { actionCreators } from '../services/store';
 import {
 	Box,
 	Textarea,
@@ -11,6 +10,7 @@ import { JellyfishState, Lens, RendererProps } from '../../Types';
 import ChatMessage from '../components/ChatMessage';
 import { createChannel, getCurrentTimestamp } from '../services/helpers';
 import * as sdk from '../services/sdk';
+import { actionCreators } from '../services/store';
 
 interface CardListProps extends RendererProps {
 	actions: typeof actionCreators;
@@ -74,15 +74,12 @@ class CardList extends React.Component<CardListProps, CardListState> {
 
 	public threadOpen(target: string) {
 		return _.some(this.props.allChannels, (channel) => {
-			console.log(target, channel);
 			return channel.data.target === target;
 		});
 	}
 
 	public render() {
 		const { tail } = this.props;
-
-		console.log('CHAT MESSAGE TAIL', tail);
 
 		return (
 			<Box>
@@ -131,11 +128,12 @@ const lens: Lens = {
 			items: {
 				type: 'object',
 				properties: {
-					slug: {
+					type: {
 						type: 'string',
 						const: 'chat-message',
 					},
 				},
+				required: [ 'type' ],
 			},
 		},
 	},
