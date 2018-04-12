@@ -9,22 +9,18 @@ import {
 	Divider,
 	Filters,
 	Flex,
-	Form,
 	Heading,
-	Modal,
 	SchemaSieve,
 } from 'rendition';
 import { Card, Lens, RendererProps, Type } from '../../Types';
 import Icon from '../components/Icon';
 import { createChannel } from '../services/helpers';
-import { addCard, getTypeCard, JellyfishStream, streamQueryView } from '../services/sdk';
+import { getTypeCard, JellyfishStream, streamQueryView } from '../services/sdk';
 import { actionCreators } from '../services/store';
 import LensService from './index';
 
 interface ViewRendererState {
 	filters: JSONSchema6[];
-	showNewCardModal: boolean;
-	newCardModel: {[key: string]: any };
 	tail: null | Card[];
 	lenses: Lens[];
 	activeLens: null | Lens;
@@ -43,8 +39,6 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 
 		this.state = {
 			filters: [],
-			showNewCardModal: false,
-			newCardModel: {},
 			tail: null,
 			lenses: [],
 			activeLens: null,
@@ -120,20 +114,6 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 		});
 	}
 
-	public addEntry(cardType: Type) {
-		const newCard = {
-			type: cardType.slug,
-			...this.state.newCardModel,
-		};
-
-		addCard(newCard as Card);
-
-		this.setState({
-			showNewCardModal: false,
-			newCardModel: {},
-		});
-	}
-
 	public openChannel(card: Card) {
 		this.props.actions.addChannel(createChannel({
 			target: card.id,
@@ -163,13 +143,10 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 		console.log(this.state.lenses);
 
 		return (
-			<Box style={{ height: '100%', overflowY: 'auto', borderRight: '1px solid #ccc', minWidth: 450, position: 'relative' }}>
+			<Flex flexDirection='column' style={{ height: '100%', overflowY: 'auto', borderRight: '1px solid #ccc', minWidth: 450, position: 'relative' }}>
 				{head &&
-					<React.Fragment>
-						<Flex justify='space-between' m={3}>
-							<Heading.h4>{head.name}</Heading.h4>
-
-						</Flex>
+					<Box>
+						<Heading.h4 m={3}>{head.name}</Heading.h4>
 
 						{useFilters &&
 							<Box mx={3} mb={2}>
@@ -180,12 +157,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 							</Box>
 						}
 
-						<Flex px={3} mb={2} justify='space-between'>
-							{!!tailType &&
-								<Button success onClick={() => this.setState({ showNewCardModal: true })}>
-									Add a {tailType.name || tailType.slug}
-								</Button>
-							}
+						<Flex px={3} pb={2} justify='flex-end'>
 							<Box>
 								{_.map(this.state.lenses, lens =>
 									<Button
@@ -200,32 +172,21 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 						</Flex>
 
 						<Divider color='#ccc' />
-					</React.Fragment>
+					</Box>
 				}
-				<Box p={3}>
-					{!tail && <Icon name='cog fa-spin' />}
-				</Box>
+
+				{!tail &&
+					<Box p={3}>
+						<Icon name='cog fa-spin' />
+					</Box>
+				}
 
 				{(!!filteredTail && activeLens) && <activeLens.data.renderer
 					channel={this.props.channel}
 					tail={filteredTail}
+					type={tailType}
 					/>}
-
-				{(this.state.showNewCardModal && !!tailType) &&
-					<Modal
-						title='Add entry'
-						cancel={() => this.setState({ showNewCardModal: false })}
-						done={() => !!tailType && this.addEntry(tailType)}>
-
-						<Form
-							schema={(tailType as any).data.schema}
-							value={this.state.newCardModel}
-							onChange={(data: any) => this.setState({ newCardModel: data.formData })}
-							onSubmit={() => !!tailType && this.addEntry(tailType)}
-						/>
-					</Modal>
-				}
-			</Box>
+			</Flex>
 		);
 	}
 

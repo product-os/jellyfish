@@ -2,7 +2,12 @@ import * as _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Box, Textarea } from 'rendition';
+import {
+	Box,
+	Flex,
+	Text,
+	Textarea,
+} from 'rendition';
 import { Card, JellyfishState, Lens, RendererProps } from '../../Types';
 import ChatMessage from '../components/ChatMessage';
 import Icon from '../components/Icon';
@@ -112,12 +117,21 @@ export class Renderer extends React.Component<DefaultRendererProps, RendererStat
 		const { tail } = this.state;
 
 		return (
-			<Box p={3} style={{ height: '100%', overflowY: 'auto', borderRight: '1px solid #ccc', minWidth: 300, position: 'relative' }}>
-				<Box>
+			<Flex flexDirection='column' style={{ height: '100%', borderRight: '1px solid #ccc', minWidth: 300 }}>
+				<Box p={3} flex='1' style={{ overflowY: 'auto' }}>
 					{!tail && <Icon name='cog fa-spin' />}
-					{!!tail && _.map(tail, card => <Box key={card.id} my={3}><ChatMessage card={card} /></Box>)}
+
+					{(!!tail && tail.length > 0) && _.map(tail, card =>
+						<Box key={card.id} my={3}><ChatMessage card={card} /></Box>)}
+
+					{(!!tail && tail.length === 0) &&
+						<Text color='#ccc'>
+							<em>There are no messages in this thread yet, trying adding one using the input below</em>
+						</Text>
+					}
 				</Box>
-				<Box p={3} style={{position: 'absolute', left: 0, bottom: 0, right: 0, borderTop: '1px solid #eee'}}>
+
+				<Box p={3} style={{ borderTop: '1px solid #eee' }}>
 					<Textarea
 						rows={1}
 						value={this.state.newMessage}
@@ -125,7 +139,7 @@ export class Renderer extends React.Component<DefaultRendererProps, RendererStat
 						onKeyPress={(e) => e.key === 'Enter' && this.addMessage(e)}
 						placeholder='Type to comment on this thread...' />
 				</Box>
-			</Box>
+			</Flex>
 		);
 	}
 }
