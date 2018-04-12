@@ -173,7 +173,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 							</Flex>
 						}
 
-						<Divider color='#ccc' />
+						<Divider color='#ccc' mb={0} />
 					</Box>
 				}
 
