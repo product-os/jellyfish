@@ -23,12 +23,17 @@ interface CardListState {
 }
 
 class CardList extends React.Component<CardListProps, CardListState> {
+	private scrollArea: HTMLElement;
+	private shouldScroll: boolean = true;
+
 	constructor(props: CardListProps) {
 		super(props);
 
 		this.state = {
 			newMessage: '',
 		};
+
+		setTimeout(() => this.scrollToBottom(), 1000);
 	}
 
 	public createThread() {
@@ -39,7 +44,31 @@ class CardList extends React.Component<CardListProps, CardListState> {
 			const threadId = results.data;
 
 			this.openChannel(threadId);
-		})
+		});
+	}
+
+	public componentWillReceiveProps() {
+		if (!this.scrollArea) {
+			return;
+		}
+
+		// Only set the scroll flag if the scroll area is already at the bottom
+		this.shouldScroll = this.scrollArea.scrollTop === this.scrollArea.scrollHeight - this.scrollArea.offsetHeight;
+	}
+
+	public componentDidUpdate() {
+		// Scroll to bottom if the component has been updated with new items
+		this.scrollToBottom();
+	}
+
+	public scrollToBottom() {
+		if (!this.scrollArea) {
+			return;
+		}
+
+		if (this.shouldScroll) {
+			this.scrollArea.scrollTop = this.scrollArea.scrollHeight;
+		}
 	}
 
 	public openChannel(target: string) {
@@ -63,7 +92,7 @@ class CardList extends React.Component<CardListProps, CardListState> {
 
 		return (
 			<React.Fragment>
-				<Box px={3} flex='1' style={{overflowY: 'auto'}}>
+				<Box innerRef={(ref) => this.scrollArea = ref} px={3} flex='1' style={{overflowY: 'auto'}}>
 					{!!tail && _.map(tail, (card) => {
 
 						return (

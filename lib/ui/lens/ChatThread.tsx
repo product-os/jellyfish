@@ -28,6 +28,8 @@ interface DefaultRendererProps extends RendererProps {
 // Default renderer for a card and a timeline
 export class Renderer extends React.Component<DefaultRendererProps, RendererState> {
 	private stream: JellyfishStream;
+	private scrollArea: HTMLElement;
+	private shouldScroll: boolean = true;
 
 	constructor(props: DefaultRendererProps) {
 		super(props);
@@ -38,10 +40,36 @@ export class Renderer extends React.Component<DefaultRendererProps, RendererStat
 		};
 
 		this.streamTail();
+
+		setTimeout(() => this.scrollToBottom(), 1000);
 	}
 
 	public componentWillUnmount() {
 		this.stream.destroy();
+	}
+
+	public componentWillUpdate() {
+		if (!this.scrollArea) {
+			return;
+		}
+
+		// Only set the scroll flag if the scroll area is already at the bottom
+		this.shouldScroll = this.scrollArea.scrollTop === this.scrollArea.scrollHeight - this.scrollArea.offsetHeight;
+	}
+
+	public componentDidUpdate() {
+		// Scroll to bottom if the component has been updated with new items
+		this.scrollToBottom();
+	}
+
+	public scrollToBottom() {
+		if (!this.scrollArea) {
+			return;
+		}
+
+		if (this.shouldScroll) {
+			this.scrollArea.scrollTop = this.scrollArea.scrollHeight;
+		}
 	}
 
 	public streamTail() {
@@ -117,8 +145,8 @@ export class Renderer extends React.Component<DefaultRendererProps, RendererStat
 		const { tail } = this.state;
 
 		return (
-			<Flex flexDirection='column' style={{ height: '100%', borderRight: '1px solid #ccc', minWidth: 300 }}>
-				<Box p={3} flex='1' style={{ overflowY: 'auto' }}>
+			<Flex flexDirection='column' style={{ height: '100%', borderRight: '1px solid #ccc', minWidth: 350 }}>
+				<Box innerRef={(ref) => this.scrollArea = ref} p={3} flex='1' style={{ overflowY: 'auto' }}>
 					{!tail && <Icon name='cog fa-spin' />}
 
 					{(!!tail && tail.length > 0) && _.map(tail, card =>
