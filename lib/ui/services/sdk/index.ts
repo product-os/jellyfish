@@ -166,3 +166,21 @@ export const getTypeCard = (type: string) =>
 	_.find(store.getState().types, { slug: type });
 
 export const compileSchema = (schema: JSONSchema6) => ajv.compile(schema);
+
+export const getUsername = (() => {
+	const usernameCache: { [id: string]: string } = {};
+
+	return (userId: string): Promise<string> => Promise.try(() => {
+		if (usernameCache[userId]) {
+			return usernameCache[userId];
+		}
+
+		return getCard(userId)
+		.then((userCard) => {
+			const username = userCard ? userCard.slug!.replace('user-', '') : 'unknown user';
+			usernameCache[userId] = username;
+
+			return username;
+		});
+	});
+})();
