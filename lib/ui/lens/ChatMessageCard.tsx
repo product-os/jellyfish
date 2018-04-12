@@ -4,11 +4,12 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
 	Box,
-	Textarea,
+	Button,
+	Flex,
 } from 'rendition';
 import { JellyfishState, Lens, RendererProps } from '../../Types';
 import ChatMessage from '../components/ChatMessage';
-import { createChannel, getCurrentTimestamp } from '../services/helpers';
+import { createChannel } from '../services/helpers';
 import * as sdk from '../services/sdk';
 import { actionCreators } from '../services/store';
 
@@ -19,7 +20,6 @@ interface CardListProps extends RendererProps {
 }
 
 interface CardListState {
-	newMessage: string;
 }
 
 class CardList extends React.Component<CardListProps, CardListState> {
@@ -31,35 +31,15 @@ class CardList extends React.Component<CardListProps, CardListState> {
 		};
 	}
 
-	public createThread(e: React.KeyboardEvent<HTMLElement>) {
-		e.preventDefault();
-		const { newMessage } = this.state;
-
-		this.setState({ newMessage: '' });
-
+	public createThread() {
 		sdk.addCard({
 			type: 'chat-thread',
 		})
 		.then(({ results }) => {
 			const threadId = results.data;
 
-			return sdk.addCard({
-				type: 'chat-message',
-				data: {
-					timestamp: getCurrentTimestamp(),
-					target: threadId,
-					actor: this.props.session!.user!.id,
-					payload: {
-						message: newMessage,
-					},
-				},
-			});
+			this.openChannel(threadId);
 		})
-		.then(() => this.refresh());
-	}
-
-	public refresh() {
-		this.props.actions.loadChannelData(this.props.channel);
 	}
 
 	public openChannel(target: string) {
@@ -82,25 +62,28 @@ class CardList extends React.Component<CardListProps, CardListState> {
 		const { tail } = this.props;
 
 		return (
-			<Box>
-				{!!tail && _.map(tail, (card) => {
+			<React.Fragment>
+				<Box px={3} flex='1' style={{overflowY: 'auto'}}>
+					{!!tail && _.map(tail, (card) => {
 
-					return (
-						<Box p={3} bg={this.threadOpen(card.data.target) ? '#eee' : '#fff' } >
-							<ChatMessage card={card}
-								openChannel={(target) => this.openChannel(target)} />
-						</Box>
-					);
-				})}
-				<Box p={3} style={{position: 'absolute', left: 0, bottom: 0, right: 0, borderTop: '1px solid #eee'}}>
-					<Textarea
-						rows={1}
-						value={this.state.newMessage}
-						onChange={(e) => this.setState({ newMessage: e.target.value })}
-						onKeyPress={(e) => e.key === 'Enter' && this.createThread(e)}
-						placeholder='Type to start a new thread...' />
+						return (
+							<Box p={3} bg={this.threadOpen(card.data.target) ? '#eee' : '#fff' } >
+								<ChatMessage card={card}
+									openChannel={(target) => this.openChannel(target)} />
+							</Box>
+						);
+					})}
 				</Box>
-			</Box>
+
+				<Flex p={3}
+					style={{borderTop: '1px solid #eee'}}
+					justify='flex-end'
+				>
+					<Button success onClick={() => this.createThread()}>
+						Start a new thread
+					</Button>
+				</Flex>
+			</React.Fragment>
 		);
 	}
 
