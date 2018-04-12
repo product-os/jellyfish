@@ -15,7 +15,7 @@
     "lint": "eslint lib test webpack.config.js",
     "lint:fix": "eslint --fix lib test webpack.config.js",
     "build:ui": "webpack",
-    "dev:ui": "webpack-dev-server --color",
+    "dev:ui": "API_URL='http://localhost:8000/' webpack-dev-server --color",
     "heroku-postbuild": "npm run build:ui"
   },
   "ava": {

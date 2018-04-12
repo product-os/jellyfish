@@ -81,9 +81,8 @@ module.exports = {
 		}),
 		new DefinePlugin({
 			'process.env': {
-				PORT: JSON.stringify(process.env.PORT || 8000),
-				API_HOST: JSON.stringify(process.env.API_HOST),
-				API_PREFIX: JSON.stringify(process.env.API_PREFIX || '/api/v1/')
+				API_URL: JSON.stringify(process.env.API_URL),
+				API_PREFIX: JSON.stringify(process.env.API_PREFIX || 'api/v1/')
 			}
 		})
 	]
