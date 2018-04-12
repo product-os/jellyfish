@@ -17,7 +17,7 @@ import {
 import { Card, Lens, RendererProps, Type } from '../../Types';
 import Icon from '../components/Icon';
 import { createChannel } from '../services/helpers';
-import { addCard, getTypeCard, queryView } from '../services/sdk';
+import { addCard, getTypeCard, JellyfishStream, streamQueryView } from '../services/sdk';
 import { actionCreators } from '../services/store';
 import LensService from './index';
 
@@ -36,6 +36,8 @@ interface ViewRendererProps extends RendererProps {
 }
 
 class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState> {
+	private stream: JellyfishStream;
+
 	constructor(props: ViewRendererProps) {
 		super(props);
 
@@ -49,49 +51,72 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 			tailType: null,
 		};
 
-		this.loadTail();
-
-		setInterval(() => {
-			this.loadTail();
-		}, 6000);
+		this.streamTail();
 	}
 
-	public loadTail() {
-		queryView(this.props.channel.data.target)
-		.then((tail) => {
-			const { head } = this.props.channel.data;
+	public componentWillUnmount() {
+		this.stream.destroy();
+	}
 
-			let tailType: Type | null = null;
+	public setTail(tail: Card[]) {
+		const { head } = this.props.channel.data;
 
-			if (tail && tail.length) {
-				tailType = getTypeCard(tail[0].type) || null;
+		let tailType: Type | null = null;
+
+		if (tail && tail.length) {
+			tailType = getTypeCard(tail[0].type) || null;
+		}
+
+		// If there is no tail, make a best guess at the type
+		if (tail && !tail.length) {
+			const foundType = _.get(head, 'data.allOf[0].schema.properties.type.const')
+				|| _.get(head, 'data.oneOf[0].schema.properties.type.const');
+
+			if (foundType) {
+				tailType = getTypeCard(foundType) || null;
 			}
 
-			// If there is no tail, make a best guess at the type
-			if (tail && !tail.length) {
-				const foundType = _.get(head, 'data.allOf[0].schema.properties.type.const')
-					|| _.get(head, 'data.oneOf[0].schema.properties.type.const');
+		}
 
-				if (foundType) {
-					tailType = getTypeCard(foundType) || null;
-				}
+		const lenses: Lens[] = tail.length > 0 ?
+			LensService.getLenses(tail)
+			: LensService.getLensesByType(tailType ? tailType.slug : null);
 
+		console.log(lenses);
+
+		const activeLens = this.state.activeLens || lenses[0] || null;
+
+		this.setState({
+			tail,
+			lenses,
+			activeLens,
+			tailType,
+		});
+	}
+
+	public streamTail() {
+		this.stream = streamQueryView(this.props.channel.data.target);
+
+		this.stream.on('data', (response) => {
+			this.setTail(response.data);
+		});
+
+		this.stream.on('update', (response) => {
+			// If before is non-null then the card has been updated
+			if (response.data.before) {
+				return this.setState((prevState) => {
+					if (prevState.tail) {
+						const index = _.findIndex(prevState.tail, { id: response.data.before.id });
+						prevState.tail.splice(index, 1, response.data.after);
+					}
+					return { tail: prevState.tail };
+				});
 			}
 
-			const lenses: Lens[] = tail.length > 0 ?
-				LensService.getLenses(tail)
-				: LensService.getLensesByType(tailType ? tailType.slug : null);
+			const tail = this.state.tail || [];
+			tail.push(response.data.after);
 
-			console.log(lenses);
-
-			const activeLens = this.state.activeLens || lenses[0] || null;
-
-			this.setState({
-				tail,
-				lenses,
-				activeLens,
-				tailType,
-			});
+			this.setTail(tail);
 		});
 	}
 
@@ -101,8 +126,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 			...this.state.newCardModel,
 		};
 
-		addCard(newCard as Card)
-		.then(() => this.loadTail());
+		addCard(newCard as Card);
 
 		this.setState({
 			showNewCardModal: false,
