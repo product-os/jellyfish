@@ -94,9 +94,13 @@ class LensService {
 		}
 
 		const lenses = _.reduce(this.lenses, (carry, items) => {
-			const result = _.find(items, (lens) => lens.data.type === type);
+			const result = _.find(items, (lens) =>
+				lens.data.type === type || lens.data.type === '*'
+			);
 			return result ? carry.concat(result) : carry;
 		}, [] as Lens[]);
+
+		console.log('got lenses for type', type, lenses);
 
 		if (preference) {
 			return this.applyLensPreference(lenses, preference);

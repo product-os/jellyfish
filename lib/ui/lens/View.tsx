@@ -139,9 +139,6 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 				SchemaSieve.filter(this.state.filters, [card.data]).length > 0);
 		}
 
-		console.log(filteredTail);
-		console.log(this.state.lenses);
-
 		return (
 			<Flex flexDirection='column' style={{ height: '100%', overflowY: 'auto', borderRight: '1px solid #ccc', minWidth: 450, position: 'relative' }}>
 				{head &&
@@ -153,6 +150,12 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 								<Filters
 									schema={(tailType as any).data.schema.properties.data}
 									onFiltersUpdate={(filters) => this.setState({ filters })}
+									addFilterButtonProps={{
+										style: { flex: '1 0 135px' },
+									}}
+									viewsMenuButtonProps={{
+										w: 115,
+									}}
 								/>
 							</Box>
 						}
@@ -191,7 +194,6 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 			</Flex>
 		);
 	}
-
 }
 
 const mapDispatchToProps = (dispatch: any) => ({
