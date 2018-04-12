@@ -2,6 +2,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path')
+const DefinePlugin = require('webpack/lib/DefinePlugin')
 
 const root = path.resolve(__dirname, '.')
 const uiRoot = path.join(root, 'lib', 'ui')
@@ -77,6 +78,13 @@ module.exports = {
 		new ForkTsCheckerWebpackPlugin(),
 		new HtmlWebpackPlugin({
 			template: indexFilePath
+		}),
+		new DefinePlugin({
+			'process.env': {
+				PORT: JSON.stringify(process.env.PORT || 8000),
+				API_HOST: JSON.stringify(process.env.API_HOST),
+				API_PREFIX: JSON.stringify(process.env.API_PREFIX || '/api/v1/')
+			}
 		})
 	]
 }
