@@ -80,6 +80,7 @@ export interface Type extends Card {
 	data: {
 		schema: JSONSchema6;
 		fieldOrder?: string[];
+		lenses?: string[];
 	};
 }
 

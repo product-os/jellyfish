@@ -73,8 +73,8 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 		}
 
 		const lenses: Lens[] = tail.length > 0 ?
-			LensService.getLenses(tail)
-			: LensService.getLensesByType(tailType ? tailType.slug : null);
+			LensService.getLenses(tail, tailType ? tailType.data.lenses : undefined)
+			: LensService.getLensesByType(tailType ? tailType.slug : null, tailType ? tailType.data.lenses : undefined);
 
 		console.log(lenses);
 
@@ -157,19 +157,21 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 							</Box>
 						}
 
-						<Flex px={3} pb={2} justify='flex-end'>
-							<Box>
-								{_.map(this.state.lenses, lens =>
-									<Button
-										key={lens.slug}
-										bg={this.state.activeLens!.slug === lens.slug  ? '#333' : undefined}
-										square
-										onClick={() => this.setState({ activeLens: lens })}>
-										<Icon name={lens.data.icon} />
-									</Button>,
-								)}
-							</Box>
-						</Flex>
+						{this.state.lenses.length > 1 &&
+							<Flex px={3} pb={2} justify='flex-end'>
+								<Box>
+									{_.map(this.state.lenses, lens =>
+										<Button
+											key={lens.slug}
+											bg={this.state.activeLens!.slug === lens.slug  ? '#333' : undefined}
+											square
+											onClick={() => this.setState({ activeLens: lens })}>
+											<Icon name={lens.data.icon} />
+										</Button>,
+									)}
+								</Box>
+							</Flex>
+						}
 
 						<Divider color='#ccc' />
 					</Box>

@@ -47,8 +47,27 @@ class LensService {
 		return this.validators[lens.slug];
 	}
 
+	public applyLensPreference(lenses: Lens[], preference: string[]) {
+		const preferredLenses = preference.reduce((carry, slug) => {
+			if (slug === '*') {
+				return carry.concat(lenses);
+			}
+			const index = _.findIndex(lenses, { slug });
+			if (index > -1) {
+				return carry.concat(lenses.splice(index, 1));
+			}
+
+			return carry;
+		}, [] as Lens[]);
+
+		return preferredLenses;
+	}
+
 	// Returns an array of lenses that can be used to render `data`.
-	public getLenses(data: Card | Card[] | void) {
+	// An optional array of lens slugs can be passed, to specify the order and
+	// restrict the lenses returned. An asterisk can be used to specify
+	// a wildcard, allowing any lens to be returned.
+	public getLenses(data: Card | Card[] | void, preference?: string[]) {
 		if (!data) {
 			return [];
 		}
@@ -58,11 +77,18 @@ class LensService {
 			return result ? carry.concat(result) : carry;
 		}, [] as Lens[]);
 
+		if (preference) {
+			return this.applyLensPreference(lenses, preference);
+		}
+
 		return lenses;
 	}
 
 	// Returns an array of lenses that can be used to render `data`.
-	public getLensesByType(type: string | null) {
+	// An optional array of lens slugs can be passed, to specify the order and
+	// restrict the lenses returned. An asterisk can be used to specify
+	// a wildcard, allowing any lens to be returned.
+	public getLensesByType(type: string | null, preference?: string[]) {
 		if (!type) {
 			return [];
 		}
@@ -71,6 +97,10 @@ class LensService {
 			const result = _.find(items, (lens) => lens.data.type === type);
 			return result ? carry.concat(result) : carry;
 		}, [] as Lens[]);
+
+		if (preference) {
+			return this.applyLensPreference(lenses, preference);
+		}
 
 		return lenses;
 	}
