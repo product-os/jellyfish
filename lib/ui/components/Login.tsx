@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {
+	Alert,
 	Box,
 	Button,
 	Container,
@@ -20,6 +21,8 @@ interface LoginState {
 	password: string;
 	email: string;
 	loggingIn: boolean;
+	signupError: string;
+	loginError: string;
 }
 
 export default class Login extends React.Component<{}, LoginState> {
@@ -32,24 +35,39 @@ export default class Login extends React.Component<{}, LoginState> {
 			password: '',
 			email: '',
 			loggingIn: false,
+			signupError: '',
+			loginError: '',
 		};
 	}
 
 	public signup() {
 		const { username, password, email } = this.state;
+		this.setState({
+			loggingIn: true,
+			signupError: '',
+		});
+
 		sdk.signup({
 			username,
 			password,
 			email,
-		});
+		})
+		.catch((e) => {
+			this.setState({ signupError: e.message });
+		})
+		.finally(() => this.setState({ loggingIn: false }));
 	}
 
 	public login() {
 		const { username, password } = this.state;
-		this.setState({ loggingIn: true })
+		this.setState({ loggingIn: true });
+
 		sdk.login({
 			username,
 			password,
+		})
+		.catch((e) => {
+			this.setState({ loginError: e.message });
 		})
 		.finally(() => this.setState({ loggingIn: false }));
 	}
@@ -74,6 +92,11 @@ export default class Login extends React.Component<{}, LoginState> {
 								</Text>
 
 								<Divider color='#eee' mb={4} />
+
+								{this.state.signupError &&
+									<Alert danger mb={3}>{this.state.signupError}</Alert>
+								}
+
 								<form onSubmit={(e) => e.preventDefault() || this.signup()}>
 									<Text fontSize={1} mb={1}>Email</Text>
 									<Input
@@ -112,9 +135,11 @@ export default class Login extends React.Component<{}, LoginState> {
 											w='100%'
 											primary
 											emphasized
-											disabled={!this.state.email || !this.state.username || !this.state.password}
+											disabled={!this.state.email || !this.state.username || !this.state.password || this.state.loggingIn}
 											onClick={(e) => e.preventDefault() || this.signup()}
-										>Sign up</Button>
+										>
+											{this.state.loggingIn ? <Icon name='cog fa-spin' /> : 'Sign up' }
+										</Button>
 									</Box>
 									<Text color='#908c99' fontSize={0} my={4} align='center'>
 										By clicking "Sign up" you confirm that you have performed the <Link blank href='https://bosshamster.deviantart.com/art/Summoning-Cthulhu-For-Dummies-31645860'>initiation rituals</Link>
@@ -131,6 +156,11 @@ export default class Login extends React.Component<{}, LoginState> {
 								</Text>
 
 								<Divider color='#eee' mb={4} />
+
+								{this.state.loginError &&
+									<Alert danger mb={3}>{this.state.loginError}</Alert>
+								}
+
 								<form onSubmit={(e) => e.preventDefault() || this.login()}>
 									<Text fontSize={1} mb={1}>Username</Text>
 									<Input
