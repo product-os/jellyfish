@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 import * as Promise from 'bluebird';
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
@@ -28,31 +28,28 @@ const withAuth = (options?: AxiosRequestConfig) => _.merge(
 	},
 );
 
+const handleError = (e: AxiosError) => {
+	if (e.response && e.response.data) {
+		throw new Error(e.response.data.data);
+	}
+	throw e;
+}
+
 const getRequest = (endpoint: string, options?: AxiosRequestConfig) =>
-	Promise.try(() => axios.get(`${API_URL}${API_PREFIX}${endpoint}`, withAuth(options) 	));
+	Promise.try(() => axios.get(`${API_URL}${API_PREFIX}${endpoint}`, withAuth(options) 	))
+		.catch(handleError);
 
 const postRequest = (endpoint: string, body: any, options?: AxiosRequestConfig) =>
-	Promise.try(() => axios.post(`${API_URL}${API_PREFIX}${endpoint}`, body, withAuth(options)));
+	Promise.try(() => axios.post(`${API_URL}${API_PREFIX}${endpoint}`, body, withAuth(options)))
+		.catch(handleError);
 
 const deleteRequest = (endpoint: string, options?: AxiosRequestConfig) =>
 	Promise.try(() => axios.delete(`${API_URL}${API_PREFIX}${endpoint}`, withAuth(options)))
-		.then(response => {
-			if (response.data.data.results.error) {
-				throw new Error(response.data.data.results.data);
-			}
-
-			return response.data.data;
-		});
+		.catch(handleError);
 
 const patchRequest = (endpoint: string, body: any, options?: AxiosRequestConfig) =>
 	Promise.try(() => axios.patch(`${API_URL}${API_PREFIX}${endpoint}`, body, withAuth(options)))
-		.then(response => {
-			if (response.data.data.results.error) {
-				throw new Error(response.data.data.results.data);
-			}
-
-			return response.data.data;
-		});
+		.catch(handleError);
 
 export const addCard = (card: Partial<Card>): Promise<{ id: string, results: any }> =>
 	postRequest('card', card)
@@ -63,10 +60,12 @@ export const getCard = (idOrSlug: string): Promise<Card> =>
 		.then(response => response.data.data);
 
 export const deleteCard = (idOrSlug: string): Promise<Card> =>
-	deleteRequest(`card/${idOrSlug}`);
+	deleteRequest(`card/${idOrSlug}`)
+		.then(response => response.data.data);
 
 export const updateCard = (idOrSlug: string, body: Partial<Card>): Promise<Card> =>
-	patchRequest(`card/${idOrSlug}`, body);
+	patchRequest(`card/${idOrSlug}`, body)
+		.then(response => response.data.data);
 
 export const query = <T = Card>(schema: JSONSchema6): Promise<T[]> =>
 	getRequest(`query?${queryStringEncode(schema)}`)
