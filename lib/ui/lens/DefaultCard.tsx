@@ -19,7 +19,7 @@ interface CardListState {
 
 interface CardListProps extends RendererProps {
 	actions: typeof actionCreators;
-	type: Type;
+	type: null | Type;
 }
 
 class CardList extends React.Component<CardListProps, CardListState> {
@@ -59,20 +59,24 @@ class CardList extends React.Component<CardListProps, CardListState> {
 					})}
 				</Box>
 
-				<Flex p={3}
-					style={{borderTop: '1px solid #eee'}}
-					justify='flex-end'
-				>
-					<Button success onClick={() => this.setState({ showNewCardModal: true })}>
-						Add a {this.props.type.name || this.props.type.slug}
-					</Button>
-				</Flex>
+				{!!this.props.type &&
+					<React.Fragment>
+						<Flex p={3}
+							style={{borderTop: '1px solid #eee'}}
+							justify='flex-end'
+						>
+							<Button success onClick={() => this.setState({ showNewCardModal: true })}>
+								Add a {this.props.type.name || this.props.type.slug}
+							</Button>
+						</Flex>
 
-				<CardCreator
-					show={this.state.showNewCardModal}
-					type={this.props.type}
-					done={() => this.setState({ showNewCardModal: false })}
-				/>
+						<CardCreator
+							show={this.state.showNewCardModal}
+							type={this.props.type}
+							done={() => this.setState({ showNewCardModal: false })}
+						/>
+					</React.Fragment>
+				}
 			</React.Fragment>
 		);
 	}
@@ -90,6 +94,7 @@ const lens: Lens = {
 	data: {
 		renderer: connect(null, mapDispatchToProps)(CardList),
 		icon: 'address-card',
+		type: '*',
 		filter: {
 			type: 'array',
 			items: {

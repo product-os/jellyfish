@@ -17,7 +17,8 @@
               "const": true
             }
           },
-          "required": [ "active" ]
+          "required": [ "active" ],
+          "additionalProperties": true
         }
       }
     ]

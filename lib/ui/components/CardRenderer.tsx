@@ -3,19 +3,34 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Box, Divider, Heading, Link, Text } from 'rendition';
+import styled from 'styled-components';
 import { Card, Channel } from '../../Types';
 import { createChannel } from '../services/helpers';
 import { actionCreators } from '../services/store';
+
+const DataContainer = styled.pre`
+	background: none;
+	color: inherit;
+	border: 0;
+	margin: 0;
+	padding: 0;
+	font-size: inherit;
+	white-space: pre-wrap;
+	word-wrap: break-word;
+`;
 
 const CardField = ({ field, payload }: {
 	field: string;
 	payload: { [key: string]: any };
 }) => {
-	const data = _.isObject(payload[field]) ? JSON.stringify(payload[field]) : `${payload[field]}`;
 	return (
 		<React.Fragment>
 			<Heading.h4 my={3}>{field}</Heading.h4>
-			<Text>{data}</Text>
+			{_.isObject(payload[field]) ?
+				<Text monospace>
+					<DataContainer>{JSON.stringify(payload[field], null, 4)}</DataContainer>
+				</Text>
+				: <Text>{`${payload[field]}`}</Text>}
 		</React.Fragment>
 	);
 };
@@ -42,7 +57,7 @@ class CardRenderer extends React.Component<CardProps, {}> {
 
 	public render() {
 		const payload = this.props.card.data;
-		const { fieldOrder } = this.props;
+		const { card, fieldOrder } = this.props;
 
 		const unorderedKeys = _.filter(
 			_.keys(payload),
@@ -54,11 +69,11 @@ class CardRenderer extends React.Component<CardProps, {}> {
 				<Box mb={3}>
 					<Heading.h3 my={3}>
 						{!!this.props.channel &&
-							<Link onClick={() => this.openChannel(this.props.card)}>
-								{this.props.card.name}
+							<Link onClick={() => this.openChannel(card)}>
+								{card.name || card.slug || card.id}
 							</Link>
 						}
-						{!this.props.channel && this.props.card.name}
+						{!this.props.channel && (card.name || card.slug || card.id)}
 					</Heading.h3>
 
 					{_.map(fieldOrder, (key) =>

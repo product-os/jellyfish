@@ -19,7 +19,7 @@ interface ViewListState {
 
 interface ViewListProps extends RendererProps {
 	actions: typeof actionCreators;
-	type: Type;
+	type: null | Type;
 }
 
 class ViewList extends React.Component<ViewListProps, ViewListState> {
@@ -44,7 +44,7 @@ class ViewList extends React.Component<ViewListProps, ViewListState> {
 
 		return (
 			<React.Fragment>
-				<Box px={3} flex='1' style={{overflowY: 'auto'}}>
+				<Box p={3} flex='1' style={{overflowY: 'auto'}}>
 					{!!tail && _.map(tail, (card) => {
 						// Don't show the card if its the head, this can happen on view types
 						if (card.id === head!.id) {
@@ -53,26 +53,30 @@ class ViewList extends React.Component<ViewListProps, ViewListState> {
 
 						return (
 							<Box key={card.id} mb={3}>
-								<Link onClick={() => this.openChannel(card)}>{card.name || card.slug}</Link>
+								<Link onClick={() => this.openChannel(card)}>{card.name || card.slug || card.id}</Link>
 							</Box>
 						);
 					})}
 				</Box>
 
-				<Flex p={3}
-					style={{borderTop: '1px solid #eee'}}
-					justify='flex-end'
-				>
-					<Button success onClick={() => this.setState({ showNewCardModal: true })}>
-						Add a {this.props.type.name || this.props.type.slug}
-					</Button>
-				</Flex>
+				{!!this.props.type &&
+					<React.Fragment>
+						<Flex p={3}
+							style={{borderTop: '1px solid #eee'}}
+							justify='flex-end'
+						>
+							<Button success onClick={() => this.setState({ showNewCardModal: true })}>
+								Add a {this.props.type.name || this.props.type.slug}
+							</Button>
+						</Flex>
 
-				<CardCreator
-					show={this.state.showNewCardModal}
-					type={this.props.type}
-					done={() => this.setState({ showNewCardModal: false })}
-				/>
+						<CardCreator
+							show={this.state.showNewCardModal}
+							type={this.props.type}
+							done={() => this.setState({ showNewCardModal: false })}
+						/>
+					</React.Fragment>
+				}
 			</React.Fragment>
 		);
 	}
@@ -90,7 +94,7 @@ const lens: Lens = {
 	data: {
 		renderer: connect(null, mapDispatchToProps)(ViewList),
 		icon: 'list-ul',
-		type: 'view',
+		type: '*',
 		filter: {
 			type: 'array',
 			items: {
