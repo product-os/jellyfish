@@ -1,8 +1,8 @@
 import createHistory from 'history/createHashHistory';
 import * as _ from 'lodash';
 import { JellyfishState } from '../../Types';
-import store, { actionCreators } from './store';
 import { createChannel } from './helpers';
+import store, { actionCreators } from './store';
 
 const history = createHistory();
 
@@ -61,4 +61,4 @@ history.listen((location, action) => {
 		return;
 	}
 	setChannelsFromPath(location.pathname);
-})
+});

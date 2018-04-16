@@ -18,6 +18,10 @@ const ajv = new Ajv();
 ajvKeywords(ajv);
 ajv.addMetaSchema(metaSchema6);
 
+const trimSlash = (s: string) => _.trim(s, '/');
+
+const API_BASE = `${trimSlash(API_URL)}/${trimSlash(API_PREFIX)}/`;
+
 const withAuth = (options?: AxiosRequestConfig) => _.merge(
 	{},
 	options,
@@ -33,22 +37,22 @@ const handleError = (e: AxiosError) => {
 		throw new Error(e.response.data.data);
 	}
 	throw e;
-}
+};
 
 const getRequest = (endpoint: string, options?: AxiosRequestConfig) =>
-	Promise.try(() => axios.get(`${API_URL}${API_PREFIX}${endpoint}`, withAuth(options) 	))
+	Promise.try(() => axios.get(`${API_BASE}${endpoint}`, withAuth(options) 	))
 		.catch(handleError);
 
 const postRequest = (endpoint: string, body: any, options?: AxiosRequestConfig) =>
-	Promise.try(() => axios.post(`${API_URL}${API_PREFIX}${endpoint}`, body, withAuth(options)))
+	Promise.try(() => axios.post(`${API_BASE}${endpoint}`, body, withAuth(options)))
 		.catch(handleError);
 
 const deleteRequest = (endpoint: string, options?: AxiosRequestConfig) =>
-	Promise.try(() => axios.delete(`${API_URL}${API_PREFIX}${endpoint}`, withAuth(options)))
+	Promise.try(() => axios.delete(`${API_BASE}${endpoint}`, withAuth(options)))
 		.catch(handleError);
 
 const patchRequest = (endpoint: string, body: any, options?: AxiosRequestConfig) =>
-	Promise.try(() => axios.patch(`${API_URL}${API_PREFIX}${endpoint}`, body, withAuth(options)))
+	Promise.try(() => axios.patch(`${API_BASE}${endpoint}`, body, withAuth(options)))
 		.catch(handleError);
 
 export const addCard = (card: Partial<Card>): Promise<{ id: string, results: any }> =>
