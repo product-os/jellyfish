@@ -8,6 +8,7 @@ import HomeChannel from './components/HomeChannel';
 import Login from './components/Login';
 import * as sdk from './services/sdk';
 import { actionCreators } from './services/store';
+import './services/url-manager';
 
 (window as any).sdk = sdk;
 
