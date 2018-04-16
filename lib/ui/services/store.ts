@@ -3,8 +3,12 @@ import * as _ from 'lodash';
 import { applyMiddleware, createStore, Middleware } from 'redux';
 import thunk, { ThunkAction } from 'redux-thunk';
 import { Card, Channel, JellyfishState, Type } from '../../Types';
-import { createChannel, debug } from '../services/helpers';
+import { createChannel, debug } from './helpers';
 import * as sdk from './sdk';
+import {
+	setChannelsFromPath,
+	setPathFromState,
+} from './url-manager';
 
 // Set localStorage as the backend driver, as it is a little easier to work
 // with.
@@ -31,6 +35,10 @@ const actions = {
 type JellyThunk = ThunkAction<void, JellyfishState, void>;
 
 export const actionCreators = {
+	setState: (state: JellyfishState) => ({
+		type: actions.SET_STATE,
+		value: state,
+	}),
 	loadChannelData: (channel: Channel): JellyThunk => (dispatch) => {
 		sdk.getCard(channel.data.target)
 		.then((head) => {
@@ -101,6 +109,9 @@ const load = () => {
 				type: actions.SET_STATE,
 				value: state,
 			});
+
+			// load URL route
+			setChannelsFromPath();
 		}
 	});
 };
@@ -189,5 +200,7 @@ const reducerWrapper = (state: JellyfishState, action: Action) => {
 const store = createStore<JellyfishState>(reducerWrapper, applyMiddleware(logger, thunk));
 
 load();
+
+store.subscribe(() => setPathFromState(store.getState()));
 
 export default store;
