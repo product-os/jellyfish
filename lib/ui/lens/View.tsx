@@ -9,10 +9,10 @@ import {
 	Divider,
 	Filters,
 	Flex,
-	Heading,
 	SchemaSieve,
 } from 'rendition';
 import { Card, Lens, RendererProps, Type } from '../../Types';
+import ButtonGroup from '../components/ButtonGroup';
 import Icon from '../components/Icon';
 import { createChannel } from '../services/helpers';
 import { getTypeCard, JellyfishStream, streamQueryView } from '../services/sdk';
@@ -140,29 +140,30 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 		}
 
 		return (
-			<Flex flexDirection='column' style={{ height: '100%', overflowY: 'auto', borderRight: '1px solid #ccc', minWidth: 450, position: 'relative' }}>
+			<Flex
+				flexDirection='column'
+				flex='1 0 auto'
+				style={{ height: '100%', overflowY: 'auto', borderRight: '1px solid #ccc', minWidth: 450, position: 'relative' }}>
 				{head &&
 					<Box>
-						<Heading.h4 m={3}>{head.name}</Heading.h4>
+						<Flex mt={3} align='space-between'>
+							{useFilters &&
+								<Box mx={3} flex='1 0 auto'>
+									<Filters
+										schema={(tailType as any).data.schema.properties.data}
+										onFiltersUpdate={(filters) => this.setState({ filters })}
+										addFilterButtonProps={{
+											style: { flex: '0 0 137px' },
+										}}
+										viewsMenuButtonProps={{
+											w: 120,
+										}}
+									/>
+								</Box>
+							}
 
-						{useFilters &&
-							<Box mx={3} mb={2}>
-								<Filters
-									schema={(tailType as any).data.schema.properties.data}
-									onFiltersUpdate={(filters) => this.setState({ filters })}
-									addFilterButtonProps={{
-										style: { flex: '1 0 135px' },
-									}}
-									viewsMenuButtonProps={{
-										w: 115,
-									}}
-								/>
-							</Box>
-						}
-
-						{this.state.lenses.length > 1 &&
-							<Flex px={3} pb={2} justify='flex-end'>
-								<Box>
+							{this.state.lenses.length > 1 &&
+								<ButtonGroup mr={3}>
 									{_.map(this.state.lenses, lens =>
 										<Button
 											key={lens.slug}
@@ -172,9 +173,9 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 											<Icon name={lens.data.icon} />
 										</Button>,
 									)}
-								</Box>
-							</Flex>
-						}
+								</ButtonGroup>
+							}
+						</Flex>
 
 						<Divider color='#ccc' mb={0} />
 					</Box>

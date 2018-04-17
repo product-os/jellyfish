@@ -9,7 +9,7 @@ import {
 	Fixed,
 	Flex,
 	Link,
-	Text,
+	Txt,
 } from 'rendition';
 import styled from 'styled-components';
 import { Card, JellyfishState, RendererProps } from '../../Types';
@@ -44,6 +44,7 @@ const MenuPanel = styled(Box)`
 interface HomeChannelProps extends RendererProps {
 	user: null | Card;
 	actions: typeof actionCreators;
+	allChannels: JellyfishState['channels'];
 }
 
 interface HomeChannelState {
@@ -81,8 +82,10 @@ class HomeChannel extends React.Component<HomeChannelProps, HomeChannelState> {
 	}
 
 	public render() {
-		const { head } = this.props.channel.data;
+		const { allChannels, channel: { data: { head } } } = this.props;
 		const { tail } = this.state;
+
+		const activeCard = allChannels.length > 1 ? allChannels[1].data.target : null;
 
 		const email = this.props.user ? this.props.user.data!.email : null;
 		const username = this.props.user ? this.props.user.slug!.replace(/user-/, '') : null;
@@ -93,7 +96,7 @@ class HomeChannel extends React.Component<HomeChannelProps, HomeChannelState> {
 
 		return (
 			<Flex flexDirection='column'
-				style={{ height: '100%', overflowY: 'auto', borderRight: '1px solid #ccc', minWidth: 270 }}>
+				style={{ height: '100%', overflowY: 'auto', borderRight: '1px solid #ccc', minWidth: 220 }}>
 				<Flex
 					bg='#333'
 					align='center'
@@ -103,7 +106,9 @@ class HomeChannel extends React.Component<HomeChannelProps, HomeChannelState> {
 					style={{ cursor: 'pointer'}}
 					onClick={() => this.setState({ showMenu: true })}>
 					<Gravatar email={email} />
-					{!!username && <Text mx={3}>{username}</Text>}
+
+					{!!username && <Txt mx={3}>{username}</Txt>}
+
 					<Icon name='caret-down' />
 				</Flex>
 
@@ -117,8 +122,8 @@ class HomeChannel extends React.Component<HomeChannelProps, HomeChannelState> {
 					</Fixed>
 				}
 
-				<Box flex='1' p={3} bg='#333'>
-					{!tail && <Icon style={{color: 'white'}} name='cog fa-spin' />}
+				<Box flex='1' bg='#333' pt={3}>
+					{!tail && <Box p={3}><Icon style={{color: 'white'}} name='cog fa-spin' /></Box>}
 
 					{!!tail && _.map(tail, (card) => {
 						// A view shouldn't be able to display itself
@@ -126,10 +131,19 @@ class HomeChannel extends React.Component<HomeChannelProps, HomeChannelState> {
 							return null;
 						}
 
+						const isActive = card.id === activeCard;
+
 						return (
-							<Box key={card.id} mb={3}>
-								<Link color='white' onClick={() => this.open(card)}>{card.name}</Link>
-							</Box>
+							<Link
+								style={{display: 'block'}}
+								key={card.id}
+								bg={isActive ? '#666' : 'none'}
+								py={2}
+								px={3}
+								color={isActive ? 'white' : '#c3c3c3'}
+								onClick={() => this.open(card)}>
+								{card.name}
+							</Link>
 						);
 					})}
 				</Box>
@@ -140,6 +154,7 @@ class HomeChannel extends React.Component<HomeChannelProps, HomeChannelState> {
 
 const mapStateToProps = (state: JellyfishState) => ({
 	user: state.session ? state.session.user : null,
+	allChannels: state.channels,
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

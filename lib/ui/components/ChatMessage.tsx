@@ -5,7 +5,7 @@ import {
 	Box,
 	Button,
 	Flex,
-	Text,
+	Txt,
 } from 'rendition';
 import { Card } from '../../Types';
 import { getUsername } from '../services/sdk';
@@ -41,17 +41,17 @@ export default class ChatMessage extends React.Component<ChatMessageProps, { use
 					plaintext
 					onClick={() => openChannel && openChannel(card.data.target)}
 					mr={3} >
-					<Text color={threadColor(card.data.target)}>
+					<Txt color={threadColor(card.data.target)}>
 						<Icon name='comment fa-flip-horizontal' />
-					</Text>
+					</Txt>
 				</Button>
 				<Box flex='1'>
 					<Flex justify='space-between' mb={2}>
-						<Text bold>{this.state.username}</Text>
-						<Text fontSize={1}>{card.data.timestamp}</Text>
+						<Txt bold>{this.state.username}</Txt>
+						<Txt fontSize={1}>{card.data.timestamp}</Txt>
 					</Flex>
 
-					<Text>{card.data.payload.message}</Text>
+					<Txt>{card.data.payload.message}</Txt>
 				</Box>
 			</Flex>
 		);

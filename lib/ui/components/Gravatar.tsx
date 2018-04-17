@@ -1,7 +1,7 @@
 import * as Promise from 'bluebird';
 import md5 = require('blueimp-md5');
 import * as React from 'react';
-import { Box, Image as RImage } from 'rendition';
+import { Box, Img } from 'rendition';
 import Icon from './Icon';
 
 const GRAVATAR_URL = 'https://www.gravatar.com/avatar/';
@@ -58,7 +58,7 @@ export default class Gravatar extends React.Component<GravatarProps, GravatarSta
 	public render() {
 		if (this.state.avatarUrl) {
 			return (
-				<RImage w={36} style={{borderRadius: '50%'}} src={this.state.avatarUrl} />
+				<Img w={36} style={{borderRadius: '50%'}} src={this.state.avatarUrl} />
 			);
 		}
 
