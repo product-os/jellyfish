@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import * as React from 'react';
-import { Box, Text } from 'rendition';
+import { Box, Txt } from 'rendition';
 
 interface DataRendererProps {
 	data: any;
@@ -25,9 +25,9 @@ const DataRenderer = (props: DataRendererProps): JSX.Element => {
 	return (
 		<Box mb={3}>
 			{labelText.length > 0 && <strong>{labelText.join('.')}</strong>}
-			<Text>
+			<Txt>
 				{`${data}`}
-			</Text>
+			</Txt>
 		</Box>
 	);
 };

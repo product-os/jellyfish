@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Box, Divider, Heading, Link, Text } from 'rendition';
+import { Box, Divider, Heading, Link, Txt } from 'rendition';
 import styled from 'styled-components';
 import { Card, Channel } from '../../Types';
 import { createChannel } from '../services/helpers';
@@ -27,10 +27,10 @@ const CardField = ({ field, payload }: {
 		<React.Fragment>
 			<Heading.h4 my={3}>{field}</Heading.h4>
 			{_.isObject(payload[field]) ?
-				<Text monospace>
+				<Txt monospace>
 					<DataContainer>{JSON.stringify(payload[field], null, 4)}</DataContainer>
-				</Text>
-				: <Text>{`${payload[field]}`}</Text>}
+				</Txt>
+				: <Txt>{`${payload[field]}`}</Txt>}
 		</React.Fragment>
 	);
 };

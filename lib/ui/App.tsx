@@ -19,7 +19,7 @@ interface AppProps {
 }
 
 class App extends React.Component<AppProps, {}> {
-	private channelDOMElement: HTMLDivElement;
+	private channelDOMElement: HTMLElement;
 
 	constructor(props: AppProps) {
 		super(props);

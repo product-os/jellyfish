@@ -6,10 +6,10 @@ import {
 	Container,
 	Divider,
 	Heading,
-	Image,
+	Img,
 	Input,
 	Link,
-	Text,
+	Txt,
 } from 'rendition';
 import * as sdk from '../services/sdk';
 import Icon from './Icon';
@@ -76,7 +76,7 @@ export default class Login extends React.Component<{}, LoginState> {
 		return (
 			<React.Fragment>
 				<TopBar>
-					<Image w={70} pl={2} p={10} src='/icons/jellyfish.svg' />
+					<Img w={70} pl={2} p={10} src='/icons/jellyfish.svg' />
 
 					<Button mr={3} onClick={() => this.setState({ showSignup: !this.state.showSignup })}>
 						{this.state.showSignup ? 'Log in' : 'Sign up'}
@@ -86,10 +86,10 @@ export default class Login extends React.Component<{}, LoginState> {
 					<Box mx='auto' style={{maxWidth: 470}}>
 						{this.state.showSignup &&
 							<React.Fragment>
-								<Text align='center' mb={4} >
+								<Txt align='center' mb={4} >
 									<Heading.h2 mb={2}>Sign up to Jellyfish</Heading.h2>
 									<span>Enter your details below</span>
-								</Text>
+								</Txt>
 
 								<Divider color='#eee' mb={4} />
 
@@ -98,7 +98,7 @@ export default class Login extends React.Component<{}, LoginState> {
 								}
 
 								<form onSubmit={(e) => e.preventDefault() || this.signup()}>
-									<Text fontSize={1} mb={1}>Email</Text>
+									<Txt fontSize={1} mb={1}>Email</Txt>
 									<Input
 										mb={5}
 										w='100%'
@@ -109,7 +109,7 @@ export default class Login extends React.Component<{}, LoginState> {
 										onChange={(e) => this.setState({ email: e.target.value })}
 									/>
 
-									<Text fontSize={1} mb={1}>Username</Text>
+									<Txt fontSize={1} mb={1}>Username</Txt>
 									<Input
 										mb={5}
 										w='100%'
@@ -119,7 +119,7 @@ export default class Login extends React.Component<{}, LoginState> {
 										onChange={(e) => this.setState({ username: e.target.value })}
 									/>
 
-									<Text fontSize={1} mb={1}>Password</Text>
+									<Txt fontSize={1} mb={1}>Password</Txt>
 									<Input
 										mb={5}
 										w='100%'
@@ -141,19 +141,19 @@ export default class Login extends React.Component<{}, LoginState> {
 											{this.state.loggingIn ? <Icon name='cog fa-spin' /> : 'Sign up' }
 										</Button>
 									</Box>
-									<Text color='#908c99' fontSize={0} my={4} align='center'>
+									<Txt color='#908c99' fontSize={0} my={4} align='center'>
 										By clicking "Sign up" you confirm that you have performed the <Link blank href='https://bosshamster.deviantart.com/art/Summoning-Cthulhu-For-Dummies-31645860'>initiation rituals</Link>
-									</Text>
+									</Txt>
 								</form>
 							</React.Fragment>
 						}
 
 						{!this.state.showSignup &&
 							<React.Fragment>
-								<Text align='center' mb={4} >
+								<Txt align='center' mb={4} >
 									<Heading.h2 mb={2}>Log in to Jellyfish</Heading.h2>
 									<span>Enter your details below</span>
-								</Text>
+								</Txt>
 
 								<Divider color='#eee' mb={4} />
 
@@ -162,7 +162,7 @@ export default class Login extends React.Component<{}, LoginState> {
 								}
 
 								<form onSubmit={(e) => e.preventDefault() || this.login()}>
-									<Text fontSize={1} mb={1}>Username</Text>
+									<Txt fontSize={1} mb={1}>Username</Txt>
 									<Input
 										mb={5}
 										w='100%'
@@ -172,7 +172,7 @@ export default class Login extends React.Component<{}, LoginState> {
 										onChange={(e) => this.setState({ username: e.target.value })}
 									/>
 
-									<Text fontSize={1} mb={1}>Password</Text>
+									<Txt fontSize={1} mb={1}>Password</Txt>
 									<Input
 										mb={5}
 										w='100%'

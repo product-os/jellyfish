@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import {
 	Box,
 	Flex,
-	Text,
+	Txt,
 	Textarea,
 } from 'rendition';
 import { Card, JellyfishState, Lens, RendererProps } from '../../Types';
@@ -153,9 +153,9 @@ export class Renderer extends React.Component<DefaultRendererProps, RendererStat
 						<Box key={card.id} my={3}><ChatMessage card={card} /></Box>)}
 
 					{(!!tail && tail.length === 0) &&
-						<Text color='#ccc'>
+						<Txt color='#ccc'>
 							<em>There are no messages in this thread yet, trying adding one using the input below</em>
-						</Text>
+						</Txt>
 					}
 				</Box>
 
