@@ -33,4 +33,3 @@ export const queryStringEncode = (input: any) => {
 		pair.map(encodeURIComponent).join('='),
 	).join('&');
 };
-
