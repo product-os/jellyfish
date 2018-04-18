@@ -1,9 +1,10 @@
+import * as Promise from 'bluebird';
 import { EventEmitter } from 'events';
 import { JSONSchema6 } from 'json-schema';
 import * as io from 'socket.io-client';
 import { Card } from '../../../Types';
+import { getRequest, getToken, postRequest, queryStringEncode } from './utils';
 import { API_URL } from './constants';
-import { getToken } from './utils';
 
 interface EventMap {
 	data: {
@@ -69,8 +70,23 @@ export class JellyfishStream extends EventEmitter {
 	}
 }
 
-export const streamQuery = (schema: JSONSchema6) =>
-	new JellyfishStream('query', { schema });
+export const stream = (query: JSONSchema6 | string | Card) =>
+	new JellyfishStream('query', { query });
 
-export const streamQueryView = (view: string | Card) =>
-	new JellyfishStream('queryView', { view });
+export const query = <T = Card>(schema: JSONSchema6 | string): Promise<T[]> =>
+	getRequest(`query?${queryStringEncode(schema)}`)
+		.then(response => response.data.data);
+
+export const action = (body: {
+	target: string;
+	action: string;
+	arguments?: any;
+	transient?: any;
+}) => {
+	if (!body.arguments) {
+		body.arguments = {};
+	}
+
+	return postRequest('action', body);
+};
+

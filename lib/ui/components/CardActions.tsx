@@ -26,7 +26,7 @@ export default class CardActions extends React.Component<
 	constructor(props: CardActionProps) {
 		super(props);
 
-		const cardType = sdk.getTypeCard(this.props.card.type);
+		const cardType = sdk.type.get(this.props.card.type);
 		const schema = cardType ? cardType.data.schema : {};
 
 		this.state = {
@@ -38,7 +38,7 @@ export default class CardActions extends React.Component<
 	}
 
 	public delete() {
-		sdk.deleteCard(this.props.card.id)
+		sdk.card.remove(this.props.card.id)
 		.then(() => this.props.delete());
 
 		this.setState({ showDeleteModal: false });
@@ -50,7 +50,7 @@ export default class CardActions extends React.Component<
 			this.state.editModel,
 		);
 
-		sdk.updateCard(this.props.card.id, updatedEntry)
+		sdk.card.update(this.props.card.id, updatedEntry)
 		.then(() => this.props.refresh());
 
 		this.setState({

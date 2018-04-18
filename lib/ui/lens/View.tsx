@@ -16,7 +16,7 @@ import { Card, JellyfishState, Lens, RendererProps, Type } from '../../Types';
 import ButtonGroup from '../components/ButtonGroup';
 import Icon from '../components/Icon';
 import { createChannel, debug } from '../services/helpers';
-import { addCard, getTypeCard, JellyfishStream, slugify, streamQueryView } from '../services/sdk';
+import * as sdk from '../services/sdk';
 import { actionCreators } from '../services/store';
 import LensService from './index';
 
@@ -36,7 +36,7 @@ interface ViewRendererProps extends RendererProps {
 const USER_FILTER_NAME = 'user-generated-filter';
 
 class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState> {
-	private stream: JellyfishStream;
+	private stream: sdk.db.JellyfishStream;
 
 	constructor(props: ViewRendererProps) {
 		super(props);
@@ -74,7 +74,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 		let tailType: Type | null = null;
 
 		if (tail && tail.length) {
-			tailType = getTypeCard(tail[0].type) || null;
+			tailType = sdk.type.get(tail[0].type) || null;
 		}
 
 		// If there is no tail, make a best guess at the type
@@ -83,7 +83,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 				|| _.get(head, 'data.oneOf[0].schema.properties.type.const');
 
 			if (foundType) {
-				tailType = getTypeCard(foundType) || null;
+				tailType = sdk.type.get(foundType) || null;
 			}
 
 		}
@@ -109,7 +109,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 
 		debug('STREAMING TAIL USING VIEW', view)
 
-		this.stream = streamQueryView(view);
+		this.stream = sdk.db.stream(view);
 
 		this.stream.on('data', (response) => {
 			this.setTail(response.data);
@@ -143,7 +143,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 	}
 
 	public saveView(view: FiltersView) {
-		addCard(this.createView(view))
+		sdk.card.add(this.createView(view))
 		.then(
 			(response) => this.props.actions.addChannel(createChannel({
 				target: response.results.data,
@@ -157,7 +157,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 		const newView = _.cloneDeep(this.props.channel.data.head!);
 
 		newView.name = view.name;
-		newView.slug = 'view-user-created-view-' + slugify(view.name);
+		newView.slug = 'view-user-created-view-' + sdk.utils.slugify(view.name);
 
 		if (!newView.data.allOf) {
 			newView.data.allOf = [];

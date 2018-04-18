@@ -40,10 +40,10 @@ export const actionCreators = {
 		value: state,
 	}),
 	loadChannelData: (channel: Channel): JellyThunk => (dispatch) => {
-		sdk.getCard(channel.data.target)
+		sdk.card.get(channel.data.target)
 		.then((head) => {
 			const clonedChannel = _.cloneDeep(channel);
-			clonedChannel.data.head = head;
+			clonedChannel.data.head = head!;
 
 			dispatch({
 				type: actions.UPDATE_CHANNEL,
