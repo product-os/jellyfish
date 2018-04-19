@@ -7,7 +7,7 @@ import { Card, Lens, RendererProps } from '../../Types';
 import CardActions from '../components/CardActions';
 import CardRenderer from '../components/CardRenderer';
 import Icon from '../components/Icon';
-import { getTimeline } from '../services/sdk';
+import * as sdk from '../services/sdk';
 import { actionCreators } from '../services/store';
 
 interface RendererState {
@@ -33,7 +33,7 @@ export class Renderer extends React.Component<DefaultRendererProps, RendererStat
 	}
 
 	public loadTail() {
-		getTimeline(this.props.channel.data.target)
+		sdk.card.getTimeline(this.props.channel.data.target)
 		.then((tail) => this.setState({ tail }));
 	}
 

@@ -12,7 +12,7 @@ import { Card, JellyfishState, Lens, RendererProps } from '../../Types';
 import ChatMessage from '../components/ChatMessage';
 import Icon from '../components/Icon';
 import { getCurrentTimestamp } from '../services/helpers';
-import { addCard, JellyfishStream, streamQuery } from '../services/sdk';
+import * as sdk from '../services/sdk';
 import { actionCreators } from '../services/store';
 
 interface RendererState {
@@ -27,7 +27,7 @@ interface DefaultRendererProps extends RendererProps {
 
 // Default renderer for a card and a timeline
 export class Renderer extends React.Component<DefaultRendererProps, RendererState> {
-	private stream: JellyfishStream;
+	private stream: sdk.db.JellyfishStream;
 	private scrollArea: HTMLElement;
 	private shouldScroll: boolean = true;
 
@@ -73,7 +73,7 @@ export class Renderer extends React.Component<DefaultRendererProps, RendererStat
 	}
 
 	public streamTail() {
-		this.stream = streamQuery({
+		this.stream = sdk.db.stream({
 			type: 'object',
 			properties: {
 				type: {
@@ -128,7 +128,7 @@ export class Renderer extends React.Component<DefaultRendererProps, RendererStat
 
 		this.setState({ newMessage: '' });
 
-		return addCard({
+		return sdk.card.add({
 			type: 'chat-message',
 			data: {
 				timestamp: getCurrentTimestamp(),

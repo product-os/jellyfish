@@ -8,7 +8,7 @@ import {
 	Txt,
 } from 'rendition';
 import { Card } from '../../Types';
-import { getUsername } from '../services/sdk';
+import * as sdk from '../services/sdk';
 import Icon from './Icon';
 
 const colorHash = new ColorHash();
@@ -28,7 +28,7 @@ export default class ChatMessage extends React.Component<ChatMessageProps, { use
 			username: '',
 		};
 
-		getUsername(props.card.data.actor)
+		sdk.user.getUsername(props.card.data.actor)
 		.then((username) => this.setState({ username }));
 	}
 

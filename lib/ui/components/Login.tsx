@@ -47,7 +47,7 @@ export default class Login extends React.Component<{}, LoginState> {
 			signupError: '',
 		});
 
-		sdk.signup({
+		sdk.user.signup({
 			username,
 			password,
 			email,
@@ -62,7 +62,7 @@ export default class Login extends React.Component<{}, LoginState> {
 		const { username, password } = this.state;
 		this.setState({ loggingIn: true });
 
-		sdk.login({
+		sdk.user.login({
 			username,
 			password,
 		})

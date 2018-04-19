@@ -37,7 +37,7 @@ class CardList extends React.Component<CardListProps, CardListState> {
 	}
 
 	public createThread() {
-		sdk.addCard({
+		sdk.card.add({
 			type: 'chat-thread',
 		})
 		.then(({ results }) => {

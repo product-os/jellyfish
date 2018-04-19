@@ -4,7 +4,7 @@ import {
 	Modal,
 } from 'rendition';
 import { Card, Type } from '../../Types';
-import { addCard } from '../services/sdk';
+import { card } from '../services/sdk';
 
 interface CardCreatorState {
 	newCardModel: {[key: string]: any };
@@ -31,7 +31,7 @@ export default class CardCreator extends React.Component<CardCreatorProps, CardC
 			...this.state.newCardModel,
 		};
 
-		addCard(newCard as Card);
+		card.add(newCard as Card);
 
 		this.setState({
 			newCardModel: {},

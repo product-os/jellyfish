@@ -14,7 +14,7 @@ import {
 import styled from 'styled-components';
 import { Card, JellyfishState, RendererProps } from '../../Types';
 import { createChannel } from '../services/helpers';
-import { JellyfishStream, streamQueryView } from '../services/sdk';
+import { db } from '../services/sdk';
 import { actionCreators } from '../services/store';
 import Gravatar from './Gravatar';
 import Icon from './Icon';
@@ -53,7 +53,7 @@ interface HomeChannelState {
 }
 
 class HomeChannel extends React.Component<HomeChannelProps, HomeChannelState> {
-	private stream: JellyfishStream;
+	private stream: db.JellyfishStream;
 
 	constructor(props: HomeChannelProps) {
 		super(props);
@@ -71,7 +71,7 @@ class HomeChannel extends React.Component<HomeChannelProps, HomeChannelState> {
 	}
 
 	public streamTail() {
-		this.stream = streamQueryView(this.props.channel.data.target);
+		this.stream = db.stream(this.props.channel.data.target);
 
 		this.stream.on('data', (response) => {
 			this.setState({ tail: response.data });
