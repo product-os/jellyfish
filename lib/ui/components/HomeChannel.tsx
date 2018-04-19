@@ -14,10 +14,10 @@ import {
 import styled from 'styled-components';
 import { Card, JellyfishState, RendererProps } from '../../Types';
 import { createChannel } from '../services/helpers';
-import { db } from '../services/sdk';
 import { actionCreators } from '../services/store';
 import Gravatar from './Gravatar';
 import Icon from './Icon';
+import TailStreamer from './TailStreamer';
 
 const MenuPanel = styled(Box)`
 	position: absolute;
@@ -52,9 +52,7 @@ interface HomeChannelState {
 	tail: null | Card[];
 }
 
-class HomeChannel extends React.Component<HomeChannelProps, HomeChannelState> {
-	private stream: db.JellyfishStream;
-
+class HomeChannel extends TailStreamer<HomeChannelProps, HomeChannelState> {
 	constructor(props: HomeChannelProps) {
 		super(props);
 
@@ -63,37 +61,7 @@ class HomeChannel extends React.Component<HomeChannelProps, HomeChannelState> {
 			tail: null,
 		};
 
-		this.streamTail();
-	}
-
-	public componentWillUnmount() {
-		this.stream.destroy();
-	}
-
-	public streamTail() {
-		this.stream = db.stream(this.props.channel.data.target);
-
-		this.stream.on('data', (response) => {
-			this.setState({ tail: response.data });
-		});
-
-		this.stream.on('update', (response) => {
-			// If before is non-null then the card has been updated
-			if (response.data.before) {
-				return this.setState((prevState) => {
-					if (prevState.tail) {
-						const index = _.findIndex(prevState.tail, { id: response.data.before.id });
-						prevState.tail.splice(index, 1, response.data.after);
-					}
-					return { tail: prevState.tail };
-				});
-			}
-
-			const tail = this.state.tail || [];
-			tail.push(response.data.after);
-
-			this.setState({ tail });
-		});
+		this.streamTail(this.props.channel.data.target);
 	}
 
 	public open(card: Card) {

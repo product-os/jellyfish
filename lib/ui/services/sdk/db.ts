@@ -20,7 +20,7 @@ interface EventMap {
 		};
 	};
 
-	error: {
+	streamError: {
 		error: true;
 		data: string;
 	};
@@ -50,6 +50,10 @@ export class JellyfishStream extends EventEmitter {
 
 		this.socket.on('update', (data: EventMap['update']) => {
 			this.emit('update', data);
+		});
+
+		this.socket.on('streamError', (data: EventMap['streamError']) => {
+			this.emit('streamError', data);
 		});
 	}
 

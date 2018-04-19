@@ -15,7 +15,8 @@ import {
 import { Card, JellyfishState, Lens, RendererProps, Type } from '../../Types';
 import ButtonGroup from '../components/ButtonGroup';
 import Icon from '../components/Icon';
-import { createChannel, debug } from '../services/helpers';
+import TailStreamer from '../components/TailStreamer';
+import { createChannel } from '../services/helpers';
 import * as sdk from '../services/sdk';
 import { actionCreators } from '../services/store';
 import LensService from './index';
@@ -35,9 +36,7 @@ interface ViewRendererProps extends RendererProps {
 
 const USER_FILTER_NAME = 'user-generated-filter';
 
-class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState> {
-	private stream: sdk.db.JellyfishStream;
-
+class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 	constructor(props: ViewRendererProps) {
 		super(props);
 
@@ -54,10 +53,6 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 		};
 
 		this.streamTail(this.props.channel.data.target);
-	}
-
-	public componentWillUnmount() {
-		this.stream.destroy();
 	}
 
 	public componentWillReceiveProps(nextProps: ViewRendererProps) {
@@ -99,38 +94,6 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 			lenses,
 			activeLens,
 			tailType,
-		});
-	}
-
-	public streamTail(view: string | Card) {
-		if (this.stream) {
-			this.stream.destroy();
-		}
-
-		debug('STREAMING TAIL USING VIEW', view)
-
-		this.stream = sdk.db.stream(view);
-
-		this.stream.on('data', (response) => {
-			this.setTail(response.data);
-		});
-
-		this.stream.on('update', (response) => {
-			// If before is non-null then the card has been updated
-			if (response.data.before) {
-				return this.setState((prevState) => {
-					if (prevState.tail) {
-						const index = _.findIndex(prevState.tail, { id: response.data.before.id });
-						prevState.tail.splice(index, 1, response.data.after);
-					}
-					return { tail: prevState.tail };
-				});
-			}
-
-			const tail = this.state.tail || [];
-			tail.push(response.data.after);
-
-			this.setTail(tail);
 		});
 	}
 

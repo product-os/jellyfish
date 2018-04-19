@@ -36,6 +36,13 @@ export interface Contract {
 	assets?: { [key: string]: string };
 }
 
+export interface Notification {
+	id: string;
+	type: 'success' | 'danger' | 'warning' | 'info';
+	message: string;
+	timestamp: string;
+}
+
 export interface JellyfishState {
 	// A unique identifier for this app instance
 	channels: Channel[];
@@ -44,6 +51,7 @@ export interface JellyfishState {
 		authToken: string | null;
 		user?: Card;
 	};
+	notifications: Notification[];
 }
 
 export interface Card {

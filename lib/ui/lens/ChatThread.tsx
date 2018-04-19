@@ -1,3 +1,4 @@
+import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -11,6 +12,7 @@ import {
 import { Card, JellyfishState, Lens, RendererProps } from '../../Types';
 import ChatMessage from '../components/ChatMessage';
 import Icon from '../components/Icon';
+import TailStreamer from '../components/TailStreamer';
 import { getCurrentTimestamp } from '../services/helpers';
 import * as sdk from '../services/sdk';
 import { actionCreators } from '../services/store';
@@ -26,8 +28,7 @@ interface DefaultRendererProps extends RendererProps {
 }
 
 // Default renderer for a card and a timeline
-export class Renderer extends React.Component<DefaultRendererProps, RendererState> {
-	private stream: sdk.db.JellyfishStream;
+export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> {
 	private scrollArea: HTMLElement;
 	private shouldScroll: boolean = true;
 
@@ -39,13 +40,30 @@ export class Renderer extends React.Component<DefaultRendererProps, RendererStat
 			newMessage: '',
 		};
 
-		this.streamTail();
+		const querySchema: JSONSchema6 = {
+			type: 'object',
+			properties: {
+				type: {
+					const: 'chat-message',
+				},
+				data: {
+					type: 'object',
+					properties: {
+						target: {
+							const: this.props.channel.data.target,
+						},
+					},
+					required: [ 'target' ],
+					additionalProperties: true,
+				},
+			},
+			required: [ 'type', 'data' ],
+			additionalProperties: true,
+		};
+
+		this.streamTail(querySchema);
 
 		setTimeout(() => this.scrollToBottom(), 1000);
-	}
-
-	public componentWillUnmount() {
-		this.stream.destroy();
 	}
 
 	public componentWillUpdate() {
@@ -70,52 +88,6 @@ export class Renderer extends React.Component<DefaultRendererProps, RendererStat
 		if (this.shouldScroll) {
 			this.scrollArea.scrollTop = this.scrollArea.scrollHeight;
 		}
-	}
-
-	public streamTail() {
-		this.stream = sdk.db.stream({
-			type: 'object',
-			properties: {
-				type: {
-					const: 'chat-message',
-				},
-				data: {
-					type: 'object',
-					properties: {
-						target: {
-							const: this.props.channel.data.target,
-						},
-					},
-					required: [ 'target' ],
-					additionalProperties: true,
-				},
-			},
-			required: [ 'type', 'data' ],
-			additionalProperties: true,
-		});
-
-		this.stream.on('data', (response) => {
-			this.setState({ tail: response.data });
-		});
-
-		this.stream.on('update', (response) => {
-			// If `before` is non-null then the card has been updated
-			if (response.data.before) {
-				return this.setState((prevState) => {
-					if (prevState.tail) {
-						const index = _.findIndex(prevState.tail, { id: response.data.before.id });
-						prevState.tail.splice(index, 1, response.data.after);
-					}
-					return { tail: prevState.tail };
-				});
-			}
-
-			return this.setState((prevState) => {
-				const tail = prevState.tail || [];
-				tail.push(response.data.after);
-				return { tail };
-			});
-		});
 	}
 
 	public delete() {

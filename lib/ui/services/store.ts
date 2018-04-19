@@ -2,7 +2,8 @@ import * as localForage from 'localforage';
 import * as _ from 'lodash';
 import { applyMiddleware, createStore, Middleware } from 'redux';
 import thunk, { ThunkAction } from 'redux-thunk';
-import { Card, Channel, JellyfishState, Type } from '../../Types';
+import uuid = require('uuid/v4');
+import { Card, Channel, JellyfishState, Notification, Type } from '../../Types';
 import { createChannel, debug } from './helpers';
 import * as sdk from './sdk';
 import {
@@ -20,6 +21,7 @@ interface Action {
 }
 
 const STORAGE_KEY = 'jellyfish_store';
+const NOTIFICATION_LIFETIME = 10 * 1000;
 
 const actions = {
 	SET_STATE: 'SET_STATE',
@@ -30,6 +32,8 @@ const actions = {
 	SET_AUTHTOKEN: 'SET_AUTHTOKEN',
 	LOGOUT: 'LOGOUT',
 	SET_USER: 'SET_USER',
+	ADD_NOTIFICATION: 'ADD_NOTIFICATION',
+	REMOVE_NOTIFICATION: 'REMOVE_NOTIFICATION',
 };
 
 type JellyThunk = ThunkAction<void, JellyfishState, void>;
@@ -78,6 +82,27 @@ export const actionCreators = {
 		type: actions.SET_TYPES,
 		value: types,
 	}),
+	addNotification: (type: Notification['type'], message: string): JellyThunk =>
+		(dispatch) => {
+			const id = uuid();
+			dispatch({
+				type: actions.ADD_NOTIFICATION,
+				value: {
+					id,
+					type,
+					message,
+					timestamp: Date.now(),
+				},
+			});
+
+			setTimeout(() => {
+				dispatch(actionCreators.removeNotification(id));
+			}, NOTIFICATION_LIFETIME);
+		},
+	removeNotification: (id: string) => ({
+		type: actions.REMOVE_NOTIFICATION,
+		value: id,
+	}),
 };
 
 const logger: Middleware = (store) => (next) => (action: any) => {
@@ -95,6 +120,7 @@ const defaultState = (): JellyfishState => ({
 	],
 	types: [],
 	session: null,
+	notifications: [],
 });
 
 const save = (state: JellyfishState) => {
@@ -107,7 +133,10 @@ const load = () => {
 		if (state) {
 			store.dispatch({
 				type: actions.SET_STATE,
-				value: state,
+				// Ensure that the stored state has a safe structure buy merging it with
+				// the default state. This helps gaurd against situations where the
+				// defaultstate changes or localStorage becomes corrupted.
+				value: _.merge(defaultState(), state),
 			});
 
 			// load URL route
@@ -177,6 +206,19 @@ const reducer = (state: JellyfishState, action: Action) => {
 
 		case actions.SET_TYPES:
 			newState.types = action.value;
+
+			return newState;
+
+		case actions.ADD_NOTIFICATION:
+			newState.notifications.push(action.value);
+
+			// Keep at most 2 notifications
+			newState.notifications = newState.notifications.slice(-2);
+
+			return newState;
+
+		case actions.REMOVE_NOTIFICATION:
+			newState.notifications = _.reject(newState.notifications, { id: action.value });
 
 			return newState;
 
