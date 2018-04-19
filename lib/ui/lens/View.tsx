@@ -113,7 +113,9 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 				parentChannel: this.props.allChannels[0].id,
 			})),
 		)
-		.catch(console.error);
+		.catch((error) => {
+			this.props.actions.addNotification('danger', error.message);
+		});
 	}
 
 	public createView(view: FiltersView) {

@@ -34,7 +34,10 @@ export class Renderer extends React.Component<DefaultRendererProps, RendererStat
 
 	public loadTail() {
 		sdk.card.getTimeline(this.props.channel.data.target)
-		.then((tail) => this.setState({ tail }));
+		.then((tail) => this.setState({ tail }))
+		.catch((error) => {
+			this.props.actions.addNotification('danger', error.message);
+		});
 	}
 
 	public refresh() {

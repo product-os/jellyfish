@@ -6,8 +6,13 @@ import {
 	Box,
 	Fixed,
 } from 'rendition';
+import styled from 'styled-components';
 import { JellyfishState } from '../../Types';
 import { actionCreators } from '../services/store';
+
+const MessageText = styled.span`
+	white-space: pre;
+`;
 
 interface NotificationsProps {
 	actions: typeof actionCreators;
@@ -34,7 +39,7 @@ class Notifications extends React.Component<NotificationsProps, {}> {
 								info={type === 'info'}
 								onDismiss={() => this.props.actions.removeNotification(id)}
 							>
-								{message}
+								<MessageText>{message}</MessageText>
 							</Alert>
 						);
 					})}

@@ -110,6 +110,9 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 					message: newMessage,
 				},
 			},
+		})
+		.catch((error) => {
+			this.props.actions.addNotification('danger', error.message);
 		});
 	}
 
