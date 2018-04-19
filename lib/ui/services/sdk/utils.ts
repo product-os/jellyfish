@@ -86,16 +86,16 @@ const handleError = (e: AxiosError) => {
 };
 
 interface ServerResponse {
-	error: null | string;
+	error: boolean;
 	data: any;
 }
 
-export const getRequest = (endpoint: string, options?: AxiosRequestConfig) =>
-	Promise.try(() => axios.get<ServerResponse>(`${API_BASE}${endpoint}`, withAuth(options) 	))
+export const getRequest = <R = ServerResponse>(endpoint: string, options?: AxiosRequestConfig) =>
+	Promise.try(() => axios.get<R>(`${API_BASE}${endpoint}`, withAuth(options) 	))
 		.catch(handleError);
 
-export const postRequest = (endpoint: string, body: any, options?: AxiosRequestConfig) =>
-	Promise.try(() => axios.post<ServerResponse>(`${API_BASE}${endpoint}`, body, withAuth(options)))
+export const postRequest = <R = ServerResponse>(endpoint: string, body: any, options?: AxiosRequestConfig) =>
+	Promise.try(() => axios.post<R>(`${API_BASE}${endpoint}`, body, withAuth(options)))
 		.catch(handleError);
 
 export const slugify = (text: string) => text.toLowerCase()

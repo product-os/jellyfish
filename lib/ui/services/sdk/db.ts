@@ -20,7 +20,7 @@ interface EventMap {
 		};
 	};
 
-	error: {
+	streamError: {
 		error: true;
 		data: string;
 	};
@@ -51,6 +51,10 @@ export class JellyfishStream extends EventEmitter {
 		this.socket.on('update', (data: EventMap['update']) => {
 			this.emit('update', data);
 		});
+
+		this.socket.on('streamError', (data: EventMap['streamError']) => {
+			this.emit('streamError', data);
+		});
 	}
 
 	// The `on` method is overloaded so we can add strict typings for event names
@@ -77,6 +81,18 @@ export const query = <T = Card>(schema: JSONSchema6 | string): Promise<T[]> =>
 	getRequest(`query?${queryStringEncode(schema)}`)
 		.then(response => response.data.data);
 
+interface ActionResponse {
+	error: boolean;
+	data: {
+		id: string;
+		results: {
+			data: any;
+			error: boolean;
+			timestamp: string;
+		};
+	};
+}
+
 export const action = (body: {
 	target: string;
 	action: string;
@@ -87,6 +103,13 @@ export const action = (body: {
 		body.arguments = {};
 	}
 
-	return postRequest('action', body);
+	return postRequest<ActionResponse>('action', body)
+		.then((response) => {
+			if (response.data.data.results.error) {
+				throw new Error(response.data.data.results.data);
+			}
+
+			return response;
+		});
 };
 

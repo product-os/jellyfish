@@ -1,3 +1,4 @@
+import * as Promise from 'bluebird';
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import { Card } from '../../../Types';
@@ -71,7 +72,7 @@ export const add = (card: Partial<Card> & { type: string }): Promise<{ id: strin
 	})
 		.then(response => response.data.data);
 
-export const update = (id: string, body: Partial<Card>): Promise<Card> =>
+export const update = (id: string, body: Partial<Card>) =>
 	action({
 		target: id,
 		action: 'action-update-card',
@@ -81,7 +82,7 @@ export const update = (id: string, body: Partial<Card>): Promise<Card> =>
 	})
 		.then(response => response.data.data);
 
-export const remove = (id: string): Promise<Card> =>
+export const remove = (id: string) =>
 	action({
 		target: id,
 		action: 'action-delete-card',

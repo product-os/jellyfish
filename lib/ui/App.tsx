@@ -6,6 +6,7 @@ import { JellyfishState } from '../Types';
 import ChannelRenderer from './components/ChannelRenderer';
 import HomeChannel from './components/HomeChannel';
 import Login from './components/Login';
+import Notifications from './components/Notifications';
 import * as sdk from './services/sdk';
 import { actionCreators } from './services/store';
 import './services/url-manager';
@@ -39,30 +40,30 @@ class App extends React.Component<AppProps, {}> {
 			return (
 				<Provider>
 					<Login />
+					<Notifications />
 				</Provider>
 			);
 		}
 
 		return (
 			<Provider style={{height: '100%'}}>
-				<Flex flexDirection='column' style={{height: '100%'}}>
-					<Flex flex='1' style={{overflowX: 'auto'}}
-						innerRef={(element) => this.channelDOMElement = element}>
-						{this.props.channels.map((channel, index) => {
-							if (index === 0) {
-								return <HomeChannel
-									key={channel.id}
-									channel={channel}
-								/>;
-							}
-
-							return <ChannelRenderer
+				<Flex flex='1' style={{overflowX: 'auto', height: '100%'}}
+					innerRef={(element) => this.channelDOMElement = element}>
+					{this.props.channels.map((channel, index) => {
+						if (index === 0) {
+							return <HomeChannel
 								key={channel.id}
 								channel={channel}
 							/>;
-						})}
-					</Flex>
+						}
+
+						return <ChannelRenderer
+							key={channel.id}
+							channel={channel}
+						/>;
+					})}
 				</Flex>
+				<Notifications />
 			</Provider>
 		);
 	}

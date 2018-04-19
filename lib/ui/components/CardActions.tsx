@@ -1,9 +1,12 @@
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import * as React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Button, Flex, Form, Modal, Txt } from 'rendition';
 import { Card } from '../../Types';
 import * as sdk from '../services/sdk';
+import { actionCreators } from '../services/store';
 import Icon from './Icon';
 
 interface CardActionsState {
@@ -17,9 +20,10 @@ interface CardActionProps {
 	card: Card;
 	refresh: () => void;
 	delete: () => void;
+	actions: typeof actionCreators;
 }
 
-export default class CardActions extends React.Component<
+class CardActions extends React.Component<
 	CardActionProps,
 	CardActionsState
 > {
@@ -39,7 +43,10 @@ export default class CardActions extends React.Component<
 
 	public delete() {
 		sdk.card.remove(this.props.card.id)
-		.then(() => this.props.delete());
+		.then(() => this.props.delete())
+		.catch((error) => {
+			this.props.actions.addNotification('danger', error.message);
+		});
 
 		this.setState({ showDeleteModal: false });
 	}
@@ -51,7 +58,10 @@ export default class CardActions extends React.Component<
 		);
 
 		sdk.card.update(this.props.card.id, updatedEntry)
-		.then(() => this.props.refresh());
+		.then(() => this.props.refresh())
+		.catch((error) => {
+			this.props.actions.addNotification('danger', error.message);
+		});
 
 		this.setState({
 			showEditModal: false,
@@ -120,3 +130,9 @@ export default class CardActions extends React.Component<
 	}
 
 }
+
+const mapDispatchToProps = (dispatch: any) => ({
+	actions: bindActionCreators(actionCreators, dispatch),
+});
+
+export default connect(null, mapDispatchToProps)(CardActions);

@@ -44,6 +44,9 @@ class CardList extends React.Component<CardListProps, CardListState> {
 			const threadId = results.data;
 
 			this.openChannel(threadId);
+		})
+		.catch((error) => {
+			this.props.actions.addNotification('danger', error.message);
 		});
 	}
 
@@ -92,7 +95,7 @@ class CardList extends React.Component<CardListProps, CardListState> {
 
 		return (
 			<React.Fragment>
-				<Box innerRef={(ref) => this.scrollArea = ref} px={3} flex='1' style={{overflowY: 'auto'}}>
+				<Box innerRef={(ref) => this.scrollArea = ref} flex='1' style={{overflowY: 'auto'}}>
 					{!!tail && _.map(tail, (card) => {
 
 						return (

@@ -1,10 +1,13 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import {
 	Form,
 	Modal,
 } from 'rendition';
 import { Card, Type } from '../../Types';
 import { card } from '../services/sdk';
+import { actionCreators } from '../services/store';
 
 interface CardCreatorState {
 	newCardModel: {[key: string]: any };
@@ -14,9 +17,10 @@ interface CardCreatorProps {
 	show: boolean;
 	done: () => void;
 	type: Type;
+	actions: typeof actionCreators;
 }
 
-export default class CardCreator extends React.Component<CardCreatorProps, CardCreatorState> {
+class CardCreator extends React.Component<CardCreatorProps, CardCreatorState> {
 	constructor(props: CardCreatorProps) {
 		super(props);
 
@@ -31,7 +35,10 @@ export default class CardCreator extends React.Component<CardCreatorProps, CardC
 			...this.state.newCardModel,
 		};
 
-		card.add(newCard as Card);
+		card.add(newCard as Card)
+		.catch((error) => {
+			this.props.actions.addNotification('danger', error.message);
+		});
 
 		this.setState({
 			newCardModel: {},
@@ -60,5 +67,10 @@ export default class CardCreator extends React.Component<CardCreatorProps, CardC
 			</Modal>
 		);
 	}
-
 }
+
+const mapDispatchToProps = (dispatch: any) => ({
+	actions: bindActionCreators(actionCreators, dispatch),
+});
+
+export default connect(null, mapDispatchToProps)(CardCreator);
