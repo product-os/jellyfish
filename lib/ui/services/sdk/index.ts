@@ -187,3 +187,7 @@ export const getUsername = (() => {
 		});
 	});
 })();
+
+export const slugify = (text: string) => text.toLowerCase()
+	.replace(/\s+/g, '-')
+	.replace(/[^0-9a-z-]/g, '');

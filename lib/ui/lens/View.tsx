@@ -8,14 +8,15 @@ import {
 	Button,
 	Divider,
 	Filters,
+	FiltersView,
 	Flex,
-	SchemaSieve,
+	Txt,
 } from 'rendition';
-import { Card, Lens, RendererProps, Type } from '../../Types';
+import { Card, JellyfishState, Lens, RendererProps, Type } from '../../Types';
 import ButtonGroup from '../components/ButtonGroup';
 import Icon from '../components/Icon';
-import { createChannel } from '../services/helpers';
-import { getTypeCard, JellyfishStream, streamQueryView } from '../services/sdk';
+import { createChannel, debug } from '../services/helpers';
+import { addCard, getTypeCard, JellyfishStream, slugify, streamQueryView } from '../services/sdk';
 import { actionCreators } from '../services/store';
 import LensService from './index';
 
@@ -29,7 +30,10 @@ interface ViewRendererState {
 
 interface ViewRendererProps extends RendererProps {
 	actions: typeof actionCreators;
+	allChannels: JellyfishState['channels'];
 }
+
+const USER_FILTER_NAME = 'user-generated-filter';
 
 class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState> {
 	private stream: JellyfishStream;
@@ -37,19 +41,31 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 	constructor(props: ViewRendererProps) {
 		super(props);
 
+		const filters = this.props.channel.data.head
+			? _.map(_.filter(this.props.channel.data.head.data.allOf, { name: USER_FILTER_NAME }), 'schema')
+			: [];
+
 		this.state = {
-			filters: [],
+			filters,
 			tail: null,
 			lenses: [],
 			activeLens: null,
 			tailType: null,
 		};
 
-		this.streamTail();
+		this.streamTail(this.props.channel.data.target);
 	}
 
 	public componentWillUnmount() {
 		this.stream.destroy();
+	}
+
+	public componentWillReceiveProps(nextProps: ViewRendererProps) {
+		if (!this.props.channel.data.head && nextProps.channel.data.head) {
+			this.setState({
+				filters: _.map(_.filter(nextProps.channel.data.head.data.allOf, { name: USER_FILTER_NAME }), 'schema'),
+			});
+		}
 	}
 
 	public setTail(tail: Card[]) {
@@ -76,8 +92,6 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 			LensService.getLenses(tail, tailType ? tailType.data.lenses : undefined)
 			: LensService.getLensesByType(tailType ? tailType.slug : null, tailType ? tailType.data.lenses : undefined);
 
-		console.log(lenses);
-
 		const activeLens = this.state.activeLens || lenses[0] || null;
 
 		this.setState({
@@ -88,8 +102,14 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 		});
 	}
 
-	public streamTail() {
-		this.stream = streamQueryView(this.props.channel.data.target);
+	public streamTail(view: string | Card) {
+		if (this.stream) {
+			this.stream.destroy();
+		}
+
+		debug('STREAMING TAIL USING VIEW', view)
+
+		this.stream = streamQueryView(view);
 
 		this.stream.on('data', (response) => {
 			this.setTail(response.data);
@@ -122,6 +142,61 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 		}));
 	}
 
+	public saveView(view: FiltersView) {
+		addCard(this.createView(view))
+		.then(
+			(response) => this.props.actions.addChannel(createChannel({
+				target: response.results.data,
+				parentChannel: this.props.allChannels[0].id,
+			})),
+		)
+		.catch(console.error);
+	}
+
+	public createView(view: FiltersView) {
+		const newView = _.cloneDeep(this.props.channel.data.head!);
+
+		newView.name = view.name;
+		newView.slug = 'view-user-created-view-' + slugify(view.name);
+
+		if (!newView.data.allOf) {
+			newView.data.allOf = [];
+		}
+
+		view.filters.forEach((filter) => {
+			newView.data.allOf.push({
+				name: USER_FILTER_NAME,
+				schema: _.assign(filter, { type: 'object' }),
+			});
+		});
+
+		return newView;
+	}
+
+	public updateFilters(filters: JSONSchema6[]) {
+		const { head } = this.props.channel.data;
+
+		if (head) {
+			const syntheticViewCard = _.cloneDeep(head);
+			const originalFilters = head
+				? _.reject(head.data.allOf, { name: USER_FILTER_NAME })
+				: [];
+
+			syntheticViewCard.data.allOf = originalFilters;
+
+			filters.forEach((filter) => {
+				syntheticViewCard.data.allOf.push({
+					name: USER_FILTER_NAME,
+					schema: _.assign(filter, { type: 'object' }),
+				});
+			});
+
+			this.streamTail(syntheticViewCard);
+		}
+
+		this.setState({ filters });
+	}
+
 	public render() {
 		const { head } = this.props.channel.data;
 		const { tail, tailType } = this.state;
@@ -131,33 +206,31 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 
 		let filteredTail = tail;
 
-		// TODO: This is terrible for performance, we should find a cleaner
-		// way of filtering on a sub property. A `payloadKey` param for
-		// SchemaSieve / Filters would be ideal.
-		if (useFilters && tail) {
-			filteredTail = tail.filter((card) =>
-				SchemaSieve.filter(this.state.filters, [card.data]).length > 0);
-		}
+		const originalFilters = head
+			? _.map(_.reject(head.data.allOf, { name: USER_FILTER_NAME }), 'name')
+			: [];
 
 		return (
 			<Flex
 				flexDirection='column'
 				flex='1 0 auto'
-				style={{ height: '100%', overflowY: 'auto', borderRight: '1px solid #ccc', minWidth: 450, position: 'relative' }}>
+				style={{ height: '100%', overflowY: 'auto', borderRight: '1px solid #ccc', minWidth: 450, maxWidth: 700, position: 'relative' }}>
 				{head &&
 					<Box>
+						{!!this.state.filters.length && !!originalFilters.length &&
+							<Txt px={3} pt={2}>View extends <em>{originalFilters.join(', ')}</em></Txt>}
 						<Flex mt={3} align='space-between'>
 							{useFilters &&
 								<Box mx={3} flex='1 0 auto'>
 									<Filters
-										schema={(tailType as any).data.schema.properties.data}
-										onFiltersUpdate={(filters) => this.setState({ filters })}
+										schema={(tailType as any).data.schema}
+										filters={this.state.filters}
+										onFiltersUpdate={(filters) => this.updateFilters(filters)}
+										onViewsUpdate={([view]) => this.saveView(view)}
 										addFilterButtonProps={{
 											style: { flex: '0 0 137px' },
 										}}
-										viewsMenuButtonProps={{
-											w: 120,
-										}}
+										renderMode={['add', 'search']}
 									/>
 								</Box>
 							}
@@ -176,6 +249,18 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 								</ButtonGroup>
 							}
 						</Flex>
+
+						{useFilters &&
+							<Box px={3}>
+								<Filters
+									schema={(tailType as any).data.schema}
+									filters={this.state.filters}
+									onFiltersUpdate={(filters) => this.updateFilters(filters)}
+									onViewsUpdate={([view]) => this.saveView(view)}
+									renderMode='summary'
+								/>
+							</Box>
+						}
 
 						<Divider color='#ccc' mb={0} />
 					</Box>
@@ -197,6 +282,10 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 	}
 }
 
+const mapStateToProps = (state: JellyfishState) => ({
+	allChannels: state.channels,
+});
+
 const mapDispatchToProps = (dispatch: any) => ({
 	actions: bindActionCreators(actionCreators, dispatch),
 });
@@ -208,7 +297,7 @@ const lens: Lens = {
 	data: {
 		type: 'view',
 		icon: 'filter',
-		renderer: connect(null, mapDispatchToProps)(ViewRenderer),
+		renderer: connect(mapStateToProps, mapDispatchToProps)(ViewRenderer),
 		filter: {
 			type: 'object',
 			properties: {

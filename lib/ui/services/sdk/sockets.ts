@@ -72,5 +72,5 @@ export class JellyfishStream extends EventEmitter {
 export const streamQuery = (schema: JSONSchema6) =>
 	new JellyfishStream('query', { schema });
 
-export const streamQueryView = (viewId: string) =>
-	new JellyfishStream('queryView', { viewId });
+export const streamQueryView = (view: string | Card) =>
+	new JellyfishStream('queryView', { view });

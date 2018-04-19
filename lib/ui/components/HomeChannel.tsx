@@ -14,7 +14,7 @@ import {
 import styled from 'styled-components';
 import { Card, JellyfishState, RendererProps } from '../../Types';
 import { createChannel } from '../services/helpers';
-import { queryView } from '../services/sdk';
+import { JellyfishStream, streamQueryView } from '../services/sdk';
 import { actionCreators } from '../services/store';
 import Gravatar from './Gravatar';
 import Icon from './Icon';
@@ -53,6 +53,8 @@ interface HomeChannelState {
 }
 
 class HomeChannel extends React.Component<HomeChannelProps, HomeChannelState> {
+	private stream: JellyfishStream;
+
 	constructor(props: HomeChannelProps) {
 		super(props);
 
@@ -61,12 +63,37 @@ class HomeChannel extends React.Component<HomeChannelProps, HomeChannelState> {
 			tail: null,
 		};
 
-		this.loadTail();
+		this.streamTail();
 	}
 
-	public loadTail() {
-		queryView(this.props.channel.data.target)
-		.then((tail) => this.setState({ tail }));
+	public componentWillUnmount() {
+		this.stream.destroy();
+	}
+
+	public streamTail() {
+		this.stream = streamQueryView(this.props.channel.data.target);
+
+		this.stream.on('data', (response) => {
+			this.setState({ tail: response.data });
+		});
+
+		this.stream.on('update', (response) => {
+			// If before is non-null then the card has been updated
+			if (response.data.before) {
+				return this.setState((prevState) => {
+					if (prevState.tail) {
+						const index = _.findIndex(prevState.tail, { id: response.data.before.id });
+						prevState.tail.splice(index, 1, response.data.after);
+					}
+					return { tail: prevState.tail };
+				});
+			}
+
+			const tail = this.state.tail || [];
+			tail.push(response.data.after);
+
+			this.setState({ tail });
+		});
 	}
 
 	public open(card: Card) {
