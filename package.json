@@ -11,6 +11,7 @@
   },
   "scripts": {
     "start": "DEBUG=jellyfish:* node lib/server.js",
+    "start:profiler": "DEBUG=jellyfish:* node profiler.js",
     "test": "npm run lint && TEST_DB_HOST=localhost TEST_PROXY_PORT=9999 TEST_DB_PORT=28015 NODE_ENV=test nyc --reporter=lcov ava",
     "lint": "eslint lib test webpack.config.js",
     "lint:fix": "eslint --fix lib test webpack.config.js",
@@ -49,6 +50,7 @@
     "thread-loader": "^1.1.5",
     "ts-loader": "^4.0.1",
     "typescript": "^2.7.2",
+    "v8-profiler": "^5.7.0",
     "webpack": "^4.1.1",
     "webpack-cli": "^2.0.12",
     "webpack-dev-server": "^3.1.1"
