@@ -10,10 +10,10 @@ import {
 	Textarea,
 } from 'rendition';
 import { Card, JellyfishState, Lens, RendererProps } from '../../Types';
-import ChatMessage from '../components/ChatMessage';
+import EventCard from '../components/Event';
 import Icon from '../components/Icon';
 import TailStreamer from '../components/TailStreamer';
-import { getCurrentTimestamp } from '../services/helpers';
+import { createChannel, getCurrentTimestamp } from '../services/helpers';
 import * as sdk from '../services/sdk';
 import { actionCreators } from '../services/store';
 
@@ -23,6 +23,7 @@ interface RendererState {
 }
 
 interface DefaultRendererProps extends RendererProps {
+	tail?: Card[];
 	actions: typeof actionCreators;
 	session: JellyfishState['session'];
 }
@@ -43,9 +44,6 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		const querySchema: JSONSchema6 = {
 			type: 'object',
 			properties: {
-				type: {
-					const: 'chat-message',
-				},
 				data: {
 					type: 'object',
 					properties: {
@@ -61,7 +59,9 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 			additionalProperties: true,
 		};
 
-		this.streamTail(querySchema);
+		if (!this.props.tail) {
+			this.streamTail(querySchema);
+		}
 
 		setTimeout(() => this.scrollToBottom(), 1000);
 	}
@@ -116,8 +116,22 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		});
 	}
 
+	public openChannel = (target: string) => {
+		const newChannel = createChannel({
+			target,
+			parentChannel: this.props.channel.id,
+		});
+
+		this.props.actions.addChannel(newChannel);
+		this.props.actions.loadChannelData(newChannel);
+	}
+
 	public render() {
-		const { tail } = this.state;
+		const tail = this.props.tail || _.sortBy(this.state.tail, (x => x.data.timestamp);
+
+		console.log('TAIL', tail)
+
+		const channelTarget = this.props.channel.data.target;
 
 		return (
 			<Flex flexDirection='column' style={{ height: '100%', borderRight: '1px solid #ccc', minWidth: 350 }}>
@@ -125,7 +139,12 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 					{!tail && <Icon name='cog fa-spin' />}
 
 					{(!!tail && tail.length > 0) && _.map(tail, card =>
-						<Box key={card.id} my={3}><ChatMessage card={card} /></Box>)}
+						<Box key={card.id} py={3} style={{borderBottom: '1px solid #eee'}}>
+							<EventCard
+								openChannel={card.data.target !== channelTarget && this.openChannel}
+								card={card}
+							/>
+						</Box>)}
 
 					{(!!tail && tail.length === 0) &&
 						<Txt color='#ccc'>
@@ -156,17 +175,43 @@ const mapDispatchToProps = (dispatch: any) => ({
 });
 
 const lens: Lens = {
-	slug: 'lens-chat-thread',
+	slug: 'lens-interleaved',
 	type: 'lens',
-	name: 'Chat thread lens',
+	name: 'Interleaved lens',
 	data: {
 		icon: 'address-card',
 		renderer: connect(mapStateToProps, mapDispatchToProps)(Renderer),
+		// This lens can display event-like objects
 		filter: {
-			type: 'object',
-			properties: {
-				type: {
-					const: 'chat-thread',
+			type: 'array',
+			items: {
+				type: 'object',
+				properties: {
+					data: {
+						type: 'object',
+						properties: {
+							timestamp: {
+								type: 'string',
+								format: 'date-time',
+							},
+							target: {
+								type: 'string',
+								format: 'uuid',
+							},
+							actor: {
+								type: 'string',
+								format: 'uuid',
+							},
+							payload: {
+								type: 'object',
+							},
+						},
+						required: [
+							'timestamp',
+							'target',
+							'actor',
+						],
+					},
 				},
 			},
 		},

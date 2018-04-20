@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import { Card, Channel } from '../../Types';
 import { createChannel } from '../services/helpers';
 import { actionCreators } from '../services/store';
+import Label from './Label';
 
 const DataContainer = styled.pre`
 	background: none;
@@ -25,7 +26,7 @@ const CardField = ({ field, payload }: {
 }) => {
 	return (
 		<React.Fragment>
-			<Heading.h4 my={3}>{field}</Heading.h4>
+			<Label my={3}>{field}</Label>
 			{_.isObject(payload[field]) ?
 				<Txt monospace>
 					<DataContainer>{JSON.stringify(payload[field], null, 4)}</DataContainer>
@@ -65,29 +66,26 @@ class CardRenderer extends React.Component<CardProps, {}> {
 		);
 
 		return (
-			<React.Fragment>
-				<Box mb={3}>
-					<Heading.h3 my={3}>
-						{!!this.props.channel &&
-							<Link onClick={() => this.openChannel(card)}>
-								{card.name || card.slug || card.id}
-							</Link>
-						}
-						{!this.props.channel && (card.name || card.slug || card.id)}
-					</Heading.h3>
-
-					{_.map(fieldOrder, (key) =>
-						!!payload[key] ?
-							<CardField key={key} field={key} payload={payload} />
-							: null)
+			<Box mb={3}>
+				<Heading.h4 my={3}>
+					{!!this.props.channel &&
+						<Link onClick={() => this.openChannel(card)}>
+							{card.name || card.slug || card.type}
+						</Link>
 					}
+					{!this.props.channel && (card.name || card.slug || card.type)}
+				</Heading.h4>
 
-					{_.map(unorderedKeys, (key) =>
-						<CardField key={key} field={key} payload={payload} />)}
+				{_.map(fieldOrder, (key) =>
+					!!payload[key] ?
+						<CardField key={key} field={key} payload={payload} />
+						: null)
+				}
 
-				</Box>
-				<Divider color='#ccc' mb={4} />
-			</React.Fragment>
+				{_.map(unorderedKeys, (key) =>
+					<CardField key={key} field={key} payload={payload} />)}
+
+			</Box>
 		);
 	}
 }

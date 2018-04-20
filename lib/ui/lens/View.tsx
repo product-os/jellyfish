@@ -169,8 +169,6 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 
 		const { activeLens } = this.state;
 
-		let filteredTail = tail;
-
 		const originalFilters = head
 			? _.map(_.reject(head.data.allOf, { name: USER_FILTER_NAME }), 'name')
 			: [];
@@ -237,9 +235,9 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 					</Box>
 				}
 
-				{(!!filteredTail && activeLens) && <activeLens.data.renderer
+				{(!!tail && activeLens) && <activeLens.data.renderer
 					channel={this.props.channel}
-					tail={filteredTail}
+					tail={tail}
 					type={tailType}
 					/>}
 			</Flex>
