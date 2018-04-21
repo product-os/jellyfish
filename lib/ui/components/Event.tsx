@@ -44,7 +44,7 @@ export default class Event extends React.Component<EventProps, { username: strin
 				{isChatMessage &&
 					<Button
 						plaintext
-						onClick={() => openChannel && openChannel(card.data.target)}
+						onClick={() => !!openChannel && !!card.data && openChannel(card.data.target)}
 						mr={3} >
 						<Txt color={threadColor(card.data.target)}>
 							<Icon name='comment fa-flip-horizontal' />
@@ -54,7 +54,8 @@ export default class Event extends React.Component<EventProps, { username: strin
 				<Box flex='1'>
 					<Flex justify='space-between' mb={2}>
 						<Txt bold>{this.state.username || card.type}</Txt>
-						<Txt fontSize={1}>{card.data.timestamp}</Txt>
+						{card.data &&
+						<Txt fontSize={1}>{card.data.timestamp}</Txt>}
 					</Flex>
 
 					{card.type === 'chat-message' &&

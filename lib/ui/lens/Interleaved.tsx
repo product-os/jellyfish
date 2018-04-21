@@ -9,6 +9,7 @@ import {
 	Txt,
 	Textarea,
 } from 'rendition';
+import styled from 'styled-components';
 import { Card, JellyfishState, Lens, RendererProps } from '../../Types';
 import EventCard from '../components/Event';
 import Icon from '../components/Icon';
@@ -16,6 +17,12 @@ import TailStreamer from '../components/TailStreamer';
 import { createChannel, getCurrentTimestamp } from '../services/helpers';
 import * as sdk from '../services/sdk';
 import { actionCreators } from '../services/store';
+
+const Column = styled(Flex)`
+	height: 100%;
+	borderRight: 1px solid #ccc;
+	min-width: 350px;
+`;
 
 interface RendererState {
 	tail: null | Card[];
@@ -127,21 +134,21 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 	}
 
 	public render() {
-		const tail = this.props.tail || _.sortBy(this.state.tail, (x => x.data.timestamp);
-
-		console.log('TAIL', tail)
+		const tail = this.props.tail || _.sortBy<Card>(this.state.tail, x => x.data.timestamp);
 
 		const channelTarget = this.props.channel.data.target;
 
 		return (
-			<Flex flexDirection='column' style={{ height: '100%', borderRight: '1px solid #ccc', minWidth: 350 }}>
+			<Column flexDirection='column'>
 				<Box innerRef={(ref) => this.scrollArea = ref} p={3} flex='1' style={{ overflowY: 'auto' }}>
 					{!tail && <Icon name='cog fa-spin' />}
 
 					{(!!tail && tail.length > 0) && _.map(tail, card =>
 						<Box key={card.id} py={3} style={{borderBottom: '1px solid #eee'}}>
 							<EventCard
-								openChannel={card.data.target !== channelTarget && this.openChannel}
+								openChannel={
+									card.data && card.data.target !== channelTarget ? this.openChannel : undefined
+								}
 								card={card}
 							/>
 						</Box>)}
@@ -161,7 +168,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 						onKeyPress={(e) => e.key === 'Enter' && this.addMessage(e)}
 						placeholder='Type to comment on this thread...' />
 				</Box>
-			</Flex>
+			</Column>
 		);
 	}
 }

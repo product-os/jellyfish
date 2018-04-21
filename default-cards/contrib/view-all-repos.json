@@ -8,17 +8,42 @@
   "data": {
     "allOf": [
       {
-        "name": "All repositories",
+        "name": "Active cards",
         "schema": {
-          "type": "object",
+          "additionalProperties": true,
           "properties": {
-            "type": {
-              "type": "string",
-              "const": "repo"
+            "active": {
+              "const": true,
+              "type": "boolean"
             }
           },
-          "additionalProperties": true,
-          "required": [ "type" ]
+          "required": [
+            "active"
+          ],
+          "type": "object"
+        }
+      },
+      {
+        "name": "user-generated-filter",
+        "schema": {
+          "$id": "gTwtjF3CprZOFXjk",
+          "anyOf": [
+            {
+              "$id": "YwWRlA7FsG0aM678",
+              "description": "type is repo",
+              "properties": {
+                "type": {
+                  "const": "repo"
+                }
+              },
+              "required": [
+                "type"
+              ],
+              "title": "is",
+              "type": "object"
+            }
+          ],
+          "type": "object"
         }
       }
     ]

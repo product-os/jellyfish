@@ -1,15 +1,20 @@
-import * as _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Box, Divider, Flex, Heading } from 'rendition';
+import { Box, Flex } from 'rendition';
+import styled from 'styled-components';
 import { Card, Lens, RendererProps } from '../../Types';
 import CardActions from '../components/CardActions';
 import CardRenderer from '../components/CardRenderer';
-import Icon from '../components/Icon';
-import * as sdk from '../services/sdk';
 import { actionCreators } from '../services/store';
 import InterleavedLens from './Interleaved';
+
+const Column = styled(Flex)`
+	height: 100%;
+	overflow-y: auto;
+	borderRight: 1px solid #ccc;
+	min-width: 270px;
+`;
 
 interface RendererState {
 	tail: null | Card[];
@@ -43,7 +48,7 @@ export class Renderer extends React.Component<DefaultRendererProps, RendererStat
 		const { channel } = this.props;
 
 		return (
-			<Flex flexDirection='column' style={{ height: '100%', overflowY: 'auto', borderRight: '1px solid #ccc', minWidth: 270 }}>
+			<Column flexDirection='column'>
 				<Box p={3} style={{maxHeight: '50%', borderBottom: '1px solid #333', overflowY: 'auto'}}>
 					<CardActions card={channel.data.head!}
 						delete={() => this.delete()}
@@ -53,7 +58,7 @@ export class Renderer extends React.Component<DefaultRendererProps, RendererStat
 				<Box flex='1 0 50%' style={{ overflowY: 'auto'}}>
 					<InterleavedLens.data.renderer channel={this.props.channel} />
 				</Box>
-			</Flex>
+			</Column>
 		);
 	}
 }

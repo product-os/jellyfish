@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Box, Divider, Heading, Link, Txt } from 'rendition';
+import { Box, Heading, Link, Txt } from 'rendition';
 import styled from 'styled-components';
 import { Card, Channel } from '../../Types';
 import { createChannel } from '../services/helpers';

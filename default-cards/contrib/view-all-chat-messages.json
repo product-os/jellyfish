@@ -8,17 +8,42 @@
   "data": {
     "allOf": [
       {
-        "name": "All chat messages",
+        "name": "Active cards",
         "schema": {
-          "type": "object",
+          "additionalProperties": true,
           "properties": {
-            "type": {
-              "type": "string",
-              "const": "chat-message"
+            "active": {
+              "const": true,
+              "type": "boolean"
             }
           },
-          "additionalProperties": true,
-          "required": [ "type" ]
+          "required": [
+            "active"
+          ],
+          "type": "object"
+        }
+      },
+      {
+        "name": "user-generated-filter",
+        "schema": {
+          "$id": "ItXSeAvtv2T50PWE",
+          "anyOf": [
+            {
+              "$id": "kTU4OjfJ0hkAPpu7",
+              "description": "type is chat-message",
+              "properties": {
+                "type": {
+                  "const": "chat-message"
+                }
+              },
+              "required": [
+                "type"
+              ],
+              "title": "is",
+              "type": "object"
+            }
+          ],
+          "type": "object"
         }
       }
     ]
