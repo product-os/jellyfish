@@ -11,9 +11,20 @@ import {
 	setPathFromState,
 } from './url-manager';
 
+const ifNotInTestEnv = (fn: Function) => (...args: any[]) => {
+	if (process.env.NODE_ENV === 'test') {
+		return;
+	}
+
+	fn.call(fn, ...args);
+};
+
 // Set localStorage as the backend driver, as it is a little easier to work
 // with.
-localForage.setDriver(localForage.LOCALSTORAGE);
+// In memory storage should be used as a fallback if localStorage isn't
+// available for some reason. This functionality is waiting on:
+// https://github.com/localForage/localForage/pull/721
+ifNotInTestEnv(() => localForage.setDriver(localForage.LOCALSTORAGE))();
 
 interface Action {
 	type: 'string';
@@ -123,11 +134,11 @@ const defaultState = (): JellyfishState => ({
 	notifications: [],
 });
 
-const save = (state: JellyfishState) => {
+const save = ifNotInTestEnv((state: JellyfishState) => {
 	localForage.setItem(STORAGE_KEY, state);
-};
+});
 
-const load = () => {
+const load = ifNotInTestEnv(() => {
 	localForage.getItem<JellyfishState>(STORAGE_KEY)
 	.then((state) => {
 		if (state) {
@@ -143,7 +154,7 @@ const load = () => {
 			setChannelsFromPath();
 		}
 	});
-};
+});
 
 const reducer = (state: JellyfishState, action: Action) => {
 	const newState = _.cloneDeep(state);
