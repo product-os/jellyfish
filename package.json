@@ -103,7 +103,7 @@
     "react-redux": "^5.0.7",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
-    "rendition": "5.0.0-beta3",
+    "rendition": "4.0.0-beta9",
     "request-promise": "^4.2.2",
     "rethinkdb": "^2.3.3",
     "socket.io": "^2.1.0",
