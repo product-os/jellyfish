@@ -46,7 +46,7 @@
       "additionalProperties": true
     },
     "lenses": [
-      "lens-chat-message-card"
+      "lens-interleaved"
     ]
   }
 }

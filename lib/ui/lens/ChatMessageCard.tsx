@@ -8,7 +8,7 @@ import {
 	Flex,
 } from 'rendition';
 import { JellyfishState, Lens, RendererProps } from '../../Types';
-import ChatMessage from '../components/ChatMessage';
+import EventCard from '../components/Event';
 import { createChannel } from '../services/helpers';
 import * as sdk from '../services/sdk';
 import { actionCreators } from '../services/store';
@@ -100,7 +100,7 @@ class CardList extends React.Component<CardListProps, CardListState> {
 
 						return (
 							<Box p={3} bg={this.threadOpen(card.data.target) ? '#eee' : '#fff' } >
-								<ChatMessage card={card}
+								<EventCard card={card}
 									openChannel={(target) => this.openChannel(target)} />
 							</Box>
 						);

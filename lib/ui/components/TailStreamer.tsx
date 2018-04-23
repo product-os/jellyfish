@@ -17,7 +17,9 @@ export default class TailStreamer<P, S> extends React.Component<P, TailStreamerS
 	private stream: sdk.db.JellyfishStream;
 
 	public componentWillUnmount() {
-		this.stream.destroy();
+		if (this.stream) {
+			this.stream.destroy();
+		}
 	}
 
 	public setTail(tail: Card[]) {

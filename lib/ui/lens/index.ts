@@ -1,10 +1,11 @@
 import { ValidateFunction } from 'ajv';
+
 import * as _ from 'lodash';
 import { Card, Lens } from '../../Types';
 import * as sdk from '../services/sdk';
 
 // Load lenses
-import ChatThreadLens from './ChatThread';
+import InterleavedLens from './Interleaved';
 
 import ChatMessageCardLens from './ChatMessageCard';
 import DefaultLens from './Default';
@@ -18,6 +19,7 @@ class LensService {
 	// Lenses are grouped into types, the first matching lens of each type is used
 	private lenses = {
 		list: [
+			InterleavedLens,
 			DefaultListLens,
 		],
 		table: [],
@@ -26,7 +28,6 @@ class LensService {
 			DefaultCardLens,
 		],
 		single: [
-			ChatThreadLens,
 			ViewLens,
 			DefaultLens,
 		],

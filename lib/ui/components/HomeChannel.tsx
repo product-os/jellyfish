@@ -120,7 +120,7 @@ class HomeChannel extends TailStreamer<HomeChannelProps, HomeChannelState> {
 				<Box flex='1' bg='#333' pt={3}>
 					{!tail && <Box p={3}><Icon style={{color: 'white'}} name='cog fa-spin' /></Box>}
 
-					{!!tail && _.map(tail, (card) => {
+					{!!tail && _.map(_.sortBy(tail, 'name'), (card) => {
 						// A view shouldn't be able to display itself
 						if (card.id === head!.id) {
 							return null;
