@@ -6,8 +6,10 @@ import {
 	Session,
 	User,
 } from 'flowdock';
+import { JSONSchema4 as JSONSchema } from 'json-schema';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
+import { Options } from 'request';
 import * as request from 'request-promise';
 
 type DateTime = string | Moment.Moment;
@@ -17,33 +19,64 @@ type LogFunction = (output: any) => void;
 type PrivacyPreferences = 'ALWAYS' | 'PREFERRED' | 'NEVER';
 
 interface Dictionary<T> {
-	[key: string]: T;
+	[index: string]: T;
 }
 
-interface ThreadDetail {
-	description: string;
-}
-
-interface ThreadIds {
+interface BaseIds {
 	service: string;
 	instance: string;
+}
+
+interface BaseDetails {
+	externalIds: Dictionary<BaseIds>;
+}
+
+interface BaseCard {
+	data: BaseDetails;
+}
+
+interface DBBackedCard extends BaseCard {
+	id: string;
+}
+
+interface CandidateCard extends BaseCard {
+	slug: string;
+	type: string;
+}
+
+interface ThreadIds extends BaseIds {
 	flow: string;
 	thread: string;
-	url?: string;
 }
 
-interface UserDetail {
-	email: string;
-	roles: string[];
+interface ThreadDetails extends BaseDetails {
+	description: string;
+	externalIds: Dictionary<ThreadIds>;
 }
 
-interface UserIds {
-	service: string;
-	instance: string;
+interface ThreadCandidateCard extends CandidateCard {
+	data: ThreadDetails;
+}
+
+interface UserIds extends BaseIds {
 	username: string;
 }
 
-interface MessageDetail {
+interface UserDetails extends BaseDetails {
+	email: string;
+	roles: string[];
+	externalIds: Dictionary<UserIds>;
+}
+
+interface UserCandidateCard extends CandidateCard {
+	data: UserDetails;
+}
+
+interface MessageIds extends ThreadIds {
+	message: string;
+}
+
+interface MessageDetails extends BaseDetails {
 	timestamp: string;
 	target: string;
 	actor: string;
@@ -51,23 +84,11 @@ interface MessageDetail {
 		hidden: PrivacyPreferences;
 		message: string;
 	};
+	externalIds: Dictionary<MessageIds>;
 }
 
-interface MessageIds {
-	service: string;
-	instance: string;
-	flow: string;
-	thread: string;
-	message: string;
-}
-
-interface LinkCard {
-	slug: string;
-	id: string;
-	data: {
-		internal: string;
-		external: Dictionary<string | undefined>;
-	};
+interface MessageCandidateCard extends CandidateCard {
+	data: MessageDetails;
 }
 
 interface UpsertIds {
@@ -78,6 +99,12 @@ interface UpsertIds {
 	message: string;
 	username: string;
 	[key: string]: string;
+}
+
+interface UpsertUrls {
+	thread: string;
+	message: string;
+	user: string;
 }
 
 interface UpsertPayload {
@@ -92,7 +119,7 @@ interface UpsertInstructions {
 	idAlphabets: Dictionary<string>;
 	ids: UpsertIds;
 	payload: UpsertPayload;
-	misc: Dictionary<string>;
+	urls: UpsertUrls;
 }
 
 interface Logger {
@@ -150,7 +177,7 @@ class ThreadStore {
 	}
 
 	private static convertSlugs(alphabets: Dictionary<string>, ids: UpsertIds) {
-		const sluggedParts = {
+		const slugParts = {
 			service: this.convertSlug(alphabets, ids, 'service'),
 			instance: this.convertSlug(alphabets, ids, 'instance'),
 			flow: this.convertSlug(alphabets, ids, 'flow'),
@@ -158,18 +185,18 @@ class ThreadStore {
 			message: this.convertSlug(alphabets, ids, 'message'),
 			username: this.convertSlug(alphabets, ids, 'username'),
 		};
-		const threadSlugPart = `${sluggedParts.service}-${sluggedParts.instance}-${sluggedParts.flow}-${sluggedParts.thread}`;
+		const threadSlugPart = `${slugParts.service}-${slugParts.instance}-${slugParts.flow}-${slugParts.thread}`;
 		return {
 			thread: `thread-${threadSlugPart}`,
-			user: `user-${sluggedParts.service}-${sluggedParts.instance}-${sluggedParts.username}`,
-			message: `message-${threadSlugPart}-${sluggedParts.message}`,
+			user: `user-${slugParts.service}-${slugParts.instance}-${slugParts.username}`,
+			message: `message-${threadSlugPart}-${slugParts.message}`,
 		};
 	}
 
-	private protocol: string;
-	private server: string;
-	private port: number;
-	private token: string;
+	private readonly protocol: string;
+	private readonly server: string;
+	private readonly port: number;
+	private readonly token: string;
 
 	private constructor(protocol: string, server: string, port: number, token: string) {
 		this.protocol = protocol;
@@ -178,115 +205,170 @@ class ThreadStore {
 		this.token = token;
 	}
 
-	public upsertThread(upsertInstructions: UpsertInstructions): Promise<string> {
+	public upsertThread(upsertInstructions: UpsertInstructions): Promise<void> {
 		const protoSlugs = ThreadStore.convertSlugs(upsertInstructions.idAlphabets, upsertInstructions.ids);
-		const threadDetail: ThreadDetail = {
-			description: upsertInstructions.payload.title,
+		const thread: ThreadCandidateCard = {
+			slug: protoSlugs.thread,
+			type: 'chat-thread',
+			data: {
+				description: upsertInstructions.payload.title,
+				externalIds: {
+					[upsertInstructions.urls.thread]: {
+						service: upsertInstructions.ids.service,
+						instance: upsertInstructions.ids.instance,
+						flow: upsertInstructions.ids.flow,
+						thread: upsertInstructions.ids.thread,
+					},
+				},
+			}
 		};
-		const threadIds: ThreadIds = {
-			service: upsertInstructions.ids.service,
-			flow: upsertInstructions.ids.flow,
-			instance: upsertInstructions.ids.instance,
-			thread: upsertInstructions.ids.thread,
-		};
-		return this.upsertByLink(protoSlugs.thread, 'chat-thread', threadDetail, threadIds)
-		.then((threadUUID: string) => {
-			const userDetail: UserDetail = {
-				email: upsertInstructions.payload.email,
-				roles: [],
+		return this.upsertLinkedCard(thread)
+		.then((threadCard) => {
+			const user: UserCandidateCard = {
+				slug: protoSlugs.user,
+				type: 'user',
+				data: {
+					email: upsertInstructions.payload.email,
+					roles: [],
+					externalIds: {
+						[upsertInstructions.urls.user]: {
+							service: upsertInstructions.ids.service,
+							instance: upsertInstructions.ids.instance,
+							username: upsertInstructions.ids.username,
+						}
+					}
+				}
 			};
-			const userIds: UserIds = {
-				service: upsertInstructions.ids.service,
-				instance: upsertInstructions.ids.instance,
-				username: upsertInstructions.ids.username,
-			};
-			return this.upsertByLink(protoSlugs.user, 'user', userDetail, userIds)
-			.then((userUUID) => {
-				const messageDetail: MessageDetail = {
-					timestamp: Moment(upsertInstructions.payload.timestamp).toISOString(),
-					target: threadUUID,
-					actor: userUUID,
-					payload: {
-						message: upsertInstructions.payload.content,
-						hidden: upsertInstructions.payload.hidden,
+			return this.upsertLinkedCard(user)
+			.then((userCard) => {
+				const message: MessageCandidateCard = {
+					slug: protoSlugs.message,
+					type: 'chat-message',
+					data: {
+						timestamp: Moment(upsertInstructions.payload.timestamp).toISOString(),
+						target: threadCard.id,
+						actor: userCard.id,
+						payload: {
+							hidden: upsertInstructions.payload.hidden,
+							message: upsertInstructions.payload.content,
+						},
+						externalIds: {
+							[upsertInstructions.urls.message]: {
+								service: upsertInstructions.ids.service,
+								instance: upsertInstructions.ids.instance,
+								flow: upsertInstructions.ids.flow,
+								thread: upsertInstructions.ids.thread,
+								message: upsertInstructions.ids.message,
+							},
+						},
 					}
 				};
-				const messageIds: MessageIds = {
-					service: upsertInstructions.ids.service,
-					instance: upsertInstructions.ids.instance,
-					thread: upsertInstructions.ids.thread,
-					flow: upsertInstructions.ids.flow,
-					message: upsertInstructions.ids.message,
-				};
-				return this.upsertByLink(protoSlugs.message, 'chat-message', messageDetail, messageIds);
-			})
-			.return(threadUUID);
-		});
-	}
-
-	private upsertByLink(protoSlug: string, type: string, payload: object, ids: object): Promise<string> {
-		// In a world with SyncBot in it, each internal card may coordinate with
-		// several external resources.  Each external service will have ways of
-		// uniquely identifying these resources, but most do not have support for
-		// an external identifier (aka Jellyfish UUID).  To resolve this I use a
-		// `-link` card, referenced by a slug created from data on the external
-		// service, which gets us to the UUID of the underlying card.
-		const linkSlug = `external-${protoSlug}-link`;
-		// See if we already know about this entity
-		return this.get(linkSlug)
-		.then((link: LinkCard | null) => {
-			if (link) {
-				// Update the record for this entity
-				return this.patch(link.data.internal, payload)
-				.then(() => {
-					// Resolve to the UUID for this
-					return link.data.internal;
-				});
-			}
-			// Create the record for this entity
-			return this.post(type, protoSlug, payload)
-			.then((id: string) => {
-				// Create the link for this entity
-				return this.post(`${type}-link`, linkSlug, { external: ids, internal: id })
-				.then(() => {
-					// Resolve to the UUID for this
-					return id;
-				});
+				return this.upsertLinkedCard(message)
+				.return();
 			});
 		});
 	}
 
-	private get(identifier: string): Promise<object | null> {
-		return this.request('GET', identifier);
-	}
-
-	private post(type: string, slug: string, data: object): Promise<string> {
-		return this.request('POST', undefined, { type, data, slug })
-		.then((response) => {
-			return _.get(response, ['results', 'data']);
+	private upsertLinkedCard(
+		candidateCard: CandidateCard,
+	): Promise<DBBackedCard> {
+		return this.getSimilar(candidateCard)
+		.then((getResponse: DBBackedCard) => {
+			if (getResponse) {
+				const patchCard: DBBackedCard = {
+					id: getResponse.id,
+					data: candidateCard.data,
+				};
+				patchCard.data.externalIds = _.merge(getResponse.data.externalIds, candidateCard.data.externalIds);
+				return this.patch(patchCard);
+			} else {
+				return this.post(candidateCard);
+			}
 		});
 	}
 
-	private patch(identifier: string, data: object): Promise<object> {
-		return this.request('PATCH', identifier, { data })
+	private getSimilar(payload: CandidateCard): Promise<DBBackedCard | null> {
+		const query: JSONSchema = {
+			type: 'object',
+			properties: {
+				type: {
+					type: 'string',
+					const: payload.type,
+				},
+				data: {
+					type: 'object',
+					properties: {
+						externalIds: {
+							type: 'object',
+							required: _.keys(payload.data.externalIds),
+							additionalProperties: true,
+						},
+					},
+					required: [
+						'externalIds',
+					],
+					additionalProperties: true,
+				},
+			},
+			required: [
+				'data',
+				'type',
+			],
+			additionalProperties: true,
+		};
+		return this.request('GET', 'query', query)
+		.then((dbBackedCards: DBBackedCard[]) => {
+			if (dbBackedCards.length > 1) {
+				throw new Error('Multiple similar cards.');
+			} else if (dbBackedCards.length < 1) {
+				return null;
+			} else {
+				return dbBackedCards[0];
+			}
+		});
+	}
+
+	private post(card: CandidateCard): Promise<DBBackedCard> {
+		return this.request('POST', 'card', card)
 		.then((response) => {
+			return {
+				id: _.get(response, ['results', 'data']),
+				type: card.type,
+				data: card.data,
+			};
+		});
+	}
+
+	private patch(card: DBBackedCard): Promise<DBBackedCard> {
+		return this.request('PATCH', `card/${card.id}`, card)
+		.then((response: DBBackedCard) => {
 			if (!response) {
-				throw new Error(`Card ${identifier} does not exist to patch.`);
+				throw new Error(`Card ${card.id} does not exist to patch.`);
 			}
 			return response;
 		});
 	}
 
-	private request(method: string, identifier?: string, body?: object): Promise<object | null> {
-		return request({
-			body,
+	private request(method: string, path: string, data?: object): Promise<object | object[] | null> {
+		const requestOptions: Options = {
 			headers: {
 				authorization: this.token,
 			},
 			json: true,
 			method,
-			url: `${this.protocol}://${this.server}:${this.port.toString()}/api/v1/card/${identifier || ''}`,
-		})
+			url: `${this.protocol}://${this.server}:${this.port.toString()}/api/v1/${path}`,
+		};
+		switch (method) {
+			case 'POST':
+			case 'PATCH':
+				requestOptions.body = data;
+				break;
+			case 'GET':
+				requestOptions.qs = data;
+				break;
+			default:
+		}
+		return request(requestOptions)
 		.then((response) => {
 			if (response.error) {
 				throw new Error(JSON.stringify(response));
@@ -295,6 +377,9 @@ class ThreadStore {
 				throw new Error(JSON.stringify(response.data.results));
 			}
 			return response.data;
+		})
+		.catch((error) => {
+			throw new Error(error);
 		});
 	}
 }
@@ -341,7 +426,8 @@ class ThreadStream {
 				const instance = this.cache.flowsById[message.flow].organization.parameterized_name;
 				const flow = this.cache.flowsById[message.flow].parameterized_name;
 				const thread = message.thread.id;
-				const username = this.cache.usersById[message.user].nick;
+				const userId = message.user;
+				const username = this.cache.usersById[userId].nick;
 				const upsertInstructions: UpsertInstructions = {
 					idAlphabets: {
 						thread: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_',
@@ -361,8 +447,10 @@ class ThreadStream {
 						content: message.content.toString(),
 						timestamp: message.created_at,
 					},
-					misc: {
-						url: `https://www.flowdock.com/app/${instance}/${flow}/threads/${thread}`,
+					urls: {
+						thread: `https://www.flowdock.com/app/${instance}/${flow}/threads/${thread}`,
+						message: `https://www.flowdock.com/app/${instance}/${flow}/messages/${message.id.toString()}`,
+						user: `http://www.flowdock.com/app/private/${userId}`,
 					},
 				};
 				handler(upsertInstructions);
@@ -402,10 +490,10 @@ class FlowdockMonitor {
 
 	private constructor(store: ThreadStore, stream: ThreadStream, logger: Logger) {
 		stream.onThreadUpdate((upsertInstructions) => {
-			logger.info(`Received update to thread ${upsertInstructions.misc.url}`);
+			logger.info(`Received thread ${upsertInstructions.urls.thread}`);
 			return store.upsertThread(upsertInstructions)
-			.then((threadUUID) => {
-				logger.info(`Upserted thread ${threadUUID}`);
+			.then(() => {
+				logger.info(`Upserted thread ${upsertInstructions.urls.thread}`);
 			});
 		});
 		logger.info('Joined endpoints together.');

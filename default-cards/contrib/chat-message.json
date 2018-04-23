@@ -24,6 +24,9 @@
               "type": "string",
               "format": "uuid"
             },
+            "externalIds": {
+              "type": "object"
+            },
             "payload": {
               "type": "object",
               "properties": {

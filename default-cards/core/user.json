@@ -20,6 +20,9 @@
               "type": "string",
               "format": "email"
             },
+            "externalIds": {
+              "type": "object"
+            },
             "password": {
               "type": "object",
               "properties": {
