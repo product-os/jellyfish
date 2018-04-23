@@ -58,6 +58,7 @@ export default class TailStreamer<P, S> extends React.Component<P, TailStreamerS
 		});
 
 		this.stream.on('streamError', (response) => {
+			console.error('Received a stream error', response.data);
 			store.dispatch(actionCreators.addNotification('danger', response.data));
 		});
 	}

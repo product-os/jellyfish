@@ -48,7 +48,7 @@
             "hash": "[arguments.hash]",
             "salt": "[arguments.salt]"
           },
-          "roles": []
+          "roles": [ "user-default" ]
         }
       }
     }

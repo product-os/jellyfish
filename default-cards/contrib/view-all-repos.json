@@ -26,10 +26,8 @@
       {
         "name": "user-generated-filter",
         "schema": {
-          "$id": "gTwtjF3CprZOFXjk",
           "anyOf": [
             {
-              "$id": "YwWRlA7FsG0aM678",
               "description": "type is repo",
               "properties": {
                 "type": {

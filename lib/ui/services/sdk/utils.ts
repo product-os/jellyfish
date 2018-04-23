@@ -42,6 +42,9 @@ const flatten = (input: any, path: any[] = [], flattened: any[] = []) => {
 // We use bracket notation to serialize query string params, so that we can
 // support nested objects
 export const queryStringEncode = (input: any) => {
+	if (_.isString(input)) {
+		return `query=${input}`;
+	}
 	// Array of path/value tuples
 	const flattened = flatten(input);
 
@@ -68,15 +71,22 @@ export const isUUID = (text: string) => {
 	return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(text);
 };
 
-const withAuth = (options?: AxiosRequestConfig) => _.merge(
-	{},
-	options,
-	{
-		headers: {
-			authorization: `Bearer ${getToken()}`,
+const withAuth = (options?: AxiosRequestConfig) => {
+	const token = getToken();
+	if (!token) {
+		return options;
+	}
+
+	return _.merge(
+		{},
+		options,
+		{
+			headers: {
+				authorization: `Bearer ${token}`,
+			},
 		},
-	},
-);
+	);
+};
 
 const handleError = (e: AxiosError) => {
 	if (e.response && e.response.data) {

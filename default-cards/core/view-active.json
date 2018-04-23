@@ -15,7 +15,15 @@
             "active": {
               "type": "boolean",
               "const": true
+            },
+            "type": {
+              "not": {
+                "enum": [
+                  "session"
+                ]
+              }
             }
+
           },
           "required": [ "active" ],
           "additionalProperties": true

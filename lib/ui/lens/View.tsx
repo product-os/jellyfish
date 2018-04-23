@@ -16,7 +16,7 @@ import { Card, JellyfishState, Lens, RendererProps, Type } from '../../Types';
 import ButtonGroup from '../components/ButtonGroup';
 import Icon from '../components/Icon';
 import TailStreamer from '../components/TailStreamer';
-import { createChannel } from '../services/helpers';
+import { createChannel, getTypeFromViewCard } from '../services/helpers';
 import * as sdk from '../services/sdk';
 import { actionCreators } from '../services/store';
 import LensService from './index';
@@ -57,8 +57,13 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 
 	public componentWillReceiveProps(nextProps: ViewRendererProps) {
 		if (!this.props.channel.data.head && nextProps.channel.data.head) {
+			// Convert jellyfish view into a format that rendition can understand
 			this.setState({
-				filters: _.map(_.filter(nextProps.channel.data.head.data.allOf, { name: USER_FILTER_NAME }), 'schema'),
+				filters: _.map(_.filter(nextProps.channel.data.head.data.allOf, { name: USER_FILTER_NAME }), (item: any) => {
+					return {
+						anyOf: [ item.schema ],
+					};
+				}),
 			});
 		}
 	}
@@ -68,19 +73,16 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 
 		let tailType: Type | null = null;
 
-		if (tail && tail.length) {
+		// Special case handling for base view `view-active`
+		if (head && head.slug === 'view-active') {
+			tailType = sdk.type.get('card') || null;
+		} else if (tail.length) {
 			tailType = sdk.type.get(tail[0].type) || null;
-		}
+		} else {
+			// If there is no tail, make a best guess at the type
+			const foundType = getTypeFromViewCard(head);
 
-		// If there is no tail, make a best guess at the type
-		if (tail && !tail.length) {
-			const foundType = _.get(head, 'data.allOf[0].schema.properties.type.const')
-				|| _.get(head, 'data.oneOf[0].schema.properties.type.const');
-
-			if (foundType) {
-				tailType = sdk.type.get(foundType) || null;
-			}
-
+			tailType = sdk.type.get(foundType) || null;
 		}
 
 		const lenses: Lens[] = tail.length > 0 ?
@@ -127,6 +129,8 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 		if (!newView.data.allOf) {
 			newView.data.allOf = [];
 		}
+
+		newView.data.allOf = _.reject(newView.data.allOf, { name: USER_FILTER_NAME });
 
 		view.filters.forEach((filter) => {
 			newView.data.allOf.push({

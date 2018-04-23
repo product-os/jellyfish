@@ -1,6 +1,6 @@
 {
-  "slug": "view-read-user-guest",
-  "name": "Guest role read permissions",
+  "slug": "view-write-user-guest",
+  "name": "Guest role write permissions",
   "type": "view",
   "tags": [],
   "links": [],
@@ -64,9 +64,8 @@
             "slug": {
               "type": "string",
               "anyOf": [
-                { "const": "action-create-session" },
                 { "const": "action-create-user" },
-                { "const": "action-create-card" }
+                { "const": "action-create-session" }
               ]
             },
             "type": {
@@ -79,66 +78,6 @@
             }
           },
           "required": [ "id", "slug", "type", "data" ]
-        }
-      },
-      {
-        "name": "My Action Requests",
-        "schema": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string"
-            },
-            "type": {
-              "type": "string",
-              "const": "action-request"
-            },
-            "data": {
-              "type": "object",
-              "properties": {
-                "actor": {
-                  "type": "string",
-                  "const": "[user.id]"
-                },
-                "target": {
-                  "type": "string"
-                },
-                "action": {
-                  "type": "string"
-                },
-                "action": {
-                  "timestamp": "string"
-                },
-                "executed": {
-                  "type": "boolean"
-                },
-                "result": {
-                  "type": "object"
-                }
-              },
-              "additionalProperties": false
-            }
-          },
-          "additionalProperties": true,
-          "required": [ "id", "type", "data" ]
-        }
-      },
-      {
-        "name": "Myself",
-        "schema": {
-          "type": "object",
-          "properties": {
-            "slug": {
-              "type": "string",
-              "const": "[user.slug]"
-            },
-            "type": {
-              "type": "string",
-              "const": "user"
-            }
-          },
-          "additionalProperties": true,
-          "required": [ "slug", "type" ]
         }
       },
       {
@@ -169,20 +108,21 @@
         }
       },
       {
-        "name": "User IDs",
+        "name": "Myself",
         "schema": {
           "type": "object",
           "properties": {
-            "id": {
-              "type": "string"
+            "slug": {
+              "type": "string",
+              "const": "[user.slug]"
             },
             "type": {
               "type": "string",
               "const": "user"
             }
           },
-          "additionalProperties": false,
-          "required": [ "id", "type" ]
+          "additionalProperties": true,
+          "required": [ "slug", "type" ]
         }
       }
     ]

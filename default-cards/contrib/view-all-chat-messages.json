@@ -26,10 +26,8 @@
       {
         "name": "user-generated-filter",
         "schema": {
-          "$id": "ItXSeAvtv2T50PWE",
           "anyOf": [
             {
-              "$id": "kTU4OjfJ0hkAPpu7",
               "description": "type is chat-message",
               "properties": {
                 "type": {
