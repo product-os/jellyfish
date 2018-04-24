@@ -50,13 +50,11 @@ ava.test.afterEach(async (test) => {
 	await test.context.backend.disconnect()
 })
 
-for (const category of _.keys(CARDS)) {
-	for (const card of _.values(CARDS[category])) {
-		ava.test(`should contain the ${category} card ${card.slug} by default`, async (test) => {
-			const element = await test.context.kernel.getCard(test.context.kernel.sessions.admin, card.slug)
-			test.deepEqual(CARDS[category][card.slug], _.omit(element, [ 'id' ]))
-		})
-	}
+for (const card of _.values(CARDS)) {
+	ava.test(`should contain the ${card.slug} card by default`, async (test) => {
+		const element = await test.context.kernel.getCard(test.context.kernel.sessions.admin, card.slug)
+		test.deepEqual(CARDS[card.slug], _.omit(element, [ 'id' ]))
+	})
 }
 
 ava.test('should be able to disconnect the kernel multiple times without errors', async (test) => {
@@ -801,9 +799,9 @@ ava.test('.getCard() should return an inactive card by its id', async (test) => 
 })
 
 ava.test('.getSchema() should return the schema of an existing type card', async (test) => {
-	const card = await test.context.kernel.getCard(test.context.kernel.sessions.admin, CARDS.core.type.slug)
+	const card = await test.context.kernel.getCard(test.context.kernel.sessions.admin, CARDS.type.slug)
 	const schema = await test.context.kernel.getSchema(card)
-	test.deepEqual(schema, CARDS.core.type.data.schema)
+	test.deepEqual(schema, CARDS.type.data.schema)
 })
 
 ava.test('.getSchema() should return null given an unknown type', async (test) => {
@@ -827,7 +825,7 @@ ava.test('.getSchema() should return null given no card', (test) => {
 })
 
 ava.test('.getSchema() should return null if the card is not a view', (test) => {
-	const schema = test.context.kernel.getSchema(CARDS.core['action-create-card'])
+	const schema = test.context.kernel.getSchema(CARDS['action-create-card'])
 	test.deepEqual(schema, null)
 })
 
@@ -1251,7 +1249,7 @@ ava.test('.getSchema() should return null given a view card with no filters', (t
 })
 
 ava.test('.getSchema() should return the schema of a card type', (test) => {
-	const schema = test.context.kernel.getSchema(CARDS.core.card)
+	const schema = test.context.kernel.getSchema(CARDS.card)
 	test.true(_.isPlainObject(schema))
 	test.is(schema.type, 'object')
 })
@@ -1410,7 +1408,7 @@ ava.test('.query() should take roles into account', async (test) => {
 	})
 
 	test.deepEqual(results, [
-		_.pick(CARDS.core.user, [ 'type', 'slug', 'active', 'data' ])
+		_.pick(CARDS.user, [ 'type', 'slug', 'active', 'data' ])
 	])
 })
 

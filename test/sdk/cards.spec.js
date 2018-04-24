@@ -51,12 +51,12 @@ ava.test.afterEach(async (test) => {
 	await test.context.backend.disconnect()
 })
 
-const isCardMacro = async (test, type, name, card, expected) => {
+const isCardMacro = async (test, type, card, expected) => {
 	test.deepEqual(jsonSchema.isValid(test.context.kernel.getSchema(type), card), expected)
 }
 
-isCardMacro.title = (title, type, name, card, expected) => {
-	return `(${title}) jsonSchema.valid() should return ${expected} for ${name} using type ${type.slug}`
+isCardMacro.title = (title, type, card, expected) => {
+	return `(${title}) jsonSchema.valid() should return ${expected} using type ${type.slug}`
 }
 
 _.each(_.map(fs.readdirSync(path.join(__dirname, 'cards')), (file) => {
@@ -65,13 +65,10 @@ _.each(_.map(fs.readdirSync(path.join(__dirname, 'cards')), (file) => {
 		json: require(path.join(__dirname, 'cards', file))
 	}
 }), (testCase) => {
-	ava.test('examples', isCardMacro, CARDS.core.card, testCase.name, testCase.json.card, testCase.json.valid)
+	ava.test('examples', isCardMacro, CARDS.card, testCase.json.card, testCase.json.valid)
 })
 
-_.each(CARDS, (cards, category) => {
-	_.each(cards, (value, key) => {
-		ava.test(category, isCardMacro, CARDS.core.card, key, value, true)
-		const type = CARDS.core[value.type] || CARDS.contrib[value.type]
-		ava.test(category, isCardMacro, type, key, value, true)
-	})
+_.each(CARDS, (value, key) => {
+	ava.test(key, isCardMacro, CARDS.card, value, true)
+	ava.test(key, isCardMacro, CARDS[value.type], value, true)
 })
