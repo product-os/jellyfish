@@ -12,7 +12,7 @@ import InterleavedLens from './Interleaved';
 const Column = styled(Flex)`
 	height: 100%;
 	overflow-y: auto;
-	borderRight: 1px solid #ccc;
+	border-right: 1px solid #ccc;
 	min-width: 270px;
 `;
 
@@ -48,7 +48,7 @@ export class Renderer extends React.Component<DefaultRendererProps, RendererStat
 		const { channel } = this.props;
 
 		return (
-			<Column flexDirection='column'>
+			<Column flex='1' flexDirection='column'>
 				<Box p={3} style={{maxHeight: '50%', borderBottom: '1px solid #333', overflowY: 'auto'}}>
 					<CardActions card={channel.data.head!}
 						delete={() => this.delete()}

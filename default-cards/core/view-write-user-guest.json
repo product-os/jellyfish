@@ -65,7 +65,8 @@
               "type": "string",
               "anyOf": [
                 { "const": "action-create-user" },
-                { "const": "action-create-session" }
+                { "const": "action-create-session" },
+                { "const": "action-update-card" }
               ]
             },
             "type": {
