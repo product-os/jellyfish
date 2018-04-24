@@ -19,7 +19,7 @@ const ava = require('ava')
 const utils = require('../../../lib/utils')
 
 ava.test('should create a card', async (test) => {
-	const id = await test.context.worker.executeAction(test.context.session, 'action-create-card', 'card', {
+	const id = await test.context.worker.executeAction(test.context.session, 'action-create-card', test.context.ids.card, {
 		properties: {
 			slug: 'johndoe',
 			data: {
@@ -28,7 +28,7 @@ ava.test('should create a card', async (test) => {
 		}
 	})
 
-	const card = await test.context.jellyfish.getCard(test.context.session, id)
+	const card = await test.context.jellyfish.getCardById(test.context.session, id)
 
 	test.deepEqual(card, {
 		id,
@@ -62,11 +62,11 @@ ava.test('should fail if the card already exists', async (test) => {
 		}
 	}
 
-	const id = await test.context.worker.executeAction(test.context.session, 'action-create-card', 'card', {
+	const id = await test.context.worker.executeAction(test.context.session, 'action-create-card', test.context.ids.card, {
 		properties: card
 	})
 
-	await test.throws(test.context.worker.executeAction(test.context.session, 'action-create-card', 'card', {
+	await test.throws(test.context.worker.executeAction(test.context.session, 'action-create-card', test.context.ids.card, {
 		properties: card
 	}), test.context.jellyfish.errors.JellyfishElementAlreadyExists)
 
@@ -75,7 +75,7 @@ ava.test('should fail if the card already exists', async (test) => {
 })
 
 ava.test('should fail if there is a schema mismatch', async (test) => {
-	await test.throws(test.context.worker.executeAction(test.context.session, 'action-create-card', 'user', {
+	await test.throws(test.context.worker.executeAction(test.context.session, 'action-create-card', test.context.ids.user, {
 		properties: {
 			slug: 'foobar',
 			data: {
@@ -86,7 +86,7 @@ ava.test('should fail if there is a schema mismatch', async (test) => {
 })
 
 ava.test('should fail if the element is not a valid card', async (test) => {
-	await test.throws(test.context.worker.executeAction(test.context.session, 'action-create-card', 'card', {
+	await test.throws(test.context.worker.executeAction(test.context.session, 'action-create-card', test.context.ids.card, {
 		properties: {
 			slug: 'johndoe',
 			foo: 'bar'
@@ -95,7 +95,7 @@ ava.test('should fail if the element is not a valid card', async (test) => {
 })
 
 ava.test('should create an inactive card', async (test) => {
-	const id = await test.context.worker.executeAction(test.context.session, 'action-create-card', 'card', {
+	const id = await test.context.worker.executeAction(test.context.session, 'action-create-card', test.context.ids.card, {
 		properties: {
 			slug: 'johndoe',
 			active: false,
@@ -105,7 +105,7 @@ ava.test('should create an inactive card', async (test) => {
 		}
 	})
 
-	const card = await test.context.jellyfish.getCard(test.context.session, id)
+	const card = await test.context.jellyfish.getCardById(test.context.session, id)
 
 	test.deepEqual(card, {
 		id,
@@ -121,7 +121,7 @@ ava.test('should create an inactive card', async (test) => {
 })
 
 ava.test('should create a card with more extra data properties', async (test) => {
-	const id = await test.context.worker.executeAction(test.context.session, 'action-create-card', 'card', {
+	const id = await test.context.worker.executeAction(test.context.session, 'action-create-card', test.context.ids.card, {
 		properties: {
 			slug: 'johndoe',
 			data: {
@@ -131,7 +131,7 @@ ava.test('should create a card with more extra data properties', async (test) =>
 		}
 	})
 
-	const card = await test.context.jellyfish.getCard(test.context.session, id)
+	const card = await test.context.jellyfish.getCardById(test.context.session, id)
 
 	test.deepEqual(card, {
 		id,
@@ -151,7 +151,7 @@ ava.test('should create a card with more extra data properties', async (test) =>
 })
 
 ava.test('should create a card with a computed slug', async (test) => {
-	const id = await test.context.worker.executeAction(test.context.session, 'action-create-card', 'card', {
+	const id = await test.context.worker.executeAction(test.context.session, 'action-create-card', test.context.ids.card, {
 		properties: {
 			slug: '{{properties.data.firstName}}-{{properties.data.lastName}}',
 			data: {
@@ -162,7 +162,7 @@ ava.test('should create a card with a computed slug', async (test) => {
 		}
 	})
 
-	const card = await test.context.jellyfish.getCard(test.context.session, id)
+	const card = await test.context.jellyfish.getCardById(test.context.session, id)
 
 	test.deepEqual(card, {
 		id,
@@ -180,7 +180,7 @@ ava.test('should create a card with a computed slug', async (test) => {
 })
 
 ava.test('should create a card using computed formulas', async (test) => {
-	const id = await test.context.worker.executeAction(test.context.session, 'action-create-card', 'card', {
+	const id = await test.context.worker.executeAction(test.context.session, 'action-create-card', test.context.ids.card, {
 		properties: {
 			slug: 'johndoe',
 			data: {
@@ -191,7 +191,7 @@ ava.test('should create a card using computed formulas', async (test) => {
 		}
 	})
 
-	const card = await test.context.jellyfish.getCard(test.context.session, id)
+	const card = await test.context.jellyfish.getCardById(test.context.session, id)
 
 	test.deepEqual(card, {
 		id,
@@ -209,7 +209,7 @@ ava.test('should create a card using computed formulas', async (test) => {
 })
 
 ava.test('should not store the transient property', async (test) => {
-	const id = await test.context.worker.executeAction(test.context.session, 'action-create-card', 'card', {
+	const id = await test.context.worker.executeAction(test.context.session, 'action-create-card', test.context.ids.card, {
 		properties: {
 			slug: 'johndoe',
 			transient: {
@@ -221,7 +221,7 @@ ava.test('should not store the transient property', async (test) => {
 		}
 	})
 
-	const card = await test.context.jellyfish.getCard(test.context.session, id)
+	const card = await test.context.jellyfish.getCardById(test.context.session, id)
 
 	test.deepEqual(card, {
 		id,

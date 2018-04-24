@@ -19,7 +19,7 @@ const ava = require('ava')
 const utils = require('../../../lib/utils')
 
 ava.test('should replace an existing card and add an update event using a slug', async (test) => {
-	const id1 = await test.context.worker.executeAction(test.context.session, 'action-create-card', 'card', {
+	const id1 = await test.context.worker.executeAction(test.context.session, 'action-create-card', test.context.ids.card, {
 		properties: {
 			slug: 'johndoe',
 			data: {
@@ -38,7 +38,7 @@ ava.test('should replace an existing card and add an update event using a slug',
 
 	test.is(id1, id2)
 
-	const card = await test.context.jellyfish.getCard(test.context.session, id1)
+	const card = await test.context.jellyfish.getCardById(test.context.session, id1)
 
 	test.deepEqual(card, {
 		id: id1,
@@ -67,7 +67,7 @@ ava.test('should replace an existing card and add an update event using a slug',
 })
 
 ava.test('should replace an existing card and add an update event without using a slug', async (test) => {
-	const id1 = await test.context.worker.executeAction(test.context.session, 'action-create-card', 'card', {
+	const id1 = await test.context.worker.executeAction(test.context.session, 'action-create-card', test.context.ids.card, {
 		properties: {
 			data: {
 				foo: 'bar'
@@ -85,7 +85,7 @@ ava.test('should replace an existing card and add an update event without using 
 
 	test.is(id1, id2)
 
-	const card = await test.context.jellyfish.getCard(test.context.session, id1)
+	const card = await test.context.jellyfish.getCardById(test.context.session, id1)
 
 	test.deepEqual(card, {
 		id: id1,
@@ -124,7 +124,7 @@ ava.test('should fail if the target does not exist', async (test) => {
 })
 
 ava.test('should fail if the schema does not match', async (test) => {
-	const id = await test.context.worker.executeAction(test.context.session, 'action-create-card', 'card', {
+	const id = await test.context.worker.executeAction(test.context.session, 'action-create-card', test.context.ids.card, {
 		properties: {
 			data: {
 				foo: 'bar'
@@ -140,7 +140,7 @@ ava.test('should fail if the schema does not match', async (test) => {
 })
 
 ava.test('should add an extra property to a card', async (test) => {
-	const id1 = await test.context.worker.executeAction(test.context.session, 'action-create-card', 'card', {
+	const id1 = await test.context.worker.executeAction(test.context.session, 'action-create-card', test.context.ids.card, {
 		properties: {
 			slug: 'johndoe',
 			data: {
@@ -160,7 +160,7 @@ ava.test('should add an extra property to a card', async (test) => {
 
 	test.is(id1, id2)
 
-	const card = await test.context.jellyfish.getCard(test.context.session, id1)
+	const card = await test.context.jellyfish.getCardById(test.context.session, id1)
 
 	test.deepEqual(card, {
 		id: id1,
@@ -191,7 +191,7 @@ ava.test('should add an extra property to a card', async (test) => {
 })
 
 ava.test('should be able to add a slug', async (test) => {
-	const id1 = await test.context.worker.executeAction(test.context.session, 'action-create-card', 'card', {
+	const id1 = await test.context.worker.executeAction(test.context.session, 'action-create-card', test.context.ids.card, {
 		properties: {
 			data: {
 				foo: 'bar'
@@ -207,7 +207,7 @@ ava.test('should be able to add a slug', async (test) => {
 
 	test.is(id1, id2)
 
-	const card = await test.context.jellyfish.getCard(test.context.session, id1)
+	const card = await test.context.jellyfish.getCardById(test.context.session, id1)
 
 	test.deepEqual(card, {
 		id: id1,
@@ -223,7 +223,7 @@ ava.test('should be able to add a slug', async (test) => {
 })
 
 ava.test('should be able to set active to false', async (test) => {
-	const id1 = await test.context.worker.executeAction(test.context.session, 'action-create-card', 'card', {
+	const id1 = await test.context.worker.executeAction(test.context.session, 'action-create-card', test.context.ids.card, {
 		properties: {
 			data: {
 				foo: 'bar'
@@ -239,7 +239,7 @@ ava.test('should be able to set active to false', async (test) => {
 
 	test.is(id1, id2)
 
-	const card = await test.context.jellyfish.getCard(test.context.session, id1)
+	const card = await test.context.jellyfish.getCardById(test.context.session, id1)
 
 	test.deepEqual(card, {
 		id: id1,
@@ -254,7 +254,7 @@ ava.test('should be able to set active to false', async (test) => {
 })
 
 ava.test('should not store a change that adds a transient property', async (test) => {
-	const id1 = await test.context.worker.executeAction(test.context.session, 'action-create-card', 'card', {
+	const id1 = await test.context.worker.executeAction(test.context.session, 'action-create-card', test.context.ids.card, {
 		properties: {
 			slug: 'johndoe',
 			data: {
@@ -276,7 +276,7 @@ ava.test('should not store a change that adds a transient property', async (test
 
 	test.is(id1, id2)
 
-	const card = await test.context.jellyfish.getCard(test.context.session, id1)
+	const card = await test.context.jellyfish.getCardById(test.context.session, id1)
 
 	test.deepEqual(card, {
 		id: id1,

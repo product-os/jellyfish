@@ -68,7 +68,7 @@ ava.test('.getTimeline() should return the timeline ordered by time', async (tes
 		}
 	})
 
-	const admin = await test.context.jellyfish.getCard(test.context.session, 'user-admin')
+	const admin = await test.context.jellyfish.getCardBySlug(test.context.session, 'user-admin')
 	test.truthy(admin)
 
 	await test.context.jellyfish.insertCard(test.context.session, {
@@ -130,7 +130,7 @@ ava.test('.getTimeline() should return the timeline of an inactive card', async 
 		}
 	})
 
-	const admin = await test.context.jellyfish.getCard(test.context.session, 'user-admin')
+	const admin = await test.context.jellyfish.getCardBySlug(test.context.session, 'user-admin')
 	test.truthy(admin)
 
 	await test.context.jellyfish.insertCard(test.context.session, {
@@ -184,7 +184,7 @@ ava.test('.getTimeline() should return the timeline of an inactive card', async 
 ava.test('.getTimeline() should fail if the id does not exist', async (test) => {
 	const errors = test.context.jellyfish.errors
 	const id = '4a962ad9-20b5-4dd8-a707-bf819593cc84'
-	const card = await test.context.jellyfish.getCard(test.context.session, id)
+	const card = await test.context.jellyfish.getCardById(test.context.session, id)
 	test.falsy(card)
 	await test.throws(utils.getTimeline(test.context.jellyfish, test.context.session, id), errors.JellyfishNoElement)
 })
@@ -200,7 +200,7 @@ ava.test('.queryView() should throw if the view does not exist', async (test) =>
 
 ava.test('.queryView() should throw if the view is not of type view', async (test) => {
 	const errors = test.context.jellyfish.errors
-	const card = await test.context.jellyfish.getCard(test.context.session, 'card')
+	const card = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	test.truthy(card.id)
 	await test.throws(utils.queryView(test.context.jellyfish, test.context.session, card.id), errors.JellyfishNoView)
 })

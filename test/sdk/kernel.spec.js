@@ -52,7 +52,7 @@ ava.test.afterEach(async (test) => {
 
 for (const card of _.values(CARDS)) {
 	ava.test(`should contain the ${card.slug} card by default`, async (test) => {
-		const element = await test.context.kernel.getCard(test.context.kernel.sessions.admin, card.slug)
+		const element = await test.context.kernel.getCardBySlug(test.context.kernel.sessions.admin, card.slug)
 		test.deepEqual(CARDS[card.slug], _.omit(element, [ 'id' ]))
 	})
 }
@@ -414,7 +414,7 @@ ava.test('.insertCard() should be able to insert a card', async (test) => {
 		}
 	})
 
-	const element = await test.context.kernel.getCard(test.context.kernel.sessions.admin, id)
+	const element = await test.context.kernel.getCardById(test.context.kernel.sessions.admin, id)
 
 	test.deepEqual(element, {
 		id,
@@ -444,7 +444,7 @@ ava.test('.insertCard() should ignore the transient property', async (test) => {
 		}
 	})
 
-	const element = await test.context.kernel.getCard(test.context.kernel.sessions.admin, id)
+	const element = await test.context.kernel.getCardById(test.context.kernel.sessions.admin, id)
 
 	test.deepEqual(element, {
 		id,
@@ -490,7 +490,7 @@ ava.test('.insertCard() should ignore the transient property when upserting', as
 
 	test.is(id1, id2)
 
-	const element = await test.context.kernel.getCard(test.context.kernel.sessions.admin, id1)
+	const element = await test.context.kernel.getCardById(test.context.kernel.sessions.admin, id1)
 
 	test.deepEqual(element, {
 		id: id1,
@@ -510,7 +510,7 @@ ava.test('.insertCard() should provide sensible defaults', async (test) => {
 		type: 'card'
 	})
 
-	const element = await test.context.kernel.getCard(test.context.kernel.sessions.admin, id)
+	const element = await test.context.kernel.getCardById(test.context.kernel.sessions.admin, id)
 
 	test.deepEqual(element, {
 		id,
@@ -562,7 +562,7 @@ ava.test('.insertCard() should replace an element given override is true', async
 
 	test.is(id1, id2)
 
-	const element = await test.context.kernel.getCard(test.context.kernel.sessions.admin, id1)
+	const element = await test.context.kernel.getCardById(test.context.kernel.sessions.admin, id1)
 
 	test.deepEqual(element, {
 		id: id1,
@@ -700,10 +700,10 @@ ava.test('.insertCard() should restrict the visibility of the user using write r
 		}
 	})
 
-	const readUserType = await test.context.kernel.getCard(session, 'user')
+	const readUserType = await test.context.kernel.getCardBySlug(session, 'user')
 	test.is(readUserType.slug, 'user')
 
-	const writeUserType = await test.context.kernel.getCard(session, 'user', {
+	const writeUserType = await test.context.kernel.getCardBySlug(session, 'user', {
 		writeMode: true
 	})
 
@@ -724,12 +724,12 @@ ava.test('.insertCard() should restrict the visibility of the user using write r
 	}), errors.JellyfishUnknownCardType)
 })
 
-ava.test('.getCard() there should be an admin card', async (test) => {
-	const card = await test.context.kernel.getCard(test.context.kernel.sessions.admin, 'user-admin')
+ava.test('.getCardBySlug() there should be an admin card', async (test) => {
+	const card = await test.context.kernel.getCardBySlug(test.context.kernel.sessions.admin, 'user-admin')
 	test.truthy(card)
 })
 
-ava.test('.getCard() should find an active card by its id', async (test) => {
+ava.test('.getCardById() should find an active card by its id', async (test) => {
 	const id = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'foo-bar',
 		type: 'card',
@@ -739,7 +739,7 @@ ava.test('.getCard() should find an active card by its id', async (test) => {
 		data: {}
 	})
 
-	const card = await test.context.kernel.getCard(test.context.kernel.sessions.admin, id)
+	const card = await test.context.kernel.getCardById(test.context.kernel.sessions.admin, id)
 
 	test.deepEqual(card, {
 		id,
@@ -752,7 +752,7 @@ ava.test('.getCard() should find an active card by its id', async (test) => {
 	})
 })
 
-ava.test('.getCard() should find an active card by its slug', async (test) => {
+ava.test('.getCardBySlug() should find an active card by its slug', async (test) => {
 	const id = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'foo-bar',
 		type: 'card',
@@ -762,7 +762,7 @@ ava.test('.getCard() should find an active card by its slug', async (test) => {
 		data: {}
 	})
 
-	const card = await test.context.kernel.getCard(test.context.kernel.sessions.admin, 'foo-bar')
+	const card = await test.context.kernel.getCardBySlug(test.context.kernel.sessions.admin, 'foo-bar')
 
 	test.deepEqual(card, {
 		id,
@@ -775,7 +775,7 @@ ava.test('.getCard() should find an active card by its slug', async (test) => {
 	})
 })
 
-ava.test('.getCard() should return an inactive card by its id', async (test) => {
+ava.test('.getCardById() should return an inactive card by its id', async (test) => {
 	const id = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'foo-bar',
 		type: 'card',
@@ -785,7 +785,7 @@ ava.test('.getCard() should return an inactive card by its id', async (test) => 
 		data: {}
 	})
 
-	const card = await test.context.kernel.getCard(test.context.kernel.sessions.admin, id)
+	const card = await test.context.kernel.getCardById(test.context.kernel.sessions.admin, id)
 
 	test.deepEqual(card, {
 		id,
@@ -799,20 +799,20 @@ ava.test('.getCard() should return an inactive card by its id', async (test) => 
 })
 
 ava.test('.getSchema() should return the schema of an existing type card', async (test) => {
-	const card = await test.context.kernel.getCard(test.context.kernel.sessions.admin, CARDS.type.slug)
+	const card = await test.context.kernel.getCardBySlug(test.context.kernel.sessions.admin, CARDS.type.slug)
 	const schema = await test.context.kernel.getSchema(card)
 	test.deepEqual(schema, CARDS.type.data.schema)
 })
 
 ava.test('.getSchema() should return null given an unknown type', async (test) => {
-	const card = await test.context.kernel.getCard(test.context.kernel.sessions.admin, 'foobarbazqux')
+	const card = await test.context.kernel.getCardBySlug(test.context.kernel.sessions.admin, 'foobarbazqux')
 	test.falsy(card)
 	const schema = await test.context.kernel.getSchema(card)
 	test.deepEqual(schema, null)
 })
 
 ava.test('.getSchema() should return null given an known card that is not a type card ', async (test) => {
-	const card = await test.context.kernel.getCard(test.context.kernel.sessions.admin, 'user-admin')
+	const card = await test.context.kernel.getCardBySlug(test.context.kernel.sessions.admin, 'user-admin')
 	test.truthy(card)
 	test.not(card.type, 'type')
 	const schema = await test.context.kernel.getSchema(card)
