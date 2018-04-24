@@ -63,3 +63,12 @@ And then run:
 ```sh
 npm start
 ```
+
+/lib/sync
+==
+
+A tool for pushing Flowdock threads to Jellyfish.  Done as a jumping off point
+for SyncBot development.
+
+1) Get your [flowdock token](https://www.flowdock.com/account/tokens)
+2) Run `./lib/sync/sync.sh` with your token as the first argument

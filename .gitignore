@@ -66,3 +66,9 @@ dist/
 # End of https://www.gitignore.io/api/node
 
 rethinkdb_data
+
+# IDE Files
+*.iml
+.idea/
+.vscode/
+_dev_notes/

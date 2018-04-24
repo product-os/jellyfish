@@ -1,5 +1,5 @@
 {
-  "slug": "chat-thread",
+  "slug": "chat-contact",
   "type": "type",
   "name": "Chat thread",
   "tags": [],
@@ -12,9 +12,6 @@
         "data": {
           "type": "object",
           "properties": {
-            "description": {
-              "type": "string"
-            },
             "externalIds": {
               "type": "object"
             }

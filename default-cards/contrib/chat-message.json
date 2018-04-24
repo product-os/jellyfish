@@ -24,14 +24,21 @@
               "type": "string",
               "format": "uuid"
             },
+            "externalIds": {
+              "type": "object"
+            },
             "payload": {
               "type": "object",
               "properties": {
                 "message": {
                   "type": "string"
+                },
+                "hidden": {
+                  "type": "string",
+                  "enum": ["ALWAYS", "PREFERRED", "NEVER"]
                 }
               },
-              "required": [ "message" ],
+              "required": [ "message", "hidden" ],
               "additionalProperties": true
             }
           },
