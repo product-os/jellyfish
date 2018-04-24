@@ -3,7 +3,8 @@ import * as _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Button, Flex, Form, Modal, Txt } from 'rendition';
+import { Button, Flex, Modal, Txt } from 'rendition';
+import { Form } from 'rendition/dist/unstable';
 import { Card } from '../../Types';
 import * as sdk from '../services/sdk';
 import { actionCreators } from '../services/store';
@@ -120,8 +121,9 @@ class CardActions extends React.Component<
 						<Form
 							schema={this.state.schema}
 							value={this.state.editModel}
-							onChange={(data: any) => this.setState({ editModel: data.formData })}
-							onSubmit={() => this.updateEntry()}
+							onFormChange={(data: any) => this.setState({ editModel: data.formData })}
+							onFormSubmit={() => this.updateEntry()}
+							hideSubmitButton
 						/>
 					</Modal>
 				}

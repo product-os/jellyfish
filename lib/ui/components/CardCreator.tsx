@@ -2,9 +2,9 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
-	Form,
 	Modal,
 } from 'rendition';
+import { Form } from 'rendition/dist/unstable';
 import { Card, Type } from '../../Types';
 import { card } from '../services/sdk';
 import { actionCreators } from '../services/store';
@@ -61,8 +61,9 @@ class CardCreator extends React.Component<CardCreatorProps, CardCreatorState> {
 				<Form
 					schema={(this.props.type as any).data.schema}
 					value={this.state.newCardModel}
-					onChange={(data: any) => this.setState({ newCardModel: data.formData })}
-					onSubmit={() => !!this.props.type && this.addEntry()}
+					onFormChange={(data: any) => this.setState({ newCardModel: data.formData })}
+					onFormSubmit={() => !!this.props.type && this.addEntry()}
+					hideSubmitButton
 				/>
 			</Modal>
 		);
