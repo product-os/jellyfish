@@ -16,9 +16,23 @@
         "data": {
           "type": "object",
           "properties": {
-            "email": {
-              "type": "string",
-              "format": "email"
+            "contactMethods": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "object",
+                "properties": {
+                  "protocol": {
+                    "type": "string",
+                    "enum": [ "mailto", "http", "https", "tel" ]
+                  },
+                  "value": {
+                    "type": "string"
+                  }
+                },
+                "required": [ "protocol", "value" ]
+              }
             },
             "password": {
               "type": "object",
@@ -45,7 +59,7 @@
             }
           },
           "required": [
-            "email",
+            "contactMethods",
             "roles"
           ]
         }
