@@ -58,18 +58,16 @@ interface ThreadCandidateCard extends CandidateCard {
 	data: ThreadDetails;
 }
 
-interface UserIds extends BaseIds {
+interface ContactIds extends BaseIds {
 	username: string;
 }
 
-interface UserDetails extends BaseDetails {
-	email: string;
-	roles: string[];
-	externalIds: Dictionary<UserIds>;
+interface ContactDetails extends BaseDetails {
+	externalIds: Dictionary<ContactIds>;
 }
 
-interface UserCandidateCard extends CandidateCard {
-	data: UserDetails;
+interface ContactCandidateCard extends CandidateCard {
+	data: ContactDetails;
 }
 
 interface MessageIds extends ThreadIds {
@@ -112,7 +110,6 @@ interface UpsertPayload {
 	content: string;
 	hidden: PrivacyPreferences;
 	timestamp: DateTime;
-	email: string;
 }
 
 interface UpsertInstructions {
@@ -188,7 +185,7 @@ class ThreadStore {
 		const threadSlugPart = `${slugParts.service}-${slugParts.instance}-${slugParts.flow}-${slugParts.thread}`;
 		return {
 			thread: `thread-${threadSlugPart}`,
-			user: `user-${slugParts.service}-${slugParts.instance}-${slugParts.username}`,
+			user: `contact-${slugParts.service}-${slugParts.instance}-${slugParts.username}`,
 			message: `message-${threadSlugPart}-${slugParts.message}`,
 		};
 	}
@@ -222,56 +219,54 @@ class ThreadStore {
 				},
 			}
 		};
-		return this.upsertLinkedCard(thread)
-		.then((threadCard) => {
-			const user: UserCandidateCard = {
-				slug: protoSlugs.user,
-				type: 'user',
-				data: {
-					email: upsertInstructions.payload.email,
-					roles: [],
-					externalIds: {
-						[upsertInstructions.urls.user]: {
-							service: upsertInstructions.ids.service,
-							instance: upsertInstructions.ids.instance,
-							username: upsertInstructions.ids.username,
-						}
+		const contact: ContactCandidateCard = {
+			slug: protoSlugs.user,
+			type: 'chat-contact',
+			data: {
+				externalIds: {
+					[upsertInstructions.urls.user]: {
+						service: upsertInstructions.ids.service,
+						instance: upsertInstructions.ids.instance,
+						username: upsertInstructions.ids.username,
 					}
 				}
+			}
+		};
+		return Promise.props({
+			thread: this.upsertLinkedCard(thread),
+			contact: this.upsertLinkedCard(contact),
+		})
+		.then((ids) => {
+			const message: MessageCandidateCard = {
+				slug: protoSlugs.message,
+				type: 'chat-message',
+				data: {
+					timestamp: Moment(upsertInstructions.payload.timestamp).toISOString(),
+					target: ids.thread,
+					actor: ids.contact,
+					payload: {
+						hidden: upsertInstructions.payload.hidden,
+						message: upsertInstructions.payload.content,
+					},
+					externalIds: {
+						[upsertInstructions.urls.message]: {
+							service: upsertInstructions.ids.service,
+							instance: upsertInstructions.ids.instance,
+							flow: upsertInstructions.ids.flow,
+							thread: upsertInstructions.ids.thread,
+							message: upsertInstructions.ids.message,
+						},
+					},
+				}
 			};
-			return this.upsertLinkedCard(user)
-			.then((userCard) => {
-				const message: MessageCandidateCard = {
-					slug: protoSlugs.message,
-					type: 'chat-message',
-					data: {
-						timestamp: Moment(upsertInstructions.payload.timestamp).toISOString(),
-						target: threadCard.id,
-						actor: userCard.id,
-						payload: {
-							hidden: upsertInstructions.payload.hidden,
-							message: upsertInstructions.payload.content,
-						},
-						externalIds: {
-							[upsertInstructions.urls.message]: {
-								service: upsertInstructions.ids.service,
-								instance: upsertInstructions.ids.instance,
-								flow: upsertInstructions.ids.flow,
-								thread: upsertInstructions.ids.thread,
-								message: upsertInstructions.ids.message,
-							},
-						},
-					}
-				};
-				return this.upsertLinkedCard(message)
-				.return();
-			});
+			return this.upsertLinkedCard(message)
+			.return();
 		});
 	}
 
 	private upsertLinkedCard(
 		candidateCard: CandidateCard,
-	): Promise<DBBackedCard> {
+	): Promise<string> {
 		return this.getSimilar(candidateCard)
 		.then((getResponse: DBBackedCard) => {
 			if (getResponse) {
@@ -316,7 +311,7 @@ class ThreadStore {
 			],
 			additionalProperties: true,
 		};
-		return this.request('GET', 'query', query)
+		return this.query(query)
 		.then((dbBackedCards: DBBackedCard[]) => {
 			if (dbBackedCards.length > 1) {
 				throw new Error('Multiple similar cards.');
@@ -328,46 +323,24 @@ class ThreadStore {
 		});
 	}
 
-	private post(card: CandidateCard): Promise<DBBackedCard> {
-		return this.request('POST', 'card', card)
-		.then((response) => {
-			return {
-				id: _.get(response, ['results', 'data']),
-				type: card.type,
-				data: card.data,
-			};
-		});
+	private post(card: CandidateCard): Promise<string> {
+		return this.action('action-create-card', card.type, { slug: card.slug, data: card.data });
 	}
 
-	private patch(card: DBBackedCard): Promise<DBBackedCard> {
-		return this.request('PATCH', `card/${card.id}`, card)
-		.then((response: DBBackedCard) => {
-			if (!response) {
-				throw new Error(`Card ${card.id} does not exist to patch.`);
-			}
-			return response;
-		});
+	private patch(card: DBBackedCard): Promise<string> {
+		return this.action('action-update-card', card.id, { data: card.data });
 	}
 
-	private request(method: string, path: string, data?: object): Promise<object | object[] | null> {
+	private query(query: object): Promise<DBBackedCard[]> {
 		const requestOptions: Options = {
 			headers: {
 				authorization: this.token,
 			},
 			json: true,
-			method,
-			url: `${this.protocol}://${this.server}:${this.port.toString()}/api/v1/${path}`,
+			method: 'GET',
+			url: `${this.protocol}://${this.server}:${this.port.toString()}/api/v1/query`,
+			qs: query,
 		};
-		switch (method) {
-			case 'POST':
-			case 'PATCH':
-				requestOptions.body = data;
-				break;
-			case 'GET':
-				requestOptions.qs = data;
-				break;
-			default:
-		}
 		return request(requestOptions)
 		.then((response) => {
 			if (response.error) {
@@ -377,6 +350,37 @@ class ThreadStore {
 				throw new Error(JSON.stringify(response.data.results));
 			}
 			return response.data;
+		})
+		.catch((error) => {
+			throw new Error(error);
+		});
+	}
+
+	private action(action: string, target: string, data: object): Promise<string> {
+		const requestOptions: Options = {
+			headers: {
+				authorization: this.token,
+			},
+			json: true,
+			method: 'POST',
+			url: `${this.protocol}://${this.server}:${this.port.toString()}/api/v1/action`,
+			body: {
+				action,
+				target,
+				arguments: {
+					properties: data
+				}
+			}
+		};
+		return request(requestOptions)
+		.then((response) => {
+			if (response.error) {
+				throw new Error(JSON.stringify(response));
+			}
+			if (_.get(response, ['data', 'results', 'error'])) {
+				throw new Error(JSON.stringify(response.data.results));
+			}
+			return response.data.results.data;
 		})
 		.catch((error) => {
 			throw new Error(error);
@@ -442,7 +446,6 @@ class ThreadStream {
 					},
 					payload: {
 						title: message.thread.title,
-						email: this.cache.usersById[message.user].email,
 						hidden: 'NEVER',
 						content: message.content.toString(),
 						timestamp: message.created_at,
