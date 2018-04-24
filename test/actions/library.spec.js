@@ -47,6 +47,11 @@ ava.test.beforeEach(async (test) => {
 		require('../../default-cards/contrib/action-restore-card.json'))
 	await test.context.jellyfish.insertCard(test.context.session,
 		require('../../default-cards/contrib/action-update-email.json'))
+
+	test.context.ids = {
+		card: (await test.context.jellyfish.getCardBySlug(test.context.session, 'card')).id,
+		user: (await test.context.jellyfish.getCardBySlug(test.context.session, 'user')).id
+	}
 })
 
 ava.test.afterEach(async (test) => {

@@ -18,15 +18,15 @@ const ava = require('ava')
 const utils = require('../../../lib/utils')
 
 ava.test('should update the user email', async (test) => {
-	const target = await test.context.jellyfish.getCard(test.context.session, 'user-admin')
+	const target = await test.context.jellyfish.getCardBySlug(test.context.session, 'user-admin')
 
-	const id = await test.context.worker.executeAction(test.context.session, 'action-update-email', target.slug, {
+	const id = await test.context.worker.executeAction(test.context.session, 'action-update-email', target.id, {
 		email: 'foobar@example.com'
 	})
 
 	test.is(id, target.id)
 
-	const card = await test.context.jellyfish.getCard(test.context.session, id)
+	const card = await test.context.jellyfish.getCardById(test.context.session, id)
 	test.is(card.data.email, 'foobar@example.com')
 
 	const timeline = await utils.getTimeline(test.context.jellyfish, test.context.session, id)
@@ -46,15 +46,15 @@ ava.test('should update the user email', async (test) => {
 })
 
 ava.test('should not create an event if the change is already there', async (test) => {
-	const target = await test.context.jellyfish.getCard(test.context.session, 'user-admin')
+	const target = await test.context.jellyfish.getCardBySlug(test.context.session, 'user-admin')
 
-	const id = await test.context.worker.executeAction(test.context.session, 'action-update-email', target.slug, {
+	const id = await test.context.worker.executeAction(test.context.session, 'action-update-email', target.id, {
 		email: target.data.email
 	})
 
 	test.is(id, target.id)
 
-	const card = await test.context.jellyfish.getCard(test.context.session, id)
+	const card = await test.context.jellyfish.getCardById(test.context.session, id)
 	test.is(card.data.email, target.data.email)
 
 	const timeline = await utils.getTimeline(test.context.jellyfish, test.context.session, id)

@@ -19,7 +19,7 @@ const ava = require('ava')
 const utils = require('../../../lib/utils')
 
 ava.test('should delete an active card', async (test) => {
-	const id = await test.context.worker.executeAction(test.context.session, 'action-create-card', 'card', {
+	const id = await test.context.worker.executeAction(test.context.session, 'action-create-card', test.context.ids.card, {
 		properties: {
 			slug: 'johndoe',
 			data: {
@@ -31,7 +31,7 @@ ava.test('should delete an active card', async (test) => {
 	const result = await test.context.worker.executeAction(test.context.session, 'action-delete-card', id, {})
 	test.is(result, id)
 
-	const card = await test.context.jellyfish.getCard(test.context.session, id)
+	const card = await test.context.jellyfish.getCardById(test.context.session, id)
 
 	test.deepEqual(card, {
 		id,
@@ -50,7 +50,7 @@ ava.test('should delete an active card', async (test) => {
 })
 
 ava.test('should delete an inactive card', async (test) => {
-	const id = await test.context.worker.executeAction(test.context.session, 'action-create-card', 'card', {
+	const id = await test.context.worker.executeAction(test.context.session, 'action-create-card', test.context.ids.card, {
 		properties: {
 			active: false,
 			slug: 'johndoe',
@@ -63,7 +63,7 @@ ava.test('should delete an inactive card', async (test) => {
 	const result = await test.context.worker.executeAction(test.context.session, 'action-delete-card', id, {})
 	test.is(result, id)
 
-	const card = await test.context.jellyfish.getCard(test.context.session, id)
+	const card = await test.context.jellyfish.getCardById(test.context.session, id)
 
 	test.deepEqual(card, {
 		id,

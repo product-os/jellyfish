@@ -21,14 +21,14 @@ ava.test('should create a user', async (test) => {
 	const salt = credentials.generateSalt()
 	const hash = credentials.hash('foobar', salt)
 
-	const id = await test.context.worker.executeAction(test.context.session, 'action-create-user', 'user', {
+	const id = await test.context.worker.executeAction(test.context.session, 'action-create-user', test.context.ids.user, {
 		email: 'johndoe@example.com',
 		username: 'johndoe',
 		salt,
 		hash
 	})
 
-	const card = await test.context.jellyfish.getCard(test.context.session, id)
+	const card = await test.context.jellyfish.getCardById(test.context.session, id)
 
 	test.deepEqual(card, {
 		id,
