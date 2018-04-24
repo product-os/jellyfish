@@ -1,6 +1,6 @@
 {
-  "slug": "view-read-user-guest",
-  "name": "Guest role read permissions",
+  "slug": "view-read-user-default",
+  "name": "Default role read permissions",
   "type": "view",
   "tags": [],
   "links": [],
@@ -27,13 +27,6 @@
         "schema": {
           "type": "object",
           "properties": {
-            "slug": {
-              "type": "string",
-              "anyOf": [
-                { "const": "action-request" },
-                { "const": "user" }
-              ]
-            },
             "type": {
               "type": "string",
               "const": "type"
@@ -99,24 +92,9 @@
                 "actor": {
                   "type": "string",
                   "const": "[user.id]"
-                },
-                "target": {
-                  "type": "string"
-                },
-                "action": {
-                  "type": "string"
-                },
-                "action": {
-                  "timestamp": "string"
-                },
-                "executed": {
-                  "type": "boolean"
-                },
-                "result": {
-                  "type": "object"
                 }
               },
-              "additionalProperties": false
+              "additionalProperties": true
             }
           },
           "additionalProperties": true,
@@ -160,8 +138,7 @@
                   "type": "string",
                   "const": "[user.id]"
                 }
-              },
-              "additionalProperties": true
+              }
             }
           },
           "additionalProperties": true,
@@ -169,7 +146,50 @@
         }
       },
       {
-        "name": "User IDs",
+        "name": "Views",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "view"
+            },
+            "slug": {
+              "not": {
+                "pattern": "view-(read|write)-user.+"
+              }
+            },
+            "id": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": true,
+          "required": [ "id", "slug", "type" ]
+        }
+      },
+      {
+        "name": "Contrib cards",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string",
+              "anyOf": [
+                { "const": "chat-thread" },
+                { "const": "chat-message" },
+                { "const": "repo" }
+              ]
+            }
+          },
+          "additionalProperties": true,
+          "required": [ "type" ]
+        }
+      },
+      {
+        "name": "Other users",
         "schema": {
           "type": "object",
           "properties": {
@@ -179,10 +199,18 @@
             "type": {
               "type": "string",
               "const": "user"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
             }
           },
-          "additionalProperties": false,
-          "required": [ "id", "type" ]
+          "required": [ "id", "type", "data" ]
         }
       }
     ]

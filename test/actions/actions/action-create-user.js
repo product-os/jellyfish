@@ -43,7 +43,9 @@ ava.test('should restore an active card', async (test) => {
 				salt,
 				hash
 			},
-			roles: []
+			roles: [
+				'user-default'
+			]
 		}
 	})
 })

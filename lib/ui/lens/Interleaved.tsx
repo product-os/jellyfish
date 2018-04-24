@@ -134,6 +134,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 	}
 
 	public render() {
+		const { head } = this.props.channel.data;
 		const tail = this.props.tail || _.sortBy<Card>(this.state.tail, x => x.data.timestamp);
 
 		const channelTarget = this.props.channel.data.target;
@@ -160,14 +161,16 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 					}
 				</Box>
 
-				<Box p={3} style={{ borderTop: '1px solid #eee' }}>
-					<Textarea
-						rows={1}
-						value={this.state.newMessage}
-						onChange={(e) => this.setState({ newMessage: e.target.value })}
-						onKeyPress={(e) => e.key === 'Enter' && this.addMessage(e)}
-						placeholder='Type to comment on this thread...' />
-				</Box>
+				{head && head.type !== 'view' &&
+					<Box p={3} style={{ borderTop: '1px solid #eee' }}>
+						<Textarea
+							rows={1}
+							value={this.state.newMessage}
+							onChange={(e) => this.setState({ newMessage: e.target.value })}
+							onKeyPress={(e) => e.key === 'Enter' && this.addMessage(e)}
+							placeholder='Type to comment on this thread...' />
+					</Box>
+				}
 			</Column>
 		);
 	}

@@ -117,7 +117,7 @@ ava.test('.createRequest() should be able to create a user using action-create-u
 	test.is(user.slug, 'user-johndoe')
 	test.is(user.type, 'user')
 	test.is(user.data.email, 'johndoe@example.com')
-	test.deepEqual(user.data.roles, [])
+	test.deepEqual(user.data.roles, [ 'user-default' ])
 
 	test.true(credentials.check('foobarbaz', user.data.password))
 	test.false(credentials.check('fooquxbaz', user.data.password))
@@ -139,12 +139,12 @@ ava.test('.createRequest() should login as a user with a password', async (test)
 		}
 	})
 
-	const signupRequest = await test.context.jellyfish.getCard(test.context.jellyfish.sessions.guest, signupRequestId)
+	const signupRequest = await test.context.jellyfish.getCard(test.context.jellyfish.sessions.admin, signupRequestId)
 	await test.context.worker.processRequest(signupRequest)
 
-	const user = await test.context.jellyfish.getCard(test.context.session, 'user-johndoe')
+	const user = await test.context.jellyfish.getCard(test.context.jellyfish.sessions.admin, 'user-johndoe')
 
-	const loginRequestId = await test.context.worker.createRequest(test.context.jellyfish.sessions.guest, {
+	const loginRequestId = await test.context.worker.createRequest(test.context.jellyfish.sessions.admin, {
 		targetId: 'user-johndoe',
 		actorId: 'user-guest',
 		action: 'action-create-session',
@@ -158,10 +158,10 @@ ava.test('.createRequest() should login as a user with a password', async (test)
 		}
 	})
 
-	const loginRequest = await test.context.jellyfish.getCard(test.context.jellyfish.sessions.guest, loginRequestId)
+	const loginRequest = await test.context.jellyfish.getCard(test.context.jellyfish.sessions.admin, loginRequestId)
 	await test.context.worker.processRequest(loginRequest)
 
-	const finishedLoginRequest = await test.context.jellyfish.getCard(test.context.jellyfish.sessions.guest, loginRequestId)
+	const finishedLoginRequest = await test.context.jellyfish.getCard(test.context.jellyfish.sessions.admin, loginRequestId)
 	const token = finishedLoginRequest.data.result.data
 
 	test.false(finishedLoginRequest.data.result.error)
@@ -201,12 +201,13 @@ ava.test('.createRequest() should fail if login in with the wrong password', asy
 		}
 	})
 
-	const signupRequest = await test.context.jellyfish.getCard(test.context.jellyfish.sessions.guest, signupRequestId)
+	const signupRequest = await test.context.jellyfish.getCard(test.context.jellyfish.sessions.admin, signupRequestId)
+
 	await test.context.worker.processRequest(signupRequest)
 
-	const user = await test.context.jellyfish.getCard(test.context.session, 'user-johndoe')
+	const user = await test.context.jellyfish.getCard(test.context.jellyfish.sessions.admin, 'user-johndoe')
 
-	const loginRequestId = await test.context.worker.createRequest(test.context.jellyfish.sessions.guest, {
+	const loginRequestId = await test.context.worker.createRequest(test.context.jellyfish.sessions.admin, {
 		targetId: 'user-johndoe',
 		actorId: 'user-guest',
 		action: 'action-create-session',
@@ -220,9 +221,9 @@ ava.test('.createRequest() should fail if login in with the wrong password', asy
 		}
 	})
 
-	const loginRequest = await test.context.jellyfish.getCard(test.context.jellyfish.sessions.guest, loginRequestId)
+	const loginRequest = await test.context.jellyfish.getCard(test.context.jellyfish.sessions.admin, loginRequestId)
 	await test.context.worker.processRequest(loginRequest)
-	const finishedLoginRequest = await test.context.jellyfish.getCard(test.context.jellyfish.sessions.guest, loginRequestId)
+	const finishedLoginRequest = await test.context.jellyfish.getCard(test.context.jellyfish.sessions.admin, loginRequestId)
 
 	test.true(finishedLoginRequest.data.result.error)
 	test.true(finishedLoginRequest.data.executed)
@@ -251,10 +252,10 @@ ava.test('.createRequest() should login as a password-less user', async (test) =
 		}
 	})
 
-	const loginRequest = await test.context.jellyfish.getCard(test.context.jellyfish.sessions.guest, loginRequestId)
+	const loginRequest = await test.context.jellyfish.getCard(test.context.jellyfish.sessions.admin, loginRequestId)
 	await test.context.worker.processRequest(loginRequest)
 
-	const finishedLoginRequest = await test.context.jellyfish.getCard(test.context.jellyfish.sessions.guest, loginRequestId)
+	const finishedLoginRequest = await test.context.jellyfish.getCard(test.context.jellyfish.sessions.admin, loginRequestId)
 	const token = finishedLoginRequest.data.result.data
 	test.false(finishedLoginRequest.data.result.error)
 	const session = await test.context.jellyfish.getCard(test.context.session, token)
