@@ -71,7 +71,7 @@ _.each(_.map(fs.readdirSync(path.join(__dirname, 'cards')), (file) => {
 _.each(CARDS, (cards, category) => {
 	_.each(cards, (value, key) => {
 		ava.test(category, isCardMacro, CARDS.core.card, key, value, true)
-		const type = CARDS.core[value.type] || CARDS.essential[value.type] || CARDS.contrib[value.type]
+		const type = CARDS.core[value.type] || CARDS.contrib[value.type]
 		ava.test(category, isCardMacro, type, key, value, true)
 	})
 })
