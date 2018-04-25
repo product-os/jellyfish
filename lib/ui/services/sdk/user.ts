@@ -24,10 +24,10 @@ export const signup = ({ username, email, password }: {
 			hash: '{{ HASH(properties.transient.password, properties.data.arguments.salt) }}',
 		},
 	})
-		.then(() => login({
-			username,
-			password,
-		}));
+	.then(() => login({
+		username,
+		password,
+	}));
 
 export const login = (payload: {
 	username: string;

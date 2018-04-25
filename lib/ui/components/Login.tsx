@@ -106,6 +106,7 @@ export default class Login extends React.Component<{}, LoginState> {
 								<form onSubmit={(e) => e.preventDefault() || this.signup()}>
 									<Txt fontSize={1} mb={1}>Email</Txt>
 									<Input
+										className='login-page__input--email'
 										mb={5}
 										w='100%'
 										emphasized
@@ -117,6 +118,7 @@ export default class Login extends React.Component<{}, LoginState> {
 
 									<Txt fontSize={1} mb={1}>Username</Txt>
 									<Input
+										className='login-page__input--username'
 										mb={5}
 										w='100%'
 										emphasized
@@ -127,6 +129,7 @@ export default class Login extends React.Component<{}, LoginState> {
 
 									<Txt fontSize={1} mb={1}>Password</Txt>
 									<Input
+										className='login-page__input--password'
 										mb={5}
 										w='100%'
 										emphasized
@@ -138,6 +141,7 @@ export default class Login extends React.Component<{}, LoginState> {
 
 									<Box>
 										<Button
+											className='login-page__submit--signup'
 											w='100%'
 											primary
 											emphasized
