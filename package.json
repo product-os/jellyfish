@@ -21,7 +21,6 @@
   },
   "ava": {
     "verbose": true,
-    "concurrency": 3,
     "failFast": true,
     "require": [
       "./test/test-helpers/ui-setup.js"
