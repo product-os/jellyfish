@@ -825,7 +825,7 @@ ava.test('.getSchema() should return null given no card', (test) => {
 })
 
 ava.test('.getSchema() should return null if the card is not a view', (test) => {
-	const schema = test.context.kernel.getSchema(CARDS['action-create-card'])
+	const schema = test.context.kernel.getSchema(CARDS['user-admin'])
 	test.deepEqual(schema, null)
 })
 
