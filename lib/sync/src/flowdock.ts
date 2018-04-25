@@ -58,16 +58,16 @@ interface ThreadCandidateCard extends CandidateCard {
 	data: ThreadDetails;
 }
 
-interface ContactIds extends BaseIds {
+interface AuthorIds extends BaseIds {
 	username: string;
 }
 
-interface ContactDetails extends BaseDetails {
-	externalIds: Dictionary<ContactIds>;
+interface AuthorDetails extends BaseDetails {
+	externalIds: Dictionary<AuthorIds>;
 }
 
-interface ContactCandidateCard extends CandidateCard {
-	data: ContactDetails;
+interface AuthorCandidateCard extends CandidateCard {
+	data: AuthorDetails;
 }
 
 interface MessageIds extends ThreadIds {
@@ -185,7 +185,7 @@ class ThreadStore {
 		const threadSlugPart = `${slugParts.service}-${slugParts.instance}-${slugParts.flow}-${slugParts.thread}`;
 		return {
 			thread: `thread-${threadSlugPart}`,
-			user: `contact-${slugParts.service}-${slugParts.instance}-${slugParts.username}`,
+			user: `author-${slugParts.service}-${slugParts.instance}-${slugParts.username}`,
 			message: `message-${threadSlugPart}-${slugParts.message}`,
 		};
 	}
@@ -219,9 +219,9 @@ class ThreadStore {
 				},
 			}
 		};
-		const contact: ContactCandidateCard = {
+		const author: AuthorCandidateCard = {
 			slug: protoSlugs.user,
-			type: 'chat-contact',
+			type: 'chat-author',
 			data: {
 				externalIds: {
 					[upsertInstructions.urls.user]: {
@@ -234,7 +234,7 @@ class ThreadStore {
 		};
 		return Promise.props({
 			thread: this.upsertLinkedCard(thread),
-			contact: this.upsertLinkedCard(contact),
+			author: this.upsertLinkedCard(author),
 		})
 		.then((ids) => {
 			const message: MessageCandidateCard = {
@@ -243,7 +243,7 @@ class ThreadStore {
 				data: {
 					timestamp: Moment(upsertInstructions.payload.timestamp).toISOString(),
 					target: ids.thread,
-					actor: ids.contact,
+					actor: ids.author,
 					payload: {
 						hidden: upsertInstructions.payload.hidden,
 						message: upsertInstructions.payload.content,

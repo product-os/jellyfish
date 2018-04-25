@@ -1,7 +1,7 @@
 {
-  "slug": "chat-contact",
+  "slug": "chat-author",
   "type": "type",
-  "name": "Chat thread",
+  "name": "Chat Author",
   "tags": [],
   "links": [],
   "active": true,
