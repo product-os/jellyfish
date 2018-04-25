@@ -1254,23 +1254,6 @@ ava.test('.getSchema() should return the schema of a card type', (test) => {
 	test.is(schema.type, 'object')
 })
 
-ava.test('.query() should only return the user itself for the guest user', async (test) => {
-	const results = await test.context.kernel.query(test.context.kernel.sessions.guest, {
-		type: 'object',
-		properties: {
-			slug: {
-				type: 'string'
-			},
-			type: {
-				type: 'string',
-				const: 'user'
-			}
-		}
-	})
-
-	test.deepEqual(_.map(results, 'slug'), [ 'user-guest' ])
-})
-
 ava.test('.query() should return the cards that match a schema', async (test) => {
 	const id1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'johndoe',
@@ -1578,10 +1561,7 @@ ava.test('.query() should query all cards of a certain type', async (test) => {
 		required: [ 'slug', 'type' ]
 	})
 
-	test.deepEqual(_.sortBy(_.map(results, 'slug')), [
-		'user-admin',
-		'user-guest'
-	])
+	test.deepEqual(_.sortBy(_.map(results, 'slug')), [ 'user-admin' ])
 })
 
 ava.test('.query() should return all action request cards', async (test) => {
