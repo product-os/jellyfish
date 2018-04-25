@@ -90,7 +90,7 @@ class HomeChannel extends TailStreamer<HomeChannelProps, HomeChannelState> {
 		}
 
 		return (
-			<Flex flexDirection='column'
+			<Flex className="home-channel" flexDirection='column'
 				style={{ height: '100%', overflowY: 'auto', borderRight: '1px solid #ccc', minWidth: 220 }}>
 				<Flex
 					bg='#333'
@@ -130,6 +130,7 @@ class HomeChannel extends TailStreamer<HomeChannelProps, HomeChannelState> {
 
 						return (
 							<Link
+								className="home-channel__item"
 								style={{display: 'block'}}
 								key={card.id}
 								bg={isActive ? '#666' : 'none'}

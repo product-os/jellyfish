@@ -4,7 +4,7 @@ import { Channel } from '../../Types';
 
 const PURPLE = '#8268c5';
 
-const DEBUG = window.location.hostname === 'localhost';
+const DEBUG =	process.env.NODE_ENV !== 'production';
 
 export const debug = (...params: any[]) => {
 	if (DEBUG) {
