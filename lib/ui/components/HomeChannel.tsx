@@ -90,9 +90,10 @@ class HomeChannel extends TailStreamer<HomeChannelProps, HomeChannelState> {
 		}
 
 		return (
-			<Flex className="home-channel" flexDirection='column'
+			<Flex className='home-channel' flexDirection='column'
 				style={{ height: '100%', overflowY: 'auto', borderRight: '1px solid #ccc', minWidth: 220 }}>
 				<Flex
+					className='user-menu-toggle'
 					bg='#333'
 					align='center'
 					color='white'
@@ -111,8 +112,8 @@ class HomeChannel extends TailStreamer<HomeChannelProps, HomeChannelState> {
 
 				{this.state.showMenu &&
 					<Fixed z={9999999} onClick={() => this.setState({ showMenu: false })}>
-						<MenuPanel mx={3} p={3}>
-							<Button plaintext onClick={() => this.logout()}>Log out</Button>
+						<MenuPanel className='user-menu' mx={3} p={3}>
+							<Button className='user-menu__logout' plaintext onClick={() => this.logout()}>Log out</Button>
 						</MenuPanel>
 					</Fixed>
 				}
@@ -130,7 +131,7 @@ class HomeChannel extends TailStreamer<HomeChannelProps, HomeChannelState> {
 
 						return (
 							<Link
-								className="home-channel__item"
+								className='home-channel__item'
 								style={{display: 'block'}}
 								key={card.id}
 								bg={isActive ? '#666' : 'none'}
