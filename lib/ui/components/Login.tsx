@@ -78,12 +78,18 @@ export default class Login extends React.Component<{}, LoginState> {
 				<TopBar>
 					<Img w={70} pl={2} p={10} src='/icons/jellyfish.svg' />
 
-					<Button mr={3} onClick={() => this.setState({ showSignup: !this.state.showSignup })}>
+					<Button
+						className="login-signup-toggle"
+						mr={3}
+						onClick={() => this.setState({ showSignup: !this.state.showSignup })}>
 						{this.state.showSignup ? 'Log in' : 'Sign up'}
 					</Button>
 				</TopBar>
-				<Container mt={4}>
-					<Box mx='auto' style={{maxWidth: 470}}>
+				<Container mt={4} className="login-page">
+					<Box
+						className={this.state.showSignup ? 'login-page__signup' : 'login-page__login'}
+						mx='auto'
+						style={{maxWidth: 470}}>
 						{this.state.showSignup &&
 							<React.Fragment>
 								<Txt align='center' mb={4} >
