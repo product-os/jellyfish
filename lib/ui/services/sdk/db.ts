@@ -1,10 +1,12 @@
 import * as Promise from 'bluebird';
 import { EventEmitter } from 'events';
 import { JSONSchema6 } from 'json-schema';
+import * as _ from 'lodash';
 import * as io from 'socket.io-client';
 import { Card } from '../../../Types';
-import { getRequest, getToken, postRequest, queryStringEncode } from './utils';
+import * as card from './card';
 import { API_URL } from './constants';
+import { isUUID, getRequest, getToken, postRequest, queryStringEncode } from './utils';
 
 interface EventMap {
 	data: {
@@ -103,7 +105,17 @@ export const action = (body: {
 		body.arguments = {};
 	}
 
-	return postRequest<ActionResponse>('action', body)
+	return Promise.try(() => {
+		if (isUUID(body.target)) {
+			return body.target;
+		}
+
+		return card.get(body.target)
+			.then(({ id }) => id);
+	})
+		.then(
+			(target) => postRequest<ActionResponse>('action', _.assign({}, body, { target })),
+		)
 		.then((response) => {
 			if (response.data.data.results.error) {
 				throw new Error(response.data.data.results.data);

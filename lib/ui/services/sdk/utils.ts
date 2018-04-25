@@ -13,7 +13,6 @@ const ajv = new Ajv();
 ajvKeywords(ajv);
 ajv.addMetaSchema(metaSchema6);
 
-
 const trimSlash = (s: string) => _.trim(s, '/');
 
 const API_BASE = `${trimSlash(API_URL)}/${trimSlash(API_PREFIX)}/`;
@@ -101,11 +100,11 @@ interface ServerResponse {
 }
 
 export const getRequest = <R = ServerResponse>(endpoint: string, options?: AxiosRequestConfig) =>
-	Promise.try(() => axios.get<R>(`${API_BASE}${endpoint}`, withAuth(options) 	))
+	Promise.try(() => axios.get<R>(`${API_BASE}${trimSlash(endpoint)}`, withAuth(options) 	))
 		.catch(handleError);
 
 export const postRequest = <R = ServerResponse>(endpoint: string, body: any, options?: AxiosRequestConfig) =>
-	Promise.try(() => axios.post<R>(`${API_BASE}${endpoint}`, body, withAuth(options)))
+	Promise.try(() => axios.post<R>(`${API_BASE}${trimSlash(endpoint)}`, body, withAuth(options)))
 		.catch(handleError);
 
 export const slugify = (text: string) => text.toLowerCase()
