@@ -235,3 +235,15 @@ ava.test('should not store the transient property', async (test) => {
 		}
 	})
 })
+
+ava.test('should fail to create a card that contains curly braces in the arguments', async (test) => {
+	await test.throws(test.context.worker.executeAction(test.context.session, 'action-create-card', test.context.ids.card, {
+		properties: {
+			data: {
+				payload: {
+					message: '{{.foo}}'
+				}
+			}
+		}
+	}), 'Unexpected token . in computed property')
+})
