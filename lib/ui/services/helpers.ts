@@ -4,7 +4,10 @@ import { Channel } from '../../Types';
 
 const PURPLE = '#8268c5';
 
-const DEBUG =	process.env.NODE_ENV !== 'production';
+const DEBUG =	!_.includes([
+	'production',
+	'test',
+], process.env.NODE_ENV);
 
 export const debug = (...params: any[]) => {
 	if (DEBUG) {

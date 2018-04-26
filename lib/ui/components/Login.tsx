@@ -53,9 +53,11 @@ export default class Login extends React.Component<{}, LoginState> {
 			email,
 		})
 		.catch((e) => {
-			this.setState({ signupError: e.message });
-		})
-		.finally(() => this.setState({ loggingIn: false }));
+			this.setState({
+				signupError: e.message,
+				loggingIn: false,
+			});
+		});
 	}
 
 	public login() {
@@ -67,9 +69,11 @@ export default class Login extends React.Component<{}, LoginState> {
 			password,
 		})
 		.catch((e) => {
-			this.setState({ loginError: e.message });
-		})
-		.finally(() => this.setState({ loggingIn: false }));
+			this.setState({
+				loginError: e.message,
+				loggingIn: false,
+			});
+		});
 	}
 
 	public render() {
@@ -174,6 +178,7 @@ export default class Login extends React.Component<{}, LoginState> {
 								<form onSubmit={(e) => e.preventDefault() || this.login()}>
 									<Txt fontSize={1} mb={1}>Username</Txt>
 									<Input
+										className='login-page__input--username'
 										mb={5}
 										w='100%'
 										emphasized
@@ -184,6 +189,7 @@ export default class Login extends React.Component<{}, LoginState> {
 
 									<Txt fontSize={1} mb={1}>Password</Txt>
 									<Input
+										className='login-page__input--password'
 										mb={5}
 										w='100%'
 										emphasized
@@ -195,6 +201,7 @@ export default class Login extends React.Component<{}, LoginState> {
 
 									<Box>
 										<Button
+											className='login-page__submit--login'
 											w='100%'
 											primary
 											emphasized
