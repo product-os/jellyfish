@@ -1686,6 +1686,83 @@ ava.test('.query() should return inactive cards', async (test) => {
 	])
 })
 
+ava.test('.query() should take a view card with two filters', async (test) => {
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'card',
+		tags: [ 'foo' ],
+		links: [],
+		active: true,
+		data: {
+			number: 1
+		}
+	})
+
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'card',
+		tags: [],
+		links: [],
+		active: true,
+		data: {
+			number: 1
+		}
+	})
+
+	const results = await test.context.kernel.query(test.context.kernel.sessions.admin, {
+		type: 'view',
+		tags: [],
+		links: [],
+		active: true,
+		data: {
+			allOf: [
+				{
+					name: 'foo',
+					schema: {
+						type: 'object',
+						properties: {
+							data: {
+								type: 'object',
+								properties: {
+									number: {
+										type: 'number',
+										const: 1
+									}
+								},
+								required: [ 'number' ]
+							}
+						},
+						required: [ 'data' ]
+					}
+				},
+				{
+					name: 'bar',
+					schema: {
+						type: 'object',
+						properties: {
+							tags: {
+								type: 'array',
+								contains: {
+									type: 'string',
+									const: 'foo'
+								}
+							}
+						},
+						required: [ 'tags' ]
+					}
+				}
+			]
+		}
+	})
+
+	test.deepEqual(results, [
+		{
+			tags: [ 'foo' ],
+			data: {
+				number: 1
+			}
+		}
+	])
+})
+
 ava.test.cb('.stream() should report back new elements that match a certain slug', (test) => {
 	test.context.kernel.stream(test.context.kernel.sessions.admin, {
 		type: 'object',
