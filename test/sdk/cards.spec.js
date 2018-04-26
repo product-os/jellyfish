@@ -52,7 +52,7 @@ ava.test.afterEach(async (test) => {
 })
 
 const isCardMacro = async (test, type, card, expected) => {
-	test.deepEqual(jsonSchema.isValid(test.context.kernel.getTypeSchema(type), card), expected)
+	test.deepEqual(jsonSchema.isValid(type.data.schema, card), expected)
 }
 
 isCardMacro.title = (title, type, card, expected) => {
