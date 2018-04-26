@@ -1,0 +1,90 @@
+{
+  "slug": "scratchpad-entry",
+  "type": "type",
+  "name": "Scratchpad Entry",
+  "tags": [],
+  "links": [],
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "GitHub issue": {
+              "type": "string"
+            },
+            "Problem": {
+              "type": "string"
+            },
+            "Pull Leech Logs": {
+              "type": "boolean"
+            },
+            "Solution": {
+              "type": "string"
+            },
+            "Fix Difficulty": {
+              "type": "number"
+            },
+            "Last Updated": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "For resineer eyes only": {
+              "type": "boolean"
+            },
+            "resinOS Versions Affected": {
+              "type": "string"
+            },
+            "Supervisor Versions Affected": {
+              "type": "string"
+            },
+            "Fixed in resinOS Version": {
+              "type": "string"
+            },
+            "Fixed in Supervisor Version": {
+              "type": "string"
+            },
+            "Date fixed": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "Legacy": {
+              "type": "boolean"
+            },
+            "Keywords": {
+              "type": "string"
+            },
+            "Entry needs review": {
+              "type": "boolean"
+            }
+          }
+        }
+      },
+      "required": [ "name" ],
+      "additionalProperties": true
+    },
+    "fieldOrder": [
+      "Title",
+      "GitHub issue",
+      "Problem",
+      "Pull Leech Logs",
+      "Solution",
+      "Fix Difficulty",
+      "Last Updated",
+      "For resineer eyes only",
+      "resinOS Versions Affected",
+      "Supervisor Versions Affected",
+      "Fixed in resinOS Version",
+      "Fixed in Supervisor Version",
+      "Date fixed",
+      "Legacy",
+      "Keywords",
+      "Entry needs review"
+    ]
+  }
+}

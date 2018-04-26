@@ -180,6 +180,7 @@
               "anyOf": [
                 { "const": "chat-thread" },
                 { "const": "chat-message" },
+                { "const": "scratchpad-entry" },
                 { "const": "repo" }
               ]
             }
