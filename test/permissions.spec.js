@@ -75,3 +75,62 @@ ava.test('.query() should only return the user itself for the guest user', async
 
 	test.deepEqual(_.map(results, 'slug'), [ 'user-guest' ])
 })
+
+ava.test('.query() should be able to see previously restricted cards after a permissions change', async (test) => {
+	const userId = await test.context.jellyfish.insertCard(test.context.session, {
+		slug: 'user-johndoe',
+		type: 'user',
+		tags: [],
+		links: [],
+		active: true,
+		data: {
+			email: 'johndoe@example.com',
+			roles: [ 'user-guest' ]
+		}
+	})
+
+	const adminUser = await test.context.jellyfish.getCardBySlug(test.context.session, 'user-admin')
+
+	await test.context.jellyfish.insertCard(test.context.session, {
+		slug: 'session-admin-test',
+		type: 'session',
+		links: [],
+		tags: [],
+		active: true,
+		data: {
+			actor: adminUser.id
+		}
+	})
+
+	const session = await test.context.jellyfish.insertCard(test.context.session, {
+		slug: 'session-johndoe',
+		type: 'session',
+		links: [],
+		tags: [],
+		active: true,
+		data: {
+			actor: userId
+		}
+	})
+
+	const adminSessionBefore = await test.context.jellyfish.getCardBySlug(session, 'session-admin-test')
+	test.deepEqual(adminSessionBefore, null)
+
+	await test.context.jellyfish.insertCard(test.context.session, {
+		id: userId,
+		slug: 'user-johndoe',
+		type: 'user',
+		tags: [],
+		links: [],
+		active: true,
+		data: {
+			email: 'johndoe@example.com',
+			roles: []
+		}
+	}, {
+		override: true
+	})
+
+	const adminSessionAfter = await test.context.jellyfish.getCardBySlug(session, 'session-admin-test')
+	test.deepEqual(adminSessionAfter.slug, 'session-admin-test')
+})
