@@ -798,39 +798,45 @@ ava.test('.getCardById() should return an inactive card by its id', async (test)
 	})
 })
 
-ava.test('.getSchema() should return the schema of an existing type card', async (test) => {
+ava.test('.getTypeSchema() should return the schema of an existing type card', async (test) => {
 	const card = await test.context.kernel.getCardBySlug(test.context.kernel.sessions.admin, CARDS.type.slug)
-	const schema = await test.context.kernel.getSchema(card)
+	const schema = await test.context.kernel.getTypeSchema(card)
 	test.deepEqual(schema, CARDS.type.data.schema)
 })
 
-ava.test('.getSchema() should return null given an unknown type', async (test) => {
+ava.test('.getTypeSchema() should return null given an unknown type', async (test) => {
 	const card = await test.context.kernel.getCardBySlug(test.context.kernel.sessions.admin, 'foobarbazqux')
 	test.falsy(card)
-	const schema = await test.context.kernel.getSchema(card)
+	const schema = await test.context.kernel.getTypeSchema(card)
 	test.deepEqual(schema, null)
 })
 
-ava.test('.getSchema() should return null given an known card that is not a type card ', async (test) => {
+ava.test('.getTypeSchema() should return null given an known card that is not a type card', async (test) => {
 	const card = await test.context.kernel.getCardBySlug(test.context.kernel.sessions.admin, 'user-admin')
 	test.truthy(card)
 	test.not(card.type, 'type')
-	const schema = await test.context.kernel.getSchema(card)
+	const schema = await test.context.kernel.getTypeSchema(card)
 	test.deepEqual(schema, null)
 })
 
-ava.test('.getSchema() should return null given no card', (test) => {
-	const schema = test.context.kernel.getSchema()
+ava.test('.getTypeSchema() should return null given no card', (test) => {
+	const schema = test.context.kernel.getTypeSchema()
 	test.deepEqual(schema, null)
 })
 
-ava.test('.getSchema() should return null if the card is not a view', (test) => {
-	const schema = test.context.kernel.getSchema(CARDS['user-admin'])
+ava.test('.getTypeSchema() should return the schema of a card type', (test) => {
+	const schema = test.context.kernel.getTypeSchema(CARDS.card)
+	test.true(_.isPlainObject(schema))
+	test.is(schema.type, 'object')
+})
+
+ava.test('.getViewSchema() should return null if the card is not a view', (test) => {
+	const schema = test.context.kernel.getViewSchema(CARDS['user-admin'])
 	test.deepEqual(schema, null)
 })
 
-ava.test('.getSchema() should preserve template interpolations in user properties', (test) => {
-	const schema = test.context.kernel.getSchema({
+ava.test('.getViewSchema() should preserve template interpolations in user properties', (test) => {
+	const schema = test.context.kernel.getViewSchema({
 		type: 'view',
 		links: [],
 		tags: [],
@@ -866,8 +872,8 @@ ava.test('.getSchema() should preserve template interpolations in user propertie
 	})
 })
 
-ava.test('.getSchema() should preserve template interpolations in schema properties', (test) => {
-	const schema = test.context.kernel.getSchema({
+ava.test('.getViewSchema() should preserve template interpolations in schema properties', (test) => {
+	const schema = test.context.kernel.getViewSchema({
 		type: 'view',
 		links: [],
 		tags: [],
@@ -901,8 +907,8 @@ ava.test('.getSchema() should preserve template interpolations in schema propert
 	})
 })
 
-ava.test('.getSchema() should return a schema given a view card with two conjunctions', (test) => {
-	const schema = test.context.kernel.getSchema({
+ava.test('.getViewSchema() should return a schema given a view card with two conjunctions', (test) => {
+	const schema = test.context.kernel.getViewSchema({
 		type: 'view',
 		links: [],
 		tags: [],
@@ -952,8 +958,8 @@ ava.test('.getSchema() should return a schema given a view card with two conjunc
 	})
 })
 
-ava.test('.getSchema() should return a schema given a view card with two conjunctions and empty disjunctions', (test) => {
-	const schema = test.context.kernel.getSchema({
+ava.test('.getViewSchema() should return a schema given a view card with two conjunctions and empty disjunctions', (test) => {
+	const schema = test.context.kernel.getViewSchema({
 		type: 'view',
 		links: [],
 		tags: [],
@@ -1004,8 +1010,8 @@ ava.test('.getSchema() should return a schema given a view card with two conjunc
 	})
 })
 
-ava.test('.getSchema() should return a schema given a view card with two disjunctions', (test) => {
-	const schema = test.context.kernel.getSchema({
+ava.test('.getViewSchema() should return a schema given a view card with two disjunctions', (test) => {
+	const schema = test.context.kernel.getViewSchema({
 		type: 'view',
 		links: [],
 		tags: [],
@@ -1069,8 +1075,8 @@ ava.test('.getSchema() should return a schema given a view card with two disjunc
 	})
 })
 
-ava.test('.getSchema() should return a schema given a view card with two disjunctions and empty conjunctions', (test) => {
-	const schema = test.context.kernel.getSchema({
+ava.test('.getViewSchema() should return a schema given a view card with two disjunctions and empty conjunctions', (test) => {
+	const schema = test.context.kernel.getViewSchema({
 		type: 'view',
 		links: [],
 		tags: [],
@@ -1135,8 +1141,8 @@ ava.test('.getSchema() should return a schema given a view card with two disjunc
 	})
 })
 
-ava.test('.getSchema() should return a schema given a view card with two disjunctions and two conjunctions', (test) => {
-	const schema = test.context.kernel.getSchema({
+ava.test('.getViewSchema() should return a schema given a view card with two disjunctions and two conjunctions', (test) => {
+	const schema = test.context.kernel.getViewSchema({
 		type: 'view',
 		links: [],
 		tags: [],
@@ -1236,8 +1242,8 @@ ava.test('.getSchema() should return a schema given a view card with two disjunc
 	})
 })
 
-ava.test('.getSchema() should return null given a view card with no filters', (test) => {
-	const schema = test.context.kernel.getSchema({
+ava.test('.getViewSchema() should return null given a view card with no filters', (test) => {
+	const schema = test.context.kernel.getViewSchema({
 		type: 'view',
 		links: [],
 		tags: [],
@@ -1246,12 +1252,6 @@ ava.test('.getSchema() should return null given a view card with no filters', (t
 	})
 
 	test.deepEqual(schema, null)
-})
-
-ava.test('.getSchema() should return the schema of a card type', (test) => {
-	const schema = test.context.kernel.getSchema(CARDS.card)
-	test.true(_.isPlainObject(schema))
-	test.is(schema.type, 'object')
 })
 
 ava.test('.query() should return the cards that match a schema', async (test) => {
