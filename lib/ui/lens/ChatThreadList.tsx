@@ -83,8 +83,11 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 					data: {
 						type: 'object',
 						properties: {
-							target: {
+							target: threads.length > 1 ? {
 								enum: _.map(threads, 'id'),
+							} : {
+								type: 'string',
+								const: threads[0]
 							},
 						},
 						required: [ 'target' ],
