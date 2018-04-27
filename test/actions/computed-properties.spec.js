@@ -172,8 +172,5 @@ ava.test('HASH: should hash a string with a salt', (test) => {
 		hash: '{{ HASH("foobar", salt) }}'
 	}).hash
 
-	test.true(credentials.check('foobar', {
-		hash,
-		salt
-	}))
+	test.is(credentials.hash('foobar', salt), hash)
 })
