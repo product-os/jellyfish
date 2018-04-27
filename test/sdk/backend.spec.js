@@ -82,17 +82,17 @@ ava.test('.getElementBySlug() should fetch an element given its slug', async (te
 })
 
 ava.test('.createTable() should be able to create a table', async (test) => {
-	test.false(await test.context.backend.hasTable('foobar'))
+	test.false((await test.context.backend.getTables()).includes('foobar'))
 	await test.context.backend.createTable('foobar')
-	test.true(await test.context.backend.hasTable('foobar'))
+	test.true((await test.context.backend.getTables()).includes('foobar'))
 })
 
 ava.test('.createTable() should ignore continuous attempts to create the same table', async (test) => {
-	test.false(await test.context.backend.hasTable('foobar'))
+	test.false((await test.context.backend.getTables()).includes('foobar'))
 	await test.context.backend.createTable('foobar')
 	await test.context.backend.createTable('foobar')
 	await test.context.backend.createTable('foobar')
-	test.true(await test.context.backend.hasTable('foobar'))
+	test.true((await test.context.backend.getTables()).includes('foobar'))
 })
 
 ava.test('.insertElement() should insert an element without a slug nor an id to an existing table', async (test) => {
