@@ -153,7 +153,7 @@ ava.test('.createRequest() should be able to create a user using action-create-u
 	test.is(user.slug, 'user-johndoe')
 	test.is(user.type, 'user')
 	test.is(user.data.email, 'johndoe@example.com')
-	test.deepEqual(user.data.roles, [ 'user-default' ])
+	test.deepEqual(user.data.roles, [ 'user-community' ])
 
 	test.true(credentials.check('foobarbaz', user.data.password))
 	test.false(credentials.check('fooquxbaz', user.data.password))

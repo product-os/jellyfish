@@ -1,5 +1,5 @@
 {
-  "slug": "view-read-user-team",
+  "slug": "view-read-user-team-admin",
   "name": "Team role read permissions",
   "type": "view",
   "tags": [],
@@ -59,7 +59,8 @@
               "anyOf": [
                 { "const": "action-create-session" },
                 { "const": "action-create-user" },
-                { "const": "action-create-card" }
+                { "const": "action-create-card" },
+                { "const": "action-update-card" }
               ]
             },
             "type": {
@@ -155,13 +156,9 @@
               "const": "view"
             },
             "slug": {
-              "enum": [
-                "view-all-chat-messages",
-                "view-all-chat-threads",
-                "view-all-repos",
-                "view-all-views",
-                "view-scratchpad"
-              ]
+              "not": {
+                "pattern": "view-(read|write)-user.+"
+              }
             },
             "id": {
               "type": "string"
@@ -219,12 +216,15 @@
               "properties": {
                 "email": {
                   "type": "string"
+                },
+                "roles": {
+                  "type": "array"
                 }
               },
               "additionalProperties": false
             }
           },
-          "required": [ "id", "type", "data", "slug" ]
+          "required": [ "id", "slug", "type", "data" ]
         }
       }
     ]

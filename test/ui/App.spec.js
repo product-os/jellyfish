@@ -185,11 +185,10 @@ ava.test.serial('should allow newly signed up users to create chat messages', as
 
 	app.find('.new-message-input').first()
 		.simulate('keyPress', {
-			key: 'Enter',
+			key: 'Enter'
 		})
 
 	await waitForElement(app, '.event-card__message')
 
 	test.is(app.find('.event-card__message').first().text(), messageText)
 })
-
