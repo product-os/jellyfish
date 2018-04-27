@@ -116,6 +116,7 @@ ava.test('.createRequest() should be able to create a user using action-create-u
 		targetId: userCard.id,
 		actorId: guestUser.id,
 		action: 'action-create-user',
+		interpolateValues: true,
 		transient: {
 			password: 'foobarbaz'
 		},
@@ -167,6 +168,7 @@ ava.test('.createRequest() should login as a user with a password', async (test)
 		targetId: userCard.id,
 		actorId: guestUser.id,
 		action: 'action-create-user',
+		interpolateValues: true,
 		transient: {
 			password: 'foobarbaz'
 		},
@@ -187,6 +189,7 @@ ava.test('.createRequest() should login as a user with a password', async (test)
 		targetId: user.id,
 		actorId: guestUser.id,
 		action: 'action-create-session',
+		interpolateValues: true,
 		transient: {
 			password: 'foobarbaz'
 		},
@@ -232,6 +235,7 @@ ava.test('.createRequest() should fail if login in with the wrong password', asy
 		targetId: userCard.id,
 		actorId: guestUser.id,
 		action: 'action-create-user',
+		interpolateValues: true,
 		transient: {
 			password: 'foobarbaz'
 		},
@@ -254,6 +258,7 @@ ava.test('.createRequest() should fail if login in with the wrong password', asy
 		targetId: johnDoeUser.id,
 		actorId: guestUser.id,
 		action: 'action-create-session',
+		interpolateValues: true,
 		transient: {
 			password: 'xxxxxxxxxxxxxxxxxx'
 		},
@@ -327,6 +332,7 @@ ava.test('.processRequest() should set error to true given an arguments schema m
 		targetId: userCard.id,
 		actorId: guestUser.id,
 		action: 'action-create-user',
+		interpolateValues: true,
 		transient: {
 			password: 'foobarbaz'
 		},
