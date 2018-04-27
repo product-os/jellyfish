@@ -106,14 +106,22 @@
                 "action": {
                   "type": "string"
                 },
-                "action": {
-                  "timestamp": "string"
+                "timestamp": {
+                  "type": "string"
+                },
+                "arguments": {
+                  "type": "object"
                 },
                 "executed": {
                   "type": "boolean"
                 },
                 "result": {
-                  "type": "object"
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "boolean"
+                    }
+                  }
                 }
               },
               "additionalProperties": false

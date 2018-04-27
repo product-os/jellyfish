@@ -695,7 +695,8 @@ ava.test('.query() should query an element by its id', async (test) => {
 				const: uuid
 			}
 		},
-		required: [ 'id' ]
+		required: [ 'id' ],
+		additionalProperties: true
 	})
 
 	test.deepEqual(results, [
@@ -748,7 +749,8 @@ ava.test('.query() should query an element by its slug', async (test) => {
 				const: 'hello'
 			}
 		},
-		required: [ 'slug' ]
+		required: [ 'slug' ],
+		additionalProperties: true
 	})
 
 	test.deepEqual(results, [
