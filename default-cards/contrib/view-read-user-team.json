@@ -1,0 +1,232 @@
+{
+  "slug": "view-read-user-team",
+  "name": "Team role read permissions",
+  "type": "view",
+  "tags": [],
+  "links": [],
+  "active": true,
+  "data": {
+    "allOf": [
+      {
+        "name": "Active cards",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "active": {
+              "type": "boolean",
+              "const": true
+            }
+          },
+          "required": [ "active" ]
+        }
+      }
+    ],
+    "anyOf": [
+      {
+        "name": "Types",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "type"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              },
+              "required": [ "schema" ]
+            }
+          },
+          "additionalProperties": true,
+          "required": [ "slug", "type", "data" ]
+        }
+      },
+      {
+        "name": "Actions",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "slug": {
+              "type": "string",
+              "anyOf": [
+                { "const": "action-create-session" },
+                { "const": "action-create-user" },
+                { "const": "action-create-card" }
+              ]
+            },
+            "type": {
+              "type": "string",
+              "const": "action"
+            },
+            "data": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "required": [ "id", "slug", "type", "data" ]
+        }
+      },
+      {
+        "name": "My Action Requests",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string",
+              "const": "action-request"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "actor": {
+                  "type": "string",
+                  "const": "[user.id]"
+                }
+              },
+              "additionalProperties": true
+            }
+          },
+          "additionalProperties": true,
+          "required": [ "id", "type", "data" ]
+        }
+      },
+      {
+        "name": "Myself",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "slug": {
+              "type": "string",
+              "const": "[user.slug]"
+            },
+            "type": {
+              "type": "string",
+              "const": "user"
+            }
+          },
+          "additionalProperties": true,
+          "required": [ "slug", "type" ]
+        }
+      },
+      {
+        "name": "My sessions",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string",
+              "const": "session"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "actor": {
+                  "type": "string",
+                  "const": "[user.id]"
+                }
+              }
+            }
+          },
+          "additionalProperties": true,
+          "required": [ "data", "id", "type" ]
+        }
+      },
+      {
+        "name": "Views",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "view"
+            },
+            "slug": {
+              "enum": [
+                "view-all-chat-messages",
+                "view-all-chat-threads",
+                "view-all-repos",
+                "view-all-views",
+                "view-scratchpad"
+              ]
+            },
+            "id": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": true,
+          "required": [ "id", "slug", "type" ]
+        }
+      },
+      {
+        "name": "Contrib cards",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string",
+              "anyOf": [
+                { "const": "chat-thread" },
+                { "const": "chat-message" },
+                { "const": "scratchpad-entry" },
+                { "const": "repo" }
+              ]
+            }
+          },
+          "additionalProperties": true,
+          "required": [ "type" ]
+        }
+      },
+      {
+        "name": "Other users",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "slug": {
+              "not": {
+                "enum": [
+                  "user-admin",
+                  "user-guest",
+                  "user-actions"
+                ]
+              }
+            },
+            "type": {
+              "type": "string",
+              "const": "user"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "required": [ "id", "type", "data", "slug" ]
+        }
+      }
+    ]
+  }
+}

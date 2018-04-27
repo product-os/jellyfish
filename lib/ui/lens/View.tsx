@@ -85,9 +85,11 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 			tailType = sdk.type.get(foundType) || null;
 		}
 
+		const preferences = (head && head.data.lenses) || (tailType ? tailType.data.lenses : undefined);
+
 		const lenses: Lens[] = tail.length > 0 ?
-			LensService.getLenses(tail, tailType ? tailType.data.lenses : undefined)
-			: LensService.getLensesByType(tailType ? tailType.slug : null, tailType ? tailType.data.lenses : undefined);
+			LensService.getLenses(tail, preferences)
+			: LensService.getLensesByType(tailType ? tailType.slug : null, preferences);
 
 		const activeLens = this.state.activeLens || lenses[0] || null;
 
@@ -179,6 +181,7 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 
 		return (
 			<Flex
+				className={`column--${head ? head.slug || head.type : 'unknown'}`}
 				flexDirection='column'
 				flex='1 0 auto'
 				style={{ height: '100%', overflowY: 'auto', borderRight: '1px solid #ccc', minWidth: 450, maxWidth: 700, position: 'relative' }}>

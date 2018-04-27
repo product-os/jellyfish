@@ -152,3 +152,43 @@ ava.test.serial('should render a list of views in the sidebar', async (test) => 
 
 	test.true(app.find('.home-channel__item').exists())
 })
+
+ava.test.serial('should render the community chat view for newly signed up users', async (test) => {
+	test.is(app.find('.home-channel__item').first().text(), 'Community chat')
+
+	app.find('.home-channel__item').first().simulate('click')
+
+	await waitForElement(app, '.column--view-all-chat-threads')
+
+	test.true(app.find('.column--view-all-chat-threads').exists())
+})
+
+ava.test.serial('should allow newly signed up users to create new chat threads', async (test) => {
+	await waitForElement(app, '.btn--add-chat-thread')
+
+	app.find('.btn--add-chat-thread').first().simulate('click')
+
+	await waitForElement(app, '.column--chat-thread')
+
+	test.true(app.find('.column--chat-thread').exists())
+})
+
+ava.test.serial('should allow newly signed up users to create chat messages', async (test) => {
+	const messageText = 'My new message'
+	await waitForElement(app, '.new-message-input')
+	app.find('.new-message-input').first()
+		.simulate('change', {
+			target: {
+				value: messageText
+			}
+		})
+
+	app.find('.new-message-input').first()
+		.simulate('keyPress', {
+			key: 'Enter'
+		})
+
+	await waitForElement(app, '.event-card__message')
+
+	test.is(app.find('.event-card__message').first().text(), messageText)
+})

@@ -1,0 +1,26 @@
+{
+  "slug": "view-all-users",
+  "name": "Users",
+  "type": "view",
+  "tags": [],
+  "links": [],
+  "active": true,
+  "data": {
+    "allOf": [
+      {
+        "name": "All users",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "user"
+            }
+          },
+          "additionalProperties": true,
+          "required": [ "type" ]
+        }
+      }
+    ]
+  }
+}

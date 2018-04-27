@@ -44,7 +44,7 @@ ava.test('should create a user', async (test) => {
 				hash
 			},
 			roles: [
-				'user-default'
+				'user-community'
 			]
 		}
 	})

@@ -7,6 +7,7 @@ import * as sdk from '../services/sdk';
 // Load lenses
 import InterleavedLens from './Interleaved';
 
+import ChatThreadListLens from './ChatThreadList';
 import ChatMessageCardLens from './ChatMessageCard';
 import DefaultLens from './Default';
 import DefaultCardLens from './DefaultCard';
@@ -20,6 +21,7 @@ class LensService {
 	private lenses = {
 		list: [
 			InterleavedLens,
+			ChatThreadListLens,
 			DefaultListLens,
 		],
 		table: [],
@@ -74,7 +76,9 @@ class LensService {
 		}
 
 		const lenses = _.reduce(this.lenses, (carry, items) => {
-			const result = _.find(items, (lens) => this.getValidator(lens)(data));
+			const result = _.find(items, (lens) => {
+				return _.includes(preference, lens.slug) || this.getValidator(lens)(data)
+			});
 			return result ? carry.concat(result) : carry;
 		}, [] as Lens[]);
 
@@ -96,7 +100,9 @@ class LensService {
 
 		const lenses = _.reduce(this.lenses, (carry, items) => {
 			const result = _.find(items, (lens) =>
-				lens.data.type === type || lens.data.type === '*'
+				lens.data.type === type ||
+				lens.data.type === '*' ||
+				_.includes(preference, lens.slug)
 			);
 			return result ? carry.concat(result) : carry;
 		}, [] as Lens[]);

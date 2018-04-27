@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
 	Box,
+	Button,
 	Flex,
 	Txt,
-	Textarea,
 } from 'rendition';
 import styled from 'styled-components';
 import { Card, JellyfishState, Lens, RendererProps } from '../../Types';
@@ -26,6 +26,7 @@ const Column = styled(Flex)`
 
 interface RendererState {
 	tail: null | Card[];
+	threads: Card[];
 	newMessage: string;
 }
 
@@ -39,38 +40,95 @@ interface DefaultRendererProps extends RendererProps {
 export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> {
 	private scrollArea: HTMLElement;
 	private shouldScroll: boolean = true;
+	private threadStream: sdk.db.JellyfishStream;
 
 	constructor(props: DefaultRendererProps) {
 		super(props);
 
 		this.state = {
+			threads: [],
 			tail: null,
 			newMessage: '',
 		};
 
-		const querySchema: JSONSchema6 = {
+		this.setupStreams();
+
+		setTimeout(() => this.scrollToBottom(), 1000);
+	}
+
+	public componentWillUnmount() {
+		if (this.stream) {
+			this.stream.destroy();
+		}
+		if (this.threadStream) {
+			this.threadStream.destroy();
+		}
+	}
+
+	public setupStreams() {
+		if (this.threadStream) {
+			this.threadStream.destroy();
+		}
+
+		const setThreads = (threads: Card[]) => {
+			if (threads.length === 0) {
+				return;
+			}
+
+			this.setState({ threads });
+
+			this.streamTail({
+				type: 'object',
+				properties: {
+					data: {
+						type: 'object',
+						properties: {
+							target: {
+								enum: _.map(threads, 'id'),
+							},
+						},
+						required: [ 'target' ],
+						additionalProperties: true,
+					},
+				},
+				required: [ 'type', 'data' ],
+				additionalProperties: true,
+			} as JSONSchema6);
+		};
+
+		const query: JSONSchema6 = {
 			type: 'object',
 			properties: {
-				data: {
-					type: 'object',
-					properties: {
-						target: {
-							const: this.props.channel.data.target,
-						},
-					},
-					required: [ 'target' ],
-					additionalProperties: true,
+				type: {
+					const: 'chat-thread',
 				},
 			},
-			required: [ 'type', 'data' ],
+			required: [ 'type' ],
 			additionalProperties: true,
 		};
 
-		if (!this.props.tail) {
-			this.streamTail(querySchema);
-		}
+		this.threadStream = sdk.db.stream(query);
 
-		setTimeout(() => this.scrollToBottom(), 1000);
+		this.threadStream.on('data', (response) => {
+			setThreads(response.data);
+		});
+
+		this.threadStream.on('update', (response) => {
+			// If before is non-null then the card has been updated
+			if (response.data.before) {
+				if (this.state.threads) {
+					const index = _.findIndex(this.state.threads, { id: response.data.before.id });
+					setThreads(
+						this.state.threads.slice().splice(index, 1, response.data.after),
+					);
+				}
+			}
+
+			const threads = this.state.threads.slice();
+			threads.push(response.data.after);
+
+			setThreads(threads);
+		});
 	}
 
 	public componentWillUpdate() {
@@ -97,26 +155,20 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		}
 	}
 
-	public delete() {
-		this.props.actions.removeChannel(this.props.channel);
-	}
-
-	public addMessage(e: React.KeyboardEvent<HTMLElement>) {
+	public addThread = (e: React.MouseEvent<HTMLElement>) => {
 		e.preventDefault();
-		const { newMessage } = this.state;
-
-		this.setState({ newMessage: '' });
 
 		return sdk.card.add({
-			type: 'chat-message',
+			type: 'chat-thread',
 			data: {
 				timestamp: getCurrentTimestamp(),
-				target: this.props.channel.data.target,
 				actor: this.props.session!.user!.id,
-				payload: {
-					message: newMessage,
-				},
 			},
+		})
+		.then((response) => {
+			if (response) {
+				this.openChannel(response.results.data);
+			}
 		})
 		.catch((error) => {
 			this.props.actions.addNotification('danger', error.message);
@@ -134,8 +186,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 	}
 
 	public render() {
-		const { head } = this.props.channel.data;
-		const tail = this.props.tail || _.sortBy<Card>(this.state.tail, x => x.data.timestamp);
+		const tail = _.sortBy<Card>(this.state.tail, x => x.data.timestamp);
 
 		const channelTarget = this.props.channel.data.target;
 
@@ -161,17 +212,16 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 					}
 				</Box>
 
-				{head && head.type !== 'view' &&
-					<Box p={3} style={{ borderTop: '1px solid #eee' }}>
-						<Textarea
-							className='new-message-input'
-							rows={1}
-							value={this.state.newMessage}
-							onChange={(e) => this.setState({ newMessage: e.target.value })}
-							onKeyPress={(e) => e.key === 'Enter' && this.addMessage(e)}
-							placeholder='Type to comment on this thread...' />
-					</Box>
-				}
+				<React.Fragment>
+					<Flex p={3}
+						style={{borderTop: '1px solid #eee'}}
+						justify='flex-end'
+					>
+						<Button className='btn--add-chat-thread' success onClick={this.addThread}>
+							Add a Chat Thread
+						</Button>
+					</Flex>
+				</React.Fragment>
 			</Column>
 		);
 	}
@@ -186,11 +236,11 @@ const mapDispatchToProps = (dispatch: any) => ({
 });
 
 const lens: Lens = {
-	slug: 'lens-interleaved',
+	slug: 'lens-chat-thread-list',
 	type: 'lens',
 	name: 'Interleaved lens',
 	data: {
-		icon: 'address-card',
+		icon: 'comments',
 		renderer: connect(mapStateToProps, mapDispatchToProps)(Renderer),
 		// This lens can display event-like objects
 		filter: {
@@ -198,30 +248,8 @@ const lens: Lens = {
 			items: {
 				type: 'object',
 				properties: {
-					data: {
-						type: 'object',
-						properties: {
-							timestamp: {
-								type: 'string',
-								format: 'date-time',
-							},
-							target: {
-								type: 'string',
-								format: 'uuid',
-							},
-							actor: {
-								type: 'string',
-								format: 'uuid',
-							},
-							payload: {
-								type: 'object',
-							},
-						},
-						required: [
-							'timestamp',
-							'target',
-							'actor',
-						],
+					type: {
+						const: 'chat-thread',
 					},
 				},
 			},
