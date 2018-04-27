@@ -190,5 +190,6 @@ ava.test.serial('should allow newly signed up users to create chat messages', as
 
 	await waitForElement(app, '.event-card__message')
 
-	test.is(app.find('.event-card__message').first().text(), messageText)
+	// Trim any trailing line feeds when comparing the message
+	test.is(app.find('.event-card__message').first().text().trim(), messageText)
 })

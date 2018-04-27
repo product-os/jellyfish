@@ -10,6 +10,7 @@ import {
 import { Card } from '../../Types';
 import * as sdk from '../services/sdk';
 import Icon from './Icon';
+import Markdown from './Markdown';
 
 const colorHash = new ColorHash();
 const threadColor = _.memoize((text: string): string => colorHash.hex(text));
@@ -59,7 +60,7 @@ export default class Event extends React.Component<EventProps, { username: strin
 					</Flex>
 
 					{card.type === 'chat-message' &&
-					<Txt className='event-card__message'>{card.data.payload.message}</Txt>}
+					<Markdown className='event-card__message'>{card.data.payload.message}</Markdown>}
 				</Box>
 			</Flex>
 		);
