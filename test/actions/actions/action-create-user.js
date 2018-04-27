@@ -18,13 +18,11 @@ const ava = require('ava')
 const credentials = require('../../../lib/actions/credentials')
 
 ava.test('should create a user', async (test) => {
-	const salt = credentials.generateSalt()
-	const hash = credentials.hash('foobar', salt)
+	const hash = credentials.hash('foobar', 'user-johndoe')
 
 	const id = await test.context.worker.executeAction(test.context.session, 'action-create-user', test.context.ids.user, {
 		email: 'johndoe@example.com',
-		username: 'johndoe',
-		salt,
+		username: 'user-johndoe',
 		hash
 	})
 
@@ -40,7 +38,6 @@ ava.test('should create a user', async (test) => {
 		data: {
 			email: 'johndoe@example.com',
 			password: {
-				salt,
 				hash
 			},
 			roles: [

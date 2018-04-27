@@ -26,13 +26,9 @@
                 "hash": {
                   "type": "string",
                   "pattern": "^[a-f0-9]+$"
-                },
-                "salt": {
-                  "type": "string",
-                  "pattern": "^[a-zA-Z0-9/+]+==?$"
                 }
               },
-              "required": [ "hash", "salt" ]
+              "required": [ "hash" ]
             },
             "roles": {
               "type": "array",

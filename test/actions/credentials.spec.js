@@ -18,7 +18,7 @@ const ava = require('ava')
 const credentials = require('../../lib/actions/credentials')
 
 ava.test('.check() should return true if the password and salt matches', (test) => {
-	const salt = credentials.generateSalt()
+	const salt = 'user-foo'
 	const hash = credentials.hash('foobarbaz', salt)
 	test.true(credentials.check('foobarbaz', {
 		hash,
@@ -27,7 +27,7 @@ ava.test('.check() should return true if the password and salt matches', (test) 
 })
 
 ava.test('.check() should return false if the password do not match', (test) => {
-	const salt = credentials.generateSalt()
+	const salt = 'user-foo'
 	const hash = credentials.hash('foobarbaz', salt)
 	test.false(credentials.check('foobarqux', {
 		hash,
@@ -36,8 +36,8 @@ ava.test('.check() should return false if the password do not match', (test) => 
 })
 
 ava.test('.check() should return false given a different salt', (test) => {
-	const salt1 = credentials.generateSalt()
-	const salt2 = credentials.generateSalt()
+	const salt1 = 'user-foo'
+	const salt2 = 'user-bar'
 	const hash = credentials.hash('foobarbaz', salt1)
 	test.false(credentials.check('foobarbaz', {
 		salt: salt2,
