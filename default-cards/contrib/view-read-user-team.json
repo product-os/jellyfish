@@ -1,6 +1,6 @@
 {
-  "slug": "view-read-user-default",
-  "name": "Default role read permissions",
+  "slug": "view-read-user-team",
+  "name": "Team role read permissions",
   "type": "view",
   "tags": [],
   "links": [],
