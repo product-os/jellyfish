@@ -6,7 +6,6 @@
   "links": [],
   "active": true,
   "data": {
-    "extends": "action-create-card",
     "filter": {
       "type": "object",
       "properties": {
@@ -24,7 +23,7 @@
     "arguments": {
       "username": {
         "type": "string",
-        "pattern": "^[a-zA-Z0-9-]{5,}$"
+        "pattern": "^user-[a-zA-Z0-9-]{5,}$"
       },
       "email": {
         "type": "string",
@@ -33,23 +32,14 @@
       "hash": {
         "type": "string",
         "pattern": "^[a-f0-9]+$"
-      },
-      "salt": {
-        "type": "string",
-        "pattern": "^[a-zA-Z0-9/+]+==?$"
       }
     },
     "options": {
       "properties": {
-        "slug": "user-[arguments.username]",
-        "data": {
-          "email": "[arguments.email]",
-          "password": {
-            "hash": "[arguments.hash]",
-            "salt": "[arguments.salt]"
-          },
-          "roles": [ "user-community" ]
-        }
+        "username": "[arguments.username]",
+        "email": "[arguments.email]",
+        "roles": [ "user-community" ],
+        "hash": "[arguments.hash]"
       }
     }
   }

@@ -19,9 +19,8 @@ export const signup = ({ username, email, password }: {
 		},
 		arguments: {
 			email,
-			username,
-			salt: '{{ GENERATESALT() }}',
-			hash: '{{ HASH(properties.transient.password, properties.data.arguments.salt) }}',
+			username: `user-${username}`,
+			hash: `{{ HASH(properties.transient.password, properties.data.arguments.username) }}`,
 		},
 	})
 	.then(() => login({
