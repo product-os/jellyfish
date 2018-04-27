@@ -4,9 +4,10 @@ import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import * as io from 'socket.io-client';
 import { Card } from '../../../Types';
+import { debug } from '../helpers';
 import * as card from './card';
 import { API_URL } from './constants';
-import { isUUID, getRequest, getToken, postRequest, queryStringEncode } from './utils';
+import { getRequest, getToken, isUUID, postRequest, queryStringEncode } from './utils';
 
 interface EventMap {
 	data: {
@@ -101,6 +102,10 @@ export const action = (body: {
 	arguments?: any;
 	transient?: any;
 }) => {
+	const start = Date.now();
+
+	debug(`Dispatching action ${body.action}`, body)
+
 	if (!body.arguments) {
 		body.arguments = {};
 	}
@@ -120,6 +125,8 @@ export const action = (body: {
 			if (response.data.data.results.error) {
 				throw new Error(response.data.data.results.data);
 			}
+
+			debug(`Action ${body.action} complete in ${Date.now() - start}ms`)
 
 			return response;
 		});
