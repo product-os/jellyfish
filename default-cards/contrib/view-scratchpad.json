@@ -1,0 +1,26 @@
+{
+  "slug": "view-scratchpad",
+  "name": "Scratchpad",
+  "type": "view",
+  "tags": [],
+  "links": [],
+  "active": true,
+  "data": {
+    "allOf": [
+      {
+        "name": "All scratchpad entries",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "scratchpad-entry"
+            }
+          },
+          "additionalProperties": true,
+          "required": [ "type" ]
+        }
+      }
+    ]
+  }
+}
