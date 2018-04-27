@@ -100,10 +100,12 @@ ava.test('.executeAction() should fail if there is no implementation', async (te
 		}
 	})
 
+	const eventCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'event')
+
 	await test.throws(test.context.worker.executeAction(
 		test.context.session,
 		'action-demo',
-		'event',
+		eventCard.id,
 		{}
 	), test.context.jellyfish.errors.JellyfishNoAction)
 })
@@ -243,8 +245,6 @@ ava.test('.createRequest() should fail if login in with the wrong password', asy
 
 	await test.context.worker.processRequest(signupRequest)
 
-	const user = await test.context.jellyfish.getCardBySlug(test.context.jellyfish.sessions.admin, 'user-johndoe')
-
 	const johnDoeUser = await test.context.jellyfish.getCardBySlug(test.context.guestSession, 'user-johndoe')
 	const loginRequestId = await test.context.worker.createRequest(test.context.jellyfish.sessions.admin, {
 		targetId: johnDoeUser.id,
@@ -255,7 +255,7 @@ ava.test('.createRequest() should fail if login in with the wrong password', asy
 		},
 		arguments: {
 			password: {
-				hash: `{{ HASH(properties.transient.password, '${user.slug}') }}`
+				hash: `{{ HASH(properties.transient.password, '${johnDoeUser.slug}') }}`
 			}
 		}
 	})
