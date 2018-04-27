@@ -40,7 +40,7 @@ export default class Event extends React.Component<EventProps, { username: strin
 		const isChatMessage = card.type === 'chat-message';
 
 		return (
-			<Flex {...props}>
+			<Flex className={`event-card--${card.type}`} {...props}>
 				{isChatMessage &&
 					<Button
 						plaintext
@@ -59,7 +59,7 @@ export default class Event extends React.Component<EventProps, { username: strin
 					</Flex>
 
 					{card.type === 'chat-message' &&
-					<Txt>{card.data.payload.message}</Txt>}
+					<Txt className='event-card__message'>{card.data.payload.message}</Txt>}
 				</Box>
 			</Flex>
 		);

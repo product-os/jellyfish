@@ -1,0 +1,45 @@
+{
+  "slug": "view-all-chat-threads",
+  "name": "Community chat",
+  "type": "view",
+  "tags": [],
+  "links": [],
+  "active": true,
+  "data": {
+    "lenses": [
+      "lens-chat-thread-list"
+    ],
+    "allOf": [
+      {
+        "name": "Active cards",
+        "schema": {
+          "additionalProperties": true,
+          "properties": {
+            "active": {
+              "const": true,
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "active"
+          ],
+          "type": "object"
+        }
+      },
+      {
+        "name": "All chat threads",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "chat-thread"
+            }
+          },
+          "required": [
+            "type"
+          ]
+        }
+      }
+    ]
+  }
+}

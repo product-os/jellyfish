@@ -14,7 +14,7 @@ interface TailStreamerState {
  * A generic class for streaming data to a `tail` property on this.state
  */
 export default class TailStreamer<P, S> extends React.Component<P, TailStreamerState & S> {
-	private stream: sdk.db.JellyfishStream;
+	public stream: sdk.db.JellyfishStream;
 
 	public componentWillUnmount() {
 		if (this.stream) {

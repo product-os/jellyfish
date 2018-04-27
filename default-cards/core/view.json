@@ -41,6 +41,10 @@
         "data": {
           "type": "object",
           "properties": {
+            "actor": {
+              "type": "string",
+              "format": "uuid"
+            },
             "anyOf": {
               "$ref": "#/definitions/filters"
             },
