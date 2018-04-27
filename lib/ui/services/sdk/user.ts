@@ -23,6 +23,7 @@ export const signup = ({ username, email, password }: {
 			salt: '{{ GENERATESALT() }}',
 			hash: '{{ HASH(properties.transient.password, properties.data.arguments.salt) }}',
 		},
+		interpolateValues: true,
 	})
 	.then(() => login({
 		username,

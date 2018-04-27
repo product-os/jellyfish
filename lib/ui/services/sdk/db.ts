@@ -100,6 +100,7 @@ export const action = (body: {
 	action: string;
 	arguments?: any;
 	transient?: any;
+	interpolateValues?: boolean;
 }) => {
 	if (!body.arguments) {
 		body.arguments = {};

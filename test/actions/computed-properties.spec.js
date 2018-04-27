@@ -20,10 +20,12 @@ const credentials = require('../../lib/actions/credentials')
 
 ava.test('should compile a card without templates', (test) => {
 	test.deepEqual(computedProperties.compile({
+		interpolateValues: true,
 		type: 'distro',
 		name: 'Debian',
 		slug: 'debian'
 	}), {
+		interpolateValues: true,
 		type: 'distro',
 		name: 'Debian',
 		slug: 'debian'
@@ -32,11 +34,13 @@ ava.test('should compile a card without templates', (test) => {
 
 ava.test('should compile a single top level template', (test) => {
 	test.deepEqual(computedProperties.compile({
+		interpolateValues: true,
 		type: 'distro',
 		name: 'Debian {{version}}',
 		version: 'wheezy',
 		slug: 'debian'
 	}), {
+		interpolateValues: true,
 		type: 'distro',
 		name: 'Debian wheezy',
 		version: 'wheezy',
@@ -46,6 +50,7 @@ ava.test('should compile a single top level template', (test) => {
 
 ava.test('should compile templates inside arrays', (test) => {
 	test.deepEqual(computedProperties.compile({
+		interpolateValues: true,
 		type: 'distro',
 		name: 'Debian',
 		slug: 'debian',
@@ -60,6 +65,7 @@ ava.test('should compile templates inside arrays', (test) => {
 			}
 		]
 	}), {
+		interpolateValues: true,
 		type: 'distro',
 		name: 'Debian',
 		slug: 'debian',
@@ -78,11 +84,13 @@ ava.test('should compile templates inside arrays', (test) => {
 
 ava.test('should compile multiple top level templates', (test) => {
 	test.deepEqual(computedProperties.compile({
+		interpolateValues: true,
 		type: 'distro',
 		name: 'Debian {{version}}',
 		version: 'wheezy',
 		slug: 'debian-{{version}}'
 	}), {
+		interpolateValues: true,
 		type: 'distro',
 		name: 'Debian wheezy',
 		version: 'wheezy',
@@ -92,6 +100,7 @@ ava.test('should compile multiple top level templates', (test) => {
 
 ava.test('should compile a single nested template', (test) => {
 	test.deepEqual(computedProperties.compile({
+		interpolateValues: true,
 		type: 'distro',
 		name: 'Debian',
 		version: 'wheezy',
@@ -104,6 +113,7 @@ ava.test('should compile a single nested template', (test) => {
 			}
 		}
 	}), {
+		interpolateValues: true,
 		type: 'distro',
 		name: 'Debian',
 		version: 'wheezy',
@@ -121,6 +131,7 @@ ava.test('should compile a single nested template', (test) => {
 ava.test('should leave missing values as interpolations', (test) => {
 	test.throws(() => {
 		computedProperties.compile({
+			interpolateValues: true,
 			type: 'distro',
 			name: 'Debian',
 			version: '{{data.distroName}}',
@@ -131,12 +142,14 @@ ava.test('should leave missing values as interpolations', (test) => {
 
 ava.test('should resolve interpolations that depend on other interpolations', (test) => {
 	test.deepEqual(computedProperties.compile({
+		interpolateValues: true,
 		type: 'distro',
 		name: '{{slug}}',
 		version: '{{name}} v1.0.0',
 		summary: 'Distro: {{version}}',
 		slug: 'debian'
 	}), {
+		interpolateValues: true,
 		type: 'distro',
 		name: 'debian',
 		version: 'debian v1.0.0',
@@ -145,21 +158,59 @@ ava.test('should resolve interpolations that depend on other interpolations', (t
 	})
 })
 
+ava.test('should note interpolate values when the `interpolateValues` key is not present', (test) => {
+	test.deepEqual(computedProperties.compile({
+		type: 'distro',
+		name: '{{slug}}',
+		version: '{{name}} v1.0.0',
+		summary: 'Distro: {{version}}',
+		slug: 'debian'
+	}), {
+		type: 'distro',
+		name: '{{slug}}',
+		version: '{{name}} v1.0.0',
+		summary: 'Distro: {{version}}',
+		slug: 'debian'
+	})
+})
+
+ava.test('should note interpolate values when the `interpolateValues` key is false', (test) => {
+	test.deepEqual(computedProperties.compile({
+		interpolateValues: false,
+		type: 'distro',
+		name: '{{slug}}',
+		version: '{{name}} v1.0.0',
+		summary: 'Distro: {{version}}',
+		slug: 'debian'
+	}), {
+		interpolateValues: false,
+		type: 'distro',
+		name: '{{slug}}',
+		version: '{{name}} v1.0.0',
+		summary: 'Distro: {{version}}',
+		slug: 'debian'
+	})
+})
+
 ava.test('should execute Excel functions', (test) => {
 	test.deepEqual(computedProperties.compile({
+		interpolateValues: true,
 		test: '{{ MAX(5, 3) }}'
 	}), {
+		interpolateValues: true,
 		test: '5'
 	})
 })
 
 ava.test('should evaluate function expressions that depend on other expressions', (test) => {
 	const result = computedProperties.compile({
+		interpolateValues: true,
 		foo: '{{ POW(2, 2) }}',
 		test: '{{ POW(foo, 2) }}'
 	})
 
 	test.deepEqual(computedProperties.compile(result), {
+		interpolateValues: true,
 		foo: '4',
 		test: '16'
 	})
@@ -167,6 +218,7 @@ ava.test('should evaluate function expressions that depend on other expressions'
 
 ava.test('should have a GENERATESALT function', (test) => {
 	const salt = computedProperties.compile({
+		interpolateValues: true,
 		result: '{{ GENERATESALT() }}'
 	}).result
 
@@ -175,14 +227,17 @@ ava.test('should have a GENERATESALT function', (test) => {
 
 ava.test('GENERATESALT: should generate random values', (test) => {
 	const salt1 = computedProperties.compile({
+		interpolateValues: true,
 		result: '{{ GENERATESALT() }}'
 	}).result
 
 	const salt2 = computedProperties.compile({
+		interpolateValues: true,
 		result: '{{ GENERATESALT() }}'
 	}).result
 
 	const salt3 = computedProperties.compile({
+		interpolateValues: true,
 		result: '{{ GENERATESALT() }}'
 	}).result
 
@@ -194,6 +249,7 @@ ava.test('GENERATESALT: should generate random values', (test) => {
 ava.test('HASH: should hash a string with a salt', (test) => {
 	const salt = credentials.generateSalt()
 	const hash = computedProperties.compile({
+		interpolateValues: true,
 		salt,
 		hash: '{{ HASH("foobar", salt) }}'
 	}).hash
@@ -206,6 +262,7 @@ ava.test('HASH: should hash a string with a salt', (test) => {
 
 ava.test('HASH: should hash a string with a salt that is also generated on the card', (test) => {
 	const result = computedProperties.compile({
+		interpolateValues: true,
 		salt: '{{ GENERATESALT() }}',
 		hash: '{{ HASH("foobar", salt) }}'
 	})
