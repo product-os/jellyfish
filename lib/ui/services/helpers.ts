@@ -5,7 +5,6 @@ import { Channel } from '../../Types';
 const PURPLE = '#8268c5';
 
 const DEBUG =	!_.includes([
-	'production',
 	'test',
 ], process.env.NODE_ENV);
 
