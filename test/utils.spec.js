@@ -364,3 +364,30 @@ ava.test('.deserializeQuery() should correctly deserialize objects', (test) => {
 		maxProperties: 5
 	})
 })
+
+ava.test('.findUuidPaths() should find paths for multilevel schemas', (test) => {
+	const schema = {
+		type: 'object',
+		properties: {
+			id: {
+				type: 'string',
+				format: 'uuid'
+			},
+			data: {
+				type: 'object',
+				properties: {
+					description: {
+						type: 'string'
+					},
+					actor: {
+						type: 'string',
+						format: 'uuid'
+					}
+				}
+			}
+		}
+	}
+	const paths = utils.findUuidPaths(schema)
+
+	test.deepEqual(paths, [ [ 'id' ], [ 'data', 'actor' ] ])
+})
