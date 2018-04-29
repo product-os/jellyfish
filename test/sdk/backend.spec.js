@@ -1042,3 +1042,70 @@ ava.test.cb('.stream() should filter the "before" section of a change', (test) =
 		})
 	}).catch(test.end)
 })
+
+ava.test('.expandResults() should expand results', async (test) => {
+	const table = 'test'
+	await test.context.backend.createTable(table)
+
+	await test.context.backend.insertElement(table, {
+		slug: 'example',
+		type: 'type',
+		data: {
+			schema: {
+				type: 'object',
+				properties: {
+					data: {
+						type: 'object',
+						properties: {
+							actor: {
+								type: 'string',
+								format: 'uuid'
+							}
+						}
+					}
+				}
+			}
+		}
+	})
+
+	const actorUuid = await test.context.backend.insertElement(table, {
+		slug: 'user-foobar',
+		type: 'user'
+	})
+
+	const card = {
+		type: 'example',
+		slug: 'hello',
+		data: {
+			actor: actorUuid
+		}
+	}
+
+	const querySchema = {
+		type: 'object',
+		properties: {
+			data: {
+				type: 'object',
+				properties: {
+					actor: {
+						type: 'object'
+					}
+				}
+			}
+		}
+	}
+
+	const result = await test.context.backend.expandElement(table, querySchema, card)
+
+	test.deepEqual(result, {
+		type: 'example',
+		slug: 'hello',
+		data: {
+			actor: {
+				id: actorUuid,
+				slug: 'user-foobar',
+				type: 'user'
+			}
+		}
+	})
+})
