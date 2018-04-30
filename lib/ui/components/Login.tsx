@@ -64,7 +64,7 @@ export default class Login extends React.Component<{}, LoginState> {
 		const { username, password } = this.state;
 		this.setState({ loggingIn: true });
 
-		sdk.user.login({
+		return sdk.user.login({
 			username,
 			password,
 		})

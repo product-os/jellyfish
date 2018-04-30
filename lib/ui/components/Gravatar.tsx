@@ -7,19 +7,19 @@ import Icon from './Icon';
 const GRAVATAR_URL = 'https://www.gravatar.com/avatar/';
 
 const getGravatar = (email: string): Promise<string> => {
-	return new Promise<string>((resolve, reject) => {
+	return new Promise<string>((resolve) => {
 		// The query string makes gravatar return a 404 if the image is not found.
 		// Ordinarily gravatar will return a default image if the avatar isn't found
 		const avatarUrl = GRAVATAR_URL + md5(email.trim()) + '?d=404';
 		const img = new Image();
 		img.src = avatarUrl;
 		img.onload = () => resolve(avatarUrl);
-		img.onerror = () => reject(new Error('User does not have a gravatar'));
+		img.onerror = () => resolve('');
 	});
 };
 
 interface GravatarState {
-	avatarUrl: null | string;
+	avatarUrl: string;
 }
 
 interface GravatarProps {
@@ -31,7 +31,7 @@ export default class Gravatar extends React.Component<GravatarProps, GravatarSta
 		super(props);
 
 		this.state = {
-			avatarUrl: null,
+			avatarUrl: '',
 		};
 
 		if (this.props.email) {
@@ -44,15 +44,16 @@ export default class Gravatar extends React.Component<GravatarProps, GravatarSta
 			if (nextProps.email) {
 				this.load(nextProps.email);
 			} else {
-				this.setState({ avatarUrl: null });
+				this.setState({ avatarUrl: '' });
 			}
 		}
 	}
 
 	public load(email: string) {
 		getGravatar(email)
-		.then((avatarUrl) => this.setState({ avatarUrl }))
-		.catch(() => this.setState({ avatarUrl: null }));
+		.then((avatarUrl) => {
+			return this.setState({ avatarUrl });
+		});
 	}
 
 	public render() {
