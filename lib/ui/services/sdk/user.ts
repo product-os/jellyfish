@@ -4,7 +4,23 @@ import store, { actionCreators } from '../store';
 import * as card from './card';
 import { action } from './db';
 import { getAll as getAllTypes } from './type';
-import { postRequest } from './utils';
+import { getToken, postRequest } from './utils';
+
+export const whoami = () => Promise.try(() => {
+	const session = getToken();
+
+	if (!session) {
+		throw new Error('No session token found');
+	}
+
+	return card.get(session)
+		.then((result) => {
+			if (!result) {
+				throw new Error('Could not retrieve session data');
+			}
+			return card.get(result.data.actor);
+		});
+});
 
 export const signup = ({ username, email, password }: {
 	username: string;
@@ -45,20 +61,8 @@ export const login = (payload: {
 
 			store.dispatch(actionCreators.setAuthToken(token));
 
-			const userPromise = card.get(token)
-				.then((result) => {
-					if (!result) {
-						throw new Error('Could not retrieve session data');
-					}
-					return card.get(result.data.actor);
-				})
-				.then((userCard) => {
-					debug('GOT USER', userCard);
-					return userCard;
-				});
-
 			return Promise.all([
-				userPromise,
+				whoami(),
 				getAllTypes(),
 			])
 			.then(([user, types]) => {
