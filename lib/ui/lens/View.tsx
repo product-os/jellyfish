@@ -32,6 +32,7 @@ interface ViewRendererState {
 interface ViewRendererProps extends RendererProps {
 	actions: typeof actionCreators;
 	allChannels: JellyfishState['channels'];
+	session: JellyfishState['session'];
 }
 
 const USER_FILTER_NAME = 'user-generated-filter';
@@ -133,6 +134,8 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 		}
 
 		newView.data.allOf = _.reject(newView.data.allOf, { name: USER_FILTER_NAME });
+
+		newView.data.actor = this.props.session!.user!.id;
 
 		view.filters.forEach((filter) => {
 			newView.data.allOf.push({
@@ -254,6 +257,7 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 
 const mapStateToProps = (state: JellyfishState) => ({
 	allChannels: state.channels,
+	session: state.session
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
