@@ -1,4 +1,4 @@
-import ReactTextareaAutocomplete = require('@webscopeio/react-textarea-autocomplete');
+import ReactTextareaAutocomplete = require('@webscopeio/react-textarea-autocomplete/dist/react-textarea-autocomplete.cjs.js');
 import * as _ from 'lodash';
 import * as React from 'react';
 import { Box, BoxProps, Theme } from 'rendition';
@@ -103,7 +103,6 @@ const baseData: Array<{ name: string, char: string }> = [
 const trigger = {
 	':': {
 		dataProvider: (token: string) => {
-			console.log({ token })
 			if (!token) {
 				return baseData;
 			}

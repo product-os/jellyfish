@@ -182,8 +182,6 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 			? _.map(_.reject(head.data.allOf, { name: USER_FILTER_NAME }), 'name')
 			: [];
 
-		console.log('TAIL', tail)
-
 		return (
 			<Flex
 				className={`column--${head ? head.slug || head.type : 'unknown'}`}

@@ -1,4 +1,4 @@
-declare module '@webscopeio/react-textarea-autocomplete' {
+declare module '@webscopeio/react-textarea-autocomplete/dist/react-textarea-autocomplete.cjs.js' {
 	import { Component } from 'react';
 
 	type Trigger = {

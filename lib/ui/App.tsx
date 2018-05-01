@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -29,14 +30,14 @@ class App extends React.Component<AppProps, {}> {
 	}
 
 	public componentDidUpdate(prevProps: AppProps) {
-		if (!prevProps.session && this.props.session) {
+		if (!_.get(prevProps, 'session.authToken') && _.get(this.props, 'session.authToken')) {
 			// If we have a session token available load all the channels
 			this.props.channels.forEach(this.props.actions.loadChannelData);
 		}
 	}
 
 	public render() {
-		if (!this.props.session) {
+		if (!_.get(this.props, [ 'session', 'authToken' ])) {
 			return (
 				<Provider>
 					<Login />

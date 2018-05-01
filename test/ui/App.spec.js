@@ -176,14 +176,14 @@ ava.test.serial('should allow newly signed up users to create new chat threads',
 ava.test.serial('should allow newly signed up users to create chat messages', async (test) => {
 	const messageText = 'My new message'
 	await waitForElement(app, '.new-message-input')
-	app.find('.new-message-input').first()
+	app.find('textarea').first()
 		.simulate('change', {
 			target: {
 				value: messageText
 			}
 		})
 
-	app.find('.new-message-input').first()
+	app.find('textarea').first()
 		.simulate('keyPress', {
 			key: 'Enter'
 		})

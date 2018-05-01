@@ -96,8 +96,11 @@ export const login = (payload: {
 				getAllTypes(),
 			])
 			.then(([user, types]) => {
-				store.dispatch(actionCreators.setUser(user!));
-				store.dispatch(actionCreators.setTypes(types));
+				// Check to see if we're still logged in
+				if (_.get(store.getState(), ['session', 'authToken'])) {
+					store.dispatch(actionCreators.setUser(user!));
+					store.dispatch(actionCreators.setTypes(types));
+				}
 
 				return user;
 			})
