@@ -16,11 +16,11 @@
 
 const ava = require('ava')
 const randomstring = require('randomstring')
-const Backend = require('../../lib/sdk/backend')
-const Kernel = require('../../lib/sdk/kernel')
-const permissionFilter = require('../../lib/sdk/permission-filter')
-const errors = require('../../lib/sdk/errors')
-const CARDS = require('../../lib/sdk/cards')
+const Backend = require('../../lib/core/backend')
+const Kernel = require('../../lib/core/kernel')
+const permissionFilter = require('../../lib/core/permission-filter')
+const errors = require('../../lib/core/errors')
+const CARDS = require('../../lib/core/cards')
 
 ava.test.beforeEach(async (test) => {
 	test.context.backend = new Backend({

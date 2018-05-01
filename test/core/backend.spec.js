@@ -18,8 +18,8 @@ const ava = require('ava')
 const _ = require('lodash')
 const Bluebird = require('bluebird')
 const randomstring = require('randomstring')
-const Backend = require('../../lib/sdk/backend')
-const errors = require('../../lib/sdk/errors')
+const Backend = require('../../lib/core/backend')
+const errors = require('../../lib/core/errors')
 
 ava.test.beforeEach(async (test) => {
 	test.context.backend = new Backend({

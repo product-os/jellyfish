@@ -17,10 +17,10 @@
 const ava = require('ava')
 const _ = require('lodash')
 const randomstring = require('randomstring')
-const sdk = require('../lib/sdk')
+const core = require('../lib/core')
 
 ava.test.beforeEach(async (test) => {
-	test.context.jellyfish = await sdk.create({
+	test.context.jellyfish = await core.create({
 		backend: {
 			host: process.env.TEST_DB_HOST,
 			port: process.env.TEST_DB_PORT,
