@@ -165,7 +165,8 @@
               "type": "string",
               "enum": [
                 "view-all-chat-threads",
-                "view-all-views"
+                "view-all-views",
+                "view-my-mentions"
               ]
             },
             "id": {

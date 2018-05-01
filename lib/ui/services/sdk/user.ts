@@ -1,10 +1,40 @@
 import * as Promise from 'bluebird';
+import * as _ from 'lodash';
+import { Card } from '../../../Types';
 import { debug } from '../helpers';
 import store, { actionCreators } from '../store';
 import * as card from './card';
-import { action } from './db';
+import { action, query } from './db';
 import { getAll as getAllTypes } from './type';
 import { getToken, postRequest } from './utils';
+
+let otherUsers: Card[] = [];
+
+// This is really awakward and needs to be refactored, Ideally the SDK needs
+// a botostrapping step once it authorises
+store.subscribe(() => {
+	if (_.get(store.getState(), 'session.authToken') && !otherUsers.length) {
+		query({
+			type: 'object',
+			properties: {
+				type: {
+					const: 'user',
+				},
+				slug: {
+					not: {
+						const: 'user-guest',
+					},
+				},
+			},
+			additionalProperties: true,
+		})
+			.then((users) => {
+				otherUsers = users;
+			});
+	}
+});
+
+export const listAll = () => otherUsers;
 
 export const whoami = () => Promise.try(() => {
 	const session = getToken();
@@ -69,7 +99,7 @@ export const login = (payload: {
 				store.dispatch(actionCreators.setUser(user!));
 				store.dispatch(actionCreators.setTypes(types));
 
-				return null
+				return user;
 			})
 			.catch((error) => console.error('A login error occurred', error));
 		});

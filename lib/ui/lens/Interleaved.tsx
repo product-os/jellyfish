@@ -7,10 +7,10 @@ import {
 	Box,
 	Flex,
 	Txt,
-	Textarea,
 } from 'rendition';
 import styled from 'styled-components';
 import { Card, JellyfishState, Lens, RendererProps } from '../../Types';
+import AutocompleteTextarea from '../components/AutocompleteTextarea';
 import EventCard from '../components/Event';
 import Icon from '../components/Icon';
 import TailStreamer from '../components/TailStreamer';
@@ -107,9 +107,16 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 
 		this.setState({ newMessage: '' });
 
+		const mentions = _.compact((newMessage.match(/\@[\S]+/g) || [])
+			.map(name => {
+				const slug = name.replace('@', 'user-');
+				return _.get(_.find(sdk.user.listAll(), { slug }), 'id');
+			}));
+
 		return sdk.card.add({
 			type: 'chat-message',
 			data: {
+				mentionsUser: mentions,
 				timestamp: getCurrentTimestamp(),
 				target: this.props.channel.data.target,
 				actor: this.props.session!.user!.id,
@@ -162,15 +169,13 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 				</Box>
 
 				{head && head.type !== 'view' &&
-					<Box p={3} style={{ borderTop: '1px solid #eee' }}>
-						<Textarea
-							className='new-message-input'
-							rows={1}
-							value={this.state.newMessage}
-							onChange={(e) => this.setState({ newMessage: e.target.value })}
-							onKeyPress={(e) => e.key === 'Enter' && this.addMessage(e)}
-							placeholder='Type to comment on this thread...' />
-					</Box>
+					<AutocompleteTextarea
+						p={3} style={{ borderTop: '1px solid #eee' }}
+						className='new-message-input'
+						value={this.state.newMessage}
+						onChange={(e: any) => this.setState({ newMessage: e.target.value })}
+						onKeyPress={(e) => e.key === 'Enter' && this.addMessage(e)}
+						placeholder='Type to comment on this thread...' />
 				}
 			</Column>
 		);
