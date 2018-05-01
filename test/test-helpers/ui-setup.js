@@ -11,3 +11,4 @@ Enzyme.configure({
 global.document = (new JSDOM('<body></body>')).window.document
 global.window = document.defaultView
 global.navigator = window.navigator
+global.Image = window.Image

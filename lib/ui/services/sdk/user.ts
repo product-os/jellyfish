@@ -68,6 +68,8 @@ export const login = (payload: {
 			.then(([user, types]) => {
 				store.dispatch(actionCreators.setUser(user!));
 				store.dispatch(actionCreators.setTypes(types));
+
+				return null
 			})
 			.catch((error) => console.error('A login error occurred', error));
 		});

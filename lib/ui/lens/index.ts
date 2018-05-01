@@ -77,7 +77,7 @@ class LensService {
 
 		const lenses = _.reduce(this.lenses, (carry, items) => {
 			const result = _.find(items, (lens) => {
-				return _.includes(preference, lens.slug) || this.getValidator(lens)(data)
+				return _.includes(preference, lens.slug) || this.getValidator(lens)(data);
 			});
 			return result ? carry.concat(result) : carry;
 		}, [] as Lens[]);
@@ -102,12 +102,10 @@ class LensService {
 			const result = _.find(items, (lens) =>
 				lens.data.type === type ||
 				lens.data.type === '*' ||
-				_.includes(preference, lens.slug)
+				_.includes(preference, lens.slug),
 			);
 			return result ? carry.concat(result) : carry;
 		}, [] as Lens[]);
-
-		console.log('got lenses for type', type, lenses);
 
 		if (preference) {
 			return this.applyLensPreference(lenses, preference);
