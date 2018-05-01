@@ -169,7 +169,7 @@ ava.test('HASH: should hash a string with a salt', (test) => {
 	const salt = 'user-foo'
 	const hash = computedProperties.compile({
 		salt,
-		hash: '{{ HASH("foobar", salt) }}'
+		hash: '{{ HASH({ string: "foobar", salt: salt }) }}'
 	}).hash
 
 	test.is(credentials.hash('foobar', salt), hash)
