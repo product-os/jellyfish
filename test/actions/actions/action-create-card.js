@@ -57,6 +57,9 @@ ava.test('should fail if the card type does not exist', async (test) => {
 ava.test('should fail if the card already exists', async (test) => {
 	const card = {
 		slug: 'johndoe',
+		links: [],
+		tags: [],
+		active: true,
 		data: {
 			email: 'johndoe@example.com'
 		}
