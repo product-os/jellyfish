@@ -45,31 +45,3 @@ ava.test('should create a card and add a create but not update event', async (te
 	const timeline = _.map(await utils.getTimeline(test.context.jellyfish, test.context.session, id), 'type')
 	test.deepEqual(timeline, [ 'create' ])
 })
-
-ava.test('should not keep the transient top level property', async (test) => {
-	const id = await test.context.worker.executeAction(test.context.session, 'action-upsert-card', test.context.ids.card, {
-		properties: {
-			slug: 'johndoe',
-			transient: {
-				hello: 'world'
-			},
-			data: {
-				email: 'johndoe@example.com'
-			}
-		}
-	})
-
-	const card = await test.context.jellyfish.getCardById(test.context.session, id)
-
-	test.deepEqual(card, {
-		id,
-		slug: 'johndoe',
-		type: 'card',
-		tags: [],
-		links: [],
-		active: true,
-		data: {
-			email: 'johndoe@example.com'
-		}
-	})
-})

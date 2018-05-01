@@ -29,9 +29,6 @@
             "type": "string",
             "pattern": "^.*\\S.*$"
           },
-          "transient": {
-            "type": "object"
-          },
           "active": {
             "type": "boolean"
           },
