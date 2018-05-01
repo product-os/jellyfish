@@ -119,23 +119,6 @@ ava.test('.insertCard() should be able to insert a card', async (test) => {
 	})
 })
 
-ava.test('.insertCard() should provide sensible defaults', async (test) => {
-	const id = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
-		type: 'card'
-	})
-
-	const element = await test.context.kernel.getCardById(test.context.kernel.sessions.admin, id)
-
-	test.deepEqual(element, {
-		id,
-		type: 'card',
-		active: true,
-		links: [],
-		tags: [],
-		data: {}
-	})
-})
-
 ava.test('.insertCard() should throw if the card already exists', async (test) => {
 	const card = {
 		slug: 'foo-bar',
@@ -1006,6 +989,9 @@ ava.test.cb('.stream() should report back new elements that match a certain slug
 		return Bluebird.all([
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 				slug: 'card-foo',
+				links: [],
+				tags: [],
+				active: true,
 				type: 'card',
 				data: {
 					test: 1
@@ -1013,6 +999,9 @@ ava.test.cb('.stream() should report back new elements that match a certain slug
 			}),
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 				slug: 'card-bar',
+				links: [],
+				tags: [],
+				active: true,
 				type: 'card',
 				data: {
 					test: 2
@@ -1064,6 +1053,9 @@ ava.test.cb('.stream() should report back elements of a certain type', (test) =>
 		return Bluebird.all([
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 				slug: 'card-foo',
+				links: [],
+				tags: [],
+				active: true,
 				type: 'card',
 				data: {
 					test: 1
@@ -1071,6 +1063,9 @@ ava.test.cb('.stream() should report back elements of a certain type', (test) =>
 			}),
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 				slug: 'johndoe',
+				links: [],
+				tags: [],
+				active: true,
 				type: 'card',
 				data: {
 					email: 'johndoe@example.com'
@@ -1138,6 +1133,9 @@ ava.test.cb('.stream() should report back action requests', (test) => {
 		return Bluebird.all([
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 				type: 'action-request',
+				links: [],
+				tags: [],
+				active: true,
 				data: {
 					action: 'action-delete-card',
 					actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
@@ -1149,6 +1147,9 @@ ava.test.cb('.stream() should report back action requests', (test) => {
 			}),
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 				slug: 'johndoe',
+				links: [],
+				tags: [],
+				active: true,
 				type: 'card',
 				data: {
 					email: 'johndoe@example.com'
@@ -1213,6 +1214,9 @@ ava.test.cb('.stream() should report both action requests and other types', (tes
 
 		return test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 			type: 'action-request',
+			links: [],
+			tags: [],
+			active: true,
 			data: {
 				action: 'action-delete-card',
 				actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
@@ -1224,6 +1228,9 @@ ava.test.cb('.stream() should report both action requests and other types', (tes
 		}).then(() => {
 			return test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 				type: 'card',
+				links: [],
+				tags: [],
+				active: true,
 				data: {
 					test: 1
 				}
@@ -1278,6 +1285,8 @@ ava.test.cb('.stream() should report back inactive elements', (test) => {
 
 		return test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 			slug: 'card-bar',
+			links: [],
+			tags: [],
 			active: false,
 			type: 'card',
 			data: {
