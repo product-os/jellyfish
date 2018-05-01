@@ -11,7 +11,9 @@ import {
 	FiltersView,
 	Flex,
 	Txt,
+	Modal,
 } from 'rendition';
+import { Form } from 'rendition/dist/unstable';
 import { Card, JellyfishState, Lens, RendererProps, Type } from '../../Types';
 import ButtonGroup from '../components/ButtonGroup';
 import Icon from '../components/Icon';
@@ -27,6 +29,9 @@ interface ViewRendererState {
 	lenses: Lens[];
 	activeLens: null | Lens;
 	tailType: Type | null;
+	showFilters: boolean;
+	showNotificationSettings: boolean;
+	notificationSettings: null | { [k: string]: any };
 }
 
 interface ViewRendererProps extends RendererProps {
@@ -38,6 +43,35 @@ interface ViewRendererProps extends RendererProps {
 const USER_FILTER_NAME = 'user-generated-filter';
 
 class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
+	private notificationSettingsSchema: JSONSchema6 = {
+		type: 'object',
+		properties: {
+			web: {
+				title: 'Web',
+				description: 'Alert me with desktop notifications',
+				type: 'object',
+				properties: {
+					update: {
+						title: 'On update',
+						description: 'When new content is added',
+						type: 'boolean',
+					},
+					mention: {
+						title: 'On mention',
+						description: 'When I am mentioned',
+						type: 'boolean',
+					},
+					alert: {
+						title: 'On alert',
+						description: 'When I am alerted',
+						type: 'boolean',
+					},
+				},
+				additionalProperties: false,
+			},
+		},
+	};
+
 	constructor(props: ViewRendererProps) {
 		super(props);
 
@@ -51,6 +85,9 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 			lenses: [],
 			activeLens: null,
 			tailType: null,
+			showFilters: false,
+			showNotificationSettings: false,
+			notificationSettings: null,
 		};
 
 		this.streamTail(this.props.channel.data.target);
@@ -171,6 +208,78 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 		this.setState({ filters });
 	}
 
+	public getSubscription() {
+		return sdk.db.query({
+			type: 'object',
+			properties: {
+				type: {
+					const: 'subscription',
+				},
+				data: {
+					type: 'object',
+					properties: {
+						target: {
+							const: this.props.channel.data.target,
+						},
+						actor: {
+							const: this.props.session!.user!.id,
+						},
+					},
+					additionalProperties: true,
+				},
+			},
+			additionalProperties: true,
+		})
+		.then((results) => _.first(results) || null);
+	}
+
+	public loadNotificationSettings() {
+		this.setState({ showNotificationSettings: true });
+
+		this.getSubscription()
+		.then((card) => {
+			if (!card) {
+				this.setState({ notificationSettings: {} });
+				return;
+			}
+
+			this.setState({ notificationSettings: _.get(card, 'data.notificationSettings') || {} });
+		});
+	}
+
+	public saveNotificationSettings() {
+		const notificationSettings = _.cloneDeep(this.state.notificationSettings);
+
+		this.getSubscription()
+		.then((card) => {
+			if (!card) {
+				sdk.card.add({
+					type: 'subscription',
+					data: {
+						target: this.props.channel.data.target,
+						actor: this.props.session!.user!.id,
+						notificationSettings,
+					},
+				});
+
+				return;
+			}
+			sdk.card.update(card.id, {
+				...card,
+				data: {
+					...card.data,
+					notificationSettings,
+				},
+			});
+		});
+
+		this.setState({
+			showNotificationSettings: false,
+			notificationSettings: null,
+		});
+
+	}
+
 	public render() {
 		const { head } = this.props.channel.data;
 		const { tail, tailType } = this.state;
@@ -190,23 +299,46 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 				style={{ height: '100%', overflowY: 'auto', borderRight: '1px solid #ccc', minWidth: 450, maxWidth: 700, position: 'relative' }}>
 				{head &&
 					<Box>
+						{this.state.showNotificationSettings &&
+							<Modal
+								title='Notification settings'
+								cancel={() => this.setState({ showNotificationSettings: false })}
+								done={() => this.saveNotificationSettings()}
+							>
+								{!this.state.notificationSettings && <span>Loading settings... <i className='fas fa-cog fa-spin' /></span>}
+								{!!this.state.notificationSettings &&
+									<Form
+										schema={this.notificationSettingsSchema}
+										value={this.state.notificationSettings}
+										onFormChange={(data: any) => this.setState({ notificationSettings: data.formData })}
+										onFormSubmit={() => this.saveNotificationSettings()}
+										hideSubmitButton
+									/>
+								}
+							</Modal>
+						}
+
 						{!!this.state.filters.length && !!originalFilters.length &&
 							<Txt px={3} pt={2}>View extends <em>{originalFilters.join(', ')}</em></Txt>}
-						<Flex mt={3} align='space-between'>
-							{useFilters &&
-								<Box mx={3} flex='1 0 auto'>
-									<Filters
-										schema={(tailType as any).data.schema}
-										filters={this.state.filters}
-										onFiltersUpdate={(filters) => this.updateFilters(filters)}
-										onViewsUpdate={([view]) => this.saveView(view)}
-										addFilterButtonProps={{
-											style: { flex: '0 0 137px' },
-										}}
-										renderMode={['add', 'search']}
-									/>
-								</Box>
-							}
+						<Flex mt={3} justify='space-between'>
+							<Box pl={3}>
+								<Button
+									mr={2}
+									tooltip={{ placement: 'bottom', text: 'Notification settings'}}
+									onClick={() => this.loadNotificationSettings()}
+									square>
+									<Icon name='bell' />
+								</Button>
+
+								{useFilters &&
+									<Button
+										tooltip={{ placement: 'bottom', text: 'Filter options'}}
+										onClick={() => this.setState({ showFilters: !this.state.showFilters })}
+										square>
+										<Icon name='filter' />
+									</Button>
+								}
+							</Box>
 
 							{this.state.lenses.length > 1 &&
 								<ButtonGroup mr={3}>
@@ -223,14 +355,17 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 							}
 						</Flex>
 
-						{useFilters &&
-							<Box px={3}>
+						{useFilters && this.state.showFilters &&
+							<Box mx={3} mt={2} flex='1 0 auto'>
 								<Filters
 									schema={(tailType as any).data.schema}
 									filters={this.state.filters}
 									onFiltersUpdate={(filters) => this.updateFilters(filters)}
 									onViewsUpdate={([view]) => this.saveView(view)}
-									renderMode='summary'
+									addFilterButtonProps={{
+										style: { flex: '0 0 137px' },
+									}}
+									renderMode={['add', 'search', 'summary']}
 								/>
 							</Box>
 						}
@@ -257,7 +392,7 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 
 const mapStateToProps = (state: JellyfishState) => ({
 	allChannels: state.channels,
-	session: state.session
+	session: state.session,
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

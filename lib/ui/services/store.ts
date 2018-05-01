@@ -45,6 +45,8 @@ const actions = {
 	SET_USER: 'SET_USER',
 	ADD_NOTIFICATION: 'ADD_NOTIFICATION',
 	REMOVE_NOTIFICATION: 'REMOVE_NOTIFICATION',
+	ADD_VIEW_NOTICE: 'ADD_VIEW_NOTICE',
+	REMOVE_VIEW_NOTICE: 'REMOVE_VIEW_NOTICE',
 };
 
 type JellyThunk = ThunkAction<void, JellyfishState, void>;
@@ -70,10 +72,14 @@ export const actionCreators = {
 		type: actions.UPDATE_CHANNEL,
 		value: channel,
 	}),
-	addChannel: (channel: Channel) => ({
-		type: actions.ADD_CHANNEL,
-		value: channel,
-	}),
+	addChannel: (channel: Channel): JellyThunk => (dispatch) => {
+		dispatch({
+			type: actions.ADD_CHANNEL,
+			value: channel,
+		});
+
+		dispatch(actionCreators.loadChannelData(channel));
+	},
 	removeChannel: (channel: Channel) => ({
 		type: actions.REMOVE_CHANNEL,
 		value: channel,
@@ -114,6 +120,14 @@ export const actionCreators = {
 		type: actions.REMOVE_NOTIFICATION,
 		value: id,
 	}),
+	addViewNotice: (payload: any) => ({
+		type: actions.ADD_VIEW_NOTICE,
+		value: payload,
+	}),
+	removeViewNotice: (id: string) => ({
+		type: actions.REMOVE_VIEW_NOTICE,
+		value: id,
+	}),
 };
 
 const logger: Middleware = (store) => (next) => (action: any) => {
@@ -132,6 +146,7 @@ const defaultState = (): JellyfishState => ({
 	types: [],
 	session: null,
 	notifications: [],
+	viewNotices: {},
 });
 
 const save = ifNotInTestEnv((state: JellyfishState) => {
@@ -230,6 +245,20 @@ const reducer = (state: JellyfishState, action: Action) => {
 
 		case actions.REMOVE_NOTIFICATION:
 			newState.notifications = _.reject(newState.notifications, { id: action.value });
+
+			return newState;
+
+		case actions.ADD_VIEW_NOTICE:
+			const { id, ...payload } = action.value;
+
+			newState.viewNotices[id] = payload;
+
+			return newState;
+
+		case actions.REMOVE_VIEW_NOTICE:
+			if (newState.viewNotices[action.value]) {
+				delete newState.viewNotices[action.value];
+			}
 
 			return newState;
 

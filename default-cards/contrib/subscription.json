@@ -1,0 +1,64 @@
+{
+  "slug": "subscription",
+  "type": "type",
+  "name": "Subscription",
+  "tags": [],
+  "links": [],
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "definitions": {
+        "notificationOptions": {
+          "type": "object",
+          "properties": {
+            "update": {
+              "type": "boolean"
+            },
+            "mention": {
+              "type": "boolean"
+            },
+            "alert": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "properties": {
+        "data": {
+          "type": "object",
+          "properties": {
+            "lastViewed": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "target": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "actor": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "notificationSettings": {
+              "type": "object",
+              "properties": {
+                "web": {
+                  "title": "Web",
+                  "description": "Alert me with desktop notifications",
+                  "$ref": "#/definitions/notificationOptions"
+                }
+              }
+            }
+          },
+          "required": [
+            "target",
+            "actor"
+          ]
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}

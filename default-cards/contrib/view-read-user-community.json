@@ -36,7 +36,8 @@
                 "view",
                 "chat-thread",
                 "chat-message",
-                "action-request"
+                "action-request",
+                "subscription"
               ]
             },
             "data": {
@@ -64,9 +65,10 @@
             },
             "slug": {
               "type": "string",
-              "anyOf": [
-                { "const": "action-create-session" },
-                { "const": "action-create-card" }
+              "enum": [
+                "action-create-session",
+                "action-create-card",
+                "action-update-card"
               ]
             },
             "type": {
@@ -222,6 +224,27 @@
           },
           "additionalProperties": true,
           "required": [ "type" ]
+        }
+      },
+      {
+        "name": "My subscriptions",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "subscription"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "actor": "[user.id]"
+              },
+              "additionalProperties": true,
+              "required": [ "actor" ]
+            }
+          },
+          "additionalProperties": true,
+          "required": [ "data", "type" ]
         }
       },
       {

@@ -182,16 +182,37 @@
             },
             "type": {
               "type": "string",
-              "anyOf": [
-                { "const": "chat-thread" },
-                { "const": "chat-message" },
-                { "const": "scratchpad-entry" },
-                { "const": "repo" }
+              "enum": [
+                "chat-thread",
+                "chat-message",
+                "scratchpad-entry",
+                "repo"
               ]
             }
           },
           "additionalProperties": true,
           "required": [ "type" ]
+        }
+      },
+      {
+        "name": "My subscriptions",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "subscription"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "actor": "[user.id]"
+              },
+              "additionalProperties": true,
+              "required": [ "actor" ]
+            }
+          },
+          "additionalProperties": true,
+          "required": [ "data", "type" ]
         }
       },
       {

@@ -15,6 +15,7 @@ import styled from 'styled-components';
 import { Card, JellyfishState, RendererProps } from '../../Types';
 import { createChannel } from '../services/helpers';
 import { actionCreators } from '../services/store';
+import { SubscriptionManager } from '../services/subscriptions';
 import Gravatar from './Gravatar';
 import Icon from './Icon';
 import TailStreamer from './TailStreamer';
@@ -45,6 +46,7 @@ interface HomeChannelProps extends RendererProps {
 	user: null | Card;
 	actions: typeof actionCreators;
 	allChannels: JellyfishState['channels'];
+	viewNotices: JellyfishState['viewNotices'];
 }
 
 interface HomeChannelState {
@@ -53,6 +55,8 @@ interface HomeChannelState {
 }
 
 class HomeChannel extends TailStreamer<HomeChannelProps, HomeChannelState> {
+	private subscriptionManager: SubscriptionManager;
+
 	constructor(props: HomeChannelProps) {
 		super(props);
 
@@ -61,10 +65,20 @@ class HomeChannel extends TailStreamer<HomeChannelProps, HomeChannelState> {
 			tail: null,
 		};
 
+		this.subscriptionManager = new SubscriptionManager();
+
 		this.streamTail(this.props.channel.data.target);
 	}
 
+	public setTail(tail: Card[]) {
+		this.subscriptionManager.updateSubscriptions(tail);
+		this.setState({ tail });
+	}
+
 	public open(card: Card) {
+		if (this.props.viewNotices[card.id]) {
+			this.props.actions.removeViewNotice(card.id);
+		}
 		this.props.actions.addChannel(createChannel({
 			target: card.id,
 			head: card,
@@ -129,6 +143,8 @@ class HomeChannel extends TailStreamer<HomeChannelProps, HomeChannelState> {
 
 						const isActive = card.id === activeCard;
 
+						const update = this.props.viewNotices[card.id];
+
 						return (
 							<Link
 								className='home-channel__item'
@@ -140,6 +156,13 @@ class HomeChannel extends TailStreamer<HomeChannelProps, HomeChannelState> {
 								color={isActive ? 'white' : '#c3c3c3'}
 								onClick={() => this.open(card)}>
 								{card.name}
+								{!!update &&
+										<Icon name='circle' style={{
+											color: update.newContent ? 'green' : 'orange',
+											marginTop: 4,
+											float: 'right',
+											fontSize: 11,
+										}} />}
 							</Link>
 						);
 					})}
@@ -152,6 +175,7 @@ class HomeChannel extends TailStreamer<HomeChannelProps, HomeChannelState> {
 const mapStateToProps = (state: JellyfishState) => ({
 	user: state.session ? state.session.user : null,
 	allChannels: state.channels,
+	viewNotices: state.viewNotices,
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

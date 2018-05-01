@@ -52,6 +52,13 @@ export interface JellyfishState {
 		user?: Card;
 	};
 	notifications: Notification[];
+	viewNotices: {
+		[k: string]: {
+			id: string;
+			newMentions?: boolean;
+			newContent?: boolean;
+		}
+	}
 }
 
 export interface Card {
