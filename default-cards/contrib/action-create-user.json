@@ -31,7 +31,8 @@
       },
       "hash": {
         "type": "string",
-        "pattern": "^[a-f0-9]+$"
+        "pattern": "^[a-f0-9]+$",
+        "formula": "HASH"
       }
     },
     "options": {
