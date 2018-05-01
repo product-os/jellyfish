@@ -23,7 +23,10 @@ ava.test('should create a user', async (test) => {
 	const id = await test.context.worker.executeAction(test.context.session, 'action-create-user', test.context.ids.user, {
 		email: 'johndoe@example.com',
 		username: 'user-johndoe',
-		hash
+		hash: {
+			string: 'foobar',
+			salt: 'user-johndoe'
+		}
 	})
 
 	const card = await test.context.jellyfish.getCardById(test.context.session, id)
