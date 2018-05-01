@@ -174,3 +174,60 @@ ava.test('HASH: should hash a string with a salt', (test) => {
 
 	test.is(credentials.hash('foobar', salt), hash)
 })
+
+ava.test('.applySchemaFormulas(): should resolve a formula from an object', (test) => {
+	const result = computedProperties.applySchemaFormulas({
+		type: 'object',
+		properties: {
+			myNumber: {
+				type: 'number',
+				$formula: 'POW(this, 2)'
+			}
+		}
+	}, {
+		myNumber: 2
+	})
+
+	test.deepEqual(result, {
+		myNumber: 4
+	})
+})
+
+ava.test('.applySchemaFormulas(): should resolve a formula with object arguments', (test) => {
+	const result = computedProperties.applySchemaFormulas({
+		type: 'object',
+		properties: {
+			hash: {
+				type: 'string',
+				$formula: 'HASH({ string: this.password, salt: this.username })'
+			}
+		}
+	}, {
+		hash: {
+			password: 'foo',
+			username: 'johndoe'
+		}
+	})
+
+	test.deepEqual(result, {
+		hash: credentials.hash('foo', 'johndoe')
+	})
+})
+
+ava.test('.applySchemaFormulas(): should resolve composite formulas', (test) => {
+	const result = computedProperties.applySchemaFormulas({
+		type: 'object',
+		properties: {
+			myNumber: {
+				type: 'number',
+				$formula: 'MAX(POW(this, 2), POW(this, 3))'
+			}
+		}
+	}, {
+		myNumber: 2
+	})
+
+	test.deepEqual(result, {
+		myNumber: 8
+	})
+})
