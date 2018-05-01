@@ -118,21 +118,16 @@ ava.test('.createRequest() should be able to create a user using action-create-u
 		targetId: userCard.id,
 		actorId: guestUser.id,
 		action: 'action-create-user',
-		transient: {
-			password: 'foobarbaz'
-		},
 		arguments: {
 			email: 'johndoe@example.com',
 			username: 'user-johndoe',
-			hash: '{{ HASH(properties.transient.password, properties.data.arguments.username) }}'
+			hash: '{{ HASH("foobarbaz", properties.data.arguments.username) }}'
 		}
 	})
 
 	const pendingRequest = await test.context.jellyfish.getCardById(test.context.session, id)
 	test.is(pendingRequest.id, id)
 	test.false(pendingRequest.data.executed)
-	test.falsy(pendingRequest.transient)
-	test.falsy(pendingRequest.data.transient)
 
 	test.deepEqual(_.keys(pendingRequest.data.arguments), [
 		'email',
@@ -167,13 +162,10 @@ ava.test('.createRequest() should login as a user with a password', async (test)
 		targetId: userCard.id,
 		actorId: guestUser.id,
 		action: 'action-create-user',
-		transient: {
-			password: 'foobarbaz'
-		},
 		arguments: {
 			email: 'johndoe@example.com',
 			username: 'user-johndoe',
-			hash: '{{ HASH(properties.transient.password, properties.data.arguments.username) }}'
+			hash: '{{ HASH("foobarbaz", properties.data.arguments.username) }}'
 		}
 	})
 
@@ -186,12 +178,9 @@ ava.test('.createRequest() should login as a user with a password', async (test)
 		targetId: user.id,
 		actorId: guestUser.id,
 		action: 'action-create-session',
-		transient: {
-			password: 'foobarbaz'
-		},
 		arguments: {
 			password: {
-				hash: `{{ HASH(properties.transient.password, '${user.slug}') }}`
+				hash: `{{ HASH("foobarbaz", '${user.slug}') }}`
 			}
 		}
 	})
@@ -231,13 +220,10 @@ ava.test('.createRequest() should fail if login in with the wrong password', asy
 		targetId: userCard.id,
 		actorId: guestUser.id,
 		action: 'action-create-user',
-		transient: {
-			password: 'foobarbaz'
-		},
 		arguments: {
 			email: 'johndoe@example.com',
 			username: 'user-johndoe',
-			hash: '{{ HASH(properties.transient.password, properties.data.arguments.username) }}'
+			hash: '{{ HASH("foobarbaz", properties.data.arguments.username) }}'
 		}
 	})
 
@@ -250,12 +236,9 @@ ava.test('.createRequest() should fail if login in with the wrong password', asy
 		targetId: johnDoeUser.id,
 		actorId: guestUser.id,
 		action: 'action-create-session',
-		transient: {
-			password: 'xxxxxxxxxxxxxxxxxx'
-		},
 		arguments: {
 			password: {
-				hash: `{{ HASH(properties.transient.password, '${johnDoeUser.slug}') }}`
+				hash: `{{ HASH("xxxxxxxxxxxxxxxxxx", '${johnDoeUser.slug}') }}`
 			}
 		}
 	})
@@ -323,13 +306,10 @@ ava.test('.processRequest() should set error to true given an arguments schema m
 		targetId: userCard.id,
 		actorId: guestUser.id,
 		action: 'action-create-user',
-		transient: {
-			password: 'foobarbaz'
-		},
 		arguments: {
 			email: 'xxxxxxxxxxx',
 			username: 'user-johndoe',
-			hash: '{{ HASH(properties.transient.password, properties.data.arguments.username) }}'
+			hash: '{{ HASH("foobarbaz", properties.data.arguments.username) }}'
 		}
 	})
 

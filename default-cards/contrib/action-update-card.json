@@ -17,9 +17,6 @@
           "active": {
             "type": "boolean"
           },
-          "transient": {
-            "type": "object"
-          },
           "name": {
             "type": "string",
             "pattern": "^.*\\S.*$"

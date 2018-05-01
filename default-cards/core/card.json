@@ -25,9 +25,6 @@
           "type": "string",
           "pattern": "^[a-z0-9-]+$"
         },
-        "transient": {
-          "type": "object"
-        },
         "tags": {
           "type": "array",
           "minItems": 0,

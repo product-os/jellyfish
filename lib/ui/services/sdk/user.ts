@@ -60,13 +60,10 @@ export const signup = ({ username, email, password }: {
 	action({
 		target: 'user',
 		action: 'action-create-user',
-		transient: {
-			password,
-		},
 		arguments: {
 			email,
 			username: `user-${username}`,
-			hash: `{{ HASH(properties.transient.password, properties.data.arguments.username) }}`,
+			hash: `{{ HASH("${password}", properties.data.arguments.username) }}`,
 		},
 	})
 	.then(() => login({
