@@ -90,6 +90,7 @@
     "body-parser": "^1.18.2",
     "color-hash": "^1.0.3",
     "debug": "^3.1.0",
+    "esprima": "^4.0.0",
     "express": "^4.16.2",
     "formulajs": "^1.0.8",
     "history": "^4.7.2",
@@ -106,6 +107,7 @@
     "rendition": "4.5.0",
     "rethinkdb": "^2.3.3",
     "socket.io": "^2.1.0",
+    "static-eval": "^2.0.0",
     "styled-components": "^3.2.5",
     "typed-errors": "^1.1.0",
     "uuid": "^3.2.1"
