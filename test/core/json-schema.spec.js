@@ -16,8 +16,8 @@
 
 const _ = require('lodash')
 const ava = require('ava')
-const jsonSchema = require('../../lib/sdk/json-schema')
-const errors = require('../../lib/sdk/errors')
+const jsonSchema = require('../../lib/core/json-schema')
+const errors = require('../../lib/core/errors')
 const MERGE_TEST_CASES = require('./merge.json')
 
 ava.test('.match() should validate a matching object', (test) => {

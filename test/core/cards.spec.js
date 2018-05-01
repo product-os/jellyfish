@@ -19,10 +19,10 @@ const ava = require('ava')
 const randomstring = require('randomstring')
 const path = require('path')
 const fs = require('fs')
-const jsonSchema = require('../../lib/sdk/json-schema')
-const CARDS = require('../../lib/sdk/cards')
-const Kernel = require('../../lib/sdk/kernel')
-const Backend = require('../../lib/sdk/backend')
+const jsonSchema = require('../../lib/core/json-schema')
+const CARDS = require('../../lib/core/cards')
+const Kernel = require('../../lib/core/kernel')
+const Backend = require('../../lib/core/backend')
 
 ava.test.beforeEach(async (test) => {
 	test.context.backend = new Backend({
