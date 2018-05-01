@@ -121,7 +121,10 @@ ava.test('.createRequest() should be able to create a user using action-create-u
 		arguments: {
 			email: 'johndoe@example.com',
 			username: 'user-johndoe',
-			hash: '{{ HASH({ string: "foobarbaz", salt: properties.data.arguments.username }) }}'
+			hash: {
+				string: 'foobarbaz',
+				salt: 'user-johndoe'
+			}
 		}
 	})
 
@@ -165,7 +168,10 @@ ava.test('.createRequest() should login as a user with a password', async (test)
 		arguments: {
 			email: 'johndoe@example.com',
 			username: 'user-johndoe',
-			hash: '{{ HASH({ string: "foobarbaz", salt: properties.data.arguments.username }) }}'
+			hash: {
+				string: 'foobarbaz',
+				salt: 'user-johndoe'
+			}
 		}
 	})
 
@@ -180,7 +186,10 @@ ava.test('.createRequest() should login as a user with a password', async (test)
 		action: 'action-create-session',
 		arguments: {
 			password: {
-				hash: `{{ HASH({ string: "foobarbaz", salt: "${user.slug}" }) }}`
+				hash: {
+					string: 'foobarbaz',
+					salt: user.slug
+				}
 			}
 		}
 	})
@@ -223,7 +232,10 @@ ava.test('.createRequest() should fail if login in with the wrong password', asy
 		arguments: {
 			email: 'johndoe@example.com',
 			username: 'user-johndoe',
-			hash: '{{ HASH({ string: "foobarbaz", salt: properties.data.arguments.username }) }}'
+			hash: {
+				string: 'foobarbaz',
+				salt: 'user-johndoe'
+			}
 		}
 	})
 
@@ -231,14 +243,17 @@ ava.test('.createRequest() should fail if login in with the wrong password', asy
 
 	await test.context.worker.processRequest(signupRequest)
 
-	const johnDoeUser = await test.context.jellyfish.getCardBySlug(test.context.guestSession, 'user-johndoe')
+	const johnDoeUser = await test.context.jellyfish.getCardBySlug(test.context.jellyfish.sessions.admin, 'user-johndoe')
 	const loginRequestId = await test.context.worker.createRequest(test.context.jellyfish.sessions.admin, {
 		targetId: johnDoeUser.id,
 		actorId: guestUser.id,
 		action: 'action-create-session',
 		arguments: {
 			password: {
-				hash: `{{ HASH({ string: "xxxxxxxxxxxxxxxxxx", salt: "${johnDoeUser.slug}" }) }}`
+				hash: {
+					string: 'xxxxxxxxxxxxxxxxxx',
+					salt: johnDoeUser.slug
+				}
 			}
 		}
 	})
@@ -309,7 +324,10 @@ ava.test('.processRequest() should set error to true given an arguments schema m
 		arguments: {
 			email: 'xxxxxxxxxxx',
 			username: 'user-johndoe',
-			hash: '{{ HASH({ string: "foobarbaz", salt: properties.data.arguments.username }) }}'
+			hash: {
+				string: 'foobarbaz',
+				salt: 'user-johndoe'
+			}
 		}
 	})
 

@@ -63,7 +63,10 @@ export const signup = ({ username, email, password }: {
 		arguments: {
 			email,
 			username: `user-${username}`,
-			hash: `{{ HASH({ string: "${password}", salt: properties.data.arguments.username }) }}`,
+			hash: {
+				string: password,
+				salt: `user-${username}`
+			}
 		},
 	})
 	.then(() => login({
