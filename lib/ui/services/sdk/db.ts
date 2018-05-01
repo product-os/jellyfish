@@ -116,7 +116,12 @@ export const action = (body: {
 		}
 
 		return card.get(body.target)
-			.then(({ id }) => id);
+			.then((card) => {
+				if (!card) {
+					throw new Error(`No target found using slug ${body.target}`);
+				}
+				return card.id;
+			});
 	})
 		.then(
 			(target) => postRequest<ActionResponse>('action', _.assign({}, body, { target })),
@@ -126,7 +131,7 @@ export const action = (body: {
 				throw new Error(response.data.data.results.data);
 			}
 
-			debug(`Action ${body.action} complete in ${Date.now() - start}ms`)
+			debug(`Action ${body.action} complete in ${Date.now() - start}ms`);
 
 			return response;
 		});

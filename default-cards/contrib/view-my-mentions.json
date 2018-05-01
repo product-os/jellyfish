@@ -1,0 +1,48 @@
+{
+  "slug": "view-my-mentions",
+  "name": "My mentions",
+  "type": "view",
+  "tags": [],
+  "links": [],
+  "active": true,
+  "data": {
+    "allOf": [
+      {
+        "name": "My mentions",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "chat-message"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "mentionsUser": {
+                  "contains": {
+                    "const": "[user.id]"
+                  }
+                },
+                "alertsUser": {
+                  "contains": {
+                    "const": "[user.id]"
+                  }
+                }
+              },
+              "anyOf": [
+                {
+                  "required": [ "mentionsUser" ]
+                },
+                {
+                  "required": [ "alertsUser" ]
+                }
+              ],
+              "additionalProperties": true
+            }
+          },
+          "additionalProperties": true
+        }
+      }
+    ]
+  }
+}

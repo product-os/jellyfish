@@ -6,7 +6,7 @@ import { debug } from '../helpers';
 import { action, query } from './db';
 import { isUUID } from './utils';
 
-export const get = (idOrSlug: string): Promise<Card> => {
+export const get = (idOrSlug: string): Promise<Card | null> => {
 	debug(`Fetching card ${idOrSlug}`);
 
 	if (isUUID(idOrSlug)) {
@@ -21,13 +21,7 @@ export const get = (idOrSlug: string): Promise<Card> => {
 			required: [ 'id' ],
 			additionalProperties: true,
 		})
-		.then((results) => {
-			const result = _.first(results);
-			if (!result) {
-				throw new Error(`No results found for card with id ${idOrSlug}`);
-			}
-			return result;
-		});
+		.then((results) => _.first(results) || null);
 	}
 
 	return query({
@@ -41,13 +35,7 @@ export const get = (idOrSlug: string): Promise<Card> => {
 		required: [ 'slug' ],
 		additionalProperties: true,
 	})
-		.then((results) => {
-			const result = _.first(results);
-			if (!result) {
-				throw new Error(`No results found for card with slug ${idOrSlug}`);
-			}
-			return result;
-		});
+		.then((results) => _.first(results) || null);
 };
 
 export const getTimeline = (id: string): Promise<Card[]> => {

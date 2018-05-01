@@ -103,7 +103,7 @@ ava.test.serial('should let new users signup', async (test) => {
 	app.find('.login-page__submit--signup').first()
 		.simulate('click')
 
-	await waitForElement(app, '.home-channel', 60 * 1000)
+	await waitForElement(app, '.home-channel', 120 * 1000)
 
 	test.true(app.find('.home-channel').exists())
 })
@@ -140,7 +140,7 @@ ava.test.serial('should let users login', async (test) => {
 	app.find('.login-page__submit--login').first()
 		.simulate('click')
 
-	await waitForElement(app, '.home-channel', 60 * 1000)
+	await waitForElement(app, '.home-channel', 120 * 1000)
 
 	test.true(app.find('.home-channel').exists())
 })
@@ -176,14 +176,14 @@ ava.test.serial('should allow newly signed up users to create new chat threads',
 ava.test.serial('should allow newly signed up users to create chat messages', async (test) => {
 	const messageText = 'My new message'
 	await waitForElement(app, '.new-message-input')
-	app.find('.new-message-input').first()
+	app.find('textarea').first()
 		.simulate('change', {
 			target: {
 				value: messageText
 			}
 		})
 
-	app.find('.new-message-input').first()
+	app.find('textarea').first()
 		.simulate('keyPress', {
 			key: 'Enter'
 		})
