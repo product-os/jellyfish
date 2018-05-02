@@ -21,6 +21,7 @@ const randomstring = require('randomstring')
 const Backend = require('../../lib/core/backend')
 const Kernel = require('../../lib/core/kernel')
 const errors = require('../../lib/core/errors')
+const credentials = require('../../lib/core/credentials')
 const CARDS = require('../../lib/core/cards')
 
 ava.test.beforeEach(async (test) => {
@@ -1294,4 +1295,137 @@ ava.test.cb('.stream() should report back inactive elements', (test) => {
 			}
 		})
 	}).catch(test.end)
+})
+
+ava.test('.evaluateFormulas() should evaluate a number formula', async (test) => {
+	const result = test.context.kernel.evaluateFormulas({
+		type: 'object',
+		properties: {
+			foo: {
+				type: 'number',
+				$formula: 'POW(this, 2)'
+			}
+		}
+	}, {
+		foo: 3
+	})
+
+	test.deepEqual(result, {
+		foo: 9
+	})
+})
+
+ava.test('.evaluateFormulas() should ignore missing formulas', async (test) => {
+	const result = test.context.kernel.evaluateFormulas({
+		type: 'object',
+		properties: {
+			foo: {
+				type: 'number',
+				$formula: 'POW(this, 2)'
+			}
+		}
+	}, {
+		bar: 3
+	})
+
+	test.deepEqual(result, {
+		bar: 3
+	})
+})
+
+ava.test('.evaluateFormulas() should not ignore the zero number as missing', async (test) => {
+	const result = test.context.kernel.evaluateFormulas({
+		type: 'object',
+		properties: {
+			foo: {
+				type: 'number',
+				$formula: 'MAX(this, 2)'
+			}
+		}
+	}, {
+		foo: 0
+	})
+
+	test.deepEqual(result, {
+		foo: 2
+	})
+})
+
+ava.test('.evaluateFormulas() should evaluate nested formulas', async (test) => {
+	const result = test.context.kernel.evaluateFormulas({
+		type: 'object',
+		properties: {
+			foo: {
+				type: 'object',
+				properties: {
+					bar: {
+						type: 'object',
+						properties: {
+							baz: {
+								type: 'number',
+								$formula: 'POW(this, 2)'
+							}
+						}
+					}
+				}
+			}
+		}
+	}, {
+		foo: {
+			bar: {
+				baz: 2
+			}
+		}
+	})
+
+	test.deepEqual(result, {
+		foo: {
+			bar: {
+				baz: 4
+			}
+		}
+	})
+})
+
+ava.test('.evaluateFormulas() should evaluate a password hash', async (test) => {
+	const result = test.context.kernel.evaluateFormulas({
+		type: 'object',
+		properties: {
+			foo: {
+				type: 'string',
+				$formula: 'HASH({ string: this.password, salt: this.username })'
+			}
+		}
+	}, {
+		foo: {
+			password: 'foo',
+			username: 'user-johndoe'
+		}
+	})
+
+	test.deepEqual(result, {
+		foo: credentials.hash('foo', 'user-johndoe')
+	})
+})
+
+ava.test('.evaluateFormulas() should not do anything if the schema has no formulas', async (test) => {
+	const result = test.context.kernel.evaluateFormulas({
+		type: 'object',
+		properties: {
+			foo: {
+				type: 'string'
+			},
+			bar: {
+				type: 'number'
+			}
+		}
+	}, {
+		foo: '1',
+		bar: 2
+	})
+
+	test.deepEqual(result, {
+		foo: '1',
+		bar: 2
+	})
 })
