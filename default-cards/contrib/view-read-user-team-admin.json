@@ -178,11 +178,12 @@
             },
             "type": {
               "type": "string",
-              "anyOf": [
-                { "const": "chat-thread" },
-                { "const": "chat-message" },
-                { "const": "scratchpad-entry" },
-                { "const": "repo" }
+              "enum": [
+                "chat-thread",
+                "chat-message",
+                "scratchpad-entry",
+                "repo",
+                "subscription"
               ]
             }
           },

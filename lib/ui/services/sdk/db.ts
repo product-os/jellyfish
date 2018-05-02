@@ -7,7 +7,7 @@ import { Card } from '../../../Types';
 import { debug } from '../helpers';
 import * as card from './card';
 import { API_URL } from './constants';
-import { getRequest, getToken, isUUID, postRequest, queryStringEncode } from './utils';
+import { getToken, isUUID, post } from './utils';
 
 interface EventMap {
 	data: {
@@ -81,7 +81,7 @@ export const stream = (query: JSONSchema6 | string | Card) =>
 	new JellyfishStream('query', { query });
 
 export const query = <T = Card>(schema: JSONSchema6 | string): Promise<T[]> =>
-	getRequest(`query?${queryStringEncode(schema)}`)
+	post('query', _.isString(schema) ? { query: schema } : schema)
 		.then(response => response.data.data);
 
 interface ActionResponse {
@@ -104,7 +104,7 @@ export const action = (body: {
 }) => {
 	const start = Date.now();
 
-	debug(`Dispatching action ${body.action}`, body)
+	debug(`Dispatching action ${body.action}`, body);
 
 	if (!body.arguments) {
 		body.arguments = {};
@@ -124,7 +124,7 @@ export const action = (body: {
 			});
 	})
 		.then(
-			(target) => postRequest<ActionResponse>('action', _.assign({}, body, { target })),
+			(target) => post<ActionResponse>('action', _.assign({}, body, { target })),
 		)
 		.then((response) => {
 			if (response.data.data.results.error) {

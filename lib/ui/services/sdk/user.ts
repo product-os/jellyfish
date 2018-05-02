@@ -6,7 +6,7 @@ import store, { actionCreators } from '../store';
 import * as card from './card';
 import { action, query } from './db';
 import { getAll as getAllTypes } from './type';
-import { getToken, postRequest } from './utils';
+import { getToken, post } from './utils';
 
 let otherUsers: Card[] = [];
 
@@ -78,7 +78,7 @@ export const login = (payload: {
 	username: string;
 	password: string;
 }) =>
-	postRequest('login', payload)
+	post('login', payload)
 		.then((response) => {
 			const responseData = response.data.data.results.data;
 			if (response.data.data.results.error) {

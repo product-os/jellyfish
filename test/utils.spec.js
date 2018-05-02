@@ -336,31 +336,3 @@ ava.test('.queryView() should execute a view with more than one filter', async (
 		}
 	])
 })
-
-ava.test('.deserializeQuery() should correctly deserialize objects', (test) => {
-	const query = {
-		type: '\'object\'',
-		properties: {
-			type: {
-				type: '\'string\'',
-				const: '\'view\''
-			}
-		},
-		required: [ '\'type\'' ],
-		additionalProperties: 'true',
-		maxProperties: '5'
-	}
-
-	test.deepEqual(utils.deserializeQuery(query), {
-		type: 'object',
-		properties: {
-			type: {
-				type: 'string',
-				const: 'view'
-			}
-		},
-		required: [ 'type' ],
-		additionalProperties: true,
-		maxProperties: 5
-	})
-})
