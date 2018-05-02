@@ -323,8 +323,8 @@ _.each(MERGE_TEST_CASES, (testCase, index) => {
 	})
 })
 
-ava.test('.getFormulasFromSchema() should return an empty array given no formulas', (test) => {
-	const paths = jsonSchema.getFormulasFromSchema({
+ava.test('.getFormulasPaths() should return an empty array given no formulas', (test) => {
+	const paths = jsonSchema.getFormulasPaths({
 		type: 'object',
 		properties: {
 			foo: {
@@ -339,8 +339,8 @@ ava.test('.getFormulasFromSchema() should return an empty array given no formula
 	test.deepEqual(paths, [])
 })
 
-ava.test('.getFormulasFromSchema() should return one property with formulas', (test) => {
-	const paths = jsonSchema.getFormulasFromSchema({
+ava.test('.getFormulasPaths() should return one property with formulas', (test) => {
+	const paths = jsonSchema.getFormulasPaths({
 		type: 'object',
 		properties: {
 			foo: {
@@ -355,14 +355,14 @@ ava.test('.getFormulasFromSchema() should return one property with formulas', (t
 
 	test.deepEqual(paths, [
 		{
-			path: [ 'foo' ],
-			formula: 'UPPER(this)'
+			formula: 'UPPER(this)',
+			output: [ 'foo' ]
 		}
 	])
 })
 
-ava.test('.getFormulasFromSchema() should return nested properties with formulas', (test) => {
-	const paths = jsonSchema.getFormulasFromSchema({
+ava.test('.getFormulasPaths() should return nested properties with formulas', (test) => {
+	const paths = jsonSchema.getFormulasPaths({
 		type: 'object',
 		properties: {
 			foo: {
@@ -383,18 +383,18 @@ ava.test('.getFormulasFromSchema() should return nested properties with formulas
 
 	test.deepEqual(paths, [
 		{
-			path: [ 'foo' ],
-			formula: 'UPPER(this)'
+			formula: 'UPPER(this)',
+			output: [ 'foo' ]
 		},
 		{
-			path: [ 'bar', 'baz' ],
-			formula: 'POW(this, 2)'
+			formula: 'POW(this, 2)',
+			output: [ 'bar', 'baz' ]
 		}
 	])
 })
 
-ava.test('.getFormulasFromSchema() should return properties inside arrays', (test) => {
-	const paths = jsonSchema.getFormulasFromSchema({
+ava.test('.getFormulasPaths() should return properties inside arrays', (test) => {
+	const paths = jsonSchema.getFormulasPaths({
 		type: 'object',
 		anyOf: [
 			{
@@ -418,12 +418,12 @@ ava.test('.getFormulasFromSchema() should return properties inside arrays', (tes
 
 	test.deepEqual(paths, [
 		{
-			path: [ 'foo' ],
-			formula: 'UPPER(this)'
+			formula: 'UPPER(this)',
+			output: [ 'foo' ]
 		},
 		{
-			path: [ 'bar' ],
-			formula: 'LOWER(this)'
+			formula: 'LOWER(this)',
+			output: [ 'bar' ]
 		}
 	])
 })
