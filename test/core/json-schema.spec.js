@@ -322,3 +322,108 @@ _.each(MERGE_TEST_CASES, (testCase, index) => {
 		}
 	})
 })
+
+ava.test('.getFormulasFromSchema() should return an empty array given no formulas', (test) => {
+	const paths = jsonSchema.getFormulasFromSchema({
+		type: 'object',
+		properties: {
+			foo: {
+				type: 'string'
+			},
+			bar: {
+				type: 'string'
+			}
+		}
+	})
+
+	test.deepEqual(paths, [])
+})
+
+ava.test('.getFormulasFromSchema() should return one property with formulas', (test) => {
+	const paths = jsonSchema.getFormulasFromSchema({
+		type: 'object',
+		properties: {
+			foo: {
+				type: 'string',
+				$formula: 'UPPER(this)'
+			},
+			bar: {
+				type: 'string'
+			}
+		}
+	})
+
+	test.deepEqual(paths, [
+		{
+			path: [ 'foo' ],
+			formula: 'UPPER(this)'
+		}
+	])
+})
+
+ava.test('.getFormulasFromSchema() should return nested properties with formulas', (test) => {
+	const paths = jsonSchema.getFormulasFromSchema({
+		type: 'object',
+		properties: {
+			foo: {
+				type: 'string',
+				$formula: 'UPPER(this)'
+			},
+			bar: {
+				type: 'object',
+				properties: {
+					baz: {
+						type: 'number',
+						$formula: 'POW(this, 2)'
+					}
+				}
+			}
+		}
+	})
+
+	test.deepEqual(paths, [
+		{
+			path: [ 'foo' ],
+			formula: 'UPPER(this)'
+		},
+		{
+			path: [ 'bar', 'baz' ],
+			formula: 'POW(this, 2)'
+		}
+	])
+})
+
+ava.test('.getFormulasFromSchema() should return properties inside arrays', (test) => {
+	const paths = jsonSchema.getFormulasFromSchema({
+		type: 'object',
+		anyOf: [
+			{
+				properties: {
+					foo: {
+						type: 'string',
+						$formula: 'UPPER(this)'
+					}
+				}
+			},
+			{
+				properties: {
+					bar: {
+						type: 'string',
+						$formula: 'LOWER(this)'
+					}
+				}
+			}
+		]
+	})
+
+	test.deepEqual(paths, [
+		{
+			path: [ 'foo' ],
+			formula: 'UPPER(this)'
+		},
+		{
+			path: [ 'bar' ],
+			formula: 'LOWER(this)'
+		}
+	])
+})

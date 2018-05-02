@@ -15,7 +15,7 @@
  */
 
 const ava = require('ava')
-const credentials = require('../../lib/actions/credentials')
+const credentials = require('../../lib/core/credentials')
 
 ava.test('.hash() should pass if the password and salt matches', (test) => {
 	const salt = 'user-foo'
