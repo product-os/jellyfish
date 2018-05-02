@@ -40,6 +40,8 @@
                 "action-request",
                 "action",
                 "create",
+                "update",
+                "session",
                 "subscription"
               ]
             },
