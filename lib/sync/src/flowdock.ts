@@ -112,7 +112,6 @@ interface UpsertPayload {
 }
 
 interface UpsertInstructions {
-	idAlphabets: Dictionary<string>;
 	ids: UpsertIds;
 	payload: UpsertPayload;
 	urls: UpsertUrls;
@@ -166,7 +165,6 @@ class ThreadStore {
 	}
 
 	private static makeSlug(id: string): string {
-		// Can solve this by:
 		// [a-z0-9] => [a-z0-9]
 		// [A-Z] => -[a-z]-
 		// else => -charCode-
@@ -440,35 +438,33 @@ class ThreadStream {
 	public onThreadUpdate(handler: (upsertInstructions: UpsertInstructions) => Promise<void>): void {
 		const flowIds = _.keys(this.cache.flowsById);
 		const stream = this.session.stream(flowIds);
-		stream.on('message', (message: Message) => {
-			if (message.event === 'message') {
+		stream.on('message', (event: Message) => {
+			if (event.event === 'message') {
 				const service = 'flowdock';
-				const instance = this.cache.flowsById[message.flow].organization.parameterized_name;
-				const flow = this.cache.flowsById[message.flow].parameterized_name;
-				const thread = message.thread.id;
-				const userId = message.user;
+				const instance = this.cache.flowsById[event.flow].organization.parameterized_name;
+				const flow = this.cache.flowsById[event.flow].parameterized_name;
+				const thread = event.thread.id;
+				const userId = event.user;
 				const username = this.cache.usersById[userId].nick;
+				const message = event.id.toString();
 				const upsertInstructions: UpsertInstructions = {
-					idAlphabets: {
-						thread: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_',
-					},
 					ids: {
 						service,
 						instance,
 						flow,
 						thread,
 						username,
-						message: message.id.toString(),
+						message,
 					},
 					payload: {
-						title: message.thread.title,
+						title: event.thread.title,
 						hidden: 'NEVER',
-						content: message.content.toString(),
-						timestamp: message.created_at,
+						content: event.content.toString(),
+						timestamp: event.created_at,
 					},
 					urls: {
 						thread: `https://www.flowdock.com/app/${instance}/${flow}/threads/${thread}`,
-						message: `https://www.flowdock.com/app/${instance}/${flow}/messages/${message.id.toString()}`,
+						message: `https://www.flowdock.com/app/${instance}/${flow}/messages/${message}`,
 						user: `http://www.flowdock.com/app/private/${userId}`,
 					},
 				};
