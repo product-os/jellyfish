@@ -60,6 +60,44 @@ ava.test('.getElementById() should return null if the element id is not present'
 	test.deepEqual(result, null)
 })
 
+ava.test('.getElementById() should not break the cache if trying to query a valid slug with it', async (test) => {
+	await test.context.backend.createTable('test')
+
+	const uuid = await test.context.backend.upsertElement('test', {
+		slug: 'example',
+		test: 'foo'
+	})
+
+	const result1 = await test.context.backend.getElementById('test', 'example')
+	test.deepEqual(result1, null)
+
+	const result2 = await test.context.backend.getElementBySlug('test', 'example')
+	test.deepEqual(result2, {
+		id: uuid,
+		slug: 'example',
+		test: 'foo'
+	})
+})
+
+ava.test('.getElementBySlug() should not break the cache if trying to query a valid id with it', async (test) => {
+	await test.context.backend.createTable('test')
+
+	const uuid = await test.context.backend.upsertElement('test', {
+		slug: 'example',
+		test: 'foo'
+	})
+
+	const result1 = await test.context.backend.getElementBySlug('test', uuid)
+	test.deepEqual(result1, null)
+
+	const result2 = await test.context.backend.getElementById('test', uuid)
+	test.deepEqual(result2, {
+		id: uuid,
+		slug: 'example',
+		test: 'foo'
+	})
+})
+
 ava.test('.getElementBySlug() should return null if the element slug is not present', async (test) => {
 	await test.context.backend.createTable('test')
 	const result = await test.context.backend.getElementBySlug('test', 'foo')
