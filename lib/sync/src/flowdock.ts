@@ -1,4 +1,3 @@
-import convertBase = require('bigint-base-converter');
 import * as Promise from 'bluebird';
 import {
 	Flow,
@@ -166,27 +165,44 @@ class ThreadStore {
 		});
 	}
 
-	private static convertSlug(alphabets: Dictionary<string>, ids: UpsertIds, index: string): string {
-		const slugAlphabet = 'abcdefghijklmnopqrstuvwxyz0123456789';
-		const id = ids[index];
-		const alphabet = alphabets[index];
-		return (id && alphabet) ? convertBase(id, alphabet, slugAlphabet) : id;
+	private static makeSlug(id: string): string {
+		// Can solve this by:
+		// [a-z0-9] => [a-z0-9]
+		// [A-Z] => -[a-z]-
+		// else => -charCode-
+		// This means that alternate hyphens mark the start or end of an escaped
+		// block, with escaped text being as readable as possible.
+		const output: string[] = [];
+		_.forEach(id, (character) => {
+			if (/[a-z0-9]/.test(character)) {
+				output.push(character);
+			} else if (/[A-Z]/.test(character)) {
+				output.push('-');
+				output.push(character.toLowerCase());
+				output.push('-');
+			} else {
+				output.push('-');
+				output.push(character.charCodeAt(0).toString());
+				output.push('-');
+			}
+		});
+		return output.join('');
 	}
 
-	private static convertSlugs(alphabets: Dictionary<string>, ids: UpsertIds) {
+	private static convertSlugs(ids: UpsertIds) {
 		const slugParts = {
-			service: this.convertSlug(alphabets, ids, 'service'),
-			instance: this.convertSlug(alphabets, ids, 'instance'),
-			flow: this.convertSlug(alphabets, ids, 'flow'),
-			thread: this.convertSlug(alphabets, ids, 'thread'),
-			message: this.convertSlug(alphabets, ids, 'message'),
-			username: this.convertSlug(alphabets, ids, 'username'),
+			service: this.makeSlug(ids.service),
+			instance: this.makeSlug(ids.instance),
+			flow: this.makeSlug(ids.flow),
+			thread: this.makeSlug(ids.thread),
+			message: this.makeSlug(ids.message),
+			username: this.makeSlug(ids.username),
 		};
-		const threadSlugPart = `${slugParts.service}-${slugParts.instance}-${slugParts.flow}-${slugParts.thread}`;
+		const threadSlugPart = `${slugParts.service}--${slugParts.instance}--${slugParts.flow}--${slugParts.thread}`;
 		return {
-			thread: `thread-${threadSlugPart}`,
-			user: `author-${slugParts.service}-${slugParts.instance}-${slugParts.username}`,
-			message: `message-${threadSlugPart}-${slugParts.message}`,
+			thread: `thread--${threadSlugPart}`,
+			user: `author--${slugParts.service}--${slugParts.instance}--${slugParts.username}`,
+			message: `message--${threadSlugPart}--${slugParts.message}`,
 		};
 	}
 
@@ -203,7 +219,7 @@ class ThreadStore {
 	}
 
 	public upsertThread(upsertInstructions: UpsertInstructions): Promise<void> {
-		const protoSlugs = ThreadStore.convertSlugs(upsertInstructions.idAlphabets, upsertInstructions.ids);
+		const protoSlugs = ThreadStore.convertSlugs(upsertInstructions.ids);
 		const thread: ThreadCandidateCard = {
 			slug: protoSlugs.thread,
 			type: 'chat-thread',
