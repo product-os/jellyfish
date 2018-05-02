@@ -7,6 +7,7 @@ import {
 } from 'flowdock';
 import { JSONSchema4 as JSONSchema } from 'json-schema';
 import * as _ from 'lodash';
+import { Dictionary } from 'lodash';
 import * as Moment from 'moment';
 import { Options } from 'request';
 import * as request from 'request-promise';
@@ -16,10 +17,6 @@ type DateTime = string | Moment.Moment;
 type LogFunction = (output: any) => void;
 
 type PrivacyPreferences = 'ALWAYS' | 'PREFERRED' | 'NEVER';
-
-interface Dictionary<T> {
-	[index: string]: T;
-}
 
 interface BaseIds {
 	service: string;
@@ -98,12 +95,6 @@ interface UpsertIds {
 	[key: string]: string;
 }
 
-interface UpsertUrls {
-	thread: string;
-	message: string;
-	user: string;
-}
-
 interface UpsertPayload {
 	title: string;
 	content: string;
@@ -114,7 +105,6 @@ interface UpsertPayload {
 interface UpsertInstructions {
 	ids: UpsertIds;
 	payload: UpsertPayload;
-	urls: UpsertUrls;
 }
 
 interface Logger {
@@ -224,7 +214,7 @@ class ThreadStore {
 			data: {
 				description: upsertInstructions.payload.title,
 				externalIds: {
-					[upsertInstructions.urls.thread]: {
+					[protoSlugs.thread]: {
 						service: upsertInstructions.ids.service,
 						instance: upsertInstructions.ids.instance,
 						flow: upsertInstructions.ids.flow,
@@ -238,7 +228,7 @@ class ThreadStore {
 			type: 'chat-author',
 			data: {
 				externalIds: {
-					[upsertInstructions.urls.user]: {
+					[protoSlugs.user]: {
 						service: upsertInstructions.ids.service,
 						instance: upsertInstructions.ids.instance,
 						username: upsertInstructions.ids.username,
@@ -263,7 +253,7 @@ class ThreadStore {
 						message: upsertInstructions.payload.content,
 					},
 					externalIds: {
-						[upsertInstructions.urls.message]: {
+						[protoSlugs.message]: {
 							service: upsertInstructions.ids.service,
 							instance: upsertInstructions.ids.instance,
 							flow: upsertInstructions.ids.flow,
@@ -462,11 +452,6 @@ class ThreadStream {
 						content: event.content.toString(),
 						timestamp: event.created_at,
 					},
-					urls: {
-						thread: `https://www.flowdock.com/app/${instance}/${flow}/threads/${thread}`,
-						message: `https://www.flowdock.com/app/${instance}/${flow}/messages/${message}`,
-						user: `http://www.flowdock.com/app/private/${userId}`,
-					},
 				};
 				handler(upsertInstructions);
 			}
@@ -505,10 +490,10 @@ class FlowdockMonitor {
 
 	private constructor(store: ThreadStore, stream: ThreadStream, logger: Logger) {
 		stream.onThreadUpdate((upsertInstructions) => {
-			logger.info(`Received thread ${upsertInstructions.urls.thread}`);
+			logger.info(`Received thread ${upsertInstructions.ids.thread}`);
 			return store.upsertThread(upsertInstructions)
 			.then(() => {
-				logger.info(`Upserted thread ${upsertInstructions.urls.thread}`);
+				logger.info(`Upserted thread ${upsertInstructions.ids.thread}`);
 			});
 		});
 		logger.info('Joined endpoints together.');
