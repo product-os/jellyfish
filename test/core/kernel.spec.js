@@ -48,7 +48,7 @@ ava.test.beforeEach(async (test) => {
 })
 
 ava.test.afterEach(async (test) => {
-	await test.context.backend.disconnect()
+	await test.context.kernel.disconnect()
 })
 
 for (const card of _.values(CARDS)) {
