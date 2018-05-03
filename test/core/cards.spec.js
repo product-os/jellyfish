@@ -48,7 +48,7 @@ ava.test.beforeEach(async (test) => {
 })
 
 ava.test.afterEach(async (test) => {
-	await test.context.backend.disconnect()
+	await test.context.kernel.disconnect()
 })
 
 const isCardMacro = async (test, type, card, expected) => {

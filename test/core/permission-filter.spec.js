@@ -46,7 +46,7 @@ ava.test.beforeEach(async (test) => {
 })
 
 ava.test.afterEach(async (test) => {
-	await test.context.backend.disconnect()
+	await test.context.kernel.disconnect()
 })
 
 ava.test('.getSessionUser() should throw if the session is invalid', async (test) => {
