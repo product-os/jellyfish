@@ -44,7 +44,7 @@ export interface Notification {
 }
 
 export interface JellyfishState {
-	// A unique identifier for this app instance
+	authorized: boolean;
 	channels: Channel[];
 	types: Type[];
 	session: null | {
@@ -57,8 +57,8 @@ export interface JellyfishState {
 			id: string;
 			newMentions?: boolean;
 			newContent?: boolean;
-		}
-	}
+		};
+	};
 }
 
 export interface Card {
