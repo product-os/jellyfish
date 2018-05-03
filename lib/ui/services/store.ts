@@ -1,3 +1,4 @@
+import * as Promise from 'bluebird';
 import * as localForage from 'localforage';
 import * as _ from 'lodash';
 import { applyMiddleware, createStore, Middleware } from 'redux';
@@ -16,7 +17,7 @@ const ifNotInTestEnv = (fn: Function) => (...args: any[]) => {
 		return;
 	}
 
-	fn.call(fn, ...args);
+	return fn.call(fn, ...args);
 };
 
 // Set localStorage as the backend driver, as it is a little easier to work
@@ -47,6 +48,7 @@ const actions = {
 	REMOVE_NOTIFICATION: 'REMOVE_NOTIFICATION',
 	ADD_VIEW_NOTICE: 'ADD_VIEW_NOTICE',
 	REMOVE_VIEW_NOTICE: 'REMOVE_VIEW_NOTICE',
+	SET_AUTHORIZED: 'SET_AUTHORIZED',
 };
 
 type JellyThunk = ThunkAction<void, JellyfishState, void>;
@@ -128,6 +130,10 @@ export const actionCreators = {
 		type: actions.REMOVE_VIEW_NOTICE,
 		value: id,
 	}),
+	setAuthorized: () => ({
+		type: actions.SET_AUTHORIZED,
+		value: true,
+	}),
 };
 
 const logger: Middleware = (store) => (next) => (action: any) => {
@@ -138,6 +144,7 @@ const logger: Middleware = (store) => (next) => (action: any) => {
 };
 
 const defaultState = (): JellyfishState => ({
+	authorized: false,
 	channels: [
 		createChannel({
 			target: 'view-all-views',
@@ -153,8 +160,8 @@ const save = ifNotInTestEnv((state: JellyfishState) => {
 	localForage.setItem(STORAGE_KEY, state);
 });
 
-const load = ifNotInTestEnv(() => {
-	localForage.getItem<JellyfishState>(STORAGE_KEY)
+const load = () => Promise.try(ifNotInTestEnv(() => {
+	return localForage.getItem<JellyfishState>(STORAGE_KEY)
 	.then((state) => {
 		if (state) {
 			store.dispatch({
@@ -162,14 +169,16 @@ const load = ifNotInTestEnv(() => {
 				// Ensure that the stored state has a safe structure buy merging it with
 				// the default state. This helps gaurd against situations where the
 				// defaultstate changes or localStorage becomes corrupted.
-				value: _.merge(defaultState(), state),
+				// Additionally, 'authorized' is always set back to false, so that the
+				// session is re-checked on load
+				value: _.merge(defaultState(), state, { authorized: false }),
 			});
 
 			// load URL route
 			setChannelsFromPath();
 		}
 	});
-});
+}));
 
 const reducer = (state: JellyfishState, action: Action) => {
 	const newState = _.cloneDeep(state);
@@ -262,6 +271,11 @@ const reducer = (state: JellyfishState, action: Action) => {
 
 			return newState;
 
+		case actions.SET_AUTHORIZED:
+			newState.authorized = true;
+
+			return newState;
+
 		default:
 			return newState;
 	}
@@ -281,7 +295,7 @@ const reducerWrapper = (state: JellyfishState, action: Action) => {
 
 const store = createStore<JellyfishState>(reducerWrapper, applyMiddleware(logger, thunk));
 
-load();
+export const ready = load();
 
 store.subscribe(() => setPathFromState(store.getState()));
 
