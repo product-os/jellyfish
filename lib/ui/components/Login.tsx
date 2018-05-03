@@ -1,3 +1,4 @@
+import * as Promise from 'bluebird';
 import * as React from 'react';
 import {
 	Alert,
@@ -11,7 +12,7 @@ import {
 	Link,
 	Txt,
 } from 'rendition';
-import * as sdk from '../services/sdk';
+import { ConnectedComponentProps, connectComponent } from '../services/helpers';
 import Icon from './Icon';
 import TopBar from './TopBar';
 
@@ -25,8 +26,8 @@ interface LoginState {
 	loginError: string;
 }
 
-export default class Login extends React.Component<{}, LoginState> {
-	constructor(props: {}) {
+class Base extends React.Component<ConnectedComponentProps, LoginState> {
+	constructor(props: ConnectedComponentProps) {
 		super(props);
 
 		this.state = {
@@ -47,12 +48,12 @@ export default class Login extends React.Component<{}, LoginState> {
 			signupError: '',
 		});
 
-		sdk.auth.signup({
+		return Promise.try(() => this.props.actions.signup({
 			username,
 			password,
 			email,
-		})
-		.catch((e) => {
+		}))
+		.catch((e: Error) => {
 			this.setState({
 				signupError: e.message,
 				loggingIn: false,
@@ -64,11 +65,11 @@ export default class Login extends React.Component<{}, LoginState> {
 		const { username, password } = this.state;
 		this.setState({ loggingIn: true });
 
-		return sdk.auth.login({
+		return Promise.try(() => this.props.actions.login({
 			username,
 			password,
-		})
-		.catch((e) => {
+		}))
+		.catch((e: Error) => {
 			this.setState({
 				loginError: e.message,
 				loggingIn: false,
@@ -220,3 +221,5 @@ export default class Login extends React.Component<{}, LoginState> {
 		);
 	}
 }
+
+export const Login = connectComponent(Base);

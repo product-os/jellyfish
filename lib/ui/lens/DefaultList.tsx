@@ -1,7 +1,5 @@
 import * as _ from 'lodash';
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import {
 	Box,
 	Button,
@@ -9,16 +7,14 @@ import {
 	Link,
 } from 'rendition';
 import { Card, Lens, RendererProps, Type } from '../../Types';
-import CardCreator from '../components/CardCreator';
-import { createChannel } from '../services/helpers';
-import { actionCreators } from '../services/store';
+import { CardCreator } from '../components/CardCreator';
+import { connectComponent, ConnectedComponentProps, createChannel } from '../services/helpers';
 
 interface ViewListState {
 	showNewCardModal: boolean;
 }
 
-interface ViewListProps extends RendererProps {
-	actions: typeof actionCreators;
+interface ViewListProps extends RendererProps, ConnectedComponentProps {
 	type: null | Type;
 }
 
@@ -83,16 +79,12 @@ class ViewList extends React.Component<ViewListProps, ViewListState> {
 
 }
 
-const mapDispatchToProps = (dispatch: any) => ({
-	actions: bindActionCreators(actionCreators, dispatch),
-});
-
 const lens: Lens = {
 	slug: 'lens-default-list',
 	type: 'lens',
 	name: 'Default list lens',
 	data: {
-		renderer: connect(null, mapDispatchToProps)(ViewList),
+		renderer: connectComponent(ViewList),
 		icon: 'list-ul',
 		type: '*',
 		filter: {

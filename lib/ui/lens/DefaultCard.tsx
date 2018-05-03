@@ -1,24 +1,20 @@
 import * as _ from 'lodash';
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import {
 	Box,
 	Button,
 	Flex,
 } from 'rendition';
 import { Card, Lens, RendererProps, Type } from '../../Types';
-import CardCreator from '../components/CardCreator';
-import CardRenderer from '../components/CardRenderer';
-import { createChannel } from '../services/helpers';
-import { actionCreators } from '../services/store';
+import { CardCreator } from '../components/CardCreator';
+import { CardRenderer } from '../components/CardRenderer';
+import { connectComponent, ConnectedComponentProps, createChannel } from '../services/helpers';
 
 interface CardListState {
 	showNewCardModal: boolean;
 }
 
-interface CardListProps extends RendererProps {
-	actions: typeof actionCreators;
+interface CardListProps extends RendererProps, ConnectedComponentProps {
 	type: null | Type;
 }
 
@@ -83,16 +79,12 @@ class CardList extends React.Component<CardListProps, CardListState> {
 
 }
 
-const mapDispatchToProps = (dispatch: any) => ({
-	actions: bindActionCreators(actionCreators, dispatch),
-});
-
 const lens: Lens = {
 	slug: 'lens-default-card',
 	type: 'lens',
 	name: 'Default card lens',
 	data: {
-		renderer: connect(null, mapDispatchToProps)(CardList),
+		renderer: connectComponent(CardList),
 		icon: 'address-card',
 		type: '*',
 		filter: {

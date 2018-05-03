@@ -1,26 +1,18 @@
 import * as _ from 'lodash';
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import {
 	Box,
 	Button,
 	Flex,
 } from 'rendition';
-import { JellyfishState, Lens, RendererProps } from '../../Types';
+import { Lens, RendererProps } from '../../Types';
+import { sdk } from '../app';
 import EventCard from '../components/Event';
-import { createChannel } from '../services/helpers';
-import * as sdk from '../services/sdk';
-import { actionCreators } from '../services/store';
+import { connectComponent, ConnectedComponentProps, createChannel } from '../services/helpers';
 
-interface CardListProps extends RendererProps {
-	actions: typeof actionCreators;
-	session: JellyfishState['session'];
-	allChannels: JellyfishState['channels'];
-}
+interface CardListProps extends RendererProps, ConnectedComponentProps {}
 
-interface CardListState {
-}
+interface CardListState {}
 
 class CardList extends React.Component<CardListProps, CardListState> {
 	private scrollArea: HTMLElement;
@@ -85,7 +77,7 @@ class CardList extends React.Component<CardListProps, CardListState> {
 	}
 
 	public threadOpen(target: string) {
-		return _.some(this.props.allChannels, (channel) => {
+		return _.some(this.props.appState.channels, (channel) => {
 			return channel.data.target === target;
 		});
 	}
@@ -118,24 +110,14 @@ class CardList extends React.Component<CardListProps, CardListState> {
 			</React.Fragment>
 		);
 	}
-
 }
-
-const mapStateToProps = (state: JellyfishState) => ({
-	session: state.session,
-	allChannels: state.channels,
-});
-
-const mapDispatchToProps = (dispatch: any) => ({
-	actions: bindActionCreators(actionCreators, dispatch),
-});
 
 const lens: Lens = {
 	slug: 'lens-chat-message-card',
 	type: 'lens',
 	name: 'Chat message card lens',
 	data: {
-		renderer: connect(mapStateToProps, mapDispatchToProps)(CardList),
+		renderer: connectComponent(CardList),
 		icon: 'address-card',
 		type: 'chat-message',
 		filter: {

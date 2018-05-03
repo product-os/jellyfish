@@ -1,8 +1,6 @@
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import {
 	Box,
 	Button,
@@ -10,17 +8,21 @@ import {
 	Filters,
 	FiltersView,
 	Flex,
-	Txt,
 	Modal,
+	Txt,
 } from 'rendition';
 import { Form } from 'rendition/dist/unstable';
-import { Card, JellyfishState, Lens, RendererProps, Type } from '../../Types';
+import { Card, Lens, RendererProps, Type } from '../../Types';
+import { sdk } from '../app';
 import ButtonGroup from '../components/ButtonGroup';
 import Icon from '../components/Icon';
-import TailStreamer from '../components/TailStreamer';
-import { createChannel, getTypeFromViewCard } from '../services/helpers';
-import * as sdk from '../services/sdk';
-import { actionCreators } from '../services/store';
+import { TailStreamer } from '../components/TailStreamer';
+import {
+	connectComponent,
+	ConnectedComponentProps,
+	createChannel,
+	getTypeFromViewCard,
+} from '../services/helpers';
 import LensService from './index';
 
 interface ViewRendererState {
@@ -34,11 +36,7 @@ interface ViewRendererState {
 	notificationSettings: null | { [k: string]: any };
 }
 
-interface ViewRendererProps extends RendererProps {
-	actions: typeof actionCreators;
-	allChannels: JellyfishState['channels'];
-	session: JellyfishState['session'];
-}
+interface ViewRendererProps extends ConnectedComponentProps, RendererProps {}
 
 const USER_FILTER_NAME = 'user-generated-filter';
 
@@ -152,7 +150,7 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 		.then(
 			(response) => this.props.actions.addChannel(createChannel({
 				target: response.results.data,
-				parentChannel: this.props.allChannels[0].id,
+				parentChannel: this.props.appState.channels[0].id,
 			})),
 		)
 		.catch((error) => {
@@ -172,7 +170,7 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 
 		newView.data.allOf = _.reject(newView.data.allOf, { name: USER_FILTER_NAME });
 
-		newView.data.actor = this.props.session!.user!.id;
+		newView.data.actor = this.props.appState.session!.user!.id;
 
 		view.filters.forEach((filter) => {
 			newView.data.allOf.push({
@@ -209,7 +207,7 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 	}
 
 	public getSubscription() {
-		return sdk.db.query({
+		return sdk.query({
 			type: 'object',
 			properties: {
 				type: {
@@ -222,7 +220,7 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 							const: this.props.channel.data.target,
 						},
 						actor: {
-							const: this.props.session!.user!.id,
+							const: this.props.appState.session!.user!.id,
 						},
 					},
 					additionalProperties: true,
@@ -257,7 +255,7 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 					type: 'subscription',
 					data: {
 						target: this.props.channel.data.target,
-						actor: this.props.session!.user!.id,
+						actor: this.props.appState.session!.user!.id,
 						notificationSettings,
 					},
 				});
@@ -390,15 +388,6 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 	}
 }
 
-const mapStateToProps = (state: JellyfishState) => ({
-	allChannels: state.channels,
-	session: state.session,
-});
-
-const mapDispatchToProps = (dispatch: any) => ({
-	actions: bindActionCreators(actionCreators, dispatch),
-});
-
 const lens: Lens = {
 	slug: 'lens-view',
 	type: 'lens',
@@ -406,7 +395,7 @@ const lens: Lens = {
 	data: {
 		type: 'view',
 		icon: 'filter',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(ViewRenderer),
+		renderer: connectComponent(ViewRenderer),
 		filter: {
 			type: 'object',
 			properties: {

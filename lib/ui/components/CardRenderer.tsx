@@ -1,12 +1,9 @@
 import * as _ from 'lodash';
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { Box, Heading, Link, Txt } from 'rendition';
 import styled from 'styled-components';
 import { Card, Channel } from '../../Types';
-import { createChannel } from '../services/helpers';
-import { actionCreators } from '../services/store';
+import { connectComponent, ConnectedComponentProps, createChannel } from '../services/helpers';
 import Label from './Label';
 
 const DataContainer = styled.pre`
@@ -36,14 +33,13 @@ const CardField = ({ field, payload }: {
 	);
 };
 
-interface CardProps {
+interface CardProps extends ConnectedComponentProps {
 	card: Card;
 	fieldOrder?: string[];
-	actions: typeof actionCreators;
 	channel?: Channel;
 }
 
-class CardRenderer extends React.Component<CardProps, {}> {
+class Base extends React.Component<CardProps, {}> {
 	public openChannel(card: Card) {
 		if (!this.props.channel) {
 			return;
@@ -90,8 +86,4 @@ class CardRenderer extends React.Component<CardProps, {}> {
 	}
 }
 
-const mapDispatchToProps = (dispatch: any) => ({
-	actions: bindActionCreators(actionCreators, dispatch),
-});
-
-export default connect(null, mapDispatchToProps)(CardRenderer);
+export const CardRenderer = connectComponent(Base);

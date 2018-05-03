@@ -1,34 +1,28 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import {
 	Alert,
 	Box,
 	Fixed,
 } from 'rendition';
 import styled from 'styled-components';
-import { JellyfishState } from '../../Types';
-import { actionCreators } from '../services/store';
+import { connectComponent, ConnectedComponentProps } from '../services/helpers';
 
 const MessageText = styled.span`
 	white-space: pre;
 `;
 
-interface NotificationsProps {
-	actions: typeof actionCreators;
-	notifications: JellyfishState['notifications'];
-}
+interface NotificationsProps extends ConnectedComponentProps {}
 
-class Notifications extends React.Component<NotificationsProps, {}> {
+class Base extends React.Component<NotificationsProps, {}> {
 	public render() {
-		if (!this.props.notifications.length) {
+		if (!this.props.appState.notifications.length) {
 			return null;
 		}
 
 		return (
 			<Fixed top left right>
 				<Box m={3} style={{opacity: 0.95}}>
-					{this.props.notifications.map(({type, id, message}) => {
+					{this.props.appState.notifications.map(({type, id, message}) => {
 						return (
 							<Alert
 								key={id}
@@ -49,13 +43,5 @@ class Notifications extends React.Component<NotificationsProps, {}> {
 	}
 }
 
-const mapStateToProps = (state: JellyfishState) => ({
-	notifications: state.notifications,
-});
-
-const mapDispatchToProps = (dispatch: any) => ({
-	actions: bindActionCreators(actionCreators, dispatch),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Notifications);
+export const Notifications = connectComponent(Base);
 

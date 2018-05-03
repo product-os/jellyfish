@@ -2,7 +2,7 @@ import { ValidateFunction } from 'ajv';
 
 import * as _ from 'lodash';
 import { Card, Lens } from '../../Types';
-import * as sdk from '../services/sdk';
+import { sdk } from '../app';
 
 // Load lenses
 import InterleavedLens from './Interleaved';

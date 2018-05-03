@@ -1,8 +1,8 @@
 import createHistory from 'history/createHashHistory';
 import * as _ from 'lodash';
 import { JellyfishState } from '../../Types';
+import { actionCreators, store } from '../app';
 import { createChannel } from './helpers';
-import store, { actionCreators } from './store';
 
 const history = createHistory();
 

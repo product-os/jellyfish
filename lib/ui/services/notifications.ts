@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
+import { actionCreators, store } from '../app';
 import { createChannel } from './helpers';
-import store, { actionCreators } from './store';
 
 const TIMEOUT = 10 * 1000;
 

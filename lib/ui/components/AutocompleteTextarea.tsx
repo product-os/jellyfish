@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 import * as React from 'react';
 import { Box, BoxProps, Theme } from 'rendition';
 import styled from 'styled-components';
-import { user } from '../services/sdk';
+import { store } from '../app';
 
 const Container = styled(Box)`
 	.rta {
@@ -100,7 +100,7 @@ const baseData: Array<{ name: string, char: string }> = [
 	{ name: '+1', char: '👍' },
 ];
 
-const trigger = {
+const getTrigger = () => ({
 	':': {
 		dataProvider: (token: string) => {
 			if (!token) {
@@ -113,7 +113,7 @@ const trigger = {
 	},
 	'@': {
 		dataProvider: (token: string) => {
-			const usernames = user.listAll()
+			const usernames = store.getState().allUsers
 				.map(({ slug }) => '@' + _.trimStart(slug, 'user-'));
 
 			if (!token) {
@@ -125,7 +125,7 @@ const trigger = {
 		component: ({ entity }: { entity: string }) => <div>{entity}</div>,
 		output: (item: any) => item,
 	},
-};
+});
 
 interface AutoProps extends BoxProps {
 	className?: string;
@@ -142,6 +142,6 @@ export default ({ value, className, onChange, onKeyPress, placeholder, ...props 
 			onChange={onChange}
 			onKeyPress={onKeyPress}
 			loadingComponent={() => <span>Loading</span>}
-			trigger={trigger}
+			trigger={getTrigger()}
 			placeholder={placeholder} />
 	</Container>

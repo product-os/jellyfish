@@ -26,8 +26,12 @@ const React = require('react')
 const {
 	Provider
 } = require('react-redux')
-const App = require('../../lib/ui/App').default
-const store = require('../../lib/ui/services/store').default
+const {
+	JellyfishUI
+} = require('../../lib/ui/JellyfishUI')
+const {
+	store
+} = require('../../lib/ui/app')
 
 ava.test.before(async (test) => {
 	// Set this env var so that the server uses a random database
@@ -41,7 +45,7 @@ const PASSWORD = 'foobarbaz'
 
 const app = mount(
 	<Provider store={store}>
-		<App />
+		<JellyfishUI />
 	</Provider>
 )
 

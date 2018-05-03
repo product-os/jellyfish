@@ -1,12 +1,10 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { Box, Flex } from 'rendition';
 import styled from 'styled-components';
 import { Card, Lens, RendererProps } from '../../Types';
-import CardActions from '../components/CardActions';
-import CardRenderer from '../components/CardRenderer';
-import { actionCreators } from '../services/store';
+import { CardActions } from '../components/CardActions';
+import { CardRenderer } from '../components/CardRenderer';
+import { connectComponent, ConnectedComponentProps } from '../services/helpers';
 import InterleavedLens from './Interleaved';
 
 const Column = styled(Flex)`
@@ -21,9 +19,7 @@ interface RendererState {
 	head: null | Card;
 }
 
-interface DefaultRendererProps extends RendererProps {
-	actions: typeof actionCreators;
-}
+interface DefaultRendererProps extends RendererProps, ConnectedComponentProps {}
 
 // Default renderer for a card and a timeline
 export class Renderer extends React.Component<DefaultRendererProps, RendererState> {
@@ -66,17 +62,13 @@ export class Renderer extends React.Component<DefaultRendererProps, RendererStat
 	}
 }
 
-const mapDispatchToProps = (dispatch: any) => ({
-	actions: bindActionCreators(actionCreators, dispatch),
-});
-
 const lens: Lens = {
 	slug: 'lens-default',
 	type: 'lens',
 	name: 'Default lens',
 	data: {
 		icon: 'address-card',
-		renderer: connect(null, mapDispatchToProps)(Renderer),
+		renderer: connectComponent(Renderer),
 		filter: {
 			type: 'object',
 		},

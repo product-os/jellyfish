@@ -15,6 +15,7 @@
     "include": [
         "./lib/ui/**/*.ts",
         "./lib/ui/**/*.tsx",
+        "./lib/sdk/**/*.ts",
         "./lib/typings/**/*.d.ts"
     ]
 }

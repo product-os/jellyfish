@@ -1,13 +1,11 @@
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { Button, Flex, Modal, Txt } from 'rendition';
 import { Form } from 'rendition/dist/unstable';
 import { Card } from '../../Types';
-import * as sdk from '../services/sdk';
-import { actionCreators } from '../services/store';
+import { sdk } from '../app';
+import { connectComponent, ConnectedComponentProps } from '../services/helpers';
 import Icon from './Icon';
 
 interface CardActionsState {
@@ -17,14 +15,13 @@ interface CardActionsState {
 	schema: JSONSchema6;
 }
 
-interface CardActionProps {
+interface CardActionProps extends ConnectedComponentProps {
 	card: Card;
 	refresh: () => void;
 	delete: () => void;
-	actions: typeof actionCreators;
 }
 
-class CardActions extends React.Component<
+class Base extends React.Component<
 	CardActionProps,
 	CardActionsState
 > {
@@ -133,8 +130,4 @@ class CardActions extends React.Component<
 
 }
 
-const mapDispatchToProps = (dispatch: any) => ({
-	actions: bindActionCreators(actionCreators, dispatch),
-});
-
-export default connect(null, mapDispatchToProps)(CardActions);
+export const CardActions = connectComponent(Base);

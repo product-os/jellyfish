@@ -1,22 +1,19 @@
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import {
 	Box,
 	Button,
 	Flex,
-	Txt,
 } from 'rendition';
 import styled from 'styled-components';
-import { Card, JellyfishState, Lens, RendererProps } from '../../Types';
+import { Card, Lens, RendererProps } from '../../Types';
+import { JellyfishStream } from '../../sdk/stream';
+import { sdk } from '../app';
 import EventCard from '../components/Event';
 import Icon from '../components/Icon';
-import TailStreamer from '../components/TailStreamer';
-import { createChannel, getCurrentTimestamp } from '../services/helpers';
-import * as sdk from '../services/sdk';
-import { actionCreators } from '../services/store';
+import { TailStreamer } from '../components/TailStreamer';
+import { connectComponent, ConnectedComponentProps, createChannel, getCurrentTimestamp } from '../services/helpers';
 
 const Column = styled(Flex)`
 	height: 100%;
@@ -30,17 +27,15 @@ interface RendererState {
 	newMessage: string;
 }
 
-interface DefaultRendererProps extends RendererProps {
+interface DefaultRendererProps extends RendererProps, ConnectedComponentProps {
 	tail?: Card[];
-	actions: typeof actionCreators;
-	session: JellyfishState['session'];
 }
 
 // Default renderer for a card and a timeline
 export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> {
 	private scrollArea: HTMLElement;
 	private shouldScroll: boolean = true;
-	private threadStream: sdk.db.JellyfishStream;
+	private threadStream: JellyfishStream;
 
 	constructor(props: DefaultRendererProps) {
 		super(props);
@@ -87,7 +82,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 								enum: _.map(threads, 'id'),
 							} : {
 								type: 'string',
-								const: threads[0]
+								const: threads[0],
 							},
 						},
 						required: [ 'target' ],
@@ -110,7 +105,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 			additionalProperties: true,
 		};
 
-		this.threadStream = sdk.db.stream(query);
+		this.threadStream = sdk.stream(query);
 
 		this.threadStream.on('data', (response) => {
 			setThreads(response.data);
@@ -165,13 +160,14 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 			type: 'chat-thread',
 			data: {
 				timestamp: getCurrentTimestamp(),
-				actor: this.props.session!.user!.id,
+				actor: this.props.appState.session!.user!.id,
 			},
 		})
 		.then((response) => {
 			if (response) {
 				this.openChannel(response.results.data);
 			}
+			return null;
 		})
 		.catch((error) => {
 			this.props.actions.addNotification('danger', error.message);
@@ -207,12 +203,6 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 								card={card}
 							/>
 						</Box>)}
-
-					{(!!tail && tail.length === 0) &&
-						<Txt color='#ccc'>
-							<em>There are no messages in this thread yet, trying adding one using the input below</em>
-						</Txt>
-					}
 				</Box>
 
 				<React.Fragment>
@@ -230,21 +220,13 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 	}
 }
 
-const mapStateToProps = (state: JellyfishState) => ({
-	session: state.session,
-});
-
-const mapDispatchToProps = (dispatch: any) => ({
-	actions: bindActionCreators(actionCreators, dispatch),
-});
-
 const lens: Lens = {
 	slug: 'lens-chat-thread-list',
 	type: 'lens',
 	name: 'Interleaved lens',
 	data: {
 		icon: 'comments',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(Renderer),
+		renderer: connectComponent(Renderer),
 		// This lens can display event-like objects
 		filter: {
 			type: 'array',
