@@ -1,10 +1,10 @@
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import * as React from 'react';
+import { JellyfishStream } from '../../sdk/stream';
 import { Card } from '../../Types';
+import { actionCreators, sdk, store } from '../app';
 import { debug } from '../services/helpers';
-import * as sdk from '../services/sdk';
-import store, { actionCreators } from '../services/store';
 
 interface TailStreamerState {
 	tail: null | Card[];
@@ -13,8 +13,8 @@ interface TailStreamerState {
 /**
  * A generic class for streaming data to a `tail` property on this.state
  */
-export default class TailStreamer<P, S> extends React.Component<P, TailStreamerState & S> {
-	public stream: sdk.db.JellyfishStream;
+export class TailStreamer<P, S> extends React.Component<P, TailStreamerState & S> {
+	public stream: JellyfishStream;
 
 	public componentWillUnmount() {
 		if (this.stream) {
@@ -31,7 +31,7 @@ export default class TailStreamer<P, S> extends React.Component<P, TailStreamerS
 			this.stream.destroy();
 		}
 
-		this.stream = sdk.db.stream(query);
+		this.stream = sdk.stream(query);
 
 		debug('STREAMING TAIL USING QUERY', query);
 

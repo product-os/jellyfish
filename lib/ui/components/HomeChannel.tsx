@@ -1,7 +1,5 @@
 import * as _ from 'lodash';
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import {
 	Box,
 	Button,
@@ -12,13 +10,12 @@ import {
 	Txt,
 } from 'rendition';
 import styled from 'styled-components';
-import { Card, JellyfishState, RendererProps } from '../../Types';
-import { createChannel } from '../services/helpers';
-import { actionCreators } from '../services/store';
+import { Card, RendererProps } from '../../Types';
+import { connectComponent, ConnectedComponentProps, createChannel } from '../services/helpers';
 import { SubscriptionManager } from '../services/subscriptions';
 import Gravatar from './Gravatar';
 import Icon from './Icon';
-import TailStreamer from './TailStreamer';
+import { TailStreamer } from './TailStreamer';
 
 const MenuPanel = styled(Box)`
 	position: absolute;
@@ -42,19 +39,14 @@ const MenuPanel = styled(Box)`
 	}
 `;
 
-interface HomeChannelProps extends RendererProps {
-	user: null | Card;
-	actions: typeof actionCreators;
-	allChannels: JellyfishState['channels'];
-	viewNotices: JellyfishState['viewNotices'];
-}
+interface HomeChannelProps extends RendererProps, ConnectedComponentProps {}
 
 interface HomeChannelState {
 	showMenu: boolean;
 	tail: null | Card[];
 }
 
-class HomeChannel extends TailStreamer<HomeChannelProps, HomeChannelState> {
+class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 	private subscriptionManager: SubscriptionManager;
 
 	constructor(props: HomeChannelProps) {
@@ -76,7 +68,7 @@ class HomeChannel extends TailStreamer<HomeChannelProps, HomeChannelState> {
 	}
 
 	public open(card: Card) {
-		if (this.props.viewNotices[card.id]) {
+		if (this.props.appState.viewNotices[card.id]) {
 			this.props.actions.removeViewNotice(card.id);
 		}
 		this.props.actions.addChannel(createChannel({
@@ -91,13 +83,14 @@ class HomeChannel extends TailStreamer<HomeChannelProps, HomeChannelState> {
 	}
 
 	public render() {
-		const { allChannels, channel: { data: { head } } } = this.props;
+		const { appState, channel: { data: { head } } } = this.props;
+		const { channels } = appState;
 		const { tail } = this.state;
 
-		const activeCard = allChannels.length > 1 ? allChannels[1].data.target : null;
+		const activeCard = channels.length > 1 ? channels[1].data.target : null;
 
-		const email = this.props.user ? this.props.user.data!.email : null;
-		const username = this.props.user ? this.props.user.slug!.replace(/user-/, '') : null;
+		const email = _.get(appState, 'session.user') ? appState.session!.user!.data!.email : null;
+		const username = _.get(appState, 'session.user') ? appState.session!.user!.slug!.replace(/user-/, '') : null;
 
 		if (!head) {
 			return <Icon style={{color: 'white'}} name='cog fa-spin' />;
@@ -143,7 +136,7 @@ class HomeChannel extends TailStreamer<HomeChannelProps, HomeChannelState> {
 
 						const isActive = card.id === activeCard;
 
-						const update = this.props.viewNotices[card.id];
+						const update = this.props.appState.viewNotices[card.id];
 
 						return (
 							<Link
@@ -172,14 +165,4 @@ class HomeChannel extends TailStreamer<HomeChannelProps, HomeChannelState> {
 	}
 }
 
-const mapStateToProps = (state: JellyfishState) => ({
-	user: state.session ? state.session.user : null,
-	allChannels: state.channels,
-	viewNotices: state.viewNotices,
-});
-
-const mapDispatchToProps = (dispatch: any) => ({
-	actions: bindActionCreators(actionCreators, dispatch),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(HomeChannel);
+export const HomeChannel = connectComponent(Base)

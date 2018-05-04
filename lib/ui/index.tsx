@@ -1,12 +1,12 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import App from './App';
-import store from './services/store';
+import { store } from './app';
+import { JellyfishUI } from './JellyfishUI';
 
 ReactDOM.render(
 	<Provider store={store}>
-		<App />
+		<JellyfishUI />
 	</Provider>,
 	document.getElementById('app'),
 );

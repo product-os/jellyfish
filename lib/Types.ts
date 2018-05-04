@@ -44,9 +44,10 @@ export interface Notification {
 }
 
 export interface JellyfishState {
-	authorized: boolean;
+	status: 'initializing' | 'authorized' | 'unauthorized';
 	channels: Channel[];
 	types: Type[];
+	allUsers: Card[];
 	session: null | {
 		authToken: string | null;
 		user?: Card;

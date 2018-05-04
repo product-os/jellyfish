@@ -1,26 +1,23 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import {
 	Modal,
 } from 'rendition';
 import { Form } from 'rendition/dist/unstable';
 import { Card, Type } from '../../Types';
-import { card } from '../services/sdk';
-import { actionCreators } from '../services/store';
+import { sdk } from '../app';
+import { connectComponent, ConnectedComponentProps } from '../services/helpers';
 
 interface CardCreatorState {
 	newCardModel: {[key: string]: any };
 }
 
-interface CardCreatorProps {
+interface CardCreatorProps extends ConnectedComponentProps {
 	show: boolean;
 	done: () => void;
 	type: Type;
-	actions: typeof actionCreators;
 }
 
-class CardCreator extends React.Component<CardCreatorProps, CardCreatorState> {
+class Base extends React.Component<CardCreatorProps, CardCreatorState> {
 	constructor(props: CardCreatorProps) {
 		super(props);
 
@@ -35,7 +32,7 @@ class CardCreator extends React.Component<CardCreatorProps, CardCreatorState> {
 			...this.state.newCardModel,
 		};
 
-		card.add(newCard as Card)
+		sdk.card.add(newCard as Card)
 		.catch((error) => {
 			this.props.actions.addNotification('danger', error.message);
 		});
@@ -70,8 +67,4 @@ class CardCreator extends React.Component<CardCreatorProps, CardCreatorState> {
 	}
 }
 
-const mapDispatchToProps = (dispatch: any) => ({
-	actions: bindActionCreators(actionCreators, dispatch),
-});
-
-export default connect(null, mapDispatchToProps)(CardCreator);
+export const CardCreator = connectComponent<CardCreatorProps>(Base);

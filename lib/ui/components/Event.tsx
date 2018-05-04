@@ -8,7 +8,7 @@ import {
 	Txt,
 } from 'rendition';
 import { Card } from '../../Types';
-import * as sdk from '../services/sdk';
+import { sdk } from '../app';
 import Icon from './Icon';
 import Markdown from './Markdown';
 

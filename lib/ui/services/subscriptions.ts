@@ -1,13 +1,13 @@
 import * as _ from 'lodash';
+import { JellyfishStream } from '../../sdk/stream';
 import { Card } from '../../Types';
+import { actionCreators, sdk, store } from '../app';
 import { createNotification } from './notifications';
-import * as sdk from './sdk';
-import store, { actionCreators } from './store';
 
 export class SubscriptionManager {
 	private subsMap: { [k: string]: Card } = {};
-	private streams: { [k: string]: sdk.db.JellyfishStream } = {};
-	private allSubsStream: sdk.db.JellyfishStream;
+	private streams: { [k: string]: JellyfishStream } = {};
+	private allSubsStream: JellyfishStream;
 
 	public async updateSubscriptions(cards: Card[]) {
 		const user = _.get(store.getState(), 'session.user');
@@ -24,7 +24,7 @@ export class SubscriptionManager {
 		_.forEach(this.streams, (stream) => stream.destroy());
 
 		_.forEach(cards, (card) => {
-			const stream = sdk.db.stream(card.id);
+			const stream = sdk.stream(card.id);
 
 			this.streams[card.id] = stream;
 
@@ -79,7 +79,7 @@ export class SubscriptionManager {
 		if (this.subsMap[card.id]) {
 			return this.subsMap[card.id];
 		}
-		const results = await sdk.db.query({
+		const results = await sdk.query({
 			type: 'object',
 			properties: {
 				type: {
@@ -99,7 +99,7 @@ export class SubscriptionManager {
 				},
 			},
 			additionalProperties: true,
-		})
+		});
 
 		let subCard = _.first(results) || null;
 
@@ -108,15 +108,14 @@ export class SubscriptionManager {
 				type: 'subscription',
 				data: {
 					target: card.id,
-					actor: user.id
+					actor: user.id,
 				},
-			})
+			});
 
-			subCard = await sdk.card.get(actionResponse.results.data)
+			subCard = await sdk.card.get(actionResponse.results.data);
 		}
 
-		this.subsMap[card.id] = subCard!
-
+		this.subsMap[card.id] = subCard!;
 
 		return subCard;
 	}
@@ -126,7 +125,7 @@ export class SubscriptionManager {
 		if (this.allSubsStream) {
 			this.allSubsStream.destroy();
 		}
-		this.allSubsStream = sdk.db.stream({
+		this.allSubsStream = sdk.stream({
 			type: 'object',
 			properties: {
 				type: {

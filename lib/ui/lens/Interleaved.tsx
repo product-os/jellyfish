@@ -1,22 +1,20 @@
+import * as Bluebird from 'bluebird';
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import {
 	Box,
 	Flex,
 	Txt,
 } from 'rendition';
 import styled from 'styled-components';
-import { Card, JellyfishState, Lens, RendererProps } from '../../Types';
+import { Card, Lens, RendererProps } from '../../Types';
+import { sdk } from '../app';
 import AutocompleteTextarea from '../components/AutocompleteTextarea';
 import EventCard from '../components/Event';
 import Icon from '../components/Icon';
-import TailStreamer from '../components/TailStreamer';
-import { createChannel, getCurrentTimestamp } from '../services/helpers';
-import * as sdk from '../services/sdk';
-import { actionCreators } from '../services/store';
+import { TailStreamer } from '../components/TailStreamer';
+import { connectComponent, ConnectedComponentProps, createChannel, getCurrentTimestamp } from '../services/helpers';
 
 const Column = styled(Flex)`
 	height: 100%;
@@ -29,10 +27,8 @@ interface RendererState {
 	newMessage: string;
 }
 
-interface DefaultRendererProps extends RendererProps {
+interface DefaultRendererProps extends RendererProps, ConnectedComponentProps {
 	tail?: Card[];
-	actions: typeof actionCreators;
-	session: JellyfishState['session'];
 }
 
 // Default renderer for a card and a timeline
@@ -101,17 +97,18 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		this.props.actions.removeChannel(this.props.channel);
 	}
 
-	public addMessage(e: React.KeyboardEvent<HTMLElement>) {
+	public async addMessage(e: React.KeyboardEvent<HTMLElement>) {
 		e.preventDefault();
 		const { newMessage } = this.state;
 
 		this.setState({ newMessage: '' });
 
-		const mentions = _.compact((newMessage.match(/\@[\S]+/g) || [])
-			.map(name => {
+		const mentions = await Bluebird.map(_.compact((newMessage.match(/\@[\S]+/g) || [])),
+			async (name) => {
 				const slug = name.replace('@', 'user-');
-				return _.get(_.find(sdk.user.listAll(), { slug }), 'id');
-			}));
+				const users = await sdk.user.getAll();
+				return _.get(_.find(users, { slug }), 'id');
+			});
 
 		return sdk.card.add({
 			type: 'chat-message',
@@ -119,7 +116,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 				mentionsUser: mentions,
 				timestamp: getCurrentTimestamp(),
 				target: this.props.channel.data.target,
-				actor: this.props.session!.user!.id,
+				actor: this.props.appState.session!.user!.id,
 				payload: {
 					message: newMessage,
 				},
@@ -182,21 +179,13 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 	}
 }
 
-const mapStateToProps = (state: JellyfishState) => ({
-	session: state.session,
-});
-
-const mapDispatchToProps = (dispatch: any) => ({
-	actions: bindActionCreators(actionCreators, dispatch),
-});
-
 const lens: Lens = {
 	slug: 'lens-interleaved',
 	type: 'lens',
 	name: 'Interleaved lens',
 	data: {
 		icon: 'address-card',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(Renderer),
+		renderer: connectComponent(Renderer),
 		// This lens can display event-like objects
 		filter: {
 			type: 'array',
