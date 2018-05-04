@@ -59,3 +59,36 @@ ava.test('.evaluate(): should access other properties from the card', (test) => 
 
 	test.is(result, 5)
 })
+
+ava.test('.evaluate(): (AGGREGATE) should ignore duplicates', (test) => {
+	const result = formulas.evaluate('AGGREGATE(input, PARTIAL(FLIP(PROPERTY), "mentions"))', {
+		list: [
+			{
+				mentions: [ 'foo', 'bar' ]
+			},
+			{
+				mentions: [ 'bar', 'baz' ]
+			},
+			{
+				mentions: [ 'baz', 'qux' ]
+			}
+		]
+	}, [ 'list' ])
+
+	test.deepEqual(result, [ 'foo', 'bar', 'baz', 'qux' ])
+})
+
+ava.test('.evaluate(): (AGGREGATE) should aggregate a set of object properties', (test) => {
+	const result = formulas.evaluate('AGGREGATE(input, PARTIAL(FLIP(PROPERTY), "mentions"))', {
+		list: [
+			{
+				mentions: [ 'foo' ]
+			},
+			{
+				mentions: [ 'bar' ]
+			}
+		]
+	}, [ 'list' ])
+
+	test.deepEqual(result, [ 'foo', 'bar' ])
+})
