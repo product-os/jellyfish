@@ -19,50 +19,79 @@ const formulas = require('../../lib/core/formulas')
 const credentials = require('../../lib/core/credentials')
 
 ava.test('.evaluate(): should return null if no input', (test) => {
-	const result = formulas.evaluate('POW(input, 2)', {}, [ 'foo' ])
-	test.deepEqual(result, null)
+	const result = formulas.evaluate('POW(input, 2)', {
+		context: {},
+		input: null
+	})
+
+	test.deepEqual(result, {
+		value: null
+	})
 })
 
 ava.test('.evaluate(): should resolve a number formula', (test) => {
 	const result = formulas.evaluate('POW(input, 2)', {
-		number: 2
-	}, [ 'number' ])
+		context: {
+			number: 2
+		},
+		input: 2
+	})
 
-	test.is(result, 4)
+	test.deepEqual(result, {
+		value: 4
+	})
 })
 
 ava.test('.evaluate(): should resolve an object formula', (test) => {
 	const result = formulas.evaluate('HASH({ string: input.password, salt: input.username })', {
-		data: {
+		context: {
+			data: {
+				password: 'foo',
+				username: 'johndoe'
+			}
+		},
+		input: {
 			password: 'foo',
 			username: 'johndoe'
 		}
-	}, [ 'data' ])
+	})
 
-	test.is(result, credentials.hash('foo', 'johndoe'))
+	test.deepEqual(result, {
+		value: credentials.hash('foo', 'johndoe')
+	})
 })
 
 ava.test('.evaluate(): should resolve composite formulas', (test) => {
 	const result = formulas.evaluate('MAX(POW(input, 2), POW(input, 3))', {
-		number: 2
-	}, [ 'number' ])
+		context: {
+			number: 2
+		},
+		input: 2
+	})
 
-	test.is(result, 8)
+	test.deepEqual(result, {
+		value: 8
+	})
 })
 
 ava.test('.evaluate(): should access other properties from the card', (test) => {
 	const result = formulas.evaluate('ADD(this.value1, this.value2)', {
-		value1: 2,
-		value2: 3,
-		result: 0
-	}, [ 'result' ])
+		context: {
+			value1: 2,
+			value2: 3
+		},
+		input: 0
+	})
 
-	test.is(result, 5)
+	test.deepEqual(result, {
+		value: 5
+	})
 })
 
 ava.test('.evaluate(): (AGGREGATE) should ignore duplicates', (test) => {
 	const result = formulas.evaluate('AGGREGATE(input, PARTIAL(FLIP(PROPERTY), "mentions"))', {
-		list: [
+		context: {},
+		input: [
 			{
 				mentions: [ 'foo', 'bar' ]
 			},
@@ -73,14 +102,17 @@ ava.test('.evaluate(): (AGGREGATE) should ignore duplicates', (test) => {
 				mentions: [ 'baz', 'qux' ]
 			}
 		]
-	}, [ 'list' ])
+	})
 
-	test.deepEqual(result, [ 'foo', 'bar', 'baz', 'qux' ])
+	test.deepEqual(result, {
+		value: [ 'foo', 'bar', 'baz', 'qux' ]
+	})
 })
 
 ava.test('.evaluate(): (AGGREGATE) should aggregate a set of object properties', (test) => {
 	const result = formulas.evaluate('AGGREGATE(input, PARTIAL(FLIP(PROPERTY), "mentions"))', {
-		list: [
+		context: {},
+		input: [
 			{
 				mentions: [ 'foo' ]
 			},
@@ -88,7 +120,9 @@ ava.test('.evaluate(): (AGGREGATE) should aggregate a set of object properties',
 				mentions: [ 'bar' ]
 			}
 		]
-	}, [ 'list' ])
+	})
 
-	test.deepEqual(result, [ 'foo', 'bar' ])
+	test.deepEqual(result, {
+		value: [ 'foo', 'bar' ]
+	})
 })
