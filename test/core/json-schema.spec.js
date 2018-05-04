@@ -345,7 +345,7 @@ ava.test('.getFormulasPaths() should return one property with formulas', (test) 
 		properties: {
 			foo: {
 				type: 'string',
-				$formula: 'UPPER(this)'
+				$formula: 'UPPER(input)'
 			},
 			bar: {
 				type: 'string'
@@ -355,7 +355,7 @@ ava.test('.getFormulasPaths() should return one property with formulas', (test) 
 
 	test.deepEqual(paths, [
 		{
-			formula: 'UPPER(this)',
+			formula: 'UPPER(input)',
 			output: [ 'foo' ]
 		}
 	])
@@ -367,14 +367,14 @@ ava.test('.getFormulasPaths() should return nested properties with formulas', (t
 		properties: {
 			foo: {
 				type: 'string',
-				$formula: 'UPPER(this)'
+				$formula: 'UPPER(input)'
 			},
 			bar: {
 				type: 'object',
 				properties: {
 					baz: {
 						type: 'number',
-						$formula: 'POW(this, 2)'
+						$formula: 'POW(input, 2)'
 					}
 				}
 			}
@@ -383,11 +383,11 @@ ava.test('.getFormulasPaths() should return nested properties with formulas', (t
 
 	test.deepEqual(paths, [
 		{
-			formula: 'UPPER(this)',
+			formula: 'UPPER(input)',
 			output: [ 'foo' ]
 		},
 		{
-			formula: 'POW(this, 2)',
+			formula: 'POW(input, 2)',
 			output: [ 'bar', 'baz' ]
 		}
 	])
@@ -401,7 +401,7 @@ ava.test('.getFormulasPaths() should return properties inside arrays', (test) =>
 				properties: {
 					foo: {
 						type: 'string',
-						$formula: 'UPPER(this)'
+						$formula: 'UPPER(input)'
 					}
 				}
 			},
@@ -409,7 +409,7 @@ ava.test('.getFormulasPaths() should return properties inside arrays', (test) =>
 				properties: {
 					bar: {
 						type: 'string',
-						$formula: 'LOWER(this)'
+						$formula: 'LOWER(input)'
 					}
 				}
 			}
@@ -418,11 +418,11 @@ ava.test('.getFormulasPaths() should return properties inside arrays', (test) =>
 
 	test.deepEqual(paths, [
 		{
-			formula: 'UPPER(this)',
+			formula: 'UPPER(input)',
 			output: [ 'foo' ]
 		},
 		{
-			formula: 'LOWER(this)',
+			formula: 'LOWER(input)',
 			output: [ 'bar' ]
 		}
 	])

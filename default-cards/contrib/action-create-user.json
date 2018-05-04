@@ -32,7 +32,7 @@
       "hash": {
         "type": "string",
         "pattern": "^[a-f0-9]+$",
-        "$formula": "HASH(this)"
+        "$formula": "HASH(input)"
       }
     },
     "options": {

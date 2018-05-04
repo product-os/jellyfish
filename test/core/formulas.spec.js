@@ -19,17 +19,17 @@ const formulas = require('../../lib/core/formulas')
 const credentials = require('../../lib/core/credentials')
 
 ava.test('.evaluate(): should return null if no context', (test) => {
-	const result = formulas.evaluate('POW(this, 2)', null)
+	const result = formulas.evaluate('POW(input, 2)', null)
 	test.deepEqual(result, null)
 })
 
 ava.test('.evaluate(): should resolve a number formula', (test) => {
-	const result = formulas.evaluate('POW(this, 2)', 2)
+	const result = formulas.evaluate('POW(input, 2)', 2)
 	test.is(result, 4)
 })
 
 ava.test('.evaluate(): should resolve an object formula', (test) => {
-	const result = formulas.evaluate('HASH({ string: this.password, salt: this.username })', {
+	const result = formulas.evaluate('HASH({ string: input.password, salt: input.username })', {
 		password: 'foo',
 		username: 'johndoe'
 	})
@@ -38,6 +38,6 @@ ava.test('.evaluate(): should resolve an object formula', (test) => {
 })
 
 ava.test('.evaluate(): should resolve composite formulas', (test) => {
-	const result = formulas.evaluate('MAX(POW(this, 2), POW(this, 3))', 2)
+	const result = formulas.evaluate('MAX(POW(input, 2), POW(input, 3))', 2)
 	test.is(result, 8)
 })
