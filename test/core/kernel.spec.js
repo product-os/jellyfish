@@ -218,7 +218,7 @@ ava.test('.insertCard() should evaluate a simple computed property on insertion'
 						properties: {
 							foo: {
 								type: 'string',
-								$formula: 'UPPER(this)'
+								$formula: 'UPPER(input)'
 							}
 						},
 						additionalProperties: true
@@ -274,7 +274,7 @@ ava.test('.insertCard() should throw if the result of the formula is incompatibl
 						properties: {
 							foo: {
 								type: 'number',
-								$formula: 'UPPER(this)'
+								$formula: 'UPPER(input)'
 							}
 						},
 						additionalProperties: true
@@ -317,7 +317,7 @@ ava.test('.insertCard() should consider changes to a formula in a type', async (
 						properties: {
 							foo: {
 								type: 'number',
-								$formula: 'MAX(this, 5)'
+								$formula: 'MAX(input, 5)'
 							}
 						},
 						additionalProperties: true
@@ -372,7 +372,7 @@ ava.test('.insertCard() should consider changes to a formula in a type', async (
 						properties: {
 							foo: {
 								type: 'number',
-								$formula: 'MAX(this, 8)'
+								$formula: 'MAX(input, 8)'
 							}
 						},
 						additionalProperties: true
@@ -430,7 +430,7 @@ ava.test('.insertCard() should re-evaluate formulas when updating an existing ca
 						properties: {
 							foo: {
 								type: 'string',
-								$formula: 'UPPER(this)'
+								$formula: 'UPPER(input)'
 							}
 						},
 						additionalProperties: true
@@ -1584,7 +1584,7 @@ ava.test('.evaluateFormulas() should evaluate a number formula', async (test) =>
 		properties: {
 			foo: {
 				type: 'number',
-				$formula: 'POW(this, 2)'
+				$formula: 'POW(input, 2)'
 			}
 		}
 	}, {
@@ -1602,7 +1602,7 @@ ava.test('.evaluateFormulas() should ignore missing formulas', async (test) => {
 		properties: {
 			foo: {
 				type: 'number',
-				$formula: 'POW(this, 2)'
+				$formula: 'POW(input, 2)'
 			}
 		}
 	}, {
@@ -1620,7 +1620,7 @@ ava.test('.evaluateFormulas() should not ignore the zero number as missing', asy
 		properties: {
 			foo: {
 				type: 'number',
-				$formula: 'MAX(this, 2)'
+				$formula: 'MAX(input, 2)'
 			}
 		}
 	}, {
@@ -1644,7 +1644,7 @@ ava.test('.evaluateFormulas() should evaluate nested formulas', async (test) => 
 						properties: {
 							baz: {
 								type: 'number',
-								$formula: 'POW(this, 2)'
+								$formula: 'POW(input, 2)'
 							}
 						}
 					}
@@ -1674,7 +1674,7 @@ ava.test('.evaluateFormulas() should evaluate a password hash', async (test) => 
 		properties: {
 			foo: {
 				type: 'string',
-				$formula: 'HASH({ string: this.password, salt: this.username })'
+				$formula: 'HASH({ string: input.password, salt: input.username })'
 			}
 		}
 	}, {
