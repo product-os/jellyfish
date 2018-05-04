@@ -383,3 +383,59 @@ ava.test('.evaluateObject() should not do anything if the schema has no formulas
 		}
 	})
 })
+
+ava.test('.evaluateObject() should report back watchers when aggregating events', async (test) => {
+	const result = jellyscript.evaluateObject({
+		type: 'object',
+		properties: {
+			data: {
+				type: 'object',
+				properties: {
+					mentions: {
+						type: 'array',
+						$formula: 'AGGREGATE($events, PARTIAL(FLIP(PROPERTY), "mentions"))'
+					}
+				}
+			}
+		}
+	}, {
+		slug: 'thread',
+		type: 'type',
+		links: [],
+		tags: [],
+		active: true,
+		data: {
+			mentions: []
+		}
+	})
+
+	test.deepEqual(result.object, {
+		slug: 'thread',
+		type: 'type',
+		links: [],
+		tags: [],
+		active: true,
+		data: {
+			mentions: []
+		}
+	})
+
+	test.is(result.watchers.length, 1)
+
+	test.deepEqual(result.watchers[0].filter, {
+		data: {
+			target: {
+				type: 'thread'
+			}
+		}
+	})
+
+	test.is(result.watchers[0].type, 'AGGREGATE')
+	test.deepEqual(result.watchers[0].sourceProperty, [ 'data', 'mentions' ])
+	test.deepEqual(result.watchers[0].target, [ 'data', 'target' ])
+	test.deepEqual(result.watchers[0].arguments[0]({
+		foo: 'bar',
+		mentions: [ 'john', 'jane' ],
+		bar: 'baz'
+	}), [ 'john', 'jane' ])
+})
