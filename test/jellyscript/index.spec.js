@@ -225,3 +225,143 @@ ava.test('AGGREGATE: should generate a watcher if aggregating $events', (test) =
 		}
 	})
 })
+
+ava.test('.evaluateObject() should evaluate a number formula', async (test) => {
+	const result = jellyscript.evaluateObject({
+		type: 'object',
+		properties: {
+			foo: {
+				type: 'number',
+				$formula: 'POW(input, 2)'
+			}
+		}
+	}, {
+		foo: 3
+	})
+
+	test.deepEqual(result, {
+		foo: 9
+	})
+})
+
+ava.test('.evaluateObject() should ignore missing formulas', async (test) => {
+	const result = jellyscript.evaluateObject({
+		type: 'object',
+		properties: {
+			foo: {
+				type: 'number',
+				$formula: 'POW(input, 2)'
+			}
+		}
+	}, {
+		bar: 3
+	})
+
+	test.deepEqual(result, {
+		bar: 3
+	})
+})
+
+ava.test('.evaluateObject() should not ignore the zero number as missing', async (test) => {
+	const result = jellyscript.evaluateObject({
+		type: 'object',
+		properties: {
+			foo: {
+				type: 'number',
+				$formula: 'MAX(input, 2)'
+			}
+		}
+	}, {
+		foo: 0
+	})
+
+	test.deepEqual(result, {
+		foo: 2
+	})
+})
+
+ava.test('.evaluateObject() should evaluate nested formulas', async (test) => {
+	const result = jellyscript.evaluateObject({
+		type: 'object',
+		properties: {
+			foo: {
+				type: 'object',
+				properties: {
+					bar: {
+						type: 'object',
+						properties: {
+							baz: {
+								type: 'number',
+								$formula: 'POW(input, 2)'
+							}
+						}
+					}
+				}
+			}
+		}
+	}, {
+		foo: {
+			bar: {
+				baz: 2
+			}
+		}
+	})
+
+	test.deepEqual(result, {
+		foo: {
+			bar: {
+				baz: 4
+			}
+		}
+	})
+})
+
+ava.test('.evaluateObject() should evaluate a password hash', async (test) => {
+	const result = jellyscript.evaluateObject({
+		type: 'object',
+		properties: {
+			foo: {
+				type: 'string',
+				$formula: 'HASH({ string: input.password, salt: input.username })'
+			}
+		}
+	}, {
+		foo: {
+			password: 'foo',
+			username: 'user-johndoe'
+		}
+	})
+
+	const hash = jellyscript.evaluate('HASH(input)', {
+		input: {
+			string: 'foo',
+			salt: 'user-johndoe'
+		}
+	})
+
+	test.deepEqual(result, {
+		foo: hash.value
+	})
+})
+
+ava.test('.evaluateObject() should not do anything if the schema has no formulas', async (test) => {
+	const result = jellyscript.evaluateObject({
+		type: 'object',
+		properties: {
+			foo: {
+				type: 'string'
+			},
+			bar: {
+				type: 'number'
+			}
+		}
+	}, {
+		foo: '1',
+		bar: 2
+	})
+
+	test.deepEqual(result, {
+		foo: '1',
+		bar: 2
+	})
+})
