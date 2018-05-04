@@ -19,7 +19,7 @@ const _ = require('lodash')
 const randomstring = require('randomstring')
 const core = require('../../lib/core')
 const ActionRequestWorker = require('../../lib/actions')
-const credentials = require('../../lib/actions/credentials')
+const jellyscript = require('../../lib/jellyscript')
 
 ava.test.beforeEach(async (test) => {
 	test.context.jellyfish = await core.create({
@@ -152,8 +152,22 @@ ava.test('.createRequest() should be able to create a user using action-create-u
 	test.is(user.data.email, 'johndoe@example.com')
 	test.deepEqual(user.data.roles, [ 'user-community' ])
 
-	test.is(credentials.hash('foobarbaz', 'user-johndoe'), user.data.password.hash)
-	test.not(credentials.hash('fooquxbaz', 'user-johndoe'), user.data.password.hash)
+	const hash1 = jellyscript.evaluate('HASH(input)', {
+		input: {
+			string: 'foobarbaz',
+			salt: 'user-johndoe'
+		}
+	})
+
+	const hash2 = jellyscript.evaluate('HASH(input)', {
+		input: {
+			string: 'fooquxbaz',
+			salt: 'user-johndoe'
+		}
+	})
+
+	test.is(hash1.value, user.data.password.hash)
+	test.not(hash2.value, user.data.password.hash)
 })
 
 ava.test('.createRequest() should login as a user with a password', async (test) => {

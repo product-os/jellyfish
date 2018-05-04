@@ -21,8 +21,8 @@ const randomstring = require('randomstring')
 const Backend = require('../../lib/core/backend')
 const Kernel = require('../../lib/core/kernel')
 const errors = require('../../lib/core/errors')
-const credentials = require('../../lib/core/credentials')
 const CARDS = require('../../lib/core/cards')
+const jellyscript = require('../../lib/jellyscript')
 
 ava.test.beforeEach(async (test) => {
 	test.context.backend = new Backend({
@@ -1684,8 +1684,15 @@ ava.test('.evaluateFormulas() should evaluate a password hash', async (test) => 
 		}
 	})
 
+	const hash = jellyscript.evaluate('HASH(input)', {
+		input: {
+			string: 'foo',
+			salt: 'user-johndoe'
+		}
+	})
+
 	test.deepEqual(result, {
-		foo: credentials.hash('foo', 'user-johndoe')
+		foo: hash.value
 	})
 })
 
