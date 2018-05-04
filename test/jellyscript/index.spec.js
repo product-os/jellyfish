@@ -68,6 +68,7 @@ ava.test('.evaluate(): should return null if no input', (test) => {
 	})
 
 	test.deepEqual(result, {
+		watchers: [],
 		value: null
 	})
 })
@@ -81,6 +82,7 @@ ava.test('.evaluate(): should resolve a number formula', (test) => {
 	})
 
 	test.deepEqual(result, {
+		watchers: [],
 		value: 4
 	})
 })
@@ -94,6 +96,7 @@ ava.test('.evaluate(): should resolve composite formulas', (test) => {
 	})
 
 	test.deepEqual(result, {
+		watchers: [],
 		value: 8
 	})
 })
@@ -108,8 +111,19 @@ ava.test('.evaluate(): should access other properties from the card', (test) => 
 	})
 
 	test.deepEqual(result, {
+		watchers: [],
 		value: 5
 	})
+})
+
+ava.test('.evaluate(): should evaluate a function', (test) => {
+	const result = jellyscript.evaluate('FLIP(POW)', {
+		context: {},
+		input: 0
+	})
+
+	test.is(result.value(2, 2), 4)
+	test.is(result.value(3, 2), 8)
 })
 
 ava.test('AGGREGATE: should ignore duplicates', (test) => {
@@ -129,6 +143,7 @@ ava.test('AGGREGATE: should ignore duplicates', (test) => {
 	})
 
 	test.deepEqual(result, {
+		watchers: [],
 		value: [ 'foo', 'bar', 'baz', 'qux' ]
 	})
 })
@@ -147,6 +162,7 @@ ava.test('AGGREGATE: should aggregate a set of object properties', (test) => {
 	})
 
 	test.deepEqual(result, {
+		watchers: [],
 		value: [ 'foo', 'bar' ]
 	})
 })
@@ -158,6 +174,7 @@ ava.test('REGEX_MATCH: should extract a set of mentions', (test) => {
 	})
 
 	test.deepEqual(result, {
+		watchers: [],
 		value: [ '@johndoe', '@janedoe' ]
 	})
 })
@@ -169,6 +186,42 @@ ava.test('REGEX_MATCH: should consider duplicates', (test) => {
 	})
 
 	test.deepEqual(result, {
+		watchers: [],
 		value: [ '@johndoe', '@janedoe', '@johndoe' ]
+	})
+})
+
+ava.test('AGGREGATE: should generate a watcher if aggregating $events', (test) => {
+	const result = jellyscript.evaluate('AGGREGATE($events, PARTIAL(FLIP(PROPERTY), "mentions"))', {
+		context: {
+			slug: 'thread',
+			type: 'type',
+			links: [],
+			tags: [],
+			active: true,
+			data: {}
+		},
+		input: 'foo'
+	})
+
+	test.deepEqual(result.value, [])
+	test.is(result.watchers.length, 1)
+
+	test.deepEqual(result.watchers[0].target, [ 'data', 'target' ])
+	test.is(result.watchers[0].type, 'AGGREGATE')
+	test.is(result.watchers[0].arguments.length, 1)
+
+	test.deepEqual(result.watchers[0].arguments[0]({
+		foo: 'bar',
+		mentions: [ 'john', 'jane' ],
+		bar: 'baz'
+	}), [ 'john', 'jane' ])
+
+	test.deepEqual(result.watchers[0].filter, {
+		data: {
+			target: {
+				type: 'thread'
+			}
+		}
 	})
 })
