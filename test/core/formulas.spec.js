@@ -49,3 +49,13 @@ ava.test('.evaluate(): should resolve composite formulas', (test) => {
 
 	test.is(result, 8)
 })
+
+ava.test('.evaluate(): should access other properties from the card', (test) => {
+	const result = formulas.evaluate('ADD(this.value1, this.value2)', {
+		value1: 2,
+		value2: 3,
+		result: 0
+	}, [ 'result' ])
+
+	test.is(result, 5)
+})
