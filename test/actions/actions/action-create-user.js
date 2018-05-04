@@ -15,10 +15,15 @@
  */
 
 const ava = require('ava')
-const credentials = require('../../../lib/actions/credentials')
+const jellyscript = require('../../../lib/jellyscript')
 
 ava.test('should create a user', async (test) => {
-	const hash = credentials.hash('foobar', 'user-johndoe')
+	const hash = jellyscript.evaluate('HASH(input)', {
+		input: {
+			string: 'foobar',
+			salt: 'user-johndoe'
+		}
+	}).value
 
 	const id = await test.context.worker.executeAction(test.context.session, 'action-create-user', test.context.ids.user, {
 		email: 'johndoe@example.com',

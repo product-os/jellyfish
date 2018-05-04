@@ -15,11 +15,54 @@
  */
 
 const ava = require('ava')
-const formulas = require('../../lib/core/formulas')
-const credentials = require('../../lib/core/credentials')
+const jellyscript = require('../../lib/jellyscript')
+
+ava.test('HASH: should pass if the password and salt matches', (test) => {
+	const options = {
+		input: {
+			string: 'foobarbaz',
+			salt: 'user-foo'
+		}
+	}
+
+	const hash = jellyscript.evaluate('HASH(input)', options)
+	test.deepEqual(jellyscript.evaluate('HASH(input)', options), hash)
+})
+
+ava.test('HASH: should not pass if the password do not match', (test) => {
+	const hash = jellyscript.evaluate('HASH(input)', {
+		input: {
+			string: 'foobarbaz',
+			salt: 'user-foo'
+		}
+	})
+
+	test.notDeepEqual(jellyscript.evaluate('HASH(input)', {
+		input: {
+			string: 'foobarqux',
+			salt: 'user-foo'
+		}
+	}), hash)
+})
+
+ava.test('HASH: should not pass given a different salt', (test) => {
+	const hash = jellyscript.evaluate('HASH(input)', {
+		input: {
+			string: 'foobarbaz',
+			salt: 'user-foo'
+		}
+	})
+
+	test.notDeepEqual(jellyscript.evaluate('HASH(input)', {
+		input: {
+			string: 'foobarbaz',
+			salt: 'user-bar'
+		}
+	}), hash)
+})
 
 ava.test('.evaluate(): should return null if no input', (test) => {
-	const result = formulas.evaluate('POW(input, 2)', {
+	const result = jellyscript.evaluate('POW(input, 2)', {
 		context: {},
 		input: null
 	})
@@ -30,7 +73,7 @@ ava.test('.evaluate(): should return null if no input', (test) => {
 })
 
 ava.test('.evaluate(): should resolve a number formula', (test) => {
-	const result = formulas.evaluate('POW(input, 2)', {
+	const result = jellyscript.evaluate('POW(input, 2)', {
 		context: {
 			number: 2
 		},
@@ -42,27 +85,8 @@ ava.test('.evaluate(): should resolve a number formula', (test) => {
 	})
 })
 
-ava.test('.evaluate(): should resolve an object formula', (test) => {
-	const result = formulas.evaluate('HASH({ string: input.password, salt: input.username })', {
-		context: {
-			data: {
-				password: 'foo',
-				username: 'johndoe'
-			}
-		},
-		input: {
-			password: 'foo',
-			username: 'johndoe'
-		}
-	})
-
-	test.deepEqual(result, {
-		value: credentials.hash('foo', 'johndoe')
-	})
-})
-
 ava.test('.evaluate(): should resolve composite formulas', (test) => {
-	const result = formulas.evaluate('MAX(POW(input, 2), POW(input, 3))', {
+	const result = jellyscript.evaluate('MAX(POW(input, 2), POW(input, 3))', {
 		context: {
 			number: 2
 		},
@@ -75,7 +99,7 @@ ava.test('.evaluate(): should resolve composite formulas', (test) => {
 })
 
 ava.test('.evaluate(): should access other properties from the card', (test) => {
-	const result = formulas.evaluate('ADD(this.value1, this.value2)', {
+	const result = jellyscript.evaluate('ADD(this.value1, this.value2)', {
 		context: {
 			value1: 2,
 			value2: 3
@@ -88,8 +112,8 @@ ava.test('.evaluate(): should access other properties from the card', (test) => 
 	})
 })
 
-ava.test('.evaluate(): (AGGREGATE) should ignore duplicates', (test) => {
-	const result = formulas.evaluate('AGGREGATE(input, PARTIAL(FLIP(PROPERTY), "mentions"))', {
+ava.test('AGGREGATE: should ignore duplicates', (test) => {
+	const result = jellyscript.evaluate('AGGREGATE(input, PARTIAL(FLIP(PROPERTY), "mentions"))', {
 		context: {},
 		input: [
 			{
@@ -109,8 +133,8 @@ ava.test('.evaluate(): (AGGREGATE) should ignore duplicates', (test) => {
 	})
 })
 
-ava.test('.evaluate(): (AGGREGATE) should aggregate a set of object properties', (test) => {
-	const result = formulas.evaluate('AGGREGATE(input, PARTIAL(FLIP(PROPERTY), "mentions"))', {
+ava.test('AGGREGATE: should aggregate a set of object properties', (test) => {
+	const result = jellyscript.evaluate('AGGREGATE(input, PARTIAL(FLIP(PROPERTY), "mentions"))', {
 		context: {},
 		input: [
 			{
