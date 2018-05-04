@@ -240,7 +240,10 @@ ava.test('.evaluateObject() should evaluate a number formula', async (test) => {
 	})
 
 	test.deepEqual(result, {
-		foo: 9
+		watchers: [],
+		object: {
+			foo: 9
+		}
 	})
 })
 
@@ -258,7 +261,10 @@ ava.test('.evaluateObject() should ignore missing formulas', async (test) => {
 	})
 
 	test.deepEqual(result, {
-		bar: 3
+		watchers: [],
+		object: {
+			bar: 3
+		}
 	})
 })
 
@@ -276,7 +282,10 @@ ava.test('.evaluateObject() should not ignore the zero number as missing', async
 	})
 
 	test.deepEqual(result, {
-		foo: 2
+		watchers: [],
+		object: {
+			foo: 2
+		}
 	})
 })
 
@@ -308,9 +317,12 @@ ava.test('.evaluateObject() should evaluate nested formulas', async (test) => {
 	})
 
 	test.deepEqual(result, {
-		foo: {
-			bar: {
-				baz: 4
+		watchers: [],
+		object: {
+			foo: {
+				bar: {
+					baz: 4
+				}
 			}
 		}
 	})
@@ -340,7 +352,10 @@ ava.test('.evaluateObject() should evaluate a password hash', async (test) => {
 	})
 
 	test.deepEqual(result, {
-		foo: hash.value
+		watchers: [],
+		object: {
+			foo: hash.value
+		}
 	})
 })
 
@@ -361,7 +376,10 @@ ava.test('.evaluateObject() should not do anything if the schema has no formulas
 	})
 
 	test.deepEqual(result, {
-		foo: '1',
-		bar: 2
+		watchers: [],
+		object: {
+			foo: '1',
+			bar: 2
+		}
 	})
 })
