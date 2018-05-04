@@ -150,3 +150,25 @@ ava.test('AGGREGATE: should aggregate a set of object properties', (test) => {
 		value: [ 'foo', 'bar' ]
 	})
 })
+
+ava.test('REGEX_MATCH: should extract a set of mentions', (test) => {
+	const result = jellyscript.evaluate('REGEX_MATCH(/(@[a-zA-Z0-9-]+)/g, input)', {
+		context: {},
+		input: 'Hello @johndoe, and @janedoe'
+	})
+
+	test.deepEqual(result, {
+		value: [ '@johndoe', '@janedoe' ]
+	})
+})
+
+ava.test('REGEX_MATCH: should consider duplicates', (test) => {
+	const result = jellyscript.evaluate('REGEX_MATCH(/(@[a-zA-Z0-9-]+)/g, input)', {
+		context: {},
+		input: 'Hello @johndoe, and @janedoe, and @johndoe'
+	})
+
+	test.deepEqual(result, {
+		value: [ '@johndoe', '@janedoe', '@johndoe' ]
+	})
+})
