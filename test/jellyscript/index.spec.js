@@ -204,7 +204,7 @@ ava.test('AGGREGATE: should generate a watcher if aggregating $events', (test) =
 		input: 'foo'
 	})
 
-	test.deepEqual(result.value, [])
+	test.deepEqual(result.value, null)
 	test.is(result.watchers.length, 1)
 
 	test.deepEqual(result.watchers[0].target, [ 'data', 'target' ])
@@ -218,9 +218,21 @@ ava.test('AGGREGATE: should generate a watcher if aggregating $events', (test) =
 	}), [ 'john', 'jane' ])
 
 	test.deepEqual(result.watchers[0].filter, {
-		data: {
-			target: {
-				type: 'thread'
+		type: 'object',
+		properties: {
+			data: {
+				type: 'object',
+				properties: {
+					target: {
+						type: 'object',
+						properties: {
+							type: {
+								type: 'string',
+								const: 'thread'
+							}
+						}
+					}
+				}
 			}
 		}
 	})
@@ -423,9 +435,21 @@ ava.test('.evaluateObject() should report back watchers when aggregating events'
 	test.is(result.watchers.length, 1)
 
 	test.deepEqual(result.watchers[0].filter, {
-		data: {
-			target: {
-				type: 'thread'
+		type: 'object',
+		properties: {
+			data: {
+				type: 'object',
+				properties: {
+					target: {
+						type: 'object',
+						properties: {
+							type: {
+								type: 'string',
+								const: 'thread'
+							}
+						}
+					}
+				}
 			}
 		}
 	})
