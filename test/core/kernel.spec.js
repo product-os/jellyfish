@@ -1576,3 +1576,164 @@ ava.test.cb('.stream() should report back inactive elements', (test) => {
 		})
 	}).catch(test.end)
 })
+
+ava.test.cb('AGGREGATE($events): should react to one event', (test) => {
+	test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'test-thread',
+		type: 'type',
+		active: true,
+		links: [],
+		tags: [],
+		data: {
+			schema: {
+				type: 'object',
+				properties: {
+					type: {
+						type: 'string',
+						const: 'test-thread'
+					},
+					data: {
+						type: 'object',
+						properties: {
+							mentions: {
+								type: 'array',
+								$formula: 'AGGREGATE($events, PARTIAL(FLIP(PROPERTY), "data.payload.mentions"))'
+							}
+						},
+						additionalProperties: true
+					}
+				},
+				additionalProperties: true,
+				required: [ 'type', 'data' ]
+			}
+		}
+	}).then(() => {
+		return Bluebird.props({
+			admin: test.context.kernel.getCardBySlug(test.context.kernel.sessions.admin, 'user-admin'),
+			thread: test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+				type: 'test-thread',
+				active: true,
+				links: [],
+				tags: [],
+				data: {
+					mentions: []
+				}
+			})
+		})
+	}).then((results) => {
+		test.context.kernel.pipeline.on('change', (change) => {
+			if (change.after.data.target === results.thread) {
+				test.context.kernel.getCardById(test.context.kernel.sessions.admin, results.thread).then((card) => {
+					test.deepEqual(card.data.mentions, [ 'johndoe' ])
+					test.end()
+				}).catch(test.end)
+			}
+		})
+
+		return test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+			type: 'card',
+			active: true,
+			links: [],
+			tags: [],
+			data: {
+				timestamp: '2018-05-05T00:21:02.459Z',
+				target: results.thread,
+				actor: results.admin,
+				payload: {
+					mentions: [ 'johndoe' ]
+				}
+			}
+		})
+	}).catch(test.end)
+})
+
+ava.test.cb('AGGREGATE($events): should be able to add a type with a formula based on its timeline', (test) => {
+	test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'test-thread',
+		type: 'type',
+		active: true,
+		links: [],
+		tags: [],
+		data: {
+			schema: {
+				type: 'object',
+				properties: {
+					type: {
+						type: 'string',
+						const: 'test-thread'
+					},
+					data: {
+						type: 'object',
+						properties: {
+							mentions: {
+								type: 'array',
+								$formula: 'AGGREGATE($events, PARTIAL(FLIP(PROPERTY), "data.payload.mentions"))'
+							}
+						},
+						additionalProperties: true
+					}
+				},
+				additionalProperties: true,
+				required: [ 'type', 'data' ]
+			}
+		}
+	}).then(() => {
+		return Bluebird.props({
+			admin: test.context.kernel.getCardBySlug(test.context.kernel.sessions.admin, 'user-admin'),
+			thread: test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+				type: 'test-thread',
+				active: true,
+				links: [],
+				tags: [],
+				data: {
+					mentions: []
+				}
+			})
+		})
+	}).then((results) => {
+		let count = 0
+
+		test.context.kernel.pipeline.on('change', (change) => {
+			if (change.after.data.target === results.thread) {
+				count += 1
+			}
+
+			if (count === 2) {
+				test.context.kernel.getCardById(test.context.kernel.sessions.admin, results.thread).then((card) => {
+					test.deepEqual(card.data.mentions, [ 'johndoe', 'janedoe', 'johnsmith' ])
+					test.end()
+				}).catch(test.end)
+			}
+		})
+
+		return test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+			type: 'card',
+			active: true,
+			links: [],
+			tags: [],
+			data: {
+				timestamp: '2018-05-05T00:21:02.459Z',
+				target: results.thread,
+				actor: results.admin,
+				payload: {
+					mentions: [ 'johndoe' ]
+				}
+			}
+		}).then(() => {
+			return test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+				type: 'card',
+				active: true,
+				links: [],
+				tags: [],
+				data: {
+					timestamp: '2018-05-05T00:28:42.302Z',
+					target: results.thread,
+					actor: results.admin,
+					payload: {
+						mentions: [ 'janedoe', 'johnsmith' ]
+					}
+				}
+			})
+		})
+	}).catch(test.end)
+})
