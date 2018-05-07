@@ -1,9 +1,8 @@
 import * as Promise from 'bluebird';
-import { debug } from '../ui/services/helpers';
-import { Sdk } from './index';
+import { debug, SDKInterface } from './utils';
 
 export class AuthSdk {
-	constructor(private sdk: Sdk) {}
+	constructor(private sdk: SDKInterface) {}
 
 	public whoami() {
 		return Promise.try(() => {
@@ -23,6 +22,9 @@ export class AuthSdk {
 		});
 	}
 
+	/**
+	 * Resolves with the newly created users id
+	 */
 	public signup({ username, email, password }: {
 		username: string;
 		email: string;
@@ -39,6 +41,14 @@ export class AuthSdk {
 					salt: `user-${username}`,
 				},
 			},
+		})
+		.then((response) => {
+			const { results } = response.data.data;
+			if (results.error) {
+				throw new Error(results.data);
+			}
+
+			return results.data;
 		});
 	}
 
