@@ -288,10 +288,19 @@ export const actionCreators = {
 		return sdk.auth.signup(payload)
 		.then(() => dispatch(actionCreators.login(payload)));
 	},
-	setStatus: (status: JellyfishState['status']) => ({
-		type: actions.SET_STATUS,
-		value: status,
-	}),
+	setStatus: (status: JellyfishState['status']) => {
+		// If the status is now 'unauthorized' just run the logout routine
+		if (status === 'unauthorized') {
+			return {
+				type: actions.LOGOUT,
+			};
+		}
+
+		return {
+			type: actions.SET_STATUS,
+			value: status,
+		};
+	},
 	setUser: (user: Card) => ({
 		type: actions.SET_USER,
 		value: user,
