@@ -56,31 +56,27 @@
         }
       },
       {
-        "name": "Actions",
+        "name": "Timelines",
         "schema": {
           "type": "object",
           "properties": {
             "id": {
               "type": "string"
             },
-            "slug": {
-              "type": "string",
-              "enum": [
-                "action-create-session",
-                "action-create-card",
-                "action-update-card"
-              ]
-            },
             "type": {
               "type": "string",
-              "const": "action"
+              "enum": [
+                "action",
+                "create",
+                "update"
+              ]
             },
             "data": {
               "type": "object",
               "additionalProperties": true
             }
           },
-          "required": [ "id", "slug", "type", "data" ]
+          "required": [ "id", "type", "data" ]
         }
       },
       {
