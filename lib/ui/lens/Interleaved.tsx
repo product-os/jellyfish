@@ -47,6 +47,12 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		const querySchema: JSONSchema6 = {
 			type: 'object',
 			properties: {
+				type: {
+					// Don't incluide action request cards, as it just add's noise
+					not: {
+						const: 'action-request',
+					},
+				},
 				data: {
 					type: 'object',
 					properties: {
@@ -142,6 +148,8 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		const tail = this.props.tail || _.sortBy<Card>(this.state.tail, x => x.data.timestamp);
 
 		const channelTarget = this.props.channel.data.target;
+
+		console.log(tail)
 
 		return (
 			<Column flexDirection='column'>

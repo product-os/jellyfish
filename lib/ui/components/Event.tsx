@@ -21,18 +21,16 @@ interface EventProps {
 	[k: string]: any;
 }
 
-export default class Event extends React.Component<EventProps, { username: string }> {
+export default class Event extends React.Component<EventProps, { actorName: string }> {
 	constructor(props: EventProps) {
 		super(props);
 
 		this.state = {
-			username: '',
+			actorName: '',
 		};
 
-		if (this.props.card.type === 'chat-message') {
-			sdk.user.getUsername(props.card.data.actor)
-			.then((username) => this.setState({ username }));
-		}
+		sdk.user.getUsername(props.card.data.actor)
+		.then((actorName) => this.setState({ actorName }));
 	}
 
 	public render() {
@@ -52,15 +50,16 @@ export default class Event extends React.Component<EventProps, { username: strin
 						</Txt>
 					</Button>
 				}
-				<Box flex='1'>
+				<Box ml={isChatMessage ? 0 : 34} flex='1'>
 					<Flex justify='space-between' mb={2}>
-						<Txt bold>{this.state.username || card.type}</Txt>
+						<Txt bold>{this.state.actorName}</Txt>
 						{card.data &&
 						<Txt fontSize={1}>{card.data.timestamp}</Txt>}
 					</Flex>
 
-					{card.type === 'chat-message' &&
+					{isChatMessage &&
 					<Markdown className='event-card__message'>{card.data.payload.message}</Markdown>}
+					{!isChatMessage && `${card.type} card`}
 				</Box>
 			</Flex>
 		);
