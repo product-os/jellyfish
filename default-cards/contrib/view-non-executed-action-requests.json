@@ -25,6 +25,9 @@
 								"action": {
 									"type": "string"
 								},
+								"actor": {
+									"type": "string"
+								},
 								"target": {
 									"type": "string"
 								},

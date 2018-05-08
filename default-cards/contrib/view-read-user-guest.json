@@ -31,7 +31,11 @@
               "type": "string",
               "anyOf": [
                 { "const": "action-request" },
-                { "const": "user" }
+                { "const": "user" },
+                { "const": "card" },
+                { "const": "action" },
+                { "const": "create" },
+                { "const": "session" }
               ]
             },
             "type": {
@@ -66,7 +70,9 @@
               "anyOf": [
                 { "const": "action-create-session" },
                 { "const": "action-create-user" },
-                { "const": "action-create-card" }
+                { "const": "action-create-card" },
+                { "const": "action-update-card" },
+                { "const": "action-create-event" }
               ]
             },
             "type": {

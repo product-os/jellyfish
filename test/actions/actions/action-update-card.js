@@ -19,7 +19,11 @@ const ava = require('ava')
 const utils = require('../../../lib/utils')
 
 ava.test('should replace an existing card and add an update event using a slug', async (test) => {
-	const id1 = await test.context.worker.executeAction(test.context.session, 'action-create-card', test.context.ids.card, {
+	const id1 = await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-create-card',
+		targetId: test.context.ids.card,
+		actorId: test.context.actor.id
+	}, {
 		properties: {
 			slug: 'johndoe',
 			data: {
@@ -28,7 +32,11 @@ ava.test('should replace an existing card and add an update event using a slug',
 		}
 	})
 
-	const id2 = await test.context.worker.executeAction(test.context.session, 'action-update-card', id1, {
+	const id2 = await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-update-card',
+		targetId: id1,
+		actorId: test.context.actor.id
+	}, {
 		properties: {
 			data: {
 				email: 'johndoe@gmail.com'
@@ -67,7 +75,11 @@ ava.test('should replace an existing card and add an update event using a slug',
 })
 
 ava.test('should replace an existing card and add an update event without using a slug', async (test) => {
-	const id1 = await test.context.worker.executeAction(test.context.session, 'action-create-card', test.context.ids.card, {
+	const id1 = await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-create-card',
+		targetId: test.context.ids.card,
+		actorId: test.context.actor.id
+	}, {
 		properties: {
 			data: {
 				foo: 'bar'
@@ -75,7 +87,11 @@ ava.test('should replace an existing card and add an update event without using 
 		}
 	})
 
-	const id2 = await test.context.worker.executeAction(test.context.session, 'action-update-card', id1, {
+	const id2 = await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-update-card',
+		targetId: id1,
+		actorId: test.context.actor.id
+	}, {
 		properties: {
 			data: {
 				foo: 'baz'
@@ -113,7 +129,11 @@ ava.test('should replace an existing card and add an update event without using 
 
 ava.test('should fail if the target does not exist', async (test) => {
 	const id = '4a962ad9-20b5-4dd8-a707-bf819593cc84'
-	await test.throws(test.context.worker.executeAction(test.context.session, 'action-update-card', id, {
+	await test.throws(test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-update-card',
+		targetId: id,
+		actorId: test.context.actor.id
+	}, {
 		properties: {
 			slug: 'johndoe',
 			data: {
@@ -124,7 +144,11 @@ ava.test('should fail if the target does not exist', async (test) => {
 })
 
 ava.test('should fail if the schema does not match', async (test) => {
-	const id = await test.context.worker.executeAction(test.context.session, 'action-create-card', test.context.ids.card, {
+	const id = await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-create-card',
+		targetId: test.context.ids.card,
+		actorId: test.context.actor.id
+	}, {
 		properties: {
 			data: {
 				foo: 'bar'
@@ -132,7 +156,11 @@ ava.test('should fail if the schema does not match', async (test) => {
 		}
 	})
 
-	await test.throws(test.context.worker.executeAction(test.context.session, 'action-update-card', id, {
+	await test.throws(test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-update-card',
+		targetId: id,
+		actorId: test.context.actor.id
+	}, {
 		properties: {
 			foobar: true
 		}
@@ -140,7 +168,11 @@ ava.test('should fail if the schema does not match', async (test) => {
 })
 
 ava.test('should add an extra property to a card', async (test) => {
-	const id1 = await test.context.worker.executeAction(test.context.session, 'action-create-card', test.context.ids.card, {
+	const id1 = await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-create-card',
+		targetId: test.context.ids.card,
+		actorId: test.context.actor.id
+	}, {
 		properties: {
 			slug: 'johndoe',
 			data: {
@@ -149,7 +181,11 @@ ava.test('should add an extra property to a card', async (test) => {
 		}
 	})
 
-	const id2 = await test.context.worker.executeAction(test.context.session, 'action-update-card', id1, {
+	const id2 = await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-update-card',
+		targetId: id1,
+		actorId: test.context.actor.id
+	}, {
 		properties: {
 			data: {
 				email: 'johndoe@gmail.com',
@@ -191,7 +227,11 @@ ava.test('should add an extra property to a card', async (test) => {
 })
 
 ava.test('should be able to add a slug', async (test) => {
-	const id1 = await test.context.worker.executeAction(test.context.session, 'action-create-card', test.context.ids.card, {
+	const id1 = await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-create-card',
+		targetId: test.context.ids.card,
+		actorId: test.context.actor.id
+	}, {
 		properties: {
 			data: {
 				foo: 'bar'
@@ -199,7 +239,11 @@ ava.test('should be able to add a slug', async (test) => {
 		}
 	})
 
-	const id2 = await test.context.worker.executeAction(test.context.session, 'action-update-card', id1, {
+	const id2 = await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-update-card',
+		targetId: id1,
+		actorId: test.context.actor.id
+	}, {
 		properties: {
 			slug: 'hey-there'
 		}
@@ -223,7 +267,11 @@ ava.test('should be able to add a slug', async (test) => {
 })
 
 ava.test('should be able to set active to false', async (test) => {
-	const id1 = await test.context.worker.executeAction(test.context.session, 'action-create-card', test.context.ids.card, {
+	const id1 = await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-create-card',
+		targetId: test.context.ids.card,
+		actorId: test.context.actor.id
+	}, {
 		properties: {
 			data: {
 				foo: 'bar'
@@ -231,7 +279,11 @@ ava.test('should be able to set active to false', async (test) => {
 		}
 	})
 
-	const id2 = await test.context.worker.executeAction(test.context.session, 'action-update-card', id1, {
+	const id2 = await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-update-card',
+		targetId: id1,
+		actorId: test.context.actor.id
+	}, {
 		properties: {
 			active: false
 		}
@@ -249,6 +301,49 @@ ava.test('should be able to set active to false', async (test) => {
 		active: false,
 		data: {
 			foo: 'bar'
+		}
+	})
+})
+
+ava.test('should override an array property', async (test) => {
+	const id1 = await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-create-card',
+		targetId: test.context.ids.card,
+		actorId: test.context.actor.id
+	}, {
+		properties: {
+			slug: 'johndoe',
+			data: {
+				roles: [ 'guest' ]
+			}
+		}
+	})
+
+	const id2 = await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-update-card',
+		targetId: id1,
+		actorId: test.context.actor.id
+	}, {
+		properties: {
+			data: {
+				roles: []
+			}
+		}
+	})
+
+	test.is(id1, id2)
+
+	const card = await test.context.jellyfish.getCardById(test.context.session, id1)
+
+	test.deepEqual(card, {
+		id: id1,
+		slug: 'johndoe',
+		type: 'card',
+		tags: [],
+		links: [],
+		active: true,
+		data: {
+			roles: []
 		}
 	})
 })

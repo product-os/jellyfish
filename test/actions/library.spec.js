@@ -34,6 +34,7 @@ ava.test.beforeEach(async (test) => {
 	})
 
 	test.context.session = test.context.jellyfish.sessions.admin
+	test.context.actor = await test.context.jellyfish.getCardBySlug(test.context.session, 'user-admin')
 	test.context.worker = new ActionRequestWorker(test.context.jellyfish, test.context.session)
 
 	await test.context.jellyfish.insertCard(test.context.session,

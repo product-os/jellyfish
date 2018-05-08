@@ -25,7 +25,11 @@ ava.test('should create a user', async (test) => {
 		}
 	}).value
 
-	const id = await test.context.worker.executeAction(test.context.session, 'action-create-user', test.context.ids.user, {
+	const id = await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-create-user',
+		targetId: test.context.ids.user,
+		actorId: test.context.actor.id
+	}, {
 		email: 'johndoe@example.com',
 		username: 'user-johndoe',
 		hash: {

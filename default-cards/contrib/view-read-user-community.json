@@ -34,9 +34,12 @@
             "slug": {
               "enum": [
                 "view",
+                "card",
                 "chat-thread",
                 "chat-message",
                 "action-request",
+                "action",
+                "create",
                 "subscription"
               ]
             },
