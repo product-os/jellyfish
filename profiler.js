@@ -5,7 +5,7 @@ profiler.startProfiling()
 profilerRunning = true
 console.log('started profiling')
 
-require('./lib/server.js')
+require('./lib/index.js')
 
 process.on('SIGINT', () => {
 	const profile = profiler.stopProfiling()

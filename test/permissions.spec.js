@@ -22,6 +22,7 @@ const randomstring = require('randomstring')
 const {
 	jellyfishSdk
 } = require('../lib/sdk')
+const createServer = require('../lib/server.js')
 
 ava.test.beforeEach(async (test) => {
 	// Set this env var so that the server uses a random database
@@ -29,7 +30,7 @@ ava.test.beforeEach(async (test) => {
 	const {
 		jellyfish,
 		port
-	} =	await require('../lib/server.js')
+	} =	await createServer()
 	test.context.jellyfish = jellyfish
 
 	test.context.session = test.context.jellyfish.sessions.admin

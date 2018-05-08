@@ -10,7 +10,7 @@
     "url": "git@github.com:resin-io/jellyfish.git"
   },
   "scripts": {
-    "start": "DEBUG=jellyfish:* node lib/server.js",
+    "start": "DEBUG=jellyfish:* node lib/index.js",
     "start:profiler": "DEBUG=jellyfish:* node profiler.js",
     "test": "npm run lint && TEST_DB_HOST=localhost TEST_PROXY_PORT=9999 TEST_DB_PORT=28015 API_URL='http://localhost:8000' NODE_ENV=test nyc --reporter=lcov ava",
     "posttest": "./scripts/scrub-test-databases.js",
