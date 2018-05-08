@@ -30,7 +30,7 @@ export class AuthSdk {
 		email: string;
 		password: string;
 	}) {
-		return this.sdk.action({
+		return this.sdk.action<string>({
 			target: 'user',
 			action: 'action-create-user',
 			arguments: {
@@ -41,14 +41,6 @@ export class AuthSdk {
 					salt: `user-${username}`,
 				},
 			},
-		})
-		.then((response) => {
-			const { results } = response.data.data;
-			if (results.error) {
-				throw new Error(results.data);
-			}
-
-			return results.data;
 		});
 	}
 

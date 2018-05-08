@@ -63,15 +63,17 @@ export class CardSdk {
 			.then(cards => _.sortBy<Card>(cards, (card) => card.data!.timestamp));
 	}
 
-	public add(card: Partial<Card> & { type: string }): Promise<{ id: string, results: any }> {
-		return this.sdk.action({
+	/**
+	 * Resolves with the ID of the created card
+	 */
+	public create(card: Partial<Card> & { type: string }): Promise<string> {
+		return this.sdk.action<string>({
 			target: card.type,
 			action: 'action-create-card',
 			arguments: {
 				properties: _.omit(card, ['type', 'id']),
 			},
-		})
-			.then(response => response.data.data);
+		});
 	}
 
 	public update (id: string, body: Partial<Card>) {
@@ -81,15 +83,13 @@ export class CardSdk {
 			arguments: {
 				properties: _.omit(body, [ 'type', 'id' ]),
 			},
-		})
-			.then(response => response.data.data);
+		});
 	}
 
 	public remove(id: string) {
 		return this.sdk.action({
 			target: id,
 			action: 'action-delete-card',
-		})
-			.then(response => response.data.data);
+		});
 	}
 }

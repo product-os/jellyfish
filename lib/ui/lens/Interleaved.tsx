@@ -116,7 +116,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 				return _.get(_.find(users, { slug }), 'id');
 			});
 
-		return sdk.card.add({
+		return sdk.card.create({
 			type: 'chat-message',
 			data: {
 				mentionsUser: mentions,
