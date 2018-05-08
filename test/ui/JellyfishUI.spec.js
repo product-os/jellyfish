@@ -33,10 +33,16 @@ const {
 	store
 } = require('../../lib/ui/app')
 
+let serverPort = 8000
+
 ava.test.before(async (test) => {
 	// Set this env var so that the server uses a random database
 	process.env.SERVER_DATABASE = `test_${randomstring.generate()}`
-	await require('../../lib/server.js')
+	const {
+		port
+	} =	await require('../../lib/server.js')
+
+	serverPort = port
 })
 
 const USERNAME = `johndoe-${randomstring.generate()}`.toLowerCase()
@@ -74,6 +80,10 @@ const waitForElement = async (component, selector, timeout = 30 * 1000) => {
 }
 
 ava.test.serial('should let new users signup', async (test) => {
+	// Because AVA tests concurrently, prevent port conflicts by setting the SDK
+	// api url to whichever port the server eventually bound to
+	window.sdk.setApiUrl(`http://localhost:${serverPort}`)
+
 	await waitForElement(app, '.login-page')
 
 	test.true(app.find('.login-page').exists())

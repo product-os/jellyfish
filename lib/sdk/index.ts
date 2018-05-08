@@ -29,7 +29,7 @@ export class Sdk implements utils.SDKInterface {
 
 	constructor(
 		private API_URL: string,
-		API_PREFIX: string,
+		private API_PREFIX: string,
 		private authToken?: string,
 	) {
 		this.auth = new AuthSdk(this);
@@ -39,7 +39,21 @@ export class Sdk implements utils.SDKInterface {
 
 		this.utils = utils;
 
-		this.API_BASE = `${trimSlash(API_URL)}/${trimSlash(API_PREFIX)}/`;
+		this.setApiBase(API_URL, API_PREFIX);
+	}
+
+	public setApiUrl(apiUrl: string) {
+		this.API_URL = apiUrl;
+		this.setApiBase(this.API_URL, this.API_PREFIX);
+	}
+
+	public setApiPrefix(apiPrefix: string) {
+		this.API_PREFIX = apiPrefix;
+		this.setApiBase(this.API_URL, this.API_PREFIX);
+	}
+
+	public setApiBase(apiUrl: string, apiPrefix: string) {
+		this.API_BASE = `${trimSlash(apiUrl)}/${trimSlash(apiPrefix)}/`;
 	}
 
 	public setAuthToken(token: string) {
