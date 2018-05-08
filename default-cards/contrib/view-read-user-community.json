@@ -59,7 +59,37 @@
         }
       },
       {
-        "name": "Timelines",
+        "name": "Actions",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "slug": {
+              "type": "string",
+              "anyOf": [
+                { "const": "action-create-session" },
+                { "const": "action-create-user" },
+                { "const": "action-create-card" },
+                { "const": "action-update-card" },
+                { "const": "action-create-event" }
+              ]
+            },
+            "type": {
+              "type": "string",
+              "const": "action"
+            },
+            "data": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "required": [ "id", "slug", "type", "data" ]
+        }
+      },
+      {
+        "name": "Events",
         "schema": {
           "type": "object",
           "properties": {
@@ -68,18 +98,33 @@
             },
             "type": {
               "type": "string",
-              "enum": [
-                "action",
-                "create",
-                "update"
+              "anyOf": [
+                { "const": "create" },
+                { "const": "update" }
               ]
             },
             "data": {
               "type": "object",
-              "additionalProperties": true
+              "additionalProperties": true,
+              "required": [ "timestamp", "target", "actor", "payload" ],
+              "properties": {
+                "timestamp": {
+                  "type": "string"
+                },
+                "target": {
+                  "type": "string"
+                },
+                "actor": {
+                  "type": "string",
+                  "const": "[user.id]"
+                },
+                "payload": {
+                  "type": "object"
+                }
+              }
             }
           },
-          "required": [ "id", "type", "data" ]
+          "required": [ "type", "data" ]
         }
       },
       {
@@ -100,12 +145,62 @@
                 "actor": {
                   "type": "string",
                   "const": "[user.id]"
+                },
+                "target": {
+                  "type": "string"
+                },
+                "action": {
+                  "type": "string"
+                },
+                "timestamp": {
+                  "type": "string"
+                },
+                "arguments": {
+                  "type": "object"
+                },
+                "executed": {
+                  "type": "boolean"
+                },
+                "result": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "properties": {
+                    "error": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "type": [ "object", "string", "number", "boolean", "array" ]
+                    }
+                  }
                 }
               },
               "additionalProperties": true
             }
           },
           "additionalProperties": true,
+          "required": [ "type", "data" ]
+        }
+      },
+      {
+        "name": "Timelines",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "create",
+                "update"
+              ]
+            },
+            "data": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
           "required": [ "id", "type", "data" ]
         }
       },

@@ -35,6 +35,7 @@
                 { "const": "card" },
                 { "const": "action" },
                 { "const": "create" },
+                { "const": "update" },
                 { "const": "session" }
               ]
             },
@@ -55,6 +56,45 @@
           },
           "additionalProperties": true,
           "required": [ "slug", "type", "data" ]
+        }
+      },
+      {
+        "name": "Events",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string",
+              "anyOf": [
+                { "const": "create" },
+                { "const": "update" }
+              ]
+            },
+            "data": {
+              "type": "object",
+              "additionalProperties": true,
+              "required": [ "timestamp", "target", "actor", "payload" ],
+              "properties": {
+                "timestamp": {
+                  "type": "string"
+                },
+                "target": {
+                  "type": "string"
+                },
+                "actor": {
+                  "type": "string",
+                  "const": "[user.id]"
+                },
+                "payload": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "required": [ "type", "data" ]
         }
       },
       {
@@ -138,7 +178,7 @@
             }
           },
           "additionalProperties": true,
-          "required": [ "id", "type", "data" ]
+          "required": [ "type", "data" ]
         }
       },
       {
