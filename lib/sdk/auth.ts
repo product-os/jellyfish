@@ -1,6 +1,8 @@
 import * as Promise from 'bluebird';
 import { debug, SDKInterface } from './utils';
 
+const USERNAME_REGEX = /^[a-z0-9-]{5,}$/;
+
 export class AuthSdk {
 	constructor(private sdk: SDKInterface) {}
 
@@ -30,6 +32,10 @@ export class AuthSdk {
 		email: string;
 		password: string;
 	}) {
+		if (!USERNAME_REGEX.test(username)) {
+			throw new Error('Usernames can only contain alphanumeric characters and dashes, and must be at least 5 characters long');
+		}
+
 		return this.sdk.action<string>({
 			target: 'user',
 			action: 'action-create-user',
