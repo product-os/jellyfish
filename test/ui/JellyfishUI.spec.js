@@ -26,6 +26,7 @@ const React = require('react')
 const {
 	Provider
 } = require('react-redux')
+const createServer = require('../../lib/server.js')
 const {
 	JellyfishUI
 } = require('../../lib/ui/JellyfishUI')
@@ -40,7 +41,7 @@ ava.test.before(async (test) => {
 	process.env.SERVER_DATABASE = `test_${randomstring.generate()}`
 	const {
 		port
-	} =	await require('../../lib/server.js')
+	} =	await createServer()
 
 	serverPort = port
 })
