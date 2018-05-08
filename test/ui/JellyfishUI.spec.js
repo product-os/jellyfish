@@ -37,7 +37,6 @@ ava.test.before(async (test) => {
 	// Set this env var so that the server uses a random database
 	process.env.SERVER_DATABASE = `test_${randomstring.generate()}`
 	await require('../../lib/server.js')
-	await Bluebird.delay(5000)
 })
 
 const USERNAME = `johndoe-${randomstring.generate()}`.toLowerCase()

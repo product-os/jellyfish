@@ -14,52 +14,37 @@
  * limitations under the License.
  */
 
+require('ts-node').register()
+
 const ava = require('ava')
 const _ = require('lodash')
 const randomstring = require('randomstring')
-const core = require('../lib/core')
+const {
+	jellyfishSdk
+} = require('../lib/sdk')
 
 ava.test.beforeEach(async (test) => {
-	test.context.jellyfish = await core.create({
-		backend: {
-			host: process.env.TEST_DB_HOST,
-			port: process.env.TEST_DB_PORT,
-			database: `test_${randomstring.generate()}`
-		},
-		tables: {
-			cards: 'cards',
-			requests: 'requests',
-			sessions: 'sessions'
-		}
-	})
+	// Set this env var so that the server uses a random database
+	process.env.SERVER_DATABASE = `test_${randomstring.generate()}`
+	const {
+		jellyfish,
+		port
+	} =	await require('../lib/server.js')
+	test.context.jellyfish = jellyfish
 
 	test.context.session = test.context.jellyfish.sessions.admin
+	test.context.guestSession = test.context.jellyfish.sessions.guest
 
-	await test.context.jellyfish.insertCard(test.context.session,
-		require('../default-cards/contrib/view-read-user-guest.json'))
-	await test.context.jellyfish.insertCard(test.context.session,
-		require('../default-cards/contrib/view-write-user-guest.json'))
-	const guestUserId = await test.context.jellyfish.insertCard(test.context.session,
-		require('../default-cards/contrib/user-guest.json'))
-
-	test.context.guestSession = await test.context.jellyfish.insertCard(test.context.session, {
-		slug: 'session-guest',
-		type: 'session',
-		links: [],
-		tags: [],
-		active: true,
-		data: {
-			actor: guestUserId
-		}
+	// Since AVA tests are running concurrently, set up an SDK instance that will
+	// communicate with whichever port this server instance bound to
+	test.context.sdk = jellyfishSdk({
+		apiPrefix: process.env.API_PREFIX || 'api/v1',
+		apiUrl: `http://localhost:${port}`
 	})
-})
-
-ava.test.afterEach(async (test) => {
-	await test.context.jellyfish.disconnect()
 })
 
 ava.test('.query() should only return the user itself for the guest user', async (test) => {
-	const results = await test.context.jellyfish.query(test.context.guestSession, {
+	const results = await test.context.sdk.query({
 		type: 'object',
 		properties: {
 			slug: {
@@ -76,44 +61,33 @@ ava.test('.query() should only return the user itself for the guest user', async
 })
 
 ava.test('.query() should be able to see previously restricted cards after a permissions change', async (test) => {
-	const userId = await test.context.jellyfish.insertCard(test.context.session, {
-		slug: 'user-johndoe',
-		type: 'user',
+	const {
+		sdk
+	} = test.context
+
+	const userId = await sdk.auth.signup({
+		username: 'johndoe',
+		email: 'johndoe@example.com',
+		password: 'foobarbaz'
+	})
+
+	await sdk.auth.login({
+		username: 'johndoe',
+		password: 'foobarbaz'
+	})
+
+	const repoId = await test.context.jellyfish.insertCard(test.context.session, {
+		type: 'repo',
+		name: 'Test repo',
 		tags: [],
 		links: [],
 		active: true,
-		data: {
-			email: 'johndoe@example.com',
-			roles: [ 'user-guest' ]
-		}
+		data: {}
 	})
 
-	const adminUser = await test.context.jellyfish.getCardBySlug(test.context.session, 'user-admin')
+	const unprivilegedResults = await sdk.card.get(repoId)
 
-	await test.context.jellyfish.insertCard(test.context.session, {
-		slug: 'session-admin-test',
-		type: 'session',
-		links: [],
-		tags: [],
-		active: true,
-		data: {
-			actor: adminUser.id
-		}
-	})
-
-	const session = await test.context.jellyfish.insertCard(test.context.session, {
-		slug: 'session-johndoe',
-		type: 'session',
-		links: [],
-		tags: [],
-		active: true,
-		data: {
-			actor: userId
-		}
-	})
-
-	const adminSessionBefore = await test.context.jellyfish.getCardBySlug(session, 'session-admin-test')
-	test.deepEqual(adminSessionBefore, null)
+	test.deepEqual(unprivilegedResults, null)
 
 	await test.context.jellyfish.insertCard(test.context.session, {
 		id: userId,
@@ -124,12 +98,12 @@ ava.test('.query() should be able to see previously restricted cards after a per
 		active: true,
 		data: {
 			email: 'johndoe@example.com',
-			roles: []
+			roles: [ 'user-team' ]
 		}
 	}, {
 		override: true
 	})
 
-	const adminSessionAfter = await test.context.jellyfish.getCardBySlug(session, 'session-admin-test')
-	test.deepEqual(adminSessionAfter.slug, 'session-admin-test')
+	const privilegedResults = await sdk.card.get(repoId)
+	test.deepEqual(privilegedResults.id, repoId)
 })

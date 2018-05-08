@@ -3,30 +3,12 @@ import * as Promise from 'bluebird';
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import { Card } from '../Types';
-import { debug } from '../ui/services/helpers';
 import { AuthSdk } from './auth';
 import { CardSdk } from './card';
 import { JellyfishStream } from './stream';
 import { TypeSdk } from './type';
 import { UserSdk } from './user';
 import * as utils from './utils';
-
-interface ActionResponse {
-	error: boolean;
-	data: {
-		id: string;
-		results: {
-			data: any;
-			error: boolean;
-			timestamp: string;
-		};
-	};
-}
-
-interface ServerResponse {
-	error: boolean;
-	data: any;
-}
 
 interface SdkOptions {
 	apiUrl: string;
@@ -36,7 +18,7 @@ interface SdkOptions {
 
 const trimSlash = (s: string) => _.trim(s, '/');
 
-export class Sdk {
+export class Sdk implements utils.SDKInterface {
 	public auth: AuthSdk;
 	public card: CardSdk;
 	public type: TypeSdk;
@@ -68,7 +50,7 @@ export class Sdk {
 		return this.authToken;
 	}
 
-	public post <R = ServerResponse>(endpoint: string, body: any, options?: AxiosRequestConfig) {
+	public post <R = utils.ServerResponse>(endpoint: string, body: any, options?: AxiosRequestConfig) {
 		const requestOptions = this.authToken ?
 			_.merge(
 				{},
@@ -107,7 +89,7 @@ export class Sdk {
 	}) {
 		const start = Date.now();
 
-		debug(`Dispatching action ${body.action}`, body);
+		utils.debug(`Dispatching action ${body.action}`, body);
 
 		if (!body.arguments) {
 			body.arguments = {};
@@ -127,14 +109,14 @@ export class Sdk {
 				});
 		})
 			.then(
-				(target) => this.post<ActionResponse>('action', _.assign({}, body, { target })),
+				(target) => this.post<utils.ActionResponse>('action', _.assign({}, body, { target })),
 			)
 			.then((response) => {
 				if (response.data.data.results.error) {
 					throw new Error(response.data.data.results.data);
 				}
 
-				debug(`Action ${body.action} complete in ${Date.now() - start}ms`);
+				utils.debug(`Action ${body.action} complete in ${Date.now() - start}ms`);
 
 				return response;
 			});

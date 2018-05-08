@@ -1,11 +1,11 @@
 import * as Promise from 'bluebird';
 import * as _ from 'lodash';
 import { Type } from '../Types';
-import { Sdk } from './index';
+import { SDKInterface } from './utils';
 
 export class TypeSdk {
 	private types: Type[];
-	constructor(private sdk: Sdk) {}
+	constructor(private sdk: SDKInterface) {}
 
 	public getAll(): Promise<Type[]> {
 		return this.sdk.query<Type>({

@@ -1,12 +1,31 @@
+import { AxiosRequestConfig, AxiosResponse } from 'axios';
+import * as Promise from 'bluebird';
 import { JSONSchema6 } from 'json-schema';
+import * as _ from 'lodash';
+import { Card } from '../Types';
 
 import Ajv = require('ajv');
 import ajvKeywords = require('ajv-keywords');
 import metaSchema6 = require('ajv/lib/refs/json-schema-draft-06.json');
 
 const ajv = new Ajv();
-ajvKeywords(ajv);
 ajv.addMetaSchema(metaSchema6);
+ajvKeywords(ajv, [
+	'formatMaximum',
+	'formatMinimum',
+]);
+
+const ORANGE = '#F54828';
+
+const DEBUG =	!_.includes([
+	'test',
+], process.env.NODE_ENV);
+
+export const debug = (...params: any[]) => {
+	if (DEBUG) {
+		console.log('%cjellyfish:sdk', `color: ${ORANGE};`, ...params);
+	}
+};
 
 /**
  * @summary Check if a string is a UUID
@@ -30,3 +49,39 @@ export const slugify = (text: string) => text.toLowerCase()
 	.replace(/[^0-9a-z-]/g, '');
 
 export const compileSchema = (schema: JSONSchema6) => ajv.compile(schema);
+
+export interface ActionResponse {
+	error: boolean;
+	data: {
+		id: string;
+		results: {
+			data: any;
+			error: boolean;
+			timestamp: string;
+		};
+	};
+}
+
+export interface ServerResponse {
+	error: boolean;
+	data: any;
+}
+
+export interface SDKInterface {
+	getAuthToken: () => string | undefined;
+	setAuthToken: (token: string) => void;
+
+	action: (body: {
+		target: string;
+		action: string;
+		arguments?: any;
+		transient?: any;
+	}) => Promise<AxiosResponse<ActionResponse>>;
+	query: <T = Card>(schema: JSONSchema6 | string) => Promise<T[]>;
+
+	post: <R = ServerResponse>(endpoint: string, body: any, options?: AxiosRequestConfig) => Promise<AxiosResponse<R>>;
+
+	card: {
+		get: (idOrSlug: string) => Promise<Card | null>;
+	};
+}

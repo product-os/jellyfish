@@ -1,8 +1,8 @@
 import * as Promise from 'bluebird';
-import { Sdk } from './index';
+import { SDKInterface } from './utils';
 
 export class UserSdk {
-	constructor(private sdk: Sdk) {}
+	constructor(private sdk: SDKInterface) {}
 
 	public getAll() {
 		return this.sdk.query({

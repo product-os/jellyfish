@@ -149,8 +149,6 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 
 		const channelTarget = this.props.channel.data.target;
 
-		console.log(tail)
-
 		return (
 			<Column flexDirection='column'>
 				<Box innerRef={(ref) => this.scrollArea = ref} p={3} flex='1' style={{ overflowY: 'auto' }}>
