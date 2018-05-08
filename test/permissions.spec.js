@@ -108,3 +108,39 @@ ava.test('.query() should be able to see previously restricted cards after a per
 	const privilegedResults = await sdk.card.get(repoId)
 	test.deepEqual(privilegedResults.id, repoId)
 })
+
+ava.test('timeline cards should reference the correct actor', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const userId = await sdk.auth.signup({
+		username: 'johndoe',
+		email: 'johndoe@example.com',
+		password: 'foobarbaz'
+	})
+
+	await sdk.auth.login({
+		username: 'johndoe',
+		password: 'foobarbaz'
+	})
+
+	const threadId = await sdk.card.create({
+		type: 'chat-thread',
+		data: {}
+	})
+
+	await sdk.card.update(threadId, {
+		data: {
+			description: 'Lorem ipsum dolor sit amer'
+		}
+	})
+
+	const timeline = await sdk.card.getTimeline(threadId)
+
+	const timelineActors = _.uniq(timeline.map((card) => {
+		return card.data.actor
+	}))
+
+	test.deepEqual(timelineActors, [ userId ])
+})

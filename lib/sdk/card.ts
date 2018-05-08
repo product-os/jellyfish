@@ -43,6 +43,11 @@ export class CardSdk {
 		const schema: JSONSchema6 = {
 			type: 'object',
 			properties: {
+				type: {
+					not: {
+						const: 'action-request',
+					},
+				},
 				data: {
 					type: 'object',
 					properties: {
