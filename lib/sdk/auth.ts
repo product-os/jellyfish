@@ -51,19 +51,29 @@ export class AuthSdk {
 		});
 	}
 
-	public login(payload: {
+	public login(options: {
 		username: string;
 		password: string;
 	}) {
-		return this.sdk.post('login', payload)
-			.then((response) => {
-				const responseData = response.data.data.results.data;
-				if (response.data.data.results.error) {
-					throw new Error(responseData);
-				}
+		const slug = `user-${options.username}`;
 
-				const token = response.data.data.results.data;
+		const passwordArgument = options.password ?
+			{
+				hash: {
+					string: options.password,
+					salt: slug,
+				},
+			}
+			: {};
 
+		return this.sdk.action<string>({
+			target: slug,
+			action: 'action-create-session',
+			arguments: {
+				password: passwordArgument,
+			},
+		})
+			.then((token) => {
 				debug('GOT AUTH TOKEN', token);
 
 				this.sdk.setAuthToken(token);

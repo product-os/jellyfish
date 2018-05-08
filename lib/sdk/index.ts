@@ -109,22 +109,7 @@ export class Sdk implements utils.SDKInterface {
 			body.arguments = {};
 		}
 
-		return Promise.try(() => {
-			if (utils.isUUID(body.target)) {
-				return body.target;
-			}
-
-			return this.card.get(body.target)
-				.then((card) => {
-					if (!card) {
-						throw new Error(`No target found using slug ${body.target}`);
-					}
-					return card.id;
-				});
-		})
-			.then(
-				(target) => this.post<utils.ActionResponse>('action', _.assign({}, body, { target })),
-			)
+		return this.post<utils.ActionResponse>('action', body)
 			.then((response) => {
 				utils.debug(`Action ${body.action} complete in ${Date.now() - start}ms`);
 				const { results } = response.data.data;
