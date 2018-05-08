@@ -31,7 +31,9 @@
               "type": "string",
               "anyOf": [
                 { "const": "action-request" },
-                { "const": "user" }
+                { "const": "user" },
+                { "const": "create" },
+                { "const": "session" }
               ]
             },
             "type": {

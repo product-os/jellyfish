@@ -19,7 +19,11 @@ const ava = require('ava')
 const utils = require('../../../lib/utils')
 
 ava.test('should create a card and add a create but not update event', async (test) => {
-	const id = await test.context.worker.executeAction(test.context.session, 'action-upsert-card', test.context.ids.card, {
+	const id = await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-upsert-card',
+		targetId: test.context.ids.card,
+		actorId: test.context.actor.id
+	}, {
 		properties: {
 			slug: 'johndoe',
 			data: {

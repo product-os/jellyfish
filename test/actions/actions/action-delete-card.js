@@ -19,7 +19,11 @@ const ava = require('ava')
 const utils = require('../../../lib/utils')
 
 ava.test('should delete an active card', async (test) => {
-	const id = await test.context.worker.executeAction(test.context.session, 'action-create-card', test.context.ids.card, {
+	const id = await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-create-card',
+		targetId: test.context.ids.card,
+		actorId: test.context.actor.id
+	}, {
 		properties: {
 			slug: 'johndoe',
 			data: {
@@ -28,7 +32,11 @@ ava.test('should delete an active card', async (test) => {
 		}
 	})
 
-	const result = await test.context.worker.executeAction(test.context.session, 'action-delete-card', id, {})
+	const result = await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-delete-card',
+		targetId: id,
+		actorId: test.context.actor.id
+	}, {})
 	test.is(result, id)
 
 	const card = await test.context.jellyfish.getCardById(test.context.session, id)
@@ -50,7 +58,11 @@ ava.test('should delete an active card', async (test) => {
 })
 
 ava.test('should delete an inactive card', async (test) => {
-	const id = await test.context.worker.executeAction(test.context.session, 'action-create-card', test.context.ids.card, {
+	const id = await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-create-card',
+		targetId: test.context.ids.card,
+		actorId: test.context.actor.id
+	}, {
 		properties: {
 			active: false,
 			slug: 'johndoe',
@@ -60,7 +72,11 @@ ava.test('should delete an inactive card', async (test) => {
 		}
 	})
 
-	const result = await test.context.worker.executeAction(test.context.session, 'action-delete-card', id, {})
+	const result = await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-delete-card',
+		targetId: id,
+		actorId: test.context.actor.id
+	}, {})
 	test.is(result, id)
 
 	const card = await test.context.jellyfish.getCardById(test.context.session, id)
