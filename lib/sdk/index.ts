@@ -126,13 +126,13 @@ export class Sdk implements utils.SDKInterface {
 				(target) => this.post<utils.ActionResponse>('action', _.assign({}, body, { target })),
 			)
 			.then((response) => {
-				if (response.data.data.results.error) {
-					throw new Error(response.data.data.results.data);
+				utils.debug(`Action ${body.action} complete in ${Date.now() - start}ms`);
+				const { results } = response.data.data;
+				if (results.error) {
+					throw new Error(results.data);
 				}
 
-				utils.debug(`Action ${body.action} complete in ${Date.now() - start}ms`);
-
-				return response;
+				return results.data;
 			});
 	}
 

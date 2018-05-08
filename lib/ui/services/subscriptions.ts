@@ -104,7 +104,7 @@ export class SubscriptionManager {
 		let subCard = _.first(results) || null;
 
 		if (!subCard) {
-			const actionResponse = await sdk.card.add({
+			const subCardId = await sdk.card.create({
 				type: 'subscription',
 				data: {
 					target: card.id,
@@ -112,7 +112,7 @@ export class SubscriptionManager {
 				},
 			});
 
-			subCard = await sdk.card.get(actionResponse.results.data);
+			subCard = await sdk.card.get(subCardId);
 		}
 
 		this.subsMap[card.id] = subCard!;

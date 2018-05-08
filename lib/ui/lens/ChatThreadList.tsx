@@ -156,17 +156,15 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 	public addThread = (e: React.MouseEvent<HTMLElement>) => {
 		e.preventDefault();
 
-		return sdk.card.add({
+		return sdk.card.create({
 			type: 'chat-thread',
 			data: {
 				timestamp: getCurrentTimestamp(),
 				actor: this.props.appState.session!.user!.id,
 			},
 		})
-		.then((response) => {
-			if (response) {
-				this.openChannel(response.results.data);
-			}
+		.then((threadId) => {
+			this.openChannel(threadId);
 			return null;
 		})
 		.catch((error) => {

@@ -29,11 +29,10 @@ class CardList extends React.Component<CardListProps, CardListState> {
 	}
 
 	public createThread() {
-		sdk.card.add({
+		sdk.card.create({
 			type: 'chat-thread',
 		})
-		.then(({ results }) => {
-			const threadId = results.data;
+		.then((threadId) => {
 
 			this.openChannel(threadId);
 		})

@@ -71,12 +71,12 @@ export interface SDKInterface {
 	getAuthToken: () => string | undefined;
 	setAuthToken: (token: string) => void;
 
-	action: (body: {
+	action: <D>(body: {
 		target: string;
 		action: string;
 		arguments?: any;
 		transient?: any;
-	}) => Promise<AxiosResponse<ActionResponse>>;
+	}) => Promise<D>;
 	query: <T = Card>(schema: JSONSchema6 | string) => Promise<T[]>;
 
 	post: <R = ServerResponse>(endpoint: string, body: any, options?: AxiosRequestConfig) => Promise<AxiosResponse<R>>;
