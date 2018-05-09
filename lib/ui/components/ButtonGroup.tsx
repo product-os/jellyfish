@@ -4,6 +4,7 @@ import styled from 'styled-components';
 export default styled(Flex)`
 	> * {
 		border-radius: 0;
+		margin-right: -1px;
 
 		&:first-child {
 			border-top-left-radius: ${props => props.theme.radius}px;

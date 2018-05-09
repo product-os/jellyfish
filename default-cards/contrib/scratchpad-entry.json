@@ -28,7 +28,9 @@
               "type": "string"
             },
             "Fix Difficulty": {
-              "type": "number"
+              "type": "number",
+              "minimum": 0,
+              "maximum": 5
             },
             "Last Updated": {
               "type": "string",

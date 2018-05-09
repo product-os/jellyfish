@@ -182,7 +182,8 @@
                 "chat-thread",
                 "chat-message",
                 "scratchpad-entry",
-                "repo"
+                "repo",
+                "organizer"
               ]
             }
           },
