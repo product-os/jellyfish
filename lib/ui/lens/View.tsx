@@ -15,6 +15,7 @@ import { Form } from 'rendition/dist/unstable';
 import { Card, Lens, RendererProps, Type } from '../../Types';
 import { sdk } from '../app';
 import ButtonGroup from '../components/ButtonGroup';
+import ChannelRenderer from '../components/ChannelRenderer';
 import Icon from '../components/Icon';
 import { TailStreamer } from '../components/TailStreamer';
 import {
@@ -73,11 +74,17 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 	constructor(props: ViewRendererProps) {
 		super(props);
 
+		this.state = this.getDefaultState();
+
+		this.streamTail(this.props.channel.data.target);
+	}
+
+	public getDefaultState() {
 		const filters = this.props.channel.data.head
 			? _.map(_.filter(this.props.channel.data.head.data.allOf, { name: USER_FILTER_NAME }), 'schema')
 			: [];
 
-		this.state = {
+		return {
 			filters,
 			tail: null,
 			lenses: [],
@@ -87,11 +94,14 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 			showNotificationSettings: false,
 			notificationSettings: null,
 		};
-
-		this.streamTail(this.props.channel.data.target);
 	}
 
 	public componentWillReceiveProps(nextProps: ViewRendererProps) {
+		if (this.props.channel.data.target !== nextProps.channel.data.target) {
+			this.setState(this.getDefaultState());
+			this.streamTail(nextProps.channel.data.target);
+		}
+
 		if (!this.props.channel.data.head && nextProps.channel.data.head) {
 			// Convert jellyfish view into a format that rendition can understand
 			this.setState({
@@ -289,12 +299,15 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 			? _.map(_.reject(head.data.allOf, { name: USER_FILTER_NAME }), 'name')
 			: [];
 
+		const channelIndex = _.findIndex(this.props.appState.channels, { id: this.props.channel.id });
+		const nextChannel = this.props.appState.channels[channelIndex + 1];
+
 		return (
 			<Flex
 				className={`column--${head ? head.slug || head.type : 'unknown'}`}
 				flexDirection='column'
-				flex='1 0 auto'
-				style={{ height: '100%', overflowY: 'auto', borderRight: '1px solid #ccc', minWidth: 450, maxWidth: 700, position: 'relative' }}>
+				flex='1 1 auto'
+				style={{ height: '100%', overflowY: 'auto', borderRight: '1px solid #ccc', position: 'relative' }}>
 				{head &&
 					<Box>
 						{this.state.showNotificationSettings &&
@@ -368,21 +381,29 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 							</Box>
 						}
 
-						<Divider color='#ccc' mb={0} />
+						<Divider color='#ccc' mt={3} mb={0} style={{height: 1}} />
 					</Box>
 				}
 
-				{!tail &&
-					<Box p={3}>
-						<Icon name='cog fa-spin' />
-					</Box>
-				}
+				<Flex style={{height: '100%'}}>
+					<Flex flex='1' flexDirection='column' style={{height: '100%', borderRight: '1px solid #ccc'}}>
+						{!tail &&
+							<Box p={3}>
+								<Icon name='cog fa-spin' />
+							</Box>
+						}
 
-				{(!!tail && activeLens) && <activeLens.data.renderer
-					channel={this.props.channel}
-					tail={tail}
-					type={tailType}
-					/>}
+						{(!!tail && activeLens) && <activeLens.data.renderer
+							channel={this.props.channel}
+							tail={tail}
+							type={tailType}
+							/>}
+					</Flex>
+
+					{!!nextChannel &&
+						<ChannelRenderer channel={nextChannel} />
+					}
+				</Flex>
 			</Flex>
 		);
 	}

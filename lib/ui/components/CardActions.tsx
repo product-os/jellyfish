@@ -87,19 +87,19 @@ class Base extends React.Component<
 			<React.Fragment>
 				<Flex align='right' justify='flex-end' mb={3}>
 					<Button
+						square
 						mr={2}
 						onClick={() => this.edit()}
 					>
-						<Icon name='pencil-alt' style={{ marginRight: 10 }} />
-						Edit
+						<Icon name='pencil-alt' />
 					</Button>
 
 					<Button
+						square
 						onClick={() => this.setState({ showDeleteModal: true })}
 					>
 						<Txt color='red'>
-							<Icon name='trash-alt' style={{ marginRight: 10 }} />
-							Delete
+							<Icon name='trash-alt' />
 						</Txt>
 					</Button>
 

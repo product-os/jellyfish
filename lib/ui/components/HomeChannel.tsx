@@ -98,14 +98,15 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 
 		return (
 			<Flex className='home-channel' flexDirection='column'
-				style={{ height: '100%', overflowY: 'auto', borderRight: '1px solid #ccc', minWidth: 220 }}>
+				flex='0 0 180px'
+				style={{ height: '100%', overflowY: 'auto', borderRight: '1px solid #ccc' }}>
 				<Flex
 					className='user-menu-toggle'
 					bg='#333'
 					align='center'
 					color='white'
 					px={3}
-					py={18}
+					py={3}
 					style={{ cursor: 'pointer'}}
 					onClick={() => this.setState({ showMenu: true })}>
 					<Gravatar email={email} />
@@ -115,7 +116,7 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 					<Icon name='caret-down' />
 				</Flex>
 
-				<Divider color='#ccc' m={0} />
+				<Divider color='#ccc' m={0} style={{height: 1}} />
 
 				{this.state.showMenu &&
 					<Fixed z={9999999} onClick={() => this.setState({ showMenu: false })}>

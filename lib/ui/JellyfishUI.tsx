@@ -22,23 +22,16 @@ class UI extends React.Component<ConnectedComponentProps, {}> {
 			);
 		}
 
+		const [ home, next ] = this.props.appState.channels;
+
 		return (
 			<Provider style={{height: '100%'}}>
-				<Flex flex='1' style={{overflowX: 'auto', height: '100%'}}>
-					{this.props.appState.channels.map((channel, index) => {
-						if (index === 0) {
-							return <HomeChannel
-								key={channel.id}
-								channel={channel}
-							/>;
-						}
+				<Flex flex='1' style={{ height: '100%'}}>
+					<HomeChannel channel={home} />
 
-						return <ChannelRenderer
-							key={channel.id}
-							channel={channel}
-						/>;
-					})}
+					{!!next && <ChannelRenderer channel={next} />}
 				</Flex>
+
 				<Notifications />
 			</Provider>
 		);

@@ -48,7 +48,7 @@ export class Renderer extends React.Component<DefaultRendererProps, RendererStat
 			<Column
 				className={`column--${head ? head.slug || head.type : 'unknown'}`}
 				flex='1' flexDirection='column'>
-				<Box p={3} style={{maxHeight: '50%', borderBottom: '1px solid #333', overflowY: 'auto'}}>
+				<Box p={3} style={{maxHeight: '50%', borderBottom: '1px solid #ccc', overflowY: 'auto'}}>
 					<CardActions card={channel.data.head!}
 						delete={() => this.delete()}
 						refresh={() => this.refresh()}/>
