@@ -177,6 +177,75 @@ ava.test('.createRequest() should be able to create a user using action-create-u
 	test.not(hash2.value, user.data.password.hash)
 })
 
+ava.test('.createRequest() should not store the password in the queue when using action-create-user', async (test) => {
+	const userCard = await test.context.jellyfish.getCardBySlug(test.context.guestSession, 'user')
+	const guestUser = await test.context.jellyfish.getCardBySlug(test.context.guestSession, 'user-guest')
+
+	const id = await test.context.worker.createRequest(test.context.guestSession, {
+		targetId: userCard.id,
+		actorId: guestUser.id,
+		action: 'action-create-user',
+		arguments: {
+			email: 'johndoe@example.com',
+			username: 'user-johndoe',
+			hash: {
+				string: 'foobarbaz',
+				salt: 'user-johndoe'
+			}
+		}
+	})
+
+	const request = await test.context.jellyfish.getCardById(test.context.session, id)
+	test.is(request.id, id)
+	test.falsy(request.data.arguments.hash.string)
+	test.falsy(request.data.arguments.hash.salt)
+})
+
+ava.test('.createRequest() should not store the password in the queue when using action-create-session', async (test) => {
+	const userCard = await test.context.jellyfish.getCardBySlug(test.context.guestSession, 'user')
+	const guestUser = await test.context.jellyfish.getCardBySlug(test.context.guestSession, 'user-guest')
+
+	const id = await test.context.worker.createRequest(test.context.guestSession, {
+		targetId: userCard.id,
+		actorId: guestUser.id,
+		action: 'action-create-user',
+		arguments: {
+			email: 'johndoe@example.com',
+			username: 'user-johndoe',
+			hash: {
+				string: 'foobarbaz',
+				salt: 'user-johndoe'
+			}
+		}
+	})
+
+	const pendingRequest = await test.context.jellyfish.getCardById(test.context.session, id)
+	const requestId = await test.context.worker.processRequest(test.context.jellyfish.sessions.admin, pendingRequest)
+	test.is(requestId, id)
+	const finishedRequest = await test.context.jellyfish.getCardById(test.context.session, id)
+	test.true(finishedRequest.data.executed)
+	test.false(finishedRequest.data.result.error)
+
+	const johnDoeUser = await test.context.jellyfish.getCardBySlug(test.context.jellyfish.sessions.admin, 'user-johndoe')
+	const loginRequestId = await test.context.worker.createRequest(test.context.jellyfish.sessions.admin, {
+		targetId: johnDoeUser.id,
+		actorId: guestUser.id,
+		action: 'action-create-session',
+		arguments: {
+			password: {
+				hash: {
+					string: 'foobarbaz',
+					salt: johnDoeUser.slug
+				}
+			}
+		}
+	})
+
+	const loginRequest = await test.context.jellyfish.getCardById(test.context.session, loginRequestId)
+	test.falsy(loginRequest.data.arguments.password.hash.string)
+	test.falsy(loginRequest.data.arguments.password.hash.salt)
+})
+
 ava.test('.createRequest() should login as a user with a password', async (test) => {
 	const userCard = await test.context.jellyfish.getCardBySlug(test.context.guestSession, 'user')
 	const guestUser = await test.context.jellyfish.getCardBySlug(test.context.guestSession, 'user-guest')
