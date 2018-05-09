@@ -8,7 +8,7 @@ import { store } from '../app';
 const Container = styled(Box)`
 	.rta {
 		position: relative;
-		font-size: 18px;
+		font-size: 1em;
 		width: 100%;
 		height: 100%;
 	}

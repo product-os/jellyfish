@@ -3,6 +3,7 @@ import * as React from 'react';
 import {
 	Box,
 	Button,
+	Divider,
 	Flex,
 } from 'rendition';
 import { Card, Lens, RendererProps, Type } from '../../Types';
@@ -48,9 +49,13 @@ class CardList extends React.Component<CardListProps, CardListState> {
 						}
 
 						return (
+							<React.Fragment>
 							<CardRenderer
 								key={card.id}
 								card={card} />
+
+								<Divider color='#eee' m={0} style={{height: 1}} />
+							</React.Fragment>
 						);
 					})}
 				</Box>

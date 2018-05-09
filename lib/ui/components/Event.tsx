@@ -7,6 +7,7 @@ import {
 	Flex,
 	Txt,
 } from 'rendition';
+import styled from 'styled-components';
 import { Card } from '../../Types';
 import { sdk } from '../app';
 import Icon from './Icon';
@@ -14,6 +15,10 @@ import Markdown from './Markdown';
 
 const colorHash = new ColorHash();
 const threadColor = _.memoize((text: string): string => colorHash.hex(text));
+
+const EventWrapper = styled(Flex)`
+	word-break: break-all;
+`
 
 interface EventProps {
 	card: Card;
@@ -39,7 +44,7 @@ export default class Event extends React.Component<EventProps, { actorName: stri
 		const isChatMessage = card.type === 'chat-message';
 
 		return (
-			<Flex className={`event-card--${card.type}`} {...props}>
+			<EventWrapper className={`event-card--${card.type}`} {...props}>
 				{isChatMessage &&
 					<Button
 						plaintext
@@ -61,7 +66,7 @@ export default class Event extends React.Component<EventProps, { actorName: stri
 					<Markdown className='event-card__message'>{card.data.payload.message}</Markdown>}
 					{!isChatMessage && `${card.type} card`}
 				</Box>
-			</Flex>
+			</EventWrapper>
 		);
 	}
 }
