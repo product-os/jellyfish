@@ -172,3 +172,110 @@ ava.test.serial('.query() community users should be able to query views', async 
 
 	test.true(_.includes(_.map(results, 'slug'), 'view-all-views'))
 })
+
+ava.test.serial('the guest user should not be able to change other users passwords', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const targetUserId = await sdk.auth.signup({
+		username: 'johndoe',
+		email: 'johndoe@example.com',
+		password: 'foobarbaz'
+	})
+
+	await test.throws(sdk.card.update(
+		targetUserId,
+		{
+			data: {
+				password: {
+					hash: '6dafdadfffffffaaaaa'
+				}
+			}
+		}
+	))
+})
+
+ava.test.serial('users with the "user-community" role should not be able to change other users passwords', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const targetUserId = await sdk.auth.signup({
+		username: 'johndoe',
+		email: 'johndoe@example.com',
+		password: 'foobarbaz'
+	})
+
+	await sdk.auth.signup({
+		username: 'communityuser',
+		email: 'communityuser@example.com',
+		password: 'foobarbaz'
+	})
+
+	await sdk.auth.login({
+		username: 'communityuser',
+		password: 'foobarbaz'
+	})
+
+	await test.throws(sdk.card.update(
+		targetUserId,
+		{
+			data: {
+				password: {
+					hash: '6dafdadfffffffaaaaa'
+				}
+			}
+		}
+	))
+})
+
+ava.test.serial('users with the "user-team" role should not be able to change other users passwords', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const role = 'user-team'
+
+	const targetUserId = await sdk.auth.signup({
+		username: 'johndoe',
+		email: 'johndoe@example.com',
+		password: 'foobarbaz'
+	})
+
+	const teamUserId = await sdk.auth.signup({
+		username: 'teamuser',
+		email: 'teamuser@example.com',
+		password: 'foobarbaz'
+	})
+
+	// Update the role on the community user
+	const teamUserCard = await test.context.jellyfish.getCardById(test.context.session, teamUserId)
+	await test.context.jellyfish.insertCard(
+		test.context.session,
+		_.merge(teamUserCard, {
+			data: {
+				roles: [ role ]
+			}
+		}),
+		{
+			override: true
+		}
+	)
+
+	await sdk.auth.login({
+		username: 'teamuser',
+		password: 'foobarbaz'
+	})
+
+	await test.throws(sdk.card.update(
+		targetUserId,
+		{
+			data: {
+				password: {
+					hash: '6dafdadfffffffaaaaa'
+				}
+			}
+		}
+	))
+})
