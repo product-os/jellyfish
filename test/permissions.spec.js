@@ -44,7 +44,7 @@ ava.test.beforeEach(async (test) => {
 	})
 })
 
-ava.test('.query() should only return the user itself for the guest user', async (test) => {
+ava.test.serial('.query() should only return the user itself for the guest user', async (test) => {
 	const results = await test.context.sdk.query({
 		type: 'object',
 		properties: {
@@ -61,7 +61,7 @@ ava.test('.query() should only return the user itself for the guest user', async
 	test.deepEqual(_.map(results, 'slug'), [ 'user-guest' ])
 })
 
-ava.test('.query() should be able to see previously restricted cards after a permissions change', async (test) => {
+ava.test.serial('.query() should be able to see previously restricted cards after a permissions change', async (test) => {
 	const {
 		sdk
 	} = test.context
@@ -109,7 +109,7 @@ ava.test('.query() should be able to see previously restricted cards after a per
 	test.deepEqual(privilegedResults.id, repoId)
 })
 
-ava.test('timeline cards should reference the correct actor', async (test) => {
+ava.test.serial('timeline cards should reference the correct actor', async (test) => {
 	const {
 		sdk
 	} = test.context
@@ -143,4 +143,32 @@ ava.test('timeline cards should reference the correct actor', async (test) => {
 	}))
 
 	test.deepEqual(timelineActors, [ userId ])
+})
+
+ava.test.serial('.query() community users should be able to query views', async (test) => {
+	await test.context.sdk.auth.signup({
+		username: 'johndoe',
+		email: 'johndoe@example.com',
+		password: 'foobarbaz'
+	})
+
+	await test.context.sdk.auth.login({
+		username: 'johndoe',
+		password: 'foobarbaz'
+	})
+
+	const results = await test.context.sdk.query({
+		type: 'object',
+		properties: {
+			slug: {
+				type: 'string'
+			},
+			type: {
+				type: 'string',
+				const: 'view'
+			}
+		}
+	})
+
+	test.true(_.includes(_.map(results, 'slug'), 'view-all-views'))
 })

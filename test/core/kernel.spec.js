@@ -253,6 +253,118 @@ ava.test('.insertCard() should evaluate a simple computed property on insertion'
 	})
 })
 
+ava.test('.insertCard() read access on a property should not allow to write other properties', async (test) => {
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'view-read-user-johndoe',
+		type: 'view',
+		active: true,
+		links: [],
+		tags: [],
+		data: {
+			anyOf: [
+				{
+					name: 'Types',
+					schema: {
+						type: 'object',
+						properties: {
+							slug: {
+								type: 'string',
+								anyOf: [
+									{
+										const: 'user'
+									}
+								]
+							},
+							type: {
+								type: 'string',
+								const: 'type'
+							},
+							data: {
+								type: 'object',
+								properties: {
+									schema: {
+										type: 'object',
+										additionalProperties: true
+									}
+								},
+								required: [ 'schema' ]
+							}
+						},
+						additionalProperties: true,
+						required: [ 'slug', 'type', 'data' ]
+					}
+				},
+				{
+					name: 'User IDs',
+					schema: {
+						type: 'object',
+						properties: {
+							id: {
+								type: 'string'
+							},
+							type: {
+								type: 'string',
+								const: 'user'
+							}
+						},
+						additionalProperties: false,
+						required: [ 'id', 'type' ]
+					}
+				}
+			]
+		}
+	})
+
+	const userId = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'user-johndoe',
+		type: 'user',
+		active: true,
+		links: [],
+		tags: [],
+		data: {
+			email: 'johndoe@example.com',
+			roles: []
+		}
+	})
+
+	const targetUserId = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'user-janedoe',
+		type: 'user',
+		active: true,
+		links: [],
+		tags: [],
+		data: {
+			email: 'janedoe@example.com',
+			roles: []
+		}
+	})
+
+	const session = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'session',
+		active: true,
+		links: [],
+		tags: [],
+		data: {
+			actor: userId
+		}
+	})
+
+	await test.throws(test.context.kernel.insertCard(session, {
+		id: targetUserId,
+		slug: 'user-janedoe',
+		type: 'user',
+		active: true,
+		links: [],
+		tags: [],
+		data: {
+			email: 'pwned@example.com',
+			roles: []
+		}
+	}, {
+		override: true
+	}), errors.JellyfishSchemaMismatch)
+})
+
 ava.test('.insertCard() should throw if the result of the formula is incompatible with the given type', async (test) => {
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'test-type',
