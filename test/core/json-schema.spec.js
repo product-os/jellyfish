@@ -310,6 +310,29 @@ ava.test('.filter() should remove additional properties from a nested object', (
 	})
 })
 
+ava.test('.filter() should correctly interpret fragments inside anyOf', (test) => {
+	const result = jsonSchema.filter({
+		type: 'object',
+		anyOf: [
+			{
+				properties: {
+					foo: {
+						type: 'string'
+					}
+				}
+			}
+		]
+	}, {
+		foo: 'hello',
+		bar: 'foo',
+		baz: 'qux'
+	})
+
+	test.deepEqual(result, {
+		foo: 'hello'
+	})
+})
+
 _.each(MERGE_TEST_CASES, (testCase, index) => {
 	ava.test(`.merge() should merge test case ${index}`, (test) => {
 		if (testCase.expected) {

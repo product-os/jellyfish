@@ -123,9 +123,13 @@
                 },
                 "result": {
                   "type": "object",
+                  "additionalProperties": true,
                   "properties": {
                     "error": {
                       "type": "boolean"
+                    },
+                    "data": {
+                      "type": [ "object", "string", "number", "boolean", "array" ]
                     }
                   }
                 }
