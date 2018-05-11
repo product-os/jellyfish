@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios, { AxiosRequestConfig, CancelTokenSource } from 'axios';
 import * as Promise from 'bluebird';
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
@@ -25,7 +25,10 @@ export class Sdk implements utils.SDKInterface {
 	public user: UserSdk;
 	public utils: typeof utils;
 
+	private cancelTokenSource: CancelTokenSource;
+
 	private API_BASE: string;
+	private streamPool: { [k: string]: JellyfishStream } = {};
 
 	constructor(
 		private API_URL: string,
@@ -38,6 +41,8 @@ export class Sdk implements utils.SDKInterface {
 		this.user = new UserSdk(this);
 
 		this.utils = utils;
+
+		this.cancelTokenSource = axios.CancelToken.source();
 
 		this.setApiBase(API_URL, API_PREFIX);
 	}
@@ -64,6 +69,20 @@ export class Sdk implements utils.SDKInterface {
 		return this.authToken;
 	}
 
+	public clearAuthToken() {
+		this.authToken = undefined;
+	}
+
+	public cancelAllRequests(reason: string = 'Operation canceled by user') {
+		this.cancelTokenSource.cancel(reason);
+		// Regenerate the cancel token
+		this.cancelTokenSource = axios.CancelToken.source();
+	}
+
+	public cancelAllStreams() {
+		_.forEach(this.streamPool, (stream) => stream.destroy());
+	}
+
 	public post <R = utils.ServerResponse>(endpoint: string, body: any, options?: AxiosRequestConfig) {
 		const requestOptions = this.authToken ?
 			_.merge(
@@ -73,6 +92,7 @@ export class Sdk implements utils.SDKInterface {
 					headers: {
 						authorization: `Bearer ${this.authToken}`,
 					},
+					cancelToken: this.cancelTokenSource.token,
 				},
 			) :
 			options;
@@ -122,7 +142,10 @@ export class Sdk implements utils.SDKInterface {
 	}
 
 	public stream(query: JSONSchema6 | string | Card) {
-		return new JellyfishStream('query', { query }, this.API_URL, this.authToken);
+		const newStream = new JellyfishStream('query', { query }, this.API_URL, this.authToken);
+		this.streamPool[newStream.id] = newStream;
+		newStream.on('destroy', () => delete this.streamPool[newStream.id]);
+		return newStream;
 	}
 }
 

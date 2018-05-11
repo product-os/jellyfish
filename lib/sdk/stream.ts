@@ -1,5 +1,6 @@
 import { EventEmitter } from 'events';
 import * as io from 'socket.io-client';
+import uuid = require('uuid/v4');
 import { Card } from '../Types';
 
 interface EventMap {
@@ -20,10 +21,13 @@ interface EventMap {
 		error: true;
 		data: string;
 	};
+
+	destroy: void;
 }
 
 export class JellyfishStream extends EventEmitter {
 	private socket: SocketIOClient.Socket;
+	public id: string;
 
 	constructor(
 		eventName: string,
@@ -32,6 +36,8 @@ export class JellyfishStream extends EventEmitter {
 		token?: string,
 	) {
 		super();
+
+		this.id = uuid();
 
 		this.socket = io(apiUrl);
 
@@ -67,6 +73,7 @@ export class JellyfishStream extends EventEmitter {
 	}
 
 	public destroy() {
+		this.emit('destroy');
 		this.removeAllListeners();
 		this.socket.close();
 	}

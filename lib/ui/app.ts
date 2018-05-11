@@ -86,6 +86,7 @@ const reducer = (state: JellyfishState, action: Action) => {
 	const newState = _.cloneDeep(state);
 	switch (action.type) {
 		case actions.LOGOUT:
+			sdk.auth.logout();
 			return _.assign(defaultState(), { status: 'unauthorized' });
 
 		case actions.SET_STATE:

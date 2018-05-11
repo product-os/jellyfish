@@ -70,6 +70,10 @@ export interface ServerResponse {
 export interface SDKInterface {
 	getAuthToken: () => string | undefined;
 	setAuthToken: (token: string) => void;
+	clearAuthToken: () => void;
+
+	cancelAllRequests: (reason?: string) => void;
+	cancelAllStreams: () => void;
 
 	action: <D>(body: {
 		target: string;

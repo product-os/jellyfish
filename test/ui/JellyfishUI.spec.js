@@ -132,6 +132,9 @@ ava.test.serial('should let users logout', async (test) => {
 	await waitForElement(app, '.login-page')
 
 	test.true(app.find('.login-page').exists())
+
+	// After logging out, the SDK should now longer have a session token available
+	await test.throws(window.sdk.auth.whoami())
 })
 
 ava.test.serial('should let users login', async (test) => {

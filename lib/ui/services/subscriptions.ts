@@ -104,15 +104,21 @@ export class SubscriptionManager {
 		let subCard = _.first(results) || null;
 
 		if (!subCard) {
-			const subCardId = await sdk.card.create({
-				type: 'subscription',
-				data: {
-					target: card.id,
-					actor: user.id,
-				},
-			});
+			try {
+				const subCardId = await sdk.card.create({
+					type: 'subscription',
+					data: {
+						target: card.id,
+						actor: user.id,
+					},
+				});
 
-			subCard = await sdk.card.get(subCardId);
+				subCard = await sdk.card.get(subCardId);
+			} catch(error) {
+				store.dispatch(actionCreators.addNotification('danger', error.message));
+
+				return;
+			}
 		}
 
 		this.subsMap[card.id] = subCard!;
