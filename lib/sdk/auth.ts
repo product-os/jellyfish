@@ -87,4 +87,14 @@ export class AuthSdk {
 				return token;
 			});
 	}
+
+	/**
+	 * @description Logout, removing the current authToken and closing all
+	 * connections
+	 */
+	public logout() {
+		this.sdk.clearAuthToken();
+		this.sdk.cancelAllRequests();
+		this.sdk.cancelAllStreams();
+	}
 }
