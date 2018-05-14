@@ -92,6 +92,7 @@ class CardList extends React.Component<CardListProps, CardListState> {
 						return (
 							<Box p={3} bg={this.threadOpen(card.data.target) ? '#eee' : '#fff' } >
 								<EventCard card={card}
+									users={this.props.appState.allUsers}
 									openChannel={(target) => this.openChannel(target)} />
 							</Box>
 						);

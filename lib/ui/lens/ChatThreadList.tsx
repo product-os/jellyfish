@@ -195,6 +195,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 					{(!!tail && tail.length > 0) && _.map(tail, card =>
 						<Box key={card.id} py={3} style={{borderBottom: '1px solid #eee'}}>
 							<EventCard
+								users={this.props.appState.allUsers}
 								openChannel={
 									card.data && card.data.target !== channelTarget ? this.openChannel : undefined
 								}
