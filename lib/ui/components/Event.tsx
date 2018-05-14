@@ -9,7 +9,6 @@ import {
 } from 'rendition';
 import styled from 'styled-components';
 import { Card } from '../../Types';
-import { sdk } from '../app';
 import Icon from './Icon';
 import Markdown from './Markdown';
 
@@ -21,6 +20,7 @@ const EventWrapper = styled(Flex)`
 `
 
 interface EventProps {
+	users: Card[];
 	card: Card;
 	openChannel?: (target: string) => void;
 	[k: string]: any;
@@ -30,12 +30,17 @@ export default class Event extends React.Component<EventProps, { actorName: stri
 	constructor(props: EventProps) {
 		super(props);
 
-		this.state = {
-			actorName: '',
-		};
+		const actor = _.find(props.users, { id: props.card.data.actor });
 
-		sdk.user.getUsername(props.card.data.actor)
-		.then((actorName) => this.setState({ actorName }));
+		let actorName = 'unknown user';
+
+		if (actor) {
+			actorName = actor.slug!.replace('user-', '');
+		}
+
+		this.state = {
+			actorName,
+		};
 	}
 
 	public render() {
