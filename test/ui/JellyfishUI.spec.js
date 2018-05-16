@@ -175,19 +175,19 @@ ava.test.serial('should render the community chat view for newly signed up users
 
 	app.find('.home-channel__item').first().simulate('click')
 
-	await waitForElement(app, '.column--view-all-chat-threads')
+	await waitForElement(app, '.column--view-all-threads')
 
-	test.true(app.find('.column--view-all-chat-threads').exists())
+	test.true(app.find('.column--view-all-threads').exists())
 })
 
 ava.test.serial('should allow newly signed up users to create new chat threads', async (test) => {
-	await waitForElement(app, '.btn--add-chat-thread')
+	await waitForElement(app, '.btn--add-thread')
 
-	app.find('.btn--add-chat-thread').first().simulate('click')
+	app.find('.btn--add-thread').first().simulate('click')
 
-	await waitForElement(app, '.column--chat-thread')
+	await waitForElement(app, '.column--thread')
 
-	test.true(app.find('.column--chat-thread').exists())
+	test.true(app.find('.column--thread').exists())
 })
 
 ava.test.serial('should allow newly signed up users to create chat messages', async (test) => {

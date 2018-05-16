@@ -98,7 +98,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 			type: 'object',
 			properties: {
 				type: {
-					const: 'chat-thread',
+					const: 'thread',
 				},
 			},
 			required: [ 'type' ],
@@ -157,7 +157,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		e.preventDefault();
 
 		return sdk.card.create({
-			type: 'chat-thread',
+			type: 'thread',
 			data: {
 				timestamp: getCurrentTimestamp(),
 				actor: this.props.appState.session!.user!.id,
@@ -209,7 +209,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 						style={{borderTop: '1px solid #eee'}}
 						justify='flex-end'
 					>
-						<Button className='btn--add-chat-thread' success onClick={this.addThread}>
+						<Button className='btn--add-thread' success onClick={this.addThread}>
 							Add a Chat Thread
 						</Button>
 					</Flex>
@@ -220,7 +220,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 }
 
 const lens: Lens = {
-	slug: 'lens-chat-thread-list',
+	slug: 'lens-thread-list',
 	type: 'lens',
 	name: 'Interleaved lens',
 	data: {
@@ -233,7 +233,7 @@ const lens: Lens = {
 				type: 'object',
 				properties: {
 					type: {
-						const: 'chat-thread',
+						const: 'thread',
 					},
 				},
 			},

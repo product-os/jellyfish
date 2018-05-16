@@ -35,7 +35,7 @@
               "enum": [
                 "view",
                 "card",
-                "chat-thread",
+                "thread",
                 "message",
                 "action-request",
                 "action",
@@ -262,7 +262,7 @@
             "slug": {
               "type": "string",
               "enum": [
-                "view-all-chat-threads",
+                "view-all-threads",
                 "view-all-views",
                 "view-my-mentions"
               ]
@@ -313,7 +313,7 @@
             "type": {
               "type": "string",
               "enum": [
-                "chat-thread",
+                "thread",
                 "message"
               ]
             }

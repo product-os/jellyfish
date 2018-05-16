@@ -1,5 +1,5 @@
 {
-  "slug": "view-all-chat-threads",
+  "slug": "view-all-threads",
   "name": "Community chat",
   "type": "view",
   "tags": [],
@@ -7,7 +7,7 @@
   "active": true,
   "data": {
     "lenses": [
-      "lens-chat-thread-list"
+      "lens-thread-list"
     ],
     "allOf": [
       {
@@ -32,7 +32,7 @@
           "type": "object",
           "properties": {
             "type": {
-              "const": "chat-thread"
+              "const": "thread"
             }
           },
           "required": [
