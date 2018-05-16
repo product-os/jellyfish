@@ -46,7 +46,7 @@ export default class Event extends React.Component<EventProps, { actorName: stri
 	public render() {
 		const { card, openChannel, ...props } = this.props;
 
-		const isChatMessage = card.type === 'chat-message';
+		const isChatMessage = card.type === 'message';
 
 		return (
 			<EventWrapper className={`event-card--${card.type}`} {...props}>

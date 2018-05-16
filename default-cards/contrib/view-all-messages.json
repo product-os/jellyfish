@@ -1,5 +1,5 @@
 {
-  "slug": "view-all-chat-messages",
+  "slug": "view-all-messages",
   "name": "All chat messages",
   "type": "view",
   "tags": [],
@@ -28,10 +28,10 @@
         "schema": {
           "anyOf": [
             {
-              "description": "type is chat-message",
+              "description": "type is message",
               "properties": {
                 "type": {
-                  "const": "chat-message"
+                  "const": "message"
                 }
               },
               "required": [

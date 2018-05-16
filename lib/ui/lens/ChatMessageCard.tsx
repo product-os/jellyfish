@@ -113,13 +113,13 @@ class CardList extends React.Component<CardListProps, CardListState> {
 }
 
 const lens: Lens = {
-	slug: 'lens-chat-message-card',
+	slug: 'lens-message-card',
 	type: 'lens',
 	name: 'Chat message card lens',
 	data: {
 		renderer: connectComponent(CardList),
 		icon: 'address-card',
-		type: 'chat-message',
+		type: 'message',
 		filter: {
 			type: 'array',
 			items: {
@@ -127,7 +127,7 @@ const lens: Lens = {
 				properties: {
 					type: {
 						type: 'string',
-						const: 'chat-message',
+						const: 'message',
 					},
 				},
 				required: [ 'type' ],

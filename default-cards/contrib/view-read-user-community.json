@@ -36,7 +36,7 @@
                 "view",
                 "card",
                 "chat-thread",
-                "chat-message",
+                "message",
                 "action-request",
                 "action",
                 "create",
@@ -314,7 +314,7 @@
               "type": "string",
               "enum": [
                 "chat-thread",
-                "chat-message"
+                "message"
               ]
             }
           },
