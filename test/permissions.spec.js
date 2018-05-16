@@ -145,6 +145,92 @@ ava.test.serial('timeline cards should reference the correct actor', async (test
 	test.deepEqual(timelineActors, [ userId ])
 })
 
+ava.test.serial.only('users should not be able to see the timeline of a head card they cannot view', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	await sdk.auth.signup({
+		username: 'johndoe',
+		email: 'johndoe@example.com',
+		password: 'foobarbaz'
+	})
+
+	const teamUserId = await sdk.auth.signup({
+		username: 'teamuser',
+		email: 'teamuser@example.com',
+		password: 'foobarbaz'
+	})
+
+	// Update the role on the user
+	const teamUserCard = await test.context.jellyfish.getCardById(test.context.session, teamUserId)
+	await test.context.jellyfish.insertCard(
+		test.context.session,
+		_.merge(teamUserCard, {
+			data: {
+				roles: [ 'user-team' ]
+			}
+		}),
+		{
+			override: true
+		}
+	)
+
+	await sdk.auth.login({
+		username: 'teamuser',
+		password: 'foobarbaz'
+	})
+
+	const repoId = await sdk.card.create({
+		type: 'repo',
+		name: 'test repo',
+		data: {}
+	})
+
+	await sdk.card.create({
+		type: 'message',
+		data: {
+			timestamp: '2018-05-07T10:16:57.902Z',
+			target: repoId,
+			actor: teamUserId,
+			payload: {
+				message: 'test message'
+			}
+		}
+	})
+
+	const privilegedResults = await sdk.query({
+		type: 'object',
+		properties: {
+			type: {
+				const: 'message'
+			}
+		}
+	})
+
+	test.is(privilegedResults.length, 1)
+
+	sdk.auth.logout()
+
+	// Login as the community user, who doesn't have permission to view 'repo'
+	// cards
+	await sdk.auth.login({
+		username: 'johndoe',
+		password: 'foobarbaz'
+	})
+
+	const results = await sdk.query({
+		type: 'object',
+		properties: {
+			type: {
+				const: 'message'
+			}
+		}
+	})
+
+	test.is(results.length, 0)
+})
+
 ava.test.serial('.query() community users should be able to query views', async (test) => {
 	await test.context.sdk.auth.signup({
 		username: 'johndoe',
