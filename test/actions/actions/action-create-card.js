@@ -341,8 +341,7 @@ ava.test.cb('AGGREGATE($events): should react to one event', (test) => {
 			})
 		})
 	}).then((results) => {
-		// TODO: The actions server shouldn't know that jellyfish has a pipeline object
-		test.context.jellyfish.pipeline.on('change', (change) => {
+		test.context.worker.pipeline.on('change', (change) => {
 			if (change.after.type === 'card' && change.after.data.target === results.thread) {
 				test.context.jellyfish.getCardById(test.context.session, results.thread).then((card) => {
 					test.deepEqual(card.data.mentions, [ 'johndoe' ])
@@ -420,8 +419,7 @@ ava.test.cb('AGGREGATE($events): should be able to add a type with a formula bas
 	}).then((results) => {
 		let count = 0
 
-		// TODO: The actions server shouldn't know that jellyfish has a pipeline object
-		test.context.jellyfish.pipeline.on('change', (change) => {
+		test.context.worker.pipeline.on('change', (change) => {
 			if (change.after.type === 'card' && change.after.data.target === results.thread) {
 				count += 1
 			}
