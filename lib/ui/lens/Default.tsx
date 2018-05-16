@@ -10,7 +10,6 @@ import InterleavedLens from './Interleaved';
 const Column = styled(Flex)`
 	height: 100%;
 	overflow-y: auto;
-	border-right: 1px solid #ccc;
 	min-width: 270px;
 `;
 

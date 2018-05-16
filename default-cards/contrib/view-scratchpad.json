@@ -21,6 +21,176 @@
           "required": [ "type" ]
         }
       }
+    ],
+    "groups": [
+      {
+        "name": "Fix difficulty",
+        "schemas": [
+          {
+            "title": "Fix difficulty: 1",
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "object",
+                "properties": {
+                  "Fix Difficulty": {
+                    "const": 1
+                  }
+                },
+                "required": [ "Fix Difficulty" ]
+              }
+            },
+            "additionalProperties": true,
+            "required": [ "data" ]
+          },
+          {
+            "title": "Fix difficulty: 2",
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "object",
+                "properties": {
+                  "Fix Difficulty": {
+                    "const": 2
+                  }
+                },
+                "required": [ "Fix Difficulty" ]
+              }
+            },
+            "additionalProperties": true,
+            "required": [ "data" ]
+          },
+          {
+            "title": "Fix difficulty: 3",
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "object",
+                "properties": {
+                  "Fix Difficulty": {
+                    "const": 3
+                  }
+                },
+                "required": [ "Fix Difficulty" ]
+              }
+            },
+            "additionalProperties": true,
+            "required": [ "data" ]
+          },
+          {
+            "title": "Fix difficulty: 4",
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "object",
+                "properties": {
+                  "Fix Difficulty": {
+                    "const": 4
+                  }
+                },
+                "required": [ "Fix Difficulty" ]
+              }
+            },
+            "additionalProperties": true,
+            "required": [ "data" ]
+          },
+          {
+            "title": "Fix difficulty: 5",
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "object",
+                "properties": {
+                  "Fix Difficulty": {
+                    "const": 5
+                  }
+                },
+                "required": [ "Fix Difficulty" ]
+              }
+            },
+            "additionalProperties": true,
+            "required": [ "data" ]
+          }
+        ]
+      },
+      {
+        "name": "Legacy",
+        "schemas": [
+          {
+            "title": "Legacy",
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "object",
+                "properties": {
+                  "Legacy": {
+                    "const": true
+                  }
+                },
+                "required": [ "Legacy" ]
+              }
+            },
+            "additionalProperties": true,
+            "required": [ "data" ]
+          },
+          {
+            "title": "Current",
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "object",
+                "properties": {
+                  "Legacy": {
+                    "const": false
+                  }
+                },
+                "required": [ "Legacy" ]
+              }
+            },
+            "additionalProperties": true,
+            "required": [ "data" ]
+          }
+        ]
+      },
+      {
+        "name": "Needs review",
+        "schemas": [
+          {
+            "title": "Needs review",
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "object",
+                "properties": {
+                  "Entry needs review": {
+                    "const": true
+                  }
+                },
+                "required": [ "Entry needs review" ]
+              }
+            },
+            "additionalProperties": true,
+            "required": [ "data" ]
+          },
+          {
+            "title": "Up to date",
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "object",
+                "properties": {
+                  "Entry needs review": {
+                    "const": false
+                  }
+                },
+                "required": [ "Entry needs review" ]
+              }
+            },
+            "additionalProperties": true,
+            "required": [ "data" ]
+          }
+        ]
+      }
     ]
   }
 }
