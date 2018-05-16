@@ -117,7 +117,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 			});
 
 		return sdk.card.create({
-			type: 'chat-message',
+			type: 'message',
 			data: {
 				mentionsUser: mentions,
 				timestamp: getCurrentTimestamp(),

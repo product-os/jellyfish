@@ -175,7 +175,7 @@
               "type": "string",
               "enum": [
                 "chat-thread",
-                "chat-message",
+                "message",
                 "scratchpad-entry",
                 "repo",
                 "subscription"

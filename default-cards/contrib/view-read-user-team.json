@@ -152,7 +152,7 @@
             },
             "slug": {
               "enum": [
-                "view-all-chat-messages",
+                "view-all-messages",
                 "view-all-chat-threads",
                 "view-all-repos",
                 "view-all-views",
@@ -180,7 +180,7 @@
               "type": "string",
               "enum": [
                 "chat-thread",
-                "chat-message",
+                "message",
                 "scratchpad-entry",
                 "repo",
                 "organizer"
