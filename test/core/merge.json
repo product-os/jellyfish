@@ -1,311 +1,311 @@
 [
-  {
-    "schemas": [
-      {
-        "type": "object",
-        "properties": {
-          "foo": {
-            "type": "number"
-          }
-        },
-        "required": [ "foo" ]
-      },
-      {
-        "type": "object",
-        "properties": {
-          "bar": {
-            "type": "number"
-          }
-        },
-        "required": [ "bar" ]
-      }
-    ],
-    "expected": {
-      "type": "object",
-      "properties": {
-        "foo": {
-          "type": "number"
-        },
-        "bar": {
-          "type": "number"
-        }
-      },
-      "required": [ "bar", "foo" ]
-    }
-  },
-  {
-    "schemas": [
-      {
-        "type": "object",
-        "properties": {
-          "foo": {
-            "type": "number"
-          }
-        }
-      },
-      {
-        "type": "object",
-        "properties": {
-          "bar": {
-            "type": "number"
-          }
-        }
-      }
-    ],
-    "expected": {
-      "type": "object",
-      "properties": {
-        "foo": {
-          "type": "number"
-        },
-        "bar": {
-          "type": "number"
-        }
-      }
-    }
-  },
-  {
-    "schemas": [
-      {
-        "type": "object",
-        "properties": {
-          "foo": {
-            "type": "string"
-          }
-        },
-        "required": [ "foo" ]
-      },
-      {
-        "type": "object",
-        "properties": {
-          "foo": {
-            "type": "string",
-            "pattern": "^[a-z]+$"
-          }
-        },
-        "required": [ "foo" ]
-      }
-    ],
-    "expected": {
-      "type": "object",
-      "properties": {
-        "foo": {
-          "type": "string",
-          "pattern": "^[a-z]+$"
-        }
-      },
-      "required": [ "foo" ]
-    }
-  },
-  {
-    "schemas": [
-      {
-        "type": "object",
-        "properties": {
-          "foo": {
-            "type": "string"
-          }
-        }
-      },
-      {
-        "type": "object",
-        "properties": {
-          "foo": {
-            "type": "string",
-            "pattern": "^[a-z]+$"
-          }
-        },
-        "required": [ "foo" ]
-      }
-    ],
-    "expected": {
-      "type": "object",
-      "properties": {
-        "foo": {
-          "type": "string",
-          "pattern": "^[a-z]+$"
-        }
-      },
-      "required": [ "foo" ]
-    }
-  },
-  {
-    "schemas": [
-      {
-        "type": "object",
-        "properties": {
-          "foo": {
-            "type": [ "string", "number" ]
-          }
-        }
-      },
-      {
-        "type": "object",
-        "properties": {
-          "foo": {
-            "type": "string"
-          }
-        },
-        "required": [ "foo" ]
-      }
-    ],
-    "expected": {
-      "type": "object",
-      "properties": {
-        "foo": {
-          "type": "string"
-        }
-      },
-      "required": [ "foo" ]
-    }
-  },
-  {
-    "schemas": [
-      {
-        "type": "object",
-        "properties": {
-          "foo": {
-            "type": "string",
-            "maxLength": 5
-          }
-        }
-      },
-      {
-        "type": "object",
-        "properties": {
-          "foo": {
-            "type": "string"
-          }
-        },
-        "required": [ "foo" ]
-      }
-    ],
-    "expected": {
-      "type": "object",
-      "properties": {
-        "foo": {
-          "type": "string",
-          "maxLength": 5
-        }
-      },
-      "required": [ "foo" ]
-    }
-  },
-  {
-    "schemas": [
-      {
-        "type": "object",
-        "properties": {
-          "foo": {
-            "type": "string",
-            "maxLength": 5
-          }
-        }
-      },
-      {
-        "type": "object",
-        "properties": {
-          "foo": {
-            "type": "string",
-            "maxLength": 3
-          }
-        },
-        "required": [ "foo" ]
-      }
-    ],
-    "expected": {
-      "type": "object",
-      "properties": {
-        "foo": {
-          "type": "string",
-          "maxLength": 3
-        }
-      },
-      "required": [ "foo" ]
-    }
-  },
-  {
-    "schemas": [
-      {
-        "type": "object",
-        "properties": {
-          "foo": {
-            "type": "string"
-          }
-        },
-        "required": [ "foo" ]
-      },
-      {
-        "type": "object",
-        "properties": {
-          "foo": {
-            "type": "number"
-          }
-        },
-        "required": [ "foo" ]
-      }
-    ],
-    "expected": null
-  },
-  {
-    "schemas": [
-      {
-        "type": "object",
-        "properties": {
-          "foo": {
-            "type": "string",
-            "pattern": "^foo$"
-          }
-        },
-        "required": [ "foo" ]
-      },
-      {
-        "type": "object",
-        "properties": {
-          "foo": {
-            "type": "string",
-            "pattern": "^bar$"
-          }
-        },
-        "required": [ "foo" ]
-      }
-    ],
-    "expected": {
-      "type": "object",
-      "properties": {
-        "foo": {
-          "type": "string",
-          "allOf": [
-            { "pattern": "^foo$" },
-            { "pattern": "^bar$" }
-          ]
-        }
-      },
-      "required": [ "foo" ]
-    }
-  },
-  {
-    "schemas": [
-      {
-        "type": "object",
-        "properties": {
-          "foo": {
-            "type": [ "string", "number" ]
-          }
-        }
-      },
-      {
-        "type": "object",
-        "properties": {
-          "foo": {
-            "type": "array"
-          }
-        },
-        "required": [ "foo" ]
-      }
-    ],
-    "expected": null
-  },
+	{
+		"schemas": [
+			{
+				"type": "object",
+				"properties": {
+					"foo": {
+						"type": "number"
+					}
+				},
+				"required": [ "foo" ]
+			},
+			{
+				"type": "object",
+				"properties": {
+					"bar": {
+						"type": "number"
+					}
+				},
+				"required": [ "bar" ]
+			}
+		],
+		"expected": {
+			"type": "object",
+			"properties": {
+				"foo": {
+					"type": "number"
+				},
+				"bar": {
+					"type": "number"
+				}
+			},
+			"required": [ "bar", "foo" ]
+		}
+	},
+	{
+		"schemas": [
+			{
+				"type": "object",
+				"properties": {
+					"foo": {
+						"type": "number"
+					}
+				}
+			},
+			{
+				"type": "object",
+				"properties": {
+					"bar": {
+						"type": "number"
+					}
+				}
+			}
+		],
+		"expected": {
+			"type": "object",
+			"properties": {
+				"foo": {
+					"type": "number"
+				},
+				"bar": {
+					"type": "number"
+				}
+			}
+		}
+	},
+	{
+		"schemas": [
+			{
+				"type": "object",
+				"properties": {
+					"foo": {
+						"type": "string"
+					}
+				},
+				"required": [ "foo" ]
+			},
+			{
+				"type": "object",
+				"properties": {
+					"foo": {
+						"type": "string",
+						"pattern": "^[a-z]+$"
+					}
+				},
+				"required": [ "foo" ]
+			}
+		],
+		"expected": {
+			"type": "object",
+			"properties": {
+				"foo": {
+					"type": "string",
+					"pattern": "^[a-z]+$"
+				}
+			},
+			"required": [ "foo" ]
+		}
+	},
+	{
+		"schemas": [
+			{
+				"type": "object",
+				"properties": {
+					"foo": {
+						"type": "string"
+					}
+				}
+			},
+			{
+				"type": "object",
+				"properties": {
+					"foo": {
+						"type": "string",
+						"pattern": "^[a-z]+$"
+					}
+				},
+				"required": [ "foo" ]
+			}
+		],
+		"expected": {
+			"type": "object",
+			"properties": {
+				"foo": {
+					"type": "string",
+					"pattern": "^[a-z]+$"
+				}
+			},
+			"required": [ "foo" ]
+		}
+	},
+	{
+		"schemas": [
+			{
+				"type": "object",
+				"properties": {
+					"foo": {
+						"type": [ "string", "number" ]
+					}
+				}
+			},
+			{
+				"type": "object",
+				"properties": {
+					"foo": {
+						"type": "string"
+					}
+				},
+				"required": [ "foo" ]
+			}
+		],
+		"expected": {
+			"type": "object",
+			"properties": {
+				"foo": {
+					"type": "string"
+				}
+			},
+			"required": [ "foo" ]
+		}
+	},
+	{
+		"schemas": [
+			{
+				"type": "object",
+				"properties": {
+					"foo": {
+						"type": "string",
+						"maxLength": 5
+					}
+				}
+			},
+			{
+				"type": "object",
+				"properties": {
+					"foo": {
+						"type": "string"
+					}
+				},
+				"required": [ "foo" ]
+			}
+		],
+		"expected": {
+			"type": "object",
+			"properties": {
+				"foo": {
+					"type": "string",
+					"maxLength": 5
+				}
+			},
+			"required": [ "foo" ]
+		}
+	},
+	{
+		"schemas": [
+			{
+				"type": "object",
+				"properties": {
+					"foo": {
+						"type": "string",
+						"maxLength": 5
+					}
+				}
+			},
+			{
+				"type": "object",
+				"properties": {
+					"foo": {
+						"type": "string",
+						"maxLength": 3
+					}
+				},
+				"required": [ "foo" ]
+			}
+		],
+		"expected": {
+			"type": "object",
+			"properties": {
+				"foo": {
+					"type": "string",
+					"maxLength": 3
+				}
+			},
+			"required": [ "foo" ]
+		}
+	},
+	{
+		"schemas": [
+			{
+				"type": "object",
+				"properties": {
+					"foo": {
+						"type": "string"
+					}
+				},
+				"required": [ "foo" ]
+			},
+			{
+				"type": "object",
+				"properties": {
+					"foo": {
+						"type": "number"
+					}
+				},
+				"required": [ "foo" ]
+			}
+		],
+		"expected": null
+	},
+	{
+		"schemas": [
+			{
+				"type": "object",
+				"properties": {
+					"foo": {
+						"type": "string",
+						"pattern": "^foo$"
+					}
+				},
+				"required": [ "foo" ]
+			},
+			{
+				"type": "object",
+				"properties": {
+					"foo": {
+						"type": "string",
+						"pattern": "^bar$"
+					}
+				},
+				"required": [ "foo" ]
+			}
+		],
+		"expected": {
+			"type": "object",
+			"properties": {
+				"foo": {
+					"type": "string",
+					"allOf": [
+						{ "pattern": "^foo$" },
+						{ "pattern": "^bar$" }
+					]
+				}
+			},
+			"required": [ "foo" ]
+		}
+	},
+	{
+		"schemas": [
+			{
+				"type": "object",
+				"properties": {
+					"foo": {
+						"type": [ "string", "number" ]
+					}
+				}
+			},
+			{
+				"type": "object",
+				"properties": {
+					"foo": {
+						"type": "array"
+					}
+				},
+				"required": [ "foo" ]
+			}
+		],
+		"expected": null
+	},
 	{
 		"schemas": [
 			{
@@ -342,6 +342,18 @@
 					"const": true
 				}
 			}
+		}
+	},
+	{
+		"schemas": [
+			{
+				"type": "object",
+				"additionalProperties": true
+			}
+		],
+		"expected": {
+			"type": "object",
+			"additionalProperties": true
 		}
 	}
 ]
