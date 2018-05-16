@@ -62,7 +62,8 @@ ava.test.beforeEach(async (test) => {
 
 	test.context.ids = {
 		card: (await test.context.jellyfish.getCardBySlug(test.context.session, 'card')).id,
-		user: (await test.context.jellyfish.getCardBySlug(test.context.session, 'user')).id
+		user: (await test.context.jellyfish.getCardBySlug(test.context.session, 'user')).id,
+		type: (await test.context.jellyfish.getCardBySlug(test.context.session, 'type')).id
 	}
 })
 

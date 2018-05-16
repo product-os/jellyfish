@@ -184,3 +184,110 @@ ava.test('should create a card with more extra data properties', async (test) =>
 	const timeline = _.map(await utils.getTimeline(test.context.jellyfish, test.context.session, id), 'type')
 	test.deepEqual(timeline, [ 'create' ])
 })
+
+ava.test('should evaluate a simple computed property on insertion', async (test) => {
+	const typeId = await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-create-card',
+		targetId: test.context.ids.type,
+		actorId: test.context.actor.id
+	}, {
+		properties: {
+			slug: 'test-type',
+			data: {
+				schema: {
+					type: 'object',
+					properties: {
+						type: {
+							type: 'string',
+							const: 'test-type'
+						},
+						data: {
+							type: 'object',
+							properties: {
+								foo: {
+									type: 'string',
+									$formula: 'UPPER(input)'
+								}
+							},
+							additionalProperties: true
+						}
+					},
+					additionalProperties: true,
+					required: [ 'type', 'data' ]
+				}
+			}
+		}
+	})
+
+	const id = await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-create-card',
+		targetId: typeId,
+		actorId: test.context.actor.id
+	}, {
+		properties: {
+			data: {
+				foo: 'hello'
+			}
+		}
+	})
+
+	const card = await test.context.jellyfish.getCardById(test.context.session, id)
+
+	test.deepEqual(card, {
+		id,
+		type: 'test-type',
+		active: true,
+		links: [],
+		tags: [],
+		data: {
+			foo: 'HELLO'
+		}
+	})
+})
+
+ava.test('should throw if the result of the formula is incompatible with the given type', async (test) => {
+	const typeId = await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-create-card',
+		targetId: test.context.ids.type,
+		actorId: test.context.actor.id
+	}, {
+		properties: {
+			slug: 'test-type',
+			data: {
+				schema: {
+					type: 'object',
+					properties: {
+						type: {
+							type: 'string',
+							const: 'test-type'
+						},
+						data: {
+							type: 'object',
+							properties: {
+								foo: {
+									type: 'number',
+									$formula: 'UPPER(input)'
+								}
+							},
+							additionalProperties: true
+						}
+					},
+					additionalProperties: true,
+					required: [ 'type', 'data' ]
+				}
+			}
+		}
+	})
+
+	await test.throws(test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-create-card',
+		targetId: typeId,
+		actorId: test.context.actor.id
+	}, {
+		properties: {
+			data: {
+				foo: 'hello'
+			}
+		}
+	}), test.context.jellyfish.JellyfishSchemaMismatch)
+})
