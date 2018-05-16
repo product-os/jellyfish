@@ -126,7 +126,7 @@ ava.test.serial('timeline cards should reference the correct actor', async (test
 	})
 
 	const threadId = await sdk.card.create({
-		type: 'chat-thread',
+		type: 'thread',
 		data: {}
 	})
 

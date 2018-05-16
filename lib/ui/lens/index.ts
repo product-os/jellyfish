@@ -7,12 +7,12 @@ import { sdk } from '../app';
 // Load lenses
 import InterleavedLens from './Interleaved';
 
-import ChatMessageCardLens from './ChatMessageCard';
-import ChatThreadListLens from './ChatThreadList';
 import DefaultLens from './Default';
 import DefaultCardLens from './DefaultCard';
 import DefaultListLens from './DefaultList';
 import KanbanLens from './Kanban';
+import MessageCardLens from './MessageCard';
+import ThreadListLens from './ThreadList';
 import ViewLens from './View';
 
 class LensService {
@@ -22,12 +22,12 @@ class LensService {
 	private lenses = {
 		list: [
 			InterleavedLens,
-			ChatThreadListLens,
+			ThreadListLens,
 			DefaultListLens,
 		],
 		table: [],
 		card: [
-			ChatMessageCardLens,
+			MessageCardLens,
 			DefaultCardLens,
 		],
 		single: [
