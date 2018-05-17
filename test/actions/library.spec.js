@@ -59,14 +59,20 @@ ava.test.beforeEach(async (test) => {
 		require('../../default-cards/contrib/create.json'))
 	await test.context.jellyfish.insertCard(test.context.session,
 		require('../../default-cards/contrib/update.json'))
+	await test.context.jellyfish.insertCard(test.context.session,
+		require('../../default-cards/contrib/view-non-executed-action-requests.json'))
 
 	test.context.ids = {
 		card: (await test.context.jellyfish.getCardBySlug(test.context.session, 'card')).id,
-		user: (await test.context.jellyfish.getCardBySlug(test.context.session, 'user')).id
+		user: (await test.context.jellyfish.getCardBySlug(test.context.session, 'user')).id,
+		type: (await test.context.jellyfish.getCardBySlug(test.context.session, 'type')).id
 	}
+
+	test.context.watcher = await test.context.worker.start()
 })
 
 ava.test.afterEach(async (test) => {
+	await test.context.watcher.stop()
 	await test.context.jellyfish.disconnect()
 })
 

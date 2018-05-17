@@ -347,3 +347,192 @@ ava.test('should override an array property', async (test) => {
 		}
 	})
 })
+
+ava.test('should re-evaluate formulas when updating an existing card', async (test) => {
+	const typeId = await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-create-card',
+		targetId: test.context.ids.type,
+		actorId: test.context.actor.id
+	}, {
+		properties: {
+			slug: 'test-type',
+			data: {
+				schema: {
+					type: 'object',
+					properties: {
+						type: {
+							type: 'string',
+							const: 'test-type'
+						},
+						data: {
+							type: 'object',
+							properties: {
+								foo: {
+									type: 'string',
+									$formula: 'UPPER(input)'
+								}
+							},
+							additionalProperties: true
+						}
+					},
+					additionalProperties: true,
+					required: [ 'type', 'data' ]
+				}
+			}
+		}
+	})
+
+	const id = await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-create-card',
+		targetId: typeId,
+		actorId: test.context.actor.id
+	}, {
+		properties: {
+			data: {
+				foo: 'hello'
+			}
+		}
+	})
+
+	await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-update-card',
+		targetId: id,
+		actorId: test.context.actor.id
+	}, {
+		properties: {
+			data: {
+				foo: 'bye'
+			}
+		}
+	})
+
+	const card = await test.context.jellyfish.getCardById(test.context.session, id)
+
+	test.deepEqual(card, {
+		id,
+		type: 'test-type',
+		active: true,
+		links: [],
+		tags: [],
+		data: {
+			foo: 'BYE'
+		}
+	})
+})
+
+ava.test('should consider changes to a formula in a type', async (test) => {
+	const typeId = await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-create-card',
+		targetId: test.context.ids.type,
+		actorId: test.context.actor.id
+	}, {
+		properties: {
+			slug: 'test-type',
+			data: {
+				schema: {
+					type: 'object',
+					properties: {
+						type: {
+							type: 'string',
+							const: 'test-type'
+						},
+						data: {
+							type: 'object',
+							properties: {
+								foo: {
+									type: 'number',
+									$formula: 'MAX(input, 5)'
+								}
+							},
+							additionalProperties: true
+						}
+					},
+					additionalProperties: true,
+					required: [ 'type', 'data' ]
+				}
+			}
+		}
+	})
+
+	const id1 = await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-create-card',
+		targetId: typeId,
+		actorId: test.context.actor.id
+	}, {
+		properties: {
+			data: {
+				foo: 7
+			}
+		}
+	})
+
+	const card1 = await test.context.jellyfish.getCardById(test.context.session, id1)
+
+	test.deepEqual(card1, {
+		id: id1,
+		type: 'test-type',
+		active: true,
+		links: [],
+		tags: [],
+		data: {
+			foo: 7
+		}
+	})
+
+	await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-update-card',
+		targetId: typeId,
+		actorId: test.context.actor.id
+	}, {
+		properties: {
+			data: {
+				schema: {
+					type: 'object',
+					properties: {
+						type: {
+							type: 'string',
+							const: 'test-type'
+						},
+						data: {
+							type: 'object',
+							properties: {
+								foo: {
+									type: 'number',
+									$formula: 'MAX(input, 8)'
+								}
+							},
+							additionalProperties: true
+						}
+					},
+					additionalProperties: true,
+					required: [ 'type', 'data' ]
+				}
+			}
+		}
+	})
+
+	const id2 = await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-update-card',
+		targetId: id1,
+		actorId: test.context.actor.id
+	}, {
+		properties: {
+			data: {
+				foo: 6
+			}
+		}
+	})
+
+	const card2 = await test.context.jellyfish.getCardById(test.context.session, id2)
+
+	test.deepEqual(card2, {
+		id: id2,
+		type: 'test-type',
+		active: true,
+		links: [],
+		tags: [],
+		data: {
+			foo: 8
+		}
+	})
+})
