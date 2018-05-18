@@ -1,0 +1,26 @@
+{
+  "slug": "action-set-add",
+  "type": "action",
+  "name": "Add an element to a set",
+  "tags": [],
+  "links": [],
+  "active": true,
+  "data": {
+    "filter": {
+      "type": "object"
+    },
+    "arguments": {
+      "property": {
+        "type": "string",
+        "pattern": "^\\w+(\\.\\w+)*$"
+      },
+      "value": {
+        "type": [ "string", "number" ]
+      }
+    },
+    "options": {
+      "property": "[arguments.property]",
+      "value": "[arguments.value]"
+    }
+  }
+}
