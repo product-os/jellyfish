@@ -64,7 +64,7 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 		// Set tail to null and ready state to false immediately
 		this.setState({
 			tail: null,
-			ready: false.
+			ready: false,
 		});
 
 		const userId = this.props.appState.session!.user!.id;
