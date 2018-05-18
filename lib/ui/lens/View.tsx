@@ -61,6 +61,12 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 	}
 
 	public bootstrap(target: string) {
+		// Set tail to null and ready state to false immediately
+		this.setState({
+			tail: null,
+			ready: false.
+		});
+
 		const userId = this.props.appState.session!.user!.id;
 		// load subscription
 		sdk.subscription.getByTargetAndUser(target, userId)
@@ -101,7 +107,6 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 			this.setState({
 				subscription,
 				filters,
-				tail: null,
 				lenses,
 				activeLens: activeLens || lenses[0] || null,
 				tailType,
@@ -110,17 +115,13 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 				// mark as ready
 				ready: true,
 			});
-
-			// Start streaming as the last step, to prevent race conditions between
-			// the bootstrap logic, setState and TailStream.setTail()
-			this.streamTail(target);
 		});
 
+		this.streamTail(target);
 	}
 
 	public componentWillReceiveProps(nextProps: ViewRendererProps) {
 		if (this.props.channel.data.target !== nextProps.channel.data.target) {
-			this.setState({ ready: false });
 			this.bootstrap(nextProps.channel.data.target);
 		}
 
