@@ -68,6 +68,7 @@ export interface ServerResponse {
 }
 
 export interface SDKInterface {
+	getApiUrl: () => string | undefined;
 	getAuthToken: () => string | undefined;
 	setAuthToken: (token: string) => void;
 	clearAuthToken: () => void;

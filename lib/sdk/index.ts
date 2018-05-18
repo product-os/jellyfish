@@ -8,7 +8,7 @@ import { CardSdk } from './models/card';
 import { SubscriptionSdk } from './models/subscription';
 import { TypeSdk } from './models/type';
 import { UserSdk } from './models/user';
-import { JellyfishStream } from './stream';
+import { JellyfishStreamManager } from './stream';
 import * as utils from './utils';
 
 interface SdkOptions {
@@ -28,9 +28,9 @@ export class Sdk implements utils.SDKInterface {
 	public utils: typeof utils;
 
 	private cancelTokenSource: CancelTokenSource;
+	private streamManager: JellyfishStreamManager;
 
 	private API_BASE: string;
-	private streamPool: { [k: string]: JellyfishStream } = {};
 
 	constructor(
 		private API_URL: string,
@@ -48,11 +48,18 @@ export class Sdk implements utils.SDKInterface {
 		this.cancelTokenSource = axios.CancelToken.source();
 
 		this.setApiBase(API_URL, API_PREFIX);
+
+		this.streamManager = new JellyfishStreamManager(this);
+
 	}
 
 	public setApiUrl(apiUrl: string) {
 		this.API_URL = apiUrl;
 		this.setApiBase(this.API_URL, this.API_PREFIX);
+	}
+
+	public getApiUrl() {
+		return this.API_URL;
 	}
 
 	public setApiPrefix(apiPrefix: string) {
@@ -83,7 +90,7 @@ export class Sdk implements utils.SDKInterface {
 	}
 
 	public cancelAllStreams() {
-		_.forEach(this.streamPool, (stream) => stream.destroy());
+		this.streamManager.close();
 	}
 
 	public post <R = utils.ServerResponse>(endpoint: string, body: any, options?: AxiosRequestConfig) {
@@ -145,10 +152,7 @@ export class Sdk implements utils.SDKInterface {
 	}
 
 	public stream(query: JSONSchema6 | string | Card) {
-		const newStream = new JellyfishStream('query', { query }, this.API_URL, this.authToken);
-		this.streamPool[newStream.id] = newStream;
-		newStream.on('destroy', () => delete this.streamPool[newStream.id]);
-		return newStream;
+		return this.streamManager.stream(query);
 	}
 }
 
