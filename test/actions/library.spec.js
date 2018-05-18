@@ -56,6 +56,8 @@ ava.test.beforeEach(async (test) => {
 	await test.context.jellyfish.insertCard(test.context.session,
 		require('../../default-cards/contrib/action-update-card.json'))
 	await test.context.jellyfish.insertCard(test.context.session,
+		require('../../default-cards/contrib/action-set-add.json'))
+	await test.context.jellyfish.insertCard(test.context.session,
 		require('../../default-cards/contrib/create.json'))
 	await test.context.jellyfish.insertCard(test.context.session,
 		require('../../default-cards/contrib/update.json'))
@@ -83,3 +85,4 @@ require('./actions/action-restore-card')
 require('./actions/action-upsert-card')
 require('./actions/action-update-email')
 require('./actions/action-create-user')
+require('./actions/action-set-add')
