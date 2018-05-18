@@ -15,7 +15,7 @@
         "pattern": "^\\w+(\\.\\w+)*$"
       },
       "value": {
-        "type": [ "string", "number" ]
+        "type": [ "string", "number", "array" ]
       }
     },
     "options": {
