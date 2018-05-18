@@ -21,6 +21,75 @@
           "required": [ "type" ]
         }
       }
+    ],
+    "lenses": [
+      "lens-default-list",
+      "lens-default-card",
+      "lens-kanban"
+    ],
+    "groups": [
+      {
+        "name": "Role",
+        "schemas": [
+          {
+            "title": "user-community",
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "object",
+                "properties": {
+                  "roles": {
+                    "contains": {
+                      "const": "user-community"
+                    }
+                  }
+                },
+                "required": [ "roles" ]
+              }
+            },
+            "additionalProperties": true,
+            "required": [ "data" ]
+          },
+          {
+            "title": "user-team",
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "object",
+                "properties": {
+                  "roles": {
+                    "contains": {
+                      "const": "user-team"
+                    }
+                  }
+                },
+                "required": [ "roles" ]
+              }
+            },
+            "additionalProperties": true,
+            "required": [ "data" ]
+          },
+          {
+            "title": "user-team-admin",
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "object",
+                "properties": {
+                  "roles": {
+                    "contains": {
+                      "const": "user-team-admin"
+                    }
+                  }
+                },
+                "required": [ "roles" ]
+              }
+            },
+            "additionalProperties": true,
+            "required": [ "data" ]
+          }
+        ]
+      }
     ]
   }
 }

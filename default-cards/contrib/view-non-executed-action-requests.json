@@ -12,32 +12,32 @@
         "schema": {
           "type": "object",
           "properties": {
-						"id": {
-							"type": "string"
-						},
+            "id": {
+              "type": "string"
+            },
             "type": {
               "type": "string",
               "const": "action-request"
             },
-						"data": {
-							"type": "object",
-							"properties": {
-								"action": {
-									"type": "string"
-								},
-								"actor": {
-									"type": "string"
-								},
-								"target": {
-									"type": "string"
-								},
-								"arguments": {
-									"type": "object",
-									"additionalProperties": true
-								}
-							},
-							"required": [ "action", "target", "arguments" ]
-						}
+            "data": {
+              "type": "object",
+              "properties": {
+                "action": {
+                  "type": "string"
+                },
+                "actor": {
+                  "type": "string"
+                },
+                "target": {
+                  "type": "string"
+                },
+                "arguments": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              },
+              "required": [ "action", "target", "arguments" ]
+            }
           },
           "required": [ "id", "type", "data" ]
         }
@@ -61,6 +61,10 @@
           "required": [ "data" ]
         }
       }
+    ],
+    "lenses": [
+      "lens-default-list",
+      "lens-default-card"
     ]
   }
 }

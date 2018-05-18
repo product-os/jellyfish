@@ -1,5 +1,5 @@
 import * as Promise from 'bluebird';
-import { SDKInterface } from './utils';
+import { SDKInterface } from '../utils';
 
 export class UserSdk {
 	constructor(private sdk: SDKInterface) {}

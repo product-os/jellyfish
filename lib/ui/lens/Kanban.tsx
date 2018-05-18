@@ -163,9 +163,9 @@ class Kanban extends React.Component<DefaultRendererProps, KanbanState> {
 }
 
 const lens: Lens = {
-	slug: 'lens-trello',
+	slug: 'lens-kanban',
 	type: 'lens',
-	name: 'Trello lens',
+	name: 'Kanban lens',
 	data: {
 		icon: 'columns',
 		renderer: connectComponent(Kanban),

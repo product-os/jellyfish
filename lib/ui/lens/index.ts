@@ -117,6 +117,12 @@ class LensService {
 
 		return lenses;
 	}
+
+	public getLensBySlug(slug: string) {
+		const lenses = _.flatten(_.map(this.lenses, (v) => v))
+
+		return _.find(lenses, { slug }) || null;
+	}
 }
 
 export default new LensService();
