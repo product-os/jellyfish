@@ -27,7 +27,7 @@ const run = async () => {
 	const user = await utils.getUser(session, USERNAME)
 	console.log(`Logged in as ${user.slug} (${user.id})`)
 
-	const thread = await utils.createCard(session, 'chat-thread', {
+	const thread = await utils.createCard(session, 'thread', {
 		data: {
 			description: 'Test Thread'
 		}
@@ -39,7 +39,7 @@ const run = async () => {
 		const name = `Message ${times}`
 		marky.mark(name)
 
-		const id = await utils.createEvent(session, 'chat-message', user.id, thread, {
+		const id = await utils.createEvent(session, 'message', user.id, thread, {
 			message: 'Hello World'
 		})
 
