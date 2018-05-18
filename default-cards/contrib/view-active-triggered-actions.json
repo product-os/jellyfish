@@ -1,0 +1,46 @@
+{
+  "slug": "view-active-triggered-actions",
+  "name": "Active Triggered Actions",
+  "type": "view",
+  "tags": [],
+  "links": [],
+  "active": true,
+  "data": {
+    "allOf": [
+      {
+        "name": "Active cards",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "active": {
+              "type": "boolean",
+              "const": true
+            }
+          },
+          "additionalProperties": true,
+          "required": [ "active" ]
+        }
+      },
+      {
+        "name": "Triggered actions",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "slug": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string",
+              "const": "triggered-action"
+            },
+            "data": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "required": [ "type", "data" ]
+        }
+      }
+    ]
+  }
+}
