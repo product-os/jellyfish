@@ -29,6 +29,10 @@
           "additionalProperties": true
         }
       }
+    ],
+    "lenses": [
+      "lens-default-list",
+      "lens-default-card"
     ]
   }
 }

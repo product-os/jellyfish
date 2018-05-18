@@ -1,8 +1,8 @@
 import * as Promise from 'bluebird';
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
-import { Card } from '../Types';
-import { debug, isUUID, SDKInterface } from './utils';
+import { Card } from '../../Types';
+import { debug, isUUID, SDKInterface } from './../utils';
 
 export class CardSdk {
 	constructor(private sdk: SDKInterface) {}

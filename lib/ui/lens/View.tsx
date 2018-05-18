@@ -8,15 +8,14 @@ import {
 	Filters,
 	FiltersView,
 	Flex,
-	Modal,
 	Txt,
 } from 'rendition';
-import { Form } from 'rendition/dist/unstable';
 import { Card, Lens, RendererProps, Type } from '../../Types';
 import { sdk } from '../app';
 import ButtonGroup from '../components/ButtonGroup';
 import ChannelRenderer from '../components/ChannelRenderer';
 import Icon from '../components/Icon';
+import { NotificationsModal } from '../components/NotificationsModal';
 import { TailStreamer } from '../components/TailStreamer';
 import {
 	connectComponent,
@@ -27,6 +26,7 @@ import {
 import LensService from './index';
 
 interface ViewRendererState {
+	subscription: null | Card;
 	filters: JSONSchema6[];
 	tail: null | Card[];
 	lenses: Lens[];
@@ -34,7 +34,7 @@ interface ViewRendererState {
 	tailType: Type | null;
 	showFilters: boolean;
 	showNotificationSettings: boolean;
-	notificationSettings: null | { [k: string]: any };
+	ready: boolean;
 }
 
 interface ViewRendererProps extends ConnectedComponentProps, RendererProps {}
@@ -42,64 +42,86 @@ interface ViewRendererProps extends ConnectedComponentProps, RendererProps {}
 const USER_FILTER_NAME = 'user-generated-filter';
 
 class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
-	private notificationSettingsSchema: JSONSchema6 = {
-		type: 'object',
-		properties: {
-			web: {
-				title: 'Web',
-				description: 'Alert me with desktop notifications',
-				type: 'object',
-				properties: {
-					update: {
-						title: 'On update',
-						description: 'When new content is added',
-						type: 'boolean',
-					},
-					mention: {
-						title: 'On mention',
-						description: 'When I am mentioned',
-						type: 'boolean',
-					},
-					alert: {
-						title: 'On alert',
-						description: 'When I am alerted',
-						type: 'boolean',
-					},
-				},
-				additionalProperties: false,
-			},
-		},
-	};
-
 	constructor(props: ViewRendererProps) {
 		super(props);
 
-		this.state = this.getDefaultState();
-
-		this.streamTail(this.props.channel.data.target);
-	}
-
-	public getDefaultState() {
-		const filters = this.props.channel.data.head
-			? _.map(_.filter(this.props.channel.data.head.data.allOf, { name: USER_FILTER_NAME }), 'schema')
-			: [];
-
-		return {
-			filters,
+		this.state = {
+			subscription: null,
+			filters: [],
 			tail: null,
 			lenses: [],
 			activeLens: null,
 			tailType: null,
 			showFilters: false,
 			showNotificationSettings: false,
-			notificationSettings: null,
+			ready: false,
 		};
+
+		this.bootstrap(this.props.channel.data.target);
+	}
+
+	public bootstrap(target: string) {
+		const userId = this.props.appState.session!.user!.id;
+		// load subscription
+		sdk.subscription.getByTargetAndUser(target, userId)
+		.then((card) => {
+			if (card) {
+				return card;
+			}
+			return sdk.card.create({
+				type: 'subscription',
+				data: {
+					target,
+					actor: userId,
+				},
+			})
+			.then((id) => sdk.card.get(id));
+		})
+		.then((subscription) => {
+			const { head } = this.props.channel.data;
+			const filters = head
+				? _.map(_.filter(head.data.allOf, { name: USER_FILTER_NAME }), 'schema')
+				: [];
+
+			// set lens
+			const lenses = _.chain(head)
+				.get('data.lenses')
+				.map((slug: string) => LensService.getLensBySlug(slug))
+				.compact()
+				.value();
+
+			const activeLens = _.find(lenses, { slug: _.get(subscription, 'data.activeLens') });
+			const tailType = _.find(this.props.appState.types, { slug: getTypeFromViewCard(head) }) || null;
+
+			// Make a final check to see if the target is still correct
+			if (this.props.channel.data.target !== target) {
+				return;
+			}
+			// set default state
+			this.setState({
+				subscription,
+				filters,
+				tail: null,
+				lenses,
+				activeLens: activeLens || lenses[0] || null,
+				tailType,
+				showFilters: false,
+				showNotificationSettings: false,
+				// mark as ready
+				ready: true,
+			});
+
+			// Start streaming as the last step, to prevent race conditions between
+			// the bootstrap logic, setState and TailStream.setTail()
+			this.streamTail(target);
+		});
+
 	}
 
 	public componentWillReceiveProps(nextProps: ViewRendererProps) {
 		if (this.props.channel.data.target !== nextProps.channel.data.target) {
-			this.setState(this.getDefaultState());
-			this.streamTail(nextProps.channel.data.target);
+			this.setState({ ready: false });
+			this.bootstrap(nextProps.channel.data.target);
 		}
 
 		if (!this.props.channel.data.head && nextProps.channel.data.head) {
@@ -112,39 +134,6 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 				}),
 			});
 		}
-	}
-
-	public setTail(tail: Card[]) {
-		const { head } = this.props.channel.data;
-
-		let tailType: Type | null = null;
-
-		// Special case handling for base view `view-active`
-		if (head && head.slug === 'view-active') {
-			tailType = sdk.type.get('card') || null;
-		} else if (tail.length) {
-			tailType = sdk.type.get(tail[0].type) || null;
-		} else {
-			// If there is no tail, make a best guess at the type
-			const foundType = getTypeFromViewCard(head);
-
-			tailType = sdk.type.get(foundType) || null;
-		}
-
-		const preferences = (head && head.data.lenses) || (tailType ? tailType.data.lenses : undefined);
-
-		const lenses: Lens[] = tail.length > 0 ?
-			LensService.getLenses(tail, preferences)
-			: LensService.getLensesByType(tailType ? tailType.slug : null, preferences);
-
-		const activeLens = this.state.activeLens || lenses[0] || null;
-
-		this.setState({
-			tail,
-			lenses,
-			activeLens,
-			tailType,
-		});
 	}
 
 	public openChannel(card: Card) {
@@ -216,79 +205,48 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 		this.setState({ filters });
 	}
 
-	public getSubscription() {
-		return sdk.query({
-			type: 'object',
-			properties: {
-				type: {
-					const: 'subscription',
-				},
-				data: {
-					type: 'object',
-					properties: {
-						target: {
-							const: this.props.channel.data.target,
-						},
-						actor: {
-							const: this.props.appState.session!.user!.id,
-						},
-					},
-					additionalProperties: true,
-				},
-			},
-			additionalProperties: true,
-		})
-		.then((results) => _.first(results) || null);
+	public getNotificationSettings() {
+		return _.get(this.state.subscription, 'data.notificationSettings') || {};
 	}
 
-	public loadNotificationSettings() {
-		this.setState({ showNotificationSettings: true });
+	public saveNotificationSettings(settings: any) {
+		const { subscription } = this.state;
 
-		this.getSubscription()
-		.then((card) => {
-			if (!card) {
-				this.setState({ notificationSettings: {} });
-				return;
-			}
+		if (!subscription) {
+			return;
+		}
 
-			this.setState({ notificationSettings: _.get(card, 'data.notificationSettings') || {} });
-		});
-	}
+		subscription.data.notificationSettings = settings;
 
-	public saveNotificationSettings() {
-		const notificationSettings = _.cloneDeep(this.state.notificationSettings);
-
-		this.getSubscription()
-		.then((card) => {
-			if (!card) {
-				sdk.card.create({
-					type: 'subscription',
-					data: {
-						target: this.props.channel.data.target,
-						actor: this.props.appState.session!.user!.id,
-						notificationSettings,
-					},
-				});
-
-				return;
-			}
-			sdk.card.update(card.id, {
-				...card,
-				data: {
-					...card.data,
-					notificationSettings,
-				},
-			});
-		});
+		sdk.card.update(subscription.id, subscription);
 
 		this.setState({
+			subscription,
 			showNotificationSettings: false,
-			notificationSettings: null,
 		});
+	}
 
+	public setLens(lens: Lens) {
+		const { subscription } = this.state;
+
+		if (!subscription) {
+			return;
+		}
+
+		subscription.data.activeLens = lens.slug;
+
+		sdk.card.update(subscription.id, subscription);
+
+		this.setState({
+			subscription,
+			activeLens: lens,
+		});
 	}
 
 	public render() {
+		if (!this.state.ready) {
+			return null;
+		}
 		const { head } = this.props.channel.data;
 		const { tail, tailType } = this.state;
 		const useFilters = !!tailType && tailType.slug !== 'view';
@@ -310,24 +268,12 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 				style={{ height: '100%', overflowY: 'auto', borderRight: '1px solid #ccc', position: 'relative' }}>
 				{head &&
 					<Box>
-						{this.state.showNotificationSettings &&
-							<Modal
-								title='Notification settings'
-								cancel={() => this.setState({ showNotificationSettings: false })}
-								done={() => this.saveNotificationSettings()}
-							>
-								{!this.state.notificationSettings && <span>Loading settings... <i className='fas fa-cog fa-spin' /></span>}
-								{!!this.state.notificationSettings &&
-									<Form
-										schema={this.notificationSettingsSchema}
-										value={this.state.notificationSettings}
-										onFormChange={(data: any) => this.setState({ notificationSettings: data.formData })}
-										onFormSubmit={() => this.saveNotificationSettings()}
-										hideSubmitButton
-									/>
-								}
-							</Modal>
-						}
+						<NotificationsModal
+							show={this.state.showNotificationSettings}
+							settings={this.getNotificationSettings()}
+							onCancel={() => this.setState({ showNotificationSettings: false })}
+							onDone={(settings) => this.saveNotificationSettings(settings)}
+						/>
 
 						{!!this.state.filters.length && !!originalFilters.length &&
 							<Txt px={3} pt={2}>View extends <em>{originalFilters.join(', ')}</em></Txt>}
@@ -336,7 +282,7 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 								<Button
 									mr={2}
 									tooltip={{ placement: 'bottom', text: 'Notification settings'}}
-									onClick={() => this.loadNotificationSettings()}
+									onClick={() => this.setState({ showNotificationSettings: true })}
 									square>
 									<Icon name='bell' />
 								</Button>
@@ -351,14 +297,14 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 								}
 							</Box>
 
-							{this.state.lenses.length > 1 &&
+							{this.state.lenses.length > 1 && !!activeLens &&
 								<ButtonGroup mr={3}>
 									{_.map(this.state.lenses, lens =>
 										<Button
 											key={lens.slug}
-											bg={this.state.activeLens!.slug === lens.slug  ? '#333' : undefined}
+											bg={activeLens.slug === lens.slug  ? '#333' : undefined}
 											square
-											onClick={() => this.setState({ activeLens: lens })}>
+											onClick={() => this.setLens(lens)}>
 											<Icon name={lens.data.icon} />
 										</Button>,
 									)}

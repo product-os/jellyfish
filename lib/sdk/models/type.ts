@@ -1,7 +1,7 @@
 import * as Promise from 'bluebird';
 import * as _ from 'lodash';
-import { Type } from '../Types';
-import { SDKInterface } from './utils';
+import { Type } from '../../Types';
+import { SDKInterface } from '../utils';
 
 export class TypeSdk {
 	private types: Type[];

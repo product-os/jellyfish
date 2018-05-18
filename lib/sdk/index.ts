@@ -4,10 +4,11 @@ import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import { Card } from '../Types';
 import { AuthSdk } from './auth';
-import { CardSdk } from './card';
+import { CardSdk } from './models/card';
+import { SubscriptionSdk } from './models/subscription';
+import { TypeSdk } from './models/type';
+import { UserSdk } from './models/user';
 import { JellyfishStream } from './stream';
-import { TypeSdk } from './type';
-import { UserSdk } from './user';
 import * as utils from './utils';
 
 interface SdkOptions {
@@ -21,6 +22,7 @@ const trimSlash = (s: string) => _.trim(s, '/');
 export class Sdk implements utils.SDKInterface {
 	public auth: AuthSdk;
 	public card: CardSdk;
+	public subscription: SubscriptionSdk;
 	public type: TypeSdk;
 	public user: UserSdk;
 	public utils: typeof utils;
@@ -37,6 +39,7 @@ export class Sdk implements utils.SDKInterface {
 	) {
 		this.auth = new AuthSdk(this);
 		this.card = new CardSdk(this);
+		this.subscription = new SubscriptionSdk(this);
 		this.type = new TypeSdk(this);
 		this.user = new UserSdk(this);
 

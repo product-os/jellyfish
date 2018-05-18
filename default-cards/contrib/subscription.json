@@ -41,6 +41,9 @@
               "type": "string",
               "format": "uuid"
             },
+            "activeLens": {
+              "type": "string"
+            },
             "notificationSettings": {
               "type": "object",
               "properties": {

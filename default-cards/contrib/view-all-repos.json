@@ -44,6 +44,69 @@
           "type": "object"
         }
       }
+    ],
+    "lenses": [
+      "lens-default-card",
+      "lens-default-list",
+      "lens-kanban"
+    ],
+    "groups": [
+      {
+        "name": "License",
+        "schemas": [
+          {
+            "title": "Unlicensed",
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "object",
+                "properties": {
+                  "License": {
+                    "const": "UNLICENSED"
+                  }
+                },
+                "required": [ "License" ]
+              }
+            },
+            "additionalProperties": true,
+            "required": [ "data" ]
+          },
+          {
+            "title": "Other",
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "object",
+                "properties": {
+                  "License": {
+                    "const": "Other"
+                  }
+                },
+                "required": [ "License" ]
+              }
+            },
+            "additionalProperties": true,
+            "required": [ "data" ]
+          },
+          {
+            "title": "Apache-2.0",
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "object",
+                "properties": {
+                  "License": {
+                    "const": "Apache-2.0"
+                  }
+                },
+                "required": [ "License" ]
+              }
+            },
+            "additionalProperties": true,
+            "required": [ "data" ]
+          }
+        ]
+      }
     ]
   }
 }

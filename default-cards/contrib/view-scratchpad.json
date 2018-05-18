@@ -22,6 +22,11 @@
         }
       }
     ],
+    "lenses": [
+      "lens-default-card",
+      "lens-default-list",
+      "lens-kanban"
+    ],
     "groups": [
       {
         "name": "Fix difficulty",
