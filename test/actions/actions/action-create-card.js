@@ -314,7 +314,7 @@ ava.test.cb('AGGREGATE($events): should react to one event', (test) => {
 							properties: {
 								mentions: {
 									type: 'array',
-									$formula: 'AGGREGATE($events, PARTIAL(FLIP(PROPERTY), "data.payload.mentions"))'
+									$formula: 'AGGREGATE($events, "data.payload.mentions")'
 								}
 							},
 							additionalProperties: true
@@ -390,7 +390,7 @@ ava.test.cb('AGGREGATE($events): should be able to add a type with a formula bas
 							properties: {
 								mentions: {
 									type: 'array',
-									$formula: 'AGGREGATE($events, PARTIAL(FLIP(PROPERTY), "data.payload.mentions"))'
+									$formula: 'AGGREGATE($events, "data.payload.mentions")'
 								}
 							},
 							additionalProperties: true
