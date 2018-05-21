@@ -16,6 +16,7 @@
 
 const ava = require('ava')
 const randomstring = require('randomstring')
+const Bluebird = require('bluebird')
 const core = require('../../lib/core')
 const ActionRequestWorker = require('../../lib/actions')
 
@@ -62,6 +63,8 @@ ava.test.beforeEach(async (test) => {
 	await test.context.jellyfish.insertCard(test.context.session,
 		require('../../default-cards/contrib/update.json'))
 	await test.context.jellyfish.insertCard(test.context.session,
+		require('../../default-cards/contrib/triggered-action.json'))
+	await test.context.jellyfish.insertCard(test.context.session,
 		require('../../default-cards/contrib/view-non-executed-action-requests.json'))
 	await test.context.jellyfish.insertCard(test.context.session,
 		require('../../default-cards/contrib/view-active-triggered-actions.json'))
@@ -73,6 +76,24 @@ ava.test.beforeEach(async (test) => {
 	}
 
 	test.context.watcher = await test.context.worker.start()
+	await new Bluebird((resolve, reject) => {
+		test.context.watcher.once('started', resolve)
+		test.context.watcher.once('error', reject)
+	})
+
+	test.context.flushRequests = async (retries = 10) => {
+		if (retries === 0) {
+			throw new Error('Could not flush requests')
+		}
+
+		const requests = await test.context.worker.getPendingRequests(test.context.session)
+		if (requests.length === 0) {
+			return
+		}
+
+		await Bluebird.delay(1000)
+		await test.context.flushRequests(retries - 1)
+	}
 })
 
 ava.test.afterEach(async (test) => {

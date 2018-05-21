@@ -16,7 +16,6 @@
 
 const _ = require('lodash')
 const ava = require('ava')
-const Bluebird = require('bluebird')
 const utils = require('../../../lib/utils')
 
 ava.test('should create a card', async (test) => {
@@ -293,8 +292,8 @@ ava.test('should throw if the result of the formula is incompatible with the giv
 	}), test.context.jellyfish.JellyfishSchemaMismatch)
 })
 
-ava.test.cb('AGGREGATE($events): should react to one event', (test) => {
-	test.context.worker.executeAction(test.context.session, {
+ava.test('AGGREGATE($events): should react to one event', async (test) => {
+	const typeId = await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-create-card',
 		targetId: test.context.ids.type,
 		actorId: test.context.actor.id
@@ -325,52 +324,45 @@ ava.test.cb('AGGREGATE($events): should react to one event', (test) => {
 				}
 			}
 		}
-	}).then((typeId) => {
-		return Bluebird.props({
-			admin: test.context.jellyfish.getCardBySlug(test.context.session, 'user-admin'),
-			thread: test.context.worker.executeAction(test.context.session, {
-				actionId: 'action-create-card',
-				targetId: typeId,
-				actorId: test.context.actor.id
-			}, {
-				properties: {
-					data: {
-						mentions: []
-					}
-				}
-			})
-		})
-	}).then((results) => {
-		test.context.worker.pipeline.on('change', (change) => {
-			if (change.after.type === 'card' && change.after.data.target === results.thread) {
-				test.context.jellyfish.getCardById(test.context.session, results.thread).then((card) => {
-					test.deepEqual(card.data.mentions, [ 'johndoe' ])
-					test.end()
-				}).catch(test.end)
-			}
-		})
+	})
 
-		return test.context.worker.executeAction(test.context.session, {
-			actionId: 'action-create-card',
-			targetId: test.context.ids.card,
-			actorId: test.context.actor.id
-		}, {
-			properties: {
-				data: {
-					timestamp: '2018-05-05T00:21:02.459Z',
-					target: results.thread,
-					actor: results.admin,
-					payload: {
-						mentions: [ 'johndoe' ]
-					}
+	const admin = await test.context.jellyfish.getCardBySlug(test.context.session, 'user-admin')
+	const thread = await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-create-card',
+		targetId: typeId,
+		actorId: test.context.actor.id
+	}, {
+		properties: {
+			data: {
+				mentions: []
+			}
+		}
+	})
+
+	await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-create-card',
+		targetId: test.context.ids.card,
+		actorId: test.context.actor.id
+	}, {
+		properties: {
+			data: {
+				timestamp: '2018-05-05T00:21:02.459Z',
+				target: thread,
+				actor: admin,
+				payload: {
+					mentions: [ 'johndoe' ]
 				}
 			}
-		})
-	}).catch(test.end)
+		}
+	})
+
+	await test.context.flushRequests()
+	const card = await test.context.jellyfish.getCardById(test.context.session, thread)
+	test.deepEqual(card.data.mentions, [ 'johndoe' ])
 })
 
-ava.test.cb('AGGREGATE($events): should be able to add a type with a formula based on its timeline', (test) => {
-	test.context.worker.executeAction(test.context.session, {
+ava.test('AGGREGATE($events): should be able to add a type with a formula based on its timeline', async (test) => {
+	const typeId = await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-create-card',
 		targetId: test.context.ids.type,
 		actorId: test.context.actor.id
@@ -401,69 +393,56 @@ ava.test.cb('AGGREGATE($events): should be able to add a type with a formula bas
 				}
 			}
 		}
-	}).then((typeId) => {
-		return Bluebird.props({
-			admin: test.context.jellyfish.getCardBySlug(test.context.session, 'user-admin'),
-			thread: test.context.worker.executeAction(test.context.session, {
-				actionId: 'action-create-card',
-				targetId: typeId,
-				actorId: test.context.actor.id
-			}, {
-				properties: {
-					data: {
-						mentions: []
-					}
-				}
-			})
-		})
-	}).then((results) => {
-		let count = 0
+	})
 
-		test.context.worker.pipeline.on('change', (change) => {
-			if (change.after.type === 'card' && change.after.data.target === results.thread) {
-				count += 1
+	const admin = await test.context.jellyfish.getCardBySlug(test.context.session, 'user-admin')
+	const thread = await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-create-card',
+		targetId: typeId,
+		actorId: test.context.actor.id
+	}, {
+		properties: {
+			data: {
+				mentions: []
 			}
+		}
+	})
 
-			if (count === 2) {
-				test.context.jellyfish.getCardById(test.context.session, results.thread).then((card) => {
-					test.deepEqual(card.data.mentions, [ 'johndoe', 'janedoe', 'johnsmith' ])
-					test.end()
-				}).catch(test.end)
-			}
-		})
-
-		return test.context.worker.executeAction(test.context.session, {
-			actionId: 'action-create-card',
-			targetId: test.context.ids.card,
-			actorId: test.context.actor.id
-		}, {
-			properties: {
-				data: {
-					timestamp: '2018-05-05T00:21:02.459Z',
-					target: results.thread,
-					actor: results.admin,
-					payload: {
-						mentions: [ 'johndoe' ]
-					}
+	await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-create-card',
+		targetId: test.context.ids.card,
+		actorId: test.context.actor.id
+	}, {
+		properties: {
+			data: {
+				timestamp: '2018-05-05T00:21:02.459Z',
+				target: thread,
+				actor: admin,
+				payload: {
+					mentions: [ 'johndoe' ]
 				}
 			}
-		}).then(() => {
-			return test.context.worker.executeAction(test.context.session, {
-				actionId: 'action-create-card',
-				targetId: test.context.ids.card,
-				actorId: test.context.actor.id
-			}, {
-				properties: {
-					data: {
-						timestamp: '2018-05-05T00:28:42.302Z',
-						target: results.thread,
-						actor: results.admin,
-						payload: {
-							mentions: [ 'janedoe', 'johnsmith' ]
-						}
-					}
+		}
+	})
+
+	await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-create-card',
+		targetId: test.context.ids.card,
+		actorId: test.context.actor.id
+	}, {
+		properties: {
+			data: {
+				timestamp: '2018-05-05T00:28:42.302Z',
+				target: thread,
+				actor: admin,
+				payload: {
+					mentions: [ 'janedoe', 'johnsmith' ]
 				}
-			})
-		})
-	}).catch(test.end)
+			}
+		}
+	})
+
+	await test.context.flushRequests()
+	const card = await test.context.jellyfish.getCardById(test.context.session, thread)
+	test.deepEqual(card.data.mentions, [ 'johndoe', 'janedoe', 'johnsmith' ])
 })

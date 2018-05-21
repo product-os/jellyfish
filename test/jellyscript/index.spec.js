@@ -194,8 +194,7 @@ ava.test('REGEX_MATCH: should consider duplicates', (test) => {
 ava.test('AGGREGATE: should generate a watcher if aggregating $events', (test) => {
 	const result = jellyscript.evaluate('AGGREGATE($events, "mentions")', {
 		context: {
-			slug: 'thread',
-			type: 'type',
+			type: 'thread',
 			links: [],
 			tags: [],
 			active: true,
@@ -213,12 +212,18 @@ ava.test('AGGREGATE: should generate a watcher if aggregating $events', (test) =
 
 	test.deepEqual(result.watchers[0].filter, {
 		type: 'object',
+		required: [ 'data' ],
 		properties: {
 			data: {
 				type: 'object',
+				required: [ 'target', 'payload' ],
 				properties: {
+					payload: {
+						type: 'object'
+					},
 					target: {
 						type: 'object',
+						required: [ 'type' ],
 						properties: {
 							type: {
 								type: 'string',
@@ -405,8 +410,7 @@ ava.test('.evaluateObject() should report back watchers when aggregating events'
 			}
 		}
 	}, {
-		slug: 'thread',
-		type: 'type',
+		type: 'thread',
 		links: [],
 		tags: [],
 		active: true,
@@ -416,8 +420,7 @@ ava.test('.evaluateObject() should report back watchers when aggregating events'
 	})
 
 	test.deepEqual(result.object, {
-		slug: 'thread',
-		type: 'type',
+		type: 'thread',
 		links: [],
 		tags: [],
 		active: true,
@@ -430,12 +433,18 @@ ava.test('.evaluateObject() should report back watchers when aggregating events'
 
 	test.deepEqual(result.watchers[0].filter, {
 		type: 'object',
+		required: [ 'data' ],
 		properties: {
 			data: {
 				type: 'object',
+				required: [ 'target', 'payload' ],
 				properties: {
+					payload: {
+						type: 'object'
+					},
 					target: {
 						type: 'object',
+						required: [ 'type' ],
 						properties: {
 							type: {
 								type: 'string',

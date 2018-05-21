@@ -20,7 +20,7 @@
             },
             "target": {
               "type": "string",
-              "pattern": "^[\\w\\[\\]-]+$"
+              "pattern": "^[\\{\\}\\.\\w\\[\\]-]+$"
             },
             "arguments": {
               "type": "object"
