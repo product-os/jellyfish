@@ -44,6 +44,9 @@
             "activeLens": {
               "type": "string"
             },
+            "activeGroup": {
+              "type": "string"
+            },
             "notificationSettings": {
               "type": "object",
               "properties": {

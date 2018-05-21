@@ -8,6 +8,7 @@ import {
 	Filters,
 	FiltersView,
 	Flex,
+	Select,
 	Txt,
 } from 'rendition';
 import { Card, Lens, RendererProps, Type } from '../../Types';
@@ -26,15 +27,15 @@ import {
 import LensService from './index';
 
 interface ViewRendererState {
-	subscription: null | Card;
-	filters: JSONSchema6[];
-	tail: null | Card[];
-	lenses: Lens[];
 	activeLens: null | Lens;
-	tailType: Type | null;
+	filters: JSONSchema6[];
+	lenses: Lens[];
+	ready: boolean;
 	showFilters: boolean;
 	showNotificationSettings: boolean;
-	ready: boolean;
+	subscription: null | Card;
+	tail: null | Card[];
+	tailType: Type | null;
 }
 
 interface ViewRendererProps extends ConnectedComponentProps, RendererProps {}
@@ -46,15 +47,15 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 		super(props);
 
 		this.state = {
-			subscription: null,
-			filters: [],
-			tail: null,
-			lenses: [],
 			activeLens: null,
-			tailType: null,
+			filters: [],
+			lenses: [],
+			ready: false,
 			showFilters: false,
 			showNotificationSettings: false,
-			ready: false,
+			subscription: null,
+			tail: null,
+			tailType: null,
 		};
 
 		this.bootstrap(this.props.channel.data.target);
@@ -118,6 +119,16 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 		});
 
 		this.streamTail(target);
+	}
+
+	public getGroups() {
+		const view = this.props.channel.data.head;
+
+		if (!view || !view.data.groups) {
+			return [];
+		}
+
+		return view.data.groups;
 	}
 
 	public componentWillReceiveProps(nextProps: ViewRendererProps) {
@@ -222,7 +233,7 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 		sdk.card.update(subscription.id, subscription);
 
 		this.setState({
-			subscription,
+			subscription: _.cloneDeep(subscription),
 			showNotificationSettings: false,
 		});
 	}
@@ -239,8 +250,24 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 		sdk.card.update(subscription.id, subscription);
 
 		this.setState({
-			subscription,
+			subscription: _.cloneDeep(subscription),
 			activeLens: lens,
+		});
+	}
+
+	public setGroup = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		const { subscription } = this.state;
+
+		if (!subscription) {
+			return;
+		}
+
+		const slug = e.target.value;
+		subscription.data.activeGroup = slug;
+
+		sdk.card.update(subscription.id, subscription);
+		this.setState({
+			subscription: _.cloneDeep(subscription),
 		});
 	}
 
@@ -260,6 +287,10 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 
 		const channelIndex = _.findIndex(this.props.appState.channels, { id: this.props.channel.id });
 		const nextChannel = this.props.appState.channels[channelIndex + 1];
+
+		const groups = this.getGroups();
+
+		const lensSupportsGroups = !!activeLens && !!activeLens.data.supportsGroups;
 
 		return (
 			<Flex
@@ -298,19 +329,35 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 								}
 							</Box>
 
-							{this.state.lenses.length > 1 && !!activeLens &&
-								<ButtonGroup mr={3}>
-									{_.map(this.state.lenses, lens =>
-										<Button
-											key={lens.slug}
-											bg={activeLens.slug === lens.slug  ? '#333' : undefined}
-											square
-											onClick={() => this.setLens(lens)}>
-											<Icon name={lens.data.icon} />
-										</Button>,
-									)}
-								</ButtonGroup>
-							}
+							<Flex>
+								<Box px={3} color={lensSupportsGroups ? undefined : '#ccc'}>
+									Group by:
+									<Select
+										ml={2}
+										value={this.state.subscription!.data.activeGroup}
+										onChange={lensSupportsGroups ? this.setGroup : _.noop}
+									>
+										{_.map(groups, (group) => {
+											return <option
+											disabled={!lensSupportsGroups}
+											key={group.slug} value={group.slug}>{group.name}</option>;
+										})}
+									</Select>
+								</Box>
+								{this.state.lenses.length > 1 && !!activeLens &&
+									<ButtonGroup mr={3}>
+										{_.map(this.state.lenses, lens =>
+											<Button
+												key={lens.slug}
+												bg={activeLens.slug === lens.slug  ? '#333' : undefined}
+												square
+												onClick={() => this.setLens(lens)}>
+												<Icon name={lens.data.icon} />
+											</Button>,
+										)}
+									</ButtonGroup>
+								}
+							</Flex>
 						</Flex>
 
 						{useFilters && this.state.showFilters &&
@@ -344,6 +391,7 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 							channel={this.props.channel}
 							tail={tail}
 							type={tailType}
+							subscription={this.state.subscription}
 							/>}
 					</Flex>
 

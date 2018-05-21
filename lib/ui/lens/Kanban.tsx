@@ -2,7 +2,7 @@ import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import * as React from 'react';
 import Board, { BoardLane } from 'react-trello';
-import { Box, Modal } from 'rendition';
+import { Flex, Modal } from 'rendition';
 import { Card, Channel, Lens, RendererProps } from '../../Types';
 import { sdk } from '../app';
 import { connectComponent, ConnectedComponentProps, createChannel } from '../services/helpers';
@@ -19,10 +19,12 @@ interface KanbanState {
 	modalChannel: null | Channel;
 }
 
-interface DefaultRendererProps extends RendererProps, ConnectedComponentProps {}
+interface KanbanProps extends RendererProps, ConnectedComponentProps {
+	subscription?: null | Card;
+}
 
-class Kanban extends React.Component<DefaultRendererProps, KanbanState> {
-	constructor(props: DefaultRendererProps) {
+class Kanban extends React.Component<KanbanProps, KanbanState> {
+	constructor(props: KanbanProps) {
 		super(props);
 
 		this.state = {
@@ -30,20 +32,31 @@ class Kanban extends React.Component<DefaultRendererProps, KanbanState> {
 		};
 	}
 
-	public getLanes(): BoardLane[] {
-		if (!this.props.tail || !this.props.tail.length) {
-			return [];
-		}
-		let cards = this.props.tail.slice();
-		const lanes: BoardLane[] = [];
+	public getGroups() {
 		const view = this.props.channel.data.head;
-		const groupIndex = 0;
 
 		if (!view || !view.data.groups) {
 			return [];
 		}
 
-		const schemas = view.data.groups[groupIndex].schemas;
+		return view.data.groups;
+	}
+
+	public getLanes(): BoardLane[] {
+		if (!this.props.tail || !this.props.tail.length) {
+			return [];
+		}
+		const activeGroup = _.get(this.props, 'subscription.data.activeGroup');
+		let cards = this.props.tail.slice();
+		const lanes: BoardLane[] = [];
+		const groups = this.getGroups();
+		const group = _.find(groups, { slug: activeGroup }) || groups[0];
+
+		if (!group) {
+			return [];
+		}
+
+		const schemas = group.data.schemas;
 
 		schemas.forEach((schema: JSONSchema6) => {
 			const lane: BoardLane = {
@@ -90,14 +103,15 @@ class Kanban extends React.Component<DefaultRendererProps, KanbanState> {
 			return;
 		}
 
-		const view = this.props.channel.data.head;
-		const groupIndex = 0;
+		const activeGroup = _.get(this.props, 'subscription.data.activeGroup');
+		const groups = this.getGroups();
+		const group = _.find(groups, { slug: activeGroup }) || groups[0];
 
-		if (!view || !view.data.groups) {
+		if (!group) {
 			return [];
 		}
 
-		const schemas = view.data.groups[groupIndex].schemas;
+		const schemas = group.data.schemas;
 
 		const targetSchema = _.find(schemas, { title: targetLaneId });
 
@@ -145,9 +159,9 @@ class Kanban extends React.Component<DefaultRendererProps, KanbanState> {
 		}
 
 		return (
-			<Box style={{height: '100%', position: 'relative'}}>
+			<Flex flexDirection='column' style={{height: '100%', position: 'relative'}}>
 				<Board
-					style={{height: '100%'}}
+					style={{padding: '0 16px', margin: '0 -5px'}}
 					data={data}
 					draggable
 					handleDragEnd={this.handleDragEnd}
@@ -157,7 +171,7 @@ class Kanban extends React.Component<DefaultRendererProps, KanbanState> {
 						<lens.data.renderer channel={this.state.modalChannel} />
 					</Modal>
 				}
-			</Box>
+			</Flex>
 		);
 	}
 }
@@ -167,6 +181,7 @@ const lens: Lens = {
 	type: 'lens',
 	name: 'Kanban lens',
 	data: {
+		supportsGroups: true,
 		icon: 'columns',
 		renderer: connectComponent(Kanban),
 		filter: {

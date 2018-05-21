@@ -52,60 +52,63 @@
     ],
     "groups": [
       {
+        "slug": "group-view-all-repos-license",
         "name": "License",
-        "schemas": [
-          {
-            "title": "Unlicensed",
-            "type": "object",
-            "properties": {
-              "data": {
-                "type": "object",
-                "properties": {
-                  "License": {
-                    "const": "UNLICENSED"
-                  }
-                },
-                "required": [ "License" ]
-              }
+        "data": {
+          "schemas": [
+            {
+              "title": "Unlicensed",
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "License": {
+                      "const": "UNLICENSED"
+                    }
+                  },
+                  "required": [ "License" ]
+                }
+              },
+              "additionalProperties": true,
+              "required": [ "data" ]
             },
-            "additionalProperties": true,
-            "required": [ "data" ]
-          },
-          {
-            "title": "Other",
-            "type": "object",
-            "properties": {
-              "data": {
-                "type": "object",
-                "properties": {
-                  "License": {
-                    "const": "Other"
-                  }
-                },
-                "required": [ "License" ]
-              }
+            {
+              "title": "Other",
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "License": {
+                      "const": "Other"
+                    }
+                  },
+                  "required": [ "License" ]
+                }
+              },
+              "additionalProperties": true,
+              "required": [ "data" ]
             },
-            "additionalProperties": true,
-            "required": [ "data" ]
-          },
-          {
-            "title": "Apache-2.0",
-            "type": "object",
-            "properties": {
-              "data": {
-                "type": "object",
-                "properties": {
-                  "License": {
-                    "const": "Apache-2.0"
-                  }
-                },
-                "required": [ "License" ]
-              }
-            },
-            "additionalProperties": true,
-            "required": [ "data" ]
-          }
-        ]
+            {
+              "title": "Apache-2.0",
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "License": {
+                      "const": "Apache-2.0"
+                    }
+                  },
+                  "required": [ "License" ]
+                }
+              },
+              "additionalProperties": true,
+              "required": [ "data" ]
+            }
+          ]
+        }
       }
     ]
   }
