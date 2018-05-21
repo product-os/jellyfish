@@ -63,6 +63,8 @@ ava.test.beforeEach(async (test) => {
 		require('../../default-cards/contrib/update.json'))
 	await test.context.jellyfish.insertCard(test.context.session,
 		require('../../default-cards/contrib/view-non-executed-action-requests.json'))
+	await test.context.jellyfish.insertCard(test.context.session,
+		require('../../default-cards/contrib/view-active-triggered-actions.json'))
 
 	test.context.ids = {
 		card: (await test.context.jellyfish.getCardBySlug(test.context.session, 'card')).id,
