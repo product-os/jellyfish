@@ -36,6 +36,7 @@ ava.test.beforeEach(async (test) => {
 	})
 
 	test.context.session = test.context.jellyfish.sessions.admin
+	test.context.admin = await test.context.jellyfish.getCardBySlug(test.context.session, 'user-admin')
 	test.context.worker = new ActionRequestWorker(test.context.jellyfish, test.context.session)
 	await test.context.jellyfish.insertCard(test.context.session,
 		require('../../default-cards/contrib/action-create-user.json'))
@@ -57,6 +58,8 @@ ava.test.beforeEach(async (test) => {
 		require('../../default-cards/contrib/triggered-action.json'))
 	await test.context.jellyfish.insertCard(test.context.session,
 		require('../../default-cards/contrib/view-active-triggered-actions.json'))
+	await test.context.jellyfish.insertCard(test.context.session,
+		require('../../default-cards/contrib/view-non-executed-action-requests.json'))
 	await test.context.jellyfish.insertCard(test.context.session,
 		require('../../default-cards/contrib/view-read-user-guest.json'))
 	await test.context.jellyfish.insertCard(test.context.session,
@@ -453,9 +456,11 @@ ava.test('.executeTriggers() should execute a matching triggered action', async 
 		data: {
 			filter: {
 				type: 'object',
+				required: [ 'data' ],
 				properties: {
 					data: {
 						type: 'object',
+						required: [ 'command' ],
 						properties: {
 							command: {
 								type: 'string',
@@ -516,9 +521,11 @@ ava.test('.executeTriggers() should not do anything if there is no match', async
 		data: {
 			filter: {
 				type: 'object',
+				required: [ 'data' ],
 				properties: {
 					data: {
 						type: 'object',
+						required: [ 'command' ],
 						properties: {
 							command: {
 								type: 'string',
@@ -560,9 +567,11 @@ ava.test('.executeTriggers() should go through all triggered actions', async (te
 		data: {
 			filter: {
 				type: 'object',
+				required: [ 'data' ],
 				properties: {
 					data: {
 						type: 'object',
+						required: [ 'command' ],
 						properties: {
 							command: {
 								type: 'string',
@@ -590,9 +599,11 @@ ava.test('.executeTriggers() should go through all triggered actions', async (te
 		data: {
 			filter: {
 				type: 'object',
+				required: [ 'data' ],
 				properties: {
 					data: {
 						type: 'object',
+						required: [ 'command' ],
 						properties: {
 							command: {
 								type: 'string',
@@ -680,9 +691,11 @@ ava.test('.executeTriggers() should support source templates', async (test) => {
 		data: {
 			filter: {
 				type: 'object',
+				required: [ 'data' ],
 				properties: {
 					data: {
 						type: 'object',
+						required: [ 'command' ],
 						properties: {
 							command: {
 								type: 'string',
@@ -741,6 +754,106 @@ ava.test('.executeTriggers() should support source templates', async (test) => {
 		tags: [],
 		data: {
 			number: 6
+		}
+	})
+})
+
+ava.test('.createRequest() should execute triggered actions', async (test) => {
+	await test.context.jellyfish.insertCard(test.context.session, {
+		type: 'triggered-action',
+		active: true,
+		links: [],
+		tags: [],
+		data: {
+			filter: {
+				type: 'object',
+				required: [ 'data' ],
+				properties: {
+					data: {
+						type: 'object',
+						required: [ 'command' ],
+						properties: {
+							command: {
+								type: 'string',
+								const: 'foo-bar-baz'
+							}
+						}
+					}
+				}
+			},
+			action: '[source.data.action]',
+			target: test.context.ids.card,
+			arguments: {
+				properties: {
+					slug: '[source.data.slug]',
+					data: {
+						number: '[source.data.number]'
+					}
+				}
+			}
+		}
+	})
+
+	const resultBefore = await test.context.jellyfish.getCardBySlug(test.context.session, 'triggered-card')
+	test.falsy(resultBefore)
+
+	const requestId = await test.context.worker.createRequest(test.context.session, {
+		targetId: test.context.ids.card,
+		actorId: test.context.admin.id,
+		action: 'action-create-card',
+		arguments: {
+			properties: {
+				slug: 'card-with-trigger',
+				data: {
+					command: 'foo-bar-baz',
+					action: 'action-create-card',
+					slug: 'triggered-card',
+					number: 7
+				}
+			}
+		}
+	})
+
+	const pendingRequest = await test.context.jellyfish.getCardById(test.context.session, requestId)
+	await test.context.worker.processRequest(test.context.session, pendingRequest)
+	const finishedRequest = await test.context.jellyfish.getCardById(test.context.session, requestId)
+	test.false(finishedRequest.data.result.error)
+
+	const cardWithTrigger = await test.context.jellyfish.getCardById(test.context.session, finishedRequest.data.result.data)
+	test.deepEqual(cardWithTrigger, {
+		id: finishedRequest.data.result.data,
+		slug: 'card-with-trigger',
+		type: 'card',
+		active: true,
+		tags: [],
+		links: [],
+		data: {
+			action: 'action-create-card',
+			command: 'foo-bar-baz',
+			slug: 'triggered-card',
+			number: 7
+		}
+	})
+
+	const requests = await test.context.worker.getPendingRequests(test.context.session)
+	for (const triggeredRequestId of _.map(requests, 'id')) {
+		const pendingTriggeredRequest = await test.context.jellyfish.getCardById(test.context.session, triggeredRequestId)
+		test.false(pendingTriggeredRequest.data.executed)
+		await test.context.worker.processRequest(test.context.session, pendingTriggeredRequest)
+		const finishedTriggeredRequest = await test.context.jellyfish.getCardById(test.context.session, triggeredRequestId)
+		test.true(finishedTriggeredRequest.data.executed)
+		test.falsy(finishedTriggeredRequest.data.result.error)
+	}
+
+	const resultAfter = await test.context.jellyfish.getCardBySlug(test.context.session, 'triggered-card')
+	test.deepEqual(_.omit(resultAfter, [ 'id' ]), {
+		slug: 'triggered-card',
+		type: 'card',
+		active: true,
+		tags: [],
+		links: [],
+		data: {
+			number: 7
 		}
 	})
 })
