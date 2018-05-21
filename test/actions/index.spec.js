@@ -512,6 +512,55 @@ ava.test('.executeTriggers() should execute a matching triggered action', async 
 	})
 })
 
+ava.test('.executeTriggers() should execute an inactive matching triggered action', async (test) => {
+	await test.context.jellyfish.insertCard(test.context.session, {
+		type: 'triggered-action',
+		active: false,
+		links: [],
+		tags: [],
+		data: {
+			filter: {
+				type: 'object',
+				required: [ 'data' ],
+				properties: {
+					data: {
+						type: 'object',
+						required: [ 'command' ],
+						properties: {
+							command: {
+								type: 'string',
+								const: 'foo-bar-baz'
+							}
+						}
+					}
+				}
+			},
+			action: 'action-create-card',
+			target: test.context.ids.card,
+			arguments: {
+				properties: {
+					slug: 'foo-bar-baz'
+				}
+			}
+		}
+	})
+
+	const requests = await test.context.worker.executeTriggers(test.context.session, {
+		type: 'card',
+		active: true,
+		links: [],
+		tags: [],
+		data: {
+			command: 'foo-bar-baz'
+		}
+	})
+
+	test.is(requests.length, 0)
+
+	const result = await test.context.jellyfish.getCardBySlug(test.context.session, 'foo-bar-baz')
+	test.falsy(result)
+})
+
 ava.test('.executeTriggers() should not do anything if there is no match', async (test) => {
 	await test.context.jellyfish.insertCard(test.context.session, {
 		type: 'triggered-action',
