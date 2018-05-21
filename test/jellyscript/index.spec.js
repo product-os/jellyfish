@@ -192,7 +192,7 @@ ava.test('REGEX_MATCH: should consider duplicates', (test) => {
 })
 
 ava.test('AGGREGATE: should generate a watcher if aggregating $events', (test) => {
-	const result = jellyscript.evaluate('AGGREGATE($events, PARTIAL(FLIP(PROPERTY), "mentions"))', {
+	const result = jellyscript.evaluate('AGGREGATE($events, "mentions")', {
 		context: {
 			slug: 'thread',
 			type: 'type',
@@ -209,13 +209,7 @@ ava.test('AGGREGATE: should generate a watcher if aggregating $events', (test) =
 
 	test.deepEqual(result.watchers[0].target, [ 'data', 'target' ])
 	test.is(result.watchers[0].type, 'AGGREGATE')
-	test.is(result.watchers[0].arguments.length, 1)
-
-	test.deepEqual(result.watchers[0].arguments[0]({
-		foo: 'bar',
-		mentions: [ 'john', 'jane' ],
-		bar: 'baz'
-	}), [ 'john', 'jane' ])
+	test.deepEqual(result.watchers[0].arguments, [ 'mentions' ])
 
 	test.deepEqual(result.watchers[0].filter, {
 		type: 'object',
@@ -405,7 +399,7 @@ ava.test('.evaluateObject() should report back watchers when aggregating events'
 				properties: {
 					mentions: {
 						type: 'array',
-						$formula: 'AGGREGATE($events, PARTIAL(FLIP(PROPERTY), "mentions"))'
+						$formula: 'AGGREGATE($events, "mentions")'
 					}
 				}
 			}
@@ -457,9 +451,5 @@ ava.test('.evaluateObject() should report back watchers when aggregating events'
 	test.is(result.watchers[0].type, 'AGGREGATE')
 	test.deepEqual(result.watchers[0].sourceProperty, [ 'data', 'mentions' ])
 	test.deepEqual(result.watchers[0].target, [ 'data', 'target' ])
-	test.deepEqual(result.watchers[0].arguments[0]({
-		foo: 'bar',
-		mentions: [ 'john', 'jane' ],
-		bar: 'baz'
-	}), [ 'john', 'jane' ])
+	test.deepEqual(result.watchers[0].arguments, [ 'mentions' ])
 })
