@@ -110,9 +110,10 @@ export interface Lens {
 	type: string;
 	name: string;
 	data: {
-		renderer: any,
-		icon: string,
+		filter?: JSONSchema6;
+		icon: string;
+		renderer: any;
+		supportsGroups?: boolean;
 		type?: string;
-		filter?: JSONSchema6,
 	};
 }

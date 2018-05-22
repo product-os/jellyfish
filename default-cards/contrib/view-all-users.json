@@ -29,66 +29,69 @@
     ],
     "groups": [
       {
+        "slug": "group-view-all-users-role",
         "name": "Role",
-        "schemas": [
-          {
-            "title": "user-community",
-            "type": "object",
-            "properties": {
-              "data": {
-                "type": "object",
-                "properties": {
-                  "roles": {
-                    "contains": {
-                      "const": "user-community"
+        "data": {
+          "schemas": [
+            {
+              "title": "user-community",
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "roles": {
+                      "contains": {
+                        "const": "user-community"
+                      }
                     }
-                  }
-                },
-                "required": [ "roles" ]
-              }
+                  },
+                  "required": [ "roles" ]
+                }
+              },
+              "additionalProperties": true,
+              "required": [ "data" ]
             },
-            "additionalProperties": true,
-            "required": [ "data" ]
-          },
-          {
-            "title": "user-team",
-            "type": "object",
-            "properties": {
-              "data": {
-                "type": "object",
-                "properties": {
-                  "roles": {
-                    "contains": {
-                      "const": "user-team"
+            {
+              "title": "user-team",
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "roles": {
+                      "contains": {
+                        "const": "user-team"
+                      }
                     }
-                  }
-                },
-                "required": [ "roles" ]
-              }
+                  },
+                  "required": [ "roles" ]
+                }
+              },
+              "additionalProperties": true,
+              "required": [ "data" ]
             },
-            "additionalProperties": true,
-            "required": [ "data" ]
-          },
-          {
-            "title": "user-team-admin",
-            "type": "object",
-            "properties": {
-              "data": {
-                "type": "object",
-                "properties": {
-                  "roles": {
-                    "contains": {
-                      "const": "user-team-admin"
+            {
+              "title": "user-team-admin",
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "roles": {
+                      "contains": {
+                        "const": "user-team-admin"
+                      }
                     }
-                  }
-                },
-                "required": [ "roles" ]
-              }
-            },
-            "additionalProperties": true,
-            "required": [ "data" ]
-          }
-        ]
+                  },
+                  "required": [ "roles" ]
+                }
+              },
+              "additionalProperties": true,
+              "required": [ "data" ]
+            }
+          ]
+        }
       }
     ]
   }
