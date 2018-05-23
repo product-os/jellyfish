@@ -329,23 +329,9 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 								}
 							</Box>
 
-							<Flex>
-								<Box px={3} color={lensSupportsGroups ? undefined : '#ccc'}>
-									Group by:
-									<Select
-										ml={2}
-										value={this.state.subscription!.data.activeGroup}
-										onChange={lensSupportsGroups ? this.setGroup : _.noop}
-									>
-										{_.map(groups, (group) => {
-											return <option
-											disabled={!lensSupportsGroups}
-											key={group.slug} value={group.slug}>{group.name}</option>;
-										})}
-									</Select>
-								</Box>
+							<Flex px={3}>
 								{this.state.lenses.length > 1 && !!activeLens &&
-									<ButtonGroup mr={3}>
+									<ButtonGroup>
 										{_.map(this.state.lenses, lens =>
 											<Button
 												key={lens.slug}
@@ -357,6 +343,19 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 										)}
 									</ButtonGroup>
 								}
+								<Box ml={2} color={lensSupportsGroups ? undefined : '#ccc'}>
+									<Select
+										ml={2}
+										value={this.state.subscription!.data.activeGroup}
+										onChange={lensSupportsGroups ? this.setGroup : _.noop}
+									>
+										{_.map(groups, (group) => {
+											return <option
+											disabled={!lensSupportsGroups}
+											key={group.slug} value={group.slug}>Group by: {group.name}</option>;
+										})}
+									</Select>
+								</Box>
 							</Flex>
 						</Flex>
 
