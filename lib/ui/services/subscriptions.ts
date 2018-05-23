@@ -5,59 +5,50 @@ import { actionCreators, sdk, store } from '../app';
 import { createNotification } from './notifications';
 
 export class SubscriptionManager {
-	private subsMap: { [k: string]: Card } = {};
 	private streams: { [k: string]: JellyfishStream } = {};
-	private allSubsStream: JellyfishStream;
 
-	public async updateSubscriptions(cards: Card[]) {
+	public subscribe(card: Card) {
+		const stream = sdk.stream(card.id);
 		const user = _.get(store.getState(), 'session.user');
 
-		const subscriptions = [];
-
-		for (const card of cards) {
-			const sub = await this.getSubscription(card, user);
-			subscriptions.push(sub);
+		if (this.streams[card.id]) {
+			this.streams[card.id].destroy();
 		}
 
-		this.streamAllSubscriptions(user);
+		this.streams[card.id] = stream;
 
-		_.forEach(this.streams, (stream) => stream.destroy());
+		stream.on('update', (response) => {
+			// If before is non-null then a card has been updated and we're not
+			// interested
+			if (response.data.before) {
+				return;
+			}
 
-		_.forEach(cards, (card) => {
-			const stream = sdk.stream(card.id);
+			const content = response.data.after;
 
-			this.streams[card.id] = stream;
+			const mentions = _.get(content, 'data.mentionsUser');
 
-			stream.on('update', (response) => {
-				// If before is non-null then a card has been updated and we're not
-				// interested
-				if (response.data.before) {
-					return;
-				}
-
-				const content = response.data.after;
-
-				const mentions = _.get(content, 'data.mentionsUser');
-
-				if (mentions && _.includes(mentions, user.id)) {
-					this.notify(card, content, 'mention');
-					store.dispatch(actionCreators.addViewNotice({
-						id: card.id,
-						newMentions: true,
-					}));
-				} else {
-					this.notify(card, content, 'update');
-					store.dispatch(actionCreators.addViewNotice({
-						id: card.id,
-						newContent: true,
-					}));
-				}
-			});
+			if (mentions && _.includes(mentions, user.id)) {
+				this.notify(card, content, user, 'mention');
+				store.dispatch(actionCreators.addViewNotice({
+					id: card.id,
+					newMentions: true,
+				}));
+			} else {
+				this.notify(card, content, user, 'update');
+				store.dispatch(actionCreators.addViewNotice({
+					id: card.id,
+					newContent: true,
+				}));
+			}
 		});
+
+		return stream;
 	}
 
-	public notify(view: Card, content: Card, notifyType: 'mention' | 'update' | 'alert') {
-		const settings = _.get(this.subsMap[view.id], ['data', 'notificationSettings', 'web' ]);
+	public async notify(view: Card, content: Card, user: Card, notifyType: 'mention' | 'update' | 'alert') {
+		const subscription = await this.getSubscription(view, user);
+		const settings = _.get(subscription, ['data', 'notificationSettings', 'web' ]);
 
 		if (!settings) {
 			return;
@@ -76,9 +67,6 @@ export class SubscriptionManager {
 	}
 
 	public async getSubscription(card: Card, user: Card) {
-		if (this.subsMap[card.id]) {
-			return this.subsMap[card.id];
-		}
 		const results = await sdk.query({
 			type: 'object',
 			properties: {
@@ -121,40 +109,6 @@ export class SubscriptionManager {
 			}
 		}
 
-		this.subsMap[card.id] = subCard!;
-
 		return subCard;
-	}
-
-	// Make sure subscription data is up to date
-	public streamAllSubscriptions(user: Card) {
-		if (this.allSubsStream) {
-			this.allSubsStream.destroy();
-		}
-		this.allSubsStream = sdk.stream({
-			type: 'object',
-			properties: {
-				type: {
-					const: 'subscription',
-				},
-				data: {
-					type: 'object',
-					properties: {
-						actor: {
-							const: user.id,
-						},
-					},
-					additionalProperties: true,
-				},
-			},
-			additionalProperties: true,
-		});
-
-		this.allSubsStream.on('update', (response) => {
-			const card = response.data.before;
-			if (card) {
-				this.subsMap[card.data.target] = card;
-			}
-		});
 	}
 }
