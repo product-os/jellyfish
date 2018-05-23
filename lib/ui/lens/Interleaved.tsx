@@ -145,8 +145,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 
 	public render() {
 		const { head } = this.props.channel.data;
-		const tail = this.props.tail || _.sortBy<Card>(this.state.tail, x => x.data.timestamp);
-
+		const tail = this.props.tail || (this.state.tail ? _.sortBy<Card>(this.state.tail, x => x.data.timestamp) : null);
 		const channelTarget = this.props.channel.data.target;
 
 		return (

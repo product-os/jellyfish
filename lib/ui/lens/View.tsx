@@ -9,7 +9,6 @@ import {
 	FiltersView,
 	Flex,
 	Select,
-	Txt,
 } from 'rendition';
 import { Card, Lens, RendererProps, Type } from '../../Types';
 import { sdk } from '../app';
@@ -278,18 +277,10 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 		const { head } = this.props.channel.data;
 		const { tail, tailType } = this.state;
 		const useFilters = !!tailType && tailType.slug !== 'view';
-
 		const { activeLens } = this.state;
-
-		const originalFilters = head
-			? _.map(_.reject(head.data.allOf, { name: USER_FILTER_NAME }), 'name')
-			: [];
-
 		const channelIndex = _.findIndex(this.props.appState.channels, { id: this.props.channel.id });
 		const nextChannel = this.props.appState.channels[channelIndex + 1];
-
 		const groups = this.getGroups();
-
 		const lensSupportsGroups = !!activeLens && !!activeLens.data.supportsGroups;
 
 		return (
@@ -307,8 +298,6 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 							onDone={(settings) => this.saveNotificationSettings(settings)}
 						/>
 
-						{!!this.state.filters.length && !!originalFilters.length &&
-							<Txt px={3} pt={2}>View extends <em>{originalFilters.join(', ')}</em></Txt>}
 						<Flex mt={3} justify='space-between'>
 							<Box pl={3}>
 								<Button
