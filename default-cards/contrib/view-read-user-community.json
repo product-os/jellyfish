@@ -262,7 +262,7 @@
             "slug": {
               "type": "string",
               "enum": [
-                "view-all-threads",
+                "view-all-messages",
                 "view-all-views",
                 "view-my-mentions"
               ]
