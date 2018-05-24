@@ -33,7 +33,7 @@ interface DefaultRendererProps extends RendererProps, ConnectedComponentProps {
 
 // Default renderer for a card and a timeline
 export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> {
-	private scrollArea: HTMLElement;
+	private scrollArea: HTMLElement | null;
 	private shouldScroll: boolean = true;
 
 	constructor(props: DefaultRendererProps) {
@@ -150,7 +150,14 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 
 		return (
 			<Column flexDirection='column'>
-				<Box innerRef={(ref) => this.scrollArea = ref} p={3} flex='1' style={{ overflowY: 'auto' }}>
+				<div
+					ref={(ref) => this.scrollArea = ref}
+					style={{
+						flex: 1,
+						padding: 16,
+						overflowY: 'auto'
+					}}
+				>
 					{!tail && <Icon name='cog fa-spin' />}
 
 					{(!!tail && tail.length > 0) && _.map(tail, card =>
@@ -169,7 +176,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 							<em>There are no messages in this thread yet, trying adding one using the input below</em>
 						</Txt>
 					}
-				</Box>
+				</div>
 
 				{head && head.type !== 'view' &&
 					<AutocompleteTextarea
