@@ -171,13 +171,13 @@ ava.test.serial('should render a list of views in the sidebar', async (test) => 
 })
 
 ava.test.serial('should render the community chat view for newly signed up users', async (test) => {
-	test.is(app.find('.home-channel__item').first().text(), 'Community chat')
+	test.is(app.find('.home-channel__item').first().text(), 'All messages')
 
 	app.find('.home-channel__item').first().simulate('click')
 
-	await waitForElement(app, '.column--view-all-threads')
+	await waitForElement(app, '.column--view-all-messages')
 
-	test.true(app.find('.column--view-all-threads').exists())
+	test.true(app.find('.column--view-all-messages').exists())
 })
 
 ava.test.serial('should allow newly signed up users to create new chat threads', async (test) => {

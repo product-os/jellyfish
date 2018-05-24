@@ -12,7 +12,6 @@ import DefaultCardLens from './DefaultCard';
 import DefaultListLens from './DefaultList';
 import KanbanLens from './Kanban';
 import MessageCardLens from './MessageCard';
-import ThreadListLens from './ThreadList';
 import ViewLens from './View';
 
 class LensService {
@@ -22,7 +21,6 @@ class LensService {
 	private lenses = {
 		list: [
 			InterleavedLens,
-			ThreadListLens,
 			DefaultListLens,
 		],
 		table: [],
@@ -119,7 +117,7 @@ class LensService {
 	}
 
 	public getLensBySlug(slug: string) {
-		const lenses = _.flatten(_.map(this.lenses, (v) => v))
+		const lenses = _.flatten(_.map(this.lenses, (v) => v));
 
 		return _.find(lenses, { slug }) || null;
 	}

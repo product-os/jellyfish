@@ -1,6 +1,6 @@
 {
   "slug": "view-all-messages",
-  "name": "All chat messages",
+  "name": "All messages",
   "type": "view",
   "tags": [],
   "links": [],
@@ -26,20 +26,14 @@
       {
         "name": "user-generated-filter",
         "schema": {
-          "anyOf": [
-            {
-              "description": "type is message",
-              "properties": {
-                "type": {
-                  "const": "message"
-                }
-              },
-              "required": [
-                "type"
-              ],
-              "title": "is",
-              "type": "object"
+          "description": "type is message",
+          "properties": {
+            "type": {
+              "const": "message"
             }
+          },
+          "required": [
+            "type"
           ],
           "type": "object"
         }

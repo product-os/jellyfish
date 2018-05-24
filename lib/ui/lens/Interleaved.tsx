@@ -4,6 +4,7 @@ import * as _ from 'lodash';
 import * as React from 'react';
 import {
 	Box,
+	Button,
 	Flex,
 	Txt,
 } from 'rendition';
@@ -25,10 +26,12 @@ const Column = styled(Flex)`
 interface RendererState {
 	tail: null | Card[];
 	newMessage: string;
+	showNewCardModal: boolean;
 }
 
 interface DefaultRendererProps extends RendererProps, ConnectedComponentProps {
 	tail?: Card[];
+	type?: Card;
 }
 
 // Default renderer for a card and a timeline
@@ -42,6 +45,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		this.state = {
 			tail: null,
 			newMessage: '',
+			showNewCardModal: false,
 		};
 
 		const querySchema: JSONSchema6 = {
@@ -143,6 +147,25 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		this.props.actions.loadChannelData(newChannel);
 	}
 
+	public addThread = (e: React.MouseEvent<HTMLElement>) => {
+		e.preventDefault();
+
+		return sdk.card.create({
+			type: 'thread',
+			data: {
+				timestamp: getCurrentTimestamp(),
+				actor: this.props.appState.session!.user!.id,
+			},
+		})
+		.then((threadId) => {
+			this.openChannel(threadId);
+			return null;
+		})
+		.catch((error) => {
+			this.props.actions.addNotification('danger', error.message);
+		});
+	}
+
 	public render() {
 		const { head } = this.props.channel.data;
 		const tail = this.props.tail || (this.state.tail ? _.sortBy<Card>(this.state.tail, x => x.data.timestamp) : null);
@@ -186,6 +209,16 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 						onChange={(e: any) => this.setState({ newMessage: e.target.value })}
 						onKeyPress={(e) => e.key === 'Enter' && this.addMessage(e)}
 						placeholder='Type to comment on this thread...' />
+				}
+				{head && head.type === 'view' &&
+					<Flex p={3}
+						style={{borderTop: '1px solid #eee'}}
+						justify='flex-end'
+					>
+						<Button className='btn--add-thread' success onClick={this.addThread}>
+							Add a Chat Thread
+						</Button>
+					</Flex>
 				}
 			</Column>
 		);
