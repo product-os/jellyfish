@@ -258,7 +258,7 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 								w='100%'
 								className='user-menu__logout'
 								plaintext
-								style={{textAlign: 'left'}}
+								style={{textAlign: 'left', display: 'block'}}
 								onClick={() => this.logout()}>
 								Log out
 							</Button>
