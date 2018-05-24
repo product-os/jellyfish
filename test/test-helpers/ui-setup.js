@@ -1,6 +1,9 @@
 const Enzyme = require('enzyme')
 const Adapter = require('enzyme-adapter-react-16')
 const {
+	HowlerGlobal
+} = require('howler')
+const {
 	JSDOM
 } = require('jsdom')
 const _ = require('lodash')
@@ -20,3 +23,4 @@ global.window = document.defaultView
 global.navigator = window.navigator
 global.Image = window.Image
 global.Notification = NotificationStub
+global.HowlerGlobal = HowlerGlobal

@@ -8,6 +8,7 @@ const root = path.resolve(__dirname, '.')
 const uiRoot = path.join(root, 'lib', 'ui')
 const indexFilePath = path.join(uiRoot, 'index.html')
 const iconsFolderPath = path.join(uiRoot, 'icons')
+const audioFolderPath = path.join(uiRoot, 'audio')
 const outDir = path.join(root, 'dist')
 
 module.exports = {
@@ -73,6 +74,10 @@ module.exports = {
 			{
 				from: iconsFolderPath,
 				to: 'icons'
+			},
+			{
+				from: audioFolderPath,
+				to: 'audio'
 			}
 		]),
 		new ForkTsCheckerWebpackPlugin(),
