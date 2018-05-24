@@ -1,8 +1,13 @@
+import { Howl } from 'howler';
 import * as _ from 'lodash';
 import { actionCreators, store } from '../app';
 import { createChannel } from './helpers';
 
 const TIMEOUT = 10 * 1000;
+
+const sound = new Howl({
+	src: '/audio/dustyroom_cartoon_bubble_pop.mp3',
+});
 
 let canUseNotifications = (Notification as any).permission === 'granted';
 
@@ -17,10 +22,13 @@ export const createNotification = (title: string, body: string, target: string) 
 	if (!canUseNotifications) {
 		return;
 	}
+
 	const notice = new Notification(title, {
 		body,
 		icon: '/icons/jellyfish.png',
 	});
+
+	sound.play();
 
 	const timeout = setTimeout(() => notice.close(), TIMEOUT);
 
