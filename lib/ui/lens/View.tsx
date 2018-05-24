@@ -336,12 +336,12 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 									<Box ml={2} color={lensSupportsGroups ? undefined : '#ccc'}>
 										<Select
 											ml={2}
+											disabled={!lensSupportsGroups}
 											value={this.state.subscription!.data.activeGroup}
 											onChange={lensSupportsGroups ? this.setGroup : _.noop}
 										>
 											{_.map(groups, (group) => {
 												return <option
-												disabled={!lensSupportsGroups}
 												key={group.slug} value={group.slug}>Group by: {group.name}</option>;
 											})}
 										</Select>

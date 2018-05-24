@@ -112,7 +112,7 @@
     "react-trello": "^1.31.3",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
-    "rendition": "4.5.0",
+    "rendition": "4.8.0",
     "rethinkdb": "^2.3.3",
     "socket.io": "^2.1.0",
     "static-eval": "^2.0.0",
