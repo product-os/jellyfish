@@ -50,7 +50,8 @@ ava.test('.getFormulasPaths() should return one property with formulas', (test) 
 	test.deepEqual(paths, [
 		{
 			formula: 'UPPER(input)',
-			output: [ 'foo' ]
+			output: [ 'foo' ],
+			type: 'string'
 		}
 	])
 })
@@ -78,11 +79,13 @@ ava.test('.getFormulasPaths() should return nested properties with formulas', (t
 	test.deepEqual(paths, [
 		{
 			formula: 'UPPER(input)',
-			output: [ 'foo' ]
+			output: [ 'foo' ],
+			type: 'string'
 		},
 		{
 			formula: 'POW(input, 2)',
-			output: [ 'bar', 'baz' ]
+			output: [ 'bar', 'baz' ],
+			type: 'number'
 		}
 	])
 })
@@ -113,11 +116,13 @@ ava.test('.getFormulasPaths() should return properties inside arrays', (test) =>
 	test.deepEqual(paths, [
 		{
 			formula: 'UPPER(input)',
-			output: [ 'foo' ]
+			output: [ 'foo' ],
+			type: 'string'
 		},
 		{
 			formula: 'LOWER(input)',
-			output: [ 'bar' ]
+			output: [ 'bar' ],
+			type: 'string'
 		}
 	])
 })
