@@ -66,13 +66,17 @@
                   "data": {
                     "type": "object",
                     "properties": {
+                      "sort": {
+                        "type": "string"
+                      },
                       "schemas": {
                         "type": "array",
                         "items": {
                           "type": "object"
                         }
                       }
-                    }
+                    },
+                    "required": [ "schemas" ]
                   }
                 },
                 "required": [ "slug", "name", "data" ]

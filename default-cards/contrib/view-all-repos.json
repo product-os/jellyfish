@@ -55,6 +55,7 @@
         "slug": "group-view-all-repos-license",
         "name": "License",
         "data": {
+          "sort": "input.a.name < input.b.name",
           "schemas": [
             {
               "title": "Unlicensed",
