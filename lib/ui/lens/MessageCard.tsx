@@ -28,7 +28,7 @@ class CardList extends React.Component<CardListProps, CardListState> {
 		setTimeout(() => this.scrollToBottom(), 1000);
 	}
 
-	public createThread() {
+	public createThread = () => {
 		sdk.card.create({
 			type: 'thread',
 		})
@@ -65,7 +65,7 @@ class CardList extends React.Component<CardListProps, CardListState> {
 		}
 	}
 
-	public openChannel(target: string) {
+	public openChannel = (target: string) => {
 		const newChannel = createChannel({
 			target,
 			parentChannel: this.props.channel.id,
@@ -81,29 +81,36 @@ class CardList extends React.Component<CardListProps, CardListState> {
 		});
 	}
 
+	public setScrollArea = (ref: HTMLElement) => {
+		this.scrollArea = ref;
+	}
+
 	public render() {
 		const { tail } = this.props;
 
 		return (
 			<React.Fragment>
-				<Box innerRef={(ref) => this.scrollArea = ref} flex='1' style={{overflowY: 'auto'}}>
+				<Box innerRef={this.setScrollArea} flex="1" style={{overflowY: 'auto'}}>
 					{!!tail && _.map(tail, (card) => {
 
 						return (
-							<Box p={3} bg={this.threadOpen(card.data.target) ? '#eee' : '#fff' } >
-								<EventCard card={card}
+							<Box p={3} bg={this.threadOpen(card.data.target) ? '#eee' : '#fff'} >
+								<EventCard
+									card={card}
 									users={this.props.appState.allUsers}
-									openChannel={(target) => this.openChannel(target)} />
+									openChannel={this.openChannel}
+								/>
 							</Box>
 						);
 					})}
 				</Box>
 
-				<Flex p={3}
+				<Flex
+					p={3}
 					style={{borderTop: '1px solid #eee'}}
-					justify='flex-end'
+					justify="flex-end"
 				>
-					<Button success onClick={() => this.createThread()}>
+					<Button success={true} onClick={this.createThread}>
 						Start a new thread
 					</Button>
 				</Flex>

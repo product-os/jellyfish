@@ -71,10 +71,10 @@ const SplashWrapper = styled(Box)`
 `;
 
 export const Splash = (props: BoxProps) => (
-	<SplashWrapper className='splash' {...props}>
-		<div className='splash__wave -one'></div>
-		<div className='splash__wave -two'></div>
-		<div className='splash__wave -three'></div>
-		<Img className='splash__icon' src='/icons/jellyfish.svg' />
+	<SplashWrapper className="splash" {...props}>
+		<div className="splash__wave -one" />
+		<div className="splash__wave -two" />
+		<div className="splash__wave -three" />
+		<Img className="splash__icon" src="/icons/jellyfish.svg" />
 	</SplashWrapper>
 );

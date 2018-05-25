@@ -26,7 +26,11 @@ class Base extends React.Component<CardCreatorProps, CardCreatorState> {
 		};
 	}
 
-	public addEntry() {
+	public addEntry = () => {
+		if (!this.props.type) {
+			return;
+		}
+
 		const newCard = {
 			type: this.props.type.slug,
 			...this.state.newCardModel,
@@ -44,6 +48,10 @@ class Base extends React.Component<CardCreatorProps, CardCreatorState> {
 		this.props.done();
 	}
 
+	public handleFormChange = (data: any) => {
+		this.setState({ newCardModel: data.formData });
+	}
+
 	public render() {
 		if (!this.props.show) {
 			return null;
@@ -51,16 +59,16 @@ class Base extends React.Component<CardCreatorProps, CardCreatorState> {
 
 		return (
 			<Modal
-				title='Add entry'
-				cancel={() => this.props.done()}
-				done={() => !!this.props.type && this.addEntry()}>
-
+				title="Add entry"
+				cancel={this.props.done}
+				done={this.addEntry}
+			>
 				<Form
 					schema={(this.props.type as any).data.schema}
 					value={this.state.newCardModel}
-					onFormChange={(data: any) => this.setState({ newCardModel: data.formData })}
-					onFormSubmit={() => !!this.props.type && this.addEntry()}
-					hideSubmitButton
+					onFormChange={this.handleFormChange}
+					onFormSubmit={this.addEntry}
+					hideSubmitButton={true}
 				/>
 			</Modal>
 		);

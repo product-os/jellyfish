@@ -26,7 +26,7 @@ class UI extends React.Component<ConnectedComponentProps, {}> {
 
 		return (
 			<Provider style={{height: '100%'}}>
-				<Flex flex='1' style={{ height: '100%'}}>
+				<Flex flex="1" style={{ height: '100%'}}>
 					<HomeChannel channel={home} />
 
 					{!!next && <ChannelRenderer channel={next} />}

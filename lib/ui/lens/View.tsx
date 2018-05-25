@@ -15,6 +15,7 @@ import { sdk } from '../app';
 import ButtonGroup from '../components/ButtonGroup';
 import ChannelRenderer from '../components/ChannelRenderer';
 import Icon from '../components/Icon';
+import { If } from '../components/If';
 import { NotificationsModal } from '../components/NotificationsModal';
 import { TailStreamer } from '../components/TailStreamer';
 import {
@@ -60,7 +61,7 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 		this.bootstrap(this.props.channel.data.target);
 	}
 
-	public bootstrap(target: string) {
+	bootstrap(target: string) {
 		// Set tail to null and ready state to false immediately
 		this.setState({
 			tail: null,
@@ -155,7 +156,7 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 		}));
 	}
 
-	public saveView(view: FiltersView) {
+	public saveView([ view ]: FiltersView[]) {
 		sdk.card.create(this.createView(view))
 		.then(
 			(viewId) => this.props.actions.addChannel(createChannel({
@@ -220,7 +221,7 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 		return _.get(this.state.subscription, 'data.notificationSettings') || {};
 	}
 
-	public saveNotificationSettings(settings: any) {
+	public saveNotificationSettings = (settings: any) => {
 		const { subscription } = this.state;
 
 		if (!subscription) {
@@ -237,10 +238,12 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 		});
 	}
 
-	public setLens(lens: Lens) {
+	public setLens = (e: React.MouseEvent<HTMLButtonElement>) => {
+		const slug = e.currentTarget.dataset.slug;
+		const lens = _.find(this.state.lenses, { slug });
 		const { subscription } = this.state;
 
-		if (!subscription) {
+		if (!subscription || !lens) {
 			return;
 		}
 
@@ -270,7 +273,19 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 		});
 	}
 
-	public render() {
+	public showNotificationSettings = () => {
+		this.setState({ showNotificationSettings: true });
+	}
+
+	public hideNotificationSettings = () => {
+		this.setState({ showNotificationSettings: false });
+	}
+
+	public toggleFilters = () => {
+		this.setState({ showFilters: !this.state.showFilters });
+	}
+
+	render() {
 		if (!this.state.ready) {
 			return null;
 		}
@@ -286,53 +301,58 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 		return (
 			<Flex
 				className={`column--${head ? head.slug || head.type : 'unknown'}`}
-				flexDirection='column'
-				flex='1 1 auto'
-				style={{ height: '100%', overflowY: 'auto', borderRight: '1px solid #ccc', position: 'relative' }}>
-				{head &&
+				flexDirection="column"
+				flex="1 1 auto"
+				style={{ height: '100%', overflowY: 'auto', borderRight: '1px solid #ccc', position: 'relative' }}
+			>
+				<If condition={!!head}>
 					<Box>
 						<NotificationsModal
 							show={this.state.showNotificationSettings}
 							settings={this.getNotificationSettings()}
-							onCancel={() => this.setState({ showNotificationSettings: false })}
-							onDone={(settings) => this.saveNotificationSettings(settings)}
+							onCancel={this.hideNotificationSettings}
+							onDone={this.saveNotificationSettings}
 						/>
 
-						<Flex mt={3} justify='space-between'>
+						<Flex mt={3} justify="space-between">
 							<Box pl={3}>
 								<Button
 									mr={2}
 									tooltip={{ placement: 'bottom', text: 'Notification settings'}}
-									onClick={() => this.setState({ showNotificationSettings: true })}
-									square>
-									<Icon name='bell' />
+									onClick={this.showNotificationSettings}
+									square={true}
+								>
+									<Icon name="bell" />
 								</Button>
 
-								{useFilters &&
+								<If condition={useFilters}>
 									<Button
 										tooltip={{ placement: 'bottom', text: 'Filter options'}}
-										onClick={() => this.setState({ showFilters: !this.state.showFilters })}
-										square>
-										<Icon name='filter' />
+										onClick={this.toggleFilters}
+										square={true}
+									>
+										<Icon name="filter" />
 									</Button>
-								}
+								</If>
 							</Box>
 
 							<Flex px={3}>
-								{this.state.lenses.length > 1 && !!activeLens &&
+								<If condition={this.state.lenses.length > 1 && !!activeLens}>
 									<ButtonGroup>
 										{_.map(this.state.lenses, lens =>
 											<Button
 												key={lens.slug}
-												bg={activeLens.slug === lens.slug  ? '#333' : undefined}
-												square
-												onClick={() => this.setLens(lens)}>
+												bg={activeLens && activeLens.slug === lens.slug  ? '#333' : undefined}
+												square={true}
+												data-slug={lens.slug}
+												onClick={this.setLens}
+											>
 												<Icon name={lens.data.icon} />
 											</Button>,
 										)}
 									</ButtonGroup>
-								}
-								{ groups.length > 0 &&
+								</If>
+								<If condition={groups.length > 0}>
 									<Box ml={2} color={lensSupportsGroups ? undefined : '#ccc'}>
 										<Select
 											ml={2}
@@ -341,48 +361,56 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 											onChange={lensSupportsGroups ? this.setGroup : _.noop}
 										>
 											{_.map(groups, (group) => {
-												return <option
-												key={group.slug} value={group.slug}>Group by: {group.name}</option>;
+												return (
+													<option
+														key={group.slug}
+														value={group.slug}
+													>
+														Group by: {group.name}
+													</option>
+												);
 											})}
 										</Select>
 									</Box>
-								}
+								</If>
 							</Flex>
 						</Flex>
 
-						{useFilters && this.state.showFilters &&
-							<Box mx={3} mt={2} flex='1 0 auto'>
+						<If condition={useFilters && this.state.showFilters}>
+							<Box mx={3} mt={2} flex="1 0 auto">
 								<Filters
 									schema={(tailType as any).data.schema}
 									filters={this.state.filters}
-									onFiltersUpdate={(filters) => this.updateFilters(filters)}
-									onViewsUpdate={([view]) => this.saveView(view)}
+									onFiltersUpdate={this.updateFilters}
+									onViewsUpdate={this.saveView}
 									addFilterButtonProps={{
 										style: { flex: '0 0 137px' },
 									}}
 									renderMode={['add', 'search', 'summary']}
 								/>
 							</Box>
-						}
+						</If>
 
-						<Divider color='#ccc' mt={3} mb={0} style={{height: 1}} />
+						<Divider color="#ccc" mt={3} mb={0} style={{height: 1}} />
 					</Box>
-				}
+				</If>
 
 				<Flex style={{height: '100%'}}>
-					<Flex flex='1' flexDirection='column' style={{height: '100%', borderRight: '1px solid #ccc'}}>
-						{!tail &&
+					<Flex flex="1" flexDirection="column" style={{height: '100%', borderRight: '1px solid #ccc'}}>
+						<If condition={!tail}>
 							<Box p={3}>
-								<Icon name='cog fa-spin' />
+								<Icon name="cog fa-spin" />
 							</Box>
-						}
+						</If>
 
-						{(!!tail && activeLens) && <activeLens.data.renderer
-							channel={this.props.channel}
-							tail={tail}
-							type={tailType}
-							subscription={this.state.subscription}
-							/>}
+						{!!tail && !!activeLens &&
+							<activeLens.data.renderer
+								channel={this.props.channel}
+								tail={tail}
+								type={tailType}
+								subscription={this.state.subscription}
+							/>
+						}
 					</Flex>
 
 					{!!nextChannel &&

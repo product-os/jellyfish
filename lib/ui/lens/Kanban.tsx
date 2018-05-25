@@ -145,6 +145,10 @@ class Kanban extends React.Component<KanbanProps, KanbanState> {
 		});
 	}
 
+	public clearModalChannel = () => {
+		this.setState({ modalChannel: null });
+	}
+
 	public render() {
 		const data = {
 			lanes: this.getLanes(),
@@ -159,15 +163,16 @@ class Kanban extends React.Component<KanbanProps, KanbanState> {
 		}
 
 		return (
-			<Flex flexDirection='column' style={{height: '100%', position: 'relative'}}>
+			<Flex flexDirection="column" style={{height: '100%', position: 'relative'}}>
 				<Board
 					style={{padding: '0 16px', margin: '0 -5px'}}
 					data={data}
-					draggable
+					draggable={true}
 					handleDragEnd={this.handleDragEnd}
-					onCardClick={this.onCardClick} />
+					onCardClick={this.onCardClick}
+				/>
 				{!!this.state.modalChannel && !!lens &&
-					<Modal w={960} done={() => this.setState({ modalChannel: null })}>
+					<Modal w={960} done={this.clearModalChannel}>
 						<lens.data.renderer channel={this.state.modalChannel} />
 					</Modal>
 				}

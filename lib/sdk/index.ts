@@ -125,7 +125,7 @@ export class Sdk implements utils.SDKInterface {
 			.then(response => response.data.data);
 	}
 
-	public action (body: {
+	public action(body: {
 		target: string;
 		action: string;
 		arguments?: any;

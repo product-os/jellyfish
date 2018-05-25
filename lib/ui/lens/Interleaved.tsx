@@ -166,22 +166,32 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		});
 	}
 
+	public handleNewMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+		this.setState({ newMessage: e.target.value });
+	}
+
+	public handleNewMessageKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+		if (e.key === 'Enter') {
+			this.addMessage(e);
+		}
+	}
+
 	public render() {
 		const { head } = this.props.channel.data;
 		const tail = this.props.tail || (this.state.tail ? _.sortBy<Card>(this.state.tail, x => x.data.timestamp) : null);
 		const channelTarget = this.props.channel.data.target;
 
 		return (
-			<Column flexDirection='column'>
+			<Column flexDirection="column">
 				<div
 					ref={(ref) => this.scrollArea = ref}
 					style={{
 						flex: 1,
 						padding: 16,
-						overflowY: 'auto'
+						overflowY: 'auto',
 					}}
 				>
-					{!tail && <Icon name='cog fa-spin' />}
+					{!tail && <Icon name="cog fa-spin" />}
 
 					{(!!tail && tail.length > 0) && _.map(tail, card =>
 						<Box key={card.id} py={3} style={{borderBottom: '1px solid #eee'}}>
@@ -195,7 +205,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 						</Box>)}
 
 					{(!!tail && tail.length === 0) &&
-						<Txt color='#ccc'>
+						<Txt color="#ccc">
 							<em>There are no messages in this thread yet, trying adding one using the input below</em>
 						</Txt>
 					}
@@ -203,19 +213,22 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 
 				{head && head.type !== 'view' &&
 					<AutocompleteTextarea
-						p={3} style={{ borderTop: '1px solid #eee' }}
-						className='new-message-input'
+						p={3}
+						style={{ borderTop: '1px solid #eee' }}
+						className="new-message-input"
 						value={this.state.newMessage}
-						onChange={(e: any) => this.setState({ newMessage: e.target.value })}
-						onKeyPress={(e) => e.key === 'Enter' && this.addMessage(e)}
-						placeholder='Type to comment on this thread...' />
+						onChange={this.handleNewMessageChange}
+						onKeyPress={this.handleNewMessageKeyPress}
+						placeholder="Type to comment on this thread..."
+					/>
 				}
 				{head && head.type === 'view' &&
-					<Flex p={3}
+					<Flex
+						p={3}
 						style={{borderTop: '1px solid #eee'}}
-						justify='flex-end'
+						justify="flex-end"
 					>
-						<Button className='btn--add-thread' success onClick={this.addThread}>
+						<Button className="btn--add-thread" success={true} onClick={this.addThread}>
 							Add a Chat Thread
 						</Button>
 					</Flex>

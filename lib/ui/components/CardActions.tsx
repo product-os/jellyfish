@@ -39,7 +39,7 @@ class Base extends React.Component<
 		};
 	}
 
-	public delete() {
+	public delete = () => {
 		sdk.card.remove(this.props.card.id)
 		.then(() => this.props.delete())
 		.catch((error) => {
@@ -49,7 +49,7 @@ class Base extends React.Component<
 		this.setState({ showDeleteModal: false });
 	}
 
-	public updateEntry() {
+	public updateEntry = () => {
 		const updatedEntry = _.assign(
 			_.cloneDeep(this.props.card),
 			this.state.editModel,
@@ -67,7 +67,7 @@ class Base extends React.Component<
 		});
 	}
 
-	public edit() {
+	public edit = () => {
 		this.setState({
 			showEditModal: true,
 			// Omit known immutable values
@@ -75,31 +75,39 @@ class Base extends React.Component<
 		});
 	}
 
-	public cancelEdit() {
+	public cancelEdit = () => {
 		this.setState({
 			showEditModal: false,
 			editModel: {},
 		});
 	}
 
+	public toggleDeleteModal = () => {
+		this.setState({ showDeleteModal: !this.state.showDeleteModal });
+	}
+
+	public handleFormChange = (data: any) => {
+		this.setState({ editModel: data.formData });
+	}
+
 	public render() {
 		return (
 			<React.Fragment>
-				<Flex align='right' justify='flex-end' mb={3}>
+				<Flex align="right" justify="flex-end" mb={3}>
 					<Button
-						square
+						square={true}
 						mr={2}
-						onClick={() => this.edit()}
+						onClick={this.edit}
 					>
-						<Icon name='pencil-alt' />
+						<Icon name="pencil-alt" />
 					</Button>
 
 					<Button
-						square
-						onClick={() => this.setState({ showDeleteModal: true })}
+						square={true}
+						onClick={this.toggleDeleteModal}
 					>
-						<Txt color='red'>
-							<Icon name='trash-alt' />
+						<Txt color="red">
+							<Icon name="trash-alt" />
 						</Txt>
 					</Button>
 
@@ -107,20 +115,23 @@ class Base extends React.Component<
 
 				{this.state.showDeleteModal &&
 					<Modal
-						title='Are you sure you want to delete this item?'
-						cancel={() => this.setState({showDeleteModal: false})}
-						done={() => this.delete()} />
+						title="Are you sure you want to delete this item?"
+						cancel={this.toggleDeleteModal}
+						done={this.delete}
+					/>
 				}
+
 				{this.state.showEditModal &&
 					<Modal
-						cancel={() => this.cancelEdit()}
-						done={() => this.updateEntry()}>
+						cancel={this.cancelEdit}
+						done={this.updateEntry}
+					>
 						<Form
 							schema={this.state.schema}
 							value={this.state.editModel}
-							onFormChange={(data: any) => this.setState({ editModel: data.formData })}
-							onFormSubmit={() => this.updateEntry()}
-							hideSubmitButton
+							onFormChange={this.handleFormChange}
+							onFormSubmit={this.updateEntry}
+							hideSubmitButton={true}
 						/>
 					</Modal>
 				}

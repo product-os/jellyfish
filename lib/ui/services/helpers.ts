@@ -1,8 +1,8 @@
 import * as _ from 'lodash';
-import uuid = require('uuid/v4');
-import { Channel, JellyfishState } from '../../Types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import uuid = require('uuid/v4');
+import { Channel, JellyfishState } from '../../Types';
 import { actionCreators } from '../app';
 
 const PURPLE = '#8268c5';
@@ -93,7 +93,7 @@ export const getTypeFromViewCard = (card: any) => {
 
 	if (!value && card.data.oneOf) {
 		for (const item of card.data.allOf) {
-			let found = _.get(item.schema, 'properties.type.const');
+			const found = _.get(item.schema, 'properties.type.const');
 			if (found) {
 				value = found;
 				break;
@@ -102,4 +102,4 @@ export const getTypeFromViewCard = (card: any) => {
 	}
 
 	return value;
-}
+};

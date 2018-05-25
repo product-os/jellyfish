@@ -31,7 +31,7 @@ export const setChannelsFromPath = (path?: string) => {
 	const homeChannel = _.first(state.channels);
 
 	const newChannels = targets.map(target => {
-		let existingChannel = _.find(state.channels, (channel) =>
+		const existingChannel = _.find(state.channels, (channel) =>
 			channel.data.target === target,
 		);
 

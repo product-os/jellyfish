@@ -81,7 +81,7 @@ export class CardSdk {
 		});
 	}
 
-	public update (id: string, body: Partial<Card>) {
+	public update(id: string, body: Partial<Card>) {
 		return this.sdk.action({
 			target: id,
 			action: 'action-update-card',

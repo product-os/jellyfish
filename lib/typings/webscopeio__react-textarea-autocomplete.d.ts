@@ -14,7 +14,7 @@ declare module '@webscopeio/react-textarea-autocomplete/dist/react-textarea-auto
 				} | string,
 			dataProvider: (
 				token: string,
-			) => Promise<Array<Object | string>> | Array<Object | string>,
+			) => Promise<Array<object | string>> | Array<object | string>,
 			component: (props?: any) => JSX.Element,
 		},
 	};

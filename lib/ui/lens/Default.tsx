@@ -31,11 +31,11 @@ export class Renderer extends React.Component<DefaultRendererProps, RendererStat
 		};
 	}
 
-	public refresh() {
+	public refresh = () => {
 		this.props.actions.loadChannelData(this.props.channel);
 	}
 
-	public delete() {
+	public delete = () => {
 		this.props.actions.removeChannel(this.props.channel);
 	}
 
@@ -46,14 +46,20 @@ export class Renderer extends React.Component<DefaultRendererProps, RendererStat
 		return (
 			<Column
 				className={`column--${head ? head.slug || head.type : 'unknown'}`}
-				flex='1' flexDirection='column'>
+				flex="1"
+				flexDirection="column"
+			>
 				<Box p={3} style={{maxHeight: '50%', borderBottom: '1px solid #ccc', overflowY: 'auto'}}>
-					<CardActions card={channel.data.head!}
-						delete={() => this.delete()}
-						refresh={() => this.refresh()}/>
+					<CardActions
+						card={channel.data.head!}
+						delete={this.delete}
+						refresh={this.refresh}
+					/>
+
 					<CardRenderer card={channel.data.head!} />
 				</Box>
-				<Box flex='1 0 50%' style={{ overflowY: 'auto'}}>
+
+				<Box flex="1 0 50%" style={{ overflowY: 'auto'}}>
 					<InterleavedLens.data.renderer channel={this.props.channel} />
 				</Box>
 			</Column>
