@@ -462,3 +462,59 @@ ava.test('.evaluateObject() should report back watchers when aggregating events'
 	test.deepEqual(result.watchers[0].target, [ 'data', 'target' ])
 	test.deepEqual(result.watchers[0].arguments, [ 'mentions' ])
 })
+
+ava.test('.evaluateObject() should report back watchers when aggregating events if the array is missing', async (test) => {
+	const result = jellyscript.evaluateObject({
+		type: 'object',
+		properties: {
+			data: {
+				type: 'object',
+				properties: {
+					mentions: {
+						type: 'array',
+						$formula: 'AGGREGATE($events, "mentions")'
+					}
+				}
+			}
+		}
+	}, {
+		type: 'thread',
+		links: [],
+		tags: [],
+		active: true,
+		data: {}
+	})
+
+	test.is(result.watchers.length, 1)
+
+	test.deepEqual(result.watchers[0].filter, {
+		type: 'object',
+		required: [ 'data' ],
+		properties: {
+			data: {
+				type: 'object',
+				required: [ 'target', 'payload' ],
+				properties: {
+					payload: {
+						type: 'object'
+					},
+					target: {
+						type: 'object',
+						required: [ 'type' ],
+						properties: {
+							type: {
+								type: 'string',
+								const: 'thread'
+							}
+						}
+					}
+				}
+			}
+		}
+	})
+
+	test.is(result.watchers[0].type, 'AGGREGATE')
+	test.deepEqual(result.watchers[0].sourceProperty, [ 'data', 'mentions' ])
+	test.deepEqual(result.watchers[0].target, [ 'data', 'target' ])
+	test.deepEqual(result.watchers[0].arguments, [ 'mentions' ])
+})
