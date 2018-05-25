@@ -754,13 +754,13 @@ ava.test('.executeTriggers() should support source templates', async (test) => {
 					}
 				}
 			},
-			action: '[source.data.action]',
+			action: '{source.data.action}',
 			target: test.context.ids.card,
 			arguments: {
 				properties: {
-					slug: '[source.data.slug]',
+					slug: '{source.data.slug}',
 					data: {
-						number: '[source.data.number]'
+						number: '{source.data.number}'
 					}
 				}
 			}
@@ -830,13 +830,13 @@ ava.test('.createRequest() should execute triggered actions', async (test) => {
 					}
 				}
 			},
-			action: '[source.data.action]',
+			action: '{source.data.action}',
 			target: test.context.ids.card,
 			arguments: {
 				properties: {
-					slug: '[source.data.slug]',
+					slug: '{source.data.slug}',
 					data: {
-						number: '[source.data.number]'
+						number: '{source.data.number}'
 					}
 				}
 			}
