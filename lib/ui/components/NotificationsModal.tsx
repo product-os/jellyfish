@@ -63,6 +63,14 @@ export class NotificationsModal extends React.Component<ModalProps, ModalState> 
 		}
 	}
 
+	public done = () => {
+		this.props.onDone(this.state.settings);
+	}
+
+	public handleFormChange = (data: any) => {
+		this.setState({ settings: data.formData });
+	}
+
 	public render() {
 		if (!this.props.show) {
 			return null;
@@ -70,16 +78,16 @@ export class NotificationsModal extends React.Component<ModalProps, ModalState> 
 
 		return (
 			<Modal
-				title='Notification settings'
-				cancel={() => this.props.onCancel()}
-				done={() => this.props.onDone(this.state.settings)}
+				title="Notification settings"
+				cancel={this.props.onCancel}
+				done={this.done}
 			>
 				<Form
 					schema={notificationSettingsSchema}
 					value={this.state.settings}
-					onFormChange={(data: any) => this.setState({ settings: data.formData })}
-					onFormSubmit={() => this.props.onDone(this.state.settings)}
-					hideSubmitButton
+					onFormChange={this.handleFormChange}
+					onFormSubmit={this.done}
+					hideSubmitButton={true}
 				/>
 			</Modal>
 		);

@@ -17,7 +17,7 @@ const API_URL = process.env.API_URL || window.location.origin;
 const STORAGE_KEY = 'jellyfish_store';
 const NOTIFICATION_LIFETIME = 10 * 1000;
 
-const ifNotInTestEnv = (fn: Function) => (...args: any[]) => {
+const ifNotInTestEnv = (fn: (...args: any[]) => any) => (...args: any[]) => {
 	if (process.env.NODE_ENV === 'test') {
 		return;
 	}

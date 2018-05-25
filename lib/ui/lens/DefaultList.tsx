@@ -6,7 +6,7 @@ import {
 	Flex,
 	Link,
 } from 'rendition';
-import { Card, Lens, RendererProps, Type } from '../../Types';
+import { Lens, RendererProps, Type } from '../../Types';
 import { CardCreator } from '../components/CardCreator';
 import { connectComponent, ConnectedComponentProps, createChannel } from '../services/helpers';
 
@@ -27,7 +27,12 @@ class ViewList extends React.Component<ViewListProps, ViewListState> {
 		};
 	}
 
-	public openChannel(card: Card) {
+	public openChannel = (e: React.MouseEvent<HTMLAnchorElement>) => {
+		const id = e.currentTarget.dataset.id;
+		const card = _.find(this.props.tail, { id });
+		if (!card) {
+			return;
+		}
 		this.props.actions.addChannel(createChannel({
 			target: card.id,
 			head: card,
@@ -35,12 +40,20 @@ class ViewList extends React.Component<ViewListProps, ViewListState> {
 		}));
 	}
 
+	public showNewCardModal = () => {
+		this.setState({ showNewCardModal: true });
+	}
+
+	public hideNewCardModal = () => {
+		this.setState({ showNewCardModal: false });
+	}
+
 	public render() {
 		const { tail, channel: { data: { head } } } = this.props;
 
 		return (
 			<React.Fragment>
-				<Box p={3} flex='1' style={{overflowY: 'auto'}}>
+				<Box p={3} flex="1" style={{overflowY: 'auto'}}>
 					{!!tail && _.map(tail, (card) => {
 						// Don't show the card if its the head, this can happen on view types
 						if (card.id === head!.id) {
@@ -49,7 +62,7 @@ class ViewList extends React.Component<ViewListProps, ViewListState> {
 
 						return (
 							<Box key={card.id} mb={3}>
-								<Link onClick={() => this.openChannel(card)}>{card.name || card.slug || card.id}</Link>
+								<Link data-id={card.id} onClick={this.openChannel}>{card.name || card.slug || card.id}</Link>
 							</Box>
 						);
 					})}
@@ -57,11 +70,12 @@ class ViewList extends React.Component<ViewListProps, ViewListState> {
 
 				{!!this.props.type &&
 					<React.Fragment>
-						<Flex p={3}
+						<Flex
+							p={3}
 							style={{borderTop: '1px solid #eee'}}
-							justify='flex-end'
+							justify="flex-end"
 						>
-							<Button success onClick={() => this.setState({ showNewCardModal: true })}>
+							<Button success={true} onClick={this.showNewCardModal}>
 								Add a {this.props.type.name || this.props.type.slug}
 							</Button>
 						</Flex>
@@ -69,7 +83,7 @@ class ViewList extends React.Component<ViewListProps, ViewListState> {
 						<CardCreator
 							show={this.state.showNewCardModal}
 							type={this.props.type}
-							done={() => this.setState({ showNewCardModal: false })}
+							done={this.hideNewCardModal}
 						/>
 					</React.Fragment>
 				}

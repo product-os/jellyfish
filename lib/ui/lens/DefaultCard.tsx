@@ -36,12 +36,20 @@ class CardList extends React.Component<CardListProps, CardListState> {
 		}));
 	}
 
+	public showNewCardModal = () => {
+		this.setState({ showNewCardModal: true });
+	}
+
+	public hideNewCardModal = () => {
+		this.setState({ showNewCardModal: false });
+	}
+
 	public render() {
 		const { tail, channel: { data: { head } } } = this.props;
 
 		return (
 			<React.Fragment>
-				<Box px={3} flex='1' style={{overflowY: 'auto'}}>
+				<Box px={3} flex="1" style={{overflowY: 'auto'}}>
 					{!!tail && _.map(tail, (card) => {
 						// Don't show the card if its the head, this can happen on view types
 						if (card.id === head!.id) {
@@ -50,11 +58,11 @@ class CardList extends React.Component<CardListProps, CardListState> {
 
 						return (
 							<React.Fragment>
-							<CardRenderer
-								key={card.id}
-								card={card} />
-
-								<Divider color='#eee' m={0} style={{height: 1}} />
+								<CardRenderer
+									key={card.id}
+									card={card}
+								/>
+								<Divider color="#eee" m={0} style={{height: 1}} />
 							</React.Fragment>
 						);
 					})}
@@ -62,11 +70,12 @@ class CardList extends React.Component<CardListProps, CardListState> {
 
 				{!!this.props.type &&
 					<React.Fragment>
-						<Flex p={3}
+						<Flex
+							p={3}
 							style={{borderTop: '1px solid #eee'}}
-							justify='flex-end'
+							justify="flex-end"
 						>
-							<Button success onClick={() => this.setState({ showNewCardModal: true })}>
+							<Button success={true} onClick={this.showNewCardModal}>
 								Add a {this.props.type.name || this.props.type.slug}
 							</Button>
 						</Flex>
@@ -74,7 +83,7 @@ class CardList extends React.Component<CardListProps, CardListState> {
 						<CardCreator
 							show={this.state.showNewCardModal}
 							type={this.props.type}
-							done={() => this.setState({ showNewCardModal: false })}
+							done={this.hideNewCardModal}
 						/>
 					</React.Fragment>
 				}

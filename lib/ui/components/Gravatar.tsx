@@ -63,6 +63,6 @@ export default class Gravatar extends React.Component<GravatarProps, GravatarSta
 			);
 		}
 
-		return <Box><Icon name='user-circle' /></Box>;
+		return <Box><Icon name="user-circle" /></Box>;
 	}
 }

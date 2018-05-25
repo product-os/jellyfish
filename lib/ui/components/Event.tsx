@@ -17,7 +17,7 @@ const threadColor = _.memoize((text: string): string => colorHash.hex(text));
 
 const EventWrapper = styled(Flex)`
 	word-break: break-all;
-`
+`;
 
 interface EventProps {
 	users: Card[];
@@ -43,6 +43,13 @@ export default class Event extends React.Component<EventProps, { actorName: stri
 		};
 	}
 
+	public openChannel = () => {
+		const { card, openChannel } = this.props;
+		if (!!openChannel && !!card.data) {
+			openChannel(card.data.target);
+		}
+	}
+
 	public render() {
 		const { card, openChannel, ...props } = this.props;
 
@@ -52,23 +59,25 @@ export default class Event extends React.Component<EventProps, { actorName: stri
 			<EventWrapper className={`event-card--${card.type}`} {...props}>
 				{isChatMessage &&
 					<Button
-						plaintext
-						onClick={() => !!openChannel && !!card.data && openChannel(card.data.target)}
-						mr={3} >
+						plaintext={true}
+						onClick={this.openChannel}
+						mr={3}
+					>
 						<Txt color={threadColor(card.data.target)}>
-							<Icon name='comment fa-flip-horizontal' />
+							<Icon name="comment fa-flip-horizontal" />
 						</Txt>
 					</Button>
 				}
-				<Box ml={isChatMessage ? 0 : 34} flex='1'>
-					<Flex justify='space-between' mb={2}>
-						<Txt bold>{this.state.actorName}</Txt>
+				<Box ml={isChatMessage ? 0 : 34} flex="1">
+					<Flex justify="space-between" mb={2}>
+						<Txt bold={true}>{this.state.actorName}</Txt>
 						{card.data &&
 						<Txt fontSize={1}>{card.data.timestamp}</Txt>}
 					</Flex>
 
 					{isChatMessage &&
-					<Markdown className='event-card__message'>{card.data.payload.message}</Markdown>}
+						<Markdown className="event-card__message">{card.data.payload.message}</Markdown>
+					}
 					{!isChatMessage && `${card.type} card`}
 				</Box>
 			</EventWrapper>

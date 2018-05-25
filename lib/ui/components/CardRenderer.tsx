@@ -25,7 +25,7 @@ const CardField = ({ field, payload }: {
 		<React.Fragment>
 			<Label my={3}>{field}</Label>
 			{_.isObject(payload[field]) ?
-				<Txt monospace>
+				<Txt monospace={true}>
 					<DataContainer>{JSON.stringify(payload[field], null, 4)}</DataContainer>
 				</Txt>
 				: <Txt>{`${payload[field]}`}</Txt>}
@@ -40,10 +40,12 @@ interface CardProps extends ConnectedComponentProps {
 }
 
 class Base extends React.Component<CardProps, {}> {
-	public openChannel(card: Card) {
+	public openChannel = () => {
 		if (!this.props.channel) {
 			return;
 		}
+
+		const { card } = this.props;
 
 		this.props.actions.addChannel(createChannel({
 			target: card.id,
@@ -65,7 +67,7 @@ class Base extends React.Component<CardProps, {}> {
 			<Box mb={3}>
 				<Heading.h4 my={3}>
 					{!!this.props.channel &&
-						<Link onClick={() => this.openChannel(card)}>
+						<Link onClick={this.openChannel}>
 							{card.name || card.slug || card.type}
 						</Link>
 					}

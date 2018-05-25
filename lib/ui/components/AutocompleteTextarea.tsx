@@ -100,7 +100,7 @@ const baseData: Array<{ name: string, char: string }> = [
 	{ name: '+1', char: '👍' },
 ];
 
-const getTrigger = () => ({
+const getTrigger = _.memoize(() => ({
 	':': {
 		dataProvider: (token: string) => {
 			if (!token) {
@@ -125,7 +125,7 @@ const getTrigger = () => ({
 		component: ({ entity }: { entity: string }) => <div>{entity}</div>,
 		output: (item: any) => item,
 	},
-});
+}));
 
 interface AutoProps extends BoxProps {
 	className?: string;
@@ -133,7 +133,9 @@ interface AutoProps extends BoxProps {
 	value?: string;
 }
 
-export default ({ value, className, onChange, onKeyPress, placeholder, ...props }: AutoProps) =>
+const Loader = () => <span>Loading</span>;
+
+export default ({ value, className, onChange, onKeyPress, placeholder, ...props }: AutoProps) => (
 	<Container {...props}>
 		<ReactTextareaAutocomplete
 			className={className}
@@ -141,7 +143,9 @@ export default ({ value, className, onChange, onKeyPress, placeholder, ...props 
 			value={value}
 			onChange={onChange}
 			onKeyPress={onKeyPress}
-			loadingComponent={() => <span>Loading</span>}
+			loadingComponent={Loader}
 			trigger={getTrigger()}
-			placeholder={placeholder} />
+			placeholder={placeholder}
+		/>
 	</Container>
+);

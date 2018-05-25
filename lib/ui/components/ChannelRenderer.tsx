@@ -10,10 +10,10 @@ const ChannelRenderer = (props: RendererProps) => {
 	const { channel } = props;
 	if (!channel.data.head) {
 		if (channel.data.error) {
-			return <Alert m={2} danger>{channel.data.error.toString()}</Alert>;
+			return <Alert m={2} danger={true}>{channel.data.error.toString()}</Alert>;
 		}
 
-		return <Box p={3}><i className='fas fa-cog fa-spin' /></Box>;
+		return <Box p={3}><i className="fas fa-cog fa-spin" /></Box>;
 	}
 
 	const lenses = LensService.getLenses(channel.data.head!);

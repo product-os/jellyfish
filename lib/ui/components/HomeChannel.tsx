@@ -19,6 +19,52 @@ import Gravatar from './Gravatar';
 import Icon from './Icon';
 import { TailStreamer } from './TailStreamer';
 
+interface ViewLinkProps {
+	card: Card;
+	isActive: boolean;
+	update?: {
+		id: string;
+		newMentions?: boolean;
+		newContent?: boolean;
+	};
+	open: (card: Card) => void;
+}
+
+class ViewLink extends React.Component<ViewLinkProps, {}> {
+	public open = () => {
+		this.props.open(this.props.card);
+	}
+	render() {
+		const { card, isActive, update } = this.props;
+		return (
+			<Link
+				className="home-channel__item"
+				style={{display: 'block'}}
+				key={card.id}
+				bg={isActive ? '#666' : 'none'}
+				py={2}
+				px={3}
+				color={isActive ? 'white' : '#c3c3c3'}
+				onClick={this.open}
+			>
+				{card.name}
+
+				{!!update &&
+						<Icon
+							name="circle"
+							style={{
+								color: update.newContent ? 'green' : 'orange',
+								marginTop: 4,
+								float: 'right',
+								fontSize: 11,
+							}}
+						/>
+				}
+			</Link>
+		);
+	}
+}
+
 const MenuPanel = styled(Box)`
 	position: absolute;
 	top: 68px;
@@ -162,7 +208,7 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 		this.handleMessageStream(stream);
 	}
 
-	public open(card: Card) {
+	public open = (card: Card) => {
 		if (this.props.appState.viewNotices[card.id]) {
 			this.props.actions.removeViewNotice(card.id);
 		}
@@ -184,15 +230,27 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 	 * Display messages that the user is mentioned in, whilst removing any
 	 * existing view notice
 	 */
-	public showMessages() {
+	public showMessages = () => {
 		if (this.props.appState.viewNotices[this.state.messageViewId]) {
 			this.props.actions.removeViewNotice(this.state.messageViewId);
 		}
 		this.setState({ showMessages: true });
 	}
 
-	public logout() {
+	public hideMessages = () => {
+		this.setState({ showMessages: false });
+	}
+
+	public logout = () => {
 		this.props.actions.logout();
+	}
+
+	public showMenu = () => {
+		this.setState({ showMenu: true });
+	}
+
+	public hideMenu = () => {
+		this.setState({ showMenu: false });
 	}
 
 	public render() {
@@ -205,61 +263,78 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 		const newMessages = this.props.appState.viewNotices[this.state.messageViewId];
 
 		if (!head) {
-			return <Icon style={{color: 'white'}} name='cog fa-spin' />;
+			return <Icon style={{color: 'white'}} name="cog fa-spin" />;
 		}
 
 		return (
-			<Flex className='home-channel' flexDirection='column'
-				flex='0 0 180px'
-				style={{ height: '100%', overflowY: 'auto', borderRight: '1px solid #ccc' }}>
+			<Flex
+				className="home-channel"
+				flexDirection="column"
+				flex="0 0 180px"
+				style={{ height: '100%', overflowY: 'auto', borderRight: '1px solid #ccc' }}
+			>
 				<Flex
-					bg='#333'
-					justify='space-between'
+					bg="#333"
+					justify="space-between"
 				>
 					<UserMenuBtn
-						plaintext
-						className='user-menu-toggle'
+						plaintext={true}
+						className="user-menu-toggle"
 						py={3}
 						pl={3}
 						pr={2}
-						onClick={() => this.setState({ showMenu: true })}>
+						onClick={this.showMenu}
+					>
 						<Gravatar email={email} />
 
 						{!!username && <Txt mx={2}>{username}</Txt>}
 
-						<Icon name='caret-down' />
+						<Icon name="caret-down" />
 					</UserMenuBtn>
 
 					<UserMenuBtn
 						pl={2}
 						pr={3}
-						plaintext
+						plaintext={true}
 						style={{position: 'relative'}}
-						onClick={() => this.showMessages()}
+						onClick={this.showMessages}
 					>
-						<Icon name='bullhorn' />
+						<Icon name="bullhorn" />
+
 						{!!newMessages &&
-							<Icon name='circle' style={{
-								color: 'orange',
-								top: 19,
-								right: 10,
-								fontSize: 11,
-								position: 'absolute',
-							}} />}
+							<Icon
+								name="circle"
+								style={{
+									color: 'orange',
+									top: 19,
+									right: 10,
+									fontSize: 11,
+									position: 'absolute',
+								}}
+							/>
+						}
 					</UserMenuBtn>
 				</Flex>
 
-				<Divider color='#ccc' m={0} style={{height: 1}} />
+				<Divider color="#ccc" m={0} style={{height: 1}} />
 
 				{this.state.showMenu &&
-					<Fixed top right bottom left z={9999999} onClick={() => this.setState({ showMenu: false })}>
-						<MenuPanel className='user-menu' mx={3} p={3}>
+					<Fixed
+						top={true}
+						right={true}
+						bottom={true}
+						left={true}
+						z={9999999}
+						onClick={this.hideMenu}
+					>
+						<MenuPanel className="user-menu" mx={3} p={3}>
 							<Button
-								w='100%'
-								className='user-menu__logout'
-								plaintext
+								w="100%"
+								className="user-menu__logout"
+								plaintext={true}
 								style={{textAlign: 'left', display: 'block'}}
-								onClick={() => this.logout()}>
+								onClick={this.logout}
+							>
 								Log out
 							</Button>
 						</MenuPanel>
@@ -267,8 +342,15 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 				}
 
 				{this.state.showMessages &&
-					<Fixed top right bottom left z={9999999} onClick={() => this.setState({ showMessages: false })}>
-						<MessagePanel className='user-menu' mx={3} p={3}>
+					<Fixed
+						top={true}
+						right={true}
+						bottom={true}
+						left={true}
+						z={9999999}
+						onClick={this.hideMessages}
+					>
+						<MessagePanel className="user-menu" mx={3} p={3}>
 							{this.state.messages.map(card =>
 								<Box key={card.id} py={3} style={{borderBottom: '1px solid #eee'}}>
 									<EventCard
@@ -281,8 +363,8 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 					</Fixed>
 				}
 
-				<Box flex='1' bg='#333' pt={3}>
-					{!tail && <Box p={3}><Icon style={{color: 'white'}} name='cog fa-spin' /></Box>}
+				<Box flex="1" bg="#333" pt={3}>
+					{!tail && <Box p={3}><Icon style={{color: 'white'}} name="cog fa-spin" /></Box>}
 
 					{!!tail && _.map(_.sortBy(tail, 'name'), (card) => {
 						// A view shouldn't be able to display itself
@@ -295,24 +377,12 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 						const update = this.props.appState.viewNotices[card.id];
 
 						return (
-							<Link
-								className='home-channel__item'
-								style={{display: 'block'}}
-								key={card.id}
-								bg={isActive ? '#666' : 'none'}
-								py={2}
-								px={3}
-								color={isActive ? 'white' : '#c3c3c3'}
-								onClick={() => this.open(card)}>
-								{card.name}
-								{!!update &&
-										<Icon name='circle' style={{
-											color: update.newContent ? 'green' : 'orange',
-											marginTop: 4,
-											float: 'right',
-											fontSize: 11,
-										}} />}
-							</Link>
+							<ViewLink
+								card={card}
+								isActive={isActive}
+								update={update}
+								open={this.open}
+							/>
 						);
 					})}
 				</Box>
@@ -321,4 +391,4 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 	}
 }
 
-export const HomeChannel = connectComponent(Base)
+export const HomeChannel = connectComponent(Base);
