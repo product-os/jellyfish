@@ -15,6 +15,10 @@
         "data": {
           "type": "object",
           "properties": {
+            "mentionsUser": {
+              "type": "array",
+              "$formula": "AGGREGATE($events, 'data.payload.mentionsUser')"
+            },
             "Description": {
               "type": "string"
             },

@@ -12,9 +12,6 @@
         "schema": {
           "type": "object",
           "properties": {
-            "type": {
-              "const": "message"
-            },
             "data": {
               "type": "object",
               "properties": {
@@ -45,7 +42,7 @@
       }
     ],
     "lenses": [
-      "lens-interleaved"
+      "lens-my-mentions"
     ]
   }
 }

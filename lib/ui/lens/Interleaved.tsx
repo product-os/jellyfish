@@ -123,11 +123,11 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		return sdk.card.create({
 			type: 'message',
 			data: {
-				mentionsUser: mentions,
 				timestamp: getCurrentTimestamp(),
 				target: this.props.channel.data.target,
 				actor: this.props.appState.session!.user!.id,
 				payload: {
+					mentionsUser: mentions,
 					message: newMessage,
 				},
 			},
@@ -152,10 +152,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 
 		return sdk.card.create({
 			type: 'thread',
-			data: {
-				timestamp: getCurrentTimestamp(),
-				actor: this.props.appState.session!.user!.id,
-			},
+			data: {},
 		})
 		.then((threadId) => {
 			this.openChannel(threadId);

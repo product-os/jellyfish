@@ -71,12 +71,13 @@
             },
             "slug": {
               "type": "string",
-              "anyOf": [
-                { "const": "action-create-session" },
-                { "const": "action-create-user" },
-                { "const": "action-create-card" },
-                { "const": "action-update-card" },
-                { "const": "action-create-event" }
+              "enum": [
+                "action-create-card",
+                "action-create-event",
+                "action-create-session",
+                "action-create-user",
+                "action-set-add",
+                "action-update-card"
               ]
             },
             "type": {
