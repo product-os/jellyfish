@@ -182,7 +182,8 @@
                 "message",
                 "scratchpad-entry",
                 "repo",
-                "organizer"
+                "organizer",
+                "triggered-action"
               ]
             }
           },

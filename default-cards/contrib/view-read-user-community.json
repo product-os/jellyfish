@@ -33,16 +33,17 @@
             },
             "slug": {
               "enum": [
-                "view",
-                "card",
-                "thread",
-                "message",
-                "action-request",
                 "action",
+                "action-request",
+                "card",
                 "create",
-                "update",
+                "message",
                 "session",
-                "subscription"
+                "subscription",
+                "thread",
+                "triggered-action",
+                "update",
+                "view"
               ]
             },
             "data": {
@@ -314,7 +315,8 @@
               "type": "string",
               "enum": [
                 "thread",
-                "message"
+                "message",
+                "triggered-action"
               ]
             }
           },
