@@ -3,6 +3,7 @@ import * as _ from 'lodash';
 import * as React from 'react';
 import Board, { BoardLane } from 'react-trello';
 import { Flex, Modal } from 'rendition';
+import * as jellyscript from '../../jellyscript';
 import { Card, Channel, Lens, RendererProps } from '../../Types';
 import { sdk } from '../app';
 import { connectComponent, ConnectedComponentProps, createChannel } from '../services/helpers';
@@ -54,6 +55,13 @@ class Kanban extends React.Component<KanbanProps, KanbanState> {
 
 		if (!group) {
 			return [];
+		}
+
+		if (group.data.sort) {
+			cards.sort((a, b) => {
+				return jellyscript.evaluate(group.data.sort, { input: { a, b } }).value ?
+					-1 : 1;
+			});
 		}
 
 		const schemas = group.data.schemas;

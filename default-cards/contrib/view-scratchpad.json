@@ -32,6 +32,7 @@
         "slug": "group-view-scratchpad-fix-difficulty",
         "name": "Fix difficulty",
         "data": {
+          "sort": "input.a.name < input.b.name",
           "schemas": [
             {
               "title": "Fix difficulty: 1",
@@ -125,6 +126,7 @@
         "slug": "group-view-scratchpad-legacy",
         "name": "Legacy",
         "data": {
+          "sort": "input.a.name < input.b.name",
           "schemas": [
             {
               "title": "Legacy",
@@ -167,6 +169,7 @@
         "slug": "group-view-scratchpad-needs-review",
         "name": "Needs review",
         "data": {
+          "sort": "input.a.name < input.b.name",
           "schemas": [
             {
               "title": "Needs review",
