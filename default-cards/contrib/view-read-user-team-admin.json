@@ -178,7 +178,8 @@
                 "message",
                 "scratchpad-entry",
                 "repo",
-                "subscription"
+                "subscription",
+                "triggered-action"
               ]
             }
           },
