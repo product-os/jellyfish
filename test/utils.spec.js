@@ -334,3 +334,33 @@ ava.test('.queryView() should execute a view with more than one filter', async (
 		}
 	])
 })
+
+ava.test('.jsonSchemaToReqlFilter() should transform const values into a reql filter object', (test) => {
+	const schema = {
+		type: 'object',
+		properties: {
+			type: {
+				const: 'message'
+			},
+			data: {
+				type: 'object',
+				properties: {
+					target: {
+						const: 'foobarbaz'
+					}
+				},
+				required: [ 'target' ],
+				additionalProperties: true
+			}
+		},
+		required: [ 'type', 'data' ],
+		additionalProperties: true
+	}
+
+	test.deepEqual(utils.jsonSchemaToReqlFilter(schema), {
+		type: 'message',
+		data: {
+			target: 'foobarbaz'
+		}
+	})
+})
