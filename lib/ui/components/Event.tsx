@@ -19,6 +19,13 @@ const EventWrapper = styled(Flex)`
 	word-break: break-all;
 `;
 
+const TIMELINE_TYPES = [
+	'create',
+	'update',
+	'message',
+];
+
+
 interface EventProps {
 	users: Card[];
 	card: Card;
@@ -45,40 +52,66 @@ export default class Event extends React.Component<EventProps, { actorName: stri
 
 	public openChannel = () => {
 		const { card, openChannel } = this.props;
-		if (!!openChannel && !!card.data) {
-			openChannel(card.data.target);
+		if (!openChannel) {
+			return;
 		}
+
+		const id = _.get(card, 'data.target') || card.id;
+		openChannel(id);
 	}
 
 	public render() {
 		const { card, openChannel, ...props } = this.props;
 
-		const isChatMessage = card.type === 'message';
+		const isMessage = card.type === 'message';
+		const isTimelineCard = _.includes(TIMELINE_TYPES, card.type);
+
+		let icon = 'database';
+
+		if (isMessage) {
+			icon = 'comment fa-flip-horizontal';
+		}
+
+		if (!isTimelineCard) {
+			icon = 'asterisk';
+		}
 
 		return (
 			<EventWrapper className={`event-card--${card.type}`} {...props}>
-				{isChatMessage &&
-					<Button
-						plaintext={true}
-						onClick={this.openChannel}
-						mr={3}
-					>
-						<Txt color={threadColor(card.data.target)}>
-							<Icon name="comment fa-flip-horizontal" />
-						</Txt>
-					</Button>
-				}
-				<Box ml={isChatMessage ? 0 : 34} flex="1">
-					<Flex justify="space-between" mb={2}>
-						<Txt bold={true}>{this.state.actorName}</Txt>
-						{card.data &&
-						<Txt fontSize={1}>{card.data.timestamp}</Txt>}
-					</Flex>
+				<Button
+					plaintext={true}
+					onClick={this.openChannel}
+					mr={3}
+				>
+					<Txt color={threadColor(isTimelineCard ? card.data.target : card.id)}>
+						<Icon name={icon} />
+					</Txt>
+				</Button>
+				<Box flex="1">
+					{isTimelineCard &&
+						<React.Fragment>
+							<Flex justify="space-between" mb={2}>
+								<Txt bold={true}>{this.state.actorName}</Txt>
+								{card.data &&
+								<Txt fontSize={1}>{card.data.timestamp}</Txt>}
+							</Flex>
 
-					{isChatMessage &&
-						<Markdown className="event-card__message">{card.data.payload.message}</Markdown>
+							{isMessage &&
+								<Markdown className="event-card__message">{card.data.payload.message}</Markdown>
+							}
+						</React.Fragment>
 					}
-					{!isChatMessage && `${card.type} card`}
+					{!isTimelineCard &&
+						<React.Fragment>
+							<Flex justify="space-between" mb={2}>
+								<Txt bold={true}>
+									{`${card.name ? card.name + ' - ' : ''}${card.type}`}
+								</Txt>
+								{card.data &&
+								<Txt fontSize={1}>{card.data.timestamp}</Txt>}
+							</Flex>
+						</React.Fragment>
+					}
 				</Box>
 			</EventWrapper>
 		);

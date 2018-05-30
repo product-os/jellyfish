@@ -27,6 +27,18 @@
             "payload": {
               "type": "object",
               "properties": {
+                "mentionsUser": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "alertsUser": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
                 "message": {
                   "type": "string"
                 }

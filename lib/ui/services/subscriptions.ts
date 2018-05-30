@@ -7,6 +7,10 @@ import { createNotification } from './notifications';
 export class SubscriptionManager {
 	private streams: { [k: string]: JellyfishStream } = {};
 
+	public findMentions(data: Card): string[] {
+		return _.get(data, 'data.mentionsUser') || _.get(data, 'data.payload.mentionsUser', []);
+	}
+
 	public subscribe(card: Card) {
 		const stream = sdk.stream(card.id);
 		const user = _.get(store.getState(), 'session.user');
@@ -18,15 +22,20 @@ export class SubscriptionManager {
 		this.streams[card.id] = stream;
 
 		stream.on('update', (response) => {
-			// If before is non-null then a card has been updated and we're not
-			// interested
-			if (response.data.before) {
-				return;
-			}
+			let mentions: string[] = [];
 
 			const content = response.data.after;
 
-			const mentions = _.get(content, 'data.mentionsUser');
+			// If before is non-null then a card has been updated and we need to do
+			// some checking to make sure the user doesn't get spammed every time
+			// a card is updated. We only check new items added to the mentions array
+			if (response.data.before) {
+				const beforeMentions = this.findMentions(response.data.before);
+				const afterMentions = this.findMentions(response.data.after);
+				mentions = _.difference(afterMentions, beforeMentions);
+			} else {
+				mentions = this.findMentions(content);
+			}
 
 			if (mentions && _.includes(mentions, user.id)) {
 				this.notify(card, content, user, 'mention');

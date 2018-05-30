@@ -102,6 +102,7 @@
     "debug": "^3.1.0",
     "esprima": "^4.0.0",
     "express": "^4.16.2",
+    "fast-equals": "^1.5.3",
     "formulajs": "^1.0.8",
     "history": "^4.7.2",
     "howler": "^2.0.12",
