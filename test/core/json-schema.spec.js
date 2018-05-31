@@ -333,6 +333,35 @@ ava.test('.filter() should correctly interpret fragments inside anyOf', (test) =
 	})
 })
 
+ava.test('.filter() should correctly use top level properties when interpreting fragments inside anyOf', (test) => {
+	const result = jsonSchema.filter({
+		type: 'object',
+		anyOf: [
+			{
+				properties: {
+					foo: {
+						type: 'string'
+					}
+				}
+			}
+		],
+		properties: {
+			bar: {
+				type: 'string'
+			}
+		}
+	}, {
+		foo: 'hello',
+		bar: 'foo',
+		baz: 'qux'
+	})
+
+	test.deepEqual(result, {
+		foo: 'hello',
+		bar: 'foo'
+	})
+})
+
 _.each(MERGE_TEST_CASES, (testCase, index) => {
 	ava.test(`.merge() should merge test case ${index}`, (test) => {
 		if (testCase.expected) {
