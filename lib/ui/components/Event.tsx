@@ -118,7 +118,13 @@ export default class Event extends React.Component<EventProps, { actorName: stri
 					{isTimelineCard &&
 						<React.Fragment>
 							<Flex justify="space-between" mb={2}>
-								<Txt bold={true}>{this.state.actorName}</Txt>
+								<Box>
+									{!isMessage && `${card.name ? card.name + ' - ' : ''}${card.type} `}
+									<Txt bold={true}>
+										{this.state.actorName}
+									</Txt>
+								</Box>
+
 								{!!card.data && !!card.data.timestamp &&
 									<Txt className="event-card--timestamp" fontSize={1}>{formatTimestamp(card.data.timestamp)}</Txt>
 								}

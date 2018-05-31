@@ -125,6 +125,20 @@ const getTrigger = _.memoize(() => ({
 		component: ({ entity }: { entity: string }) => <div>{entity}</div>,
 		output: (item: any) => item,
 	},
+	'!': {
+		dataProvider: (token: string) => {
+			const usernames = store.getState().allUsers
+				.map(({ slug }) => '!' + _.trimStart(slug, 'user-'));
+
+			if (!token) {
+				return usernames;
+			}
+			const matcher = '!' + token.toLowerCase();
+			return usernames.filter((name) => _.startsWith(name, matcher));
+		},
+		component: ({ entity }: { entity: string }) => <div>{entity}</div>,
+		output: (item: any) => item,
+	},
 }));
 
 interface AutoProps extends BoxProps {
