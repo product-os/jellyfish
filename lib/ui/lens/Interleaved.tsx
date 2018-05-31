@@ -52,7 +52,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 			type: 'object',
 			properties: {
 				type: {
-					// Don't incluide action request cards, as it just add's noise
+					// Don't include action request cards, as it just add's noise
 					not: {
 						const: 'action-request',
 					},
