@@ -125,6 +125,13 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 		tail.forEach(card => {
 			this.subscriptionManager.subscribe(card);
 		});
+		// If there is only 1 channel, open the all messages view by default
+		if (this.props.appState.channels.length === 1) {
+			const allMessagesView = _.find(tail, { slug: 'view-all-messages' });
+			if (allMessagesView) {
+				this.open(allMessagesView);
+			}
+		}
 		this.setState({
 			tail,
 		});
