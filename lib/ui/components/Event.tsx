@@ -1,5 +1,6 @@
 import ColorHash = require('color-hash');
 import * as _ from 'lodash';
+import * as moment from 'moment';
 import * as React from 'react';
 import {
 	Box,
@@ -15,8 +16,34 @@ import Markdown from './Markdown';
 const colorHash = new ColorHash();
 const threadColor = _.memoize((text: string): string => colorHash.hex(text));
 
+const TODAY = moment().startOf('day');
+const isToday = (momentDate: moment.Moment)  => {
+	return momentDate.isSame(TODAY, 'd');
+};
+
+const formatTimestamp = _.memoize((stamp: string): string => {
+	const momentDate = moment(stamp);
+	if (isToday(momentDate)) {
+		return momentDate.format('k:mm');
+	}
+
+	return momentDate.format('ddd Do, YYYY k:mm');
+});
+
+
 const EventWrapper = styled(Flex)`
 	word-break: break-all;
+
+	.event-card--timestamp {
+		color: #777;
+		opacity: 0;
+	}
+
+	&:hover {
+		.event-card--timestamp {
+			opacity: 1;
+		}
+	}
 `;
 
 const TIMELINE_TYPES = [
@@ -92,8 +119,9 @@ export default class Event extends React.Component<EventProps, { actorName: stri
 						<React.Fragment>
 							<Flex justify="space-between" mb={2}>
 								<Txt bold={true}>{this.state.actorName}</Txt>
-								{card.data &&
-								<Txt fontSize={1}>{card.data.timestamp}</Txt>}
+								{!!card.data && !!card.data.timestamp &&
+									<Txt className="event-card--timestamp" fontSize={1}>{formatTimestamp(card.data.timestamp)}</Txt>
+								}
 							</Flex>
 
 							{isMessage &&
@@ -107,8 +135,9 @@ export default class Event extends React.Component<EventProps, { actorName: stri
 								<Txt bold={true}>
 									{`${card.name ? card.name + ' - ' : ''}${card.type}`}
 								</Txt>
-								{card.data &&
-								<Txt fontSize={1}>{card.data.timestamp}</Txt>}
+								{card.data && !!card.data.timestamp &&
+									<Txt className="event-card--timestamp" fontSize={1}>{formatTimestamp(card.data.timestamp)}</Txt>
+								}
 							</Flex>
 						</React.Fragment>
 					}
