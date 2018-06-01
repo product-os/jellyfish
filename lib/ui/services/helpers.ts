@@ -1,8 +1,9 @@
 import * as _ from 'lodash';
+import * as moment from 'moment';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import uuid = require('uuid/v4');
-import { Channel, JellyfishState } from '../../Types';
+import { Card, Channel, JellyfishState } from '../../Types';
 import { actionCreators } from '../app';
 
 const PURPLE = '#8268c5';
@@ -102,4 +103,25 @@ export const getTypeFromViewCard = (card: any) => {
 	}
 
 	return value;
+};
+
+const TODAY = moment().startOf('day');
+const isToday = (momentDate: moment.Moment)  => {
+	return momentDate.isSame(TODAY, 'd');
+};
+
+export const formatTimestamp = _.memoize((stamp: string): string => {
+	const momentDate = moment(stamp);
+	if (isToday(momentDate)) {
+		return momentDate.format('k:mm');
+	}
+
+	return momentDate.format('ddd Do, YYYY k:mm');
+});
+
+export const findUsernameById = (users: Card[], id: string) => {
+		const actor = _.find(users, { id });
+		return actor ?
+			actor.slug!.replace('user-', '') :
+			'unknown user';
 };

@@ -29,7 +29,12 @@ class Base extends React.Component<
 		super(props);
 
 		const cardType = sdk.type.get(this.props.card.type);
-		const schema = cardType ? cardType.data.schema : {};
+
+		// Omit known computed values from the schema
+		const schema = _.omit(cardType ? cardType.data.schema : {}, [
+			'properties.data.properties.mentionsUser',
+			'properties.data.properties.alertsUser',
+		]);
 
 		this.state = {
 			showEditModal: false,

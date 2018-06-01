@@ -1,6 +1,5 @@
 import ColorHash = require('color-hash');
 import * as _ from 'lodash';
-import * as moment from 'moment';
 import * as React from 'react';
 import {
 	Box,
@@ -10,26 +9,12 @@ import {
 } from 'rendition';
 import styled from 'styled-components';
 import { Card } from '../../Types';
+import { findUsernameById, formatTimestamp } from '../services/helpers';
 import Icon from './Icon';
 import Markdown from './Markdown';
 
 const colorHash = new ColorHash();
 const threadColor = _.memoize((text: string): string => colorHash.hex(text));
-
-const TODAY = moment().startOf('day');
-const isToday = (momentDate: moment.Moment)  => {
-	return momentDate.isSame(TODAY, 'd');
-};
-
-const formatTimestamp = _.memoize((stamp: string): string => {
-	const momentDate = moment(stamp);
-	if (isToday(momentDate)) {
-		return momentDate.format('k:mm');
-	}
-
-	return momentDate.format('ddd Do, YYYY k:mm');
-});
-
 
 const EventWrapper = styled(Flex)`
 	word-break: break-all;
@@ -64,16 +49,8 @@ export default class Event extends React.Component<EventProps, { actorName: stri
 	constructor(props: EventProps) {
 		super(props);
 
-		const actor = _.find(props.users, { id: props.card.data.actor });
-
-		let actorName = 'unknown user';
-
-		if (actor) {
-			actorName = actor.slug!.replace('user-', '');
-		}
-
 		this.state = {
-			actorName,
+			actorName: findUsernameById(props.users, props.card.data.actor),
 		};
 	}
 
