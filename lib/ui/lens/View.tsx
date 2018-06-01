@@ -159,7 +159,7 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 		}));
 	}
 
-	public saveView([ view ]: FiltersView[]) {
+	public saveView = ([ view ]: FiltersView[]) => {
 		sdk.card.create(this.createView(view))
 		.then(
 			(viewId) => this.props.actions.addChannel(createChannel({
@@ -196,7 +196,7 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 		return newView;
 	}
 
-	public updateFilters(filters: JSONSchema6[]) {
+	public updateFilters = (filters: JSONSchema6[]) => {
 		const { head } = this.props.channel.data;
 
 		if (head) {
@@ -210,7 +210,7 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 			filters.forEach((filter) => {
 				syntheticViewCard.data.allOf.push({
 					name: USER_FILTER_NAME,
-					schema: _.assign(filter, { type: 'object' }),
+					schema: _.assign(_.omit(filter, '$id'), { type: 'object' }),
 				});
 			});
 

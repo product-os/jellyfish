@@ -287,6 +287,28 @@
               "type": "string",
               "const": "view"
             },
+            "data": {
+              "type": "object",
+              "properties": {
+                "actor": "[user.id]"
+              },
+              "required": [ "actor" ],
+              "additionalProperties": true
+            }
+          },
+          "additionalProperties": true,
+          "required": [ "data", "type" ]
+        }
+      },
+      {
+        "name": "My views",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "view"
+            },
             "id": {
               "type": "string"
             },
