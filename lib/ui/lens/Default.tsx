@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Box, Flex } from 'rendition';
 import styled from 'styled-components';
 import { Card, Lens, RendererProps } from '../../Types';
-import { CardActions } from '../components/CardActions';
 import { CardRenderer } from '../components/CardRenderer';
 import { connectComponent, ConnectedComponentProps } from '../services/helpers';
 import InterleavedLens from './Interleaved';
@@ -31,14 +30,6 @@ export class Renderer extends React.Component<DefaultRendererProps, RendererStat
 		};
 	}
 
-	public refresh = () => {
-		this.props.actions.loadChannelData(this.props.channel);
-	}
-
-	public delete = () => {
-		this.props.actions.removeChannel(this.props.channel);
-	}
-
 	public render() {
 		const { channel } = this.props;
 		const { head } = channel.data;
@@ -50,12 +41,6 @@ export class Renderer extends React.Component<DefaultRendererProps, RendererStat
 				flexDirection="column"
 			>
 				<Box p={3} style={{maxHeight: '50%', borderBottom: '1px solid #ccc', overflowY: 'auto'}}>
-					<CardActions
-						card={channel.data.head!}
-						delete={this.delete}
-						refresh={this.refresh}
-					/>
-
 					<CardRenderer card={channel.data.head!} />
 				</Box>
 

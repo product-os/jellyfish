@@ -1,6 +1,7 @@
 {
   "extends": ["tslint:recommended", "tslint-react"],
   "rules": {
+    "jsx-boolean-value": false,
     "jsx-no-multiline-js": false,
     "indent": [ true, "tabs", 2 ],
     "jsdoc-format": true,
