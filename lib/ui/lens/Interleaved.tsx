@@ -124,6 +124,10 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		e.preventDefault();
 		const { newMessage } = this.state;
 
+		if (!newMessage) {
+			return;
+		}
+
 		this.setState({ newMessage: '' });
 
 		const mentions = _.map(_.compact((newMessage.match(/\@[\S]+/g) || [])),
