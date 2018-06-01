@@ -8,6 +8,7 @@ import {
 	Txt,
 } from 'rendition';
 import styled from 'styled-components';
+import uuid = require('uuid/v4');
 import { Card, Lens, RendererProps } from '../../Types';
 import { sdk } from '../app';
 import AutocompleteTextarea from '../components/AutocompleteTextarea';
@@ -24,6 +25,7 @@ const Column = styled(Flex)`
 
 interface RendererState {
 	tail: null | Card[];
+	pendingMessages: Card[];
 	newMessage: string;
 	showNewCardModal: boolean;
 }
@@ -43,6 +45,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 
 		this.state = {
 			tail: null,
+			pendingMessages: [],
 			newMessage: '',
 			showNewCardModal: false,
 		};
@@ -76,6 +79,17 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		}
 
 		setTimeout(() => this.scrollToBottom(), 1000);
+	}
+
+	public setTail(tail: Card[]) {
+		const pendingMessages = this.state.pendingMessages.filter(card => {
+			return !_.find(tail, item => item.data.placeholderId === card.data.placeholderId);
+		});
+
+		this.setState({
+			pendingMessages,
+			tail,
+		});
 	}
 
 	public componentWillUpdate() {
@@ -127,7 +141,13 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 			},
 		);
 
-		return sdk.card.create({
+		const id = uuid();
+
+		const message = {
+			id,
+			tags: [],
+			links: [],
+			active: true,
 			type: 'message',
 			data: {
 				timestamp: getCurrentTimestamp(),
@@ -138,8 +158,19 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 					alertsUser: alerts,
 					message: newMessage,
 				},
+				placeholderId: id,
 			},
-		})
+		};
+
+		// Add the message as a pending message, so that it can be displayed
+		// instantly. Once the view is updated with data from the DB, the
+		// `placeholderId` attribute will be used to identify and temove the pending
+		// message
+		this.setState((prevState) => ({
+			pendingMessages: prevState.pendingMessages.concat([message]),
+		}));
+
+		return sdk.card.create(message)
 		.catch((error) => {
 			this.props.actions.addNotification('danger', error.message);
 		});
@@ -183,7 +214,11 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 
 	public render() {
 		const { head } = this.props.channel.data;
-		const tail = this.props.tail || (this.state.tail ? _.sortBy<Card>(this.state.tail, x => x.data.timestamp) : null);
+		const tail = this.props.tail || (
+			this.state.tail ?
+			_.sortBy<Card>(this.state.tail.concat(this.state.pendingMessages), x => x.data.timestamp)
+			: null
+		);
 		const channelTarget = this.props.channel.data.target;
 
 		return (
