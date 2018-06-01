@@ -65,12 +65,11 @@ class ViewLink extends React.Component<ViewLinkProps, {}> {
 
 const MenuPanel = styled(Box)`
 	position: absolute;
-	top: 68px;
-	width: 300px;
+	top: 64px;
+	width: 180px;
 	background: white;
 	box-shadow: 0 1px 4px rgba(17, 17, 17, 0.5);
 	border-radius: 3px;
-	min-height: 200px;
 
 	&::before {
 		content: '';
