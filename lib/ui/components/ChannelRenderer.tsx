@@ -13,7 +13,14 @@ const ChannelRenderer = (props: RendererProps) => {
 			return <Alert m={2} danger={true}>{channel.data.error.toString()}</Alert>;
 		}
 
-		return <Box p={3}><i className="fas fa-cog fa-spin" /></Box>;
+		return (
+			<Box flex="1">
+				<Box p={3}>
+					<i className="fas fa-cog fa-spin" />
+				</Box>
+			</Box>
+		);
+
 	}
 
 	const lenses = LensService.getLenses(channel.data.head!);
