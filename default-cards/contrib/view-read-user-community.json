@@ -266,6 +266,7 @@
               "enum": [
                 "view-all-messages",
                 "view-all-views",
+                "view-my-alerts",
                 "view-my-mentions"
               ]
             },

@@ -1,4 +1,3 @@
-import * as Bluebird from 'bluebird';
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import * as React from 'react';
@@ -107,18 +106,26 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		this.props.actions.removeChannel(this.props.channel);
 	}
 
-	public async addMessage(e: React.KeyboardEvent<HTMLElement>) {
+	public addMessage(e: React.KeyboardEvent<HTMLElement>) {
 		e.preventDefault();
 		const { newMessage } = this.state;
 
 		this.setState({ newMessage: '' });
 
-		const mentions = await Bluebird.map(_.compact((newMessage.match(/\@[\S]+/g) || [])),
-			async (name) => {
+		const mentions = _.map(_.compact((newMessage.match(/\@[\S]+/g) || [])),
+			(name) => {
 				const slug = name.replace('@', 'user-');
-				const users = await sdk.user.getAll();
+				const users = this.props.appState.allUsers;
 				return _.get(_.find(users, { slug }), 'id');
-			});
+			},
+		);
+		const alerts = _.map(_.compact((newMessage.match(/![\S]+/g) || [])),
+			(name) => {
+				const slug = name.replace('!', 'user-');
+				const users = this.props.appState.allUsers;
+				return _.get(_.find(users, { slug }), 'id');
+			},
+		);
 
 		return sdk.card.create({
 			type: 'message',
@@ -128,6 +135,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 				actor: this.props.appState.session!.user!.id,
 				payload: {
 					mentionsUser: mentions,
+					alertsUser: alerts,
 					message: newMessage,
 				},
 			},

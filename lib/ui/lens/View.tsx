@@ -116,6 +116,9 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 				// mark as ready
 				ready: true,
 			});
+		})
+		.catch((error) => {
+			this.props.actions.addNotification('danger', error.message);
 		});
 
 		this.streamTail(target);

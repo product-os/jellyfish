@@ -10,6 +10,9 @@ export class SubscriptionManager {
 	public findMentions(data: Card): string[] {
 		return _.get(data, 'data.mentionsUser') || _.get(data, 'data.payload.mentionsUser', []);
 	}
+	public findAlerts(data: Card): string[] {
+		return _.get(data, 'data.alertsUser') || _.get(data, 'data.payload.alertsUser', []);
+	}
 
 	public subscribe(card: Card) {
 		const stream = sdk.stream(card.id);
@@ -23,6 +26,7 @@ export class SubscriptionManager {
 
 		stream.on('update', (response) => {
 			let mentions: string[] = [];
+			let alerts: string[] = [];
 
 			const content = response.data.after;
 
@@ -33,11 +37,22 @@ export class SubscriptionManager {
 				const beforeMentions = this.findMentions(response.data.before);
 				const afterMentions = this.findMentions(response.data.after);
 				mentions = _.difference(afterMentions, beforeMentions);
+
+				const beforeAlerts = this.findAlerts(response.data.before);
+				const afterAlerts = this.findAlerts(response.data.after);
+				alerts = _.difference(beforeAlerts, afterAlerts);
 			} else {
 				mentions = this.findMentions(content);
+				alerts = this.findAlerts(content);
 			}
 
-			if (mentions && _.includes(mentions, user.id)) {
+			if (_.includes(alerts, user.id)) {
+				this.notify(card, content, user, 'alert');
+				store.dispatch(actionCreators.addViewNotice({
+					id: card.id,
+					newMentions: true,
+				}));
+			} else if (_.includes(mentions, user.id)) {
 				this.notify(card, content, user, 'mention');
 				store.dispatch(actionCreators.addViewNotice({
 					id: card.id,
@@ -75,8 +90,8 @@ export class SubscriptionManager {
 		createNotification(view.name!, _.get(content, 'data.payload.message'), view.id);
 	}
 
-	public async getSubscription(card: Card, user: Card) {
-		const results = await sdk.query({
+	public getSubscription(card: Card, user: Card) {
+		return sdk.query({
 			type: 'object',
 			properties: {
 				type: {
@@ -96,28 +111,29 @@ export class SubscriptionManager {
 				},
 			},
 			additionalProperties: true,
-		});
+		})
+		.then((results) => {
+			const subCard = _.first(results) || null;
 
-		let subCard = _.first(results) || null;
-
-		if (!subCard) {
-			try {
-				const subCardId = await sdk.card.create({
+			if (!subCard) {
+				return sdk.card.create({
 					type: 'subscription',
 					data: {
 						target: card.id,
 						actor: user.id,
 					},
+				})
+				.then((subCardId) => {
+					return sdk.card.get(subCardId);
 				});
-
-				subCard = await sdk.card.get(subCardId);
-			} catch(error) {
-				store.dispatch(actionCreators.addNotification('danger', error.message));
-
-				return;
 			}
-		}
 
-		return subCard;
+			return subCard;
+		})
+		.catch((error) => {
+			store.dispatch(actionCreators.addNotification('danger', error.message));
+
+			return;
+		});
 	}
 }

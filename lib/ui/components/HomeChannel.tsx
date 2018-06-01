@@ -246,6 +246,7 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 
 						return (
 							<ViewLink
+								key={card.id}
 								card={card}
 								isActive={isActive}
 								update={update}

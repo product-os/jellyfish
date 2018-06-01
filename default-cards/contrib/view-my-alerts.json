@@ -1,6 +1,6 @@
 {
-  "slug": "view-my-mentions",
-  "name": "My mentions",
+  "slug": "view-my-alerts",
+  "name": "My alerts",
   "type": "view",
   "tags": [],
   "links": [],
@@ -8,20 +8,20 @@
   "data": {
     "allOf": [
       {
-        "name": "My mentions",
+        "name": "My alerts",
         "schema": {
           "type": "object",
           "properties": {
             "data": {
               "type": "object",
               "properties": {
-                "mentionsUser": {
+                "alertsUser": {
                   "contains": {
                     "const": "[user.id]"
                   }
                 }
               },
-              "required": [ "mentionsUser" ],
+              "required": [ "alertsUser" ],
               "additionalProperties": true
             }
           },
