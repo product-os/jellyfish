@@ -218,6 +218,9 @@ export const actionCreators = {
 				type: actions.UPDATE_CHANNEL,
 				value: clonedChannel,
 			});
+		})
+		.catch((e) => {
+			dispatch(actionCreators.addNotification('danger', e.message));
 		});
 	},
 	updateChannel: (channel: Partial<Channel>) => ({
