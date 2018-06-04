@@ -60,6 +60,9 @@ export interface JellyfishState {
 			newContent?: boolean;
 		};
 	};
+	config: {
+		version?: string;
+	};
 }
 
 export interface Card {

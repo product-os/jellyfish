@@ -132,6 +132,11 @@ export class Sdk implements utils.SDKInterface {
 			});
 	}
 
+	public getConfig = () => {
+		return Promise.try(() => axios.get<string>(`${this.API_BASE}config`))
+		.then((response) => response.data);
+	}
+
 	public query <T = Card>(schema: JSONSchema6 | string): Promise<T[]> {
 		return this.post('query', _.isString(schema) ? { query: schema } : schema)
 			.then(response => response.data.data);

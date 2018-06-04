@@ -44,6 +44,7 @@ const defaultState = (): JellyfishState => ({
 	notifications: [],
 	viewNotices: {},
 	allUsers: [],
+	config: {},
 });
 
 interface Action {
@@ -66,6 +67,7 @@ const actions = {
 	REMOVE_NOTIFICATION: 'REMOVE_NOTIFICATION',
 	ADD_VIEW_NOTICE: 'ADD_VIEW_NOTICE',
 	REMOVE_VIEW_NOTICE: 'REMOVE_VIEW_NOTICE',
+	SET_CONFIG: 'SET_CONFIG',
 };
 
 type JellyThunk<T> = ThunkAction<Promise<T>, JellyfishState, void>;
@@ -184,6 +186,11 @@ const reducer = (state: JellyfishState, action: Action) => {
 
 			return newState;
 
+		case actions.SET_CONFIG:
+			newState.config = action.value;
+
+			return newState;
+
 		default:
 			return newState;
 	}
@@ -244,8 +251,9 @@ export const actionCreators = {
 			sdk.auth.whoami(),
 			sdk.type.getAll(),
 			sdk.user.getAll(),
+			sdk.getConfig(),
 		])
-		.then(([user, types, allUsers]) => {
+		.then(([user, types, allUsers, config]) => {
 			if (!user) {
 				throw new Error('Could not retrieve user');
 			}
@@ -255,6 +263,10 @@ export const actionCreators = {
 				dispatch(actionCreators.setUser(user!));
 				dispatch(actionCreators.setTypes(types));
 				dispatch(actionCreators.setAllUsers(allUsers));
+				dispatch({
+					type: actions.SET_CONFIG,
+					value: config,
+				});
 				state.channels.forEach((channel) => dispatch(actionCreators.loadChannelData(channel)));
 			}
 
