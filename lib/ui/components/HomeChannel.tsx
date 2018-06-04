@@ -253,7 +253,16 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 							/>
 						);
 					})}
+
 				</Box>
+				<Txt
+					bg="#333"
+					color="white"
+					monospace
+					fontSize={1}
+				>
+					{this.props.appState.config.version}
+				</Txt>
 			</Flex>
 		);
 	}
