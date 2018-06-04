@@ -79,7 +79,13 @@ class ViewList extends React.Component<ViewListProps, ViewListState> {
 
 						return (
 							<Box key={card.id} mb={3}>
-								<Link data-id={card.id} onClick={this.openChannel}>{card.name || card.slug || card.id}</Link>
+								<Link
+									data-id={card.id}
+									onClick={this.openChannel}
+									className={`list-item--${card.slug || card.id}`}
+								>
+									{card.name || card.slug || card.id}
+								</Link>
 							</Box>
 						);
 					})}

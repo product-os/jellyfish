@@ -148,7 +148,17 @@
             "slug": {
               "type": "string",
               "not": {
-                "pattern": "view-(read|write)-user.+"
+                "anyOf": [
+                  {
+                    "pattern": "view-(read|write)-user.+"
+                  },
+                  {
+                    "enum": [
+                      "view-active-triggered-actions",
+                      "view-non-executed-action-requests"
+                    ]
+                  }
+                ]
               }
             },
             "id": {
