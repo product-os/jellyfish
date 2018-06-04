@@ -94,6 +94,9 @@ export class Sdk implements utils.SDKInterface {
 	}
 
 	public post <R = utils.ServerResponse>(endpoint: string, body: any, options?: AxiosRequestConfig) {
+		// Debugging data to help trace unhandled rejects caused by canceling AXIOS
+		// requests
+		const trace = new Error().stack;
 		const requestOptions = this.authToken ?
 			_.merge(
 				{},
@@ -113,6 +116,12 @@ export class Sdk implements utils.SDKInterface {
 			requestOptions,
 		))
 			.catch((e) => {
+				if (e.message === 'Operation canceled by user') {
+					console.log('AXIOS Cancel error');
+					console.log('endpoint', endpoint);
+					console.log('body', JSON.stringify(body, null, 4));
+					console.log(trace);
+				}
 				if (e.response && e.response.data) {
 					throw new Error(e.response.data.data);
 				}

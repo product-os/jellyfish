@@ -22,7 +22,8 @@
     "tslint:fix": "tslint -t stylish --fix \"lib/**/*.ts\" \"lib/**/*.tsx\"",
     "build:ui": "webpack",
     "dev:ui": "API_URL='http://localhost:8000/' webpack-dev-server --color",
-    "heroku-postbuild": "npm run build:ui"
+    "heroku-postbuild": "npm run build:ui",
+    "versionist": "versionist"
   },
   "ava": {
     "verbose": true,
@@ -75,6 +76,7 @@
     "tslint-react": "^3.6.0",
     "typescript": "^2.7.2",
     "v8-profiler": "^5.7.0",
+    "versionist": "^2.13.0",
     "webpack": "^4.1.1",
     "webpack-cli": "^2.0.12",
     "webpack-dev-server": "^3.1.1"
