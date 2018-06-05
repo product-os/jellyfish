@@ -138,8 +138,12 @@ export class Sdk implements utils.SDKInterface {
 	}
 
 	public query <T = Card>(schema: JSONSchema6 | string): Promise<T[]> {
+		const start = Date.now();
 		return this.post('query', _.isString(schema) ? { query: schema } : schema)
-			.then(response => response.data.data);
+			.then(response => response.data.data)
+			.tap(() => {
+				utils.debug(`Query complete in ${Date.now() - start}ms`, schema);
+			});
 	}
 
 	public action(body: {
