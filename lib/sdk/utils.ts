@@ -2,7 +2,9 @@ import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import * as Promise from 'bluebird';
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
+import { Observable } from 'rxjs';
 import { Card } from '../Types';
+import { MiniJelly } from './mini-jelly';
 
 import Ajv = require('ajv');
 import ajvKeywords = require('ajv-keywords');
@@ -67,6 +69,10 @@ export interface ServerResponse {
 	data: any;
 }
 
+export interface SDKQueryOptions {
+	skipCache?: boolean;
+}
+
 export interface SDKInterface {
 	getApiUrl: () => string | undefined;
 	getAuthToken: () => string | undefined;
@@ -82,11 +88,32 @@ export interface SDKInterface {
 		arguments?: any;
 		transient?: any;
 	}) => Promise<D>;
-	query: <T = Card>(schema: JSONSchema6 | string) => Promise<T[]>;
+	query: <T extends Card>(schema: JSONSchema6, options?: SDKQueryOptions) => Observable<T[]>;
 
 	post: <R = ServerResponse>(endpoint: string, body: any, options?: AxiosRequestConfig) => Promise<AxiosResponse<R>>;
 
+	miniJelly: MiniJelly;
+
 	card: {
-		get: (idOrSlug: string) => Promise<Card | null>;
+		get: (idOrSlug: string, options?: SDKQueryOptions) => Observable<Card | null>;
 	};
+}
+
+export interface StreamEventMap {
+	update: {
+		id: string,
+		error: false;
+		data: {
+			after: Card;
+			before: Card | null;
+		};
+	};
+
+	streamError: {
+		id: string,
+		error: true;
+		data: string;
+	};
+
+	destroy: void;
 }

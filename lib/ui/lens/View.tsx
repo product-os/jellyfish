@@ -61,6 +61,34 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 		this.bootstrap(this.props.channel.data.target);
 	}
 
+	getSubscription(target: string, userId: string) {
+		const schema: JSONSchema6 = {
+			type: 'object',
+			properties: {
+				type: {
+					const: 'subscription',
+				},
+				data: {
+					type: 'object',
+					properties: {
+						target: {
+							const: target,
+						},
+						actor: {
+							const: userId,
+						},
+					},
+					additionalProperties: true,
+				},
+			},
+			additionalProperties: true,
+		};
+
+		return sdk.query(schema)
+			.toPromise()
+			.then((results) => _.first(results) || null);
+	}
+
 	bootstrap(target: string) {
 		// Set tail to null and ready state to false immediately
 		this.setState({
@@ -70,7 +98,7 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 
 		const userId = this.props.appState.session!.user!.id;
 		// load subscription
-		sdk.subscription.getByTargetAndUser(target, userId)
+		this.getSubscription(target, userId)
 		.then((card) => {
 			if (card) {
 				return card;
@@ -82,7 +110,8 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 					actor: userId,
 				},
 			})
-			.then((id) => sdk.card.get(id));
+			.toPromise()
+			.then((id) => sdk.card.get(id).toPromise());
 		})
 		.then((subscription) => {
 			const { head } = this.props.channel.data;
@@ -161,6 +190,7 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 
 	public saveView = ([ view ]: FiltersView[]) => {
 		sdk.card.create(this.createView(view))
+		.toPromise()
 		.then(
 			(viewId) => this.props.actions.addChannel(createChannel({
 				target: viewId,

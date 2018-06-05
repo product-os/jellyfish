@@ -1,3 +1,4 @@
+import { circularDeepEqual } from 'fast-equals';
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import * as React from 'react';
@@ -5,7 +6,6 @@ import {
 	Box,
 	Button,
 	Flex,
-	Txt,
 } from 'rendition';
 import styled from 'styled-components';
 import uuid = require('uuid/v4');
@@ -25,7 +25,6 @@ const Column = styled(Flex)`
 
 interface RendererState {
 	tail: null | Card[];
-	pendingMessages: Card[];
 	newMessage: string;
 	showNewCardModal: boolean;
 }
@@ -43,13 +42,19 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 	constructor(props: DefaultRendererProps) {
 		super(props);
 
-		this.state = {
+		this.state = this.getDefaultState();
+		this.bootstrap(this.props.channel.data.target);
+	}
+
+	public getDefaultState(): RendererState {
+		return {
 			tail: null,
-			pendingMessages: [],
 			newMessage: '',
 			showNewCardModal: false,
 		};
+	}
 
+	public bootstrap(target: string) {
 		const querySchema: JSONSchema6 = {
 			type: 'object',
 			properties: {
@@ -63,7 +68,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 					type: 'object',
 					properties: {
 						target: {
-							const: this.props.channel.data.target,
+							const: target,
 						},
 					},
 					required: [ 'target' ],
@@ -82,23 +87,21 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 	}
 
 	public setTail(tail: Card[]) {
-		const pendingMessages = this.state.pendingMessages.filter(card => {
-			return !_.find(tail, item => item.data.placeholderId === card.data.placeholderId);
-		});
-
 		this.setState({
-			pendingMessages,
 			tail,
 		});
 	}
 
-	public componentWillUpdate() {
-		if (!this.scrollArea) {
-			return;
+	public componentWillUpdate(nextProps: DefaultRendererProps) {
+		if (this.scrollArea) {
+			// Only set the scroll flag if the scroll area is already at the bottom
+			this.shouldScroll = this.scrollArea.scrollTop === this.scrollArea.scrollHeight - this.scrollArea.offsetHeight;
 		}
 
-		// Only set the scroll flag if the scroll area is already at the bottom
-		this.shouldScroll = this.scrollArea.scrollTop === this.scrollArea.scrollHeight - this.scrollArea.offsetHeight;
+		if (!circularDeepEqual(nextProps.channel, this.props.channel)) {
+			this.setState(this.getDefaultState());
+			this.bootstrap(nextProps.channel.data.target);
+		}
 	}
 
 	public componentDidUpdate() {
@@ -162,22 +165,15 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 					alertsUser: alerts,
 					message: newMessage,
 				},
-				placeholderId: id,
 			},
 		};
 
-		// Add the message as a pending message, so that it can be displayed
-		// instantly. Once the view is updated with data from the DB, the
-		// `placeholderId` attribute will be used to identify and temove the pending
-		// message
-		this.setState((prevState) => ({
-			pendingMessages: prevState.pendingMessages.concat([message]),
-		}));
-
-		return sdk.card.create(message)
-		.catch((error) => {
-			this.props.actions.addNotification('danger', error.message);
-		});
+		sdk.card.create(message)
+			.subscribe({
+				error: (error) => {
+					this.props.actions.addNotification('danger', error.message);
+				},
+			});
 	}
 
 	public openChannel = (target: string) => {
@@ -196,14 +192,14 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		return sdk.card.create({
 			type: 'thread',
 			data: {},
-		})
-		.then((threadId) => {
-			this.openChannel(threadId);
-			return null;
-		})
-		.catch((error) => {
-			this.props.actions.addNotification('danger', error.message);
-		});
+		}).toPromise()
+			.then((threadId) => {
+				this.openChannel(threadId);
+				return null;
+			})
+			.catch((error) => {
+				this.props.actions.addNotification('danger', error.message);
+			});
 	}
 
 	public handleNewMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -218,11 +214,10 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 
 	public render() {
 		const { head } = this.props.channel.data;
-		const tail = this.props.tail || (
-			this.state.tail ?
-			_.sortBy<Card>(this.state.tail.concat(this.state.pendingMessages), x => x.data.timestamp)
-			: null
-		);
+		const unsortedTail = this.props.tail || this.state.tail;
+		const tail = unsortedTail ?
+			_.sortBy<Card>(unsortedTail, 'data.timestamp')
+			: null;
 		const channelTarget = this.props.channel.data.target;
 
 		return (
@@ -247,12 +242,6 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 								card={card}
 							/>
 						</Box>)}
-
-					{(!!tail && tail.length === 0) &&
-						<Txt color="#ccc">
-							<em>There are no messages in this thread yet, trying adding one using the input below</em>
-						</Txt>
-					}
 				</div>
 
 				{head && head.type !== 'view' &&

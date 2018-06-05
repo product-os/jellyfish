@@ -7,6 +7,7 @@ export class AuthSdk {
 	constructor(private sdk: SDKInterface) {}
 
 	public whoami() {
+		const options = { skipCache: true };
 		return Promise.try(() => {
 			const session = this.sdk.getAuthToken();
 
@@ -14,12 +15,12 @@ export class AuthSdk {
 				throw new Error('No session token found');
 			}
 
-			return this.sdk.card.get(session)
+			return this.sdk.card.get(session, options).toPromise()
 				.then((result) => {
 					if (!result) {
 						throw new Error('Could not retrieve session data');
 					}
-					return this.sdk.card.get(result.data.actor);
+					return this.sdk.card.get(result.data.actor, options).toPromise();
 				});
 		});
 	}
@@ -51,7 +52,7 @@ export class AuthSdk {
 	}
 
 	public loginWithToken(token: string) {
-		return this.sdk.card.get(token)
+		return Promise.try(() => this.sdk.card.get(token).toPromise())
 		.then(() => {
 			this.sdk.setAuthToken(token);
 		});

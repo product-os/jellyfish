@@ -564,7 +564,7 @@ ava.test('AGGREGATE($events): should work when creating cards via the SDK', asyn
 		type: 'thread',
 		name: 'test-thread',
 		data: {}
-	})
+	}).toPromise()
 
 	// Add a message to the thread element
 	await sdk.card.create({
@@ -578,9 +578,9 @@ ava.test('AGGREGATE($events): should work when creating cards via the SDK', asyn
 				mentionsUser: [ 'johndoe' ]
 			}
 		}
-	})
+	}).toPromise()
 
-	const card = await sdk.card.get(threadId)
+	const card = await sdk.card.get(threadId).toPromise()
 
 	test.deepEqual(card.data.mentionsUser, [ 'johndoe' ])
 })

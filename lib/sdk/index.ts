@@ -2,12 +2,11 @@ import axios, { AxiosRequestConfig, CancelTokenSource } from 'axios';
 import * as Promise from 'bluebird';
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
+import { concat, from, Observable, of } from 'rxjs';
 import { Card } from '../Types';
 import { AuthSdk } from './auth';
-import { CardSdk } from './models/card';
-import { SubscriptionSdk } from './models/subscription';
-import { TypeSdk } from './models/type';
-import { UserSdk } from './models/user';
+import { CardSdk } from './card';
+import { MiniJelly } from './mini-jelly';
 import { JellyfishStreamManager } from './stream';
 import * as utils from './utils';
 
@@ -22,9 +21,7 @@ const trimSlash = (s: string) => _.trim(s, '/');
 export class Sdk implements utils.SDKInterface {
 	public auth: AuthSdk;
 	public card: CardSdk;
-	public subscription: SubscriptionSdk;
-	public type: TypeSdk;
-	public user: UserSdk;
+	public miniJelly: MiniJelly;
 	public utils: typeof utils;
 
 	private cancelTokenSource: CancelTokenSource;
@@ -37,11 +34,9 @@ export class Sdk implements utils.SDKInterface {
 		private API_PREFIX: string,
 		private authToken?: string,
 	) {
+		this.miniJelly = new MiniJelly();
 		this.auth = new AuthSdk(this);
 		this.card = new CardSdk(this);
-		this.subscription = new SubscriptionSdk(this);
-		this.type = new TypeSdk(this);
-		this.user = new UserSdk(this);
 
 		this.utils = utils;
 
@@ -137,13 +132,30 @@ export class Sdk implements utils.SDKInterface {
 		.then((response) => response.data);
 	}
 
-	public query <T = Card>(schema: JSONSchema6 | string): Promise<T[]> {
+	public query <T extends Card>(
+		schema: JSONSchema6,
+		options: utils.SDKQueryOptions = {},
+	): Observable<T[]> {
 		const start = Date.now();
-		return this.post('query', _.isString(schema) ? { query: schema } : schema)
+		const backendRequest = this.post('query', _.isString(schema) ? { query: schema } : schema)
 			.then(response => response.data.data)
 			.tap(() => {
 				utils.debug(`Query complete in ${Date.now() - start}ms`, schema);
+			})
+			.tap((cards) => {
+				this.miniJelly.batchInsert(cards);
 			});
+
+		if (options.skipCache) {
+			return from(backendRequest);
+		}
+
+		const localCards = this.miniJelly.query(schema);
+
+		return concat(
+			of(localCards),
+			from(backendRequest),
+		);
 	}
 
 	public action(body: {
@@ -172,8 +184,8 @@ export class Sdk implements utils.SDKInterface {
 			});
 	}
 
-	public stream(query: JSONSchema6 | string | Card) {
-		return this.streamManager.stream(query);
+	public stream(query: JSONSchema6, options?: utils.SDKQueryOptions) {
+		return this.streamManager.stream(query, options);
 	}
 }
 

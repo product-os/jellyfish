@@ -2,7 +2,7 @@ import { ValidateFunction } from 'ajv';
 
 import * as _ from 'lodash';
 import { Card, Lens } from '../../Types';
-import { sdk } from '../app';
+import { sdk, store } from '../app';
 
 // Load lenses
 import InterleavedLens from './Interleaved';
@@ -46,7 +46,8 @@ class LensService {
 			if (lens.data.filter) {
 				this.validators[lens.slug] = sdk.utils.compileSchema(lens.data.filter);
 			} else {
-				const typeCard = sdk.type.get(lens.data.type);
+				const types = store.getState().types;
+				const typeCard = _.find(types, { type: lens.data.type });
 				this.validators[lens.slug] = sdk.utils.compileSchema(typeCard!.data.schema);
 			}
 		}

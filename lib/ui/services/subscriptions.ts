@@ -2,6 +2,7 @@ import * as _ from 'lodash';
 import { JellyfishStream } from '../../sdk/stream';
 import { Card } from '../../Types';
 import { actionCreators, sdk, store } from '../app';
+import { loadSchema } from '../services/helpers';
 import { createNotification } from './notifications';
 
 export class SubscriptionManager {
@@ -14,8 +15,12 @@ export class SubscriptionManager {
 		return _.get(data, 'data.alertsUser') || _.get(data, 'data.payload.alertsUser', []);
 	}
 
-	public subscribe(card: Card) {
-		const stream = sdk.stream(card.id);
+	public async subscribe(card: Card) {
+		const schema = await loadSchema(card);
+		if (!schema) {
+			return;
+		}
+		const stream = sdk.stream(schema, { skipCache: true });
 		const user = _.get(store.getState(), 'session.user');
 
 		if (this.streams[card.id]) {
@@ -112,6 +117,7 @@ export class SubscriptionManager {
 			},
 			additionalProperties: true,
 		})
+		.toPromise()
 		.then((results) => {
 			const subCard = _.first(results) || null;
 
@@ -123,8 +129,9 @@ export class SubscriptionManager {
 						actor: user.id,
 					},
 				})
+				.toPromise()
 				.then((subCardId) => {
-					return sdk.card.get(subCardId);
+					return sdk.card.get(subCardId).toPromise();
 				});
 			}
 
