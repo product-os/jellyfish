@@ -155,3 +155,17 @@ exports.createEvent = (session, type, actor, target, payload) => {
 		}
 	})
 }
+
+// Display entries from marky in the console
+exports.logSummary = (entries) => {
+	console.log('\n==== ENTRIES\n')
+	entries.forEach((entry) => {
+		console.log(`${entry.name}: ${entry.duration}`)
+	})
+
+	console.log('\n==== SUMMARY\n')
+	const durations = _.map(entries, 'duration')
+	console.log(`Min: ${_.min(durations)}`)
+	console.log(`Max: ${_.max(durations)}`)
+	console.log(`Avg: ${_.sum(durations) / durations.length}`)
+}

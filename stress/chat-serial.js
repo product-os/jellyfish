@@ -50,16 +50,7 @@ const run = async () => {
 
 	const entries = marky.getEntries()
 
-	console.log('\n==== ENTRIES\n')
-	entries.forEach((entry) => {
-		console.log(`${entry.name}: ${entry.duration}`)
-	})
-
-	console.log('\n==== SUMMARY\n')
-	const durations = _.map(entries, 'duration')
-	console.log(`Min: ${_.min(durations)}`)
-	console.log(`Max: ${_.max(durations)}`)
-	console.log(`Avg: ${_.sum(durations) / durations.length}`)
+	utils.logSummary(entries)
 }
 
 run().catch((error) => {
