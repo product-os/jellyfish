@@ -32,13 +32,14 @@ class CardList extends React.Component<CardListProps, CardListState> {
 		sdk.card.create({
 			type: 'thread',
 		})
-		.then((threadId) => {
+			.toPromise()
+			.then((threadId) => {
 
-			this.openChannel(threadId);
-		})
-		.catch((error) => {
-			this.props.actions.addNotification('danger', error.message);
-		});
+				this.openChannel(threadId);
+			})
+			.catch((error) => {
+				this.props.actions.addNotification('danger', error.message);
+			});
 	}
 
 	public componentWillReceiveProps() {

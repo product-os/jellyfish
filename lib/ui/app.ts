@@ -71,6 +71,7 @@ const actions = {
 };
 
 type JellyThunk<T> = ThunkAction<Promise<T>, JellyfishState, void>;
+type JellyThunkSync<T> = ThunkAction<T, JellyfishState, void>;
 
 export const sdk = jellyfishSdk({
 	apiPrefix: API_PREFIX,
@@ -215,26 +216,28 @@ export const actionCreators = {
 		type: actions.SET_STATE,
 		value: state,
 	}),
-	loadChannelData: (channel: Channel): JellyThunk<void> => (dispatch) => {
-		return sdk.card.get(channel.data.target)
-		.then((head) => {
-			const clonedChannel = _.cloneDeep(channel);
-			clonedChannel.data.head = head!;
+	loadChannelData: (channel: Channel): JellyThunkSync<void> => (dispatch) => {
+		sdk.card.get(channel.data.target)
+		.subscribe({
+			next: (head) => {
+				const clonedChannel = _.cloneDeep(channel);
+				clonedChannel.data.head = head!;
 
-			dispatch({
-				type: actions.UPDATE_CHANNEL,
-				value: clonedChannel,
-			});
-		})
-		.catch((e) => {
-			dispatch(actionCreators.addNotification('danger', e.message));
+				dispatch({
+					type: actions.UPDATE_CHANNEL,
+					value: clonedChannel,
+				});
+			},
+			error: (e) => {
+				dispatch(actionCreators.addNotification('danger', e.message));
+			},
 		});
 	},
 	updateChannel: (channel: Partial<Channel>) => ({
 		type: actions.UPDATE_CHANNEL,
 		value: channel,
 	}),
-	addChannel: (channel: Channel): JellyThunk<void> => (dispatch) => {
+	addChannel: (channel: Channel): JellyThunkSync<void> => (dispatch) => {
 		dispatch({
 			type: actions.ADD_CHANNEL,
 			value: channel,
@@ -249,8 +252,8 @@ export const actionCreators = {
 	bootstrap: (): JellyThunk<Card> => (dispatch) => {
 		return Promise.all([
 			sdk.auth.whoami(),
-			sdk.type.getAll(),
-			sdk.user.getAll(),
+			sdk.card.getAllByType('type').toPromise(),
+			sdk.card.getAllByType('user').toPromise(),
 			sdk.getConfig(),
 		])
 		.then(([user, types, allUsers, config]) => {
@@ -261,7 +264,7 @@ export const actionCreators = {
 			// Check to see if we're still logged in
 			if (_.get(state, ['session', 'authToken'])) {
 				dispatch(actionCreators.setUser(user!));
-				dispatch(actionCreators.setTypes(types));
+				dispatch(actionCreators.setTypes(types as Type[]));
 				dispatch(actionCreators.setAllUsers(allUsers));
 				dispatch({
 					type: actions.SET_CONFIG,
@@ -277,21 +280,23 @@ export const actionCreators = {
 		type: actions.SET_AUTHTOKEN,
 		value: token,
 	}),
-	loginWithToken: (token: string): JellyThunk<any> => (dispatch) => {
+	loginWithToken: (token: string): JellyThunk<null> => (dispatch) => {
 		return sdk.auth.loginWithToken(token)
 			.then(() => dispatch(actionCreators.setAuthToken(token)))
 			.then(() => dispatch(actionCreators.bootstrap()))
 			.then(() => dispatch(actionCreators.setStatus('authorized')))
+			.then(() => null)
 			.catch((e) => {
 				dispatch(actionCreators.setStatus('unauthorized'));
 				throw e;
 			});
 	},
-	login: (payload: { username: string, password: string }): JellyThunk<any> => (dispatch) => {
+	login: (payload: { username: string, password: string }): JellyThunk<null> => (dispatch) => {
 		return sdk.auth.login(payload)
 			.then((token) => dispatch(actionCreators.setAuthToken(token)))
 			.then(() => dispatch(actionCreators.bootstrap()))
 			.then(() => dispatch(actionCreators.setStatus('authorized')))
+			.then(() => null)
 			.catch((e) => {
 				dispatch(actionCreators.setStatus('unauthorized'));
 				throw e;
@@ -391,10 +396,12 @@ load()
 		const token = _.get(store.getState(), 'session.authToken');
 		if (token) {
 			debug('FOUND STORED SESSION TOKEN, CHECKING AUTHORIZATION');
-			return store.dispatch(actionCreators.loginWithToken(token));
+			store.dispatch(actionCreators.loginWithToken(token));
+		} else {
+			store.dispatch(actionCreators.setStatus('unauthorized'));
 		}
 
-		store.dispatch(actionCreators.setStatus('unauthorized'));
+		return null;
 	});
 
 store.subscribe(() => setPathFromState(store.getState()));

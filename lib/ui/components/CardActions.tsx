@@ -28,7 +28,7 @@ class Base extends React.Component<
 	constructor(props: CardActionProps) {
 		super(props);
 
-		const cardType = sdk.type.get(this.props.card.type);
+		const cardType = _.find(this.props.appState.types, { slug: this.props.card.type });
 
 		// Omit known computed values from the schema
 		const schema = _.omit(cardType ? cardType.data.schema : {}, [
@@ -45,7 +45,7 @@ class Base extends React.Component<
 	}
 
 	public delete = () => {
-		sdk.card.remove(this.props.card.id)
+		sdk.card.remove(this.props.card.id).toPromise()
 		.then(() => this.props.delete())
 		.catch((error) => {
 			this.props.actions.addNotification('danger', error.message);

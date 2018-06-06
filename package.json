@@ -123,6 +123,7 @@
     "redux-thunk": "^2.2.0",
     "rendition": "4.8.1",
     "rethinkdb": "^2.3.3",
+    "rxjs": "^6.2.0",
     "socket.io": "^2.1.0",
     "static-eval": "^2.0.0",
     "styled-components": "^3.2.5",

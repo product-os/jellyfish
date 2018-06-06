@@ -1,10 +1,12 @@
+import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import uuid = require('uuid/v4');
+import * as jsonSchema from '../../core/json-schema';
 import { Card, Channel, JellyfishState } from '../../Types';
-import { actionCreators } from '../app';
+import { actionCreators, sdk } from '../app';
 
 const PURPLE = '#8268c5';
 
@@ -124,4 +126,51 @@ export const findUsernameById = (users: Card[], id: string) => {
 		return actor ?
 			actor.slug!.replace('user-', '') :
 			'unknown user';
+};
+
+/**
+ * @summary Get the schema of a view card
+ * @function
+ * @private
+ *
+ * @param {Object} card - view card
+ * @returns {(Object|Null)} schema
+ *
+ * @example
+ * const card = await kernel.getCardBySlug('4a962ad9-20b5-4dd8-a707-bf819593cc84', 'view-all')
+ * const schema = permissionFilter.getViewSchema(card)
+ * console.log(schema)
+ */
+export const getViewSchema = (card: Card) => {
+	if (!card) {
+		return null;
+	}
+
+	const conjunctions = _.map(_.get(card, [ 'data', 'allOf' ]), 'schema');
+	const disjunctions = _.map(_.get(card, [ 'data', 'anyOf' ]), 'schema');
+
+	if (_.isEmpty(conjunctions) && _.isEmpty(disjunctions)) {
+		return null;
+	}
+
+	if (!_.isEmpty(disjunctions)) {
+		conjunctions.push({
+			anyOf: disjunctions,
+		});
+	}
+
+	return jsonSchema.merge(conjunctions);
+};
+
+export const loadSchema = async (query: string | Card | JSONSchema6) => {
+	if (_.isString(query)) {
+		return await sdk.card.get(query).toPromise()
+			.then(getViewSchema);
+	}
+
+	if (query.type === 'view') {
+		return getViewSchema(query as Card);
+	}
+
+	return query as JSONSchema6;
 };

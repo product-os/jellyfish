@@ -37,8 +37,10 @@ class Base extends React.Component<CardCreatorProps, CardCreatorState> {
 		};
 
 		sdk.card.create(newCard as Card)
-		.catch((error) => {
-			this.props.actions.addNotification('danger', error.message);
+		.subscribe({
+			error: (error) => {
+				this.props.actions.addNotification('danger', error.message);
+			},
 		});
 
 		this.setState({

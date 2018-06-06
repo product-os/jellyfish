@@ -3,70 +3,54 @@ import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import * as io from 'socket.io-client';
 import uuid = require('uuid/v4');
-import { Card } from '../Types';
-import { SDKInterface } from './utils';
-
-interface EventMap {
-	data: {
-		id: string,
-		error: false;
-		data: Card[];
-	};
-
-	update: {
-		id: string,
-		error: false;
-		data: {
-			after: Card;
-			before: Card;
-		};
-	};
-
-	streamError: {
-		id: string,
-		error: true;
-		data: string;
-	};
-
-	destroy: void;
-}
+import { SDKInterface, SDKQueryOptions, StreamEventMap } from './utils';
 
 export class JellyfishStream extends EventEmitter {
 	public id: string;
 	private socket: SocketIOClient.Socket;
+	private unsubscribe: () => void;
+
 
 	constructor(
-		eventName: string,
-		payload: any,
+		query: JSONSchema6,
 		openSocket: () => Promise<SocketIOClient.Socket>,
-		token?: string,
+		sdk: SDKInterface,
+		options: SDKQueryOptions = {},
 	) {
 		super();
 
 		this.id = uuid();
+		const token = sdk.getAuthToken();
+
+		if (!options.skipCache) {
+			this.unsubscribe = sdk.miniJelly.watch(query, (data) => {
+				this.emit('update', { data });
+			});
+		}
 
 		openSocket().then((socket) => {
 			this.socket = socket;
 
-			this.socket.emit(eventName, {
+			this.socket.emit('query', {
 				token,
-				data: payload,
+				data: { query },
 				id: this.id,
 			});
 
-			this.socket.on('data', ({ id, ...data }: EventMap['data']) => {
+			this.socket.on('update', ({ id, ...data }: StreamEventMap['update']) => {
 				if (id === this.id) {
-					this.emit('data', data);
-				}
-			});
-
-			this.socket.on('update', ({ id, ...data }: EventMap['update']) => {
-				if (id === this.id) {
+					const { after, before } = data.data;
+					// If there was no prior card, double check to see if there is a proxy
+					// card in the local db
+					if (!options.skipCache && !before) {
+						data.data.before = sdk.miniJelly.getById(after.id);
+						sdk.miniJelly.upsert(after);
+					}
 					this.emit('update', data);
 				}
 			});
 
-			this.socket.on('streamError', ({ id, ...data }: EventMap['streamError']) => {
+			this.socket.on('streamError', ({ id, ...data }: StreamEventMap['streamError']) => {
 				if (id === this.id) {
 					this.emit('streamError', data);
 				}
@@ -77,10 +61,10 @@ export class JellyfishStream extends EventEmitter {
 	// The `on` method is overloaded so we can add strict typings for event names
 	// and response data
 	public on<
-		EventName extends keyof EventMap
+		EventName extends keyof StreamEventMap
 	>(
 		event: EventName,
-		handler: (message: EventMap[EventName]) => void,
+		handler: (message: StreamEventMap[EventName]) => void,
 	): this {
 		return super.on(event, handler);
 	}
@@ -88,7 +72,12 @@ export class JellyfishStream extends EventEmitter {
 	public destroy() {
 		this.emit('destroy');
 		this.removeAllListeners();
-		this.socket.emit('destroy', this.id);
+		if (this.socket) {
+			this.socket.emit('destroy', this.id);
+		}
+		if (this.unsubscribe) {
+			this.unsubscribe();
+		}
 	}
 }
 
@@ -103,10 +92,28 @@ export class JellyfishStreamManager {
 	/**
 	 * Returns an event emitter that emits response data for the given query
 	 */
-	public stream(query: JSONSchema6 | string | Card) {
-		const emitter = new JellyfishStream('query', { query }, this.openSocket, this.sdk.getAuthToken());
+	public stream(query: JSONSchema6, options: SDKQueryOptions = {}) {
+		const emitter = new JellyfishStream(query, this.openSocket, this.sdk, options);
 		this.activeEmitters[emitter.id] = emitter;
-		emitter.on('destroy', () => delete this.activeEmitters[emitter.id]);
+
+		let unsubscribe: () => void;
+
+		if (!options.skipCache) {
+			unsubscribe = this.sdk.miniJelly.watch(query, (data) => {
+				emitter.emit('update', { data });
+			});
+
+			emitter.on('update', ({ data }) => {
+			 	this.sdk.miniJelly.upsert(data.after);
+			});
+		}
+
+		emitter.on('destroy', () => {
+			if (unsubscribe) {
+				unsubscribe();
+			}
+			delete this.activeEmitters[emitter.id];
+		});
 
 		return emitter;
 	}

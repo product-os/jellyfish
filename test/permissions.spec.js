@@ -56,7 +56,7 @@ ava.test.serial('.query() should only return the user itself for the guest user'
 				const: 'user'
 			}
 		}
-	})
+	}).toPromise()
 
 	test.deepEqual(_.map(results, 'slug'), [ 'user-guest' ])
 })
@@ -86,7 +86,7 @@ ava.test.serial('.query() should be able to see previously restricted cards afte
 		data: {}
 	})
 
-	const unprivilegedResults = await sdk.card.get(repoId)
+	const unprivilegedResults = await sdk.card.get(repoId).toPromise()
 
 	test.deepEqual(unprivilegedResults, null)
 
@@ -105,7 +105,7 @@ ava.test.serial('.query() should be able to see previously restricted cards afte
 		override: true
 	})
 
-	const privilegedResults = await sdk.card.get(repoId)
+	const privilegedResults = await sdk.card.get(repoId).toPromise()
 	test.deepEqual(privilegedResults.id, repoId)
 })
 
@@ -128,7 +128,7 @@ ava.test.serial('timeline cards should reference the correct actor', async (test
 	const threadId = await sdk.card.create({
 		type: 'thread',
 		data: {}
-	})
+	}).toPromise()
 
 	await sdk.card.update(threadId, {
 		data: {
@@ -136,7 +136,7 @@ ava.test.serial('timeline cards should reference the correct actor', async (test
 		}
 	})
 
-	const timeline = await sdk.card.getTimeline(threadId)
+	const timeline = await sdk.card.getTimeline(threadId).toPromise()
 
 	const timelineActors = _.uniq(timeline.map((card) => {
 		return card.data.actor
@@ -168,7 +168,7 @@ ava.test.serial('.query() community users should be able to query views', async 
 				const: 'view'
 			}
 		}
-	})
+	}).toPromise()
 
 	test.true(_.includes(_.map(results, 'slug'), 'view-all-views'))
 })
