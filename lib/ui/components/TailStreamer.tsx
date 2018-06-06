@@ -68,10 +68,10 @@ export class TailStreamer<P, S> extends React.Component<P, TailStreamerState & S
 				});
 			}
 
-			const tail = this.state.tail || [];
-			tail!.push(after);
+			const tail = this.state.tail ? this.state.tail.slice() : [];
+			tail.push(after);
 
-			this.setTail(tail!);
+			this.setTail(tail);
 		});
 
 		this.stream.on('streamError', (response) => {
