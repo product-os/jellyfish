@@ -9,34 +9,6 @@
     "schema": {
       "description": "Jellyfish View",
       "type": "object",
-      "definitions": {
-        "filters": {
-          "type": "array",
-          "minItems": 0,
-          "uniqueItems": true,
-          "items": {
-            "type": "object",
-            "properties": {
-              "name": {
-                "type": "string",
-                "pattern": "^.*\\S.*$"
-              },
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "type": {
-                    "type": "string",
-                    "const": "object"
-                  }
-                },
-                "required": [ "type" ]
-              }
-            },
-            "additionalProperties": false,
-            "required": [ "name", "schema" ]
-          }
-        }
-      },
       "properties": {
         "data": {
           "type": "object",
@@ -46,10 +18,52 @@
               "format": "uuid"
             },
             "anyOf": {
-              "$ref": "#/definitions/filters"
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "pattern": "^.*\\S.*$"
+                  },
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "const": "object"
+                      }
+                    },
+                    "required": [ "type" ]
+                  }
+                },
+                "additionalProperties": false,
+                "required": [ "name", "schema" ]
+              }
             },
             "allOf": {
-              "$ref": "#/definitions/filters"
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "pattern": "^.*\\S.*$"
+                  },
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "const": "object"
+                      }
+                    },
+                    "required": [ "type" ]
+                  }
+                },
+                "additionalProperties": false,
+                "required": [ "name", "schema" ]
+              }
             },
             "groups": {
               "type": "array",

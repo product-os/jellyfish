@@ -32,12 +32,10 @@
             },
             "roles": {
               "type": "array",
-              "minItems": 0,
               "items": {
                 "type": "string",
                 "pattern": "^[a-z0-9-]+$"
-              },
-              "uniqueItems": true
+              }
             }
           },
           "required": [

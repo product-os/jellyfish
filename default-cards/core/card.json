@@ -27,21 +27,17 @@
         },
         "tags": {
           "type": "array",
-          "minItems": 0,
           "items": {
             "type": "string",
             "pattern": "^[a-zA-Z0-9-]+$"
-          },
-          "uniqueItems": true
+          }
         },
         "links": {
           "type": "array",
-          "minItems": 0,
           "items": {
             "type": "string",
             "format": "uuid"
-          },
-          "uniqueItems": true
+          }
         },
         "active": {
           "type": "boolean"
