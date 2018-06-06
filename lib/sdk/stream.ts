@@ -96,22 +96,7 @@ export class JellyfishStreamManager {
 		const emitter = new JellyfishStream(query, this.openSocket, this.sdk, options);
 		this.activeEmitters[emitter.id] = emitter;
 
-		let unsubscribe: () => void;
-
-		if (!options.skipCache) {
-			unsubscribe = this.sdk.miniJelly.watch(query, (data) => {
-				emitter.emit('update', { data });
-			});
-
-			emitter.on('update', ({ data }) => {
-			 	this.sdk.miniJelly.upsert(data.after);
-			});
-		}
-
 		emitter.on('destroy', () => {
-			if (unsubscribe) {
-				unsubscribe();
-			}
 			delete this.activeEmitters[emitter.id];
 		});
 
