@@ -33,10 +33,13 @@ class Base extends React.Component<
 		const cardType = _.find(this.props.appState.types, { slug: this.props.card.type });
 
 		// Omit known computed values from the schema
-		const schema = _.omit(cardType ? cardType.data.schema : {}, [
-			'properties.data.properties.mentionsUser',
-			'properties.data.properties.alertsUser',
-		]);
+		const schema = cardType ? _.cloneDeep(cardType.data.schema) : {};
+		const schemaDataProps = _.get(schema, 'properties.data.properties');
+		if (schemaDataProps) {
+			_.set(schema, 'properties.data.properties', _.omitBy(schemaDataProps, (_val, key) => {
+				return _.startsWith(key, '$$');
+			}));
+		}
 
 		this.state = {
 			showEditModal: false,

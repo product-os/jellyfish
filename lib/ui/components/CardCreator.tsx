@@ -91,8 +91,8 @@ class Base extends React.Component<CardCreatorProps, CardCreatorState> {
 
 		// Omit known computed values from the schema
 		const schema = _.omit((this.props.type as any).data.schema, [
-			'properties.data.properties.mentionsUser',
-			'properties.data.properties.alertsUser',
+			'properties.data.properties.$$mentionsUser',
+			'properties.data.properties.$$alertsUser',
 		]);
 
 		return (

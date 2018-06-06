@@ -9,10 +9,10 @@ export class SubscriptionManager {
 	private streams: { [k: string]: JellyfishStream } = {};
 
 	public findMentions(data: Card): string[] {
-		return _.get(data, 'data.mentionsUser') || _.get(data, 'data.payload.mentionsUser', []);
+		return _.get(data, 'data.$$mentionsUser') || _.get(data, 'data.payload.$$mentionsUser', []);
 	}
 	public findAlerts(data: Card): string[] {
-		return _.get(data, 'data.alertsUser') || _.get(data, 'data.payload.alertsUser', []);
+		return _.get(data, 'data.$$alertsUser') || _.get(data, 'data.payload.$$alertsUser', []);
 	}
 
 	public async subscribe(card: Card) {

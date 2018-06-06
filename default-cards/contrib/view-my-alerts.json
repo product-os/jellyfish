@@ -15,7 +15,7 @@
             "data": {
               "type": "object",
               "properties": {
-                "alertsUser": {
+                "$$alertsUser": {
                   "contains": {
                     "const": "[user.id]"
                   }

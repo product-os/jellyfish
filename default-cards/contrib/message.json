@@ -27,13 +27,13 @@
             "payload": {
               "type": "object",
               "properties": {
-                "mentionsUser": {
+                "$$mentionsUser": {
                   "type": "array",
                   "items": {
                     "type": "string"
                   }
                 },
-                "alertsUser": {
+                "$$alertsUser": {
                   "type": "array",
                   "items": {
                     "type": "string"

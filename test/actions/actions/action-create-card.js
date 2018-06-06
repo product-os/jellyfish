@@ -644,12 +644,12 @@ ava.test('AGGREGATE($events): should work when creating cards via the SDK', asyn
 			actor: userId,
 			payload: {
 				message: 'lorem ipsum dolor sit amet',
-				mentionsUser: [ 'johndoe' ]
+				$$mentionsUser: [ 'johndoe' ]
 			}
 		}
 	})
 
 	const card = await sdk.card.get(threadId)
 
-	test.deepEqual(card.data.mentionsUser, [ 'johndoe' ])
+	test.deepEqual(card.data.$$mentionsUser, [ 'johndoe' ])
 })
