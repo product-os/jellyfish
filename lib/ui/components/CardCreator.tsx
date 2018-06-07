@@ -92,6 +92,12 @@ class Base extends React.Component<CardCreatorProps, CardCreatorState> {
 
 		}, {});
 
+		// Omit known computed values from the schema
+		const schema = _.omit((this.props.type as any).data.schema, [
+			'properties.data.properties.mentionsUser',
+			'properties.data.properties.alertsUser',
+		]);
+
 		return (
 			<Modal
 				title="Add entry"
@@ -99,7 +105,7 @@ class Base extends React.Component<CardCreatorProps, CardCreatorState> {
 				done={this.addEntry}
 			>
 				<Form
-					schema={(this.props.type as any).data.schema}
+					schema={schema}
 					value={this.state.newCardModel}
 					onFormChange={this.handleFormChange}
 					onFormSubmit={this.addEntry}
