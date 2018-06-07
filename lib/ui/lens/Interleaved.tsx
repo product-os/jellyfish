@@ -83,7 +83,11 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 			this.streamTail(querySchema);
 		}
 
-		setTimeout(() => this.scrollToBottom(), 1000);
+		setTimeout(() => {
+			this.shouldScroll = true;
+
+			this.scrollToBottom();
+		}, 1000);
 	}
 
 	public setTail(tail: Card[]) {
