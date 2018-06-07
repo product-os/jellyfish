@@ -40,13 +40,14 @@ export class JellyfishStream extends EventEmitter {
 			this.socket.on('update', ({ id, ...data }: StreamEventMap['update']) => {
 				if (id === this.id) {
 					const { after, before } = data.data;
-					// If there was no prior card, double check to see if there is a proxy
-					// card in the local db
+					// If there was no prior card, upsert the card into mini-jelly and
+					// defer the 'update' event
 					if (!options.skipCache && !before) {
 						data.data.before = sdk.miniJelly.getById(after.id);
 						sdk.miniJelly.upsert(after);
+					} else {
+						this.emit('update', data);
 					}
-					this.emit('update', data);
 				}
 			});
 
