@@ -40,6 +40,13 @@ const CardField = ({ field, payload, users }: {
 	users: Card[];
 }) => {
 	const value = payload[field];
+	if (value === undefined) {
+		return null;
+	}
+	// If the field starts with '$$' it is metaData and shouldn't be displayed
+	if (_.startsWith(field, '$$')) {
+		return null;
+	}
 	if (field === 'alertsUser' || field === 'mentionsUser') {
 		const len = value.length;
 		if (!len || !users) {

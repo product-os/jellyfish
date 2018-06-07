@@ -5,6 +5,7 @@ import { Button, Flex, Modal, Txt } from 'rendition';
 import { Form } from 'rendition/dist/unstable';
 import { Card } from '../../Types';
 import { sdk } from '../app';
+import { FreeFieldForm } from '../components/FreeFieldForm';
 import { connectComponent, ConnectedComponentProps } from '../services/helpers';
 import Icon from './Icon';
 
@@ -95,7 +96,37 @@ class Base extends React.Component<
 		this.setState({ editModel: data.formData });
 	}
 
+	public setFreeFieldData = (data: any) => {
+		const model = this.state.editModel;
+		_.forEach(data, (value, key) => {
+			_.set(model, ['data', key], value);
+		});
+
+		this.setState({ editModel: model });
+	}
+
+	public setLocalSchema = (schema: JSONSchema6) => {
+		const model = this.state.editModel;
+		_.set(model, ['data', '$$localSchema'], schema);
+
+		this.setState({ editModel: model });
+	}
+
 	public render() {
+		const localSchema = _.get(this.state.editModel, 'data.$$localSchema') || {
+			type: 'object',
+			properties: {},
+		};
+		const freeFieldData = _.reduce<any, any>(localSchema.properties, (carry, _value, key) => {
+			const cardValue = _.get(this.props.card, ['data', key]);
+			if (cardValue) {
+				carry[key] = cardValue;
+			}
+
+			return carry;
+
+		}, {});
+
 		return (
 			<React.Fragment>
 				<Flex align="right" justify="flex-end" mb={3}>
@@ -137,6 +168,13 @@ class Base extends React.Component<
 							onFormChange={this.handleFormChange}
 							onFormSubmit={this.updateEntry}
 							hideSubmitButton={true}
+						/>
+
+						<FreeFieldForm
+							schema={localSchema}
+							data={freeFieldData}
+							onDataChange={this.setFreeFieldData}
+							onSchemaChange={this.setLocalSchema}
 						/>
 					</Modal>
 				}
