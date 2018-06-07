@@ -8,23 +8,6 @@
   "data": {
     "schema": {
       "type": "object",
-      "definitions": {
-        "notificationOptions": {
-          "type": "object",
-          "properties": {
-            "update": {
-              "type": "boolean"
-            },
-            "mention": {
-              "type": "boolean"
-            },
-            "alert": {
-              "type": "boolean"
-            }
-          },
-          "additionalProperties": false
-        }
-      },
       "properties": {
         "data": {
           "type": "object",
@@ -53,7 +36,19 @@
                 "web": {
                   "title": "Web",
                   "description": "Alert me with desktop notifications",
-                  "$ref": "#/definitions/notificationOptions"
+                  "type": "object",
+                  "properties": {
+                    "update": {
+                      "type": "boolean"
+                    },
+                    "mention": {
+                      "type": "boolean"
+                    },
+                    "alert": {
+                      "type": "boolean"
+                    }
+                  },
+                  "additionalProperties": false
                 }
               }
             }
