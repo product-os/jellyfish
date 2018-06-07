@@ -19,10 +19,12 @@ const _ = require('lodash')
 const Bluebird = require('bluebird')
 const randomstring = require('randomstring')
 const Backend = require('../../lib/core/backend')
+const Cache = require('../../lib/core/cache')
 const errors = require('../../lib/core/errors')
 
 ava.test.beforeEach(async (test) => {
-	test.context.backend = new Backend({
+	const cache = new Cache()
+	test.context.backend = new Backend(cache, {
 		host: process.env.TEST_DB_HOST,
 		port: process.env.TEST_DB_PORT,
 		database: `test_${randomstring.generate()}`

@@ -23,9 +23,11 @@ const jsonSchema = require('../../lib/core/json-schema')
 const CARDS = require('../../lib/core/cards')
 const Kernel = require('../../lib/core/kernel')
 const Backend = require('../../lib/core/backend')
+const Cache = require('../../lib/core/cache')
 
 ava.test.beforeEach(async (test) => {
-	test.context.backend = new Backend({
+	const cache = new Cache()
+	test.context.backend = new Backend(cache, {
 		host: process.env.TEST_DB_HOST,
 		port: process.env.TEST_DB_PORT,
 		database: `test_${randomstring.generate()}`
