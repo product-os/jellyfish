@@ -17,24 +17,11 @@
 const ava = require('ava')
 const _ = require('lodash')
 const Bluebird = require('bluebird')
-const randomstring = require('randomstring')
-const Backend = require('../../lib/core/backend')
 const errors = require('../../lib/core/errors')
+const helpers = require('./helpers')
 
-ava.test.beforeEach(async (test) => {
-	test.context.backend = new Backend({
-		host: process.env.TEST_DB_HOST,
-		port: process.env.TEST_DB_PORT,
-		database: `test_${randomstring.generate()}`
-	})
-
-	await test.context.backend.connect()
-	await test.context.backend.reset()
-})
-
-ava.test.afterEach(async (test) => {
-	await test.context.backend.disconnect()
-})
+ava.test.beforeEach(helpers.backend.beforeEach)
+ava.test.afterEach(helpers.backend.afterEach)
 
 ava.test('.disconnect() should not throw if called multiple times', async (test) => {
 	test.notThrows(async () => {
@@ -120,17 +107,17 @@ ava.test('.getElementBySlug() should fetch an element given its slug', async (te
 })
 
 ava.test('.createTable() should be able to create a table', async (test) => {
-	test.false((await test.context.backend.getTables()).includes('foobar'))
+	test.false(await test.context.backend.hasTable('foobar'))
 	await test.context.backend.createTable('foobar')
-	test.true((await test.context.backend.getTables()).includes('foobar'))
+	test.true(await test.context.backend.hasTable('foobar'))
 })
 
 ava.test('.createTable() should ignore continuous attempts to create the same table', async (test) => {
-	test.false((await test.context.backend.getTables()).includes('foobar'))
+	test.false(await test.context.backend.hasTable('foobar'))
 	await test.context.backend.createTable('foobar')
 	await test.context.backend.createTable('foobar')
 	await test.context.backend.createTable('foobar')
-	test.true((await test.context.backend.getTables()).includes('foobar'))
+	test.true(await test.context.backend.hasTable('foobar'))
 })
 
 ava.test('.insertElement() should insert an element without a slug nor an id to an existing table', async (test) => {
@@ -266,143 +253,6 @@ ava.test('.insertElement() should fail to insert an element with a non-existent 
 		slug: 'foo',
 		foo: 'baz'
 	}), errors.JellyfishElementAlreadyExists)
-})
-
-ava.test('.updateElement() should fail to update an element with no id nor slug', async (test) => {
-	await test.context.backend.createTable('test')
-	await test.throws(test.context.backend.updateElement('test', {
-		foo: 'baz'
-	}), errors.JellyfishNoIdentifier)
-})
-
-ava.test('.updateElement() should fail to update an element by an id that does not exist', async (test) => {
-	await test.context.backend.createTable('test')
-
-	const element = await test.context.backend.getElementById('test', '4a962ad9-20b5-4dd8-a707-bf819593cc84')
-	test.deepEqual(element, null)
-
-	await test.throws(test.context.backend.updateElement('test', {
-		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-		foo: 'baz'
-	}), errors.JellyfishNoElement)
-})
-
-ava.test('.updateElement() should fail to update an element by a slug that does not exist', async (test) => {
-	await test.context.backend.createTable('test')
-
-	const element = await test.context.backend.getElementBySlug('test', 'foo')
-	test.deepEqual(element, null)
-
-	await test.throws(test.context.backend.updateElement('test', {
-		slug: 'foo',
-		foo: 'baz'
-	}), errors.JellyfishNoElement)
-})
-
-ava.test('.updateElement() should fail to update an element by an id and a slug where none exist', async (test) => {
-	await test.context.backend.createTable('test')
-
-	await test.throws(test.context.backend.updateElement('test', {
-		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-		slug: 'hello',
-		foo: 'baz'
-	}), errors.JellyfishNoElement)
-})
-
-ava.test('.updateElement() should replace an element given an update to the same id', async (test) => {
-	await test.context.backend.createTable('test')
-	const uuid1 = await test.context.backend.insertElement('test', {
-		test: 'foo',
-		hello: 'world'
-	})
-
-	const uuid2 = await test.context.backend.updateElement('test', {
-		id: uuid1,
-		test: 'bar'
-	})
-
-	test.is(uuid1, uuid2)
-
-	const element = await test.context.backend.getElementById('test', uuid1)
-	test.deepEqual(element, {
-		id: uuid1,
-		test: 'bar'
-	})
-})
-
-ava.test('.updateElement() should replace an element given an update to the same slug', async (test) => {
-	await test.context.backend.createTable('test')
-	const uuid1 = await test.context.backend.insertElement('test', {
-		slug: 'foo',
-		name: 'johndoe'
-	})
-
-	const uuid2 = await test.context.backend.updateElement('test', {
-		slug: 'foo',
-		name: 'janedoe'
-	})
-
-	test.is(uuid1, uuid2)
-
-	const element = await test.context.backend.getElementById('test', uuid1)
-	test.deepEqual(element, {
-		id: uuid1,
-		slug: 'foo',
-		name: 'janedoe'
-	})
-})
-
-ava.test('.updateElement() should replace an element given an update to the same id and slug', async (test) => {
-	await test.context.backend.createTable('test')
-	const uuid1 = await test.context.backend.insertElement('test', {
-		slug: 'foo',
-		name: 'johndoe'
-	})
-
-	const uuid2 = await test.context.backend.updateElement('test', {
-		id: uuid1,
-		slug: 'foo',
-		name: 'janedoe'
-	})
-
-	test.is(uuid1, uuid2)
-
-	const element = await test.context.backend.getElementById('test', uuid1)
-	test.deepEqual(element, {
-		id: uuid1,
-		slug: 'foo',
-		name: 'janedoe'
-	})
-})
-
-ava.test('.updateElement() should fail to update an element by an id and a slug where the slug already exist', async (test) => {
-	await test.context.backend.createTable('test')
-
-	const uuid = await test.context.backend.insertElement('test', {
-		slug: 'hello'
-	})
-
-	test.not(uuid, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
-
-	await test.throws(test.context.backend.updateElement('test', {
-		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-		slug: 'hello',
-		foo: 'baz'
-	}), errors.JellyfishElementAlreadyExists)
-})
-
-ava.test('.upsertElement() should insert a card without a slug nor an id', async (test) => {
-	await test.context.backend.createTable('test')
-	const uuid = await test.context.backend.upsertElement('test', {
-		test: 'foo'
-	})
-
-	const element = await test.context.backend.getElementById('test', uuid)
-
-	test.deepEqual(element, {
-		id: uuid,
-		test: 'foo'
-	})
 })
 
 ava.test('.upsertElement() should create multiple elements given same content and no id', async (test) => {
@@ -947,12 +797,12 @@ ava.test.cb('.stream() should report back changes to certain elements', (test) =
 		emitter.on('error', test.end)
 		emitter.on('closed', test.end)
 
-		return test.context.backend.updateElement('test', {
+		return test.context.backend.upsertElement('test', {
 			slug: 'hello',
 			type: 'foo',
 			test: 2
 		}).then(() => {
-			return test.context.backend.updateElement('test', {
+			return test.context.backend.upsertElement('test', {
 				slug: 'qux',
 				type: 'bar',
 				test: 2
@@ -1019,7 +869,7 @@ ava.test.cb('.stream() should set "before" to an empty object if it previously d
 		emitter.on('error', test.end)
 		emitter.on('closed', test.end)
 
-		return test.context.backend.updateElement('test', {
+		return test.context.backend.upsertElement('test', {
 			slug: 'foobarbaz',
 			type: 'foo',
 			test: 1
@@ -1072,7 +922,7 @@ ava.test.cb('.stream() should filter the "before" section of a change', (test) =
 		emitter.on('error', test.end)
 		emitter.on('closed', test.end)
 
-		return test.context.backend.updateElement('test', {
+		return test.context.backend.upsertElement('test', {
 			slug: 'hello',
 			type: 'foo',
 			test: 2,

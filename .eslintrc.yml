@@ -380,9 +380,6 @@ rules:
     - error
     - true
     - true
-  lodash/prefer-get:
-    - error
-    - 2
   lodash/prefer-includes:
     - error
     - includeNative: true
