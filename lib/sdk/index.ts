@@ -110,6 +110,7 @@ export class Sdk implements utils.SDKInterface {
 			.catch((e) => {
 				if (e.message === 'Operation canceled by user') {
 					console.log('Caught Axios cancel error and ignoring it');
+					return;
 				}
 				if (e.response && e.response.data) {
 					throw new Error(e.response.data.data);
