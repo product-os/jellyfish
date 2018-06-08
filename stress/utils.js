@@ -157,7 +157,13 @@ exports.createEvent = (session, type, actor, target, payload) => {
 }
 
 // Display entries from marky in the console
-exports.logSummary = (entries) => {
+exports.logSummary = (entries, title) => {
+	if (title) {
+		console.log('--------------------')
+		console.log(title.toUpperCase())
+		console.log('--------------------')
+	}
+
 	console.log('\n==== ENTRIES\n')
 	entries.forEach((entry) => {
 		console.log(`${entry.name}: ${entry.duration}`)
