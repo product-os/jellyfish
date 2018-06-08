@@ -6,6 +6,8 @@ import { Card, Channel } from '../../Types';
 import {
 	connectComponent,
 	ConnectedComponentProps,
+} from '../services/connector';
+import {
 	createChannel,
 	findUsernameById,
 	formatTimestamp,
@@ -24,7 +26,7 @@ const DataContainer = styled.pre`
 	word-wrap: break-word;
 `;
 
-const UsersBadge = styled(Txt)`
+const Badge = styled(Txt)`
 	display: inline-block;
 	background: #555;
 	color: white;
@@ -54,12 +56,12 @@ const CardField = ({ field, payload, users }: {
 		}
 		const names = value.map((id: string) => findUsernameById(users, id));
 		return (
-			<UsersBadge
+			<Badge
 				tooltip={names.join(', ')}
 				my={1}
 			>
 				{field === 'alertsUser' ? 'Alerts' : 'Mentions'} {len} user{len !== 1 && 's'}
-			</UsersBadge>
+			</Badge>
 		);
 	}
 	if (field === 'actor') {

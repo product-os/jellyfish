@@ -10,32 +10,21 @@
       {
         "name": "Active cards",
         "schema": {
-          "additionalProperties": true,
+          "type": "object",
           "properties": {
             "active": {
               "const": true,
               "type": "boolean"
-            }
-          },
-          "required": [
-            "active"
-          ],
-          "type": "object"
-        }
-      },
-      {
-        "name": "user-generated-filter",
-        "schema": {
-          "description": "type is message",
-          "properties": {
+            },
             "type": {
-              "const": "message"
+              "const": "thread"
             }
           },
           "required": [
+            "active",
             "type"
           ],
-          "type": "object"
+          "additionalProperties": true
         }
       }
     ],

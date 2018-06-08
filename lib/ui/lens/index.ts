@@ -12,7 +12,7 @@ import DefaultCardLens from './DefaultCard';
 import DefaultListLens from './DefaultList';
 import KanbanLens from './Kanban';
 import MessageCardLens from './MessageCard';
-import MyMentionsLens from './MyMentions';
+import TimelineLens from './Timeline';
 import ViewLens from './View';
 
 class LensService {
@@ -22,8 +22,8 @@ class LensService {
 	private lenses = {
 		list: [
 			InterleavedLens,
+			TimelineLens,
 			DefaultListLens,
-			MyMentionsLens,
 		],
 		table: [],
 		card: [

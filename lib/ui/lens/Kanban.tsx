@@ -6,7 +6,14 @@ import { Flex, Modal } from 'rendition';
 import * as jellyscript from '../../jellyscript';
 import { Card, Channel, Lens, RendererProps } from '../../Types';
 import { sdk } from '../app';
-import { connectComponent, ConnectedComponentProps, createChannel } from '../services/helpers';
+import {
+	connectComponent,
+	ConnectedComponentProps,
+} from '../services/connector';
+import {
+	createChannel,
+	getUpdateObjectFromSchema,
+} from '../services/helpers';
 import LensService from './index';
 
 const UNSORTED_GROUP_ID = 'JELLYFISH_UNSORTED_GROUP';
@@ -121,16 +128,13 @@ class Kanban extends React.Component<KanbanProps, KanbanState> {
 
 		const schemas = group.data.schemas;
 
-		const targetSchema = _.find(schemas, { title: targetLaneId });
+		const targetSchema = _.find<JSONSchema6>(schemas, { title: targetLaneId });
 
-		// Find possible update values for card
-		// TODO: Make this function recurse through each level of the schema
-		// Currently this assumes a schema of pattern:
-		// PROPERTY: { const: VALUE }
-		const update: { [k: string]: any } = {};
-		_.forEach(_.get(targetSchema, 'properties.data.properties'), (value, key) => {
-			update[key] = value.const;
-		});
+		if (!targetSchema) {
+			return;
+		}
+
+		const update = getUpdateObjectFromSchema(targetSchema);
 
 		if (!_.isEmpty(update)) {
 			sdk.card.update(card.id, {

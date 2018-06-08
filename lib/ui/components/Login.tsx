@@ -12,7 +12,7 @@ import {
 	Link,
 	Txt,
 } from 'rendition';
-import { connectComponent, ConnectedComponentProps } from '../services/helpers';
+import { connectComponent, ConnectedComponentProps } from '../services/connector';
 import Icon from './Icon';
 import TopBar from './TopBar';
 

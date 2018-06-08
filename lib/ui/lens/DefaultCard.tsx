@@ -9,7 +9,8 @@ import {
 import { Card, Lens, RendererProps, Type } from '../../Types';
 import { CardCreator } from '../components/CardCreator';
 import { CardRenderer } from '../components/CardRenderer';
-import { connectComponent, ConnectedComponentProps, createChannel } from '../services/helpers';
+import { connectComponent, ConnectedComponentProps } from '../services/connector';
+import { createChannel, getUpdateObjectFromSchema, getViewSchema } from '../services/helpers';
 
 interface CardListState {
 	showNewCardModal: boolean;
@@ -42,6 +43,22 @@ class CardList extends React.Component<CardListProps, CardListState> {
 
 	public hideNewCardModal = () => {
 		this.setState({ showNewCardModal: false });
+	}
+
+	public getSeedData() {
+		const { head } = this.props.channel.data;
+
+		if (!head || head.type !== 'view') {
+			return {};
+		}
+
+		const schema = getViewSchema(head);
+
+		if (!schema) {
+			return {};
+		}
+
+		return getUpdateObjectFromSchema(schema);
 	}
 
 	public render() {
@@ -81,6 +98,7 @@ class CardList extends React.Component<CardListProps, CardListState> {
 						</Flex>
 
 						<CardCreator
+							seed={this.getSeedData()}
 							show={this.state.showNewCardModal}
 							type={this.props.type}
 							done={this.hideNewCardModal}

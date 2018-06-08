@@ -8,7 +8,8 @@ import {
 } from 'rendition';
 import { Lens, RendererProps, Type } from '../../Types';
 import { CardCreator } from '../components/CardCreator';
-import { connectComponent, ConnectedComponentProps, createChannel } from '../services/helpers';
+import { connectComponent, ConnectedComponentProps } from '../services/connector';
+import { createChannel, getUpdateObjectFromSchema, getViewSchema } from '../services/helpers';
 
 interface ViewListState {
 	showNewCardModal: boolean;
@@ -48,6 +49,22 @@ class ViewList extends React.Component<ViewListProps, ViewListState> {
 		this.setState({ showNewCardModal: false });
 	}
 
+	public getSeedData() {
+		const { head } = this.props.channel.data;
+
+		if (!head || head.type !== 'view') {
+			return {};
+		}
+
+		const schema = getViewSchema(head);
+
+		if (!schema) {
+			return {};
+		}
+
+		return getUpdateObjectFromSchema(schema);
+	}
+
 	public render() {
 		const { tail, channel: { data: { head } } } = this.props;
 
@@ -81,6 +98,7 @@ class ViewList extends React.Component<ViewListProps, ViewListState> {
 						</Flex>
 
 						<CardCreator
+							seed={this.getSeedData()}
 							show={this.state.showNewCardModal}
 							type={this.props.type}
 							done={this.hideNewCardModal}

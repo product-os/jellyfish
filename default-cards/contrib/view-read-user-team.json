@@ -157,7 +157,8 @@
                 "view-all-views",
                 "view-my-alerts",
                 "view-my-mentions",
-                "view-scratchpad"
+                "view-scratchpad",
+                "view-p-jellyfish"
               ]
             },
             "id": {

@@ -6,7 +6,7 @@ import { Form } from 'rendition/dist/unstable';
 import { Card } from '../../Types';
 import { sdk } from '../app';
 import { FreeFieldForm } from '../components/FreeFieldForm';
-import { connectComponent, ConnectedComponentProps } from '../services/helpers';
+import { connectComponent, ConnectedComponentProps } from '../services/connector';
 import Icon from './Icon';
 
 interface CardActionsState {
