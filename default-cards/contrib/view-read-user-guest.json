@@ -45,16 +45,9 @@
             },
             "data": {
               "type": "object",
-              "properties": {
-                "schema": {
-                  "type": "object",
-                  "additionalProperties": true
-                }
-              },
-              "required": [ "schema" ]
+              "additionalProperties": true
             }
           },
-          "additionalProperties": true,
           "required": [ "slug", "type", "data" ]
         }
       },
@@ -75,7 +68,6 @@
             },
             "data": {
               "type": "object",
-              "additionalProperties": true,
               "required": [ "timestamp", "target", "actor", "payload" ],
               "properties": {
                 "timestamp": {
@@ -94,7 +86,7 @@
               }
             }
           },
-          "required": [ "type", "data" ]
+          "required": [ "id", "type", "data" ]
         }
       },
       {
@@ -141,6 +133,14 @@
             },
             "data": {
               "type": "object",
+              "required": [
+                "actor",
+                "target",
+                "action",
+                "timestamp",
+                "arguments",
+                "executed"
+              ],
               "properties": {
                 "actor": {
                   "type": "string",
@@ -163,22 +163,12 @@
                 },
                 "result": {
                   "type": "object",
-                  "additionalProperties": true,
-                  "properties": {
-                    "error": {
-                      "type": "boolean"
-                    },
-                    "data": {
-                      "type": [ "object", "string", "number", "boolean", "array" ]
-                    }
-                  }
+                  "additionalProperties": true
                 }
-              },
-              "additionalProperties": false
+              }
             }
           },
-          "additionalProperties": true,
-          "required": [ "type", "data" ]
+          "required": [ "id", "type", "data" ]
         }
       },
       {
@@ -213,6 +203,7 @@
             },
             "data": {
               "type": "object",
+              "required": [ "actor" ],
               "properties": {
                 "actor": {
                   "type": "string",
