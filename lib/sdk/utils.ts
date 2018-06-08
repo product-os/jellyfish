@@ -90,7 +90,7 @@ export interface SDKInterface {
 	}) => Promise<D>;
 	query: <T extends Card>(schema: JSONSchema6, options?: SDKQueryOptions) => Observable<T[]>;
 
-	post: <R = ServerResponse>(endpoint: string, body: any, options?: AxiosRequestConfig) => Promise<AxiosResponse<R>>;
+	post: <R = ServerResponse>(endpoint: string, body: any, options?: AxiosRequestConfig) => Promise<AxiosResponse<R> | void>;
 
 	miniJelly: MiniJelly;
 

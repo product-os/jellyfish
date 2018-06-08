@@ -130,7 +130,7 @@ export class Sdk implements utils.SDKInterface {
 	): Observable<T[]> {
 		const start = Date.now();
 		const backendRequest = this.post('query', _.isString(schema) ? { query: schema } : schema)
-			.then(response => response.data.data)
+			.then(response => response ? response.data.data : [])
 			.tap(() => {
 				utils.debug(`Query complete in ${Date.now() - start}ms`, schema);
 			})
@@ -167,6 +167,10 @@ export class Sdk implements utils.SDKInterface {
 		return this.post<utils.ActionResponse>('action', body)
 			.then((response) => {
 				utils.debug(`Action ${body.action} complete in ${Date.now() - start}ms`);
+				if  (!response) {
+					return {};
+				}
+
 				const { results } = response.data.data;
 				if (results.error) {
 					throw new Error(results.data);
