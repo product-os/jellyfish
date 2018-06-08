@@ -5,7 +5,7 @@ import { HomeChannel } from './components/HomeChannel';
 import { Login } from './components/Login';
 import { Notifications } from './components/Notifications';
 import { Splash } from './components/Splash';
-import { connectComponent, ConnectedComponentProps } from './services/helpers';
+import { connectComponent, ConnectedComponentProps } from './services/connector';
 
 class UI extends React.Component<ConnectedComponentProps, {}> {
 	public render() {

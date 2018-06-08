@@ -7,7 +7,7 @@ import {
 import { Form } from 'rendition/dist/unstable';
 import { Card, Type } from '../../Types';
 import { sdk } from '../app';
-import { connectComponent, ConnectedComponentProps } from '../services/helpers';
+import { connectComponent, ConnectedComponentProps } from '../services/connector';
 import { FreeFieldForm } from './FreeFieldForm';
 
 interface CardCreatorState {
@@ -15,6 +15,7 @@ interface CardCreatorState {
 }
 
 interface CardCreatorProps extends ConnectedComponentProps {
+	seed: {[key: string]: any };
 	show: boolean;
 	done: () => void;
 	type: Type;
@@ -25,7 +26,7 @@ class Base extends React.Component<CardCreatorProps, CardCreatorState> {
 		super(props);
 
 		this.state = {
-			newCardModel: {},
+			newCardModel: this.props.seed,
 		};
 	}
 
@@ -47,7 +48,7 @@ class Base extends React.Component<CardCreatorProps, CardCreatorState> {
 		});
 
 		this.setState({
-			newCardModel: {},
+			newCardModel: this.props.seed,
 		});
 
 		this.props.done();

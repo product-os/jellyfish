@@ -3,8 +3,8 @@ import { Box, Flex } from 'rendition';
 import styled from 'styled-components';
 import { Card, Lens, RendererProps } from '../../Types';
 import { CardRenderer } from '../components/CardRenderer';
-import { connectComponent, ConnectedComponentProps } from '../services/helpers';
-import InterleavedLens from './Interleaved';
+import { connectComponent, ConnectedComponentProps } from '../services/connector';
+import TimelineLens from './Timeline';
 
 const Column = styled(Flex)`
 	height: 100%;
@@ -45,7 +45,7 @@ export class Renderer extends React.Component<DefaultRendererProps, RendererStat
 				</Box>
 
 				<Box flex="1 0 50%" style={{ overflowY: 'auto'}}>
-					<InterleavedLens.data.renderer channel={this.props.channel} />
+					<TimelineLens.data.renderer channel={this.props.channel} />
 				</Box>
 			</Column>
 		);

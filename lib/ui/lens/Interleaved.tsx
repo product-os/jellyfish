@@ -8,14 +8,12 @@ import {
 	Flex,
 } from 'rendition';
 import styled from 'styled-components';
-import uuid = require('uuid/v4');
 import { Card, Lens, RendererProps } from '../../Types';
 import { sdk } from '../app';
-import AutocompleteTextarea from '../components/AutocompleteTextarea';
 import EventCard from '../components/Event';
-import Icon from '../components/Icon';
 import { TailStreamer } from '../components/TailStreamer';
-import { connectComponent, ConnectedComponentProps, createChannel, getCurrentTimestamp } from '../services/helpers';
+import { connectComponent, ConnectedComponentProps } from '../services/connector';
+import { createChannel, getUpdateObjectFromSchema, getViewSchema } from '../services/helpers';
 
 const Column = styled(Flex)`
 	height: 100%;
@@ -42,24 +40,47 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 	constructor(props: DefaultRendererProps) {
 		super(props);
 
-		this.state = this.getDefaultState();
-		this.bootstrap(this.props.channel.data.target);
-	}
-
-	public getDefaultState(): RendererState {
-		return {
+		this.state = {
 			tail: null,
 			newMessage: '',
 			showNewCardModal: false,
 		};
+
+		this.setupStream(this.props.tail || []);
+
+		setTimeout(() => this.scrollToBottom(), 1000);
 	}
 
-	public bootstrap(target: string) {
+	public componentWillUpdate(nextProps: DefaultRendererProps) {
+		if (!circularDeepEqual(nextProps.tail, this.props.tail)) {
+			this.setupStream(nextProps.tail || []);
+		}
+
+		if (!this.scrollArea) {
+			return;
+		}
+
+		// Only set the scroll flag if the scroll area is already at the bottom
+		this.shouldScroll = this.scrollArea.scrollTop === this.scrollArea.scrollHeight - this.scrollArea.offsetHeight;
+	}
+
+	public componentDidUpdate() {
+		// Scroll to bottom if the component has been updated with new items
+		this.scrollToBottom();
+	}
+
+	public setupStream(headCards: Card[]) {
+		const headCardIds = _.map(headCards, 'id');
+
+		if (!headCardIds.length) {
+			return this.setTail([]);
+		}
+
 		const querySchema: JSONSchema6 = {
 			type: 'object',
 			properties: {
 				type: {
-					// Don't include action request cards, as it just add's noise
+					// Don't incluide action request cards, as it just add's noise
 					not: {
 						const: 'action-request',
 					},
@@ -68,7 +89,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 					type: 'object',
 					properties: {
 						target: {
-							const: target,
+							enum: headCardIds,
 						},
 					},
 					required: [ 'target' ],
@@ -79,38 +100,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 			additionalProperties: true,
 		};
 
-		if (!this.props.tail) {
-			this.streamTail(querySchema);
-		}
-
-		setTimeout(() => {
-			this.shouldScroll = true;
-
-			this.scrollToBottom();
-		}, 1000);
-	}
-
-	public setTail(tail: Card[]) {
-		this.setState({
-			tail,
-		});
-	}
-
-	public componentWillUpdate(nextProps: DefaultRendererProps) {
-		if (this.scrollArea) {
-			// Only set the scroll flag if the scroll area is already at the bottom
-			this.shouldScroll = this.scrollArea.scrollTop === this.scrollArea.scrollHeight - this.scrollArea.offsetHeight;
-		}
-
-		if (!circularDeepEqual(nextProps.channel, this.props.channel)) {
-			this.setState(this.getDefaultState());
-			this.bootstrap(nextProps.channel.data.target);
-		}
-	}
-
-	public componentDidUpdate() {
-		// Scroll to bottom if the component has been updated with new items
-		this.scrollToBottom();
+		this.streamTail(querySchema);
 	}
 
 	public scrollToBottom() {
@@ -121,63 +111,6 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		if (this.shouldScroll) {
 			this.scrollArea.scrollTop = this.scrollArea.scrollHeight;
 		}
-	}
-
-	public delete() {
-		this.props.actions.removeChannel(this.props.channel);
-	}
-
-	public addMessage(e: React.KeyboardEvent<HTMLElement>) {
-		e.preventDefault();
-		const { newMessage } = this.state;
-
-		if (!newMessage) {
-			return;
-		}
-
-		this.setState({ newMessage: '' });
-
-		const mentions = _.map(_.compact((newMessage.match(/\@[\S]+/g) || [])),
-			(name) => {
-				const slug = name.replace('@', 'user-');
-				const users = this.props.appState.allUsers;
-				return _.get(_.find(users, { slug }), 'id');
-			},
-		);
-		const alerts = _.map(_.compact((newMessage.match(/![\S]+/g) || [])),
-			(name) => {
-				const slug = name.replace('!', 'user-');
-				const users = this.props.appState.allUsers;
-				return _.get(_.find(users, { slug }), 'id');
-			},
-		);
-
-		const id = uuid();
-
-		const message = {
-			id,
-			tags: [],
-			links: [],
-			active: true,
-			type: 'message',
-			data: {
-				timestamp: getCurrentTimestamp(),
-				target: this.props.channel.data.target,
-				actor: this.props.appState.session!.user!.id,
-				payload: {
-					mentionsUser: mentions,
-					alertsUser: alerts,
-					message: newMessage,
-				},
-			},
-		};
-
-		sdk.card.create(message)
-			.subscribe({
-				error: (error) => {
-					this.props.actions.addNotification('danger', error.message);
-				},
-			});
 	}
 
 	public openChannel = (target: string) => {
@@ -193,10 +126,27 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 	public addThread = (e: React.MouseEvent<HTMLElement>) => {
 		e.preventDefault();
 
-		return sdk.card.create({
-			type: 'thread',
-			data: {},
-		}).toPromise()
+		const { head } = this.props.channel.data;
+
+		if (!head) {
+			return;
+		}
+
+		const schema = getViewSchema(head);
+
+		if (!schema) {
+			return;
+		}
+
+		const cardData = getUpdateObjectFromSchema(schema);
+
+		cardData.type = 'thread';
+		if (!cardData.data) {
+			cardData.data = {};
+		}
+
+		return sdk.card.create(cardData as Card)
+			.toPromise()
 			.then((threadId) => {
 				this.openChannel(threadId);
 				return null;
@@ -206,23 +156,19 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 			});
 	}
 
-	public handleNewMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-		this.setState({ newMessage: e.target.value });
-	}
-
-	public handleNewMessageKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-		if (e.key === 'Enter') {
-			this.addMessage(e);
-		}
-	}
 
 	public render() {
 		const { head } = this.props.channel.data;
-		const unsortedTail = this.props.tail || this.state.tail;
-		const tail = unsortedTail ?
-			_.sortBy<Card>(unsortedTail, 'data.timestamp')
-			: null;
+		const timelineCards = _.sortBy(this.state.tail, 'data.timestamp');
+		// Give each headcard a timestamp using the first matching timeline card
+		const headCards = _.map(this.props.tail, card => {
+			const timestamp = _.get(_.find(timelineCards, (x) => x.data.target === card.id), 'data.timestamp');
+			_.set(card, 'data.timestamp', timestamp);
+			return card;
+		});
 		const channelTarget = this.props.channel.data.target;
+
+		const tail: Card[] | null = timelineCards.length ? _.sortBy(headCards.concat(timelineCards), 'data.timestamp') : null;
 
 		return (
 			<Column flexDirection="column">
@@ -234,8 +180,6 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 						overflowY: 'auto',
 					}}
 				>
-					{!tail && <Icon name="cog fa-spin" />}
-
 					{(!!tail && tail.length > 0) && _.map(tail, card =>
 						<Box key={card.id} py={3} style={{borderBottom: '1px solid #eee'}}>
 							<EventCard
@@ -245,21 +189,11 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 								}
 								card={card}
 							/>
-						</Box>)}
+						</Box>,
+					)}
 				</div>
 
-				{head && head.type !== 'view' &&
-					<AutocompleteTextarea
-						p={3}
-						style={{ borderTop: '1px solid #eee' }}
-						className="new-message-input"
-						value={this.state.newMessage}
-						onChange={this.handleNewMessageChange}
-						onKeyPress={this.handleNewMessageKeyPress}
-						placeholder="Type to comment on this thread..."
-					/>
-				}
-				{head && head.type === 'view' &&
+				{head && head.slug !== 'view-my-alerts' && head.slug !== 'view-my-mentions' &&
 					<Flex
 						p={3}
 						style={{borderTop: '1px solid #eee'}}
@@ -282,36 +216,13 @@ const lens: Lens = {
 	data: {
 		icon: 'address-card',
 		renderer: connectComponent(Renderer),
-		// This lens can display event-like objects
 		filter: {
 			type: 'array',
 			items: {
 				type: 'object',
 				properties: {
-					data: {
-						type: 'object',
-						properties: {
-							timestamp: {
-								type: 'string',
-								format: 'date-time',
-							},
-							target: {
-								type: 'string',
-								format: 'uuid',
-							},
-							actor: {
-								type: 'string',
-								format: 'uuid',
-							},
-							payload: {
-								type: 'object',
-							},
-						},
-						required: [
-							'timestamp',
-							'target',
-							'actor',
-						],
+					id: {
+						type: 'string',
 					},
 				},
 			},

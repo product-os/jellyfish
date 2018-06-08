@@ -5,7 +5,7 @@ import {
 	Fixed,
 } from 'rendition';
 import styled from 'styled-components';
-import { connectComponent, ConnectedComponentProps } from '../services/helpers';
+import { connectComponent, ConnectedComponentProps } from '../services/connector';
 
 const MessageText = styled.span`
 	white-space: pre;

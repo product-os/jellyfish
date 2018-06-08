@@ -1,12 +1,9 @@
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import * as moment from 'moment';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import uuid = require('uuid/v4');
 import * as jsonSchema from '../../core/json-schema';
-import { Card, Channel, JellyfishState } from '../../Types';
-import { actionCreators, sdk } from '../app';
+import { Card, Channel } from '../../Types';
 
 const PURPLE = '#8268c5';
 
@@ -18,28 +15,6 @@ export const debug = (...params: any[]) => {
 	if (DEBUG) {
 		console.log('%cjellyfish:ui', `color: ${PURPLE};`, ...params);
 	}
-};
-
-interface StateFromProps {
-	appState: JellyfishState;
-}
-
-interface DispatchFromProps {
-	actions: typeof actionCreators;
-}
-
-export interface ConnectedComponentProps extends StateFromProps, DispatchFromProps {}
-
-const mapStateToProps = (state: JellyfishState): StateFromProps => ({
-	appState: state,
-});
-
-const mapDispatchToProps = (dispatch: any) => ({
-	actions: bindActionCreators(actionCreators, dispatch),
-});
-
-export const connectComponent = <P extends ConnectedComponentProps>(component: React.ComponentType<P>) => {
-	return connect(mapStateToProps, mapDispatchToProps)<P>(component);
 };
 
 export const createChannel = (data: Channel['data']): Channel => ({
@@ -131,7 +106,6 @@ export const findUsernameById = (users: Card[], id: string) => {
 /**
  * @summary Get the schema of a view card
  * @function
- * @private
  *
  * @param {Object} card - view card
  * @returns {(Object|Null)} schema
@@ -162,15 +136,41 @@ export const getViewSchema = (card: Card) => {
 	return jsonSchema.merge(conjunctions);
 };
 
-export const loadSchema = async (query: string | Card | JSONSchema6) => {
-	if (_.isString(query)) {
-		return await sdk.card.get(query).toPromise()
-			.then(getViewSchema);
-	}
+/**
+ * @summary Parse a schema to produce an update object
+ * @function
+ * @description Is able to parse `const` and `contains` keywords.
+ * The `contains` keyword is only parsed if it contains a `const` keyword, in
+ * which case it will produce an array containing a single item.
+ *
+ * @param {Object} schema - A JSON schema
+ * @returns {(Object)} An update object
+ *
+ * @example
+ * const schema = {
+ * 	type: 'object',
+ * 	properties: {
+ * 		number: {
+ * 			const: 1
+ * 		}
+ * 	}
+ * }
+ * const update = getUpdateObjectFromSchema(schema)
+ * console.log(update) //--> { number: 1 }
+ */
+export const getUpdateObjectFromSchema = (schema: JSONSchema6): { [k: string]: any } => {
+	const update: { [k: string]: any } = {};
+	_.forEach(schema.properties, (value: JSONSchema6, key) => {
+		if (value.const) {
+			update[key] = value.const;
+		}
+		if (value.contains && (value.contains as JSONSchema6).const) {
+			update[key] = [ (value.contains as JSONSchema6).const ];
+		}
+		if (value.type === 'object') {
+			update[key] = getUpdateObjectFromSchema(value);
+		}
+	});
 
-	if (query.type === 'view') {
-		return getViewSchema(query as Card);
-	}
-
-	return query as JSONSchema6;
+	return update;
 };

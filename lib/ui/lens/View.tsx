@@ -8,6 +8,7 @@ import {
 	Filters,
 	FiltersView,
 	Flex,
+	SchemaSieve,
 	Select,
 } from 'rendition';
 import { Card, Lens, RendererProps, Type } from '../../Types';
@@ -21,6 +22,8 @@ import { TailStreamer } from '../components/TailStreamer';
 import {
 	connectComponent,
 	ConnectedComponentProps,
+} from '../services/connector';
+import {
 	createChannel,
 	getTypeFromViewCard,
 } from '../services/helpers';
@@ -219,9 +222,11 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 		view.filters.forEach((filter) => {
 			newView.data.allOf.push({
 				name: USER_FILTER_NAME,
-				schema: _.assign(filter, { type: 'object' }),
+				schema: _.assign(SchemaSieve.unflattenSchema(filter), { type: 'object' }),
 			});
 		});
+
+		delete newView.id;
 
 		return newView;
 	}

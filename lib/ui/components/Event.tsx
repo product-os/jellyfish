@@ -64,6 +64,17 @@ export default class Event extends React.Component<EventProps, { actorName: stri
 		openChannel(id);
 	}
 
+	public getTimelineText(card: Card) {
+		if (card.type === 'create') {
+			return 'created by';
+		}
+		if (card.type === 'update') {
+			return 'updated by';
+		}
+
+		return `${card.name ? card.name + ' - ' : ''}${card.type}`;
+	}
+
 	public render() {
 		const { card, openChannel, ...props } = this.props;
 
@@ -95,12 +106,11 @@ export default class Event extends React.Component<EventProps, { actorName: stri
 					{isTimelineCard &&
 						<React.Fragment>
 							<Flex justify="space-between" mb={2}>
-								<Box>
-									{!isMessage && `${card.name ? card.name + ' - ' : ''}${card.type} `}
-									<Txt bold={true}>
-										{this.state.actorName}
-									</Txt>
-								</Box>
+								<Txt mt={isMessage ? 0 : '5px'}>
+									{!isMessage && `${this.getTimelineText(card)} `}
+
+									<strong>{this.state.actorName}</strong>
+								</Txt>
 
 								{!!card.data && !!card.data.timestamp &&
 									<Txt className="event-card--timestamp" fontSize={1}>{formatTimestamp(card.data.timestamp)}</Txt>

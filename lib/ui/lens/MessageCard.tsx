@@ -8,7 +8,8 @@ import {
 import { Lens, RendererProps } from '../../Types';
 import { sdk } from '../app';
 import EventCard from '../components/Event';
-import { connectComponent, ConnectedComponentProps, createChannel } from '../services/helpers';
+import { connectComponent, ConnectedComponentProps } from '../services/connector';
+import { createChannel } from '../services/helpers';
 
 interface CardListProps extends RendererProps, ConnectedComponentProps {}
 

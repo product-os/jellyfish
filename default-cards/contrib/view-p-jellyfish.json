@@ -1,0 +1,29 @@
+{
+  "slug": "view-p-jellyfish",
+  "name": "p/jellyfish",
+  "type": "view",
+  "tags": [],
+  "links": [],
+  "active": true,
+  "data": {
+    "allOf": [
+      {
+        "name": "Jellyfish tags",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "tags": {
+              "contains": {
+                "const": "p/jellyfish"
+              }
+            }
+          },
+          "additionalProperties": true
+        }
+      }
+    ],
+    "lenses": [
+      "lens-interleaved"
+    ]
+  }
+}

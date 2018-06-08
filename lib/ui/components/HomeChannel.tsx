@@ -13,7 +13,8 @@ import {
 import styled from 'styled-components';
 import { Card, RendererProps } from '../../Types';
 import Markdown from '../components/Markdown';
-import { connectComponent, ConnectedComponentProps, createChannel } from '../services/helpers';
+import { connectComponent, ConnectedComponentProps } from '../services/connector';
+import { createChannel } from '../services/helpers';
 import { SubscriptionManager } from '../services/subscriptions';
 import Gravatar from './Gravatar';
 import Icon from './Icon';

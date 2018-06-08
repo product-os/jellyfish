@@ -5,7 +5,8 @@ import { Subscription } from 'rxjs';
 import { JellyfishStream } from '../../sdk/stream';
 import { Card } from '../../Types';
 import { actionCreators, sdk, store } from '../app';
-import { debug, loadSchema } from '../services/helpers';
+import { debug } from '../services/helpers';
+import { loadSchema } from '../services/sdk-helpers';
 
 interface TailStreamerState {
 	tail: null | Card[];
