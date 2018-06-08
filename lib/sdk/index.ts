@@ -89,12 +89,6 @@ export class Sdk implements utils.SDKInterface {
 	}
 
 	public post <R = utils.ServerResponse>(endpoint: string, body: any, options?: AxiosRequestConfig) {
-		// Debugging data to help trace unhandled rejects caused by canceling AXIOS
-		// requests. Only shown in a test env
-		let trace: any;
-		if (process.env.NODE_ENV === 'test') {
-			trace = new Error().stack;
-		}
 		const requestOptions = this.authToken ?
 			_.merge(
 				{},
@@ -114,11 +108,8 @@ export class Sdk implements utils.SDKInterface {
 			requestOptions,
 		))
 			.catch((e) => {
-				if (e.message === 'Operation canceled by user' && process.env.NODE_ENV === 'test') {
-					console.log('AXIOS Cancel error');
-					console.log('endpoint', endpoint);
-					console.log('body', JSON.stringify(body, null, 4));
-					console.log(trace!);
+				if (e.message === 'Operation canceled by user') {
+					console.log('Caught Axios cancel error and ignoring it');
 				}
 				if (e.response && e.response.data) {
 					throw new Error(e.response.data.data);
