@@ -32,3 +32,4 @@ jobs:
       - run: rethinkdb --daemon --bind all
       - run: npm test
       - run: node stress/core/insert-serial.js
+      - run: node stress/core/insert-parallel.js
