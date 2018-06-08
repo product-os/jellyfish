@@ -17,26 +17,11 @@
 const ava = require('ava')
 const _ = require('lodash')
 const Bluebird = require('bluebird')
-const randomstring = require('randomstring')
-const Backend = require('../../lib/core/backend')
-const Cache = require('../../lib/core/cache')
 const errors = require('../../lib/core/errors')
+const helpers = require('./helpers')
 
-ava.test.beforeEach(async (test) => {
-	const cache = new Cache()
-	test.context.backend = new Backend(cache, {
-		host: process.env.TEST_DB_HOST,
-		port: process.env.TEST_DB_PORT,
-		database: `test_${randomstring.generate()}`
-	})
-
-	await test.context.backend.connect()
-	await test.context.backend.reset()
-})
-
-ava.test.afterEach(async (test) => {
-	await test.context.backend.disconnect()
-})
+ava.test.beforeEach(helpers.backend.beforeEach)
+ava.test.afterEach(helpers.backend.afterEach)
 
 ava.test('.disconnect() should not throw if called multiple times', async (test) => {
 	test.notThrows(async () => {

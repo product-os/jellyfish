@@ -15,41 +15,13 @@
  */
 
 const ava = require('ava')
-const randomstring = require('randomstring')
-const Backend = require('../../lib/core/backend')
-const Kernel = require('../../lib/core/kernel')
-const Cache = require('../../lib/core/cache')
 const permissionFilter = require('../../lib/core/permission-filter')
 const errors = require('../../lib/core/errors')
 const CARDS = require('../../lib/core/cards')
+const helpers = require('./helpers')
 
-ava.test.beforeEach(async (test) => {
-	const cache = new Cache()
-	test.context.backend = new Backend(cache, {
-		host: process.env.TEST_DB_HOST,
-		port: process.env.TEST_DB_PORT,
-		database: `test_${randomstring.generate()}`
-	})
-
-	await test.context.backend.connect()
-	await test.context.backend.reset()
-
-	test.context.buckets = {
-		cards: 'cards',
-		requests: 'requests',
-		sessions: 'sessions'
-	}
-
-	test.context.kernel = new Kernel(test.context.backend, {
-		buckets: test.context.buckets
-	})
-
-	await test.context.kernel.initialize()
-})
-
-ava.test.afterEach(async (test) => {
-	await test.context.kernel.disconnect()
-})
+ava.test.beforeEach(helpers.kernel.beforeEach)
+ava.test.afterEach(helpers.kernel.afterEach)
 
 ava.test('.getSessionUser() should throw if the session is invalid', async (test) => {
 	await test.throws(permissionFilter.getSessionUser(test.context.backend, 'xxxxxxxxxxxxxxxxxxxxxxxxxx', {
