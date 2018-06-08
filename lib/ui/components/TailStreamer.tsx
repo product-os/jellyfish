@@ -31,7 +31,7 @@ export class TailStreamer<P, S> extends React.Component<P, TailStreamerState & S
 		this.setState({ tail });
 	}
 
-	public async streamTail(query: string | Card | JSONSchema6) {
+	public streamTail(query: string | Card | JSONSchema6) {
 		if (this.stream) {
 			this.stream.destroy();
 		}
@@ -39,44 +39,46 @@ export class TailStreamer<P, S> extends React.Component<P, TailStreamerState & S
 			this.subscription.unsubscribe();
 		}
 
-		const schema = await loadSchema(query);
+		loadSchema(query)
+		.then((schema) => {
 
-		if (!schema) {
-			return;
-		}
-
-		this.subscription = sdk.query(schema).subscribe({
-			next: (data) => {
-				this.setTail(data);
-			},
-		});
-
-		this.stream = sdk.stream(schema);
-
-		debug('STREAMING TAIL USING QUERY', query);
-
-		this.stream.on('update', (response) => {
-			const { after, before } = response.data;
-			// If before is non-null then the card has been updated
-			if (before) {
-				return this.setState((prevState) => {
-					if (prevState.tail) {
-						const index = _.findIndex(prevState.tail, { id: before.id });
-						prevState.tail.splice(index, 1, response.data.after);
-					}
-					return { tail: prevState.tail };
-				});
+			if (!schema) {
+				return;
 			}
 
-			const tail = this.state.tail ? this.state.tail.slice() : [];
-			tail.push(after);
+			this.subscription = sdk.query(schema).subscribe({
+				next: (data) => {
+					this.setTail(data);
+				},
+			});
 
-			this.setTail(tail);
-		});
+			this.stream = sdk.stream(schema);
 
-		this.stream.on('streamError', (response) => {
-			console.error('Received a stream error', response.data);
-			store.dispatch(actionCreators.addNotification('danger', response.data));
+			debug('STREAMING TAIL USING QUERY', query);
+
+			this.stream.on('update', (response) => {
+				const { after, before } = response.data;
+				// If before is non-null then the card has been updated
+				if (before) {
+					return this.setState((prevState) => {
+						if (prevState.tail) {
+							const index = _.findIndex(prevState.tail, { id: before.id });
+							prevState.tail.splice(index, 1, response.data.after);
+						}
+						return { tail: prevState.tail };
+					});
+				}
+
+				const tail = this.state.tail ? this.state.tail.slice() : [];
+				tail.push(after);
+
+				this.setTail(tail);
+			});
+
+			this.stream.on('streamError', (response) => {
+				console.error('Received a stream error', response.data);
+				store.dispatch(actionCreators.addNotification('danger', response.data));
+			});
 		});
 	}
 }
