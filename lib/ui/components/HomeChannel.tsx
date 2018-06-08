@@ -7,10 +7,12 @@ import {
 	Fixed,
 	Flex,
 	Link,
+	Modal,
 	Txt,
 } from 'rendition';
 import styled from 'styled-components';
 import { Card, RendererProps } from '../../Types';
+import Markdown from '../components/Markdown';
 import { connectComponent, ConnectedComponentProps, createChannel } from '../services/helpers';
 import { SubscriptionManager } from '../services/subscriptions';
 import Gravatar from './Gravatar';
@@ -98,6 +100,7 @@ const UserMenuBtn = styled(Button)`
 interface HomeChannelProps extends RendererProps, ConnectedComponentProps {}
 
 interface HomeChannelState {
+	showChangelog: boolean;
 	showMenu: boolean;
 	tail: null | Card[];
 	messages: Card[];
@@ -110,6 +113,7 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 		super(props);
 
 		this.state = {
+			showChangelog: false,
 			showMenu: false,
 			tail: null,
 			messages: [],
@@ -164,6 +168,14 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 
 	public hideMenu = () => {
 		this.setState({ showMenu: false });
+	}
+
+	public showChangelog = () => {
+		this.setState({ showChangelog: true });
+	}
+
+	public hideChangelog = () => {
+		this.setState({ showChangelog: false });
 	}
 
 	public render() {
@@ -255,14 +267,26 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 					})}
 
 				</Box>
-				<Txt
+				<Link
 					bg="#333"
 					color="white"
-					monospace
+					p={2}
 					fontSize={1}
+					onClick={this.showChangelog}
 				>
-					{this.props.appState.config.version}
-				</Txt>
+					<Txt monospace>
+						v{this.props.appState.config.version} - view changelog
+					</Txt>
+				</Link>
+
+				{this.state.showChangelog &&
+					<Modal
+						done={this.hideChangelog}
+					>
+						<Markdown>{this.props.appState.config.changelog || ''}</Markdown>
+					</Modal>
+				}
+
 			</Flex>
 		);
 	}

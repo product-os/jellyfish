@@ -62,6 +62,7 @@ export interface JellyfishState {
 	};
 	config: {
 		version?: string;
+		changelog?: string;
 	};
 }
 
