@@ -373,10 +373,10 @@ const load = () => Promise.try(ifNotInTestEnv(() => {
 	debug('LOADING STATE FROM STORAGE');
 	return localForage.getItem<JellyfishState>(STORAGE_KEY)
 	.then((state) => {
-		// Remove notifications
-		state.notifications = [];
-
 		if (state) {
+			// Remove notifications
+			state.notifications = [];
+
 			store.dispatch({
 				type: actions.SET_STATE,
 				// Ensure that the stored state has a safe structure buy merging it with
