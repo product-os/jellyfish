@@ -6,7 +6,7 @@ import { getViewSchema } from './helpers';
 
 export const loadSchema = async (query: string | Card | JSONSchema6) => {
 	if (_.isString(query)) {
-		return await sdk.card.get(query).toPromise()
+		return await sdk.card.get(query)
 			.then(getViewSchema);
 	}
 

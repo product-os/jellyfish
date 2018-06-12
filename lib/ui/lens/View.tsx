@@ -88,7 +88,6 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 		};
 
 		return sdk.query(schema)
-			.toPromise()
 			.then((results) => _.first(results) || null);
 	}
 
@@ -113,8 +112,7 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 					actor: userId,
 				},
 			})
-			.toPromise()
-			.then((id) => sdk.card.get(id).toPromise());
+			.then((id) => sdk.card.get(id));
 		})
 		.then((subscription) => {
 			const { head } = this.props.channel.data;
@@ -193,7 +191,6 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 
 	public saveView = ([ view ]: FiltersView[]) => {
 		sdk.card.create(this.createView(view))
-		.toPromise()
 		.then(
 			(viewId) => this.props.actions.addChannel(createChannel({
 				target: viewId,

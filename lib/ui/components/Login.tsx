@@ -1,4 +1,4 @@
-import * as Promise from 'bluebird';
+import * as Bluebird from 'bluebird';
 import * as React from 'react';
 import {
 	Alert,
@@ -49,7 +49,7 @@ class Base extends React.Component<ConnectedComponentProps, LoginState> {
 			signupError: '',
 		});
 
-		Promise.try(() => this.props.actions.signup({
+		Bluebird.try(() => this.props.actions.signup({
 			username,
 			password,
 			email,
@@ -67,7 +67,7 @@ class Base extends React.Component<ConnectedComponentProps, LoginState> {
 		const { username, password } = this.state;
 		this.setState({ loggingIn: true });
 
-		return Promise.try(() => this.props.actions.login({
+		return Bluebird.try(() => this.props.actions.login({
 			username,
 			password,
 		}))
