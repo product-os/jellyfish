@@ -1,12 +1,10 @@
 import axios, { AxiosRequestConfig, CancelTokenSource } from 'axios';
-import * as Promise from 'bluebird';
+import * as Bluebird from 'bluebird';
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
-import { concat, from, Observable, of } from 'rxjs';
 import { Card } from '../Types';
 import { AuthSdk } from './auth';
 import { CardSdk } from './card';
-import { MiniJelly } from './mini-jelly';
 import { JellyfishStreamManager } from './stream';
 import * as utils from './utils';
 
@@ -21,7 +19,6 @@ const trimSlash = (s: string) => _.trim(s, '/');
 export class Sdk implements utils.SDKInterface {
 	public auth: AuthSdk;
 	public card: CardSdk;
-	public miniJelly: MiniJelly;
 	public utils: typeof utils;
 
 	private cancelTokenSource: CancelTokenSource;
@@ -34,7 +31,6 @@ export class Sdk implements utils.SDKInterface {
 		private API_PREFIX: string,
 		private authToken?: string,
 	) {
-		this.miniJelly = new MiniJelly();
 		this.auth = new AuthSdk(this);
 		this.card = new CardSdk(this);
 
@@ -102,7 +98,7 @@ export class Sdk implements utils.SDKInterface {
 			) :
 			options;
 
-		return Promise.try(() => axios.post<R>(
+		return Bluebird.try(() => axios.post<R>(
 			`${this.API_BASE}${trimSlash(endpoint)}`,
 			body,
 			requestOptions,
@@ -120,34 +116,17 @@ export class Sdk implements utils.SDKInterface {
 	}
 
 	public getConfig = () => {
-		return Promise.try(() => axios.get<string>(`${this.API_BASE}config`))
+		return Bluebird.try(() => axios.get<string>(`${this.API_BASE}config`))
 		.then((response) => response.data);
 	}
 
-	public query <T extends Card>(
-		schema: JSONSchema6,
-		options: utils.SDKQueryOptions = {},
-	): Observable<T[]> {
+	public query <T extends Card>(schema: JSONSchema6): Bluebird<T[]> {
 		const start = Date.now();
-		const backendRequest = this.post('query', _.isString(schema) ? { query: schema } : schema)
+		return this.post('query', _.isString(schema) ? { query: schema } : schema)
 			.then(response => response ? response.data.data : [])
 			.tap(() => {
 				utils.debug(`Query complete in ${Date.now() - start}ms`, schema);
-			})
-			.tap((cards) => {
-				this.miniJelly.batchInsert(cards);
 			});
-
-		if (options.skipCache) {
-			return from(backendRequest);
-		}
-
-		const localCards = this.miniJelly.query(schema);
-
-		return concat(
-			of(localCards),
-			from(backendRequest),
-		);
 	}
 
 	public action(body: {
@@ -180,8 +159,8 @@ export class Sdk implements utils.SDKInterface {
 			});
 	}
 
-	public stream(query: JSONSchema6, options?: utils.SDKQueryOptions) {
-		return this.streamManager.stream(query, options);
+	public stream(query: JSONSchema6) {
+		return this.streamManager.stream(query);
 	}
 }
 

@@ -20,7 +20,7 @@ export class SubscriptionManager {
 		if (!schema) {
 			return;
 		}
-		const stream = sdk.stream(schema, { skipCache: true });
+		const stream = sdk.stream(schema);
 		const user = _.get(store.getState(), 'session.user');
 
 		if (this.streams[card.id]) {
@@ -117,7 +117,6 @@ export class SubscriptionManager {
 			},
 			additionalProperties: true,
 		})
-		.toPromise()
 		.then((results) => {
 			const subCard = _.first(results) || null;
 
@@ -129,9 +128,8 @@ export class SubscriptionManager {
 						actor: user.id,
 					},
 				})
-				.toPromise()
 				.then((subCardId) => {
-					return sdk.card.get(subCardId).toPromise();
+					return sdk.card.get(subCardId);
 				});
 			}
 

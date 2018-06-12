@@ -2,9 +2,7 @@ import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import * as Promise from 'bluebird';
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
-import { Observable } from 'rxjs';
 import { Card } from '../Types';
-import { MiniJelly } from './mini-jelly';
 
 import Ajv = require('ajv');
 import ajvKeywords = require('ajv-keywords');
@@ -69,10 +67,6 @@ export interface ServerResponse {
 	data: any;
 }
 
-export interface SDKQueryOptions {
-	skipCache?: boolean;
-}
-
 export interface SDKInterface {
 	getApiUrl: () => string | undefined;
 	getAuthToken: () => string | undefined;
@@ -88,14 +82,12 @@ export interface SDKInterface {
 		arguments?: any;
 		transient?: any;
 	}) => Promise<D>;
-	query: <T extends Card>(schema: JSONSchema6, options?: SDKQueryOptions) => Observable<T[]>;
+	query: <T extends Card>(schema: JSONSchema6) => Promise<T[]>;
 
 	post: <R = ServerResponse>(endpoint: string, body: any, options?: AxiosRequestConfig) => Promise<AxiosResponse<R> | void>;
 
-	miniJelly: MiniJelly;
-
 	card: {
-		get: (idOrSlug: string, options?: SDKQueryOptions) => Observable<Card | null>;
+		get: (idOrSlug: string) => Promise<Card | null>;
 	};
 }
 

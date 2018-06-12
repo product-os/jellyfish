@@ -1,4 +1,4 @@
-import * as Promise from 'bluebird';
+import * as Bluebird from 'bluebird';
 import * as localForage from 'localforage';
 import * as _ from 'lodash';
 import { applyMiddleware, createStore, Middleware } from 'redux';
@@ -70,7 +70,7 @@ const actions = {
 	SET_CONFIG: 'SET_CONFIG',
 };
 
-type JellyThunk<T> = ThunkAction<Promise<T>, JellyfishState, void>;
+type JellyThunk<T> = ThunkAction<Bluebird<T>, JellyfishState, void>;
 type JellyThunkSync<T> = ThunkAction<T, JellyfishState, void>;
 
 export const sdk = jellyfishSdk({
@@ -218,8 +218,7 @@ export const actionCreators = {
 	}),
 	loadChannelData: (channel: Channel): JellyThunkSync<void> => (dispatch) => {
 		sdk.card.get(channel.data.target)
-		.subscribe({
-			next: (head) => {
+			.then((head) => {
 				const clonedChannel = _.cloneDeep(channel);
 				clonedChannel.data.head = head!;
 
@@ -227,11 +226,10 @@ export const actionCreators = {
 					type: actions.UPDATE_CHANNEL,
 					value: clonedChannel,
 				});
-			},
-			error: (e) => {
+			})
+			.catch((e) => {
 				dispatch(actionCreators.addNotification('danger', e.message));
-			},
-		});
+			});
 	},
 	updateChannel: (channel: Partial<Channel>) => ({
 		type: actions.UPDATE_CHANNEL,
@@ -250,10 +248,10 @@ export const actionCreators = {
 		value: channel,
 	}),
 	bootstrap: (): JellyThunk<Card> => (dispatch) => {
-		return Promise.all([
+		return Bluebird.all([
 			sdk.auth.whoami(),
-			sdk.card.getAllByType('type').toPromise(),
-			sdk.card.getAllByType('user').toPromise(),
+			sdk.card.getAllByType('type'),
+			sdk.card.getAllByType('user'),
 			sdk.getConfig(),
 		])
 		.then(([user, types, allUsers, config]) => {
@@ -331,7 +329,7 @@ export const actionCreators = {
 		value: types,
 	}),
 	addNotification: (type: Notification['type'], message: string): JellyThunk<void> =>
-		(dispatch) => Promise.try(() => {
+		(dispatch) => Bluebird.try(() => {
 			const id = uuid();
 			dispatch({
 				type: actions.ADD_NOTIFICATION,
@@ -369,7 +367,7 @@ const save = ifNotInTestEnv((state: JellyfishState) => {
 	localForage.setItem(STORAGE_KEY, state);
 });
 
-const load = () => Promise.try(ifNotInTestEnv(() => {
+const load = () => Bluebird.try(ifNotInTestEnv(() => {
 	debug('LOADING STATE FROM STORAGE');
 	return localForage.getItem<JellyfishState>(STORAGE_KEY)
 	.then((state) => {

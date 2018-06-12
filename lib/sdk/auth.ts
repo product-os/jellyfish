@@ -1,4 +1,4 @@
-import * as Promise from 'bluebird';
+import * as Bluebird from 'bluebird';
 import { debug, SDKInterface } from './utils';
 
 const USERNAME_REGEX = /^[a-z0-9-]{5,}$/;
@@ -7,20 +7,19 @@ export class AuthSdk {
 	constructor(private sdk: SDKInterface) {}
 
 	public whoami() {
-		const options = { skipCache: true };
-		return Promise.try(() => {
+		return Bluebird.try(() => {
 			const session = this.sdk.getAuthToken();
 
 			if (!session) {
 				throw new Error('No session token found');
 			}
 
-			return this.sdk.card.get(session, options).toPromise()
+			return this.sdk.card.get(session)
 				.then((result) => {
 					if (!result) {
 						throw new Error('Could not retrieve session data');
 					}
-					return this.sdk.card.get(result.data.actor, options).toPromise();
+					return this.sdk.card.get(result.data.actor);
 				});
 		});
 	}
@@ -52,7 +51,7 @@ export class AuthSdk {
 	}
 
 	public loginWithToken(token: string) {
-		return Promise.try(() => this.sdk.card.get(token).toPromise())
+		return this.sdk.card.get(token)
 		.then(() => {
 			this.sdk.setAuthToken(token);
 		});

@@ -3,30 +3,21 @@ import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import * as io from 'socket.io-client';
 import uuid = require('uuid/v4');
-import { SDKInterface, SDKQueryOptions, StreamEventMap } from './utils';
+import { SDKInterface, StreamEventMap } from './utils';
 
 export class JellyfishStream extends EventEmitter {
 	public id: string;
 	private socket: SocketIOClient.Socket;
-	private unsubscribe: () => void;
-
 
 	constructor(
 		query: JSONSchema6,
 		openSocket: () => Promise<SocketIOClient.Socket>,
 		sdk: SDKInterface,
-		options: SDKQueryOptions = {},
 	) {
 		super();
 
 		this.id = uuid();
 		const token = sdk.getAuthToken();
-
-		if (!options.skipCache) {
-			this.unsubscribe = sdk.miniJelly.watch(query, (data) => {
-				this.emit('update', { data });
-			});
-		}
 
 		openSocket().then((socket) => {
 			this.socket = socket;
@@ -39,15 +30,7 @@ export class JellyfishStream extends EventEmitter {
 
 			this.socket.on('update', ({ id, ...data }: StreamEventMap['update']) => {
 				if (id === this.id) {
-					const { after, before } = data.data;
-					// If there was no prior card, upsert the card into mini-jelly and
-					// defer the 'update' event
-					if (!options.skipCache && !before) {
-						data.data.before = sdk.miniJelly.getById(after.id);
-						sdk.miniJelly.upsert(after);
-					} else {
-						this.emit('update', data);
-					}
+					this.emit('update', data);
 				}
 			});
 
@@ -76,9 +59,6 @@ export class JellyfishStream extends EventEmitter {
 		if (this.socket) {
 			this.socket.emit('destroy', this.id);
 		}
-		if (this.unsubscribe) {
-			this.unsubscribe();
-		}
 	}
 }
 
@@ -93,8 +73,8 @@ export class JellyfishStreamManager {
 	/**
 	 * Returns an event emitter that emits response data for the given query
 	 */
-	public stream(query: JSONSchema6, options: SDKQueryOptions = {}) {
-		const emitter = new JellyfishStream(query, this.openSocket, this.sdk, options);
+	public stream(query: JSONSchema6) {
+		const emitter = new JellyfishStream(query, this.openSocket, this.sdk);
 		this.activeEmitters[emitter.id] = emitter;
 
 		emitter.on('destroy', () => {

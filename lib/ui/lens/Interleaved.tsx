@@ -146,7 +146,6 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		}
 
 		return sdk.card.create(cardData as Card)
-			.toPromise()
 			.then((threadId) => {
 				this.openChannel(threadId);
 				return null;

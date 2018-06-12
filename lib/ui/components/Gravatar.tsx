@@ -1,4 +1,4 @@
-import * as Promise from 'bluebird';
+import * as Bluebird from 'bluebird';
 import md5 = require('blueimp-md5');
 import * as React from 'react';
 import { Box, Img } from 'rendition';
@@ -6,8 +6,8 @@ import Icon from './Icon';
 
 const GRAVATAR_URL = 'https://www.gravatar.com/avatar/';
 
-const getGravatar = (email: string): Promise<string> => {
-	return new Promise<string>((resolve) => {
+const getGravatar = (email: string): Bluebird<string> => {
+	return new Bluebird<string>((resolve) => {
 		// The query string makes gravatar return a 404 if the image is not found.
 		// Ordinarily gravatar will return a default image if the avatar isn't found
 		const avatarUrl = GRAVATAR_URL + md5(email.trim()) + '?d=404';

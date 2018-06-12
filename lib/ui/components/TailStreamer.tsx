@@ -1,7 +1,6 @@
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import * as React from 'react';
-import { Subscription } from 'rxjs';
 import { JellyfishStream } from '../../sdk/stream';
 import { Card } from '../../Types';
 import { actionCreators, sdk, store } from '../app';
@@ -17,14 +16,10 @@ interface TailStreamerState {
  */
 export class TailStreamer<P, S> extends React.Component<P, TailStreamerState & S> {
 	public stream: JellyfishStream;
-	public subscription: Subscription;
 
 	public componentWillUnmount() {
 		if (this.stream) {
 			this.stream.destroy();
-		}
-		if (this.subscription) {
-			this.subscription.unsubscribe();
 		}
 	}
 
@@ -36,9 +31,6 @@ export class TailStreamer<P, S> extends React.Component<P, TailStreamerState & S
 		if (this.stream) {
 			this.stream.destroy();
 		}
-		if (this.subscription) {
-			this.subscription.unsubscribe();
-		}
 
 		loadSchema(query)
 		.then((schema) => {
@@ -47,11 +39,10 @@ export class TailStreamer<P, S> extends React.Component<P, TailStreamerState & S
 				return;
 			}
 
-			this.subscription = sdk.query(schema).subscribe({
-				next: (data) => {
+			sdk.query(schema)
+				.then((data) => {
 					this.setTail(data);
-				},
-			});
+				});
 
 			this.stream = sdk.stream(schema);
 
