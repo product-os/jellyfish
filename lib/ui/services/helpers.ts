@@ -174,3 +174,17 @@ export const getUpdateObjectFromSchema = (schema: JSONSchema6): { [k: string]: a
 
 	return update;
 };
+
+/**
+ * @summary Retrieve a localSchema from a card
+ * @function
+ *
+ * @param {Object} card - A card object
+ * @return {Object} A JSON schema
+ */
+export const getLocalSchema = (card: any) => {
+	return _.get(card, 'data.$$localSchema') || {
+		type: 'object',
+		properties: {},
+	};
+};
