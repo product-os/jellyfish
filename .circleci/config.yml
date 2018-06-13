@@ -3,6 +3,8 @@
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
 version: 2
+dependencies:
+  pre:
 jobs:
   build:
     docker:
@@ -21,6 +23,9 @@ jobs:
           - v1-dependencies-
 
       - run: apt-get install -y git
+
+      # Authenticate again npm to access private modules
+      - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
 
       - run: npm install
 

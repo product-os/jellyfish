@@ -1,5 +1,5 @@
+import { JellyfishStream } from '@resin.io/jellyfish-sdk/dist/stream';
 import * as _ from 'lodash';
-import { JellyfishStream } from '../../sdk/stream';
 import { Card } from '../../Types';
 import { actionCreators, sdk, store } from '../app';
 import { loadSchema } from '../services/sdk-helpers';
