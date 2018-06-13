@@ -7,6 +7,7 @@ import { Card } from '../../Types';
 import { sdk } from '../app';
 import { FreeFieldForm } from '../components/FreeFieldForm';
 import { connectComponent, ConnectedComponentProps } from '../services/connector';
+import { getLocalSchema } from '../services/helpers';
 import Icon from './Icon';
 
 interface CardActionsState {
@@ -113,10 +114,7 @@ class Base extends React.Component<
 	}
 
 	public render() {
-		const localSchema = _.get(this.state.editModel, 'data.$$localSchema') || {
-			type: 'object',
-			properties: {},
-		};
+		const localSchema = getLocalSchema(this.state.editModel);
 		const freeFieldData = _.reduce<any, any>(localSchema.properties, (carry, _value, key) => {
 			const cardValue = _.get(this.props.card, ['data', key]);
 			if (cardValue) {

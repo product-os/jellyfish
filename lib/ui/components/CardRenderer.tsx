@@ -1,6 +1,8 @@
+import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import * as React from 'react';
 import { Box, Flex, Heading, Link, Txt } from 'rendition';
+import { Mermaid } from 'rendition/dist/extra/Mermaid';
 import styled from 'styled-components';
 import { Card, Channel } from '../../Types';
 import {
@@ -11,6 +13,7 @@ import {
 	createChannel,
 	findUsernameById,
 	formatTimestamp,
+	getLocalSchema,
 } from '../services/helpers';
 import { CardActions } from './CardActions';
 import Label from './Label';
@@ -36,10 +39,11 @@ const Badge = styled(Txt)`
 	font-size: 14px;
 `;
 
-const CardField = ({ field, payload, users }: {
+const CardField = ({ field, payload, users, schema }: {
 	field: string;
 	payload: { [key: string]: any };
 	users: Card[];
+	schema?: JSONSchema6;
 }) => {
 	const value = payload[field];
 	if (value === undefined) {
@@ -71,6 +75,15 @@ const CardField = ({ field, payload, users }: {
 	// Rendering can be optimzed for some known fields
 	if (field === 'timestamp') {
 		return <Txt my={3} color="#777">{formatTimestamp(value)}</Txt>;
+	}
+
+	if (schema && schema.format === 'mermaid') {
+		return (
+			<React.Fragment>
+				<Label my={3}>{field}</Label>
+				<Mermaid value={value} />
+			</React.Fragment>
+		);
 	}
 
 	return (
@@ -124,11 +137,24 @@ class Base extends React.Component<CardProps, {}> {
 	public render() {
 		const payload = this.props.card.data;
 		const { card, fieldOrder } = this.props;
+		const typeCard = _.find(this.props.appState.types, { slug: card.type });
+		const typeSchema = _.get(typeCard, 'data.schema');
+		const localSchema = getLocalSchema(card);
+
+		// Local schemas are considered weak and are overridden by a type schema
+		const schema = _.merge({
+			type: 'object',
+			properties: {
+				data: localSchema,
+			},
+		}, typeSchema);
 
 		const unorderedKeys = _.filter(
 			_.keys(payload),
 			(key) => !_.includes(fieldOrder, key),
 		);
+
+		const keys = (fieldOrder || []).concat(unorderedKeys);
 
 		return (
 			<Box mb={3}>
@@ -150,14 +176,18 @@ class Base extends React.Component<CardProps, {}> {
 				</Flex>
 
 
-				{_.map(fieldOrder, (key) =>
-					!!payload[key] ?
-						<CardField key={key} field={key} payload={payload} users={this.props.appState.allUsers} />
-						: null)
+				{_.map(keys, (key) => {
+					return !!payload[key] ?
+						<CardField
+							key={key}
+							field={key}
+							payload={payload}
+							users={this.props.appState.allUsers}
+							schema={_.get(schema, ['properties', 'data', 'properties', key])}
+						/>
+						: null;
+					})
 				}
-
-				{_.map(unorderedKeys, (key) =>
-					<CardField key={key} field={key} payload={payload} users={this.props.appState.allUsers} />)}
 
 			</Box>
 		);

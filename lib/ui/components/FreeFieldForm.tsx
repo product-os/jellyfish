@@ -55,6 +55,14 @@ export class FreeFieldForm extends React.Component<FreeFieldFormProps, FreeField
 				format: 'date-time',
 			},
 		},
+		{
+			key: 'mermaid',
+			name: 'Mermaid',
+			schema: {
+				type: 'string',
+				format: 'mermaid',
+			},
+		},
 	];
 
 	constructor(props: FreeFieldFormProps) {

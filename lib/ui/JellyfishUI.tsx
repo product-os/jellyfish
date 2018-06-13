@@ -7,6 +7,9 @@ import { Notifications } from './components/Notifications';
 import { Splash } from './components/Splash';
 import { connectComponent, ConnectedComponentProps } from './services/connector';
 
+// Register the mermaid widget for rendition forms
+import 'rendition/dist/extra/Form/mermaid';
+
 class UI extends React.Component<ConnectedComponentProps, {}> {
 	public render() {
 		if (this.props.appState.status === 'initializing') {

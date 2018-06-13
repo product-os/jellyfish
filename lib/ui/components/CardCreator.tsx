@@ -8,6 +8,7 @@ import { Form } from 'rendition/dist/unstable';
 import { Card, Type } from '../../Types';
 import { sdk } from '../app';
 import { connectComponent, ConnectedComponentProps } from '../services/connector';
+import { getLocalSchema } from '../services/helpers';
 import { FreeFieldForm } from './FreeFieldForm';
 
 interface CardCreatorState {
@@ -77,10 +78,7 @@ class Base extends React.Component<CardCreatorProps, CardCreatorState> {
 			return null;
 		}
 
-		const localSchema = _.get(this.state.newCardModel, 'data.$$localSchema') || {
-			type: 'object',
-			properties: {},
-		};
+		const localSchema = getLocalSchema(this.state.newCardModel);
 		const freeFieldData = _.reduce<any, any>(localSchema.properties, (carry, _value, key) => {
 			const cardValue = _.get(this.state.newCardModel, ['data', key]);
 			if (cardValue) {
