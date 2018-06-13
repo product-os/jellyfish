@@ -1,10 +1,10 @@
+import { getSdk } from '@resin.io/jellyfish-sdk';
 import * as Bluebird from 'bluebird';
 import * as localForage from 'localforage';
 import * as _ from 'lodash';
 import { applyMiddleware, createStore, Middleware } from 'redux';
 import thunk, { ThunkAction } from 'redux-thunk';
 import uuid = require('uuid/v4');
-import { jellyfishSdk } from '../sdk';
 import { Card, Channel, JellyfishState, Notification, Type } from '../Types';
 import { createChannel, debug } from './services/helpers';
 import {
@@ -73,7 +73,7 @@ const actions = {
 type JellyThunk<T> = ThunkAction<Bluebird<T>, JellyfishState, void>;
 type JellyThunkSync<T> = ThunkAction<T, JellyfishState, void>;
 
-export const sdk = jellyfishSdk({
+export const sdk = getSdk({
 	apiPrefix: API_PREFIX,
 	apiUrl: API_URL,
 });

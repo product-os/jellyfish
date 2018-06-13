@@ -20,8 +20,8 @@ const ava = require('ava')
 const _ = require('lodash')
 const randomstring = require('randomstring')
 const {
-	jellyfishSdk
-} = require('../lib/sdk')
+	getSdk
+} = require('@resin.io/jellyfish-sdk')
 const createServer = require('../lib/server.js')
 
 ava.test.beforeEach(async (test) => {
@@ -38,7 +38,7 @@ ava.test.beforeEach(async (test) => {
 
 	// Since AVA tests are running concurrently, set up an SDK instance that will
 	// communicate with whichever port this server instance bound to
-	test.context.sdk = jellyfishSdk({
+	test.context.sdk = getSdk({
 		apiPrefix: process.env.API_PREFIX || 'api/v1',
 		apiUrl: `http://localhost:${port}`
 	})

@@ -18,9 +18,6 @@
         "./lib/ui/**/*.tsx",
         "./lib/sdk/**/*.ts",
         "./lib/typings/**/*.d.ts"
-    ],
-    "exclude": [
-      "node_modules"
     ]
 }
 

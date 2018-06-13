@@ -20,8 +20,8 @@ const ava = require('ava')
 const randomstring = require('randomstring')
 const utils = require('../../../lib/utils')
 const {
-	jellyfishSdk
-} = require('../../../lib/sdk')
+	getSdk
+} = require('@resin.io/jellyfish-sdk')
 const createServer = require('../../../lib/server.js')
 
 ava.test('should create a card', async (test) => {
@@ -531,7 +531,7 @@ ava.test('AGGREGATE($events): should work when creating cards via the SDK', asyn
 
 	// Since AVA tests are running concurrently, set up an SDK instance that will
 	// communicate with whichever port this server instance bound to
-	const sdk = jellyfishSdk({
+	const sdk = getSdk({
 		apiPrefix: process.env.API_PREFIX || 'api/v1',
 		apiUrl: `http://localhost:${port}`
 	})

@@ -1,7 +1,7 @@
+import { JellyfishStream } from '@resin.io/jellyfish-sdk/dist/stream';
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import * as React from 'react';
-import { JellyfishStream } from '../../sdk/stream';
 import { Card } from '../../Types';
 import { actionCreators, sdk, store } from '../app';
 import { debug } from '../services/helpers';
