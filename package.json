@@ -18,8 +18,8 @@
     "lint": "npm run eslint && npm run tslint",
     "eslint": "eslint lib test stress webpack.config.js",
     "eslint:fix": "eslint --fix lib test webpack.config.js",
-    "tslint": "tslint -t stylish \"lib/**/*.ts\" \"lib/**/*.tsx\"",
-    "tslint:fix": "tslint -t stylish --fix \"lib/**/*.ts\" \"lib/**/*.tsx\"",
+    "tslint": "tslint -t stylish \"lib/**/*.ts\" \"lib/**/*.tsx\" -e \"lib/sdk/node_modules/**\" -e \"lib/sdk/dist/**\"",
+    "tslint:fix": "tslint -t stylish --fix \"lib/**/*.ts\" \"lib/**/*.tsx\" -e \"lib/sdk/node_modules/**\" -e \"lib/sdk/dist/**\"",
     "build:ui": "webpack",
     "dev:ui": "API_URL='http://localhost:8000/' webpack-dev-server --color",
     "heroku-postbuild": "npm run build:ui",
@@ -83,7 +83,7 @@
     "webpack-dev-server": "^3.1.1"
   },
   "dependencies": {
-    "@resin.io/jellyfish-sdk": "^1.2.0",
+    "@resin.io/jellyfish-sdk": "file:./lib/sdk",
     "@types/blueimp-md5": "^2.7.0",
     "@types/es6-promise": "^3.3.0",
     "@types/history": "^4.6.2",

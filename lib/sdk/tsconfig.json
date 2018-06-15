@@ -1,22 +1,20 @@
 {
     "compilerOptions": {
         "outDir": "./dist/",
-        "sourceMap": true,
+        "sourceMap": false,
         "noImplicitAny": true,
         "module": "commonjs",
         "target": "es6",
         "jsx": "react",
-        "removeComments": true,
         "preserveConstEnums": true,
         "strictNullChecks": true,
         "noUnusedParameters": true,
-        "noUnusedLocals": true
+        "noUnusedLocals": true,
+        "declaration": true
     },
     "include": [
-        "./lib/Types.ts",
-        "./lib/ui/**/*.ts",
-        "./lib/ui/**/*.tsx",
-        "./lib/typings/**/*.d.ts"
+        "./lib/**/*.ts",
+        "./typings/**/*.d.ts"
     ]
 }
 
