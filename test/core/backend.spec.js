@@ -134,17 +134,14 @@ ava.test('.insertElement() should insert an element without a slug nor an id to 
 	})
 })
 
-ava.test('.insertElement() should insert an element without a slug nor an id to a non-existing table', async (test) => {
-	const uuid = await test.context.backend.insertElement('foobar', {
-		test: 'foo'
-	})
-
-	const element = await test.context.backend.getElementById('foobar', uuid)
-
-	test.deepEqual(element, {
-		id: uuid,
-		test: 'foo'
-	})
+ava.test('.insertElement() should throw if inserting an element to a non-existing table', async (test) => {
+	try {
+		await test.context.backend.insertElement('foobar', {
+			test: 'foo'
+		})
+	} catch (error) {
+		test.is(error.name, 'ReqlOpFailedError')
+	}
 })
 
 ava.test('.insertElement() should insert an element with a non-existent slug', async (test) => {
