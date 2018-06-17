@@ -480,6 +480,8 @@ ava.test('.executeTriggers() should execute a matching triggered action', async 
 		}
 	})
 
+	await test.context.worker.reloadTriggers()
+
 	const requests = await test.context.worker.executeTriggers(test.context.session, {
 		type: 'card',
 		active: true,
@@ -672,6 +674,8 @@ ava.test('.executeTriggers() should go through all triggered actions', async (te
 		}
 	})
 
+	await test.context.worker.reloadTriggers()
+
 	const requests1 = await test.context.worker.executeTriggers(test.context.session, {
 		type: 'card',
 		active: true,
@@ -767,6 +771,8 @@ ava.test('.executeTriggers() should support source templates', async (test) => {
 		}
 	})
 
+	await test.context.worker.reloadTriggers()
+
 	const requests = await test.context.worker.executeTriggers(test.context.session, {
 		type: 'card',
 		active: true,
@@ -842,6 +848,8 @@ ava.test('.createRequest() should execute triggered actions', async (test) => {
 			}
 		}
 	})
+
+	await test.context.worker.reloadTriggers()
 
 	const resultBefore = await test.context.jellyfish.getCardBySlug(test.context.session, 'triggered-card')
 	test.falsy(resultBefore)

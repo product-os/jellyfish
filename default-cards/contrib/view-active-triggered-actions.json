@@ -8,26 +8,13 @@
   "data": {
     "allOf": [
       {
-        "name": "Active cards",
+        "name": "Triggered actions",
         "schema": {
           "type": "object",
           "properties": {
             "active": {
               "type": "boolean",
               "const": true
-            }
-          },
-          "additionalProperties": true,
-          "required": [ "active" ]
-        }
-      },
-      {
-        "name": "Triggered actions",
-        "schema": {
-          "type": "object",
-          "properties": {
-            "slug": {
-              "type": "string"
             },
             "type": {
               "type": "string",
@@ -38,7 +25,7 @@
               "additionalProperties": true
             }
           },
-          "required": [ "type", "data" ]
+          "required": [ "active", "type", "data" ]
         }
       }
     ]
