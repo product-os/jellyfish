@@ -124,6 +124,7 @@
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "rendition": "4.10.0",
+    "reql-schema": "^1.0.0",
     "rethinkdb": "^2.3.3",
     "socket.io": "^2.1.0",
     "static-eval": "^2.0.0",

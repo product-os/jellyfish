@@ -433,14 +433,14 @@ ava.test('.processRequest() should set error to true given an arguments schema m
 		}
 	})
 
-	const pendingRequest = await test.context.jellyfish.getCardById(test.context.guestSession, id)
+	const pendingRequest = await test.context.jellyfish.getCardById(test.context.jellyfish.sessions.admin, id)
 	test.is(pendingRequest.id, id)
 	test.false(pendingRequest.data.executed)
 
 	const requestId = await test.context.worker.processRequest(test.context.jellyfish.sessions.admin, pendingRequest)
 	test.is(requestId, id)
 
-	const finishedRequest = await test.context.jellyfish.getCardById(test.context.guestSession, id)
+	const finishedRequest = await test.context.jellyfish.getCardById(test.context.jellyfish.sessions.admin, id)
 	test.is(finishedRequest.id, id)
 	test.true(finishedRequest.data.result.error)
 	test.true(finishedRequest.data.executed)

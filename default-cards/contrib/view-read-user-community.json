@@ -145,6 +145,14 @@
             },
             "data": {
               "type": "object",
+              "required": [
+                "actor",
+                "target",
+                "action",
+                "timestamp",
+                "arguments",
+                "executed"
+              ],
               "properties": {
                 "actor": {
                   "type": "string",
@@ -167,18 +175,9 @@
                 },
                 "result": {
                   "type": "object",
-                  "additionalProperties": true,
-                  "properties": {
-                    "error": {
-                      "type": "boolean"
-                    },
-                    "data": {
-                      "type": [ "object", "string", "number", "boolean", "array" ]
-                    }
-                  }
+                  "additionalProperties": true
                 }
-              },
-              "additionalProperties": true
+              }
             }
           },
           "additionalProperties": true,

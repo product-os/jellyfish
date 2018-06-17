@@ -827,7 +827,7 @@ ava.test.cb('.stream() should close without finding anything', (test) => {
 	}).catch(test.end)
 })
 
-ava.test.cb('.stream() should set "before" to an empty object if it previously did not match the schema', (test) => {
+ava.test.cb('.stream() should set "before" to null if it previously did not match the schema', (test) => {
 	test.context.backend.createTable('test').then(() => {
 		return test.context.backend.insertElement('test', {
 			slug: 'foobarbaz',
@@ -849,11 +849,11 @@ ava.test.cb('.stream() should set "before" to an empty object if it previously d
 					type: 'number'
 				}
 			},
-			required: [ 'type' ]
+			required: [ 'slug', 'type', 'test' ]
 		})
 	}).then((emitter) => {
 		emitter.on('data', (change) => {
-			test.deepEqual(change.before, {})
+			test.deepEqual(change.before, null)
 			test.deepEqual(_.omit(change.after, [ 'id' ]), {
 				slug: 'foobarbaz',
 				type: 'foo',

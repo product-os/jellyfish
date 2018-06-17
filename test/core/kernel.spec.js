@@ -661,6 +661,7 @@ ava.test('.query() should take roles into account', async (test) => {
 					name: 'Types',
 					schema: {
 						type: 'object',
+						required: [ 'type', 'data' ],
 						properties: {
 							type: {
 								type: 'string',
@@ -668,6 +669,7 @@ ava.test('.query() should take roles into account', async (test) => {
 							},
 							data: {
 								type: 'object',
+								required: [ 'schema' ],
 								properties: {
 									schema: {
 										type: 'object',
@@ -684,6 +686,7 @@ ava.test('.query() should take roles into account', async (test) => {
 
 	const results = await test.context.kernel.query(session, {
 		type: 'object',
+		required: [ 'type', 'slug', 'active', 'data' ],
 		properties: {
 			type: {
 				type: 'string'
@@ -904,6 +907,7 @@ ava.test('.query() should return all action request cards', async (test) => {
 			},
 			data: {
 				type: 'object',
+				required: [ 'action', 'actor', 'target', 'timestamp', 'executed' ],
 				properties: {
 					action: {
 						type: 'string'
@@ -921,13 +925,13 @@ ava.test('.query() should return all action request cards', async (test) => {
 						type: 'boolean'
 					},
 					arguments: {
-						additionalProperties: true,
-						type: 'object'
+						type: 'object',
+						additionalProperties: true
 					}
 				}
 			}
 		},
-		required: [ 'type' ]
+		required: [ 'type', 'data' ]
 	})
 
 	test.deepEqual(results, [
