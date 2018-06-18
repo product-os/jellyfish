@@ -1,0 +1,68 @@
+{
+  "name": "@resin.io/jellyfish-sdk",
+  "version": "1.2.0",
+  "description": "The Jellyfish Javascript SDK",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "homepage": "https://github.com/resin-io/jellyfish-sdk",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:resin-io/jellyfish-sdk.git"
+  },
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "build": "npm run clean && tsc && npm run docs",
+    "clean": "rimraf dist",
+    "docs": "jsdoc2md --template template.hbs \"dist/**/*.js\" > README.md",
+    "prepublishOnly": "npm run build",
+    "postinstall": "npm run clean && tsc",
+    "test": "npm run tslint",
+    "tslint": "tslint -t stylish \"lib/**/*.ts\"",
+    "tslint:fix": "tslint -t stylish --fix \"lib/**/*.ts\""
+  },
+  "ava": {
+    "verbose": true,
+    "concurrency": 3,
+    "failFast": true,
+    "require": [
+      "./test/test-helpers/ui-setup.js"
+    ],
+    "files": [
+      "test/**/*.spec.js"
+    ]
+  },
+  "author": "Resin Inc. <hello@resin.io>",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "ava": "^0.22.0",
+    "cache-loader": "^1.2.2",
+    "copy-webpack-plugin": "^4.5.1",
+    "fork-ts-checker-webpack-plugin": "^0.4.1",
+    "jsdoc-to-markdown": "^4.0.1",
+    "nyc": "^11.4.1",
+    "rimraf": "^2.6.2",
+    "source-map-loader": "^0.2.3",
+    "thread-loader": "^1.1.5",
+    "ts-loader": "^4.0.1",
+    "ts-node": "^6.0.0",
+    "tslint": "^5.10.0",
+    "typescript": "2.8.3"
+  },
+  "dependencies": {
+    "@types/bluebird": "^3.5.20",
+    "@types/es6-promise": "^3.3.0",
+    "@types/json-schema": "^6.0.1",
+    "@types/lodash": "^4.14.104",
+    "@types/socket.io-client": "^1.4.32",
+    "@types/uuid": "^3.4.3",
+    "ajv": "^6.2.0",
+    "ajv-keywords": "^3.2.0",
+    "axios": "^0.18.0",
+    "bluebird": "^3.5.1",
+    "lodash": "^4.17.5",
+    "socket.io": "^2.1.0",
+    "uuid": "^3.2.1"
+  }
+}

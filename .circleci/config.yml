@@ -27,6 +27,13 @@ jobs:
       # Authenticate again npm to access private modules
       - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
 
+      # Because `node_modules` gets cached, any changes to the SDK will be
+      # ignored, as the package already exists there and npm lifecycle events
+      # won't be triggered on it
+      # Remove the local sdk package, so it will be forcibly rebuilt by the
+      # postinstall script
+      - run: rm -rf node_modules/@resin.io/jellyfish-sdk
+
       - run: npm install
 
       - save_cache:

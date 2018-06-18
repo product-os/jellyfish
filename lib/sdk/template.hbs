@@ -1,0 +1,43 @@
+jellyfish-sdk
+============
+
+> Javascript SDK for interacting with a Balena Jellyfish server
+
+Installation
+------------
+
+Install `jellyfish-sdk` by running:
+
+```sh
+npm install --save @resin.io/jellyfish-sdk
+```
+
+Usage
+-----
+
+```js
+import { getSdk } from 'jellyfish-sdk';
+
+const sdk = getSdk({
+	apiPrefix: 'api/v1',
+	apiUrl: 'http://localhost:8000'
+});
+
+const userId = await sdk.signup({
+	username: 'johndoe',
+	email: 'johndoe@example.com',
+	password: 'password123',
+});
+```
+
+TypeScript
+----------
+
+For TypeScript users, typings are included in the module and should **Just Work™**.
+
+Documentation
+-------------
+
+{{#namespace name="JellyfishSDK"}}
+	{{>docs}}
+{{/namespace}}
