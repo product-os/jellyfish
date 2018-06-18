@@ -24,9 +24,6 @@ jobs:
 
       - run: apt-get install -y git
 
-      # Authenticate again npm to access private modules
-      - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
-
       # Because `node_modules` gets cached, any changes to the SDK will be
       # ignored, as the package already exists there and npm lifecycle events
       # won't be triggered on it
