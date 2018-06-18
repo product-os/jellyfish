@@ -23,6 +23,7 @@
     "build:ui": "webpack",
     "dev:ui": "API_URL='http://localhost:8000/' webpack-dev-server --color",
     "heroku-postbuild": "npm run build:ui",
+    "heroku-prebuild": "node ./scripts/set-npmrc.js",
     "versionist": "versionist",
     "addgittag": "./scripts/add-version-tag.js"
   },
