@@ -27,7 +27,7 @@ jobs:
       # Authenticate again npm to access private modules
       - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
 
-      - run: npm install
+      - run: sudo npm install
 
       - save_cache:
           paths:
