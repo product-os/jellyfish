@@ -20,8 +20,8 @@
     "eslint:fix": "eslint --fix lib test webpack.config.js",
     "tslint": "tslint -t stylish \"lib/**/*.ts\" \"lib/**/*.tsx\" -e \"lib/sdk/node_modules/**\" -e \"lib/sdk/dist/**\"",
     "tslint:fix": "tslint -t stylish --fix \"lib/**/*.ts\" \"lib/**/*.tsx\" -e \"lib/sdk/node_modules/**\" -e \"lib/sdk/dist/**\"",
-    "build:ui": "webpack",
-    "dev:ui": "API_URL='http://localhost:8000/' webpack-dev-server --color",
+    "build:ui": "NODE_ENV=production webpack",
+    "dev:ui": "NODE_ENV=dev API_URL='http://localhost:8000/' webpack-dev-server --color",
     "heroku-postbuild": "npm run build:ui",
     "versionist": "versionist",
     "addgittag": "./scripts/add-version-tag.js"
@@ -79,6 +79,7 @@
     "v8-profiler": "^5.7.0",
     "versionist": "^2.13.0",
     "webpack": "^4.1.1",
+    "webpack-bundle-analyzer": "^2.13.1",
     "webpack-cli": "^2.0.12",
     "webpack-dev-server": "^3.1.1"
   },
@@ -103,6 +104,7 @@
     "blueimp-md5": "^2.10.0",
     "body-parser": "^1.18.2",
     "color-hash": "^1.0.3",
+    "compression": "^1.7.2",
     "debug": "^3.1.0",
     "esprima": "^4.0.0",
     "express": "^4.16.2",
