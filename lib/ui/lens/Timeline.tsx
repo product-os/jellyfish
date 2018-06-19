@@ -15,7 +15,7 @@ import EventCard from '../components/Event';
 import Icon from '../components/Icon';
 import { TailStreamer } from '../components/TailStreamer';
 import { connectComponent, ConnectedComponentProps } from '../services/connector';
-import { createChannel, getCurrentTimestamp } from '../services/helpers';
+import { createChannel, getCurrentTimestamp, getUserIdsByPrefix } from '../services/helpers';
 
 const Column = styled(Flex)`
 	height: 100%;
@@ -137,20 +137,9 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 
 		this.setState({ newMessage: '' });
 
-		const mentions = _.map(_.compact((newMessage.match(/\@[\S]+/g) || [])),
-			(name) => {
-				const slug = name.replace('@', 'user-');
-				const users = this.props.appState.allUsers;
-				return _.get(_.find(users, { slug }), 'id');
-			},
-		);
-		const alerts = _.map(_.compact((newMessage.match(/![\S]+/g) || [])),
-			(name) => {
-				const slug = name.replace('!', 'user-');
-				const users = this.props.appState.allUsers;
-				return _.get(_.find(users, { slug }), 'id');
-			},
-		);
+		const { allUsers } = this.props.appState;
+		const mentions = getUserIdsByPrefix('@', newMessage, allUsers);
+		const alerts = getUserIdsByPrefix('!', newMessage, allUsers);
 
 		const id = uuid();
 

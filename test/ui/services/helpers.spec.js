@@ -73,3 +73,79 @@ ava.test('.getUpdateObjectFromSchema() should parse the `contains` keyword', (te
 		tags: [ 'i/frontend' ]
 	})
 })
+
+ava.test('.getUserIdsByPrefix() should get user ids by parsing text', (test) => {
+	const users = [
+		{
+			slug: 'user-johndoe',
+			id: 'd4b00966-e18f-475a-aa01-7becd3c092d7'
+		},
+		{
+			slug: 'user-janedoe',
+			id: 'ad0fe4d4-5da9-4465-8ddf-7b2d7aac49d5'
+		}
+	]
+
+	const source = '@johndoe'
+
+	const result = helpers.getUserIdsByPrefix('@', source, users)
+
+	test.deepEqual(result, [ 'd4b00966-e18f-475a-aa01-7becd3c092d7' ])
+})
+
+ava.test('.getUserIdsByPrefix() should ignore unknown users', (test) => {
+	const users = [
+		{
+			slug: 'user-johndoe',
+			id: 'd4b00966-e18f-475a-aa01-7becd3c092d7'
+		},
+		{
+			slug: 'user-janedoe',
+			id: 'ad0fe4d4-5da9-4465-8ddf-7b2d7aac49d5'
+		}
+	]
+
+	const source = '@foobar'
+
+	const result = helpers.getUserIdsByPrefix('@', source, users)
+
+	test.deepEqual(result, [])
+})
+
+ava.test('.getUserIdsByPrefix() should return an array of unique values', (test) => {
+	const users = [
+		{
+			slug: 'user-johndoe',
+			id: 'd4b00966-e18f-475a-aa01-7becd3c092d7'
+		},
+		{
+			slug: 'user-janedoe',
+			id: 'ad0fe4d4-5da9-4465-8ddf-7b2d7aac49d5'
+		}
+	]
+
+	const source = '@johndoe @johndow'
+
+	const result = helpers.getUserIdsByPrefix('@', source, users)
+
+	test.deepEqual(result, [ 'd4b00966-e18f-475a-aa01-7becd3c092d7' ])
+})
+
+ava.test('.getUserIdsByPrefix() should be able to use an exclamation mark as a prefix', (test) => {
+	const users = [
+		{
+			slug: 'user-johndoe',
+			id: 'd4b00966-e18f-475a-aa01-7becd3c092d7'
+		},
+		{
+			slug: 'user-janedoe',
+			id: 'ad0fe4d4-5da9-4465-8ddf-7b2d7aac49d5'
+		}
+	]
+
+	const source = '!johndoe'
+
+	const result = helpers.getUserIdsByPrefix('!', source, users)
+
+	test.deepEqual(result, [ 'd4b00966-e18f-475a-aa01-7becd3c092d7' ])
+})

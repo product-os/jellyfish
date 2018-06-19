@@ -5,6 +5,10 @@ import { Box, BoxProps, Theme } from 'rendition';
 import styled from 'styled-components';
 import { store } from '../app';
 
+// ReactTextareaAutocomplete autocompletion doesn't work with JSDom, so disable
+// it during testing
+const ACTIVE = process.env.NODE_ENV !== 'test';
+
 const Container = styled(Box)`
 	.rta {
 		position: relative;
@@ -158,7 +162,7 @@ export default ({ value, className, onChange, onKeyPress, placeholder, ...props 
 			onChange={onChange}
 			onKeyPress={onKeyPress}
 			loadingComponent={Loader}
-			trigger={getTrigger()}
+			trigger={ACTIVE ? getTrigger() : {}}
 			placeholder={placeholder}
 		/>
 	</Container>
