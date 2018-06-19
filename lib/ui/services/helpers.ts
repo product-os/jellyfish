@@ -188,3 +188,23 @@ export const getLocalSchema = (card: any) => {
 		properties: {},
 	};
 };
+
+/**
+ * @summary match usernames using a prefix and map them to ids
+ *
+ * @param {String} prefix - The prefix used to indicate a username
+ * @param {String} source - The text to analyse
+ * @param {Object[]} users - An array of user cards
+ *
+ * @return {String[]} An array of mathched user ids
+ */
+export const getUserIdsByPrefix = (prefix: string, source: string, users: Card[]): string[] => {
+	const regExp = new RegExp(`\\${prefix}[\\S]+`, 'g');
+	return _.chain(source.match(regExp) || [])
+		.map((name) => {
+			const slug = name.replace(prefix, 'user-');
+			return _.get(_.find(users, { slug }), 'id');
+		})
+		.compact()
+		.value();
+};
