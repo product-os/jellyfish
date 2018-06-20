@@ -19,7 +19,7 @@ const colorHash = new ColorHash();
 const threadColor = _.memoize((text: string): string => colorHash.hex(text));
 
 const EventWrapper = styled(Flex)`
-	word-break: break-all;
+	word-break: break-word;
 
 	.event-card--timestamp {
 		color: #777;
