@@ -44,14 +44,19 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 
 		this.state = this.getDefaultState();
 		this.bootstrap(this.props.channel.data.target);
+
 	}
 
 	public getDefaultState(): RendererState {
 		return {
-			tail: null,
+			tail: this.props.tail ? this.sortTail(this.props.tail) : null,
 			newMessage: '',
 			showNewCardModal: false,
 		};
+	}
+
+	public sortTail(tail: Card[]) {
+		return _.sortBy<Card>(tail, 'data.timestamp');
 	}
 
 	public bootstrap(target: string) {
@@ -92,7 +97,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 
 	public setTail(tail: Card[]) {
 		this.setState({
-			tail,
+			tail: this.sortTail(tail),
 		});
 	}
 
@@ -189,10 +194,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 
 	public render() {
 		const { head } = this.props.channel.data;
-		const unsortedTail = this.props.tail || this.state.tail;
-		const tail = unsortedTail ?
-			_.sortBy<Card>(unsortedTail, 'data.timestamp')
-			: null;
+		const { tail } = this.state;
 		const channelTarget = this.props.channel.data.target;
 
 		return (
@@ -208,7 +210,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 					{!tail && <Icon name="cog fa-spin" />}
 
 					{(!!tail && tail.length > 0) && _.map(tail, card =>
-						<Box key={card.id} py={3} style={{borderBottom: '1px solid #eee'}}>
+						<Box key={card.id} py={2} style={{borderBottom: '1px solid #eee'}}>
 							<EventCard
 								users={this.props.appState.allUsers}
 								openChannel={

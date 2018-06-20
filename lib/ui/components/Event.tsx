@@ -1,17 +1,19 @@
 import ColorHash = require('color-hash');
+import { circularDeepEqual } from 'fast-equals';
 import * as _ from 'lodash';
 import * as React from 'react';
 import {
 	Box,
 	Button,
 	Flex,
+	Theme,
 	Txt,
 } from 'rendition';
+import { Markdown } from 'rendition/dist/extra/Markdown';
 import styled from 'styled-components';
 import { Card } from '../../Types';
-import { findUsernameById, formatTimestamp } from '../services/helpers';
+import { findUsernameById, findWordsByPrefix, formatTimestamp } from '../services/helpers';
 import Icon from './Icon';
-import Markdown from './Markdown';
 
 const colorHash = new ColorHash();
 const threadColor = _.memoize((text: string): string => colorHash.hex(text));
@@ -28,6 +30,18 @@ const EventWrapper = styled(Flex)`
 		.event-card--timestamp {
 			opacity: 1;
 		}
+	}
+
+	.rendition-username-hl {
+    background: #efefef;
+    padding: 2px 2px;
+    border-radius: 3px;
+    border: 1px solid #c3c3c3;
+	}
+
+	.rendition-username-hl--self {
+		background: #FFF1C2;
+		border-color: #FFC19B;
 	}
 `;
 
@@ -46,12 +60,57 @@ interface EventProps {
 }
 
 export default class Event extends React.Component<EventProps, { actorName: string }> {
+	public messageElement: HTMLElement;
+
 	constructor(props: EventProps) {
 		super(props);
 
 		this.state = {
 			actorName: findUsernameById(props.users, props.card.data.actor),
 		};
+	}
+
+	public shouldComponentUpdate(nextProps: EventProps) {
+		return !circularDeepEqual(nextProps, this.props);
+	}
+
+	public componentDidMount() {
+		this.highlightUsernames();
+	}
+
+	public componentDidUpdate() {
+		this.highlightUsernames();
+	}
+
+	public highlightUsernames() {
+		if (!this.messageElement) {
+			return;
+		}
+
+		let sourceHtml = this.messageElement.innerHTML;
+
+		const usernames = _.uniq(
+			findWordsByPrefix('@', sourceHtml)
+				.concat(findWordsByPrefix('!', sourceHtml)),
+		);
+
+		if (!usernames.length) {
+			return;
+		}
+
+		const actor = this.props.card.data.actor;
+
+		usernames.forEach((name) => {
+			const match = _.find(this.props.users, { slug: `user-${name.replace(/[@!]/, '')}` });
+			if (match) {
+				sourceHtml = sourceHtml.replace(
+					new RegExp(`${name}`, 'g'),
+					`<span class="rendition-username-hl ${match.id === actor ? 'rendition-username-hl--self' : ''}">$&</span>`,
+				);
+			}
+		});
+
+		this.messageElement.innerHTML = sourceHtml;
 	}
 
 	public openChannel = () => {
@@ -64,15 +123,28 @@ export default class Event extends React.Component<EventProps, { actorName: stri
 		openChannel(id);
 	}
 
-	public getTimelineText(card: Card) {
+	public getTimelineElement(card: Card) {
+		let text = `${card.name ? card.name + ' - ' : ''}${card.type}`;
 		if (card.type === 'create') {
-			return 'created by';
+			text = 'created by';
 		}
 		if (card.type === 'update') {
-			return 'updated by';
+			text = 'updated by';
 		}
 
-		return `${card.name ? card.name + ' - ' : ''}${card.type}`;
+		return (
+			<Txt
+				color={Theme.colors.text.light}
+			>
+				<em>{text}</em> <strong>{this.state.actorName}</strong>
+			</Txt>
+		);
+	}
+
+	public setMessageElement = (element: HTMLElement | null) => {
+		if (element) {
+			this.messageElement = element;
+		}
 	}
 
 	public render() {
@@ -81,7 +153,8 @@ export default class Event extends React.Component<EventProps, { actorName: stri
 		const isMessage = card.type === 'message';
 		const isTimelineCard = _.includes(TIMELINE_TYPES, card.type);
 
-		let icon = 'database';
+		// let icon = 'database';
+		let icon = 'circle fa-xs';
 
 		if (isMessage) {
 			icon = 'comment fa-flip-horizontal';
@@ -96,10 +169,13 @@ export default class Event extends React.Component<EventProps, { actorName: stri
 				<Button
 					plaintext={true}
 					onClick={this.openChannel}
-					mr={3}
+					px={2}
+					mr={1}
+					ml={-2}
+					w={32}
 				>
 					<Txt color={threadColor(isTimelineCard ? card.data.target : card.id)}>
-						<Icon name={icon} />
+						{!!icon && <Icon name={icon} />}
 					</Txt>
 				</Button>
 				<Box flex="1">
@@ -107,9 +183,10 @@ export default class Event extends React.Component<EventProps, { actorName: stri
 						<React.Fragment>
 							<Flex justify="space-between" mb={2}>
 								<Txt mt={isMessage ? 0 : '5px'}>
-									{!isMessage && `${this.getTimelineText(card)} `}
-
-									<strong>{this.state.actorName}</strong>
+									{isMessage ?
+										<strong>{this.state.actorName}</strong>
+										: this.getTimelineElement(card)
+									}
 								</Txt>
 
 								{!!card.data && !!card.data.timestamp &&
@@ -118,13 +195,20 @@ export default class Event extends React.Component<EventProps, { actorName: stri
 							</Flex>
 
 							{isMessage &&
-								<Markdown className="event-card__message">{card.data.payload.message}</Markdown>
+								<div ref={this.setMessageElement}>
+									<Markdown
+										style={{fontSize: 'inherit'}}
+										className="event-card__message"
+									>
+										{card.data.payload.message}
+									</Markdown>
+								</div>
 							}
 						</React.Fragment>
 					}
 					{!isTimelineCard &&
 						<React.Fragment>
-							<Flex justify="space-between" mb={2}>
+							<Flex justify="space-between">
 								<Txt bold={true}>
 									{`${card.name ? card.name + ' - ' : ''}${card.type}`}
 								</Txt>

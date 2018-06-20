@@ -28,7 +28,12 @@ class UI extends React.Component<ConnectedComponentProps, {}> {
 		const [ home, next ] = this.props.appState.channels;
 
 		return (
-			<Provider style={{height: '100%'}}>
+			<Provider
+				style={{
+					height: '100%',
+					fontSize: 14,
+				}}
+			>
 				<Flex flex="1" style={{ height: '100%'}}>
 					<HomeChannel channel={home} />
 
