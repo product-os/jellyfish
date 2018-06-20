@@ -183,7 +183,7 @@ const reducer = (state: JellyfishState, action: Action) => {
 			return newState;
 
 		case actions.SET_ALL_USERS:
-			newState.allUsers = action.value;
+			newState.allUsers = _.sortBy(action.value, 'slug');
 
 			return newState;
 
