@@ -3,6 +3,8 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path')
 const DefinePlugin = require('webpack/lib/DefinePlugin')
+const IgnorePlugin = require('webpack/lib/IgnorePlugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const root = path.resolve(__dirname, '.')
 const uiRoot = path.join(root, 'lib', 'ui')
@@ -11,7 +13,7 @@ const iconsFolderPath = path.join(uiRoot, 'icons')
 const audioFolderPath = path.join(uiRoot, 'audio')
 const outDir = path.join(root, 'dist')
 
-module.exports = {
+const config = {
 	mode: 'development',
 	entry: path.join(root, 'lib', 'ui', 'index.tsx'),
 	output: {
@@ -80,15 +82,37 @@ module.exports = {
 				to: 'audio'
 			}
 		]),
+
 		new ForkTsCheckerWebpackPlugin(),
+
 		new HtmlWebpackPlugin({
 			template: indexFilePath
 		}),
+
 		new DefinePlugin({
 			'process.env': {
 				API_URL: JSON.stringify(process.env.API_URL),
-				API_PREFIX: JSON.stringify(process.env.API_PREFIX || 'api/v1/')
+				API_PREFIX: JSON.stringify(process.env.API_PREFIX || 'api/v1/'),
+				NODE_ENV: JSON.stringify(process.env.NODE_ENV)
 			}
+		}),
+
+		// The moment.js package includes its locales by default, they are huge and
+		// we don't use them, we're going to ignore them
+		new IgnorePlugin(/^\.\/locale$/, /moment$/),
+
+		new BundleAnalyzerPlugin({
+			analyzerMode: 'static',
+			reportFilename: '../webpack-bundle-report.html'
 		})
 	]
 }
+
+if (process.env.NODE_ENV !== 'dev') {
+	config.mode = 'production'
+	config.optimization = {
+		minimize: true
+	}
+}
+
+module.exports = config
