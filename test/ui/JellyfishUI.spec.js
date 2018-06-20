@@ -171,9 +171,11 @@ ava.test.serial('should render a list of views in the sidebar', async (test) => 
 })
 
 ava.test.serial('should render the community chat view for newly signed up users', async (test) => {
-	test.is(app.find('.home-channel__item').first().text(), 'All messages')
-
-	app.find('.home-channel__item').first().simulate('click')
+	app.find('.home-channel__item').filterWhere((node) => {
+		return node && node.text() === 'All messages'
+	})
+		.first()
+		.simulate('click')
 
 	await waitForElement(app, '.column--view-all-messages')
 
