@@ -190,6 +190,20 @@ export const getLocalSchema = (card: any) => {
 };
 
 /**
+ * @summary match words prefixed with a specific value
+ *
+ * @param {String} prefix - The prefix used
+ * @param {String} source - The text to analyse
+ *
+ * @return {String[]} An array of matching strings
+ */
+export const findWordsByPrefix = (prefix: string, source: string): string[] => {
+	const regExp = new RegExp(`\\${prefix}[\\S]+`, 'g');
+	return _.compact(source.match(regExp));
+};
+
+
+/**
  * @summary match usernames using a prefix and map them to ids
  *
  * @param {String} prefix - The prefix used to indicate a username
@@ -199,8 +213,7 @@ export const getLocalSchema = (card: any) => {
  * @return {String[]} An array of mathched user ids
  */
 export const getUserIdsByPrefix = (prefix: string, source: string, users: Card[]): string[] => {
-	const regExp = new RegExp(`\\${prefix}[\\S]+`, 'g');
-	return _.chain(source.match(regExp) || [])
+	return _.chain(findWordsByPrefix(prefix, source))
 		.map((name) => {
 			const slug = name.replace(prefix, 'user-');
 			return _.get(_.find(users, { slug }), 'id');

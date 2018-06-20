@@ -10,9 +10,9 @@ import {
 	Modal,
 	Txt,
 } from 'rendition';
+import { Markdown } from 'rendition/dist/extra/Markdown';
 import styled from 'styled-components';
 import { Card, RendererProps } from '../../Types';
-import Markdown from '../components/Markdown';
 import { connectComponent, ConnectedComponentProps } from '../services/connector';
 import { createChannel } from '../services/helpers';
 import { SubscriptionManager } from '../services/subscriptions';
