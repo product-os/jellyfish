@@ -430,7 +430,7 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 					</Box>
 				</If>
 
-				<Flex style={{height: '100%'}}>
+				<Flex style={{height: '100%', minHeight: 0}}>
 					<Flex flex="1" flexDirection="column" style={{height: '100%', borderRight: '1px solid #ccc'}}>
 						<If condition={!tail}>
 							<Box p={3}>
