@@ -15,7 +15,7 @@ module.exports = {
 	mode: 'development',
 	entry: path.join(root, 'lib', 'ui', 'index.tsx'),
 	output: {
-		filename: 'bundle.js',
+		filename: 'bundle.[hash].js',
 		path: outDir
 	},
 
