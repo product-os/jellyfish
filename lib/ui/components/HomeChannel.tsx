@@ -20,6 +20,12 @@ import Gravatar from './Gravatar';
 import Icon from './Icon';
 import { TailStreamer } from './TailStreamer';
 
+// View slugs that should be displayed first
+const PRIORITY_VIEWS = [
+	'view-my-alerts',
+	'view-my-mentions',
+];
+
 interface ViewLinkProps {
 	card: Card;
 	isActive: boolean;
@@ -136,8 +142,14 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 				this.open(allMessagesView);
 			}
 		}
+
+		// Sorty by name, then sort the priority views to the top
+		const [ first, rest ] = _.partition<Card>(_.sortBy<Card>(tail, 'name'), (view) => {
+			return _.includes(PRIORITY_VIEWS, view.slug);
+		});
+
 		this.setState({
-			tail,
+			tail: first.concat(rest),
 		});
 	}
 
@@ -246,7 +258,7 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 				<Box flex="1" bg="#333" pt={3}>
 					{!tail && <Box p={3}><Icon style={{color: 'white'}} name="cog fa-spin" /></Box>}
 
-					{!!tail && _.map(_.sortBy(tail, 'name'), (card) => {
+					{!!tail && _.map(tail, (card) => {
 						// A view shouldn't be able to display itself
 						if (card.id === head!.id) {
 							return null;
