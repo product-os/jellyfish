@@ -64,6 +64,8 @@ ava.test.beforeEach(async (test) => {
 		require('../../default-cards/contrib/view-read-user-guest.json'))
 	await test.context.jellyfish.insertCard(test.context.session,
 		require('../../default-cards/contrib/view-write-user-guest.json'))
+	await test.context.jellyfish.insertCard(test.context.session,
+		require('../../default-cards/contrib/view-read-user-team-admin.json'))
 	const guestUserId = await test.context.jellyfish.insertCard(test.context.session,
 		require('../../default-cards/contrib/user-guest.json'))
 
@@ -913,4 +915,63 @@ ava.test('.createRequest() should execute triggered actions', async (test) => {
 			number: 7
 		}
 	})
+})
+
+ava.test('.executeAction() the user-team-admin should be able to update other user roles', async (test) => {
+	const userCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'user')
+
+	const hash = jellyscript.evaluate('HASH(input)', {
+		input: {
+			string: 'foobar',
+			salt: 'user-team-admin'
+		}
+	}).value
+
+	const teamAdminId = await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-create-user',
+		targetId: userCard.id,
+		actorId: test.context.admin.id
+	}, {
+		email: 'admin@jellyfish.com',
+		username: 'user-team-admin',
+		hash
+	})
+
+	const userId = await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-create-user',
+		targetId: userCard.id,
+		actorId: test.context.admin.id
+	}, {
+		email: 'johndoe@example.com',
+		username: 'user-johndoe',
+		hash: 'aaaaaaaaaaaaaaaaaaa'
+	})
+
+	const userBefore = await test.context.jellyfish.getCardById(test.context.session, userId)
+	test.deepEqual(userBefore.data.roles, [ 'user-community' ])
+
+	const session = await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-create-session',
+		targetId: teamAdminId,
+		actorId: test.context.admin.id
+	}, {
+		password: {
+			hash
+		}
+	})
+
+	await test.context.worker.executeAction(session, {
+		actionId: 'action-update-card',
+		targetId: userId,
+		actorId: teamAdminId
+	}, {
+		properties: {
+			data: {
+				roles: [ 'user-community', 'user-team' ]
+			}
+		}
+	})
+
+	const userAfter = await test.context.jellyfish.getCardById(test.context.session, userId)
+	test.deepEqual(userAfter.data.roles, [ 'user-community', 'user-team' ])
 })
