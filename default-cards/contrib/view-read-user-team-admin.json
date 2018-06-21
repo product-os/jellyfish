@@ -33,17 +33,11 @@
             },
             "data": {
               "type": "object",
-              "properties": {
-                "schema": {
-                  "type": "object",
-                  "additionalProperties": true
-                }
-              },
-              "required": [ "schema" ]
+              "additionalProperties": true
             }
           },
           "additionalProperties": true,
-          "required": [ "slug", "type", "data" ]
+          "required": [ "type", "data" ]
         }
       },
       {
@@ -84,6 +78,7 @@
             },
             "data": {
               "type": "object",
+              "required": [ "actor" ],
               "properties": {
                 "actor": {
                   "type": "string",
@@ -93,7 +88,6 @@
               "additionalProperties": true
             }
           },
-          "additionalProperties": true,
           "required": [ "id", "type", "data" ]
         }
       },
@@ -129,6 +123,7 @@
             },
             "data": {
               "type": "object",
+              "required": [ "actor" ],
               "properties": {
                 "actor": {
                   "type": "string",
@@ -138,7 +133,7 @@
             }
           },
           "additionalProperties": true,
-          "required": [ "data", "id", "type" ]
+          "required": [ "id", "type", "data" ]
         }
       },
       {
@@ -151,6 +146,7 @@
               "const": "view"
             },
             "slug": {
+              "type": "string",
               "not": {
                 "pattern": "view-(read|write)-user.+"
               }
@@ -185,7 +181,7 @@
             }
           },
           "additionalProperties": true,
-          "required": [ "type" ]
+          "required": [ "id", "type" ]
         }
       },
       {
@@ -197,6 +193,7 @@
               "type": "string"
             },
             "slug": {
+              "type": "string",
               "not": {
                 "enum": [
                   "user-admin",
@@ -211,6 +208,7 @@
             },
             "data": {
               "type": "object",
+              "required": [ "email", "roles" ],
               "properties": {
                 "email": {
                   "type": "string"
@@ -218,8 +216,7 @@
                 "roles": {
                   "type": "array"
                 }
-              },
-              "additionalProperties": false
+              }
             }
           },
           "required": [ "id", "slug", "type", "data" ]
