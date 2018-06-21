@@ -11,8 +11,7 @@
     },
     "arguments": {
       "property": {
-        "type": "string",
-        "pattern": "^\\w+(\\.\\w+)*$"
+        "type": "string"
       },
       "value": {
         "type": [ "string", "number", "array" ]

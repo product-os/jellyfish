@@ -258,6 +258,48 @@ ava.test('.evaluateObject() should evaluate a number formula', async (test) => {
 	})
 })
 
+ava.test('.evaluateObject() should evaluate a formula in a $ prefixed property', async (test) => {
+	const result = jellyscript.evaluateObject({
+		type: 'object',
+		properties: {
+			$foo: {
+				type: 'number',
+				$formula: 'POW(input, 2)'
+			}
+		}
+	}, {
+		$foo: 3
+	})
+
+	test.deepEqual(result, {
+		watchers: [],
+		object: {
+			$foo: 9
+		}
+	})
+})
+
+ava.test('.evaluateObject() should evaluate a formula in a $$ prefixed property', async (test) => {
+	const result = jellyscript.evaluateObject({
+		type: 'object',
+		properties: {
+			$$foo: {
+				type: 'number',
+				$formula: 'POW(input, 2)'
+			}
+		}
+	}, {
+		$$foo: 3
+	})
+
+	test.deepEqual(result, {
+		watchers: [],
+		object: {
+			$$foo: 9
+		}
+	})
+})
+
 ava.test('.evaluateObject() should ignore missing formulas', async (test) => {
 	const result = jellyscript.evaluateObject({
 		type: 'object',
