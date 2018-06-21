@@ -367,6 +367,75 @@ ava.test('AGGREGATE($events): should react to one event', async (test) => {
 	test.deepEqual(card.data.mentions, [ 'johndoe' ])
 })
 
+ava.test('AGGREGATE($events): should work with $$ prefixed properties', async (test) => {
+	const typeId = await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-create-card',
+		targetId: test.context.ids.type,
+		actorId: test.context.actor.id
+	}, {
+		properties: {
+			slug: 'test-thread',
+			data: {
+				schema: {
+					type: 'object',
+					properties: {
+						type: {
+							type: 'string',
+							const: 'test-thread'
+						},
+						data: {
+							type: 'object',
+							properties: {
+								$$mentions: {
+									type: 'array',
+									$formula: 'AGGREGATE($events, "data.payload.$$mentions")'
+								}
+							},
+							additionalProperties: true
+						}
+					},
+					additionalProperties: true,
+					required: [ 'type', 'data' ]
+				}
+			}
+		}
+	})
+
+	const admin = await test.context.jellyfish.getCardBySlug(test.context.session, 'user-admin')
+	const thread = await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-create-card',
+		targetId: typeId,
+		actorId: test.context.actor.id
+	}, {
+		properties: {
+			data: {
+				$$mentions: []
+			}
+		}
+	})
+
+	await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-create-card',
+		targetId: test.context.ids.card,
+		actorId: test.context.actor.id
+	}, {
+		properties: {
+			data: {
+				timestamp: '2018-05-05T00:21:02.459Z',
+				target: thread,
+				actor: admin,
+				payload: {
+					$$mentions: [ 'johndoe' ]
+				}
+			}
+		}
+	})
+
+	await test.context.flushRequests()
+	const card = await test.context.jellyfish.getCardById(test.context.session, thread)
+	test.deepEqual(card.data.$$mentions, [ 'johndoe' ])
+})
+
 ava.test('AGGREGATE($events): should be able to add a type with a formula based on its timeline', async (test) => {
 	const typeId = await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-create-card',
