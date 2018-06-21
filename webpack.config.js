@@ -103,7 +103,8 @@ const config = {
 
 		new BundleAnalyzerPlugin({
 			analyzerMode: 'static',
-			reportFilename: '../webpack-bundle-report.html'
+			reportFilename: '../webpack-bundle-report.html',
+			openAnalyzer: false
 		})
 	]
 }

@@ -1,0 +1,42 @@
+{
+  "slug": "todo",
+  "type": "type",
+  "name": "Todo item",
+  "tags": [],
+  "links": [],
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "properties": {
+            "actor": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "origin": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "message": {
+              "type": "string"
+            },
+            "complete": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "actor",
+            "message"
+          ]
+        }
+      },
+      "additionalProperties": true
+    },
+    "lenses": [
+      "lens-interleaved"
+    ]
+  }
+}

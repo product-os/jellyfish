@@ -24,6 +24,7 @@ import { TailStreamer } from './TailStreamer';
 const PRIORITY_VIEWS = [
 	'view-my-alerts',
 	'view-my-mentions',
+	'view-my-todo-items',
 ];
 
 interface ViewLinkProps {
