@@ -168,7 +168,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 
 		sdk.card.create(message)
 			.catch((error) => {
-				this.props.actions.addNotification('danger', error.message);
+				this.props.actions.addNotification('danger', error.message || error);
 			});
 	}
 

@@ -179,7 +179,8 @@
                 "scratchpad-entry",
                 "repo",
                 "subscription",
-                "triggered-action"
+                "triggered-action",
+                "todo"
               ]
             }
           },

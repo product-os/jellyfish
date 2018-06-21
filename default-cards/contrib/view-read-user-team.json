@@ -157,6 +157,7 @@
                 "view-all-views",
                 "view-my-alerts",
                 "view-my-mentions",
+                "view-my-todo-items",
                 "view-scratchpad",
                 "view-p-jellyfish"
               ]
@@ -207,6 +208,7 @@
                 "scratchpad-entry",
                 "repo",
                 "organizer",
+                "todo",
                 "triggered-action"
               ]
             }

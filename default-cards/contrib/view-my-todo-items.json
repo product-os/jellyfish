@@ -1,0 +1,37 @@
+{
+  "slug": "view-my-todo-items",
+  "name": "My todo items",
+  "type": "view",
+  "tags": [],
+  "links": [],
+  "active": true,
+  "data": {
+    "allOf": [
+      {
+        "name": "My todo items",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "todo"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "actor": {
+                  "const": "[user.id]"
+                }
+              },
+              "required": [ "actor" ],
+              "additionalProperties": true
+            }
+          },
+          "additionalProperties": true
+        }
+      }
+    ],
+    "lenses": [
+      "lens-todolist"
+    ]
+  }
+}
