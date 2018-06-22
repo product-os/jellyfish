@@ -31,8 +31,21 @@
         }
       }
     },
-    "action": "action-create-todo-from-message",
+    "action": "action-create-card-from-tag",
     "target": "{source.id}",
-    "arguments": {}
+    "arguments": {
+      "type": "todo",
+      "tag": "#todo",
+      "sourcePath": "data.payload.message",
+      "properties": {
+        "slug": "todo-[origin.id]",
+        "data": {
+          "actor": "[actor]",
+          "origin": "[origin.id]",
+          "message": "[content]",
+          "complete": false
+        }
+      }
+    }
   }
 }

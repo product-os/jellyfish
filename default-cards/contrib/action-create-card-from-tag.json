@@ -1,7 +1,7 @@
 {
-  "slug": "action-create-todo-from-message",
+  "slug": "action-create-card-from-tag",
   "type": "action",
-  "name": "Create a TODO from a message",
+  "name": "Create a card from a tag",
   "tags": [],
   "links": [],
   "active": true,
@@ -17,6 +17,11 @@
       "required": [ "type" ]
     },
     "arguments": {},
-    "options": {}
+    "options": {
+      "type": "[arguments.type]",
+      "tag": "[arguments.tag]",
+      "sourcePath": "[arguments.sourcePath]",
+      "properties": "[arguments.properties]"
+    }
   }
 }
