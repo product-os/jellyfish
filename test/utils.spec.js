@@ -45,7 +45,7 @@ ava.test.afterEach(async (test) => {
 })
 
 ava.test('.getTimeline() should return an empty list of the card has no timeline', async (test) => {
-	const id = await test.context.jellyfish.insertCard(test.context.session, {
+	const card = await test.context.jellyfish.insertCard(test.context.session, {
 		type: 'card',
 		tags: [],
 		links: [],
@@ -55,11 +55,11 @@ ava.test('.getTimeline() should return an empty list of the card has no timeline
 		}
 	})
 
-	test.deepEqual(await utils.getTimeline(test.context.jellyfish, test.context.session, id), [])
+	test.deepEqual(await utils.getTimeline(test.context.jellyfish, test.context.session, card.id), [])
 })
 
 ava.test('.getTimeline() should return the timeline ordered by time', async (test) => {
-	const id = await test.context.jellyfish.insertCard(test.context.session, {
+	const card = await test.context.jellyfish.insertCard(test.context.session, {
 		type: 'card',
 		tags: [],
 		links: [],
@@ -79,7 +79,7 @@ ava.test('.getTimeline() should return the timeline ordered by time', async (tes
 		active: true,
 		data: {
 			timestamp: '2018-03-09T19:57:40.963Z',
-			target: id,
+			target: card.id,
 			actor: admin.id,
 			payload: {}
 		}
@@ -92,7 +92,7 @@ ava.test('.getTimeline() should return the timeline ordered by time', async (tes
 		active: true,
 		data: {
 			timestamp: '2018-04-09T19:57:40.963Z',
-			target: id,
+			target: card.id,
 			actor: admin.id,
 			payload: {}
 		}
@@ -105,13 +105,13 @@ ava.test('.getTimeline() should return the timeline ordered by time', async (tes
 		active: true,
 		data: {
 			timestamp: '2018-02-09T19:57:40.963Z',
-			target: id,
+			target: card.id,
 			actor: admin.id,
 			payload: {}
 		}
 	})
 
-	const timeline = await utils.getTimeline(test.context.jellyfish, test.context.session, id)
+	const timeline = await utils.getTimeline(test.context.jellyfish, test.context.session, card.id)
 
 	test.deepEqual(_.map(timeline, 'data.timestamp'), [
 		'2018-02-09T19:57:40.963Z',
@@ -121,7 +121,7 @@ ava.test('.getTimeline() should return the timeline ordered by time', async (tes
 })
 
 ava.test('.getTimeline() should return the timeline of an inactive card', async (test) => {
-	const id = await test.context.jellyfish.insertCard(test.context.session, {
+	const card = await test.context.jellyfish.insertCard(test.context.session, {
 		type: 'card',
 		tags: [],
 		links: [],
@@ -141,7 +141,7 @@ ava.test('.getTimeline() should return the timeline of an inactive card', async 
 		active: true,
 		data: {
 			timestamp: '2018-03-09T19:57:40.963Z',
-			target: id,
+			target: card.id,
 			actor: admin.id,
 			payload: {}
 		}
@@ -154,7 +154,7 @@ ava.test('.getTimeline() should return the timeline of an inactive card', async 
 		active: true,
 		data: {
 			timestamp: '2018-04-09T19:57:40.963Z',
-			target: id,
+			target: card.id,
 			actor: admin.id,
 			payload: {}
 		}
@@ -167,13 +167,13 @@ ava.test('.getTimeline() should return the timeline of an inactive card', async 
 		active: true,
 		data: {
 			timestamp: '2018-02-09T19:57:40.963Z',
-			target: id,
+			target: card.id,
 			actor: admin.id,
 			payload: {}
 		}
 	})
 
-	const timeline = await utils.getTimeline(test.context.jellyfish, test.context.session, id)
+	const timeline = await utils.getTimeline(test.context.jellyfish, test.context.session, card.id)
 
 	test.deepEqual(_.map(timeline, 'data.timestamp'), [
 		'2018-02-09T19:57:40.963Z',
@@ -217,7 +217,7 @@ ava.test('.queryView() should execute a view with one filter', async (test) => {
 		}
 	})
 
-	const id = await test.context.jellyfish.insertCard(test.context.session, {
+	const card = await test.context.jellyfish.insertCard(test.context.session, {
 		type: 'view',
 		tags: [],
 		links: [],
@@ -247,7 +247,7 @@ ava.test('.queryView() should execute a view with one filter', async (test) => {
 		}
 	})
 
-	const results = await utils.queryView(test.context.jellyfish, test.context.session, id)
+	const results = await utils.queryView(test.context.jellyfish, test.context.session, card.id)
 	test.deepEqual(results, [
 		{
 			data: {
@@ -278,7 +278,7 @@ ava.test('.queryView() should execute a view with more than one filter', async (
 		}
 	})
 
-	const id = await test.context.jellyfish.insertCard(test.context.session, {
+	const card = await test.context.jellyfish.insertCard(test.context.session, {
 		type: 'view',
 		tags: [],
 		links: [],
@@ -324,7 +324,7 @@ ava.test('.queryView() should execute a view with more than one filter', async (
 		}
 	})
 
-	const results = await utils.queryView(test.context.jellyfish, test.context.session, id)
+	const results = await utils.queryView(test.context.jellyfish, test.context.session, card.id)
 	test.deepEqual(results, [
 		{
 			tags: [ 'foo' ],

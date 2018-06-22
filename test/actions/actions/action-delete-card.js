@@ -19,7 +19,7 @@ const ava = require('ava')
 const utils = require('../../../lib/utils')
 
 ava.test('should delete an active card', async (test) => {
-	const id = await test.context.worker.executeAction(test.context.session, {
+	const result1 = await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-create-card',
 		targetId: test.context.ids.card,
 		actorId: test.context.actor.id
@@ -32,17 +32,18 @@ ava.test('should delete an active card', async (test) => {
 		}
 	})
 
-	const result = await test.context.worker.executeAction(test.context.session, {
+	const result2 = await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-delete-card',
-		targetId: id,
+		targetId: result1.id,
 		actorId: test.context.actor.id
 	}, {})
-	test.is(result, id)
 
-	const card = await test.context.jellyfish.getCardById(test.context.session, id)
+	test.is(result1.id, result2.id)
+
+	const card = await test.context.jellyfish.getCardById(test.context.session, result1.id)
 
 	test.deepEqual(card, {
-		id,
+		id: result1.id,
 		slug: 'johndoe',
 		type: 'card',
 		tags: [],
@@ -53,12 +54,12 @@ ava.test('should delete an active card', async (test) => {
 		}
 	})
 
-	const timeline = await utils.getTimeline(test.context.jellyfish, test.context.session, id)
+	const timeline = await utils.getTimeline(test.context.jellyfish, test.context.session, result1.id)
 	test.deepEqual(_.map(timeline, 'type'), [ 'create', 'update' ])
 })
 
 ava.test('should delete an inactive card', async (test) => {
-	const id = await test.context.worker.executeAction(test.context.session, {
+	const result1 = await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-create-card',
 		targetId: test.context.ids.card,
 		actorId: test.context.actor.id
@@ -72,17 +73,18 @@ ava.test('should delete an inactive card', async (test) => {
 		}
 	})
 
-	const result = await test.context.worker.executeAction(test.context.session, {
+	const result2 = await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-delete-card',
-		targetId: id,
+		targetId: result1.id,
 		actorId: test.context.actor.id
 	}, {})
-	test.is(result, id)
 
-	const card = await test.context.jellyfish.getCardById(test.context.session, id)
+	test.is(result1.id, result2.id)
+
+	const card = await test.context.jellyfish.getCardById(test.context.session, result1.id)
 
 	test.deepEqual(card, {
-		id,
+		id: result1.id,
 		slug: 'johndoe',
 		type: 'card',
 		tags: [],
@@ -93,6 +95,6 @@ ava.test('should delete an inactive card', async (test) => {
 		}
 	})
 
-	const timeline = await utils.getTimeline(test.context.jellyfish, test.context.session, id)
+	const timeline = await utils.getTimeline(test.context.jellyfish, test.context.session, result1.id)
 	test.deepEqual(_.map(timeline, 'type'), [ 'create' ])
 })

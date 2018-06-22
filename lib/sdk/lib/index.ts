@@ -419,6 +419,11 @@ export class JellyfishSDK implements SDKInterface {
 				}
 
 				const { results } = response.data.data;
+
+				// TODO: We should aim to use the actual returned
+				// card directly instead of returning just the id
+				results.data = (results.data as any).id || results.data;
+
 				if (results.error) {
 					throw new Error(`${results.data}`);
 				}

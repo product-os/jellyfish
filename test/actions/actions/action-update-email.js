@@ -20,7 +20,7 @@ const utils = require('../../../lib/utils')
 ava.test('should update the user email', async (test) => {
 	const target = await test.context.jellyfish.getCardBySlug(test.context.session, 'user-admin')
 
-	const id = await test.context.worker.executeAction(test.context.session, {
+	const result = await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-update-email',
 		targetId: target.id,
 		actorId: test.context.actor.id
@@ -28,12 +28,10 @@ ava.test('should update the user email', async (test) => {
 		email: 'foobar@example.com'
 	})
 
-	test.is(id, target.id)
+	test.is(result.id, target.id)
+	test.is(result.data.email, 'foobar@example.com')
 
-	const card = await test.context.jellyfish.getCardById(test.context.session, id)
-	test.is(card.data.email, 'foobar@example.com')
-
-	const timeline = await utils.getTimeline(test.context.jellyfish, test.context.session, id)
+	const timeline = await utils.getTimeline(test.context.jellyfish, test.context.session, result.id)
 	test.is(timeline.length, 1)
 	test.is(timeline[0].type, 'update')
 	test.deepEqual(timeline[0].data.payload, {
@@ -52,7 +50,7 @@ ava.test('should update the user email', async (test) => {
 ava.test('should not create an event if the change is already there', async (test) => {
 	const target = await test.context.jellyfish.getCardBySlug(test.context.session, 'user-admin')
 
-	const id = await test.context.worker.executeAction(test.context.session, {
+	const result = await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-update-email',
 		targetId: target.id,
 		actorId: test.context.actor.id
@@ -60,11 +58,8 @@ ava.test('should not create an event if the change is already there', async (tes
 		email: target.data.email
 	})
 
-	test.is(id, target.id)
-
-	const card = await test.context.jellyfish.getCardById(test.context.session, id)
-	test.is(card.data.email, target.data.email)
-
-	const timeline = await utils.getTimeline(test.context.jellyfish, test.context.session, id)
+	test.is(result.id, target.id)
+	test.is(result.data.email, target.data.email)
+	const timeline = await utils.getTimeline(test.context.jellyfish, test.context.session, result.id)
 	test.is(timeline.length, 0)
 })

@@ -17,7 +17,7 @@
 const ava = require('ava')
 
 ava.test('should add a string to an empty array', async (test) => {
-	const id1 = await test.context.worker.executeAction(test.context.session, {
+	const result1 = await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-create-card',
 		targetId: test.context.ids.card,
 		actorId: test.context.actor.id
@@ -29,33 +29,22 @@ ava.test('should add a string to an empty array', async (test) => {
 		}
 	})
 
-	const id2 = await test.context.worker.executeAction(test.context.session, {
+	const result2 = await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-set-add',
-		targetId: id1,
+		targetId: result1.id,
 		actorId: test.context.actor.id
 	}, {
 		property: 'data.array',
 		value: 'foo'
 	})
 
-	test.is(id1, id2)
-
-	const card = await test.context.jellyfish.getCardById(test.context.session, id1)
-
-	test.deepEqual(card, {
-		id: id1,
-		type: 'card',
-		tags: [],
-		links: [],
-		active: true,
-		data: {
-			array: [ 'foo' ]
-		}
-	})
+	test.is(result1.id, result2.id)
+	const card = await test.context.jellyfish.getCardById(test.context.session, result1.id)
+	test.deepEqual(card, result2)
 })
 
 ava.test('should add a string to a non empty array', async (test) => {
-	const id1 = await test.context.worker.executeAction(test.context.session, {
+	const result1 = await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-create-card',
 		targetId: test.context.ids.card,
 		actorId: test.context.actor.id
@@ -67,33 +56,22 @@ ava.test('should add a string to a non empty array', async (test) => {
 		}
 	})
 
-	const id2 = await test.context.worker.executeAction(test.context.session, {
+	const result2 = await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-set-add',
-		targetId: id1,
+		targetId: result1.id,
 		actorId: test.context.actor.id
 	}, {
 		property: 'data.array',
 		value: 'baz'
 	})
 
-	test.is(id1, id2)
-
-	const card = await test.context.jellyfish.getCardById(test.context.session, id1)
-
-	test.deepEqual(card, {
-		id: id1,
-		type: 'card',
-		tags: [],
-		links: [],
-		active: true,
-		data: {
-			array: [ 'foo', 'bar', 'baz' ]
-		}
-	})
+	test.is(result1.id, result2.id)
+	const card = await test.context.jellyfish.getCardById(test.context.session, result1.id)
+	test.deepEqual(card, result2)
 })
 
 ava.test('should not store duplicates', async (test) => {
-	const id1 = await test.context.worker.executeAction(test.context.session, {
+	const result1 = await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-create-card',
 		targetId: test.context.ids.card,
 		actorId: test.context.actor.id
@@ -105,33 +83,22 @@ ava.test('should not store duplicates', async (test) => {
 		}
 	})
 
-	const id2 = await test.context.worker.executeAction(test.context.session, {
+	const result2 = await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-set-add',
-		targetId: id1,
+		targetId: result1.id,
 		actorId: test.context.actor.id
 	}, {
 		property: 'data.array',
 		value: 'foo'
 	})
 
-	test.is(id1, id2)
-
-	const card = await test.context.jellyfish.getCardById(test.context.session, id1)
-
-	test.deepEqual(card, {
-		id: id1,
-		type: 'card',
-		tags: [],
-		links: [],
-		active: true,
-		data: {
-			array: [ 'foo', 'bar' ]
-		}
-	})
+	test.is(result1.id, result2.id)
+	const card = await test.context.jellyfish.getCardById(test.context.session, result1.id)
+	test.deepEqual(card, result2)
 })
 
 ava.test('should not discard existing duplicates', async (test) => {
-	const id1 = await test.context.worker.executeAction(test.context.session, {
+	const result1 = await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-create-card',
 		targetId: test.context.ids.card,
 		actorId: test.context.actor.id
@@ -143,27 +110,16 @@ ava.test('should not discard existing duplicates', async (test) => {
 		}
 	})
 
-	const id2 = await test.context.worker.executeAction(test.context.session, {
+	const result2 = await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-set-add',
-		targetId: id1,
+		targetId: result1.id,
 		actorId: test.context.actor.id
 	}, {
 		property: 'data.array',
 		value: 'bar'
 	})
 
-	test.is(id1, id2)
-
-	const card = await test.context.jellyfish.getCardById(test.context.session, id1)
-
-	test.deepEqual(card, {
-		id: id1,
-		type: 'card',
-		tags: [],
-		links: [],
-		active: true,
-		data: {
-			array: [ 'foo', 'foo', 'bar' ]
-		}
-	})
+	test.is(result1.id, result2.id)
+	const card = await test.context.jellyfish.getCardById(test.context.session, result1.id)
+	test.deepEqual(card, result2)
 })

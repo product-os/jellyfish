@@ -41,14 +41,14 @@ ava.test('.getSessionUser() should throw if the session actor is invalid', async
 		}
 	})
 
-	await test.throws(permissionFilter.getSessionUser(test.context.backend, session, {
+	await test.throws(permissionFilter.getSessionUser(test.context.backend, session.id, {
 		user: 'cards',
 		session: 'sessions'
 	}), errors.JellyfishNoElement)
 })
 
 ava.test('.getSessionUser() should get the session user given the session did not expire', async (test) => {
-	const id = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const result = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'user-johndoe',
 		type: 'user',
 		active: true,
@@ -69,18 +69,18 @@ ava.test('.getSessionUser() should get the session user given the session did no
 		links: [],
 		tags: [],
 		data: {
-			actor: id,
+			actor: result.id,
 			expiration: date.toISOString()
 		}
 	})
 
-	const user = await permissionFilter.getSessionUser(test.context.backend, session, {
+	const user = await permissionFilter.getSessionUser(test.context.backend, session.id, {
 		user: 'cards',
 		session: 'sessions'
 	})
 
 	test.deepEqual(user, Object.assign({
-		id
+		id: result.id
 	}, user))
 })
 
@@ -106,12 +106,12 @@ ava.test('.getSessionUser() should throw if the session expired', async (test) =
 		links: [],
 		tags: [],
 		data: {
-			actor: user,
+			actor: user.id,
 			expiration: date.toISOString()
 		}
 	})
 
-	await test.throws(permissionFilter.getSessionUser(test.context.backend, session, {
+	await test.throws(permissionFilter.getSessionUser(test.context.backend, session.id, {
 		user: 'cards',
 		session: 'sessions'
 	}), errors.JellyfishSessionExpired)

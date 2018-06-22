@@ -25,7 +25,7 @@ const {
 const createServer = require('../../../lib/server.js')
 
 ava.test('should create a card', async (test) => {
-	const id = await test.context.worker.executeAction(test.context.session, {
+	const result = await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-create-card',
 		targetId: test.context.ids.card,
 		actorId: test.context.actor.id
@@ -38,10 +38,8 @@ ava.test('should create a card', async (test) => {
 		}
 	})
 
-	const card = await test.context.jellyfish.getCardById(test.context.session, id)
-
-	test.deepEqual(card, {
-		id,
+	test.deepEqual(result, {
+		id: result.id,
 		slug: 'johndoe',
 		type: 'card',
 		tags: [],
@@ -52,7 +50,7 @@ ava.test('should create a card', async (test) => {
 		}
 	})
 
-	const timeline = _.map(await utils.getTimeline(test.context.jellyfish, test.context.session, id), 'type')
+	const timeline = _.map(await utils.getTimeline(test.context.jellyfish, test.context.session, result.id), 'type')
 	test.deepEqual(timeline, [ 'create' ])
 })
 
@@ -79,7 +77,7 @@ ava.test('should fail if the card already exists', async (test) => {
 		}
 	}
 
-	const id = await test.context.worker.executeAction(test.context.session, {
+	const result = await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-create-card',
 		targetId: test.context.ids.card,
 		actorId: test.context.actor.id
@@ -95,7 +93,7 @@ ava.test('should fail if the card already exists', async (test) => {
 		properties: card
 	}), test.context.jellyfish.errors.JellyfishElementAlreadyExists)
 
-	const timeline = _.map(await utils.getTimeline(test.context.jellyfish, test.context.session, id), 'type')
+	const timeline = _.map(await utils.getTimeline(test.context.jellyfish, test.context.session, result.id), 'type')
 	test.deepEqual(timeline, [ 'create' ])
 })
 
@@ -128,7 +126,7 @@ ava.test('should fail if the element is not a valid card', async (test) => {
 })
 
 ava.test('should create an inactive card', async (test) => {
-	const id = await test.context.worker.executeAction(test.context.session, {
+	const result = await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-create-card',
 		targetId: test.context.ids.card,
 		actorId: test.context.actor.id
@@ -142,10 +140,8 @@ ava.test('should create an inactive card', async (test) => {
 		}
 	})
 
-	const card = await test.context.jellyfish.getCardById(test.context.session, id)
-
-	test.deepEqual(card, {
-		id,
+	test.deepEqual(result, {
+		id: result.id,
 		slug: 'johndoe',
 		type: 'card',
 		tags: [],
@@ -158,7 +154,7 @@ ava.test('should create an inactive card', async (test) => {
 })
 
 ava.test('should create a card with more extra data properties', async (test) => {
-	const id = await test.context.worker.executeAction(test.context.session, {
+	const result = await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-create-card',
 		targetId: test.context.ids.card,
 		actorId: test.context.actor.id
@@ -172,10 +168,8 @@ ava.test('should create a card with more extra data properties', async (test) =>
 		}
 	})
 
-	const card = await test.context.jellyfish.getCardById(test.context.session, id)
-
-	test.deepEqual(card, {
-		id,
+	test.deepEqual(result, {
+		id: result.id,
 		slug: 'johndoe',
 		type: 'card',
 		tags: [],
@@ -187,12 +181,12 @@ ava.test('should create a card with more extra data properties', async (test) =>
 		}
 	})
 
-	const timeline = _.map(await utils.getTimeline(test.context.jellyfish, test.context.session, id), 'type')
+	const timeline = _.map(await utils.getTimeline(test.context.jellyfish, test.context.session, result.id), 'type')
 	test.deepEqual(timeline, [ 'create' ])
 })
 
 ava.test('should evaluate a simple computed property on insertion', async (test) => {
-	const typeId = await test.context.worker.executeAction(test.context.session, {
+	const type = await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-create-card',
 		targetId: test.context.ids.type,
 		actorId: test.context.actor.id
@@ -225,9 +219,9 @@ ava.test('should evaluate a simple computed property on insertion', async (test)
 		}
 	})
 
-	const id = await test.context.worker.executeAction(test.context.session, {
+	const result = await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-create-card',
-		targetId: typeId,
+		targetId: type.id,
 		actorId: test.context.actor.id
 	}, {
 		properties: {
@@ -237,10 +231,8 @@ ava.test('should evaluate a simple computed property on insertion', async (test)
 		}
 	})
 
-	const card = await test.context.jellyfish.getCardById(test.context.session, id)
-
-	test.deepEqual(card, {
-		id,
+	test.deepEqual(result, {
+		id: result.id,
 		type: 'test-type',
 		active: true,
 		links: [],
@@ -252,7 +244,7 @@ ava.test('should evaluate a simple computed property on insertion', async (test)
 })
 
 ava.test('should throw if the result of the formula is incompatible with the given type', async (test) => {
-	const typeId = await test.context.worker.executeAction(test.context.session, {
+	const type = await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-create-card',
 		targetId: test.context.ids.type,
 		actorId: test.context.actor.id
@@ -287,7 +279,7 @@ ava.test('should throw if the result of the formula is incompatible with the giv
 
 	await test.throws(test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-create-card',
-		targetId: typeId,
+		targetId: type.id,
 		actorId: test.context.actor.id
 	}, {
 		properties: {
@@ -299,7 +291,7 @@ ava.test('should throw if the result of the formula is incompatible with the giv
 })
 
 ava.test('AGGREGATE($events): should react to one event', async (test) => {
-	const typeId = await test.context.worker.executeAction(test.context.session, {
+	const type = await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-create-card',
 		targetId: test.context.ids.type,
 		actorId: test.context.actor.id
@@ -335,7 +327,7 @@ ava.test('AGGREGATE($events): should react to one event', async (test) => {
 	const admin = await test.context.jellyfish.getCardBySlug(test.context.session, 'user-admin')
 	const thread = await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-create-card',
-		targetId: typeId,
+		targetId: type.id,
 		actorId: test.context.actor.id
 	}, {
 		properties: {
@@ -353,7 +345,7 @@ ava.test('AGGREGATE($events): should react to one event', async (test) => {
 		properties: {
 			data: {
 				timestamp: '2018-05-05T00:21:02.459Z',
-				target: thread,
+				target: thread.id,
 				actor: admin,
 				payload: {
 					mentions: [ 'johndoe' ]
@@ -363,7 +355,7 @@ ava.test('AGGREGATE($events): should react to one event', async (test) => {
 	})
 
 	await test.context.flushRequests()
-	const card = await test.context.jellyfish.getCardById(test.context.session, thread)
+	const card = await test.context.jellyfish.getCardById(test.context.session, thread.id)
 	test.deepEqual(card.data.mentions, [ 'johndoe' ])
 })
 
@@ -395,7 +387,7 @@ ava.test('AGGREGATE($events): should add one triggered action if instantiating t
 		}
 	}
 
-	const typeId = await test.context.worker.executeAction(test.context.session, {
+	const type = await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-create-card',
 		targetId: test.context.ids.type,
 		actorId: test.context.actor.id
@@ -405,7 +397,7 @@ ava.test('AGGREGATE($events): should add one triggered action if instantiating t
 
 	await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-create-card',
-		targetId: typeId,
+		targetId: type.id,
 		actorId: test.context.actor.id
 	}, {
 		properties: {
@@ -417,7 +409,7 @@ ava.test('AGGREGATE($events): should add one triggered action if instantiating t
 
 	await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-create-card',
-		targetId: typeId,
+		targetId: type.id,
 		actorId: test.context.actor.id
 	}, {
 		properties: {
@@ -429,7 +421,7 @@ ava.test('AGGREGATE($events): should add one triggered action if instantiating t
 
 	await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-create-card',
-		targetId: typeId,
+		targetId: type.id,
 		actorId: test.context.actor.id
 	}, {
 		properties: {
@@ -459,7 +451,7 @@ ava.test('AGGREGATE($events): should add one triggered action if instantiating t
 })
 
 ava.test('AGGREGATE($events): should consider updates to the type', async (test) => {
-	const typeId = await test.context.worker.executeAction(test.context.session, {
+	const type = await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-create-card',
 		targetId: test.context.ids.type,
 		actorId: test.context.actor.id
@@ -494,7 +486,7 @@ ava.test('AGGREGATE($events): should consider updates to the type', async (test)
 
 	await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-create-card',
-		targetId: typeId,
+		targetId: type.id,
 		actorId: test.context.actor.id
 	}, {
 		properties: {
@@ -504,9 +496,9 @@ ava.test('AGGREGATE($events): should consider updates to the type', async (test)
 		}
 	})
 
-	const newTypeId = await test.context.worker.executeAction(test.context.session, {
+	const newType = await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-update-card',
-		targetId: typeId,
+		targetId: type.id,
 		actorId: test.context.actor.id
 	}, {
 		properties: {
@@ -536,11 +528,11 @@ ava.test('AGGREGATE($events): should consider updates to the type', async (test)
 		}
 	})
 
-	test.is(typeId, newTypeId)
+	test.is(type.id, newType.id)
 
 	await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-create-card',
-		targetId: typeId,
+		targetId: type.id,
 		actorId: test.context.actor.id
 	}, {
 		properties: {
@@ -570,7 +562,7 @@ ava.test('AGGREGATE($events): should consider updates to the type', async (test)
 })
 
 ava.test('AGGREGATE($events): should work with $$ prefixed properties', async (test) => {
-	const typeId = await test.context.worker.executeAction(test.context.session, {
+	const type = await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-create-card',
 		targetId: test.context.ids.type,
 		actorId: test.context.actor.id
@@ -606,7 +598,7 @@ ava.test('AGGREGATE($events): should work with $$ prefixed properties', async (t
 	const admin = await test.context.jellyfish.getCardBySlug(test.context.session, 'user-admin')
 	const thread = await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-create-card',
-		targetId: typeId,
+		targetId: type.id,
 		actorId: test.context.actor.id
 	}, {
 		properties: {
@@ -624,7 +616,7 @@ ava.test('AGGREGATE($events): should work with $$ prefixed properties', async (t
 		properties: {
 			data: {
 				timestamp: '2018-05-05T00:21:02.459Z',
-				target: thread,
+				target: thread.id,
 				actor: admin,
 				payload: {
 					$$mentions: [ 'johndoe' ]
@@ -634,12 +626,12 @@ ava.test('AGGREGATE($events): should work with $$ prefixed properties', async (t
 	})
 
 	await test.context.flushRequests()
-	const card = await test.context.jellyfish.getCardById(test.context.session, thread)
+	const card = await test.context.jellyfish.getCardById(test.context.session, thread.id)
 	test.deepEqual(card.data.$$mentions, [ 'johndoe' ])
 })
 
 ava.test('AGGREGATE($events): should be able to add a type with a formula based on its timeline', async (test) => {
-	const typeId = await test.context.worker.executeAction(test.context.session, {
+	const type = await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-create-card',
 		targetId: test.context.ids.type,
 		actorId: test.context.actor.id
@@ -675,7 +667,7 @@ ava.test('AGGREGATE($events): should be able to add a type with a formula based 
 	const admin = await test.context.jellyfish.getCardBySlug(test.context.session, 'user-admin')
 	const thread = await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-create-card',
-		targetId: typeId,
+		targetId: type.id,
 		actorId: test.context.actor.id
 	}, {
 		properties: {
@@ -693,7 +685,7 @@ ava.test('AGGREGATE($events): should be able to add a type with a formula based 
 		properties: {
 			data: {
 				timestamp: '2018-05-05T00:21:02.459Z',
-				target: thread,
+				target: thread.id,
 				actor: admin,
 				payload: {
 					mentions: [ 'johndoe' ]
@@ -710,7 +702,7 @@ ava.test('AGGREGATE($events): should be able to add a type with a formula based 
 		properties: {
 			data: {
 				timestamp: '2018-05-05T00:28:42.302Z',
-				target: thread,
+				target: thread.id,
 				actor: admin,
 				payload: {
 					mentions: [ 'janedoe', 'johnsmith' ]
@@ -720,12 +712,12 @@ ava.test('AGGREGATE($events): should be able to add a type with a formula based 
 	})
 
 	await test.context.flushRequests()
-	const card = await test.context.jellyfish.getCardById(test.context.session, thread)
+	const card = await test.context.jellyfish.getCardById(test.context.session, thread.id)
 	test.deepEqual(card.data.mentions, [ 'johndoe', 'janedoe', 'johnsmith' ])
 })
 
 ava.test('AGGREGATE($events): should create a property on the target if it does not exist', async (test) => {
-	const typeId = await test.context.worker.executeAction(test.context.session, {
+	const type = await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-create-card',
 		targetId: test.context.ids.type,
 		actorId: test.context.actor.id
@@ -761,7 +753,7 @@ ava.test('AGGREGATE($events): should create a property on the target if it does 
 	const admin = await test.context.jellyfish.getCardBySlug(test.context.session, 'user-admin')
 	const thread = await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-create-card',
-		targetId: typeId,
+		targetId: type.id,
 		actorId: test.context.actor.id
 	}, {
 		properties: {
@@ -777,7 +769,7 @@ ava.test('AGGREGATE($events): should create a property on the target if it does 
 		properties: {
 			data: {
 				timestamp: '2018-05-05T00:21:02.459Z',
-				target: thread,
+				target: thread.id,
 				actor: admin,
 				payload: {
 					mentions: [ 'johndoe' ]
@@ -787,7 +779,7 @@ ava.test('AGGREGATE($events): should create a property on the target if it does 
 	})
 
 	await test.context.flushRequests()
-	const card = await test.context.jellyfish.getCardById(test.context.session, thread)
+	const card = await test.context.jellyfish.getCardById(test.context.session, thread.id)
 	test.deepEqual(card.data.mentions, [ 'johndoe' ])
 })
 
