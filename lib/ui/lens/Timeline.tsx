@@ -5,6 +5,8 @@ import * as React from 'react';
 import {
 	Box,
 	Flex,
+	Theme,
+	Txt,
 } from 'rendition';
 import styled from 'styled-components';
 import uuid = require('uuid/v4');
@@ -27,6 +29,7 @@ interface RendererState {
 	tail: null | Card[];
 	newMessage: string;
 	showNewCardModal: boolean;
+	messagesOnly: boolean;
 }
 
 interface DefaultRendererProps extends RendererProps, ConnectedComponentProps {
@@ -52,6 +55,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 			tail: this.props.tail ? this.sortTail(this.props.tail) : null,
 			newMessage: '',
 			showNewCardModal: false,
+			messagesOnly: true,
 		};
 	}
 
@@ -192,6 +196,10 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		}
 	}
 
+	public handleCheckboxToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
+		this.setState({ messagesOnly: !e.target.checked });
+	}
+
 	public render() {
 		const { head } = this.props.channel.data;
 		const { tail } = this.state;
@@ -199,26 +207,47 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 
 		return (
 			<Column flexDirection="column">
+				<Flex m={2} justify="flex-end">
+					<label>
+						<input
+							style={{marginTop: 2}}
+							type="checkbox"
+							checked={!this.state.messagesOnly}
+							onChange={this.handleCheckboxToggle}
+						/>
+						<Txt.span color={Theme.colors.text.light} ml={2}>Show additional info</Txt.span>
+					</label>
+				</Flex>
+
 				<div
 					ref={(ref) => this.scrollArea = ref}
 					style={{
 						flex: 1,
-						padding: 16,
+						paddingLeft: 16,
+						paddingRight: 16,
+						paddingBottom: 16,
 						overflowY: 'auto',
 					}}
 				>
 					{!tail && <Icon name="cog fa-spin" />}
 
-					{(!!tail && tail.length > 0) && _.map(tail, card =>
-						<Box key={card.id} py={2} style={{borderBottom: '1px solid #eee'}}>
-							<EventCard
-								users={this.props.appState.allUsers}
-								openChannel={
-									card.data && card.data.target !== channelTarget ? this.openChannel : undefined
-								}
-								card={card}
-							/>
-						</Box>)}
+					{(!!tail && tail.length > 0) && _.map(tail, card => {
+						if (this.state.messagesOnly && card.type !== 'message') {
+							return null;
+						}
+
+						return (
+							<Box key={card.id} py={2} style={{borderBottom: '1px solid #eee'}}>
+								<EventCard
+									users={this.props.appState.allUsers}
+									openChannel={
+										card.data && card.data.target !== channelTarget ? this.openChannel : undefined
+									}
+									card={card}
+								/>
+							</Box>
+						);
+					})}
 				</div>
 
 				{head && head.type !== 'view' &&
