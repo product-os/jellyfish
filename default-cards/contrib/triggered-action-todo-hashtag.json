@@ -1,0 +1,38 @@
+{
+  "slug": "triggered-action-todo-hashtag",
+  "type": "triggered-action",
+  "tags": [],
+  "links": [],
+  "active": true,
+  "data": {
+    "filter": {
+      "type": "object",
+      "required": [ "type", "data" ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "message"
+        },
+        "data": {
+          "type": "object",
+          "required": [ "payload" ],
+          "properties": {
+            "payload": {
+              "type": "object",
+              "required": [ "message" ],
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "pattern": "#todo"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "action": "action-create-todo-from-message",
+    "target": "{source.id}",
+    "arguments": {}
+  }
+}

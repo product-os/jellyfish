@@ -1,0 +1,22 @@
+{
+  "slug": "action-create-todo-from-message",
+  "type": "action",
+  "name": "Create a TODO from a message",
+  "tags": [],
+  "links": [],
+  "active": true,
+  "data": {
+    "filter": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "message"
+        }
+      },
+      "required": [ "type" ]
+    },
+    "arguments": {},
+    "options": {}
+  }
+}
