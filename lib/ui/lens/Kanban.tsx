@@ -177,7 +177,9 @@ class Kanban extends React.Component<KanbanProps, KanbanState> {
 		return (
 			<Flex flexDirection="column" style={{height: '100%', position: 'relative'}}>
 				<Board
-					style={{padding: '0 16px', margin: '0 -5px'}}
+					style={{
+						padding: '0 12px',
+					}}
 					data={data}
 					draggable={true}
 					handleDragEnd={this.handleDragEnd}

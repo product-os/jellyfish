@@ -431,7 +431,15 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 				</If>
 
 				<Flex style={{height: '100%', minHeight: 0}}>
-					<Flex flex="1" flexDirection="column" style={{height: '100%', borderRight: '1px solid #ccc'}}>
+					<Flex
+						flex="1"
+						flexDirection="column"
+						style={{
+							height: '100%',
+							borderRight: '1px solid #ccc',
+							maxWidth: '100%',
+						}}
+					>
 						<If condition={!tail}>
 							<Box p={3}>
 								<Icon name="cog fa-spin" />
