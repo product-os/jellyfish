@@ -6,6 +6,8 @@ import {
 	Box,
 	Button,
 	Flex,
+	Theme,
+	Txt,
 } from 'rendition';
 import styled from 'styled-components';
 import { Card, Lens, RendererProps } from '../../Types';
@@ -21,10 +23,21 @@ const Column = styled(Flex)`
 	min-width: 350px;
 `;
 
+const NONE_MESSAGE_TIMELINE_TYPES = [
+	'create',
+	'event',
+	'update',
+];
+
+const isHiddenEventType = (type: string) => {
+	return _.includes(NONE_MESSAGE_TIMELINE_TYPES, type);
+};
+
 interface RendererState {
 	tail: null | Card[];
 	newMessage: string;
 	showNewCardModal: boolean;
+	messagesOnly: boolean;
 }
 
 interface DefaultRendererProps extends RendererProps, ConnectedComponentProps {
@@ -44,6 +57,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 			tail: null,
 			newMessage: '',
 			showNewCardModal: false,
+			messagesOnly: true,
 		};
 
 		this.setupStream(this.props.tail || []);
@@ -155,6 +169,9 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 			});
 	}
 
+	public handleCheckboxToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
+		this.setState({ messagesOnly: !e.target.checked });
+	}
 
 	public render() {
 		const { head } = this.props.channel.data;
@@ -171,25 +188,45 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 
 		return (
 			<Column flexDirection="column">
+				<Flex m={2} justify="flex-end">
+					<label>
+						<input
+							style={{marginTop: 2}}
+							type="checkbox"
+							checked={!this.state.messagesOnly}
+							onChange={this.handleCheckboxToggle}
+						/>
+						<Txt.span color={Theme.colors.text.light} ml={2}>Show additional info</Txt.span>
+				</label>
+				</Flex>
+
 				<div
 					ref={(ref) => this.scrollArea = ref}
 					style={{
 						flex: 1,
-						padding: 16,
+						paddingLeft: 16,
+						paddingRight: 16,
+						paddingBottom: 16,
 						overflowY: 'auto',
 					}}
 				>
-					{(!!tail && tail.length > 0) && _.map(tail, card =>
-						<Box key={card.id} py={2} style={{borderBottom: '1px solid #eee'}}>
-							<EventCard
-								users={this.props.appState.allUsers}
-								openChannel={
-									card.data && card.data.target !== channelTarget ? this.openChannel : undefined
-								}
-								card={card}
-							/>
-						</Box>,
-					)}
+					{(!!tail && tail.length > 0) && _.map(tail, card => {
+						if (this.state.messagesOnly && isHiddenEventType(card.type)) {
+							return null;
+						}
+
+						return (
+							<Box key={card.id} py={2} style={{borderBottom: '1px solid #eee'}}>
+								<EventCard
+									users={this.props.appState.allUsers}
+									openChannel={
+										card.data && card.data.target !== channelTarget ? this.openChannel : undefined
+									}
+									card={card}
+								/>
+							</Box>
+						);
+					})}
 				</div>
 
 				{head && head.slug !== 'view-my-alerts' && head.slug !== 'view-my-mentions' &&

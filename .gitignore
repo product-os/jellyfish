@@ -61,6 +61,7 @@ jspm_packages/
 # UI build files
 dist/
 .cache-loader/
+webpack-bundle-report.html
 
 
 # End of https://www.gitignore.io/api/node
