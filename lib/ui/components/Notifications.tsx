@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import * as React from 'react';
 import {
 	Alert,
@@ -14,7 +15,7 @@ const MessageText = styled.span`
 interface JellyfishAlertProps {
 	type: string;
 	id: string;
-	message: string;
+	message: any;
 	onDismiss: (id: string) => void;
 }
 
@@ -36,7 +37,7 @@ class JellyFishAlert extends React.Component<JellyfishAlertProps, {}> {
 				data-id={id}
 				onDismiss={this.dismiss}
 			>
-				<MessageText>{message}</MessageText>
+				<MessageText>{_.isString(message) ? message : JSON.stringify(message)}</MessageText>
 			</Alert>
 		);
 	}
