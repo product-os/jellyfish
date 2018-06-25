@@ -24,7 +24,8 @@
               "$formula": "AGGREGATE($events, 'data.payload.alertsUser')"
             },
             "Description": {
-              "type": "string"
+              "type": "string",
+              "format": "markdown"
             },
             "Link": {
               "type": "string"
