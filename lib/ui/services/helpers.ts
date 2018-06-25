@@ -1,8 +1,8 @@
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import * as moment from 'moment';
+import * as skhema from 'skhema';
 import uuid = require('uuid/v4');
-import * as jsonSchema from '../../core/json-schema';
 import { Card, Channel } from '../../Types';
 
 const PURPLE = '#8268c5';
@@ -133,7 +133,7 @@ export const getViewSchema = (card: Card) => {
 		});
 	}
 
-	return jsonSchema.merge(conjunctions);
+	return skhema.merge(conjunctions);
 };
 
 /**
