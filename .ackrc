@@ -4,3 +4,4 @@
 --ignore-dir=coverage
 --ignore-dir=dist
 --ignore-dir=.cache-loader
+--ignore-file=is:webpack-bundle-report.html
