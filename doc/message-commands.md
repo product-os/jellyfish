@@ -31,7 +31,8 @@ In the example:
 
 A direct command must always beign with a forward slash (`/`).
 
-Direct commands also form the basic pattern of a CLI.
+Direct commands also form the basic pattern of a CLI, when a direct command is
+performed you are essentially interacting with the CLI.
 
 ## Interpreted commands
 
