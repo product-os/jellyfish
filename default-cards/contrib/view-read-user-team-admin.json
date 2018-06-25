@@ -209,6 +209,7 @@
             "data": {
               "type": "object",
               "required": [ "email", "roles" ],
+              "additionalProperties": false,
               "properties": {
                 "email": {
                   "type": "string"
