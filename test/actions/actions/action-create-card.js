@@ -367,6 +367,208 @@ ava.test('AGGREGATE($events): should react to one event', async (test) => {
 	test.deepEqual(card.data.mentions, [ 'johndoe' ])
 })
 
+ava.test('AGGREGATE($events): should add one triggered action if instantiating the type multiple times', async (test) => {
+	const typeProperties = {
+		slug: 'test-thread',
+		data: {
+			schema: {
+				type: 'object',
+				properties: {
+					type: {
+						type: 'string',
+						const: 'test-thread'
+					},
+					data: {
+						type: 'object',
+						properties: {
+							mentions: {
+								type: 'array',
+								$formula: 'AGGREGATE($events, "data.payload.mentions")'
+							}
+						},
+						additionalProperties: true
+					}
+				},
+				additionalProperties: true,
+				required: [ 'type', 'data' ]
+			}
+		}
+	}
+
+	const typeId = await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-create-card',
+		targetId: test.context.ids.type,
+		actorId: test.context.actor.id
+	}, {
+		properties: typeProperties
+	})
+
+	await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-create-card',
+		targetId: typeId,
+		actorId: test.context.actor.id
+	}, {
+		properties: {
+			data: {
+				mentions: []
+			}
+		}
+	})
+
+	await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-create-card',
+		targetId: typeId,
+		actorId: test.context.actor.id
+	}, {
+		properties: {
+			data: {
+				mentions: []
+			}
+		}
+	})
+
+	await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-create-card',
+		targetId: typeId,
+		actorId: test.context.actor.id
+	}, {
+		properties: {
+			data: {
+				mentions: []
+			}
+		}
+	})
+
+	const triggeredActions = await test.context.jellyfish.query(test.context.session, {
+		type: 'object',
+		required: [ 'active', 'type' ],
+		additionalProperties: true,
+		properties: {
+			active: {
+				type: 'boolean',
+				const: true
+			},
+			type: {
+				type: 'string',
+				const: 'triggered-action'
+			}
+		}
+	})
+
+	test.is(triggeredActions.length, 1)
+})
+
+ava.test('AGGREGATE($events): should consider updates to the type', async (test) => {
+	const typeId = await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-create-card',
+		targetId: test.context.ids.type,
+		actorId: test.context.actor.id
+	}, {
+		properties: {
+			slug: 'test-thread',
+			data: {
+				schema: {
+					type: 'object',
+					properties: {
+						type: {
+							type: 'string',
+							const: 'test-thread'
+						},
+						data: {
+							type: 'object',
+							properties: {
+								mentions: {
+									type: 'array',
+									$formula: 'AGGREGATE($events, "data.payload.mentions")'
+								}
+							},
+							additionalProperties: true
+						}
+					},
+					additionalProperties: true,
+					required: [ 'type', 'data' ]
+				}
+			}
+		}
+	})
+
+	await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-create-card',
+		targetId: typeId,
+		actorId: test.context.actor.id
+	}, {
+		properties: {
+			data: {
+				mentions: []
+			}
+		}
+	})
+
+	const newTypeId = await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-update-card',
+		targetId: typeId,
+		actorId: test.context.actor.id
+	}, {
+		properties: {
+			data: {
+				schema: {
+					type: 'object',
+					properties: {
+						type: {
+							type: 'string',
+							const: 'test-thread'
+						},
+						data: {
+							type: 'object',
+							properties: {
+								mentions: {
+									type: 'array',
+									$formula: 'AGGREGATE($events, "data.payload.newMentions")'
+								}
+							},
+							additionalProperties: true
+						}
+					},
+					additionalProperties: true,
+					required: [ 'type', 'data' ]
+				}
+			}
+		}
+	})
+
+	test.is(typeId, newTypeId)
+
+	await test.context.worker.executeAction(test.context.session, {
+		actionId: 'action-create-card',
+		targetId: typeId,
+		actorId: test.context.actor.id
+	}, {
+		properties: {
+			data: {
+				mentions: []
+			}
+		}
+	})
+
+	const triggeredActions = await test.context.jellyfish.query(test.context.session, {
+		type: 'object',
+		required: [ 'active', 'type' ],
+		additionalProperties: true,
+		properties: {
+			active: {
+				type: 'boolean',
+				const: true
+			},
+			type: {
+				type: 'string',
+				const: 'triggered-action'
+			}
+		}
+	})
+
+	test.is(triggeredActions.length, 1)
+})
+
 ava.test('AGGREGATE($events): should work with $$ prefixed properties', async (test) => {
 	const typeId = await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-create-card',
