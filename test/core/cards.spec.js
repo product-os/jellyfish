@@ -18,7 +18,7 @@ const _ = require('lodash')
 const ava = require('ava')
 const path = require('path')
 const fs = require('fs')
-const jsonSchema = require('../../lib/core/json-schema')
+const skhema = require('skhema')
 const CARDS = require('../../lib/core/cards')
 const helpers = require('./helpers')
 
@@ -26,11 +26,11 @@ ava.test.beforeEach(helpers.kernel.beforeEach)
 ava.test.afterEach(helpers.kernel.afterEach)
 
 const isCardMacro = async (test, type, card, expected) => {
-	test.deepEqual(jsonSchema.isValid(type.data.schema, card), expected)
+	test.deepEqual(skhema.isValid(type.data.schema, card), expected)
 }
 
 isCardMacro.title = (title, type, card, expected) => {
-	return `(${title}) jsonSchema.valid() should return ${expected} using type ${type.slug}`
+	return `(${title}) skhema.valid() should return ${expected} using type ${type.slug}`
 }
 
 _.each(_.map(fs.readdirSync(path.join(__dirname, 'cards')), (file) => {
