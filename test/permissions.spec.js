@@ -279,3 +279,57 @@ ava.test.serial('users with the "user-team" role should not be able to change ot
 		}
 	))
 })
+
+ava.test.serial('AGGREGATE($events): should work when creating cards via the SDK', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	// Create a new user
+	const userId = await sdk.auth.signup({
+		username: 'johndoe',
+		email: 'johndoe@example.com',
+		password: 'foobarbaz'
+	})
+
+	// Sign in as the admin
+	await sdk.setAuthToken(test.context.session)
+
+	// Update the user's permissions
+	await sdk.card.update(userId, {
+		data: {
+			roles: [ 'user-team' ]
+		}
+	})
+
+	// Login as the new user
+	await sdk.auth.login({
+		username: 'johndoe',
+		password: 'foobarbaz'
+	})
+
+	// Create a new thread element
+	const threadId = await sdk.card.create({
+		type: 'thread',
+		name: 'test-thread',
+		data: {}
+	})
+
+	// Add a message to the thread element
+	await sdk.card.create({
+		type: 'message',
+		data: {
+			timestamp: '2018-05-05T00:21:02.459Z',
+			target: threadId,
+			actor: userId,
+			payload: {
+				message: 'lorem ipsum dolor sit amet',
+				mentionsUser: [ 'johndoe' ]
+			}
+		}
+	})
+
+	const card = await sdk.card.get(threadId)
+
+	test.deepEqual(card.data.mentionsUser, [ 'johndoe' ])
+})
