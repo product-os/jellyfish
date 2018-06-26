@@ -388,7 +388,8 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 									</ButtonGroup>
 								</If>
 								<If condition={groups.length > 0}>
-									<Box ml={2} color={lensSupportsGroups ? undefined : '#ccc'}>
+									<Box ml={3} color={lensSupportsGroups ? undefined : '#ccc'}>
+										Group by:
 										<Select
 											ml={2}
 											disabled={!lensSupportsGroups}
@@ -401,7 +402,7 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 														key={group.slug}
 														value={group.slug}
 													>
-														Group by: {group.name}
+														{group.name}
 													</option>
 												);
 											})}
