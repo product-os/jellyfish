@@ -25,7 +25,7 @@ ava.test('should create a user', async (test) => {
 		}
 	}).value
 
-	const id = await test.context.worker.executeAction(test.context.session, {
+	const result = await test.context.worker.executeAction(test.context.session, {
 		actionId: 'action-create-user',
 		targetId: test.context.ids.user,
 		actorId: test.context.actor.id
@@ -35,10 +35,8 @@ ava.test('should create a user', async (test) => {
 		hash
 	})
 
-	const card = await test.context.jellyfish.getCardById(test.context.session, id)
-
-	test.deepEqual(card, {
-		id,
+	test.deepEqual(result, {
+		id: result.id,
 		slug: 'user-johndoe',
 		type: 'user',
 		active: true,

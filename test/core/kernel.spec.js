@@ -67,7 +67,7 @@ ava.test('.insertCard() should throw an error if the card type does not exist', 
 })
 
 ava.test('.insertCard() should be able to insert a card', async (test) => {
-	const id = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const card = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'hello-world',
 		type: 'card',
 		active: true,
@@ -78,19 +78,8 @@ ava.test('.insertCard() should be able to insert a card', async (test) => {
 		}
 	})
 
-	const element = await test.context.kernel.getCardById(test.context.kernel.sessions.admin, id)
-
-	test.deepEqual(element, {
-		id,
-		slug: 'hello-world',
-		type: 'card',
-		active: true,
-		links: [],
-		tags: [],
-		data: {
-			foo: 'bar'
-		}
-	})
+	const element = await test.context.kernel.getCardById(test.context.kernel.sessions.admin, card.id)
+	test.deepEqual(element, card)
 })
 
 ava.test('.insertCard() should throw if the card already exists', async (test) => {
@@ -111,7 +100,7 @@ ava.test('.insertCard() should throw if the card already exists', async (test) =
 })
 
 ava.test('.insertCard() should replace an element given override is true', async (test) => {
-	const id1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'foo-bar',
 		type: 'card',
 		active: true,
@@ -120,7 +109,7 @@ ava.test('.insertCard() should replace an element given override is true', async
 		data: {}
 	})
 
-	const id2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'foo-bar',
 		type: 'card',
 		active: true,
@@ -131,19 +120,9 @@ ava.test('.insertCard() should replace an element given override is true', async
 		override: true
 	})
 
-	test.is(id1, id2)
-
-	const element = await test.context.kernel.getCardById(test.context.kernel.sessions.admin, id1)
-
-	test.deepEqual(element, {
-		id: id1,
-		slug: 'foo-bar',
-		type: 'card',
-		active: true,
-		links: [],
-		tags: [],
-		data: {}
-	})
+	test.is(card1.id, card2.id)
+	const element = await test.context.kernel.getCardById(test.context.kernel.sessions.admin, card1.id)
+	test.deepEqual(element, card2)
 })
 
 ava.test('.insertCard() should insert action requests on a different bucket', async (test) => {
@@ -164,10 +143,10 @@ ava.test('.insertCard() should insert action requests on a different bucket', as
 		}
 	}
 
-	const id = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, request)
-	test.deepEqual(await test.context.backend.getElementById(test.context.buckets.cards, id), null)
-	test.deepEqual(await test.context.backend.getElementById(test.context.buckets.requests, id), Object.assign({
-		id
+	const card = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, request)
+	test.deepEqual(await test.context.backend.getElementById(test.context.buckets.cards, card.id), null)
+	test.deepEqual(await test.context.backend.getElementById(test.context.buckets.requests, card.id), Object.assign({
+		id: card.id
 	}, request))
 })
 
@@ -233,7 +212,7 @@ ava.test('.insertCard() read access on a property should not allow to write othe
 		}
 	})
 
-	const userId = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const userCard = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'user-johndoe',
 		type: 'user',
 		active: true,
@@ -245,7 +224,7 @@ ava.test('.insertCard() read access on a property should not allow to write othe
 		}
 	})
 
-	const targetUserId = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const targetUserCard = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'user-janedoe',
 		type: 'user',
 		active: true,
@@ -263,12 +242,12 @@ ava.test('.insertCard() read access on a property should not allow to write othe
 		links: [],
 		tags: [],
 		data: {
-			actor: userId
+			actor: userCard.id
 		}
 	})
 
-	await test.throws(test.context.kernel.insertCard(session, {
-		id: targetUserId,
+	await test.throws(test.context.kernel.insertCard(session.id, {
+		id: targetUserCard.id,
 		slug: 'user-janedoe',
 		type: 'user',
 		active: true,
@@ -361,7 +340,7 @@ ava.test('.insertCard() should restrict the visibility of the user using write r
 		}
 	})
 
-	const userId = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const userCard = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'user-johndoe',
 		type: 'user',
 		active: true,
@@ -379,20 +358,20 @@ ava.test('.insertCard() should restrict the visibility of the user using write r
 		links: [],
 		tags: [],
 		data: {
-			actor: userId
+			actor: userCard.id
 		}
 	})
 
-	const readUserType = await test.context.kernel.getCardBySlug(session, 'user')
+	const readUserType = await test.context.kernel.getCardBySlug(session.id, 'user')
 	test.is(readUserType.slug, 'user')
 
-	const writeUserType = await test.context.kernel.getCardBySlug(session, 'user', {
+	const writeUserType = await test.context.kernel.getCardBySlug(session.id, 'user', {
 		writeMode: true
 	})
 
 	test.deepEqual(writeUserType, null)
 
-	await test.throws(test.context.kernel.insertCard(session, {
+	await test.throws(test.context.kernel.insertCard(session.id, {
 		slug: 'user-janedoe',
 		type: 'user',
 		active: true,
@@ -413,7 +392,7 @@ ava.test('.getCardBySlug() there should be an admin card', async (test) => {
 })
 
 ava.test('.getCardById() should find an active card by its id', async (test) => {
-	const id = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const result = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'foo-bar',
 		type: 'card',
 		active: true,
@@ -422,21 +401,12 @@ ava.test('.getCardById() should find an active card by its id', async (test) => 
 		data: {}
 	})
 
-	const card = await test.context.kernel.getCardById(test.context.kernel.sessions.admin, id)
-
-	test.deepEqual(card, {
-		id,
-		slug: 'foo-bar',
-		type: 'card',
-		active: true,
-		links: [],
-		tags: [],
-		data: {}
-	})
+	const card = await test.context.kernel.getCardById(test.context.kernel.sessions.admin, result.id)
+	test.deepEqual(card, result)
 })
 
 ava.test('.getCardById() should find an active card by its id and type', async (test) => {
-	const id = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const result = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'foo-bar',
 		type: 'card',
 		active: true,
@@ -445,23 +415,15 @@ ava.test('.getCardById() should find an active card by its id and type', async (
 		data: {}
 	})
 
-	const card = await test.context.kernel.getCardById(test.context.kernel.sessions.admin, id, {
+	const card = await test.context.kernel.getCardById(test.context.kernel.sessions.admin, result.id, {
 		type: 'card'
 	})
 
-	test.deepEqual(card, {
-		id,
-		slug: 'foo-bar',
-		type: 'card',
-		active: true,
-		links: [],
-		tags: [],
-		data: {}
-	})
+	test.deepEqual(card, result)
 })
 
 ava.test('.getCardById() should not find an active card by its id but an invalid type', async (test) => {
-	const id = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const result = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'foo-bar',
 		type: 'card',
 		active: true,
@@ -470,7 +432,7 @@ ava.test('.getCardById() should not find an active card by its id but an invalid
 		data: {}
 	})
 
-	const card = await test.context.kernel.getCardById(test.context.kernel.sessions.admin, id, {
+	const card = await test.context.kernel.getCardById(test.context.kernel.sessions.admin, result.id, {
 		type: 'session'
 	})
 
@@ -478,7 +440,7 @@ ava.test('.getCardById() should not find an active card by its id but an invalid
 })
 
 ava.test('.getCardBySlug() should find an active card by its slug', async (test) => {
-	const id = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const result = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'foo-bar',
 		type: 'card',
 		active: true,
@@ -488,20 +450,11 @@ ava.test('.getCardBySlug() should find an active card by its slug', async (test)
 	})
 
 	const card = await test.context.kernel.getCardBySlug(test.context.kernel.sessions.admin, 'foo-bar')
-
-	test.deepEqual(card, {
-		id,
-		slug: 'foo-bar',
-		type: 'card',
-		active: true,
-		links: [],
-		tags: [],
-		data: {}
-	})
+	test.deepEqual(card, result)
 })
 
 ava.test('.getCardBySlug() should find an active card by its slug and its type', async (test) => {
-	const id = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const result = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'foo-bar',
 		type: 'card',
 		active: true,
@@ -514,15 +467,7 @@ ava.test('.getCardBySlug() should find an active card by its slug and its type',
 		type: 'card'
 	})
 
-	test.deepEqual(card, {
-		id,
-		slug: 'foo-bar',
-		type: 'card',
-		active: true,
-		links: [],
-		tags: [],
-		data: {}
-	})
+	test.deepEqual(card, result)
 })
 
 ava.test('.getCardBySlug() should not find an active card by its slug but an invalid type', async (test) => {
@@ -543,7 +488,7 @@ ava.test('.getCardBySlug() should not find an active card by its slug but an inv
 })
 
 ava.test('.getCardById() should return an inactive card by its id', async (test) => {
-	const id = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const result = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'foo-bar',
 		type: 'card',
 		active: false,
@@ -552,21 +497,12 @@ ava.test('.getCardById() should return an inactive card by its id', async (test)
 		data: {}
 	})
 
-	const card = await test.context.kernel.getCardById(test.context.kernel.sessions.admin, id)
-
-	test.deepEqual(card, {
-		id,
-		slug: 'foo-bar',
-		type: 'card',
-		active: false,
-		links: [],
-		tags: [],
-		data: {}
-	})
+	const card = await test.context.kernel.getCardById(test.context.kernel.sessions.admin, result.id)
+	test.deepEqual(card, result)
 })
 
 ava.test('.query() should return the cards that match a schema', async (test) => {
-	const id1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const result1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'johndoe',
 		type: 'card',
 		active: true,
@@ -616,7 +552,7 @@ ava.test('.query() should return the cards that match a schema', async (test) =>
 
 	test.deepEqual(results, [
 		{
-			id: id1,
+			id: result1.id,
 			slug: 'johndoe',
 			type: 'card',
 			data: {
@@ -645,7 +581,7 @@ ava.test('.query() should take roles into account', async (test) => {
 		tags: [],
 		active: true,
 		data: {
-			actor
+			actor: actor.id
 		}
 	})
 
@@ -684,7 +620,7 @@ ava.test('.query() should take roles into account', async (test) => {
 		}
 	})
 
-	const results = await test.context.kernel.query(session, {
+	const results = await test.context.kernel.query(session.id, {
 		type: 'object',
 		required: [ 'type', 'slug', 'active', 'data' ],
 		properties: {
@@ -728,7 +664,7 @@ ava.test('.query() should ignore queries to properties not whitelisted by a role
 		tags: [],
 		active: true,
 		data: {
-			actor
+			actor: actor.id
 		}
 	})
 
@@ -760,7 +696,7 @@ ava.test('.query() should ignore queries to properties not whitelisted by a role
 		}
 	})
 
-	const results = await test.context.kernel.query(session, {
+	const results = await test.context.kernel.query(session.id, {
 		type: 'object',
 		properties: {
 			id: {
@@ -803,7 +739,7 @@ ava.test('.query() should ignore queries to disallowed properties with additiona
 		tags: [],
 		active: true,
 		data: {
-			actor
+			actor: actor.id
 		}
 	})
 
@@ -835,7 +771,7 @@ ava.test('.query() should ignore queries to disallowed properties with additiona
 		}
 	})
 
-	const results = await test.context.kernel.query(session, {
+	const results = await test.context.kernel.query(session.id, {
 		type: 'object',
 		additionalProperties: true,
 		properties: {
@@ -952,7 +888,7 @@ ava.test('.query() should return all action request cards', async (test) => {
 })
 
 ava.test('.query() should be able to return both action requests and other cards', async (test) => {
-	const id1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const result1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'action-request',
 		active: true,
 		links: [],
@@ -969,7 +905,7 @@ ava.test('.query() should be able to return both action requests and other cards
 		}
 	})
 
-	const id2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const result2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
 		active: true,
 		links: [],
@@ -999,7 +935,7 @@ ava.test('.query() should be able to return both action requests and other cards
 		required: [ 'id', 'data' ]
 	})
 
-	test.deepEqual(_.orderBy(_.map(results, 'id')), _.orderBy([ id1, id2 ]))
+	test.deepEqual(_.orderBy(_.map(results, 'id')), _.orderBy([ result1.id, result2.id ]))
 })
 
 ava.test('.query() should return inactive cards', async (test) => {
