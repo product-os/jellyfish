@@ -187,7 +187,7 @@ ava.test.serial('should allow newly signed up users to create new chat threads',
 
 	app.find('.btn--add-thread').first().simulate('click')
 
-	await waitForElement(app, '.column--thread', 120 * 1000)
+	await waitForElement(app, '.column--thread', 240 * 1000)
 
 	test.true(app.find('.column--thread').exists())
 })
