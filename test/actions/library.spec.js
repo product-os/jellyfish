@@ -86,7 +86,7 @@ ava.test.beforeEach(async (test) => {
 			throw new Error('Could not flush requests')
 		}
 
-		const requests = await test.context.worker.getPendingRequests(test.context.session)
+		const requests = await test.context.worker.getPendingRequests()
 		if (requests.length === 0) {
 			return
 		}
