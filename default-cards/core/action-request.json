@@ -26,7 +26,7 @@
             },
             "target": {
               "type": "string",
-              "format": "uuid"
+              "pattern": "^[a-z0-9-]+$"
             },
             "timestamp": {
               "type": "string",
