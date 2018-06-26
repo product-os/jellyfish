@@ -163,8 +163,8 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 				target: this.props.channel.data.target,
 				actor: this.props.appState.session!.user!.id,
 				payload: {
-					mentionsUser: mentions,
-					alertsUser: alerts,
+					$$mentionsUser: mentions,
+					$$alertsUser: alerts,
 					message: newMessage,
 				},
 			},

@@ -19,13 +19,13 @@
         "data": {
           "type": "object",
           "properties": {
-            "mentionsUser": {
+            "$$mentionsUser": {
               "type": "array",
-              "$formula": "AGGREGATE($events, 'data.payload.mentionsUser')"
+              "$formula": "AGGREGATE($events, 'data.payload.$$mentionsUser')"
             },
-            "alertsUser": {
+            "$$alertsUser": {
               "type": "array",
-              "$formula": "AGGREGATE($events, 'data.payload.alertsUser')"
+              "$formula": "AGGREGATE($events, 'data.payload.$$alertsUser')"
             },
             "description": {
               "type": "string"

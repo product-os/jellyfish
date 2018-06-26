@@ -49,11 +49,7 @@ const CardField = ({ field, payload, users, schema }: {
 	if (value === undefined) {
 		return null;
 	}
-	// If the field starts with '$$' it is metaData and shouldn't be displayed
-	if (_.startsWith(field, '$$')) {
-		return null;
-	}
-	if (field === 'alertsUser' || field === 'mentionsUser') {
+	if (field === '$$alertsUser' || field === '$$mentionsUser') {
 		const len = value.length;
 		if (!len || !users) {
 			return null;
@@ -64,9 +60,13 @@ const CardField = ({ field, payload, users, schema }: {
 				tooltip={names.join(', ')}
 				my={1}
 			>
-				{field === 'alertsUser' ? 'Alerts' : 'Mentions'} {len} user{len !== 1 && 's'}
+				{field === '$$alertsUser' ? 'Alerts' : 'Mentions'} {len} user{len !== 1 && 's'}
 			</Badge>
 		);
+	}
+	// If the field starts with '$$' it is metaData and shouldn't be displayed
+	if (_.startsWith(field, '$$')) {
+		return null;
 	}
 	if (field === 'actor') {
 		return <Txt my={3} bold>{findUsernameById(users, value)}</Txt>;
