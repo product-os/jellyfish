@@ -17,7 +17,7 @@ require('ts-node').register()
 
 const _ = require('lodash')
 const ava = require('ava')
-const utils = require('../../../lib/utils')
+const helpers = require('../helpers')
 
 ava.test('should create a card', async (test) => {
 	const result = await test.context.worker.executeAction(test.context.session, {
@@ -45,7 +45,7 @@ ava.test('should create a card', async (test) => {
 		}
 	})
 
-	const timeline = _.map(await utils.getTimeline(test.context.jellyfish, test.context.session, result.id), 'type')
+	const timeline = _.map(await helpers.getTimeline(test.context.jellyfish, test.context.session, result.id), 'type')
 	test.deepEqual(timeline, [ 'create' ])
 })
 
@@ -88,7 +88,7 @@ ava.test('should fail if the card already exists', async (test) => {
 		properties: card
 	}), test.context.jellyfish.errors.JellyfishElementAlreadyExists)
 
-	const timeline = _.map(await utils.getTimeline(test.context.jellyfish, test.context.session, result.id), 'type')
+	const timeline = _.map(await helpers.getTimeline(test.context.jellyfish, test.context.session, result.id), 'type')
 	test.deepEqual(timeline, [ 'create' ])
 })
 
@@ -176,7 +176,7 @@ ava.test('should create a card with more extra data properties', async (test) =>
 		}
 	})
 
-	const timeline = _.map(await utils.getTimeline(test.context.jellyfish, test.context.session, result.id), 'type')
+	const timeline = _.map(await helpers.getTimeline(test.context.jellyfish, test.context.session, result.id), 'type')
 	test.deepEqual(timeline, [ 'create' ])
 })
 

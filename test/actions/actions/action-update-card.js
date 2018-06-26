@@ -16,7 +16,7 @@
 
 const _ = require('lodash')
 const ava = require('ava')
-const utils = require('../../../lib/utils')
+const helpers = require('../helpers')
 
 ava.test('should replace an existing card and add an update event using a slug', async (test) => {
 	const result1 = await test.context.worker.executeAction(test.context.session, {
@@ -50,7 +50,7 @@ ava.test('should replace an existing card and add an update event using a slug',
 
 	test.deepEqual(card, result2)
 
-	const timeline = await utils.getTimeline(test.context.jellyfish, test.context.session, result1.id)
+	const timeline = await helpers.getTimeline(test.context.jellyfish, test.context.session, result1.id)
 	test.deepEqual(_.map(timeline, 'type'), [ 'create', 'update' ])
 
 	test.deepEqual(timeline[1].data.payload, {
@@ -95,7 +95,7 @@ ava.test('should replace an existing card and add an update event without using 
 
 	test.deepEqual(card, result2)
 
-	const timeline = await utils.getTimeline(test.context.jellyfish, test.context.session, result1.id)
+	const timeline = await helpers.getTimeline(test.context.jellyfish, test.context.session, result1.id)
 	test.deepEqual(_.map(timeline, 'type'), [ 'create', 'update' ])
 
 	test.deepEqual(timeline[1].data.payload, {
@@ -181,7 +181,7 @@ ava.test('should add an extra property to a card', async (test) => {
 
 	test.deepEqual(card, result2)
 
-	const timeline = await utils.getTimeline(test.context.jellyfish, test.context.session, result1.id)
+	const timeline = await helpers.getTimeline(test.context.jellyfish, test.context.session, result1.id)
 	test.deepEqual(_.map(timeline, 'type'), [ 'create', 'update' ])
 
 	test.deepEqual(timeline[1].data.payload, {

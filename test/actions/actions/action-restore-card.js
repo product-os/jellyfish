@@ -16,7 +16,7 @@
 
 const _ = require('lodash')
 const ava = require('ava')
-const utils = require('../../../lib/utils')
+const helpers = require('../helpers')
 
 ava.test('should restore an active card', async (test) => {
 	const result1 = await test.context.worker.executeAction(test.context.session, {
@@ -54,7 +54,7 @@ ava.test('should restore an active card', async (test) => {
 		}
 	})
 
-	const timeline = _.map(await utils.getTimeline(test.context.jellyfish, test.context.session, result1.id), 'type')
+	const timeline = _.map(await helpers.getTimeline(test.context.jellyfish, test.context.session, result1.id), 'type')
 	test.deepEqual(timeline, [ 'create' ])
 })
 
@@ -95,6 +95,6 @@ ava.test('should restore an inactive card', async (test) => {
 		}
 	})
 
-	const timeline = _.map(await utils.getTimeline(test.context.jellyfish, test.context.session, result1.id), 'type')
+	const timeline = _.map(await helpers.getTimeline(test.context.jellyfish, test.context.session, result1.id), 'type')
 	test.deepEqual(timeline, [ 'create', 'update' ])
 })
