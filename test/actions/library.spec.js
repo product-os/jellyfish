@@ -76,10 +76,6 @@ ava.test.beforeEach(async (test) => {
 	}
 
 	test.context.watcher = await test.context.worker.start()
-	await new Bluebird((resolve, reject) => {
-		test.context.watcher.once('started', resolve)
-		test.context.watcher.once('error', reject)
-	})
 
 	test.context.flushRequests = async (retries = 10) => {
 		if (retries === 0) {
