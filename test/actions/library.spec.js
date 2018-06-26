@@ -97,7 +97,7 @@ ava.test.beforeEach(async (test) => {
 })
 
 ava.test.afterEach(async (test) => {
-	await test.context.watcher.stop()
+	await test.context.worker.stop()
 	await test.context.jellyfish.disconnect()
 })
 
