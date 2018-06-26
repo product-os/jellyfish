@@ -178,7 +178,7 @@ export class CardSdk {
 	 * @param {Object} card - The card that should be created, must include
 	 * a 'type' attribute.
 	 *
-	 * @fulfil {String} - The id of the newly created card
+	 * @fulfil {Card} - The newly created card
 	 * @returns {Promise}
 	 *
 	 * @example
@@ -192,8 +192,8 @@ export class CardSdk {
 	 * 		console.log(id)
 	 * 	})
 	 */
-	public create(card: Partial<Card> & { type: string }): Bluebird<string> {
-		return this.sdk.action<string>({
+	public create(card: Partial<Card> & { type: string }): Bluebird<Card> {
+		return this.sdk.action<Card>({
 			target: card.type,
 			action: 'action-create-card',
 			arguments: {

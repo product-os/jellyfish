@@ -1,6 +1,6 @@
 {
   "name": "@resin.io/jellyfish-sdk",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "description": "The Jellyfish Javascript SDK",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

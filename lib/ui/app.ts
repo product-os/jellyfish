@@ -291,7 +291,7 @@ export const actionCreators = {
 	},
 	login: (payload: { username: string, password: string }): JellyThunk<null> => (dispatch) => {
 		return sdk.auth.login(payload)
-			.then((token) => dispatch(actionCreators.setAuthToken(token)))
+			.then((session) => dispatch(actionCreators.setAuthToken(session.id)))
 			.then(() => dispatch(actionCreators.bootstrap()))
 			.then(() => dispatch(actionCreators.setStatus('authorized')))
 			.then(() => null)

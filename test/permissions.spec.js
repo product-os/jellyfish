@@ -66,7 +66,7 @@ ava.test.serial('.query() should be able to see previously restricted cards afte
 		sdk
 	} = test.context
 
-	const userId = await sdk.auth.signup({
+	const user = await sdk.auth.signup({
 		username: 'johndoe',
 		email: 'johndoe@example.com',
 		password: 'foobarbaz'
@@ -91,7 +91,7 @@ ava.test.serial('.query() should be able to see previously restricted cards afte
 	test.deepEqual(unprivilegedResults, null)
 
 	await test.context.jellyfish.insertCard(test.context.session, {
-		id: userId,
+		id: user.id,
 		slug: 'user-johndoe',
 		type: 'user',
 		tags: [],
@@ -114,7 +114,7 @@ ava.test.serial('timeline cards should reference the correct actor', async (test
 		sdk
 	} = test.context
 
-	const userId = await sdk.auth.signup({
+	const user = await sdk.auth.signup({
 		username: 'johndoe',
 		email: 'johndoe@example.com',
 		password: 'foobarbaz'
@@ -125,24 +125,24 @@ ava.test.serial('timeline cards should reference the correct actor', async (test
 		password: 'foobarbaz'
 	})
 
-	const threadId = await sdk.card.create({
+	const thread = await sdk.card.create({
 		type: 'thread',
 		data: {}
 	})
 
-	await sdk.card.update(threadId, {
+	await sdk.card.update(thread.id, {
 		data: {
 			description: 'Lorem ipsum dolor sit amer'
 		}
 	})
 
-	const timeline = await sdk.card.getTimeline(threadId)
+	const timeline = await sdk.card.getTimeline(thread.id)
 
 	const timelineActors = _.uniq(timeline.map((card) => {
 		return card.data.actor
 	}))
 
-	test.deepEqual(timelineActors, [ userId ])
+	test.deepEqual(timelineActors, [ user.id ])
 })
 
 ava.test.serial('.query() community users should be able to query views', async (test) => {
@@ -178,14 +178,14 @@ ava.test.serial('the guest user should not be able to change other users passwor
 		sdk
 	} = test.context
 
-	const targetUserId = await sdk.auth.signup({
+	const targetUser = await sdk.auth.signup({
 		username: 'johndoe',
 		email: 'johndoe@example.com',
 		password: 'foobarbaz'
 	})
 
 	await test.throws(sdk.card.update(
-		targetUserId,
+		targetUser.id,
 		{
 			data: {
 				password: {
@@ -201,7 +201,7 @@ ava.test.serial('users with the "user-community" role should not be able to chan
 		sdk
 	} = test.context
 
-	const targetUserId = await sdk.auth.signup({
+	const targetUser = await sdk.auth.signup({
 		username: 'johndoe',
 		email: 'johndoe@example.com',
 		password: 'foobarbaz'
@@ -219,7 +219,7 @@ ava.test.serial('users with the "user-community" role should not be able to chan
 	})
 
 	await test.throws(sdk.card.update(
-		targetUserId,
+		targetUser.id,
 		{
 			data: {
 				password: {
@@ -237,23 +237,22 @@ ava.test.serial('users with the "user-team" role should not be able to change ot
 
 	const role = 'user-team'
 
-	const targetUserId = await sdk.auth.signup({
+	const targetUser = await sdk.auth.signup({
 		username: 'johndoe',
 		email: 'johndoe@example.com',
 		password: 'foobarbaz'
 	})
 
-	const teamUserId = await sdk.auth.signup({
+	const teamUser = await sdk.auth.signup({
 		username: 'teamuser',
 		email: 'teamuser@example.com',
 		password: 'foobarbaz'
 	})
 
 	// Update the role on the community user
-	const teamUserCard = await test.context.jellyfish.getCardById(test.context.session, teamUserId)
 	await test.context.jellyfish.insertCard(
 		test.context.session,
-		_.merge(teamUserCard, {
+		_.merge(teamUser, {
 			data: {
 				roles: [ role ]
 			}
@@ -269,7 +268,7 @@ ava.test.serial('users with the "user-team" role should not be able to change ot
 	})
 
 	await test.throws(sdk.card.update(
-		targetUserId,
+		targetUser.id,
 		{
 			data: {
 				password: {
@@ -286,7 +285,7 @@ ava.test.serial('AGGREGATE($events): should work when creating cards via the SDK
 	} = test.context
 
 	// Create a new user
-	const userId = await sdk.auth.signup({
+	const user = await sdk.auth.signup({
 		username: 'johndoe',
 		email: 'johndoe@example.com',
 		password: 'foobarbaz'
@@ -296,7 +295,7 @@ ava.test.serial('AGGREGATE($events): should work when creating cards via the SDK
 	await sdk.setAuthToken(test.context.session)
 
 	// Update the user's permissions
-	await sdk.card.update(userId, {
+	await sdk.card.update(user.id, {
 		data: {
 			roles: [ 'user-team' ]
 		}
@@ -309,7 +308,7 @@ ava.test.serial('AGGREGATE($events): should work when creating cards via the SDK
 	})
 
 	// Create a new thread element
-	const threadId = await sdk.card.create({
+	const thread = await sdk.card.create({
 		type: 'thread',
 		name: 'test-thread',
 		data: {}
@@ -320,8 +319,8 @@ ava.test.serial('AGGREGATE($events): should work when creating cards via the SDK
 		type: 'message',
 		data: {
 			timestamp: '2018-05-05T00:21:02.459Z',
-			target: threadId,
-			actor: userId,
+			target: thread.id,
+			actor: user.id,
 			payload: {
 				message: 'lorem ipsum dolor sit amet',
 				mentionsUser: [ 'johndoe' ]
@@ -329,7 +328,7 @@ ava.test.serial('AGGREGATE($events): should work when creating cards via the SDK
 		}
 	})
 
-	const card = await sdk.card.get(threadId)
+	const card = await sdk.card.get(thread.id)
 
 	test.deepEqual(card.data.mentionsUser, [ 'johndoe' ])
 })

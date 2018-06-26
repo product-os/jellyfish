@@ -75,7 +75,7 @@ export class AuthSdk {
 	 * @description Create a new user account and return the newly created user's
 	 * id
 	 *
-	 * @fulfil {String} - The id of the newly created user
+	 * @fulfil {Object} - The newly created user
 	 * @returns {Promise}
 	 *
 	 * @example
@@ -92,12 +92,12 @@ export class AuthSdk {
 		username: string;
 		email: string;
 		password: string;
-	}): Bluebird<string> {
+	}): Bluebird<Card> {
 		if (!USERNAME_REGEX.test(username)) {
 			throw new Error('Usernames can only contain alphanumeric characters and dashes, and must be at least 5 characters long');
 		}
 
-		return this.sdk.action<string>({
+		return this.sdk.action<Card>({
 			target: 'user',
 			action: 'action-create-user',
 			arguments: {
@@ -145,11 +145,12 @@ export class AuthSdk {
 	 * @memberof JellyfishSDK.auth
 	 *
 	 * @description Authenticate the SDK using a username and password. If the
-	 * username and password are valid, a token will be returned, which is then
-	 * saved using `jellyFishSdk.setAuthToken` to be used for later requests.
+	 * username and password are valid, a user session card will be returned.
+	 * The id of the user session id (which is used to authenticate requests) is
+	 * then saved using `jellyFishSdk.setAuthToken` to be used for later requests.
 	 * Once logged in, there is no need to set the token again
 	 *
-	 * @fulfils {String} The generate auth token
+	 * @fulfils {Object} The generated user session
 	 * @returns {Promise}
 	 *
 	 * @example
@@ -157,14 +158,14 @@ export class AuthSdk {
 	 * 		username: 'johndoe',
 	 * 		password: 'password123'
 	 * 	})
-	 * 	.then((token) => {
-	 * 		console.log('Authenticated', token)
+	 * 	.then((session) => {
+	 * 		console.log('Authenticated', session)
 	 * 	})
 	 */
 	public login(options: {
 		username: string;
 		password: string;
-	}): Bluebird<string> {
+	}): Bluebird<Card> {
 		const slug = `user-${options.username}`;
 
 		const passwordArgument = options.password ?
@@ -176,19 +177,19 @@ export class AuthSdk {
 			}
 			: {};
 
-		return this.sdk.action<string>({
+		return this.sdk.action<Card>({
 			target: slug,
 			action: 'action-create-session',
 			arguments: {
 				password: passwordArgument,
 			},
 		})
-			.then((token) => {
-				debug('GOT AUTH TOKEN', token);
+			.then((session) => {
+				debug('GOT AUTH TOKEN', session.id);
 
-				this.sdk.setAuthToken(token);
+				this.sdk.setAuthToken(session.id);
 
-				return token;
+				return session;
 			});
 	}
 
