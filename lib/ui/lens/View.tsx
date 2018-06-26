@@ -111,8 +111,7 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 					target,
 					actor: userId,
 				},
-			})
-			.then((id) => sdk.card.get(id));
+			});
 		})
 		.then((subscription) => {
 			const { head } = this.props.channel.data;
@@ -192,8 +191,9 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 	public saveView = ([ view ]: FiltersView[]) => {
 		sdk.card.create(this.createView(view))
 		.then(
-			(viewId) => this.props.actions.addChannel(createChannel({
-				target: viewId,
+			(view) => this.props.actions.addChannel(createChannel({
+				target: view.id,
+				head: view,
 				parentChannel: this.props.appState.channels[0].id,
 			})),
 		)

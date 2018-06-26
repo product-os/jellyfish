@@ -127,9 +127,18 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		}
 	}
 
-	public openChannel = (target: string) => {
+	public openChannel = (target: string, card?: Card) => {
+		// If a card is not provided, see if a matching card can be found from this
+		// component's state/props
+		if (!card) {
+			card = _.find(_.concat(
+				this.state.tail || [],
+				this.props.tail || [],
+			), { id: target });
+		}
 		const newChannel = createChannel({
 			target,
+			head: card,
 			parentChannel: this.props.channel.id,
 		});
 
@@ -160,8 +169,8 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		}
 
 		return sdk.card.create(cardData as Card)
-			.then((threadId) => {
-				this.openChannel(threadId);
+			.then((thread) => {
+				this.openChannel(thread.id, thread);
 				return null;
 			})
 			.catch((error) => {
@@ -177,7 +186,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		const { head } = this.props.channel.data;
 		const timelineCards = _.sortBy(this.state.tail, 'data.timestamp');
 		// Give each headcard a timestamp using the first matching timeline card
-		const headCards = _.map(this.props.tail, card => {
+		const headCards = _.map(_.cloneDeep(this.props.tail), card => {
 			const timestamp = _.get(_.find(timelineCards, (x) => x.data.target === card.id), 'data.timestamp');
 			_.set(card, 'data.timestamp', timestamp);
 			return card;

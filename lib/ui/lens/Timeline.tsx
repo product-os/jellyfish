@@ -176,9 +176,19 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 			});
 	}
 
-	public openChannel = (target: string) => {
+	public openChannel = (target: string, card?: Card) => {
+		// If a card is not provided, see if a matching card can be found from this
+		// component's state/props
+		if (!card) {
+			card = _.find(_.concat(
+				this.state.tail || [],
+				this.props.tail || [],
+			), { id: target });
+		}
+
 		const newChannel = createChannel({
 			target,
+			head: card,
 			parentChannel: this.props.channel.id,
 		});
 

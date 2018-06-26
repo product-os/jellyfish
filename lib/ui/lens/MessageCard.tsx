@@ -5,7 +5,7 @@ import {
 	Button,
 	Flex,
 } from 'rendition';
-import { Lens, RendererProps } from '../../Types';
+import { Card, Lens, RendererProps } from '../../Types';
 import { sdk } from '../app';
 import EventCard from '../components/Event';
 import { connectComponent, ConnectedComponentProps } from '../services/connector';
@@ -33,8 +33,8 @@ class CardList extends React.Component<CardListProps, CardListState> {
 		sdk.card.create({
 			type: 'thread',
 		})
-			.then((threadId) => {
-				this.openChannel(threadId);
+			.then((thread) => {
+				this.openChannel(thread.id, thread);
 			})
 			.catch((error) => {
 				this.props.actions.addNotification('danger', error.message);
@@ -65,9 +65,15 @@ class CardList extends React.Component<CardListProps, CardListState> {
 		}
 	}
 
-	public openChannel = (target: string) => {
+	public openChannel = (target: string, card?: Card) => {
+		// If a card is not provided, see if a matching card can be found from this
+		// component's state/props
+		if (!card) {
+			card = _.find(this.props.tail || [], { id: target });
+		}
 		const newChannel = createChannel({
 			target,
+			head: card,
 			parentChannel: this.props.channel.id,
 		});
 

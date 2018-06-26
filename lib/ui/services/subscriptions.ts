@@ -127,9 +127,6 @@ export class SubscriptionManager {
 						target: card.id,
 						actor: user.id,
 					},
-				})
-				.then((subCardId) => {
-					return sdk.card.get(subCardId);
 				});
 			}
 

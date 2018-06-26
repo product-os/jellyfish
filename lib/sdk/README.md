@@ -114,7 +114,7 @@ id
 **Kind**: static method of [<code>auth</code>](#JellyfishSDK.auth)  
 **Summary**: Create a new user account  
 **Access**: public  
-**Fulfil**: <code>String</code> - The id of the newly created user  
+**Fulfil**: <code>Object</code> - The newly created user  
 **Example**  
 ```js
 sdk.auth.signup({
@@ -147,22 +147,23 @@ sdk.auth.loginWithToken('8b465c9a-b4cb-44c1-9df9-632649d7c4c3')
 
 #### auth.login() ⇒ <code>Promise</code>
 Authenticate the SDK using a username and password. If the
-username and password are valid, a token will be returned, which is then
-saved using `jellyFishSdk.setAuthToken` to be used for later requests.
+username and password are valid, a user session card will be returned.
+The id of the user session id (which is used to authenticate requests) is
+then saved using `jellyFishSdk.setAuthToken` to be used for later requests.
 Once logged in, there is no need to set the token again
 
 **Kind**: static method of [<code>auth</code>](#JellyfishSDK.auth)  
 **Summary**: Authenticate the SDK using a username and password  
 **Access**: public  
-**Fulfils**: <code>String</code> The generate auth token  
+**Fulfils**: <code>Object</code> The generated user session  
 **Example**  
 ```js
 sdk.auth.login({
 		username: 'johndoe',
 		password: 'password123'
 	})
-	.then((token) => {
-		console.log('Authenticated', token)
+	.then((session) => {
+		console.log('Authenticated', session)
 	})
 ```
 <a name="JellyfishSDK.auth.logout"></a>
@@ -268,7 +269,7 @@ Send an action request to create a new card
 **Kind**: static method of [<code>card</code>](#JellyfishSDK.card)  
 **Summary**: Create a new card  
 **Access**: public  
-**Fulfil**: <code>String</code> - The id of the newly created card  
+**Fulfil**: <code>Card</code> - The newly created card  
 
 | Param | Type | Description |
 | --- | --- | --- |
