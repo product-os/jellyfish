@@ -16,7 +16,7 @@
 
 const _ = require('lodash')
 const ava = require('ava')
-const utils = require('../../../lib/utils')
+const helpers = require('../helpers')
 
 ava.test('should create a card and add a create but not update event', async (test) => {
 	const result = await test.context.worker.executeAction(test.context.session, {
@@ -44,6 +44,6 @@ ava.test('should create a card and add a create but not update event', async (te
 		}
 	})
 
-	const timeline = _.map(await utils.getTimeline(test.context.jellyfish, test.context.session, result.id), 'type')
+	const timeline = _.map(await helpers.getTimeline(test.context.jellyfish, test.context.session, result.id), 'type')
 	test.deepEqual(timeline, [ 'create' ])
 })

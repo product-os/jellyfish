@@ -15,7 +15,7 @@
  */
 
 const ava = require('ava')
-const utils = require('../../../lib/utils')
+const helpers = require('../helpers')
 
 ava.test('should update the user email', async (test) => {
 	const target = await test.context.jellyfish.getCardBySlug(test.context.session, 'user-admin')
@@ -31,7 +31,7 @@ ava.test('should update the user email', async (test) => {
 	test.is(result.id, target.id)
 	test.is(result.data.email, 'foobar@example.com')
 
-	const timeline = await utils.getTimeline(test.context.jellyfish, test.context.session, result.id)
+	const timeline = await helpers.getTimeline(test.context.jellyfish, test.context.session, result.id)
 	test.is(timeline.length, 1)
 	test.is(timeline[0].type, 'update')
 	test.deepEqual(timeline[0].data.payload, {
@@ -60,6 +60,6 @@ ava.test('should not create an event if the change is already there', async (tes
 
 	test.is(result.id, target.id)
 	test.is(result.data.email, target.data.email)
-	const timeline = await utils.getTimeline(test.context.jellyfish, test.context.session, result.id)
+	const timeline = await helpers.getTimeline(test.context.jellyfish, test.context.session, result.id)
 	test.is(timeline.length, 0)
 })
