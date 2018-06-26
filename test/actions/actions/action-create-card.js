@@ -17,12 +17,7 @@ require('ts-node').register()
 
 const _ = require('lodash')
 const ava = require('ava')
-const randomstring = require('randomstring')
 const utils = require('../../../lib/utils')
-const {
-	getSdk
-} = require('@resin.io/jellyfish-sdk')
-const createServer = require('../../../lib/server.js')
 
 ava.test('should create a card', async (test) => {
 	const result = await test.context.worker.executeAction(test.context.session, {
@@ -781,69 +776,4 @@ ava.test('AGGREGATE($events): should create a property on the target if it does 
 	await test.context.flushRequests()
 	const card = await test.context.jellyfish.getCardById(test.context.session, thread.id)
 	test.deepEqual(card.data.mentions, [ 'johndoe' ])
-})
-
-ava.test('AGGREGATE($events): should work when creating cards via the SDK', async (test) => {
-	// Set this env var so that the server uses a random database
-	process.env.SERVER_DATABASE = `test_${randomstring.generate()}`
-	const {
-		jellyfish,
-		port
-	} =	await createServer()
-	const adminSession = jellyfish.sessions.admin
-
-	// Since AVA tests are running concurrently, set up an SDK instance that will
-	// communicate with whichever port this server instance bound to
-	const sdk = getSdk({
-		apiPrefix: process.env.API_PREFIX || 'api/v1',
-		apiUrl: `http://localhost:${port}`
-	})
-
-	// Create a new user
-	const userId = await sdk.auth.signup({
-		username: 'johndoe',
-		email: 'johndoe@example.com',
-		password: 'foobarbaz'
-	})
-
-	// Sign in as the admin
-	await sdk.setAuthToken(adminSession)
-
-	// Update the user's permissions
-	await sdk.card.update(userId, {
-		data: {
-			roles: [ 'user-team' ]
-		}
-	})
-
-	// Login as the new user
-	await sdk.auth.login({
-		username: 'johndoe',
-		password: 'foobarbaz'
-	})
-
-	// Create a new thread element
-	const threadId = await sdk.card.create({
-		type: 'thread',
-		name: 'test-thread',
-		data: {}
-	})
-
-	// Add a message to the thread element
-	await sdk.card.create({
-		type: 'message',
-		data: {
-			timestamp: '2018-05-05T00:21:02.459Z',
-			target: threadId,
-			actor: userId,
-			payload: {
-				message: 'lorem ipsum dolor sit amet',
-				mentionsUser: [ 'johndoe' ]
-			}
-		}
-	})
-
-	const card = await sdk.card.get(threadId)
-
-	test.deepEqual(card.data.mentionsUser, [ 'johndoe' ])
 })
