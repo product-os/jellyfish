@@ -249,7 +249,7 @@ ava.test.serial('users with the "user-team" role should not be able to change ot
 		password: 'foobarbaz'
 	})
 
-	// Update the role on the community user
+	// Update the role on the team user
 	await test.context.jellyfish.insertCard(
 		test.context.session,
 		_.merge(teamUser, {
@@ -331,4 +331,54 @@ ava.test.serial('AGGREGATE($events): should work when creating cards via the SDK
 	const card = await sdk.card.get(thread.id)
 
 	test.deepEqual(card.data.mentionsUser, [ 'johndoe' ])
+})
+
+ava.test.serial.only('Users should not be able to login as the core admin user', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	// First check that the guest user cannot login
+	sdk.auth.logout()
+
+	await test.throws(sdk.auth.login({
+		username: 'admin'
+	}))
+
+	const roles = [
+		'user-community',
+		'user-team',
+		'user-team-admin'
+	]
+
+	// Test that each user role cannot login
+	for (const role of roles) {
+		sdk.auth.logout()
+
+		const userData = {
+			username: `${role}-${randomstring.generate()}`,
+			email: `${role}-${randomstring.generate()}@example.com`,
+			password: 'password'
+		}
+
+		const user = await sdk.auth.signup(userData)
+
+		await test.context.jellyfish.insertCard(
+			test.context.session,
+			_.merge(user, {
+				data: {
+					roles: [ role ]
+				}
+			}),
+			{
+				override: true
+			}
+		)
+
+		await sdk.auth.login(userData)
+
+		await test.throws(sdk.auth.login({
+			username: 'admin'
+		}))
+	}
 })
