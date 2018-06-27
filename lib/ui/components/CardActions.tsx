@@ -36,7 +36,13 @@ class Base extends React.Component<
 		const schema = _.omit(cardType ? cardType.data.schema : {}, [
 			'properties.data.properties.mentionsUser',
 			'properties.data.properties.alertsUser',
+
+			// Omit user password object
+			// TODO: replace this with dynamic comparison against user permissions
+			// see: https://github.com/resin-io/jellyfish/issues/390
+			'properties.data.properties.password',
 		]);
+
 
 		this.state = {
 			showEditModal: false,
@@ -132,6 +138,7 @@ class Base extends React.Component<
 						square={true}
 						mr={2}
 						onClick={this.edit}
+						className="card-actions__btn--edit"
 					>
 						<Icon name="pencil-alt" />
 					</Button>
@@ -139,6 +146,7 @@ class Base extends React.Component<
 					<Button
 						square={true}
 						onClick={this.toggleDeleteModal}
+						className="card-actions__btn--delete"
 					>
 						<Txt color="red">
 							<Icon name="trash-alt" />
@@ -159,6 +167,9 @@ class Base extends React.Component<
 					<Modal
 						cancel={this.cancelEdit}
 						done={this.updateEntry}
+						primaryButtonProps={{
+							className: 'card-edit-modal__submit',
+						}}
 					>
 						<Form
 							schema={this.state.schema}

@@ -21,6 +21,7 @@ const Bluebird = require('bluebird')
 const {
 	mount
 } = require('enzyme')
+const _ = require('lodash')
 const randomstring = require('randomstring')
 const React = require('react')
 const {
@@ -33,21 +34,41 @@ const {
 const {
 	store
 } = require('../../lib/ui/app')
+const {
+	changeInputValue,
+	waitForElement,
+	waitForThenClickElement
+} = require('../test-helpers/ui-helpers')
 
-let serverPort = 8000
+const users = {
+	community: {
+		username: 'johndoe',
+		email: 'johndoe@example.com',
+		password: 'password'
+	},
+	admin: {
+		username: 'team-admin',
+		email: 'team-admin@example.com',
+		password: 'password'
+	}
+}
+
+// An external context is used as t.context is not available in a `before`
+// hook
+const context = {}
 
 ava.test.before(async (test) => {
 	// Set this env var so that the server uses a random database
 	process.env.SERVER_DATABASE = `test_${randomstring.generate()}`
 	const {
+		jellyfish,
 		port
 	} =	await createServer()
 
-	serverPort = port
+	context.jellyfish = jellyfish
+	context.adminSession = jellyfish.sessions.admin
+	context.serverPort = port
 })
-
-const USERNAME = `johndoe-${randomstring.generate()}`.toLowerCase()
-const PASSWORD = 'foobarbaz'
 
 const app = mount(
 	<Provider store={store}>
@@ -55,35 +76,10 @@ const app = mount(
 	</Provider>
 )
 
-const waitForElement = async (component, selector, timeout = 30 * 1000) => {
-	const waitFor = 500
-	let totalTime = 0
-
-	while (true) {
-		// Due to the way enzyme works we need to synchronously update the component
-		// to register changes in redux
-		component.update()
-
-		if (component.find(selector).exists()) {
-			break
-		}
-
-		if (totalTime > timeout) {
-			throw new Error(`Could not find selector ${selector} in render tree after ${timeout}ms:\r${component.html()}`)
-		}
-
-		await Bluebird.delay(waitFor)
-
-		totalTime += waitFor
-	}
-
-	return true
-}
-
 ava.test.serial('should let new users signup', async (test) => {
 	// Because AVA tests concurrently, prevent port conflicts by setting the SDK
 	// api url to whichever port the server eventually bound to
-	window.sdk.setApiUrl(`http://localhost:${serverPort}`)
+	window.sdk.setApiUrl(`http://localhost:${context.serverPort}`)
 
 	await waitForElement(app, '.login-page')
 
@@ -93,26 +89,9 @@ ava.test.serial('should let new users signup', async (test) => {
 
 	await waitForElement(app, '.login-page__signup')
 
-	app.find('.login-page__input--email').first()
-		.simulate('change', {
-			target: {
-				value: `${USERNAME}@example.com`
-			}
-		})
-
-	app.find('.login-page__input--username').first()
-		.simulate('change', {
-			target: {
-				value: USERNAME
-			}
-		})
-
-	app.find('.login-page__input--password').first()
-		.simulate('change', {
-			target: {
-				value: PASSWORD
-			}
-		})
+	changeInputValue(app, '.login-page__input--email', users.community.email)
+	changeInputValue(app, '.login-page__input--username', users.community.username)
+	changeInputValue(app, '.login-page__input--password', users.community.password)
 
 	app.find('.login-page__submit--signup').first()
 		.simulate('click')
@@ -140,19 +119,8 @@ ava.test.serial('should let users logout', async (test) => {
 ava.test.serial('should let users login', async (test) => {
 	test.true(app.find('.login-page').exists())
 
-	app.find('.login-page__input--username').first()
-		.simulate('change', {
-			target: {
-				value: USERNAME
-			}
-		})
-
-	app.find('.login-page__input--password').first()
-		.simulate('change', {
-			target: {
-				value: PASSWORD
-			}
-		})
+	changeInputValue(app, '.login-page__input--username', users.community.username)
+	changeInputValue(app, '.login-page__input--password', users.community.password)
 
 	app.find('.login-page__submit--login').first()
 		.simulate('click')
@@ -195,12 +163,8 @@ ava.test.serial('should allow newly signed up users to create new chat threads',
 ava.test.serial('should allow newly signed up users to create chat messages', async (test) => {
 	const messageText = 'My new message'
 	await waitForElement(app, '.new-message-input')
-	app.find('textarea').first()
-		.simulate('change', {
-			target: {
-				value: messageText
-			}
-		})
+
+	changeInputValue(app, 'textarea', messageText)
 
 	app.find('textarea').first()
 		.simulate('keyPress', {
@@ -211,4 +175,77 @@ ava.test.serial('should allow newly signed up users to create chat messages', as
 
 	// Trim any trailing line feeds when comparing the message
 	test.is(app.find('.event-card__message').first().text().trim(), messageText)
+})
+
+ava.test.serial('should allow team-admin users to update user\'s roles', async (test) => {
+	app.find('.user-menu-toggle').first().simulate('click')
+
+	await waitForElement(app, '.user-menu')
+
+	app.find('.user-menu__logout').first().simulate('click')
+
+	await waitForElement(app, '.login-page')
+
+	test.true(app.find('.login-page').exists())
+
+	const teamAdminUser = await window.sdk.auth.signup(users.admin)
+
+	// Give the new user the team-admin role
+	const teamAdminUserCard = await context.jellyfish.getCardById(context.adminSession, teamAdminUser.id)
+	await context.jellyfish.insertCard(
+		context.adminSession,
+		_.merge(teamAdminUserCard, {
+			data: {
+				roles: [ 'team-admin' ]
+			}
+		}),
+		{
+			override: true
+		}
+	)
+
+	changeInputValue(app, '.login-page__input--username', users.admin.username)
+	changeInputValue(app, '.login-page__input--password', users.admin.password)
+	app.find('.login-page__submit--login').first()
+		.simulate('click')
+
+	// Open `All users` view
+	await waitForThenClickElement(app, '.home-channel__item--view-all-users', 120 * 1000)
+
+	// Select the community user
+	await waitForThenClickElement(app, `.list-item--user-${users.community.username}`)
+
+	// Edit the community user
+	await waitForThenClickElement(app, '.card-actions__btn--edit')
+
+	// Add a new element to the `roles` array
+	await waitForThenClickElement(app, '.field-array .btn-add')
+
+	await waitForElement(app, '#root_data_roles_1')
+
+	// Enter the 'user-team' role as a new role
+	changeInputValue(app, '#root_data_roles_1 input', 'user-team')
+
+	// Add a small delay to allow the form change to propagate
+	await Bluebird.delay(500)
+
+	// Submit the form
+	await waitForThenClickElement(app, '.card-edit-modal__submit')
+
+	// To detect the change we need to be able to see update cards in the timeline
+	// Toggle the checkbox on to show additional information
+	app.find('.timeline__checkbox--additional-info').first()
+		.simulate('change', {
+			target: {
+				checked: true
+			}
+		})
+
+	// Allow some time for the request to process
+	await waitForElement(app, '.event-card--update')
+
+	// Retrieve the user card
+	const card = await window.sdk.card.get(`user-${users.community.username}`)
+
+	test.deepEqual(card.data.roles, [ 'user-community', 'user-team' ])
 })

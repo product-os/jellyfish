@@ -46,7 +46,7 @@ class ViewLink extends React.Component<ViewLinkProps, {}> {
 		const { card, isActive, update } = this.props;
 		return (
 			<Link
-				className="home-channel__item"
+				className={`home-channel__item home-channel__item--${card.slug}`}
 				style={{display: 'block'}}
 				key={card.id}
 				bg={isActive ? '#666' : 'none'}

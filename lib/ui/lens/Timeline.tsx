@@ -220,6 +220,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 				<Flex m={2} justify="flex-end">
 					<label>
 						<input
+							className="timeline__checkbox--additional-info"
 							style={{marginTop: 2}}
 							type="checkbox"
 							checked={!this.state.messagesOnly}
