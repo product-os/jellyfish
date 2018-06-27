@@ -356,7 +356,7 @@ ava.test('.createRequest() should fail if login in with the wrong password', asy
 
 	test.true(finishedLoginRequest.data.result.error)
 	test.true(finishedLoginRequest.data.executed)
-	test.is(finishedLoginRequest.data.result.data, 'Invalid password')
+	test.is(finishedLoginRequest.data.result.data.message, 'Invalid password')
 })
 
 ava.test('.createRequest() should login as a password-less user', async (test) => {
@@ -427,7 +427,7 @@ ava.test('.processRequest() should set error to true given an arguments schema m
 	const finishedRequest = await test.context.jellyfish.getCardById(test.context.jellyfish.sessions.admin, pendingRequest.id)
 	test.true(finishedRequest.data.result.error)
 	test.true(finishedRequest.data.executed)
-	test.is(finishedRequest.data.result.data, 'Arguments do not match')
+	test.is(finishedRequest.data.result.data.message, 'Arguments do not match')
 })
 
 ava.test('.executeTriggers() should execute a matching triggered action', async (test) => {
