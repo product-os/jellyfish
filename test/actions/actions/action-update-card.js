@@ -19,27 +19,29 @@ const ava = require('ava')
 const helpers = require('../helpers')
 
 ava.test('should replace an existing card and add an update event using a slug', async (test) => {
-	const result1 = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	const result1 = await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: test.context.ids.card,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			slug: 'johndoe',
-			data: {
-				email: 'johndoe@example.com'
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				slug: 'johndoe',
+				data: {
+					email: 'johndoe@example.com'
+				}
 			}
 		}
 	})
 
-	const result2 = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-update-card',
+	const result2 = await helpers.executeAction(test.context, {
+		action: 'action-update-card',
 		targetId: result1.id,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			data: {
-				email: 'johndoe@gmail.com'
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				data: {
+					email: 'johndoe@gmail.com'
+				}
 			}
 		}
 	})
@@ -65,26 +67,28 @@ ava.test('should replace an existing card and add an update event using a slug',
 })
 
 ava.test('should replace an existing card and add an update event without using a slug', async (test) => {
-	const result1 = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	const result1 = await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: test.context.ids.card,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			data: {
-				foo: 'bar'
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				data: {
+					foo: 'bar'
+				}
 			}
 		}
 	})
 
-	const result2 = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-update-card',
+	const result2 = await helpers.executeAction(test.context, {
+		action: 'action-update-card',
 		targetId: result1.id,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			data: {
-				foo: 'baz'
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				data: {
+					foo: 'baz'
+				}
 			}
 		}
 	})
@@ -110,67 +114,72 @@ ava.test('should replace an existing card and add an update event without using 
 
 ava.test('should fail if the target does not exist', async (test) => {
 	const id = '4a962ad9-20b5-4dd8-a707-bf819593cc84'
-	await test.throws(test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-update-card',
+	await test.throws(helpers.executeAction(test.context, {
+		action: 'action-update-card',
 		targetId: id,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			slug: 'johndoe',
-			data: {
-				email: 'johndoe@example.com'
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				slug: 'johndoe',
+				data: {
+					email: 'johndoe@example.com'
+				}
 			}
 		}
 	}), test.context.jellyfish.errors.JellyfishNoElement)
 })
 
 ava.test('should fail if the schema does not match', async (test) => {
-	const result = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	const result = await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: test.context.ids.card,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			data: {
-				foo: 'bar'
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				data: {
+					foo: 'bar'
+				}
 			}
 		}
 	})
 
-	await test.throws(test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-update-card',
+	await test.throws(helpers.executeAction(test.context, {
+		action: 'action-update-card',
 		targetId: result.id,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			foobar: true
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				foobar: true
+			}
 		}
 	}), test.context.jellyfish.errors.JellyfishSchemaMismatch)
 })
 
 ava.test('should add an extra property to a card', async (test) => {
-	const result1 = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	const result1 = await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: test.context.ids.card,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			slug: 'johndoe',
-			data: {
-				email: 'johndoe@example.com'
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				slug: 'johndoe',
+				data: {
+					email: 'johndoe@example.com'
+				}
 			}
 		}
 	})
 
-	const result2 = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-update-card',
+	const result2 = await helpers.executeAction(test.context, {
+		action: 'action-update-card',
 		targetId: result1.id,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			data: {
-				email: 'johndoe@gmail.com',
-				foobar: true
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				data: {
+					email: 'johndoe@gmail.com',
+					foobar: true
+				}
 			}
 		}
 	})
@@ -197,25 +206,27 @@ ava.test('should add an extra property to a card', async (test) => {
 })
 
 ava.test('should be able to add a slug', async (test) => {
-	const result1 = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	const result1 = await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: test.context.ids.card,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			data: {
-				foo: 'bar'
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				data: {
+					foo: 'bar'
+				}
 			}
 		}
 	})
 
-	const result2 = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-update-card',
+	const result2 = await helpers.executeAction(test.context, {
+		action: 'action-update-card',
 		targetId: result1.id,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			slug: 'hey-there'
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				slug: 'hey-there'
+			}
 		}
 	})
 
@@ -225,25 +236,27 @@ ava.test('should be able to add a slug', async (test) => {
 })
 
 ava.test('should be able to set active to false', async (test) => {
-	const result1 = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	const result1 = await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: test.context.ids.card,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			data: {
-				foo: 'bar'
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				data: {
+					foo: 'bar'
+				}
 			}
 		}
 	})
 
-	const result2 = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-update-card',
+	const result2 = await helpers.executeAction(test.context, {
+		action: 'action-update-card',
 		targetId: result1.id,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			active: false
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				active: false
+			}
 		}
 	})
 
@@ -253,27 +266,29 @@ ava.test('should be able to set active to false', async (test) => {
 })
 
 ava.test('should override an array property', async (test) => {
-	const result1 = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	const result1 = await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: test.context.ids.card,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			slug: 'johndoe',
-			data: {
-				roles: [ 'guest' ]
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				slug: 'johndoe',
+				data: {
+					roles: [ 'guest' ]
+				}
 			}
 		}
 	})
 
-	const result2 = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-update-card',
+	const result2 = await helpers.executeAction(test.context, {
+		action: 'action-update-card',
 		targetId: result1.id,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			data: {
-				roles: []
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				data: {
+					roles: []
+				}
 			}
 		}
 	})
@@ -284,59 +299,62 @@ ava.test('should override an array property', async (test) => {
 })
 
 ava.test('should re-evaluate formulas when updating an existing card', async (test) => {
-	const type = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	const type = await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: test.context.ids.type,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			slug: 'test-type',
-			data: {
-				schema: {
-					type: 'object',
-					properties: {
-						type: {
-							type: 'string',
-							const: 'test-type'
-						},
-						data: {
-							type: 'object',
-							properties: {
-								foo: {
-									type: 'string',
-									$formula: 'UPPER(input)'
-								}
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				slug: 'test-type',
+				data: {
+					schema: {
+						type: 'object',
+						properties: {
+							type: {
+								type: 'string',
+								const: 'test-type'
 							},
-							additionalProperties: true
-						}
-					},
-					additionalProperties: true,
-					required: [ 'type', 'data' ]
+							data: {
+								type: 'object',
+								properties: {
+									foo: {
+										type: 'string',
+										$formula: 'UPPER(input)'
+									}
+								},
+								additionalProperties: true
+							}
+						},
+						additionalProperties: true,
+						required: [ 'type', 'data' ]
+					}
 				}
 			}
 		}
 	})
 
-	const result = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	const result = await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: type.id,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			data: {
-				foo: 'hello'
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				data: {
+					foo: 'hello'
+				}
 			}
 		}
 	})
 
-	await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-update-card',
+	await helpers.executeAction(test.context, {
+		action: 'action-update-card',
 		targetId: result.id,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			data: {
-				foo: 'bye'
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				data: {
+					foo: 'bye'
+				}
 			}
 		}
 	})
@@ -356,47 +374,49 @@ ava.test('should re-evaluate formulas when updating an existing card', async (te
 })
 
 ava.test('should consider changes to a formula in a type', async (test) => {
-	const type = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	const type = await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: test.context.ids.type,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			slug: 'test-type',
-			data: {
-				schema: {
-					type: 'object',
-					properties: {
-						type: {
-							type: 'string',
-							const: 'test-type'
-						},
-						data: {
-							type: 'object',
-							properties: {
-								foo: {
-									type: 'number',
-									$formula: 'MAX(input, 5)'
-								}
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				slug: 'test-type',
+				data: {
+					schema: {
+						type: 'object',
+						properties: {
+							type: {
+								type: 'string',
+								const: 'test-type'
 							},
-							additionalProperties: true
-						}
-					},
-					additionalProperties: true,
-					required: [ 'type', 'data' ]
+							data: {
+								type: 'object',
+								properties: {
+									foo: {
+										type: 'number',
+										$formula: 'MAX(input, 5)'
+									}
+								},
+								additionalProperties: true
+							}
+						},
+						additionalProperties: true,
+						required: [ 'type', 'data' ]
+					}
 				}
 			}
 		}
 	})
 
-	const result1 = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	const result1 = await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: type.id,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			data: {
-				foo: 7
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				data: {
+					foo: 7
+				}
 			}
 		}
 	})
@@ -412,46 +432,48 @@ ava.test('should consider changes to a formula in a type', async (test) => {
 		}
 	})
 
-	await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-update-card',
+	await helpers.executeAction(test.context, {
+		action: 'action-update-card',
 		targetId: type.id,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			data: {
-				schema: {
-					type: 'object',
-					properties: {
-						type: {
-							type: 'string',
-							const: 'test-type'
-						},
-						data: {
-							type: 'object',
-							properties: {
-								foo: {
-									type: 'number',
-									$formula: 'MAX(input, 8)'
-								}
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				data: {
+					schema: {
+						type: 'object',
+						properties: {
+							type: {
+								type: 'string',
+								const: 'test-type'
 							},
-							additionalProperties: true
-						}
-					},
-					additionalProperties: true,
-					required: [ 'type', 'data' ]
+							data: {
+								type: 'object',
+								properties: {
+									foo: {
+										type: 'number',
+										$formula: 'MAX(input, 8)'
+									}
+								},
+								additionalProperties: true
+							}
+						},
+						additionalProperties: true,
+						required: [ 'type', 'data' ]
+					}
 				}
 			}
 		}
 	})
 
-	const result2 = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-update-card',
+	const result2 = await helpers.executeAction(test.context, {
+		action: 'action-update-card',
 		targetId: result1.id,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			data: {
-				foo: 6
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				data: {
+					foo: 6
+				}
 			}
 		}
 	})

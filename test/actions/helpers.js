@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+const Bluebird = require('bluebird')
+
 exports.getTimeline = async (jellyfish, session, id, options) => {
 	const card = await jellyfish.getCardById(session, id, options)
 	if (!card) {
@@ -25,6 +27,12 @@ exports.getTimeline = async (jellyfish, session, id, options) => {
 	return jellyfish.query(session, {
 		type: 'object',
 		properties: {
+			type: {
+				type: 'string',
+				not: {
+					const: 'action-request'
+				}
+			},
 			data: {
 				type: 'object',
 				properties: {
@@ -38,6 +46,30 @@ exports.getTimeline = async (jellyfish, session, id, options) => {
 			}
 		},
 		additionalProperties: true,
-		required: [ 'data' ]
+		required: [ 'type', 'data' ]
 	}, options)
+}
+
+const flushRequests = async (context, retries = 10) => {
+	if (retries === 0) {
+		throw new Error('Could not flush requests')
+	}
+
+	const requests = await context.worker.getPendingRequests()
+	if (requests.length === 0) {
+		return
+	}
+
+	await Bluebird.delay(1000)
+	await flushRequests(context, retries - 1)
+}
+
+exports.executeAction = async (context, options) => {
+	const card = await context.worker.executeAction(context.session, {
+		actionId: options.action,
+		targetId: options.targetId,
+		actorId: options.actorId
+	}, options.arguments)
+	await flushRequests(context)
+	return card
 }

@@ -19,24 +19,26 @@ const ava = require('ava')
 const helpers = require('../helpers')
 
 ava.test('should delete an active card', async (test) => {
-	const result1 = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	const result1 = await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: test.context.ids.card,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			slug: 'johndoe',
-			data: {
-				email: 'johndoe@example.com'
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				slug: 'johndoe',
+				data: {
+					email: 'johndoe@example.com'
+				}
 			}
 		}
 	})
 
-	const result2 = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-delete-card',
+	const result2 = await helpers.executeAction(test.context, {
+		action: 'action-delete-card',
 		targetId: result1.id,
-		actorId: test.context.actor.id
-	}, {})
+		actorId: test.context.actor.id,
+		arguments: {}
+	})
 
 	test.is(result1.id, result2.id)
 
@@ -59,25 +61,27 @@ ava.test('should delete an active card', async (test) => {
 })
 
 ava.test('should delete an inactive card', async (test) => {
-	const result1 = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	const result1 = await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: test.context.ids.card,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			active: false,
-			slug: 'johndoe',
-			data: {
-				email: 'johndoe@example.com'
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				active: false,
+				slug: 'johndoe',
+				data: {
+					email: 'johndoe@example.com'
+				}
 			}
 		}
 	})
 
-	const result2 = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-delete-card',
+	const result2 = await helpers.executeAction(test.context, {
+		action: 'action-delete-card',
 		targetId: result1.id,
-		actorId: test.context.actor.id
-	}, {})
+		actorId: test.context.actor.id,
+		arguments: {}
+	})
 
 	test.is(result1.id, result2.id)
 

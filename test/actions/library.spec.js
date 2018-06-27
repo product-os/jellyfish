@@ -16,7 +16,6 @@
 
 const ava = require('ava')
 const randomstring = require('randomstring')
-const Bluebird = require('bluebird')
 const core = require('../../lib/core')
 const ActionRequestWorker = require('../../lib/actions')
 
@@ -76,20 +75,6 @@ ava.test.beforeEach(async (test) => {
 	}
 
 	test.context.watcher = await test.context.worker.start()
-
-	test.context.flushRequests = async (retries = 10) => {
-		if (retries === 0) {
-			throw new Error('Could not flush requests')
-		}
-
-		const requests = await test.context.worker.getPendingRequests()
-		if (requests.length === 0) {
-			return
-		}
-
-		await Bluebird.delay(1000)
-		await test.context.flushRequests(retries - 1)
-	}
 })
 
 ava.test.afterEach(async (test) => {

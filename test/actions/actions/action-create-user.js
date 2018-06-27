@@ -16,23 +16,27 @@
 
 const ava = require('ava')
 const jellyscript = require('../../../lib/jellyscript')
+const helpers = require('../helpers')
 
 ava.test('should create a user', async (test) => {
+	const credentials = {
+		string: 'foobar',
+		salt: 'user-johndoe'
+	}
+
 	const hash = jellyscript.evaluate('HASH(input)', {
-		input: {
-			string: 'foobar',
-			salt: 'user-johndoe'
-		}
+		input: credentials
 	}).value
 
-	const result = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-user',
+	const result = await helpers.executeAction(test.context, {
+		action: 'action-create-user',
 		targetId: test.context.ids.user,
-		actorId: test.context.actor.id
-	}, {
-		email: 'johndoe@example.com',
-		username: 'user-johndoe',
-		hash
+		actorId: test.context.actor.id,
+		arguments: {
+			email: 'johndoe@example.com',
+			username: 'user-johndoe',
+			hash
+		}
 	})
 
 	test.deepEqual(result, {

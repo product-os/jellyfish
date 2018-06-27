@@ -20,21 +20,22 @@ const ava = require('ava')
 const helpers = require('../helpers')
 
 ava.test('should create a card', async (test) => {
-	const result = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	const card = await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: test.context.ids.card,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			slug: 'johndoe',
-			data: {
-				email: 'johndoe@example.com'
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				slug: 'johndoe',
+				data: {
+					email: 'johndoe@example.com'
+				}
 			}
 		}
 	})
 
-	test.deepEqual(result, {
-		id: result.id,
+	test.deepEqual(card, {
+		id: card.id,
 		slug: 'johndoe',
 		type: 'card',
 		tags: [],
@@ -45,18 +46,19 @@ ava.test('should create a card', async (test) => {
 		}
 	})
 
-	const timeline = _.map(await helpers.getTimeline(test.context.jellyfish, test.context.session, result.id), 'type')
-	test.deepEqual(timeline, [ 'create' ])
+	const timeline = await helpers.getTimeline(test.context.jellyfish, test.context.session, card.id)
+	test.deepEqual(_.map(timeline, 'type'), [ 'create' ])
 })
 
 ava.test('should fail if the card type does not exist', async (test) => {
-	await test.throws(test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	await test.throws(helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: 'foobarbazqux',
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			slug: 'hello'
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				slug: 'hello'
+			}
 		}
 	}), test.context.jellyfish.errors.JellyfishNoElement)
 })
@@ -72,20 +74,22 @@ ava.test('should fail if the card already exists', async (test) => {
 		}
 	}
 
-	const result = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	const result = await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: test.context.ids.card,
-		actorId: test.context.actor.id
-	}, {
-		properties: card
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: card
+		}
 	})
 
-	await test.throws(test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	await test.throws(helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: test.context.ids.card,
-		actorId: test.context.actor.id
-	}, {
-		properties: card
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: card
+		}
 	}), test.context.jellyfish.errors.JellyfishElementAlreadyExists)
 
 	const timeline = _.map(await helpers.getTimeline(test.context.jellyfish, test.context.session, result.id), 'type')
@@ -93,50 +97,53 @@ ava.test('should fail if the card already exists', async (test) => {
 })
 
 ava.test('should fail if there is a schema mismatch', async (test) => {
-	await test.throws(test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	await test.throws(helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: test.context.ids.user,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			slug: 'foobar',
-			data: {
-				email: 1
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				slug: 'foobar',
+				data: {
+					email: 1
+				}
 			}
 		}
 	}), test.context.jellyfish.errors.JellyfishSchemaMismatch)
 })
 
 ava.test('should fail if the element is not a valid card', async (test) => {
-	await test.throws(test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	await test.throws(helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: test.context.ids.card,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			slug: 'johndoe',
-			foo: 'bar'
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				slug: 'johndoe',
+				foo: 'bar'
+			}
 		}
 	}), test.context.jellyfish.errors.JellyfishSchemaMismatch)
 })
 
 ava.test('should create an inactive card', async (test) => {
-	const result = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	const card = await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: test.context.ids.card,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			slug: 'johndoe',
-			active: false,
-			data: {
-				email: 'johndoe@example.com'
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				slug: 'johndoe',
+				active: false,
+				data: {
+					email: 'johndoe@example.com'
+				}
 			}
 		}
 	})
 
-	test.deepEqual(result, {
-		id: result.id,
+	test.deepEqual(card, {
+		id: card.id,
 		slug: 'johndoe',
 		type: 'card',
 		tags: [],
@@ -149,22 +156,23 @@ ava.test('should create an inactive card', async (test) => {
 })
 
 ava.test('should create a card with more extra data properties', async (test) => {
-	const result = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	const card = await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: test.context.ids.card,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			slug: 'johndoe',
-			data: {
-				email: 'johndoe@example.com',
-				foobar: true
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				slug: 'johndoe',
+				data: {
+					email: 'johndoe@example.com',
+					foobar: true
+				}
 			}
 		}
 	})
 
-	test.deepEqual(result, {
-		id: result.id,
+	test.deepEqual(card, {
+		id: card.id,
 		slug: 'johndoe',
 		type: 'card',
 		tags: [],
@@ -176,52 +184,54 @@ ava.test('should create a card with more extra data properties', async (test) =>
 		}
 	})
 
-	const timeline = _.map(await helpers.getTimeline(test.context.jellyfish, test.context.session, result.id), 'type')
+	const timeline = _.map(await helpers.getTimeline(test.context.jellyfish, test.context.session, card.id), 'type')
 	test.deepEqual(timeline, [ 'create' ])
 })
 
 ava.test('should evaluate a simple computed property on insertion', async (test) => {
-	const type = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	const type = await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: test.context.ids.type,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			slug: 'test-type',
-			data: {
-				schema: {
-					type: 'object',
-					properties: {
-						type: {
-							type: 'string',
-							const: 'test-type'
-						},
-						data: {
-							type: 'object',
-							properties: {
-								foo: {
-									type: 'string',
-									$formula: 'UPPER(input)'
-								}
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				slug: 'test-type',
+				data: {
+					schema: {
+						type: 'object',
+						properties: {
+							type: {
+								type: 'string',
+								const: 'test-type'
 							},
-							additionalProperties: true
-						}
-					},
-					additionalProperties: true,
-					required: [ 'type', 'data' ]
+							data: {
+								type: 'object',
+								properties: {
+									foo: {
+										type: 'string',
+										$formula: 'UPPER(input)'
+									}
+								},
+								additionalProperties: true
+							}
+						},
+						additionalProperties: true,
+						required: [ 'type', 'data' ]
+					}
 				}
 			}
 		}
 	})
 
-	const result = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	const result = await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: type.id,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			data: {
-				foo: 'hello'
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				data: {
+					foo: 'hello'
+				}
 			}
 		}
 	})
@@ -239,117 +249,121 @@ ava.test('should evaluate a simple computed property on insertion', async (test)
 })
 
 ava.test('should throw if the result of the formula is incompatible with the given type', async (test) => {
-	const type = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	const type = await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: test.context.ids.type,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			slug: 'test-type',
-			data: {
-				schema: {
-					type: 'object',
-					properties: {
-						type: {
-							type: 'string',
-							const: 'test-type'
-						},
-						data: {
-							type: 'object',
-							properties: {
-								foo: {
-									type: 'number',
-									$formula: 'UPPER(input)'
-								}
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				slug: 'test-type',
+				data: {
+					schema: {
+						type: 'object',
+						properties: {
+							type: {
+								type: 'string',
+								const: 'test-type'
 							},
-							additionalProperties: true
-						}
-					},
-					additionalProperties: true,
-					required: [ 'type', 'data' ]
+							data: {
+								type: 'object',
+								properties: {
+									foo: {
+										type: 'number',
+										$formula: 'UPPER(input)'
+									}
+								},
+								additionalProperties: true
+							}
+						},
+						additionalProperties: true,
+						required: [ 'type', 'data' ]
+					}
 				}
 			}
 		}
 	})
 
-	await test.throws(test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	await test.throws(helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: type.id,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			data: {
-				foo: 'hello'
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				data: {
+					foo: 'hello'
+				}
 			}
 		}
 	}), test.context.jellyfish.JellyfishSchemaMismatch)
 })
 
 ava.test('AGGREGATE($events): should react to one event', async (test) => {
-	const type = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	const type = await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: test.context.ids.type,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			slug: 'test-thread',
-			data: {
-				schema: {
-					type: 'object',
-					properties: {
-						type: {
-							type: 'string',
-							const: 'test-thread'
-						},
-						data: {
-							type: 'object',
-							properties: {
-								mentions: {
-									type: 'array',
-									$formula: 'AGGREGATE($events, "data.payload.mentions")'
-								}
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				slug: 'test-thread',
+				data: {
+					schema: {
+						type: 'object',
+						properties: {
+							type: {
+								type: 'string',
+								const: 'test-thread'
 							},
-							additionalProperties: true
-						}
-					},
-					additionalProperties: true,
-					required: [ 'type', 'data' ]
+							data: {
+								type: 'object',
+								properties: {
+									mentions: {
+										type: 'array',
+										$formula: 'AGGREGATE($events, "data.payload.mentions")'
+									}
+								},
+								additionalProperties: true
+							}
+						},
+						additionalProperties: true,
+						required: [ 'type', 'data' ]
+					}
 				}
 			}
 		}
 	})
 
 	const admin = await test.context.jellyfish.getCardBySlug(test.context.session, 'user-admin')
-	const thread = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	const thread = await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: type.id,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			data: {
-				mentions: []
-			}
-		}
-	})
-
-	await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
-		targetId: test.context.ids.card,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			data: {
-				timestamp: '2018-05-05T00:21:02.459Z',
-				target: thread.id,
-				actor: admin,
-				payload: {
-					mentions: [ 'johndoe' ]
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				data: {
+					mentions: []
 				}
 			}
 		}
 	})
 
-	await test.context.flushRequests()
+	await helpers.executeAction(test.context, {
+		action: 'action-create-card',
+		targetId: test.context.ids.card,
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				data: {
+					timestamp: '2018-05-05T00:21:02.459Z',
+					target: thread.id,
+					actor: admin,
+					payload: {
+						mentions: [ 'johndoe' ]
+					}
+				}
+			}
+		}
+	})
+
 	const card = await test.context.jellyfish.getCardById(test.context.session, thread.id)
 	test.deepEqual(card.data.mentions, [ 'johndoe' ])
 })
@@ -382,46 +396,50 @@ ava.test('AGGREGATE($events): should add one triggered action if instantiating t
 		}
 	}
 
-	const type = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	const type = await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: test.context.ids.type,
-		actorId: test.context.actor.id
-	}, {
-		properties: typeProperties
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: typeProperties
+		}
 	})
 
-	await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: type.id,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			data: {
-				mentions: []
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				data: {
+					mentions: []
+				}
 			}
 		}
 	})
 
-	await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: type.id,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			data: {
-				mentions: []
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				data: {
+					mentions: []
+				}
 			}
 		}
 	})
 
-	await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: type.id,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			data: {
-				mentions: []
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				data: {
+					mentions: []
+				}
 			}
 		}
 	})
@@ -446,78 +464,81 @@ ava.test('AGGREGATE($events): should add one triggered action if instantiating t
 })
 
 ava.test('AGGREGATE($events): should consider updates to the type', async (test) => {
-	const type = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	const type = await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: test.context.ids.type,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			slug: 'test-thread',
-			data: {
-				schema: {
-					type: 'object',
-					properties: {
-						type: {
-							type: 'string',
-							const: 'test-thread'
-						},
-						data: {
-							type: 'object',
-							properties: {
-								mentions: {
-									type: 'array',
-									$formula: 'AGGREGATE($events, "data.payload.mentions")'
-								}
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				slug: 'test-thread',
+				data: {
+					schema: {
+						type: 'object',
+						properties: {
+							type: {
+								type: 'string',
+								const: 'test-thread'
 							},
-							additionalProperties: true
-						}
-					},
-					additionalProperties: true,
-					required: [ 'type', 'data' ]
+							data: {
+								type: 'object',
+								properties: {
+									mentions: {
+										type: 'array',
+										$formula: 'AGGREGATE($events, "data.payload.mentions")'
+									}
+								},
+								additionalProperties: true
+							}
+						},
+						additionalProperties: true,
+						required: [ 'type', 'data' ]
+					}
 				}
 			}
 		}
 	})
 
-	await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: type.id,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			data: {
-				mentions: []
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				data: {
+					mentions: []
+				}
 			}
 		}
 	})
 
-	const newType = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-update-card',
+	const newType = await helpers.executeAction(test.context, {
+		action: 'action-update-card',
 		targetId: type.id,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			data: {
-				schema: {
-					type: 'object',
-					properties: {
-						type: {
-							type: 'string',
-							const: 'test-thread'
-						},
-						data: {
-							type: 'object',
-							properties: {
-								mentions: {
-									type: 'array',
-									$formula: 'AGGREGATE($events, "data.payload.newMentions")'
-								}
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				data: {
+					schema: {
+						type: 'object',
+						properties: {
+							type: {
+								type: 'string',
+								const: 'test-thread'
 							},
-							additionalProperties: true
-						}
-					},
-					additionalProperties: true,
-					required: [ 'type', 'data' ]
+							data: {
+								type: 'object',
+								properties: {
+									mentions: {
+										type: 'array',
+										$formula: 'AGGREGATE($events, "data.payload.newMentions")'
+									}
+								},
+								additionalProperties: true
+							}
+						},
+						additionalProperties: true,
+						required: [ 'type', 'data' ]
+					}
 				}
 			}
 		}
@@ -525,14 +546,15 @@ ava.test('AGGREGATE($events): should consider updates to the type', async (test)
 
 	test.is(type.id, newType.id)
 
-	await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: type.id,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			data: {
-				mentions: []
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				data: {
+					mentions: []
+				}
 			}
 		}
 	})
@@ -557,223 +579,230 @@ ava.test('AGGREGATE($events): should consider updates to the type', async (test)
 })
 
 ava.test('AGGREGATE($events): should work with $$ prefixed properties', async (test) => {
-	const type = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	const type = await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: test.context.ids.type,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			slug: 'test-thread',
-			data: {
-				schema: {
-					type: 'object',
-					properties: {
-						type: {
-							type: 'string',
-							const: 'test-thread'
-						},
-						data: {
-							type: 'object',
-							properties: {
-								$$mentions: {
-									type: 'array',
-									$formula: 'AGGREGATE($events, "data.payload.$$mentions")'
-								}
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				slug: 'test-thread',
+				data: {
+					schema: {
+						type: 'object',
+						properties: {
+							type: {
+								type: 'string',
+								const: 'test-thread'
 							},
-							additionalProperties: true
-						}
-					},
-					additionalProperties: true,
-					required: [ 'type', 'data' ]
+							data: {
+								type: 'object',
+								properties: {
+									$$mentions: {
+										type: 'array',
+										$formula: 'AGGREGATE($events, "data.payload.$$mentions")'
+									}
+								},
+								additionalProperties: true
+							}
+						},
+						additionalProperties: true,
+						required: [ 'type', 'data' ]
+					}
 				}
 			}
 		}
 	})
 
 	const admin = await test.context.jellyfish.getCardBySlug(test.context.session, 'user-admin')
-	const thread = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	const thread = await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: type.id,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			data: {
-				$$mentions: []
-			}
-		}
-	})
-
-	await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
-		targetId: test.context.ids.card,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			data: {
-				timestamp: '2018-05-05T00:21:02.459Z',
-				target: thread.id,
-				actor: admin,
-				payload: {
-					$$mentions: [ 'johndoe' ]
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				data: {
+					$$mentions: []
 				}
 			}
 		}
 	})
 
-	await test.context.flushRequests()
+	await helpers.executeAction(test.context, {
+		action: 'action-create-card',
+		targetId: test.context.ids.card,
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				data: {
+					timestamp: '2018-05-05T00:21:02.459Z',
+					target: thread.id,
+					actor: admin,
+					payload: {
+						$$mentions: [ 'johndoe' ]
+					}
+				}
+			}
+		}
+	})
+
 	const card = await test.context.jellyfish.getCardById(test.context.session, thread.id)
 	test.deepEqual(card.data.$$mentions, [ 'johndoe' ])
 })
 
 ava.test('AGGREGATE($events): should be able to add a type with a formula based on its timeline', async (test) => {
-	const type = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	const type = await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: test.context.ids.type,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			slug: 'test-thread',
-			data: {
-				schema: {
-					type: 'object',
-					properties: {
-						type: {
-							type: 'string',
-							const: 'test-thread'
-						},
-						data: {
-							type: 'object',
-							properties: {
-								mentions: {
-									type: 'array',
-									$formula: 'AGGREGATE($events, "data.payload.mentions")'
-								}
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				slug: 'test-thread',
+				data: {
+					schema: {
+						type: 'object',
+						properties: {
+							type: {
+								type: 'string',
+								const: 'test-thread'
 							},
-							additionalProperties: true
-						}
-					},
-					additionalProperties: true,
-					required: [ 'type', 'data' ]
+							data: {
+								type: 'object',
+								properties: {
+									mentions: {
+										type: 'array',
+										$formula: 'AGGREGATE($events, "data.payload.mentions")'
+									}
+								},
+								additionalProperties: true
+							}
+						},
+						additionalProperties: true,
+						required: [ 'type', 'data' ]
+					}
 				}
 			}
 		}
 	})
 
 	const admin = await test.context.jellyfish.getCardBySlug(test.context.session, 'user-admin')
-	const thread = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	const thread = await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: type.id,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			data: {
-				mentions: []
-			}
-		}
-	})
-
-	await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
-		targetId: test.context.ids.card,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			data: {
-				timestamp: '2018-05-05T00:21:02.459Z',
-				target: thread.id,
-				actor: admin,
-				payload: {
-					mentions: [ 'johndoe' ]
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				data: {
+					mentions: []
 				}
 			}
 		}
 	})
 
-	await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: test.context.ids.card,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			data: {
-				timestamp: '2018-05-05T00:28:42.302Z',
-				target: thread.id,
-				actor: admin,
-				payload: {
-					mentions: [ 'janedoe', 'johnsmith' ]
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				data: {
+					timestamp: '2018-05-05T00:21:02.459Z',
+					target: thread.id,
+					actor: admin,
+					payload: {
+						mentions: [ 'johndoe' ]
+					}
 				}
 			}
 		}
 	})
 
-	await test.context.flushRequests()
+	await helpers.executeAction(test.context, {
+		action: 'action-create-card',
+		targetId: test.context.ids.card,
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				data: {
+					timestamp: '2018-05-05T00:28:42.302Z',
+					target: thread.id,
+					actor: admin,
+					payload: {
+						mentions: [ 'janedoe', 'johnsmith' ]
+					}
+				}
+			}
+		}
+	})
+
 	const card = await test.context.jellyfish.getCardById(test.context.session, thread.id)
 	test.deepEqual(card.data.mentions, [ 'johndoe', 'janedoe', 'johnsmith' ])
 })
 
 ava.test('AGGREGATE($events): should create a property on the target if it does not exist', async (test) => {
-	const type = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	const type = await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: test.context.ids.type,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			slug: 'test-thread',
-			data: {
-				schema: {
-					type: 'object',
-					properties: {
-						type: {
-							type: 'string',
-							const: 'test-thread'
-						},
-						data: {
-							type: 'object',
-							properties: {
-								mentions: {
-									type: 'array',
-									$formula: 'AGGREGATE($events, "data.payload.mentions")'
-								}
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				slug: 'test-thread',
+				data: {
+					schema: {
+						type: 'object',
+						properties: {
+							type: {
+								type: 'string',
+								const: 'test-thread'
 							},
-							additionalProperties: true
-						}
-					},
-					additionalProperties: true,
-					required: [ 'type', 'data' ]
+							data: {
+								type: 'object',
+								properties: {
+									mentions: {
+										type: 'array',
+										$formula: 'AGGREGATE($events, "data.payload.mentions")'
+									}
+								},
+								additionalProperties: true
+							}
+						},
+						additionalProperties: true,
+						required: [ 'type', 'data' ]
+					}
 				}
 			}
 		}
 	})
 
 	const admin = await test.context.jellyfish.getCardBySlug(test.context.session, 'user-admin')
-	const thread = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	const thread = await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: type.id,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			data: {}
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				data: {}
+			}
 		}
 	})
 
-	await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: test.context.ids.card,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			data: {
-				timestamp: '2018-05-05T00:21:02.459Z',
-				target: thread.id,
-				actor: admin,
-				payload: {
-					mentions: [ 'johndoe' ]
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				data: {
+					timestamp: '2018-05-05T00:21:02.459Z',
+					target: thread.id,
+					actor: admin,
+					payload: {
+						mentions: [ 'johndoe' ]
+					}
 				}
 			}
 		}
 	})
 
-	await test.context.flushRequests()
 	const card = await test.context.jellyfish.getCardById(test.context.session, thread.id)
 	test.deepEqual(card.data.mentions, [ 'johndoe' ])
 })
