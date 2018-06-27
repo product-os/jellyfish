@@ -1,0 +1,49 @@
+{
+  "slug": "triggered-action-hangouts-link",
+  "type": "triggered-action",
+  "tags": [],
+  "links": [],
+  "active": true,
+  "data": {
+    "filter": {
+      "type": "object",
+      "required": [ "type", "data" ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "message"
+        },
+        "data": {
+          "type": "object",
+          "required": [ "payload" ],
+          "properties": {
+            "payload": {
+              "type": "object",
+              "required": [ "message" ],
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "pattern": "let('?)s hangout"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "action": "action-create-card",
+    "target": "message",
+    "arguments": {
+      "properties": {
+        "data": {
+          "timestamp": "{source.data.timestamp}",
+          "actor": "{source.data.actor}",
+          "target": "{source.data.target}",
+          "payload": {
+            "message": "https://hangouts.google.com/hangouts/_/resin.io/jellyfish-{source.id}"
+          }
+        }
+      }
+    }
+  }
+}
