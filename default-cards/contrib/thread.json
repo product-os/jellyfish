@@ -14,7 +14,8 @@
           "items": {
             "type": "string",
             "pattern": "^[a-zA-Z0-9-/]+$"
-          }
+          },
+          "$formula": "AGGREGATE($events, 'tags')"
         },
         "data": {
           "type": "object",
