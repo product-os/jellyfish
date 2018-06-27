@@ -32,14 +32,14 @@ const EventWrapper = styled(Flex)`
 		}
 	}
 
-	.rendition-username-hl {
+	.rendition-tag-hl {
     background: #efefef;
     padding: 2px 2px;
     border-radius: 3px;
     border: 1px solid #c3c3c3;
 	}
 
-	.rendition-username-hl--self {
+	.rendition-tag-hl--self {
 		background: #FFF1C2;
 		border-color: #FFC19B;
 	}
@@ -75,26 +75,28 @@ export default class Event extends React.Component<EventProps, { actorName: stri
 	}
 
 	public componentDidMount() {
-		this.highlightUsernames();
+		this.highlightTags();
 	}
 
 	public componentDidUpdate() {
-		this.highlightUsernames();
+		this.highlightTags();
 	}
 
-	public highlightUsernames() {
+	public highlightTags() {
 		if (!this.messageElement) {
 			return;
 		}
 
 		let sourceHtml = this.messageElement.innerHTML;
 
-		const usernames = _.uniq(
-			findWordsByPrefix('@', sourceHtml)
-				.concat(findWordsByPrefix('!', sourceHtml)),
-		);
+		const usernames = _.uniq(_.concat(
+			findWordsByPrefix('@', sourceHtml),
+			findWordsByPrefix('!', sourceHtml),
+		));
 
-		if (!usernames.length) {
+		const tags = _.uniq(findWordsByPrefix('#', sourceHtml));
+
+		if (!tags.length && !usernames.length) {
 			return;
 		}
 
@@ -105,9 +107,16 @@ export default class Event extends React.Component<EventProps, { actorName: stri
 			if (match) {
 				sourceHtml = sourceHtml.replace(
 					new RegExp(`${name}`, 'g'),
-					`<span class="rendition-username-hl ${match.id === actor ? 'rendition-username-hl--self' : ''}">$&</span>`,
+					`<span class="rendition-tag-hl ${match.id === actor ? 'rendition-tag-hl--self' : ''}">$&</span>`,
 				);
 			}
+		});
+
+		tags.forEach((tag) => {
+			sourceHtml = sourceHtml.replace(
+				new RegExp(`${tag}`, 'g'),
+				`<span class="rendition-tag-hl">$&</span>`,
+			);
 		});
 
 		this.messageElement.innerHTML = sourceHtml;

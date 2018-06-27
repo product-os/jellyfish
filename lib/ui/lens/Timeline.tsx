@@ -17,7 +17,12 @@ import EventCard from '../components/Event';
 import Icon from '../components/Icon';
 import { TailStreamer } from '../components/TailStreamer';
 import { connectComponent, ConnectedComponentProps } from '../services/connector';
-import { createChannel, getCurrentTimestamp, getUserIdsByPrefix } from '../services/helpers';
+import {
+	createChannel,
+	findWordsByPrefix,
+	getCurrentTimestamp,
+	getUserIdsByPrefix,
+} from '../services/helpers';
 
 const Column = styled(Flex)`
 	height: 100%;
@@ -149,12 +154,13 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		const { allUsers } = this.props.appState;
 		const mentions = getUserIdsByPrefix('@', newMessage, allUsers);
 		const alerts = getUserIdsByPrefix('!', newMessage, allUsers);
+		const tags = findWordsByPrefix('#', newMessage).map(tag => tag.slice(1));
 
 		const id = uuid();
 
 		const message = {
 			id,
-			tags: [],
+			tags,
 			links: [],
 			active: true,
 			type: 'message',
