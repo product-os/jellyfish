@@ -1,0 +1,27 @@
+{
+  "slug": "action-create-card-from-tag",
+  "type": "action",
+  "name": "Create a card from a tag",
+  "tags": [],
+  "links": [],
+  "active": true,
+  "data": {
+    "filter": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "message"
+        }
+      },
+      "required": [ "type" ]
+    },
+    "arguments": {},
+    "options": {
+      "type": "[arguments.type]",
+      "tag": "[arguments.tag]",
+      "sourcePath": "[arguments.sourcePath]",
+      "properties": "[arguments.properties]"
+    }
+  }
+}
