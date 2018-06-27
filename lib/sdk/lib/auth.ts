@@ -93,6 +93,10 @@ export class AuthSdk {
 		email: string;
 		password: string;
 	}): Bluebird<Card> {
+		// Normalize username and email to lower case
+		username = username.toLowerCase();
+		email = email.toLowerCase();
+
 		if (!USERNAME_REGEX.test(username)) {
 			throw new Error('Usernames can only contain alphanumeric characters and dashes, and must be at least 5 characters long');
 		}
@@ -166,7 +170,8 @@ export class AuthSdk {
 		username: string;
 		password: string;
 	}): Bluebird<Card> {
-		const slug = `user-${options.username}`;
+		// Normalize username to lower case
+		const slug = `user-${options.username}`.toLowerCase();
 
 		const passwordArgument = options.password ?
 			{

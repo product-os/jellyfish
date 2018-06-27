@@ -228,6 +228,12 @@
             "type": {
               "type": "string",
               "const": "user"
+            },
+            "slug": {
+              "type": "string",
+              "not": {
+                "const": "user-admin"
+              }
             }
           },
           "additionalProperties": false,

@@ -380,6 +380,16 @@
               "type": "string",
               "const": "user"
             },
+            "slug": {
+              "type": "string",
+              "not": {
+                "enum": [
+                  "user-admin",
+                  "user-guest",
+                  "user-actions"
+                ]
+              }
+            },
             "data": {
               "type": "object",
               "properties": {
