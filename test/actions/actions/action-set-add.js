@@ -15,27 +15,30 @@
  */
 
 const ava = require('ava')
+const helpers = require('../helpers')
 
 ava.test('should add a string to an empty array', async (test) => {
-	const result1 = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	const result1 = await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: test.context.ids.card,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			data: {
-				array: []
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				data: {
+					array: []
+				}
 			}
 		}
 	})
 
-	const result2 = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-set-add',
+	const result2 = await helpers.executeAction(test.context, {
+		action: 'action-set-add',
 		targetId: result1.id,
-		actorId: test.context.actor.id
-	}, {
-		property: 'data.array',
-		value: 'foo'
+		actorId: test.context.actor.id,
+		arguments: {
+			property: 'data.array',
+			value: 'foo'
+		}
 	})
 
 	test.is(result1.id, result2.id)
@@ -44,25 +47,27 @@ ava.test('should add a string to an empty array', async (test) => {
 })
 
 ava.test('should add a string to a non empty array', async (test) => {
-	const result1 = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	const result1 = await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: test.context.ids.card,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			data: {
-				array: [ 'foo', 'bar' ]
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				data: {
+					array: [ 'foo', 'bar' ]
+				}
 			}
 		}
 	})
 
-	const result2 = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-set-add',
+	const result2 = await helpers.executeAction(test.context, {
+		action: 'action-set-add',
 		targetId: result1.id,
-		actorId: test.context.actor.id
-	}, {
-		property: 'data.array',
-		value: 'baz'
+		actorId: test.context.actor.id,
+		arguments: {
+			property: 'data.array',
+			value: 'baz'
+		}
 	})
 
 	test.is(result1.id, result2.id)
@@ -71,25 +76,27 @@ ava.test('should add a string to a non empty array', async (test) => {
 })
 
 ava.test('should not store duplicates', async (test) => {
-	const result1 = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	const result1 = await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: test.context.ids.card,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			data: {
-				array: [ 'foo', 'bar' ]
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				data: {
+					array: [ 'foo', 'bar' ]
+				}
 			}
 		}
 	})
 
-	const result2 = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-set-add',
+	const result2 = await helpers.executeAction(test.context, {
+		action: 'action-set-add',
 		targetId: result1.id,
-		actorId: test.context.actor.id
-	}, {
-		property: 'data.array',
-		value: 'foo'
+		actorId: test.context.actor.id,
+		arguments: {
+			property: 'data.array',
+			value: 'foo'
+		}
 	})
 
 	test.is(result1.id, result2.id)
@@ -98,25 +105,27 @@ ava.test('should not store duplicates', async (test) => {
 })
 
 ava.test('should not discard existing duplicates', async (test) => {
-	const result1 = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-card',
+	const result1 = await helpers.executeAction(test.context, {
+		action: 'action-create-card',
 		targetId: test.context.ids.card,
-		actorId: test.context.actor.id
-	}, {
-		properties: {
-			data: {
-				array: [ 'foo', 'foo' ]
+		actorId: test.context.actor.id,
+		arguments: {
+			properties: {
+				data: {
+					array: [ 'foo', 'foo' ]
+				}
 			}
 		}
 	})
 
-	const result2 = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-set-add',
+	const result2 = await helpers.executeAction(test.context, {
+		action: 'action-set-add',
 		targetId: result1.id,
-		actorId: test.context.actor.id
-	}, {
-		property: 'data.array',
-		value: 'bar'
+		actorId: test.context.actor.id,
+		arguments: {
+			property: 'data.array',
+			value: 'bar'
+		}
 	})
 
 	test.is(result1.id, result2.id)
