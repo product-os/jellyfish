@@ -50,7 +50,7 @@ exports.getTimeline = async (jellyfish, session, id, options) => {
 	}, options)
 }
 
-const flushRequests = async (context, retries = 10) => {
+const waitForRequests = async (context, retries = 10) => {
 	if (retries === 0) {
 		throw new Error('Could not flush requests')
 	}
@@ -61,15 +61,26 @@ const flushRequests = async (context, retries = 10) => {
 	}
 
 	await Bluebird.delay(1000)
-	await flushRequests(context, retries - 1)
+	await waitForRequests(context, retries - 1)
+}
+
+const waitForRequest = async (context, request) => {
+	await waitForRequests(context)
+	const result = await context.jellyfish.getCardById(context.session, request.id)
+	if (!result.data.executed) {
+		await Bluebird.delay(200)
+		return waitForRequest(context, request)
+	}
+
+	return result
 }
 
 exports.executeAction = async (context, options) => {
-	const card = await context.worker.executeAction(context.session, {
-		actionId: options.action,
-		targetId: options.targetId,
-		actorId: options.actorId
-	}, options.arguments)
-	await flushRequests(context)
-	return card
+	const pendingRequest = await context.worker.createRequest(context.session, options)
+	const request = await waitForRequest(context, pendingRequest)
+	if (!request.data.result.error) {
+		return request.data.result.data
+	}
+
+	throw new context.jellyfish.errors[request.data.result.data.type](request.data.result.data.message)
 }

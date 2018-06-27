@@ -35,7 +35,7 @@ ava.test('should create a user', async (test) => {
 		arguments: {
 			email: 'johndoe@example.com',
 			username: 'user-johndoe',
-			hash
+			hash: credentials
 		}
 	})
 
