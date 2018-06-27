@@ -14,7 +14,7 @@ const streams: { [k: string]: JellyfishStream } = {};
 
 export interface IViews {
 	viewData: { [k: string]: Card[] };
-	subscriptions: { [k: string]: Card[] };
+	subscriptions: { [k: string]: Card };
 	activeView: string | null;
 }
 
@@ -55,7 +55,7 @@ const notify = (
 export const viewSelectors = {
 	getViewData: (state: StoreState, query: string | Card | JSONSchema6) =>
 		state.views.viewData[getViewId(query)] || null,
-	getSubscription: (state: StoreState, id: string) =>
+	getSubscription: (state: StoreState, id: string): Card | null =>
 		state.views.subscriptions[id] || null,
 };
 

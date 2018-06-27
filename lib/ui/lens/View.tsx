@@ -19,7 +19,6 @@ import ButtonGroup from '../components/ButtonGroup';
 import ChannelRenderer from '../components/ChannelRenderer';
 import Icon from '../components/Icon';
 import { If } from '../components/If';
-import { NotificationsModal } from '../components/NotificationsModal';
 import { sdk } from '../core/sdk';
 import { actionCreators, selectors, StoreState } from '../core/store';
 import {
@@ -32,8 +31,6 @@ interface ViewRendererState {
 	filters: JSONSchema6[];
 	lenses: Lens[];
 	ready: boolean;
-	showFilters: boolean;
-	showNotificationSettings: boolean;
 	tailType: Type | null;
 }
 
@@ -56,8 +53,6 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 			filters: [],
 			lenses: [],
 			ready: false,
-			showFilters: false,
-			showNotificationSettings: false,
 			tailType: null,
 		};
 	}
@@ -96,8 +91,6 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 			filters,
 			lenses,
 			tailType,
-			showFilters: false,
-			showNotificationSettings: false,
 			// mark as ready
 			ready: true,
 		});
@@ -206,26 +199,6 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 		this.setState({ filters });
 	}
 
-	public getNotificationSettings() {
-		return _.get(this.props.subscription, 'data.notificationSettings') || {};
-	}
-
-	public saveNotificationSettings = (settings: any) => {
-		const { subscription } = this.props;
-
-		if (!subscription) {
-			return;
-		}
-
-		subscription.data.notificationSettings = settings;
-
-		this.props.actions.saveSubscription(subscription, this.props.channel.data.target);
-
-		this.setState({
-			showNotificationSettings: false,
-		});
-	}
-
 	public setLens = (e: React.MouseEvent<HTMLButtonElement>) => {
 		const slug = e.currentTarget.dataset.slug;
 		const lens = _.find(this.state.lenses, { slug });
@@ -251,18 +224,6 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 		subscription.data.activeGroup = slug;
 
 		this.props.actions.saveSubscription(subscription, this.props.channel.data.target);
-	}
-
-	public showNotificationSettings = () => {
-		this.setState({ showNotificationSettings: true });
-	}
-
-	public hideNotificationSettings = () => {
-		this.setState({ showNotificationSettings: false });
-	}
-
-	public toggleFilters = () => {
-		this.setState({ showFilters: !this.state.showFilters });
 	}
 
 	render() {
@@ -293,36 +254,25 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 			>
 				<If condition={!!head}>
 					<Box>
-						<NotificationsModal
-							show={this.state.showNotificationSettings}
-							settings={this.getNotificationSettings()}
-							onCancel={this.hideNotificationSettings}
-							onDone={this.saveNotificationSettings}
-						/>
-
 						<Flex mt={3} justify="space-between">
-							<Box pl={3}>
-								<Button
-									mr={2}
-									tooltip={{ placement: 'bottom', text: 'Notification settings'}}
-									onClick={this.showNotificationSettings}
-									square={true}
-								>
-									<Icon name="bell" />
-								</Button>
-
+							<Box flex="1" mx={3}>
 								<If condition={useFilters}>
-									<Button
-										tooltip={{ placement: 'bottom', text: 'Filter options'}}
-										onClick={this.toggleFilters}
-										square={true}
-									>
-										<Icon name="filter" />
-									</Button>
+									<Box mt={0} flex="1 0 auto">
+										<Filters
+											schema={(tailType as any).data.schema}
+											filters={this.state.filters}
+											onFiltersUpdate={this.updateFilters}
+											onViewsUpdate={this.saveView}
+											addFilterButtonProps={{
+												style: { flex: '0 0 137px' },
+											}}
+											renderMode={['add', 'search']}
+										/>
+									</Box>
 								</If>
 							</Box>
 
-							<Flex px={3}>
+							<Flex mx={3}>
 								<If condition={this.state.lenses.length > 1 && !!activeLens}>
 									<ButtonGroup>
 										{_.map(this.state.lenses, lens =>
@@ -363,22 +313,19 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 							</Flex>
 						</Flex>
 
-						<If condition={useFilters && this.state.showFilters}>
-							<Box mx={3} mt={2} flex="1 0 auto">
+						<If condition={useFilters && this.state.filters.length > 0}>
+							<Box flex="1 0 auto" mb={3} mx={3}>
 								<Filters
 									schema={(tailType as any).data.schema}
 									filters={this.state.filters}
 									onFiltersUpdate={this.updateFilters}
 									onViewsUpdate={this.saveView}
-									addFilterButtonProps={{
-										style: { flex: '0 0 137px' },
-									}}
-									renderMode={['add', 'search', 'summary']}
+									renderMode={['summary']}
 								/>
 							</Box>
 						</If>
 
-						<Divider color="#ccc" mt={3} mb={0} style={{height: 1}} />
+						<Divider color="#ccc" mt={0} mb={0} style={{height: 1}} />
 					</Box>
 				</If>
 

@@ -21,6 +21,7 @@ import { createChannel } from '../services/helpers';
 import Gravatar from './Gravatar';
 import Icon from './Icon';
 import { TailStreamer } from './TailStreamer';
+import { ViewLink } from './ViewLink';
 
 // View slugs that should be displayed first
 const PRIORITY_VIEWS = [
@@ -28,52 +29,6 @@ const PRIORITY_VIEWS = [
 	'view-my-mentions',
 	'view-my-todo-items',
 ];
-
-interface ViewLinkProps {
-	card: Card;
-	isActive: boolean;
-	update?: {
-		id: string;
-		newMentions?: boolean;
-		newContent?: boolean;
-	};
-	open: (card: Card) => void;
-}
-
-class ViewLink extends React.Component<ViewLinkProps, {}> {
-	public open = () => {
-		this.props.open(this.props.card);
-	}
-	render() {
-		const { card, isActive, update } = this.props;
-		return (
-			<Link
-				className={`home-channel__item home-channel__item--${card.slug}`}
-				style={{display: 'block'}}
-				key={card.id}
-				bg={isActive ? '#666' : 'none'}
-				py={2}
-				px={3}
-				color={isActive ? 'white' : '#c3c3c3'}
-				onClick={this.open}
-			>
-				{card.name}
-
-				{!!update &&
-						<Icon
-							name="circle"
-							style={{
-								color: update.newContent ? 'green' : 'orange',
-								marginTop: 4,
-								float: 'right',
-								fontSize: 11,
-							}}
-						/>
-				}
-			</Link>
-		);
-	}
-}
 
 const MenuPanel = styled(Box)`
 	position: absolute;
