@@ -115,6 +115,7 @@
               "type": "string",
               "anyOf": [
                 { "const": "action-create-user" },
+                { "const": "action-create-event" },
                 { "const": "action-create-session" },
                 { "const": "action-update-card" }
               ]
