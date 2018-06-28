@@ -40,7 +40,8 @@
                   }
                 },
                 "message": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "markdown"
                 }
               },
               "required": [ "message" ],

@@ -142,7 +142,7 @@ class Base extends React.Component<CardProps, {}> {
 		const localSchema = getLocalSchema(card);
 
 		// Local schemas are considered weak and are overridden by a type schema
-		const schema = _.merge({
+		const schema = _.merge({}, {
 			type: 'object',
 			properties: {
 				data: localSchema,

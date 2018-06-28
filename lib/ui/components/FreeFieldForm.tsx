@@ -56,6 +56,14 @@ export class FreeFieldForm extends React.Component<FreeFieldFormProps, FreeField
 			},
 		},
 		{
+			key: 'markdown',
+			name: 'Rich text',
+			schema: {
+				type: 'string',
+				format: 'markdown',
+			},
+		},
+		{
 			key: 'mermaid',
 			name: 'Mermaid',
 			schema: {
@@ -104,7 +112,7 @@ export class FreeFieldForm extends React.Component<FreeFieldFormProps, FreeField
 		return (
 			<Box>
 				<Form
-					schema={this.props.schema}
+					schema={_.cloneDeep(this.props.schema)}
 					value={this.props.data}
 					onFormChange={this.handleFormChange}
 					hideSubmitButton={true}

@@ -27,13 +27,15 @@
               "type": "string"
             },
             "Problem": {
-              "type": "string"
+              "type": "string",
+              "format": "markdown"
             },
             "Pull Leech Logs": {
               "type": "boolean"
             },
             "Solution": {
-              "type": "string"
+              "type": "string",
+              "format": "markdown"
             },
             "Fix Difficulty": {
               "type": "number",
