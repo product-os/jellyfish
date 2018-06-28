@@ -65,7 +65,7 @@ export class FreeFieldForm extends React.Component<FreeFieldFormProps, FreeField
 		},
 		{
 			key: 'mermaid',
-			name: 'Mermaid',
+			name: 'Chart',
 			schema: {
 				type: 'string',
 				format: 'mermaid',
@@ -142,6 +142,7 @@ export class FreeFieldForm extends React.Component<FreeFieldFormProps, FreeField
 					</Select>
 
 					<Button
+						success
 						onClick={this.addField}
 					>
 						<Icon style={{marginRight: 10}} name="plus" />
