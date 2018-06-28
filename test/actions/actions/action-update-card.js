@@ -17,6 +17,7 @@
 const _ = require('lodash')
 const ava = require('ava')
 const helpers = require('../helpers')
+const errors = require('../../../lib/actions/errors')
 
 ava.test('should replace an existing card and add an update event using a slug', async (test) => {
 	const result1 = await helpers.executeAction(test.context, {
@@ -126,7 +127,7 @@ ava.test('should fail if the target does not exist', async (test) => {
 				}
 			}
 		}
-	}), test.context.jellyfish.errors.JellyfishNoElement)
+	}), errors.ActionsNoElement)
 })
 
 ava.test('should fail if the schema does not match', async (test) => {
@@ -152,7 +153,7 @@ ava.test('should fail if the schema does not match', async (test) => {
 				foobar: true
 			}
 		}
-	}), test.context.jellyfish.errors.JellyfishSchemaMismatch)
+	}), errors.ActionsSchemaMismatch)
 })
 
 ava.test('should add an extra property to a card', async (test) => {

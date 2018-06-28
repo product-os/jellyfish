@@ -18,6 +18,7 @@ require('ts-node').register()
 const _ = require('lodash')
 const ava = require('ava')
 const helpers = require('../helpers')
+const errors = require('../../../lib/actions/errors')
 
 ava.test('should create a card', async (test) => {
 	const card = await helpers.executeAction(test.context, {
@@ -60,7 +61,7 @@ ava.test('should fail if the card type does not exist', async (test) => {
 				slug: 'hello'
 			}
 		}
-	}), test.context.jellyfish.errors.JellyfishNoElement)
+	}), errors.ActionsNoElement)
 })
 
 ava.test('should fail if the card already exists', async (test) => {
@@ -123,7 +124,7 @@ ava.test('should fail if the element is not a valid card', async (test) => {
 				foo: 'bar'
 			}
 		}
-	}), test.context.jellyfish.errors.JellyfishSchemaMismatch)
+	}), errors.ActionsSchemaMismatch)
 })
 
 ava.test('should create an inactive card', async (test) => {
