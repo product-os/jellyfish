@@ -154,6 +154,7 @@
                   },
                   {
                     "enum": [
+                      "view-active",
                       "view-active-triggered-actions",
                       "view-non-executed-action-requests"
                     ]
