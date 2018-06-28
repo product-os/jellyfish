@@ -5,9 +5,9 @@ import * as skhema from 'skhema';
 import uuid = require('uuid/v4');
 import { Card, Channel } from '../../Types';
 
-// Add custom schema formats
-skhema.addFormat('mermaid', _.isString);
+// Add custom formats to skhema
 skhema.addFormat('markdown', _.isString);
+skhema.addFormat('mermaid', _.isString);
 
 const PURPLE = '#8268c5';
 

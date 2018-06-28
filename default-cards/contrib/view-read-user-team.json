@@ -203,6 +203,7 @@
             "type": {
               "type": "string",
               "enum": [
+                "issue",
                 "thread",
                 "message",
                 "scratchpad-entry",
