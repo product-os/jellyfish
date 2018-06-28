@@ -1,21 +1,28 @@
 # Running commands from messages
 
-Users would like to be able to trigger functions (commands) from the content of messages. This pattern takes two forms.
-The first type is when a message *is* a command, for example:
+Users would like to be able to trigger functions (commands) from the content of messages. This pattern takes three forms.
+The first type is using the CLI directly from a message:
 
 | /action create todo "debug notifications" |
 | -- |
 
-The second type is where the command is triggered by a "symbol" from within the content of a message, eg:
+The second type is where a command is triggered by a "symbol" from within the content of a message, essentially behaving as a shorthand for a CLI command:
 
 | debug notifications `$todo` |
+| -- |
+
+The third type is where you interact with a service bot (hubot-like
+functionality) that will provide
+various utility functions, such as setting reminders or creating a meeting room:
+
+| `@zissou` remind me tomorrow to debug notificiations
 | -- |
 
 For the purposes of discussion I'll refer to the first type as "direct commands" and the second type as "interpreted commands".
 
 ## Direct commands
 
-Direct commands take the form:
+Direct commands use the same pattern as the CLI and take the form:
 ```
 /<namespace> <method> [argument]...
 ```
@@ -30,9 +37,6 @@ In the example:
 - the arguments are "todo" and "debug notifications"
 
 A direct command must always beign with a forward slash (`/`).
-
-Direct commands also form the basic pattern of a CLI, when a direct command is
-performed you are essentially interacting with the CLI.
 
 ## Interpreted commands
 
@@ -56,3 +60,12 @@ Additional arguments can be passed in the interpreted command using two hyphens 
 
 | debug notifications `$todo--tomorrow` |
 | --  |
+
+## Service bot commands
+
+A service bot command is always prefixed by the name of the service bot, with
+the rest of the message being parsed for command parameters. Each of these
+commands can be defined as separate triggered actions.
+
+The service bot can have its own user, automatically created at startup at the
+same time as the action, guest and admin users.
