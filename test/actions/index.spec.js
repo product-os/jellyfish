@@ -19,6 +19,7 @@ const _ = require('lodash')
 const randomstring = require('randomstring')
 const core = require('../../lib/core')
 const ActionRequestWorker = require('../../lib/actions')
+const errors = require('../../lib/actions/errors')
 const jellyscript = require('../../lib/jellyscript')
 
 ava.test.beforeEach(async (test) => {
@@ -104,7 +105,7 @@ ava.test('.executeAction() should fail if the action id does not exist', async (
 		properties: {
 			slug: 'hello'
 		}
-	}), test.context.jellyfish.errors.JellyfishNoAction)
+	}), errors.ActionsNoElement)
 })
 
 ava.test('.executeAction() should fail if there is no implementation', async (test) => {
@@ -128,7 +129,7 @@ ava.test('.executeAction() should fail if there is no implementation', async (te
 		actionId: 'action-demo',
 		targetId: eventCard.id,
 		actorId: test.context.users.guest
-	}, {}), test.context.jellyfish.errors.JellyfishNoAction)
+	}, {}), errors.ActionsNoElement)
 })
 
 ava.test('.createRequest() should be able to create a user using action-create-user', async (test) => {

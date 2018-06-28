@@ -15,6 +15,7 @@
  */
 
 const Bluebird = require('bluebird')
+const errors = require('../../lib/actions/errors')
 
 exports.getTimeline = async (jellyfish, session, id, options) => {
 	const card = await jellyfish.getCardById(session, id, options)
@@ -82,5 +83,7 @@ exports.executeAction = async (context, options) => {
 		return request.data.result.data
 	}
 
-	throw new context.jellyfish.errors[request.data.result.data.type](request.data.result.data.message)
+	const Constructor = context.jellyfish.errors[request.data.result.data.type] ||
+		errors[request.data.result.data.type]
+	throw new Constructor(request.data.result.data.message)
 }
