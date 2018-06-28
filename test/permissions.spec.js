@@ -333,7 +333,7 @@ ava.test.serial('AGGREGATE($events): should work when creating cards via the SDK
 	test.deepEqual(card.data.mentionsUser, [ 'johndoe' ])
 })
 
-ava.test.serial.only('Users should not be able to login as the core admin user', async (test) => {
+ava.test.serial('Users should not be able to login as the core admin user', async (test) => {
 	const {
 		sdk
 	} = test.context

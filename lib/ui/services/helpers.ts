@@ -5,9 +5,9 @@ import * as skhema from 'skhema';
 import uuid = require('uuid/v4');
 import { Card, Channel } from '../../Types';
 
-// Add custom schema formats
-skhema.addFormat('mermaid', _.isString);
+// Add custom formats to skhema
 skhema.addFormat('markdown', _.isString);
+skhema.addFormat('mermaid', _.isString);
 
 const PURPLE = '#8268c5';
 
@@ -50,6 +50,11 @@ export const getCurrentTimestamp = () => {
 export const getTypeFromViewCard = (card: any) => {
 	// Default to the `card` type, which will give a sensible schema
 	let value: string = 'card';
+
+	// First check if the view has explicitly declared a type
+	if (!_.isEmpty(card.data.types)) {
+		return _.first(card.data.types);
+	}
 
 	if (card.data.allOf) {
 		for (const item of card.data.allOf) {

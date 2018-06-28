@@ -97,7 +97,7 @@ class Base extends React.Component<CardCreatorProps, CardCreatorState> {
 
 		return (
 			<Modal
-				title="Add entry"
+				title={`Add ${this.props.type.name}`}
 				cancel={this.props.done}
 				done={this.addEntry}
 			>

@@ -159,6 +159,7 @@
                 "view-my-mentions",
                 "view-my-todo-items",
                 "view-scratchpad",
+                "view-jellyfish-issues",
                 "view-p-jellyfish"
               ]
             },
@@ -203,6 +204,7 @@
             "type": {
               "type": "string",
               "enum": [
+                "issue",
                 "thread",
                 "message",
                 "scratchpad-entry",
