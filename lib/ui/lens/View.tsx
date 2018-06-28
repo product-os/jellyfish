@@ -60,7 +60,9 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 			tail: null,
 			tailType: null,
 		};
+	}
 
+	componentDidMount() {
 		this.bootstrap(this.props.channel.data.target);
 	}
 
@@ -321,10 +323,14 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 	}
 
 	render() {
-		if (!this.state.ready) {
-			return null;
-		}
 		const { head } = this.props.channel.data;
+		if (!this.state.ready || !head || _.isEmpty(head.data)) {
+			return (
+				<Box p={3}>
+					<i className="fas fa-cog fa-spin" />
+				</Box>
+			);
+		}
 		const { tail, tailType } = this.state;
 		const useFilters = !!tailType && tailType.slug !== 'view';
 		const { activeLens } = this.state;

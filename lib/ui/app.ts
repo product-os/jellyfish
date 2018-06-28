@@ -2,7 +2,7 @@ import { getSdk } from '@resin.io/jellyfish-sdk';
 import * as Bluebird from 'bluebird';
 import * as localForage from 'localforage';
 import * as _ from 'lodash';
-import { applyMiddleware, createStore, Middleware } from 'redux';
+import { applyMiddleware, createStore, Dispatch, Middleware } from 'redux';
 import thunk, { ThunkAction } from 'redux-thunk';
 import uuid = require('uuid/v4');
 import { Card, Channel, JellyfishState, Notification, Type } from '../Types';
@@ -328,8 +328,12 @@ export const actionCreators = {
 		type: actions.SET_TYPES,
 		value: types,
 	}),
-	addNotification: (type: Notification['type'], message: string): JellyThunk<void> =>
-		(dispatch) => Bluebird.try(() => {
+	addNotification: (type: Notification['type'], message: string): JellyThunk<void> => {
+		if (process.env.NODE_ENV === 'test' && type === 'danger') {
+			console.warn('An error notification was triggered in a test environment', message);
+		}
+
+		return (dispatch: Dispatch<JellyfishState>) => Bluebird.try(() => {
 			const id = uuid();
 			dispatch({
 				type: actions.ADD_NOTIFICATION,
@@ -344,7 +348,8 @@ export const actionCreators = {
 			setTimeout(() => {
 				dispatch(actionCreators.removeNotification(id));
 			}, NOTIFICATION_LIFETIME);
-		}),
+		});
+	},
 	removeNotification: (id: string) => ({
 		type: actions.REMOVE_NOTIFICATION,
 		value: id,

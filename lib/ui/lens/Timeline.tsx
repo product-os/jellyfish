@@ -1,4 +1,3 @@
-import { circularDeepEqual } from 'fast-equals';
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import * as React from 'react';
@@ -116,7 +115,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 			this.shouldScroll = this.scrollArea.scrollTop === this.scrollArea.scrollHeight - this.scrollArea.offsetHeight;
 		}
 
-		if (!circularDeepEqual(nextProps.channel, this.props.channel)) {
+		if (_.get(nextProps.channel, [ 'data', 'target' ]) !== _.get(this.props.channel, [ 'data', 'target' ])) {
 			this.setState(this.getDefaultState());
 			this.bootstrap(nextProps.channel.data.target);
 		}

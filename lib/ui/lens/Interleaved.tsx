@@ -152,12 +152,14 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		const { head } = this.props.channel.data;
 
 		if (!head) {
+			console.warn('.addThread() called, but there is no head card');
 			return;
 		}
 
 		const schema = getViewSchema(head);
 
 		if (!schema) {
+			console.warn('.addThread() called, but there is no view schema available');
 			return;
 		}
 
