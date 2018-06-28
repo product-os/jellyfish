@@ -21,7 +21,7 @@ const helpers = require('../helpers')
 const errors = require('../../../lib/actions/errors')
 
 ava.test('should create a card', async (test) => {
-	const card = await helpers.executeAction(test.context, {
+	const card = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: test.context.ids.card,
 		actorId: test.context.actor.id,
@@ -52,7 +52,7 @@ ava.test('should create a card', async (test) => {
 })
 
 ava.test('should fail if the card type does not exist', async (test) => {
-	await test.throws(helpers.executeAction(test.context, {
+	await test.throws(helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: 'foobarbazqux',
 		actorId: test.context.actor.id,
@@ -75,7 +75,7 @@ ava.test('should fail if the card already exists', async (test) => {
 		}
 	}
 
-	const result = await helpers.executeAction(test.context, {
+	const result = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: test.context.ids.card,
 		actorId: test.context.actor.id,
@@ -84,7 +84,7 @@ ava.test('should fail if the card already exists', async (test) => {
 		}
 	})
 
-	await test.throws(helpers.executeAction(test.context, {
+	await test.throws(helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: test.context.ids.card,
 		actorId: test.context.actor.id,
@@ -98,7 +98,7 @@ ava.test('should fail if the card already exists', async (test) => {
 })
 
 ava.test('should fail if there is a schema mismatch', async (test) => {
-	await test.throws(helpers.executeAction(test.context, {
+	await test.throws(helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: test.context.ids.user,
 		actorId: test.context.actor.id,
@@ -114,7 +114,7 @@ ava.test('should fail if there is a schema mismatch', async (test) => {
 })
 
 ava.test('should fail if the element is not a valid card', async (test) => {
-	await test.throws(helpers.executeAction(test.context, {
+	await test.throws(helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: test.context.ids.card,
 		actorId: test.context.actor.id,
@@ -128,7 +128,7 @@ ava.test('should fail if the element is not a valid card', async (test) => {
 })
 
 ava.test('should create an inactive card', async (test) => {
-	const card = await helpers.executeAction(test.context, {
+	const card = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: test.context.ids.card,
 		actorId: test.context.actor.id,
@@ -157,7 +157,7 @@ ava.test('should create an inactive card', async (test) => {
 })
 
 ava.test('should create a card with more extra data properties', async (test) => {
-	const card = await helpers.executeAction(test.context, {
+	const card = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: test.context.ids.card,
 		actorId: test.context.actor.id,
@@ -190,7 +190,7 @@ ava.test('should create a card with more extra data properties', async (test) =>
 })
 
 ava.test('should evaluate a simple computed property on insertion', async (test) => {
-	const type = await helpers.executeAction(test.context, {
+	const type = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: test.context.ids.type,
 		actorId: test.context.actor.id,
@@ -224,7 +224,7 @@ ava.test('should evaluate a simple computed property on insertion', async (test)
 		}
 	})
 
-	const result = await helpers.executeAction(test.context, {
+	const result = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: type.id,
 		actorId: test.context.actor.id,
@@ -250,7 +250,7 @@ ava.test('should evaluate a simple computed property on insertion', async (test)
 })
 
 ava.test('should throw if the result of the formula is incompatible with the given type', async (test) => {
-	const type = await helpers.executeAction(test.context, {
+	const type = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: test.context.ids.type,
 		actorId: test.context.actor.id,
@@ -284,7 +284,7 @@ ava.test('should throw if the result of the formula is incompatible with the giv
 		}
 	})
 
-	await test.throws(helpers.executeAction(test.context, {
+	await test.throws(helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: type.id,
 		actorId: test.context.actor.id,
@@ -299,7 +299,7 @@ ava.test('should throw if the result of the formula is incompatible with the giv
 })
 
 ava.test('AGGREGATE($events): should react to one event', async (test) => {
-	const type = await helpers.executeAction(test.context, {
+	const type = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: test.context.ids.type,
 		actorId: test.context.actor.id,
@@ -334,7 +334,7 @@ ava.test('AGGREGATE($events): should react to one event', async (test) => {
 	})
 
 	const admin = await test.context.jellyfish.getCardBySlug(test.context.session, 'user-admin')
-	const thread = await helpers.executeAction(test.context, {
+	const thread = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: type.id,
 		actorId: test.context.actor.id,
@@ -347,7 +347,7 @@ ava.test('AGGREGATE($events): should react to one event', async (test) => {
 		}
 	})
 
-	await helpers.executeAction(test.context, {
+	await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: test.context.ids.card,
 		actorId: test.context.actor.id,
@@ -397,7 +397,7 @@ ava.test('AGGREGATE($events): should add one triggered action if instantiating t
 		}
 	}
 
-	const type = await helpers.executeAction(test.context, {
+	const type = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: test.context.ids.type,
 		actorId: test.context.actor.id,
@@ -406,7 +406,7 @@ ava.test('AGGREGATE($events): should add one triggered action if instantiating t
 		}
 	})
 
-	await helpers.executeAction(test.context, {
+	await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: type.id,
 		actorId: test.context.actor.id,
@@ -419,7 +419,7 @@ ava.test('AGGREGATE($events): should add one triggered action if instantiating t
 		}
 	})
 
-	await helpers.executeAction(test.context, {
+	await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: type.id,
 		actorId: test.context.actor.id,
@@ -432,7 +432,7 @@ ava.test('AGGREGATE($events): should add one triggered action if instantiating t
 		}
 	})
 
-	await helpers.executeAction(test.context, {
+	await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: type.id,
 		actorId: test.context.actor.id,
@@ -465,7 +465,7 @@ ava.test('AGGREGATE($events): should add one triggered action if instantiating t
 })
 
 ava.test('AGGREGATE($events): should consider updates to the type', async (test) => {
-	const type = await helpers.executeAction(test.context, {
+	const type = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: test.context.ids.type,
 		actorId: test.context.actor.id,
@@ -499,7 +499,7 @@ ava.test('AGGREGATE($events): should consider updates to the type', async (test)
 		}
 	})
 
-	await helpers.executeAction(test.context, {
+	await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: type.id,
 		actorId: test.context.actor.id,
@@ -512,7 +512,7 @@ ava.test('AGGREGATE($events): should consider updates to the type', async (test)
 		}
 	})
 
-	const newType = await helpers.executeAction(test.context, {
+	const newType = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-update-card',
 		targetId: type.id,
 		actorId: test.context.actor.id,
@@ -547,7 +547,7 @@ ava.test('AGGREGATE($events): should consider updates to the type', async (test)
 
 	test.is(type.id, newType.id)
 
-	await helpers.executeAction(test.context, {
+	await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: type.id,
 		actorId: test.context.actor.id,
@@ -580,7 +580,7 @@ ava.test('AGGREGATE($events): should consider updates to the type', async (test)
 })
 
 ava.test('AGGREGATE($events): should work with $$ prefixed properties', async (test) => {
-	const type = await helpers.executeAction(test.context, {
+	const type = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: test.context.ids.type,
 		actorId: test.context.actor.id,
@@ -615,7 +615,7 @@ ava.test('AGGREGATE($events): should work with $$ prefixed properties', async (t
 	})
 
 	const admin = await test.context.jellyfish.getCardBySlug(test.context.session, 'user-admin')
-	const thread = await helpers.executeAction(test.context, {
+	const thread = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: type.id,
 		actorId: test.context.actor.id,
@@ -628,7 +628,7 @@ ava.test('AGGREGATE($events): should work with $$ prefixed properties', async (t
 		}
 	})
 
-	await helpers.executeAction(test.context, {
+	await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: test.context.ids.card,
 		actorId: test.context.actor.id,
@@ -651,7 +651,7 @@ ava.test('AGGREGATE($events): should work with $$ prefixed properties', async (t
 })
 
 ava.test('AGGREGATE($events): should be able to add a type with a formula based on its timeline', async (test) => {
-	const type = await helpers.executeAction(test.context, {
+	const type = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: test.context.ids.type,
 		actorId: test.context.actor.id,
@@ -686,7 +686,7 @@ ava.test('AGGREGATE($events): should be able to add a type with a formula based 
 	})
 
 	const admin = await test.context.jellyfish.getCardBySlug(test.context.session, 'user-admin')
-	const thread = await helpers.executeAction(test.context, {
+	const thread = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: type.id,
 		actorId: test.context.actor.id,
@@ -699,7 +699,7 @@ ava.test('AGGREGATE($events): should be able to add a type with a formula based 
 		}
 	})
 
-	await helpers.executeAction(test.context, {
+	await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: test.context.ids.card,
 		actorId: test.context.actor.id,
@@ -717,7 +717,7 @@ ava.test('AGGREGATE($events): should be able to add a type with a formula based 
 		}
 	})
 
-	await helpers.executeAction(test.context, {
+	await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: test.context.ids.card,
 		actorId: test.context.actor.id,
@@ -740,7 +740,7 @@ ava.test('AGGREGATE($events): should be able to add a type with a formula based 
 })
 
 ava.test('AGGREGATE($events): should create a property on the target if it does not exist', async (test) => {
-	const type = await helpers.executeAction(test.context, {
+	const type = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: test.context.ids.type,
 		actorId: test.context.actor.id,
@@ -775,7 +775,7 @@ ava.test('AGGREGATE($events): should create a property on the target if it does 
 	})
 
 	const admin = await test.context.jellyfish.getCardBySlug(test.context.session, 'user-admin')
-	const thread = await helpers.executeAction(test.context, {
+	const thread = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: type.id,
 		actorId: test.context.actor.id,
@@ -786,7 +786,7 @@ ava.test('AGGREGATE($events): should create a property on the target if it does 
 		}
 	})
 
-	await helpers.executeAction(test.context, {
+	await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: test.context.ids.card,
 		actorId: test.context.actor.id,

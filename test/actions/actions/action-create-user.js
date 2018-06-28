@@ -28,7 +28,7 @@ ava.test('should create a user', async (test) => {
 		input: credentials
 	}).value
 
-	const result = await helpers.executeAction(test.context, {
+	const result = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-user',
 		targetId: test.context.ids.user,
 		actorId: test.context.actor.id,

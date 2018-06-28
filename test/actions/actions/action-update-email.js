@@ -20,7 +20,7 @@ const helpers = require('../helpers')
 ava.test('should update the user email', async (test) => {
 	const target = await test.context.jellyfish.getCardBySlug(test.context.session, 'user-admin')
 
-	const result = await helpers.executeAction(test.context, {
+	const result = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-update-email',
 		targetId: target.id,
 		actorId: test.context.actor.id,
@@ -51,7 +51,7 @@ ava.test('should update the user email', async (test) => {
 ava.test('should not create an event if the change is already there', async (test) => {
 	const target = await test.context.jellyfish.getCardBySlug(test.context.session, 'user-admin')
 
-	const result = await helpers.executeAction(test.context, {
+	const result = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-update-email',
 		targetId: target.id,
 		actorId: test.context.actor.id,

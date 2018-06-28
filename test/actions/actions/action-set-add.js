@@ -18,7 +18,7 @@ const ava = require('ava')
 const helpers = require('../helpers')
 
 ava.test('should add a string to an empty array', async (test) => {
-	const result1 = await helpers.executeAction(test.context, {
+	const result1 = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: test.context.ids.card,
 		actorId: test.context.actor.id,
@@ -31,7 +31,7 @@ ava.test('should add a string to an empty array', async (test) => {
 		}
 	})
 
-	const result2 = await helpers.executeAction(test.context, {
+	const result2 = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-set-add',
 		targetId: result1.id,
 		actorId: test.context.actor.id,
@@ -47,7 +47,7 @@ ava.test('should add a string to an empty array', async (test) => {
 })
 
 ava.test('should add a string to a non empty array', async (test) => {
-	const result1 = await helpers.executeAction(test.context, {
+	const result1 = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: test.context.ids.card,
 		actorId: test.context.actor.id,
@@ -60,7 +60,7 @@ ava.test('should add a string to a non empty array', async (test) => {
 		}
 	})
 
-	const result2 = await helpers.executeAction(test.context, {
+	const result2 = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-set-add',
 		targetId: result1.id,
 		actorId: test.context.actor.id,
@@ -76,7 +76,7 @@ ava.test('should add a string to a non empty array', async (test) => {
 })
 
 ava.test('should not store duplicates', async (test) => {
-	const result1 = await helpers.executeAction(test.context, {
+	const result1 = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: test.context.ids.card,
 		actorId: test.context.actor.id,
@@ -89,7 +89,7 @@ ava.test('should not store duplicates', async (test) => {
 		}
 	})
 
-	const result2 = await helpers.executeAction(test.context, {
+	const result2 = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-set-add',
 		targetId: result1.id,
 		actorId: test.context.actor.id,
@@ -105,7 +105,7 @@ ava.test('should not store duplicates', async (test) => {
 })
 
 ava.test('should not discard existing duplicates', async (test) => {
-	const result1 = await helpers.executeAction(test.context, {
+	const result1 = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: test.context.ids.card,
 		actorId: test.context.actor.id,
@@ -118,7 +118,7 @@ ava.test('should not discard existing duplicates', async (test) => {
 		}
 	})
 
-	const result2 = await helpers.executeAction(test.context, {
+	const result2 = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-set-add',
 		targetId: result1.id,
 		actorId: test.context.actor.id,
