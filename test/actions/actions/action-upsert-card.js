@@ -19,7 +19,7 @@ const ava = require('ava')
 const helpers = require('../helpers')
 
 ava.test('should create a card and add a create but not update event', async (test) => {
-	const result = await helpers.executeAction(test.context, {
+	const result = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-upsert-card',
 		targetId: test.context.ids.card,
 		actorId: test.context.actor.id,

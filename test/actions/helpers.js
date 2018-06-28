@@ -51,39 +51,39 @@ exports.getTimeline = async (jellyfish, session, id, options) => {
 	}, options)
 }
 
-const waitForRequests = async (context, retries = 10) => {
+const waitForRequests = async (worker, retries = 10) => {
 	if (retries === 0) {
 		throw new Error('Could not flush requests')
 	}
 
-	const requests = await context.worker.getPendingRequests()
+	const requests = await worker.getPendingRequests()
 	if (requests.length === 0) {
 		return
 	}
 
 	await Bluebird.delay(1000)
-	await waitForRequests(context, retries - 1)
+	await waitForRequests(worker, retries - 1)
 }
 
-const waitForRequest = async (context, request) => {
-	await waitForRequests(context)
-	const result = await context.jellyfish.getCardById(context.session, request.id)
+const waitForRequest = async (session, worker, jellyfish, request) => {
+	await waitForRequests(worker)
+	const result = await jellyfish.getCardById(session, request.id)
 	if (!result.data.executed) {
 		await Bluebird.delay(200)
-		return waitForRequest(context, request)
+		return waitForRequest(session, worker, jellyfish, request)
 	}
 
 	return result
 }
 
-exports.executeAction = async (context, options) => {
-	const pendingRequest = await context.worker.createRequest(context.session, options)
-	const request = await waitForRequest(context, pendingRequest)
+exports.executeAction = async (session, worker, jellyfish, options) => {
+	const pendingRequest = await worker.createRequest(session, options)
+	const request = await waitForRequest(session, worker, jellyfish, pendingRequest)
 	if (!request.data.result.error) {
 		return request.data.result.data
 	}
 
-	const Constructor = context.jellyfish.errors[request.data.result.data.type] ||
+	const Constructor = jellyfish.errors[request.data.result.data.type] ||
 		errors[request.data.result.data.type]
 	throw new Constructor(request.data.result.data.message)
 }

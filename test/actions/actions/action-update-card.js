@@ -20,7 +20,7 @@ const helpers = require('../helpers')
 const errors = require('../../../lib/actions/errors')
 
 ava.test('should replace an existing card and add an update event using a slug', async (test) => {
-	const result1 = await helpers.executeAction(test.context, {
+	const result1 = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: test.context.ids.card,
 		actorId: test.context.actor.id,
@@ -34,7 +34,7 @@ ava.test('should replace an existing card and add an update event using a slug',
 		}
 	})
 
-	const result2 = await helpers.executeAction(test.context, {
+	const result2 = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-update-card',
 		targetId: result1.id,
 		actorId: test.context.actor.id,
@@ -68,7 +68,7 @@ ava.test('should replace an existing card and add an update event using a slug',
 })
 
 ava.test('should replace an existing card and add an update event without using a slug', async (test) => {
-	const result1 = await helpers.executeAction(test.context, {
+	const result1 = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: test.context.ids.card,
 		actorId: test.context.actor.id,
@@ -81,7 +81,7 @@ ava.test('should replace an existing card and add an update event without using 
 		}
 	})
 
-	const result2 = await helpers.executeAction(test.context, {
+	const result2 = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-update-card',
 		targetId: result1.id,
 		actorId: test.context.actor.id,
@@ -115,7 +115,7 @@ ava.test('should replace an existing card and add an update event without using 
 
 ava.test('should fail if the target does not exist', async (test) => {
 	const id = '4a962ad9-20b5-4dd8-a707-bf819593cc84'
-	await test.throws(helpers.executeAction(test.context, {
+	await test.throws(helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-update-card',
 		targetId: id,
 		actorId: test.context.actor.id,
@@ -131,7 +131,7 @@ ava.test('should fail if the target does not exist', async (test) => {
 })
 
 ava.test('should fail if the schema does not match', async (test) => {
-	const result = await helpers.executeAction(test.context, {
+	const result = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: test.context.ids.card,
 		actorId: test.context.actor.id,
@@ -144,7 +144,7 @@ ava.test('should fail if the schema does not match', async (test) => {
 		}
 	})
 
-	await test.throws(helpers.executeAction(test.context, {
+	await test.throws(helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-update-card',
 		targetId: result.id,
 		actorId: test.context.actor.id,
@@ -157,7 +157,7 @@ ava.test('should fail if the schema does not match', async (test) => {
 })
 
 ava.test('should add an extra property to a card', async (test) => {
-	const result1 = await helpers.executeAction(test.context, {
+	const result1 = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: test.context.ids.card,
 		actorId: test.context.actor.id,
@@ -171,7 +171,7 @@ ava.test('should add an extra property to a card', async (test) => {
 		}
 	})
 
-	const result2 = await helpers.executeAction(test.context, {
+	const result2 = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-update-card',
 		targetId: result1.id,
 		actorId: test.context.actor.id,
@@ -207,7 +207,7 @@ ava.test('should add an extra property to a card', async (test) => {
 })
 
 ava.test('should be able to add a slug', async (test) => {
-	const result1 = await helpers.executeAction(test.context, {
+	const result1 = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: test.context.ids.card,
 		actorId: test.context.actor.id,
@@ -220,7 +220,7 @@ ava.test('should be able to add a slug', async (test) => {
 		}
 	})
 
-	const result2 = await helpers.executeAction(test.context, {
+	const result2 = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-update-card',
 		targetId: result1.id,
 		actorId: test.context.actor.id,
@@ -237,7 +237,7 @@ ava.test('should be able to add a slug', async (test) => {
 })
 
 ava.test('should be able to set active to false', async (test) => {
-	const result1 = await helpers.executeAction(test.context, {
+	const result1 = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: test.context.ids.card,
 		actorId: test.context.actor.id,
@@ -250,7 +250,7 @@ ava.test('should be able to set active to false', async (test) => {
 		}
 	})
 
-	const result2 = await helpers.executeAction(test.context, {
+	const result2 = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-update-card',
 		targetId: result1.id,
 		actorId: test.context.actor.id,
@@ -267,7 +267,7 @@ ava.test('should be able to set active to false', async (test) => {
 })
 
 ava.test('should override an array property', async (test) => {
-	const result1 = await helpers.executeAction(test.context, {
+	const result1 = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: test.context.ids.card,
 		actorId: test.context.actor.id,
@@ -281,7 +281,7 @@ ava.test('should override an array property', async (test) => {
 		}
 	})
 
-	const result2 = await helpers.executeAction(test.context, {
+	const result2 = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-update-card',
 		targetId: result1.id,
 		actorId: test.context.actor.id,
@@ -300,7 +300,7 @@ ava.test('should override an array property', async (test) => {
 })
 
 ava.test('should re-evaluate formulas when updating an existing card', async (test) => {
-	const type = await helpers.executeAction(test.context, {
+	const type = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: test.context.ids.type,
 		actorId: test.context.actor.id,
@@ -334,7 +334,7 @@ ava.test('should re-evaluate formulas when updating an existing card', async (te
 		}
 	})
 
-	const result = await helpers.executeAction(test.context, {
+	const result = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: type.id,
 		actorId: test.context.actor.id,
@@ -347,7 +347,7 @@ ava.test('should re-evaluate formulas when updating an existing card', async (te
 		}
 	})
 
-	await helpers.executeAction(test.context, {
+	await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-update-card',
 		targetId: result.id,
 		actorId: test.context.actor.id,
@@ -375,7 +375,7 @@ ava.test('should re-evaluate formulas when updating an existing card', async (te
 })
 
 ava.test('should consider changes to a formula in a type', async (test) => {
-	const type = await helpers.executeAction(test.context, {
+	const type = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: test.context.ids.type,
 		actorId: test.context.actor.id,
@@ -409,7 +409,7 @@ ava.test('should consider changes to a formula in a type', async (test) => {
 		}
 	})
 
-	const result1 = await helpers.executeAction(test.context, {
+	const result1 = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-create-card',
 		targetId: type.id,
 		actorId: test.context.actor.id,
@@ -433,7 +433,7 @@ ava.test('should consider changes to a formula in a type', async (test) => {
 		}
 	})
 
-	await helpers.executeAction(test.context, {
+	await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-update-card',
 		targetId: type.id,
 		actorId: test.context.actor.id,
@@ -466,7 +466,7 @@ ava.test('should consider changes to a formula in a type', async (test) => {
 		}
 	})
 
-	const result2 = await helpers.executeAction(test.context, {
+	const result2 = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
 		action: 'action-update-card',
 		targetId: result1.id,
 		actorId: test.context.actor.id,
