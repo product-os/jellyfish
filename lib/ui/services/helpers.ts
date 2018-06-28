@@ -51,6 +51,11 @@ export const getTypeFromViewCard = (card: any) => {
 	// Default to the `card` type, which will give a sensible schema
 	let value: string = 'card';
 
+	// First check if the view has explicitly declared a type
+	if (!_.isEmpty(card.data.types)) {
+		return _.first(card.data.types);
+	}
+
 	if (card.data.allOf) {
 		for (const item of card.data.allOf) {
 			let found = _.get(item.schema, 'properties.type.const');

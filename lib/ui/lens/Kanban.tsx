@@ -2,10 +2,11 @@ import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import * as React from 'react';
 import Board, { BoardLane } from 'react-trello';
-import { Flex, Modal } from 'rendition';
+import { Button, Flex, Modal } from 'rendition';
 import * as jellyscript from '../../jellyscript';
-import { Card, Channel, Lens, RendererProps } from '../../Types';
+import { Card, Channel, Lens, RendererProps, Type } from '../../Types';
 import { sdk } from '../app';
+import { CardCreator } from '../components/CardCreator';
 import {
 	connectComponent,
 	ConnectedComponentProps,
@@ -13,6 +14,7 @@ import {
 import {
 	createChannel,
 	getUpdateObjectFromSchema,
+	getViewSchema,
 } from '../services/helpers';
 import LensService from './index';
 
@@ -25,10 +27,12 @@ const cardMapper = (card: Card) => ({
 
 interface KanbanState {
 	modalChannel: null | Channel;
+	showNewCardModal: boolean;
 }
 
 interface KanbanProps extends RendererProps, ConnectedComponentProps {
 	subscription?: null | Card;
+	type: null | Type;
 }
 
 class Kanban extends React.Component<KanbanProps, KanbanState> {
@@ -37,6 +41,7 @@ class Kanban extends React.Component<KanbanProps, KanbanState> {
 
 		this.state = {
 			modalChannel: null,
+			showNewCardModal: false,
 		};
 	}
 
@@ -136,10 +141,10 @@ class Kanban extends React.Component<KanbanProps, KanbanState> {
 
 		const update = getUpdateObjectFromSchema(targetSchema);
 
+		_.merge(card, update);
+
 		if (!_.isEmpty(update)) {
-			sdk.card.update(card.id, {
-				data: update,
-			})
+			sdk.card.update(card.id, card)
 			.catch((error) => {
 				this.props.actions.addNotification('danger', error.message);
 			});
@@ -157,6 +162,26 @@ class Kanban extends React.Component<KanbanProps, KanbanState> {
 		});
 	}
 
+	public toggleNewCardModal = () => {
+		this.setState({ showNewCardModal: !this.state.showNewCardModal });
+	}
+
+	public getSeedData() {
+		const { head } = this.props.channel.data;
+
+		if (!head || head.type !== 'view') {
+			return {};
+		}
+
+		const schema = getViewSchema(head);
+
+		if (!schema) {
+			return {};
+		}
+
+		return getUpdateObjectFromSchema(schema);
+	}
+
 	public clearModalChannel = () => {
 		this.setState({ modalChannel: null });
 	}
@@ -165,6 +190,10 @@ class Kanban extends React.Component<KanbanProps, KanbanState> {
 		const data = {
 			lanes: this.getLanes(),
 		};
+
+		const { type } = this.props;
+
+		const typeName = type ? type.name || type.slug : '';
 
 		let lens;
 
@@ -189,6 +218,29 @@ class Kanban extends React.Component<KanbanProps, KanbanState> {
 					<Modal w={960} done={this.clearModalChannel}>
 						<lens.data.renderer channel={this.state.modalChannel} />
 					</Modal>
+				}
+				{!!type &&
+					<React.Fragment>
+						<Button
+							success={true}
+							onClick={this.toggleNewCardModal}
+							m={3}
+							style={{
+								position: 'absolute',
+								bottom: 0,
+								right: 0,
+							}}
+						>
+							Add {typeName}
+						</Button>
+
+						<CardCreator
+							seed={this.getSeedData()}
+							show={this.state.showNewCardModal}
+							type={type}
+							done={this.toggleNewCardModal}
+						/>
+					</React.Fragment>
 				}
 			</Flex>
 		);

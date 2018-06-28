@@ -95,6 +95,13 @@
                 },
                 "required": [ "slug", "name", "data" ]
               }
+            },
+            "types": {
+              "description": "A list of data types this view can return",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             }
           }
         }

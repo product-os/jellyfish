@@ -66,7 +66,15 @@ class ViewList extends React.Component<ViewListProps, ViewListState> {
 	}
 
 	public render() {
-		const { tail, channel: { data: { head } } } = this.props;
+		const {
+			tail,
+			type,
+			channel: {
+				data: { head },
+			},
+		} = this.props;
+
+		const typeName = type ? type.name || type.slug : '';
 
 		return (
 			<React.Fragment>
@@ -91,7 +99,7 @@ class ViewList extends React.Component<ViewListProps, ViewListState> {
 					})}
 				</Box>
 
-				{!!this.props.type &&
+				{!!type &&
 					<React.Fragment>
 						<Flex
 							p={3}
@@ -99,14 +107,14 @@ class ViewList extends React.Component<ViewListProps, ViewListState> {
 							justify="flex-end"
 						>
 							<Button success={true} onClick={this.showNewCardModal}>
-								Add a {this.props.type.name || this.props.type.slug}
+								Add {typeName}
 							</Button>
 						</Flex>
 
 						<CardCreator
 							seed={this.getSeedData()}
 							show={this.state.showNewCardModal}
-							type={this.props.type}
+							type={type}
 							done={this.hideNewCardModal}
 						/>
 					</React.Fragment>

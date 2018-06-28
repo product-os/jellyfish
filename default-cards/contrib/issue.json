@@ -35,6 +35,9 @@
             "description": {
               "type": "string",
               "format": "markdown"
+            },
+            "status": {
+              "type": "string"
             }
           }
         }
