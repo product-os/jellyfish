@@ -20,7 +20,7 @@ const randomstring = require('randomstring')
 const core = require('../../lib/core')
 const ActionRequestWorker = require('../../lib/actions')
 const errors = require('../../lib/actions/errors')
-const jellyscript = require('../../lib/jellyscript')
+const helpers = require('./helpers')
 
 ava.test.beforeEach(async (test) => {
 	test.context.jellyfish = await core.create({
@@ -90,20 +90,24 @@ ava.test.beforeEach(async (test) => {
 	test.context.ids = {
 		card: (await test.context.jellyfish.getCardBySlug(test.context.session, 'card')).id
 	}
+
+	await test.context.worker.start()
 })
 
 ava.test.afterEach(async (test) => {
+	await test.context.worker.stop()
 	await test.context.jellyfish.disconnect()
 })
 
-ava.test('.executeAction() should fail if the action id does not exist', async (test) => {
-	await test.throws(test.context.worker.executeAction(test.context.session, {
-		actionId: 'xxxxxxxxx',
+ava.test('should fail if the action id does not exist', async (test) => {
+	await test.throws(helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
+		action: 'xxxxxxxxx',
 		targetId: 'event',
-		actorId: test.context.users.guest
-	}, {
-		properties: {
-			slug: 'hello'
+		actorId: test.context.users.guest,
+		arguments: {
+			properties: {
+				slug: 'hello'
+			}
 		}
 	}), errors.ActionsNoElement)
 })
@@ -125,68 +129,12 @@ ava.test('.executeAction() should fail if there is no implementation', async (te
 
 	const eventCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'event')
 
-	await test.throws(test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-demo',
+	await test.throws(helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
+		action: 'action-demo',
 		targetId: eventCard.id,
-		actorId: test.context.users.guest
-	}, {}), errors.ActionsNoElement)
-})
-
-ava.test('.createRequest() should be able to create a user using action-create-user', async (test) => {
-	const userCard = await test.context.jellyfish.getCardBySlug(test.context.guestSession, 'user')
-	const guestUser = await test.context.jellyfish.getCardBySlug(test.context.guestSession, 'user-guest')
-
-	const pendingRequest = await test.context.worker.createRequest(test.context.guestSession, {
-		targetId: userCard.id,
-		actorId: guestUser.id,
-		action: 'action-create-user',
-		arguments: {
-			email: 'johndoe@example.com',
-			username: 'user-johndoe',
-			hash: {
-				string: 'foobarbaz',
-				salt: 'user-johndoe'
-			}
-		}
-	})
-
-	test.false(pendingRequest.data.executed)
-
-	test.deepEqual(_.orderBy(_.keys(pendingRequest.data.arguments)), _.orderBy([
-		'email',
-		'hash',
-		'username'
-	]))
-
-	await test.context.worker.flushPendingRequests()
-
-	const finishedRequest = await test.context.jellyfish.getCardById(test.context.session, pendingRequest.id)
-	test.true(finishedRequest.data.executed)
-	test.false(finishedRequest.data.result.error)
-
-	const user = await test.context.jellyfish.getCardById(test.context.session, finishedRequest.data.result.data.id)
-
-	test.is(user.slug, 'user-johndoe')
-	test.is(user.type, 'user')
-	test.is(user.data.email, 'johndoe@example.com')
-	test.deepEqual(user.data.roles, [ 'user-community' ])
-
-	const hash1 = jellyscript.evaluate('HASH(input)', {
-		input: {
-			string: 'foobarbaz',
-			salt: 'user-johndoe'
-		}
-	})
-
-	const hash2 = jellyscript.evaluate('HASH(input)', {
-		input: {
-			string: 'fooquxbaz',
-			salt: 'user-johndoe'
-		}
-	})
-
-	test.is(hash1.value, user.data.password.hash)
-	test.not(hash2.value, user.data.password.hash)
+		actorId: test.context.users.guest,
+		arguments: {}
+	}), errors.ActionsNoElement)
 })
 
 ava.test('.createRequest() should not store the password in the queue when using action-create-user', async (test) => {
@@ -215,7 +163,7 @@ ava.test('.createRequest() should not store the password in the queue when using
 	const userCard = await test.context.jellyfish.getCardBySlug(test.context.guestSession, 'user')
 	const guestUser = await test.context.jellyfish.getCardBySlug(test.context.guestSession, 'user-guest')
 
-	const pendingRequest = await test.context.worker.createRequest(test.context.guestSession, {
+	await helpers.executeAction(test.context.guestSession, test.context.worker, test.context.jellyfish, {
 		targetId: userCard.id,
 		actorId: guestUser.id,
 		action: 'action-create-user',
@@ -228,12 +176,6 @@ ava.test('.createRequest() should not store the password in the queue when using
 			}
 		}
 	})
-
-	await test.context.worker.flushPendingRequests()
-
-	const finishedRequest = await test.context.jellyfish.getCardById(test.context.session, pendingRequest.id)
-	test.true(finishedRequest.data.executed)
-	test.false(finishedRequest.data.result.error)
 
 	const johnDoeUser = await test.context.jellyfish.getCardBySlug(test.context.jellyfish.sessions.admin, 'user-johndoe')
 	const loginRequest = await test.context.worker.createRequest(test.context.jellyfish.sessions.admin, {
@@ -254,11 +196,11 @@ ava.test('.createRequest() should not store the password in the queue when using
 	test.falsy(loginRequest.data.arguments.password.hash.salt)
 })
 
-ava.test('.createRequest() should login as a user with a password', async (test) => {
+ava.test('should login as a user with a password', async (test) => {
 	const userCard = await test.context.jellyfish.getCardBySlug(test.context.guestSession, 'user')
 	const guestUser = await test.context.jellyfish.getCardBySlug(test.context.guestSession, 'user-guest')
 
-	const signupRequest = await test.context.worker.createRequest(test.context.guestSession, {
+	await helpers.executeAction(test.context.guestSession, test.context.worker, test.context.jellyfish, {
 		targetId: userCard.id,
 		actorId: guestUser.id,
 		action: 'action-create-user',
@@ -272,13 +214,9 @@ ava.test('.createRequest() should login as a user with a password', async (test)
 		}
 	})
 
-	await test.context.worker.flushPendingRequests()
-	const finishedRequest = await test.context.jellyfish.getCardById(test.context.jellyfish.sessions.admin, signupRequest.id)
-	test.false(finishedRequest.data.result.error)
-
 	const user = await test.context.jellyfish.getCardBySlug(test.context.jellyfish.sessions.admin, 'user-johndoe')
 
-	const loginRequest = await test.context.worker.createRequest(test.context.guestSession, {
+	const session = await helpers.executeAction(test.context.guestSession, test.context.worker, test.context.jellyfish, {
 		targetId: user.id,
 		actorId: guestUser.id,
 		action: 'action-create-session',
@@ -292,19 +230,10 @@ ava.test('.createRequest() should login as a user with a password', async (test)
 		}
 	})
 
-	await test.context.worker.flushPendingRequests()
-	const finishedLoginRequest = await test.context.jellyfish.getCardById(test.context.jellyfish.sessions.admin, loginRequest.id)
-	const token = finishedLoginRequest.data.result.data.id
-
-	test.false(finishedLoginRequest.data.result.error)
-	test.not(token, loginRequest.id)
-	test.not(token, signupRequest.id)
-	test.not(token, user.id)
-
-	const session = await test.context.jellyfish.getCardById(test.context.session, token)
+	test.not(session.id, user.id)
 
 	test.deepEqual(_.omit(session, [ 'data' ]), {
-		id: token,
+		id: session.id,
 		type: 'session',
 		active: true,
 		links: [],
@@ -316,11 +245,11 @@ ava.test('.createRequest() should login as a user with a password', async (test)
 	test.true(new Date(session.data.expiration) > currentDate)
 })
 
-ava.test('.createRequest() should fail if login in with the wrong password', async (test) => {
+ava.test('should fail if login in with the wrong password', async (test) => {
 	const userCard = await test.context.jellyfish.getCardBySlug(test.context.guestSession, 'user')
 	const guestUser = await test.context.jellyfish.getCardBySlug(test.context.guestSession, 'user-guest')
 
-	await test.context.worker.createRequest(test.context.guestSession, {
+	const johnDoeUser = await helpers.executeAction(test.context.guestSession, test.context.worker, test.context.jellyfish, {
 		targetId: userCard.id,
 		actorId: guestUser.id,
 		action: 'action-create-user',
@@ -334,10 +263,7 @@ ava.test('.createRequest() should fail if login in with the wrong password', asy
 		}
 	})
 
-	await test.context.worker.flushPendingRequests()
-
-	const johnDoeUser = await test.context.jellyfish.getCardBySlug(test.context.jellyfish.sessions.admin, 'user-johndoe')
-	const loginRequest = await test.context.worker.createRequest(test.context.jellyfish.sessions.admin, {
+	await test.throws(helpers.executeAction(test.context.jellyfish.sessions.admin, test.context.worker, test.context.jellyfish, {
 		targetId: johnDoeUser.id,
 		actorId: guestUser.id,
 		action: 'action-create-session',
@@ -349,14 +275,7 @@ ava.test('.createRequest() should fail if login in with the wrong password', asy
 				}
 			}
 		}
-	})
-
-	await test.context.worker.flushPendingRequests()
-	const finishedLoginRequest = await test.context.jellyfish.getCardById(test.context.jellyfish.sessions.admin, loginRequest.id)
-
-	test.true(finishedLoginRequest.data.result.error)
-	test.true(finishedLoginRequest.data.executed)
-	test.is(finishedLoginRequest.data.result.data.message, 'Invalid password')
+	}), errors.ActionsAuthenticationError)
 })
 
 ava.test('.createRequest() should login as a password-less user', async (test) => {
@@ -373,7 +292,7 @@ ava.test('.createRequest() should login as a password-less user', async (test) =
 	})
 
 	const guestUser = await test.context.jellyfish.getCardBySlug(test.context.guestSession, 'user-guest')
-	const loginRequest = await test.context.worker.createRequest(test.context.guestSession, {
+	const session = await helpers.executeAction(test.context.guestSession, test.context.worker, test.context.jellyfish, {
 		targetId: user.id,
 		actorId: guestUser.id,
 		action: 'action-create-session',
@@ -382,15 +301,8 @@ ava.test('.createRequest() should login as a password-less user', async (test) =
 		}
 	})
 
-	await test.context.worker.flushPendingRequests()
-
-	const finishedLoginRequest = await test.context.jellyfish.getCardById(test.context.jellyfish.sessions.admin, loginRequest.id)
-	const token = finishedLoginRequest.data.result.data.id
-	test.false(finishedLoginRequest.data.result.error)
-	const session = await test.context.jellyfish.getCardById(test.context.session, token)
-
 	test.deepEqual(_.omit(session, [ 'data' ]), {
-		id: token,
+		id: session.id,
 		type: 'session',
 		active: true,
 		links: [],
@@ -402,11 +314,11 @@ ava.test('.createRequest() should login as a password-less user', async (test) =
 	test.true(new Date(session.data.expiration) > currentDate)
 })
 
-ava.test('should set error to true given an arguments schema mismatch', async (test) => {
+ava.test('should throw given an arguments schema mismatch', async (test) => {
 	const userCard = await test.context.jellyfish.getCardBySlug(test.context.guestSession, 'user')
 	const guestUser = await test.context.jellyfish.getCardBySlug(test.context.guestSession, 'user-guest')
 
-	const pendingRequest = await test.context.worker.createRequest(test.context.guestSession, {
+	await test.throws(helpers.executeAction(test.context.guestSession, test.context.worker, test.context.jellyfish, {
 		targetId: userCard.id,
 		actorId: guestUser.id,
 		action: 'action-create-user',
@@ -418,18 +330,10 @@ ava.test('should set error to true given an arguments schema mismatch', async (t
 				salt: 'user-johndoe'
 			}
 		}
-	})
-
-	test.false(pendingRequest.data.executed)
-	await test.context.worker.flushPendingRequests()
-
-	const finishedRequest = await test.context.jellyfish.getCardById(test.context.jellyfish.sessions.admin, pendingRequest.id)
-	test.true(finishedRequest.data.result.error)
-	test.true(finishedRequest.data.executed)
-	test.is(finishedRequest.data.result.data.message, 'Arguments do not match')
+	}), errors.ActionsSchemaMismatch)
 })
 
-ava.test('.executeTriggers() should execute a matching triggered action', async (test) => {
+ava.test('should execute a matching triggered action', async (test) => {
 	await test.context.jellyfish.insertCard(test.context.session, {
 		type: 'triggered-action',
 		active: true,
@@ -462,20 +366,18 @@ ava.test('.executeTriggers() should execute a matching triggered action', async 
 		}
 	})
 
-	await test.context.worker.refreshTriggers()
-
-	const requests = await test.context.worker.executeTriggers(test.context.session, {
-		type: 'card',
-		active: true,
-		links: [],
-		tags: [],
-		data: {
-			command: 'foo-bar-baz'
+	await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
+		action: 'action-create-card',
+		targetId: test.context.ids.card,
+		actorId: test.context.admin.id,
+		arguments: {
+			properties: {
+				data: {
+					command: 'foo-bar-baz'
+				}
+			}
 		}
 	})
-
-	test.is(requests.length, 1)
-	await test.context.worker.flushPendingRequests()
 
 	const result = await test.context.jellyfish.getCardBySlug(test.context.session, 'foo-bar-baz')
 	test.deepEqual(_.omit(result, [ 'id' ]), {
@@ -488,7 +390,7 @@ ava.test('.executeTriggers() should execute a matching triggered action', async 
 	})
 })
 
-ava.test('.executeTriggers() should execute an inactive matching triggered action', async (test) => {
+ava.test('should not execute an inactive matching triggered action', async (test) => {
 	await test.context.jellyfish.insertCard(test.context.session, {
 		type: 'triggered-action',
 		active: false,
@@ -521,23 +423,24 @@ ava.test('.executeTriggers() should execute an inactive matching triggered actio
 		}
 	})
 
-	const requests = await test.context.worker.executeTriggers(test.context.session, {
-		type: 'card',
-		active: true,
-		links: [],
-		tags: [],
-		data: {
-			command: 'foo-bar-baz'
+	await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
+		action: 'action-create-card',
+		targetId: test.context.ids.card,
+		actorId: test.context.admin.id,
+		arguments: {
+			properties: {
+				data: {
+					command: 'foo-bar-baz'
+				}
+			}
 		}
 	})
-
-	test.is(requests.length, 0)
 
 	const result = await test.context.jellyfish.getCardBySlug(test.context.session, 'foo-bar-baz')
 	test.falsy(result)
 })
 
-ava.test('.executeTriggers() should not do anything if there is no match', async (test) => {
+ava.test('should do nothing if there is no triggered action match', async (test) => {
 	await test.context.jellyfish.insertCard(test.context.session, {
 		type: 'triggered-action',
 		active: true,
@@ -570,20 +473,24 @@ ava.test('.executeTriggers() should not do anything if there is no match', async
 		}
 	})
 
-	const requests = await test.context.worker.executeTriggers(test.context.session, {
-		type: 'card',
-		active: true,
-		links: [],
-		tags: [],
-		data: {
-			command: 'foo-qux'
+	await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
+		action: 'action-create-card',
+		targetId: test.context.ids.card,
+		actorId: test.context.admin.id,
+		arguments: {
+			properties: {
+				data: {
+					command: 'foo-qux'
+				}
+			}
 		}
 	})
 
-	test.is(requests.length, 0)
+	const result = await test.context.jellyfish.getCardBySlug(test.context.session, 'foo-qux')
+	test.falsy(result)
 })
 
-ava.test('.executeTriggers() should go through all triggered actions', async (test) => {
+ava.test('should go through all triggered actions', async (test) => {
 	await test.context.jellyfish.insertCard(test.context.session, {
 		type: 'triggered-action',
 		active: true,
@@ -648,60 +555,72 @@ ava.test('.executeTriggers() should go through all triggered actions', async (te
 		}
 	})
 
-	await test.context.worker.refreshTriggers()
-
-	const requests1 = await test.context.worker.executeTriggers(test.context.session, {
-		type: 'card',
-		active: true,
-		links: [],
-		tags: [],
-		data: {
-			command: 'foo-bar-baz'
+	await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
+		action: 'action-create-card',
+		targetId: test.context.ids.card,
+		actorId: test.context.admin.id,
+		arguments: {
+			properties: {
+				data: {
+					command: 'foo-bar-baz'
+				}
+			}
 		}
 	})
 
-	const requests2 = await test.context.worker.executeTriggers(test.context.session, {
-		type: 'card',
-		active: true,
-		links: [],
-		tags: [],
-		data: {
-			command: 'foo'
+	await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
+		action: 'action-create-card',
+		targetId: test.context.ids.card,
+		actorId: test.context.admin.id,
+		arguments: {
+			properties: {
+				data: {
+					command: 'foo'
+				}
+			}
 		}
 	})
 
-	const requests3 = await test.context.worker.executeTriggers(test.context.session, {
-		type: 'card',
-		active: true,
-		links: [],
-		tags: [],
-		data: {
-			command: 'qux-bar-baz'
+	await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
+		action: 'action-create-card',
+		targetId: test.context.ids.card,
+		actorId: test.context.admin.id,
+		arguments: {
+			properties: {
+				data: {
+					command: 'qux-bar-baz'
+				}
+			}
 		}
 	})
 
-	const requests4 = await test.context.worker.executeTriggers(test.context.session, {
-		type: 'card',
-		active: true,
-		links: [],
-		tags: [],
-		data: {
-			command: 'bar'
+	await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
+		action: 'action-create-card',
+		targetId: test.context.ids.card,
+		actorId: test.context.admin.id,
+		arguments: {
+			properties: {
+				data: {
+					command: 'bar'
+				}
+			}
 		}
 	})
-
-	const requests = _.compact(_.union(requests1, requests2, requests3, requests4))
-	test.is(requests.length, 2)
-	await test.context.worker.flushPendingRequests()
 
 	const result1 = await test.context.jellyfish.getCardBySlug(test.context.session, 'foo-bar-baz')
 	test.truthy(result1.id)
 
-	const result2 = await test.context.jellyfish.getCardBySlug(test.context.session, 'qux-bar-baz')
-	test.truthy(result2.id)
+	const result2 = await test.context.jellyfish.getCardBySlug(test.context.session, 'foo')
+	test.falsy(result2)
+
+	const result3 = await test.context.jellyfish.getCardBySlug(test.context.session, 'qux-bar-baz')
+	test.truthy(result3.id)
+
+	const result4 = await test.context.jellyfish.getCardBySlug(test.context.session, 'bar')
+	test.falsy(result4)
 })
 
-ava.test('.executeTriggers() should support source templates', async (test) => {
+ava.test('should support source templates in triggered actions', async (test) => {
 	await test.context.jellyfish.insertCard(test.context.session, {
 		type: 'triggered-action',
 		active: true,
@@ -737,23 +656,21 @@ ava.test('.executeTriggers() should support source templates', async (test) => {
 		}
 	})
 
-	await test.context.worker.refreshTriggers()
-
-	const requests = await test.context.worker.executeTriggers(test.context.session, {
-		type: 'card',
-		active: true,
-		links: [],
-		tags: [],
-		data: {
-			command: 'foo-bar-baz',
-			action: 'action-create-card',
-			slug: 'hello-world',
-			number: 6
+	await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
+		action: 'action-create-card',
+		targetId: test.context.ids.card,
+		actorId: test.context.admin.id,
+		arguments: {
+			properties: {
+				data: {
+					command: 'foo-bar-baz',
+					action: 'action-create-card',
+					slug: 'hello-world',
+					number: 6
+				}
+			}
 		}
 	})
-
-	test.is(requests.length, 1)
-	await test.context.worker.flushPendingRequests()
 
 	const result1 = await test.context.jellyfish.getCardBySlug(test.context.session, 'foo-bar-baz')
 	test.falsy(result1)
@@ -771,146 +688,62 @@ ava.test('.executeTriggers() should support source templates', async (test) => {
 	})
 })
 
-ava.test('.createRequest() should execute triggered actions', async (test) => {
-	await test.context.jellyfish.insertCard(test.context.session, {
-		type: 'triggered-action',
-		active: true,
-		links: [],
-		tags: [],
-		data: {
-			filter: {
-				type: 'object',
-				required: [ 'data' ],
-				properties: {
-					data: {
-						type: 'object',
-						required: [ 'command' ],
-						properties: {
-							command: {
-								type: 'string',
-								const: 'foo-bar-baz'
-							}
-						}
-					}
-				}
-			},
-			action: '{source.data.action}',
-			target: test.context.ids.card,
-			arguments: {
-				properties: {
-					slug: '{source.data.slug}',
-					data: {
-						number: '{source.data.number}'
-					}
-				}
-			}
-		}
-	})
-
-	await test.context.worker.refreshTriggers()
-
-	const resultBefore = await test.context.jellyfish.getCardBySlug(test.context.session, 'triggered-card')
-	test.falsy(resultBefore)
-
-	const pendingRequest = await test.context.worker.createRequest(test.context.session, {
-		targetId: test.context.ids.card,
-		actorId: test.context.admin.id,
-		action: 'action-create-card',
-		arguments: {
-			properties: {
-				slug: 'card-with-trigger',
-				data: {
-					command: 'foo-bar-baz',
-					action: 'action-create-card',
-					slug: 'triggered-card',
-					number: 7
-				}
-			}
-		}
-	})
-
-	await test.context.worker.flushPendingRequests()
-	const finishedRequest = await test.context.jellyfish.getCardById(test.context.session, pendingRequest.id)
-	test.false(finishedRequest.data.result.error)
-
-	test.deepEqual(_.omit(finishedRequest.data.result.data, [ 'id' ]), {
-		slug: 'card-with-trigger',
-		type: 'card',
-		active: true,
-		tags: [],
-		links: [],
-		data: {
-			action: 'action-create-card',
-			command: 'foo-bar-baz',
-			slug: 'triggered-card',
-			number: 7
-		}
-	})
-
-	await test.context.worker.flushPendingRequests()
-	const resultAfter = await test.context.jellyfish.getCardBySlug(test.context.session, 'triggered-card')
-	test.deepEqual(_.omit(resultAfter, [ 'id' ]), {
-		slug: 'triggered-card',
-		type: 'card',
-		active: true,
-		tags: [],
-		links: [],
-		data: {
-			number: 7
-		}
-	})
-})
-
-ava.test('.executeAction() the user-team-admin should be able to update other user roles', async (test) => {
+ava.test('the user-team-admin should be able to update other user roles', async (test) => {
 	const userCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'user')
 
-	const hash = jellyscript.evaluate('HASH(input)', {
-		input: {
-			string: 'foobar',
-			salt: 'user-team-admin'
-		}
-	}).value
-
-	const teamAdmin = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-user',
+	const teamAdmin = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
+		action: 'action-create-user',
 		targetId: userCard.id,
-		actorId: test.context.admin.id
-	}, {
-		email: 'admin@jellyfish.com',
-		username: 'user-team-admin',
-		hash
+		actorId: test.context.admin.id,
+		arguments: {
+			email: 'admin@jellyfish.com',
+			username: 'user-team-admin',
+			hash: {
+				string: 'foobar',
+				salt: 'user-team-admin'
+			}
+		}
 	})
 
-	const user = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-user',
+	const user = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
+		action: 'action-create-user',
 		targetId: userCard.id,
-		actorId: test.context.admin.id
-	}, {
-		email: 'johndoe@example.com',
-		username: 'user-johndoe',
-		hash: 'aaaaaaaaaaaaaaaaaaa'
+		actorId: test.context.admin.id,
+		arguments: {
+			email: 'johndoe@example.com',
+			username: 'user-johndoe',
+			hash: {
+				string: 'foo',
+				salt: 'user-johndoe'
+			}
+		}
 	})
 
 	test.deepEqual(user.data.roles, [ 'user-community' ])
 
-	const session = await test.context.worker.executeAction(test.context.session, {
-		actionId: 'action-create-session',
+	const session = await helpers.executeAction(test.context.session, test.context.worker, test.context.jellyfish, {
+		action: 'action-create-session',
 		targetId: teamAdmin.id,
-		actorId: test.context.admin.id
-	}, {
-		password: {
-			hash
+		actorId: test.context.admin.id,
+		arguments: {
+			password: {
+				hash: {
+					string: 'foobar',
+					salt: 'user-team-admin'
+				}
+			}
 		}
 	})
 
-	await test.context.worker.executeAction(session.id, {
-		actionId: 'action-update-card',
+	await helpers.executeAction(session.id, test.context.worker, test.context.jellyfish, {
+		action: 'action-update-card',
 		targetId: user.id,
-		actorId: teamAdmin.id
-	}, {
-		properties: {
-			data: {
-				roles: [ 'user-community', 'user-team' ]
+		actorId: teamAdmin.id,
+		arguments: {
+			properties: {
+				data: {
+					roles: [ 'user-community', 'user-team' ]
+				}
 			}
 		}
 	})
