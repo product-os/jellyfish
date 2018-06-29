@@ -393,6 +393,9 @@ const load = () => Bluebird.try(ifNotInTestEnv(() => {
 
 			// load URL route
 			setChannelsFromPath();
+
+			// Subscribe to further state changes
+			store.subscribe(() => setPathFromState(store.getState()));
 		}
 	});
 }));
@@ -409,8 +412,6 @@ load()
 
 		return null;
 	});
-
-store.subscribe(() => setPathFromState(store.getState()));
 
 (window as any).sdk = sdk;
 
