@@ -8,7 +8,7 @@ import {
 	Txt,
 } from 'rendition';
 import { Lens, RendererProps, Type } from '../../Types';
-import { sdk } from '../app';
+import { sdk } from '../core';
 import { connectComponent, ConnectedComponentProps } from '../services/connector';
 
 interface TodoListState {
@@ -68,7 +68,7 @@ class TodoList extends React.Component<TodoListProps, TodoListState> {
 		sdk.card.create({
 			type: 'todo',
 			data: {
-				actor: this.props.appState.session!.user!.id,
+				actor: this.props.appState.core.session!.user!.id,
 				message: this.state.todoMessage,
 			},
 		})

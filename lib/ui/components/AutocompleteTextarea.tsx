@@ -3,7 +3,8 @@ import * as _ from 'lodash';
 import * as React from 'react';
 import { Box, BoxProps, Theme } from 'rendition';
 import styled from 'styled-components';
-import { store } from '../app';
+import { store } from '../core';
+import { selectors } from '../core/store';
 
 // ReactTextareaAutocomplete autocompletion doesn't work with JSDom, so disable
 // it during testing
@@ -117,7 +118,7 @@ const getTrigger = _.memoize(() => ({
 	},
 	'@': {
 		dataProvider: (token: string) => {
-			const usernames = store.getState().allUsers
+			const usernames = selectors.getAllUsers(store.getState())
 				.map(({ slug }) => '@' + _.trimStart(slug, 'user-'));
 
 			if (!token) {
@@ -131,7 +132,7 @@ const getTrigger = _.memoize(() => ({
 	},
 	'!': {
 		dataProvider: (token: string) => {
-			const usernames = store.getState().allUsers
+			const usernames = selectors.getAllUsers(store.getState())
 				.map(({ slug }) => '!' + _.trimStart(slug, 'user-'));
 
 			if (!token) {

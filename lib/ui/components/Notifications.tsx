@@ -51,14 +51,14 @@ class Base extends React.Component<NotificationsProps, {}> {
 	}
 
 	public render() {
-		if (!this.props.appState.notifications.length) {
+		if (!this.props.appState.core.notifications.length) {
 			return null;
 		}
 
 		return (
 			<Fixed top={true} left={true} right={true}>
 				<Box m={3} style={{opacity: 0.95}}>
-					{this.props.appState.notifications.map(({type, id, message}) => {
+					{this.props.appState.core.notifications.map(({type, id, message}) => {
 						return (
 							<JellyFishAlert
 								key={id}

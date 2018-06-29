@@ -4,8 +4,8 @@ import * as React from 'react';
 import { Button, Flex, Modal, Txt } from 'rendition';
 import { Form } from 'rendition/dist/unstable';
 import { Card } from '../../Types';
-import { sdk } from '../app';
 import { FreeFieldForm } from '../components/FreeFieldForm';
+import { sdk } from '../core';
 import { connectComponent, ConnectedComponentProps } from '../services/connector';
 import { getLocalSchema } from '../services/helpers';
 import Icon from './Icon';
@@ -30,7 +30,7 @@ class Base extends React.Component<
 	constructor(props: CardActionProps) {
 		super(props);
 
-		const cardType = _.find(this.props.appState.types, { slug: this.props.card.type });
+		const cardType = _.find(this.props.appState.core.types, { slug: this.props.card.type });
 
 		// Omit known computed values from the schema
 		const schema = _.omit(cardType ? cardType.data.schema : {}, [

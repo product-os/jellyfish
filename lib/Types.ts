@@ -43,29 +43,6 @@ export interface Notification {
 	timestamp: string;
 }
 
-export interface JellyfishState {
-	status: 'initializing' | 'authorized' | 'unauthorized';
-	channels: Channel[];
-	types: Type[];
-	allUsers: Card[];
-	session: null | {
-		authToken: string | null;
-		user?: Card;
-	};
-	notifications: Notification[];
-	viewNotices: {
-		[k: string]: {
-			id: string;
-			newMentions?: boolean;
-			newContent?: boolean;
-		};
-	};
-	config: {
-		version?: string;
-		changelog?: string;
-	};
-}
-
 export interface Card {
 	id: string;
 	type: string;
@@ -121,3 +98,5 @@ export interface Lens {
 		type?: string;
 	};
 }
+
+export type AppStatus = 'initializing' | 'authorized' | 'unauthorized';

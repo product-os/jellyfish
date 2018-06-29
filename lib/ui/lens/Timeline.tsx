@@ -10,11 +10,11 @@ import {
 import styled from 'styled-components';
 import uuid = require('uuid/v4');
 import { Card, Lens, RendererProps } from '../../Types';
-import { sdk } from '../app';
 import AutocompleteTextarea from '../components/AutocompleteTextarea';
 import EventCard from '../components/Event';
 import Icon from '../components/Icon';
 import { TailStreamer } from '../components/TailStreamer';
+import { sdk } from '../core';
 import { connectComponent, ConnectedComponentProps } from '../services/connector';
 import {
 	createChannel,
@@ -150,7 +150,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 
 		this.setState({ newMessage: '' });
 
-		const { allUsers } = this.props.appState;
+		const { allUsers } = this.props.appState.core;
 		const mentions = getUserIdsByPrefix('@', newMessage, allUsers);
 		const alerts = getUserIdsByPrefix('!', newMessage, allUsers);
 		const tags = findWordsByPrefix('#', newMessage).map(tag => tag.slice(1));
@@ -166,7 +166,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 			data: {
 				timestamp: getCurrentTimestamp(),
 				target: this.props.channel.data.target,
-				actor: this.props.appState.session!.user!.id,
+				actor: this.props.appState.core.session!.user!.id,
 				payload: {
 					mentionsUser: mentions,
 					alertsUser: alerts,
@@ -255,7 +255,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 						return (
 							<Box key={card.id} py={2} style={{borderBottom: '1px solid #eee'}}>
 								<EventCard
-									users={this.props.appState.allUsers}
+									users={this.props.appState.core.allUsers}
 									openChannel={
 										card.data && card.data.target !== channelTarget ? this.openChannel : undefined
 									}

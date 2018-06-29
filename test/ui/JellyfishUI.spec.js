@@ -33,7 +33,7 @@ const {
 } = require('../../lib/ui/JellyfishUI')
 const {
 	store
-} = require('../../lib/ui/app')
+} = require('../../lib/ui/core')
 const {
 	changeInputValue,
 	waitForElement,

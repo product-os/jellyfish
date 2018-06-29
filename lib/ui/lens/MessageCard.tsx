@@ -6,8 +6,8 @@ import {
 	Flex,
 } from 'rendition';
 import { Card, Lens, RendererProps } from '../../Types';
-import { sdk } from '../app';
 import EventCard from '../components/Event';
+import { sdk } from '../core';
 import { connectComponent, ConnectedComponentProps } from '../services/connector';
 import { createChannel } from '../services/helpers';
 
@@ -82,7 +82,7 @@ class CardList extends React.Component<CardListProps, CardListState> {
 	}
 
 	public threadOpen(target: string) {
-		return _.some(this.props.appState.channels, (channel) => {
+		return _.some(this.props.appState.core.channels, (channel) => {
 			return channel.data.target === target;
 		});
 	}
@@ -103,7 +103,7 @@ class CardList extends React.Component<CardListProps, CardListState> {
 							<Box p={3} bg={this.threadOpen(card.data.target) ? '#eee' : '#fff'} >
 								<EventCard
 									card={card}
-									users={this.props.appState.allUsers}
+									users={this.props.appState.core.allUsers}
 									openChannel={this.openChannel}
 								/>
 							</Box>
