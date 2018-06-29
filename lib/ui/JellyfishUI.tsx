@@ -1,23 +1,30 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import { Flex, Provider } from 'rendition';
+import { AppStatus, Channel } from '../Types';
 import ChannelRenderer from './components/ChannelRenderer';
 import { HomeChannel } from './components/HomeChannel';
 import { Login } from './components/Login';
 import { Notifications } from './components/Notifications';
 import { Splash } from './components/Splash';
-import { connectComponent, ConnectedComponentProps } from './services/connector';
+import { selectors, StoreState } from './core/store';
 
 // Register the mermaid and markdown widgets for rendition forms
 import 'rendition/dist/extra/Form/markdown';
 import 'rendition/dist/extra/Form/mermaid';
 
-class UI extends React.Component<ConnectedComponentProps, {}> {
+interface UIProps {
+	channels: Channel[];
+	status: AppStatus;
+}
+
+class UI extends React.Component<UIProps, {}> {
 	public render() {
-		if (this.props.appState.status === 'initializing') {
+		if (this.props.status === 'initializing') {
 			return <Splash />;
 		}
 
-		if (this.props.appState.status === 'unauthorized') {
+		if (this.props.status === 'unauthorized') {
 			return (
 				<Provider>
 					<Login />
@@ -26,7 +33,7 @@ class UI extends React.Component<ConnectedComponentProps, {}> {
 			);
 		}
 
-		const [ home, next ] = this.props.appState.channels;
+		const [ home, next ] = this.props.channels;
 
 		return (
 			<Provider
@@ -47,4 +54,11 @@ class UI extends React.Component<ConnectedComponentProps, {}> {
 	}
 }
 
-export const JellyfishUI = connectComponent(UI);
+const mapStateToProps = (state: StoreState) => {
+	return {
+		channels: selectors.getChannels(state),
+		status: selectors.getStatus(state),
+	};
+};
+
+export const JellyfishUI = connect(mapStateToProps)(UI);

@@ -137,7 +137,7 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 			this.subscriptionManager.subscribe(card);
 		});
 		// If there is only 1 channel, open the all messages view by default
-		if (this.props.appState.channels.length === 1) {
+		if (this.props.appState.core.channels.length === 1) {
 			const allMessagesView = _.find(tail, { slug: 'view-all-messages' });
 			if (allMessagesView) {
 				this.open(allMessagesView);
@@ -155,7 +155,7 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 	}
 
 	public open = (card: Card) => {
-		if (this.props.appState.viewNotices[card.id]) {
+		if (this.props.appState.core.viewNotices[card.id]) {
 			this.props.actions.removeViewNotice(card.id);
 		}
 		this.props.actions.addChannel(createChannel({
@@ -194,11 +194,11 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 
 	public render() {
 		const { appState, channel: { data: { head } } } = this.props;
-		const { channels } = appState;
+		const { channels } = appState.core;
 		const { tail } = this.state;
 		const activeCard = channels.length > 1 ? channels[1].data.target : null;
-		const email = _.get(appState, 'session.user') ? appState.session!.user!.data!.email : null;
-		const username = _.get(appState, 'session.user') ? appState.session!.user!.slug!.replace(/user-/, '') : null;
+		const email = _.get(appState.core, 'session.user') ? appState.core.session!.user!.data!.email : null;
+		const username = _.get(appState.core, 'session.user') ? appState.core.session!.user!.slug!.replace(/user-/, '') : null;
 
 		if (!head) {
 			return <Icon style={{color: 'white'}} name="cog fa-spin" />;
@@ -267,7 +267,7 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 
 						const isActive = card.id === activeCard;
 
-						const update = this.props.appState.viewNotices[card.id];
+						const update = this.props.appState.core.viewNotices[card.id];
 
 						return (
 							<ViewLink
@@ -289,7 +289,7 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 					onClick={this.showChangelog}
 				>
 					<Txt monospace>
-						v{this.props.appState.config.version} - view changelog
+						v{this.props.appState.core.config.version} - view changelog
 					</Txt>
 				</Link>
 
@@ -297,7 +297,7 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 					<Modal
 						done={this.hideChangelog}
 					>
-						<Markdown>{this.props.appState.config.changelog || ''}</Markdown>
+						<Markdown>{this.props.appState.core.config.changelog || ''}</Markdown>
 					</Modal>
 				}
 

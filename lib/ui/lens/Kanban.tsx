@@ -5,8 +5,8 @@ import Board, { BoardLane } from 'react-trello';
 import { Button, Flex, Modal } from 'rendition';
 import * as jellyscript from '../../jellyscript';
 import { Card, Channel, Lens, RendererProps, Type } from '../../Types';
-import { sdk } from '../app';
 import { CardCreator } from '../components/CardCreator';
+import { sdk } from '../core';
 import {
 	connectComponent,
 	ConnectedComponentProps,

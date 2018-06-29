@@ -6,7 +6,7 @@ import {
 } from 'rendition';
 import { Form } from 'rendition/dist/unstable';
 import { Card, Type } from '../../Types';
-import { sdk } from '../app';
+import { sdk } from '../core';
 import { connectComponent, ConnectedComponentProps } from '../services/connector';
 import { getLocalSchema } from '../services/helpers';
 import { FreeFieldForm } from './FreeFieldForm';

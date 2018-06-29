@@ -120,14 +120,14 @@ class Base extends React.Component<CardProps, {}> {
 	}
 
 	public refresh = () => {
-		const channel = _.find(this.props.appState.channels, (c) => c.data.target === this.props.card.id);
+		const channel = _.find(this.props.appState.core.channels, (c) => c.data.target === this.props.card.id);
 		if (channel) {
 			this.props.actions.loadChannelData(channel);
 		}
 	}
 
 	public delete = () => {
-		const channel = _.find(this.props.appState.channels, (c) => c.data.target === this.props.card.id);
+		const channel = _.find(this.props.appState.core.channels, (c) => c.data.target === this.props.card.id);
 		if (channel) {
 			this.props.actions.removeChannel(channel);
 		}
@@ -137,7 +137,7 @@ class Base extends React.Component<CardProps, {}> {
 	public render() {
 		const payload = this.props.card.data;
 		const { card, fieldOrder } = this.props;
-		const typeCard = _.find(this.props.appState.types, { slug: card.type });
+		const typeCard = _.find(this.props.appState.core.types, { slug: card.type });
 		const typeSchema = _.get(typeCard, 'data.schema');
 		const localSchema = getLocalSchema(card);
 
@@ -182,7 +182,7 @@ class Base extends React.Component<CardProps, {}> {
 							key={key}
 							field={key}
 							payload={payload}
-							users={this.props.appState.allUsers}
+							users={this.props.appState.core.allUsers}
 							schema={_.get(schema, ['properties', 'data', 'properties', key])}
 						/>
 						: null;

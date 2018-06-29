@@ -11,9 +11,9 @@ import {
 } from 'rendition';
 import styled from 'styled-components';
 import { Card, Lens, RendererProps } from '../../Types';
-import { sdk } from '../app';
 import EventCard from '../components/Event';
 import { TailStreamer } from '../components/TailStreamer';
+import { sdk } from '../core';
 import { connectComponent, ConnectedComponentProps } from '../services/connector';
 import { createChannel, getUpdateObjectFromSchema, getViewSchema } from '../services/helpers';
 
@@ -229,7 +229,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 						return (
 							<Box key={card.id} py={2} style={{borderBottom: '1px solid #eee'}}>
 								<EventCard
-									users={this.props.appState.allUsers}
+									users={this.props.appState.core.allUsers}
 									openChannel={
 										card.data && card.data.target !== channelTarget ? this.openChannel : undefined
 									}

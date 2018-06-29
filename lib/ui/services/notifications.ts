@@ -1,6 +1,7 @@
 import { Howl } from 'howler';
 import * as _ from 'lodash';
-import { actionCreators, store } from '../app';
+import { store } from '../core';
+import { actionCreators } from '../core/store';
 import { createChannel } from './helpers';
 
 const TIMEOUT = 10 * 1000;

@@ -1,10 +1,9 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { JellyfishState } from '../../Types';
-import { actionCreators } from '../app';
+import { actionCreators, StoreState } from '../core/store';
 
 interface StateFromProps {
-	appState: JellyfishState;
+	appState: StoreState;
 }
 
 interface DispatchFromProps {
@@ -13,7 +12,7 @@ interface DispatchFromProps {
 
 export interface ConnectedComponentProps extends StateFromProps, DispatchFromProps {}
 
-const mapStateToProps = (state: JellyfishState): StateFromProps => ({
+const mapStateToProps = (state: StoreState): StateFromProps => ({
 	appState: state,
 });
 

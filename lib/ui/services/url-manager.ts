@@ -1,7 +1,8 @@
 import createHistory from 'history/createHashHistory';
 import * as _ from 'lodash';
-import { JellyfishState } from '../../Types';
-import { actionCreators, store } from '../app';
+import { store } from '../core';
+import { StoreState } from '../core/store';
+import { actionCreators, selectors } from '../core/store';
 import { createChannel } from './helpers';
 
 const history = createHistory();
@@ -9,9 +10,9 @@ const history = createHistory();
 const getCurrentPathFromUrl = () =>
 	window.location.hash.replace(/^#\//, '');
 
-export const setPathFromState = (state: JellyfishState) => {
+export const setPathFromState = (state: StoreState) => {
 	// Skip the first 'home' channel
-	const channels = _.tail(state.channels);
+	const channels = _.tail(selectors.getChannels(state));
 	const url = channels.map(({ data }) => data.target).join('/');
 
 	// Only update the URL if it is different to the current one, to avoid
@@ -27,11 +28,11 @@ export const setChannelsFromPath = (path?: string) => {
 	}
 
 	const targets = _.trim(path, '/').split('/').filter(p => !!p);
-	const state = store.getState();
-	const homeChannel = _.first(state.channels);
+	const channels = selectors.getChannels(store.getState());
+	const homeChannel = _.first(channels);
 
 	const newChannels = targets.map(target => {
-		const existingChannel = _.find(state.channels, (channel) =>
+		const existingChannel = _.find(channels, (channel) =>
 			channel.data.target === target,
 		);
 
@@ -45,11 +46,11 @@ export const setChannelsFromPath = (path?: string) => {
 		});
 	});
 
-	store.dispatch(
-		actionCreators.setState(
-			_.assign({}, state, { channels: [homeChannel, ...newChannels] }),
-		),
-	);
+	const payload = _.compact([homeChannel, ...newChannels]);
+
+	if (payload.length) {
+		store.dispatch(actionCreators.setChannels(payload));
+	}
 
 	newChannels.forEach((channel) => store.dispatch(
 		actionCreators.loadChannelData(channel),

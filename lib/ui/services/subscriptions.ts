@@ -1,7 +1,9 @@
 import { JellyfishStream } from '@resin.io/jellyfish-sdk/dist/stream';
 import * as _ from 'lodash';
 import { Card } from '../../Types';
-import { actionCreators, sdk, store } from '../app';
+import { sdk, store } from '../core';
+import { selectors } from '../core/store';
+import { actionCreators } from '../core/store';
 import { loadSchema } from '../services/sdk-helpers';
 import { createNotification } from './notifications';
 
@@ -21,7 +23,7 @@ export class SubscriptionManager {
 			return;
 		}
 		const stream = sdk.stream(schema);
-		const user = _.get(store.getState(), 'session.user');
+		const user = selectors.getCurrentUser(store.getState());
 
 		if (this.streams[card.id]) {
 			this.streams[card.id].destroy();

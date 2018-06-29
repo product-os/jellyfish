@@ -1,6 +1,8 @@
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import * as React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import {
 	Box,
 	Button,
@@ -11,18 +13,15 @@ import {
 	SchemaSieve,
 	Select,
 } from 'rendition';
-import { Card, Lens, RendererProps, Type } from '../../Types';
-import { sdk } from '../app';
+import { Card, Channel, Lens, RendererProps, Type } from '../../Types';
 import ButtonGroup from '../components/ButtonGroup';
 import ChannelRenderer from '../components/ChannelRenderer';
 import Icon from '../components/Icon';
 import { If } from '../components/If';
 import { NotificationsModal } from '../components/NotificationsModal';
 import { TailStreamer } from '../components/TailStreamer';
-import {
-	connectComponent,
-	ConnectedComponentProps,
-} from '../services/connector';
+import { sdk } from '../core/sdk';
+import { actionCreators, selectors, StoreState } from '../core/store';
 import {
 	createChannel,
 	getTypeFromViewCard,
@@ -41,7 +40,12 @@ interface ViewRendererState {
 	tailType: Type | null;
 }
 
-interface ViewRendererProps extends ConnectedComponentProps, RendererProps {}
+interface ViewRendererProps extends RendererProps {
+	channels: Channel[];
+	user: Card | null;
+	types: Type[];
+	actions: typeof actionCreators;
+}
 
 const USER_FILTER_NAME = 'user-generated-filter';
 
@@ -100,7 +104,11 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 			ready: false,
 		});
 
-		const userId = this.props.appState.session!.user!.id;
+		if (!this.props.user) {
+			throw new Error('Cannot bootstrap a view without an active user');
+		}
+
+		const userId = this.props.user.id;
 		// load subscription
 		this.getSubscription(target, userId)
 		.then((card) => {
@@ -129,7 +137,7 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 				.value();
 
 			const activeLens = _.find(lenses, { slug: _.get(subscription, 'data.activeLens') });
-			const tailType = _.find(this.props.appState.types, { slug: getTypeFromViewCard(head) }) || null;
+			const tailType = _.find(this.props.types, { slug: getTypeFromViewCard(head) }) || null;
 
 			// Make a final check to see if the target is still correct
 			if (this.props.channel.data.target !== target) {
@@ -196,7 +204,7 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 			(view) => this.props.actions.addChannel(createChannel({
 				target: view.id,
 				head: view,
-				parentChannel: this.props.appState.channels[0].id,
+				parentChannel: this.props.channels[0].id,
 			})),
 		)
 		.catch((error) => {
@@ -216,7 +224,7 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 
 		newView.data.allOf = _.reject(newView.data.allOf, { name: USER_FILTER_NAME });
 
-		newView.data.actor = this.props.appState.session!.user!.id;
+		newView.data.actor = this.props.user!.id;
 
 		view.filters.forEach((filter) => {
 			newView.data.allOf.push({
@@ -334,8 +342,8 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 		const { tail, tailType } = this.state;
 		const useFilters = !!tailType && tailType.slug !== 'view';
 		const { activeLens } = this.state;
-		const channelIndex = _.findIndex(this.props.appState.channels, { id: this.props.channel.id });
-		const nextChannel = this.props.appState.channels[channelIndex + 1];
+		const channelIndex = _.findIndex(this.props.channels, { id: this.props.channel.id });
+		const nextChannel = this.props.channels[channelIndex + 1];
 		const groups = this.getGroups();
 		const lensSupportsGroups = !!activeLens && !!activeLens.data.supportsGroups;
 
@@ -472,6 +480,17 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 	}
 }
 
+const mapStateToProps = (state: StoreState) => ({
+	channels: selectors.getChannels(state),
+	types: selectors.getTypes(state),
+	user: selectors.getCurrentUser(state),
+});
+
+const mapDispatchToProps = (dispatch: any) => ({
+	actions: bindActionCreators(actionCreators, dispatch),
+});
+
+
 const lens: Lens = {
 	slug: 'lens-view',
 	type: 'lens',
@@ -479,7 +498,7 @@ const lens: Lens = {
 	data: {
 		type: 'view',
 		icon: 'filter',
-		renderer: connectComponent(ViewRenderer),
+		renderer: connect(mapStateToProps, mapDispatchToProps)(ViewRenderer),
 		filter: {
 			type: 'object',
 			properties: {
