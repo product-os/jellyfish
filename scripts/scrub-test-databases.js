@@ -10,7 +10,7 @@ const scrub = async () => {
 
 	spinner.start()
 
-	const connection = await rethinkdb.connect(this.options)
+	const connection = await rethinkdb.connect()
 
 	const list = await rethinkdb
 		.dbList()
