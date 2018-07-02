@@ -230,3 +230,26 @@ export const getUserIdsByPrefix = (prefix: string, source: string, users: Card[]
 		.compact()
 		.value();
 };
+
+/**
+ * @summary Convert a string into a 32bit hashcode
+ *
+ * @param {String} input - The input source to hash
+ *
+ * @return {Number} - A 32bit integer
+ */
+export const hashCode = (input: string) => {
+	let hash = 0;
+	let iteration = 0;
+	let character;
+	if (input.length === 0) {
+		return hash;
+	}
+	for (iteration; iteration < input.length; iteration++) {
+		character = input.charCodeAt(iteration);
+		hash  = ((hash << 5) - hash) + character;
+		// Convert to 32bit integer
+		hash |= 0;
+	}
+	return hash;
+};

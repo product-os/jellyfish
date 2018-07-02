@@ -4,7 +4,7 @@ import { createChannel } from '../services/helpers';
 import { StoreState } from './store';
 
 export interface Action {
-	type: 'string';
+	type: string;
 	value?: any;
 }
 
@@ -25,6 +25,9 @@ export const getDefaultState = (): StoreState => ({
 		viewNotices: {},
 		allUsers: [],
 		config: {},
+	},
+	views: {
+		viewData: {},
 	},
 });
 

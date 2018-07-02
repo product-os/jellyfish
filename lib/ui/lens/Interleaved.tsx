@@ -2,6 +2,8 @@ import { circularDeepEqual } from 'fast-equals';
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import * as React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import {
 	Box,
 	Button,
@@ -14,7 +16,7 @@ import { Card, Lens, RendererProps } from '../../Types';
 import EventCard from '../components/Event';
 import { TailStreamer } from '../components/TailStreamer';
 import { sdk } from '../core';
-import { connectComponent, ConnectedComponentProps } from '../services/connector';
+import { actionCreators, selectors, StoreState } from '../core/store';
 import { createChannel, getUpdateObjectFromSchema, getViewSchema } from '../services/helpers';
 
 const Column = styled(Flex)`
@@ -33,24 +35,25 @@ const isHiddenEventType = (type: string) => {
 	return _.includes(NONE_MESSAGE_TIMELINE_TYPES, type);
 };
 
-interface RendererState {
+interface InterleavedState {
 	tail: null | Card[];
 	newMessage: string;
 	showNewCardModal: boolean;
 	messagesOnly: boolean;
 }
 
-interface DefaultRendererProps extends RendererProps, ConnectedComponentProps {
+interface InterleavedProps extends RendererProps {
+	allUsers: Card[];
 	tail?: Card[];
 	type?: Card;
+	actions: typeof actionCreators;
 }
 
-// Default renderer for a card and a timeline
-export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> {
+export class Interleaved extends TailStreamer<InterleavedProps, InterleavedState> {
 	private scrollArea: HTMLElement | null;
 	private shouldScroll: boolean = true;
 
-	constructor(props: DefaultRendererProps) {
+	constructor(props: InterleavedProps) {
 		super(props);
 
 		this.state = {
@@ -65,7 +68,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		setTimeout(() => this.scrollToBottom(), 1000);
 	}
 
-	public componentWillUpdate(nextProps: DefaultRendererProps) {
+	public componentWillUpdate(nextProps: InterleavedProps) {
 		if (!circularDeepEqual(nextProps.tail, this.props.tail)) {
 			this.setupStream(nextProps.tail || []);
 		}
@@ -229,7 +232,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 						return (
 							<Box key={card.id} py={2} style={{borderBottom: '1px solid #eee'}}>
 								<EventCard
-									users={this.props.appState.core.allUsers}
+									users={this.props.allUsers}
 									openChannel={
 										card.data && card.data.target !== channelTarget ? this.openChannel : undefined
 									}
@@ -256,13 +259,23 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 	}
 }
 
+const mapStateToProps = (state: StoreState) => {
+	return {
+		allUsers: selectors.getAllUsers(state),
+	};
+};
+
+const mapDispatchToProps = (dispatch: any) => ({
+	actions: bindActionCreators(actionCreators, dispatch),
+});
+
 const lens: Lens = {
 	slug: 'lens-interleaved',
 	type: 'lens',
 	name: 'Interleaved lens',
 	data: {
 		icon: 'address-card',
-		renderer: connectComponent(Renderer),
+		renderer: connect(mapStateToProps, mapDispatchToProps)(Interleaved),
 		filter: {
 			type: 'array',
 			items: {
