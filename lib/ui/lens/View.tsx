@@ -19,7 +19,6 @@ import ChannelRenderer from '../components/ChannelRenderer';
 import Icon from '../components/Icon';
 import { If } from '../components/If';
 import { NotificationsModal } from '../components/NotificationsModal';
-import { TailStreamer } from '../components/TailStreamer';
 import { sdk } from '../core/sdk';
 import { actionCreators, selectors, StoreState } from '../core/store';
 import {
@@ -44,12 +43,13 @@ interface ViewRendererProps extends RendererProps {
 	channels: Channel[];
 	user: Card | null;
 	types: Type[];
+	tail: Card[] | null;
 	actions: typeof actionCreators;
 }
 
 const USER_FILTER_NAME = 'user-generated-filter';
 
-class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
+class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState> {
 	constructor(props: ViewRendererProps) {
 		super(props);
 
@@ -160,7 +160,7 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 			this.props.actions.addNotification('danger', error.message);
 		});
 
-		this.streamTail(target);
+		this.props.actions.streamView(target);
 	}
 
 	public getGroups() {
@@ -256,7 +256,7 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 				});
 			});
 
-			this.streamTail(syntheticViewCard);
+			this.props.actions.streamView(syntheticViewCard);
 		}
 
 		this.setState({ filters });
@@ -339,7 +339,8 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 				</Box>
 			);
 		}
-		const { tail, tailType } = this.state;
+		const { tail } = this.props;
+		const { tailType } = this.state;
 		const useFilters = !!tailType && tailType.slug !== 'view';
 		const { activeLens } = this.state;
 		const channelIndex = _.findIndex(this.props.channels, { id: this.props.channel.id });
@@ -480,11 +481,15 @@ class ViewRenderer extends TailStreamer<ViewRendererProps, ViewRendererState> {
 	}
 }
 
-const mapStateToProps = (state: StoreState) => ({
-	channels: selectors.getChannels(state),
-	types: selectors.getTypes(state),
-	user: selectors.getCurrentUser(state),
-});
+const mapStateToProps = (state: StoreState, ownProps: ViewRendererProps) => {
+	const target = ownProps.channel.data.target;
+	return {
+		channels: selectors.getChannels(state),
+		types: selectors.getTypes(state),
+		user: selectors.getCurrentUser(state),
+		tail: selectors.getViewData(state, target),
+	};
+};
 
 const mapDispatchToProps = (dispatch: any) => ({
 	actions: bindActionCreators(actionCreators, dispatch),
@@ -498,7 +503,7 @@ const lens: Lens = {
 	data: {
 		type: 'view',
 		icon: 'filter',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(ViewRenderer),
+		renderer: connect(mapStateToProps, mapDispatchToProps)(ViewRenderer as any),
 		filter: {
 			type: 'object',
 			properties: {

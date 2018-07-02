@@ -83,7 +83,7 @@ export interface Type extends Card {
 
 export interface RendererProps {
 	channel: Channel;
-	tail?: Card[];
+	tail?: Card[] | null;
 }
 
 export interface Lens {

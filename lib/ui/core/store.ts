@@ -1,13 +1,28 @@
 import * as localForage from 'localforage';
+import * as _ from 'lodash';
 import { applyMiddleware, combineReducers, createStore, Middleware } from 'redux';
 import thunk from 'redux-thunk';
 import { debug } from '../services/helpers';
 import { Action, ifNotInTestEnv } from './common';
 import { STORAGE_KEY } from './constants';
-import { core, coreActionCreators, coreActions, coreSelectors, ICore } from './reducers/core';
+import {
+	core,
+	coreActionCreators,
+	coreActions,
+	coreSelectors,
+	ICore
+} from './reducers/core';
+import {
+	IViews,
+	viewActionCreators,
+	viewActions,
+	views,
+	viewSelectors,
+} from './reducers/views';
 
 export interface StoreState {
 	core: ICore;
+	views: IViews;
 }
 
 // Set localStorage as the backend driver, as it is a little easier to work
@@ -23,6 +38,7 @@ const save = ifNotInTestEnv((state: StoreState) => {
 
 const rootReducer = combineReducers<StoreState>({
 	core,
+	views,
 });
 
 const logger: Middleware = (store) => (next) => (action: any) => {
@@ -46,7 +62,16 @@ const reducerWrapper = (state: StoreState, action: Action) => {
 export const createJellyfishStore = () =>
 	createStore<StoreState>(reducerWrapper, applyMiddleware(logger, thunk));
 
-export const actions = coreActions;
-export const actionCreators = coreActionCreators;
+export const actions = _.merge({},
+	coreActions,
+	viewActions,
+);
+export const actionCreators = _.merge({},
+	coreActionCreators,
+	viewActionCreators,
+);
 
-export const selectors = coreSelectors;
+export const selectors = _.merge({},
+	coreSelectors,
+	viewSelectors,
+);

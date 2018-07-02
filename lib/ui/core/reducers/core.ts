@@ -33,6 +33,7 @@ export interface ICore {
 
 interface KnownState {
 	core: ICore;
+	[k: string]: any;
 }
 
 export const coreSelectors = {
