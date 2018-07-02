@@ -215,6 +215,12 @@ ava.test.serial('should allow team-admin users to update user\'s roles', async (
 	// Select the community user
 	await waitForThenClickElement(app, `.list-item--user-${users.community.username}`)
 
+	// Add a small delay to allow the data stream to intialise, normally this is
+	// an unnoticeable delay, but the test run fast enough to cause a race
+	// condition, where the card update can happen before the stream initialises,
+	// resulting in the timeline never being updated
+	await Bluebird.delay(500)
+
 	// Edit the community user
 	await waitForThenClickElement(app, '.card-actions__btn--edit')
 

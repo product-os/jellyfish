@@ -15,7 +15,6 @@ import styled from 'styled-components';
 import { Card, RendererProps } from '../../Types';
 import { connectComponent, ConnectedComponentProps } from '../services/connector';
 import { createChannel } from '../services/helpers';
-import { SubscriptionManager } from '../services/subscriptions';
 import Gravatar from './Gravatar';
 import Icon from './Icon';
 import { TailStreamer } from './TailStreamer';
@@ -115,8 +114,6 @@ interface HomeChannelState {
 }
 
 class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
-	private subscriptionManager: SubscriptionManager;
-
 	constructor(props: HomeChannelProps) {
 		super(props);
 
@@ -127,14 +124,13 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 			messages: [],
 		};
 
-		this.subscriptionManager = new SubscriptionManager();
-
 		this.streamTail(this.props.channel.data.target);
 	}
 
 	public setTail(tail: Card[]) {
 		tail.forEach(card => {
-			this.subscriptionManager.subscribe(card);
+			this.props.actions.addSubscription(card.id);
+			this.props.actions.streamView(card.id);
 		});
 		// If there is only 1 channel, open the all messages view by default
 		if (this.props.appState.core.channels.length === 1) {
@@ -157,6 +153,7 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 	public open = (card: Card) => {
 		if (this.props.appState.core.viewNotices[card.id]) {
 			this.props.actions.removeViewNotice(card.id);
+			this.props.actions.setActiveView(card.id);
 		}
 		this.props.actions.addChannel(createChannel({
 			target: card.id,
