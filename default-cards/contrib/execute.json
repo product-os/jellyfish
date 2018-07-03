@@ -1,0 +1,60 @@
+{
+  "slug": "execute",
+  "type": "type",
+  "name": "The card execute event",
+  "tags": [],
+  "links": [],
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "properties": {
+            "timestamp": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "target": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "actor": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "payload": {
+              "type": "object",
+              "required": [ "card", "timestamp", "error", "data" ],
+              "properties": {
+                "card": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "timestamp": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "error": {
+                  "type": "boolean"
+                },
+                "data": {
+                  "type": [ "object", "string", "number", "boolean", "array" ]
+                }
+              }
+            }
+          },
+          "required": [
+            "timestamp",
+            "target",
+            "actor",
+            "payload"
+          ]
+        }
+      },
+      "additionalProperties": true,
+      "required": [ "data" ]
+    }
+  }
+}
