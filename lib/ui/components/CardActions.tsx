@@ -182,7 +182,6 @@ class Base extends React.Component<
 							schema={this.state.schema}
 							value={this.state.editModel}
 							onFormChange={this.handleFormChange}
-							onFormSubmit={this.updateEntry}
 							hideSubmitButton={true}
 						/>
 
