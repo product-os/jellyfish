@@ -95,6 +95,10 @@ class Base extends React.Component<CardCreatorProps, CardCreatorState> {
 			'properties.data.properties.alertsUser',
 		]);
 
+		const uiSchema = _.get(schema, [ 'properties', 'name' ]) ?
+			{ 'ui:order': [ 'name', '*' ] }
+			: {};
+
 		return (
 			<Modal
 				title={`Add ${this.props.type.name}`}
@@ -102,6 +106,7 @@ class Base extends React.Component<CardCreatorProps, CardCreatorState> {
 				done={this.addEntry}
 			>
 				<Form
+					uiSchema={uiSchema}
 					schema={schema}
 					value={this.state.newCardModel}
 					onFormChange={this.handleFormChange}

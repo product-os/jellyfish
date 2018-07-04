@@ -133,6 +133,10 @@ class Base extends React.Component<
 
 		}, {});
 
+		const uiSchema = _.get(this.state.schema, [ 'properties', 'name' ]) ?
+			{ 'ui:order': [ 'name', '*' ] }
+			: {};
+
 		return (
 			<React.Fragment>
 				<Flex align="right" justify="flex-end" mb={3}>
@@ -174,6 +178,7 @@ class Base extends React.Component<
 						}}
 					>
 						<Form
+							uiSchema={uiSchema}
 							schema={this.state.schema}
 							value={this.state.editModel}
 							onFormChange={this.handleFormChange}
