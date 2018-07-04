@@ -146,7 +146,6 @@ export class Interleaved extends TailStreamer<InterleavedProps, InterleavedState
 		});
 
 		this.props.actions.addChannel(newChannel);
-		this.props.actions.loadChannelData(newChannel);
 	}
 
 	public addThread = (e: React.MouseEvent<HTMLElement>) => {

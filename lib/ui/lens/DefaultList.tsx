@@ -1,5 +1,8 @@
+import { circularDeepEqual } from 'fast-equals';
 import * as _ from 'lodash';
 import * as React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import {
 	Box,
 	Button,
@@ -8,24 +11,29 @@ import {
 } from 'rendition';
 import { Lens, RendererProps, Type } from '../../Types';
 import { CardCreator } from '../components/CardCreator';
-import { connectComponent, ConnectedComponentProps } from '../services/connector';
+import { actionCreators } from '../core/store';
 import { createChannel, getUpdateObjectFromSchema, getViewSchema } from '../services/helpers';
 
-interface ViewListState {
+interface DefaultListState {
 	showNewCardModal: boolean;
 }
 
-interface ViewListProps extends RendererProps, ConnectedComponentProps {
+interface DefaultListProps extends RendererProps {
 	type: null | Type;
+	actions: typeof actionCreators;
 }
 
-class ViewList extends React.Component<ViewListProps, ViewListState> {
-	constructor(props: ViewListProps) {
+class DefaultList extends React.Component<DefaultListProps, DefaultListState> {
+	constructor(props: DefaultListProps) {
 		super(props);
 
 		this.state = {
 			showNewCardModal: false,
 		};
+	}
+
+	public shouldComponentUpdate(nextProps: DefaultListProps, nextState: DefaultListState) {
+		return !circularDeepEqual(nextState, this.state) || !circularDeepEqual(nextProps, this.props);
 	}
 
 	public openChannel = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -122,15 +130,18 @@ class ViewList extends React.Component<ViewListProps, ViewListState> {
 			</React.Fragment>
 		);
 	}
-
 }
+
+const mapDispatchToProps = (dispatch: any) => ({
+	actions: bindActionCreators(actionCreators, dispatch),
+});
 
 const lens: Lens = {
 	slug: 'lens-default-list',
 	type: 'lens',
 	name: 'Default list lens',
 	data: {
-		renderer: connectComponent(ViewList),
+		renderer: connect(null, mapDispatchToProps)(DefaultList),
 		icon: 'list-ul',
 		type: '*',
 		filter: {
