@@ -110,7 +110,6 @@ class Base extends React.Component<CardCreatorProps, CardCreatorState> {
 					schema={schema}
 					value={this.state.newCardModel}
 					onFormChange={this.handleFormChange}
-					onFormSubmit={this.addEntry}
 					hideSubmitButton={true}
 				/>
 
