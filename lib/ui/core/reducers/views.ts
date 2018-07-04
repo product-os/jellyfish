@@ -296,8 +296,6 @@ export const views = (state: IViews, action: Action) => {
 		};
 	}
 
-	state = _.cloneDeep(state);
-
 	switch (action.type) {
 		case actions.SET_VIEW_DATA:
 			state.viewData[action.value.id] = action.value.data;

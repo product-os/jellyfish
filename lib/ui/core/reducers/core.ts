@@ -2,7 +2,7 @@ import * as Bluebird from 'bluebird';
 import * as _ from 'lodash';
 import { Dispatch } from 'redux';
 import uuid = require('uuid/v4');
-import { AppStatus, Card, Channel, Notification, Type } from '../../../Types';
+import { AppStatus, Card, Channel, Notification, Type, ViewNotice } from '../../../Types';
 import { Action, getDefaultState, JellyThunk, JellyThunkSync } from '../common';
 import { sdk } from '../sdk';
 
@@ -19,11 +19,7 @@ export interface ICore {
 	};
 	notifications: Notification[];
 	viewNotices: {
-		[k: string]: {
-			id: string;
-			newMentions?: boolean;
-			newContent?: boolean;
-		};
+		[k: string]: ViewNotice;
 	};
 	config: {
 		version?: string;
@@ -38,11 +34,14 @@ interface KnownState {
 
 export const coreSelectors = {
 	getAllUsers: (state: KnownState) => state.core.allUsers,
+	getAppVersion: (state: KnownState) => _.get(state.core, ['config', 'version']) || null,
+	getChangelog: (state: KnownState) => _.get(state.core, ['config', 'changelog']) || null,
 	getChannels: (state: KnownState) => state.core.channels,
 	getCurrentUser: (state: KnownState) => _.get(state.core, ['session', 'user']) || null,
 	getSessionToken: (state: KnownState) => _.get(state.core, ['session', 'authToken']) || null,
 	getStatus: (state: KnownState) => state.core.status,
 	getTypes: (state: KnownState) => state.core.types,
+	getViewNotices: (state: KnownState) => state.core.viewNotices,
 };
 
 const actions = {

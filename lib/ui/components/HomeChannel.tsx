@@ -1,5 +1,8 @@
+import { circularDeepEqual } from 'fast-equals';
 import * as _ from 'lodash';
 import * as React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import {
 	Box,
 	Button,
@@ -12,8 +15,8 @@ import {
 } from 'rendition';
 import { Markdown } from 'rendition/dist/extra/Markdown';
 import styled from 'styled-components';
-import { Card, RendererProps } from '../../Types';
-import { connectComponent, ConnectedComponentProps } from '../services/connector';
+import { Card, Channel, RendererProps, ViewNotice } from '../../Types';
+import { actionCreators, selectors, StoreState } from '../core/store';
 import { createChannel } from '../services/helpers';
 import Gravatar from './Gravatar';
 import Icon from './Icon';
@@ -104,7 +107,16 @@ const UserMenuBtn = styled(Button)`
 	}
 `;
 
-interface HomeChannelProps extends RendererProps, ConnectedComponentProps {}
+interface HomeChannelProps extends RendererProps {
+	changelog: string | null;
+	channels: Channel[];
+	user: Card | null;
+	version: string | null;
+	viewNotices: {
+		[k: string]: ViewNotice;
+	};
+	actions: typeof actionCreators;
+}
 
 interface HomeChannelState {
 	showChangelog: boolean;
@@ -127,13 +139,17 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 		this.streamTail(this.props.channel.data.target);
 	}
 
+	public shouldComponentUpdate(nextProps: HomeChannelProps, nextState: HomeChannelState) {
+		return !circularDeepEqual(nextState, this.state) || !circularDeepEqual(nextProps, this.props);
+	}
+
 	public setTail(tail: Card[]) {
 		tail.forEach(card => {
 			this.props.actions.addSubscription(card.id);
 			this.props.actions.streamView(card.id);
 		});
 		// If there is only 1 channel, open the all messages view by default
-		if (this.props.appState.core.channels.length === 1) {
+		if (this.props.channels.length === 1) {
 			const allMessagesView = _.find(tail, { slug: 'view-all-messages' });
 			if (allMessagesView) {
 				this.open(allMessagesView);
@@ -151,7 +167,7 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 	}
 
 	public open = (card: Card) => {
-		if (this.props.appState.core.viewNotices[card.id]) {
+		if (this.props.viewNotices[card.id]) {
 			this.props.actions.removeViewNotice(card.id);
 			this.props.actions.setActiveView(card.id);
 		}
@@ -190,12 +206,17 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 	}
 
 	public render() {
-		const { appState, channel: { data: { head } } } = this.props;
-		const { channels } = appState.core;
+		const {
+			channels,
+			channel: {
+				data: { head },
+			},
+			user,
+		} = this.props;
 		const { tail } = this.state;
 		const activeCard = channels.length > 1 ? channels[1].data.target : null;
-		const email = _.get(appState.core, 'session.user') ? appState.core.session!.user!.data!.email : null;
-		const username = _.get(appState.core, 'session.user') ? appState.core.session!.user!.slug!.replace(/user-/, '') : null;
+		const email = user ? user.data.email : null;
+		const username = user ? user.slug!.replace(/user-/, '') : null;
 
 		if (!head) {
 			return <Icon style={{color: 'white'}} name="cog fa-spin" />;
@@ -264,7 +285,7 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 
 						const isActive = card.id === activeCard;
 
-						const update = this.props.appState.core.viewNotices[card.id];
+						const update = this.props.viewNotices[card.id];
 
 						return (
 							<ViewLink
@@ -286,7 +307,7 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 					onClick={this.showChangelog}
 				>
 					<Txt monospace>
-						v{this.props.appState.core.config.version} - view changelog
+						v{this.props.version} - view changelog
 					</Txt>
 				</Link>
 
@@ -294,7 +315,7 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 					<Modal
 						done={this.hideChangelog}
 					>
-						<Markdown>{this.props.appState.core.config.changelog || ''}</Markdown>
+						<Markdown>{this.props.changelog || ''}</Markdown>
 					</Modal>
 				}
 
@@ -303,4 +324,18 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 	}
 }
 
-export const HomeChannel = connectComponent(Base);
+const mapStateToProps = (state: StoreState) => {
+	return {
+		changelog: selectors.getChangelog(state),
+		channels: selectors.getChannels(state),
+		user: selectors.getCurrentUser(state),
+		version: selectors.getAppVersion(state),
+		viewNotices: selectors.getViewNotices(state),
+	};
+};
+
+const mapDispatchToProps = (dispatch: any) => ({
+	actions: bindActionCreators(actionCreators, dispatch),
+});
+
+export const HomeChannel = connect(mapStateToProps, mapDispatchToProps)(Base);

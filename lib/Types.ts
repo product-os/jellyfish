@@ -100,3 +100,9 @@ export interface Lens {
 }
 
 export type AppStatus = 'initializing' | 'authorized' | 'unauthorized';
+
+export interface ViewNotice {
+	id: string;
+	newMentions?: boolean;
+	newContent?: boolean;
+}
