@@ -43,7 +43,7 @@ interface ModalProps {
 }
 
 interface ModalState {
-	settings: { [k: string]: any };
+	settings: null | { [k: string]: any };
 }
 
 export class NotificationsModal extends React.Component<ModalProps, ModalState> {
@@ -51,7 +51,7 @@ export class NotificationsModal extends React.Component<ModalProps, ModalState> 
 		super(props);
 
 		this.state = {
-			settings: this.props.settings || {},
+			settings: null,
 		};
 	}
 
@@ -64,7 +64,7 @@ export class NotificationsModal extends React.Component<ModalProps, ModalState> 
 	}
 
 	public done = () => {
-		this.props.onDone(this.state.settings);
+		this.props.onDone(this.state.settings || {});
 	}
 
 	public handleFormChange = (data: any) => {
@@ -78,7 +78,7 @@ export class NotificationsModal extends React.Component<ModalProps, ModalState> 
 
 		return (
 			<Modal
-				title="Notification settings"
+				title="View settings"
 				cancel={this.props.onCancel}
 				done={this.done}
 			>
