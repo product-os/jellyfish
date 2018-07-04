@@ -69,7 +69,9 @@ class Base extends React.Component<
 		);
 
 		sdk.card.update(this.props.card.id, updatedEntry)
-		.then(() => this.props.refresh())
+		.then(() => {
+			this.props.refresh();
+		})
 		.catch((error) => {
 			this.props.actions.addNotification('danger', error.message);
 		});

@@ -1,3 +1,4 @@
+import { circularDeepEqual } from 'fast-equals';
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import * as React from 'react';
@@ -28,14 +29,11 @@ import {
 import LensService from './index';
 
 interface ViewRendererState {
-	activeLens: null | Lens;
 	filters: JSONSchema6[];
 	lenses: Lens[];
 	ready: boolean;
 	showFilters: boolean;
 	showNotificationSettings: boolean;
-	subscription: null | Card;
-	tail: null | Card[];
 	tailType: Type | null;
 }
 
@@ -44,6 +42,7 @@ interface ViewRendererProps extends RendererProps {
 	user: Card | null;
 	types: Type[];
 	tail: Card[] | null;
+	subscription: null | Card;
 	actions: typeof actionCreators;
 }
 
@@ -54,113 +53,54 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 		super(props);
 
 		this.state = {
-			activeLens: null,
 			filters: [],
 			lenses: [],
 			ready: false,
 			showFilters: false,
 			showNotificationSettings: false,
-			subscription: null,
-			tail: null,
 			tailType: null,
 		};
 	}
 
 	componentDidMount() {
-		this.bootstrap(this.props.channel.data.target);
+		this.bootstrap(this.props.channel.data.head);
 	}
 
-	getSubscription(target: string, userId: string) {
-		const schema: JSONSchema6 = {
-			type: 'object',
-			properties: {
-				type: {
-					const: 'subscription',
-				},
-				data: {
-					type: 'object',
-					properties: {
-						target: {
-							const: target,
-						},
-						actor: {
-							const: userId,
-						},
-					},
-					additionalProperties: true,
-				},
-			},
-			additionalProperties: true,
-		};
-
-		return sdk.query(schema)
-			.then((results) => _.first(results) || null);
-	}
-
-	bootstrap(target: string) {
-		// Set tail to null and ready state to false immediately
-		this.setState({
-			tail: null,
-			ready: false,
-		});
-
+	bootstrap(head?: Card) {
 		if (!this.props.user) {
 			throw new Error('Cannot bootstrap a view without an active user');
 		}
 
-		const userId = this.props.user.id;
-		// load subscription
-		this.getSubscription(target, userId)
-		.then((card) => {
-			if (card) {
-				return card;
-			}
-			return sdk.card.create({
-				type: 'subscription',
-				data: {
-					target,
-					actor: userId,
-				},
-			});
-		})
-		.then((subscription) => {
-			const { head } = this.props.channel.data;
-			const filters = head
-				? _.map(_.filter(head.data.allOf, { name: USER_FILTER_NAME }), 'schema')
-				: [];
+		if (!head) {
+			return;
+		}
 
-			// set lens
-			const lenses = _.chain(head)
-				.get('data.lenses')
-				.map((slug: string) => LensService.getLensBySlug(slug))
-				.compact()
-				.value();
+		this.props.actions.streamView(head.id);
 
-			const activeLens = _.find(lenses, { slug: _.get(subscription, 'data.activeLens') });
-			const tailType = _.find(this.props.types, { slug: getTypeFromViewCard(head) }) || null;
+		this.props.actions.addSubscription(head.id);
 
-			// Make a final check to see if the target is still correct
-			if (this.props.channel.data.target !== target) {
-				return;
-			}
-			// set default state
-			this.setState({
-				subscription,
-				filters,
-				lenses,
-				activeLens: activeLens || lenses[0] || null,
-				tailType,
-				showFilters: false,
-				showNotificationSettings: false,
-				// mark as ready
-				ready: true,
-			});
-		})
-		.catch((error) => {
-			this.props.actions.addNotification('danger', error.message);
+		const filters = head
+			? _.map(_.filter(head.data.allOf, { name: USER_FILTER_NAME }), 'schema')
+			: [];
+
+		const lenses = _.chain(head)
+			.get('data.lenses')
+			.map((slug: string) => LensService.getLensBySlug(slug))
+			.compact()
+			.value();
+
+		const tailType = _.find(this.props.types, { slug: getTypeFromViewCard(head) }) || null;
+
+		// set default state
+		this.setState({
+			filters,
+			lenses,
+			tailType,
+			showFilters: false,
+			showNotificationSettings: false,
+			// mark as ready
+			ready: true,
 		});
-
-		this.props.actions.streamView(target);
 	}
 
 	public getGroups() {
@@ -175,7 +115,11 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 
 	public componentWillReceiveProps(nextProps: ViewRendererProps) {
 		if (this.props.channel.data.target !== nextProps.channel.data.target) {
-			this.bootstrap(nextProps.channel.data.target);
+			this.setState({ ready: false });
+		}
+
+		if (!circularDeepEqual(this.props.channel.data.head, nextProps.channel.data.head)) {
+			this.bootstrap(nextProps.channel.data.head);
 		}
 
 		if (!this.props.channel.data.head && nextProps.channel.data.head) {
@@ -263,11 +207,11 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 	}
 
 	public getNotificationSettings() {
-		return _.get(this.state.subscription, 'data.notificationSettings') || {};
+		return _.get(this.props.subscription, 'data.notificationSettings') || {};
 	}
 
 	public saveNotificationSettings = (settings: any) => {
-		const { subscription } = this.state;
+		const { subscription } = this.props;
 
 		if (!subscription) {
 			return;
@@ -275,10 +219,9 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 
 		subscription.data.notificationSettings = settings;
 
-		sdk.card.update(subscription.id, subscription);
+		this.props.actions.saveSubscription(subscription, this.props.channel.data.target);
 
 		this.setState({
-			subscription: _.cloneDeep(subscription),
 			showNotificationSettings: false,
 		});
 	}
@@ -286,7 +229,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 	public setLens = (e: React.MouseEvent<HTMLButtonElement>) => {
 		const slug = e.currentTarget.dataset.slug;
 		const lens = _.find(this.state.lenses, { slug });
-		const { subscription } = this.state;
+		const { subscription } = this.props;
 
 		if (!subscription || !lens) {
 			return;
@@ -294,16 +237,11 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 
 		subscription.data.activeLens = lens.slug;
 
-		sdk.card.update(subscription.id, subscription);
-
-		this.setState({
-			subscription: _.cloneDeep(subscription),
-			activeLens: lens,
-		});
+		this.props.actions.saveSubscription(subscription, this.props.channel.data.target);
 	}
 
 	public setGroup = (e: React.ChangeEvent<HTMLSelectElement>) => {
-		const { subscription } = this.state;
+		const { subscription } = this.props;
 
 		if (!subscription) {
 			return;
@@ -312,10 +250,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 		const slug = e.target.value;
 		subscription.data.activeGroup = slug;
 
-		sdk.card.update(subscription.id, subscription);
-		this.setState({
-			subscription: _.cloneDeep(subscription),
-		});
+		this.props.actions.saveSubscription(subscription, this.props.channel.data.target);
 	}
 
 	public showNotificationSettings = () => {
@@ -332,21 +267,22 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 
 	render() {
 		const { head } = this.props.channel.data;
-		if (!this.state.ready || !head || _.isEmpty(head.data)) {
+		if (!this.state.ready || !head || _.isEmpty(head.data) || !this.props.subscription) {
 			return (
 				<Box p={3}>
 					<i className="fas fa-cog fa-spin" />
 				</Box>
 			);
 		}
-		const { tail } = this.props;
-		const { tailType } = this.state;
+		const { tail, subscription } = this.props;
+		const { tailType, lenses } = this.state;
 		const useFilters = !!tailType && tailType.slug !== 'view';
-		const { activeLens } = this.state;
+		const activeLens = _.find(lenses, { slug: _.get(subscription, 'data.activeLens') }) || lenses[0];
 		const channelIndex = _.findIndex(this.props.channels, { id: this.props.channel.id });
 		const nextChannel = this.props.channels[channelIndex + 1];
 		const groups = this.getGroups();
 		const lensSupportsGroups = !!activeLens && !!activeLens.data.supportsGroups;
+
 
 		return (
 			<Flex
@@ -408,7 +344,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 										<Select
 											ml={2}
 											disabled={!lensSupportsGroups}
-											value={this.state.subscription!.data.activeGroup}
+											value={subscription.data.activeGroup}
 											onChange={lensSupportsGroups ? this.setGroup : _.noop}
 										>
 											{_.map(groups, (group) => {
@@ -467,7 +403,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 								channel={this.props.channel}
 								tail={tail}
 								type={tailType}
-								subscription={this.state.subscription}
+								subscription={subscription}
 							/>
 						}
 					</Flex>
@@ -485,9 +421,10 @@ const mapStateToProps = (state: StoreState, ownProps: ViewRendererProps) => {
 	const target = ownProps.channel.data.target;
 	return {
 		channels: selectors.getChannels(state),
+		subscription: selectors.getSubscription(state, target),
+		tail: selectors.getViewData(state, target),
 		types: selectors.getTypes(state),
 		user: selectors.getCurrentUser(state),
-		tail: selectors.getViewData(state, target),
 	};
 };
 

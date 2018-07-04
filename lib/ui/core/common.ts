@@ -28,6 +28,8 @@ export const getDefaultState = (): StoreState => ({
 	},
 	views: {
 		viewData: {},
+		subscriptions: {},
+		activeView: null,
 	},
 });
 

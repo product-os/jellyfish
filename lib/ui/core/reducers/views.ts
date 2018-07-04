@@ -1,25 +1,62 @@
 import { JellyfishStream } from '@resin.io/jellyfish-sdk/dist/stream';
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
+import { Dispatch } from 'redux';
 import { Card } from '../../../Types';
 import { hashCode } from '../../services/helpers';
+import { createNotification } from '../../services/notifications';
 import { loadSchema } from '../../services/sdk-helpers';
 import { Action, JellyThunkSync } from '../common';
 import { sdk } from '../sdk';
+import { actionCreators as allActionCreators, selectors, StoreState } from '../store';
 
 const streams: { [k: string]: JellyfishStream } = {};
 
 export interface IViews {
 	viewData: { [k: string]: Card[] };
+	subscriptions: { [k: string]: Card[] };
+	activeView: string | null;
 }
 
-interface KnownState {
-	views: IViews;
-}
+const findMentions = (data: Card): string[] => {
+	return _.get(data, 'data.mentionsUser') || _.get(data, 'data.payload.mentionsUser', []);
+};
+
+const findAlerts = (data: Card): string[] => {
+	return _.get(data, 'data.alertsUser') || _.get(data, 'data.payload.alertsUser', []);
+};
+
+const notify = (
+	viewId: string,
+	content: Card,
+	notifyType: 'mention' | 'update' | 'alert',
+	getState: () => StoreState,
+) => {
+	const state = getState();
+	const subscription = selectors.getSubscription(state, viewId);
+	const settings = _.get(subscription, ['data', 'notificationSettings', 'web' ]);
+
+	if (!settings) {
+		return;
+	}
+
+	if (!settings[notifyType]) {
+		// If the notify type isn't 'update' and the user allows 'update'
+		// notifications, we should notify, since a mention and an alert are
+		// technically updates
+		if (notifyType === 'update' || !settings.update) {
+			return;
+		}
+	}
+
+	createNotification('', _.get(content, 'data.payload.message'), viewId);
+};
 
 export const viewSelectors = {
-	getViewData: (state: KnownState, query: string | Card | JSONSchema6) =>
+	getViewData: (state: StoreState, query: string | Card | JSONSchema6) =>
 		state.views.viewData[getViewId(query)] || null,
+	getSubscription: (state: StoreState, id: string) =>
+		state.views.subscriptions[id] || null,
 };
 
 const actions = {
@@ -27,6 +64,60 @@ const actions = {
 	SET_VIEW_DATA: 'SET_VIEW_DATA',
 	UPSERT_VIEW_DATA: 'UPSERT_VIEW_DATA',
 	APPEND_VIEW_DATA: 'APPEND_VIEW_DATA',
+	SAVE_SUBSCRIPTION: 'SAVE_SUBSCRIPTION',
+	SET_ACTIVE_VIEW: 'SET_ACTIVE_VIEW',
+};
+
+const handleViewNotification = (
+	{
+		before,
+		after,
+	}: { before: Card | null, after: Card },
+	id: string,
+	dispatch: Dispatch<StoreState>,
+	getState: () => StoreState,
+) => {
+	let mentions: string[] = [];
+	let alerts: string[] = [];
+
+	const user = selectors.getCurrentUser(getState());
+	const content = after;
+
+	// If before is non-null then a card has been updated and we need to do
+	// some checking to make sure the user doesn't get spammed every time
+	// a card is updated. We only check new items added to the mentions array
+	if (before) {
+		const beforeMentions = findMentions(before);
+		const afterMentions = findMentions(after);
+		mentions = _.difference(afterMentions, beforeMentions);
+
+		const beforeAlerts = findAlerts(before);
+		const afterAlerts = findAlerts(after);
+		alerts = _.difference(beforeAlerts, afterAlerts);
+	} else {
+		mentions = findMentions(content);
+		alerts = findAlerts(content);
+	}
+
+	if (_.includes(alerts, user.id)) {
+		notify(id, content, 'alert', getState);
+		dispatch(allActionCreators.addViewNotice({
+			id,
+			newMentions: true,
+		}));
+	} else if (_.includes(mentions, user.id)) {
+		notify(id, content, 'mention', getState);
+		dispatch(allActionCreators.addViewNotice({
+			id,
+			newMentions: true,
+		}));
+	} else {
+		notify(id, content, 'update', getState);
+		dispatch(allActionCreators.addViewNotice({
+			id,
+			newContent: true,
+		}));
+	}
 };
 
 const getViewId = (query: string | Card | JSONSchema6) => {
@@ -42,7 +133,7 @@ const getViewId = (query: string | Card | JSONSchema6) => {
 export const actionCreators = {
 	streamView: (
 		query: string | Card | JSONSchema6,
-	): JellyThunkSync<void, KnownState> => (dispatch) => {
+	): JellyThunkSync<void, StoreState> => (dispatch, getState) => {
 		const viewId = getViewId(query);
 
 		if (streams[viewId]) {
@@ -67,6 +158,13 @@ export const actionCreators = {
 
 			stream.on('update', (response) => {
 				const { after, before } = response.data;
+
+				handleViewNotification({ after, before }, viewId, dispatch, getState);
+
+				// Only store view data if the view is active
+				if (getState().views.activeView !== viewId) {
+					return;
+				}
 				// If before is non-null then the card has been updated
 				if (before) {
 					return dispatch(actionCreators.upsertViewData(query, before));
@@ -113,12 +211,87 @@ export const actionCreators = {
 			},
 		};
 	},
+
+	addSubscription: (target: string): void | JellyThunkSync<void, StoreState> => (dispatch, getState) => {
+		const user = selectors.getCurrentUser(getState());
+		if (!user) {
+			throw new Error('Can\'t load a subscription without an active user');
+		}
+
+		sdk.query({
+			type: 'object',
+			properties: {
+				type: {
+					const: 'subscription',
+				},
+				data: {
+					type: 'object',
+					properties: {
+						target: {
+							const: target,
+						},
+						actor: {
+							const: user.id,
+						},
+					},
+					additionalProperties: true,
+				},
+			},
+			additionalProperties: true,
+		})
+		.then((results) => {
+			const subCard = _.first(results) || null;
+
+			if (!subCard) {
+				return sdk.card.create({
+					type: 'subscription',
+					data: {
+						target,
+						actor: user.id,
+					},
+				});
+			}
+
+			return subCard;
+		})
+		.tap((subCard) => {
+			dispatch({
+				type: actions.SAVE_SUBSCRIPTION,
+				value: {
+					data: subCard,
+					id: target,
+				},
+			});
+		})
+		.catch((error: Error) => {
+			dispatch(allActionCreators.addNotification('danger', error.message));
+		});
+	},
+
+	saveSubscription: (subscription: Card, target: string) => {
+		sdk.card.update(subscription.id, subscription);
+
+		return {
+			type: actions.SAVE_SUBSCRIPTION,
+			value: {
+				data: subscription,
+				id: target,
+			},
+		};
+	},
+
+	setActiveView: (id: string) => {
+		return {
+			type: actions.SET_ACTIVE_VIEW,
+			value: id,
+		};
+	},
 };
 
 export const views = (state: IViews, action: Action) => {
 	if (!state) {
 		return {
-			streams: {},
+			subscriptions: {},
 			viewData: {},
 		};
 	}
@@ -157,6 +330,17 @@ export const views = (state: IViews, action: Action) => {
 			}
 
 			state.viewData[action.value.id] = appendTarget.slice();
+
+			return state;
+
+		case actions.SAVE_SUBSCRIPTION:
+			state.subscriptions[action.value.id] = action.value.data;
+
+			return state;
+
+
+		case actions.SET_ACTIVE_VIEW:
+			state.activeView = action.value;
 
 			return state;
 
