@@ -261,10 +261,6 @@ export const core = (state: ICore, action: Action) => {
 
 	const newState = _.cloneDeep(state);
 	switch (action.type) {
-		case actions.LOGOUT:
-			sdk.auth.logout();
-			return _.assign(getDefaultState().core, { status: 'unauthorized' });
-
 		case actions.SET_STATE:
 			return action.value;
 
