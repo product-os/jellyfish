@@ -155,6 +155,8 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		const alerts = getUserIdsByPrefix('!', newMessage, allUsers);
 		const tags = findWordsByPrefix('#', newMessage).map(tag => tag.slice(1));
 
+		console.log({ mentions, alerts, tags });
+
 		const id = uuid();
 
 		const message = {

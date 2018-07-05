@@ -198,6 +198,11 @@ export const getLocalSchema = (card: any) => {
 	};
 };
 
+export const createPrefixRegExp = _.memoize((prefix: string) => {
+	const regExp = new RegExp(`(^|\\s)(\\${prefix})([a-z\\d-\\/]+)`, 'gmi');
+	return regExp;
+});
+
 /**
  * @summary match words prefixed with a specific value
  *
@@ -207,7 +212,7 @@ export const getLocalSchema = (card: any) => {
  * @return {String[]} An array of matching strings
  */
 export const findWordsByPrefix = (prefix: string, source: string): string[] => {
-	const regExp = new RegExp(`\\${prefix}[\\S]+`, 'g');
+	const regExp = createPrefixRegExp(prefix);
 	return _.compact(source.match(regExp));
 };
 

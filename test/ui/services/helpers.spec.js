@@ -149,3 +149,21 @@ ava.test('.getUserIdsByPrefix() should be able to use an exclamation mark as a p
 
 	test.deepEqual(result, [ 'd4b00966-e18f-475a-aa01-7becd3c092d7' ])
 })
+
+ava.test('.findWordsByPrefix() should ignore # symbols in urls', (test) => {
+	const source = 'http://localhost:9000/#/231cd14d-e92a-4a19-bf16-4ce2535bf5c8'
+
+	test.deepEqual(helpers.findWordsByPrefix('#', source), [])
+})
+
+ava.test('.findWordsByPrefix() should ignore @ symbols in email addresses', (test) => {
+	const source = 'test@example.com'
+
+	test.deepEqual(helpers.findWordsByPrefix('@', source), [])
+})
+
+ava.test('.findWordsByPrefix() should ignore symbols with no following test', (test) => {
+	const source = '!'
+
+	test.deepEqual(helpers.findWordsByPrefix('!', source), [])
+})

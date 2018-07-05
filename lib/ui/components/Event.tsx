@@ -1,6 +1,7 @@
 import ColorHash = require('color-hash');
 import { circularDeepEqual } from 'fast-equals';
 import * as _ from 'lodash';
+import * as Mark from 'mark.js';
 import * as React from 'react';
 import {
 	Box,
@@ -12,11 +13,12 @@ import {
 import { Markdown } from 'rendition/dist/extra/Markdown';
 import styled from 'styled-components';
 import { Card } from '../../Types';
-import { findUsernameById, findWordsByPrefix, formatTimestamp } from '../services/helpers';
+import { createPrefixRegExp, findUsernameById, formatTimestamp } from '../services/helpers';
 import Icon from './Icon';
 
 const colorHash = new ColorHash();
 const threadColor = _.memoize((text: string): string => colorHash.hex(text));
+const tagMatchRE = createPrefixRegExp('@|#|!');
 
 const EventWrapper = styled(Flex)`
 	word-break: break-word;
@@ -87,39 +89,12 @@ export default class Event extends React.Component<EventProps, { actorName: stri
 			return;
 		}
 
-		let sourceHtml = this.messageElement.innerHTML;
+		const instance = new Mark(this.messageElement);
 
-		const usernames = _.uniq(_.concat(
-			findWordsByPrefix('@', sourceHtml),
-			findWordsByPrefix('!', sourceHtml),
-		));
-
-		const tags = _.uniq(findWordsByPrefix('#', sourceHtml));
-
-		if (!tags.length && !usernames.length) {
-			return;
-		}
-
-		const actor = this.props.card.data.actor;
-
-		usernames.forEach((name) => {
-			const match = _.find(this.props.users, { slug: `user-${name.replace(/[@!]/, '')}` });
-			if (match) {
-				sourceHtml = sourceHtml.replace(
-					new RegExp(`${name}`, 'g'),
-					`<span class="rendition-tag-hl ${match.id === actor ? 'rendition-tag-hl--self' : ''}">$&</span>`,
-				);
-			}
+		instance.markRegExp(tagMatchRE, {
+			element: 'span',
+			className: 'rendition-tag-hl',
 		});
-
-		tags.forEach((tag) => {
-			sourceHtml = sourceHtml.replace(
-				new RegExp(`${tag}`, 'g'),
-				`<span class="rendition-tag-hl">$&</span>`,
-			);
-		});
-
-		this.messageElement.innerHTML = sourceHtml;
 	}
 
 	public openChannel = () => {
