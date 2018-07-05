@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 import { applyMiddleware, combineReducers, createStore, Middleware } from 'redux';
 import thunk from 'redux-thunk';
 import { debug } from '../services/helpers';
-import { Action, ifNotInTestEnv } from './common';
+import { Action, getDefaultState, ifNotInTestEnv } from './common';
 import { STORAGE_KEY } from './constants';
 import {
 	core,
@@ -19,6 +19,7 @@ import {
 	views,
 	viewSelectors,
 } from './reducers/views';
+import { sdk } from './sdk';
 
 export interface StoreState {
 	core: ICore;
@@ -49,6 +50,12 @@ const logger: Middleware = (store) => (next) => (action: any) => {
 };
 
 const reducerWrapper = (state: StoreState, action: Action) => {
+	if (action.type === actions.LOGOUT) {
+		sdk.auth.logout();
+		const state = getDefaultState();
+		state.core.status = 'unauthorized';
+		return state;
+	}
 	const firstRun = !state;
 	const newState = rootReducer(state, action);
 

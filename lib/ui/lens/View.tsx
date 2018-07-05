@@ -71,6 +71,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 		}
 
 		this.props.actions.streamView(head.id);
+		this.props.actions.loadViewResults(head.id);
 
 		this.props.actions.addSubscription(head.id);
 

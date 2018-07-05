@@ -131,6 +131,22 @@ const getViewId = (query: string | Card | JSONSchema6) => {
 };
 
 export const actionCreators = {
+	loadViewResults: (
+		query: string | Card | JSONSchema6,
+	): JellyThunkSync<void, StoreState> => (dispatch) => {
+		loadSchema(query)
+		.then((schema) => {
+
+			if (!schema) {
+				return;
+			}
+			sdk.query(schema)
+				.then((data) => {
+					dispatch(actionCreators.setViewData(query, data));
+				});
+		});
+	},
+
 	streamView: (
 		query: string | Card | JSONSchema6,
 	): JellyThunkSync<void, StoreState> => (dispatch, getState) => {
@@ -147,11 +163,6 @@ export const actionCreators = {
 			if (!schema) {
 				return;
 			}
-
-			sdk.query(schema)
-				.then((data) => {
-					dispatch(actionCreators.setViewData(query, data));
-				});
 
 			const stream = sdk.stream(schema);
 			streams[viewId] = stream;
