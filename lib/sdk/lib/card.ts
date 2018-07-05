@@ -110,7 +110,7 @@ export class CardSdk {
 					const: cardType,
 				},
 			},
-			required: [ 'slug' ],
+			required: [ 'type' ],
 			additionalProperties: true,
 		};
 
