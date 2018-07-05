@@ -37,6 +37,18 @@
               "type": "string",
               "format": "markdown"
             },
+            "Signs and Symptoms": {
+              "type": "string",
+              "format": "markdown"
+            },
+            "Treatments": {
+              "type": "string",
+              "format": "markdown"
+            },
+            "Treatment": {
+              "type": "string",
+              "format": "markdown"
+            },
             "Fix Difficulty": {
               "type": "number",
               "minimum": 0,

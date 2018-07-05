@@ -6,11 +6,18 @@ import {
 	Divider,
 	Flex,
 } from 'rendition';
+import styled from 'styled-components';
 import { Card, Lens, RendererProps, Type } from '../../Types';
 import { CardCreator } from '../components/CardCreator';
 import { CardRenderer } from '../components/CardRenderer';
 import { connectComponent, ConnectedComponentProps } from '../services/connector';
 import { createChannel, getUpdateObjectFromSchema, getViewSchema } from '../services/helpers';
+
+const Column = styled(Flex)`
+	height: 100%;
+	min-width: 350px;
+	overflow-y: auto;
+`;
 
 interface CardListState {
 	showNewCardModal: boolean;
@@ -65,8 +72,8 @@ class CardList extends React.Component<CardListProps, CardListState> {
 		const { tail, channel: { data: { head } } } = this.props;
 
 		return (
-			<React.Fragment>
-				<Box px={3} flex="1" style={{overflowY: 'auto'}}>
+			<Column flexDirection="column">
+				<Box px={3} flex="1">
 					{!!tail && _.map(tail, (card) => {
 						// Don't show the card if its the head, this can happen on view types
 						if (card.id === head!.id) {
@@ -78,6 +85,7 @@ class CardList extends React.Component<CardListProps, CardListState> {
 								<CardRenderer
 									key={card.id}
 									card={card}
+									channel={this.props.channel}
 								/>
 								<Divider color="#eee" m={0} style={{height: 1}} />
 							</React.Fragment>
@@ -105,7 +113,7 @@ class CardList extends React.Component<CardListProps, CardListState> {
 						/>
 					</React.Fragment>
 				}
-			</React.Fragment>
+			</Column>
 		);
 	}
 

@@ -337,6 +337,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 							height: '100%',
 							borderRight: '1px solid #ccc',
 							maxWidth: '100%',
+							minWidth: 0,
 						}}
 					>
 						<If condition={!tail}>

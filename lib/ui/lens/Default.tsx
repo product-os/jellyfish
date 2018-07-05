@@ -41,7 +41,7 @@ export class Renderer extends React.Component<DefaultRendererProps, RendererStat
 				flexDirection="column"
 			>
 				<Box p={3} style={{maxHeight: '50%', borderBottom: '1px solid #ccc', overflowY: 'auto'}}>
-					<CardRenderer card={channel.data.head!} />
+					<CardRenderer card={channel.data.head!} channel={this.props.channel} />
 				</Box>
 
 				<Box flex="1 0 50%" style={{ overflowY: 'auto'}}>
