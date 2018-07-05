@@ -1,14 +1,15 @@
+import { circularDeepEqual } from 'fast-equals';
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import * as React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Box, Flex, Heading, Link, Txt } from 'rendition';
+import { Markdown } from 'rendition/dist/extra/Markdown';
 import { Mermaid } from 'rendition/dist/extra/Mermaid';
 import styled from 'styled-components';
-import { Card, Channel } from '../../Types';
-import {
-	connectComponent,
-	ConnectedComponentProps,
-} from '../services/connector';
+import { Card, Channel, Type } from '../../Types';
+import { actionCreators, selectors, StoreState } from '../core/store';
 import {
 	createChannel,
 	findUsernameById,
@@ -86,6 +87,15 @@ const CardField = ({ field, payload, users, schema }: {
 		);
 	}
 
+	if (schema && schema.format === 'markdown') {
+		return (
+			<React.Fragment>
+				<Label my={3}>{field}</Label>
+				<Markdown>{value}</Markdown>
+			</React.Fragment>
+		);
+	}
+
 	return (
 		<React.Fragment>
 			<Label my={3}>{field}</Label>
@@ -98,10 +108,13 @@ const CardField = ({ field, payload, users, schema }: {
 	);
 };
 
-interface CardProps extends ConnectedComponentProps {
+interface CardProps {
 	card: Card;
+	allUsers: Card[];
+	types: Type[];
 	fieldOrder?: string[];
 	channel?: Channel;
+	actions: typeof actionCreators;
 }
 
 class Base extends React.Component<CardProps, {}> {
@@ -119,15 +132,19 @@ class Base extends React.Component<CardProps, {}> {
 		}));
 	}
 
+	public shouldComponentUpdate(nextProps: CardProps) {
+		return !circularDeepEqual(nextProps, this.props);
+	}
+
 	public refresh = () => {
-		const channel = _.find(this.props.appState.core.channels, (c) => c.data.target === this.props.card.id);
+		const { channel } = this.props;
 		if (channel) {
 			this.props.actions.loadChannelData(channel);
 		}
 	}
 
 	public delete = () => {
-		const channel = _.find(this.props.appState.core.channels, (c) => c.data.target === this.props.card.id);
+		const { channel } = this.props;
 		if (channel) {
 			this.props.actions.removeChannel(channel);
 		}
@@ -136,8 +153,8 @@ class Base extends React.Component<CardProps, {}> {
 
 	public render() {
 		const payload = this.props.card.data;
-		const { card, fieldOrder } = this.props;
-		const typeCard = _.find(this.props.appState.core.types, { slug: card.type });
+		const { card, fieldOrder, channel } = this.props;
+		const typeCard = _.find(this.props.types, { slug: card.type });
 		const typeSchema = _.get(typeCard, 'data.schema');
 		const localSchema = getLocalSchema(card);
 
@@ -156,16 +173,18 @@ class Base extends React.Component<CardProps, {}> {
 
 		const keys = (fieldOrder || []).concat(unorderedKeys);
 
+		const inView = _.get(channel, ['data', 'head', 'type']) === 'view';
+
 		return (
 			<Box mb={3}>
 				<Flex justify="space-between">
 					<Heading.h4 my={3}>
-						{!!this.props.channel &&
+						{inView &&
 							<Link onClick={this.openChannel}>
 								{card.name || card.slug || card.type}
 							</Link>
 						}
-						{!this.props.channel && (card.name || card.slug || card.type)}
+						{!inView && (card.name || card.slug || card.type)}
 					</Heading.h4>
 
 					<CardActions
@@ -182,7 +201,7 @@ class Base extends React.Component<CardProps, {}> {
 							key={key}
 							field={key}
 							payload={payload}
-							users={this.props.appState.core.allUsers}
+							users={this.props.allUsers}
 							schema={_.get(schema, ['properties', 'data', 'properties', key])}
 						/>
 						: null;
@@ -194,4 +213,15 @@ class Base extends React.Component<CardProps, {}> {
 	}
 }
 
-export const CardRenderer = connectComponent(Base);
+const mapStateToProps = (state: StoreState) => {
+	return {
+		allUsers: selectors.getAllUsers(state),
+		types: selectors.getTypes(state),
+	};
+};
+
+const mapDispatchToProps = (dispatch: any) => ({
+	actions: bindActionCreators(actionCreators, dispatch),
+});
+
+export const CardRenderer = connect(mapStateToProps, mapDispatchToProps)(Base);

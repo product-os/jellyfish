@@ -21,7 +21,7 @@ import { createChannel, getUpdateObjectFromSchema, getViewSchema } from '../serv
 
 const Column = styled(Flex)`
 	height: 100%;
-	borderRight: 1px solid #ccc;
+	border-right: 1px solid #ccc;
 	min-width: 350px;
 `;
 
