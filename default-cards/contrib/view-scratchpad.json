@@ -35,6 +35,7 @@
           "sort": "input.a.name < input.b.name",
           "schemas": [
             {
+              "title": "Fix Difficulty: 1",
               "type": "object",
               "properties": {
                 "data": {
@@ -51,6 +52,7 @@
               "required": [ "data" ]
             },
             {
+              "title": "Fix Difficulty: 2",
               "type": "object",
               "properties": {
                 "data": {
@@ -67,6 +69,7 @@
               "required": [ "data" ]
             },
             {
+              "title": "Fix Difficulty: 3",
               "type": "object",
               "properties": {
                 "data": {
@@ -83,6 +86,7 @@
               "required": [ "data" ]
             },
             {
+              "title": "Fix Difficulty: 4",
               "type": "object",
               "properties": {
                 "data": {
@@ -99,6 +103,7 @@
               "required": [ "data" ]
             },
             {
+              "title": "Fix Difficulty: 5",
               "type": "object",
               "properties": {
                 "data": {
@@ -124,6 +129,7 @@
           "sort": "input.a.name < input.b.name",
           "schemas": [
             {
+              "title": "Legacy",
               "type": "object",
               "properties": {
                 "data": {
@@ -140,6 +146,7 @@
               "required": [ "data" ]
             },
             {
+              "title": "Current",
               "type": "object",
               "properties": {
                 "data": {
@@ -165,6 +172,7 @@
           "sort": "input.a.name < input.b.name",
           "schemas": [
             {
+              "title": "Needs review",
               "type": "object",
               "properties": {
                 "data": {
@@ -181,6 +189,7 @@
               "required": [ "data" ]
             },
             {
+              "title": "Up to date",
               "type": "object",
               "properties": {
                 "data": {
