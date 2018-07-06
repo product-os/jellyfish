@@ -560,3 +560,73 @@ ava.test('.evaluateObject() should report back watchers when aggregating events 
 	test.deepEqual(result.watchers[0].target, [ 'data', 'target' ])
 	test.deepEqual(result.watchers[0].arguments, [ 'mentions' ])
 })
+
+ava.test('.getTypeTriggers() should report back watchers when aggregating events', async (test) => {
+	const triggers = jellyscript.getTypeTriggers({
+		slug: 'thread',
+		type: 'type',
+		active: true,
+		links: [],
+		tags: [],
+		data: {
+			schema: {
+				type: 'object',
+				properties: {
+					data: {
+						type: 'object',
+						properties: {
+							mentions: {
+								type: 'array',
+								$formula: 'AGGREGATE($events, "data.mentions")'
+							}
+						}
+					}
+				}
+			}
+		}
+	})
+
+	test.deepEqual(triggers, [
+		{
+			type: 'triggered-action',
+			slug: 'triggered-action-thread-data-mentions',
+			active: true,
+			links: [],
+			tags: [],
+			data: {
+				type: 'thread',
+				action: 'action-set-add',
+				target: '{source.data.target}',
+				arguments: {
+					property: 'data.mentions',
+					value: '{source.data.mentions}'
+				},
+				filter: {
+					type: 'object',
+					required: [ 'data' ],
+					properties: {
+						data: {
+							type: 'object',
+							required: [ 'target', 'payload' ],
+							properties: {
+								payload: {
+									type: 'object'
+								},
+								target: {
+									type: 'object',
+									required: [ 'type' ],
+									properties: {
+										type: {
+											type: 'string',
+											const: 'thread'
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	])
+})
