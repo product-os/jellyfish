@@ -29,8 +29,7 @@
               "required": [ "card", "timestamp", "error", "data" ],
               "properties": {
                 "card": {
-                  "type": "string",
-                  "format": "uuid"
+                  "type": "string"
                 },
                 "timestamp": {
                   "type": "string",
