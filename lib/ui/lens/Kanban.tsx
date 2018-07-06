@@ -1,16 +1,15 @@
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import * as React from 'react';
+import { connect } from 'react-redux';
 import Board, { BoardLane } from 'react-trello';
+import { bindActionCreators } from 'redux';
 import { Button, Flex, Modal } from 'rendition';
 import * as jellyscript from '../../jellyscript';
 import { Card, Channel, Lens, RendererProps, Type } from '../../Types';
 import { CardCreator } from '../components/CardCreator';
 import { sdk } from '../core';
-import {
-	connectComponent,
-	ConnectedComponentProps,
-} from '../services/connector';
+import { actionCreators } from '../core/store';
 import {
 	createChannel,
 	getUpdateObjectFromSchema,
@@ -30,9 +29,10 @@ interface KanbanState {
 	showNewCardModal: boolean;
 }
 
-interface KanbanProps extends RendererProps, ConnectedComponentProps {
+interface KanbanProps extends RendererProps {
 	subscription?: null | Card;
 	type: null | Type;
+	actions: typeof actionCreators;
 }
 
 class Kanban extends React.Component<KanbanProps, KanbanState> {
@@ -247,6 +247,10 @@ class Kanban extends React.Component<KanbanProps, KanbanState> {
 	}
 }
 
+const mapDispatchToProps = (dispatch: any) => ({
+	actions: bindActionCreators(actionCreators, dispatch),
+});
+
 const lens: Lens = {
 	slug: 'lens-kanban',
 	type: 'lens',
@@ -254,7 +258,7 @@ const lens: Lens = {
 	data: {
 		supportsGroups: true,
 		icon: 'columns',
-		renderer: connectComponent(Kanban),
+		renderer: connect(null, mapDispatchToProps)(Kanban),
 		filter: {
 			type: 'array',
 		},

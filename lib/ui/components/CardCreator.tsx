@@ -1,13 +1,15 @@
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import * as React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import {
 	Modal,
 } from 'rendition';
 import { Form } from 'rendition/dist/unstable';
 import { Card, Type } from '../../Types';
 import { sdk } from '../core';
-import { connectComponent, ConnectedComponentProps } from '../services/connector';
+import { actionCreators } from '../core/store';
 import { getLocalSchema } from '../services/helpers';
 import { FreeFieldForm } from './FreeFieldForm';
 
@@ -15,11 +17,12 @@ interface CardCreatorState {
 	newCardModel: {[key: string]: any };
 }
 
-interface CardCreatorProps extends ConnectedComponentProps {
+interface CardCreatorProps {
 	seed: {[key: string]: any };
 	show: boolean;
 	done: () => void;
 	type: Type;
+	actions: typeof actionCreators;
 }
 
 class Base extends React.Component<CardCreatorProps, CardCreatorState> {
@@ -124,4 +127,8 @@ class Base extends React.Component<CardCreatorProps, CardCreatorState> {
 	}
 }
 
-export const CardCreator = connectComponent<CardCreatorProps>(Base);
+const mapDispatchToProps = (dispatch: any) => ({
+	actions: bindActionCreators(actionCreators, dispatch),
+});
+
+export const CardCreator = connect(null, mapDispatchToProps)(Base);

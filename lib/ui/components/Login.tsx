@@ -1,5 +1,7 @@
 import * as Bluebird from 'bluebird';
 import * as React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import {
 	Alert,
 	Box,
@@ -12,9 +14,13 @@ import {
 	Link,
 	Txt,
 } from 'rendition';
-import { connectComponent, ConnectedComponentProps } from '../services/connector';
+import { actionCreators } from '../core/store';
 import Icon from './Icon';
 import TopBar from './TopBar';
+
+interface LoginProps {
+	actions: typeof actionCreators;
+}
 
 interface LoginState {
 	showSignup: boolean;
@@ -26,8 +32,8 @@ interface LoginState {
 	loginError: string;
 }
 
-class Base extends React.Component<ConnectedComponentProps, LoginState> {
-	constructor(props: ConnectedComponentProps) {
+class Base extends React.Component<LoginProps, LoginState> {
+	constructor(props: LoginProps) {
 		super(props);
 
 		this.state = {
@@ -243,4 +249,8 @@ class Base extends React.Component<ConnectedComponentProps, LoginState> {
 	}
 }
 
-export const Login = connectComponent(Base);
+const mapDispatchToProps = (dispatch: any) => ({
+	actions: bindActionCreators(actionCreators, dispatch),
+});
+
+export const Login = connect(null, mapDispatchToProps)(Base);

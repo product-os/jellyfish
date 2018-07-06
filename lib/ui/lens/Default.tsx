@@ -3,7 +3,6 @@ import { Box, Flex } from 'rendition';
 import styled from 'styled-components';
 import { Card, Lens, RendererProps } from '../../Types';
 import { CardRenderer } from '../components/CardRenderer';
-import { connectComponent, ConnectedComponentProps } from '../services/connector';
 import TimelineLens from './Timeline';
 
 const Column = styled(Flex)`
@@ -17,7 +16,7 @@ interface RendererState {
 	head: null | Card;
 }
 
-interface DefaultRendererProps extends RendererProps, ConnectedComponentProps {}
+interface DefaultRendererProps extends RendererProps {}
 
 // Default renderer for a card and a timeline
 export class Renderer extends React.Component<DefaultRendererProps, RendererState> {
@@ -58,7 +57,7 @@ const lens: Lens = {
 	name: 'Default lens',
 	data: {
 		icon: 'address-card',
-		renderer: connectComponent(Renderer),
+		renderer: Renderer,
 		filter: {
 			type: 'object',
 		},

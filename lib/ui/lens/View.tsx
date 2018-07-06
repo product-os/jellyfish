@@ -381,7 +381,6 @@ const mapDispatchToProps = (dispatch: any) => ({
 	actions: bindActionCreators(actionCreators, dispatch),
 });
 
-
 const lens: Lens = {
 	slug: 'lens-view',
 	type: 'lens',
