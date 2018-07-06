@@ -76,6 +76,36 @@
         }
       },
       {
+        "name": "My Action Executions",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string",
+              "const": "execute"
+            },
+            "data": {
+              "type": "object",
+              "additionalProperties": true,
+              "required": [
+                "actor"
+              ],
+              "properties": {
+                "actor": {
+                  "type": "string",
+                  "const": "[user.id]"
+                }
+              }
+            }
+          },
+          "additionalProperties": true,
+          "required": [ "type", "data" ]
+        }
+      },
+      {
         "name": "Types",
         "schema": {
           "type": "object",
@@ -84,6 +114,7 @@
               "type": "string",
               "anyOf": [
                 { "const": "action-request" },
+                { "const": "execute" },
                 { "const": "user" },
                 { "const": "create" },
                 { "const": "update" },
