@@ -65,6 +65,36 @@
         }
       },
       {
+        "name": "My Action Executions",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string",
+              "const": "execute"
+            },
+            "data": {
+              "type": "object",
+              "additionalProperties": true,
+              "required": [
+                "actor"
+              ],
+              "properties": {
+                "actor": {
+                  "type": "string",
+                  "const": "[user.id]"
+                }
+              }
+            }
+          },
+          "additionalProperties": true,
+          "required": [ "type", "data" ]
+        }
+      },
+      {
         "name": "My Action Requests",
         "schema": {
           "type": "object",

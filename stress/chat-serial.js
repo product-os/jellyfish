@@ -32,19 +32,19 @@ const run = async () => {
 		}
 	})
 
-	console.log(`Created thread ${thread}`)
+	console.log(`Created thread ${thread.id}`)
 
 	for (let times = 0; times < TIMES; times++) {
 		const name = `Message ${times}`
 		marky.mark(name)
 
-		const id = await utils.createEvent(session, 'message', user.id, thread, {
+		const message = await utils.createEvent(session, 'message', user.id, thread.id, {
 			message: 'Hello World'
 		})
 
 		marky.stop(name)
 
-		console.log(`Created message ${id}`)
+		console.log(`Created message ${message.id}`)
 	}
 
 	const entries = marky.getEntries()
