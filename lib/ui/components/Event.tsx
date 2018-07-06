@@ -13,6 +13,7 @@ import {
 import { Markdown } from 'rendition/dist/extra/Markdown';
 import styled from 'styled-components';
 import { Card } from '../../Types';
+import { tagStyle } from '../components/Tag';
 import { createPrefixRegExp, findUsernameById, formatTimestamp } from '../services/helpers';
 import Icon from './Icon';
 
@@ -35,10 +36,7 @@ const EventWrapper = styled(Flex)`
 	}
 
 	.rendition-tag-hl {
-    background: #efefef;
-    padding: 2px 2px;
-    border-radius: 3px;
-    border: 1px solid #c3c3c3;
+		${tagStyle}
 	}
 
 	.rendition-tag-hl--self {

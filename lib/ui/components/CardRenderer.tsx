@@ -18,6 +18,7 @@ import {
 } from '../services/helpers';
 import { CardActions } from './CardActions';
 import Label from './Label';
+import { Tag } from './Tag';
 
 const DataContainer = styled.pre`
 	background: none;
@@ -194,6 +195,13 @@ class Base extends React.Component<CardProps, {}> {
 					/>
 				</Flex>
 
+				{!!card.tags && card.tags.length > 0 &&
+					<Box mb={1}>
+						{_.map(card.tags, (tag) => {
+							return <Tag mr={1}>#{tag}</Tag>;
+						})}
+					</Box>
+				}
 
 				{_.map(keys, (key) => {
 					return !!payload[key] ?
