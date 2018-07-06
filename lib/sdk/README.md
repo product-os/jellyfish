@@ -491,7 +491,7 @@ the API
 
 **Example**  
 ```js
-sdk.setApiBase('http://localhost:8000', 'api/v1')
+sdk.setApiBase('http://localhost:8000', 'api/v2')
 ```
 <a name="JellyfishSDK.setAauthToken"></a>
 
@@ -636,7 +636,7 @@ once the action is complete
 | Param | Type | Description |
 | --- | --- | --- |
 | body | <code>Object</code> | The action request |
-| body.target | <code>String</code> | The slug or UUID of the target card |
+| body.card | <code>String</code> | The slug or UUID of the target card |
 | body.action | <code>String</code> | The name of the action to run |
 | [body.arguments] | <code>\*</code> | The arguments to use when running the action |
 | [body.transient] | <code>\*</code> | The transient arguments to use when running the action |
@@ -644,7 +644,7 @@ once the action is complete
 **Example**  
 ```js
 sdk.action({
-	target: 'thread',
+	card: 'thread',
 	action: 'action-create-card',
 	arguments: {
 		data: {

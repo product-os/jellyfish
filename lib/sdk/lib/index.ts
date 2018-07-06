@@ -131,7 +131,7 @@ export class JellyfishSDK implements SDKInterface {
 	 * @param {String} apiPrefix - The API path prefix
 	 *
 	 * @example
-	 * sdk.setApiBase('http://localhost:8000', 'api/v1')
+	 * sdk.setApiBase('http://localhost:8000', 'api/v2')
 	 */
 	public setApiBase(apiUrl: string, apiPrefix: string): void {
 		this.API_BASE = `${trimSlash(apiUrl)}/${trimSlash(apiPrefix)}/`;
@@ -373,7 +373,7 @@ export class JellyfishSDK implements SDKInterface {
 	 * once the action is complete
 	 *
 	 * @param {Object} body - The action request
-	 * @param {String} body.target - The slug or UUID of the target card
+	 * @param {String} body.card - The slug or UUID of the target card
 	 * @param {String} body.action - The name of the action to run
 	 * @param {*} [body.arguments] - The arguments to use when running the
 	 * action
@@ -385,7 +385,7 @@ export class JellyfishSDK implements SDKInterface {
 	 *
 	 * @example
 	 * sdk.action({
-	 * 	target: 'thread',
+	 * 	card: 'thread',
 	 * 	action: 'action-create-card',
 	 * 	arguments: {
 	 * 		data: {
@@ -398,10 +398,9 @@ export class JellyfishSDK implements SDKInterface {
 	 * 	});
 	 */
 	public action<D = any>(body: {
-		target: string;
+		card: string;
 		action: string;
 		arguments?: any;
-		transient?: any;
 	}): Bluebird<any> {
 		const start = Date.now();
 
@@ -418,13 +417,13 @@ export class JellyfishSDK implements SDKInterface {
 					return {};
 				}
 
-				const { results } = response.data.data;
+				const { error, data } = response.data;
 
-				if (results.error) {
-					throw new Error(`${_.get(results.data, 'message') || results.data}`);
+				if (error) {
+					throw new Error(_.get(data, 'message'));
 				}
 
-				return results.data;
+				return data as D;
 			});
 	}
 
@@ -482,7 +481,7 @@ export class JellyfishSDK implements SDKInterface {
  * @example
  * const sdk = getSdk({
  * 	apiUrl: 'http://localhost:8000',
- * 	apiPrefix: 'api/v1',
+ * 	apiPrefix: 'api/v2',
  * 	authToken: '799de256-31bb-4399-b2d2-3c2a2483ddd8'
  * })
  */
