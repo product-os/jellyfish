@@ -1,12 +1,14 @@
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import * as React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Button, Flex, Modal, Txt } from 'rendition';
 import { Form } from 'rendition/dist/unstable';
-import { Card } from '../../Types';
+import { Card, Type } from '../../Types';
 import { FreeFieldForm } from '../components/FreeFieldForm';
 import { sdk } from '../core';
-import { connectComponent, ConnectedComponentProps } from '../services/connector';
+import { actionCreators, selectors, StoreState } from '../core/store';
 import { getLocalSchema } from '../services/helpers';
 import Icon from './Icon';
 
@@ -17,10 +19,12 @@ interface CardActionsState {
 	schema: JSONSchema6;
 }
 
-interface CardActionProps extends ConnectedComponentProps {
+interface CardActionProps {
+	actions: typeof actionCreators;
 	card: Card;
-	refresh: () => void;
 	delete: () => void;
+	refresh: () => void;
+	types: Type[];
 }
 
 class Base extends React.Component<
@@ -30,7 +34,7 @@ class Base extends React.Component<
 	constructor(props: CardActionProps) {
 		super(props);
 
-		const cardType = _.find(this.props.appState.core.types, { slug: this.props.card.type });
+		const cardType = _.find(this.props.types, { slug: this.props.card.type });
 
 		// Omit known computed values from the schema
 		const schema = _.omit(cardType ? cardType.data.schema : {}, [
@@ -196,7 +200,16 @@ class Base extends React.Component<
 			</React.Fragment>
 		);
 	}
-
 }
 
-export const CardActions = connectComponent(Base);
+const mapStateToProps = (state: StoreState) => {
+	return {
+		types: selectors.getTypes(state),
+	};
+};
+
+const mapDispatchToProps = (dispatch: any) => ({
+	actions: bindActionCreators(actionCreators, dispatch),
+});
+
+export const CardActions = connect(mapStateToProps, mapDispatchToProps)(Base);

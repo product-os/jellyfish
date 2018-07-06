@@ -1,5 +1,7 @@
 import * as _ from 'lodash';
 import * as React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import {
 	Box,
 	Button,
@@ -10,7 +12,7 @@ import styled from 'styled-components';
 import { Card, Lens, RendererProps, Type } from '../../Types';
 import { CardCreator } from '../components/CardCreator';
 import { CardRenderer } from '../components/CardRenderer';
-import { connectComponent, ConnectedComponentProps } from '../services/connector';
+import { actionCreators } from '../core/store';
 import { createChannel, getUpdateObjectFromSchema, getViewSchema } from '../services/helpers';
 
 const Column = styled(Flex)`
@@ -23,7 +25,8 @@ interface CardListState {
 	showNewCardModal: boolean;
 }
 
-interface CardListProps extends RendererProps, ConnectedComponentProps {
+interface CardListProps extends RendererProps {
+	actions: typeof actionCreators;
 	type: null | Type;
 }
 
@@ -116,15 +119,18 @@ class CardList extends React.Component<CardListProps, CardListState> {
 			</Column>
 		);
 	}
-
 }
+
+const mapDispatchToProps = (dispatch: any) => ({
+	actions: bindActionCreators(actionCreators, dispatch),
+});
 
 const lens: Lens = {
 	slug: 'lens-default-card',
 	type: 'lens',
 	name: 'Default card lens',
 	data: {
-		renderer: connectComponent(CardList),
+		renderer: connect(null, mapDispatchToProps)(CardList),
 		icon: 'address-card',
 		type: '*',
 		filter: {

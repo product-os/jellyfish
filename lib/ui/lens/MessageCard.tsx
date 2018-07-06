@@ -1,17 +1,23 @@
 import * as _ from 'lodash';
 import * as React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import {
 	Box,
 	Button,
 	Flex,
 } from 'rendition';
-import { Card, Lens, RendererProps } from '../../Types';
+import { Card, Channel, Lens, RendererProps } from '../../Types';
 import EventCard from '../components/Event';
 import { sdk } from '../core';
-import { connectComponent, ConnectedComponentProps } from '../services/connector';
+import { actionCreators, selectors, StoreState } from '../core/store';
 import { createChannel } from '../services/helpers';
 
-interface CardListProps extends RendererProps, ConnectedComponentProps {}
+interface CardListProps extends RendererProps {
+	actions: typeof actionCreators;
+	channels: Channel[];
+	allUsers: Card[];
+}
 
 interface CardListState {}
 
@@ -82,7 +88,7 @@ class CardList extends React.Component<CardListProps, CardListState> {
 	}
 
 	public threadOpen(target: string) {
-		return _.some(this.props.appState.core.channels, (channel) => {
+		return _.some(this.props.channels, (channel) => {
 			return channel.data.target === target;
 		});
 	}
@@ -103,7 +109,7 @@ class CardList extends React.Component<CardListProps, CardListState> {
 							<Box p={3} bg={this.threadOpen(card.data.target) ? '#eee' : '#fff'} >
 								<EventCard
 									card={card}
-									users={this.props.appState.core.allUsers}
+									users={this.props.allUsers}
 									openChannel={this.openChannel}
 								/>
 							</Box>
@@ -125,12 +131,24 @@ class CardList extends React.Component<CardListProps, CardListState> {
 	}
 }
 
+const mapStateToProps = (state: StoreState) => {
+	return {
+		channels: selectors.getChannels(state),
+		allUsers: selectors.getAllUsers(state),
+	};
+};
+
+const mapDispatchToProps = (dispatch: any) => ({
+	actions: bindActionCreators(actionCreators, dispatch),
+});
+
+
 const lens: Lens = {
 	slug: 'lens-message-card',
 	type: 'lens',
 	name: 'Chat message card lens',
 	data: {
-		renderer: connectComponent(CardList),
+		renderer: connect(mapStateToProps, mapDispatchToProps)(CardList),
 		icon: 'address-card',
 		type: 'message',
 		filter: {

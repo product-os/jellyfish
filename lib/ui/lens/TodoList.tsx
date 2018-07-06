@@ -1,5 +1,7 @@
 import * as _ from 'lodash';
 import * as React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import {
 	Box,
 	Button,
@@ -7,17 +9,19 @@ import {
 	Input,
 	Txt,
 } from 'rendition';
-import { Lens, RendererProps, Type } from '../../Types';
+import { Card, Lens, RendererProps, Type } from '../../Types';
 import { sdk } from '../core';
-import { connectComponent, ConnectedComponentProps } from '../services/connector';
+import { actionCreators, selectors, StoreState } from '../core/store';
 
 interface TodoListState {
 	todoMessage: string;
 	completedItems: string[];
 }
 
-interface TodoListProps extends RendererProps, ConnectedComponentProps {
+interface TodoListProps extends RendererProps {
+	actions: typeof actionCreators;
 	type: null | Type;
+	user: null | Card;
 }
 
 class TodoList extends React.Component<TodoListProps, TodoListState> {
@@ -68,7 +72,7 @@ class TodoList extends React.Component<TodoListProps, TodoListState> {
 		sdk.card.create({
 			type: 'todo',
 			data: {
-				actor: this.props.appState.core.session!.user!.id,
+				actor: this.props.user!.id,
 				message: this.state.todoMessage,
 			},
 		})
@@ -134,15 +138,24 @@ class TodoList extends React.Component<TodoListProps, TodoListState> {
 			</React.Fragment>
 		);
 	}
-
 }
+
+const mapStateToProps = (state: StoreState) => {
+	return {
+		user: selectors.getCurrentUser(state),
+	};
+};
+
+const mapDispatchToProps = (dispatch: any) => ({
+	actions: bindActionCreators(actionCreators, dispatch),
+});
 
 const lens: Lens = {
 	slug: 'lens-todolist',
 	type: 'lens',
 	name: 'Todo list lens',
 	data: {
-		renderer: connectComponent(TodoList),
+		renderer: connect(mapStateToProps, mapDispatchToProps)(TodoList),
 		icon: 'list-ul',
 		type: '*',
 		filter: {

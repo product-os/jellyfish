@@ -1,6 +1,8 @@
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import * as React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import {
 	Box,
 	Flex,
@@ -15,7 +17,7 @@ import EventCard from '../components/Event';
 import Icon from '../components/Icon';
 import { TailStreamer } from '../components/TailStreamer';
 import { sdk } from '../core';
-import { connectComponent, ConnectedComponentProps } from '../services/connector';
+import { actionCreators, selectors, StoreState } from '../core/store';
 import {
 	createChannel,
 	findWordsByPrefix,
@@ -36,9 +38,12 @@ interface RendererState {
 	messagesOnly: boolean;
 }
 
-interface DefaultRendererProps extends RendererProps, ConnectedComponentProps {
+interface DefaultRendererProps extends RendererProps {
+	actions: typeof actionCreators;
+	allUsers: Card[];
 	tail?: Card[];
 	type?: Card;
+	user: Card;
 }
 
 // Default renderer for a card and a timeline
@@ -150,7 +155,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 
 		this.setState({ newMessage: '' });
 
-		const { allUsers } = this.props.appState.core;
+		const { allUsers } = this.props;
 		const mentions = getUserIdsByPrefix('@', newMessage, allUsers);
 		const alerts = getUserIdsByPrefix('!', newMessage, allUsers);
 		const tags = findWordsByPrefix('#', newMessage).map(tag => tag.slice(1));
@@ -168,7 +173,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 			data: {
 				timestamp: getCurrentTimestamp(),
 				target: this.props.channel.data.target,
-				actor: this.props.appState.core.session!.user!.id,
+				actor: this.props.user!.id,
 				payload: {
 					mentionsUser: mentions,
 					alertsUser: alerts,
@@ -257,7 +262,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 						return (
 							<Box key={card.id} py={2} style={{borderBottom: '1px solid #eee'}}>
 								<EventCard
-									users={this.props.appState.core.allUsers}
+									users={this.props.allUsers}
 									openChannel={
 										card.data && card.data.target !== channelTarget ? this.openChannel : undefined
 									}
@@ -285,13 +290,24 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 	}
 }
 
+const mapStateToProps = (state: StoreState) => {
+	return {
+		allUsers: selectors.getAllUsers(state),
+		user: selectors.getCurrentUser(state),
+	};
+};
+
+const mapDispatchToProps = (dispatch: any) => ({
+	actions: bindActionCreators(actionCreators, dispatch),
+});
+
 const lens: Lens = {
 	slug: 'lens-timeline',
 	type: 'lens',
 	name: 'Timeline lens',
 	data: {
 		icon: 'address-card',
-		renderer: connectComponent(Renderer),
+		renderer: connect(mapStateToProps, mapDispatchToProps)(Renderer),
 		// This lens can display event-like objects
 		filter: {
 			type: 'array',

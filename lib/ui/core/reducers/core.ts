@@ -38,6 +38,7 @@ export const coreSelectors = {
 	getChangelog: (state: KnownState) => _.get(state.core, ['config', 'changelog']) || null,
 	getChannels: (state: KnownState) => state.core.channels,
 	getCurrentUser: (state: KnownState) => _.get(state.core, ['session', 'user']) || null,
+	getNotifications: (state: KnownState) => state.core.notifications || [],
 	getSessionToken: (state: KnownState) => _.get(state.core, ['session', 'authToken']) || null,
 	getStatus: (state: KnownState) => state.core.status,
 	getTypes: (state: KnownState) => state.core.types,
