@@ -20,8 +20,11 @@ NotificationStub.onClick = _.noop
 
 global.document = (new JSDOM('<body></body>')).window.document
 global.window = document.defaultView
-global.navigator = window.navigator
-global.Image = window.Image
-global.getComputedStyle = window.getComputedStyle
-global.Notification = NotificationStub
+
 global.HowlerGlobal = HowlerGlobal
+global.Image = window.Image
+global.NodeFilter = window.NodeFilter
+global.NodeList = window.NodeList
+global.Notification = NotificationStub
+global.getComputedStyle = window.getComputedStyle
+global.navigator = window.navigator
