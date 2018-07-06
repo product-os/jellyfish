@@ -31,17 +31,15 @@ export interface Card {
 	transient?: object;
 }
 
-export interface ActionResponse<D = any> {
-	error: boolean;
+export type ActionResponse<D = any> = {
+	error: false;
+	data: D;
+} | {
+	error: true;
 	data: {
-		id: string;
-		results: {
-			data: D;
-			error: boolean;
-			timestamp: string;
-		};
+		message: string;
 	};
-}
+};
 
 export interface ServerResponse {
 	error: boolean;
@@ -64,11 +62,11 @@ export interface SDKInterface {
 	cancelAllStreams: () => void;
 
 	action: <D = any>(body: {
-		target: string;
+		card: string;
 		action: string;
 		arguments?: any;
-		transient?: any;
 	}) => Bluebird<D>;
+
 	query: <T extends Card>(schema: JSONSchema6) => Bluebird<T[]>;
 
 	post: <R = ServerResponse>(endpoint: string, body: any, options?: AxiosRequestConfig) => Bluebird<AxiosResponse<R> | void>;

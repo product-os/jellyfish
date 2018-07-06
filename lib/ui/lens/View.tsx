@@ -296,7 +296,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 										<Select
 											ml={2}
 											disabled={!lensSupportsGroups}
-											value={subscription.data.activeGroup}
+											value={_.get(subscription, ['data', 'activeGroup'])}
 											onChange={lensSupportsGroups ? this.setGroup : _.noop}
 										>
 											{_.map(groups, (group) => {

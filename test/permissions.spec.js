@@ -17,6 +17,7 @@
 require('ts-node').register()
 
 const ava = require('ava')
+const Bluebird = require('bluebird')
 const _ = require('lodash')
 const randomstring = require('randomstring')
 const {
@@ -39,7 +40,7 @@ ava.test.beforeEach(async (test) => {
 	// Since AVA tests are running concurrently, set up an SDK instance that will
 	// communicate with whichever port this server instance bound to
 	test.context.sdk = getSdk({
-		apiPrefix: process.env.API_PREFIX || 'api/v1',
+		apiPrefix: process.env.API_PREFIX || 'api/v2',
 		apiUrl: `http://localhost:${port}`
 	})
 })
@@ -135,6 +136,9 @@ ava.test.serial('timeline cards should reference the correct actor', async (test
 			description: 'Lorem ipsum dolor sit amer'
 		}
 	})
+
+	// Wait for an update card to be generated
+	await Bluebird.delay(1000)
 
 	const timeline = await sdk.card.getTimeline(thread.id)
 
@@ -284,6 +288,8 @@ ava.test.serial('AGGREGATE($events): should work when creating cards via the SDK
 		sdk
 	} = test.context
 
+	const id = 'ba1af3bb-1f8b-4943-ae0f-8e5bd39cf48b'
+
 	// Create a new user
 	const user = await sdk.auth.signup({
 		username: 'johndoe',
@@ -314,6 +320,8 @@ ava.test.serial('AGGREGATE($events): should work when creating cards via the SDK
 		data: {}
 	})
 
+	await Bluebird.delay(2000)
+
 	// Add a message to the thread element
 	await sdk.card.create({
 		type: 'message',
@@ -323,14 +331,17 @@ ava.test.serial('AGGREGATE($events): should work when creating cards via the SDK
 			actor: user.id,
 			payload: {
 				message: 'lorem ipsum dolor sit amet',
-				mentionsUser: [ 'johndoe' ]
+				mentionsUser: [ id ]
 			}
 		}
 	})
 
+	// Wait for the AGGREGATE triggered action to run
+	await Bluebird.delay(2000)
+
 	const card = await sdk.card.get(thread.id)
 
-	test.deepEqual(card.data.mentionsUser, [ 'johndoe' ])
+	test.deepEqual(card.data.mentionsUser, [ id ])
 })
 
 ava.test.serial('Users should not be able to login as the core admin user', async (test) => {
