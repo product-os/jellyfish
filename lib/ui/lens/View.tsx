@@ -194,6 +194,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 				});
 			});
 
+			this.props.actions.loadViewResults(syntheticViewCard);
 			this.props.actions.streamView(syntheticViewCard);
 		}
 
