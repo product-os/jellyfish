@@ -31,6 +31,16 @@
             "type": {
               "const": "issue",
               "type": "string"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "archived": {
+                  "not": {
+                    "const": true
+                  }
+                }
+              }
             }
           },
           "required": [
