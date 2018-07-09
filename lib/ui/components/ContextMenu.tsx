@@ -21,31 +21,72 @@ const Menu = styled(Box)`
 	text-align: left;
 	width: 220px;
 	z-index: 1000;
-	margin-top: -18px;
-	margin-left: -4px
-
 	&:before {
 		position: absolute;
-    left: -5px;
-		top: 10px;
-    content: '';
-    display: block;
-    width: 0;
-    height: 0;
-    border-top: 6px solid transparent;
-    border-bottom: 6px solid transparent;
-    border-right: 5px solid #fff;
+		content: '';
+		display: block;
+		width: 0;
+		height: 0;
+	}
+
+	&:after {
+		position: absolute;
+		content: '';
+		display: block;
+		width: 0;
+		height: 0;
+	}
+
+	&.context-menu--left {
+		margin-top: -18px;
+		margin-left: -4px
+
+		&:before {
+			left: -6px;
+			top: 9px;
+			border-top: 7px solid transparent;
+			border-bottom: 7px solid transparent;
+			border-right: 6px solid #ccc;
+		}
+
+		&:after {
+			left: -5px;
+			top: 10px;
+			border-top: 6px solid transparent;
+			border-bottom: 6px solid transparent;
+			border-right: 5px solid #fff;
+		}
+	}
+
+	&.context-menu--bottom {
+		&:before {
+			right: 11px;
+			top: -6px;
+			border-right: 7px solid transparent;
+			border-left: 7px solid transparent;
+			border-bottom: 6px solid #ccc;
+		}
+
+		&:after {
+			right: 12px;
+			top: -5px;
+			border-right: 6px solid transparent;
+			border-left: 6px solid transparent;
+			border-bottom: 5px solid #fff;
+		}
 	}
 `;
 
 interface ContextMenuProps {
 	onClose: () => void;
 	children: string | string[] | JSX.Element | JSX.Element[];
+	position?: 'bottom' | 'left';
 }
 
 interface ContextMenuState {
-	offsetLeft?: number;
-	offsetTop?: number;
+	offsetLeft?: number | 'auto';
+	offsetTop?: number | 'auto';
+	offsetRight?: number | 'auto';
 }
 
 export class ContextMenu extends React.Component<ContextMenuProps, ContextMenuState> {
@@ -68,15 +109,24 @@ export class ContextMenu extends React.Component<ContextMenuProps, ContextMenuSt
 
 		const bounds = (parent as HTMLElement).getBoundingClientRect();
 
-		this.setState({
-			offsetLeft: bounds.left + bounds.width,
-			offsetTop: bounds.top + (bounds.height / 2),
-		});
+		if (this.props.position === 'bottom') {
+			this.setState({
+				offsetLeft: 'auto',
+				offsetTop: bounds.top + bounds.height,
+				offsetRight: window.innerWidth - (bounds.left + bounds.width),
+			});
+		} else {
+			this.setState({
+				offsetLeft: bounds.left + bounds.width,
+				offsetTop: bounds.top + (bounds.height / 2),
+				offsetRight: 'auto',
+			});
+		}
 	}
 
 	public render() {
 		const { onClose, children } = this.props;
-		const { offsetLeft, offsetTop } = this.state;
+		const { offsetLeft, offsetTop, offsetRight } = this.state;
 
 		const display = offsetLeft && offsetTop ? 'block' : 'none';
 
@@ -90,9 +140,11 @@ export class ContextMenu extends React.Component<ContextMenuProps, ContextMenuSt
 				onClick={onClose}
 			>
 				<Menu
+					className={`context-menu--${this.props.position || 'left'}`}
 					style={{
 						top: offsetTop,
 						left: offsetLeft,
+						right: offsetRight,
 						display,
 					}}
 				>

@@ -4,7 +4,13 @@ import * as _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Box, Flex, Heading, Link, Txt } from 'rendition';
+import {
+	Box,
+	Flex,
+	Heading,
+	Link,
+	Txt
+} from 'rendition';
 import { Markdown } from 'rendition/dist/extra/Markdown';
 import { Mermaid } from 'rendition/dist/extra/Mermaid';
 import styled from 'styled-components';
@@ -20,6 +26,16 @@ import { CardActions } from './CardActions';
 import Label from './Label';
 import { Tag } from './Tag';
 
+const Badge = styled(Txt)`
+	display: inline-block;
+	background: #555;
+	color: white;
+	border-radius: 4px;
+	padding: 1px 8px;
+	margin-right: 4px;
+	font-size: 14px;
+`;
+
 const DataContainer = styled.pre`
 	background: none;
 	color: inherit;
@@ -29,16 +45,6 @@ const DataContainer = styled.pre`
 	font-size: inherit;
 	white-space: pre-wrap;
 	word-wrap: break-word;
-`;
-
-const Badge = styled(Txt)`
-	display: inline-block;
-	background: #555;
-	color: white;
-	border-radius: 4px;
-	padding: 1px 8px;
-	margin-right: 4px;
-	font-size: 14px;
 `;
 
 const CardField = ({ field, payload, users, schema }: {
