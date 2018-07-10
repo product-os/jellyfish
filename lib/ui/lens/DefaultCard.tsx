@@ -102,7 +102,7 @@ class CardList extends React.Component<CardListProps, CardListState> {
 				parent={props.parent}
 				rowIndex={props.index}
 			>
-				<Box style={props.style}>
+				<Box px={3} style={props.style}>
 					<CardRenderer
 						key={card.id}
 						card={card}
@@ -119,7 +119,7 @@ class CardList extends React.Component<CardListProps, CardListState> {
 
 		return (
 			<Column flexDirection="column">
-				<Box px={3} flex="1">
+				<Box flex="1">
 					{!!tail &&
 						<AutoSizer>
 							{({ width, height }) => (
