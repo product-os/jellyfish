@@ -22,7 +22,7 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      - run: apt-get install -y git
+      - run: apt-get update && apt-get install -y git
 
       # Because `node_modules` gets cached, any changes to the SDK will be
       # ignored, as the package already exists there and npm lifecycle events
