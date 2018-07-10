@@ -92,6 +92,9 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 		};
 
 		this.streamTail(this.props.channel.data.target);
+		if (this.props.channels.length > 1) {
+			this.props.actions.setActiveView(this.props.channels[1].data.target);
+		}
 	}
 
 	public shouldComponentUpdate(nextProps: HomeChannelProps, nextState: HomeChannelState) {
