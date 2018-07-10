@@ -50,14 +50,17 @@ const logger: Middleware = (store) => (next) => (action: any) => {
 };
 
 const reducerWrapper = (state: StoreState, action: Action) => {
+	const firstRun = !state;
+
+	let newState;
+
 	if (action.type === actions.LOGOUT) {
 		sdk.auth.logout();
-		const state = getDefaultState();
-		state.core.status = 'unauthorized';
-		return state;
+		newState = getDefaultState();
+		newState.core.status = 'unauthorized';
+	} else {
+		newState = rootReducer(state, action);
 	}
-	const firstRun = !state;
-	const newState = rootReducer(state, action);
 
 	if (!firstRun) {
 		save(newState);
