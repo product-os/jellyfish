@@ -11,6 +11,7 @@ const uiRoot = path.join(root, 'lib', 'ui')
 const indexFilePath = path.join(uiRoot, 'index.html')
 const iconsFolderPath = path.join(uiRoot, 'icons')
 const audioFolderPath = path.join(uiRoot, 'audio')
+const faviconPath = path.join(uiRoot, 'favicon.ico')
 const outDir = path.join(root, 'dist')
 
 const config = {
@@ -80,6 +81,9 @@ const config = {
 			{
 				from: audioFolderPath,
 				to: 'audio'
+			},
+			{
+				from: faviconPath
 			}
 		]),
 
