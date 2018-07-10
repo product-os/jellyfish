@@ -1,6 +1,12 @@
-import * as _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux';
+import {
+	AutoSizer,
+	CellMeasurer,
+	CellMeasurerCache,
+	List,
+	ListRowProps,
+} from 'react-virtualized';
 import { bindActionCreators } from 'redux';
 import {
 	Box,
@@ -31,12 +37,19 @@ interface CardListProps extends RendererProps {
 }
 
 class CardList extends React.Component<CardListProps, CardListState> {
+	private _cache: CellMeasurerCache;
+
 	constructor(props: CardListProps) {
 		super(props);
 
 		this.state = {
 			showNewCardModal: false,
 		};
+
+		this._cache = new CellMeasurerCache({
+			defaultHeight: 300,
+			fixedWidth: true,
+		});
 	}
 
 	public openChannel(card: Card) {
@@ -71,29 +84,57 @@ class CardList extends React.Component<CardListProps, CardListState> {
 		return getUpdateObjectFromSchema(schema);
 	}
 
-	public render() {
+	public rowRenderer = (props: ListRowProps) => {
 		const { tail, channel: { data: { head } } } = this.props;
+		const card = tail![props.index];
+
+		// Don't show the card if its the head, this can happen on view types
+		if (card.id === head!.id) {
+			return null;
+		}
+
+		return (
+			<CellMeasurer
+				cache={this._cache}
+				columnIndex={0}
+				key={card.id}
+				overscanRowCount={10}
+				parent={props.parent}
+				rowIndex={props.index}
+			>
+				<Box style={props.style}>
+					<CardRenderer
+						key={card.id}
+						card={card}
+						channel={this.props.channel}
+					/>
+					<Divider color="#eee" m={0} style={{height: 1}} />
+				</Box>
+			</CellMeasurer>
+		);
+	}
+
+	public render() {
+		const { tail } = this.props;
 
 		return (
 			<Column flexDirection="column">
 				<Box px={3} flex="1">
-					{!!tail && _.map(tail, (card) => {
-						// Don't show the card if its the head, this can happen on view types
-						if (card.id === head!.id) {
-							return null;
-						}
-
-						return (
-							<React.Fragment>
-								<CardRenderer
-									key={card.id}
-									card={card}
-									channel={this.props.channel}
+					{!!tail &&
+						<AutoSizer>
+							{({ width, height }) => (
+								<List
+									width={width}
+									height={height}
+									deferredMeasurementCache={this._cache}
+									rowHeight={this._cache.rowHeight}
+									rowRenderer={this.rowRenderer}
+									rowCount={tail.length}
+									overscanRowCount={3}
 								/>
-								<Divider color="#eee" m={0} style={{height: 1}} />
-							</React.Fragment>
-						);
-					})}
+							)}
+						</AutoSizer>
+					}
 				</Box>
 
 				{!!this.props.type &&

@@ -7,7 +7,6 @@ import {
 	Box,
 	Button,
 	Flex,
-	Link,
 } from 'rendition';
 import { Lens, RendererProps, Type } from '../../Types';
 import { CardCreator } from '../components/CardCreator';
@@ -95,13 +94,14 @@ class DefaultList extends React.Component<DefaultListProps, DefaultListState> {
 
 						return (
 							<Box key={card.id} mb={3}>
-								<Link
+								<a
 									data-id={card.id}
 									onClick={this.openChannel}
 									className={`list-item--${card.slug || card.id}`}
+									href={`#${head!.id}/${card.id}`}
 								>
 									{card.name || card.slug || card.id}
-								</Link>
+								</a>
 							</Box>
 						);
 					})}
