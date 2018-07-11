@@ -1,0 +1,18 @@
+{
+  "slug": "action-emit-webhook",
+  "type": "action",
+  "name": "Emit to a webhook",
+  "tags": [],
+  "links": [],
+  "active": true,
+  "data": {
+    "arguments": {
+      "payload": {
+        "type": "object"
+      },
+      "url": {
+        "type": "string"
+      }
+    }
+  }
+}
