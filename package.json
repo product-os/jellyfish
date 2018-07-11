@@ -67,6 +67,7 @@
     "jsdom": "^11.8.0",
     "marky": "^1.2.0",
     "nyc": "^11.4.1",
+    "percentile": "^1.2.1",
     "randomstring": "^1.1.5",
     "request": "^2.85.0",
     "source-map-loader": "^0.2.3",
