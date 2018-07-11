@@ -17,6 +17,7 @@
 const _ = require('lodash')
 const Bluebird = require('bluebird')
 const request = require('request')
+const percentile = require('percentile')
 
 const client = request.defaults({
 	baseUrl: 'http://localhost:8000',
@@ -174,8 +175,9 @@ exports.logSummary = (entries, title) => {
 	})
 
 	console.log('\n==== SUMMARY\n')
-	const durations = _.map(entries, 'duration')
-	console.log(`Min: ${_.min(durations)}`)
-	console.log(`Max: ${_.max(durations)}`)
-	console.log(`Avg: ${_.sum(durations) / durations.length}`)
+	const durations = _.sortBy(_.map(entries, 'duration'))
+
+	_.each([ 80, 90, 95, 99 ], (percentage) => {
+		console.log(`${percentage}th -> ${percentile(percentage, durations)}ms`)
+	})
 }
