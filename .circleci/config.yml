@@ -40,5 +40,20 @@ jobs:
 
       - run: rethinkdb --daemon --bind all
       - run: npm test
-      - run: node stress/core/insert-serial.js
-      - run: node stress/core/insert-parallel.js
+
+      # Stress Testing
+      - run:
+          name: Serial Core Inserts
+          command: node stress/core/insert-serial.js
+      - run:
+          name: Parallel Core Inserts
+          command: node stress/core/insert-parallel.js
+      - run:
+          name: Previous Commit
+          command: git checkout HEAD~1 && npm install
+      - run:
+          name: Serial Core Inserts (previous)
+          command: node stress/core/insert-serial.js
+      - run:
+          name: Parallel Core Inserts (previous)
+          command: node stress/core/insert-parallel.js
