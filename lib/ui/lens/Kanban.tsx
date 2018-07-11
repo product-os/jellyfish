@@ -5,9 +5,13 @@ import { connect } from 'react-redux';
 import Board, { BoardLane } from 'react-trello';
 import { bindActionCreators } from 'redux';
 import { Button, Flex, Modal } from 'rendition';
+import styled from 'styled-components';
 import * as jellyscript from '../../jellyscript';
 import { Card, Channel, Lens, RendererProps, Type } from '../../Types';
 import { CardCreator } from '../components/CardCreator';
+import { ContextMenu } from '../components/ContextMenu';
+import { GroupUpdate } from '../components/GroupUpdate';
+import Icon from '../components/Icon';
 import { sdk } from '../core';
 import { actionCreators } from '../core/store';
 import {
@@ -19,10 +23,87 @@ import LensService from './index';
 
 const UNSORTED_GROUP_ID = 'JELLYFISH_UNSORTED_GROUP';
 
+const EllipsisButton = styled(Button)`
+	float: right;
+	color: #c3c3c3;
+
+	&:hover,
+	&:focus {
+		color: white;
+	}
+`;
+
 const cardMapper = (card: Card) => ({
 	id: card.id,
 	title: card.name || card.slug || card.id,
 });
+
+interface CustomLaneHeaderState {
+	showMenu: boolean;
+	showUpdateModal: boolean;
+}
+
+interface CustomLaneHeaderProps extends Partial<BoardLane> {
+	schema: JSONSchema6;
+}
+
+class CustomLaneHeader extends React.Component<CustomLaneHeaderProps, CustomLaneHeaderState> {
+	constructor(props: any) {
+		super(props);
+
+		this.state = {
+			showMenu: false,
+			showUpdateModal: false,
+		};
+	}
+
+	public toggleMenu = () => {
+		this.setState({ showMenu: !this.state.showMenu });
+	}
+
+	public toggleUpdateModal = () => {
+		this.setState({ showUpdateModal: !this.state.showUpdateModal });
+	}
+
+	render() {
+		const { props } = this;
+
+		return (
+			<div>
+				{props.title}
+				<EllipsisButton
+					px={2}
+					plaintext
+					onClick={this.toggleMenu}
+				>
+					<Icon name="ellipsis-v" />
+				</EllipsisButton>
+
+				{this.state.showMenu &&
+					<ContextMenu
+						position="bottom"
+						onClose={this.toggleMenu}
+					>
+						<Button
+							plaintext
+							onClick={this.toggleUpdateModal}
+						>
+							Update all items in this list
+						</Button>
+					</ContextMenu>
+				}
+
+				{this.state.showUpdateModal &&
+					<GroupUpdate
+						cards={props.cards!}
+						schema={props.schema}
+						onClose={this.toggleUpdateModal}
+					/>
+				}
+			</div>
+		);
+	}
+}
 
 interface KanbanState {
 	modalChannel: null | Channel;
@@ -209,6 +290,7 @@ class Kanban extends React.Component<KanbanProps, KanbanState> {
 					style={{
 						padding: '0 12px',
 					}}
+					customLaneHeader={type ? <CustomLaneHeader schema={type.data.schema} /> : undefined}
 					data={data}
 					draggable={true}
 					handleDragEnd={this.handleDragEnd}

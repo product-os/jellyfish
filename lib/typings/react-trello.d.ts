@@ -11,7 +11,7 @@ declare module 'react-trello' {
 
 	export interface BoardLane {
 		id: string;
-		title?: string;
+		title?: string | JSX.Element;
 		label?: string;
 		cards: BoardCard[];
 	}
@@ -24,7 +24,7 @@ declare module 'react-trello' {
 		style?: React.CSSProperties;
 		data: BoardData;
 		draggable?: boolean;
-		customLaneHeader?: JSX.Element;
+		customLaneHeader?: React.ReactElement<any>;
 		handleDragEnd?: (cardId: string, sourceLaneId: string, targetLaneId: string, position: number) => void;
 		handleLaneDragEnd?: (laneId: string, newPosition: number) => void;
 		onCardClick?: (cardId: string, metadata: any, laneId: string) => void;
