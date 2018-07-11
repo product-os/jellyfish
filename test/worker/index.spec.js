@@ -300,53 +300,6 @@ ava.test('.dequeue() should return nothing if no requests', async (test) => {
 	test.falsy(request)
 })
 
-ava.test('.dequeue() should dequeue in a FIFO fashion', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
-	await test.context.worker.enqueue(test.context.session, {
-		action: 'action-create-card',
-		card: typeCard.id,
-		arguments: {
-			properties: {
-				data: {
-					foo: 1
-				}
-			}
-		}
-	})
-
-	await test.context.worker.enqueue(test.context.session, {
-		action: 'action-create-card',
-		card: typeCard.id,
-		arguments: {
-			properties: {
-				data: {
-					foo: 2
-				}
-			}
-		}
-	})
-
-	await test.context.worker.enqueue(test.context.session, {
-		action: 'action-create-card',
-		card: typeCard.id,
-		arguments: {
-			properties: {
-				data: {
-					foo: 3
-				}
-			}
-		}
-	})
-
-	const request1 = await test.context.worker.dequeue()
-	const request2 = await test.context.worker.dequeue()
-	const request3 = await test.context.worker.dequeue()
-
-	test.is(request1.arguments.properties.data.foo, 1)
-	test.is(request2.arguments.properties.data.foo, 2)
-	test.is(request3.arguments.properties.data.foo, 3)
-})
-
 ava.test('.dequeue() should reduce the length', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	await test.context.worker.enqueue(test.context.session, {
@@ -623,7 +576,7 @@ ava.test('.execute() should be able to AGGREGATE based on the card timeline', as
 	test.false(messageResult2.error)
 
 	const thread = await test.context.jellyfish.getCardById(test.context.session, threadResult.data.id)
-	test.deepEqual(thread.data.mentions, [ 'johndoe', 'janedoe', 'johnsmith' ])
+	test.deepEqual(_.sortBy(thread.data.mentions), _.sortBy([ 'johndoe', 'janedoe', 'johnsmith' ]))
 })
 
 ava.test('.execute() AGGREGATE should create a property on the target if it does not exist', async (test) => {

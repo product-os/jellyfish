@@ -30,19 +30,23 @@ exports.dispatchAction = (session, body) => {
 
 	return new Bluebird((resolve, reject) => {
 		client.post({
-			url: '/api/v1/action',
+			url: '/api/v2/action',
 			headers,
-			body
+			body: {
+				card: body.target,
+				action: body.action,
+				arguments: body.arguments
+			}
 		}, (error, response) => {
 			if (error) {
 				return reject(error)
 			}
 
 			if (response.body.error) {
-				return reject(new Error(response.body.data))
+				return reject(new Error(response.body.data.message))
 			}
 
-			return resolve(response.body.data.results.data)
+			return resolve(response.body.data)
 		})
 	})
 }
@@ -85,8 +89,8 @@ exports.login = (session, username, password) => {
 				}
 			}
 		}
-	}).catch({
-		message: `No such target: ${username}`
+	}).get('id').catch({
+		message: `No such input card: ${username}`
 	}, _.constant(null))
 }
 
