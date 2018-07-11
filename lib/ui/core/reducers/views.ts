@@ -62,8 +62,9 @@ export const viewSelectors = {
 const actions = {
 	STREAM_VIEW: 'STREAM_VIEW',
 	SET_VIEW_DATA: 'SET_VIEW_DATA',
-	UPSERT_VIEW_DATA: 'UPSERT_VIEW_DATA',
-	APPEND_VIEW_DATA: 'APPEND_VIEW_DATA',
+	UPSERT_VIEW_DATA_ITEM: 'UPSERT_VIEW_DATA_ITEM',
+	APPEND_VIEW_DATA_ITEM: 'APPEND_VIEW_DATA_ITEM',
+	REMOVE_VIEW_DATA_ITEM: 'REMOVE_VIEW_DATA_ITEM',
 	SAVE_SUBSCRIPTION: 'SAVE_SUBSCRIPTION',
 	SET_ACTIVE_VIEW: 'SET_ACTIVE_VIEW',
 };
@@ -178,9 +179,15 @@ export const actionCreators = {
 				}
 				// If before is non-null then the card has been updated
 				if (before) {
-					return dispatch(actionCreators.upsertViewData(query, before));
+					// if after is null, the item has been removed from the result set
+					if (!after) {
+						return dispatch(actionCreators.removeViewDataItem(query, before));
+					}
+
+					return dispatch(actionCreators.upsertViewData(query, after));
 				}
 
+				// Otherwise, if before is null, this is a new item
 				return dispatch(actionCreators.appendViewData(query, after));
 			});
 
@@ -188,6 +195,17 @@ export const actionCreators = {
 				console.error('Received a stream error', response.data);
 			});
 		});
+	},
+
+	removeViewDataItem: (query: string | Card | JSONSchema6, data: Card): Action => {
+		const id = getViewId(query);
+		return {
+			type: actions.REMOVE_VIEW_DATA_ITEM,
+			value: {
+				id,
+				data,
+			},
+		};
 	},
 
 	setViewData: (query: string | Card | JSONSchema6, data: Card[]): Action => {
@@ -204,7 +222,7 @@ export const actionCreators = {
 	upsertViewData: (query: string | Card | JSONSchema6, data: Card): Action => {
 		const id = getViewId(query);
 		return {
-			type: actions.UPSERT_VIEW_DATA,
+			type: actions.UPSERT_VIEW_DATA_ITEM,
 			value: {
 				id,
 				data,
@@ -215,7 +233,7 @@ export const actionCreators = {
 	appendViewData: (query: string | Card | JSONSchema6, data: Card): Action => {
 		const id = getViewId(query);
 		return {
-			type: actions.APPEND_VIEW_DATA,
+			type: actions.APPEND_VIEW_DATA_ITEM,
 			value: {
 				id,
 				data,
@@ -313,7 +331,14 @@ export const views = (state: IViews, action: Action) => {
 
 			return state;
 
-		case actions.UPSERT_VIEW_DATA:
+		case actions.REMOVE_VIEW_DATA_ITEM:
+			state.viewData[action.value.id] = state.viewData[action.value.id].filter((item) => {
+				return item.id !== action.value.data.id;
+			});
+
+			return state;
+
+		case actions.UPSERT_VIEW_DATA_ITEM:
 			let upsertTarget = state.viewData[action.value.id];
 
 			const update = action.value.data;
@@ -329,7 +354,7 @@ export const views = (state: IViews, action: Action) => {
 
 			return state;
 
-		case actions.APPEND_VIEW_DATA:
+		case actions.APPEND_VIEW_DATA_ITEM:
 			let appendTarget = state.viewData[action.value.id];
 
 			if (appendTarget) {
