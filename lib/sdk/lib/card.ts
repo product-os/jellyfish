@@ -194,7 +194,7 @@ export class CardSdk {
 	 */
 	public create(card: Partial<Card> & { type: string }): Bluebird<Card> {
 		return this.sdk.action<Card>({
-			target: card.type,
+			card: card.type,
 			action: 'action-create-card',
 			arguments: {
 				properties: _.omit(card, ['type']),
@@ -229,7 +229,7 @@ export class CardSdk {
 	 */
 	public update(id: string, body: Partial<Card>): Bluebird<any> {
 		return this.sdk.action({
-			target: id,
+			card: id,
 			action: 'action-update-card',
 			arguments: {
 				properties: _.omit(body, [ 'type', 'id' ]),
@@ -255,7 +255,7 @@ export class CardSdk {
 	 */
 	public remove(id: string): Bluebird<any> {
 		return this.sdk.action({
-			target: id,
+			card: id,
 			action: 'action-delete-card',
 		});
 	}
