@@ -18,15 +18,23 @@ const scrub = async () => {
 
 	const testDatabases = list.filter(x => x.match(/test_/))
 
+	console.log(`found ${testDatabases.length} test databases`)
+
 	spinner.setSpinnerTitle(`%s Preparing to drop ${testDatabases.length} test databases`)
+
+	let count = 0
 
 	await Promise.map(
 		testDatabases,
-		database => {
+		(database) => {
 			return rethinkdb.dbDrop(database).run(connection)
-			.then(() => spinner.setSpinnerTitle(`%s Dropped database ${database}`))
+				.then(() => {
+					spinner.setSpinnerTitle(`%s Dropped database ${database} (${++count}/${testDatabases.length})`)
+				})
 		},
-		{ concurrency: 10 }
+		{
+			concurrency: 10
+		}
 	)
 
 	spinner.stop(true)
