@@ -113,6 +113,7 @@
     "formulajs": "^1.0.8",
     "history": "^4.7.2",
     "howler": "^2.0.12",
+    "json-e": "^2.6.0",
     "localforage": "^1.6.0",
     "lodash": "^4.17.5",
     "mark.js": "^8.11.1",

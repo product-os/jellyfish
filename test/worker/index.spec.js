@@ -682,7 +682,7 @@ ava.test('.execute() AGGREGATE should work with $$ prefixed properties', async (
 								properties: {
 									$$mentions: {
 										type: 'array',
-										$formula: 'AGGREGATE($events, "data.payload.$$mentions")'
+										$formula: 'AGGREGATE($events, "data.payload[\'$$mentions\']")'
 									}
 								},
 								additionalProperties: true

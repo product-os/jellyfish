@@ -596,10 +596,18 @@ ava.test('.getTypeTriggers() should report back watchers when aggregating events
 			data: {
 				type: 'thread',
 				action: 'action-set-add',
-				target: '{source.data.target}',
+				target: {
+					$eval: 'source.data.target'
+				},
 				arguments: {
 					property: 'data.mentions',
-					value: '{source.data.mentions}'
+					value: {
+						$if: 'source.data.mentions',
+						then: {
+							$eval: 'source.data.mentions'
+						},
+						else: []
+					}
 				},
 				filter: {
 					type: 'object',

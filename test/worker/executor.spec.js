@@ -781,9 +781,13 @@ ava.test('.insertCard() should remove previously inserted type triggered actions
 				target: typeCard.id,
 				arguments: {
 					properties: {
-						slug: '{source.data.slug}',
+						slug: {
+							$eval: 'source.data.slug'
+						},
 						data: {
-							number: '{source.data.number}'
+							number: {
+								$eval: 'source.data.number'
+							}
 						}
 					}
 				}
@@ -816,9 +820,13 @@ ava.test('.insertCard() should remove previously inserted type triggered actions
 				target: typeCard.id,
 				arguments: {
 					properties: {
-						slug: '{source.data.slug}',
+						slug: {
+							$eval: 'source.data.slug'
+						},
 						data: {
-							number: '{source.data.number}'
+							number: {
+								$eval: 'source.data.number'
+							}
 						}
 					}
 				}
@@ -913,9 +921,13 @@ ava.test('.insertCard() should remove previously inserted type triggered actions
 			target: typeCard.id,
 			arguments: {
 				properties: {
-					slug: '{source.data.slug}',
+					slug: {
+						$eval: 'source.data.slug'
+					},
 					data: {
-						number: '{source.data.number}'
+						number: {
+							$eval: 'source.data.number'
+						}
 					}
 				}
 			}
@@ -1060,11 +1072,19 @@ ava.test('.insertCard() should pre-register a triggered action if using AGGREGAT
 	test.deepEqual(test.context.triggers, [
 		{
 			action: 'action-set-add',
-			card: '{source.data.target}',
+			card: {
+				$eval: 'source.data.target'
+			},
 			filter: test.context.triggers[0].filter,
 			arguments: {
 				property: 'data.mentions',
-				value: '{source.data.payload.mentions}'
+				value: {
+					$if: 'source.data.payload.mentions',
+					then: {
+						$eval: 'source.data.payload.mentions'
+					},
+					else: []
+				}
 			}
 		}
 	])

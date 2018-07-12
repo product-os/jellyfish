@@ -242,9 +242,13 @@ ava.test('.getRequest() should parse source templates in the triggered action ar
 		card: typeCard.id,
 		arguments: {
 			properties: {
-				slug: '{source.data.slug}',
+				slug: {
+					$eval: 'source.data.slug'
+				},
 				data: {
-					number: '{source.data.number}'
+					number: {
+						$eval: 'source.data.number'
+					}
 				}
 			}
 		}
@@ -309,9 +313,13 @@ ava.test('.getRequest() should return null if one of the templates is unsatisfie
 		card: typeCard.id,
 		arguments: {
 			properties: {
-				slug: '{source.data.slug}',
+				slug: {
+					$eval: 'source.data.slug'
+				},
 				data: {
-					number: '{source.data.number}'
+					number: {
+						$eval: 'source.data.number'
+					}
 				}
 			}
 		}
@@ -370,9 +378,13 @@ ava.test('.getTypeTriggers() should return a trigger card with a matching type',
 				target: typeCard.id,
 				arguments: {
 					properties: {
-						slug: '{source.data.slug}',
+						slug: {
+							$eval: 'source.data.slug'
+						},
 						data: {
-							number: '{source.data.number}'
+							number: {
+								$eval: 'source.data.number'
+							}
 						}
 					}
 				}
@@ -422,9 +434,13 @@ ava.test('.getTypeTriggers() should not return inactive cards', async (test) => 
 				target: typeCard.id,
 				arguments: {
 					properties: {
-						slug: '{source.data.slug}',
+						slug: {
+							$eval: 'source.data.slug'
+						},
 						data: {
-							number: '{source.data.number}'
+							number: {
+								$eval: 'source.data.number'
+							}
 						}
 					}
 				}
@@ -470,9 +486,13 @@ ava.test('.getTypeTriggers() should ignore non-matching cards', async (test) => 
 				target: typeCard.id,
 				arguments: {
 					properties: {
-						slug: '{source.data.slug}',
+						slug: {
+							$eval: 'source.data.slug'
+						},
 						data: {
-							number: '{source.data.number}'
+							number: {
+								$eval: 'source.data.number'
+							}
 						}
 					}
 				}
@@ -505,9 +525,13 @@ ava.test('.getTypeTriggers() should ignore non-matching cards', async (test) => 
 				target: typeCard.id,
 				arguments: {
 					properties: {
-						slug: '{source.data.slug}',
+						slug: {
+							$eval: 'source.data.slug'
+						},
 						data: {
-							number: '{source.data.number}'
+							number: {
+								$eval: 'source.data.number'
+							}
 						}
 					}
 				}
@@ -557,9 +581,13 @@ ava.test('.getTypeTriggers() should ignore cards that are not triggered actions'
 				target: typeCard.id,
 				arguments: {
 					properties: {
-						slug: '{source.data.slug}',
+						slug: {
+							$eval: 'source.data.slug'
+						},
 						data: {
-							number: '{source.data.number}'
+							number: {
+								$eval: 'source.data.number'
+							}
 						}
 					}
 				}
@@ -592,9 +620,13 @@ ava.test('.getTypeTriggers() should ignore cards that are not triggered actions'
 				target: typeCard.id,
 				arguments: {
 					properties: {
-						slug: '{source.data.slug}',
+						slug: {
+							$eval: 'source.data.slug'
+						},
 						data: {
-							number: '{source.data.number}'
+							number: {
+								$eval: 'source.data.number'
+							}
 						}
 					}
 				}
@@ -643,9 +675,13 @@ ava.test('.getTypeTriggers() should not return triggered actions not associated 
 				target: typeCard.id,
 				arguments: {
 					properties: {
-						slug: '{source.data.slug}',
+						slug: {
+							$eval: 'source.data.slug'
+						},
 						data: {
-							number: '{source.data.number}'
+							number: {
+								$eval: 'source.data.number'
+							}
 						}
 					}
 				}
