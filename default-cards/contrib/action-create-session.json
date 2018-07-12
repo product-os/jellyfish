@@ -27,9 +27,6 @@
           }
         }
       }
-    },
-    "options": {
-      "password": "[arguments.password]"
     }
   }
 }

@@ -52,9 +52,6 @@
         },
         "required": []
       }
-    },
-    "options": {
-      "properties": "[arguments.properties]"
     }
   }
 }

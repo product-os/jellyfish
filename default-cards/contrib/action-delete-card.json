@@ -7,11 +7,6 @@
   "active": true,
   "data": {
     "extends": "action-update-card",
-    "arguments": {},
-    "options": {
-      "properties": {
-        "active": false
-      }
-    }
+    "arguments": {}
   }
 }

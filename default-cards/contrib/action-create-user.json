@@ -34,14 +34,6 @@
         "pattern": "^[a-f0-9]+$",
         "$formula": "HASH(input)"
       }
-    },
-    "options": {
-      "properties": {
-        "username": "[arguments.username]",
-        "email": "[arguments.email]",
-        "roles": [ "user-community" ],
-        "hash": "[arguments.hash]"
-      }
     }
   }
 }

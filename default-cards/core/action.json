@@ -34,17 +34,9 @@
                   "type": "object"
                 }
               }
-            },
-            "options": {
-              "type": "object",
-              "patternProperties": {
-                "^[a-z0-9]+$": {
-                  "type": [ "string", "object", "boolean", "number" ]
-                }
-              }
             }
           },
-          "required": [ "arguments", "options" ]
+          "required": [ "arguments" ]
         }
       },
       "additionalProperties": true,

@@ -16,10 +16,6 @@
       "value": {
         "type": [ "string", "number", "array" ]
       }
-    },
-    "options": {
-      "property": "[arguments.property]",
-      "value": "[arguments.value]"
     }
   }
 }
