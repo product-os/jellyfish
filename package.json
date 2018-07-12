@@ -126,7 +126,7 @@
     "react-virtualized": "^9.20.0",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
-    "rendition": "^4.16.1",
+    "rendition": "^4.18.1",
     "reql-schema": "^1.0.0",
     "rethinkdb": "^2.3.3",
     "skhema": "^2.0.0",

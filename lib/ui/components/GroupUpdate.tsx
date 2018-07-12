@@ -46,7 +46,7 @@ export class GroupUpdate extends React.Component<GroupUpdateProps, GroupUpdateSt
 	}
 
 	public setSchema = (schema: JSONSchema6) => {
-		const flatSchema = SchemaSieve.flattenSchema(schema);
+		const flatSchema = SchemaSieve.flattenSchema(schema, DELIMITER);
 
 		// Remove known metadata properties
 		if (flatSchema.properties) {
