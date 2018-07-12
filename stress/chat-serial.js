@@ -17,7 +17,7 @@
 const marky = require('marky')
 const utils = require('./utils')
 
-const USERNAME = 'user-stress-tester'
+const USERNAME = 'user-stress-testerxxxx'
 const PASSWORD = '1234'
 const TIMES = 5
 

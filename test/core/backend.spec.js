@@ -31,16 +31,6 @@ ava.test('.disconnect() should not throw if called multiple times', async (test)
 	})
 })
 
-ava.test('.getElementById() should return null if the table does not exist', async (test) => {
-	const result = await test.context.backend.getElementById('foobarbaz', '4a962ad9-20b5-4dd8-a707-bf819593cc84')
-	test.deepEqual(result, null)
-})
-
-ava.test('.getElementBySlug() should return null if the table does not exist', async (test) => {
-	const result = await test.context.backend.getElementBySlug('foobarbaz', 'card')
-	test.deepEqual(result, null)
-})
-
 ava.test('.getElementById() should return null if the element id is not present', async (test) => {
 	await test.context.backend.createTable('test')
 	const result = await test.context.backend.getElementById('test', '4a962ad9-20b5-4dd8-a707-bf819593cc84')
@@ -48,49 +38,43 @@ ava.test('.getElementById() should return null if the element id is not present'
 })
 
 ava.test('.getElementById() should not break the cache if trying to query a valid slug with it', async (test) => {
-	await test.context.backend.createTable('test')
-
-	const element = await test.context.backend.upsertElement('test', {
+	const element = await test.context.backend.upsertElement({
 		slug: 'example',
 		test: 'foo'
 	})
 
-	const result1 = await test.context.backend.getElementById('test', 'example')
+	const result1 = await test.context.backend.getElementById('example')
 	test.deepEqual(result1, null)
 
-	const result2 = await test.context.backend.getElementBySlug('test', 'example')
+	const result2 = await test.context.backend.getElementBySlug('example')
 	test.deepEqual(result2, element)
 })
 
 ava.test('.getElementBySlug() should not break the cache if trying to query a valid id with it', async (test) => {
-	await test.context.backend.createTable('test')
-
-	const element = await test.context.backend.upsertElement('test', {
+	const element = await test.context.backend.upsertElement({
 		slug: 'example',
 		test: 'foo'
 	})
 
-	const result1 = await test.context.backend.getElementBySlug('test', element.id)
+	const result1 = await test.context.backend.getElementBySlug(element.id)
 	test.deepEqual(result1, null)
 
-	const result2 = await test.context.backend.getElementById('test', element.id)
+	const result2 = await test.context.backend.getElementById(element.id)
 	test.deepEqual(result2, element)
 })
 
 ava.test('.getElementBySlug() should return null if the element slug is not present', async (test) => {
-	await test.context.backend.createTable('test')
-	const result = await test.context.backend.getElementBySlug('test', 'foo')
+	const result = await test.context.backend.getElementBySlug('foo')
 	test.deepEqual(result, null)
 })
 
 ava.test('.getElementBySlug() should fetch an element given its slug', async (test) => {
-	await test.context.backend.createTable('test')
-	const element = await test.context.backend.upsertElement('test', {
+	const element = await test.context.backend.upsertElement({
 		slug: 'example',
 		test: 'foo'
 	})
 
-	const result = await test.context.backend.getElementBySlug('test', 'example')
+	const result = await test.context.backend.getElementBySlug('example')
 	test.deepEqual(result, element)
 })
 
@@ -109,96 +93,76 @@ ava.test('.createTable() should ignore continuous attempts to create the same ta
 })
 
 ava.test('.insertElement() should insert an element without a slug nor an id to an existing table', async (test) => {
-	await test.context.backend.createTable('test')
-	const result = await test.context.backend.insertElement('test', {
+	const result = await test.context.backend.insertElement({
 		test: 'foo'
 	})
 
-	const element = await test.context.backend.getElementById('test', result.id)
+	const element = await test.context.backend.getElementById(result.id)
 	test.deepEqual(element, result)
 })
 
-ava.test('.insertElement() should throw if inserting an element to a non-existing table', async (test) => {
-	try {
-		await test.context.backend.insertElement('foobar', {
-			test: 'foo'
-		})
-	} catch (error) {
-		test.is(error.name, 'ReqlOpFailedError')
-	}
-})
-
 ava.test('.insertElement() should insert an element with a non-existent slug', async (test) => {
-	await test.context.backend.createTable('test')
-	const result = await test.context.backend.insertElement('test', {
+	const result = await test.context.backend.insertElement({
 		slug: 'foo'
 	})
 
-	const element = await test.context.backend.getElementById('test', result.id)
+	const element = await test.context.backend.getElementById(result.id)
 	test.deepEqual(element, result)
 })
 
 ava.test('.insertElement() should insert an element with a non-existent id', async (test) => {
-	await test.context.backend.createTable('test')
-	const result = await test.context.backend.insertElement('test', {
+	const result = await test.context.backend.insertElement({
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		foo: 'bar'
 	})
 
 	test.is(result.id, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
 
-	const element = await test.context.backend.getElementById('test', result.id)
+	const element = await test.context.backend.getElementById(result.id)
 	test.deepEqual(element, result)
 })
 
 ava.test('.insertElement() should insert an element with a non-existent id and slug', async (test) => {
-	await test.context.backend.createTable('test')
-	const result = await test.context.backend.insertElement('test', {
+	const result = await test.context.backend.insertElement({
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		slug: 'example',
 		foo: 'bar'
 	})
 
 	test.is(result.id, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
-	const element = await test.context.backend.getElementById('test', result.id)
+	const element = await test.context.backend.getElementById(result.id)
 	test.deepEqual(element, result)
 })
 
 ava.test('.insertElement() should fail to insert an element with an existent id', async (test) => {
-	await test.context.backend.createTable('test')
-
-	const result = await test.context.backend.insertElement('test', {
+	const result = await test.context.backend.insertElement({
 		foo: 'bar'
 	})
 
-	await test.throws(test.context.backend.insertElement('test', {
+	await test.throws(test.context.backend.insertElement({
 		id: result.id,
 		foo: 'baz'
 	}), errors.JellyfishElementAlreadyExists)
 })
 
 ava.test('.insertElement() should fail to insert an element with an existent slug', async (test) => {
-	await test.context.backend.createTable('test')
-
-	await test.context.backend.insertElement('test', {
+	await test.context.backend.insertElement({
 		slug: 'bar'
 	})
 
-	await test.throws(test.context.backend.insertElement('test', {
+	await test.throws(test.context.backend.insertElement({
 		slug: 'bar',
 		foo: 'baz'
 	}), errors.JellyfishElementAlreadyExists)
 })
 
 ava.test('.insertElement() should fail to insert an element with an existent id but non-existent slug', async (test) => {
-	await test.context.backend.createTable('test')
-
-	const result = await test.context.backend.insertElement('test', {
+	const result = await test.context.backend.insertElement({
 		slug: 'foo',
 		foo: 'bar'
 	})
 
-	await test.throws(test.context.backend.insertElement('test', {
+	await test.throws(test.context.backend.insertElement({
 		id: result.id,
 		slug: 'bar',
 		foo: 'baz'
@@ -206,16 +170,14 @@ ava.test('.insertElement() should fail to insert an element with an existent id 
 })
 
 ava.test('.insertElement() should fail to insert an element with a non-existent id but existent slug', async (test) => {
-	await test.context.backend.createTable('test')
-
-	const result = await test.context.backend.insertElement('test', {
+	const result = await test.context.backend.insertElement({
 		slug: 'foo',
 		foo: 'bar'
 	})
 
 	test.not(result.id, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
 
-	await test.throws(test.context.backend.insertElement('test', {
+	await test.throws(test.context.backend.insertElement({
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		slug: 'foo',
 		foo: 'baz'
@@ -223,23 +185,21 @@ ava.test('.insertElement() should fail to insert an element with a non-existent 
 })
 
 ava.test('.upsertElement() should create multiple elements given same content and no id', async (test) => {
-	await test.context.backend.createTable('test')
-
 	const object = {
 		test: 'foo'
 	}
 
-	const result1 = await test.context.backend.upsertElement('test', object)
-	const result2 = await test.context.backend.upsertElement('test', object)
-	const result3 = await test.context.backend.upsertElement('test', object)
+	const result1 = await test.context.backend.upsertElement(object)
+	const result2 = await test.context.backend.upsertElement(object)
+	const result3 = await test.context.backend.upsertElement(object)
 
 	test.not(result1.id, result2.id)
 	test.not(result2.id, result3.id)
 	test.not(result3.id, result1.id)
 
-	const element1 = await test.context.backend.getElementById('test', result1.id)
-	const element2 = await test.context.backend.getElementById('test', result2.id)
-	const element3 = await test.context.backend.getElementById('test', result3.id)
+	const element1 = await test.context.backend.getElementById(result1.id)
+	const element2 = await test.context.backend.getElementById(result2.id)
+	const element3 = await test.context.backend.getElementById(result3.id)
 
 	test.deepEqual(element1, result1)
 	test.deepEqual(element2, result2)
@@ -247,108 +207,99 @@ ava.test('.upsertElement() should create multiple elements given same content an
 })
 
 ava.test('.upsertElement() should insert a card with an id', async (test) => {
-	await test.context.backend.createTable('test')
-	const result = await test.context.backend.upsertElement('test', {
+	const result = await test.context.backend.upsertElement({
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		test: 'foo'
 	})
 
 	test.is(result.id, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
-	const element = await test.context.backend.getElementById('test', result.id)
+	const element = await test.context.backend.getElementById(result.id)
 	test.deepEqual(element, result)
 })
 
 ava.test('.upsertElement() should replace an element given an insertion to the same id', async (test) => {
-	await test.context.backend.createTable('test')
-	const result1 = await test.context.backend.upsertElement('test', {
+	const result1 = await test.context.backend.upsertElement({
 		test: 'foo',
 		hello: 'world'
 	})
 
-	const result2 = await test.context.backend.upsertElement('test', {
+	const result2 = await test.context.backend.upsertElement({
 		id: result1.id,
 		test: 'bar'
 	})
 
 	test.is(result1.id, result2.id)
-	const element = await test.context.backend.getElementById('test', result1.id)
+	const element = await test.context.backend.getElementById(result1.id)
 	test.deepEqual(element, result2)
 })
 
 ava.test('.upsertElement() should insert a card with a slug', async (test) => {
-	await test.context.backend.createTable('test')
-	const result = await test.context.backend.upsertElement('test', {
+	const result = await test.context.backend.upsertElement({
 		slug: 'example',
 		test: 'foo'
 	})
 
 	test.not(result.id, 'example')
-	const element = await test.context.backend.getElementById('test', result.id)
+	const element = await test.context.backend.getElementById(result.id)
 	test.deepEqual(element, result)
 })
 
 ava.test('.upsertElement() should replace an element given the slug but no id', async (test) => {
-	await test.context.backend.createTable('test')
-
-	const result1 = await test.context.backend.upsertElement('test', {
+	const result1 = await test.context.backend.upsertElement({
 		slug: 'example',
 		test: 'foo',
 		hello: 'world'
 	})
 
-	const result2 = await test.context.backend.upsertElement('test', {
+	const result2 = await test.context.backend.upsertElement({
 		slug: 'example',
 		test: 'bar'
 	})
 
 	test.is(result1.id, result2.id)
-	const element = await test.context.backend.getElementById('test', result1.id)
+	const element = await test.context.backend.getElementById(result1.id)
 	test.deepEqual(element, result2)
 })
 
 ava.test('.upsertElement() should insert a card with an id and a slug', async (test) => {
-	await test.context.backend.createTable('test')
-	const result = await test.context.backend.upsertElement('test', {
+	const result = await test.context.backend.upsertElement({
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		slug: 'example',
 		test: 'foo'
 	})
 
 	test.is(result.id, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
-	const element = await test.context.backend.getElementById('test', result.id)
+	const element = await test.context.backend.getElementById(result.id)
 	test.deepEqual(element, result)
 })
 
 ava.test('.upsertElement() should replace a card with no slug with an id and a non-existent slug', async (test) => {
-	await test.context.backend.createTable('test')
-	const result1 = await test.context.backend.upsertElement('test', {
+	const result1 = await test.context.backend.upsertElement({
 		test: 'foo'
 	})
 
-	const result2 = await test.context.backend.upsertElement('test', {
+	const result2 = await test.context.backend.upsertElement({
 		id: result1.id,
 		slug: 'example',
 		test: 'foo'
 	})
 
 	test.is(result1.id, result2.id)
-	const element = await test.context.backend.getElementById('test', result1.id)
+	const element = await test.context.backend.getElementById(result1.id)
 	test.deepEqual(element, result2)
 })
 
 ava.test('.upsertElement() should fail to insert an element with an existing id' +
          ', but matching the slug of another element', async (test) => {
-	await test.context.backend.createTable('test')
-
-	await test.context.backend.upsertElement('test', {
+	await test.context.backend.upsertElement({
 		slug: 'example'
 	})
 
-	const result = await test.context.backend.upsertElement('test', {
+	const result = await test.context.backend.upsertElement({
 		test: 'foo'
 	})
 
-	await test.throws(test.context.backend.upsertElement('test', {
+	await test.throws(test.context.backend.upsertElement({
 		id: result.id,
 		slug: 'example',
 		test: 'foo'
@@ -356,55 +307,49 @@ ava.test('.upsertElement() should fail to insert an element with an existing id'
 })
 
 ava.test('.upsertElement() should replace an element with an existing id and a non-matching slug', async (test) => {
-	await test.context.backend.createTable('test')
-
-	await test.context.backend.upsertElement('test', {
+	await test.context.backend.upsertElement({
 		slug: 'example'
 	})
 
-	const result1 = await test.context.backend.upsertElement('test', {
+	const result1 = await test.context.backend.upsertElement({
 		test: 'foo'
 	})
 
-	const result2 = await test.context.backend.upsertElement('test', {
+	const result2 = await test.context.backend.upsertElement({
 		id: result1.id,
 		slug: 'bar',
 		test: 'foo'
 	})
 
 	test.is(result1.id, result2.id)
-	const element = await test.context.backend.getElementById('test', result1.id)
+	const element = await test.context.backend.getElementById(result1.id)
 	test.deepEqual(element, result2)
 })
 
 ava.test('.upsertElement() should replace an element with an existing id and the slug of the same element', async (test) => {
-	await test.context.backend.createTable('test')
-
-	const result1 = await test.context.backend.upsertElement('test', {
+	const result1 = await test.context.backend.upsertElement({
 		slug: 'example'
 	})
 
-	const result2 = await test.context.backend.upsertElement('test', {
+	const result2 = await test.context.backend.upsertElement({
 		id: result1.id,
 		slug: 'example',
 		test: 'foo'
 	})
 
 	test.is(result1.id, result2.id)
-	const element = await test.context.backend.getElementById('test', result1.id)
+	const element = await test.context.backend.getElementById(result1.id)
 	test.deepEqual(element, result2)
 })
 
 ava.test('.upsertElement() should fail to insert an element with a non existing id and the slug of an element', async (test) => {
-	await test.context.backend.createTable('test')
-
-	const result = await test.context.backend.upsertElement('test', {
+	const result = await test.context.backend.upsertElement({
 		slug: 'example'
 	})
 
 	test.not(result.id, '9af7cf33-1a29-4f0c-a73b-f6a2b149850c')
 
-	await test.throws(test.context.backend.upsertElement('test', {
+	await test.throws(test.context.backend.upsertElement({
 		id: '9af7cf33-1a29-4f0c-a73b-f6a2b149850c',
 		slug: 'example',
 		test: 'foo'
@@ -412,37 +357,33 @@ ava.test('.upsertElement() should fail to insert an element with a non existing 
 })
 
 ava.test('.upsertElement() should insert an element with a non-matching id nor slug', async (test) => {
-	await test.context.backend.createTable('test')
-
-	const result = await test.context.backend.upsertElement('test', {
+	const result = await test.context.backend.upsertElement({
 		id: '9af7cf33-1a29-4f0c-a73b-f6a2b149850c',
 		slug: 'example',
 		test: 'foo'
 	})
 
-	const element = await test.context.backend.getElementById('test', result.id)
+	const element = await test.context.backend.getElementById(result.id)
 	test.deepEqual(element, result)
 })
 
 ava.test('.query() should query the database using JSON schema', async (test) => {
-	await test.context.backend.createTable('test')
-
-	const result1 = await test.context.backend.upsertElement('test', {
+	const result1 = await test.context.backend.upsertElement({
 		type: 'example',
 		test: 1
 	})
 
-	await test.context.backend.upsertElement('test', {
+	await test.context.backend.upsertElement({
 		type: 'test',
 		test: 2
 	})
 
-	const result2 = await test.context.backend.upsertElement('test', {
+	const result2 = await test.context.backend.upsertElement({
 		type: 'example',
 		test: 3
 	})
 
-	const results = await test.context.backend.query('test', {
+	const results = await test.context.backend.query({
 		type: 'object',
 		properties: {
 			id: {
@@ -463,14 +404,12 @@ ava.test('.query() should query the database using JSON schema', async (test) =>
 })
 
 ava.test('.query() should query an element by its id', async (test) => {
-	await test.context.backend.createTable('test')
-
-	const result = await test.context.backend.upsertElement('test', {
+	const result = await test.context.backend.upsertElement({
 		type: 'example',
 		test: 1
 	})
 
-	const results = await test.context.backend.query('test', {
+	const results = await test.context.backend.query({
 		type: 'object',
 		properties: {
 			id: {
@@ -486,16 +425,14 @@ ava.test('.query() should query an element by its id', async (test) => {
 })
 
 ava.test('.query() should fail to query an element by its id', async (test) => {
-	await test.context.backend.createTable('test')
-
-	const result = await test.context.backend.upsertElement('test', {
+	const result = await test.context.backend.upsertElement({
 		type: 'example',
 		test: 1
 	})
 
 	test.not(result.id, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
 
-	const results = await test.context.backend.query('test', {
+	const results = await test.context.backend.query({
 		type: 'object',
 		properties: {
 			id: {
@@ -510,15 +447,13 @@ ava.test('.query() should fail to query an element by its id', async (test) => {
 })
 
 ava.test('.query() should query an element by its slug', async (test) => {
-	await test.context.backend.createTable('test')
-
-	const result = await test.context.backend.upsertElement('test', {
+	const result = await test.context.backend.upsertElement({
 		type: 'example',
 		slug: 'hello',
 		test: 1
 	})
 
-	const results = await test.context.backend.query('test', {
+	const results = await test.context.backend.query({
 		type: 'object',
 		properties: {
 			slug: {
@@ -534,15 +469,13 @@ ava.test('.query() should query an element by its slug', async (test) => {
 })
 
 ava.test('.query() should fail to query an element by its slug', async (test) => {
-	await test.context.backend.createTable('test')
-
-	await test.context.backend.upsertElement('test', {
+	await test.context.backend.upsertElement({
 		type: 'example',
 		slug: 'hello',
 		test: 1
 	})
 
-	const results = await test.context.backend.query('test', {
+	const results = await test.context.backend.query({
 		type: 'object',
 		properties: {
 			slug: {
@@ -557,15 +490,13 @@ ava.test('.query() should fail to query an element by its slug', async (test) =>
 })
 
 ava.test('.query() should not return unspecified properties', async (test) => {
-	await test.context.backend.createTable('test')
-
-	const result = await test.context.backend.upsertElement('test', {
+	const result = await test.context.backend.upsertElement({
 		type: 'example',
 		slug: 'hello',
 		test: 1
 	})
 
-	const results = await test.context.backend.query('test', {
+	const results = await test.context.backend.query({
 		type: 'object',
 		properties: {
 			id: {
@@ -588,20 +519,18 @@ ava.test('.query() should not return unspecified properties', async (test) => {
 })
 
 ava.test.cb('.stream() should report back new elements that match a certain type', (test) => {
-	test.context.backend.createTable('test').then(() => {
-		return test.context.backend.stream('test', {
-			type: 'object',
-			properties: {
-				type: {
-					type: 'string',
-					const: 'foo'
-				},
-				test: {
-					type: 'number'
-				}
+	test.context.backend.stream({
+		type: 'object',
+		properties: {
+			type: {
+				type: 'string',
+				const: 'foo'
 			},
-			required: [ 'type' ]
-		})
+			test: {
+				type: 'number'
+			}
+		},
+		required: [ 'type' ]
 	}).then((emitter) => {
 		emitter.on('data', (change) => {
 			test.deepEqual(change.before, null)
@@ -617,11 +546,11 @@ ava.test.cb('.stream() should report back new elements that match a certain type
 		emitter.on('closed', test.end)
 
 		return Bluebird.all([
-			test.context.backend.insertElement('test', {
+			test.context.backend.insertElement({
 				type: 'foo',
 				test: 1
 			}),
-			test.context.backend.insertElement('test', {
+			test.context.backend.insertElement({
 				type: 'bar',
 				test: 3
 			})
@@ -630,20 +559,18 @@ ava.test.cb('.stream() should report back new elements that match a certain type
 })
 
 ava.test.cb('.stream() should report back changes to certain elements', (test) => {
-	test.context.backend.createTable('test').then(() => {
-		return test.context.backend.insertElement('test', {
-			type: 'foo',
-			slug: 'hello',
-			test: 1
-		})
+	test.context.backend.insertElement({
+		type: 'foo',
+		slug: 'hello',
+		test: 1
 	}).then(() => {
-		return test.context.backend.insertElement('test', {
+		return test.context.backend.insertElement({
 			type: 'bar',
 			slug: 'qux',
 			test: 1
 		})
 	}).then(() => {
-		return test.context.backend.stream('test', {
+		return test.context.backend.stream({
 			type: 'object',
 			properties: {
 				slug: {
@@ -679,12 +606,12 @@ ava.test.cb('.stream() should report back changes to certain elements', (test) =
 		emitter.on('error', test.end)
 		emitter.on('closed', test.end)
 
-		return test.context.backend.upsertElement('test', {
+		return test.context.backend.upsertElement({
 			slug: 'hello',
 			type: 'foo',
 			test: 2
 		}).then(() => {
-			return test.context.backend.upsertElement('test', {
+			return test.context.backend.upsertElement({
 				slug: 'qux',
 				type: 'bar',
 				test: 2
@@ -694,17 +621,15 @@ ava.test.cb('.stream() should report back changes to certain elements', (test) =
 })
 
 ava.test.cb('.stream() should close without finding anything', (test) => {
-	test.context.backend.createTable('test').then(() => {
-		return test.context.backend.stream('test', {
-			type: 'object',
-			properties: {
-				slug: {
-					type: 'string',
-					const: 'foobarbazqux'
-				}
-			},
-			required: [ 'slug' ]
-		})
+	test.context.backend.stream({
+		type: 'object',
+		properties: {
+			slug: {
+				type: 'string',
+				const: 'foobarbazqux'
+			}
+		},
+		required: [ 'slug' ]
 	}).then((emitter) => {
 		emitter.close()
 		emitter.on('error', test.end)
@@ -713,14 +638,12 @@ ava.test.cb('.stream() should close without finding anything', (test) => {
 })
 
 ava.test.cb('.stream() should set "before" to null if it previously did not match the schema', (test) => {
-	test.context.backend.createTable('test').then(() => {
-		return test.context.backend.insertElement('test', {
-			slug: 'foobarbaz',
-			type: 'foo',
-			test: '1'
-		})
+	test.context.backend.insertElement({
+		slug: 'foobarbaz',
+		type: 'foo',
+		test: '1'
 	}).then((emitter) => {
-		return test.context.backend.stream('test', {
+		return test.context.backend.stream({
 			type: 'object',
 			properties: {
 				slug: {
@@ -751,7 +674,7 @@ ava.test.cb('.stream() should set "before" to null if it previously did not matc
 		emitter.on('error', test.end)
 		emitter.on('closed', test.end)
 
-		return test.context.backend.upsertElement('test', {
+		return test.context.backend.upsertElement({
 			slug: 'foobarbaz',
 			type: 'foo',
 			test: 1
@@ -760,15 +683,13 @@ ava.test.cb('.stream() should set "before" to null if it previously did not matc
 })
 
 ava.test.cb('.stream() should filter the "before" section of a change', (test) => {
-	test.context.backend.createTable('test').then(() => {
-		return test.context.backend.insertElement('test', {
-			type: 'foo',
-			slug: 'hello',
-			test: 1,
-			extra: true
-		})
+	test.context.backend.insertElement({
+		type: 'foo',
+		slug: 'hello',
+		test: 1,
+		extra: true
 	}).then(() => {
-		return test.context.backend.stream('test', {
+		return test.context.backend.stream({
 			type: 'object',
 			properties: {
 				slug: {
@@ -804,7 +725,7 @@ ava.test.cb('.stream() should filter the "before" section of a change', (test) =
 		emitter.on('error', test.end)
 		emitter.on('closed', test.end)
 
-		return test.context.backend.upsertElement('test', {
+		return test.context.backend.upsertElement({
 			slug: 'hello',
 			type: 'foo',
 			test: 2,

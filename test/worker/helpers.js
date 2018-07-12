@@ -23,11 +23,6 @@ exports.beforeEach = async (test) => {
 			host: process.env.TEST_DB_HOST,
 			port: process.env.TEST_DB_PORT,
 			database: `test_${randomstring.generate()}`
-		},
-		tables: {
-			cards: 'cards',
-			requests: 'requests',
-			sessions: 'sessions'
 		}
 	})
 

@@ -125,31 +125,6 @@ ava.test('.insertCard() should replace an element given override is true', async
 	test.deepEqual(element, card2)
 })
 
-ava.test('.insertCard() should insert action requests on a different bucket', async (test) => {
-	const request = {
-		type: 'action-request',
-		active: true,
-		links: [],
-		tags: [],
-		data: {
-			action: 'action-foo',
-			actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			timestamp: '2018-03-14T21:10:45.921Z',
-			executed: false,
-			arguments: {
-				foo: 'bar'
-			}
-		}
-	}
-
-	const card = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, request)
-	test.deepEqual(await test.context.backend.getElementById(test.context.buckets.cards, card.id), null)
-	test.deepEqual(await test.context.backend.getElementById(test.context.buckets.requests, card.id), Object.assign({
-		id: card.id
-	}, request))
-})
-
 ava.test('.insertCard() read access on a property should not allow to write other properties', async (test) => {
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'view-read-user-johndoe',
