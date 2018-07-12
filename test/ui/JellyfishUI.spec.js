@@ -225,7 +225,7 @@ ava.test.serial('should allow team-admin users to update user\'s roles', async (
 	await waitForThenClickElement(app, '.card-actions__btn--edit')
 
 	// Add a new element to the `roles` array
-	await waitForThenClickElement(app, '.field-array .btn-add')
+	await waitForThenClickElement(app, '.field-array .rendition-form-array-item__add-item')
 
 	await waitForElement(app, '#root_data_roles_1')
 
