@@ -42,9 +42,6 @@
         "additionalProperties": false,
         "required": []
       }
-    },
-    "options": {
-      "properties": "[arguments.properties]"
     }
   }
 }

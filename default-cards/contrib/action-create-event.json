@@ -14,10 +14,6 @@
       "payload": {
         "type": "object"
       }
-    },
-    "options": {
-      "type": "[arguments.type]",
-      "payload": "[arguments.payload]"
     }
   }
 }
