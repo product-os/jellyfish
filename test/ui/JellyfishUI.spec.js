@@ -27,7 +27,7 @@ const React = require('react')
 const {
 	Provider
 } = require('react-redux')
-const createServer = require('../../lib/server.js')
+const createServer = require('../../lib/server')
 const {
 	JellyfishUI
 } = require('../../lib/ui/JellyfishUI')

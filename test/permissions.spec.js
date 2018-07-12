@@ -23,7 +23,7 @@ const randomstring = require('randomstring')
 const {
 	getSdk
 } = require('@resin.io/jellyfish-sdk')
-const createServer = require('../lib/server.js')
+const createServer = require('../lib/server')
 
 ava.test.beforeEach(async (test) => {
 	// Set this env var so that the server uses a random database
