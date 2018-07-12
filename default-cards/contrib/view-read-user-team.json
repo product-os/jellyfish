@@ -91,7 +91,9 @@
               "properties": {
                 "actor": {
                   "type": "string",
-                  "const": "[user.id]"
+                  "const": {
+                    "$eval": "user.id"
+                  }
                 }
               }
             }
@@ -117,7 +119,9 @@
               "properties": {
                 "actor": {
                   "type": "string",
-                  "const": "[user.id]"
+                  "const": {
+                    "$eval": "user.id"
+                  }
                 }
               },
               "additionalProperties": true
@@ -134,7 +138,9 @@
           "properties": {
             "slug": {
               "type": "string",
-              "const": "[user.slug]"
+              "const": {
+                "$eval": "user.slug"
+              }
             },
             "type": {
               "type": "string",
@@ -162,7 +168,9 @@
               "properties": {
                 "actor": {
                   "type": "string",
-                  "const": "[user.id]"
+                  "const": {
+                    "$eval": "user.id"
+                  }
                 }
               }
             }
@@ -213,7 +221,9 @@
             "data": {
               "type": "object",
               "properties": {
-                "actor": "[user.id]"
+                "actor": {
+                  "$eval": "user.id"
+                }
               },
               "required": [ "actor" ],
               "additionalProperties": true
@@ -260,7 +270,9 @@
             "data": {
               "type": "object",
               "properties": {
-                "actor": "[user.id]"
+                "actor": {
+                  "$eval": "user.id"
+                }
               },
               "additionalProperties": true,
               "required": [ "actor" ]

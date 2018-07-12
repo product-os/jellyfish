@@ -398,7 +398,9 @@ ava.test('.getViewSchema() should preserve template interpolations in user prope
 						properties: {
 							foo: {
 								type: 'string',
-								const: '[user.slug]'
+								const: {
+									$eval: 'user.slug'
+								}
 							}
 						},
 						required: [ 'foo' ]
@@ -413,7 +415,9 @@ ava.test('.getViewSchema() should preserve template interpolations in user prope
 		properties: {
 			foo: {
 				type: 'string',
-				const: '[user.slug]'
+				const: {
+					$eval: 'user.slug'
+				}
 			}
 		},
 		required: [ 'foo' ]
@@ -434,7 +438,9 @@ ava.test('.getViewSchema() should preserve template interpolations in schema pro
 						type: 'object',
 						properties: {
 							foo: {
-								type: '[user.type]'
+								type: {
+									$eval: 'user.type'
+								}
 							}
 						},
 						required: [ 'foo' ]
@@ -448,7 +454,9 @@ ava.test('.getViewSchema() should preserve template interpolations in schema pro
 		type: 'object',
 		properties: {
 			foo: {
-				type: '[user.type]'
+				type: {
+					$eval: 'user.type'
+				}
 			}
 		},
 		required: [ 'foo' ]

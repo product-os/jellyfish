@@ -17,7 +17,9 @@
               "properties": {
                 "alertsUser": {
                   "contains": {
-                    "const": "[user.id]"
+                    "const": {
+                      "$eval": "user.id"
+                    }
                   }
                 }
               },

@@ -501,7 +501,7 @@ ava.test('.execute() should be able to AGGREGATE based on the card timeline', as
 								properties: {
 									mentions: {
 										type: 'array',
-										$formula: 'AGGREGATE($events, "data.payload.mentions")'
+										$$formula: 'AGGREGATE($events, "data.payload.mentions")'
 									}
 								},
 								additionalProperties: true
@@ -602,7 +602,7 @@ ava.test('.execute() AGGREGATE should create a property on the target if it does
 								properties: {
 									mentions: {
 										type: 'array',
-										$formula: 'AGGREGATE($events, "data.payload.mentions")'
+										$$formula: 'AGGREGATE($events, "data.payload.mentions")'
 									}
 								},
 								additionalProperties: true
@@ -682,7 +682,7 @@ ava.test('.execute() AGGREGATE should work with $$ prefixed properties', async (
 								properties: {
 									$$mentions: {
 										type: 'array',
-										$formula: 'AGGREGATE($events, "data.payload[\'$$mentions\']")'
+										$$formula: 'AGGREGATE($events, "data.payload[\'$$mentions\']")'
 									}
 								},
 								additionalProperties: true

@@ -19,7 +19,9 @@
               "type": "object",
               "properties": {
                 "actor": {
-                  "const": "[user.id]"
+                  "const": {
+                    "$eval": "user.id"
+                  }
                 }
               },
               "required": [ "actor" ],

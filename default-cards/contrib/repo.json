@@ -17,11 +17,11 @@
           "properties": {
             "mentionsUser": {
               "type": "array",
-              "$formula": "AGGREGATE($events, 'data.payload.mentionsUser')"
+              "$$formula": "AGGREGATE($events, 'data.payload.mentionsUser')"
             },
             "alertsUser": {
               "type": "array",
-              "$formula": "AGGREGATE($events, 'data.payload.alertsUser')"
+              "$$formula": "AGGREGATE($events, 'data.payload.alertsUser')"
             },
             "Description": {
               "type": "string",
