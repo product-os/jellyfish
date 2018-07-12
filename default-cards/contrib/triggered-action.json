@@ -23,8 +23,7 @@
               "type": "string"
             },
             "target": {
-              "type": "string",
-              "pattern": "^[\\{\\}\\.\\w\\[\\]-]+$"
+              "type": [ "string", "object" ]
             },
             "arguments": {
               "type": "object"
