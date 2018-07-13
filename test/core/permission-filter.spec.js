@@ -118,7 +118,7 @@ ava.test('.getSessionUser() should throw if the session expired', async (test) =
 })
 
 ava.test('.getViews() should return an empty array given no views', async (test) => {
-	const filters = await permissionFilter.getViews(test.context.backend, test.context.buckets.cards, [])
+	const filters = await permissionFilter.getViews(test.context.backend, [])
 	test.deepEqual(filters, [])
 })
 
@@ -148,7 +148,7 @@ ava.test('.getViews() should return the schema of a single view', async (test) =
 		}
 	})
 
-	const views = await permissionFilter.getViews(test.context.backend, test.context.buckets.cards, [
+	const views = await permissionFilter.getViews(test.context.backend, [
 		'view-read-foo'
 	])
 
@@ -196,7 +196,7 @@ ava.test('.getViews() should ignore undefined views', async (test) => {
 		}
 	})
 
-	const views = await permissionFilter.getViews(test.context.backend, test.context.buckets.cards, [
+	const views = await permissionFilter.getViews(test.context.backend, [
 		'view-hello',
 		'view-read-foo',
 		'view-world'
@@ -271,7 +271,7 @@ ava.test('.getViews() should ignore cards that are not views', async (test) => {
 		}
 	})
 
-	const views = await permissionFilter.getViews(test.context.backend, test.context.buckets.cards, [
+	const views = await permissionFilter.getViews(test.context.backend, [
 		'view-read-hello',
 		'view-read-foo'
 	])
@@ -345,7 +345,7 @@ ava.test('.getViews() should return the schemas of two roles', async (test) => {
 		}
 	})
 
-	const views = await permissionFilter.getViews(test.context.backend, test.context.buckets.cards, [
+	const views = await permissionFilter.getViews(test.context.backend, [
 		'view-read-foo',
 		'view-read-bar'
 	])

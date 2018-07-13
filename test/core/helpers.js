@@ -29,7 +29,6 @@ exports.backend = {
 		})
 
 		await test.context.backend.connect()
-		await test.context.backend.reset()
 	},
 	afterEach: async (test) => {
 		await test.context.backend.disconnect()
@@ -39,15 +38,7 @@ exports.backend = {
 exports.kernel = {
 	beforeEach: async (test) => {
 		await exports.backend.beforeEach(test)
-		test.context.buckets = {
-			cards: 'cards',
-			requests: 'requests',
-			sessions: 'sessions'
-		}
-
-		test.context.kernel = new Kernel(test.context.backend, {
-			buckets: test.context.buckets
-		})
+		test.context.kernel = new Kernel(test.context.backend)
 
 		await test.context.kernel.initialize()
 	},
