@@ -15,18 +15,18 @@
             "type": "string",
             "pattern": "^[a-zA-Z0-9-/]+$"
           },
-          "$formula": "AGGREGATE($events, 'tags')"
+          "$$formula": "AGGREGATE($events, 'tags')"
         },
         "data": {
           "type": "object",
           "properties": {
             "mentionsUser": {
               "type": "array",
-              "$formula": "AGGREGATE($events, 'data.payload.mentionsUser')"
+              "$$formula": "AGGREGATE($events, 'data.payload.mentionsUser')"
             },
             "alertsUser": {
               "type": "array",
-              "$formula": "AGGREGATE($events, 'data.payload.alertsUser')"
+              "$$formula": "AGGREGATE($events, 'data.payload.alertsUser')"
             },
             "description": {
               "type": "string"

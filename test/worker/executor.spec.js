@@ -679,7 +679,7 @@ ava.test('.insertCard() should evaluate a type formula', async (test) => {
 						properties: {
 							foo: {
 								type: 'string',
-								$formula: 'UPPER(input)'
+								$$formula: 'UPPER(input)'
 							}
 						},
 						additionalProperties: true
@@ -727,7 +727,7 @@ ava.test('.insertCard() should throw if the result of the formula is incompatibl
 						properties: {
 							foo: {
 								type: 'number',
-								$formula: 'UPPER(input)'
+								$$formula: 'UPPER(input)'
 							}
 						},
 						additionalProperties: true
@@ -988,7 +988,7 @@ ava.test('.insertCard() should add a triggered action given a type with an AGGRE
 						properties: {
 							mentions: {
 								type: 'array',
-								$formula: 'AGGREGATE($events, "data.payload.mentions")'
+								$$formula: 'AGGREGATE($events, "data.payload.mentions")'
 							}
 						},
 						additionalProperties: true
@@ -1057,7 +1057,7 @@ ava.test('.insertCard() should pre-register a triggered action if using AGGREGAT
 						properties: {
 							mentions: {
 								type: 'array',
-								$formula: 'AGGREGATE($events, "data.payload.mentions")'
+								$$formula: 'AGGREGATE($events, "data.payload.mentions")'
 							}
 						},
 						additionalProperties: true
@@ -1113,7 +1113,7 @@ ava.test('.insertCard() should update pre-registered triggered actions if removi
 						properties: {
 							mentions: {
 								type: 'array',
-								$formula: 'AGGREGATE($events, "data.payload.mentions")'
+								$$formula: 'AGGREGATE($events, "data.payload.mentions")'
 							}
 						},
 						additionalProperties: true
@@ -1177,7 +1177,7 @@ ava.test('.insertCard() should add multiple triggered actions given a type with 
 						properties: {
 							mentions: {
 								type: 'array',
-								$formula: 'AGGREGATE($events, "data.payload.mentions")'
+								$$formula: 'AGGREGATE($events, "data.payload.mentions")'
 							}
 						},
 						additionalProperties: true

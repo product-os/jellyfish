@@ -243,7 +243,7 @@ ava.test('.evaluateObject() should evaluate a number formula', async (test) => {
 		properties: {
 			foo: {
 				type: 'number',
-				$formula: 'POW(input, 2)'
+				$$formula: 'POW(input, 2)'
 			}
 		}
 	}, {
@@ -264,7 +264,7 @@ ava.test('.evaluateObject() should evaluate a formula in a $ prefixed property',
 		properties: {
 			$foo: {
 				type: 'number',
-				$formula: 'POW(input, 2)'
+				$$formula: 'POW(input, 2)'
 			}
 		}
 	}, {
@@ -285,7 +285,7 @@ ava.test('.evaluateObject() should evaluate a formula in a $$ prefixed property'
 		properties: {
 			$$foo: {
 				type: 'number',
-				$formula: 'POW(input, 2)'
+				$$formula: 'POW(input, 2)'
 			}
 		}
 	}, {
@@ -306,7 +306,7 @@ ava.test('.evaluateObject() should ignore missing formulas', async (test) => {
 		properties: {
 			foo: {
 				type: 'number',
-				$formula: 'POW(input, 2)'
+				$$formula: 'POW(input, 2)'
 			}
 		}
 	}, {
@@ -327,7 +327,7 @@ ava.test('.evaluateObject() should not ignore the zero number as missing', async
 		properties: {
 			foo: {
 				type: 'number',
-				$formula: 'MAX(input, 2)'
+				$$formula: 'MAX(input, 2)'
 			}
 		}
 	}, {
@@ -354,7 +354,7 @@ ava.test('.evaluateObject() should evaluate nested formulas', async (test) => {
 						properties: {
 							baz: {
 								type: 'number',
-								$formula: 'POW(input, 2)'
+								$$formula: 'POW(input, 2)'
 							}
 						}
 					}
@@ -387,7 +387,7 @@ ava.test('.evaluateObject() should evaluate a password hash', async (test) => {
 		properties: {
 			foo: {
 				type: 'string',
-				$formula: 'HASH({ string: input.password, salt: input.username })'
+				$$formula: 'HASH({ string: input.password, salt: input.username })'
 			}
 		}
 	}, {
@@ -446,7 +446,7 @@ ava.test('.evaluateObject() should report back watchers when aggregating events'
 				properties: {
 					mentions: {
 						type: 'array',
-						$formula: 'AGGREGATE($events, "mentions")'
+						$$formula: 'AGGREGATE($events, "mentions")'
 					}
 				}
 			}
@@ -514,7 +514,7 @@ ava.test('.evaluateObject() should report back watchers when aggregating events 
 				properties: {
 					mentions: {
 						type: 'array',
-						$formula: 'AGGREGATE($events, "mentions")'
+						$$formula: 'AGGREGATE($events, "mentions")'
 					}
 				}
 			}
@@ -577,7 +577,7 @@ ava.test('.getTypeTriggers() should report back watchers when aggregating events
 						properties: {
 							mentions: {
 								type: 'array',
-								$formula: 'AGGREGATE($events, "data.mentions")'
+								$$formula: 'AGGREGATE($events, "data.mentions")'
 							}
 						}
 					}
