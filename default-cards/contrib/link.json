@@ -1,0 +1,39 @@
+{
+  "slug": "link",
+  "type": "type",
+  "tags": [],
+  "links": [],
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "const": "link"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "inverseName": {
+              "type": "string"
+            },
+            "from": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "to": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "required": [ "inverseName", "from", "to" ]
+        }
+      },
+      "required": [ "name", "type", "data" ]
+    }
+  }
+}
