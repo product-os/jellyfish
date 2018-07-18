@@ -16,7 +16,7 @@
 
 const ava = require('ava')
 const helpers = require('./helpers')
-const LIBRARY = require('../../lib/worker/library')
+const actionLibrary = require('../../lib/action-library')
 const errors = require('../../lib/worker/errors')
 const executor = require('../../lib/worker/executor')
 
@@ -1234,7 +1234,7 @@ ava.test('.run() should create a card', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 
 	const result = await executor.run(test.context.jellyfish, test.context.session, test.context.context, {
-		'action-create-card': LIBRARY['action-create-card']
+		'action-create-card': actionLibrary['action-create-card']
 	}, {
 		actor: test.context.actor.id,
 		action: actionCard,
@@ -1261,7 +1261,7 @@ ava.test('.run() should create a card', async (test) => {
 ava.test('.run() should throw if the input card does not exist', async (test) => {
 	const actionCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'action-create-card')
 	await test.throws(executor.run(test.context.jellyfish, test.context.session, test.context.context, {
-		'action-create-card': LIBRARY['action-create-card']
+		'action-create-card': actionLibrary['action-create-card']
 	}, {
 		actor: test.context.actor.id,
 		action: actionCard,
@@ -1280,7 +1280,7 @@ ava.test('.run() should throw if the actor does not exist', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 
 	await test.throws(executor.run(test.context.jellyfish, test.context.session, test.context.context, {
-		'action-create-card': LIBRARY['action-create-card']
+		'action-create-card': actionLibrary['action-create-card']
 	}, {
 		actor: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
 		action: actionCard,
@@ -1297,7 +1297,7 @@ ava.test('.run() should throw if the actor does not exist', async (test) => {
 ava.test('.run() should throw if input card does not match the action filter', async (test) => {
 	const actionCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'action-create-card')
 	await test.throws(executor.run(test.context.jellyfish, test.context.session, test.context.context, {
-		'action-create-card': LIBRARY['action-create-card']
+		'action-create-card': actionLibrary['action-create-card']
 	}, {
 		actor: test.context.actor.id,
 		action: actionCard,
@@ -1316,7 +1316,7 @@ ava.test('.run() should throw if the arguments do not match the action', async (
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 
 	await test.throws(executor.run(test.context.jellyfish, test.context.session, test.context.context, {
-		'action-create-card': LIBRARY['action-create-card']
+		'action-create-card': actionLibrary['action-create-card']
 	}, {
 		actor: test.context.actor.id,
 		action: actionCard,
