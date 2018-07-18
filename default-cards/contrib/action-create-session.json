@@ -3,7 +3,7 @@
   "type": "action",
   "name": "Login as a user",
   "tags": [],
-  "links": [],
+  "links": {},
   "active": true,
   "data": {
     "filter": {

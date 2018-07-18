@@ -21,7 +21,7 @@ export const createChannel = (data: Channel['data']): Channel => ({
 	id: uuid(),
 	type: 'channel',
 	tags: [],
-	links: [],
+	links: {},
 	active: true,
 	data: {
 		...data,

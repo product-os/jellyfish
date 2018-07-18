@@ -46,13 +46,13 @@ ava.test('.getRequest() should return null if the filter only has a type but the
 	const request = await triggers.getRequest(trigger, {
 		type: 'card',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {}
 	}, {
 		type: 'card',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {}
 	})
@@ -85,13 +85,13 @@ ava.test('.getRequest() should return a request if the filter only has a type an
 	const request = await triggers.getRequest(trigger, {
 		type: 'foo',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {}
 	}, {
 		type: 'foo',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {}
 	})
@@ -141,7 +141,7 @@ ava.test('.getRequest() should return a request given a complex matching filter'
 	const request = await triggers.getRequest(trigger, {
 		type: 'foo',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			foo: 4
@@ -149,7 +149,7 @@ ava.test('.getRequest() should return a request given a complex matching filter'
 	}, {
 		type: 'foo',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			foo: 4
@@ -201,7 +201,7 @@ ava.test('.getRequest() should return null given a complex non-matching filter',
 	const request = await triggers.getRequest(trigger, {
 		type: 'foo',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			foo: '4'
@@ -209,7 +209,7 @@ ava.test('.getRequest() should return null given a complex non-matching filter',
 	}, {
 		type: 'foo',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			foo: '4'
@@ -257,7 +257,7 @@ ava.test('.getRequest() should parse source templates in the triggered action ar
 	const request = await triggers.getRequest(trigger, {
 		type: 'card',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			command: 'foo-bar-baz',
@@ -267,7 +267,7 @@ ava.test('.getRequest() should parse source templates in the triggered action ar
 	}, {
 		type: 'card',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			command: 'foo-bar-baz',
@@ -328,7 +328,7 @@ ava.test('.getRequest() should return null if one of the templates is unsatisfie
 	const request = await triggers.getRequest(trigger, {
 		type: 'card',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			command: 'foo-bar-baz',
@@ -337,7 +337,7 @@ ava.test('.getRequest() should return null if one of the templates is unsatisfie
 	}, {
 		type: 'card',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			command: 'foo-bar-baz',
@@ -354,7 +354,7 @@ ava.test('.getTypeTriggers() should return a trigger card with a matching type',
 		{
 			type: 'triggered-action',
 			active: true,
-			links: [],
+			links: {},
 			tags: [],
 			data: {
 				type: 'foo',
@@ -410,7 +410,7 @@ ava.test('.getTypeTriggers() should not return inactive cards', async (test) => 
 		{
 			type: 'triggered-action',
 			active: false,
-			links: [],
+			links: {},
 			tags: [],
 			data: {
 				type: 'foo',
@@ -462,7 +462,7 @@ ava.test('.getTypeTriggers() should ignore non-matching cards', async (test) => 
 		{
 			type: 'triggered-action',
 			active: true,
-			links: [],
+			links: {},
 			tags: [],
 			data: {
 				type: 'foo',
@@ -501,7 +501,7 @@ ava.test('.getTypeTriggers() should ignore non-matching cards', async (test) => 
 		{
 			type: 'triggered-action',
 			active: true,
-			links: [],
+			links: {},
 			tags: [],
 			data: {
 				type: 'bar',
@@ -557,7 +557,7 @@ ava.test('.getTypeTriggers() should ignore cards that are not triggered actions'
 		{
 			type: 'triggered-action',
 			active: true,
-			links: [],
+			links: {},
 			tags: [],
 			data: {
 				type: 'foo',
@@ -596,7 +596,7 @@ ava.test('.getTypeTriggers() should ignore cards that are not triggered actions'
 		{
 			type: 'card',
 			active: true,
-			links: [],
+			links: {},
 			tags: [],
 			data: {
 				type: 'foo',
@@ -652,7 +652,7 @@ ava.test('.getTypeTriggers() should not return triggered actions not associated 
 		{
 			type: 'triggered-action',
 			active: true,
-			links: [],
+			links: {},
 			tags: [],
 			data: {
 				filter: {

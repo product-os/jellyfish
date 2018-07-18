@@ -2,7 +2,7 @@
   "slug": "link",
   "type": "type",
   "tags": [],
-  "links": [],
+  "links": {},
   "active": true,
   "data": {
     "schema": {

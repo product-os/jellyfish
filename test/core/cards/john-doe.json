@@ -3,7 +3,7 @@
     "id": "e95d05b4-2a79-4573-bd5d-032b068bedea",
     "type": "person",
     "tags": [ "premium" ],
-    "links": [],
+    "links": {},
     "active": true,
     "data": {
       "email": "johndoe@example.com",

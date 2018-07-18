@@ -82,7 +82,7 @@ ava.test.serial('.query() should be able to see previously restricted cards afte
 		type: 'repo',
 		name: 'Test repo',
 		tags: [],
-		links: [],
+		links: {},
 		active: true,
 		data: {}
 	})
@@ -96,7 +96,7 @@ ava.test.serial('.query() should be able to see previously restricted cards afte
 		slug: 'user-johndoe',
 		type: 'user',
 		tags: [],
-		links: [],
+		links: {},
 		active: true,
 		data: {
 			email: 'johndoe@example.com',

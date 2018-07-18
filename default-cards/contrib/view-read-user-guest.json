@@ -3,7 +3,7 @@
   "name": "Guest role read permissions",
   "type": "view",
   "tags": [],
-  "links": [],
+  "links": {},
   "active": true,
   "data": {
     "allOf": [

@@ -47,7 +47,7 @@ export interface Card {
 	id: string;
 	type: string;
 	tags: string[];
-	links: string[];
+	links: object;
 	active: boolean;
 	data: { [key: string]: any };
 	name?: string;

@@ -3,7 +3,7 @@
   "name": "My todo items",
   "type": "view",
   "tags": [],
-  "links": [],
+  "links": {},
   "active": true,
   "data": {
     "allOf": [

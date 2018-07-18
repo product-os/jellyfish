@@ -50,7 +50,7 @@ ava.test('.insertCard() should throw an error if the element does not adhere to 
 		slug: 'action-foo-bar',
 		type: 'action',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {}
 	}), errors.JellyfishSchemaMismatch)
@@ -60,7 +60,7 @@ ava.test('.insertCard() should throw an error if the card type does not exist', 
 	await test.throws(test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'foobarbazqux',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {}
 	}), errors.JellyfishUnknownCardType)
@@ -71,7 +71,7 @@ ava.test('.insertCard() should be able to insert a card', async (test) => {
 		slug: 'hello-world',
 		type: 'card',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			foo: 'bar'
@@ -87,7 +87,7 @@ ava.test('.insertCard() should throw if the card already exists', async (test) =
 		slug: 'foo-bar',
 		type: 'card',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {}
 	}
@@ -104,7 +104,7 @@ ava.test('.insertCard() should replace an element given override is true', async
 		slug: 'foo-bar',
 		type: 'card',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {}
 	})
@@ -113,7 +113,7 @@ ava.test('.insertCard() should replace an element given override is true', async
 		slug: 'foo-bar',
 		type: 'card',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {}
 	}, {
@@ -130,7 +130,7 @@ ava.test('.insertCard() read access on a property should not allow to write othe
 		slug: 'view-read-user-johndoe',
 		type: 'view',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			anyOf: [
@@ -191,7 +191,7 @@ ava.test('.insertCard() read access on a property should not allow to write othe
 		slug: 'user-johndoe',
 		type: 'user',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			email: 'johndoe@example.com',
@@ -203,7 +203,7 @@ ava.test('.insertCard() read access on a property should not allow to write othe
 		slug: 'user-janedoe',
 		type: 'user',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			email: 'janedoe@example.com',
@@ -214,7 +214,7 @@ ava.test('.insertCard() read access on a property should not allow to write othe
 	const session = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'session',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			actor: userCard.id
@@ -226,7 +226,7 @@ ava.test('.insertCard() read access on a property should not allow to write othe
 		slug: 'user-janedoe',
 		type: 'user',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			email: 'pwned@example.com',
@@ -242,7 +242,7 @@ ava.test('.insertCard() should restrict the visibility of the user using write r
 		slug: 'view-read-user-johndoe',
 		type: 'view',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			allOf: [
@@ -282,7 +282,7 @@ ava.test('.insertCard() should restrict the visibility of the user using write r
 		slug: 'view-write-user-johndoe',
 		type: 'view',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			allOf: [
@@ -319,7 +319,7 @@ ava.test('.insertCard() should restrict the visibility of the user using write r
 		slug: 'user-johndoe',
 		type: 'user',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			email: 'johndoe@example.com',
@@ -330,7 +330,7 @@ ava.test('.insertCard() should restrict the visibility of the user using write r
 	const session = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'session',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			actor: userCard.id
@@ -350,7 +350,7 @@ ava.test('.insertCard() should restrict the visibility of the user using write r
 		slug: 'user-janedoe',
 		type: 'user',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			email: 'janedoe@example.com',
@@ -371,7 +371,7 @@ ava.test('.getCardById() should find an active card by its id', async (test) => 
 		slug: 'foo-bar',
 		type: 'card',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {}
 	})
@@ -385,7 +385,7 @@ ava.test('.getCardById() should find an active card by its id and type', async (
 		slug: 'foo-bar',
 		type: 'card',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {}
 	})
@@ -402,7 +402,7 @@ ava.test('.getCardById() should not find an active card by its id but an invalid
 		slug: 'foo-bar',
 		type: 'card',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {}
 	})
@@ -419,7 +419,7 @@ ava.test('.getCardBySlug() should find an active card by its slug', async (test)
 		slug: 'foo-bar',
 		type: 'card',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {}
 	})
@@ -433,7 +433,7 @@ ava.test('.getCardBySlug() should find an active card by its slug and its type',
 		slug: 'foo-bar',
 		type: 'card',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {}
 	})
@@ -450,7 +450,7 @@ ava.test('.getCardBySlug() should not find an active card by its slug but an inv
 		slug: 'foo-bar',
 		type: 'card',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {}
 	})
@@ -467,7 +467,7 @@ ava.test('.getCardById() should return an inactive card by its id', async (test)
 		slug: 'foo-bar',
 		type: 'card',
 		active: false,
-		links: [],
+		links: {},
 		tags: [],
 		data: {}
 	})
@@ -481,7 +481,7 @@ ava.test('.query() should return the cards that match a schema', async (test) =>
 		slug: 'johndoe',
 		type: 'card',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			email: 'johndoe@example.io'
@@ -492,7 +492,7 @@ ava.test('.query() should return the cards that match a schema', async (test) =>
 		slug: 'johnsmith',
 		type: 'card',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			email: 'johnsmith@example.io'
@@ -542,7 +542,7 @@ ava.test('.query() should take roles into account', async (test) => {
 		slug: 'johndoe',
 		type: 'card',
 		active: false,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			email: 'johndoe@example.io',
@@ -552,7 +552,7 @@ ava.test('.query() should take roles into account', async (test) => {
 
 	const session = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'session',
-		links: [],
+		links: {},
 		tags: [],
 		active: true,
 		data: {
@@ -564,7 +564,7 @@ ava.test('.query() should take roles into account', async (test) => {
 		slug: 'view-read-foo',
 		type: 'view',
 		active: false,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			allOf: [
@@ -625,7 +625,7 @@ ava.test('.query() should ignore queries to properties not whitelisted by a role
 		slug: 'johndoe',
 		type: 'card',
 		active: false,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			email: 'johndoe@example.io',
@@ -635,7 +635,7 @@ ava.test('.query() should ignore queries to properties not whitelisted by a role
 
 	const session = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'session',
-		links: [],
+		links: {},
 		tags: [],
 		active: true,
 		data: {
@@ -647,7 +647,7 @@ ava.test('.query() should ignore queries to properties not whitelisted by a role
 		slug: 'view-read-foo',
 		type: 'view',
 		active: false,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			allOf: [
@@ -700,7 +700,7 @@ ava.test('.query() should ignore queries to disallowed properties with additiona
 		slug: 'johndoe',
 		type: 'card',
 		active: false,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			email: 'johndoe@example.io',
@@ -710,7 +710,7 @@ ava.test('.query() should ignore queries to disallowed properties with additiona
 
 	const session = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'session',
-		links: [],
+		links: {},
 		tags: [],
 		active: true,
 		data: {
@@ -722,7 +722,7 @@ ava.test('.query() should ignore queries to disallowed properties with additiona
 		slug: 'view-read-foo',
 		type: 'view',
 		active: false,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			allOf: [
@@ -793,7 +793,7 @@ ava.test('.query() should return all action request cards', async (test) => {
 	const request = {
 		type: 'action-request',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			action: 'action-foo',
@@ -866,7 +866,7 @@ ava.test('.query() should be able to return both action requests and other cards
 	const result1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'action-request',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			action: 'action-foo',
@@ -883,7 +883,7 @@ ava.test('.query() should be able to return both action requests and other cards
 	const result2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			executed: false
@@ -918,7 +918,7 @@ ava.test('.query() should return inactive cards', async (test) => {
 		slug: 'johnsmith',
 		type: 'card',
 		active: false,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			email: 'johnsmith@example.io',
@@ -948,7 +948,7 @@ ava.test('.query() should take a view card with two filters', async (test) => {
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
 		tags: [ 'foo' ],
-		links: [],
+		links: {},
 		active: true,
 		data: {
 			number: 1
@@ -958,7 +958,7 @@ ava.test('.query() should take a view card with two filters', async (test) => {
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
 		tags: [],
-		links: [],
+		links: {},
 		active: true,
 		data: {
 			number: 1
@@ -968,7 +968,7 @@ ava.test('.query() should take a view card with two filters', async (test) => {
 	const results = await test.context.kernel.query(test.context.kernel.sessions.admin, {
 		type: 'view',
 		tags: [],
-		links: [],
+		links: {},
 		active: true,
 		data: {
 			allOf: [
@@ -1036,7 +1036,7 @@ ava.test.cb('.stream() should report back new elements that match a certain slug
 				type: 'boolean'
 			},
 			links: {
-				type: 'array'
+				type: 'object'
 			},
 			tags: {
 				type: 'array'
@@ -1058,7 +1058,7 @@ ava.test.cb('.stream() should report back new elements that match a certain slug
 				type: 'card',
 				slug: 'card-foo',
 				active: true,
-				links: [],
+				links: {},
 				tags: [],
 				data: {
 					test: 1
@@ -1074,7 +1074,7 @@ ava.test.cb('.stream() should report back new elements that match a certain slug
 		return Bluebird.all([
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 				slug: 'card-foo',
-				links: [],
+				links: {},
 				tags: [],
 				active: true,
 				type: 'card',
@@ -1084,7 +1084,7 @@ ava.test.cb('.stream() should report back new elements that match a certain slug
 			}),
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 				slug: 'card-bar',
-				links: [],
+				links: {},
 				tags: [],
 				active: true,
 				type: 'card',
@@ -1138,7 +1138,7 @@ ava.test.cb('.stream() should report back elements of a certain type', (test) =>
 		return Bluebird.all([
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 				slug: 'card-foo',
-				links: [],
+				links: {},
 				tags: [],
 				active: true,
 				type: 'card',
@@ -1148,7 +1148,7 @@ ava.test.cb('.stream() should report back elements of a certain type', (test) =>
 			}),
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 				slug: 'johndoe',
-				links: [],
+				links: {},
 				tags: [],
 				active: true,
 				type: 'card',
@@ -1218,7 +1218,7 @@ ava.test.cb('.stream() should report back action requests', (test) => {
 		return Bluebird.all([
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 				type: 'action-request',
-				links: [],
+				links: {},
 				tags: [],
 				active: true,
 				data: {
@@ -1232,7 +1232,7 @@ ava.test.cb('.stream() should report back action requests', (test) => {
 			}),
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 				slug: 'johndoe',
-				links: [],
+				links: {},
 				tags: [],
 				active: true,
 				type: 'card',
@@ -1299,7 +1299,7 @@ ava.test.cb('.stream() should report both action requests and other types', (tes
 
 		return test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 			type: 'action-request',
-			links: [],
+			links: {},
 			tags: [],
 			active: true,
 			data: {
@@ -1313,7 +1313,7 @@ ava.test.cb('.stream() should report both action requests and other types', (tes
 		}).then(() => {
 			return test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 				type: 'card',
-				links: [],
+				links: {},
 				tags: [],
 				active: true,
 				data: {
@@ -1370,7 +1370,7 @@ ava.test.cb('.stream() should report back inactive elements', (test) => {
 
 		return test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 			slug: 'card-bar',
-			links: [],
+			links: {},
 			tags: [],
 			active: false,
 			type: 'card',

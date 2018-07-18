@@ -1057,7 +1057,7 @@ ava.test('should be able to login as a user with a password', async (test) => {
 		id: loginResult.data.id,
 		type: 'session',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			actor: signupResult.data.id,
@@ -1074,7 +1074,7 @@ ava.test('should be able to login as a password-less user', async (test) => {
 		type: 'user',
 		slug: 'user-johndoe',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			email: 'johndoe@example.com',
@@ -1209,7 +1209,7 @@ ava.test('should update a card to add an extra property', async (test) => {
 		id: updateResult.data.id,
 		type: 'card',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			foo: 'bar',
@@ -1251,7 +1251,7 @@ ava.test('should update a card to set active to false', async (test) => {
 		id: updateResult.data.id,
 		type: 'card',
 		active: false,
-		links: [],
+		links: {},
 		tags: [],
 		data: {}
 	})
@@ -1293,7 +1293,7 @@ ava.test('should update a card to set active to false using the card slug as inp
 		type: 'card',
 		slug: 'foo-bar-baz',
 		active: false,
-		links: [],
+		links: {},
 		tags: [],
 		data: {}
 	})
@@ -1338,7 +1338,7 @@ ava.test('should update a card to override an array property', async (test) => {
 		id: updateResult.data.id,
 		type: 'card',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			roles: []
@@ -1380,7 +1380,7 @@ ava.test('should update a card to add a slug', async (test) => {
 		type: 'card',
 		slug: 'foo-bar',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {}
 	})
@@ -1438,7 +1438,7 @@ ava.test('should add an update event if updating a card', async (test) => {
 			id: timeline[0].id,
 			type: 'create',
 			active: true,
-			links: [],
+			links: {},
 			tags: [],
 			data: {
 				actor: test.context.actor.id,
@@ -1446,7 +1446,7 @@ ava.test('should add an update event if updating a card', async (test) => {
 				timestamp: timeline[0].data.timestamp,
 				payload: {
 					active: true,
-					links: [],
+					links: {},
 					tags: [],
 					data: {}
 				}
@@ -1456,7 +1456,7 @@ ava.test('should add an update event if updating a card', async (test) => {
 			id: timeline[1].id,
 			type: 'update',
 			active: true,
-			links: [],
+			links: {},
 			tags: [],
 			data: {
 				actor: test.context.actor.id,
@@ -1465,7 +1465,7 @@ ava.test('should add an update event if updating a card', async (test) => {
 				payload: {
 					slug: 'foo-bar',
 					active: true,
-					links: [],
+					links: {},
 					tags: [],
 					data: {}
 				}

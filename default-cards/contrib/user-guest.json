@@ -3,7 +3,7 @@
   "type": "user",
   "name": "The guest user",
   "tags": [],
-  "links": [],
+  "links": {},
   "active": true,
   "data": {
     "email": "accounts+jellyfish@resin.io",

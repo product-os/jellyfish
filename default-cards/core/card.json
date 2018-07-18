@@ -3,7 +3,7 @@
   "name": "Jellyfish Card",
   "type": "type",
   "tags": [],
-  "links": [],
+  "links": {},
   "active": true,
   "data": {
     "schema": {
@@ -33,10 +33,15 @@
           }
         },
         "links": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "format": "uuid"
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "from": {
+              "type": "object"
+            },
+            "to": {
+              "type": "object"
+            }
           }
         },
         "active": {

@@ -3,7 +3,7 @@
   "name": "Pending actions",
   "type": "view",
   "tags": [],
-  "links": [],
+  "links": {},
   "active": true,
   "data": {
     "allOf": [

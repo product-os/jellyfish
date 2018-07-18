@@ -165,7 +165,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		const message = {
 			id,
 			tags,
-			links: [],
+			links: {},
 			active: true,
 			type: 'message',
 			data: {

@@ -3,7 +3,7 @@
   "type": "action",
   "name": "Update properties of a card",
   "tags": [],
-  "links": [],
+  "links": {},
   "active": true,
   "data": {
     "arguments": {
@@ -29,11 +29,7 @@
             }
           },
           "links": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "uuid"
-            }
+            "type": "object"
           },
           "data": {
             "type": "object"
