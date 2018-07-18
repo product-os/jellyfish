@@ -18,6 +18,7 @@ require('ts-node').register()
 
 const ava = require('ava')
 const Bluebird = require('bluebird')
+const request = require('request')
 const _ = require('lodash')
 const randomstring = require('randomstring')
 const {
@@ -30,6 +31,7 @@ ava.test.beforeEach(async (test) => {
 	process.env.SERVER_DATABASE = `test_${randomstring.generate()}`
 	const {
 		jellyfish,
+		worker,
 		port
 	} =	await createServer({
 		// TODO: Fix this hack, which is needed because otherwise
@@ -38,7 +40,9 @@ ava.test.beforeEach(async (test) => {
 		// test cases end up in the instances from previous tests, etc
 		port: _.random(8000, 9999)
 	})
+
 	test.context.jellyfish = jellyfish
+	test.context.worker = worker
 
 	test.context.session = test.context.jellyfish.sessions.admin
 	test.context.guestSession = test.context.jellyfish.sessions.guest
@@ -49,6 +53,26 @@ ava.test.beforeEach(async (test) => {
 		apiPrefix: process.env.API_PREFIX || 'api/v2',
 		apiUrl: `http://localhost:${port}`
 	})
+
+	test.context.sendHook = (method, provider, payload) => {
+		return new Bluebird((resolve, reject) => {
+			request({
+				method,
+				url: `http://localhost:${port}/api/v2/hooks/${provider}`,
+				json: true,
+				body: payload
+			}, (error, response, body) => {
+				if (error) {
+					return reject(error)
+				}
+
+				return resolve({
+					code: response.statusCode,
+					response: body
+				})
+			})
+		})
+	}
 })
 
 ava.test.serial('.query() should only return the user itself for the guest user', async (test) => {
@@ -398,4 +422,35 @@ ava.test.serial('Users should not be able to login as the core admin user', asyn
 			username: 'admin'
 		}))
 	}
+})
+
+ava.test.serial('should be able to post an external event', async (test) => {
+	const result = await test.context.sendHook('POST', 'test', {
+		foo: 'bar',
+		bar: 'baz'
+	})
+
+	test.is(result.code, 200)
+	test.false(result.response.error)
+
+	const requestId = result.response.data.id
+	const requestResult = await test.context.worker.waitResults(test.context.session, requestId)
+
+	test.false(requestResult.error)
+	const card = await test.context.jellyfish.getCardById(test.context.session, requestResult.data.id)
+
+	test.deepEqual(card, {
+		id: requestResult.data.id,
+		type: 'external-event',
+		active: true,
+		tags: [],
+		links: {},
+		data: {
+			source: 'test',
+			payload: {
+				foo: 'bar',
+				bar: 'baz'
+			}
+		}
+	})
 })
