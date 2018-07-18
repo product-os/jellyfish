@@ -18,11 +18,11 @@ const ava = require('ava')
 const _ = require('lodash')
 const helpers = require('./helpers')
 const Worker = require('../../lib/worker/index')
-const library = require('../../lib/worker/library')
+const actionLibrary = require('../../lib/action-library')
 
 ava.test.beforeEach(async (test) => {
 	await helpers.beforeEach(test)
-	test.context.worker = new Worker(test.context.jellyfish, test.context.session, library)
+	test.context.worker = new Worker(test.context.jellyfish, test.context.session, actionLibrary)
 
 	test.context.flush = async (session) => {
 		if (await test.context.worker.length() === 0) {
