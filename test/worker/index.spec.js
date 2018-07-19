@@ -436,6 +436,69 @@ ava.test('.execute() should execute a triggered action', async (test) => {
 	test.truthy(card)
 })
 
+ava.test('.execute() should execute a triggered action with a top level anyOf', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
+	const actionCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'action-create-card')
+
+	test.context.worker.setTriggers([
+		{
+			filter: {
+				type: 'object',
+				required: [ 'data' ],
+				anyOf: [
+					{
+						properties: {
+							data: {
+								type: 'object',
+								required: [ 'command' ],
+								properties: {
+									command: {
+										type: 'string',
+										const: 'foo-bar-baz'
+									}
+								}
+							}
+						}
+					},
+					{
+						properties: {
+							data: {
+								type: 'string'
+							}
+						}
+					}
+				]
+			},
+			action: 'action-create-card',
+			card: typeCard.id,
+			arguments: {
+				properties: {
+					slug: 'foo-bar-baz'
+				}
+			}
+		}
+	])
+
+	const id = await test.context.worker.enqueue(test.context.session, {
+		action: actionCard.slug,
+		card: typeCard.id,
+		arguments: {
+			properties: {
+				data: {
+					command: 'foo-bar-baz'
+				}
+			}
+		}
+	})
+
+	await test.context.flush(test.context.session)
+	const result = await test.context.worker.waitResults(test.context.session, id)
+	test.false(result.error)
+
+	const card = await test.context.jellyfish.getCardBySlug(test.context.session, 'foo-bar-baz')
+	test.truthy(card)
+})
+
 ava.test('.execute() should add a create event when creating a card', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const actionCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'action-create-card')
