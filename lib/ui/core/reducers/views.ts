@@ -53,8 +53,10 @@ const notify = (
 };
 
 export const viewSelectors = {
-	getViewData: (state: StoreState, query: string | Card | JSONSchema6) =>
-		state.views.viewData[getViewId(query)] || null,
+	getViewData: (state: StoreState, query: string | Card | JSONSchema6) => {
+		const tail = state.views.viewData[getViewId(query)];
+		return tail ? tail.slice() : null;
+	},
 	getSubscription: (state: StoreState, id: string): Card | null =>
 		state.views.subscriptions[id] || null,
 };
@@ -153,16 +155,16 @@ export const actionCreators = {
 	): JellyThunkSync<void, StoreState> => (dispatch, getState) => {
 		const viewId = getViewId(query);
 
-		if (streams[viewId]) {
-			streams[viewId].destroy();
-			delete streams[viewId];
-		}
-
 		loadSchema(query)
 		.then((schema) => {
 
 			if (!schema) {
 				return;
+			}
+
+			if (streams[viewId]) {
+				streams[viewId].destroy();
+				delete streams[viewId];
 			}
 
 			const stream = sdk.stream(schema);
