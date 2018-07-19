@@ -404,13 +404,39 @@ export class JellyfishSDK implements SDKInterface {
 	}): Bluebird<any> {
 		const start = Date.now();
 
+		let payload: any = body;
+
 		utils.debug(`Dispatching action ${body.action}`, body);
 
 		if (!body.arguments) {
 			body.arguments = {};
 		}
 
-		return this.post<ActionResponse<D>>('action', body)
+		// Check if files are being posted, if they are we need to modify the
+		// payload so that it gets sent as form data
+		if (body.arguments.properties) {
+			const extraction = utils.extractFiles(body.arguments.properties);
+			console.log(extraction);
+			// If file elements were found, change the payload to form data
+			if (extraction.elements.length) {
+				const formData = new FormData();
+				extraction.elements.forEach((element) => {
+					formData.append(element.path, element.file);
+				});
+				formData.append('action', JSON.stringify({
+					card: body.card,
+					action: body.action,
+					arguments: {
+						...body.arguments,
+						properties: extraction.result,
+					},
+				}));
+
+				payload = formData;
+			}
+		}
+
+		return this.post<ActionResponse<D>>('action', payload)
 			.then((response) => {
 				utils.debug(`Action ${body.action} complete in ${Date.now() - start}ms`);
 				if  (!response) {
@@ -425,6 +451,34 @@ export class JellyfishSDK implements SDKInterface {
 
 				return data as D;
 			});
+	}
+
+	/**
+	 * @summary Retrieve a file form the API
+	 * @name getFile
+	 * @public
+	 * @function
+	 * @memberof JellyfishSDK
+	 *
+	 * @description Retrieve a file from the API
+	 *
+	 * @param {String} cardId - The id of the card this file is attached to
+	 * @param {String} name - The name of the file
+	 *
+	 * @fulfil {File} - The requested file
+	 * @returns {Promise}
+	 */
+	public getFile = (cardId: string, name: string) => {
+		return Bluebird.try(() => {
+			return axios.get<any>(`${this.API_BASE}file/${cardId}/${name}`, {
+					headers: {
+						authorization: `Bearer ${this.authToken}`,
+						accept: 'image/webp,image/*,*/*;q=0.8',
+					},
+					responseType: 'arraybuffer',
+			});
+		})
+		.then((response) => response.data);
 	}
 
 	/**

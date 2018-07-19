@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
 	Box,
+	Button,
 	Flex,
 	Theme,
 	Txt,
@@ -48,6 +49,7 @@ interface DefaultRendererProps extends RendererProps {
 
 // Default renderer for a card and a timeline
 export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> {
+	private fileInputElement: HTMLInputElement | null;
 	private scrollArea: HTMLElement | null;
 	private shouldScroll: boolean = true;
 
@@ -220,6 +222,38 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		this.setState({ messagesOnly: !e.target.checked });
 	}
 
+	public handleUploadButtonClick = () => {
+		const element = this.fileInputElement;
+
+		if (element) {
+			element.click();
+		}
+	}
+
+	public handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const file = _.first(e.target.files);
+
+		const message = {
+			links: {},
+			active: true,
+			type: 'message',
+			data: {
+				timestamp: getCurrentTimestamp(),
+				target: this.props.channel.data.target,
+				actor: this.props.user!.id,
+				payload: {
+					file,
+				},
+			},
+		};
+
+		sdk.card.create(message)
+			.catch((error) => {
+				this.props.actions.addNotification('danger', error.message || error);
+			});
+
+	}
+
 	public render() {
 		const { head } = this.props.channel.data;
 		const { tail } = this.state;
@@ -272,16 +306,37 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 				</div>
 
 				{head && head.type !== 'view' &&
-					<AutocompleteTextarea
-						p={3}
+					<Flex
 						style={{ borderTop: '1px solid #eee' }}
-						className="new-message-input"
-						value={this.state.newMessage}
-						onChange={this.handleNewMessageChange}
-						onKeyPress={this.handleNewMessageKeyPress}
-						placeholder="Type to comment on this thread..."
-					/>
+					>
+						<AutocompleteTextarea
+							p={3}
+							flex="1"
+							className="new-message-input"
+							value={this.state.newMessage}
+							onChange={this.handleNewMessageChange}
+							onKeyPress={this.handleNewMessageKeyPress}
+							placeholder="Type to comment on this thread..."
+						/>
+
+						<Button
+							square
+							mr={3}
+							mt={3}
+							onClick={this.handleUploadButtonClick}
+						>
+							<Icon name="image" />
+						</Button>
+
+						<input
+							style={{display: 'none'}}
+							type="file"
+							ref={(el) => this.fileInputElement = el}
+							onChange={this.handleFileChange}
+						/>
+					</Flex>
 				}
+
 
 			</Column>
 		);
