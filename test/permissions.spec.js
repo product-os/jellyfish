@@ -31,7 +31,13 @@ ava.test.beforeEach(async (test) => {
 	const {
 		jellyfish,
 		port
-	} =	await createServer()
+	} =	await createServer({
+		// TODO: Fix this hack, which is needed because otherwise
+		// multiple tests start server instances on the same port
+		// and don't stop them afterwards, so requests from certain
+		// test cases end up in the instances from previous tests, etc
+		port: _.random(8000, 9999)
+	})
 	test.context.jellyfish = jellyfish
 
 	test.context.session = test.context.jellyfish.sessions.admin
@@ -82,7 +88,7 @@ ava.test.serial('.query() should be able to see previously restricted cards afte
 		type: 'repo',
 		name: 'Test repo',
 		tags: [],
-		links: [],
+		links: {},
 		active: true,
 		data: {}
 	})
@@ -96,7 +102,7 @@ ava.test.serial('.query() should be able to see previously restricted cards afte
 		slug: 'user-johndoe',
 		type: 'user',
 		tags: [],
-		links: [],
+		links: {},
 		active: true,
 		data: {
 			email: 'johndoe@example.com',

@@ -3,7 +3,7 @@
   "name": "Users",
   "type": "view",
   "tags": [],
-  "links": [],
+  "links": {},
   "active": true,
   "data": {
     "allOf": [

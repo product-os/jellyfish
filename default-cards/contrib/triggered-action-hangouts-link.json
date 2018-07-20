@@ -2,7 +2,7 @@
   "slug": "triggered-action-hangouts-link",
   "type": "triggered-action",
   "tags": [],
-  "links": [],
+  "links": {},
   "active": true,
   "data": {
     "filter": {

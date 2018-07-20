@@ -54,7 +54,7 @@ ava.test('.insertCard() should insert a card', async (test) => {
 		executeAction: test.context.executeAction
 	}, {
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			foo: 1
@@ -67,7 +67,7 @@ ava.test('.insertCard() should insert a card', async (test) => {
 		id: result.id,
 		type: 'card',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			foo: 1
@@ -84,7 +84,7 @@ ava.test('.insertCard() should ignore an explicit type property', async (test) =
 	}, {
 		active: true,
 		type: 'foo',
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			foo: 1
@@ -134,7 +134,7 @@ ava.test('.insertCard() should provide sane defaults for links', async (test) =>
 
 	test.deepEqual(test.context.queue, [])
 	const card = await test.context.jellyfish.getCardById(test.context.session, result.id)
-	test.deepEqual(card.links, [])
+	test.deepEqual(card.links, {})
 })
 
 ava.test('.insertCard() should provide sane defaults for tags', async (test) => {
@@ -198,7 +198,7 @@ ava.test('.insertCard() should override if the override option is true', async (
 		slug: 'foo-bar-baz',
 		type: 'card',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {}
 	})
@@ -223,7 +223,7 @@ ava.test('.insertCard() throw if card already exists and override is false', asy
 		slug: 'foo-bar-baz',
 		type: 'card',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {}
 	})
@@ -258,7 +258,7 @@ ava.test('.insertCard() should add a create event if attachEvents is true', asyn
 				payload: {
 					slug: 'foo-bar-baz',
 					active: true,
-					links: [],
+					links: {},
 					tags: [],
 					data: {}
 				}
@@ -286,7 +286,7 @@ ava.test('.insertCard() should add a create event not overriding even if overrid
 				payload: {
 					slug: 'foo-bar-baz',
 					active: true,
-					links: [],
+					links: {},
 					tags: [],
 					data: {}
 				}
@@ -300,7 +300,7 @@ ava.test('.insertCard() should add an update event if attachEvents is true and o
 		slug: 'foo-bar-baz',
 		type: 'card',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {}
 	})
@@ -324,7 +324,7 @@ ava.test('.insertCard() should add an update event if attachEvents is true and o
 				payload: {
 					slug: 'foo-bar-baz',
 					active: false,
-					links: [],
+					links: {},
 					tags: [],
 					data: {}
 				}
@@ -382,7 +382,7 @@ ava.test('.insertCard() should execute one matching triggered action', async (te
 				type: 'create',
 				payload: {
 					active: true,
-					links: [],
+					links: {},
 					tags: [],
 					data: {
 						command: 'foo-bar-baz'
@@ -451,7 +451,7 @@ ava.test('.insertCard() should not execute non-matching triggered actions', asyn
 				type: 'create',
 				payload: {
 					active: true,
-					links: [],
+					links: {},
 					tags: [],
 					data: {
 						command: 'qux-bar-baz'
@@ -536,7 +536,7 @@ ava.test('.insertCard() should execute more than one matching triggered action',
 				type: 'create',
 				payload: {
 					active: true,
-					links: [],
+					links: {},
 					tags: [],
 					data: {
 						command: 'foo-bar-baz'
@@ -639,7 +639,7 @@ ava.test('.insertCard() should execute the matching triggered actions given more
 				type: 'create',
 				payload: {
 					active: true,
-					links: [],
+					links: {},
 					tags: [],
 					data: {
 						command: 'foo-bar-baz'
@@ -664,7 +664,7 @@ ava.test('.insertCard() should evaluate a type formula', async (test) => {
 		slug: 'test-type',
 		type: 'type',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			schema: {
@@ -712,7 +712,7 @@ ava.test('.insertCard() should throw if the result of the formula is incompatibl
 		slug: 'test-type',
 		type: 'type',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			schema: {
@@ -757,7 +757,7 @@ ava.test('.insertCard() should remove previously inserted type triggered actions
 		{
 			type: 'triggered-action',
 			active: true,
-			links: [],
+			links: {},
 			tags: [],
 			data: {
 				type: 'foo',
@@ -796,7 +796,7 @@ ava.test('.insertCard() should remove previously inserted type triggered actions
 		{
 			type: 'triggered-action',
 			active: true,
-			links: [],
+			links: {},
 			tags: [],
 			data: {
 				type: 'bar',
@@ -884,7 +884,7 @@ ava.test('.insertCard() should remove previously inserted type triggered actions
 		type: 'type',
 		slug: 'foo',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			schema: {
@@ -897,7 +897,7 @@ ava.test('.insertCard() should remove previously inserted type triggered actions
 	await test.context.jellyfish.insertCard(test.context.session, {
 		type: 'triggered-action',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			type: 'foo',
@@ -1022,7 +1022,7 @@ ava.test('.insertCard() should add a triggered action given a type with an AGGRE
 			slug: 'triggered-action-test-thread-data-mentions',
 			type: 'triggered-action',
 			active: true,
-			links: [],
+			links: {},
 			tags: [],
 			data: {
 				type: 'test-thread',
@@ -1252,7 +1252,7 @@ ava.test('.run() should create a card', async (test) => {
 		slug: 'foo-bar-baz',
 		type: 'card',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {}
 	})

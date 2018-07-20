@@ -195,7 +195,7 @@ ava.test('AGGREGATE: should generate a watcher if aggregating $events', (test) =
 	const result = jellyscript.evaluate('AGGREGATE($events, "mentions")', {
 		context: {
 			type: 'thread',
-			links: [],
+			links: {},
 			tags: [],
 			active: true,
 			data: {}
@@ -453,7 +453,7 @@ ava.test('.evaluateObject() should report back watchers when aggregating events'
 		}
 	}, {
 		type: 'thread',
-		links: [],
+		links: {},
 		tags: [],
 		active: true,
 		data: {
@@ -463,7 +463,7 @@ ava.test('.evaluateObject() should report back watchers when aggregating events'
 
 	test.deepEqual(result.object, {
 		type: 'thread',
-		links: [],
+		links: {},
 		tags: [],
 		active: true,
 		data: {
@@ -521,7 +521,7 @@ ava.test('.evaluateObject() should report back watchers when aggregating events 
 		}
 	}, {
 		type: 'thread',
-		links: [],
+		links: {},
 		tags: [],
 		active: true,
 		data: {}
@@ -566,7 +566,7 @@ ava.test('.getTypeTriggers() should report back watchers when aggregating events
 		slug: 'thread',
 		type: 'type',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {
 			schema: {
@@ -591,7 +591,7 @@ ava.test('.getTypeTriggers() should report back watchers when aggregating events
 			type: 'triggered-action',
 			slug: 'triggered-action-thread-data-mentions',
 			active: true,
-			links: [],
+			links: {},
 			tags: [],
 			data: {
 				type: 'thread',

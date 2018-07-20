@@ -3,7 +3,7 @@
   "name": "Active Triggered Actions",
   "type": "view",
   "tags": [],
-  "links": [],
+  "links": {},
   "active": true,
   "data": {
     "allOf": [

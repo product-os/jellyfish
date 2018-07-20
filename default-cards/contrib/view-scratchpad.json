@@ -3,7 +3,7 @@
   "name": "Scratchpad",
   "type": "view",
   "tags": [],
-  "links": [],
+  "links": {},
   "active": true,
   "data": {
     "allOf": [

@@ -3,7 +3,7 @@
   "type": "action",
   "name": "Create a new card",
   "tags": [],
-  "links": [],
+  "links": {},
   "active": true,
   "data": {
     "filter": {
@@ -44,11 +44,7 @@
             }
           },
           "links": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "uuid"
-            }
+            "type": "object"
           },
           "data": {
             "type": "object"

@@ -3,7 +3,7 @@
   "type": "action",
   "name": "Create a user",
   "tags": [],
-  "links": [],
+  "links": {},
   "active": true,
   "data": {
     "filter": {

@@ -89,7 +89,7 @@ ava.test('.hasCard() id = yes (exists), slug = no', async (test) => {
 	const card = await test.context.jellyfish.insertCard(test.context.session, {
 		type: 'card',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {}
 	})
@@ -110,7 +110,7 @@ ava.test('.hasCard() id = yes (exists), slug = yes (exists)', async (test) => {
 		slug: 'foo-bar',
 		type: 'card',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {}
 	})
@@ -126,7 +126,7 @@ ava.test('.hasCard() id = yes (exists), slug = yes (not exist)', async (test) =>
 		slug: 'bar-baz',
 		type: 'card',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {}
 	})
@@ -142,7 +142,7 @@ ava.test('.hasCard() id = yes (not exist), slug = yes (exists)', async (test) =>
 		slug: 'foo-bar',
 		type: 'card',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {}
 	})
@@ -165,7 +165,7 @@ ava.test('.hasCard() id = no, slug = yes (exists)', async (test) => {
 		slug: 'foo-bar',
 		type: 'card',
 		active: true,
-		links: [],
+		links: {},
 		tags: [],
 		data: {}
 	})
