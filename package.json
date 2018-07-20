@@ -27,6 +27,7 @@
     "addgittag": "./scripts/add-version-tag.js"
   },
   "ava": {
+    "timeout": "1m",
     "verbose": true,
     "concurrency": 3,
     "failFast": true,
