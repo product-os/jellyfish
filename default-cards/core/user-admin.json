@@ -6,6 +6,7 @@
   "links": {},
   "active": true,
   "data": {
+    "disallowLogin": true,
     "email": "accounts+jellyfish@resin.io",
     "roles": []
   }

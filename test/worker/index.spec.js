@@ -1100,6 +1100,33 @@ ava.test('should be able to login as a password-less user', async (test) => {
 	test.true(new Date(session.data.expiration) > currentDate)
 })
 
+ava.test('should not be able to login as a password-less disallowed user', async (test) => {
+	const user = await test.context.jellyfish.insertCard(test.context.session, {
+		type: 'user',
+		slug: 'user-johndoe',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			disallowLogin: true,
+			email: 'johndoe@example.com',
+			roles: []
+		}
+	})
+
+	await test.context.worker.enqueue(test.context.session, {
+		action: 'action-create-session',
+		card: user.id,
+		arguments: {
+			password: {}
+		}
+	})
+
+	await test.throws(
+		test.context.flush(test.context.session),
+		test.context.worker.errors.WorkerAuthenticationError)
+})
+
 ava.test('should fail if signing up with the wrong password', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'user')
 	const createUserRequestId = await test.context.worker.enqueue(test.context.session, {

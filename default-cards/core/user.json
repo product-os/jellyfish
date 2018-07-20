@@ -16,6 +16,9 @@
         "data": {
           "type": "object",
           "properties": {
+            "disallowLogin": {
+              "type": "boolean"
+            },
             "email": {
               "type": "string",
               "format": "email"
