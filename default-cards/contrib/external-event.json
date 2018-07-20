@@ -1,0 +1,31 @@
+{
+  "slug": "external-event",
+  "type": "type",
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "string",
+              "pattern": "^[a-z0-9-]+$"
+            },
+            "payload": {
+              "type": "object"
+            }
+          },
+          "required": [
+            "source",
+            "payload"
+          ]
+        }
+      },
+      "required": [ "data" ]
+    }
+  }
+}
