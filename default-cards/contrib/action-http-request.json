@@ -1,0 +1,24 @@
+{
+  "slug": "action-http-request",
+  "type": "action",
+  "name": "Fire an http request",
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "arguments": {
+      "method": {
+        "type": "string"
+      },
+      "json": {
+        "type": "boolean"
+      },
+      "body": {
+        "type": "object"
+      },
+      "url": {
+        "type": "string"
+      }
+    }
+  }
+}

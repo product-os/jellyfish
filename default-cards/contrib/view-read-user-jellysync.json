@@ -1,9 +1,9 @@
 {
-  "slug": "view-read-user-integrations",
+  "slug": "view-read-user-jellysync",
   "name": "Integration role read permissions",
   "type": "view",
   "tags": [],
-  "links": [],
+  "links": {},
   "active": true,
   "data": {
     "allOf": [
@@ -77,7 +77,7 @@
                 "action-create-event",
                 "action-create-session",
                 "action-create-user",
-                "action-emit-webhook",
+                "action-http-request",
                 "action-set-add",
                 "action-update-card"
               ]
