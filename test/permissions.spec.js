@@ -31,7 +31,13 @@ ava.test.beforeEach(async (test) => {
 	const {
 		jellyfish,
 		port
-	} =	await createServer()
+	} =	await createServer({
+		// TODO: Fix this hack, which is needed because otherwise
+		// multiple tests start server instances on the same port
+		// and don't stop them afterwards, so requests from certain
+		// test cases end up in the instances from previous tests, etc
+		port: _.random(8000, 9999)
+	})
 	test.context.jellyfish = jellyfish
 
 	test.context.session = test.context.jellyfish.sessions.admin

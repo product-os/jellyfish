@@ -63,7 +63,9 @@ ava.test.before(async (test) => {
 	const {
 		jellyfish,
 		port
-	} =	await createServer()
+	} =	await createServer({
+		port: 7999
+	})
 
 	context.jellyfish = jellyfish
 	context.adminSession = jellyfish.sessions.admin
