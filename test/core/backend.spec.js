@@ -518,6 +518,133 @@ ava.test('.query() should not return unspecified properties', async (test) => {
 	])
 })
 
+ava.test('.query() should be able to limit the results', async (test) => {
+	const result1 = await test.context.backend.upsertElement({
+		type: 'card',
+		test: 1,
+		data: {
+			timestamp: '2018-07-20T23:15:45.702Z'
+		}
+	})
+
+	const result2 = await test.context.backend.upsertElement({
+		type: 'card',
+		test: 2,
+		data: {
+			timestamp: '2018-08-20T23:15:45.702Z'
+		}
+	})
+
+	await test.context.backend.upsertElement({
+		type: 'card',
+		test: 3,
+		data: {
+			timestamp: '2018-09-20T23:15:45.702Z'
+		}
+	})
+
+	const results = await test.context.backend.query({
+		type: 'object',
+		additionalProperties: true,
+		properties: {
+			type: {
+				type: 'string',
+				const: 'card'
+			}
+		},
+		required: [ 'type' ]
+	}, {
+		limit: 2
+	})
+
+	test.deepEqual(_.sortBy(results, [ 'test' ]), [ result1, result2 ])
+})
+
+ava.test('.query() should be able to skip the results', async (test) => {
+	await test.context.backend.upsertElement({
+		type: 'card',
+		test: 1,
+		data: {
+			timestamp: '2018-07-20T23:15:45.702Z'
+		}
+	})
+
+	await test.context.backend.upsertElement({
+		type: 'card',
+		test: 2,
+		data: {
+			timestamp: '2018-08-20T23:15:45.702Z'
+		}
+	})
+
+	const result3 = await test.context.backend.upsertElement({
+		type: 'card',
+		test: 3,
+		data: {
+			timestamp: '2018-09-20T23:15:45.702Z'
+		}
+	})
+
+	const results = await test.context.backend.query({
+		type: 'object',
+		additionalProperties: true,
+		properties: {
+			type: {
+				type: 'string',
+				const: 'card'
+			}
+		},
+		required: [ 'type' ]
+	}, {
+		skip: 2
+	})
+
+	test.deepEqual(_.sortBy(results, [ 'test' ]), [ result3 ])
+})
+
+ava.test('.query() should be able to limit and skip the results', async (test) => {
+	await test.context.backend.upsertElement({
+		type: 'card',
+		test: 1,
+		data: {
+			timestamp: '2018-07-20T23:15:45.702Z'
+		}
+	})
+
+	const result2 = await test.context.backend.upsertElement({
+		type: 'card',
+		test: 2,
+		data: {
+			timestamp: '2018-08-20T23:15:45.702Z'
+		}
+	})
+
+	await test.context.backend.upsertElement({
+		type: 'card',
+		test: 3,
+		data: {
+			timestamp: '2018-09-20T23:15:45.702Z'
+		}
+	})
+
+	const results = await test.context.backend.query({
+		type: 'object',
+		additionalProperties: true,
+		properties: {
+			type: {
+				type: 'string',
+				const: 'card'
+			}
+		},
+		required: [ 'type' ]
+	}, {
+		skip: 1,
+		limit: 1
+	})
+
+	test.deepEqual(_.sortBy(results, [ 'test' ]), [ result2 ])
+})
+
 ava.test.cb('.stream() should report back new elements that match a certain type', (test) => {
 	test.context.backend.stream({
 		type: 'object',

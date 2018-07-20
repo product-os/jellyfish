@@ -476,6 +476,160 @@ ava.test('.getCardById() should return an inactive card by its id', async (test)
 	test.deepEqual(card, result)
 })
 
+ava.test('.query() should be able to limit the results', async (test) => {
+	const result1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			test: 1,
+			timestamp: '2018-07-20T23:15:45.702Z'
+		}
+	})
+
+	const result2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			test: 2,
+			timestamp: '2018-08-20T23:15:45.702Z'
+		}
+	})
+
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			test: 3,
+			timestamp: '2018-09-20T23:15:45.702Z'
+		}
+	})
+
+	const results = await test.context.kernel.query(test.context.kernel.sessions.admin, {
+		type: 'object',
+		additionalProperties: true,
+		properties: {
+			type: {
+				type: 'string',
+				const: 'card'
+			}
+		},
+		required: [ 'type' ]
+	}, {
+		limit: 2
+	})
+
+	test.deepEqual(_.sortBy(results, [ 'data', 'test' ]), [ result1, result2 ])
+})
+
+ava.test('.query() should be able to skip the results', async (test) => {
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			test: 1,
+			timestamp: '2018-07-20T23:15:45.702Z'
+		}
+	})
+
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			test: 2,
+			timestamp: '2018-08-20T23:15:45.702Z'
+		}
+	})
+
+	const result3 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			test: 3,
+			timestamp: '2018-09-20T23:15:45.702Z'
+		}
+	})
+
+	const results = await test.context.kernel.query(test.context.kernel.sessions.admin, {
+		type: 'object',
+		additionalProperties: true,
+		properties: {
+			type: {
+				type: 'string',
+				const: 'card'
+			}
+		},
+		required: [ 'type' ]
+	}, {
+		skip: 2
+	})
+
+	test.deepEqual(_.sortBy(results, [ 'data', 'test' ]), [ result3 ])
+})
+
+ava.test('.query() should be able to limit and skip the results', async (test) => {
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			test: 1,
+			timestamp: '2018-07-20T23:15:45.702Z'
+		}
+	})
+
+	const result2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			test: 2,
+			timestamp: '2018-08-20T23:15:45.702Z'
+		}
+	})
+
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			test: 3,
+			timestamp: '2018-09-20T23:15:45.702Z'
+		}
+	})
+
+	const results = await test.context.kernel.query(test.context.kernel.sessions.admin, {
+		type: 'object',
+		additionalProperties: true,
+		properties: {
+			type: {
+				type: 'string',
+				const: 'card'
+			}
+		},
+		required: [ 'type' ]
+	}, {
+		limit: 1,
+		skip: 1
+	})
+
+	test.deepEqual(_.sortBy(results, [ 'data', 'test' ]), [ result2 ])
+})
+
 ava.test('.query() should return the cards that match a schema', async (test) => {
 	const result1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'johndoe',
