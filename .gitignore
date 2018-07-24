@@ -68,3 +68,9 @@ webpack-bundle-report.html
 
 rethinkdb_data
 .tar.gz
+
+# IDE Files
+.scratch/
+*.iml
+.idea/
+.vscode/
