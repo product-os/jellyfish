@@ -12,6 +12,7 @@
   "scripts": {
     "start": "DEBUG=jellyfish:* node lib/index.js",
     "start:profiler": "DEBUG=jellyfish:* node profiler.js",
+    "pretest": "(cd ./lib/sync; tsc)",
     "test": "npm run lint && npm run test:command",
     "test:command": "TEST_DB_HOST=localhost TEST_PROXY_PORT=9999 TEST_DB_PORT=28015 API_URL='http://localhost:8000' NODE_ENV=test nyc --reporter=lcov ava",
     "posttest": "./scripts/scrub-test-databases.js",
