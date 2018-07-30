@@ -139,6 +139,7 @@
     "remove-markdown": "^0.3.0",
     "rendition": "^4.18.1",
     "reql-schema": "^1.0.0",
+    "request-promise": "^4.2.2",
     "rethinkdb": "^2.3.3",
     "skhema": "^2.1.1",
     "socket.io": "^2.1.0",
