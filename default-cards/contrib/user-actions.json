@@ -1,0 +1,13 @@
+{
+  "slug": "user-actions",
+  "type": "user",
+  "name": "The actions user",
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "disallowLogin": true,
+    "email": "accounts+jellyfish@resin.io",
+    "roles": []
+  }
+}
