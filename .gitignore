@@ -66,5 +66,12 @@ webpack-bundle-report.html
 
 # End of https://www.gitignore.io/api/node
 
+# Development Files
+.scratch/
+*.iml
+.idea/
+.vscode/
+
+# Execution files
 rethinkdb_data
 .tar.gz
