@@ -13,7 +13,7 @@
     "start": "DEBUG=jellyfish:* node lib/index.js",
     "start:profiler": "DEBUG=jellyfish:* node profiler.js",
     "test": "npm run lint && npm run test:command",
-    "test:command": "TEST_DB_HOST=localhost TEST_PROXY_PORT=9999 TEST_DB_PORT=28015 API_URL='http://localhost:8000' NODE_ENV=test nyc --reporter=lcov ava",
+    "test:command": "nyc --reporter=lcov ava-ts && TEST_DB_HOST=localhost TEST_PROXY_PORT=9999 TEST_DB_PORT=28015 API_URL='http://localhost:8000' NODE_ENV=test nyc --reporter=lcov ava",
     "posttest": "./scripts/scrub-test-databases.js",
     "lint": "npm run eslint && npm run tslint",
     "eslint": "eslint lib test stress webpack.config.js",
@@ -35,6 +35,7 @@
       "./test/test-helpers/ui-setup.js"
     ],
     "files": [
+      "test/**/*.spec.ts",
       "test/**/*.spec.js"
     ],
     "babel": {
@@ -47,7 +48,9 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "@types/bluebird": "^3.5.20",
+    "@types/url-regex": "^4.0.0",
     "ava": "^0.22.0",
+    "ava-ts": "^0.25.0",
     "babel-preset-react": "^6.24.1",
     "cache-loader": "^1.2.2",
     "cli-spinner": "^0.2.8",
@@ -135,6 +138,7 @@
     "static-eval": "^2.0.0",
     "styled-components": "^3.2.5",
     "typed-errors": "^1.1.0",
+    "url-regex": "^4.1.1",
     "uuid": "^3.2.1"
   }
 }
