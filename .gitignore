@@ -58,11 +58,12 @@ jspm_packages/
 # dotenv environment variables file
 .env
 
-# UI build files
+# Built files
 dist/
 .cache-loader/
 webpack-bundle-report.html
-
+lib/Types.js
+lib/sync/**/*.js
 
 # End of https://www.gitignore.io/api/node
 
