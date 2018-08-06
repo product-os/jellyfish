@@ -46,8 +46,6 @@ const sanitize = async () => {
 		additionalProperties: true
 	})
 
-	console.log(users)
-
 	console.log(`Sanitizing ${users.length} users`)
 
 	await Promise.map(
