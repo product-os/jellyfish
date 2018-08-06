@@ -21,7 +21,7 @@ if [[ $* == *--with-restore* ]]; then
 	TARGET_DATABASE="$DB_NAME" ./scripts/import-latest-production-backup.sh
 
 	echo "Sanitizing user emails and passwords"
-	./scripts/sanitize-users.js
+	TARGET_DATABASE="$DB_NAME" ./scripts/sanitize-users.js
 
 	echo "Running tests against production backup"
 	TEST_DB_NAME="$DB_NAME" npm run test:command
