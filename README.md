@@ -64,3 +64,15 @@ And then run:
 npm start
 ```
 
+Testing
+-------
+
+Run `npm test` to start the test suite. By default a production backup will be
+restored and used to run tests, requiring that you provide a compose.io API
+token as the `COMPOSE_TOKEN` environment variable. This behaviour can be skipped
+using the `--skip-restore` flag, which is useful for local development and
+testing.
+
+```
+npm test -- --skip-restore
+```
