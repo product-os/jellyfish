@@ -64,3 +64,15 @@ And then run:
 npm start
 ```
 
+Testing
+-------
+
+Run `npm test` to start the test suite. Optionally, a production backup can be
+restored and used to run the test suite again, providing additional test
+coverage. This feature requires that you provide a compose.io API token as the
+`COMPOSE_TOKEN` environment variable. This behaviour can be triggered using the
+`--with-restore` flag.
+
+```
+npm test -- --with-restore
+```

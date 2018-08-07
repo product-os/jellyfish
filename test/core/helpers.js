@@ -25,7 +25,7 @@ exports.backend = {
 		test.context.backend = new Backend(cache, {
 			host: process.env.TEST_DB_HOST,
 			port: process.env.TEST_DB_PORT,
-			database: `test_${randomstring.generate()}`
+			database: process.env.TEST_DB_NAME || `test_${randomstring.generate()}`
 		})
 
 		await test.context.backend.connect()

@@ -22,7 +22,11 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      - run: apt-get update && apt-get install -y git
+      # pip, jq and wget are required to restore a production database backup
+      - run: apt-get update && apt-get install -y git jq wget python-pip
+
+      # Install the rethinkdb python driver so rethinkdb-restore can be run
+      - run: pip install rethinkdb
 
       # Because `node_modules` gets cached, any changes to the SDK will be
       # ignored, as the package already exists there and npm lifecycle events
@@ -39,7 +43,7 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       - run: rethinkdb --daemon --bind all
-      - run: npm test
+      - run: npm test -- --with-restore
 
       # Stress Testing
       - run:
