@@ -67,3 +67,20 @@ npm start
 If you would like to have errors reported to sentry, you can provide a sentry
 DSN using the environment variable `SENTRY_DSN_SERVER` for server errors and
 `SENTRY_DSN_UI` for UI errors.
+
+Tests
+-----
+
+To run UI end-to-end tests you need to set the following environment variables
+
+```
+JF_URL=<the url of the Jellyfish instance to test>
+JF_TEST_USER=<the username of the test user>
+JF_TEST_PASSWORD=<the password for the test user>
+```
+
+Run the tests using the command
+
+```sh
+npm run test:e2e
+```
