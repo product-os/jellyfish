@@ -64,3 +64,6 @@ And then run:
 npm start
 ```
 
+If you would like to have errors reported to sentry, you can provide a sentry
+DSN using the environment variable `SENTRY_DSN_SERVER` for server errors and
+`SENTRY_DSN_UI` for UI errors.
