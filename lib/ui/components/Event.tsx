@@ -13,6 +13,7 @@ import {
 import { Markdown } from 'rendition/dist/extra/Markdown';
 import styled from 'styled-components';
 import { Card } from '../../Types';
+import { AuthenticatedImage } from '../components/AuthenticatedImage';
 import { tagStyle } from '../components/Tag';
 import { createPrefixRegExp, findUsernameById, formatTimestamp } from '../services/helpers';
 import Icon from './Icon';
@@ -176,7 +177,7 @@ export default class Event extends React.Component<EventProps, { actorName: stri
 								}
 							</Flex>
 
-							{isMessage &&
+							{isMessage && !!card.data.payload.message &&
 								<div ref={this.setMessageElement}>
 									<Markdown
 										style={{fontSize: 'inherit'}}
@@ -186,6 +187,13 @@ export default class Event extends React.Component<EventProps, { actorName: stri
 									</Markdown>
 								</div>
 							}
+							{isMessage && !!card.data.payload.file &&
+								<AuthenticatedImage
+									cardId={card.id}
+									fileName={card.data.payload.file}
+								/>
+							}
+
 						</React.Fragment>
 					}
 					{!isTimelineCard &&

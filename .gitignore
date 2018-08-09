@@ -58,6 +58,14 @@ jspm_packages/
 # dotenv environment variables file
 .env
 
+# End of https://www.gitignore.io/api/node
+
+rethinkdb_data
+.tar.gz
+
+# Used by LocalFS file storage driver
+jellyfish-files
+
 # UI build files
 dist/
 .cache-loader/

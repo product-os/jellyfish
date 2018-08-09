@@ -84,3 +84,16 @@ Run the tests using the command
 ```sh
 npm run test:e2e
 ```
+
+File uploads
+------------
+
+By default uploaded files are saved to the local disk in a directory named
+`jellyfish-files`. You can also use AWS S3 to store files: to do this, you need
+to set the following environment variables:
+
+```
+FS_DRIVER=s3FS
+AWS_ACCESS_KEY_ID=<aws access key id>
+AWS_SECRET_ACCESS_KEY=<aws secret access key>
+```

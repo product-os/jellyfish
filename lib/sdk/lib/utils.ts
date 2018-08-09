@@ -125,3 +125,57 @@ export const slugify = (text: string) => text.toLowerCase()
  * const validator = sdk.utils.compileSchema(schema);
  */
 export const compileSchema = (schema: JSONSchema6) => ajv.compile(schema);
+
+type FileAndPath = {
+	file: File;
+	path: string;
+};
+
+/**
+ * @summary Extracts files from an object
+ * @name extractFiles
+ * @function
+ * @public
+ * @memberof JellyfishSDK.utils
+ *
+ * @description Iterates over all fields of an object looking for file values,
+ * when one is found, the value is replaced with `null`. Returns an array of
+ * objects, containging a file and the path it was found one
+ *
+ * @param {Object} subject - The object to iterate over
+ * @returns {Object} An object containing the transformed subject and An array
+ * of objects containing the file and path
+ */
+export const extractFiles = (subject: any, path: string[] = []) => {
+	const result: { [k: string]: any } = {};
+	const elements: FileAndPath[] = [];
+
+	_.forEach(subject, (value, key) => {
+		if (value && value.constructor.name === 'File') {
+			elements.push({
+				file: value,
+				path: path.concat(key).join('.'),
+			});
+
+			result[key] = null;
+			return;
+		}
+
+		if (_.isPlainObject(value)) {
+			const subResult = extractFiles(value, path.concat(key));
+			result[key] = subResult.result;
+			subResult.elements.forEach((element) => {
+				elements.push(element);
+			});
+
+			return;
+		}
+
+		result[key] = value;
+	});
+
+	return {
+		result,
+		elements,
+	};
+};
