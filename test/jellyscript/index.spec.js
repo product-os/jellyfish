@@ -68,7 +68,6 @@ ava.test('.evaluate(): should return null if no input', (test) => {
 	})
 
 	test.deepEqual(result, {
-		watchers: [],
 		value: null
 	})
 })
@@ -82,7 +81,6 @@ ava.test('.evaluate(): should resolve a number formula', (test) => {
 	})
 
 	test.deepEqual(result, {
-		watchers: [],
 		value: 4
 	})
 })
@@ -96,7 +94,6 @@ ava.test('.evaluate(): should resolve composite formulas', (test) => {
 	})
 
 	test.deepEqual(result, {
-		watchers: [],
 		value: 8
 	})
 })
@@ -111,7 +108,6 @@ ava.test('.evaluate(): should access other properties from the card', (test) => 
 	})
 
 	test.deepEqual(result, {
-		watchers: [],
 		value: 5
 	})
 })
@@ -143,7 +139,6 @@ ava.test('AGGREGATE: should ignore duplicates', (test) => {
 	})
 
 	test.deepEqual(result, {
-		watchers: [],
 		value: [ 'foo', 'bar', 'baz', 'qux' ]
 	})
 })
@@ -162,7 +157,6 @@ ava.test('AGGREGATE: should aggregate a set of object properties', (test) => {
 	})
 
 	test.deepEqual(result, {
-		watchers: [],
 		value: [ 'foo', 'bar' ]
 	})
 })
@@ -174,7 +168,6 @@ ava.test('REGEX_MATCH: should extract a set of mentions', (test) => {
 	})
 
 	test.deepEqual(result, {
-		watchers: [],
 		value: [ '@johndoe', '@janedoe' ]
 	})
 })
@@ -186,54 +179,7 @@ ava.test('REGEX_MATCH: should consider duplicates', (test) => {
 	})
 
 	test.deepEqual(result, {
-		watchers: [],
 		value: [ '@johndoe', '@janedoe', '@johndoe' ]
-	})
-})
-
-ava.test('AGGREGATE: should generate a watcher if aggregating $events', (test) => {
-	const result = jellyscript.evaluate('AGGREGATE($events, "mentions")', {
-		context: {
-			type: 'thread',
-			links: {},
-			tags: [],
-			active: true,
-			data: {}
-		},
-		input: 'foo'
-	})
-
-	test.deepEqual(result.value, null)
-	test.is(result.watchers.length, 1)
-
-	test.deepEqual(result.watchers[0].target, [ 'data', 'target' ])
-	test.is(result.watchers[0].type, 'AGGREGATE')
-	test.deepEqual(result.watchers[0].arguments, [ 'mentions' ])
-
-	test.deepEqual(result.watchers[0].filter, {
-		type: 'object',
-		required: [ 'data' ],
-		properties: {
-			data: {
-				type: 'object',
-				required: [ 'target', 'payload' ],
-				properties: {
-					payload: {
-						type: 'object'
-					},
-					target: {
-						type: 'object',
-						required: [ 'type' ],
-						properties: {
-							type: {
-								type: 'string',
-								const: 'thread'
-							}
-						}
-					}
-				}
-			}
-		}
 	})
 })
 
@@ -251,10 +197,7 @@ ava.test('.evaluateObject() should evaluate a number formula', async (test) => {
 	})
 
 	test.deepEqual(result, {
-		watchers: [],
-		object: {
-			foo: 9
-		}
+		foo: 9
 	})
 })
 
@@ -272,10 +215,7 @@ ava.test('.evaluateObject() should evaluate a formula in a $ prefixed property',
 	})
 
 	test.deepEqual(result, {
-		watchers: [],
-		object: {
-			$foo: 9
-		}
+		$foo: 9
 	})
 })
 
@@ -293,10 +233,7 @@ ava.test('.evaluateObject() should evaluate a formula in a $$ prefixed property'
 	})
 
 	test.deepEqual(result, {
-		watchers: [],
-		object: {
-			$$foo: 9
-		}
+		$$foo: 9
 	})
 })
 
@@ -314,10 +251,7 @@ ava.test('.evaluateObject() should ignore missing formulas', async (test) => {
 	})
 
 	test.deepEqual(result, {
-		watchers: [],
-		object: {
-			bar: 3
-		}
+		bar: 3
 	})
 })
 
@@ -335,10 +269,7 @@ ava.test('.evaluateObject() should not ignore the zero number as missing', async
 	})
 
 	test.deepEqual(result, {
-		watchers: [],
-		object: {
-			foo: 2
-		}
+		foo: 2
 	})
 })
 
@@ -370,12 +301,9 @@ ava.test('.evaluateObject() should evaluate nested formulas', async (test) => {
 	})
 
 	test.deepEqual(result, {
-		watchers: [],
-		object: {
-			foo: {
-				bar: {
-					baz: 4
-				}
+		foo: {
+			bar: {
+				baz: 4
 			}
 		}
 	})
@@ -405,10 +333,7 @@ ava.test('.evaluateObject() should evaluate a password hash', async (test) => {
 	})
 
 	test.deepEqual(result, {
-		watchers: [],
-		object: {
-			foo: hash.value
-		}
+		foo: hash.value
 	})
 })
 
@@ -429,136 +354,9 @@ ava.test('.evaluateObject() should not do anything if the schema has no formulas
 	})
 
 	test.deepEqual(result, {
-		watchers: [],
-		object: {
-			foo: '1',
-			bar: 2
-		}
+		foo: '1',
+		bar: 2
 	})
-})
-
-ava.test('.evaluateObject() should report back watchers when aggregating events', async (test) => {
-	const result = jellyscript.evaluateObject({
-		type: 'object',
-		properties: {
-			data: {
-				type: 'object',
-				properties: {
-					mentions: {
-						type: 'array',
-						$$formula: 'AGGREGATE($events, "mentions")'
-					}
-				}
-			}
-		}
-	}, {
-		type: 'thread',
-		links: {},
-		tags: [],
-		active: true,
-		data: {
-			mentions: []
-		}
-	})
-
-	test.deepEqual(result.object, {
-		type: 'thread',
-		links: {},
-		tags: [],
-		active: true,
-		data: {
-			mentions: []
-		}
-	})
-
-	test.is(result.watchers.length, 1)
-
-	test.deepEqual(result.watchers[0].filter, {
-		type: 'object',
-		required: [ 'data' ],
-		properties: {
-			data: {
-				type: 'object',
-				required: [ 'target', 'payload' ],
-				properties: {
-					payload: {
-						type: 'object'
-					},
-					target: {
-						type: 'object',
-						required: [ 'type' ],
-						properties: {
-							type: {
-								type: 'string',
-								const: 'thread'
-							}
-						}
-					}
-				}
-			}
-		}
-	})
-
-	test.is(result.watchers[0].type, 'AGGREGATE')
-	test.deepEqual(result.watchers[0].sourceProperty, [ 'data', 'mentions' ])
-	test.deepEqual(result.watchers[0].target, [ 'data', 'target' ])
-	test.deepEqual(result.watchers[0].arguments, [ 'mentions' ])
-})
-
-ava.test('.evaluateObject() should report back watchers when aggregating events if the array is missing', async (test) => {
-	const result = jellyscript.evaluateObject({
-		type: 'object',
-		properties: {
-			data: {
-				type: 'object',
-				properties: {
-					mentions: {
-						type: 'array',
-						$$formula: 'AGGREGATE($events, "mentions")'
-					}
-				}
-			}
-		}
-	}, {
-		type: 'thread',
-		links: {},
-		tags: [],
-		active: true,
-		data: {}
-	})
-
-	test.is(result.watchers.length, 1)
-
-	test.deepEqual(result.watchers[0].filter, {
-		type: 'object',
-		required: [ 'data' ],
-		properties: {
-			data: {
-				type: 'object',
-				required: [ 'target', 'payload' ],
-				properties: {
-					payload: {
-						type: 'object'
-					},
-					target: {
-						type: 'object',
-						required: [ 'type' ],
-						properties: {
-							type: {
-								type: 'string',
-								const: 'thread'
-							}
-						}
-					}
-				}
-			}
-		}
-	})
-
-	test.is(result.watchers[0].type, 'AGGREGATE')
-	test.deepEqual(result.watchers[0].sourceProperty, [ 'data', 'mentions' ])
-	test.deepEqual(result.watchers[0].target, [ 'data', 'target' ])
-	test.deepEqual(result.watchers[0].arguments, [ 'mentions' ])
 })
 
 ava.test('.getTypeTriggers() should report back watchers when aggregating events', async (test) => {
