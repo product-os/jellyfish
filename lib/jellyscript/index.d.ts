@@ -5,5 +5,4 @@ interface EvaluateOptions {
 
 export declare function evaluate(expression: string, options: EvaluateOptions): {
 	value: any;
-	watchers: Array<{ [k: string]: any }>;
 };

@@ -518,6 +518,38 @@ ava.test('.query() should not return unspecified properties', async (test) => {
 	])
 })
 
+ava.test('.query() should be able to provide a sort function', async (test) => {
+	const result1 = await test.context.backend.upsertElement({
+		type: 'card',
+		test: 3
+	})
+
+	const result2 = await test.context.backend.upsertElement({
+		type: 'card',
+		test: 1
+	})
+
+	const result3 = await test.context.backend.upsertElement({
+		type: 'card',
+		test: 2
+	})
+
+	const results = await test.context.backend.query({
+		type: 'object',
+		$$sort: 'input.a.test > input.b.test',
+		additionalProperties: true,
+		properties: {
+			type: {
+				type: 'string',
+				const: 'card'
+			}
+		},
+		required: [ 'type' ]
+	})
+
+	test.deepEqual(results, [ result1, result3, result2 ])
+})
+
 ava.test('.query() should be able to limit the results', async (test) => {
 	const result1 = await test.context.backend.upsertElement({
 		type: 'card',
