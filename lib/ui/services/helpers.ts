@@ -254,3 +254,15 @@ export const hashCode = (input: string) => {
 	}
 	return hash;
 };
+
+export const getObjectValues = (input: any): any[] => {
+	if (_.isPlainObject(input)) {
+		const result = _.map(input, (value) => {
+			return getObjectValues(value);
+		});
+
+		return _.filter(_.flatten(result), _.isString);
+	} else {
+		return input;
+	}
+};

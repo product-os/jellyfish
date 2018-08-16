@@ -12,6 +12,7 @@ import {
 	FiltersView,
 	Flex,
 	SchemaSieve,
+	Search,
 	Select,
 } from 'rendition';
 import { Card, Channel, Lens, RendererProps, Type } from '../../Types';
@@ -23,6 +24,7 @@ import { sdk } from '../core/sdk';
 import { actionCreators, selectors, StoreState } from '../core/store';
 import {
 	createChannel,
+	getObjectValues,
 	getTypeFromViewCard,
 } from '../services/helpers';
 import LensService from './index';
@@ -32,6 +34,7 @@ interface ViewRendererState {
 	lenses: Lens[];
 	ready: boolean;
 	tailType: Type | null;
+	searchTerm: string;
 }
 
 interface ViewRendererProps extends RendererProps {
@@ -54,6 +57,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 			lenses: [],
 			ready: false,
 			tailType: null,
+			searchTerm: '',
 		};
 	}
 
@@ -95,6 +99,12 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 			// mark as ready
 			ready: true,
 		});
+	}
+
+	public setSearchTerm = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const searchTerm = e.target.value;
+
+		this.setState({ searchTerm });
 	}
 
 	public getGroups() {
@@ -238,7 +248,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 			);
 		}
 		const { tail, subscription } = this.props;
-		const { tailType, lenses } = this.state;
+		const { tailType, lenses, searchTerm } = this.state;
 		const useFilters = !!tailType && tailType.slug !== 'view';
 		const activeLens = _.find(lenses, { slug: _.get(subscription, 'data.activeLens') }) || lenses[0];
 		const channelIndex = _.findIndex(this.props.channels, { id: this.props.channel.id });
@@ -246,6 +256,11 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 		const groups = this.getGroups();
 		const lensSupportsGroups = !!activeLens && !!activeLens.data.supportsGroups;
 
+		// TODO: Replace in memory search with a server side solution
+		const filteredTail = tail && searchTerm.length ? tail.filter((card) => {
+			const values = getObjectValues(card);
+			return _.some(values, (value) => value.indexOf(searchTerm) > -1);
+		}) : tail;
 
 		return (
 			<Flex
@@ -268,10 +283,15 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 											addFilterButtonProps={{
 												style: { flex: '0 0 137px' },
 											}}
-											renderMode={['add', 'search']}
+											renderMode={['add']}
 										/>
 									</Box>
+
 								</If>
+							</Box>
+
+							<Box flex="1">
+								<Search value={searchTerm} onChange={this.setSearchTerm} />
 							</Box>
 
 							<Flex mx={3}>
@@ -342,16 +362,16 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 							minWidth: 0,
 						}}
 					>
-						<If condition={!tail}>
+						<If condition={!filteredTail}>
 							<Box p={3}>
 								<Icon name="cog fa-spin" />
 							</Box>
 						</If>
 
-						{!!tail && !!activeLens &&
+						{!!filteredTail && !!activeLens &&
 							<activeLens.data.renderer
 								channel={this.props.channel}
-								tail={tail}
+								tail={filteredTail}
 								type={tailType}
 								subscription={subscription}
 							/>
