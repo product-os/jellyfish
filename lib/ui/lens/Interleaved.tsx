@@ -14,6 +14,7 @@ import {
 import styled from 'styled-components';
 import { Card, Lens, RendererProps } from '../../Types';
 import EventCard from '../components/Event';
+import Icon from '../components/Icon';
 import { TailStreamer } from '../components/TailStreamer';
 import { sdk } from '../core';
 import { actionCreators, selectors, StoreState } from '../core/store';
@@ -36,6 +37,7 @@ const isHiddenEventType = (type: string) => {
 };
 
 interface InterleavedState {
+	creatingCard: boolean;
 	tail: null | Card[];
 	newMessage: string;
 	showNewCardModal: boolean;
@@ -57,6 +59,7 @@ export class Interleaved extends TailStreamer<InterleavedProps, InterleavedState
 		super(props);
 
 		this.state = {
+			creatingCard: false,
 			tail: null,
 			newMessage: '',
 			showNewCardModal: false,
@@ -172,13 +175,18 @@ export class Interleaved extends TailStreamer<InterleavedProps, InterleavedState
 			cardData.data = {};
 		}
 
-		return sdk.card.create(cardData as Card)
+		this.setState({ creatingCard: true });
+
+		sdk.card.create(cardData as Card)
 			.then((thread) => {
 				this.openChannel(thread.id, thread);
 				return null;
 			})
 			.catch((error) => {
 				this.props.actions.addNotification('danger', error.message);
+			})
+			.finally(() => {
+				this.setState({ creatingCard: false });
 			});
 	}
 
@@ -248,8 +256,14 @@ export class Interleaved extends TailStreamer<InterleavedProps, InterleavedState
 						style={{borderTop: '1px solid #eee'}}
 						justify="flex-end"
 					>
-						<Button className="btn--add-thread" success={true} onClick={this.addThread}>
-							Add a Chat Thread
+						<Button
+							className="btn--add-thread"
+							success={true}
+							onClick={this.addThread}
+							disabled={this.state.creatingCard}
+						>
+							{this.state.creatingCard && <Icon name="cog fa-spin" />}
+							{!this.state.creatingCard && 'Add a Chat Thread'}
 						</Button>
 					</Flex>
 				}
