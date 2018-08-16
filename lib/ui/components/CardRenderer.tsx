@@ -194,11 +194,13 @@ class Base extends React.Component<CardProps, {}> {
 						{!inView && (card.name || card.slug || card.type)}
 					</Heading.h4>
 
-					<CardActions
-						card={card}
-						delete={this.delete}
-						refresh={this.refresh}
-					/>
+					{!inView &&
+						<CardActions
+							card={card}
+							delete={this.delete}
+							refresh={this.refresh}
+						/>
+					}
 				</Flex>
 
 				{!!card.tags && card.tags.length > 0 &&
