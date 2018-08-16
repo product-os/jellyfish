@@ -20,7 +20,8 @@ interface CardCreatorState {
 interface CardCreatorProps {
 	seed: {[key: string]: any };
 	show: boolean;
-	done: () => void;
+	done: (card?: Card | null) => void;
+	onCreate?: () => void;
 	type: Type;
 	actions: typeof actionCreators;
 }
@@ -44,16 +45,22 @@ class Base extends React.Component<CardCreatorProps, CardCreatorState> {
 			...this.state.newCardModel,
 		};
 
+		if (this.props.onCreate) {
+			this.props.onCreate();
+		}
+
 		sdk.card.create(newCard as Card)
-		.catch((error) => {
-			this.props.actions.addNotification('danger', error.message);
-		});
+			.catch((error) => {
+				this.props.done(null);
+				this.props.actions.addNotification('danger', error.message);
+			})
+			.then((card) => {
+					this.props.done(card || null);
+			});
 
 		this.setState({
 			newCardModel: this.props.seed,
 		});
-
-		this.props.done();
 	}
 
 	public handleFormChange = (data: any) => {
