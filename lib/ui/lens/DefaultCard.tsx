@@ -1,5 +1,7 @@
+import { circularDeepEqual } from 'fast-equals';
 import * as React from 'react';
 import { connect } from 'react-redux';
+import ResizeObserver from 'react-resize-observer';
 import {
 	AutoSizer,
 	CellMeasurer,
@@ -50,6 +52,17 @@ class CardList extends React.Component<CardListProps, CardListState> {
 			defaultHeight: 300,
 			fixedWidth: true,
 		});
+	}
+
+	public componentDidUpdate({ tail }: CardListProps) {
+		// If tail data has changed, clear the cell cache
+		if (!circularDeepEqual(this.props.tail, tail)) {
+			this.clearCellCache();
+		}
+	}
+
+	public clearCellCache = () => {
+		this._cache.clearAll();
 	}
 
 	public openChannel(card: Card) {
@@ -119,7 +132,8 @@ class CardList extends React.Component<CardListProps, CardListState> {
 
 		return (
 			<Column flexDirection="column">
-				<Box flex="1">
+				<Box flex="1" style={{ position: 'relative' }}>
+					<ResizeObserver onResize={this.clearCellCache} />
 					{!!tail &&
 						<AutoSizer>
 							{({ width, height }) => (
@@ -130,6 +144,7 @@ class CardList extends React.Component<CardListProps, CardListState> {
 									rowHeight={this._cache.rowHeight}
 									rowRenderer={this.rowRenderer}
 									rowCount={tail.length}
+									onResize={this.clearCellCache}
 									overscanRowCount={3}
 								/>
 							)}
