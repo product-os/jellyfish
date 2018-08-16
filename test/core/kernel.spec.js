@@ -527,6 +527,53 @@ ava.test('.query() should be able to limit the results', async (test) => {
 	test.deepEqual(_.sortBy(results, [ 'data', 'test' ]), [ result1, result2 ])
 })
 
+ava.test('.query() should be able to sort the results', async (test) => {
+	const result1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			test: 2
+		}
+	})
+
+	const result2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			test: 3
+		}
+	})
+
+	const result3 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			test: 1
+		}
+	})
+
+	const results = await test.context.kernel.query(test.context.kernel.sessions.admin, {
+		type: 'object',
+		$$sort: 'input.a.data.test < input.b.data.test',
+		additionalProperties: true,
+		properties: {
+			type: {
+				type: 'string',
+				const: 'card'
+			}
+		},
+		required: [ 'type' ]
+	})
+
+	test.deepEqual(results, [ result3, result1, result2 ])
+})
+
 ava.test('.query() should be able to skip the results', async (test) => {
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
