@@ -20,6 +20,7 @@ import styled from 'styled-components';
 import { Card, Lens, RendererProps, Type } from '../../Types';
 import { CardCreator } from '../components/CardCreator';
 import { CardRenderer } from '../components/CardRenderer';
+import Icon from '../components/Icon';
 import { actionCreators } from '../core/store';
 import { createChannel, getUpdateObjectFromSchema, getViewSchema } from '../services/helpers';
 
@@ -31,6 +32,7 @@ const Column = styled(Flex)`
 
 interface CardListState {
 	showNewCardModal: boolean;
+	creatingCard: boolean;
 }
 
 interface CardListProps extends RendererProps {
@@ -45,6 +47,7 @@ class CardList extends React.Component<CardListProps, CardListState> {
 		super(props);
 
 		this.state = {
+			creatingCard: false,
 			showNewCardModal: false,
 		};
 
@@ -79,6 +82,18 @@ class CardList extends React.Component<CardListProps, CardListState> {
 
 	public hideNewCardModal = () => {
 		this.setState({ showNewCardModal: false });
+	}
+
+	public startCreatingCard = () => {
+		this.hideNewCardModal();
+		this.setState({ creatingCard: true });
+	}
+
+	public doneCreatingCard = (card: Card | null) => {
+		if (card) {
+			this.openChannel(card);
+		}
+		this.setState({ creatingCard: false });
 	}
 
 	public getSeedData() {
@@ -159,8 +174,15 @@ class CardList extends React.Component<CardListProps, CardListState> {
 							style={{borderTop: '1px solid #eee'}}
 							justify="flex-end"
 						>
-							<Button success={true} onClick={this.showNewCardModal}>
-								Add a {this.props.type.name || this.props.type.slug}
+							<Button
+								success={true}
+								onClick={this.showNewCardModal}
+								disabled={this.state.creatingCard}
+							>
+								{this.state.creatingCard && <Icon name="cog fa-spin" />}
+								{!this.state.creatingCard &&
+									<span>Add a {this.props.type.name || this.props.type.slug}</span>
+								}
 							</Button>
 						</Flex>
 
@@ -168,7 +190,9 @@ class CardList extends React.Component<CardListProps, CardListState> {
 							seed={this.getSeedData()}
 							show={this.state.showNewCardModal}
 							type={this.props.type}
-							done={this.hideNewCardModal}
+							onCreate={this.startCreatingCard}
+							done={this.doneCreatingCard}
+
 						/>
 					</React.Fragment>
 				}

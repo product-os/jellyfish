@@ -8,13 +8,15 @@ import {
 	Button,
 	Flex,
 } from 'rendition';
-import { Lens, RendererProps, Type } from '../../Types';
+import { Card, Lens, RendererProps, Type } from '../../Types';
 import { CardCreator } from '../components/CardCreator';
+import Icon from '../components/Icon';
 import { actionCreators } from '../core/store';
 import { createChannel, getUpdateObjectFromSchema, getViewSchema } from '../services/helpers';
 
 interface DefaultListState {
 	showNewCardModal: boolean;
+	creatingCard: boolean;
 }
 
 interface DefaultListProps extends RendererProps {
@@ -28,6 +30,7 @@ class DefaultList extends React.Component<DefaultListProps, DefaultListState> {
 
 		this.state = {
 			showNewCardModal: false,
+			creatingCard: false,
 		};
 	}
 
@@ -35,12 +38,16 @@ class DefaultList extends React.Component<DefaultListProps, DefaultListState> {
 		return !circularDeepEqual(nextState, this.state) || !circularDeepEqual(nextProps, this.props);
 	}
 
-	public openChannel = (e: React.MouseEvent<HTMLAnchorElement>) => {
+	public handleOpenChannel = (e: React.MouseEvent<HTMLAnchorElement>) => {
 		const id = e.currentTarget.dataset.id;
 		const card = _.find(this.props.tail, { id });
 		if (!card) {
 			return;
 		}
+		this.openChannel(card);
+	}
+
+	public openChannel(card: Card) {
 		this.props.actions.addChannel(createChannel({
 			target: card.id,
 			head: card,
@@ -54,6 +61,18 @@ class DefaultList extends React.Component<DefaultListProps, DefaultListState> {
 
 	public hideNewCardModal = () => {
 		this.setState({ showNewCardModal: false });
+	}
+
+	public startCreatingCard = () => {
+		this.hideNewCardModal();
+		this.setState({ creatingCard: true });
+	}
+
+	public doneCreatingCard = (card: Card | null) => {
+		if (card) {
+			this.openChannel(card);
+		}
+		this.setState({ creatingCard: false });
 	}
 
 	public getSeedData() {
@@ -96,7 +115,7 @@ class DefaultList extends React.Component<DefaultListProps, DefaultListState> {
 							<Box key={card.id} mb={3}>
 								<a
 									data-id={card.id}
-									onClick={this.openChannel}
+									onClick={this.handleOpenChannel}
 									className={`list-item--${card.slug || card.id}`}
 									href={`#${head!.id}/${card.id}`}
 								>
@@ -114,8 +133,15 @@ class DefaultList extends React.Component<DefaultListProps, DefaultListState> {
 							style={{borderTop: '1px solid #eee'}}
 							justify="flex-end"
 						>
-							<Button success={true} onClick={this.showNewCardModal}>
-								Add {typeName}
+							<Button
+								success={true}
+								onClick={this.showNewCardModal}
+								disabled={this.state.creatingCard}
+							>
+								{this.state.creatingCard && <Icon name="cog fa-spin" />}
+								{!this.state.creatingCard &&
+									<span>Add a {typeName}</span>
+								}
 							</Button>
 						</Flex>
 
@@ -123,7 +149,8 @@ class DefaultList extends React.Component<DefaultListProps, DefaultListState> {
 							seed={this.getSeedData()}
 							show={this.state.showNewCardModal}
 							type={type}
-							done={this.hideNewCardModal}
+							onCreate={this.startCreatingCard}
+							done={this.doneCreatingCard}
 						/>
 					</React.Fragment>
 				}
