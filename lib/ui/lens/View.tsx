@@ -257,9 +257,10 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 		const lensSupportsGroups = !!activeLens && !!activeLens.data.supportsGroups;
 
 		// TODO: Replace in memory search with a server side solution
-		const filteredTail = tail && searchTerm.length ? tail.filter((card) => {
+		const term = searchTerm.toLowerCase();
+		const filteredTail = tail && term.length ? tail.filter((card) => {
 			const values = getObjectValues(card);
-			return _.some(values, (value) => value.indexOf(searchTerm) > -1);
+			return _.some(values, (value) => value.toLowerCase().indexOf(term) > -1);
 		}) : tail;
 
 		return (
