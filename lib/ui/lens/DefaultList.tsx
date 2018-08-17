@@ -75,6 +75,11 @@ class DefaultList extends React.Component<DefaultListProps, DefaultListState> {
 		this.setState({ creatingCard: false });
 	}
 
+	public cancelCreatingCard = () => {
+		this.hideNewCardModal();
+		this.setState({ creatingCard: false });
+	}
+
 	public getSeedData() {
 		const { head } = this.props.channel.data;
 
@@ -151,6 +156,7 @@ class DefaultList extends React.Component<DefaultListProps, DefaultListState> {
 							type={type}
 							onCreate={this.startCreatingCard}
 							done={this.doneCreatingCard}
+							cancel={this.cancelCreatingCard}
 						/>
 					</React.Fragment>
 				}
