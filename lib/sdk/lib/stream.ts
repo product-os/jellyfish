@@ -55,7 +55,9 @@ export class JellyfishStream extends EventEmitter {
 
 			this.socket.emit('query', {
 				token,
-				data: { query },
+				data: {
+					query: _.omit(query, '$id'),
+				},
 				id: this.id,
 			});
 
