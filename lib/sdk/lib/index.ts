@@ -342,7 +342,7 @@ export class JellyfishSDK implements SDKInterface {
 	 */
 	public query <T extends Card>(schema: JSONSchema6): Bluebird<T[]> {
 		const start = Date.now();
-		return this.post('query', _.isString(schema) ? { query: schema } : schema)
+		return this.post('query', _.isString(schema) ? { query: schema } : _.omit(schema, '$id'))
 			.then(response => response ? response.data.data : [])
 			.tap(() => {
 				utils.debug(`Query complete in ${Date.now() - start}ms`, schema);
