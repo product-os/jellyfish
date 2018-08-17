@@ -81,7 +81,10 @@
               "type": "boolean"
             },
             "Keywords": {
-              "type": "string"
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             },
             "Entry needs review": {
               "type": "boolean"

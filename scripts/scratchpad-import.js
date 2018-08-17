@@ -82,6 +82,10 @@ const entries = _.map(source.Scratchpad, ({
 		delete data.$PENSIEVE_IMPORTED_COPY_FIELD_KEY1
 	}
 
+	if (data.Keywords) {
+		data.Keywords = data.Keywords.split(' ')
+	}
+
 	return {
 		type: 'scratchpad-entry',
 		name: Title || 'No name set',
