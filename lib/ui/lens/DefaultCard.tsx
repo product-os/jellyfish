@@ -57,7 +57,7 @@ class CardList extends React.Component<CardListProps, CardListState> {
 		});
 	}
 
-	public componentDidUpdate({ tail }: CardListProps) {
+	public componentWillUpdate({ tail }: CardListProps) {
 		// If tail data has changed, clear the cell cache
 		if (!circularDeepEqual(this.props.tail, tail)) {
 			this.clearCellCache();
