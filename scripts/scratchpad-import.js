@@ -100,8 +100,8 @@ spinner.start()
 let count = 0
 
 sdk.auth.login({
-	username: 'lucian',
-	password: 'password'
+	username: USERNAME,
+	password: PASSWORD
 })
 	.then(() => {
 		return Bluebird.map(entries, (entry) => {
