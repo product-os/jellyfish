@@ -20,7 +20,8 @@ interface CardCreatorState {
 interface CardCreatorProps {
 	seed: {[key: string]: any };
 	show: boolean;
-	done: (card?: Card | null) => void;
+	done: (card: Card | null) => void;
+	cancel: () => void;
 	onCreate?: () => void;
 	type: Type;
 	actions: typeof actionCreators;
@@ -112,7 +113,7 @@ class Base extends React.Component<CardCreatorProps, CardCreatorState> {
 		return (
 			<Modal
 				title={`Add ${this.props.type.name}`}
-				cancel={this.props.done}
+				cancel={this.props.cancel}
 				done={this.addEntry}
 			>
 				<Form

@@ -96,6 +96,11 @@ class CardList extends React.Component<CardListProps, CardListState> {
 		this.setState({ creatingCard: false });
 	}
 
+	public cancelCreatingCard = () => {
+		this.hideNewCardModal();
+		this.setState({ creatingCard: false });
+	}
+
 	public getSeedData() {
 		const { head } = this.props.channel.data;
 
@@ -192,7 +197,7 @@ class CardList extends React.Component<CardListProps, CardListState> {
 							type={this.props.type}
 							onCreate={this.startCreatingCard}
 							done={this.doneCreatingCard}
-
+							cancel={this.cancelCreatingCard}
 						/>
 					</React.Fragment>
 				}

@@ -108,6 +108,7 @@ class CustomLaneHeader extends React.Component<CustomLaneHeaderProps, CustomLane
 interface KanbanState {
 	modalChannel: null | Channel;
 	showNewCardModal: boolean;
+	creatingCard: boolean;
 }
 
 interface KanbanProps extends RendererProps {
@@ -121,6 +122,7 @@ class Kanban extends React.Component<KanbanProps, KanbanState> {
 		super(props);
 
 		this.state = {
+			creatingCard: false,
 			modalChannel: null,
 			showNewCardModal: false,
 		};
@@ -267,6 +269,31 @@ class Kanban extends React.Component<KanbanProps, KanbanState> {
 		this.setState({ modalChannel: null });
 	}
 
+	public startCreatingCard = () => {
+		this.setState({ showNewCardModal: false });
+		this.setState({ creatingCard: true });
+	}
+
+	public doneCreatingCard = (card: Card | null) => {
+		if (card) {
+			this.setState({
+				modalChannel: createChannel({
+					target: card.id,
+					head: card,
+				}),
+			});
+		}
+		this.setState({ creatingCard: false });
+	}
+
+	public cancelCreatingCard = () => {
+		this.setState({
+			showNewCardModal: false,
+			creatingCard: false,
+		});
+	}
+
+
 	public render() {
 		const data = {
 			lanes: this.getLanes(),
@@ -312,15 +339,21 @@ class Kanban extends React.Component<KanbanProps, KanbanState> {
 								bottom: 0,
 								right: 0,
 							}}
+							disabled={this.state.creatingCard}
 						>
-							Add {typeName}
+							{this.state.creatingCard && <Icon name="cog fa-spin" />}
+							{!this.state.creatingCard &&
+								<span>Add a {typeName}</span>
+							}
 						</Button>
 
 						<CardCreator
 							seed={this.getSeedData()}
 							show={this.state.showNewCardModal}
 							type={type}
-							done={this.toggleNewCardModal}
+							onCreate={this.startCreatingCard}
+							done={this.doneCreatingCard}
+							cancel={this.toggleNewCardModal}
 						/>
 					</React.Fragment>
 				}
