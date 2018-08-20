@@ -331,7 +331,10 @@
               "type": "object",
               "properties": {
                 "actor": {
-                  "$eval": "user.id"
+                  "type": "string",
+                  "const": {
+                    "$eval": "user.id"
+                  }
                 }
               },
               "required": [ "actor" ],
@@ -404,7 +407,10 @@
               "type": "object",
               "properties": {
                 "actor": {
-                  "$eval": "user.id"
+                  "type": "string",
+                  "const": {
+                    "$eval": "user.id"
+                  }
                 }
               },
               "additionalProperties": true,

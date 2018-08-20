@@ -416,7 +416,6 @@ export class JellyfishSDK implements SDKInterface {
 		// payload so that it gets sent as form data
 		if (body.arguments.properties) {
 			const extraction = utils.extractFiles(body.arguments.properties);
-			console.log(extraction);
 			// If file elements were found, change the payload to form data
 			if (extraction.elements.length) {
 				const formData = new FormData();
