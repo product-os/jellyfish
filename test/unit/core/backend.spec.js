@@ -849,6 +849,225 @@ ava.test('.query() should be able to limit and skip the results', async (test) =
 	test.deepEqual(_.sortBy(results, [ 'test' ]), [ result2 ])
 })
 
+ava.test('.query() should be able to query using links', async (test) => {
+	const thread1 = await test.context.backend.upsertElement({
+		type: 'thread',
+		data: {}
+	})
+
+	const thread2 = await test.context.backend.upsertElement({
+		type: 'thread',
+		data: {}
+	})
+
+	await test.context.backend.upsertElement({
+		type: 'thread',
+		data: {}
+	})
+
+	await test.context.backend.upsertElement({
+		type: 'message',
+		data: {
+			payload: 'foo',
+			target: thread1.id,
+			count: 1
+		}
+	})
+
+	await test.context.backend.upsertElement({
+		type: 'message',
+		data: {
+			payload: 'bar',
+			target: thread1.id,
+			count: 2
+		}
+	})
+
+	await test.context.backend.upsertElement({
+		type: 'message',
+		data: {
+			payload: 'baz',
+			target: thread2.id,
+			count: 3
+		}
+	})
+
+	const results = await test.context.backend.query({
+		type: 'object',
+		required: [ 'type', 'links', 'data' ],
+		$$sort: 'input.a.data.count < input.b.data.count',
+		$$links: {
+			'is attached to': {
+				type: 'object',
+				required: [ 'id', 'type' ],
+				properties: {
+					id: {
+						type: 'string'
+					},
+					type: {
+						type: 'string',
+						const: 'thread'
+					}
+				}
+			}
+		},
+		properties: {
+			type: {
+				type: 'string',
+				const: 'message'
+			},
+			links: {
+				type: 'object',
+				additionalProperties: true
+			},
+			data: {
+				type: 'object',
+				required: [ 'count', 'payload' ],
+				properties: {
+					count: {
+						type: 'number'
+					},
+					payload: {
+						type: 'string'
+					}
+				}
+			}
+		}
+	})
+
+	test.deepEqual(results, [
+		{
+			type: 'message',
+			links: {
+				'is attached to': [
+					{
+						id: thread1.id,
+						type: 'thread'
+					}
+				]
+			},
+			data: {
+				count: 1,
+				payload: 'foo'
+			}
+		},
+		{
+			type: 'message',
+			links: {
+				'is attached to': [
+					{
+						id: thread1.id,
+						type: 'thread'
+					}
+				]
+			},
+			data: {
+				count: 2,
+				payload: 'bar'
+			}
+		},
+		{
+			type: 'message',
+			links: {
+				'is attached to': [
+					{
+						id: thread2.id,
+						type: 'thread'
+					}
+				]
+			},
+			data: {
+				count: 3,
+				payload: 'baz'
+			}
+		}
+	])
+})
+
+ava.test('.query() should omit a result if a link does not match', async (test) => {
+	const thread = await test.context.backend.upsertElement({
+		type: 'thread',
+		data: {}
+	})
+
+	const foo = await test.context.backend.upsertElement({
+		type: 'foo',
+		data: {}
+	})
+
+	await test.context.backend.upsertElement({
+		type: 'message',
+		data: {
+			payload: 'foo',
+			target: thread.id
+		}
+	})
+
+	await test.context.backend.upsertElement({
+		type: 'message',
+		data: {
+			payload: 'bar',
+			target: foo.id
+		}
+	})
+
+	const results = await test.context.backend.query({
+		type: 'object',
+		required: [ 'type', 'links', 'data' ],
+		$$links: {
+			'is attached to': {
+				type: 'object',
+				required: [ 'id', 'type' ],
+				properties: {
+					id: {
+						type: 'string'
+					},
+					type: {
+						type: 'string',
+						const: 'thread'
+					}
+				}
+			}
+		},
+		properties: {
+			type: {
+				type: 'string',
+				const: 'message'
+			},
+			links: {
+				type: 'object',
+				additionalProperties: true
+			},
+			data: {
+				type: 'object',
+				required: [ 'payload' ],
+				properties: {
+					payload: {
+						type: 'string'
+					}
+				}
+			}
+		}
+	})
+
+	test.deepEqual(results, [
+		{
+			type: 'message',
+			links: {
+				'is attached to': [
+					{
+						id: thread.id,
+						type: 'thread'
+					}
+				]
+			},
+			data: {
+				payload: 'foo'
+			}
+		}
+	])
+})
+
 ava.test.cb('.stream() should report back new elements that match a certain type', (test) => {
 	test.context.backend.stream({
 		type: 'object',

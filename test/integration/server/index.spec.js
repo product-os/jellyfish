@@ -656,3 +656,165 @@ ava.test.serial('should add and evaluate a time triggered action', async (test) 
 	const results = await waitUntilResults(3)
 	test.true(results.length >= 3)
 })
+
+ava.test.serial('should be able to resolve links', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const user = await test.context.sdk.auth.signup({
+		username: 'johndoe',
+		email: 'johndoe@example.com',
+		password: 'foobarbaz'
+	})
+
+	await test.context.sdk.auth.login({
+		username: 'johndoe',
+		password: 'foobarbaz'
+	})
+
+	const thread = await sdk.card.create({
+		type: 'thread',
+		data: {}
+	})
+
+	const message = await sdk.card.create({
+		type: 'message',
+		data: {
+			timestamp: '2018-05-05T00:21:02.459Z',
+			target: thread.id,
+			actor: user.id,
+			payload: {
+				message: 'lorem ipsum dolor sit amet',
+				mentionsUser: []
+			}
+		}
+	})
+
+	const results = await sdk.query({
+		$$links: {
+			'is attached to': {
+				type: 'object',
+				required: [ 'id', 'type' ],
+				properties: {
+					id: {
+						type: 'string'
+					},
+					type: {
+						type: 'string',
+						const: 'thread'
+					}
+				}
+			}
+		},
+		type: 'object',
+		required: [ 'type', 'links' ],
+		properties: {
+			type: {
+				type: 'string',
+				const: 'message'
+			},
+			links: {
+				type: 'object',
+				additionalProperties: true
+			}
+		}
+	})
+
+	test.deepEqual(results, [
+		{
+			id: message.id,
+			type: 'message',
+			active: true,
+			tags: [],
+			links: {
+				'is attached to': [
+					{
+						id: thread.id,
+						type: 'thread'
+					}
+				]
+			},
+			data: message.data
+		}
+	])
+})
+
+ava.test.serial('should apply permissions on resolved links', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	await test.context.sdk.auth.signup({
+		username: 'johndoe',
+		email: 'johndoe@example.com',
+		password: 'foobarbaz'
+	})
+
+	const targetUser = await test.context.sdk.auth.signup({
+		username: 'janedoe',
+		email: 'janedoe@example.com',
+		password: 'secret'
+	})
+
+	await test.context.sdk.auth.login({
+		username: 'johndoe',
+		password: 'foobarbaz'
+	})
+
+	const thread = await sdk.card.create({
+		type: 'thread',
+		data: {
+			target: targetUser.id
+		}
+	})
+
+	const results = await sdk.query({
+		$$links: {
+			'is attached to': {
+				type: 'object',
+				additionalProperties: true,
+				required: [ 'type' ],
+				properties: {
+					type: {
+						type: 'string',
+						const: 'user'
+					}
+				}
+			}
+		},
+		type: 'object',
+		required: [ 'type', 'links', 'data' ],
+		properties: {
+			type: {
+				type: 'string',
+				const: 'thread'
+			},
+			links: {
+				type: 'object',
+				additionalProperties: true
+			},
+			data: {
+				type: 'object',
+				additionalProperties: true
+			}
+		}
+	})
+
+	test.deepEqual(results, [
+		{
+			id: thread.id,
+			type: 'thread',
+			active: true,
+			tags: [],
+			links: {
+				'is attached to': [
+					Object.assign({}, targetUser, {
+						data: _.omit(targetUser.data, [ 'password', 'roles' ])
+					})
+				]
+			},
+			data: thread.data
+		}
+	])
+})
