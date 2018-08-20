@@ -12,6 +12,7 @@
   "scripts": {
     "start": "DEBUG=jellyfish:* node lib/index.js",
     "start:profiler": "DEBUG=jellyfish:* node profiler.js",
+    "start:inspector": "ndb npm run start",
     "test": "npm run lint && npm run test:command",
     "test:command": "TEST_DB_HOST=localhost TEST_PROXY_PORT=9999 TEST_DB_PORT=28015 API_URL='http://localhost:8000' NODE_ENV=test nyc --reporter=lcov ava",
     "test:e2e": "ava e2e",
@@ -125,6 +126,7 @@
     "mkdirp-promise": "^5.0.1",
     "moment": "^2.22.1",
     "multer": "^1.3.1",
+    "ndb": "^1.0.23",
     "object-hash": "^1.3.0",
     "raven": "^2.6.3",
     "raven-js": "^3.26.4",
