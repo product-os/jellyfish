@@ -98,7 +98,7 @@ export const formatTimestamp = _.memoize((stamp: string): string => {
 		return momentDate.format('k:mm');
 	}
 
-	return momentDate.format('ddd Do, YYYY k:mm');
+	return momentDate.format('MMM Do, YYYY k:mm');
 });
 
 export const findUsernameById = (users: Card[], id: string) => {
