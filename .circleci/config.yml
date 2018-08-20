@@ -24,12 +24,12 @@ jobs:
 
       - run: apt-get update && apt-get install -y git
 
-      # Because `node_modules` gets cached, any changes to the SDK will be
-      # ignored, as the package already exists there and npm lifecycle events
-      # won't be triggered on it
-      # Remove the local sdk package, so it will be forcibly rebuilt by the
-      # postinstall script
-      - run: rm -rf node_modules/@resin.io/jellyfish-sdk
+      # Because `node_modules` gets cached, any changes to internal modules
+      # will be ignored, as the package already exists there and npm lifecycle
+      # events won't be triggered on it
+      # Remove the local resin.io packages, so they will be forcibly rebuilt by
+      # the postinstall script
+      - run: rm -rf node_modules/@resin.io
 
       - run: npm install
 
