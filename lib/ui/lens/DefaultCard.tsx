@@ -15,6 +15,7 @@ import {
 	Button,
 	Divider,
 	Flex,
+	Txt,
 } from 'rendition';
 import styled from 'styled-components';
 import { Card, Lens, RendererProps, Type } from '../../Types';
@@ -154,7 +155,7 @@ class CardList extends React.Component<CardListProps, CardListState> {
 			<Column flexDirection="column">
 				<Box flex="1" style={{ position: 'relative' }}>
 					<ResizeObserver onResize={this.clearCellCache} />
-					{!!tail &&
+					{!!tail && tail.length > 1 &&
 						<AutoSizer>
 							{({ width, height }) => (
 								<List
@@ -169,6 +170,10 @@ class CardList extends React.Component<CardListProps, CardListState> {
 								/>
 							)}
 						</AutoSizer>
+					}
+
+					{!!tail && tail.length === 0 &&
+							<Txt.p p={3}>No results found</Txt.p>
 					}
 				</Box>
 
