@@ -52,6 +52,8 @@ exports.beforeEach = async (test) => {
 		require('../../default-cards/contrib/action-create-session.json'))
 	await test.context.jellyfish.insertCard(test.context.session,
 		require('../../default-cards/contrib/action-update-card.json'))
+	await test.context.jellyfish.insertCard(test.context.session,
+		require('../../default-cards/contrib/action-delete-card.json'))
 }
 
 exports.afterEach = async (test) => {
