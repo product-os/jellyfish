@@ -44,6 +44,9 @@ Running in testing mode
 Run the `rethinkdb` binary on a separate terminal, and then run `npm start`
 without any special environment variables.
 
+For help in debugging, you can use the command `npm start:inspector` to launch
+an [`ndb`](https://github.com/GoogleChromeLabs/ndb) instance when starting Jellyfish.
+
 Running in production mode
 --------------------------
 
