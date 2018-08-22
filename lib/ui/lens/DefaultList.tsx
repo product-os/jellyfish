@@ -7,6 +7,7 @@ import {
 	Box,
 	Button,
 	Flex,
+	Txt,
 } from 'rendition';
 import { Card, Lens, RendererProps, Type } from '../../Types';
 import { CardCreator } from '../components/CardCreator';
@@ -129,6 +130,10 @@ class DefaultList extends React.Component<DefaultListProps, DefaultListState> {
 							</Box>
 						);
 					})}
+
+					{!!tail && tail.length === 0 &&
+							<Txt.p p={3}>No results found</Txt.p>
+					}
 				</Box>
 
 				{!!type &&

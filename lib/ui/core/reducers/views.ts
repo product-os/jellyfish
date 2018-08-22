@@ -139,7 +139,6 @@ export const actionCreators = {
 	): JellyThunkSync<void, StoreState> => (dispatch) => {
 		loadSchema(query)
 		.then((schema) => {
-
 			if (!schema) {
 				return;
 			}
