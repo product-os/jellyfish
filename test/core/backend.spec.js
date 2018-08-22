@@ -634,6 +634,114 @@ ava.test('.query() should be able to skip the results', async (test) => {
 	test.deepEqual(_.sortBy(results, [ 'test' ]), [ result3 ])
 })
 
+ava.test('.query() should be able to skip the results of a one-element query', async (test) => {
+	const card = await test.context.backend.upsertElement({
+		type: 'card',
+		test: 1,
+		data: {
+			timestamp: '2018-07-20T23:15:45.702Z'
+		}
+	})
+
+	const results = await test.context.backend.query({
+		type: 'object',
+		properties: {
+			id: {
+				type: 'string',
+				const: card.id
+			}
+		},
+		required: [ 'id' ]
+	}, {
+		skip: 1
+	})
+
+	test.deepEqual(results, [])
+})
+
+ava.test('.query() should not skip the results of a one-element query if skip is set to zero', async (test) => {
+	const card = await test.context.backend.upsertElement({
+		type: 'card',
+		test: 1,
+		data: {
+			timestamp: '2018-07-20T23:15:45.702Z'
+		}
+	})
+
+	const results = await test.context.backend.query({
+		type: 'object',
+		properties: {
+			id: {
+				type: 'string',
+				const: card.id
+			}
+		},
+		required: [ 'id' ]
+	}, {
+		skip: 0
+	})
+
+	test.deepEqual(results, [
+		{
+			id: card.id
+		}
+	])
+})
+
+ava.test('.query() should be able to limit the results of a one-element query to 0', async (test) => {
+	const card = await test.context.backend.upsertElement({
+		type: 'card',
+		test: 1,
+		data: {
+			timestamp: '2018-07-20T23:15:45.702Z'
+		}
+	})
+
+	const results = await test.context.backend.query({
+		type: 'object',
+		properties: {
+			id: {
+				type: 'string',
+				const: card.id
+			}
+		},
+		required: [ 'id' ]
+	}, {
+		limit: 0
+	})
+
+	test.deepEqual(results, [])
+})
+
+ava.test('.query() should not omit the results of a one-element query if limit is set to one', async (test) => {
+	const card = await test.context.backend.upsertElement({
+		type: 'card',
+		test: 1,
+		data: {
+			timestamp: '2018-07-20T23:15:45.702Z'
+		}
+	})
+
+	const results = await test.context.backend.query({
+		type: 'object',
+		properties: {
+			id: {
+				type: 'string',
+				const: card.id
+			}
+		},
+		required: [ 'id' ]
+	}, {
+		limit: 1
+	})
+
+	test.deepEqual(results, [
+		{
+			id: card.id
+		}
+	])
+})
+
 ava.test('.query() should be able to limit and skip the results', async (test) => {
 	await test.context.backend.upsertElement({
 		type: 'card',
