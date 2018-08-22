@@ -264,9 +264,6 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 											filters={this.state.filters}
 											onFiltersUpdate={this.updateFilters}
 											onViewsUpdate={this.saveView}
-											addFilterButtonProps={{
-												style: { flex: '0 0 137px' },
-											}}
 											renderMode={['add', 'search']}
 										/>
 									</Box>
