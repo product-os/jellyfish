@@ -290,8 +290,8 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 										)}
 									</ButtonGroup>
 								</If>
-								<If condition={groups.length > 0}>
-									<Box ml={3} color={lensSupportsGroups ? undefined : '#ccc'}>
+								{groups.length > 0 && lensSupportsGroups &&
+									<Box ml={3}>
 										Group by:
 										<Select
 											ml={2}
@@ -311,7 +311,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 											})}
 										</Select>
 									</Box>
-								</If>
+								}
 							</Flex>
 						</Flex>
 
