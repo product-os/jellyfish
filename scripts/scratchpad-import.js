@@ -15,7 +15,7 @@ const Spinner = require('cli-spinner').Spinner
 const fs = require('fs')
 const jsyaml = require('js-yaml')
 const _ = require('lodash')
-const moment = require('moment')
+const removeMd = require('remove-markdown')
 
 const yaml = fs.readFileSync('./scratchpad.yaml')
 
@@ -26,10 +26,10 @@ const PASSWORD = process.env.PASSWORD
 const API_URL = process.env.API_URL || 'http://localhost:8000'
 
 if (!USERNAME) {
-	console.log('Please set the USERNAME environment variable')
+	throw new Error('Please set the USERNAME environment variable')
 }
 if (!PASSWORD) {
-	console.log('Please set the PASSWORD environment variable')
+	throw new Error('Please set the PASSWORD environment variable')
 }
 
 const sdk = getSdk({
@@ -37,19 +37,32 @@ const sdk = getSdk({
 	apiUrl: API_URL
 })
 
+const migrateField = (data, origin, target) => {
+	if (_.has(data, origin)) {
+		// Check if target already exists
+		if (data[target]) {
+			data[target] = `${data[target]}\n\n${data[origin]}`
+		} else {
+			data[target] = data[origin]
+		}
+		delete data[origin]
+	}
+}
+
 const entries = _.map(source.Scratchpad, ({
 	Title,
 	PS_UUID,
 	...data
 }) => {
-	// Normalize timestamps
+
+	const tags = []
+
+	// Remove 'Last updated' field
 	if (data['Last Updated']) {
-		data['Last Updated'] = moment(data['Last Updated']).toISOString()
+		delete data['Last Updated']
 	}
 
-	if (data['Date fixed']) {
-		data['Date fixed'] = moment(data['Date fixed']).toISOString()
-	}
+	delete data['Date fixed']
 
 
 	// Normalize boolean field
@@ -57,38 +70,75 @@ const entries = _.map(source.Scratchpad, ({
 		data['For resineer eyes only'] = data['For resineer eyes only'].toLowerCase() === 'yes'
 	}
 
+	if (data['For resineer eyes only']) {
+		tags.push('non-shareable')
+	}
+
+	delete data['For resineer eyes only']
+
 	// Sometimes fix diff is NaN or null
 	if (!_.isNumber(data['Fix Difficulty']) || _.isNaN(data['Fix Difficulty'])) {
 		delete data['Fix Difficulty']
 	}
 
-	if (data['Fix Difficulty'] > 5) {
-		data['Fix Difficulty'] = 5
+	if (_.has(data, [ 'Fix Difficulty' ])) {
+		if (data['Fix Difficulty'] >= 3) {
+			tags.push('hard')
+		}
+
+		delete data['Fix Difficulty']
 	}
 
 	// Fix mislabeld legacy fields
 	if (_.isString(data.Legacy)) {
-		data.description = data.Legacy
-		delete data.Legacy
+		data.Solution = data.Legacy
 	}
 
-	if (data.$PENSIEVE_IMPORTED_COPY_FIELD_KEY1) {
-		if (data.Problem) {
-			data.Problem = data.$PENSIEVE_IMPORTED_COPY_FIELD_KEY1 + '\n\n' + data.Problem
-		} else {
-			data.Problem = data.$PENSIEVE_IMPORTED_COPY_FIELD_KEY1
-		}
+	delete data.Legacy
 
-		delete data.$PENSIEVE_IMPORTED_COPY_FIELD_KEY1
+	migrateField(data, 'Signs and Symptoms', 'Problem')
+	migrateField(data, 'Symptoms:', 'Problem')
+	migrateField(data, 'Symptoms', 'Problem')
+	migrateField(data, 'Issue', 'Problem')
+	migrateField(data, 'Treatments', 'Solution')
+	migrateField(data, 'Treatment', 'Solution')
+	migrateField(data, 'Fix', 'Solution')
+	migrateField(data, 'Versions Affected', 'resinOS Versions Affected')
+	migrateField(data, 'Fixed in Version', 'Fixed in resinOS Version')
+	migrateField(data, '$PENSIEVE_IMPORTED_COPY_FIELD_KEY', 'Solution')
+	migrateField(data, '$PENSIEVE_IMPORTED_COPY_FIELD_KEY1', 'Solution')
+
+	delete data.Keywords
+
+	if (data['Entry needs review']) {
+		tags.push('needs-review')
+
+		delete data['Entry needs review']
 	}
 
-	if (data.Keywords) {
-		data.Keywords = data.Keywords.split(' ')
+	delete data['GitHub issue']
+	delete data['Pull Leech Logs']
+	delete data['resinOS Versions Affected']
+	delete data['Supervisor Versions Affected']
+	delete data['Fixed in resinOS Version']
+	delete data['Fixed in Supervisor Version']
+
+	const diff = _.difference(Object.keys(data), [
+		'Problem',
+		'Solution'
+	])
+
+	if (diff.length) {
+		console.log(`Entry "${Title}" has non-typed fields:`)
+		diff.forEach((key) => {
+			console.log(`- ${key}`)
+		})
 	}
 
 	return {
 		type: 'scratchpad-entry',
-		name: Title || 'No name set',
+		name: Title ? removeMd(Title) : 'No name set',
+		tags,
 		data
 	}
 })
@@ -106,9 +156,11 @@ sdk.auth.login({
 	.then(() => {
 		return Bluebird.map(entries, (entry) => {
 			return sdk.card.create(entry)
-			.then(() => spinner.setSpinnerTitle(`%s Created entry ${++count}/${entries.length}`))
+				.then(() => {
+					spinner.setSpinnerTitle(`%s Created entry ${++count}/${entries.length}`)
+				})
 		}, {
-			concurrency: 50
+			concurrency: 5
 		})
 	})
 	.then(() => {
@@ -116,5 +168,6 @@ sdk.auth.login({
 		console.log('Done!')
 	})
 	.catch((error) => {
+		console.log(error.message)
 		throw error
 	})

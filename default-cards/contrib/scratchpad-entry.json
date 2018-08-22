@@ -12,6 +12,14 @@
         "name": {
           "type": "string"
         },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-_/]+$"
+          },
+          "$$formula": "AGGREGATE($events, 'tags')"
+        },
         "data": {
           "type": "object",
           "properties": {
@@ -23,71 +31,13 @@
               "type": "array",
               "$$formula": "AGGREGATE($events, 'data.payload.alertsUser')"
             },
-            "GitHub issue": {
-              "type": "string"
-            },
             "Problem": {
               "type": "string",
               "format": "markdown"
             },
-            "Pull Leech Logs": {
-              "type": "boolean"
-            },
             "Solution": {
               "type": "string",
               "format": "markdown"
-            },
-            "Signs and Symptoms": {
-              "type": "string",
-              "format": "markdown"
-            },
-            "Treatments": {
-              "type": "string",
-              "format": "markdown"
-            },
-            "Treatment": {
-              "type": "string",
-              "format": "markdown"
-            },
-            "Fix Difficulty": {
-              "type": "number",
-              "minimum": 0,
-              "maximum": 5
-            },
-            "Last Updated": {
-              "type": "string",
-              "format": "date-time"
-            },
-            "For resineer eyes only": {
-              "type": "boolean"
-            },
-            "resinOS Versions Affected": {
-              "type": "string"
-            },
-            "Supervisor Versions Affected": {
-              "type": "string"
-            },
-            "Fixed in resinOS Version": {
-              "type": "string"
-            },
-            "Fixed in Supervisor Version": {
-              "type": "string"
-            },
-            "Date fixed": {
-              "type": "string",
-              "format": "date-time"
-            },
-            "Legacy": {
-              "type": "boolean"
-            },
-            "Keywords": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "Entry needs review": {
-              "type": "boolean"
             }
           }
         }
@@ -97,21 +47,8 @@
     },
     "fieldOrder": [
       "Title",
-      "GitHub issue",
       "Problem",
-      "Pull Leech Logs",
-      "Solution",
-      "Fix Difficulty",
-      "Last Updated",
-      "For resineer eyes only",
-      "resinOS Versions Affected",
-      "Supervisor Versions Affected",
-      "Fixed in resinOS Version",
-      "Fixed in Supervisor Version",
-      "Date fixed",
-      "Legacy",
-      "Keywords",
-      "Entry needs review"
+      "Solution"
     ]
   }
 }
