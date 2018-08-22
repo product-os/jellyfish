@@ -112,6 +112,7 @@ class Base extends React.Component<CardCreatorProps, CardCreatorState> {
 
 		return (
 			<Modal
+				w={1060}
 				title={`Add ${this.props.type.name}`}
 				cancel={this.props.cancel}
 				done={this.addEntry}
