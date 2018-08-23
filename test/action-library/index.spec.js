@@ -15,42 +15,92 @@
  */
 
 const ava = require('ava')
-const actions = require('../../lib/action-library')
-const Bluebird = require('bluebird')
-const _ = require('lodash')
+const actionLibrary = require('../../lib/action-library')
+const httpRequest = actionLibrary['action-http-request']
+const helpers = require('./helpers')
 
-const isRejected = 'rejected'
-const isResolved = 'resolved'
+ava.test.beforeEach(helpers.beforeEach)
+ava.test.afterEach(helpers.afterEach)
 
-const urlTest = async (urls) => {
-	return Bluebird.map(urls, (url) => {
-		const request = {
-			arguments: {
-				url
-			}
+const testUrl = async (url) => {
+	const options = {
+		arguments: {
+			url
 		}
-		return actions['action-http-request'](null, null, null, request)
-			.then(_.constant(isResolved))
-			.catch(_.constant(isRejected))
-	})
+	}
+	return httpRequest(null, null, null, options)
 }
 
-ava.test('.action-http-request() should retrieve some valid urls', async (test) => {
-	const urls = [
-		'http://www.example.com'
-	]
-	const expectations = _.fill(_.clone(urls), isResolved)
-	const results = await urlTest(urls)
-	test.deepEqual(results, expectations)
-})
+const apiTest = helpers.domains.api
+ava.test(
+	[
+		`'${apiTest.domain}${apiTest.path}'`,
+		'should resolve using action-http-request function'
+	].join(' '),
+	async (test) => {
+		test.deepEqual(
+			await testUrl(`${apiTest.domain}${apiTest.path}`),
+			apiTest.body
+		)
+	}
+)
+ava.test(
+	[
+		`'${apiTest.domain}${apiTest.path}'`,
+		'should resolve using action-http-request card'
+	].join(' '),
+	async (test) => {
+		const actionCard = await test.context.jellyfish.getCardBySlug(
+			test.context.session,
+			'action-http-request'
+		)
+		const requestId = await test.context.worker.enqueue(
+			test.context.session,
+			{
+				action: 'action-http-request',
+				card: actionCard.id,
+				arguments: {
+					body: {},
+					method: 'GET',
+					url: `${apiTest.domain}${apiTest.path}`
+				}
+			}
+		)
+		await test.context.flush(test.context.session)
+		const requestResult = await test.context.worker.waitResults(
+			test.context.session,
+			requestId
+		)
+		test.false(requestResult.error)
+	}
+)
 
-ava.test('.action-http-request() should reject some invalid urls', async (test) => {
-	const urls = [
-		'duff',
-		'http://www.error.com/',
-		'https://www.example.com/duff.html'
-	]
-	const expectations = _.fill(_.clone(urls), isRejected)
-	const results = await urlTest(urls)
-	test.deepEqual(results, expectations)
-})
+const duffTest = helpers.domains.duff
+ava.test(
+	[
+		`'${duffTest.domain}'`,
+		'should reject using action-http-request function'
+	].join(' '),
+	async (test) => {
+		await test.throws(
+			testUrl(duffTest.domain),
+			null,
+			/^Error: Invalid URI/
+		)
+	}
+)
+
+const errTest = helpers.domains.err
+ava.test(
+	[
+		`'${errTest.domain}${errTest.path}'`,
+		'should reject using action-http-request function'
+	].join(' '),
+	async (test) => {
+		await test.throws(
+			testUrl(`${errTest.domain}${errTest.domain}`),
+			null,
+			new RegExp(`^${errTest.status}`)
+		)
+	}
+)
