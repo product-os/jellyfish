@@ -229,6 +229,7 @@ class Base extends React.Component<
 
 				{this.state.showEditModal &&
 					<Modal
+						w={1060}
 						cancel={this.cancelEdit}
 						done={this.updateEntry}
 						primaryButtonProps={{
