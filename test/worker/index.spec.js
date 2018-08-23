@@ -1500,3 +1500,77 @@ ava.test('should add an update event if updating a card', async (test) => {
 		}
 	])
 })
+
+ava.test('should delete a card using action-delete-card', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
+	const createId = await test.context.worker.enqueue(test.context.session, {
+		action: 'action-create-card',
+		card: typeCard.id,
+		arguments: {
+			properties: {}
+		}
+	})
+
+	await test.context.flush(test.context.session)
+	const createResult = await test.context.worker.waitResults(test.context.session, createId)
+	test.false(createResult.error)
+
+	const deleteId = await test.context.worker.enqueue(test.context.session, {
+		action: 'action-delete-card',
+		card: createResult.data.id,
+		arguments: {}
+	})
+
+	await test.context.flush(test.context.session)
+	const deleteResult = await test.context.worker.waitResults(test.context.session, deleteId)
+	test.false(deleteResult.error)
+
+	const card = await test.context.jellyfish.getCardById(test.context.session, deleteResult.data.id)
+	test.deepEqual(card, {
+		id: deleteResult.data.id,
+		type: 'card',
+		active: false,
+		links: {},
+		tags: [],
+		data: {}
+	})
+})
+
+ava.test('should delete a card using action-update-card', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
+	const createId = await test.context.worker.enqueue(test.context.session, {
+		action: 'action-create-card',
+		card: typeCard.id,
+		arguments: {
+			properties: {}
+		}
+	})
+
+	await test.context.flush(test.context.session)
+	const createResult = await test.context.worker.waitResults(test.context.session, createId)
+	test.false(createResult.error)
+
+	const updateId = await test.context.worker.enqueue(test.context.session, {
+		action: 'action-update-card',
+		card: createResult.data.id,
+		arguments: {
+			properties: {
+				active: false
+			}
+		}
+	})
+
+	await test.context.flush(test.context.session)
+	const updateResult = await test.context.worker.waitResults(test.context.session, updateId)
+	test.false(updateResult.error)
+
+	const card = await test.context.jellyfish.getCardById(test.context.session, updateResult.data.id)
+	test.deepEqual(card, {
+		id: updateResult.data.id,
+		type: 'card',
+		active: false,
+		links: {},
+		tags: [],
+		data: {}
+	})
+})
