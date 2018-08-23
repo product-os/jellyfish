@@ -1,0 +1,32 @@
+{
+  "name": "@resin.io/jellyfish-action-library",
+  "private": true,
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:resin-io/jellyfish.git"
+  },
+  "scripts": {
+    "clean": "npm run clean:pretty && npm run clean:lint",
+    "clean:pretty": "prettier --config './prettier.json' 'lib/**/*.ts' --write",
+    "clean:lint": "tslint --config 'node_modules/resin-lint/config/tslint.json' 'lib/**/*.ts' --fix",
+    "postinstall": "tsc"
+  },
+  "author": "Resin Inc. <hello@resin.io>",
+  "contributors": [
+    "Andrew Lucas <andrewl@resin.io>"
+  ],
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@types/node": "^10.7.1",
+    "@types/request-promise": "^4.1.42",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.2",
+    "typescript": "~2.8.1"
+  },
+  "devDependencies": {
+    "prettier": "^1.14.2",
+    "resin-lint": "^1.5.7",
+    "tslint": "^5.11.0"
+  }
+}
