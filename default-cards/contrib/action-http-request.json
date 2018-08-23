@@ -10,14 +10,12 @@
       "method": {
         "type": "string"
       },
-      "json": {
-        "type": "boolean"
-      },
       "body": {
         "type": "object"
       },
       "url": {
-        "type": "string"
+        "type": "string",
+        "format": "url"
       }
     }
   }

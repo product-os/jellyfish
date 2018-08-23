@@ -47,7 +47,8 @@ ava.test('.action-http-request() should retrieve some valid urls', async (test) 
 ava.test('.action-http-request() should reject some invalid urls', async (test) => {
 	const urls = [
 		'duff',
-		'http://www.error.com/'
+		'http://www.error.com/',
+		'https://www.example.com/duff.html'
 	]
 	const expectations = _.fill(_.clone(urls), isRejected)
 	const results = await urlTest(urls)
