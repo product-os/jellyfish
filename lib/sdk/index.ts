@@ -281,7 +281,8 @@ export class JellyfishSDK implements SDKInterface {
 					return;
 				}
 				if (e.response && e.response.data) {
-					throw new Error(e.response.data.data);
+					const message = _.get(e.response.data, [ 'data', 'message' ], e.response.data.data);
+					throw new Error(message);
 				}
 				throw e;
 			});
