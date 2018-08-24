@@ -155,7 +155,7 @@ class CardList extends React.Component<CardListProps, CardListState> {
 			<Column flexDirection="column">
 				<Box flex="1" style={{ position: 'relative' }}>
 					<ResizeObserver onResize={this.clearCellCache} />
-					{!!tail && tail.length > 1 &&
+					{!!tail && tail.length > 0 &&
 						<AutoSizer>
 							{({ width, height }) => (
 								<List
