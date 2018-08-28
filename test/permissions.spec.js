@@ -26,6 +26,43 @@ const {
 } = require('@resin.io/jellyfish-sdk')
 const createServer = require('../lib/server')
 
+const WAIT_TIMEOUT = 30 * 1000
+
+// TODO: Make this an SDK method
+const waitForCard = (sdk, query) => {
+	return new Bluebird((resolve, reject) => {
+		const stream = sdk.stream(query)
+		const timeout = setTimeout(() => {
+			reject(`Did not receive any data after ${WAIT_TIMEOUT}ms`)
+			stream.destroy()
+		}, WAIT_TIMEOUT)
+
+		stream.on('update', ({
+			data
+		}) => {
+			const {
+				after
+			} = data
+
+			if (after) {
+				resolve(after)
+
+				clearTimeout(timeout)
+				stream.destroy()
+			}
+		})
+
+		stream.on('streamError', ({
+			data
+		}) => {
+			reject(data)
+
+			clearTimeout(timeout)
+			stream.destroy()
+		})
+	})
+}
+
 ava.test.beforeEach(async (test) => {
 	// Set this env var so that the server uses a random database
 	process.env.SERVER_DATABASE = `test_${randomstring.generate()}`
@@ -350,26 +387,43 @@ ava.test.serial('AGGREGATE($events): should work when creating cards via the SDK
 		data: {}
 	})
 
-	await Bluebird.delay(2000)
-
-	// Add a message to the thread element
-	await sdk.card.create({
-		type: 'message',
-		data: {
-			timestamp: '2018-05-05T00:21:02.459Z',
-			target: thread.id,
-			actor: user.id,
-			payload: {
-				message: 'lorem ipsum dolor sit amet',
-				mentionsUser: [ id ]
+	const [ card ] = await Bluebird.all([
+		// Add a message to the thread element and wait for the AGGREGATE triggered
+		// action to run
+		waitForCard(sdk, {
+			type: 'object',
+			properties: {
+				type: {
+					type: 'string',
+					const: 'thread'
+				},
+				data: {
+					type: 'object',
+					properties: {
+						mentionsUser: {
+							type: 'array',
+							contains: {
+								type: 'string',
+								const: id
+							}
+						}
+					}
+				}
 			}
-		}
-	})
-
-	// Wait for the AGGREGATE triggered action to run
-	await Bluebird.delay(2000)
-
-	const card = await sdk.card.get(thread.id)
+		}),
+		sdk.card.create({
+			type: 'message',
+			data: {
+				timestamp: '2018-05-05T00:21:02.459Z',
+				target: thread.id,
+				actor: user.id,
+				payload: {
+					message: 'lorem ipsum dolor sit amet',
+					mentionsUser: [ id ]
+				}
+			}
+		})
+	])
 
 	test.deepEqual(card.data.mentionsUser, [ id ])
 })
