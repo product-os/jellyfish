@@ -191,7 +191,6 @@
             "slug": {
               "enum": [
                 "view-all-messages",
-                "view-all-repos",
                 "view-all-views",
                 "view-my-alerts",
                 "view-my-mentions",
@@ -251,7 +250,6 @@
                 "thread",
                 "message",
                 "scratchpad-entry",
-                "repo",
                 "organizer",
                 "todo",
                 "triggered-action"
