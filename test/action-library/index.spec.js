@@ -17,10 +17,9 @@
 const ava = require('ava')
 const actionLibrary = require('../../lib/action-library')
 const httpRequest = actionLibrary['action-http-request']
-const helpers = require('./helpers')
+const domainHelper = require('./domain-helper')
 
-ava.test.beforeEach(helpers.beforeEach)
-ava.test.afterEach(helpers.afterEach)
+ava.test.beforeEach(domainHelper.nock)
 
 const testUrl = async (url) => {
 	const options = {
@@ -31,7 +30,7 @@ const testUrl = async (url) => {
 	return httpRequest(null, null, null, options)
 }
 
-const apiTest = helpers.domains.api
+const apiTest = domainHelper.examples.api
 ava.test(
 	[
 		`'${apiTest.domain}${apiTest.path}'`,
@@ -44,38 +43,8 @@ ava.test(
 		)
 	}
 )
-ava.test(
-	[
-		`'${apiTest.domain}${apiTest.path}'`,
-		'should resolve using action-http-request card'
-	].join(' '),
-	async (test) => {
-		const actionCard = await test.context.jellyfish.getCardBySlug(
-			test.context.session,
-			'action-http-request'
-		)
-		const requestId = await test.context.worker.enqueue(
-			test.context.session,
-			{
-				action: 'action-http-request',
-				card: actionCard.id,
-				arguments: {
-					body: {},
-					method: 'GET',
-					url: `${apiTest.domain}${apiTest.path}`
-				}
-			}
-		)
-		await test.context.flush(test.context.session)
-		const requestResult = await test.context.worker.waitResults(
-			test.context.session,
-			requestId
-		)
-		test.false(requestResult.error)
-	}
-)
 
-const duffTest = helpers.domains.duff
+const duffTest = domainHelper.examples.duff
 ava.test(
 	[
 		`'${duffTest.domain}'`,
@@ -90,7 +59,7 @@ ava.test(
 	}
 )
 
-const errTest = helpers.domains.err
+const errTest = domainHelper.examples.err
 ava.test(
 	[
 		`'${errTest.domain}${errTest.path}'`,
