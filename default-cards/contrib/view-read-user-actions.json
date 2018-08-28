@@ -293,88 +293,6 @@
         }
       },
       {
-        "name": "Views",
-        "schema": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "string",
-              "const": "view"
-            },
-            "slug": {
-              "type": "string",
-              "enum": [
-                "view-all-messages",
-                "view-all-views",
-                "view-my-alerts",
-                "view-my-mentions"
-              ]
-            },
-            "id": {
-              "type": "string"
-            }
-          },
-          "additionalProperties": true,
-          "required": [ "id", "slug", "type" ]
-        }
-      },
-      {
-        "name": "My views",
-        "schema": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "string",
-              "const": "view"
-            },
-            "data": {
-              "type": "object",
-              "properties": {
-                "actor": {
-                  "type": "string",
-                  "const": {
-                    "$eval": "user.id"
-                  }
-                }
-              },
-              "required": [ "actor" ],
-              "additionalProperties": true
-            }
-          },
-          "additionalProperties": true,
-          "required": [ "data", "type" ]
-        }
-      },
-      {
-        "name": "My views",
-        "schema": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "string",
-              "const": "view"
-            },
-            "id": {
-              "type": "string"
-            },
-            "data": {
-              "type": "object",
-              "properties": {
-                "actor": {
-                  "type": "string",
-                  "const": {
-                    "$eval": "user.id"
-                  }
-                }
-              },
-              "required": [ "actor" ]
-            }
-          },
-          "additionalProperties": true,
-          "required": [ "id", "slug", "type" ]
-        }
-      },
-      {
         "name": "Contrib cards",
         "schema": {
           "type": "object",
@@ -396,32 +314,6 @@
         }
       },
       {
-        "name": "My subscriptions",
-        "schema": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "const": "subscription"
-            },
-            "data": {
-              "type": "object",
-              "properties": {
-                "actor": {
-                  "type": "string",
-                  "const": {
-                    "$eval": "user.id"
-                  }
-                }
-              },
-              "additionalProperties": true,
-              "required": [ "actor" ]
-            }
-          },
-          "additionalProperties": true,
-          "required": [ "data", "type" ]
-        }
-      },
-      {
         "name": "Other users",
         "schema": {
           "type": "object",
@@ -438,8 +330,7 @@
               "not": {
                 "enum": [
                   "user-admin",
-                  "user-guest",
-                  "user-actions"
+                  "user-guest"
                 ]
               }
             },
