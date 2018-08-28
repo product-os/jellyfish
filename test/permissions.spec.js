@@ -108,16 +108,16 @@ ava.test.serial('.query() should be able to see previously restricted cards afte
 		password: 'foobarbaz'
 	})
 
-	const repo = await test.context.jellyfish.insertCard(test.context.session, {
-		type: 'repo',
-		name: 'Test repo',
+	const entry = await test.context.jellyfish.insertCard(test.context.session, {
+		type: 'scratchpad-entry',
+		name: 'Test entry',
 		tags: [],
 		links: {},
 		active: true,
 		data: {}
 	})
 
-	const unprivilegedResults = await sdk.card.get(repo.id)
+	const unprivilegedResults = await sdk.card.get(entry.id)
 
 	test.deepEqual(unprivilegedResults, null)
 
@@ -136,8 +136,8 @@ ava.test.serial('.query() should be able to see previously restricted cards afte
 		override: true
 	})
 
-	const privilegedResults = await sdk.card.get(repo.id)
-	test.deepEqual(privilegedResults.id, repo.id)
+	const privilegedResults = await sdk.card.get(entry.id)
+	test.deepEqual(privilegedResults.id, entry.id)
 })
 
 ava.test.serial('timeline cards should reference the correct actor', async (test) => {
