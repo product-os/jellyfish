@@ -1,0 +1,23 @@
+{
+  "slug": "action-http-request",
+  "type": "action",
+  "name": "Fire an http request",
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "arguments": {
+      "method": {
+        "type": "string",
+        "enum": ["PUT", "POST", "GET", "PATCH", "DELETE"]
+      },
+      "body": {
+        "type": "object"
+      },
+      "url": {
+        "type": "string",
+        "format": "url"
+      }
+    }
+  }
+}

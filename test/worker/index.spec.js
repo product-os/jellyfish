@@ -19,6 +19,7 @@ const _ = require('lodash')
 const helpers = require('./helpers')
 const Worker = require('../../lib/worker/index')
 const actionLibrary = require('../../lib/action-library')
+const domainHelper = require('../action-library/domain-helper')
 
 ava.test.beforeEach(async (test) => {
 	await helpers.beforeEach(test)
@@ -1574,3 +1575,36 @@ ava.test('should delete a card using action-update-card', async (test) => {
 		data: {}
 	})
 })
+
+const apiTest = domainHelper.examples.api
+ava.test(
+	[
+		`'${apiTest.domain}${apiTest.path}'`,
+		'should resolve using action-http-request card'
+	].join(' '),
+	async (test) => {
+		domainHelper.nock()
+		const actionCard = await test.context.jellyfish.getCardBySlug(
+			test.context.session,
+			'action-http-request'
+		)
+		const requestId = await test.context.worker.enqueue(
+			test.context.session,
+			{
+				action: 'action-http-request',
+				card: actionCard.id,
+				arguments: {
+					body: {},
+					method: 'GET',
+					url: `${apiTest.domain}${apiTest.path}`
+				}
+			}
+		)
+		await test.context.flush(test.context.session)
+		const requestResult = await test.context.worker.waitResults(
+			test.context.session,
+			requestId
+		)
+		test.false(requestResult.error)
+	}
+)
