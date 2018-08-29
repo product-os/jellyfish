@@ -13,7 +13,7 @@
     "only-arrow-functions": [false],
     "quotemark": [true, "single", "avoid-escape", "jsx-double"],
     "max-classes-per-file": [false],
-    "max-line-length": [180],
+    "max-line-length": [true, 180],
     "member-access": false,
     "member-ordering": [false],
     "no-consecutive-blank-lines": false,
