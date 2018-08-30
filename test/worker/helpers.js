@@ -20,8 +20,8 @@ const core = require('../../lib/core')
 exports.beforeEach = async (test) => {
 	test.context.jellyfish = await core.create({
 		backend: {
-			host: process.env.TEST_DB_HOST,
-			port: process.env.TEST_DB_PORT,
+			host: process.env.DB_HOST,
+			port: process.env.DB_PORT,
 			database: `test_${randomstring.generate()}`
 		}
 	})

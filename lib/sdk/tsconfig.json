@@ -1,20 +1,12 @@
 {
-    "compilerOptions": {
-        "outDir": "./dist/",
-        "sourceMap": false,
-        "noImplicitAny": true,
-        "module": "commonjs",
-        "target": "es6",
-        "jsx": "react",
-        "preserveConstEnums": true,
-        "strictNullChecks": true,
-        "noUnusedParameters": true,
-        "noUnusedLocals": true,
-        "declaration": true
-    },
-    "include": [
-        "./lib/**/*.ts",
-        "./typings/**/*.d.ts"
-    ]
+  "extends": "../../tsconfig",
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "rootDir": "./lib"
+  },
+  "include": [
+    "./lib/**/*.ts",
+    "./typings/**/*.d.ts"
+  ]
 }
 

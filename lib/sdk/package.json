@@ -13,41 +13,22 @@
     "dist/"
   ],
   "scripts": {
-    "build": "npm run clean && tsc && npm run docs",
+    "build": "npm run clean && tsc",
     "clean": "rimraf dist",
-    "docs": "jsdoc2md --template template.hbs \"dist/**/*.js\" > README.md",
     "prepublishOnly": "npm run build",
-    "postinstall": "npm run clean && tsc",
-    "test": "npm run tslint",
-    "tslint": "tslint -t stylish \"lib/**/*.ts\"",
-    "tslint:fix": "tslint -t stylish --fix \"lib/**/*.ts\""
-  },
-  "ava": {
-    "verbose": true,
-    "concurrency": 3,
-    "failFast": true,
-    "require": [
-      "./test/test-helpers/ui-setup.js"
-    ],
-    "files": [
-      "test/**/*.spec.js"
-    ]
+    "postinstall": "npm run clean && tsc"
   },
   "author": "Resin Inc. <hello@resin.io>",
   "license": "Apache-2.0",
   "devDependencies": {
-    "ava": "^0.22.0",
     "cache-loader": "^1.2.2",
     "copy-webpack-plugin": "^4.5.1",
     "fork-ts-checker-webpack-plugin": "^0.4.1",
-    "jsdoc-to-markdown": "^4.0.1",
-    "nyc": "^11.4.1",
     "rimraf": "^2.6.2",
     "source-map-loader": "^0.2.3",
     "thread-loader": "^1.1.5",
     "ts-loader": "^4.0.1",
     "ts-node": "^6.0.0",
-    "tslint": "^5.10.0",
     "typescript": "2.8.3"
   },
   "dependencies": {

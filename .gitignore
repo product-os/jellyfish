@@ -79,8 +79,6 @@ webpack-bundle-report.html
 *.iml
 .idea/
 .vscode/
-scratchpad.yaml
 
 # Execution files
-rethinkdb_data
 .tar.gz

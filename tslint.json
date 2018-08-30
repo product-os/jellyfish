@@ -3,6 +3,11 @@
   "rules": {
     "jsx-boolean-value": false,
     "jsx-no-multiline-js": false,
+    "typedef": [
+      true,
+      "call-signature",
+      "property-declaration"
+    ],
     "indent": [ true, "tabs", 2 ],
     "jsdoc-format": true,
     "whitespace": [
@@ -19,7 +24,6 @@
     "no-consecutive-blank-lines": false,
     "no-shadowed-variable": false,
     "no-var-requires": true,
-    "no-bitwise": false,
     "arrow-parens": false,
     "no-angle-bracket-type-assertion": false,
     "no-console": [false],
