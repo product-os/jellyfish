@@ -27,7 +27,7 @@ const React = require('react')
 const {
 	Provider
 } = require('react-redux')
-const createServer = require('../../lib/server')
+const createServer = require('../../lib/server/create-server')
 const {
 	JellyfishUI
 } = require('../../lib/ui/JellyfishUI')
@@ -38,7 +38,7 @@ const {
 	changeInputValue,
 	waitForElement,
 	waitForThenClickElement
-} = require('../test-helpers/ui-helpers')
+} = require('./helpers')
 
 const users = {
 	community: {

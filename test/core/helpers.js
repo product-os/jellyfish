@@ -23,8 +23,8 @@ exports.backend = {
 	beforeEach: async (test) => {
 		const cache = new Cache()
 		test.context.backend = new Backend(cache, {
-			host: process.env.TEST_DB_HOST,
-			port: process.env.TEST_DB_PORT,
+			host: process.env.DB_HOST,
+			port: process.env.DB_PORT,
 			database: `test_${randomstring.generate()}`
 		})
 

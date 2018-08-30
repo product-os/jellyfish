@@ -1,11 +1,12 @@
 const profiler = require('v8-profiler')
+const path = require('path')
 const fs = require('fs')
 
 profiler.startProfiling()
 profilerRunning = true
 console.log('started profiling')
 
-require('./lib/index.js')
+require(path.join(process.cwd(), process.argv[2]))
 
 process.on('SIGINT', () => {
 	const profile = profiler.stopProfiling()

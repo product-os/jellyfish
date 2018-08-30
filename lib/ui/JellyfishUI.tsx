@@ -19,7 +19,7 @@ interface UIProps {
 }
 
 class UI extends React.Component<UIProps, {}> {
-	public render() {
+	public render(): React.ReactElement<any> {
 		if (this.props.status === 'initializing') {
 			return <Splash />;
 		}
