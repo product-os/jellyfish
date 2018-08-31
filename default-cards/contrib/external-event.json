@@ -15,12 +15,16 @@
               "type": "string",
               "pattern": "^[a-z0-9-]+$"
             },
+            "headers": {
+              "type": "object"
+            },
             "payload": {
               "type": "object"
             }
           },
           "required": [
             "source",
+            "headers",
             "payload"
           ]
         }
