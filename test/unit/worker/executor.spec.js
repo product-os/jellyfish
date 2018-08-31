@@ -16,9 +16,9 @@
 
 const ava = require('ava')
 const helpers = require('./helpers')
-const actionLibrary = require('../../lib/action-library')
-const errors = require('../../lib/worker/errors')
-const executor = require('../../lib/worker/executor')
+const actionLibrary = require('../../../lib/action-library')
+const errors = require('../../../lib/worker/errors')
+const executor = require('../../../lib/worker/executor')
 
 ava.test.beforeEach(async (test) => {
 	await helpers.beforeEach(test)

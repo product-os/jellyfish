@@ -15,6 +15,7 @@
  */
 
 require('ts-node').register()
+require('./ui-setup')
 
 const ava = require('ava')
 const Bluebird = require('bluebird')
@@ -27,13 +28,13 @@ const React = require('react')
 const {
 	Provider
 } = require('react-redux')
-const createServer = require('../../lib/server/create-server')
+const createServer = require('../../../lib/server/create-server')
 const {
 	JellyfishUI
-} = require('../../lib/ui/JellyfishUI')
+} = require('../../../lib/ui/JellyfishUI')
 const {
 	store
-} = require('../../lib/ui/core')
+} = require('../../../lib/ui/core')
 const {
 	changeInputValue,
 	waitForElement,

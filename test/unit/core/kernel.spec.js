@@ -17,8 +17,8 @@
 const ava = require('ava')
 const _ = require('lodash')
 const Bluebird = require('bluebird')
-const errors = require('../../lib/core/errors')
-const CARDS = require('../../lib/core/cards')
+const errors = require('../../../lib/core/errors')
+const CARDS = require('../../../lib/core/cards')
 const helpers = require('./helpers')
 
 ava.test.beforeEach(helpers.kernel.beforeEach)

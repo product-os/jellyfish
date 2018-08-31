@@ -34,7 +34,7 @@ const context = {}
 ava.test.before(async () => {
 	context.browser = await puppeteer.launch()
 	context.page = await context.browser.newPage()
-	await context.page.goto('https://balena-jellyfish.herokuapp.com')
+	await context.page.goto(config.JF_URL)
 })
 
 ava.test.after(async () => {

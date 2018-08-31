@@ -17,7 +17,7 @@
 require('ts-node').register()
 
 const ava = require('ava')
-const helpers = require('../../../lib/ui/services/helpers')
+const helpers = require('../../../../lib/ui/services/helpers')
 
 ava.test('.getUpdateObjectFromSchema() should parse the `const` keyword', (test) => {
 	const schema = {

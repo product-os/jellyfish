@@ -17,8 +17,8 @@
 const ava = require('ava')
 const _ = require('lodash')
 const helpers = require('./helpers')
-const Worker = require('../../lib/worker/index')
-const actionLibrary = require('../../lib/action-library')
+const Worker = require('../../../lib/worker/index')
+const actionLibrary = require('../../../lib/action-library')
 
 ava.test.beforeEach(async (test) => {
 	await helpers.beforeEach(test)

@@ -15,7 +15,7 @@
  */
 
 const marky = require('marky')
-const helpers = require('../../test/core/helpers')
+const helpers = require('../../test/unit/core/helpers')
 const utils = require('../utils')
 
 const test = {

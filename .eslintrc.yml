@@ -6,7 +6,9 @@ env:
 plugins:
   - lodash
   - jsdoc
-extends: 'standard'
+extends:
+  - 'plugin:react/recommended'
+  - standard
 settings:
   jsdoc:
     additionalTagNames:

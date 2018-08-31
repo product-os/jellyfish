@@ -17,7 +17,7 @@
 const ava = require('ava')
 const Bluebird = require('bluebird')
 const helpers = require('./helpers')
-const events = require('../../lib/worker/events')
+const events = require('../../../lib/worker/events')
 
 ava.test.beforeEach(helpers.beforeEach)
 ava.test.afterEach(helpers.afterEach)

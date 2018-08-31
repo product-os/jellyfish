@@ -15,7 +15,7 @@
  */
 
 const ava = require('ava')
-const card = require('../../lib/jellyscript/card')
+const card = require('../../../lib/jellyscript/card')
 
 ava.test('.getFormulasPaths() should return an empty array given no formulas', (test) => {
 	const paths = card.getFormulasPaths({

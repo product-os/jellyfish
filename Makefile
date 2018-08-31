@@ -1,4 +1,4 @@
-.PHONY: lint build-ui dev-ui test build start-server start-db
+.PHONY: lint build-ui dev-ui test build start-server start-db test-e2e
 
 PROFILE ?= 0
 API_URL ?= http://localhost:8000/
@@ -35,12 +35,26 @@ test:
 			--reporter=lcov \
 			./node_modules/.bin/ava $(FILES)
 
-test-%:
-	FILES=./test/$(subst test-,,$@)/**/*.spec.js \
+test-unit-%:
+	FILES=./test/unit/$(subst test-unit-,,$@)/**/*.spec.js \
 		DB_HOST=$(DB_HOST) \
 		DB_PORT=$(DB_PORT) \
 		API_URL=$(API_URL) \
 		make test
+
+test-integration-%:
+	FILES=./test/integration/$(subst test-integration-,,$@)/**/*.spec.js \
+		DB_HOST=$(DB_HOST) \
+		DB_PORT=$(DB_PORT) \
+		API_URL=$(API_URL) \
+		make test
+
+test-e2e:
+	@NODE_ENV=test \
+		JF_TEST_USER=$(JF_TEST_USER) \
+		JF_TEST_PASSWORD=$(JF_TEST_PASSWORD) \
+		JF_URL=$(API_URL) \
+		./node_modules/.bin/ava test/e2e/**/*.spec.js
 
 build: build-ui
 	rm -rf ./lib/action-library/dist && \
