@@ -66,11 +66,8 @@ const waitForCard = (sdk, query) => {
 ava.test.beforeEach(async (test) => {
 	// Set this env var so that the server uses a random database
 	process.env.SERVER_DATABASE = `test_${randomstring.generate()}`
-	const {
-		jellyfish,
-		worker,
-		port
-	} =	await createServer({
+
+	test.context.server = await createServer({
 		// TODO: Fix this hack, which is needed because otherwise
 		// multiple tests start server instances on the same port
 		// and don't stop them afterwards, so requests from certain
@@ -78,24 +75,21 @@ ava.test.beforeEach(async (test) => {
 		port: _.random(8000, 9999)
 	})
 
-	test.context.jellyfish = jellyfish
-	test.context.worker = worker
-
-	test.context.session = test.context.jellyfish.sessions.admin
-	test.context.guestSession = test.context.jellyfish.sessions.guest
+	test.context.session = test.context.server.jellyfish.sessions.admin
+	test.context.guestSession = test.context.server.jellyfish.sessions.guest
 
 	// Since AVA tests are running concurrently, set up an SDK instance that will
 	// communicate with whichever port this server instance bound to
 	test.context.sdk = getSdk({
 		apiPrefix: process.env.API_PREFIX || 'api/v2',
-		apiUrl: `http://localhost:${port}`
+		apiUrl: `http://localhost:${test.context.server.port}`
 	})
 
 	test.context.sendHook = (method, provider, payload) => {
 		return new Bluebird((resolve, reject) => {
 			request({
 				method,
-				url: `http://localhost:${port}/api/v2/hooks/${provider}`,
+				url: `http://localhost:${test.context.server.port}/api/v2/hooks/${provider}`,
 				json: true,
 				body: payload
 			}, (error, response, body) => {
@@ -145,7 +139,7 @@ ava.test.serial('.query() should be able to see previously restricted cards afte
 		password: 'foobarbaz'
 	})
 
-	const entry = await test.context.jellyfish.insertCard(test.context.session, {
+	const entry = await test.context.server.jellyfish.insertCard(test.context.session, {
 		type: 'scratchpad-entry',
 		name: 'Test entry',
 		tags: [],
@@ -158,7 +152,7 @@ ava.test.serial('.query() should be able to see previously restricted cards afte
 
 	test.deepEqual(unprivilegedResults, null)
 
-	await test.context.jellyfish.insertCard(test.context.session, {
+	await test.context.server.jellyfish.insertCard(test.context.session, {
 		id: user.id,
 		slug: 'user-johndoe',
 		type: 'user',
@@ -321,7 +315,7 @@ ava.test.serial('users with the "user-team" role should not be able to change ot
 	})
 
 	// Update the role on the team user
-	await test.context.jellyfish.insertCard(
+	await test.context.server.jellyfish.insertCard(
 		test.context.session,
 		_.merge(teamUser, {
 			data: {
@@ -458,7 +452,7 @@ ava.test.serial('Users should not be able to login as the core admin user', asyn
 
 		const user = await sdk.auth.signup(userData)
 
-		await test.context.jellyfish.insertCard(
+		await test.context.server.jellyfish.insertCard(
 			test.context.session,
 			_.merge(user, {
 				data: {
@@ -488,10 +482,10 @@ ava.test.serial('should be able to post an external event', async (test) => {
 	test.false(result.response.error)
 
 	const requestId = result.response.data.id
-	const requestResult = await test.context.worker.waitResults(test.context.session, requestId)
+	const requestResult = await test.context.server.worker.waitResults(test.context.session, requestId)
 
 	test.false(requestResult.error)
-	const card = await test.context.jellyfish.getCardById(test.context.session, requestResult.data.id)
+	const card = await test.context.server.jellyfish.getCardById(test.context.session, requestResult.data.id)
 
 	test.deepEqual(card, {
 		id: requestResult.data.id,
@@ -501,6 +495,13 @@ ava.test.serial('should be able to post an external event', async (test) => {
 		links: {},
 		data: {
 			source: 'test',
+			headers: {
+				accept: 'application/json',
+				connection: 'close',
+				'content-length': '25',
+				'content-type': 'application/json',
+				host: `localhost:${test.context.server.port}`
+			},
 			payload: {
 				foo: 'bar',
 				bar: 'baz'
