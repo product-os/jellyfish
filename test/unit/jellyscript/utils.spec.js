@@ -16,7 +16,7 @@
 
 const ava = require('ava')
 const _ = require('lodash')
-const utils = require('../../lib/jellyscript/utils')
+const utils = require('../../../lib/jellyscript/utils')
 
 ava.test('.hashObject() should return a string', (test) => {
 	test.true(_.isString(utils.hashObject({

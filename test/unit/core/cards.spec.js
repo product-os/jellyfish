@@ -19,7 +19,7 @@ const ava = require('ava')
 const path = require('path')
 const fs = require('fs')
 const skhema = require('skhema')
-const CARDS = require('../../lib/core/cards')
+const CARDS = require('../../../lib/core/cards')
 const helpers = require('./helpers')
 
 ava.test.beforeEach(helpers.kernel.beforeEach)

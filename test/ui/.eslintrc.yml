@@ -1,9 +1,0 @@
-extends:
-  - 'standard'
-  - 'plugin:react/recommended'
-rules:
-  indent:
-    - error
-    - tab
-  no-tabs:
-    - off

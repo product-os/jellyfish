@@ -15,9 +15,9 @@
  */
 
 const ava = require('ava')
-const permissionFilter = require('../../lib/core/permission-filter')
-const errors = require('../../lib/core/errors')
-const CARDS = require('../../lib/core/cards')
+const permissionFilter = require('../../../lib/core/permission-filter')
+const errors = require('../../../lib/core/errors')
+const CARDS = require('../../../lib/core/cards')
 const helpers = require('./helpers')
 
 ava.test.beforeEach(helpers.kernel.beforeEach)

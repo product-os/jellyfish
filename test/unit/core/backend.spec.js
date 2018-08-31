@@ -17,7 +17,7 @@
 const ava = require('ava')
 const _ = require('lodash')
 const Bluebird = require('bluebird')
-const errors = require('../../lib/core/errors')
+const errors = require('../../../lib/core/errors')
 const helpers = require('./helpers')
 
 ava.test.beforeEach(helpers.backend.beforeEach)

@@ -16,7 +16,7 @@
 
 const ava = require('ava')
 const helpers = require('./helpers')
-const utils = require('../../lib/worker/utils')
+const utils = require('../../../lib/worker/utils')
 
 ava.test.beforeEach(helpers.beforeEach)
 ava.test.afterEach(helpers.afterEach)

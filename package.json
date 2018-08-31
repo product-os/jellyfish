@@ -3,16 +3,15 @@
   "version": "3.2.3",
   "private": true,
   "description": "The Jellyfish Project",
-  "main": "lib/server.js",
+  "main": "lib/server/index.js",
   "homepage": "https://github.com/resin-io/jellyfish",
   "repository": {
     "type": "git",
     "url": "git@github.com:resin-io/jellyfish.git"
   },
   "scripts": {
-    "start": "make start",
+    "start": "make start-server",
     "test": "make lint test",
-    "test:e2e": "ava e2e",
     "postinstall": "make build",
     "heroku-postbuild": "make build"
   },
@@ -21,11 +20,9 @@
     "verbose": true,
     "concurrency": 3,
     "failFast": true,
-    "require": [
-      "./test/test-helpers/ui-setup.js"
-    ],
     "files": [
-      "test/**/*.spec.js"
+      "test/unit/**/*.spec.js",
+      "test/integration/**/*.spec.js"
     ],
     "babel": {
       "presets": [

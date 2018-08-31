@@ -15,7 +15,7 @@
  */
 
 const ava = require('ava')
-const jellyscript = require('../../lib/jellyscript')
+const jellyscript = require('../../../lib/jellyscript')
 
 ava.test('HASH: should pass if the password and salt matches', (test) => {
 	const options = {

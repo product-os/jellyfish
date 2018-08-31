@@ -16,7 +16,7 @@
 
 const ava = require('ava')
 const helpers = require('./helpers')
-const triggers = require('../../lib/worker/triggers')
+const triggers = require('../../../lib/worker/triggers')
 
 ava.test.beforeEach(helpers.beforeEach)
 ava.test.afterEach(helpers.afterEach)

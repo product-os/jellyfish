@@ -15,9 +15,9 @@
  */
 
 const randomstring = require('randomstring')
-const Backend = require('../../lib/core/backend')
-const Cache = require('../../lib/core/cache')
-const Kernel = require('../../lib/core/kernel')
+const Backend = require('../../../lib/core/backend')
+const Cache = require('../../../lib/core/cache')
+const Kernel = require('../../../lib/core/kernel')
 
 exports.backend = {
 	beforeEach: async (test) => {
