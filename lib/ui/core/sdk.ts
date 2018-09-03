@@ -1,4 +1,4 @@
-import { getSdk } from '@resin.io/jellyfish-sdk';
+import { getSdk } from '../../sdk';
 
 const API_PREFIX = process.env.API_PREFIX || 'api/v2';
 const API_URL = process.env.API_URL || window.location.origin;

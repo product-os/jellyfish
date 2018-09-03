@@ -1,7 +1,7 @@
-import { JellyfishStream } from '@resin.io/jellyfish-sdk/dist/stream';
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import { Dispatch } from 'redux';
+import { JellyfishStream } from '../../../sdk/stream';
 import { Card } from '../../../Types';
 import { hashCode } from '../../services/helpers';
 import { createNotification } from '../../services/notifications';
