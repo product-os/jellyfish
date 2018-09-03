@@ -248,8 +248,10 @@ export const hashCode = (input: string) => {
 	}
 	for (iteration; iteration < input.length; iteration++) {
 		character = input.charCodeAt(iteration);
+		// tslint:disable-next-line no-bitwise
 		hash  = ((hash << 5) - hash) + character;
 		// Convert to 32bit integer
+		// tslint:disable-next-line no-bitwise
 		hash |= 0;
 	}
 	return hash;

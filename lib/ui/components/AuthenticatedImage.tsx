@@ -28,7 +28,7 @@ export class AuthenticatedImage extends React.Component<
 		};
 	}
 
-	componentDidMount() {
+	componentDidMount(): void {
 		sdk.getFile(this.props.cardId, this.props.fileName)
 		.then((data) => {
 			const blob = new Blob([data]);
@@ -39,7 +39,7 @@ export class AuthenticatedImage extends React.Component<
 		});
 	}
 
-	render() {
+	render(): React.ReactNode {
 		const { imageSrc } = this.state;
 		if (!imageSrc) {
 			return null;

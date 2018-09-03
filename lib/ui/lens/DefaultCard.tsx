@@ -58,7 +58,7 @@ class CardList extends React.Component<CardListProps, CardListState> {
 		});
 	}
 
-	public componentWillUpdate({ tail }: CardListProps) {
+	public componentWillUpdate({ tail }: CardListProps): void {
 		// If tail data has changed, clear the cell cache
 		if (!circularDeepEqual(this.props.tail, tail)) {
 			this.clearCellCache();
@@ -69,7 +69,7 @@ class CardList extends React.Component<CardListProps, CardListState> {
 		this._cache.clearAll();
 	}
 
-	public openChannel(card: Card) {
+	public openChannel(card: Card): void {
 		this.props.actions.addChannel(createChannel({
 			target: card.id,
 			head: card,
@@ -102,7 +102,7 @@ class CardList extends React.Component<CardListProps, CardListState> {
 		this.setState({ creatingCard: false });
 	}
 
-	public getSeedData() {
+	public getSeedData(): { [k: string]: any } {
 		const { head } = this.props.channel.data;
 
 		if (!head || head.type !== 'view') {
@@ -148,7 +148,7 @@ class CardList extends React.Component<CardListProps, CardListState> {
 		);
 	}
 
-	public render() {
+	public render(): React.ReactNode {
 		const { tail } = this.props;
 
 		return (

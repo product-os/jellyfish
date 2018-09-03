@@ -155,7 +155,7 @@ class Base extends React.Component<
 		this.setState({ editModel: model });
 	}
 
-	public render() {
+	public render(): React.ReactNode {
 		const localSchema = getLocalSchema(this.state.editModel);
 		const freeFieldData = _.reduce<any, any>(localSchema.properties, (carry, _value, key) => {
 			const cardValue = _.get(this.props.card, ['data', key]);

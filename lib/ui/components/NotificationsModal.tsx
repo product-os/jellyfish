@@ -55,7 +55,7 @@ export class NotificationsModal extends React.Component<ModalProps, ModalState> 
 		};
 	}
 
-	public componentWillReceiveProps(nextProps: ModalProps) {
+	public componentWillReceiveProps(nextProps: ModalProps): void {
 		if (!_.isEqual(nextProps.settings, this.props.settings)) {
 			this.setState({
 				settings: nextProps.settings || {},
@@ -71,7 +71,7 @@ export class NotificationsModal extends React.Component<ModalProps, ModalState> 
 		this.setState({ settings: data.formData });
 	}
 
-	public render() {
+	public render(): React.ReactNode {
 		if (!this.props.show) {
 			return null;
 		}

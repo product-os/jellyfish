@@ -35,7 +35,7 @@ class DefaultList extends React.Component<DefaultListProps, DefaultListState> {
 		};
 	}
 
-	public shouldComponentUpdate(nextProps: DefaultListProps, nextState: DefaultListState) {
+	public shouldComponentUpdate(nextProps: DefaultListProps, nextState: DefaultListState): boolean {
 		return !circularDeepEqual(nextState, this.state) || !circularDeepEqual(nextProps, this.props);
 	}
 
@@ -48,7 +48,7 @@ class DefaultList extends React.Component<DefaultListProps, DefaultListState> {
 		this.openChannel(card);
 	}
 
-	public openChannel(card: Card) {
+	public openChannel(card: Card): void {
 		this.props.actions.addChannel(createChannel({
 			target: card.id,
 			head: card,
@@ -81,7 +81,7 @@ class DefaultList extends React.Component<DefaultListProps, DefaultListState> {
 		this.setState({ creatingCard: false });
 	}
 
-	public getSeedData() {
+	public getSeedData(): { [k: string]: any } {
 		const { head } = this.props.channel.data;
 
 		if (!head || head.type !== 'view') {
@@ -97,7 +97,7 @@ class DefaultList extends React.Component<DefaultListProps, DefaultListState> {
 		return getUpdateObjectFromSchema(schema);
 	}
 
-	public render() {
+	public render(): React.ReactNode {
 		const {
 			tail,
 			type,

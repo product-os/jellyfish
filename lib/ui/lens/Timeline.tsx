@@ -70,11 +70,11 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		};
 	}
 
-	public sortTail(tail: Card[]) {
+	public sortTail(tail: Card[]): Card[] {
 		return _.sortBy<Card>(tail, 'data.timestamp');
 	}
 
-	public bootstrap(target: string) {
+	public bootstrap(target: string): void {
 		const querySchema: JSONSchema6 = {
 			type: 'object',
 			properties: {
@@ -110,13 +110,13 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		}, 1000);
 	}
 
-	public setTail(tail: Card[]) {
+	public setTail(tail: Card[]): void {
 		this.setState({
 			tail: this.sortTail(tail),
 		});
 	}
 
-	public componentWillUpdate(nextProps: DefaultRendererProps) {
+	public componentWillUpdate(nextProps: DefaultRendererProps): void {
 		if (this.scrollArea) {
 			// Only set the scroll flag if the scroll area is already at the bottom
 			this.shouldScroll = this.scrollArea.scrollTop === this.scrollArea.scrollHeight - this.scrollArea.offsetHeight;
@@ -128,12 +128,12 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		}
 	}
 
-	public componentDidUpdate() {
+	public componentDidUpdate(): void {
 		// Scroll to bottom if the component has been updated with new items
 		this.scrollToBottom();
 	}
 
-	public scrollToBottom() {
+	public scrollToBottom(): void {
 		if (!this.scrollArea) {
 			return;
 		}
@@ -143,11 +143,11 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		}
 	}
 
-	public delete() {
+	public delete(): void {
 		this.props.actions.removeChannel(this.props.channel);
 	}
 
-	public addMessage(e: React.KeyboardEvent<HTMLElement>) {
+	public addMessage(e: React.KeyboardEvent<HTMLElement>): void {
 		e.preventDefault();
 		const { newMessage } = this.state;
 
@@ -254,7 +254,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 
 	}
 
-	public render() {
+	public render(): React.ReactNode {
 		const { head } = this.props.channel.data;
 		const { tail } = this.state;
 		const channelTarget = this.props.channel.data.target;

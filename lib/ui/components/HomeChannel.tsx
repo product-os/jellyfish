@@ -97,11 +97,11 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 		}
 	}
 
-	public shouldComponentUpdate(nextProps: HomeChannelProps, nextState: HomeChannelState) {
+	public shouldComponentUpdate(nextProps: HomeChannelProps, nextState: HomeChannelState): boolean {
 		return !circularDeepEqual(nextState, this.state) || !circularDeepEqual(nextProps, this.props);
 	}
 
-	public setTail(tail: Card[]) {
+	public setTail(tail: Card[]): void {
 		tail.forEach(card => {
 			this.props.actions.addSubscription(card.id);
 			this.props.actions.streamView(card.id);
@@ -163,7 +163,7 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 		this.setState({ showChangelog: false });
 	}
 
-	public render() {
+	public render(): React.ReactNode {
 		const {
 			channels,
 			channel: {

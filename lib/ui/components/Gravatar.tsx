@@ -39,7 +39,7 @@ export default class Gravatar extends React.Component<GravatarProps, GravatarSta
 		}
 	}
 
-	public componentWillReceiveProps(nextProps: GravatarProps) {
+	public componentWillReceiveProps(nextProps: GravatarProps): void {
 		if (this.props.email !== nextProps.email) {
 			if (nextProps.email) {
 				this.load(nextProps.email);
@@ -49,14 +49,14 @@ export default class Gravatar extends React.Component<GravatarProps, GravatarSta
 		}
 	}
 
-	public load(email: string) {
+	public load(email: string): void {
 		getGravatar(email)
 		.then((avatarUrl) => {
 			return this.setState({ avatarUrl });
 		});
 	}
 
-	public render() {
+	public render(): React.ReactNode {
 		if (this.state.avatarUrl) {
 			return (
 				<Img w={36} style={{borderRadius: '50%'}} src={this.state.avatarUrl} />

@@ -57,11 +57,11 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 		};
 	}
 
-	componentDidMount() {
+	componentDidMount(): void {
 		this.bootstrap(this.props.channel.data.head);
 	}
 
-	bootstrap(head?: Card) {
+	bootstrap(head?: Card): void {
 		if (!this.props.user) {
 			throw new Error('Cannot bootstrap a view without an active user');
 		}
@@ -97,7 +97,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 		});
 	}
 
-	public getGroups() {
+	public getGroups(): any[] {
 		const view = this.props.channel.data.head;
 
 		if (!view || !view.data.groups) {
@@ -107,7 +107,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 		return view.data.groups;
 	}
 
-	public componentWillReceiveProps(nextProps: ViewRendererProps) {
+	public componentWillReceiveProps(nextProps: ViewRendererProps): void {
 		if (this.props.channel.data.target !== nextProps.channel.data.target) {
 			this.setState({ ready: false });
 		}
@@ -128,7 +128,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 		}
 	}
 
-	public openChannel(card: Card) {
+	public openChannel(card: Card): void {
 		this.props.actions.addChannel(createChannel({
 			target: card.id,
 			head: card,
@@ -136,7 +136,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 		}));
 	}
 
-	public saveView = ([ view ]: FiltersView[]) => {
+	public saveView = ([ view ]: FiltersView[]): void => {
 		sdk.card.create(this.createView(view))
 		.then(
 			(view) => this.props.actions.addChannel(createChannel({
@@ -150,7 +150,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 		});
 	}
 
-	public createView(view: FiltersView) {
+	public createView(view: FiltersView): Card {
 		const newView = _.cloneDeep(this.props.channel.data.head!);
 
 		newView.name = view.name;
@@ -201,7 +201,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 		this.setState({ filters });
 	}, 750, { leading: true });
 
-	public setLens = (e: React.MouseEvent<HTMLButtonElement>) => {
+	public setLens = (e: React.MouseEvent<HTMLButtonElement>): void => {
 		const slug = e.currentTarget.dataset.slug;
 		const lens = _.find(this.state.lenses, { slug });
 		const { subscription } = this.props;
@@ -228,7 +228,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 		this.props.actions.saveSubscription(subscription, this.props.channel.data.target);
 	}
 
-	render() {
+	render(): React.ReactNode {
 		const { head } = this.props.channel.data;
 		if (!this.state.ready || !head || _.isEmpty(head.data) || !this.props.subscription) {
 			return (

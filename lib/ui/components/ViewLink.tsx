@@ -69,7 +69,7 @@ class ViewLinkBase extends React.Component<ViewLinkProps & ConnectedProps, ViewL
 		this.setState({ showSettings: !this.state.showSettings });
 	}
 
-	public getNotificationSettings() {
+	public getNotificationSettings(): { [k: string]: any } {
 		return _.get(this.props.subscription, 'data.notificationSettings') || {};
 	}
 
@@ -89,7 +89,7 @@ class ViewLinkBase extends React.Component<ViewLinkProps & ConnectedProps, ViewL
 		});
 	}
 
-	render() {
+	render(): React.ReactNode {
 		const { card, isActive, update } = this.props;
 		return (
 			<Flex

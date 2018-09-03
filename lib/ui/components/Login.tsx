@@ -101,7 +101,7 @@ class Base extends React.Component<LoginProps, LoginState> {
 		this.setState({ password: e.target.value });
 	}
 
-	public render() {
+	public render(): React.ReactNode {
 		return (
 			<React.Fragment>
 				<TopBar>
