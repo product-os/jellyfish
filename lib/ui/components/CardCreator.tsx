@@ -84,7 +84,7 @@ class Base extends React.Component<CardCreatorProps, CardCreatorState> {
 		this.setState({ newCardModel: model });
 	}
 
-	public render() {
+	public render(): React.ReactNode {
 		if (!this.props.show) {
 			return null;
 		}

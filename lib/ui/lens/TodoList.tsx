@@ -83,7 +83,7 @@ class TodoList extends React.Component<TodoListProps, TodoListState> {
 		this.setState({ todoMessage: '' });
 	}
 
-	public render() {
+	public render(): React.ReactNode {
 		const { tail } = this.props;
 
 		return (

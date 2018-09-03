@@ -65,7 +65,7 @@ class CustomLaneHeader extends React.Component<CustomLaneHeaderProps, CustomLane
 		this.setState({ showUpdateModal: !this.state.showUpdateModal });
 	}
 
-	render() {
+	render(): React.ReactNode {
 		const { props } = this;
 
 		return (
@@ -128,7 +128,7 @@ class Kanban extends React.Component<KanbanProps, KanbanState> {
 		};
 	}
 
-	public getGroups() {
+	public getGroups(): any[] {
 		const view = this.props.channel.data.head;
 
 		if (!view || !view.data.groups) {
@@ -249,7 +249,7 @@ class Kanban extends React.Component<KanbanProps, KanbanState> {
 		this.setState({ showNewCardModal: !this.state.showNewCardModal });
 	}
 
-	public getSeedData() {
+	public getSeedData(): { [k: string]: any } {
 		const { head } = this.props.channel.data;
 
 		if (!head || head.type !== 'view') {
@@ -294,7 +294,7 @@ class Kanban extends React.Component<KanbanProps, KanbanState> {
 	}
 
 
-	public render() {
+	public render(): React.ReactNode {
 		const data = {
 			lanes: this.getLanes(),
 		};

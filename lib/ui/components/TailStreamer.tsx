@@ -19,17 +19,17 @@ interface TailStreamerState {
 export class TailStreamer<P, S> extends React.Component<P, TailStreamerState & S> {
 	public stream: JellyfishStream;
 
-	public componentWillUnmount() {
+	public componentWillUnmount(): void {
 		if (this.stream) {
 			this.stream.destroy();
 		}
 	}
 
-	public setTail(tail: Card[]) {
+	public setTail(tail: Card[]): void {
 		this.setState({ tail });
 	}
 
-	public streamTail(query: string | Card | JSONSchema6) {
+	public streamTail(query: string | Card | JSONSchema6): void {
 		if (this.stream) {
 			this.stream.destroy();
 		}

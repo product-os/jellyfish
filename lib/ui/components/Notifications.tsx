@@ -27,7 +27,7 @@ class JellyFishAlert extends React.Component<JellyfishAlertProps, {}> {
 		this.props.onDismiss(this.props.id);
 	}
 
-	render() {
+	render(): React.ReactNode {
 		const { id, type, message } = this.props;
 		return (
 			<Alert
@@ -56,7 +56,7 @@ class Base extends React.Component<NotificationsProps, {}> {
 		this.props.actions.removeNotification(id);
 	}
 
-	public render() {
+	public render(): React.ReactNode {
 		if (!this.props.notifications.length) {
 			return null;
 		}

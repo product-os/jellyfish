@@ -96,7 +96,7 @@ export class ContextMenu extends React.Component<ContextMenuProps, ContextMenuSt
 		this.state = {};
 	}
 
-	componentDidMount() {
+	componentDidMount(): void {
 		const node = ReactDOM.findDOMNode(this);
 		if (!node) {
 			return;
@@ -124,7 +124,7 @@ export class ContextMenu extends React.Component<ContextMenuProps, ContextMenuSt
 		}
 	}
 
-	public render() {
+	public render(): React.ReactNode {
 		const { onClose, children } = this.props;
 		const { offsetLeft, offsetTop, offsetRight } = this.state;
 

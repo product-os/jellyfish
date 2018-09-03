@@ -71,19 +71,19 @@ export default class Event extends React.Component<EventProps, { actorName: stri
 		};
 	}
 
-	public shouldComponentUpdate(nextProps: EventProps) {
+	public shouldComponentUpdate(nextProps: EventProps): boolean {
 		return !circularDeepEqual(nextProps, this.props);
 	}
 
-	public componentDidMount() {
+	public componentDidMount(): void {
 		this.highlightTags();
 	}
 
-	public componentDidUpdate() {
+	public componentDidUpdate(): void {
 		this.highlightTags();
 	}
 
-	public highlightTags() {
+	public highlightTags(): void {
 		if (!this.messageElement) {
 			return;
 		}
@@ -106,7 +106,7 @@ export default class Event extends React.Component<EventProps, { actorName: stri
 		openChannel(id);
 	}
 
-	public getTimelineElement(card: Card) {
+	public getTimelineElement(card: Card): JSX.Element {
 		let text = `${card.name ? card.name + ' - ' : ''}${card.type}`;
 		if (card.type === 'create') {
 			text = 'created by';
@@ -130,7 +130,7 @@ export default class Event extends React.Component<EventProps, { actorName: stri
 		}
 	}
 
-	public render() {
+	public render(): React.ReactNode {
 		const { card, openChannel, ...props } = this.props;
 
 		const isMessage = card.type === 'message';

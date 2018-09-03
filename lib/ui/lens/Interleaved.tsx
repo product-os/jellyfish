@@ -71,7 +71,7 @@ export class Interleaved extends TailStreamer<InterleavedProps, InterleavedState
 		setTimeout(() => this.scrollToBottom(), 1000);
 	}
 
-	public componentWillUpdate(nextProps: InterleavedProps) {
+	public componentWillUpdate(nextProps: InterleavedProps): void {
 		if (!circularDeepEqual(nextProps.tail, this.props.tail)) {
 			this.setupStream(nextProps.tail || []);
 		}
@@ -84,12 +84,12 @@ export class Interleaved extends TailStreamer<InterleavedProps, InterleavedState
 		this.shouldScroll = this.scrollArea.scrollTop === this.scrollArea.scrollHeight - this.scrollArea.offsetHeight;
 	}
 
-	public componentDidUpdate() {
+	public componentDidUpdate(): void {
 		// Scroll to bottom if the component has been updated with new items
 		this.scrollToBottom();
 	}
 
-	public setupStream(headCards: Card[]) {
+	public setupStream(headCards: Card[]): void {
 		const headCardIds = _.map(headCards, 'id');
 
 		if (!headCardIds.length) {
@@ -123,7 +123,7 @@ export class Interleaved extends TailStreamer<InterleavedProps, InterleavedState
 		this.streamTail(querySchema);
 	}
 
-	public scrollToBottom() {
+	public scrollToBottom(): void {
 		if (!this.scrollArea) {
 			return;
 		}
@@ -194,7 +194,7 @@ export class Interleaved extends TailStreamer<InterleavedProps, InterleavedState
 		this.setState({ messagesOnly: !e.target.checked });
 	}
 
-	public render() {
+	public render(): React.ReactNode {
 		const { head } = this.props.channel.data;
 		const timelineCards = _.sortBy(this.state.tail, 'data.timestamp');
 		// Give each headcard a timestamp using the first matching timeline card

@@ -139,7 +139,7 @@ class Base extends React.Component<CardProps, {}> {
 		}));
 	}
 
-	public shouldComponentUpdate(nextProps: CardProps) {
+	public shouldComponentUpdate(nextProps: CardProps): boolean {
 		return !circularDeepEqual(nextProps, this.props);
 	}
 
@@ -158,7 +158,7 @@ class Base extends React.Component<CardProps, {}> {
 	}
 
 
-	public render() {
+	public render(): React.ReactNode {
 		const payload = this.props.card.data;
 		const { card, fieldOrder, channel } = this.props;
 		const typeCard = _.find(this.props.types, { slug: card.type });

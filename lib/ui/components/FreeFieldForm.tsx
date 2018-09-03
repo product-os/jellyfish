@@ -108,7 +108,7 @@ export class FreeFieldForm extends React.Component<FreeFieldFormProps, FreeField
 		this.props.onDataChange(data.formData);
 	}
 
-	public render() {
+	public render(): React.ReactNode {
 		return (
 			<Box>
 				<Form

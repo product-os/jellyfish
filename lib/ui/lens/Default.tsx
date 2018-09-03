@@ -29,7 +29,7 @@ export class Renderer extends React.Component<DefaultRendererProps, RendererStat
 		};
 	}
 
-	public render() {
+	public render(): React.ReactNode {
 		const { channel } = this.props;
 		const { head } = channel.data;
 

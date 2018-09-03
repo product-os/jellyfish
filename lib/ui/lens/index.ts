@@ -44,7 +44,7 @@ class LensService {
 
 	// Returns a validator function for a given lens, validators are cached for
 	// better performance.
-	public getValidator(lens: any) {
+	public getValidator(lens: any): ValidateFunction {
 		if (!this.validators[lens.slug]) {
 			if (lens.data.filter) {
 				this.validators[lens.slug] = sdk.utils.compileSchema(lens.data.filter);
@@ -58,7 +58,7 @@ class LensService {
 		return this.validators[lens.slug];
 	}
 
-	public applyLensPreference(lenses: Lens[], preference: string[]) {
+	public applyLensPreference(lenses: Lens[], preference: string[]): Lens[] {
 		const preferredLenses = preference.reduce((carry, slug) => {
 			if (slug === '*') {
 				return carry.concat(lenses);
@@ -78,7 +78,7 @@ class LensService {
 	// An optional array of lens slugs can be passed, to specify the order and
 	// restrict the lenses returned. An asterisk can be used to specify
 	// a wildcard, allowing any lens to be returned.
-	public getLenses(data: Card | Card[] | void, preference?: string[]) {
+	public getLenses(data: Card | Card[] | void, preference?: string[]): Lens[] {
 		if (!data) {
 			return [];
 		}
@@ -101,7 +101,7 @@ class LensService {
 	// An optional array of lens slugs can be passed, to specify the order and
 	// restrict the lenses returned. An asterisk can be used to specify
 	// a wildcard, allowing any lens to be returned.
-	public getLensesByType(type: string | null, preference?: string[]) {
+	public getLensesByType(type: string | null, preference?: string[]): Lens[] {
 		if (!type) {
 			return [];
 		}
@@ -122,7 +122,7 @@ class LensService {
 		return lenses;
 	}
 
-	public getLensBySlug(slug: string) {
+	public getLensBySlug(slug: string): Lens | null {
 		const lenses = _.flatten(_.map(this.lenses, (v) => v));
 
 		return _.find(lenses, { slug }) || null;

@@ -41,7 +41,7 @@ export class GroupUpdate extends React.Component<GroupUpdateProps, GroupUpdateSt
 		};
 	}
 
-	public componentDidMount() {
+	public componentDidMount(): void {
 		this.setSchema(this.props.schema);
 	}
 
@@ -113,7 +113,7 @@ export class GroupUpdate extends React.Component<GroupUpdateProps, GroupUpdateSt
 		});
 	}
 
-	render() {
+	public render(): React.ReactNode {
 		const {
 			flatSchema,
 			selectedField,

@@ -18,9 +18,9 @@ lint:
 	./node_modules/.bin/eslint $(ESLINT_OPTION_FIX) \
 		lib test stress webpack.config.js
 	./node_modules/.bin/tslint $(TSLINT_OPTION_FIX) --format stylish \
-		lib/**/*.ts lib/**/*.tsx \
-		--exclude lib/*/node_modules/** \
-		--exclude lib/*/dist/**/*.js
+		"lib/**/*.ts" "lib/**/*.tsx" \
+		--exclude "lib/*/node_modules/**" \
+		--exclude "lib/*/dist/**"
 
 build-ui:
 	NODE_ENV=production ./node_modules/.bin/webpack

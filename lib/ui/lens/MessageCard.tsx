@@ -47,7 +47,7 @@ class CardList extends React.Component<CardListProps, CardListState> {
 			});
 	}
 
-	public componentWillReceiveProps() {
+	public componentWillReceiveProps(): void {
 		if (!this.scrollArea) {
 			return;
 		}
@@ -56,12 +56,12 @@ class CardList extends React.Component<CardListProps, CardListState> {
 		this.shouldScroll = this.scrollArea.scrollTop === this.scrollArea.scrollHeight - this.scrollArea.offsetHeight;
 	}
 
-	public componentDidUpdate() {
+	public componentDidUpdate(): void {
 		// Scroll to bottom if the component has been updated with new items
 		this.scrollToBottom();
 	}
 
-	public scrollToBottom() {
+	public scrollToBottom(): void {
 		if (!this.scrollArea) {
 			return;
 		}
@@ -87,7 +87,7 @@ class CardList extends React.Component<CardListProps, CardListState> {
 		this.props.actions.loadChannelData(newChannel);
 	}
 
-	public threadOpen(target: string) {
+	public threadOpen(target: string): boolean {
 		return _.some(this.props.channels, (channel) => {
 			return channel.data.target === target;
 		});
@@ -97,7 +97,7 @@ class CardList extends React.Component<CardListProps, CardListState> {
 		this.scrollArea = ref;
 	}
 
-	public render() {
+	public render(): React.ReactNode {
 		const { tail } = this.props;
 
 		return (
