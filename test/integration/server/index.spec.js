@@ -85,11 +85,16 @@ ava.test.beforeEach(async (test) => {
 		apiUrl: `http://localhost:${test.context.server.port}`
 	})
 
-	test.context.sendHook = (method, provider, payload) => {
+	test.context.sendHook = (method, provider, type, payload) => {
+		let targetUrl = `http://localhost:${test.context.server.port}/api/v2/hooks/${provider}`
+		if (type) {
+			targetUrl += `/${type}`
+		}
+
 		return new Bluebird((resolve, reject) => {
 			request({
 				method,
-				url: `http://localhost:${test.context.server.port}/api/v2/hooks/${provider}`,
+				url: targetUrl,
 				json: true,
 				body: payload
 			}, (error, response, body) => {
@@ -473,7 +478,45 @@ ava.test.serial('Users should not be able to login as the core admin user', asyn
 })
 
 ava.test.serial('should be able to post an external event', async (test) => {
-	const result = await test.context.sendHook('POST', 'test', {
+	const result = await test.context.sendHook('POST', 'test', null, {
+		foo: 'bar',
+		bar: 'baz'
+	})
+
+	test.is(result.code, 200)
+	test.false(result.response.error)
+
+	const requestId = result.response.data.id
+	const requestResult = await test.context.server.worker.waitResults(test.context.session, requestId)
+
+	test.false(requestResult.error)
+	const card = await test.context.server.jellyfish.getCardById(test.context.session, requestResult.data.id)
+
+	test.deepEqual(card, {
+		id: requestResult.data.id,
+		type: 'external-event',
+		active: true,
+		tags: [],
+		links: {},
+		data: {
+			source: 'test',
+			headers: {
+				accept: 'application/json',
+				connection: 'close',
+				'content-length': '25',
+				'content-type': 'application/json',
+				host: `localhost:${test.context.server.port}`
+			},
+			payload: {
+				foo: 'bar',
+				bar: 'baz'
+			}
+		}
+	})
+})
+
+ava.test.serial('should be able to post an external event with a type', async (test) => {
+	const result = await test.context.sendHook('POST', 'test', 'foobarbaz', {
 		foo: 'bar',
 		bar: 'baz'
 	})
