@@ -488,6 +488,60 @@ ava.test('.execute() should execute a triggered action', async (test) => {
 	test.is(timeline[0].data.originator, 'cb3523c5-b37d-41c8-ae32-9e7cc9309165')
 })
 
+ava.test('.execute() should not execute a triggered action with a future start date', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
+	const actionCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'action-create-card')
+
+	test.context.worker.setTriggers([
+		{
+			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			filter: {
+				type: 'object',
+				required: [ 'data' ],
+				properties: {
+					data: {
+						type: 'object',
+						required: [ 'command' ],
+						properties: {
+							command: {
+								type: 'string',
+								const: 'foo-bar-baz'
+							}
+						}
+					}
+				}
+			},
+			startDate: '2500-01-01T00:00:00.000Z',
+			action: 'action-create-card',
+			card: typeCard.id,
+			arguments: {
+				properties: {
+					slug: 'foo-bar-baz'
+				}
+			}
+		}
+	])
+
+	const id = await test.context.worker.enqueue(test.context.session, {
+		action: actionCard.slug,
+		card: typeCard.id,
+		arguments: {
+			properties: {
+				data: {
+					command: 'foo-bar-baz'
+				}
+			}
+		}
+	})
+
+	await test.context.flush(test.context.session)
+	const result = await test.context.worker.waitResults(test.context.session, id)
+	test.false(result.error)
+
+	const card = await test.context.jellyfish.getCardBySlug(test.context.session, 'foo-bar-baz')
+	test.falsy(card)
+})
+
 ava.test('.execute() should execute a triggered action with a top level anyOf', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const actionCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'action-create-card')
@@ -861,6 +915,40 @@ ava.test('.execute() AGGREGATE should work with $$ prefixed properties', async (
 ava.test('.getTriggers() should initially be an empty array', (test) => {
 	const triggers = test.context.worker.getTriggers()
 	test.deepEqual(triggers, [])
+})
+
+ava.test('.setTriggers() should be able to set a trigger with a start date', (test) => {
+	test.context.worker.setTriggers([
+		{
+			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			action: 'action-foo-bar',
+			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			startDate: '2008-01-01T00:00:00.000Z',
+			filter: {
+				type: 'object'
+			},
+			arguments: {
+				foo: 'bar'
+			}
+		}
+	])
+
+	const triggers = test.context.worker.getTriggers()
+
+	test.deepEqual(triggers, [
+		{
+			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			action: 'action-foo-bar',
+			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			startDate: '2008-01-01T00:00:00.000Z',
+			filter: {
+				type: 'object'
+			},
+			arguments: {
+				foo: 'bar'
+			}
+		}
+	])
 })
 
 ava.test('.setTriggers() should be able to set triggers', (test) => {

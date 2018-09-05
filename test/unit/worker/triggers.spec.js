@@ -702,3 +702,78 @@ ava.test('.getTypeTriggers() should not return triggered actions not associated 
 	const result = await triggers.getTypeTriggers(test.context.jellyfish, test.context.session, 'foo')
 	test.deepEqual(result, [])
 })
+
+ava.test('.getStartDate() should return epoch if the trigger has no start date', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
+	const result = triggers.getStartDate({
+		type: 'triggered-action',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			filter: {
+				type: 'object'
+			},
+			action: 'action-create-card',
+			target: typeCard.id,
+			arguments: {
+				properties: {
+					slug: 'foo'
+				}
+			}
+		}
+	})
+
+	test.is(result.getTime(), 0)
+})
+
+ava.test('.getStartDate() should return epoch if the trigger has an invalid date', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
+	const result = triggers.getStartDate({
+		type: 'triggered-action',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			filter: {
+				type: 'object'
+			},
+			startDate: 'foo',
+			action: 'action-create-card',
+			target: typeCard.id,
+			arguments: {
+				properties: {
+					slug: 'foo'
+				}
+			}
+		}
+	})
+
+	test.is(result.getTime(), 0)
+})
+
+ava.test('.getStartDate() should return the specified date if valid', async (test) => {
+	const date = new Date()
+	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
+	const result = triggers.getStartDate({
+		type: 'triggered-action',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			filter: {
+				type: 'object'
+			},
+			startDate: date.toISOString(),
+			action: 'action-create-card',
+			target: typeCard.id,
+			arguments: {
+				properties: {
+					slug: 'foo'
+				}
+			}
+		}
+	})
+
+	test.is(result.getTime(), date.getTime())
+})
