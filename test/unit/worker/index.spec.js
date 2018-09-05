@@ -126,6 +126,19 @@ ava.test('.enqueue() should include the whole passed action', async (test) => {
 	test.deepEqual(request.action, actionCard)
 })
 
+ava.test('.enqueue() should set an originator', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
+	await test.context.worker.enqueue(test.context.session, {
+		action: 'action-create-card',
+		card: typeCard.id,
+		originator: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		arguments: {}
+	})
+
+	const request = await test.context.worker.dequeue()
+	test.is(request.originator, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
+})
+
 ava.test('.enqueue() should set a present timestamp', async (test) => {
 	const currentDate = new Date()
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
@@ -390,6 +403,7 @@ ava.test('.execute() should execute a triggered action', async (test) => {
 
 	test.context.worker.setTriggers([
 		{
+			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			filter: {
 				type: 'object',
 				required: [ 'data' ],
@@ -434,6 +448,44 @@ ava.test('.execute() should execute a triggered action', async (test) => {
 
 	const card = await test.context.jellyfish.getCardBySlug(test.context.session, 'foo-bar-baz')
 	test.truthy(card)
+
+	const timeline = await test.context.jellyfish.query(test.context.session, {
+		type: 'object',
+		additionalProperties: true,
+		required: [ 'data' ],
+		properties: {
+			data: {
+				type: 'object',
+				required: [ 'payload', 'target' ],
+				additionalProperties: true,
+				properties: {
+					payload: {
+						type: 'object',
+						required: [ 'data' ],
+						properties: {
+							data: {
+								type: 'object',
+								required: [ 'slug' ],
+								properties: {
+									slug: {
+										type: 'string',
+										const: 'foo-bar-baz'
+									}
+								}
+							}
+						}
+					},
+					target: {
+						type: 'string',
+						const: actionCard.id
+					}
+				}
+			}
+		}
+	})
+
+	test.is(timeline.length, 1)
+	test.is(timeline[0].data.originator, 'cb3523c5-b37d-41c8-ae32-9e7cc9309165')
 })
 
 ava.test('.execute() should execute a triggered action with a top level anyOf', async (test) => {
@@ -442,6 +494,7 @@ ava.test('.execute() should execute a triggered action with a top level anyOf', 
 
 	test.context.worker.setTriggers([
 		{
+			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			filter: {
 				type: 'object',
 				required: [ 'data' ],
@@ -813,6 +866,7 @@ ava.test('.getTriggers() should initially be an empty array', (test) => {
 ava.test('.setTriggers() should be able to set triggers', (test) => {
 	test.context.worker.setTriggers([
 		{
+			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: 'action-foo-bar',
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			filter: {
@@ -823,6 +877,7 @@ ava.test('.setTriggers() should be able to set triggers', (test) => {
 			}
 		},
 		{
+			id: 'd6cacdef-f53b-4b5b-8aa2-8476e48248a4',
 			action: 'action-foo-bar',
 			card: 'a13474e4-7b44-453b-9f3e-aa783b8f37ea',
 			filter: {
@@ -838,6 +893,7 @@ ava.test('.setTriggers() should be able to set triggers', (test) => {
 
 	test.deepEqual(triggers, [
 		{
+			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: 'action-foo-bar',
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			filter: {
@@ -848,6 +904,7 @@ ava.test('.setTriggers() should be able to set triggers', (test) => {
 			}
 		},
 		{
+			id: 'd6cacdef-f53b-4b5b-8aa2-8476e48248a4',
 			action: 'action-foo-bar',
 			card: 'a13474e4-7b44-453b-9f3e-aa783b8f37ea',
 			filter: {
@@ -863,6 +920,7 @@ ava.test('.setTriggers() should be able to set triggers', (test) => {
 ava.test('.setTriggers() should not store extra properties', (test) => {
 	test.context.worker.setTriggers([
 		{
+			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			foo: 'bar',
 			bar: 'baz',
 			action: 'action-foo-bar',
@@ -880,6 +938,7 @@ ava.test('.setTriggers() should not store extra properties', (test) => {
 
 	test.deepEqual(triggers, [
 		{
+			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: 'action-foo-bar',
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			filter: {
@@ -892,10 +951,46 @@ ava.test('.setTriggers() should not store extra properties', (test) => {
 	])
 })
 
+ava.test('.setTriggers() should throw if no id', (test) => {
+	test.throws(() => {
+		test.context.worker.setTriggers([
+			{
+				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				action: 'action-create-card',
+				filter: {
+					type: 'object'
+				},
+				arguments: {
+					foo: 'bar'
+				}
+			}
+		])
+	}, test.context.worker.errors.WorkerInvalidTrigger)
+})
+
+ava.test('.setTriggers() should throw if id is not a string', (test) => {
+	test.throws(() => {
+		test.context.worker.setTriggers([
+			{
+				id: 999,
+				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				action: 'action-create-card',
+				filter: {
+					type: 'object'
+				},
+				arguments: {
+					foo: 'bar'
+				}
+			}
+		])
+	}, test.context.worker.errors.WorkerInvalidTrigger)
+})
+
 ava.test('.setTriggers() should throw if no action', (test) => {
 	test.throws(() => {
 		test.context.worker.setTriggers([
 			{
+				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 				filter: {
 					type: 'object'
@@ -912,6 +1007,7 @@ ava.test('.setTriggers() should throw if action is not a string', (test) => {
 	test.throws(() => {
 		test.context.worker.setTriggers([
 			{
+				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				action: 1,
 				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 				filter: {
@@ -929,6 +1025,7 @@ ava.test('.setTriggers() should throw if no card', (test) => {
 	test.throws(() => {
 		test.context.worker.setTriggers([
 			{
+				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				action: 'action-create-card',
 				filter: {
 					type: 'object'
@@ -945,6 +1042,7 @@ ava.test('.setTriggers() should throw if card is not a string', (test) => {
 	test.throws(() => {
 		test.context.worker.setTriggers([
 			{
+				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				action: 'action-create-card',
 				card: 1,
 				filter: {
@@ -962,6 +1060,7 @@ ava.test('.setTriggers() should throw if no filter', (test) => {
 	test.throws(() => {
 		test.context.worker.setTriggers([
 			{
+				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				action: 'action-create-card',
 				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 				arguments: {
@@ -976,6 +1075,7 @@ ava.test('.setTriggers() should throw if filter is not an object', (test) => {
 	test.throws(() => {
 		test.context.worker.setTriggers([
 			{
+				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				action: 'action-create-card',
 				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 				filter: 'foo',
@@ -991,6 +1091,7 @@ ava.test('.setTriggers() should throw if no arguments', (test) => {
 	test.throws(() => {
 		test.context.worker.setTriggers([
 			{
+				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				action: 'action-create-card',
 				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 				filter: {
@@ -1005,6 +1106,7 @@ ava.test('.setTriggers() should throw if arguments is not an object', (test) => 
 	test.throws(() => {
 		test.context.worker.setTriggers([
 			{
+				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				action: 'action-create-card',
 				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 				filter: {

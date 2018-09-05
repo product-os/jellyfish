@@ -63,6 +63,7 @@ ava.test('.getRequest() should return null if the filter only has a type but the
 ava.test('.getRequest() should return a request if the filter only has a type and there is a match', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const trigger = {
+		id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 		filter: {
 			type: 'object',
 			required: [ 'type' ],
@@ -99,6 +100,7 @@ ava.test('.getRequest() should return a request if the filter only has a type an
 	test.deepEqual(request, {
 		action: 'action-create-card',
 		card: typeCard.id,
+		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 		arguments: {
 			properties: {
 				slug: 'foo-bar-baz'
@@ -110,6 +112,7 @@ ava.test('.getRequest() should return a request if the filter only has a type an
 ava.test('.getRequest() should return a request given a complex matching filter', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const trigger = {
+		id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 		filter: {
 			type: 'object',
 			required: [ 'type', 'data' ],
@@ -159,6 +162,7 @@ ava.test('.getRequest() should return a request given a complex matching filter'
 	test.deepEqual(request, {
 		action: 'action-create-card',
 		card: typeCard.id,
+		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 		arguments: {
 			properties: {
 				slug: 'foo-bar-baz'
@@ -222,6 +226,7 @@ ava.test('.getRequest() should return null given a complex non-matching filter',
 ava.test('.getRequest() should parse source templates in the triggered action arguments', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const trigger = {
+		id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 		filter: {
 			type: 'object',
 			required: [ 'data' ],
@@ -279,6 +284,7 @@ ava.test('.getRequest() should parse source templates in the triggered action ar
 	test.deepEqual(request, {
 		action: 'action-create-card',
 		card: typeCard.id,
+		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 		arguments: {
 			properties: {
 				slug: 'hello-world',
