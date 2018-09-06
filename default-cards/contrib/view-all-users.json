@@ -24,8 +24,7 @@
       }
     ],
     "lenses": [
-      "lens-default-list",
-      "lens-default-card",
+      "lens-list",
       "lens-kanban"
     ],
     "groups": [

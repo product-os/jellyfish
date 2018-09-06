@@ -41,6 +41,7 @@ interface RendererState {
 }
 
 interface DefaultRendererProps extends RendererProps {
+	card: Card;
 	actions: typeof actionCreators;
 	allUsers: Card[];
 	tail?: Card[];
@@ -58,7 +59,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		super(props);
 
 		this.state = this.getDefaultState();
-		this.bootstrap(this.props.channel.data.target);
+		this.bootstrap(this.props.card.id);
 
 	}
 
@@ -127,9 +128,9 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 			this.shouldScroll = this.scrollArea.scrollTop === this.scrollArea.scrollHeight - this.scrollArea.offsetHeight;
 		}
 
-		if (_.get(nextProps.channel, [ 'data', 'target' ]) !== _.get(this.props.channel, [ 'data', 'target' ])) {
+		if (_.get(nextProps.card, [ 'id' ]) !== _.get(this.props.card, [ 'id' ])) {
 			this.setState(this.getDefaultState());
-			this.bootstrap(nextProps.channel.data.target);
+			this.bootstrap(nextProps.card.id);
 		}
 	}
 
@@ -146,10 +147,6 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		if (this.shouldScroll) {
 			this.scrollArea.scrollTop = this.scrollArea.scrollHeight;
 		}
-	}
-
-	public delete(): void {
-		this.props.actions.removeChannel(this.props.channel);
 	}
 
 	public addMessage(e: React.KeyboardEvent<HTMLElement>): void {
@@ -177,7 +174,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 			type: 'message',
 			data: {
 				timestamp: getCurrentTimestamp(),
-				target: this.props.channel.data.target,
+				target: this.props.card.id,
 				actor: this.props.user!.id,
 				payload: {
 					mentionsUser: mentions,
@@ -251,7 +248,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 			type: 'message',
 			data: {
 				timestamp: getCurrentTimestamp(),
-				target: this.props.channel.data.target,
+				target: this.props.card.id,
 				actor: this.props.user!.id,
 				payload: {
 					file,
@@ -274,9 +271,9 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 	}
 
 	public render(): React.ReactNode {
-		const { head } = this.props.channel.data;
+		const head = this.props.card;
 		const { tail } = this.state;
-		const channelTarget = this.props.channel.data.target;
+		const channelTarget = this.props.card.id;
 
 		return (
 			<Column flexDirection="column">

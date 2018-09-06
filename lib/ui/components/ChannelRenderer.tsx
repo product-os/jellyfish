@@ -23,11 +23,9 @@ const ChannelRenderer = (props: RendererProps) => {
 
 	}
 
-	const lenses = LensService.getLenses(channel.data.head!);
+	const lens = LensService.getLens(channel.data.head!);
 
-	const lens = lenses[0];
-
-	return <lens.data.renderer {...props} />;
+	return <lens.data.renderer card={channel.data.head} level={0} {...props} />;
 };
 
 export default ChannelRenderer;

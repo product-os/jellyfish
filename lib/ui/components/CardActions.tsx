@@ -41,8 +41,6 @@ interface CardActionsState {
 interface CardActionProps {
 	actions: typeof actionCreators;
 	card: Card;
-	delete: () => void;
-	refresh: () => void;
 	types: Type[];
 }
 
@@ -78,7 +76,6 @@ class Base extends React.Component<
 
 	public delete = () => {
 		sdk.card.remove(this.props.card.id)
-		.then(() => this.props.delete())
 		.catch((error) => {
 			this.props.actions.addNotification('danger', error.message);
 		});
@@ -102,7 +99,6 @@ class Base extends React.Component<
 						type,
 					},
 				});
-				this.props.refresh();
 			})
 			.catch((error) => {
 				this.props.actions.addNotification('danger', error.message);
