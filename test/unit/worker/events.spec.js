@@ -233,3 +233,191 @@ ava.test.cb('.wait() should ignore cards that do not match the id', (test) => {
 		})
 	}).catch(test.end)
 })
+
+ava.test('.getLastExecutionEvent() should return the last execution event given one event', async (test) => {
+	await events.post(test.context.jellyfish, test.context.session, {
+		id: '8fd7be57-4f68-4faf-bbc6-200a7c62c41a',
+		action: '57692206-8da2-46e1-91c9-159b2c6928ef',
+		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
+		actor: '57692206-8da2-46e1-91c9-159b2c6928ef',
+		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+		timestamp: '2018-06-30T19:34:42.829Z'
+	}, {
+		error: false,
+		data: '414f2345-4f5e-4571-820f-28a49731733d'
+	})
+
+	const event = await events.getLastExecutionEvent(
+		test.context.jellyfish,
+		test.context.session,
+		'cb3523c5-b37d-41c8-ae32-9e7cc9309165')
+
+	test.deepEqual(event, {
+		id: '8fd7be57-4f68-4faf-bbc6-200a7c62c41a',
+		type: 'execute',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			actor: '57692206-8da2-46e1-91c9-159b2c6928ef',
+			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			target: '57692206-8da2-46e1-91c9-159b2c6928ef',
+			timestamp: event.data.timestamp,
+			payload: {
+				card: '033d9184-70b2-4ec9-bc39-9a249b186422',
+				data: '414f2345-4f5e-4571-820f-28a49731733d',
+				error: false,
+				timestamp: '2018-06-30T19:34:42.829Z'
+			}
+		}
+	})
+})
+
+ava.test('.getLastExecutionEvent() should return the last event given a matching and non-matching event', async (test) => {
+	await events.post(test.context.jellyfish, test.context.session, {
+		id: '8fd7be57-4f68-4faf-bbc6-200a7c62c41a',
+		action: '57692206-8da2-46e1-91c9-159b2c6928ef',
+		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
+		actor: '57692206-8da2-46e1-91c9-159b2c6928ef',
+		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+		timestamp: '2018-06-30T19:34:42.829Z'
+	}, {
+		error: false,
+		data: '414f2345-4f5e-4571-820f-28a49731733d'
+	})
+
+	await events.post(test.context.jellyfish, test.context.session, {
+		id: 'dc2bebe9-217f-4802-9d3a-2248925fba44',
+		action: 'e4fe3f19-13ae-4421-b28f-6507af78d1f6',
+		card: '5201aae8-c937-4f92-940d-827d857bbcc2',
+		actor: 'e4fe3f19-13ae-4421-b28f-6507af78d1f6',
+		originator: '6f3ff72e-5305-4397-b86f-ca1ea5f06f5f',
+		timestamp: '2018-08-30T19:34:42.829Z'
+	}, {
+		error: false,
+		data: 'a5acb93e-c949-4d2c-859c-62c8949fdfe6'
+	})
+
+	const event = await events.getLastExecutionEvent(
+		test.context.jellyfish,
+		test.context.session,
+		'cb3523c5-b37d-41c8-ae32-9e7cc9309165')
+
+	test.deepEqual(event, {
+		id: '8fd7be57-4f68-4faf-bbc6-200a7c62c41a',
+		type: 'execute',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			actor: '57692206-8da2-46e1-91c9-159b2c6928ef',
+			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			target: '57692206-8da2-46e1-91c9-159b2c6928ef',
+			timestamp: event.data.timestamp,
+			payload: {
+				card: '033d9184-70b2-4ec9-bc39-9a249b186422',
+				data: '414f2345-4f5e-4571-820f-28a49731733d',
+				error: false,
+				timestamp: '2018-06-30T19:34:42.829Z'
+			}
+		}
+	})
+})
+
+ava.test('.getLastExecutionEvent() should return the last execution event given two matching events', async (test) => {
+	await events.post(test.context.jellyfish, test.context.session, {
+		id: '8fd7be57-4f68-4faf-bbc6-200a7c62c41a',
+		action: '57692206-8da2-46e1-91c9-159b2c6928ef',
+		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
+		actor: '57692206-8da2-46e1-91c9-159b2c6928ef',
+		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+		timestamp: '2018-06-30T19:34:42.829Z'
+	}, {
+		error: false,
+		data: '414f2345-4f5e-4571-820f-28a49731733d'
+	})
+
+	await events.post(test.context.jellyfish, test.context.session, {
+		id: 'dc2bebe9-217f-4802-9d3a-2248925fba44',
+		action: 'e4fe3f19-13ae-4421-b28f-6507af78d1f6',
+		card: '5201aae8-c937-4f92-940d-827d857bbcc2',
+		actor: 'e4fe3f19-13ae-4421-b28f-6507af78d1f6',
+		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+		timestamp: '2018-03-30T19:34:42.829Z'
+	}, {
+		error: false,
+		data: 'a5acb93e-c949-4d2c-859c-62c8949fdfe6'
+	})
+
+	const event = await events.getLastExecutionEvent(
+		test.context.jellyfish,
+		test.context.session,
+		'cb3523c5-b37d-41c8-ae32-9e7cc9309165')
+
+	test.deepEqual(event, {
+		id: '8fd7be57-4f68-4faf-bbc6-200a7c62c41a',
+		type: 'execute',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			actor: '57692206-8da2-46e1-91c9-159b2c6928ef',
+			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			target: '57692206-8da2-46e1-91c9-159b2c6928ef',
+			timestamp: event.data.timestamp,
+			payload: {
+				card: '033d9184-70b2-4ec9-bc39-9a249b186422',
+				data: '414f2345-4f5e-4571-820f-28a49731733d',
+				error: false,
+				timestamp: '2018-06-30T19:34:42.829Z'
+			}
+		}
+	})
+})
+
+ava.test('.getLastExecutionEvent() should return null given no matching event', async (test) => {
+	await events.post(test.context.jellyfish, test.context.session, {
+		id: 'dc2bebe9-217f-4802-9d3a-2248925fba44',
+		action: 'e4fe3f19-13ae-4421-b28f-6507af78d1f6',
+		card: '5201aae8-c937-4f92-940d-827d857bbcc2',
+		actor: 'e4fe3f19-13ae-4421-b28f-6507af78d1f6',
+		originator: '6f3ff72e-5305-4397-b86f-ca1ea5f06f5f',
+		timestamp: '2018-03-30T19:34:42.829Z'
+	}, {
+		error: false,
+		data: 'a5acb93e-c949-4d2c-859c-62c8949fdfe6'
+	})
+
+	const event = await events.getLastExecutionEvent(
+		test.context.jellyfish,
+		test.context.session,
+		'cb3523c5-b37d-41c8-ae32-9e7cc9309165')
+	test.deepEqual(event, null)
+})
+
+ava.test('.getLastExecutionEvent() should only consider execute cards', async (test) => {
+	await test.context.jellyfish.insertCard(test.context.session, {
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			timestamp: '2018-06-30T19:34:42.829Z',
+			target: '57692206-8da2-46e1-91c9-159b2c6928ef',
+			actor: '57692206-8da2-46e1-91c9-159b2c6928ef',
+			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			payload: {
+				card: '033d9184-70b2-4ec9-bc39-9a249b186422',
+				timestamp: '2018-06-32T19:34:42.829Z',
+				error: false,
+				data: '414f2345-4f5e-4571-820f-28a49731733d'
+			}
+		}
+	})
+
+	const event = await events.getLastExecutionEvent(
+		test.context.jellyfish,
+		test.context.session,
+		'cb3523c5-b37d-41c8-ae32-9e7cc9309165')
+	test.deepEqual(event, null)
+})

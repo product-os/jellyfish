@@ -337,6 +337,7 @@ ava.test('.insertCard() should execute one matching triggered action', async (te
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const triggers = [
 		{
+			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			filter: {
 				type: 'object',
 				required: [ 'data' ],
@@ -393,6 +394,7 @@ ava.test('.insertCard() should execute one matching triggered action', async (te
 		{
 			action: 'action-create-card',
 			card: typeCard.id,
+			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			arguments: {
 				properties: {
 					slug: 'foo-bar-baz'
@@ -466,6 +468,7 @@ ava.test('.insertCard() should execute more than one matching triggered action',
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const triggers = [
 		{
+			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			filter: {
 				type: 'object',
 				required: [ 'data' ],
@@ -491,6 +494,7 @@ ava.test('.insertCard() should execute more than one matching triggered action',
 			}
 		},
 		{
+			id: 'd6cacdef-f53b-4b5b-8aa2-8476e48248a4',
 			filter: {
 				type: 'object',
 				required: [ 'data' ],
@@ -547,6 +551,7 @@ ava.test('.insertCard() should execute more than one matching triggered action',
 		{
 			action: 'action-create-card',
 			card: typeCard.id,
+			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			arguments: {
 				properties: {
 					slug: 'foo-bar-baz'
@@ -556,6 +561,7 @@ ava.test('.insertCard() should execute more than one matching triggered action',
 		{
 			action: 'action-create-card',
 			card: typeCard.id,
+			originator: 'd6cacdef-f53b-4b5b-8aa2-8476e48248a4',
 			arguments: {
 				properties: {
 					slug: 'bar-baz-qux'
@@ -569,6 +575,7 @@ ava.test('.insertCard() should execute the matching triggered actions given more
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const triggers = [
 		{
+			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			filter: {
 				type: 'object',
 				required: [ 'data' ],
@@ -594,6 +601,7 @@ ava.test('.insertCard() should execute the matching triggered actions given more
 			}
 		},
 		{
+			id: 'd6cacdef-f53b-4b5b-8aa2-8476e48248a4',
 			filter: {
 				type: 'object',
 				required: [ 'data' ],
@@ -650,6 +658,7 @@ ava.test('.insertCard() should execute the matching triggered actions given more
 		{
 			action: 'action-create-card',
 			card: typeCard.id,
+			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			arguments: {
 				properties: {
 					slug: 'foo-bar-baz'
@@ -1071,6 +1080,7 @@ ava.test('.insertCard() should pre-register a triggered action if using AGGREGAT
 
 	test.deepEqual(test.context.triggers, [
 		{
+			id: test.context.triggers[0].id,
 			action: 'action-set-add',
 			card: {
 				$eval: 'source.data.target'

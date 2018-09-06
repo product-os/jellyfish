@@ -16,6 +16,10 @@
               "type": "string",
               "format": "date-time"
             },
+            "originator": {
+              "type": "string",
+              "format": "uuid"
+            },
             "target": {
               "type": "string",
               "format": "uuid"
