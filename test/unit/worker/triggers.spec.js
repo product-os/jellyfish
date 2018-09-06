@@ -115,6 +115,125 @@ ava.test('.getRequest() should return a request if the filter only has a type an
 	})
 })
 
+ava.test('.getRequest() should return a request if the input match card is null', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
+	const trigger = {
+		id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+		filter: {
+			type: 'object',
+			required: [ 'type' ],
+			properties: {
+				type: {
+					type: 'string',
+					const: 'foo'
+				}
+			}
+		},
+		action: 'action-create-card',
+		card: typeCard.id,
+		arguments: {
+			properties: {
+				slug: 'foo-bar-baz'
+			}
+		}
+	}
+
+	const request = await triggers.getRequest(trigger, {
+		type: 'bar',
+		active: true,
+		links: {},
+		tags: [],
+		data: {}
+	}, {
+		currentDate: new Date(),
+		matchCard: null
+	})
+
+	test.deepEqual(request, {
+		action: 'action-create-card',
+		card: typeCard.id,
+		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+		arguments: {
+			properties: {
+				slug: 'foo-bar-baz'
+			}
+		}
+	})
+})
+
+ava.test('.getRequest() should return a request if both the input card and the match card are null', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
+	const trigger = {
+		id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+		filter: {
+			type: 'object',
+			required: [ 'type' ],
+			properties: {
+				type: {
+					type: 'string',
+					const: 'foo'
+				}
+			}
+		},
+		action: 'action-create-card',
+		card: typeCard.id,
+		arguments: {
+			properties: {
+				slug: 'foo-bar-baz'
+			}
+		}
+	}
+
+	const request = await triggers.getRequest(trigger, null, {
+		currentDate: new Date(),
+		matchCard: null
+	})
+
+	test.deepEqual(request, {
+		action: 'action-create-card',
+		card: typeCard.id,
+		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+		arguments: {
+			properties: {
+				slug: 'foo-bar-baz'
+			}
+		}
+	})
+})
+
+ava.test('.getRequest() should return null if referencing source when no input card', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
+	const trigger = {
+		id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+		filter: {
+			type: 'object',
+			required: [ 'type' ],
+			properties: {
+				type: {
+					type: 'string',
+					const: 'foo'
+				}
+			}
+		},
+		action: 'action-create-card',
+		card: typeCard.id,
+		arguments: {
+			properties: {
+				slug: {
+					$eval: 'source.type'
+				}
+			}
+		}
+	}
+
+	const request = await triggers.getRequest(trigger, null, {
+		currentDate: new Date(),
+		matchCard: null
+	})
+
+	test.deepEqual(request, null)
+})
+
 ava.test('.getRequest() should return a request given a complex matching filter', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const trigger = {
