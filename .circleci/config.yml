@@ -24,6 +24,9 @@ jobs:
 
       - run: apt-get update && apt-get install -y git
 
+      # Upgrade npm
+      - run: npm install -g npm
+
       # Because `node_modules` gets cached, any changes to internal modules
       # will be ignored, as the package already exists there and npm lifecycle
       # events won't be triggered on it
@@ -31,7 +34,7 @@ jobs:
       # the postinstall script
       - run: rm -rf node_modules/@resin.io
 
-      - run: npm install
+      - run: npm ci
 
       - save_cache:
           paths:
@@ -50,7 +53,7 @@ jobs:
           command: node stress/core/insert-parallel.js
       - run:
           name: Previous Commit
-          command: git checkout HEAD~1 && npm install
+          command: git checkout HEAD~1 && npm ci
       - run:
           name: Serial Core Inserts (previous)
           command: node stress/core/insert-serial.js
