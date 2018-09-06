@@ -16,6 +16,10 @@
               "type": "string",
               "pattern": "^[a-z0-9-]+$"
             },
+            "startDate": {
+              "type": "string",
+              "format": "date-time"
+            },
             "filter": {
               "type": "object"
             },
