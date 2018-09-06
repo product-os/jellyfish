@@ -50,11 +50,14 @@ ava.test('.getRequest() should return null if the filter only has a type but the
 		tags: [],
 		data: {}
 	}, {
-		type: 'card',
-		active: true,
-		links: {},
-		tags: [],
-		data: {}
+		currentDate: new Date(),
+		matchCard: {
+			type: 'card',
+			active: true,
+			links: {},
+			tags: [],
+			data: {}
+		}
 	})
 
 	test.falsy(request)
@@ -90,11 +93,14 @@ ava.test('.getRequest() should return a request if the filter only has a type an
 		tags: [],
 		data: {}
 	}, {
-		type: 'foo',
-		active: true,
-		links: {},
-		tags: [],
-		data: {}
+		currentDate: new Date(),
+		matchCard: {
+			type: 'foo',
+			active: true,
+			links: {},
+			tags: [],
+			data: {}
+		}
 	})
 
 	test.deepEqual(request, {
@@ -150,12 +156,15 @@ ava.test('.getRequest() should return a request given a complex matching filter'
 			foo: 4
 		}
 	}, {
-		type: 'foo',
-		active: true,
-		links: {},
-		tags: [],
-		data: {
-			foo: 4
+		currentDate: new Date(),
+		matchCard: {
+			type: 'foo',
+			active: true,
+			links: {},
+			tags: [],
+			data: {
+				foo: 4
+			}
 		}
 	})
 
@@ -211,12 +220,15 @@ ava.test('.getRequest() should return null given a complex non-matching filter',
 			foo: '4'
 		}
 	}, {
-		type: 'foo',
-		active: true,
-		links: {},
-		tags: [],
-		data: {
-			foo: '4'
+		currentDate: new Date(),
+		matchCard: {
+			type: 'foo',
+			active: true,
+			links: {},
+			tags: [],
+			data: {
+				foo: '4'
+			}
 		}
 	})
 
@@ -270,14 +282,17 @@ ava.test('.getRequest() should parse source templates in the triggered action ar
 			number: 6
 		}
 	}, {
-		type: 'card',
-		active: true,
-		links: {},
-		tags: [],
-		data: {
-			command: 'foo-bar-baz',
-			slug: 'hello-world',
-			number: 6
+		currentDate: new Date(),
+		matchCard: {
+			type: 'card',
+			active: true,
+			links: {},
+			tags: [],
+			data: {
+				command: 'foo-bar-baz',
+				slug: 'hello-world',
+				number: 6
+			}
 		}
 	})
 
@@ -290,6 +305,67 @@ ava.test('.getRequest() should parse source templates in the triggered action ar
 				slug: 'hello-world',
 				data: {
 					number: 6
+				}
+			}
+		}
+	})
+})
+
+ava.test('.getRequest() should parse timestamp templates in the triggered action arguments', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
+	const trigger = {
+		id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+		filter: {
+			type: 'object'
+		},
+		action: 'action-create-card',
+		card: typeCard.id,
+		arguments: {
+			properties: {
+				data: {
+					timestamp: {
+						$eval: 'timestamp'
+					}
+				}
+			}
+		}
+	}
+
+	const currentDate = new Date()
+
+	const request = await triggers.getRequest(trigger, {
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			command: 'foo-bar-baz',
+			slug: 'hello-world',
+			number: 6
+		}
+	}, {
+		currentDate,
+		matchCard: {
+			type: 'card',
+			active: true,
+			links: {},
+			tags: [],
+			data: {
+				command: 'foo-bar-baz',
+				slug: 'hello-world',
+				number: 6
+			}
+		}
+	})
+
+	test.deepEqual(request, {
+		action: 'action-create-card',
+		card: typeCard.id,
+		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+		arguments: {
+			properties: {
+				data: {
+					timestamp: currentDate.toISOString()
 				}
 			}
 		}
@@ -341,13 +417,16 @@ ava.test('.getRequest() should return null if one of the templates is unsatisfie
 			slug: 'hello-world'
 		}
 	}, {
-		type: 'card',
-		active: true,
-		links: {},
-		tags: [],
-		data: {
-			command: 'foo-bar-baz',
-			slug: 'hello-world'
+		currentDate: new Date(),
+		matchCard: {
+			type: 'card',
+			active: true,
+			links: {},
+			tags: [],
+			data: {
+				command: 'foo-bar-baz',
+				slug: 'hello-world'
+			}
 		}
 	})
 
