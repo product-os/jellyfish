@@ -123,7 +123,7 @@
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "remove-markdown": "^0.3.0",
-    "rendition": "^4.25.2",
+    "rendition": "^4.27.2",
     "reql-schema": "^1.0.0",
     "rethinkdb": "^2.3.3",
     "skhema": "^2.2.0",
