@@ -20,6 +20,10 @@
               "type": "string",
               "format": "date-time"
             },
+            "interval": {
+              "type": "string",
+              "pattern": "^P(?!$)(\\d+Y)?(\\d+M)?(\\d+W)?(\\d+D)?(T(?=\\d)(\\d+H)?(\\d+M)?(\\d+S)?)?$"
+            },
             "filter": {
               "type": "object"
             },
@@ -33,11 +37,23 @@
               "type": "object"
             }
           },
-          "required": [
-            "filter",
-            "action",
-            "target",
-            "arguments"
+          "oneOf": [
+            {
+              "required": [
+                "filter",
+                "action",
+                "target",
+                "arguments"
+              ]
+            },
+            {
+              "required": [
+                "interval",
+                "action",
+                "target",
+                "arguments"
+              ]
+            }
           ]
         }
       },

@@ -17,6 +17,7 @@
 const ava = require('ava')
 const helpers = require('./helpers')
 const triggers = require('../../../lib/worker/triggers')
+const errors = require('../../../lib/worker/errors')
 
 ava.test.beforeEach(helpers.beforeEach)
 ava.test.afterEach(helpers.afterEach)
@@ -974,4 +975,213 @@ ava.test('.getStartDate() should return the specified date if valid', async (tes
 	})
 
 	test.is(result.getTime(), date.getTime())
+})
+
+ava.test('.getNextExecutionDate() should return null if no interval', async (test) => {
+	const date = new Date()
+	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
+	const result = triggers.getNextExecutionDate({
+		type: 'triggered-action',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			filter: {
+				type: 'object'
+			},
+			action: 'action-create-card',
+			target: typeCard.id,
+			arguments: {
+				properties: {
+					slug: 'foo'
+				}
+			}
+		}
+	}, date)
+
+	test.deepEqual(result, null)
+})
+
+ava.test('.getNextExecutionDate() should return epoch if no last execution date', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
+	const result = triggers.getNextExecutionDate({
+		type: 'triggered-action',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			interval: 'PT1H',
+			action: 'action-create-card',
+			target: typeCard.id,
+			arguments: {
+				properties: {
+					slug: 'foo'
+				}
+			}
+		}
+	})
+
+	test.is(result.getTime(), 0)
+})
+
+ava.test('.getNextExecutionDate() should return epoch if last execution date is not a valid date', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
+	const result = triggers.getNextExecutionDate({
+		type: 'triggered-action',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			interval: 'PT1H',
+			action: 'action-create-card',
+			target: typeCard.id,
+			arguments: {
+				properties: {
+					slug: 'foo'
+				}
+			}
+		}
+	}, new Date('foobar'))
+
+	test.is(result.getTime(), 0)
+})
+
+ava.test('.getNextExecutionDate() should return epoch if last execution date is not a date', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
+	const result = triggers.getNextExecutionDate({
+		type: 'triggered-action',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			interval: 'PT1H',
+			action: 'action-create-card',
+			target: typeCard.id,
+			arguments: {
+				properties: {
+					slug: 'foo'
+				}
+			}
+		}
+	}, 'foobar')
+
+	test.is(result.getTime(), 0)
+})
+
+ava.test('.getNextExecutionDate() should throw if the interval is invalid', async (test) => {
+	const date = new Date()
+	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
+
+	test.throws(() => {
+		triggers.getNextExecutionDate({
+			type: 'triggered-action',
+			active: true,
+			links: {},
+			tags: [],
+			data: {
+				interval: 'FOOBARBAZ',
+				action: 'action-create-card',
+				target: typeCard.id,
+				arguments: {
+					properties: {
+						slug: 'foo'
+					}
+				}
+			}
+		}, date)
+	}, errors.WorkerInvalidDuration)
+})
+
+ava.test('.getNextExecutionDate() should return the next interval after the last execution', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
+	const result = triggers.getNextExecutionDate({
+		type: 'triggered-action',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			interval: 'PT1H',
+			action: 'action-create-card',
+			startDate: '2018-01-01T00:00:00.000Z',
+			target: typeCard.id,
+			arguments: {
+				properties: {
+					slug: 'foo'
+				}
+			}
+		}
+	}, new Date('2018-01-01T05:30:00.000Z'))
+
+	test.is(result.toISOString(), '2018-01-01T06:00:00.000Z')
+})
+
+ava.test('.getNextExecutionDate() should return the start date if the last execution ' +
+				'happened way before the start date', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
+	const result = triggers.getNextExecutionDate({
+		type: 'triggered-action',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			interval: 'PT1H',
+			action: 'action-create-card',
+			startDate: '2018-01-01T05:00:00.000Z',
+			target: typeCard.id,
+			arguments: {
+				properties: {
+					slug: 'foo'
+				}
+			}
+		}
+	}, new Date('2018-01-01T01:00:00.000Z'))
+
+	test.is(result.toISOString(), '2018-01-01T05:00:00.000Z')
+})
+
+ava.test('.getNextExecutionDate() should return the subsequent interval if the last ' +
+				' execution happened just before the start date', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
+	const result = triggers.getNextExecutionDate({
+		type: 'triggered-action',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			interval: 'PT1H',
+			action: 'action-create-card',
+			startDate: '2018-01-01T05:00:00.000Z',
+			target: typeCard.id,
+			arguments: {
+				properties: {
+					slug: 'foo'
+				}
+			}
+		}
+	}, new Date('2018-01-01T04:50:00.000Z'))
+
+	test.is(result.toISOString(), '2018-01-01T06:00:00.000Z')
+})
+
+ava.test('.getNextExecutionDate() should return the next interval if the last execution is the start date', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
+	const result = triggers.getNextExecutionDate({
+		type: 'triggered-action',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			interval: 'PT1H',
+			action: 'action-create-card',
+			startDate: '2018-01-01T05:00:00.000Z',
+			target: typeCard.id,
+			arguments: {
+				properties: {
+					slug: 'foo'
+				}
+			}
+		}
+	}, new Date('2018-01-01T05:00:00.000Z'))
+
+	test.is(result.toISOString(), '2018-01-01T06:00:00.000Z')
 })
