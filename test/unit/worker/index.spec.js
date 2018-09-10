@@ -139,6 +139,21 @@ ava.test('.enqueue() should set an originator', async (test) => {
 	test.is(request.originator, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
 })
 
+ava.test('.enqueue() should take a current date', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
+	const date = new Date()
+
+	await test.context.worker.enqueue(test.context.session, {
+		action: 'action-create-card',
+		card: typeCard.id,
+		currentDate: date,
+		arguments: {}
+	})
+
+	const request = await test.context.worker.dequeue()
+	test.is(request.timestamp, date.toISOString())
+})
+
 ava.test('.enqueue() should set a present timestamp', async (test) => {
 	const currentDate = new Date()
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
