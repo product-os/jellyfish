@@ -68,11 +68,7 @@ ava.test.beforeEach(async (test) => {
 	process.env.SERVER_DATABASE = `test_${randomstring.generate()}`
 
 	test.context.server = await createServer({
-		// TODO: Fix this hack, which is needed because otherwise
-		// multiple tests start server instances on the same port
-		// and don't stop them afterwards, so requests from certain
-		// test cases end up in the instances from previous tests, etc
-		port: _.random(8000, 9999)
+		port: 9999
 	})
 
 	test.context.session = test.context.server.jellyfish.sessions.admin
@@ -109,6 +105,12 @@ ava.test.beforeEach(async (test) => {
 			})
 		})
 	}
+})
+
+ava.test.afterEach(async (test) => {
+	test.context.sdk.cancelAllStreams()
+	test.context.sdk.cancelAllRequests()
+	await test.context.server.close()
 })
 
 ava.test.serial('.query() should only return the user itself for the guest user', async (test) => {
