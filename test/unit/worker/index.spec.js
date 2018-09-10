@@ -1299,6 +1299,241 @@ ava.test('.setTriggers() should throw if arguments is not an object', (test) => 
 	}, test.context.worker.errors.WorkerInvalidTrigger)
 })
 
+ava.test('.tick() should not enqueue actions if there are no triggers', async (test) => {
+	test.context.worker.setTriggers([])
+	await test.context.worker.tick(test.context.session, {
+		currentDate: new Date()
+	})
+
+	const length = await test.context.worker.length()
+	test.is(length, 0)
+})
+
+ava.test('.tick() should not enqueue actions if there are no time triggers', async (test) => {
+	test.context.worker.setTriggers([
+		{
+			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			action: 'action-foo-bar',
+			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			filter: {
+				type: 'object'
+			},
+			arguments: {
+				foo: 'bar'
+			}
+		}
+	])
+
+	await test.context.worker.tick(test.context.session, {
+		currentDate: new Date()
+	})
+
+	const length = await test.context.worker.length()
+	test.is(length, 0)
+})
+
+ava.test('.tick() should not enqueue an action if there is a time trigger with a future start date', async (test) => {
+	test.context.worker.setTriggers([
+		{
+			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			action: 'action-foo-bar',
+			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			interval: 'PT1H',
+			startDate: '2018-09-05T12:00:00.000Z',
+			arguments: {
+				foo: 'bar'
+			}
+		}
+	])
+
+	await test.context.worker.tick(test.context.session, {
+		currentDate: new Date('2018-08-05T12:00:00.000Z')
+	})
+
+	const length = await test.context.worker.length()
+	test.is(length, 0)
+})
+
+ava.test('.tick() should enqueue an action if there is a time trigger with a past start date', async (test) => {
+	const actionCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'action-create-card')
+	test.context.worker.setTriggers([
+		{
+			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			action: actionCard.slug,
+			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			interval: 'PT1D',
+			startDate: '2018-08-05T12:00:00.000Z',
+			arguments: {
+				properties: {
+					slug: 'foo'
+				}
+			}
+		}
+	])
+
+	await test.context.worker.tick(test.context.session, {
+		currentDate: new Date('2018-08-06T12:00:00.000Z')
+	})
+
+	const length = await test.context.worker.length()
+	test.is(length, 1)
+
+	const request = await test.context.worker.dequeue()
+	test.deepEqual(request, {
+		id: request.id,
+		card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		action: actionCard,
+		actor: test.context.actor.id,
+		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+		timestamp: '2018-08-06T12:00:00.000Z',
+		arguments: {
+			properties: {
+				slug: 'foo'
+			}
+		}
+	})
+})
+
+ava.test('.tick() should enqueue an action if there is a time trigger with a present start date', async (test) => {
+	const actionCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'action-create-card')
+	test.context.worker.setTriggers([
+		{
+			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			action: actionCard.slug,
+			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			interval: 'PT1D',
+			startDate: '2018-08-05T12:00:00.000Z',
+			arguments: {
+				properties: {
+					slug: 'foo'
+				}
+			}
+		}
+	])
+
+	await test.context.worker.tick(test.context.session, {
+		currentDate: new Date('2018-08-05T12:00:00.000Z')
+	})
+
+	const length = await test.context.worker.length()
+	test.is(length, 1)
+
+	const request = await test.context.worker.dequeue()
+	test.deepEqual(request, {
+		id: request.id,
+		card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		action: actionCard,
+		actor: test.context.actor.id,
+		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+		timestamp: '2018-08-05T12:00:00.000Z',
+		arguments: {
+			properties: {
+				slug: 'foo'
+			}
+		}
+	})
+})
+
+ava.test('.tick() should not enqueue an action using a past timestamp', async (test) => {
+	const actionCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'action-create-card')
+	test.context.worker.setTriggers([
+		{
+			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			action: actionCard.slug,
+			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			interval: 'PT1H',
+			startDate: '2050-08-05T12:00:00.000Z',
+			arguments: {
+				properties: {
+					slug: 'foo'
+				}
+			}
+		}
+	])
+
+	await test.context.worker.tick(test.context.session, {
+		currentDate: new Date('2050-08-06T12:00:00.000Z')
+	})
+
+	const length = await test.context.worker.length()
+	test.is(length, 1)
+
+	const request = await test.context.worker.dequeue()
+	const requestDate = new Date(request.timestamp)
+	test.false(requestDate.getTime() < Date.now())
+})
+
+ava.test('.tick() should enqueue two actions if there are two time triggers with a past start dates', async (test) => {
+	const actionCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'action-create-card')
+	test.context.worker.setTriggers([
+		{
+			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			action: actionCard.slug,
+			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			interval: 'PT1D',
+			startDate: '2018-08-05T12:00:00.000Z',
+			arguments: {
+				properties: {
+					slug: 'foo'
+				}
+			}
+		},
+		{
+			id: '673bc300-88f7-4376-92ed-d32543d69429',
+			action: actionCard.slug,
+			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			interval: 'PT2D',
+			startDate: '2018-08-04T12:00:00.000Z',
+			arguments: {
+				properties: {
+					slug: 'bar'
+				}
+			}
+		}
+	])
+
+	await test.context.worker.tick(test.context.session, {
+		currentDate: new Date('2018-08-06T12:00:00.000Z')
+	})
+
+	const length = await test.context.worker.length()
+	test.is(length, 2)
+
+	const requests = _.sortBy([
+		await test.context.worker.dequeue(),
+		await test.context.worker.dequeue()
+	], [ 'originator' ])
+
+	test.deepEqual(requests, [
+		{
+			id: requests[0].id,
+			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			action: actionCard,
+			actor: test.context.actor.id,
+			originator: '673bc300-88f7-4376-92ed-d32543d69429',
+			timestamp: '2018-08-06T12:00:00.000Z',
+			arguments: {
+				properties: {
+					slug: 'bar'
+				}
+			}
+		},
+		{
+			id: requests[1].id,
+			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			action: actionCard,
+			actor: test.context.actor.id,
+			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			timestamp: '2018-08-06T12:00:00.000Z',
+			arguments: {
+				properties: {
+					slug: 'foo'
+				}
+			}
+		}
+	])
+})
+
 ava.test('should be able to login as a user with a password', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'user')
 	const createUserRequestId = await test.context.worker.enqueue(test.context.session, {
