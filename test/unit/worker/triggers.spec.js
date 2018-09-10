@@ -87,6 +87,8 @@ ava.test('.getRequest() should return a request if the filter only has a type an
 		}
 	}
 
+	const date = new Date()
+
 	const request = await triggers.getRequest(trigger, {
 		type: 'foo',
 		active: true,
@@ -94,7 +96,7 @@ ava.test('.getRequest() should return a request if the filter only has a type an
 		tags: [],
 		data: {}
 	}, {
-		currentDate: new Date(),
+		currentDate: date,
 		matchCard: {
 			type: 'foo',
 			active: true,
@@ -106,6 +108,7 @@ ava.test('.getRequest() should return a request if the filter only has a type an
 
 	test.deepEqual(request, {
 		action: 'action-create-card',
+		currentDate: date,
 		card: typeCard.id,
 		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 		arguments: {
@@ -139,6 +142,8 @@ ava.test('.getRequest() should return a request if the input match card is null'
 		}
 	}
 
+	const date = new Date()
+
 	const request = await triggers.getRequest(trigger, {
 		type: 'bar',
 		active: true,
@@ -146,12 +151,13 @@ ava.test('.getRequest() should return a request if the input match card is null'
 		tags: [],
 		data: {}
 	}, {
-		currentDate: new Date(),
+		currentDate: date,
 		matchCard: null
 	})
 
 	test.deepEqual(request, {
 		action: 'action-create-card',
+		currentDate: date,
 		card: typeCard.id,
 		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 		arguments: {
@@ -185,13 +191,16 @@ ava.test('.getRequest() should return a request if both the input card and the m
 		}
 	}
 
+	const date = new Date()
+
 	const request = await triggers.getRequest(trigger, null, {
-		currentDate: new Date(),
+		currentDate: date,
 		matchCard: null
 	})
 
 	test.deepEqual(request, {
 		action: 'action-create-card',
+		currentDate: date,
 		card: typeCard.id,
 		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 		arguments: {
@@ -267,6 +276,8 @@ ava.test('.getRequest() should return a request given a complex matching filter'
 		}
 	}
 
+	const date = new Date()
+
 	const request = await triggers.getRequest(trigger, {
 		type: 'foo',
 		active: true,
@@ -276,7 +287,7 @@ ava.test('.getRequest() should return a request given a complex matching filter'
 			foo: 4
 		}
 	}, {
-		currentDate: new Date(),
+		currentDate: date,
 		matchCard: {
 			type: 'foo',
 			active: true,
@@ -290,6 +301,7 @@ ava.test('.getRequest() should return a request given a complex matching filter'
 
 	test.deepEqual(request, {
 		action: 'action-create-card',
+		currentDate: date,
 		card: typeCard.id,
 		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 		arguments: {
@@ -391,6 +403,8 @@ ava.test('.getRequest() should parse source templates in the triggered action ar
 		}
 	}
 
+	const date = new Date()
+
 	const request = await triggers.getRequest(trigger, {
 		type: 'card',
 		active: true,
@@ -402,7 +416,7 @@ ava.test('.getRequest() should parse source templates in the triggered action ar
 			number: 6
 		}
 	}, {
-		currentDate: new Date(),
+		currentDate: date,
 		matchCard: {
 			type: 'card',
 			active: true,
@@ -420,6 +434,7 @@ ava.test('.getRequest() should parse source templates in the triggered action ar
 		action: 'action-create-card',
 		card: typeCard.id,
 		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+		currentDate: date,
 		arguments: {
 			properties: {
 				slug: 'hello-world',
@@ -480,6 +495,7 @@ ava.test('.getRequest() should parse timestamp templates in the triggered action
 
 	test.deepEqual(request, {
 		action: 'action-create-card',
+		currentDate,
 		card: typeCard.id,
 		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 		arguments: {

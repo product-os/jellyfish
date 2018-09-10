@@ -410,6 +410,7 @@ ava.test('.insertCard() should execute one matching triggered action', async (te
 		{
 			action: 'action-create-card',
 			card: typeCard.id,
+			currentDate: test.context.queue[1].currentDate,
 			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			arguments: {
 				properties: {
@@ -570,6 +571,7 @@ ava.test('.insertCard() should execute more than one matching triggered action',
 			action: 'action-create-card',
 			card: typeCard.id,
 			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			currentDate: test.context.queue[1].currentDate,
 			arguments: {
 				properties: {
 					slug: 'foo-bar-baz'
@@ -580,6 +582,7 @@ ava.test('.insertCard() should execute more than one matching triggered action',
 			action: 'action-create-card',
 			card: typeCard.id,
 			originator: 'd6cacdef-f53b-4b5b-8aa2-8476e48248a4',
+			currentDate: test.context.queue[2].currentDate,
 			arguments: {
 				properties: {
 					slug: 'bar-baz-qux'
@@ -678,6 +681,7 @@ ava.test('.insertCard() should execute the matching triggered actions given more
 			action: 'action-create-card',
 			card: typeCard.id,
 			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			currentDate: test.context.queue[1].currentDate,
 			arguments: {
 				properties: {
 					slug: 'foo-bar-baz'
