@@ -966,6 +966,34 @@ ava.test('.setTriggers() should be able to set a trigger with a start date', (te
 	])
 })
 
+ava.test('.setTriggers() should be able to set a trigger with an interval', (test) => {
+	test.context.worker.setTriggers([
+		{
+			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			action: 'action-foo-bar',
+			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			interval: 'PT1H',
+			arguments: {
+				foo: 'bar'
+			}
+		}
+	])
+
+	const triggers = test.context.worker.getTriggers()
+
+	test.deepEqual(triggers, [
+		{
+			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			action: 'action-foo-bar',
+			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			interval: 'PT1H',
+			arguments: {
+				foo: 'bar'
+			}
+		}
+	])
+})
+
 ava.test('.setTriggers() should be able to set triggers', (test) => {
 	test.context.worker.setTriggers([
 		{
@@ -1054,6 +1082,40 @@ ava.test('.setTriggers() should not store extra properties', (test) => {
 	])
 })
 
+ava.test('.setTriggers() should throw if no interval nor filter', (test) => {
+	test.throws(() => {
+		test.context.worker.setTriggers([
+			{
+				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				action: 'action-create-card',
+				arguments: {
+					foo: 'bar'
+				}
+			}
+		])
+	}, test.context.worker.errors.WorkerInvalidTrigger)
+})
+
+ava.test('.setTriggers() should throw if both interval and filter', (test) => {
+	test.throws(() => {
+		test.context.worker.setTriggers([
+			{
+				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				interval: 'PT1H',
+				filter: {
+					type: 'object'
+				},
+				action: 'action-create-card',
+				arguments: {
+					foo: 'bar'
+				}
+			}
+		])
+	}, test.context.worker.errors.WorkerInvalidTrigger)
+})
+
 ava.test('.setTriggers() should throw if no id', (test) => {
 	test.throws(() => {
 		test.context.worker.setTriggers([
@@ -1081,6 +1143,22 @@ ava.test('.setTriggers() should throw if id is not a string', (test) => {
 				filter: {
 					type: 'object'
 				},
+				arguments: {
+					foo: 'bar'
+				}
+			}
+		])
+	}, test.context.worker.errors.WorkerInvalidTrigger)
+})
+
+ava.test('.setTriggers() should throw if interval is not a string', (test) => {
+	test.throws(() => {
+		test.context.worker.setTriggers([
+			{
+				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				action: 'action-create-card',
+				interval: 999,
 				arguments: {
 					foo: 'bar'
 				}
