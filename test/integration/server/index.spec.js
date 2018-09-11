@@ -554,3 +554,79 @@ ava.test.serial('should be able to post an external event with a type', async (t
 		}
 	})
 })
+
+ava.test.serial('should add and evaluate a time triggered action', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const typeCard = await test.context.server.jellyfish.getCardBySlug(test.context.session, 'card')
+
+	await sdk.auth.signup({
+		username: 'johndoe',
+		email: 'johndoe@example.com',
+		password: 'foobarbaz'
+	})
+
+	await sdk.auth.login({
+		username: 'johndoe',
+		password: 'foobarbaz'
+	})
+
+	await test.context.server.jellyfish.insertCard(test.context.session, {
+		type: 'triggered-action',
+		active: true,
+		tags: [],
+		links: {},
+		data: {
+			action: 'action-create-card',
+			target: typeCard.id,
+			interval: 'PT1S',
+			arguments: {
+				properties: {
+					data: {
+						origin: 'time-trigger'
+					}
+				}
+			}
+		}
+	}, {
+		override: true
+	})
+
+	const waitUntilResults = async (length, times = 0) => {
+		const results = await test.context.server.jellyfish.query(test.context.session, {
+			type: 'object',
+			required: [ 'type', 'data' ],
+			properties: {
+				type: {
+					type: 'string',
+					const: 'card'
+				},
+				data: {
+					type: 'object',
+					required: [ 'origin' ],
+					properties: {
+						origin: {
+							type: 'string'
+						}
+					}
+				}
+			}
+		})
+
+		if (results.length >= length) {
+			return results
+		}
+
+		if (times > 50) {
+			throw new Error(`Did not get ${length} results in time`)
+		}
+
+		await Bluebird.delay(100)
+		return waitUntilResults(length, times + 1)
+	}
+
+	const results = await waitUntilResults(3)
+	test.true(results.length >= 3)
+})
