@@ -1354,6 +1354,40 @@ ava.test('.tick() should not enqueue an action if there is a time trigger with a
 	test.is(length, 0)
 })
 
+ava.test('.tick() should evaluate the current timestamp in a time triggered action', async (test) => {
+	const actionCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'action-create-card')
+	test.context.worker.setTriggers([
+		{
+			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			action: actionCard.slug,
+			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			interval: 'PT1D',
+			startDate: '2018-08-05T12:00:00.000Z',
+			arguments: {
+				properties: {
+					data: {
+						timestamp: {
+							$eval: 'timestamp'
+						}
+					}
+				}
+			}
+		}
+	])
+
+	await test.context.worker.tick(test.context.session, {
+		currentDate: new Date('2018-08-06T12:00:00.000Z')
+	})
+
+	const length = await test.context.worker.length()
+	test.is(length, 1)
+
+	const request = await test.context.worker.dequeue()
+	test.deepEqual(request.arguments.properties.data, {
+		timestamp: '2018-08-06T12:00:00.000Z'
+	})
+})
+
 ava.test('.tick() should enqueue an action if there is a time trigger with a past start date', async (test) => {
 	const actionCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'action-create-card')
 	test.context.worker.setTriggers([
