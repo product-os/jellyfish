@@ -19,19 +19,13 @@
 set -e
 set -u
 
-ARGV_DOCKER_OWNER="$1"
-
-if [ -z "$ARGV_DOCKER_OWNER" ]; then
-	echo "Usage: $0 <owner>" 1>&2
-	exit 1
-fi
-
+DOCKER_OWNER="resinci"
 IMAGE_ID="jellyfish-test"
 SHORT_COMMIT_HASH="$(git log -1 --format="%h")"
-IMAGE_NAME="$ARGV_DOCKER_OWNER/$IMAGE_ID"
+IMAGE_NAME="$DOCKER_OWNER/$IMAGE_ID"
 
 echo "Building Dockerfile as $IMAGE_ID"
-docker build -f test/Dockerfile -t "$IMAGE_ID" .
+docker build -f .circleci/Dockerfile -t "$IMAGE_ID" .
 
 for tag in "$SHORT_COMMIT_HASH" latest; do
   IMAGE_FULLNAME="$IMAGE_NAME:$tag"
