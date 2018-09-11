@@ -8,7 +8,7 @@ dependencies:
 jobs:
   build:
     docker:
-      - image: jviottidc/jellyfish-test
+      - image: resinci/jellyfish-test
 
     working_directory: ~/repo
 
@@ -21,11 +21,6 @@ jobs:
           - v1-dependencies-{{ checksum "package.json" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
-
-      - run: apt-get update && apt-get install -y git
-
-      # Upgrade npm
-      - run: npm install -g npm
 
       # Because `node_modules` gets cached, any changes to internal modules
       # will be ignored, as the package already exists there and npm lifecycle
