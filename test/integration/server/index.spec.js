@@ -199,22 +199,44 @@ ava.test.serial('timeline cards should reference the correct actor', async (test
 		data: {}
 	})
 
-	await sdk.card.update(thread.id, {
+	// Set up the watcher before the card is updated to stop race conditions from
+	// happening
+	const waitForUpdate = waitForCard(sdk, {
+		type: 'object',
+		properties: {
+			type: {
+				type: 'string',
+				const: 'update'
+			},
+			data: {
+				type: 'object',
+				properties: {
+					target: {
+						type: 'string',
+						const: thread.id
+					}
+				},
+				required: [ 'target' ]
+			}
+		},
+		required: [ 'type' ]
+	})
+
+	sdk.card.update(thread.id, {
 		data: {
 			description: 'Lorem ipsum dolor sit amer'
 		}
 	})
 
-	// Wait for an update card to be generated
-	await Bluebird.delay(1000)
+	return waitForUpdate.then(async (result) => {
+		const timeline = await sdk.card.getTimeline(thread.id)
 
-	const timeline = await sdk.card.getTimeline(thread.id)
+		const timelineActors = _.uniq(timeline.map((card) => {
+			return card.data.actor
+		}))
 
-	const timelineActors = _.uniq(timeline.map((card) => {
-		return card.data.actor
-	}))
-
-	test.deepEqual(timelineActors, [ user.id ])
+		test.deepEqual(timelineActors, [ user.id ])
+	})
 })
 
 ava.test.serial('.query() community users should be able to query views', async (test) => {
