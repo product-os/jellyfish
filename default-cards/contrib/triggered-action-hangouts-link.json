@@ -2,6 +2,10 @@
   "slug": "triggered-action-hangouts-link",
   "type": "triggered-action",
   "tags": [],
+  "version": "1.0.0",
+  "componentVersion": "1.0.0",
+  "capabilities": [],
+  "requires": {},
   "links": {},
   "active": true,
   "data": {

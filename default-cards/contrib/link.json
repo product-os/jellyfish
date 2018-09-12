@@ -1,6 +1,10 @@
 {
   "slug": "link",
   "type": "type",
+  "version": "1.0.0",
+  "componentVersion": "1.0.0",
+  "capabilities": [],
+  "requires": {},
   "tags": [],
   "links": {},
   "active": true,

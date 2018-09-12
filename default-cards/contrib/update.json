@@ -2,6 +2,10 @@
   "slug": "update",
   "type": "type",
   "name": "The card update event",
+  "version": "1.0.0",
+  "componentVersion": "1.0.0",
+  "capabilities": [],
+  "requires": {},
   "tags": [],
   "links": {},
   "active": true,
@@ -27,6 +31,18 @@
             "payload": {
               "type": "object",
               "properties": {
+                "version": {
+                  "type": "string"
+                },
+                "componentVersion": {
+                  "type": "string"
+                },
+                "capabilities": {
+                  "type": "array"
+                },
+                "requires": {
+                  "type": "object"
+                },
                 "slug": {
                   "type": "string",
                   "pattern": "^[a-z0-9-]+$"

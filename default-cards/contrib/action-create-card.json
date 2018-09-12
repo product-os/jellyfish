@@ -3,6 +3,10 @@
   "type": "action",
   "name": "Create a new card",
   "tags": [],
+  "version": "1.0.0",
+  "componentVersion": "1.0.0",
+  "capabilities": [],
+  "requires": {},
   "links": {},
   "active": true,
   "data": {

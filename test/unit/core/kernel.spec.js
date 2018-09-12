@@ -48,6 +48,10 @@ ava.test('.insertCard() should throw an error if the element is not a valid card
 ava.test('.insertCard() should throw an error if the element does not adhere to the type', async (test) => {
 	await test.throws(test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'action-foo-bar',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		type: 'action',
 		active: true,
 		links: {},
@@ -59,6 +63,10 @@ ava.test('.insertCard() should throw an error if the element does not adhere to 
 ava.test('.insertCard() should throw an error if the card type does not exist', async (test) => {
 	await test.throws(test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'foobarbazqux',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -69,6 +77,10 @@ ava.test('.insertCard() should throw an error if the card type does not exist', 
 ava.test('.insertCard() should be able to insert a card', async (test) => {
 	const card = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'hello-world',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		type: 'card',
 		active: true,
 		links: {},
@@ -86,6 +98,10 @@ ava.test('.insertCard() should throw if the card already exists', async (test) =
 	const card = {
 		slug: 'foo-bar',
 		type: 'card',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -103,6 +119,10 @@ ava.test('.insertCard() should replace an element given override is true', async
 	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'foo-bar',
 		type: 'card',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -112,6 +132,10 @@ ava.test('.insertCard() should replace an element given override is true', async
 	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'foo-bar',
 		type: 'card',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -129,6 +153,10 @@ ava.test('.insertCard() read access on a property should not allow to write othe
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'view-read-user-johndoe',
 		type: 'view',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -190,6 +218,10 @@ ava.test('.insertCard() read access on a property should not allow to write othe
 	const userCard = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'user-johndoe',
 		type: 'user',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -202,6 +234,10 @@ ava.test('.insertCard() read access on a property should not allow to write othe
 	const targetUserCard = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'user-janedoe',
 		type: 'user',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -213,6 +249,10 @@ ava.test('.insertCard() read access on a property should not allow to write othe
 
 	const session = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'session',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -225,6 +265,10 @@ ava.test('.insertCard() read access on a property should not allow to write othe
 		id: targetUserCard.id,
 		slug: 'user-janedoe',
 		type: 'user',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -241,6 +285,10 @@ ava.test('.insertCard() should restrict the visibility of the user using write r
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'view-read-user-johndoe',
 		type: 'view',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -281,6 +329,10 @@ ava.test('.insertCard() should restrict the visibility of the user using write r
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'view-write-user-johndoe',
 		type: 'view',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -318,6 +370,10 @@ ava.test('.insertCard() should restrict the visibility of the user using write r
 	const userCard = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'user-johndoe',
 		type: 'user',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -329,6 +385,10 @@ ava.test('.insertCard() should restrict the visibility of the user using write r
 
 	const session = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'session',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -349,6 +409,10 @@ ava.test('.insertCard() should restrict the visibility of the user using write r
 	await test.throws(test.context.kernel.insertCard(session.id, {
 		slug: 'user-janedoe',
 		type: 'user',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -370,6 +434,10 @@ ava.test('.getCardById() should find an active card by its id', async (test) => 
 	const result = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'foo-bar',
 		type: 'card',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -384,6 +452,10 @@ ava.test('.getCardById() should find an active card by its id and type', async (
 	const result = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'foo-bar',
 		type: 'card',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -401,6 +473,10 @@ ava.test('.getCardById() should not find an active card by its id but an invalid
 	const result = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'foo-bar',
 		type: 'card',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -418,6 +494,10 @@ ava.test('.getCardBySlug() should find an active card by its slug', async (test)
 	const result = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'foo-bar',
 		type: 'card',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -432,6 +512,10 @@ ava.test('.getCardBySlug() should find an active card by its slug and its type',
 	const result = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'foo-bar',
 		type: 'card',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -449,6 +533,10 @@ ava.test('.getCardBySlug() should not find an active card by its slug but an inv
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'foo-bar',
 		type: 'card',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -466,6 +554,10 @@ ava.test('.getCardById() should return an inactive card by its id', async (test)
 	const result = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'foo-bar',
 		type: 'card',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: false,
 		links: {},
 		tags: [],
@@ -479,6 +571,10 @@ ava.test('.getCardById() should return an inactive card by its id', async (test)
 ava.test('.query() should be able to limit the results', async (test) => {
 	const result1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -490,6 +586,10 @@ ava.test('.query() should be able to limit the results', async (test) => {
 
 	const result2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -501,6 +601,10 @@ ava.test('.query() should be able to limit the results', async (test) => {
 
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -530,6 +634,10 @@ ava.test('.query() should be able to limit the results', async (test) => {
 ava.test('.query() should be able to sort the results', async (test) => {
 	const result1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -540,6 +648,10 @@ ava.test('.query() should be able to sort the results', async (test) => {
 
 	const result2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -550,6 +662,10 @@ ava.test('.query() should be able to sort the results', async (test) => {
 
 	const result3 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -577,6 +693,10 @@ ava.test('.query() should be able to sort the results', async (test) => {
 ava.test('.query() should be able to skip the results', async (test) => {
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -588,6 +708,10 @@ ava.test('.query() should be able to skip the results', async (test) => {
 
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -599,6 +723,10 @@ ava.test('.query() should be able to skip the results', async (test) => {
 
 	const result3 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -628,6 +756,10 @@ ava.test('.query() should be able to skip the results', async (test) => {
 ava.test('.query() should be able to limit and skip the results', async (test) => {
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -639,6 +771,10 @@ ava.test('.query() should be able to limit and skip the results', async (test) =
 
 	const result2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -650,6 +786,10 @@ ava.test('.query() should be able to limit and skip the results', async (test) =
 
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -681,6 +821,10 @@ ava.test('.query() should return the cards that match a schema', async (test) =>
 	const result1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'johndoe',
 		type: 'card',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -692,6 +836,10 @@ ava.test('.query() should return the cards that match a schema', async (test) =>
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'johnsmith',
 		type: 'card',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -742,6 +890,10 @@ ava.test('.query() should take roles into account', async (test) => {
 	const actor = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'johndoe',
 		type: 'card',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: false,
 		links: {},
 		tags: [],
@@ -755,6 +907,10 @@ ava.test('.query() should take roles into account', async (test) => {
 		type: 'session',
 		links: {},
 		tags: [],
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		data: {
 			actor: actor.id
@@ -764,6 +920,10 @@ ava.test('.query() should take roles into account', async (test) => {
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'view-read-foo',
 		type: 'view',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: false,
 		links: {},
 		tags: [],
@@ -825,6 +985,10 @@ ava.test('.query() should ignore queries to properties not whitelisted by a role
 	const actor = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'johndoe',
 		type: 'card',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: false,
 		links: {},
 		tags: [],
@@ -838,6 +1002,10 @@ ava.test('.query() should ignore queries to properties not whitelisted by a role
 		type: 'session',
 		links: {},
 		tags: [],
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		data: {
 			actor: actor.id
@@ -847,6 +1015,10 @@ ava.test('.query() should ignore queries to properties not whitelisted by a role
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'view-read-foo',
 		type: 'view',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: false,
 		links: {},
 		tags: [],
@@ -900,6 +1072,10 @@ ava.test('.query() should ignore queries to disallowed properties with additiona
 	const actor = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'johndoe',
 		type: 'card',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: false,
 		links: {},
 		tags: [],
@@ -913,6 +1089,10 @@ ava.test('.query() should ignore queries to disallowed properties with additiona
 		type: 'session',
 		links: {},
 		tags: [],
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		data: {
 			actor: actor.id
@@ -922,6 +1102,10 @@ ava.test('.query() should ignore queries to disallowed properties with additiona
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'view-read-foo',
 		type: 'view',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: false,
 		links: {},
 		tags: [],
@@ -993,6 +1177,10 @@ ava.test('.query() should query all cards of a certain type', async (test) => {
 ava.test('.query() should return all action request cards', async (test) => {
 	const request = {
 		type: 'action-request',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -1066,6 +1254,10 @@ ava.test('.query() should return all action request cards', async (test) => {
 ava.test('.query() should be able to return both action requests and other cards', async (test) => {
 	const result1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'action-request',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -1083,6 +1275,10 @@ ava.test('.query() should be able to return both action requests and other cards
 
 	const result2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -1118,6 +1314,10 @@ ava.test('.query() should return inactive cards', async (test) => {
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'johnsmith',
 		type: 'card',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: false,
 		links: {},
 		tags: [],
@@ -1150,6 +1350,10 @@ ava.test('.query() should take a view card with two filters', async (test) => {
 		type: 'card',
 		tags: [ 'foo' ],
 		links: {},
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		data: {
 			number: 1
@@ -1160,6 +1364,10 @@ ava.test('.query() should take a view card with two filters', async (test) => {
 		type: 'card',
 		tags: [],
 		links: {},
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		data: {
 			number: 1
@@ -1170,6 +1378,10 @@ ava.test('.query() should take a view card with two filters', async (test) => {
 		type: 'view',
 		tags: [],
 		links: {},
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		data: {
 			allOf: [
@@ -1229,6 +1441,18 @@ ava.test.cb('.stream() should report back new elements that match a certain slug
 			type: {
 				type: 'string'
 			},
+			version: {
+				type: 'string'
+			},
+			componentVersion: {
+				type: 'string'
+			},
+			capabilities: {
+				type: 'array'
+			},
+			requires: {
+				type: 'object'
+			},
 			slug: {
 				type: 'string',
 				const: 'card-foo'
@@ -1258,6 +1482,10 @@ ava.test.cb('.stream() should report back new elements that match a certain slug
 			test.deepEqual(_.omit(change.after, [ 'id' ]), {
 				type: 'card',
 				slug: 'card-foo',
+				version: '1.0.0',
+				componentVersion: '1.0.0',
+				capabilities: [],
+				requires: {},
 				active: true,
 				links: {},
 				tags: [],
@@ -1277,6 +1505,10 @@ ava.test.cb('.stream() should report back new elements that match a certain slug
 				slug: 'card-foo',
 				links: {},
 				tags: [],
+				version: '1.0.0',
+				componentVersion: '1.0.0',
+				capabilities: [],
+				requires: {},
 				active: true,
 				type: 'card',
 				data: {
@@ -1287,6 +1519,10 @@ ava.test.cb('.stream() should report back new elements that match a certain slug
 				slug: 'card-bar',
 				links: {},
 				tags: [],
+				version: '1.0.0',
+				componentVersion: '1.0.0',
+				capabilities: [],
+				requires: {},
 				active: true,
 				type: 'card',
 				data: {
@@ -1341,6 +1577,10 @@ ava.test.cb('.stream() should report back elements of a certain type', (test) =>
 				slug: 'card-foo',
 				links: {},
 				tags: [],
+				version: '1.0.0',
+				componentVersion: '1.0.0',
+				capabilities: [],
+				requires: {},
 				active: true,
 				type: 'card',
 				data: {
@@ -1351,6 +1591,10 @@ ava.test.cb('.stream() should report back elements of a certain type', (test) =>
 				slug: 'johndoe',
 				links: {},
 				tags: [],
+				version: '1.0.0',
+				componentVersion: '1.0.0',
+				capabilities: [],
+				requires: {},
 				active: true,
 				type: 'card',
 				data: {
@@ -1421,6 +1665,10 @@ ava.test.cb('.stream() should report back action requests', (test) => {
 				type: 'action-request',
 				links: {},
 				tags: [],
+				version: '1.0.0',
+				componentVersion: '1.0.0',
+				capabilities: [],
+				requires: {},
 				active: true,
 				data: {
 					action: 'action-delete-card',
@@ -1435,6 +1683,10 @@ ava.test.cb('.stream() should report back action requests', (test) => {
 				slug: 'johndoe',
 				links: {},
 				tags: [],
+				version: '1.0.0',
+				componentVersion: '1.0.0',
+				capabilities: [],
+				requires: {},
 				active: true,
 				type: 'card',
 				data: {
@@ -1502,6 +1754,10 @@ ava.test.cb('.stream() should report both action requests and other types', (tes
 			type: 'action-request',
 			links: {},
 			tags: [],
+			version: '1.0.0',
+			componentVersion: '1.0.0',
+			capabilities: [],
+			requires: {},
 			active: true,
 			data: {
 				action: 'action-delete-card',
@@ -1516,6 +1772,10 @@ ava.test.cb('.stream() should report both action requests and other types', (tes
 				type: 'card',
 				links: {},
 				tags: [],
+				version: '1.0.0',
+				componentVersion: '1.0.0',
+				capabilities: [],
+				requires: {},
 				active: true,
 				data: {
 					test: 1
@@ -1573,6 +1833,10 @@ ava.test.cb('.stream() should report back inactive elements', (test) => {
 			slug: 'card-bar',
 			links: {},
 			tags: [],
+			version: '1.0.0',
+			componentVersion: '1.0.0',
+			capabilities: [],
+			requires: {},
 			active: false,
 			type: 'card',
 			data: {

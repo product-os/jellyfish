@@ -149,6 +149,10 @@ ava.test.serial('.query() should be able to see previously restricted cards afte
 	const entry = await test.context.server.jellyfish.insertCard(test.context.session, {
 		type: 'scratchpad-entry',
 		name: 'Test entry',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		tags: [],
 		links: {},
 		active: true,
@@ -163,6 +167,10 @@ ava.test.serial('.query() should be able to see previously restricted cards afte
 		id: user.id,
 		slug: 'user-johndoe',
 		type: 'user',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		tags: [],
 		links: {},
 		active: true,
@@ -598,6 +606,10 @@ ava.test.serial('should add and evaluate a time triggered action', async (test) 
 	await test.context.server.jellyfish.insertCard(test.context.session, {
 		type: 'triggered-action',
 		active: true,
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		tags: [],
 		links: {},
 		data: {

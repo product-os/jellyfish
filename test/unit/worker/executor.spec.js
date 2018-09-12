@@ -68,6 +68,10 @@ ava.test('.insertCard() should insert a card', async (test) => {
 	test.deepEqual(card, {
 		id: result.id,
 		type: 'card',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -207,6 +211,10 @@ ava.test('.insertCard() should override if the override option is true', async (
 	const previousCard = await test.context.jellyfish.insertCard(test.context.session, {
 		slug: 'foo-bar-baz',
 		type: 'card',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -233,6 +241,10 @@ ava.test('.insertCard() throw if card already exists and override is false', asy
 	await test.context.jellyfish.insertCard(test.context.session, {
 		slug: 'foo-bar-baz',
 		type: 'card',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -270,6 +282,10 @@ ava.test('.insertCard() should add a create event if attachEvents is true', asyn
 				type: 'create',
 				payload: {
 					slug: 'foo-bar-baz',
+					version: '1.0.0',
+					componentVersion: '1.0.0',
+					capabilities: [],
+					requires: {},
 					active: true,
 					links: {},
 					tags: [],
@@ -299,6 +315,10 @@ ava.test('.insertCard() should add a create event not overriding even if overrid
 				type: 'create',
 				payload: {
 					slug: 'foo-bar-baz',
+					version: '1.0.0',
+					componentVersion: '1.0.0',
+					capabilities: [],
+					requires: {},
 					active: true,
 					links: {},
 					tags: [],
@@ -313,6 +333,10 @@ ava.test('.insertCard() should add an update event if attachEvents is true and o
 	await test.context.jellyfish.insertCard(test.context.session, {
 		slug: 'foo-bar-baz',
 		type: 'card',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -338,6 +362,10 @@ ava.test('.insertCard() should add an update event if attachEvents is true and o
 				type: 'update',
 				payload: {
 					slug: 'foo-bar-baz',
+					version: '1.0.0',
+					componentVersion: '1.0.0',
+					capabilities: [],
+					requires: {},
 					active: false,
 					links: {},
 					tags: [],
@@ -399,6 +427,10 @@ ava.test('.insertCard() should execute one matching triggered action', async (te
 				type: 'create',
 				payload: {
 					active: true,
+					version: '1.0.0',
+					componentVersion: '1.0.0',
+					capabilities: [],
+					requires: {},
 					links: {},
 					tags: [],
 					data: {
@@ -471,6 +503,10 @@ ava.test('.insertCard() should not execute non-matching triggered actions', asyn
 				type: 'create',
 				payload: {
 					active: true,
+					version: '1.0.0',
+					componentVersion: '1.0.0',
+					capabilities: [],
+					requires: {},
 					links: {},
 					tags: [],
 					data: {
@@ -559,6 +595,10 @@ ava.test('.insertCard() should execute more than one matching triggered action',
 				type: 'create',
 				payload: {
 					active: true,
+					version: '1.0.0',
+					componentVersion: '1.0.0',
+					capabilities: [],
+					requires: {},
 					links: {},
 					tags: [],
 					data: {
@@ -669,6 +709,10 @@ ava.test('.insertCard() should execute the matching triggered actions given more
 				type: 'create',
 				payload: {
 					active: true,
+					version: '1.0.0',
+					componentVersion: '1.0.0',
+					capabilities: [],
+					requires: {},
 					links: {},
 					tags: [],
 					data: {
@@ -695,6 +739,10 @@ ava.test('.insertCard() should evaluate a type formula', async (test) => {
 	const typeCard = {
 		slug: 'test-type',
 		type: 'type',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -744,6 +792,10 @@ ava.test('.insertCard() should throw if the result of the formula is incompatibl
 	const typeCard = {
 		slug: 'test-type',
 		type: 'type',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],
@@ -791,6 +843,10 @@ ava.test('.insertCard() should remove previously inserted type triggered actions
 		{
 			type: 'triggered-action',
 			active: true,
+			version: '1.0.0',
+			componentVersion: '1.0.0',
+			capabilities: [],
+			requires: {},
 			links: {},
 			tags: [],
 			data: {
@@ -830,6 +886,10 @@ ava.test('.insertCard() should remove previously inserted type triggered actions
 		{
 			type: 'triggered-action',
 			active: true,
+			version: '1.0.0',
+			componentVersion: '1.0.0',
+			capabilities: [],
+			requires: {},
 			links: {},
 			tags: [],
 			data: {
@@ -917,6 +977,10 @@ ava.test('.insertCard() should remove previously inserted type triggered actions
 ava.test('.insertCard() should remove previously inserted type triggered actions if deactivating a type', async (test) => {
 	const type = await test.context.jellyfish.insertCard(test.context.session, {
 		type: 'type',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		slug: 'foo',
 		active: true,
 		links: {},
@@ -932,6 +996,10 @@ ava.test('.insertCard() should remove previously inserted type triggered actions
 	await test.context.jellyfish.insertCard(test.context.session, {
 		type: 'triggered-action',
 		active: true,
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		links: {},
 		tags: [],
 		data: {
@@ -1059,6 +1127,10 @@ ava.test('.insertCard() should add a triggered action given a type with an AGGRE
 			slug: 'triggered-action-test-thread-data-mentions',
 			type: 'triggered-action',
 			active: true,
+			version: '1.0.0',
+			componentVersion: '1.0.0',
+			capabilities: [],
+			requires: {},
 			links: {},
 			tags: [],
 			data: {
@@ -1295,6 +1367,10 @@ ava.test('.run() should create a card', async (test) => {
 		id: result.id,
 		slug: 'foo-bar-baz',
 		type: 'card',
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		active: true,
 		links: {},
 		tags: [],

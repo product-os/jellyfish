@@ -47,6 +47,10 @@ ava.test('.getRequest() should return null if the filter only has a type but the
 	const request = await triggers.getRequest(trigger, {
 		type: 'card',
 		active: true,
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		links: {},
 		tags: [],
 		data: {}
@@ -55,6 +59,10 @@ ava.test('.getRequest() should return null if the filter only has a type but the
 		matchCard: {
 			type: 'card',
 			active: true,
+			version: '1.0.0',
+			componentVersion: '1.0.0',
+			capabilities: [],
+			requires: {},
 			links: {},
 			tags: [],
 			data: {}
@@ -92,6 +100,10 @@ ava.test('.getRequest() should return a request if the filter only has a type an
 	const request = await triggers.getRequest(trigger, {
 		type: 'foo',
 		active: true,
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		links: {},
 		tags: [],
 		data: {}
@@ -100,6 +112,10 @@ ava.test('.getRequest() should return a request if the filter only has a type an
 		matchCard: {
 			type: 'foo',
 			active: true,
+			version: '1.0.0',
+			componentVersion: '1.0.0',
+			capabilities: [],
+			requires: {},
 			links: {},
 			tags: [],
 			data: {}
@@ -147,6 +163,10 @@ ava.test('.getRequest() should return a request if the input match card is null'
 	const request = await triggers.getRequest(trigger, {
 		type: 'bar',
 		active: true,
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		links: {},
 		tags: [],
 		data: {}
@@ -281,6 +301,10 @@ ava.test('.getRequest() should return a request given a complex matching filter'
 	const request = await triggers.getRequest(trigger, {
 		type: 'foo',
 		active: true,
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		links: {},
 		tags: [],
 		data: {
@@ -291,6 +315,10 @@ ava.test('.getRequest() should return a request given a complex matching filter'
 		matchCard: {
 			type: 'foo',
 			active: true,
+			version: '1.0.0',
+			componentVersion: '1.0.0',
+			capabilities: [],
+			requires: {},
 			links: {},
 			tags: [],
 			data: {
@@ -346,6 +374,10 @@ ava.test('.getRequest() should return null given a complex non-matching filter',
 	const request = await triggers.getRequest(trigger, {
 		type: 'foo',
 		active: true,
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		links: {},
 		tags: [],
 		data: {
@@ -356,6 +388,10 @@ ava.test('.getRequest() should return null given a complex non-matching filter',
 		matchCard: {
 			type: 'foo',
 			active: true,
+			version: '1.0.0',
+			componentVersion: '1.0.0',
+			capabilities: [],
+			requires: {},
 			links: {},
 			tags: [],
 			data: {
@@ -408,6 +444,10 @@ ava.test('.getRequest() should parse source templates in the triggered action ar
 	const request = await triggers.getRequest(trigger, {
 		type: 'card',
 		active: true,
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		links: {},
 		tags: [],
 		data: {
@@ -420,6 +460,10 @@ ava.test('.getRequest() should parse source templates in the triggered action ar
 		matchCard: {
 			type: 'card',
 			active: true,
+			version: '1.0.0',
+			componentVersion: '1.0.0',
+			capabilities: [],
+			requires: {},
 			links: {},
 			tags: [],
 			data: {
@@ -471,6 +515,10 @@ ava.test('.getRequest() should parse timestamp templates in the triggered action
 	const request = await triggers.getRequest(trigger, {
 		type: 'card',
 		active: true,
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		links: {},
 		tags: [],
 		data: {
@@ -483,6 +531,10 @@ ava.test('.getRequest() should parse timestamp templates in the triggered action
 		matchCard: {
 			type: 'card',
 			active: true,
+			version: '1.0.0',
+			componentVersion: '1.0.0',
+			capabilities: [],
+			requires: {},
 			links: {},
 			tags: [],
 			data: {
@@ -546,6 +598,10 @@ ava.test('.getRequest() should return null if one of the templates is unsatisfie
 	const request = await triggers.getRequest(trigger, {
 		type: 'card',
 		active: true,
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		links: {},
 		tags: [],
 		data: {
@@ -557,6 +613,10 @@ ava.test('.getRequest() should return null if one of the templates is unsatisfie
 		matchCard: {
 			type: 'card',
 			active: true,
+			version: '1.0.0',
+			componentVersion: '1.0.0',
+			capabilities: [],
+			requires: {},
 			links: {},
 			tags: [],
 			data: {
@@ -575,6 +635,10 @@ ava.test('.getTypeTriggers() should return a trigger card with a matching type',
 		{
 			type: 'triggered-action',
 			active: true,
+			version: '1.0.0',
+			componentVersion: '1.0.0',
+			capabilities: [],
+			requires: {},
 			links: {},
 			tags: [],
 			data: {
@@ -631,6 +695,10 @@ ava.test('.getTypeTriggers() should not return inactive cards', async (test) => 
 		{
 			type: 'triggered-action',
 			active: false,
+			version: '1.0.0',
+			componentVersion: '1.0.0',
+			capabilities: [],
+			requires: {},
 			links: {},
 			tags: [],
 			data: {
@@ -683,6 +751,10 @@ ava.test('.getTypeTriggers() should ignore non-matching cards', async (test) => 
 		{
 			type: 'triggered-action',
 			active: true,
+			version: '1.0.0',
+			componentVersion: '1.0.0',
+			capabilities: [],
+			requires: {},
 			links: {},
 			tags: [],
 			data: {
@@ -722,6 +794,10 @@ ava.test('.getTypeTriggers() should ignore non-matching cards', async (test) => 
 		{
 			type: 'triggered-action',
 			active: true,
+			version: '1.0.0',
+			componentVersion: '1.0.0',
+			capabilities: [],
+			requires: {},
 			links: {},
 			tags: [],
 			data: {
@@ -778,6 +854,10 @@ ava.test('.getTypeTriggers() should ignore cards that are not triggered actions'
 		{
 			type: 'triggered-action',
 			active: true,
+			version: '1.0.0',
+			componentVersion: '1.0.0',
+			capabilities: [],
+			requires: {},
 			links: {},
 			tags: [],
 			data: {
@@ -817,6 +897,10 @@ ava.test('.getTypeTriggers() should ignore cards that are not triggered actions'
 		{
 			type: 'card',
 			active: true,
+			version: '1.0.0',
+			componentVersion: '1.0.0',
+			capabilities: [],
+			requires: {},
 			links: {},
 			tags: [],
 			data: {
@@ -873,6 +957,10 @@ ava.test('.getTypeTriggers() should not return triggered actions not associated 
 		{
 			type: 'triggered-action',
 			active: true,
+			version: '1.0.0',
+			componentVersion: '1.0.0',
+			capabilities: [],
+			requires: {},
 			links: {},
 			tags: [],
 			data: {
@@ -923,6 +1011,10 @@ ava.test('.getStartDate() should return epoch if the trigger has no start date',
 	const result = triggers.getStartDate({
 		type: 'triggered-action',
 		active: true,
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		links: {},
 		tags: [],
 		data: {
@@ -947,6 +1039,10 @@ ava.test('.getStartDate() should return epoch if the trigger has an invalid date
 	const result = triggers.getStartDate({
 		type: 'triggered-action',
 		active: true,
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		links: {},
 		tags: [],
 		data: {
@@ -973,6 +1069,10 @@ ava.test('.getStartDate() should return the specified date if valid', async (tes
 	const result = triggers.getStartDate({
 		type: 'triggered-action',
 		active: true,
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		links: {},
 		tags: [],
 		data: {
@@ -999,6 +1099,10 @@ ava.test('.getNextExecutionDate() should return null if no interval', async (tes
 	const result = triggers.getNextExecutionDate({
 		type: 'triggered-action',
 		active: true,
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		links: {},
 		tags: [],
 		data: {
@@ -1023,6 +1127,10 @@ ava.test('.getNextExecutionDate() should return epoch if no last execution date'
 	const result = triggers.getNextExecutionDate({
 		type: 'triggered-action',
 		active: true,
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		links: {},
 		tags: [],
 		data: {
@@ -1045,6 +1153,10 @@ ava.test('.getNextExecutionDate() should return epoch if last execution date is 
 	const result = triggers.getNextExecutionDate({
 		type: 'triggered-action',
 		active: true,
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		links: {},
 		tags: [],
 		data: {
@@ -1067,6 +1179,10 @@ ava.test('.getNextExecutionDate() should return epoch if last execution date is 
 	const result = triggers.getNextExecutionDate({
 		type: 'triggered-action',
 		active: true,
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		links: {},
 		tags: [],
 		data: {
@@ -1092,6 +1208,10 @@ ava.test('.getNextExecutionDate() should throw if the interval is invalid', asyn
 		triggers.getNextExecutionDate({
 			type: 'triggered-action',
 			active: true,
+			version: '1.0.0',
+			componentVersion: '1.0.0',
+			capabilities: [],
+			requires: {},
 			links: {},
 			tags: [],
 			data: {
@@ -1113,6 +1233,10 @@ ava.test('.getNextExecutionDate() should return the next interval after the last
 	const result = triggers.getNextExecutionDate({
 		type: 'triggered-action',
 		active: true,
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		links: {},
 		tags: [],
 		data: {
@@ -1137,6 +1261,10 @@ ava.test('.getNextExecutionDate() should return the start date if the last execu
 	const result = triggers.getNextExecutionDate({
 		type: 'triggered-action',
 		active: true,
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		links: {},
 		tags: [],
 		data: {
@@ -1161,6 +1289,10 @@ ava.test('.getNextExecutionDate() should return the subsequent interval if the l
 	const result = triggers.getNextExecutionDate({
 		type: 'triggered-action',
 		active: true,
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		links: {},
 		tags: [],
 		data: {
@@ -1184,6 +1316,10 @@ ava.test('.getNextExecutionDate() should return the next interval if the last ex
 	const result = triggers.getNextExecutionDate({
 		type: 'triggered-action',
 		active: true,
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		links: {},
 		tags: [],
 		data: {
