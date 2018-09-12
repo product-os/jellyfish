@@ -61,6 +61,18 @@ ava.test.beforeEach(async (test) => {
 		}
 	}
 
+	// Create and stash the card a new big issue would create
+	const bigIssuePayload = require('./big-issue')
+	test.context.bigIssueExternalEvent = {
+		data: {
+			source: 'github',
+			headers: {
+				'x-github-event': 'issues'
+			},
+			payload: bigIssuePayload
+		}
+	}
+
 	// Create and stash the card a new comment would create
 	const commentPayload = require('./issue-comment')
 	test.context.commentExternalEvent = {
@@ -151,6 +163,30 @@ ava.test(
 			),
 			test.context.fullTimeLine
 		)
+	}
+)
+
+ava.test(
+	[
+		'prepareImport()',
+		'should provide a full time line',
+		'when given a completely new big issue'
+	].join(' '),
+	async (test) => {
+		const result = await prepareImport(
+			test.context.session,
+			test.context.context,
+			test.context.bigIssueExternalEvent,
+			test.context.args
+		)
+
+		// The test issue in big-issue.json currently has 58 comments, and
+		// I don't imagine this number will ever reduce much.
+		// Most importantly this is greater than GitHub's pagination of 30.
+		test.true(result[1].length > 45)
+
+		// Also test that we haven't gone pagination crazy.
+		test.true(result[1].length < 10 ** 3)
 	}
 )
 

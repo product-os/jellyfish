@@ -77,7 +77,7 @@ interface GitHubEventCard extends Card {
  *
  * @param session  ID of the session to use to read data in Jellyfish
  * @param context  Worker context, full of useful methods
- * @param target   Card, created from webhook, that triggerred this import
+ * @param target   Card, created from webhook, that triggered this import
  * @param args     Arguments of the request, as if from the trigger card
  * @returns        Promise that resolves to the events to insert
  */
@@ -165,33 +165,45 @@ async function fetchFullTail(
 ): Promise<MessageTemplate[]> {
 	const issue = payload.issue;
 	const events: MessageTemplate[] = [];
-	if (isString(issue.body) && isString(issue.created_at)) {
-		events.push(
-			makeMessageTemplate(
-				issue.body,
-				issue.created_at,
-				target,
-				actor,
-			),
-		);
-	}
-	if (!issue.number) {
-		throw new Error('Cannot get a tail without specifing an issue number');
-	}
-	const response = await sdk.issues.getComments({
-		number: issue.number,
-		owner: payload.repository.owner.login,
-		repo: payload.repository.name,
-		per_page: 100,
-	});
-	forEach(response.data, (comment) => {
+	// Enclose a method to append to this array, because we do this a lot
+	const appendToEvents = (event: { body: string, created_at: string }) => {
 		events.push(makeMessageTemplate(
-			comment.body,
-			comment.created_at,
+			event.body,
+			event.created_at,
 			target,
 			actor,
 		));
+	};
+	if (isString(issue.body) && isString(issue.created_at)) {
+		appendToEvents({
+			body: issue.body,
+			created_at: issue.created_at,
+		});
+	}
+	if (!issue.number) {
+		throw new Error('Cannot get a tail without specifying an issue number');
+	}
+	const initialResponse = await sdk.issues.getComments({
+		number: issue.number,
+		owner: payload.repository.owner.login,
+		repo: payload.repository.name,
 	});
+	forEach(initialResponse.data, appendToEvents);
+	let gitHubMangle = {
+		// `/node_modules/@octokit/rest/index.d.ts:120` requires `.meta`.
+		meta: initialResponse.headers,
+		// `/node_modules/@octokit/rest/lib/plugins/pagination/get-page-links.js:4` uses `.header`.
+		headers: initialResponse.headers,
+		// Yes, I am being serious.
+	};
+	while (sdk.hasNextPage(gitHubMangle)) {
+		const eachResponse = await sdk.getNextPage(gitHubMangle);
+		gitHubMangle = {
+			meta: eachResponse.headers,
+			headers: eachResponse.headers,
+		};
+		forEach(eachResponse.data, appendToEvents);
+	}
 	return events;
 }
 
@@ -227,7 +239,7 @@ function makeHeadQuery(issue: GitHubIssue): JSONSchema6 {
 }
 
 /**
- * Bundle a message string as a templated request to insert
+ * Bundle a message string as a request to insert template
  * @param message    The body string to insert
  * @param timestamp  The timestamp of the message
  * @param target     The head that this message sits under
