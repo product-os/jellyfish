@@ -2,6 +2,10 @@
   "slug": "card",
   "name": "Jellyfish Card",
   "type": "type",
+  "version": "1.0.0",
+  "componentVersion": "1.0.0",
+  "capabilities": [],
+  "requires": {},
   "tags": [],
   "links": {},
   "active": true,
@@ -16,6 +20,36 @@
         "slug": {
           "type": "string",
           "pattern": "^[a-z0-9-]+$"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[~\\^]*\\d+(\\.[~\\^]*\\d+(\\.[~\\^]*\\d+)*)*$"
+        },
+        "componentVersion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "capabilities": {
+          "type": "array",
+          "additionalItems": false,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "slug": {
+                "pattern": "^[a-z0-9-]+$"
+              },
+              "componentVersion": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [ "slug" ]
+          }
+        },
+        "requires": {
+          "type": "object"
         },
         "name": {
           "type": "string",
@@ -52,7 +86,17 @@
         }
       },
       "additionalProperties": false,
-      "required": [ "type", "tags", "links", "active", "data" ]
+      "required": [
+        "version",
+        "componentVersion",
+        "capabilities",
+        "requires",
+        "type",
+        "tags",
+        "links",
+        "active",
+        "data"
+      ]
     }
   }
 }

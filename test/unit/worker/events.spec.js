@@ -256,6 +256,10 @@ ava.test('.getLastExecutionEvent() should return the last execution event given 
 		id: '8fd7be57-4f68-4faf-bbc6-200a7c62c41a',
 		type: 'execute',
 		active: true,
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		links: {},
 		tags: [],
 		data: {
@@ -307,6 +311,10 @@ ava.test('.getLastExecutionEvent() should return the last event given a matching
 		id: '8fd7be57-4f68-4faf-bbc6-200a7c62c41a',
 		type: 'execute',
 		active: true,
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		links: {},
 		tags: [],
 		data: {
@@ -358,6 +366,10 @@ ava.test('.getLastExecutionEvent() should return the last execution event given 
 		id: '8fd7be57-4f68-4faf-bbc6-200a7c62c41a',
 		type: 'execute',
 		active: true,
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		links: {},
 		tags: [],
 		data: {
@@ -399,6 +411,10 @@ ava.test('.getLastExecutionEvent() should only consider execute cards', async (t
 	await test.context.jellyfish.insertCard(test.context.session, {
 		type: 'card',
 		active: true,
+		version: '1.0.0',
+		componentVersion: '1.0.0',
+		capabilities: [],
+		requires: {},
 		links: {},
 		tags: [],
 		data: {

@@ -2,6 +2,10 @@
   "card": {
     "id": "e95d05b4-2a79-4573-bd5d-032b068bedea",
     "type": "person",
+    "version": "1.0.0",
+    "componentVersion": "1.0.0",
+    "capabilities": [],
+    "requires": {},
     "tags": [ "premium" ],
     "links": {},
     "active": true,
