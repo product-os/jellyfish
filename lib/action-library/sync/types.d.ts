@@ -32,11 +32,9 @@ type InsertionRequest = Array<TemplateCard | TemplateCard[]>;
  */
 interface MessageTemplate extends TemplateCard {
 	data: {
-		data: {
-			actor: string | EvalTemplate;
-			target: string | EvalTemplate;
-			timestamp: string | EvalTemplate;
-			payload: object | EvalTemplate;
-		};
+		actor: string | EvalTemplate;
+		target: string | EvalTemplate;
+		timestamp: string | EvalTemplate;
+		payload: object | EvalTemplate;
 	};
 }

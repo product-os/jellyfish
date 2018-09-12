@@ -246,13 +246,11 @@ function makeMessageTemplate(
 		tags: [],
 		type: 'message',
 		data: {
-			data: {
-				actor,
-				target,
-				timestamp,
-				payload: {
-					message,
-				},
+			actor,
+			target,
+			timestamp,
+			payload: {
+				message,
 			},
 		},
 	};

@@ -86,16 +86,14 @@ ava.test.beforeEach(async (test) => {
 	const messageTemplate = {
 		active: true,
 		data: {
-			data: {
-				actor: test.context.args.actorUUID,
-				payload: {
-					message: issuePayload.issue.body
-				},
-				target: {
-					$eval: '0.id'
-				},
-				timestamp: issuePayload.issue.created_at
-			}
+			actor: test.context.args.actorUUID,
+			payload: {
+				message: issuePayload.issue.body
+			},
+			target: {
+				$eval: '0.id'
+			},
+			timestamp: issuePayload.issue.created_at
 		},
 		links: {},
 		tags: [],
@@ -106,16 +104,14 @@ ava.test.beforeEach(async (test) => {
 	const replyTemplate = {
 		active: true,
 		data: {
-			data: {
-				actor: test.context.args.actorUUID,
-				payload: {
-					message: commentPayload.comment.body
-				},
-				target: {
-					$eval: '0.id'
-				},
-				timestamp: commentPayload.comment.created_at
-			}
+			actor: test.context.args.actorUUID,
+			payload: {
+				message: commentPayload.comment.body
+			},
+			target: {
+				$eval: '0.id'
+			},
+			timestamp: commentPayload.comment.created_at
 		},
 		links: {},
 		tags: [],
@@ -194,7 +190,7 @@ ava.test(
 			{},
 			test.context.fullTimeLine[0]
 		)
-		test.context.briefTimeLine[0][0].data.data.target = insertResult.id
+		test.context.briefTimeLine[0][0].data.target = insertResult.id
 		test.deepEqual(
 			await prepareImport(
 				test.context.session,
