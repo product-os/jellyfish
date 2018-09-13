@@ -1,6 +1,5 @@
 .PHONY: lint build-ui dev-ui test build start-server start-db test-e2e
 
-PROFILE ?= 0
 API_URL ?= http://localhost:8000/
 DB_HOST ?= localhost
 DB_PORT ?= 28015
@@ -61,11 +60,7 @@ build: build-ui
 		./node_modules/.bin/tsc --project ./lib/action-library
 
 start-server:
-ifeq ($(PROFILE),1)
-	DEBUG=$(NODE_DEBUG) node scripts/profiler.js lib/server/index.js
-else
 	DEBUG=$(NODE_DEBUG) node lib/server/index.js
-endif
 
 start-db:
 	rethinkdb --driver-port $(DB_PORT)
