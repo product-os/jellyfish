@@ -68,8 +68,8 @@ If you would like to have errors reported to sentry, you can provide a sentry
 DSN using the environment variable `SENTRY_DSN_SERVER` for server errors and
 `SENTRY_DSN_UI` for UI errors.
 
-Tests
------
+e2e Tests
+---------
 
 To run UI end-to-end tests you need to set the following environment variables
 
@@ -84,6 +84,13 @@ Run the tests using the command
 ```sh
 npm run test:e2e
 ```
+
+Puppeteer
+---------
+
+UI Integration tests use puppeteer to simulate a browser. If you set the
+environement variable `PUPPETEER_VISUAL_MODE=1`, Puppeteer will launch
+a browser so you can see the test running.
 
 File uploads
 ------------

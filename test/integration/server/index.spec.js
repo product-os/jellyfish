@@ -26,7 +26,7 @@ const {
 } = require('../../../lib/sdk')
 const createServer = require('../../../lib/server/create-server')
 
-const WAIT_TIMEOUT = 30 * 1000
+const WAIT_TIMEOUT = 60 * 1000
 
 // TODO: Make this an SDK method
 const executeThenWait = async (sdk, asyncFn, waitQuery) => {
