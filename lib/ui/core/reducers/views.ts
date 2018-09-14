@@ -1,3 +1,4 @@
+import * as Bluebird from 'bluebird';
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import { Dispatch } from 'redux';
@@ -9,6 +10,7 @@ import { loadSchema } from '../../services/sdk-helpers';
 import { Action, JellyThunkSync } from '../common';
 import { sdk } from '../sdk';
 import { actionCreators as allActionCreators, selectors, StoreState } from '../store';
+import { coreSelectors } from './core';
 
 const streams: { [k: string]: JellyfishStream } = {};
 
@@ -272,28 +274,34 @@ export const actionCreators = {
 			additionalProperties: true,
 		})
 		.then((results) => {
-			const subCard = _.first(results) || null;
-
-			if (!subCard) {
-				return sdk.card.create({
-					type: 'subscription',
-					data: {
-						target,
-						actor: user.id,
-					},
-				});
+			// Check to see if the user is still logged in
+			if (!coreSelectors.getSessionToken(getState())) {
+				return;
 			}
+			Bluebird.try(() => {
+				const subCard = _.first(results) || null;
 
-			return subCard;
-		})
-		.tap((subCard) => {
-			dispatch({
-				type: actions.SAVE_SUBSCRIPTION,
-				value: {
-					data: subCard,
-					id: target,
-				},
-			});
+				if (!subCard) {
+					return sdk.card.create({
+						type: 'subscription',
+						data: {
+							target,
+							actor: user.id,
+						},
+					});
+				}
+
+				return subCard;
+			})
+				.tap((subCard) => {
+					dispatch({
+						type: actions.SAVE_SUBSCRIPTION,
+						value: {
+							data: subCard,
+							id: target,
+						},
+					});
+				});
 		})
 		.catch((error: Error) => {
 			dispatch(allActionCreators.addNotification('danger', error.message));

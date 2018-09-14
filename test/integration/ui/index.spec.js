@@ -14,32 +14,20 @@
  * limitations under the License.
  */
 
-require('ts-node').register()
-require('./ui-setup')
-
 const ava = require('ava')
 const Bluebird = require('bluebird')
-const {
-	mount
-} = require('enzyme')
 const _ = require('lodash')
+const puppeteer = require('puppeteer')
 const randomstring = require('randomstring')
-const React = require('react')
-const {
-	Provider
-} = require('react-redux')
 const createServer = require('../../../lib/server/create-server')
-const {
-	JellyfishUI
-} = require('../../../lib/ui/JellyfishUI')
-const {
-	store
-} = require('../../../lib/ui/core')
-const {
-	changeInputValue,
-	waitForElement,
-	waitForThenClickElement
-} = require('./helpers')
+
+const visualMode = process.env.PUPPETEER_VISUAL_MODE
+
+const WAIT_OPTS = {
+	timeout: 60 * 1000
+}
+
+const context = {}
 
 const users = {
 	community: {
@@ -54,11 +42,7 @@ const users = {
 	}
 }
 
-// An external context is used as t.context is not available in a `before`
-// hook
-const context = {}
-
-ava.test.before(async (test) => {
+ava.test.before(async () => {
 	// Set this env var so that the server uses a random database
 	process.env.SERVER_DATABASE = `test_${randomstring.generate()}`
 	const {
@@ -71,127 +55,174 @@ ava.test.before(async (test) => {
 	context.jellyfish = jellyfish
 	context.adminSession = jellyfish.sessions.admin
 	context.serverPort = port
+
+	const options = {
+		headless: !visualMode,
+		args: [
+			'--window-size=1366,768',
+
+			// Set extra flags so puppeteer runs on docker
+			'--no-sandbox',
+			'--disable-setuid-sandbox'
+		]
+	}
+
+	context.browser = await puppeteer.launch(options)
+	context.page = await context.browser.newPage()
+
+	context.page.setViewport({
+		width: 1366,
+		height: 768
+	})
 })
 
-const app = mount(
-	<Provider store={store}>
-		<JellyfishUI />
-	</Provider>
-)
+ava.test.after(async () => {
+	await context.browser.close()
+})
 
 ava.test.serial('should let new users signup', async (test) => {
-	// Because AVA tests concurrently, prevent port conflicts by setting the SDK
-	// api url to whichever port the server eventually bound to
-	window.sdk.setApiUrl(`http://localhost:${context.serverPort}`)
+	const {
+		page,
+		serverPort
+	} = context
 
-	await waitForElement(app, '.login-page')
+	await page.goto(`http://localhost:${serverPort}`)
 
-	test.true(app.find('.login-page').exists())
+	await page.waitForSelector('.login-page', WAIT_OPTS)
 
-	app.find('.login-signup-toggle').first().simulate('click')
+	await page.click('.login-signup-toggle')
 
-	await waitForElement(app, '.login-page__signup')
+	await page.waitForSelector('.login-page__signup', WAIT_OPTS)
 
-	changeInputValue(app, '.login-page__input--email', users.community.email)
-	changeInputValue(app, '.login-page__input--username', users.community.username)
-	changeInputValue(app, '.login-page__input--password', users.community.password)
+	await page.type('.login-page__input--email', users.community.email)
+	await page.type('.login-page__input--username', users.community.username)
+	await page.type('.login-page__input--password', users.community.password)
 
-	app.find('.login-page__submit--signup').first()
-		.simulate('click')
+	await page.click('.login-page__submit--signup')
 
-	await waitForElement(app, '.home-channel', 120 * 1000)
+	await page.waitForSelector('.home-channel', WAIT_OPTS)
 
-	test.true(app.find('.home-channel').exists())
+	test.pass()
 })
 
 ava.test.serial('should let users logout', async (test) => {
-	app.find('.user-menu-toggle').first().simulate('click')
+	const {
+		page
+	} = context
 
-	await waitForElement(app, '.user-menu')
+	await page.click('.user-menu-toggle')
 
-	app.find('.user-menu__logout').first().simulate('click')
+	await page.waitForSelector('.user-menu', WAIT_OPTS)
 
-	await waitForElement(app, '.login-page')
+	await page.click('.user-menu__logout')
 
-	test.true(app.find('.login-page').exists())
+	await page.waitForSelector('.login-page', WAIT_OPTS)
 
-	// After logging out, the SDK should now longer have a session token available
-	await test.throws(window.sdk.auth.whoami())
+	test.pass()
 })
 
 ava.test.serial('should let users login', async (test) => {
-	test.true(app.find('.login-page').exists())
+	const {
+		page
+	} = context
 
-	changeInputValue(app, '.login-page__input--username', users.community.username)
-	changeInputValue(app, '.login-page__input--password', users.community.password)
+	await page.waitForSelector('.login-page', WAIT_OPTS)
 
-	app.find('.login-page__submit--login').first()
-		.simulate('click')
+	await page.type('.login-page__input--username', users.community.username)
+	await page.type('.login-page__input--password', users.community.password)
 
-	await waitForElement(app, '.home-channel', 120 * 1000)
+	await page.click('.login-page__submit--login')
 
-	test.true(app.find('.home-channel').exists())
+	await page.waitForSelector('.home-channel', WAIT_OPTS)
+
+	test.pass()
 })
 
 ava.test.serial('should render a list of views in the sidebar', async (test) => {
-	test.true(app.find('.home-channel').exists())
+	const {
+		page
+	} = context
 
-	await waitForElement(app, '.home-channel__item')
+	await page.waitForSelector('.home-channel', WAIT_OPTS)
 
-	test.true(app.find('.home-channel__item').exists())
+	await page.waitForSelector('.home-channel__item', WAIT_OPTS)
+
+	test.pass()
 })
 
 ava.test.serial('should render the community chat view for newly signed up users', async (test) => {
-	app.find('.home-channel__item').filterWhere((node) => {
-		return node && node.text() === 'All messages'
+	const {
+		page
+	} = context
+
+	await page.$$eval('.home-channel__item', (nodes) => {
+		for (const node of nodes) {
+			if (node.textContent === 'All messages') {
+				return node.click()
+			}
+		}
+		throw new Error('"All messages" link not found in sidebar')
 	})
-		.first()
-		.simulate('click')
 
-	await waitForElement(app, '.column--view-all-messages')
+	await page.waitForSelector('.column--view-all-messages', WAIT_OPTS)
 
-	test.true(app.find('.column--view-all-messages').exists())
+	test.pass()
 })
 
 ava.test.serial('should allow newly signed up users to create new chat threads', async (test) => {
-	await waitForElement(app, '.btn--add-thread')
+	const {
+		page
+	} = context
 
-	app.find('.btn--add-thread').first().simulate('click')
+	await page.waitForSelector('.btn--add-thread', WAIT_OPTS)
 
-	await waitForElement(app, '.column--thread')
+	await page.click('.btn--add-thread')
 
-	test.true(app.find('.column--thread').exists())
+	await page.waitForSelector('.column--thread', WAIT_OPTS)
+
+	test.pass()
 })
 
 ava.test.serial('should allow newly signed up users to create chat messages', async (test) => {
+	const {
+		page
+	} = context
 	const messageText = 'My new message'
-	await waitForElement(app, '.new-message-input')
 
-	changeInputValue(app, 'textarea', messageText)
+	await page.waitForSelector('.new-message-input', WAIT_OPTS)
 
-	app.find('textarea').first()
-		.simulate('keyPress', {
-			key: 'Enter'
-		})
+	await page.type('textarea', messageText)
 
-	await waitForElement(app, '.event-card__message')
+	await page.keyboard.press('Enter')
+
+	await page.waitForSelector('.event-card__message', WAIT_OPTS)
+
+	const result = await page.$eval('.event-card__message', (node) => {
+		return node.innerText.trim()
+	})
 
 	// Trim any trailing line feeds when comparing the message
-	test.is(app.find('.event-card__message').first().text().trim(), messageText)
+	test.is(result, messageText)
 })
 
 ava.test.serial('should allow team-admin users to update user\'s roles', async (test) => {
-	app.find('.user-menu-toggle').first().simulate('click')
+	const {
+		page
+	} = context
 
-	await waitForElement(app, '.user-menu')
+	await page.waitForSelector('.user-menu-toggle', WAIT_OPTS)
 
-	app.find('.user-menu__logout').first().simulate('click')
+	await page.click('.user-menu-toggle')
 
-	await waitForElement(app, '.login-page')
+	await page.waitForSelector('.user-menu', WAIT_OPTS)
 
-	test.true(app.find('.login-page').exists())
+	await page.click('.user-menu__logout')
 
-	const teamAdminUser = await window.sdk.auth.signup(users.admin)
+	await page.waitForSelector('.login-page', WAIT_OPTS)
+
+	const teamAdminUser = await page.evaluate((admin) => {
+		return window.sdk.auth.signup(admin)
+	}, users.admin)
 
 	// Give the new user the team-admin role
 	const teamAdminUserCard = await context.jellyfish.getCardById(context.adminSession, teamAdminUser.id)
@@ -207,16 +238,18 @@ ava.test.serial('should allow team-admin users to update user\'s roles', async (
 		}
 	)
 
-	changeInputValue(app, '.login-page__input--username', users.admin.username)
-	changeInputValue(app, '.login-page__input--password', users.admin.password)
-	app.find('.login-page__submit--login').first()
-		.simulate('click')
+	await page.type('.login-page__input--username', users.admin.username)
+	await page.type('.login-page__input--password', users.admin.password)
+
+	await page.click('.login-page__submit--login')
 
 	// Open `All users` view
-	await waitForThenClickElement(app, '.home-channel__item--view-all-users', 120 * 1000)
+	await page.waitForSelector('.home-channel__item--view-all-users', WAIT_OPTS)
+	await page.click('.home-channel__item--view-all-users')
 
 	// Select the community user
-	await waitForThenClickElement(app, `.list-item--user-${users.community.username}`)
+	await page.waitForSelector(`.list-item--user-${users.community.username}`, WAIT_OPTS)
+	await page.click(`.list-item--user-${users.community.username}`)
 
 	// Add a small delay to allow the data stream to intialise, normally this is
 	// an unnoticeable delay, but the test run fast enough to cause a race
@@ -225,36 +258,35 @@ ava.test.serial('should allow team-admin users to update user\'s roles', async (
 	await Bluebird.delay(500)
 
 	// Edit the community user
-	await waitForThenClickElement(app, '.card-actions__btn--edit')
+	await page.waitForSelector('.card-actions__btn--edit', WAIT_OPTS)
+	await page.click('.card-actions__btn--edit')
 
 	// Add a new element to the `roles` array
-	await waitForThenClickElement(app, '.field-array .rendition-form-array-item__add-item')
+	await page.waitForSelector('.field-array .rendition-form-array-item__add-item', WAIT_OPTS)
+	await page.click('.field-array .rendition-form-array-item__add-item')
 
-	await waitForElement(app, '#root_data_roles_1')
+	await page.waitForSelector('#root_data_roles_1', WAIT_OPTS)
 
 	// Enter the 'user-team' role as a new role
-	changeInputValue(app, '#root_data_roles_1 input', 'user-team')
+	await page.type('#root_data_roles_1', 'user-team')
 
 	// Add a small delay to allow the form change to propagate
 	await Bluebird.delay(500)
 
 	// Submit the form
-	await waitForThenClickElement(app, '.card-edit-modal__submit')
+	await page.click('.card-edit-modal__submit')
 
 	// To detect the change we need to be able to see update cards in the timeline
 	// Toggle the checkbox on to show additional information
-	app.find('.timeline__checkbox--additional-info').first()
-		.simulate('change', {
-			target: {
-				checked: true
-			}
-		})
+	await page.click('.timeline__checkbox--additional-info')
 
 	// Allow some time for the request to process
-	await waitForElement(app, '.event-card--update')
+	await page.waitForSelector('.event-card--update', WAIT_OPTS)
 
 	// Retrieve the user card
-	const card = await window.sdk.card.get(`user-${users.community.username}`)
+	const card = await page.evaluate((username) => {
+		return window.sdk.card.get(`user-${username}`)
+	}, users.community.username)
 
 	test.deepEqual(card.data.roles, [ 'user-community', 'user-team' ])
 })

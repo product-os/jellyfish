@@ -29,7 +29,8 @@ jobs:
       # the postinstall script
       - run: rm -rf node_modules/@resin.io
 
-      - run: npm ci
+      # --unsafe-perm flag allows the postinstall script to run correctly
+      - run: npm ci --unsafe-perm
 
       - save_cache:
           paths:
