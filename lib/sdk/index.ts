@@ -493,7 +493,8 @@ export class JellyfishSDK implements SDKInterface {
 	 *
 	 * @param {Object} schema - The JSON schema to query with
 	 *
-	 * @returns {EventEmitter}
+	 * @fulfil {EventEmitter}
+	 * @returns {Promise}
 	 *
 	 * @example
 	 * const schema = {
@@ -515,7 +516,7 @@ export class JellyfishSDK implements SDKInterface {
 	 * 	console.error(error);
 	 * })
 	 */
-	public stream(query: JSONSchema6): JellyfishStream {
+	public stream(query: JSONSchema6): Promise<JellyfishStream> {
 		return this.streamManager.stream(query);
 	}
 }

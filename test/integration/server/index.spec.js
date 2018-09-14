@@ -29,14 +29,15 @@ const createServer = require('../../../lib/server/create-server')
 const WAIT_TIMEOUT = 30 * 1000
 
 // TODO: Make this an SDK method
-const waitForCard = (sdk, query) => {
-	return new Bluebird((resolve, reject) => {
-		const stream = sdk.stream(query)
-		const timeout = setTimeout(() => {
-			reject(`Did not receive any data after ${WAIT_TIMEOUT}ms`)
-			stream.destroy()
-		}, WAIT_TIMEOUT)
+const executeThenWait = async (sdk, asyncFn, waitQuery) => {
+	const stream = await sdk.stream(waitQuery)
 
+	const timeout = setTimeout(() => {
+		stream.destroy()
+		throw new Error(`Did not receive any data after ${WAIT_TIMEOUT}ms`)
+	}, WAIT_TIMEOUT)
+
+	return new Bluebird(async (resolve, reject) => {
 		stream.on('update', ({
 			data
 		}) => {
@@ -60,6 +61,8 @@ const waitForCard = (sdk, query) => {
 			clearTimeout(timeout)
 			stream.destroy()
 		})
+
+		await asyncFn()
 	})
 }
 
@@ -201,7 +204,7 @@ ava.test.serial('timeline cards should reference the correct actor', async (test
 
 	// Set up the watcher before the card is updated to stop race conditions from
 	// happening
-	const waitForUpdate = waitForCard(sdk, {
+	const waitQuery = {
 		type: 'object',
 		properties: {
 			type: {
@@ -220,23 +223,23 @@ ava.test.serial('timeline cards should reference the correct actor', async (test
 			}
 		},
 		required: [ 'type' ]
-	})
+	}
 
-	sdk.card.update(thread.id, {
-		data: {
-			description: 'Lorem ipsum dolor sit amer'
-		}
-	})
+	await executeThenWait(sdk, () => {
+		return sdk.card.update(thread.id, {
+			data: {
+				description: 'Lorem ipsum dolor sit amer'
+			}
+		})
+	}, waitQuery)
 
-	return waitForUpdate.then(async (result) => {
-		const timeline = await sdk.card.getTimeline(thread.id)
+	const timeline = await sdk.card.getTimeline(thread.id)
 
-		const timelineActors = _.uniq(timeline.map((card) => {
-			return card.data.actor
-		}))
+	const timelineActors = _.uniq(timeline.map((card) => {
+		return card.data.actor
+	}))
 
-		test.deepEqual(timelineActors, [ user.id ])
-	})
+	test.deepEqual(timelineActors, [ user.id ])
 })
 
 ava.test.serial('.query() community users should be able to query views', async (test) => {
@@ -410,31 +413,30 @@ ava.test.serial('AGGREGATE($events): should work when creating cards via the SDK
 		data: {}
 	})
 
-	const [ card ] = await Bluebird.all([
-		// Add a message to the thread element and wait for the AGGREGATE triggered
-		// action to run
-		waitForCard(sdk, {
-			type: 'object',
-			properties: {
-				type: {
-					type: 'string',
-					const: 'thread'
-				},
-				data: {
-					type: 'object',
-					properties: {
-						mentionsUser: {
-							type: 'array',
-							contains: {
-								type: 'string',
-								const: id
-							}
+	const waitQuery = {
+		type: 'object',
+		properties: {
+			type: {
+				type: 'string',
+				const: 'thread'
+			},
+			data: {
+				type: 'object',
+				properties: {
+					mentionsUser: {
+						type: 'array',
+						contains: {
+							type: 'string',
+							const: id
 						}
 					}
 				}
 			}
-		}),
-		sdk.card.create({
+		}
+	}
+
+	const card = await executeThenWait(sdk, () => {
+		return sdk.card.create({
 			type: 'message',
 			data: {
 				timestamp: '2018-05-05T00:21:02.459Z',
@@ -446,7 +448,7 @@ ava.test.serial('AGGREGATE($events): should work when creating cards via the SDK
 				}
 			}
 		})
-	])
+	}, waitQuery)
 
 	test.deepEqual(card.data.mentionsUser, [ id ])
 })

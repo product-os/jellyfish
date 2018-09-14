@@ -30,6 +30,7 @@ import { SDKInterface, StreamEventMap } from './Types';
 export class JellyfishStream extends EventEmitter {
 	public id: string;
 	private socket: SocketIOClient.Socket;
+	public ready: Promise<void>;
 
 	/**
 	 * @summary Create a JellyfishStream
@@ -50,27 +51,35 @@ export class JellyfishStream extends EventEmitter {
 		this.id = uuid();
 		const token = sdk.getAuthToken();
 
-		openSocket().then((socket) => {
-			this.socket = socket;
+		this.ready = new Promise((resolve) => {
+			openSocket().then((socket) => {
+				this.socket = socket;
 
-			this.socket.emit('query', {
-				token,
-				data: {
-					query: _.omit(query, '$id'),
-				},
-				id: this.id,
-			});
+				this.socket.emit('query', {
+					token,
+					data: {
+						query: _.omit(query, '$id'),
+					},
+					id: this.id,
+				});
 
-			this.socket.on('update', ({ id, ...data }: StreamEventMap['update']) => {
-				if (id === this.id) {
-					this.emit('update', data);
-				}
-			});
+				this.socket.on('ready', ({ id }: StreamEventMap['ready']) => {
+					if (id === this.id) {
+						resolve();
+					}
+				});
 
-			this.socket.on('streamError', ({ id, ...data }: StreamEventMap['streamError']) => {
-				if (id === this.id) {
-					this.emit('streamError', data);
-				}
+				this.socket.on('update', ({ id, ...data }: StreamEventMap['update']) => {
+					if (id === this.id) {
+						this.emit('update', data);
+					}
+				});
+
+				this.socket.on('streamError', ({ id, ...data }: StreamEventMap['streamError']) => {
+					if (id === this.id) {
+						this.emit('streamError', data);
+					}
+				});
 			});
 		});
 	}
@@ -194,7 +203,8 @@ export class JellyfishStreamManager {
 	 * @param {Object} query - A JSON schema used to match cards
 	 * Returns an event emitter that emits response data for the given query
 	 *
-	 * @returns {JellyfishStream} An instantiated JellyfishStream
+	 * @fulfil {JellyfishStream} An instantiated JellyfishStream
+	 * @returns {Promise}
 	 *
 	 * @example
 	 * const schema = {
@@ -216,8 +226,11 @@ export class JellyfishStreamManager {
 	 * 	console.error(error);
 	 * })
 	 */
-	public stream(query: JSONSchema6): JellyfishStream {
+	public async stream(query: JSONSchema6): Promise<JellyfishStream> {
 		const emitter = new JellyfishStream(query, this.openSocket, this.sdk);
+
+		await emitter.ready;
+
 		this.activeEmitters[emitter.id] = emitter;
 
 		emitter.on('destroy', () => {
