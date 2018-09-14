@@ -29,50 +29,48 @@ export class TailStreamer<P, S> extends React.Component<P, TailStreamerState & S
 		this.setState({ tail });
 	}
 
-	public streamTail(query: string | Card | JSONSchema6): void {
+	public async streamTail(query: string | Card | JSONSchema6): Promise<void> {
 		if (this.stream) {
 			this.stream.destroy();
 		}
 
-		loadSchema(query)
-		.then((schema) => {
+		const schema = await loadSchema(query);
 
-			if (!schema) {
-				return;
+		if (!schema) {
+			return;
+		}
+
+		sdk.query(schema)
+			.then((data) => {
+				this.setTail(data);
+			});
+
+		this.stream = await sdk.stream(schema);
+
+		debug('STREAMING TAIL USING QUERY', query);
+
+		this.stream.on('update', (response) => {
+			const { after, before } = response.data;
+			// If before is non-null then the card has been updated
+			if (before) {
+				return this.setState((prevState) => {
+					if (prevState.tail) {
+						const index = _.findIndex(prevState.tail, { id: before.id });
+						prevState.tail.splice(index, 1, response.data.after);
+					}
+					return { tail: prevState.tail };
+				});
 			}
 
-			sdk.query(schema)
-				.then((data) => {
-					this.setTail(data);
-				});
+			const tail = this.state.tail ? this.state.tail.slice() : [];
+			tail.push(after);
 
-			this.stream = sdk.stream(schema);
+			this.setTail(tail);
+		});
 
-			debug('STREAMING TAIL USING QUERY', query);
-
-			this.stream.on('update', (response) => {
-				const { after, before } = response.data;
-				// If before is non-null then the card has been updated
-				if (before) {
-					return this.setState((prevState) => {
-						if (prevState.tail) {
-							const index = _.findIndex(prevState.tail, { id: before.id });
-							prevState.tail.splice(index, 1, response.data.after);
-						}
-						return { tail: prevState.tail };
-					});
-				}
-
-				const tail = this.state.tail ? this.state.tail.slice() : [];
-				tail.push(after);
-
-				this.setTail(tail);
-			});
-
-			this.stream.on('streamError', (response) => {
-				console.error('Received a stream error', response.data);
-				store.dispatch(actionCreators.addNotification('danger', response.data));
-			});
+		this.stream.on('streamError', (response) => {
+			console.error('Received a stream error', response.data);
+			store.dispatch(actionCreators.addNotification('danger', response.data));
 		});
 	}
 }

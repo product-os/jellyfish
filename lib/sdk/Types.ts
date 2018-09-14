@@ -77,6 +77,11 @@ export interface SDKInterface {
 }
 
 export interface StreamEventMap {
+	ready: {
+		id: string,
+		error: false;
+	};
+
 	update: {
 		id: string,
 		error: false;

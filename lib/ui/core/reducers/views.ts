@@ -166,35 +166,37 @@ export const actionCreators = {
 				delete streams[viewId];
 			}
 
-			const stream = sdk.stream(schema);
-			streams[viewId] = stream;
+			sdk.stream(schema)
+				.then((stream) => {
+					streams[viewId] = stream;
 
-			stream.on('update', (response) => {
-				const { after, before } = response.data;
+					stream.on('update', (response) => {
+						const { after, before } = response.data;
 
-				handleViewNotification({ after, before }, viewId, dispatch, getState);
+						handleViewNotification({ after, before }, viewId, dispatch, getState);
 
-				// Only store view data if the view is active
-				if (getState().views.activeView !== viewId) {
-					return;
-				}
-				// If before is non-null then the card has been updated
-				if (before) {
-					// if after is null, the item has been removed from the result set
-					if (!after) {
-						return dispatch(actionCreators.removeViewDataItem(query, before));
-					}
+						// Only store view data if the view is active
+						if (getState().views.activeView !== viewId) {
+							return;
+						}
+						// If before is non-null then the card has been updated
+						if (before) {
+							// if after is null, the item has been removed from the result set
+							if (!after) {
+								return dispatch(actionCreators.removeViewDataItem(query, before));
+							}
 
-					return dispatch(actionCreators.upsertViewData(query, after));
-				}
+							return dispatch(actionCreators.upsertViewData(query, after));
+						}
 
-				// Otherwise, if before is null, this is a new item
-				return dispatch(actionCreators.appendViewData(query, after));
-			});
+						// Otherwise, if before is null, this is a new item
+						return dispatch(actionCreators.appendViewData(query, after));
+					});
 
-			stream.on('streamError', (response) => {
-				console.error('Received a stream error', response.data);
-			});
+					stream.on('streamError', (response) => {
+						console.error('Received a stream error', response.data);
+					});
+				});
 		});
 	},
 
