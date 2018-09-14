@@ -21,7 +21,7 @@ const errors = require('../../../lib/worker/errors')
 const executor = require('../../../lib/worker/executor')
 
 ava.test.beforeEach(async (test) => {
-	await helpers.beforeEach(test)
+	await helpers.jellyfish.beforeEach(test)
 	test.context.triggers = []
 	test.context.queue = []
 	test.context.executeAction = (session, request) => {
@@ -45,7 +45,7 @@ ava.test.beforeEach(async (test) => {
 	}
 })
 
-ava.test.afterEach(helpers.afterEach)
+ava.test.afterEach(helpers.jellyfish.afterEach)
 
 ava.test('.insertCard() should insert a card', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')

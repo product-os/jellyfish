@@ -14,48 +14,68 @@
  * limitations under the License.
  */
 
-const randomstring = require('randomstring')
-const core = require('../../../lib/core')
+const Worker = require('../../../lib/worker')
+const helpers = require('../core/helpers')
 
-exports.beforeEach = async (test) => {
-	test.context.jellyfish = await core.create({
-		backend: {
-			host: process.env.DB_HOST,
-			port: process.env.DB_PORT,
-			database: `test_${randomstring.generate()}`
-		}
-	})
+exports.jellyfish = {
+	beforeEach: async (test) => {
+		await helpers.jellyfish.beforeEach(test)
+		test.context.session = test.context.jellyfish.sessions.admin
 
-	await test.context.jellyfish.initialize()
-	test.context.session = test.context.jellyfish.sessions.admin
+		const session = await test.context.jellyfish.getCardById(test.context.session, test.context.session)
+		test.context.actor = await test.context.jellyfish.getCardById(test.context.session, session.data.actor)
 
-	const session = await test.context.jellyfish.getCardById(test.context.session, test.context.session)
-	test.context.actor = await test.context.jellyfish.getCardById(test.context.session, session.data.actor)
+		await test.context.jellyfish.insertCard(test.context.session,
+			require('../../../default-cards/contrib/execute.json'))
+		await test.context.jellyfish.insertCard(test.context.session,
+			require('../../../default-cards/contrib/create.json'))
+		await test.context.jellyfish.insertCard(test.context.session,
+			require('../../../default-cards/contrib/update.json'))
+		await test.context.jellyfish.insertCard(test.context.session,
+			require('../../../default-cards/contrib/triggered-action.json'))
+		await test.context.jellyfish.insertCard(test.context.session,
+			require('../../../default-cards/contrib/action-create-card.json'))
+		await test.context.jellyfish.insertCard(test.context.session,
+			require('../../../default-cards/contrib/action-create-event.json'))
+		await test.context.jellyfish.insertCard(test.context.session,
+			require('../../../default-cards/contrib/action-set-add.json'))
+		await test.context.jellyfish.insertCard(test.context.session,
+			require('../../../default-cards/contrib/action-create-user.json'))
+		await test.context.jellyfish.insertCard(test.context.session,
+			require('../../../default-cards/contrib/action-create-session.json'))
+		await test.context.jellyfish.insertCard(test.context.session,
+			require('../../../default-cards/contrib/action-update-card.json'))
+		await test.context.jellyfish.insertCard(test.context.session,
+			require('../../../default-cards/contrib/action-delete-card.json'))
+	},
 
-	await test.context.jellyfish.insertCard(test.context.session,
-		require('../../../default-cards/contrib/execute.json'))
-	await test.context.jellyfish.insertCard(test.context.session,
-		require('../../../default-cards/contrib/create.json'))
-	await test.context.jellyfish.insertCard(test.context.session,
-		require('../../../default-cards/contrib/update.json'))
-	await test.context.jellyfish.insertCard(test.context.session,
-		require('../../../default-cards/contrib/triggered-action.json'))
-	await test.context.jellyfish.insertCard(test.context.session,
-		require('../../../default-cards/contrib/action-create-card.json'))
-	await test.context.jellyfish.insertCard(test.context.session,
-		require('../../../default-cards/contrib/action-create-event.json'))
-	await test.context.jellyfish.insertCard(test.context.session,
-		require('../../../default-cards/contrib/action-set-add.json'))
-	await test.context.jellyfish.insertCard(test.context.session,
-		require('../../../default-cards/contrib/action-create-user.json'))
-	await test.context.jellyfish.insertCard(test.context.session,
-		require('../../../default-cards/contrib/action-create-session.json'))
-	await test.context.jellyfish.insertCard(test.context.session,
-		require('../../../default-cards/contrib/action-update-card.json'))
-	await test.context.jellyfish.insertCard(test.context.session,
-		require('../../../default-cards/contrib/action-delete-card.json'))
+	afterEach: async (test) => {
+		await test.context.jellyfish.disconnect()
+	}
 }
 
-exports.afterEach = async (test) => {
-	await test.context.jellyfish.disconnect()
+exports.worker = {
+	beforeEach: async (test, actionLibrary) => {
+		await exports.jellyfish.beforeEach(test)
+		test.context.worker = new Worker(test.context.jellyfish, test.context.session, actionLibrary)
+		test.context.flush = async (session) => {
+			if (await test.context.worker.length() === 0) {
+				return
+			}
+
+			const request = await test.context.worker.dequeue()
+			const result = await test.context.worker.execute(session, request)
+
+			if (result.error) {
+				const Constructor = test.context.worker.errors[result.data.type] ||
+					test.context.jellyfish.errors[result.data.type] ||
+					Error
+
+				throw new Constructor(result.data.message)
+			}
+
+			await test.context.flush(session)
+		}
+	},
+	afterEach: exports.jellyfish.afterEach
 }

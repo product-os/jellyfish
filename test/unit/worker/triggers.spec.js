@@ -19,8 +19,8 @@ const helpers = require('./helpers')
 const triggers = require('../../../lib/worker/triggers')
 const errors = require('../../../lib/worker/errors')
 
-ava.test.beforeEach(helpers.beforeEach)
-ava.test.afterEach(helpers.afterEach)
+ava.test.beforeEach(helpers.jellyfish.beforeEach)
+ava.test.afterEach(helpers.jellyfish.afterEach)
 
 ava.test('.getRequest() should return null if the filter only has a type but there is no match', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
