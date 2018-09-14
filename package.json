@@ -67,7 +67,6 @@
     "tslint": "^5.10.0",
     "tslint-react": "^3.6.0",
     "typescript": "~2.8.1",
-    "v8-profiler": "^5.7.0",
     "versionist": "^2.13.0",
     "webpack": "^4.1.1",
     "webpack-bundle-analyzer": "^2.13.1",
