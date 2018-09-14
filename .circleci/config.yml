@@ -15,27 +15,20 @@ jobs:
     steps:
       - checkout
 
-      # Download and cache dependencies
+      # Restore cached dependencies
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "package.json" }}
+          - v2-dependencies-{{ checksum "package.json" }}
           # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
-
-      # Because `node_modules` gets cached, any changes to internal modules
-      # will be ignored, as the package already exists there and npm lifecycle
-      # events won't be triggered on it
-      # Remove the local resin.io packages, so they will be forcibly rebuilt by
-      # the postinstall script
-      - run: rm -rf node_modules/@resin.io
+          - v2-dependencies-
 
       # --unsafe-perm flag allows the postinstall script to run correctly
       - run: npm ci --unsafe-perm
 
       - save_cache:
           paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+            - /root/.npm
+          key: v2-dependencies-{{ checksum "package.json" }}
 
       - run: rethinkdb --daemon --bind all
       - run: npm test
