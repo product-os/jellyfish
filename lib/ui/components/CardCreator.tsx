@@ -8,7 +8,7 @@ import {
 } from 'rendition';
 import { Form } from 'rendition/dist/unstable';
 import { Card, Type } from '../../Types';
-import { sdk } from '../core';
+import { analytics, sdk } from '../core';
 import { actionCreators } from '../core/store';
 import { getLocalSchema } from '../services/helpers';
 import { FreeFieldForm } from './FreeFieldForm';
@@ -56,7 +56,14 @@ class Base extends React.Component<CardCreatorProps, CardCreatorState> {
 				this.props.actions.addNotification('danger', error.message);
 			})
 			.then((card) => {
-					this.props.done(card || null);
+				if (card) {
+					analytics.track('element.create', {
+						element: {
+							type: card.type,
+						},
+					});
+				}
+				this.props.done(card || null);
 			});
 
 		this.setState({

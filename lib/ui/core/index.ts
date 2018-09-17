@@ -1,6 +1,7 @@
 import * as Bluebird from 'bluebird';
 import * as localForage from 'localforage';
 import * as _ from 'lodash';
+import { Analytics } from '../services/analytics';
 import { debug } from '../services/helpers';
 import {
 	setChannelsFromPath,
@@ -11,7 +12,12 @@ import { STORAGE_KEY } from './constants';
 import { sdk as jellyfishSdk } from './sdk';
 import { actionCreators, actions, createJellyfishStore, selectors, StoreState } from './store';
 
+const ANALYTICS_TOKEN = process.env.MIXPANEL_TOKEN_UI;
+
 export const store = createJellyfishStore();
+export const analytics = new Analytics({
+	token: ANALYTICS_TOKEN,
+});
 
 const load = () => Bluebird.try(ifNotInTestEnv(() => {
 	debug('LOADING STATE FROM STORAGE');

@@ -10,7 +10,7 @@ import {
 	Txt,
 } from 'rendition';
 import { Card, Lens, RendererProps, Type } from '../../Types';
-import { sdk } from '../core';
+import { analytics, sdk } from '../core';
 import { actionCreators, selectors, StoreState } from '../core/store';
 
 interface TodoListState {
@@ -53,9 +53,17 @@ class TodoList extends React.Component<TodoListProps, TodoListState> {
 				complete,
 			},
 		})
-		.catch((error) => {
-			this.props.actions.addNotification('danger', error.message || error);
-		});
+			.then(() => {
+				analytics.track('element.update', {
+					element: {
+						type: 'todo',
+						id,
+					},
+				});
+			})
+			.catch((error) => {
+				this.props.actions.addNotification('danger', error.message || error);
+			});
 
 		if (complete) {
 			this.setState(({ completedItems }) => ({
@@ -76,9 +84,16 @@ class TodoList extends React.Component<TodoListProps, TodoListState> {
 				message: this.state.todoMessage,
 			},
 		})
-		.catch((error) => {
-			this.props.actions.addNotification('danger', error.message || error);
-		});
+			.then(() => {
+				analytics.track('element.create', {
+					element: {
+						type: 'todo',
+					},
+				});
+			})
+			.catch((error) => {
+				this.props.actions.addNotification('danger', error.message || error);
+			});
 
 		this.setState({ todoMessage: '' });
 	}

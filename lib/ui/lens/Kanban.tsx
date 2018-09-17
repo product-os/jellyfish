@@ -12,7 +12,7 @@ import { CardCreator } from '../components/CardCreator';
 import { ContextMenu } from '../components/ContextMenu';
 import { GroupUpdate } from '../components/GroupUpdate';
 import Icon from '../components/Icon';
-import { sdk } from '../core';
+import { analytics, sdk } from '../core';
 import { actionCreators } from '../core/store';
 import {
 	createChannel,
@@ -35,6 +35,7 @@ const EllipsisButton = styled(Button)`
 
 const cardMapper = (card: Card) => ({
 	id: card.id,
+	type: card.type,
 	title: card.name || card.slug || card.id,
 });
 
@@ -228,6 +229,14 @@ class Kanban extends React.Component<KanbanProps, KanbanState> {
 
 		if (!_.isEmpty(update)) {
 			sdk.card.update(card.id, card)
+			.then(() => {
+				analytics.track('element.update', {
+					element: {
+						type: card.type,
+						id: card.id,
+					},
+				});
+			})
 			.catch((error) => {
 				this.props.actions.addNotification('danger', error.message);
 			});

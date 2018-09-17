@@ -12,13 +12,16 @@ import {
 import {
 	Form
 } from 'rendition/dist/unstable';
-import { sdk } from '../core';
+import { analytics, sdk } from '../core';
 
 const DELIMITER = '___';
 
 interface GroupUpdateProps {
 	schema: JSONSchema6;
-	cards: Array<{ id: string; }>;
+	cards: Array<{
+		id: string;
+		type: string;
+	}>;
 	onClose: () => void;
 }
 
@@ -83,9 +86,16 @@ export class GroupUpdate extends React.Component<GroupUpdateProps, GroupUpdateSt
 
 		let processed = 0;
 
-		Bluebird.map(this.props.cards, ({ id }) => {
+		Bluebird.map(this.props.cards, ({ id, type }) => {
 			return sdk.card.update(id, update)
 				.then(() => {
+					analytics.track('element.update', {
+						element: {
+							id,
+							type,
+						},
+					});
+
 					processed++;
 					this.setState({
 						processingProgress: processed / length * 100,

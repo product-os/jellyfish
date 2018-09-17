@@ -2,6 +2,7 @@ import * as Bluebird from 'bluebird';
 import * as _ from 'lodash';
 import { Dispatch } from 'redux';
 import uuid = require('uuid/v4');
+import { analytics } from '../';
 import { AppStatus, Card, Channel, Notification, Type, ViewNotice } from '../../../Types';
 import { Action, getDefaultState, JellyThunk, JellyThunkSync } from '../common';
 import { sdk } from '../sdk';
@@ -144,12 +145,15 @@ export const actionCreators = {
 		value: token,
 	}),
 
-	loginWithToken: (token: string): JellyThunk<null, KnownState> => (dispatch) => {
+	loginWithToken: (token: string): JellyThunk<void, KnownState> => (dispatch, getState) => {
 		return sdk.auth.loginWithToken(token)
 			.then(() => dispatch(actionCreators.setAuthToken(token)))
 			.then(() => dispatch(actionCreators.bootstrap()))
 			.then(() => dispatch(actionCreators.setStatus('authorized')))
-			.then(() => null)
+			.then(() => {
+				analytics.track('ui.loginWithToken');
+				analytics.identify(coreSelectors.getCurrentUser(getState()).id);
+			})
 			.catch((e) => {
 				dispatch(actionCreators.setStatus('unauthorized'));
 				throw e;
@@ -159,21 +163,29 @@ export const actionCreators = {
 	login: (payload: {
 		username: string,
 		password: string
-	}): JellyThunk<null, KnownState> => (dispatch) => {
+	}): JellyThunk<void, KnownState> => (dispatch, getState) => {
 		return sdk.auth.login(payload)
 			.then((session) => dispatch(actionCreators.setAuthToken(session.id)))
 			.then(() => dispatch(actionCreators.bootstrap()))
 			.then(() => dispatch(actionCreators.setStatus('authorized')))
-			.then(() => null)
+			.then(() => {
+				analytics.track('ui.login');
+				analytics.identify(coreSelectors.getCurrentUser(getState()).id);
+			})
 			.catch((e) => {
 				dispatch(actionCreators.setStatus('unauthorized'));
 				throw e;
 			});
 	},
 
-	logout: () => ({
-		type: actions.LOGOUT,
-	}),
+	logout: () => {
+		analytics.track('ui.logout');
+		analytics.identify();
+
+		return {
+			type: actions.LOGOUT,
+		};
+	},
 
 	signup: (payload: {
 		username: string,
@@ -181,7 +193,10 @@ export const actionCreators = {
 		password: string
 	}): JellyThunk<any, KnownState> => (dispatch) => {
 		return sdk.auth.signup(payload)
-		.then(() => dispatch(actionCreators.login(payload)));
+		.then(() => {
+			analytics.track('ui.signup');
+			dispatch(actionCreators.login(payload));
+		});
 	},
 
 	setStatus: (status: ICore['status']) => {

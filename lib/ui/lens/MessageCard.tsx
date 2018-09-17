@@ -9,7 +9,7 @@ import {
 } from 'rendition';
 import { Card, Channel, Lens, RendererProps } from '../../Types';
 import EventCard from '../components/Event';
-import { sdk } from '../core';
+import { analytics, sdk } from '../core';
 import { actionCreators, selectors, StoreState } from '../core/store';
 import { createChannel } from '../services/helpers';
 
@@ -40,6 +40,11 @@ class CardList extends React.Component<CardListProps, CardListState> {
 			type: 'thread',
 		})
 			.then((thread) => {
+				analytics.track('element.create', {
+					element: {
+						type: 'thread',
+					},
+				});
 				this.openChannel(thread.id, thread);
 			})
 			.catch((error) => {

@@ -9,7 +9,7 @@ import { Form } from 'rendition/dist/unstable';
 import styled from 'styled-components';
 import { Card, Type } from '../../Types';
 import { FreeFieldForm } from '../components/FreeFieldForm';
-import { sdk } from '../core';
+import { analytics, sdk } from '../core';
 import { actionCreators, selectors, StoreState } from '../core/store';
 import { getLocalSchema } from '../services/helpers';
 import { ContextMenu } from './ContextMenu';
@@ -92,13 +92,21 @@ class Base extends React.Component<
 			this.state.editModel,
 		);
 
-		sdk.card.update(this.props.card.id, updatedEntry)
-		.then(() => {
-			this.props.refresh();
-		})
-		.catch((error) => {
-			this.props.actions.addNotification('danger', error.message);
-		});
+		const { id, type } = this.props.card;
+
+		sdk.card.update(id, updatedEntry)
+			.then(() => {
+				analytics.track('element.update', {
+					element: {
+						id,
+						type,
+					},
+				});
+				this.props.refresh();
+			})
+			.catch((error) => {
+				this.props.actions.addNotification('danger', error.message);
+			});
 
 		this.setState({
 			showEditModal: false,
