@@ -40,12 +40,14 @@ export class TailStreamer<P, S> extends React.Component<P, TailStreamerState & S
 			return;
 		}
 
+		this.stream = await sdk.stream(schema);
+
+		// Set the initial tail once a stream is ready, to minimize risk of missing
+		// timeline data
 		sdk.query(schema)
 			.then((data) => {
 				this.setTail(data);
 			});
-
-		this.stream = await sdk.stream(schema);
 
 		debug('STREAMING TAIL USING QUERY', query);
 
