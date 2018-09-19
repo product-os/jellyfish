@@ -37,6 +37,7 @@ interface RendererState {
 	newMessage: string;
 	showNewCardModal: boolean;
 	messagesOnly: boolean;
+	streamInitialised: boolean;
 }
 
 interface DefaultRendererProps extends RendererProps {
@@ -67,6 +68,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 			newMessage: '',
 			showNewCardModal: false,
 			messagesOnly: true,
+			streamInitialised: false,
 		};
 	}
 
@@ -100,7 +102,10 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		};
 
 		if (!this.props.tail) {
-			this.streamTail(querySchema);
+			this.streamTail(querySchema)
+				.then(() => {
+					this.setState({ streamInitialised: true });
+				});
 		}
 
 		setTimeout(() => {
@@ -305,7 +310,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 					})}
 				</div>
 
-				{head && head.type !== 'view' &&
+				{head && head.type !== 'view' && this.state.streamInitialised &&
 					<Flex
 						style={{ borderTop: '1px solid #eee' }}
 					>
