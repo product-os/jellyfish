@@ -17,6 +17,7 @@
 const ava = require('ava')
 const _ = require('lodash')
 const Bluebird = require('bluebird')
+const uuid = require('uuid/v4')
 const errors = require('../../../lib/core/errors')
 const helpers = require('./helpers')
 
@@ -1848,4 +1849,155 @@ ava.test('.stream() should throw if the schema is invalid', async (test) => {
 			}
 		}
 	}))
+})
+
+ava.test('.insertElement() should handle multiple parallel insertions on the same id', async (test) => {
+	for (const time of _.range(100)) {
+		const object = {
+			id: uuid(),
+			time
+		}
+
+		try {
+			await Bluebird.all([
+				test.context.backend.insertElement(_.clone(object)),
+				test.context.backend.insertElement(_.clone(object)),
+				test.context.backend.insertElement(_.clone(object)),
+				test.context.backend.insertElement(_.clone(object)),
+				test.context.backend.insertElement(_.clone(object)),
+				test.context.backend.insertElement(_.clone(object)),
+				test.context.backend.insertElement(_.clone(object)),
+				test.context.backend.insertElement(_.clone(object))
+			])
+		} catch (error) {
+			test.true(error instanceof errors.JellyfishElementAlreadyExists)
+		}
+	}
+})
+
+ava.test('.insertElement() should handle multiple parallel insertions on the same slug', async (test) => {
+	for (const time of _.range(100)) {
+		const object = {
+			slug: 'foo-bar-baz',
+			type: 'stress-test',
+			time
+		}
+
+		try {
+			await Bluebird.all([
+				test.context.backend.insertElement(_.clone(object)),
+				test.context.backend.insertElement(_.clone(object)),
+				test.context.backend.insertElement(_.clone(object)),
+				test.context.backend.insertElement(_.clone(object))
+			])
+		} catch (error) {
+			test.true(error instanceof errors.JellyfishElementAlreadyExists)
+		}
+
+		const results = await test.context.backend.query({
+			type: 'object',
+			required: [ 'type' ],
+			properties: {
+				type: {
+					type: 'string',
+					const: object.type
+				}
+			}
+		})
+
+		test.is(results.length, 1)
+	}
+})
+
+ava.test.only('.insertElement() should handle multiple parallel insertions on the same slug but different ids', async (test) => {
+	for (const time of _.range(100)) {
+		const object = {
+			slug: 'foo-bar-baz',
+			type: 'stress-test',
+			time
+		}
+
+		try {
+			await Bluebird.all([
+				test.context.backend.insertElement(Object.assign({}, object, {
+					id: uuid()
+				})),
+				test.context.backend.insertElement(Object.assign({}, object, {
+					id: uuid()
+				})),
+				test.context.backend.insertElement(Object.assign({}, object, {
+					id: uuid()
+				})),
+				test.context.backend.insertElement(Object.assign({}, object, {
+					id: uuid()
+				})),
+				test.context.backend.insertElement(Object.assign({}, object, {
+					id: uuid()
+				})),
+				test.context.backend.insertElement(Object.assign({}, object, {
+					id: uuid()
+				})),
+				test.context.backend.insertElement(Object.assign({}, object, {
+					id: uuid()
+				})),
+				test.context.backend.insertElement(Object.assign({}, object, {
+					id: uuid()
+				}))
+			])
+		} catch (error) {
+			test.true(error instanceof errors.JellyfishElementAlreadyExists)
+		}
+
+		const results = await test.context.backend.query({
+			type: 'object',
+			required: [ 'type' ],
+			properties: {
+				type: {
+					type: 'string',
+					const: object.type
+				}
+			}
+		})
+
+		test.is(results.length, 1)
+	}
+})
+
+ava.test('.insertElement() should handle multiple parallel insertions on the same slug and ids', async (test) => {
+	for (const time of _.range(100)) {
+		const object = {
+			slug: 'foo-bar-baz',
+			type: 'stress-test',
+			id: uuid(),
+			time
+		}
+
+		try {
+			await Bluebird.all([
+				test.context.backend.insertElement(_.clone(object)),
+				test.context.backend.insertElement(_.clone(object)),
+				test.context.backend.insertElement(_.clone(object)),
+				test.context.backend.insertElement(_.clone(object)),
+				test.context.backend.insertElement(_.clone(object)),
+				test.context.backend.insertElement(_.clone(object)),
+				test.context.backend.insertElement(_.clone(object)),
+				test.context.backend.insertElement(_.clone(object))
+			])
+		} catch (error) {
+			test.true(error instanceof errors.JellyfishElementAlreadyExists)
+		}
+
+		const results = await test.context.backend.query({
+			type: 'object',
+			required: [ 'type' ],
+			properties: {
+				type: {
+					type: 'string',
+					const: object.type
+				}
+			}
+		})
+
+		test.is(results.length, 1)
+	}
 })
