@@ -18,8 +18,8 @@ const ava = require('ava')
 const helpers = require('./helpers')
 const utils = require('../../../lib/worker/utils')
 
-ava.test.beforeEach(helpers.beforeEach)
-ava.test.afterEach(helpers.afterEach)
+ava.test.beforeEach(helpers.jellyfish.beforeEach)
+ava.test.afterEach(helpers.jellyfish.afterEach)
 
 ava.test('.getActionArgumentsSchema() should return a wildcard schema if no args', (test) => {
 	const schema = utils.getActionArgumentsSchema({

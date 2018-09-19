@@ -47,3 +47,13 @@ exports.kernel = {
 		await test.context.kernel.disconnect()
 	}
 }
+
+exports.jellyfish = {
+	beforeEach: async (test) => {
+		await exports.kernel.beforeEach(test)
+		test.context.jellyfish = test.context.kernel
+	},
+	afterEach: async (test) => {
+		await exports.kernel.afterEach(test)
+	}
+}

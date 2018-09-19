@@ -17,34 +17,13 @@
 const ava = require('ava')
 const _ = require('lodash')
 const helpers = require('./helpers')
-const Worker = require('../../../lib/worker/index')
 const actionLibrary = require('../../../lib/action-library')
 
 ava.test.beforeEach(async (test) => {
-	await helpers.beforeEach(test)
-	test.context.worker = new Worker(test.context.jellyfish, test.context.session, actionLibrary)
-
-	test.context.flush = async (session) => {
-		if (await test.context.worker.length() === 0) {
-			return
-		}
-
-		const request = await test.context.worker.dequeue()
-		const result = await test.context.worker.execute(session, request)
-
-		if (result.error) {
-			const Constructor = test.context.worker.errors[result.data.type] ||
-				test.context.jellyfish.errors[result.data.type] ||
-				Error
-
-			throw new Constructor(result.data.message)
-		}
-
-		await test.context.flush(session)
-	}
+	await helpers.worker.beforeEach(test, actionLibrary)
 })
 
-ava.test.afterEach(helpers.afterEach)
+ava.test.afterEach(helpers.worker.afterEach)
 
 ava.test('.length() should be zero by default', async (test) => {
 	const length = await test.context.worker.length()
