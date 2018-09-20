@@ -203,9 +203,11 @@ ava.test('.importCards() should import two parallel cards', async (test) => {
 		actor: test.context.actor.id
 	})
 
-	test.deepEqual(_.sortBy(result, 'data.test'), [
+	const sortedResult = _.sortBy(result, 'data.test')
+
+	test.deepEqual(sortedResult, [
 		{
-			id: result[0].id,
+			id: sortedResult[0].id,
 			active: true,
 			links: {},
 			tags: [],
@@ -215,7 +217,7 @@ ava.test('.importCards() should import two parallel cards', async (test) => {
 			}
 		},
 		{
-			id: result[1].id,
+			id: sortedResult[1].id,
 			active: true,
 			links: {},
 			tags: [],
@@ -321,9 +323,11 @@ ava.test('.importCards() should import a dependent card in parallel segment', as
 		actor: test.context.actor.id
 	})
 
-	test.deepEqual(_.sortBy(result, 'data.test'), [
+	const sortedResult = _.sortBy(result, 'data.test')
+
+	test.deepEqual(sortedResult, [
 		{
-			id: result[0].id,
+			id: sortedResult[0].id,
 			active: true,
 			links: {},
 			tags: [],
@@ -333,7 +337,7 @@ ava.test('.importCards() should import a dependent card in parallel segment', as
 			}
 		},
 		{
-			id: result[1].id,
+			id: sortedResult[1].id,
 			active: true,
 			links: {},
 			tags: [],
@@ -343,14 +347,14 @@ ava.test('.importCards() should import a dependent card in parallel segment', as
 			}
 		},
 		{
-			id: result[2].id,
+			id: sortedResult[2].id,
 			active: true,
 			links: {},
 			tags: [],
 			type: 'card',
 			data: {
 				test: 3,
-				target: result[0].id
+				target: sortedResult[0].id
 			}
 		}
 	])
