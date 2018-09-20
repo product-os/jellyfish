@@ -1,0 +1,88 @@
+{
+  "head": {
+    "name": "Issue closed with comment",
+    "type": "issue",
+    "active": true,
+    "tags": [],
+    "links": {},
+    "data": {
+      "mirrors": [
+        "https://github.com/resin-io/jellyfish/issues/713"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "",
+      "status": "closed",
+      "archived": false
+    }
+  },
+  "tail": [
+    {
+      "type": "message",
+      "active": true,
+      "tags": [],
+      "links": {},
+      "data": {
+        "mirrors": [
+          "https://github.com/resin-io/jellyfish/issues/713#issuecomment-423286402"
+        ],
+        "timestamp": "2018-09-20T18:28:35Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "Closed with comment"
+        }
+      }
+    },
+    {
+      "type": "create",
+      "active": true,
+      "tags": [],
+      "links": {},
+      "data": {
+        "timestamp": "2018-09-20T18:27:24Z",
+        "payload": {
+          "name": "Issue closed with comment",
+          "active": true,
+          "tags": [],
+          "links": {},
+          "data": {
+            "mirrors": [
+              "https://github.com/resin-io/jellyfish/issues/713"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open",
+            "archived": false
+          }
+        }
+      }
+    },
+    {
+      "type": "update",
+      "active": true,
+      "tags": [],
+      "links": {},
+      "data": {
+        "timestamp": "2018-09-20T18:28:35Z",
+        "payload": {
+          "name": "Issue closed with comment",
+          "active": true,
+          "tags": [],
+          "links": {},
+          "data": {
+            "mirrors": [
+              "https://github.com/resin-io/jellyfish/issues/713"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "closed",
+            "archived": false
+          }
+        }
+      }
+    }
+  ]
+}

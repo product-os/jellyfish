@@ -1,0 +1,71 @@
+{
+  "head": {
+    "name": "Issue body edits",
+    "type": "issue",
+    "active": true,
+    "tags": [],
+    "links": {},
+    "data": {
+      "mirrors": [
+        "https://github.com/resin-io/jellyfish/issues/711"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "Updated body",
+      "status": "open",
+      "archived": false
+    }
+  },
+  "tail": [
+    {
+      "type": "create",
+      "active": true,
+      "tags": [],
+      "links": {},
+      "data": {
+        "timestamp": "2018-09-20T18:19:14Z",
+        "payload": {
+          "name": "Issue body edits",
+          "active": true,
+          "tags": [],
+          "links": {},
+          "data": {
+            "mirrors": [
+              "https://github.com/resin-io/jellyfish/issues/711"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "Initial body",
+            "status": "open",
+            "archived": false
+          }
+        }
+      }
+    },
+    {
+      "type": "update",
+      "active": true,
+      "tags": [],
+      "links": {},
+      "data": {
+        "timestamp": "2018-09-20T18:20:28Z",
+        "payload": {
+          "name": "Issue body edits",
+          "active": true,
+          "tags": [],
+          "links": {},
+          "data": {
+            "mirrors": [
+              "https://github.com/resin-io/jellyfish/issues/711"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "Updated body",
+            "status": "open",
+            "archived": false
+          }
+        }
+      }
+    }
+  ]
+}

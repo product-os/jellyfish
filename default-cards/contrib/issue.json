@@ -37,7 +37,8 @@
               "format": "markdown"
             },
             "status": {
-              "type": "string"
+              "type": "string",
+              "enum": [ "open", "closed" ]
             },
             "archived": {
               "type": "boolean",
