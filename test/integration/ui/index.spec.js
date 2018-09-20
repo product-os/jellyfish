@@ -27,6 +27,10 @@ const WAIT_OPTS = {
 	timeout: 60 * 1000
 }
 
+const TYPE_OPTS = {
+	delay: 50
+}
+
 const context = {}
 
 const users = {
@@ -94,9 +98,9 @@ ava.test.serial('should let new users signup', async (test) => {
 
 	await page.waitForSelector('.login-page__signup', WAIT_OPTS)
 
-	await page.type('.login-page__input--email', users.community.email)
-	await page.type('.login-page__input--username', users.community.username)
-	await page.type('.login-page__input--password', users.community.password)
+	await page.type('.login-page__input--email', users.community.email, TYPE_OPTS)
+	await page.type('.login-page__input--username', users.community.username, TYPE_OPTS)
+	await page.type('.login-page__input--password', users.community.password, TYPE_OPTS)
 
 	await page.click('.login-page__submit--signup')
 
@@ -128,8 +132,8 @@ ava.test.serial('should let users login', async (test) => {
 
 	await page.waitForSelector('.login-page', WAIT_OPTS)
 
-	await page.type('.login-page__input--username', users.community.username)
-	await page.type('.login-page__input--password', users.community.password)
+	await page.type('.login-page__input--username', users.community.username, TYPE_OPTS)
+	await page.type('.login-page__input--password', users.community.password, TYPE_OPTS)
 
 	await page.click('.login-page__submit--login')
 
@@ -191,7 +195,7 @@ ava.test.serial('should allow newly signed up users to create chat messages', as
 
 	await page.waitForSelector('.new-message-input', WAIT_OPTS)
 
-	await page.type('textarea', messageText)
+	await page.type('textarea', messageText, TYPE_OPTS)
 
 	await page.keyboard.press('Enter')
 
@@ -238,8 +242,8 @@ ava.test.serial('should allow team-admin users to update user\'s roles', async (
 		}
 	)
 
-	await page.type('.login-page__input--username', users.admin.username)
-	await page.type('.login-page__input--password', users.admin.password)
+	await page.type('.login-page__input--username', users.admin.username, TYPE_OPTS)
+	await page.type('.login-page__input--password', users.admin.password, TYPE_OPTS)
 
 	await page.click('.login-page__submit--login')
 
@@ -268,7 +272,7 @@ ava.test.serial('should allow team-admin users to update user\'s roles', async (
 	await page.waitForSelector('#root_data_roles_1', WAIT_OPTS)
 
 	// Enter the 'user-team' role as a new role
-	await page.type('#root_data_roles_1', 'user-team')
+	await page.type('#root_data_roles_1', 'user-team', TYPE_OPTS)
 
 	// Add a small delay to allow the form change to propagate
 	await Bluebird.delay(500)
