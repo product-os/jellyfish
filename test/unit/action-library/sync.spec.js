@@ -17,7 +17,9 @@
 const ava = require('ava')
 const _ = require('lodash')
 const helpers = require('./helpers')
+const typedErrors = require('typed-errors')
 const sync = require('../../../lib/action-library/sync')
+const NoOpIntegration = require('./noop-integration')
 
 ava.test.beforeEach(helpers.beforeEach)
 ava.test.afterEach(helpers.afterEach)
@@ -396,4 +398,126 @@ ava.test('.importCards() should add create events', async (test) => {
 
 	test.is(timeline.length, 1)
 	test.is(timeline[0].type, 'create')
+})
+
+ava.test('.translateExternalEvent() should translate an external event through the noop integration', async (test) => {
+	class TestIntegration extends NoOpIntegration {
+		constructor () {
+			super()
+			TestIntegration.instance = this
+		}
+	}
+
+	const result = await sync.translateExternalEvent(TestIntegration, {
+		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		type: 'external-event',
+		active: true,
+		tags: [],
+		links: {},
+		data: {
+			source: 'test',
+			headers: {},
+			payload: {
+				foo: 'bar',
+				bar: 'baz'
+			}
+		}
+	}, {
+		context: test.context.context,
+		session: test.context.session,
+		actor: test.context.actor.id
+	})
+
+	test.true(TestIntegration.instance.initialized)
+	test.true(TestIntegration.instance.destroyed)
+
+	test.deepEqual(result, [
+		{
+			id: result[0].id,
+			type: 'card',
+			active: true,
+			tags: [],
+			links: {},
+			data: {
+				payload: {
+					foo: 'bar',
+					bar: 'baz'
+				}
+			}
+		}
+	])
+})
+
+ava.test('.translateExternalEvent() should destroy the integration even if there was an import error', async (test) => {
+	class TestIntegration extends NoOpIntegration {
+		constructor () {
+			super()
+			TestIntegration.instance = this
+		}
+	}
+
+	await test.throws(sync.translateExternalEvent(TestIntegration, {
+		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		type: 'invalid-type',
+		active: true,
+		tags: [],
+		links: {},
+		data: {
+			source: 'test',
+			headers: {},
+			payload: {
+				foo: {
+					$eval: 'hello'
+				},
+				bar: 'baz'
+			}
+		}
+	}, {
+		context: test.context.context,
+		session: test.context.session,
+		actor: test.context.actor.id
+	}), test.context.worker.errors.WorkerInvalidTemplate)
+
+	test.true(TestIntegration.instance.initialized)
+	test.true(TestIntegration.instance.destroyed)
+})
+
+ava.test('.translateExternalEvent() should destroy the integration even if there was a translate error', async (test) => {
+	const TranslateError = typedErrors.makeTypedError('TranslateError')
+	class BrokenIntegration extends NoOpIntegration {
+		constructor () {
+			super()
+			BrokenIntegration.instance = this
+		}
+
+		// eslint-disable-next-line class-methods-use-this
+		async translate () {
+			throw new TranslateError('Foo Bar')
+		}
+	}
+
+	await test.throws(sync.translateExternalEvent(BrokenIntegration, {
+		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		type: 'invalid-type',
+		active: true,
+		tags: [],
+		links: {},
+		data: {
+			source: 'test',
+			headers: {},
+			payload: {
+				foo: {
+					$eval: 'hello'
+				},
+				bar: 'baz'
+			}
+		}
+	}, {
+		context: test.context.context,
+		session: test.context.session,
+		actor: test.context.actor.id
+	}), TranslateError)
+
+	test.true(BrokenIntegration.instance.initialized)
+	test.true(BrokenIntegration.instance.destroyed)
 })
