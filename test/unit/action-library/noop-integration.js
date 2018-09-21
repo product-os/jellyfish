@@ -104,9 +104,12 @@ module.exports = class NoOpIntegration {
 
 		return [
 			{
-				type: 'card',
-				data: {
-					payload: event.data.payload
+				time: new Date(),
+				card: {
+					type: 'card',
+					data: {
+						payload: event.data.payload
+					}
 				}
 			}
 		]
