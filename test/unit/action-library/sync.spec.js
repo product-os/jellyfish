@@ -26,7 +26,8 @@ ava.test.afterEach(helpers.afterEach)
 
 ava.test('.importCards() should import no card', async (test) => {
 	const result = await sync.importCards(test.context.context, test.context.session, [], {
-		actor: test.context.actor.id
+		actor: test.context.actor.id,
+		currentTime: new Date()
 	})
 
 	test.deepEqual(result, [])
@@ -42,7 +43,8 @@ ava.test('.importCards() should throw if the type is invalid', async (test) => {
 			}
 		}
 	], {
-		actor: test.context.actor.id
+		actor: test.context.actor.id,
+		currentTime: new Date()
 	}), test.context.worker.errors.WorkerNoElement)
 })
 
@@ -56,7 +58,8 @@ ava.test('.importCards() should import a single card', async (test) => {
 			}
 		}
 	], {
-		actor: test.context.actor.id
+		actor: test.context.actor.id,
+		currentTime: new Date()
 	})
 
 	test.deepEqual(result, [
@@ -85,7 +88,8 @@ ava.test('.importCards() should import a single card with an id', async (test) =
 			}
 		}
 	], {
-		actor: test.context.actor.id
+		actor: test.context.actor.id,
+		currentTime: new Date()
 	})
 
 	test.deepEqual(result, [
@@ -126,7 +130,8 @@ ava.test('.importCards() should patch an existing card', async (test) => {
 			}
 		}
 	], {
-		actor: test.context.actor.id
+		actor: test.context.actor.id,
+		currentTime: new Date()
 	})
 
 	test.deepEqual(result, [
@@ -158,7 +163,8 @@ ava.test('.importCards() should import two independent cards', async (test) => {
 			}
 		}
 	], {
-		actor: test.context.actor.id
+		actor: test.context.actor.id,
+		currentTime: new Date()
 	})
 
 	test.deepEqual(result, [
@@ -202,7 +208,8 @@ ava.test('.importCards() should import two parallel cards', async (test) => {
 			}
 		]
 	], {
-		actor: test.context.actor.id
+		actor: test.context.actor.id,
+		currentTime: new Date()
 	})
 
 	const sortedResult = _.sortBy(result, 'data.test')
@@ -248,7 +255,8 @@ ava.test('.importCards() should import dependent cards', async (test) => {
 			}
 		}
 	], {
-		actor: test.context.actor.id
+		actor: test.context.actor.id,
+		currentTime: new Date()
 	})
 
 	test.deepEqual(result, [
@@ -292,7 +300,8 @@ ava.test('.importCards() should throw if a template does not evaluate', async (t
 			}
 		}
 	], {
-		actor: test.context.actor.id
+		actor: test.context.actor.id,
+		currentTime: new Date()
 	}), test.context.worker.errors.WorkerInvalidTemplate)
 })
 
@@ -322,7 +331,8 @@ ava.test('.importCards() should import a dependent card in parallel segment', as
 			}
 		]
 	], {
-		actor: test.context.actor.id
+		actor: test.context.actor.id,
+		currentTime: new Date()
 	})
 
 	const sortedResult = _.sortBy(result, 'data.test')
@@ -372,7 +382,8 @@ ava.test('.importCards() should add create events', async (test) => {
 			}
 		}
 	], {
-		actor: test.context.actor.id
+		actor: test.context.actor.id,
+		currentTime: new Date()
 	})
 
 	await test.context.flush(test.context.session)
@@ -425,7 +436,8 @@ ava.test('.translateExternalEvent() should translate an external event through t
 	}, {
 		context: test.context.context,
 		session: test.context.session,
-		actor: test.context.actor.id
+		actor: test.context.actor.id,
+		currentTime: new Date()
 	})
 
 	test.true(TestIntegration.instance.initialized)
@@ -475,7 +487,8 @@ ava.test('.translateExternalEvent() should destroy the integration even if there
 	}, {
 		context: test.context.context,
 		session: test.context.session,
-		actor: test.context.actor.id
+		actor: test.context.actor.id,
+		currentTime: new Date()
 	}), test.context.worker.errors.WorkerInvalidTemplate)
 
 	test.true(TestIntegration.instance.initialized)
@@ -515,7 +528,8 @@ ava.test('.translateExternalEvent() should destroy the integration even if there
 	}, {
 		context: test.context.context,
 		session: test.context.session,
-		actor: test.context.actor.id
+		actor: test.context.actor.id,
+		currentTime: new Date()
 	}), TranslateError)
 
 	test.true(BrokenIntegration.instance.initialized)
