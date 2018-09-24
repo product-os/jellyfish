@@ -24,7 +24,9 @@ const randomstring = require('randomstring')
 const {
 	getSdk
 } = require('../../../lib/sdk')
-const createServer = require('../../../lib/server/create-server')
+const {
+	createServer
+} = require('../../../lib/server/create-server')
 
 const WAIT_TIMEOUT = 60 * 1000
 
@@ -66,12 +68,12 @@ const executeThenWait = async (sdk, asyncFn, waitQuery) => {
 	})
 }
 
-ava.test.beforeEach(async (test) => {
-	// Set this env var so that the server uses a random database
-	process.env.SERVER_DATABASE = `test_${randomstring.generate()}`
+let port = 9100
 
+ava.test.beforeEach(async (test) => {
 	test.context.server = await createServer({
-		port: 9999
+		port: port++,
+		serverDatabase: `test_${randomstring.generate()}`
 	})
 
 	test.context.session = test.context.server.jellyfish.sessions.admin

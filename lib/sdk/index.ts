@@ -280,9 +280,12 @@ export class JellyfishSDK implements SDKInterface {
 					console.log('Caught Axios cancel error and ignoring it');
 					return;
 				}
+
 				if (e.response && e.response.data) {
 					const message = _.get(e.response.data, [ 'data', 'message' ], e.response.data.data);
-					throw new Error(message);
+					if (message) {
+						throw new Error(message);
+					}
 				}
 				throw e;
 			});

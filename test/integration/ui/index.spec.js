@@ -19,7 +19,9 @@ const Bluebird = require('bluebird')
 const _ = require('lodash')
 const puppeteer = require('puppeteer')
 const randomstring = require('randomstring')
-const createServer = require('../../../lib/server/create-server')
+const {
+	createServer
+} = require('../../../lib/server/create-server')
 
 const visualMode = process.env.PUPPETEER_VISUAL_MODE
 
@@ -42,19 +44,15 @@ const users = {
 	}
 }
 
+let port = 9300
+
 ava.test.before(async () => {
-	// Set this env var so that the server uses a random database
-	process.env.SERVER_DATABASE = `test_${randomstring.generate()}`
-	const {
-		jellyfish,
-		port
-	} =	await createServer({
-		port: 7999
+	context.server = await createServer({
+		port: port++,
+		serverDatabase: `test_${randomstring.generate()}`
 	})
 
-	context.jellyfish = jellyfish
-	context.adminSession = jellyfish.sessions.admin
-	context.serverPort = port
+	context.session = context.server.jellyfish.sessions.admin
 
 	const options = {
 		headless: !visualMode,
@@ -78,15 +76,16 @@ ava.test.before(async () => {
 
 ava.test.after(async () => {
 	await context.browser.close()
+	await context.server.close()
 })
 
 ava.test.serial('should let new users signup', async (test) => {
 	const {
 		page,
-		serverPort
+		server
 	} = context
 
-	await page.goto(`http://localhost:${serverPort}`)
+	await page.goto(`http://localhost:${server.port}`)
 
 	await page.waitForSelector('.login-page', WAIT_OPTS)
 
@@ -225,9 +224,9 @@ ava.test.serial('should allow team-admin users to update user\'s roles', async (
 	}, users.admin)
 
 	// Give the new user the team-admin role
-	const teamAdminUserCard = await context.jellyfish.getCardById(context.adminSession, teamAdminUser.id)
-	await context.jellyfish.insertCard(
-		context.adminSession,
+	const teamAdminUserCard = await context.server.jellyfish.getCardById(context.session, teamAdminUser.id)
+	await context.server.jellyfish.insertCard(
+		context.session,
 		_.merge(teamAdminUserCard, {
 			data: {
 				roles: [ 'team-admin' ]
