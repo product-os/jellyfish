@@ -34,6 +34,7 @@ const linkNameMap = {
 	'issue is attached to spec': 'spec has attached issue',
 	'spec has attached issue': 'issue is attached to spec',
 	'spec is attached to architecture topic': 'architecture topic has attached spec',
+	'is member of': 'has member',
 };
 
 /**
@@ -213,7 +214,18 @@ export class CardSdk {
 			card: card.type,
 			action: 'action-create-card',
 			arguments: {
-				properties: _.omit(card, ['type']),
+				properties: _.assign(
+					{
+						active: true,
+						tags: [],
+						markers: [],
+						links: {},
+						requires: [],
+						capabilities: [],
+						data: {},
+					},
+					_.omit(card, ['type']),
+				),
 			},
 		});
 	}

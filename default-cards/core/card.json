@@ -70,13 +70,14 @@
       },
       "additionalProperties": false,
       "required": [
-        "type",
-        "tags",
-        "links",
         "active",
-        "data",
-        "requires",
         "capabilities",
+        "data",
+        "links",
+        "markers",
+        "requires",
+        "tags",
+        "type",
         "version"
       ]
     }

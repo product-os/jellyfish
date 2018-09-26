@@ -188,6 +188,13 @@ ava.test.serial('.query() should be able to see previously restricted cards afte
 		sdk
 	} = test.context
 
+	const {
+		jellyfish
+	} = test.context.server
+	const {
+		defaults
+	} = jellyfish
+
 	const username = randomstring.generate().toLowerCase()
 	const email = `${randomstring.generate()}@example.com`
 
@@ -202,37 +209,26 @@ ava.test.serial('.query() should be able to see previously restricted cards afte
 		password: 'foobarbaz'
 	})
 
-	const entry = await test.context.server.jellyfish.insertCard(test.context.session, {
+	const entry = await jellyfish.insertCard(test.context.session, defaults({
 		type: 'scratchpad-entry',
 		version: '1.0.0',
-		tags: [],
-		links: {},
-		active: true,
-		requires: [],
-		capabilities: [],
-		name: 'Test entry',
-		data: {}
-	})
+		name: 'Test entry'
+	}))
 
 	const unprivilegedResults = await sdk.card.get(entry.id)
 
 	test.deepEqual(unprivilegedResults, null)
 
-	await test.context.server.jellyfish.insertCard(test.context.session, {
+	await jellyfish.insertCard(test.context.session, defaults({
 		id: user.id,
 		slug: `user-${username}`,
 		type: 'user',
 		version: '1.0.0',
-		tags: [],
-		links: {},
-		active: true,
-		requires: [],
-		capabilities: [],
 		data: {
 			email,
 			roles: [ 'user-team' ]
 		}
-	}, {
+	}), {
 		override: true
 	})
 
@@ -791,8 +787,14 @@ ava.test.serial('should add and evaluate a time triggered action', async (test) 
 	const {
 		sdk
 	} = test.context
+	const {
+		jellyfish
+	} = test.context.server
+	const {
+		defaults
+	} = jellyfish
 
-	const typeCard = await test.context.server.jellyfish.getCardBySlug(test.context.session, 'card')
+	const typeCard = await jellyfish.getCardBySlug(test.context.session, 'card')
 	const username = randomstring.generate().toLowerCase()
 	const email = `${randomstring.generate()}@example.com`
 
@@ -807,14 +809,9 @@ ava.test.serial('should add and evaluate a time triggered action', async (test) 
 		password: 'foobarbaz'
 	})
 
-	const trigger = await test.context.server.jellyfish.insertCard(test.context.session, {
+	const trigger = await jellyfish.insertCard(test.context.session, defaults({
 		type: 'triggered-action',
 		version: '1.0.0',
-		tags: [],
-		links: {},
-		active: true,
-		requires: [],
-		capabilities: [],
 		data: {
 			action: 'action-create-card',
 			target: typeCard.id,
@@ -828,7 +825,7 @@ ava.test.serial('should add and evaluate a time triggered action', async (test) 
 				}
 			}
 		}
-	}, {
+	}), {
 		override: true
 	})
 
