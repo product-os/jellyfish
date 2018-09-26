@@ -2,6 +2,7 @@
   "slug": "action-upsert-card",
   "type": "action",
   "name": "Upsert a card",
+  "markers": [],
   "tags": [],
   "links": {},
   "active": true,
@@ -31,6 +32,13 @@
           },
           "active": {
             "type": "boolean"
+          },
+          "markers": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9-_/:+]+$"
+            }
           },
           "tags": {
             "type": "array",

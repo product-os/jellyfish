@@ -2,6 +2,7 @@
   "slug": "view-read-user-team-admin",
   "name": "Team role read permissions",
   "type": "view",
+  "markers": [],
   "tags": [],
   "links": {},
   "active": true,

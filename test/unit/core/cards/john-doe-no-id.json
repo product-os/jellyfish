@@ -2,6 +2,7 @@
   "card": {
     "type": "person",
     "tags": [ "premium" ],
+    "markers": [],
     "links": {},
     "active": true,
     "data": {

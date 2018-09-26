@@ -2,6 +2,7 @@
   "slug": "user-guest",
   "type": "user",
   "name": "The guest user",
+  "markers": [],
   "tags": [],
   "links": {},
   "active": true,

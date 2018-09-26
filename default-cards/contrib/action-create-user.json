@@ -2,6 +2,7 @@
   "slug": "action-create-user",
   "type": "action",
   "name": "Create a user",
+  "markers": [],
   "tags": [],
   "links": {},
   "active": true,

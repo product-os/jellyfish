@@ -2,6 +2,7 @@
   "slug": "action-create-session",
   "type": "action",
   "name": "Login as a user",
+  "markers": [],
   "tags": [],
   "links": {},
   "active": true,

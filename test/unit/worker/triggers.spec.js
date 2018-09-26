@@ -49,6 +49,7 @@ ava.test('.getRequest() should return null if the filter only has a type but the
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	}, {
 		currentDate: new Date(),
@@ -57,6 +58,7 @@ ava.test('.getRequest() should return null if the filter only has a type but the
 			active: true,
 			links: {},
 			tags: [],
+			markers: [],
 			data: {}
 		}
 	})
@@ -94,6 +96,7 @@ ava.test('.getRequest() should return a request if the filter only has a type an
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	}, {
 		currentDate: date,
@@ -102,6 +105,7 @@ ava.test('.getRequest() should return a request if the filter only has a type an
 			active: true,
 			links: {},
 			tags: [],
+			markers: [],
 			data: {}
 		}
 	})
@@ -149,6 +153,7 @@ ava.test('.getRequest() should return a request if the input match card is null'
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	}, {
 		currentDate: date,
@@ -283,6 +288,7 @@ ava.test('.getRequest() should return a request given a complex matching filter'
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			foo: 4
 		}
@@ -293,6 +299,7 @@ ava.test('.getRequest() should return a request given a complex matching filter'
 			active: true,
 			links: {},
 			tags: [],
+			markers: [],
 			data: {
 				foo: 4
 			}
@@ -348,6 +355,7 @@ ava.test('.getRequest() should return null given a complex non-matching filter',
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			foo: '4'
 		}
@@ -358,6 +366,7 @@ ava.test('.getRequest() should return null given a complex non-matching filter',
 			active: true,
 			links: {},
 			tags: [],
+			markers: [],
 			data: {
 				foo: '4'
 			}
@@ -410,6 +419,7 @@ ava.test('.getRequest() should parse source templates in the triggered action ar
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			command: 'foo-bar-baz',
 			slug: 'hello-world',
@@ -422,6 +432,7 @@ ava.test('.getRequest() should parse source templates in the triggered action ar
 			active: true,
 			links: {},
 			tags: [],
+			markers: [],
 			data: {
 				command: 'foo-bar-baz',
 				slug: 'hello-world',
@@ -473,6 +484,7 @@ ava.test('.getRequest() should parse timestamp templates in the triggered action
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			command: 'foo-bar-baz',
 			slug: 'hello-world',
@@ -485,6 +497,7 @@ ava.test('.getRequest() should parse timestamp templates in the triggered action
 			active: true,
 			links: {},
 			tags: [],
+			markers: [],
 			data: {
 				command: 'foo-bar-baz',
 				slug: 'hello-world',
@@ -548,6 +561,7 @@ ava.test('.getRequest() should return null if one of the templates is unsatisfie
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			command: 'foo-bar-baz',
 			slug: 'hello-world'
@@ -559,6 +573,7 @@ ava.test('.getRequest() should return null if one of the templates is unsatisfie
 			active: true,
 			links: {},
 			tags: [],
+			markers: [],
 			data: {
 				command: 'foo-bar-baz',
 				slug: 'hello-world'
@@ -577,6 +592,7 @@ ava.test('.getTypeTriggers() should return a trigger card with a matching type',
 			active: true,
 			links: {},
 			tags: [],
+			markers: [],
 			data: {
 				type: 'foo',
 				filter: {
@@ -633,6 +649,7 @@ ava.test('.getTypeTriggers() should not return inactive cards', async (test) => 
 			active: false,
 			links: {},
 			tags: [],
+			markers: [],
 			data: {
 				type: 'foo',
 				filter: {
@@ -685,6 +702,7 @@ ava.test('.getTypeTriggers() should ignore non-matching cards', async (test) => 
 			active: true,
 			links: {},
 			tags: [],
+			markers: [],
 			data: {
 				type: 'foo',
 				filter: {
@@ -724,6 +742,7 @@ ava.test('.getTypeTriggers() should ignore non-matching cards', async (test) => 
 			active: true,
 			links: {},
 			tags: [],
+			markers: [],
 			data: {
 				type: 'bar',
 				filter: {
@@ -780,6 +799,7 @@ ava.test('.getTypeTriggers() should ignore cards that are not triggered actions'
 			active: true,
 			links: {},
 			tags: [],
+			markers: [],
 			data: {
 				type: 'foo',
 				filter: {
@@ -819,6 +839,7 @@ ava.test('.getTypeTriggers() should ignore cards that are not triggered actions'
 			active: true,
 			links: {},
 			tags: [],
+			markers: [],
 			data: {
 				type: 'foo',
 				filter: {
@@ -875,6 +896,7 @@ ava.test('.getTypeTriggers() should not return triggered actions not associated 
 			active: true,
 			links: {},
 			tags: [],
+			markers: [],
 			data: {
 				filter: {
 					type: 'object',
@@ -925,6 +947,7 @@ ava.test('.getStartDate() should return epoch if the trigger has no start date',
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			filter: {
 				type: 'object'
@@ -949,6 +972,7 @@ ava.test('.getStartDate() should return epoch if the trigger has an invalid date
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			filter: {
 				type: 'object'
@@ -975,6 +999,7 @@ ava.test('.getStartDate() should return the specified date if valid', async (tes
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			filter: {
 				type: 'object'
@@ -1001,6 +1026,7 @@ ava.test('.getNextExecutionDate() should return null if no interval', async (tes
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			filter: {
 				type: 'object'
@@ -1025,6 +1051,7 @@ ava.test('.getNextExecutionDate() should return epoch if no last execution date'
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			interval: 'PT1H',
 			action: 'action-create-card',
@@ -1047,6 +1074,7 @@ ava.test('.getNextExecutionDate() should return epoch if last execution date is 
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			interval: 'PT1H',
 			action: 'action-create-card',
@@ -1069,6 +1097,7 @@ ava.test('.getNextExecutionDate() should return epoch if last execution date is 
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			interval: 'PT1H',
 			action: 'action-create-card',
@@ -1094,6 +1123,7 @@ ava.test('.getNextExecutionDate() should throw if the interval is invalid', asyn
 			active: true,
 			links: {},
 			tags: [],
+			markers: [],
 			data: {
 				interval: 'FOOBARBAZ',
 				action: 'action-create-card',
@@ -1115,6 +1145,7 @@ ava.test('.getNextExecutionDate() should return the next interval after the last
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			interval: 'PT1H',
 			action: 'action-create-card',
@@ -1139,6 +1170,7 @@ ava.test('.getNextExecutionDate() should return the start date if the last execu
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			interval: 'PT1H',
 			action: 'action-create-card',
@@ -1163,6 +1195,7 @@ ava.test('.getNextExecutionDate() should return the subsequent interval if the l
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			interval: 'PT1H',
 			action: 'action-create-card',
@@ -1186,6 +1219,7 @@ ava.test('.getNextExecutionDate() should return the next interval if the last ex
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			interval: 'PT1H',
 			action: 'action-create-card',

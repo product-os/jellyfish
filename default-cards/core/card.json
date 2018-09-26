@@ -1,6 +1,7 @@
 {
   "slug": "card",
   "name": "Jellyfish Card",
+  "markers": [],
   "type": "type",
   "tags": [],
   "links": {},
@@ -30,6 +31,13 @@
           "items": {
             "type": "string",
             "pattern": "^[a-zA-Z0-9-_/][a-zA-Z0-9-_/\\s]+[a-zA-Z0-9-_/]$"
+          }
+        },
+        "markers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-_/:+]+$"
           }
         },
         "links": {

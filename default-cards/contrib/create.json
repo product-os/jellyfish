@@ -2,6 +2,7 @@
   "slug": "create",
   "type": "type",
   "name": "The card create event",
+  "markers": [],
   "tags": [],
   "links": {},
   "active": true,

@@ -52,6 +52,7 @@ ava.test('.insertCard() should throw an error if the element does not adhere to 
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	}), errors.JellyfishSchemaMismatch)
 })
@@ -62,6 +63,7 @@ ava.test('.insertCard() should throw an error if the card type does not exist', 
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	}), errors.JellyfishUnknownCardType)
 })
@@ -73,6 +75,7 @@ ava.test('.insertCard() should be able to insert a card', async (test) => {
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			foo: 'bar'
 		}
@@ -89,6 +92,7 @@ ava.test('.insertCard() should throw if the card already exists', async (test) =
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	}
 
@@ -106,6 +110,7 @@ ava.test('.insertCard() should replace an element given override is true', async
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	})
 
@@ -115,6 +120,7 @@ ava.test('.insertCard() should replace an element given override is true', async
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	}, {
 		override: true
@@ -132,6 +138,7 @@ ava.test('.insertCard() should be able to create a link between two valid cards'
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	})
 
@@ -141,6 +148,7 @@ ava.test('.insertCard() should be able to create a link between two valid cards'
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	})
 
@@ -150,6 +158,7 @@ ava.test('.insertCard() should be able to create a link between two valid cards'
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			inverseName: 'has attached element',
 			from: card1.id,
@@ -168,6 +177,7 @@ ava.test('.insertCard() should be able to create a direction-less link between t
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	})
 
@@ -177,6 +187,7 @@ ava.test('.insertCard() should be able to create a direction-less link between t
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	})
 
@@ -186,6 +197,7 @@ ava.test('.insertCard() should be able to create a direction-less link between t
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			inverseName: 'is linked to',
 			from: card1.id,
@@ -205,6 +217,7 @@ ava.test('.insertCard() should be able to create two different links between two
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	})
 
@@ -214,6 +227,7 @@ ava.test('.insertCard() should be able to create two different links between two
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	})
 
@@ -223,6 +237,7 @@ ava.test('.insertCard() should be able to create two different links between two
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			inverseName: 'has been linked to',
 			from: card1.id,
@@ -236,6 +251,7 @@ ava.test('.insertCard() should be able to create two different links between two
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			inverseName: 'has attached element',
 			from: card1.id,
@@ -482,6 +498,7 @@ ava.test('.insertCard() read access on a property should not allow to write othe
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			anyOf: [
 				{
@@ -543,6 +560,7 @@ ava.test('.insertCard() read access on a property should not allow to write othe
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			email: 'johndoe@example.com',
 			roles: []
@@ -555,6 +573,7 @@ ava.test('.insertCard() read access on a property should not allow to write othe
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			email: 'janedoe@example.com',
 			roles: []
@@ -566,6 +585,7 @@ ava.test('.insertCard() read access on a property should not allow to write othe
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			actor: userCard.id
 		}
@@ -578,6 +598,7 @@ ava.test('.insertCard() read access on a property should not allow to write othe
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			email: 'pwned@example.com',
 			roles: []
@@ -594,6 +615,7 @@ ava.test('.insertCard() should restrict the visibility of the user using write r
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			allOf: [
 				{
@@ -634,6 +656,7 @@ ava.test('.insertCard() should restrict the visibility of the user using write r
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			allOf: [
 				{
@@ -671,6 +694,7 @@ ava.test('.insertCard() should restrict the visibility of the user using write r
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			email: 'johndoe@example.com',
 			roles: []
@@ -682,6 +706,7 @@ ava.test('.insertCard() should restrict the visibility of the user using write r
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			actor: userCard.id
 		}
@@ -702,6 +727,7 @@ ava.test('.insertCard() should restrict the visibility of the user using write r
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			email: 'janedoe@example.com',
 			roles: []
@@ -723,6 +749,7 @@ ava.test('.getCardById() should find an active card by its id', async (test) => 
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	})
 
@@ -737,6 +764,7 @@ ava.test('.getCardById() should find an active card by its id and type', async (
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	})
 
@@ -754,6 +782,7 @@ ava.test('.getCardById() should not find an active card by its id but an invalid
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	})
 
@@ -771,6 +800,7 @@ ava.test('.getCardBySlug() should find an active card by its slug', async (test)
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	})
 
@@ -785,6 +815,7 @@ ava.test('.getCardBySlug() should find an active card by its slug and its type',
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	})
 
@@ -802,6 +833,7 @@ ava.test('.getCardBySlug() should not find an active card by its slug but an inv
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	})
 
@@ -819,6 +851,7 @@ ava.test('.getCardById() should return an inactive card by its id', async (test)
 		active: false,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	})
 
@@ -832,6 +865,7 @@ ava.test('.query() should be able to limit the results', async (test) => {
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			test: 1,
 			timestamp: '2018-07-20T23:15:45.702Z'
@@ -843,6 +877,7 @@ ava.test('.query() should be able to limit the results', async (test) => {
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			test: 2,
 			timestamp: '2018-08-20T23:15:45.702Z'
@@ -854,6 +889,7 @@ ava.test('.query() should be able to limit the results', async (test) => {
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			test: 3,
 			timestamp: '2018-09-20T23:15:45.702Z'
@@ -883,6 +919,7 @@ ava.test('.query() should be able to sort the results', async (test) => {
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			test: 2
 		}
@@ -893,6 +930,7 @@ ava.test('.query() should be able to sort the results', async (test) => {
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			test: 3
 		}
@@ -903,6 +941,7 @@ ava.test('.query() should be able to sort the results', async (test) => {
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			test: 1
 		}
@@ -930,6 +969,7 @@ ava.test('.query() should be able to skip the results', async (test) => {
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			test: 1,
 			timestamp: '2018-07-20T23:15:45.702Z'
@@ -941,6 +981,7 @@ ava.test('.query() should be able to skip the results', async (test) => {
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			test: 2,
 			timestamp: '2018-08-20T23:15:45.702Z'
@@ -952,6 +993,7 @@ ava.test('.query() should be able to skip the results', async (test) => {
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			test: 3,
 			timestamp: '2018-09-20T23:15:45.702Z'
@@ -981,6 +1023,7 @@ ava.test('.query() should be able to limit and skip the results', async (test) =
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			test: 1,
 			timestamp: '2018-07-20T23:15:45.702Z'
@@ -992,6 +1035,7 @@ ava.test('.query() should be able to limit and skip the results', async (test) =
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			test: 2,
 			timestamp: '2018-08-20T23:15:45.702Z'
@@ -1003,6 +1047,7 @@ ava.test('.query() should be able to limit and skip the results', async (test) =
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			test: 3,
 			timestamp: '2018-09-20T23:15:45.702Z'
@@ -1034,6 +1079,7 @@ ava.test('.query() should return the cards that match a schema', async (test) =>
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			email: 'johndoe@example.io'
 		}
@@ -1045,6 +1091,7 @@ ava.test('.query() should return the cards that match a schema', async (test) =>
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			email: 'johnsmith@example.io'
 		}
@@ -1095,6 +1142,7 @@ ava.test('.query() should take roles into account', async (test) => {
 		active: false,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			email: 'johndoe@example.io',
 			roles: [ 'foo' ]
@@ -1105,6 +1153,7 @@ ava.test('.query() should take roles into account', async (test) => {
 		type: 'session',
 		links: {},
 		tags: [],
+		markers: [],
 		active: true,
 		data: {
 			actor: actor.id
@@ -1117,6 +1166,7 @@ ava.test('.query() should take roles into account', async (test) => {
 		active: false,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			allOf: [
 				{
@@ -1178,6 +1228,7 @@ ava.test('.query() should ignore queries to properties not whitelisted by a role
 		active: false,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			email: 'johndoe@example.io',
 			roles: [ 'foo' ]
@@ -1188,6 +1239,7 @@ ava.test('.query() should ignore queries to properties not whitelisted by a role
 		type: 'session',
 		links: {},
 		tags: [],
+		markers: [],
 		active: true,
 		data: {
 			actor: actor.id
@@ -1200,6 +1252,7 @@ ava.test('.query() should ignore queries to properties not whitelisted by a role
 		active: false,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			allOf: [
 				{
@@ -1253,6 +1306,7 @@ ava.test('.query() should ignore queries to disallowed properties with additiona
 		active: false,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			email: 'johndoe@example.io',
 			roles: [ 'foo' ]
@@ -1263,6 +1317,7 @@ ava.test('.query() should ignore queries to disallowed properties with additiona
 		type: 'session',
 		links: {},
 		tags: [],
+		markers: [],
 		active: true,
 		data: {
 			actor: actor.id
@@ -1275,6 +1330,7 @@ ava.test('.query() should ignore queries to disallowed properties with additiona
 		active: false,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			allOf: [
 				{
@@ -1346,6 +1402,7 @@ ava.test('.query() should return all action request cards', async (test) => {
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			action: 'action-foo',
 			actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
@@ -1419,6 +1476,7 @@ ava.test('.query() should be able to return both action requests and other cards
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			action: 'action-foo',
 			actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
@@ -1436,6 +1494,7 @@ ava.test('.query() should be able to return both action requests and other cards
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			executed: false
 		}
@@ -1471,6 +1530,7 @@ ava.test('.query() should return inactive cards', async (test) => {
 		active: false,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			email: 'johnsmith@example.io',
 			roles: []
@@ -1499,6 +1559,7 @@ ava.test('.query() should take a view card with two filters', async (test) => {
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
 		tags: [ 'foo' ],
+		markers: [],
 		links: {},
 		active: true,
 		data: {
@@ -1509,6 +1570,7 @@ ava.test('.query() should take a view card with two filters', async (test) => {
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
 		tags: [],
+		markers: [],
 		links: {},
 		active: true,
 		data: {
@@ -1519,6 +1581,7 @@ ava.test('.query() should take a view card with two filters', async (test) => {
 	const results = await test.context.kernel.query(test.context.kernel.sessions.admin, {
 		type: 'view',
 		tags: [],
+		markers: [],
 		links: {},
 		active: true,
 		data: {
@@ -1852,6 +1915,7 @@ ava.test('.query() should be able to query using links', async (test) => {
 	const parent1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
 		tags: [],
+		markers: [],
 		links: {},
 		active: true,
 		data: {
@@ -1863,6 +1927,7 @@ ava.test('.query() should be able to query using links', async (test) => {
 	const parent2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
 		tags: [],
+		markers: [],
 		links: {},
 		active: true,
 		data: {
@@ -1874,6 +1939,7 @@ ava.test('.query() should be able to query using links', async (test) => {
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
 		tags: [],
+		markers: [],
 		links: {},
 		active: true,
 		data: {
@@ -2092,6 +2158,7 @@ ava.test('.query() should be able to query using links using the target property
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
 		tags: [],
+		markers: [],
 		links: {},
 		active: true,
 		data: {
@@ -2104,6 +2171,7 @@ ava.test('.query() should be able to query using links using the target property
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
 		tags: [],
+		markers: [],
 		links: {},
 		active: true,
 		data: {
@@ -2116,6 +2184,7 @@ ava.test('.query() should be able to query using links using the target property
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
 		tags: [],
+		markers: [],
 		links: {},
 		active: true,
 		data: {
@@ -2281,6 +2350,7 @@ ava.test.cb('.stream() should report back new elements that match a certain slug
 				slug: 'card-foo',
 				links: {},
 				tags: [],
+				markers: [],
 				active: true,
 				type: 'card',
 				data: {
@@ -2291,6 +2361,7 @@ ava.test.cb('.stream() should report back new elements that match a certain slug
 				slug: 'card-bar',
 				links: {},
 				tags: [],
+				markers: [],
 				active: true,
 				type: 'card',
 				data: {
@@ -2345,6 +2416,7 @@ ava.test.cb('.stream() should report back elements of a certain type', (test) =>
 				slug: 'card-foo',
 				links: {},
 				tags: [],
+				markers: [],
 				active: true,
 				type: 'card',
 				data: {
@@ -2355,6 +2427,7 @@ ava.test.cb('.stream() should report back elements of a certain type', (test) =>
 				slug: 'johndoe',
 				links: {},
 				tags: [],
+				markers: [],
 				active: true,
 				type: 'card',
 				data: {
@@ -2425,6 +2498,7 @@ ava.test.cb('.stream() should report back action requests', (test) => {
 				type: 'action-request',
 				links: {},
 				tags: [],
+				markers: [],
 				active: true,
 				data: {
 					action: 'action-delete-card',
@@ -2439,6 +2513,7 @@ ava.test.cb('.stream() should report back action requests', (test) => {
 				slug: 'johndoe',
 				links: {},
 				tags: [],
+				markers: [],
 				active: true,
 				type: 'card',
 				data: {
@@ -2506,6 +2581,7 @@ ava.test.cb('.stream() should report both action requests and other types', (tes
 			type: 'action-request',
 			links: {},
 			tags: [],
+			markers: [],
 			active: true,
 			data: {
 				action: 'action-delete-card',
@@ -2520,6 +2596,7 @@ ava.test.cb('.stream() should report both action requests and other types', (tes
 				type: 'card',
 				links: {},
 				tags: [],
+				markers: [],
 				active: true,
 				data: {
 					test: 1
@@ -2577,6 +2654,7 @@ ava.test.cb('.stream() should report back inactive elements', (test) => {
 			slug: 'card-bar',
 			links: {},
 			tags: [],
+			markers: [],
 			active: false,
 			type: 'card',
 			data: {

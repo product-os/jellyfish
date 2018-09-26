@@ -2,6 +2,7 @@
   "slug": "view-write-user-guest",
   "name": "Guest role write permissions",
   "type": "view",
+  "markers": [],
   "tags": [],
   "links": {},
   "active": true,

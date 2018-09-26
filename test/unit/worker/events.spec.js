@@ -258,6 +258,7 @@ ava.test('.getLastExecutionEvent() should return the last execution event given 
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			actor: '57692206-8da2-46e1-91c9-159b2c6928ef',
 			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
@@ -309,6 +310,7 @@ ava.test('.getLastExecutionEvent() should return the last event given a matching
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			actor: '57692206-8da2-46e1-91c9-159b2c6928ef',
 			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
@@ -360,6 +362,7 @@ ava.test('.getLastExecutionEvent() should return the last execution event given 
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			actor: '57692206-8da2-46e1-91c9-159b2c6928ef',
 			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
@@ -401,6 +404,7 @@ ava.test('.getLastExecutionEvent() should only consider execute cards', async (t
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			timestamp: '2018-06-30T19:34:42.829Z',
 			target: '57692206-8da2-46e1-91c9-159b2c6928ef',

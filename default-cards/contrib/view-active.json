@@ -2,6 +2,7 @@
   "slug": "view-active",
   "name": "Active cards",
   "type": "view",
+  "markers": [],
   "tags": [],
   "links": {},
   "active": true,

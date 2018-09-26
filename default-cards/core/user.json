@@ -2,6 +2,7 @@
   "slug": "user",
   "type": "type",
   "name": "Jellyfish User",
+  "markers": [],
   "tags": [],
   "links": {},
   "active": true,
@@ -9,6 +10,13 @@
     "schema": {
       "type": "object",
       "properties": {
+        "markers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-_/:+]+$"
+          }
+        },
         "slug": {
           "type": "string",
           "pattern": "^user-[a-z0-9-]+$"
