@@ -262,8 +262,9 @@ ava.test.serial('should allow team-admin users to update user\'s roles', async (
 	await page.click('.card-actions__btn--edit')
 
 	// Add a new element to the `roles` array
-	await page.waitForSelector('.field-array .rendition-form-array-item__add-item', WAIT_OPTS)
-	await page.click('.field-array .rendition-form-array-item__add-item')
+	await page.waitForSelector('.rendition-form__field--root_data_roles .rendition-form-array-item__add-item', WAIT_OPTS)
+	await Bluebird.delay(200)
+	await page.click('.rendition-form__field--root_data_roles .rendition-form-array-item__add-item')
 
 	await page.waitForSelector('#root_data_roles_1', WAIT_OPTS)
 
