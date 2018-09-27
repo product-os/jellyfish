@@ -56,6 +56,7 @@ DB_PORT=<database port>
 DB_USER=<database user as created before>
 DB_PASSWORD=<database user password>
 DB_CERT=<database SSL certificate>
+INTEGRATION_GITHUB_TOKEN=<github token>
 ```
 
 And then run:

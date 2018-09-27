@@ -95,7 +95,9 @@ build: build-ui
 		./node_modules/.bin/tsc --project ./lib/action-library
 
 start-server:
-	DEBUG=$(NODE_DEBUG) node lib/server/index.js
+	DEBUG=$(NODE_DEBUG) \
+	INTEGRATION_GITHUB_TOKEN=$(INTEGRATION_GITHUB_TOKEN) \
+	node lib/server/index.js
 
 start-db:
 	rethinkdb --driver-port $(DB_PORT)

@@ -1,0 +1,30 @@
+{
+  "slug": "action-integration-github-import-event",
+  "type": "action",
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "filter": {
+      "type": "object",
+      "required": [ "type", "data" ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "external-event"
+        },
+        "data": {
+          "type": "object",
+          "required": [ "source" ],
+          "properties": {
+            "source": {
+              "type": "string",
+              "const": "github"
+            }
+          }
+        }
+      }
+    },
+    "arguments": {}
+  }
+}
