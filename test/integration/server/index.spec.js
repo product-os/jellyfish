@@ -118,6 +118,109 @@ ava.test.afterEach(async (test) => {
 	await test.context.server.close()
 })
 
+ava.test.serial('Users should not be able to view other users passwords', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const targetUser = await sdk.auth.signup({
+		username: 'johndoe',
+		email: 'johndoe@example.com',
+		password: 'foobarbaz'
+	})
+
+	const activeUserDetails = {
+		username: 'secondary-user',
+		email: 'secondary-user@example.com',
+		password: 'foobarbaz'
+	}
+
+	await sdk.auth.signup(activeUserDetails)
+	await sdk.auth.login(activeUserDetails)
+
+	const fetchedUser = await sdk.card.get(targetUser.id)
+
+	test.is(fetchedUser.data.password, undefined)
+})
+
+ava.test.serial('Users with the role "team" should not be able to view other users passwords', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const targetUser = await sdk.auth.signup({
+		username: 'johndoe',
+		email: 'johndoe@example.com',
+		password: 'foobarbaz'
+	})
+
+	const activeUserDetails = {
+		username: 'team-user',
+		email: 'team-user@example.com',
+		password: 'foobarbaz'
+	}
+
+	const activeUser = await sdk.auth.signup(activeUserDetails)
+
+	// Update the role on the admin user
+	await test.context.server.jellyfish.insertCard(
+		test.context.session,
+		_.merge(activeUser, {
+			data: {
+				roles: [ 'user-team' ]
+			}
+		}),
+		{
+			override: true
+		}
+	)
+
+	await sdk.auth.login(activeUserDetails)
+
+	const fetchedUser = await sdk.card.get(targetUser.id)
+
+	test.is(fetchedUser.data.password, undefined)
+})
+
+ava.test.serial('Users with the role "team-admin" should not be able to view other users passwords', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const targetUser = await sdk.auth.signup({
+		username: 'johndoe',
+		email: 'johndoe@example.com',
+		password: 'foobarbaz'
+	})
+
+	const activeUserDetails = {
+		username: 'admin-user',
+		email: 'admin-user@example.com',
+		password: 'foobarbaz'
+	}
+
+	const activeUser = await sdk.auth.signup(activeUserDetails)
+
+	// Update the role on the admin user
+	await test.context.server.jellyfish.insertCard(
+		test.context.session,
+		_.merge(activeUser, {
+			data: {
+				roles: [ 'user-team-admin' ]
+			}
+		}),
+		{
+			override: true
+		}
+	)
+
+	await sdk.auth.login(activeUserDetails)
+
+	const fetchedUser = await sdk.card.get(targetUser.id)
+
+	test.is(fetchedUser.data.password, undefined)
+})
+
 ava.test.serial('.query() should only return the user itself for the guest user', async (test) => {
 	const results = await test.context.sdk.query({
 		type: 'object',
