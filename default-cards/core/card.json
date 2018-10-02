@@ -33,16 +33,7 @@
           }
         },
         "links": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "from": {
-              "type": "object"
-            },
-            "to": {
-              "type": "object"
-            }
-          }
+          "type": "object"
         },
         "active": {
           "type": "boolean"

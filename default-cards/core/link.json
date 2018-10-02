@@ -15,6 +15,11 @@
           "type": "string",
           "const": "link"
         },
+        "links": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
         "data": {
           "type": "object",
           "properties": {
@@ -33,7 +38,7 @@
           "required": [ "inverseName", "from", "to" ]
         }
       },
-      "required": [ "name", "type", "data" ]
+      "required": [ "name", "type", "links", "data" ]
     }
   }
 }

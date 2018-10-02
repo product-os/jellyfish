@@ -18,7 +18,7 @@
   "ava": {
     "timeout": "5m",
     "verbose": true,
-    "concurrency": 3,
+    "serial": true,
     "failFast": true,
     "files": [
       "test/unit/**/*.spec.js",
