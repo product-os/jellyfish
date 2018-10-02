@@ -134,6 +134,18 @@ ava.test('.insertElement() should insert an element with a non-existent id and s
 	test.deepEqual(element, result)
 })
 
+ava.test('.insertElement() should not be able to set any links', async (test) => {
+	const result = await test.context.backend.insertElement({
+		type: 'card',
+		links: {
+			foo: 'bar'
+		}
+	})
+
+	const element = await test.context.backend.getElementById(result.id)
+	test.deepEqual(element.links, {})
+})
+
 ava.test('.insertElement() should fail to insert an element with an existent id', async (test) => {
 	const result = await test.context.backend.insertElement({
 		foo: 'bar'
@@ -204,6 +216,58 @@ ava.test('.upsertElement() should create multiple elements given same content an
 	test.deepEqual(element1, result1)
 	test.deepEqual(element2, result2)
 	test.deepEqual(element3, result3)
+})
+
+ava.test('.upsertElement() should not be able to set links using an id', async (test) => {
+	const result = await test.context.backend.upsertElement({
+		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		links: {
+			foo: 'bar'
+		},
+		test: 'foo'
+	})
+
+	const element = await test.context.backend.getElementById(result.id)
+	test.deepEqual(element.links, {})
+})
+
+ava.test('.upsertElement() should not be able to set links using both an id and a slug', async (test) => {
+	const result = await test.context.backend.upsertElement({
+		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		slug: 'foo-bar',
+		links: {
+			foo: 'bar'
+		},
+		test: 'foo'
+	})
+
+	const element = await test.context.backend.getElementById(result.id)
+	test.deepEqual(element.links, {})
+})
+
+ava.test('.upsertElement() should not be able to set links using a slug', async (test) => {
+	const result = await test.context.backend.upsertElement({
+		slug: 'foo-bar',
+		links: {
+			foo: 'bar'
+		},
+		test: 'foo'
+	})
+
+	const element = await test.context.backend.getElementBySlug(result.slug)
+	test.deepEqual(element.links, {})
+})
+
+ava.test('.upsertElement() should not be able to set links using no id nor slug', async (test) => {
+	const result = await test.context.backend.upsertElement({
+		links: {
+			foo: 'bar'
+		},
+		test: 'foo'
+	})
+
+	const element = await test.context.backend.getElementById(result.id)
+	test.deepEqual(element.links, {})
 })
 
 ava.test('.upsertElement() should insert a card with an id', async (test) => {
