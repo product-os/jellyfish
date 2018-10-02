@@ -1,9 +1,19 @@
-.PHONY: lint build-ui dev-ui test build start-server start-db test-e2e
+.PHONY: lint \
+	build-ui \
+	dev-ui \
+	test \
+	build \
+	start-server \
+	start-db \
+	test-e2e \
+	test-unit \
+	test-integration
 
 API_URL ?= http://localhost:8000/
 DB_HOST ?= localhost
 DB_PORT ?= 28015
 NODE_DEBUG ?= 'jellyfish:*'
+COVERAGE ?= 1
 
 ifeq ($(FIX),)
 ESLINT_OPTION_FIX =
@@ -11,6 +21,12 @@ TSLINT_OPTION_FIX =
 else
 ESLINT_OPTION_FIX = --fix
 TSLINT_OPTION_FIX = --fix
+endif
+
+ifeq ($(COVERAGE),1)
+COVERAGE_COMMAND = ./node_modules/.bin/nyc --reporter=lcov
+else
+COVERAGE_COMMAND =
 endif
 
 lint:
@@ -29,16 +45,34 @@ dev-ui:
 
 test:
 	node scripts/scrub-test-databases.js
-	NODE_ENV=test DB_HOST=$(DB_HOST) DB_PORT=$(DB_PORT) API_URL=$(API_URL) \
-		./node_modules/.bin/nyc \
-			--reporter=lcov \
-			./node_modules/.bin/ava $(FILES)
+	NODE_ENV=test \
+	DB_HOST=$(DB_HOST) \
+	DB_PORT=$(DB_PORT) \
+	API_URL=$(API_URL) \
+	$(COVERAGE_COMMAND) ./node_modules/.bin/ava $(FILES)
+
+test-unit:
+	FILES=./test/unit/**/*.spec.js \
+		DB_HOST=$(DB_HOST) \
+		DB_PORT=$(DB_PORT) \
+		API_URL=$(API_URL) \
+		COVERAGE=$(COVERAGE) \
+		make test
+
+test-integration:
+	FILES=./test/integration/**/*.spec.js \
+		DB_HOST=$(DB_HOST) \
+		DB_PORT=$(DB_PORT) \
+		API_URL=$(API_URL) \
+		COVERAGE=$(COVERAGE) \
+		make test
 
 test-unit-%:
 	FILES=./test/unit/$(subst test-unit-,,$@)/**/*.spec.js \
 		DB_HOST=$(DB_HOST) \
 		DB_PORT=$(DB_PORT) \
 		API_URL=$(API_URL) \
+		COVERAGE=$(COVERAGE) \
 		make test
 
 test-integration-%:
@@ -46,6 +80,7 @@ test-integration-%:
 		DB_HOST=$(DB_HOST) \
 		DB_PORT=$(DB_PORT) \
 		API_URL=$(API_URL) \
+		COVERAGE=$(COVERAGE) \
 		make test
 
 test-e2e:

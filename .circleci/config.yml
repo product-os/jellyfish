@@ -31,7 +31,9 @@ jobs:
           key: v2-dependencies-{{ checksum "package.json" }}
 
       - run: rethinkdb --daemon --bind all
-      - run: npm test
+      - run: make lint
+      - run: make test-unit COVERAGE=0
+      - run: make test-integration COVERAGE=0
 
       # Stress Testing
       - run:
