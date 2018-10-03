@@ -31,7 +31,7 @@ exports.backend = {
 		await test.context.backend.connect()
 	},
 	afterEach: async (test) => {
-		await test.context.backend.disconnect()
+		await test.context.backend.destroy()
 	}
 }
 
@@ -43,8 +43,8 @@ exports.kernel = {
 		await test.context.kernel.initialize()
 	},
 	afterEach: async (test) => {
-		await exports.backend.afterEach(test)
 		await test.context.kernel.disconnect()
+		await exports.backend.afterEach(test)
 	}
 }
 

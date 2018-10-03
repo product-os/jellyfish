@@ -50,7 +50,7 @@ exports.jellyfish = {
 	},
 
 	afterEach: async (test) => {
-		await test.context.jellyfish.disconnect()
+		await helpers.jellyfish.afterEach(test)
 	}
 }
 
