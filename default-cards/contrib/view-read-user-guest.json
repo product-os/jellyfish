@@ -32,6 +32,7 @@
               "anyOf": [
                 { "const": "action-request" },
                 { "const": "execute" },
+                { "const": "link" },
                 { "const": "user" },
                 { "const": "card" },
                 { "const": "action" },
@@ -90,6 +91,24 @@
             }
           },
           "required": [ "id", "type", "data" ]
+        }
+      },
+      {
+        "name": "Links",
+        "schema": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "link"
+            },
+            "data": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "required": [ "type", "data" ]
         }
       },
       {
