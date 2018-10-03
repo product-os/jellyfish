@@ -125,6 +125,128 @@ ava.test('.insertCard() should replace an element given override is true', async
 	test.deepEqual(element, card2)
 })
 
+ava.test('.insertCard() should be able to create a link between two valid cards', async (test) => {
+	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'foo-bar',
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {}
+	})
+
+	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'bar-baz',
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {}
+	})
+
+	const linkCard = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'link',
+		name: 'is attached to',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			inverseName: 'has attached element',
+			from: card1.id,
+			to: card2.id
+		}
+	})
+
+	const element = await test.context.kernel.getCardById(test.context.kernel.sessions.admin, linkCard.id)
+	test.not(element.data.from, element.data.to)
+})
+
+ava.test('.insertCard() should be able to create a direction-less link between two valid cards', async (test) => {
+	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'foo-bar',
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {}
+	})
+
+	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'bar-baz',
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {}
+	})
+
+	const linkCard = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'link',
+		name: 'is linked to',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			inverseName: 'is linked to',
+			from: card1.id,
+			to: card2.id
+		}
+	})
+
+	const element = await test.context.kernel.getCardById(test.context.kernel.sessions.admin, linkCard.id)
+	test.not(element.data.from, element.data.to)
+	test.is(element.name, element.data.inverseName)
+})
+
+ava.test('.insertCard() should be able to create two different links between two valid cards', async (test) => {
+	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'foo-bar',
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {}
+	})
+
+	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'bar-baz',
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {}
+	})
+
+	const linkCard1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'link',
+		name: 'is linked to',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			inverseName: 'has been linked to',
+			from: card1.id,
+			to: card2.id
+		}
+	})
+
+	const linkCard2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'link',
+		name: 'is attached to',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			inverseName: 'has attached element',
+			from: card1.id,
+			to: card2.id
+		}
+	})
+
+	test.is(linkCard1.data.from, linkCard2.data.from)
+	test.is(linkCard1.data.to, linkCard2.data.to)
+})
+
 ava.test('.insertCard() read access on a property should not allow to write other properties', async (test) => {
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'view-read-user-johndoe',
