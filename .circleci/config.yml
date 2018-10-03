@@ -22,8 +22,10 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v2-dependencies-
 
+      - run: npm install -g npm@5.7.0
+
       # --unsafe-perm flag allows the postinstall script to run correctly
-      - run: npm ci --unsafe-perm
+      - run: npm ci --unsafe-perm --loglevel silly
 
       - save_cache:
           paths:
@@ -44,7 +46,7 @@ jobs:
           command: node stress/core/insert-parallel.js
       - run:
           name: Previous Commit
-          command: git checkout HEAD~1 && npm ci
+          command: git checkout HEAD~1 && npm ci --loglevel silly
       - run:
           name: Serial Core Inserts (previous)
           command: node stress/core/insert-serial.js
