@@ -120,6 +120,7 @@
                 { "const": "action-request" },
                 { "const": "execute" },
                 { "const": "user" },
+                { "const": "link" },
                 { "const": "create" },
                 { "const": "update" },
                 { "const": "session" }
@@ -136,6 +137,24 @@
           },
           "additionalProperties": true,
           "required": [ "slug", "type", "data" ]
+        }
+      },
+      {
+        "name": "Links",
+        "schema": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "link"
+            },
+            "data": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "required": [ "type", "data" ]
         }
       },
       {

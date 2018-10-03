@@ -65,6 +65,24 @@
         }
       },
       {
+        "name": "Links",
+        "schema": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "link"
+            },
+            "data": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "required": [ "type", "data" ]
+        }
+      },
+      {
         "name": "My Action Executions",
         "schema": {
           "type": "object",

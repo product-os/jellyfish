@@ -247,6 +247,234 @@ ava.test('.insertCard() should be able to create two different links between two
 	test.is(linkCard1.data.to, linkCard2.data.to)
 })
 
+ava.test('.insertCard() should not add a link if not inserting a card with a target', async (test) => {
+	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {}
+	})
+
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			foo: card1.id
+		}
+	})
+
+	const results = await test.context.kernel.query(test.context.kernel.sessions.admin, {
+		type: 'object',
+		required: [ 'type' ],
+		additionalProperties: true,
+		properties: {
+			type: {
+				type: 'string',
+				const: 'link'
+			}
+		}
+	})
+
+	test.deepEqual(results, [])
+})
+
+ava.test('.insertCard() should add a link if inserting a card with a target for the first time', async (test) => {
+	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {}
+	})
+
+	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			target: card1.id
+		}
+	})
+
+	const results = await test.context.kernel.query(test.context.kernel.sessions.admin, {
+		type: 'object',
+		required: [ 'type' ],
+		additionalProperties: true,
+		properties: {
+			type: {
+				type: 'string',
+				const: 'link'
+			}
+		}
+	})
+
+	test.deepEqual(results, [
+		{
+			id: results[0].id,
+			slug: results[0].slug,
+			type: 'link',
+			name: 'is attached to',
+			active: true,
+			links: {},
+			tags: [],
+			data: {
+				inverseName: 'has attached element',
+				from: card2.id,
+				to: card1.id
+			}
+		}
+	])
+})
+
+ava.test('.insertCard() should not add the target link more than once if multiple equal insertions', async (test) => {
+	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {}
+	})
+
+	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			target: card1.id
+		}
+	})
+
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		id: card2.id,
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			target: card1.id
+		}
+	}, {
+		override: true
+	})
+
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		id: card2.id,
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			target: card1.id
+		}
+	}, {
+		override: true
+	})
+
+	const results = await test.context.kernel.query(test.context.kernel.sessions.admin, {
+		type: 'object',
+		required: [ 'type' ],
+		additionalProperties: true,
+		properties: {
+			type: {
+				type: 'string',
+				const: 'link'
+			}
+		}
+	})
+
+	test.deepEqual(results, [
+		{
+			id: results[0].id,
+			slug: results[0].slug,
+			type: 'link',
+			name: 'is attached to',
+			active: true,
+			links: {},
+			tags: [],
+			data: {
+				inverseName: 'has attached element',
+				from: card2.id,
+				to: card1.id
+			}
+		}
+	])
+})
+
+ava.test('.insertCard() should update the link if the target changes', async (test) => {
+	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {}
+	})
+
+	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {}
+	})
+
+	const card3 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			target: card1.id
+		}
+	})
+
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		id: card3.id,
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			target: card2.id
+		}
+	}, {
+		override: true
+	})
+
+	const results = await test.context.kernel.query(test.context.kernel.sessions.admin, {
+		type: 'object',
+		required: [ 'type' ],
+		additionalProperties: true,
+		properties: {
+			type: {
+				type: 'string',
+				const: 'link'
+			}
+		}
+	})
+
+	test.deepEqual(results, [
+		{
+			id: results[0].id,
+			slug: results[0].slug,
+			type: 'link',
+			name: 'is attached to',
+			active: true,
+			links: {},
+			tags: [],
+			data: {
+				inverseName: 'has attached element',
+				from: card3.id,
+				to: card2.id
+			}
+		}
+	])
+})
+
 ava.test('.insertCard() read access on a property should not allow to write other properties', async (test) => {
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'view-read-user-johndoe',
