@@ -877,7 +877,7 @@ ava.test('.query() should be able to query using links', async (test) => {
 		}
 	})
 
-	await test.context.backend.upsertElement({
+	const link1 = await test.context.backend.upsertElement({
 		type: 'link',
 		active: true,
 		name: 'is attached to',
@@ -897,7 +897,7 @@ ava.test('.query() should be able to query using links', async (test) => {
 		}
 	})
 
-	await test.context.backend.upsertElement({
+	const link2 = await test.context.backend.upsertElement({
 		type: 'link',
 		active: true,
 		name: 'is attached to',
@@ -917,7 +917,7 @@ ava.test('.query() should be able to query using links', async (test) => {
 		}
 	})
 
-	await test.context.backend.upsertElement({
+	const link3 = await test.context.backend.upsertElement({
 		type: 'link',
 		active: true,
 		name: 'is attached to',
@@ -978,6 +978,7 @@ ava.test('.query() should be able to query using links', async (test) => {
 				'is attached to': [
 					{
 						id: thread1.id,
+						$link: link1.id,
 						type: 'thread'
 					}
 				]
@@ -993,6 +994,7 @@ ava.test('.query() should be able to query using links', async (test) => {
 				'is attached to': [
 					{
 						id: thread1.id,
+						$link: link2.id,
 						type: 'thread'
 					}
 				]
@@ -1008,6 +1010,7 @@ ava.test('.query() should be able to query using links', async (test) => {
 				'is attached to': [
 					{
 						id: thread2.id,
+						$link: link3.id,
 						type: 'thread'
 					}
 				]
@@ -1041,7 +1044,7 @@ ava.test('.query() should omit a result if a link does not match', async (test) 
 		}
 	})
 
-	await test.context.backend.upsertElement({
+	const link1 = await test.context.backend.upsertElement({
 		type: 'link',
 		active: true,
 		name: 'is attached to',
@@ -1116,6 +1119,7 @@ ava.test('.query() should omit a result if a link does not match', async (test) 
 			links: {
 				'is attached to': [
 					{
+						$link: link1.id,
 						id: thread.id,
 						type: 'thread'
 					}

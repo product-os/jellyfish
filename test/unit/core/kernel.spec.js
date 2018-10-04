@@ -1630,7 +1630,7 @@ ava.test('.query() should not consider active links to inactive cards', async (t
 		}
 	})
 
-	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const link2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'link',
 		tags: [],
 		links: {},
@@ -1696,6 +1696,7 @@ ava.test('.query() should not consider active links to inactive cards', async (t
 				'is attached to': [
 					{
 						id: parent2.id,
+						$link: link2.id,
 						data: {
 							thread: true
 						}
@@ -1767,7 +1768,7 @@ ava.test('.query() should not consider inactive links', async (test) => {
 		}
 	})
 
-	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const link2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'link',
 		tags: [],
 		links: {},
@@ -1833,6 +1834,7 @@ ava.test('.query() should not consider inactive links', async (test) => {
 				'is attached to': [
 					{
 						id: parent2.id,
+						$link: link2.id,
 						data: {
 							thread: true
 						}
@@ -1891,7 +1893,7 @@ ava.test('.query() should be able to query using links', async (test) => {
 		}
 	})
 
-	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const link1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'link',
 		tags: [],
 		links: {},
@@ -1915,7 +1917,7 @@ ava.test('.query() should be able to query using links', async (test) => {
 		}
 	})
 
-	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const link2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'link',
 		tags: [],
 		links: {},
@@ -1939,7 +1941,7 @@ ava.test('.query() should be able to query using links', async (test) => {
 		}
 	})
 
-	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const link3 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'link',
 		tags: [],
 		links: {},
@@ -2005,6 +2007,7 @@ ava.test('.query() should be able to query using links', async (test) => {
 				'is attached to': [
 					{
 						id: parent1.id,
+						$link: link1.id,
 						data: {
 							thread: true
 						}
@@ -2021,6 +2024,7 @@ ava.test('.query() should be able to query using links', async (test) => {
 				'is attached to': [
 					{
 						id: parent1.id,
+						$link: link2.id,
 						data: {
 							thread: true
 						}
@@ -2037,6 +2041,7 @@ ava.test('.query() should be able to query using links', async (test) => {
 				'is attached to': [
 					{
 						id: parent2.id,
+						$link: link3.id,
 						data: {
 							thread: true
 						}
@@ -2173,6 +2178,7 @@ ava.test('.query() should be able to query using links using the target property
 				'is attached to': [
 					{
 						id: parent1.id,
+						$link: results[0].links['is attached to'][0].$link,
 						data: {
 							thread: true
 						}
@@ -2189,6 +2195,7 @@ ava.test('.query() should be able to query using links using the target property
 				'is attached to': [
 					{
 						id: parent1.id,
+						$link: results[1].links['is attached to'][0].$link,
 						data: {
 							thread: true
 						}
@@ -2205,6 +2212,7 @@ ava.test('.query() should be able to query using links using the target property
 				'is attached to': [
 					{
 						id: parent2.id,
+						$link: results[2].links['is attached to'][0].$link,
 						data: {
 							thread: true
 						}
