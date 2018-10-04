@@ -852,43 +852,79 @@ ava.test('.query() should be able to limit and skip the results', async (test) =
 ava.test('.query() should be able to query using links', async (test) => {
 	const thread1 = await test.context.backend.upsertElement({
 		type: 'thread',
+		active: true,
 		data: {}
 	})
 
 	const thread2 = await test.context.backend.upsertElement({
 		type: 'thread',
+		active: true,
 		data: {}
 	})
 
 	await test.context.backend.upsertElement({
 		type: 'thread',
+		active: true,
 		data: {}
 	})
 
-	await test.context.backend.upsertElement({
+	const card1 = await test.context.backend.upsertElement({
 		type: 'message',
+		active: true,
 		data: {
 			payload: 'foo',
-			target: thread1.id,
 			count: 1
 		}
 	})
 
 	await test.context.backend.upsertElement({
+		type: 'link',
+		active: true,
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: card1.id,
+			to: thread1.id
+		}
+	})
+
+	const card2 = await test.context.backend.upsertElement({
 		type: 'message',
+		active: true,
 		data: {
 			payload: 'bar',
-			target: thread1.id,
 			count: 2
 		}
 	})
 
 	await test.context.backend.upsertElement({
+		type: 'link',
+		active: true,
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: card2.id,
+			to: thread1.id
+		}
+	})
+
+	const card3 = await test.context.backend.upsertElement({
 		type: 'message',
+		active: true,
 		data: {
 			payload: 'baz',
-			target: thread2.id,
 			count: 3
+		}
+	})
+
+	await test.context.backend.upsertElement({
+		type: 'link',
+		active: true,
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: card3.id,
+			to: thread2.id
 		}
 	})
 
@@ -987,27 +1023,51 @@ ava.test('.query() should be able to query using links', async (test) => {
 ava.test('.query() should omit a result if a link does not match', async (test) => {
 	const thread = await test.context.backend.upsertElement({
 		type: 'thread',
+		active: true,
 		data: {}
 	})
 
 	const foo = await test.context.backend.upsertElement({
 		type: 'foo',
+		active: true,
 		data: {}
 	})
 
-	await test.context.backend.upsertElement({
+	const card1 = await test.context.backend.upsertElement({
 		type: 'message',
+		active: true,
 		data: {
-			payload: 'foo',
-			target: thread.id
+			payload: 'foo'
 		}
 	})
 
 	await test.context.backend.upsertElement({
-		type: 'message',
+		type: 'link',
+		active: true,
+		name: 'is attached to',
 		data: {
-			payload: 'bar',
-			target: foo.id
+			inverseName: 'has attached element',
+			from: card1.id,
+			to: thread.id
+		}
+	})
+
+	const card2 = await test.context.backend.upsertElement({
+		type: 'message',
+		active: true,
+		data: {
+			payload: 'bar'
+		}
+	})
+
+	await test.context.backend.upsertElement({
+		type: 'link',
+		active: true,
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: card2.id,
+			to: foo.id
 		}
 	})
 

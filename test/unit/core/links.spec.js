@@ -17,7 +17,6 @@
 const ava = require('ava')
 const _ = require('lodash')
 const links = require('../../../lib/core/links')
-const errors = require('../../../lib/core/errors')
 const helpers = require('./helpers')
 
 ava.test.beforeEach(async (test) => {
@@ -29,7 +28,7 @@ ava.test.beforeEach(async (test) => {
 
 ava.test.afterEach(helpers.kernel.afterEach)
 
-ava.test('.evaluate() should throw an error if the link is unknown', async (test) => {
+ava.test('.evaluate() should return an empty array if the link is unknown', async (test) => {
 	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
 		active: true,
@@ -38,9 +37,11 @@ ava.test('.evaluate() should throw an error if the link is unknown', async (test
 		data: {}
 	})
 
-	await test.throws(links.evaluate(test.context.context, input, 'foo bar baz', {
+	const results = await links.evaluate(test.context.context, input, 'foo bar baz', {
 		type: 'object'
-	}), errors.JellyfishUnknownLinkType)
+	})
+
+	test.deepEqual(results, [])
 })
 
 ava.test('.evaluate(is attached to) should return an empty array if the target does not exist', async (test) => {
@@ -294,8 +295,7 @@ ava.test('.evaluate(has attached element) should return matching elements', asyn
 		{
 			id: card2.id,
 			data: {
-				count: 2,
-				target: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
+				count: 2
 			}
 		}
 	])
@@ -427,22 +427,19 @@ ava.test('.evaluateCard() should return multiple cards per link', async (test) =
 			{
 				id: card1.id,
 				data: {
-					count: 1,
-					target: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
+					count: 1
 				}
 			},
 			{
 				id: card2.id,
 				data: {
-					count: 2,
-					target: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
+					count: 2
 				}
 			},
 			{
 				id: card3.id,
 				data: {
-					count: 3,
-					target: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
+					count: 3
 				}
 			}
 		]

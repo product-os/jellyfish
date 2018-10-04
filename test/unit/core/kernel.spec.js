@@ -1572,7 +1572,485 @@ ava.test('.query() should take a view card with two filters', async (test) => {
 	])
 })
 
+ava.test('.query() should not consider active links to inactive cards', async (test) => {
+	const parent1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'card',
+		tags: [],
+		links: {},
+		active: false,
+		data: {
+			thread: true,
+			number: 1
+		}
+	})
+
+	const parent2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'card',
+		tags: [],
+		links: {},
+		active: true,
+		data: {
+			thread: true,
+			number: 2
+		}
+	})
+
+	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'card',
+		tags: [],
+		links: {},
+		active: true,
+		data: {
+			thread: false,
+			count: 1
+		}
+	})
+
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'link',
+		tags: [],
+		links: {},
+		active: true,
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: card1.id,
+			to: parent1.id
+		}
+	})
+
+	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'card',
+		tags: [],
+		links: {},
+		active: true,
+		data: {
+			thread: false,
+			count: 2
+		}
+	})
+
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'link',
+		tags: [],
+		links: {},
+		active: true,
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: card2.id,
+			to: parent2.id
+		}
+	})
+
+	const results = await test.context.kernel.query(test.context.kernel.sessions.admin, {
+		type: 'object',
+		required: [ 'type', 'links', 'data' ],
+		$$sort: 'input.a.data.count < input.b.data.count',
+		$$links: {
+			'is attached to': {
+				type: 'object',
+				required: [ 'id', 'data' ],
+				properties: {
+					id: {
+						type: 'string'
+					},
+					data: {
+						type: 'object',
+						required: [ 'thread' ],
+						properties: {
+							thread: {
+								type: 'boolean',
+								const: true
+							}
+						}
+					}
+				}
+			}
+		},
+		properties: {
+			type: {
+				type: 'string',
+				const: 'card'
+			},
+			links: {
+				type: 'object',
+				additionalProperties: true
+			},
+			data: {
+				type: 'object',
+				required: [ 'count' ],
+				properties: {
+					count: {
+						type: 'number'
+					}
+				}
+			}
+		}
+	})
+
+	test.deepEqual(results, [
+		{
+			type: 'card',
+			links: {
+				'is attached to': [
+					{
+						id: parent2.id,
+						data: {
+							thread: true
+						}
+					}
+				]
+			},
+			data: {
+				count: 2
+			}
+		}
+	])
+})
+
+ava.test('.query() should not consider inactive links', async (test) => {
+	const parent1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'card',
+		tags: [],
+		links: {},
+		active: true,
+		data: {
+			thread: true,
+			number: 1
+		}
+	})
+
+	const parent2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'card',
+		tags: [],
+		links: {},
+		active: true,
+		data: {
+			thread: true,
+			number: 2
+		}
+	})
+
+	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'card',
+		tags: [],
+		links: {},
+		active: true,
+		data: {
+			thread: false,
+			count: 1
+		}
+	})
+
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'link',
+		tags: [],
+		links: {},
+		active: false,
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: card1.id,
+			to: parent1.id
+		}
+	})
+
+	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'card',
+		tags: [],
+		links: {},
+		active: true,
+		data: {
+			thread: false,
+			count: 2
+		}
+	})
+
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'link',
+		tags: [],
+		links: {},
+		active: true,
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: card2.id,
+			to: parent2.id
+		}
+	})
+
+	const results = await test.context.kernel.query(test.context.kernel.sessions.admin, {
+		type: 'object',
+		required: [ 'type', 'links', 'data' ],
+		$$sort: 'input.a.data.count < input.b.data.count',
+		$$links: {
+			'is attached to': {
+				type: 'object',
+				required: [ 'id', 'data' ],
+				properties: {
+					id: {
+						type: 'string'
+					},
+					data: {
+						type: 'object',
+						required: [ 'thread' ],
+						properties: {
+							thread: {
+								type: 'boolean',
+								const: true
+							}
+						}
+					}
+				}
+			}
+		},
+		properties: {
+			type: {
+				type: 'string',
+				const: 'card'
+			},
+			links: {
+				type: 'object',
+				additionalProperties: true
+			},
+			data: {
+				type: 'object',
+				required: [ 'count' ],
+				properties: {
+					count: {
+						type: 'number'
+					}
+				}
+			}
+		}
+	})
+
+	test.deepEqual(results, [
+		{
+			type: 'card',
+			links: {
+				'is attached to': [
+					{
+						id: parent2.id,
+						data: {
+							thread: true
+						}
+					}
+				]
+			},
+			data: {
+				count: 2
+			}
+		}
+	])
+})
+
 ava.test('.query() should be able to query using links', async (test) => {
+	const parent1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'card',
+		tags: [],
+		links: {},
+		active: true,
+		data: {
+			thread: true,
+			number: 1
+		}
+	})
+
+	const parent2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'card',
+		tags: [],
+		links: {},
+		active: true,
+		data: {
+			thread: true,
+			number: 2
+		}
+	})
+
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'card',
+		tags: [],
+		links: {},
+		active: true,
+		data: {
+			thread: true,
+			number: 3
+		}
+	})
+
+	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'card',
+		tags: [],
+		links: {},
+		active: true,
+		data: {
+			thread: false,
+			count: 1
+		}
+	})
+
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'link',
+		tags: [],
+		links: {},
+		active: true,
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: card1.id,
+			to: parent1.id
+		}
+	})
+
+	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'card',
+		tags: [],
+		links: {},
+		active: true,
+		data: {
+			thread: false,
+			count: 2
+		}
+	})
+
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'link',
+		tags: [],
+		links: {},
+		active: true,
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: card2.id,
+			to: parent1.id
+		}
+	})
+
+	const card3 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'card',
+		tags: [],
+		links: {},
+		active: true,
+		data: {
+			thread: false,
+			count: 3
+		}
+	})
+
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'link',
+		tags: [],
+		links: {},
+		active: true,
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: card3.id,
+			to: parent2.id
+		}
+	})
+
+	const results = await test.context.kernel.query(test.context.kernel.sessions.admin, {
+		type: 'object',
+		required: [ 'type', 'links', 'data' ],
+		$$sort: 'input.a.data.count < input.b.data.count',
+		$$links: {
+			'is attached to': {
+				type: 'object',
+				required: [ 'id', 'data' ],
+				properties: {
+					id: {
+						type: 'string'
+					},
+					data: {
+						type: 'object',
+						required: [ 'thread' ],
+						properties: {
+							thread: {
+								type: 'boolean',
+								const: true
+							}
+						}
+					}
+				}
+			}
+		},
+		properties: {
+			type: {
+				type: 'string',
+				const: 'card'
+			},
+			links: {
+				type: 'object',
+				additionalProperties: true
+			},
+			data: {
+				type: 'object',
+				required: [ 'count' ],
+				properties: {
+					count: {
+						type: 'number'
+					}
+				}
+			}
+		}
+	})
+
+	test.deepEqual(results, [
+		{
+			type: 'card',
+			links: {
+				'is attached to': [
+					{
+						id: parent1.id,
+						data: {
+							thread: true
+						}
+					}
+				]
+			},
+			data: {
+				count: 1
+			}
+		},
+		{
+			type: 'card',
+			links: {
+				'is attached to': [
+					{
+						id: parent1.id,
+						data: {
+							thread: true
+						}
+					}
+				]
+			},
+			data: {
+				count: 2
+			}
+		},
+		{
+			type: 'card',
+			links: {
+				'is attached to': [
+					{
+						id: parent2.id,
+						data: {
+							thread: true
+						}
+					}
+				]
+			},
+			data: {
+				count: 3
+			}
+		}
+	])
+})
+
+ava.test('.query() should be able to query using links using the target property', async (test) => {
 	const parent1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
 		tags: [],
