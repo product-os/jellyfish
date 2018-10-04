@@ -748,7 +748,7 @@ ava.test.serial('should add and evaluate a time triggered action', async (test) 
 			return results
 		}
 
-		if (times > 50) {
+		if (times > 100) {
 			throw new Error(`Did not get ${length} results in time`)
 		}
 
