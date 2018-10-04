@@ -1,0 +1,46 @@
+{
+  "head": {
+    "name": "Issue with assignee",
+    "type": "issue",
+    "active": true,
+    "tags": [],
+    "links": {},
+    "data": {
+      "mirrors": [
+        "https://github.com/resin-io/jellyfish/issues/707"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "Hello",
+      "status": "open",
+      "archived": false
+    }
+  },
+  "tail": [
+    {
+      "type": "create",
+      "active": true,
+      "tags": [],
+      "links": {},
+      "data": {
+        "timestamp": "2018-09-20T18:03:27Z",
+        "payload": {
+          "name": "Issue with assignee",
+          "active": true,
+          "tags": [],
+          "links": {},
+          "data": {
+            "mirrors": [
+              "https://github.com/resin-io/jellyfish/issues/707"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "Hello",
+            "status": "open",
+            "archived": false
+          }
+        }
+      }
+    }
+  ]
+}
