@@ -662,3 +662,619 @@ ava.test('.evaluateCard() should return false if one link is unsatisfied', async
 
 	test.deepEqual(results, null)
 })
+
+ava.test('.parseCard() should parse a "from" card', (test) => {
+	const result = links.parseCard({
+		type: 'link',
+		active: true,
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			to: '87ca429f-5e46-419a-8f21-b43f68f23001'
+		}
+	}, {
+		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {}
+	})
+
+	test.deepEqual(result, {
+		name: 'is attached to',
+		id: '87ca429f-5e46-419a-8f21-b43f68f23001'
+	})
+})
+
+ava.test('.parseCard() should parse a "to" card', (test) => {
+	const result = links.parseCard({
+		type: 'link',
+		active: true,
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			to: '87ca429f-5e46-419a-8f21-b43f68f23001'
+		}
+	}, {
+		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {}
+	})
+
+	test.deepEqual(result, {
+		name: 'has attached element',
+		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
+	})
+})
+
+ava.test('.parseCard() should return null given an irrelevant card', (test) => {
+	const result = links.parseCard({
+		type: 'link',
+		active: true,
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			to: '87ca429f-5e46-419a-8f21-b43f68f23001'
+		}
+	}, {
+		id: 'd7ee04d7-e727-444a-b120-c56c03d81f7b',
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {}
+	})
+
+	test.deepEqual(result, null)
+})
+
+ava.test('.addLink() should add a link given a "from" card without any links', (test) => {
+	const card = links.addLink({
+		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
+		type: 'link',
+		active: true,
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			to: '87ca429f-5e46-419a-8f21-b43f68f23001'
+		}
+	}, {
+		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {}
+	})
+
+	test.deepEqual(card, {
+		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		type: 'card',
+		active: true,
+		links: {
+			'is attached to': [
+				{
+					$link: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
+					id: '87ca429f-5e46-419a-8f21-b43f68f23001'
+				}
+			]
+		},
+		tags: [],
+		data: {}
+	})
+})
+
+ava.test('.addLink() should add a link given a "from" card without the existing link', (test) => {
+	const card = links.addLink({
+		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
+		type: 'link',
+		active: true,
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			to: '87ca429f-5e46-419a-8f21-b43f68f23001'
+		}
+	}, {
+		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		type: 'card',
+		active: true,
+		links: {
+			'is attached to': [
+				{
+					$link: '9cf07e16-681f-4195-83a4-afa1937b05df',
+					id: '2bb5f628-1adf-4d48-96c4-90f7ebf7abdc'
+				}
+			]
+		},
+		tags: [],
+		data: {}
+	})
+
+	test.deepEqual(card, {
+		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		type: 'card',
+		active: true,
+		links: {
+			'is attached to': [
+				{
+					$link: '9cf07e16-681f-4195-83a4-afa1937b05df',
+					id: '2bb5f628-1adf-4d48-96c4-90f7ebf7abdc'
+				},
+				{
+					$link: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
+					id: '87ca429f-5e46-419a-8f21-b43f68f23001'
+				}
+			]
+		},
+		tags: [],
+		data: {}
+	})
+})
+
+ava.test('.addLink() should add a link given a "from" card with the existing link', (test) => {
+	const card = links.addLink({
+		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
+		type: 'link',
+		active: true,
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			to: '87ca429f-5e46-419a-8f21-b43f68f23001'
+		}
+	}, {
+		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		type: 'card',
+		active: true,
+		links: {
+			'is attached to': [
+				{
+					$link: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
+					id: '2bb5f628-1adf-4d48-96c4-90f7ebf7abdc'
+				}
+			]
+		},
+		tags: [],
+		data: {}
+	})
+
+	test.deepEqual(card, {
+		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		type: 'card',
+		active: true,
+		links: {
+			'is attached to': [
+				{
+					$link: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
+					id: '87ca429f-5e46-419a-8f21-b43f68f23001'
+				}
+			]
+		},
+		tags: [],
+		data: {}
+	})
+})
+
+ava.test('.addLink() should add a link given a "to" card without any links', (test) => {
+	const card = links.addLink({
+		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
+		type: 'link',
+		active: true,
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			to: '87ca429f-5e46-419a-8f21-b43f68f23001'
+		}
+	}, {
+		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {}
+	})
+
+	test.deepEqual(card, {
+		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+		type: 'card',
+		active: true,
+		links: {
+			'has attached element': [
+				{
+					$link: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
+					id: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
+				}
+			]
+		},
+		tags: [],
+		data: {}
+	})
+})
+
+ava.test('.addLink() should add a link given a "to" card without the existing link', (test) => {
+	const card = links.addLink({
+		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
+		type: 'link',
+		active: true,
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			to: '87ca429f-5e46-419a-8f21-b43f68f23001'
+		}
+	}, {
+		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+		type: 'card',
+		active: true,
+		links: {
+			'has attached element': [
+				{
+					$link: '9cf07e16-681f-4195-83a4-afa1937b05df',
+					id: '2bb5f628-1adf-4d48-96c4-90f7ebf7abdc'
+				}
+			]
+		},
+		tags: [],
+		data: {}
+	})
+
+	test.deepEqual(card, {
+		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+		type: 'card',
+		active: true,
+		links: {
+			'has attached element': [
+				{
+					$link: '9cf07e16-681f-4195-83a4-afa1937b05df',
+					id: '2bb5f628-1adf-4d48-96c4-90f7ebf7abdc'
+				},
+				{
+					$link: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
+					id: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
+				}
+			]
+		},
+		tags: [],
+		data: {}
+	})
+})
+
+ava.test('.addLink() should add a link given a "to" card with the existing link', (test) => {
+	const card = links.addLink({
+		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
+		type: 'link',
+		active: true,
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			to: '87ca429f-5e46-419a-8f21-b43f68f23001'
+		}
+	}, {
+		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+		type: 'card',
+		active: true,
+		links: {
+			'has attached element': [
+				{
+					$link: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
+					id: '2bb5f628-1adf-4d48-96c4-90f7ebf7abdc'
+				}
+			]
+		},
+		tags: [],
+		data: {}
+	})
+
+	test.deepEqual(card, {
+		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+		type: 'card',
+		active: true,
+		links: {
+			'has attached element': [
+				{
+					$link: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
+					id: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
+				}
+			]
+		},
+		tags: [],
+		data: {}
+	})
+})
+
+ava.test('.addLink() should add a link given an irrelevant card', (test) => {
+	const card = links.addLink({
+		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
+		type: 'link',
+		active: true,
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			to: '87ca429f-5e46-419a-8f21-b43f68f23001'
+		}
+	}, {
+		id: 'd7ee04d7-e727-444a-b120-c56c03d81f7b',
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {}
+	})
+
+	test.deepEqual(card, {
+		id: 'd7ee04d7-e727-444a-b120-c56c03d81f7b',
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {}
+	})
+})
+
+ava.test('.removeLink() should remove a link given a "from" card without any links', (test) => {
+	const card = links.removeLink({
+		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
+		type: 'link',
+		active: true,
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			to: '87ca429f-5e46-419a-8f21-b43f68f23001'
+		}
+	}, {
+		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {}
+	})
+
+	test.deepEqual(card, {
+		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {}
+	})
+})
+
+ava.test('.removeLink() should remove a link given a "from" card without the existing link', (test) => {
+	const card = links.removeLink({
+		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
+		type: 'link',
+		active: true,
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			to: '87ca429f-5e46-419a-8f21-b43f68f23001'
+		}
+	}, {
+		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		type: 'card',
+		active: true,
+		links: {
+			'is attached to': [
+				{
+					$link: '9cf07e16-681f-4195-83a4-afa1937b05df',
+					id: '2bb5f628-1adf-4d48-96c4-90f7ebf7abdc'
+				}
+			]
+		},
+		tags: [],
+		data: {}
+	})
+
+	test.deepEqual(card, {
+		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		type: 'card',
+		active: true,
+		links: {
+			'is attached to': [
+				{
+					$link: '9cf07e16-681f-4195-83a4-afa1937b05df',
+					id: '2bb5f628-1adf-4d48-96c4-90f7ebf7abdc'
+				}
+			]
+		},
+		tags: [],
+		data: {}
+	})
+})
+
+ava.test('.removeLink() should remove a link given a "from" card with the existing link', (test) => {
+	const card = links.removeLink({
+		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
+		type: 'link',
+		active: true,
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			to: '87ca429f-5e46-419a-8f21-b43f68f23001'
+		}
+	}, {
+		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		type: 'card',
+		active: true,
+		links: {
+			'is attached to': [
+				{
+					$link: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
+					id: '87ca429f-5e46-419a-8f21-b43f68f23001'
+				}
+			]
+		},
+		tags: [],
+		data: {}
+	})
+
+	test.deepEqual(card, {
+		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		type: 'card',
+		active: true,
+		links: {
+			'is attached to': []
+		},
+		tags: [],
+		data: {}
+	})
+})
+
+ava.test('.removeLink() should remove a link given a "to" card without any links', (test) => {
+	const card = links.removeLink({
+		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
+		type: 'link',
+		active: true,
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			to: '87ca429f-5e46-419a-8f21-b43f68f23001'
+		}
+	}, {
+		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {}
+	})
+
+	test.deepEqual(card, {
+		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {}
+	})
+})
+
+ava.test('.removeLink() should remove a link given a "to" card without the existing link', (test) => {
+	const card = links.removeLink({
+		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
+		type: 'link',
+		active: true,
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			to: '87ca429f-5e46-419a-8f21-b43f68f23001'
+		}
+	}, {
+		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+		type: 'card',
+		active: true,
+		links: {
+			'has attached element': [
+				{
+					$link: '9cf07e16-681f-4195-83a4-afa1937b05df',
+					id: '2bb5f628-1adf-4d48-96c4-90f7ebf7abdc'
+				}
+			]
+		},
+		tags: [],
+		data: {}
+	})
+
+	test.deepEqual(card, {
+		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+		type: 'card',
+		active: true,
+		links: {
+			'has attached element': [
+				{
+					$link: '9cf07e16-681f-4195-83a4-afa1937b05df',
+					id: '2bb5f628-1adf-4d48-96c4-90f7ebf7abdc'
+				}
+			]
+		},
+		tags: [],
+		data: {}
+	})
+})
+
+ava.test('.removeLink() should remove a link given a "to" card with the existing link', (test) => {
+	const card = links.removeLink({
+		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
+		type: 'link',
+		active: true,
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			to: '87ca429f-5e46-419a-8f21-b43f68f23001'
+		}
+	}, {
+		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+		type: 'card',
+		active: true,
+		links: {
+			'has attached element': [
+				{
+					$link: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
+					id: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
+				}
+			]
+		},
+		tags: [],
+		data: {}
+	})
+
+	test.deepEqual(card, {
+		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+		type: 'card',
+		active: true,
+		links: {
+			'has attached element': []
+		},
+		tags: [],
+		data: {}
+	})
+})
+
+ava.test('.removeLink() should remove a link given an irrelevant card', (test) => {
+	const card = links.removeLink({
+		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
+		type: 'link',
+		active: true,
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			to: '87ca429f-5e46-419a-8f21-b43f68f23001'
+		}
+	}, {
+		id: 'd7ee04d7-e727-444a-b120-c56c03d81f7b',
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {}
+	})
+
+	test.deepEqual(card, {
+		id: 'd7ee04d7-e727-444a-b120-c56c03d81f7b',
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {}
+	})
+})

@@ -170,6 +170,358 @@ ava.test('.insertCard() should be able to create a link between two valid cards'
 	test.not(element.data.from, element.data.to)
 })
 
+ava.test('.insertCard() should update links property when linking two cards', async (test) => {
+	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'foo-bar',
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {}
+	})
+
+	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'bar-baz',
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {}
+	})
+
+	const linkCard = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'link',
+		name: 'is attached to',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			inverseName: 'has attached element',
+			from: card1.id,
+			to: card2.id
+		}
+	})
+
+	const element1 = await test.context.kernel.getCardById(test.context.kernel.sessions.admin, card1.id)
+	const element2 = await test.context.kernel.getCardById(test.context.kernel.sessions.admin, card2.id)
+
+	test.deepEqual(element1, {
+		id: card1.id,
+		slug: 'foo-bar',
+		type: 'card',
+		active: true,
+		links: {
+			'is attached to': [
+				{
+					$link: linkCard.id,
+					id: card2.id
+				}
+			]
+		},
+		tags: [],
+		data: {}
+	})
+
+	test.deepEqual(element2, {
+		id: card2.id,
+		slug: 'bar-baz',
+		type: 'card',
+		active: true,
+		links: {
+			'has attached element': [
+				{
+					$link: linkCard.id,
+					id: card1.id
+				}
+			]
+		},
+		tags: [],
+		data: {}
+	})
+})
+
+ava.test('.insertCard() should update links property when linking a valid card to an invalid one', async (test) => {
+	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'foo-bar',
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {}
+	})
+
+	const linkCard = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'link',
+		name: 'is attached to',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			inverseName: 'has attached element',
+			from: card1.id,
+			to: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
+		}
+	})
+
+	const element1 = await test.context.kernel.getCardById(test.context.kernel.sessions.admin, card1.id)
+
+	test.deepEqual(element1, {
+		id: card1.id,
+		slug: 'foo-bar',
+		type: 'card',
+		active: true,
+		links: {
+			'is attached to': [
+				{
+					$link: linkCard.id,
+					id: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
+				}
+			]
+		},
+		tags: [],
+		data: {}
+	})
+})
+
+ava.test('.insertCard() should update links property when linking an invalid card to a valid one', async (test) => {
+	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'bar-baz',
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {}
+	})
+
+	const linkCard = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'link',
+		name: 'is attached to',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			inverseName: 'has attached element',
+			from: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			to: card2.id
+		}
+	})
+
+	const element2 = await test.context.kernel.getCardById(test.context.kernel.sessions.admin, card2.id)
+
+	test.deepEqual(element2, {
+		id: card2.id,
+		slug: 'bar-baz',
+		type: 'card',
+		active: true,
+		links: {
+			'has attached element': [
+				{
+					$link: linkCard.id,
+					id: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
+				}
+			]
+		},
+		tags: [],
+		data: {}
+	})
+})
+
+ava.test('.insertCard() should update links property when linking two cards in two different ways', async (test) => {
+	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'foo-bar',
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {}
+	})
+
+	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'bar-baz',
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {}
+	})
+
+	const linkCard1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'link',
+		name: 'is attached to',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			inverseName: 'has attached element',
+			from: card1.id,
+			to: card2.id
+		}
+	})
+
+	const linkCard2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'link',
+		name: 'is related to',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			inverseName: 'is related to',
+			from: card1.id,
+			to: card2.id
+		}
+	})
+
+	const element1 = await test.context.kernel.getCardById(test.context.kernel.sessions.admin, card1.id)
+	const element2 = await test.context.kernel.getCardById(test.context.kernel.sessions.admin, card2.id)
+
+	test.deepEqual(element1, {
+		id: card1.id,
+		slug: 'foo-bar',
+		type: 'card',
+		active: true,
+		links: {
+			'is attached to': [
+				{
+					$link: linkCard1.id,
+					id: card2.id
+				}
+			],
+			'is related to': [
+				{
+					$link: linkCard2.id,
+					id: card2.id
+				}
+			]
+		},
+		tags: [],
+		data: {}
+	})
+
+	test.deepEqual(element2, {
+		id: card2.id,
+		slug: 'bar-baz',
+		type: 'card',
+		active: true,
+		links: {
+			'has attached element': [
+				{
+					$link: linkCard1.id,
+					id: card1.id
+				}
+			],
+			'is related to': [
+				{
+					$link: linkCard2.id,
+					id: card1.id
+				}
+			]
+		},
+		tags: [],
+		data: {}
+	})
+})
+
+ava.test('.insertCard() should be able to remove a link', async (test) => {
+	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'foo-bar',
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {}
+	})
+
+	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'bar-baz',
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {}
+	})
+
+	const linkCard1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'link',
+		name: 'is attached to',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			inverseName: 'has attached element',
+			from: card1.id,
+			to: card2.id
+		}
+	})
+
+	const linkCard2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'link',
+		name: 'is related to',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			inverseName: 'is related to',
+			from: card1.id,
+			to: card2.id
+		}
+	})
+
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		id: linkCard1.id,
+		type: 'link',
+		name: 'is attached to',
+		active: false,
+		links: {},
+		tags: [],
+		data: {
+			inverseName: 'has attached element',
+			from: card1.id,
+			to: card2.id
+		}
+	}, {
+		override: true
+	})
+
+	const element1 = await test.context.kernel.getCardById(test.context.kernel.sessions.admin, card1.id)
+	const element2 = await test.context.kernel.getCardById(test.context.kernel.sessions.admin, card2.id)
+
+	test.deepEqual(element1, {
+		id: card1.id,
+		slug: 'foo-bar',
+		type: 'card',
+		active: true,
+		links: {
+			'is attached to': [],
+			'is related to': [
+				{
+					$link: linkCard2.id,
+					id: card2.id
+				}
+			]
+		},
+		tags: [],
+		data: {}
+	})
+
+	test.deepEqual(element2, {
+		id: card2.id,
+		slug: 'bar-baz',
+		type: 'card',
+		active: true,
+		links: {
+			'has attached element': [],
+			'is related to': [
+				{
+					$link: linkCard2.id,
+					id: card1.id
+				}
+			]
+		},
+		tags: [],
+		data: {}
+	})
+})
+
 ava.test('.insertCard() should be able to create a direction-less link between two valid cards', async (test) => {
 	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'foo-bar',
@@ -2521,88 +2873,6 @@ ava.test.cb('.stream() should report back action requests', (test) => {
 				}
 			})
 		])
-	}).catch(test.end)
-})
-
-ava.test.cb('.stream() should report both action requests and other types', (test) => {
-	test.context.kernel.stream(test.context.kernel.sessions.admin, {
-		type: 'object',
-		properties: {
-			id: {
-				type: 'string'
-			},
-			type: {
-				type: 'string',
-				anyOf: [
-					{
-						const: 'action-request'
-					},
-					{
-						const: 'card'
-					}
-				]
-			}
-		},
-		required: [ 'type' ]
-	}).then((emitter) => {
-		const changes = []
-
-		emitter.on('data', (change) => {
-			changes.push(change)
-
-			if (changes.length === 2) {
-				emitter.close()
-			}
-		})
-
-		emitter.on('error', test.end)
-		emitter.on('closed', () => {
-			test.deepEqual(changes, [
-				{
-					before: null,
-					after: {
-						id: changes[0].after.id,
-						type: 'action-request'
-					}
-				},
-				{
-					before: null,
-					after: {
-						id: changes[1].after.id,
-						type: 'card'
-					}
-				}
-			])
-
-			test.end()
-		})
-
-		return test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
-			type: 'action-request',
-			links: {},
-			tags: [],
-			markers: [],
-			active: true,
-			data: {
-				action: 'action-delete-card',
-				actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-				target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-				timestamp: '2018-03-16T03:29:29.543Z',
-				executed: false,
-				arguments: {}
-			}
-		}).then(() => {
-			return test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
-				type: 'card',
-				links: {},
-				tags: [],
-				markers: [],
-				active: true,
-				data: {
-					test: 1
-				}
-			})
-		})
 	}).catch(test.end)
 })
 

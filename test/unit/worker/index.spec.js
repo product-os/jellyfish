@@ -1588,7 +1588,7 @@ ava.test('should be able to login as a user with a password', async (test) => {
 		id: loginResult.data.id,
 		type: 'session',
 		active: true,
-		links: {},
+		links: session.links,
 		tags: [],
 		markers: [],
 		data: {
@@ -1770,7 +1770,7 @@ ava.test('should update a card to add an extra property', async (test) => {
 		id: updateResult.data.id,
 		type: 'card',
 		active: true,
-		links: {},
+		links: card.links,
 		tags: [],
 		markers: [],
 		data: {
@@ -1813,7 +1813,7 @@ ava.test('should update a card to set active to false', async (test) => {
 		id: updateResult.data.id,
 		type: 'card',
 		active: false,
-		links: {},
+		links: card.links,
 		tags: [],
 		markers: [],
 		data: {}
@@ -1856,7 +1856,7 @@ ava.test('should update a card to set active to false using the card slug as inp
 		type: 'card',
 		slug: 'foo-bar-baz',
 		active: false,
-		links: {},
+		links: card.links,
 		tags: [],
 		markers: [],
 		data: {}
@@ -1902,7 +1902,7 @@ ava.test('should update a card to override an array property', async (test) => {
 		id: updateResult.data.id,
 		type: 'card',
 		active: true,
-		links: {},
+		links: card.links,
 		tags: [],
 		markers: [],
 		data: {
@@ -1945,7 +1945,7 @@ ava.test('should update a card to add a slug', async (test) => {
 		type: 'card',
 		slug: 'foo-bar',
 		active: true,
-		links: {},
+		links: card.links,
 		tags: [],
 		markers: [],
 		data: {}
@@ -2004,7 +2004,14 @@ ava.test('should add an update event if updating a card', async (test) => {
 			id: timeline[0].id,
 			type: 'create',
 			active: true,
-			links: {},
+			links: {
+				'is attached to': [
+					{
+						$link: timeline[0].links['is attached to'][0].$link,
+						id: createResult.data.id
+					}
+				]
+			},
 			tags: [],
 			markers: [],
 			data: {
@@ -2013,7 +2020,7 @@ ava.test('should add an update event if updating a card', async (test) => {
 				timestamp: timeline[0].data.timestamp,
 				payload: {
 					active: true,
-					links: {},
+					links: timeline[0].data.payload.links,
 					tags: [],
 					markers: [],
 					data: {}
@@ -2024,7 +2031,14 @@ ava.test('should add an update event if updating a card', async (test) => {
 			id: timeline[1].id,
 			type: 'update',
 			active: true,
-			links: {},
+			links: {
+				'is attached to': [
+					{
+						$link: timeline[1].links['is attached to'][0].$link,
+						id: createResult.data.id
+					}
+				]
+			},
 			tags: [],
 			markers: [],
 			data: {
@@ -2034,7 +2048,7 @@ ava.test('should add an update event if updating a card', async (test) => {
 				payload: {
 					slug: 'foo-bar',
 					active: true,
-					links: {},
+					links: timeline[1].data.payload.links,
 					tags: [],
 					markers: [],
 					data: {}
@@ -2073,7 +2087,7 @@ ava.test('should delete a card using action-delete-card', async (test) => {
 		id: deleteResult.data.id,
 		type: 'card',
 		active: false,
-		links: {},
+		links: card.links,
 		tags: [],
 		markers: [],
 		data: {}
@@ -2113,7 +2127,7 @@ ava.test('should delete a card using action-update-card', async (test) => {
 		id: updateResult.data.id,
 		type: 'card',
 		active: false,
-		links: {},
+		links: card.links,
 		tags: [],
 		markers: [],
 		data: {}

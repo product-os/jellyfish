@@ -70,7 +70,7 @@ ava.test('.importCards() should import a single card', async (test) => {
 			id: result[0].id,
 			slug: 'hello-world',
 			active: true,
-			links: {},
+			links: result[0].links,
 			markers: [],
 			tags: [],
 			type: 'card',
@@ -103,7 +103,7 @@ ava.test('.importCards() should import a single card with an id', async (test) =
 			id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			slug: 'hello-world',
 			active: true,
-			links: {},
+			links: result[0].links,
 			markers: [],
 			tags: [],
 			type: 'card',
@@ -150,7 +150,7 @@ ava.test('.importCards() should patch an existing card', async (test) => {
 			id: card.id,
 			type: 'card',
 			active: false,
-			links: {},
+			links: result[0].links,
 			markers: [],
 			tags: [],
 			data: {
@@ -188,7 +188,7 @@ ava.test('.importCards() should import two independent cards', async (test) => {
 		{
 			id: result[0].id,
 			active: true,
-			links: {},
+			links: result[0].links,
 			markers: [],
 			tags: [],
 			type: 'card',
@@ -199,7 +199,7 @@ ava.test('.importCards() should import two independent cards', async (test) => {
 		{
 			id: result[1].id,
 			active: true,
-			links: {},
+			links: result[1].links,
 			markers: [],
 			tags: [],
 			type: 'card',
@@ -242,7 +242,7 @@ ava.test('.importCards() should import two parallel cards', async (test) => {
 		{
 			id: sortedResult[0].id,
 			active: true,
-			links: {},
+			links: sortedResult[0].links,
 			markers: [],
 			tags: [],
 			type: 'card',
@@ -253,7 +253,7 @@ ava.test('.importCards() should import two parallel cards', async (test) => {
 		{
 			id: sortedResult[1].id,
 			active: true,
-			links: {},
+			links: sortedResult[1].links,
 			markers: [],
 			tags: [],
 			type: 'card',
@@ -294,7 +294,7 @@ ava.test('.importCards() should import dependent cards', async (test) => {
 		{
 			id: result[0].id,
 			active: true,
-			links: {},
+			links: result[0].links,
 			markers: [],
 			tags: [],
 			type: 'card',
@@ -305,7 +305,7 @@ ava.test('.importCards() should import dependent cards', async (test) => {
 		{
 			id: result[1].id,
 			active: true,
-			links: {},
+			links: result[1].links,
 			markers: [],
 			tags: [],
 			type: 'card',
@@ -387,7 +387,7 @@ ava.test('.importCards() should import a dependent card in parallel segment', as
 		{
 			id: sortedResult[0].id,
 			active: true,
-			links: {},
+			links: sortedResult[0].links,
 			markers: [],
 			tags: [],
 			type: 'card',
@@ -398,7 +398,7 @@ ava.test('.importCards() should import a dependent card in parallel segment', as
 		{
 			id: sortedResult[1].id,
 			active: true,
-			links: {},
+			links: sortedResult[1].links,
 			markers: [],
 			tags: [],
 			type: 'card',
@@ -409,7 +409,7 @@ ava.test('.importCards() should import a dependent card in parallel segment', as
 		{
 			id: sortedResult[2].id,
 			active: true,
-			links: {},
+			links: sortedResult[2].links,
 			markers: [],
 			tags: [],
 			type: 'card',
@@ -501,7 +501,7 @@ ava.test('.translateExternalEvent() should translate an external event through t
 			active: true,
 			markers: [],
 			tags: [],
-			links: {},
+			links: result[0].links,
 			data: {
 				payload: {
 					foo: 'bar',
