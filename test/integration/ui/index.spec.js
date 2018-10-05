@@ -267,7 +267,22 @@ ava.test.serial('should allow team-admin users to update user\'s roles', async (
 	await page.waitForSelector('#root_data_roles_1', WAIT_OPTS)
 
 	// Enter the 'user-team' role as a new role
-	await page.type('#root_data_roles_1', 'user-team')
+	// Using page.type to change this input field regularly cuases characters to
+	// be "dropped" - the workaround here is to use a script to set the value of
+	// the input, and then trigger a change event that React can respond to
+	await page.evaluate(() => {
+		const input = document.getElementById('root_data_roles_1')
+		const lastValue = input.value
+		input.value = 'user-team'
+		const event = new window.Event('input', {
+			bubbles: true
+		})
+		const tracker = _.get(input, [ '_valueTracker' ])
+		if (tracker) {
+			tracker.setValue(lastValue)
+		}
+		input.dispatchEvent(event)
+	})
 
 	// Add a small delay to allow the form change to propagate
 	await Bluebird.delay(500)
