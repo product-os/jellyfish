@@ -834,6 +834,7 @@ ava.test.serial('should be able to resolve links', async (test) => {
 				'is attached to': [
 					{
 						id: thread.id,
+						$link: results[0].links['is attached to'][0].$link,
 						type: 'thread'
 					}
 				]
@@ -913,6 +914,7 @@ ava.test.serial('should apply permissions on resolved links', async (test) => {
 			links: {
 				'is attached to': [
 					Object.assign({}, targetUser, {
+						$link: results[0].links['is attached to'][0].$link,
 						data: _.omit(targetUser.data, [ 'password', 'roles' ])
 					})
 				]

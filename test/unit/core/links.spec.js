@@ -50,8 +50,17 @@ ava.test('.evaluate(is attached to) should return an empty array if the target d
 		active: true,
 		links: {},
 		tags: [],
+		data: {}
+	})
+
+	await test.context.backend.upsertElement({
+		type: 'link',
+		active: true,
+		name: 'is attached to',
 		data: {
-			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
+			inverseName: 'has attached element',
+			from: input.id,
+			to: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
 		}
 	})
 
@@ -78,8 +87,17 @@ ava.test('.evaluate(is attached to) should return an empty array if the target e
 		active: true,
 		links: {},
 		tags: [],
+		data: {}
+	})
+
+	await test.context.backend.upsertElement({
+		type: 'link',
+		active: true,
+		name: 'is attached to',
 		data: {
-			target: card.id
+			inverseName: 'has attached element',
+			from: input.id,
+			to: card.id
 		}
 	})
 
@@ -120,8 +138,17 @@ ava.test('.evaluate(is attached to) should return the declared target properties
 		active: true,
 		links: {},
 		tags: [],
+		data: {}
+	})
+
+	const link = await test.context.backend.upsertElement({
+		type: 'link',
+		active: true,
+		name: 'is attached to',
 		data: {
-			target: card.id
+			inverseName: 'has attached element',
+			from: input.id,
+			to: card.id
 		}
 	})
 
@@ -147,6 +174,7 @@ ava.test('.evaluate(is attached to) should return the declared target properties
 
 	test.deepEqual(results, [
 		{
+			$link: link.id,
 			data: {
 				greeting: 'hello',
 				count: 1
@@ -172,8 +200,17 @@ ava.test('.evaluate(is attached to) should return the whole target if additional
 		active: true,
 		links: {},
 		tags: [],
+		data: {}
+	})
+
+	const link = await test.context.backend.upsertElement({
+		type: 'link',
+		active: true,
+		name: 'is attached to',
 		data: {
-			target: card.id
+			inverseName: 'has attached element',
+			from: input.id,
+			to: card.id
 		}
 	})
 
@@ -199,6 +236,7 @@ ava.test('.evaluate(is attached to) should return the whole target if additional
 	test.deepEqual(results, [
 		{
 			id: card.id,
+			$link: link.id,
 			type: 'card',
 			active: true,
 			links: {},
@@ -229,14 +267,21 @@ ava.test('.evaluate(has attached element) should return an empty array if the ca
 })
 
 ava.test('.evaluate(has attached element) should return matching elements', async (test) => {
-	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {}
+	})
+
+	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
 		active: true,
 		links: {},
 		tags: [],
 		data: {
-			count: 1,
-			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
+			count: 1
 		}
 	})
 
@@ -246,29 +291,51 @@ ava.test('.evaluate(has attached element) should return matching elements', asyn
 		links: {},
 		tags: [],
 		data: {
-			count: 2,
-			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
+			count: 2
 		}
 	})
 
-	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const card3 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
 		active: true,
 		links: {},
 		tags: [],
 		data: {
-			count: 3,
-			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
+			count: 3
 		}
 	})
 
-	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
-		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-		type: 'card',
+	await test.context.backend.upsertElement({
+		type: 'link',
 		active: true,
-		links: {},
-		tags: [],
-		data: {}
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: card1.id,
+			to: input.id
+		}
+	})
+
+	const link2 = await test.context.backend.upsertElement({
+		type: 'link',
+		active: true,
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: card2.id,
+			to: input.id
+		}
+	})
+
+	await test.context.backend.upsertElement({
+		type: 'link',
+		active: true,
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: card3.id,
+			to: input.id
+		}
 	})
 
 	const results = await links.evaluate(test.context.context, input, 'has attached element', {
@@ -294,6 +361,7 @@ ava.test('.evaluate(has attached element) should return matching elements', asyn
 	test.deepEqual(results, [
 		{
 			id: card2.id,
+			$link: link2.id,
 			data: {
 				count: 2
 			}
@@ -314,13 +382,21 @@ ava.test('.evaluateCard() should return one link of one type given one match', a
 	})
 
 	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
-		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		type: 'card',
 		active: true,
 		links: {},
 		tags: [],
+		data: {}
+	})
+
+	const link = await test.context.backend.upsertElement({
+		type: 'link',
+		active: true,
+		name: 'is attached to',
 		data: {
-			target: card.id
+			inverseName: 'has attached element',
+			from: input.id,
+			to: card.id
 		}
 	})
 
@@ -346,6 +422,7 @@ ava.test('.evaluateCard() should return one link of one type given one match', a
 	test.deepEqual(results, {
 		'is attached to': [
 			{
+				$link: link.id,
 				data: {
 					greeting: 'hello'
 				}
@@ -355,14 +432,21 @@ ava.test('.evaluateCard() should return one link of one type given one match', a
 })
 
 ava.test('.evaluateCard() should return multiple cards per link', async (test) => {
+	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {}
+	})
+
 	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
 		active: true,
 		links: {},
 		tags: [],
 		data: {
-			count: 1,
-			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
+			count: 1
 		}
 	})
 
@@ -372,8 +456,7 @@ ava.test('.evaluateCard() should return multiple cards per link', async (test) =
 		links: {},
 		tags: [],
 		data: {
-			count: 2,
-			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
+			count: 2
 		}
 	})
 
@@ -383,18 +466,41 @@ ava.test('.evaluateCard() should return multiple cards per link', async (test) =
 		links: {},
 		tags: [],
 		data: {
-			count: 3,
-			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
+			count: 3
 		}
 	})
 
-	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
-		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-		type: 'card',
+	const link1 = await test.context.backend.upsertElement({
+		type: 'link',
 		active: true,
-		links: {},
-		tags: [],
-		data: {}
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: card1.id,
+			to: input.id
+		}
+	})
+
+	const link2 = await test.context.backend.upsertElement({
+		type: 'link',
+		active: true,
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: card2.id,
+			to: input.id
+		}
+	})
+
+	const link3 = await test.context.backend.upsertElement({
+		type: 'link',
+		active: true,
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: card3.id,
+			to: input.id
+		}
 	})
 
 	const results = await links.evaluateCard(test.context.context, input, {
@@ -426,18 +532,21 @@ ava.test('.evaluateCard() should return multiple cards per link', async (test) =
 		'has attached element': [
 			{
 				id: card1.id,
+				$link: link1.id,
 				data: {
 					count: 1
 				}
 			},
 			{
 				id: card2.id,
+				$link: link2.id,
 				data: {
 					count: 2
 				}
 			},
 			{
 				id: card3.id,
+				$link: link3.id,
 				data: {
 					count: 3
 				}
@@ -447,7 +556,7 @@ ava.test('.evaluateCard() should return multiple cards per link', async (test) =
 })
 
 ava.test('.evaluateCard() should return false if one link is unsatisfied', async (test) => {
-	const card = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
 		active: true,
 		links: {},
@@ -458,25 +567,44 @@ ava.test('.evaluateCard() should return false if one link is unsatisfied', async
 		}
 	})
 
-	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
-		type: 'card',
-		active: true,
-		links: {},
-		tags: [],
-		data: {
-			count: 1,
-			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
-		}
-	})
-
 	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		type: 'card',
 		active: true,
 		links: {},
 		tags: [],
+		data: {}
+	})
+
+	await test.context.backend.upsertElement({
+		type: 'link',
+		active: true,
+		name: 'is attached to',
 		data: {
-			target: card.id
+			inverseName: 'has attached element',
+			from: input.id,
+			to: card1.id
+		}
+	})
+
+	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		type: 'card',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			count: 1
+		}
+	})
+
+	await test.context.backend.upsertElement({
+		type: 'link',
+		active: true,
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: input.id,
+			to: card2.id
 		}
 	})
 
