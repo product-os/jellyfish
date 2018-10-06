@@ -91,6 +91,7 @@ ava.test('.hasCard() id = yes (exists), slug = no', async (test) => {
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	})
 
@@ -112,6 +113,7 @@ ava.test('.hasCard() id = yes (exists), slug = yes (exists)', async (test) => {
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	})
 
@@ -128,6 +130,7 @@ ava.test('.hasCard() id = yes (exists), slug = yes (not exist)', async (test) =>
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	})
 
@@ -144,6 +147,7 @@ ava.test('.hasCard() id = yes (not exist), slug = yes (exists)', async (test) =>
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	})
 
@@ -167,6 +171,7 @@ ava.test('.hasCard() id = no, slug = yes (exists)', async (test) => {
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	})
 

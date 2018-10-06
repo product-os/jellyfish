@@ -366,6 +366,7 @@ ava.test('.getTypeTriggers() should report back watchers when aggregating events
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			schema: {
 				type: 'object',
@@ -391,6 +392,7 @@ ava.test('.getTypeTriggers() should report back watchers when aggregating events
 			active: true,
 			links: {},
 			tags: [],
+			markers: [],
 			data: {
 				type: 'thread',
 				action: 'action-set-add',

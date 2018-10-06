@@ -2,6 +2,7 @@
   "slug": "action-update-card",
   "type": "action",
   "name": "Update properties of a card",
+  "markers": [],
   "tags": [],
   "links": {},
   "active": true,
@@ -20,6 +21,13 @@
           "name": {
             "type": "string",
             "pattern": "^.*\\S.*$"
+          },
+          "markers": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9-_/:+]+$"
+            }
           },
           "tags": {
             "type": "array",

@@ -258,6 +258,7 @@ ava.test.serial('.query() should be able to see previously restricted cards afte
 		type: 'scratchpad-entry',
 		name: 'Test entry',
 		tags: [],
+		markers: [],
 		links: {},
 		active: true,
 		data: {}
@@ -272,6 +273,7 @@ ava.test.serial('.query() should be able to see previously restricted cards afte
 		slug: 'user-johndoe',
 		type: 'user',
 		tags: [],
+		markers: [],
 		links: {},
 		active: true,
 		data: {
@@ -628,6 +630,7 @@ ava.test.serial('should be able to post an external event', async (test) => {
 		type: 'external-event',
 		active: true,
 		tags: [],
+		markers: [],
 		links: {},
 		data: {
 			source: 'test',
@@ -666,6 +669,7 @@ ava.test.serial('should be able to post an external event with a type', async (t
 		type: 'external-event',
 		active: true,
 		tags: [],
+		markers: [],
 		links: {},
 		data: {
 			source: 'test',
@@ -706,6 +710,7 @@ ava.test.serial('should add and evaluate a time triggered action', async (test) 
 		type: 'triggered-action',
 		active: true,
 		tags: [],
+		markers: [],
 		links: {},
 		data: {
 			action: 'action-create-card',
@@ -830,6 +835,7 @@ ava.test.serial('should be able to resolve links', async (test) => {
 			type: 'message',
 			active: true,
 			tags: [],
+			markers: [],
 			links: {
 				'is attached to': [
 					{
@@ -911,6 +917,7 @@ ava.test.serial('should apply permissions on resolved links', async (test) => {
 			type: 'thread',
 			active: true,
 			tags: [],
+			markers: [],
 			links: {
 				'is attached to': [
 					Object.assign({}, targetUser, {

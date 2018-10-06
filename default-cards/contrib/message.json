@@ -2,6 +2,7 @@
   "slug": "message",
   "type": "type",
   "name": "Chat message",
+  "markers": [],
   "tags": [],
   "links": {},
   "active": true,

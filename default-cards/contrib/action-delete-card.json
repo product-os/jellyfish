@@ -2,6 +2,7 @@
   "slug": "action-delete-card",
   "type": "action",
   "name": "Delete a card",
+  "markers": [],
   "tags": [],
   "links": {},
   "active": true,

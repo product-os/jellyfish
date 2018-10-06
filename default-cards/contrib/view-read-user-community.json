@@ -2,6 +2,7 @@
   "slug": "view-read-user-community",
   "name": "Community role read permissions",
   "type": "view",
+  "markers": [],
   "tags": [],
   "links": {},
   "active": true,

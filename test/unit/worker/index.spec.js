@@ -1590,6 +1590,7 @@ ava.test('should be able to login as a user with a password', async (test) => {
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			actor: signupResult.data.id,
 			expiration: loginResult.data.data.expiration
@@ -1607,6 +1608,7 @@ ava.test('should be able to login as a password-less user', async (test) => {
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			email: 'johndoe@example.com',
 			roles: []
@@ -1638,6 +1640,7 @@ ava.test('should not be able to login as a password-less disallowed user', async
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			disallowLogin: true,
 			email: 'johndoe@example.com',
@@ -1769,6 +1772,7 @@ ava.test('should update a card to add an extra property', async (test) => {
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			foo: 'bar',
 			bar: 'baz'
@@ -1811,6 +1815,7 @@ ava.test('should update a card to set active to false', async (test) => {
 		active: false,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	})
 })
@@ -1853,6 +1858,7 @@ ava.test('should update a card to set active to false using the card slug as inp
 		active: false,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	})
 })
@@ -1898,6 +1904,7 @@ ava.test('should update a card to override an array property', async (test) => {
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			roles: []
 		}
@@ -1940,6 +1947,7 @@ ava.test('should update a card to add a slug', async (test) => {
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	})
 })
@@ -1998,6 +2006,7 @@ ava.test('should add an update event if updating a card', async (test) => {
 			active: true,
 			links: {},
 			tags: [],
+			markers: [],
 			data: {
 				actor: test.context.actor.id,
 				target: createResult.data.id,
@@ -2006,6 +2015,7 @@ ava.test('should add an update event if updating a card', async (test) => {
 					active: true,
 					links: {},
 					tags: [],
+					markers: [],
 					data: {}
 				}
 			}
@@ -2016,6 +2026,7 @@ ava.test('should add an update event if updating a card', async (test) => {
 			active: true,
 			links: {},
 			tags: [],
+			markers: [],
 			data: {
 				actor: test.context.actor.id,
 				target: createResult.data.id,
@@ -2025,6 +2036,7 @@ ava.test('should add an update event if updating a card', async (test) => {
 					active: true,
 					links: {},
 					tags: [],
+					markers: [],
 					data: {}
 				}
 			}
@@ -2063,6 +2075,7 @@ ava.test('should delete a card using action-delete-card', async (test) => {
 		active: false,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	})
 })
@@ -2102,6 +2115,7 @@ ava.test('should delete a card using action-update-card', async (test) => {
 		active: false,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	})
 })

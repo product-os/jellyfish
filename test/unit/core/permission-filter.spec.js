@@ -36,6 +36,7 @@ ava.test('.getSessionUser() should throw if the session actor is invalid', async
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
 		}
@@ -54,6 +55,7 @@ ava.test('.getSessionUser() should get the session user given the session did no
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			email: 'johndoe@example.com',
 			roles: [ 'foo', 'bar' ]
@@ -68,6 +70,7 @@ ava.test('.getSessionUser() should get the session user given the session did no
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			actor: result.id,
 			expiration: date.toISOString()
@@ -91,6 +94,7 @@ ava.test('.getSessionUser() should throw if the session expired', async (test) =
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			email: 'johndoe@example.com',
 			roles: [ 'foo', 'bar' ]
@@ -105,6 +109,7 @@ ava.test('.getSessionUser() should throw if the session expired', async (test) =
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			actor: user.id,
 			expiration: date.toISOString()
@@ -127,6 +132,7 @@ ava.test('.getViews() should return the schema of a single view', async (test) =
 		slug: 'view-read-foo',
 		type: 'view',
 		tags: [],
+		markers: [],
 		links: {},
 		active: true,
 		data: {
@@ -175,6 +181,7 @@ ava.test('.getViews() should ignore undefined views', async (test) => {
 		slug: 'view-read-foo',
 		type: 'view',
 		tags: [],
+		markers: [],
 		links: {},
 		active: true,
 		data: {
@@ -225,6 +232,7 @@ ava.test('.getViews() should ignore cards that are not views', async (test) => {
 		slug: 'view-read-hello',
 		type: 'card',
 		tags: [],
+		markers: [],
 		links: {},
 		active: true,
 		data: {
@@ -250,6 +258,7 @@ ava.test('.getViews() should ignore cards that are not views', async (test) => {
 		slug: 'view-read-foo',
 		type: 'view',
 		tags: [],
+		markers: [],
 		links: {},
 		active: true,
 		data: {
@@ -299,6 +308,7 @@ ava.test('.getViews() should return the schemas of two roles', async (test) => {
 		slug: 'view-read-foo',
 		type: 'view',
 		tags: [],
+		markers: [],
 		links: {},
 		active: true,
 		data: {
@@ -324,6 +334,7 @@ ava.test('.getViews() should return the schemas of two roles', async (test) => {
 		slug: 'view-read-bar',
 		type: 'view',
 		tags: [],
+		markers: [],
 		links: {},
 		active: true,
 		data: {
@@ -388,6 +399,7 @@ ava.test('.getViewSchema() should preserve template interpolations in user prope
 		type: 'view',
 		links: {},
 		tags: [],
+		markers: [],
 		active: true,
 		data: {
 			allOf: [
@@ -429,6 +441,7 @@ ava.test('.getViewSchema() should preserve template interpolations in schema pro
 		type: 'view',
 		links: {},
 		tags: [],
+		markers: [],
 		active: true,
 		data: {
 			allOf: [
@@ -468,6 +481,7 @@ ava.test('.getViewSchema() should return a schema given a view card with two con
 		type: 'view',
 		links: {},
 		tags: [],
+		markers: [],
 		active: true,
 		data: {
 			allOf: [
@@ -519,6 +533,7 @@ ava.test('.getViewSchema() should return a schema given a view card with two con
 		type: 'view',
 		links: {},
 		tags: [],
+		markers: [],
 		active: true,
 		data: {
 			anyOf: [],
@@ -571,6 +586,7 @@ ava.test('.getViewSchema() should return a schema given a view card with two dis
 		type: 'view',
 		links: {},
 		tags: [],
+		markers: [],
 		active: true,
 		data: {
 			anyOf: [
@@ -636,6 +652,7 @@ ava.test('.getViewSchema() should return a schema given a view card with two dis
 		type: 'view',
 		links: {},
 		tags: [],
+		markers: [],
 		active: true,
 		data: {
 			allOf: [],
@@ -702,6 +719,7 @@ ava.test('.getViewSchema() should return a schema given a view card with two dis
 		type: 'view',
 		links: {},
 		tags: [],
+		markers: [],
 		active: true,
 		data: {
 			anyOf: [
@@ -803,6 +821,7 @@ ava.test('.getViewSchema() should return null given a view card with no filters'
 		type: 'view',
 		links: {},
 		tags: [],
+		markers: [],
 		active: true,
 		data: {}
 	})

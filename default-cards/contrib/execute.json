@@ -2,6 +2,7 @@
   "slug": "execute",
   "type": "type",
   "name": "The card execute event",
+  "markers": [],
   "tags": [],
   "links": {},
   "active": true,

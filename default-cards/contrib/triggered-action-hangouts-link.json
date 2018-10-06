@@ -1,6 +1,7 @@
 {
   "slug": "triggered-action-hangouts-link",
   "type": "triggered-action",
+  "markers": [],
   "tags": [],
   "links": {},
   "active": true,

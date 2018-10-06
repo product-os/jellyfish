@@ -2,6 +2,7 @@
   "slug": "update",
   "type": "type",
   "name": "The card update event",
+  "markers": [],
   "tags": [],
   "links": {},
   "active": true,
@@ -40,6 +41,13 @@
                   "items": {
                     "type": "string",
                     "pattern": "^[a-zA-Z0-9-_/][a-zA-Z0-9-_/\\s]+[a-zA-Z0-9-_/]$"
+                  }
+                },
+                "markers": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[a-zA-Z0-9-_/:+]+$"
                   }
                 },
                 "links": {

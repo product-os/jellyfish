@@ -2,6 +2,7 @@
   "slug": "todo",
   "type": "type",
   "name": "Todo item",
+  "markers": [],
   "tags": [],
   "links": {},
   "active": true,

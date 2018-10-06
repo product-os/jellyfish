@@ -2,6 +2,7 @@
   "slug": "view-my-todo-items",
   "name": "My todo items",
   "type": "view",
+  "markers": [],
   "tags": [],
   "links": {},
   "active": true,

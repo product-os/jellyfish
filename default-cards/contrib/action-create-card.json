@@ -2,6 +2,7 @@
   "slug": "action-create-card",
   "type": "action",
   "name": "Create a new card",
+  "markers": [],
   "tags": [],
   "links": {},
   "active": true,
@@ -35,6 +36,13 @@
           },
           "active": {
             "type": "boolean"
+          },
+          "markers": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9-_/:+]+$"
+            }
           },
           "tags": {
             "type": "array",

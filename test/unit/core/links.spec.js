@@ -34,6 +34,7 @@ ava.test('.evaluate() should return an empty array if the link is unknown', asyn
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	})
 
@@ -50,6 +51,7 @@ ava.test('.evaluate(is attached to) should return an empty array if the target d
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	})
 
@@ -57,6 +59,7 @@ ava.test('.evaluate(is attached to) should return an empty array if the target d
 		type: 'link',
 		active: true,
 		name: 'is attached to',
+		markers: [],
 		data: {
 			inverseName: 'has attached element',
 			from: input.id,
@@ -77,6 +80,7 @@ ava.test('.evaluate(is attached to) should return an empty array if the target e
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			count: 1
 		}
@@ -87,6 +91,7 @@ ava.test('.evaluate(is attached to) should return an empty array if the target e
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	})
 
@@ -94,6 +99,7 @@ ava.test('.evaluate(is attached to) should return an empty array if the target e
 		type: 'link',
 		active: true,
 		name: 'is attached to',
+		markers: [],
 		data: {
 			inverseName: 'has attached element',
 			from: input.id,
@@ -127,6 +133,7 @@ ava.test('.evaluate(is attached to) should return the declared target properties
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			greeting: 'hello',
 			count: 1
@@ -138,6 +145,7 @@ ava.test('.evaluate(is attached to) should return the declared target properties
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	})
 
@@ -145,6 +153,7 @@ ava.test('.evaluate(is attached to) should return the declared target properties
 		type: 'link',
 		active: true,
 		name: 'is attached to',
+		markers: [],
 		data: {
 			inverseName: 'has attached element',
 			from: input.id,
@@ -189,6 +198,7 @@ ava.test('.evaluate(is attached to) should return the whole target if additional
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			greeting: 'hello',
 			count: 1
@@ -200,6 +210,7 @@ ava.test('.evaluate(is attached to) should return the whole target if additional
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	})
 
@@ -207,6 +218,7 @@ ava.test('.evaluate(is attached to) should return the whole target if additional
 		type: 'link',
 		active: true,
 		name: 'is attached to',
+		markers: [],
 		data: {
 			inverseName: 'has attached element',
 			from: input.id,
@@ -241,6 +253,7 @@ ava.test('.evaluate(is attached to) should return the whole target if additional
 			active: true,
 			links: {},
 			tags: [],
+			markers: [],
 			data: {
 				greeting: 'hello',
 				count: 1
@@ -256,6 +269,7 @@ ava.test('.evaluate(has attached element) should return an empty array if the ca
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	})
 
@@ -272,6 +286,7 @@ ava.test('.evaluate(has attached element) should return matching elements', asyn
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	})
 
@@ -280,6 +295,7 @@ ava.test('.evaluate(has attached element) should return matching elements', asyn
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			count: 1
 		}
@@ -290,6 +306,7 @@ ava.test('.evaluate(has attached element) should return matching elements', asyn
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			count: 2
 		}
@@ -300,6 +317,7 @@ ava.test('.evaluate(has attached element) should return matching elements', asyn
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			count: 3
 		}
@@ -375,6 +393,7 @@ ava.test('.evaluateCard() should return one link of one type given one match', a
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			greeting: 'hello',
 			count: 1
@@ -386,6 +405,7 @@ ava.test('.evaluateCard() should return one link of one type given one match', a
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	})
 
@@ -393,6 +413,7 @@ ava.test('.evaluateCard() should return one link of one type given one match', a
 		type: 'link',
 		active: true,
 		name: 'is attached to',
+		markers: [],
 		data: {
 			inverseName: 'has attached element',
 			from: input.id,
@@ -445,6 +466,7 @@ ava.test('.evaluateCard() should return multiple cards per link', async (test) =
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			count: 1
 		}
@@ -455,6 +477,7 @@ ava.test('.evaluateCard() should return multiple cards per link', async (test) =
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			count: 2
 		}
@@ -465,6 +488,7 @@ ava.test('.evaluateCard() should return multiple cards per link', async (test) =
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			count: 3
 		}
@@ -496,6 +520,8 @@ ava.test('.evaluateCard() should return multiple cards per link', async (test) =
 		type: 'link',
 		active: true,
 		name: 'is attached to',
+		tags: [],
+		markers: [],
 		data: {
 			inverseName: 'has attached element',
 			from: card3.id,
@@ -561,6 +587,7 @@ ava.test('.evaluateCard() should return false if one link is unsatisfied', async
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			greeting: 'hello',
 			count: 1
@@ -573,6 +600,7 @@ ava.test('.evaluateCard() should return false if one link is unsatisfied', async
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	})
 
@@ -580,6 +608,7 @@ ava.test('.evaluateCard() should return false if one link is unsatisfied', async
 		type: 'link',
 		active: true,
 		name: 'is attached to',
+		markers: [],
 		data: {
 			inverseName: 'has attached element',
 			from: input.id,
@@ -592,6 +621,7 @@ ava.test('.evaluateCard() should return false if one link is unsatisfied', async
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			count: 1
 		}

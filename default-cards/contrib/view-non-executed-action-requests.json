@@ -2,6 +2,7 @@
   "slug": "view-non-executed-action-requests",
   "name": "Pending actions",
   "type": "view",
+  "markers": [],
   "tags": [],
   "links": {},
   "active": true,

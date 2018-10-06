@@ -58,6 +58,7 @@ ava.test('.insertCard() should insert a card', async (test) => {
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			foo: 1
 		}
@@ -70,6 +71,7 @@ ava.test('.insertCard() should insert a card', async (test) => {
 		type: 'card',
 		active: true,
 		links: {},
+		markers: [],
 		tags: [],
 		data: {
 			foo: 1
@@ -89,6 +91,7 @@ ava.test('.insertCard() should ignore an explicit type property', async (test) =
 		type: 'foo',
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			foo: 1
 		}
@@ -210,6 +213,7 @@ ava.test('.insertCard() should override if the override option is true', async (
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	})
 
@@ -236,6 +240,7 @@ ava.test('.insertCard() throw if card already exists and override is false', asy
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	})
 
@@ -272,6 +277,7 @@ ava.test('.insertCard() should add a create event if attachEvents is true', asyn
 					slug: 'foo-bar-baz',
 					active: true,
 					links: {},
+					markers: [],
 					tags: [],
 					data: {}
 				}
@@ -301,6 +307,7 @@ ava.test('.insertCard() should add a create event not overriding even if overrid
 					slug: 'foo-bar-baz',
 					active: true,
 					links: {},
+					markers: [],
 					tags: [],
 					data: {}
 				}
@@ -316,6 +323,7 @@ ava.test('.insertCard() should add an update event if attachEvents is true and o
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {}
 	})
 
@@ -340,6 +348,7 @@ ava.test('.insertCard() should add an update event if attachEvents is true and o
 					slug: 'foo-bar-baz',
 					active: false,
 					links: {},
+					markers: [],
 					tags: [],
 					data: {}
 				}
@@ -400,6 +409,7 @@ ava.test('.insertCard() should execute one matching triggered action', async (te
 				payload: {
 					active: true,
 					links: {},
+					markers: [],
 					tags: [],
 					data: {
 						command: 'foo-bar-baz'
@@ -472,6 +482,7 @@ ava.test('.insertCard() should not execute non-matching triggered actions', asyn
 				payload: {
 					active: true,
 					links: {},
+					markers: [],
 					tags: [],
 					data: {
 						command: 'qux-bar-baz'
@@ -560,6 +571,7 @@ ava.test('.insertCard() should execute more than one matching triggered action',
 				payload: {
 					active: true,
 					links: {},
+					markers: [],
 					tags: [],
 					data: {
 						command: 'foo-bar-baz'
@@ -670,6 +682,7 @@ ava.test('.insertCard() should execute the matching triggered actions given more
 				payload: {
 					active: true,
 					links: {},
+					markers: [],
 					tags: [],
 					data: {
 						command: 'foo-bar-baz'
@@ -698,6 +711,7 @@ ava.test('.insertCard() should evaluate a type formula', async (test) => {
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			schema: {
 				type: 'object',
@@ -747,6 +761,7 @@ ava.test('.insertCard() should throw if the result of the formula is incompatibl
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			schema: {
 				type: 'object',
@@ -793,6 +808,7 @@ ava.test('.insertCard() should remove previously inserted type triggered actions
 			active: true,
 			links: {},
 			tags: [],
+			markers: [],
 			data: {
 				type: 'foo',
 				filter: {
@@ -832,6 +848,7 @@ ava.test('.insertCard() should remove previously inserted type triggered actions
 			active: true,
 			links: {},
 			tags: [],
+			markers: [],
 			data: {
 				type: 'bar',
 				filter: {
@@ -921,6 +938,7 @@ ava.test('.insertCard() should remove previously inserted type triggered actions
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			schema: {
 				type: 'object'
@@ -934,6 +952,7 @@ ava.test('.insertCard() should remove previously inserted type triggered actions
 		active: true,
 		links: {},
 		tags: [],
+		markers: [],
 		data: {
 			type: 'foo',
 			filter: {
@@ -1061,6 +1080,7 @@ ava.test('.insertCard() should add a triggered action given a type with an AGGRE
 			active: true,
 			links: {},
 			tags: [],
+			markers: [],
 			data: {
 				type: 'test-thread',
 				target: triggers[0].data.target,
@@ -1297,6 +1317,7 @@ ava.test('.run() should create a card', async (test) => {
 		type: 'card',
 		active: true,
 		links: {},
+		markers: [],
 		tags: [],
 		data: {}
 	})
