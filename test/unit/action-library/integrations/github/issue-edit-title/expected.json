@@ -4,7 +4,6 @@
     "type": "issue",
     "active": true,
     "tags": [],
-    "links": {},
     "data": {
       "mirrors": [
         "https://github.com/resin-io/jellyfish/issues/710"
@@ -21,14 +20,12 @@
       "type": "create",
       "active": true,
       "tags": [],
-      "links": {},
       "data": {
         "timestamp": "2018-09-20T18:16:56Z",
         "payload": {
           "name": "Issue title edit",
           "active": true,
           "tags": [],
-          "links": {},
           "data": {
             "mirrors": [
               "https://github.com/resin-io/jellyfish/issues/710"
@@ -46,14 +43,12 @@
       "type": "update",
       "active": true,
       "tags": [],
-      "links": {},
       "data": {
         "timestamp": "2018-09-20T18:18:10Z",
         "payload": {
           "name": "Title edited",
           "active": true,
           "tags": [],
-          "links": {},
           "data": {
             "mirrors": [
               "https://github.com/resin-io/jellyfish/issues/710"

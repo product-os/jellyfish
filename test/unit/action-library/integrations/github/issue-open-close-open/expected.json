@@ -4,7 +4,6 @@
     "type": "issue",
     "active": true,
     "tags": [],
-    "links": {},
     "data": {
       "mirrors": [
         "https://github.com/resin-io/jellyfish/issues/725"
@@ -21,14 +20,12 @@
       "type": "create",
       "active": true,
       "tags": [],
-      "links": {},
       "data": {
         "timestamp": "2018-09-27T15:46:26Z",
         "payload": {
           "name": "Issue re-open",
           "active": true,
           "tags": [],
-          "links": {},
           "data": {
             "mirrors": [
               "https://github.com/resin-io/jellyfish/issues/725"
@@ -46,14 +43,12 @@
       "type": "update",
       "active": true,
       "tags": [],
-      "links": {},
       "data": {
         "timestamp": "2018-09-27T15:47:33Z",
         "payload": {
           "name": "Issue re-open",
           "active": true,
           "tags": [],
-          "links": {},
           "data": {
             "mirrors": [
               "https://github.com/resin-io/jellyfish/issues/725"
@@ -71,14 +66,12 @@
       "type": "update",
       "active": true,
       "tags": [],
-      "links": {},
       "data": {
         "timestamp": "2018-09-27T15:48:47Z",
         "payload": {
           "name": "Issue re-open",
           "active": true,
           "tags": [],
-          "links": {},
           "data": {
             "mirrors": [
               "https://github.com/resin-io/jellyfish/issues/725"

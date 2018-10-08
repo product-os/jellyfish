@@ -4,7 +4,6 @@
     "type": "issue",
     "active": true,
     "tags": [],
-    "links": {},
     "data": {
       "mirrors": [
         "https://github.com/resin-io/jellyfish/issues/724"
@@ -21,14 +20,12 @@
       "type": "create",
       "active": true,
       "tags": [],
-      "links": {},
       "data": {
         "timestamp": "2018-09-27T14:29:09Z",
         "payload": {
           "name": "Issue close label toggle",
           "active": true,
           "tags": [],
-          "links": {},
           "data": {
             "mirrors": [
               "https://github.com/resin-io/jellyfish/issues/724"
@@ -46,14 +43,12 @@
       "type": "update",
       "active": true,
       "tags": [],
-      "links": {},
       "data": {
         "timestamp": "2018-09-27T14:30:19Z",
         "payload": {
           "name": "Issue close label toggle",
           "active": true,
           "tags": [],
-          "links": {},
           "data": {
             "mirrors": [
               "https://github.com/resin-io/jellyfish/issues/724"
@@ -71,14 +66,12 @@
       "type": "update",
       "active": true,
       "tags": [],
-      "links": {},
       "data": {
         "timestamp": "2018-09-27T14:31:38Z",
         "payload": {
           "name": "Issue close label toggle",
           "active": true,
           "tags": [ "chore" ],
-          "links": {},
           "data": {
             "mirrors": [
               "https://github.com/resin-io/jellyfish/issues/724"
@@ -96,14 +89,12 @@
       "type": "update",
       "active": true,
       "tags": [],
-      "links": {},
       "data": {
         "timestamp": "2018-09-27T14:32:50Z",
         "payload": {
           "name": "Issue close label toggle",
           "active": true,
           "tags": [],
-          "links": {},
           "data": {
             "mirrors": [
               "https://github.com/resin-io/jellyfish/issues/724"

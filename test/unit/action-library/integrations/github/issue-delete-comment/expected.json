@@ -4,7 +4,6 @@
     "type": "issue",
     "active": true,
     "tags": [],
-    "links": {},
     "data": {
       "mirrors": [
         "https://github.com/resin-io/jellyfish/issues/714"
@@ -21,7 +20,6 @@
       "type": "message",
       "active": false,
       "tags": [],
-      "links": {},
       "data": {
         "mirrors": [
           "https://github.com/resin-io/jellyfish/issues/714#issuecomment-423287504"
@@ -38,14 +36,12 @@
       "type": "create",
       "active": true,
       "tags": [],
-      "links": {},
       "data": {
         "timestamp": "2018-09-20T18:30:59Z",
         "payload": {
           "name": "Issue delete comment",
           "active": true,
           "tags": [],
-          "links": {},
           "data": {
             "mirrors": [
               "https://github.com/resin-io/jellyfish/issues/714"

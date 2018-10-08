@@ -4,7 +4,6 @@
     "type": "issue",
     "active": true,
     "tags": [],
-    "links": {},
     "data": {
       "mirrors": [
         "https://github.com/resin-io/jellyfish/issues/723"
@@ -21,14 +20,12 @@
       "type": "create",
       "active": true,
       "tags": [],
-      "links": {},
       "data": {
         "timestamp": "2018-09-27T13:47:52Z",
         "payload": {
           "name": "Issue label removal",
           "active": true,
           "tags": [],
-          "links": {},
           "data": {
             "mirrors": [
               "https://github.com/resin-io/jellyfish/issues/723"
@@ -46,14 +43,12 @@
       "type": "update",
       "active": true,
       "tags": [],
-      "links": {},
       "data": {
         "timestamp": "2018-09-27T13:49:06Z",
         "payload": {
           "name": "Issue label removal",
           "active": true,
           "tags": [ "bug" ],
-          "links": {},
           "data": {
             "mirrors": [
               "https://github.com/resin-io/jellyfish/issues/723"
@@ -71,14 +66,12 @@
       "type": "update",
       "active": true,
       "tags": [],
-      "links": {},
       "data": {
         "timestamp": "2018-09-27T13:50:48Z",
         "payload": {
           "name": "Issue label removal",
           "active": true,
           "tags": [],
-          "links": {},
           "data": {
             "mirrors": [
               "https://github.com/resin-io/jellyfish/issues/723"

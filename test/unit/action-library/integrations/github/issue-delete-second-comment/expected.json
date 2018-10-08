@@ -4,7 +4,6 @@
     "type": "issue",
     "active": true,
     "tags": [],
-    "links": {},
     "data": {
       "mirrors": [
         "https://github.com/resin-io/jellyfish/issues/721"
@@ -21,7 +20,6 @@
       "type": "message",
       "active": true,
       "tags": [],
-      "links": {},
       "data": {
         "mirrors": [
           "https://github.com/resin-io/jellyfish/issues/721#issuecomment-424722054"
@@ -38,7 +36,6 @@
       "type": "message",
       "active": false,
       "tags": [],
-      "links": {},
       "data": {
         "mirrors": [
           "https://github.com/resin-io/jellyfish/issues/721#issuecomment-424722576"
@@ -55,14 +52,12 @@
       "type": "create",
       "active": true,
       "tags": [],
-      "links": {},
       "data": {
         "timestamp": "2018-09-26T13:47:13Z",
         "payload": {
           "name": "Issue delete second comment",
           "active": true,
           "tags": [],
-          "links": {},
           "data": {
             "mirrors": [
               "https://github.com/resin-io/jellyfish/issues/721"

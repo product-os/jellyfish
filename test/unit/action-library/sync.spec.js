@@ -21,8 +21,8 @@ const typedErrors = require('typed-errors')
 const sync = require('../../../lib/action-library/sync')
 const NoOpIntegration = require('./noop-integration')
 
-ava.test.beforeEach(helpers.beforeEach)
-ava.test.afterEach(helpers.afterEach)
+ava.test.beforeEach(helpers.sync.beforeEach)
+ava.test.afterEach(helpers.sync.afterEach)
 
 ava.test('.importCards() should import no card', async (test) => {
 	const result = await sync.importCards(test.context.context, test.context.session, [], {
