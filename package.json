@@ -1,6 +1,6 @@
 {
   "name": "jellyfish",
-  "version": "4.7.0",
+  "version": "4.8.0",
   "private": true,
   "description": "The Jellyfish Project",
   "main": "lib/server/index.js",
