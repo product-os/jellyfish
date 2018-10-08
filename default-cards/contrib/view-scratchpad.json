@@ -25,8 +25,7 @@
       }
     ],
     "lenses": [
-      "lens-default-card",
-      "lens-default-list",
+      "lens-list",
       "lens-kanban"
     ]
   }

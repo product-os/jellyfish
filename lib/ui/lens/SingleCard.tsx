@@ -14,7 +14,10 @@ import {
 import { Markdown } from 'rendition/dist/extra/Markdown';
 import { Mermaid } from 'rendition/dist/extra/Mermaid';
 import styled from 'styled-components';
-import { Card, Channel, Type } from '../../Types';
+import { Card, Lens, Type } from '../../Types';
+import { CardActions } from '../components/CardActions';
+import Label from '../components/Label';
+import { Tag } from '../components/Tag';
 import { actionCreators, selectors, StoreState } from '../core/store';
 import {
 	createChannel,
@@ -22,9 +25,13 @@ import {
 	formatTimestamp,
 	getLocalSchema,
 } from '../services/helpers';
-import { CardActions } from './CardActions';
-import Label from './Label';
-import { Tag } from './Tag';
+import TimelineLens from './Timeline';
+
+const Column = styled(Flex)`
+	height: 100%;
+	overflow-y: auto;
+	min-width: 270px;
+`;
 
 const Badge = styled(Txt)`
 	display: inline-block;
@@ -116,17 +123,17 @@ const CardField = ({ field, payload, users, schema }: {
 };
 
 interface CardProps {
+	level: number;
 	card: Card;
 	allUsers: Card[];
 	types: Type[];
 	fieldOrder?: string[];
-	channel?: Channel;
 	actions: typeof actionCreators;
 }
 
 class Base extends React.Component<CardProps, {}> {
 	public openChannel = () => {
-		if (!this.props.channel) {
+		if (this.props.level === 0) {
 			return;
 		}
 
@@ -135,7 +142,6 @@ class Base extends React.Component<CardProps, {}> {
 		this.props.actions.addChannel(createChannel({
 			target: card.id,
 			head: card,
-			parentChannel: this.props.channel.id,
 		}));
 	}
 
@@ -143,24 +149,9 @@ class Base extends React.Component<CardProps, {}> {
 		return !circularDeepEqual(nextProps, this.props);
 	}
 
-	public refresh = () => {
-		const { channel } = this.props;
-		if (channel) {
-			this.props.actions.loadChannelData(channel);
-		}
-	}
-
-	public delete = () => {
-		const { channel } = this.props;
-		if (channel) {
-			this.props.actions.removeChannel(channel);
-		}
-	}
-
-
 	public render(): React.ReactNode {
-		const payload = this.props.card.data;
-		const { card, fieldOrder, channel } = this.props;
+		const { card, fieldOrder, level } = this.props;
+		const payload = card.data;
 		const typeCard = _.find(this.props.types, { slug: card.type });
 		const typeSchema = _.get(typeCard, 'data.schema');
 		const localSchema = getLocalSchema(card);
@@ -180,21 +171,19 @@ class Base extends React.Component<CardProps, {}> {
 
 		const keys = (fieldOrder || []).concat(unorderedKeys);
 
-		const inView = _.get(channel, ['data', 'head', 'type']) === 'view';
-
-		return (
-			<Box mb={3}>
+		const content = (
+			<>
 				<Flex justify="space-between">
 					<Heading.h4 my={3}>
-						{inView &&
-							<Link onClick={this.openChannel}>
+						{level > 0 &&
+							<Link onClick={this.openChannel} className={`header-link--${card.slug || card.id}`}>
 								{card.name || card.slug || card.type}
 							</Link>
 						}
-						{!inView && (card.name || card.slug || card.type)}
+						{!level && (card.name || card.slug || card.type)}
 					</Heading.h4>
 
-					{!inView &&
+					{!level &&
 						<CardActions
 							card={card}
 						/>
@@ -221,7 +210,29 @@ class Base extends React.Component<CardProps, {}> {
 						: null;
 					})
 				}
+			</>
+		);
 
+		if (!level) {
+			return (
+				<Column
+					className={`column--${card ? card.slug || card.type : 'unknown'}`}
+					flex="1"
+					flexDirection="column"
+				>
+					<Box p={3} style={{maxHeight: '50%', borderBottom: '1px solid #ccc', overflowY: 'auto'}}>
+						{content}
+					</Box>
+					<Box flex="1 0 50%" style={{ overflowY: 'auto'}}>
+						<TimelineLens.data.renderer card={this.props.card} />
+					</Box>
+				</Column>
+			);
+		}
+
+		return (
+			<Box mb={3}>
+				{content}
 			</Box>
 		);
 	}
@@ -238,4 +249,19 @@ const mapDispatchToProps = (dispatch: any) => ({
 	actions: bindActionCreators(actionCreators, dispatch),
 });
 
-export const CardRenderer = connect(mapStateToProps, mapDispatchToProps)(Base);
+export const Renderer = connect(mapStateToProps, mapDispatchToProps)(Base);
+
+const lens: Lens = {
+	slug: 'lens-default',
+	type: 'lens',
+	name: 'Default lens',
+	data: {
+		icon: 'address-card',
+		renderer: Renderer,
+		filter: {
+			type: 'object',
+		},
+	},
+};
+
+export default lens;

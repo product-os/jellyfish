@@ -248,8 +248,8 @@ ava.test.serial('should allow team-admin users to update user\'s roles', async (
 	await page.click('.home-channel__item--view-all-users')
 
 	// Select the community user
-	await page.waitForSelector(`.list-item--user-${users.community.username}`, WAIT_OPTS)
-	await page.click(`.list-item--user-${users.community.username}`)
+	await page.waitForSelector(`.header-link--user-${users.community.username}`, WAIT_OPTS)
+	await page.click(`.header-link--user-${users.community.username}`)
 
 	// Add a small delay to allow the data stream to intialise, normally this is
 	// an unnoticeable delay, but the test run fast enough to cause a race

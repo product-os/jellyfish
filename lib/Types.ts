@@ -91,7 +91,7 @@ export interface Lens {
 	type: string;
 	name: string;
 	data: {
-		filter?: JSONSchema6;
+		filter: JSONSchema6;
 		icon: string;
 		renderer: any;
 		supportsGroups?: boolean;

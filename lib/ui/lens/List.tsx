@@ -1,51 +1,72 @@
 import { circularDeepEqual } from 'fast-equals';
-import * as _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux';
+import ResizeObserver from 'react-resize-observer';
+import {
+	AutoSizer,
+	CellMeasurer,
+	CellMeasurerCache,
+	List,
+	ListRowProps,
+} from 'react-virtualized';
 import { bindActionCreators } from 'redux';
 import {
 	Box,
 	Button,
+	Divider,
 	Flex,
 	Txt,
 } from 'rendition';
+import styled from 'styled-components';
 import { Card, Lens, RendererProps, Type } from '../../Types';
 import { CardCreator } from '../components/CardCreator';
 import Icon from '../components/Icon';
+import { LensRenderer } from '../components/LensRenderer';
 import { actionCreators } from '../core/store';
 import { createChannel, getUpdateObjectFromSchema, getViewSchema } from '../services/helpers';
 
-interface DefaultListState {
+const Column = styled(Flex)`
+	height: 100%;
+	min-width: 350px;
+	overflow-y: auto;
+`;
+
+interface CardListState {
 	showNewCardModal: boolean;
 	creatingCard: boolean;
 }
 
-interface DefaultListProps extends RendererProps {
-	type: null | Type;
+interface CardListProps extends RendererProps {
 	actions: typeof actionCreators;
+	type: null | Type;
 }
 
-class DefaultList extends React.Component<DefaultListProps, DefaultListState> {
-	constructor(props: DefaultListProps) {
+class CardList extends React.Component<CardListProps, CardListState> {
+	private _cache: CellMeasurerCache;
+
+	constructor(props: CardListProps) {
 		super(props);
 
 		this.state = {
-			showNewCardModal: false,
 			creatingCard: false,
+			showNewCardModal: false,
 		};
+
+		this._cache = new CellMeasurerCache({
+			defaultHeight: 300,
+			fixedWidth: true,
+		});
 	}
 
-	public shouldComponentUpdate(nextProps: DefaultListProps, nextState: DefaultListState): boolean {
-		return !circularDeepEqual(nextState, this.state) || !circularDeepEqual(nextProps, this.props);
-	}
-
-	public handleOpenChannel = (e: React.MouseEvent<HTMLAnchorElement>) => {
-		const id = e.currentTarget.dataset.id;
-		const card = _.find(this.props.tail, { id });
-		if (!card) {
-			return;
+	public componentWillUpdate({ tail }: CardListProps): void {
+		// If tail data has changed, clear the cell cache
+		if (!circularDeepEqual(this.props.tail, tail)) {
+			this.clearCellCache();
 		}
-		this.openChannel(card);
+	}
+
+	public clearCellCache = () => {
+		this._cache.clearAll();
 	}
 
 	public openChannel(card: Card): void {
@@ -97,46 +118,65 @@ class DefaultList extends React.Component<DefaultListProps, DefaultListState> {
 		return getUpdateObjectFromSchema(schema);
 	}
 
-	public render(): React.ReactNode {
-		const {
-			tail,
-			type,
-			channel: {
-				data: { head },
-			},
-		} = this.props;
+	public rowRenderer = (props: ListRowProps) => {
+		const { tail, channel: { data: { head } } } = this.props;
+		const card = tail![props.index];
 
-		const typeName = type ? type.name || type.slug : '';
+		// Don't show the card if its the head, this can happen on view types
+		if (card.id === head!.id) {
+			return null;
+		}
 
 		return (
-			<React.Fragment>
-				<Box p={3} flex="1" style={{overflowY: 'auto'}}>
-					{!!tail && _.map(tail, (card) => {
-						// Don't show the card if its the head, this can happen on view types
-						if (card.id === head!.id) {
-							return null;
-						}
+			<CellMeasurer
+				cache={this._cache}
+				columnIndex={0}
+				key={card.id}
+				overscanRowCount={10}
+				parent={props.parent}
+				rowIndex={props.index}
+			>
+				<Box px={3} style={props.style}>
+					<LensRenderer
+						card={card}
+						level={1}
+					/>
+					<Divider color="#eee" m={0} style={{height: 1}} />
+				</Box>
+			</CellMeasurer>
+		);
+	}
 
-						return (
-							<Box key={card.id} mb={3}>
-								<a
-									data-id={card.id}
-									onClick={this.handleOpenChannel}
-									className={`list-item--${card.slug || card.id}`}
-									href={`#${head!.id}/${card.id}`}
-								>
-									{card.name || card.slug || card.id}
-								</a>
-							</Box>
-						);
-					})}
+	public render(): React.ReactNode {
+		const { tail } = this.props;
+
+		return (
+			<Column flexDirection="column">
+				<Box flex="1" style={{ position: 'relative' }}>
+					<ResizeObserver onResize={this.clearCellCache} />
+					{!!tail && tail.length > 0 &&
+						<AutoSizer>
+							{({ width, height }) => (
+								<List
+									width={width}
+									height={height}
+									deferredMeasurementCache={this._cache}
+									rowHeight={this._cache.rowHeight}
+									rowRenderer={this.rowRenderer}
+									rowCount={tail.length}
+									onResize={this.clearCellCache}
+									overscanRowCount={3}
+								/>
+							)}
+						</AutoSizer>
+					}
 
 					{!!tail && tail.length === 0 &&
 							<Txt.p p={3}>No results found</Txt.p>
 					}
 				</Box>
 
-				{!!type &&
+				{!!this.props.type &&
 					<React.Fragment>
 						<Flex
 							p={3}
@@ -150,7 +190,7 @@ class DefaultList extends React.Component<DefaultListProps, DefaultListState> {
 							>
 								{this.state.creatingCard && <Icon name="cog fa-spin" />}
 								{!this.state.creatingCard &&
-									<span>Add a {typeName}</span>
+									<span>Add a {this.props.type.name || this.props.type.slug}</span>
 								}
 							</Button>
 						</Flex>
@@ -158,14 +198,14 @@ class DefaultList extends React.Component<DefaultListProps, DefaultListState> {
 						<CardCreator
 							seed={this.getSeedData()}
 							show={this.state.showNewCardModal}
-							type={type}
+							type={this.props.type}
 							onCreate={this.startCreatingCard}
 							done={this.doneCreatingCard}
 							cancel={this.cancelCreatingCard}
 						/>
 					</React.Fragment>
 				}
-			</React.Fragment>
+			</Column>
 		);
 	}
 }
@@ -175,12 +215,12 @@ const mapDispatchToProps = (dispatch: any) => ({
 });
 
 const lens: Lens = {
-	slug: 'lens-default-list',
+	slug: 'lens-list',
 	type: 'lens',
 	name: 'Default list lens',
 	data: {
-		renderer: connect(null, mapDispatchToProps)(DefaultList),
-		icon: 'list-ul',
+		renderer: connect(null, mapDispatchToProps)(CardList),
+		icon: 'address-card',
 		type: '*',
 		filter: {
 			type: 'array',
