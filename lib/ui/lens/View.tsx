@@ -19,7 +19,7 @@ import ButtonGroup from '../components/ButtonGroup';
 import ChannelRenderer from '../components/ChannelRenderer';
 import Icon from '../components/Icon';
 import { If } from '../components/If';
-import { sdk } from '../core/sdk';
+import { analytics, sdk } from '../core';
 import { actionCreators, selectors, StoreState } from '../core/store';
 import {
 	createChannel,
@@ -138,13 +138,19 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 
 	public saveView = ([ view ]: FiltersView[]): void => {
 		sdk.card.create(this.createView(view))
-		.then(
-			(view) => this.props.actions.addChannel(createChannel({
+		.then((view) => {
+			analytics.track('element.create', {
+				element: {
+					type: 'view',
+				},
+			});
+
+			this.props.actions.addChannel(createChannel({
 				target: view.id,
 				head: view,
 				parentChannel: this.props.channels[0].id,
-			})),
-		)
+			}));
+		})
 		.catch((error) => {
 			this.props.actions.addNotification('danger', error.message);
 		});

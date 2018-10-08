@@ -17,7 +17,7 @@ import AutocompleteTextarea from '../components/AutocompleteTextarea';
 import EventCard from '../components/Event';
 import Icon from '../components/Icon';
 import { TailStreamer } from '../components/TailStreamer';
-import { sdk } from '../core';
+import { analytics, sdk } from '../core';
 import { actionCreators, selectors, StoreState } from '../core/store';
 import {
 	createChannel,
@@ -188,6 +188,13 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		};
 
 		sdk.card.create(message)
+			.then(() => {
+				analytics.track('element.create', {
+					element: {
+						type: 'message',
+					},
+				});
+			})
 			.catch((error) => {
 				this.props.actions.addNotification('danger', error.message || error);
 			});
@@ -253,6 +260,13 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		};
 
 		sdk.card.create(message)
+			.then(() => {
+				analytics.track('element.create', {
+					element: {
+						type: 'message',
+					},
+				});
+			})
 			.catch((error) => {
 				this.props.actions.addNotification('danger', error.message || error);
 			});

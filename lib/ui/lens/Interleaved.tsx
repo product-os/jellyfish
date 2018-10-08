@@ -16,7 +16,7 @@ import { Card, Lens, RendererProps } from '../../Types';
 import EventCard from '../components/Event';
 import Icon from '../components/Icon';
 import { TailStreamer } from '../components/TailStreamer';
-import { sdk } from '../core';
+import { analytics, sdk } from '../core';
 import { actionCreators, selectors, StoreState } from '../core/store';
 import { createChannel, getUpdateObjectFromSchema, getViewSchema } from '../services/helpers';
 
@@ -181,6 +181,13 @@ export class Interleaved extends TailStreamer<InterleavedProps, InterleavedState
 			.then((thread) => {
 				this.openChannel(thread.id, thread);
 				return null;
+			})
+			.then(() => {
+				analytics.track('element.create', {
+					element: {
+						type: cardData.type,
+					},
+				});
 			})
 			.catch((error) => {
 				this.props.actions.addNotification('danger', error.message);

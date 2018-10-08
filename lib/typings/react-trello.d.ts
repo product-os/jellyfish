@@ -3,6 +3,7 @@ declare module 'react-trello' {
 
 	export interface BoardCard {
 		id: string;
+		type: string;
 		title: string;
 		description?: string;
 		label?: string;

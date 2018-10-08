@@ -2,6 +2,7 @@ import * as Bluebird from 'bluebird';
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import { Dispatch } from 'redux';
+import { analytics } from '../';
 import { JellyfishStream } from '../../../sdk/stream';
 import { Card } from '../../../Types';
 import { hashCode } from '../../services/helpers';
@@ -288,7 +289,10 @@ export const actionCreators = {
 							target,
 							actor: user.id,
 						},
-					});
+					})
+						.tap(() => {
+							analytics.track('element.create', { element: { type: 'subscription' } });
+						});
 				}
 
 				return subCard;

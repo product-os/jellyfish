@@ -98,7 +98,8 @@ const config = {
 				API_URL: JSON.stringify(process.env.API_URL),
 				API_PREFIX: JSON.stringify(process.env.API_PREFIX || 'api/v2/'),
 				NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-				SENTRY_DSN_UI: JSON.stringify(process.env.SENTRY_DSN_UI)
+				SENTRY_DSN_UI: JSON.stringify(process.env.SENTRY_DSN_UI),
+				MIXPANEL_TOKEN_UI: JSON.stringify(process.env.MIXPANEL_TOKEN_UI)
 			}
 		}),
 
