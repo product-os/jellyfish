@@ -256,7 +256,14 @@ ava.test('.getLastExecutionEvent() should return the last execution event given 
 		id: '8fd7be57-4f68-4faf-bbc6-200a7c62c41a',
 		type: 'execute',
 		active: true,
-		links: {},
+		links: {
+			'is attached to': [
+				{
+					$link: event.links['is attached to'][0].$link,
+					id: '57692206-8da2-46e1-91c9-159b2c6928ef'
+				}
+			]
+		},
 		tags: [],
 		markers: [],
 		data: {
@@ -308,7 +315,14 @@ ava.test('.getLastExecutionEvent() should return the last event given a matching
 		id: '8fd7be57-4f68-4faf-bbc6-200a7c62c41a',
 		type: 'execute',
 		active: true,
-		links: {},
+		links: {
+			'is attached to': [
+				{
+					$link: event.links['is attached to'][0].$link,
+					id: '57692206-8da2-46e1-91c9-159b2c6928ef'
+				}
+			]
+		},
 		tags: [],
 		markers: [],
 		data: {
@@ -360,7 +374,14 @@ ava.test('.getLastExecutionEvent() should return the last execution event given 
 		id: '8fd7be57-4f68-4faf-bbc6-200a7c62c41a',
 		type: 'execute',
 		active: true,
-		links: {},
+		links: {
+			'is attached to': [
+				{
+					$link: event.links['is attached to'][0].$link,
+					id: '57692206-8da2-46e1-91c9-159b2c6928ef'
+				}
+			]
+		},
 		tags: [],
 		markers: [],
 		data: {
