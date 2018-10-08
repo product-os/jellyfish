@@ -1,0 +1,20 @@
+{
+  "slug": "view-read-user-admin",
+  "name": "Kernel admin user read permissions",
+  "type": "view",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "allOf": [
+      {
+        "name": "All cards",
+        "schema": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    ]
+  }
+}
