@@ -26,27 +26,27 @@ exports.jellyfish = {
 		test.context.actor = await test.context.jellyfish.getCardById(test.context.session, session.data.actor)
 
 		await test.context.jellyfish.insertCard(test.context.session,
-			require('../../../default-cards/contrib/execute.json'))
+			require('../../../default-cards/build/contrib/execute.json'))
 		await test.context.jellyfish.insertCard(test.context.session,
-			require('../../../default-cards/contrib/create.json'))
+			require('../../../default-cards/build/contrib/create.json'))
 		await test.context.jellyfish.insertCard(test.context.session,
-			require('../../../default-cards/contrib/update.json'))
+			require('../../../default-cards/build/contrib/update.json'))
 		await test.context.jellyfish.insertCard(test.context.session,
-			require('../../../default-cards/contrib/triggered-action.json'))
+			require('../../../default-cards/build/contrib/triggered-action.json'))
 		await test.context.jellyfish.insertCard(test.context.session,
-			require('../../../default-cards/contrib/action-create-card.json'))
+			require('../../../default-cards/build/contrib/action-create-card.json'))
 		await test.context.jellyfish.insertCard(test.context.session,
-			require('../../../default-cards/contrib/action-create-event.json'))
+			require('../../../default-cards/build/contrib/action-create-event.json'))
 		await test.context.jellyfish.insertCard(test.context.session,
-			require('../../../default-cards/contrib/action-set-add.json'))
+			require('../../../default-cards/build/contrib/action-set-add.json'))
 		await test.context.jellyfish.insertCard(test.context.session,
-			require('../../../default-cards/contrib/action-create-user.json'))
+			require('../../../default-cards/build/contrib/action-create-user.json'))
 		await test.context.jellyfish.insertCard(test.context.session,
-			require('../../../default-cards/contrib/action-create-session.json'))
+			require('../../../default-cards/build/contrib/action-create-session.json'))
 		await test.context.jellyfish.insertCard(test.context.session,
-			require('../../../default-cards/contrib/action-update-card.json'))
+			require('../../../default-cards/build/contrib/action-update-card.json'))
 		await test.context.jellyfish.insertCard(test.context.session,
-			require('../../../default-cards/contrib/action-delete-card.json'))
+			require('../../../default-cards/build/contrib/action-delete-card.json'))
 	},
 
 	afterEach: async (test) => {

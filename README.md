@@ -3,13 +3,13 @@ Jellyfish
 
 [![CircleCI](https://circleci.com/gh/resin-io/jellyfish/tree/master.svg?style=svg&circle-token=a2fd174edea733705e39a120177472b9c949cc5b)](https://circleci.com/gh/resin-io/jellyfish/tree/master)
 
-Installing RethinkDB
---------------------
+## Dependencies
+
+### Installing RethinkDB
 
 - On macOS, run `brew install rethinkdb`
 
-RethinkDB Setup
----------------
+### RethinkDB Setup
 
 1. Create a user in the `users` table of the special `rethinkdb` database. In
    this case we will call it `master`:
@@ -38,14 +38,17 @@ RethinkDB Setup
     })
     ```
 
-Running in testing mode
------------------------
+### Jsonnet
+
+To generate the default cards, [Jsonnet][1] commandline interpreter v0.11.2 is used.
+To install on macOS, run `brew install jsonnet`.
+
+## Running in testing mode
 
 Run the `rethinkdb` binary on a separate terminal, and then run `npm start`
 without any special environment variables.
 
-Running in production mode
---------------------------
+## Running in production mode
 
 Set the following environment variables:
 
@@ -68,8 +71,7 @@ If you would like to have errors reported to sentry, you can provide a sentry
 DSN using the environment variable `SENTRY_DSN_SERVER` for server errors and
 `SENTRY_DSN_UI` for UI errors.
 
-e2e Tests
----------
+## e2e Tests
 
 To run UI end-to-end tests you need to set the following environment variables
 
@@ -85,15 +87,13 @@ Run the tests using the command
 npm run test:e2e
 ```
 
-Puppeteer
----------
+## Puppeteer
 
 UI Integration tests use puppeteer to simulate a browser. If you set the
 environement variable `PUPPETEER_VISUAL_MODE=1`, Puppeteer will launch
 a browser so you can see the test running.
 
-File uploads
-------------
+## File uploads
 
 By default uploaded files are saved to the local disk in a directory named
 `jellyfish-files`. You can also use AWS S3 to store files: to do this, you need
@@ -104,3 +104,5 @@ FS_DRIVER=s3FS
 AWS_ACCESS_KEY_ID=<aws access key id>
 AWS_SECRET_ACCESS_KEY=<aws secret access key>
 ```
+
+[1]: http://jsonnet.org/learning/getting_started.html

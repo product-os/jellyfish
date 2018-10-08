@@ -68,6 +68,7 @@ jellyfish-files
 
 # Built files
 dist/
+default-cards/build/
 .cache-loader/
 webpack-bundle-report.html
 

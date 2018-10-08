@@ -26,11 +26,11 @@ ava.test.beforeEach(async (test) => {
 	await helpers.beforeEach(test)
 
 	await test.context.jellyfish.insertCard(test.context.session,
-		require('../../../../../default-cards/contrib/external-event.json'))
+		require('../../../../../default-cards/build/contrib/external-event.json'))
 	await test.context.jellyfish.insertCard(test.context.session,
-		require('../../../../../default-cards/contrib/issue.json'))
+		require('../../../../../default-cards/build/contrib/issue.json'))
 	await test.context.jellyfish.insertCard(test.context.session,
-		require('../../../../../default-cards/contrib/message.json'))
+		require('../../../../../default-cards/build/contrib/message.json'))
 })
 
 ava.test.afterEach(helpers.afterEach)

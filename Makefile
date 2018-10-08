@@ -1,5 +1,6 @@
 .PHONY: lint \
 	build-ui \
+	build-cards \
 	dev-ui \
 	test \
 	build \
@@ -40,10 +41,16 @@ lint:
 build-ui:
 	NODE_ENV=production ./node_modules/.bin/webpack
 
+build-cards:
+	rm -rf ./default-cards/build && \
+	mkdir -p ./default-cards/build/core && \
+	mkdir -p ./default-cards/build/contrib && \
+	jsonnet ./default-cards/src/index.jsonnet -m ./default-cards/build
+
 dev-ui:
 	NODE_ENV=dev API_URL=$(API_URL) ./node_modules/.bin/webpack-dev-server --color
 
-test:
+test: build-cards
 	node scripts/scrub-test-databases.js
 	NODE_ENV=test \
 	DB_HOST=$(DB_HOST) \
@@ -51,7 +58,7 @@ test:
 	API_URL=$(API_URL) \
 	$(COVERAGE_COMMAND) ./node_modules/.bin/ava $(FILES)
 
-test-unit:
+test-unit: build-cards
 	FILES=./test/unit/**/*.spec.js \
 		DB_HOST=$(DB_HOST) \
 		DB_PORT=$(DB_PORT) \
@@ -59,7 +66,7 @@ test-unit:
 		COVERAGE=$(COVERAGE) \
 		make test
 
-test-integration:
+test-integration: build-cards
 	FILES=./test/integration/**/*.spec.js \
 		DB_HOST=$(DB_HOST) \
 		DB_PORT=$(DB_PORT) \
@@ -67,7 +74,7 @@ test-integration:
 		COVERAGE=$(COVERAGE) \
 		make test
 
-test-unit-%:
+test-unit-%: build-cards
 	FILES=./test/unit/$(subst test-unit-,,$@)/**/*.spec.js \
 		DB_HOST=$(DB_HOST) \
 		DB_PORT=$(DB_PORT) \
@@ -75,7 +82,7 @@ test-unit-%:
 		COVERAGE=$(COVERAGE) \
 		make test
 
-test-integration-%:
+test-integration-%: build-cards
 	FILES=./test/integration/$(subst test-integration-,,$@)/**/*.spec.js \
 		DB_HOST=$(DB_HOST) \
 		DB_PORT=$(DB_PORT) \
@@ -90,11 +97,11 @@ test-e2e:
 		JF_URL=$(API_URL) \
 		./node_modules/.bin/ava test/e2e/**/*.spec.js
 
-build: build-ui
+build: build-ui build-cards
 	rm -rf ./lib/action-library/dist && \
 		./node_modules/.bin/tsc --project ./lib/action-library
 
-start-server:
+start-server: build-cards
 	DEBUG=$(NODE_DEBUG) node lib/server/index.js
 
 start-db:
