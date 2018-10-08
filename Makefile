@@ -99,3 +99,6 @@ start-server:
 
 start-db:
 	rethinkdb --driver-port $(DB_PORT)
+
+ngrok-%:
+	ngrok start -config ./ngrok.yml $(subst ngrok-,,$@)

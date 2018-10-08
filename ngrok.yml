@@ -1,0 +1,4 @@
+tunnels:
+  server:
+    proto: http
+    addr: 8000
