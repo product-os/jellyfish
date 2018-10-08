@@ -1,0 +1,65 @@
+{
+  "slug": "whisper",
+  "type": "type",
+  "name": "Whisper message",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "properties": {
+            "timestamp": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "target": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "actor": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "mentionsUser": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "alertsUser": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "message": {
+                  "type": "string",
+                  "format": "markdown"
+                }
+              },
+              "additionalProperties": true
+            }
+          },
+          "required": [
+            "timestamp",
+            "target",
+            "actor",
+            "payload"
+          ]
+        }
+      },
+      "additionalProperties": true
+    },
+    "lenses": [
+      "lens-interleaved"
+    ]
+  }
+}
