@@ -1,0 +1,82 @@
+{
+  "head": {
+    "name": "open-close",
+    "type": "support-thread",
+    "active": true,
+    "tags": [],
+    "data": {
+      "mirrors": [
+        "https://api2.frontapp.com/conversations/cnv_11dvpbu"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "",
+      "status": "open",
+      "archived": true
+    }
+  },
+  "tail": [
+    {
+      "type": "message",
+      "active": true,
+      "tags": [],
+      "data": {
+        "mirrors": [
+          "https://api2.frontapp.com/messages/msg_1w1emp6"
+        ],
+        "timestamp": "2018-10-08T18:32:44.690Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "Hello"
+        }
+      }
+    },
+    {
+      "type": "create",
+      "active": true,
+      "tags": [],
+      "data": {
+        "timestamp": "2018-10-08T18:32:44.690Z",
+        "payload": {
+          "name": "open-close",
+          "active": true,
+          "tags": [],
+          "data": {
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_11dvpbu"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open",
+            "archived": false
+          }
+        }
+      }
+    },
+    {
+      "type": "update",
+      "active": true,
+      "tags": [],
+      "data": {
+        "timestamp": "2018-10-08T18:33:08.140Z",
+        "payload": {
+          "name": "open-close",
+          "active": true,
+          "tags": [],
+          "data": {
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_11dvpbu"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open",
+            "archived": true
+          }
+        }
+      }
+    }
+  ]
+}

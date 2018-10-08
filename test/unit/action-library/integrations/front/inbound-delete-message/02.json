@@ -1,0 +1,110 @@
+{
+  "headers": {
+    "accept": "application/json",
+    "user-agent": "Needle/1.3.0 (Node.js v9.11.1; linux x64)",
+    "x-front-signature": "kPMlLL5AkO0hpkwjRTJDGDiK/SU=",
+    "content-length": "1894",
+    "content-type": "application/json; charset=utf-8",
+    "host": "d940a2e4.ngrok.io",
+    "connection": "close",
+    "x-forwarded-proto": "https",
+    "x-forwarded-for": "54.193.55.199"
+  },
+  "payload": {
+    "_links": {
+      "self": "https://api2.frontapp.com/events/evt_4imjjq3"
+    },
+    "id": "evt_4imjjq3",
+    "type": "trash",
+    "emitted_at": 1539210527.412,
+    "conversation": {
+      "_links": {
+        "self": "https://api2.frontapp.com/conversations/cnv_11she63",
+        "related": {
+          "events": "https://api2.frontapp.com/conversations/cnv_11she63/events",
+          "followers": "https://api2.frontapp.com/conversations/cnv_11she63/followers",
+          "messages": "https://api2.frontapp.com/conversations/cnv_11she63/messages",
+          "comments": "https://api2.frontapp.com/conversations/cnv_11she63/comments",
+          "inboxes": "https://api2.frontapp.com/conversations/cnv_11she63/inboxes"
+        }
+      },
+      "id": "cnv_11she63",
+      "subject": "Delete message test",
+      "status": "deleted",
+      "assignee": null,
+      "recipient": {
+        "_links": {
+          "related": {
+            "contact": "https://api2.frontapp.com/contacts/crd_5ef35"
+          }
+        },
+        "handle": "juan@resin.io",
+        "role": "from"
+      },
+      "tags": [],
+      "last_message": {
+        "_links": {
+          "self": "https://api2.frontapp.com/messages/msg_1y9npub",
+          "related": {
+            "conversation": "https://api2.frontapp.com/conversations/cnv_11she63"
+          }
+        },
+        "id": "msg_1y9npub",
+        "type": "email",
+        "is_inbound": true,
+        "created_at": 1539210518.044,
+        "blurb": " Hello ",
+        "body": "<div>Hello</div>\n",
+        "text": "Hello\n",
+        "is_draft": false,
+        "error_type": null,
+        "metadata": {},
+        "author": null,
+        "recipients": [
+          {
+            "_links": {
+              "related": {
+                "contact": "https://api2.frontapp.com/contacts/crd_5ef35"
+              }
+            },
+            "handle": "juan@resin.io",
+            "role": "from"
+          },
+          {
+            "_links": {
+              "related": {
+                "contact": null
+              }
+            },
+            "handle": "ei8z-resin_io@in.frontapp.com",
+            "role": "to"
+          }
+        ],
+        "attachments": []
+      },
+      "created_at": 1539210518.211,
+      "is_private": false
+    },
+    "source": {
+      "_meta": {
+        "type": "teammate"
+      },
+      "data": {
+        "_links": {
+          "self": "https://api2.frontapp.com/teammates/tea_grc",
+          "related": {
+            "inboxes": "https://api2.frontapp.com/teammates/tea_grc/inboxes",
+            "conversations": "https://api2.frontapp.com/teammates/tea_grc/conversations"
+          }
+        },
+        "id": "tea_grc",
+        "email": "juan@resin.io",
+        "username": "jviotti",
+        "first_name": "Juan Cruz",
+        "last_name": "Viotti",
+        "is_admin": true,
+        "is_available": true
+      }
+    }
+  }
+}

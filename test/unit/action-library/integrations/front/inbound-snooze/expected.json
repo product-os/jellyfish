@@ -1,0 +1,66 @@
+{
+  "head": {
+    "name": "Snooze me",
+    "type": "support-thread",
+    "active": true,
+    "tags": [],
+    "data": {
+      "mirrors": [
+        "https://api2.frontapp.com/conversations/cnv_11sdgij"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "",
+      "status": "open",
+      "archived": true
+    }
+  },
+  "tail": [
+    {
+      "type": "create",
+      "active": true,
+      "tags": [],
+      "data": {
+        "timestamp": "2018-10-10T21:35:21.998Z",
+        "payload": {
+          "name": "Snooze me",
+          "active": true,
+          "tags": [],
+          "data": {
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_11sdgij"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open",
+            "archived": false
+          }
+        }
+      }
+    },
+    {
+      "type": "update",
+      "active": true,
+      "tags": [],
+      "data": {
+        "timestamp": "2018-10-10T21:35:33.868Z",
+        "payload": {
+          "name": "Snooze me",
+          "active": true,
+          "tags": [],
+          "data": {
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_11sdgij"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open",
+            "archived": true
+          }
+        }
+      }
+    }
+  ]
+}

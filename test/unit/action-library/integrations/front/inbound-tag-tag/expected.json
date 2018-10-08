@@ -1,0 +1,105 @@
+{
+  "head": {
+    "name": "Inbound tag",
+    "type": "support-thread",
+    "active": true,
+    "tags": [ "foo", "bar" ],
+    "data": {
+      "mirrors": [
+        "https://api2.frontapp.com/conversations/cnv_11dvyca"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "",
+      "status": "open",
+      "archived": false
+    }
+  },
+  "tail": [
+    {
+      "type": "message",
+      "active": true,
+      "tags": [],
+      "data": {
+        "mirrors": [
+          "https://api2.frontapp.com/messages/msg_1w1f12q"
+        ],
+        "timestamp": "2018-10-08T18:36:28.538Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "Hello"
+        }
+      }
+    },
+    {
+      "type": "create",
+      "active": true,
+      "tags": [],
+      "data": {
+        "timestamp": "2018-10-08T18:36:28.538Z",
+        "payload": {
+          "name": "Inbound tag",
+          "active": true,
+          "tags": [],
+          "data": {
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_11dvyca"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open",
+            "archived": false
+          }
+        }
+      }
+    },
+    {
+      "type": "update",
+      "active": true,
+      "tags": [],
+      "data": {
+        "timestamp": "2018-10-08T18:36:48.985Z",
+        "payload": {
+          "name": "Inbound tag",
+          "active": true,
+          "tags": [ "foo" ],
+          "data": {
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_11dvyca"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open",
+            "archived": false
+          }
+        }
+      }
+    },
+    {
+      "type": "update",
+      "active": true,
+      "tags": [],
+      "data": {
+        "timestamp": "2018-10-08T18:37:01.634Z",
+        "payload": {
+          "name": "Inbound tag",
+          "active": true,
+          "tags": [ "foo", "bar" ],
+          "data": {
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_11dvyca"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open",
+            "archived": false
+          }
+        }
+      }
+    }
+  ]
+}

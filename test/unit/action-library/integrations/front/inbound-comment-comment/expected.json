@@ -1,0 +1,75 @@
+{
+  "head": {
+    "name": "Send me a comment",
+    "type": "support-thread",
+    "active": true,
+    "tags": [],
+    "data": {
+      "mirrors": [
+        "https://api2.frontapp.com/conversations/cnv_11dweh6"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "",
+      "status": "open",
+      "archived": false
+    }
+  },
+  "tail": [
+    {
+      "type": "whisper",
+      "active": true,
+      "tags": [],
+      "data": {
+        "mirrors": [
+          "https://api2.frontapp.com/comments/com_1xdtgy"
+        ],
+        "timestamp": "2018-10-08T18:42:38.009Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "First comment"
+        }
+      }
+    },
+    {
+      "type": "whisper",
+      "active": true,
+      "tags": [],
+      "data": {
+        "mirrors": [
+          "https://api2.frontapp.com/comments/com_1xdthu"
+        ],
+        "timestamp": "2018-10-08T18:42:40.742Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "Second comment"
+        }
+      }
+    },
+    {
+      "type": "create",
+      "active": true,
+      "tags": [],
+      "data": {
+        "timestamp": "2018-10-08T18:42:29.447Z",
+        "payload": {
+          "name": "Send me a comment",
+          "active": true,
+          "tags": [],
+          "data": {
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_11dweh6"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open",
+            "archived": false
+          }
+        }
+      }
+    }
+  ]
+}

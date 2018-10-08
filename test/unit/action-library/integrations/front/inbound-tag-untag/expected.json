@@ -1,0 +1,105 @@
+{
+  "head": {
+    "name": "Tag untag",
+    "type": "support-thread",
+    "active": true,
+    "tags": [],
+    "data": {
+      "mirrors": [
+        "https://api2.frontapp.com/conversations/cnv_11dw1xu"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "",
+      "status": "open",
+      "archived": false
+    }
+  },
+  "tail": [
+    {
+      "type": "message",
+      "active": true,
+      "tags": [],
+      "data": {
+        "mirrors": [
+          "https://api2.frontapp.com/messages/msg_1w1f6h6"
+        ],
+        "timestamp": "2018-10-08T18:37:50.787Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "foo"
+        }
+      }
+    },
+    {
+      "type": "create",
+      "active": true,
+      "tags": [],
+      "data": {
+        "timestamp": "2018-10-08T18:37:50.787Z",
+        "payload": {
+          "name": "Tag untag",
+          "active": true,
+          "tags": [],
+          "data": {
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_11dw1xu"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open",
+            "archived": false
+          }
+        }
+      }
+    },
+    {
+      "type": "update",
+      "active": true,
+      "tags": [],
+      "data": {
+        "timestamp": "2018-10-08T18:37:58.816Z",
+        "payload": {
+          "name": "Tag untag",
+          "active": true,
+          "tags": [ "foo" ],
+          "data": {
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_11dw1xu"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open",
+            "archived": false
+          }
+        }
+      }
+    },
+    {
+      "type": "update",
+      "active": true,
+      "tags": [],
+      "data": {
+        "timestamp": "2018-10-08T18:38:05.068Z",
+        "payload": {
+          "name": "Tag untag",
+          "active": true,
+          "tags": [],
+          "data": {
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_11dw1xu"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open",
+            "archived": false
+          }
+        }
+      }
+    }
+  ]
+}
