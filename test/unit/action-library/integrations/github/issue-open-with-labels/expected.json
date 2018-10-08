@@ -4,7 +4,6 @@
     "type": "issue",
     "active": true,
     "tags": [ "core", "good first issue" ],
-    "links": {},
     "data": {
       "mirrors": [
         "https://github.com/resin-io/jellyfish/issues/706"
@@ -21,14 +20,12 @@
       "type": "create",
       "active": true,
       "tags": [],
-      "links": {},
       "data": {
         "timestamp": "2018-09-20T18:01:54Z",
         "payload": {
           "name": "Issue with labels",
           "active": true,
           "tags": [ "core", "good first issue" ],
-          "links": {},
           "data": {
             "mirrors": [
               "https://github.com/resin-io/jellyfish/issues/706"
