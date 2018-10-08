@@ -1,0 +1,39 @@
+{
+  "slug": "org",
+  "type": "type",
+  "name": "Jellyfish Organisation",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "markers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-_/:+]+$"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "slug": {
+          "type": "string",
+          "pattern": "^org-[a-z0-9-]+$"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "required": [ "slug", "name" ]
+    }
+  }
+}
