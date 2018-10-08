@@ -8,6 +8,7 @@ import {
 	Button,
 	Container,
 	Divider,
+	Flex,
 	Heading,
 	Img,
 	Input,
@@ -26,6 +27,8 @@ interface LoginState {
 	showSignup: boolean;
 	username: string;
 	password: string;
+	passwordConfirmation: string;
+	showPassword: boolean;
 	email: string;
 	loggingIn: boolean;
 	signupError: string;
@@ -40,6 +43,8 @@ class Base extends React.Component<LoginProps, LoginState> {
 			showSignup: false,
 			username: '',
 			password: '',
+			passwordConfirmation: '',
+			showPassword: false,
 			email: '',
 			loggingIn: false,
 			signupError: '',
@@ -89,6 +94,11 @@ class Base extends React.Component<LoginProps, LoginState> {
 		this.setState({ showSignup: !this.state.showSignup });
 	}
 
+	public togglePasswordVisibility = (e: React.MouseEvent<HTMLButtonElement>) => {
+		e.preventDefault();
+		this.setState({ showPassword: !this.state.showPassword });
+	}
+
 	public handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		this.setState({ email: e.target.value });
 	}
@@ -101,7 +111,21 @@ class Base extends React.Component<LoginProps, LoginState> {
 		this.setState({ password: e.target.value });
 	}
 
+	public handlePasswordConfirmationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		this.setState({ passwordConfirmation: e.target.value });
+	}
+
 	public render(): React.ReactNode {
+		const {
+			email,
+			username,
+			password,
+			passwordConfirmation,
+			loggingIn,
+		} = this.state;
+
+		const signupDisabled = !email || !username || !password || loggingIn || password !== passwordConfirmation;
+
 		return (
 			<React.Fragment>
 				<TopBar>
@@ -159,17 +183,43 @@ class Base extends React.Component<LoginProps, LoginState> {
 										onChange={this.handleUsernameChange}
 									/>
 
-									<Txt fontSize={1} mb={1}>Password</Txt>
-									<Input
-										className="login-page__input--password"
-										mb={5}
-										w="100%"
-										emphasized={true}
-										placeholder="Password"
-										type="password"
-										value={this.state.password}
-										onChange={this.handlePasswordChange}
-									/>
+
+									<Flex mb={5}>
+										<Box mr={3} flex="1">
+											<Txt fontSize={1} mb={1}>Password</Txt>
+											<Input
+												className="login-page__input--password"
+												w="100%"
+												emphasized={true}
+												placeholder="Password"
+												type={this.state.showPassword ? 'test' : 'password'}
+												value={this.state.password}
+												onChange={this.handlePasswordChange}
+											/>
+										</Box>
+
+										<Box mr={2} flex="1">
+											<Txt fontSize={1} mb={1}>Confirm password</Txt>
+											<Input
+												className="login-page__input--confirm-password"
+												w="100%"
+												emphasized={true}
+												placeholder="Confirm password"
+												type={this.state.showPassword ? 'test' : 'password'}
+												value={this.state.passwordConfirmation}
+												onChange={this.handlePasswordConfirmationChange}
+											/>
+										</Box>
+
+										<Button
+											square
+											plaintext
+											mt={20}
+											onClick={this.togglePasswordVisibility}
+										>
+											<Icon name={this.state.showPassword ? 'eye' : 'eye-slash'} />
+										</Button>
+									</Flex>
 
 									<Box>
 										<Button
@@ -177,7 +227,7 @@ class Base extends React.Component<LoginProps, LoginState> {
 											w="100%"
 											primary={true}
 											emphasized={true}
-											disabled={!this.state.email || !this.state.username || !this.state.password || this.state.loggingIn}
+											disabled={signupDisabled}
 											onClick={this.signup}
 										>
 											{this.state.loggingIn ? <Icon name="cog fa-spin" /> : 'Sign up'}

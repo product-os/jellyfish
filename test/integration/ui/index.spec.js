@@ -96,6 +96,7 @@ ava.test.serial('should let new users signup', async (test) => {
 	await page.type('.login-page__input--email', users.community.email)
 	await page.type('.login-page__input--username', users.community.username)
 	await page.type('.login-page__input--password', users.community.password)
+	await page.type('.login-page__input--confirm-password', users.community.password)
 
 	await page.click('.login-page__submit--signup')
 
