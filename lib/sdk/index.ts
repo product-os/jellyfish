@@ -24,6 +24,7 @@ import { JellyfishStream, JellyfishStreamManager } from './stream';
 import {
 	ActionResponse,
 	Card,
+	QueryOptions,
 	SDKInterface,
 	SDKOptions,
 	ServerResponse
@@ -325,6 +326,9 @@ export class JellyfishSDK implements SDKInterface {
 	 * match the JSON schema are returned
 	 *
 	 * @param {Object} schema - The JSON schema to query with
+	 * @param {Object} [options] - Additional options
+	 * @param {Number} [options.limit] - Limit the number of results
+	 * @param {Number} [options.skip] - Skip a set amount of results
 	 *
 	 * @fulfil {Object[]} - An array of cards that match the schema
 	 * @returns {Promise}
@@ -344,9 +348,14 @@ export class JellyfishSDK implements SDKInterface {
 	 * 		console.log(cards);
 	 * 	});
 	 */
-	public query <T extends Card>(schema: JSONSchema6): Bluebird<T[]> {
+	public query <T extends Card>(schema: JSONSchema6, options: QueryOptions = {}): Bluebird<T[]> {
 		const start = Date.now();
-		return this.post('query', _.isString(schema) ? { query: schema } : _.omit(schema, '$id'))
+		const payload = {
+			query: _.isString(schema) ? schema : _.omit(schema, '$id'),
+			options,
+		};
+
+		return this.post('query', payload)
 			.then(response => response ? response.data.data : [])
 			.tap(() => {
 				utils.debug(`Query complete in ${Date.now() - start}ms`, schema);

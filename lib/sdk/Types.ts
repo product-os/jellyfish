@@ -99,3 +99,8 @@ export interface StreamEventMap {
 
 	destroy: void;
 }
+
+export interface QueryOptions {
+	limit?: number;
+	skip?: number;
+}

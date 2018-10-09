@@ -167,6 +167,136 @@ ava.test.serial('.query() should run a query on the server', async (test) => {
 	})
 })
 
+ava.test.serial('.query() should accept a "limit" option', async (test) => {
+	const {
+		sdk,
+		server
+	} = test.context
+
+	const limit = 2
+
+	const baseTime = 1539092025937
+
+	const card1 = await server.jellyfish.insertCard(test.context.session, {
+		active: true,
+		data: {
+			timestamp: new Date(baseTime + 1000).toISOString()
+		},
+		links: {},
+		markers: [],
+		name: 'card1',
+		tags: [],
+		type: 'card'
+	})
+
+	const card2 = await server.jellyfish.insertCard(test.context.session, {
+		active: true,
+		data: {
+			timestamp: new Date(baseTime + 2000).toISOString()
+		},
+		links: {},
+		markers: [],
+		name: 'card2',
+		tags: [],
+		type: 'card'
+	})
+
+	await server.jellyfish.insertCard(test.context.session, {
+		active: true,
+		data: {
+			timestamp: new Date(baseTime + 3000).toISOString()
+		},
+		links: {},
+		markers: [],
+		name: 'card3',
+		tags: [],
+		type: 'card'
+	})
+
+	await sdk.setAuthToken(test.context.session)
+
+	const results = await sdk.query({
+		type: 'object',
+		properties: {
+			type: {
+				type: 'string',
+				const: 'card'
+			}
+		},
+		additionalProperties: true
+	}, {
+		limit
+	})
+
+	test.deepEqual(results, [ card1, card2 ])
+})
+
+ava.test.serial('.query() should accept a "skip" option', async (test) => {
+	const {
+		sdk,
+		server
+	} = test.context
+
+	const limit = 2
+	const skip = 1
+
+	const baseTime = 1539092025937
+
+	await server.jellyfish.insertCard(test.context.session, {
+		active: true,
+		data: {
+			timestamp: new Date(baseTime + 1000).toISOString()
+		},
+		links: {},
+		markers: [],
+		name: 'card1',
+		tags: [],
+		type: 'card'
+	})
+
+	const card2 = await server.jellyfish.insertCard(test.context.session, {
+		active: true,
+		data: {
+			timestamp: new Date(baseTime + 2000).toISOString()
+		},
+		links: {},
+		markers: [],
+		name: 'card2',
+		tags: [],
+		type: 'card'
+	})
+
+	const card3 = await server.jellyfish.insertCard(test.context.session, {
+		active: true,
+		data: {
+			timestamp: new Date(baseTime + 3000).toISOString()
+		},
+		links: {},
+		markers: [],
+		name: 'card3',
+		tags: [],
+		type: 'card'
+	})
+
+	await sdk.setAuthToken(test.context.session)
+
+	const results = await sdk.query({
+		type: 'object',
+		properties: {
+			type: {
+				type: 'string',
+				const: 'card'
+			}
+		},
+		additionalProperties: true
+	}, {
+		limit,
+		skip
+	})
+
+	test.deepEqual(results, [ card2, card3 ])
+})
+
 ava.test.serial('.card.get() should return a single element', async (test) => {
 	const {
 		sdk,
@@ -174,6 +304,19 @@ ava.test.serial('.card.get() should return a single element', async (test) => {
 	} = test.context
 
 	const name = `test-card-${randomstring.generate()}`
+
+	let cardsToInsert = 5
+
+	while (cardsToInsert--) {
+		await server.jellyfish.insertCard(test.context.session, {
+			active: true,
+			data: {},
+			links: {},
+			markers: [],
+			tags: [],
+			type: 'card'
+		})
+	}
 
 	const card = await server.jellyfish.insertCard(test.context.session, {
 		active: true,
@@ -199,6 +342,19 @@ ava.test.serial('.card.get() should work with slugs', async (test) => {
 	} = test.context
 
 	const slug = `test-card-${randomstring.generate().toLowerCase()}`
+
+	let cardsToInsert = 5
+
+	while (cardsToInsert--) {
+		await server.jellyfish.insertCard(test.context.session, {
+			active: true,
+			data: {},
+			links: {},
+			markers: [],
+			tags: [],
+			type: 'card'
+		})
+	}
 
 	const card = await server.jellyfish.insertCard(test.context.session, {
 		active: true,
