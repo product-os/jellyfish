@@ -134,7 +134,7 @@
     "rendition": "^4.27.2",
     "reql-schema": "^1.0.0",
     "rethinkdb": "^2.3.3",
-    "skhema": "^2.4.1",
+    "skhema": "^2.5.0",
     "socket.io": "^2.1.0",
     "static-eval": "^2.0.0",
     "styled-components": "^3.2.5",
