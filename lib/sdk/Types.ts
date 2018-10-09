@@ -72,7 +72,7 @@ export interface SDKInterface {
 	post: <R = ServerResponse>(endpoint: string, body: any, options?: AxiosRequestConfig) => Bluebird<AxiosResponse<R> | void>;
 
 	card: {
-		get: (idOrSlug: string) => Bluebird<Card | null>;
+		get: (idOrSlug: string, options?: object) => Bluebird<Card | null>;
 	};
 }
 

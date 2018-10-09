@@ -13,18 +13,29 @@
         "schema": {
           "type": "object",
           "properties": {
+            "type": {
+              "type": "string",
+              "const": "message"
+            },
             "data": {
               "type": "object",
               "properties": {
-                "alertsUser": {
-                  "contains": {
-                    "const": {
-                      "$eval": "user.id"
+                "payload": {
+                  "type": "object",
+                  "properties": {
+                    "alertsUser": {
+                      "contains": {
+                        "const": {
+                          "$eval": "user.id"
+                        }
+                      }
                     }
-                  }
+                  },
+                  "required": [ "alertsUser" ],
+                  "additionalProperties": true
                 }
               },
-              "required": [ "alertsUser" ],
+              "required": [ "payload" ],
               "additionalProperties": true
             }
           },

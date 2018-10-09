@@ -1,5 +1,3 @@
-import { circularDeepEqual } from 'fast-equals';
-import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -15,7 +13,6 @@ import styled from 'styled-components';
 import { Card, Lens, RendererProps } from '../../Types';
 import EventCard from '../components/Event';
 import Icon from '../components/Icon';
-import { TailStreamer } from '../components/TailStreamer';
 import { analytics, sdk } from '../core';
 import { actionCreators, selectors, StoreState } from '../core/store';
 import { createChannel, getUpdateObjectFromSchema, getViewSchema } from '../services/helpers';
@@ -38,7 +35,6 @@ const isHiddenEventType = (type: string) => {
 
 interface InterleavedState {
 	creatingCard: boolean;
-	tail: null | Card[];
 	newMessage: string;
 	showNewCardModal: boolean;
 	messagesOnly: boolean;
@@ -51,7 +47,7 @@ interface InterleavedProps extends RendererProps {
 	actions: typeof actionCreators;
 }
 
-export class Interleaved extends TailStreamer<InterleavedProps, InterleavedState> {
+export class Interleaved extends React.Component<InterleavedProps, InterleavedState> {
 	private scrollArea: HTMLElement | null;
 	private shouldScroll: boolean = true;
 
@@ -60,22 +56,15 @@ export class Interleaved extends TailStreamer<InterleavedProps, InterleavedState
 
 		this.state = {
 			creatingCard: false,
-			tail: null,
 			newMessage: '',
 			showNewCardModal: false,
 			messagesOnly: true,
 		};
 
-		this.setupStream(this.props.tail || []);
-
 		setTimeout(() => this.scrollToBottom(), 1000);
 	}
 
-	public componentWillUpdate(nextProps: InterleavedProps): void {
-		if (!circularDeepEqual(nextProps.tail, this.props.tail)) {
-			this.setupStream(nextProps.tail || []);
-		}
-
+	public componentWillUpdate(): void {
 		if (!this.scrollArea) {
 			return;
 		}
@@ -87,40 +76,6 @@ export class Interleaved extends TailStreamer<InterleavedProps, InterleavedState
 	public componentDidUpdate(): void {
 		// Scroll to bottom if the component has been updated with new items
 		this.scrollToBottom();
-	}
-
-	public setupStream(headCards: Card[]): void {
-		const headCardIds = _.map(headCards, 'id');
-
-		if (!headCardIds.length) {
-			return this.setTail([]);
-		}
-
-		const querySchema: JSONSchema6 = {
-			type: 'object',
-			properties: {
-				type: {
-					// Don't incluide action request cards, as it just add's noise
-					not: {
-						const: 'action-request',
-					},
-				},
-				data: {
-					type: 'object',
-					properties: {
-						target: {
-							enum: headCardIds,
-						},
-					},
-					required: [ 'target' ],
-					additionalProperties: true,
-				},
-			},
-			required: [ 'type', 'data' ],
-			additionalProperties: true,
-		};
-
-		this.streamTail(querySchema);
 	}
 
 	public scrollToBottom(): void {
@@ -137,10 +92,7 @@ export class Interleaved extends TailStreamer<InterleavedProps, InterleavedState
 		// If a card is not provided, see if a matching card can be found from this
 		// component's state/props
 		if (!card) {
-			card = _.find(_.concat(
-				this.state.tail || [],
-				this.props.tail || [],
-			), { id: target });
+			card = _.find(this.props.tail || [], { id: target });
 		}
 		const newChannel = createChannel({
 			target,
@@ -179,7 +131,9 @@ export class Interleaved extends TailStreamer<InterleavedProps, InterleavedState
 
 		sdk.card.create(cardData as Card)
 			.then((thread) => {
-				this.openChannel(thread.id, thread);
+				if (thread) {
+					this.openChannel(thread.id);
+				}
 				return null;
 			})
 			.then(() => {
@@ -203,16 +157,9 @@ export class Interleaved extends TailStreamer<InterleavedProps, InterleavedState
 
 	public render(): React.ReactNode {
 		const { head } = this.props.channel.data;
-		const timelineCards = _.sortBy(this.state.tail, 'data.timestamp');
-		// Give each headcard a timestamp using the first matching timeline card
-		const headCards = _.map(_.cloneDeep(this.props.tail), card => {
-			const timestamp = _.get(_.find(timelineCards, (x) => x.data.target === card.id), 'data.timestamp');
-			_.set(card, 'data.timestamp', timestamp);
-			return card;
-		});
 		const channelTarget = this.props.channel.data.target;
 
-		const tail: Card[] | null = timelineCards.length ? _.sortBy(headCards.concat(timelineCards), 'data.timestamp') : null;
+		const tail: Card[] | null = this.props.tail ? _.sortBy(this.props.tail, 'data.timestamp') : null;
 
 		return (
 			<Column flexDirection="column">
