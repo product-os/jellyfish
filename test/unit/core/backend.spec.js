@@ -1186,6 +1186,116 @@ ava.test('.query() should be able to query using links when getting an element b
 	])
 })
 
+ava.test('.query() should be able to query using links and an inverse name', async (test) => {
+	const thread = await test.context.backend.upsertElement({
+		type: 'thread',
+		active: true,
+		data: {
+			description: 'lorem ipsum dolor sit amet'
+		}
+	})
+
+	const message1 = await test.context.backend.upsertElement({
+		type: 'message',
+		active: true,
+		data: {
+			payload: 'foo'
+		}
+	})
+
+	const message2 = await test.context.backend.upsertElement({
+		type: 'message',
+		active: true,
+		data: {
+			payload: 'foo'
+		}
+	})
+
+	const link1 = await test.context.backend.upsertElement({
+		type: 'link',
+		active: true,
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: message1.id,
+			to: thread.id
+		}
+	})
+
+	const link2 = await test.context.backend.upsertElement({
+		type: 'link',
+		active: true,
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: message2.id,
+			to: thread.id
+		}
+	})
+
+	const results = await test.context.backend.query({
+		type: 'object',
+		required: [ 'type', 'links', 'data' ],
+		$$links: {
+			'has attached element': {
+				type: 'object',
+				additionalProperties: true
+			}
+		},
+		properties: {
+			links: {
+				type: 'object',
+				additionalProperties: true
+			},
+			id: {
+				type: 'string',
+				const: thread.id
+			},
+			data: {
+				type: 'object',
+				additionalProperties: true
+			},
+			type: {
+				type: 'string'
+			}
+		}
+	})
+
+	test.deepEqual(results, [
+		{
+			id: thread.id,
+			type: 'thread',
+			links: {
+				'has attached element': [
+					{
+						$link: link1.id,
+						active: true,
+						id: message1.id,
+						links: {},
+						type: 'message',
+						data: {
+							payload: 'foo'
+						}
+					},
+					{
+						$link: link2.id,
+						active: true,
+						id: message2.id,
+						links: {},
+						type: 'message',
+						data: {
+							payload: 'foo'
+						}
+					}
+				]
+			},
+			data: {
+				description: 'lorem ipsum dolor sit amet'
+			}
+		}
+	])
+})
+
 ava.test('.query() should omit a result if a link does not match', async (test) => {
 	const thread = await test.context.backend.upsertElement({
 		type: 'thread',
