@@ -297,6 +297,138 @@ ava.test.serial('.query() should accept a "skip" option', async (test) => {
 	test.deepEqual(results, [ card2, card3 ])
 })
 
+ava.test.serial('.query() should accept a "sortBy" option as a single key', async (test) => {
+	const {
+		sdk,
+		server
+	} = test.context
+
+	const card1 = await server.jellyfish.insertCard(test.context.session, {
+		active: true,
+		name: 'd',
+		data: {},
+		links: {},
+		markers: [],
+		tags: [],
+		type: 'card'
+	})
+
+	const card2 = await server.jellyfish.insertCard(test.context.session, {
+		active: true,
+		name: 'a',
+		data: {},
+		links: {},
+		markers: [],
+		tags: [],
+		type: 'card'
+	})
+
+	const card3 = await server.jellyfish.insertCard(test.context.session, {
+		active: true,
+		name: 'c',
+		data: {},
+		links: {},
+		markers: [],
+		tags: [],
+		type: 'card'
+	})
+
+	const card4 = await server.jellyfish.insertCard(test.context.session, {
+		active: true,
+		name: 'b',
+		data: {},
+		links: {},
+		markers: [],
+		tags: [],
+		type: 'card'
+	})
+
+	await sdk.setAuthToken(test.context.session)
+
+	const results = await sdk.query({
+		type: 'object',
+		properties: {
+			type: {
+				type: 'string',
+				const: 'card'
+			}
+		},
+		additionalProperties: true
+	}, {
+		sortBy: 'name'
+	})
+
+	test.deepEqual(results, [ card2, card4, card3, card1 ])
+})
+
+ava.test.serial('.query() should accept a "sortBy" option as an array of keys', async (test) => {
+	const {
+		sdk,
+		server
+	} = test.context
+
+	const card1 = await server.jellyfish.insertCard(test.context.session, {
+		active: true,
+		data: {
+			code: 'd'
+		},
+		links: {},
+		markers: [],
+		tags: [],
+		type: 'card'
+	})
+
+	const card2 = await server.jellyfish.insertCard(test.context.session, {
+		active: true,
+		data: {
+			code: 'a'
+		},
+		links: {},
+		markers: [],
+		tags: [],
+		type: 'card'
+	})
+
+	const card3 = await server.jellyfish.insertCard(test.context.session, {
+		active: true,
+		data: {
+			code: 'c'
+		},
+		links: {},
+		markers: [],
+		tags: [],
+		type: 'card'
+	})
+
+	const card4 = await server.jellyfish.insertCard(test.context.session, {
+		active: true,
+		data: {
+			code: 'b'
+		},
+		links: {},
+		markers: [],
+		tags: [],
+		type: 'card'
+	})
+
+	await sdk.setAuthToken(test.context.session)
+
+	const results = await sdk.query({
+		type: 'object',
+		properties: {
+			type: {
+				type: 'string',
+				const: 'card'
+			}
+		},
+		additionalProperties: true
+	}, {
+		sortBy: [ 'data', 'code' ]
+	})
+
+	test.deepEqual(results, [ card2, card4, card3, card1 ])
+})
+
 ava.test.serial('.card.get() should return a single element', async (test) => {
 	const {
 		sdk,

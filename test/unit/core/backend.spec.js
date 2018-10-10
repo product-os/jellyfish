@@ -849,6 +849,223 @@ ava.test('.query() should be able to limit and skip the results', async (test) =
 	test.deepEqual(_.sortBy(results, [ 'test' ]), [ result2 ])
 })
 
+ava.test('.query() should be able to sort the query using a key', async (test) => {
+	const card1 = await test.context.backend.upsertElement({
+		type: 'card',
+		name: 'd',
+		data: {}
+	})
+
+	const card2 = await test.context.backend.upsertElement({
+		type: 'card',
+		name: 'a',
+		data: {}
+	})
+
+	const card3 = await test.context.backend.upsertElement({
+		type: 'card',
+		name: 'c',
+		data: {}
+	})
+
+	const card4 = await test.context.backend.upsertElement({
+		type: 'card',
+		name: 'b',
+		data: {}
+	})
+
+	const results = await test.context.backend.query({
+		type: 'object',
+		additionalProperties: true,
+		properties: {
+			type: {
+				type: 'string',
+				const: 'card'
+			}
+		},
+		required: [ 'type' ]
+	}, {
+		sortBy: 'name'
+	})
+
+	test.deepEqual(results, [ card2, card4, card3, card1 ])
+})
+
+ava.test('.query() should be able to sort the query in descending order', async (test) => {
+	const card1 = await test.context.backend.upsertElement({
+		type: 'card',
+		name: 'd',
+		data: {}
+	})
+
+	const card2 = await test.context.backend.upsertElement({
+		type: 'card',
+		name: 'a',
+		data: {}
+	})
+
+	const card3 = await test.context.backend.upsertElement({
+		type: 'card',
+		name: 'c',
+		data: {}
+	})
+
+	const card4 = await test.context.backend.upsertElement({
+		type: 'card',
+		name: 'b',
+		data: {}
+	})
+
+	const results = await test.context.backend.query({
+		type: 'object',
+		additionalProperties: true,
+		properties: {
+			type: {
+				type: 'string',
+				const: 'card'
+			}
+		},
+		required: [ 'type' ]
+	}, {
+		sortBy: 'name',
+		sortDir: 'desc'
+	})
+
+	test.deepEqual(results, [ card1, card3, card4, card2 ])
+})
+
+ava.test('.query() should be able to sort the query using an array of keys', async (test) => {
+	const card1 = await test.context.backend.upsertElement({
+		type: 'card',
+		data: {
+			code: 'd'
+		}
+	})
+
+	const card2 = await test.context.backend.upsertElement({
+		type: 'card',
+		data: {
+			code: 'a'
+		}
+	})
+
+	const card3 = await test.context.backend.upsertElement({
+		type: 'card',
+		data: {
+			code: 'c'
+		}
+	})
+
+	const card4 = await test.context.backend.upsertElement({
+		type: 'card',
+		data: {
+			code: 'b'
+		}
+	})
+
+	const results = await test.context.backend.query({
+		type: 'object',
+		additionalProperties: true,
+		properties: {
+			type: {
+				type: 'string',
+				const: 'card'
+			}
+		},
+		required: [ 'type' ]
+	}, {
+		sortBy: [ 'data', 'code' ]
+	})
+
+	test.deepEqual(results, [ card2, card4, card3, card1 ])
+})
+
+ava.test('.query() should apply sort before skip', async (test) => {
+	const card1 = await test.context.backend.upsertElement({
+		type: 'card',
+		name: 'd',
+		data: {}
+	})
+
+	await test.context.backend.upsertElement({
+		type: 'card',
+		name: 'a',
+		data: {}
+	})
+
+	const card3 = await test.context.backend.upsertElement({
+		type: 'card',
+		name: 'c',
+		data: {}
+	})
+
+	await test.context.backend.upsertElement({
+		type: 'card',
+		name: 'b',
+		data: {}
+	})
+
+	const results = await test.context.backend.query({
+		type: 'object',
+		additionalProperties: true,
+		properties: {
+			type: {
+				type: 'string',
+				const: 'card'
+			}
+		},
+		required: [ 'type' ]
+	}, {
+		sortBy: 'name',
+		skip: 2
+	})
+
+	test.deepEqual(results, [ card3, card1 ])
+})
+
+ava.test('.query() should apply sort before limit', async (test) => {
+	await test.context.backend.upsertElement({
+		type: 'card',
+		name: 'd',
+		data: {}
+	})
+
+	const card2 = await test.context.backend.upsertElement({
+		type: 'card',
+		name: 'a',
+		data: {}
+	})
+
+	await test.context.backend.upsertElement({
+		type: 'card',
+		name: 'c',
+		data: {}
+	})
+
+	const card4 = await test.context.backend.upsertElement({
+		type: 'card',
+		name: 'b',
+		data: {}
+	})
+
+	const results = await test.context.backend.query({
+		type: 'object',
+		additionalProperties: true,
+		properties: {
+			type: {
+				type: 'string',
+				const: 'card'
+			}
+		},
+		required: [ 'type' ]
+	}, {
+		sortBy: 'name',
+		limit: 2
+	})
+
+	test.deepEqual(results, [ card2, card4 ])
+})
+
 ava.test('.query() should be able to query using links', async (test) => {
 	const thread1 = await test.context.backend.upsertElement({
 		type: 'thread',

@@ -103,4 +103,6 @@ export interface StreamEventMap {
 export interface QueryOptions {
 	limit?: number;
 	skip?: number;
+	sortBy?: string | string[];
+	sortDir?: 'asc' | 'desc';
 }
