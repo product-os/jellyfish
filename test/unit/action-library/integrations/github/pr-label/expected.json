@@ -1,0 +1,89 @@
+{
+  "head": {
+    "name": "PR labels",
+    "type": "issue",
+    "active": true,
+    "tags": [],
+    "data": {
+      "mirrors": [
+        "https://github.com/resin-io/jellyfish/pull/776"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "",
+      "status": "open",
+      "archived": false
+    }
+  },
+  "tail": [
+    {
+      "type": "create",
+      "active": true,
+      "tags": [],
+      "data": {
+        "timestamp": "2018-10-10T10:08:50Z",
+        "payload": {
+          "name": "PR labels",
+          "active": true,
+          "tags": [],
+          "data": {
+            "mirrors": [
+              "https://github.com/resin-io/jellyfish/pull/776"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open",
+            "archived": false
+          }
+        }
+      }
+    },
+    {
+      "type": "update",
+      "active": true,
+      "tags": [],
+      "data": {
+        "timestamp": "2018-10-10T09:11:51Z",
+        "payload": {
+          "name": "PR labels",
+          "active": true,
+          "tags": [ "core" ],
+          "data": {
+            "mirrors": [
+              "https://github.com/resin-io/jellyfish/pull/776"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open",
+            "archived": false
+          }
+        }
+      }
+    },
+    {
+      "type": "update",
+      "active": true,
+      "tags": [],
+      "data": {
+        "timestamp": "2018-10-10T10:11:48Z",
+        "payload": {
+          "name": "PR labels",
+          "active": true,
+          "tags": [],
+          "data": {
+            "mirrors": [
+              "https://github.com/resin-io/jellyfish/pull/776"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open",
+            "archived": false
+          }
+        }
+      }
+    }
+  ]
+}

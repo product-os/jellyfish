@@ -1,0 +1,66 @@
+{
+  "head": {
+    "name": "Test PR",
+    "type": "issue",
+    "active": true,
+    "tags": [],
+    "data": {
+      "mirrors": [
+        "https://github.com/resin-io/jellyfish/pull/778"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "Signed-off-by: Juan Cruz Viotti <juan@resin.io>",
+      "status": "closed",
+      "archived": false
+    }
+  },
+  "tail": [
+    {
+      "type": "create",
+      "active": true,
+      "tags": [],
+      "data": {
+        "timestamp": "2018-10-10T10:34:00Z",
+        "payload": {
+          "name": "Test PR",
+          "active": true,
+          "tags": [],
+          "data": {
+            "mirrors": [
+              "https://github.com/resin-io/jellyfish/pull/778"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "Signed-off-by: Juan Cruz Viotti <juan@resin.io>",
+            "status": "open",
+            "archived": false
+          }
+        }
+      }
+    },
+    {
+      "type": "update",
+      "active": true,
+      "tags": [],
+      "data": {
+        "timestamp": "2018-10-10T10:44:15Z",
+        "payload": {
+          "name": "Test PR",
+          "active": true,
+          "tags": [],
+          "data": {
+            "mirrors": [
+              "https://github.com/resin-io/jellyfish/pull/778"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "Signed-off-by: Juan Cruz Viotti <juan@resin.io>",
+            "status": "closed",
+            "archived": false
+          }
+        }
+      }
+    }
+  ]
+}

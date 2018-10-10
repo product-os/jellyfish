@@ -1,0 +1,66 @@
+{
+  "head": {
+    "name": "Open close PR",
+    "type": "issue",
+    "active": true,
+    "tags": [],
+    "data": {
+      "mirrors": [
+        "https://github.com/resin-io/jellyfish/pull/772"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "",
+      "status": "closed",
+      "archived": false
+    }
+  },
+  "tail": [
+    {
+      "type": "create",
+      "active": true,
+      "tags": [],
+      "data": {
+        "timestamp": "2018-10-10T09:09:36Z",
+        "payload": {
+          "name": "Open close PR",
+          "active": true,
+          "tags": [],
+          "data": {
+            "mirrors": [
+              "https://github.com/resin-io/jellyfish/pull/772"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open",
+            "archived": false
+          }
+        }
+      }
+    },
+    {
+      "type": "update",
+      "active": true,
+      "tags": [],
+      "data": {
+        "timestamp": "2018-10-10T09:11:51Z",
+        "payload": {
+          "name": "Open close PR",
+          "active": true,
+          "tags": [],
+          "data": {
+            "mirrors": [
+              "https://github.com/resin-io/jellyfish/pull/772"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "closed",
+            "archived": false
+          }
+        }
+      }
+    }
+  ]
+}
