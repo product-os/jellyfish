@@ -5,6 +5,7 @@
     "active": true,
     "tags": [],
     "data": {
+      "repository": "resin-io/jellyfish",
       "mirrors": [
         "https://github.com/resin-io/jellyfish/issues/721"
       ],
@@ -59,6 +60,7 @@
           "active": true,
           "tags": [],
           "data": {
+            "repository": "resin-io/jellyfish",
             "mirrors": [
               "https://github.com/resin-io/jellyfish/issues/721"
             ],
