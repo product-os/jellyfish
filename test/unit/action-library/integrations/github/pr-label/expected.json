@@ -5,6 +5,7 @@
     "active": true,
     "tags": [],
     "data": {
+      "repository": "resin-io/jellyfish",
       "mirrors": [
         "https://github.com/resin-io/jellyfish/pull/776"
       ],
@@ -27,6 +28,7 @@
           "active": true,
           "tags": [],
           "data": {
+            "repository": "resin-io/jellyfish",
             "mirrors": [
               "https://github.com/resin-io/jellyfish/pull/776"
             ],
@@ -50,6 +52,7 @@
           "active": true,
           "tags": [ "core" ],
           "data": {
+            "repository": "resin-io/jellyfish",
             "mirrors": [
               "https://github.com/resin-io/jellyfish/pull/776"
             ],
@@ -73,6 +76,7 @@
           "active": true,
           "tags": [],
           "data": {
+            "repository": "resin-io/jellyfish",
             "mirrors": [
               "https://github.com/resin-io/jellyfish/pull/776"
             ],
