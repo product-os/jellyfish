@@ -186,6 +186,9 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 
 		sdk.card.create(message)
 			.then(() => {
+				return sdk.card.link(id, this.props.card.id, 'is attached to');
+			})
+			.then(() => {
 				analytics.track('element.create', {
 					element: {
 						type: 'message',
@@ -242,7 +245,10 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 	public handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const file = _.first(e.target.files);
 
+		const id = uuid();
+
 		const message = {
+			id,
 			links: {},
 			active: true,
 			type: 'message',
@@ -257,6 +263,9 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		};
 
 		sdk.card.create(message)
+			.then(() => {
+				return sdk.card.link(id, this.props.card.id, 'is attached to');
+			})
 			.then(() => {
 				analytics.track('element.create', {
 					element: {

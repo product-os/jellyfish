@@ -17,10 +17,6 @@
               "type": "string",
               "format": "date-time"
             },
-            "target": {
-              "type": "string",
-              "format": "uuid"
-            },
             "actor": {
               "type": "string",
               "format": "uuid"
@@ -50,7 +46,6 @@
           },
           "required": [
             "timestamp",
-            "target",
             "actor",
             "payload"
           ]

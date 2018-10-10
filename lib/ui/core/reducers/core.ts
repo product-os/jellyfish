@@ -72,10 +72,13 @@ export const actionCreators = {
 	}),
 
 	loadChannelData: (channel: Channel): JellyThunkSync<void, KnownState> => (dispatch) => {
-		sdk.card.get(channel.data.target)
+		return sdk.card.get(channel.data.target)
 			.then((head) => {
+				if (!head) {
+					return;
+				}
 				const clonedChannel = _.cloneDeep(channel);
-				clonedChannel.data.head = head!;
+				clonedChannel.data.head = head;
 
 				dispatch({
 					type: actions.UPDATE_CHANNEL,

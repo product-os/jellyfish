@@ -340,10 +340,10 @@ ava.test.serial('timeline cards should reference the correct actor', async (test
 		})
 	}, waitQuery)
 
-	const timeline = await sdk.card.getTimeline(thread.id)
+	const card = await sdk.card.getWithTimeline(thread.id)
 
-	const timelineActors = _.uniq(timeline.map((card) => {
-		return card.data.actor
+	const timelineActors = _.uniq(card.links['has attached element'].map((item) => {
+		return item.data.actor
 	}))
 
 	test.deepEqual(timelineActors, [ user.id ])

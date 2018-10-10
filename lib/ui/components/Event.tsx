@@ -46,13 +46,6 @@ const EventWrapper = styled(Flex)`
 	}
 `;
 
-const TIMELINE_TYPES = [
-	'create',
-	'update',
-	'message',
-];
-
-
 interface EventProps {
 	users: Card[];
 	card: Card;
@@ -102,17 +95,31 @@ export default class Event extends React.Component<EventProps, { actorName: stri
 			return;
 		}
 
-		const id = _.get(card, 'data.target') || card.id;
+		const id = this.getTargetId(card);
 		openChannel(id);
 	}
 
+	public getTargetId(card: Card): string {
+		return _.get(card, 'data.target') || _.get(card, [ 'links', 'is attached to', '0', 'id' ]) || card.id;
+	}
+
 	public getTimelineElement(card: Card): JSX.Element {
-		let text = `${card.name ? card.name + ' - ' : ''}${card.type}`;
+		const targetCard = _.get(card, [ 'links', 'is attached to', '0' ], {});
+		if (targetCard.type === 'user') {
+			return (
+				<Txt
+					color={Theme.colors.text.light}
+				>
+					<strong>{targetCard.slug.replace('user-', '')}</strong> joined
+				</Txt>
+			);
+		}
+		let text = `${targetCard.name || targetCard.slug || targetCard.type || ''}`;
 		if (card.type === 'create') {
-			text = 'created by';
+			text += ' created by';
 		}
 		if (card.type === 'update') {
-			text = 'updated by';
+			text += ' updated by';
 		}
 
 		return (
@@ -134,18 +141,7 @@ export default class Event extends React.Component<EventProps, { actorName: stri
 		const { card, openChannel, ...props } = this.props;
 
 		const isMessage = card.type === 'message';
-		const isTimelineCard = _.includes(TIMELINE_TYPES, card.type);
-
-		// let icon = 'database';
-		let icon = 'circle fa-xs';
-
-		if (isMessage) {
-			icon = 'comment fa-flip-horizontal';
-		}
-
-		if (!isTimelineCard) {
-			icon = 'asterisk';
-		}
+		const icon = isMessage ? 'comment fa-flip-horizontal' : 'circle fa-xs';
 
 		return (
 			<EventWrapper className={`event-card--${card.type}`} {...props}>
@@ -157,56 +153,39 @@ export default class Event extends React.Component<EventProps, { actorName: stri
 					ml={-2}
 					w={32}
 				>
-					<Txt color={threadColor(isTimelineCard ? card.data.target : card.id)}>
+					<Txt color={threadColor(this.getTargetId(card))}>
 						{!!icon && <Icon name={icon} />}
 					</Txt>
 				</Button>
 				<Box flex="1">
-					{isTimelineCard &&
-						<React.Fragment>
-							<Flex justify="space-between" mb={2}>
-								<Txt mt={isMessage ? 0 : '5px'}>
-									{isMessage ?
-										<strong>{this.state.actorName}</strong>
-										: this.getTimelineElement(card)
-									}
-								</Txt>
-
-								{!!card.data && !!card.data.timestamp &&
-									<Txt className="event-card--timestamp" fontSize={1}>{formatTimestamp(card.data.timestamp)}</Txt>
-								}
-							</Flex>
-
-							{isMessage && !!card.data.payload.message &&
-								<div ref={this.setMessageElement}>
-									<Markdown
-										style={{fontSize: 'inherit'}}
-										className="event-card__message"
-									>
-										{card.data.payload.message}
-									</Markdown>
-								</div>
+					<Flex justify="space-between" mb={2}>
+						<Txt mt={isMessage ? 0 : '5px'}>
+							{isMessage ?
+								<strong>{this.state.actorName}</strong>
+								: this.getTimelineElement(card)
 							}
-							{isMessage && !!card.data.payload.file &&
-								<AuthenticatedImage
-									cardId={card.id}
-									fileName={card.data.payload.file}
-								/>
-							}
+						</Txt>
 
-						</React.Fragment>
+						{!!card.data && !!card.data.timestamp &&
+							<Txt className="event-card--timestamp" fontSize={1}>{formatTimestamp(card.data.timestamp)}</Txt>
+						}
+					</Flex>
+
+					{isMessage && !!card.data.payload.message &&
+						<div ref={this.setMessageElement}>
+							<Markdown
+								style={{fontSize: 'inherit'}}
+								className="event-card__message"
+							>
+								{card.data.payload.message}
+							</Markdown>
+						</div>
 					}
-					{!isTimelineCard &&
-						<React.Fragment>
-							<Flex justify="space-between">
-								<Txt bold={true}>
-									{`${card.name ? card.name + ' - ' : ''}${card.type}`}
-								</Txt>
-								{card.data && !!card.data.timestamp &&
-									<Txt className="event-card--timestamp" fontSize={1}>{formatTimestamp(card.data.timestamp)}</Txt>
-								}
-							</Flex>
-						</React.Fragment>
+					{isMessage && !!card.data.payload.file &&
+						<AuthenticatedImage
+							cardId={card.id}
+							fileName={card.data.payload.file}
+						/>
 					}
 				</Box>
 			</EventWrapper>
