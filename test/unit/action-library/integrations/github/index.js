@@ -15,6 +15,57 @@
  */
 
 module.exports = {
+	'pr-approve-merge': {
+		expected: require('./pr-approve-merge/expected.json'),
+		steps: [
+			require('./pr-approve-merge/01-pr-opened.json'),
+			require('./pr-approve-merge/02-pr-approve.json'),
+			require('./pr-approve-merge/03-pr-merge.json')
+		]
+	},
+	'pr-changes-requested': {
+		expected: require('./pr-changes-requested/expected.json'),
+		steps: [
+			require('./pr-changes-requested/01-pr-opened.json'),
+			require('./pr-changes-requested/02-pr-review.json')
+		]
+	},
+	'pr-comment': {
+		expected: require('./pr-comment/expected.json'),
+		steps: [
+			require('./pr-comment/01-pr-opened.json'),
+			require('./pr-comment/02-pr-comment.json')
+		]
+	},
+	'pr-inline-comment': {
+		expected: require('./pr-inline-comment/expected.json'),
+		steps: [
+			require('./pr-inline-comment/01-pr-opened.json'),
+			require('./pr-inline-comment/02-pr-comment.json')
+		]
+	},
+	'pr-label': {
+		expected: require('./pr-label/expected.json'),
+		steps: [
+			require('./pr-label/01-pr-opened.json'),
+			require('./pr-label/02-pr-label.json'),
+			require('./pr-label/03-pr-unlabel.json')
+		]
+	},
+	'pr-open-close': {
+		expected: require('./pr-open-close/expected.json'),
+		steps: [
+			require('./pr-open-close/01-pr-opened.json'),
+			require('./pr-open-close/02-pr-closed.json')
+		]
+	},
+	'pr-review-request': {
+		expected: require('./pr-review-request/expected.json'),
+		steps: [
+			require('./pr-review-request/01-pr-opened.json'),
+			require('./pr-review-request/02-pr-review-request.json')
+		]
+	},
 	'issue-open-close-open': {
 		expected: require('./issue-open-close-open/expected.json'),
 		steps: [

@@ -1,0 +1,43 @@
+{
+  "head": {
+    "name": "PR line comment",
+    "type": "issue",
+    "active": true,
+    "tags": [],
+    "data": {
+      "mirrors": [
+        "https://github.com/resin-io/jellyfish/pull/774"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "",
+      "status": "open",
+      "archived": false
+    }
+  },
+  "tail": [
+    {
+      "type": "create",
+      "active": true,
+      "tags": [],
+      "data": {
+        "timestamp": "2018-10-10T09:56:17Z",
+        "payload": {
+          "name": "PR line comment",
+          "active": true,
+          "tags": [],
+          "data": {
+            "mirrors": [
+              "https://github.com/resin-io/jellyfish/pull/774"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open",
+            "archived": false
+          }
+        }
+      }
+    }
+  ]
+}
