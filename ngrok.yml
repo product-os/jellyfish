@@ -2,3 +2,6 @@ tunnels:
   server:
     proto: http
     addr: 8000
+  webhook-capturer:
+    proto: http
+    addr: 3000
