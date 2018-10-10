@@ -5,6 +5,7 @@
     "active": true,
     "tags": [],
     "data": {
+      "repository": "resin-io/jellyfish",
       "mirrors": [
         "https://github.com/resin-io/jellyfish/issues/724"
       ],
@@ -27,6 +28,7 @@
           "active": true,
           "tags": [],
           "data": {
+            "repository": "resin-io/jellyfish",
             "mirrors": [
               "https://github.com/resin-io/jellyfish/issues/724"
             ],
@@ -50,6 +52,7 @@
           "active": true,
           "tags": [],
           "data": {
+            "repository": "resin-io/jellyfish",
             "mirrors": [
               "https://github.com/resin-io/jellyfish/issues/724"
             ],
@@ -73,6 +76,7 @@
           "active": true,
           "tags": [ "chore" ],
           "data": {
+            "repository": "resin-io/jellyfish",
             "mirrors": [
               "https://github.com/resin-io/jellyfish/issues/724"
             ],
@@ -96,6 +100,7 @@
           "active": true,
           "tags": [],
           "data": {
+            "repository": "resin-io/jellyfish",
             "mirrors": [
               "https://github.com/resin-io/jellyfish/issues/724"
             ],
