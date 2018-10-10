@@ -23,6 +23,7 @@ import { debug, isUUID } from './utils';
 // A map of link names and their synonymous form
 const linkNameMap = {
 	'is attached to': 'has attached element',
+	'scratchpad entry was used in support thread': 'support thread used scratchpad entry',
 };
 
 /**

@@ -72,7 +72,17 @@ export const actionCreators = {
 	}),
 
 	loadChannelData: (channel: Channel): JellyThunkSync<void, KnownState> => (dispatch) => {
-		return sdk.card.get(channel.data.target)
+		const { target } = channel.data;
+		const load = (): Bluebird<Card> => sdk.card.getWithTimeline(target)
+			.then((result) => {
+				if (!result) {
+					return Bluebird.delay(250).then(load);
+				}
+
+				return result;
+			});
+
+		return load()
 			.then((head) => {
 				if (!head) {
 					return;

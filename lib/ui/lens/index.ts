@@ -7,6 +7,8 @@ import InterleavedLens from './Interleaved';
 import KanbanLens from './Kanban';
 import ListLens from './List';
 import SingleCardLens from './SingleCard';
+import SupportThreadLens from './support/SupportThread';
+import SupportThreadsLens from './support/SupportThreads';
 import TimelineLens from './Timeline';
 import TodoList from './TodoList';
 import ViewLens from './View';
@@ -17,6 +19,8 @@ class LensService {
 		KanbanLens,
 		ListLens,
 		SingleCardLens,
+		SupportThreadLens,
+		SupportThreadsLens,
 		TimelineLens,
 		TodoList,
 		ViewLens,

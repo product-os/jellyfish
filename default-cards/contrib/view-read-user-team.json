@@ -210,6 +210,7 @@
             "slug": {
               "enum": [
                 "view-all-messages",
+                "view-all-support-threads",
                 "view-all-views",
                 "view-my-alerts",
                 "view-my-mentions",
@@ -267,9 +268,11 @@
                 "thread",
                 "message",
                 "scratchpad-entry",
+                "support-thread",
                 "organizer",
                 "todo",
-                "triggered-action"
+                "triggered-action",
+                "whisper"
               ]
             }
           },

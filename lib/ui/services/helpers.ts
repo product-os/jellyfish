@@ -101,11 +101,15 @@ export const formatTimestamp = _.memoize((stamp: string): string => {
 	return momentDate.format('MMM Do, YYYY k:mm');
 });
 
+export const timeAgo = (stamp: string): string => {
+	return moment(stamp).fromNow();
+};
+
 export const findUsernameById = (users: Card[], id: string) => {
-		const actor = _.find(users, { id });
-		return actor ?
-			actor.slug!.replace('user-', '') :
-			'unknown user';
+	const actor = _.find(users, { id });
+	return actor ?
+		actor.slug!.replace('user-', '') :
+		'unknown user';
 };
 
 /**

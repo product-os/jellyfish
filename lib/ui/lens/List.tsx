@@ -29,6 +29,7 @@ const Column = styled(Flex)`
 	height: 100%;
 	min-width: 350px;
 	overflow-y: auto;
+	border-right: 1px solid #ccc
 `;
 
 interface CardListState {
@@ -151,7 +152,7 @@ class CardList extends React.Component<CardListProps, CardListState> {
 		const { tail } = this.props;
 
 		return (
-			<Column flexDirection="column">
+			<Column flex="1" flexDirection="column">
 				<Box flex="1" style={{ position: 'relative' }}>
 					<ResizeObserver onResize={this.clearCellCache} />
 					{!!tail && tail.length > 0 &&

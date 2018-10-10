@@ -335,31 +335,20 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 				</If>
 
 				<Flex style={{height: '100%', minHeight: 0}}>
-					<Flex
-						flex="1"
-						flexDirection="column"
-						style={{
-							height: '100%',
-							borderRight: '1px solid #ccc',
-							maxWidth: '100%',
-							minWidth: 0,
-						}}
-					>
-						<If condition={!tail}>
-							<Box p={3}>
-								<Icon name="cog fa-spin" />
-							</Box>
-						</If>
+					<If condition={!tail}>
+						<Box p={3}>
+							<Icon name="cog fa-spin" />
+						</Box>
+					</If>
 
-						{!!tail && !!activeLens &&
-							<activeLens.data.renderer
-								channel={this.props.channel}
-								tail={tail}
-								type={tailType}
-								subscription={subscription}
-							/>
-						}
-					</Flex>
+					{!!tail && !!activeLens &&
+						<activeLens.data.renderer
+							channel={this.props.channel}
+							tail={tail}
+							type={tailType}
+							subscription={subscription}
+						/>
+					}
 
 					{!!nextChannel &&
 						<ChannelRenderer channel={nextChannel} />

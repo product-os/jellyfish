@@ -39,6 +39,7 @@
             },
             "status": {
               "type": "string",
+              "default": "open",
               "enum": [ "open", "closed" ]
             },
             "archived": {
