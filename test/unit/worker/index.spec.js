@@ -1898,6 +1898,7 @@ ava.test('should update a card to override an array property', async (test) => {
 	test.false(updateResult.error)
 
 	const card = await test.context.jellyfish.getCardById(test.context.session, updateResult.data.id)
+
 	test.deepEqual(card, {
 		id: updateResult.data.id,
 		type: 'card',

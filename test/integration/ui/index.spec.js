@@ -305,3 +305,12 @@ ava.test.serial('should allow team-admin users to update user\'s roles', async (
 
 	test.deepEqual(card.data.roles, [ 'user-community', 'user-team' ])
 })
+
+ava.test.serial('After updating a user\'s roles, the other user fields should remain intact', async (test) => {
+	// Retrieve the user card
+	const userCard = await context.server.jellyfish.getCardBySlug(context.session, `user-${users.community.username}`)
+
+	test.is(_.has(userCard, [ 'data', 'email' ]), true)
+	test.is(_.has(userCard, [ 'data', 'roles' ]), true)
+	test.is(_.has(userCard, [ 'data', 'password', 'hash' ]), true)
+})

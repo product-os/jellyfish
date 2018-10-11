@@ -560,6 +560,112 @@ ava.test.serial('AGGREGATE($events): should work when creating cards via the SDK
 	test.deepEqual(card.data.mentionsUser, [ id ])
 })
 
+ava.test.serial('When updating a user, inaccessible fields should not be removed', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	// Create a new user
+	const user = await sdk.auth.signup({
+		username: 'johndoe',
+		email: 'johndoe@example.com',
+		password: 'foobarbaz'
+	})
+
+	const teamAdminUserData = {
+		username: 'team-admin-user',
+		email: 'team-admin-user@example.com',
+		password: 'password'
+	}
+
+	const teamAdminUser = await sdk.auth.signup(teamAdminUserData)
+
+	await test.context.server.jellyfish.insertCard(
+		test.context.session,
+		_.merge(teamAdminUser, {
+			data: {
+				roles: [ 'user-team-admin' ]
+			}
+		}),
+		{
+			override: true
+		}
+	)
+
+	await sdk.auth.login(teamAdminUserData)
+
+	const userCard = await sdk.card.get(user.id)
+
+	await sdk.card.update(
+		userCard.id,
+		_.merge(
+			_.omit(userCard, [ 'data', 'password' ]),
+			{
+				data: {
+					roles: [ 'user-team' ]
+				}
+			}
+		)
+	)
+
+	const rawUserCard = await test.context.server.jellyfish.getCardById(test.context.session, user.id)
+
+	test.is(_.has(rawUserCard, [ 'data', 'email' ]), true)
+	test.is(_.has(rawUserCard, [ 'data', 'roles' ]), true)
+	test.is(_.has(rawUserCard, [ 'data', 'password', 'hash' ]), true)
+})
+
+ava.test.serial('A team admin user should be able to update another user\'s roles', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	// Create a new user
+	const user = await sdk.auth.signup({
+		username: 'johndoe',
+		email: 'johndoe@example.com',
+		password: 'foobarbaz'
+	})
+
+	const teamAdminUserData = {
+		username: 'team-admin-user',
+		email: 'team-admin-user@example.com',
+		password: 'password'
+	}
+
+	const teamAdminUser = await sdk.auth.signup(teamAdminUserData)
+
+	await test.context.server.jellyfish.insertCard(
+		test.context.session,
+		_.merge(teamAdminUser, {
+			data: {
+				roles: [ 'user-team-admin' ]
+			}
+		}),
+		{
+			override: true
+		}
+	)
+
+	await sdk.auth.login(teamAdminUserData)
+
+	await sdk.card.update(
+		user.id,
+		_.merge(
+			_.omit(user, [ 'data', 'password' ]),
+			{
+				data: {
+					roles: [ 'user-team' ]
+				}
+			}
+		)
+	)
+
+	const userCard = await test.context.server.jellyfish.getCardById(test.context.session, user.id)
+
+	test.deepEqual(userCard.data.roles, [ 'user-team' ])
+})
+
 ava.test.serial('Users should not be able to login as the core admin user', async (test) => {
 	const {
 		sdk
