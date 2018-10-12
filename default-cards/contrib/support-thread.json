@@ -38,8 +38,8 @@
               "format": "markdown"
             },
             "status": {
+              "title": "Status",
               "type": "string",
-              "default": "open",
               "enum": [ "open", "closed" ]
             },
             "archived": {
@@ -51,6 +51,9 @@
       },
       "additionalProperties": true,
       "required": [ "tags", "data" ]
-    }
+    },
+    "slices": [
+      "properties.data.properties.status"
+    ]
   }
 }

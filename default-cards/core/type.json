@@ -24,6 +24,12 @@
             "schema": {
               "type": "object",
               "additionalProperties": true
+            },
+            "slices": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             }
           },
           "required": [ "schema" ]

@@ -124,7 +124,7 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 		});
 	}
 
-	public open = (card: Card) => {
+	public open = (card: Card, options?: any) => {
 		if (this.props.viewNotices[card.id]) {
 			this.props.actions.removeViewNotice(card.id);
 			this.props.actions.setActiveView(card.id);
@@ -133,6 +133,7 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 			target: card.id,
 			head: card,
 			parentChannel: this.props.channel.id,
+			options,
 		}));
 	}
 
@@ -172,7 +173,7 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 			user,
 		} = this.props;
 		const { tail } = this.state;
-		const activeCard = channels.length > 1 ? channels[1].data.target : null;
+		const activeChannel = channels.length > 1 ? channels[1] : null;
 		const email = user ? user.data.email : null;
 		const username = user ? user.slug!.replace(/user-/, '') : null;
 
@@ -241,7 +242,8 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 							return null;
 						}
 
-						const isActive = card.id === activeCard;
+						const isActive = card.id === _.get(activeChannel, [ 'data' , 'target' ]);
+						const activeSlice = _.get(activeChannel, [ 'data', 'options', 'slice' ]);
 
 						const update = this.props.viewNotices[card.id];
 
@@ -250,6 +252,7 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 								key={card.id}
 								card={card}
 								isActive={isActive}
+								activeSlice={activeSlice}
 								update={update}
 								open={this.open}
 							/>

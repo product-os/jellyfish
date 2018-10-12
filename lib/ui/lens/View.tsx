@@ -58,10 +58,12 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 	}
 
 	componentDidMount(): void {
-		this.bootstrap(this.props.channel.data.head);
+		this.bootstrap(this.props.channel);
 	}
 
-	bootstrap(head?: Card): void {
+	bootstrap(channel: Channel): void {
+		const { head, options } = channel.data;
+
 		if (!this.props.user) {
 			throw new Error('Cannot bootstrap a view without an active user');
 		}
@@ -70,14 +72,45 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 			return;
 		}
 
-		this.props.actions.streamView(head.id);
-		this.props.actions.loadViewResults(head.id);
+		this.props.actions.clearViewData(head.id);
 
 		this.props.actions.addSubscription(head.id);
 
 		const filters = head
 			? _.map(_.filter(head.data.allOf, { name: USER_FILTER_NAME }), 'schema')
 			: [];
+
+		if (options && options.slice) {
+			const { slice } = options;
+			const filter = {
+				name: USER_FILTER_NAME,
+				title: 'is',
+				description: `${slice.title} is ${slice.value}`,
+				type: 'object',
+				properties: {},
+			};
+
+			_.set(filter, slice.path, { const: slice.value });
+
+			const keys = slice.path.split('.');
+
+			// Make sure that "property" keys correspond with { type: 'object' },
+			// otherwise the filter won't work
+			while (keys.length) {
+				if (keys.pop() === 'properties') {
+					_.set(filter, keys.concat('type'), 'object');
+				}
+			}
+
+			filters.push({
+				anyOf: [ filter ],
+			});
+
+			this.loadViewWithFilters(head, filters);
+		} else {
+			this.props.actions.streamView(head.id);
+			this.props.actions.loadViewResults(head.id);
+		}
 
 		const lenses = _.chain(head)
 			.get('data.lenses')
@@ -113,7 +146,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 		}
 
 		if (!circularDeepEqual(this.props.channel.data.head, nextProps.channel.data.head)) {
-			this.bootstrap(nextProps.channel.data.head);
+			this.bootstrap(nextProps.channel);
 		}
 
 		if (!this.props.channel.data.head && nextProps.channel.data.head) {
@@ -186,26 +219,30 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 		const { head } = this.props.channel.data;
 
 		if (head) {
-			const syntheticViewCard = _.cloneDeep(head);
-			const originalFilters = head
-				? _.reject(head.data.allOf, { name: USER_FILTER_NAME })
-				: [];
-
-			syntheticViewCard.data.allOf = originalFilters;
-
-			filters.forEach((filter) => {
-				syntheticViewCard.data.allOf.push({
-					name: USER_FILTER_NAME,
-					schema: _.assign(_.omit(filter, '$id'), { type: 'object' }),
-				});
-			});
-
-			this.props.actions.loadViewResults(syntheticViewCard);
-			this.props.actions.streamView(syntheticViewCard);
+			this.loadViewWithFilters(head, filters);
 		}
 
 		this.setState({ filters });
 	}, 750, { leading: true });
+
+	public loadViewWithFilters(view: Card, filters: JSONSchema6[]): void {
+		const syntheticViewCard = _.cloneDeep(view);
+		const originalFilters = view
+			? _.reject(view.data.allOf, { name: USER_FILTER_NAME })
+			: [];
+
+		syntheticViewCard.data.allOf = originalFilters;
+
+		filters.forEach((filter) => {
+			syntheticViewCard.data.allOf.push({
+				name: USER_FILTER_NAME,
+				schema: _.assign(_.omit(filter, '$id'), { type: 'object' }),
+			});
+		});
+
+		this.props.actions.loadViewResults(syntheticViewCard);
+		this.props.actions.streamView(syntheticViewCard);
+	}
 
 	public setLens = (e: React.MouseEvent<HTMLButtonElement>): void => {
 		const slug = e.currentTarget.dataset.slug;

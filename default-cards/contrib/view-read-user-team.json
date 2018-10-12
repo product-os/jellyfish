@@ -34,13 +34,7 @@
             },
             "data": {
               "type": "object",
-              "properties": {
-                "schema": {
-                  "type": "object",
-                  "additionalProperties": true
-                }
-              },
-              "required": [ "schema" ]
+              "additionalProperties": true
             }
           },
           "additionalProperties": true,

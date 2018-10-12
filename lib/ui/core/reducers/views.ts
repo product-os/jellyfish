@@ -152,6 +152,25 @@ export const actionCreators = {
 		});
 	},
 
+	clearViewData: (
+		query: string | Card | JSONSchema6,
+	): Action => {
+		const id = getViewId(query);
+
+		if (streams[id]) {
+			streams[id].destroy();
+			delete streams[id];
+		}
+
+		return {
+			type: actions.SET_VIEW_DATA,
+			value: {
+				id,
+				data: [],
+			},
+		};
+	}
+
 	streamView: (
 		query: string | Card | JSONSchema6,
 	): JellyThunkSync<void, StoreState> => (dispatch, getState) => {

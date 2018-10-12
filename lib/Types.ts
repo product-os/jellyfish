@@ -68,6 +68,7 @@ export interface Channel extends Card {
 		error?: Error;
 		// The id of the channel that created this channel
 		parentChannel?: string;
+		options?: any;
 	};
 }
 
