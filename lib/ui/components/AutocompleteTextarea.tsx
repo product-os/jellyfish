@@ -4,8 +4,11 @@ import * as React from 'react';
 import { Box, BoxProps, Card, Link, Theme, Txt } from 'rendition';
 import styled from 'styled-components';
 import { sdk, store } from '../core';
-import { selectors } from '../core/store';
-import { createFullTextSearchFilter } from '../services/helpers';
+import { actionCreators, selectors } from '../core/store';
+import {
+	createChannel,
+	createFullTextSearchFilter,
+} from '../services/helpers';
 
 // ReactTextareaAutocomplete autocompletion doesn't work with JSDom, so disable
 // it during testing
@@ -212,7 +215,7 @@ class AutoCompleteArea extends React.Component<AutoProps, AutoState> {
 		};
 	}
 
-	public loadResults = _.debounce((typeCard: any, value: string) {
+	public loadResults = _.debounce((typeCard: any, value: string) => {
 		const filter = createFullTextSearchFilter(typeCard.data.schema, value);
 
 		_.set(filter, [ 'properties', 'type' ], {
@@ -264,8 +267,8 @@ class AutoCompleteArea extends React.Component<AutoProps, AutoState> {
 	}
 
 	public handleOnKeyPress = (e: any) => {
-		if (this.props.onChange) {
-			this.props.onChange(e);
+		if (this.props.onKeyPress) {
+			this.props.onKeyPress(e);
 		}
 	}
 
@@ -309,7 +312,25 @@ class AutoCompleteArea extends React.Component<AutoProps, AutoState> {
 							<Txt>No results found</Txt>
 						)}
 						{_.map(this.state.results, (card: any) => {
-							return <div><Link key={card.id} href={`#/${card.id}`}>{card.name}</Link></div>;
+							return (
+								<div key={card.id}>
+									<Link
+										onClick={() => {
+											store.dispatch(actionCreators.addChannel(createChannel({
+												target: card.id,
+												head: card,
+											})));
+
+											this.setState({
+												showQuickSearchPanel: false,
+												results: null,
+											});
+										}}
+									>
+										{card.name || card.slug || card.id}
+									</Link>
+								</div>
+							);
 						})}
 					</Card>
 				)}

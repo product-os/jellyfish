@@ -16,7 +16,6 @@ import {
 } from 'rendition';
 import { Card, Channel, Lens, RendererProps, Type } from '../../Types';
 import ButtonGroup from '../components/ButtonGroup';
-import ChannelRenderer from '../components/ChannelRenderer';
 import Icon from '../components/Icon';
 import { If } from '../components/If';
 import { analytics, sdk } from '../core';
@@ -42,6 +41,7 @@ interface ViewRendererProps extends RendererProps {
 	tail: Card[] | null;
 	subscription: null | Card;
 	actions: typeof actionCreators;
+	flex: any;
 }
 
 const USER_FILTER_NAME = 'user-generated-filter';
@@ -275,16 +275,14 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 		const { tailType, lenses } = this.state;
 		const useFilters = !!tailType && tailType.slug !== 'view';
 		const activeLens = _.find(lenses, { slug: _.get(subscription, 'data.activeLens') }) || lenses[0];
-		const channelIndex = _.findIndex(this.props.channels, { id: this.props.channel.id });
-		const nextChannel = this.props.channels[channelIndex + 1];
 		const slices = getViewSlices(head, types);
 		const lensSupportsSlices = !!activeLens && !!activeLens.data.supportsSlices;
 
 		return (
 			<Flex
+				flex={this.props.flex}
 				className={`column--${head ? head.slug || head.type : 'unknown'}`}
 				flexDirection="column"
-				flex="1 1 auto"
 				style={{ height: '100%', overflowY: 'auto', borderRight: '1px solid #ccc', position: 'relative' }}
 			>
 				<If condition={!!head}>
@@ -375,10 +373,6 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 							type={tailType}
 							subscription={subscription}
 						/>
-					}
-
-					{!!nextChannel &&
-						<ChannelRenderer channel={nextChannel} />
 					}
 				</Flex>
 			</Flex>

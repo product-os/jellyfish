@@ -29,7 +29,6 @@ const Column = styled(Flex)`
 	height: 100%;
 	min-width: 350px;
 	overflow-y: auto;
-	border-right: 1px solid #ccc
 `;
 
 interface CardListState {
@@ -137,7 +136,7 @@ class CardList extends React.Component<CardListProps, CardListState> {
 				parent={props.parent}
 				rowIndex={props.index}
 			>
-				<Box px={3} style={props.style}>
+				<Box px={3} pb={3} style={props.style}>
 					<LensRenderer
 						card={card}
 						level={1}

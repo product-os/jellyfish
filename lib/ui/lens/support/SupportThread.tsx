@@ -13,8 +13,9 @@ import {
 import { Markdown } from 'rendition/dist/extra/Markdown';
 import { Mermaid } from 'rendition/dist/extra/Mermaid';
 import styled from 'styled-components';
-import { Card, Lens, Type } from '../../../Types';
+import { Card, Lens, RendererProps, Type } from '../../../Types';
 import { CardActions } from '../../components/CardActions';
+import { CloseButton } from '../../components/CloseButton';
 import Label from '../../components/Label';
 import { Tag } from '../../components/Tag';
 import { sdk } from '../../core';
@@ -30,6 +31,7 @@ const Column = styled(Flex)`
 	height: 100%;
 	overflow-y: auto;
 	min-width: 270px;
+	border-right: 1px solid #ccc;
 `;
 
 const Badge = styled(Txt)`
@@ -121,12 +123,13 @@ const CardField = ({ field, payload, users, schema }: {
 	);
 };
 
-interface CardProps {
+interface CardProps extends RendererProps {
 	card: Card;
 	allUsers: Card[];
 	types: Type[];
 	fieldOrder?: string[];
 	actions: typeof actionCreators;
+	flex: any;
 }
 
 interface CardState {
@@ -206,8 +209,8 @@ class Base extends React.Component<CardProps, CardState> {
 
 		return (
 			<Column
+				flex={this.props.flex}
 				className={`column--${card ? card.slug || card.type : 'unknown'}`}
-				flex="1"
 				flexDirection="column"
 			>
 				<Box p={3} style={{maxHeight: '50%', borderBottom: '1px solid #ccc', overflowY: 'auto'}}>
@@ -216,9 +219,17 @@ class Base extends React.Component<CardProps, CardState> {
 							Support conversation with <strong>{findUsernameById(this.props.allUsers, createCard.data.actor)}</strong>
 						</Txt>
 
-						<CardActions
-							card={card}
-						/>
+						<Flex>
+							<CardActions
+								card={card}
+							/>
+
+							<CloseButton
+								mb={3}
+								mr={-3}
+								onClick={() => this.props.actions.removeChannel(this.props.channel)}
+							/>
+						</Flex>
 					</Flex>
 
 					{!!card.tags && card.tags.length > 0 &&

@@ -7,15 +7,15 @@ import { bindActionCreators } from 'redux';
 import {
 	Box,
 	Flex,
-	Heading,
 	Link,
 	Txt
 } from 'rendition';
 import { Markdown } from 'rendition/dist/extra/Markdown';
 import { Mermaid } from 'rendition/dist/extra/Mermaid';
 import styled from 'styled-components';
-import { Card, Lens, Type } from '../../Types';
+import { Card, Lens, RendererProps, Type } from '../../Types';
 import { CardActions } from '../components/CardActions';
+import { CloseButton } from '../components/CloseButton';
 import Label from '../components/Label';
 import { Tag } from '../components/Tag';
 import { actionCreators, selectors, StoreState } from '../core/store';
@@ -31,6 +31,7 @@ const Column = styled(Flex)`
 	height: 100%;
 	overflow-y: auto;
 	min-width: 270px;
+	border-right: 1px solid #ccc;
 `;
 
 const Badge = styled(Txt)`
@@ -122,7 +123,7 @@ const CardField = ({ field, payload, users, schema }: {
 	);
 };
 
-interface CardProps {
+interface CardProps extends RendererProps {
 	level: number;
 	card: Card;
 	allUsers: Card[];
@@ -174,20 +175,30 @@ class Base extends React.Component<CardProps, {}> {
 		const content = (
 			<>
 				<Flex justify="space-between">
-					<Heading.h4 my={3}>
+					<Txt mb={3}>
+						<strong>
 						{level > 0 &&
 							<Link onClick={this.openChannel} className={`header-link--${card.slug || card.id}`}>
 								{card.name || card.slug || card.type}
 							</Link>
 						}
 						{!level && (card.name || card.slug || card.type)}
-					</Heading.h4>
+						</strong>
+					</Txt>
 
-					{!level &&
-						<CardActions
-							card={card}
-						/>
-					}
+					{!level && (
+						<Flex align="baseline">
+							<CardActions
+								card={card}
+							/>
+
+							<CloseButton
+								mb={3}
+								mr={-3}
+								onClick={() => this.props.actions.removeChannel(this.props.channel)}
+							/>
+						</Flex>
+					)}
 				</Flex>
 
 				{!!card.tags && card.tags.length > 0 &&
@@ -217,7 +228,7 @@ class Base extends React.Component<CardProps, {}> {
 			return (
 				<Column
 					className={`column--${card ? card.slug || card.type : 'unknown'}`}
-					flex="1"
+					flex={this.props.flex}
 					flexDirection="column"
 				>
 					<Box p={3} style={{maxHeight: '50%', borderBottom: '1px solid #ccc', overflowY: 'auto'}}>

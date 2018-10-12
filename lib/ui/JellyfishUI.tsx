@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Flex, Provider } from 'rendition';
@@ -18,6 +19,15 @@ interface UIProps {
 	status: AppStatus;
 }
 
+const calcFlex = (n: number) => {
+	let flex = 1;
+	while(n--) {
+		flex *= 2;
+	}
+
+	return flex;
+};
+
 class UI extends React.Component<UIProps, {}> {
 	public render(): React.ReactElement<any> {
 		if (this.props.status === 'initializing') {
@@ -33,7 +43,7 @@ class UI extends React.Component<UIProps, {}> {
 			);
 		}
 
-		const [ home, next ] = this.props.channels;
+		const [ home, ...rest ] = this.props.channels;
 
 		return (
 			<Provider
@@ -45,7 +55,15 @@ class UI extends React.Component<UIProps, {}> {
 				<Flex flex="1" style={{ height: '100%'}}>
 					<HomeChannel channel={home} />
 
-					{!!next && <ChannelRenderer channel={next} />}
+					{_.map(rest, (channel, index) => {
+						return (
+							<ChannelRenderer
+								key={channel.id}
+								channel={channel}
+								flex={calcFlex(index)}
+							/>
+						);
+					})}
 				</Flex>
 
 				<Notifications />
