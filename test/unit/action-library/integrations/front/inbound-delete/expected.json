@@ -1,0 +1,82 @@
+{
+  "head": {
+    "name": "Inbound delete",
+    "type": "support-thread",
+    "active": true,
+    "tags": [],
+    "data": {
+      "mirrors": [
+        "https://api2.frontapp.com/conversations/cnv_11dvvhm"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "",
+      "status": "closed",
+      "archived": false
+    }
+  },
+  "tail": [
+    {
+      "type": "message",
+      "active": true,
+      "tags": [],
+      "data": {
+        "mirrors": [
+          "https://api2.frontapp.com/messages/msg_1w1ewpe"
+        ],
+        "timestamp": "2018-10-08T18:35:21.954Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "Hey there"
+        }
+      }
+    },
+    {
+      "type": "create",
+      "active": true,
+      "tags": [],
+      "data": {
+        "timestamp": "2018-10-08T18:35:21.954Z",
+        "payload": {
+          "name": "Inbound delete",
+          "active": true,
+          "tags": [],
+          "data": {
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_11dvvhm"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open",
+            "archived": false
+          }
+        }
+      }
+    },
+    {
+      "type": "update",
+      "active": true,
+      "tags": [],
+      "data": {
+        "timestamp": "2018-10-08T18:35:32.544Z",
+        "payload": {
+          "name": "Inbound delete",
+          "active": true,
+          "tags": [],
+          "data": {
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_11dvvhm"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "closed",
+            "archived": false
+          }
+        }
+      }
+    }
+  ]
+}

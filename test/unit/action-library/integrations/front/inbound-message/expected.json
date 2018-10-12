@@ -1,0 +1,75 @@
+{
+  "head": {
+    "name": "Test Reply",
+    "type": "support-thread",
+    "active": true,
+    "tags": [],
+    "data": {
+      "mirrors": [
+        "https://api2.frontapp.com/conversations/cnv_11sgc1v"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "",
+      "status": "open",
+      "archived": false
+    }
+  },
+  "tail": [
+    {
+      "type": "message",
+      "active": true,
+      "tags": [],
+      "data": {
+        "mirrors": [
+          "https://api2.frontapp.com/messages/msg_1y9l8fv"
+        ],
+        "timestamp": "2018-10-10T22:13:52.817Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "Hey there!"
+        }
+      }
+    },
+    {
+      "type": "message",
+      "active": true,
+      "tags": [],
+      "data": {
+        "mirrors": [
+          "https://api2.frontapp.com/messages/msg_1y9l9g3"
+        ],
+        "timestamp": "2018-10-10T22:14:18.632Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "Response!"
+        }
+      }
+    },
+    {
+      "type": "create",
+      "active": true,
+      "tags": [],
+      "data": {
+        "timestamp": "2018-10-10T22:13:52.817Z",
+        "payload": {
+          "name": "Test Reply",
+          "active": true,
+          "tags": [],
+          "data": {
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_11sgc1v"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open",
+            "archived": false
+          }
+        }
+      }
+    }
+  ]
+}

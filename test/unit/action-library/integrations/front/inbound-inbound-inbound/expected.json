@@ -1,0 +1,75 @@
+{
+  "head": {
+    "name": "Multiple in a row",
+    "type": "support-thread",
+    "active": true,
+    "tags": [],
+    "data": {
+      "mirrors": [
+        "https://api2.frontapp.com/conversations/cnv_11dw6zu"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "",
+      "status": "open",
+      "archived": false
+    }
+  },
+  "tail": [
+    {
+      "type": "message",
+      "active": true,
+      "tags": [],
+      "data": {
+        "mirrors": [
+          "https://api2.frontapp.com/messages/msg_1w1ffia"
+        ],
+        "timestamp": "2018-10-08T18:40:09.520Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "One\n\nOn Mon, Oct 8, 2018 at 7:39 PM Juan Cruz Viotti <juan@resin.io> wrote:\n\n>\n>"
+        }
+      }
+    },
+    {
+      "type": "message",
+      "active": true,
+      "tags": [],
+      "data": {
+        "mirrors": [
+          "https://api2.frontapp.com/messages/msg_1w1ffpe"
+        ],
+        "timestamp": "2018-10-08T18:40:12.958Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "Two\n\nOn Mon, Oct 8, 2018 at 7:39 PM Juan Cruz Viotti <juan@resin.io> wrote:\n\n> One\n>\n> On Mon, Oct 8, 2018 at 7:39 PM Juan Cruz Viotti <juan@resin.io> wrote:\n>\n>>\n>>"
+        }
+      }
+    },
+    {
+      "type": "create",
+      "active": true,
+      "tags": [],
+      "data": {
+        "timestamp": "2018-10-08T18:39:45.162Z",
+        "payload": {
+          "name": "Multiple in a row",
+          "active": true,
+          "tags": [],
+          "data": {
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_11dw6zu"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open",
+            "archived": false
+          }
+        }
+      }
+    }
+  ]
+}
