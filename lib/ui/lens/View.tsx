@@ -24,6 +24,7 @@ import { actionCreators, selectors, StoreState } from '../core/store';
 import {
 	createChannel,
 	getTypeFromViewCard,
+	getViewSlices,
 } from '../services/helpers';
 import LensService from './index';
 
@@ -128,16 +129,6 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 			// mark as ready
 			ready: true,
 		});
-	}
-
-	public getGroups(): any[] {
-		const view = this.props.channel.data.head;
-
-		if (!view || !view.data.groups) {
-			return [];
-		}
-
-		return view.data.groups;
 	}
 
 	public componentWillReceiveProps(nextProps: ViewRendererProps): void {
@@ -258,7 +249,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 		this.props.actions.saveSubscription(subscription, this.props.channel.data.target);
 	}
 
-	public setGroup = (e: React.ChangeEvent<HTMLSelectElement>) => {
+	public setSlice = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		const { subscription } = this.props;
 
 		if (!subscription) {
@@ -266,7 +257,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 		}
 
 		const slug = e.target.value;
-		subscription.data.activeGroup = slug;
+		subscription.data.activeSlice = slug;
 
 		this.props.actions.saveSubscription(subscription, this.props.channel.data.target);
 	}
@@ -280,14 +271,14 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 				</Box>
 			);
 		}
-		const { tail, subscription } = this.props;
+		const { tail, types, subscription } = this.props;
 		const { tailType, lenses } = this.state;
 		const useFilters = !!tailType && tailType.slug !== 'view';
 		const activeLens = _.find(lenses, { slug: _.get(subscription, 'data.activeLens') }) || lenses[0];
 		const channelIndex = _.findIndex(this.props.channels, { id: this.props.channel.id });
 		const nextChannel = this.props.channels[channelIndex + 1];
-		const groups = this.getGroups();
-		const lensSupportsGroups = !!activeLens && !!activeLens.data.supportsGroups;
+		const slices = getViewSlices(head, types);
+		const lensSupportsSlices = !!activeLens && !!activeLens.data.supportsSlices;
 
 		return (
 			<Flex
@@ -330,22 +321,21 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 										)}
 									</ButtonGroup>
 								</If>
-								{groups.length > 0 && lensSupportsGroups &&
+								{slices && slices.length > 0 && lensSupportsSlices &&
 									<Box ml={3}>
-										Group by:
+										Slice by:
 										<Select
 											ml={2}
-											disabled={!lensSupportsGroups}
-											value={_.get(subscription, ['data', 'activeGroup'])}
-											onChange={lensSupportsGroups ? this.setGroup : _.noop}
+											value={_.get(subscription, ['data', 'activeSlice'])}
+											onChange={lensSupportsSlices ? this.setSlice : _.noop}
 										>
-											{_.map(groups, (group) => {
+											{_.map(slices, (slice) => {
 												return (
 													<option
-														key={group.slug}
-														value={group.slug}
+														key={slice.path}
+														value={slice.path}
 													>
-														{group.name}
+														{slice.title}
 													</option>
 												);
 											})}

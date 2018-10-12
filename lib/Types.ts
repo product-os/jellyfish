@@ -95,7 +95,7 @@ export interface Lens {
 		filter: JSONSchema6;
 		icon: string;
 		renderer: any;
-		supportsGroups?: boolean;
+		supportsSlices?: boolean;
 		type?: string;
 	};
 }

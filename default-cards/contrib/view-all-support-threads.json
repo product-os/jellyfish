@@ -47,7 +47,8 @@
       }
     ],
     "lenses": [
-      "lens-support-threads"
+      "lens-support-threads",
+      "lens-kanban"
     ]
   }
 }

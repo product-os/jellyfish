@@ -11,6 +11,7 @@ import {
 import styled from 'styled-components';
 import { Card } from '../../Types';
 import { actionCreators, selectors, StoreState } from '../core/store';
+import { getViewSlices } from '../services/helpers';
 import { ContextMenu } from './ContextMenu';
 import Icon from './Icon';
 import { NotificationsModal } from './NotificationsModal';
@@ -101,31 +102,7 @@ class ViewLinkBase extends React.Component<ViewLinkProps & ConnectedProps, ViewL
 			update,
 		} = this.props;
 
-		let slices: any = null;
-
-		if (isActive) {
-			const viewTypeSlug = _.chain(card.data.allOf)
-				.map((def) => {
-					return _.get(def.schema, [ 'properties', 'type', 'const' ]);
-				})
-				.compact()
-				.first()
-				.value();
-
-			const viewType = viewTypeSlug && _.find(types, { slug: viewTypeSlug }) as any;
-
-			if (viewType && viewType.data.slices) {
-				slices = _.map(viewType.data.slices, (slice) => {
-					const subSchema = _.get(viewType.data.schema, slice);
-					const title = subSchema.title || slice.split('.').pop();
-					return {
-						title,
-						path: slice,
-						values: subSchema.enum,
-					};
-				});
-			}
-		}
+		const slices = isActive ? getViewSlices(card, types) : null;
 
 		return (
 			<Box>

@@ -66,37 +66,6 @@
                 "required": [ "name", "schema" ]
               }
             },
-            "groups": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "slug": {
-                    "type": "string",
-                    "pattern": "^group-view.*\\S.*$"
-                  },
-                  "name": {
-                    "type": "string"
-                  },
-                  "data": {
-                    "type": "object",
-                    "properties": {
-                      "sort": {
-                        "type": "string"
-                      },
-                      "schemas": {
-                        "type": "array",
-                        "items": {
-                          "type": "object"
-                        }
-                      }
-                    },
-                    "required": [ "schemas" ]
-                  }
-                },
-                "required": [ "slug", "name", "data" ]
-              }
-            },
             "types": {
               "description": "A list of data types this view can return",
               "type": "array",

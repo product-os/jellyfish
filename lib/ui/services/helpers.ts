@@ -272,3 +272,31 @@ export const getObjectValues = (input: any): any[] => {
 		return input;
 	}
 };
+
+export const getViewSlices = (view: any, types: Card[]) => {
+	let slices: any = null;
+
+	const viewTypeSlug = _.chain(view.data.allOf)
+		.map((def) => {
+			return _.get(def.schema, [ 'properties', 'type', 'const' ]);
+		})
+		.compact()
+		.first()
+		.value();
+
+	const viewType = viewTypeSlug && _.find(types, { slug: viewTypeSlug }) as any;
+
+	if (viewType && viewType.data.slices) {
+		slices = _.map(viewType.data.slices, (slice) => {
+			const subSchema = _.get(viewType.data.schema, slice);
+			const title = subSchema.title || slice.split('.').pop();
+			return {
+				title,
+				path: slice,
+				values: subSchema.enum,
+			};
+		});
+	}
+
+	return slices;
+}

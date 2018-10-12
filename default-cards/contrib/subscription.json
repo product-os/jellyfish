@@ -28,7 +28,7 @@
             "activeLens": {
               "type": "string"
             },
-            "activeGroup": {
+            "activeSlice": {
               "type": "string"
             },
             "notificationSettings": {

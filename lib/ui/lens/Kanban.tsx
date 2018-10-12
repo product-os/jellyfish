@@ -6,18 +6,18 @@ import Board, { BoardLane } from 'react-trello';
 import { bindActionCreators } from 'redux';
 import { Button, Flex, Modal } from 'rendition';
 import styled from 'styled-components';
-import * as jellyscript from '../../jellyscript';
 import { Card, Channel, Lens, RendererProps, Type } from '../../Types';
 import { CardCreator } from '../components/CardCreator';
 import { ContextMenu } from '../components/ContextMenu';
 import { GroupUpdate } from '../components/GroupUpdate';
 import Icon from '../components/Icon';
 import { analytics, sdk } from '../core';
-import { actionCreators } from '../core/store';
+import { actionCreators, selectors, StoreState } from '../core/store';
 import {
 	createChannel,
 	getUpdateObjectFromSchema,
 	getViewSchema,
+	getViewSlices,
 } from '../services/helpers';
 import LensService from './index';
 
@@ -33,11 +33,16 @@ const EllipsisButton = styled(Button)`
 	}
 `;
 
-const cardMapper = (card: Card) => ({
-	id: card.id,
-	type: card.type,
-	title: card.name || card.slug || card.id,
-});
+const cardMapper = (card: Card) => {
+	const message = _.find(_.get(card, [ 'links', 'has attached element' ]), { type: 'message' }));
+
+	return {
+		id: card.id,
+		type: card.type,
+		title: card.name || card.slug || `${card.type}: ${card.id.substr(0, 7)}`,
+		description: _.get(message, [ 'data', 'payload', 'message' ]),
+	};
+};
 
 interface CustomLaneHeaderState {
 	showMenu: boolean;
@@ -116,6 +121,7 @@ interface KanbanProps extends RendererProps {
 	subscription?: null | Card;
 	type: null | Type;
 	actions: typeof actionCreators;
+	types: Type[];
 }
 
 class Kanban extends React.Component<KanbanProps, KanbanState> {
@@ -129,44 +135,35 @@ class Kanban extends React.Component<KanbanProps, KanbanState> {
 		};
 	}
 
-	public getGroups(): any[] {
+	public getSlices(): any[] {
 		const view = this.props.channel.data.head;
 
-		if (!view || !view.data.groups) {
+		if (!view) {
 			return [];
 		}
 
-		return view.data.groups;
+		return getViewSlices(view, this.props.types) || [];
 	}
 
 	public getLanes(): BoardLane[] {
 		if (!this.props.tail || !this.props.tail.length) {
 			return [];
 		}
-		const activeGroup = _.get(this.props, 'subscription.data.activeGroup');
+		const activeSlice = _.get(this.props, 'subscription.data.activeSlice');
 		let cards = this.props.tail.slice();
 		const lanes: BoardLane[] = [];
-		const groups = this.getGroups();
-		const group = _.find(groups, { slug: activeGroup }) || groups[0];
+		const slices = this.getSlices();
+		const slice: any = _.find(slices, { path: activeSlice }) || slices[0];
 
-		if (!group) {
+		if (!slice) {
 			return [];
 		}
 
-		if (group.data.sort) {
-			cards.sort((a, b) => {
-				return jellyscript.evaluate(group.data.sort, { input: { a, b } }).value ?
-					-1 : 1;
-			});
-		}
-
-		const schemas = group.data.schemas;
-
-		schemas.forEach((schema: JSONSchema6) => {
+		slice.values.forEach((value: any) => {
 			const lane: BoardLane = {
-				id: schema.title || '',
+				id: `${slice.path}__${value}`,
 				cards: [],
-				title: schema.title,
+				title: `${slice.title}: ${value}`,
 			};
 
 			if (!cards.length) {
@@ -175,13 +172,17 @@ class Kanban extends React.Component<KanbanProps, KanbanState> {
 				return;
 			}
 
-			const validator = sdk.utils.compileSchema(schema);
+			const schema = _.set({
+				type: 'object',
+			}, slice.path, { const: value });
 
-			const [ groupedCards, remaining ] = _.partition(cards, (card) => {
+			const validator = sdk.utils.compileSchema(schema as any);
+
+			const [ slicedCards, remaining ] = _.partition(cards, (card) => {
 				return validator(card);
 			});
 
-			lane.cards = _.map(groupedCards, cardMapper);
+			lane.cards = _.map(slicedCards, cardMapper);
 
 			cards = remaining;
 
@@ -207,40 +208,36 @@ class Kanban extends React.Component<KanbanProps, KanbanState> {
 			return;
 		}
 
-		const activeGroup = _.get(this.props, 'subscription.data.activeGroup');
-		const groups = this.getGroups();
-		const group = _.find(groups, { slug: activeGroup }) || groups[0];
+		const activeSlice = _.get(this.props, 'subscription.data.activeSlice');
+		const slices = this.getSlices();
+		const slice = _.find(slices, { patch: activeSlice }) || slices[0];
 
-		if (!group) {
-			return [];
-		}
-
-		const schemas = group.data.schemas;
-
-		const targetSchema = _.find<JSONSchema6>(schemas, { title: targetLaneId });
-
-		if (!targetSchema) {
+		if (!slice) {
 			return;
 		}
 
-		const update = getUpdateObjectFromSchema(targetSchema);
+		const targetValue = _.find(slice.values, (value) => {
+			return targetLaneId === `${slice.path}__${value}`;
+		});
 
-		_.merge(card, update);
-
-		if (!_.isEmpty(update)) {
-			sdk.card.update(card.id, card)
-			.then(() => {
-				analytics.track('element.update', {
-					element: {
-						type: card.type,
-						id: card.id,
-					},
-				});
-			})
-			.catch((error) => {
-				this.props.actions.addNotification('danger', error.message);
-			});
+		if (!targetValue) {
+			return;
 		}
+
+		_.set(card, slice.path.replace(/properties\./g, ''), targetValue);
+
+		sdk.card.update(card.id, card)
+		.then(() => {
+			analytics.track('element.update', {
+				element: {
+					type: card.type,
+					id: card.id,
+				},
+			});
+		})
+		.catch((error) => {
+			this.props.actions.addNotification('danger', error.message);
+		});
 	}
 
 	public onCardClick = (cardId: string) => {
@@ -321,10 +318,11 @@ class Kanban extends React.Component<KanbanProps, KanbanState> {
 		}
 
 		return (
-			<Flex flexDirection="column" style={{height: '100%', position: 'relative'}}>
+			<Flex flexDirection="column" style={{height: '100%', width: '100%', position: 'relative'}}>
 				<Board
 					style={{
 						padding: '0 12px',
+						background: 'none',
 					}}
 					customLaneHeader={type ? <CustomLaneHeader schema={type.data.schema} /> : undefined}
 					data={data}
@@ -334,7 +332,7 @@ class Kanban extends React.Component<KanbanProps, KanbanState> {
 				/>
 				{!!this.state.modalChannel && !!lens &&
 					<Modal w={960} done={this.clearModalChannel}>
-						<lens.data.renderer channel={this.state.modalChannel} />
+						<lens.data.renderer channel={this.state.modalChannel} card={this.state.modalChannel.data.head} />
 					</Modal>
 				}
 				{!!type &&
@@ -371,6 +369,13 @@ class Kanban extends React.Component<KanbanProps, KanbanState> {
 	}
 }
 
+const mapStateToProps = (state: StoreState) => {
+	return {
+		types: selectors.getTypes(state),
+	};
+};
+
+
 const mapDispatchToProps = (dispatch: any) => ({
 	actions: bindActionCreators(actionCreators, dispatch),
 });
@@ -380,9 +385,9 @@ const lens: Lens = {
 	type: 'lens',
 	name: 'Kanban lens',
 	data: {
-		supportsGroups: true,
+		supportsSlices: true,
 		icon: 'columns',
-		renderer: connect(null, mapDispatchToProps)(Kanban),
+		renderer: connect(mapStateToProps, mapDispatchToProps)(Kanban),
 		filter: {
 			type: 'array',
 		},
