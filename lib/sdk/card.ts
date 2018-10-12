@@ -24,6 +24,7 @@ import { debug, isUUID } from './utils';
 const linkNameMap = {
 	'is attached to': 'has attached element',
 	'scratchpad entry was used in support thread': 'support thread used scratchpad entry',
+	'support thread has attached issue': 'issue is attached to support thread', 
 };
 
 /**

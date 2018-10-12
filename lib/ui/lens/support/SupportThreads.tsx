@@ -169,7 +169,7 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 							<Box
 								key={card.id}
 								py={2}
-								style={{borderBottom: '1px solid #eee'}}
+								style={{borderBottom: '1px solid #eee', cursor: 'pointer'}}
 								onClick={() => this.openChannel(card.id)}
 							>
 								<Flex justify="space-between">
