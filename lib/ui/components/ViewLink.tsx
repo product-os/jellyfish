@@ -22,7 +22,7 @@ const EllipsisButton = styled(Button)`
 
 	&:hover,
 	&:focus {
-		color: white;
+		color: #333;
 	}
 `;
 
@@ -108,7 +108,7 @@ class ViewLinkBase extends React.Component<ViewLinkProps & ConnectedProps, ViewL
 			<Box>
 				<Flex
 					justify="space-between"
-					bg={(isActive && !activeSlice) ? '#666' : 'none'}
+					bg={(isActive && !activeSlice) ? '#eee' : 'none'}
 				>
 					<Link
 						className={`home-channel__item home-channel__item--${card.slug}`}
@@ -116,7 +116,7 @@ class ViewLinkBase extends React.Component<ViewLinkProps & ConnectedProps, ViewL
 						key={card.id}
 						py={2}
 						px={3}
-						color={isActive ? 'white' : '#c3c3c3'}
+						color={isActive && !activeSlice ? '#333' : undefined}
 						onClick={() => this.open()}
 					>
 						{card.name}
@@ -172,14 +172,14 @@ class ViewLinkBase extends React.Component<ViewLinkProps & ConnectedProps, ViewL
 											return (
 												<li
 													key={value}
-													style={{background: (isActiveSlice) ? '#666' : 'none'}}
+													style={{background: (isActiveSlice) ? '#eee' : 'none'}}
 												>
 													<Link
 														style={{display: 'block'}}
 														py={2}
 														pr={3}
 														pl={4}
-														color={isActiveSlice ? 'white' : '#c3c3c3'}
+														color={isActiveSlice ? '#333' : undefined}
 														onClick={() => this.open({
 															slice: {
 																title: slice.title,

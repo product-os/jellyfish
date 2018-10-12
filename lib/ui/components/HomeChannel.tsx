@@ -44,6 +44,18 @@ const MenuPanel = styled(Box)`
 		height: 0;
 		border-left: 5px solid transparent;
 		border-right: 5px solid transparent;
+		border-bottom: 5px solid #ccc;
+		position: absolute;
+    top: -6px;
+		left: 14px;
+	}
+
+	&::after {
+		content: '';
+		width: 0;
+		height: 0;
+		border-left: 5px solid transparent;
+		border-right: 5px solid transparent;
 		border-bottom: 5px solid white;
 		position: absolute;
     top: -5px;
@@ -53,12 +65,12 @@ const MenuPanel = styled(Box)`
 
 const UserMenuBtn = styled(Button)`
 	background: transparent;
-	color: #c3c3c3;
+	color: #888;
 
 	&:hover,
 	&:focus,
 	&:active {
-		color: white;
+		color: #333;
 	}
 `;
 
@@ -189,7 +201,6 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 				style={{ height: '100%', overflowY: 'auto', borderRight: '1px solid #ccc' }}
 			>
 				<Flex
-					bg="#333"
 					justify="space-between"
 				>
 					<UserMenuBtn
@@ -233,7 +244,7 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 					</Fixed>
 				}
 
-				<Box flex="1" bg="#333" pt={3}>
+				<Box flex="1" pt={3}>
 					{!tail && <Box p={3}><Icon style={{color: 'white'}} name="cog fa-spin" /></Box>}
 
 					{!!tail && _.map(tail, (card) => {
@@ -261,8 +272,6 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 
 				</Box>
 				<Link
-					bg="#333"
-					color="white"
 					p={2}
 					fontSize={1}
 					onClick={this.showChangelog}

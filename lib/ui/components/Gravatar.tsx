@@ -59,7 +59,7 @@ export default class Gravatar extends React.Component<GravatarProps, GravatarSta
 	public render(): React.ReactNode {
 		if (this.state.avatarUrl) {
 			return (
-				<Img w={36} style={{borderRadius: '50%'}} src={this.state.avatarUrl} />
+				<Img w={36} style={{borderRadius: 3}} src={this.state.avatarUrl} />
 			);
 		}
 
