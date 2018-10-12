@@ -203,6 +203,7 @@
             },
             "slug": {
               "enum": [
+                "view-all-issues",
                 "view-all-messages",
                 "view-all-support-threads",
                 "view-all-views",
