@@ -90,7 +90,7 @@
     "@types/react-virtualized": "^9.18.3",
     "@types/request": "^2.47.1",
     "@types/socket.io-client": "^1.4.32",
-    "@webscopeio/react-textarea-autocomplete": "^2.1.1",
+    "@webscopeio/react-textarea-autocomplete": "^2.3.5",
     "aws-sdk": "^2.289.0",
     "axios": "^0.18.0",
     "bluebird": "^3.5.1",

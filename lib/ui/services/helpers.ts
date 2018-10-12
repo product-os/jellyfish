@@ -1,6 +1,7 @@
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import * as moment from 'moment';
+import { SchemaSieve } from 'rendition';
 import * as skhema from 'skhema';
 import uuid = require('uuid/v4');
 import { Card, Channel } from '../../Types';
@@ -299,4 +300,52 @@ export const getViewSlices = (view: any, types: Card[]) => {
 	}
 
 	return slices;
-}
+};
+
+const matchOperatorsRe = /[|\\{}()[\]^$+*?.]/g;
+
+export const regexEscape = (str: string) =>
+	str.replace(matchOperatorsRe, '\\$&');
+
+export const createFullTextSearchFilter = (
+	schema: JSONSchema6,
+	term: string,
+) => {
+	const flatSchema = SchemaSieve.flattenSchema(schema);
+	const stringKeys = _.reduce(
+		flatSchema.properties,
+		(carry, item: JSONSchema6, key) => {
+			if (item.type === 'string') {
+				carry.push(key);
+			}
+
+			return carry;
+		},
+		[] as string[],
+	);
+
+	// A schema that matches applies the pattern to each schema field with a type
+	// of 'string'
+	const filter = {
+		type: 'object',
+		additionalProperties: true,
+		description: `Any field contains ${term}`,
+		anyOf: stringKeys.map(key => ({
+			type: 'object',
+			properties: {
+				[key]: {
+					type: 'string',
+					regexp: {
+						pattern: regexEscape(term),
+						flags: 'i',
+					},
+				},
+			},
+			required: [key],
+		})),
+	};
+
+	const unflattenedSchema = SchemaSieve.unflattenSchema(filter as any);
+
+	return unflattenedSchema as JSONSchema6;
+};
