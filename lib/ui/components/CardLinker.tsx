@@ -248,8 +248,9 @@ export class CardLinker extends React.Component<CardLinkerProps, CardLinkerState
 				)}
 
 				<CardCreator
+					seed={{}}
 					show={showCreateModal}
-					type={selectedTypeCard}
+					type={selectedTypeCard!}
 					done={this.doneCreatingCard}
 					cancel={() => this.setState({ showCreateModal: false, showLinkModal: true })}
 				/>

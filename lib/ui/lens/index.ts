@@ -9,6 +9,7 @@ import ListLens from './List';
 import SingleCardLens from './SingleCard';
 import SupportThreadLens from './support/SupportThread';
 import SupportThreadsLens from './support/SupportThreads';
+import TableLens from './Table';
 import TimelineLens from './Timeline';
 import TodoList from './TodoList';
 import ViewLens from './View';
@@ -21,6 +22,7 @@ class LensService {
 		SingleCardLens,
 		SupportThreadLens,
 		SupportThreadsLens,
+		TableLens,
 		TimelineLens,
 		TodoList,
 		ViewLens,

@@ -11,6 +11,22 @@
       {
         "name": "All scratchpad entries",
         "schema": {
+          "$$links": {
+            "has attached element": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "enum": [
+                    "message",
+                    "update",
+                    "create",
+                    "whisper"
+                  ]
+                }
+              },
+              "additionalProperties": true
+            }
+          },
           "type": "object",
           "$$sort": "input.a.name < input.b.name",
           "properties": {
@@ -25,7 +41,8 @@
       }
     ],
     "lenses": [
-      "lens-list"
+      "lens-list",
+      "lens-table"
     ]
   }
 }
