@@ -52,14 +52,6 @@ const load = () => Bluebird.try(ifNotInTestEnv(() => {
 			// load URL route
 			setChannelsFromPath();
 
-			// This is a temporary hack until the new UI framework, where we will
-			// automatically stream all layer data
-			setInterval(() => {
-				const state = store.getState();
-				const channels = selectors.getChannels(state);
-				channels.forEach((channel) => store.dispatch(actionCreators.loadChannelData(channel)));
-			}, 5 * 1000);
-
 			store.subscribe(() => setPathFromState(store.getState()));
 		}
 	});

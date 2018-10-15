@@ -1,4 +1,5 @@
 import * as Bluebird from 'bluebird';
+import { deepEqual } from 'fast-equals'
 import * as _ from 'lodash';
 import { Dispatch } from 'redux';
 import uuid = require('uuid/v4');
@@ -71,7 +72,7 @@ export const actionCreators = {
 		value: state,
 	}),
 
-	loadChannelData: (channel: Channel): JellyThunkSync<void, KnownState> => (dispatch) => {
+	loadChannelData: (channel: Channel): JellyThunkSync<void, KnownState> => (dispatch, getState) => {
 		const { target } = channel.data;
 		const load = (): Bluebird<Card> => sdk.card.getWithTimeline(target)
 			.then((result) => {
@@ -87,7 +88,19 @@ export const actionCreators = {
 				if (!head) {
 					return;
 				}
-				const clonedChannel = _.cloneDeep(channel);
+
+				const currentChannel = _.find(
+					coreSelectors.getChannels(getState()),
+					{ id: channel.id },
+				)!;
+
+				const clonedChannel = _.cloneDeep(currentChannel);
+
+				// Don't bother is the channel head card hasn't changed
+				if (deepEqual(clonedChannel.data.head, head)) {
+					return;
+				}
+
 				clonedChannel.data.head = head;
 
 				dispatch({
