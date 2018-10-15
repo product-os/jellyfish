@@ -133,6 +133,8 @@ exports.integrations = {
 		await test.context.jellyfish.insertCard(test.context.session,
 			require('../../../default-cards/contrib/issue.json'))
 		await test.context.jellyfish.insertCard(test.context.session,
+			require('../../../default-cards/contrib/pull-request.json'))
+		await test.context.jellyfish.insertCard(test.context.session,
 			require('../../../default-cards/contrib/support-thread.json'))
 		await test.context.jellyfish.insertCard(test.context.session,
 			require('../../../default-cards/contrib/message.json'))

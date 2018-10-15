@@ -1,7 +1,7 @@
 {
   "head": {
     "name": "PR line comment",
-    "type": "issue",
+    "type": "pull-request",
     "active": true,
     "tags": [],
     "data": {
