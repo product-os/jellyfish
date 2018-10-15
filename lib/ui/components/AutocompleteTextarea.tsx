@@ -215,6 +215,12 @@ class AutoCompleteArea extends React.Component<AutoProps, AutoState> {
 		};
 	}
 
+	public componentWillUpdate(nextProps: AutoProps): void {
+		if (nextProps.value !== this.props.value) {
+			this.setState({ value: nextProps.value || '' });
+		}
+	}
+
 	public loadResults = _.debounce((typeCard: any, value: string) => {
 		const filter = createFullTextSearchFilter(typeCard.data.schema, value);
 
