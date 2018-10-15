@@ -1,5 +1,5 @@
 import * as Bluebird from 'bluebird';
-import { deepEqual } from 'fast-equals'
+import { deepEqual } from 'fast-equals';
 import * as _ from 'lodash';
 import { Dispatch } from 'redux';
 import uuid = require('uuid/v4');
