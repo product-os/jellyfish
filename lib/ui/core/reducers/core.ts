@@ -94,6 +94,10 @@ export const actionCreators = {
 					{ id: channel.id },
 				)!;
 
+				if (!currentChannel) {
+					return;
+				}
+
 				const clonedChannel = _.cloneDeep(currentChannel);
 
 				// Don't bother is the channel head card hasn't changed
