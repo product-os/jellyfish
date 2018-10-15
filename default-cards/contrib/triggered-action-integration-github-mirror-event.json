@@ -1,0 +1,24 @@
+{
+  "slug": "triggered-action-integration-github-mirror-event",
+  "type": "triggered-action",
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "filter": {
+      "type": "object",
+      "required": [ "type" ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [ "message", "issue", "pull-request" ]
+        }
+      }
+    },
+    "action": "action-integration-github-mirror-event",
+    "target": {
+      "$eval": "source.id"
+    },
+    "arguments": {}
+  }
+}
