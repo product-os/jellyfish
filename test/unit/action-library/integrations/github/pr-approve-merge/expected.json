@@ -1,7 +1,7 @@
 {
   "head": {
     "name": "Test PR",
-    "type": "issue",
+    "type": "pull-request",
     "active": true,
     "tags": [],
     "data": {

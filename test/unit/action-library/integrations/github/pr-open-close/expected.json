@@ -1,7 +1,7 @@
 {
   "head": {
     "name": "Open close PR",
-    "type": "issue",
+    "type": "pull-request",
     "active": true,
     "tags": [],
     "data": {

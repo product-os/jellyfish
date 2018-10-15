@@ -1,7 +1,7 @@
 {
   "head": {
     "name": "PR labels",
-    "type": "issue",
+    "type": "pull-request",
     "active": true,
     "tags": [],
     "data": {
