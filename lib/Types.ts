@@ -68,6 +68,7 @@ export interface Channel extends Card {
 		error?: Error;
 		// The id of the channel that created this channel
 		parentChannel?: string;
+		options?: any;
 	};
 }
 
@@ -84,6 +85,7 @@ export interface Type extends Card {
 export interface RendererProps {
 	channel: Channel;
 	tail?: Card[] | null;
+	flex?: any;
 }
 
 export interface Lens {
@@ -94,7 +96,7 @@ export interface Lens {
 		filter: JSONSchema6;
 		icon: string;
 		renderer: any;
-		supportsGroups?: boolean;
+		supportsSlices?: boolean;
 		type?: string;
 	};
 }

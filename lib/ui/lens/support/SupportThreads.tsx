@@ -4,40 +4,31 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
 	Box,
-	Button,
 	Flex,
-	Theme,
 	Txt,
 } from 'rendition';
 import styled from 'styled-components';
-import { Card, Lens, RendererProps } from '../../Types';
-import EventCard from '../components/Event';
-import Icon from '../components/Icon';
-import { analytics, sdk } from '../core';
-import { actionCreators, selectors, StoreState } from '../core/store';
-import { createChannel, getUpdateObjectFromSchema, getViewSchema } from '../services/helpers';
+import { Card, Lens, RendererProps } from '../../../Types';
+import { analytics, sdk } from '../../core';
+import { actionCreators, selectors, StoreState } from '../../core/store';
+import {
+	createChannel,
+	findUsernameById,
+	getUpdateObjectFromSchema,
+	getViewSchema,
+	timeAgo,
+} from '../../services/helpers';
 
 const Column = styled(Flex)`
 	height: 100%;
 	border-right: 1px solid #ccc;
-	min-width: 350px;
+	width: 100%;
 `;
-
-const NONE_MESSAGE_TIMELINE_TYPES = [
-	'create',
-	'event',
-	'update',
-];
-
-const isHiddenEventType = (type: string) => {
-	return _.includes(NONE_MESSAGE_TIMELINE_TYPES, type);
-};
 
 interface InterleavedState {
 	creatingCard: boolean;
 	newMessage: string;
 	showNewCardModal: boolean;
-	messagesOnly: boolean;
 }
 
 interface InterleavedProps extends RendererProps {
@@ -58,7 +49,6 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 			creatingCard: false,
 			newMessage: '',
 			showNewCardModal: false,
-			messagesOnly: true,
 		};
 
 		setTimeout(() => this.scrollToBottom(), 1000);
@@ -151,30 +141,13 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 			});
 	}
 
-	public handleCheckboxToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
-		this.setState({ messagesOnly: !e.target.checked });
-	}
-
 	public render(): React.ReactNode {
-		const { head } = this.props.channel.data;
-		const channelTarget = this.props.channel.data.target;
-
-		const tail: Card[] | null = this.props.tail ? _.sortBy(this.props.tail, 'data.timestamp') : null;
+		const tail: Card[] = _.sortBy(this.props.tail, (element: any) => {
+			return _.get(_.last(element.links['has attached element']), [ 'data', 'timestamp' ]);
+		}).reverse() as any;
 
 		return (
-			<Column flex="1" flexDirection="column">
-				<Flex m={2} justify="flex-end">
-					<label>
-						<input
-							style={{marginTop: 2}}
-							type="checkbox"
-							checked={!this.state.messagesOnly}
-							onChange={this.handleCheckboxToggle}
-						/>
-						<Txt.span color={Theme.colors.text.light} ml={2}>Show additional info</Txt.span>
-				</label>
-				</Flex>
-
+			<Column flexDirection="column">
 				<div
 					ref={(ref) => this.scrollArea = ref}
 					style={{
@@ -185,42 +158,44 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 						overflowY: 'auto',
 					}}
 				>
-					{(!!tail && tail.length > 0) && _.map(tail, card => {
-						if (this.state.messagesOnly && isHiddenEventType(card.type)) {
-							return null;
-						}
+					{(!!tail && tail.length > 0) && _.map(tail, (card: any) => {
+						const actorId = _.get(_.first(card.links['has attached element']), [ 'data', 'actor' ]);
+						const messages = _.filter(card.links['has attached element'], { type: 'message' });
+						const lastMessageOrWhisper = _.last(_.filter(card.links['has attached element'], (event) => event.type === 'message' || event.type === 'whisper'));
+
+						const actorName = findUsernameById(this.props.allUsers, actorId);
 
 						return (
-							<Box key={card.id} py={2} style={{borderBottom: '1px solid #eee'}}>
-								<EventCard
-									users={this.props.allUsers}
-									openChannel={
-										card.data && card.data.target !== channelTarget ? this.openChannel : undefined
-									}
-									card={card}
-								/>
+							<Box
+								key={card.id}
+								py={2}
+								style={{borderBottom: '1px solid #eee', cursor: 'pointer'}}
+								onClick={() => this.openChannel(card.id)}
+							>
+								<Flex justify="space-between">
+									<Txt my={2}><strong>{actorName}</strong></Txt>
+									<Txt>{timeAgo(_.get(_.last(card.links['has attached element']), [ 'data', 'timestamp' ]))}</Txt>
+								</Flex>
+								<Txt my={2}>{messages.length} message{messages.length !== 1 && 's'}</Txt>
+								{lastMessageOrWhisper && (
+									<Txt
+										style={{
+											whiteSpace: 'nowrap',
+											overflow: 'hidden',
+											textOverflow: 'ellipsis',
+											border: '1px solid #eee',
+											borderRadius: 10,
+											padding: '8px 16px',
+											background: (lastMessageOrWhisper || {}).type === 'whisper' ? '#eee' : 'white',
+										}}
+									>
+										{_.get(lastMessageOrWhisper, [ 'data', 'payload', 'message' ])}
+									</Txt>
+								)}
 							</Box>
 						);
 					})}
 				</div>
-
-				{head && head.slug !== 'view-my-alerts' && head.slug !== 'view-my-mentions' &&
-					<Flex
-						p={3}
-						style={{borderTop: '1px solid #eee'}}
-						justify="flex-end"
-					>
-						<Button
-							className="btn--add-thread"
-							success={true}
-							onClick={this.addThread}
-							disabled={this.state.creatingCard}
-						>
-							{this.state.creatingCard && <Icon name="cog fa-spin" />}
-							{!this.state.creatingCard && 'Add a Chat Thread'}
-						</Button>
-					</Flex>
-				}
 			</Column>
 		);
 	}
@@ -237,7 +212,7 @@ const mapDispatchToProps = (dispatch: any) => ({
 });
 
 const lens: Lens = {
-	slug: 'lens-interleaved',
+	slug: 'lens-support-threads',
 	type: 'lens',
 	name: 'Interleaved lens',
 	data: {

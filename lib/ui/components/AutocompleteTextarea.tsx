@@ -1,10 +1,14 @@
 import ReactTextareaAutocomplete = require('@webscopeio/react-textarea-autocomplete/dist/react-textarea-autocomplete.cjs.js');
 import * as _ from 'lodash';
 import * as React from 'react';
-import { Box, BoxProps, Theme } from 'rendition';
+import { Box, BoxProps, Card, Link, Theme, Txt } from 'rendition';
 import styled from 'styled-components';
-import { store } from '../core';
-import { selectors } from '../core/store';
+import { sdk, store } from '../core';
+import { actionCreators, selectors } from '../core/store';
+import {
+	createChannel,
+	createFullTextSearchFilter,
+} from '../services/helpers';
 
 // ReactTextareaAutocomplete autocompletion doesn't work with JSDom, so disable
 // it during testing
@@ -144,6 +148,20 @@ const getTrigger = _.memoize(() => ({
 		component: ({ entity }: { entity: string }) => <div>{entity}</div>,
 		output: (item: any) => item,
 	},
+	'?': {
+		dataProvider: (token: string) => {
+			const types = selectors.getTypes(store.getState())
+				.map(({ slug }) => `?${slug}`);
+
+			if (!token) {
+				return types;
+			}
+			const matcher = '?' + token.toLowerCase();
+			return types.filter((slug) => _.startsWith(slug, matcher));
+		},
+		component: ({ entity }: { entity: string }) => <div>{entity}</div>,
+		output: (item: any) => item,
+	},
 }));
 
 interface AutoProps extends BoxProps {
@@ -154,17 +172,177 @@ interface AutoProps extends BoxProps {
 
 const Loader = () => <span>Loading</span>;
 
-export default ({ value, className, onChange, onKeyPress, placeholder, ...props }: AutoProps) => (
-	<Container {...props}>
-		<ReactTextareaAutocomplete
-			className={className}
-			rows={1}
-			value={value}
-			onChange={onChange}
-			onKeyPress={onKeyPress}
-			loadingComponent={Loader}
-			trigger={ACTIVE ? getTrigger() : {}}
-			placeholder={placeholder}
-		/>
-	</Container>
-);
+const QUICK_SEARCH_RE = /^\s*\?[\w_-]+/;
+
+const SubAuto = ({
+	value,
+	className,
+	onChange,
+	onKeyPress,
+	placeholder,
+	...props
+}: AutoProps) => {
+	return (
+		<Container {...props}>
+			<ReactTextareaAutocomplete
+				className={className}
+				rows={1}
+				value={value}
+				onChange={onChange}
+				onKeyPress={onKeyPress}
+				loadingComponent={Loader}
+				trigger={ACTIVE ? getTrigger() : {}}
+				placeholder={placeholder}
+			/>
+		</Container>
+	);
+};
+
+interface AutoState {
+	showQuickSearchPanel: boolean;
+	value: string;
+	results: null | Card[];
+}
+
+class AutoCompleteArea extends React.Component<AutoProps, AutoState> {
+	constructor(props: AutoProps) {
+		super(props);
+
+		this.state = {
+			showQuickSearchPanel: false,
+			value: props.value || '',
+			results: null,
+		};
+	}
+
+	public componentWillUpdate(nextProps: AutoProps): void {
+		if (nextProps.value !== this.props.value) {
+			this.setState({ value: nextProps.value || '' });
+		}
+	}
+
+	public loadResults = _.debounce((typeCard: any, value: string) => {
+		const filter = createFullTextSearchFilter(typeCard.data.schema, value);
+
+		_.set(filter, [ 'properties', 'type' ], {
+			type: 'string',
+			const: typeCard.slug,
+		});
+
+		sdk.query(filter as any)
+			.then((results) => {
+				this.setState({ results: results as any });
+			});
+	}, 750, { leading: true });
+
+	public handleOnChange = (e: any) => {
+		const value = e.target.value;
+
+		this.setState({
+			value,
+		});
+
+		if (value.match(QUICK_SEARCH_RE)) {
+			const [ typeSlug, ...rest ] = value.trim().split(/\s+/);
+
+			const slug = typeSlug.replace('?', '');
+
+			const types = selectors.getTypes(store.getState());
+			const typeCard = _.find(types, { slug });
+
+			if (!rest.length || !typeCard) {
+				return;
+			}
+
+			this.setState({
+				showQuickSearchPanel: true,
+				results: null,
+			});
+
+			return this.loadResults(typeCard as any, rest.join(' '));
+		}
+
+		this.setState({
+			showQuickSearchPanel: false,
+			results: null,
+		});
+
+		if (this.props.onChange) {
+			this.props.onChange(e);
+		}
+	}
+
+	public handleOnKeyPress = (e: any) => {
+		if (this.props.onKeyPress) {
+			this.props.onKeyPress(e);
+		}
+	}
+
+	public render(): React.ReactNode {
+		const {
+			value,
+			className,
+			onChange,
+			onKeyPress,
+			placeholder,
+			...props
+		} = this.props;
+
+		return (
+			<>
+				<SubAuto
+					className={className}
+					value={this.state.value}
+					onChange={this.handleOnChange}
+					onKeyPress={this.handleOnKeyPress}
+					placeholder={placeholder}
+					{...props}
+				/>
+
+				{this.state.showQuickSearchPanel && (
+					<Card
+						p={3}
+						style={{
+							position: 'fixed',
+							background: 'white',
+							bottom: 80,
+							right: 10,
+							width: 400,
+						}}
+					>
+						<Txt mb={2}><strong>Quick search results</strong></Txt>
+						{!this.state.results && (
+							<i className="fas fa-cog fa-spin" />
+						)}
+						{this.state.results && this.state.results.length === 0 && (
+							<Txt>No results found</Txt>
+						)}
+						{_.map(this.state.results, (card: any) => {
+							return (
+								<div key={card.id}>
+									<Link
+										onClick={() => {
+											store.dispatch(actionCreators.addChannel(createChannel({
+												target: card.id,
+												head: card,
+											})));
+
+											this.setState({
+												showQuickSearchPanel: false,
+												results: null,
+											});
+										}}
+									>
+										{card.name || card.slug || card.id}
+									</Link>
+								</div>
+							);
+						})}
+					</Card>
+				)}
+			</>
+		);
+	}
+}
+
+export default AutoCompleteArea;

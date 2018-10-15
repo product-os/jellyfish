@@ -13,19 +13,19 @@ import {
 import { Markdown } from 'rendition/dist/extra/Markdown';
 import { Mermaid } from 'rendition/dist/extra/Mermaid';
 import styled from 'styled-components';
-import { Card, Lens, RendererProps, Type } from '../../Types';
-import { CardActions } from '../components/CardActions';
-import { CloseButton } from '../components/CloseButton';
-import Label from '../components/Label';
-import { Tag } from '../components/Tag';
-import { actionCreators, selectors, StoreState } from '../core/store';
+import { Card, Lens, RendererProps, Type } from '../../../Types';
+import { CardActions } from '../../components/CardActions';
+import { CloseButton } from '../../components/CloseButton';
+import Label from '../../components/Label';
+import { Tag } from '../../components/Tag';
+import { sdk } from '../../core';
+import { actionCreators, selectors, StoreState } from '../../core/store';
 import {
-	createChannel,
 	findUsernameById,
 	formatTimestamp,
 	getLocalSchema,
-} from '../services/helpers';
-import TimelineLens from './Timeline';
+} from '../../services/helpers';
+import TimelineLens from './SupportThreadTimeline';
 
 const Column = styled(Flex)`
 	height: 100%;
@@ -124,34 +124,67 @@ const CardField = ({ field, payload, users, schema }: {
 };
 
 interface CardProps extends RendererProps {
-	level: number;
 	card: Card;
 	allUsers: Card[];
 	types: Type[];
 	fieldOrder?: string[];
 	actions: typeof actionCreators;
+	flex: any;
 }
 
-class Base extends React.Component<CardProps, {}> {
-	public openChannel = () => {
-		if (this.props.level === 0) {
-			return;
-		}
+interface CardState {
+	linkedScratchpadEntries: Card[];
+}
 
-		const { card } = this.props;
+class Base extends React.Component<CardProps, CardState> {
+	constructor(props: CardProps) {
+		super(props);
 
-		this.props.actions.addChannel(createChannel({
-			target: card.id,
-			head: card,
-		}));
+		this.state = {
+			linkedScratchpadEntries: [],
+		};
+
+		this.loadLinks(props.card.id);
 	}
 
-	public shouldComponentUpdate(nextProps: CardProps): boolean {
-		return !circularDeepEqual(nextProps, this.props);
+	public loadLinks(id: string): void  {
+		sdk.query({
+			$$links: {
+				'scratchpad entry was used in support thread': {
+					type: 'object',
+					additionalProperties: true,
+				},
+			},
+			type: 'object',
+			properties: {
+				id: {
+					type: 'string',
+					const: id,
+				},
+			},
+			additionalProperties: true,
+		} as any)
+			.then(([ result ]) => {
+				if (result) {
+					this.setState({
+						linkedScratchpadEntries: _.get(result, [ 'links', 'scratchpad entry was used in support thread' ]),
+					});
+				}
+			});
+	}
+
+	public shouldComponentUpdate(nextProps: CardProps, nextState: CardState): boolean {
+		return !circularDeepEqual(nextProps, this.props) || !circularDeepEqual(nextState, this.state);
+	}
+
+	public componentWillUpdate(nextProps: CardProps): void {
+		if (nextProps.card.id !== this.props.card.id) {
+			this.loadLinks(nextProps.card.id);
+		}
 	}
 
 	public render(): React.ReactNode {
-		const { card, fieldOrder, level } = this.props;
+		const { card, fieldOrder } = this.props;
 		const payload = card.data;
 		const typeCard = _.find(this.props.types, { slug: card.type });
 		const typeSchema = _.get(typeCard, 'data.schema');
@@ -172,22 +205,21 @@ class Base extends React.Component<CardProps, {}> {
 
 		const keys = (fieldOrder || []).concat(unorderedKeys);
 
-		const content = (
-			<>
-				<Flex justify="space-between">
-					<Txt mb={3}>
-						<strong>
-						{level > 0 &&
-							<Link onClick={this.openChannel} className={`header-link--${card.slug || card.id}`}>
-								{card.name || card.slug || card.type}
-							</Link>
-						}
-						{!level && (card.name || card.slug || card.type)}
-						</strong>
-					</Txt>
+		const createCard = _.first((card as any).links['has attached element'])! as Card;
 
-					{!level && (
-						<Flex align="baseline">
+		return (
+			<Column
+				flex={this.props.flex}
+				className={`column--${card ? card.slug || card.type : 'unknown'}`}
+				flexDirection="column"
+			>
+				<Box p={3} style={{maxHeight: '50%', borderBottom: '1px solid #ccc', overflowY: 'auto'}}>
+					<Flex justify="space-between">
+						<Txt>
+							Support conversation with <strong>{findUsernameById(this.props.allUsers, createCard.data.actor)}</strong>
+						</Txt>
+
+						<Flex>
 							<CardActions
 								card={card}
 							/>
@@ -198,53 +230,40 @@ class Base extends React.Component<CardProps, {}> {
 								onClick={() => this.props.actions.removeChannel(this.props.channel)}
 							/>
 						</Flex>
-					)}
-				</Flex>
+					</Flex>
 
-				{!!card.tags && card.tags.length > 0 &&
-					<Box mb={1}>
-						{_.map(card.tags, (tag) => {
-							return <Tag mr={1}>#{tag}</Tag>;
-						})}
-					</Box>
-				}
+					{!!card.tags && card.tags.length > 0 &&
+						<Box mb={1}>
+							{_.map(card.tags, (tag) => {
+								return <Tag mr={2}>#{tag}</Tag>;
+							})}
+						</Box>
+					}
 
-				{_.map(keys, (key) => {
-					return !!payload[key] ?
-						<CardField
-							key={key}
-							field={key}
-							payload={payload}
-							users={this.props.allUsers}
-							schema={_.get(schema, ['properties', 'data', 'properties', key])}
-						/>
-						: null;
-					})
-				}
-			</>
-		);
+					{_.map(this.state.linkedScratchpadEntries, (entry) => {
+						return (
+							<Link mr={2} href={`/#${entry.id}`}>{entry.name}</Link>
+						);
+					})}
 
-		if (!level) {
-			return (
-				<Column
-					className={`column--${card ? card.slug || card.type : 'unknown'}`}
-					flex={this.props.flex}
-					flexDirection="column"
-				>
-					<Box p={3} style={{maxHeight: '50%', borderBottom: '1px solid #ccc', overflowY: 'auto'}}>
-						{content}
-					</Box>
-					<Box flex="1 0 50%" style={{ overflowY: 'auto'}}>
-						<TimelineLens.data.renderer card={this.props.card} />
-					</Box>
-				</Column>
-			);
-		}
+					{_.map(keys, (key) => {
+						return !!payload[key] ?
+							<CardField
+								key={key}
+								field={key}
+								payload={payload}
+								users={this.props.allUsers}
+								schema={_.get(schema, ['properties', 'data', 'properties', key])}
+							/>
+							: null;
+						})
+					}
+				</Box>
 
-		return (
-			<Box mb={3}>
-				{content}
-			</Box>
+				<Box flex="1 0 50%" style={{ overflowY: 'auto'}}>
+					<TimelineLens.data.renderer card={this.props.card} />
+				</Box>
+			</Column>
 		);
 	}
 }
@@ -263,14 +282,20 @@ const mapDispatchToProps = (dispatch: any) => ({
 export const Renderer = connect(mapStateToProps, mapDispatchToProps)(Base);
 
 const lens: Lens = {
-	slug: 'lens-default',
+	slug: 'lens-support-thread',
 	type: 'lens',
-	name: 'Default lens',
+	name: 'Support thread lens',
 	data: {
 		icon: 'address-card',
 		renderer: Renderer,
 		filter: {
 			type: 'object',
+			properties: {
+				type: {
+					type: 'string',
+					const: 'support-thread',
+				},
+			},
 		},
 	},
 };

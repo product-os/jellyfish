@@ -16,7 +16,6 @@ import {
 } from 'rendition';
 import { Card, Channel, Lens, RendererProps, Type } from '../../Types';
 import ButtonGroup from '../components/ButtonGroup';
-import ChannelRenderer from '../components/ChannelRenderer';
 import Icon from '../components/Icon';
 import { If } from '../components/If';
 import { analytics, sdk } from '../core';
@@ -24,6 +23,7 @@ import { actionCreators, selectors, StoreState } from '../core/store';
 import {
 	createChannel,
 	getTypeFromViewCard,
+	getViewSlices,
 } from '../services/helpers';
 import LensService from './index';
 
@@ -41,6 +41,7 @@ interface ViewRendererProps extends RendererProps {
 	tail: Card[] | null;
 	subscription: null | Card;
 	actions: typeof actionCreators;
+	flex: any;
 }
 
 const USER_FILTER_NAME = 'user-generated-filter';
@@ -58,10 +59,12 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 	}
 
 	componentDidMount(): void {
-		this.bootstrap(this.props.channel.data.head);
+		this.bootstrap(this.props.channel);
 	}
 
-	bootstrap(head?: Card): void {
+	bootstrap(channel: Channel): void {
+		const { head, options } = channel.data;
+
 		if (!this.props.user) {
 			throw new Error('Cannot bootstrap a view without an active user');
 		}
@@ -70,14 +73,45 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 			return;
 		}
 
-		this.props.actions.streamView(head.id);
-		this.props.actions.loadViewResults(head.id);
+		this.props.actions.clearViewData(head.id);
 
 		this.props.actions.addSubscription(head.id);
 
 		const filters = head
 			? _.map(_.filter(head.data.allOf, { name: USER_FILTER_NAME }), 'schema')
 			: [];
+
+		if (options && options.slice) {
+			const { slice } = options;
+			const filter = {
+				name: USER_FILTER_NAME,
+				title: 'is',
+				description: `${slice.title} is ${slice.value}`,
+				type: 'object',
+				properties: {},
+			};
+
+			_.set(filter, slice.path, { const: slice.value });
+
+			const keys = slice.path.split('.');
+
+			// Make sure that "property" keys correspond with { type: 'object' },
+			// otherwise the filter won't work
+			while (keys.length) {
+				if (keys.pop() === 'properties') {
+					_.set(filter, keys.concat('type'), 'object');
+				}
+			}
+
+			filters.push({
+				anyOf: [ filter ],
+			});
+
+			this.loadViewWithFilters(head, filters);
+		} else {
+			this.props.actions.streamView(head.id);
+			this.props.actions.loadViewResults(head.id);
+		}
 
 		const lenses = _.chain(head)
 			.get('data.lenses')
@@ -97,23 +131,13 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 		});
 	}
 
-	public getGroups(): any[] {
-		const view = this.props.channel.data.head;
-
-		if (!view || !view.data.groups) {
-			return [];
-		}
-
-		return view.data.groups;
-	}
-
 	public componentWillReceiveProps(nextProps: ViewRendererProps): void {
 		if (this.props.channel.data.target !== nextProps.channel.data.target) {
 			this.setState({ ready: false });
 		}
 
 		if (!circularDeepEqual(this.props.channel.data.head, nextProps.channel.data.head)) {
-			this.bootstrap(nextProps.channel.data.head);
+			this.bootstrap(nextProps.channel);
 		}
 
 		if (!this.props.channel.data.head && nextProps.channel.data.head) {
@@ -186,26 +210,30 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 		const { head } = this.props.channel.data;
 
 		if (head) {
-			const syntheticViewCard = _.cloneDeep(head);
-			const originalFilters = head
-				? _.reject(head.data.allOf, { name: USER_FILTER_NAME })
-				: [];
-
-			syntheticViewCard.data.allOf = originalFilters;
-
-			filters.forEach((filter) => {
-				syntheticViewCard.data.allOf.push({
-					name: USER_FILTER_NAME,
-					schema: _.assign(_.omit(filter, '$id'), { type: 'object' }),
-				});
-			});
-
-			this.props.actions.loadViewResults(syntheticViewCard);
-			this.props.actions.streamView(syntheticViewCard);
+			this.loadViewWithFilters(head, filters);
 		}
 
 		this.setState({ filters });
 	}, 750, { leading: true });
+
+	public loadViewWithFilters(view: Card, filters: JSONSchema6[]): void {
+		const syntheticViewCard = _.cloneDeep(view);
+		const originalFilters = view
+			? _.reject(view.data.allOf, { name: USER_FILTER_NAME })
+			: [];
+
+		syntheticViewCard.data.allOf = originalFilters;
+
+		filters.forEach((filter) => {
+			syntheticViewCard.data.allOf.push({
+				name: USER_FILTER_NAME,
+				schema: _.assign(_.omit(filter, '$id'), { type: 'object' }),
+			});
+		});
+
+		this.props.actions.loadViewResults(syntheticViewCard);
+		this.props.actions.streamView(syntheticViewCard);
+	}
 
 	public setLens = (e: React.MouseEvent<HTMLButtonElement>): void => {
 		const slug = e.currentTarget.dataset.slug;
@@ -221,7 +249,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 		this.props.actions.saveSubscription(subscription, this.props.channel.data.target);
 	}
 
-	public setGroup = (e: React.ChangeEvent<HTMLSelectElement>) => {
+	public setSlice = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		const { subscription } = this.props;
 
 		if (!subscription) {
@@ -229,7 +257,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 		}
 
 		const slug = e.target.value;
-		subscription.data.activeGroup = slug;
+		subscription.data.activeSlice = slug;
 
 		this.props.actions.saveSubscription(subscription, this.props.channel.data.target);
 	}
@@ -243,20 +271,18 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 				</Box>
 			);
 		}
-		const { tail, subscription } = this.props;
+		const { tail, types, subscription } = this.props;
 		const { tailType, lenses } = this.state;
 		const useFilters = !!tailType && tailType.slug !== 'view';
 		const activeLens = _.find(lenses, { slug: _.get(subscription, 'data.activeLens') }) || lenses[0];
-		const channelIndex = _.findIndex(this.props.channels, { id: this.props.channel.id });
-		const nextChannel = this.props.channels[channelIndex + 1];
-		const groups = this.getGroups();
-		const lensSupportsGroups = !!activeLens && !!activeLens.data.supportsGroups;
+		const slices = getViewSlices(head, types);
+		const lensSupportsSlices = !!activeLens && !!activeLens.data.supportsSlices;
 
 		return (
 			<Flex
+				flex={this.props.flex}
 				className={`column--${head ? head.slug || head.type : 'unknown'}`}
 				flexDirection="column"
-				flex="1 1 auto"
 				style={{ height: '100%', overflowY: 'auto', borderRight: '1px solid #ccc', position: 'relative' }}
 			>
 				<If condition={!!head}>
@@ -293,22 +319,21 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 										)}
 									</ButtonGroup>
 								</If>
-								{groups.length > 0 && lensSupportsGroups &&
+								{slices && slices.length > 0 && lensSupportsSlices &&
 									<Box ml={3}>
-										Group by:
+										Slice by:
 										<Select
 											ml={2}
-											disabled={!lensSupportsGroups}
-											value={_.get(subscription, ['data', 'activeGroup'])}
-											onChange={lensSupportsGroups ? this.setGroup : _.noop}
+											value={_.get(subscription, ['data', 'activeSlice'])}
+											onChange={lensSupportsSlices ? this.setSlice : _.noop}
 										>
-											{_.map(groups, (group) => {
+											{_.map(slices, (slice) => {
 												return (
 													<option
-														key={group.slug}
-														value={group.slug}
+														key={slice.path}
+														value={slice.path}
 													>
-														{group.name}
+														{slice.title}
 													</option>
 												);
 											})}
@@ -335,34 +360,19 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 				</If>
 
 				<Flex style={{height: '100%', minHeight: 0}}>
-					<Flex
-						flex="1"
-						flexDirection="column"
-						style={{
-							height: '100%',
-							borderRight: '1px solid #ccc',
-							maxWidth: '100%',
-							minWidth: 0,
-						}}
-					>
-						<If condition={!tail}>
-							<Box p={3}>
-								<Icon name="cog fa-spin" />
-							</Box>
-						</If>
+					<If condition={!tail}>
+						<Box p={3}>
+							<Icon name="cog fa-spin" />
+						</Box>
+					</If>
 
-						{!!tail && !!activeLens &&
-							<activeLens.data.renderer
-								channel={this.props.channel}
-								tail={tail}
-								type={tailType}
-								subscription={subscription}
-							/>
-						}
-					</Flex>
-
-					{!!nextChannel &&
-						<ChannelRenderer channel={nextChannel} />
+					{!!tail && !!activeLens &&
+						<activeLens.data.renderer
+							channel={this.props.channel}
+							tail={tail}
+							type={tailType}
+							subscription={subscription}
+						/>
 					}
 				</Flex>
 			</Flex>

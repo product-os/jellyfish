@@ -1,6 +1,7 @@
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import * as moment from 'moment';
+import { SchemaSieve } from 'rendition';
 import * as skhema from 'skhema';
 import uuid = require('uuid/v4');
 import { Card, Channel } from '../../Types';
@@ -101,11 +102,15 @@ export const formatTimestamp = _.memoize((stamp: string): string => {
 	return momentDate.format('MMM Do, YYYY k:mm');
 });
 
+export const timeAgo = (stamp: string): string => {
+	return moment(stamp).fromNow();
+};
+
 export const findUsernameById = (users: Card[], id: string) => {
-		const actor = _.find(users, { id });
-		return actor ?
-			actor.slug!.replace('user-', '') :
-			'unknown user';
+	const actor = _.find(users, { id });
+	return actor ?
+		actor.slug!.replace('user-', '') :
+		'unknown user';
 };
 
 /**
@@ -267,4 +272,80 @@ export const getObjectValues = (input: any): any[] => {
 	} else {
 		return input;
 	}
+};
+
+export const getViewSlices = (view: any, types: Card[]) => {
+	let slices: any = null;
+
+	const viewTypeSlug = _.chain(view.data.allOf)
+		.map((def) => {
+			return _.get(def.schema, [ 'properties', 'type', 'const' ]);
+		})
+		.compact()
+		.first()
+		.value();
+
+	const viewType = viewTypeSlug && _.find(types, { slug: viewTypeSlug }) as any;
+
+	if (viewType && viewType.data.slices) {
+		slices = _.map(viewType.data.slices, (slice) => {
+			const subSchema = _.get(viewType.data.schema, slice);
+			const title = subSchema.title || slice.split('.').pop();
+			return {
+				title,
+				path: slice,
+				values: subSchema.enum,
+			};
+		});
+	}
+
+	return slices;
+};
+
+const matchOperatorsRe = /[|\\{}()[\]^$+*?.]/g;
+
+export const regexEscape = (str: string) =>
+	str.replace(matchOperatorsRe, '\\$&');
+
+export const createFullTextSearchFilter = (
+	schema: JSONSchema6,
+	term: string,
+) => {
+	const flatSchema = SchemaSieve.flattenSchema(schema);
+	const stringKeys = _.reduce(
+		flatSchema.properties,
+		(carry, item: JSONSchema6, key) => {
+			if (item.type === 'string') {
+				carry.push(key);
+			}
+
+			return carry;
+		},
+		[] as string[],
+	);
+
+	// A schema that matches applies the pattern to each schema field with a type
+	// of 'string'
+	const filter = {
+		type: 'object',
+		additionalProperties: true,
+		description: `Any field contains ${term}`,
+		anyOf: stringKeys.map(key => ({
+			type: 'object',
+			properties: {
+				[key]: {
+					type: 'string',
+					regexp: {
+						pattern: regexEscape(term),
+						flags: 'i',
+					},
+				},
+			},
+			required: [key],
+		})),
+	};
+
+	const unflattenedSchema = SchemaSieve.unflattenSchema(filter as any);
+
+	return unflattenedSchema as JSONSchema6;
 };

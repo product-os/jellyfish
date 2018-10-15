@@ -235,7 +235,7 @@ class Base extends React.Component<LoginProps, LoginState> {
 									</Box>
 									<Txt color="#908c99" fontSize={0} my={4} align="center">
 										By clicking "Sign up" you confirm that you have performed the
-										<Link blank={true} href="https://bosshamster.deviantart.com/art/Summoning-Cthulhu-For-Dummies-31645860">initiation rituals</Link>
+										<Link ml={1} blank={true} href="https://bosshamster.deviantart.com/art/Summoning-Cthulhu-For-Dummies-31645860">initiation rituals</Link>
 									</Txt>
 								</form>
 							</React.Fragment>

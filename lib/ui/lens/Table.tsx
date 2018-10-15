@@ -1,27 +1,18 @@
-import { circularDeepEqual } from 'fast-equals';
+import * as _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import ResizeObserver from 'react-resize-observer';
-import {
-	AutoSizer,
-	CellMeasurer,
-	CellMeasurerCache,
-	List,
-	ListRowProps,
-} from 'react-virtualized';
 import { bindActionCreators } from 'redux';
 import {
 	Box,
 	Button,
-	Divider,
 	Flex,
+	Table,
 	Txt,
 } from 'rendition';
 import styled from 'styled-components';
 import { Card, Lens, RendererProps, Type } from '../../Types';
 import { CardCreator } from '../components/CardCreator';
 import Icon from '../components/Icon';
-import { LensRenderer } from '../components/LensRenderer';
 import { actionCreators } from '../core/store';
 import { createChannel, getUpdateObjectFromSchema, getViewSchema } from '../services/helpers';
 
@@ -31,42 +22,39 @@ const Column = styled(Flex)`
 	overflow-y: auto;
 `;
 
-interface CardListState {
+const COLUMNS = [
+	{
+		field: 'name',
+		sortable: true,
+	},
+	{
+		field: 'Created',
+		sortable: true,
+	},
+	{
+		field: 'Last updated',
+		sortable: true,
+	},
+];
+
+interface CardTableState {
 	showNewCardModal: boolean;
 	creatingCard: boolean;
 }
 
-interface CardListProps extends RendererProps {
+interface CardTableProps extends RendererProps {
 	actions: typeof actionCreators;
 	type: null | Type;
 }
 
-class CardList extends React.Component<CardListProps, CardListState> {
-	private _cache: CellMeasurerCache;
-
-	constructor(props: CardListProps) {
+class CardTable extends React.Component<CardTableProps, CardTableState> {
+	constructor(props: CardTableProps) {
 		super(props);
 
 		this.state = {
 			creatingCard: false,
 			showNewCardModal: false,
 		};
-
-		this._cache = new CellMeasurerCache({
-			defaultHeight: 300,
-			fixedWidth: true,
-		});
-	}
-
-	public componentWillUpdate({ tail }: CardListProps): void {
-		// If tail data has changed, clear the cell cache
-		if (!circularDeepEqual(this.props.tail, tail)) {
-			this.clearCellCache();
-		}
-	}
-
-	public clearCellCache = () => {
-		this._cache.clearAll();
 	}
 
 	public openChannel(card: Card): void {
@@ -118,59 +106,30 @@ class CardList extends React.Component<CardListProps, CardListState> {
 		return getUpdateObjectFromSchema(schema);
 	}
 
-	public rowRenderer = (props: ListRowProps) => {
-		const { tail, channel: { data: { head } } } = this.props;
-		const card = tail![props.index];
-
-		// Don't show the card if its the head, this can happen on view types
-		if (card.id === head!.id) {
-			return null;
-		}
-
-		return (
-			<CellMeasurer
-				cache={this._cache}
-				columnIndex={0}
-				key={card.id}
-				overscanRowCount={10}
-				parent={props.parent}
-				rowIndex={props.index}
-			>
-				<Box px={3} pb={3} style={props.style}>
-					<LensRenderer
-						card={card}
-						level={1}
-					/>
-					<Divider color="#eee" m={0} style={{height: 1}} />
-				</Box>
-			</CellMeasurer>
-		);
-	}
-
 	public render(): React.ReactNode {
-		const { tail } = this.props;
+		const tail = this.props.tail ? _.map(this.props.tail, (card) => {
+			const create = _.get(card, [ 'links', 'has attached element', '0' ]);
+			const update = _.find(_.get(card, [ 'links', 'has attached element' ]), { type: 'update' }) as any;
+
+			return {
+				name: card.name,
+				id: card.id,
+				Created: _.get(create, [ 'data', 'timestamp' ], null),
+				'Last updated': _.get(update, [ 'data', 'timestamp' ], null),
+			};
+		}) : null;
 
 		return (
 			<Column flex="1" flexDirection="column">
 				<Box flex="1" style={{ position: 'relative' }}>
-					<ResizeObserver onResize={this.clearCellCache} />
-					{!!tail && tail.length > 0 &&
-						<AutoSizer>
-							{({ width, height }) => (
-								<List
-									width={width}
-									height={height}
-									deferredMeasurementCache={this._cache}
-									rowHeight={this._cache.rowHeight}
-									rowRenderer={this.rowRenderer}
-									rowCount={tail.length}
-									onResize={this.clearCellCache}
-									overscanRowCount={3}
-								/>
-							)}
-						</AutoSizer>
-					}
-
+					{!!tail && tail.length > 0 && (
+						<Table
+							rowKey="id"
+							data={tail as any}
+							columns={COLUMNS as any}
+							onRowClick={({ id }) => this.openChannel(_.find(this.props.tail, { id })!)}
+						/>
+					)}
 					{!!tail && tail.length === 0 &&
 							<Txt.p p={3}>No results found</Txt.p>
 					}
@@ -215,12 +174,12 @@ const mapDispatchToProps = (dispatch: any) => ({
 });
 
 const lens: Lens = {
-	slug: 'lens-list',
+	slug: 'lens-table',
 	type: 'lens',
-	name: 'Default list lens',
+	name: 'Default table lens',
 	data: {
-		renderer: connect(null, mapDispatchToProps)(CardList),
-		icon: 'address-card',
+		renderer: connect(null, mapDispatchToProps)(CardTable),
+		icon: 'table',
 		type: '*',
 		filter: {
 			type: 'array',

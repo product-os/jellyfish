@@ -12,6 +12,7 @@ import { FreeFieldForm } from '../components/FreeFieldForm';
 import { analytics, sdk } from '../core';
 import { actionCreators, selectors, StoreState } from '../core/store';
 import { getLocalSchema } from '../services/helpers';
+import { CardLinker } from './CardLinker';
 import { ContextMenu } from './ContextMenu';
 import Icon from './Icon';
 
@@ -187,6 +188,8 @@ class Base extends React.Component<
 					>
 						<Icon name="pencil-alt" />
 					</Button>
+
+					<CardLinker types={this.props.types} card={this.props.card} />
 
 					<EllipsisButton
 						px={2}

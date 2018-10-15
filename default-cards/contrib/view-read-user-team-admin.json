@@ -242,9 +242,11 @@
                 "thread",
                 "message",
                 "scratchpad-entry",
+                "support-thread",
                 "subscription",
                 "triggered-action",
-                "todo"
+                "todo",
+                "whisper"
               ]
             }
           },

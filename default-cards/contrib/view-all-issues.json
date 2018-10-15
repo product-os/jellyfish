@@ -1,6 +1,6 @@
 {
-  "slug": "view-scratchpad",
-  "name": "Scratchpad",
+  "slug": "view-all-issues",
+  "name": "All issues",
   "type": "view",
   "markers": [],
   "tags": [],
@@ -9,7 +9,7 @@
   "data": {
     "allOf": [
       {
-        "name": "All scratchpad entries",
+        "name": "Active cards",
         "schema": {
           "$$links": {
             "has attached element": {
@@ -28,21 +28,27 @@
             }
           },
           "type": "object",
-          "$$sort": "input.a.name < input.b.name",
           "properties": {
+            "active": {
+              "const": true,
+              "type": "boolean"
+            },
             "type": {
               "type": "string",
-              "const": "scratchpad-entry"
+              "const": "issue"
             }
           },
-          "additionalProperties": true,
-          "required": [ "type" ]
+          "required": [
+            "active",
+            "type"
+          ],
+          "additionalProperties": true
         }
       }
     ],
     "lenses": [
-      "lens-list",
-      "lens-table"
+      "lens-table",
+      "lens-kanban"
     ]
   }
 }

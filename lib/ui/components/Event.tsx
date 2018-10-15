@@ -140,25 +140,38 @@ export default class Event extends React.Component<EventProps, { actorName: stri
 	public render(): React.ReactNode {
 		const { card, openChannel, ...props } = this.props;
 
-		const isMessage = card.type === 'message';
-		const icon = isMessage ? 'comment fa-flip-horizontal' : 'circle fa-xs';
+		const isMessage = card.type === 'message' || card.type === 'whisper';
+		const icon = isMessage ?
+			card.type === 'whisper' ? 'comment' : 'comment fa-flip-horizontal'
+			: 'circle fa-xs';
+
+		const messageStyle = card.type === 'whisper' ? {
+			background: '#eee',
+			borderRadius: 10,
+			padding: '8px 16px',
+			marginRight: 8,
+			marginLeft: 16,
+		} : {
+			marginLeft: 16,
+		};
+
+		const flexDir = card.type === 'whisper' ? 'row-reverse' : 'row';
 
 		return (
-			<EventWrapper className={`event-card--${card.type}`} {...props}>
+			<EventWrapper className={`event-card--${card.type}`} {...props} flexDirection={flexDir}>
 				<Button
 					plaintext={true}
 					onClick={this.openChannel}
 					px={2}
-					mr={1}
-					ml={-2}
+					mx={-2}
 					w={32}
 				>
 					<Txt color={threadColor(this.getTargetId(card))}>
 						{!!icon && <Icon name={icon} />}
 					</Txt>
 				</Button>
-				<Box flex="1">
-					<Flex justify="space-between" mb={2}>
+				<Box flex="1" style={messageStyle}>
+					<Flex justify="space-between" mb={2} flexDirection={flexDir}>
 						<Txt mt={isMessage ? 0 : '5px'}>
 							{isMessage ?
 								<strong>{this.state.actorName}</strong>
