@@ -166,7 +166,7 @@ export const actionCreators = {
 			type: actions.SET_VIEW_DATA,
 			value: {
 				id,
-				data: [],
+				data: null,
 			},
 		};
 	}
