@@ -115,7 +115,6 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 
 	public setTail(tail: Card[]): void {
 		tail.forEach(card => {
-			this.props.actions.addSubscription(card.id);
 			this.props.actions.streamView(card.id);
 		});
 		// If there is only 1 channel, open the all messages view by default

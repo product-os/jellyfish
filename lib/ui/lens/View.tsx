@@ -31,6 +31,7 @@ interface ViewRendererState {
 	filters: JSONSchema6[];
 	lenses: Lens[];
 	ready: boolean;
+	subscription: any;
 	tailType: Type | null;
 }
 
@@ -39,7 +40,6 @@ interface ViewRendererProps extends RendererProps {
 	user: Card | null;
 	types: Type[];
 	tail: Card[] | null;
-	subscription: null | Card;
 	actions: typeof actionCreators;
 	flex: any;
 }
@@ -55,6 +55,9 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 			lenses: [],
 			ready: false,
 			tailType: null,
+			subscription: {
+				data: {},
+			},
 		};
 	}
 
@@ -74,8 +77,6 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 		}
 
 		this.props.actions.clearViewData(head.id);
-
-		this.props.actions.addSubscription(head.id);
 
 		const filters = head
 			? _.map(_.filter(head.data.allOf, { name: USER_FILTER_NAME }), 'schema')
@@ -238,19 +239,18 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 	public setLens = (e: React.MouseEvent<HTMLButtonElement>): void => {
 		const slug = e.currentTarget.dataset.slug;
 		const lens = _.find(this.state.lenses, { slug });
-		const { subscription } = this.props;
+		const { subscription } = this.state;
 
 		if (!subscription || !lens) {
 			return;
 		}
 
 		subscription.data.activeLens = lens.slug;
-
-		this.props.actions.saveSubscription(subscription, this.props.channel.data.target);
+		this.setState({ subscription });
 	}
 
 	public setSlice = (e: React.ChangeEvent<HTMLSelectElement>) => {
-		const { subscription } = this.props;
+		const { subscription } = this.state;
 
 		if (!subscription) {
 			return;
@@ -258,21 +258,20 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 
 		const slug = e.target.value;
 		subscription.data.activeSlice = slug;
-
-		this.props.actions.saveSubscription(subscription, this.props.channel.data.target);
+		this.setState({ subscription });
 	}
 
 	render(): React.ReactNode {
 		const { head } = this.props.channel.data;
-		if (!this.state.ready || !head || _.isEmpty(head.data) || !this.props.subscription) {
+		if (!this.state.ready || !head || _.isEmpty(head.data)) {
 			return (
 				<Box p={3}>
 					<i className="fas fa-cog fa-spin" />
 				</Box>
 			);
 		}
-		const { tail, types, subscription } = this.props;
-		const { tailType, lenses } = this.state;
+		const { tail, types } = this.props;
+		const { tailType, lenses, subscription } = this.state;
 		const useFilters = !!tailType && tailType.slug !== 'view';
 		const activeLens = _.find(lenses, { slug: _.get(subscription, 'data.activeLens') }) || lenses[0];
 		const slices = getViewSlices(head, types);
@@ -384,7 +383,6 @@ const mapStateToProps = (state: StoreState, ownProps: ViewRendererProps) => {
 	const target = ownProps.channel.data.target;
 	return {
 		channels: selectors.getChannels(state),
-		subscription: selectors.getSubscription(state, target),
 		tail: selectors.getViewData(state, target),
 		types: selectors.getTypes(state),
 		user: selectors.getCurrentUser(state),
