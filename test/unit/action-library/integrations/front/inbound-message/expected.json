@@ -5,6 +5,7 @@
     "active": true,
     "tags": [],
     "data": {
+      "inbox": "Test_Contracts",
       "mirrors": [
         "https://api2.frontapp.com/conversations/cnv_11sgc1v"
       ],
@@ -58,6 +59,7 @@
           "active": true,
           "tags": [],
           "data": {
+            "inbox": "Test_Contracts",
             "mirrors": [
               "https://api2.frontapp.com/conversations/cnv_11sgc1v"
             ],

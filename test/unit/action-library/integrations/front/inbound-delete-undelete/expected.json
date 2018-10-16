@@ -5,6 +5,7 @@
     "active": true,
     "tags": [],
     "data": {
+      "inbox": "Demo Inbox",
       "mirrors": [
         "https://api2.frontapp.com/conversations/cnv_11dx1ei"
       ],
@@ -26,6 +27,7 @@
           "active": true,
           "tags": [],
           "data": {
+            "inbox": "Demo Inbox",
             "mirrors": [
               "https://api2.frontapp.com/conversations/cnv_11dx1ei"
             ],
@@ -48,6 +50,7 @@
           "active": true,
           "tags": [],
           "data": {
+            "inbox": "Demo Inbox",
             "mirrors": [
               "https://api2.frontapp.com/conversations/cnv_11dx1ei"
             ],
@@ -70,6 +73,7 @@
           "active": true,
           "tags": [],
           "data": {
+            "inbox": "Demo Inbox",
             "mirrors": [
               "https://api2.frontapp.com/conversations/cnv_11dx1ei"
             ],
