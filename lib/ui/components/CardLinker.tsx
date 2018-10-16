@@ -11,26 +11,12 @@ import {
 } from 'rendition';
 import { Card, Type } from '../../Types';
 import { CardCreator } from '../components/CardCreator';
+import { LINKS } from '../constants';
 import { analytics, sdk } from '../core';
 import {
 	createFullTextSearchFilter,
 } from '../services/helpers';
 import Icon from './Icon';
-
-// TODO Use 'LINK_CONSTRAINTS' on type cards instead of hardcoding here
-const LINKS: { [k: string]: { [t: string]: string } } = {
-	'support-thread': {
-		'scratchpad-entry': 'scratchpad entry was used in support thread',
-		issue: 'support thread has attached issue',
-		symptom: 'support thread has attached symptom',
-	},
-	'architecture-topic': {
-		issue: 'architecture topic has attached issue',
-	},
-	issue: {
-		'architecture-topic': 'issue is attached to architecture topic',
-	},
-};
 
 interface CardLinkerProps {
 	card: Card;

@@ -10,6 +10,9 @@ import { Notifications } from './components/Notifications';
 import { Splash } from './components/Splash';
 import { selectors, StoreState } from './core/store';
 
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
+
 // Register the mermaid and markdown widgets for rendition forms
 import 'rendition/dist/extra/Form/markdown';
 import 'rendition/dist/extra/Form/mermaid';
@@ -79,4 +82,6 @@ const mapStateToProps = (state: StoreState) => {
 	};
 };
 
-export const JellyfishUI = connect(mapStateToProps)(UI);
+export const JellyfishUI = DragDropContext(HTML5Backend)(
+	connect(mapStateToProps)(UI),
+);
