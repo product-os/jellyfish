@@ -5,6 +5,7 @@
     "active": true,
     "tags": [],
     "data": {
+      "inbox": "Demo Inbox",
       "mirrors": [
         "https://api2.frontapp.com/conversations/cnv_11dvpbu"
       ],
@@ -42,6 +43,7 @@
           "active": true,
           "tags": [],
           "data": {
+            "inbox": "Demo Inbox",
             "mirrors": [
               "https://api2.frontapp.com/conversations/cnv_11dvpbu"
             ],
@@ -64,6 +66,7 @@
           "active": true,
           "tags": [],
           "data": {
+            "inbox": "Demo Inbox",
             "mirrors": [
               "https://api2.frontapp.com/conversations/cnv_11dvpbu"
             ],

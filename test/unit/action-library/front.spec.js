@@ -26,7 +26,7 @@ helpers.integrations.scenario(ava, {
 	scenarios: require('./integrations/front'),
 	slices: _.range(0, 2),
 	baseUrl: 'https://api2.frontapp.com',
-	stubRegex: /^\/conversations\/.+\/messages$/,
+	stubRegex: /^\/conversations\/.+\/(messages|inboxes)$/,
 	source: 'front',
 	options: {
 		token: 'xxxxxxxxxxxxxxxxxx'

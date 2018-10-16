@@ -5,6 +5,7 @@
     "active": true,
     "tags": [],
     "data": {
+      "inbox": "Test_Contracts",
       "mirrors": [
         "https://api2.frontapp.com/conversations/cnv_11she63"
       ],
@@ -58,6 +59,7 @@
           "active": true,
           "tags": [],
           "data": {
+            "inbox": "Test_Contracts",
             "mirrors": [
               "https://api2.frontapp.com/conversations/cnv_11she63"
             ],
@@ -80,6 +82,7 @@
           "active": true,
           "tags": [],
           "data": {
+            "inbox": "Test_Contracts",
             "mirrors": [
               "https://api2.frontapp.com/conversations/cnv_11she63"
             ],
@@ -102,6 +105,7 @@
           "active": true,
           "tags": [],
           "data": {
+            "inbox": "Test_Contracts",
             "mirrors": [
               "https://api2.frontapp.com/conversations/cnv_11she63"
             ],

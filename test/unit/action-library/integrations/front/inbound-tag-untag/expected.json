@@ -5,6 +5,7 @@
     "active": true,
     "tags": [],
     "data": {
+      "inbox": "Demo Inbox",
       "mirrors": [
         "https://api2.frontapp.com/conversations/cnv_11dw1xu"
       ],
@@ -42,6 +43,7 @@
           "active": true,
           "tags": [],
           "data": {
+            "inbox": "Demo Inbox",
             "mirrors": [
               "https://api2.frontapp.com/conversations/cnv_11dw1xu"
             ],
@@ -64,6 +66,7 @@
           "active": true,
           "tags": [ "foo" ],
           "data": {
+            "inbox": "Demo Inbox",
             "mirrors": [
               "https://api2.frontapp.com/conversations/cnv_11dw1xu"
             ],
@@ -86,6 +89,7 @@
           "active": true,
           "tags": [],
           "data": {
+            "inbox": "Demo Inbox",
             "mirrors": [
               "https://api2.frontapp.com/conversations/cnv_11dw1xu"
             ],
