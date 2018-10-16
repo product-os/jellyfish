@@ -93,6 +93,7 @@
             "slug": {
               "type": "string",
               "enum": [
+                "action-integration-github-mirror-event",
                 "action-create-card",
                 "action-create-event",
                 "action-create-session",

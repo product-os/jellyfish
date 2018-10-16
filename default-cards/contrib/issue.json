@@ -25,6 +25,10 @@
         "data": {
           "type": "object",
           "properties": {
+            "repository": {
+              "type": "string",
+              "enum": [ "resin-io/jellyfish" ]
+            },
             "mentionsUser": {
               "type": "array",
               "$$formula": "AGGREGATE($events, 'data.payload.mentionsUser')"
