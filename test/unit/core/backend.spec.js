@@ -1837,3 +1837,15 @@ ava.test.cb('.stream() should filter the "before" section of a change', (test) =
 		})
 	}).catch(test.end)
 })
+
+ava.test('.stream() should throw if the schema is invalid', async (test) => {
+	await test.throws(test.context.backend.stream({
+		type: 'object',
+		properties: {
+			type: {
+				type: 'string',
+				enum: [ 'thread', 'thread' ]
+			}
+		}
+	}))
+})
