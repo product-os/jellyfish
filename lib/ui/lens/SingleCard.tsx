@@ -27,6 +27,21 @@ import {
 } from '../services/helpers';
 import TimelineLens from './Timeline';
 
+import { DragSource } from 'react-dnd';
+
+const cardSource = {
+	beginDrag(props: any): any {
+		return props.card;
+	},
+};
+
+function collect(connect: any, monitor: any): any {
+	return {
+		connectDragSource: connect.dragSource(),
+		isDragging: monitor.isDragging(),
+	};
+}
+
 const Column = styled(Flex)`
 	height: 100%;
 	overflow-y: auto;
@@ -130,6 +145,8 @@ interface CardProps extends RendererProps {
 	types: Type[];
 	fieldOrder?: string[];
 	actions: typeof actionCreators;
+	connectDragSource: any;
+	isDragging: any;
 }
 
 class Base extends React.Component<CardProps, {}> {
@@ -172,6 +189,8 @@ class Base extends React.Component<CardProps, {}> {
 
 		const keys = (fieldOrder || []).concat(unorderedKeys);
 
+		const { connectDragSource } = this.props;
+
 		const content = (
 			<>
 				<Flex justify="space-between">
@@ -182,7 +201,11 @@ class Base extends React.Component<CardProps, {}> {
 								{card.name || card.slug || card.type}
 							</Link>
 						}
-						{!level && (card.name || card.slug || card.type)}
+						{!level && connectDragSource(
+							<div style={{ fontSize: 14, display: 'block' }}>
+								{card.name || card.slug || card.type}
+							</div>,
+						)}
 						</strong>
 					</Txt>
 
@@ -231,7 +254,10 @@ class Base extends React.Component<CardProps, {}> {
 					flex={this.props.flex}
 					flexDirection="column"
 				>
-					<Box p={3} style={{maxHeight: '50%', borderBottom: '1px solid #ccc', overflowY: 'auto'}}>
+					<Box
+						p={3}
+						style={{maxHeight: '50%', borderBottom: '1px solid #ccc', overflowY: 'auto'}}
+					>
 						{content}
 					</Box>
 					<Box flex="1 0 50%" style={{ overflowY: 'auto'}}>
@@ -260,7 +286,9 @@ const mapDispatchToProps = (dispatch: any) => ({
 	actions: bindActionCreators(actionCreators, dispatch),
 });
 
-export const Renderer = connect(mapStateToProps, mapDispatchToProps)(Base);
+export const Renderer = DragSource('channel', cardSource, collect)(
+	connect(mapStateToProps, mapDispatchToProps)(Base),
+);
 
 const lens: Lens = {
 	slug: 'lens-default',
