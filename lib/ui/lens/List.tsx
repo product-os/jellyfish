@@ -190,7 +190,7 @@ class CardList extends React.Component<CardListProps, CardListState> {
 							>
 								{this.state.creatingCard && <Icon name="cog fa-spin" />}
 								{!this.state.creatingCard &&
-									<span>Add a {this.props.type.name || this.props.type.slug}</span>
+									<span>Add {this.props.type.name || this.props.type.slug}</span>
 								}
 							</Button>
 						</Flex>

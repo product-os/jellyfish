@@ -217,7 +217,7 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 							disabled={this.state.creatingCard}
 						>
 							{this.state.creatingCard && <Icon name="cog fa-spin" />}
-							{!this.state.creatingCard && 'Add a Chat Thread'}
+							{!this.state.creatingCard && 'Add a Chat thread'}
 						</Button>
 					</Flex>
 				}

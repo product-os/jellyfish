@@ -350,7 +350,7 @@ class Kanban extends React.Component<KanbanProps, KanbanState> {
 						>
 							{this.state.creatingCard && <Icon name="cog fa-spin" />}
 							{!this.state.creatingCard &&
-								<span>Add a {typeName}</span>
+								<span>Add {typeName}</span>
 							}
 						</Button>
 

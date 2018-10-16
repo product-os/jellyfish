@@ -203,6 +203,7 @@
             },
             "slug": {
               "enum": [
+                "view-all-architecture-topics",
                 "view-all-issues",
                 "view-all-messages",
                 "view-all-support-threads",
@@ -260,6 +261,7 @@
             "type": {
               "type": "string",
               "enum": [
+                "architecture-topic",
                 "issue",
                 "thread",
                 "message",
