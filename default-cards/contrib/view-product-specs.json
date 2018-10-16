@@ -1,6 +1,6 @@
 {
-  "slug": "view-all-issues",
-  "name": "Product issues",
+  "slug": "view-product-specs",
+  "name": "Product specs",
   "type": "view",
   "markers": [],
   "tags": [],
@@ -35,7 +35,7 @@
             },
             "type": {
               "type": "string",
-              "const": "issue"
+              "const": "pull-request"
             },
             "data": {
               "type": "object",

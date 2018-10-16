@@ -8,10 +8,13 @@ import { Button, Flex, Link, Modal } from 'rendition';
 import { Form } from 'rendition/dist/unstable';
 import styled from 'styled-components';
 import { Card, Type } from '../../Types';
+import { CardCreator } from '../components/CardCreator';
 import { FreeFieldForm } from '../components/FreeFieldForm';
+import { LINKS } from '../constants';
 import { analytics, sdk } from '../core';
 import { actionCreators, selectors, StoreState } from '../core/store';
 import { getLocalSchema } from '../services/helpers';
+import { createLink } from '../services/link';
 import { CardLinker } from './CardLinker';
 import { ContextMenu } from './ContextMenu';
 import Icon from './Icon';
@@ -37,6 +40,7 @@ interface CardActionsState {
 	editModel: {[key: string]: any };
 	showMenu: boolean;
 	schema: JSONSchema6;
+	showCreateProductIssue: boolean;
 }
 
 interface CardActionProps {
@@ -69,6 +73,7 @@ class Base extends React.Component<
 		this.state = {
 			showEditModal: false,
 			showDeleteModal: false,
+			showCreateProductIssue: false,
 			showMenu: false,
 			editModel: {},
 			schema,
@@ -82,6 +87,21 @@ class Base extends React.Component<
 		});
 
 		this.setState({ showDeleteModal: false });
+	}
+
+	public doneCreatingCard = (newCard: Card | null) => {
+		const { card } = this.props;
+		if (!newCard) {
+			return;
+		}
+
+		const linkName = LINKS[card.type]['issue'];
+
+		createLink(this.props.card.id, newCard.id, linkName as any);
+
+		this.setState({
+			showCreateProductIssue: false,
+		});
 	}
 
 	public updateEntry = () => {
@@ -160,7 +180,12 @@ class Base extends React.Component<
 		this.setState({ editModel: model });
 	}
 
+	public createProductIssue = () => {
+		this.setState({ showCreateProductIssue: true });
+	}
+
 	public render(): React.ReactNode {
+		const issueType = _.find(this.props.types, { slug: 'issue' });
 		const localSchema = getLocalSchema(this.state.editModel);
 		const freeFieldData = _.reduce<any, any>(localSchema.properties, (carry, _value, key) => {
 			const cardValue = _.get(this.props.card, ['data', key]);
@@ -204,22 +229,33 @@ class Base extends React.Component<
 								position="bottom"
 								onClose={this.toggleMenu}
 							>
-								<ActionLink
-									mb={2}
-									onClick={this.copyPermalink}
-									tooltip={{
-										text: 'Permalink copied!',
-										trigger: 'click',
-									}}
-								>
-									Copy permalink
-								</ActionLink>
+								<>
+									<ActionLink
+										mb={2}
+										onClick={this.copyPermalink}
+										tooltip={{
+											text: 'Permalink copied!',
+											trigger: 'click',
+										}}
+									>
+										Copy permalink
+									</ActionLink>
 
-								<ActionLink
-									onClick={this.toggleDeleteModal}
-								>
-									Delete
-								</ActionLink>
+									<ActionLink
+										onClick={this.toggleDeleteModal}
+									>
+										Delete
+									</ActionLink>
+
+									{(this.props.card.type === 'support-thread') && (
+										<ActionLink
+											mt={2}
+											onClick={this.createProductIssue}
+										>
+											Create product issue
+										</ActionLink>
+									)}
+								</>
 							</ContextMenu>
 						}
 					</EllipsisButton>
@@ -259,6 +295,15 @@ class Base extends React.Component<
 						/>
 					</Modal>
 				}
+
+				<CardCreator
+					seed={{ data: { repository: 'resin-io/hq' }}}
+					show={this.state.showCreateProductIssue}
+					type={issueType!}
+					onCreate={this.doneCreatingCard as any}
+					done={_.noop}
+					cancel={() => this.setState({ showCreateProductIssue: false })}
+				/>
 			</React.Fragment>
 		);
 	}

@@ -27,7 +27,10 @@
           "properties": {
             "repository": {
               "type": "string",
-              "enum": [ "resin-io/jellyfish" ]
+              "enum": [
+                "resin-io/hq",
+                "resin-io/jellyfish"
+              ]
             },
             "mentionsUser": {
               "type": "array",

@@ -4,7 +4,7 @@ import { DropTarget } from 'react-dnd';
 import { Alert, Box, Modal } from 'rendition';
 import { Card, RendererProps } from '../../Types';
 import { LINKS } from '../constants';
-import { sdk } from '../core';
+import { createLink } from '../services/link';
 
 // Load lens service
 import LensService from '../lens';
@@ -33,7 +33,7 @@ class ChannelRenderer extends React.Component<ChannelRendererProps, {
 		const toCard = this.props.channel.data.head!;
 		const linkName = _.get(LINKS, [fromCard.type, toCard.type], 'is attached to');
 
-		sdk.card.link(fromCard.id, toCard.id, linkName);
+		createLink(fromCard.id, toCard.id, linkName);
 
 		this.setState({
 			showLinkModal: false,
@@ -67,6 +67,7 @@ class ChannelRenderer extends React.Component<ChannelRendererProps, {
 						style={{
 							flex: this.props.flex,
 							background: isOver ? '#ccc' : 'none',
+							minWidth: 0,
 						}}
 					>
 						<lens.data.renderer card={channel.data.head} level={0} {...this.props} />

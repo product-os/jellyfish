@@ -183,6 +183,24 @@ class Base extends React.Component<CardProps, CardState> {
 		}
 	}
 
+	public getStatuses(card: Card): Card[] {
+		return _.filter(_.get(card, [ 'links', 'has attached element' ]), (event) => {
+			if (!(event.type === 'message' || event.type === 'whisper')) {
+				return false;
+			}
+			return _.includes(event.tags, 'status');
+		});
+	}
+
+	public getSummaries(card: Card): Card[] {
+		return _.filter(_.get(card, [ 'links', 'has attached element' ]), (event) => {
+			if (!(event.type === 'message' || event.type === 'whisper')) {
+				return false;
+			}
+			return _.includes(event.tags, 'summary');
+		});
+	}
+
 	public render(): React.ReactNode {
 		const { card, fieldOrder } = this.props;
 		const payload = card.data;
@@ -214,10 +232,16 @@ class Base extends React.Component<CardProps, CardState> {
 				flexDirection="column"
 			>
 				<Box p={3} style={{maxHeight: '50%', borderBottom: '1px solid #ccc', overflowY: 'auto'}}>
-					<Flex justify="space-between">
-						<Txt>
-							Support conversation with <strong>{findUsernameById(this.props.allUsers, createCard.data.actor)}</strong>
-						</Txt>
+					<Flex mb={1} justify="space-between">
+
+						<Box>
+							<Txt mb={1}>
+								Support conversation with <strong>{findUsernameById(this.props.allUsers, createCard.data.actor)}</strong>
+							</Txt>
+							{!!card.name && (
+								<Txt bold>{card.name}</Txt>
+							)}
+						</Box>
 
 						<Flex>
 							<CardActions

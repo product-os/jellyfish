@@ -25,11 +25,12 @@ import {
 	getCurrentTimestamp,
 	getUserIdsByPrefix,
 } from '../../services/helpers';
+import { createLink } from '../../services/link';
 
 const Column = styled(Flex)`
 	height: 100%;
 	borderRight: 1px solid #ccc;
-	min-width: 350px;
+	min-width: 330px;
 `;
 
 const messageSymbolRE = /^\s*%\s*/;
@@ -88,10 +89,12 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 			type: 'object',
 			properties: {
 				type: {
-					// Don't include action request cards, as it just add's noise
-					not: {
-						const: 'action-request',
-					},
+					enum: [
+						'message',
+						'whisper',
+						'update',
+						'create',
+					],
 				},
 				data: {
 					type: 'object',
@@ -197,7 +200,9 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 
 		sdk.card.create(message)
 			.then(() => {
-				return sdk.card.link(id, this.props.card.id, 'is attached to');
+				return createLink(id, this.props.card.id, 'is attached to', {
+					skipSuccessMessage: true,
+				});
 			})
 			.then(() => {
 				analytics.track('element.create', {
@@ -280,7 +285,9 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 
 		sdk.card.create(message)
 			.then(() => {
-				return sdk.card.link(id, this.props.card.id, 'is attached to');
+				return createLink(id, this.props.card.id, 'is attached to', {
+					skipSuccessMessage: true,
+				});
 			})
 			.then(() => {
 				analytics.track('element.create', {

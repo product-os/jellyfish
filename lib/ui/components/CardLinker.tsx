@@ -12,10 +12,11 @@ import {
 import { Card, Type } from '../../Types';
 import { CardCreator } from '../components/CardCreator';
 import { LINKS } from '../constants';
-import { analytics, sdk } from '../core';
+import { sdk } from '../core';
 import {
 	createFullTextSearchFilter,
 } from '../services/helpers';
+import { createLink } from '../services/link';
 import Icon from './Icon';
 
 interface CardLinkerProps {
@@ -108,14 +109,7 @@ export class CardLinker extends React.Component<CardLinkerProps, CardLinkerState
 
 		const linkName = LINKS[card.type][selectedTypeTarget];
 
-		sdk.card.link(this.props.card.id, selectedTarget.value, linkName as any)
-			.then(() => {
-				analytics.track('element.create', {
-					element: {
-						type: 'link',
-					},
-				});
-			});
+		createLink(this.props.card.id, selectedTarget.value, linkName as any);
 
 		this.setState({
 			showLinkModal: false,
@@ -136,14 +130,7 @@ export class CardLinker extends React.Component<CardLinkerProps, CardLinkerState
 
 		const linkName = LINKS[card.type][selectedTypeTarget];
 
-		sdk.card.link(this.props.card.id, newCard.id, linkName as any)
-			.then(() => {
-				analytics.track('element.create', {
-					element: {
-						type: 'link',
-					},
-				});
-			});
+		createLink(this.props.card.id, newCard.id, linkName as any);
 
 		this.setState({
 			showLinkModal: false,

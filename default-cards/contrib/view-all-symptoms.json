@@ -1,6 +1,6 @@
 {
   "slug": "view-all-symptoms",
-  "name": "All symptoms",
+  "name": "Product symptoms",
   "type": "view",
   "markers": [],
   "tags": [],
@@ -35,7 +35,16 @@
             },
             "type": {
               "type": "string",
-              "const": "symptom"
+              "const": "issue"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "repository": {
+                  "type": "string",
+                  "const": "resin-io/jellyfish"
+                }
+              }
             }
           },
           "required": [

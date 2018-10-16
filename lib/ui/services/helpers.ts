@@ -290,6 +290,19 @@ export const getViewSlices = (view: any, types: Card[]) => {
 	if (viewType && viewType.data.slices) {
 		slices = _.map(viewType.data.slices, (slice) => {
 			const subSchema = _.get(viewType.data.schema, slice);
+
+			const viewParam = _.chain(view.data.allOf)
+				.map((def) => {
+					return _.get(def.schema, slice);
+				})
+				.compact()
+				.first()
+				.value();
+
+			if (viewParam && viewParam.const) {
+				return null;
+			}
+
 			const title = subSchema.title || slice.split('.').pop();
 			return {
 				title,
@@ -299,7 +312,7 @@ export const getViewSlices = (view: any, types: Card[]) => {
 		});
 	}
 
-	return slices;
+	return _.compact(slices);
 };
 
 const matchOperatorsRe = /[|\\{}()[\]^$+*?.]/g;
