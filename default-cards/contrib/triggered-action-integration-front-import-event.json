@@ -1,0 +1,34 @@
+{
+  "slug": "triggered-action-integration-front-import-event",
+  "type": "triggered-action",
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "filter": {
+      "type": "object",
+      "required": [ "type", "data" ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "external-event"
+        },
+        "data": {
+          "type": "object",
+          "required": [ "source" ],
+          "properties": {
+            "source": {
+              "type": "string",
+              "const": "front"
+            }
+          }
+        }
+      }
+    },
+    "action": "action-integration-front-import-event",
+    "target": {
+      "$eval": "source.id"
+    },
+    "arguments": {}
+  }
+}

@@ -97,6 +97,7 @@ build: build-ui
 start-server:
 	DEBUG=$(NODE_DEBUG) \
 	INTEGRATION_GITHUB_TOKEN=$(INTEGRATION_GITHUB_TOKEN) \
+	INTEGRATION_FRONT_TOKEN=$(INTEGRATION_FRONT_TOKEN) \
 	node lib/server/index.js
 
 start-db:
