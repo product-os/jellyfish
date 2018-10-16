@@ -94,6 +94,7 @@
               "type": "string",
               "enum": [
                 "action-integration-github-mirror-event",
+                "action-integration-front-mirror-event",
                 "action-create-card",
                 "action-create-event",
                 "action-create-session",
