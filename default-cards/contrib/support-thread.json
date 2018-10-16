@@ -40,11 +40,7 @@
             "status": {
               "title": "Status",
               "type": "string",
-              "enum": [ "open", "closed" ]
-            },
-            "archived": {
-              "type": "boolean",
-              "default": false
+              "enum": [ "open", "closed", "archived" ]
             }
           }
         }

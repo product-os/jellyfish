@@ -11,8 +11,7 @@
       "mentionsUser": [],
       "alertsUser": [],
       "description": "",
-      "status": "open",
-      "archived": true
+      "status": "closed"
     }
   },
   "tail": [
@@ -33,8 +32,7 @@
             "mentionsUser": [],
             "alertsUser": [],
             "description": "",
-            "status": "open",
-            "archived": false
+            "status": "open"
           }
         }
       }
@@ -56,8 +54,7 @@
             "mentionsUser": [],
             "alertsUser": [],
             "description": "",
-            "status": "open",
-            "archived": true
+            "status": "closed"
           }
         }
       }
