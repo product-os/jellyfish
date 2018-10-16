@@ -72,10 +72,6 @@ export default class Event extends React.Component<EventProps, { actorName: stri
 		this.highlightTags();
 	}
 
-	public componentDidUpdate(): void {
-		this.highlightTags();
-	}
-
 	public highlightTags(): void {
 		if (!this.messageElement) {
 			return;
