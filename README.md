@@ -57,6 +57,7 @@ DB_USER=<database user as created before>
 DB_PASSWORD=<database user password>
 DB_CERT=<database SSL certificate>
 INTEGRATION_GITHUB_TOKEN=<github token>
+INTEGRATION_FRONT_TOKEN=<front token>
 ```
 
 And then run:
