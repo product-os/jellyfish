@@ -1,0 +1,73 @@
+{
+  "slug": "os-test-result",
+  "name": "OS test result",
+  "type": "type",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^.*\\S.*$"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-_/][a-zA-Z0-9-_/\\s]+[a-zA-Z0-9-_/]$"
+          },
+          "$$formula": "AGGREGATE($events, 'tags')"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "mentionsUser": {
+              "type": "array",
+              "$$formula": "AGGREGATE($events, 'data.payload.mentionsUser')"
+            },
+            "alertsUser": {
+              "type": "array",
+              "$$formula": "AGGREGATE($events, 'data.payload.alertsUser')"
+            },
+            "provision_time": {
+              "type": "string"
+            },
+            "image_size": {
+              "type": "string"
+            },
+            "resin_os_version": {
+              "type": "string"
+            },
+            "body": {
+              "type": "string",
+              "format": "markdown"
+            },
+            "author": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "timestamp": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        }
+      },
+      "additionalProperties": true,
+      "required": [ "data" ]
+    },
+    "slices": [
+      "properties.data.properties.status"
+    ]
+  }
+}
