@@ -1,0 +1,40 @@
+{
+  "slug": "account",
+  "type": "type",
+  "name": "Jellyfish Account",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "markers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-_/:+]+$"
+          }
+        },
+        "slug": {
+          "type": "string",
+          "pattern": "^account-[a-z0-9-]+$"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string",
+              "format": "email"
+            }
+          },
+          "required": [
+            "email"
+          ]
+        }
+      },
+      "required": [ "slug", "data" ]
+    }
+  }
+}
