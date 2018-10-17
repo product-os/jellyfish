@@ -132,7 +132,7 @@ export class Event extends React.Component<EventProps, EventState> {
 	}
 
 	public getTargetId(card: Card): string {
-		return _.get(card, 'data.target') || _.get(card, [ 'links', 'is attached to', '0', 'id' ]) || card.id;
+		return _.get(card, [ 'links', 'is attached to', '0', 'id' ]) || card.id;
 	}
 
 	public getTimelineElement(card: Card): JSX.Element {

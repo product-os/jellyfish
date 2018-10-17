@@ -157,6 +157,10 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 		this.setState({ messagesOnly: !this.state.messagesOnly });
 	}
 
+	public getTargetId(card: Card): string {
+		return _.get(card, [ 'links', 'is attached to', '0', 'id' ]) || card.id;
+	}
+
 	public render(): React.ReactNode {
 		const { head } = this.props.channel.data;
 		const channelTarget = this.props.channel.data.target;
@@ -202,7 +206,7 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 								<EventCard
 									users={this.props.allUsers}
 									openChannel={
-										card.data && card.data.target !== channelTarget ? this.openChannel : undefined
+										this.getTargetId(card) !== channelTarget ? this.openChannel : undefined
 									}
 									card={card}
 								/>
