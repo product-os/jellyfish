@@ -214,6 +214,7 @@
                 "view-my-alerts",
                 "view-my-mentions",
                 "view-my-todo-items",
+                "view-os-test-results",
                 "view-scratchpad"
               ]
             },
@@ -272,6 +273,7 @@
                 "support-thread",
                 "symptom",
                 "organizer",
+                "os-test-result",
                 "todo",
                 "triggered-action",
                 "whisper"

@@ -1,0 +1,53 @@
+{
+  "slug": "view-os-test-results",
+  "name": "OS test results",
+  "type": "view",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "allOf": [
+      {
+        "name": "Active cards",
+        "schema": {
+          "$$links": {
+            "has attached element": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "enum": [
+                    "message",
+                    "update",
+                    "create"
+                  ]
+                }
+              },
+              "additionalProperties": true
+            }
+          },
+          "type": "object",
+          "properties": {
+            "active": {
+              "const": true,
+              "type": "boolean"
+            },
+            "type": {
+              "type": "string",
+              "const": "os-test-result"
+            }
+          },
+          "required": [
+            "active",
+            "type"
+          ],
+          "additionalProperties": true
+        }
+      }
+    ],
+    "lenses": [
+      "lens-table",
+      "lens-kanban"
+    ]
+  }
+}
