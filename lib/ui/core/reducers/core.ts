@@ -10,6 +10,8 @@ import { sdk } from '../sdk';
 
 const NOTIFICATION_LIFETIME = 10 * 1000;
 
+let mutableMegaStream: any = null;
+
 export interface ICore {
 	status: AppStatus;
 	channels: Channel[];
@@ -74,9 +76,18 @@ export const actionCreators = {
 
 	loadChannelData: (channel: Channel): JellyThunkSync<void, KnownState> => (dispatch, getState) => {
 		const { target } = channel.data;
-		const load = (): Bluebird<Card> => sdk.card.getWithTimeline(target)
+		const load = (): Bluebird<Card | null> => sdk.card.getWithTimeline(target)
 			.then((result) => {
 				if (!result) {
+					const currentChannel = _.find(
+						coreSelectors.getChannels(getState()),
+						{ id: channel.id },
+					)!;
+
+					if (!currentChannel) {
+						return null;
+					}
+
 					return Bluebird.delay(250).then(load);
 				}
 
@@ -95,7 +106,7 @@ export const actionCreators = {
 				)!;
 
 				if (!currentChannel) {
-					return;
+					return null;
 				}
 
 				const clonedChannel = _.cloneDeep(currentChannel);
@@ -166,6 +177,29 @@ export const actionCreators = {
 				channels.forEach((channel) => dispatch(actionCreators.loadChannelData(channel)));
 			}
 
+			sdk.stream({
+				type: 'object',
+				additionalProperties: true,
+			}).then((stream) => {
+				mutableMegaStream = stream;
+
+				stream.on('update', (update) => {
+					console.log('STREAM UPDATE', update);
+					if (update.data.after) {
+						const { id } = update.data.after;
+						const state = getState();
+						const allChannels = coreSelectors.getChannels(state);
+						const channel = _.find(allChannels, (c) => {
+							return c.data.target === id;
+						});
+
+						if (channel) {
+							dispatch(actionCreators.loadChannelData(channel));
+						}
+					}
+				});
+			});
+
 			return user;
 		});
 	},
@@ -211,6 +245,11 @@ export const actionCreators = {
 	logout: () => {
 		analytics.track('ui.logout');
 		analytics.identify();
+
+		if (mutableMegaStream) {
+			mutableMegaStream.destroy();
+			mutableMegaStream = null;
+		}
 
 		return {
 			type: actions.LOGOUT,

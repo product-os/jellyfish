@@ -10,6 +10,8 @@ import {
 	createFullTextSearchFilter,
 } from '../services/helpers';
 
+import { DragSource } from 'react-dnd';
+
 // ReactTextareaAutocomplete autocompletion doesn't work with JSDom, so disable
 // it during testing
 const ACTIVE = process.env.NODE_ENV !== 'test';
@@ -162,6 +164,27 @@ const getTrigger = _.memoize(() => ({
 		component: ({ entity }: { entity: string }) => <div>{entity}</div>,
 		output: (item: any) => item,
 	},
+	'#': {
+		dataProvider: (token: string) => {
+			const types = [
+				'#provisioning',
+				'#sales',
+				'#billing',
+				'#users',
+				'#device-management',
+				'#analytics',
+			];
+
+			if (!token) {
+				return types;
+			}
+
+			const matcher = '#' + token.toLowerCase();
+			return types.filter((slug) => _.startsWith(slug, matcher));
+		},
+		component: ({ entity }: { entity: string }) => <div>{entity}</div>,
+		output: (item: any) => item,
+	},
 }));
 
 interface AutoProps extends BoxProps {
@@ -198,14 +221,47 @@ const SubAuto = ({
 	);
 };
 
+const cardSource = {
+	beginDrag(props: any): any {
+		return props.card;
+	},
+};
+
+function collect(connect: any, monitor: any): any {
+	return {
+		connectDragSource: connect.dragSource(),
+		isDragging: monitor.isDragging(),
+	};
+}
+
+class QuickSearchItem extends React.Component<any, any> {
+	public render(): React.ReactNode {
+		const { card, connectDragSource, onClick } = this.props;
+		return connectDragSource(
+			<span>
+				<Link
+					onClick={onClick}
+				>
+					{card.name || card.slug || card.id}
+				</Link>
+			</span>,
+		);
+	}
+}
+
+const ConnectedQuickSearchItem = DragSource('channel', cardSource, collect)(QuickSearchItem);
+
 interface AutoState {
 	showQuickSearchPanel: boolean;
 	value: string;
 	results: null | Card[];
 }
 
-class AutoCompleteArea extends React.Component<AutoProps, AutoState> {
-	constructor(props: AutoProps) {
+interface AutoCompleteAreaProps extends AutoProps {
+}
+
+class AutoCompleteArea extends React.Component<AutoCompleteAreaProps, AutoState> {
+	constructor(props: AutoCompleteAreaProps) {
 		super(props);
 
 		this.state = {
@@ -215,7 +271,7 @@ class AutoCompleteArea extends React.Component<AutoProps, AutoState> {
 		};
 	}
 
-	public componentWillUpdate(nextProps: AutoProps): void {
+	public componentWillUpdate(nextProps: AutoCompleteAreaProps): void {
 		if (nextProps.value !== this.props.value) {
 			this.setState({ value: nextProps.value || '' });
 		}
@@ -308,6 +364,8 @@ class AutoCompleteArea extends React.Component<AutoProps, AutoState> {
 							bottom: 80,
 							right: 10,
 							width: 400,
+							maxHeight: '75%',
+							overflow: 'auto',
 						}}
 					>
 						<Txt mb={2}><strong>Quick search results</strong></Txt>
@@ -320,7 +378,8 @@ class AutoCompleteArea extends React.Component<AutoProps, AutoState> {
 						{_.map(this.state.results, (card: any) => {
 							return (
 								<div key={card.id}>
-									<Link
+									<ConnectedQuickSearchItem
+										card={card}
 										onClick={() => {
 											store.dispatch(actionCreators.addChannel(createChannel({
 												target: card.id,
@@ -332,9 +391,7 @@ class AutoCompleteArea extends React.Component<AutoProps, AutoState> {
 												results: null,
 											});
 										}}
-									>
-										{card.name || card.slug || card.id}
-									</Link>
+									/>
 								</div>
 							);
 						})}

@@ -1,6 +1,6 @@
 {
-  "slug": "view-all-issues",
-  "name": "Product issues",
+  "slug": "view-support-threads-to-audit",
+  "name": "Support threads to audit",
   "type": "view",
   "markers": [],
   "tags": [],
@@ -35,14 +35,14 @@
             },
             "type": {
               "type": "string",
-              "const": "issue"
+              "const": "support-thread"
             },
             "data": {
               "type": "object",
               "properties": {
-                "repository": {
+                "status": {
                   "type": "string",
-                  "const": "resin-io/hq"
+                  "const": "closed"
                 }
               }
             }
@@ -56,7 +56,7 @@
       }
     ],
     "lenses": [
-      "lens-table",
+      "lens-support-threads",
       "lens-kanban"
     ]
   }

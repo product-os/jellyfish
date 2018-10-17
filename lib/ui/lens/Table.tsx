@@ -6,6 +6,7 @@ import {
 	Box,
 	Button,
 	Flex,
+	Link,
 	Table,
 	Txt,
 } from 'rendition';
@@ -18,7 +19,7 @@ import { createChannel, getUpdateObjectFromSchema, getViewSchema } from '../serv
 
 const Column = styled(Flex)`
 	height: 100%;
-	min-width: 350px;
+	min-width: 330px;
 	overflow-y: auto;
 `;
 
@@ -26,6 +27,9 @@ const COLUMNS = [
 	{
 		field: 'name',
 		sortable: true,
+		render: (value: string) => {
+			return <Link>{value}</Link>;
+		},
 	},
 	{
 		field: 'Created',

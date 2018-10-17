@@ -173,7 +173,13 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 								onClick={() => this.openChannel(card.id)}
 							>
 								<Flex justify="space-between">
-									<Txt my={2}><strong>{actorName}</strong></Txt>
+									<Box>
+										{!!card.name && (
+											<Txt bold>{card.name}</Txt>
+										)}
+										<Txt my={2}><strong>{actorName}</strong></Txt>
+									</Box>
+
 									<Txt>{timeAgo(_.get(_.last(card.links['has attached element']), [ 'data', 'timestamp' ]))}</Txt>
 								</Flex>
 								<Txt my={2}>{messages.length} message{messages.length !== 1 && 's'}</Txt>

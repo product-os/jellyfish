@@ -204,7 +204,9 @@
             "slug": {
               "enum": [
                 "view-all-architecture-topics",
+                "view-product-specs",
                 "view-all-issues",
+                "view-support-threads-to-audit",
                 "view-all-messages",
                 "view-all-support-threads",
                 "view-all-symptoms",
@@ -263,6 +265,7 @@
               "enum": [
                 "architecture-topic",
                 "issue",
+                "pull-request",
                 "thread",
                 "message",
                 "scratchpad-entry",

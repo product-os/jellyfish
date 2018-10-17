@@ -326,7 +326,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 											value={_.get(subscription, ['data', 'activeSlice'])}
 											onChange={lensSupportsSlices ? this.setSlice : _.noop}
 										>
-											{_.map(slices, (slice) => {
+											{_.map(slices, (slice: any) => {
 												return (
 													<option
 														key={slice.path}
