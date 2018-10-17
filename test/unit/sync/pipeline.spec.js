@@ -435,24 +435,29 @@ ava('.importCards() should add create events', async (test) => {
 
 	await test.context.flush(test.context.session)
 
-	const timeline = await test.context.jellyfish.query(test.context.context, test.context.session, {
+	const [ cardWithEvents ] = await test.context.jellyfish.query(test.context.session, {
+		$$links: {
+			'has attached element': {
+				type: 'object',
+				additionalProperties: true
+			}
+		},
 		type: 'object',
 		additionalProperties: true,
-		required: [ 'data' ],
+		required: [ 'id' ],
 		properties: {
-			data: {
-				type: 'object',
-				required: [ 'target' ],
-				additionalProperties: true,
-				properties: {
-					target: {
-						type: 'string',
-						const: result[0].id
-					}
-				}
+			id: {
+				type: 'string',
+				const: result[0].id
+			},
+			type: {
+				type: 'string',
+				const: result[0].type
 			}
 		}
 	})
+
+	const timeline = cardWithEvents.links['has attached element']
 
 	test.is(timeline.length, 1)
 	test.is(timeline[0].type, 'create')

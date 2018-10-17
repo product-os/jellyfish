@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+const Bluebird = require('bluebird')
 const nock = require('nock')
 const uuid = require('uuid/v4')
 const path = require('path')
@@ -91,28 +92,19 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 		test.context.session, cards[0].id, {
 			type: cards[0].type
 		})
+
+	const timeline = await Bluebird.map(head.links['has attached element'], (item) => {
+		return test.context.jellyfish.getCardBySlug(test.context.context,
+			test.context.session,
+			item.slug,
+			{
+				type: item.type
+			}
+		)
+	})
+
 	Reflect.deleteProperty(head, 'links')
 	Reflect.deleteProperty(head, 'markers')
-
-	const timeline = await test.context.jellyfish.query(test.context.context,
-		test.context.session, {
-			type: 'object',
-			additionalProperties: true,
-			required: [ 'data' ],
-			properties: {
-				data: {
-					type: 'object',
-					required: [ 'target' ],
-					additionalProperties: true,
-					properties: {
-						target: {
-							type: 'string',
-							const: head.id
-						}
-					}
-				}
-			}
-		})
 
 	test.deepEqual(Object.assign({}, testCase.expected.head, _.omitBy({
 		id: head.id,
