@@ -195,7 +195,7 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 											background: (lastMessageOrWhisper || {}).type === 'whisper' ? '#eee' : 'white',
 										}}
 									>
-										{_.get(lastMessageOrWhisper, [ 'data', 'payload', 'message' ])}
+										{_.get(lastMessageOrWhisper, [ 'data', 'payload', 'message' ], '').split('\n').shift()}
 									</Txt>
 								)}
 							</Box>

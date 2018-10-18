@@ -110,7 +110,7 @@ export const findUsernameById = (users: Card[], id: string) => {
 	const actor = _.find(users, { id });
 	return actor ?
 		actor.slug!.replace('user-', '') :
-		'unknown user';
+		'yannis.viottopoulos@gmail.com';
 };
 
 /**

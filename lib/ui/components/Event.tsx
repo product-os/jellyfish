@@ -27,13 +27,6 @@ const EventWrapper = styled(Flex)`
 
 	.event-card--timestamp {
 		color: #777;
-		opacity: 0;
-	}
-
-	&:hover {
-		.event-card--timestamp {
-			opacity: 1;
-		}
 	}
 
 	.rendition-tag-hl {

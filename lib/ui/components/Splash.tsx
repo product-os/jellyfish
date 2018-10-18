@@ -39,9 +39,9 @@ const SplashWrapper = styled(Box)`
 		top: 50%;
 		left: 50%;
 		position: absolute;
-		width: 100px;
-		margin-left: -50px;
-		margin-top: -50px;
+		width: 300px;
+		margin-left: -150px;
+		margin-top: -200px;
 		animation: wiggle 2500ms infinite linear;
 	}
 
@@ -70,11 +70,15 @@ const SplashWrapper = styled(Box)`
 	}
 `;
 
+/*
+<div className="splash__wave -one" />
+<div className="splash__wave -two" />
+<div className="splash__wave -three" />
+<Img className="splash__icon" src="/icons/jellyfish.svg" />
+*/
+
 export const Splash = (props: BoxProps) => (
 	<SplashWrapper className="splash" {...props}>
-		<div className="splash__wave -one" />
-		<div className="splash__wave -two" />
-		<div className="splash__wave -three" />
-		<Img className="splash__icon" src="/icons/jellyfish.svg" />
+		<Img className="splash__icon" src="https://user-images.githubusercontent.com/2192773/47120769-2abd0180-d270-11e8-9563-e07abdc4e86d.png" />
 	</SplashWrapper>
 );

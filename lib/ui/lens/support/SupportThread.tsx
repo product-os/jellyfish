@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
 	Box,
+	Card as CardComponent,
 	Flex,
 	Link,
 	Txt
@@ -16,6 +17,8 @@ import styled from 'styled-components';
 import { Card, Lens, RendererProps, Type } from '../../../Types';
 import { CardActions } from '../../components/CardActions';
 import { CloseButton } from '../../components/CloseButton';
+import EventCard from '../../components/Event';
+import Icon from '../../components/Icon';
 import Label from '../../components/Label';
 import { Tag } from '../../components/Tag';
 import { sdk } from '../../core';
@@ -68,6 +71,14 @@ const CardField = ({ field, payload, users, schema }: {
 	// If the field starts with '$$' it is metaData and shouldn't be displayed
 	if (_.startsWith(field, '$$')) {
 		return null;
+	}
+	if (field === 'mirrors') {
+		return (
+			<React.Fragment>
+				<Label my={3}>{field}</Label>
+				<Markdown>{value.join('\n- ')}</Markdown>
+			</React.Fragment>
+		);
 	}
 	if (field === 'alertsUser' || field === 'mentionsUser') {
 		const len = value.length;
@@ -134,6 +145,8 @@ interface CardProps extends RendererProps {
 
 interface CardState {
 	linkedScratchpadEntries: Card[];
+	showStatuses: boolean;
+	showSummaries: boolean;
 }
 
 class Base extends React.Component<CardProps, CardState> {
@@ -142,6 +155,8 @@ class Base extends React.Component<CardProps, CardState> {
 
 		this.state = {
 			linkedScratchpadEntries: [],
+			showStatuses: false,
+			showSummaries: false,
 		};
 
 		this.loadLinks(props.card.id);
@@ -184,21 +199,25 @@ class Base extends React.Component<CardProps, CardState> {
 	}
 
 	public getStatuses(card: Card): Card[] {
-		return _.filter(_.get(card, [ 'links', 'has attached element' ]), (event) => {
+		const list = _.filter(_.get(card, [ 'links', 'has attached element' ]), (event) => {
 			if (!(event.type === 'message' || event.type === 'whisper')) {
 				return false;
 			}
 			return _.includes(event.tags, 'status');
 		});
+
+		return _.uniqBy(list, (item) => _.get(item, [ 'data', 'payload', 'message' ]));
 	}
 
 	public getSummaries(card: Card): Card[] {
-		return _.filter(_.get(card, [ 'links', 'has attached element' ]), (event) => {
+		const list = _.filter(_.get(card, [ 'links', 'has attached element' ]), (event) => {
 			if (!(event.type === 'message' || event.type === 'whisper')) {
 				return false;
 			}
 			return _.includes(event.tags, 'summary');
 		});
+
+		return _.uniqBy(list, (item) => _.get(item, [ 'data', 'payload', 'message' ]));
 	}
 
 	public render(): React.ReactNode {
@@ -224,6 +243,9 @@ class Base extends React.Component<CardProps, CardState> {
 		const keys = (fieldOrder || []).concat(unorderedKeys);
 
 		const createCard = _.first((card as any).links['has attached element'])! as Card;
+
+		const statuses = this.getStatuses(card);
+		const summaries = this.getSummaries(card);
 
 		return (
 			<Column
@@ -259,10 +281,68 @@ class Base extends React.Component<CardProps, CardState> {
 					{!!card.tags && card.tags.length > 0 &&
 						<Box mb={1}>
 							{_.map(card.tags, (tag) => {
+								if (tag === 'status' || tag === 'summary') {
+									return null;
+								}
 								return <Tag mr={2}>#{tag}</Tag>;
 							})}
 						</Box>
 					}
+
+					{statuses.length > 0 && (
+						<div>
+							<strong>
+								<Link
+									mt={1}
+									onClick={() => this.setState({ showStatuses: !this.state.showStatuses })}
+								>
+									Statuses{' '}
+									<Icon name={`caret-${this.state.showStatuses ? 'down' : 'right'}`} />
+								</Link>
+							</strong>
+						</div>
+					)}
+					{this.state.showStatuses && (
+						<CardComponent p={1} py={2}>
+							{_.map(statuses, (statusEvent: any) => {
+								return (
+									<EventCard
+										users={this.props.allUsers as any}
+										card={statusEvent}
+										mb={1}
+									/>
+								);
+							})}
+						</CardComponent>
+					)}
+
+					{summaries.length > 0 && (
+						<div>
+							<strong>
+								<Link
+									mt={1}
+									onClick={() => this.setState({ showSummaries: !this.state.showSummaries })}
+								>
+									Summaries{' '}
+									<Icon name={`caret-${this.state.showSummaries ? 'down' : 'right'}`} />
+								</Link>
+							</strong>
+						</div>
+					)}
+					{this.state.showSummaries && (
+						<CardComponent p={1} py={2}>
+							{_.map(summaries, (summaryEvent: any) => {
+								return (
+									<EventCard
+										users={this.props.allUsers as any}
+										card={summaryEvent}
+										mb={1}
+									/>
+								);
+							})}
+						</CardComponent>
+					)}
+
 
 					{_.map(this.state.linkedScratchpadEntries, (entry) => {
 						return (
