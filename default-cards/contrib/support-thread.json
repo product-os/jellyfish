@@ -25,6 +25,10 @@
         "data": {
           "type": "object",
           "properties": {
+            "environment": {
+              "type": "string",
+              "enum": [ "production" ]
+            },
             "mentionsUser": {
               "type": "array",
               "$$formula": "AGGREGATE($events, 'data.payload.mentionsUser')"
