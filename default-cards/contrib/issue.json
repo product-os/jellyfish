@@ -29,6 +29,8 @@
               "type": "string",
               "enum": [
                 "resin-io/balena-demo",
+                "resin-io/resin-api-demo",
+                "resin-io/resin-ui-demo",
                 "resin-io/jellyfish"
               ]
             },
