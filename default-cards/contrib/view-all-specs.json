@@ -1,0 +1,72 @@
+{
+  "slug": "view-all-specs",
+  "name": "Product specs",
+  "type": "view",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "allOf": [
+      {
+        "name": "Active cards",
+        "schema": {
+          "$$links": {
+            "has attached element": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "enum": [
+                    "message",
+                    "update",
+                    "create",
+                    "whisper"
+                  ]
+                }
+              },
+              "additionalProperties": true
+            }
+          },
+          "type": "object",
+          "properties": {
+            "active": {
+              "const": true,
+              "type": "boolean"
+            },
+            "name": {
+              "type": "string",
+              "not": {
+                "const": "Universe-update"
+              }
+            },
+            "type": {
+              "type": "string",
+              "const": "pull-request"
+            },
+            "data": {
+              "type": "object",
+              "required": [ "repository" ],
+              "properties": {
+                "repository": {
+                  "type": "string",
+                  "const": "resin-io/balena-demo"
+                }
+              }
+            }
+          },
+          "required": [
+            "active",
+            "name",
+            "type",
+            "data"
+          ],
+          "additionalProperties": true
+        }
+      }
+    ],
+    "lenses": [
+      "lens-table",
+      "lens-kanban"
+    ]
+  }
+}
