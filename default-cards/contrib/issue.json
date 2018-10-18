@@ -28,7 +28,9 @@
             "repository": {
               "type": "string",
               "enum": [
-                "resin-io/hq",
+                "resin-io/balena-demo",
+                "resin-io/resin-api-demo",
+                "resin-io/resin-ui-demo",
                 "resin-io/jellyfish"
               ]
             },

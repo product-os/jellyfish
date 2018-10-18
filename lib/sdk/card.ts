@@ -29,6 +29,10 @@ const linkNameMap = {
 	'support thread has attached symptom': 'symptom is attached to support thread',
 	'architecture topic has attached issue': 'issue is attached to architecture topic',
 	'issue is attached to architecture topic': 'architecture topic has attached issue',
+	'architecture topic has attached spec': 'spec is attached to architecture topic',
+	'issue is attached to spec': 'spec has attached issue',
+	'spec has attached issue': 'issue is attached to spec',
+	'spec is attached to architecture topic': 'architecture topic has attached spec',
 };
 
 /**

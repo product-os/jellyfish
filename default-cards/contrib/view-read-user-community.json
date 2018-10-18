@@ -37,6 +37,7 @@
                 "action",
                 "action-request",
                 "execute",
+                "changelog",
                 "link",
                 "card",
                 "create",
