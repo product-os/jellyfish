@@ -262,6 +262,7 @@
             "type": {
               "type": "string",
               "enum": [
+                "account",
                 "architecture-topic",
                 "issue",
                 "pull-request",
