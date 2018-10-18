@@ -202,28 +202,26 @@
               "const": "view"
             },
             "slug": {
-              "enum": [
-                "view-all-architecture-topics",
-                "view-product-specs",
-                "view-all-issues",
-                "view-support-threads-to-audit",
-                "view-all-messages",
-                "view-all-support-threads",
-                "view-all-symptoms",
-                "view-all-views",
-                "view-my-alerts",
-                "view-my-mentions",
-                "view-my-todo-items",
-                "view-os-test-results",
-                "view-scratchpad"
-              ]
-            },
-            "id": {
-              "type": "string"
+              "type": "string",
+              "not": {
+                "anyOf": [
+                  {
+                    "pattern": "view-(read|write)-user.+"
+                  },
+                  {
+                    "enum": [
+                      "view-active",
+                      "view-active-triggered-actions",
+                      "view-non-executed-action-requests",
+                      "view-all-users"
+                    ]
+                  }
+                ]
+              }
             }
           },
           "additionalProperties": true,
-          "required": [ "id", "slug", "type" ]
+          "required": [ "slug", "type" ]
         }
       },
       {
