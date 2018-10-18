@@ -1,0 +1,49 @@
+{
+  "slug": "changelog",
+  "name": "Changelog",
+  "type": "type",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^.*\\S.*$"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-_/][a-zA-Z0-9-_/\\s]+[a-zA-Z0-9-_/]$"
+          },
+          "$$formula": "AGGREGATE($events, 'tags')"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "repository": {
+              "type": "string",
+              "enum": [
+                "resin-io/hq",
+                "resin-io/jellyfish"
+              ]
+            },
+            "log": {
+              "type": "string",
+              "format": "markdown"
+            },
+            "version": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "additionalProperties": true,
+      "required": [ "tags", "data" ]
+    }
+  }
+}
