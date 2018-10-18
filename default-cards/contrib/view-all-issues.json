@@ -42,7 +42,7 @@
               "properties": {
                 "repository": {
                   "type": "string",
-                  "const": "resin-io/hq"
+                  "const": "resin-io/balena-demo"
                 }
               }
             }
