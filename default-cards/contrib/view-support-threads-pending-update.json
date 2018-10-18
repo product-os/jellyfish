@@ -1,0 +1,73 @@
+{
+  "slug": "view-support-threads-to-audit",
+  "name": "Users Pending Update",
+  "type": "view",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "allOf": [
+      {
+        "name": "Active cards",
+        "schema": {
+          "$$links": {
+            "has attached element": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "enum": [
+                    "message",
+                    "update",
+                    "create",
+                    "whisper"
+                  ]
+                }
+              },
+              "additionalProperties": true
+            }
+          },
+          "type": "object",
+          "properties": {
+            "active": {
+              "const": true,
+              "type": "boolean"
+            },
+            "tags": {
+              "type": "array",
+              "contains": {
+                "type": "string",
+                "const": "update-pending"
+              }
+            },
+            "type": {
+              "type": "string",
+              "const": "support-thread"
+            },
+            "data": {
+              "type": "object",
+              "required": [ "status" ],
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "const": "open"
+                }
+              }
+            }
+          },
+          "required": [
+            "active",
+            "tags",
+            "type",
+            "data"
+          ],
+          "additionalProperties": true
+        }
+      }
+    ],
+    "lenses": [
+      "lens-support-threads",
+      "lens-kanban"
+    ]
+  }
+}
