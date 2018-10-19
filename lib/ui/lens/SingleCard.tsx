@@ -84,6 +84,14 @@ const CardField = ({ field, payload, users, schema }: {
 	if (_.startsWith(field, '$$')) {
 		return null;
 	}
+	if (field === 'mirrors') {
+		return (
+			<React.Fragment>
+				<Label my={3}>{field}</Label>
+				<Markdown>{value.join('\n- ')}</Markdown>
+			</React.Fragment>
+		);
+	}
 	if (field === 'alertsUser' || field === 'mentionsUser') {
 		const len = value.length;
 		if (!len || !users) {

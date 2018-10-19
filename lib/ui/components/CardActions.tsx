@@ -297,7 +297,7 @@ class Base extends React.Component<
 				}
 
 				<CardCreator
-					seed={{ data: { repository: 'resin-io/hq' }}}
+					seed={{ data: { repository: 'resin-io/full-balena' }}}
 					show={this.state.showCreateProductIssue}
 					type={issueType!}
 					onCreate={this.doneCreatingCard as any}
