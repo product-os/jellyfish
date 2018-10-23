@@ -68,14 +68,8 @@ const executeThenWait = async (sdk, asyncFn, waitQuery) => {
 	})
 }
 
-let port = 9100
-
 ava.test.beforeEach(async (test) => {
-	test.context.server = await createServer({
-		port: port++,
-		serverDatabase: `test_${randomstring.generate()}`
-	})
-
+	test.context.server = await createServer()
 	test.context.session = test.context.server.jellyfish.sessions.admin
 	test.context.guestSession = test.context.server.jellyfish.sessions.guest
 
@@ -124,14 +118,14 @@ ava.test.serial('Users should not be able to view other users passwords', async 
 	} = test.context
 
 	const targetUser = await sdk.auth.signup({
-		username: 'johndoe',
-		email: 'johndoe@example.com',
+		username: randomstring.generate(),
+		email: `${randomstring.generate()}@example.com`,
 		password: 'foobarbaz'
 	})
 
 	const activeUserDetails = {
-		username: 'secondary-user',
-		email: 'secondary-user@example.com',
+		username: randomstring.generate(),
+		email: `${randomstring.generate()}@example.com`,
 		password: 'foobarbaz'
 	}
 
@@ -149,14 +143,14 @@ ava.test.serial('Users with the role "team" should not be able to view other use
 	} = test.context
 
 	const targetUser = await sdk.auth.signup({
-		username: 'johndoe',
-		email: 'johndoe@example.com',
+		username: randomstring.generate(),
+		email: `${randomstring.generate()}@example.com`,
 		password: 'foobarbaz'
 	})
 
 	const activeUserDetails = {
-		username: 'team-user',
-		email: 'team-user@example.com',
+		username: randomstring.generate(),
+		email: `${randomstring.generate()}@example.com`,
 		password: 'foobarbaz'
 	}
 
@@ -188,14 +182,14 @@ ava.test.serial('Users with the role "team-admin" should not be able to view oth
 	} = test.context
 
 	const targetUser = await sdk.auth.signup({
-		username: 'johndoe',
-		email: 'johndoe@example.com',
+		username: randomstring.generate(),
+		email: `${randomstring.generate()}@example.com`,
 		password: 'foobarbaz'
 	})
 
 	const activeUserDetails = {
-		username: 'admin-user',
-		email: 'admin-user@example.com',
+		username: randomstring.generate(),
+		email: `${randomstring.generate()}@example.com`,
 		password: 'foobarbaz'
 	}
 
@@ -243,14 +237,17 @@ ava.test.serial('.query() should be able to see previously restricted cards afte
 		sdk
 	} = test.context
 
+	const username = randomstring.generate().toLowerCase()
+	const email = `${randomstring.generate()}@example.com`
+
 	const user = await sdk.auth.signup({
-		username: 'johndoe',
-		email: 'johndoe@example.com',
+		username,
+		email,
 		password: 'foobarbaz'
 	})
 
 	await sdk.auth.login({
-		username: 'johndoe',
+		username,
 		password: 'foobarbaz'
 	})
 
@@ -270,14 +267,14 @@ ava.test.serial('.query() should be able to see previously restricted cards afte
 
 	await test.context.server.jellyfish.insertCard(test.context.session, {
 		id: user.id,
-		slug: 'user-johndoe',
+		slug: `user-${username}`,
 		type: 'user',
 		tags: [],
 		markers: [],
 		links: {},
 		active: true,
 		data: {
-			email: 'johndoe@example.com',
+			email,
 			roles: [ 'user-team' ]
 		}
 	}, {
@@ -292,15 +289,17 @@ ava.test.serial('timeline cards should reference the correct actor', async (test
 	const {
 		sdk
 	} = test.context
+	const username = randomstring.generate().toLowerCase()
+	const email = `${randomstring.generate()}@example.com`
 
 	const user = await sdk.auth.signup({
-		username: 'johndoe',
-		email: 'johndoe@example.com',
+		username,
+		email,
 		password: 'foobarbaz'
 	})
 
 	await sdk.auth.login({
-		username: 'johndoe',
+		username,
 		password: 'foobarbaz'
 	})
 
@@ -350,14 +349,17 @@ ava.test.serial('timeline cards should reference the correct actor', async (test
 })
 
 ava.test.serial('.query() community users should be able to query views', async (test) => {
+	const username = randomstring.generate().toLowerCase()
+	const email = `${randomstring.generate()}@example.com`
+
 	await test.context.sdk.auth.signup({
-		username: 'johndoe',
-		email: 'johndoe@example.com',
+		username,
+		email,
 		password: 'foobarbaz'
 	})
 
 	await test.context.sdk.auth.login({
-		username: 'johndoe',
+		username,
 		password: 'foobarbaz'
 	})
 
@@ -382,9 +384,12 @@ ava.test.serial('the guest user should not be able to change other users passwor
 		sdk
 	} = test.context
 
+	const username = randomstring.generate().toLowerCase()
+	const email = `${randomstring.generate()}@example.com`
+
 	const targetUser = await sdk.auth.signup({
-		username: 'johndoe',
-		email: 'johndoe@example.com',
+		username,
+		email,
 		password: 'foobarbaz'
 	})
 
@@ -405,20 +410,26 @@ ava.test.serial('users with the "user-community" role should not be able to chan
 		sdk
 	} = test.context
 
+	const username = randomstring.generate().toLowerCase()
+	const email = `${randomstring.generate()}@example.com`
+
 	const targetUser = await sdk.auth.signup({
-		username: 'johndoe',
-		email: 'johndoe@example.com',
+		username,
+		email,
 		password: 'foobarbaz'
 	})
 
+	const communityUsername = randomstring.generate().toLowerCase()
+	const communityEmail = `${randomstring.generate()}@example.com`
+
 	await sdk.auth.signup({
-		username: 'communityuser',
-		email: 'communityuser@example.com',
+		username: communityUsername,
+		email: communityEmail,
 		password: 'foobarbaz'
 	})
 
 	await sdk.auth.login({
-		username: 'communityuser',
+		username: communityUsername,
 		password: 'foobarbaz'
 	})
 
@@ -440,16 +451,21 @@ ava.test.serial('users with the "user-team" role should not be able to change ot
 	} = test.context
 
 	const role = 'user-team'
+	const username = randomstring.generate().toLowerCase()
+	const email = `${randomstring.generate()}@example.com`
 
 	const targetUser = await sdk.auth.signup({
-		username: 'johndoe',
-		email: 'johndoe@example.com',
+		username,
+		email,
 		password: 'foobarbaz'
 	})
 
+	const teamUsername = randomstring.generate().toLowerCase()
+	const teamEmail = `${randomstring.generate()}@example.com`
+
 	const teamUser = await sdk.auth.signup({
-		username: 'teamuser',
-		email: 'teamuser@example.com',
+		username: teamUsername,
+		email: teamEmail,
 		password: 'foobarbaz'
 	})
 
@@ -467,7 +483,7 @@ ava.test.serial('users with the "user-team" role should not be able to change ot
 	)
 
 	await sdk.auth.login({
-		username: 'teamuser',
+		username: teamUsername,
 		password: 'foobarbaz'
 	})
 
@@ -489,11 +505,13 @@ ava.test.serial('AGGREGATE($events): should work when creating cards via the SDK
 	} = test.context
 
 	const id = 'ba1af3bb-1f8b-4943-ae0f-8e5bd39cf48b'
+	const username = randomstring.generate().toLowerCase()
+	const email = `${randomstring.generate()}@example.com`
 
 	// Create a new user
 	const user = await sdk.auth.signup({
-		username: 'johndoe',
-		email: 'johndoe@example.com',
+		username,
+		email,
 		password: 'foobarbaz'
 	})
 
@@ -509,7 +527,7 @@ ava.test.serial('AGGREGATE($events): should work when creating cards via the SDK
 
 	// Login as the new user
 	await sdk.auth.login({
-		username: 'johndoe',
+		username,
 		password: 'foobarbaz'
 	})
 
@@ -565,16 +583,22 @@ ava.test.serial('When updating a user, inaccessible fields should not be removed
 		sdk
 	} = test.context
 
+	const username = randomstring.generate().toLowerCase()
+	const email = `${randomstring.generate()}@example.com`
+
 	// Create a new user
 	const user = await sdk.auth.signup({
-		username: 'johndoe',
-		email: 'johndoe@example.com',
+		username,
+		email,
 		password: 'foobarbaz'
 	})
 
+	const teamUsername = randomstring.generate().toLowerCase()
+	const teamEmail = `${randomstring.generate()}@example.com`
+
 	const teamAdminUserData = {
-		username: 'team-admin-user',
-		email: 'team-admin-user@example.com',
+		username: teamUsername,
+		email: teamEmail,
 		password: 'password'
 	}
 
@@ -620,16 +644,22 @@ ava.test.serial('A team admin user should be able to update another user\'s role
 		sdk
 	} = test.context
 
+	const username = randomstring.generate().toLowerCase()
+	const email = `${randomstring.generate()}@example.com`
+
 	// Create a new user
 	const user = await sdk.auth.signup({
-		username: 'johndoe',
-		email: 'johndoe@example.com',
+		username,
+		email,
 		password: 'foobarbaz'
 	})
 
+	const teamUsername = randomstring.generate().toLowerCase()
+	const teamEmail = `${randomstring.generate()}@example.com`
+
 	const teamAdminUserData = {
-		username: 'team-admin-user',
-		email: 'team-admin-user@example.com',
+		username: teamUsername,
+		email: teamEmail,
 		password: 'password'
 	}
 
@@ -800,19 +830,21 @@ ava.test.serial('should add and evaluate a time triggered action', async (test) 
 	} = test.context
 
 	const typeCard = await test.context.server.jellyfish.getCardBySlug(test.context.session, 'card')
+	const username = randomstring.generate().toLowerCase()
+	const email = `${randomstring.generate()}@example.com`
 
 	await sdk.auth.signup({
-		username: 'johndoe',
-		email: 'johndoe@example.com',
+		username,
+		email,
 		password: 'foobarbaz'
 	})
 
 	await sdk.auth.login({
-		username: 'johndoe',
+		username,
 		password: 'foobarbaz'
 	})
 
-	await test.context.server.jellyfish.insertCard(test.context.session, {
+	const trigger = await test.context.server.jellyfish.insertCard(test.context.session, {
 		type: 'triggered-action',
 		active: true,
 		tags: [],
@@ -869,6 +901,11 @@ ava.test.serial('should add and evaluate a time triggered action', async (test) 
 
 	const results = await waitUntilResults(3)
 	test.true(results.length >= 3)
+
+	trigger.active = false
+	await test.context.server.jellyfish.insertCard(test.context.session, trigger, {
+		override: true
+	})
 })
 
 ava.test.serial('should be able to resolve links', async (test) => {
@@ -876,20 +913,26 @@ ava.test.serial('should be able to resolve links', async (test) => {
 		sdk
 	} = test.context
 
+	const username = randomstring.generate().toLowerCase()
+	const email = `${randomstring.generate()}@example.com`
+
 	const user = await test.context.sdk.auth.signup({
-		username: 'johndoe',
-		email: 'johndoe@example.com',
+		username,
+		email,
 		password: 'foobarbaz'
 	})
 
 	await test.context.sdk.auth.login({
-		username: 'johndoe',
+		username,
 		password: 'foobarbaz'
 	})
 
+	const uuid = randomstring.generate()
 	const thread = await sdk.card.create({
 		type: 'thread',
-		data: {}
+		data: {
+			uuid
+		}
 	})
 
 	const message = await sdk.card.create({
@@ -909,7 +952,7 @@ ava.test.serial('should be able to resolve links', async (test) => {
 		$$links: {
 			'is attached to': {
 				type: 'object',
-				required: [ 'id', 'type' ],
+				required: [ 'id', 'type', 'data' ],
 				properties: {
 					id: {
 						type: 'string'
@@ -917,6 +960,16 @@ ava.test.serial('should be able to resolve links', async (test) => {
 					type: {
 						type: 'string',
 						const: 'thread'
+					},
+					data: {
+						additionalProperties: true,
+						required: [ 'uuid' ],
+						properties: {
+							uuid: {
+								type: 'string',
+								const: uuid
+							}
+						}
 					}
 				}
 			}
@@ -947,7 +1000,10 @@ ava.test.serial('should be able to resolve links', async (test) => {
 					{
 						id: thread.id,
 						$link: results[0].links['is attached to'][0].$link,
-						type: 'thread'
+						type: 'thread',
+						data: {
+							uuid
+						}
 					}
 				]
 			},
@@ -961,26 +1017,35 @@ ava.test.serial('should apply permissions on resolved links', async (test) => {
 		sdk
 	} = test.context
 
+	const username1 = randomstring.generate().toLowerCase()
+	const email1 = `${randomstring.generate()}@example.com`
+
 	await test.context.sdk.auth.signup({
-		username: 'johndoe',
-		email: 'johndoe@example.com',
+		username: username1,
+		email: email1,
 		password: 'foobarbaz'
 	})
 
+	const username2 = randomstring.generate().toLowerCase()
+	const email2 = `${randomstring.generate()}@example.com`
+
 	const targetUser = await test.context.sdk.auth.signup({
-		username: 'janedoe',
-		email: 'janedoe@example.com',
+		username: username2,
+		email: email2,
 		password: 'secret'
 	})
 
 	await test.context.sdk.auth.login({
-		username: 'johndoe',
+		username: username1,
 		password: 'foobarbaz'
 	})
+
+	const uuid = randomstring.generate()
 
 	const thread = await sdk.card.create({
 		type: 'thread',
 		data: {
+			uuid,
 			target: targetUser.id
 		}
 	})
@@ -1012,6 +1077,13 @@ ava.test.serial('should apply permissions on resolved links', async (test) => {
 			},
 			data: {
 				type: 'object',
+				required: [ 'uuid' ],
+				properties: {
+					uuid: {
+						type: 'string',
+						const: uuid
+					}
+				},
 				additionalProperties: true
 			}
 		}

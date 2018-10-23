@@ -30,5 +30,5 @@ OUTPUT="jellyfish-backup.tar.gz"
 echo "Downloading $BACKUP_URL"
 wget -O "$OUTPUT" "$BACKUP_URL"
 
-rethinkdb restore "$OUTPUT" --connect localhost
+rethinkdb restore "$OUTPUT" --connect localhost --force
 rm "$OUTPUT"

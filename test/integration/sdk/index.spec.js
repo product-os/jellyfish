@@ -26,14 +26,8 @@ const {
 	createServer
 } = require('../../../lib/server/create-server')
 
-let port = 9800
-
 ava.test.beforeEach(async (test) => {
-	test.context.server = await createServer({
-		port: port++,
-		serverDatabase: `test_${randomstring.generate()}`
-	})
-
+	test.context.server = await createServer()
 	test.context.session = test.context.server.jellyfish.sessions.admin
 	test.context.guestSession = test.context.server.jellyfish.sessions.guest
 
@@ -176,11 +170,13 @@ ava.test.serial('.query() should accept a "limit" option', async (test) => {
 	const limit = 2
 
 	const baseTime = 1539092025937
+	const uuid = randomstring.generate()
 
 	const card1 = await server.jellyfish.insertCard(test.context.session, {
 		active: true,
 		data: {
-			timestamp: new Date(baseTime + 1000).toISOString()
+			timestamp: new Date(baseTime + 1000).toISOString(),
+			uuid
 		},
 		links: {},
 		markers: [],
@@ -192,7 +188,8 @@ ava.test.serial('.query() should accept a "limit" option', async (test) => {
 	const card2 = await server.jellyfish.insertCard(test.context.session, {
 		active: true,
 		data: {
-			timestamp: new Date(baseTime + 2000).toISOString()
+			timestamp: new Date(baseTime + 2000).toISOString(),
+			uuid
 		},
 		links: {},
 		markers: [],
@@ -204,7 +201,8 @@ ava.test.serial('.query() should accept a "limit" option', async (test) => {
 	await server.jellyfish.insertCard(test.context.session, {
 		active: true,
 		data: {
-			timestamp: new Date(baseTime + 3000).toISOString()
+			timestamp: new Date(baseTime + 3000).toISOString(),
+			uuid
 		},
 		links: {},
 		markers: [],
@@ -217,10 +215,22 @@ ava.test.serial('.query() should accept a "limit" option', async (test) => {
 
 	const results = await sdk.query({
 		type: 'object',
+		required: [ 'type', 'data' ],
 		properties: {
 			type: {
 				type: 'string',
 				const: 'card'
+			},
+			data: {
+				type: 'object',
+				required: [ 'uuid' ],
+				additionalProperties: true,
+				properties: {
+					uuid: {
+						type: 'string',
+						const: uuid
+					}
+				}
 			}
 		},
 		additionalProperties: true
@@ -241,11 +251,13 @@ ava.test.serial('.query() should accept a "skip" option', async (test) => {
 	const skip = 1
 
 	const baseTime = 1539092025937
+	const uuid = randomstring.generate()
 
 	await server.jellyfish.insertCard(test.context.session, {
 		active: true,
 		data: {
-			timestamp: new Date(baseTime + 1000).toISOString()
+			timestamp: new Date(baseTime + 1000).toISOString(),
+			uuid
 		},
 		links: {},
 		markers: [],
@@ -257,7 +269,8 @@ ava.test.serial('.query() should accept a "skip" option', async (test) => {
 	const card2 = await server.jellyfish.insertCard(test.context.session, {
 		active: true,
 		data: {
-			timestamp: new Date(baseTime + 2000).toISOString()
+			timestamp: new Date(baseTime + 2000).toISOString(),
+			uuid
 		},
 		links: {},
 		markers: [],
@@ -269,7 +282,8 @@ ava.test.serial('.query() should accept a "skip" option', async (test) => {
 	const card3 = await server.jellyfish.insertCard(test.context.session, {
 		active: true,
 		data: {
-			timestamp: new Date(baseTime + 3000).toISOString()
+			timestamp: new Date(baseTime + 3000).toISOString(),
+			uuid
 		},
 		links: {},
 		markers: [],
@@ -282,10 +296,22 @@ ava.test.serial('.query() should accept a "skip" option', async (test) => {
 
 	const results = await sdk.query({
 		type: 'object',
+		required: [ 'type', 'data' ],
 		properties: {
 			type: {
 				type: 'string',
 				const: 'card'
+			},
+			data: {
+				type: 'object',
+				required: [ 'uuid' ],
+				additionalProperties: true,
+				properties: {
+					uuid: {
+						type: 'string',
+						const: uuid
+					}
+				}
 			}
 		},
 		additionalProperties: true
@@ -303,10 +329,14 @@ ava.test.serial('.query() should accept a "sortBy" option as a single key', asyn
 		server
 	} = test.context
 
+	const uuid = randomstring.generate()
+
 	const card1 = await server.jellyfish.insertCard(test.context.session, {
 		active: true,
 		name: 'd',
-		data: {},
+		data: {
+			uuid
+		},
 		links: {},
 		markers: [],
 		tags: [],
@@ -316,7 +346,9 @@ ava.test.serial('.query() should accept a "sortBy" option as a single key', asyn
 	const card2 = await server.jellyfish.insertCard(test.context.session, {
 		active: true,
 		name: 'a',
-		data: {},
+		data: {
+			uuid
+		},
 		links: {},
 		markers: [],
 		tags: [],
@@ -326,7 +358,9 @@ ava.test.serial('.query() should accept a "sortBy" option as a single key', asyn
 	const card3 = await server.jellyfish.insertCard(test.context.session, {
 		active: true,
 		name: 'c',
-		data: {},
+		data: {
+			uuid
+		},
 		links: {},
 		markers: [],
 		tags: [],
@@ -336,7 +370,9 @@ ava.test.serial('.query() should accept a "sortBy" option as a single key', asyn
 	const card4 = await server.jellyfish.insertCard(test.context.session, {
 		active: true,
 		name: 'b',
-		data: {},
+		data: {
+			uuid
+		},
 		links: {},
 		markers: [],
 		tags: [],
@@ -347,10 +383,22 @@ ava.test.serial('.query() should accept a "sortBy" option as a single key', asyn
 
 	const results = await sdk.query({
 		type: 'object',
+		required: [ 'type', 'data' ],
 		properties: {
 			type: {
 				type: 'string',
 				const: 'card'
+			},
+			data: {
+				type: 'object',
+				required: [ 'uuid' ],
+				additionalProperties: true,
+				properties: {
+					uuid: {
+						type: 'string',
+						const: uuid
+					}
+				}
 			}
 		},
 		additionalProperties: true
@@ -367,10 +415,13 @@ ava.test.serial('.query() should accept a "sortBy" option as an array of keys', 
 		server
 	} = test.context
 
+	const uuid = randomstring.generate()
+
 	const card1 = await server.jellyfish.insertCard(test.context.session, {
 		active: true,
 		data: {
-			code: 'd'
+			code: 'd',
+			uuid
 		},
 		links: {},
 		markers: [],
@@ -381,7 +432,8 @@ ava.test.serial('.query() should accept a "sortBy" option as an array of keys', 
 	const card2 = await server.jellyfish.insertCard(test.context.session, {
 		active: true,
 		data: {
-			code: 'a'
+			code: 'a',
+			uuid
 		},
 		links: {},
 		markers: [],
@@ -392,7 +444,8 @@ ava.test.serial('.query() should accept a "sortBy" option as an array of keys', 
 	const card3 = await server.jellyfish.insertCard(test.context.session, {
 		active: true,
 		data: {
-			code: 'c'
+			code: 'c',
+			uuid
 		},
 		links: {},
 		markers: [],
@@ -403,7 +456,8 @@ ava.test.serial('.query() should accept a "sortBy" option as an array of keys', 
 	const card4 = await server.jellyfish.insertCard(test.context.session, {
 		active: true,
 		data: {
-			code: 'b'
+			code: 'b',
+			uuid
 		},
 		links: {},
 		markers: [],
@@ -415,10 +469,22 @@ ava.test.serial('.query() should accept a "sortBy" option as an array of keys', 
 
 	const results = await sdk.query({
 		type: 'object',
+		required: [ 'type', 'data' ],
 		properties: {
 			type: {
 				type: 'string',
 				const: 'card'
+			},
+			data: {
+				type: 'object',
+				required: [ 'uuid' ],
+				additionalProperties: true,
+				properties: {
+					uuid: {
+						type: 'string',
+						const: uuid
+					}
+				}
 			}
 		},
 		additionalProperties: true

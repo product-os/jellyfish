@@ -23,17 +23,33 @@ jobs:
           - v2-dependencies-
 
       # --unsafe-perm flag allows the postinstall script to run correctly
-      - run: npm ci --unsafe-perm
+      - run:
+          name: Install Dependencies
+          command: npm ci --unsafe-perm
 
       - save_cache:
           paths:
             - /root/.npm
           key: v2-dependencies-{{ checksum "package.json" }}
 
-      - run: rethinkdb --daemon --bind all
-      - run: make lint
-      - run: make test-unit COVERAGE=0
-      - run: make test-integration COVERAGE=0
+      - run:
+          name: Start RethinkDB
+          command: rethinkdb --daemon --bind all
+      - run:
+          name: Lint
+          command: make lint
+      - run:
+          name: Unit Tests
+          command: make test-unit COVERAGE=0
+      - run:
+          name: Integration Tests
+          command: make test-integration COVERAGE=0
+      - run:
+          name: Load Production Database Snapshot
+          command: node ./scripts/reset-database.js && ./scripts/import-latest-production-backup.sh
+      - run:
+          name: Integration Tests (on production database)
+          command: make test-integration-sdk COVERAGE=0 && make test-integration-server COVERAGE=0
 
       # Stress Testing
       - run:
