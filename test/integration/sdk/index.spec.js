@@ -14,36 +14,13 @@
  * limitations under the License.
  */
 
-require('ts-node').register()
-
 const ava = require('ava')
 const _ = require('lodash')
 const randomstring = require('randomstring')
-const {
-	getSdk
-} = require('../../../lib/sdk')
-const {
-	createServer
-} = require('../../../lib/server/create-server')
+const helpers = require('./helpers')
 
-ava.test.beforeEach(async (test) => {
-	test.context.server = await createServer()
-	test.context.session = test.context.server.jellyfish.sessions.admin
-	test.context.guestSession = test.context.server.jellyfish.sessions.guest
-
-	// Since AVA tests are running concurrently, set up an SDK instance that will
-	// communicate with whichever port this server instance bound to
-	test.context.sdk = getSdk({
-		apiPrefix: process.env.API_PREFIX || 'api/v2',
-		apiUrl: `http://localhost:${test.context.server.port}`
-	})
-})
-
-ava.test.afterEach(async (test) => {
-	test.context.sdk.cancelAllStreams()
-	test.context.sdk.cancelAllRequests()
-	await test.context.server.close()
-})
+ava.test.beforeEach(helpers.sdk.beforeEach)
+ava.test.afterEach(helpers.sdk.afterEach)
 
 ava.test.serial('.action() should be able to successfully create a new card', async (test) => {
 	const {

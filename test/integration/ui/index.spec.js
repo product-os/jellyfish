@@ -17,12 +17,7 @@
 const ava = require('ava')
 const Bluebird = require('bluebird')
 const _ = require('lodash')
-const puppeteer = require('puppeteer')
-const {
-	createServer
-} = require('../../../lib/server/create-server')
-
-const visualMode = process.env.PUPPETEER_VISUAL_MODE
+const helpers = require('./helpers')
 
 const WAIT_OPTS = {
 	timeout: 180 * 1000
@@ -44,32 +39,15 @@ const users = {
 }
 
 ava.test.before(async () => {
-	context.server = await createServer()
-	context.session = context.server.jellyfish.sessions.admin
-
-	const options = {
-		headless: !visualMode,
-		args: [
-			'--window-size=1366,768',
-
-			// Set extra flags so puppeteer runs on docker
-			'--no-sandbox',
-			'--disable-setuid-sandbox'
-		]
-	}
-
-	context.browser = await puppeteer.launch(options)
-	context.page = await context.browser.newPage()
-
-	context.page.setViewport({
-		width: 1366,
-		height: 768
+	await helpers.browser.beforeEach({
+		context
 	})
 })
 
 ava.test.after(async () => {
-	await context.browser.close()
-	await context.server.close()
+	await helpers.browser.afterEach({
+		context
+	})
 })
 
 ava.test.serial('should let new users signup', async (test) => {
