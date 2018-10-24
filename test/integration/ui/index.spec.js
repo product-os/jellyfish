@@ -18,7 +18,6 @@ const ava = require('ava')
 const Bluebird = require('bluebird')
 const _ = require('lodash')
 const puppeteer = require('puppeteer')
-const randomstring = require('randomstring')
 const {
 	createServer
 } = require('../../../lib/server/create-server')
@@ -26,7 +25,7 @@ const {
 const visualMode = process.env.PUPPETEER_VISUAL_MODE
 
 const WAIT_OPTS = {
-	timeout: 60 * 1000
+	timeout: 180 * 1000
 }
 
 const context = {}
@@ -44,14 +43,8 @@ const users = {
 	}
 }
 
-let port = 9300
-
 ava.test.before(async () => {
-	context.server = await createServer({
-		port: port++,
-		serverDatabase: `test_${randomstring.generate()}`
-	})
-
+	context.server = await createServer()
 	context.session = context.server.jellyfish.sessions.admin
 
 	const options = {
