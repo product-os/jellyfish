@@ -16,7 +16,9 @@ const scrub = async () => {
 		.dbList()
 		.run(connection)
 
-	const testDatabases = list.filter(x => x.match(/test_/))
+	const testDatabases = list.filter((database) => {
+		return database.match(/test_/)
+	})
 
 	console.log(`found ${testDatabases.length} test databases`)
 

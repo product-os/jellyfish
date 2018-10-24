@@ -46,7 +46,8 @@ const migrateField = (data, origin, target) => {
 		} else {
 			data[target] = data[origin]
 		}
-		delete data[origin]
+
+		Reflect.deleteProperty(data, origin)
 	}
 }
 
@@ -55,16 +56,14 @@ const entries = _.map(source.Scratchpad, ({
 	PS_UUID,
 	...data
 }) => {
-
 	const tags = []
 
 	// Remove 'Last updated' field
 	if (data['Last Updated']) {
-		delete data['Last Updated']
+		Reflect.deleteProperty(data, 'Last Updated')
 	}
 
-	delete data['Date fixed']
-
+	Reflect.deleteProperty(data, 'Date fixed')
 
 	// Normalize boolean field
 	if (_.isString(data['For resineer eyes only'])) {
@@ -75,11 +74,11 @@ const entries = _.map(source.Scratchpad, ({
 		tags.push('non-shareable')
 	}
 
-	delete data['For resineer eyes only']
+	Reflect.deleteProperty(data, 'For resineer eyes only')
 
 	// Sometimes fix diff is NaN or null
 	if (!_.isNumber(data['Fix Difficulty']) || _.isNaN(data['Fix Difficulty'])) {
-		delete data['Fix Difficulty']
+		Reflect.deleteProperty(data, 'Fix Difficulty')
 	}
 
 	if (_.has(data, [ 'Fix Difficulty' ])) {
@@ -87,7 +86,7 @@ const entries = _.map(source.Scratchpad, ({
 			tags.push('hard')
 		}
 
-		delete data['Fix Difficulty']
+		Reflect.deleteProperty(data, 'Fix Difficulty')
 	}
 
 	// Fix mislabeld legacy fields
@@ -95,7 +94,7 @@ const entries = _.map(source.Scratchpad, ({
 		data.Solution = data.Legacy
 	}
 
-	delete data.Legacy
+	Reflect.deleteProperty(data, 'legacy')
 
 	migrateField(data, 'Signs and Symptoms', 'Problem')
 	migrateField(data, 'Symptoms:', 'Problem')
@@ -109,20 +108,20 @@ const entries = _.map(source.Scratchpad, ({
 	migrateField(data, '$PENSIEVE_IMPORTED_COPY_FIELD_KEY', 'Solution')
 	migrateField(data, '$PENSIEVE_IMPORTED_COPY_FIELD_KEY1', 'Solution')
 
-	delete data.Keywords
+	Reflect.deleteProperty(data, 'Keywords')
 
 	if (data['Entry needs review']) {
 		tags.push('needs-review')
 
-		delete data['Entry needs review']
+		Reflect.deleteProperty(data, 'Entry needs review')
 	}
 
-	delete data['GitHub issue']
-	delete data['Pull Leech Logs']
-	delete data['resinOS Versions Affected']
-	delete data['Supervisor Versions Affected']
-	delete data['Fixed in resinOS Version']
-	delete data['Fixed in Supervisor Version']
+	Reflect.deleteProperty(data, 'GitHub issue')
+	Reflect.deleteProperty(data, 'Pull Leech Logs')
+	Reflect.deleteProperty(data, 'resinOS Versions Affected')
+	Reflect.deleteProperty(data, 'Supervisor Versions Affected')
+	Reflect.deleteProperty(data, 'Fixed in resinOS Version')
+	Reflect.deleteProperty(data, 'Fixed in Supervisor Version')
 
 	const diff = _.difference(Object.keys(data), [
 		'Problem',

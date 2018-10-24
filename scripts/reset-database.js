@@ -13,7 +13,7 @@ const reset = async () => {
 	await Promise.map(list, (database) => {
 		// This is a special database
 		if (database === 'rethinkdb') {
-			return
+			return null
 		}
 
 		return rethinkdb.dbDrop(database).run(connection).then(() => {
