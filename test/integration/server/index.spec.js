@@ -14,19 +14,11 @@
  * limitations under the License.
  */
 
-require('ts-node').register()
-
 const ava = require('ava')
 const Bluebird = require('bluebird')
-const request = require('request')
 const _ = require('lodash')
 const randomstring = require('randomstring')
-const {
-	getSdk
-} = require('../../../lib/sdk')
-const {
-	createServer
-} = require('../../../lib/server/create-server')
+const helpers = require('../sdk/helpers')
 
 const WAIT_TIMEOUT = 60 * 1000
 
@@ -68,49 +60,8 @@ const executeThenWait = async (sdk, asyncFn, waitQuery) => {
 	})
 }
 
-ava.test.beforeEach(async (test) => {
-	test.context.server = await createServer()
-	test.context.session = test.context.server.jellyfish.sessions.admin
-	test.context.guestSession = test.context.server.jellyfish.sessions.guest
-
-	// Since AVA tests are running concurrently, set up an SDK instance that will
-	// communicate with whichever port this server instance bound to
-	test.context.sdk = getSdk({
-		apiPrefix: process.env.API_PREFIX || 'api/v2',
-		apiUrl: `http://localhost:${test.context.server.port}`
-	})
-
-	test.context.sendHook = (method, provider, type, payload) => {
-		let targetUrl = `http://localhost:${test.context.server.port}/api/v2/hooks/${provider}`
-		if (type) {
-			targetUrl += `/${type}`
-		}
-
-		return new Bluebird((resolve, reject) => {
-			request({
-				method,
-				url: targetUrl,
-				json: true,
-				body: payload
-			}, (error, response, body) => {
-				if (error) {
-					return reject(error)
-				}
-
-				return resolve({
-					code: response.statusCode,
-					response: body
-				})
-			})
-		})
-	}
-})
-
-ava.test.afterEach(async (test) => {
-	test.context.sdk.cancelAllStreams()
-	test.context.sdk.cancelAllRequests()
-	await test.context.server.close()
-})
+ava.test.beforeEach(helpers.sdk.beforeEach)
+ava.test.afterEach(helpers.sdk.afterEach)
 
 ava.test.serial('Users should not be able to view other users passwords', async (test) => {
 	const {
