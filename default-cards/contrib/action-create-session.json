@@ -1,6 +1,7 @@
 {
   "slug": "action-create-session",
   "type": "action",
+  "version": "1.0.0",
   "name": "Login as a user",
   "markers": [],
   "tags": [],

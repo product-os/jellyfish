@@ -1,6 +1,7 @@
 {
   "slug": "view-write-user-guest",
   "name": "Guest role write permissions",
+  "version": "1.0.0",
   "type": "view",
   "markers": [],
   "tags": [],

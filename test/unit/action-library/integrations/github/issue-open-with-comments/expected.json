@@ -2,6 +2,7 @@
   "head": {
     "name": "Issue with comments",
     "type": "issue",
+    "version": "1.0.0",
     "active": true,
     "tags": [],
     "data": {
@@ -20,6 +21,7 @@
     {
       "type": "message",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "mirrors": [
@@ -36,6 +38,7 @@
     {
       "type": "message",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "mirrors": [
@@ -52,12 +55,14 @@
     {
       "type": "create",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "timestamp": "2018-09-20T18:11:56Z",
         "payload": {
           "name": "Issue with comments",
           "active": true,
+          "version": "1.0.0",
           "tags": [],
           "data": {
             "repository": "resin-io/jellyfish",

@@ -31,6 +31,7 @@ const run = async () => {
 
 		await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 			type: 'card',
+			version: '1.0.0',
 			links: {},
 			tags: [],
 			active: true,

@@ -39,6 +39,7 @@ ava.test('.importCards() should throw if the type is invalid', async (test) => {
 			card: {
 				slug: 'hello-world',
 				type: 'xxxxxxxxxxxxx',
+				version: '1.0.0',
 				data: {
 					test: 1
 				}
@@ -56,6 +57,7 @@ ava.test('.importCards() should import a single card', async (test) => {
 			card: {
 				slug: 'hello-world',
 				type: 'card',
+				version: '1.0.0',
 				data: {
 					test: 1
 				}
@@ -74,6 +76,7 @@ ava.test('.importCards() should import a single card', async (test) => {
 			markers: [],
 			tags: [],
 			type: 'card',
+			version: '1.0.0',
 			data: {
 				test: 1
 			}
@@ -89,6 +92,7 @@ ava.test('.importCards() should import a single card with an id', async (test) =
 				id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 				slug: 'hello-world',
 				type: 'card',
+				version: '1.0.0',
 				data: {
 					test: 1
 				}
@@ -107,6 +111,7 @@ ava.test('.importCards() should import a single card with an id', async (test) =
 			markers: [],
 			tags: [],
 			type: 'card',
+			version: '1.0.0',
 			data: {
 				test: 1
 			}
@@ -117,6 +122,7 @@ ava.test('.importCards() should import a single card with an id', async (test) =
 ava.test('.importCards() should patch an existing card', async (test) => {
 	const card = await test.context.jellyfish.insertCard(test.context.session, {
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		markers: [],
@@ -132,6 +138,7 @@ ava.test('.importCards() should patch an existing card', async (test) => {
 			card: {
 				id: card.id,
 				type: 'card',
+				version: '1.0.0',
 				active: false,
 				links: {},
 				markers: [],
@@ -149,6 +156,7 @@ ava.test('.importCards() should patch an existing card', async (test) => {
 		{
 			id: card.id,
 			type: 'card',
+			version: '1.0.0',
 			active: false,
 			links: result[0].links,
 			markers: [],
@@ -166,6 +174,7 @@ ava.test('.importCards() should import two independent cards', async (test) => {
 			time: new Date(),
 			card: {
 				type: 'card',
+				version: '1.0.0',
 				data: {
 					test: 1
 				}
@@ -175,6 +184,7 @@ ava.test('.importCards() should import two independent cards', async (test) => {
 			time: new Date(),
 			card: {
 				type: 'card',
+				version: '1.0.0',
 				data: {
 					test: 2
 				}
@@ -192,6 +202,7 @@ ava.test('.importCards() should import two independent cards', async (test) => {
 			markers: [],
 			tags: [],
 			type: 'card',
+			version: '1.0.0',
 			data: {
 				test: 1
 			}
@@ -203,6 +214,7 @@ ava.test('.importCards() should import two independent cards', async (test) => {
 			markers: [],
 			tags: [],
 			type: 'card',
+			version: '1.0.0',
 			data: {
 				test: 2
 			}
@@ -217,6 +229,7 @@ ava.test('.importCards() should import two parallel cards', async (test) => {
 				time: new Date(),
 				card: {
 					type: 'card',
+					version: '1.0.0',
 					data: {
 						test: 1
 					}
@@ -226,6 +239,7 @@ ava.test('.importCards() should import two parallel cards', async (test) => {
 				time: new Date(),
 				card: {
 					type: 'card',
+					version: '1.0.0',
 					data: {
 						test: 2
 					}
@@ -246,6 +260,7 @@ ava.test('.importCards() should import two parallel cards', async (test) => {
 			markers: [],
 			tags: [],
 			type: 'card',
+			version: '1.0.0',
 			data: {
 				test: 1
 			}
@@ -257,6 +272,7 @@ ava.test('.importCards() should import two parallel cards', async (test) => {
 			markers: [],
 			tags: [],
 			type: 'card',
+			version: '1.0.0',
 			data: {
 				test: 2
 			}
@@ -270,6 +286,7 @@ ava.test('.importCards() should import dependent cards', async (test) => {
 			time: new Date(),
 			card: {
 				type: 'card',
+				version: '1.0.0',
 				data: {
 					test: 1
 				}
@@ -279,6 +296,7 @@ ava.test('.importCards() should import dependent cards', async (test) => {
 			time: new Date(),
 			card: {
 				type: 'card',
+				version: '1.0.0',
 				data: {
 					target: {
 						$eval: 'cards[0].id'
@@ -298,6 +316,7 @@ ava.test('.importCards() should import dependent cards', async (test) => {
 			markers: [],
 			tags: [],
 			type: 'card',
+			version: '1.0.0',
 			data: {
 				test: 1
 			}
@@ -309,6 +328,7 @@ ava.test('.importCards() should import dependent cards', async (test) => {
 			markers: [],
 			tags: [],
 			type: 'card',
+			version: '1.0.0',
 			data: {
 				target: result[0].id
 			}
@@ -322,6 +342,7 @@ ava.test('.importCards() should throw if a template does not evaluate', async (t
 			time: new Date(),
 			card: {
 				type: 'card',
+				version: '1.0.0',
 				data: {
 					test: 1
 				}
@@ -331,6 +352,7 @@ ava.test('.importCards() should throw if a template does not evaluate', async (t
 			time: new Date(),
 			card: {
 				type: 'card',
+				version: '1.0.0',
 				data: {
 					target: {
 						$eval: 'cards[0].hello'
@@ -349,6 +371,7 @@ ava.test('.importCards() should import a dependent card in parallel segment', as
 			time: new Date(),
 			card: {
 				type: 'card',
+				version: '1.0.0',
 				data: {
 					test: 1
 				}
@@ -359,6 +382,7 @@ ava.test('.importCards() should import a dependent card in parallel segment', as
 				time: new Date(),
 				card: {
 					type: 'card',
+					version: '1.0.0',
 					data: {
 						test: 2
 					}
@@ -368,6 +392,7 @@ ava.test('.importCards() should import a dependent card in parallel segment', as
 				time: new Date(),
 				card: {
 					type: 'card',
+					version: '1.0.0',
 					data: {
 						test: 3,
 						target: {
@@ -391,6 +416,7 @@ ava.test('.importCards() should import a dependent card in parallel segment', as
 			markers: [],
 			tags: [],
 			type: 'card',
+			version: '1.0.0',
 			data: {
 				test: 1
 			}
@@ -402,6 +428,7 @@ ava.test('.importCards() should import a dependent card in parallel segment', as
 			markers: [],
 			tags: [],
 			type: 'card',
+			version: '1.0.0',
 			data: {
 				test: 2
 			}
@@ -413,6 +440,7 @@ ava.test('.importCards() should import a dependent card in parallel segment', as
 			markers: [],
 			tags: [],
 			type: 'card',
+			version: '1.0.0',
 			data: {
 				test: 3,
 				target: sortedResult[0].id
@@ -428,6 +456,7 @@ ava.test('.importCards() should add create events', async (test) => {
 			card: {
 				slug: 'hello-world',
 				type: 'card',
+				version: '1.0.0',
 				data: {
 					test: 1
 				}
@@ -473,6 +502,7 @@ ava.test('.translateExternalEvent() should translate an external event through t
 	const result = await sync.translateExternalEvent(TestIntegration, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		type: 'external-event',
+		version: '1.0.0',
 		active: true,
 		markers: [],
 		tags: [],
@@ -498,6 +528,7 @@ ava.test('.translateExternalEvent() should translate an external event through t
 		{
 			id: result[0].id,
 			type: 'card',
+			version: '1.0.0',
 			active: true,
 			markers: [],
 			tags: [],
@@ -523,6 +554,7 @@ ava.test('.translateExternalEvent() should destroy the integration even if there
 	await test.throws(sync.translateExternalEvent(TestIntegration, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		type: 'invalid-type',
+		version: '1.0.0',
 		active: true,
 		markers: [],
 		tags: [],
@@ -564,6 +596,7 @@ ava.test('.translateExternalEvent() should destroy the integration even if there
 	await test.throws(sync.translateExternalEvent(BrokenIntegration, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		type: 'invalid-type',
+		version: '1.0.0',
 		active: true,
 		markers: [],
 		tags: [],

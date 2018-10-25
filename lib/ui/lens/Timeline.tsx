@@ -172,6 +172,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 			id,
 			tags,
 			links: {},
+			version: '1.0.0',
 			active: true,
 			type: 'message',
 			data: {
@@ -255,6 +256,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 			id,
 			links: {},
 			active: true,
+			version: '1.0.0',
 			type: 'message',
 			data: {
 				timestamp: getCurrentTimestamp(),
@@ -388,6 +390,7 @@ const mapDispatchToProps = (dispatch: any) => ({
 const lens: Lens = {
 	slug: 'lens-timeline',
 	type: 'lens',
+	version: '1.0.0',
 	name: 'Timeline lens',
 	data: {
 		icon: 'address-card',

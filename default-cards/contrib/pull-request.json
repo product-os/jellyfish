@@ -1,6 +1,7 @@
 {
   "slug": "pull-request",
   "name": "Pull Request",
+  "version": "1.0.0",
   "type": "type",
   "markers": [],
   "tags": [],

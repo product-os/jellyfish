@@ -293,6 +293,7 @@ export const Renderer = DragSource('channel', cardSource, collect)(
 const lens: Lens = {
 	slug: 'lens-default',
 	type: 'lens',
+	version: '1.0.0',
 	name: 'Default lens',
 	data: {
 		icon: 'address-card',

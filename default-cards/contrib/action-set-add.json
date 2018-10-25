@@ -1,6 +1,7 @@
 {
   "slug": "action-set-add",
   "type": "action",
+  "version": "1.0.0",
   "name": "Add an element to a set",
   "markers": [],
   "tags": [],

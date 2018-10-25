@@ -1,6 +1,7 @@
 {
   "slug": "view-read-user-community",
   "name": "Community role read permissions",
+  "version": "1.0.0",
   "type": "view",
   "markers": [],
   "tags": [],

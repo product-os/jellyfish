@@ -1,6 +1,7 @@
 {
   "slug": "view-scratchpad",
   "name": "Scratchpad",
+  "version": "1.0.0",
   "type": "view",
   "markers": [],
   "tags": [],

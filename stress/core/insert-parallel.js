@@ -32,6 +32,7 @@ const run = async () => {
 		await Promise.all([
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 				type: 'card',
+				version: '1.0.0',
 				links: {},
 				tags: [],
 				active: true,
@@ -41,6 +42,7 @@ const run = async () => {
 			}),
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 				type: 'card',
+				version: '1.0.0',
 				links: {},
 				tags: [],
 				active: true,
@@ -50,6 +52,7 @@ const run = async () => {
 			}),
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 				type: 'card',
+				version: '1.0.0',
 				links: {},
 				tags: [],
 				active: true,
@@ -59,6 +62,7 @@ const run = async () => {
 			}),
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 				type: 'card',
+				version: '1.0.0',
 				links: {},
 				tags: [],
 				active: true,
@@ -68,6 +72,7 @@ const run = async () => {
 			}),
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 				type: 'card',
+				version: '1.0.0',
 				links: {},
 				tags: [],
 				active: true,
@@ -77,6 +82,7 @@ const run = async () => {
 			}),
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 				type: 'card',
+				version: '1.0.0',
 				links: {},
 				tags: [],
 				active: true,
@@ -86,6 +92,7 @@ const run = async () => {
 			}),
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 				type: 'card',
+				version: '1.0.0',
 				links: {},
 				tags: [],
 				active: true,
@@ -95,6 +102,7 @@ const run = async () => {
 			}),
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 				type: 'card',
+				version: '1.0.0',
 				links: {},
 				tags: [],
 				active: true,
@@ -104,6 +112,7 @@ const run = async () => {
 			}),
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 				type: 'card',
+				version: '1.0.0',
 				links: {},
 				tags: [],
 				active: true,
@@ -113,6 +122,7 @@ const run = async () => {
 			}),
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 				type: 'card',
+				version: '1.0.0',
 				links: {},
 				tags: [],
 				active: true,
@@ -122,6 +132,7 @@ const run = async () => {
 			}),
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 				type: 'card',
+				version: '1.0.0',
 				links: {},
 				tags: [],
 				active: true,
@@ -131,6 +142,7 @@ const run = async () => {
 			}),
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 				type: 'card',
+				version: '1.0.0',
 				links: {},
 				tags: [],
 				active: true,
@@ -140,6 +152,7 @@ const run = async () => {
 			}),
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 				type: 'card',
+				version: '1.0.0',
 				links: {},
 				tags: [],
 				active: true,
@@ -149,6 +162,7 @@ const run = async () => {
 			}),
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 				type: 'card',
+				version: '1.0.0',
 				links: {},
 				tags: [],
 				active: true,
@@ -158,6 +172,7 @@ const run = async () => {
 			}),
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 				type: 'card',
+				version: '1.0.0',
 				links: {},
 				tags: [],
 				active: true,
@@ -167,6 +182,7 @@ const run = async () => {
 			}),
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 				type: 'card',
+				version: '1.0.0',
 				links: {},
 				tags: [],
 				active: true,
@@ -176,6 +192,7 @@ const run = async () => {
 			}),
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 				type: 'card',
+				version: '1.0.0',
 				links: {},
 				tags: [],
 				active: true,

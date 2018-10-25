@@ -37,6 +37,7 @@ ava.test('.enqueue() should increment length by one', async (test) => {
 		card: typeCard.id,
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				data: {
 					foo: 'bar'
 				}
@@ -55,6 +56,7 @@ ava.test('.enqueue() should generate an id', async (test) => {
 		card: typeCard.id,
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				data: {
 					foo: 'bar'
 				}
@@ -75,6 +77,7 @@ ava.test('.enqueue() should include the actor from the passed session', async (t
 		card: typeCard.id,
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				data: {
 					foo: 'bar'
 				}
@@ -94,6 +97,7 @@ ava.test('.enqueue() should include the whole passed action', async (test) => {
 		card: typeCard.id,
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				data: {
 					foo: 'bar'
 				}
@@ -111,7 +115,11 @@ ava.test('.enqueue() should set an originator', async (test) => {
 		action: 'action-create-card',
 		card: typeCard.id,
 		originator: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-		arguments: {}
+		arguments: {
+			properties: {
+				version: '1.0.0'
+			}
+		}
 	})
 
 	const request = await test.context.worker.dequeue()
@@ -126,7 +134,11 @@ ava.test('.enqueue() should take a current date', async (test) => {
 		action: 'action-create-card',
 		card: typeCard.id,
 		currentDate: date,
-		arguments: {}
+		arguments: {
+			properties: {
+				version: '1.0.0'
+			}
+		}
 	})
 
 	const request = await test.context.worker.dequeue()
@@ -141,6 +153,7 @@ ava.test('.enqueue() should set a present timestamp', async (test) => {
 		card: typeCard.id,
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				data: {
 					foo: 'bar'
 				}
@@ -159,6 +172,7 @@ ava.test('.enqueue() should return the id of the enqueued request', async (test)
 		card: typeCard.id,
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				data: {
 					foo: 'bar'
 				}
@@ -177,6 +191,7 @@ ava.test('.enqueue() should generate different ids every time', async (test) => 
 		card: typeCard.id,
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				data: {
 					foo: 1
 				}
@@ -189,6 +204,7 @@ ava.test('.enqueue() should generate different ids every time', async (test) => 
 		card: typeCard.id,
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				data: {
 					foo: 2
 				}
@@ -201,6 +217,7 @@ ava.test('.enqueue() should generate different ids every time', async (test) => 
 		card: typeCard.id,
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				data: {
 					foo: 3
 				}
@@ -221,6 +238,7 @@ ava.test('.enqueue() should throw if the action was not found', async (test) => 
 		card: typeCard.id,
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				data: {
 					foo: 'bar'
 				}
@@ -236,6 +254,7 @@ ava.test('.enqueue() should throw if the session was not found', async (test) =>
 		card: typeCard.id,
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				data: {
 					foo: 'bar'
 				}
@@ -315,6 +334,7 @@ ava.test('.dequeue() should reduce the length', async (test) => {
 		card: typeCard.id,
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				data: {
 					foo: 1
 				}
@@ -334,6 +354,7 @@ ava.test('.execute() should execute an action', async (test) => {
 		card: typeCard.id,
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				data: {
 					foo: 'bar'
 				}
@@ -357,6 +378,7 @@ ava.test('.execute() should add an execution event to the action', async (test) 
 		card: typeCard.id,
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				data: {
 					foo: 'bar'
 				}
@@ -418,6 +440,7 @@ ava.test('.execute() should execute a triggered action', async (test) => {
 			card: typeCard.id,
 			arguments: {
 				properties: {
+					version: '1.0.0',
 					slug: 'foo-bar-baz'
 				}
 			}
@@ -429,6 +452,7 @@ ava.test('.execute() should execute a triggered action', async (test) => {
 		card: typeCard.id,
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				data: {
 					command: 'foo-bar-baz'
 				}
@@ -510,6 +534,7 @@ ava.test('.execute() should not execute a triggered action with a future start d
 			card: typeCard.id,
 			arguments: {
 				properties: {
+					version: '1.0.0',
 					slug: 'foo-bar-baz'
 				}
 			}
@@ -521,6 +546,7 @@ ava.test('.execute() should not execute a triggered action with a future start d
 		card: typeCard.id,
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				data: {
 					command: 'foo-bar-baz'
 				}
@@ -574,6 +600,7 @@ ava.test('.execute() should execute a triggered action with a top level anyOf', 
 			card: typeCard.id,
 			arguments: {
 				properties: {
+					version: '1.0.0',
 					slug: 'foo-bar-baz'
 				}
 			}
@@ -585,6 +612,7 @@ ava.test('.execute() should execute a triggered action with a top level anyOf', 
 		card: typeCard.id,
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				data: {
 					command: 'foo-bar-baz'
 				}
@@ -609,6 +637,7 @@ ava.test('.execute() should add a create event when creating a card', async (tes
 		card: typeCard.id,
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				data: {
 					foo: 'bar'
 				}
@@ -653,6 +682,7 @@ ava.test('.execute() should be able to AGGREGATE based on the card timeline', as
 		arguments: {
 			properties: {
 				slug: 'test-thread',
+				version: '1.0.0',
 				data: {
 					schema: {
 						type: 'object',
@@ -689,6 +719,7 @@ ava.test('.execute() should be able to AGGREGATE based on the card timeline', as
 		card: typeResult.data.id,
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				data: {
 					mentions: []
 				}
@@ -705,6 +736,7 @@ ava.test('.execute() should be able to AGGREGATE based on the card timeline', as
 		card: cardType.id,
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				data: {
 					timestamp: '2018-05-05T00:21:02.459Z',
 					target: threadResult.data.id,
@@ -722,6 +754,7 @@ ava.test('.execute() should be able to AGGREGATE based on the card timeline', as
 		card: cardType.id,
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				data: {
 					timestamp: '2018-05-05T00:28:42.302Z',
 					target: threadResult.data.id,
@@ -754,6 +787,7 @@ ava.test('.execute() AGGREGATE should create a property on the target if it does
 		arguments: {
 			properties: {
 				slug: 'test-thread',
+				version: '1.0.0',
 				data: {
 					schema: {
 						type: 'object',
@@ -790,6 +824,7 @@ ava.test('.execute() AGGREGATE should create a property on the target if it does
 		card: typeResult.data.id,
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				data: {}
 			}
 		}
@@ -804,6 +839,7 @@ ava.test('.execute() AGGREGATE should create a property on the target if it does
 		card: cardType.id,
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				data: {
 					timestamp: '2018-05-05T00:21:02.459Z',
 					target: threadResult.data.id,
@@ -834,6 +870,7 @@ ava.test('.execute() AGGREGATE should work with $$ prefixed properties', async (
 		arguments: {
 			properties: {
 				slug: 'test-thread',
+				version: '1.0.0',
 				data: {
 					schema: {
 						type: 'object',
@@ -870,6 +907,7 @@ ava.test('.execute() AGGREGATE should work with $$ prefixed properties', async (
 		card: typeResult.data.id,
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				data: {
 					$$mentions: []
 				}
@@ -886,6 +924,7 @@ ava.test('.execute() AGGREGATE should work with $$ prefixed properties', async (
 		card: cardType.id,
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				data: {
 					timestamp: '2018-05-05T00:21:02.459Z',
 					target: threadResult.data.id,
@@ -1378,6 +1417,7 @@ ava.test('.tick() should enqueue an action if there is a time trigger with a pas
 			startDate: '2018-08-05T12:00:00.000Z',
 			arguments: {
 				properties: {
+					version: '1.0.0',
 					slug: 'foo'
 				}
 			}
@@ -1401,6 +1441,7 @@ ava.test('.tick() should enqueue an action if there is a time trigger with a pas
 		timestamp: '2018-08-06T12:00:00.000Z',
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				slug: 'foo'
 			}
 		}
@@ -1418,6 +1459,7 @@ ava.test('.tick() should enqueue an action if there is a time trigger with a pre
 			startDate: '2018-08-05T12:00:00.000Z',
 			arguments: {
 				properties: {
+					version: '1.0.0',
 					slug: 'foo'
 				}
 			}
@@ -1441,6 +1483,7 @@ ava.test('.tick() should enqueue an action if there is a time trigger with a pre
 		timestamp: '2018-08-05T12:00:00.000Z',
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				slug: 'foo'
 			}
 		}
@@ -1458,6 +1501,7 @@ ava.test('.tick() should not enqueue an action using a past timestamp', async (t
 			startDate: '2050-08-05T12:00:00.000Z',
 			arguments: {
 				properties: {
+					version: '1.0.0',
 					slug: 'foo'
 				}
 			}
@@ -1487,6 +1531,7 @@ ava.test('.tick() should enqueue two actions if there are two time triggers with
 			startDate: '2018-08-05T12:00:00.000Z',
 			arguments: {
 				properties: {
+					version: '1.0.0',
 					slug: 'foo'
 				}
 			}
@@ -1499,6 +1544,7 @@ ava.test('.tick() should enqueue two actions if there are two time triggers with
 			startDate: '2018-08-04T12:00:00.000Z',
 			arguments: {
 				properties: {
+					version: '1.0.0',
 					slug: 'bar'
 				}
 			}
@@ -1527,6 +1573,7 @@ ava.test('.tick() should enqueue two actions if there are two time triggers with
 			timestamp: '2018-08-06T12:00:00.000Z',
 			arguments: {
 				properties: {
+					version: '1.0.0',
 					slug: 'bar'
 				}
 			}
@@ -1540,6 +1587,7 @@ ava.test('.tick() should enqueue two actions if there are two time triggers with
 			timestamp: '2018-08-06T12:00:00.000Z',
 			arguments: {
 				properties: {
+					version: '1.0.0',
 					slug: 'foo'
 				}
 			}
@@ -1586,6 +1634,7 @@ ava.test('should be able to login as a user with a password', async (test) => {
 	const session = await test.context.jellyfish.getCardById(test.context.session, loginResult.data.id)
 	test.deepEqual(session, {
 		id: loginResult.data.id,
+		version: '1.0.0',
 		type: 'session',
 		active: true,
 		links: session.links,
@@ -1604,6 +1653,7 @@ ava.test('should be able to login as a user with a password', async (test) => {
 ava.test('should be able to login as a password-less user', async (test) => {
 	const user = await test.context.jellyfish.insertCard(test.context.session, {
 		type: 'user',
+		version: '1.0.0',
 		slug: 'user-johndoe',
 		active: true,
 		links: {},
@@ -1636,6 +1686,7 @@ ava.test('should be able to login as a password-less user', async (test) => {
 ava.test('should not be able to login as a password-less disallowed user', async (test) => {
 	const user = await test.context.jellyfish.insertCard(test.context.session, {
 		type: 'user',
+		version: '1.0.0',
 		slug: 'user-johndoe',
 		active: true,
 		links: {},
@@ -1705,6 +1756,7 @@ ava.test('should fail to update a card if the schema does not match', async (tes
 		card: typeCard.id,
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				data: {
 					foo: 'bar'
 				}
@@ -1721,6 +1773,7 @@ ava.test('should fail to update a card if the schema does not match', async (tes
 		card: result.data.id,
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				foobar: true
 			}
 		}
@@ -1738,6 +1791,7 @@ ava.test('should update a card to add an extra property', async (test) => {
 		card: typeCard.id,
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				data: {
 					foo: 'bar'
 				}
@@ -1754,6 +1808,7 @@ ava.test('should update a card to add an extra property', async (test) => {
 		card: createResult.data.id,
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				data: {
 					bar: 'baz'
 				}
@@ -1768,6 +1823,7 @@ ava.test('should update a card to add an extra property', async (test) => {
 	const card = await test.context.jellyfish.getCardById(test.context.session, updateResult.data.id)
 	test.deepEqual(card, {
 		id: updateResult.data.id,
+		version: '1.0.0',
 		type: 'card',
 		active: true,
 		links: card.links,
@@ -1786,7 +1842,9 @@ ava.test('should update a card to set active to false', async (test) => {
 		action: 'action-create-card',
 		card: typeCard.id,
 		arguments: {
-			properties: {}
+			properties: {
+				version: '1.0.0'
+			}
 		}
 	})
 
@@ -1799,6 +1857,7 @@ ava.test('should update a card to set active to false', async (test) => {
 		card: createResult.data.id,
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				active: false
 			}
 		}
@@ -1811,6 +1870,7 @@ ava.test('should update a card to set active to false', async (test) => {
 	const card = await test.context.jellyfish.getCardById(test.context.session, updateResult.data.id)
 	test.deepEqual(card, {
 		id: updateResult.data.id,
+		version: '1.0.0',
 		type: 'card',
 		active: false,
 		links: card.links,
@@ -1827,6 +1887,7 @@ ava.test('should update a card to set active to false using the card slug as inp
 		card: typeCard.id,
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				slug: 'foo-bar-baz'
 			}
 		}
@@ -1841,6 +1902,7 @@ ava.test('should update a card to set active to false using the card slug as inp
 		card: 'foo-bar-baz',
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				active: false
 			}
 		}
@@ -1854,6 +1916,7 @@ ava.test('should update a card to set active to false using the card slug as inp
 	test.deepEqual(card, {
 		id: updateResult.data.id,
 		type: 'card',
+		version: '1.0.0',
 		slug: 'foo-bar-baz',
 		active: false,
 		links: card.links,
@@ -1870,6 +1933,7 @@ ava.test('should update a card to override an array property', async (test) => {
 		card: typeCard.id,
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				data: {
 					roles: [ 'guest' ]
 				}
@@ -1886,6 +1950,7 @@ ava.test('should update a card to override an array property', async (test) => {
 		card: createResult.data.id,
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				data: {
 					roles: []
 				}
@@ -1902,6 +1967,7 @@ ava.test('should update a card to override an array property', async (test) => {
 	test.deepEqual(card, {
 		id: updateResult.data.id,
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: card.links,
 		tags: [],
@@ -1918,7 +1984,9 @@ ava.test('should update a card to add a slug', async (test) => {
 		action: 'action-create-card',
 		card: typeCard.id,
 		arguments: {
-			properties: {}
+			properties: {
+				version: '1.0.0'
+			}
 		}
 	})
 
@@ -1931,6 +1999,7 @@ ava.test('should update a card to add a slug', async (test) => {
 		card: createResult.data.id,
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				slug: 'foo-bar'
 			}
 		}
@@ -1944,6 +2013,7 @@ ava.test('should update a card to add a slug', async (test) => {
 	test.deepEqual(card, {
 		id: updateResult.data.id,
 		type: 'card',
+		version: '1.0.0',
 		slug: 'foo-bar',
 		active: true,
 		links: card.links,
@@ -1959,7 +2029,9 @@ ava.test('should add an update event if updating a card', async (test) => {
 		action: 'action-create-card',
 		card: typeCard.id,
 		arguments: {
-			properties: {}
+			properties: {
+				version: '1.0.0'
+			}
 		}
 	})
 
@@ -1972,6 +2044,7 @@ ava.test('should add an update event if updating a card', async (test) => {
 		card: createResult.data.id,
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				slug: 'foo-bar'
 			}
 		}
@@ -2003,6 +2076,7 @@ ava.test('should add an update event if updating a card', async (test) => {
 	test.deepEqual(timeline, [
 		{
 			id: timeline[0].id,
+			version: '1.0.0',
 			type: 'create',
 			active: true,
 			links: {
@@ -2021,6 +2095,7 @@ ava.test('should add an update event if updating a card', async (test) => {
 				timestamp: timeline[0].data.timestamp,
 				payload: {
 					active: true,
+					version: '1.0.0',
 					links: timeline[0].data.payload.links,
 					tags: [],
 					markers: [],
@@ -2030,6 +2105,7 @@ ava.test('should add an update event if updating a card', async (test) => {
 		},
 		{
 			id: timeline[1].id,
+			version: '1.0.0',
 			type: 'update',
 			active: true,
 			links: {
@@ -2048,6 +2124,7 @@ ava.test('should add an update event if updating a card', async (test) => {
 				timestamp: timeline[1].data.timestamp,
 				payload: {
 					slug: 'foo-bar',
+					version: '1.0.0',
 					active: true,
 					links: timeline[1].data.payload.links,
 					tags: [],
@@ -2065,7 +2142,9 @@ ava.test('should delete a card using action-delete-card', async (test) => {
 		action: 'action-create-card',
 		card: typeCard.id,
 		arguments: {
-			properties: {}
+			properties: {
+				version: '1.0.0'
+			}
 		}
 	})
 
@@ -2086,6 +2165,7 @@ ava.test('should delete a card using action-delete-card', async (test) => {
 	const card = await test.context.jellyfish.getCardById(test.context.session, deleteResult.data.id)
 	test.deepEqual(card, {
 		id: deleteResult.data.id,
+		version: '1.0.0',
 		type: 'card',
 		active: false,
 		links: card.links,
@@ -2101,7 +2181,9 @@ ava.test('should delete a card using action-update-card', async (test) => {
 		action: 'action-create-card',
 		card: typeCard.id,
 		arguments: {
-			properties: {}
+			properties: {
+				version: '1.0.0'
+			}
 		}
 	})
 
@@ -2114,6 +2196,7 @@ ava.test('should delete a card using action-update-card', async (test) => {
 		card: createResult.data.id,
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				active: false
 			}
 		}
@@ -2127,6 +2210,7 @@ ava.test('should delete a card using action-update-card', async (test) => {
 	test.deepEqual(card, {
 		id: updateResult.data.id,
 		type: 'card',
+		version: '1.0.0',
 		active: false,
 		links: card.links,
 		tags: [],

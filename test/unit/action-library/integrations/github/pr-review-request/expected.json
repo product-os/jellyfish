@@ -2,6 +2,7 @@
   "head": {
     "name": "PR review request",
     "type": "pull-request",
+    "version": "1.0.0",
     "active": true,
     "tags": [],
     "data": {
@@ -20,12 +21,14 @@
     {
       "type": "create",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "timestamp": "2018-10-10T10:13:06Z",
         "payload": {
           "name": "PR review request",
           "active": true,
+          "version": "1.0.0",
           "tags": [],
           "data": {
             "repository": "resin-io/jellyfish",

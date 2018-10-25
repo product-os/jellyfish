@@ -2,6 +2,7 @@
   "head": {
     "name": "Multiple in a row",
     "type": "support-thread",
+    "version": "1.0.0",
     "active": true,
     "tags": [],
     "data": {
@@ -20,6 +21,7 @@
     {
       "type": "message",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "mirrors": [
@@ -36,6 +38,7 @@
     {
       "type": "message",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "mirrors": [
@@ -52,12 +55,14 @@
     {
       "type": "create",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "timestamp": "2018-10-08T18:39:45.162Z",
         "payload": {
           "name": "Multiple in a row",
           "active": true,
+          "version": "1.0.0",
           "tags": [],
           "data": {
             "environment": "production",

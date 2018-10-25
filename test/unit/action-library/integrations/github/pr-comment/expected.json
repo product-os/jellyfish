@@ -2,6 +2,7 @@
   "head": {
     "name": "PR comment",
     "type": "pull-request",
+    "version": "1.0.0",
     "active": true,
     "tags": [],
     "data": {
@@ -20,6 +21,7 @@
     {
       "type": "message",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "mirrors": [
@@ -36,12 +38,14 @@
     {
       "type": "create",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "timestamp": "2018-10-10T09:17:00Z",
         "payload": {
           "name": "PR comment",
           "active": true,
+          "version": "1.0.0",
           "tags": [],
           "data": {
             "repository": "resin-io/jellyfish",

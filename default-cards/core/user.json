@@ -1,6 +1,7 @@
 {
   "slug": "user",
   "type": "type",
+  "version": "1.0.0",
   "name": "Jellyfish User",
   "markers": [],
   "tags": [],

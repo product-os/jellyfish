@@ -1,6 +1,7 @@
 {
   "slug": "view-support-threads-to-audit",
   "name": "Users Pending Update",
+  "version": "1.0.0",
   "type": "view",
   "markers": [],
   "tags": [],

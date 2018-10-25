@@ -1,6 +1,7 @@
 {
   "slug": "view-read-user-team",
   "name": "Team role read permissions",
+  "version": "1.0.0",
   "type": "view",
   "tags": [],
   "markers": [],

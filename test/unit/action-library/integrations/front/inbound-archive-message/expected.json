@@ -2,6 +2,7 @@
   "head": {
     "name": "Archive message",
     "type": "support-thread",
+    "version": "1.0.0",
     "active": true,
     "tags": [],
     "data": {
@@ -20,6 +21,7 @@
     {
       "type": "message",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "mirrors": [
@@ -36,6 +38,7 @@
     {
       "type": "message",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "mirrors": [
@@ -52,11 +55,13 @@
     {
       "type": "create",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "timestamp": "2018-10-10T22:22:30.285Z",
         "payload": {
           "name": "Archive message",
+          "version": "1.0.0",
           "active": true,
           "tags": [],
           "data": {
@@ -76,11 +81,13 @@
     {
       "type": "update",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "timestamp": "2018-10-10T22:22:37.849Z",
         "payload": {
           "name": "Archive message",
+          "version": "1.0.0",
           "active": true,
           "tags": [],
           "data": {
@@ -100,11 +107,13 @@
     {
       "type": "update",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "timestamp": "2018-10-10T22:22:46.382Z",
         "payload": {
           "name": "Archive message",
+          "version": "1.0.0",
           "active": true,
           "tags": [],
           "data": {

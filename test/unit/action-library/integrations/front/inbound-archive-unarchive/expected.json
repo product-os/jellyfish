@@ -2,6 +2,7 @@
   "head": {
     "name": "Unarchive",
     "type": "support-thread",
+    "version": "1.0.0",
     "active": true,
     "tags": [],
     "data": {
@@ -20,11 +21,13 @@
     {
       "type": "create",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "timestamp": "2018-10-08T18:49:54.763Z",
         "payload": {
           "name": "Unarchive",
+          "version": "1.0.0",
           "active": true,
           "tags": [],
           "data": {
@@ -44,11 +47,13 @@
     {
       "type": "update",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "timestamp": "2018-10-08T18:50:09.298Z",
         "payload": {
           "name": "Unarchive",
+          "version": "1.0.0",
           "active": true,
           "tags": [],
           "data": {
@@ -68,11 +73,13 @@
     {
       "type": "update",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "timestamp": "2018-10-08T18:50:16.901Z",
         "payload": {
           "name": "Unarchive",
+          "version": "1.0.0",
           "active": true,
           "tags": [],
           "data": {

@@ -22,6 +22,7 @@ import { Card } from './Types';
 export interface Card {
 	id: string;
 	type: string;
+	version: string;
 	tags: string[];
 	links: object;
 	active: boolean;

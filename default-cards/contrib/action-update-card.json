@@ -1,6 +1,7 @@
 {
   "slug": "action-update-card",
   "type": "action",
+  "version": "1.0.0",
   "name": "Update properties of a card",
   "markers": [],
   "tags": [],
@@ -14,6 +15,10 @@
           "slug": {
             "type": "string",
             "pattern": "^[a-z0-9-]+$"
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^\\d+\\.\\d+\\.\\d+$"
           },
           "active": {
             "type": "boolean"

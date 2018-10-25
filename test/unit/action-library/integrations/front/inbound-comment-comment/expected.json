@@ -2,6 +2,7 @@
   "head": {
     "name": "Send me a comment",
     "type": "support-thread",
+    "version": "1.0.0",
     "active": true,
     "tags": [],
     "data": {
@@ -20,6 +21,7 @@
     {
       "type": "whisper",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "mirrors": [
@@ -36,6 +38,7 @@
     {
       "type": "whisper",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "mirrors": [
@@ -52,11 +55,13 @@
     {
       "type": "create",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "timestamp": "2018-10-08T18:42:29.447Z",
         "payload": {
           "name": "Send me a comment",
+          "version": "1.0.0",
           "active": true,
           "tags": [],
           "data": {

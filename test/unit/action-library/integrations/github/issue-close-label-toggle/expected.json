@@ -2,6 +2,7 @@
   "head": {
     "name": "Issue close label toggle",
     "type": "issue",
+    "version": "1.0.0",
     "active": true,
     "tags": [],
     "data": {
@@ -20,12 +21,14 @@
     {
       "type": "create",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "timestamp": "2018-09-27T14:29:09Z",
         "payload": {
           "name": "Issue close label toggle",
           "active": true,
+          "version": "1.0.0",
           "tags": [],
           "data": {
             "repository": "resin-io/jellyfish",
@@ -44,12 +47,14 @@
     {
       "type": "update",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "timestamp": "2018-09-27T14:30:19Z",
         "payload": {
           "name": "Issue close label toggle",
           "active": true,
+          "version": "1.0.0",
           "tags": [],
           "data": {
             "repository": "resin-io/jellyfish",
@@ -68,12 +73,14 @@
     {
       "type": "update",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "timestamp": "2018-09-27T14:31:38Z",
         "payload": {
           "name": "Issue close label toggle",
           "active": true,
+          "version": "1.0.0",
           "tags": [ "chore" ],
           "data": {
             "repository": "resin-io/jellyfish",
@@ -92,12 +99,14 @@
     {
       "type": "update",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "timestamp": "2018-09-27T14:32:50Z",
         "payload": {
           "name": "Issue close label toggle",
           "active": true,
+          "version": "1.0.0",
           "tags": [],
           "data": {
             "repository": "resin-io/jellyfish",

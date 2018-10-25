@@ -1,6 +1,7 @@
 {
   "slug": "org",
   "type": "type",
+  "version": "1.0.0",
   "name": "Jellyfish Organisation",
   "markers": [],
   "tags": [],

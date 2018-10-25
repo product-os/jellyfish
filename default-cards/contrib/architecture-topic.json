@@ -1,6 +1,7 @@
 {
   "slug": "architecture-topic",
   "name": "Architecture call topic",
+  "version": "1.0.0",
   "type": "type",
   "markers": [],
   "tags": [],

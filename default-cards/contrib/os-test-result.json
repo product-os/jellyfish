@@ -1,6 +1,7 @@
 {
   "slug": "os-test-result",
   "name": "OS test result",
+  "version": "1.0.0",
   "type": "type",
   "markers": [],
   "tags": [],

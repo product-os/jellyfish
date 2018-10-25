@@ -304,6 +304,7 @@ export class CardSdk {
 			arguments: {
 				properties: {
 					tags: [],
+					version: '1.0.0',
 					links: {},
 					active: true,
 					name,

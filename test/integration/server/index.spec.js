@@ -204,6 +204,7 @@ ava.test.serial('.query() should be able to see previously restricted cards afte
 
 	const entry = await test.context.server.jellyfish.insertCard(test.context.session, {
 		type: 'scratchpad-entry',
+		version: '1.0.0',
 		name: 'Test entry',
 		tags: [],
 		markers: [],
@@ -220,6 +221,7 @@ ava.test.serial('.query() should be able to see previously restricted cards afte
 		id: user.id,
 		slug: `user-${username}`,
 		type: 'user',
+		version: '1.0.0',
 		tags: [],
 		markers: [],
 		links: {},
@@ -256,6 +258,7 @@ ava.test.serial('timeline cards should reference the correct actor', async (test
 
 	const thread = await sdk.card.create({
 		type: 'thread',
+		version: '1.0.0',
 		data: {}
 	})
 
@@ -485,6 +488,7 @@ ava.test.serial('AGGREGATE($events): should work when creating cards via the SDK
 	// Create a new thread element
 	const thread = await sdk.card.create({
 		type: 'thread',
+		version: '1.0.0',
 		name: 'test-thread',
 		data: {}
 	})
@@ -514,6 +518,7 @@ ava.test.serial('AGGREGATE($events): should work when creating cards via the SDK
 	const card = await executeThenWait(sdk, () => {
 		return sdk.card.create({
 			type: 'message',
+			version: '1.0.0',
 			data: {
 				timestamp: '2018-05-05T00:21:02.459Z',
 				target: thread.id,
@@ -715,6 +720,7 @@ ava.test.serial('should be able to post an external event', async (test) => {
 	test.deepEqual(card, {
 		id: requestResult.data.id,
 		type: 'external-event',
+		version: '1.0.0',
 		active: true,
 		tags: [],
 		markers: [],
@@ -754,6 +760,7 @@ ava.test.serial('should be able to post an external event with a type', async (t
 	test.deepEqual(card, {
 		id: requestResult.data.id,
 		type: 'external-event',
+		version: '1.0.0',
 		active: true,
 		tags: [],
 		markers: [],
@@ -797,6 +804,7 @@ ava.test.serial('should add and evaluate a time triggered action', async (test) 
 
 	const trigger = await test.context.server.jellyfish.insertCard(test.context.session, {
 		type: 'triggered-action',
+		version: '1.0.0',
 		active: true,
 		tags: [],
 		markers: [],
@@ -807,6 +815,7 @@ ava.test.serial('should add and evaluate a time triggered action', async (test) 
 			interval: 'PT1S',
 			arguments: {
 				properties: {
+					version: '1.0.0',
 					data: {
 						origin: 'time-trigger'
 					}
@@ -881,6 +890,7 @@ ava.test.serial('should be able to resolve links', async (test) => {
 	const uuid = randomstring.generate()
 	const thread = await sdk.card.create({
 		type: 'thread',
+		version: '1.0.0',
 		data: {
 			uuid
 		}
@@ -888,6 +898,7 @@ ava.test.serial('should be able to resolve links', async (test) => {
 
 	const message = await sdk.card.create({
 		type: 'message',
+		version: '1.0.0',
 		data: {
 			timestamp: '2018-05-05T00:21:02.459Z',
 			target: thread.id,
@@ -943,6 +954,7 @@ ava.test.serial('should be able to resolve links', async (test) => {
 		{
 			id: message.id,
 			type: 'message',
+			version: '1.0.0',
 			active: true,
 			tags: [],
 			markers: [],
@@ -995,6 +1007,7 @@ ava.test.serial('should apply permissions on resolved links', async (test) => {
 
 	const thread = await sdk.card.create({
 		type: 'thread',
+		version: '1.0.0',
 		data: {
 			uuid,
 			target: targetUser.id
@@ -1044,6 +1057,7 @@ ava.test.serial('should apply permissions on resolved links', async (test) => {
 		{
 			id: thread.id,
 			type: 'thread',
+			version: '1.0.0',
 			active: true,
 			tags: [],
 			markers: [],

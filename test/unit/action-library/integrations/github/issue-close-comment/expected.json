@@ -2,6 +2,7 @@
   "head": {
     "name": "Comment on closed issue",
     "type": "issue",
+    "version": "1.0.0",
     "active": true,
     "tags": [],
     "data": {
@@ -20,6 +21,7 @@
     {
       "type": "message",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "mirrors": [
@@ -36,11 +38,13 @@
     {
       "type": "create",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "timestamp": "2018-09-26T17:54:37Z",
         "payload": {
           "name": "Comment on closed issue",
+          "version": "1.0.0",
           "active": true,
           "tags": [],
           "data": {
@@ -60,11 +64,13 @@
     {
       "type": "update",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "timestamp": "2018-09-26T17:56:59Z",
         "payload": {
           "name": "Comment on closed issue",
+          "version": "1.0.0",
           "active": true,
           "tags": [],
           "data": {

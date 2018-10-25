@@ -2,6 +2,7 @@
   "head": {
     "name": "Inbound delete",
     "type": "support-thread",
+    "version": "1.0.0",
     "active": true,
     "tags": [],
     "data": {
@@ -19,6 +20,7 @@
   "tail": [
     {
       "type": "message",
+      "version": "1.0.0",
       "active": true,
       "tags": [],
       "data": {
@@ -35,6 +37,7 @@
     },
     {
       "type": "create",
+      "version": "1.0.0",
       "active": true,
       "tags": [],
       "data": {
@@ -43,6 +46,7 @@
           "name": "Inbound delete",
           "active": true,
           "tags": [],
+          "version": "1.0.0",
           "data": {
             "environment": "production",
             "inbox": "Demo Inbox",
@@ -59,6 +63,7 @@
     },
     {
       "type": "update",
+      "version": "1.0.0",
       "active": true,
       "tags": [],
       "data": {
@@ -67,6 +72,7 @@
           "name": "Inbound delete",
           "active": true,
           "tags": [],
+          "version": "1.0.0",
           "data": {
             "environment": "production",
             "inbox": "Demo Inbox",

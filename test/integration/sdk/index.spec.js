@@ -36,6 +36,7 @@ ava.test.serial('.action() should be able to successfully create a new card', as
 		action: 'action-create-card',
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				name
 			}
 		}
@@ -80,6 +81,7 @@ ava.test.serial('.action() should resolve with the created card', async (test) =
 		action: 'action-create-card',
 		arguments: {
 			properties: {
+				version: '1.0.0',
 				name
 			}
 		}
@@ -87,6 +89,7 @@ ava.test.serial('.action() should resolve with the created card', async (test) =
 
 	test.deepEqual(_.omit(card, 'id'), {
 		active: true,
+		version: '1.0.0',
 		data: {},
 		links: {},
 		markers: [],
@@ -106,6 +109,7 @@ ava.test.serial('.query() should run a query on the server', async (test) => {
 
 	await server.jellyfish.insertCard(test.context.session, {
 		active: true,
+		version: '1.0.0',
 		data: {},
 		links: {},
 		markers: [],
@@ -131,6 +135,7 @@ ava.test.serial('.query() should run a query on the server', async (test) => {
 		active: true,
 		data: {},
 		links: {},
+		version: '1.0.0',
 		markers: [],
 		name,
 		tags: [],
@@ -151,6 +156,7 @@ ava.test.serial('.query() should accept a "limit" option', async (test) => {
 
 	const card1 = await server.jellyfish.insertCard(test.context.session, {
 		active: true,
+		version: '1.0.0',
 		data: {
 			timestamp: new Date(baseTime + 1000).toISOString(),
 			uuid
@@ -164,6 +170,7 @@ ava.test.serial('.query() should accept a "limit" option', async (test) => {
 
 	const card2 = await server.jellyfish.insertCard(test.context.session, {
 		active: true,
+		version: '1.0.0',
 		data: {
 			timestamp: new Date(baseTime + 2000).toISOString(),
 			uuid
@@ -177,6 +184,7 @@ ava.test.serial('.query() should accept a "limit" option', async (test) => {
 
 	await server.jellyfish.insertCard(test.context.session, {
 		active: true,
+		version: '1.0.0',
 		data: {
 			timestamp: new Date(baseTime + 3000).toISOString(),
 			uuid
@@ -232,6 +240,7 @@ ava.test.serial('.query() should accept a "skip" option', async (test) => {
 
 	await server.jellyfish.insertCard(test.context.session, {
 		active: true,
+		version: '1.0.0',
 		data: {
 			timestamp: new Date(baseTime + 1000).toISOString(),
 			uuid
@@ -245,6 +254,7 @@ ava.test.serial('.query() should accept a "skip" option', async (test) => {
 
 	const card2 = await server.jellyfish.insertCard(test.context.session, {
 		active: true,
+		version: '1.0.0',
 		data: {
 			timestamp: new Date(baseTime + 2000).toISOString(),
 			uuid
@@ -258,6 +268,7 @@ ava.test.serial('.query() should accept a "skip" option', async (test) => {
 
 	const card3 = await server.jellyfish.insertCard(test.context.session, {
 		active: true,
+		version: '1.0.0',
 		data: {
 			timestamp: new Date(baseTime + 3000).toISOString(),
 			uuid
@@ -310,6 +321,7 @@ ava.test.serial('.query() should accept a "sortBy" option as a single key', asyn
 
 	const card1 = await server.jellyfish.insertCard(test.context.session, {
 		active: true,
+		version: '1.0.0',
 		name: 'd',
 		data: {
 			uuid
@@ -322,6 +334,7 @@ ava.test.serial('.query() should accept a "sortBy" option as a single key', asyn
 
 	const card2 = await server.jellyfish.insertCard(test.context.session, {
 		active: true,
+		version: '1.0.0',
 		name: 'a',
 		data: {
 			uuid
@@ -334,6 +347,7 @@ ava.test.serial('.query() should accept a "sortBy" option as a single key', asyn
 
 	const card3 = await server.jellyfish.insertCard(test.context.session, {
 		active: true,
+		version: '1.0.0',
 		name: 'c',
 		data: {
 			uuid
@@ -346,6 +360,7 @@ ava.test.serial('.query() should accept a "sortBy" option as a single key', asyn
 
 	const card4 = await server.jellyfish.insertCard(test.context.session, {
 		active: true,
+		version: '1.0.0',
 		name: 'b',
 		data: {
 			uuid
@@ -396,6 +411,7 @@ ava.test.serial('.query() should accept a "sortBy" option as an array of keys', 
 
 	const card1 = await server.jellyfish.insertCard(test.context.session, {
 		active: true,
+		version: '1.0.0',
 		data: {
 			code: 'd',
 			uuid
@@ -408,6 +424,7 @@ ava.test.serial('.query() should accept a "sortBy" option as an array of keys', 
 
 	const card2 = await server.jellyfish.insertCard(test.context.session, {
 		active: true,
+		version: '1.0.0',
 		data: {
 			code: 'a',
 			uuid
@@ -420,6 +437,7 @@ ava.test.serial('.query() should accept a "sortBy" option as an array of keys', 
 
 	const card3 = await server.jellyfish.insertCard(test.context.session, {
 		active: true,
+		version: '1.0.0',
 		data: {
 			code: 'c',
 			uuid
@@ -432,6 +450,7 @@ ava.test.serial('.query() should accept a "sortBy" option as an array of keys', 
 
 	const card4 = await server.jellyfish.insertCard(test.context.session, {
 		active: true,
+		version: '1.0.0',
 		data: {
 			code: 'b',
 			uuid
@@ -485,6 +504,7 @@ ava.test.serial('.card.get() should return a single element', async (test) => {
 	while (cardsToInsert--) {
 		await server.jellyfish.insertCard(test.context.session, {
 			active: true,
+			version: '1.0.0',
 			data: {},
 			links: {},
 			markers: [],
@@ -496,6 +516,7 @@ ava.test.serial('.card.get() should return a single element', async (test) => {
 	const card = await server.jellyfish.insertCard(test.context.session, {
 		active: true,
 		data: {},
+		version: '1.0.0',
 		links: {},
 		markers: [],
 		name,
@@ -523,6 +544,7 @@ ava.test.serial('.card.get() should work with slugs', async (test) => {
 	while (cardsToInsert--) {
 		await server.jellyfish.insertCard(test.context.session, {
 			active: true,
+			version: '1.0.0',
 			data: {},
 			links: {},
 			markers: [],
@@ -533,6 +555,7 @@ ava.test.serial('.card.get() should work with slugs', async (test) => {
 
 	const card = await server.jellyfish.insertCard(test.context.session, {
 		active: true,
+		version: '1.0.0',
 		data: {},
 		links: {},
 		markers: [],
@@ -559,6 +582,7 @@ ava.test.serial('.card.create() should create a new card', async (test) => {
 
 	await sdk.card.create({
 		type: 'card',
+		version: '1.0.0',
 		slug
 	})
 
@@ -596,11 +620,13 @@ ava.test.serial('.card.create() should resolve with the created card', async (te
 
 	const card = await sdk.card.create({
 		type: 'card',
+		version: '1.0.0',
 		slug
 	})
 
 	test.deepEqual(_.omit(card, 'id'), {
 		active: true,
+		version: '1.0.0',
 		data: {},
 		links: {},
 		markers: [],

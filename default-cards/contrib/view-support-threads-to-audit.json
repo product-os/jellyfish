@@ -1,6 +1,7 @@
 {
   "slug": "view-support-threads-to-audit",
   "name": "Support threads to audit",
+  "version": "1.0.0",
   "type": "view",
   "markers": [],
   "tags": [],

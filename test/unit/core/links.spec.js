@@ -31,6 +31,7 @@ ava.test.afterEach(helpers.kernel.afterEach)
 ava.test('.evaluate() should return an empty array if the link is unknown', async (test) => {
 	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -48,6 +49,7 @@ ava.test('.evaluate() should return an empty array if the link is unknown', asyn
 ava.test('.evaluate(is attached to) should return an empty array if the target does not exist', async (test) => {
 	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -57,6 +59,7 @@ ava.test('.evaluate(is attached to) should return an empty array if the target d
 
 	await test.context.backend.upsertElement({
 		type: 'link',
+		version: '1.0.0',
 		active: true,
 		name: 'is attached to',
 		markers: [],
@@ -77,6 +80,7 @@ ava.test('.evaluate(is attached to) should return an empty array if the target d
 ava.test('.evaluate(is attached to) should return an empty array if the target exists but does not match', async (test) => {
 	const card = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -88,6 +92,7 @@ ava.test('.evaluate(is attached to) should return an empty array if the target e
 
 	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -97,6 +102,7 @@ ava.test('.evaluate(is attached to) should return an empty array if the target e
 
 	await test.context.backend.upsertElement({
 		type: 'link',
+		version: '1.0.0',
 		active: true,
 		name: 'is attached to',
 		markers: [],
@@ -130,6 +136,7 @@ ava.test('.evaluate(is attached to) should return an empty array if the target e
 ava.test('.evaluate(is attached to) should return the declared target properties', async (test) => {
 	const card = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -142,6 +149,7 @@ ava.test('.evaluate(is attached to) should return the declared target properties
 
 	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -151,6 +159,7 @@ ava.test('.evaluate(is attached to) should return the declared target properties
 
 	const link = await test.context.backend.upsertElement({
 		type: 'link',
+		version: '1.0.0',
 		active: true,
 		name: 'is attached to',
 		markers: [],
@@ -195,6 +204,7 @@ ava.test('.evaluate(is attached to) should return the declared target properties
 ava.test('.evaluate(is attached to) should return the whole target if additionalProperties is set', async (test) => {
 	const card = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -207,6 +217,7 @@ ava.test('.evaluate(is attached to) should return the whole target if additional
 
 	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -216,6 +227,7 @@ ava.test('.evaluate(is attached to) should return the whole target if additional
 
 	const link = await test.context.backend.upsertElement({
 		type: 'link',
+		version: '1.0.0',
 		active: true,
 		name: 'is attached to',
 		markers: [],
@@ -250,6 +262,7 @@ ava.test('.evaluate(is attached to) should return the whole target if additional
 			id: card.id,
 			$link: link.id,
 			type: 'card',
+			version: '1.0.0',
 			active: true,
 			links: {},
 			tags: [],
@@ -266,6 +279,7 @@ ava.test('.evaluate(has attached element) should return an empty array if the ca
 	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -283,6 +297,7 @@ ava.test('.evaluate(has attached element) should return an empty array if the ca
 ava.test('.evaluate(has attached element) should return matching elements', async (test) => {
 	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -292,6 +307,7 @@ ava.test('.evaluate(has attached element) should return matching elements', asyn
 
 	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -303,6 +319,7 @@ ava.test('.evaluate(has attached element) should return matching elements', asyn
 
 	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -314,6 +331,7 @@ ava.test('.evaluate(has attached element) should return matching elements', asyn
 
 	const card3 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -325,6 +343,7 @@ ava.test('.evaluate(has attached element) should return matching elements', asyn
 
 	await test.context.backend.upsertElement({
 		type: 'link',
+		version: '1.0.0',
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -336,6 +355,7 @@ ava.test('.evaluate(has attached element) should return matching elements', asyn
 
 	const link2 = await test.context.backend.upsertElement({
 		type: 'link',
+		version: '1.0.0',
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -347,6 +367,7 @@ ava.test('.evaluate(has attached element) should return matching elements', asyn
 
 	await test.context.backend.upsertElement({
 		type: 'link',
+		version: '1.0.0',
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -390,6 +411,7 @@ ava.test('.evaluate(has attached element) should return matching elements', asyn
 ava.test('.evaluateCard() should return one link of one type given one match', async (test) => {
 	const card = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -402,6 +424,7 @@ ava.test('.evaluateCard() should return one link of one type given one match', a
 
 	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -411,6 +434,7 @@ ava.test('.evaluateCard() should return one link of one type given one match', a
 
 	const link = await test.context.backend.upsertElement({
 		type: 'link',
+		version: '1.0.0',
 		active: true,
 		name: 'is attached to',
 		markers: [],
@@ -455,6 +479,7 @@ ava.test('.evaluateCard() should return one link of one type given one match', a
 ava.test('.evaluateCard() should return multiple cards per link', async (test) => {
 	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -463,6 +488,7 @@ ava.test('.evaluateCard() should return multiple cards per link', async (test) =
 
 	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -474,6 +500,7 @@ ava.test('.evaluateCard() should return multiple cards per link', async (test) =
 
 	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -485,6 +512,7 @@ ava.test('.evaluateCard() should return multiple cards per link', async (test) =
 
 	const card3 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -496,6 +524,7 @@ ava.test('.evaluateCard() should return multiple cards per link', async (test) =
 
 	const link1 = await test.context.backend.upsertElement({
 		type: 'link',
+		version: '1.0.0',
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -507,6 +536,7 @@ ava.test('.evaluateCard() should return multiple cards per link', async (test) =
 
 	const link2 = await test.context.backend.upsertElement({
 		type: 'link',
+		version: '1.0.0',
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -518,6 +548,7 @@ ava.test('.evaluateCard() should return multiple cards per link', async (test) =
 
 	const link3 = await test.context.backend.upsertElement({
 		type: 'link',
+		version: '1.0.0',
 		active: true,
 		name: 'is attached to',
 		tags: [],
@@ -584,6 +615,7 @@ ava.test('.evaluateCard() should return multiple cards per link', async (test) =
 ava.test('.evaluateCard() should return false if one link is unsatisfied', async (test) => {
 	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -597,6 +629,7 @@ ava.test('.evaluateCard() should return false if one link is unsatisfied', async
 	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -606,6 +639,7 @@ ava.test('.evaluateCard() should return false if one link is unsatisfied', async
 
 	await test.context.backend.upsertElement({
 		type: 'link',
+		version: '1.0.0',
 		active: true,
 		name: 'is attached to',
 		markers: [],
@@ -618,6 +652,7 @@ ava.test('.evaluateCard() should return false if one link is unsatisfied', async
 
 	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -629,6 +664,7 @@ ava.test('.evaluateCard() should return false if one link is unsatisfied', async
 
 	await test.context.backend.upsertElement({
 		type: 'link',
+		version: '1.0.0',
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -666,6 +702,7 @@ ava.test('.evaluateCard() should return false if one link is unsatisfied', async
 ava.test('.parseCard() should parse a "from" card', (test) => {
 	const result = links.parseCard({
 		type: 'link',
+		version: '1.0.0',
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -676,6 +713,7 @@ ava.test('.parseCard() should parse a "from" card', (test) => {
 	}, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -691,6 +729,7 @@ ava.test('.parseCard() should parse a "from" card', (test) => {
 ava.test('.parseCard() should parse a "to" card', (test) => {
 	const result = links.parseCard({
 		type: 'link',
+		version: '1.0.0',
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -701,6 +740,7 @@ ava.test('.parseCard() should parse a "to" card', (test) => {
 	}, {
 		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -716,6 +756,7 @@ ava.test('.parseCard() should parse a "to" card', (test) => {
 ava.test('.parseCard() should return null given an irrelevant card', (test) => {
 	const result = links.parseCard({
 		type: 'link',
+		version: '1.0.0',
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -726,6 +767,7 @@ ava.test('.parseCard() should return null given an irrelevant card', (test) => {
 	}, {
 		id: 'd7ee04d7-e727-444a-b120-c56c03d81f7b',
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -739,6 +781,7 @@ ava.test('.addLink() should add a link given a "from" card without any links', (
 	const card = links.addLink({
 		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
 		type: 'link',
+		version: '1.0.0',
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -749,6 +792,7 @@ ava.test('.addLink() should add a link given a "from" card without any links', (
 	}, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -758,6 +802,7 @@ ava.test('.addLink() should add a link given a "from" card without any links', (
 	test.deepEqual(card, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {
 			'is attached to': [
@@ -776,6 +821,7 @@ ava.test('.addLink() should add a link given a "from" card without the existing 
 	const card = links.addLink({
 		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
 		type: 'link',
+		version: '1.0.0',
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -786,6 +832,7 @@ ava.test('.addLink() should add a link given a "from" card without the existing 
 	}, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {
 			'is attached to': [
@@ -802,6 +849,7 @@ ava.test('.addLink() should add a link given a "from" card without the existing 
 	test.deepEqual(card, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {
 			'is attached to': [
@@ -824,6 +872,7 @@ ava.test('.addLink() should add a link given a "from" card with the existing lin
 	const card = links.addLink({
 		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
 		type: 'link',
+		version: '1.0.0',
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -834,6 +883,7 @@ ava.test('.addLink() should add a link given a "from" card with the existing lin
 	}, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {
 			'is attached to': [
@@ -850,6 +900,7 @@ ava.test('.addLink() should add a link given a "from" card with the existing lin
 	test.deepEqual(card, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {
 			'is attached to': [
@@ -868,6 +919,7 @@ ava.test('.addLink() should add a link given a "to" card without any links', (te
 	const card = links.addLink({
 		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
 		type: 'link',
+		version: '1.0.0',
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -878,6 +930,7 @@ ava.test('.addLink() should add a link given a "to" card without any links', (te
 	}, {
 		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -887,6 +940,7 @@ ava.test('.addLink() should add a link given a "to" card without any links', (te
 	test.deepEqual(card, {
 		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {
 			'has attached element': [
@@ -905,6 +959,7 @@ ava.test('.addLink() should add a link given a "to" card without the existing li
 	const card = links.addLink({
 		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
 		type: 'link',
+		version: '1.0.0',
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -915,6 +970,7 @@ ava.test('.addLink() should add a link given a "to" card without the existing li
 	}, {
 		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {
 			'has attached element': [
@@ -931,6 +987,7 @@ ava.test('.addLink() should add a link given a "to" card without the existing li
 	test.deepEqual(card, {
 		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {
 			'has attached element': [
@@ -953,6 +1010,7 @@ ava.test('.addLink() should add a link given a "to" card with the existing link'
 	const card = links.addLink({
 		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
 		type: 'link',
+		version: '1.0.0',
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -963,6 +1021,7 @@ ava.test('.addLink() should add a link given a "to" card with the existing link'
 	}, {
 		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {
 			'has attached element': [
@@ -979,6 +1038,7 @@ ava.test('.addLink() should add a link given a "to" card with the existing link'
 	test.deepEqual(card, {
 		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {
 			'has attached element': [
@@ -997,6 +1057,7 @@ ava.test('.addLink() should add a link given an irrelevant card', (test) => {
 	const card = links.addLink({
 		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
 		type: 'link',
+		version: '1.0.0',
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -1007,6 +1068,7 @@ ava.test('.addLink() should add a link given an irrelevant card', (test) => {
 	}, {
 		id: 'd7ee04d7-e727-444a-b120-c56c03d81f7b',
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -1016,6 +1078,7 @@ ava.test('.addLink() should add a link given an irrelevant card', (test) => {
 	test.deepEqual(card, {
 		id: 'd7ee04d7-e727-444a-b120-c56c03d81f7b',
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -1027,6 +1090,7 @@ ava.test('.removeLink() should remove a link given a "from" card without any lin
 	const card = links.removeLink({
 		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
 		type: 'link',
+		version: '1.0.0',
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -1037,6 +1101,7 @@ ava.test('.removeLink() should remove a link given a "from" card without any lin
 	}, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -1046,6 +1111,7 @@ ava.test('.removeLink() should remove a link given a "from" card without any lin
 	test.deepEqual(card, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -1057,6 +1123,7 @@ ava.test('.removeLink() should remove a link given a "from" card without the exi
 	const card = links.removeLink({
 		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
 		type: 'link',
+		version: '1.0.0',
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -1067,6 +1134,7 @@ ava.test('.removeLink() should remove a link given a "from" card without the exi
 	}, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {
 			'is attached to': [
@@ -1083,6 +1151,7 @@ ava.test('.removeLink() should remove a link given a "from" card without the exi
 	test.deepEqual(card, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {
 			'is attached to': [
@@ -1101,6 +1170,7 @@ ava.test('.removeLink() should remove a link given a "from" card with the existi
 	const card = links.removeLink({
 		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
 		type: 'link',
+		version: '1.0.0',
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -1111,6 +1181,7 @@ ava.test('.removeLink() should remove a link given a "from" card with the existi
 	}, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {
 			'is attached to': [
@@ -1127,6 +1198,7 @@ ava.test('.removeLink() should remove a link given a "from" card with the existi
 	test.deepEqual(card, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {
 			'is attached to': []
@@ -1140,6 +1212,7 @@ ava.test('.removeLink() should remove a link given a "to" card without any links
 	const card = links.removeLink({
 		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
 		type: 'link',
+		version: '1.0.0',
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -1150,6 +1223,7 @@ ava.test('.removeLink() should remove a link given a "to" card without any links
 	}, {
 		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -1159,6 +1233,7 @@ ava.test('.removeLink() should remove a link given a "to" card without any links
 	test.deepEqual(card, {
 		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -1170,6 +1245,7 @@ ava.test('.removeLink() should remove a link given a "to" card without the exist
 	const card = links.removeLink({
 		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
 		type: 'link',
+		version: '1.0.0',
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -1180,6 +1256,7 @@ ava.test('.removeLink() should remove a link given a "to" card without the exist
 	}, {
 		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {
 			'has attached element': [
@@ -1196,6 +1273,7 @@ ava.test('.removeLink() should remove a link given a "to" card without the exist
 	test.deepEqual(card, {
 		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {
 			'has attached element': [
@@ -1214,6 +1292,7 @@ ava.test('.removeLink() should remove a link given a "to" card with the existing
 	const card = links.removeLink({
 		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
 		type: 'link',
+		version: '1.0.0',
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -1224,6 +1303,7 @@ ava.test('.removeLink() should remove a link given a "to" card with the existing
 	}, {
 		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {
 			'has attached element': [
@@ -1240,6 +1320,7 @@ ava.test('.removeLink() should remove a link given a "to" card with the existing
 	test.deepEqual(card, {
 		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {
 			'has attached element': []
@@ -1253,6 +1334,7 @@ ava.test('.removeLink() should remove a link given an irrelevant card', (test) =
 	const card = links.removeLink({
 		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
 		type: 'link',
+		version: '1.0.0',
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -1263,6 +1345,7 @@ ava.test('.removeLink() should remove a link given an irrelevant card', (test) =
 	}, {
 		id: 'd7ee04d7-e727-444a-b120-c56c03d81f7b',
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -1272,6 +1355,7 @@ ava.test('.removeLink() should remove a link given an irrelevant card', (test) =
 	test.deepEqual(card, {
 		id: 'd7ee04d7-e727-444a-b120-c56c03d81f7b',
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],

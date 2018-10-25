@@ -1,6 +1,7 @@
 {
   "slug": "action-upsert-card",
   "type": "action",
+  "version": "1.0.0",
   "name": "Upsert a card",
   "markers": [],
   "tags": [],

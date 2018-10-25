@@ -308,6 +308,7 @@ export const Renderer = connect(mapStateToProps, mapDispatchToProps)(Base);
 const lens: Lens = {
 	slug: 'lens-support-thread',
 	type: 'lens',
+	version: '1.0.0',
 	name: 'Support thread lens',
 	data: {
 		icon: 'address-card',

@@ -1,6 +1,7 @@
 {
   "slug": "update",
   "type": "type",
+  "version": "1.0.0",
   "name": "The card update event",
   "markers": [],
   "tags": [],
@@ -31,6 +32,9 @@
                 "slug": {
                   "type": "string",
                   "pattern": "^[a-z0-9-]+$"
+                },
+                "version": {
+                  "type": "string"
                 },
                 "name": {
                   "type": "string",

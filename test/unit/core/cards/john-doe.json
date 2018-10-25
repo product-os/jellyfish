@@ -1,6 +1,7 @@
 {
   "card": {
     "id": "e95d05b4-2a79-4573-bd5d-032b068bedea",
+    "version": "1.0.0",
     "type": "person",
     "tags": [ "premium" ],
     "markers": [],

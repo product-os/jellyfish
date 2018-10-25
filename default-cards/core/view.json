@@ -1,6 +1,7 @@
 {
   "slug": "view",
   "type": "type",
+  "version": "1.0.0",
   "name": "Jellyfish view",
   "markers": [],
   "tags": [],

@@ -2,6 +2,7 @@
   "head": {
     "name": "Tag untag",
     "type": "support-thread",
+    "version": "1.0.0",
     "active": true,
     "tags": [],
     "data": {
@@ -20,6 +21,7 @@
     {
       "type": "message",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "mirrors": [
@@ -36,12 +38,14 @@
     {
       "type": "create",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "timestamp": "2018-10-08T18:37:50.787Z",
         "payload": {
           "name": "Tag untag",
           "active": true,
+          "version": "1.0.0",
           "tags": [],
           "data": {
             "environment": "production",
@@ -60,12 +64,14 @@
     {
       "type": "update",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "timestamp": "2018-10-08T18:37:58.816Z",
         "payload": {
           "name": "Tag untag",
           "active": true,
+          "version": "1.0.0",
           "tags": [ "foo" ],
           "data": {
             "environment": "production",
@@ -84,12 +90,14 @@
     {
       "type": "update",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "timestamp": "2018-10-08T18:38:05.068Z",
         "payload": {
           "name": "Tag untag",
           "active": true,
+          "version": "1.0.0",
           "tags": [],
           "data": {
             "environment": "production",

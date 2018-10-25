@@ -383,6 +383,7 @@ const mapDispatchToProps = (dispatch: any) => ({
 const lens: Lens = {
 	slug: 'lens-kanban',
 	type: 'lens',
+	version: '1.0.0',
 	name: 'Kanban lens',
 	data: {
 		supportsSlices: true,
