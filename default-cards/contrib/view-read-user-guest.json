@@ -19,7 +19,9 @@
               "const": true
             }
           },
-          "required": [ "active" ]
+          "required": [
+            "active"
+          ]
         }
       }
     ],
@@ -32,15 +34,33 @@
             "slug": {
               "type": "string",
               "anyOf": [
-                { "const": "action-request" },
-                { "const": "execute" },
-                { "const": "link" },
-                { "const": "user" },
-                { "const": "card" },
-                { "const": "action" },
-                { "const": "create" },
-                { "const": "update" },
-                { "const": "session" }
+                {
+                  "const": "action-request"
+                },
+                {
+                  "const": "execute"
+                },
+                {
+                  "const": "link"
+                },
+                {
+                  "const": "user"
+                },
+                {
+                  "const": "card"
+                },
+                {
+                  "const": "action"
+                },
+                {
+                  "const": "create"
+                },
+                {
+                  "const": "update"
+                },
+                {
+                  "const": "session"
+                }
               ]
             },
             "type": {
@@ -52,7 +72,11 @@
               "additionalProperties": true
             }
           },
-          "required": [ "slug", "type", "data" ]
+          "required": [
+            "slug",
+            "type",
+            "data"
+          ]
         }
       },
       {
@@ -66,13 +90,22 @@
             "type": {
               "type": "string",
               "anyOf": [
-                { "const": "create" },
-                { "const": "update" }
+                {
+                  "const": "create"
+                },
+                {
+                  "const": "update"
+                }
               ]
             },
             "data": {
               "type": "object",
-              "required": [ "timestamp", "target", "actor", "payload" ],
+              "required": [
+                "timestamp",
+                "target",
+                "actor",
+                "payload"
+              ],
               "properties": {
                 "timestamp": {
                   "type": "string"
@@ -92,7 +125,11 @@
               }
             }
           },
-          "required": [ "id", "type", "data" ]
+          "required": [
+            "id",
+            "type",
+            "data"
+          ]
         }
       },
       {
@@ -110,7 +147,10 @@
               "additionalProperties": true
             }
           },
-          "required": [ "type", "data" ]
+          "required": [
+            "type",
+            "data"
+          ]
         }
       },
       {
@@ -124,11 +164,21 @@
             "slug": {
               "type": "string",
               "anyOf": [
-                { "const": "action-create-session" },
-                { "const": "action-create-user" },
-                { "const": "action-create-card" },
-                { "const": "action-update-card" },
-                { "const": "action-create-event" }
+                {
+                  "const": "action-create-session"
+                },
+                {
+                  "const": "action-create-user"
+                },
+                {
+                  "const": "action-create-card"
+                },
+                {
+                  "const": "action-update-card"
+                },
+                {
+                  "const": "action-create-event"
+                }
               ]
             },
             "type": {
@@ -140,7 +190,12 @@
               "additionalProperties": true
             }
           },
-          "required": [ "id", "slug", "type", "data" ]
+          "required": [
+            "id",
+            "slug",
+            "type",
+            "data"
+          ]
         }
       },
       {
@@ -172,7 +227,10 @@
             }
           },
           "additionalProperties": true,
-          "required": [ "type", "data" ]
+          "required": [
+            "type",
+            "data"
+          ]
         }
       },
       {
@@ -226,7 +284,11 @@
               }
             }
           },
-          "required": [ "id", "type", "data" ]
+          "required": [
+            "id",
+            "type",
+            "data"
+          ]
         }
       },
       {
@@ -246,7 +308,10 @@
             }
           },
           "additionalProperties": true,
-          "required": [ "slug", "type" ]
+          "required": [
+            "slug",
+            "type"
+          ]
         }
       },
       {
@@ -263,7 +328,9 @@
             },
             "data": {
               "type": "object",
-              "required": [ "actor" ],
+              "required": [
+                "actor"
+              ],
               "properties": {
                 "actor": {
                   "type": "string",
@@ -276,7 +343,11 @@
             }
           },
           "additionalProperties": true,
-          "required": [ "data", "id", "type" ]
+          "required": [
+            "data",
+            "id",
+            "type"
+          ]
         }
       },
       {
@@ -299,9 +370,14 @@
             }
           },
           "additionalProperties": false,
-          "required": [ "id", "type" ]
+          "required": [
+            "id",
+            "type"
+          ]
         }
       }
     ]
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

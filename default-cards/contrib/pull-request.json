@@ -40,7 +40,10 @@
             },
             "status": {
               "type": "string",
-              "enum": [ "open", "closed" ]
+              "enum": [
+                "open",
+                "closed"
+              ]
             },
             "archived": {
               "type": "boolean",
@@ -50,7 +53,12 @@
         }
       },
       "additionalProperties": true,
-      "required": [ "tags", "data" ]
+      "required": [
+        "tags",
+        "data"
+      ]
     }
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

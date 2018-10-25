@@ -60,5 +60,7 @@
       "lens-support-threads",
       "lens-kanban"
     ]
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

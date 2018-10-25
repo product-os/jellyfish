@@ -11,5 +11,7 @@
     "disallowLogin": true,
     "email": "accounts+jellyfish@resin.io",
     "roles": []
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

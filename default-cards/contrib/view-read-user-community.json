@@ -19,7 +19,9 @@
               "const": true
             }
           },
-          "required": [ "active" ]
+          "required": [
+            "active"
+          ]
         }
       }
     ],
@@ -59,11 +61,17 @@
                   "additionalProperties": true
                 }
               },
-              "required": [ "schema" ]
+              "required": [
+                "schema"
+              ]
             }
           },
           "additionalProperties": true,
-          "required": [ "slug", "type", "data" ]
+          "required": [
+            "slug",
+            "type",
+            "data"
+          ]
         }
       },
       {
@@ -81,7 +89,10 @@
               "additionalProperties": true
             }
           },
-          "required": [ "type", "data" ]
+          "required": [
+            "type",
+            "data"
+          ]
         }
       },
       {
@@ -114,7 +125,12 @@
               "additionalProperties": true
             }
           },
-          "required": [ "id", "slug", "type", "data" ]
+          "required": [
+            "id",
+            "slug",
+            "type",
+            "data"
+          ]
         }
       },
       {
@@ -128,14 +144,23 @@
             "type": {
               "type": "string",
               "anyOf": [
-                { "const": "create" },
-                { "const": "update" }
+                {
+                  "const": "create"
+                },
+                {
+                  "const": "update"
+                }
               ]
             },
             "data": {
               "type": "object",
               "additionalProperties": true,
-              "required": [ "timestamp", "target", "actor", "payload" ],
+              "required": [
+                "timestamp",
+                "target",
+                "actor",
+                "payload"
+              ],
               "properties": {
                 "timestamp": {
                   "type": "string"
@@ -155,7 +180,10 @@
               }
             }
           },
-          "required": [ "type", "data" ]
+          "required": [
+            "type",
+            "data"
+          ]
         }
       },
       {
@@ -187,7 +215,10 @@
             }
           },
           "additionalProperties": true,
-          "required": [ "type", "data" ]
+          "required": [
+            "type",
+            "data"
+          ]
         }
       },
       {
@@ -242,7 +273,10 @@
             }
           },
           "additionalProperties": true,
-          "required": [ "type", "data" ]
+          "required": [
+            "type",
+            "data"
+          ]
         }
       },
       {
@@ -265,7 +299,11 @@
               "additionalProperties": true
             }
           },
-          "required": [ "id", "type", "data" ]
+          "required": [
+            "id",
+            "type",
+            "data"
+          ]
         }
       },
       {
@@ -285,7 +323,10 @@
             }
           },
           "additionalProperties": true,
-          "required": [ "slug", "type" ]
+          "required": [
+            "slug",
+            "type"
+          ]
         }
       },
       {
@@ -313,7 +354,11 @@
             }
           },
           "additionalProperties": true,
-          "required": [ "data", "id", "type" ]
+          "required": [
+            "data",
+            "id",
+            "type"
+          ]
         }
       },
       {
@@ -339,7 +384,11 @@
             }
           },
           "additionalProperties": true,
-          "required": [ "id", "slug", "type" ]
+          "required": [
+            "id",
+            "slug",
+            "type"
+          ]
         }
       },
       {
@@ -361,12 +410,17 @@
                   }
                 }
               },
-              "required": [ "actor" ],
+              "required": [
+                "actor"
+              ],
               "additionalProperties": true
             }
           },
           "additionalProperties": true,
-          "required": [ "data", "type" ]
+          "required": [
+            "data",
+            "type"
+          ]
         }
       },
       {
@@ -391,11 +445,17 @@
                   }
                 }
               },
-              "required": [ "actor" ]
+              "required": [
+                "actor"
+              ]
             }
           },
           "additionalProperties": true,
-          "required": [ "id", "slug", "type" ]
+          "required": [
+            "id",
+            "slug",
+            "type"
+          ]
         }
       },
       {
@@ -416,7 +476,9 @@
             }
           },
           "additionalProperties": true,
-          "required": [ "type" ]
+          "required": [
+            "type"
+          ]
         }
       },
       {
@@ -438,11 +500,16 @@
                 }
               },
               "additionalProperties": true,
-              "required": [ "actor" ]
+              "required": [
+                "actor"
+              ]
             }
           },
           "additionalProperties": true,
-          "required": [ "data", "type" ]
+          "required": [
+            "data",
+            "type"
+          ]
         }
       },
       {
@@ -477,9 +544,15 @@
               "additionalProperties": false
             }
           },
-          "required": [ "id", "type", "data" ]
+          "required": [
+            "id",
+            "type",
+            "data"
+          ]
         }
       }
     ]
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

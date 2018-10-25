@@ -44,7 +44,9 @@
           }
         }
       },
-      "required": [ "name" ],
+      "required": [
+        "name"
+      ],
       "additionalProperties": true
     },
     "fieldOrder": [
@@ -52,5 +54,7 @@
       "Problem",
       "Solution"
     ]
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

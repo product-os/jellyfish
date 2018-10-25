@@ -16,7 +16,9 @@
           "const": "user"
         }
       },
-      "required": [ "type" ]
+      "required": [
+        "type"
+      ]
     },
     "arguments": {
       "password": {
@@ -30,5 +32,7 @@
         }
       }
     }
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

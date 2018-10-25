@@ -20,7 +20,10 @@
           "const": "type"
         }
       },
-      "required": [ "slug", "type" ]
+      "required": [
+        "slug",
+        "type"
+      ]
     },
     "arguments": {
       "username": {
@@ -37,5 +40,7 @@
         "$$formula": "HASH(input)"
       }
     }
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

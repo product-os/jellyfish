@@ -10,5 +10,7 @@
   "data": {
     "extends": "action-update-card",
     "arguments": {}
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

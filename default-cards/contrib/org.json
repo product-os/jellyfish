@@ -34,7 +34,12 @@
           }
         }
       },
-      "required": [ "slug", "name" ]
+      "required": [
+        "slug",
+        "name"
+      ]
     }
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

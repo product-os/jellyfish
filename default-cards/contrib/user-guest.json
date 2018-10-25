@@ -10,5 +10,7 @@
   "data": {
     "email": "accounts+jellyfish@resin.io",
     "roles": []
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

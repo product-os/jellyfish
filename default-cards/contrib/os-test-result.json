@@ -65,10 +65,14 @@
         }
       },
       "additionalProperties": true,
-      "required": [ "data" ]
+      "required": [
+        "data"
+      ]
     },
     "slices": [
       "properties.data.properties.status"
     ]
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

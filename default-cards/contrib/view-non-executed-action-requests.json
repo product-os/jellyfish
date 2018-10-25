@@ -38,10 +38,18 @@
                   "additionalProperties": true
                 }
               },
-              "required": [ "action", "target", "arguments" ]
+              "required": [
+                "action",
+                "target",
+                "arguments"
+              ]
             }
           },
-          "required": [ "id", "type", "data" ]
+          "required": [
+            "id",
+            "type",
+            "data"
+          ]
         }
       },
       {
@@ -57,10 +65,14 @@
                   "const": false
                 }
               },
-              "required": [ "executed" ]
+              "required": [
+                "executed"
+              ]
             }
           },
-          "required": [ "data" ]
+          "required": [
+            "data"
+          ]
         }
       }
     ],
@@ -68,5 +80,7 @@
       "lens-default-list",
       "lens-default-card"
     ]
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

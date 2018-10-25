@@ -49,6 +49,8 @@ export interface Card {
 	type: string;
 	tags: string[];
 	links: object;
+	requires: object[];
+	capabilities: object[];
 	active: boolean;
 	data: { [key: string]: any };
 	name?: string;

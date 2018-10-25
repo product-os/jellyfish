@@ -8,7 +8,10 @@
   "data": {
     "filter": {
       "type": "object",
-      "required": [ "type", "data" ],
+      "required": [
+        "type",
+        "data"
+      ],
       "properties": {
         "type": {
           "type": "string",
@@ -16,7 +19,9 @@
         },
         "data": {
           "type": "object",
-          "required": [ "source" ],
+          "required": [
+            "source"
+          ],
           "properties": {
             "source": {
               "type": "string",
@@ -27,5 +32,7 @@
       }
     },
     "arguments": {}
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

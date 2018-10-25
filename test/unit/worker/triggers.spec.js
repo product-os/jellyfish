@@ -605,10 +605,6 @@ ava.test('.getTypeTriggers() should return a trigger card with a matching type',
 		{
 			type: 'triggered-action',
 			version: '1.0.0',
-			active: true,
-			links: {},
-			tags: [],
-			markers: [],
 			data: {
 				type: 'foo',
 				filter: {
@@ -643,7 +639,7 @@ ava.test('.getTypeTriggers() should return a trigger card with a matching type',
 				}
 			}
 		}
-	]
+	].map(test.context.kernel.defaults)
 
 	for (const card of cards) {
 		await test.context.jellyfish.insertCard(test.context.session, card)
@@ -664,9 +660,6 @@ ava.test('.getTypeTriggers() should not return inactive cards', async (test) => 
 			type: 'triggered-action',
 			version: '1.0.0',
 			active: false,
-			links: {},
-			tags: [],
-			markers: [],
 			data: {
 				type: 'foo',
 				filter: {
@@ -701,7 +694,7 @@ ava.test('.getTypeTriggers() should not return inactive cards', async (test) => 
 				}
 			}
 		}
-	]
+	].map(test.context.kernel.defaults)
 
 	for (const card of cards) {
 		await test.context.jellyfish.insertCard(test.context.session, card)
@@ -717,10 +710,6 @@ ava.test('.getTypeTriggers() should ignore non-matching cards', async (test) => 
 		{
 			type: 'triggered-action',
 			version: '1.0.0',
-			active: true,
-			links: {},
-			tags: [],
-			markers: [],
 			data: {
 				type: 'foo',
 				filter: {
@@ -758,10 +747,6 @@ ava.test('.getTypeTriggers() should ignore non-matching cards', async (test) => 
 		{
 			type: 'triggered-action',
 			version: '1.0.0',
-			active: true,
-			links: {},
-			tags: [],
-			markers: [],
 			data: {
 				type: 'bar',
 				filter: {
@@ -796,7 +781,7 @@ ava.test('.getTypeTriggers() should ignore non-matching cards', async (test) => 
 				}
 			}
 		}
-	]
+	].map(test.context.kernel.defaults)
 
 	for (const card of cards) {
 		await test.context.jellyfish.insertCard(test.context.session, card)
@@ -816,10 +801,6 @@ ava.test('.getTypeTriggers() should ignore cards that are not triggered actions'
 		{
 			type: 'triggered-action',
 			version: '1.0.0',
-			active: true,
-			links: {},
-			tags: [],
-			markers: [],
 			data: {
 				type: 'foo',
 				filter: {
@@ -857,10 +838,6 @@ ava.test('.getTypeTriggers() should ignore cards that are not triggered actions'
 		{
 			type: 'card',
 			version: '1.0.0',
-			active: true,
-			links: {},
-			tags: [],
-			markers: [],
 			data: {
 				type: 'foo',
 				filter: {
@@ -895,7 +872,7 @@ ava.test('.getTypeTriggers() should ignore cards that are not triggered actions'
 				}
 			}
 		}
-	]
+	].map(test.context.kernel.defaults)
 
 	for (const card of cards) {
 		await test.context.jellyfish.insertCard(test.context.session, card)
@@ -915,10 +892,6 @@ ava.test('.getTypeTriggers() should not return triggered actions not associated 
 		{
 			type: 'triggered-action',
 			version: '1.0.0',
-			active: true,
-			links: {},
-			tags: [],
-			markers: [],
 			data: {
 				filter: {
 					type: 'object',
@@ -952,7 +925,7 @@ ava.test('.getTypeTriggers() should not return triggered actions not associated 
 				}
 			}
 		}
-	]
+	].map(test.context.kernel.defaults)
 
 	for (const card of cards) {
 		await test.context.jellyfish.insertCard(test.context.session, card)

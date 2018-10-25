@@ -8,14 +8,22 @@
   "data": {
     "filter": {
       "type": "object",
-      "required": [ "type" ],
+      "required": [
+        "type"
+      ],
       "properties": {
         "type": {
           "type": "string",
-          "enum": [ "support-thread", "message", "whisper" ]
+          "enum": [
+            "support-thread",
+            "message",
+            "whisper"
+          ]
         }
       }
     },
     "arguments": {}
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

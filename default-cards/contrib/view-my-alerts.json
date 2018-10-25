@@ -32,11 +32,15 @@
                       }
                     }
                   },
-                  "required": [ "alertsUser" ],
+                  "required": [
+                    "alertsUser"
+                  ],
                   "additionalProperties": true
                 }
               },
-              "required": [ "payload" ],
+              "required": [
+                "payload"
+              ],
               "additionalProperties": true
             }
           },
@@ -47,5 +51,7 @@
     "lenses": [
       "lens-interleaved"
     ]
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

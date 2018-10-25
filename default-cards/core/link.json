@@ -37,10 +37,21 @@
               "format": "uuid"
             }
           },
-          "required": [ "inverseName", "from", "to" ]
+          "required": [
+            "inverseName",
+            "from",
+            "to"
+          ]
         }
       },
-      "required": [ "name", "type", "links", "data" ]
+      "required": [
+        "name",
+        "type",
+        "links",
+        "data"
+      ]
     }
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

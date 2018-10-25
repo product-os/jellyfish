@@ -47,7 +47,9 @@
             },
             "data": {
               "type": "object",
-              "required": [ "status" ],
+              "required": [
+                "status"
+              ],
               "properties": {
                 "status": {
                   "type": "string",
@@ -70,5 +72,7 @@
       "lens-support-threads",
       "lens-kanban"
     ]
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

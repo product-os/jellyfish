@@ -38,11 +38,19 @@
               }
             }
           },
-          "required": [ "arguments" ]
+          "required": [
+            "arguments"
+          ]
         }
       },
       "additionalProperties": true,
-      "required": [ "slug", "type", "data" ]
+      "required": [
+        "slug",
+        "type",
+        "data"
+      ]
     }
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

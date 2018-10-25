@@ -44,7 +44,12 @@
         }
       },
       "additionalProperties": true,
-      "required": [ "tags", "data" ]
+      "required": [
+        "tags",
+        "data"
+      ]
     }
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

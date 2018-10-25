@@ -57,5 +57,7 @@
     "lenses": [
       "lens-interleaved"
     ]
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

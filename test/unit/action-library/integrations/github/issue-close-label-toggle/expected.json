@@ -5,6 +5,8 @@
     "version": "1.0.0",
     "active": true,
     "tags": [],
+    "requires": [],
+    "capabilities": [],
     "data": {
       "repository": "resin-io/jellyfish",
       "mirrors": [
@@ -23,6 +25,8 @@
       "active": true,
       "version": "1.0.0",
       "tags": [],
+      "requires": [],
+      "capabilities": [],
       "data": {
         "timestamp": "2018-09-27T14:29:09Z",
         "payload": {
@@ -30,6 +34,8 @@
           "active": true,
           "version": "1.0.0",
           "tags": [],
+          "requires": [],
+          "capabilities": [],
           "data": {
             "repository": "resin-io/jellyfish",
             "mirrors": [
@@ -49,6 +55,8 @@
       "active": true,
       "version": "1.0.0",
       "tags": [],
+      "requires": [],
+      "capabilities": [],
       "data": {
         "timestamp": "2018-09-27T14:30:19Z",
         "payload": {
@@ -56,6 +64,8 @@
           "active": true,
           "version": "1.0.0",
           "tags": [],
+          "requires": [],
+          "capabilities": [],
           "data": {
             "repository": "resin-io/jellyfish",
             "mirrors": [
@@ -75,6 +85,8 @@
       "active": true,
       "version": "1.0.0",
       "tags": [],
+      "requires": [],
+      "capabilities": [],
       "data": {
         "timestamp": "2018-09-27T14:31:38Z",
         "payload": {
@@ -82,6 +94,8 @@
           "active": true,
           "version": "1.0.0",
           "tags": [ "chore" ],
+          "requires": [],
+          "capabilities": [],
           "data": {
             "repository": "resin-io/jellyfish",
             "mirrors": [
@@ -101,6 +115,8 @@
       "active": true,
       "version": "1.0.0",
       "tags": [],
+      "requires": [],
+      "capabilities": [],
       "data": {
         "timestamp": "2018-09-27T14:32:50Z",
         "payload": {
@@ -108,6 +124,8 @@
           "active": true,
           "version": "1.0.0",
           "tags": [],
+          "requires": [],
+          "capabilities": [],
           "data": {
             "repository": "resin-io/jellyfish",
             "mirrors": [

@@ -21,7 +21,9 @@
             }
           },
           "additionalProperties": true,
-          "required": [ "type" ]
+          "required": [
+            "type"
+          ]
         }
       }
     ],
@@ -29,5 +31,7 @@
       "lens-list",
       "lens-table"
     ]
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

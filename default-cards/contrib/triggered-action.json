@@ -33,7 +33,10 @@
               "type": "string"
             },
             "target": {
-              "type": [ "string", "object" ]
+              "type": [
+                "string",
+                "object"
+              ]
             },
             "arguments": {
               "type": "object"
@@ -59,7 +62,11 @@
           ]
         }
       },
-      "required": [ "data" ]
+      "required": [
+        "data"
+      ]
     }
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

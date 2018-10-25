@@ -33,10 +33,18 @@
               }
             }
           },
-          "required": [ "schema" ]
+          "required": [
+            "schema"
+          ]
         }
       },
-      "required": [ "slug", "type", "data" ]
+      "required": [
+        "slug",
+        "type",
+        "data"
+      ]
     }
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

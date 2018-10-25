@@ -184,6 +184,8 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 			id,
 			tags,
 			links: {},
+			requires: [],
+			capabilities: [],
 			active: true,
 			type: whisper ? 'whisper' : 'message',
 			data: {
@@ -271,6 +273,8 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		const message = {
 			id,
 			links: {},
+			requires: [],
+			capabilities: [],
 			active: true,
 			type: 'whisper',
 			data: {

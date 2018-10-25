@@ -6,6 +6,8 @@
     "markers": [],
     "links": {},
     "active": true,
+    "requires": [],
+    "capabilities": [],
     "data": {
       "email": "johndoe@example.com",
       "name": {

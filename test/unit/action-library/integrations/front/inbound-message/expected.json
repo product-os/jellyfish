@@ -5,6 +5,8 @@
     "type": "support-thread",
     "active": true,
     "tags": [],
+    "requires": [],
+    "capabilities": [],
     "data": {
       "environment": "production",
       "inbox": "Test_Contracts",
@@ -23,6 +25,8 @@
       "active": true,
       "version": "1.0.0",
       "tags": [],
+      "requires": [],
+      "capabilities": [],
       "data": {
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_1y9l8fv"
@@ -40,6 +44,8 @@
       "active": true,
       "version": "1.0.0",
       "tags": [],
+      "requires": [],
+      "capabilities": [],
       "data": {
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_1y9l9g3"
@@ -57,6 +63,8 @@
       "active": true,
       "version": "1.0.0",
       "tags": [],
+      "requires": [],
+      "capabilities": [],
       "data": {
         "timestamp": "2018-10-10T22:13:52.817Z",
         "payload": {
@@ -64,6 +72,8 @@
           "active": true,
           "version": "1.0.0",
           "tags": [],
+          "requires": [],
+          "capabilities": [],
           "data": {
             "environment": "production",
             "inbox": "Test_Contracts",

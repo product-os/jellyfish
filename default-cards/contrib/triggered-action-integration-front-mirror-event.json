@@ -8,11 +8,17 @@
   "data": {
     "filter": {
       "type": "object",
-      "required": [ "type" ],
+      "required": [
+        "type"
+      ],
       "properties": {
         "type": {
           "type": "string",
-          "enum": [ "message", "whisper", "support-thread" ]
+          "enum": [
+            "message",
+            "whisper",
+            "support-thread"
+          ]
         }
       }
     },
@@ -21,5 +27,7 @@
       "$eval": "source.id"
     },
     "arguments": {}
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

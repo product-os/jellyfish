@@ -31,7 +31,11 @@
           ]
         }
       },
-      "required": [ "data" ]
+      "required": [
+        "data"
+      ]
     }
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

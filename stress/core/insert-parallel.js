@@ -30,176 +30,125 @@ const run = async () => {
 		marky.mark(name)
 
 		await Promise.all([
-			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+			test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 				type: 'card',
 				version: '1.0.0',
-				links: {},
-				tags: [],
-				active: true,
 				data: {
 					count: times
 				}
-			}),
-			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+			})),
+			test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 				type: 'card',
 				version: '1.0.0',
-				links: {},
-				tags: [],
-				active: true,
 				data: {
 					count: times
 				}
-			}),
-			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+			})),
+			test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 				type: 'card',
 				version: '1.0.0',
-				links: {},
-				tags: [],
-				active: true,
 				data: {
 					count: times
 				}
-			}),
-			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+			})),
+			test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 				type: 'card',
 				version: '1.0.0',
-				links: {},
-				tags: [],
-				active: true,
 				data: {
 					count: times
 				}
-			}),
-			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+			})),
+			test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 				type: 'card',
 				version: '1.0.0',
-				links: {},
-				tags: [],
-				active: true,
 				data: {
 					count: times
 				}
-			}),
-			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+			})),
+			test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 				type: 'card',
 				version: '1.0.0',
-				links: {},
-				tags: [],
-				active: true,
 				data: {
 					count: times
 				}
-			}),
-			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+			})),
+			test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 				type: 'card',
 				version: '1.0.0',
-				links: {},
-				tags: [],
-				active: true,
 				data: {
 					count: times
 				}
-			}),
-			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+			})),
+			test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 				type: 'card',
 				version: '1.0.0',
-				links: {},
-				tags: [],
-				active: true,
 				data: {
 					count: times
 				}
-			}),
-			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+			})),
+			test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 				type: 'card',
 				version: '1.0.0',
-				links: {},
-				tags: [],
-				active: true,
 				data: {
 					count: times
 				}
-			}),
-			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+			})),
+			test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 				type: 'card',
 				version: '1.0.0',
-				links: {},
-				tags: [],
-				active: true,
 				data: {
 					count: times
 				}
-			}),
-			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+			})),
+			test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 				type: 'card',
 				version: '1.0.0',
-				links: {},
-				tags: [],
-				active: true,
 				data: {
 					count: times
 				}
-			}),
-			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+			})),
+			test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 				type: 'card',
 				version: '1.0.0',
-				links: {},
-				tags: [],
-				active: true,
 				data: {
 					count: times
 				}
-			}),
-			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+			})),
+			test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 				type: 'card',
 				version: '1.0.0',
-				links: {},
-				tags: [],
-				active: true,
 				data: {
 					count: times
 				}
-			}),
-			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+			})),
+			test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 				type: 'card',
 				version: '1.0.0',
-				links: {},
-				tags: [],
-				active: true,
 				data: {
 					count: times
 				}
-			}),
-			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+			})),
+			test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 				type: 'card',
 				version: '1.0.0',
-				links: {},
-				tags: [],
-				active: true,
 				data: {
 					count: times
 				}
-			}),
-			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+			})),
+			test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 				type: 'card',
 				version: '1.0.0',
-				links: {},
-				tags: [],
-				active: true,
 				data: {
 					count: times
 				}
-			}),
-			test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+			})),
+			test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 				type: 'card',
 				version: '1.0.0',
-				links: {},
-				tags: [],
-				active: true,
 				data: {
 					count: times
 				}
-			})
+			}))
 		])
 
 		marky.stop(name)

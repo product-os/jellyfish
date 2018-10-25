@@ -5,6 +5,8 @@
     "version": "1.0.0",
     "active": true,
     "tags": [],
+    "requires": [],
+    "capabilities": [],
     "data": {
       "environment": "production",
       "inbox": "Test_Contracts",
@@ -23,6 +25,8 @@
       "active": true,
       "version": "1.0.0",
       "tags": [],
+      "requires": [],
+      "capabilities": [],
       "data": {
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_1y9mrbf"
@@ -40,6 +44,8 @@
       "active": true,
       "version": "1.0.0",
       "tags": [],
+      "requires": [],
+      "capabilities": [],
       "data": {
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_1y9msqb"
@@ -57,6 +63,8 @@
       "active": true,
       "version": "1.0.0",
       "tags": [],
+      "requires": [],
+      "capabilities": [],
       "data": {
         "timestamp": "2018-10-10T22:22:30.285Z",
         "payload": {
@@ -64,6 +72,8 @@
           "version": "1.0.0",
           "active": true,
           "tags": [],
+          "requires": [],
+          "capabilities": [],
           "data": {
             "environment": "production",
             "inbox": "Test_Contracts",
@@ -83,6 +93,8 @@
       "active": true,
       "version": "1.0.0",
       "tags": [],
+      "requires": [],
+      "capabilities": [],
       "data": {
         "timestamp": "2018-10-10T22:22:37.849Z",
         "payload": {
@@ -90,6 +102,8 @@
           "version": "1.0.0",
           "active": true,
           "tags": [],
+          "requires": [],
+          "capabilities": [],
           "data": {
             "environment": "production",
             "inbox": "Test_Contracts",
@@ -109,6 +123,8 @@
       "active": true,
       "version": "1.0.0",
       "tags": [],
+      "requires": [],
+      "capabilities": [],
       "data": {
         "timestamp": "2018-10-10T22:22:46.382Z",
         "payload": {
@@ -116,6 +132,8 @@
           "version": "1.0.0",
           "active": true,
           "tags": [],
+          "requires": [],
+          "capabilities": [],
           "data": {
             "environment": "production",
             "inbox": "Test_Contracts",

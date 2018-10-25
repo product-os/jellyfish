@@ -51,13 +51,36 @@
         "active": {
           "type": "boolean"
         },
+        "requires": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "capabilities": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
         "data": {
           "type": "object",
           "additionalProperties": true
         }
       },
       "additionalProperties": false,
-      "required": [ "version", "type", "tags", "links", "active", "data" ]
+      "required": [
+        "type",
+        "tags",
+        "links",
+        "active",
+        "data",
+        "requires",
+        "capabilities",
+        "version"
+      ]
     }
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

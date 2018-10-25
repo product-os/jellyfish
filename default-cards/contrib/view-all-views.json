@@ -20,9 +20,13 @@
             }
           },
           "additionalProperties": true,
-          "required": [ "type" ]
+          "required": [
+            "type"
+          ]
         }
       }
     ]
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

@@ -88,14 +88,16 @@ ava.test.serial('.action() should resolve with the created card', async (test) =
 	})
 
 	test.deepEqual(_.omit(card, 'id'), {
-		active: true,
-		version: '1.0.0',
-		data: {},
-		links: {},
-		markers: [],
 		name,
+		version: '1.0.0',
+		type: 'card',
+		active: true,
+		links: {},
+		requires: [],
+		capabilities: [],
+		markers: [],
 		tags: [],
-		type: 'card'
+		data: {}
 	})
 })
 
@@ -108,14 +110,16 @@ ava.test.serial('.query() should run a query on the server', async (test) => {
 	const name = `test-card-${randomstring.generate()}`
 
 	await server.jellyfish.insertCard(test.context.session, {
-		active: true,
-		version: '1.0.0',
-		data: {},
-		links: {},
-		markers: [],
 		name,
+		version: '1.0.0',
+		type: 'card',
+		active: true,
+		links: {},
+		requires: [],
+		capabilities: [],
+		markers: [],
 		tags: [],
-		type: 'card'
+		data: {}
 	})
 
 	await sdk.setAuthToken(test.context.session)
@@ -132,14 +136,16 @@ ava.test.serial('.query() should run a query on the server', async (test) => {
 	})
 
 	test.deepEqual(_.omit(_.first(result), 'id'), {
-		active: true,
-		data: {},
-		links: {},
-		version: '1.0.0',
-		markers: [],
 		name,
+		version: '1.0.0',
+		type: 'card',
+		active: true,
+		links: {},
+		requires: [],
+		capabilities: [],
+		markers: [],
 		tags: [],
-		type: 'card'
+		data: {}
 	})
 })
 
@@ -155,45 +161,51 @@ ava.test.serial('.query() should accept a "limit" option', async (test) => {
 	const uuid = randomstring.generate()
 
 	const card1 = await server.jellyfish.insertCard(test.context.session, {
-		active: true,
 		version: '1.0.0',
 		data: {
 			timestamp: new Date(baseTime + 1000).toISOString(),
 			uuid
 		},
-		links: {},
-		markers: [],
 		name: 'card1',
-		tags: [],
-		type: 'card'
+		type: 'card',
+		active: true,
+		links: {},
+		requires: [],
+		capabilities: [],
+		markers: [],
+		tags: []
 	})
 
 	const card2 = await server.jellyfish.insertCard(test.context.session, {
-		active: true,
 		version: '1.0.0',
 		data: {
 			timestamp: new Date(baseTime + 2000).toISOString(),
 			uuid
 		},
-		links: {},
-		markers: [],
 		name: 'card2',
-		tags: [],
-		type: 'card'
+		type: 'card',
+		active: true,
+		links: {},
+		requires: [],
+		capabilities: [],
+		markers: [],
+		tags: []
 	})
 
 	await server.jellyfish.insertCard(test.context.session, {
-		active: true,
 		version: '1.0.0',
 		data: {
 			timestamp: new Date(baseTime + 3000).toISOString(),
 			uuid
 		},
-		links: {},
-		markers: [],
 		name: 'card3',
-		tags: [],
-		type: 'card'
+		type: 'card',
+		active: true,
+		links: {},
+		requires: [],
+		capabilities: [],
+		markers: [],
+		tags: []
 	})
 
 	await sdk.setAuthToken(test.context.session)
@@ -239,45 +251,51 @@ ava.test.serial('.query() should accept a "skip" option', async (test) => {
 	const uuid = randomstring.generate()
 
 	await server.jellyfish.insertCard(test.context.session, {
-		active: true,
 		version: '1.0.0',
 		data: {
 			timestamp: new Date(baseTime + 1000).toISOString(),
 			uuid
 		},
-		links: {},
-		markers: [],
 		name: 'card1',
-		tags: [],
-		type: 'card'
+		type: 'card',
+		active: true,
+		links: {},
+		requires: [],
+		capabilities: [],
+		markers: [],
+		tags: []
 	})
 
 	const card2 = await server.jellyfish.insertCard(test.context.session, {
-		active: true,
 		version: '1.0.0',
 		data: {
 			timestamp: new Date(baseTime + 2000).toISOString(),
 			uuid
 		},
-		links: {},
-		markers: [],
 		name: 'card2',
-		tags: [],
-		type: 'card'
+		type: 'card',
+		active: true,
+		links: {},
+		requires: [],
+		capabilities: [],
+		markers: [],
+		tags: []
 	})
 
 	const card3 = await server.jellyfish.insertCard(test.context.session, {
-		active: true,
 		version: '1.0.0',
 		data: {
 			timestamp: new Date(baseTime + 3000).toISOString(),
 			uuid
 		},
-		links: {},
-		markers: [],
 		name: 'card3',
-		tags: [],
-		type: 'card'
+		type: 'card',
+		active: true,
+		links: {},
+		requires: [],
+		capabilities: [],
+		markers: [],
+		tags: []
 	})
 
 	await sdk.setAuthToken(test.context.session)
@@ -320,55 +338,63 @@ ava.test.serial('.query() should accept a "sortBy" option as a single key', asyn
 	const uuid = randomstring.generate()
 
 	const card1 = await server.jellyfish.insertCard(test.context.session, {
-		active: true,
 		version: '1.0.0',
 		name: 'd',
 		data: {
 			uuid
 		},
+		type: 'card',
+		active: true,
 		links: {},
+		requires: [],
+		capabilities: [],
 		markers: [],
-		tags: [],
-		type: 'card'
+		tags: []
 	})
 
 	const card2 = await server.jellyfish.insertCard(test.context.session, {
-		active: true,
 		version: '1.0.0',
 		name: 'a',
 		data: {
 			uuid
 		},
+		type: 'card',
+		active: true,
 		links: {},
+		requires: [],
+		capabilities: [],
 		markers: [],
-		tags: [],
-		type: 'card'
+		tags: []
 	})
 
 	const card3 = await server.jellyfish.insertCard(test.context.session, {
-		active: true,
 		version: '1.0.0',
 		name: 'c',
 		data: {
 			uuid
 		},
+		type: 'card',
+		active: true,
 		links: {},
+		requires: [],
+		capabilities: [],
 		markers: [],
-		tags: [],
-		type: 'card'
+		tags: []
 	})
 
 	const card4 = await server.jellyfish.insertCard(test.context.session, {
-		active: true,
 		version: '1.0.0',
 		name: 'b',
 		data: {
 			uuid
 		},
+		type: 'card',
+		active: true,
 		links: {},
+		requires: [],
+		capabilities: [],
 		markers: [],
-		tags: [],
-		type: 'card'
+		tags: []
 	})
 
 	await sdk.setAuthToken(test.context.session)
@@ -410,55 +436,63 @@ ava.test.serial('.query() should accept a "sortBy" option as an array of keys', 
 	const uuid = randomstring.generate()
 
 	const card1 = await server.jellyfish.insertCard(test.context.session, {
-		active: true,
 		version: '1.0.0',
 		data: {
 			code: 'd',
 			uuid
 		},
+		type: 'card',
+		active: true,
 		links: {},
+		requires: [],
+		capabilities: [],
 		markers: [],
-		tags: [],
-		type: 'card'
+		tags: []
 	})
 
 	const card2 = await server.jellyfish.insertCard(test.context.session, {
-		active: true,
 		version: '1.0.0',
 		data: {
 			code: 'a',
 			uuid
 		},
+		type: 'card',
+		active: true,
 		links: {},
+		requires: [],
+		capabilities: [],
 		markers: [],
-		tags: [],
-		type: 'card'
+		tags: []
 	})
 
 	const card3 = await server.jellyfish.insertCard(test.context.session, {
-		active: true,
 		version: '1.0.0',
 		data: {
 			code: 'c',
 			uuid
 		},
+		type: 'card',
+		active: true,
 		links: {},
+		requires: [],
+		capabilities: [],
 		markers: [],
-		tags: [],
-		type: 'card'
+		tags: []
 	})
 
 	const card4 = await server.jellyfish.insertCard(test.context.session, {
-		active: true,
 		version: '1.0.0',
 		data: {
 			code: 'b',
 			uuid
 		},
+		type: 'card',
+		active: true,
 		links: {},
+		requires: [],
+		capabilities: [],
 		markers: [],
-		tags: [],
-		type: 'card'
+		tags: []
 	})
 
 	await sdk.setAuthToken(test.context.session)
@@ -503,25 +537,29 @@ ava.test.serial('.card.get() should return a single element', async (test) => {
 
 	while (cardsToInsert--) {
 		await server.jellyfish.insertCard(test.context.session, {
-			active: true,
 			version: '1.0.0',
-			data: {},
+			type: 'card',
+			active: true,
 			links: {},
+			requires: [],
+			capabilities: [],
 			markers: [],
 			tags: [],
-			type: 'card'
+			data: {}
 		})
 	}
 
 	const card = await server.jellyfish.insertCard(test.context.session, {
-		active: true,
-		data: {},
 		version: '1.0.0',
-		links: {},
-		markers: [],
 		name,
+		type: 'card',
+		active: true,
+		links: {},
+		requires: [],
+		capabilities: [],
+		markers: [],
 		tags: [],
-		type: 'card'
+		data: {}
 	})
 
 	await sdk.setAuthToken(test.context.session)
@@ -543,25 +581,29 @@ ava.test.serial('.card.get() should work with slugs', async (test) => {
 
 	while (cardsToInsert--) {
 		await server.jellyfish.insertCard(test.context.session, {
-			active: true,
 			version: '1.0.0',
-			data: {},
+			type: 'card',
+			active: true,
 			links: {},
+			requires: [],
+			capabilities: [],
 			markers: [],
 			tags: [],
-			type: 'card'
+			data: {}
 		})
 	}
 
 	const card = await server.jellyfish.insertCard(test.context.session, {
-		active: true,
 		version: '1.0.0',
-		data: {},
-		links: {},
-		markers: [],
 		slug,
+		type: 'card',
+		active: true,
+		links: {},
+		requires: [],
+		capabilities: [],
+		markers: [],
 		tags: [],
-		type: 'card'
+		data: {}
 	})
 
 	await sdk.setAuthToken(test.context.session)
@@ -625,14 +667,16 @@ ava.test.serial('.card.create() should resolve with the created card', async (te
 	})
 
 	test.deepEqual(_.omit(card, 'id'), {
-		active: true,
 		version: '1.0.0',
-		data: {},
-		links: {},
-		markers: [],
 		slug,
+		type: 'card',
+		active: true,
+		links: {},
+		requires: [],
+		capabilities: [],
+		markers: [],
 		tags: [],
-		type: 'card'
+		data: {}
 	})
 })
 

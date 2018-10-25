@@ -40,7 +40,9 @@
                   "pattern": "^[a-f0-9]+$"
                 }
               },
-              "required": [ "hash" ]
+              "required": [
+                "hash"
+              ]
             },
             "roles": {
               "type": "array",
@@ -59,7 +61,12 @@
           ]
         }
       },
-      "required": [ "slug", "data" ]
+      "required": [
+        "slug",
+        "data"
+      ]
     }
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }
