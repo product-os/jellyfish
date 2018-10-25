@@ -26,16 +26,12 @@ exports.server = {
 		test.context.session = test.context.server.jellyfish.sessions.admin
 		test.context.guestSession = test.context.server.jellyfish.sessions.guest
 
-		test.context.sendHook = (method, provider, type, payload) => {
-			let targetUrl = `http://localhost:${test.context.server.port}/api/v2/hooks/${provider}`
-			if (type) {
-				targetUrl += `/${type}`
-			}
-
+		test.context.http = (method, uri, payload) => {
 			return new Bluebird((resolve, reject) => {
 				request({
 					method,
-					url: targetUrl,
+					baseUrl: `http://localhost:${test.context.server.port}`,
+					url: uri,
 					json: true,
 					body: payload
 				}, (error, response, body) => {
