@@ -1,6 +1,7 @@
 {
   "slug": "view-all-architecture-topics",
   "name": "All architecture topics",
+  "version": "1.0.0",
   "type": "view",
   "markers": [],
   "tags": [],

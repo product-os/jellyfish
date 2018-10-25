@@ -1,6 +1,7 @@
 {
   "slug": "view-all-messages",
   "name": "All messages",
+  "version": "1.0.0",
   "type": "view",
   "markers": [],
   "tags": [],

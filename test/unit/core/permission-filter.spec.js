@@ -33,6 +33,7 @@ ava.test('.getSessionUser() should throw if the session is invalid', async (test
 ava.test('.getSessionUser() should throw if the session actor is invalid', async (test) => {
 	const session = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'session',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -52,6 +53,7 @@ ava.test('.getSessionUser() should get the session user given the session did no
 	const result = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'user-johndoe',
 		type: 'user',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -67,6 +69,7 @@ ava.test('.getSessionUser() should get the session user given the session did no
 
 	const session = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'session',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -91,6 +94,7 @@ ava.test('.getSessionUser() should throw if the session expired', async (test) =
 	const user = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'user-johndoe',
 		type: 'user',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -106,6 +110,7 @@ ava.test('.getSessionUser() should throw if the session expired', async (test) =
 
 	const session = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'session',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -131,6 +136,7 @@ ava.test('.getViews() should return the schema of a single view', async (test) =
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'view-read-foo',
 		type: 'view',
+		version: '1.0.0',
 		tags: [],
 		markers: [],
 		links: {},
@@ -180,6 +186,7 @@ ava.test('.getViews() should ignore undefined views', async (test) => {
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'view-read-foo',
 		type: 'view',
+		version: '1.0.0',
 		tags: [],
 		markers: [],
 		links: {},
@@ -231,6 +238,7 @@ ava.test('.getViews() should ignore cards that are not views', async (test) => {
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'view-read-hello',
 		type: 'card',
+		version: '1.0.0',
 		tags: [],
 		markers: [],
 		links: {},
@@ -257,6 +265,7 @@ ava.test('.getViews() should ignore cards that are not views', async (test) => {
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'view-read-foo',
 		type: 'view',
+		version: '1.0.0',
 		tags: [],
 		markers: [],
 		links: {},
@@ -307,6 +316,7 @@ ava.test('.getViews() should return the schemas of two roles', async (test) => {
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'view-read-foo',
 		type: 'view',
+		version: '1.0.0',
 		tags: [],
 		markers: [],
 		links: {},
@@ -333,6 +343,7 @@ ava.test('.getViews() should return the schemas of two roles', async (test) => {
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'view-read-bar',
 		type: 'view',
+		version: '1.0.0',
 		tags: [],
 		markers: [],
 		links: {},
@@ -397,6 +408,7 @@ ava.test('.getViewSchema() should return null if the card is not a view', (test)
 ava.test('.getViewSchema() should preserve template interpolations in user properties', (test) => {
 	const schema = permissionFilter.getViewSchema({
 		type: 'view',
+		version: '1.0.0',
 		links: {},
 		tags: [],
 		markers: [],
@@ -439,6 +451,7 @@ ava.test('.getViewSchema() should preserve template interpolations in user prope
 ava.test('.getViewSchema() should preserve template interpolations in schema properties', (test) => {
 	const schema = permissionFilter.getViewSchema({
 		type: 'view',
+		version: '1.0.0',
 		links: {},
 		tags: [],
 		markers: [],
@@ -479,6 +492,7 @@ ava.test('.getViewSchema() should preserve template interpolations in schema pro
 ava.test('.getViewSchema() should return a schema given a view card with two conjunctions', (test) => {
 	const schema = permissionFilter.getViewSchema({
 		type: 'view',
+		version: '1.0.0',
 		links: {},
 		tags: [],
 		markers: [],
@@ -531,6 +545,7 @@ ava.test('.getViewSchema() should return a schema given a view card with two con
 ava.test('.getViewSchema() should return a schema given a view card with two conjunctions and empty disjunctions', (test) => {
 	const schema = permissionFilter.getViewSchema({
 		type: 'view',
+		version: '1.0.0',
 		links: {},
 		tags: [],
 		markers: [],
@@ -584,6 +599,7 @@ ava.test('.getViewSchema() should return a schema given a view card with two con
 ava.test('.getViewSchema() should return a schema given a view card with two disjunctions', (test) => {
 	const schema = permissionFilter.getViewSchema({
 		type: 'view',
+		version: '1.0.0',
 		links: {},
 		tags: [],
 		markers: [],
@@ -650,6 +666,7 @@ ava.test('.getViewSchema() should return a schema given a view card with two dis
 ava.test('.getViewSchema() should return a schema given a view card with two disjunctions and empty conjunctions', (test) => {
 	const schema = permissionFilter.getViewSchema({
 		type: 'view',
+		version: '1.0.0',
 		links: {},
 		tags: [],
 		markers: [],
@@ -717,6 +734,7 @@ ava.test('.getViewSchema() should return a schema given a view card with two dis
 ava.test('.getViewSchema() should return a schema given a view card with two disjunctions and two conjunctions', (test) => {
 	const schema = permissionFilter.getViewSchema({
 		type: 'view',
+		version: '1.0.0',
 		links: {},
 		tags: [],
 		markers: [],
@@ -819,6 +837,7 @@ ava.test('.getViewSchema() should return a schema given a view card with two dis
 ava.test('.getViewSchema() should return null given a view card with no filters', (test) => {
 	const schema = permissionFilter.getViewSchema({
 		type: 'view',
+		version: '1.0.0',
 		links: {},
 		tags: [],
 		markers: [],

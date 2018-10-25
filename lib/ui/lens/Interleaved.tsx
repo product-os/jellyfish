@@ -239,6 +239,7 @@ const mapDispatchToProps = (dispatch: any) => ({
 const lens: Lens = {
 	slug: 'lens-interleaved',
 	type: 'lens',
+	version: '1.0.0',
 	name: 'Interleaved lens',
 	data: {
 		icon: 'address-card',

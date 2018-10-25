@@ -1,6 +1,7 @@
 {
   "slug": "view-all-issues",
   "name": "Product issues",
+  "version": "1.0.0",
   "type": "view",
   "markers": [],
   "tags": [],

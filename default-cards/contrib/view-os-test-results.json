@@ -1,6 +1,7 @@
 {
   "slug": "view-os-test-results",
   "name": "OS test results",
+  "version": "1.0.0",
   "type": "view",
   "markers": [],
   "tags": [],

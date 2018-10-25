@@ -3,6 +3,7 @@
     "name": "Delete message test",
     "type": "support-thread",
     "active": true,
+    "version": "1.0.0",
     "tags": [],
     "data": {
       "environment": "production",
@@ -20,6 +21,7 @@
     {
       "type": "message",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "mirrors": [
@@ -36,6 +38,7 @@
     {
       "type": "message",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "mirrors": [
@@ -52,12 +55,14 @@
     {
       "type": "create",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "timestamp": "2018-10-10T22:28:38.044Z",
         "payload": {
           "name": "Delete message test",
           "active": true,
+          "version": "1.0.0",
           "tags": [],
           "data": {
             "environment": "production",
@@ -76,11 +81,13 @@
     {
       "type": "update",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "timestamp": "2018-10-10T22:28:47.412Z",
         "payload": {
           "name": "Delete message test",
+          "version": "1.0.0",
           "active": true,
           "tags": [],
           "data": {
@@ -100,12 +107,14 @@
     {
       "type": "update",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "timestamp": "2018-10-10T22:29:00.113Z",
         "payload": {
           "name": "Delete message test",
           "active": true,
+          "version": "1.0.0",
           "tags": [],
           "data": {
             "environment": "production",

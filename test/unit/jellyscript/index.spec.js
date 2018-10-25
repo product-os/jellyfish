@@ -363,6 +363,7 @@ ava.test('.getTypeTriggers() should report back watchers when aggregating events
 	const triggers = jellyscript.getTypeTriggers({
 		slug: 'thread',
 		type: 'type',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -388,6 +389,7 @@ ava.test('.getTypeTriggers() should report back watchers when aggregating events
 	test.deepEqual(triggers, [
 		{
 			type: 'triggered-action',
+			version: '1.0.0',
 			slug: 'triggered-action-thread-data-mentions',
 			active: true,
 			links: {},

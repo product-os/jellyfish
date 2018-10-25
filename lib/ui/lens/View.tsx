@@ -396,6 +396,7 @@ const mapDispatchToProps = (dispatch: any) => ({
 const lens: Lens = {
 	slug: 'lens-view',
 	type: 'lens',
+	version: '1.0.0',
 	name: 'View lens',
 	data: {
 		type: 'view',

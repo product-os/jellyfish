@@ -2,6 +2,7 @@
   "head": {
     "name": "PR line comment",
     "type": "pull-request",
+    "version": "1.0.0",
     "active": true,
     "tags": [],
     "data": {
@@ -20,11 +21,13 @@
     {
       "type": "create",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "timestamp": "2018-10-10T09:56:17Z",
         "payload": {
           "name": "PR line comment",
+          "version": "1.0.0",
           "active": true,
           "tags": [],
           "data": {

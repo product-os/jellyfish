@@ -1,6 +1,7 @@
 {
   "slug": "user-guest",
   "type": "user",
+  "version": "1.0.0",
   "name": "The guest user",
   "markers": [],
   "tags": [],

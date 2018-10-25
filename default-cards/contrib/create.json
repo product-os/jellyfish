@@ -1,6 +1,7 @@
 {
   "slug": "create",
   "type": "type",
+  "version": "1.0.0",
   "name": "The card create event",
   "markers": [],
   "tags": [],

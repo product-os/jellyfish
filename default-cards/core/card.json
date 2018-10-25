@@ -1,6 +1,7 @@
 {
   "slug": "card",
   "name": "Jellyfish Card",
+  "version": "1.0.0",
   "markers": [],
   "type": "type",
   "tags": [],
@@ -13,6 +14,10 @@
         "id": {
           "type": "string",
           "format": "uuid"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
         },
         "slug": {
           "type": "string",

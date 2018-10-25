@@ -421,6 +421,7 @@ const mapDispatchToProps = (dispatch: any) => ({
 const lens: Lens = {
 	slug: 'lens-support-thread-timeline',
 	type: 'lens',
+	version: '1.0.0',
 	name: 'Timeline lens',
 	data: {
 		icon: 'address-card',

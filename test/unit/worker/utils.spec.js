@@ -88,6 +88,7 @@ ava.test('.getActionArgumentsSchema() should parse two arguments', (test) => {
 ava.test('.hasCard() id = yes (exists), slug = no', async (test) => {
 	const card = await test.context.jellyfish.insertCard(test.context.session, {
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -110,6 +111,7 @@ ava.test('.hasCard() id = yes (exists), slug = yes (exists)', async (test) => {
 	const card = await test.context.jellyfish.insertCard(test.context.session, {
 		slug: 'foo-bar',
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -127,6 +129,7 @@ ava.test('.hasCard() id = yes (exists), slug = yes (not exist)', async (test) =>
 	const card = await test.context.jellyfish.insertCard(test.context.session, {
 		slug: 'bar-baz',
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -144,6 +147,7 @@ ava.test('.hasCard() id = yes (not exist), slug = yes (exists)', async (test) =>
 	await test.context.jellyfish.insertCard(test.context.session, {
 		slug: 'foo-bar',
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -168,6 +172,7 @@ ava.test('.hasCard() id = no, slug = yes (exists)', async (test) => {
 	await test.context.jellyfish.insertCard(test.context.session, {
 		slug: 'foo-bar',
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],

@@ -217,6 +217,7 @@ const mapDispatchToProps = (dispatch: any) => ({
 const lens: Lens = {
 	slug: 'lens-list',
 	type: 'lens',
+	version: '1.0.0',
 	name: 'Default list lens',
 	data: {
 		renderer: connect(null, mapDispatchToProps)(CardList),

@@ -46,6 +46,7 @@ ava.test('.getRequest() should return null if the filter only has a type but the
 
 	const request = await triggers.getRequest(trigger, {
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -55,6 +56,7 @@ ava.test('.getRequest() should return null if the filter only has a type but the
 		currentDate: new Date(),
 		matchCard: {
 			type: 'card',
+			version: '1.0.0',
 			active: true,
 			links: {},
 			tags: [],
@@ -93,6 +95,7 @@ ava.test('.getRequest() should return a request if the filter only has a type an
 
 	const request = await triggers.getRequest(trigger, {
 		type: 'foo',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -102,6 +105,7 @@ ava.test('.getRequest() should return a request if the filter only has a type an
 		currentDate: date,
 		matchCard: {
 			type: 'foo',
+			version: '1.0.0',
 			active: true,
 			links: {},
 			tags: [],
@@ -150,6 +154,7 @@ ava.test('.getRequest() should return a request if the input match card is null'
 
 	const request = await triggers.getRequest(trigger, {
 		type: 'bar',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -285,6 +290,7 @@ ava.test('.getRequest() should return a request given a complex matching filter'
 
 	const request = await triggers.getRequest(trigger, {
 		type: 'foo',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -296,6 +302,7 @@ ava.test('.getRequest() should return a request given a complex matching filter'
 		currentDate: date,
 		matchCard: {
 			type: 'foo',
+			version: '1.0.0',
 			active: true,
 			links: {},
 			tags: [],
@@ -352,6 +359,7 @@ ava.test('.getRequest() should return null given a complex non-matching filter',
 
 	const request = await triggers.getRequest(trigger, {
 		type: 'foo',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -363,6 +371,7 @@ ava.test('.getRequest() should return null given a complex non-matching filter',
 		currentDate: new Date(),
 		matchCard: {
 			type: 'foo',
+			version: '1.0.0',
 			active: true,
 			links: {},
 			tags: [],
@@ -416,6 +425,7 @@ ava.test('.getRequest() should parse source templates in the triggered action ar
 
 	const request = await triggers.getRequest(trigger, {
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -429,6 +439,7 @@ ava.test('.getRequest() should parse source templates in the triggered action ar
 		currentDate: date,
 		matchCard: {
 			type: 'card',
+			version: '1.0.0',
 			active: true,
 			links: {},
 			tags: [],
@@ -481,6 +492,7 @@ ava.test('.getRequest() should parse timestamp templates in the triggered action
 
 	const request = await triggers.getRequest(trigger, {
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -494,6 +506,7 @@ ava.test('.getRequest() should parse timestamp templates in the triggered action
 		currentDate,
 		matchCard: {
 			type: 'card',
+			version: '1.0.0',
 			active: true,
 			links: {},
 			tags: [],
@@ -558,6 +571,7 @@ ava.test('.getRequest() should return null if one of the templates is unsatisfie
 
 	const request = await triggers.getRequest(trigger, {
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -570,6 +584,7 @@ ava.test('.getRequest() should return null if one of the templates is unsatisfie
 		currentDate: new Date(),
 		matchCard: {
 			type: 'card',
+			version: '1.0.0',
 			active: true,
 			links: {},
 			tags: [],
@@ -589,6 +604,7 @@ ava.test('.getTypeTriggers() should return a trigger card with a matching type',
 	const cards = [
 		{
 			type: 'triggered-action',
+			version: '1.0.0',
 			active: true,
 			links: {},
 			tags: [],
@@ -646,6 +662,7 @@ ava.test('.getTypeTriggers() should not return inactive cards', async (test) => 
 	const cards = [
 		{
 			type: 'triggered-action',
+			version: '1.0.0',
 			active: false,
 			links: {},
 			tags: [],
@@ -699,6 +716,7 @@ ava.test('.getTypeTriggers() should ignore non-matching cards', async (test) => 
 	const cards = [
 		{
 			type: 'triggered-action',
+			version: '1.0.0',
 			active: true,
 			links: {},
 			tags: [],
@@ -739,6 +757,7 @@ ava.test('.getTypeTriggers() should ignore non-matching cards', async (test) => 
 		},
 		{
 			type: 'triggered-action',
+			version: '1.0.0',
 			active: true,
 			links: {},
 			tags: [],
@@ -796,6 +815,7 @@ ava.test('.getTypeTriggers() should ignore cards that are not triggered actions'
 	const cards = [
 		{
 			type: 'triggered-action',
+			version: '1.0.0',
 			active: true,
 			links: {},
 			tags: [],
@@ -836,6 +856,7 @@ ava.test('.getTypeTriggers() should ignore cards that are not triggered actions'
 		},
 		{
 			type: 'card',
+			version: '1.0.0',
 			active: true,
 			links: {},
 			tags: [],
@@ -893,6 +914,7 @@ ava.test('.getTypeTriggers() should not return triggered actions not associated 
 	const cards = [
 		{
 			type: 'triggered-action',
+			version: '1.0.0',
 			active: true,
 			links: {},
 			tags: [],
@@ -944,6 +966,7 @@ ava.test('.getStartDate() should return epoch if the trigger has no start date',
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const result = triggers.getStartDate({
 		type: 'triggered-action',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -969,6 +992,7 @@ ava.test('.getStartDate() should return epoch if the trigger has an invalid date
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const result = triggers.getStartDate({
 		type: 'triggered-action',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -996,6 +1020,7 @@ ava.test('.getStartDate() should return the specified date if valid', async (tes
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const result = triggers.getStartDate({
 		type: 'triggered-action',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -1023,6 +1048,7 @@ ava.test('.getNextExecutionDate() should return null if no interval', async (tes
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const result = triggers.getNextExecutionDate({
 		type: 'triggered-action',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -1048,6 +1074,7 @@ ava.test('.getNextExecutionDate() should return epoch if no last execution date'
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const result = triggers.getNextExecutionDate({
 		type: 'triggered-action',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -1071,6 +1098,7 @@ ava.test('.getNextExecutionDate() should return epoch if last execution date is 
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const result = triggers.getNextExecutionDate({
 		type: 'triggered-action',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -1094,6 +1122,7 @@ ava.test('.getNextExecutionDate() should return epoch if last execution date is 
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const result = triggers.getNextExecutionDate({
 		type: 'triggered-action',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -1120,6 +1149,7 @@ ava.test('.getNextExecutionDate() should throw if the interval is invalid', asyn
 	test.throws(() => {
 		triggers.getNextExecutionDate({
 			type: 'triggered-action',
+			version: '1.0.0',
 			active: true,
 			links: {},
 			tags: [],
@@ -1142,6 +1172,7 @@ ava.test('.getNextExecutionDate() should return the next interval after the last
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const result = triggers.getNextExecutionDate({
 		type: 'triggered-action',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -1167,6 +1198,7 @@ ava.test('.getNextExecutionDate() should return the start date if the last execu
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const result = triggers.getNextExecutionDate({
 		type: 'triggered-action',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -1192,6 +1224,7 @@ ava.test('.getNextExecutionDate() should return the subsequent interval if the l
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const result = triggers.getNextExecutionDate({
 		type: 'triggered-action',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],
@@ -1216,6 +1249,7 @@ ava.test('.getNextExecutionDate() should return the next interval if the last ex
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const result = triggers.getNextExecutionDate({
 		type: 'triggered-action',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],

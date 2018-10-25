@@ -1,6 +1,7 @@
 {
   "slug": "action-create-card",
   "type": "action",
+  "version": "1.0.0",
   "name": "Create a new card",
   "markers": [],
   "tags": [],
@@ -25,6 +26,10 @@
           "id": {
             "type": "string",
             "format": "uuid"
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^\\d+\\.\\d+\\.\\d+$"
           },
           "slug": {
             "type": "string",

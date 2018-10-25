@@ -2,6 +2,7 @@
   "head": {
     "name": "Issue with assignee",
     "type": "issue",
+    "version": "1.0.0",
     "active": true,
     "tags": [],
     "data": {
@@ -20,11 +21,13 @@
     {
       "type": "create",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "timestamp": "2018-09-20T18:03:27Z",
         "payload": {
           "name": "Issue with assignee",
+          "version": "1.0.0",
           "active": true,
           "tags": [],
           "data": {

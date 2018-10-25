@@ -1,6 +1,7 @@
 {
   "slug": "subscription",
   "type": "type",
+  "version": "1.0.0",
   "name": "Subscription",
   "markers": [],
   "tags": [],

@@ -1,6 +1,7 @@
 {
   "slug": "view-my-todo-items",
   "name": "My todo items",
+  "version": "1.0.0",
   "type": "view",
   "markers": [],
   "tags": [],

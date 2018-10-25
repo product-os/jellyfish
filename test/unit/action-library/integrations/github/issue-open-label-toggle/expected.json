@@ -2,6 +2,7 @@
   "head": {
     "name": "Issue label removal",
     "type": "issue",
+    "version": "1.0.0",
     "active": true,
     "tags": [],
     "data": {
@@ -19,6 +20,7 @@
   "tail": [
     {
       "type": "create",
+      "version": "1.0.0",
       "active": true,
       "tags": [],
       "data": {
@@ -26,6 +28,7 @@
         "payload": {
           "name": "Issue label removal",
           "active": true,
+          "version": "1.0.0",
           "tags": [],
           "data": {
             "repository": "resin-io/jellyfish",
@@ -44,11 +47,13 @@
     {
       "type": "update",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "timestamp": "2018-09-27T13:49:06Z",
         "payload": {
           "name": "Issue label removal",
+          "version": "1.0.0",
           "active": true,
           "tags": [ "bug" ],
           "data": {
@@ -68,12 +73,14 @@
     {
       "type": "update",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "timestamp": "2018-09-27T13:50:48Z",
         "payload": {
           "name": "Issue label removal",
           "active": true,
+          "version": "1.0.0",
           "tags": [],
           "data": {
             "repository": "resin-io/jellyfish",

@@ -2,6 +2,7 @@
   "head": {
     "name": "Issue with labels",
     "type": "issue",
+    "version": "1.0.0",
     "active": true,
     "tags": [ "core", "good first issue" ],
     "data": {
@@ -20,12 +21,14 @@
     {
       "type": "create",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "timestamp": "2018-09-20T18:01:54Z",
         "payload": {
           "name": "Issue with labels",
           "active": true,
+          "version": "1.0.0",
           "tags": [ "core", "good first issue" ],
           "data": {
             "repository": "resin-io/jellyfish",

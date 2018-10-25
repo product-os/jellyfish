@@ -180,6 +180,7 @@ const mapDispatchToProps = (dispatch: any) => ({
 const lens: Lens = {
 	slug: 'lens-table',
 	type: 'lens',
+	version: '1.0.0',
 	name: 'Default table lens',
 	data: {
 		renderer: connect(null, mapDispatchToProps)(CardTable),

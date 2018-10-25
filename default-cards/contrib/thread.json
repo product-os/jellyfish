@@ -1,6 +1,7 @@
 {
   "slug": "thread",
   "type": "type",
+  "version": "1.0.0",
   "name": "Chat thread",
   "markers": [],
   "tags": [],

@@ -3,6 +3,7 @@
     "name": "Issue with edition in second comment",
     "type": "issue",
     "active": true,
+    "version": "1.0.0",
     "tags": [],
     "data": {
       "repository": "resin-io/jellyfish",
@@ -20,6 +21,7 @@
     {
       "type": "message",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "mirrors": [
@@ -36,6 +38,7 @@
     {
       "type": "message",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "mirrors": [
@@ -52,12 +55,14 @@
     {
       "type": "create",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "timestamp": "2018-09-25T17:19:51Z",
         "payload": {
           "name": "Issue with edition in second comment",
           "active": true,
+          "version": "1.0.0",
           "tags": [],
           "data": {
             "repository": "resin-io/jellyfish",

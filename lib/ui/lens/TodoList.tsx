@@ -168,6 +168,7 @@ const mapDispatchToProps = (dispatch: any) => ({
 const lens: Lens = {
 	slug: 'lens-todolist',
 	type: 'lens',
+	version: '1.0.0',
 	name: 'Todo list lens',
 	data: {
 		renderer: connect(mapStateToProps, mapDispatchToProps)(TodoList),

@@ -1,6 +1,7 @@
 {
   "slug": "issue",
   "name": "Issue",
+  "version": "1.0.0",
   "type": "type",
   "markers": [],
   "tags": [],

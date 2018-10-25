@@ -2,6 +2,7 @@
   "head": {
     "name": "Inbound tag",
     "type": "support-thread",
+    "version": "1.0.0",
     "active": true,
     "tags": [ "foo", "bar" ],
     "data": {
@@ -20,6 +21,7 @@
     {
       "type": "message",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "mirrors": [
@@ -36,12 +38,14 @@
     {
       "type": "create",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "timestamp": "2018-10-08T18:36:28.538Z",
         "payload": {
           "name": "Inbound tag",
           "active": true,
+          "version": "1.0.0",
           "tags": [],
           "data": {
             "environment": "production",
@@ -60,12 +64,14 @@
     {
       "type": "update",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "timestamp": "2018-10-08T18:36:48.985Z",
         "payload": {
           "name": "Inbound tag",
           "active": true,
+          "version": "1.0.0",
           "tags": [ "foo" ],
           "data": {
             "environment": "production",
@@ -84,11 +90,13 @@
     {
       "type": "update",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "timestamp": "2018-10-08T18:37:01.634Z",
         "payload": {
           "name": "Inbound tag",
+          "version": "1.0.0",
           "active": true,
           "tags": [ "foo", "bar" ],
           "data": {

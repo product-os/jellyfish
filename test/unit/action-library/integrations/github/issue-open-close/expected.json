@@ -2,6 +2,7 @@
   "head": {
     "name": "Test Issue",
     "type": "issue",
+    "version": "1.0.0",
     "active": true,
     "tags": [],
     "data": {
@@ -20,12 +21,14 @@
     {
       "type": "create",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "timestamp": "2018-09-20T17:59:02Z",
         "payload": {
           "name": "Test Issue",
           "active": true,
+          "version": "1.0.0",
           "tags": [],
           "data": {
             "repository": "resin-io/jellyfish",
@@ -44,12 +47,14 @@
     {
       "type": "update",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "timestamp": "2018-09-20T17:59:57Z",
         "payload": {
           "name": "Test Issue",
           "active": true,
+          "version": "1.0.0",
           "tags": [],
           "data": {
             "repository": "resin-io/jellyfish",

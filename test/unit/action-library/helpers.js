@@ -54,6 +54,7 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 		const event = await test.context.jellyfish.insertCard(
 			test.context.session, {
 				type: 'external-event',
+				version: '1.0.0',
 				active: true,
 				tags: [],
 				links: {},

@@ -2,6 +2,7 @@
   "head": {
     "name": "Outbound test",
     "type": "support-thread",
+    "version": "1.0.0",
     "active": true,
     "tags": [],
     "data": {
@@ -20,6 +21,7 @@
     {
       "type": "message",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "mirrors": [
@@ -36,12 +38,14 @@
     {
       "type": "create",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "timestamp": "2018-10-10T22:09:21.921Z",
         "payload": {
           "name": "Outbound test",
           "active": true,
+          "version": "1.0.0",
           "tags": [],
           "data": {
             "environment": "production",

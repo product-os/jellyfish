@@ -1,6 +1,7 @@
 {
   "slug": "action-integration-front-import-event",
   "type": "action",
+  "version": "1.0.0",
   "tags": [],
   "links": {},
   "active": true,

@@ -1,6 +1,7 @@
 {
   "slug": "action-delete-card",
   "type": "action",
+  "version": "1.0.0",
   "name": "Delete a card",
   "markers": [],
   "tags": [],

@@ -3,6 +3,7 @@
     "name": "Issue delete comment",
     "type": "issue",
     "active": true,
+    "version": "1.0.0",
     "tags": [],
     "data": {
       "repository": "resin-io/jellyfish",
@@ -20,6 +21,7 @@
     {
       "type": "message",
       "active": false,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "mirrors": [
@@ -36,12 +38,14 @@
     {
       "type": "create",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "timestamp": "2018-09-20T18:30:59Z",
         "payload": {
           "name": "Issue delete comment",
           "active": true,
+          "version": "1.0.0",
           "tags": [],
           "data": {
             "repository": "resin-io/jellyfish",

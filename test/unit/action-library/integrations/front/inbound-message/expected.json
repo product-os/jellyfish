@@ -1,6 +1,7 @@
 {
   "head": {
     "name": "Test Reply",
+    "version": "1.0.0",
     "type": "support-thread",
     "active": true,
     "tags": [],
@@ -20,6 +21,7 @@
     {
       "type": "message",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "mirrors": [
@@ -36,6 +38,7 @@
     {
       "type": "message",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "mirrors": [
@@ -52,12 +55,14 @@
     {
       "type": "create",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "timestamp": "2018-10-10T22:13:52.817Z",
         "payload": {
           "name": "Test Reply",
           "active": true,
+          "version": "1.0.0",
           "tags": [],
           "data": {
             "environment": "production",

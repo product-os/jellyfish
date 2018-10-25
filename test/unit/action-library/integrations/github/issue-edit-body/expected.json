@@ -2,6 +2,7 @@
   "head": {
     "name": "Issue body edits",
     "type": "issue",
+    "version": "1.0.0",
     "active": true,
     "tags": [],
     "data": {
@@ -20,12 +21,14 @@
     {
       "type": "create",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "timestamp": "2018-09-20T18:19:14Z",
         "payload": {
           "name": "Issue body edits",
           "active": true,
+          "version": "1.0.0",
           "tags": [],
           "data": {
             "repository": "resin-io/jellyfish",
@@ -44,11 +47,13 @@
     {
       "type": "update",
       "active": true,
+      "version": "1.0.0",
       "tags": [],
       "data": {
         "timestamp": "2018-09-20T18:20:28Z",
         "payload": {
           "name": "Issue body edits",
+          "version": "1.0.0",
           "active": true,
           "tags": [],
           "data": {

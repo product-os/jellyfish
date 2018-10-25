@@ -1,6 +1,7 @@
 {
   "slug": "scratchpad-entry",
   "type": "type",
+  "version": "1.0.0",
   "name": "Scratchpad Entry",
   "markers": [],
   "tags": [],

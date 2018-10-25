@@ -255,6 +255,7 @@ ava.test('.getLastExecutionEvent() should return the last execution event given 
 	test.deepEqual(event, {
 		id: '8fd7be57-4f68-4faf-bbc6-200a7c62c41a',
 		type: 'execute',
+		version: '1.0.0',
 		active: true,
 		links: {
 			'is attached to': [
@@ -314,6 +315,7 @@ ava.test('.getLastExecutionEvent() should return the last event given a matching
 	test.deepEqual(event, {
 		id: '8fd7be57-4f68-4faf-bbc6-200a7c62c41a',
 		type: 'execute',
+		version: '1.0.0',
 		active: true,
 		links: {
 			'is attached to': [
@@ -373,6 +375,7 @@ ava.test('.getLastExecutionEvent() should return the last execution event given 
 	test.deepEqual(event, {
 		id: '8fd7be57-4f68-4faf-bbc6-200a7c62c41a',
 		type: 'execute',
+		version: '1.0.0',
 		active: true,
 		links: {
 			'is attached to': [
@@ -422,6 +425,7 @@ ava.test('.getLastExecutionEvent() should return null given no matching event', 
 ava.test('.getLastExecutionEvent() should only consider execute cards', async (test) => {
 	await test.context.jellyfish.insertCard(test.context.session, {
 		type: 'card',
+		version: '1.0.0',
 		active: true,
 		links: {},
 		tags: [],

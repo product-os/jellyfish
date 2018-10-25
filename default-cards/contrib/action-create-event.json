@@ -1,6 +1,7 @@
 {
   "slug": "action-create-event",
   "type": "action",
+  "version": "1.0.0",
   "name": "Attach an event to a card",
   "markers": [],
   "tags": [],
