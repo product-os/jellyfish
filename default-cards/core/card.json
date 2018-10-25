@@ -57,7 +57,7 @@
         }
       },
       "additionalProperties": false,
-      "required": [ "version", "type", "tags", "links", "active", "data" ]
+      "required": [ "type", "tags", "links", "active", "data" ]
     }
   }
 }
