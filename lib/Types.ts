@@ -45,7 +45,7 @@ export interface Notification {
 
 export interface Card {
 	id: string;
-	version?: string;
+	version: string;
 	type: string;
 	tags: string[];
 	links: object;
@@ -91,7 +91,7 @@ export interface RendererProps {
 
 export interface Lens {
 	slug: string;
-	version?: string;
+	version: string;
 	type: string;
 	name: string;
 	data: {
