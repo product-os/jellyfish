@@ -703,7 +703,7 @@ ava.test.serial('Users should not be able to login as the core admin user', asyn
 })
 
 ava.test.serial('should be able to post an external event', async (test) => {
-	const result = await test.context.sendHook('POST', 'test', null, {
+	const result = await test.context.http('POST', '/api/v2/hooks/test', {
 		foo: 'bar',
 		bar: 'baz'
 	})
@@ -743,7 +743,7 @@ ava.test.serial('should be able to post an external event', async (test) => {
 })
 
 ava.test.serial('should be able to post an external event with a type', async (test) => {
-	const result = await test.context.sendHook('POST', 'test', 'foobarbaz', {
+	const result = await test.context.http('POST', '/api/v2/hooks/test/foobarbaz', {
 		foo: 'bar',
 		bar: 'baz'
 	})
