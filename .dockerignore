@@ -1,0 +1,10 @@
+.git
+.circleci
+.cache-loader
+.nyc_ouput
+coverage
+rethinkdb_data
+node_modules
+jellyfish-files
+docker-compose.local.yml
+Dockerfile

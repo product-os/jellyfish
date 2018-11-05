@@ -2,6 +2,7 @@
 
 const Promise = require('bluebird')
 const rethinkdb = require('rethinkdb')
+const _ = require('lodash')
 const Spinner = require('cli-spinner').Spinner
 
 // Removes rethinkdb databases that are prefixed with `test_`
@@ -10,7 +11,9 @@ const scrub = async () => {
 
 	spinner.start()
 
-	const connection = await rethinkdb.connect(this.options)
+	const connection = await rethinkdb.connect(_.merge({
+		host: process.env.JF_RETHINKDB_SERVICE_HOST || process.env.DB_HOST || 'localhost'
+	}, this.options))
 
 	const list = await rethinkdb
 		.dbList()
