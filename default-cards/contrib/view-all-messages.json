@@ -12,24 +12,6 @@
       {
         "name": "Active cards",
         "schema": {
-          "$$links": {
-            "is attached to": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "enum": [
-                    "issue",
-                    "org",
-                    "scratchpad-entry",
-                    "support-thread",
-                    "thread",
-                    "user"
-                  ]
-                }
-              },
-              "additionalProperties": true
-            }
-          },
           "type": "object",
           "properties": {
             "active": {
@@ -37,11 +19,7 @@
               "type": "boolean"
             },
             "type": {
-              "enum": [
-                "message",
-                "update",
-                "create"
-              ]
+              "const": "message"
             }
           },
           "required": [
