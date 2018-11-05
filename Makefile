@@ -97,8 +97,6 @@ test-e2e:
 		./node_modules/.bin/ava test/e2e/**/*.spec.js
 
 build: build-ui
-	rm -rf ./lib/action-library/dist && \
-		./node_modules/.bin/tsc --project ./lib/action-library
 
 start-server:
 	DEBUG=$(NODE_DEBUG) \
