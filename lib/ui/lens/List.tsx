@@ -21,9 +21,9 @@ import styled from 'styled-components';
 import { Card, Lens, RendererProps, Type } from '../../Types';
 import { CardCreator } from '../components/CardCreator';
 import Icon from '../components/Icon';
-import { LensRenderer } from '../components/LensRenderer';
 import { actionCreators } from '../core/store';
 import { createChannel, getUpdateObjectFromSchema, getViewSchema } from '../services/helpers';
+import SingleCardLens from './SingleCard';
 
 const Column = styled(Flex)`
 	height: 100%;
@@ -136,13 +136,17 @@ class CardList extends React.Component<CardListProps, CardListState> {
 				parent={props.parent}
 				rowIndex={props.index}
 			>
-				<Box px={3} pb={3} style={props.style}>
-					<LensRenderer
-						card={card}
-						level={1}
-					/>
-					<Divider color="#eee" m={0} style={{height: 1}} />
-				</Box>
+				{() => {
+					return (
+						<Box px={3} pb={3} style={props.style}>
+							<SingleCardLens.data.renderer
+								card={card}
+								level={1}
+							/>
+							<Divider color="#eee" m={0} style={{height: 1}} />
+						</Box>
+					);
+				}}
 			</CellMeasurer>
 		);
 	}
