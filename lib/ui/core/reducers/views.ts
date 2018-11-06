@@ -145,11 +145,18 @@ export const actionCreators = {
 			if (!schema) {
 				return;
 			}
-			sdk.query(schema)
+
+			return sdk.query(schema)
 				.then((data) => {
 					dispatch(actionCreators.setViewData(query, data));
 				});
-		});
+		})
+			.catch((error) => {
+				dispatch(allActionCreators.addNotification(
+					'danger',
+					error.message || error,
+				));
+			});
 	},
 
 	clearViewData: (
@@ -188,7 +195,7 @@ export const actionCreators = {
 				delete streams[viewId];
 			}
 
-			sdk.stream(schema)
+			return sdk.stream(schema)
 				.then((stream) => {
 					streams[viewId] = stream;
 
@@ -219,7 +226,13 @@ export const actionCreators = {
 						console.error('Received a stream error', response.data);
 					});
 				});
-		});
+		})
+			.catch((error) => {
+				dispatch(allActionCreators.addNotification(
+					'danger',
+					error.message || error,
+				));
+			});
 	},
 
 	removeViewDataItem: (query: string | Card | JSONSchema6, data: Card): Action => {
