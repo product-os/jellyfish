@@ -19,7 +19,32 @@ import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import * as io from 'socket.io-client';
 import uuid = require('uuid/v4');
-import { SDKInterface, StreamEventMap } from './Types';
+import { Card } from '../Types';
+import { SDKInterface } from './index';
+
+export interface StreamEventMap {
+	ready: {
+		id: string,
+		error: false;
+	};
+
+	update: {
+		id: string,
+		error: false;
+		data: {
+			after: Card;
+			before: Card | null;
+		};
+	};
+
+	streamError: {
+		id: string,
+		error: true;
+		data: string;
+	};
+
+	destroy: void;
+}
 
 /**
  * @class JellyfishStream

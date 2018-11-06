@@ -17,7 +17,8 @@
 import * as Bluebird from 'bluebird';
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
-import { Card, SDKInterface } from './Types';
+import { Card } from '../Types';
+import { SDKInterface } from './index';
 import { debug, isUUID } from './utils';
 
 // A map of link names and their synonymous form

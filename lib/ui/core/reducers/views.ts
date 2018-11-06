@@ -3,7 +3,7 @@ import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import { Dispatch } from 'redux';
 import { analytics } from '../';
-import { JellyfishStream } from '../../../sdk/stream';
+import { JellyfishStream } from '../../../sdk';
 import { Card } from '../../../Types';
 import { hashCode } from '../../services/helpers';
 import { createNotification } from '../../services/notifications';
