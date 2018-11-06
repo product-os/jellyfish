@@ -205,11 +205,16 @@ const SubAuto = ({
 	placeholder,
 	...props
 }: AutoProps) => {
+	const rows = Math.min(
+		(value || '').split('\n').length,
+		10,
+	);
+
 	return (
 		<Container {...props}>
 			<ReactTextareaAutocomplete
 				className={className}
-				rows={1}
+				rows={rows || 1}
 				value={value}
 				onChange={onChange}
 				onKeyPress={onKeyPress}
@@ -258,6 +263,7 @@ interface AutoState {
 }
 
 interface AutoCompleteAreaProps extends AutoProps {
+	onTextSubmit: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void;
 }
 
 class AutoCompleteArea extends React.Component<AutoCompleteAreaProps, AutoState> {
@@ -329,8 +335,10 @@ class AutoCompleteArea extends React.Component<AutoCompleteAreaProps, AutoState>
 	}
 
 	public handleOnKeyPress = (e: any) => {
-		if (this.props.onKeyPress) {
-			this.props.onKeyPress(e);
+		// If the Enter key is pressed without the shift modifier, run the submit
+		// callback
+		if (e.key === 'Enter' && !e.shiftKey && this.props.onTextSubmit) {
+			this.props.onTextSubmit(e);
 		}
 	}
 
@@ -339,7 +347,7 @@ class AutoCompleteArea extends React.Component<AutoCompleteAreaProps, AutoState>
 			value,
 			className,
 			onChange,
-			onKeyPress,
+			onTextSubmit,
 			placeholder,
 			...props
 		} = this.props;

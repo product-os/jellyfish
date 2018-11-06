@@ -247,10 +247,8 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		});
 	}
 
-	public handleNewMessageKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-		if (e.key === 'Enter') {
-			this.addMessage(e);
-		}
+	public handleNewMessageSubmit = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+		this.addMessage(e);
 	}
 
 	public handleCheckboxToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -382,7 +380,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 								className="new-message-input"
 								value={this.state.newMessage}
 								onChange={this.handleNewMessageChange}
-								onKeyPress={this.handleNewMessageKeyPress}
+								onTextSubmit={this.handleNewMessageSubmit}
 								placeholder={whisper ? 'Type your comment...' : 'Type your reply...'}
 							/>
 						</Box>
