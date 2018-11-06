@@ -15,7 +15,8 @@
  */
 
 import * as Bluebird from 'bluebird';
-import { Card, SDKInterface } from './Types';
+import { Card } from '../Types';
+import { SDKInterface } from './index';
 import { debug } from './utils';
 
 // A regex used to test that a string contains only alphanumeric characters and
