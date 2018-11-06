@@ -70,6 +70,21 @@ If you would like to have errors reported to sentry, you can provide a sentry
 DSN using the environment variable `SENTRY_DSN_SERVER` for server errors and
 `SENTRY_DSN_UI` for UI errors.
 
+Developing the UI
+-----------------
+
+The UI can be started in development mode using the command:
+
+```
+make dev-ui
+```
+
+You can access the UI at http://localhost:9000
+Any changes made to the UI or SDK source code will trigger an automatic reload
+of the UI.
+By default the UI will try to access the API at http://localhost:8000 but this
+can be changed using the `API_URL` environment variable.
+
 e2e Tests
 ---------
 
