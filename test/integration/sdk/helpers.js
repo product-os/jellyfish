@@ -31,6 +31,8 @@ exports.sdk = {
 			apiPrefix: process.env.API_PREFIX || 'api/v2',
 			apiUrl: `http://localhost:${test.context.server.port}`
 		})
+
+		await test.context.sdk.auth.logout()
 	},
 
 	afterEach: async (test) => {

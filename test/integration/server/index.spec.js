@@ -166,13 +166,57 @@ ava.test.serial('Users with the role "team-admin" should not be able to view oth
 	test.is(fetchedUser.data.password, undefined)
 })
 
-ava.test.serial('.query() should only return the user itself for the guest user', async (test) => {
+ava.test.serial('.query() the guest user should only see its own private fields', async (test) => {
+	await test.context.sdk.auth.signup({
+		username: randomstring.generate(),
+		email: `${randomstring.generate()}@example.com`,
+		password: 'foobarbaz'
+	})
+
+	await test.context.sdk.auth.logout()
+
 	const results = await test.context.sdk.query({
 		type: 'object',
+		required: [ 'type', 'data' ],
 		properties: {
-			slug: {
-				type: 'string'
+			type: {
+				type: 'string',
+				const: 'user'
 			},
+			data: {
+				type: 'object'
+			}
+		}
+	})
+
+	test.deepEqual(_.map(results, 'slug'), [ 'user-guest' ])
+})
+
+ava.test.serial('.query() additionalProperties should not affect listing users as a new user', async (test) => {
+	const username = randomstring.generate().toLowerCase()
+	const email = `${randomstring.generate()}@example.com`
+
+	await test.context.sdk.auth.signup({
+		username: randomstring.generate().toLowerCase(),
+		email: `${randomstring.generate()}@example.com`,
+		password: 'xxxxxxxxx'
+	})
+
+	await test.context.sdk.auth.signup({
+		username,
+		email,
+		password: 'foobarbaz'
+	})
+
+	await test.context.sdk.auth.login({
+		username,
+		password: 'foobarbaz'
+	})
+
+	const results1 = await test.context.sdk.query({
+		type: 'object',
+		required: [ 'type' ],
+		properties: {
 			type: {
 				type: 'string',
 				const: 'user'
@@ -180,7 +224,19 @@ ava.test.serial('.query() should only return the user itself for the guest user'
 		}
 	})
 
-	test.deepEqual(_.map(results, 'slug'), [ 'user-guest' ])
+	const results2 = await test.context.sdk.query({
+		type: 'object',
+		additionalProperties: true,
+		required: [ 'type' ],
+		properties: {
+			type: {
+				type: 'string',
+				const: 'user'
+			}
+		}
+	})
+
+	test.deepEqual(_.map(results1, 'id'), _.map(results2, 'id'))
 })
 
 ava.test.serial('.query() should be able to see previously restricted cards after a permissions change', async (test) => {
