@@ -635,3 +635,20 @@ ava.test.serial('.card.create() should resolve with the created card', async (te
 		type: 'card'
 	})
 })
+
+ava.test.serial('.card.remove() should be able to delete a card', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	await sdk.setAuthToken(test.context.session)
+
+	const card = await sdk.card.create({
+		type: 'card',
+		version: '1.0.0'
+	})
+
+	await sdk.card.remove(card.id)
+	const result = await sdk.card.get(card.id)
+	test.false(result.active)
+})
