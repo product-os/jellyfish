@@ -215,6 +215,7 @@ class Base extends React.Component<LoginProps, LoginState> {
 											square
 											plaintext
 											mt={20}
+											type="button"
 											onClick={this.togglePasswordVisibility}
 										>
 											<Icon name={this.state.showPassword ? 'eye' : 'eye-slash'} />
