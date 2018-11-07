@@ -3,6 +3,12 @@ Jellyfish
 
 [![CircleCI](https://circleci.com/gh/resin-io/jellyfish/tree/master.svg?style=svg&circle-token=a2fd174edea733705e39a120177472b9c949cc5b)](https://circleci.com/gh/resin-io/jellyfish/tree/master)
 
+API Docs
+--------
+
+Visit https://balena-jellyfish.herokuapp.com/docs.html. Install `redoc-cli` if
+you want to locally re-generate them.
+
 Installing RethinkDB
 --------------------
 

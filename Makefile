@@ -30,6 +30,9 @@ else
 COVERAGE_COMMAND =
 endif
 
+dist/docs.html: lib/server/api.yaml | dist
+	redoc-cli bundle -o $@ $<
+
 lint:
 	./node_modules/.bin/eslint $(ESLINT_OPTION_FIX) \
 		lib scripts test stress webpack.config.js
