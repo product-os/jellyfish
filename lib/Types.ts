@@ -49,8 +49,8 @@ export interface Card {
 	type: string;
 	tags: string[];
 	links: object;
-	requires: object[];
-	capabilities: object[];
+	requires?: object[];
+	capabilities?: object[];
 	active: boolean;
 	data: { [key: string]: any };
 	name?: string;
@@ -96,6 +96,8 @@ export interface Lens {
 	version: string;
 	type: string;
 	name: string;
+	requires?: object[];
+	capabilities?: object[];
 	data: {
 		filter: JSONSchema6;
 		icon: string;
