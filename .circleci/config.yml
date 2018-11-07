@@ -27,6 +27,10 @@ jobs:
           name: Install Dependencies
           command: npm ci --unsafe-perm
 
+      - run:
+          name: Generate Docs
+          command: make dist/docs.html
+
       - save_cache:
           paths:
             - /root/.npm

@@ -9,3 +9,4 @@ RUN apt-get update && apt-get install -y nodejs build-essential \
 	libgconf2-4 libasound2 libatk1.0-0 libgtk-3-0
 RUN pip install rethinkdb
 RUN npm install -g npm
+RUN npm install -g redoc-cli

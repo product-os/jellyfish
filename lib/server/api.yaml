@@ -1,0 +1,283 @@
+openapi: "3.0.0"
+info:
+  version: "2.0.0"
+  title: jellyfish
+servers:
+  - url: https://balena-jellyfish.herokuapp.com
+paths:
+  /api/v2/config:
+    get:
+      summary: Get configuration
+      description: |
+        Get general information about the API instance
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [ version, changelog ]
+                properties:
+                  version:
+                    type: string
+                  changelog:
+                    type: string
+  /api/v2/query:
+    post:
+      summary: Query
+      description: |
+        Send a query using JSON Schema
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [ error, data ]
+                properties:
+                  error:
+                    type: boolean
+                    const: false
+                  data:
+                    type: array
+                    items:
+                      type: object
+        500:
+          description: Error response
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [ error, data ]
+                properties:
+                  error:
+                    type: boolean
+                    const: true
+                  data:
+                    type: string
+  /api/v2/action:
+    post:
+      summary: Action
+      description: |
+        Dispatch an action request
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [ card, action, arguments ]
+              properties:
+                card:
+                  type: string
+                action:
+                  type: string
+                arguments:
+                  type: object
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [ error, data ]
+                properties:
+                  error:
+                    type: boolean
+                    const: false
+                  data:
+                    type: [ array, object, string, number ]
+        500:
+          description: Error response
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [ error, data ]
+                properties:
+                  error:
+                    type: boolean
+                    const: true
+                  data:
+                    type: object
+                    required: [ type, message ]
+                    properties:
+                      type:
+                        type: string
+                      message:
+                        type: string
+  /api/v2/hooks/{provider}:
+    post:
+      summary: Create External Event
+      description: |
+        Create an external event as a given provider
+      parameters:
+        - name: provider
+          in: path
+          description: Webhook provider
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [ error, data ]
+                properties:
+                  error:
+                    type: boolean
+                    const: false
+                  data:
+                    type: object
+                    required: [ id ]
+                    properties:
+                      id:
+                        type: string
+                        format: uuid
+        500:
+          description: Error response
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [ error, data ]
+                properties:
+                  error:
+                    type: boolean
+                    const: true
+                  data:
+                    type: object
+                    required: [ type, message ]
+                    properties:
+                      type:
+                        type: string
+                      message:
+                        type: string
+  /api/v2/hooks/{provider}/{type}:
+    post:
+      summary: Create External Event Sub-type
+      description: |
+        Create an external event as a given provider
+      parameters:
+        - name: provider
+          in: path
+          description: Webhook provider
+          required: true
+          schema:
+            type: string
+        - name: type
+          in: path
+          description: Webhook type
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [ error, data ]
+                properties:
+                  error:
+                    type: boolean
+                    const: false
+                  data:
+                    type: object
+                    required: [ id ]
+                    properties:
+                      id:
+                        type: string
+                        format: uuid
+        500:
+          description: Error response
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [ error, data ]
+                properties:
+                  error:
+                    type: boolean
+                    const: true
+                  data:
+                    type: object
+                    required: [ type, message ]
+                    properties:
+                      type:
+                        type: string
+                      message:
+                        type: string
+  /api/v2/file/{card}/{file}:
+    get:
+      summary: Get a file attached to a card
+      description: |
+        Get the binary contents of a file attached to a card
+      parameters:
+        - name: card
+          in: path
+          description: Card id
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: file
+          in: path
+          description: File name
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: string
+                format: binary
+        404:
+          description: The card was not found
+        500:
+          description: Error response
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [ error, data ]
+                properties:
+                  error:
+                    type: boolean
+                    const: true
+                  data:
+                    type: object
+                    required: [ type, message ]
+                    properties:
+                      type:
+                        type: string
+                      message:
+                        type: string
