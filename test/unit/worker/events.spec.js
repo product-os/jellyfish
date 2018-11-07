@@ -252,11 +252,10 @@ ava.test('.getLastExecutionEvent() should return the last execution event given 
 		test.context.session,
 		'cb3523c5-b37d-41c8-ae32-9e7cc9309165')
 
-	test.deepEqual(event, {
+	test.deepEqual(event, test.context.kernel.defaults({
 		id: '8fd7be57-4f68-4faf-bbc6-200a7c62c41a',
 		type: 'execute',
 		version: '1.0.0',
-		active: true,
 		links: {
 			'is attached to': [
 				{
@@ -265,8 +264,6 @@ ava.test('.getLastExecutionEvent() should return the last execution event given 
 				}
 			]
 		},
-		tags: [],
-		markers: [],
 		data: {
 			actor: '57692206-8da2-46e1-91c9-159b2c6928ef',
 			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
@@ -279,7 +276,7 @@ ava.test('.getLastExecutionEvent() should return the last execution event given 
 				timestamp: '2018-06-30T19:34:42.829Z'
 			}
 		}
-	})
+	}))
 })
 
 ava.test('.getLastExecutionEvent() should return the last event given a matching and non-matching event', async (test) => {
@@ -312,11 +309,10 @@ ava.test('.getLastExecutionEvent() should return the last event given a matching
 		test.context.session,
 		'cb3523c5-b37d-41c8-ae32-9e7cc9309165')
 
-	test.deepEqual(event, {
+	test.deepEqual(event, test.context.kernel.defaults({
 		id: '8fd7be57-4f68-4faf-bbc6-200a7c62c41a',
 		type: 'execute',
 		version: '1.0.0',
-		active: true,
 		links: {
 			'is attached to': [
 				{
@@ -325,8 +321,6 @@ ava.test('.getLastExecutionEvent() should return the last event given a matching
 				}
 			]
 		},
-		tags: [],
-		markers: [],
 		data: {
 			actor: '57692206-8da2-46e1-91c9-159b2c6928ef',
 			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
@@ -339,7 +333,7 @@ ava.test('.getLastExecutionEvent() should return the last event given a matching
 				timestamp: '2018-06-30T19:34:42.829Z'
 			}
 		}
-	})
+	}))
 })
 
 ava.test('.getLastExecutionEvent() should return the last execution event given two matching events', async (test) => {
@@ -372,11 +366,10 @@ ava.test('.getLastExecutionEvent() should return the last execution event given 
 		test.context.session,
 		'cb3523c5-b37d-41c8-ae32-9e7cc9309165')
 
-	test.deepEqual(event, {
+	test.deepEqual(event, test.context.kernel.defaults({
 		id: '8fd7be57-4f68-4faf-bbc6-200a7c62c41a',
 		type: 'execute',
 		version: '1.0.0',
-		active: true,
 		links: {
 			'is attached to': [
 				{
@@ -385,8 +378,6 @@ ava.test('.getLastExecutionEvent() should return the last execution event given 
 				}
 			]
 		},
-		tags: [],
-		markers: [],
 		data: {
 			actor: '57692206-8da2-46e1-91c9-159b2c6928ef',
 			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
@@ -399,7 +390,7 @@ ava.test('.getLastExecutionEvent() should return the last execution event given 
 				timestamp: '2018-06-30T19:34:42.829Z'
 			}
 		}
-	})
+	}))
 })
 
 ava.test('.getLastExecutionEvent() should return null given no matching event', async (test) => {
@@ -423,13 +414,9 @@ ava.test('.getLastExecutionEvent() should return null given no matching event', 
 })
 
 ava.test('.getLastExecutionEvent() should only consider execute cards', async (test) => {
-	await test.context.jellyfish.insertCard(test.context.session, {
+	await test.context.jellyfish.insertCard(test.context.session, test.context.kernel.defaults({
 		type: 'card',
 		version: '1.0.0',
-		active: true,
-		links: {},
-		tags: [],
-		markers: [],
 		data: {
 			timestamp: '2018-06-30T19:34:42.829Z',
 			target: '57692206-8da2-46e1-91c9-159b2c6928ef',
@@ -442,7 +429,7 @@ ava.test('.getLastExecutionEvent() should only consider execute cards', async (t
 				data: '414f2345-4f5e-4571-820f-28a49731733d'
 			}
 		}
-	})
+	}))
 
 	const event = await events.getLastExecutionEvent(
 		test.context.jellyfish,

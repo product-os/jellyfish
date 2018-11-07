@@ -53,10 +53,20 @@
                   "type": "boolean"
                 },
                 "data": {
-                  "type": [ "object", "string", "number", "boolean", "array" ]
+                  "type": [
+                    "object",
+                    "string",
+                    "number",
+                    "boolean",
+                    "array"
+                  ]
                 }
               },
-              "required": [ "timestamp", "error", "data" ]
+              "required": [
+                "timestamp",
+                "error",
+                "data"
+              ]
             },
             "arguments": {
               "type": "object"
@@ -73,7 +83,12 @@
         }
       },
       "additionalProperties": true,
-      "required": [ "type", "data" ]
+      "required": [
+        "type",
+        "data"
+      ]
     }
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

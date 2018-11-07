@@ -51,5 +51,7 @@
       "lens-table",
       "lens-kanban"
     ]
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

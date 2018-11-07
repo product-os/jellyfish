@@ -5,6 +5,8 @@
     "version": "1.0.0",
     "active": true,
     "tags": [],
+    "requires": [],
+    "capabilities": [],
     "data": {
       "environment": "production",
       "inbox": "Test_Contracts",
@@ -23,6 +25,8 @@
       "version": "1.0.0",
       "active": true,
       "tags": [],
+      "requires": [],
+      "capabilities": [],
       "data": {
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_1y9m7wr"
@@ -40,6 +44,8 @@
       "version": "1.0.0",
       "active": true,
       "tags": [],
+      "requires": [],
+      "capabilities": [],
       "data": {
         "timestamp": "2018-10-10T22:19:18.154Z",
         "payload": {
@@ -47,6 +53,8 @@
           "version": "1.0.0",
           "active": true,
           "tags": [],
+          "requires": [],
+          "capabilities": [],
           "data": {
             "environment": "production",
             "inbox": "Test_Contracts",

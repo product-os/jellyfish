@@ -29,15 +29,11 @@ ava.test.beforeEach(async (test) => {
 ava.test.afterEach(helpers.kernel.afterEach)
 
 ava.test('.evaluate() should return an empty array if the link is unknown', async (test) => {
-	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		type: 'card',
 		version: '1.0.0',
-		active: true,
-		links: {},
-		tags: [],
-		markers: [],
 		data: {}
-	})
+	}))
 
 	const results = await links.evaluate(test.context.context, input, 'foo bar baz', {
 		type: 'object'
@@ -47,15 +43,11 @@ ava.test('.evaluate() should return an empty array if the link is unknown', asyn
 })
 
 ava.test('.evaluate(is attached to) should return an empty array if the target does not exist', async (test) => {
-	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		type: 'card',
 		version: '1.0.0',
-		active: true,
-		links: {},
-		tags: [],
-		markers: [],
 		data: {}
-	})
+	}))
 
 	await test.context.backend.upsertElement({
 		type: 'link',
@@ -78,27 +70,19 @@ ava.test('.evaluate(is attached to) should return an empty array if the target d
 })
 
 ava.test('.evaluate(is attached to) should return an empty array if the target exists but does not match', async (test) => {
-	const card = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const card = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		type: 'card',
 		version: '1.0.0',
-		active: true,
-		links: {},
-		tags: [],
-		markers: [],
 		data: {
 			count: 1
 		}
-	})
+	}))
 
-	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		type: 'card',
 		version: '1.0.0',
-		active: true,
-		links: {},
-		tags: [],
-		markers: [],
 		data: {}
-	})
+	}))
 
 	await test.context.backend.upsertElement({
 		type: 'link',
@@ -134,28 +118,20 @@ ava.test('.evaluate(is attached to) should return an empty array if the target e
 })
 
 ava.test('.evaluate(is attached to) should return the declared target properties', async (test) => {
-	const card = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const card = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		type: 'card',
 		version: '1.0.0',
-		active: true,
-		links: {},
-		tags: [],
-		markers: [],
 		data: {
 			greeting: 'hello',
 			count: 1
 		}
-	})
+	}))
 
-	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		type: 'card',
 		version: '1.0.0',
-		active: true,
-		links: {},
-		tags: [],
-		markers: [],
 		data: {}
-	})
+	}))
 
 	const link = await test.context.backend.upsertElement({
 		type: 'link',
@@ -202,28 +178,20 @@ ava.test('.evaluate(is attached to) should return the declared target properties
 })
 
 ava.test('.evaluate(is attached to) should return the whole target if additionalProperties is set', async (test) => {
-	const card = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const card = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		type: 'card',
 		version: '1.0.0',
-		active: true,
-		links: {},
-		tags: [],
-		markers: [],
 		data: {
 			greeting: 'hello',
 			count: 1
 		}
-	})
+	}))
 
-	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		type: 'card',
 		version: '1.0.0',
-		active: true,
-		links: {},
-		tags: [],
-		markers: [],
 		data: {}
-	})
+	}))
 
 	const link = await test.context.backend.upsertElement({
 		type: 'link',
@@ -266,6 +234,8 @@ ava.test('.evaluate(is attached to) should return the whole target if additional
 			active: true,
 			links: {},
 			tags: [],
+			requires: [],
+			capabilities: [],
 			markers: [],
 			data: {
 				greeting: 'hello',
@@ -276,16 +246,12 @@ ava.test('.evaluate(is attached to) should return the whole target if additional
 })
 
 ava.test('.evaluate(has attached element) should return an empty array if the card has no timeline', async (test) => {
-	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		type: 'card',
 		version: '1.0.0',
-		active: true,
-		links: {},
-		tags: [],
-		markers: [],
 		data: {}
-	})
+	}))
 
 	const results = await links.evaluate(test.context.context, input, 'has attached element', {
 		type: 'object'
@@ -295,51 +261,35 @@ ava.test('.evaluate(has attached element) should return an empty array if the ca
 })
 
 ava.test('.evaluate(has attached element) should return matching elements', async (test) => {
-	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		type: 'card',
 		version: '1.0.0',
-		active: true,
-		links: {},
-		tags: [],
-		markers: [],
 		data: {}
-	})
+	}))
 
-	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		type: 'card',
 		version: '1.0.0',
-		active: true,
-		links: {},
-		tags: [],
-		markers: [],
 		data: {
 			count: 1
 		}
-	})
+	}))
 
-	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		type: 'card',
 		version: '1.0.0',
-		active: true,
-		links: {},
-		tags: [],
-		markers: [],
 		data: {
 			count: 2
 		}
-	})
+	}))
 
-	const card3 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const card3 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		type: 'card',
 		version: '1.0.0',
-		active: true,
-		links: {},
-		tags: [],
-		markers: [],
 		data: {
 			count: 3
 		}
-	})
+	}))
 
 	await test.context.backend.upsertElement({
 		type: 'link',
@@ -409,28 +359,20 @@ ava.test('.evaluate(has attached element) should return matching elements', asyn
 })
 
 ava.test('.evaluateCard() should return one link of one type given one match', async (test) => {
-	const card = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const card = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		type: 'card',
 		version: '1.0.0',
-		active: true,
-		links: {},
-		tags: [],
-		markers: [],
 		data: {
 			greeting: 'hello',
 			count: 1
 		}
-	})
+	}))
 
-	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		type: 'card',
 		version: '1.0.0',
-		active: true,
-		links: {},
-		tags: [],
-		markers: [],
 		data: {}
-	})
+	}))
 
 	const link = await test.context.backend.upsertElement({
 		type: 'link',
@@ -477,50 +419,34 @@ ava.test('.evaluateCard() should return one link of one type given one match', a
 })
 
 ava.test('.evaluateCard() should return multiple cards per link', async (test) => {
-	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		type: 'card',
-		version: '1.0.0',
-		active: true,
-		links: {},
-		tags: [],
-		data: {}
-	})
+		version: '1.0.0'
+	}))
 
-	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		type: 'card',
 		version: '1.0.0',
-		active: true,
-		links: {},
-		tags: [],
-		markers: [],
 		data: {
 			count: 1
 		}
-	})
+	}))
 
-	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		type: 'card',
 		version: '1.0.0',
-		active: true,
-		links: {},
-		tags: [],
-		markers: [],
 		data: {
 			count: 2
 		}
-	})
+	}))
 
-	const card3 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const card3 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		type: 'card',
 		version: '1.0.0',
-		active: true,
-		links: {},
-		tags: [],
-		markers: [],
 		data: {
 			count: 3
 		}
-	})
+	}))
 
 	const link1 = await test.context.backend.upsertElement({
 		type: 'link',
@@ -613,29 +539,21 @@ ava.test('.evaluateCard() should return multiple cards per link', async (test) =
 })
 
 ava.test('.evaluateCard() should return false if one link is unsatisfied', async (test) => {
-	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		type: 'card',
 		version: '1.0.0',
-		active: true,
-		links: {},
-		tags: [],
-		markers: [],
 		data: {
 			greeting: 'hello',
 			count: 1
 		}
-	})
+	}))
 
-	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		type: 'card',
 		version: '1.0.0',
-		active: true,
-		links: {},
-		tags: [],
-		markers: [],
 		data: {}
-	})
+	}))
 
 	await test.context.backend.upsertElement({
 		type: 'link',
@@ -650,17 +568,13 @@ ava.test('.evaluateCard() should return false if one link is unsatisfied', async
 		}
 	})
 
-	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		type: 'card',
 		version: '1.0.0',
-		active: true,
-		links: {},
-		tags: [],
-		markers: [],
 		data: {
 			count: 1
 		}
-	})
+	}))
 
 	await test.context.backend.upsertElement({
 		type: 'link',

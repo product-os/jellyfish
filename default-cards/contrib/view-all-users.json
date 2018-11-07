@@ -20,7 +20,9 @@
             }
           },
           "additionalProperties": true,
-          "required": [ "type" ]
+          "required": [
+            "type"
+          ]
         }
       }
     ],
@@ -28,5 +30,7 @@
       "lens-list",
       "lens-kanban"
     ]
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

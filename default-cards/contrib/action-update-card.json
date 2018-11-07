@@ -46,11 +46,25 @@
           },
           "data": {
             "type": "object"
+          },
+          "requires": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "capabilities": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
           }
         },
         "additionalProperties": false,
         "required": []
       }
     }
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

@@ -19,7 +19,9 @@
               "const": true
             }
           },
-          "required": [ "active" ]
+          "required": [
+            "active"
+          ]
         }
       }
     ],
@@ -39,7 +41,10 @@
             }
           },
           "additionalProperties": true,
-          "required": [ "type", "data" ]
+          "required": [
+            "type",
+            "data"
+          ]
         }
       },
       {
@@ -63,7 +68,11 @@
               "additionalProperties": true
             }
           },
-          "required": [ "id", "type", "data" ]
+          "required": [
+            "id",
+            "type",
+            "data"
+          ]
         }
       },
       {
@@ -81,7 +90,10 @@
               "additionalProperties": true
             }
           },
-          "required": [ "type", "data" ]
+          "required": [
+            "type",
+            "data"
+          ]
         }
       },
       {
@@ -113,7 +125,10 @@
             }
           },
           "additionalProperties": true,
-          "required": [ "type", "data" ]
+          "required": [
+            "type",
+            "data"
+          ]
         }
       },
       {
@@ -130,7 +145,9 @@
             },
             "data": {
               "type": "object",
-              "required": [ "actor" ],
+              "required": [
+                "actor"
+              ],
               "properties": {
                 "actor": {
                   "type": "string",
@@ -142,7 +159,11 @@
               "additionalProperties": true
             }
           },
-          "required": [ "id", "type", "data" ]
+          "required": [
+            "id",
+            "type",
+            "data"
+          ]
         }
       },
       {
@@ -162,7 +183,10 @@
             }
           },
           "additionalProperties": true,
-          "required": [ "slug", "type" ]
+          "required": [
+            "slug",
+            "type"
+          ]
         }
       },
       {
@@ -179,7 +203,9 @@
             },
             "data": {
               "type": "object",
-              "required": [ "actor" ],
+              "required": [
+                "actor"
+              ],
               "properties": {
                 "actor": {
                   "type": "string",
@@ -191,7 +217,11 @@
             }
           },
           "additionalProperties": true,
-          "required": [ "id", "type", "data" ]
+          "required": [
+            "id",
+            "type",
+            "data"
+          ]
         }
       },
       {
@@ -225,7 +255,11 @@
             }
           },
           "additionalProperties": true,
-          "required": [ "id", "slug", "type" ]
+          "required": [
+            "id",
+            "slug",
+            "type"
+          ]
         }
       },
       {
@@ -252,7 +286,10 @@
             }
           },
           "additionalProperties": true,
-          "required": [ "id", "type" ]
+          "required": [
+            "id",
+            "type"
+          ]
         }
       },
       {
@@ -279,7 +316,10 @@
             },
             "data": {
               "type": "object",
-              "required": [ "email", "roles" ],
+              "required": [
+                "email",
+                "roles"
+              ],
               "additionalProperties": false,
               "properties": {
                 "email": {
@@ -291,9 +331,16 @@
               }
             }
           },
-          "required": [ "id", "slug", "type", "data" ]
+          "required": [
+            "id",
+            "slug",
+            "type",
+            "data"
+          ]
         }
       }
     ]
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

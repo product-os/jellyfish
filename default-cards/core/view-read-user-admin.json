@@ -17,5 +17,7 @@
         }
       }
     ]
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

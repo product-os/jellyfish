@@ -29,16 +29,13 @@ const run = async () => {
 		const name = `Card ${times}`
 		marky.mark(name)
 
-		await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 			type: 'card',
 			version: '1.0.0',
-			links: {},
-			tags: [],
-			active: true,
 			data: {
 				count: times
 			}
-		})
+		}))
 
 		marky.stop(name)
 	}

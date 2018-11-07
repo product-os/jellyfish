@@ -17,5 +17,7 @@
         "type": "object"
       }
     }
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

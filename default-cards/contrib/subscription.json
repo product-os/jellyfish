@@ -63,5 +63,7 @@
       },
       "additionalProperties": true
     }
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

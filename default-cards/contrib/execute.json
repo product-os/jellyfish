@@ -32,7 +32,12 @@
             },
             "payload": {
               "type": "object",
-              "required": [ "card", "timestamp", "error", "data" ],
+              "required": [
+                "card",
+                "timestamp",
+                "error",
+                "data"
+              ],
               "properties": {
                 "card": {
                   "type": "string"
@@ -45,7 +50,13 @@
                   "type": "boolean"
                 },
                 "data": {
-                  "type": [ "object", "string", "number", "boolean", "array" ]
+                  "type": [
+                    "object",
+                    "string",
+                    "number",
+                    "boolean",
+                    "array"
+                  ]
                 }
               }
             }
@@ -59,7 +70,11 @@
         }
       },
       "additionalProperties": true,
-      "required": [ "data" ]
+      "required": [
+        "data"
+      ]
     }
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

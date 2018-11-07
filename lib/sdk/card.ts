@@ -307,6 +307,8 @@ export class CardSdk {
 					tags: [],
 					version: '1.0.0',
 					links: {},
+					requires: [],
+					capabilities: [],
 					active: true,
 					name,
 					data: {

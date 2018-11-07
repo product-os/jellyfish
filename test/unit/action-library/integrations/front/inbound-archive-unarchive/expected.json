@@ -5,6 +5,8 @@
     "version": "1.0.0",
     "active": true,
     "tags": [],
+    "requires": [],
+    "capabilities": [],
     "data": {
       "environment": "production",
       "inbox": "Demo Inbox",
@@ -23,6 +25,8 @@
       "active": true,
       "version": "1.0.0",
       "tags": [],
+      "requires": [],
+      "capabilities": [],
       "data": {
         "timestamp": "2018-10-08T18:49:54.763Z",
         "payload": {
@@ -30,6 +34,8 @@
           "version": "1.0.0",
           "active": true,
           "tags": [],
+          "requires": [],
+          "capabilities": [],
           "data": {
             "environment": "production",
             "inbox": "Demo Inbox",
@@ -49,6 +55,8 @@
       "active": true,
       "version": "1.0.0",
       "tags": [],
+      "requires": [],
+      "capabilities": [],
       "data": {
         "timestamp": "2018-10-08T18:50:09.298Z",
         "payload": {
@@ -56,6 +64,8 @@
           "version": "1.0.0",
           "active": true,
           "tags": [],
+          "requires": [],
+          "capabilities": [],
           "data": {
             "environment": "production",
             "inbox": "Demo Inbox",
@@ -75,6 +85,8 @@
       "active": true,
       "version": "1.0.0",
       "tags": [],
+      "requires": [],
+      "capabilities": [],
       "data": {
         "timestamp": "2018-10-08T18:50:16.901Z",
         "payload": {
@@ -82,6 +94,8 @@
           "version": "1.0.0",
           "active": true,
           "tags": [],
+          "requires": [],
+          "capabilities": [],
           "data": {
             "environment": "production",
             "inbox": "Demo Inbox",

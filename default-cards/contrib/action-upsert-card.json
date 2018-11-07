@@ -16,7 +16,9 @@
           "const": "type"
         }
       },
-      "required": [ "type" ]
+      "required": [
+        "type"
+      ]
     },
     "arguments": {
       "properties": {
@@ -53,10 +55,24 @@
           },
           "data": {
             "type": "object"
+          },
+          "requires": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "capabilities": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
           }
         },
         "required": []
       }
     }
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

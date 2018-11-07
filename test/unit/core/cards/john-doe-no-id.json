@@ -5,6 +5,8 @@
     "tags": [ "premium" ],
     "markers": [],
     "links": {},
+    "requires": [],
+    "capabilities": [],
     "active": true,
     "data": {
       "email": "johndoe@example.com",

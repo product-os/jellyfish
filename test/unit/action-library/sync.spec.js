@@ -68,19 +68,16 @@ ava.test('.importCards() should import a single card', async (test) => {
 	})
 
 	test.deepEqual(result, [
-		{
+		test.context.kernel.defaults({
 			id: result[0].id,
 			slug: 'hello-world',
-			active: true,
 			links: result[0].links,
-			markers: [],
-			tags: [],
 			type: 'card',
 			version: '1.0.0',
 			data: {
 				test: 1
 			}
-		}
+		})
 	])
 })
 
@@ -103,68 +100,56 @@ ava.test('.importCards() should import a single card with an id', async (test) =
 	})
 
 	test.deepEqual(result, [
-		{
+		test.context.kernel.defaults({
 			id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			slug: 'hello-world',
-			active: true,
 			links: result[0].links,
-			markers: [],
-			tags: [],
 			type: 'card',
 			version: '1.0.0',
 			data: {
 				test: 1
 			}
-		}
+		})
 	])
 })
 
 ava.test('.importCards() should patch an existing card', async (test) => {
-	const card = await test.context.jellyfish.insertCard(test.context.session, {
+	const card = await test.context.jellyfish.insertCard(test.context.session, test.context.kernel.defaults({
 		type: 'card',
 		version: '1.0.0',
-		active: true,
-		links: {},
-		markers: [],
-		tags: [],
 		data: {
 			test: 1
 		}
-	})
+	}))
 
 	const result = await sync.importCards(test.context.context, test.context.session, [
 		{
 			time: new Date(),
-			card: {
+			card: test.context.kernel.defaults({
 				id: card.id,
 				type: 'card',
 				version: '1.0.0',
 				active: false,
-				links: {},
-				markers: [],
-				tags: [],
 				data: {
 					test: 1
 				}
-			}
+			})
 		}
 	], {
 		actor: test.context.actor.id
 	})
 
 	test.deepEqual(result, [
-		{
+		test.context.kernel.defaults({
 			id: card.id,
 			type: 'card',
 			version: '1.0.0',
 			active: false,
 			links: result[0].links,
-			markers: [],
-			tags: [],
 			data: {
 				test: 1
 			}
-		}
+		})
 	])
 })
 
@@ -197,10 +182,7 @@ ava.test('.importCards() should import two independent cards', async (test) => {
 	test.deepEqual(result, [
 		{
 			id: result[0].id,
-			active: true,
 			links: result[0].links,
-			markers: [],
-			tags: [],
 			type: 'card',
 			version: '1.0.0',
 			data: {
@@ -209,17 +191,14 @@ ava.test('.importCards() should import two independent cards', async (test) => {
 		},
 		{
 			id: result[1].id,
-			active: true,
 			links: result[1].links,
-			markers: [],
-			tags: [],
 			type: 'card',
 			version: '1.0.0',
 			data: {
 				test: 2
 			}
 		}
-	])
+	].map(test.context.kernel.defaults))
 })
 
 ava.test('.importCards() should import two parallel cards', async (test) => {
@@ -255,10 +234,7 @@ ava.test('.importCards() should import two parallel cards', async (test) => {
 	test.deepEqual(sortedResult, [
 		{
 			id: sortedResult[0].id,
-			active: true,
 			links: sortedResult[0].links,
-			markers: [],
-			tags: [],
 			type: 'card',
 			version: '1.0.0',
 			data: {
@@ -267,17 +243,14 @@ ava.test('.importCards() should import two parallel cards', async (test) => {
 		},
 		{
 			id: sortedResult[1].id,
-			active: true,
 			links: sortedResult[1].links,
-			markers: [],
-			tags: [],
 			type: 'card',
 			version: '1.0.0',
 			data: {
 				test: 2
 			}
 		}
-	])
+	].map(test.context.kernel.defaults))
 })
 
 ava.test('.importCards() should import dependent cards', async (test) => {
@@ -309,7 +282,7 @@ ava.test('.importCards() should import dependent cards', async (test) => {
 	})
 
 	test.deepEqual(result, [
-		{
+		test.context.kernel.defaults({
 			id: result[0].id,
 			active: true,
 			links: result[0].links,
@@ -320,8 +293,8 @@ ava.test('.importCards() should import dependent cards', async (test) => {
 			data: {
 				test: 1
 			}
-		},
-		{
+		}),
+		test.context.kernel.defaults({
 			id: result[1].id,
 			active: true,
 			links: result[1].links,
@@ -332,7 +305,7 @@ ava.test('.importCards() should import dependent cards', async (test) => {
 			data: {
 				target: result[0].id
 			}
-		}
+		})
 	])
 })
 
@@ -411,10 +384,7 @@ ava.test('.importCards() should import a dependent card in parallel segment', as
 	test.deepEqual(sortedResult, [
 		{
 			id: sortedResult[0].id,
-			active: true,
 			links: sortedResult[0].links,
-			markers: [],
-			tags: [],
 			type: 'card',
 			version: '1.0.0',
 			data: {
@@ -423,10 +393,7 @@ ava.test('.importCards() should import a dependent card in parallel segment', as
 		},
 		{
 			id: sortedResult[1].id,
-			active: true,
 			links: sortedResult[1].links,
-			markers: [],
-			tags: [],
 			type: 'card',
 			version: '1.0.0',
 			data: {
@@ -435,10 +402,7 @@ ava.test('.importCards() should import a dependent card in parallel segment', as
 		},
 		{
 			id: sortedResult[2].id,
-			active: true,
 			links: sortedResult[2].links,
-			markers: [],
-			tags: [],
 			type: 'card',
 			version: '1.0.0',
 			data: {
@@ -446,7 +410,7 @@ ava.test('.importCards() should import a dependent card in parallel segment', as
 				target: sortedResult[0].id
 			}
 		}
-	])
+	].map(test.context.kernel.defaults))
 })
 
 ava.test('.importCards() should add create events', async (test) => {
@@ -499,14 +463,10 @@ ava.test('.translateExternalEvent() should translate an external event through t
 		}
 	}
 
-	const result = await sync.translateExternalEvent(TestIntegration, {
+	const result = await sync.translateExternalEvent(TestIntegration, test.context.kernel.defaults({
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		type: 'external-event',
 		version: '1.0.0',
-		active: true,
-		markers: [],
-		tags: [],
-		links: {},
 		data: {
 			source: 'test',
 			headers: {},
@@ -515,7 +475,7 @@ ava.test('.translateExternalEvent() should translate an external event through t
 				bar: 'baz'
 			}
 		}
-	}, {
+	}), {
 		context: test.context.context,
 		session: test.context.session,
 		actor: test.context.actor.id
@@ -525,13 +485,10 @@ ava.test('.translateExternalEvent() should translate an external event through t
 	test.true(TestIntegration.instance.destroyed)
 
 	test.deepEqual(result, [
-		{
+		test.context.kernel.defaults({
 			id: result[0].id,
 			type: 'card',
 			version: '1.0.0',
-			active: true,
-			markers: [],
-			tags: [],
 			links: result[0].links,
 			data: {
 				payload: {
@@ -539,7 +496,7 @@ ava.test('.translateExternalEvent() should translate an external event through t
 					bar: 'baz'
 				}
 			}
-		}
+		})
 	])
 })
 
@@ -551,14 +508,10 @@ ava.test('.translateExternalEvent() should destroy the integration even if there
 		}
 	}
 
-	await test.throws(sync.translateExternalEvent(TestIntegration, {
+	await test.throws(sync.translateExternalEvent(TestIntegration, test.context.kernel.defaults({
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		type: 'invalid-type',
 		version: '1.0.0',
-		active: true,
-		markers: [],
-		tags: [],
-		links: {},
 		data: {
 			source: 'test',
 			headers: {},
@@ -569,7 +522,7 @@ ava.test('.translateExternalEvent() should destroy the integration even if there
 				bar: 'baz'
 			}
 		}
-	}, {
+	}), {
 		context: test.context.context,
 		session: test.context.session,
 		actor: test.context.actor.id
@@ -597,10 +550,6 @@ ava.test('.translateExternalEvent() should destroy the integration even if there
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		type: 'invalid-type',
 		version: '1.0.0',
-		active: true,
-		markers: [],
-		tags: [],
-		links: {},
 		data: {
 			source: 'test',
 			headers: {},

@@ -19,7 +19,9 @@
               "const": true
             }
           },
-          "required": [ "active" ]
+          "required": [
+            "active"
+          ]
         }
       }
     ],
@@ -39,7 +41,11 @@
             }
           },
           "additionalProperties": true,
-          "required": [ "slug", "type", "data" ]
+          "required": [
+            "slug",
+            "type",
+            "data"
+          ]
         }
       },
       {
@@ -57,7 +63,10 @@
               "additionalProperties": true
             }
           },
-          "required": [ "type", "data" ]
+          "required": [
+            "type",
+            "data"
+          ]
         }
       },
       {
@@ -81,7 +90,11 @@
               "additionalProperties": true
             }
           },
-          "required": [ "id", "type", "data" ]
+          "required": [
+            "id",
+            "type",
+            "data"
+          ]
         }
       },
       {
@@ -113,7 +126,10 @@
             }
           },
           "additionalProperties": true,
-          "required": [ "type", "data" ]
+          "required": [
+            "type",
+            "data"
+          ]
         }
       },
       {
@@ -142,7 +158,11 @@
             }
           },
           "additionalProperties": true,
-          "required": [ "id", "type", "data" ]
+          "required": [
+            "id",
+            "type",
+            "data"
+          ]
         }
       },
       {
@@ -162,7 +182,10 @@
             }
           },
           "additionalProperties": true,
-          "required": [ "slug", "type" ]
+          "required": [
+            "slug",
+            "type"
+          ]
         }
       },
       {
@@ -190,7 +213,11 @@
             }
           },
           "additionalProperties": true,
-          "required": [ "data", "id", "type" ]
+          "required": [
+            "data",
+            "id",
+            "type"
+          ]
         }
       },
       {
@@ -222,7 +249,10 @@
             }
           },
           "additionalProperties": true,
-          "required": [ "slug", "type" ]
+          "required": [
+            "slug",
+            "type"
+          ]
         }
       },
       {
@@ -244,12 +274,17 @@
                   }
                 }
               },
-              "required": [ "actor" ],
+              "required": [
+                "actor"
+              ],
               "additionalProperties": true
             }
           },
           "additionalProperties": true,
-          "required": [ "data", "type" ]
+          "required": [
+            "data",
+            "type"
+          ]
         }
       },
       {
@@ -281,7 +316,9 @@
             }
           },
           "additionalProperties": true,
-          "required": [ "type" ]
+          "required": [
+            "type"
+          ]
         }
       },
       {
@@ -303,11 +340,16 @@
                 }
               },
               "additionalProperties": true,
-              "required": [ "actor" ]
+              "required": [
+                "actor"
+              ]
             }
           },
           "additionalProperties": true,
-          "required": [ "data", "type" ]
+          "required": [
+            "data",
+            "type"
+          ]
         }
       },
       {
@@ -341,9 +383,16 @@
               "additionalProperties": false
             }
           },
-          "required": [ "id", "type", "data", "slug" ]
+          "required": [
+            "id",
+            "type",
+            "data",
+            "slug"
+          ]
         }
       }
     ]
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

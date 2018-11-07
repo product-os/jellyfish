@@ -205,11 +205,12 @@ ava.test.serial('.query() should be able to see previously restricted cards afte
 	const entry = await test.context.server.jellyfish.insertCard(test.context.session, {
 		type: 'scratchpad-entry',
 		version: '1.0.0',
-		name: 'Test entry',
 		tags: [],
-		markers: [],
 		links: {},
 		active: true,
+		requires: [],
+		capabilities: [],
+		name: 'Test entry',
 		data: {}
 	})
 
@@ -223,9 +224,10 @@ ava.test.serial('.query() should be able to see previously restricted cards afte
 		type: 'user',
 		version: '1.0.0',
 		tags: [],
-		markers: [],
 		links: {},
 		active: true,
+		requires: [],
+		capabilities: [],
 		data: {
 			email,
 			roles: [ 'user-team' ]
@@ -258,8 +260,7 @@ ava.test.serial('timeline cards should reference the correct actor', async (test
 
 	const thread = await sdk.card.create({
 		type: 'thread',
-		version: '1.0.0',
-		data: {}
+		version: '1.0.0'
 	})
 
 	// Set up the watcher before the card is updated to stop race conditions from
@@ -725,6 +726,8 @@ ava.test.serial('should be able to post an external event', async (test) => {
 		tags: [],
 		markers: [],
 		links: {},
+		requires: [],
+		capabilities: [],
 		data: {
 			source: 'test',
 			headers: {
@@ -765,6 +768,8 @@ ava.test.serial('should be able to post an external event with a type', async (t
 		tags: [],
 		markers: [],
 		links: {},
+		requires: [],
+		capabilities: [],
 		data: {
 			source: 'test',
 			headers: {
@@ -805,10 +810,11 @@ ava.test.serial('should add and evaluate a time triggered action', async (test) 
 	const trigger = await test.context.server.jellyfish.insertCard(test.context.session, {
 		type: 'triggered-action',
 		version: '1.0.0',
-		active: true,
 		tags: [],
-		markers: [],
 		links: {},
+		active: true,
+		requires: [],
+		capabilities: [],
 		data: {
 			action: 'action-create-card',
 			target: typeCard.id,
@@ -958,6 +964,8 @@ ava.test.serial('should be able to resolve links', async (test) => {
 			active: true,
 			tags: [],
 			markers: [],
+			capabilities: [],
+			requires: [],
 			links: {
 				'is attached to': [
 					{
@@ -1061,6 +1069,8 @@ ava.test.serial('should apply permissions on resolved links', async (test) => {
 			active: true,
 			tags: [],
 			markers: [],
+			capabilities: [],
+			requires: [],
 			links: {
 				'is attached to': [
 					Object.assign({}, targetUser, {

@@ -23,10 +23,16 @@
               "format": "date-time"
             }
           },
-          "required": [ "actor" ]
+          "required": [
+            "actor"
+          ]
         }
       },
-      "required": [ "data" ]
+      "required": [
+        "data"
+      ]
     }
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

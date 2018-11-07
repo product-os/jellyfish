@@ -25,9 +25,10 @@
                 ]
               }
             }
-
           },
-          "required": [ "active" ],
+          "required": [
+            "active"
+          ],
           "additionalProperties": true
         }
       }
@@ -36,5 +37,7 @@
       "lens-default-list",
       "lens-default-card"
     ]
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

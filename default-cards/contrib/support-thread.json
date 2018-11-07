@@ -28,7 +28,9 @@
           "properties": {
             "environment": {
               "type": "string",
-              "enum": [ "production" ]
+              "enum": [
+                "production"
+              ]
             },
             "mentionsUser": {
               "type": "array",
@@ -45,16 +47,25 @@
             "status": {
               "title": "Status",
               "type": "string",
-              "enum": [ "open", "closed", "archived" ]
+              "enum": [
+                "open",
+                "closed",
+                "archived"
+              ]
             }
           }
         }
       },
       "additionalProperties": true,
-      "required": [ "tags", "data" ]
+      "required": [
+        "tags",
+        "data"
+      ]
     },
     "slices": [
       "properties.data.properties.status"
     ]
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

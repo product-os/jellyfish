@@ -38,7 +38,11 @@
         }
       },
       "additionalProperties": true,
-      "required": [ "data" ]
+      "required": [
+        "data"
+      ]
     }
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

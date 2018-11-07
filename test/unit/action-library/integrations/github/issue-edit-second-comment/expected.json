@@ -5,6 +5,8 @@
     "version": "1.0.0",
     "active": true,
     "tags": [],
+    "requires": [],
+    "capabilities": [],
     "data": {
       "repository": "resin-io/jellyfish",
       "mirrors": [
@@ -23,6 +25,8 @@
       "active": true,
       "version": "1.0.0",
       "tags": [],
+      "requires": [],
+      "capabilities": [],
       "data": {
         "mirrors": [
           "https://github.com/resin-io/jellyfish/issues/719#issuecomment-424428899"
@@ -40,6 +44,8 @@
       "active": true,
       "version": "1.0.0",
       "tags": [],
+      "requires": [],
+      "capabilities": [],
       "data": {
         "mirrors": [
           "https://github.com/resin-io/jellyfish/issues/719#issuecomment-424429646"
@@ -57,6 +63,8 @@
       "active": true,
       "version": "1.0.0",
       "tags": [],
+      "requires": [],
+      "capabilities": [],
       "data": {
         "timestamp": "2018-09-25T17:19:51Z",
         "payload": {
@@ -64,6 +72,8 @@
           "active": true,
           "version": "1.0.0",
           "tags": [],
+          "requires": [],
+          "capabilities": [],
           "data": {
             "repository": "resin-io/jellyfish",
             "mirrors": [

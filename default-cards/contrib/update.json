@@ -60,6 +60,18 @@
                 "active": {
                   "type": "boolean"
                 },
+                "requires": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                },
+                "capabilities": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                },
                 "data": {
                   "type": "object"
                 }
@@ -76,7 +88,11 @@
           ]
         }
       },
-      "required": [ "data" ]
+      "required": [
+        "data"
+      ]
     }
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

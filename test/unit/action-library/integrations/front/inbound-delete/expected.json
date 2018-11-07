@@ -5,6 +5,8 @@
     "version": "1.0.0",
     "active": true,
     "tags": [],
+    "requires": [],
+    "capabilities": [],
     "data": {
       "environment": "production",
       "inbox": "Demo Inbox",
@@ -23,6 +25,8 @@
       "version": "1.0.0",
       "active": true,
       "tags": [],
+      "requires": [],
+      "capabilities": [],
       "data": {
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_1w1ewpe"
@@ -40,6 +44,8 @@
       "version": "1.0.0",
       "active": true,
       "tags": [],
+      "requires": [],
+      "capabilities": [],
       "data": {
         "timestamp": "2018-10-08T18:35:21.954Z",
         "payload": {
@@ -47,6 +53,8 @@
           "active": true,
           "tags": [],
           "version": "1.0.0",
+          "requires": [],
+          "capabilities": [],
           "data": {
             "environment": "production",
             "inbox": "Demo Inbox",
@@ -66,6 +74,8 @@
       "version": "1.0.0",
       "active": true,
       "tags": [],
+      "requires": [],
+      "capabilities": [],
       "data": {
         "timestamp": "2018-10-08T18:35:32.544Z",
         "payload": {
@@ -73,6 +83,8 @@
           "active": true,
           "tags": [],
           "version": "1.0.0",
+          "requires": [],
+          "capabilities": [],
           "data": {
             "environment": "production",
             "inbox": "Demo Inbox",

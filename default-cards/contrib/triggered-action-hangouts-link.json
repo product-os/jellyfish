@@ -9,7 +9,10 @@
   "data": {
     "filter": {
       "type": "object",
-      "required": [ "type", "data" ],
+      "required": [
+        "type",
+        "data"
+      ],
       "properties": {
         "type": {
           "type": "string",
@@ -17,11 +20,15 @@
         },
         "data": {
           "type": "object",
-          "required": [ "payload" ],
+          "required": [
+            "payload"
+          ],
           "properties": {
             "payload": {
               "type": "object",
-              "required": [ "message" ],
+              "required": [
+                "message"
+              ],
               "properties": {
                 "message": {
                   "type": "string",
@@ -47,5 +54,7 @@
         }
       }
     }
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

@@ -42,16 +42,24 @@
               "title": "Status",
               "type": "string",
               "default": "pending discussion",
-              "enum": [ "discussed", "pending discussion" ]
+              "enum": [
+                "discussed",
+                "pending discussion"
+              ]
             }
           }
         }
       },
       "additionalProperties": true,
-      "required": [ "tags", "data" ]
+      "required": [
+        "tags",
+        "data"
+      ]
     },
     "slices": [
       "properties.data.properties.status"
     ]
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

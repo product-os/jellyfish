@@ -27,9 +27,15 @@
               "additionalProperties": true
             }
           },
-          "required": [ "active", "type", "data" ]
+          "required": [
+            "active",
+            "type",
+            "data"
+          ]
         }
       }
     ]
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

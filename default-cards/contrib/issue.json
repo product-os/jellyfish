@@ -50,7 +50,10 @@
             "status": {
               "title": "Status",
               "type": "string",
-              "enum": [ "open", "closed" ]
+              "enum": [
+                "open",
+                "closed"
+              ]
             },
             "archived": {
               "type": "boolean",
@@ -60,10 +63,15 @@
         }
       },
       "additionalProperties": true,
-      "required": [ "tags", "data" ]
+      "required": [
+        "tags",
+        "data"
+      ]
     },
     "slices": [
       "properties.data.properties.status"
     ]
-  }
+  },
+  "requires": [],
+  "capabilities": []
 }

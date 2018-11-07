@@ -1632,38 +1632,31 @@ ava.test('should be able to login as a user with a password', async (test) => {
 	test.false(loginResult.error)
 
 	const session = await test.context.jellyfish.getCardById(test.context.session, loginResult.data.id)
-	test.deepEqual(session, {
+	test.deepEqual(session, test.context.kernel.defaults({
 		id: loginResult.data.id,
 		version: '1.0.0',
 		type: 'session',
-		active: true,
 		links: session.links,
-		tags: [],
-		markers: [],
 		data: {
 			actor: signupResult.data.id,
 			expiration: loginResult.data.data.expiration
 		}
-	})
+	}))
 
 	const currentDate = new Date()
 	test.true(new Date(session.data.expiration) > currentDate)
 })
 
 ava.test('should be able to login as a password-less user', async (test) => {
-	const user = await test.context.jellyfish.insertCard(test.context.session, {
+	const user = await test.context.jellyfish.insertCard(test.context.session, test.context.kernel.defaults({
 		type: 'user',
 		version: '1.0.0',
 		slug: 'user-johndoe',
-		active: true,
-		links: {},
-		tags: [],
-		markers: [],
 		data: {
 			email: 'johndoe@example.com',
 			roles: []
 		}
-	})
+	}))
 
 	const loginRequestId = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-session',
@@ -1684,20 +1677,16 @@ ava.test('should be able to login as a password-less user', async (test) => {
 })
 
 ava.test('should not be able to login as a password-less disallowed user', async (test) => {
-	const user = await test.context.jellyfish.insertCard(test.context.session, {
+	const user = await test.context.jellyfish.insertCard(test.context.session, test.context.kernel.defaults({
 		type: 'user',
 		version: '1.0.0',
 		slug: 'user-johndoe',
-		active: true,
-		links: {},
-		tags: [],
-		markers: [],
 		data: {
 			disallowLogin: true,
 			email: 'johndoe@example.com',
 			roles: []
 		}
-	})
+	}))
 
 	await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-session',
@@ -1821,19 +1810,16 @@ ava.test('should update a card to add an extra property', async (test) => {
 	test.false(updateResult.error)
 
 	const card = await test.context.jellyfish.getCardById(test.context.session, updateResult.data.id)
-	test.deepEqual(card, {
+	test.deepEqual(card, test.context.kernel.defaults({
 		id: updateResult.data.id,
 		version: '1.0.0',
 		type: 'card',
-		active: true,
 		links: card.links,
-		tags: [],
-		markers: [],
 		data: {
 			foo: 'bar',
 			bar: 'baz'
 		}
-	})
+	}))
 })
 
 ava.test('should update a card to set active to false', async (test) => {
@@ -1868,16 +1854,13 @@ ava.test('should update a card to set active to false', async (test) => {
 	test.false(updateResult.error)
 
 	const card = await test.context.jellyfish.getCardById(test.context.session, updateResult.data.id)
-	test.deepEqual(card, {
+	test.deepEqual(card, test.context.kernel.defaults({
 		id: updateResult.data.id,
 		version: '1.0.0',
 		type: 'card',
 		active: false,
-		links: card.links,
-		tags: [],
-		markers: [],
-		data: {}
-	})
+		links: card.links
+	}))
 })
 
 ava.test('should update a card to set active to false using the card slug as input', async (test) => {
@@ -1913,17 +1896,14 @@ ava.test('should update a card to set active to false using the card slug as inp
 	test.false(updateResult.error)
 
 	const card = await test.context.jellyfish.getCardById(test.context.session, updateResult.data.id)
-	test.deepEqual(card, {
+	test.deepEqual(card, test.context.kernel.defaults({
 		id: updateResult.data.id,
 		type: 'card',
 		version: '1.0.0',
 		slug: 'foo-bar-baz',
 		active: false,
-		links: card.links,
-		tags: [],
-		markers: [],
-		data: {}
-	})
+		links: card.links
+	}))
 })
 
 ava.test('should update a card to override an array property', async (test) => {
@@ -1964,18 +1944,15 @@ ava.test('should update a card to override an array property', async (test) => {
 
 	const card = await test.context.jellyfish.getCardById(test.context.session, updateResult.data.id)
 
-	test.deepEqual(card, {
+	test.deepEqual(card, test.context.kernel.defaults({
 		id: updateResult.data.id,
 		type: 'card',
 		version: '1.0.0',
-		active: true,
 		links: card.links,
-		tags: [],
-		markers: [],
 		data: {
 			roles: []
 		}
-	})
+	}))
 })
 
 ava.test('should update a card to add a slug', async (test) => {
@@ -2010,17 +1987,13 @@ ava.test('should update a card to add a slug', async (test) => {
 	test.false(updateResult.error)
 
 	const card = await test.context.jellyfish.getCardById(test.context.session, updateResult.data.id)
-	test.deepEqual(card, {
+	test.deepEqual(card, test.context.kernel.defaults({
 		id: updateResult.data.id,
 		type: 'card',
 		version: '1.0.0',
 		slug: 'foo-bar',
-		active: true,
-		links: card.links,
-		tags: [],
-		markers: [],
-		data: {}
-	})
+		links: card.links
+	}))
 })
 
 ava.test('should add an update event if updating a card', async (test) => {
@@ -2078,7 +2051,6 @@ ava.test('should add an update event if updating a card', async (test) => {
 			id: timeline[0].id,
 			version: '1.0.0',
 			type: 'create',
-			active: true,
 			links: {
 				'is attached to': [
 					{
@@ -2087,8 +2059,6 @@ ava.test('should add an update event if updating a card', async (test) => {
 					}
 				]
 			},
-			tags: [],
-			markers: [],
 			data: {
 				actor: test.context.actor.id,
 				target: createResult.data.id,
@@ -2099,6 +2069,8 @@ ava.test('should add an update event if updating a card', async (test) => {
 					links: timeline[0].data.payload.links,
 					tags: [],
 					markers: [],
+					requires: [],
+					capabilities: [],
 					data: {}
 				}
 			}
@@ -2107,7 +2079,6 @@ ava.test('should add an update event if updating a card', async (test) => {
 			id: timeline[1].id,
 			version: '1.0.0',
 			type: 'update',
-			active: true,
 			links: {
 				'is attached to': [
 					{
@@ -2116,8 +2087,6 @@ ava.test('should add an update event if updating a card', async (test) => {
 					}
 				]
 			},
-			tags: [],
-			markers: [],
 			data: {
 				actor: test.context.actor.id,
 				target: createResult.data.id,
@@ -2129,11 +2098,13 @@ ava.test('should add an update event if updating a card', async (test) => {
 					links: timeline[1].data.payload.links,
 					tags: [],
 					markers: [],
+					requires: [],
+					capabilities: [],
 					data: {}
 				}
 			}
 		}
-	])
+	].map(test.context.kernel.defaults))
 })
 
 ava.test('should delete a card using action-delete-card', async (test) => {
@@ -2163,16 +2134,13 @@ ava.test('should delete a card using action-delete-card', async (test) => {
 	test.false(deleteResult.error)
 
 	const card = await test.context.jellyfish.getCardById(test.context.session, deleteResult.data.id)
-	test.deepEqual(card, {
+	test.deepEqual(card, test.context.kernel.defaults({
 		id: deleteResult.data.id,
 		version: '1.0.0',
 		type: 'card',
 		active: false,
-		links: card.links,
-		tags: [],
-		markers: [],
-		data: {}
-	})
+		links: card.links
+	}))
 })
 
 ava.test('should delete a card using action-update-card', async (test) => {
@@ -2207,14 +2175,11 @@ ava.test('should delete a card using action-update-card', async (test) => {
 	test.false(updateResult.error)
 
 	const card = await test.context.jellyfish.getCardById(test.context.session, updateResult.data.id)
-	test.deepEqual(card, {
+	test.deepEqual(card, test.context.kernel.defaults({
 		id: updateResult.data.id,
 		type: 'card',
 		version: '1.0.0',
 		active: false,
-		links: card.links,
-		tags: [],
-		markers: [],
-		data: {}
-	})
+		links: card.links
+	}))
 })
