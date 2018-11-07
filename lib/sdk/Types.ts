@@ -26,8 +26,8 @@ export interface Card {
 	tags: string[];
 	links: object;
 	active: boolean;
-	requires?: object[];
-	capabilities?: object[];
+	requires: object[];
+	capabilities: object[];
 	data: { [key: string]: any };
 	name?: string;
 	slug?: string;
