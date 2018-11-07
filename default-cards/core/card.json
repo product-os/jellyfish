@@ -75,6 +75,8 @@
         "links",
         "active",
         "data",
+        "requires",
+        "capabilities",
         "version"
       ]
     }

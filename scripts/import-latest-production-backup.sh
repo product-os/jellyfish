@@ -18,7 +18,7 @@ BACKUP_PATH="$(curl \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/hal+json" \
   "$COMPOSE_API_PREFIX/deployments/$DEPLOYMENT_ID/backups" \
-  | jq -r '._embedded.backups[0]._links.self.href')"
+  | jq -r '._embedded.backups|=sort_by(.created_at)[length-1]' | jq -r '._embedded.backups._links.self.href')"
 
 BACKUP_URL="$(curl \
   -H "Authorization: Bearer $TOKEN" \
