@@ -17,6 +17,7 @@
 const ava = require('ava')
 const Bluebird = require('bluebird')
 const _ = require('lodash')
+const randomstring = require('randomstring')
 const helpers = require('./helpers')
 
 const WAIT_OPTS = {
@@ -27,13 +28,13 @@ const context = {}
 
 const users = {
 	community: {
-		username: 'johndoe',
-		email: 'johndoe@example.com',
+		username: `johndoe-${randomstring.generate().toLowerCase()}`,
+		email: `johndoe-${randomstring.generate().toLowerCase()}@example.com`,
 		password: 'password'
 	},
 	admin: {
-		username: 'team-admin',
-		email: 'team-admin@example.com',
+		username: `team-admin-${randomstring.generate().toLowerCase()}`,
+		email: `team-admin-${randomstring.generate().toLowerCase()}@example.com`,
 		password: 'password'
 	}
 }
@@ -201,7 +202,7 @@ ava.test.serial('should allow team-admin users to update user\'s roles', async (
 		context.session,
 		_.merge(teamAdminUserCard, {
 			data: {
-				roles: [ 'team-admin' ]
+				roles: [ 'user-team-admin' ]
 			}
 		}),
 		{
