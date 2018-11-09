@@ -179,7 +179,7 @@ class Base extends React.Component<CardProps, {}> {
 					<Txt mb={3}>
 						<strong>
 						{level > 0 &&
-							<Link onClick={this.openChannel} className={`header-link--${card.slug || card.id}`}>
+							<Link onClick={this.openChannel} className={`header-link header-link--${card.slug || card.id}`}>
 								{card.name || card.slug || card.type}
 							</Link>
 						}

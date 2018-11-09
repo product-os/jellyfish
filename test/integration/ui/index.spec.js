@@ -26,6 +26,28 @@ const WAIT_OPTS = {
 
 const context = {}
 
+// Using page.type to change this input field regularly cuases characters to
+// be "dropped" - the workaround here is to use a script to set the value of
+// the input, and then trigger a change event that React can respond to
+const setInputValue = async (page, selector, value) => {
+	return page.evaluate((params) => {
+		const input = document.querySelector(params.selector)
+		const lastValue = input.value
+		input.value = params.value
+		const event = new window.Event('input', {
+			bubbles: true
+		})
+		const tracker = _.get(input, [ '_valueTracker' ])
+		if (tracker) {
+			tracker.setValue(lastValue)
+		}
+		input.dispatchEvent(event)
+	}, {
+		selector,
+		value
+	})
+}
+
 const users = {
 	community: {
 		username: `johndoe-${randomstring.generate().toLowerCase()}`,
@@ -219,6 +241,12 @@ ava.test.serial('should allow team-admin users to update user\'s roles', async (
 	await page.waitForSelector('.home-channel__item--view-all-users', WAIT_OPTS)
 	await page.click('.home-channel__item--view-all-users')
 
+	// Wait for results to appear in the view
+	await page.waitForSelector('.header-link', WAIT_OPTS)
+
+	// Search for the username so that the link appears in view
+	await setInputValue(page, '.column--view-all-users input', users.community.username)
+
 	// Select the community user
 	await page.waitForSelector(`.header-link--user-${users.community.username}`, WAIT_OPTS)
 	await page.click(`.header-link--user-${users.community.username}`)
@@ -243,19 +271,7 @@ ava.test.serial('should allow team-admin users to update user\'s roles', async (
 	// Using page.type to change this input field regularly cuases characters to
 	// be "dropped" - the workaround here is to use a script to set the value of
 	// the input, and then trigger a change event that React can respond to
-	await page.evaluate(() => {
-		const input = document.getElementById('root_data_roles_1')
-		const lastValue = input.value
-		input.value = 'user-team'
-		const event = new window.Event('input', {
-			bubbles: true
-		})
-		const tracker = _.get(input, [ '_valueTracker' ])
-		if (tracker) {
-			tracker.setValue(lastValue)
-		}
-		input.dispatchEvent(event)
-	})
+	await setInputValue(page, '#root_data_roles_1', 'user-team')
 
 	// Add a small delay to allow the form change to propagate
 	await Bluebird.delay(500)
