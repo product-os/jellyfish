@@ -167,9 +167,9 @@ ava.test.serial('should allow newly signed up users to create chat messages', as
 
 	await page.keyboard.press('Enter')
 
-	await page.waitForSelector('.event-card__message', WAIT_OPTS)
+	await page.waitForSelector('.column--thread .event-card__message', WAIT_OPTS)
 
-	const result = await page.$eval('.event-card__message', (node) => {
+	const result = await page.$eval('.column--thread .event-card__message', (node) => {
 		return node.innerText.trim()
 	})
 
