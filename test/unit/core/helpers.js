@@ -30,13 +30,17 @@ exports.generateRandomSlug = (options) => {
 
 exports.backend = {
 	beforeEach: async (test) => {
+		const dbName = `test_${randomstring.generate()}`
 		const cache = process.env.DISABLE_CACHE
 			? null
-			: new Cache()
+			: new Cache({
+				mock: true,
+				database: dbName
+			})
 		test.context.backend = new Backend(cache, {
 			host: process.env.DB_HOST,
 			port: process.env.DB_PORT,
-			database: `test_${randomstring.generate()}`
+			database: dbName
 		})
 
 		test.context.generateRandomSlug = exports.generateRandomSlug
@@ -72,10 +76,13 @@ exports.jellyfish = {
 
 exports.cache = {
 	beforeEach: async (test) => {
-		test.context.cache = new Cache()
+		test.context.cache = new Cache({
+			mock: true,
+			database: `test_${randomstring.generate()}`
+		})
 		await test.context.cache.connect()
 	},
 	afterEach: async (test) => {
-		await test.context.cache.reset()
+		await test.context.cache.disconnect()
 	}
 }
