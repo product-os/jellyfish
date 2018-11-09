@@ -197,7 +197,7 @@ class Base extends React.Component<
 
 		}, {});
 
-		const uiSchema = _.get(this.state.schema, [ 'properties', 'name' ]) ?
+		const uiSchema: any = _.get(this.state.schema, [ 'properties', 'name' ]) ?
 			{ 'ui:order': [ 'name', '*' ] }
 			: {};
 

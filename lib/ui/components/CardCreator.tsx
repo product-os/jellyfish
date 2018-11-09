@@ -113,7 +113,7 @@ class Base extends React.Component<CardCreatorProps, CardCreatorState> {
 			'properties.data.properties.alertsUser',
 		]);
 
-		const uiSchema = _.get(schema, [ 'properties', 'name' ]) ?
+		const uiSchema: any = _.get(schema, [ 'properties', 'name' ]) ?
 			{ 'ui:order': [ 'name', '*' ] }
 			: {};
 
