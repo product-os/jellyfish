@@ -166,6 +166,61 @@ ava.test.serial('Users with the role "team-admin" should not be able to view oth
 	test.is(fetchedUser.data.password, undefined)
 })
 
+ava.test.serial('Users with the role "team-admin" should see other users', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const otherUsername = randomstring.generate().toLowerCase()
+
+	await sdk.auth.signup({
+		username: otherUsername,
+		email: `${randomstring.generate()}@example.com`,
+		password: 'foobarbaz'
+	})
+
+	const activeUserDetails = {
+		username: randomstring.generate(),
+		email: `${randomstring.generate()}@example.com`,
+		password: 'foobarbaz'
+	}
+
+	const activeUser = await sdk.auth.signup(activeUserDetails)
+
+	// Update the role on the admin user
+	await test.context.server.jellyfish.insertCard(
+		test.context.session,
+		_.merge(activeUser, {
+			data: {
+				roles: [ 'user-team-admin' ]
+			}
+		}),
+		{
+			override: true
+		}
+	)
+
+	await sdk.auth.login(activeUserDetails)
+
+	const results = await test.context.sdk.query({
+		type: 'object',
+		required: [ 'slug', 'type' ],
+		properties: {
+			slug: {
+				type: 'string'
+			},
+			type: {
+				type: 'string',
+				const: 'user'
+			}
+		}
+	})
+
+	test.truthy(_.find(results, {
+		slug: `user-${otherUsername}`
+	}))
+})
+
 ava.test.serial('.query() the guest user should only see its own private fields', async (test) => {
 	await test.context.sdk.auth.signup({
 		username: randomstring.generate(),
