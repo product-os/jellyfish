@@ -231,6 +231,55 @@ ava.test('.upsertElement() should not be able to set links using an id', async (
 	test.deepEqual(element.links, {})
 })
 
+ava.test('.upsertElement() should update linked cards when inserting a link', async (test) => {
+	const thread = await test.context.backend.upsertElement({
+		type: 'thread',
+		active: true,
+		data: {}
+	})
+
+	const card = await test.context.backend.upsertElement({
+		type: 'message',
+		active: true,
+		data: {
+			payload: 'foo',
+			count: 1
+		}
+	})
+
+	await test.context.backend.upsertElement({
+		type: 'link',
+		active: true,
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: card.id,
+			to: thread.id
+		}
+	})
+
+	const updatedCard = await test.context.backend.getElementById(card.id)
+	const updatedThread = await test.context.backend.getElementById(thread.id)
+
+	test.deepEqual(updatedCard.links, {
+		'is attached to': [
+			{
+				$link: updatedCard.links['is attached to'][0].$link,
+				id: thread.id
+			}
+		]
+	})
+
+	test.deepEqual(updatedThread.links, {
+		'has attached element': [
+			{
+				$link: updatedThread.links['has attached element'][0].$link,
+				id: card.id
+			}
+		]
+	})
+})
+
 ava.test('.upsertElement() should not be able to set links using both an id and a slug', async (test) => {
 	const result = await test.context.backend.upsertElement({
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
