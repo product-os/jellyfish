@@ -21,7 +21,9 @@ const Kernel = require('../../../lib/core/kernel')
 
 exports.backend = {
 	beforeEach: async (test) => {
-		const cache = new Cache()
+		const cache = process.env.DISABLE_CACHE
+			? null
+			: new Cache()
 		test.context.backend = new Backend(cache, {
 			host: process.env.DB_HOST,
 			port: process.env.DB_PORT,
