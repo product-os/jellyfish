@@ -44,7 +44,7 @@ jobs:
           command: node ./scripts/reset-database.js && ./scripts/import-latest-production-backup.sh
       - run:
           name: Integration Tests (on production database)
-          command: make test-integration COVERAGE=0
+          command: make test-integration-server COVERAGE=0
 
       # Stress Testing
       - run:
