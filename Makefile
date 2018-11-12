@@ -15,6 +15,7 @@ DB_PORT ?= 28015
 NODE_DEBUG ?= 'jellyfish:*'
 COVERAGE ?= 1
 AVA_OPTS ?=
+DISABLE_CACHE ?=
 
 ifeq ($(FIX),)
 ESLINT_OPTION_FIX =
@@ -53,6 +54,7 @@ test:
 	DB_HOST=$(DB_HOST) \
 	DB_PORT=$(DB_PORT) \
 	API_URL=$(API_URL) \
+	DISABLE_CACHE=$(DISABLE_CACHE) \
 	PUPPETEER_VISUAL_MODE=$(PUPPETEER_VISUAL_MODE) \
 	$(COVERAGE_COMMAND) ./node_modules/.bin/ava $(AVA_OPTS) $(FILES)
 
@@ -61,6 +63,7 @@ test-unit:
 		DB_HOST=$(DB_HOST) \
 		DB_PORT=$(DB_PORT) \
 		API_URL=$(API_URL) \
+		DISABLE_CACHE=$(DISABLE_CACHE) \
 		COVERAGE=$(COVERAGE) \
 		make test
 
@@ -71,6 +74,7 @@ test-integration:
 		PUPPETEER_VISUAL_MODE=$(PUPPETEER_VISUAL_MODE) \
 		API_URL=$(API_URL) \
 		AVA_OPTS="--serial" \
+		DISABLE_CACHE=$(DISABLE_CACHE) \
 		COVERAGE=$(COVERAGE) \
 		make test
 
@@ -79,6 +83,7 @@ test-unit-%:
 		DB_HOST=$(DB_HOST) \
 		DB_PORT=$(DB_PORT) \
 		API_URL=$(API_URL) \
+		DISABLE_CACHE=$(DISABLE_CACHE) \
 		COVERAGE=$(COVERAGE) \
 		make test
 
@@ -89,6 +94,7 @@ test-integration-%:
 		PUPPETEER_VISUAL_MODE=$(PUPPETEER_VISUAL_MODE) \
 		API_URL=$(API_URL) \
 		AVA_OPTS="--serial" \
+		DISABLE_CACHE=$(DISABLE_CACHE) \
 		COVERAGE=$(COVERAGE) \
 		make test
 
