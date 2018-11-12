@@ -40,15 +40,6 @@ jobs:
           name: Start RethinkDB
           command: rethinkdb --daemon --bind all
       - run:
-          name: Lint
-          command: make lint
-      - run:
-          name: Unit Tests
-          command: make test-unit COVERAGE=0
-      - run:
-          name: Integration Tests
-          command: make test-integration COVERAGE=0
-      - run:
           name: Load Production Database Snapshot
           command: node ./scripts/reset-database.js && ./scripts/import-latest-production-backup.sh
       - run:
