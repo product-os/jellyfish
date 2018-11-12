@@ -57,3 +57,13 @@ exports.jellyfish = {
 		await exports.kernel.afterEach(test)
 	}
 }
+
+exports.cache = {
+	beforeEach: async (test) => {
+		test.context.cache = new Cache()
+		await test.context.cache.connect()
+	},
+	afterEach: async (test) => {
+		await test.context.cache.reset()
+	}
+}
