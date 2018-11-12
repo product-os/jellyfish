@@ -3,6 +3,7 @@
   "type": "triggered-action",
   "version": "1.0.0",
   "tags": [],
+  "markers": [],
   "links": {},
   "active": true,
   "data": {

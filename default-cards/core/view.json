@@ -83,6 +83,12 @@
               "items": {
                 "type": "string"
               }
+            },
+            "lenses": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             }
           }
         }
