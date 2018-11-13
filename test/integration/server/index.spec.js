@@ -211,6 +211,9 @@ ava.test.serial('.query() should be able to see previously restricted cards afte
 
 	const entry = await jellyfish.insertCard(test.context.session, defaults({
 		type: 'scratchpad-entry',
+		slug: test.context.generateRandomSlug({
+			prefix: 'scratchpad-entry'
+		}),
 		version: '1.0.0',
 		name: 'Test entry'
 	}))
@@ -256,6 +259,9 @@ ava.test.serial('timeline cards should reference the correct actor', async (test
 
 	const thread = await sdk.card.create({
 		type: 'thread',
+		slug: test.context.generateRandomSlug({
+			prefix: 'thread'
+		}),
 		version: '1.0.0'
 	})
 
@@ -485,6 +491,9 @@ ava.test.serial('AGGREGATE($events): should work when creating cards via the SDK
 	// Create a new thread element
 	const thread = await sdk.card.create({
 		type: 'thread',
+		slug: test.context.generateRandomSlug({
+			prefix: 'thread'
+		}),
 		version: '1.0.0',
 		name: 'test-thread',
 		data: {}
@@ -515,6 +524,9 @@ ava.test.serial('AGGREGATE($events): should work when creating cards via the SDK
 	const card = await executeThenWait(sdk, () => {
 		return sdk.card.create({
 			type: 'message',
+			slug: test.context.generateRandomSlug({
+				prefix: 'message'
+			}),
 			version: '1.0.0',
 			data: {
 				timestamp: '2018-05-05T00:21:02.459Z',
@@ -893,6 +905,9 @@ ava.test.serial('should be able to resolve links', async (test) => {
 	const uuid = randomstring.generate()
 	const thread = await sdk.card.create({
 		type: 'thread',
+		slug: test.context.generateRandomSlug({
+			prefix: 'thread'
+		}),
 		version: '1.0.0',
 		data: {
 			uuid
@@ -901,6 +916,9 @@ ava.test.serial('should be able to resolve links', async (test) => {
 
 	const message = await sdk.card.create({
 		type: 'message',
+		slug: test.context.generateRandomSlug({
+			prefix: 'message'
+		}),
 		version: '1.0.0',
 		data: {
 			timestamp: '2018-05-05T00:21:02.459Z',
@@ -956,6 +974,7 @@ ava.test.serial('should be able to resolve links', async (test) => {
 	test.deepEqual(results, [
 		{
 			id: message.id,
+			slug: message.slug,
 			type: 'message',
 			version: '1.0.0',
 			active: true,
@@ -1012,6 +1031,9 @@ ava.test.serial('should apply permissions on resolved links', async (test) => {
 
 	const thread = await sdk.card.create({
 		type: 'thread',
+		slug: test.context.generateRandomSlug({
+			prefix: 'thread'
+		}),
 		version: '1.0.0',
 		data: {
 			uuid,
@@ -1061,6 +1083,7 @@ ava.test.serial('should apply permissions on resolved links', async (test) => {
 	test.deepEqual(results, [
 		{
 			id: thread.id,
+			slug: thread.slug,
 			type: 'thread',
 			version: '1.0.0',
 			active: true,
