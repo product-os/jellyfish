@@ -831,6 +831,9 @@ ava.test.serial('should add and evaluate a time triggered action', async (test) 
 			arguments: {
 				properties: {
 					version: '1.0.0',
+					slug: {
+						$eval: 'str(epoch)'
+					},
 					data: {
 						origin: 'time-trigger'
 					}
