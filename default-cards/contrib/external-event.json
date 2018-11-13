@@ -10,6 +10,10 @@
     "schema": {
       "type": "object",
       "properties": {
+        "slug": {
+          "type": "string",
+          "pattern": "^external-event-[a-z0-9-]+$"
+        },
         "data": {
           "type": "object",
           "properties": {
@@ -32,6 +36,7 @@
         }
       },
       "required": [
+        "slug",
         "data"
       ]
     }

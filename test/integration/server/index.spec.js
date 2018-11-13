@@ -729,6 +729,7 @@ ava.test.serial('should be able to post an external event', async (test) => {
 	test.deepEqual(card, {
 		id: requestResult.data.id,
 		type: 'external-event',
+		slug: requestResult.data.slug,
 		version: '1.0.0',
 		active: true,
 		tags: [],
@@ -771,6 +772,7 @@ ava.test.serial('should be able to post an external event with a type', async (t
 	test.deepEqual(card, {
 		id: requestResult.data.id,
 		type: 'external-event',
+		slug: requestResult.data.slug,
 		version: '1.0.0',
 		active: true,
 		tags: [],
