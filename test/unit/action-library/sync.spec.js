@@ -489,6 +489,9 @@ ava.test('.translateExternalEvent() should translate an external event through t
 	const result = await sync.translateExternalEvent(TestIntegration, test.context.kernel.defaults({
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		type: 'external-event',
+		slug: test.context.generateRandomSlug({
+			prefix: 'external-event'
+		}),
 		version: '1.0.0',
 		data: {
 			source: 'test',
@@ -533,6 +536,9 @@ ava.test('.translateExternalEvent() should destroy the integration even if there
 
 	await test.throws(sync.translateExternalEvent(TestIntegration, test.context.kernel.defaults({
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		slug: test.context.generateRandomSlug({
+			prefix: 'external-event'
+		}),
 		type: 'invalid-type',
 		version: '1.0.0',
 		data: {
