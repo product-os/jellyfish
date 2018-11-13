@@ -54,7 +54,7 @@ export interface Card {
 	active: boolean;
 	data: { [key: string]: any };
 	name?: string;
-	slug?: string;
+	slug: string;
 	transient?: object;
 }
 

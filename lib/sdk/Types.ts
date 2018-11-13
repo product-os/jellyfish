@@ -30,7 +30,7 @@ export interface Card {
 	capabilities: object[];
 	data: { [key: string]: any };
 	name?: string;
-	slug?: string;
+	slug: string;
 	transient?: object;
 }
 
