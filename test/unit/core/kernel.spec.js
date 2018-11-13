@@ -131,6 +131,7 @@ ava.test('.insertCard() should be able to create a link between two valid cards'
 	}))
 
 	const linkCard = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: `link-${card1.slug}-is-attached-to-${card2.slug}`,
 		type: 'link',
 		version: '1.0.0',
 		name: 'is attached to',
@@ -161,6 +162,7 @@ ava.test('.insertCard() should update links property when linking two cards', as
 	}))
 
 	const linkCard = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: `link-${card1.slug}-is-attached-to-${card2.slug}`,
 		type: 'link',
 		version: '1.0.0',
 		name: 'is attached to',
@@ -226,6 +228,7 @@ ava.test('.insertCard() should update links property when linking a valid card t
 	}))
 
 	const linkCard = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: `link-${card1.slug}-is-attached-to-4a962ad9-20b5-4dd8-a707-bf819593cc84`,
 		type: 'link',
 		version: '1.0.0',
 		name: 'is attached to',
@@ -269,6 +272,7 @@ ava.test('.insertCard() should update links property when linking an invalid car
 	}))
 
 	const linkCard = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: `link-4a962ad9-20b5-4dd8-a707-bf819593cc84-${card2.slug}`,
 		type: 'link',
 		version: '1.0.0',
 		name: 'is attached to',
@@ -319,6 +323,7 @@ ava.test('.insertCard() should update links property when linking two cards in t
 	}))
 
 	const linkCard1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: `link-${card1.slug}-is-attached-to-${card2.slug}`,
 		type: 'link',
 		version: '1.0.0',
 		name: 'is attached to',
@@ -330,6 +335,7 @@ ava.test('.insertCard() should update links property when linking two cards in t
 	}))
 
 	const linkCard2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: `link-${card1.slug}-is-related-to-${card2.slug}`,
 		type: 'link',
 		version: '1.0.0',
 		name: 'is related to',
@@ -414,6 +420,7 @@ ava.test('.insertCard() should be able to remove a link', async (test) => {
 	}))
 
 	const linkCard1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: `link-${card1.slug}-is-attached-to-${card2.slug}`,
 		type: 'link',
 		version: '1.0.0',
 		name: 'is attached to',
@@ -425,6 +432,7 @@ ava.test('.insertCard() should be able to remove a link', async (test) => {
 	}))
 
 	const linkCard2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: `link-${card1.slug}-is-related-to-${card2.slug}`,
 		type: 'link',
 		version: '1.0.0',
 		name: 'is related to',
@@ -436,6 +444,7 @@ ava.test('.insertCard() should be able to remove a link', async (test) => {
 	}))
 
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: `link-${card1.slug}-is-attached-to-${card2.slug}`,
 		id: linkCard1.id,
 		type: 'link',
 		version: '1.0.0',
@@ -514,6 +523,7 @@ ava.test('.insertCard() should be able to create a direction-less link between t
 	}))
 
 	const linkCard = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: `link-${card1.slug}-is-linked-to-${card2.slug}`,
 		type: 'link',
 		version: '1.0.0',
 		name: 'is linked to',
@@ -545,6 +555,7 @@ ava.test('.insertCard() should be able to create two different links between two
 	}))
 
 	const linkCard1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: `link-${card1.slug}-is-linked-to-${card2.slug}`,
 		type: 'link',
 		version: '1.0.0',
 		name: 'is linked to',
@@ -556,6 +567,7 @@ ava.test('.insertCard() should be able to create two different links between two
 	}))
 
 	const linkCard2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: `link-${card1.slug}-is-attached-to-${card2.slug}`,
 		type: 'link',
 		version: '1.0.0',
 		name: 'is attached to',
@@ -1844,6 +1856,7 @@ ava.test('.query() should not consider active links to inactive cards', async (t
 	}))
 
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: `link-${card1.slug}-is-attached-to-${parent1.slug}`,
 		type: 'link',
 		version: '1.0.0',
 		name: 'is attached to',
@@ -1865,6 +1878,7 @@ ava.test('.query() should not consider active links to inactive cards', async (t
 	}))
 
 	const link2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: `link-${card2.slug}-is-attached-to-${parent2.slug}`,
 		type: 'link',
 		version: '1.0.0',
 		name: 'is attached to',
@@ -1974,6 +1988,7 @@ ava.test('.query() should not consider inactive links', async (test) => {
 	}))
 
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: `link-${card1.slug}-is-attached-to-${parent1.slug}`,
 		type: 'link',
 		version: '1.0.0',
 		name: 'is attached to',
@@ -1996,6 +2011,7 @@ ava.test('.query() should not consider inactive links', async (test) => {
 	}))
 
 	const link2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: `link-${card2.slug}-is-attached-to-${parent2.slug}`,
 		type: 'link',
 		version: '1.0.0',
 		name: 'is attached to',
@@ -2115,6 +2131,7 @@ ava.test('.query() should be able to query using links', async (test) => {
 	}))
 
 	const link1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: `link-${card1.slug}-is-attached-to-${parent1.slug}`,
 		type: 'link',
 		version: '1.0.0',
 		name: 'is attached to',
@@ -2136,6 +2153,7 @@ ava.test('.query() should be able to query using links', async (test) => {
 	}))
 
 	const link2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: `link-${card2.slug}-is-attached-to-${parent1.slug}`,
 		type: 'link',
 		version: '1.0.0',
 		name: 'is attached to',
@@ -2157,6 +2175,7 @@ ava.test('.query() should be able to query using links', async (test) => {
 	}))
 
 	const link3 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: `link-${card3.slug}-is-attached-to-${parent2.slug}`,
 		type: 'link',
 		version: '1.0.0',
 		name: 'is attached to',

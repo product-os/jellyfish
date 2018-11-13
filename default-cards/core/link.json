@@ -13,6 +13,10 @@
         "name": {
           "type": "string"
         },
+        "slug": {
+          "type": "string",
+          "pattern": "^link-[a-z0-9-]+$"
+        },
         "type": {
           "type": "string",
           "const": "link"
