@@ -234,6 +234,7 @@ ava.test('.upsertElement() should update linked cards when inserting a link', as
 
 	await test.context.backend.upsertElement({
 		type: 'link',
+		slug: `link-${card.slug}-is-attached-to-${thread.slug}`,
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -1184,6 +1185,7 @@ ava.test('.query() should be able to query using links', async (test) => {
 
 	const link1 = await test.context.backend.upsertElement({
 		type: 'link',
+		slug: `link-${card1.slug}-is-attached-to-${thread1.slug}`,
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -1205,6 +1207,7 @@ ava.test('.query() should be able to query using links', async (test) => {
 
 	const link2 = await test.context.backend.upsertElement({
 		type: 'link',
+		slug: `link-${card2.slug}-is-attached-to-${thread1.slug}`,
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -1226,6 +1229,7 @@ ava.test('.query() should be able to query using links', async (test) => {
 
 	const link3 = await test.context.backend.upsertElement({
 		type: 'link',
+		slug: `link-${card3.slug}-is-attached-to-${thread2.slug}`,
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -1351,6 +1355,7 @@ ava.test('.query() should be able to query using links when getting an element b
 
 	const link = await test.context.backend.upsertElement({
 		type: 'link',
+		slug: `link-${message.slug}-has-attached-element-${thread.slug}`,
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -1435,6 +1440,7 @@ ava.test('.query() should be able to query using links when getting an element b
 
 	const link = await test.context.backend.upsertElement({
 		type: 'link',
+		slug: `link-${message.slug}-is-attached-to-${thread.slug}`,
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -1528,6 +1534,7 @@ ava.test('.query() should be able to query using links and an inverse name', asy
 
 	const link1 = await test.context.backend.upsertElement({
 		type: 'link',
+		slug: `link-${message1.slug}-is-attached-to-${thread.slug}`,
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -1539,6 +1546,7 @@ ava.test('.query() should be able to query using links and an inverse name', asy
 
 	const link2 = await test.context.backend.upsertElement({
 		type: 'link',
+		slug: `link-${message2.slug}-is-attached-to-${thread.slug}`,
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -1639,6 +1647,7 @@ ava.test('.query() should omit a result if a link does not match', async (test) 
 
 	const link1 = await test.context.backend.upsertElement({
 		type: 'link',
+		slug: `link-${card1.slug}-is-attached-to-${thread.slug}`,
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -1659,6 +1668,7 @@ ava.test('.query() should omit a result if a link does not match', async (test) 
 
 	await test.context.backend.upsertElement({
 		type: 'link',
+		slug: `link-${card2.slug}-is-attached-to-${foo.slug}`,
 		active: true,
 		name: 'is attached to',
 		data: {
