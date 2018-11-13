@@ -85,23 +85,6 @@ ava.test('.getActionArgumentsSchema() should parse two arguments', (test) => {
 	})
 })
 
-ava.test('.hasCard() id = yes (exists), slug = no', async (test) => {
-	const card = await test.context.jellyfish.insertCard(test.context.session, test.context.kernel.defaults({
-		type: 'card',
-		version: '1.0.0'
-	}))
-
-	test.true(await utils.hasCard(test.context.jellyfish, test.context.session, {
-		id: card.id
-	}))
-})
-
-ava.test('.hasCard() id = yes (not exist), slug = no', async (test) => {
-	test.false(await utils.hasCard(test.context.jellyfish, test.context.session, {
-		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
-	}))
-})
-
 ava.test('.hasCard() id = yes (exists), slug = yes (exists)', async (test) => {
 	const card = await test.context.jellyfish.insertCard(test.context.session, test.context.kernel.defaults({
 		slug: 'foo-bar',
