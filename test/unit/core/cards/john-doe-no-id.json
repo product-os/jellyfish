@@ -1,6 +1,7 @@
 {
   "card": {
     "type": "person",
+    "slug": "johndoe",
     "version": "1.0.0",
     "tags": [ "premium" ],
     "markers": [],

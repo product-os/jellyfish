@@ -116,6 +116,7 @@ ava.test('.importCards() should import a single card with an id', async (test) =
 ava.test('.importCards() should patch an existing card', async (test) => {
 	const card = await test.context.jellyfish.insertCard(test.context.session, test.context.kernel.defaults({
 		type: 'card',
+		slug: 'foo',
 		version: '1.0.0',
 		data: {
 			test: 1
@@ -127,6 +128,7 @@ ava.test('.importCards() should patch an existing card', async (test) => {
 			time: new Date(),
 			card: test.context.kernel.defaults({
 				id: card.id,
+				slug: 'foo',
 				type: 'card',
 				version: '1.0.0',
 				active: false,
@@ -142,6 +144,7 @@ ava.test('.importCards() should patch an existing card', async (test) => {
 	test.deepEqual(result, [
 		test.context.kernel.defaults({
 			id: card.id,
+			slug: 'foo',
 			type: 'card',
 			version: '1.0.0',
 			active: false,
@@ -159,6 +162,7 @@ ava.test('.importCards() should import two independent cards', async (test) => {
 			time: new Date(),
 			card: {
 				type: 'card',
+				slug: 'foo',
 				version: '1.0.0',
 				data: {
 					test: 1
@@ -169,6 +173,7 @@ ava.test('.importCards() should import two independent cards', async (test) => {
 			time: new Date(),
 			card: {
 				type: 'card',
+				slug: 'bar',
 				version: '1.0.0',
 				data: {
 					test: 2
@@ -182,6 +187,7 @@ ava.test('.importCards() should import two independent cards', async (test) => {
 	test.deepEqual(result, [
 		{
 			id: result[0].id,
+			slug: 'foo',
 			links: result[0].links,
 			type: 'card',
 			version: '1.0.0',
@@ -191,6 +197,7 @@ ava.test('.importCards() should import two independent cards', async (test) => {
 		},
 		{
 			id: result[1].id,
+			slug: 'bar',
 			links: result[1].links,
 			type: 'card',
 			version: '1.0.0',
@@ -208,6 +215,7 @@ ava.test('.importCards() should import two parallel cards', async (test) => {
 				time: new Date(),
 				card: {
 					type: 'card',
+					slug: 'foo',
 					version: '1.0.0',
 					data: {
 						test: 1
@@ -218,6 +226,7 @@ ava.test('.importCards() should import two parallel cards', async (test) => {
 				time: new Date(),
 				card: {
 					type: 'card',
+					slug: 'bar',
 					version: '1.0.0',
 					data: {
 						test: 2
@@ -235,6 +244,7 @@ ava.test('.importCards() should import two parallel cards', async (test) => {
 		{
 			id: sortedResult[0].id,
 			links: sortedResult[0].links,
+			slug: 'foo',
 			type: 'card',
 			version: '1.0.0',
 			data: {
@@ -244,6 +254,7 @@ ava.test('.importCards() should import two parallel cards', async (test) => {
 		{
 			id: sortedResult[1].id,
 			links: sortedResult[1].links,
+			slug: 'bar',
 			type: 'card',
 			version: '1.0.0',
 			data: {
@@ -259,6 +270,7 @@ ava.test('.importCards() should import dependent cards', async (test) => {
 			time: new Date(),
 			card: {
 				type: 'card',
+				slug: 'foo',
 				version: '1.0.0',
 				data: {
 					test: 1
@@ -269,6 +281,7 @@ ava.test('.importCards() should import dependent cards', async (test) => {
 			time: new Date(),
 			card: {
 				type: 'card',
+				slug: 'bar',
 				version: '1.0.0',
 				data: {
 					target: {
@@ -285,6 +298,7 @@ ava.test('.importCards() should import dependent cards', async (test) => {
 		test.context.kernel.defaults({
 			id: result[0].id,
 			active: true,
+			slug: 'foo',
 			links: result[0].links,
 			markers: [],
 			tags: [],
@@ -297,6 +311,7 @@ ava.test('.importCards() should import dependent cards', async (test) => {
 		test.context.kernel.defaults({
 			id: result[1].id,
 			active: true,
+			slug: 'bar',
 			links: result[1].links,
 			markers: [],
 			tags: [],
@@ -315,6 +330,7 @@ ava.test('.importCards() should throw if a template does not evaluate', async (t
 			time: new Date(),
 			card: {
 				type: 'card',
+				slug: 'foo',
 				version: '1.0.0',
 				data: {
 					test: 1
@@ -325,6 +341,7 @@ ava.test('.importCards() should throw if a template does not evaluate', async (t
 			time: new Date(),
 			card: {
 				type: 'card',
+				slug: 'bar',
 				version: '1.0.0',
 				data: {
 					target: {
@@ -344,6 +361,7 @@ ava.test('.importCards() should import a dependent card in parallel segment', as
 			time: new Date(),
 			card: {
 				type: 'card',
+				slug: 'foo',
 				version: '1.0.0',
 				data: {
 					test: 1
@@ -355,6 +373,7 @@ ava.test('.importCards() should import a dependent card in parallel segment', as
 				time: new Date(),
 				card: {
 					type: 'card',
+					slug: 'bar',
 					version: '1.0.0',
 					data: {
 						test: 2
@@ -365,6 +384,7 @@ ava.test('.importCards() should import a dependent card in parallel segment', as
 				time: new Date(),
 				card: {
 					type: 'card',
+					slug: 'baz',
 					version: '1.0.0',
 					data: {
 						test: 3,
@@ -385,6 +405,7 @@ ava.test('.importCards() should import a dependent card in parallel segment', as
 		{
 			id: sortedResult[0].id,
 			links: sortedResult[0].links,
+			slug: 'foo',
 			type: 'card',
 			version: '1.0.0',
 			data: {
@@ -394,6 +415,7 @@ ava.test('.importCards() should import a dependent card in parallel segment', as
 		{
 			id: sortedResult[1].id,
 			links: sortedResult[1].links,
+			slug: 'bar',
 			type: 'card',
 			version: '1.0.0',
 			data: {
@@ -403,6 +425,7 @@ ava.test('.importCards() should import a dependent card in parallel segment', as
 		{
 			id: sortedResult[2].id,
 			links: sortedResult[2].links,
+			slug: 'baz',
 			type: 'card',
 			version: '1.0.0',
 			data: {

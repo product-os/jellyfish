@@ -55,6 +55,7 @@ ava.test('.insertCard() should insert a card', async (test) => {
 		attachEvents: false,
 		executeAction: test.context.executeAction
 	}, test.context.kernel.defaults({
+		slug: 'foo',
 		version: '1.0.0',
 		data: {
 			foo: 1
@@ -65,6 +66,7 @@ ava.test('.insertCard() should insert a card', async (test) => {
 	const card = await test.context.jellyfish.getCardById(test.context.session, result.id)
 	test.deepEqual(card, test.context.kernel.defaults({
 		id: result.id,
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -82,6 +84,7 @@ ava.test('.insertCard() should ignore an explicit type property', async (test) =
 		executeAction: test.context.executeAction
 	}, {
 		active: true,
+		slug: 'foo',
 		type: 'foo',
 		version: '1.0.0',
 		links: {},
@@ -107,6 +110,7 @@ ava.test('.insertCard() should default active to true', async (test) => {
 		attachEvents: false,
 		executeAction: test.context.executeAction
 	}, {
+		slug: 'foo',
 		version: '1.0.0'
 	})
 
@@ -123,6 +127,7 @@ ava.test('.insertCard() should be able to set active to false', async (test) => 
 		attachEvents: false,
 		executeAction: test.context.executeAction
 	}, {
+		slug: 'foo',
 		version: '1.0.0',
 		active: false
 	})
@@ -140,6 +145,7 @@ ava.test('.insertCard() should provide sane defaults for links', async (test) =>
 		attachEvents: false,
 		executeAction: test.context.executeAction
 	}, {
+		slug: 'foo',
 		version: '1.0.0'
 	})
 
@@ -156,6 +162,7 @@ ava.test('.insertCard() should provide sane defaults for tags', async (test) => 
 		attachEvents: false,
 		executeAction: test.context.executeAction
 	}, {
+		slug: 'foo',
 		version: '1.0.0'
 	})
 
@@ -172,6 +179,7 @@ ava.test('.insertCard() should provide sane defaults for data', async (test) => 
 		attachEvents: false,
 		executeAction: test.context.executeAction
 	}, {
+		slug: 'foo',
 		version: '1.0.0'
 	})
 
@@ -205,6 +213,7 @@ ava.test('.insertCard() should be able to set a name', async (test) => {
 		attachEvents: false,
 		executeAction: test.context.executeAction
 	}, {
+		slug: 'foo',
 		version: '1.0.0',
 		name: 'Hello'
 	})
@@ -405,6 +414,7 @@ ava.test('.insertCard() should execute one matching triggered action', async (te
 		executeAction: test.context.executeAction,
 		triggers
 	}, {
+		slug: 'foo',
 		version: '1.0.0',
 		data: {
 			command: 'foo-bar-baz'
@@ -420,6 +430,7 @@ ava.test('.insertCard() should execute one matching triggered action', async (te
 				payload: {
 					active: true,
 					version: '1.0.0',
+					slug: 'foo',
 					links: {},
 					markers: [],
 					tags: [],
@@ -482,6 +493,7 @@ ava.test('.insertCard() should not execute non-matching triggered actions', asyn
 		executeAction: test.context.executeAction,
 		triggers
 	}, {
+		slug: 'foo',
 		version: '1.0.0',
 		data: {
 			command: 'qux-bar-baz'
@@ -497,6 +509,7 @@ ava.test('.insertCard() should not execute non-matching triggered actions', asyn
 				payload: {
 					active: true,
 					version: '1.0.0',
+					slug: 'foo',
 					links: {},
 					markers: [],
 					tags: [],
@@ -575,6 +588,7 @@ ava.test('.insertCard() should execute more than one matching triggered action',
 		executeAction: test.context.executeAction,
 		triggers
 	}, {
+		slug: 'foo',
 		version: '1.0.0',
 		data: {
 			command: 'foo-bar-baz'
@@ -590,6 +604,7 @@ ava.test('.insertCard() should execute more than one matching triggered action',
 				payload: {
 					active: true,
 					version: '1.0.0',
+					slug: 'foo',
 					links: {},
 					markers: [],
 					tags: [],
@@ -690,6 +705,7 @@ ava.test('.insertCard() should execute the matching triggered actions given more
 		executeAction: test.context.executeAction,
 		triggers
 	}, {
+		slug: 'foo',
 		version: '1.0.0',
 		data: {
 			command: 'foo-bar-baz'
@@ -705,6 +721,7 @@ ava.test('.insertCard() should execute the matching triggered actions given more
 				payload: {
 					version: '1.0.0',
 					active: true,
+					slug: 'foo',
 					links: {},
 					markers: [],
 					tags: [],
@@ -767,6 +784,7 @@ ava.test('.insertCard() should evaluate a type formula', async (test) => {
 		attachEvents: true,
 		executeAction: test.context.executeAction
 	}, {
+		slug: 'foo',
 		version: '1.0.0',
 		data: {
 			foo: 'hello'
@@ -815,6 +833,7 @@ ava.test('.insertCard() should throw if the result of the formula is incompatibl
 		attachEvents: true,
 		executeAction: test.context.executeAction
 	}, {
+		slug: 'foo',
 		data: {
 			foo: 'hello'
 		}
@@ -964,6 +983,7 @@ ava.test('.insertCard() should remove previously inserted type triggered actions
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	await test.context.jellyfish.insertCard(test.context.session, test.context.kernel.defaults({
 		type: 'triggered-action',
+		slug: 'bar',
 		version: '1.0.0',
 		data: {
 			type: 'foo',

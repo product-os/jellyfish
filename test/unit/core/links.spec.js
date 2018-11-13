@@ -30,6 +30,7 @@ ava.test.afterEach(helpers.kernel.afterEach)
 
 ava.test('.evaluate() should return an empty array if the link is unknown', async (test) => {
 	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		data: {}
@@ -44,6 +45,7 @@ ava.test('.evaluate() should return an empty array if the link is unknown', asyn
 
 ava.test('.evaluate(is attached to) should return an empty array if the target does not exist', async (test) => {
 	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		data: {}
@@ -71,6 +73,7 @@ ava.test('.evaluate(is attached to) should return an empty array if the target d
 
 ava.test('.evaluate(is attached to) should return an empty array if the target exists but does not match', async (test) => {
 	const card = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -79,6 +82,7 @@ ava.test('.evaluate(is attached to) should return an empty array if the target e
 	}))
 
 	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'bar',
 		type: 'card',
 		version: '1.0.0',
 		data: {}
@@ -119,6 +123,7 @@ ava.test('.evaluate(is attached to) should return an empty array if the target e
 
 ava.test('.evaluate(is attached to) should return the declared target properties', async (test) => {
 	const card = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -128,6 +133,7 @@ ava.test('.evaluate(is attached to) should return the declared target properties
 	}))
 
 	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'bar',
 		type: 'card',
 		version: '1.0.0',
 		data: {}
@@ -179,6 +185,7 @@ ava.test('.evaluate(is attached to) should return the declared target properties
 
 ava.test('.evaluate(is attached to) should return the whole target if additionalProperties is set', async (test) => {
 	const card = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -188,6 +195,7 @@ ava.test('.evaluate(is attached to) should return the whole target if additional
 	}))
 
 	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'bar',
 		type: 'card',
 		version: '1.0.0',
 		data: {}
@@ -228,6 +236,7 @@ ava.test('.evaluate(is attached to) should return the whole target if additional
 	test.deepEqual(results, [
 		{
 			id: card.id,
+			slug: 'foo',
 			$link: link.id,
 			type: 'card',
 			version: '1.0.0',
@@ -248,6 +257,7 @@ ava.test('.evaluate(is attached to) should return the whole target if additional
 ava.test('.evaluate(has attached element) should return an empty array if the card has no timeline', async (test) => {
 	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		data: {}
@@ -262,12 +272,14 @@ ava.test('.evaluate(has attached element) should return an empty array if the ca
 
 ava.test('.evaluate(has attached element) should return matching elements', async (test) => {
 	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		data: {}
 	}))
 
 	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'bar',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -276,6 +288,7 @@ ava.test('.evaluate(has attached element) should return matching elements', asyn
 	}))
 
 	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'baz',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -284,6 +297,7 @@ ava.test('.evaluate(has attached element) should return matching elements', asyn
 	}))
 
 	const card3 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'qux',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -360,6 +374,7 @@ ava.test('.evaluate(has attached element) should return matching elements', asyn
 
 ava.test('.evaluateCard() should return one link of one type given one match', async (test) => {
 	const card = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -369,6 +384,7 @@ ava.test('.evaluateCard() should return one link of one type given one match', a
 	}))
 
 	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'bar',
 		type: 'card',
 		version: '1.0.0',
 		data: {}
@@ -420,11 +436,13 @@ ava.test('.evaluateCard() should return one link of one type given one match', a
 
 ava.test('.evaluateCard() should return multiple cards per link', async (test) => {
 	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0'
 	}))
 
 	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'bar',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -433,6 +451,7 @@ ava.test('.evaluateCard() should return multiple cards per link', async (test) =
 	}))
 
 	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'baz',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -441,6 +460,7 @@ ava.test('.evaluateCard() should return multiple cards per link', async (test) =
 	}))
 
 	const card3 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'qux',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -540,6 +560,7 @@ ava.test('.evaluateCard() should return multiple cards per link', async (test) =
 
 ava.test('.evaluateCard() should return false if one link is unsatisfied', async (test) => {
 	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -550,6 +571,7 @@ ava.test('.evaluateCard() should return false if one link is unsatisfied', async
 
 	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		slug: 'bar',
 		type: 'card',
 		version: '1.0.0',
 		data: {}
@@ -569,6 +591,7 @@ ava.test('.evaluateCard() should return false if one link is unsatisfied', async
 	})
 
 	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'baz',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -626,6 +649,7 @@ ava.test('.parseCard() should parse a "from" card', (test) => {
 		}
 	}, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		active: true,
@@ -653,6 +677,7 @@ ava.test('.parseCard() should parse a "to" card', (test) => {
 		}
 	}, {
 		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		active: true,
@@ -680,6 +705,7 @@ ava.test('.parseCard() should return null given an irrelevant card', (test) => {
 		}
 	}, {
 		id: 'd7ee04d7-e727-444a-b120-c56c03d81f7b',
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		active: true,
@@ -705,6 +731,7 @@ ava.test('.addLink() should add a link given a "from" card without any links', (
 		}
 	}, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		active: true,
@@ -715,6 +742,7 @@ ava.test('.addLink() should add a link given a "from" card without any links', (
 
 	test.deepEqual(card, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		active: true,
@@ -745,6 +773,7 @@ ava.test('.addLink() should add a link given a "from" card without the existing 
 		}
 	}, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		active: true,
@@ -762,6 +791,7 @@ ava.test('.addLink() should add a link given a "from" card without the existing 
 
 	test.deepEqual(card, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		active: true,
@@ -796,6 +826,7 @@ ava.test('.addLink() should add a link given a "from" card with the existing lin
 		}
 	}, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		active: true,
@@ -813,6 +844,7 @@ ava.test('.addLink() should add a link given a "from" card with the existing lin
 
 	test.deepEqual(card, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		active: true,
@@ -843,6 +875,7 @@ ava.test('.addLink() should add a link given a "to" card without any links', (te
 		}
 	}, {
 		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		active: true,
@@ -853,6 +886,7 @@ ava.test('.addLink() should add a link given a "to" card without any links', (te
 
 	test.deepEqual(card, {
 		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		active: true,
@@ -883,6 +917,7 @@ ava.test('.addLink() should add a link given a "to" card without the existing li
 		}
 	}, {
 		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		active: true,
@@ -900,6 +935,7 @@ ava.test('.addLink() should add a link given a "to" card without the existing li
 
 	test.deepEqual(card, {
 		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		active: true,
@@ -934,6 +970,7 @@ ava.test('.addLink() should add a link given a "to" card with the existing link'
 		}
 	}, {
 		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		active: true,
@@ -951,6 +988,7 @@ ava.test('.addLink() should add a link given a "to" card with the existing link'
 
 	test.deepEqual(card, {
 		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		active: true,
@@ -981,6 +1019,7 @@ ava.test('.addLink() should add a link given an irrelevant card', (test) => {
 		}
 	}, {
 		id: 'd7ee04d7-e727-444a-b120-c56c03d81f7b',
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		active: true,
@@ -991,6 +1030,7 @@ ava.test('.addLink() should add a link given an irrelevant card', (test) => {
 
 	test.deepEqual(card, {
 		id: 'd7ee04d7-e727-444a-b120-c56c03d81f7b',
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		active: true,
@@ -1014,6 +1054,7 @@ ava.test('.removeLink() should remove a link given a "from" card without any lin
 		}
 	}, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		active: true,
@@ -1024,6 +1065,7 @@ ava.test('.removeLink() should remove a link given a "from" card without any lin
 
 	test.deepEqual(card, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		active: true,
@@ -1047,6 +1089,7 @@ ava.test('.removeLink() should remove a link given a "from" card without the exi
 		}
 	}, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		active: true,
@@ -1064,6 +1107,7 @@ ava.test('.removeLink() should remove a link given a "from" card without the exi
 
 	test.deepEqual(card, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		active: true,
@@ -1094,6 +1138,7 @@ ava.test('.removeLink() should remove a link given a "from" card with the existi
 		}
 	}, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		active: true,
@@ -1111,6 +1156,7 @@ ava.test('.removeLink() should remove a link given a "from" card with the existi
 
 	test.deepEqual(card, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		active: true,
@@ -1136,6 +1182,7 @@ ava.test('.removeLink() should remove a link given a "to" card without any links
 		}
 	}, {
 		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		active: true,
@@ -1146,6 +1193,7 @@ ava.test('.removeLink() should remove a link given a "to" card without any links
 
 	test.deepEqual(card, {
 		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		active: true,
@@ -1169,6 +1217,7 @@ ava.test('.removeLink() should remove a link given a "to" card without the exist
 		}
 	}, {
 		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		active: true,
@@ -1186,6 +1235,7 @@ ava.test('.removeLink() should remove a link given a "to" card without the exist
 
 	test.deepEqual(card, {
 		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		active: true,
@@ -1216,6 +1266,7 @@ ava.test('.removeLink() should remove a link given a "to" card with the existing
 		}
 	}, {
 		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		active: true,
@@ -1233,6 +1284,7 @@ ava.test('.removeLink() should remove a link given a "to" card with the existing
 
 	test.deepEqual(card, {
 		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		active: true,
@@ -1258,6 +1310,7 @@ ava.test('.removeLink() should remove a link given an irrelevant card', (test) =
 		}
 	}, {
 		id: 'd7ee04d7-e727-444a-b120-c56c03d81f7b',
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		active: true,
@@ -1268,6 +1321,7 @@ ava.test('.removeLink() should remove a link given an irrelevant card', (test) =
 
 	test.deepEqual(card, {
 		id: 'd7ee04d7-e727-444a-b120-c56c03d81f7b',
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		active: true,
