@@ -56,6 +56,7 @@ ava.test('.insertCard() should throw an error if the element does not adhere to 
 
 ava.test('.insertCard() should throw an error if the card type does not exist', async (test) => {
 	await test.throws(test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'foo',
 		type: 'foobarbazqux',
 		version: '1.0.0',
 		active: true,
@@ -571,12 +572,14 @@ ava.test('.insertCard() should be able to create two different links between two
 
 ava.test('.insertCard() should not add a link if not inserting a card with a target', async (test) => {
 	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		data: {}
 	}))
 
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'bar',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -601,12 +604,14 @@ ava.test('.insertCard() should not add a link if not inserting a card with a tar
 
 ava.test('.insertCard() should add a link if inserting a card with a target for the first time', async (test) => {
 	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		data: {}
 	}))
 
 	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'bar',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -650,12 +655,14 @@ ava.test('.insertCard() should add a link if inserting a card with a target for 
 
 ava.test('.insertCard() should not add the target link more than once if multiple equal insertions', async (test) => {
 	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		data: {}
 	}))
 
 	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'bar',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -665,6 +672,7 @@ ava.test('.insertCard() should not add the target link more than once if multipl
 
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		id: card2.id,
+		slug: 'bar',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -676,6 +684,7 @@ ava.test('.insertCard() should not add the target link more than once if multipl
 
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		id: card2.id,
+		slug: 'bar',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -716,18 +725,21 @@ ava.test('.insertCard() should not add the target link more than once if multipl
 ava.test('.insertCard() should update the link if the target changes', async (test) => {
 	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		type: 'card',
+		slug: 'foo',
 		version: '1.0.0',
 		data: {}
 	}))
 
 	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		type: 'card',
+		slug: 'bar',
 		version: '1.0.0',
 		data: {}
 	}))
 
 	const card3 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		type: 'card',
+		slug: 'baz',
 		version: '1.0.0',
 		data: {
 			target: card1.id
@@ -737,6 +749,7 @@ ava.test('.insertCard() should update the link if the target changes', async (te
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		id: card3.id,
 		type: 'card',
+		slug: 'baz',
 		version: '1.0.0',
 		data: {
 			target: card2.id
@@ -1092,6 +1105,7 @@ ava.test('.getCardById() should return an inactive card by its id', async (test)
 
 ava.test('.query() should be able to limit the results', async (test) => {
 	const result1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -1101,6 +1115,7 @@ ava.test('.query() should be able to limit the results', async (test) => {
 	}))
 
 	const result2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'bar',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -1110,6 +1125,7 @@ ava.test('.query() should be able to limit the results', async (test) => {
 	}))
 
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'baz',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -1137,6 +1153,7 @@ ava.test('.query() should be able to limit the results', async (test) => {
 
 ava.test('.query() should be able to sort the results', async (test) => {
 	const result1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'bar',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -1145,6 +1162,7 @@ ava.test('.query() should be able to sort the results', async (test) => {
 	}))
 
 	const result2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'baz',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -1153,6 +1171,7 @@ ava.test('.query() should be able to sort the results', async (test) => {
 	}))
 
 	const result3 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -1178,6 +1197,7 @@ ava.test('.query() should be able to sort the results', async (test) => {
 
 ava.test('.query() should be able to skip the results', async (test) => {
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -1187,6 +1207,7 @@ ava.test('.query() should be able to skip the results', async (test) => {
 	}))
 
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'bar',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -1196,6 +1217,7 @@ ava.test('.query() should be able to skip the results', async (test) => {
 	}))
 
 	const result3 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'baz',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -1223,6 +1245,7 @@ ava.test('.query() should be able to skip the results', async (test) => {
 
 ava.test('.query() should be able to limit and skip the results', async (test) => {
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -1232,6 +1255,7 @@ ava.test('.query() should be able to limit and skip the results', async (test) =
 	}))
 
 	const result2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'bar',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -1241,6 +1265,7 @@ ava.test('.query() should be able to limit and skip the results', async (test) =
 	}))
 
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'baz',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -1646,6 +1671,7 @@ ava.test('.query() should be able to return both action requests and other cards
 	}))
 
 	const result2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -1708,6 +1734,7 @@ ava.test('.query() should return inactive cards', async (test) => {
 
 ava.test('.query() should take a view card with two filters', async (test) => {
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		tags: [ 'foo' ],
@@ -1717,6 +1744,7 @@ ava.test('.query() should take a view card with two filters', async (test) => {
 	}))
 
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'bar',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -1725,6 +1753,7 @@ ava.test('.query() should take a view card with two filters', async (test) => {
 	}))
 
 	const results = await test.context.kernel.query(test.context.kernel.sessions.admin, {
+		slug: 'view-myview',
 		type: 'view',
 		version: '1.0.0',
 		tags: [],
@@ -1784,6 +1813,7 @@ ava.test('.query() should take a view card with two filters', async (test) => {
 
 ava.test('.query() should not consider active links to inactive cards', async (test) => {
 	const parent1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		active: false,
@@ -1794,6 +1824,7 @@ ava.test('.query() should not consider active links to inactive cards', async (t
 	}))
 
 	const parent2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'bar',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -1803,6 +1834,7 @@ ava.test('.query() should not consider active links to inactive cards', async (t
 	}))
 
 	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'baz',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -1823,6 +1855,7 @@ ava.test('.query() should not consider active links to inactive cards', async (t
 	}))
 
 	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'qux',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -1911,6 +1944,7 @@ ava.test('.query() should not consider active links to inactive cards', async (t
 
 ava.test('.query() should not consider inactive links', async (test) => {
 	const parent1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -1920,6 +1954,7 @@ ava.test('.query() should not consider inactive links', async (test) => {
 	}))
 
 	const parent2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'bar',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -1929,6 +1964,7 @@ ava.test('.query() should not consider inactive links', async (test) => {
 	}))
 
 	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'baz',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -1950,6 +1986,7 @@ ava.test('.query() should not consider inactive links', async (test) => {
 	}))
 
 	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'qux',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -2038,6 +2075,7 @@ ava.test('.query() should not consider inactive links', async (test) => {
 
 ava.test('.query() should be able to query using links', async (test) => {
 	const parent1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -2047,6 +2085,7 @@ ava.test('.query() should be able to query using links', async (test) => {
 	}))
 
 	const parent2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'bar',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -2056,6 +2095,7 @@ ava.test('.query() should be able to query using links', async (test) => {
 	}))
 
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'baz',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -2065,6 +2105,7 @@ ava.test('.query() should be able to query using links', async (test) => {
 	}))
 
 	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'qux',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -2085,6 +2126,7 @@ ava.test('.query() should be able to query using links', async (test) => {
 	}))
 
 	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'tux',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -2105,6 +2147,7 @@ ava.test('.query() should be able to query using links', async (test) => {
 	}))
 
 	const card3 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'fux',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -2227,6 +2270,7 @@ ava.test('.query() should be able to query using links', async (test) => {
 
 ava.test('.query() should be able to query using links using the target property', async (test) => {
 	const parent1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'parent1',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -2236,6 +2280,7 @@ ava.test('.query() should be able to query using links using the target property
 	}))
 
 	const parent2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'parent2',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -2245,6 +2290,7 @@ ava.test('.query() should be able to query using links using the target property
 	}))
 
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'foo',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -2254,6 +2300,7 @@ ava.test('.query() should be able to query using links using the target property
 	}))
 
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'bar',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -2264,6 +2311,7 @@ ava.test('.query() should be able to query using links using the target property
 	}))
 
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'baz',
 		type: 'card',
 		version: '1.0.0',
 		data: {
@@ -2274,6 +2322,7 @@ ava.test('.query() should be able to query using links using the target property
 	}))
 
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: 'qux',
 		type: 'card',
 		version: '1.0.0',
 		data: {

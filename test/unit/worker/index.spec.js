@@ -57,6 +57,7 @@ ava.test('.enqueue() should generate an id', async (test) => {
 		arguments: {
 			properties: {
 				version: '1.0.0',
+				slug: 'foo',
 				data: {
 					foo: 'bar'
 				}
@@ -78,6 +79,7 @@ ava.test('.enqueue() should include the actor from the passed session', async (t
 		arguments: {
 			properties: {
 				version: '1.0.0',
+				slug: 'foo',
 				data: {
 					foo: 'bar'
 				}
@@ -98,6 +100,7 @@ ava.test('.enqueue() should include the whole passed action', async (test) => {
 		arguments: {
 			properties: {
 				version: '1.0.0',
+				slug: 'foo',
 				data: {
 					foo: 'bar'
 				}
@@ -117,6 +120,7 @@ ava.test('.enqueue() should set an originator', async (test) => {
 		originator: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		arguments: {
 			properties: {
+				slug: 'foo',
 				version: '1.0.0'
 			}
 		}
@@ -136,6 +140,7 @@ ava.test('.enqueue() should take a current date', async (test) => {
 		currentDate: date,
 		arguments: {
 			properties: {
+				slug: 'foo',
 				version: '1.0.0'
 			}
 		}
@@ -154,6 +159,7 @@ ava.test('.enqueue() should set a present timestamp', async (test) => {
 		arguments: {
 			properties: {
 				version: '1.0.0',
+				slug: 'foo',
 				data: {
 					foo: 'bar'
 				}
@@ -173,6 +179,7 @@ ava.test('.enqueue() should return the id of the enqueued request', async (test)
 		arguments: {
 			properties: {
 				version: '1.0.0',
+				slug: 'foo',
 				data: {
 					foo: 'bar'
 				}
@@ -192,6 +199,7 @@ ava.test('.enqueue() should generate different ids every time', async (test) => 
 		arguments: {
 			properties: {
 				version: '1.0.0',
+				slug: 'foo',
 				data: {
 					foo: 1
 				}
@@ -205,6 +213,7 @@ ava.test('.enqueue() should generate different ids every time', async (test) => 
 		arguments: {
 			properties: {
 				version: '1.0.0',
+				slug: 'bar',
 				data: {
 					foo: 2
 				}
@@ -218,6 +227,7 @@ ava.test('.enqueue() should generate different ids every time', async (test) => 
 		arguments: {
 			properties: {
 				version: '1.0.0',
+				slug: 'baz',
 				data: {
 					foo: 3
 				}
@@ -239,6 +249,7 @@ ava.test('.enqueue() should throw if the action was not found', async (test) => 
 		arguments: {
 			properties: {
 				version: '1.0.0',
+				slug: 'foo',
 				data: {
 					foo: 'bar'
 				}
@@ -255,6 +266,7 @@ ava.test('.enqueue() should throw if the session was not found', async (test) =>
 		arguments: {
 			properties: {
 				version: '1.0.0',
+				slug: 'foo',
 				data: {
 					foo: 'bar'
 				}
@@ -334,6 +346,7 @@ ava.test('.dequeue() should reduce the length', async (test) => {
 		card: typeCard.id,
 		arguments: {
 			properties: {
+				slug: 'foo',
 				version: '1.0.0',
 				data: {
 					foo: 1
@@ -354,6 +367,7 @@ ava.test('.execute() should execute an action', async (test) => {
 		card: typeCard.id,
 		arguments: {
 			properties: {
+				slug: 'foo',
 				version: '1.0.0',
 				data: {
 					foo: 'bar'
@@ -378,6 +392,7 @@ ava.test('.execute() should add an execution event to the action', async (test) 
 		card: typeCard.id,
 		arguments: {
 			properties: {
+				slug: 'foo',
 				version: '1.0.0',
 				data: {
 					foo: 'bar'
@@ -452,6 +467,7 @@ ava.test('.execute() should execute a triggered action', async (test) => {
 		card: typeCard.id,
 		arguments: {
 			properties: {
+				slug: 'foo',
 				version: '1.0.0',
 				data: {
 					command: 'foo-bar-baz'
@@ -546,6 +562,7 @@ ava.test('.execute() should not execute a triggered action with a future start d
 		card: typeCard.id,
 		arguments: {
 			properties: {
+				slug: 'foo',
 				version: '1.0.0',
 				data: {
 					command: 'foo-bar-baz'
@@ -613,6 +630,7 @@ ava.test('.execute() should execute a triggered action with a top level anyOf', 
 		arguments: {
 			properties: {
 				version: '1.0.0',
+				slug: 'foo',
 				data: {
 					command: 'foo-bar-baz'
 				}
@@ -638,6 +656,7 @@ ava.test('.execute() should add a create event when creating a card', async (tes
 		arguments: {
 			properties: {
 				version: '1.0.0',
+				slug: 'foo',
 				data: {
 					foo: 'bar'
 				}
@@ -720,6 +739,7 @@ ava.test('.execute() should be able to AGGREGATE based on the card timeline', as
 		arguments: {
 			properties: {
 				version: '1.0.0',
+				slug: 'foo',
 				data: {
 					mentions: []
 				}
@@ -737,6 +757,7 @@ ava.test('.execute() should be able to AGGREGATE based on the card timeline', as
 		arguments: {
 			properties: {
 				version: '1.0.0',
+				slug: 'bar',
 				data: {
 					timestamp: '2018-05-05T00:21:02.459Z',
 					target: threadResult.data.id,
@@ -755,6 +776,7 @@ ava.test('.execute() should be able to AGGREGATE based on the card timeline', as
 		arguments: {
 			properties: {
 				version: '1.0.0',
+				slug: 'baz',
 				data: {
 					timestamp: '2018-05-05T00:28:42.302Z',
 					target: threadResult.data.id,
@@ -824,6 +846,7 @@ ava.test('.execute() AGGREGATE should create a property on the target if it does
 		card: typeResult.data.id,
 		arguments: {
 			properties: {
+				slug: 'foo',
 				version: '1.0.0',
 				data: {}
 			}
@@ -840,6 +863,7 @@ ava.test('.execute() AGGREGATE should create a property on the target if it does
 		arguments: {
 			properties: {
 				version: '1.0.0',
+				slug: 'bar',
 				data: {
 					timestamp: '2018-05-05T00:21:02.459Z',
 					target: threadResult.data.id,
@@ -907,6 +931,7 @@ ava.test('.execute() AGGREGATE should work with $$ prefixed properties', async (
 		card: typeResult.data.id,
 		arguments: {
 			properties: {
+				slug: 'foo',
 				version: '1.0.0',
 				data: {
 					$$mentions: []
@@ -924,6 +949,7 @@ ava.test('.execute() AGGREGATE should work with $$ prefixed properties', async (
 		card: cardType.id,
 		arguments: {
 			properties: {
+				slug: 'bar',
 				version: '1.0.0',
 				data: {
 					timestamp: '2018-05-05T00:21:02.459Z',
@@ -1383,6 +1409,7 @@ ava.test('.tick() should evaluate the current timestamp in a time triggered acti
 			startDate: '2018-08-05T12:00:00.000Z',
 			arguments: {
 				properties: {
+					slug: 'foo',
 					data: {
 						timestamp: {
 							$eval: 'timestamp'
@@ -1745,6 +1772,7 @@ ava.test('should fail to update a card if the schema does not match', async (tes
 		card: typeCard.id,
 		arguments: {
 			properties: {
+				slug: 'foo',
 				version: '1.0.0',
 				data: {
 					foo: 'bar'
@@ -1780,6 +1808,7 @@ ava.test('should update a card to add an extra property', async (test) => {
 		card: typeCard.id,
 		arguments: {
 			properties: {
+				slug: 'foo',
 				version: '1.0.0',
 				data: {
 					foo: 'bar'
@@ -1812,6 +1841,7 @@ ava.test('should update a card to add an extra property', async (test) => {
 	const card = await test.context.jellyfish.getCardById(test.context.session, updateResult.data.id)
 	test.deepEqual(card, test.context.kernel.defaults({
 		id: updateResult.data.id,
+		slug: 'foo',
 		version: '1.0.0',
 		type: 'card',
 		links: card.links,
@@ -1829,6 +1859,7 @@ ava.test('should update a card to set active to false', async (test) => {
 		card: typeCard.id,
 		arguments: {
 			properties: {
+				slug: 'foo',
 				version: '1.0.0'
 			}
 		}
@@ -1857,6 +1888,7 @@ ava.test('should update a card to set active to false', async (test) => {
 	test.deepEqual(card, test.context.kernel.defaults({
 		id: updateResult.data.id,
 		version: '1.0.0',
+		slug: 'foo',
 		type: 'card',
 		active: false,
 		links: card.links
@@ -1913,6 +1945,7 @@ ava.test('should update a card to override an array property', async (test) => {
 		card: typeCard.id,
 		arguments: {
 			properties: {
+				slug: 'foo',
 				version: '1.0.0',
 				data: {
 					roles: [ 'guest' ]
@@ -1947,6 +1980,7 @@ ava.test('should update a card to override an array property', async (test) => {
 	test.deepEqual(card, test.context.kernel.defaults({
 		id: updateResult.data.id,
 		type: 'card',
+		slug: 'foo',
 		version: '1.0.0',
 		links: card.links,
 		data: {
@@ -2003,7 +2037,11 @@ ava.test('should add an update event if updating a card', async (test) => {
 		card: typeCard.id,
 		arguments: {
 			properties: {
-				version: '1.0.0'
+				slug: 'foo',
+				version: '1.0.0',
+				data: {
+					foo: 1
+				}
 			}
 		}
 	})
@@ -2018,7 +2056,9 @@ ava.test('should add an update event if updating a card', async (test) => {
 		arguments: {
 			properties: {
 				version: '1.0.0',
-				slug: 'foo-bar'
+				data: {
+					foo: 2
+				}
 			}
 		}
 	})
@@ -2065,13 +2105,16 @@ ava.test('should add an update event if updating a card', async (test) => {
 				timestamp: timeline[0].data.timestamp,
 				payload: {
 					active: true,
+					slug: 'foo',
 					version: '1.0.0',
 					links: timeline[0].data.payload.links,
 					tags: [],
 					markers: [],
 					requires: [],
 					capabilities: [],
-					data: {}
+					data: {
+						foo: 1
+					}
 				}
 			}
 		},
@@ -2092,7 +2135,7 @@ ava.test('should add an update event if updating a card', async (test) => {
 				target: createResult.data.id,
 				timestamp: timeline[1].data.timestamp,
 				payload: {
-					slug: 'foo-bar',
+					slug: 'foo',
 					version: '1.0.0',
 					active: true,
 					links: timeline[1].data.payload.links,
@@ -2100,7 +2143,9 @@ ava.test('should add an update event if updating a card', async (test) => {
 					markers: [],
 					requires: [],
 					capabilities: [],
-					data: {}
+					data: {
+						foo: 2
+					}
 				}
 			}
 		}
@@ -2114,6 +2159,7 @@ ava.test('should delete a card using action-delete-card', async (test) => {
 		card: typeCard.id,
 		arguments: {
 			properties: {
+				slug: 'foo',
 				version: '1.0.0'
 			}
 		}
@@ -2137,6 +2183,7 @@ ava.test('should delete a card using action-delete-card', async (test) => {
 	test.deepEqual(card, test.context.kernel.defaults({
 		id: deleteResult.data.id,
 		version: '1.0.0',
+		slug: 'foo',
 		type: 'card',
 		active: false,
 		links: card.links
@@ -2150,6 +2197,7 @@ ava.test('should delete a card using action-update-card', async (test) => {
 		card: typeCard.id,
 		arguments: {
 			properties: {
+				slug: 'foo',
 				version: '1.0.0'
 			}
 		}
@@ -2178,6 +2226,7 @@ ava.test('should delete a card using action-update-card', async (test) => {
 	test.deepEqual(card, test.context.kernel.defaults({
 		id: updateResult.data.id,
 		type: 'card',
+		slug: 'foo',
 		version: '1.0.0',
 		active: false,
 		links: card.links

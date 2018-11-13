@@ -416,6 +416,7 @@ ava.test('.getLastExecutionEvent() should return null given no matching event', 
 ava.test('.getLastExecutionEvent() should only consider execute cards', async (test) => {
 	await test.context.jellyfish.insertCard(test.context.session, test.context.kernel.defaults({
 		type: 'card',
+		slug: 'foobarbaz',
 		version: '1.0.0',
 		data: {
 			timestamp: '2018-06-30T19:34:42.829Z',
