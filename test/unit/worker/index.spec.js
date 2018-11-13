@@ -1989,47 +1989,6 @@ ava.test('should update a card to override an array property', async (test) => {
 	}))
 })
 
-ava.test('should update a card to add a slug', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
-	const createId = await test.context.worker.enqueue(test.context.session, {
-		action: 'action-create-card',
-		card: typeCard.id,
-		arguments: {
-			properties: {
-				version: '1.0.0'
-			}
-		}
-	})
-
-	await test.context.flush(test.context.session)
-	const createResult = await test.context.worker.waitResults(test.context.session, createId)
-	test.false(createResult.error)
-
-	const updateId = await test.context.worker.enqueue(test.context.session, {
-		action: 'action-update-card',
-		card: createResult.data.id,
-		arguments: {
-			properties: {
-				version: '1.0.0',
-				slug: 'foo-bar'
-			}
-		}
-	})
-
-	await test.context.flush(test.context.session)
-	const updateResult = await test.context.worker.waitResults(test.context.session, updateId)
-	test.false(updateResult.error)
-
-	const card = await test.context.jellyfish.getCardById(test.context.session, updateResult.data.id)
-	test.deepEqual(card, test.context.kernel.defaults({
-		id: updateResult.data.id,
-		type: 'card',
-		version: '1.0.0',
-		slug: 'foo-bar',
-		links: card.links
-	}))
-})
-
 ava.test('should add an update event if updating a card', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const createId = await test.context.worker.enqueue(test.context.session, {

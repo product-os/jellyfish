@@ -200,28 +200,6 @@ ava.test('.insertElement() should fail to insert an element with a non-existent 
 	}), errors.JellyfishElementAlreadyExists)
 })
 
-ava.test('.upsertElement() should create multiple elements given same content and no id', async (test) => {
-	const object = {
-		test: 'foo'
-	}
-
-	const result1 = await test.context.backend.upsertElement(object)
-	const result2 = await test.context.backend.upsertElement(object)
-	const result3 = await test.context.backend.upsertElement(object)
-
-	test.not(result1.id, result2.id)
-	test.not(result2.id, result3.id)
-	test.not(result3.id, result1.id)
-
-	const element1 = await test.context.backend.getElementById(result1.id)
-	const element2 = await test.context.backend.getElementById(result2.id)
-	const element3 = await test.context.backend.getElementById(result3.id)
-
-	test.deepEqual(element1, result1)
-	test.deepEqual(element2, result2)
-	test.deepEqual(element3, result3)
-})
-
 ava.test('.upsertElement() should not be able to set links using an id', async (test) => {
 	const result = await test.context.backend.upsertElement({
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
