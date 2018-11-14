@@ -11,6 +11,10 @@
     "schema": {
       "type": "object",
       "properties": {
+        "slug": {
+          "type": "string",
+          "pattern": "^action-request-[a-z0-9-]+$"
+        },
         "type": {
           "type": "string",
           "const": "action-request"
@@ -84,6 +88,7 @@
       },
       "additionalProperties": true,
       "required": [
+        "slug",
         "type",
         "data"
       ]

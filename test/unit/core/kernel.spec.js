@@ -1598,6 +1598,9 @@ ava.test('.query() should query all cards of a certain type', async (test) => {
 ava.test('.query() should return all action request cards', async (test) => {
 	const request = test.context.kernel.defaults({
 		type: 'action-request',
+		slug: test.context.generateRandomSlug({
+			prefix: 'action-request'
+		}),
 		version: '1.0.0',
 		data: {
 			action: 'action-foo',
@@ -1669,6 +1672,9 @@ ava.test('.query() should return all action request cards', async (test) => {
 ava.test('.query() should be able to return both action requests and other cards', async (test) => {
 	const result1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		type: 'action-request',
+		slug: test.context.generateRandomSlug({
+			prefix: 'action-request'
+		}),
 		version: '1.0.0',
 		data: {
 			action: 'action-foo',
@@ -2641,6 +2647,9 @@ ava.test.cb('.stream() should report back action requests', (test) => {
 		return Bluebird.all([
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 				type: 'action-request',
+				slug: test.context.generateRandomSlug({
+					prefix: 'action-request'
+				}),
 				version: '1.0.0',
 				data: {
 					action: 'action-delete-card',
