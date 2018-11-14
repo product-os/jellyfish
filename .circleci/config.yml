@@ -7,6 +7,9 @@ dependencies:
   pre:
 jobs:
   build:
+    branches:
+      ignore:
+        - /(.*)-build-[a-f0-9]{40}$/
     docker:
       - image: resinci/jellyfish-test
 
