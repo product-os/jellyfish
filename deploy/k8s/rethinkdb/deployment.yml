@@ -1,0 +1,35 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: rethinkdb
+  namespace: jellyfish
+spec:
+  selector:
+    matchLabels:
+      app: rethinkdb
+  template:
+    metadata:
+      labels:
+        app: rethinkdb
+    spec:
+      containers:
+      - image: balena/balena-rethinkdb:latest
+        name: rethinkdb
+        env:
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: rethinkdb-secret
+              key: password
+        ports:
+        - containerPort: 28015
+          name: data-port
+        - containerPort: 8080
+          name: db-ui-port
+        volumeMounts:
+        - name: rethinkdb-persistent-storage
+          mountPath: /data
+      volumes:
+      - name: rethinkdb-persistent-storage
+        persistentVolumeClaim:
+          claimName: rethinkdb-pv-claim
