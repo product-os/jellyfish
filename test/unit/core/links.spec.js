@@ -155,7 +155,9 @@ ava.test('.evaluate(is attached to) should return the declared target properties
 		}
 	})
 
-	const results = await links.evaluate(test.context.context, input, 'is attached to', {
+	const linkedInput = await test.context.backend.getElementById(input.id)
+
+	const results = await links.evaluate(test.context.context, linkedInput, 'is attached to', {
 		type: 'object',
 		required: [ 'data' ],
 		properties: {
@@ -218,7 +220,9 @@ ava.test('.evaluate(is attached to) should return the whole target if additional
 		}
 	})
 
-	const results = await links.evaluate(test.context.context, input, 'is attached to', {
+	const linkedInput = await test.context.backend.getElementById(input.id)
+
+	const results = await links.evaluate(test.context.context, linkedInput, 'is attached to', {
 		type: 'object',
 		additionalProperties: true,
 		required: [ 'data' ],
@@ -348,7 +352,9 @@ ava.test('.evaluate(has attached element) should return matching elements', asyn
 		}
 	})
 
-	const results = await links.evaluate(test.context.context, input, 'has attached element', {
+	const linkedInput = await test.context.backend.getElementById(input.id)
+
+	const results = await links.evaluate(test.context.context, linkedInput, 'has attached element', {
 		type: 'object',
 		required: [ 'id', 'data' ],
 		properties: {
@@ -411,7 +417,9 @@ ava.test('.evaluateCard() should return one link of one type given one match', a
 		}
 	})
 
-	const results = await links.evaluateCard(test.context.context, input, {
+	const linkedInput = await test.context.backend.getElementById(input.id)
+
+	const results = await links.evaluateCard(test.context.context, linkedInput, {
 		'is attached to': {
 			type: 'object',
 			required: [ 'data' ],
@@ -517,7 +525,9 @@ ava.test('.evaluateCard() should return multiple cards per link', async (test) =
 		}
 	})
 
-	const results = await links.evaluateCard(test.context.context, input, {
+	const linkedInput = await test.context.backend.getElementById(input.id)
+
+	const results = await links.evaluateCard(test.context.context, linkedInput, {
 		'has attached element': {
 			type: 'object',
 			required: [ 'id', 'data' ],
@@ -624,7 +634,9 @@ ava.test('.evaluateCard() should return false if one link is unsatisfied', async
 		}
 	})
 
-	const results = await links.evaluateCard(test.context.context, input, {
+	const linkedInput = await test.context.backend.getElementById(input.id)
+
+	const results = await links.evaluateCard(test.context.context, linkedInput, {
 		'has attached element': {
 			type: 'object'
 		},

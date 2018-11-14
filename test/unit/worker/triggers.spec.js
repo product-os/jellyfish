@@ -18,6 +18,7 @@ const ava = require('ava')
 const helpers = require('./helpers')
 const triggers = require('../../../lib/worker/triggers')
 const errors = require('../../../lib/worker/errors')
+const Promise = require('bluebird')
 
 ava.test.beforeEach(helpers.jellyfish.beforeEach)
 ava.test.afterEach(helpers.jellyfish.afterEach)
@@ -644,13 +645,15 @@ ava.test('.getTypeTriggers() should return a trigger card with a matching type',
 		}
 	].map(test.context.kernel.defaults)
 
-	for (const card of cards) {
-		await test.context.jellyfish.insertCard(test.context.session, card)
-	}
+	const insertedCards = await Promise.map(cards, (card) => {
+		return test.context.jellyfish.insertCard(test.context.session, card)
+	})
+
+	const updatedCard = await test.context.jellyfish.getCardById(test.context.session, insertedCards[0].id)
 
 	const result = await triggers.getTypeTriggers(test.context.jellyfish, test.context.session, 'foo')
 	test.deepEqual(result, [
-		Object.assign({}, cards[0], {
+		Object.assign({}, updatedCard, {
 			id: result[0].id
 		})
 	])
@@ -795,13 +798,16 @@ ava.test('.getTypeTriggers() should ignore non-matching cards', async (test) => 
 		}
 	].map(test.context.kernel.defaults)
 
-	for (const card of cards) {
-		await test.context.jellyfish.insertCard(test.context.session, card)
-	}
+	const insertedCards = await Promise.map(cards, (card) => {
+		return test.context.jellyfish.insertCard(test.context.session, card)
+	})
 
 	const result = await triggers.getTypeTriggers(test.context.jellyfish, test.context.session, 'foo')
+
+	const updatedCard = await test.context.jellyfish.getCardById(test.context.session, insertedCards[0].id)
+
 	test.deepEqual(result, [
-		Object.assign({}, cards[0], {
+		Object.assign({}, updatedCard, {
 			id: result[0].id
 		})
 	])
@@ -892,13 +898,15 @@ ava.test('.getTypeTriggers() should ignore cards that are not triggered actions'
 		}
 	].map(test.context.kernel.defaults)
 
-	for (const card of cards) {
-		await test.context.jellyfish.insertCard(test.context.session, card)
-	}
+	const insertedCards = await Promise.map(cards, (card) => {
+		return test.context.jellyfish.insertCard(test.context.session, card)
+	})
 
 	const result = await triggers.getTypeTriggers(test.context.jellyfish, test.context.session, 'foo')
+
+	const updatedCard = await test.context.jellyfish.getCardById(test.context.session, insertedCards[0].id)
 	test.deepEqual(result, [
-		Object.assign({}, cards[0], {
+		Object.assign({}, updatedCard, {
 			id: result[0].id
 		})
 	])
