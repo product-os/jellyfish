@@ -19,6 +19,7 @@ const helpers = require('./helpers')
 const actionLibrary = require('../../../lib/action-library')
 const errors = require('../../../lib/worker/errors')
 const executor = require('../../../lib/worker/executor')
+const Promise = require('bluebird')
 
 ava.test.beforeEach(async (test) => {
 	await helpers.jellyfish.beforeEach(test)
@@ -927,9 +928,9 @@ ava.test('.insertCard() should remove previously inserted type triggered actions
 		}
 	].map(test.context.kernel.defaults)
 
-	for (const card of cards) {
-		await test.context.jellyfish.insertCard(test.context.session, card)
-	}
+	const insertedCards = await Promise.map(cards, (card) => {
+		return test.context.jellyfish.insertCard(test.context.session, card)
+	})
 
 	await executor.insertCard(
 		test.context.jellyfish,
@@ -966,9 +967,10 @@ ava.test('.insertCard() should remove previously inserted type triggered actions
 			}
 		}
 	})
+	const updatedCard = await test.context.jellyfish.getCardById(test.context.session, insertedCards[1].id)
 
 	test.deepEqual(triggers, [
-		Object.assign({}, cards[1], {
+		Object.assign({}, updatedCard, {
 			id: triggers[0].id
 		})
 	])
