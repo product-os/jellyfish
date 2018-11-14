@@ -41,7 +41,8 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 				return callback(null, [ 401, this.req.headers ])
 			}
 
-			const json = path.join(stub.basePath, testCase.name, testCase.variant, `${_.kebabCase(uri)}.json`)
+			const json = path.join(stub.basePath, testCase.name,
+				testCase.variant, `${_.kebabCase(uri)}.json`)
 			try {
 				return callback(null, [ 200, require(json) ])
 			} catch (error) {
@@ -65,7 +66,8 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 				}
 			}))
 
-		const result = await sync.translateExternalEvent(integration.constructor, event, integration.options)
+		const result = await sync.translateExternalEvent(
+			integration.constructor, event, integration.options)
 		await test.context.flush(test.context.session)
 		cards.push(...result)
 	}
@@ -102,9 +104,10 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 			}
 		})
 
-	test.deepEqual(Object.assign({}, testCase.expected.head, {
-		id: head.id
-	}), head)
+	test.deepEqual(Object.assign({}, testCase.expected.head, _.omitBy({
+		id: head.id,
+		slug: head.slug
+	}, _.isEmpty)), head)
 
 	test.deepEqual(testCase.expected.tail.map((card, index) => {
 		card.id = _.get(timeline, [ index, 'id' ])
@@ -113,10 +116,12 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 		card.data.timestamp = _.get(timeline, [ index, 'data', 'timestamp' ])
 		return card
 	}), timeline.map((card) => {
+		Reflect.deleteProperty(card, 'slug')
 		Reflect.deleteProperty(card, 'links')
 		Reflect.deleteProperty(card, 'markers')
 
 		if (card.data.payload) {
+			Reflect.deleteProperty(card.data.payload, 'slug')
 			Reflect.deleteProperty(card.data.payload, 'links')
 			Reflect.deleteProperty(card.data.payload, 'markers')
 		}

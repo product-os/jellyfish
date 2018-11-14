@@ -486,12 +486,14 @@ ava.test('.translateExternalEvent() should translate an external event through t
 		}
 	}
 
+	const slug = test.context.generateRandomSlug({
+		prefix: 'external-event'
+	})
+
 	const result = await sync.translateExternalEvent(TestIntegration, test.context.kernel.defaults({
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		type: 'external-event',
-		slug: test.context.generateRandomSlug({
-			prefix: 'external-event'
-		}),
+		slug,
 		version: '1.0.0',
 		data: {
 			source: 'test',
@@ -513,6 +515,7 @@ ava.test('.translateExternalEvent() should translate an external event through t
 	test.deepEqual(result, [
 		test.context.kernel.defaults({
 			id: result[0].id,
+			slug,
 			type: 'card',
 			version: '1.0.0',
 			links: result[0].links,
