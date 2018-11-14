@@ -578,6 +578,9 @@ ava.test('.translateExternalEvent() should destroy the integration even if there
 	await test.throws(sync.translateExternalEvent(BrokenIntegration, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		type: 'invalid-type',
+		slug: test.context.generateRandomSlug({
+			prefix: 'external-event'
+		}),
 		version: '1.0.0',
 		data: {
 			source: 'test',
