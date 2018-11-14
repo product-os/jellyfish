@@ -11,6 +11,10 @@
     "schema": {
       "type": "object",
       "properties": {
+        "slug": {
+          "type": "string",
+          "pattern": "^triggered-action-[a-z0-9-]+$"
+        },
         "data": {
           "type": "object",
           "properties": {
@@ -63,6 +67,7 @@
         }
       },
       "required": [
+        "slug",
         "data"
       ]
     }

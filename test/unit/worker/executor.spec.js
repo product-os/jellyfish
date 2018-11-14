@@ -845,6 +845,9 @@ ava.test('.insertCard() should remove previously inserted type triggered actions
 	const cards = [
 		{
 			type: 'triggered-action',
+			slug: test.context.generateRandomSlug({
+				prefix: 'triggered-action'
+			}),
 			version: '1.0.0',
 			data: {
 				type: 'foo',
@@ -883,6 +886,9 @@ ava.test('.insertCard() should remove previously inserted type triggered actions
 		},
 		{
 			type: 'triggered-action',
+			slug: test.context.generateRandomSlug({
+				prefix: 'triggered-action'
+			}),
 			version: '1.0.0',
 			data: {
 				type: 'bar',
@@ -983,7 +989,9 @@ ava.test('.insertCard() should remove previously inserted type triggered actions
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	await test.context.jellyfish.insertCard(test.context.session, test.context.kernel.defaults({
 		type: 'triggered-action',
-		slug: 'bar',
+		slug: test.context.generateRandomSlug({
+			prefix: 'triggered-action'
+		}),
 		version: '1.0.0',
 		data: {
 			type: 'foo',

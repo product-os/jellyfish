@@ -15,8 +15,8 @@
  */
 
 const Bluebird = require('bluebird')
-const randomstring = require('randomstring')
 const request = require('request')
+const helpers = require('../../unit/core/helpers')
 const {
 	createServer
 } = require('../../../lib/server/create-server')
@@ -26,15 +26,7 @@ exports.server = {
 		test.context.server = await createServer()
 		test.context.session = test.context.server.jellyfish.sessions.admin
 		test.context.guestSession = test.context.server.jellyfish.sessions.guest
-
-		test.context.generateRandomSlug = (options) => {
-			const suffix = randomstring.generate().toLowerCase()
-			if (options.prefix) {
-				return `${options.prefix}-${suffix}`
-			}
-
-			return suffix
-		}
+		test.context.generateRandomSlug = helpers.generateRandomSlug
 
 		test.context.http = (method, uri, payload) => {
 			return new Bluebird((resolve, reject) => {

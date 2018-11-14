@@ -19,6 +19,15 @@ const Backend = require('../../../lib/core/backend')
 const Cache = require('../../../lib/core/cache')
 const Kernel = require('../../../lib/core/kernel')
 
+exports.generateRandomSlug = (options) => {
+	const suffix = randomstring.generate().toLowerCase()
+	if (options.prefix) {
+		return `${options.prefix}-${suffix}`
+	}
+
+	return suffix
+}
+
 exports.backend = {
 	beforeEach: async (test) => {
 		const cache = process.env.DISABLE_CACHE
@@ -30,6 +39,7 @@ exports.backend = {
 			database: `test_${randomstring.generate()}`
 		})
 
+		test.context.generateRandomSlug = exports.generateRandomSlug
 		await test.context.backend.connect()
 	},
 	afterEach: async (test) => {
