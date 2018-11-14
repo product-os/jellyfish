@@ -19,10 +19,10 @@ const _ = require('lodash')
 const randomstring = require('randomstring')
 const helpers = require('./helpers')
 
-ava.test.beforeEach(helpers.sdk.beforeEach)
-ava.test.afterEach(helpers.sdk.afterEach)
+ava.beforeEach(helpers.sdk.beforeEach)
+ava.afterEach(helpers.sdk.afterEach)
 
-ava.test.serial('.action() should be able to successfully create a new card', async (test) => {
+ava.serial('.action() should be able to successfully create a new card', async (test) => {
 	const {
 		sdk
 	} = test.context
@@ -71,7 +71,7 @@ ava.test.serial('.action() should be able to successfully create a new card', as
 	])
 })
 
-ava.test.serial('.action() should resolve with the created card', async (test) => {
+ava.serial('.action() should resolve with the created card', async (test) => {
 	const {
 		sdk
 	} = test.context
@@ -110,7 +110,7 @@ ava.test.serial('.action() should resolve with the created card', async (test) =
 	})
 })
 
-ava.test.serial('.query() should run a query on the server', async (test) => {
+ava.serial('.query() should run a query on the server', async (test) => {
 	const {
 		sdk,
 		server
@@ -163,7 +163,7 @@ ava.test.serial('.query() should run a query on the server', async (test) => {
 	})
 })
 
-ava.test.serial('.query() should accept a "limit" option', async (test) => {
+ava.serial('.query() should accept a "limit" option', async (test) => {
 	const {
 		sdk,
 		server
@@ -261,7 +261,7 @@ ava.test.serial('.query() should accept a "limit" option', async (test) => {
 	test.deepEqual(results, [ card1, card2 ])
 })
 
-ava.test.serial('.query() should accept a "skip" option', async (test) => {
+ava.serial('.query() should accept a "skip" option', async (test) => {
 	const {
 		sdk,
 		server
@@ -361,7 +361,7 @@ ava.test.serial('.query() should accept a "skip" option', async (test) => {
 	test.deepEqual(results, [ card2, card3 ])
 })
 
-ava.test.serial('.query() should accept a "sortBy" option as a single key', async (test) => {
+ava.serial('.query() should accept a "sortBy" option as a single key', async (test) => {
 	const {
 		sdk,
 		server
@@ -471,7 +471,7 @@ ava.test.serial('.query() should accept a "sortBy" option as a single key', asyn
 	test.deepEqual(results, [ card2, card4, card3, card1 ])
 })
 
-ava.test.serial('.query() should accept a "sortBy" option as an array of keys', async (test) => {
+ava.serial('.query() should accept a "sortBy" option as an array of keys', async (test) => {
 	const {
 		sdk,
 		server
@@ -581,7 +581,7 @@ ava.test.serial('.query() should accept a "sortBy" option as an array of keys', 
 	test.deepEqual(results, [ card2, card4, card3, card1 ])
 })
 
-ava.test.serial('.card.get() should return a single element', async (test) => {
+ava.serial('.card.get() should return a single element', async (test) => {
 	const {
 		sdk,
 		server
@@ -631,7 +631,7 @@ ava.test.serial('.card.get() should return a single element', async (test) => {
 	test.deepEqual(result, card)
 })
 
-ava.test.serial('.card.get() should work with slugs', async (test) => {
+ava.serial('.card.get() should work with slugs', async (test) => {
 	const {
 		sdk,
 		server
@@ -680,7 +680,7 @@ ava.test.serial('.card.get() should work with slugs', async (test) => {
 	test.deepEqual(result, card)
 })
 
-ava.test.serial('.card.create() should create a new card', async (test) => {
+ava.serial('.card.create() should create a new card', async (test) => {
 	const {
 		sdk
 	} = test.context
@@ -721,7 +721,7 @@ ava.test.serial('.card.create() should create a new card', async (test) => {
 	})
 })
 
-ava.test.serial('.card.create() should resolve with the created card', async (test) => {
+ava.serial('.card.create() should resolve with the created card', async (test) => {
 	const {
 		sdk
 	} = test.context
@@ -752,7 +752,7 @@ ava.test.serial('.card.create() should resolve with the created card', async (te
 	})
 })
 
-ava.test.serial('.card.remove() should be able to delete a card', async (test) => {
+ava.serial('.card.remove() should be able to delete a card', async (test) => {
 	const {
 		sdk
 	} = test.context

@@ -165,7 +165,7 @@ exports.integrations = {
 				}
 
 				const prefix = `slice-${slice}`
-				ava.test.serial(`(${prefix}) ${testCaseName}`, async (test) => {
+				ava.serial(`(${prefix}) ${testCaseName}`, async (test) => {
 					await webhookScenario(test, {
 						steps: testCase.steps.slice(slice),
 						expected: testCase.expected,

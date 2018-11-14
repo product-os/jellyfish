@@ -66,10 +66,10 @@ const executeThenWait = async (sdk, asyncFn, waitQuery) => {
 	})
 }
 
-ava.test.beforeEach(helpers.sdk.beforeEach)
-ava.test.afterEach(helpers.sdk.afterEach)
+ava.beforeEach(helpers.sdk.beforeEach)
+ava.afterEach(helpers.sdk.afterEach)
 
-ava.test.serial('Users should not be able to view other users passwords', async (test) => {
+ava.serial('Users should not be able to view other users passwords', async (test) => {
 	const {
 		sdk
 	} = test.context
@@ -94,7 +94,7 @@ ava.test.serial('Users should not be able to view other users passwords', async 
 	test.is(fetchedUser.data.password, undefined)
 })
 
-ava.test.serial('Users with the role "team" should not be able to view other users passwords', async (test) => {
+ava.serial('Users with the role "team" should not be able to view other users passwords', async (test) => {
 	const {
 		sdk
 	} = test.context
@@ -133,7 +133,7 @@ ava.test.serial('Users with the role "team" should not be able to view other use
 	test.is(fetchedUser.data.password, undefined)
 })
 
-ava.test.serial('Users with the role "team-admin" should not be able to view other users passwords', async (test) => {
+ava.serial('Users with the role "team-admin" should not be able to view other users passwords', async (test) => {
 	const {
 		sdk
 	} = test.context
@@ -172,7 +172,7 @@ ava.test.serial('Users with the role "team-admin" should not be able to view oth
 	test.is(fetchedUser.data.password, undefined)
 })
 
-ava.test.serial('.query() should only return the user itself for the guest user', async (test) => {
+ava.serial('.query() should only return the user itself for the guest user', async (test) => {
 	const results = await test.context.sdk.query({
 		type: 'object',
 		properties: {
@@ -189,7 +189,7 @@ ava.test.serial('.query() should only return the user itself for the guest user'
 	test.deepEqual(_.map(results, 'slug'), [ 'user-guest' ])
 })
 
-ava.test.serial('.query() should be able to see previously restricted cards after a permissions change', async (test) => {
+ava.serial('.query() should be able to see previously restricted cards after a permissions change', async (test) => {
 	const {
 		sdk
 	} = test.context
@@ -245,7 +245,7 @@ ava.test.serial('.query() should be able to see previously restricted cards afte
 	test.deepEqual(privilegedResults.id, entry.id)
 })
 
-ava.test.serial('timeline cards should reference the correct actor', async (test) => {
+ava.serial('timeline cards should reference the correct actor', async (test) => {
 	const {
 		sdk
 	} = test.context
@@ -325,7 +325,7 @@ ava.test.serial('timeline cards should reference the correct actor', async (test
 	test.deepEqual(timelineActors, [ user.id ])
 })
 
-ava.test.serial('.query() community users should be able to query views', async (test) => {
+ava.serial('.query() community users should be able to query views', async (test) => {
 	const username = randomstring.generate().toLowerCase()
 	const email = `${randomstring.generate()}@example.com`
 
@@ -356,7 +356,7 @@ ava.test.serial('.query() community users should be able to query views', async 
 	test.true(_.includes(_.map(results, 'slug'), 'view-all-views'))
 })
 
-ava.test.serial('the guest user should not be able to change other users passwords', async (test) => {
+ava.serial('the guest user should not be able to change other users passwords', async (test) => {
 	const {
 		sdk
 	} = test.context
@@ -370,7 +370,7 @@ ava.test.serial('the guest user should not be able to change other users passwor
 		password: 'foobarbaz'
 	})
 
-	await test.throws(sdk.card.update(
+	await test.throwsAsync(sdk.card.update(
 		targetUser.id,
 		{
 			data: {
@@ -382,7 +382,7 @@ ava.test.serial('the guest user should not be able to change other users passwor
 	))
 })
 
-ava.test.serial('users with the "user-community" role should not be able to change other users passwords', async (test) => {
+ava.serial('users with the "user-community" role should not be able to change other users passwords', async (test) => {
 	const {
 		sdk
 	} = test.context
@@ -410,7 +410,7 @@ ava.test.serial('users with the "user-community" role should not be able to chan
 		password: 'foobarbaz'
 	})
 
-	await test.throws(sdk.card.update(
+	await test.throwsAsync(sdk.card.update(
 		targetUser.id,
 		{
 			data: {
@@ -422,7 +422,7 @@ ava.test.serial('users with the "user-community" role should not be able to chan
 	))
 })
 
-ava.test.serial('users with the "user-team" role should not be able to change other users passwords', async (test) => {
+ava.serial('users with the "user-team" role should not be able to change other users passwords', async (test) => {
 	const {
 		sdk
 	} = test.context
@@ -464,7 +464,7 @@ ava.test.serial('users with the "user-team" role should not be able to change ot
 		password: 'foobarbaz'
 	})
 
-	await test.throws(sdk.card.update(
+	await test.throwsAsync(sdk.card.update(
 		targetUser.id,
 		{
 			data: {
@@ -476,7 +476,7 @@ ava.test.serial('users with the "user-team" role should not be able to change ot
 	))
 })
 
-ava.test.serial('AGGREGATE($events): should work when creating cards via the SDK', async (test) => {
+ava.serial('AGGREGATE($events): should work when creating cards via the SDK', async (test) => {
 	const {
 		sdk
 	} = test.context
@@ -563,7 +563,7 @@ ava.test.serial('AGGREGATE($events): should work when creating cards via the SDK
 	test.deepEqual(card.data.mentionsUser, [ id ])
 })
 
-ava.test.serial('When updating a user, inaccessible fields should not be removed', async (test) => {
+ava.serial('When updating a user, inaccessible fields should not be removed', async (test) => {
 	const {
 		sdk
 	} = test.context
@@ -624,7 +624,7 @@ ava.test.serial('When updating a user, inaccessible fields should not be removed
 	test.is(_.has(rawUserCard, [ 'data', 'password', 'hash' ]), true)
 })
 
-ava.test.serial('A team admin user should be able to update another user\'s roles', async (test) => {
+ava.serial('A team admin user should be able to update another user\'s roles', async (test) => {
 	const {
 		sdk
 	} = test.context
@@ -681,7 +681,7 @@ ava.test.serial('A team admin user should be able to update another user\'s role
 	test.deepEqual(userCard.data.roles, [ 'user-team' ])
 })
 
-ava.test.serial('Users should not be able to login as the core admin user', async (test) => {
+ava.serial('Users should not be able to login as the core admin user', async (test) => {
 	const {
 		sdk
 	} = test.context
@@ -689,7 +689,7 @@ ava.test.serial('Users should not be able to login as the core admin user', asyn
 	// First check that the guest user cannot login
 	sdk.auth.logout()
 
-	await test.throws(sdk.auth.login({
+	await test.throwsAsync(sdk.auth.login({
 		username: 'admin'
 	}))
 
@@ -725,13 +725,13 @@ ava.test.serial('Users should not be able to login as the core admin user', asyn
 
 		await sdk.auth.login(userData)
 
-		await test.throws(sdk.auth.login({
+		await test.throwsAsync(sdk.auth.login({
 			username: 'admin'
 		}))
 	}
 })
 
-ava.test.serial('should be able to post an external event', async (test) => {
+ava.serial('should be able to post an external event', async (test) => {
 	const result = await test.context.http('POST', '/api/v2/hooks/test', {
 		foo: 'bar',
 		bar: 'baz'
@@ -773,7 +773,7 @@ ava.test.serial('should be able to post an external event', async (test) => {
 	})
 })
 
-ava.test.serial('should be able to post an external event with a type', async (test) => {
+ava.serial('should be able to post an external event with a type', async (test) => {
 	const result = await test.context.http('POST', '/api/v2/hooks/test/foobarbaz', {
 		foo: 'bar',
 		bar: 'baz'
@@ -815,7 +815,7 @@ ava.test.serial('should be able to post an external event with a type', async (t
 	})
 })
 
-ava.test.serial('should add and evaluate a time triggered action', async (test) => {
+ava.serial('should add and evaluate a time triggered action', async (test) => {
 	const {
 		sdk
 	} = test.context
@@ -909,7 +909,7 @@ ava.test.serial('should add and evaluate a time triggered action', async (test) 
 	})
 })
 
-ava.test.serial('should be able to resolve links', async (test) => {
+ava.serial('should be able to resolve links', async (test) => {
 	const {
 		sdk
 	} = test.context
@@ -1025,7 +1025,7 @@ ava.test.serial('should be able to resolve links', async (test) => {
 	])
 })
 
-ava.test.serial('should apply permissions on resolved links', async (test) => {
+ava.serial('should apply permissions on resolved links', async (test) => {
 	const {
 		sdk
 	} = test.context

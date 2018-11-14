@@ -18,10 +18,10 @@ const ava = require('ava')
 const helpers = require('./helpers')
 const utils = require('../../../lib/worker/utils')
 
-ava.test.beforeEach(helpers.jellyfish.beforeEach)
-ava.test.afterEach(helpers.jellyfish.afterEach)
+ava.beforeEach(helpers.jellyfish.beforeEach)
+ava.afterEach(helpers.jellyfish.afterEach)
 
-ava.test('.getActionArgumentsSchema() should return a wildcard schema if no args', (test) => {
+ava('.getActionArgumentsSchema() should return a wildcard schema if no args', (test) => {
 	const schema = utils.getActionArgumentsSchema({
 		data: {
 			arguments: {}
@@ -33,7 +33,7 @@ ava.test('.getActionArgumentsSchema() should return a wildcard schema if no args
 	})
 })
 
-ava.test('.getActionArgumentsSchema() should parse one argument', (test) => {
+ava('.getActionArgumentsSchema() should parse one argument', (test) => {
 	const schema = utils.getActionArgumentsSchema({
 		data: {
 			arguments: {
@@ -56,7 +56,7 @@ ava.test('.getActionArgumentsSchema() should parse one argument', (test) => {
 	})
 })
 
-ava.test('.getActionArgumentsSchema() should parse two arguments', (test) => {
+ava('.getActionArgumentsSchema() should parse two arguments', (test) => {
 	const schema = utils.getActionArgumentsSchema({
 		data: {
 			arguments: {
@@ -85,7 +85,7 @@ ava.test('.getActionArgumentsSchema() should parse two arguments', (test) => {
 	})
 })
 
-ava.test('.hasCard() id = yes (exists), slug = yes (exists)', async (test) => {
+ava('.hasCard() id = yes (exists), slug = yes (exists)', async (test) => {
 	const card = await test.context.jellyfish.insertCard(test.context.session, test.context.kernel.defaults({
 		slug: 'foo-bar',
 		type: 'card',
@@ -98,7 +98,7 @@ ava.test('.hasCard() id = yes (exists), slug = yes (exists)', async (test) => {
 	}))
 })
 
-ava.test('.hasCard() id = yes (exists), slug = yes (not exist)', async (test) => {
+ava('.hasCard() id = yes (exists), slug = yes (not exist)', async (test) => {
 	const card = await test.context.jellyfish.insertCard(test.context.session, test.context.kernel.defaults({
 		slug: 'bar-baz',
 		type: 'card',
@@ -111,7 +111,7 @@ ava.test('.hasCard() id = yes (exists), slug = yes (not exist)', async (test) =>
 	}))
 })
 
-ava.test('.hasCard() id = yes (not exist), slug = yes (exists)', async (test) => {
+ava('.hasCard() id = yes (not exist), slug = yes (exists)', async (test) => {
 	await test.context.jellyfish.insertCard(test.context.session, test.context.kernel.defaults({
 		slug: 'foo-bar',
 		type: 'card',
@@ -124,14 +124,14 @@ ava.test('.hasCard() id = yes (not exist), slug = yes (exists)', async (test) =>
 	}))
 })
 
-ava.test('.hasCard() id = yes (not exist), slug = yes (not exist)', async (test) => {
+ava('.hasCard() id = yes (not exist), slug = yes (not exist)', async (test) => {
 	test.false(await utils.hasCard(test.context.jellyfish, test.context.session, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		slug: 'foo-bar'
 	}))
 })
 
-ava.test('.hasCard() id = no, slug = yes (exists)', async (test) => {
+ava('.hasCard() id = no, slug = yes (exists)', async (test) => {
 	await test.context.jellyfish.insertCard(test.context.session, test.context.kernel.defaults({
 		slug: 'foo-bar',
 		type: 'card',
@@ -143,7 +143,7 @@ ava.test('.hasCard() id = no, slug = yes (exists)', async (test) => {
 	}))
 })
 
-ava.test('.hasCard() id = no, slug = yes (not exist)', async (test) => {
+ava('.hasCard() id = no, slug = yes (not exist)', async (test) => {
 	test.false(await utils.hasCard(test.context.jellyfish, test.context.session, {
 		slug: 'foo-bar'
 	}))

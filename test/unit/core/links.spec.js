@@ -19,16 +19,16 @@ const _ = require('lodash')
 const links = require('../../../lib/core/links')
 const helpers = require('./helpers')
 
-ava.test.beforeEach(async (test) => {
+ava.beforeEach(async (test) => {
 	await helpers.kernel.beforeEach(test)
 	test.context.context = {
 		query: test.context.backend.query.bind(test.context.backend)
 	}
 })
 
-ava.test.afterEach(helpers.kernel.afterEach)
+ava.afterEach(helpers.kernel.afterEach)
 
-ava.test('.evaluate() should return an empty array if the link is unknown', async (test) => {
+ava('.evaluate() should return an empty array if the link is unknown', async (test) => {
 	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'foo',
 		type: 'card',
@@ -43,7 +43,7 @@ ava.test('.evaluate() should return an empty array if the link is unknown', asyn
 	test.deepEqual(results, [])
 })
 
-ava.test('.evaluate(is attached to) should return an empty array if the target does not exist', async (test) => {
+ava('.evaluate(is attached to) should return an empty array if the target does not exist', async (test) => {
 	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'foo',
 		type: 'card',
@@ -72,7 +72,7 @@ ava.test('.evaluate(is attached to) should return an empty array if the target d
 	test.deepEqual(results, [])
 })
 
-ava.test('.evaluate(is attached to) should return an empty array if the target exists but does not match', async (test) => {
+ava('.evaluate(is attached to) should return an empty array if the target exists but does not match', async (test) => {
 	const card = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'foo',
 		type: 'card',
@@ -123,7 +123,7 @@ ava.test('.evaluate(is attached to) should return an empty array if the target e
 	test.deepEqual(results, [])
 })
 
-ava.test('.evaluate(is attached to) should return the declared target properties', async (test) => {
+ava('.evaluate(is attached to) should return the declared target properties', async (test) => {
 	const card = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'foo',
 		type: 'card',
@@ -188,7 +188,7 @@ ava.test('.evaluate(is attached to) should return the declared target properties
 	])
 })
 
-ava.test('.evaluate(is attached to) should return the whole target if additionalProperties is set', async (test) => {
+ava('.evaluate(is attached to) should return the whole target if additionalProperties is set', async (test) => {
 	const card = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'foo',
 		type: 'card',
@@ -262,7 +262,7 @@ ava.test('.evaluate(is attached to) should return the whole target if additional
 	])
 })
 
-ava.test('.evaluate(has attached element) should return an empty array if the card has no timeline', async (test) => {
+ava('.evaluate(has attached element) should return an empty array if the card has no timeline', async (test) => {
 	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		slug: 'foo',
@@ -278,7 +278,7 @@ ava.test('.evaluate(has attached element) should return an empty array if the ca
 	test.deepEqual(results, [])
 })
 
-ava.test('.evaluate(has attached element) should return matching elements', async (test) => {
+ava('.evaluate(has attached element) should return matching elements', async (test) => {
 	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'foo',
 		type: 'card',
@@ -385,7 +385,7 @@ ava.test('.evaluate(has attached element) should return matching elements', asyn
 	])
 })
 
-ava.test('.evaluateCard() should return one link of one type given one match', async (test) => {
+ava('.evaluateCard() should return one link of one type given one match', async (test) => {
 	const card = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'foo',
 		type: 'card',
@@ -450,7 +450,7 @@ ava.test('.evaluateCard() should return one link of one type given one match', a
 	})
 })
 
-ava.test('.evaluateCard() should return multiple cards per link', async (test) => {
+ava('.evaluateCard() should return multiple cards per link', async (test) => {
 	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'foo',
 		type: 'card',
@@ -579,7 +579,7 @@ ava.test('.evaluateCard() should return multiple cards per link', async (test) =
 	})
 })
 
-ava.test('.evaluateCard() should return false if one link is unsatisfied', async (test) => {
+ava('.evaluateCard() should return false if one link is unsatisfied', async (test) => {
 	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'foo',
 		type: 'card',
@@ -661,7 +661,7 @@ ava.test('.evaluateCard() should return false if one link is unsatisfied', async
 	test.deepEqual(results, null)
 })
 
-ava.test('.parseCard() should parse a "from" card', (test) => {
+ava('.parseCard() should parse a "from" card', (test) => {
 	const result = links.parseCard({
 		type: 'link',
 		slug: 'link-4a962ad9-20b5-4dd8-a707-bf819593cc84-is-attached-to-87ca429f-5e46-419a-8f21-b43f68f23001',
@@ -690,7 +690,7 @@ ava.test('.parseCard() should parse a "from" card', (test) => {
 	})
 })
 
-ava.test('.parseCard() should parse a "to" card', (test) => {
+ava('.parseCard() should parse a "to" card', (test) => {
 	const result = links.parseCard({
 		type: 'link',
 		slug: 'link-4a962ad9-20b5-4dd8-a707-bf819593cc84-is-attached-to-87ca429f-5e46-419a-8f21-b43f68f23001',
@@ -719,7 +719,7 @@ ava.test('.parseCard() should parse a "to" card', (test) => {
 	})
 })
 
-ava.test('.parseCard() should return null given an irrelevant card', (test) => {
+ava('.parseCard() should return null given an irrelevant card', (test) => {
 	const result = links.parseCard({
 		type: 'link',
 		slug: 'link-4a962ad9-20b5-4dd8-a707-bf819593cc84-is-attached-to-87ca429f-5e46-419a-8f21-b43f68f23001',
@@ -745,7 +745,7 @@ ava.test('.parseCard() should return null given an irrelevant card', (test) => {
 	test.deepEqual(result, null)
 })
 
-ava.test('.addLink() should add a link given a "from" card without any links', (test) => {
+ava('.addLink() should add a link given a "from" card without any links', (test) => {
 	const card = links.addLink({
 		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
 		slug: 'link-4a962ad9-20b5-4dd8-a707-bf819593cc84-is-attached-to-87ca429f-5e46-419a-8f21-b43f68f23001',
@@ -788,7 +788,7 @@ ava.test('.addLink() should add a link given a "from" card without any links', (
 	})
 })
 
-ava.test('.addLink() should add a link given a "from" card without the existing link', (test) => {
+ava('.addLink() should add a link given a "from" card without the existing link', (test) => {
 	const card = links.addLink({
 		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
 		slug: 'link-4a962ad9-20b5-4dd8-a707-bf819593cc84-is-attached-to-87ca429f-5e46-419a-8f21-b43f68f23001',
@@ -842,7 +842,7 @@ ava.test('.addLink() should add a link given a "from" card without the existing 
 	})
 })
 
-ava.test('.addLink() should add a link given a "from" card with the existing link', (test) => {
+ava('.addLink() should add a link given a "from" card with the existing link', (test) => {
 	const card = links.addLink({
 		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
 		slug: 'link-4a962ad9-20b5-4dd8-a707-bf819593cc84-is-attached-to-87ca429f-5e46-419a-8f21-b43f68f23001',
@@ -892,7 +892,7 @@ ava.test('.addLink() should add a link given a "from" card with the existing lin
 	})
 })
 
-ava.test('.addLink() should add a link given a "to" card without any links', (test) => {
+ava('.addLink() should add a link given a "to" card without any links', (test) => {
 	const card = links.addLink({
 		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
 		slug: 'link-4a962ad9-20b5-4dd8-a707-bf819593cc84-is-attached-to-87ca429f-5e46-419a-8f21-b43f68f23001',
@@ -935,7 +935,7 @@ ava.test('.addLink() should add a link given a "to" card without any links', (te
 	})
 })
 
-ava.test('.addLink() should add a link given a "to" card without the existing link', (test) => {
+ava('.addLink() should add a link given a "to" card without the existing link', (test) => {
 	const card = links.addLink({
 		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
 		slug: 'link-4a962ad9-20b5-4dd8-a707-bf819593cc84-is-attached-to-87ca429f-5e46-419a-8f21-b43f68f23001',
@@ -989,7 +989,7 @@ ava.test('.addLink() should add a link given a "to" card without the existing li
 	})
 })
 
-ava.test('.addLink() should add a link given a "to" card with the existing link', (test) => {
+ava('.addLink() should add a link given a "to" card with the existing link', (test) => {
 	const card = links.addLink({
 		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
 		slug: 'link-4a962ad9-20b5-4dd8-a707-bf819593cc84-is-attached-to-87ca429f-5e46-419a-8f21-b43f68f23001',
@@ -1039,7 +1039,7 @@ ava.test('.addLink() should add a link given a "to" card with the existing link'
 	})
 })
 
-ava.test('.addLink() should add a link given an irrelevant card', (test) => {
+ava('.addLink() should add a link given an irrelevant card', (test) => {
 	const card = links.addLink({
 		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
 		slug: 'link-4a962ad9-20b5-4dd8-a707-bf819593cc84-is-attached-to-87ca429f-5e46-419a-8f21-b43f68f23001',
@@ -1075,7 +1075,7 @@ ava.test('.addLink() should add a link given an irrelevant card', (test) => {
 	})
 })
 
-ava.test('.removeLink() should remove a link given a "from" card without any links', (test) => {
+ava('.removeLink() should remove a link given a "from" card without any links', (test) => {
 	const card = links.removeLink({
 		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
 		slug: 'link-4a962ad9-20b5-4dd8-a707-bf819593cc84-is-attached-to-87ca429f-5e46-419a-8f21-b43f68f23001',
@@ -1111,7 +1111,7 @@ ava.test('.removeLink() should remove a link given a "from" card without any lin
 	})
 })
 
-ava.test('.removeLink() should remove a link given a "from" card without the existing link', (test) => {
+ava('.removeLink() should remove a link given a "from" card without the existing link', (test) => {
 	const card = links.removeLink({
 		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
 		slug: 'link-4a962ad9-20b5-4dd8-a707-bf819593cc84-is-attached-to-87ca429f-5e46-419a-8f21-b43f68f23001',
@@ -1161,7 +1161,7 @@ ava.test('.removeLink() should remove a link given a "from" card without the exi
 	})
 })
 
-ava.test('.removeLink() should remove a link given a "from" card with the existing link', (test) => {
+ava('.removeLink() should remove a link given a "from" card with the existing link', (test) => {
 	const card = links.removeLink({
 		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
 		slug: 'link-4a962ad9-20b5-4dd8-a707-bf819593cc84-is-attached-to-87ca429f-5e46-419a-8f21-b43f68f23001',
@@ -1206,7 +1206,7 @@ ava.test('.removeLink() should remove a link given a "from" card with the existi
 	})
 })
 
-ava.test('.removeLink() should remove a link given a "to" card without any links', (test) => {
+ava('.removeLink() should remove a link given a "to" card without any links', (test) => {
 	const card = links.removeLink({
 		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
 		slug: 'link-4a962ad9-20b5-4dd8-a707-bf819593cc84-is-attached-to-87ca429f-5e46-419a-8f21-b43f68f23001',
@@ -1242,7 +1242,7 @@ ava.test('.removeLink() should remove a link given a "to" card without any links
 	})
 })
 
-ava.test('.removeLink() should remove a link given a "to" card without the existing link', (test) => {
+ava('.removeLink() should remove a link given a "to" card without the existing link', (test) => {
 	const card = links.removeLink({
 		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
 		slug: 'link-4a962ad9-20b5-4dd8-a707-bf819593cc84-is-attached-to-87ca429f-5e46-419a-8f21-b43f68f23001',
@@ -1292,7 +1292,7 @@ ava.test('.removeLink() should remove a link given a "to" card without the exist
 	})
 })
 
-ava.test('.removeLink() should remove a link given a "to" card with the existing link', (test) => {
+ava('.removeLink() should remove a link given a "to" card with the existing link', (test) => {
 	const card = links.removeLink({
 		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
 		slug: 'link-4a962ad9-20b5-4dd8-a707-bf819593cc84-is-attached-to-87ca429f-5e46-419a-8f21-b43f68f23001',
@@ -1337,7 +1337,7 @@ ava.test('.removeLink() should remove a link given a "to" card with the existing
 	})
 })
 
-ava.test('.removeLink() should remove a link given an irrelevant card', (test) => {
+ava('.removeLink() should remove a link given an irrelevant card', (test) => {
 	const card = links.removeLink({
 		id: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
 		slug: 'link-4a962ad9-20b5-4dd8-a707-bf819593cc84-is-attached-to-87ca429f-5e46-419a-8f21-b43f68f23001',

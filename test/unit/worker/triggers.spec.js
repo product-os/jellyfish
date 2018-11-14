@@ -20,10 +20,10 @@ const triggers = require('../../../lib/worker/triggers')
 const errors = require('../../../lib/worker/errors')
 const Promise = require('bluebird')
 
-ava.test.beforeEach(helpers.jellyfish.beforeEach)
-ava.test.afterEach(helpers.jellyfish.afterEach)
+ava.beforeEach(helpers.jellyfish.beforeEach)
+ava.afterEach(helpers.jellyfish.afterEach)
 
-ava.test('.getRequest() should return null if the filter only has a type but there is no match', async (test) => {
+ava('.getRequest() should return null if the filter only has a type but there is no match', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const trigger = {
 		filter: {
@@ -69,7 +69,7 @@ ava.test('.getRequest() should return null if the filter only has a type but the
 	test.falsy(request)
 })
 
-ava.test('.getRequest() should return a request if the filter only has a type and there is a match', async (test) => {
+ava('.getRequest() should return a request if the filter only has a type and there is a match', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const trigger = {
 		id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
@@ -128,7 +128,7 @@ ava.test('.getRequest() should return a request if the filter only has a type an
 	})
 })
 
-ava.test('.getRequest() should return a request if the input match card is null', async (test) => {
+ava('.getRequest() should return a request if the input match card is null', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const trigger = {
 		id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
@@ -179,7 +179,7 @@ ava.test('.getRequest() should return a request if the input match card is null'
 	})
 })
 
-ava.test('.getRequest() should return a request if both the input card and the match card are null', async (test) => {
+ava('.getRequest() should return a request if both the input card and the match card are null', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const trigger = {
 		id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
@@ -222,7 +222,7 @@ ava.test('.getRequest() should return a request if both the input card and the m
 	})
 })
 
-ava.test('.getRequest() should return null if referencing source when no input card', async (test) => {
+ava('.getRequest() should return null if referencing source when no input card', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const trigger = {
 		id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
@@ -255,7 +255,7 @@ ava.test('.getRequest() should return null if referencing source when no input c
 	test.deepEqual(request, null)
 })
 
-ava.test('.getRequest() should return a request given a complex matching filter', async (test) => {
+ava('.getRequest() should return a request given a complex matching filter', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const trigger = {
 		id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
@@ -327,7 +327,7 @@ ava.test('.getRequest() should return a request given a complex matching filter'
 	})
 })
 
-ava.test('.getRequest() should return null given a complex non-matching filter', async (test) => {
+ava('.getRequest() should return null given a complex non-matching filter', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const trigger = {
 		filter: {
@@ -386,7 +386,7 @@ ava.test('.getRequest() should return null given a complex non-matching filter',
 	test.falsy(request)
 })
 
-ava.test('.getRequest() should parse source templates in the triggered action arguments', async (test) => {
+ava('.getRequest() should parse source templates in the triggered action arguments', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const trigger = {
 		id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
@@ -469,7 +469,7 @@ ava.test('.getRequest() should parse source templates in the triggered action ar
 	})
 })
 
-ava.test('.getRequest() should parse timestamp templates in the triggered action arguments', async (test) => {
+ava('.getRequest() should parse timestamp templates in the triggered action arguments', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const trigger = {
 		id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
@@ -535,7 +535,7 @@ ava.test('.getRequest() should parse timestamp templates in the triggered action
 	})
 })
 
-ava.test('.getRequest() should return null if one of the templates is unsatisfied', async (test) => {
+ava('.getRequest() should return null if one of the templates is unsatisfied', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const trigger = {
 		filter: {
@@ -600,7 +600,7 @@ ava.test('.getRequest() should return null if one of the templates is unsatisfie
 	test.falsy(request)
 })
 
-ava.test('.getTypeTriggers() should return a trigger card with a matching type', async (test) => {
+ava('.getTypeTriggers() should return a trigger card with a matching type', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const cards = [
 		{
@@ -659,7 +659,7 @@ ava.test('.getTypeTriggers() should return a trigger card with a matching type',
 	])
 })
 
-ava.test('.getTypeTriggers() should not return inactive cards', async (test) => {
+ava('.getTypeTriggers() should not return inactive cards', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const cards = [
 		{
@@ -713,7 +713,7 @@ ava.test('.getTypeTriggers() should not return inactive cards', async (test) => 
 	test.deepEqual(result, [])
 })
 
-ava.test('.getTypeTriggers() should ignore non-matching cards', async (test) => {
+ava('.getTypeTriggers() should ignore non-matching cards', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const cards = [
 		{
@@ -813,7 +813,7 @@ ava.test('.getTypeTriggers() should ignore non-matching cards', async (test) => 
 	])
 })
 
-ava.test('.getTypeTriggers() should ignore cards that are not triggered actions', async (test) => {
+ava('.getTypeTriggers() should ignore cards that are not triggered actions', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const cards = [
 		{
@@ -912,7 +912,7 @@ ava.test('.getTypeTriggers() should ignore cards that are not triggered actions'
 	])
 })
 
-ava.test('.getTypeTriggers() should not return triggered actions not associated with a type', async (test) => {
+ava('.getTypeTriggers() should not return triggered actions not associated with a type', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const cards = [
 		{
@@ -964,7 +964,7 @@ ava.test('.getTypeTriggers() should not return triggered actions not associated 
 	test.deepEqual(result, [])
 })
 
-ava.test('.getStartDate() should return epoch if the trigger has no start date', async (test) => {
+ava('.getStartDate() should return epoch if the trigger has no start date', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const result = triggers.getStartDate({
 		type: 'triggered-action',
@@ -993,7 +993,7 @@ ava.test('.getStartDate() should return epoch if the trigger has no start date',
 	test.is(result.getTime(), 0)
 })
 
-ava.test('.getStartDate() should return epoch if the trigger has an invalid date', async (test) => {
+ava('.getStartDate() should return epoch if the trigger has an invalid date', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const result = triggers.getStartDate({
 		type: 'triggered-action',
@@ -1023,7 +1023,7 @@ ava.test('.getStartDate() should return epoch if the trigger has an invalid date
 	test.is(result.getTime(), 0)
 })
 
-ava.test('.getStartDate() should return the specified date if valid', async (test) => {
+ava('.getStartDate() should return the specified date if valid', async (test) => {
 	const date = new Date()
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const result = triggers.getStartDate({
@@ -1054,7 +1054,7 @@ ava.test('.getStartDate() should return the specified date if valid', async (tes
 	test.is(result.getTime(), date.getTime())
 })
 
-ava.test('.getNextExecutionDate() should return null if no interval', async (test) => {
+ava('.getNextExecutionDate() should return null if no interval', async (test) => {
 	const date = new Date()
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const result = triggers.getNextExecutionDate({
@@ -1084,7 +1084,7 @@ ava.test('.getNextExecutionDate() should return null if no interval', async (tes
 	test.deepEqual(result, null)
 })
 
-ava.test('.getNextExecutionDate() should return epoch if no last execution date', async (test) => {
+ava('.getNextExecutionDate() should return epoch if no last execution date', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const result = triggers.getNextExecutionDate({
 		type: 'triggered-action',
@@ -1111,7 +1111,7 @@ ava.test('.getNextExecutionDate() should return epoch if no last execution date'
 	test.is(result.getTime(), 0)
 })
 
-ava.test('.getNextExecutionDate() should return epoch if last execution date is not a valid date', async (test) => {
+ava('.getNextExecutionDate() should return epoch if last execution date is not a valid date', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const result = triggers.getNextExecutionDate({
 		type: 'triggered-action',
@@ -1138,7 +1138,7 @@ ava.test('.getNextExecutionDate() should return epoch if last execution date is 
 	test.is(result.getTime(), 0)
 })
 
-ava.test('.getNextExecutionDate() should return epoch if last execution date is not a date', async (test) => {
+ava('.getNextExecutionDate() should return epoch if last execution date is not a date', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const result = triggers.getNextExecutionDate({
 		type: 'triggered-action',
@@ -1165,7 +1165,7 @@ ava.test('.getNextExecutionDate() should return epoch if last execution date is 
 	test.is(result.getTime(), 0)
 })
 
-ava.test('.getNextExecutionDate() should throw if the interval is invalid', async (test) => {
+ava('.getNextExecutionDate() should throw if the interval is invalid', async (test) => {
 	const date = new Date()
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 
@@ -1194,7 +1194,7 @@ ava.test('.getNextExecutionDate() should throw if the interval is invalid', asyn
 	}, errors.WorkerInvalidDuration)
 })
 
-ava.test('.getNextExecutionDate() should return the next interval after the last execution', async (test) => {
+ava('.getNextExecutionDate() should return the next interval after the last execution', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const result = triggers.getNextExecutionDate({
 		type: 'triggered-action',
@@ -1222,7 +1222,7 @@ ava.test('.getNextExecutionDate() should return the next interval after the last
 	test.is(result.toISOString(), '2018-01-01T06:00:00.000Z')
 })
 
-ava.test('.getNextExecutionDate() should return the start date if the last execution ' +
+ava('.getNextExecutionDate() should return the start date if the last execution ' +
 				'happened way before the start date', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const result = triggers.getNextExecutionDate({
@@ -1251,7 +1251,7 @@ ava.test('.getNextExecutionDate() should return the start date if the last execu
 	test.is(result.toISOString(), '2018-01-01T05:00:00.000Z')
 })
 
-ava.test('.getNextExecutionDate() should return the subsequent interval if the last ' +
+ava('.getNextExecutionDate() should return the subsequent interval if the last ' +
 				' execution happened just before the start date', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const result = triggers.getNextExecutionDate({
@@ -1280,7 +1280,7 @@ ava.test('.getNextExecutionDate() should return the subsequent interval if the l
 	test.is(result.toISOString(), '2018-01-01T06:00:00.000Z')
 })
 
-ava.test('.getNextExecutionDate() should return the next interval if the last execution is the start date', async (test) => {
+ava('.getNextExecutionDate() should return the next interval if the last execution is the start date', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const result = triggers.getNextExecutionDate({
 		type: 'triggered-action',

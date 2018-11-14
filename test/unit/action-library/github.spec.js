@@ -18,8 +18,8 @@ const ava = require('ava')
 const _ = require('lodash')
 const helpers = require('./helpers')
 
-ava.test.beforeEach(helpers.integrations.beforeEach)
-ava.test.afterEach(helpers.integrations.afterEach)
+ava.beforeEach(helpers.integrations.beforeEach)
+ava.afterEach(helpers.integrations.afterEach)
 
 helpers.integrations.scenario(ava, {
 	integration: require('../../../lib/action-library/integrations/github'),

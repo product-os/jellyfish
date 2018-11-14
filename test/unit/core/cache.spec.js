@@ -17,10 +17,10 @@
 const ava = require('ava')
 const helpers = require('./helpers')
 
-ava.test.afterEach(helpers.cache.afterEach)
-ava.test.beforeEach(helpers.cache.beforeEach)
+ava.afterEach(helpers.cache.afterEach)
+ava.beforeEach(helpers.cache.beforeEach)
 
-ava.test('.set() should be able to retrieve item by id', async (test) => {
+ava('.set() should be able to retrieve item by id', async (test) => {
 	const element1 = {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		slug: 'test'
@@ -33,7 +33,7 @@ ava.test('.set() should be able to retrieve item by id', async (test) => {
 	test.deepEqual(element1, el.element)
 })
 
-ava.test('.set() should be able to retrieve item by slug', async (test) => {
+ava('.set() should be able to retrieve item by slug', async (test) => {
 	const element1 = {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		slug: 'test'
@@ -46,7 +46,7 @@ ava.test('.set() should be able to retrieve item by slug', async (test) => {
 	test.deepEqual(element1, el.element)
 })
 
-ava.test('.setMissingId() should prevent card from being fetched by ID', async (test) => {
+ava('.setMissingId() should prevent card from being fetched by ID', async (test) => {
 	const element1 = {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		slug: 'test'
@@ -60,7 +60,7 @@ ava.test('.setMissingId() should prevent card from being fetched by ID', async (
 	test.falsy(el.element)
 })
 
-ava.test('.setMissingSlug() should prevent card from being fetched by slug', async (test) => {
+ava('.setMissingSlug() should prevent card from being fetched by slug', async (test) => {
 	const element1 = {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		slug: 'test'
@@ -74,7 +74,7 @@ ava.test('.setMissingSlug() should prevent card from being fetched by slug', asy
 	test.falsy(el.element)
 })
 
-ava.test('.getById() should get the correct element', async (test) => {
+ava('.getById() should get the correct element', async (test) => {
 	const element1 = {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		slug: 'test1'
@@ -95,7 +95,7 @@ ava.test('.getById() should get the correct element', async (test) => {
 	test.deepEqual(element2, el2.element)
 })
 
-ava.test('.getBySlug() should get the correct element', async (test) => {
+ava('.getBySlug() should get the correct element', async (test) => {
 	const element1 = {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		slug: 'test1'
@@ -116,7 +116,7 @@ ava.test('.getBySlug() should get the correct element', async (test) => {
 	test.deepEqual(element2, el2.element)
 })
 
-ava.test('.unset() should remove an element from the cache', async (test) => {
+ava('.unset() should remove an element from the cache', async (test) => {
 	const element1 = {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		slug: 'test1'

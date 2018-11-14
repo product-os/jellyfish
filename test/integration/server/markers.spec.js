@@ -18,8 +18,8 @@ const ava = require('ava')
 const randomstring = require('randomstring')
 const helpers = require('../sdk/helpers')
 
-ava.test.beforeEach(helpers.sdk.beforeEach)
-ava.test.afterEach(helpers.sdk.afterEach)
+ava.beforeEach(helpers.sdk.beforeEach)
+ava.afterEach(helpers.sdk.afterEach)
 
 const users = {
 	community: {
@@ -29,7 +29,7 @@ const users = {
 	}
 }
 
-ava.test.serial('Users should be able to view an element with no markers', async (test) => {
+ava.serial('Users should be able to view an element with no markers', async (test) => {
 	const {
 		sdk
 	} = test.context
@@ -52,7 +52,7 @@ ava.test.serial('Users should be able to view an element with no markers', async
 	test.deepEqual(thread, userReadThread)
 })
 
-ava.test.serial('Users should not be able to view an element that has a marker they don\'t have access to', async (test) => {
+ava.serial('Users should not be able to view an element that has a marker they don\'t have access to', async (test) => {
 	const {
 		sdk
 	} = test.context
@@ -73,7 +73,7 @@ ava.test.serial('Users should not be able to view an element that has a marker t
 	test.deepEqual(userReadThread, null)
 })
 
-ava.test.serial('Users should be able to view an element if all of their markers match', async (test) => {
+ava.serial('Users should be able to view an element if all of their markers match', async (test) => {
 	const {
 		sdk
 	} = test.context
@@ -115,7 +115,7 @@ ava.test.serial('Users should be able to view an element if all of their markers
 	test.deepEqual(userReadThread, thread)
 })
 
-ava.test.serial(
+ava.serial(
 	'Users should only be able to view an element if they have access to every marker on the element',
 	async (test) => {
 		const {
@@ -141,7 +141,7 @@ ava.test.serial(
 		test.deepEqual(userReadThread, null)
 	})
 
-ava.test.serial('Users should be able to view an element using compound markers', async (test) => {
+ava.serial('Users should be able to view an element using compound markers', async (test) => {
 	const {
 		sdk
 	} = test.context
@@ -165,7 +165,7 @@ ava.test.serial('Users should be able to view an element using compound markers'
 	test.deepEqual(userReadThread, thread)
 })
 
-ava.test.serial(
+ava.serial(
 	'Users should not be able to view an element using compound markers if they don\'t have access to every marker',
 	async (test) => {
 		const {
@@ -196,7 +196,7 @@ ava.test.serial(
 		test.deepEqual(userReadThread, null)
 	})
 
-ava.test.serial(
+ava.serial(
 	'Users should be able to view an element using compound markers if they have access to every marker',
 	async (test) => {
 		const {
@@ -240,7 +240,7 @@ ava.test.serial(
 		test.deepEqual(userReadThread, thread)
 	})
 
-ava.test.serial('Users should be able to view an element using compound markers with more than two values', async (test) => {
+ava.serial('Users should be able to view an element using compound markers with more than two values', async (test) => {
 	const {
 		sdk
 	} = test.context
@@ -264,7 +264,7 @@ ava.test.serial('Users should be able to view an element using compound markers 
 	test.deepEqual(userReadThread, thread)
 })
 
-ava.test.serial(
+ava.serial(
 	'Users should be able to view an element using a compound marker that doesn\'t contain their personal marker',
 	async (test) => {
 		const {
