@@ -173,7 +173,6 @@ export const getViewSchema = (card: Card) => {
  */
 export const getUpdateObjectFromSchema = (schema: JSONSchema6): { [k: string]: any } => {
 	const update: { [k: string]: any } = {};
-	update.version = '1.0.0';
 	_.forEach(schema.properties, (value: JSONSchema6, key) => {
 		if (value.const) {
 			update[key] = value.const;
