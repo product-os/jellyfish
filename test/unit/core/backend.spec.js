@@ -24,11 +24,20 @@ ava.test.beforeEach(helpers.backend.beforeEach)
 ava.test.afterEach(helpers.backend.afterEach)
 
 ava.test('.disconnect() should not throw if called multiple times', async (test) => {
-	test.notThrows(async () => {
+	await test.notThrows((async () => {
 		await test.context.backend.disconnect()
 		await test.context.backend.disconnect()
 		await test.context.backend.disconnect()
-	})
+	})())
+})
+
+ava.test('.disconnect() should gracefully close streams', async (test) => {
+	await test.notThrows((async () => {
+		await test.context.backend.stream({
+			type: 'object'
+		})
+		await test.context.backend.disconnect()
+	})())
 })
 
 ava.test('.getElementById() should return null if the element id is not present', async (test) => {

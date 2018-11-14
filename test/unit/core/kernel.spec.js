@@ -32,11 +32,20 @@ for (const card of _.values(CARDS)) {
 }
 
 ava.test('should be able to disconnect the kernel multiple times without errors', async (test) => {
-	test.notThrows(async () => {
+	await test.notThrows((async () => {
 		await test.context.kernel.disconnect()
 		await test.context.kernel.disconnect()
 		await test.context.kernel.disconnect()
-	})
+	})())
+})
+
+ava.test('.disconnect() should gracefully close streams', async (test) => {
+	await test.notThrows((async () => {
+		await test.context.kernel.stream(test.context.kernel.sessions.admin, {
+			type: 'object'
+		})
+		await test.context.kernel.disconnect()
+	})())
 })
 
 ava.test('.insertCard() should throw an error if the element is not a valid card', async (test) => {
