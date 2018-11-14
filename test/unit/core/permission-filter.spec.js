@@ -32,6 +32,9 @@ ava.test('.getSessionUser() should throw if the session is invalid', async (test
 
 ava.test('.getSessionUser() should throw if the session actor is invalid', async (test) => {
 	const session = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: test.context.generateRandomSlug({
+			prefix: 'session'
+		}),
 		type: 'session',
 		version: '1.0.0',
 		data: {
@@ -60,6 +63,9 @@ ava.test('.getSessionUser() should get the session user given the session did no
 	date.setDate(date.getDate() + 1)
 
 	const session = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: test.context.generateRandomSlug({
+			prefix: 'session'
+		}),
 		type: 'session',
 		version: '1.0.0',
 		data: {
@@ -93,6 +99,9 @@ ava.test('.getSessionUser() should throw if the session expired', async (test) =
 	date.setDate(date.getDate() - 1)
 
 	const session = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: test.context.generateRandomSlug({
+			prefix: 'session'
+		}),
 		type: 'session',
 		version: '1.0.0',
 		data: {
