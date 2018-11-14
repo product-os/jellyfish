@@ -2055,6 +2055,7 @@ ava.test('should add an update event if updating a card', async (test) => {
 			id: timeline[0].id,
 			version: '1.0.0',
 			type: 'create',
+			slug: timeline[0].slug,
 			links: {
 				'is attached to': [
 					{
@@ -2086,6 +2087,7 @@ ava.test('should add an update event if updating a card', async (test) => {
 			id: timeline[1].id,
 			version: '1.0.0',
 			type: 'update',
+			slug: timeline[1].slug,
 			links: {
 				'is attached to': [
 					{

@@ -254,6 +254,7 @@ ava.test('.getLastExecutionEvent() should return the last execution event given 
 
 	test.deepEqual(event, test.context.kernel.defaults({
 		id: '8fd7be57-4f68-4faf-bbc6-200a7c62c41a',
+		slug: event.slug,
 		type: 'execute',
 		version: '1.0.0',
 		links: {
@@ -311,6 +312,7 @@ ava.test('.getLastExecutionEvent() should return the last event given a matching
 
 	test.deepEqual(event, test.context.kernel.defaults({
 		id: '8fd7be57-4f68-4faf-bbc6-200a7c62c41a',
+		slug: event.slug,
 		type: 'execute',
 		version: '1.0.0',
 		links: {
@@ -368,6 +370,7 @@ ava.test('.getLastExecutionEvent() should return the last execution event given 
 
 	test.deepEqual(event, test.context.kernel.defaults({
 		id: '8fd7be57-4f68-4faf-bbc6-200a7c62c41a',
+		slug: event.slug,
 		type: 'execute',
 		version: '1.0.0',
 		links: {
