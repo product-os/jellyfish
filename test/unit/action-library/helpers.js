@@ -16,7 +16,6 @@
 
 const nock = require('nock')
 const path = require('path')
-const randomstring = require('randomstring')
 const _ = require('lodash')
 const helpers = require('../worker/helpers')
 const actionLibrary = require('../../../lib/action-library')
@@ -26,15 +25,6 @@ exports.sync = {
 	beforeEach: async (test) => {
 		await helpers.worker.beforeEach(test, actionLibrary)
 		test.context.context = test.context.worker.getExecutionContext()
-
-		test.context.generateRandomSlug = (options) => {
-			const suffix = randomstring.generate().toLowerCase()
-			if (options.prefix) {
-				return `${options.prefix}-${suffix}`
-			}
-
-			return suffix
-		}
 	},
 	afterEach: async (test) => {
 		await helpers.worker.afterEach(test)

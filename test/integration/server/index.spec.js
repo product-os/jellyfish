@@ -825,6 +825,9 @@ ava.test.serial('should add and evaluate a time triggered action', async (test) 
 
 	const trigger = await jellyfish.insertCard(test.context.session, defaults({
 		type: 'triggered-action',
+		slug: test.context.generateRandomSlug({
+			prefix: 'triggered-action'
+		}),
 		version: '1.0.0',
 		data: {
 			action: 'action-create-card',
