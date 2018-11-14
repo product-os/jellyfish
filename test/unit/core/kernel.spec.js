@@ -879,6 +879,9 @@ ava.test('.insertCard() read access on a property should not allow to write othe
 	}))
 
 	const session = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: test.context.generateRandomSlug({
+			prefix: 'session'
+		}),
 		type: 'session',
 		version: '1.0.0',
 		data: {
@@ -985,6 +988,9 @@ ava.test('.insertCard() should restrict the visibility of the user using write r
 	}))
 
 	const session = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: test.context.generateRandomSlug({
+			prefix: 'session'
+		}),
 		type: 'session',
 		version: '1.0.0',
 		data: {
@@ -1373,6 +1379,9 @@ ava.test('.query() should take roles into account', async (test) => {
 	}))
 
 	const session = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: test.context.generateRandomSlug({
+			prefix: 'session'
+		}),
 		type: 'session',
 		version: '1.0.0',
 		data: {
@@ -1450,6 +1459,9 @@ ava.test('.query() should ignore queries to properties not whitelisted by a role
 	}))
 
 	const session = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: test.context.generateRandomSlug({
+			prefix: 'session'
+		}),
 		type: 'session',
 		version: '1.0.0',
 		data: {
@@ -1519,6 +1531,9 @@ ava.test('.query() should ignore queries to disallowed properties with additiona
 	}))
 
 	const session = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+		slug: test.context.generateRandomSlug({
+			prefix: 'session'
+		}),
 		type: 'session',
 		version: '1.0.0',
 		data: {

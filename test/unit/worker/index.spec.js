@@ -1466,6 +1466,7 @@ ava.test('.tick() should enqueue an action if there is a time trigger with a pas
 		actor: test.context.actor.id,
 		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 		timestamp: '2018-08-06T12:00:00.000Z',
+		epoch: 1533556800000,
 		arguments: {
 			properties: {
 				version: '1.0.0',
@@ -1508,6 +1509,7 @@ ava.test('.tick() should enqueue an action if there is a time trigger with a pre
 		actor: test.context.actor.id,
 		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 		timestamp: '2018-08-05T12:00:00.000Z',
+		epoch: 1533470400000,
 		arguments: {
 			properties: {
 				version: '1.0.0',
@@ -1598,6 +1600,7 @@ ava.test('.tick() should enqueue two actions if there are two time triggers with
 			actor: test.context.actor.id,
 			originator: '673bc300-88f7-4376-92ed-d32543d69429',
 			timestamp: '2018-08-06T12:00:00.000Z',
+			epoch: 1533556800000,
 			arguments: {
 				properties: {
 					version: '1.0.0',
@@ -1612,6 +1615,7 @@ ava.test('.tick() should enqueue two actions if there are two time triggers with
 			actor: test.context.actor.id,
 			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			timestamp: '2018-08-06T12:00:00.000Z',
+			epoch: 1533556800000,
 			arguments: {
 				properties: {
 					version: '1.0.0',
@@ -1661,6 +1665,7 @@ ava.test('should be able to login as a user with a password', async (test) => {
 	const session = await test.context.jellyfish.getCardById(test.context.session, loginResult.data.id)
 	test.deepEqual(session, test.context.kernel.defaults({
 		id: loginResult.data.id,
+		slug: session.slug,
 		version: '1.0.0',
 		type: 'session',
 		links: session.links,
