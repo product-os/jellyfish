@@ -11,8 +11,8 @@
   },
   "scripts": {
     "start": "make start-server",
+    "start-dev": "make start-dev-server",
     "test": "make lint test",
-    "postinstall": "make build",
     "heroku-postbuild": "npm install -g redoc-cli && make dist/docs.html"
   },
   "ava": {
@@ -63,6 +63,7 @@
     "puppeteer": "^1.6.2",
     "request": "^2.85.0",
     "source-map-loader": "^0.2.3",
+    "supervisor": "^0.12.0",
     "thread-loader": "^1.1.5",
     "ts-loader": "^4.0.1",
     "ts-node": "^6.0.0",

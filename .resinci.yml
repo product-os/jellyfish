@@ -1,1 +1,7 @@
 reviewers: 1
+docker:
+  builds:
+    - path: .
+      dockerfile: Dockerfile
+      docker_repo: balena/jellyfish
+      publish: true

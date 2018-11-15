@@ -4,14 +4,15 @@
 	test \
 	build \
 	start-server \
+	start-dev-server \
 	start-db \
 	test-e2e \
 	test-unit \
 	test-integration
 
 API_URL ?= http://localhost:8000/
-DB_HOST ?= localhost
-DB_PORT ?= 28015
+DB_HOST := $(or ${JF_RETHINKDB_SERVICE_HOST},${DB_HOST},localhost)
+DB_PORT := $(or ${JF_RETHINKDB_SERVICE_PORT_DATA_PORT},${DB_PORT},28015)
 NODE_DEBUG ?= 'jellyfish:*'
 COVERAGE ?= 1
 AVA_OPTS ?=
@@ -107,11 +108,23 @@ test-e2e:
 
 build: build-ui
 
+ifeq ($(NODE_ENV),production)
+NODE_EXEC="node"
+else
+NODE_EXEC="./node_modules/.bin/supervisor"
+endif
+
 start-server:
 	DEBUG=$(NODE_DEBUG) \
+	DB_HOST=$(DB_HOST) \
+	DB_PORT=$(DB_PORT) \
 	INTEGRATION_GITHUB_TOKEN=$(INTEGRATION_GITHUB_TOKEN) \
 	INTEGRATION_FRONT_TOKEN=$(INTEGRATION_FRONT_TOKEN) \
-	node lib/server/index.js
+	$(NODE_EXEC) lib/server/index.js
+
+start-dev-server:
+	NODE_ENV=debug \
+	docker-compose -f docker-compose.dev.yml -f docker-compose.local.yml up
 
 start-db:
 	rethinkdb --driver-port $(DB_PORT)
