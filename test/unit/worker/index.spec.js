@@ -241,6 +241,90 @@ ava('.enqueue() should not store the password in the queue when using action-cre
 	test.falsy(request.arguments.password.hash.salt)
 })
 
+ava('enqueue() should fail to create an event with an action-create-card', async (test) => {
+	const cardType = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
+	const typeType = await test.context.jellyfish.getCardBySlug(test.context.session, 'type')
+
+	const id = await test.context.worker.enqueue(test.context.session, {
+		action: 'action-create-card',
+		card: typeType.id,
+		arguments: {
+			properties: {
+				slug: 'test-thread',
+				version: '1.0.0',
+				data: {
+					schema: {
+						type: 'object',
+						properties: {
+							type: {
+								type: 'string',
+								const: 'test-thread'
+							},
+							data: {
+								type: 'object',
+								properties: {
+									mentions: {
+										type: 'array',
+										$$formula: 'AGGREGATE($events, "data.payload.mentions")'
+									}
+								},
+								additionalProperties: true
+							}
+						},
+						additionalProperties: true,
+						required: [ 'type', 'data' ]
+					}
+				}
+			}
+		}
+	})
+
+	await test.context.flush(test.context.session)
+	const typeResult = await test.context.worker.waitResults(test.context.session, id)
+	test.false(typeResult.error)
+
+	const threadId = await test.context.worker.enqueue(test.context.session, {
+		action: 'action-create-card',
+		card: typeResult.data.id,
+		arguments: {
+			properties: {
+				version: '1.0.0',
+				slug: 'foo',
+				data: {
+					mentions: []
+				}
+			}
+		}
+	})
+
+	await test.context.flush(test.context.session)
+	const threadResult = await test.context.worker.waitResults(test.context.session, threadId)
+	test.false(threadResult.error)
+
+	await test.context.worker.enqueue(test.context.session, {
+		action: 'action-create-card',
+		card: cardType.id,
+		arguments: {
+			properties: {
+				version: '1.0.0',
+				slug: 'bar',
+				data: {
+					timestamp: '2018-05-05T00:21:02.459Z',
+					target: threadResult.data.id,
+					actor: test.context.actor.id,
+					payload: {
+						mentions: [ 'johndoe' ]
+					}
+				}
+			}
+		}
+	})
+
+	await test.throws(
+		test.context.flush(test.context.session),
+		'You may not use card actions to create an event')
+})
+
 ava('.dequeue() should return nothing if no requests', async (test) => {
 	const length = await test.context.worker.length()
 	test.is(length, 0)
@@ -601,7 +685,6 @@ ava('.execute() should add a create event when creating a card', async (test) =>
 })
 
 ava('.execute() should be able to AGGREGATE based on the card timeline', async (test) => {
-	const cardType = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const typeType = await test.context.jellyfish.getCardBySlug(test.context.session, 'type')
 
 	const request = await test.context.worker.enqueue(test.context.session, {
@@ -661,39 +744,23 @@ ava('.execute() should be able to AGGREGATE based on the card timeline', async (
 	test.false(threadResult.error)
 
 	const messageRequest1 = await test.context.worker.enqueue(test.context.session, {
-		action: 'action-create-card',
-		card: cardType.id,
+		action: 'action-create-event',
+		card: threadResult.data.id,
 		arguments: {
-			properties: {
-				version: '1.0.0',
-				slug: 'bar',
-				data: {
-					timestamp: '2018-05-05T00:21:02.459Z',
-					target: threadResult.data.id,
-					actor: test.context.actor.id,
-					payload: {
-						mentions: [ 'johndoe' ]
-					}
-				}
+			type: 'message',
+			payload: {
+				mentions: [ 'johndoe' ]
 			}
 		}
 	})
 
 	const messageRequest2 = await test.context.worker.enqueue(test.context.session, {
-		action: 'action-create-card',
-		card: cardType.id,
+		action: 'action-create-event',
+		card: threadResult.data.id,
 		arguments: {
-			properties: {
-				version: '1.0.0',
-				slug: 'baz',
-				data: {
-					timestamp: '2018-05-05T00:28:42.302Z',
-					target: threadResult.data.id,
-					actor: test.context.actor.id,
-					payload: {
-						mentions: [ 'janedoe', 'johnsmith' ]
-					}
-				}
+			type: 'message',
+			payload: {
+				mentions: [ 'janedoe', 'johnsmith' ]
 			}
 		}
 	})
@@ -709,7 +776,6 @@ ava('.execute() should be able to AGGREGATE based on the card timeline', async (
 })
 
 ava('.execute() AGGREGATE should create a property on the target if it does not exist', async (test) => {
-	const cardType = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const typeType = await test.context.jellyfish.getCardBySlug(test.context.session, 'type')
 
 	const request = await test.context.worker.enqueue(test.context.session, {
@@ -767,20 +833,12 @@ ava('.execute() AGGREGATE should create a property on the target if it does not 
 	test.false(threadResult.error)
 
 	const messageRequest = await test.context.worker.enqueue(test.context.session, {
-		action: 'action-create-card',
-		card: cardType.id,
+		action: 'action-create-event',
+		card: threadResult.data.id,
 		arguments: {
-			properties: {
-				version: '1.0.0',
-				slug: 'bar',
-				data: {
-					timestamp: '2018-05-05T00:21:02.459Z',
-					target: threadResult.data.id,
-					actor: test.context.actor.id,
-					payload: {
-						mentions: [ 'johndoe' ]
-					}
-				}
+			type: 'message',
+			payload: {
+				mentions: [ 'johndoe' ]
 			}
 		}
 	})
@@ -794,7 +852,6 @@ ava('.execute() AGGREGATE should create a property on the target if it does not 
 })
 
 ava('.execute() AGGREGATE should work with $$ prefixed properties', async (test) => {
-	const cardType = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const typeType = await test.context.jellyfish.getCardBySlug(test.context.session, 'type')
 
 	const request = await test.context.worker.enqueue(test.context.session, {
@@ -854,20 +911,12 @@ ava('.execute() AGGREGATE should work with $$ prefixed properties', async (test)
 	test.false(threadResult.error)
 
 	const messageRequest = await test.context.worker.enqueue(test.context.session, {
-		action: 'action-create-card',
-		card: cardType.id,
+		action: 'action-create-event',
+		card: threadResult.data.id,
 		arguments: {
-			properties: {
-				slug: 'bar',
-				version: '1.0.0',
-				data: {
-					timestamp: '2018-05-05T00:21:02.459Z',
-					target: threadResult.data.id,
-					actor: test.context.actor.id,
-					payload: {
-						$$mentions: [ 'johndoe' ]
-					}
-				}
+			type: 'message',
+			payload: {
+				$$mentions: [ 'johndoe' ]
 			}
 		}
 	})
@@ -877,6 +926,7 @@ ava('.execute() AGGREGATE should work with $$ prefixed properties', async (test)
 	test.false(messageResult.error)
 
 	const thread = await test.context.jellyfish.getCardById(test.context.session, threadResult.data.id)
+
 	test.deepEqual(thread.data.$$mentions, [ 'johndoe' ])
 })
 
