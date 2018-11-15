@@ -32,6 +32,9 @@ else
 COVERAGE_COMMAND =
 endif
 
+dist:
+	mkdir $@
+
 dist/docs.html: lib/server/api.yaml | dist
 	redoc-cli bundle -o $@ $<
 
