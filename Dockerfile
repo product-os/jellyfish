@@ -1,4 +1,4 @@
-FROM node:dubnium as base
+FROM node:dubnium-jessie as base
 
 RUN apt-get update && apt-get install make
 
@@ -11,7 +11,7 @@ RUN npm install
 COPY . /usr/src/app
 RUN make build
 
-FROM node:dubnium as test
+FROM node:dubnium-jessie as test
 
 # Install rethinkdb for tests
 RUN echo "deb http://download.rethinkdb.com/apt jessie main" | tee /etc/apt/sources.list.d/rethinkdb.list && \
@@ -44,7 +44,7 @@ RUN rethinkdb --daemon --bind all && \
 		make test-unit COVERAGE=0 && \
 		make test-integration COVERAGE=0
 
-FROM node:dubnium as runtime
+FROM node:dubnium-jessie as runtime
 
 WORKDIR /usr/src/app
 

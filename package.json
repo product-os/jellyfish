@@ -12,6 +12,7 @@
   "scripts": {
     "start": "make start-server",
     "start-dev": "make start-dev-server",
+    "postinstall": "make docker-compose.local.yml",
     "test": "make lint test",
     "heroku-postbuild": "npm install -g redoc-cli && make build dist/docs.html"
   },

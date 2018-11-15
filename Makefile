@@ -130,6 +130,9 @@ start-server:
 	INTEGRATION_FRONT_TOKEN=$(INTEGRATION_FRONT_TOKEN) \
 	$(NODE_EXEC) lib/server/index.js
 
+docker-compose.local.yml:
+	echo "version: \"3\"\n# Use this file to make local changes for the docker-compose setup" > docker-compose.local.yml
+
 start-dev-server:
 	NODE_ENV=debug \
 	docker-compose -f docker-compose.dev.yml -f docker-compose.local.yml up
