@@ -81,38 +81,6 @@ ava.test('.importCards() should import a single card', async (test) => {
 	])
 })
 
-ava.test('.importCards() should import a single card with an id', async (test) => {
-	const result = await sync.importCards(test.context.context, test.context.session, [
-		{
-			time: new Date(),
-			card: {
-				id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-				slug: 'hello-world',
-				type: 'card',
-				version: '1.0.0',
-				data: {
-					test: 1
-				}
-			}
-		}
-	], {
-		actor: test.context.actor.id
-	})
-
-	test.deepEqual(result, [
-		test.context.kernel.defaults({
-			id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			slug: 'hello-world',
-			links: result[0].links,
-			type: 'card',
-			version: '1.0.0',
-			data: {
-				test: 1
-			}
-		})
-	])
-})
-
 ava.test('.importCards() should patch an existing card', async (test) => {
 	const card = await test.context.jellyfish.insertCard(test.context.session, test.context.kernel.defaults({
 		type: 'card',

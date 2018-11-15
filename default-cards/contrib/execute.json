@@ -33,12 +33,17 @@
             "payload": {
               "type": "object",
               "required": [
+                "id",
                 "card",
                 "timestamp",
                 "error",
                 "data"
               ],
               "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid"
+                },
                 "card": {
                   "type": "string"
                 },

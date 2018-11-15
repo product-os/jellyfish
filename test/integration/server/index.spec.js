@@ -720,8 +720,7 @@ ava.test.serial('should be able to post an external event', async (test) => {
 	test.is(result.code, 200)
 	test.false(result.response.error)
 
-	const requestId = result.response.data.id
-	const requestResult = await test.context.server.worker.waitResults(test.context.session, requestId)
+	const requestResult = await test.context.server.worker.waitResults(test.context.session, result.response.data)
 
 	test.false(requestResult.error)
 	const card = await test.context.server.jellyfish.getCardById(test.context.session, requestResult.data.id)
@@ -734,7 +733,7 @@ ava.test.serial('should be able to post an external event', async (test) => {
 		active: true,
 		tags: [],
 		markers: [],
-		links: {},
+		links: card.links,
 		requires: [],
 		capabilities: [],
 		data: {
@@ -763,8 +762,7 @@ ava.test.serial('should be able to post an external event with a type', async (t
 	test.is(result.code, 200)
 	test.false(result.response.error)
 
-	const requestId = result.response.data.id
-	const requestResult = await test.context.server.worker.waitResults(test.context.session, requestId)
+	const requestResult = await test.context.server.worker.waitResults(test.context.session, result.response.data)
 
 	test.false(requestResult.error)
 	const card = await test.context.server.jellyfish.getCardById(test.context.session, requestResult.data.id)
@@ -777,7 +775,7 @@ ava.test.serial('should be able to post an external event with a type', async (t
 		active: true,
 		tags: [],
 		markers: [],
-		links: {},
+		links: card.links,
 		requires: [],
 		capabilities: [],
 		data: {
