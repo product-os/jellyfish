@@ -13,7 +13,7 @@
     "start": "make start-server",
     "start-dev": "make start-dev-server",
     "test": "make lint test",
-    "heroku-postbuild": "npm install -g redoc-cli && make dist/docs.html"
+    "heroku-postbuild": "npm install -g redoc-cli && make build dist/docs.html"
   },
   "ava": {
     "timeout": "5m",
