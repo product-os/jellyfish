@@ -18,8 +18,8 @@ spec:
         name: jellyfish
         imagePullPolicy: Always
         env:
-          - name: DB_HOST
-            value: rethinkdb
+        - name: DB_HOST
+          value: rethinkdb
         - name: DB_USER
           value: admin
         - name: DB_PASSWORD

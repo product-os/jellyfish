@@ -2,6 +2,7 @@ kind: Ingress
 apiVersion: extensions/v1beta1
 metadata:
   name: jellyfish 
+  namespace: jellyfish
   annotations:
     kubernetes.io/tls-acme: 'true'
 spec:
@@ -9,10 +10,10 @@ spec:
     -
       secretName: jellyfish-tls
       hosts:
-        - jellyfish.balena.io
+        - jel.ly.fish
   rules:
     -
-      host: jellyfish.balena.io
+      host: jel.ly.fish
       http:
         paths:
           -
