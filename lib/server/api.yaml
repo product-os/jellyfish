@@ -147,9 +147,15 @@ paths:
                     const: false
                   data:
                     type: object
-                    required: [ id ]
+                    required: [ actor, card, action ]
                     properties:
-                      id:
+                      actor:
+                        type: string
+                        format: uuid
+                      card:
+                        type: string
+                        format: uuid
+                      action:
                         type: string
                         format: uuid
         500:
@@ -209,9 +215,15 @@ paths:
                     const: false
                   data:
                     type: object
-                    required: [ id ]
+                    required: [ actor, card, action ]
                     properties:
-                      id:
+                      actor:
+                        type: string
+                        format: uuid
+                      card:
+                        type: string
+                        format: uuid
+                      action:
                         type: string
                         format: uuid
         500:

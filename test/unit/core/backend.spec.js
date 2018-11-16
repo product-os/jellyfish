@@ -119,17 +119,19 @@ ava.test('.insertElement() should insert an element with a non-existent slug', a
 	test.deepEqual(element, result)
 })
 
-ava.test('.insertElement() should insert an element with a non-existent id', async (test) => {
+ava.test('.insertElement() should not insert an element with a user defined id', async (test) => {
 	const result = await test.context.backend.insertElement({
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		slug: 'foo',
 		foo: 'bar'
 	})
 
-	test.is(result.id, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
+	test.not(result.id, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
 
 	const element = await test.context.backend.getElementById(result.id)
-	test.deepEqual(element, result)
+	test.deepEqual(Object.assign({}, element, {
+		id: result.id
+	}), result)
 })
 
 ava.test('.insertElement() should insert an element with a non-existent id and slug', async (test) => {
@@ -139,9 +141,12 @@ ava.test('.insertElement() should insert an element with a non-existent id and s
 		foo: 'bar'
 	})
 
-	test.is(result.id, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
+	test.not(result.id, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
+
 	const element = await test.context.backend.getElementById(result.id)
-	test.deepEqual(element, result)
+	test.deepEqual(Object.assign({}, element, {
+		id: result.id
+	}), result)
 })
 
 ava.test('.insertElement() should not be able to set any links', async (test) => {
@@ -315,18 +320,6 @@ ava.test('.upsertElement() should not be able to set links using no id nor slug'
 	test.deepEqual(element.links, {})
 })
 
-ava.test('.upsertElement() should insert a card with an id', async (test) => {
-	const result = await test.context.backend.upsertElement({
-		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-		slug: 'foo',
-		test: 'foo'
-	})
-
-	test.is(result.id, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
-	const element = await test.context.backend.getElementById(result.id)
-	test.deepEqual(element, result)
-})
-
 ava.test('.upsertElement() should replace an element given an insertion to the same id', async (test) => {
 	const result1 = await test.context.backend.upsertElement({
 		test: 'foo',
@@ -373,16 +366,18 @@ ava.test('.upsertElement() should replace an element given the slug but no id', 
 	test.deepEqual(element, result2)
 })
 
-ava.test('.upsertElement() should insert a card with an id and a slug', async (test) => {
+ava.test('.upsertElement() should not let clients pick their own ids', async (test) => {
 	const result = await test.context.backend.upsertElement({
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		slug: 'example',
 		test: 'foo'
 	})
 
-	test.is(result.id, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
+	test.not(result.id, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
 	const element = await test.context.backend.getElementById(result.id)
-	test.deepEqual(element, result)
+	test.deepEqual(Object.assign({}, element, {
+		id: result.id
+	}), result)
 })
 
 ava.test('.upsertElement() should replace a card with no slug with an id and a non-existent slug', async (test) => {
