@@ -17,6 +17,7 @@
 import * as Bluebird from 'bluebird';
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
+import uuid = require('uuid/v4');
 import { Card } from '../Types';
 import { SDKInterface } from './index';
 import { debug, isUUID } from './utils';
@@ -216,6 +217,7 @@ export class CardSdk {
 			arguments: {
 				properties: _.assign(
 					{
+						slug: `${card.type}-${uuid()}`,
 						active: true,
 						tags: [],
 						markers: [],
@@ -316,6 +318,7 @@ export class CardSdk {
 			action: 'action-create-card',
 			arguments: {
 				properties: {
+					slug: `link-${fromCard}-${name.replace(/\s/g, '-')}-${toCard}`,
 					tags: [],
 					version: '1.0.0',
 					links: {},

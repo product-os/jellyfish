@@ -170,6 +170,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 
 		const message = {
 			id,
+			slug: `message-${id}`,
 			tags,
 			links: {},
 			version: '1.0.0',
@@ -254,6 +255,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 
 		const message = {
 			id,
+			slug: `message-${id}`,
 			links: {},
 			requires: [],
 			capabilities: [],

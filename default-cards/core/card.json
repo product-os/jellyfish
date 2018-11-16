@@ -71,6 +71,7 @@
       "additionalProperties": false,
       "required": [
         "active",
+        "slug",
         "capabilities",
         "data",
         "links",

@@ -15,6 +15,7 @@
  */
 
 const marky = require('marky')
+const uuid = require('uuid/v4')
 const helpers = require('../../test/unit/core/helpers')
 const utils = require('../utils')
 
@@ -32,6 +33,7 @@ const run = async () => {
 		await Promise.all([
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 				type: 'card',
+				slug: `card-${uuid()}`,
 				version: '1.0.0',
 				data: {
 					count: times
@@ -39,6 +41,7 @@ const run = async () => {
 			})),
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 				type: 'card',
+				slug: `card-${uuid()}`,
 				version: '1.0.0',
 				data: {
 					count: times
@@ -46,6 +49,7 @@ const run = async () => {
 			})),
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 				type: 'card',
+				slug: `card-${uuid()}`,
 				version: '1.0.0',
 				data: {
 					count: times
@@ -53,6 +57,7 @@ const run = async () => {
 			})),
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 				type: 'card',
+				slug: `card-${uuid()}`,
 				version: '1.0.0',
 				data: {
 					count: times
@@ -60,6 +65,7 @@ const run = async () => {
 			})),
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 				type: 'card',
+				slug: `card-${uuid()}`,
 				version: '1.0.0',
 				data: {
 					count: times
@@ -67,6 +73,7 @@ const run = async () => {
 			})),
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 				type: 'card',
+				slug: `card-${uuid()}`,
 				version: '1.0.0',
 				data: {
 					count: times
@@ -74,6 +81,7 @@ const run = async () => {
 			})),
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 				type: 'card',
+				slug: `card-${uuid()}`,
 				version: '1.0.0',
 				data: {
 					count: times
@@ -81,6 +89,7 @@ const run = async () => {
 			})),
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 				type: 'card',
+				slug: `card-${uuid()}`,
 				version: '1.0.0',
 				data: {
 					count: times
@@ -88,6 +97,7 @@ const run = async () => {
 			})),
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 				type: 'card',
+				slug: `card-${uuid()}`,
 				version: '1.0.0',
 				data: {
 					count: times
@@ -95,6 +105,7 @@ const run = async () => {
 			})),
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 				type: 'card',
+				slug: `card-${uuid()}`,
 				version: '1.0.0',
 				data: {
 					count: times
@@ -102,6 +113,7 @@ const run = async () => {
 			})),
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 				type: 'card',
+				slug: `card-${uuid()}`,
 				version: '1.0.0',
 				data: {
 					count: times
@@ -109,6 +121,7 @@ const run = async () => {
 			})),
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 				type: 'card',
+				slug: `card-${uuid()}`,
 				version: '1.0.0',
 				data: {
 					count: times
@@ -116,6 +129,7 @@ const run = async () => {
 			})),
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 				type: 'card',
+				slug: `card-${uuid()}`,
 				version: '1.0.0',
 				data: {
 					count: times
@@ -123,6 +137,7 @@ const run = async () => {
 			})),
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 				type: 'card',
+				slug: `card-${uuid()}`,
 				version: '1.0.0',
 				data: {
 					count: times
@@ -130,6 +145,7 @@ const run = async () => {
 			})),
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 				type: 'card',
+				slug: `card-${uuid()}`,
 				version: '1.0.0',
 				data: {
 					count: times
@@ -137,6 +153,7 @@ const run = async () => {
 			})),
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 				type: 'card',
+				slug: `card-${uuid()}`,
 				version: '1.0.0',
 				data: {
 					count: times
@@ -144,6 +161,7 @@ const run = async () => {
 			})),
 			test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 				type: 'card',
+				slug: `card-${uuid()}`,
 				version: '1.0.0',
 				data: {
 					count: times

@@ -101,13 +101,10 @@ ava.test('.createTable() should ignore continuous attempts to create the same ta
 	test.true(await test.context.backend.hasTable('foobar'))
 })
 
-ava.test('.insertElement() should insert an element without a slug nor an id to an existing table', async (test) => {
-	const result = await test.context.backend.insertElement({
+ava.test('.insertElement() should not insert an element without a slug nor an id to an existing table', async (test) => {
+	await test.throws(test.context.backend.insertElement({
 		test: 'foo'
-	})
-
-	const element = await test.context.backend.getElementById(result.id)
-	test.deepEqual(element, result)
+	}), errors.JellyfishNoSlug)
 })
 
 ava.test('.insertElement() should insert an element with a non-existent slug', async (test) => {
@@ -380,20 +377,10 @@ ava.test('.upsertElement() should not let clients pick their own ids', async (te
 	}), result)
 })
 
-ava.test('.upsertElement() should replace a card with no slug with an id and a non-existent slug', async (test) => {
-	const result1 = await test.context.backend.upsertElement({
+ava.test('.upsertElement() should not be able to upsert without a slug nor an id', async (test) => {
+	await test.throws(test.context.backend.upsertElement({
 		test: 'foo'
-	})
-
-	const result2 = await test.context.backend.upsertElement({
-		id: result1.id,
-		slug: 'example',
-		test: 'foo'
-	})
-
-	test.is(result1.id, result2.id)
-	const element = await test.context.backend.getElementById(result1.id)
-	test.deepEqual(element, result2)
+	}), errors.JellyfishNoSlug)
 })
 
 ava.test('.upsertElement() should fail to insert an element with an existing id' +
@@ -465,15 +452,11 @@ ava.test('.upsertElement() should fail to insert an element with a non existing 
 	}), errors.JellyfishElementAlreadyExists)
 })
 
-ava.test('.upsertElement() should insert an element with a non-matching id nor slug', async (test) => {
-	const result = await test.context.backend.upsertElement({
+ava.test('.upsertElement() should not insert an element with a non-matching id nor slug', async (test) => {
+	await test.throws(test.context.backend.upsertElement({
 		id: '9af7cf33-1a29-4f0c-a73b-f6a2b149850c',
-		slug: 'example',
 		test: 'foo'
-	})
-
-	const element = await test.context.backend.getElementById(result.id)
-	test.deepEqual(element, result)
+	}), errors.JellyfishNoSlug)
 })
 
 ava.test('.query() should query the database using JSON schema', async (test) => {
