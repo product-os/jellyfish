@@ -172,6 +172,8 @@ class Base extends React.Component<CardProps, {}> {
 		);
 
 		const keys = (fieldOrder || []).concat(unorderedKeys);
+		const cardSlug = _.get(card, 'slug');
+		const cardType = _.get(card, 'type');
 
 		const content = (
 			<>
@@ -232,7 +234,7 @@ class Base extends React.Component<CardProps, {}> {
 		if (!level) {
 			return (
 				<Column
-					className={`column--${card ? card.slug || card.type : 'unknown'}`}
+					className={`column--${cardType || 'unknown'} column--slug-${cardSlug || 'unkown'}`}
 					flex={this.props.flex}
 					flexDirection="column"
 				>

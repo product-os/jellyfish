@@ -8,6 +8,7 @@ import {
 	Txt,
 } from 'rendition';
 import styled from 'styled-components';
+import uuid = require('uuid/v4');
 import { Card, Lens, RendererProps } from '../../../Types';
 import { analytics, sdk } from '../../core';
 import { actionCreators, selectors, StoreState } from '../../core/store';
@@ -112,6 +113,7 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 
 		const cardData = getUpdateObjectFromSchema(schema);
 
+		cardData.slug = `thread-${uuid()}`;
 		cardData.type = 'thread';
 		if (!cardData.data) {
 			cardData.data = {};
