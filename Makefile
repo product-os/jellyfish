@@ -11,8 +11,8 @@
 	test-integration
 
 API_URL ?= http://localhost:8000/
-DB_HOST := $(or ${JF_RETHINKDB_SERVICE_HOST},${DB_HOST},localhost)
-DB_PORT := $(or ${JF_RETHINKDB_SERVICE_PORT_DATA_PORT},${DB_PORT},28015)
+DB_HOST ?= localhost
+DB_PORT ?= 28015
 NODE_DEBUG ?= 'jellyfish:*'
 COVERAGE ?= 1
 AVA_OPTS ?=

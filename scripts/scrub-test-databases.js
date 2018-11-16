@@ -12,7 +12,7 @@ const scrub = async () => {
 	spinner.start()
 
 	const connection = await rethinkdb.connect(_.merge({
-		host: process.env.JF_RETHINKDB_SERVICE_HOST || process.env.DB_HOST || 'localhost'
+		host: process.env.DB_HOST || 'localhost'
 	}, this.options))
 
 	const list = await rethinkdb
