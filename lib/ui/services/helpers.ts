@@ -18,19 +18,23 @@ export const debug = (...params: any[]) => {
 	}
 };
 
-export const createChannel = (data: Channel['data']): Channel => ({
-	id: uuid(),
-	type: 'channel',
-	version: '1.0.0',
-	tags: [],
-	links: {},
-	requires: [],
-	capabilities: [],
-	active: true,
-	data: {
-		...data,
-	},
-});
+export const createChannel = (data: Channel['data']): Channel => {
+	const id = uuid();
+	return {
+		id,
+		slug: `channel-${id}`,
+		type: 'channel',
+		version: '1.0.0',
+		tags: [],
+		links: {},
+		requires: [],
+		capabilities: [],
+		active: true,
+		data: {
+			...data,
+		},
+	};
+};
 
 /**
  * @summary Get the current timestamp
