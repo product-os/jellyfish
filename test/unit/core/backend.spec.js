@@ -317,22 +317,18 @@ ava.test('.upsertElement() should not be able to set links using no id nor slug'
 	test.deepEqual(element.links, {})
 })
 
-ava.test('.upsertElement() should replace an element given an insertion to the same id', async (test) => {
+ava.test('.upsertElement() should not be able to change a slug', async (test) => {
 	const result1 = await test.context.backend.upsertElement({
 		test: 'foo',
 		slug: 'foo',
 		hello: 'world'
 	})
 
-	const result2 = await test.context.backend.upsertElement({
+	await test.throws(test.context.backend.upsertElement({
 		id: result1.id,
 		slug: 'bar',
-		test: 'bar'
-	})
-
-	test.is(result1.id, result2.id)
-	const element = await test.context.backend.getElementById(result1.id)
-	test.deepEqual(element, result2)
+		hello: 'world'
+	}), errors.JellyfishDatabaseError)
 })
 
 ava.test('.upsertElement() should insert a card with a slug', async (test) => {
@@ -399,27 +395,6 @@ ava.test('.upsertElement() should fail to insert an element with an existing id'
 		slug: 'example',
 		test: 'foo'
 	}), errors.JellyfishElementAlreadyExists)
-})
-
-ava.test('.upsertElement() should replace an element with an existing id and a non-matching slug', async (test) => {
-	await test.context.backend.upsertElement({
-		slug: 'example'
-	})
-
-	const result1 = await test.context.backend.upsertElement({
-		slug: 'foo',
-		test: 'foo'
-	})
-
-	const result2 = await test.context.backend.upsertElement({
-		id: result1.id,
-		slug: 'bar',
-		test: 'foo'
-	})
-
-	test.is(result1.id, result2.id)
-	const element = await test.context.backend.getElementById(result1.id)
-	test.deepEqual(element, result2)
 })
 
 ava.test('.upsertElement() should replace an element with an existing id and the slug of the same element', async (test) => {
