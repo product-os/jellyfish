@@ -49,6 +49,7 @@ class TodoList extends React.Component<TodoListProps, TodoListState> {
 		const complete = e.currentTarget.checked;
 
 		sdk.card.update(id, {
+			type: 'todo',
 			data: {
 				complete,
 			},
