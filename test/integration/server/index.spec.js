@@ -265,6 +265,7 @@ ava.test.serial('timeline cards should reference the correct actor', async (test
 
 	const thread = await sdk.card.create({
 		type: 'thread',
+		links: {},
 		slug: test.context.generateRandomSlug({
 			prefix: 'thread'
 		}),
@@ -294,7 +295,7 @@ ava.test.serial('timeline cards should reference the correct actor', async (test
 		required: [ 'type' ]
 	}
 
-	await executeThenWait(sdk, () => {
+	const data = await executeThenWait(sdk, () => {
 		return sdk.card.update(thread.id, _.assign(thread, {
 			data: {
 				description: 'Lorem ipsum dolor sit amer'
@@ -302,7 +303,30 @@ ava.test.serial('timeline cards should reference the correct actor', async (test
 		}))
 	}, waitQuery)
 
+	// Wait for links to be materialized
+	await executeThenWait(sdk, Bluebird.resolve, {
+		type: 'object',
+		properties: {
+			type: {
+				type: 'string',
+				const: 'link'
+			},
+			data: {
+				type: 'object',
+				properties: {
+					from: {
+						type: 'string',
+						const: data.id
+					}
+				},
+				required: [ 'from', 'to' ]
+			}
+		},
+		required: [ 'type', 'data' ]
+	})
+
 	const card = await sdk.card.getWithTimeline(thread.id)
+	test.truthy(card)
 
 	const timelineActors = _.uniq(card.links['has attached element'].map((item) => {
 		return item.data.actor

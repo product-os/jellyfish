@@ -104,7 +104,7 @@ ava.test('.createTable() should ignore continuous attempts to create the same ta
 ava.test('.insertElement() should not insert an element without a slug nor an id to an existing table', async (test) => {
 	await test.throws(test.context.backend.insertElement({
 		test: 'foo'
-	}), errors.JellyfishNoSlug)
+	}), errors.JellyfishDatabaseError)
 })
 
 ava.test('.insertElement() should insert an element with a non-existent slug', async (test) => {
@@ -159,17 +159,19 @@ ava.test('.insertElement() should not be able to set any links', async (test) =>
 	test.deepEqual(element.links, {})
 })
 
-ava.test('.insertElement() should fail to insert an element with an existent id', async (test) => {
-	const result = await test.context.backend.insertElement({
+ava.test('.insertElement() should not re-use the id when inserting an element with an existent id', async (test) => {
+	const result1 = await test.context.backend.insertElement({
 		slug: 'foo',
 		foo: 'bar'
 	})
 
-	await test.throws(test.context.backend.insertElement({
-		id: result.id,
+	const result2 = await test.context.backend.insertElement({
+		id: result1.id,
 		slug: 'bar',
 		foo: 'baz'
-	}), errors.JellyfishElementAlreadyExists)
+	})
+
+	test.not(result1.id, result2.id)
 })
 
 ava.test('.insertElement() should fail to insert an element with an existent slug', async (test) => {
@@ -183,17 +185,20 @@ ava.test('.insertElement() should fail to insert an element with an existent slu
 	}), errors.JellyfishElementAlreadyExists)
 })
 
-ava.test('.insertElement() should fail to insert an element with an existent id but non-existent slug', async (test) => {
-	const result = await test.context.backend.insertElement({
+ava.test('.insertElement() should not re-use ids when inserting an' +
+				' element with an existent id but non-existent slug', async (test) => {
+	const result1 = await test.context.backend.insertElement({
 		slug: 'foo',
 		foo: 'bar'
 	})
 
-	await test.throws(test.context.backend.insertElement({
-		id: result.id,
+	const result2 = await test.context.backend.insertElement({
+		id: result1.id,
 		slug: 'bar',
 		foo: 'baz'
-	}), errors.JellyfishElementAlreadyExists)
+	})
+
+	test.not(result2.id, result1.id)
 })
 
 ava.test('.insertElement() should fail to insert an element with a non-existent id but existent slug', async (test) => {
@@ -324,11 +329,14 @@ ava.test('.upsertElement() should not be able to change a slug', async (test) =>
 		hello: 'world'
 	})
 
-	await test.throws(test.context.backend.upsertElement({
+	const result2 = await test.context.backend.upsertElement({
 		id: result1.id,
 		slug: 'bar',
 		hello: 'world'
-	}), errors.JellyfishDatabaseError)
+	})
+
+	test.not(result1.id, result2.id)
+	test.is(result1.slug, 'foo')
 })
 
 ava.test('.upsertElement() should insert a card with a slug', async (test) => {
@@ -376,25 +384,31 @@ ava.test('.upsertElement() should not let clients pick their own ids', async (te
 ava.test('.upsertElement() should not be able to upsert without a slug nor an id', async (test) => {
 	await test.throws(test.context.backend.upsertElement({
 		test: 'foo'
-	}), errors.JellyfishNoSlug)
+	}), errors.JellyfishDatabaseError)
 })
 
-ava.test('.upsertElement() should fail to insert an element with an existing id' +
+ava.test('.upsertElement() should not consider ids when inserting an element with an existing id' +
          ', but matching the slug of another element', async (test) => {
-	await test.context.backend.upsertElement({
+	const result1 = await test.context.backend.upsertElement({
 		slug: 'example'
 	})
 
-	const result = await test.context.backend.upsertElement({
+	const result2 = await test.context.backend.upsertElement({
 		slug: 'bar',
 		test: 'foo'
 	})
 
-	await test.throws(test.context.backend.upsertElement({
-		id: result.id,
+	const result3 = await test.context.backend.upsertElement({
+		id: result2.id,
 		slug: 'example',
 		test: 'foo'
-	}), errors.JellyfishElementAlreadyExists)
+	})
+
+	test.deepEqual(result3, {
+		id: result1.id,
+		slug: 'example',
+		test: 'foo'
+	})
 })
 
 ava.test('.upsertElement() should replace an element with an existing id and the slug of the same element', async (test) => {
@@ -413,25 +427,31 @@ ava.test('.upsertElement() should replace an element with an existing id and the
 	test.deepEqual(element, result2)
 })
 
-ava.test('.upsertElement() should fail to insert an element with a non existing id and the slug of an element', async (test) => {
-	const result = await test.context.backend.upsertElement({
+ava.test('.upsertElement() should ignore the id when' +
+					' inserting an element with a non existing id and the slug of an element', async (test) => {
+	const result1 = await test.context.backend.upsertElement({
 		slug: 'example'
 	})
 
-	test.not(result.id, '9af7cf33-1a29-4f0c-a73b-f6a2b149850c')
-
-	await test.throws(test.context.backend.upsertElement({
+	const result2 = await test.context.backend.upsertElement({
 		id: '9af7cf33-1a29-4f0c-a73b-f6a2b149850c',
 		slug: 'example',
 		test: 'foo'
-	}), errors.JellyfishElementAlreadyExists)
+	})
+
+	test.not(result2.id, '9af7cf33-1a29-4f0c-a73b-f6a2b149850c')
+	test.deepEqual(result2, {
+		id: result1.id,
+		slug: 'example',
+		test: 'foo'
+	})
 })
 
 ava.test('.upsertElement() should not insert an element with a non-matching id nor slug', async (test) => {
 	await test.throws(test.context.backend.upsertElement({
 		id: '9af7cf33-1a29-4f0c-a73b-f6a2b149850c',
 		test: 'foo'
-	}), errors.JellyfishNoSlug)
+	}), errors.JellyfishDatabaseError)
 })
 
 ava.test('.query() should query the database using JSON schema', async (test) => {
@@ -1299,6 +1319,7 @@ ava.test('.query() should be able to query using links', async (test) => {
 ava.test('.query() should be able to query using links when getting an element by id', async (test) => {
 	const thread = await test.context.backend.upsertElement({
 		type: 'thread',
+		links: {},
 		slug: 'foo',
 		active: true,
 		data: {
@@ -1308,6 +1329,7 @@ ava.test('.query() should be able to query using links when getting an element b
 
 	const message = await test.context.backend.upsertElement({
 		type: 'message',
+		links: {},
 		slug: 'bar',
 		active: true,
 		data: {
@@ -1317,6 +1339,7 @@ ava.test('.query() should be able to query using links when getting an element b
 
 	const link = await test.context.backend.upsertElement({
 		type: 'link',
+		links: {},
 		slug: `link-${message.slug}-has-attached-element-${thread.slug}`,
 		active: true,
 		name: 'is attached to',
@@ -1926,4 +1949,76 @@ ava.test('.stream() should throw if the schema is invalid', async (test) => {
 			}
 		}
 	}))
+})
+
+ava.test('.upsertElement() should handle multiple parallel insertions on the same slug', async (test) => {
+	for (const time of _.range(200)) {
+		const object = {
+			slug: 'foo-bar-baz',
+			type: 'stress-test',
+			time
+		}
+
+		try {
+			await Bluebird.all([
+				test.context.backend.upsertElement(_.clone(object)),
+				test.context.backend.upsertElement(_.clone(object)),
+				test.context.backend.upsertElement(_.clone(object)),
+				test.context.backend.upsertElement(_.clone(object)),
+				test.context.backend.upsertElement(_.clone(object)),
+				test.context.backend.upsertElement(_.clone(object)),
+				test.context.backend.upsertElement(_.clone(object)),
+				test.context.backend.upsertElement(_.clone(object))
+			])
+		} catch (error) {
+			test.true(error instanceof errors.JellyfishElementAlreadyExists)
+		}
+
+		const results = await test.context.backend.query({
+			type: 'object',
+			required: [ 'type' ],
+			properties: {
+				type: {
+					type: 'string',
+					const: object.type
+				}
+			}
+		})
+
+		test.is(results.length, 1)
+	}
+})
+
+ava.test('.insertElement() should handle multiple parallel insertions on the same slug', async (test) => {
+	for (const time of _.range(200)) {
+		const object = {
+			slug: 'foo-bar-baz',
+			type: 'stress-test',
+			time
+		}
+
+		try {
+			await Bluebird.all([
+				test.context.backend.insertElement(_.clone(object)),
+				test.context.backend.insertElement(_.clone(object)),
+				test.context.backend.insertElement(_.clone(object)),
+				test.context.backend.insertElement(_.clone(object))
+			])
+		} catch (error) {
+			test.true(error instanceof errors.JellyfishElementAlreadyExists)
+		}
+
+		const results = await test.context.backend.query({
+			type: 'object',
+			required: [ 'type' ],
+			properties: {
+				type: {
+					type: 'string',
+					const: object.type
+				}
+			}
+		})
+
+		test.is(results.length, 1)
+	}
 })
