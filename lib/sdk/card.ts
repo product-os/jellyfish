@@ -38,6 +38,17 @@ const linkNameMap = {
 	'is member of': 'has member',
 };
 
+const createDefaultCard = (type: string) => ({
+	slug: `${type}-${uuid()}`,
+	active: true,
+	tags: [],
+	markers: [],
+	links: {},
+	requires: [],
+	capabilities: [],
+	data: {},
+});
+
 /**
  * @namespace JellyfishSDK.card
  */
@@ -216,16 +227,7 @@ export class CardSdk {
 			action: 'action-create-card',
 			arguments: {
 				properties: _.assign(
-					{
-						slug: `${card.type}-${uuid()}`,
-						active: true,
-						tags: [],
-						markers: [],
-						links: {},
-						requires: [],
-						capabilities: [],
-						data: {},
-					},
+					createDefaultCard(card.type),
 					_.omit(card, ['type']),
 				),
 			},
@@ -257,12 +259,15 @@ export class CardSdk {
 	 * 		console.log(response)
 	 * 	})
 	 */
-	public update(id: string, body: Partial<Card>): Bluebird<any> {
+	public update(id: string, card: Partial<Card> & { type: string }): Bluebird<any> {
 		return this.sdk.action({
 			card: id,
 			action: 'action-update-card',
 			arguments: {
-				properties: _.omit(body, [ 'type', 'id' ]),
+				properties: _.assign(
+					createDefaultCard(card.type),
+					_.omit(card, [ 'type', 'id' ]),
+				),
 			},
 		});
 	}

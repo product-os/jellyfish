@@ -87,7 +87,7 @@ export class GroupUpdate extends React.Component<GroupUpdateProps, GroupUpdateSt
 		let processed = 0;
 
 		Bluebird.map(this.props.cards, ({ id, type }) => {
-			return sdk.card.update(id, update)
+			return sdk.card.update(id, update as any)
 				.then(() => {
 					analytics.track('element.update', {
 						element: {

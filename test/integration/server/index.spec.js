@@ -31,7 +31,7 @@ const executeThenWait = async (sdk, asyncFn, waitQuery) => {
 		throw new Error(`Did not receive any data after ${WAIT_TIMEOUT}ms`)
 	}, WAIT_TIMEOUT)
 
-	return new Bluebird(async (resolve, reject) => {
+	return new Bluebird((resolve, reject) => {
 		stream.on('update', ({
 			data
 		}) => {
@@ -56,7 +56,13 @@ const executeThenWait = async (sdk, asyncFn, waitQuery) => {
 			stream.destroy()
 		})
 
-		await asyncFn()
+		asyncFn()
+			.catch((error) => {
+				reject(error)
+
+				clearTimeout(timeout)
+				stream.destroy()
+			})
 	})
 }
 
@@ -289,11 +295,11 @@ ava.test.serial('timeline cards should reference the correct actor', async (test
 	}
 
 	await executeThenWait(sdk, () => {
-		return sdk.card.update(thread.id, {
+		return sdk.card.update(thread.id, _.assign(thread, {
 			data: {
 				description: 'Lorem ipsum dolor sit amer'
 			}
-		})
+		}))
 	}, waitQuery)
 
 	const card = await sdk.card.getWithTimeline(thread.id)
@@ -476,11 +482,11 @@ ava.test.serial('AGGREGATE($events): should work when creating cards via the SDK
 	await sdk.setAuthToken(test.context.session)
 
 	// Update the user's permissions
-	await sdk.card.update(user.id, {
+	await sdk.card.update(user.id, _.assign(user, {
 		data: {
 			roles: [ 'user-team' ]
 		}
-	})
+	}))
 
 	// Login as the new user
 	await sdk.auth.login({
