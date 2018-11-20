@@ -1314,6 +1314,7 @@ ava('.tick() should evaluate the current timestamp in a time triggered action', 
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: actionCard.slug,
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			ctx: test.context.execContext,
 			interval: 'PT1D',
 			startDate: '2018-08-05T12:00:00.000Z',
 			arguments: {
@@ -1349,6 +1350,7 @@ ava('.tick() should enqueue an action if there is a time trigger with a past sta
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: actionCard.slug,
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			ctx: test.context.execContext,
 			interval: 'PT1D',
 			startDate: '2018-08-05T12:00:00.000Z',
 			arguments: {
@@ -1371,6 +1373,7 @@ ava('.tick() should enqueue an action if there is a time trigger with a past sta
 	test.deepEqual(request, {
 		id: request.id,
 		card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		ctx: test.context.worker.getExecutionContext().execContext,
 		action: actionCard,
 		actor: test.context.actor.id,
 		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
@@ -1392,6 +1395,7 @@ ava('.tick() should enqueue an action if there is a time trigger with a present 
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: actionCard.slug,
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			ctx: test.context.execContext,
 			interval: 'PT1D',
 			startDate: '2018-08-05T12:00:00.000Z',
 			arguments: {
@@ -1414,6 +1418,7 @@ ava('.tick() should enqueue an action if there is a time trigger with a present 
 	test.deepEqual(request, {
 		id: request.id,
 		card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		ctx: test.context.worker.getExecutionContext().execContext,
 		action: actionCard,
 		actor: test.context.actor.id,
 		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
@@ -1435,6 +1440,7 @@ ava('.tick() should not enqueue an action using a past timestamp', async (test) 
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: actionCard.slug,
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			ctx: test.context.execContext,
 			interval: 'PT1H',
 			startDate: '2050-08-05T12:00:00.000Z',
 			arguments: {
@@ -1465,6 +1471,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: actionCard.slug,
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			ctx: test.context.execContext,
 			interval: 'PT1D',
 			startDate: '2018-08-05T12:00:00.000Z',
 			arguments: {
@@ -1478,6 +1485,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 			id: '673bc300-88f7-4376-92ed-d32543d69429',
 			action: actionCard.slug,
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			ctx: test.context.execContext,
 			interval: 'PT2D',
 			startDate: '2018-08-04T12:00:00.000Z',
 			arguments: {
@@ -1505,6 +1513,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 		{
 			id: requests[0].id,
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			ctx: test.context.worker.getExecutionContext().execContext,
 			action: actionCard,
 			actor: test.context.actor.id,
 			originator: '673bc300-88f7-4376-92ed-d32543d69429',
@@ -1520,6 +1529,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 		{
 			id: requests[1].id,
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			ctx: test.context.worker.getExecutionContext().execContext,
 			action: actionCard,
 			actor: test.context.actor.id,
 			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',

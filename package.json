@@ -102,7 +102,6 @@
     "color-hash": "^1.0.3",
     "compression": "^1.7.2",
     "copy-to-clipboard": "^3.0.8",
-    "debug": "^3.1.0",
     "esprima": "^4.0.0",
     "express": "^4.16.2",
     "fast-equals": "^1.5.3",
@@ -145,6 +144,7 @@
     "static-eval": "^2.0.0",
     "styled-components": "^3.2.5",
     "typed-errors": "^1.1.0",
-    "uuid": "^3.2.1"
+    "uuid": "^3.2.1",
+    "winston": "^3.1.0"
   }
 }
