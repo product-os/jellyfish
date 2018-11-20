@@ -10,6 +10,7 @@ jobs:
     branches:
       ignore:
         - /(.*)-build-[a-f0-9]{40}$/
+        - master
     docker:
       - image: resinci/jellyfish-test
 
