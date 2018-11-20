@@ -199,6 +199,25 @@ ava.test.serial('should allow newly signed up users to create chat messages', as
 	test.is(result, messageText)
 })
 
+ava.test.serial('should highlight tags in chat messages', async (test) => {
+	const {
+		page
+	} = context
+	const messageText = '#test'
+
+	await page.waitForSelector('.new-message-input', WAIT_OPTS)
+
+	await page.type('textarea', messageText)
+
+	await page.keyboard.press('Enter')
+
+	await page.waitForSelector('.column--thread .event-card__message', WAIT_OPTS)
+
+	await page.waitForSelector('.column--thread .event-card__message .rendition-tag-hl', WAIT_OPTS)
+
+	test.pass()
+})
+
 ava.test.serial('should allow team-admin users to update user\'s roles', async (test) => {
 	const {
 		page
