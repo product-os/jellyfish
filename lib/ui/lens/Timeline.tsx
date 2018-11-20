@@ -169,28 +169,16 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		const id = uuid();
 
 		const message = {
-			id,
-			slug: `message-${id}`,
-			tags,
-			links: {},
-			version: '1.0.0',
-			requires: [],
-			capabilities: [],
-			active: true,
+			card: this.props.card.id,
 			type: 'message',
-			data: {
-				timestamp: getCurrentTimestamp(),
-				target: this.props.card.id,
-				actor: this.props.user!.id,
-				payload: {
-					mentionsUser: mentions,
-					alertsUser: alerts,
-					message: newMessage,
-				},
+			payload: {
+				mentionsUser: mentions,
+				alertsUser: alerts,
+				message: newMessage,
 			},
 		};
 
-		sdk.card.create(message)
+		sdk.event.create(message)
 			.then(() => {
 				return createLink(id, this.props.card.id, 'is attached to', {
 					skipSuccessMessage: true,
