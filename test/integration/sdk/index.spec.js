@@ -777,7 +777,7 @@ ava.serial('.card.remove() should be able to delete a card', async (test) => {
 	test.false(result.active)
 })
 
-ava.test.serial('.event.create() should create a new event', async (test) => {
+ava.serial('.event.create() should create a new event', async (test) => {
 	const {
 		sdk
 	} = test.context
@@ -827,13 +827,20 @@ ava.test.serial('.event.create() should create a new event', async (test) => {
 						}
 					},
 					required: [ 'target', 'payload' ]
+				},
+				type: {
+					type: 'string',
+					const: 'message'
 				}
-			},
-			required: [ 'data' ]
+			}
 		}
 	)
 
-	test.deepEqual(_.first(results).data, {
+	const result = _.first(results)
+
+	test.is(result.type, 'message')
+
+	test.deepEqual(result.data, {
 		target: card.id,
 		payload: {
 			test: 1

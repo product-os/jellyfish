@@ -320,9 +320,10 @@ ava('enqueue() should fail to create an event with an action-create-card', async
 		}
 	})
 
-	await test.throws(
+	await test.throwsAsync(
 		test.context.flush(test.context.session),
-		'You may not use card actions to create an event')
+		'You may not use card actions to create an event'
+	)
 })
 
 ava('.dequeue() should return nothing if no requests', async (test) => {
@@ -837,6 +838,7 @@ ava('.execute() AGGREGATE should create a property on the target if it does not 
 		card: threadResult.data.id,
 		arguments: {
 			type: 'message',
+			tags: [],
 			payload: {
 				mentions: [ 'johndoe' ]
 			}
@@ -915,6 +917,7 @@ ava('.execute() AGGREGATE should work with $$ prefixed properties', async (test)
 		card: threadResult.data.id,
 		arguments: {
 			type: 'message',
+			tags: [],
 			payload: {
 				$$mentions: [ 'johndoe' ]
 			}
@@ -928,6 +931,71 @@ ava('.execute() AGGREGATE should work with $$ prefixed properties', async (test)
 	const thread = await test.context.jellyfish.getCardById(test.context.session, threadResult.data.id)
 
 	test.deepEqual(thread.data.$$mentions, [ 'johndoe' ])
+})
+
+ava('.execute() should create a message with tags', async (test) => {
+	const typeType = await test.context.jellyfish.getCardBySlug(test.context.session, 'type')
+
+	const request = await test.context.worker.enqueue(test.context.session, {
+		action: 'action-create-card',
+		card: typeType.id,
+		arguments: {
+			properties: {
+				slug: 'test-thread',
+				version: '1.0.0',
+				data: {
+					schema: {
+						type: 'object',
+						properties: {
+							type: {
+								type: 'string',
+								const: 'test-thread'
+							}
+						},
+						additionalProperties: true,
+						required: [ 'type' ]
+					}
+				}
+			}
+		}
+	})
+
+	await test.context.flush(test.context.session)
+	const typeResult = await test.context.worker.waitResults(test.context.session, request)
+	test.false(typeResult.error)
+
+	const threadRequest = await test.context.worker.enqueue(test.context.session, {
+		action: 'action-create-card',
+		card: typeResult.data.id,
+		arguments: {
+			properties: {
+				slug: 'foo',
+				version: '1.0.0'
+			}
+		}
+	})
+
+	await test.context.flush(test.context.session)
+	const threadResult = await test.context.worker.waitResults(test.context.session, threadRequest)
+	test.false(threadResult.error)
+
+	const messageRequest = await test.context.worker.enqueue(test.context.session, {
+		action: 'action-create-event',
+		card: threadResult.data.id,
+		arguments: {
+			type: 'message',
+			tags: [ 'testtag' ],
+			payload: {
+				$$mentions: [ 'johndoe' ]
+			}
+		}
+	})
+
+	await test.context.flush(test.context.session)
+	const messageResult = await test.context.worker.waitResults(test.context.session, messageRequest)
+	test.false(messageResult.error)
+
+	test.deepEqual(messageResult.data.tags, [ 'testtag' ])
 })
 
 ava('.getTriggers() should initially be an empty array', (test) => {

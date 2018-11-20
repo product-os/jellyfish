@@ -9,6 +9,17 @@
   "active": true,
   "data": {
     "arguments": {
+      "tags": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9-_/][a-zA-Z0-9-_/\\s]+[a-zA-Z0-9-_/]$"
+        }
+      },
+      "slug": {
+        "type": "string",
+        "pattern": "^[a-z0-9-]+$"
+      },
       "type": {
         "type": "string",
         "pattern": "^[a-z0-9-]+$"
@@ -16,7 +27,8 @@
       "payload": {
         "type": "object"
       }
-    }
+    },
+    "required": [ "type", "payload" ]
   },
   "requires": [],
   "capabilities": []

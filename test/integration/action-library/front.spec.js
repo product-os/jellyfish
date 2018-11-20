@@ -96,21 +96,14 @@ ava.before(async (test) => {
 
 	test.context.createComment = async (target, slug, body) => {
 		return test.context.executeThenWait(async () => {
-			const date = new Date()
-			const user = await test.context.sdk.auth.whoami()
-			return test.context.sdk.card.create({
+			return test.context.sdk.event.create({
 				slug,
+				card: target,
 				type: 'whisper',
-				version: '1.0.0',
-				data: {
-					timestamp: date.toISOString(),
-					target,
-					actor: user.id,
-					payload: {
-						mentionsUser: [],
-						alertsUser: [],
-						message: body
-					}
+				payload: {
+					mentionsUser: [],
+					alertsUser: [],
+					message: body
 				}
 			})
 		}, getMirrorWaitSchema(slug))

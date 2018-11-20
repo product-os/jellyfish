@@ -91,21 +91,14 @@ ava.before(async (test) => {
 
 	test.context.createMessage = async (target, slug, body) => {
 		return test.context.executeThenWait(async () => {
-			const date = new Date()
-			const user = await test.context.sdk.auth.whoami()
-			return test.context.sdk.card.create({
-				slug,
+			return test.context.sdk.event.create({
+				card: target,
 				type: 'message',
-				version: '1.0.0',
-				data: {
-					timestamp: date.toISOString(),
-					target,
-					actor: user.id,
-					payload: {
-						mentionsUser: [],
-						alertsUser: [],
-						message: body
-					}
+				slug,
+				payload: {
+					mentionsUser: [],
+					alertsUser: [],
+					message: body
 				}
 			})
 		}, getMirrorWaitSchema(slug))

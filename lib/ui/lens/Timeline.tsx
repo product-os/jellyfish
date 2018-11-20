@@ -22,7 +22,6 @@ import { actionCreators, selectors, StoreState } from '../core/store';
 import {
 	createChannel,
 	findWordsByPrefix,
-	getCurrentTimestamp,
 	getUserIdsByPrefix,
 } from '../services/helpers';
 import { createLink } from '../services/link';
@@ -171,6 +170,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		const message = {
 			card: this.props.card.id,
 			type: 'message',
+			tags,
 			payload: {
 				mentionsUser: mentions,
 				alertsUser: alerts,
@@ -242,25 +242,15 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		const id = uuid();
 
 		const message = {
-			id,
-			slug: `message-${id}`,
-			links: {},
-			requires: [],
-			capabilities: [],
-			active: true,
-			version: '1.0.0',
+			tags: [],
 			type: 'message',
-			data: {
-				timestamp: getCurrentTimestamp(),
-				target: this.props.card.id,
-				actor: this.props.user!.id,
-				payload: {
-					file,
-				},
+			card: this.props.card.id,
+			payload: {
+				file,
 			},
 		};
 
-		sdk.card.create(message)
+		sdk.event.create(message)
 			.then(() => {
 				return createLink(id, this.props.card.id, 'is attached to', {
 					skipSuccessMessage: true,

@@ -286,6 +286,7 @@ ava('.insertCard() should add a create event if attachEvents is true', async (te
 			card: result.id,
 			arguments: {
 				type: 'create',
+				tags: [],
 				payload: {
 					slug: 'foo-bar-baz',
 					type: 'card',
@@ -314,6 +315,7 @@ ava('.insertCard() should add a create event not overriding even if override is 
 			card: result.id,
 			arguments: {
 				type: 'create',
+				tags: [],
 				payload: {
 					slug: 'foo-bar-baz',
 					type: 'card',
@@ -349,6 +351,7 @@ ava('.insertCard() should add an update event if attachEvents is true and overri
 			card: result.id,
 			arguments: {
 				type: 'update',
+				tags: [],
 				payload: {
 					active: false,
 					slug: 'foo-bar-baz',
@@ -411,6 +414,7 @@ ava('.insertCard() should execute one matching triggered action', async (test) =
 			card: result.id,
 			arguments: {
 				type: 'create',
+				tags: [],
 				payload: {
 					version: '1.0.0',
 					type: 'card',
@@ -485,6 +489,7 @@ ava('.insertCard() should not execute non-matching triggered actions', async (te
 			card: result.id,
 			arguments: {
 				type: 'create',
+				tags: [],
 				payload: {
 					version: '1.0.0',
 					type: 'card',
@@ -575,6 +580,7 @@ ava('.insertCard() should execute more than one matching triggered action', asyn
 			card: result.id,
 			arguments: {
 				type: 'create',
+				tags: [],
 				payload: {
 					type: 'card',
 					slug: 'foo',
@@ -687,6 +693,7 @@ ava('.insertCard() should execute the matching triggered actions given more than
 			card: result.id,
 			arguments: {
 				type: 'create',
+				tags: [],
 				payload: {
 					type: 'card',
 					slug: 'foo',

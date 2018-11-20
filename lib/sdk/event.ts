@@ -17,7 +17,7 @@
 import * as Bluebird from 'bluebird';
 import * as _ from 'lodash';
 import { SDKInterface } from './index';
-import { Event, EventRequest } from './Types';
+import { Event, EventRequest } from './types';
 
 
 /**
@@ -59,8 +59,9 @@ export class EventSdk {
 			arguments: _.assign(
 				{
 					payload: {},
+					tags: [],
 				},
-				_.omit(event, ['card']),
+				_.omit(event, [ 'card' ]),
 			),
 		});
 	}

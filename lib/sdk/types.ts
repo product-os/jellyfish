@@ -34,16 +34,20 @@ export interface Card {
 	transient?: object;
 }
 
-export interface Event {
-	timestamp: string;
-	target: string;
-	actor: string;
-	payload?: { [key: string]: any };
+export interface Event extends Card {
+	data: {
+		timestamp: string;
+		target: string;
+		actor: string;
+		payload?: { [key: string]: any };
+	};
 }
 
 export interface EventRequest {
 	card: string;
 	type: string;
+	tags?: string[];
+	slug?: string;
 	payload?: { [key: string]: any };
 }
 
