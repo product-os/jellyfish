@@ -295,7 +295,7 @@ ava.test.serial('timeline cards should reference the correct actor', async (test
 		required: [ 'type' ]
 	}
 
-	const data = await executeThenWait(sdk, () => {
+	await executeThenWait(sdk, () => {
 		return sdk.card.update(thread.id, _.assign(thread, {
 			data: {
 				description: 'Lorem ipsum dolor sit amer'
@@ -307,22 +307,21 @@ ava.test.serial('timeline cards should reference the correct actor', async (test
 	await executeThenWait(sdk, Bluebird.resolve, {
 		type: 'object',
 		properties: {
-			type: {
+			id: {
 				type: 'string',
-				const: 'link'
+				const: thread.id
 			},
-			data: {
+			links: {
 				type: 'object',
 				properties: {
-					from: {
-						type: 'string',
-						const: data.id
+					'has attached element': {
+						type: 'array'
 					}
 				},
-				required: [ 'from', 'to' ]
+				required: [ 'has attached element' ]
 			}
 		},
-		required: [ 'type', 'data' ]
+		required: [ 'id', 'links' ]
 	})
 
 	const card = await sdk.card.getWithTimeline(thread.id)
