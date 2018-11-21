@@ -246,6 +246,7 @@ ava.test.serial('should allow team-admin users to update user\'s roles', async (
 
 	// Search for the username so that the link appears in view
 	await setInputValue(page, '.column--view-all-users input', users.community.username)
+	await Bluebird.delay(1000)
 
 	// Select the community user
 	await page.waitForSelector(`.header-link--user-${users.community.username}`, WAIT_OPTS)

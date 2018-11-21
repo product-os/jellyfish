@@ -265,6 +265,7 @@ ava.test.serial('timeline cards should reference the correct actor', async (test
 
 	const thread = await sdk.card.create({
 		type: 'thread',
+		links: {},
 		slug: test.context.generateRandomSlug({
 			prefix: 'thread'
 		}),
@@ -273,25 +274,37 @@ ava.test.serial('timeline cards should reference the correct actor', async (test
 
 	// Set up the watcher before the card is updated to stop race conditions from
 	// happening
+	// Wait for links to be materialized
 	const waitQuery = {
 		type: 'object',
-		properties: {
-			type: {
-				type: 'string',
-				const: 'update'
-			},
-			data: {
+		$$links: {
+			'has attached element': {
 				type: 'object',
+				required: [ 'type' ],
 				properties: {
-					target: {
+					type: {
 						type: 'string',
-						const: thread.id
+						const: 'update'
 					}
-				},
-				required: [ 'target' ]
+				}
 			}
 		},
-		required: [ 'type' ]
+		properties: {
+			id: {
+				type: 'string',
+				const: thread.id
+			},
+			links: {
+				type: 'object',
+				properties: {
+					'has attached element': {
+						type: 'array'
+					}
+				},
+				required: [ 'has attached element' ]
+			}
+		},
+		required: [ 'id', 'links' ]
 	}
 
 	await executeThenWait(sdk, () => {
@@ -303,6 +316,7 @@ ava.test.serial('timeline cards should reference the correct actor', async (test
 	}, waitQuery)
 
 	const card = await sdk.card.getWithTimeline(thread.id)
+	test.truthy(card)
 
 	const timelineActors = _.uniq(card.links['has attached element'].map((item) => {
 		return item.data.actor
