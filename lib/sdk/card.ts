@@ -40,6 +40,7 @@ const linkNameMap = {
 
 const createDefaultCard = (type: string) => ({
 	slug: `${type}-${uuid()}`,
+	version: '1.0.0',
 	active: true,
 	tags: [],
 	markers: [],

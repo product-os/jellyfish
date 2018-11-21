@@ -274,38 +274,21 @@ ava.test.serial('timeline cards should reference the correct actor', async (test
 
 	// Set up the watcher before the card is updated to stop race conditions from
 	// happening
+	// Wait for links to be materialized
 	const waitQuery = {
 		type: 'object',
-		properties: {
-			type: {
-				type: 'string',
-				const: 'update'
-			},
-			data: {
+		$$links: {
+			'has attached element': {
 				type: 'object',
+				required: [ 'type' ],
 				properties: {
-					target: {
+					type: {
 						type: 'string',
-						const: thread.id
+						const: 'update'
 					}
-				},
-				required: [ 'target' ]
+				}
 			}
 		},
-		required: [ 'type' ]
-	}
-
-	await executeThenWait(sdk, () => {
-		return sdk.card.update(thread.id, _.assign(thread, {
-			data: {
-				description: 'Lorem ipsum dolor sit amer'
-			}
-		}))
-	}, waitQuery)
-
-	// Wait for links to be materialized
-	await executeThenWait(sdk, Bluebird.resolve, {
-		type: 'object',
 		properties: {
 			id: {
 				type: 'string',
@@ -322,7 +305,15 @@ ava.test.serial('timeline cards should reference the correct actor', async (test
 			}
 		},
 		required: [ 'id', 'links' ]
-	})
+	}
+
+	await executeThenWait(sdk, () => {
+		return sdk.card.update(thread.id, _.assign(thread, {
+			data: {
+				description: 'Lorem ipsum dolor sit amer'
+			}
+		}))
+	}, waitQuery)
 
 	const card = await sdk.card.getWithTimeline(thread.id)
 	test.truthy(card)
