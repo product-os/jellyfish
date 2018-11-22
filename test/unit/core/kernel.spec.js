@@ -21,41 +21,41 @@ const errors = require('../../../lib/core/errors')
 const CARDS = require('../../../lib/core/cards')
 const helpers = require('./helpers')
 
-ava.test.beforeEach(helpers.kernel.beforeEach)
-ava.test.afterEach(helpers.kernel.afterEach)
+ava.beforeEach(helpers.kernel.beforeEach)
+ava.afterEach(helpers.kernel.afterEach)
 
 for (const card of _.values(CARDS)) {
-	ava.test(`should contain the ${card.slug} card by default`, async (test) => {
+	ava(`should contain the ${card.slug} card by default`, async (test) => {
 		const element = await test.context.kernel.getCardBySlug(test.context.kernel.sessions.admin, card.slug)
 		test.deepEqual(CARDS[card.slug], _.omit(element, [ 'id' ]))
 	})
 }
 
-ava.test('should be able to disconnect the kernel multiple times without errors', async (test) => {
-	await test.notThrows((async () => {
+ava('should be able to disconnect the kernel multiple times without errors', async (test) => {
+	await test.notThrowsAsync(async () => {
 		await test.context.kernel.disconnect()
 		await test.context.kernel.disconnect()
 		await test.context.kernel.disconnect()
-	})())
+	})
 })
 
-ava.test('.disconnect() should gracefully close streams', async (test) => {
-	await test.notThrows((async () => {
+ava('.disconnect() should gracefully close streams', async (test) => {
+	await test.notThrowsAsync(async () => {
 		await test.context.kernel.stream(test.context.kernel.sessions.admin, {
 			type: 'object'
 		})
 		await test.context.kernel.disconnect()
-	})())
+	})
 })
 
-ava.test('.insertCard() should throw an error if the element is not a valid card', async (test) => {
-	await test.throws(test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+ava('.insertCard() should throw an error if the element is not a valid card', async (test) => {
+	await test.throwsAsync(test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		hello: 'world'
 	}), errors.JellyfishSchemaMismatch)
 })
 
-ava.test('.insertCard() should throw an error if the element does not adhere to the type', async (test) => {
-	await test.throws(test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+ava('.insertCard() should throw an error if the element does not adhere to the type', async (test) => {
+	await test.throwsAsync(test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'action-foo-bar',
 		type: 'action',
 		version: '1.0.0',
@@ -63,8 +63,8 @@ ava.test('.insertCard() should throw an error if the element does not adhere to 
 	})), errors.JellyfishSchemaMismatch)
 })
 
-ava.test('.insertCard() should throw an error if the card type does not exist', async (test) => {
-	await test.throws(test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+ava('.insertCard() should throw an error if the card type does not exist', async (test) => {
+	await test.throwsAsync(test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'foo',
 		type: 'foobarbazqux',
 		version: '1.0.0',
@@ -73,7 +73,7 @@ ava.test('.insertCard() should throw an error if the card type does not exist', 
 	})), errors.JellyfishUnknownCardType)
 })
 
-ava.test('.insertCard() should be able to insert a card', async (test) => {
+ava('.insertCard() should be able to insert a card', async (test) => {
 	const card = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'hello-world',
 		type: 'card',
@@ -87,7 +87,7 @@ ava.test('.insertCard() should be able to insert a card', async (test) => {
 	test.deepEqual(element, card)
 })
 
-ava.test('.insertCard() should throw if the card already exists', async (test) => {
+ava('.insertCard() should throw if the card already exists', async (test) => {
 	const card = test.context.kernel.defaults({
 		slug: 'foo-bar',
 		type: 'card',
@@ -96,13 +96,13 @@ ava.test('.insertCard() should throw if the card already exists', async (test) =
 	})
 
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, card)
-	await test.throws(test.context.kernel.insertCard(
+	await test.throwsAsync(test.context.kernel.insertCard(
 		test.context.kernel.sessions.admin,
 		card
 	), errors.JellyfishElementAlreadyExists)
 })
 
-ava.test('.insertCard() should replace an element given override is true', async (test) => {
+ava('.insertCard() should replace an element given override is true', async (test) => {
 	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'foo-bar',
 		type: 'card',
@@ -124,7 +124,7 @@ ava.test('.insertCard() should replace an element given override is true', async
 	test.deepEqual(element, card2)
 })
 
-ava.test('.insertCard() should be able to create a link between two valid cards', async (test) => {
+ava('.insertCard() should be able to create a link between two valid cards', async (test) => {
 	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'foo-bar',
 		type: 'card',
@@ -155,7 +155,7 @@ ava.test('.insertCard() should be able to create a link between two valid cards'
 	test.not(element.data.from, element.data.to)
 })
 
-ava.test('.insertCard() should update links property when linking two cards', async (test) => {
+ava('.insertCard() should update links property when linking two cards', async (test) => {
 	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'foo-bar',
 		type: 'card',
@@ -228,7 +228,7 @@ ava.test('.insertCard() should update links property when linking two cards', as
 	})
 })
 
-ava.test('.insertCard() should update links property when linking a valid card to an invalid one', async (test) => {
+ava('.insertCard() should update links property when linking a valid card to an invalid one', async (test) => {
 	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'foo-bar',
 		type: 'card',
@@ -272,7 +272,7 @@ ava.test('.insertCard() should update links property when linking a valid card t
 	})
 })
 
-ava.test('.insertCard() should update links property when linking an invalid card to a valid one', async (test) => {
+ava('.insertCard() should update links property when linking an invalid card to a valid one', async (test) => {
 	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'bar-baz',
 		type: 'card',
@@ -316,7 +316,7 @@ ava.test('.insertCard() should update links property when linking an invalid car
 	})
 })
 
-ava.test('.insertCard() should update links property when linking two cards in two different ways', async (test) => {
+ava('.insertCard() should update links property when linking two cards in two different ways', async (test) => {
 	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'foo-bar',
 		type: 'card',
@@ -413,7 +413,7 @@ ava.test('.insertCard() should update links property when linking two cards in t
 	})
 })
 
-ava.test('.insertCard() should be able to remove a link', async (test) => {
+ava('.insertCard() should be able to remove a link', async (test) => {
 	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'foo-bar',
 		type: 'card',
@@ -516,7 +516,7 @@ ava.test('.insertCard() should be able to remove a link', async (test) => {
 	})
 })
 
-ava.test('.insertCard() should be able to create a direction-less link between two valid cards', async (test) => {
+ava('.insertCard() should be able to create a direction-less link between two valid cards', async (test) => {
 	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'foo-bar',
 		type: 'card',
@@ -548,7 +548,7 @@ ava.test('.insertCard() should be able to create a direction-less link between t
 	test.is(element.name, element.data.inverseName)
 })
 
-ava.test('.insertCard() should be able to create two different links between two valid cards', async (test) => {
+ava('.insertCard() should be able to create two different links between two valid cards', async (test) => {
 	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'foo-bar',
 		type: 'card',
@@ -591,7 +591,7 @@ ava.test('.insertCard() should be able to create two different links between two
 	test.is(linkCard1.data.to, linkCard2.data.to)
 })
 
-ava.test('.insertCard() should not add a link if not inserting a card with a target', async (test) => {
+ava('.insertCard() should not add a link if not inserting a card with a target', async (test) => {
 	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'foo',
 		type: 'card',
@@ -623,7 +623,7 @@ ava.test('.insertCard() should not add a link if not inserting a card with a tar
 	test.deepEqual(results, [])
 })
 
-ava.test('.insertCard() should add a link if inserting a card with a target for the first time', async (test) => {
+ava('.insertCard() should add a link if inserting a card with a target for the first time', async (test) => {
 	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'foo',
 		type: 'card',
@@ -674,7 +674,7 @@ ava.test('.insertCard() should add a link if inserting a card with a target for 
 	])
 })
 
-ava.test('.insertCard() should not add the target link more than once if multiple equal insertions', async (test) => {
+ava('.insertCard() should not add the target link more than once if multiple equal insertions', async (test) => {
 	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'foo',
 		type: 'card',
@@ -743,7 +743,7 @@ ava.test('.insertCard() should not add the target link more than once if multipl
 	])
 })
 
-ava.test('.insertCard() should update the link if the target changes', async (test) => {
+ava('.insertCard() should update the link if the target changes', async (test) => {
 	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		type: 'card',
 		slug: 'foo',
@@ -807,7 +807,7 @@ ava.test('.insertCard() should update the link if the target changes', async (te
 	])
 })
 
-ava.test('.insertCard() read access on a property should not allow to write other properties', async (test) => {
+ava('.insertCard() read access on a property should not allow to write other properties', async (test) => {
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'view-read-user-johndoe',
 		type: 'view',
@@ -898,7 +898,7 @@ ava.test('.insertCard() read access on a property should not allow to write othe
 		}
 	}))
 
-	await test.throws(test.context.kernel.insertCard(session.id, test.context.kernel.defaults({
+	await test.throwsAsync(test.context.kernel.insertCard(session.id, test.context.kernel.defaults({
 		id: targetUserCard.id,
 		slug: 'user-janedoe',
 		type: 'user',
@@ -912,7 +912,7 @@ ava.test('.insertCard() read access on a property should not allow to write othe
 	}), errors.JellyfishSchemaMismatch)
 })
 
-ava.test('.insertCard() should restrict the visibility of the user using write roles', async (test) => {
+ava('.insertCard() should restrict the visibility of the user using write roles', async (test) => {
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'view-read-user-johndoe',
 		type: 'view',
@@ -1016,7 +1016,7 @@ ava.test('.insertCard() should restrict the visibility of the user using write r
 
 	test.deepEqual(writeUserType, null)
 
-	await test.throws(test.context.kernel.insertCard(session.id, test.context.kernel.defaults({
+	await test.throwsAsync(test.context.kernel.insertCard(session.id, test.context.kernel.defaults({
 		slug: 'user-janedoe',
 		type: 'user',
 		version: '1.0.0',
@@ -1029,12 +1029,12 @@ ava.test('.insertCard() should restrict the visibility of the user using write r
 	}), errors.JellyfishUnknownCardType)
 })
 
-ava.test('.getCardBySlug() there should be an admin card', async (test) => {
+ava('.getCardBySlug() there should be an admin card', async (test) => {
 	const card = await test.context.kernel.getCardBySlug(test.context.kernel.sessions.admin, 'user-admin')
 	test.truthy(card)
 })
 
-ava.test('.getCardById() should find an active card by its id', async (test) => {
+ava('.getCardById() should find an active card by its id', async (test) => {
 	const result = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'foo-bar',
 		type: 'card',
@@ -1046,7 +1046,7 @@ ava.test('.getCardById() should find an active card by its id', async (test) => 
 	test.deepEqual(card, result)
 })
 
-ava.test('.getCardById() should find an active card by its id and type', async (test) => {
+ava('.getCardById() should find an active card by its id and type', async (test) => {
 	const result = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'foo-bar',
 		type: 'card',
@@ -1061,7 +1061,7 @@ ava.test('.getCardById() should find an active card by its id and type', async (
 	test.deepEqual(card, result)
 })
 
-ava.test('.getCardById() should not find an active card by its id but an invalid type', async (test) => {
+ava('.getCardById() should not find an active card by its id but an invalid type', async (test) => {
 	const result = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'foo-bar',
 		type: 'card',
@@ -1076,7 +1076,7 @@ ava.test('.getCardById() should not find an active card by its id but an invalid
 	test.deepEqual(card, null)
 })
 
-ava.test('.getCardBySlug() should find an active card by its slug', async (test) => {
+ava('.getCardBySlug() should find an active card by its slug', async (test) => {
 	const result = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'foo-bar',
 		type: 'card',
@@ -1088,7 +1088,7 @@ ava.test('.getCardBySlug() should find an active card by its slug', async (test)
 	test.deepEqual(card, result)
 })
 
-ava.test('.getCardBySlug() should find an active card by its slug and its type', async (test) => {
+ava('.getCardBySlug() should find an active card by its slug and its type', async (test) => {
 	const result = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'foo-bar',
 		type: 'card',
@@ -1103,7 +1103,7 @@ ava.test('.getCardBySlug() should find an active card by its slug and its type',
 	test.deepEqual(card, result)
 })
 
-ava.test('.getCardBySlug() should not find an active card by its slug but an invalid type', async (test) => {
+ava('.getCardBySlug() should not find an active card by its slug but an invalid type', async (test) => {
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'foo-bar',
 		type: 'card',
@@ -1118,7 +1118,7 @@ ava.test('.getCardBySlug() should not find an active card by its slug but an inv
 	test.deepEqual(card, null)
 })
 
-ava.test('.getCardById() should return an inactive card by its id', async (test) => {
+ava('.getCardById() should return an inactive card by its id', async (test) => {
 	const result = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'foo-bar',
 		type: 'card',
@@ -1130,7 +1130,7 @@ ava.test('.getCardById() should return an inactive card by its id', async (test)
 	test.deepEqual(card, result)
 })
 
-ava.test('.query() should be able to limit the results', async (test) => {
+ava('.query() should be able to limit the results', async (test) => {
 	const result1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'foo',
 		type: 'card',
@@ -1178,7 +1178,7 @@ ava.test('.query() should be able to limit the results', async (test) => {
 	test.deepEqual(_.sortBy(results, [ 'data', 'test' ]), [ result1, result2 ])
 })
 
-ava.test('.query() should be able to sort the results', async (test) => {
+ava('.query() should be able to sort the results', async (test) => {
 	const result1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'bar',
 		type: 'card',
@@ -1222,7 +1222,7 @@ ava.test('.query() should be able to sort the results', async (test) => {
 	test.deepEqual(results, [ result3, result1, result2 ])
 })
 
-ava.test('.query() should be able to skip the results', async (test) => {
+ava('.query() should be able to skip the results', async (test) => {
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'foo',
 		type: 'card',
@@ -1270,7 +1270,7 @@ ava.test('.query() should be able to skip the results', async (test) => {
 	test.deepEqual(_.sortBy(results, [ 'data', 'test' ]), [ result3 ])
 })
 
-ava.test('.query() should be able to limit and skip the results', async (test) => {
+ava('.query() should be able to limit and skip the results', async (test) => {
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'foo',
 		type: 'card',
@@ -1319,7 +1319,7 @@ ava.test('.query() should be able to limit and skip the results', async (test) =
 	test.deepEqual(_.sortBy(results, [ 'data', 'test' ]), [ result2 ])
 })
 
-ava.test('.query() should return the cards that match a schema', async (test) => {
+ava('.query() should return the cards that match a schema', async (test) => {
 	const result1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'johndoe',
 		type: 'card',
@@ -1377,7 +1377,7 @@ ava.test('.query() should return the cards that match a schema', async (test) =>
 	])
 })
 
-ava.test('.query() should take roles into account', async (test) => {
+ava('.query() should take roles into account', async (test) => {
 	const actor = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'johndoe',
 		type: 'card',
@@ -1457,7 +1457,7 @@ ava.test('.query() should take roles into account', async (test) => {
 	])
 })
 
-ava.test('.query() should ignore queries to properties not whitelisted by a role', async (test) => {
+ava('.query() should ignore queries to properties not whitelisted by a role', async (test) => {
 	const actor = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'johndoe',
 		type: 'card',
@@ -1529,7 +1529,7 @@ ava.test('.query() should ignore queries to properties not whitelisted by a role
 	])
 })
 
-ava.test('.query() should ignore queries to disallowed properties with additionalProperties: true', async (test) => {
+ava('.query() should ignore queries to disallowed properties with additionalProperties: true', async (test) => {
 	const actor = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'johndoe',
 		type: 'card',
@@ -1602,7 +1602,7 @@ ava.test('.query() should ignore queries to disallowed properties with additiona
 	])
 })
 
-ava.test('.query() should query all cards of a certain type', async (test) => {
+ava('.query() should query all cards of a certain type', async (test) => {
 	const results = await test.context.kernel.query(test.context.kernel.sessions.admin, {
 		type: 'object',
 		properties: {
@@ -1620,7 +1620,7 @@ ava.test('.query() should query all cards of a certain type', async (test) => {
 	test.deepEqual(_.sortBy(_.map(results, 'slug')), [ 'user-admin' ])
 })
 
-ava.test('.query() should return all action request cards', async (test) => {
+ava('.query() should return all action request cards', async (test) => {
 	const request = test.context.kernel.defaults({
 		type: 'action-request',
 		slug: test.context.generateRandomSlug({
@@ -1695,7 +1695,7 @@ ava.test('.query() should return all action request cards', async (test) => {
 	])
 })
 
-ava.test('.query() should be able to return both action requests and other cards', async (test) => {
+ava('.query() should be able to return both action requests and other cards', async (test) => {
 	const result1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		type: 'action-request',
 		slug: test.context.generateRandomSlug({
@@ -1746,7 +1746,7 @@ ava.test('.query() should be able to return both action requests and other cards
 	test.deepEqual(_.orderBy(_.map(results, 'id')), _.orderBy([ result1.id, result2.id ]))
 })
 
-ava.test('.query() should return inactive cards', async (test) => {
+ava('.query() should return inactive cards', async (test) => {
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'johnsmith',
 		type: 'card',
@@ -1777,7 +1777,7 @@ ava.test('.query() should return inactive cards', async (test) => {
 	])
 })
 
-ava.test('.query() should take a view card with two filters', async (test) => {
+ava('.query() should take a view card with two filters', async (test) => {
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'foo',
 		type: 'card',
@@ -1857,7 +1857,7 @@ ava.test('.query() should take a view card with two filters', async (test) => {
 	])
 })
 
-ava.test('.query() should not consider active links to inactive cards', async (test) => {
+ava('.query() should not consider active links to inactive cards', async (test) => {
 	const parent1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'foo',
 		type: 'card',
@@ -1991,7 +1991,7 @@ ava.test('.query() should not consider active links to inactive cards', async (t
 	])
 })
 
-ava.test('.query() should not consider inactive links', async (test) => {
+ava('.query() should not consider inactive links', async (test) => {
 	const parent1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'foo',
 		type: 'card',
@@ -2125,7 +2125,7 @@ ava.test('.query() should not consider inactive links', async (test) => {
 	])
 })
 
-ava.test('.query() should be able to query using links', async (test) => {
+ava('.query() should be able to query using links', async (test) => {
 	const parent1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'foo',
 		type: 'card',
@@ -2326,7 +2326,7 @@ ava.test('.query() should be able to query using links', async (test) => {
 	])
 })
 
-ava.test('.query() should be able to query using links using the target property', async (test) => {
+ava('.query() should be able to query using links using the target property', async (test) => {
 	const parent1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'parent1',
 		type: 'card',
@@ -2494,7 +2494,7 @@ ava.test('.query() should be able to query using links using the target property
 	])
 })
 
-ava.test.cb('.stream() should report back new elements that match a certain slug', (test) => {
+ava.cb('.stream() should report back new elements that match a certain slug', (test) => {
 	test.context.kernel.stream(test.context.kernel.sessions.admin, {
 		type: 'object',
 		properties: {
@@ -2566,7 +2566,7 @@ ava.test.cb('.stream() should report back new elements that match a certain slug
 	}).catch(test.end)
 })
 
-ava.test.cb('.stream() should report back elements of a certain type', (test) => {
+ava.cb('.stream() should report back elements of a certain type', (test) => {
 	test.context.kernel.stream(test.context.kernel.sessions.admin, {
 		type: 'object',
 		properties: {
@@ -2627,7 +2627,7 @@ ava.test.cb('.stream() should report back elements of a certain type', (test) =>
 	}).catch(test.end)
 })
 
-ava.test.cb('.stream() should report back action requests', (test) => {
+ava.cb('.stream() should report back action requests', (test) => {
 	test.context.kernel.stream(test.context.kernel.sessions.admin, {
 		type: 'object',
 		properties: {
@@ -2711,7 +2711,7 @@ ava.test.cb('.stream() should report back action requests', (test) => {
 	}).catch(test.end)
 })
 
-ava.test.cb('.stream() should close without finding anything', (test) => {
+ava.cb('.stream() should close without finding anything', (test) => {
 	test.context.kernel.stream(test.context.kernel.sessions.admin, {
 		type: 'object',
 		properties: {
@@ -2728,7 +2728,7 @@ ava.test.cb('.stream() should close without finding anything', (test) => {
 	}).catch(test.end)
 })
 
-ava.test.cb('.stream() should report back inactive elements', (test) => {
+ava.cb('.stream() should report back inactive elements', (test) => {
 	test.context.kernel.stream(test.context.kernel.sessions.admin, {
 		type: 'object',
 		properties: {

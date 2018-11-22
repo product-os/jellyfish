@@ -31,17 +31,17 @@ for (const key in config) {
 
 const context = {}
 
-ava.test.before(async () => {
+ava.before(async () => {
 	context.browser = await puppeteer.launch()
 	context.page = await context.browser.newPage()
 	await context.page.goto(config.JF_URL)
 })
 
-ava.test.after(async () => {
+ava.after(async () => {
 	await context.browser.close()
 })
 
-ava.test.serial('should let users login', async (test) => {
+ava.serial('should let users login', async (test) => {
 	const {
 		page
 	} = context

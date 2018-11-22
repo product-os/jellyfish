@@ -18,13 +18,13 @@ const ava = require('ava')
 const _ = require('lodash')
 const utils = require('../../../lib/jellyscript/utils')
 
-ava.test('.hashObject() should return a string', (test) => {
+ava('.hashObject() should return a string', (test) => {
 	test.true(_.isString(utils.hashObject({
 		foo: 'bar'
 	})))
 })
 
-ava.test('.hashObject() should not care about properties order', (test) => {
+ava('.hashObject() should not care about properties order', (test) => {
 	const hash1 = utils.hashObject({
 		foo: 'bar',
 		bar: 'baz'
@@ -38,7 +38,7 @@ ava.test('.hashObject() should not care about properties order', (test) => {
 	test.deepEqual(hash1, hash2)
 })
 
-ava.test('.hashObject() should not rely on object references', (test) => {
+ava('.hashObject() should not rely on object references', (test) => {
 	const object = {
 		foo: 'bar'
 	}
@@ -52,7 +52,7 @@ ava.test('.hashObject() should not rely on object references', (test) => {
 	test.deepEqual(hash3, hash1)
 })
 
-ava.test('.hashObject() should return different hashes for different objects', (test) => {
+ava('.hashObject() should return different hashes for different objects', (test) => {
 	const hash1 = utils.hashObject({
 		foo: 'bar'
 	})

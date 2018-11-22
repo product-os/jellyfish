@@ -19,7 +19,7 @@ require('ts-node').register()
 const ava = require('ava')
 const helpers = require('../../../../lib/ui/services/helpers')
 
-ava.test('.getUpdateObjectFromSchema() should parse the `const` keyword', (test) => {
+ava('.getUpdateObjectFromSchema() should parse the `const` keyword', (test) => {
 	const schema = {
 		type: 'object',
 		properties: {
@@ -55,7 +55,7 @@ ava.test('.getUpdateObjectFromSchema() should parse the `const` keyword', (test)
 	})
 })
 
-ava.test('.getUpdateObjectFromSchema() should parse the `contains` keyword', (test) => {
+ava('.getUpdateObjectFromSchema() should parse the `contains` keyword', (test) => {
 	const schema = {
 		type: 'object',
 		properties: {
@@ -74,7 +74,7 @@ ava.test('.getUpdateObjectFromSchema() should parse the `contains` keyword', (te
 	})
 })
 
-ava.test('.getUserIdsByPrefix() should get user ids by parsing text', (test) => {
+ava('.getUserIdsByPrefix() should get user ids by parsing text', (test) => {
 	const users = [
 		{
 			slug: 'user-johndoe',
@@ -93,7 +93,7 @@ ava.test('.getUserIdsByPrefix() should get user ids by parsing text', (test) => 
 	test.deepEqual(result, [ 'd4b00966-e18f-475a-aa01-7becd3c092d7' ])
 })
 
-ava.test('.getUserIdsByPrefix() should ignore unknown users', (test) => {
+ava('.getUserIdsByPrefix() should ignore unknown users', (test) => {
 	const users = [
 		{
 			slug: 'user-johndoe',
@@ -112,7 +112,7 @@ ava.test('.getUserIdsByPrefix() should ignore unknown users', (test) => {
 	test.deepEqual(result, [])
 })
 
-ava.test('.getUserIdsByPrefix() should return an array of unique values', (test) => {
+ava('.getUserIdsByPrefix() should return an array of unique values', (test) => {
 	const users = [
 		{
 			slug: 'user-johndoe',
@@ -131,7 +131,7 @@ ava.test('.getUserIdsByPrefix() should return an array of unique values', (test)
 	test.deepEqual(result, [ 'd4b00966-e18f-475a-aa01-7becd3c092d7' ])
 })
 
-ava.test('.getUserIdsByPrefix() should be able to use an exclamation mark as a prefix', (test) => {
+ava('.getUserIdsByPrefix() should be able to use an exclamation mark as a prefix', (test) => {
 	const users = [
 		{
 			slug: 'user-johndoe',
@@ -150,19 +150,19 @@ ava.test('.getUserIdsByPrefix() should be able to use an exclamation mark as a p
 	test.deepEqual(result, [ 'd4b00966-e18f-475a-aa01-7becd3c092d7' ])
 })
 
-ava.test('.findWordsByPrefix() should ignore # symbols in urls', (test) => {
+ava('.findWordsByPrefix() should ignore # symbols in urls', (test) => {
 	const source = 'http://localhost:9000/#/231cd14d-e92a-4a19-bf16-4ce2535bf5c8'
 
 	test.deepEqual(helpers.findWordsByPrefix('#', source), [])
 })
 
-ava.test('.findWordsByPrefix() should ignore @ symbols in email addresses', (test) => {
+ava('.findWordsByPrefix() should ignore @ symbols in email addresses', (test) => {
 	const source = 'test@example.com'
 
 	test.deepEqual(helpers.findWordsByPrefix('@', source), [])
 })
 
-ava.test('.findWordsByPrefix() should ignore symbols with no following test', (test) => {
+ava('.findWordsByPrefix() should ignore symbols with no following test', (test) => {
 	const source = '!'
 
 	test.deepEqual(helpers.findWordsByPrefix('!', source), [])

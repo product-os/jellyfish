@@ -17,7 +17,7 @@
 const ava = require('ava')
 const card = require('../../../lib/jellyscript/card')
 
-ava.test('.getFormulasPaths() should return an empty array given no formulas', (test) => {
+ava('.getFormulasPaths() should return an empty array given no formulas', (test) => {
 	const paths = card.getFormulasPaths({
 		type: 'object',
 		properties: {
@@ -33,7 +33,7 @@ ava.test('.getFormulasPaths() should return an empty array given no formulas', (
 	test.deepEqual(paths, [])
 })
 
-ava.test('.getFormulasPaths() should return one property with formulas', (test) => {
+ava('.getFormulasPaths() should return one property with formulas', (test) => {
 	const paths = card.getFormulasPaths({
 		type: 'object',
 		properties: {
@@ -56,7 +56,7 @@ ava.test('.getFormulasPaths() should return one property with formulas', (test) 
 	])
 })
 
-ava.test('.getFormulasPaths() should return nested properties with formulas', (test) => {
+ava('.getFormulasPaths() should return nested properties with formulas', (test) => {
 	const paths = card.getFormulasPaths({
 		type: 'object',
 		properties: {
@@ -90,7 +90,7 @@ ava.test('.getFormulasPaths() should return nested properties with formulas', (t
 	])
 })
 
-ava.test('.getFormulasPaths() should return properties inside arrays', (test) => {
+ava('.getFormulasPaths() should return properties inside arrays', (test) => {
 	const paths = card.getFormulasPaths({
 		type: 'object',
 		anyOf: [

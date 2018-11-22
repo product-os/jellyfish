@@ -20,33 +20,33 @@ const Bluebird = require('bluebird')
 const errors = require('../../../lib/core/errors')
 const helpers = require('./helpers')
 
-ava.test.beforeEach(helpers.backend.beforeEach)
-ava.test.afterEach(helpers.backend.afterEach)
+ava.beforeEach(helpers.backend.beforeEach)
+ava.afterEach(helpers.backend.afterEach)
 
-ava.test('.disconnect() should not throw if called multiple times', async (test) => {
-	await test.notThrows((async () => {
+ava('.disconnect() should not throw if called multiple times', async (test) => {
+	await test.notThrowsAsync(async () => {
 		await test.context.backend.disconnect()
 		await test.context.backend.disconnect()
 		await test.context.backend.disconnect()
-	})())
+	})
 })
 
-ava.test('.disconnect() should gracefully close streams', async (test) => {
-	await test.notThrows((async () => {
+ava('.disconnect() should gracefully close streams', async (test) => {
+	await test.notThrowsAsync(async () => {
 		await test.context.backend.stream({
 			type: 'object'
 		})
 		await test.context.backend.disconnect()
-	})())
+	})
 })
 
-ava.test('.getElementById() should return null if the element id is not present', async (test) => {
+ava('.getElementById() should return null if the element id is not present', async (test) => {
 	await test.context.backend.createTable('test')
 	const result = await test.context.backend.getElementById('test', '4a962ad9-20b5-4dd8-a707-bf819593cc84')
 	test.deepEqual(result, null)
 })
 
-ava.test('.getElementById() should not break the cache if trying to query a valid slug with it', async (test) => {
+ava('.getElementById() should not break the cache if trying to query a valid slug with it', async (test) => {
 	const element = await test.context.backend.upsertElement({
 		slug: 'example',
 		test: 'foo'
@@ -59,7 +59,7 @@ ava.test('.getElementById() should not break the cache if trying to query a vali
 	test.deepEqual(result2, element)
 })
 
-ava.test('.getElementBySlug() should not break the cache if trying to query a valid id with it', async (test) => {
+ava('.getElementBySlug() should not break the cache if trying to query a valid id with it', async (test) => {
 	const element = await test.context.backend.upsertElement({
 		slug: 'example',
 		test: 'foo'
@@ -72,12 +72,12 @@ ava.test('.getElementBySlug() should not break the cache if trying to query a va
 	test.deepEqual(result2, element)
 })
 
-ava.test('.getElementBySlug() should return null if the element slug is not present', async (test) => {
+ava('.getElementBySlug() should return null if the element slug is not present', async (test) => {
 	const result = await test.context.backend.getElementBySlug('foo')
 	test.deepEqual(result, null)
 })
 
-ava.test('.getElementBySlug() should fetch an element given its slug', async (test) => {
+ava('.getElementBySlug() should fetch an element given its slug', async (test) => {
 	const element = await test.context.backend.upsertElement({
 		slug: 'example',
 		test: 'foo'
@@ -87,13 +87,13 @@ ava.test('.getElementBySlug() should fetch an element given its slug', async (te
 	test.deepEqual(result, element)
 })
 
-ava.test('.createTable() should be able to create a table', async (test) => {
+ava('.createTable() should be able to create a table', async (test) => {
 	test.false(await test.context.backend.hasTable('foobar'))
 	await test.context.backend.createTable('foobar')
 	test.true(await test.context.backend.hasTable('foobar'))
 })
 
-ava.test('.createTable() should ignore continuous attempts to create the same table', async (test) => {
+ava('.createTable() should ignore continuous attempts to create the same table', async (test) => {
 	test.false(await test.context.backend.hasTable('foobar'))
 	await test.context.backend.createTable('foobar')
 	await test.context.backend.createTable('foobar')
@@ -101,13 +101,13 @@ ava.test('.createTable() should ignore continuous attempts to create the same ta
 	test.true(await test.context.backend.hasTable('foobar'))
 })
 
-ava.test('.insertElement() should not insert an element without a slug nor an id to an existing table', async (test) => {
-	await test.throws(test.context.backend.insertElement({
+ava('.insertElement() should not insert an element without a slug nor an id to an existing table', async (test) => {
+	await test.throwsAsync(test.context.backend.insertElement({
 		test: 'foo'
 	}), errors.JellyfishDatabaseError)
 })
 
-ava.test('.insertElement() should insert an element with a non-existent slug', async (test) => {
+ava('.insertElement() should insert an element with a non-existent slug', async (test) => {
 	const result = await test.context.backend.insertElement({
 		slug: 'foo'
 	})
@@ -116,7 +116,7 @@ ava.test('.insertElement() should insert an element with a non-existent slug', a
 	test.deepEqual(element, result)
 })
 
-ava.test('.insertElement() should not insert an element with a user defined id', async (test) => {
+ava('.insertElement() should not insert an element with a user defined id', async (test) => {
 	const result = await test.context.backend.insertElement({
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		slug: 'foo',
@@ -131,7 +131,7 @@ ava.test('.insertElement() should not insert an element with a user defined id',
 	}), result)
 })
 
-ava.test('.insertElement() should insert an element with a non-existent id and slug', async (test) => {
+ava('.insertElement() should insert an element with a non-existent id and slug', async (test) => {
 	const result = await test.context.backend.insertElement({
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		slug: 'example',
@@ -146,7 +146,7 @@ ava.test('.insertElement() should insert an element with a non-existent id and s
 	}), result)
 })
 
-ava.test('.insertElement() should not be able to set any links', async (test) => {
+ava('.insertElement() should not be able to set any links', async (test) => {
 	const result = await test.context.backend.insertElement({
 		slug: 'foo',
 		type: 'card',
@@ -159,7 +159,7 @@ ava.test('.insertElement() should not be able to set any links', async (test) =>
 	test.deepEqual(element.links, {})
 })
 
-ava.test('.insertElement() should not re-use the id when inserting an element with an existent id', async (test) => {
+ava('.insertElement() should not re-use the id when inserting an element with an existent id', async (test) => {
 	const result1 = await test.context.backend.insertElement({
 		slug: 'foo',
 		foo: 'bar'
@@ -174,18 +174,18 @@ ava.test('.insertElement() should not re-use the id when inserting an element wi
 	test.not(result1.id, result2.id)
 })
 
-ava.test('.insertElement() should fail to insert an element with an existent slug', async (test) => {
+ava('.insertElement() should fail to insert an element with an existent slug', async (test) => {
 	await test.context.backend.insertElement({
 		slug: 'bar'
 	})
 
-	await test.throws(test.context.backend.insertElement({
+	await test.throwsAsync(test.context.backend.insertElement({
 		slug: 'bar',
 		foo: 'baz'
 	}), errors.JellyfishElementAlreadyExists)
 })
 
-ava.test('.insertElement() should not re-use ids when inserting an' +
+ava('.insertElement() should not re-use ids when inserting an' +
 				' element with an existent id but non-existent slug', async (test) => {
 	const result1 = await test.context.backend.insertElement({
 		slug: 'foo',
@@ -201,7 +201,7 @@ ava.test('.insertElement() should not re-use ids when inserting an' +
 	test.not(result2.id, result1.id)
 })
 
-ava.test('.insertElement() should fail to insert an element with a non-existent id but existent slug', async (test) => {
+ava('.insertElement() should fail to insert an element with a non-existent id but existent slug', async (test) => {
 	const result = await test.context.backend.insertElement({
 		slug: 'foo',
 		foo: 'bar'
@@ -209,14 +209,14 @@ ava.test('.insertElement() should fail to insert an element with a non-existent 
 
 	test.not(result.id, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
 
-	await test.throws(test.context.backend.insertElement({
+	await test.throwsAsync(test.context.backend.insertElement({
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		slug: 'foo',
 		foo: 'baz'
 	}), errors.JellyfishElementAlreadyExists)
 })
 
-ava.test('.upsertElement() should not be able to set links using an id', async (test) => {
+ava('.upsertElement() should not be able to set links using an id', async (test) => {
 	const result = await test.context.backend.upsertElement({
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		slug: 'foo',
@@ -230,7 +230,7 @@ ava.test('.upsertElement() should not be able to set links using an id', async (
 	test.deepEqual(element.links, {})
 })
 
-ava.test('.upsertElement() should update linked cards when inserting a link', async (test) => {
+ava('.upsertElement() should update linked cards when inserting a link', async (test) => {
 	const thread = await test.context.backend.upsertElement({
 		type: 'thread',
 		slug: 'foo',
@@ -282,7 +282,7 @@ ava.test('.upsertElement() should update linked cards when inserting a link', as
 	})
 })
 
-ava.test('.upsertElement() should not be able to set links using both an id and a slug', async (test) => {
+ava('.upsertElement() should not be able to set links using both an id and a slug', async (test) => {
 	const result = await test.context.backend.upsertElement({
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		slug: 'foo-bar',
@@ -296,7 +296,7 @@ ava.test('.upsertElement() should not be able to set links using both an id and 
 	test.deepEqual(element.links, {})
 })
 
-ava.test('.upsertElement() should not be able to set links using a slug', async (test) => {
+ava('.upsertElement() should not be able to set links using a slug', async (test) => {
 	const result = await test.context.backend.upsertElement({
 		slug: 'foo-bar',
 		links: {
@@ -309,7 +309,7 @@ ava.test('.upsertElement() should not be able to set links using a slug', async 
 	test.deepEqual(element.links, {})
 })
 
-ava.test('.upsertElement() should not be able to set links using no id nor slug', async (test) => {
+ava('.upsertElement() should not be able to set links using no id nor slug', async (test) => {
 	const result = await test.context.backend.upsertElement({
 		slug: 'foo',
 		links: {
@@ -322,7 +322,7 @@ ava.test('.upsertElement() should not be able to set links using no id nor slug'
 	test.deepEqual(element.links, {})
 })
 
-ava.test('.upsertElement() should not be able to change a slug', async (test) => {
+ava('.upsertElement() should not be able to change a slug', async (test) => {
 	const result1 = await test.context.backend.upsertElement({
 		test: 'foo',
 		slug: 'foo',
@@ -339,7 +339,7 @@ ava.test('.upsertElement() should not be able to change a slug', async (test) =>
 	test.is(result1.slug, 'foo')
 })
 
-ava.test('.upsertElement() should insert a card with a slug', async (test) => {
+ava('.upsertElement() should insert a card with a slug', async (test) => {
 	const result = await test.context.backend.upsertElement({
 		slug: 'example',
 		test: 'foo'
@@ -350,7 +350,7 @@ ava.test('.upsertElement() should insert a card with a slug', async (test) => {
 	test.deepEqual(element, result)
 })
 
-ava.test('.upsertElement() should replace an element given the slug but no id', async (test) => {
+ava('.upsertElement() should replace an element given the slug but no id', async (test) => {
 	const result1 = await test.context.backend.upsertElement({
 		slug: 'example',
 		test: 'foo',
@@ -367,7 +367,7 @@ ava.test('.upsertElement() should replace an element given the slug but no id', 
 	test.deepEqual(element, result2)
 })
 
-ava.test('.upsertElement() should not let clients pick their own ids', async (test) => {
+ava('.upsertElement() should not let clients pick their own ids', async (test) => {
 	const result = await test.context.backend.upsertElement({
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		slug: 'example',
@@ -381,13 +381,13 @@ ava.test('.upsertElement() should not let clients pick their own ids', async (te
 	}), result)
 })
 
-ava.test('.upsertElement() should not be able to upsert without a slug nor an id', async (test) => {
-	await test.throws(test.context.backend.upsertElement({
+ava('.upsertElement() should not be able to upsert without a slug nor an id', async (test) => {
+	await test.throwsAsync(test.context.backend.upsertElement({
 		test: 'foo'
 	}), errors.JellyfishDatabaseError)
 })
 
-ava.test('.upsertElement() should not consider ids when inserting an element with an existing id' +
+ava('.upsertElement() should not consider ids when inserting an element with an existing id' +
          ', but matching the slug of another element', async (test) => {
 	const result1 = await test.context.backend.upsertElement({
 		slug: 'example'
@@ -411,7 +411,7 @@ ava.test('.upsertElement() should not consider ids when inserting an element wit
 	})
 })
 
-ava.test('.upsertElement() should replace an element with an existing id and the slug of the same element', async (test) => {
+ava('.upsertElement() should replace an element with an existing id and the slug of the same element', async (test) => {
 	const result1 = await test.context.backend.upsertElement({
 		slug: 'example'
 	})
@@ -427,7 +427,7 @@ ava.test('.upsertElement() should replace an element with an existing id and the
 	test.deepEqual(element, result2)
 })
 
-ava.test('.upsertElement() should ignore the id when' +
+ava('.upsertElement() should ignore the id when' +
 					' inserting an element with a non existing id and the slug of an element', async (test) => {
 	const result1 = await test.context.backend.upsertElement({
 		slug: 'example'
@@ -447,14 +447,14 @@ ava.test('.upsertElement() should ignore the id when' +
 	})
 })
 
-ava.test('.upsertElement() should not insert an element with a non-matching id nor slug', async (test) => {
-	await test.throws(test.context.backend.upsertElement({
+ava('.upsertElement() should not insert an element with a non-matching id nor slug', async (test) => {
+	await test.throwsAsync(test.context.backend.upsertElement({
 		id: '9af7cf33-1a29-4f0c-a73b-f6a2b149850c',
 		test: 'foo'
 	}), errors.JellyfishDatabaseError)
 })
 
-ava.test('.query() should query the database using JSON schema', async (test) => {
+ava('.query() should query the database using JSON schema', async (test) => {
 	const result1 = await test.context.backend.upsertElement({
 		type: 'example',
 		slug: 'foo',
@@ -496,7 +496,7 @@ ava.test('.query() should query the database using JSON schema', async (test) =>
 	test.deepEqual(_.sortBy(results, [ 'test' ]), [ result1, result2 ])
 })
 
-ava.test('.query() should query an element by its id', async (test) => {
+ava('.query() should query an element by its id', async (test) => {
 	const result = await test.context.backend.upsertElement({
 		type: 'example',
 		slug: 'foo',
@@ -518,7 +518,7 @@ ava.test('.query() should query an element by its id', async (test) => {
 	test.deepEqual(results, [ result ])
 })
 
-ava.test('.query() should fail to query an element by its id', async (test) => {
+ava('.query() should fail to query an element by its id', async (test) => {
 	const result = await test.context.backend.upsertElement({
 		type: 'example',
 		slug: 'foo',
@@ -541,7 +541,7 @@ ava.test('.query() should fail to query an element by its id', async (test) => {
 	test.deepEqual(results, [])
 })
 
-ava.test('.query() should query an element by its slug', async (test) => {
+ava('.query() should query an element by its slug', async (test) => {
 	const result = await test.context.backend.upsertElement({
 		type: 'example',
 		slug: 'hello',
@@ -563,7 +563,7 @@ ava.test('.query() should query an element by its slug', async (test) => {
 	test.deepEqual(results, [ result ])
 })
 
-ava.test('.query() should fail to query an element by its slug', async (test) => {
+ava('.query() should fail to query an element by its slug', async (test) => {
 	await test.context.backend.upsertElement({
 		type: 'example',
 		slug: 'hello',
@@ -584,7 +584,7 @@ ava.test('.query() should fail to query an element by its slug', async (test) =>
 	test.deepEqual(results, [])
 })
 
-ava.test('.query() should not return unspecified properties', async (test) => {
+ava('.query() should not return unspecified properties', async (test) => {
 	const result = await test.context.backend.upsertElement({
 		type: 'example',
 		slug: 'hello',
@@ -613,7 +613,7 @@ ava.test('.query() should not return unspecified properties', async (test) => {
 	])
 })
 
-ava.test('.query() should be able to provide a sort function', async (test) => {
+ava('.query() should be able to provide a sort function', async (test) => {
 	const result1 = await test.context.backend.upsertElement({
 		type: 'card',
 		slug: 'baz',
@@ -648,7 +648,7 @@ ava.test('.query() should be able to provide a sort function', async (test) => {
 	test.deepEqual(results, [ result1, result3, result2 ])
 })
 
-ava.test('.query() should be able to limit the results', async (test) => {
+ava('.query() should be able to limit the results', async (test) => {
 	const result1 = await test.context.backend.upsertElement({
 		type: 'card',
 		slug: 'foo',
@@ -693,7 +693,7 @@ ava.test('.query() should be able to limit the results', async (test) => {
 	test.deepEqual(_.sortBy(results, [ 'test' ]), [ result1, result2 ])
 })
 
-ava.test('.query() should be able to skip the results', async (test) => {
+ava('.query() should be able to skip the results', async (test) => {
 	await test.context.backend.upsertElement({
 		type: 'card',
 		slug: 'foo',
@@ -738,7 +738,7 @@ ava.test('.query() should be able to skip the results', async (test) => {
 	test.deepEqual(_.sortBy(results, [ 'test' ]), [ result3 ])
 })
 
-ava.test('.query() should be able to skip the results of a one-element query', async (test) => {
+ava('.query() should be able to skip the results of a one-element query', async (test) => {
 	const card = await test.context.backend.upsertElement({
 		type: 'card',
 		slug: 'foo',
@@ -764,7 +764,7 @@ ava.test('.query() should be able to skip the results of a one-element query', a
 	test.deepEqual(results, [])
 })
 
-ava.test('.query() should not skip the results of a one-element query if skip is set to zero', async (test) => {
+ava('.query() should not skip the results of a one-element query if skip is set to zero', async (test) => {
 	const card = await test.context.backend.upsertElement({
 		type: 'card',
 		slug: 'foo',
@@ -794,7 +794,7 @@ ava.test('.query() should not skip the results of a one-element query if skip is
 	])
 })
 
-ava.test('.query() should be able to limit the results of a one-element query to 0', async (test) => {
+ava('.query() should be able to limit the results of a one-element query to 0', async (test) => {
 	const card = await test.context.backend.upsertElement({
 		type: 'card',
 		slug: 'foo',
@@ -820,7 +820,7 @@ ava.test('.query() should be able to limit the results of a one-element query to
 	test.deepEqual(results, [])
 })
 
-ava.test('.query() should not omit the results of a one-element query if limit is set to one', async (test) => {
+ava('.query() should not omit the results of a one-element query if limit is set to one', async (test) => {
 	const card = await test.context.backend.upsertElement({
 		type: 'card',
 		slug: 'foo',
@@ -850,7 +850,7 @@ ava.test('.query() should not omit the results of a one-element query if limit i
 	])
 })
 
-ava.test('.query() should be able to limit and skip the results', async (test) => {
+ava('.query() should be able to limit and skip the results', async (test) => {
 	await test.context.backend.upsertElement({
 		type: 'card',
 		slug: 'foo',
@@ -896,7 +896,7 @@ ava.test('.query() should be able to limit and skip the results', async (test) =
 	test.deepEqual(_.sortBy(results, [ 'test' ]), [ result2 ])
 })
 
-ava.test('.query() should be able to sort the query using a key', async (test) => {
+ava('.query() should be able to sort the query using a key', async (test) => {
 	const card1 = await test.context.backend.upsertElement({
 		slug: 'foo',
 		type: 'card',
@@ -942,7 +942,7 @@ ava.test('.query() should be able to sort the query using a key', async (test) =
 	test.deepEqual(results, [ card2, card4, card3, card1 ])
 })
 
-ava.test('.query() should be able to sort the query in descending order', async (test) => {
+ava('.query() should be able to sort the query in descending order', async (test) => {
 	const card1 = await test.context.backend.upsertElement({
 		slug: 'foo',
 		type: 'card',
@@ -989,7 +989,7 @@ ava.test('.query() should be able to sort the query in descending order', async 
 	test.deepEqual(results, [ card1, card3, card4, card2 ])
 })
 
-ava.test('.query() should be able to sort the query using an array of keys', async (test) => {
+ava('.query() should be able to sort the query using an array of keys', async (test) => {
 	const card1 = await test.context.backend.upsertElement({
 		slug: 'foo',
 		type: 'card',
@@ -1039,7 +1039,7 @@ ava.test('.query() should be able to sort the query using an array of keys', asy
 	test.deepEqual(results, [ card2, card4, card3, card1 ])
 })
 
-ava.test('.query() should apply sort before skip', async (test) => {
+ava('.query() should apply sort before skip', async (test) => {
 	const card1 = await test.context.backend.upsertElement({
 		slug: 'foo',
 		type: 'card',
@@ -1086,7 +1086,7 @@ ava.test('.query() should apply sort before skip', async (test) => {
 	test.deepEqual(results, [ card3, card1 ])
 })
 
-ava.test('.query() should apply sort before limit', async (test) => {
+ava('.query() should apply sort before limit', async (test) => {
 	await test.context.backend.upsertElement({
 		slug: 'foo',
 		type: 'card',
@@ -1133,7 +1133,7 @@ ava.test('.query() should apply sort before limit', async (test) => {
 	test.deepEqual(results, [ card2, card4 ])
 })
 
-ava.test('.query() should be able to query using links', async (test) => {
+ava('.query() should be able to query using links', async (test) => {
 	const thread1 = await test.context.backend.upsertElement({
 		type: 'thread',
 		slug: 'foo',
@@ -1316,7 +1316,7 @@ ava.test('.query() should be able to query using links', async (test) => {
 	])
 })
 
-ava.test('.query() should be able to query using links when getting an element by id', async (test) => {
+ava('.query() should be able to query using links when getting an element by id', async (test) => {
 	const thread = await test.context.backend.upsertElement({
 		type: 'thread',
 		links: {},
@@ -1404,7 +1404,7 @@ ava.test('.query() should be able to query using links when getting an element b
 	])
 })
 
-ava.test('.query() should be able to query using links when getting an element by slug', async (test) => {
+ava('.query() should be able to query using links when getting an element by slug', async (test) => {
 	const thread = await test.context.backend.upsertElement({
 		type: 'thread',
 		slug: 'foo',
@@ -1489,7 +1489,7 @@ ava.test('.query() should be able to query using links when getting an element b
 	])
 })
 
-ava.test('.query() should be able to query using links and an inverse name', async (test) => {
+ava('.query() should be able to query using links and an inverse name', async (test) => {
 	const thread = await test.context.backend.upsertElement({
 		type: 'thread',
 		slug: 'mythread',
@@ -1606,7 +1606,7 @@ ava.test('.query() should be able to query using links and an inverse name', asy
 	])
 })
 
-ava.test('.query() should omit a result if a link does not match', async (test) => {
+ava('.query() should omit a result if a link does not match', async (test) => {
 	const thread = await test.context.backend.upsertElement({
 		type: 'thread',
 		slug: 'mythread',
@@ -1721,7 +1721,7 @@ ava.test('.query() should omit a result if a link does not match', async (test) 
 	])
 })
 
-ava.test.cb('.stream() should report back new elements that match a certain type', (test) => {
+ava.cb('.stream() should report back new elements that match a certain type', (test) => {
 	test.context.backend.stream({
 		type: 'object',
 		properties: {
@@ -1763,7 +1763,7 @@ ava.test.cb('.stream() should report back new elements that match a certain type
 	}).catch(test.end)
 })
 
-ava.test.cb('.stream() should report back changes to certain elements', (test) => {
+ava.cb('.stream() should report back changes to certain elements', (test) => {
 	test.context.backend.insertElement({
 		type: 'foo',
 		slug: 'hello',
@@ -1825,7 +1825,7 @@ ava.test.cb('.stream() should report back changes to certain elements', (test) =
 	}).catch(test.end)
 })
 
-ava.test.cb('.stream() should close without finding anything', (test) => {
+ava.cb('.stream() should close without finding anything', (test) => {
 	test.context.backend.stream({
 		type: 'object',
 		properties: {
@@ -1842,7 +1842,7 @@ ava.test.cb('.stream() should close without finding anything', (test) => {
 	}).catch(test.end)
 })
 
-ava.test.cb('.stream() should set "before" to null if it previously did not match the schema', (test) => {
+ava.cb('.stream() should set "before" to null if it previously did not match the schema', (test) => {
 	test.context.backend.insertElement({
 		slug: 'foobarbaz',
 		type: 'foo',
@@ -1887,7 +1887,7 @@ ava.test.cb('.stream() should set "before" to null if it previously did not matc
 	}).catch(test.end)
 })
 
-ava.test.cb('.stream() should filter the "before" section of a change', (test) => {
+ava.cb('.stream() should filter the "before" section of a change', (test) => {
 	test.context.backend.insertElement({
 		type: 'foo',
 		slug: 'hello',
@@ -1939,8 +1939,8 @@ ava.test.cb('.stream() should filter the "before" section of a change', (test) =
 	}).catch(test.end)
 })
 
-ava.test('.stream() should throw if the schema is invalid', async (test) => {
-	await test.throws(test.context.backend.stream({
+ava('.stream() should throw if the schema is invalid', async (test) => {
+	await test.throwsAsync(test.context.backend.stream({
 		type: 'object',
 		properties: {
 			type: {
@@ -1951,7 +1951,7 @@ ava.test('.stream() should throw if the schema is invalid', async (test) => {
 	}))
 })
 
-ava.test('.upsertElement() should handle multiple parallel insertions on the same slug', async (test) => {
+ava('.upsertElement() should handle multiple parallel insertions on the same slug', async (test) => {
 	for (const time of _.range(200)) {
 		const object = {
 			slug: 'foo-bar-baz',
@@ -1989,7 +1989,7 @@ ava.test('.upsertElement() should handle multiple parallel insertions on the sam
 	}
 })
 
-ava.test('.insertElement() should handle multiple parallel insertions on the same slug', async (test) => {
+ava('.insertElement() should handle multiple parallel insertions on the same slug', async (test) => {
 	for (const time of _.range(200)) {
 		const object = {
 			slug: 'foo-bar-baz',

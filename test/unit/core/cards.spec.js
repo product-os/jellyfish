@@ -22,8 +22,8 @@ const skhema = require('skhema')
 const CARDS = require('../../../lib/core/cards')
 const helpers = require('./helpers')
 
-ava.test.beforeEach(helpers.kernel.beforeEach)
-ava.test.afterEach(helpers.kernel.afterEach)
+ava.beforeEach(helpers.kernel.beforeEach)
+ava.afterEach(helpers.kernel.afterEach)
 
 const isCardMacro = async (test, type, card, expected) => {
 	test.deepEqual(skhema.isValid(type.data.schema, card), expected)
@@ -39,10 +39,10 @@ _.each(_.map(fs.readdirSync(path.join(__dirname, 'cards')), (file) => {
 		json: require(path.join(__dirname, 'cards', file))
 	}
 }), (testCase) => {
-	ava.test('examples', isCardMacro, CARDS.card, testCase.json.card, testCase.json.valid)
+	ava(`examples: ${testCase.name}`, isCardMacro, CARDS.card, testCase.json.card, testCase.json.valid)
 })
 
 _.each(CARDS, (value, key) => {
-	ava.test(key, isCardMacro, CARDS.card, value, true)
-	ava.test(key, isCardMacro, CARDS[value.type], value, true)
+	ava(key, isCardMacro, CARDS.card, value, true)
+	ava(key, isCardMacro, CARDS[value.type], value, true)
 })

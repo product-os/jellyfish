@@ -26,6 +26,19 @@ const WAIT_OPTS = {
 
 const context = {}
 
+// Useful for debugging failed tests
+// eslint-disable-next-line
+const screenshot = async (test, page) => {
+	test.context.screenshots = (test.context.screenshots || 0) + 1
+	const dir = '/tmp/test-results/screenshots'
+	const file = `${test.title}.${test.context.screenshots}.png`
+	const path = `${dir}/${file}`
+	await page.screenshot({
+		path
+	})
+	console.log(`Saved screenshot: ${file}`)
+}
+
 // Using page.type to change this input field regularly cuases characters to
 // be "dropped" - the workaround here is to use a script to set the value of
 // the input, and then trigger a change event that React can respond to
@@ -61,19 +74,19 @@ const users = {
 	}
 }
 
-ava.test.before(async () => {
+ava.before(async () => {
 	await helpers.browser.beforeEach({
 		context
 	})
 })
 
-ava.test.after(async () => {
+ava.after(async () => {
 	await helpers.browser.afterEach({
 		context
 	})
 })
 
-ava.test.serial('should let new users signup', async (test) => {
+ava.serial('should let new users signup', async (test) => {
 	const {
 		page,
 		server
@@ -99,7 +112,7 @@ ava.test.serial('should let new users signup', async (test) => {
 	test.pass()
 })
 
-ava.test.serial('should let users logout', async (test) => {
+ava.serial('should let users logout', async (test) => {
 	const {
 		page
 	} = context
@@ -115,7 +128,7 @@ ava.test.serial('should let users logout', async (test) => {
 	test.pass()
 })
 
-ava.test.serial('should let users login', async (test) => {
+ava.serial('should let users login', async (test) => {
 	const {
 		page
 	} = context
@@ -132,7 +145,7 @@ ava.test.serial('should let users login', async (test) => {
 	test.pass()
 })
 
-ava.test.serial('should render a list of views in the sidebar', async (test) => {
+ava.serial('should render a list of views in the sidebar', async (test) => {
 	const {
 		page
 	} = context
@@ -144,7 +157,7 @@ ava.test.serial('should render a list of views in the sidebar', async (test) => 
 	test.pass()
 })
 
-ava.test.serial('should render the community chat view for newly signed up users', async (test) => {
+ava.serial('should render the community chat view for newly signed up users', async (test) => {
 	const {
 		page
 	} = context
@@ -163,7 +176,7 @@ ava.test.serial('should render the community chat view for newly signed up users
 	test.pass()
 })
 
-ava.test.serial('should allow newly signed up users to create new chat threads', async (test) => {
+ava.serial('should allow newly signed up users to create new chat threads', async (test) => {
 	const {
 		page
 	} = context
@@ -177,7 +190,7 @@ ava.test.serial('should allow newly signed up users to create new chat threads',
 	test.pass()
 })
 
-ava.test.serial('should allow newly signed up users to create chat messages', async (test) => {
+ava.serial('should allow newly signed up users to create chat messages', async (test) => {
 	const {
 		page
 	} = context
@@ -199,7 +212,7 @@ ava.test.serial('should allow newly signed up users to create chat messages', as
 	test.is(result, messageText)
 })
 
-ava.test.serial('should allow team-admin users to update user\'s roles', async (test) => {
+ava.serial('should allow team-admin users to update user\'s roles', async (test) => {
 	const {
 		page
 	} = context
@@ -296,7 +309,7 @@ ava.test.serial('should allow team-admin users to update user\'s roles', async (
 	test.deepEqual(card.data.roles, [ 'user-community', 'user-team' ])
 })
 
-ava.test.serial('After updating a user\'s roles, the other user fields should remain intact', async (test) => {
+ava.serial('After updating a user\'s roles, the other user fields should remain intact', async (test) => {
 	// Retrieve the user card
 	const userCard = await context.server.jellyfish.getCardBySlug(context.session, `user-${users.community.username}`)
 

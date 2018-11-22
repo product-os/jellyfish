@@ -43,6 +43,10 @@ jobs:
       - run:
           name: Start RethinkDB
           command: rethinkdb --daemon --bind all
+
+      # Setup artifact store for UI integration test screenshots
+      - run: mkdir -p /tmp/test-results/screenshots
+
       - run:
           name: Lint
           command: make lint
@@ -78,3 +82,10 @@ jobs:
       - run:
           name: Parallel Core Inserts (previous)
           command: node stress/core/insert-parallel.js
+
+      # Store artifacts for debugging purposes
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results

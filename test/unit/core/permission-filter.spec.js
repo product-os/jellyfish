@@ -20,17 +20,17 @@ const errors = require('../../../lib/core/errors')
 const CARDS = require('../../../lib/core/cards')
 const helpers = require('./helpers')
 
-ava.test.beforeEach(helpers.kernel.beforeEach)
-ava.test.afterEach(helpers.kernel.afterEach)
+ava.beforeEach(helpers.kernel.beforeEach)
+ava.afterEach(helpers.kernel.afterEach)
 
-ava.test('.getSessionUser() should throw if the session is invalid', async (test) => {
-	await test.throws(permissionFilter.getSessionUser(test.context.backend, 'xxxxxxxxxxxxxxxxxxxxxxxxxx', {
+ava('.getSessionUser() should throw if the session is invalid', async (test) => {
+	await test.throwsAsync(permissionFilter.getSessionUser(test.context.backend, 'xxxxxxxxxxxxxxxxxxxxxxxxxx', {
 		user: 'cards',
 		session: 'sessions'
 	}), errors.JellyfishNoElement)
 })
 
-ava.test('.getSessionUser() should throw if the session actor is invalid', async (test) => {
+ava('.getSessionUser() should throw if the session actor is invalid', async (test) => {
 	const session = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: test.context.generateRandomSlug({
 			prefix: 'session'
@@ -42,13 +42,13 @@ ava.test('.getSessionUser() should throw if the session actor is invalid', async
 		}
 	}))
 
-	await test.throws(permissionFilter.getSessionUser(test.context.backend, session.id, {
+	await test.throwsAsync(permissionFilter.getSessionUser(test.context.backend, session.id, {
 		user: 'cards',
 		session: 'sessions'
 	}), errors.JellyfishNoElement)
 })
 
-ava.test('.getSessionUser() should get the session user given the session did not expire', async (test) => {
+ava('.getSessionUser() should get the session user given the session did not expire', async (test) => {
 	const result = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'user-johndoe',
 		type: 'user',
@@ -84,7 +84,7 @@ ava.test('.getSessionUser() should get the session user given the session did no
 	}, user))
 })
 
-ava.test('.getSessionUser() should throw if the session expired', async (test) => {
+ava('.getSessionUser() should throw if the session expired', async (test) => {
 	const user = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'user-johndoe',
 		type: 'user',
@@ -110,18 +110,18 @@ ava.test('.getSessionUser() should throw if the session expired', async (test) =
 		}
 	}))
 
-	await test.throws(permissionFilter.getSessionUser(test.context.backend, session.id, {
+	await test.throwsAsync(permissionFilter.getSessionUser(test.context.backend, session.id, {
 		user: 'cards',
 		session: 'sessions'
 	}), errors.JellyfishSessionExpired)
 })
 
-ava.test('.getViews() should return an empty array given no views', async (test) => {
+ava('.getViews() should return an empty array given no views', async (test) => {
 	const filters = await permissionFilter.getViews(test.context.backend, [])
 	test.deepEqual(filters, [])
 })
 
-ava.test('.getViews() should return the schema of a single view', async (test) => {
+ava('.getViews() should return the schema of a single view', async (test) => {
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'view-read-foo',
 		type: 'view',
@@ -167,7 +167,7 @@ ava.test('.getViews() should return the schema of a single view', async (test) =
 	])
 })
 
-ava.test('.getViews() should ignore undefined views', async (test) => {
+ava('.getViews() should ignore undefined views', async (test) => {
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'view-read-foo',
 		type: 'view',
@@ -215,7 +215,7 @@ ava.test('.getViews() should ignore undefined views', async (test) => {
 	])
 })
 
-ava.test('.getViews() should ignore cards that are not views', async (test) => {
+ava('.getViews() should ignore cards that are not views', async (test) => {
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'view-read-hello',
 		type: 'card',
@@ -285,7 +285,7 @@ ava.test('.getViews() should ignore cards that are not views', async (test) => {
 	])
 })
 
-ava.test('.getViews() should return the schemas of two roles', async (test) => {
+ava('.getViews() should return the schemas of two roles', async (test) => {
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'view-read-foo',
 		type: 'view',
@@ -365,12 +365,12 @@ ava.test('.getViews() should return the schemas of two roles', async (test) => {
 	])
 })
 
-ava.test('.getViewSchema() should return null if the card is not a view', (test) => {
+ava('.getViewSchema() should return null if the card is not a view', (test) => {
 	const schema = permissionFilter.getViewSchema(CARDS['user-admin'])
 	test.deepEqual(schema, null)
 })
 
-ava.test('.getViewSchema() should preserve template interpolations in user properties', (test) => {
+ava('.getViewSchema() should preserve template interpolations in user properties', (test) => {
 	const schema = permissionFilter.getViewSchema(test.context.kernel.defaults({
 		type: 'view',
 		version: '1.0.0',
@@ -409,7 +409,7 @@ ava.test('.getViewSchema() should preserve template interpolations in user prope
 	})
 })
 
-ava.test('.getViewSchema() should preserve template interpolations in schema properties', (test) => {
+ava('.getViewSchema() should preserve template interpolations in schema properties', (test) => {
 	const schema = permissionFilter.getViewSchema(test.context.kernel.defaults({
 		type: 'view',
 		version: '1.0.0',
@@ -446,7 +446,7 @@ ava.test('.getViewSchema() should preserve template interpolations in schema pro
 	})
 })
 
-ava.test('.getViewSchema() should return a schema given a view card with two conjunctions', (test) => {
+ava('.getViewSchema() should return a schema given a view card with two conjunctions', (test) => {
 	const schema = permissionFilter.getViewSchema(test.context.kernel.defaults({
 		type: 'view',
 		version: '1.0.0',
@@ -495,7 +495,7 @@ ava.test('.getViewSchema() should return a schema given a view card with two con
 	})
 })
 
-ava.test('.getViewSchema() should return a schema given a view card with two conjunctions and empty disjunctions', (test) => {
+ava('.getViewSchema() should return a schema given a view card with two conjunctions and empty disjunctions', (test) => {
 	const schema = permissionFilter.getViewSchema(test.context.kernel.defaults({
 		type: 'view',
 		version: '1.0.0',
@@ -545,7 +545,7 @@ ava.test('.getViewSchema() should return a schema given a view card with two con
 	})
 })
 
-ava.test('.getViewSchema() should return a schema given a view card with two disjunctions', (test) => {
+ava('.getViewSchema() should return a schema given a view card with two disjunctions', (test) => {
 	const schema = permissionFilter.getViewSchema(test.context.kernel.defaults({
 		type: 'view',
 		version: '1.0.0',
@@ -608,7 +608,7 @@ ava.test('.getViewSchema() should return a schema given a view card with two dis
 	})
 })
 
-ava.test('.getViewSchema() should return a schema given a view card with two disjunctions and empty conjunctions', (test) => {
+ava('.getViewSchema() should return a schema given a view card with two disjunctions and empty conjunctions', (test) => {
 	const schema = permissionFilter.getViewSchema(test.context.kernel.defaults({
 		type: 'view',
 		version: '1.0.0',
@@ -672,7 +672,7 @@ ava.test('.getViewSchema() should return a schema given a view card with two dis
 	})
 })
 
-ava.test('.getViewSchema() should return a schema given a view card with two disjunctions and two conjunctions', (test) => {
+ava('.getViewSchema() should return a schema given a view card with two disjunctions and two conjunctions', (test) => {
 	const schema = permissionFilter.getViewSchema(test.context.kernel.defaults({
 		type: 'view',
 		version: '1.0.0',
@@ -771,7 +771,7 @@ ava.test('.getViewSchema() should return a schema given a view card with two dis
 	})
 })
 
-ava.test('.getViewSchema() should return null given a view card with no filters', (test) => {
+ava('.getViewSchema() should return null given a view card with no filters', (test) => {
 	const schema = permissionFilter.getViewSchema({
 		type: 'view',
 		version: '1.0.0',

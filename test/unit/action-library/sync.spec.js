@@ -21,10 +21,10 @@ const typedErrors = require('typed-errors')
 const sync = require('../../../lib/action-library/sync')
 const NoOpIntegration = require('./noop-integration')
 
-ava.test.beforeEach(helpers.sync.beforeEach)
-ava.test.afterEach(helpers.sync.afterEach)
+ava.beforeEach(helpers.sync.beforeEach)
+ava.afterEach(helpers.sync.afterEach)
 
-ava.test('.importCards() should import no card', async (test) => {
+ava('.importCards() should import no card', async (test) => {
 	const result = await sync.importCards(test.context.context, test.context.session, [], {
 		actor: test.context.actor.id
 	})
@@ -32,8 +32,8 @@ ava.test('.importCards() should import no card', async (test) => {
 	test.deepEqual(result, [])
 })
 
-ava.test('.importCards() should throw if the type is invalid', async (test) => {
-	await test.throws(sync.importCards(test.context.context, test.context.session, [
+ava('.importCards() should throw if the type is invalid', async (test) => {
+	await test.throwsAsync(sync.importCards(test.context.context, test.context.session, [
 		{
 			time: new Date(),
 			card: {
@@ -50,7 +50,7 @@ ava.test('.importCards() should throw if the type is invalid', async (test) => {
 	}), test.context.worker.errors.WorkerNoElement)
 })
 
-ava.test('.importCards() should import a single card', async (test) => {
+ava('.importCards() should import a single card', async (test) => {
 	const result = await sync.importCards(test.context.context, test.context.session, [
 		{
 			time: new Date(),
@@ -81,7 +81,7 @@ ava.test('.importCards() should import a single card', async (test) => {
 	])
 })
 
-ava.test('.importCards() should patch an existing card', async (test) => {
+ava('.importCards() should patch an existing card', async (test) => {
 	const card = await test.context.jellyfish.insertCard(test.context.session, test.context.kernel.defaults({
 		type: 'card',
 		slug: 'foo',
@@ -124,7 +124,7 @@ ava.test('.importCards() should patch an existing card', async (test) => {
 	])
 })
 
-ava.test('.importCards() should import two independent cards', async (test) => {
+ava('.importCards() should import two independent cards', async (test) => {
 	const result = await sync.importCards(test.context.context, test.context.session, [
 		{
 			time: new Date(),
@@ -176,7 +176,7 @@ ava.test('.importCards() should import two independent cards', async (test) => {
 	].map(test.context.kernel.defaults))
 })
 
-ava.test('.importCards() should import two parallel cards', async (test) => {
+ava('.importCards() should import two parallel cards', async (test) => {
 	const result = await sync.importCards(test.context.context, test.context.session, [
 		[
 			{
@@ -232,7 +232,7 @@ ava.test('.importCards() should import two parallel cards', async (test) => {
 	].map(test.context.kernel.defaults))
 })
 
-ava.test('.importCards() should import dependent cards', async (test) => {
+ava('.importCards() should import dependent cards', async (test) => {
 	const result = await sync.importCards(test.context.context, test.context.session, [
 		{
 			time: new Date(),
@@ -292,8 +292,8 @@ ava.test('.importCards() should import dependent cards', async (test) => {
 	])
 })
 
-ava.test('.importCards() should throw if a template does not evaluate', async (test) => {
-	await test.throws(sync.importCards(test.context.context, test.context.session, [
+ava('.importCards() should throw if a template does not evaluate', async (test) => {
+	await test.throwsAsync(sync.importCards(test.context.context, test.context.session, [
 		{
 			time: new Date(),
 			card: {
@@ -323,7 +323,7 @@ ava.test('.importCards() should throw if a template does not evaluate', async (t
 	}), test.context.worker.errors.WorkerInvalidTemplate)
 })
 
-ava.test('.importCards() should import a dependent card in parallel segment', async (test) => {
+ava('.importCards() should import a dependent card in parallel segment', async (test) => {
 	const result = await sync.importCards(test.context.context, test.context.session, [
 		{
 			time: new Date(),
@@ -404,7 +404,7 @@ ava.test('.importCards() should import a dependent card in parallel segment', as
 	].map(test.context.kernel.defaults))
 })
 
-ava.test('.importCards() should add create events', async (test) => {
+ava('.importCards() should add create events', async (test) => {
 	const result = await sync.importCards(test.context.context, test.context.session, [
 		{
 			time: new Date(),
@@ -446,7 +446,7 @@ ava.test('.importCards() should add create events', async (test) => {
 	test.is(timeline[0].type, 'create')
 })
 
-ava.test('.translateExternalEvent() should translate an external event through the noop integration', async (test) => {
+ava('.translateExternalEvent() should translate an external event through the noop integration', async (test) => {
 	class TestIntegration extends NoOpIntegration {
 		constructor () {
 			super()
@@ -497,7 +497,7 @@ ava.test('.translateExternalEvent() should translate an external event through t
 	])
 })
 
-ava.test('.translateExternalEvent() should destroy the integration even if there was an import error', async (test) => {
+ava('.translateExternalEvent() should destroy the integration even if there was an import error', async (test) => {
 	class TestIntegration extends NoOpIntegration {
 		constructor () {
 			super()
@@ -505,7 +505,7 @@ ava.test('.translateExternalEvent() should destroy the integration even if there
 		}
 	}
 
-	await test.throws(sync.translateExternalEvent(TestIntegration, test.context.kernel.defaults({
+	await test.throwsAsync(sync.translateExternalEvent(TestIntegration, test.context.kernel.defaults({
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		slug: test.context.generateRandomSlug({
 			prefix: 'external-event'
@@ -532,7 +532,7 @@ ava.test('.translateExternalEvent() should destroy the integration even if there
 	test.true(TestIntegration.instance.destroyed)
 })
 
-ava.test('.translateExternalEvent() should destroy the integration even if there was a translate error', async (test) => {
+ava('.translateExternalEvent() should destroy the integration even if there was a translate error', async (test) => {
 	const TranslateError = typedErrors.makeTypedError('TranslateError')
 	class BrokenIntegration extends NoOpIntegration {
 		constructor () {
@@ -546,7 +546,7 @@ ava.test('.translateExternalEvent() should destroy the integration even if there
 		}
 	}
 
-	await test.throws(sync.translateExternalEvent(BrokenIntegration, {
+	await test.throwsAsync(sync.translateExternalEvent(BrokenIntegration, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		type: 'invalid-type',
 		slug: test.context.generateRandomSlug({
