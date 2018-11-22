@@ -229,7 +229,10 @@ export class CardSdk {
 			arguments: {
 				properties: _.assign(
 					createDefaultCard(card.type),
-					_.omit(card, ['type']),
+					// Remove the type key and keys with undefined values
+					_.omitBy(card, (value, key) => {
+						return key === 'type' || _.isUndefined(value);
+					}),
 				),
 			},
 		});
@@ -267,7 +270,10 @@ export class CardSdk {
 			arguments: {
 				properties: _.assign(
 					createDefaultCard(card.type),
-					_.omit(card, [ 'type', 'id' ]),
+					// Remove the type & id keys and keys with undefined values
+					_.omitBy(card, (value, key) => {
+						return key === 'type' || key === 'id' || _.isUndefined(value);
+					}),
 				),
 			},
 		});
