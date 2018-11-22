@@ -281,7 +281,8 @@
                 "subscription",
                 "triggered-action",
                 "todo",
-                "whisper"
+                "whisper",
+                "org"
               ]
             }
           },

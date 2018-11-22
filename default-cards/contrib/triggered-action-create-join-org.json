@@ -1,0 +1,62 @@
+{
+  "slug": "triggered-action-create-join-org",
+  "type": "triggered-action",
+  "version": "1.0.0",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "filter": {
+      "type": "object",
+      "required": [
+        "type",
+        "data"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "create"
+        },
+        "data": {
+          "type": "object",
+          "required": [
+            "payload"
+          ],
+          "properties": {
+            "payload": {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "org"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "action": "action-create-card",
+    "target": "link",
+    "arguments": {
+      "properties": {
+        "name": "has member",
+        "data": {
+          "from": {
+            "$eval": "source.data.target"
+          },
+          "to": {
+            "$eval": "source.data.actor"
+          },
+          "inverseName": "is member of"
+        }
+      }
+    }
+  },
+  "requires": [],
+  "capabilities": []
+}

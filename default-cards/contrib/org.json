@@ -2,7 +2,7 @@
   "slug": "org",
   "type": "type",
   "version": "1.0.0",
-  "name": "Jellyfish Organisation",
+  "name": "Organisation",
   "markers": [],
   "tags": [],
   "links": {},
@@ -21,10 +21,6 @@
         "name": {
           "type": "string"
         },
-        "slug": {
-          "type": "string",
-          "pattern": "^org-[a-z0-9-]+$"
-        },
         "data": {
           "type": "object",
           "properties": {
@@ -35,7 +31,6 @@
         }
       },
       "required": [
-        "slug",
         "name"
       ]
     }
