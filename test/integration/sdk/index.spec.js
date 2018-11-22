@@ -50,7 +50,7 @@ ava.serial('.action() should be able to successfully create a new card', async (
 		}
 	})
 
-	const results = await test.context.server.jellyfish.query(
+	const results = await test.context.jellyfish.query(
 		test.context.session,
 		{
 			type: 'object',
@@ -702,7 +702,7 @@ ava.serial('.card.create() should create a new card', async (test) => {
 		slug
 	})
 
-	const results = await test.context.server.jellyfish.query(
+	const results = await test.context.jellyfish.query(
 		test.context.session,
 		{
 			type: 'object',

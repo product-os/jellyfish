@@ -24,8 +24,9 @@ const {
 exports.server = {
 	beforeEach: async (test) => {
 		test.context.server = await createServer()
-		test.context.session = test.context.server.jellyfish.sessions.admin
-		test.context.guestSession = test.context.server.jellyfish.sessions.guest
+		test.context.jellyfish = test.context.server.jellyfish
+		test.context.session = test.context.jellyfish.sessions.admin
+		test.context.guestSession = test.context.jellyfish.sessions.guest
 		test.context.generateRandomSlug = helpers.generateRandomSlug
 
 		test.context.http = (method, uri, payload) => {
