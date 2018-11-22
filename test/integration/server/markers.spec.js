@@ -18,8 +18,13 @@ const ava = require('ava')
 const randomstring = require('randomstring')
 const helpers = require('../sdk/helpers')
 
-ava.beforeEach(helpers.sdk.beforeEach)
-ava.afterEach(helpers.sdk.afterEach)
+ava.before(helpers.sdk.beforeEach)
+ava.after(helpers.sdk.afterEach)
+
+// Logout of the SDK after each test
+ava.afterEach(async (test) => {
+	await test.context.sdk.auth.logout()
+})
 
 const users = {
 	community: {

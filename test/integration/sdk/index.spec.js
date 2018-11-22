@@ -19,8 +19,13 @@ const _ = require('lodash')
 const randomstring = require('randomstring')
 const helpers = require('./helpers')
 
-ava.beforeEach(helpers.sdk.beforeEach)
-ava.afterEach(helpers.sdk.afterEach)
+ava.before(helpers.sdk.beforeEach)
+ava.after(helpers.sdk.afterEach)
+
+// Logout of the SDK after each test
+ava.afterEach(async (test) => {
+	await test.context.sdk.auth.logout()
+})
 
 ava.serial('.action() should be able to successfully create a new card', async (test) => {
 	const {

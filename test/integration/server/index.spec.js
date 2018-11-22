@@ -66,8 +66,13 @@ const executeThenWait = async (sdk, asyncFn, waitQuery) => {
 	})
 }
 
-ava.beforeEach(helpers.sdk.beforeEach)
-ava.afterEach(helpers.sdk.afterEach)
+ava.before(helpers.sdk.beforeEach)
+ava.after(helpers.sdk.afterEach)
+
+// Logout of the SDK after each test
+ava.afterEach(async (test) => {
+	await test.context.sdk.auth.logout()
+})
 
 ava.serial('Users should not be able to view other users passwords', async (test) => {
 	const {
