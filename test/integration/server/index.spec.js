@@ -20,52 +20,6 @@ const _ = require('lodash')
 const randomstring = require('randomstring')
 const helpers = require('../sdk/helpers')
 
-const WAIT_TIMEOUT = 60 * 1000
-
-// TODO: Make this an SDK method
-const executeThenWait = async (sdk, asyncFn, waitQuery) => {
-	const stream = await sdk.stream(waitQuery)
-
-	const timeout = setTimeout(() => {
-		stream.destroy()
-		throw new Error(`Did not receive any data after ${WAIT_TIMEOUT}ms`)
-	}, WAIT_TIMEOUT)
-
-	return new Bluebird((resolve, reject) => {
-		stream.on('update', ({
-			data
-		}) => {
-			const {
-				after
-			} = data
-
-			if (after) {
-				resolve(after)
-
-				clearTimeout(timeout)
-				stream.destroy()
-			}
-		})
-
-		stream.on('streamError', ({
-			data
-		}) => {
-			reject(data)
-
-			clearTimeout(timeout)
-			stream.destroy()
-		})
-
-		asyncFn()
-			.catch((error) => {
-				reject(error)
-
-				clearTimeout(timeout)
-				stream.destroy()
-			})
-	})
-}
-
 ava.before(helpers.sdk.beforeEach)
 ava.after(helpers.sdk.afterEach)
 
@@ -119,7 +73,7 @@ ava.serial('Users with the role "team" should not be able to view other users pa
 	const activeUser = await sdk.auth.signup(activeUserDetails)
 
 	// Update the role on the admin user
-	await test.context.server.jellyfish.insertCard(
+	await test.context.jellyfish.insertCard(
 		test.context.session,
 		_.merge(activeUser, {
 			data: {
@@ -158,7 +112,7 @@ ava.serial('Users with the role "team-admin" should not be able to view other us
 	const activeUser = await sdk.auth.signup(activeUserDetails)
 
 	// Update the role on the admin user
-	await test.context.server.jellyfish.insertCard(
+	await test.context.jellyfish.insertCard(
 		test.context.session,
 		_.merge(activeUser, {
 			data: {
@@ -312,7 +266,7 @@ ava.serial('timeline cards should reference the correct actor', async (test) => 
 		required: [ 'id', 'links' ]
 	}
 
-	await executeThenWait(sdk, () => {
+	await test.context.executeThenWait(() => {
 		return sdk.card.update(thread.id, _.assign(thread, {
 			data: {
 				description: 'Lorem ipsum dolor sit amer'
@@ -452,7 +406,7 @@ ava.serial('users with the "user-team" role should not be able to change other u
 	})
 
 	// Update the role on the team user
-	await test.context.server.jellyfish.insertCard(
+	await test.context.jellyfish.insertCard(
 		test.context.session,
 		_.merge(teamUser, {
 			data: {
@@ -546,7 +500,7 @@ ava.serial('AGGREGATE($events): should work when creating cards via the SDK', as
 		}
 	}
 
-	const card = await executeThenWait(sdk, () => {
+	const card = await test.context.executeThenWait(() => {
 		return sdk.card.create({
 			type: 'message',
 			slug: test.context.generateRandomSlug({
@@ -594,7 +548,7 @@ ava.serial('When updating a user, inaccessible fields should not be removed', as
 
 	const teamAdminUser = await sdk.auth.signup(teamAdminUserData)
 
-	await test.context.server.jellyfish.insertCard(
+	await test.context.jellyfish.insertCard(
 		test.context.session,
 		_.merge(teamAdminUser, {
 			data: {
@@ -622,7 +576,7 @@ ava.serial('When updating a user, inaccessible fields should not be removed', as
 		)
 	)
 
-	const rawUserCard = await test.context.server.jellyfish.getCardById(test.context.session, user.id)
+	const rawUserCard = await test.context.jellyfish.getCardById(test.context.session, user.id)
 
 	test.is(_.has(rawUserCard, [ 'data', 'email' ]), true)
 	test.is(_.has(rawUserCard, [ 'data', 'roles' ]), true)
@@ -655,7 +609,7 @@ ava.serial('A team admin user should be able to update another user\'s roles', a
 
 	const teamAdminUser = await sdk.auth.signup(teamAdminUserData)
 
-	await test.context.server.jellyfish.insertCard(
+	await test.context.jellyfish.insertCard(
 		test.context.session,
 		_.merge(teamAdminUser, {
 			data: {
@@ -681,7 +635,7 @@ ava.serial('A team admin user should be able to update another user\'s roles', a
 		)
 	)
 
-	const userCard = await test.context.server.jellyfish.getCardById(test.context.session, user.id)
+	const userCard = await test.context.jellyfish.getCardById(test.context.session, user.id)
 
 	test.deepEqual(userCard.data.roles, [ 'user-team' ])
 })
@@ -716,7 +670,7 @@ ava.serial('Users should not be able to login as the core admin user', async (te
 
 		const user = await sdk.auth.signup(userData)
 
-		await test.context.server.jellyfish.insertCard(
+		await test.context.jellyfish.insertCard(
 			test.context.session,
 			_.merge(user, {
 				data: {
@@ -748,7 +702,7 @@ ava.serial('should be able to post an external event', async (test) => {
 	const requestResult = await test.context.server.worker.waitResults(test.context.session, result.response.data)
 
 	test.false(requestResult.error)
-	const card = await test.context.server.jellyfish.getCardById(test.context.session, requestResult.data.id)
+	const card = await test.context.jellyfish.getCardById(test.context.session, requestResult.data.id)
 
 	test.deepEqual(card, {
 		id: requestResult.data.id,
@@ -790,7 +744,7 @@ ava.serial('should be able to post an external event with a type', async (test) 
 	const requestResult = await test.context.server.worker.waitResults(test.context.session, result.response.data)
 
 	test.false(requestResult.error)
-	const card = await test.context.server.jellyfish.getCardById(test.context.session, requestResult.data.id)
+	const card = await test.context.jellyfish.getCardById(test.context.session, requestResult.data.id)
 
 	test.deepEqual(card, {
 		id: requestResult.data.id,
@@ -873,7 +827,7 @@ ava.serial('should add and evaluate a time triggered action', async (test) => {
 	})
 
 	const waitUntilResults = async (length, times = 0) => {
-		const results = await test.context.server.jellyfish.query(test.context.session, {
+		const results = await test.context.jellyfish.query(test.context.session, {
 			type: 'object',
 			required: [ 'type', 'data' ],
 			properties: {
@@ -909,7 +863,7 @@ ava.serial('should add and evaluate a time triggered action', async (test) => {
 	test.true(results.length >= 3)
 
 	trigger.active = false
-	await test.context.server.jellyfish.insertCard(test.context.session, trigger, {
+	await test.context.jellyfish.insertCard(test.context.session, trigger, {
 		override: true
 	})
 })

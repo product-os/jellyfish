@@ -29,6 +29,11 @@
             "repository": {
               "type": "string",
               "enum": [
+                "balena-io/jellyfish-test-github",
+                "balena-io/balena-demo",
+                "balena-io/resin-api-demo",
+                "balena-io/resin-ui-demo",
+                "balena-io/jellyfish",
                 "resin-io/balena-demo",
                 "resin-io/resin-api-demo",
                 "resin-io/resin-ui-demo",

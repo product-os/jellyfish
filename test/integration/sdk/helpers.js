@@ -16,10 +16,13 @@
 
 require('ts-node').register()
 
+const Bluebird = require('bluebird')
 const helpers = require('../server/helpers')
 const {
 	getSdk
 } = require('../../../lib/sdk')
+
+const WAIT_TIMEOUT = 60 * 1000
 
 exports.sdk = {
 	beforeEach: async (test) => {
@@ -31,6 +34,37 @@ exports.sdk = {
 			apiPrefix: process.env.API_PREFIX || 'api/v2',
 			apiUrl: `http://localhost:${test.context.server.port}`
 		})
+
+		test.context.executeThenWait = async (asyncFn, waitQuery) => {
+			const stream = await test.context.sdk.stream(waitQuery)
+
+			return new Bluebird((resolve, reject) => {
+				const timeout = setTimeout(() => {
+					stream.destroy()
+					reject(new Error(`Did not receive any data after ${WAIT_TIMEOUT}ms`))
+				}, WAIT_TIMEOUT)
+
+				stream.on('update', (update) => {
+					if (update.data.after) {
+						resolve(update.data.after)
+						clearTimeout(timeout)
+						stream.destroy()
+					}
+				})
+
+				stream.on('streamError', (error) => {
+					reject(error.data)
+					clearTimeout(timeout)
+					stream.destroy()
+				})
+
+				asyncFn().catch((error) => {
+					reject(error)
+					clearTimeout(timeout)
+					stream.destroy()
+				})
+			})
+		}
 	},
 
 	afterEach: async (test) => {
