@@ -46,7 +46,8 @@
             "description": "",
             "status": "open",
             "archived": false
-          }
+          },
+          "type": "pull-request"
         }
       }
     },
@@ -63,7 +64,9 @@
           "name": "PR labels",
           "version": "1.0.0",
           "active": true,
-          "tags": [ "core" ],
+          "tags": [
+            "core"
+          ],
           "requires": [],
           "capabilities": [],
           "data": {
@@ -76,7 +79,8 @@
             "description": "",
             "status": "open",
             "archived": false
-          }
+          },
+          "type": "pull-request"
         }
       }
     },
@@ -106,7 +110,8 @@
             "description": "",
             "status": "open",
             "archived": false
-          }
+          },
+          "type": "pull-request"
         }
       }
     }

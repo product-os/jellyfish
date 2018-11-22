@@ -31,6 +31,7 @@
         "timestamp": "2018-10-10T10:04:00Z",
         "payload": {
           "name": "Open close PR",
+          "type": "pull-request",
           "active": true,
           "version": "1.0.0",
           "tags": [],

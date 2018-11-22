@@ -65,7 +65,8 @@
             "description": "",
             "status": "open",
             "archived": false
-          }
+          },
+          "type": "pull-request"
         }
       }
     }

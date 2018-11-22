@@ -4,7 +4,10 @@
     "type": "issue",
     "version": "1.0.0",
     "active": true,
-    "tags": [ "core", "good first issue" ],
+    "tags": [
+      "core",
+      "good first issue"
+    ],
     "requires": [],
     "capabilities": [],
     "data": {
@@ -33,7 +36,10 @@
           "name": "Issue with labels",
           "active": true,
           "version": "1.0.0",
-          "tags": [ "core", "good first issue" ],
+          "tags": [
+            "core",
+            "good first issue"
+          ],
           "requires": [],
           "capabilities": [],
           "data": {
@@ -46,7 +52,8 @@
             "description": "Foo Bar",
             "status": "open",
             "archived": false
-          }
+          },
+          "type": "issue"
         }
       }
     }

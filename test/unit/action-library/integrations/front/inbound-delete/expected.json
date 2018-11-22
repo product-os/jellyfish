@@ -50,6 +50,7 @@
         "timestamp": "2018-10-08T18:35:21.954Z",
         "payload": {
           "name": "Inbound delete",
+          "type": "support-thread",
           "active": true,
           "tags": [],
           "version": "1.0.0",
@@ -80,6 +81,7 @@
         "timestamp": "2018-10-08T18:35:32.544Z",
         "payload": {
           "name": "Inbound delete",
+          "type": "support-thread",
           "active": true,
           "tags": [],
           "version": "1.0.0",

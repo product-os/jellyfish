@@ -46,7 +46,8 @@
             "description": "",
             "status": "open",
             "archived": false
-          }
+          },
+          "type": "issue"
         }
       }
     },
@@ -63,7 +64,9 @@
           "name": "Issue label removal",
           "version": "1.0.0",
           "active": true,
-          "tags": [ "bug" ],
+          "tags": [
+            "bug"
+          ],
           "requires": [],
           "capabilities": [],
           "data": {
@@ -76,7 +79,8 @@
             "description": "",
             "status": "open",
             "archived": false
-          }
+          },
+          "type": "issue"
         }
       }
     },
@@ -106,7 +110,8 @@
             "description": "",
             "status": "open",
             "archived": false
-          }
+          },
+          "type": "issue"
         }
       }
     }

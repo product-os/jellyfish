@@ -69,6 +69,7 @@
         "timestamp": "2018-10-08T18:42:29.447Z",
         "payload": {
           "name": "Send me a comment",
+          "type": "support-thread",
           "version": "1.0.0",
           "active": true,
           "tags": [],

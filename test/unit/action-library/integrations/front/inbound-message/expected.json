@@ -69,6 +69,7 @@
         "timestamp": "2018-10-10T22:13:52.817Z",
         "payload": {
           "name": "Test Reply",
+          "type": "support-thread",
           "active": true,
           "version": "1.0.0",
           "tags": [],

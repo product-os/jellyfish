@@ -29,6 +29,10 @@
             "payload": {
               "type": "object",
               "properties": {
+                "type": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9-]+$"
+                },
                 "slug": {
                   "type": "string",
                   "pattern": "^[a-z0-9-]+$"

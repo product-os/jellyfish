@@ -46,7 +46,8 @@
             "description": "",
             "status": "open",
             "archived": false
-          }
+          },
+          "type": "issue"
         }
       }
     },
@@ -76,7 +77,8 @@
             "description": "",
             "status": "open",
             "archived": false
-          }
+          },
+          "type": "issue"
         }
       }
     }
