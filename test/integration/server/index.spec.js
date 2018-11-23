@@ -28,6 +28,47 @@ ava.afterEach(async (test) => {
 	await test.context.sdk.auth.logout()
 })
 
+ava.serial('.query() additionalProperties should not affect listing users as a new user', async (test) => {
+	const username = randomstring.generate().toLowerCase()
+	const email = `${randomstring.generate()}@example.com`
+ 	await test.context.sdk.auth.signup({
+		username: randomstring.generate().toLowerCase(),
+		email: `${randomstring.generate()}@example.com`,
+		password: 'xxxxxxxxx'
+	})
+ 	await test.context.sdk.auth.signup({
+		username,
+		email,
+		password: 'foobarbaz'
+	})
+ 	await test.context.sdk.auth.login({
+		username,
+		password: 'foobarbaz'
+	})
+ 	const results1 = await test.context.sdk.query({
+		type: 'object',
+		required: [ 'type' ],
+		properties: {
+			type: {
+				type: 'string',
+				const: 'user'
+			}
+		}
+	})
+ 	const results2 = await test.context.sdk.query({
+		type: 'object',
+		additionalProperties: true,
+		required: [ 'type' ],
+		properties: {
+			type: {
+				type: 'string',
+				const: 'user'
+			}
+		}
+	})
+ 	test.deepEqual(_.map(results1, 'id'), _.map(results2, 'id'))
+})
+
 ava.serial('Users should not be able to view other users passwords', async (test) => {
 	const {
 		sdk

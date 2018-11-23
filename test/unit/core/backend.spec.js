@@ -1213,6 +1213,30 @@ ava('.query() should correctly honour top level additionalProperties: true', asy
 		}
 	})
 
+	const results4 = await test.context.backend.query({
+		type: 'object',
+		anyOf: [
+			{
+				type: 'object',
+				additionalProperties: true,
+				properties: {
+					slug: {
+						type: 'string'
+					}
+				},
+				required: [ 'slug' ]
+			}
+		],
+		required: [ 'type' ],
+		additionalProperties: false,
+		properties: {
+			type: {
+				type: 'string',
+				const: 'user'
+			}
+		}
+	})
+
 	test.deepEqual(_.sortBy(results1, 'slug'), [
 		{
 			slug: 'user-janedoe',
@@ -1237,7 +1261,27 @@ ava('.query() should correctly honour top level additionalProperties: true', asy
 		}
 	])
 
-	test.deepEqual(results3, [])
+	test.deepEqual(_.sortBy(results3, 'slug'), [
+		{
+			slug: 'user-janedoe',
+			type: 'user'
+		},
+		{
+			slug: 'user-johndoe',
+			type: 'user'
+		}
+	])
+
+	test.deepEqual(_.sortBy(results4, 'slug'), [
+		{
+			slug: 'user-janedoe',
+			type: 'user'
+		},
+		{
+			slug: 'user-johndoe',
+			type: 'user'
+		}
+	])
 })
 
 ava('.query() should be able to query using links', async (test) => {
