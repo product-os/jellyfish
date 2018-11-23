@@ -289,14 +289,7 @@ ava('.insertCard() should add a create event if attachEvents is true', async (te
 				payload: {
 					slug: 'foo-bar-baz',
 					type: 'card',
-					version: '1.0.0',
-					active: true,
-					links: {},
-					markers: [],
-					tags: [],
-					requires: [],
-					capabilities: [],
-					data: {}
+					version: '1.0.0'
 				}
 			}
 		}
@@ -324,14 +317,7 @@ ava('.insertCard() should add a create event not overriding even if override is 
 				payload: {
 					slug: 'foo-bar-baz',
 					type: 'card',
-					version: '1.0.0',
-					active: true,
-					links: {},
-					markers: [],
-					tags: [],
-					requires: [],
-					capabilities: [],
-					data: {}
+					version: '1.0.0'
 				}
 			}
 		}
@@ -364,16 +350,10 @@ ava('.insertCard() should add an update event if attachEvents is true and overri
 			arguments: {
 				type: 'update',
 				payload: {
-					slug: 'foo-bar-baz',
-					version: '1.0.0',
-					type: 'card',
 					active: false,
-					links: {},
-					markers: [],
-					tags: [],
-					requires: [],
-					capabilities: [],
-					data: {}
+					slug: 'foo-bar-baz',
+					type: 'card',
+					version: '1.0.0'
 				}
 			}
 		}
@@ -432,15 +412,9 @@ ava('.insertCard() should execute one matching triggered action', async (test) =
 			arguments: {
 				type: 'create',
 				payload: {
-					active: true,
 					version: '1.0.0',
 					type: 'card',
 					slug: 'foo',
-					links: {},
-					markers: [],
-					tags: [],
-					requires: [],
-					capabilities: [],
 					data: {
 						command: 'foo-bar-baz'
 					}
@@ -512,15 +486,9 @@ ava('.insertCard() should not execute non-matching triggered actions', async (te
 			arguments: {
 				type: 'create',
 				payload: {
-					active: true,
 					version: '1.0.0',
 					type: 'card',
 					slug: 'foo',
-					links: {},
-					markers: [],
-					tags: [],
-					requires: [],
-					capabilities: [],
 					data: {
 						command: 'qux-bar-baz'
 					}
@@ -608,15 +576,9 @@ ava('.insertCard() should execute more than one matching triggered action', asyn
 			arguments: {
 				type: 'create',
 				payload: {
-					active: true,
-					version: '1.0.0',
 					type: 'card',
 					slug: 'foo',
-					links: {},
-					markers: [],
-					tags: [],
-					requires: [],
-					capabilities: [],
+					version: '1.0.0',
 					data: {
 						command: 'foo-bar-baz'
 					}
@@ -726,15 +688,9 @@ ava('.insertCard() should execute the matching triggered actions given more than
 			arguments: {
 				type: 'create',
 				payload: {
-					version: '1.0.0',
-					active: true,
 					type: 'card',
 					slug: 'foo',
-					links: {},
-					markers: [],
-					tags: [],
-					requires: [],
-					capabilities: [],
+					version: '1.0.0',
 					data: {
 						command: 'foo-bar-baz'
 					}

@@ -87,6 +87,26 @@ ava('.insertCard() should be able to insert a card', async (test) => {
 	test.deepEqual(element, card)
 })
 
+ava('.insertCard() should use defaults if required keys are missing', async (test) => {
+	const card = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'hello-world',
+		type: 'card'
+	})
+
+	test.deepEqual(_.omit(card, [ 'id' ]), {
+		slug: 'hello-world',
+		type: 'card',
+		active: true,
+		version: '1.0.0',
+		tags: [],
+		markers: [],
+		links: {},
+		requires: [],
+		capabilities: [],
+		data: {}
+	})
+})
+
 ava('.insertCard() should throw if the card already exists', async (test) => {
 	const card = test.context.kernel.defaults({
 		slug: 'foo-bar',
