@@ -46,7 +46,8 @@
             "description": "Initial body",
             "status": "open",
             "archived": false
-          }
+          },
+          "type": "issue"
         }
       }
     },
@@ -76,7 +77,8 @@
             "description": "Updated body",
             "status": "open",
             "archived": false
-          }
+          },
+          "type": "issue"
         }
       }
     }

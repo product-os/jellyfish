@@ -50,6 +50,7 @@
         "timestamp": "2018-10-10T22:19:18.154Z",
         "payload": {
           "name": "Delay cancel",
+          "type": "support-thread",
           "version": "1.0.0",
           "active": true,
           "tags": [],

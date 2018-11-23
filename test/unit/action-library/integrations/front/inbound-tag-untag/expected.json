@@ -50,6 +50,7 @@
         "timestamp": "2018-10-08T18:37:50.787Z",
         "payload": {
           "name": "Tag untag",
+          "type": "support-thread",
           "active": true,
           "version": "1.0.0",
           "tags": [],
@@ -80,9 +81,12 @@
         "timestamp": "2018-10-08T18:37:58.816Z",
         "payload": {
           "name": "Tag untag",
+          "type": "support-thread",
           "active": true,
           "version": "1.0.0",
-          "tags": [ "foo" ],
+          "tags": [
+            "foo"
+          ],
           "requires": [],
           "capabilities": [],
           "data": {
@@ -110,6 +114,7 @@
         "timestamp": "2018-10-08T18:38:05.068Z",
         "payload": {
           "name": "Tag untag",
+          "type": "support-thread",
           "active": true,
           "version": "1.0.0",
           "tags": [],

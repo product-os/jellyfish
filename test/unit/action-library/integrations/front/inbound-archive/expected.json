@@ -50,6 +50,7 @@
         "timestamp": "2018-10-08T18:32:44.690Z",
         "payload": {
           "name": "open-close",
+          "type": "support-thread",
           "version": "1.0.0",
           "active": true,
           "tags": [],
@@ -80,6 +81,7 @@
         "timestamp": "2018-10-08T18:33:08.140Z",
         "payload": {
           "name": "open-close",
+          "type": "support-thread",
           "version": "1.0.0",
           "active": true,
           "tags": [],

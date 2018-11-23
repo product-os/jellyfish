@@ -65,7 +65,8 @@
             "description": "",
             "status": "open",
             "archived": false
-          }
+          },
+          "type": "issue"
         }
       }
     },
@@ -95,7 +96,8 @@
             "description": "",
             "status": "closed",
             "archived": false
-          }
+          },
+          "type": "issue"
         }
       }
     }

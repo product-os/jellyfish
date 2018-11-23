@@ -46,7 +46,8 @@
             "alertsUser": [],
             "description": "",
             "status": "open"
-          }
+          },
+          "type": "support-thread"
         }
       }
     },
@@ -76,7 +77,8 @@
             "alertsUser": [],
             "description": "",
             "status": "archived"
-          }
+          },
+          "type": "support-thread"
         }
       }
     },
@@ -91,6 +93,7 @@
         "timestamp": "2018-10-08T18:51:29.916Z",
         "payload": {
           "name": "Undelete",
+          "type": "support-thread",
           "active": true,
           "version": "1.0.0",
           "tags": [],

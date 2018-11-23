@@ -31,6 +31,7 @@
         "timestamp": "2018-10-10T21:34:20.263Z",
         "payload": {
           "name": "Snooze cancel",
+          "type": "support-thread",
           "active": true,
           "version": "1.0.0",
           "tags": [],
@@ -61,6 +62,7 @@
         "timestamp": "2018-10-10T21:34:27.674Z",
         "payload": {
           "name": "Snooze cancel",
+          "type": "support-thread",
           "active": true,
           "version": "1.0.0",
           "tags": [],
@@ -91,6 +93,7 @@
         "timestamp": "2018-10-10T21:34:32.255Z",
         "payload": {
           "name": "Snooze cancel",
+          "type": "support-thread",
           "active": true,
           "version": "1.0.0",
           "tags": [],

@@ -84,7 +84,8 @@
             "alertsUser": [],
             "description": "",
             "status": "open"
-          }
+          },
+          "type": "support-thread"
         }
       }
     },
@@ -114,7 +115,8 @@
             "alertsUser": [],
             "description": "",
             "status": "archived"
-          }
+          },
+          "type": "support-thread"
         }
       }
     },
@@ -129,6 +131,7 @@
         "timestamp": "2018-10-10T22:29:00.113Z",
         "payload": {
           "name": "Delete message test",
+          "type": "support-thread",
           "active": true,
           "version": "1.0.0",
           "tags": [],

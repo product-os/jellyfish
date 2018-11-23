@@ -50,6 +50,7 @@
         "timestamp": "2018-09-26T17:54:37Z",
         "payload": {
           "name": "Comment on closed issue",
+          "type": "issue",
           "version": "1.0.0",
           "active": true,
           "tags": [],
@@ -80,6 +81,7 @@
         "timestamp": "2018-09-26T17:56:59Z",
         "payload": {
           "name": "Comment on closed issue",
+          "type": "issue",
           "version": "1.0.0",
           "active": true,
           "tags": [],

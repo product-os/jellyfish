@@ -4,7 +4,10 @@
     "type": "support-thread",
     "version": "1.0.0",
     "active": true,
-    "tags": [ "foo", "bar" ],
+    "tags": [
+      "foo",
+      "bar"
+    ],
     "requires": [],
     "capabilities": [],
     "data": {
@@ -50,6 +53,7 @@
         "timestamp": "2018-10-08T18:36:28.538Z",
         "payload": {
           "name": "Inbound tag",
+          "type": "support-thread",
           "active": true,
           "version": "1.0.0",
           "tags": [],
@@ -80,9 +84,12 @@
         "timestamp": "2018-10-08T18:36:48.985Z",
         "payload": {
           "name": "Inbound tag",
+          "type": "support-thread",
           "active": true,
           "version": "1.0.0",
-          "tags": [ "foo" ],
+          "tags": [
+            "foo"
+          ],
           "requires": [],
           "capabilities": [],
           "data": {
@@ -110,9 +117,13 @@
         "timestamp": "2018-10-08T18:37:01.634Z",
         "payload": {
           "name": "Inbound tag",
+          "type": "support-thread",
           "version": "1.0.0",
           "active": true,
-          "tags": [ "foo", "bar" ],
+          "tags": [
+            "foo",
+            "bar"
+          ],
           "requires": [],
           "capabilities": [],
           "data": {
