@@ -132,21 +132,42 @@ ava.serial('Users with the role "team-admin" should not be able to view other us
 	test.is(fetchedUser.data.password, undefined)
 })
 
-ava.serial('.query() should only return the user itself for the guest user', async (test) => {
+ava.serial('.query() the guest user should only see its own private fields', async (test) => {
+	await test.context.sdk.auth.signup({
+		username: randomstring.generate(),
+		email: `${randomstring.generate()}@example.com`,
+		password: 'foobarbaz'
+	})
+	await test.context.sdk.auth.logout()
 	const results = await test.context.sdk.query({
 		type: 'object',
+		required: [ 'type', 'data' ],
 		properties: {
-			slug: {
-				type: 'string'
-			},
 			type: {
 				type: 'string',
 				const: 'user'
+			},
+			data: {
+				type: 'object',
+				properties: {
+					email: {
+						type: 'string'
+					}
+				}
 			}
 		}
 	})
 
-	test.deepEqual(_.map(results, 'slug'), [ 'user-guest' ])
+	_.map(results, (user) => {
+		test.false(user.slug === 'user-admin')
+		if (user.slug === 'user-guest') {
+			// The "guest-user" should be fetched with all fields
+			test.is(user.data.email, 'accounts+jellyfish@resin.io')
+		} else {
+			// The other users would only have non-private fields
+			test.is(user.data, undefined)
+		}
+	})
 })
 
 ava.serial('.query() should be able to see previously restricted cards after a permissions change', async (test) => {
@@ -963,6 +984,12 @@ ava.serial('should be able to resolve links', async (test) => {
 			links: {
 				type: 'object',
 				additionalProperties: true
+			},
+			data: {
+				type: 'object'
+			},
+			slug: {
+				type: 'string'
 			}
 		}
 	})
@@ -972,12 +999,8 @@ ava.serial('should be able to resolve links', async (test) => {
 			id: message.id,
 			slug: message.slug,
 			type: 'message',
-			version: '1.0.0',
 			active: true,
-			tags: [],
 			markers: [],
-			capabilities: [],
-			requires: [],
 			links: {
 				'is attached to': [
 					{
@@ -993,6 +1016,47 @@ ava.serial('should be able to resolve links', async (test) => {
 			data: message.data
 		}
 	])
+})
+
+ava.serial('.query() additionalProperties should not affect listing users as a new user', async (test) => {
+	const username = randomstring.generate().toLowerCase()
+	const email = `${randomstring.generate()}@example.com`
+	await test.context.sdk.auth.signup({
+		username: randomstring.generate().toLowerCase(),
+		email: `${randomstring.generate()}@example.com`,
+		password: 'xxxxxxxxx'
+	})
+	await test.context.sdk.auth.signup({
+		username,
+		email,
+		password: 'foobarbaz'
+	})
+	await test.context.sdk.auth.login({
+		username,
+		password: 'foobarbaz'
+	})
+	const results1 = await test.context.sdk.query({
+		type: 'object',
+		required: [ 'type' ],
+		properties: {
+			type: {
+				type: 'string',
+				const: 'user'
+			}
+		}
+	})
+	const results2 = await test.context.sdk.query({
+		type: 'object',
+		additionalProperties: true,
+		required: [ 'type' ],
+		properties: {
+			type: {
+				type: 'string',
+				const: 'user'
+			}
+		}
+	})
+	test.deepEqual(_.map(results1, 'id'), _.map(results2, 'id'))
 })
 
 ava.serial('should apply permissions on resolved links', async (test) => {
@@ -1072,6 +1136,9 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 					}
 				},
 				additionalProperties: true
+			},
+			slug: {
+				type: 'string'
 			}
 		}
 	})
@@ -1081,12 +1148,8 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 			id: thread.id,
 			slug: thread.slug,
 			type: 'thread',
-			version: '1.0.0',
 			active: true,
-			tags: [],
 			markers: [],
-			capabilities: [],
-			requires: [],
 			links: {
 				'is attached to': [
 					Object.assign({}, targetUser, {

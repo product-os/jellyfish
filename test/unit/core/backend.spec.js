@@ -1135,6 +1135,146 @@ ava('.query() should apply sort before limit', async (test) => {
 	test.deepEqual(results, [ card2, card4 ])
 })
 
+ava('.query() should correctly honour top level additionalProperties: true', async (test) => {
+	const user1 = await test.context.backend.insertElement({
+		slug: 'user-johndoe',
+		type: 'user'
+	})
+	const user2 = await test.context.backend.insertElement({
+		slug: 'user-janedoe',
+		type: 'user'
+	})
+	const results1 = await test.context.backend.query({
+		type: 'object',
+		anyOf: [
+			{
+				type: 'object',
+				properties: {
+					slug: {
+						type: 'string'
+					}
+				},
+				required: [ 'slug' ]
+			}
+		],
+		required: [ 'type' ],
+		properties: {
+			type: {
+				type: 'string',
+				const: 'user'
+			}
+		}
+	})
+	const results2 = await test.context.backend.query({
+		type: 'object',
+		anyOf: [
+			{
+				type: 'object',
+				properties: {
+					slug: {
+						type: 'string'
+					}
+				},
+				required: [ 'slug' ]
+			}
+		],
+		required: [ 'type' ],
+		additionalProperties: true,
+		properties: {
+			type: {
+				type: 'string',
+				const: 'user'
+			}
+		}
+	})
+	const results3 = await test.context.backend.query({
+		type: 'object',
+		anyOf: [
+			{
+				type: 'object',
+				additionalProperties: false,
+				properties: {
+					slug: {
+						type: 'string'
+					}
+				},
+				required: [ 'slug' ]
+			}
+		],
+		required: [ 'type' ],
+		additionalProperties: true,
+		properties: {
+			type: {
+				type: 'string',
+				const: 'user'
+			}
+		}
+	})
+	const results4 = await test.context.backend.query({
+		type: 'object',
+		anyOf: [
+			{
+				type: 'object',
+				additionalProperties: true,
+				properties: {
+					slug: {
+						type: 'string'
+					}
+				},
+				required: [ 'slug' ]
+			}
+		],
+		required: [ 'type' ],
+		additionalProperties: false,
+		properties: {
+			type: {
+				type: 'string',
+				const: 'user'
+			}
+		}
+	})
+	test.deepEqual(_.sortBy(results1, 'slug'), [
+		{
+			slug: 'user-janedoe',
+			type: 'user'
+		},
+		{
+			slug: 'user-johndoe',
+			type: 'user'
+		}
+	])
+	test.deepEqual(_.sortBy(results2, 'slug'), [
+		{
+			id: user2.id,
+			slug: 'user-janedoe',
+			type: 'user'
+		},
+		{
+			id: user1.id,
+			slug: 'user-johndoe',
+			type: 'user'
+		}
+	])
+	test.deepEqual(_.sortBy(results3, 'slug'), [
+		{
+			slug: 'user-janedoe'
+		},
+		{
+			slug: 'user-johndoe'
+		}
+	])
+	test.deepEqual(_.sortBy(results4, 'slug'), [
+		{
+			slug: 'user-janedoe',
+			type: 'user'
+		},
+		{
+			slug: 'user-johndoe',
+			type: 'user'
+		}
+	])
+})
+
 ava('.query() should be able to query using links', async (test) => {
 	const thread1 = await test.context.backend.upsertElement({
 		type: 'thread',
