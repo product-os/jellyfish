@@ -78,7 +78,7 @@
     "webpack-dev-server": "^3.1.1"
   },
   "dependencies": {
-    "@octokit/rest": "^15.12.1",
+    "@octokit/rest": "^16.0.2",
     "@types/blueimp-md5": "^2.7.0",
     "@types/es6-promise": "^3.3.0",
     "@types/history": "^4.6.2",
