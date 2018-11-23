@@ -52,13 +52,16 @@ jobs:
           command: make lint
       - run:
           name: Unit Tests
-          command: make test-unit COVERAGE=0
+          command: make test-unit COVERAGE=1
       - run:
           name: Backend Tests Without Cache
           command: make test COVERAGE=0 DISABLE_CACHE=1 FILES=./test/unit/core/backend.spec.js
       - run:
           name: Integration Tests
-          command: make test-integration COVERAGE=0
+          command: make test-integration COVERAGE=1
+      - run:
+          name: Store Code Coverage Results
+          command: make report-coverage && cp -rf coverage /tmp/test-results
       - run:
           name: Load Production Database Snapshot
           command: node ./scripts/reset-database.js && ./scripts/import-latest-production-backup.sh

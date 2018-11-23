@@ -1,6 +1,7 @@
 .PHONY: lint \
 	build-ui \
 	dev-ui \
+	report-coverage \
 	test \
 	build \
 	start-server \
@@ -27,7 +28,7 @@ TSLINT_OPTION_FIX = --fix
 endif
 
 ifeq ($(COVERAGE),1)
-COVERAGE_COMMAND = ./node_modules/.bin/nyc --reporter=lcov
+COVERAGE_COMMAND = ./node_modules/.bin/nyc --no-clean
 else
 COVERAGE_COMMAND =
 endif
@@ -51,6 +52,9 @@ build-ui:
 
 dev-ui:
 	NODE_ENV=dev API_URL=$(API_URL) ./node_modules/.bin/webpack-dev-server --color
+
+report-coverage:
+	./node_modules/.bin/nyc --reporter=text --reporter=lcov report
 
 test:
 	node scripts/scrub-test-databases.js
