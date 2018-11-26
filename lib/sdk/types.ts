@@ -17,7 +17,7 @@
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import * as Bluebird from 'bluebird';
 import { JSONSchema6 } from 'json-schema';
-import { Card } from './Types';
+import { Card } from './types';
 
 export interface Card {
 	id: string;

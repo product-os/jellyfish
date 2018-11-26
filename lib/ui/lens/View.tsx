@@ -14,7 +14,7 @@ import {
 	SchemaSieve,
 	Select,
 } from 'rendition';
-import { Card, Channel, Lens, RendererProps, Type } from '../../Types';
+import { Card, Channel, Lens, RendererProps, Type } from '../../types';
 import ButtonGroup from '../components/ButtonGroup';
 import Icon from '../components/Icon';
 import { If } from '../components/If';

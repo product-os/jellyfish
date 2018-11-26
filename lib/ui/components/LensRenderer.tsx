@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Card, Lens } from '../../Types';
+import { Card, Lens } from '../../types';
 import LensService from '../lens';
 
 interface LensRendererProps {

@@ -9,7 +9,7 @@ import {
 	Select,
 	Txt,
 } from 'rendition';
-import { Card, Type } from '../../Types';
+import { Card, Type } from '../../types';
 import { CardCreator } from '../components/CardCreator';
 import { LINKS } from '../constants';
 import { sdk } from '../core';

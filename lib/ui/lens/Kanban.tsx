@@ -6,7 +6,7 @@ import Board, { BoardLane } from 'react-trello';
 import { bindActionCreators } from 'redux';
 import { Button, Flex, Modal } from 'rendition';
 import styled from 'styled-components';
-import { Card, Channel, Lens, RendererProps, Type } from '../../Types';
+import { Card, Channel, Lens, RendererProps, Type } from '../../types';
 import { CardCreator } from '../components/CardCreator';
 import { ContextMenu } from '../components/ContextMenu';
 import { GroupUpdate } from '../components/GroupUpdate';

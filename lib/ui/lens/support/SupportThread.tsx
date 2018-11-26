@@ -13,7 +13,7 @@ import {
 import { Markdown } from 'rendition/dist/extra/Markdown';
 import { Mermaid } from 'rendition/dist/extra/Mermaid';
 import styled from 'styled-components';
-import { Card, Lens, RendererProps, Type } from '../../../Types';
+import { Card, Lens, RendererProps, Type } from '../../../types';
 import { CardActions } from '../../components/CardActions';
 import { CloseButton } from '../../components/CloseButton';
 import Label from '../../components/Label';

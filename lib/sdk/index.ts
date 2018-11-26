@@ -18,7 +18,7 @@ import axios, { AxiosRequestConfig, AxiosResponse, CancelTokenSource } from 'axi
 import * as Bluebird from 'bluebird';
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
-import { Card } from '../Types';
+import { Card } from '../types';
 import { AuthSdk } from './auth';
 import { CardSdk } from './card';
 import { JellyfishStream, JellyfishStreamManager } from './stream';

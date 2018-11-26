@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux';
 import { Button, Flex, Link, Modal } from 'rendition';
 import { Form } from 'rendition/dist/unstable';
 import styled from 'styled-components';
-import { Card, Type } from '../../Types';
+import { Card, Type } from '../../types';
 import { CardCreator } from '../components/CardCreator';
 import { FreeFieldForm } from '../components/FreeFieldForm';
 import { LINKS } from '../constants';

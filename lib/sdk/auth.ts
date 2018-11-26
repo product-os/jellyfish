@@ -15,7 +15,7 @@
  */
 
 import * as Bluebird from 'bluebird';
-import { Card } from '../Types';
+import { Card } from '../types';
 import { SDKInterface } from './index';
 import { debug } from './utils';
 

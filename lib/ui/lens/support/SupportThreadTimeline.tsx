@@ -12,7 +12,7 @@ import {
 } from 'rendition';
 import styled from 'styled-components';
 import uuid = require('uuid/v4');
-import { Card, Lens, RendererProps } from '../../../Types';
+import { Card, Lens, RendererProps } from '../../../types';
 import AutocompleteTextarea from '../../components/AutocompleteTextarea';
 import EventCard from '../../components/Event';
 import Icon from '../../components/Icon';

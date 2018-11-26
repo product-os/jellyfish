@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Flex, Provider } from 'rendition';
-import { AppStatus, Channel } from '../Types';
+import { AppStatus, Channel } from '../types';
 import ChannelRenderer from './components/ChannelRenderer';
 import { HomeChannel } from './components/HomeChannel';
 import { Login } from './components/Login';

@@ -4,7 +4,7 @@ import * as _ from 'lodash';
 import { Dispatch } from 'redux';
 import uuid = require('uuid/v4');
 import { analytics } from '../';
-import { AppStatus, Card, Channel, Notification, Type, ViewNotice } from '../../../Types';
+import { AppStatus, Card, Channel, Notification, Type, ViewNotice } from '../../../types';
 import { Action, getDefaultState, JellyThunk, JellyThunkSync } from '../common';
 import { sdk } from '../sdk';
 
