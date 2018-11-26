@@ -12,7 +12,7 @@ import {
 } from 'rendition';
 import { Markdown } from 'rendition/dist/extra/Markdown';
 import styled from 'styled-components';
-import { Card } from '../../Types';
+import { Card } from '../../types';
 import { AuthenticatedImage } from '../components/AuthenticatedImage';
 import { tagStyle } from '../components/Tag';
 import { createPrefixRegExp, findUsernameById, formatTimestamp } from '../services/helpers';

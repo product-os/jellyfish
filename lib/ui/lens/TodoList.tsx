@@ -9,7 +9,7 @@ import {
 	Input,
 	Txt,
 } from 'rendition';
-import { Card, Lens, RendererProps, Type } from '../../Types';
+import { Card, Lens, RendererProps, Type } from '../../types';
 import { analytics, sdk } from '../core';
 import { actionCreators, selectors, StoreState } from '../core/store';
 

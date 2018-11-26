@@ -1,6 +1,6 @@
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
-import { Card } from '../../Types';
+import { Card } from '../../types';
 import { sdk } from '../core';
 import { getViewSchema } from './helpers';
 

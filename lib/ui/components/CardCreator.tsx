@@ -7,7 +7,7 @@ import {
 	Modal,
 } from 'rendition';
 import { Form } from 'rendition/dist/unstable';
-import { Card, Type } from '../../Types';
+import { Card, Type } from '../../types';
 import { analytics, sdk } from '../core';
 import { actionCreators } from '../core/store';
 import { getLocalSchema } from '../services/helpers';

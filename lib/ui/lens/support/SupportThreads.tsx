@@ -9,7 +9,7 @@ import {
 } from 'rendition';
 import styled from 'styled-components';
 import uuid = require('uuid/v4');
-import { Card, Lens, RendererProps } from '../../../Types';
+import { Card, Lens, RendererProps } from '../../../types';
 import { analytics, sdk } from '../../core';
 import { actionCreators, selectors, StoreState } from '../../core/store';
 import {

@@ -4,7 +4,7 @@ import * as moment from 'moment';
 import { SchemaSieve } from 'rendition';
 import * as skhema from 'skhema';
 import uuid = require('uuid/v4');
-import { Card, Channel } from '../../Types';
+import { Card, Channel } from '../../types';
 
 const PURPLE = '#8268c5';
 

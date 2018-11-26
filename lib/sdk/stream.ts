@@ -19,7 +19,7 @@ import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import * as io from 'socket.io-client';
 import uuid = require('uuid/v4');
-import { Card } from '../Types';
+import { Card } from '../types';
 import { SDKInterface } from './index';
 
 export interface StreamEventMap {

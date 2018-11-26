@@ -46,6 +46,7 @@ lint:
 		"lib/**/*.ts" "lib/**/*.tsx" \
 		--exclude "lib/*/node_modules/**" \
 		--exclude "lib/*/dist/**"
+	./scripts/check-filenames.sh
 
 build-ui:
 	NODE_ENV=production ./node_modules/.bin/webpack

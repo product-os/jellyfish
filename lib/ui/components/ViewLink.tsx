@@ -9,7 +9,7 @@ import {
 	Link,
 } from 'rendition';
 import styled from 'styled-components';
-import { Card } from '../../Types';
+import { Card } from '../../types';
 import { actionCreators, selectors, StoreState } from '../core/store';
 import { getViewSlices } from '../services/helpers';
 import { ContextMenu } from './ContextMenu';

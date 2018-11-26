@@ -4,7 +4,7 @@ import * as _ from 'lodash';
 import { Dispatch } from 'redux';
 import { analytics } from '../';
 import { JellyfishStream } from '../../../sdk';
-import { Card } from '../../../Types';
+import { Card } from '../../../types';
 import { hashCode } from '../../services/helpers';
 import { createNotification } from '../../services/notifications';
 import { loadSchema } from '../../services/sdk-helpers';

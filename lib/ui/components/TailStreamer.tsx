@@ -2,7 +2,7 @@ import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import * as React from 'react';
 import { JellyfishStream } from '../../sdk';
-import { Card } from '../../Types';
+import { Card } from '../../types';
 import { store } from '../core';
 import { sdk } from '../core/sdk';
 import { actionCreators } from '../core/store';

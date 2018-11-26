@@ -11,7 +11,7 @@ import {
 	Txt,
 } from 'rendition';
 import styled from 'styled-components';
-import { Card, Lens, RendererProps, Type } from '../../Types';
+import { Card, Lens, RendererProps, Type } from '../../types';
 import { CardCreator } from '../components/CardCreator';
 import Icon from '../components/Icon';
 import { actionCreators } from '../core/store';
