@@ -2113,3 +2113,34 @@ ava('should delete a card using action-update-card', async (test) => {
 		links: card.links
 	}))
 })
+
+ava('should post an error execute event if logging in as a disallowed user', async (test) => {
+	const adminCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'user-admin')
+
+	const loginRequest = await test.context.worker.enqueue(test.context.session, {
+		action: 'action-create-session',
+		card: adminCard.id,
+		arguments: {
+			password: {
+				hash: {
+					string: 'foobarbaz',
+					salt: adminCard.slug
+				}
+			}
+		}
+	})
+
+	await test.throwsAsync(
+		test.context.flush(test.context.session),
+		test.context.worker.errors.WorkerAuthenticationError)
+
+	const loginResult = await test.context.worker.waitResults(test.context.session, loginRequest)
+	test.deepEqual(loginResult, {
+		error: true,
+		timestamp: loginResult.timestamp,
+		data: {
+			message: 'Login disallowed',
+			type: 'WorkerAuthenticationError'
+		}
+	})
+})
