@@ -1988,15 +1988,9 @@ ava('should add an update event if updating a card', async (test) => {
 				target: createResult.data.id,
 				timestamp: timeline[0].data.timestamp,
 				payload: {
-					active: true,
 					slug: 'foo',
 					type: 'card',
 					version: '1.0.0',
-					links: timeline[0].data.payload.links,
-					tags: [],
-					markers: [],
-					requires: [],
-					capabilities: [],
 					data: {
 						foo: 1
 					}
