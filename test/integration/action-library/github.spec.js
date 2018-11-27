@@ -21,7 +21,6 @@ const Octokit = require('@octokit/rest')
 const packageJSON = require('../../../package.json')
 const helpers = require('./helpers')
 const TOKEN = process.env.INTEGRATION_GITHUB_TOKEN
-const USER = process.env.INTEGRATION_GITHUB_USER
 
 const getMirrorWaitSchema = (slug) => {
 	return {
@@ -53,9 +52,10 @@ const getMirrorWaitSchema = (slug) => {
 ava.before(async (test) => {
 	await helpers.before(test)
 
+	const [ owner, repo ] = process.env.INTEGRATION_GITHUB_TEST_REPO.split('/')
 	test.context.repository = {
-		owner: 'balena-io',
-		repo: 'jellyfish-test-github'
+		owner,
+		repo
 	}
 
 	test.context.getIssueSlug = () => {
@@ -118,7 +118,7 @@ ava.before(async (test) => {
 		}
 	})
 
-	if (TOKEN && USER) {
+	if (TOKEN) {
 		test.context.github.authenticate({
 			type: 'token',
 			token: TOKEN
@@ -127,11 +127,14 @@ ava.before(async (test) => {
 })
 
 ava.after(helpers.after)
-ava.beforeEach(helpers.beforeEach)
+ava.beforeEach(async (test) => {
+	await helpers.beforeEach(test, randomstring.generate().toLowerCase())
+})
+
 ava.afterEach(helpers.afterEach)
 
 // Skip all tests if there is no GitHub token
-const avaTest = TOKEN && USER ? ava.serial : ava.serial.skip
+const avaTest = TOKEN ? ava.serial : ava.serial.skip
 
 avaTest('should be able to create an issue without comments', async (test) => {
 	const slug = test.context.getIssueSlug()
@@ -150,7 +153,8 @@ avaTest('should be able to create an issue without comments', async (test) => {
 		number: _.last(mirror.split('/'))
 	})
 
-	test.is(external.data.user.login, USER)
+	const currentUser = await test.context.github.users.getAuthenticated()
+	test.is(external.data.user.login, currentUser.data.login)
 	test.is(external.data.state, 'open')
 	test.is(external.data.title, title)
 	test.is(external.data.body, `[${test.context.username}] Issue body`)
@@ -187,7 +191,8 @@ avaTest('should be able to create an issue with a comment', async (test) => {
 		number: externalIssue.data.number
 	})
 
+	const currentUser = await test.context.github.users.getAuthenticated()
 	test.is(externalMessages.data.length, 1)
 	test.is(externalMessages.data[0].body, `[${test.context.username}] First comment`)
-	test.is(externalMessages.data[0].user.login, USER)
+	test.is(externalMessages.data[0].user.login, currentUser.data.login)
 })

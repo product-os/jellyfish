@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-const randomstring = require('randomstring')
 const helpers = require('../sdk/helpers')
 
 exports.before = async (test) => {
@@ -25,8 +24,8 @@ exports.after = async (test) => {
 	await helpers.sdk.afterEach(test)
 }
 
-exports.beforeEach = async (test) => {
-	test.context.username = randomstring.generate().toLowerCase()
+exports.beforeEach = async (test, username) => {
+	test.context.username = username
 	const userDetails = {
 		username: test.context.username,
 		email: `${test.context.username}@example.com`,
