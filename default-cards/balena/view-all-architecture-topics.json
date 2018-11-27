@@ -1,9 +1,9 @@
 {
-  "slug": "view-all-support-threads",
-  "name": "Support threads",
+  "slug": "view-all-architecture-topics",
+  "name": "All architecture topics",
   "version": "1.0.0",
   "type": "view",
-  "markers": [],
+  "markers": [ "org-balena" ],
   "tags": [],
   "links": {},
   "active": true,
@@ -36,7 +36,13 @@
             },
             "type": {
               "type": "string",
-              "const": "support-thread"
+              "const": "architecture-topic"
+            },
+            "markers": {
+              "type": "array",
+              "contains": {
+                "const": "org-balena"
+              }
             }
           },
           "required": [
@@ -48,7 +54,7 @@
       }
     ],
     "lenses": [
-      "lens-support-threads",
+      "lens-table",
       "lens-kanban"
     ]
   },

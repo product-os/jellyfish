@@ -1,9 +1,9 @@
 {
-  "slug": "view-all-issues",
-  "name": "Product issues",
+  "slug": "view-support-threads-to-audit",
+  "name": "Users Pending Update",
   "version": "1.0.0",
   "type": "view",
-  "markers": [],
+  "markers": [ "org-balena" ],
   "tags": [],
   "links": {},
   "active": true,
@@ -34,30 +34,48 @@
               "const": true,
               "type": "boolean"
             },
+            "tags": {
+              "type": "array",
+              "contains": {
+                "type": "string",
+                "const": "update-pending"
+              }
+            },
             "type": {
               "type": "string",
-              "const": "issue"
+              "const": "support-thread"
             },
             "data": {
               "type": "object",
+              "required": [
+                "status"
+              ],
               "properties": {
-                "repository": {
+                "status": {
                   "type": "string",
-                  "const": "resin-io/balena-demo"
+                  "const": "open"
                 }
+              }
+            },
+            "markers": {
+              "type": "array",
+              "contains": {
+                "const": "org-balena"
               }
             }
           },
           "required": [
             "active",
-            "type"
+            "tags",
+            "type",
+            "data"
           ],
           "additionalProperties": true
         }
       }
     ],
     "lenses": [
-      "lens-table",
+      "lens-support-threads",
       "lens-kanban"
     ]
   },

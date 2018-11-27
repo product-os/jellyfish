@@ -1,0 +1,13 @@
+{
+  "slug": "org-balena",
+  "type": "org",
+  "version": "1.0.0",
+  "name": "Balena",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {},
+  "requires": [],
+  "capabilities": []
+}

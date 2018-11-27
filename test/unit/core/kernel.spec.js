@@ -1384,7 +1384,6 @@ ava('.query() should return the cards that match a schema', async (test) => {
 			id: result1.id,
 			slug: 'johndoe',
 			type: 'card',
-			markers: [],
 			data: {
 				email: 'johndoe@example.io'
 			}
@@ -1695,7 +1694,6 @@ ava('.query() should return all action request cards', async (test) => {
 	test.deepEqual(results, [
 		{
 			type: 'action-request',
-			markers: [],
 			data: {
 				action: 'action-foo',
 				actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
@@ -1786,7 +1784,6 @@ ava('.query() should return inactive cards', async (test) => {
 
 	test.deepEqual(results, [
 		{
-			markers: [],
 			slug: 'johnsmith'
 		}
 	])
@@ -1864,7 +1861,6 @@ ava('.query() should take a view card with two filters', async (test) => {
 	test.deepEqual(results, [
 		{
 			tags: [ 'foo' ],
-			markers: [],
 			data: {
 				number: 1
 			}
@@ -1990,7 +1986,6 @@ ava('.query() should not consider active links to inactive cards', async (test) 
 	test.deepEqual(results, [
 		{
 			type: 'card',
-			markers: [],
 			links: {
 				'is attached to': [
 					{
@@ -2126,7 +2121,6 @@ ava('.query() should not consider inactive links', async (test) => {
 	test.deepEqual(results, [
 		{
 			type: 'card',
-			markers: [],
 			links: {
 				'is attached to': [
 					{
@@ -2295,7 +2289,6 @@ ava('.query() should be able to query using links', async (test) => {
 	test.deepEqual(results, [
 		{
 			type: 'card',
-			markers: [],
 			links: {
 				'is attached to': [
 					{
@@ -2313,7 +2306,6 @@ ava('.query() should be able to query using links', async (test) => {
 		},
 		{
 			type: 'card',
-			markers: [],
 			links: {
 				'is attached to': [
 					{
@@ -2331,7 +2323,6 @@ ava('.query() should be able to query using links', async (test) => {
 		},
 		{
 			type: 'card',
-			markers: [],
 			links: {
 				'is attached to': [
 					{
@@ -2466,7 +2457,6 @@ ava('.query() should be able to query using links using the target property', as
 	test.deepEqual(results, [
 		{
 			type: 'card',
-			markers: [],
 			links: {
 				'is attached to': [
 					{
@@ -2484,7 +2474,6 @@ ava('.query() should be able to query using links using the target property', as
 		},
 		{
 			type: 'card',
-			markers: [],
 			links: {
 				'is attached to': [
 					{
@@ -2502,7 +2491,6 @@ ava('.query() should be able to query using links using the target property', as
 		},
 		{
 			type: 'card',
-			markers: [],
 			links: {
 				'is attached to': [
 					{
@@ -2560,7 +2548,6 @@ ava.cb('.stream() should report back new elements that match a certain slug', (t
 				active: true,
 				links: {},
 				tags: [],
-				markers: [],
 				data: {
 					test: 1
 				}
@@ -2621,7 +2608,6 @@ ava.cb('.stream() should report back elements of a certain type', (test) => {
 			test.deepEqual(_.omit(change.after, [ 'id' ]), {
 				slug: 'johndoe',
 				type: 'card',
-				markers: [],
 				data: {
 					email: 'johndoe@example.com'
 				}
@@ -2693,7 +2679,6 @@ ava.cb('.stream() should report back action requests', (test) => {
 			test.deepEqual(change.before, null)
 			test.deepEqual(_.omit(change.after, [ 'id' ]), {
 				type: 'action-request',
-				markers: [],
 				data: {
 					action: 'action-delete-card',
 					actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
@@ -2773,7 +2758,6 @@ ava.cb('.stream() should report back inactive elements', (test) => {
 			test.deepEqual(change.before, null)
 			test.deepEqual(_.omit(change.after, [ 'id' ]), {
 				type: 'card',
-				markers: [],
 				slug: 'card-bar'
 			})
 

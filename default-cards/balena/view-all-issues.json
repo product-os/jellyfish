@@ -1,9 +1,9 @@
 {
-  "slug": "view-changelogs",
-  "name": "Changelogs",
+  "slug": "view-all-issues",
+  "name": "Product issues",
   "version": "1.0.0",
   "type": "view",
-  "markers": [],
+  "markers": [ "org-balena" ],
   "tags": [],
   "links": {},
   "active": true,
@@ -36,7 +36,22 @@
             },
             "type": {
               "type": "string",
-              "const": "changelog"
+              "const": "issue"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "repository": {
+                  "type": "string",
+                  "const": "resin-io/balena-demo"
+                }
+              }
+            },
+            "markers": {
+              "type": "array",
+              "contains": {
+                "const": "org-balena"
+              }
             }
           },
           "required": [
