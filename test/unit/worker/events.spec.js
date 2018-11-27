@@ -278,14 +278,7 @@ ava('.getLastExecutionEvent() should return the last execution event given one e
 		slug: event.slug,
 		type: 'execute',
 		version: '1.0.0',
-		links: {
-			'is attached to': [
-				{
-					$link: event.links['is attached to'][0].$link,
-					id: '57692206-8da2-46e1-91c9-159b2c6928ef'
-				}
-			]
-		},
+		links: {},
 		data: {
 			actor: '57692206-8da2-46e1-91c9-159b2c6928ef',
 			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
@@ -337,14 +330,7 @@ ava('.getLastExecutionEvent() should return the last event given a matching and 
 		slug: event.slug,
 		type: 'execute',
 		version: '1.0.0',
-		links: {
-			'is attached to': [
-				{
-					$link: event.links['is attached to'][0].$link,
-					id: '57692206-8da2-46e1-91c9-159b2c6928ef'
-				}
-			]
-		},
+		links: {},
 		data: {
 			actor: '57692206-8da2-46e1-91c9-159b2c6928ef',
 			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
@@ -396,14 +382,7 @@ ava('.getLastExecutionEvent() should return the last execution event given two m
 		slug: event.slug,
 		type: 'execute',
 		version: '1.0.0',
-		links: {
-			'is attached to': [
-				{
-					$link: event.links['is attached to'][0].$link,
-					id: '57692206-8da2-46e1-91c9-159b2c6928ef'
-				}
-			]
-		},
+		links: {},
 		data: {
 			actor: '57692206-8da2-46e1-91c9-159b2c6928ef',
 			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
