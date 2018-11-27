@@ -136,10 +136,17 @@ const getViewId = (query: string | Card | JSONSchema6) => {
 	return `${hashCode(JSON.stringify(query))}`;
 };
 
+const pendingLoadRequests: { [key: string]: number } = {};
+
 export const actionCreators = {
 	loadViewResults: (
 		query: string | Card | JSONSchema6,
 	): JellyThunkSync<void, StoreState> => (dispatch) => {
+		const id = getViewId(query);
+		const requestTimestamp = Date.now();
+
+		pendingLoadRequests[id] = requestTimestamp;
+
 		loadSchema(query)
 		.then((schema) => {
 			if (!schema) {
@@ -148,7 +155,10 @@ export const actionCreators = {
 
 			return sdk.query(schema)
 				.then((data) => {
-					dispatch(actionCreators.setViewData(query, data));
+					// Only update the store if this request is still the most recent once
+					if (pendingLoadRequests[id] === requestTimestamp) {
+						dispatch(actionCreators.setViewData(query, data));
+					}
 				});
 		})
 			.catch((error) => {

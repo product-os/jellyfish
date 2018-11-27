@@ -215,7 +215,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 		}
 
 		this.setState({ filters });
-	}, 750);
+	}, 350);
 
 	public loadViewWithFilters(view: Card, filters: JSONSchema6[]): void {
 		const syntheticViewCard = _.cloneDeep(view);
@@ -232,6 +232,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 			});
 		});
 
+		this.props.actions.clearViewData(syntheticViewCard);
 		this.props.actions.loadViewResults(syntheticViewCard);
 		this.props.actions.streamView(syntheticViewCard);
 	}
