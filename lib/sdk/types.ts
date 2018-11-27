@@ -34,6 +34,23 @@ export interface Card {
 	transient?: object;
 }
 
+export interface Event extends Card {
+	data: {
+		timestamp: string;
+		target: string;
+		actor: string;
+		payload?: { [key: string]: any };
+	};
+}
+
+export interface EventRequest {
+	card: string;
+	type: string;
+	tags?: string[];
+	slug?: string;
+	payload?: { [key: string]: any };
+}
+
 export type ActionResponse<D = any> = {
 	error: false;
 	data: D;

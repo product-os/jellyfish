@@ -501,20 +501,13 @@ ava.serial('AGGREGATE($events): should work when creating cards via the SDK', as
 	}
 
 	const card = await test.context.executeThenWait(() => {
-		return sdk.card.create({
+		return sdk.event.create({
 			type: 'message',
-			slug: test.context.generateRandomSlug({
-				prefix: 'message'
-			}),
-			version: '1.0.0',
-			data: {
-				timestamp: '2018-05-05T00:21:02.459Z',
-				target: thread.id,
-				actor: user.id,
-				payload: {
-					message: 'lorem ipsum dolor sit amet',
-					mentionsUser: [ id ]
-				}
+			tags: [],
+			card: thread.id,
+			payload: {
+				message: 'lorem ipsum dolor sit amet',
+				mentionsUser: [ id ]
 			}
 		})
 	}, waitQuery)
@@ -876,7 +869,7 @@ ava.serial('should be able to resolve links', async (test) => {
 	const username = randomstring.generate().toLowerCase()
 	const email = `${randomstring.generate()}@example.com`
 
-	const user = await test.context.sdk.auth.signup({
+	await test.context.sdk.auth.signup({
 		username,
 		email,
 		password: 'foobarbaz'
@@ -899,20 +892,13 @@ ava.serial('should be able to resolve links', async (test) => {
 		}
 	})
 
-	const message = await sdk.card.create({
+	const message = await sdk.event.create({
 		type: 'message',
-		slug: test.context.generateRandomSlug({
-			prefix: 'message'
-		}),
-		version: '1.0.0',
-		data: {
-			timestamp: '2018-05-05T00:21:02.459Z',
-			target: thread.id,
-			actor: user.id,
-			payload: {
-				message: 'lorem ipsum dolor sit amet',
-				mentionsUser: []
-			}
+		tags: [],
+		card: thread.id,
+		payload: {
+			message: 'lorem ipsum dolor sit amet',
+			mentionsUser: []
 		}
 	})
 

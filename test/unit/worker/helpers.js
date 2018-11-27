@@ -32,6 +32,8 @@ exports.jellyfish = {
 		await test.context.jellyfish.insertCard(test.context.session,
 			require('../../../default-cards/contrib/update.json'))
 		await test.context.jellyfish.insertCard(test.context.session,
+			require('../../../default-cards/contrib/message.json'))
+		await test.context.jellyfish.insertCard(test.context.session,
 			require('../../../default-cards/contrib/triggered-action.json'))
 		await test.context.jellyfish.insertCard(test.context.session,
 			require('../../../default-cards/contrib/action-create-card.json'))

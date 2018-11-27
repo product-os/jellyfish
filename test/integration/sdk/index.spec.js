@@ -776,3 +776,74 @@ ava.serial('.card.remove() should be able to delete a card', async (test) => {
 	const result = await sdk.card.get(card.id)
 	test.false(result.active)
 })
+
+ava.serial('.event.create() should create a new event', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	await sdk.setAuthToken(test.context.session)
+
+	const slug = test.context.generateRandomSlug({
+		prefix: 'card'
+	})
+
+	const card = await sdk.card.create({
+		type: 'card',
+		version: '1.0.0',
+		slug
+	})
+
+	const event = {
+		card: card.id,
+		type: 'message',
+		payload: {
+			test: 1
+		}
+	}
+
+	await sdk.event.create(event)
+
+	const results = await test.context.server.jellyfish.query(
+		test.context.session,
+		{
+			type: 'object',
+			properties: {
+				data: {
+					type: 'object',
+					properties: {
+						target: {
+							type: 'string',
+							const: card.id
+						},
+						payload: {
+							type: 'object',
+							properties: {
+								test: {
+									type: 'number'
+								}
+							},
+							required: [ 'test' ]
+						}
+					},
+					required: [ 'target', 'payload' ]
+				},
+				type: {
+					type: 'string',
+					const: 'message'
+				}
+			}
+		}
+	)
+
+	const result = _.first(results)
+
+	test.is(result.type, 'message')
+
+	test.deepEqual(result.data, {
+		target: card.id,
+		payload: {
+			test: 1
+		}
+	})
+})

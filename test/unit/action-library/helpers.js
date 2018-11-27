@@ -143,8 +143,6 @@ exports.integrations = {
 		await test.context.jellyfish.insertCard(test.context.session,
 			require('../../../default-cards/contrib/support-thread.json'))
 		await test.context.jellyfish.insertCard(test.context.session,
-			require('../../../default-cards/contrib/message.json'))
-		await test.context.jellyfish.insertCard(test.context.session,
 			require('../../../default-cards/contrib/whisper.json'))
 
 		nock.disableNetConnect()

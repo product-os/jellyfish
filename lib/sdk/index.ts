@@ -21,6 +21,7 @@ import * as _ from 'lodash';
 import { Card } from '../types';
 import { AuthSdk } from './auth';
 import { CardSdk } from './card';
+import { EventSdk } from './event';
 import { JellyfishStream, JellyfishStreamManager } from './stream';
 import * as utils from './utils';
 
@@ -97,6 +98,12 @@ export class JellyfishSDK implements SDKInterface {
 	public card: CardSdk;
 
 	/**
+	 * @namespace event
+	 * @memberOf JellyfishSDK
+	 */
+	public event: EventSdk;
+
+	/**
 	 * @namespace utils
 	 * @memberOf JellyfishSDK
 	 */
@@ -114,6 +121,7 @@ export class JellyfishSDK implements SDKInterface {
 	) {
 		this.auth = new AuthSdk(this);
 		this.card = new CardSdk(this);
+		this.event = new EventSdk(this);
 
 		this.utils = utils;
 
