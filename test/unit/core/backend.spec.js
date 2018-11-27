@@ -267,7 +267,8 @@ ava('.upsertElement() should update linked cards when inserting a link', async (
 		'is attached to': [
 			{
 				$link: updatedCard.links['is attached to'][0].$link,
-				id: thread.id
+				id: thread.id,
+				slug: 'foo'
 			}
 		]
 	})
@@ -276,7 +277,8 @@ ava('.upsertElement() should update linked cards when inserting a link', async (
 		'has attached element': [
 			{
 				$link: updatedThread.links['has attached element'][0].$link,
-				id: card.id
+				id: card.id,
+				slug: 'bar'
 			}
 		]
 	})

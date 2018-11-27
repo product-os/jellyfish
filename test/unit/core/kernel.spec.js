@@ -215,7 +215,8 @@ ava('.insertCard() should update links property when linking two cards', async (
 			'is attached to': [
 				{
 					$link: linkCard.id,
-					id: card2.id
+					id: card2.id,
+					slug: 'bar-baz'
 				}
 			]
 		},
@@ -236,7 +237,8 @@ ava('.insertCard() should update links property when linking two cards', async (
 			'has attached element': [
 				{
 					$link: linkCard.id,
-					id: card1.id
+					id: card1.id,
+					slug: 'foo-bar'
 				}
 			]
 		},
@@ -248,7 +250,7 @@ ava('.insertCard() should update links property when linking two cards', async (
 	})
 })
 
-ava('.insertCard() should update links property when linking a valid card to an invalid one', async (test) => {
+ava('.insertCard() should not update links property when linking a valid card to an invalid one', async (test) => {
 	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'foo-bar',
 		type: 'card',
@@ -256,7 +258,7 @@ ava('.insertCard() should update links property when linking a valid card to an 
 		data: {}
 	}))
 
-	const linkCard = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: `link-${card1.slug}-is-attached-to-4a962ad9-20b5-4dd8-a707-bf819593cc84`,
 		type: 'link',
 		version: '1.0.0',
@@ -276,14 +278,7 @@ ava('.insertCard() should update links property when linking a valid card to an 
 		type: 'card',
 		version: '1.0.0',
 		active: true,
-		links: {
-			'is attached to': [
-				{
-					$link: linkCard.id,
-					id: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
-				}
-			]
-		},
+		links: {},
 		tags: [],
 		markers: [],
 		requires: [],
@@ -292,7 +287,7 @@ ava('.insertCard() should update links property when linking a valid card to an 
 	})
 })
 
-ava('.insertCard() should update links property when linking an invalid card to a valid one', async (test) => {
+ava('.insertCard() should not update links property when linking an invalid card to a valid one', async (test) => {
 	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: 'bar-baz',
 		type: 'card',
@@ -300,7 +295,7 @@ ava('.insertCard() should update links property when linking an invalid card to 
 		data: {}
 	}))
 
-	const linkCard = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
 		slug: `link-4a962ad9-20b5-4dd8-a707-bf819593cc84-${card2.slug}`,
 		type: 'link',
 		version: '1.0.0',
@@ -320,14 +315,7 @@ ava('.insertCard() should update links property when linking an invalid card to 
 		type: 'card',
 		version: '1.0.0',
 		active: true,
-		links: {
-			'has attached element': [
-				{
-					$link: linkCard.id,
-					id: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
-				}
-			]
-		},
+		links: {},
 		tags: [],
 		markers: [],
 		requires: [],
@@ -388,13 +376,15 @@ ava('.insertCard() should update links property when linking two cards in two di
 			'is attached to': [
 				{
 					$link: linkCard1.id,
-					id: card2.id
+					id: card2.id,
+					slug: 'bar-baz'
 				}
 			],
 			'is related to': [
 				{
 					$link: linkCard2.id,
-					id: card2.id
+					id: card2.id,
+					slug: 'bar-baz'
 				}
 			]
 		},
@@ -415,13 +405,15 @@ ava('.insertCard() should update links property when linking two cards in two di
 			'has attached element': [
 				{
 					$link: linkCard1.id,
-					id: card1.id
+					id: card1.id,
+					slug: 'foo-bar'
 				}
 			],
 			'is related to': [
 				{
 					$link: linkCard2.id,
-					id: card1.id
+					id: card1.id,
+					slug: 'foo-bar'
 				}
 			]
 		},
@@ -502,7 +494,8 @@ ava('.insertCard() should be able to remove a link', async (test) => {
 			'is related to': [
 				{
 					$link: linkCard2.id,
-					id: card2.id
+					id: card2.id,
+					slug: 'bar-baz'
 				}
 			]
 		},
@@ -524,7 +517,8 @@ ava('.insertCard() should be able to remove a link', async (test) => {
 			'is related to': [
 				{
 					$link: linkCard2.id,
-					id: card1.id
+					id: card1.id,
+					slug: 'foo-bar'
 				}
 			]
 		},

@@ -682,11 +682,21 @@ ava('.parseCard() should parse a "from" card', (test) => {
 		links: {},
 		tags: [],
 		data: {}
+	}, {
+		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+		slug: 'bar',
+		type: 'card',
+		version: '1.0.0',
+		active: true,
+		links: {},
+		tags: [],
+		data: {}
 	})
 
 	test.deepEqual(result, {
 		name: 'is attached to',
-		id: '87ca429f-5e46-419a-8f21-b43f68f23001'
+		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+		slug: 'bar'
 	})
 })
 
@@ -711,11 +721,21 @@ ava('.parseCard() should parse a "to" card', (test) => {
 		links: {},
 		tags: [],
 		data: {}
+	}, {
+		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		slug: 'bar',
+		type: 'card',
+		version: '1.0.0',
+		active: true,
+		links: {},
+		tags: [],
+		data: {}
 	})
 
 	test.deepEqual(result, {
 		name: 'has attached element',
-		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
+		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		slug: 'bar'
 	})
 })
 
@@ -767,6 +787,15 @@ ava('.addLink() should add a link given a "from" card without any links', (test)
 		links: {},
 		tags: [],
 		data: {}
+	}, {
+		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+		slug: 'bar',
+		type: 'card',
+		version: '1.0.0',
+		active: true,
+		links: {},
+		tags: [],
+		data: {}
 	})
 
 	test.deepEqual(card, {
@@ -779,7 +808,8 @@ ava('.addLink() should add a link given a "from" card without any links', (test)
 			'is attached to': [
 				{
 					$link: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
-					id: '87ca429f-5e46-419a-8f21-b43f68f23001'
+					id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+					slug: 'bar'
 				}
 			]
 		},
@@ -811,10 +841,20 @@ ava('.addLink() should add a link given a "from" card without the existing link'
 			'is attached to': [
 				{
 					$link: '9cf07e16-681f-4195-83a4-afa1937b05df',
-					id: '2bb5f628-1adf-4d48-96c4-90f7ebf7abdc'
+					id: '2bb5f628-1adf-4d48-96c4-90f7ebf7abdc',
+					slug: 'baz'
 				}
 			]
 		},
+		tags: [],
+		data: {}
+	}, {
+		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+		slug: 'bar',
+		type: 'card',
+		version: '1.0.0',
+		active: true,
+		links: {},
 		tags: [],
 		data: {}
 	})
@@ -829,11 +869,13 @@ ava('.addLink() should add a link given a "from" card without the existing link'
 			'is attached to': [
 				{
 					$link: '9cf07e16-681f-4195-83a4-afa1937b05df',
-					id: '2bb5f628-1adf-4d48-96c4-90f7ebf7abdc'
+					id: '2bb5f628-1adf-4d48-96c4-90f7ebf7abdc',
+					slug: 'baz'
 				},
 				{
 					$link: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
-					id: '87ca429f-5e46-419a-8f21-b43f68f23001'
+					id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+					slug: 'bar'
 				}
 			]
 		},
@@ -871,6 +913,15 @@ ava('.addLink() should add a link given a "from" card with the existing link', (
 		},
 		tags: [],
 		data: {}
+	}, {
+		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+		slug: 'bar',
+		type: 'card',
+		version: '1.0.0',
+		active: true,
+		links: {},
+		tags: [],
+		data: {}
 	})
 
 	test.deepEqual(card, {
@@ -883,7 +934,8 @@ ava('.addLink() should add a link given a "from" card with the existing link', (
 			'is attached to': [
 				{
 					$link: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
-					id: '87ca429f-5e46-419a-8f21-b43f68f23001'
+					id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+					slug: 'bar'
 				}
 			]
 		},
@@ -914,6 +966,15 @@ ava('.addLink() should add a link given a "to" card without any links', (test) =
 		links: {},
 		tags: [],
 		data: {}
+	}, {
+		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		slug: 'bar',
+		type: 'card',
+		version: '1.0.0',
+		active: true,
+		links: {},
+		tags: [],
+		data: {}
 	})
 
 	test.deepEqual(card, {
@@ -926,7 +987,8 @@ ava('.addLink() should add a link given a "to" card without any links', (test) =
 			'has attached element': [
 				{
 					$link: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
-					id: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
+					id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+					slug: 'bar'
 				}
 			]
 		},
@@ -958,10 +1020,20 @@ ava('.addLink() should add a link given a "to" card without the existing link', 
 			'has attached element': [
 				{
 					$link: '9cf07e16-681f-4195-83a4-afa1937b05df',
-					id: '2bb5f628-1adf-4d48-96c4-90f7ebf7abdc'
+					id: '2bb5f628-1adf-4d48-96c4-90f7ebf7abdc',
+					slug: 'baz'
 				}
 			]
 		},
+		tags: [],
+		data: {}
+	}, {
+		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		slug: 'bar',
+		type: 'card',
+		version: '1.0.0',
+		active: true,
+		links: {},
 		tags: [],
 		data: {}
 	})
@@ -976,11 +1048,13 @@ ava('.addLink() should add a link given a "to" card without the existing link', 
 			'has attached element': [
 				{
 					$link: '9cf07e16-681f-4195-83a4-afa1937b05df',
-					id: '2bb5f628-1adf-4d48-96c4-90f7ebf7abdc'
+					id: '2bb5f628-1adf-4d48-96c4-90f7ebf7abdc',
+					slug: 'baz'
 				},
 				{
 					$link: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
-					id: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
+					id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+					slug: 'bar'
 				}
 			]
 		},
@@ -1012,7 +1086,25 @@ ava('.addLink() should add a link given a "to" card with the existing link', (te
 			'has attached element': [
 				{
 					$link: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
-					id: '2bb5f628-1adf-4d48-96c4-90f7ebf7abdc'
+					id: '2bb5f628-1adf-4d48-96c4-90f7ebf7abdc',
+					slug: 'bar'
+				}
+			]
+		},
+		tags: [],
+		data: {}
+	}, {
+		id: '2bb5f628-1adf-4d48-96c4-90f7ebf7abdc',
+		slug: 'bar',
+		type: 'card',
+		version: '1.0.0',
+		active: true,
+		links: {
+			'is attached to': [
+				{
+					$link: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
+					id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+					slug: 'foo'
 				}
 			]
 		},
@@ -1030,7 +1122,8 @@ ava('.addLink() should add a link given a "to" card with the existing link', (te
 			'has attached element': [
 				{
 					$link: 'c4603d6f-63b0-4613-8885-39ecb46ef276',
-					id: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
+					id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+					slug: 'bar'
 				}
 			]
 		},
