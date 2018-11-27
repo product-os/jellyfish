@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+const uuid = require('uuid/v4')
 const helpers = require('../sdk/helpers')
 
 exports.before = async (test) => {
@@ -26,28 +27,38 @@ exports.after = async (test) => {
 
 exports.beforeEach = async (test, username) => {
 	test.context.username = username
-	const userDetails = {
-		username: test.context.username,
-		email: `${test.context.username}@example.com`,
-		password: 'foobarbaz'
-	}
 
-	await test.context.sdk.auth.signup(userDetails)
-	await test.context.sdk.auth.login(userDetails)
-	test.context.user = await test.context.sdk.auth.whoami()
-
-	const card = await test.context.jellyfish.getCardBySlug(
+	// Create the user, only if it doesn't exist yet
+	const userCard = await test.context.jellyfish.getCardBySlug(
 		test.context.jellyfish.sessions.admin,
-		`user-${test.context.username}`)
+		`user-${test.context.username}`) ||
+		await test.context.sdk.auth.signup({
+			username: test.context.username,
+			email: `${test.context.username}@example.com`,
+			password: 'foobarbaz'
+		})
 
 	// So it can access all the necessary cards
-	card.data.roles = [ 'user-team' ]
-
+	userCard.data.roles = [ 'user-team' ]
 	await test.context.jellyfish.insertCard(
 		test.context.jellyfish.sessions.admin,
-		card, {
+		userCard, {
 			override: true
 		})
+
+	// Force login, even if we don't know the password
+	const session = await test.context.jellyfish.insertCard(
+		test.context.jellyfish.sessions.admin, {
+			slug: `session-${userCard.slug}-integration-tests-${uuid()}`,
+			type: 'session',
+			version: '1.0.0',
+			data: {
+				actor: userCard.id
+			}
+		})
+
+	await test.context.sdk.auth.loginWithToken(session.id)
+	test.context.user = await test.context.sdk.auth.whoami()
 }
 
 exports.afterEach = async (test) => {
