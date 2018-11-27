@@ -11,7 +11,6 @@ import SupportThreadLens from './support/SupportThread';
 import SupportThreadsLens from './support/SupportThreads';
 import TableLens from './Table';
 import TimelineLens from './Timeline';
-import TodoList from './TodoList';
 import ViewLens from './View';
 
 class LensService {
@@ -24,7 +23,6 @@ class LensService {
 		SupportThreadsLens,
 		TableLens,
 		TimelineLens,
-		TodoList,
 		ViewLens,
 	];
 

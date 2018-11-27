@@ -1,0 +1,43 @@
+{
+  "slug": "view-my-orgs",
+  "name": "My organisations",
+  "version": "1.0.0",
+  "type": "view",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "allOf": [
+      {
+        "name": "My organisations",
+        "schema": {
+          "$$links": {
+            "has member": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "const": {
+                    "$eval": "user.id"
+                  }
+                }
+              }
+            }
+          },
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "org"
+            }
+          },
+          "additionalProperties": true
+        }
+      }
+    ],
+    "lenses": [
+      "lens-list"
+    ]
+  },
+  "requires": [],
+  "capabilities": []
+}

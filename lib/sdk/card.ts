@@ -17,7 +17,6 @@
 import * as Bluebird from 'bluebird';
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
-import uuid = require('uuid/v4');
 import { Card } from '../types';
 import { SDKInterface } from './index';
 import { debug, isUUID } from './utils';
@@ -37,18 +36,6 @@ const linkNameMap = {
 	'spec is attached to architecture topic': 'architecture topic has attached spec',
 	'is member of': 'has member',
 };
-
-const createDefaultCard = (type: string) => ({
-	slug: `${type}-${uuid()}`,
-	version: '1.0.0',
-	active: true,
-	tags: [],
-	markers: [],
-	links: {},
-	requires: [],
-	capabilities: [],
-	data: {},
-});
 
 /**
  * @namespace JellyfishSDK.card
@@ -227,10 +214,7 @@ export class CardSdk {
 			card: card.type,
 			action: 'action-create-card',
 			arguments: {
-				properties: _.assign(
-					createDefaultCard(card.type),
-					_.omit(card, ['type']),
-				),
+				properties: _.omit(card, [ 'type' ]),
 			},
 		});
 	}
@@ -265,10 +249,7 @@ export class CardSdk {
 			card: id,
 			action: 'action-update-card',
 			arguments: {
-				properties: _.assign(
-					createDefaultCard(card.type),
-					_.omit(card, [ 'type', 'id' ]),
-				),
+				properties: _.omit(card, [ 'type', 'id' ]),
 			},
 		});
 	}

@@ -471,7 +471,8 @@
               "enum": [
                 "thread",
                 "message",
-                "triggered-action"
+                "triggered-action",
+                "org"
               ]
             }
           },

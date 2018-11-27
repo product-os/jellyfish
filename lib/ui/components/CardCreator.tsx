@@ -13,6 +13,12 @@ import { actionCreators } from '../core/store';
 import { getLocalSchema } from '../services/helpers';
 import { FreeFieldForm } from './FreeFieldForm';
 
+const slugify = (value: string) => {
+	return value
+		.replace(/[^a-z0-9-]/g, '-')
+		.replace(/-{1,}/g, '-');
+};
+
 interface CardCreatorState {
 	newCardModel: {[key: string]: any };
 }
@@ -41,13 +47,17 @@ class Base extends React.Component<CardCreatorProps, CardCreatorState> {
 			return;
 		}
 
-		const newCard = {
+		const newCard: Partial<Card> = {
 			type: this.props.type.slug,
 			...this.state.newCardModel,
 		};
 
 		if (this.props.onCreate) {
 			this.props.onCreate();
+		}
+
+		if (newCard.type === 'org' && newCard.name) {
+			newCard.slug = `org-${slugify(newCard.name)}`;
 		}
 
 		sdk.card.create(newCard as Card)

@@ -311,7 +311,8 @@
                 "os-test-result",
                 "todo",
                 "triggered-action",
-                "whisper"
+                "whisper",
+                "org"
               ]
             }
           },
