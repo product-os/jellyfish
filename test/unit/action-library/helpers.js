@@ -19,7 +19,6 @@ const path = require('path')
 const _ = require('lodash')
 const helpers = require('../worker/helpers')
 const actionLibrary = require('../../../lib/action-library')
-const sync = require('../../../lib/action-library/sync')
 
 exports.sync = {
 	beforeEach: async (test) => {
@@ -66,10 +65,16 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 				}
 			}))
 
-		const result = await sync.translateExternalEvent(
-			integration.constructor, event, integration.options)
+		const request = await test.context.worker.enqueue(test.context.session, {
+			action: `action-integration-${integration.source}-import-event`,
+			card: event.id,
+			arguments: {}
+		})
+
 		await test.context.flush(test.context.session)
-		cards.push(...result)
+		const result = await test.context.worker.waitResults(test.context.session, request)
+		test.false(result.error)
+		cards.push(...result.data)
 	}
 
 	if (!testCase.expected.head) {
@@ -111,7 +116,7 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 
 	test.deepEqual(testCase.expected.tail.map((card, index) => {
 		card.id = _.get(timeline, [ index, 'id' ])
-		card.data.actor = test.context.actor.id
+		card.data.actor = _.get(timeline, [ index, 'data', 'actor' ])
 		card.data.target = head.id
 		card.data.timestamp = _.get(timeline, [ index, 'data', 'timestamp' ])
 		return card
@@ -144,6 +149,10 @@ exports.integrations = {
 			require('../../../default-cards/contrib/support-thread.json'))
 		await test.context.jellyfish.insertCard(test.context.session,
 			require('../../../default-cards/contrib/whisper.json'))
+		await test.context.jellyfish.insertCard(test.context.session,
+			require('../../../default-cards/contrib/action-integration-github-import-event.json'))
+		await test.context.jellyfish.insertCard(test.context.session,
+			require('../../../default-cards/contrib/action-integration-front-import-event.json'))
 
 		nock.disableNetConnect()
 	},

@@ -21,7 +21,7 @@ const helpers = require('./helpers')
 ava.beforeEach(helpers.integrations.beforeEach)
 ava.afterEach(helpers.integrations.afterEach)
 
-helpers.integrations.scenario(ava, {
+helpers.integrations.scenario(process.env.INTEGRATION_GITHUB_TOKEN ? ava : ava.skip, {
 	integration: require('../../../lib/action-library/integrations/github'),
 	scenarios: require('./integrations/github'),
 	slices: _.range(0, 3),
@@ -29,7 +29,7 @@ helpers.integrations.scenario(ava, {
 	stubRegex: /^\/repos\/.+\/.+\/issues\/\d+\/comments$/,
 	source: 'github',
 	options: {
-		token: 'xxxxxxxxxxxxxxxxxx'
+		token: process.env.INTEGRATION_GITHUB_TOKEN
 	},
 	isAuthorized: (self, request) => {
 		return request.headers.authorization &&
