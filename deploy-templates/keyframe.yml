@@ -1,0 +1,25 @@
+slug: jellyfish-keyframe
+type: meta.keyframe
+version: 0.0.1
+repo: 'https://github.com/resin-io/balena-jellyfish.git'
+children:
+  sw:
+    containerized-application:
+      jellyfish-application:
+        slug: jellyfish-application
+        version: v10.3.3 
+        type: sw.containerized-application
+        assets:
+          image:
+            url: 'balena/jellyfish:v10.3.3'
+          repo:
+            url: 'https://github.com/balena-io/jellyfish.git'
+      jellyfish-rethinkdb:
+        slug: jellyfish-rethinkdb
+        version: latest
+        type: sw.containerized-application
+        assets:
+          image:
+            url: 'balena/balena-rethinkdb:latest'
+          repo:
+            url: 'https://github.com/balena-io/balena-rethinkdb.git'
