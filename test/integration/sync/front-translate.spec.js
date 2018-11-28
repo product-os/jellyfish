@@ -17,22 +17,23 @@
 const ava = require('ava')
 const _ = require('lodash')
 const helpers = require('./helpers')
+const sync = require('../../../lib/sync')
+const TOKEN = sync.getToken('front')
 
-ava.beforeEach(helpers.integrations.beforeEach)
-ava.afterEach(helpers.integrations.afterEach)
+ava.beforeEach(helpers.translate.beforeEach)
+ava.afterEach(helpers.translate.afterEach)
 
-helpers.integrations.scenario(process.env.INTEGRATION_GITHUB_TOKEN ? ava : ava.skip, {
-	integration: require('../../../lib/action-library/integrations/github'),
-	scenarios: require('./integrations/github'),
-	slices: _.range(0, 3),
-	baseUrl: 'https://api.github.com',
-	stubRegex: /^\/repos\/.+\/.+\/issues\/\d+\/comments$/,
-	source: 'github',
+helpers.translate.scenario(TOKEN ? ava : ava.skip, {
+	integration: require('../../../lib/sync/integrations/front'),
+	scenarios: require('./webhooks/front'),
+	slices: _.range(0, 2),
+	baseUrl: 'https://api2.frontapp.com',
+	stubRegex: /^\/conversations\/.+\/(messages|inboxes)$/,
+	source: 'front',
 	options: {
-		token: process.env.INTEGRATION_GITHUB_TOKEN
+		token: TOKEN
 	},
 	isAuthorized: (self, request) => {
-		return request.headers.authorization &&
-			request.headers.authorization[0] === `token ${self.options.token}`
+		return request.headers.authorization === `Bearer ${self.options.token}`
 	}
 })

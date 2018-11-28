@@ -60,6 +60,9 @@ jobs:
           name: Integration Tests
           command: make test-integration COVERAGE=1
       - run:
+          name: Sync Integration Tests Without Tokens
+          command: make test-integration-sync COVERAGE=0 INTEGRATION_GITHUB_TOKEN= INTEGRATION_FRONT_TOKEN=
+      - run:
           name: Store Code Coverage Results
           command: make report-coverage && cp -rf coverage /tmp/test-results
       - run:

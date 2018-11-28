@@ -32,7 +32,7 @@
         }
       }
     },
-    "action": "action-integration-github-import-event",
+    "action": "action-integration-import-event",
     "target": {
       "$eval": "source.id"
     },

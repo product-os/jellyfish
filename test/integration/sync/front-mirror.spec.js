@@ -20,7 +20,8 @@ const _ = require('lodash')
 const randomstring = require('randomstring')
 const Front = require('front-sdk').Front
 const helpers = require('./helpers')
-const TOKEN = process.env.INTEGRATION_FRONT_TOKEN
+const sync = require('../../../lib/sync')
+const TOKEN = sync.getToken('front')
 
 // Because Front might take a while to process
 // message creation requests.
@@ -38,7 +39,7 @@ const retryWhile404 = async (fn, times = 5) => {
 	}
 }
 
-const wait = async (fn, check, times = 5) => {
+const wait = async (fn, check, times = 8) => {
 	const result = await fn()
 	if (check(result)) {
 		return result
@@ -48,7 +49,7 @@ const wait = async (fn, check, times = 5) => {
 		throw new Error('Timeout while waiting for check condition')
 	}
 
-	await Bluebird.delay(500)
+	await Bluebird.delay(1000)
 	return wait(fn, check, times - 1)
 }
 
@@ -80,7 +81,7 @@ const getMirrorWaitSchema = (slug) => {
 }
 
 ava.before(async (test) => {
-	await helpers.before(test)
+	await helpers.mirror.before(test)
 
 	if (TOKEN) {
 		test.context.front = new Front(TOKEN)
@@ -171,7 +172,7 @@ ava.before(async (test) => {
 	}
 })
 
-ava.after(helpers.after)
+ava.after(helpers.mirror.after)
 ava.beforeEach(async (test) => {
 	const teammates = await test.context.front.inbox.listTeammates({
 		inbox_id: test.context.inbox
@@ -186,10 +187,10 @@ ava.beforeEach(async (test) => {
 		throw new Error(`No available teammate for inbox ${test.context.inbox}`)
 	}
 
-	await helpers.beforeEach(test, teammate.username.replace(/_/g, '-'))
+	await helpers.mirror.beforeEach(test, teammate.username.replace(/_/g, '-'))
 })
 
-ava.afterEach(helpers.afterEach)
+ava.afterEach(helpers.mirror.afterEach)
 
 // Skip all tests if there is no Front token
 const avaTest = TOKEN ? ava.serial : ava.serial.skip

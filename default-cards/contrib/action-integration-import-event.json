@@ -1,5 +1,5 @@
 {
-  "slug": "action-integration-github-import-event",
+  "slug": "action-integration-import-event",
   "type": "action",
   "version": "1.0.0",
   "tags": [],
@@ -25,8 +25,7 @@
           ],
           "properties": {
             "source": {
-              "type": "string",
-              "const": "github"
+              "type": "string"
             }
           }
         }
