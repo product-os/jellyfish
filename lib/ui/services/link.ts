@@ -11,7 +11,7 @@ export const createLink = (
 	verb: string,
 	options: CreateLinkOptions = {},
 ) => {
-	sdk.card.link(fromId, toId, verb as any)
+	return sdk.card.link(fromId, toId, verb as any)
 		.tap(() => {
 			analytics.track('element.create', {
 				element: {

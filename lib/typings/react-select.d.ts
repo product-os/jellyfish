@@ -18,3 +18,22 @@ declare module 'react-select/lib/Async' {
 
 	export default AsyncSelect;
 }
+
+declare module 'react-select' {
+	import { Component } from 'react';
+
+	interface Option {
+		value: any;
+		label: string | void;
+	}
+
+	interface SelectProps {
+		value?: Option | null;
+		onChange?: (option: Option) => void;
+		options?: Option[];
+	}
+
+	class Select extends Component<SelectProps, any> {}
+
+	export default Select;
+}

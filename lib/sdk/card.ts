@@ -35,6 +35,7 @@ const linkNameMap = {
 	'spec has attached issue': 'issue is attached to spec',
 	'spec is attached to architecture topic': 'architecture topic has attached spec',
 	'is member of': 'has member',
+	'has member': 'is member of',
 };
 
 /**

@@ -6,6 +6,7 @@ import { Card, Lens } from '../../types';
 import InterleavedLens from './Interleaved';
 import KanbanLens from './Kanban';
 import ListLens from './List';
+import OrgLens from './Org';
 import SingleCardLens from './SingleCard';
 import SupportThreadLens from './support/SupportThread';
 import SupportThreadsLens from './support/SupportThreads';
@@ -18,6 +19,7 @@ class LensService {
 		InterleavedLens,
 		KanbanLens,
 		ListLens,
+		OrgLens,
 		SingleCardLens,
 		SupportThreadLens,
 		SupportThreadsLens,
