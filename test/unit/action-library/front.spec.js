@@ -21,7 +21,7 @@ const helpers = require('./helpers')
 ava.beforeEach(helpers.integrations.beforeEach)
 ava.afterEach(helpers.integrations.afterEach)
 
-helpers.integrations.scenario(ava, {
+helpers.integrations.scenario(process.env.INTEGRATION_FRONT_TOKEN ? ava : ava.skip, {
 	integration: require('../../../lib/action-library/integrations/front'),
 	scenarios: require('./integrations/front'),
 	slices: _.range(0, 2),
@@ -29,7 +29,7 @@ helpers.integrations.scenario(ava, {
 	stubRegex: /^\/conversations\/.+\/(messages|inboxes)$/,
 	source: 'front',
 	options: {
-		token: 'xxxxxxxxxxxxxxxxxx'
+		token: process.env.INTEGRATION_FRONT_TOKEN
 	},
 	isAuthorized: (self, request) => {
 		return request.headers.authorization === `Bearer ${self.options.token}`
