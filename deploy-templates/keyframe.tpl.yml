@@ -7,11 +7,11 @@ children:
     containerized-application:
       jellyfish-application:
         slug: jellyfish-application
-        version: v10.3.3 
+        version: #JF_VERSION#
         type: sw.containerized-application
         assets:
           image:
-            url: 'balena/jellyfish:v10.3.3'
+            url: 'balena/jellyfish:#JF_VERSION#'
           repo:
             url: 'https://github.com/balena-io/jellyfish.git'
       jellyfish-rethinkdb:
