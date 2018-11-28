@@ -1,0 +1,11 @@
+staging:
+  version: v1.0.0
+  kubernetes:
+    template: staging/v1.0.0/kubernetes/templates/
+    kubeconfig: ./kubeconfig
+    namespace: jellyfish
+    bastion: K8S_STG_BASTION
+    api: K8S_STG_API
+    bastion-username: K8S_STG_BASTION_USERNAME
+    bastion-key: jellyfish_pk
+  archive-store: deploy-artifacts/
