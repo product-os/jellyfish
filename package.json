@@ -20,7 +20,6 @@
     "timeout": "5m",
     "verbose": true,
     "concurrency": 3,
-    "failFast": false,
     "failWithoutAssertions": true,
     "files": [
       "test/unit/**/*.spec.js",
