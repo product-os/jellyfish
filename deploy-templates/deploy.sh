@@ -1,9 +1,12 @@
 #!/bin/bash
 
 if [ "$#" -ne 1 ] ;then
-	echo "keyframe path required as first argument." 
+	echo "keyframe path required as first argument."
 	exit 1
 fi
+
+# patch /etc/hosts for tunneling k8s api
+echo "127.0.0.1 $K8S_STG_API" >> /etc/hosts
 
 # Get kubectl for the deploy part
 wget -O kubectl https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && chmod +x ./kubectl
@@ -22,3 +25,4 @@ echo $K8S_STG_BASTION_KEY|base64 -d > jellyfish_pk
 
 # Deploy with katapult
 ./katapult deploy -t kubernetes -e staging -c . -v -k $1
+
