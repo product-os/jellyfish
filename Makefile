@@ -15,6 +15,7 @@ API_URL ?= http://localhost:8000/
 DB_HOST ?= localhost
 DB_PORT ?= 28015
 NODE_DEBUG ?= 'jellyfish:*'
+NODE_ENV ?= test
 COVERAGE ?= 1
 AVA_OPTS ?=
 DISABLE_CACHE ?=
@@ -66,7 +67,7 @@ report-coverage:
 
 test:
 	node scripts/scrub-test-databases.js
-	NODE_ENV=test \
+	NODE_ENV=$(NODE_ENV) \
 	DB_HOST=$(DB_HOST) \
 	DB_PORT=$(DB_PORT) \
 	API_URL=$(API_URL) \
@@ -78,6 +79,7 @@ test:
 
 test-unit:
 	FILES=./test/unit/**/*.spec.js \
+		NODE_ENV=$(NODE_ENV) \
 		DB_HOST=$(DB_HOST) \
 		DB_PORT=$(DB_PORT) \
 		API_URL=$(API_URL) \
@@ -89,6 +91,7 @@ test-unit:
 
 test-integration:
 	FILES=./test/integration/**/*.spec.js \
+		NODE_ENV=$(NODE_ENV) \
 		DB_HOST=$(DB_HOST) \
 		DB_PORT=$(DB_PORT) \
 		PUPPETEER_VISUAL_MODE=$(PUPPETEER_VISUAL_MODE) \
@@ -102,6 +105,7 @@ test-integration:
 
 test-unit-%:
 	FILES=./test/unit/$(subst test-unit-,,$@)/**/*.spec.js \
+		NODE_ENV=$(NODE_ENV) \
 		DB_HOST=$(DB_HOST) \
 		DB_PORT=$(DB_PORT) \
 		API_URL=$(API_URL) \
@@ -113,6 +117,7 @@ test-unit-%:
 
 test-integration-%:
 	FILES=./test/integration/$(subst test-integration-,,$@)/**/*.spec.js \
+		NODE_ENV=$(NODE_ENV) \
 		DB_HOST=$(DB_HOST) \
 		DB_PORT=$(DB_PORT) \
 		PUPPETEER_VISUAL_MODE=$(PUPPETEER_VISUAL_MODE) \
@@ -125,7 +130,7 @@ test-integration-%:
 		make test
 
 test-e2e:
-	@NODE_ENV=test \
+	@NODE_ENV=$(NODE_ENV) \
 		JF_TEST_USER=$(JF_TEST_USER) \
 		JF_TEST_PASSWORD=$(JF_TEST_PASSWORD) \
 		JF_URL=$(API_URL) \

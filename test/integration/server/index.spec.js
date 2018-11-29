@@ -683,89 +683,111 @@ ava.serial('Users should not be able to login as the core admin user', async (te
 	}
 })
 
-ava.serial('should be able to post an external event', async (test) => {
-	const result = await test.context.http('POST', '/api/v2/hooks/test', {
-		foo: 'bar',
-		bar: 'baz'
+if (process.env.NODE_ENV === 'production') {
+	ava.serial('should reject an external event from localhost', async (test) => {
+		const result = await test.context.http('POST', '/api/v2/hooks/test', {
+			foo: 'bar',
+			bar: 'baz'
+		})
+
+		test.is(result.code, 401)
+		test.true(result.response.error)
 	})
 
-	test.is(result.code, 200)
-	test.false(result.response.error)
+	ava.serial('should be able to reject an external event with a type coming from localhost', async (test) => {
+		const result = await test.context.http('POST', '/api/v2/hooks/test/foobarbaz', {
+			foo: 'bar',
+			bar: 'baz'
+		})
 
-	const requestResult = await test.context.server.worker.waitResults(test.context.session, result.response.data)
+		test.is(result.code, 401)
+		test.true(result.response.error)
+	})
+} else {
+	ava.serial('should be able to post an external event', async (test) => {
+		const result = await test.context.http('POST', '/api/v2/hooks/test', {
+			foo: 'bar',
+			bar: 'baz'
+		})
 
-	test.false(requestResult.error)
-	const card = await test.context.jellyfish.getCardById(test.context.session, requestResult.data.id)
+		test.is(result.code, 200)
+		test.false(result.response.error)
 
-	test.deepEqual(card, {
-		id: requestResult.data.id,
-		type: 'external-event',
-		slug: requestResult.data.slug,
-		version: '1.0.0',
-		active: true,
-		tags: [],
-		markers: [],
-		links: card.links,
-		requires: [],
-		capabilities: [],
-		data: {
-			source: 'test',
-			headers: {
-				accept: 'application/json',
-				connection: 'close',
-				'content-length': '25',
-				'content-type': 'application/json',
-				host: `localhost:${test.context.server.port}`
-			},
-			payload: {
-				foo: 'bar',
-				bar: 'baz'
+		const requestResult = await test.context.server.worker.waitResults(test.context.session, result.response.data)
+
+		test.false(requestResult.error)
+		const card = await test.context.jellyfish.getCardById(test.context.session, requestResult.data.id)
+
+		test.deepEqual(card, {
+			id: requestResult.data.id,
+			type: 'external-event',
+			slug: requestResult.data.slug,
+			version: '1.0.0',
+			active: true,
+			tags: [],
+			markers: [],
+			links: card.links,
+			requires: [],
+			capabilities: [],
+			data: {
+				source: 'test',
+				headers: {
+					accept: 'application/json',
+					connection: 'close',
+					'content-length': '25',
+					'content-type': 'application/json',
+					host: `localhost:${test.context.server.port}`
+				},
+				payload: {
+					foo: 'bar',
+					bar: 'baz'
+				}
 			}
-		}
-	})
-})
-
-ava.serial('should be able to post an external event with a type', async (test) => {
-	const result = await test.context.http('POST', '/api/v2/hooks/test/foobarbaz', {
-		foo: 'bar',
-		bar: 'baz'
+		})
 	})
 
-	test.is(result.code, 200)
-	test.false(result.response.error)
+	ava.serial('should be able to post an external event with a type', async (test) => {
+		const result = await test.context.http('POST', '/api/v2/hooks/test/foobarbaz', {
+			foo: 'bar',
+			bar: 'baz'
+		})
 
-	const requestResult = await test.context.server.worker.waitResults(test.context.session, result.response.data)
+		test.is(result.code, 200)
+		test.false(result.response.error)
 
-	test.false(requestResult.error)
-	const card = await test.context.jellyfish.getCardById(test.context.session, requestResult.data.id)
+		const requestResult = await test.context.server.worker.waitResults(test.context.session, result.response.data)
 
-	test.deepEqual(card, {
-		id: requestResult.data.id,
-		type: 'external-event',
-		slug: requestResult.data.slug,
-		version: '1.0.0',
-		active: true,
-		tags: [],
-		markers: [],
-		links: card.links,
-		requires: [],
-		capabilities: [],
-		data: {
-			source: 'test',
-			headers: {
-				accept: 'application/json',
-				connection: 'close',
-				'content-length': '25',
-				'content-type': 'application/json',
-				host: `localhost:${test.context.server.port}`
-			},
-			payload: {
-				foo: 'bar',
-				bar: 'baz'
+		test.false(requestResult.error)
+		const card = await test.context.jellyfish.getCardById(test.context.session, requestResult.data.id)
+
+		test.deepEqual(card, {
+			id: requestResult.data.id,
+			type: 'external-event',
+			slug: requestResult.data.slug,
+			version: '1.0.0',
+			active: true,
+			tags: [],
+			markers: [],
+			links: card.links,
+			requires: [],
+			capabilities: [],
+			data: {
+				source: 'test',
+				headers: {
+					accept: 'application/json',
+					connection: 'close',
+					'content-length': '25',
+					'content-type': 'application/json',
+					host: `localhost:${test.context.server.port}`
+				},
+				payload: {
+					foo: 'bar',
+					bar: 'baz'
+				}
 			}
-		}
+		})
 	})
-})
+}
 
 ava.serial('should add and evaluate a time triggered action', async (test) => {
 	const {
