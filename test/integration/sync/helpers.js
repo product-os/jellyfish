@@ -15,20 +15,11 @@
  */
 
 const nock = require('nock')
+const uuid = require('uuid/v4')
 const path = require('path')
 const _ = require('lodash')
-const helpers = require('../worker/helpers')
-const actionLibrary = require('../../../lib/action-library')
-
-exports.sync = {
-	beforeEach: async (test) => {
-		await helpers.worker.beforeEach(test, actionLibrary)
-		test.context.context = test.context.worker.getExecutionContext()
-	},
-	afterEach: async (test) => {
-		await helpers.worker.afterEach(test)
-	}
-}
+const helpers = require('../sdk/helpers')
+const syncHelpers = require('../../unit/sync/helpers')
 
 const webhookScenario = async (test, testCase, integration, stub) => {
 	await nock(stub.baseUrl)
@@ -66,7 +57,7 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 			}))
 
 		const request = await test.context.worker.enqueue(test.context.session, {
-			action: `action-integration-${integration.source}-import-event`,
+			action: 'action-integration-import-event',
 			card: event.id,
 			arguments: {}
 		})
@@ -135,9 +126,9 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 	}))
 }
 
-exports.integrations = {
+exports.translate = {
 	beforeEach: async (test) => {
-		await exports.sync.beforeEach(test)
+		await syncHelpers.beforeEach(test)
 
 		await test.context.jellyfish.insertCard(test.context.session,
 			require('../../../default-cards/contrib/external-event.json'))
@@ -150,22 +141,17 @@ exports.integrations = {
 		await test.context.jellyfish.insertCard(test.context.session,
 			require('../../../default-cards/contrib/whisper.json'))
 		await test.context.jellyfish.insertCard(test.context.session,
-			require('../../../default-cards/contrib/action-integration-github-import-event.json'))
-		await test.context.jellyfish.insertCard(test.context.session,
-			require('../../../default-cards/contrib/action-integration-front-import-event.json'))
+			require('../../../default-cards/contrib/action-integration-import-event.json'))
 
 		nock.disableNetConnect()
 	},
 	afterEach: async (test) => {
-		await exports.sync.afterEach(test)
+		await syncHelpers.afterEach(test)
 
 		nock.cleanAll()
 	},
 
 	scenario: async (ava, suite) => {
-		if (!_.isFunction(ava.serial)) {
-			return
-		}
 		for (const testCaseName of Object.keys(suite.scenarios)) {
 			const testCase = suite.scenarios[testCaseName]
 
@@ -175,7 +161,9 @@ exports.integrations = {
 				}
 
 				const prefix = `slice-${slice}`
-				ava.serial(`(${prefix}) ${testCaseName}`, async (test) => {
+				const fn = ava.serial || ava
+
+				fn(`(${prefix}) ${testCaseName}`, async (test) => {
 					await webhookScenario(test, {
 						steps: testCase.steps.slice(slice),
 						expected: testCase.expected,
@@ -192,7 +180,7 @@ exports.integrations = {
 					}, {
 						baseUrl: suite.baseUrl,
 						uriPath: suite.stubRegex,
-						basePath: path.join(__dirname, 'integrations', suite.source),
+						basePath: path.join(__dirname, 'webhooks', suite.source),
 						isAuthorized: _.partial(suite.isAuthorized, suite)
 					})
 				})
@@ -200,5 +188,52 @@ exports.integrations = {
 
 			// TODO: Test shuffling the steps
 		}
+	}
+}
+
+exports.mirror = {
+	before: async (test) => {
+		await helpers.sdk.beforeEach(test)
+	},
+	after: async (test) => {
+		await helpers.sdk.afterEach(test)
+	},
+	beforeEach: async (test, username) => {
+		test.context.username = username
+
+		// Create the user, only if it doesn't exist yet
+		const userCard = await test.context.jellyfish.getCardBySlug(
+			test.context.jellyfish.sessions.admin,
+			`user-${test.context.username}`) ||
+			await test.context.sdk.auth.signup({
+				username: test.context.username,
+				email: `${test.context.username}@example.com`,
+				password: 'foobarbaz'
+			})
+
+		// So it can access all the necessary cards
+		userCard.data.roles = [ 'user-team' ]
+		await test.context.jellyfish.insertCard(
+			test.context.jellyfish.sessions.admin,
+			userCard, {
+				override: true
+			})
+
+		// Force login, even if we don't know the password
+		const session = await test.context.jellyfish.insertCard(
+			test.context.jellyfish.sessions.admin, {
+				slug: `session-${userCard.slug}-integration-tests-${uuid()}`,
+				type: 'session',
+				version: '1.0.0',
+				data: {
+					actor: userCard.id
+				}
+			})
+
+		await test.context.sdk.auth.loginWithToken(session.id)
+		test.context.user = await test.context.sdk.auth.whoami()
+	},
+	afterEach: async (test) => {
+		await test.context.sdk.auth.logout()
 	}
 }

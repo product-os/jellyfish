@@ -18,14 +18,14 @@ const ava = require('ava')
 const _ = require('lodash')
 const helpers = require('./helpers')
 const typedErrors = require('typed-errors')
-const sync = require('../../../lib/action-library/sync')
+const pipeline = require('../../../lib/sync/pipeline')
 const NoOpIntegration = require('./noop-integration')
 
-ava.beforeEach(helpers.sync.beforeEach)
-ava.afterEach(helpers.sync.afterEach)
+ava.beforeEach(helpers.beforeEach)
+ava.afterEach(helpers.afterEach)
 
 ava('.importCards() should import no card', async (test) => {
-	const result = await sync.importCards(test.context.context, test.context.session, [], {
+	const result = await pipeline.importCards(test.context.context, test.context.session, [], {
 		actor: test.context.actor.id
 	})
 
@@ -33,7 +33,7 @@ ava('.importCards() should import no card', async (test) => {
 })
 
 ava('.importCards() should throw if the type is invalid', async (test) => {
-	await test.throwsAsync(sync.importCards(test.context.context, test.context.session, [
+	await test.throwsAsync(pipeline.importCards(test.context.context, test.context.session, [
 		{
 			time: new Date(),
 			card: {
@@ -51,7 +51,7 @@ ava('.importCards() should throw if the type is invalid', async (test) => {
 })
 
 ava('.importCards() should import a single card', async (test) => {
-	const result = await sync.importCards(test.context.context, test.context.session, [
+	const result = await pipeline.importCards(test.context.context, test.context.session, [
 		{
 			time: new Date(),
 			card: {
@@ -91,7 +91,7 @@ ava('.importCards() should patch an existing card', async (test) => {
 		}
 	}))
 
-	const result = await sync.importCards(test.context.context, test.context.session, [
+	const result = await pipeline.importCards(test.context.context, test.context.session, [
 		{
 			time: new Date(),
 			card: test.context.kernel.defaults({
@@ -125,7 +125,7 @@ ava('.importCards() should patch an existing card', async (test) => {
 })
 
 ava('.importCards() should import two independent cards', async (test) => {
-	const result = await sync.importCards(test.context.context, test.context.session, [
+	const result = await pipeline.importCards(test.context.context, test.context.session, [
 		{
 			time: new Date(),
 			card: {
@@ -177,7 +177,7 @@ ava('.importCards() should import two independent cards', async (test) => {
 })
 
 ava('.importCards() should import two parallel cards', async (test) => {
-	const result = await sync.importCards(test.context.context, test.context.session, [
+	const result = await pipeline.importCards(test.context.context, test.context.session, [
 		[
 			{
 				time: new Date(),
@@ -233,7 +233,7 @@ ava('.importCards() should import two parallel cards', async (test) => {
 })
 
 ava('.importCards() should import dependent cards', async (test) => {
-	const result = await sync.importCards(test.context.context, test.context.session, [
+	const result = await pipeline.importCards(test.context.context, test.context.session, [
 		{
 			time: new Date(),
 			card: {
@@ -293,7 +293,7 @@ ava('.importCards() should import dependent cards', async (test) => {
 })
 
 ava('.importCards() should throw if a template does not evaluate', async (test) => {
-	await test.throwsAsync(sync.importCards(test.context.context, test.context.session, [
+	await test.throwsAsync(pipeline.importCards(test.context.context, test.context.session, [
 		{
 			time: new Date(),
 			card: {
@@ -324,7 +324,7 @@ ava('.importCards() should throw if a template does not evaluate', async (test) 
 })
 
 ava('.importCards() should import a dependent card in parallel segment', async (test) => {
-	const result = await sync.importCards(test.context.context, test.context.session, [
+	const result = await pipeline.importCards(test.context.context, test.context.session, [
 		{
 			time: new Date(),
 			card: {
@@ -405,7 +405,7 @@ ava('.importCards() should import a dependent card in parallel segment', async (
 })
 
 ava('.importCards() should add create events', async (test) => {
-	const result = await sync.importCards(test.context.context, test.context.session, [
+	const result = await pipeline.importCards(test.context.context, test.context.session, [
 		{
 			time: new Date(),
 			card: {
@@ -458,7 +458,7 @@ ava('.translateExternalEvent() should translate an external event through the no
 		prefix: 'external-event'
 	})
 
-	const result = await sync.translateExternalEvent(TestIntegration, test.context.kernel.defaults({
+	const result = await pipeline.translateExternalEvent(TestIntegration, test.context.kernel.defaults({
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		type: 'external-event',
 		slug,
@@ -505,7 +505,7 @@ ava('.translateExternalEvent() should destroy the integration even if there was 
 		}
 	}
 
-	await test.throwsAsync(sync.translateExternalEvent(TestIntegration, test.context.kernel.defaults({
+	await test.throwsAsync(pipeline.translateExternalEvent(TestIntegration, test.context.kernel.defaults({
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		slug: test.context.generateRandomSlug({
 			prefix: 'external-event'
@@ -546,7 +546,7 @@ ava('.translateExternalEvent() should destroy the integration even if there was 
 		}
 	}
 
-	await test.throwsAsync(sync.translateExternalEvent(BrokenIntegration, {
+	await test.throwsAsync(pipeline.translateExternalEvent(BrokenIntegration, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		type: 'invalid-type',
 		slug: test.context.generateRandomSlug({

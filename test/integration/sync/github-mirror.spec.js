@@ -20,7 +20,8 @@ const randomstring = require('randomstring')
 const Octokit = require('@octokit/rest')
 const packageJSON = require('../../../package.json')
 const helpers = require('./helpers')
-const TOKEN = process.env.INTEGRATION_GITHUB_TOKEN
+const sync = require('../../../lib/sync')
+const TOKEN = sync.getToken('github')
 
 const getMirrorWaitSchema = (slug) => {
 	return {
@@ -50,7 +51,7 @@ const getMirrorWaitSchema = (slug) => {
 }
 
 ava.before(async (test) => {
-	await helpers.before(test)
+	await helpers.mirror.before(test)
 
 	const [ owner, repo ] = process.env.INTEGRATION_GITHUB_TEST_REPO.split('/')
 	test.context.repository = {
@@ -119,12 +120,12 @@ ava.before(async (test) => {
 	}
 })
 
-ava.after(helpers.after)
+ava.after(helpers.mirror.after)
 ava.beforeEach(async (test) => {
-	await helpers.beforeEach(test, randomstring.generate().toLowerCase())
+	await helpers.mirror.beforeEach(test, randomstring.generate().toLowerCase())
 })
 
-ava.afterEach(helpers.afterEach)
+ava.afterEach(helpers.mirror.afterEach)
 
 // Skip all tests if there is no GitHub token
 const avaTest = TOKEN ? ava.serial : ava.serial.skip

@@ -21,6 +21,7 @@
     "verbose": true,
     "concurrency": 3,
     "failFast": false,
+    "failWithoutAssertions": true,
     "files": [
       "test/unit/**/*.spec.js",
       "test/integration/**/*.spec.js"
