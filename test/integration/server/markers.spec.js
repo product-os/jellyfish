@@ -38,19 +38,17 @@ ava.serial('Users should be able to view an element with no markers', async (tes
 	const {
 		sdk
 	} = test.context
-	const {
-		jellyfish
-	} = test.context.server
 
 	await sdk.auth.signup(users.community)
 	await sdk.auth.login(users.community)
 
-	const thread = await jellyfish.insertCard(test.context.session, jellyfish.defaults({
-		slug: `thread-${randomstring.generate().toLowerCase()}`,
-		type: 'thread',
-		name: 'Test thread',
-		version: '1.0.0'
-	}))
+	const thread = await test.context.server.jellyfish.insertCard(
+		test.context.session, test.context.server.jellyfish.defaults({
+			slug: `thread-${randomstring.generate().toLowerCase()}`,
+			type: 'thread',
+			name: 'Test thread',
+			version: '1.0.0'
+		}))
 
 	const userReadThread = await sdk.card.get(thread.id)
 
@@ -61,17 +59,15 @@ ava.serial('Users should not be able to view an element that has a marker they d
 	const {
 		sdk
 	} = test.context
-	const {
-		jellyfish
-	} = test.context.server
 
-	const thread = await jellyfish.insertCard(test.context.session, jellyfish.defaults({
-		slug: `thread-${randomstring.generate().toLowerCase()}`,
-		type: 'thread',
-		name: 'Test entry',
-		version: '1.0.0',
-		markers: [ 'org-private' ]
-	}))
+	const thread = await test.context.server.jellyfish.insertCard(
+		test.context.session, test.context.server.jellyfish.defaults({
+			slug: `thread-${randomstring.generate().toLowerCase()}`,
+			type: 'thread',
+			name: 'Test entry',
+			version: '1.0.0',
+			markers: [ 'org-private' ]
+		}))
 
 	const userReadThread = await sdk.card.get(thread.id)
 
@@ -82,9 +78,6 @@ ava.serial('Users should be able to view an element if all of their markers matc
 	const {
 		sdk
 	} = test.context
-	const {
-		jellyfish
-	} = test.context.server
 
 	await sdk.auth.login(users.community)
 	const user = await sdk.auth.whoami()
@@ -107,13 +100,14 @@ ava.serial('Users should be able to view an element if all of their markers matc
 
 	await sdk.auth.login(users.community)
 
-	const thread = await jellyfish.insertCard(test.context.session, jellyfish.defaults({
-		slug: `thread-${randomstring.generate().toLowerCase()}`,
-		type: 'thread',
-		name: 'Test entry',
-		version: '1.0.0',
-		markers: [ user.slug, orgSlug ]
-	}))
+	const thread = await test.context.server.jellyfish.insertCard(
+		test.context.session, test.context.server.jellyfish.defaults({
+			slug: `thread-${randomstring.generate().toLowerCase()}`,
+			type: 'thread',
+			name: 'Test entry',
+			version: '1.0.0',
+			markers: [ user.slug, orgSlug ]
+		}))
 
 	const userReadThread = await sdk.card.get(thread.id)
 
@@ -126,20 +120,18 @@ ava.serial(
 		const {
 			sdk
 		} = test.context
-		const {
-			jellyfish
-		} = test.context.server
 
 		await sdk.auth.login(users.community)
 		const user = await sdk.auth.whoami()
 
-		const thread = await jellyfish.insertCard(test.context.session, jellyfish.defaults({
-			slug: `thread-${randomstring.generate().toLowerCase()}`,
-			type: 'thread',
-			name: 'Test entry',
-			version: '1.0.0',
-			markers: [ user.slug, 'org-balena' ]
-		}))
+		const thread = await test.context.server.jellyfish.insertCard(
+			test.context.session, test.context.server.jellyfish.defaults({
+				slug: `thread-${randomstring.generate().toLowerCase()}`,
+				type: 'thread',
+				name: 'Test entry',
+				version: '1.0.0',
+				markers: [ user.slug, 'org-balena' ]
+			}))
 
 		const userReadThread = await sdk.card.get(thread.id)
 
@@ -150,20 +142,18 @@ ava.serial('Users should be able to view an element using compound markers', asy
 	const {
 		sdk
 	} = test.context
-	const {
-		jellyfish
-	} = test.context.server
 
 	await sdk.auth.login(users.community)
 	const user = await sdk.auth.whoami()
 
-	const thread = await jellyfish.insertCard(test.context.session, jellyfish.defaults({
-		slug: `thread-${randomstring.generate().toLowerCase()}`,
-		type: 'thread',
-		name: 'Test entry',
-		version: '1.0.0',
-		markers: [ `${user.slug}+user-ash` ]
-	}))
+	const thread = await test.context.server.jellyfish.insertCard(
+		test.context.session, test.context.server.jellyfish.defaults({
+			slug: `thread-${randomstring.generate().toLowerCase()}`,
+			type: 'thread',
+			name: 'Test entry',
+			version: '1.0.0',
+			markers: [ `${user.slug}+user-ash` ]
+		}))
 
 	const userReadThread = await sdk.card.get(thread.id)
 
@@ -176,9 +166,6 @@ ava.serial(
 		const {
 			sdk
 		} = test.context
-		const {
-			jellyfish
-		} = test.context.server
 
 		await sdk.auth.login(users.community)
 		const user = await sdk.auth.whoami()
@@ -188,13 +175,14 @@ ava.serial(
 
 		await sdk.auth.login(users.community)
 
-		const thread = await jellyfish.insertCard(test.context.session, jellyfish.defaults({
-			slug: `thread-${randomstring.generate().toLowerCase()}`,
-			type: 'thread',
-			name: 'Test entry',
-			version: '1.0.0',
-			markers: [ `${user.slug}+user-ash`, 'org-private' ]
-		}))
+		const thread = await test.context.server.jellyfish.insertCard(
+			test.context.session, test.context.server.jellyfish.defaults({
+				slug: `thread-${randomstring.generate().toLowerCase()}`,
+				type: 'thread',
+				name: 'Test entry',
+				version: '1.0.0',
+				markers: [ `${user.slug}+user-ash`, 'org-private' ]
+			}))
 
 		const userReadThread = await sdk.card.get(thread.id)
 
@@ -207,9 +195,6 @@ ava.serial(
 		const {
 			sdk
 		} = test.context
-		const {
-			jellyfish
-		} = test.context.server
 
 		await sdk.auth.login(users.community)
 		const user = await sdk.auth.whoami()
@@ -232,13 +217,14 @@ ava.serial(
 
 		await sdk.auth.login(users.community)
 
-		const thread = await jellyfish.insertCard(test.context.session, jellyfish.defaults({
-			slug: `thread-${randomstring.generate().toLowerCase()}`,
-			type: 'thread',
-			name: 'Test entry',
-			version: '1.0.0',
-			markers: [ `${user.slug}+user-ash`, orgSlug ]
-		}))
+		const thread = await test.context.server.jellyfish.insertCard(
+			test.context.session, test.context.server.jellyfish.defaults({
+				slug: `thread-${randomstring.generate().toLowerCase()}`,
+				type: 'thread',
+				name: 'Test entry',
+				version: '1.0.0',
+				markers: [ `${user.slug}+user-ash`, orgSlug ]
+			}))
 
 		const userReadThread = await sdk.card.get(thread.id)
 
@@ -249,20 +235,18 @@ ava.serial('Users should be able to view an element using compound markers with 
 	const {
 		sdk
 	} = test.context
-	const {
-		jellyfish
-	} = test.context.server
 
 	await sdk.auth.login(users.community)
 	const user = await sdk.auth.whoami()
 
-	const thread = await jellyfish.insertCard(test.context.session, jellyfish.defaults({
-		slug: `thread-${randomstring.generate().toLowerCase()}`,
-		type: 'thread',
-		name: 'Test entry',
-		version: '1.0.0',
-		markers: [ `user-ash+${user.slug}+user-misty` ]
-	}))
+	const thread = await test.context.server.jellyfish.insertCard(
+		test.context.session, test.context.server.jellyfish.defaults({
+			slug: `thread-${randomstring.generate().toLowerCase()}`,
+			type: 'thread',
+			name: 'Test entry',
+			version: '1.0.0',
+			markers: [ `user-ash+${user.slug}+user-misty` ]
+		}))
 
 	const userReadThread = await sdk.card.get(thread.id)
 
@@ -275,9 +259,6 @@ ava.serial(
 		const {
 			sdk
 		} = test.context
-		const {
-			jellyfish
-		} = test.context.server
 
 		await sdk.auth.login(users.community)
 		const user = await sdk.auth.whoami()
@@ -300,13 +281,14 @@ ava.serial(
 
 		await sdk.auth.login(users.community)
 
-		const thread = await jellyfish.insertCard(test.context.session, jellyfish.defaults({
-			slug: `thread-${randomstring.generate().toLowerCase()}`,
-			type: 'thread',
-			name: 'Test entry',
-			version: '1.0.0',
-			markers: [ `${orgSlug}+org-private` ]
-		}))
+		const thread = await test.context.server.jellyfish.insertCard(
+			test.context.session, test.context.server.jellyfish.defaults({
+				slug: `thread-${randomstring.generate().toLowerCase()}`,
+				type: 'thread',
+				name: 'Test entry',
+				version: '1.0.0',
+				markers: [ `${orgSlug}+org-private` ]
+			}))
 
 		const userReadThread = await sdk.card.get(thread.id)
 

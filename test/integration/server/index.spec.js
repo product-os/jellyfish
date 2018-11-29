@@ -153,13 +153,6 @@ ava.serial('.query() should be able to see previously restricted cards after a p
 		sdk
 	} = test.context
 
-	const {
-		jellyfish
-	} = test.context.server
-	const {
-		defaults
-	} = jellyfish
-
 	const username = randomstring.generate().toLowerCase()
 	const email = `${randomstring.generate()}@example.com`
 
@@ -174,31 +167,33 @@ ava.serial('.query() should be able to see previously restricted cards after a p
 		password: 'foobarbaz'
 	})
 
-	const entry = await jellyfish.insertCard(test.context.session, defaults({
-		type: 'scratchpad-entry',
-		slug: test.context.generateRandomSlug({
-			prefix: 'scratchpad-entry'
-		}),
-		version: '1.0.0',
-		name: 'Test entry'
-	}))
+	const entry = await test.context.server.jellyfish.insertCard(
+		test.context.session, test.context.server.jellyfish.defaults({
+			type: 'scratchpad-entry',
+			slug: test.context.generateRandomSlug({
+				prefix: 'scratchpad-entry'
+			}),
+			version: '1.0.0',
+			name: 'Test entry'
+		}))
 
 	const unprivilegedResults = await sdk.card.get(entry.id)
 
 	test.deepEqual(unprivilegedResults, null)
 
-	await jellyfish.insertCard(test.context.session, defaults({
-		id: user.id,
-		slug: `user-${username}`,
-		type: 'user',
-		version: '1.0.0',
-		data: {
-			email,
-			roles: [ 'user-team' ]
-		}
-	}), {
-		override: true
-	})
+	await test.context.server.jellyfish.insertCard(
+		test.context.session, test.context.server.jellyfish.defaults({
+			id: user.id,
+			slug: `user-${username}`,
+			type: 'user',
+			version: '1.0.0',
+			data: {
+				email,
+				roles: [ 'user-team' ]
+			}
+		}), {
+			override: true
+		})
 
 	const privilegedResults = await sdk.card.get(entry.id)
 	test.deepEqual(privilegedResults.id, entry.id)
@@ -692,7 +687,7 @@ ava.serial('should be able to post an external event', async (test) => {
 	test.is(result.code, 200)
 	test.false(result.response.error)
 
-	const requestResult = await test.context.server.worker.waitResults(test.context.session, result.response.data)
+	const requestResult = await test.context.server.waitResults(test.context.session, result.response.data)
 
 	test.false(requestResult.error)
 	const card = await test.context.jellyfish.getCardById(test.context.session, requestResult.data.id)
@@ -734,7 +729,7 @@ ava.serial('should be able to post an external event with a type', async (test) 
 	test.is(result.code, 200)
 	test.false(result.response.error)
 
-	const requestResult = await test.context.server.worker.waitResults(test.context.session, result.response.data)
+	const requestResult = await test.context.server.waitResults(test.context.session, result.response.data)
 
 	test.false(requestResult.error)
 	const card = await test.context.jellyfish.getCardById(test.context.session, requestResult.data.id)
@@ -771,14 +766,9 @@ ava.serial('should add and evaluate a time triggered action', async (test) => {
 	const {
 		sdk
 	} = test.context
-	const {
-		jellyfish
-	} = test.context.server
-	const {
-		defaults
-	} = jellyfish
 
-	const typeCard = await jellyfish.getCardBySlug(test.context.session, 'card')
+	const typeCard = await test.context.server.jellyfish.getCardBySlug(
+		test.context.session, 'card')
 	const username = randomstring.generate().toLowerCase()
 	const email = `${randomstring.generate()}@example.com`
 
@@ -793,34 +783,35 @@ ava.serial('should add and evaluate a time triggered action', async (test) => {
 		password: 'foobarbaz'
 	})
 
-	const trigger = await jellyfish.insertCard(test.context.session, defaults({
-		type: 'triggered-action',
-		slug: test.context.generateRandomSlug({
-			prefix: 'triggered-action'
-		}),
-		version: '1.0.0',
-		data: {
-			action: 'action-create-card',
-			target: typeCard.id,
-			interval: 'PT1S',
-			arguments: {
-				properties: {
-					version: '1.0.0',
-					slug: {
-						$eval: 'str(epoch)'
-					},
-					data: {
-						origin: 'time-trigger'
+	const trigger = await test.context.server.jellyfish.insertCard(
+		test.context.session, test.context.server.jellyfish.defaults({
+			type: 'triggered-action',
+			slug: test.context.generateRandomSlug({
+				prefix: 'triggered-action'
+			}),
+			version: '1.0.0',
+			data: {
+				action: 'action-create-card',
+				target: typeCard.id,
+				interval: 'PT1S',
+				arguments: {
+					properties: {
+						version: '1.0.0',
+						slug: {
+							$eval: 'str(epoch)'
+						},
+						data: {
+							origin: 'time-trigger'
+						}
 					}
 				}
 			}
-		}
-	}), {
-		override: true
-	})
+		}), {
+			override: true
+		})
 
 	const waitUntilResults = async (length, times = 0) => {
-		const results = await test.context.jellyfish.query(test.context.session, {
+		const results = await test.context.server.jellyfish.query(test.context.session, {
 			type: 'object',
 			required: [ 'type', 'data' ],
 			properties: {
@@ -856,7 +847,7 @@ ava.serial('should add and evaluate a time triggered action', async (test) => {
 	test.true(results.length >= 3)
 
 	trigger.active = false
-	await test.context.jellyfish.insertCard(test.context.session, trigger, {
+	await test.context.server.jellyfish.insertCard(test.context.session, trigger, {
 		override: true
 	})
 })
