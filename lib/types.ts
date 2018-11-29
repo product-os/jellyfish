@@ -48,6 +48,7 @@ export interface Card {
 	version: string;
 	type: string;
 	tags: string[];
+	markers: string[];
 	links: object;
 	requires: object[];
 	capabilities: object[];

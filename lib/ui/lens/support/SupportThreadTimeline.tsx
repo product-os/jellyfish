@@ -181,26 +181,18 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		const whisper = this.state.messageSymbol ? false : this.state.whisper;
 
 		const message = {
-			id,
-			tags,
-			links: {},
-			requires: [],
-			capabilities: [],
-			active: true,
+			card: this.props.card.id,
 			type: whisper ? 'whisper' : 'message',
-			data: {
-				timestamp: getCurrentTimestamp(),
-				target: this.props.card.id,
-				actor: this.props.user!.id,
-				payload: {
-					mentionsUser: mentions,
-					alertsUser: alerts,
-					message: newMessage.replace(messageSymbolRE, ''),
-				},
+			markers: this.props.card.markers || [],
+			tags,
+			payload: {
+				mentionsUser: mentions,
+				alertsUser: alerts,
+				message: newMessage.replace(messageSymbolRE, ''),
 			},
 		};
 
-		sdk.card.create(message)
+		sdk.event.create(message)
 			.then(() => {
 				return createLink(id, this.props.card.id, 'is attached to', {
 					skipSuccessMessage: true,

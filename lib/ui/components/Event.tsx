@@ -134,7 +134,7 @@ export default class Event extends React.Component<EventProps, { actorName: stri
 	}
 
 	public render(): React.ReactNode {
-		const { card, openChannel, ...props } = this.props;
+		const { card, openChannel, users, ...props } = this.props;
 
 		const isMessage = card.type === 'message' || card.type === 'whisper';
 		const icon = isMessage ?
@@ -154,7 +154,7 @@ export default class Event extends React.Component<EventProps, { actorName: stri
 		const flexDir = card.type === 'whisper' ? 'row-reverse' : 'row';
 
 		return (
-			<EventWrapper className={`event-card--${card.type}`} {...props} flexDirection={flexDir}>
+			<EventWrapper {...props} className={`event-card--${card.type}`} flexDirection={flexDir}>
 				<Button
 					plaintext={true}
 					onClick={this.openChannel}

@@ -69,7 +69,6 @@ ava.serial('.action() should be able to successfully create a new card', async (
 
 	test.deepEqual(results, [
 		{
-			markers: [],
 			type: 'card',
 			name
 		}
@@ -720,7 +719,6 @@ ava.serial('.card.create() should create a new card', async (test) => {
 	)
 
 	test.deepEqual(_.first(results), {
-		markers: [],
 		type: 'card',
 		slug
 	})

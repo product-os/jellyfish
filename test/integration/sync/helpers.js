@@ -213,13 +213,22 @@ exports.mirror = {
 				password: 'foobarbaz'
 			})
 
-		// So it can access all the necessary cards
-		userCard.data.roles = [ 'user-team' ]
-		await test.context.jellyfish.insertCard(
-			test.context.jellyfish.sessions.admin,
-			userCard, {
-				override: true
-			})
+		// So it can access all the necessary cards, make the user a member of the
+		// balena org
+		const orgCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'org-balena')
+
+		await test.context.jellyfish.insertCard(test.context.session, {
+			slug: `link-${orgCard.id}-has-member-${userCard.id}`,
+			type: 'link',
+			name: 'has member',
+			data: {
+				inverseName: 'is member of',
+				from: orgCard.id,
+				to: userCard.id
+			}
+		}, {
+			override: true
+		})
 
 		// Force login, even if we don't know the password
 		const session = await test.context.jellyfish.insertCard(
