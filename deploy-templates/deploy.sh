@@ -10,8 +10,6 @@ echo "127.0.0.1 $K8S_STG_API" >> /etc/hosts
 
 # Get kubectl for the deploy part
 wget -O kubectl https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && chmod +x ./kubectl
-# Get current katapult binary
-wget -O katapult https://misc1.dev.resin.io/~mikesimos/katapult && chmod +x ./katapult
 
 # Generate environments.yml
 cp ./environments.tpl.yml ./environments.yml
@@ -24,5 +22,5 @@ echo $JELLYFISH_STG_KUBECONFIG|base64 -d > ./kubeconfig
 echo $K8S_STG_BASTION_KEY|base64 -d > jellyfish_pk
 
 # Deploy with katapult
-./katapult deploy -t kubernetes -e staging -c . -v -k $1
+katapult deploy -t kubernetes -e staging -c . -v -k $1
 
