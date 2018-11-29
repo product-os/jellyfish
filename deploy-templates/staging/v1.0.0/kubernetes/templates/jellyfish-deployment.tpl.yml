@@ -7,26 +7,23 @@ spec:
   selector:
     matchLabels:
       app: jellyfish
-  replicas: 1 # we need to make some application fixes, before we can increase this
+  replicas: 1
   template:
     metadata:
       labels:
         app: jellyfish
     spec:
       containers:
-      - image: balena/jellyfish:master # We need to add a version tag here
+      - image: {{{jellyfish-application-image}}}
         name: jellyfish
         imagePullPolicy: Always
         env:
         - name: DB_HOST
-          value: rethinkdb
+          value: rethinkdb 
         - name: DB_USER
-          value: admin
+          value: {{{DB_USER}}}
         - name: DB_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: rethinkdb-secret
-              key: password
+          value: {{{DB_PASSWORD}}}
         ports:
         - containerPort: 8000
           name: jellyfish-api

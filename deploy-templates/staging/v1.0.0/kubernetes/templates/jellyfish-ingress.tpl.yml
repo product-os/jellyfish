@@ -10,10 +10,10 @@ spec:
     -
       secretName: jellyfish-tls
       hosts:
-        - jel.ly.fish
+        - {{{JELLYFISH_HOST}}}
   rules:
     -
-      host: jel.ly.fish
+      host: {{{JELLYFISH_HOST}}}
       http:
         paths:
           -
