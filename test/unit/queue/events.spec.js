@@ -17,7 +17,7 @@
 const ava = require('ava')
 const Bluebird = require('bluebird')
 const helpers = require('./helpers')
-const events = require('../../../lib/worker/events')
+const events = require('../../../lib/queue/events')
 
 ava.beforeEach(helpers.jellyfish.beforeEach)
 ava.afterEach(helpers.jellyfish.afterEach)
