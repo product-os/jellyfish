@@ -19,6 +19,7 @@ const Bluebird = require('bluebird')
 const _ = require('lodash')
 const randomstring = require('randomstring')
 const helpers = require('../sdk/helpers')
+const queue = require('../../../lib/queue')
 
 ava.before(helpers.sdk.beforeEach)
 ava.after(helpers.sdk.afterEach)
@@ -713,7 +714,8 @@ if (process.env.NODE_ENV === 'production') {
 		test.is(result.code, 200)
 		test.false(result.response.error)
 
-		const requestResult = await test.context.server.worker.waitResults(test.context.session, result.response.data)
+		const requestResult = await queue.waitResults(
+			test.context.jellyfish, test.context.session, result.response.data)
 
 		test.false(requestResult.error)
 		const card = await test.context.jellyfish.getCardById(test.context.session, requestResult.data.id)
@@ -755,7 +757,8 @@ if (process.env.NODE_ENV === 'production') {
 		test.is(result.code, 200)
 		test.false(result.response.error)
 
-		const requestResult = await test.context.server.worker.waitResults(test.context.session, result.response.data)
+		const requestResult = await queue.waitResults(
+			test.context.jellyfish, test.context.session, result.response.data)
 
 		test.false(requestResult.error)
 		const card = await test.context.jellyfish.getCardById(test.context.session, requestResult.data.id)
