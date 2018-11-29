@@ -163,6 +163,9 @@ exports.integrations = {
 	},
 
 	scenario: async (ava, suite) => {
+		if (!_.isFunction(ava.serial)) {
+			return
+		}
 		for (const testCaseName of Object.keys(suite.scenarios)) {
 			const testCase = suite.scenarios[testCaseName]
 
