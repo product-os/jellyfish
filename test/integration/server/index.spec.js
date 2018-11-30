@@ -170,6 +170,39 @@ ava.serial('.query() the guest user should only see its own private fields', asy
 	})
 })
 
+ava.serial('Users with multiple roles should see cards accessible to either role', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const userDetails = {
+		username: randomstring.generate(),
+		email: `${randomstring.generate()}@example.com`,
+		password: 'foobarbaz'
+	}
+
+	const user = await sdk.auth.signup(userDetails)
+
+	// Update the role on the team user
+	await test.context.jellyfish.insertCard(
+		test.context.session,
+		_.merge(user, {
+			data: {
+				roles: [ 'user-community', 'user-team' ]
+			}
+		}),
+		{
+			override: true
+		}
+	)
+
+	await sdk.auth.login(userDetails)
+
+	const scratchpad = await sdk.card.get('view-scratchpad')
+
+	test.not(scratchpad, null)
+})
+
 ava.serial('.query() should be able to see previously restricted cards after a permissions change', async (test) => {
 	const {
 		sdk
