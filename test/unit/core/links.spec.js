@@ -174,7 +174,8 @@ ava('.evaluate(is attached to) should return the declared target properties', as
 					}
 				}
 			}
-		}
+		},
+		additionalProperties: false
 	})
 
 	test.deepEqual(results, [
@@ -369,9 +370,11 @@ ava('.evaluate(has attached element) should return matching elements', async (te
 						type: 'number',
 						const: 2
 					}
-				}
+				},
+				additionalProperties: false
 			}
-		}
+		},
+		additionalProperties: false
 	})
 
 	test.deepEqual(results, [
@@ -432,9 +435,11 @@ ava('.evaluateCard() should return one link of one type given one match', async 
 							type: 'string',
 							const: 'hello'
 						}
-					}
+					},
+					additionalProperties: false
 				}
-			}
+			},
+			additionalProperties: false
 		}
 	})
 
@@ -542,9 +547,11 @@ ava('.evaluateCard() should return multiple cards per link', async (test) => {
 						count: {
 							type: 'number'
 						}
-					}
+					},
+					additionalProperties: false
 				}
-			}
+			},
+			additionalProperties: false
 		}
 	})
 

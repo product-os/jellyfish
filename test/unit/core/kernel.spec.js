@@ -1958,9 +1958,11 @@ ava('.query() should not consider active links to inactive cards', async (test) 
 								type: 'boolean',
 								const: true
 							}
-						}
+						},
+						additionalProperties: false
 					}
-				}
+				},
+				additionalProperties: false
 			}
 		},
 		properties: {
@@ -2092,9 +2094,11 @@ ava('.query() should not consider inactive links', async (test) => {
 							thread: {
 								type: 'boolean'
 							}
-						}
+						},
+						additionalProperties: false
 					}
-				}
+				},
+				additionalProperties: false
 			}
 		},
 		properties: {
@@ -2259,9 +2263,11 @@ ava('.query() should be able to query using links', async (test) => {
 								type: 'boolean',
 								const: true
 							}
-						}
+						},
+						additionalProperties: false
 					}
-				}
+				},
+				additionalProperties: false
 			}
 		},
 		properties: {
@@ -2428,9 +2434,11 @@ ava('.query() should be able to query using links using the target property', as
 								type: 'boolean',
 								const: true
 							}
-						}
+						},
+						additionalProperties: false
 					}
-				}
+				},
+				additionalProperties: false
 			}
 		},
 		properties: {

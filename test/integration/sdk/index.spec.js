@@ -826,13 +826,15 @@ ava.serial('.event.create() should create a new event', async (test) => {
 							required: [ 'test' ]
 						}
 					},
-					required: [ 'target', 'payload' ]
+					required: [ 'target', 'payload' ],
+					additionalProperties: false
 				},
 				type: {
 					type: 'string',
 					const: 'message'
 				}
-			}
+			},
+			additionalProperties: false
 		}
 	)
 

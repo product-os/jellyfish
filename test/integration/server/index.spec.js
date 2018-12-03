@@ -155,7 +155,8 @@ ava.serial('.query() the guest user should only see its own private fields', asy
 					}
 				}
 			}
-		}
+		},
+		additionalProperties: true
 	})
 
 	_.map(results, (user) => {
@@ -1004,7 +1005,8 @@ ava.serial('should be able to resolve links', async (test) => {
 							}
 						}
 					}
-				}
+				},
+				additionalProperties: false
 			}
 		},
 		type: 'object',
@@ -1029,10 +1031,8 @@ ava.serial('should be able to resolve links', async (test) => {
 
 	test.deepEqual(results, [
 		{
-			id: message.id,
 			slug: message.slug,
 			type: 'message',
-			active: true,
 			markers: [],
 			links: {
 				'is attached to': [
@@ -1075,6 +1075,10 @@ ava.serial('.query() additionalProperties should not affect listing users as a n
 			type: {
 				type: 'string',
 				const: 'user'
+			},
+			id: {
+				type: 'string',
+				const: 'user'
 			}
 		}
 	})
@@ -1084,6 +1088,10 @@ ava.serial('.query() additionalProperties should not affect listing users as a n
 		required: [ 'type' ],
 		properties: {
 			type: {
+				type: 'string',
+				const: 'user'
+			},
+			id: {
 				type: 'string',
 				const: 'user'
 			}
@@ -1151,6 +1159,9 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 		type: 'object',
 		required: [ 'type', 'links', 'data' ],
 		properties: {
+			id: {
+				type: 'string'
+			},
 			type: {
 				type: 'string',
 				const: 'thread'
@@ -1181,7 +1192,6 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 			id: thread.id,
 			slug: thread.slug,
 			type: 'thread',
-			active: true,
 			markers: [],
 			links: {
 				'is attached to': [
