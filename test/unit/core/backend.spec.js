@@ -25,9 +25,9 @@ ava.afterEach(helpers.backend.afterEach)
 
 ava('.disconnect() should not throw if called multiple times', async (test) => {
 	await test.notThrowsAsync(async () => {
-		await test.context.backend.disconnect()
-		await test.context.backend.disconnect()
-		await test.context.backend.disconnect()
+		await test.context.backend.disconnect(test.context.logContext)
+		await test.context.backend.disconnect(test.context.logContext)
+		await test.context.backend.disconnect(test.context.logContext)
 	})
 })
 
@@ -35,14 +35,16 @@ ava('.disconnect() should gracefully close streams', async (test) => {
 	await test.notThrowsAsync(async () => {
 		await test.context.backend.stream({
 			type: 'object'
-		})
-		await test.context.backend.disconnect()
+		}, test.context.logContext)
+		await test.context.backend.disconnect(test.context.logContext)
 	})
 })
 
 ava('.getElementById() should return null if the element id is not present', async (test) => {
-	await test.context.backend.createTable('test')
-	const result = await test.context.backend.getElementById('test', '4a962ad9-20b5-4dd8-a707-bf819593cc84')
+	await test.context.backend.createTable('test', test.context.logContext)
+	const result = await test.context.backend.getElementById('4a962ad9-20b5-4dd8-a707-bf819593cc84', {
+		ctx: test.context.logContext
+	})
 	test.deepEqual(result, null)
 })
 
@@ -50,12 +52,16 @@ ava('.getElementById() should not break the cache if trying to query a valid slu
 	const element = await test.context.backend.upsertElement({
 		slug: 'example',
 		test: 'foo'
-	})
+	}, test.context.logContext)
 
-	const result1 = await test.context.backend.getElementById('example')
+	const result1 = await test.context.backend.getElementById('example', {
+		ctx: test.context.logContext
+	})
 	test.deepEqual(result1, null)
 
-	const result2 = await test.context.backend.getElementBySlug('example')
+	const result2 = await test.context.backend.getElementBySlug('example', {
+		ctx: test.context.logContext
+	})
 	test.deepEqual(result2, element)
 })
 

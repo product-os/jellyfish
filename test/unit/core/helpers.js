@@ -18,6 +18,7 @@ const randomstring = require('randomstring')
 const Backend = require('../../../lib/core/backend')
 const Cache = require('../../../lib/core/cache')
 const Kernel = require('../../../lib/core/kernel')
+const logContext = require('../../../lib/logger/context')
 
 exports.generateRandomSlug = (options) => {
 	const suffix = randomstring.generate().toLowerCase()
@@ -37,17 +38,19 @@ exports.backend = {
 				mock: true,
 				database: dbName
 			})
+
 		test.context.backend = new Backend(cache, {
 			host: process.env.DB_HOST,
 			port: process.env.DB_PORT,
 			database: dbName
 		})
 
+		test.context.logContext = logContext.testContext
 		test.context.generateRandomSlug = exports.generateRandomSlug
-		await test.context.backend.connect()
+		await test.context.backend.connect(test.context.logContext)
 	},
 	afterEach: async (test) => {
-		await test.context.backend.destroy()
+		await test.context.backend.destroy(test.context.logContext)
 	}
 }
 
