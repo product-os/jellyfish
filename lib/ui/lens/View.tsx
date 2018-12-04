@@ -137,7 +137,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 			this.setState({ ready: false });
 		}
 
-		if (!circularDeepEqual(this.props.channel.data.head, nextProps.channel.data.head)) {
+		if (!circularDeepEqual(this.props.channel.data.target, nextProps.channel.data.target)) {
 			this.bootstrap(nextProps.channel);
 		}
 
