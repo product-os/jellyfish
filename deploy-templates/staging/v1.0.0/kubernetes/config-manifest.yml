@@ -4,6 +4,24 @@ properties:
       type: hostname
   - DB_USER:
       type: string
+  - NODE_ENV:
+      type: string
+  - ACTIONS_EMAIL:
+      type: string
+  - ACTIONS_PASSWORD:
+      type: string
+  - ACTIONS_USERNAME:
+      type: string
+  - AWS_ACCESS_KEY_ID:
+      type: string
+  - AWS_SECRET_ACCESS_KEY:
+      type: string
+  - FS_DRIVER:
+      type: string
+  - SENTRY_DSN_SERVER:
+      type: string
+  - SENTRY_DSN_UI:
+      type: string
   - DB_PASSWORD:
       type: string
       default:
