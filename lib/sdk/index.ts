@@ -404,17 +404,13 @@ export class JellyfishSDK implements SDKInterface {
 	 * 	});
 	 */
 	public query <T extends Card>(schema: JSONSchema6, options: QueryOptions = {}): Bluebird<T[]> {
-		const start = Date.now();
 		const payload = {
 			query: _.isString(schema) ? schema : _.omit(schema, '$id'),
 			options,
 		};
 
 		return this.post('query', payload)
-			.then(response => response ? response.data.data : [])
-			.tap(() => {
-				utils.debug(`Query complete in ${Date.now() - start}ms`, schema);
-			});
+			.then(response => response ? response.data.data : []);
 	}
 
 	/**
@@ -470,11 +466,7 @@ export class JellyfishSDK implements SDKInterface {
 		action: string;
 		arguments?: any;
 	}): Bluebird<any> {
-		const start = Date.now();
-
 		let payload: any = body;
-
-		utils.debug(`Dispatching action ${body.action}`, body);
 
 		if (!body.arguments) {
 			body.arguments = {};
@@ -505,7 +497,6 @@ export class JellyfishSDK implements SDKInterface {
 
 		return this.post<ActionResponse<D>>('action', payload)
 			.then((response) => {
-				utils.debug(`Action ${body.action} complete in ${Date.now() - start}ms`);
 				if  (!response) {
 					return {};
 				}

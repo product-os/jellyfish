@@ -19,7 +19,7 @@ import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import { Card } from '../types';
 import { SDKInterface } from './index';
-import { debug, isUUID } from './utils';
+import { isUUID } from './utils';
 
 // A map of link names and their synonymous form
 const linkNameMap = {
@@ -73,8 +73,6 @@ export class CardSdk {
 	 * 	})
 	 */
 	public get(idOrSlug: string, options: any = {}): Bluebird<Card | null> {
-		debug(`Fetching card ${idOrSlug}`);
-
 		const schema: JSONSchema6 = isUUID(idOrSlug) ? {
 				type: 'object',
 				properties: {
