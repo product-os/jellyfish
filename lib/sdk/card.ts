@@ -331,8 +331,14 @@ export class CardSdk {
 					name,
 					data: {
 						inverseName: linkNameMap[name],
-						from: fromCard.id,
-						to: toCard.id,
+						from: {
+							id: fromCard.id,
+							type: fromCard.type,
+						},
+						to: {
+							id: toCard.id,
+							type: toCard.type,
+						},
 					},
 				},
 			},

@@ -185,8 +185,14 @@ ava.serial('should stop users from seeing messages attached to cards they can\'t
 			name: 'has member',
 			slug: `link-${balenaOrgCard.id}--${communityUser.id}`,
 			data: {
-				from: balenaOrgCard.id,
-				to: communityUser.id,
+				from: {
+					id: balenaOrgCard.id,
+					type: balenaOrgCard.type
+				},
+				to: {
+					id: communityUser.id,
+					type: communityUser.type
+				},
 				inverseName: 'is member of'
 			}
 		}
@@ -266,8 +272,14 @@ ava.serial('should allow team-admin users to update user\'s roles', async (test)
 			slug: `link-${balenaOrgCard.id}--${teamAdminUserCard.id}`,
 			name: 'has member',
 			data: {
-				from: balenaOrgCard.id,
-				to: teamAdminUserCard.id,
+				from: {
+					id: balenaOrgCard.id,
+					type: balenaOrgCard.type
+				},
+				to: {
+					id: teamAdminUserCard.id,
+					type: teamAdminUserCard.type
+				},
 				inverseName: 'is member of'
 			}
 		}

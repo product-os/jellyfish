@@ -231,8 +231,14 @@ exports.mirror = {
 			name: 'has member',
 			data: {
 				inverseName: 'is member of',
-				from: orgCard.id,
-				to: userCard.id
+				from: {
+					id: orgCard.id,
+					type: orgCard.type
+				},
+				to: {
+					id: userCard.id,
+					type: userCard.type
+				}
 			}
 		}, {
 			override: true
