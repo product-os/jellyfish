@@ -1,8 +1,7 @@
 import * as localForage from 'localforage';
 import * as _ from 'lodash';
-import { applyMiddleware, combineReducers, createStore, Middleware } from 'redux';
+import { applyMiddleware, combineReducers, createStore } from 'redux';
 import thunk from 'redux-thunk';
-import { debug } from '../services/helpers';
 import { Action, getDefaultState, ifNotInTestEnv } from './common';
 import { STORAGE_KEY } from './constants';
 import {
@@ -42,13 +41,6 @@ const rootReducer = combineReducers<StoreState>({
 	views,
 });
 
-const logger: Middleware = (store) => (next) => (action: any) => {
-	debug('DISPATCHING REDUX ACTION', action);
-	const result = next(action);
-	debug('NEXT REDUX STATE', store.getState());
-	return result;
-};
-
 const reducerWrapper = (state: StoreState, action: Action) => {
 	const firstRun = !state;
 
@@ -70,7 +62,7 @@ const reducerWrapper = (state: StoreState, action: Action) => {
 };
 
 export const createJellyfishStore = () =>
-	createStore<StoreState>(reducerWrapper, applyMiddleware(logger, thunk));
+	createStore<StoreState>(reducerWrapper, applyMiddleware(thunk));
 
 export const actions = _.merge({},
 	coreActions,
