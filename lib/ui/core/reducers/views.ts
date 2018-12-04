@@ -2,8 +2,8 @@ import * as Bluebird from 'bluebird';
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import { Dispatch } from 'redux';
+import * as skhema from 'skhema';
 import { analytics } from '../';
-import { JellyfishStream } from '../../../sdk';
 import { Card } from '../../../types';
 import { hashCode } from '../../services/helpers';
 import { createNotification } from '../../services/notifications';
@@ -11,9 +11,13 @@ import { loadSchema } from '../../services/sdk-helpers';
 import { Action, JellyThunkSync } from '../common';
 import { sdk } from '../sdk';
 import { actionCreators as allActionCreators, selectors, StoreState } from '../store';
-import { coreSelectors } from './core';
+import { coreSelectors, subscribeToCoreFeed } from './core';
 
-const streams: { [k: string]: JellyfishStream } = {};
+const streams: {
+	[k: string]: {
+		close: () => void;
+	}
+} = {};
 
 export interface IViews {
 	viewData: { [k: string]: Card[] };
@@ -141,7 +145,7 @@ const pendingLoadRequests: { [key: string]: number } = {};
 export const actionCreators = {
 	loadViewResults: (
 		query: string | Card | JSONSchema6,
-	): JellyThunkSync<void, StoreState> => (dispatch) => {
+	): JellyThunkSync<void, StoreState> => function loadViewResults(dispatch): void {
 		const id = getViewId(query);
 		const requestTimestamp = Date.now();
 
@@ -175,7 +179,7 @@ export const actionCreators = {
 		const id = getViewId(query);
 
 		if (streams[id]) {
-			streams[id].destroy();
+			streams[id].close();
 			delete streams[id];
 		}
 
@@ -186,11 +190,11 @@ export const actionCreators = {
 				data: null,
 			},
 		};
-	}
+	},
 
 	streamView: (
 		query: string | Card | JSONSchema6,
-	): JellyThunkSync<void, StoreState> => (dispatch, getState) => {
+	): JellyThunkSync<void, StoreState> => function streamView(dispatch, getState): void {
 		const viewId = getViewId(query);
 
 		loadSchema(query)
@@ -201,41 +205,39 @@ export const actionCreators = {
 			}
 
 			if (streams[viewId]) {
-				streams[viewId].destroy();
+				streams[viewId].close();
 				delete streams[viewId];
 			}
 
-			return sdk.stream(schema)
-				.then((stream) => {
-					streams[viewId] = stream;
+			streams[viewId] = subscribeToCoreFeed('update', (response) => {
+				const { after, before } = response.data;
 
-					stream.on('update', (response) => {
-						const { after, before } = response.data;
+				const afterValid = after && skhema.isValid(schema, after);
+				const beforeValid = before && skhema.isValid(schema, before);
 
-						handleViewNotification({ after, before }, viewId, dispatch, getState);
+				if (afterValid || beforeValid) {
+					handleViewNotification({ after, before }, viewId, dispatch, getState);
+				}
 
-						// Only store view data if the view is active
-						if (getState().views.activeView !== viewId) {
-							return;
-						}
-						// If before is non-null then the card has been updated
-						if (before) {
-							// if after is null, the item has been removed from the result set
-							if (!after) {
-								return dispatch(actionCreators.removeViewDataItem(query, before));
-							}
+				// Only store view data if the view is active
+				if (getState().views.activeView !== viewId) {
+					return;
+				}
+				// If before is non-null then the card has been updated
+				if (beforeValid) {
+					// if after is null, the item has been removed from the result set
+					if (!after || !afterValid) {
+						return dispatch(actionCreators.removeViewDataItem(query, before));
+					}
 
-							return dispatch(actionCreators.upsertViewData(query, after));
-						}
+					return dispatch(actionCreators.upsertViewData(query, after));
+				}
 
-						// Otherwise, if before is null, this is a new item
-						return dispatch(actionCreators.appendViewData(query, after));
-					});
-
-					stream.on('streamError', (response) => {
-						console.error('Received a stream error', response.data);
-					});
-				});
+				if (!before && afterValid) {
+					// Otherwise, if before is null, this is a new item
+					return dispatch(actionCreators.appendViewData(query, after));
+				}
+			});
 		})
 			.catch((error) => {
 				dispatch(allActionCreators.addNotification(
