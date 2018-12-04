@@ -498,6 +498,55 @@ ava('.query() should query the database using JSON schema', async (test) => {
 	test.deepEqual(_.sortBy(results, [ 'test' ]), [ result1, result2 ])
 })
 
+ava('.query() should give the same results when omitting additionalProperties and additionalProperties:false', async (test) => {
+	await test.context.backend.upsertElement({
+		type: 'example',
+		slug: 'foo',
+		test: 1
+	})
+
+	await test.context.backend.upsertElement({
+		type: 'test',
+		slug: 'bar',
+		test: 2
+	})
+
+	await test.context.backend.upsertElement({
+		type: 'example',
+		slug: 'baz',
+		test: 3
+	})
+
+	const results1 = await test.context.backend.query({
+		type: 'object',
+		properties: {
+			id: {
+				type: 'string'
+			},
+			slug: {
+				type: 'string'
+			}
+		},
+		required: [ 'id', 'slug' ]
+	})
+
+	const results2 = await test.context.backend.query({
+		type: 'object',
+		properties: {
+			id: {
+				type: 'string'
+			},
+			slug: {
+				type: 'string'
+			}
+		},
+		required: [ 'id', 'slug' ],
+		additionalProperties: false
+	})
+
+	test.deepEqual(results1, results2)
+})
+
 ava('.query() should query an element by its id', async (test) => {
 	const result = await test.context.backend.upsertElement({
 		type: 'example',
@@ -1235,11 +1284,9 @@ ava('.query() should correctly honour top level additionalProperties: true', asy
 	})
 	test.deepEqual(_.sortBy(results1, 'slug'), [
 		{
-			slug: 'user-janedoe',
 			type: 'user'
 		},
 		{
-			slug: 'user-johndoe',
 			type: 'user'
 		}
 	])
@@ -1265,11 +1312,9 @@ ava('.query() should correctly honour top level additionalProperties: true', asy
 	])
 	test.deepEqual(_.sortBy(results4, 'slug'), [
 		{
-			slug: 'user-janedoe',
 			type: 'user'
 		},
 		{
-			slug: 'user-johndoe',
 			type: 'user'
 		}
 	])
@@ -1379,7 +1424,8 @@ ava('.query() should be able to query using links', async (test) => {
 						type: 'string',
 						const: 'thread'
 					}
-				}
+				},
+				additionalProperties: false
 			}
 		},
 		properties: {
@@ -1851,7 +1897,11 @@ ava('.query() should omit a result if a link does not match', async (test) => {
 				'is attached to': [
 					{
 						$link: link1.id,
+						active: true,
+						data: {},
 						id: thread.id,
+						links: {},
+						slug: 'mythread',
 						type: 'thread'
 					}
 				]

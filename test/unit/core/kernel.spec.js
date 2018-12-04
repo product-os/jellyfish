@@ -1022,6 +1022,7 @@ ava('.insertCard() should restrict the visibility of the user using write roles'
 	}))
 
 	const readUserType = await test.context.kernel.getCardBySlug(session.id, 'user')
+
 	test.is(readUserType.slug, 'user')
 
 	const writeUserType = await test.context.kernel.getCardBySlug(session.id, 'user', {
@@ -1957,9 +1958,11 @@ ava('.query() should not consider active links to inactive cards', async (test) 
 								type: 'boolean',
 								const: true
 							}
-						}
+						},
+						additionalProperties: false
 					}
-				}
+				},
+				additionalProperties: false
 			}
 		},
 		properties: {
@@ -1978,7 +1981,8 @@ ava('.query() should not consider active links to inactive cards', async (test) 
 					count: {
 						type: 'number'
 					}
-				}
+				},
+				additionalProperties: false
 			}
 		}
 	})
@@ -2088,12 +2092,13 @@ ava('.query() should not consider inactive links', async (test) => {
 						required: [ 'thread' ],
 						properties: {
 							thread: {
-								type: 'boolean',
-								const: true
+								type: 'boolean'
 							}
-						}
+						},
+						additionalProperties: false
 					}
-				}
+				},
+				additionalProperties: false
 			}
 		},
 		properties: {
@@ -2112,7 +2117,8 @@ ava('.query() should not consider inactive links', async (test) => {
 					count: {
 						type: 'number'
 					}
-				}
+				},
+				additionalProperties: true
 			}
 		}
 	})
@@ -2133,7 +2139,8 @@ ava('.query() should not consider inactive links', async (test) => {
 				]
 			},
 			data: {
-				count: 2
+				count: 2,
+				thread: false
 			}
 		}
 	])
@@ -2256,9 +2263,11 @@ ava('.query() should be able to query using links', async (test) => {
 								type: 'boolean',
 								const: true
 							}
-						}
+						},
+						additionalProperties: false
 					}
-				}
+				},
+				additionalProperties: false
 			}
 		},
 		properties: {
@@ -2277,7 +2286,8 @@ ava('.query() should be able to query using links', async (test) => {
 					count: {
 						type: 'number'
 					}
-				}
+				},
+				additionalProperties: false
 			}
 		}
 	})
@@ -2424,9 +2434,11 @@ ava('.query() should be able to query using links using the target property', as
 								type: 'boolean',
 								const: true
 							}
-						}
+						},
+						additionalProperties: false
 					}
-				}
+				},
+				additionalProperties: false
 			}
 		},
 		properties: {
@@ -2445,7 +2457,8 @@ ava('.query() should be able to query using links using the target property', as
 					count: {
 						type: 'number'
 					}
-				}
+				},
+				additionalProperties: false
 			}
 		}
 	})

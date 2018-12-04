@@ -26,8 +26,11 @@ const TOKEN = sync.getToken('github')
 const getMirrorWaitSchema = (slug) => {
 	return {
 		type: 'object',
-		required: [ 'slug', 'data' ],
+		required: [ 'id', 'slug', 'data' ],
 		properties: {
+			id: {
+				type: 'string'
+			},
 			slug: {
 				type: 'string',
 				const: slug
