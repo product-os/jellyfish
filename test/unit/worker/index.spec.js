@@ -36,6 +36,7 @@ ava('.enqueue() should increment length by one', async (test) => {
 	await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-card',
 		card: typeCard.id,
+		type: typeCard.type,
 		arguments: {
 			properties: {
 				version: '1.0.0',
@@ -56,6 +57,7 @@ ava('.enqueue() should include the actor from the passed session', async (test) 
 	await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-card',
 		card: typeCard.id,
+		type: typeCard.type,
 		arguments: {
 			properties: {
 				version: '1.0.0',
@@ -77,6 +79,7 @@ ava('.enqueue() should include the whole passed action', async (test) => {
 	await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-card',
 		card: typeCard.id,
+		type: typeCard.type,
 		arguments: {
 			properties: {
 				version: '1.0.0',
@@ -97,6 +100,7 @@ ava('.enqueue() should set an originator', async (test) => {
 	await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-card',
 		card: typeCard.id,
+		type: typeCard.type,
 		originator: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		arguments: {
 			properties: {
@@ -117,6 +121,7 @@ ava('.enqueue() should take a current date', async (test) => {
 	await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-card',
 		card: typeCard.id,
+		type: typeCard.type,
 		currentDate: date,
 		arguments: {
 			properties: {
@@ -136,6 +141,7 @@ ava('.enqueue() should set a present timestamp', async (test) => {
 	await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-card',
 		card: typeCard.id,
+		type: typeCard.type,
 		arguments: {
 			properties: {
 				version: '1.0.0',
@@ -156,6 +162,7 @@ ava('.enqueue() should throw if the action was not found', async (test) => {
 	await test.throwsAsync(test.context.worker.enqueue(test.context.session, {
 		action: 'action-foo-bar',
 		card: typeCard.id,
+		type: typeCard.type,
 		arguments: {
 			properties: {
 				version: '1.0.0',
@@ -173,6 +180,7 @@ ava('.enqueue() should throw if the session was not found', async (test) => {
 	await test.throwsAsync(test.context.worker.enqueue('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', {
 		action: 'action-create-card',
 		card: typeCard.id,
+		type: typeCard.type,
 		arguments: {
 			properties: {
 				version: '1.0.0',
@@ -190,6 +198,7 @@ ava('.enqueue() should not store the password in the queue when using action-cre
 	await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-user',
 		card: typeCard.id,
+		type: typeCard.type,
 		arguments: {
 			email: 'johndoe@example.com',
 			username: 'user-johndoe',
@@ -210,6 +219,7 @@ ava('.enqueue() should not store the password in the queue when using action-cre
 	const createUserRequest = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-user',
 		card: userCard.id,
+		type: userCard.type,
 		arguments: {
 			email: 'johndoe@example.com',
 			username: 'user-johndoe',
@@ -228,6 +238,7 @@ ava('.enqueue() should not store the password in the queue when using action-cre
 	await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-session',
 		card: result.data.id,
+		type: result.data.type,
 		arguments: {
 			password: {
 				hash: {
@@ -250,6 +261,7 @@ ava('enqueue() should fail to create an event with an action-create-card', async
 	const id = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-card',
 		card: typeType.id,
+		type: typeType.type,
 		arguments: {
 			properties: {
 				slug: 'test-thread',
@@ -289,6 +301,7 @@ ava('enqueue() should fail to create an event with an action-create-card', async
 	const threadId = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-card',
 		card: typeResult.data.id,
+		type: typeResult.data.type,
 		arguments: {
 			properties: {
 				version: '1.0.0',
@@ -308,6 +321,7 @@ ava('enqueue() should fail to create an event with an action-create-card', async
 	await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-card',
 		card: cardType.id,
+		type: cardType.type,
 		arguments: {
 			properties: {
 				version: '1.0.0',
@@ -342,6 +356,7 @@ ava('.dequeue() should reduce the length', async (test) => {
 	await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-card',
 		card: typeCard.id,
+		type: typeCard.type,
 		arguments: {
 			properties: {
 				slug: 'foo',
@@ -363,6 +378,7 @@ ava('.execute() should execute an action', async (test) => {
 	const request = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-card',
 		card: typeCard.id,
+		type: typeCard.type,
 		arguments: {
 			properties: {
 				slug: 'foo',
@@ -389,6 +405,7 @@ ava('.execute() should add an execution event to the action', async (test) => {
 	const request = await test.context.worker.enqueue(test.context.session, {
 		action: actionCard.slug,
 		card: typeCard.id,
+		type: typeCard.type,
 		arguments: {
 			properties: {
 				slug: 'foo',
@@ -453,6 +470,7 @@ ava('.execute() should execute a triggered action', async (test) => {
 			},
 			action: 'action-create-card',
 			card: typeCard.id,
+			type: typeCard.type,
 			arguments: {
 				properties: {
 					version: '1.0.0',
@@ -465,6 +483,7 @@ ava('.execute() should execute a triggered action', async (test) => {
 	const request = await test.context.worker.enqueue(test.context.session, {
 		action: actionCard.slug,
 		card: typeCard.id,
+		type: typeCard.type,
 		arguments: {
 			properties: {
 				slug: 'foo',
@@ -549,6 +568,7 @@ ava('.execute() should not execute a triggered action with a future start date',
 			startDate: '2500-01-01T00:00:00.000Z',
 			action: 'action-create-card',
 			card: typeCard.id,
+			type: typeCard.type,
 			arguments: {
 				properties: {
 					version: '1.0.0',
@@ -561,6 +581,7 @@ ava('.execute() should not execute a triggered action with a future start date',
 	const request = await test.context.worker.enqueue(test.context.session, {
 		action: actionCard.slug,
 		card: typeCard.id,
+		type: typeCard.type,
 		arguments: {
 			properties: {
 				slug: 'foo',
@@ -617,6 +638,7 @@ ava('.execute() should execute a triggered action with a top level anyOf', async
 			},
 			action: 'action-create-card',
 			card: typeCard.id,
+			type: typeCard.type,
 			arguments: {
 				properties: {
 					version: '1.0.0',
@@ -629,6 +651,7 @@ ava('.execute() should execute a triggered action with a top level anyOf', async
 	const request = await test.context.worker.enqueue(test.context.session, {
 		action: actionCard.slug,
 		card: typeCard.id,
+		type: typeCard.type,
 		arguments: {
 			properties: {
 				version: '1.0.0',
@@ -656,6 +679,7 @@ ava('.execute() should add a create event when creating a card', async (test) =>
 	const request = await test.context.worker.enqueue(test.context.session, {
 		action: actionCard.slug,
 		card: typeCard.id,
+		type: typeCard.type,
 		arguments: {
 			properties: {
 				version: '1.0.0',
@@ -701,6 +725,7 @@ ava('.execute() should be able to AGGREGATE based on the card timeline', async (
 	const request = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-card',
 		card: typeType.id,
+		type: typeType.type,
 		arguments: {
 			properties: {
 				slug: 'test-thread',
@@ -740,6 +765,7 @@ ava('.execute() should be able to AGGREGATE based on the card timeline', async (
 	const threadRequest = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-card',
 		card: typeResult.data.id,
+		type: typeResult.data.type,
 		arguments: {
 			properties: {
 				version: '1.0.0',
@@ -759,6 +785,7 @@ ava('.execute() should be able to AGGREGATE based on the card timeline', async (
 	const messageRequest1 = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-event',
 		card: threadResult.data.id,
+		type: threadResult.data.type,
 		arguments: {
 			type: 'message',
 			payload: {
@@ -770,6 +797,7 @@ ava('.execute() should be able to AGGREGATE based on the card timeline', async (
 	const messageRequest2 = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-event',
 		card: threadResult.data.id,
+		type: threadResult.data.type,
 		arguments: {
 			type: 'message',
 			payload: {
@@ -796,6 +824,7 @@ ava('.execute() AGGREGATE should create a property on the target if it does not 
 	const request = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-card',
 		card: typeType.id,
+		type: typeType.type,
 		arguments: {
 			properties: {
 				slug: 'test-thread',
@@ -835,6 +864,7 @@ ava('.execute() AGGREGATE should create a property on the target if it does not 
 	const threadRequest = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-card',
 		card: typeResult.data.id,
+		type: typeResult.data.type,
 		arguments: {
 			properties: {
 				slug: 'foo',
@@ -852,6 +882,7 @@ ava('.execute() AGGREGATE should create a property on the target if it does not 
 	const messageRequest = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-event',
 		card: threadResult.data.id,
+		type: threadResult.data.type,
 		arguments: {
 			type: 'message',
 			tags: [],
@@ -876,6 +907,7 @@ ava('.execute() AGGREGATE should work with $$ prefixed properties', async (test)
 	const request = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-card',
 		card: typeType.id,
+		type: typeType.type,
 		arguments: {
 			properties: {
 				slug: 'test-thread',
@@ -915,6 +947,7 @@ ava('.execute() AGGREGATE should work with $$ prefixed properties', async (test)
 	const threadRequest = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-card',
 		card: typeResult.data.id,
+		type: typeResult.data.type,
 		arguments: {
 			properties: {
 				slug: 'foo',
@@ -934,6 +967,7 @@ ava('.execute() AGGREGATE should work with $$ prefixed properties', async (test)
 	const messageRequest = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-event',
 		card: threadResult.data.id,
+		type: threadResult.data.type,
 		arguments: {
 			type: 'message',
 			tags: [],
@@ -959,6 +993,7 @@ ava('.execute() should create a message with tags', async (test) => {
 	const request = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-card',
 		card: typeType.id,
+		type: typeType.type,
 		arguments: {
 			properties: {
 				slug: 'test-thread',
@@ -988,6 +1023,7 @@ ava('.execute() should create a message with tags', async (test) => {
 	const threadRequest = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-card',
 		card: typeResult.data.id,
+		type: typeResult.data.type,
 		arguments: {
 			properties: {
 				slug: 'foo',
@@ -1004,6 +1040,7 @@ ava('.execute() should create a message with tags', async (test) => {
 	const messageRequest = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-event',
 		card: threadResult.data.id,
+		type: threadResult.data.type,
 		arguments: {
 			type: 'message',
 			tags: [ 'testtag' ],
@@ -1032,6 +1069,7 @@ ava('.setTriggers() should be able to set a trigger with a start date', (test) =
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: 'action-foo-bar',
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			type: 'card',
 			startDate: '2008-01-01T00:00:00.000Z',
 			filter: {
 				type: 'object'
@@ -1049,6 +1087,7 @@ ava('.setTriggers() should be able to set a trigger with a start date', (test) =
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: 'action-foo-bar',
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			type: 'card',
 			startDate: '2008-01-01T00:00:00.000Z',
 			filter: {
 				type: 'object'
@@ -1066,6 +1105,7 @@ ava('.setTriggers() should be able to set a trigger with an interval', (test) =>
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: 'action-foo-bar',
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			type: 'card',
 			interval: 'PT1H',
 			arguments: {
 				foo: 'bar'
@@ -1080,6 +1120,7 @@ ava('.setTriggers() should be able to set a trigger with an interval', (test) =>
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: 'action-foo-bar',
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			type: 'card',
 			interval: 'PT1H',
 			arguments: {
 				foo: 'bar'
@@ -1094,6 +1135,7 @@ ava('.setTriggers() should be able to set triggers', (test) => {
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: 'action-foo-bar',
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			type: 'card',
 			filter: {
 				type: 'object'
 			},
@@ -1105,6 +1147,7 @@ ava('.setTriggers() should be able to set triggers', (test) => {
 			id: 'd6cacdef-f53b-4b5b-8aa2-8476e48248a4',
 			action: 'action-foo-bar',
 			card: 'a13474e4-7b44-453b-9f3e-aa783b8f37ea',
+			type: 'card',
 			filter: {
 				type: 'object'
 			},
@@ -1121,6 +1164,7 @@ ava('.setTriggers() should be able to set triggers', (test) => {
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: 'action-foo-bar',
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			type: 'card',
 			filter: {
 				type: 'object'
 			},
@@ -1132,6 +1176,7 @@ ava('.setTriggers() should be able to set triggers', (test) => {
 			id: 'd6cacdef-f53b-4b5b-8aa2-8476e48248a4',
 			action: 'action-foo-bar',
 			card: 'a13474e4-7b44-453b-9f3e-aa783b8f37ea',
+			type: 'card',
 			filter: {
 				type: 'object'
 			},
@@ -1150,6 +1195,7 @@ ava('.setTriggers() should not store extra properties', (test) => {
 			bar: 'baz',
 			action: 'action-foo-bar',
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			type: 'card',
 			filter: {
 				type: 'object'
 			},
@@ -1166,6 +1212,7 @@ ava('.setTriggers() should not store extra properties', (test) => {
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: 'action-foo-bar',
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			type: 'card',
 			filter: {
 				type: 'object'
 			},
@@ -1182,6 +1229,7 @@ ava('.setTriggers() should throw if no interval nor filter', (test) => {
 			{
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				type: 'card',
 				action: 'action-create-card',
 				arguments: {
 					foo: 'bar'
@@ -1201,6 +1249,7 @@ ava('.setTriggers() should throw if both interval and filter', (test) => {
 				filter: {
 					type: 'object'
 				},
+				type: 'card',
 				action: 'action-create-card',
 				arguments: {
 					foo: 'bar'
@@ -1215,6 +1264,7 @@ ava('.setTriggers() should throw if no id', (test) => {
 		test.context.worker.setTriggers([
 			{
 				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				type: 'card',
 				action: 'action-create-card',
 				filter: {
 					type: 'object'
@@ -1233,6 +1283,7 @@ ava('.setTriggers() should throw if id is not a string', (test) => {
 			{
 				id: 999,
 				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				type: 'card',
 				action: 'action-create-card',
 				filter: {
 					type: 'object'
@@ -1251,6 +1302,7 @@ ava('.setTriggers() should throw if interval is not a string', (test) => {
 			{
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				type: 'card',
 				action: 'action-create-card',
 				interval: 999,
 				arguments: {
@@ -1267,6 +1319,7 @@ ava('.setTriggers() should throw if no action', (test) => {
 			{
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				type: 'card',
 				filter: {
 					type: 'object'
 				},
@@ -1285,6 +1338,7 @@ ava('.setTriggers() should throw if action is not a string', (test) => {
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				action: 1,
 				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				type: 'card',
 				filter: {
 					type: 'object'
 				},
@@ -1302,6 +1356,7 @@ ava('.setTriggers() should throw if no card', (test) => {
 			{
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				action: 'action-create-card',
+				type: 'card',
 				filter: {
 					type: 'object'
 				},
@@ -1320,6 +1375,7 @@ ava('.setTriggers() should throw if card is not a string', (test) => {
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				action: 'action-create-card',
 				card: 1,
+				type: 'card',
 				filter: {
 					type: 'object'
 				},
@@ -1337,6 +1393,7 @@ ava('.setTriggers() should throw if no filter', (test) => {
 			{
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				action: 'action-create-card',
+				type: 'card',
 				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 				arguments: {
 					foo: 'bar'
@@ -1352,6 +1409,7 @@ ava('.setTriggers() should throw if filter is not an object', (test) => {
 			{
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				action: 'action-create-card',
+				type: 'card',
 				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 				filter: 'foo',
 				arguments: {
@@ -1368,6 +1426,7 @@ ava('.setTriggers() should throw if no arguments', (test) => {
 			{
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				action: 'action-create-card',
+				type: 'card',
 				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 				filter: {
 					type: 'object'
@@ -1383,6 +1442,7 @@ ava('.setTriggers() should throw if arguments is not an object', (test) => {
 			{
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				action: 'action-create-card',
+				type: 'card',
 				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 				filter: {
 					type: 'object'
@@ -1408,6 +1468,7 @@ ava('.tick() should not enqueue actions if there are no time triggers', async (t
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: 'action-foo-bar',
+			type: 'card',
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			filter: {
 				type: 'object'
@@ -1431,6 +1492,7 @@ ava('.tick() should not enqueue an action if there is a time trigger with a futu
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: 'action-foo-bar',
+			type: 'card',
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			interval: 'PT1H',
 			startDate: '2018-09-05T12:00:00.000Z',
@@ -1454,6 +1516,7 @@ ava('.tick() should evaluate the current timestamp in a time triggered action', 
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: actionCard.slug,
+			type: 'card',
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			ctx: test.context.execContext,
 			interval: 'PT1D',
@@ -1490,6 +1553,7 @@ ava('.tick() should enqueue an action if there is a time trigger with a past sta
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: actionCard.slug,
+			type: 'card',
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			ctx: test.context.execContext,
 			interval: 'PT1D',
@@ -1535,6 +1599,7 @@ ava('.tick() should enqueue an action if there is a time trigger with a present 
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: actionCard.slug,
+			type: 'card',
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			ctx: test.context.execContext,
 			interval: 'PT1D',
@@ -1580,6 +1645,7 @@ ava('.tick() should not enqueue an action using a past timestamp', async (test) 
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: actionCard.slug,
+			type: 'card',
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			ctx: test.context.execContext,
 			interval: 'PT1H',
@@ -1611,6 +1677,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: actionCard.slug,
+			type: 'card',
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			ctx: test.context.execContext,
 			interval: 'PT1D',
@@ -1625,6 +1692,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 		{
 			id: '673bc300-88f7-4376-92ed-d32543d69429',
 			action: actionCard.slug,
+			type: 'card',
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			ctx: test.context.execContext,
 			interval: 'PT2D',
@@ -1691,6 +1759,7 @@ ava('should be able to login as a user with a password', async (test) => {
 	const createUserRequest = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-user',
 		card: typeCard.id,
+		type: typeCard.type,
 		arguments: {
 			email: 'johndoe@example.com',
 			username: 'user-johndoe',
@@ -1709,6 +1778,7 @@ ava('should be able to login as a user with a password', async (test) => {
 	const loginRequest = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-session',
 		card: signupResult.data.id,
+		type: signupResult.data.type,
 		arguments: {
 			password: {
 				hash: {
@@ -1755,6 +1825,7 @@ ava('should be able to login as a password-less user', async (test) => {
 	const loginRequest = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-session',
 		card: user.id,
+		type: user.type,
 		arguments: {
 			password: {}
 		}
@@ -1786,6 +1857,7 @@ ava('should not be able to login as a password-less disallowed user', async (tes
 	await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-session',
 		card: user.id,
+		type: user.type,
 		arguments: {
 			password: {}
 		}
@@ -1801,6 +1873,7 @@ ava('should fail if signing up with the wrong password', async (test) => {
 	const createUserRequest = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-user',
 		card: typeCard.id,
+		type: typeCard.type,
 		arguments: {
 			email: 'johndoe@example.com',
 			username: 'user-johndoe',
@@ -1819,6 +1892,7 @@ ava('should fail if signing up with the wrong password', async (test) => {
 	await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-session',
 		card: signupResult.data.id,
+		type: signupResult.data.type,
 		arguments: {
 			password: {
 				hash: {
@@ -1839,6 +1913,7 @@ ava('should fail to update a card if the schema does not match', async (test) =>
 	const request = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-card',
 		card: typeCard.id,
+		type: typeCard.type,
 		arguments: {
 			properties: {
 				slug: 'foo',
@@ -1858,6 +1933,7 @@ ava('should fail to update a card if the schema does not match', async (test) =>
 	await test.context.worker.enqueue(test.context.session, {
 		action: 'action-update-card',
 		card: result.data.id,
+		type: result.data.type,
 		arguments: {
 			properties: {
 				version: '1.0.0',
@@ -1876,6 +1952,7 @@ ava('should update a card to add an extra property', async (test) => {
 	const createRequest = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-card',
 		card: typeCard.id,
+		type: typeCard.type,
 		arguments: {
 			properties: {
 				slug: 'foo',
@@ -1895,6 +1972,7 @@ ava('should update a card to add an extra property', async (test) => {
 	const updateRequest = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-update-card',
 		card: createResult.data.id,
+		type: createResult.data.type,
 		arguments: {
 			properties: {
 				version: '1.0.0',
@@ -1929,6 +2007,7 @@ ava('should update a card to set active to false', async (test) => {
 	const createRequest = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-card',
 		card: typeCard.id,
+		type: typeCard.type,
 		arguments: {
 			properties: {
 				slug: 'foo',
@@ -1945,6 +2024,7 @@ ava('should update a card to set active to false', async (test) => {
 	const updateRequest = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-update-card',
 		card: createResult.data.id,
+		type: createResult.data.type,
 		arguments: {
 			properties: {
 				version: '1.0.0',
@@ -1974,6 +2054,7 @@ ava('should update a card to set active to false using the card slug as input', 
 	const createRequest = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-card',
 		card: typeCard.id,
+		type: typeCard.type,
 		arguments: {
 			properties: {
 				version: '1.0.0',
@@ -1990,6 +2071,7 @@ ava('should update a card to set active to false using the card slug as input', 
 	const updateRequest = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-update-card',
 		card: 'foo-bar-baz',
+		type: 'card',
 		arguments: {
 			properties: {
 				version: '1.0.0',
@@ -2019,6 +2101,7 @@ ava('should update a card to override an array property', async (test) => {
 	const createRequest = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-card',
 		card: typeCard.id,
+		type: typeCard.type,
 		arguments: {
 			properties: {
 				slug: 'foo',
@@ -2038,6 +2121,7 @@ ava('should update a card to override an array property', async (test) => {
 	const updateRequest = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-update-card',
 		card: createResult.data.id,
+		type: createResult.data.type,
 		arguments: {
 			properties: {
 				version: '1.0.0',
@@ -2072,6 +2156,7 @@ ava('should add an update event if updating a card', async (test) => {
 	const createRequest = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-card',
 		card: typeCard.id,
+		type: typeCard.type,
 		arguments: {
 			properties: {
 				slug: 'foo',
@@ -2091,6 +2176,7 @@ ava('should add an update event if updating a card', async (test) => {
 	const updateRequest = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-update-card',
 		card: createResult.data.id,
+		type: createResult.data.type,
 		arguments: {
 			properties: {
 				version: '1.0.0',
@@ -2196,6 +2282,7 @@ ava('should delete a card using action-delete-card', async (test) => {
 	const createRequest = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-card',
 		card: typeCard.id,
+		type: typeCard.type,
 		arguments: {
 			properties: {
 				slug: 'foo',
@@ -2212,6 +2299,7 @@ ava('should delete a card using action-delete-card', async (test) => {
 	const deleteRequest = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-delete-card',
 		card: createResult.data.id,
+		type: createResult.data.type,
 		arguments: {}
 	})
 
@@ -2236,6 +2324,7 @@ ava('should delete a card using action-update-card', async (test) => {
 	const createRequest = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-card',
 		card: typeCard.id,
+		type: typeCard.type,
 		arguments: {
 			properties: {
 				slug: 'foo',
@@ -2252,6 +2341,7 @@ ava('should delete a card using action-update-card', async (test) => {
 	const updateRequest = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-update-card',
 		card: createResult.data.id,
+		type: createResult.data.type,
 		arguments: {
 			properties: {
 				version: '1.0.0',
@@ -2282,6 +2372,7 @@ ava('should post an error execute event if logging in as a disallowed user', asy
 	const loginRequest = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-session',
 		card: adminCard.id,
+		type: adminCard.type,
 		arguments: {
 			password: {
 				hash: {

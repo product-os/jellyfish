@@ -399,6 +399,9 @@ ava('.getTypeTriggers() should report back watchers when aggregating events', as
 				target: {
 					$eval: 'source.data.target'
 				},
+				targetType: {
+					$eval: 'source.type'
+				},
 				arguments: {
 					property: 'data.mentions',
 					value: {

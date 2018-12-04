@@ -56,9 +56,12 @@ const wait = async (fn, check, times = 8) => {
 const getMirrorWaitSchema = (slug) => {
 	return {
 		type: 'object',
-		required: [ 'id', 'slug', 'data' ],
+		required: [ 'id', 'type', 'slug', 'data' ],
 		properties: {
 			id: {
+				type: 'string'
+			},
+			type: {
 				type: 'string'
 			},
 			slug: {
@@ -102,7 +105,8 @@ ava.before(async (test) => {
 		return test.context.executeThenWait(async () => {
 			return test.context.sdk.event.create({
 				slug,
-				card: target,
+				card: target.id,
+				cardType: target.type,
 				type: 'whisper',
 				payload: {
 					mentionsUser: [],
@@ -203,7 +207,7 @@ avaTest('should be able to comment on an inbound message', async (test) => {
 		`My Issue ${randomstring.generate()}`,
 		`Foo Bar ${randomstring.generate()}`)
 
-	await test.context.createComment(supportThread.id,
+	await test.context.createComment(supportThread,
 		test.context.getWhisperSlug(), 'First comment')
 	const result = await test.context.front.conversation.listComments({
 		conversation_id: _.last(supportThread.data.mirrors[0].split('/'))
@@ -224,6 +228,7 @@ avaTest('should be able to close an inbound message', async (test) => {
 		`Foo Bar ${randomstring.generate()}`)
 
 	await test.context.sdk.card.update(supportThread.id, {
+		type: supportThread.type,
 		data: {
 			status: 'closed'
 		}
@@ -246,6 +251,7 @@ avaTest('should be able to archive an inbound message', async (test) => {
 		`Foo Bar ${randomstring.generate()}`)
 
 	await test.context.sdk.card.update(supportThread.id, {
+		type: supportThread.type,
 		data: {
 			status: 'archived'
 		}

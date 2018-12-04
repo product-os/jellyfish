@@ -74,11 +74,13 @@ paths:
           application/json:
             schema:
               type: object
-              required: [ card, action, arguments ]
+              required: [ card, action, type, arguments ]
               properties:
                 card:
                   type: string
                 action:
+                  type: string
+                type:
                   type: string
                 arguments:
                   type: object

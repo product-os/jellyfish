@@ -169,6 +169,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 
 		const message = {
 			card: this.props.card.id,
+			cardType: this.props.card.type,
 			type: 'message',
 			markers: this.props.card.markers || [],
 			tags,
@@ -246,6 +247,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 			tags: [],
 			type: 'message',
 			card: this.props.card.id,
+			cardType: this.props.card.type,
 			payload: {
 				file,
 			},

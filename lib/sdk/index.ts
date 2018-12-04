@@ -67,6 +67,7 @@ export interface SDKInterface {
 	action: <D = any>(body: {
 		card: string;
 		action: string;
+		type: string;
 		arguments?: any;
 	}) => Bluebird<D>;
 
@@ -438,6 +439,7 @@ export class JellyfishSDK implements SDKInterface {
 	 *
 	 * @param {Object} body - The action request
 	 * @param {String} body.card - The slug or UUID of the target card
+	 * @param {String} body.type - The type of the target card
 	 * @param {String} body.action - The name of the action to run
 	 * @param {*} [body.arguments] - The arguments to use when running the
 	 * action
@@ -464,6 +466,7 @@ export class JellyfishSDK implements SDKInterface {
 	public action<D = any>(body: {
 		card: string;
 		action: string;
+		type: string;
 		arguments?: any;
 	}): Bluebird<any> {
 		let payload: any = body;

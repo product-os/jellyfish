@@ -36,6 +36,7 @@
     "target": {
       "$eval": "source.id"
     },
+    "targetType": "external-event",
     "arguments": {}
   },
   "requires": [],
