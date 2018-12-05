@@ -3,8 +3,8 @@
   "name": "Community role read permissions",
   "version": "1.0.0",
   "type": "view",
-  "markers": [],
   "tags": [],
+  "markers": [],
   "links": {},
   "active": true,
   "data": {
@@ -35,35 +35,9 @@
               "type": "string",
               "const": "type"
             },
-            "slug": {
-              "enum": [
-                "action",
-                "action-request",
-                "execute",
-                "changelog",
-                "link",
-                "card",
-                "create",
-                "message",
-                "session",
-                "subscription",
-                "thread",
-                "triggered-action",
-                "update",
-                "view"
-              ]
-            },
             "data": {
               "type": "object",
-              "properties": {
-                "schema": {
-                  "type": "object",
-                  "additionalProperties": true
-                }
-              },
-              "required": [
-                "schema"
-              ]
+              "additionalProperties": true
             }
           },
           "additionalProperties": true,
@@ -96,29 +70,20 @@
         }
       },
       {
-        "name": "Actions",
+        "name": "Timelines",
         "schema": {
           "type": "object",
           "properties": {
             "id": {
               "type": "string"
             },
-            "slug": {
-              "type": "string",
-              "enum": [
-                "action-integration-github-mirror-event",
-                "action-integration-front-mirror-event",
-                "action-create-card",
-                "action-create-event",
-                "action-create-session",
-                "action-create-user",
-                "action-set-add",
-                "action-update-card"
-              ]
-            },
             "type": {
               "type": "string",
-              "const": "action"
+              "enum": [
+                "action",
+                "create",
+                "update"
+              ]
             },
             "data": {
               "type": "object",
@@ -127,60 +92,6 @@
           },
           "required": [
             "id",
-            "slug",
-            "type",
-            "data"
-          ]
-        }
-      },
-      {
-        "name": "Events",
-        "schema": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string"
-            },
-            "type": {
-              "type": "string",
-              "anyOf": [
-                {
-                  "const": "create"
-                },
-                {
-                  "const": "update"
-                }
-              ]
-            },
-            "data": {
-              "type": "object",
-              "additionalProperties": true,
-              "required": [
-                "timestamp",
-                "target",
-                "actor",
-                "payload"
-              ],
-              "properties": {
-                "timestamp": {
-                  "type": "string"
-                },
-                "target": {
-                  "type": "string"
-                },
-                "actor": {
-                  "type": "string",
-                  "const": {
-                    "$eval": "user.id"
-                  }
-                },
-                "payload": {
-                  "type": "object"
-                }
-              }
-            }
-          },
-          "required": [
             "type",
             "data"
           ]
@@ -235,70 +146,18 @@
             },
             "data": {
               "type": "object",
-              "required": [
-                "actor",
-                "target",
-                "action",
-                "timestamp",
-                "arguments",
-                "executed"
-              ],
               "properties": {
                 "actor": {
                   "type": "string",
                   "const": {
                     "$eval": "user.id"
                   }
-                },
-                "target": {
-                  "type": "string"
-                },
-                "action": {
-                  "type": "string"
-                },
-                "timestamp": {
-                  "type": "string"
-                },
-                "arguments": {
-                  "type": "object"
-                },
-                "executed": {
-                  "type": "boolean"
-                },
-                "result": {
-                  "type": "object",
-                  "additionalProperties": true
                 }
-              }
-            }
-          },
-          "additionalProperties": true,
-          "required": [
-            "type",
-            "data"
-          ]
-        }
-      },
-      {
-        "name": "Timelines",
-        "schema": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string"
-            },
-            "type": {
-              "type": "string",
-              "enum": [
-                "create",
-                "update"
-              ]
-            },
-            "data": {
-              "type": "object",
+              },
               "additionalProperties": true
             }
           },
+          "additionalProperties": true,
           "required": [
             "id",
             "type",
@@ -372,20 +231,25 @@
             },
             "slug": {
               "type": "string",
-              "enum": [
-                "view-all-messages",
-                "view-all-views",
-                "view-my-alerts",
-                "view-my-mentions"
-              ]
-            },
-            "id": {
-              "type": "string"
+              "not": {
+                "anyOf": [
+                  {
+                    "pattern": "view-(read|write)-user.+"
+                  },
+                  {
+                    "enum": [
+                      "view-active",
+                      "view-active-triggered-actions",
+                      "view-non-executed-action-requests",
+                      "view-all-users"
+                    ]
+                  }
+                ]
+              }
             }
           },
           "additionalProperties": true,
           "required": [
-            "id",
             "slug",
             "type"
           ]
@@ -424,41 +288,6 @@
         }
       },
       {
-        "name": "My views",
-        "schema": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "string",
-              "const": "view"
-            },
-            "id": {
-              "type": "string"
-            },
-            "data": {
-              "type": "object",
-              "properties": {
-                "actor": {
-                  "type": "string",
-                  "const": {
-                    "$eval": "user.id"
-                  }
-                }
-              },
-              "required": [
-                "actor"
-              ]
-            }
-          },
-          "additionalProperties": true,
-          "required": [
-            "id",
-            "slug",
-            "type"
-          ]
-        }
-      },
-      {
         "name": "Contrib cards",
         "schema": {
           "type": "object",
@@ -469,9 +298,20 @@
             "type": {
               "type": "string",
               "enum": [
+                "account",
+                "architecture-topic",
+                "issue",
+                "pull-request",
                 "thread",
                 "message",
+                "scratchpad-entry",
+                "support-thread",
+                "symptom",
+                "organizer",
+                "os-test-result",
+                "todo",
                 "triggered-action",
+                "whisper",
                 "org"
               ]
             }
@@ -521,12 +361,7 @@
             "id": {
               "type": "string"
             },
-            "type": {
-              "type": "string",
-              "const": "user"
-            },
             "slug": {
-              "type": "string",
               "not": {
                 "enum": [
                   "user-admin",
@@ -534,6 +369,10 @@
                   "user-actions"
                 ]
               }
+            },
+            "type": {
+              "type": "string",
+              "const": "user"
             },
             "data": {
               "type": "object",
@@ -548,7 +387,8 @@
           "required": [
             "id",
             "type",
-            "data"
+            "data",
+            "slug"
           ]
         }
       }

@@ -133,6 +133,9 @@ class Base extends React.Component<CardCreatorProps, CardCreatorState> {
 				title={`Add ${this.props.type.name}`}
 				cancel={this.props.cancel}
 				done={this.addEntry}
+				primaryButtonProps={{
+					className: 'card-create-modal__submit',
+				}}
 			>
 				<Form
 					uiSchema={uiSchema}

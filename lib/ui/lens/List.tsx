@@ -189,6 +189,7 @@ class CardList extends React.Component<CardListProps, CardListState> {
 						>
 							<Button
 								success={true}
+								className={`btn--add-${this.props.type.slug}`}
 								onClick={this.showNewCardModal}
 								disabled={this.state.creatingCard}
 							>

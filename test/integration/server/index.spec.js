@@ -171,40 +171,7 @@ ava.serial('.query() the guest user should only see its own private fields', asy
 	})
 })
 
-ava.serial('Users with multiple roles should see cards accessible to either role', async (test) => {
-	const {
-		sdk
-	} = test.context
-
-	const userDetails = {
-		username: randomstring.generate(),
-		email: `${randomstring.generate()}@example.com`,
-		password: 'foobarbaz'
-	}
-
-	const user = await sdk.auth.signup(userDetails)
-
-	// Update the role on the team user
-	await test.context.jellyfish.insertCard(
-		test.context.session,
-		_.merge(user, {
-			data: {
-				roles: [ 'user-community', 'user-team' ]
-			}
-		}),
-		{
-			override: true
-		}
-	)
-
-	await sdk.auth.login(userDetails)
-
-	const scratchpad = await sdk.card.get('view-scratchpad')
-
-	test.not(scratchpad, null)
-})
-
-ava.serial('.query() should be able to see previously restricted cards after a permissions change', async (test) => {
+ava.serial('.query() should be able to see previously restricted cards after an org change', async (test) => {
 	const {
 		sdk
 	} = test.context
@@ -230,27 +197,30 @@ ava.serial('.query() should be able to see previously restricted cards after a p
 		password: 'foobarbaz'
 	})
 
-	const entry = await jellyfish.insertCard(test.context.session, defaults({
+	const orgCard = await jellyfish.getCardBySlug(test.context.session, 'org-balena')
+
+	const entry = await jellyfish.insertCard(test.context.session, {
+		markers: [ orgCard.slug ],
 		type: 'scratchpad-entry',
 		slug: test.context.generateRandomSlug({
 			prefix: 'scratchpad-entry'
 		}),
 		version: '1.0.0',
 		name: 'Test entry'
-	}))
+	})
 
 	const unprivilegedResults = await sdk.card.get(entry.id)
 
 	test.deepEqual(unprivilegedResults, null)
 
 	await jellyfish.insertCard(test.context.session, defaults({
-		id: user.id,
-		slug: `user-${username}`,
-		type: 'user',
-		version: '1.0.0',
+		slug: `link-${orgCard.id}-has-member-${user.id}`,
+		type: 'link',
+		name: 'has member',
 		data: {
-			email,
-			roles: [ 'user-team' ]
+			inverseName: 'is member of',
+			from: orgCard.id,
+			to: user.id
 		}
 	}), {
 		override: true

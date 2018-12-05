@@ -170,6 +170,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		const message = {
 			card: this.props.card.id,
 			type: 'message',
+			markers: this.props.card.markers || [],
 			tags,
 			payload: {
 				mentionsUser: mentions,

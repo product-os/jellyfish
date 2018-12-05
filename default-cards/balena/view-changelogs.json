@@ -1,9 +1,9 @@
 {
-  "slug": "view-all-architecture-topics",
-  "name": "All architecture topics",
+  "slug": "view-changelogs",
+  "name": "Changelogs",
   "version": "1.0.0",
   "type": "view",
-  "markers": [],
+  "markers": [ "org-balena" ],
   "tags": [],
   "links": {},
   "active": true,
@@ -36,7 +36,13 @@
             },
             "type": {
               "type": "string",
-              "const": "architecture-topic"
+              "const": "changelog"
+            },
+            "markers": {
+              "type": "array",
+              "contains": {
+                "const": "org-balena"
+              }
             }
           },
           "required": [

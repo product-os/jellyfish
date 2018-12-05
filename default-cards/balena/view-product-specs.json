@@ -3,7 +3,7 @@
   "name": "Product specs",
   "version": "1.0.0",
   "type": "view",
-  "markers": [],
+  "markers": [ "org-balena" ],
   "tags": [],
   "links": {},
   "active": true,
@@ -51,6 +51,12 @@
                   "type": "string",
                   "const": "resin-io/balena-demo"
                 }
+              }
+            },
+            "markers": {
+              "type": "array",
+              "contains": {
+                "const": "org-balena"
               }
             }
           },

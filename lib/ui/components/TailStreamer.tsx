@@ -32,6 +32,7 @@ export class TailStreamer<P, S> extends React.Component<P, TailStreamerState & S
 	public async streamTail(query: string | Card | JSONSchema6): Promise<void> {
 		if (this.stream) {
 			this.stream.destroy();
+			this.setState({ tail: null });
 		}
 
 		const schema = await loadSchema(query);
@@ -46,7 +47,7 @@ export class TailStreamer<P, S> extends React.Component<P, TailStreamerState & S
 		// timeline data
 		sdk.query(schema)
 			.then((data) => {
-				this.setTail(data);
+				this.setTail(_.uniqBy<any>(data.concat(this.state.tail as any || []), 'id'));
 			});
 
 		debug('STREAMING TAIL USING QUERY', query);

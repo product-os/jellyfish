@@ -3,7 +3,7 @@
   "type": "type",
   "version": "1.0.0",
   "name": "Scratchpad Entry",
-  "markers": [],
+  "markers": [ "org-balena" ],
   "tags": [],
   "links": {},
   "active": true,

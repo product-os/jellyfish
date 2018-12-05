@@ -1,9 +1,9 @@
 {
-  "slug": "os-test-result",
-  "name": "OS test result",
+  "slug": "architecture-topic",
+  "name": "Architecture call topic",
   "version": "1.0.0",
   "type": "type",
-  "markers": [],
+  "markers": [ "org-balena" ],
   "tags": [],
   "links": {},
   "active": true,
@@ -34,38 +34,25 @@
               "type": "array",
               "$$formula": "AGGREGATE($events, 'data.payload.alertsUser')"
             },
-            "provision_time": {
-              "type": "string"
-            },
-            "image_size": {
-              "type": "string"
-            },
-            "resin_os_version": {
-              "type": "string"
-            },
-            "body": {
+            "description": {
               "type": "string",
               "format": "markdown"
             },
-            "author": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "timestamp": {
+            "status": {
+              "title": "Status",
               "type": "string",
-              "format": "date-time"
+              "default": "pending discussion",
+              "enum": [
+                "discussed",
+                "pending discussion"
+              ]
             }
           }
         }
       },
       "additionalProperties": true,
       "required": [
+        "tags",
         "data"
       ]
     },

@@ -1,23 +1,22 @@
 {
-  "slug": "view-scratchpad",
-  "name": "Scratchpad",
+  "slug": "view-all-users",
+  "name": "Users",
   "version": "1.0.0",
   "type": "view",
-  "markers": [],
+  "markers": [ "org-balena" ],
   "tags": [],
   "links": {},
   "active": true,
   "data": {
     "allOf": [
       {
-        "name": "All scratchpad entries",
+        "name": "All users",
         "schema": {
           "type": "object",
-          "$$sort": "input.a.name < input.b.name",
           "properties": {
             "type": {
               "type": "string",
-              "const": "scratchpad-entry"
+              "const": "user"
             }
           },
           "additionalProperties": true,
@@ -29,7 +28,7 @@
     ],
     "lenses": [
       "lens-list",
-      "lens-table"
+      "lens-kanban"
     ]
   },
   "requires": [],

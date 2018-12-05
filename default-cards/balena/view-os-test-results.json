@@ -1,9 +1,9 @@
 {
-  "slug": "view-support-threads-to-audit",
-  "name": "Support threads to audit",
+  "slug": "view-os-test-results",
+  "name": "OS test results",
   "version": "1.0.0",
   "type": "view",
-  "markers": [],
+  "markers": [ "org-balena" ],
   "tags": [],
   "links": {},
   "active": true,
@@ -20,8 +20,7 @@
                   "enum": [
                     "message",
                     "update",
-                    "create",
-                    "whisper"
+                    "create"
                   ]
                 }
               },
@@ -36,15 +35,12 @@
             },
             "type": {
               "type": "string",
-              "const": "support-thread"
+              "const": "os-test-result"
             },
-            "data": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "const": "closed"
-                }
+            "markers": {
+              "type": "array",
+              "contains": {
+                "const": "org-balena"
               }
             }
           },
@@ -57,7 +53,7 @@
       }
     ],
     "lenses": [
-      "lens-support-threads",
+      "lens-table",
       "lens-kanban"
     ]
   },

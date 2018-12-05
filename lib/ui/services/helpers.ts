@@ -26,6 +26,7 @@ export const createChannel = (data: Channel['data']): Channel => {
 		type: 'channel',
 		version: '1.0.0',
 		tags: [],
+		markers: [],
 		links: {},
 		requires: [],
 		capabilities: [],
