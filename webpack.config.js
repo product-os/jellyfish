@@ -22,9 +22,6 @@ const config = {
 		path: outDir
 	},
 
-	// Enable sourcemaps for debugging webpack's output.
-	devtool: 'source-map',
-
 	resolve: {
 		// Add '.ts' and '.tsx' as resolvable extensions.
 		extensions: [ '.ts', '.tsx', '.js', '.json' ]
@@ -55,13 +52,6 @@ const config = {
 						}
 					}
 				]
-			},
-
-			// All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
-			{
-				enforce: 'pre',
-				test: /\.js$/,
-				loader: 'source-map-loader'
 			}
 		]
 	},
@@ -105,21 +95,23 @@ const config = {
 
 		// The moment.js package includes its locales by default, they are huge and
 		// we don't use them, we're going to ignore them
-		new IgnorePlugin(/^\.\/locale$/, /moment$/),
+		new IgnorePlugin(/^\.\/locale$/, /moment$/)
+	]
+}
 
+if (process.env.NODE_ENV === 'production') {
+	config.mode = 'production'
+	config.optimization = {
+		minimize: true
+	}
+} else {
+	config.plugins.push(
 		new BundleAnalyzerPlugin({
 			analyzerMode: 'static',
 			reportFilename: '../webpack-bundle-report.html',
 			openAnalyzer: false
 		})
-	]
-}
-
-if (process.env.NODE_ENV !== 'dev') {
-	config.mode = 'production'
-	config.optimization = {
-		minimize: true
-	}
+	)
 }
 
 module.exports = config
