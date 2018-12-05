@@ -38,6 +38,7 @@ ava.serial('.action() should be able to successfully create a new card', async (
 
 	await sdk.action({
 		card: 'card',
+		type: 'type',
 		action: 'action-create-card',
 		arguments: {
 			properties: {
@@ -89,6 +90,7 @@ ava.serial('.action() should resolve with the created card', async (test) => {
 
 	const card = await sdk.action({
 		card: 'card',
+		type: 'type',
 		action: 'action-create-card',
 		arguments: {
 			properties: {
@@ -770,7 +772,7 @@ ava.serial('.card.remove() should be able to delete a card', async (test) => {
 		version: '1.0.0'
 	})
 
-	await sdk.card.remove(card.id)
+	await sdk.card.remove(card.id, card.type)
 	const result = await sdk.card.get(card.id)
 	test.false(result.active)
 })
@@ -794,6 +796,7 @@ ava.serial('.event.create() should create a new event', async (test) => {
 
 	const event = {
 		card: card.id,
+		cardType: card.type,
 		type: 'message',
 		payload: {
 			test: 1

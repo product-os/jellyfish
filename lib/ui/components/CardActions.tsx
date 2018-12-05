@@ -81,7 +81,7 @@ class Base extends React.Component<
 	}
 
 	public delete = () => {
-		sdk.card.remove(this.props.card.id)
+		sdk.card.remove(this.props.card.id, this.props.card.type)
 		.catch((error) => {
 			this.props.actions.addNotification('danger', error.message);
 		});

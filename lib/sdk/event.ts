@@ -55,13 +55,14 @@ export class EventSdk {
 	public create(event: EventRequest): Bluebird<Event> {
 		return this.sdk.action<Event>({
 			card: event.card,
+			type: event.cardType,
 			action: 'action-create-event',
 			arguments: _.assign(
 				{
 					payload: {},
 					tags: [],
 				},
-				_.omit(event, [ 'card' ]),
+				_.omit(event, [ 'card', 'cardType' ]),
 			),
 		});
 	}

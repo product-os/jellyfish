@@ -104,6 +104,7 @@ export class AuthSdk {
 
 		return this.sdk.action<Card>({
 			card: 'user',
+			type: 'type',
 			action: 'action-create-user',
 			arguments: {
 				email,
@@ -185,6 +186,7 @@ export class AuthSdk {
 
 		return this.sdk.action<Card>({
 			card: slug,
+			type: 'user',
 			action: 'action-create-session',
 			arguments: {
 				password: passwordArgument,

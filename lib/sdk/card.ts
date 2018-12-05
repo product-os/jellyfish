@@ -211,6 +211,7 @@ export class CardSdk {
 	public create(card: Partial<Card> & { type: string }): Bluebird<Card> {
 		return this.sdk.action<Card>({
 			card: card.type,
+			type: 'type',
 			action: 'action-create-card',
 			arguments: {
 				properties: _.omit(card, [ 'type' ]),
@@ -246,6 +247,7 @@ export class CardSdk {
 	public update(id: string, card: Partial<Card> & { type: string }): Bluebird<any> {
 		return this.sdk.action({
 			card: id,
+			type: card.type,
 			action: 'action-update-card',
 			arguments: {
 				properties: _.omit(card, [ 'type', 'id' ]),
@@ -262,16 +264,18 @@ export class CardSdk {
 	 *
 	 * @description Send an action request to remove a card
 	 *
-	 * @param {String} id - The id of the card that should be remove
+	 * @param {String} id - The id of the card that should be removed
+	 * @param {String} type - The type of the card that should be removed
 	 *
 	 * @returns {Promise}
 	 *
 	 * @example
-	 * sdk.card.remove('8b465c9a-b4cb-44c1-9df9-632649d7c4c3')
+	 * sdk.card.remove('8b465c9a-b4cb-44c1-9df9-632649d7c4c3', 'card')
 	 */
-	public remove(id: string): Bluebird<any> {
+	public remove(id: string, type: string): Bluebird<any> {
 		return this.sdk.action({
 			card: id,
+			type,
 			action: 'action-delete-card',
 		});
 	}
@@ -301,6 +305,7 @@ export class CardSdk {
 	public link(fromCard: string, toCard: string, name: keyof typeof linkNameMap): Bluebird<any> {
 		return this.sdk.action<Card>({
 			card: 'link',
+			type: 'type',
 			action: 'action-create-card',
 			arguments: {
 				properties: {

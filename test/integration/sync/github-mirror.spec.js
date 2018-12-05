@@ -26,9 +26,12 @@ const TOKEN = sync.getToken('github')
 const getMirrorWaitSchema = (slug) => {
 	return {
 		type: 'object',
-		required: [ 'id', 'slug', 'data' ],
+		required: [ 'id', 'type', 'slug', 'data' ],
 		properties: {
 			id: {
+				type: 'string'
+			},
+			type: {
 				type: 'string'
 			},
 			slug: {
@@ -96,7 +99,8 @@ ava.before(async (test) => {
 	test.context.createMessage = async (target, slug, body) => {
 		return test.context.executeThenWait(async () => {
 			return test.context.sdk.event.create({
-				card: target,
+				card: target.id,
+				cardType: target.type,
 				type: 'message',
 				slug,
 				payload: {
@@ -170,7 +174,7 @@ avaTest('should be able to create an issue with a comment', async (test) => {
 		})
 
 	const messageSlug = test.context.getMessageSlug()
-	await test.context.createMessage(issue.id, messageSlug, 'First comment')
+	await test.context.createMessage(issue, messageSlug, 'First comment')
 
 	const mirror = issue.data.mirrors[0]
 	const externalIssue = await test.context.github.issues.get({

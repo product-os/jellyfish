@@ -284,6 +284,7 @@ ava('.insertCard() should add a create event if attachEvents is true', async (te
 		{
 			action: 'action-create-event',
 			card: result.id,
+			type: 'card',
 			arguments: {
 				type: 'create',
 				tags: [],
@@ -313,6 +314,7 @@ ava('.insertCard() should add a create event not overriding even if override is 
 		{
 			action: 'action-create-event',
 			card: result.id,
+			type: 'card',
 			arguments: {
 				type: 'create',
 				tags: [],
@@ -349,6 +351,7 @@ ava('.insertCard() should add an update event if attachEvents is true and overri
 		{
 			action: 'action-create-event',
 			card: result.id,
+			type: 'card',
 			arguments: {
 				type: 'update',
 				tags: [],
@@ -386,6 +389,7 @@ ava('.insertCard() should execute one matching triggered action', async (test) =
 			},
 			action: 'action-create-card',
 			card: typeCard.id,
+			type: typeCard.type,
 			arguments: {
 				properties: {
 					slug: 'foo-bar-baz'
@@ -412,6 +416,7 @@ ava('.insertCard() should execute one matching triggered action', async (test) =
 		{
 			action: 'action-create-event',
 			card: result.id,
+			type: 'card',
 			arguments: {
 				type: 'create',
 				tags: [],
@@ -428,6 +433,7 @@ ava('.insertCard() should execute one matching triggered action', async (test) =
 		{
 			action: 'action-create-card',
 			card: typeCard.id,
+			type: 'type',
 			currentDate: test.context.queue[1].currentDate,
 			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			arguments: {
@@ -487,6 +493,7 @@ ava('.insertCard() should not execute non-matching triggered actions', async (te
 		{
 			action: 'action-create-event',
 			card: result.id,
+			type: 'card',
 			arguments: {
 				type: 'create',
 				tags: [],
@@ -526,6 +533,7 @@ ava('.insertCard() should execute more than one matching triggered action', asyn
 			},
 			action: 'action-create-card',
 			card: typeCard.id,
+			type: typeCard.type,
 			arguments: {
 				properties: {
 					slug: 'foo-bar-baz'
@@ -552,6 +560,7 @@ ava('.insertCard() should execute more than one matching triggered action', asyn
 			},
 			action: 'action-create-card',
 			card: typeCard.id,
+			type: typeCard.type,
 			arguments: {
 				properties: {
 					slug: 'bar-baz-qux'
@@ -578,6 +587,7 @@ ava('.insertCard() should execute more than one matching triggered action', asyn
 		{
 			action: 'action-create-event',
 			card: result.id,
+			type: 'card',
 			arguments: {
 				type: 'create',
 				tags: [],
@@ -594,6 +604,7 @@ ava('.insertCard() should execute more than one matching triggered action', asyn
 		{
 			action: 'action-create-card',
 			card: typeCard.id,
+			type: 'type',
 			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			currentDate: test.context.queue[1].currentDate,
 			arguments: {
@@ -605,6 +616,7 @@ ava('.insertCard() should execute more than one matching triggered action', asyn
 		{
 			action: 'action-create-card',
 			card: typeCard.id,
+			type: 'type',
 			originator: 'd6cacdef-f53b-4b5b-8aa2-8476e48248a4',
 			currentDate: test.context.queue[2].currentDate,
 			arguments: {
@@ -639,6 +651,7 @@ ava('.insertCard() should execute the matching triggered actions given more than
 			},
 			action: 'action-create-card',
 			card: typeCard.id,
+			type: typeCard.type,
 			arguments: {
 				properties: {
 					slug: 'foo-bar-baz'
@@ -665,6 +678,7 @@ ava('.insertCard() should execute the matching triggered actions given more than
 			},
 			action: 'action-create-card',
 			card: typeCard.id,
+			type: typeCard.type,
 			arguments: {
 				properties: {
 					slug: 'bar-baz-qux'
@@ -691,6 +705,7 @@ ava('.insertCard() should execute the matching triggered actions given more than
 		{
 			action: 'action-create-event',
 			card: result.id,
+			type: 'card',
 			arguments: {
 				type: 'create',
 				tags: [],
@@ -707,6 +722,7 @@ ava('.insertCard() should execute the matching triggered actions given more than
 		{
 			action: 'action-create-card',
 			card: typeCard.id,
+			type: 'type',
 			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			currentDate: test.context.queue[1].currentDate,
 			arguments: {
@@ -840,6 +856,7 @@ ava('.insertCard() should remove previously inserted type triggered actions if i
 				},
 				action: 'action-create-card',
 				target: typeCard.id,
+				targetType: typeCard.type,
 				arguments: {
 					properties: {
 						slug: {
@@ -881,6 +898,7 @@ ava('.insertCard() should remove previously inserted type triggered actions if i
 				},
 				action: 'action-create-card',
 				target: typeCard.id,
+				targetType: typeCard.type,
 				arguments: {
 					properties: {
 						slug: {
@@ -985,6 +1003,7 @@ ava('.insertCard() should remove previously inserted type triggered actions if d
 			},
 			action: 'action-create-card',
 			target: typeCard.id,
+			targetType: typeCard.type,
 			arguments: {
 				properties: {
 					slug: {
@@ -1100,6 +1119,7 @@ ava('.insertCard() should add a triggered action given a type with an AGGREGATE 
 			data: {
 				type: 'test-thread',
 				target: triggers[0].data.target,
+				targetType: triggers[0].data.targetType,
 				action: triggers[0].data.action,
 				arguments: triggers[0].data.arguments,
 				filter: triggers[0].data.filter
@@ -1148,6 +1168,9 @@ ava('.insertCard() should pre-register a triggered action if using AGGREGATE', a
 		{
 			id: test.context.triggers[0].id,
 			action: 'action-set-add',
+			type: {
+				$eval: 'source.type'
+			},
 			card: {
 				$eval: 'source.data.target'
 			},

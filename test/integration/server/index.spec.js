@@ -531,6 +531,7 @@ ava.serial('AGGREGATE($events): should work when creating cards via the SDK', as
 			type: 'message',
 			tags: [],
 			card: thread.id,
+			cardType: thread.type,
 			payload: {
 				message: 'lorem ipsum dolor sit amet',
 				mentionsUser: [ id ]
@@ -852,6 +853,7 @@ ava.serial('should add and evaluate a time triggered action', async (test) => {
 		data: {
 			action: 'action-create-card',
 			target: typeCard.id,
+			targetType: typeCard.type,
 			interval: 'PT1S',
 			arguments: {
 				properties: {
@@ -946,6 +948,7 @@ ava.serial('should be able to resolve links', async (test) => {
 		type: 'message',
 		tags: [],
 		card: thread.id,
+		cardType: thread.type,
 		payload: {
 			message: 'lorem ipsum dolor sit amet',
 			mentionsUser: []

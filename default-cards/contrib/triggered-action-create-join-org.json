@@ -42,6 +42,7 @@
     },
     "action": "action-create-card",
     "target": "link",
+    "targetType": "type",
     "arguments": {
       "properties": {
         "name": "has member",
