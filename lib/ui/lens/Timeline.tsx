@@ -168,8 +168,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		const id = uuid();
 
 		const message = {
-			card: this.props.card.id,
-			cardType: this.props.card.type,
+			target: this.props.card,
 			type: 'message',
 			markers: this.props.card.markers || [],
 			tags,
@@ -244,10 +243,9 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		const id = uuid();
 
 		const message = {
+			target: this.props.card,
 			tags: [],
 			type: 'message',
-			card: this.props.card.id,
-			cardType: this.props.card.type,
 			payload: {
 				file,
 			},

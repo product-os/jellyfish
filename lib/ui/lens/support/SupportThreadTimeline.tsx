@@ -181,8 +181,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		const whisper = this.state.messageSymbol ? false : this.state.whisper;
 
 		const message = {
-			card: this.props.card.id,
-			cardType: this.props.card.type,
+			target: this.props.card,
 			type: whisper ? 'whisper' : 'message',
 			markers: this.props.card.markers || [],
 			tags,

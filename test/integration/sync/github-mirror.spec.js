@@ -99,8 +99,7 @@ ava.before(async (test) => {
 	test.context.createMessage = async (target, slug, body) => {
 		return test.context.executeThenWait(async () => {
 			return test.context.sdk.event.create({
-				card: target.id,
-				cardType: target.type,
+				target,
 				type: 'message',
 				slug,
 				payload: {

@@ -530,8 +530,7 @@ ava.serial('AGGREGATE($events): should work when creating cards via the SDK', as
 		return sdk.event.create({
 			type: 'message',
 			tags: [],
-			card: thread.id,
-			cardType: thread.type,
+			target: thread,
 			payload: {
 				message: 'lorem ipsum dolor sit amet',
 				mentionsUser: [ id ]
@@ -947,8 +946,7 @@ ava.serial('should be able to resolve links', async (test) => {
 	const message = await sdk.event.create({
 		type: 'message',
 		tags: [],
-		card: thread.id,
-		cardType: thread.type,
+		target: thread,
 		payload: {
 			message: 'lorem ipsum dolor sit amet',
 			mentionsUser: []
