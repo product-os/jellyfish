@@ -1166,9 +1166,7 @@ ava('.insertCard() should pre-register a triggered action if using AGGREGATE', a
 		{
 			id: test.context.triggers[0].id,
 			action: 'action-set-add',
-			type: {
-				$eval: 'source.type'
-			},
+			type: 'test-thread',
 			card: {
 				$eval: 'source.data.target'
 			},
@@ -1345,6 +1343,7 @@ ava('.run() should create a card', async (test) => {
 		action: actionCard,
 		timestamp: '2018-07-04T00:22:52.247Z',
 		card: typeCard.id,
+		type: typeCard.type,
 		arguments: {
 			properties: {
 				slug: 'foo-bar-baz',
@@ -1377,6 +1376,7 @@ ava('.run() should throw if the input card does not exist', async (test) => {
 		action: actionCard,
 		timestamp: '2018-07-04T00:22:52.247Z',
 		card: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
+		type: 'card',
 		arguments: {
 			properties: {
 				version: '1.0.0',
@@ -1397,6 +1397,7 @@ ava('.run() should throw if the actor does not exist', async (test) => {
 		action: actionCard,
 		timestamp: '2018-07-04T00:22:52.247Z',
 		card: typeCard.id,
+		type: typeCard.type,
 		arguments: {
 			properties: {
 				version: '1.0.0',
@@ -1415,6 +1416,7 @@ ava('.run() should throw if input card does not match the action filter', async 
 		action: actionCard,
 		timestamp: '2018-07-04T00:22:52.247Z',
 		card: actionCard.id,
+		type: actionCard.type,
 		arguments: {
 			properties: {
 				version: '1.0.0',
@@ -1435,6 +1437,7 @@ ava('.run() should throw if the arguments do not match the action', async (test)
 		action: actionCard,
 		timestamp: '2018-07-04T00:22:52.247Z',
 		card: typeCard.id,
+		type: typeCard.type,
 		arguments: {
 			foo: 'bar',
 			bar: 'baz'
@@ -1451,6 +1454,7 @@ ava('.run() should throw if the action has no corresponding implementation', asy
 		action: actionCard,
 		timestamp: '2018-07-04T00:22:52.247Z',
 		card: typeCard.id,
+		type: typeCard.type,
 		arguments: {
 			properties: {
 				version: '1.0.0',
