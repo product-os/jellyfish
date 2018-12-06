@@ -947,7 +947,7 @@ ava('.execute() AGGREGATE should work with $$ prefixed properties', async (test)
 	const threadRequest = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-card',
 		card: typeResult.data.id,
-		type: typeResult.data.type,
+		type: 'type',
 		arguments: {
 			properties: {
 				slug: 'foo',
@@ -967,7 +967,7 @@ ava('.execute() AGGREGATE should work with $$ prefixed properties', async (test)
 	const messageRequest = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-event',
 		card: threadResult.data.id,
-		type: threadResult.data.type,
+		type: 'test-thread',
 		arguments: {
 			type: 'message',
 			tags: [],
@@ -1578,6 +1578,7 @@ ava('.tick() should enqueue an action if there is a time trigger with a past sta
 	test.deepEqual(request, {
 		id: request.id,
 		card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		type: 'card',
 		ctx: test.context.worker.getExecutionContext().execContext,
 		action: actionCard,
 		actor: test.context.actor.id,
@@ -1624,6 +1625,7 @@ ava('.tick() should enqueue an action if there is a time trigger with a present 
 	test.deepEqual(request, {
 		id: request.id,
 		card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		type: 'card',
 		ctx: test.context.worker.getExecutionContext().execContext,
 		action: actionCard,
 		actor: test.context.actor.id,
@@ -1722,6 +1724,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 		{
 			id: requests[0].id,
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			type: 'card',
 			ctx: test.context.worker.getExecutionContext().execContext,
 			action: actionCard,
 			actor: test.context.actor.id,
@@ -1738,6 +1741,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 		{
 			id: requests[1].id,
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			type: 'card',
 			ctx: test.context.worker.getExecutionContext().execContext,
 			action: actionCard,
 			actor: test.context.actor.id,
