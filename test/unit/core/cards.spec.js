@@ -21,9 +21,16 @@ const fs = require('fs')
 const skhema = require('skhema')
 const CARDS = require('../../../lib/core/cards')
 
+const addCreatedField = (card) => {
+	return Object.assign({
+		created_at: new Date().toISOString()
+	}, card)
+}
+
 const isCardMacro = async (test, type, card, expected) => {
 	const schema = (await CARDS[type]).data.schema
-	test.deepEqual(skhema.isValid(schema, card), expected)
+	const cardWithCreation = addCreatedField(card)
+	test.deepEqual(skhema.isValid(schema, cardWithCreation), expected)
 }
 
 isCardMacro.title = (title, type, card, expected) => {
@@ -46,7 +53,9 @@ _.each(CARDS, async (value, key) => {
 		const card = await value
 		const cardSchema = (await CARDS.card).data.schema
 		const typeSchema = (await CARDS[card.type]).data.schema
-		test.true(skhema.isValid(cardSchema, card))
-		test.true(skhema.isValid(typeSchema, card))
+		const cardWithCreation = addCreatedField(card)
+
+		test.true(skhema.isValid(cardSchema, cardWithCreation))
+		test.true(skhema.isValid(typeSchema, cardWithCreation))
 	})
 })

@@ -259,6 +259,7 @@ ava('.evaluate(is attached to) should return the whole target if additionalPrope
 
 	test.deepEqual(results, [
 		{
+			created_at: card.created_at,
 			id: card.id,
 			slug: 'foo',
 			$link: link.id,

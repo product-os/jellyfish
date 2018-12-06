@@ -64,6 +64,10 @@
                 "active": {
                   "type": "boolean"
                 },
+                "created_at": {
+                  "type": "string",
+                  "format": "date-time"
+                },
                 "requires": {
                   "type": "array",
                   "items": {

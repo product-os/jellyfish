@@ -179,12 +179,7 @@ ava.serial('timeline cards should reference the correct actor', async (test) => 
 	})
 
 	const thread = await sdk.card.create({
-		type: 'thread',
-		links: {},
-		slug: test.context.generateRandomSlug({
-			prefix: 'thread'
-		}),
-		version: '1.0.0'
+		type: 'thread'
 	})
 
 	// Set up the watcher before the card is updated to stop race conditions from
@@ -225,7 +220,7 @@ ava.serial('timeline cards should reference the correct actor', async (test) => 
 	await test.context.executeThenWait(() => {
 		return sdk.card.update(thread.id, _.assign(thread, {
 			data: {
-				description: 'Lorem ipsum dolor sit amer'
+				description: 'Lorem ipsum dolor sit amet'
 			}
 		}))
 	}, waitQuery)
@@ -525,6 +520,7 @@ if (process.env.NODE_ENV === 'production') {
 			})
 
 		test.deepEqual(card, {
+			created_at: requestResult.data.created_at,
 			id: requestResult.data.id,
 			type: 'external-event',
 			slug: requestResult.data.slug,
@@ -571,6 +567,7 @@ if (process.env.NODE_ENV === 'production') {
 			})
 
 		test.deepEqual(card, {
+			created_at: requestResult.data.created_at,
 			id: requestResult.data.id,
 			type: 'external-event',
 			slug: requestResult.data.slug,
