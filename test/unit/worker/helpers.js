@@ -22,8 +22,15 @@ exports.jellyfish = {
 		await helpers.jellyfish.beforeEach(test)
 		test.context.session = test.context.jellyfish.sessions.admin
 
-		const session = await test.context.jellyfish.getCardById(test.context.session, test.context.session)
-		test.context.actor = await test.context.jellyfish.getCardById(test.context.session, session.data.actor)
+		const session = await test.context.jellyfish.getCardById(
+			test.context.session, test.context.session, {
+				type: 'session'
+			})
+
+		test.context.actor = await test.context.jellyfish.getCardById(
+			test.context.session, session.data.actor, {
+				type: 'user'
+			})
 
 		await test.context.jellyfish.insertCard(test.context.session,
 			require('../../../default-cards/contrib/execute.json'))

@@ -197,7 +197,9 @@ ava.serial('.query() should be able to see previously restricted cards after an 
 		password: 'foobarbaz'
 	})
 
-	const orgCard = await jellyfish.getCardBySlug(test.context.session, 'org-balena')
+	const orgCard = await jellyfish.getCardBySlug(test.context.session, 'org-balena', {
+		type: 'org'
+	})
 
 	const entry = await jellyfish.insertCard(test.context.session, {
 		markers: [ orgCard.slug ],
@@ -588,6 +590,7 @@ ava.serial('When updating a user, inaccessible fields should not be removed', as
 		_.merge(
 			_.omit(userCard, [ 'data', 'password' ]),
 			{
+				type: userCard.type,
 				data: {
 					roles: [ 'user-team' ]
 				}
@@ -595,7 +598,10 @@ ava.serial('When updating a user, inaccessible fields should not be removed', as
 		)
 	)
 
-	const rawUserCard = await test.context.jellyfish.getCardById(test.context.session, user.id)
+	const rawUserCard =
+		await test.context.jellyfish.getCardById(test.context.session, user.id, {
+			type: 'user'
+		})
 
 	test.is(_.has(rawUserCard, [ 'data', 'email' ]), true)
 	test.is(_.has(rawUserCard, [ 'data', 'roles' ]), true)
@@ -654,7 +660,10 @@ ava.serial('A team admin user should be able to update another user\'s roles', a
 		)
 	)
 
-	const userCard = await test.context.jellyfish.getCardById(test.context.session, user.id)
+	const userCard =
+		await test.context.jellyfish.getCardById(test.context.session, user.id, {
+			type: 'user'
+		})
 
 	test.deepEqual(userCard.data.roles, [ 'user-team' ])
 })
@@ -743,7 +752,10 @@ if (process.env.NODE_ENV === 'production') {
 			test.context.jellyfish, test.context.session, result.response.data)
 
 		test.false(requestResult.error)
-		const card = await test.context.jellyfish.getCardById(test.context.session, requestResult.data.id)
+		const card = await test.context.jellyfish.getCardById(
+			test.context.session, requestResult.data.id, {
+				type: 'external-event'
+			})
 
 		test.deepEqual(card, {
 			id: requestResult.data.id,
@@ -786,7 +798,10 @@ if (process.env.NODE_ENV === 'production') {
 			test.context.jellyfish, test.context.session, result.response.data)
 
 		test.false(requestResult.error)
-		const card = await test.context.jellyfish.getCardById(test.context.session, requestResult.data.id)
+		const card = await test.context.jellyfish.getCardById(
+			test.context.session, requestResult.data.id, {
+				type: 'external-event'
+			})
 
 		test.deepEqual(card, {
 			id: requestResult.data.id,
@@ -828,7 +843,10 @@ ava.serial('should add and evaluate a time triggered action', async (test) => {
 		defaults
 	} = jellyfish
 
-	const typeCard = await jellyfish.getCardBySlug(test.context.session, 'card')
+	const typeCard = await jellyfish.getCardBySlug(
+		test.context.session, 'card', {
+			type: 'type'
+		})
 	const username = randomstring.generate().toLowerCase()
 	const email = `${randomstring.generate()}@example.com`
 
