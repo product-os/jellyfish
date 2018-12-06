@@ -79,7 +79,9 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 	test.true(cards.length > 0)
 
 	const head = await test.context.jellyfish.getCardById(
-		test.context.session, cards[0].id)
+		test.context.session, cards[0].id, {
+			type: cards[0].type
+		})
 	Reflect.deleteProperty(head, 'links')
 	Reflect.deleteProperty(head, 'markers')
 
@@ -207,7 +209,9 @@ exports.mirror = {
 		// Create the user, only if it doesn't exist yet
 		const userCard = await test.context.jellyfish.getCardBySlug(
 			test.context.jellyfish.sessions.admin,
-			`user-${test.context.username}`) ||
+			`user-${test.context.username}`, {
+				type: 'user'
+			}) ||
 			await test.context.sdk.auth.signup({
 				username: test.context.username,
 				email: `${test.context.username}@example.com`,
@@ -216,7 +220,10 @@ exports.mirror = {
 
 		// So it can access all the necessary cards, make the user a member of the
 		// balena org
-		const orgCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'org-balena')
+		const orgCard = await test.context.jellyfish.getCardBySlug(
+			test.context.session, 'org-balena', {
+				type: 'org'
+			})
 
 		await test.context.jellyfish.insertCard(test.context.session, {
 			slug: `link-${orgCard.id}-has-member-${userCard.id}`,
