@@ -173,7 +173,9 @@ ava.serial('should stop users from seeing messages attached to cards they can\'t
 		return window.sdk.auth.whoami()
 	})
 
-	const balenaOrgCard = await context.server.jellyfish.getCardBySlug(context.session, 'org-balena')
+	const balenaOrgCard = await context.server.jellyfish.getCardBySlug(context.session, 'org-balena', {
+		type: 'org'
+	})
 
 	// Add the community user to the balena org
 	await context.server.jellyfish.insertCard(
@@ -237,7 +239,9 @@ ava.serial('should allow team-admin users to update user\'s roles', async (test)
 	}, users.admin)
 
 	// Give the new user the team-admin role
-	const teamAdminUserCard = await context.server.jellyfish.getCardById(context.session, teamAdminUser.id)
+	const teamAdminUserCard = await context.server.jellyfish.getCardById(context.session, teamAdminUser.id, {
+		type: 'user'
+	})
 	await context.server.jellyfish.insertCard(
 		context.session,
 		_.merge(teamAdminUserCard, {
@@ -250,7 +254,9 @@ ava.serial('should allow team-admin users to update user\'s roles', async (test)
 		}
 	)
 
-	const balenaOrgCard = await context.server.jellyfish.getCardBySlug(context.session, 'org-balena')
+	const balenaOrgCard = await context.server.jellyfish.getCardBySlug(context.session, 'org-balena', {
+		type: 'org'
+	})
 
 	// Add the admin user to the balena org
 	await context.server.jellyfish.insertCard(
@@ -333,7 +339,9 @@ ava.serial('should allow team-admin users to update user\'s roles', async (test)
 
 ava.serial('After updating a user\'s roles, the other user fields should remain intact', async (test) => {
 	// Retrieve the user card
-	const userCard = await context.server.jellyfish.getCardBySlug(context.session, `user-${users.community.username}`)
+	const userCard = await context.server.jellyfish.getCardBySlug(context.session, `user-${users.community.username}`, {
+		type: 'user'
+	})
 
 	test.is(_.has(userCard, [ 'data', 'email' ]), true)
 	test.is(_.has(userCard, [ 'data', 'roles' ]), true)
