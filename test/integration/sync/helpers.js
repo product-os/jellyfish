@@ -44,7 +44,7 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 	const cards = []
 	for (const step of testCase.steps) {
 		const event = await test.context.jellyfish.insertCard(
-			test.context.session, test.context.kernel.defaults({
+			test.context.session, {
 				type: 'external-event',
 				slug: test.context.generateRandomSlug({
 					prefix: 'external-event'
@@ -55,7 +55,7 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 					headers: step.headers,
 					payload: step.payload
 				}
-			}))
+			})
 
 		const request = await test.context.worker.enqueue(test.context.session, {
 			action: 'action-integration-import-event',

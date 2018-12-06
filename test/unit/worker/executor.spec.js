@@ -55,21 +55,19 @@ ava('.insertCard() should insert a card', async (test) => {
 		override: false,
 		attachEvents: false,
 		executeAction: test.context.executeAction
-	}, test.context.kernel.defaults({
+	}, {
 		slug: 'foo',
-		version: '1.0.0',
 		data: {
 			foo: 1
 		}
-	}))
+	})
 
 	test.deepEqual(test.context.queue, [])
 	const card = await test.context.jellyfish.getCardById(test.context.session, result.id)
-	test.deepEqual(card, test.context.kernel.defaults({
+	test.deepEqual(card, test.context.jellyfish.defaults({
 		id: result.id,
 		slug: 'foo',
 		type: 'card',
-		version: '1.0.0',
 		data: {
 			foo: 1
 		}
@@ -225,11 +223,11 @@ ava('.insertCard() should be able to set a name', async (test) => {
 })
 
 ava('.insertCard() should override if the override option is true', async (test) => {
-	const previousCard = await test.context.jellyfish.insertCard(test.context.session, test.context.kernel.defaults({
+	const previousCard = await test.context.jellyfish.insertCard(test.context.session, {
 		slug: 'foo-bar-baz',
 		type: 'card',
 		version: '1.0.0'
-	}))
+	})
 
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	await executor.insertCard(test.context.jellyfish, test.context.session, typeCard, {
@@ -249,11 +247,11 @@ ava('.insertCard() should override if the override option is true', async (test)
 })
 
 ava('.insertCard() throw if card already exists and override is false', async (test) => {
-	await test.context.jellyfish.insertCard(test.context.session, test.context.kernel.defaults({
+	await test.context.jellyfish.insertCard(test.context.session, {
 		slug: 'foo-bar-baz',
 		type: 'card',
 		version: '1.0.0'
-	}))
+	})
 
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	await test.throwsAsync(executor.insertCard(test.context.jellyfish, test.context.session, typeCard, {
@@ -329,11 +327,11 @@ ava('.insertCard() should add a create event not overriding even if override is 
 })
 
 ava('.insertCard() should add an update event if attachEvents is true and overriding a card', async (test) => {
-	await test.context.jellyfish.insertCard(test.context.session, test.context.kernel.defaults({
+	await test.context.jellyfish.insertCard(test.context.session, {
 		slug: 'foo-bar-baz',
 		type: 'card',
 		version: '1.0.0'
-	}))
+	})
 
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
 	const result = await executor.insertCard(test.context.jellyfish, test.context.session, typeCard, {
@@ -735,7 +733,7 @@ ava('.insertCard() should execute the matching triggered actions given more than
 })
 
 ava('.insertCard() should evaluate a type formula', async (test) => {
-	const typeCard = test.context.kernel.defaults({
+	const typeCard = {
 		slug: 'test-type',
 		type: 'type',
 		version: '1.0.0',
@@ -762,7 +760,7 @@ ava('.insertCard() should evaluate a type formula', async (test) => {
 				required: [ 'type', 'data' ]
 			}
 		}
-	})
+	}
 
 	await test.context.jellyfish.insertCard(test.context.session, typeCard)
 	const result = await executor.insertCard(test.context.jellyfish, test.context.session, typeCard, {
@@ -784,7 +782,7 @@ ava('.insertCard() should evaluate a type formula', async (test) => {
 })
 
 ava('.insertCard() should throw if the result of the formula is incompatible with the given type', async (test) => {
-	const typeCard = test.context.kernel.defaults({
+	const typeCard = {
 		slug: 'test-type',
 		type: 'type',
 		version: '1.0.0',
@@ -811,7 +809,7 @@ ava('.insertCard() should throw if the result of the formula is incompatible wit
 				required: [ 'type', 'data' ]
 			}
 		}
-	})
+	}
 
 	await test.context.jellyfish.insertCard(test.context.session, typeCard)
 	await test.throwsAsync(executor.insertCard(test.context.jellyfish, test.context.session, typeCard, {
@@ -965,7 +963,7 @@ ava('.insertCard() should remove previously inserted type triggered actions if i
 })
 
 ava('.insertCard() should remove previously inserted type triggered actions if deactivating a type', async (test) => {
-	const type = await test.context.jellyfish.insertCard(test.context.session, test.context.kernel.defaults({
+	const type = await test.context.jellyfish.insertCard(test.context.session, {
 		type: 'type',
 		version: '1.0.0',
 		slug: 'foo',
@@ -974,10 +972,10 @@ ava('.insertCard() should remove previously inserted type triggered actions if d
 				type: 'object'
 			}
 		}
-	}))
+	})
 
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
-	await test.context.jellyfish.insertCard(test.context.session, test.context.kernel.defaults({
+	await test.context.jellyfish.insertCard(test.context.session, {
 		type: 'triggered-action',
 		slug: test.context.generateRandomSlug({
 			prefix: 'triggered-action'
@@ -1017,7 +1015,7 @@ ava('.insertCard() should remove previously inserted type triggered actions if d
 				}
 			}
 		}
-	}))
+	})
 
 	type.active = false
 	await executor.insertCard(

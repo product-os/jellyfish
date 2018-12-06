@@ -29,12 +29,10 @@ ava.beforeEach(async (test) => {
 ava.afterEach(helpers.kernel.afterEach)
 
 ava('.evaluate() should return an empty array if the link is unknown', async (test) => {
-	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'foo',
-		type: 'card',
-		version: '1.0.0',
-		data: {}
-	}))
+		type: 'card'
+	})
 
 	const results = await links.evaluate(test.context.context, input, 'foo bar baz', {
 		type: 'object'
@@ -44,12 +42,10 @@ ava('.evaluate() should return an empty array if the link is unknown', async (te
 })
 
 ava('.evaluate(is attached to) should return an empty array if the target does not exist', async (test) => {
-	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'foo',
-		type: 'card',
-		version: '1.0.0',
-		data: {}
-	}))
+		type: 'card'
+	})
 
 	await test.context.backend.upsertElement({
 		type: 'link',
@@ -73,21 +69,18 @@ ava('.evaluate(is attached to) should return an empty array if the target does n
 })
 
 ava('.evaluate(is attached to) should return an empty array if the target exists but does not match', async (test) => {
-	const card = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+	const card = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'foo',
 		type: 'card',
-		version: '1.0.0',
 		data: {
 			count: 1
 		}
-	}))
+	})
 
-	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'bar',
-		type: 'card',
-		version: '1.0.0',
-		data: {}
-	}))
+		type: 'card'
+	})
 
 	await test.context.backend.upsertElement({
 		type: 'link',
@@ -124,22 +117,19 @@ ava('.evaluate(is attached to) should return an empty array if the target exists
 })
 
 ava('.evaluate(is attached to) should return the declared target properties', async (test) => {
-	const card = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+	const card = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'foo',
 		type: 'card',
-		version: '1.0.0',
 		data: {
 			greeting: 'hello',
 			count: 1
 		}
-	}))
+	})
 
-	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'bar',
-		type: 'card',
-		version: '1.0.0',
-		data: {}
-	}))
+		type: 'card'
+	})
 
 	const link = await test.context.backend.upsertElement({
 		type: 'link',
@@ -190,22 +180,19 @@ ava('.evaluate(is attached to) should return the declared target properties', as
 })
 
 ava('.evaluate(is attached to) should return the whole target if additionalProperties is set', async (test) => {
-	const card = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+	const card = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'foo',
 		type: 'card',
-		version: '1.0.0',
 		data: {
 			greeting: 'hello',
 			count: 1
 		}
-	}))
+	})
 
-	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'bar',
-		type: 'card',
-		version: '1.0.0',
-		data: {}
-	}))
+		type: 'card'
+	})
 
 	const link = await test.context.backend.upsertElement({
 		type: 'link',
@@ -264,13 +251,11 @@ ava('.evaluate(is attached to) should return the whole target if additionalPrope
 })
 
 ava('.evaluate(has attached element) should return an empty array if the card has no timeline', async (test) => {
-	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		slug: 'foo',
-		type: 'card',
-		version: '1.0.0',
-		data: {}
-	}))
+		type: 'card'
+	})
 
 	const results = await links.evaluate(test.context.context, input, 'has attached element', {
 		type: 'object'
@@ -280,39 +265,35 @@ ava('.evaluate(has attached element) should return an empty array if the card ha
 })
 
 ava('.evaluate(has attached element) should return matching elements', async (test) => {
-	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'foo',
 		type: 'card',
-		version: '1.0.0',
 		data: {}
-	}))
+	})
 
-	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'bar',
 		type: 'card',
-		version: '1.0.0',
 		data: {
 			count: 1
 		}
-	}))
+	})
 
-	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'baz',
 		type: 'card',
-		version: '1.0.0',
 		data: {
 			count: 2
 		}
-	}))
+	})
 
-	const card3 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+	const card3 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'qux',
 		type: 'card',
-		version: '1.0.0',
 		data: {
 			count: 3
 		}
-	}))
+	})
 
 	await test.context.backend.upsertElement({
 		type: 'link',
@@ -389,22 +370,20 @@ ava('.evaluate(has attached element) should return matching elements', async (te
 })
 
 ava('.evaluateCard() should return one link of one type given one match', async (test) => {
-	const card = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+	const card = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'foo',
 		type: 'card',
-		version: '1.0.0',
 		data: {
 			greeting: 'hello',
 			count: 1
 		}
-	}))
+	})
 
-	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'bar',
 		type: 'card',
-		version: '1.0.0',
 		data: {}
-	}))
+	})
 
 	const link = await test.context.backend.upsertElement({
 		type: 'link',
@@ -456,38 +435,34 @@ ava('.evaluateCard() should return one link of one type given one match', async 
 })
 
 ava('.evaluateCard() should return multiple cards per link', async (test) => {
-	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'foo',
-		type: 'card',
-		version: '1.0.0'
-	}))
+		type: 'card'
+	})
 
-	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'bar',
 		type: 'card',
-		version: '1.0.0',
 		data: {
 			count: 1
 		}
-	}))
+	})
 
-	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'baz',
 		type: 'card',
-		version: '1.0.0',
 		data: {
 			count: 2
 		}
-	}))
+	})
 
-	const card3 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+	const card3 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'qux',
 		type: 'card',
-		version: '1.0.0',
 		data: {
 			count: 3
 		}
-	}))
+	})
 
 	const link1 = await test.context.backend.upsertElement({
 		type: 'link',
@@ -587,23 +562,20 @@ ava('.evaluateCard() should return multiple cards per link', async (test) => {
 })
 
 ava('.evaluateCard() should return false if one link is unsatisfied', async (test) => {
-	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'foo',
 		type: 'card',
-		version: '1.0.0',
 		data: {
 			greeting: 'hello',
 			count: 1
 		}
-	}))
+	})
 
-	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+	const input = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		slug: 'bar',
-		type: 'card',
-		version: '1.0.0',
-		data: {}
-	}))
+		type: 'card'
+	})
 
 	await test.context.backend.upsertElement({
 		type: 'link',
@@ -619,14 +591,13 @@ ava('.evaluateCard() should return false if one link is unsatisfied', async (tes
 		}
 	})
 
-	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'baz',
 		type: 'card',
-		version: '1.0.0',
 		data: {
 			count: 1
 		}
-	}))
+	})
 
 	await test.context.backend.upsertElement({
 		type: 'link',

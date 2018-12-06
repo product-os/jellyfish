@@ -31,7 +31,7 @@ ava('.getSessionUser() should throw if the session is invalid', async (test) => 
 })
 
 ava('.getSessionUser() should throw if the session actor is invalid', async (test) => {
-	const session = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+	const session = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: test.context.generateRandomSlug({
 			prefix: 'session'
 		}),
@@ -40,7 +40,7 @@ ava('.getSessionUser() should throw if the session actor is invalid', async (tes
 		data: {
 			actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
 		}
-	}))
+	})
 
 	await test.throwsAsync(permissionFilter.getSessionUser(test.context.backend, session.id, {
 		user: 'cards',
@@ -49,7 +49,7 @@ ava('.getSessionUser() should throw if the session actor is invalid', async (tes
 })
 
 ava('.getSessionUser() should get the session user given the session did not expire', async (test) => {
-	const result = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+	const result = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'user-johndoe',
 		type: 'user',
 		version: '1.0.0',
@@ -57,12 +57,12 @@ ava('.getSessionUser() should get the session user given the session did not exp
 			email: 'johndoe@example.com',
 			roles: [ 'foo', 'bar' ]
 		}
-	}))
+	})
 
 	const date = new Date()
 	date.setDate(date.getDate() + 1)
 
-	const session = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+	const session = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: test.context.generateRandomSlug({
 			prefix: 'session'
 		}),
@@ -72,7 +72,7 @@ ava('.getSessionUser() should get the session user given the session did not exp
 			actor: result.id,
 			expiration: date.toISOString()
 		}
-	}))
+	})
 
 	const user = await permissionFilter.getSessionUser(test.context.backend, session.id, {
 		user: 'cards',
@@ -85,7 +85,7 @@ ava('.getSessionUser() should get the session user given the session did not exp
 })
 
 ava('.getSessionUser() should throw if the session expired', async (test) => {
-	const user = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+	const user = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'user-johndoe',
 		type: 'user',
 		version: '1.0.0',
@@ -93,12 +93,12 @@ ava('.getSessionUser() should throw if the session expired', async (test) => {
 			email: 'johndoe@example.com',
 			roles: [ 'foo', 'bar' ]
 		}
-	}))
+	})
 
 	const date = new Date()
 	date.setDate(date.getDate() - 1)
 
-	const session = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+	const session = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: test.context.generateRandomSlug({
 			prefix: 'session'
 		}),
@@ -108,7 +108,7 @@ ava('.getSessionUser() should throw if the session expired', async (test) => {
 			actor: user.id,
 			expiration: date.toISOString()
 		}
-	}))
+	})
 
 	await test.throwsAsync(permissionFilter.getSessionUser(test.context.backend, session.id, {
 		user: 'cards',
@@ -122,7 +122,7 @@ ava('.getViews() should return an empty array given no views', async (test) => {
 })
 
 ava('.getViews() should return the schema of a single view', async (test) => {
-	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'view-read-foo',
 		type: 'view',
 		version: '1.0.0',
@@ -143,7 +143,7 @@ ava('.getViews() should return the schema of a single view', async (test) => {
 				}
 			]
 		}
-	}))
+	})
 
 	const views = await permissionFilter.getViews(test.context.backend, [
 		'view-read-foo'
@@ -168,7 +168,7 @@ ava('.getViews() should return the schema of a single view', async (test) => {
 })
 
 ava('.getViews() should ignore undefined views', async (test) => {
-	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'view-read-foo',
 		type: 'view',
 		version: '1.0.0',
@@ -189,7 +189,7 @@ ava('.getViews() should ignore undefined views', async (test) => {
 				}
 			]
 		}
-	}))
+	})
 
 	const views = await permissionFilter.getViews(test.context.backend, [
 		'view-hello',
@@ -216,7 +216,7 @@ ava('.getViews() should ignore undefined views', async (test) => {
 })
 
 ava('.getViews() should ignore cards that are not views', async (test) => {
-	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'view-read-hello',
 		type: 'card',
 		version: '1.0.0',
@@ -237,9 +237,9 @@ ava('.getViews() should ignore cards that are not views', async (test) => {
 				}
 			]
 		}
-	}))
+	})
 
-	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'view-read-foo',
 		type: 'view',
 		version: '1.0.0',
@@ -260,7 +260,7 @@ ava('.getViews() should ignore cards that are not views', async (test) => {
 				}
 			]
 		}
-	}))
+	})
 
 	const views = await permissionFilter.getViews(test.context.backend, [
 		'view-read-hello',
@@ -286,7 +286,7 @@ ava('.getViews() should ignore cards that are not views', async (test) => {
 })
 
 ava('.getViews() should return the schemas of two roles', async (test) => {
-	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'view-read-foo',
 		type: 'view',
 		version: '1.0.0',
@@ -307,9 +307,9 @@ ava('.getViews() should return the schemas of two roles', async (test) => {
 				}
 			]
 		}
-	}))
+	})
 
-	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, test.context.kernel.defaults({
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'view-read-bar',
 		type: 'view',
 		version: '1.0.0',
@@ -330,7 +330,7 @@ ava('.getViews() should return the schemas of two roles', async (test) => {
 				}
 			]
 		}
-	}))
+	})
 
 	const views = await permissionFilter.getViews(test.context.backend, [
 		'view-read-foo',

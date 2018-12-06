@@ -420,7 +420,7 @@ ava('.getLastExecutionEvent() should return null given no matching event', async
 })
 
 ava('.getLastExecutionEvent() should only consider execute cards', async (test) => {
-	await test.context.jellyfish.insertCard(test.context.session, test.context.kernel.defaults({
+	await test.context.jellyfish.insertCard(test.context.session, {
 		type: 'card',
 		slug: 'foobarbaz',
 		version: '1.0.0',
@@ -436,7 +436,7 @@ ava('.getLastExecutionEvent() should only consider execute cards', async (test) 
 				data: '414f2345-4f5e-4571-820f-28a49731733d'
 			}
 		}
-	}))
+	})
 
 	const event = await events.getLastExecutionEvent(
 		test.context.jellyfish,
