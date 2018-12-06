@@ -1812,7 +1812,7 @@ ava('should be able to login as a user with a password', async (test) => {
 })
 
 ava('should be able to login as a password-less user', async (test) => {
-	const user = await test.context.jellyfish.insertCard(test.context.session, test.context.kernel.defaults({
+	const user = await test.context.jellyfish.insertCard(test.context.session, {
 		type: 'user',
 		version: '1.0.0',
 		slug: 'user-johndoe',
@@ -1820,7 +1820,7 @@ ava('should be able to login as a password-less user', async (test) => {
 			email: 'johndoe@example.com',
 			roles: []
 		}
-	}))
+	})
 
 	const loginRequest = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-session',
@@ -1843,7 +1843,7 @@ ava('should be able to login as a password-less user', async (test) => {
 })
 
 ava('should not be able to login as a password-less disallowed user', async (test) => {
-	const user = await test.context.jellyfish.insertCard(test.context.session, test.context.kernel.defaults({
+	const user = await test.context.jellyfish.insertCard(test.context.session, {
 		type: 'user',
 		version: '1.0.0',
 		slug: 'user-johndoe',
@@ -1852,7 +1852,7 @@ ava('should not be able to login as a password-less disallowed user', async (tes
 			email: 'johndoe@example.com',
 			roles: []
 		}
-	}))
+	})
 
 	await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-session',

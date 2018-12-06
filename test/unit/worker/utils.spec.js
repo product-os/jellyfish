@@ -86,11 +86,11 @@ ava('.getActionArgumentsSchema() should parse two arguments', (test) => {
 })
 
 ava('.hasCard() id = yes (exists), slug = yes (exists)', async (test) => {
-	const card = await test.context.jellyfish.insertCard(test.context.session, test.context.kernel.defaults({
+	const card = await test.context.jellyfish.insertCard(test.context.session, {
 		slug: 'foo-bar',
 		type: 'card',
 		version: '1.0.0'
-	}))
+	})
 
 	test.true(await utils.hasCard(test.context.jellyfish, test.context.session, {
 		id: card.id,
@@ -99,11 +99,11 @@ ava('.hasCard() id = yes (exists), slug = yes (exists)', async (test) => {
 })
 
 ava('.hasCard() id = yes (exists), slug = yes (not exist)', async (test) => {
-	const card = await test.context.jellyfish.insertCard(test.context.session, test.context.kernel.defaults({
+	const card = await test.context.jellyfish.insertCard(test.context.session, {
 		slug: 'bar-baz',
 		type: 'card',
 		version: '1.0.0'
-	}))
+	})
 
 	test.true(await utils.hasCard(test.context.jellyfish, test.context.session, {
 		id: card.id,
@@ -112,11 +112,11 @@ ava('.hasCard() id = yes (exists), slug = yes (not exist)', async (test) => {
 })
 
 ava('.hasCard() id = yes (not exist), slug = yes (exists)', async (test) => {
-	await test.context.jellyfish.insertCard(test.context.session, test.context.kernel.defaults({
+	await test.context.jellyfish.insertCard(test.context.session, {
 		slug: 'foo-bar',
 		type: 'card',
 		version: '1.0.0'
-	}))
+	})
 
 	test.true(await utils.hasCard(test.context.jellyfish, test.context.session, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
@@ -132,11 +132,11 @@ ava('.hasCard() id = yes (not exist), slug = yes (not exist)', async (test) => {
 })
 
 ava('.hasCard() id = no, slug = yes (exists)', async (test) => {
-	await test.context.jellyfish.insertCard(test.context.session, test.context.kernel.defaults({
+	await test.context.jellyfish.insertCard(test.context.session, {
 		slug: 'foo-bar',
 		type: 'card',
 		version: '1.0.0'
-	}))
+	})
 
 	test.true(await utils.hasCard(test.context.jellyfish, test.context.session, {
 		slug: 'foo-bar'

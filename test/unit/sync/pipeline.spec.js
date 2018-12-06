@@ -82,14 +82,14 @@ ava('.importCards() should import a single card', async (test) => {
 })
 
 ava('.importCards() should patch an existing card', async (test) => {
-	const card = await test.context.jellyfish.insertCard(test.context.session, test.context.kernel.defaults({
+	const card = await test.context.jellyfish.insertCard(test.context.session, {
 		type: 'card',
 		slug: 'foo',
 		version: '1.0.0',
 		data: {
 			test: 1
 		}
-	}))
+	})
 
 	const result = await pipeline.importCards(test.context.context, test.context.session, [
 		{
