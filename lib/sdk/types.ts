@@ -44,8 +44,7 @@ export interface Event extends Card {
 }
 
 export interface EventRequest {
-	card: string;
-	cardType: string;
+	target: Partial<Card> & { id: string, type: string };
 	type: string;
 	tags?: string[];
 	slug?: string;

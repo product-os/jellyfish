@@ -105,8 +105,7 @@ ava.before(async (test) => {
 		return test.context.executeThenWait(async () => {
 			return test.context.sdk.event.create({
 				slug,
-				card: target.id,
-				cardType: target.type,
+				target,
 				type: 'whisper',
 				payload: {
 					mentionsUser: [],

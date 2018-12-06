@@ -795,8 +795,7 @@ ava.serial('.event.create() should create a new event', async (test) => {
 	})
 
 	const event = {
-		card: card.id,
-		cardType: card.type,
+		target: card,
 		type: 'message',
 		payload: {
 			test: 1
