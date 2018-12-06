@@ -138,7 +138,7 @@
     "redux-thunk": "^2.2.0",
     "remove-markdown": "^0.3.0",
     "rendition": "^4.35.2",
-    "reql-schema": "^1.0.0",
+    "reql-schema": "^1.1.0",
     "rethinkdb": "^2.3.3",
     "skhema": "4.0.1",
     "socket.io": "^2.1.0",
