@@ -39,7 +39,8 @@ WORKDIR /usr/src/app
 
 COPY --from=base /usr/src/app /usr/src/app
 
-RUN rethinkdb --daemon --bind all && \
+RUN rethinkdb --version && \
+		rethinkdb --daemon --bind all && \
 		make lint && \
 		make test-unit COVERAGE=0 && \
 		make test-integration COVERAGE=0
