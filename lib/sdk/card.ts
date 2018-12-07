@@ -307,6 +307,14 @@ export class CardSdk {
 		toCard: Partial<Card> & { type: string, id: string },
 		name: keyof typeof linkNameMap,
 	): Bluebird<any> {
+		if (!fromCard.id) {
+			throw new Error(`No id in "from" card: ${JSON.stringify(fromCard)}`);
+		}
+
+		if (!toCard.id) {
+			throw new Error(`No id in "to" card: ${JSON.stringify(toCard)}`);
+		}
+
 		return this.sdk.action<Card>({
 			card: 'link',
 			type: 'type',

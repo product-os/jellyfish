@@ -1118,16 +1118,12 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 	})
 
 	const uuid = randomstring.generate()
-
-	const thread = await sdk.card.create({
-		type: 'thread',
-		slug: test.context.generateRandomSlug({
-			prefix: 'thread'
-		}),
-		version: '1.0.0',
-		data: {
-			uuid,
-			target: targetUser.id
+	const message = await sdk.event.create({
+		type: 'message',
+		tags: [],
+		target: targetUser,
+		payload: {
+			message: uuid
 		}
 	})
 
@@ -1153,7 +1149,7 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 			},
 			type: {
 				type: 'string',
-				const: 'thread'
+				const: 'message'
 			},
 			links: {
 				type: 'object',
@@ -1161,11 +1157,17 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 			},
 			data: {
 				type: 'object',
-				required: [ 'uuid' ],
+				required: [ 'payload' ],
 				properties: {
-					uuid: {
-						type: 'string',
-						const: uuid
+					payload: {
+						type: 'object',
+						required: [ 'message' ],
+						properties: {
+							message: {
+								type: 'string',
+								const: uuid
+							}
+						}
 					}
 				},
 				additionalProperties: true
@@ -1178,9 +1180,9 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 
 	test.deepEqual(results, [
 		{
-			id: thread.id,
-			slug: thread.slug,
-			type: 'thread',
+			id: message.id,
+			slug: message.slug,
+			type: 'message',
 			markers: [],
 			links: {
 				'is attached to': [
@@ -1190,7 +1192,7 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 					})
 				]
 			},
-			data: thread.data
+			data: message.data
 		}
 	])
 })
