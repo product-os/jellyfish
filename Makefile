@@ -11,6 +11,11 @@
 	test-unit \
 	test-integration
 
+NODE_DEBUG_ARGS = --abort-on-uncaught-exception \
+									--trace-warnings \
+									--stack_trace_on_illegal \
+									--abort_on_stack_or_string_length_overflow
+
 API_URL ?= http://localhost:8000/
 DB_HOST ?= localhost
 DB_PORT ?= 28015
@@ -79,7 +84,7 @@ test:
 	INTEGRATION_FRONT_TEST_INBOX=$(INTEGRATION_FRONT_TEST_INBOX) \
 	DISABLE_CACHE=$(DISABLE_CACHE) \
 	PUPPETEER_VISUAL_MODE=$(PUPPETEER_VISUAL_MODE) \
-	$(COVERAGE_COMMAND) ./node_modules/.bin/ava $(AVA_ARGS) $(FILES)
+	$(COVERAGE_COMMAND) node $(NODE_DEBUG_ARGS) ./node_modules/.bin/ava $(AVA_ARGS) $(FILES)
 
 test-unit:
 	FILES=./test/unit/**/*.spec.js \
