@@ -162,9 +162,15 @@ class Base extends React.Component<CardProps, CardState> {
 			return;
 		}
 
+		const user = _.find(this.props.allUsers, { id: this.state.selectedUser.value });
+
+		if (!user) {
+			return;
+		}
+
 		this.setState({ addingMember: true });
 
-		createLink(this.props.card.id, this.state.selectedUser.value, 'has member')
+		createLink(this.props.card, user, 'has member')
 			.catch((error) => {
 				this.props.actions.addNotification('danger', error.message || error);
 			})

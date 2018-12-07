@@ -97,7 +97,7 @@ class Base extends React.Component<
 
 		const linkName = LINKS[card.type]['issue'];
 
-		createLink(this.props.card.id, newCard.id, linkName as any);
+		createLink(this.props.card, newCard, linkName as any);
 
 		this.setState({
 			showCreateProductIssue: false,

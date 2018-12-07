@@ -11,7 +11,6 @@ import {
 	Txt,
 } from 'rendition';
 import styled from 'styled-components';
-import uuid = require('uuid/v4');
 import { Card, Lens, RendererProps } from '../../types';
 import AutocompleteTextarea from '../components/AutocompleteTextarea';
 import EventCard from '../components/Event';
@@ -165,8 +164,6 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		const alerts = getUserIdsByPrefix('!', newMessage, allUsers);
 		const tags = findWordsByPrefix('#', newMessage).map(tag => tag.slice(1));
 
-		const id = uuid();
-
 		const message = {
 			target: this.props.card,
 			type: 'message',
@@ -180,8 +177,8 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		};
 
 		sdk.event.create(message)
-			.then(() => {
-				return createLink(id, this.props.card.id, 'is attached to', {
+			.then((result) => {
+				return createLink(result, this.props.card, 'is attached to', {
 					skipSuccessMessage: true,
 				});
 			})
@@ -240,8 +237,6 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 	public handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const file = _.first(e.target.files);
 
-		const id = uuid();
-
 		const message = {
 			target: this.props.card,
 			tags: [],
@@ -252,8 +247,8 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		};
 
 		sdk.event.create(message)
-			.then(() => {
-				return createLink(id, this.props.card.id, 'is attached to', {
+			.then((result) => {
+				return createLink(result, this.props.card, 'is attached to', {
 					skipSuccessMessage: true,
 				});
 			})

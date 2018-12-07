@@ -302,14 +302,18 @@ export class CardSdk {
 	 *   'is attached to'
 	 * )
 	 */
-	public link(fromCard: string, toCard: string, name: keyof typeof linkNameMap): Bluebird<any> {
+	public link(
+		fromCard: Partial<Card> & { type: string, id: string },
+		toCard: Partial<Card> & { type: string, id: string },
+		name: keyof typeof linkNameMap,
+	): Bluebird<any> {
 		return this.sdk.action<Card>({
 			card: 'link',
 			type: 'type',
 			action: 'action-create-card',
 			arguments: {
 				properties: {
-					slug: `link-${fromCard}-${name.replace(/\s/g, '-')}-${toCard}`,
+					slug: `link-${fromCard.id}-${name.replace(/\s/g, '-')}-${toCard.id}`,
 					tags: [],
 					version: '1.0.0',
 					links: {},
@@ -319,8 +323,8 @@ export class CardSdk {
 					name,
 					data: {
 						inverseName: linkNameMap[name],
-						from: fromCard,
-						to: toCard,
+						from: fromCard.id,
+						to: toCard.id,
 					},
 				},
 			},

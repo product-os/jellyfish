@@ -33,7 +33,7 @@ class ChannelRenderer extends React.Component<ChannelRendererProps, {
 		const toCard = this.props.channel.data.head!;
 		const linkName = _.get(LINKS, [fromCard.type, toCard.type], 'is attached to');
 
-		createLink(fromCard.id, toCard.id, linkName);
+		createLink(fromCard, toCard, linkName);
 
 		this.setState({
 			showLinkModal: false,

@@ -101,7 +101,7 @@ ava.serial('Users should be able to view an element if all of their markers matc
 	})
 
 	// Make the user a member of the org
-	await sdk.card.link(user.id, org.id, 'is member of')
+	await sdk.card.link(user, org, 'is member of')
 
 	await sdk.auth.login(users.community)
 
@@ -222,7 +222,7 @@ ava.serial(
 		})
 
 		// Make the user a member of the org
-		await sdk.card.link(user.id, org.id, 'is member of')
+		await sdk.card.link(user, org, 'is member of')
 
 		await sdk.auth.login(users.community)
 
@@ -289,7 +289,7 @@ ava.serial(
 		})
 
 		// Make the user a member of the org
-		await sdk.card.link(user.id, org.id, 'is member of')
+		await sdk.card.link(user, org, 'is member of')
 
 		await sdk.auth.login(users.community)
 

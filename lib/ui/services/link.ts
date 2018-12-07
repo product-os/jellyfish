@@ -1,3 +1,4 @@
+import { Card } from '../../types';
 import { analytics, sdk, store } from '../core';
 import { actionCreators } from '../core/store';
 
@@ -6,12 +7,12 @@ interface CreateLinkOptions {
 }
 
 export const createLink = (
-	fromId: string,
-	toId: string,
+	fromCard: Partial<Card> & { type: string, id: string },
+	toCard: Partial<Card> & { type: string, id: string },
 	verb: string,
 	options: CreateLinkOptions = {},
 ) => {
-	return sdk.card.link(fromId, toId, verb as any)
+	return sdk.card.link(fromCard, toCard, verb as any)
 		.tap(() => {
 			analytics.track('element.create', {
 				element: {
