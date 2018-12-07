@@ -28,6 +28,7 @@ interface CardLinkerState {
 	showLinkModal: boolean;
 	showCreateModal: boolean;
 	linkTypeTargets: Array<{ value: string, label: string | void }>;
+	results: Card[];
 	selectedTypeTarget: string;
 	selectedTarget: null | {
 		value: string;
@@ -49,6 +50,7 @@ export class CardLinker extends React.Component<CardLinkerProps, CardLinkerState
 			showLinkModal: false,
 			showCreateModal: false,
 			linkTypeTargets,
+			results: [],
 			selectedTypeTarget: _.get(linkTypeTargets, [ '0', 'value' ]) || null,
 			selectedTarget: null,
 		};
@@ -81,6 +83,10 @@ export class CardLinker extends React.Component<CardLinkerProps, CardLinkerState
 		});
 		const results = await sdk.query(filter);
 
+		this.setState({
+			results,
+		});
+
 		return results.map((card: Card) => ({
 			label: card.name || card.slug || card.id,
 			value: card.id,
@@ -99,7 +105,7 @@ export class CardLinker extends React.Component<CardLinkerProps, CardLinkerState
 		});
 	}
 
-	public linkToExisting = () => {
+	public linkToExisting = async () => {
 		const { card } = this.props;
 		const { selectedTarget, selectedTypeTarget } = this.state;
 
@@ -109,7 +115,13 @@ export class CardLinker extends React.Component<CardLinkerProps, CardLinkerState
 
 		const linkName = LINKS[card.type][selectedTypeTarget];
 
-		createLink(this.props.card.id, selectedTarget.value, linkName as any);
+		const target = _.find(this.state.results, { id: selectedTarget.value });
+
+		if (!target) {
+			return;
+		}
+
+		createLink(this.props.card, target, linkName as any);
 
 		this.setState({
 			showLinkModal: false,
@@ -130,7 +142,7 @@ export class CardLinker extends React.Component<CardLinkerProps, CardLinkerState
 
 		const linkName = LINKS[card.type][selectedTypeTarget];
 
-		createLink(this.props.card.id, newCard.id, linkName as any);
+		createLink(this.props.card, newCard, linkName as any);
 
 		this.setState({
 			showLinkModal: false,
