@@ -1,3 +1,4 @@
+import { circularDeepEqual } from 'fast-equals';
 import * as _ from 'lodash';
 import * as React from 'react';
 import { connect, Dispatch } from 'react-redux';
@@ -75,6 +76,10 @@ class ViewLinkBase extends React.Component<ViewLinkProps & ConnectedProps, ViewL
 
 	public getNotificationSettings(): { [k: string]: any } {
 		return _.get(this.props.subscription, 'data.notificationSettings') || {};
+	}
+
+	public shouldComponentUpdate(nextProps: ViewLinkProps, nextState: ViewLinkState): boolean {
+		return !circularDeepEqual(nextState, this.state) || !circularDeepEqual(nextProps, this.props);
 	}
 
 	public saveNotificationSettings = (settings: any) => {

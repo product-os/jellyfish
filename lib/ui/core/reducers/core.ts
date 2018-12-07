@@ -74,11 +74,33 @@ export const actionCreators = {
 		value: state,
 	}),
 
-	loadChannelData: (channel: Channel): JellyThunkSync<void, KnownState> => (dispatch, getState) => {
-		const { target } = channel.data;
-		const load = (): Bluebird<Card | null> => sdk.card.getWithTimeline(target)
-			.then((result) => {
-				if (!result) {
+	loadChannelData: (channel: Channel): JellyThunkSync<void, KnownState> =>
+		function loadChannelData(dispatch, getState): Bluebird<any> {
+			const { target } = channel.data;
+			const load = (): Bluebird<Card | null> => sdk.card.getWithTimeline(target)
+				.then((result) => {
+					if (!result) {
+						const currentChannel = _.find(
+							coreSelectors.getChannels(getState()),
+							{ id: channel.id },
+						)!;
+
+						if (!currentChannel) {
+							return null;
+						}
+
+						return Bluebird.delay(250).then(load);
+					}
+
+					return result;
+				});
+
+			return load()
+				.then((head) => {
+					if (!head) {
+						return;
+					}
+
 					const currentChannel = _.find(
 						coreSelectors.getChannels(getState()),
 						{ id: channel.id },
@@ -88,45 +110,24 @@ export const actionCreators = {
 						return null;
 					}
 
-					return Bluebird.delay(250).then(load);
-				}
+					const clonedChannel = _.cloneDeep(currentChannel);
 
-				return result;
-			});
+					// Don't bother is the channel head card hasn't changed
+					if (deepEqual(clonedChannel.data.head, head)) {
+						return;
+					}
 
-		return load()
-			.then((head) => {
-				if (!head) {
-					return;
-				}
+					clonedChannel.data.head = head;
 
-				const currentChannel = _.find(
-					coreSelectors.getChannels(getState()),
-					{ id: channel.id },
-				)!;
-
-				if (!currentChannel) {
-					return null;
-				}
-
-				const clonedChannel = _.cloneDeep(currentChannel);
-
-				// Don't bother is the channel head card hasn't changed
-				if (deepEqual(clonedChannel.data.head, head)) {
-					return;
-				}
-
-				clonedChannel.data.head = head;
-
-				dispatch({
-					type: actions.UPDATE_CHANNEL,
-					value: clonedChannel,
+					dispatch({
+						type: actions.UPDATE_CHANNEL,
+						value: clonedChannel,
+					});
+				})
+				.catch((e) => {
+					dispatch(actionCreators.addNotification('danger', e.message));
 				});
-			})
-			.catch((e) => {
-				dispatch(actionCreators.addNotification('danger', e.message));
-			});
-	},
+		},
 
 	updateChannel: (channel: Partial<Channel>) => ({
 		type: actions.UPDATE_CHANNEL,
@@ -158,8 +159,12 @@ export const actionCreators = {
 			sdk.card.getAllByType('type'),
 			sdk.card.getAllByType('user'),
 			sdk.getConfig(),
+			sdk.stream({
+				type: 'object',
+				additionalProperties: true,
+			}),
 		])
-		.then(([user, types, allUsers, config]) => {
+		.then(([user, types, allUsers, config, stream]) => {
 			if (!user) {
 				throw new Error('Could not retrieve user');
 			}
@@ -177,27 +182,23 @@ export const actionCreators = {
 				channels.forEach((channel) => dispatch(actionCreators.loadChannelData(channel)));
 			}
 
-			sdk.stream({
-				type: 'object',
-				additionalProperties: true,
-			}).then((stream) => {
-				mutableMegaStream = stream;
+			stream.setMaxListeners(50);
+			mutableMegaStream = stream;
 
-				stream.on('update', (update) => {
-					console.log('STREAM UPDATE', update);
-					if (update.data.after) {
-						const { id } = update.data.after;
-						const state = getState();
-						const allChannels = coreSelectors.getChannels(state);
-						const channel = _.find(allChannels, (c) => {
-							return c.data.target === id;
-						});
+			stream.on('update', (update) => {
+				console.log('STREAM UPDATE', update);
+				if (update.data.after) {
+					const { id } = update.data.after;
+					const state = getState();
+					const allChannels = coreSelectors.getChannels(state);
+					const channel = _.find(allChannels, (c) => {
+						return c.data.target === id;
+					});
 
-						if (channel) {
-							dispatch(actionCreators.loadChannelData(channel));
-						}
+					if (channel) {
+						dispatch(actionCreators.loadChannelData(channel));
 					}
-				});
+				}
 			});
 
 			return user;
@@ -454,6 +455,18 @@ export const core = (state: ICore, action: Action) => {
 		default:
 			return newState;
 	}
+};
+
+export const subscribeToCoreFeed = (channel: string, listener: (event: any) => void) => {
+	mutableMegaStream.on(channel, listener);
+
+	return {
+		close: () => {
+			if (mutableMegaStream) {
+				mutableMegaStream.removeListener(channel, listener);
+			}
+		},
+	};
 };
 
 export const coreActions = actions;

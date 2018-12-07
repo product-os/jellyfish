@@ -279,8 +279,7 @@ ava.serial('should allow team-admin users to update user\'s roles', async (test)
 	await page.click('.login-page__submit--login')
 
 	// Open `All users` view
-	await page.waitForSelector('.home-channel__item--view-all-users', WAIT_OPTS)
-	await page.click('.home-channel__item--view-all-users')
+	await macros.waitForThenClickSelector(page, '.home-channel__item--view-all-users')
 
 	// Wait for results to appear in the view
 	await page.waitForSelector('.header-link', WAIT_OPTS)
@@ -290,8 +289,7 @@ ava.serial('should allow team-admin users to update user\'s roles', async (test)
 	await Bluebird.delay(1000)
 
 	// Select the community user
-	await page.waitForSelector(`.header-link--user-${users.community.username}`, WAIT_OPTS)
-	await page.click(`.header-link--user-${users.community.username}`)
+	await macros.waitForThenClickSelector(page, `.header-link--user-${users.community.username}`)
 
 	// Add a small delay to allow the data stream to intialise, normally this is
 	// an unnoticeable delay, but the test run fast enough to cause a race
@@ -300,11 +298,11 @@ ava.serial('should allow team-admin users to update user\'s roles', async (test)
 	await Bluebird.delay(500)
 
 	// Edit the community user
-	await page.waitForSelector('.card-actions__btn--edit', WAIT_OPTS)
-	await page.click('.card-actions__btn--edit')
+	await macros.waitForThenClickSelector(page, '.card-actions__btn--edit')
 
 	// Add a new element to the `roles` array
 	await page.waitForSelector('.rendition-form__field--root_data_roles .rendition-form-array-item__add-item', WAIT_OPTS)
+
 	await Bluebird.delay(200)
 	await page.click('.rendition-form__field--root_data_roles .rendition-form-array-item__add-item')
 
