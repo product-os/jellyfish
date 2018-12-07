@@ -608,11 +608,14 @@ ava('.insertCard() should add a link if inserting a card with a target for the f
 		data: {}
 	})
 
+	const date = new Date()
 	const card2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'bar',
 		type: 'card',
 		version: '1.0.0',
 		data: {
+			actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			timestamp: date.toISOString(),
 			target: card1.id
 		}
 	})
@@ -652,6 +655,8 @@ ava('.insertCard() should add a link if inserting a card with a target for the f
 })
 
 ava('.insertCard() should not add the target link more than once if multiple equal insertions', async (test) => {
+	const date = new Date()
+
 	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'foo',
 		type: 'card',
@@ -664,6 +669,8 @@ ava('.insertCard() should not add the target link more than once if multiple equ
 		type: 'card',
 		version: '1.0.0',
 		data: {
+			actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			timestamp: date.toISOString(),
 			target: card1.id
 		}
 	})
@@ -674,6 +681,8 @@ ava('.insertCard() should not add the target link more than once if multiple equ
 		type: 'card',
 		version: '1.0.0',
 		data: {
+			actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			timestamp: date.toISOString(),
 			target: card1.id
 		}
 	}, {
@@ -686,6 +695,8 @@ ava('.insertCard() should not add the target link more than once if multiple equ
 		type: 'card',
 		version: '1.0.0',
 		data: {
+			actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			timestamp: date.toISOString(),
 			target: card1.id
 		}
 	}, {
@@ -721,6 +732,8 @@ ava('.insertCard() should not add the target link more than once if multiple equ
 })
 
 ava('.insertCard() should update the link if the target changes', async (test) => {
+	const date = new Date()
+
 	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		type: 'card',
 		slug: 'foo',
@@ -740,6 +753,8 @@ ava('.insertCard() should update the link if the target changes', async (test) =
 		slug: 'baz',
 		version: '1.0.0',
 		data: {
+			actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			timestamp: date.toISOString(),
 			target: card1.id
 		}
 	})
@@ -750,6 +765,8 @@ ava('.insertCard() should update the link if the target changes', async (test) =
 		slug: 'baz',
 		version: '1.0.0',
 		data: {
+			actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			timestamp: date.toISOString(),
 			target: card2.id
 		}
 	}, {
@@ -2334,12 +2351,15 @@ ava('.query() should be able to query using links using the target property', as
 		}
 	})
 
+	const date = new Date()
 	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'bar',
 		type: 'card',
 		version: '1.0.0',
 		data: {
 			thread: false,
+			actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			timestamp: date.toISOString(),
 			target: parent1.id,
 			count: 1
 		}
@@ -2351,6 +2371,8 @@ ava('.query() should be able to query using links using the target property', as
 		version: '1.0.0',
 		data: {
 			thread: false,
+			actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			timestamp: date.toISOString(),
 			target: parent1.id,
 			count: 2
 		}
@@ -2362,6 +2384,8 @@ ava('.query() should be able to query using links using the target property', as
 		version: '1.0.0',
 		data: {
 			thread: false,
+			actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			timestamp: date.toISOString(),
 			target: parent2.id,
 			count: 3
 		}
