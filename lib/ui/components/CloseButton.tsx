@@ -23,4 +23,5 @@ export const CloseButton = (props: any) => {
 		>
 			<Icon name="times" />
 		</Btn>
-);
+	);
+};
