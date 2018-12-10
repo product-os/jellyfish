@@ -48,10 +48,16 @@
         "name": "has member",
         "data": {
           "from": {
-            "$eval": "source.data.target"
+            "id": {
+              "$eval": "source.data.target"
+            },
+            "type": "org"
           },
           "to": {
-            "$eval": "source.data.actor"
+            "id": {
+              "$eval": "source.data.actor"
+            },
+            "type": "user"
           },
           "inverseName": "is member of"
         }

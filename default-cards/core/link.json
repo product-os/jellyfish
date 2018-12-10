@@ -33,12 +33,30 @@
               "type": "string"
             },
             "from": {
-              "type": "string",
-              "format": "uuid"
+              "type": "object",
+              "required": [ "id", "type" ],
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "type": {
+                  "type": "string"
+                }
+              }
             },
             "to": {
-              "type": "string",
-              "format": "uuid"
+              "type": "object",
+              "required": [ "id", "type" ],
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "type": {
+                  "type": "string"
+                }
+              }
             }
           },
           "required": [

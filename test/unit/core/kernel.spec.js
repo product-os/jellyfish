@@ -159,8 +159,14 @@ ava('.insertCard() should be able to create a link between two valid cards', asy
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: card1.id,
-			to: card2.id
+			from: {
+				id: card1.id,
+				type: card1.type
+			},
+			to: {
+				id: card2.id,
+				type: card2.type
+			}
 		}
 	})
 
@@ -185,8 +191,14 @@ ava('.insertCard() should update links property when linking two cards', async (
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: card1.id,
-			to: card2.id
+			from: {
+				id: card1.id,
+				type: card1.type
+			},
+			to: {
+				id: card2.id,
+				type: card2.type
+			}
 		}
 	})
 
@@ -250,8 +262,14 @@ ava('.insertCard() should not update links property when linking a valid card to
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: card1.id,
-			to: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
+			from: {
+				id: card1.id,
+				type: card1.type
+			},
+			to: {
+				id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				type: 'card'
+			}
 		}
 	})
 
@@ -284,8 +302,14 @@ ava('.insertCard() should not update links property when linking an invalid card
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			to: card2.id
+			from: {
+				id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				type: 'card'
+			},
+			to: {
+				id: card2.id,
+				type: card2.type
+			}
 		}
 	})
 
@@ -323,8 +347,14 @@ ava('.insertCard() should update links property when linking two cards in two di
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: card1.id,
-			to: card2.id
+			from: {
+				id: card1.id,
+				type: card1.type
+			},
+			to: {
+				id: card2.id,
+				type: card2.type
+			}
 		}
 	})
 
@@ -334,8 +364,14 @@ ava('.insertCard() should update links property when linking two cards in two di
 		name: 'is related to',
 		data: {
 			inverseName: 'is related to',
-			from: card1.id,
-			to: card2.id
+			from: {
+				id: card1.id,
+				type: card1.type
+			},
+			to: {
+				id: card2.id,
+				type: card2.type
+			}
 		}
 	})
 
@@ -418,8 +454,14 @@ ava('.insertCard() should be able to remove a link', async (test) => {
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: card1.id,
-			to: card2.id
+			from: {
+				id: card1.id,
+				type: card1.type
+			},
+			to: {
+				id: card2.id,
+				type: card2.type
+			}
 		}
 	})
 
@@ -429,8 +471,14 @@ ava('.insertCard() should be able to remove a link', async (test) => {
 		name: 'is related to',
 		data: {
 			inverseName: 'is related to',
-			from: card1.id,
-			to: card2.id
+			from: {
+				id: card1.id,
+				type: card1.type
+			},
+			to: {
+				id: card2.id,
+				type: card2.type
+			}
 		}
 	})
 
@@ -443,8 +491,14 @@ ava('.insertCard() should be able to remove a link', async (test) => {
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: card1.id,
-			to: card2.id
+			from: {
+				id: card1.id,
+				type: card1.type
+			},
+			to: {
+				id: card2.id,
+				type: card2.type
+			}
 		}
 	}, {
 		override: true
@@ -517,8 +571,14 @@ ava('.insertCard() should be able to create a direction-less link between two va
 		name: 'is linked to',
 		data: {
 			inverseName: 'is linked to',
-			from: card1.id,
-			to: card2.id
+			from: {
+				id: card1.id,
+				type: card1.type
+			},
+			to: {
+				id: card2.id,
+				type: card2.type
+			}
 		}
 	})
 
@@ -547,8 +607,14 @@ ava('.insertCard() should be able to create two different links between two vali
 		name: 'is linked to',
 		data: {
 			inverseName: 'has been linked to',
-			from: card1.id,
-			to: card2.id
+			from: {
+				id: card1.id,
+				type: card1.type
+			},
+			to: {
+				id: card2.id,
+				type: card2.type
+			}
 		}
 	})
 
@@ -559,13 +625,19 @@ ava('.insertCard() should be able to create two different links between two vali
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: card1.id,
-			to: card2.id
+			from: {
+				id: card1.id,
+				type: card1.type
+			},
+			to: {
+				id: card2.id,
+				type: card2.type
+			}
 		}
 	})
 
-	test.is(linkCard1.data.from, linkCard2.data.from)
-	test.is(linkCard1.data.to, linkCard2.data.to)
+	test.is(linkCard1.data.from.id, linkCard2.data.from.id)
+	test.is(linkCard1.data.to.id, linkCard2.data.to.id)
 })
 
 ava('.insertCard() should not add a link if not inserting a card with a target', async (test) => {
@@ -647,8 +719,14 @@ ava('.insertCard() should add a link if inserting a card with a target for the f
 			capabilities: [],
 			data: {
 				inverseName: 'has attached element',
-				from: card2.id,
-				to: card1.id
+				from: {
+					id: card2.id,
+					type: card2.type
+				},
+				to: {
+					id: card1.id,
+					type: card1.type
+				}
 			}
 		}
 	])
@@ -724,8 +802,14 @@ ava('.insertCard() should not add the target link more than once if multiple equ
 			name: 'is attached to',
 			data: {
 				inverseName: 'has attached element',
-				from: card2.id,
-				to: card1.id
+				from: {
+					id: card2.id,
+					type: card2.type
+				},
+				to: {
+					id: card1.id,
+					type: card1.type
+				}
 			}
 		})
 	])
@@ -793,8 +877,14 @@ ava('.insertCard() should update the link if the target changes', async (test) =
 			name: 'is attached to',
 			data: {
 				inverseName: 'has attached element',
-				from: card3.id,
-				to: card2.id
+				from: {
+					id: card3.id,
+					type: card3.type
+				},
+				to: {
+					id: card2.id,
+					type: card2.type
+				}
 			}
 		})
 	])
@@ -1886,8 +1976,14 @@ ava('.query() should not consider active links to inactive cards', async (test) 
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: card1.id,
-			to: parent1.id
+			from: {
+				id: card1.id,
+				type: card1.type
+			},
+			to: {
+				id: parent1.id,
+				type: parent1.type
+			}
 		}
 	})
 
@@ -1908,8 +2004,14 @@ ava('.query() should not consider active links to inactive cards', async (test) 
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: card2.id,
-			to: parent2.id
+			from: {
+				id: card2.id,
+				type: card2.type
+			},
+			to: {
+				id: parent2.id,
+				type: parent2.type
+			}
 		}
 	})
 
@@ -2022,8 +2124,14 @@ ava('.query() should not consider inactive links', async (test) => {
 		active: false,
 		data: {
 			inverseName: 'has attached element',
-			from: card1.id,
-			to: parent1.id
+			from: {
+				id: card1.id,
+				type: card1.type
+			},
+			to: {
+				id: parent1.id,
+				type: parent1.type
+			}
 		}
 	})
 
@@ -2044,8 +2152,14 @@ ava('.query() should not consider inactive links', async (test) => {
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: card2.id,
-			to: parent2.id
+			from: {
+				id: card2.id,
+				type: card2.type
+			},
+			to: {
+				id: parent2.id,
+				type: parent2.type
+			}
 		}
 	})
 
@@ -2167,8 +2281,14 @@ ava('.query() should be able to query using links', async (test) => {
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: card1.id,
-			to: parent1.id
+			from: {
+				id: card1.id,
+				type: card1.type
+			},
+			to: {
+				id: parent1.id,
+				type: parent1.type
+			}
 		}
 	})
 
@@ -2189,8 +2309,14 @@ ava('.query() should be able to query using links', async (test) => {
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: card2.id,
-			to: parent1.id
+			from: {
+				id: card2.id,
+				type: card2.type
+			},
+			to: {
+				id: parent1.id,
+				type: parent1.type
+			}
 		}
 	})
 
@@ -2211,8 +2337,14 @@ ava('.query() should be able to query using links', async (test) => {
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: card3.id,
-			to: parent2.id
+			from: {
+				id: card3.id,
+				type: card3.type
+			},
+			to: {
+				id: parent2.id,
+				type: parent2.type
+			}
 		}
 	})
 

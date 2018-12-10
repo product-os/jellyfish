@@ -221,8 +221,14 @@ ava.serial('.query() should be able to see previously restricted cards after an 
 		name: 'has member',
 		data: {
 			inverseName: 'is member of',
-			from: orgCard.id,
-			to: user.id
+			from: {
+				id: orgCard.id,
+				type: orgCard.type
+			},
+			to: {
+				id: user.id,
+				type: user.type
+			}
 		}
 	}), {
 		override: true

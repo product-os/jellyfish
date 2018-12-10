@@ -56,8 +56,14 @@ ava('.evaluate(is attached to) should return an empty array if the target does n
 		markers: [],
 		data: {
 			inverseName: 'has attached element',
-			from: input.id,
-			to: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
+			from: {
+				id: input.id,
+				type: 'card'
+			},
+			to: {
+				id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				type: 'card'
+			}
 		}
 	})
 
@@ -91,8 +97,14 @@ ava('.evaluate(is attached to) should return an empty array if the target exists
 		markers: [],
 		data: {
 			inverseName: 'has attached element',
-			from: input.id,
-			to: card.id
+			from: {
+				id: input.id,
+				type: input.type
+			},
+			to: {
+				id: card.id,
+				type: card.type
+			}
 		}
 	})
 
@@ -140,8 +152,14 @@ ava('.evaluate(is attached to) should return the declared target properties', as
 		markers: [],
 		data: {
 			inverseName: 'has attached element',
-			from: input.id,
-			to: card.id
+			from: {
+				id: input.id,
+				type: input.type
+			},
+			to: {
+				id: card.id,
+				type: card.type
+			}
 		}
 	})
 
@@ -203,8 +221,14 @@ ava('.evaluate(is attached to) should return the whole target if additionalPrope
 		markers: [],
 		data: {
 			inverseName: 'has attached element',
-			from: input.id,
-			to: card.id
+			from: {
+				id: input.id,
+				type: input.type
+			},
+			to: {
+				id: card.id,
+				type: card.type
+			}
 		}
 	})
 
@@ -303,8 +327,14 @@ ava('.evaluate(has attached element) should return matching elements', async (te
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: card1.id,
-			to: input.id
+			from: {
+				id: card1.id,
+				type: card1.type
+			},
+			to: {
+				id: input.id,
+				type: input.type
+			}
 		}
 	})
 
@@ -316,8 +346,14 @@ ava('.evaluate(has attached element) should return matching elements', async (te
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: card2.id,
-			to: input.id
+			from: {
+				id: card2.id,
+				type: card2.type
+			},
+			to: {
+				id: input.id,
+				type: input.type
+			}
 		}
 	})
 
@@ -329,8 +365,14 @@ ava('.evaluate(has attached element) should return matching elements', async (te
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: card3.id,
-			to: input.id
+			from: {
+				id: card3.id,
+				type: card3.type
+			},
+			to: {
+				id: input.id,
+				type: input.type
+			}
 		}
 	})
 
@@ -394,8 +436,14 @@ ava('.evaluateCard() should return one link of one type given one match', async 
 		markers: [],
 		data: {
 			inverseName: 'has attached element',
-			from: input.id,
-			to: card.id
+			from: {
+				id: input.id,
+				type: input.type
+			},
+			to: {
+				id: card.id,
+				type: card.type
+			}
 		}
 	})
 
@@ -472,8 +520,14 @@ ava('.evaluateCard() should return multiple cards per link', async (test) => {
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: card1.id,
-			to: input.id
+			from: {
+				id: card1.id,
+				type: card1.type
+			},
+			to: {
+				id: input.id,
+				type: input.type
+			}
 		}
 	})
 
@@ -485,8 +539,14 @@ ava('.evaluateCard() should return multiple cards per link', async (test) => {
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: card2.id,
-			to: input.id
+			from: {
+				id: card2.id,
+				type: card2.type
+			},
+			to: {
+				id: input.id,
+				type: input.type
+			}
 		}
 	})
 
@@ -500,8 +560,14 @@ ava('.evaluateCard() should return multiple cards per link', async (test) => {
 		markers: [],
 		data: {
 			inverseName: 'has attached element',
-			from: card3.id,
-			to: input.id
+			from: {
+				id: card3.id,
+				type: card3.type
+			},
+			to: {
+				id: input.id,
+				type: input.type
+			}
 		}
 	})
 
@@ -586,8 +652,14 @@ ava('.evaluateCard() should return false if one link is unsatisfied', async (tes
 		markers: [],
 		data: {
 			inverseName: 'has attached element',
-			from: input.id,
-			to: card1.id
+			from: {
+				id: input.id,
+				type: input.type
+			},
+			to: {
+				id: card1.id,
+				type: card1.type
+			}
 		}
 	})
 
@@ -607,8 +679,14 @@ ava('.evaluateCard() should return false if one link is unsatisfied', async (tes
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: input.id,
-			to: card2.id
+			from: {
+				id: input.id,
+				type: input.type
+			},
+			to: {
+				id: card2.id,
+				type: card2.type
+			}
 		}
 	})
 
@@ -648,8 +726,14 @@ ava('.parseCard() should parse a "from" card', (test) => {
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			to: '87ca429f-5e46-419a-8f21-b43f68f23001'
+			from: {
+				id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				type: 'card'
+			},
+			to: {
+				id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+				type: 'card'
+			}
 		}
 	}, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
@@ -687,8 +771,14 @@ ava('.parseCard() should parse a "to" card', (test) => {
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			to: '87ca429f-5e46-419a-8f21-b43f68f23001'
+			from: {
+				id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				type: 'card'
+			},
+			to: {
+				id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+				type: 'card'
+			}
 		}
 	}, {
 		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
@@ -726,8 +816,14 @@ ava('.parseCard() should return null given an irrelevant card', (test) => {
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			to: '87ca429f-5e46-419a-8f21-b43f68f23001'
+			from: {
+				id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				type: 'card'
+			},
+			to: {
+				id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+				type: 'card'
+			}
 		}
 	}, {
 		id: 'd7ee04d7-e727-444a-b120-c56c03d81f7b',
@@ -753,8 +849,14 @@ ava('.addLink() should add a link given a "from" card without any links', (test)
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			to: '87ca429f-5e46-419a-8f21-b43f68f23001'
+			from: {
+				id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				type: 'card'
+			},
+			to: {
+				id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+				type: 'card'
+			}
 		}
 	}, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
@@ -806,8 +908,14 @@ ava('.addLink() should add a link given a "from" card without the existing link'
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			to: '87ca429f-5e46-419a-8f21-b43f68f23001'
+			from: {
+				id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				type: 'card'
+			},
+			to: {
+				id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+				type: 'card'
+			}
 		}
 	}, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
@@ -872,8 +980,14 @@ ava('.addLink() should add a link given a "from" card with the existing link', (
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			to: '87ca429f-5e46-419a-8f21-b43f68f23001'
+			from: {
+				id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				type: 'card'
+			},
+			to: {
+				id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+				type: 'card'
+			}
 		}
 	}, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
@@ -932,8 +1046,14 @@ ava('.addLink() should add a link given a "to" card without any links', (test) =
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			to: '87ca429f-5e46-419a-8f21-b43f68f23001'
+			from: {
+				id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				type: 'card'
+			},
+			to: {
+				id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+				type: 'card'
+			}
 		}
 	}, {
 		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
@@ -985,8 +1105,14 @@ ava('.addLink() should add a link given a "to" card without the existing link', 
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			to: '87ca429f-5e46-419a-8f21-b43f68f23001'
+			from: {
+				id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				type: 'card'
+			},
+			to: {
+				id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+				type: 'card'
+			}
 		}
 	}, {
 		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
@@ -1051,8 +1177,14 @@ ava('.addLink() should add a link given a "to" card with the existing link', (te
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			to: '87ca429f-5e46-419a-8f21-b43f68f23001'
+			from: {
+				id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				type: 'card'
+			},
+			to: {
+				id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+				type: 'card'
+			}
 		}
 	}, {
 		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
@@ -1120,8 +1252,14 @@ ava('.addLink() should add a link given an irrelevant card', (test) => {
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			to: '87ca429f-5e46-419a-8f21-b43f68f23001'
+			from: {
+				id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				type: 'card'
+			},
+			to: {
+				id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+				type: 'card'
+			}
 		}
 	}, {
 		id: 'd7ee04d7-e727-444a-b120-c56c03d81f7b',
@@ -1156,8 +1294,14 @@ ava('.removeLink() should remove a link given a "from" card without any links', 
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			to: '87ca429f-5e46-419a-8f21-b43f68f23001'
+			from: {
+				id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				type: 'card'
+			},
+			to: {
+				id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+				type: 'card'
+			}
 		}
 	}, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
@@ -1192,8 +1336,14 @@ ava('.removeLink() should remove a link given a "from" card without the existing
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			to: '87ca429f-5e46-419a-8f21-b43f68f23001'
+			from: {
+				id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				type: 'card'
+			},
+			to: {
+				id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+				type: 'card'
+			}
 		}
 	}, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
@@ -1242,8 +1392,14 @@ ava('.removeLink() should remove a link given a "from" card with the existing li
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			to: '87ca429f-5e46-419a-8f21-b43f68f23001'
+			from: {
+				id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				type: 'card'
+			},
+			to: {
+				id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+				type: 'card'
+			}
 		}
 	}, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
@@ -1287,8 +1443,14 @@ ava('.removeLink() should remove a link given a "to" card without any links', (t
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			to: '87ca429f-5e46-419a-8f21-b43f68f23001'
+			from: {
+				id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				type: 'card'
+			},
+			to: {
+				id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+				type: 'card'
+			}
 		}
 	}, {
 		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
@@ -1323,8 +1485,14 @@ ava('.removeLink() should remove a link given a "to" card without the existing l
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			to: '87ca429f-5e46-419a-8f21-b43f68f23001'
+			from: {
+				id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				type: 'card'
+			},
+			to: {
+				id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+				type: 'card'
+			}
 		}
 	}, {
 		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
@@ -1373,8 +1541,14 @@ ava('.removeLink() should remove a link given a "to" card with the existing link
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			to: '87ca429f-5e46-419a-8f21-b43f68f23001'
+			from: {
+				id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				type: 'card'
+			},
+			to: {
+				id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+				type: 'card'
+			}
 		}
 	}, {
 		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
@@ -1418,8 +1592,14 @@ ava('.removeLink() should remove a link given an irrelevant card', (test) => {
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			to: '87ca429f-5e46-419a-8f21-b43f68f23001'
+			from: {
+				id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				type: 'card'
+			},
+			to: {
+				id: '87ca429f-5e46-419a-8f21-b43f68f23001',
+				type: 'card'
+			}
 		}
 	}, {
 		id: 'd7ee04d7-e727-444a-b120-c56c03d81f7b',
