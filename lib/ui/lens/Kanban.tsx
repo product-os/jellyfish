@@ -34,7 +34,7 @@ const EllipsisButton = styled(Button)`
 `;
 
 const cardMapper = (card: Card) => {
-	const message = _.find(_.get(card, [ 'links', 'has attached element' ]), { type: 'message' }));
+	const message = _.find(_.get(card, [ 'links', 'has attached element' ]), { type: 'message' });
 
 	return {
 		id: card.id,
