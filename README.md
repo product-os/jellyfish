@@ -9,6 +9,36 @@ API Docs
 Visit https://balena-jellyfish.herokuapp.com/docs.html. Install `redoc-cli` if
 you want to locally re-generate them.
 
+Maxims
+------
+
+This is a collection of thoughts to help guide Jellyfish development, and
+prevent us from failling into traps, usually obtained after long conversations
+and previously made mistakes. Most of the credit goes to Alexandros Marinos :)
+
+- No data should be siloed
+- Allow inter-work between human and machine
+- Structure information first, and then people around that, not the other way
+	around
+- Keep barriers for modification low
+- The system should remain fluid enough to transform significantly in the
+	future if needed
+- Avoid things that limit our solution space in the future and closes our doors
+- Remove barriers between developers and users. Users should be empowered to
+	mutate the system
+- The system should allow evolving both the content and the structure of the
+	data
+
+What do we want to solve?
+-------------------------
+
+- The people at the front-line have all the data, but most businesses don't
+	collect that data up
+- The system should become the backbone of a distributed team that can
+	scallably grow organically and faster in an scalable way, and do so well. The
+	system will give us the ability to keep growing while not dropping the
+	quality
+
 Installing RethinkDB
 --------------------
 
