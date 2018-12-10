@@ -24,7 +24,6 @@ import {
 	getCurrentTimestamp,
 	getUserIdsByPrefix,
 } from '../../services/helpers';
-import { createLink } from '../../services/link';
 
 const Column = styled(Flex)`
 	height: 100%;
@@ -190,11 +189,6 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		};
 
 		sdk.event.create(message)
-			.then((result) => {
-				return createLink(result, this.props.card, 'is attached to', {
-					skipSuccessMessage: true,
-				});
-			})
 			.then(() => {
 				analytics.track('element.create', {
 					element: {
@@ -268,11 +262,6 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		};
 
 		sdk.card.create(message)
-			.then((result) => {
-				return createLink(result, this.props.card, 'is attached to', {
-					skipSuccessMessage: true,
-				});
-			})
 			.then(() => {
 				analytics.track('element.create', {
 					element: {
