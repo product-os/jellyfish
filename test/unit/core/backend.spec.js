@@ -41,49 +41,72 @@ ava('.disconnect() should gracefully close streams', async (test) => {
 })
 
 ava('.getElementById() should return null if the element id is not present', async (test) => {
-	await test.context.backend.createTable('test')
-	const result = await test.context.backend.getElementById('test', '4a962ad9-20b5-4dd8-a707-bf819593cc84')
+	const result = await test.context.backend.getElementById('4a962ad9-20b5-4dd8-a707-bf819593cc84', {
+		type: 'card'
+	})
+
 	test.deepEqual(result, null)
 })
 
 ava('.getElementById() should not break the cache if trying to query a valid slug with it', async (test) => {
 	const element = await test.context.backend.upsertElement({
 		slug: 'example',
+		type: 'card',
 		test: 'foo'
 	})
 
-	const result1 = await test.context.backend.getElementById('example')
+	const result1 = await test.context.backend.getElementById('example', {
+		type: 'card'
+	})
+
 	test.deepEqual(result1, null)
 
-	const result2 = await test.context.backend.getElementBySlug('example')
+	const result2 = await test.context.backend.getElementBySlug('example', {
+		type: 'card'
+	})
+
 	test.deepEqual(result2, element)
 })
 
 ava('.getElementBySlug() should not break the cache if trying to query a valid id with it', async (test) => {
 	const element = await test.context.backend.upsertElement({
 		slug: 'example',
+		type: 'card',
 		test: 'foo'
 	})
 
-	const result1 = await test.context.backend.getElementBySlug(element.id)
+	const result1 = await test.context.backend.getElementBySlug(element.id, {
+		type: 'card'
+	})
+
 	test.deepEqual(result1, null)
 
-	const result2 = await test.context.backend.getElementById(element.id)
+	const result2 = await test.context.backend.getElementById(element.id, {
+		type: 'card'
+	})
+
 	test.deepEqual(result2, element)
 })
 
 ava('.getElementBySlug() should return null if the element slug is not present', async (test) => {
-	const result = await test.context.backend.getElementBySlug('foo')
+	const result = await test.context.backend.getElementBySlug('foo', {
+		type: 'card'
+	})
+
 	test.deepEqual(result, null)
 })
 
 ava('.getElementBySlug() should fetch an element given its slug', async (test) => {
 	const element = await test.context.backend.upsertElement({
 		slug: 'example',
+		type: 'card',
 		test: 'foo'
 	})
 
-	const result = await test.context.backend.getElementBySlug('example')
+	const result = await test.context.backend.getElementBySlug('example', {
+		type: 'card'
+	})
+
 	test.deepEqual(result, element)
 })
 
@@ -109,10 +132,14 @@ ava('.insertElement() should not insert an element without a slug nor an id to a
 
 ava('.insertElement() should insert an element with a non-existent slug', async (test) => {
 	const result = await test.context.backend.insertElement({
-		slug: 'foo'
+		slug: 'foo',
+		type: 'card'
 	})
 
-	const element = await test.context.backend.getElementById(result.id)
+	const element = await test.context.backend.getElementById(result.id, {
+		type: 'card'
+	})
+
 	test.deepEqual(element, result)
 })
 
@@ -120,12 +147,16 @@ ava('.insertElement() should not insert an element with a user defined id', asyn
 	const result = await test.context.backend.insertElement({
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		slug: 'foo',
+		type: 'card',
 		foo: 'bar'
 	})
 
 	test.not(result.id, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
 
-	const element = await test.context.backend.getElementById(result.id)
+	const element = await test.context.backend.getElementById(result.id, {
+		type: 'card'
+	})
+
 	test.deepEqual(Object.assign({}, element, {
 		id: result.id
 	}), result)
@@ -135,12 +166,16 @@ ava('.insertElement() should insert an element with a non-existent id and slug',
 	const result = await test.context.backend.insertElement({
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		slug: 'example',
+		type: 'card',
 		foo: 'bar'
 	})
 
 	test.not(result.id, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
 
-	const element = await test.context.backend.getElementById(result.id)
+	const element = await test.context.backend.getElementById(result.id, {
+		type: 'card'
+	})
+
 	test.deepEqual(Object.assign({}, element, {
 		id: result.id
 	}), result)
@@ -155,19 +190,24 @@ ava('.insertElement() should not be able to set any links', async (test) => {
 		}
 	})
 
-	const element = await test.context.backend.getElementById(result.id)
+	const element = await test.context.backend.getElementById(result.id, {
+		type: 'card'
+	})
+
 	test.deepEqual(element.links, {})
 })
 
 ava('.insertElement() should not re-use the id when inserting an element with an existent id', async (test) => {
 	const result1 = await test.context.backend.insertElement({
 		slug: 'foo',
+		type: 'card',
 		foo: 'bar'
 	})
 
 	const result2 = await test.context.backend.insertElement({
 		id: result1.id,
 		slug: 'bar',
+		type: 'card',
 		foo: 'baz'
 	})
 
@@ -220,13 +260,17 @@ ava('.upsertElement() should not be able to set links using an id', async (test)
 	const result = await test.context.backend.upsertElement({
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		slug: 'foo',
+		type: 'card',
 		links: {
 			foo: 'bar'
 		},
 		test: 'foo'
 	})
 
-	const element = await test.context.backend.getElementById(result.id)
+	const element = await test.context.backend.getElementById(result.id, {
+		type: 'card'
+	})
+
 	test.deepEqual(element.links, {})
 })
 
@@ -255,13 +299,24 @@ ava('.upsertElement() should update linked cards when inserting a link', async (
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: card.id,
-			to: thread.id
+			from: {
+				id: card.id,
+				type: card.type
+			},
+			to: {
+				id: thread.id,
+				type: thread.type
+			}
 		}
 	})
 
-	const updatedCard = await test.context.backend.getElementById(card.id)
-	const updatedThread = await test.context.backend.getElementById(thread.id)
+	const updatedCard = await test.context.backend.getElementById(card.id, {
+		type: 'message'
+	})
+
+	const updatedThread = await test.context.backend.getElementById(thread.id, {
+		type: 'thread'
+	})
 
 	test.deepEqual(updatedCard.links, {
 		'is attached to': [
@@ -287,6 +342,7 @@ ava('.upsertElement() should update linked cards when inserting a link', async (
 ava('.upsertElement() should not be able to set links using both an id and a slug', async (test) => {
 	const result = await test.context.backend.upsertElement({
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		type: 'card',
 		slug: 'foo-bar',
 		links: {
 			foo: 'bar'
@@ -294,33 +350,44 @@ ava('.upsertElement() should not be able to set links using both an id and a slu
 		test: 'foo'
 	})
 
-	const element = await test.context.backend.getElementById(result.id)
+	const element = await test.context.backend.getElementById(result.id, {
+		type: 'card'
+	})
+
 	test.deepEqual(element.links, {})
 })
 
 ava('.upsertElement() should not be able to set links using a slug', async (test) => {
 	const result = await test.context.backend.upsertElement({
 		slug: 'foo-bar',
+		type: 'card',
 		links: {
 			foo: 'bar'
 		},
 		test: 'foo'
 	})
 
-	const element = await test.context.backend.getElementBySlug(result.slug)
+	const element = await test.context.backend.getElementBySlug(result.slug, {
+		type: 'card'
+	})
+
 	test.deepEqual(element.links, {})
 })
 
 ava('.upsertElement() should not be able to set links using no id nor slug', async (test) => {
 	const result = await test.context.backend.upsertElement({
 		slug: 'foo',
+		type: 'card',
 		links: {
 			foo: 'bar'
 		},
 		test: 'foo'
 	})
 
-	const element = await test.context.backend.getElementById(result.id)
+	const element = await test.context.backend.getElementById(result.id, {
+		type: 'card'
+	})
+
 	test.deepEqual(element.links, {})
 })
 
@@ -344,40 +411,53 @@ ava('.upsertElement() should not be able to change a slug', async (test) => {
 ava('.upsertElement() should insert a card with a slug', async (test) => {
 	const result = await test.context.backend.upsertElement({
 		slug: 'example',
+		type: 'card',
 		test: 'foo'
 	})
 
 	test.not(result.id, 'example')
-	const element = await test.context.backend.getElementById(result.id)
+	const element = await test.context.backend.getElementById(result.id, {
+		type: 'card'
+	})
+
 	test.deepEqual(element, result)
 })
 
 ava('.upsertElement() should replace an element given the slug but no id', async (test) => {
 	const result1 = await test.context.backend.upsertElement({
 		slug: 'example',
+		type: 'card',
 		test: 'foo',
 		hello: 'world'
 	})
 
 	const result2 = await test.context.backend.upsertElement({
 		slug: 'example',
+		type: 'card',
 		test: 'bar'
 	})
 
 	test.is(result1.id, result2.id)
-	const element = await test.context.backend.getElementById(result1.id)
+	const element = await test.context.backend.getElementById(result1.id, {
+		type: 'card'
+	})
+
 	test.deepEqual(element, result2)
 })
 
 ava('.upsertElement() should not let clients pick their own ids', async (test) => {
 	const result = await test.context.backend.upsertElement({
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		type: 'card',
 		slug: 'example',
 		test: 'foo'
 	})
 
 	test.not(result.id, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
-	const element = await test.context.backend.getElementById(result.id)
+	const element = await test.context.backend.getElementById(result.id, {
+		type: 'card'
+	})
+
 	test.deepEqual(Object.assign({}, element, {
 		id: result.id
 	}), result)
@@ -415,17 +495,22 @@ ava('.upsertElement() should not consider ids when inserting an element with an 
 
 ava('.upsertElement() should replace an element with an existing id and the slug of the same element', async (test) => {
 	const result1 = await test.context.backend.upsertElement({
+		type: 'card',
 		slug: 'example'
 	})
 
 	const result2 = await test.context.backend.upsertElement({
 		id: result1.id,
+		type: 'card',
 		slug: 'example',
 		test: 'foo'
 	})
 
 	test.is(result1.id, result2.id)
-	const element = await test.context.backend.getElementById(result1.id)
+	const element = await test.context.backend.getElementById(result1.id, {
+		type: 'card'
+	})
+
 	test.deepEqual(element, result2)
 })
 
@@ -1359,8 +1444,14 @@ ava('.query() should be able to query using links', async (test) => {
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: card1.id,
-			to: thread1.id
+			from: {
+				id: card1.id,
+				type: card1.type
+			},
+			to: {
+				id: thread1.id,
+				type: thread1.type
+			}
 		}
 	})
 
@@ -1381,8 +1472,14 @@ ava('.query() should be able to query using links', async (test) => {
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: card2.id,
-			to: thread1.id
+			from: {
+				id: card2.id,
+				type: card2.type
+			},
+			to: {
+				id: thread1.id,
+				type: thread1.type
+			}
 		}
 	})
 
@@ -1403,8 +1500,14 @@ ava('.query() should be able to query using links', async (test) => {
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: card3.id,
-			to: thread2.id
+			from: {
+				id: card3.id,
+				type: card3.type
+			},
+			to: {
+				id: thread2.id,
+				type: thread2.type
+			}
 		}
 	})
 
@@ -1533,8 +1636,14 @@ ava('.query() should be able to query using links when getting an element by id'
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: message.id,
-			to: thread.id
+			from: {
+				id: message.id,
+				type: message.type
+			},
+			to: {
+				id: thread.id,
+				type: thread.type
+			}
 		}
 	})
 
@@ -1618,8 +1727,14 @@ ava('.query() should be able to query using links when getting an element by slu
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: message.id,
-			to: thread.id
+			from: {
+				id: message.id,
+				type: message.type
+			},
+			to: {
+				id: thread.id,
+				type: thread.type
+			}
 		}
 	})
 
@@ -1712,8 +1827,14 @@ ava('.query() should be able to query using links and an inverse name', async (t
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: message1.id,
-			to: thread.id
+			from: {
+				id: message1.id,
+				type: message1.type
+			},
+			to: {
+				id: thread.id,
+				type: thread.type
+			}
 		}
 	})
 
@@ -1724,8 +1845,14 @@ ava('.query() should be able to query using links and an inverse name', async (t
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: message2.id,
-			to: thread.id
+			from: {
+				id: message2.id,
+				type: message2.type
+			},
+			to: {
+				id: thread.id,
+				type: thread.type
+			}
 		}
 	})
 
@@ -1825,8 +1952,14 @@ ava('.query() should omit a result if a link does not match', async (test) => {
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: card1.id,
-			to: thread.id
+			from: {
+				id: card1.id,
+				type: card1.type
+			},
+			to: {
+				id: thread.id,
+				type: thread.type
+			}
 		}
 	})
 
@@ -1846,8 +1979,14 @@ ava('.query() should omit a result if a link does not match', async (test) => {
 		name: 'is attached to',
 		data: {
 			inverseName: 'has attached element',
-			from: card2.id,
-			to: foo.id
+			from: {
+				id: card2.id,
+				type: card2.type
+			},
+			to: {
+				id: foo.id,
+				type: foo.type
+			}
 		}
 	})
 
