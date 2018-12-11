@@ -2484,3 +2484,139 @@ ava('action-create-event should create a link card', async (test) => {
 		}
 	}))
 })
+
+ava('should be able to insert a deeply nested card', async (test) => {
+	const data = {
+		foo: {
+			bar: {
+				baz: {
+					qux: {
+						foo: {
+							bar: {
+								baz: {
+									qux: {
+										foo: {
+											bar: {
+												baz: {
+													qux: {
+														foo: {
+															bar: {
+																baz: {
+																	qux: {
+																		test: 1
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
+	const createRequest = await test.context.worker.enqueue(test.context.session, {
+		action: 'action-create-card',
+		card: typeCard.id,
+		type: typeCard.type,
+		arguments: {
+			properties: {
+				slug: 'foo',
+				version: '1.0.0',
+				data
+			}
+		}
+	})
+
+	await test.context.flush(test.context.session)
+	const createResult = await queue.waitResults(
+		test.context.jellyfish, test.context.session, createRequest)
+	test.false(createResult.error)
+	test.deepEqual(createResult.data.slug, 'foo')
+	test.deepEqual(createResult.data.version, '1.0.0')
+	test.deepEqual(createResult.data.data, data)
+})
+
+ava('should be able to upsert a deeply nested card', async (test) => {
+	const data = {
+		foo: {
+			bar: {
+				baz: {
+					qux: {
+						foo: {
+							bar: {
+								baz: {
+									qux: {
+										foo: {
+											bar: {
+												baz: {
+													qux: {
+														foo: {
+															bar: {
+																baz: {
+																	qux: {
+																		test: 1
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
+	const createRequest = await test.context.worker.enqueue(test.context.session, {
+		action: 'action-create-card',
+		card: typeCard.id,
+		type: typeCard.type,
+		arguments: {
+			properties: {
+				slug: 'foo',
+				version: '1.0.0',
+				data: {}
+			}
+		}
+	})
+
+	await test.context.flush(test.context.session)
+	const createResult = await queue.waitResults(
+		test.context.jellyfish, test.context.session, createRequest)
+	test.false(createResult.error)
+
+	const updateRequest = await test.context.worker.enqueue(test.context.session, {
+		action: 'action-update-card',
+		card: createResult.data.id,
+		type: createResult.data.type,
+		arguments: {
+			properties: {
+				data
+			}
+		}
+	})
+
+	await test.context.flush(test.context.session)
+	const updateResult = await queue.waitResults(
+		test.context.jellyfish, test.context.session, updateRequest)
+	test.false(updateResult.error)
+	test.deepEqual(updateResult.data.slug, 'foo')
+	test.deepEqual(updateResult.data.version, '1.0.0')
+	test.deepEqual(updateResult.data.data, data)
+})
