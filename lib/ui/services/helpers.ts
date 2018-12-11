@@ -299,6 +299,10 @@ export const getViewSlices = (view: any, types: Card[]) => {
 		slices = _.map(viewType.data.slices, (slice) => {
 			const subSchema = _.get(viewType.data.schema, slice);
 
+			if (!subSchema) {
+				return null;
+			}
+
 			const viewParam = _.chain(view.data.allOf)
 				.map((def) => {
 					return _.get(def.schema, slice);
