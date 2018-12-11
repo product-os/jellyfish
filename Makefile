@@ -11,7 +11,10 @@
 	test-unit \
 	test-integration
 
-NODE_DEBUG_ARGS = --abort-on-uncaught-exception \
+# To make sure we don't silently swallow errors
+NODE_ARGS = --abort-on-uncaught-exception
+
+NODE_DEBUG_ARGS = $(NODE_ARGS) \
 									--trace-warnings \
 									--stack_trace_on_illegal \
 									--abort_on_stack_or_string_length_overflow
@@ -170,7 +173,7 @@ start-server:
 	LOGLEVEL=$(LOGLEVEL) \
 	INTEGRATION_GITHUB_TOKEN=$(INTEGRATION_GITHUB_TOKEN) \
 	INTEGRATION_FRONT_TOKEN=$(INTEGRATION_FRONT_TOKEN) \
-	$(NODE_EXEC) lib/server/index.js
+	$(NODE_EXEC) $(NODE_ARGS) lib/server/index.js
 
 docker-compose.local.yml:
 	echo "version: \"3\"\n# Use this file to make local changes for the docker-compose setup" > docker-compose.local.yml
