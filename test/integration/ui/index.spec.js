@@ -15,7 +15,6 @@
  */
 
 const ava = require('ava')
-const _ = require('lodash')
 const randomstring = require('randomstring')
 const helpers = require('./helpers')
 const macros = require('./macros')
@@ -230,15 +229,4 @@ ava.serial('should stop users from seeing messages attached to cards they can\'t
 	})
 
 	test.not(messageText, lastMessage)
-})
-
-ava.serial('After updating a user\'s roles, the other user fields should remain intact', async (test) => {
-	// Retrieve the user card
-	const userCard = await context.server.jellyfish.getCardBySlug(context.session, `user-${users.community.username}`, {
-		type: 'user'
-	})
-
-	test.is(_.has(userCard, [ 'data', 'email' ]), true)
-	test.is(_.has(userCard, [ 'data', 'roles' ]), true)
-	test.is(_.has(userCard, [ 'data', 'password', 'hash' ]), true)
 })
