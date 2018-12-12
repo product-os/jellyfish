@@ -92,7 +92,7 @@ test:
 	$(COVERAGE_COMMAND) node $(NODE_DEBUG_ARGS) ./node_modules/.bin/ava $(AVA_ARGS) $(FILES)
 
 test-unit:
-	FILES=./test/unit/**/*.spec.js \
+	FILES="'./test/unit/**/*.spec.js'" \
 		NODE_ENV=$(NODE_ENV) \
 		DB_HOST=$(DB_HOST) \
 		DB_PORT=$(DB_PORT) \
@@ -106,7 +106,7 @@ test-unit:
 		make test
 
 test-integration:
-	FILES=./test/integration/**/*.spec.js \
+	FILES="'./test/integration/**/*.spec.js'" \
 		NODE_ENV=$(NODE_ENV) \
 		DB_HOST=$(DB_HOST) \
 		DB_PORT=$(DB_PORT) \
@@ -122,7 +122,7 @@ test-integration:
 		make test
 
 test-unit-%:
-	FILES=./test/unit/$(subst test-unit-,,$@)/**/*.spec.js \
+	FILES="'./test/unit/$(subst test-unit-,,$@)/**/*.spec.js'" \
 		NODE_ENV=$(NODE_ENV) \
 		DB_HOST=$(DB_HOST) \
 		DB_PORT=$(DB_PORT) \
@@ -136,7 +136,7 @@ test-unit-%:
 		make test
 
 test-integration-%:
-	FILES=./test/integration/$(subst test-integration-,,$@)/**/*.spec.js \
+	FILES="'./test/integration/$(subst test-integration-,,$@)/**/*.spec.js'" \
 		NODE_ENV=$(NODE_ENV) \
 		DB_HOST=$(DB_HOST) \
 		DB_PORT=$(DB_PORT) \
