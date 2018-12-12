@@ -2402,3 +2402,85 @@ ava('should post an error execute event if logging in as a disallowed user', asy
 		}
 	})
 })
+
+ava('action-create-event should create a link card', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
+
+	const cardRequest = await test.context.worker.enqueue(test.context.session, {
+		action: 'action-create-card',
+		card: typeCard.id,
+		type: typeCard.type,
+		arguments: {
+			properties: {}
+		}
+	})
+
+	await test.context.flush(test.context.session)
+	const cardResult = await queue.waitResults(
+		test.context.jellyfish, test.context.session, cardRequest)
+	test.false(cardResult.error)
+
+	const messageRequest = await test.context.worker.enqueue(test.context.session, {
+		action: 'action-create-event',
+		card: cardResult.data.id,
+		type: cardResult.data.type,
+		arguments: {
+			type: 'message',
+			tags: [],
+			payload: {
+				messages: [ 'johndoe' ]
+			}
+		}
+	})
+
+	await test.context.flush(test.context.session)
+	const messageResult = await queue.waitResults(
+		test.context.jellyfish, test.context.session, messageRequest)
+	test.false(messageResult.error)
+
+	const [ link ] = await test.context.jellyfish.query(test.context.session, {
+		type: 'object',
+		properties: {
+			type: {
+				type: 'string',
+				const: 'link'
+			},
+			data: {
+				type: 'object',
+				properties: {
+					from: {
+						type: 'object',
+						properties: {
+							id: {
+								type: 'string',
+								const: messageResult.data.id
+							}
+						},
+						required: [ 'id' ]
+					}
+				},
+				required: [ 'from' ]
+			}
+		},
+		required: [ 'type', 'data' ],
+		additionalProperties: true
+	})
+
+	test.deepEqual(link, test.context.jellyfish.defaults({
+		id: link.id,
+		slug: link.slug,
+		name: 'is attached to',
+		type: 'link',
+		data: {
+			inverseName: 'has attached element',
+			from: {
+				id: messageResult.data.id,
+				type: 'message'
+			},
+			to: {
+				id: cardResult.data.id,
+				type: 'card'
+			}
+		}
+	}))
+})
