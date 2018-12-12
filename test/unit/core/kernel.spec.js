@@ -1406,6 +1406,109 @@ ava('.query() should return the cards that match a schema', async (test) => {
 	])
 })
 
+ava('.query() should work if passing an $id top level property', async (test) => {
+	const result1 = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'johndoe',
+			type: 'card',
+			version: '1.0.0',
+			data: {
+				email: 'johndoe@example.io'
+			}
+		})
+
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'johnsmith',
+			type: 'card',
+			version: '1.0.0',
+			data: {
+				email: 'johnsmith@example.io'
+			}
+		})
+
+	const results = await test.context.kernel.query(
+		test.context.context, test.context.kernel.sessions.admin, {
+			$id: 'foobar',
+			type: 'object',
+			properties: {
+				id: {
+					type: 'string'
+				},
+				slug: {
+					type: 'string',
+					pattern: 'doe$'
+				},
+				type: {
+					type: 'string'
+				},
+				data: {
+					type: 'object',
+					properties: {
+						email: {
+							type: 'string'
+						}
+					},
+					required: [ 'email' ]
+				}
+			},
+			required: [ 'id', 'slug', 'type', 'data' ]
+		})
+
+	test.deepEqual(results, [
+		{
+			id: result1.id,
+			slug: 'johndoe',
+			type: 'card',
+			data: {
+				email: 'johndoe@example.io'
+			}
+		}
+	])
+})
+
+ava('.query() should be able to describe a property that starts with $', async (test) => {
+	const result1 = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'johndoe',
+			type: 'card',
+			version: '1.0.0',
+			data: {
+				$foo: 'bar'
+			}
+		})
+
+	const results = await test.context.kernel.query(
+		test.context.context, test.context.kernel.sessions.admin, {
+			type: 'object',
+			additionalProperties: true,
+			properties: {
+				slug: {
+					type: 'string',
+					pattern: 'doe$'
+				},
+				type: {
+					type: 'string'
+				},
+				version: {
+					type: 'string'
+				},
+				data: {
+					type: 'object',
+					properties: {
+						$foo: {
+							type: 'string'
+						}
+					},
+					required: [ '$foo' ]
+				}
+			},
+			required: [ 'slug', 'type', 'version', 'data' ]
+		})
+
+	test.deepEqual(results, [ result1 ])
+})
+
 ava('.query() should take roles into account', async (test) => {
 	const actor = await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
 		slug: 'johndoe',
@@ -1549,6 +1652,84 @@ ava('.query() should ignore queries to properties not whitelisted by a role', as
 			}
 		}
 	})
+
+	test.deepEqual(results, [
+		{
+			type: 'type',
+			slug: 'user'
+		}
+	])
+})
+
+ava('.query() should ignore $id properties in roles', async (test) => {
+	const actor = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'johndoe',
+			type: 'card',
+			version: '1.0.0',
+			data: {
+				email: 'johndoe@example.io',
+				roles: [ 'foo' ]
+			}
+		})
+
+	const session = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: test.context.generateRandomSlug({
+				prefix: 'session'
+			}),
+			type: 'session',
+			version: '1.0.0',
+			data: {
+				actor: actor.id
+			}
+		})
+
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'view-read-foo',
+			type: 'view',
+			version: '1.0.0',
+			data: {
+				allOf: [
+					{
+						name: 'Types',
+						schema: {
+							type: 'object',
+							$id: 'foobar',
+							additionalProperties: false,
+							properties: {
+								slug: {
+									type: 'string'
+								},
+								type: {
+									type: 'string',
+									const: 'type'
+								}
+							}
+						}
+					}
+				]
+			}
+		})
+
+	const results = await test.context.kernel.query(
+		test.context.context, session.id, {
+			type: 'object',
+			additionalProperties: true,
+			properties: {
+				id: {
+					type: 'string'
+				},
+				type: {
+					type: 'string'
+				},
+				slug: {
+					type: 'string',
+					pattern: '^user'
+				}
+			}
+		})
 
 	test.deepEqual(results, [
 		{
