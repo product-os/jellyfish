@@ -12,7 +12,7 @@ import {
 import styled from 'styled-components';
 import uuid = require('uuid/v4');
 import { Card, Lens, RendererProps } from '../../types';
-import EventCard from '../components/Event';
+import { Event as EventCard } from '../components/Event';
 import Icon from '../components/Icon';
 import { analytics, sdk } from '../core';
 import { actionCreators, selectors, StoreState } from '../core/store';

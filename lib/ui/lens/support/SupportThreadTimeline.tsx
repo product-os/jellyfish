@@ -13,7 +13,7 @@ import {
 import styled from 'styled-components';
 import { Card, Lens, RendererProps } from '../../../types';
 import AutocompleteTextarea from '../../components/AutocompleteTextarea';
-import EventCard from '../../components/Event';
+import { Event as EventCard } from '../../components/Event';
 import Icon from '../../components/Icon';
 import { TailStreamer } from '../../components/TailStreamer';
 import { analytics, sdk } from '../../core';
