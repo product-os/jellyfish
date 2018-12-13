@@ -40,7 +40,9 @@ exports.backend = {
 		test.context.backend = new Backend(cache, {
 			host: process.env.DB_HOST,
 			port: process.env.DB_PORT,
-			database: dbName
+			database: dbName,
+			buffer: process.env.RETHINKDB_MIN_POOL_SIZE,
+			max: process.env.RETHINKDB_MAX_POOL_SIZE
 		})
 
 		test.context.generateRandomSlug = exports.generateRandomSlug

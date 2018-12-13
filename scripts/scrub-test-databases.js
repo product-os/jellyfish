@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 
 const Promise = require('bluebird')
-const rethinkdb = require('rethinkdb')
-const _ = require('lodash')
+const rethinkdb = require('rebirthdb-js')({
+	host: process.env.DB_HOST || 'localhost'
+})
+
 const Spinner = require('cli-spinner').Spinner
 
 // Removes rethinkdb databases that are prefixed with `test_`
@@ -11,13 +13,9 @@ const scrub = async () => {
 
 	spinner.start()
 
-	const connection = await rethinkdb.connect(_.merge({
-		host: process.env.DB_HOST || 'localhost'
-	}, this.options))
-
 	const list = await rethinkdb
 		.dbList()
-		.run(connection)
+		.run()
 
 	const testDatabases = list.filter((database) => {
 		return database.match(/test_/)
@@ -32,7 +30,7 @@ const scrub = async () => {
 	await Promise.map(
 		testDatabases,
 		(database) => {
-			return rethinkdb.dbDrop(database).run(connection)
+			return rethinkdb.dbDrop(database).run()
 				.then(() => {
 					spinner.setSpinnerTitle(`%s Dropped database ${database} (${++count}/${testDatabases.length})`)
 				})
@@ -45,7 +43,7 @@ const scrub = async () => {
 	spinner.stop(true)
 	console.log(`Dropped ${testDatabases.length} test databases`)
 
-	connection.close()
+	await rethinkdb.getPoolMaster().drain()
 }
 
 scrub()

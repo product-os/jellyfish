@@ -1,14 +1,12 @@
 #!/usr/bin/env node
 
 const Promise = require('bluebird')
-const rethinkdb = require('rethinkdb')
+const rethinkdb = require('rebirthdb-js')()
 
 const reset = async () => {
-	const connection = await rethinkdb.connect(this.options)
-
 	const list = await rethinkdb
 		.dbList()
-		.run(connection)
+		.run()
 
 	await Promise.map(list, (database) => {
 		// This is a special database
@@ -16,7 +14,7 @@ const reset = async () => {
 			return null
 		}
 
-		return rethinkdb.dbDrop(database).run(connection).then(() => {
+		return rethinkdb.dbDrop(database).run().then(() => {
 			console.log(`Dropped database ${database}`)
 		})
 	}, {
@@ -24,7 +22,7 @@ const reset = async () => {
 	})
 
 	console.log('Done')
-	connection.close()
+	await rethinkdb.getPoolMaster().drain()
 }
 
 reset()
