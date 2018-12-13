@@ -58,7 +58,7 @@ exports.kernel = {
 		await exports.backend.beforeEach(test)
 		test.context.kernel = new Kernel(test.context.backend)
 
-		await test.context.kernel.initialize()
+		await test.context.kernel.initialize({}, false)
 	},
 	afterEach: async (test) => {
 		await test.context.kernel.disconnect()
