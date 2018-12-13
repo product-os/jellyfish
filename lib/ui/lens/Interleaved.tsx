@@ -62,7 +62,7 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 			messagesOnly: true,
 		};
 
-		setTimeout(() => this.scrollToBottom(), 1000);
+		setTimeout(() => this.scrollToBottom());
 	}
 
 	public componentWillUpdate(): void {
