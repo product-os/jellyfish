@@ -63,7 +63,7 @@ rules:
   dot-notation:
     - error
   guard-for-in:
-    - error
+    - off
   no-alert:
     - error
   no-case-declarations:
