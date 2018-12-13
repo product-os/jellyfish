@@ -153,8 +153,13 @@ export default class Event extends React.Component<EventProps, { actorName: stri
 			padding: '8px 16px',
 			marginRight: 8,
 			marginLeft: 16,
+
+			// Min-width is used to stop text from overflowing the flex container, see
+			// https://css-tricks.com/flexbox-truncated-text/ for a nice explanation
+			minWidth: 0,
 		} : {
 			marginLeft: 16,
+			minWidth: 0,
 		};
 
 		const flexDir = card.type === 'whisper' ? 'row-reverse' : 'row';
