@@ -276,7 +276,7 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 					onClick={this.showChangelog}
 				>
 					<Txt monospace>
-						v{this.props.version} - view changelog
+						v{this.props.version}
 					</Txt>
 				</Link>
 
