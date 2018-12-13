@@ -1,52 +1,72 @@
 # Javascript Node CircleCI 2.0 configuration file
 #
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
-#
+
+aliases:
+  workflow_filter: &workflow_filter
+      filters:
+          branches:
+            ignore:
+              - /(.*)-build-[a-f0-9]{40}$/
+              - master
+
+  job_defaults: &job_defaults
+      docker:
+        - image: resinci/jellyfish-test
+
+      working_directory: ~/repo
+
 version: 2
 dependencies:
   pre:
 jobs:
   build:
-    branches:
-      ignore:
-        - /(.*)-build-[a-f0-9]{40}$/
-        - master
-    docker:
-      - image: resinci/jellyfish-test
+    <<: *job_defaults
 
-    working_directory: ~/repo
+    steps:
+        - checkout
+
+        # Restore cached dependencies
+        - restore_cache:
+            keys:
+            - v2-dependencies-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v2-dependencies-
+
+        # --unsafe-perm flag allows the postinstall script to run correctly
+        - run:
+            name: Install Dependencies
+            command: npm ci --unsafe-perm && make build
+
+        - save_cache:
+            paths:
+              - /root/.npm
+            key: v2-dependencies-{{ checksum "package.json" }}
+
+        - persist_to_workspace:
+            root: .
+            paths:
+                - dist
+                - node_modules
+
+  unit_tests:
+    <<: *job_defaults
 
     steps:
       - checkout
 
-      # Restore cached dependencies
-      - restore_cache:
-          keys:
-          - v2-dependencies-{{ checksum "package.json" }}
-          # fallback to using the latest cache if no exact match is found
-          - v2-dependencies-
-
-      # --unsafe-perm flag allows the postinstall script to run correctly
-      - run:
-          name: Install Dependencies
-          command: npm ci --unsafe-perm && make build
-
-      - run:
-          name: Generate Docs
-          command: make dist/docs.html
-
-      - save_cache:
-          paths:
-            - /root/.npm
-          key: v2-dependencies-{{ checksum "package.json" }}
+      - attach_workspace:
+          at: .
 
       - run:
           name: Start RethinkDB
           command: rethinkdb --daemon --bind all
 
-      # Setup artifact store for UI integration test screenshots
-      - run: mkdir -p /tmp/test-results/screenshots
 
+      - run: mkdir -p /tmp/test-results/screenshots
+      - run:
+          name: Generate Docs
+          command: make dist/docs.html
       - run:
           name: Lint
           command: make lint
@@ -56,21 +76,90 @@ jobs:
       - run:
           name: Backend Tests Without Cache
           command: make test COVERAGE=1 DISABLE_CACHE=1 FILES=./test/unit/core/backend.spec.js
+
+      - run:
+          name: Store Code Coverage Results
+          command: make report-coverage && cp -rf coverage /tmp/test-results
+
+      # Store artifacts for debugging purposes
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results
+
+  integration_tests:
+    <<: *job_defaults
+
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: .
+
+      - run:
+          name: Start RethinkDB
+          command: rethinkdb --daemon --bind all
+
+      # Setup artifact store for UI integration test screenshots
+      - run: mkdir -p /tmp/test-results/screenshots
+
       - run:
           name: Integration Tests
           command: make test-integration COVERAGE=1
       - run:
           name: Sync Integration Tests Without Tokens
           command: make test-integration-sync COVERAGE=1 INTEGRATION_GITHUB_TOKEN= INTEGRATION_FRONT_TOKEN=
+
+      # Store artifacts for debugging purposes
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results
+
+  integration_tests_prod:
+    <<: *job_defaults
+
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: .
+
+      - run:
+          name: Start RethinkDB
+          command: rethinkdb --daemon --bind all
+
+      # Setup artifact store for UI integration test screenshots
+      - run: mkdir -p /tmp/test-results/screenshots
+
       - run:
           name: Load Production Database Snapshot
           command: node ./scripts/reset-database.js && ./scripts/import-latest-production-backup.sh
       - run:
           name: Integration Tests (on production database)
           command: make test-integration COVERAGE=1 NODE_ENV=production
+
+      # Store artifacts for debugging purposes
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results
+
+  stress_tests:
+    <<: *job_defaults
+
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: .
+
       - run:
-          name: Store Code Coverage Results
-          command: make report-coverage && cp -rf coverage /tmp/test-results
+          name: Start RethinkDB
+          command: rethinkdb --daemon --bind all
 
       # Stress Testing
       - run:
@@ -89,9 +178,29 @@ jobs:
           name: Parallel Core Inserts (previous)
           command: node stress/core/insert-parallel.js
 
-      # Store artifacts for debugging purposes
-      - store_test_results:
-          path: /tmp/test-results
-      - store_artifacts:
-          path: /tmp/test-results
-          destination: test-results
+workflows:
+    version: 2
+    build:
+        jobs:
+            - build:
+                <<: *workflow_filter
+
+            - unit_tests:
+                requires:
+                    - build
+                <<: *workflow_filter
+
+            - integration_tests:
+                requires:
+                    - build
+                <<: *workflow_filter
+
+            - integration_tests_prod:
+                requires:
+                    - build
+                <<: *workflow_filter
+
+            - stress_tests:
+                requires:
+                    - build
+                <<: *workflow_filter
