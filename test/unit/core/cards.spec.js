@@ -20,10 +20,6 @@ const path = require('path')
 const fs = require('fs')
 const skhema = require('skhema')
 const CARDS = require('../../../lib/core/cards')
-const helpers = require('./helpers')
-
-ava.beforeEach(helpers.kernel.beforeEach)
-ava.afterEach(helpers.kernel.afterEach)
 
 const isCardMacro = async (test, type, card, expected) => {
 	test.deepEqual(skhema.isValid(type.data.schema, card), expected)
