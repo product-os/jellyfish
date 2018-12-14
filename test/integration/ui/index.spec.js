@@ -15,7 +15,6 @@
  */
 
 const ava = require('ava')
-const Bluebird = require('bluebird')
 const _ = require('lodash')
 const randomstring = require('randomstring')
 const helpers = require('./helpers')
@@ -231,120 +230,6 @@ ava.serial('should stop users from seeing messages attached to cards they can\'t
 	})
 
 	test.not(messageText, lastMessage)
-})
-
-ava.serial('should allow team-admin users to update user\'s roles', async (test) => {
-	const {
-		page
-	} = context
-
-	await macros.logout(page)
-
-	const teamAdminUser = await page.evaluate((admin) => {
-		return window.sdk.auth.signup(admin)
-	}, users.admin)
-
-	// Give the new user the team-admin role
-	const teamAdminUserCard = await context.server.jellyfish.getCardById(context.session, teamAdminUser.id, {
-		type: 'user'
-	})
-	await context.server.jellyfish.insertCard(
-		context.session,
-		_.merge(teamAdminUserCard, {
-			data: {
-				roles: [ 'user-team-admin' ]
-			}
-		}),
-		{
-			override: true
-		}
-	)
-
-	const balenaOrgCard = await context.server.jellyfish.getCardBySlug(context.session, 'org-balena', {
-		type: 'org'
-	})
-
-	// Add the admin user to the balena org
-	await context.server.jellyfish.insertCard(
-		context.session,
-		{
-			type: 'link',
-			slug: `link-${balenaOrgCard.id}--${teamAdminUserCard.id}`,
-			name: 'has member',
-			data: {
-				from: {
-					id: balenaOrgCard.id,
-					type: balenaOrgCard.type
-				},
-				to: {
-					id: teamAdminUserCard.id,
-					type: teamAdminUserCard.type
-				},
-				inverseName: 'is member of'
-			}
-		}
-	)
-
-	await page.type('.login-page__input--username', users.admin.username)
-	await page.type('.login-page__input--password', users.admin.password)
-
-	await page.click('.login-page__submit--login')
-
-	// Open `All users` view
-	await macros.waitForThenClickSelector(page, '.home-channel__item--view-all-users')
-
-	// Wait for results to appear in the view
-	await page.waitForSelector('.header-link', WAIT_OPTS)
-
-	// Search for the username so that the link appears in view
-	await macros.setInputValue(page, '.column--view-all-users input', users.community.username)
-	await Bluebird.delay(1000)
-
-	// Select the community user
-	await macros.waitForThenClickSelector(page, `.header-link--user-${users.community.username}`)
-
-	// Add a small delay to allow the data stream to intialise, normally this is
-	// an unnoticeable delay, but the test run fast enough to cause a race
-	// condition, where the card update can happen before the stream initialises,
-	// resulting in the timeline never being updated
-	await Bluebird.delay(500)
-
-	// Edit the community user
-	await macros.waitForThenClickSelector(page, '.card-actions__btn--edit')
-
-	// Add a new element to the `roles` array
-	await page.waitForSelector('.rendition-form__field--root_data_roles .rendition-form-array-item__add-item', WAIT_OPTS)
-
-	await Bluebird.delay(200)
-	await page.click('.rendition-form__field--root_data_roles .rendition-form-array-item__add-item')
-
-	await page.waitForSelector('#root_data_roles_1', WAIT_OPTS)
-
-	// Enter the 'user-team' role as a new role
-	// Using page.type to change this input field regularly cuases characters to
-	// be "dropped" - the workaround here is to use a script to set the value of
-	// the input, and then trigger a change event that React can respond to
-	await macros.setInputValue(page, '#root_data_roles_1', 'user-team')
-
-	// Add a small delay to allow the form change to propagate
-	await Bluebird.delay(500)
-
-	// Submit the form
-	await page.click('.card-edit-modal__submit')
-
-	// To detect the change we need to be able to see update cards in the timeline
-	// Toggle the checkbox on to show additional information
-	await page.click('.timeline__checkbox--additional-info')
-
-	// Allow some time for the request to process
-	await page.waitForSelector('.event-card--update', WAIT_OPTS)
-
-	// Retrieve the user card
-	const card = await page.evaluate((username) => {
-		return window.sdk.card.get(`user-${username}`)
-	}, users.community.username)
-
-	test.deepEqual(card.data.roles, [ 'user-community', 'user-team' ])
 })
 
 ava.serial('After updating a user\'s roles, the other user fields should remain intact', async (test) => {
