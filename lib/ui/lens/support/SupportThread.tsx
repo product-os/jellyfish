@@ -17,7 +17,7 @@ import styled from 'styled-components';
 import { Card, Lens, RendererProps, Type } from '../../../types';
 import { CardActions } from '../../components/CardActions';
 import { CloseButton } from '../../components/CloseButton';
-import EventCard from '../../components/Event';
+import { Event as EventCard } from '../../components/Event';
 import Icon from '../../components/Icon';
 import Label from '../../components/Label';
 import { Tag } from '../../components/Tag';

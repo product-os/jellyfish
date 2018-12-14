@@ -25,6 +25,9 @@
       "test/unit/**/*.spec.js",
       "test/integration/**/*.spec.js"
     ],
+    "require": [
+      "./test/integration/ui/browser-setup.js"
+    ],
     "babel": {
       "testOptions": {
         "presets": [
@@ -39,11 +42,12 @@
     "@babel/preset-react": "^7.0.0",
     "@types/bluebird": "^3.5.20",
     "ava": "^1.0.0-rc.2",
+    "browser-env": "^3.2.5",
     "cache-loader": "^1.2.2",
     "cli-spinner": "^0.2.8",
     "copy-webpack-plugin": "^4.5.1",
-    "enzyme": "^3.3.0",
-    "enzyme-adapter-react-16": "^1.1.1",
+    "enzyme": "^3.8.0",
+    "enzyme-adapter-react-16": "^1.7.1",
     "eslint": "^4.5.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-import": "^2.7.0",
@@ -140,7 +144,7 @@
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "remove-markdown": "^0.3.0",
-    "rendition": "^4.35.2",
+    "rendition": "^4.41.1",
     "reql-schema": "^1.1.1",
     "skhema": "4.0.3",
     "socket.io": "^2.1.0",

@@ -53,7 +53,7 @@ interface EventProps {
 	[k: string]: any;
 }
 
-export default class Event extends React.Component<EventProps, { actorName: string }> {
+export class Event extends React.Component<EventProps, { actorName: string }> {
 	public messageElement: HTMLElement;
 
 	constructor(props: EventProps) {
@@ -85,10 +85,13 @@ export default class Event extends React.Component<EventProps, { actorName: stri
 
 		const instance = new Mark(this.messageElement);
 
+		// TODO: Update @types/mark.js to include the 'ignoreGroups' options
+		// https://github.com/DefinitelyTyped/DefinitelyTyped/pull/31334
 		instance.markRegExp(tagMatchRE, {
 			element: 'span',
 			className: 'rendition-tag-hl',
-		});
+			ignoreGroups: 1,
+		} as any);
 	}
 
 	public openChannel = () => {
