@@ -32,11 +32,7 @@
           "pattern": "^[a-z0-9-]+$"
         },
         "tags": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-_/][a-zA-Z0-9-_/\\s]+[a-zA-Z0-9-_/]$"
-          }
+          "$ref": "../partials/tags.json"
         },
         "markers": {
           "type": "array",

@@ -22,23 +22,31 @@ const skhema = require('skhema')
 const CARDS = require('../../../lib/core/cards')
 
 const isCardMacro = async (test, type, card, expected) => {
-	test.deepEqual(skhema.isValid(type.data.schema, card), expected)
+	const schema = (await CARDS[type]).data.schema
+	test.deepEqual(skhema.isValid(schema, card), expected)
 }
 
 isCardMacro.title = (title, type, card, expected) => {
-	return `(${title}) skhema.valid() should return ${expected} using type ${type.slug}`
+	return `(${title}) skhema.valid() should return ${expected} using type ${type}`
 }
 
-_.each(_.map(fs.readdirSync(path.join(__dirname, 'cards')), (file) => {
+const testCases = _.map(fs.readdirSync(path.join(__dirname, 'cards')), (file) => {
 	return {
 		name: file,
 		json: require(path.join(__dirname, 'cards', file))
 	}
-}), (testCase) => {
-	ava(`examples: ${testCase.name}`, isCardMacro, CARDS.card, testCase.json.card, testCase.json.valid)
 })
 
-_.each(CARDS, (value, key) => {
-	ava(key, isCardMacro, CARDS.card, value, true)
-	ava(key, isCardMacro, CARDS[value.type], value, true)
+testCases.forEach((testCase) => {
+	ava(`examples: ${testCase.name}`, isCardMacro, 'card', testCase.json.card, testCase.json.valid)
+})
+
+_.each(CARDS, async (value, key) => {
+	ava(`The "${key}" card should validate against the card type and its own type`, async (test) => {
+		const card = await value
+		const cardSchema = (await CARDS.card).data.schema
+		const typeSchema = (await CARDS[card.type]).data.schema
+		test.true(skhema.isValid(cardSchema, card))
+		test.true(skhema.isValid(typeSchema, card))
+	})
 })

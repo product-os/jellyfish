@@ -24,10 +24,11 @@ const helpers = require('./helpers')
 ava.beforeEach(helpers.kernel.beforeEach)
 ava.afterEach(helpers.kernel.afterEach)
 
-for (const card of _.values(CARDS)) {
-	ava(`should contain the ${card.slug} card by default`, async (test) => {
+for (const key in CARDS) {
+	ava(`should contain the ${key} card by default`, async (test) => {
+		const card = await CARDS[key]
 		const element = await test.context.kernel.getCardBySlug(test.context.kernel.sessions.admin, card.slug)
-		test.deepEqual(CARDS[card.slug], _.omit(element, [ 'id' ]))
+		test.deepEqual(card, _.omit(element, [ 'id' ]))
 	})
 }
 
@@ -1318,7 +1319,7 @@ ava('.query() should take roles into account', async (test) => {
 	})
 
 	test.deepEqual(results, [
-		_.pick(CARDS.user, [ 'type', 'slug', 'active', 'data', 'markers' ])
+		_.pick(await CARDS.user, [ 'type', 'slug', 'active', 'data', 'markers' ])
 	])
 })
 
