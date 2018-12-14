@@ -65,6 +65,7 @@ ava('.insertCard() should insert a card', async (test) => {
 	test.deepEqual(test.context.queue, [])
 	const card = await test.context.jellyfish.getCardById(test.context.session, result.id)
 	test.deepEqual(card, test.context.jellyfish.defaults({
+		created_at: result.created_at,
 		id: result.id,
 		slug: 'foo',
 		type: 'card',
@@ -1104,6 +1105,7 @@ ava('.insertCard() should add a triggered action given a type with an AGGREGATE 
 
 	test.deepEqual(triggers, [
 		{
+			created_at: triggers[0].created_at,
 			id: triggers[0].id,
 			slug: 'triggered-action-test-thread-data-mentions',
 			type: 'triggered-action',
@@ -1353,6 +1355,7 @@ ava('.run() should create a card', async (test) => {
 	})
 
 	test.deepEqual(result, {
+		created_at: result.created_at,
 		id: result.id,
 		slug: 'foo-bar-baz',
 		type: 'card',

@@ -101,7 +101,9 @@ ava.serial('.action() should resolve with the created card', async (test) => {
 		}
 	})
 
-	test.deepEqual(_.omit(card, 'id'), {
+	test.deepEqual(card, {
+		created_at: card.created_at,
+		id: card.id,
 		name,
 		slug,
 		version: '1.0.0',
@@ -143,7 +145,7 @@ ava.serial('.query() should run a query on the server', async (test) => {
 
 	await sdk.setAuthToken(test.context.session)
 
-	const result = await sdk.query({
+	const results = await sdk.query({
 		type: 'object',
 		properties: {
 			name: {
@@ -154,7 +156,9 @@ ava.serial('.query() should run a query on the server', async (test) => {
 		additionalProperties: true
 	})
 
-	test.deepEqual(_.omit(_.first(result), 'id'), {
+	test.deepEqual(results[0], {
+		id: results[0].id,
+		created_at: results[0].created_at,
 		name,
 		slug,
 		version: '1.0.0',
@@ -743,7 +747,9 @@ ava.serial('.card.create() should resolve with the created card', async (test) =
 		slug
 	})
 
-	test.deepEqual(_.omit(card, 'id'), {
+	test.deepEqual(card, {
+		id: card.id,
+		created_at: card.created_at,
 		version: '1.0.0',
 		slug,
 		type: 'card',

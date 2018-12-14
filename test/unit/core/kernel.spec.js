@@ -17,6 +17,7 @@
 const ava = require('ava')
 const _ = require('lodash')
 const Bluebird = require('bluebird')
+const uuid = require('uuid/v4')
 const errors = require('../../../lib/core/errors')
 const CARDS = require('../../../lib/core/cards')
 const helpers = require('./helpers')
@@ -28,7 +29,7 @@ for (const key in CARDS) {
 	ava(`should contain the ${key} card by default`, async (test) => {
 		const card = await CARDS[key]
 		const element = await test.context.kernel.getCardBySlug(test.context.kernel.sessions.admin, card.slug)
-		test.deepEqual(card, _.omit(element, [ 'id' ]))
+		test.deepEqual(card, _.omit(element, [ 'created_at', 'id' ]))
 	})
 }
 
@@ -94,7 +95,9 @@ ava('.insertCard() should use defaults if required keys are missing', async (tes
 		type: 'card'
 	})
 
-	test.deepEqual(_.omit(card, [ 'id' ]), {
+	test.deepEqual(card, {
+		id: card.id,
+		created_at: card.created_at,
 		slug: 'hello-world',
 		type: 'card',
 		active: true,
@@ -207,6 +210,7 @@ ava('.insertCard() should update links property when linking two cards', async (
 	const element2 = await test.context.kernel.getCardById(test.context.kernel.sessions.admin, card2.id)
 
 	test.deepEqual(element1, {
+		created_at: card1.created_at,
 		id: card1.id,
 		slug: 'foo-bar',
 		type: 'card',
@@ -229,6 +233,7 @@ ava('.insertCard() should update links property when linking two cards', async (
 	})
 
 	test.deepEqual(element2, {
+		created_at: card2.created_at,
 		id: card2.id,
 		slug: 'bar-baz',
 		type: 'card',
@@ -277,6 +282,7 @@ ava('.insertCard() should not update links property when linking a valid card to
 	const element1 = await test.context.kernel.getCardById(test.context.kernel.sessions.admin, card1.id)
 
 	test.deepEqual(element1, {
+		created_at: card1.created_at,
 		id: card1.id,
 		slug: 'foo-bar',
 		type: 'card',
@@ -317,6 +323,7 @@ ava('.insertCard() should not update links property when linking an invalid card
 	const element2 = await test.context.kernel.getCardById(test.context.kernel.sessions.admin, card2.id)
 
 	test.deepEqual(element2, {
+		created_at: card2.created_at,
 		id: card2.id,
 		slug: 'bar-baz',
 		type: 'card',
@@ -380,6 +387,7 @@ ava('.insertCard() should update links property when linking two cards in two di
 	const element2 = await test.context.kernel.getCardById(test.context.kernel.sessions.admin, card2.id)
 
 	test.deepEqual(element1, {
+		created_at: card1.created_at,
 		id: card1.id,
 		slug: 'foo-bar',
 		type: 'card',
@@ -409,6 +417,7 @@ ava('.insertCard() should update links property when linking two cards in two di
 	})
 
 	test.deepEqual(element2, {
+		created_at: card2.created_at,
 		id: card2.id,
 		slug: 'bar-baz',
 		type: 'card',
@@ -509,6 +518,7 @@ ava('.insertCard() should be able to remove a link', async (test) => {
 	const element2 = await test.context.kernel.getCardById(test.context.kernel.sessions.admin, card2.id)
 
 	test.deepEqual(element1, {
+		created_at: card1.created_at,
 		id: card1.id,
 		slug: 'foo-bar',
 		type: 'card',
@@ -532,6 +542,7 @@ ava('.insertCard() should be able to remove a link', async (test) => {
 	})
 
 	test.deepEqual(element2, {
+		created_at: card2.created_at,
 		id: card2.id,
 		slug: 'bar-baz',
 		type: 'card',
@@ -894,6 +905,23 @@ ava('.insertCard() should restrict the visibility of the user using write roles'
 	}, {
 		writeMode: true
 	}), errors.JellyfishUnknownCardType)
+})
+
+ava('.insertCard() should not overwrite the "created_at" field when overriding a card', async (test) => {
+	const card = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: `card-${uuid()}`,
+		type: 'card'
+	})
+
+	const update = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: card.slug,
+		type: 'card',
+		created_at: new Date(633009018000).toISOString()
+	}, {
+		override: true
+	})
+
+	test.is(card.created_at, update.created_at)
 })
 
 ava('.getCardBySlug() there should be an admin card', async (test) => {

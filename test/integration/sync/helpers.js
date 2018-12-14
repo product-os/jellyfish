@@ -107,7 +107,8 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 
 	test.deepEqual(Object.assign({}, testCase.expected.head, _.omitBy({
 		id: head.id,
-		slug: head.slug
+		slug: head.slug,
+		created_at: head.created_at
 	}, _.isEmpty)), head)
 
 	test.deepEqual(testCase.expected.tail.map((card, index) => {
@@ -120,11 +121,13 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 		Reflect.deleteProperty(card, 'slug')
 		Reflect.deleteProperty(card, 'links')
 		Reflect.deleteProperty(card, 'markers')
+		Reflect.deleteProperty(card, 'created_at')
 
 		if (card.data.payload) {
 			Reflect.deleteProperty(card.data.payload, 'slug')
 			Reflect.deleteProperty(card.data.payload, 'links')
 			Reflect.deleteProperty(card.data.payload, 'markers')
+			Reflect.deleteProperty(card.data.payload, 'created_at')
 		}
 
 		return card

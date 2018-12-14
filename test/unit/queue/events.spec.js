@@ -274,6 +274,7 @@ ava('.getLastExecutionEvent() should return the last execution event given one e
 		'cb3523c5-b37d-41c8-ae32-9e7cc9309165')
 
 	test.deepEqual(event, test.context.kernel.defaults({
+		created_at: card.created_at,
 		id: card.id,
 		slug: event.slug,
 		type: 'execute',
@@ -326,6 +327,7 @@ ava('.getLastExecutionEvent() should return the last event given a matching and 
 		'cb3523c5-b37d-41c8-ae32-9e7cc9309165')
 
 	test.deepEqual(event, test.context.kernel.defaults({
+		created_at: card1.created_at,
 		id: card1.id,
 		slug: event.slug,
 		type: 'execute',
@@ -378,6 +380,7 @@ ava('.getLastExecutionEvent() should return the last execution event given two m
 		'cb3523c5-b37d-41c8-ae32-9e7cc9309165')
 
 	test.deepEqual(event, test.context.kernel.defaults({
+		created_at: card1.created_at,
 		id: card1.id,
 		slug: event.slug,
 		type: 'execute',

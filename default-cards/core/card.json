@@ -44,6 +44,10 @@
         "links": {
           "type": "object"
         },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
         "active": {
           "type": "boolean"
         },
@@ -67,6 +71,7 @@
       "additionalProperties": false,
       "required": [
         "active",
+        "created_at",
         "slug",
         "capabilities",
         "data",

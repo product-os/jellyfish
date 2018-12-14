@@ -69,6 +69,7 @@ ava('.importCards() should import a single card', async (test) => {
 
 	test.deepEqual(result, [
 		test.context.kernel.defaults({
+			created_at: result[0].created_at,
 			id: result[0].id,
 			slug: 'hello-world',
 			links: result[0].links,
@@ -111,6 +112,7 @@ ava('.importCards() should patch an existing card', async (test) => {
 
 	test.deepEqual(result, [
 		test.context.kernel.defaults({
+			created_at: card.created_at,
 			id: card.id,
 			slug: 'foo',
 			type: 'card',
@@ -154,6 +156,7 @@ ava('.importCards() should import two independent cards', async (test) => {
 
 	test.deepEqual(result, [
 		{
+			created_at: result[0].created_at,
 			id: result[0].id,
 			slug: 'foo',
 			links: result[0].links,
@@ -164,6 +167,7 @@ ava('.importCards() should import two independent cards', async (test) => {
 			}
 		},
 		{
+			created_at: result[1].created_at,
 			id: result[1].id,
 			slug: 'bar',
 			links: result[1].links,
@@ -210,6 +214,7 @@ ava('.importCards() should import two parallel cards', async (test) => {
 
 	test.deepEqual(sortedResult, [
 		{
+			created_at: sortedResult[0].created_at,
 			id: sortedResult[0].id,
 			links: sortedResult[0].links,
 			slug: 'foo',
@@ -220,6 +225,7 @@ ava('.importCards() should import two parallel cards', async (test) => {
 			}
 		},
 		{
+			created_at: sortedResult[1].created_at,
 			id: sortedResult[1].id,
 			links: sortedResult[1].links,
 			slug: 'bar',
@@ -264,6 +270,7 @@ ava('.importCards() should import dependent cards', async (test) => {
 
 	test.deepEqual(result, [
 		test.context.kernel.defaults({
+			created_at: result[0].created_at,
 			id: result[0].id,
 			active: true,
 			slug: 'foo',
@@ -277,6 +284,7 @@ ava('.importCards() should import dependent cards', async (test) => {
 			}
 		}),
 		test.context.kernel.defaults({
+			created_at: result[1].created_at,
 			id: result[1].id,
 			active: true,
 			slug: 'bar',
@@ -371,6 +379,7 @@ ava('.importCards() should import a dependent card in parallel segment', async (
 
 	test.deepEqual(sortedResult, [
 		{
+			created_at: sortedResult[0].created_at,
 			id: sortedResult[0].id,
 			links: sortedResult[0].links,
 			slug: 'foo',
@@ -381,6 +390,7 @@ ava('.importCards() should import a dependent card in parallel segment', async (
 			}
 		},
 		{
+			created_at: sortedResult[1].created_at,
 			id: sortedResult[1].id,
 			links: sortedResult[1].links,
 			slug: 'bar',
@@ -391,6 +401,7 @@ ava('.importCards() should import a dependent card in parallel segment', async (
 			}
 		},
 		{
+			created_at: sortedResult[2].created_at,
 			id: sortedResult[2].id,
 			links: sortedResult[2].links,
 			slug: 'baz',
@@ -482,6 +493,7 @@ ava('.translateExternalEvent() should translate an external event through the no
 
 	test.deepEqual(result, [
 		test.context.kernel.defaults({
+			created_at: result[0].created_at,
 			id: result[0].id,
 			slug,
 			type: 'card',
