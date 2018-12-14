@@ -68,7 +68,7 @@
     "nyc": "^11.4.1",
     "percentile": "^1.2.1",
     "puppeteer": "^1.6.2",
-    "request": "^2.85.0",
+    "request": "^2.88.0",
     "source-map-loader": "^0.2.3",
     "supervisor": "^0.12.0",
     "thread-loader": "^1.1.5",
@@ -80,7 +80,7 @@
     "webpack": "^4.1.1",
     "webpack-bundle-analyzer": "^2.13.1",
     "webpack-cli": "^2.0.12",
-    "webpack-dev-server": "^3.1.1"
+    "webpack-dev-server": "^3.1.10"
   },
   "dependencies": {
     "@octokit/rest": "^16.0.2",
