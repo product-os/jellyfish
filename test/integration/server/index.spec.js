@@ -54,84 +54,6 @@ ava.serial('Users should not be able to view other users passwords', async (test
 	test.is(fetchedUser.data.password, undefined)
 })
 
-ava.serial('Users with the role "team" should not be able to view other users passwords', async (test) => {
-	const {
-		sdk
-	} = test.context
-
-	const targetUser = await sdk.auth.signup({
-		username: randomstring.generate(),
-		email: `${randomstring.generate()}@example.com`,
-		password: 'foobarbaz'
-	})
-
-	const activeUserDetails = {
-		username: randomstring.generate(),
-		email: `${randomstring.generate()}@example.com`,
-		password: 'foobarbaz'
-	}
-
-	const activeUser = await sdk.auth.signup(activeUserDetails)
-
-	// Update the role on the admin user
-	await test.context.jellyfish.insertCard(
-		test.context.session,
-		_.merge(activeUser, {
-			data: {
-				roles: [ 'user-team' ]
-			}
-		}),
-		{
-			override: true
-		}
-	)
-
-	await sdk.auth.login(activeUserDetails)
-
-	const fetchedUser = await sdk.card.get(targetUser.id)
-
-	test.is(fetchedUser.data.password, undefined)
-})
-
-ava.serial('Users with the role "team-admin" should not be able to view other users passwords', async (test) => {
-	const {
-		sdk
-	} = test.context
-
-	const targetUser = await sdk.auth.signup({
-		username: randomstring.generate(),
-		email: `${randomstring.generate()}@example.com`,
-		password: 'foobarbaz'
-	})
-
-	const activeUserDetails = {
-		username: randomstring.generate(),
-		email: `${randomstring.generate()}@example.com`,
-		password: 'foobarbaz'
-	}
-
-	const activeUser = await sdk.auth.signup(activeUserDetails)
-
-	// Update the role on the admin user
-	await test.context.jellyfish.insertCard(
-		test.context.session,
-		_.merge(activeUser, {
-			data: {
-				roles: [ 'user-team-admin' ]
-			}
-		}),
-		{
-			override: true
-		}
-	)
-
-	await sdk.auth.login(activeUserDetails)
-
-	const fetchedUser = await sdk.card.get(targetUser.id)
-
-	test.is(fetchedUser.data.password, undefined)
-})
-
 ava.serial('.query() the guest user should only see its own private fields', async (test) => {
 	await test.context.sdk.auth.signup({
 		username: randomstring.generate(),
@@ -415,91 +337,23 @@ ava.serial('users with the "user-community" role should not be able to change ot
 	))
 })
 
-ava.serial('users with the "user-team" role should not be able to change other users passwords', async (test) => {
-	const {
-		sdk
-	} = test.context
-
-	const role = 'user-team'
-	const username = randomstring.generate().toLowerCase()
-	const email = `${randomstring.generate()}@example.com`
-
-	const targetUser = await sdk.auth.signup({
-		username,
-		email,
-		password: 'foobarbaz'
-	})
-
-	const teamUsername = randomstring.generate().toLowerCase()
-	const teamEmail = `${randomstring.generate()}@example.com`
-
-	const teamUser = await sdk.auth.signup({
-		username: teamUsername,
-		email: teamEmail,
-		password: 'foobarbaz'
-	})
-
-	// Update the role on the team user
-	await test.context.jellyfish.insertCard(
-		test.context.session,
-		_.merge(teamUser, {
-			data: {
-				roles: [ role ]
-			}
-		}),
-		{
-			override: true
-		}
-	)
-
-	await sdk.auth.login({
-		username: teamUsername,
-		password: 'foobarbaz'
-	})
-
-	await test.throwsAsync(sdk.card.update(
-		targetUser.id,
-		{
-			data: {
-				password: {
-					hash: '6dafdadfffffffaaaaa'
-				}
-			}
-		}
-	))
-})
-
 ava.serial('AGGREGATE($events): should work when creating cards via the SDK', async (test) => {
 	const {
 		sdk
 	} = test.context
 
 	const id = 'ba1af3bb-1f8b-4943-ae0f-8e5bd39cf48b'
-	const username = randomstring.generate().toLowerCase()
-	const email = `${randomstring.generate()}@example.com`
+	const userDetails = {
+		username: randomstring.generate().toLowerCase(),
+		email: `${randomstring.generate()}@example.com`,
+		password: 'foobarbaz'
+	}
 
 	// Create a new user
-	const user = await sdk.auth.signup({
-		username,
-		email,
-		password: 'foobarbaz'
-	})
-
-	// Sign in as the admin
-	await sdk.setAuthToken(test.context.session)
-
-	// Update the user's permissions
-	await sdk.card.update(user.id, _.assign(user, {
-		data: {
-			roles: [ 'user-team' ]
-		}
-	}))
+	await sdk.auth.signup(userDetails)
 
 	// Login as the new user
-	await sdk.auth.login({
-		username,
-		password: 'foobarbaz'
-	})
+	await sdk.auth.login(userDetails)
 
 	// Create a new thread element
 	const thread = await sdk.card.create({
@@ -554,51 +408,25 @@ ava.serial('When updating a user, inaccessible fields should not be removed', as
 		sdk
 	} = test.context
 
-	const username = randomstring.generate().toLowerCase()
-	const email = `${randomstring.generate()}@example.com`
-
-	// Create a new user
-	const user = await sdk.auth.signup({
-		username,
-		email,
+	const userDetails = {
+		username: randomstring.generate().toLowerCase(),
+		email: `${randomstring.generate()}@example.com`,
 		password: 'foobarbaz'
-	})
-
-	const teamUsername = randomstring.generate().toLowerCase()
-	const teamEmail = `${randomstring.generate()}@example.com`
-
-	const teamAdminUserData = {
-		username: teamUsername,
-		email: teamEmail,
-		password: 'password'
 	}
 
-	const teamAdminUser = await sdk.auth.signup(teamAdminUserData)
+	// Create a new user
+	const user = await sdk.auth.signup(userDetails)
 
-	await test.context.jellyfish.insertCard(
-		test.context.session,
-		_.merge(teamAdminUser, {
-			data: {
-				roles: [ 'user-team-admin' ]
-			}
-		}),
-		{
-			override: true
-		}
-	)
-
-	await sdk.auth.login(teamAdminUserData)
-
-	const userCard = await sdk.card.get(user.id)
+	await sdk.auth.login(userDetails)
 
 	await sdk.card.update(
-		userCard.id,
+		user.id,
 		_.merge(
-			_.omit(userCard, [ 'data', 'password' ]),
+			_.omit(user, [ 'data', 'password' ]),
 			{
-				type: userCard.type,
+				type: user.type,
 				data: {
-					roles: [ 'user-team' ]
+					email: 'test@example.com'
 				}
 			}
 		)
@@ -609,69 +437,9 @@ ava.serial('When updating a user, inaccessible fields should not be removed', as
 			type: 'user'
 		})
 
-	test.is(_.has(rawUserCard, [ 'data', 'email' ]), true)
+	test.is(rawUserCard.data.email, 'test@example.com')
 	test.is(_.has(rawUserCard, [ 'data', 'roles' ]), true)
 	test.is(_.has(rawUserCard, [ 'data', 'password', 'hash' ]), true)
-})
-
-ava.serial('A team admin user should be able to update another user\'s roles', async (test) => {
-	const {
-		sdk
-	} = test.context
-
-	const username = randomstring.generate().toLowerCase()
-	const email = `${randomstring.generate()}@example.com`
-
-	// Create a new user
-	const user = await sdk.auth.signup({
-		username,
-		email,
-		password: 'foobarbaz'
-	})
-
-	const teamUsername = randomstring.generate().toLowerCase()
-	const teamEmail = `${randomstring.generate()}@example.com`
-
-	const teamAdminUserData = {
-		username: teamUsername,
-		email: teamEmail,
-		password: 'password'
-	}
-
-	const teamAdminUser = await sdk.auth.signup(teamAdminUserData)
-
-	await test.context.jellyfish.insertCard(
-		test.context.session,
-		_.merge(teamAdminUser, {
-			data: {
-				roles: [ 'user-team-admin' ]
-			}
-		}),
-		{
-			override: true
-		}
-	)
-
-	await sdk.auth.login(teamAdminUserData)
-
-	await sdk.card.update(
-		user.id,
-		_.merge(
-			_.omit(user, [ 'data', 'password' ]),
-			{
-				data: {
-					roles: [ 'user-team' ]
-				}
-			}
-		)
-	)
-
-	const userCard =
-		await test.context.jellyfish.getCardById(test.context.session, user.id, {
-			type: 'user'
-		})
-
-	test.deepEqual(userCard.data.roles, [ 'user-team' ])
 })
 
 ava.serial('Users should not be able to login as the core admin user', async (test) => {
@@ -686,42 +454,35 @@ ava.serial('Users should not be able to login as the core admin user', async (te
 		username: 'admin'
 	}))
 
-	const roles = [
-		'user-community',
-		'user-team',
-		'user-team-admin'
-	]
+	const role = 'user-community'
 
-	// Test that each user role cannot login
-	for (const role of roles) {
-		sdk.auth.logout()
+	sdk.auth.logout()
 
-		const userData = {
-			username: `${role}-${randomstring.generate()}`,
-			email: `${role}-${randomstring.generate()}@example.com`,
-			password: 'password'
-		}
-
-		const user = await sdk.auth.signup(userData)
-
-		await test.context.jellyfish.insertCard(
-			test.context.session,
-			_.merge(user, {
-				data: {
-					roles: [ role ]
-				}
-			}),
-			{
-				override: true
-			}
-		)
-
-		await sdk.auth.login(userData)
-
-		await test.throwsAsync(sdk.auth.login({
-			username: 'admin'
-		}))
+	const userData = {
+		username: `${role}-${randomstring.generate()}`,
+		email: `${role}-${randomstring.generate()}@example.com`,
+		password: 'password'
 	}
+
+	const user = await sdk.auth.signup(userData)
+
+	await test.context.jellyfish.insertCard(
+		test.context.session,
+		_.merge(user, {
+			data: {
+				roles: [ role ]
+			}
+		}),
+		{
+			override: true
+		}
+	)
+
+	await sdk.auth.login(userData)
+
+	await test.throwsAsync(sdk.auth.login({
+		username: 'admin'
+	}))
 })
 
 if (process.env.NODE_ENV === 'production') {

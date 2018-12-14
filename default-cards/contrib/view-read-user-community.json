@@ -179,6 +179,10 @@
             "type": {
               "type": "string",
               "const": "user"
+            },
+            "data": {
+              "type": "object",
+              "additionalProperties": true
             }
           },
           "additionalProperties": true,
