@@ -53,6 +53,47 @@
                   "const": "user-admin"
                 }
               }
+            },
+            "profile": {
+              "type": "object",
+              "properties": {
+                "viewSettings": {
+                  "description": "A map of settings for view cards, keyed by the view id",
+                  "type": "object",
+                  "patternProperties": {
+                    "^.*$": {
+                      "lens": {
+                        "type": "string"
+                      },
+                      "slice": {
+                        "type": "string"
+                      },
+                      "notifications": {
+                        "type": "object",
+                        "properties": {
+                          "web": {
+                            "title": "Web",
+                            "description": "Alert me with desktop notifications",
+                            "type": "object",
+                            "properties": {
+                              "update": {
+                                "type": "boolean"
+                              },
+                              "mention": {
+                                "type": "boolean"
+                              },
+                              "alert": {
+                                "type": "boolean"
+                              }
+                            },
+                            "additionalProperties": false
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             }
           },
           "required": [

@@ -327,37 +327,6 @@
         }
       },
       {
-        "name": "My subscriptions",
-        "schema": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "const": "subscription"
-            },
-            "data": {
-              "type": "object",
-              "properties": {
-                "actor": {
-                  "type": "string",
-                  "const": {
-                    "$eval": "user.id"
-                  }
-                }
-              },
-              "additionalProperties": true,
-              "required": [
-                "actor"
-              ]
-            }
-          },
-          "additionalProperties": true,
-          "required": [
-            "data",
-            "type"
-          ]
-        }
-      },
-      {
         "name": "Other users",
         "schema": {
           "type": "object",
