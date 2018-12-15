@@ -7,10 +7,11 @@ import {
 	Modal,
 } from 'rendition';
 import { Form } from 'rendition/dist/unstable';
+import * as skhema from 'skhema';
 import { Card, Type } from '../../types';
 import { analytics, sdk } from '../core';
 import { actionCreators } from '../core/store';
-import { getLocalSchema } from '../services/helpers';
+import { getLocalSchema, removeUndefinedArrayItems } from '../services/helpers';
 import { FreeFieldForm } from './FreeFieldForm';
 
 const slugify = (value: string) => {
@@ -47,10 +48,10 @@ class Base extends React.Component<CardCreatorProps, CardCreatorState> {
 			return;
 		}
 
-		const newCard: Partial<Card> = {
+		const newCard: Partial<Card> = removeUndefinedArrayItems({
 			type: this.props.type.slug,
 			...this.state.newCardModel,
-		};
+		});
 
 		if (this.props.onCreate) {
 			this.props.onCreate();
@@ -127,6 +128,9 @@ class Base extends React.Component<CardCreatorProps, CardCreatorState> {
 			{ 'ui:order': [ 'name', '*' ] }
 			: {};
 
+		const isValid = skhema.isValid(schema, removeUndefinedArrayItems(this.state.newCardModel)) &&
+			skhema.isValid(localSchema, removeUndefinedArrayItems(freeFieldData));
+
 		return (
 			<Modal
 				w={1060}
@@ -135,6 +139,7 @@ class Base extends React.Component<CardCreatorProps, CardCreatorState> {
 				done={this.addEntry}
 				primaryButtonProps={{
 					className: 'card-create-modal__submit',
+					disabled: !isValid,
 				}}
 			>
 				<Form

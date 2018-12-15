@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Button, Flex, Link, Modal } from 'rendition';
 import { Form } from 'rendition/dist/unstable';
+import * as skhema from 'skhema';
 import styled from 'styled-components';
 import { Card, Type } from '../../types';
 import { CardCreator } from '../components/CardCreator';
@@ -13,7 +14,7 @@ import { FreeFieldForm } from '../components/FreeFieldForm';
 import { LINKS } from '../constants';
 import { analytics, sdk } from '../core';
 import { actionCreators, selectors, StoreState } from '../core/store';
-import { getLocalSchema } from '../services/helpers';
+import { getLocalSchema, removeUndefinedArrayItems } from '../services/helpers';
 import { createLink } from '../services/link';
 import { CardLinker } from './CardLinker';
 import { ContextMenu } from './ContextMenu';
@@ -105,10 +106,10 @@ class Base extends React.Component<
 	}
 
 	public updateEntry = () => {
-		const updatedEntry = _.assign(
-			_.cloneDeep(this.props.card),
+		const updatedEntry = removeUndefinedArrayItems(_.assign({}
+			this.props.card,
 			this.state.editModel,
-		);
+		));
 
 		const { id, type } = this.props.card;
 
@@ -201,6 +202,9 @@ class Base extends React.Component<
 			{ 'ui:order': [ 'name', '*' ] }
 			: {};
 
+		const isValid = skhema.isValid(this.state.schema, removeUndefinedArrayItems(this.state.editModel)) &&
+			skhema.isValid(localSchema, removeUndefinedArrayItems(freeFieldData));
+
 		return (
 			<React.Fragment>
 				<Flex align="right" justify="flex-end" mb={3}>
@@ -277,6 +281,7 @@ class Base extends React.Component<
 						done={this.updateEntry}
 						primaryButtonProps={{
 							className: 'card-edit-modal__submit',
+							disabled: !isValid,
 						}}
 					>
 						<Form

@@ -374,3 +374,15 @@ export const createFullTextSearchFilter = (
 
 	return unflattenedSchema as JSONSchema6;
 };
+
+export const removeUndefinedArrayItems = (input: any): any => {
+	if (_.isArray(input)) {
+		return input.filter(x => !_.isUndefined(x));
+	}
+
+	if (_.isPlainObject(input)) {
+		return _.mapValues(input, removeUndefinedArrayItems);
+	}
+
+	return input;
+};
