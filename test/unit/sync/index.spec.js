@@ -31,12 +31,12 @@ ava('.isValidExternalEventRequest() should return true for api.github.com and th
 	test.true(result)
 })
 
-ava('.isValidExternalEventRequest() should return false for frontapp.com and the github provider', async (test) => {
+ava.skip('.isValidExternalEventRequest() should return false for frontapp.com and the github provider', async (test) => {
 	const result = sync.isValidExternalEventRequest('frontapp.com', 'github')
 	test.false(result)
 })
 
-ava('.isValidExternalEventRequest() should return false for github.com and the front provider', async (test) => {
+ava.skip('.isValidExternalEventRequest() should return false for github.com and the front provider', async (test) => {
 	const result = sync.isValidExternalEventRequest('github.com', 'front')
 	test.false(result)
 })
