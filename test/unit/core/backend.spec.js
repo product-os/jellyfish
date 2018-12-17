@@ -181,22 +181,6 @@ ava('.insertElement() should insert an element with a non-existent id and slug',
 	}), result)
 })
 
-ava('.insertElement() should not be able to set any links', async (test) => {
-	const result = await test.context.backend.insertElement({
-		slug: 'foo',
-		type: 'card',
-		links: {
-			foo: 'bar'
-		}
-	})
-
-	const element = await test.context.backend.getElementById(result.id, {
-		type: 'card'
-	})
-
-	test.deepEqual(element.links, {})
-})
-
 ava('.insertElement() should not re-use the id when inserting an element with an existent id', async (test) => {
 	const result1 = await test.context.backend.insertElement({
 		slug: 'foo',
@@ -254,24 +238,6 @@ ava('.insertElement() should fail to insert an element with a non-existent id bu
 		slug: 'foo',
 		foo: 'baz'
 	}), errors.JellyfishElementAlreadyExists)
-})
-
-ava('.upsertElement() should not be able to set links using an id', async (test) => {
-	const result = await test.context.backend.upsertElement({
-		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-		slug: 'foo',
-		type: 'card',
-		links: {
-			foo: 'bar'
-		},
-		test: 'foo'
-	})
-
-	const element = await test.context.backend.getElementById(result.id, {
-		type: 'card'
-	})
-
-	test.deepEqual(element.links, {})
 })
 
 ava('.upsertElement() should update linked cards when inserting a link', async (test) => {
@@ -337,58 +303,6 @@ ava('.upsertElement() should update linked cards when inserting a link', async (
 			}
 		]
 	})
-})
-
-ava('.upsertElement() should not be able to set links using both an id and a slug', async (test) => {
-	const result = await test.context.backend.upsertElement({
-		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-		type: 'card',
-		slug: 'foo-bar',
-		links: {
-			foo: 'bar'
-		},
-		test: 'foo'
-	})
-
-	const element = await test.context.backend.getElementById(result.id, {
-		type: 'card'
-	})
-
-	test.deepEqual(element.links, {})
-})
-
-ava('.upsertElement() should not be able to set links using a slug', async (test) => {
-	const result = await test.context.backend.upsertElement({
-		slug: 'foo-bar',
-		type: 'card',
-		links: {
-			foo: 'bar'
-		},
-		test: 'foo'
-	})
-
-	const element = await test.context.backend.getElementBySlug(result.slug, {
-		type: 'card'
-	})
-
-	test.deepEqual(element.links, {})
-})
-
-ava('.upsertElement() should not be able to set links using no id nor slug', async (test) => {
-	const result = await test.context.backend.upsertElement({
-		slug: 'foo',
-		type: 'card',
-		links: {
-			foo: 'bar'
-		},
-		test: 'foo'
-	})
-
-	const element = await test.context.backend.getElementById(result.id, {
-		type: 'card'
-	})
-
-	test.deepEqual(element.links, {})
 })
 
 ava('.upsertElement() should not be able to change a slug', async (test) => {

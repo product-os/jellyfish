@@ -29,22 +29,94 @@ ava.afterEach(async (test) => {
 	await test.context.sdk.auth.logout()
 })
 
+const createUserDetails = () => {
+	return {
+		username: randomstring.generate(),
+		email: `${randomstring.generate()}@example.com`,
+		password: 'foobarbaz'
+	}
+}
+
+ava.serial('Users should be able to change their own email addresses', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const userDetails = createUserDetails()
+	const user = await sdk.auth.signup(userDetails)
+	await sdk.auth.login(userDetails)
+
+	user.data.email = 'test@example.com'
+
+	await test.notThrowsAsync(() => {
+		return sdk.card.update(user.id, user)
+	})
+})
+
+ava.only('Updating a user should not remove their org membership', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const userDetails = createUserDetails()
+	const user = await sdk.auth.signup(userDetails)
+	await sdk.auth.login(userDetails)
+
+	const waitQuery = {
+		type: 'object',
+		$$links: {
+			'is member of': {
+				type: 'object',
+				required: [ 'slug' ],
+				properties: {
+					slug: {
+						type: 'string',
+						const: 'org-balena'
+					}
+				}
+			}
+		},
+		properties: {
+			id: {
+				type: 'string',
+				const: user.id
+			},
+			type: {
+				type: 'string',
+				const: 'user'
+			}
+		},
+		required: [ 'id', 'type' ],
+		additionalProperties: true
+	}
+
+	const balenaOrg = await sdk.card.get('org-balena')
+
+	await test.context.executeThenWait(() => {
+		return sdk.card.link(balenaOrg, user, 'has member')
+	}, waitQuery)
+
+	const linkedUser = await sdk.auth.whoami()
+
+	user.data.email = 'test@example.com'
+
+	await test.notThrowsAsync(() => {
+		return sdk.card.update(user.id, user)
+	})
+
+	const updatedUser = await sdk.auth.whoami()
+
+	test.deepEqual(updatedUser.links['is member of'], linkedUser.links['is member of'])
+})
+
 ava.serial('Users should not be able to view other users passwords', async (test) => {
 	const {
 		sdk
 	} = test.context
 
-	const targetUser = await sdk.auth.signup({
-		username: randomstring.generate(),
-		email: `${randomstring.generate()}@example.com`,
-		password: 'foobarbaz'
-	})
+	const targetUser = await sdk.auth.signup(createUserDetails())
 
-	const activeUserDetails = {
-		username: randomstring.generate(),
-		email: `${randomstring.generate()}@example.com`,
-		password: 'foobarbaz'
-	}
+	const activeUserDetails = createUserDetails()
 
 	await sdk.auth.signup(activeUserDetails)
 	await sdk.auth.login(activeUserDetails)

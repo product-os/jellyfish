@@ -924,6 +924,45 @@ ava('.insertCard() should not overwrite the "created_at" field when overriding a
 	test.is(card.created_at, update.created_at)
 })
 
+ava.only('.insertCard() should not be able to set links', async (test) => {
+	const card = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: `card-${uuid()}`,
+		type: 'card',
+		links: {
+			foo: 'bar'
+		}
+	})
+
+	const element = await test.context.kernel.getCardById(
+		test.context.kernel.sessions.admin,
+		card.id,
+		{
+			type: 'card'
+		}
+	)
+
+	test.deepEqual(element.links, {})
+})
+
+ava('.insertCard() should not be able to set links when overriding a card', async (test) => {
+	const card = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: `card-${uuid()}`,
+		type: 'card'
+	})
+
+	const update = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: card.slug,
+		type: 'card',
+		links: {
+			foo: 'bar'
+		}
+	}, {
+		override: true
+	})
+
+	test.deepEqual(update.links, {})
+})
+
 ava('.getCardBySlug() there should be an admin card', async (test) => {
 	const card = await test.context.kernel.getCardBySlug(test.context.kernel.sessions.admin, 'user-admin')
 	test.truthy(card)
