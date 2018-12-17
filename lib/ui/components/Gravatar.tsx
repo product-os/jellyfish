@@ -1,12 +1,13 @@
 import * as Bluebird from 'bluebird';
 import md5 = require('blueimp-md5');
+import * as _ from 'lodash';
 import * as React from 'react';
-import { Box, Img } from 'rendition';
+import { Box, DefaultProps, Img } from 'rendition';
 import Icon from './Icon';
 
 const GRAVATAR_URL = 'https://www.gravatar.com/avatar/';
 
-const getGravatar = (email: string): Bluebird<string> => {
+const getGravatar = _.memoize((email: string): Bluebird<string> => {
 	return new Bluebird<string>((resolve) => {
 		// The query string makes gravatar return a 404 if the image is not found.
 		// Ordinarily gravatar will return a default image if the avatar isn't found
@@ -16,14 +17,15 @@ const getGravatar = (email: string): Bluebird<string> => {
 		img.onload = () => resolve(avatarUrl);
 		img.onerror = () => resolve('');
 	});
-};
+});
 
 interface GravatarState {
 	avatarUrl: string;
 }
 
-interface GravatarProps {
+interface GravatarProps extends DefaultProps {
 	email?: string | null;
+	small?: boolean;
 }
 
 export default class Gravatar extends React.Component<GravatarProps, GravatarState> {
@@ -57,12 +59,31 @@ export default class Gravatar extends React.Component<GravatarProps, GravatarSta
 	}
 
 	public render(): React.ReactNode {
+		const {
+			small,
+			email,
+			...props
+		} = this.props;
+
+		const style: any = {
+			borderRadius: 3,
+			width: 36,
+			height: 36,
+		};
+
+		if (small) {
+			style.width = 24;
+			style.height = 24;
+		}
+
 		if (this.state.avatarUrl) {
 			return (
-				<Img w={36} style={{borderRadius: 3}} src={this.state.avatarUrl} />
+				<Box {...props}>
+					<Img style={style} src={this.state.avatarUrl} />
+				</Box>
 			);
 		}
 
-		return <Box><Icon name="user-circle" /></Box>;
+		return <Box style={style} {...props}><Icon name="user-circle" /></Box>;
 	}
 }

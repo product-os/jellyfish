@@ -8,7 +8,6 @@ import {
 	Button,
 	Flex,
 	Theme,
-	Txt,
 } from 'rendition';
 import styled from 'styled-components';
 import { Card, Lens, RendererProps } from '../../types';
@@ -216,8 +215,8 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		this.addMessage(e);
 	}
 
-	public handleCheckboxToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
-		this.setState({ messagesOnly: !e.target.checked });
+	public handleEventToggle = () => {
+		this.setState({ messagesOnly: !this.state.messagesOnly });
 	}
 
 	public handleUploadButtonClick = () => {
@@ -258,41 +257,48 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		const head = this.props.card;
 		const { tail } = this.state;
 		const channelTarget = this.props.card.id;
+		const { messagesOnly } = this.state;
 
 		return (
 			<Column flexDirection="column">
-				<Flex m={2} justify="flex-end">
-					<label>
-						<input
-							className="timeline__checkbox--additional-info"
-							style={{marginTop: 2}}
-							type="checkbox"
-							checked={!this.state.messagesOnly}
-							onChange={this.handleCheckboxToggle}
-						/>
-						<Txt.span color={Theme.colors.text.light} ml={2}>Show additional info</Txt.span>
-					</label>
+				<Flex my={2} mr={2} justify="flex-end">
+					<Button
+						plaintext
+						tooltip={{
+							placement: 'left',
+							text: `${messagesOnly ? 'Show' : 'Hide'} create and update events`,
+						}}
+						className="timeline__checkbox--additional-info"
+						color={messagesOnly ? Theme.colors.text.light : undefined}
+						ml={2}
+						onClick={this.handleEventToggle}
+					>
+						<Icon name="stream" />
+					</Button>
 				</Flex>
 
 				<div
 					ref={(ref) => this.scrollArea = ref}
 					style={{
 						flex: 1,
-						paddingLeft: 16,
-						paddingRight: 16,
-						paddingBottom: 16,
 						overflowY: 'auto',
+						borderTop: '1px solid #eee',
+						paddingTop: 8,
 					}}
 				>
-					{!tail && <Icon name="cog fa-spin" />}
+					{!tail && (
+						<Box p={3}>
+							<Icon name="cog fa-spin" />
+						</Box>
+					)}
 
 					{(!!tail && tail.length > 0) && _.map(tail, card => {
-						if (this.state.messagesOnly && card.type !== 'message') {
+						if (messagesOnly && card.type !== 'message') {
 							return null;
 						}
 
 						return (
-							<Box key={card.id} py={2} style={{borderBottom: '1px solid #eee'}}>
+							<Box key={card.id}>
 								<EventCard
 									users={this.props.allUsers}
 									openChannel={

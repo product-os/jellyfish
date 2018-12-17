@@ -31,7 +31,6 @@ const Column = styled(Flex)`
 	height: 100%;
 	overflow-y: auto;
 	min-width: 270px;
-	border-right: 1px solid #ccc;
 `;
 
 const Badge = styled(Txt)`
@@ -240,7 +239,7 @@ class Base extends React.Component<CardProps, {}> {
 				>
 					<Box
 						p={3}
-						style={{maxHeight: '50%', borderBottom: '1px solid #ccc', overflowY: 'auto'}}
+						style={{maxHeight: '50%', overflowY: 'auto'}}
 					>
 						{content}
 					</Box>
