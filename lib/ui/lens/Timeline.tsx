@@ -281,13 +281,14 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 					ref={(ref) => this.scrollArea = ref}
 					style={{
 						flex: 1,
-						paddingLeft: 16,
-						paddingRight: 16,
-						paddingBottom: 16,
 						overflowY: 'auto',
 					}}
 				>
-					{!tail && <Icon name="cog fa-spin" />}
+					{!tail && (
+						<Box p={3}>
+							<Icon name="cog fa-spin" />
+						</Box>
+					)}
 
 					{(!!tail && tail.length > 0) && _.map(tail, card => {
 						if (messagesOnly && card.type !== 'message') {
@@ -295,7 +296,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 						}
 
 						return (
-							<Box key={card.id} py={2} style={{borderBottom: '1px solid #eee'}}>
+							<Box key={card.id}>
 								<EventCard
 									users={this.props.allUsers}
 									openChannel={

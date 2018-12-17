@@ -307,9 +307,6 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 					ref={(ref) => this.scrollArea = ref}
 					style={{
 						flex: 1,
-						paddingLeft: 16,
-						paddingRight: 16,
-						paddingBottom: 16,
 						overflowY: 'auto',
 					}}
 				>
@@ -321,7 +318,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 						}
 
 						return (
-							<Box key={card.id} py={2} style={{borderBottom: '1px solid #eee'}}>
+							<Box key={card.id}>
 								<EventCard
 									users={this.props.allUsers}
 									openChannel={

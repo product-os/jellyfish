@@ -188,9 +188,6 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 					ref={(ref) => this.scrollArea = ref}
 					style={{
 						flex: 1,
-						paddingLeft: 16,
-						paddingRight: 16,
-						paddingBottom: 16,
 						overflowY: 'auto',
 					}}
 				>
@@ -200,7 +197,7 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 						}
 
 						return (
-							<Box key={card.id} py={2} style={{borderBottom: '1px solid #eee'}}>
+							<Box key={card.id}>
 								<EventCard
 									users={this.props.allUsers}
 									openChannel={

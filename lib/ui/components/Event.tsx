@@ -23,12 +23,17 @@ const threadColor = _.memoize((text: string): string => colorHash.hex(text));
 const tagMatchRE = createPrefixRegExp('@|#|!');
 
 const EventButton = styled.button`
+	cursor: pointer;
 	border: 0;
 	background: none;
 	display: block;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	padding-left: 8px;
+	padding-right: 8px;
+	border-left-style: solid;
+	border-left-width: 3px;
 `;
 
 const EventWrapper = styled(Flex)`
@@ -174,13 +179,11 @@ export class Event extends React.Component<EventProps, EventState> {
 			borderRadius: 10,
 			padding: '8px 16px',
 			marginRight: 8,
-			marginLeft: 16,
 
 			// Min-width is used to stop text from overflowing the flex container, see
 			// https://css-tricks.com/flexbox-truncated-text/ for a nice explanation
 			minWidth: 0,
 		} : {
-			marginLeft: 16,
 			minWidth: 0,
 		};
 
@@ -191,12 +194,12 @@ export class Event extends React.Component<EventProps, EventState> {
 				<EventButton
 					onClick={this.openChannel}
 					style={{
-						borderLeft: `3px solid ${threadColor(this.getTargetId(card))}`,
+						borderLeftColor: threadColor(this.getTargetId(card)),
 					}}
 				>
 					<Gravatar small email={this.state.actorEmail} />
 				</EventButton>
-				<Box flex="1" style={messageStyle}>
+				<Box flex="1" style={messageStyle} pb={3} pr={3}>
 					<Flex justify="space-between" mb={2} flexDirection={flexDir}>
 						<Flex mt={isMessage ? 0 : '5px'} align="center">
 							{isMessage && (
