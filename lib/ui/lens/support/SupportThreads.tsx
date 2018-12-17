@@ -22,7 +22,6 @@ import {
 
 const Column = styled(Flex)`
 	height: 100%;
-	border-right: 1px solid #ccc;
 	width: 100%;
 `;
 

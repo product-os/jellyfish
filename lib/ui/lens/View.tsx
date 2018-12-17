@@ -7,7 +7,6 @@ import { bindActionCreators } from 'redux';
 import {
 	Box,
 	Button,
-	Divider,
 	Filters,
 	FiltersView,
 	Flex,
@@ -283,7 +282,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 				flex={this.props.flex}
 				className={`column--${head ? head.slug || head.type : 'unknown'}`}
 				flexDirection="column"
-				style={{ height: '100%', overflowY: 'auto', borderRight: '1px solid #ccc', position: 'relative' }}
+				style={{ height: '100%', overflowY: 'auto', position: 'relative' }}
 			>
 				<If condition={!!head}>
 					<Box>
@@ -354,8 +353,6 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 								/>
 							</Box>
 						</If>
-
-						<Divider color="#ccc" mt={0} mb={0} style={{height: 1}} />
 					</Box>
 				</If>
 

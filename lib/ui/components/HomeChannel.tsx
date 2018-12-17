@@ -6,7 +6,6 @@ import { bindActionCreators } from 'redux';
 import {
 	Box,
 	Button,
-	Divider,
 	Fixed,
 	Flex,
 	Link,
@@ -197,7 +196,7 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 				className="home-channel"
 				flexDirection="column"
 				flex="0 0 180px"
-				style={{ height: '100%', overflowY: 'auto', borderRight: '1px solid #ccc' }}
+				style={{ height: '100%', overflowY: 'auto' }}
 			>
 				<Flex
 					justify="space-between"
@@ -217,8 +216,6 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 						<Icon name="caret-down" />
 					</UserMenuBtn>
 				</Flex>
-
-				<Divider color="#ccc" m={0} style={{height: 1}} />
 
 				{this.state.showMenu &&
 					<Fixed
@@ -246,7 +243,7 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 					</Fixed>
 				}
 
-				<Box flex="1" pt={3}>
+				<Box flex="1">
 					{!tail && <Box p={3}><Icon style={{color: 'white'}} name="cog fa-spin" /></Box>}
 
 					{!!tail && _.map(tail, (card) => {

@@ -67,6 +67,7 @@ class ChannelRenderer extends React.Component<ChannelRendererProps, {
 						style={{
 							flex: this.props.flex,
 							background: isOver ? '#ccc' : 'none',
+							borderLeft: '1px solid #eee',
 							minWidth: 0,
 						}}
 					>

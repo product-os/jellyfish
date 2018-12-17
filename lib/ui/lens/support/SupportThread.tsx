@@ -34,7 +34,6 @@ const Column = styled(Flex)`
 	height: 100%;
 	overflow-y: auto;
 	min-width: 270px;
-	border-right: 1px solid #ccc;
 `;
 
 const Badge = styled(Txt)`

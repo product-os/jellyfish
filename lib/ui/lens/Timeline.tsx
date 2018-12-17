@@ -261,7 +261,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 
 		return (
 			<Column flexDirection="column">
-				<Flex mt={2} mr={2} justify="flex-end">
+				<Flex my={2} mr={2} justify="flex-end">
 					<Button
 						plaintext
 						tooltip={{
@@ -282,6 +282,8 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 					style={{
 						flex: 1,
 						overflowY: 'auto',
+						borderTop: '1px solid #eee',
+						paddingTop: 8,
 					}}
 				>
 					{!tail && (

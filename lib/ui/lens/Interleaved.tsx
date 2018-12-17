@@ -20,7 +20,6 @@ import { createChannel, getUpdateObjectFromSchema, getViewSchema } from '../serv
 
 const Column = styled(Flex)`
 	height: 100%;
-	border-right: 1px solid #ccc;
 	min-width: 350px;
 	position: relative;
 `;
@@ -168,7 +167,7 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 		return (
 			<Column flex="1" flexDirection="column">
 				<ResizeObserver onResize={this.scrollToBottom} />
-				<Flex mt={2} mr={2} justify="flex-end">
+				<Flex my={2} mr={2} justify="flex-end">
 					<Button
 						plaintext
 						tooltip={{
@@ -189,6 +188,8 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 					style={{
 						flex: 1,
 						overflowY: 'auto',
+						borderTop: '1px solid #eee',
+						paddingTop: 8,
 					}}
 				>
 					{(!!tail && tail.length > 0) && _.map(tail, card => {

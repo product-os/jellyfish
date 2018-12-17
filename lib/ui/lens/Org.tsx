@@ -33,7 +33,6 @@ import TimelineLens from './Timeline';
 const Column = styled(Flex)`
 	height: 100%;
 	min-width: 270px;
-	border-right: 1px solid #ccc;
 `;
 
 const Badge = styled(Txt)`
