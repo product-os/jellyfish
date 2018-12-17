@@ -135,7 +135,7 @@
     "react-dnd-html5-backend": "^5.0.1",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.7",
-    "react-resize-observer": "^1.0.3",
+    "react-resize-observer": "^1.1.1",
     "react-select": "^2.1.0",
     "react-trello": "^1.31.3",
     "react-virtualized": "^9.20.0",
