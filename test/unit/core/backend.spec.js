@@ -497,6 +497,36 @@ ava('.query() should query the database using JSON schema', async (test) => {
 	test.deepEqual(_.sortBy(results, [ 'test' ]), [ result1, result2 ])
 })
 
+ava('.query() should survive a deep schema', async (test) => {
+	const generate = (times, seeds, index = 0) => {
+		if (times === 0) {
+			return {
+				type: 'string',
+				const: 'hello'
+			}
+		}
+
+		const next = seeds[index % seeds.length]
+
+		return {
+			type: 'object',
+			required: [ 'other', next ],
+			properties: {
+				other: {
+					type: [ 'string', 'number' ]
+				},
+				[next]: generate(times - 1, seeds, index + 1)
+			}
+		}
+	}
+
+	const results1 = await test.context.backend.query(generate(100, [ 'foo', 'bar' ]))
+	test.deepEqual(results1, [])
+
+	const results2 = await test.context.backend.query(generate(150, [ 'foo', 'bar' ]))
+	test.deepEqual(results2, [])
+})
+
 ava('.query() should give the same results when omitting additionalProperties and additionalProperties:false', async (test) => {
 	await test.context.backend.upsertElement({
 		type: 'example',
