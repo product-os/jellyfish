@@ -65,7 +65,10 @@ ava('Event component should highlight usernames in messages', (test) => {
 	const users = [
 		{
 			slug: 'user-janedoe',
-			id: 'e9135e65-3044-44d4-98a1-faf37a504ae9'
+			id: 'e9135e65-3044-44d4-98a1-faf37a504ae9',
+			data: {
+				email: 'janedoe@example.com'
+			}
 		}
 	]
 
