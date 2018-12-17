@@ -481,7 +481,7 @@ ava.serial('Users should not be able to login as the core admin user', async (te
 })
 
 if (process.env.NODE_ENV === 'production') {
-	ava.serial('should reject an external event from localhost', async (test) => {
+	ava.serial.skip('should reject an external event from localhost', async (test) => {
 		const result = await test.context.http('POST', '/api/v2/hooks/test', {
 			foo: 'bar',
 			bar: 'baz'
@@ -491,7 +491,7 @@ if (process.env.NODE_ENV === 'production') {
 		test.true(result.response.error)
 	})
 
-	ava.serial('should be able to reject an external event with a type coming from localhost', async (test) => {
+	ava.serial.skip('should be able to reject an external event with a type coming from localhost', async (test) => {
 		const result = await test.context.http('POST', '/api/v2/hooks/test/foobarbaz', {
 			foo: 'bar',
 			bar: 'baz'
