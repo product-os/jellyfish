@@ -39,12 +39,14 @@ interface ViewLinkProps {
 	open: (card: Card, options?: any) => void;
 	subscription?: null | Card;
 	saveSubscription?: typeof actionCreators['saveSubscription'];
+	setDefault?: typeof actionCreators['setDefault'];
 }
 
 interface ConnectedProps {
 	types: Card[];
 	subscription: null | Card;
 	saveSubscription: typeof actionCreators['saveSubscription'];
+	setDefault: typeof actionCreators['setDefault'];
 }
 
 interface ViewLinkState {
@@ -72,6 +74,10 @@ class ViewLinkBase extends React.Component<ViewLinkProps & ConnectedProps, ViewL
 
 	public toggleSettings = () => {
 		this.setState({ showSettings: !this.state.showSettings });
+	}
+
+	public setDefault = () => {
+		this.props.setDefault(this.props.card);
 	}
 
 	public getNotificationSettings(): { [k: string]: any } {
@@ -152,10 +158,20 @@ class ViewLinkBase extends React.Component<ViewLinkProps & ConnectedProps, ViewL
 					{this.state.showMenu &&
 						<ContextMenu onClose={this.toggleMenu}>
 							<Button
+								style={{ display: 'block' }}
+								mb={2}
 								plaintext
 								onClick={this.toggleSettings}
 							>
 								Settings
+							</Button>
+							<Button
+								style={{ display: 'block' }}
+								plaintext
+								tooltip="Set this view as the default page when logging in"
+								onClick={this.setDefault}
+							>
+								Set as default
 							</Button>
 						</ContextMenu>
 					}
@@ -215,6 +231,7 @@ const mapStateToProps = (state: StoreState, ownProps: ViewLinkProps) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<StoreState>) => bindActionCreators({
 	saveSubscription: actionCreators.saveSubscription,
+	setDefault: actionCreators.setDefault,
 }, dispatch);
 
 export const ViewLink: React.ComponentClass<ViewLinkProps> = connect(mapStateToProps, mapDispatchToProps)(ViewLinkBase as any);

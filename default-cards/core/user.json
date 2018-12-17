@@ -55,8 +55,14 @@
               }
             },
             "profile": {
+              "description": "Configuration options for your account",
               "type": "object",
               "properties": {
+                "homeView": {
+                  "description": "The default view that is loaded after you login",
+                  "type": "string",
+                  "format": "uuid"
+                },
                 "viewSettings": {
                   "description": "A map of settings for view cards, keyed by the view id",
                   "type": "object",
