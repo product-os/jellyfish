@@ -22,6 +22,10 @@ properties:
       type: string
   - SENTRY_DSN_UI:
       type: string
+  - INTEGRATION_FRONT_TOKEN:
+      type: string
+  - INTEGRATION_GITHUB_TOKEN:
+      type: string
   - DB_PASSWORD:
       type: string
       default:
