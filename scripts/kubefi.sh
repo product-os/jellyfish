@@ -30,10 +30,10 @@ check() {
 	fi
 }
 
-get_container() {
-	local pod_names="$(kubectl get pods -n jellyfish -o custom-columns=:metadata.name)"
+get_container() (
+	pod_names="$(kubectl get pods -n jellyfish -o custom-columns=:metadata.name)"
 	echo "$pod_names" | grep "^$1" || true
-}
+)
 
 usage() {
 	echo "Usage: $0 <command>" 1>&2
@@ -74,7 +74,7 @@ fi
 
 # Kill all children on exit
 # See https://stackoverflow.com/a/5586663/1641422
-trap 'kill $(jobs -pr)' SIGINT SIGTERM EXIT
+trap 'kill $(jobs -pr)' INT TERM EXIT
 
 # Open the SSH tunnel in the background, and wait
 # for a while to make sure its available
