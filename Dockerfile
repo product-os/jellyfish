@@ -17,7 +17,7 @@ FROM node:dubnium-jessie as test
 RUN echo "deb http://download.rethinkdb.com/apt jessie main" | tee /etc/apt/sources.list.d/rethinkdb.list && \
 		wget -qO- https://download.rethinkdb.com/apt/pubkey.gpg | apt-key add - && \
 		apt-get update && \
-		apt-get install -yq rethinkdb make
+		apt-get install -yq rethinkdb make shellcheck
 
 # See https://crbug.com/795759
 RUN apt-get update && apt-get install -yq libgconf-2-4
