@@ -8,7 +8,6 @@ import {
 	Button,
 	Flex,
 	Theme,
-	Txt,
 } from 'rendition';
 import styled from 'styled-components';
 import uuid = require('uuid/v4');
@@ -23,6 +22,7 @@ const Column = styled(Flex)`
 	height: 100%;
 	border-right: 1px solid #ccc;
 	min-width: 350px;
+	position: relative;
 `;
 
 const NONE_MESSAGE_TIMELINE_TYPES = [
@@ -154,29 +154,34 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 			});
 	}
 
-	public handleCheckboxToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
-		this.setState({ messagesOnly: !e.target.checked });
+	public handleEventToggle = () => {
+		this.setState({ messagesOnly: !this.state.messagesOnly });
 	}
 
 	public render(): React.ReactNode {
 		const { head } = this.props.channel.data;
 		const channelTarget = this.props.channel.data.target;
+		const { messagesOnly } = this.state;
 
 		const tail: Card[] | null = this.props.tail ? _.sortBy(this.props.tail, 'data.timestamp') : null;
 
 		return (
 			<Column flex="1" flexDirection="column">
 				<ResizeObserver onResize={this.scrollToBottom} />
-				<Flex m={2} justify="flex-end">
-					<label>
-						<input
-							style={{marginTop: 2}}
-							type="checkbox"
-							checked={!this.state.messagesOnly}
-							onChange={this.handleCheckboxToggle}
-						/>
-						<Txt.span color={Theme.colors.text.light} ml={2}>Show additional info</Txt.span>
-				</label>
+				<Flex mt={2} mr={2} justify="flex-end">
+					<Button
+						plaintext
+						tooltip={{
+							placement: 'left',
+							text: `${messagesOnly ? 'Show' : 'Hide'} create and update events`,
+						}}
+						className="timeline__checkbox--additional-info"
+						color={messagesOnly ? Theme.colors.text.light : undefined}
+						ml={2}
+						onClick={this.handleEventToggle}
+					>
+						<Icon name="stream" />
+					</Button>
 				</Flex>
 
 				<div
@@ -190,7 +195,7 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 					}}
 				>
 					{(!!tail && tail.length > 0) && _.map(tail, card => {
-						if (this.state.messagesOnly && isHiddenEventType(card.type)) {
+						if (messagesOnly && isHiddenEventType(card.type)) {
 							return null;
 						}
 
