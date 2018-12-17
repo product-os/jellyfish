@@ -239,6 +239,9 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 							>
 								Log out
 							</Button>
+							{user && (
+								<Link mt={2} href={`#/${user.id}`}>Your profile</Link>
+							)}
 						</MenuPanel>
 					</Fixed>
 				}
