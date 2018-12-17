@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux';
+import ResizeObserver from 'react-resize-observer';
 import { bindActionCreators } from 'redux';
 import {
 	Box,
@@ -79,7 +80,7 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 		this.scrollToBottom();
 	}
 
-	public scrollToBottom(): void {
+	public scrollToBottom = () => {
 		if (!this.scrollArea) {
 			return;
 		}
@@ -165,6 +166,7 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 
 		return (
 			<Column flex="1" flexDirection="column">
+				<ResizeObserver onResize={this.scrollToBottom} />
 				<Flex m={2} justify="flex-end">
 					<label>
 						<input
