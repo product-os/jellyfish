@@ -188,7 +188,8 @@ export const actionCreators = {
 			stream.on('update', (update) => {
 				console.log('STREAM UPDATE', update);
 				if (update.data.after) {
-					const { id } = update.data.after;
+					const card = update.data.after;
+					const { id } = card;
 					const state = getState();
 					const allChannels = coreSelectors.getChannels(state);
 					const channel = _.find(allChannels, (c) => {
@@ -196,7 +197,19 @@ export const actionCreators = {
 					});
 
 					if (channel) {
-						dispatch(actionCreators.loadChannelData(channel));
+						const clonedChannel = _.cloneDeep(channel);
+
+						// Don't bother is the channel head card hasn't changed
+						if (deepEqual(clonedChannel.data.head, card)) {
+							return;
+						}
+
+						clonedChannel.data.head = card;
+
+						dispatch({
+							type: actions.UPDATE_CHANNEL,
+							value: clonedChannel,
+						});
 					}
 				}
 			});
