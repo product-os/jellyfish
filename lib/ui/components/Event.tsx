@@ -5,7 +5,7 @@ import * as Mark from 'mark.js';
 import * as React from 'react';
 import {
 	Box,
-	Button,
+	DefaultProps,
 	Flex,
 	Theme,
 	Txt,
@@ -15,12 +15,21 @@ import styled from 'styled-components';
 import { Card } from '../../types';
 import { AuthenticatedImage } from '../components/AuthenticatedImage';
 import { tagStyle } from '../components/Tag';
-import { createPrefixRegExp, findUsernameById, formatTimestamp } from '../services/helpers';
-import Icon from './Icon';
+import { createPrefixRegExp, formatTimestamp } from '../services/helpers';
+import Gravatar from './Gravatar';
 
 const colorHash = new ColorHash();
 const threadColor = _.memoize((text: string): string => colorHash.hex(text));
 const tagMatchRE = createPrefixRegExp('@|#|!');
+
+const EventButton = styled.button`
+	border: 0;
+	background: none;
+	display: block;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+`;
 
 const EventWrapper = styled(Flex)`
 	word-break: break-word;
@@ -46,21 +55,34 @@ const EventWrapper = styled(Flex)`
 	}
 `;
 
-interface EventProps {
+interface EventProps extends DefaultProps {
 	users: Card[];
 	card: Card;
 	openChannel?: (target: string) => void;
-	[k: string]: any;
 }
 
-export class Event extends React.Component<EventProps, { actorName: string }> {
+interface EventState {
+	actorName: string;
+	actorEmail: null | string;
+}
+
+export class Event extends React.Component<EventProps, EventState> {
 	public messageElement: HTMLElement;
 
 	constructor(props: EventProps) {
 		super(props);
 
+		const actor = _.find(props.users, { id: props.card.data.actor });
+		const actorName = actor ?
+			actor.slug!.replace('user-', '') :
+			'unknown user';
+		const actorEmail = actor ?
+			actor.data.email :
+			null;
+
 		this.state = {
-			actorName: findUsernameById(props.users, props.card.data.actor),
+			actorName,
+			actorEmail,
 		};
 	}
 
@@ -146,9 +168,6 @@ export class Event extends React.Component<EventProps, { actorName: string }> {
 		const { card, openChannel, users, ...props } = this.props;
 
 		const isMessage = card.type === 'message' || card.type === 'whisper';
-		const icon = isMessage ?
-			card.type === 'whisper' ? 'comment' : 'comment fa-flip-horizontal'
-			: 'circle fa-xs';
 
 		const messageStyle = card.type === 'whisper' ? {
 			background: '#eee',
@@ -169,25 +188,23 @@ export class Event extends React.Component<EventProps, { actorName: string }> {
 
 		return (
 			<EventWrapper {...props} className={`event-card--${card.type}`} flexDirection={flexDir}>
-				<Button
-					plaintext={true}
+				<EventButton
 					onClick={this.openChannel}
-					px={2}
-					mx={-2}
-					w={32}
+					style={{
+						borderLeft: `3px solid ${threadColor(this.getTargetId(card))}`,
+					}}
 				>
-					<Txt color={threadColor(this.getTargetId(card))}>
-						{!!icon && <Icon name={icon} />}
-					</Txt>
-				</Button>
+					<Gravatar small email={this.state.actorEmail} />
+				</EventButton>
 				<Box flex="1" style={messageStyle}>
 					<Flex justify="space-between" mb={2} flexDirection={flexDir}>
-						<Txt mt={isMessage ? 0 : '5px'}>
-							{isMessage ?
+						<Flex mt={isMessage ? 0 : '5px'} align="center">
+							{isMessage && (
 								<strong>{this.state.actorName}</strong>
-								: this.getTimelineElement(card)
-							}
-						</Txt>
+							)}
+
+							{!isMessage && this.getTimelineElement(card)}
+						</Flex>
 
 						{!!card.data && !!card.data.timestamp &&
 							<Txt className="event-card--timestamp" fontSize={1}>{formatTimestamp(card.data.timestamp)}</Txt>
