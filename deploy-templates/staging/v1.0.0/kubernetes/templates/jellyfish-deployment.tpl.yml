@@ -42,6 +42,10 @@ spec:
           value: {{{SENTRY_DSN_SERVER}}}
         - name: SENTRY_DSN_UI
           value: {{{SENTRY_DSN_UI}}}
+        - name: INTEGRATION_FRONT_TOKEN
+          value: {{{INTEGRATION_FRONT_TOKEN}}}
+        - name: INTEGRATION_GITHUB_TOKEN
+          value: {{{INTEGRATION_GITHUB_TOKEN}}}
         ports:
         - containerPort: 8000
           name: jellyfish-api
