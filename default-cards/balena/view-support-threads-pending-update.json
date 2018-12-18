@@ -56,12 +56,6 @@
                   "const": "open"
                 }
               }
-            },
-            "markers": {
-              "type": "array",
-              "contains": {
-                "const": "org-balena"
-              }
             }
           },
           "required": [

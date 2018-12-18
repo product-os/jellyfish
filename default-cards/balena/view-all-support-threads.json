@@ -37,12 +37,6 @@
             "type": {
               "type": "string",
               "const": "support-thread"
-            },
-            "markers": {
-              "type": "array",
-              "contains": {
-                "const": "org-balena"
-              }
             }
           },
           "required": [
