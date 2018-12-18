@@ -1,6 +1,6 @@
 {
   "slug": "view-all-issues",
-  "name": "Product issues",
+  "name": "All issues",
   "version": "1.0.0",
   "type": "view",
   "markers": [ "org-balena" ],
@@ -37,21 +37,6 @@
             "type": {
               "type": "string",
               "const": "issue"
-            },
-            "data": {
-              "type": "object",
-              "properties": {
-                "repository": {
-                  "type": "string",
-                  "const": "resin-io/balena-demo"
-                }
-              }
-            },
-            "markers": {
-              "type": "array",
-              "contains": {
-                "const": "org-balena"
-              }
             }
           },
           "required": [
