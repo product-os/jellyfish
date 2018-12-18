@@ -1,0 +1,92 @@
+{
+  "head": {
+    "name": "test external",
+    "type": "pull-request",
+    "version": "1.0.0",
+    "active": true,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "base_branch": "master",
+      "head_branch": "master",
+      "repository": "balena-io/vb-test",
+      "mirrors": [
+        "https://github.com/balena-io/vb-test/pull/47"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "",
+      "status": "closed",
+      "archived": false
+    }
+  },
+  "tail": [
+    {
+      "type": "create",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "timestamp": "2018-10-10T09:09:36Z",
+        "payload": {
+          "name": "test external",
+          "active": true,
+          "version": "1.0.0",
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "base_branch": "master",
+            "head_branch": "master",
+            "repository": "balena-io/vb-test",
+            "mirrors": [
+              "https://github.com/balena-io/vb-test/pull/47"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open",
+            "archived": false
+          },
+          "type": "pull-request"
+        }
+      }
+    },
+    {
+      "type": "update",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "timestamp": "2018-10-10T09:11:51Z",
+        "payload": {
+          "name": "test external",
+          "active": true,
+          "version": "1.0.0",
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "base_branch": "master",
+            "head_branch": "master",
+            "repository": "balena-io/vb-test",
+            "mirrors": [
+              "https://github.com/balena-io/vb-test/pull/47"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "closed",
+            "archived": false
+          },
+          "type": "pull-request"
+        }
+      }
+    }
+  ]
+}

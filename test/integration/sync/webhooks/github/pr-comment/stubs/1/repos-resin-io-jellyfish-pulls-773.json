@@ -1,0 +1,23 @@
+{
+  "pull_request": {
+    "base": {
+      "repo": {
+        "name": "jellyfish",
+        "owner": {
+          "login": "resin-io"
+        }
+      },
+      "ref": "master"
+    },
+    "head": {
+      "repo": {
+        "name": "jellyfish",
+        "owner": {
+          "login": "resin-io"
+        }
+      },
+      "sha": "803d0ccc315e606fe8d00cf52138de654c3f35aa",
+      "ref": "pr-comment"
+    }
+  }
+}

@@ -15,6 +15,13 @@
  */
 
 module.exports = {
+	'pr-open-from-fork': {
+		expected: require('./pr-open-from-fork/expected.json'),
+		steps: [
+			require('./pr-open-from-fork/01.json'),
+			require('./pr-open-from-fork/02.json')
+		]
+	},
 	'pr-approve-merge': {
 		expected: require('./pr-approve-merge/expected.json'),
 		steps: [

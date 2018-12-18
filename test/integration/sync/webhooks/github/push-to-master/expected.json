@@ -1,0 +1,42 @@
+{
+  "head": {
+    "type": "gh-push",
+    "version": "1.0.0",
+    "active": true,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "repository": {
+        "branch": "master",
+        "org": "balena-io",
+        "repo": "vb-test"
+      },
+      "sha": "f48f3cf84849d7573231b25a633798ecbe6b8e67"
+    }
+  },
+  "tail": [
+    {
+      "type": "create",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "timestamp": "2018-10-10T10:13:06Z",
+        "payload": {
+          "type": "gh-push",
+          "data": {
+            "repository": {
+              "branch": "master",
+              "org": "balena-io",
+              "repo": "vb-test"
+            },
+            "sha": "f48f3cf84849d7573231b25a633798ecbe6b8e67"
+          }
+        }
+      }
+    }
+  ]
+}
