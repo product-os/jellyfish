@@ -9,13 +9,6 @@
   "active": true,
   "data": {
     "arguments": {
-      "markers": {
-        "type": "array",
-        "items": {
-          "type": "string",
-          "pattern": "^[a-zA-Z0-9-_/:+]+$"
-        }
-      },
       "tags": {
         "type": "array",
         "items": {
