@@ -223,6 +223,28 @@ ava('.insertCard() should be able to set a name', async (test) => {
 	test.is(card.name, 'Hello')
 })
 
+ava('.insertCard() should not upsert if no changes were made', async (test) => {
+	await test.context.jellyfish.insertCard(test.context.session, {
+		slug: 'foo-bar-baz',
+		type: 'card',
+		version: '1.0.0'
+	})
+
+	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
+	await executor.insertCard(test.context.jellyfish, test.context.session, typeCard, {
+		currentTime: new Date(),
+		override: true,
+		attachEvents: true,
+		executeAction: test.context.executeAction
+	}, {
+		version: '1.0.0',
+		slug: 'foo-bar-baz',
+		active: true
+	})
+
+	test.deepEqual(test.context.queue, [])
+})
+
 ava('.insertCard() should override if the override option is true', async (test) => {
 	const previousCard = await test.context.jellyfish.insertCard(test.context.session, {
 		slug: 'foo-bar-baz',
