@@ -1505,8 +1505,8 @@ ava('.query() should be able to query using links', async (test) => {
 			links: {
 				'is attached to': [
 					{
-						id: thread1.id,
 						$link: link1.id,
+						id: thread1.id,
 						type: 'thread'
 					}
 				]
@@ -1521,8 +1521,8 @@ ava('.query() should be able to query using links', async (test) => {
 			links: {
 				'is attached to': [
 					{
-						id: thread1.id,
 						$link: link2.id,
+						id: thread1.id,
 						type: 'thread'
 					}
 				]
@@ -1537,8 +1537,8 @@ ava('.query() should be able to query using links', async (test) => {
 			links: {
 				'is attached to': [
 					{
-						id: thread2.id,
 						$link: link3.id,
+						id: thread2.id,
 						type: 'thread'
 					}
 				]
@@ -1633,7 +1633,15 @@ ava('.query() should be able to query using links when getting an element by id'
 							description: 'lorem ipsum dolor sit amet'
 						},
 						id: thread.id,
-						links: {},
+						links: {
+							'has attached element': [
+								{
+									$link: link.id,
+									id: message.id,
+									slug: 'bar'
+								}
+							]
+						},
 						type: 'thread'
 					}
 				]
@@ -1724,7 +1732,15 @@ ava('.query() should be able to query using links when getting an element by slu
 							description: 'lorem ipsum dolor sit amet'
 						},
 						id: thread.id,
-						links: {},
+						links: {
+							'has attached element': [
+								{
+									$link: link.id,
+									id: message.id,
+									slug: 'message-foobar'
+								}
+							]
+						},
 						type: 'thread'
 					}
 				]
@@ -1839,7 +1855,15 @@ ava('.query() should be able to query using links and an inverse name', async (t
 						active: true,
 						slug: 'foo',
 						id: message1.id,
-						links: {},
+						links: {
+							'is attached to': [
+								{
+									$link: link1.id,
+									id: thread.id,
+									slug: 'mythread'
+								}
+							]
+						},
 						type: 'message',
 						data: {
 							payload: 'foo'
@@ -1850,7 +1874,15 @@ ava('.query() should be able to query using links and an inverse name', async (t
 						active: true,
 						slug: 'bar',
 						id: message2.id,
-						links: {},
+						links: {
+							'is attached to': [
+								{
+									$link: link2.id,
+									id: thread.id,
+									slug: 'mythread'
+								}
+							]
+						},
 						type: 'message',
 						data: {
 							payload: 'foo'
@@ -1983,7 +2015,15 @@ ava('.query() should omit a result if a link does not match', async (test) => {
 						active: true,
 						data: {},
 						id: thread.id,
-						links: {},
+						links: {
+							'has attached element': [
+								{
+									$link: link1.id,
+									id: card1.id,
+									slug: 'bar'
+								}
+							]
+						},
 						slug: 'mythread',
 						type: 'thread'
 					}

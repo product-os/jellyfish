@@ -204,7 +204,6 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 						return (
 							<Box key={card.id}>
 								<EventCard
-									users={this.props.allUsers}
 									openChannel={
 										this.getTargetId(card) !== channelTarget ? this.openChannel : undefined
 									}

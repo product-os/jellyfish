@@ -136,6 +136,7 @@ const CardField = ({ field, payload, users, schema }: {
 interface CardProps extends RendererProps {
 	card: Card;
 	allUsers: Card[];
+	accounts: Card[];
 	types: Type[];
 	fieldOrder?: string[];
 	actions: typeof actionCreators;
@@ -199,7 +200,7 @@ class Base extends React.Component<CardProps, CardState> {
 
 	public getStatuses(card: Card): Card[] {
 		const list = _.filter(_.get(card, [ 'links', 'has attached element' ]), (event) => {
-			if (!(event.type === 'message' || event.type === 'whisper')) {
+			if (!_.includes(['message', 'whisper'], event.type)) {
 				return false;
 			}
 			return _.includes(event.tags, 'status');
@@ -210,7 +211,7 @@ class Base extends React.Component<CardProps, CardState> {
 
 	public getSummaries(card: Card): Card[] {
 		const list = _.filter(_.get(card, [ 'links', 'has attached element' ]), (event) => {
-			if (!(event.type === 'message' || event.type === 'whisper')) {
+			if (!_.includes(['message', 'whisper'], event.type)) {
 				return false;
 			}
 			return _.includes(event.tags, 'summary');
@@ -252,12 +253,12 @@ class Base extends React.Component<CardProps, CardState> {
 				className={`column--${card ? card.slug || card.type : 'unknown'}`}
 				flexDirection="column"
 			>
-				<Box p={3} style={{maxHeight: '50%', borderBottom: '1px solid #ccc', overflowY: 'auto'}}>
+				<Box p={3} style={{maxHeight: '50%', overflowY: 'auto'}}>
 					<Flex mb={1} justify="space-between">
 
 						<Box>
 							<Txt mb={1}>
-								Support conversation with <strong>{findUsernameById(this.props.allUsers, createCard.data.actor)}</strong>
+								Support conversation with <strong>{findUsernameById(this.props.allUsers, _.get(createCard, [ 'data', 'actor' ]))}</strong>
 							</Txt>
 							{!!card.name && (
 								<Txt bold>{card.name}</Txt>
@@ -301,12 +302,12 @@ class Base extends React.Component<CardProps, CardState> {
 							</strong>
 						</div>
 					)}
+
 					{this.state.showStatuses && (
 						<CardComponent p={1} py={2}>
 							{_.map(statuses, (statusEvent: any) => {
 								return (
 									<EventCard
-										users={this.props.allUsers as any}
 										card={statusEvent}
 										mb={1}
 									/>
@@ -333,7 +334,6 @@ class Base extends React.Component<CardProps, CardState> {
 							{_.map(summaries, (summaryEvent: any) => {
 								return (
 									<EventCard
-										users={this.props.allUsers as any}
 										card={summaryEvent}
 										mb={1}
 									/>
@@ -374,6 +374,7 @@ class Base extends React.Component<CardProps, CardState> {
 const mapStateToProps = (state: StoreState) => {
 	return {
 		allUsers: selectors.getAllUsers(state),
+		accounts: selectors.getAccounts(state),
 		types: selectors.getTypes(state),
 	};
 };

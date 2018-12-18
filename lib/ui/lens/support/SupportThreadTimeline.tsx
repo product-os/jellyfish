@@ -329,7 +329,11 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 						paddingTop: 8,
 					}}
 				>
-					{!tail && <Icon name="cog fa-spin" />}
+					{!tail && (
+						<Box p={3}>
+							<Icon name="cog fa-spin" />
+						</Box>
+					)}
 
 					{(!!tail && tail.length > 0) && _.map(tail, card => {
 						if (messagesOnly && card.type !== 'message' && card.type !== 'whisper') {
@@ -339,7 +343,6 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 						return (
 							<Box key={card.id}>
 								<EventCard
-									users={this.props.allUsers}
 									openChannel={
 										this.getTargetId(card) !== channelTarget ? this.openChannel : undefined
 									}
