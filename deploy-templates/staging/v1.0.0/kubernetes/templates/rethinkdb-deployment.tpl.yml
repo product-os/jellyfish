@@ -1,5 +1,5 @@
-apiVersion: apps/v1beta2
-kind: Deployment
+apiVersion: apps/v1beta1
+kind: StatefulSet
 metadata:
   name: rethinkdb
   namespace: jellyfish
@@ -7,6 +7,8 @@ spec:
   selector:
     matchLabels:
       app: rethinkdb
+  replicas: 3
+  serviceName: rethinkdb
   template:
     metadata:
       labels:
@@ -14,19 +16,45 @@ spec:
     spec:
       containers:
       - image: {{{jellyfish-rethinkdb-image}}}
+        imagePullPolicy: Always
         name: rethinkdb
         env:
         - name: DB_PASSWORD
           value: {{{DB_PASSWORD}}}
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: status.podIP
+        - name: RETHINK_CLUSTER
+          value: rethinkdb
         ports:
+        - containerPort: 29015
+          name: cluster-port
         - containerPort: 28015
-          name: data-port
+          name: client-port
         - containerPort: 8080
-          name: db-ui-port
+          name: admin-port
         volumeMounts:
-        - name: rethinkdb-persistent-storage
-          mountPath: /data
-      volumes:
-      - name: rethinkdb-persistent-storage
-        persistentVolumeClaim:
-          claimName: rethinkdb-pv-claim
+        - mountPath: /data
+          name: data
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      storageClassName: fast
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 20Gi

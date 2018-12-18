@@ -9,7 +9,9 @@ spec:
   selector:
     app: rethinkdb
   ports:
+  - port: 29015
+    name: cluster-port
   - port: 28015
-    name: data-port
+    name: client-port
   - port: 8080
-    name: db-ui-port
+    name: admin-port
