@@ -2457,7 +2457,7 @@ ava('action-create-event should create a link card', async (test) => {
 			type: 'message',
 			tags: [],
 			payload: {
-				messages: [ 'johndoe' ]
+				message: 'johndoe'
 			}
 		}
 	})
@@ -2513,6 +2513,47 @@ ava('action-create-event should create a link card', async (test) => {
 			}
 		}
 	}))
+})
+
+ava.only('events should always inherit their parent\'s markers', async (test) => {
+	const marker = 'org-test'
+	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.session, 'card')
+
+	const cardRequest = await test.context.worker.enqueue(test.context.session, {
+		action: 'action-create-card',
+		card: typeCard.id,
+		type: typeCard.type,
+		arguments: {
+			properties: {
+				markers: [ marker ]
+			}
+		}
+	})
+
+	await test.context.flush(test.context.session)
+	const cardResult = await queue.waitResults(
+		test.context.jellyfish, test.context.session, cardRequest)
+	test.false(cardResult.error)
+
+	const messageRequest = await test.context.worker.enqueue(test.context.session, {
+		action: 'action-create-event',
+		card: cardResult.data.id,
+		type: cardResult.data.type,
+		arguments: {
+			type: 'message',
+			tags: [],
+			payload: {
+				message: 'johndoe'
+			}
+		}
+	})
+
+	await test.context.flush(test.context.session)
+	const messageResult = await queue.waitResults(
+		test.context.jellyfish, test.context.session, messageRequest)
+	test.false(messageResult.error)
+
+	test.deepEqual(messageResult.data.markers, [ marker ])
 })
 
 ava('should be able to insert a deeply nested card', async (test) => {
