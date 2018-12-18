@@ -80,23 +80,38 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 				type: {
 					enum: [
 						'message',
-						'whisper',
-						'update',
 						'create',
+						'update',
+						'whisper',
 					],
 				},
-				data: {
+				links: {
 					type: 'object',
 					properties: {
-						target: {
-							const: target,
+						'is attached to': {
+							type: 'array',
+							// TODO: Add support for 'contains' with an object value to
+							// reqlSchema so you don't have to use an inverted 'not'
+							not: {
+								items: {
+									not: {
+										type: 'object',
+										properties: {
+											id: {
+												type: 'string',
+												const: target,
+											},
+										},
+									},
+								},
+							},
 						},
 					},
-					required: [ 'target' ],
+					required: [ 'is attached to' ],
 					additionalProperties: true,
 				},
 			},
-			required: [ 'type', 'data' ],
+			required: [ 'type', 'links' ],
 			additionalProperties: true,
 		};
 
@@ -253,6 +268,10 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 
 	}
 
+	public getTargetId(card: Card): string {
+		return _.get(card, [ 'links', 'is attached to', '0', 'id' ]) || card.id;
+	}
+
 	public render(): React.ReactNode {
 		const head = this.props.card;
 		const { tail } = this.state;
@@ -302,7 +321,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 								<EventCard
 									users={this.props.allUsers}
 									openChannel={
-										card.data && card.data.target !== channelTarget ? this.openChannel : undefined
+										this.getTargetId(card) !== channelTarget ? this.openChannel : undefined
 									}
 									card={card}
 								/>
@@ -381,10 +400,6 @@ const lens: Lens = {
 								type: 'string',
 								format: 'date-time',
 							},
-							target: {
-								type: 'string',
-								format: 'uuid',
-							},
 							actor: {
 								type: 'string',
 								format: 'uuid',
@@ -395,7 +410,6 @@ const lens: Lens = {
 						},
 						required: [
 							'timestamp',
-							'target',
 							'actor',
 						],
 					},
