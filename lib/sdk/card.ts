@@ -15,9 +15,8 @@
  */
 
 import * as Bluebird from 'bluebird';
-import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
-import { Card } from '../types';
+import { Card, JellySchema } from '../types';
 import { SDKInterface } from './index';
 import { isUUID } from './utils';
 
@@ -73,7 +72,7 @@ export class CardSdk {
 	 * 	})
 	 */
 	public get(idOrSlug: string, options: any = {}): Bluebird<Card | null> {
-		const schema: JSONSchema6 = isUUID(idOrSlug) ? {
+		const schema: JellySchema = isUUID(idOrSlug) ? {
 				type: 'object',
 				properties: {
 					id: {
@@ -167,7 +166,7 @@ export class CardSdk {
 	 * 	})
 	 */
 	public getAllByType(cardType: string): Bluebird<Card[]> {
-		const schema: JSONSchema6 = {
+		const schema: JellySchema = {
 			type: 'object',
 			properties: {
 				type: {
