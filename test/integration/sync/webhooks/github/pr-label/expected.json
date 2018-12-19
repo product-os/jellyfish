@@ -8,7 +8,15 @@
     "requires": [],
     "capabilities": [],
     "data": {
-      "repository": "resin-io/jellyfish",
+      "repository": {
+        "base_branch": "master",
+        "base_org": "resin-io",
+        "base_repo": "jellyfish",
+        "head_branch": "pr-label-unlabel",
+        "head_org": "resin-io",
+        "head_repo": "jellyfish"
+      },
+      "sha": "803d0ccc315e606fe8d00cf52138de654c3f35aa",
       "mirrors": [
         "https://github.com/resin-io/jellyfish/pull/776"
       ],
@@ -37,7 +45,15 @@
           "requires": [],
           "capabilities": [],
           "data": {
-            "repository": "resin-io/jellyfish",
+            "repository": {
+              "base_branch": "master",
+              "base_org": "resin-io",
+              "base_repo": "jellyfish",
+              "head_branch": "pr-label-unlabel",
+              "head_org": "resin-io",
+              "head_repo": "jellyfish"
+            },
+            "sha": "803d0ccc315e606fe8d00cf52138de654c3f35aa",
             "mirrors": [
               "https://github.com/resin-io/jellyfish/pull/776"
             ],
@@ -70,7 +86,15 @@
           "requires": [],
           "capabilities": [],
           "data": {
-            "repository": "resin-io/jellyfish",
+            "repository": {
+              "base_branch": "master",
+              "base_org": "resin-io",
+              "base_repo": "jellyfish",
+              "head_branch": "pr-label-unlabel",
+              "head_org": "resin-io",
+              "head_repo": "jellyfish"
+            },
+            "sha": "803d0ccc315e606fe8d00cf52138de654c3f35aa",
             "mirrors": [
               "https://github.com/resin-io/jellyfish/pull/776"
             ],
@@ -101,7 +125,15 @@
           "requires": [],
           "capabilities": [],
           "data": {
-            "repository": "resin-io/jellyfish",
+            "repository": {
+              "base_branch": "master",
+              "base_org": "resin-io",
+              "base_repo": "jellyfish",
+              "head_branch": "pr-label-unlabel",
+              "head_org": "resin-io",
+              "head_repo": "jellyfish"
+            },
+            "sha": "803d0ccc315e606fe8d00cf52138de654c3f35aa",
             "mirrors": [
               "https://github.com/resin-io/jellyfish/pull/776"
             ],

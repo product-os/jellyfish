@@ -81,7 +81,6 @@ exports.worker = {
 				const Constructor = test.context.worker.errors[result.data.type] ||
 					test.context.jellyfish.errors[result.data.type] ||
 					Error
-
 				throw new Constructor(result.data.message)
 			}
 
