@@ -71,7 +71,7 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 		}
 
 		// Only set the scroll flag if the scroll area is already at the bottom
-		this.shouldScroll = this.scrollArea.scrollTop === this.scrollArea.scrollHeight - this.scrollArea.offsetHeight;
+		this.shouldScroll = this.scrollArea.scrollTop >= this.scrollArea.scrollHeight - this.scrollArea.offsetHeight;
 	}
 
 	public componentDidUpdate(): void {

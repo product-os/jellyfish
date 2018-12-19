@@ -62,18 +62,17 @@ export class Renderer extends React.Component<DefaultRendererProps, RendererStat
 			whisper: true,
 			messageSymbol: false,
 		};
+	}
 
-		setTimeout(() => {
-			this.shouldScroll = true;
-
-			this.scrollToBottom();
-		}, 1000);
+	public componentDidMount(): void {
+		this.shouldScroll = true;
+		this.scrollToBottom();
 	}
 
 	public componentWillUpdate(): void {
 		if (this.scrollArea) {
 			// Only set the scroll flag if the scroll area is already at the bottom
-			this.shouldScroll = this.scrollArea.scrollTop === this.scrollArea.scrollHeight - this.scrollArea.offsetHeight;
+			this.shouldScroll = this.scrollArea.scrollTop >= this.scrollArea.scrollHeight - this.scrollArea.offsetHeight;
 		}
 	}
 
