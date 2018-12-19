@@ -15,11 +15,10 @@
  */
 
 import { EventEmitter } from 'events';
-import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import * as io from 'socket.io-client';
 import uuid = require('uuid/v4');
-import { Card } from '../types';
+import { Card, JellySchema } from '../types';
 import { SDKInterface } from './index';
 
 export interface StreamEventMap {
@@ -67,7 +66,7 @@ export class JellyfishStream extends EventEmitter {
 	 * @param {Object} sdk - An instantiated instance of JellyfishSDK
 	 */
 	constructor(
-		query: JSONSchema6,
+		query: JellySchema,
 		openSocket: () => Promise<SocketIOClient.Socket>,
 		sdk: SDKInterface,
 	) {
@@ -251,7 +250,7 @@ export class JellyfishStreamManager {
 	 * 	console.error(error);
 	 * })
 	 */
-	public async stream(query: JSONSchema6): Promise<JellyfishStream> {
+	public async stream(query: JellySchema): Promise<JellyfishStream> {
 		const emitter = new JellyfishStream(query, this.openSocket, this.sdk);
 
 		await emitter.ready;

@@ -1,5 +1,11 @@
 import { JSONSchema6 } from 'json-schema';
 
+export interface JellySchema extends JSONSchema6 {
+	$$links?: {
+		[k: string]: JSONSchema6;
+	};
+}
+
 export interface ContractCapability {
 	slug: string;
 	componentVersion?: string;
@@ -49,7 +55,7 @@ export interface Card {
 	type: string;
 	tags: string[];
 	markers: string[];
-	links: object;
+	links: { [key: string]: any };
 	requires: object[];
 	capabilities: object[];
 	active: boolean;

@@ -1,4 +1,3 @@
-import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -14,7 +13,6 @@ import { Card, Lens, RendererProps } from '../../../types';
 import AutocompleteTextarea from '../../components/AutocompleteTextarea';
 import { Event as EventCard } from '../../components/Event';
 import Icon from '../../components/Icon';
-import { TailStreamer } from '../../components/TailStreamer';
 import { analytics, sdk } from '../../core';
 import { actionCreators, selectors, StoreState } from '../../core/store';
 import {
@@ -32,11 +30,9 @@ const Column = styled(Flex)`
 const messageSymbolRE = /^\s*%\s*/;
 
 interface RendererState {
-	tail: null | Card[];
 	newMessage: string;
 	showNewCardModal: boolean;
 	messagesOnly: boolean;
-	streamInitialised: boolean;
 	whisper: boolean;
 	messageSymbol: boolean;
 }
@@ -51,7 +47,7 @@ interface DefaultRendererProps extends RendererProps {
 }
 
 // Default renderer for a card and a timeline
-export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> {
+export class Renderer extends React.Component<DefaultRendererProps, RendererState> {
 	private fileInputElement: HTMLInputElement | null;
 	private scrollArea: HTMLElement | null;
 	private shouldScroll: boolean = true;
@@ -59,75 +55,13 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 	constructor(props: DefaultRendererProps) {
 		super(props);
 
-		this.state = this.getDefaultState();
-		this.bootstrap(this.props.card.id);
-
-	}
-
-	public getDefaultState(): RendererState {
-		return {
-			tail: this.props.tail ? this.sortTail(this.props.tail) : null,
+		this.state = {
 			newMessage: '',
 			showNewCardModal: false,
 			messagesOnly: true,
-			streamInitialised: false,
 			whisper: true,
 			messageSymbol: false,
 		};
-	}
-
-	public sortTail(tail: Card[]): Card[] {
-		return _.sortBy<Card>(tail, 'data.timestamp');
-	}
-
-	public bootstrap(target: string): void {
-		const querySchema: JSONSchema6 = {
-			type: 'object',
-			properties: {
-				type: {
-					enum: [
-						'message',
-						'create',
-						'update',
-						'whisper',
-					],
-				},
-				links: {
-					type: 'object',
-					properties: {
-						'is attached to': {
-							type: 'array',
-							// TODO: Add support for 'contains' with an object value to
-							// reqlSchema so you don't have to use an inverted 'not'
-							not: {
-								items: {
-									not: {
-										type: 'object',
-										properties: {
-											id: {
-												type: 'string',
-												const: target,
-											},
-										},
-									},
-								},
-							},
-						},
-					},
-					required: [ 'is attached to' ],
-					additionalProperties: true,
-				},
-			},
-			required: [ 'type', 'links' ],
-			additionalProperties: true,
-		};
-
-		if (!this.props.tail) {
-			this.streamTail(querySchema)
-				.then(() => {
-					this.setState({ streamInitialised: true });
-				});
-		}
 
 		setTimeout(() => {
 			this.shouldScroll = true;
@@ -136,21 +70,10 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		}, 1000);
 	}
 
-	public setTail(tail: Card[]): void {
-		this.setState({
-			tail: this.sortTail(tail),
-		});
-	}
-
-	public componentWillUpdate(nextProps: DefaultRendererProps): void {
+	public componentWillUpdate(): void {
 		if (this.scrollArea) {
 			// Only set the scroll flag if the scroll area is already at the bottom
 			this.shouldScroll = this.scrollArea.scrollTop === this.scrollArea.scrollHeight - this.scrollArea.offsetHeight;
-		}
-
-		if (_.get(nextProps.card, [ 'id' ]) !== _.get(this.props.card, [ 'id' ])) {
-			this.setState(this.getDefaultState());
-			this.bootstrap(nextProps.card.id);
 		}
 	}
 
@@ -218,10 +141,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 		// If a card is not provided, see if a matching card can be found from this
 		// component's state/props
 		if (!card) {
-			card = _.find(_.concat(
-				this.state.tail || [],
-				this.props.tail || [],
-			), { id: target });
+			card = _.find(this.props.tail || [], { id: target });
 		}
 
 		const newChannel = createChannel({
@@ -297,7 +217,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 
 	public render(): React.ReactNode {
 		const head = this.props.card;
-		const { tail } = this.state;
+		const { tail } = this.props;
 		const channelTarget = this.props.card.id;
 		const whisper = this.state.messageSymbol ? false : this.state.whisper;
 		const { messagesOnly } = this.state;
@@ -353,7 +273,7 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 					})}
 				</div>
 
-				{head && head.type !== 'view' && this.state.streamInitialised &&
+				{head && head.type !== 'view' &&
 					<Flex
 						style={{ borderTop: '1px solid #eee' }}
 						bg={whisper ? '#eee' : 'white'}

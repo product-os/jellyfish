@@ -16,9 +16,8 @@
 
 import axios, { AxiosRequestConfig, AxiosResponse, CancelTokenSource } from 'axios';
 import * as Bluebird from 'bluebird';
-import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
-import { Card } from '../types';
+import { Card, JellySchema } from '../types';
 import { AuthSdk } from './auth';
 import { CardSdk } from './card';
 import { EventSdk } from './event';
@@ -71,7 +70,7 @@ export interface SDKInterface {
 		arguments?: any;
 	}) => Bluebird<D>;
 
-	query: <T extends Card>(schema: JSONSchema6) => Bluebird<T[]>;
+	query: <T extends Card>(schema: JellySchema) => Bluebird<T[]>;
 
 	post: <R = ServerResponse>(endpoint: string, body: any, options?: AxiosRequestConfig) => Bluebird<AxiosResponse<R> | void>;
 
@@ -404,7 +403,7 @@ export class JellyfishSDK implements SDKInterface {
 	 * 		console.log(cards);
 	 * 	});
 	 */
-	public query <T extends Card>(schema: JSONSchema6, options: QueryOptions = {}): Bluebird<T[]> {
+	public query <T extends Card>(schema: JellySchema, options: QueryOptions = {}): Bluebird<T[]> {
 		const payload = {
 			query: _.isString(schema) ? schema : _.omit(schema, '$id'),
 			options,
@@ -577,7 +576,7 @@ export class JellyfishSDK implements SDKInterface {
 	 * 	console.error(error);
 	 * })
 	 */
-	public stream(query: JSONSchema6): Promise<JellyfishStream> {
+	public stream(query: JellySchema): Promise<JellyfishStream> {
 		return this.streamManager.stream(query);
 	}
 }

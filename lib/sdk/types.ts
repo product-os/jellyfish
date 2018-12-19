@@ -16,23 +16,7 @@
 
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import * as Bluebird from 'bluebird';
-import { JSONSchema6 } from 'json-schema';
-import { Card } from './types';
-
-export interface Card {
-	id: string;
-	type: string;
-	version: string;
-	tags: string[];
-	links: object;
-	active: boolean;
-	requires: object[];
-	capabilities: object[];
-	data: { [key: string]: any };
-	name?: string;
-	slug: string;
-	transient?: object;
-}
+import { Card, JellySchema } from '../types';
 
 export interface Event extends Card {
 	data: {
@@ -87,7 +71,7 @@ export interface SDKInterface {
 		arguments?: any;
 	}) => Bluebird<D>;
 
-	query: <T extends Card>(schema: JSONSchema6) => Bluebird<T[]>;
+	query: <T extends Card>(schema: JellySchema) => Bluebird<T[]>;
 
 	post: <R = ServerResponse>(endpoint: string, body: any, options?: AxiosRequestConfig) => Bluebird<AxiosResponse<R> | void>;
 
