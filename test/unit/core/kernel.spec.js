@@ -221,7 +221,8 @@ ava('.insertCard() should update links property when linking two cards', async (
 				{
 					$link: linkCard.id,
 					id: card2.id,
-					slug: 'bar-baz'
+					slug: 'bar-baz',
+					type: 'card'
 				}
 			]
 		},
@@ -244,7 +245,8 @@ ava('.insertCard() should update links property when linking two cards', async (
 				{
 					$link: linkCard.id,
 					id: card1.id,
-					slug: 'foo-bar'
+					slug: 'foo-bar',
+					type: 'card'
 				}
 			]
 		},
@@ -338,7 +340,7 @@ ava('.insertCard() should not update links property when linking an invalid card
 	})
 })
 
-ava('.insertCard() should update links property when linking two cards in two different ways', async (test) => {
+ava.only('.insertCard() should update links property when linking two cards in two different ways', async (test) => {
 	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'foo-bar',
 		type: 'card'
@@ -398,14 +400,16 @@ ava('.insertCard() should update links property when linking two cards in two di
 				{
 					$link: linkCard1.id,
 					id: card2.id,
-					slug: 'bar-baz'
+					slug: 'bar-baz',
+					type: 'card'
 				}
 			],
 			'is related to': [
 				{
 					$link: linkCard2.id,
 					id: card2.id,
-					slug: 'bar-baz'
+					slug: 'bar-baz',
+					type: 'card'
 				}
 			]
 		},
@@ -428,14 +432,16 @@ ava('.insertCard() should update links property when linking two cards in two di
 				{
 					$link: linkCard1.id,
 					id: card1.id,
-					slug: 'foo-bar'
+					slug: 'foo-bar',
+					type: 'card'
 				}
 			],
 			'is related to': [
 				{
 					$link: linkCard2.id,
 					id: card1.id,
-					slug: 'foo-bar'
+					slug: 'foo-bar',
+					type: 'card'
 				}
 			]
 		},
@@ -530,7 +536,8 @@ ava('.insertCard() should be able to remove a link', async (test) => {
 				{
 					$link: linkCard2.id,
 					id: card2.id,
-					slug: 'bar-baz'
+					slug: 'bar-baz',
+					type: 'card'
 				}
 			]
 		},
@@ -554,7 +561,8 @@ ava('.insertCard() should be able to remove a link', async (test) => {
 				{
 					$link: linkCard2.id,
 					id: card1.id,
-					slug: 'foo-bar'
+					slug: 'foo-bar',
+					type: 'card'
 				}
 			]
 		},

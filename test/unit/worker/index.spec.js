@@ -2232,7 +2232,8 @@ ava('should add an update event if updating a card', async (test) => {
 					{
 						$link: timeline[0].links['is attached to'][0].$link,
 						id: createResult.data.id,
-						slug: 'foo'
+						slug: 'foo',
+						type: 'card'
 					}
 				]
 			},
@@ -2261,7 +2262,8 @@ ava('should add an update event if updating a card', async (test) => {
 					{
 						$link: timeline[1].links['is attached to'][0].$link,
 						id: createResult.data.id,
-						slug: 'foo'
+						slug: 'foo',
+						type: 'card'
 					}
 				]
 			},

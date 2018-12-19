@@ -362,7 +362,8 @@ ava('.upsertElement() should update linked cards when inserting a link', async (
 			{
 				$link: link.id,
 				id: thread.id,
-				slug: 'foo'
+				slug: 'foo',
+				type: 'thread'
 			}
 		]
 	})
@@ -372,7 +373,8 @@ ava('.upsertElement() should update linked cards when inserting a link', async (
 			{
 				$link: link.id,
 				id: card.id,
-				slug: 'bar'
+				slug: 'bar',
+				type: 'message'
 			}
 		]
 	})
@@ -1658,7 +1660,7 @@ ava('.query() should be able to query using links when getting an element by id'
 		}
 	})
 
-	await test.context.backend.upsertElement({
+	const link = await test.context.backend.upsertElement({
 		type: 'link',
 		links: {},
 		slug: `link-${message.slug}-has-attached-element-${thread.slug}`,
@@ -1718,7 +1720,16 @@ ava('.query() should be able to query using links when getting an element by id'
 							description: 'lorem ipsum dolor sit amet'
 						},
 						id: thread.id,
-						links: {},
+						links: {
+							'has attached element': [
+								{
+									$link: link.id,
+									id: message.id,
+									slug: 'bar',
+									type: 'message'
+								}
+							]
+						},
 						type: 'thread'
 					}
 				]
@@ -1749,7 +1760,7 @@ ava('.query() should be able to query using links when getting an element by slu
 		}
 	})
 
-	await test.context.backend.upsertElement({
+	const link = await test.context.backend.upsertElement({
 		type: 'link',
 		slug: `link-${message.slug}-is-attached-to-${thread.slug}`,
 		active: true,
@@ -1808,7 +1819,16 @@ ava('.query() should be able to query using links when getting an element by slu
 							description: 'lorem ipsum dolor sit amet'
 						},
 						id: thread.id,
-						links: {},
+						links: {
+							'has attached element': [
+								{
+									$link: link.id,
+									id: message.id,
+									slug: 'message-foobar',
+									type: 'message'
+								}
+							]
+						},
 						type: 'thread'
 					}
 				]
@@ -1848,7 +1868,7 @@ ava('.query() should be able to query using links and an inverse name', async (t
 		}
 	})
 
-	await test.context.backend.upsertElement({
+	const link1 = await test.context.backend.upsertElement({
 		type: 'link',
 		slug: `link-${message1.slug}-is-attached-to-${thread.slug}`,
 		active: true,
@@ -1866,7 +1886,7 @@ ava('.query() should be able to query using links and an inverse name', async (t
 		}
 	})
 
-	await test.context.backend.upsertElement({
+	const link2 = await test.context.backend.upsertElement({
 		type: 'link',
 		slug: `link-${message2.slug}-is-attached-to-${thread.slug}`,
 		active: true,
@@ -1922,7 +1942,16 @@ ava('.query() should be able to query using links and an inverse name', async (t
 						active: true,
 						slug: 'foo',
 						id: message1.id,
-						links: {},
+						links: {
+							'is attached to': [
+								{
+									$link: link1.id,
+									id: thread.id,
+									slug: 'mythread',
+									type: 'thread'
+								}
+							]
+						},
 						type: 'message',
 						data: {
 							payload: 'foo'
@@ -1932,7 +1961,16 @@ ava('.query() should be able to query using links and an inverse name', async (t
 						active: true,
 						slug: 'bar',
 						id: message2.id,
-						links: {},
+						links: {
+							'is attached to': [
+								{
+									$link: link2.id,
+									id: thread.id,
+									slug: 'mythread',
+									type: 'thread'
+								}
+							]
+						},
 						type: 'message',
 						data: {
 							payload: 'foo'
@@ -1971,7 +2009,7 @@ ava('.query() should omit a result if a link does not match', async (test) => {
 		}
 	})
 
-	await test.context.backend.upsertElement({
+	const link1 = await test.context.backend.upsertElement({
 		type: 'link',
 		slug: `link-${card1.slug}-is-attached-to-${thread.slug}`,
 		active: true,
@@ -2064,7 +2102,16 @@ ava('.query() should omit a result if a link does not match', async (test) => {
 						active: true,
 						data: {},
 						id: thread.id,
-						links: {},
+						links: {
+							'has attached element': [
+								{
+									$link: link1.id,
+									id: card1.id,
+									slug: 'bar',
+									type: 'message'
+								}
+							]
+						},
 						slug: 'mythread',
 						type: 'thread'
 					}
