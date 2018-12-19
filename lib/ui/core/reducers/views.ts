@@ -247,6 +247,33 @@ export const actionCreators = {
 			});
 	},
 
+	setDefault: (
+		card: Card,
+	): JellyThunkSync<void, StoreState> => function setDefault(dispatch, getState): void {
+		const user = selectors.getCurrentUser(getState());
+		sdk.card.update(user.id, {
+			type: 'user',
+			data: {
+				profile: {
+					homeView: card.id,
+				},
+			},
+		})
+			.then(() => {
+				dispatch(allActionCreators.addNotification(
+					'success',
+					`Set ${card.name || card.slug} as default view`,
+				));
+			})
+			.catch((error) => {
+				dispatch(allActionCreators.addNotification(
+					'danger',
+					error.message || error,
+				));
+			});
+
+	},
+
 	removeViewDataItem: (query: string | Card | JSONSchema6, data: Card): Action => {
 		const id = getViewId(query);
 		return {

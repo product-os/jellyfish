@@ -29,6 +29,18 @@ const PRIORITY_VIEWS = [
 	'view-my-todo-items',
 ];
 
+const getDefaultView = (user: Card | null, views: Card[]): Card | null => {
+	const homeViewId = _.get(user, [ 'data', 'profile', 'homeView' ]);
+	if (homeViewId) {
+		const homeView = _.find(views, { id: homeViewId });
+		if (homeView) {
+			return homeView;
+		}
+	}
+
+	return _.find(views, { slug: 'view-all-messages' }) || null;
+};
+
 const MenuPanel = styled(Box)`
 	position: absolute;
 	top: 64px;
@@ -116,11 +128,13 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 		tail.forEach(card => {
 			this.props.actions.streamView(card);
 		});
-		// If there is only 1 channel, open the all messages view by default
+		// If there is only 1 channel, check for the home channel, otherwise, open
+		// the all messages view by default
 		if (this.props.channels.length === 1) {
-			const allMessagesView = _.find(tail, { slug: 'view-all-messages' });
-			if (allMessagesView) {
-				this.open(allMessagesView);
+			const view = getDefaultView(this.props.user, tail);
+
+			if (view) {
+				this.open(view);
 			}
 		}
 
