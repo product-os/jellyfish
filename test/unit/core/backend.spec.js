@@ -40,6 +40,79 @@ ava('.disconnect() should gracefully close streams', async (test) => {
 	})
 })
 
+ava('.getElementsById() should return an empty array given one non-existent element', async (test) => {
+	const result = await test.context.backend.getElementsById([ '4a962ad9-20b5-4dd8-a707-bf819593cc84' ], {
+		type: 'card'
+	})
+
+	test.deepEqual(result, [])
+})
+
+ava('.getElementsById() should return an found element', async (test) => {
+	const element = await test.context.backend.upsertElement({
+		slug: 'example',
+		type: 'card',
+		test: 'foo'
+	})
+
+	const result = await test.context.backend.getElementsById([ element.id ], {
+		type: 'card'
+	})
+
+	test.deepEqual(result, [ element ])
+})
+
+ava('.getElementsById() should omit not found elements', async (test) => {
+	const element = await test.context.backend.upsertElement({
+		slug: 'example',
+		type: 'card',
+		test: 'foo'
+	})
+
+	const result = await test.context.backend.getElementsById([ element.id, '4a962ad9-20b5-4dd8-a707-bf819593cc84' ], {
+		type: 'card'
+	})
+
+	test.deepEqual(result, [ element ])
+})
+
+ava('.getElementsById() should omit elements on another table', async (test) => {
+	const element = await test.context.backend.upsertElement({
+		slug: 'example',
+		type: 'card',
+		test: 'foo'
+	})
+
+	const result = await test.context.backend.getElementsById([ element.id ], {
+		type: 'link'
+	})
+
+	test.deepEqual(result, [])
+})
+
+ava('.getElementsById() should get deterministic results', async (test) => {
+	const element = await test.context.backend.upsertElement({
+		slug: 'example',
+		type: 'card',
+		test: 'foo'
+	})
+
+	const result1 = await test.context.backend.getElementsById([ element.id, '4a962ad9-20b5-4dd8-a707-bf819593cc84' ], {
+		type: 'card'
+	})
+
+	const result2 = await test.context.backend.getElementsById([ element.id, '4a962ad9-20b5-4dd8-a707-bf819593cc84' ], {
+		type: 'card'
+	})
+
+	const result3 = await test.context.backend.getElementsById([ element.id, '4a962ad9-20b5-4dd8-a707-bf819593cc84' ], {
+		type: 'card'
+	})
+
+	test.deepEqual(result1, result2)
+	test.deepEqual(result2, result3)
+})
+
 ava('.getElementById() should return null if the element id is not present', async (test) => {
 	const result = await test.context.backend.getElementById('4a962ad9-20b5-4dd8-a707-bf819593cc84', {
 		type: 'card'
@@ -258,7 +331,7 @@ ava('.upsertElement() should update linked cards when inserting a link', async (
 		}
 	})
 
-	await test.context.backend.upsertElement({
+	const link = await test.context.backend.upsertElement({
 		type: 'link',
 		slug: `link-${card.slug}-is-attached-to-${thread.slug}`,
 		active: true,
@@ -287,7 +360,7 @@ ava('.upsertElement() should update linked cards when inserting a link', async (
 	test.deepEqual(updatedCard.links, {
 		'is attached to': [
 			{
-				$link: updatedCard.links['is attached to'][0].$link,
+				$link: link.id,
 				id: thread.id,
 				slug: 'foo'
 			}
@@ -297,7 +370,7 @@ ava('.upsertElement() should update linked cards when inserting a link', async (
 	test.deepEqual(updatedThread.links, {
 		'has attached element': [
 			{
-				$link: updatedThread.links['has attached element'][0].$link,
+				$link: link.id,
 				id: card.id,
 				slug: 'bar'
 			}
@@ -1381,7 +1454,7 @@ ava('.query() should be able to query using links', async (test) => {
 		}
 	})
 
-	const link1 = await test.context.backend.upsertElement({
+	await test.context.backend.upsertElement({
 		type: 'link',
 		slug: `link-${card1.slug}-is-attached-to-${thread1.slug}`,
 		active: true,
@@ -1409,7 +1482,7 @@ ava('.query() should be able to query using links', async (test) => {
 		}
 	})
 
-	const link2 = await test.context.backend.upsertElement({
+	await test.context.backend.upsertElement({
 		type: 'link',
 		slug: `link-${card2.slug}-is-attached-to-${thread1.slug}`,
 		active: true,
@@ -1437,7 +1510,7 @@ ava('.query() should be able to query using links', async (test) => {
 		}
 	})
 
-	const link3 = await test.context.backend.upsertElement({
+	await test.context.backend.upsertElement({
 		type: 'link',
 		slug: `link-${card3.slug}-is-attached-to-${thread2.slug}`,
 		active: true,
@@ -1505,7 +1578,6 @@ ava('.query() should be able to query using links', async (test) => {
 			links: {
 				'is attached to': [
 					{
-						$link: link1.id,
 						id: thread1.id,
 						type: 'thread'
 					}
@@ -1521,7 +1593,6 @@ ava('.query() should be able to query using links', async (test) => {
 			links: {
 				'is attached to': [
 					{
-						$link: link2.id,
 						id: thread1.id,
 						type: 'thread'
 					}
@@ -1537,7 +1608,6 @@ ava('.query() should be able to query using links', async (test) => {
 			links: {
 				'is attached to': [
 					{
-						$link: link3.id,
 						id: thread2.id,
 						type: 'thread'
 					}
@@ -1572,7 +1642,7 @@ ava('.query() should be able to query using links when getting an element by id'
 		}
 	})
 
-	const link = await test.context.backend.upsertElement({
+	await test.context.backend.upsertElement({
 		type: 'link',
 		links: {},
 		slug: `link-${message.slug}-has-attached-element-${thread.slug}`,
@@ -1626,22 +1696,13 @@ ava('.query() should be able to query using links when getting an element by id'
 			links: {
 				'is attached to': [
 					{
-						$link: link.id,
 						active: true,
 						slug: 'foo',
 						data: {
 							description: 'lorem ipsum dolor sit amet'
 						},
 						id: thread.id,
-						links: {
-							'has attached element': [
-								{
-									$link: link.id,
-									id: message.id,
-									slug: 'bar'
-								}
-							]
-						},
+						links: {},
 						type: 'thread'
 					}
 				]
@@ -1672,7 +1733,7 @@ ava('.query() should be able to query using links when getting an element by slu
 		}
 	})
 
-	const link = await test.context.backend.upsertElement({
+	await test.context.backend.upsertElement({
 		type: 'link',
 		slug: `link-${message.slug}-is-attached-to-${thread.slug}`,
 		active: true,
@@ -1725,22 +1786,13 @@ ava('.query() should be able to query using links when getting an element by slu
 			links: {
 				'is attached to': [
 					{
-						$link: link.id,
 						slug: 'foo',
 						active: true,
 						data: {
 							description: 'lorem ipsum dolor sit amet'
 						},
 						id: thread.id,
-						links: {
-							'has attached element': [
-								{
-									$link: link.id,
-									id: message.id,
-									slug: 'message-foobar'
-								}
-							]
-						},
+						links: {},
 						type: 'thread'
 					}
 				]
@@ -1780,7 +1832,7 @@ ava('.query() should be able to query using links and an inverse name', async (t
 		}
 	})
 
-	const link1 = await test.context.backend.upsertElement({
+	await test.context.backend.upsertElement({
 		type: 'link',
 		slug: `link-${message1.slug}-is-attached-to-${thread.slug}`,
 		active: true,
@@ -1798,7 +1850,7 @@ ava('.query() should be able to query using links and an inverse name', async (t
 		}
 	})
 
-	const link2 = await test.context.backend.upsertElement({
+	await test.context.backend.upsertElement({
 		type: 'link',
 		slug: `link-${message2.slug}-is-attached-to-${thread.slug}`,
 		active: true,
@@ -1851,38 +1903,20 @@ ava('.query() should be able to query using links and an inverse name', async (t
 			links: {
 				'has attached element': [
 					{
-						$link: link1.id,
 						active: true,
 						slug: 'foo',
 						id: message1.id,
-						links: {
-							'is attached to': [
-								{
-									$link: link1.id,
-									id: thread.id,
-									slug: 'mythread'
-								}
-							]
-						},
+						links: {},
 						type: 'message',
 						data: {
 							payload: 'foo'
 						}
 					},
 					{
-						$link: link2.id,
 						active: true,
 						slug: 'bar',
 						id: message2.id,
-						links: {
-							'is attached to': [
-								{
-									$link: link2.id,
-									id: thread.id,
-									slug: 'mythread'
-								}
-							]
-						},
+						links: {},
 						type: 'message',
 						data: {
 							payload: 'foo'
@@ -1921,7 +1955,7 @@ ava('.query() should omit a result if a link does not match', async (test) => {
 		}
 	})
 
-	const link1 = await test.context.backend.upsertElement({
+	await test.context.backend.upsertElement({
 		type: 'link',
 		slug: `link-${card1.slug}-is-attached-to-${thread.slug}`,
 		active: true,
@@ -2011,19 +2045,10 @@ ava('.query() should omit a result if a link does not match', async (test) => {
 			links: {
 				'is attached to': [
 					{
-						$link: link1.id,
 						active: true,
 						data: {},
 						id: thread.id,
-						links: {
-							'has attached element': [
-								{
-									$link: link1.id,
-									id: card1.id,
-									slug: 'bar'
-								}
-							]
-						},
+						links: {},
 						slug: 'mythread',
 						type: 'thread'
 					}
