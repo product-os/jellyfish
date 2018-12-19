@@ -924,7 +924,7 @@ ava('.insertCard() should not overwrite the "created_at" field when overriding a
 	test.is(card.created_at, update.created_at)
 })
 
-ava.only('.insertCard() should not be able to set links', async (test) => {
+ava('.insertCard() should not be able to set links', async (test) => {
 	const card = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: `card-${uuid()}`,
 		type: 'card',
@@ -966,6 +966,77 @@ ava('.insertCard() should not be able to set links when overriding a card', asyn
 ava('.getCardBySlug() there should be an admin card', async (test) => {
 	const card = await test.context.kernel.getCardBySlug(test.context.kernel.sessions.admin, 'user-admin')
 	test.truthy(card)
+})
+
+ava('.getCardsById() should find an active card by its id', async (test) => {
+	const result = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'foo-bar',
+		type: 'card',
+		version: '1.0.0',
+		data: {}
+	})
+
+	const card = await test.context.kernel.getCardsById(test.context.kernel.sessions.admin, [ result.id ], {
+		type: 'card'
+	})
+
+	test.deepEqual(card, [ result ])
+})
+
+ava('.getCardsById() should find two active cards by their ids', async (test) => {
+	const result1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'foo-bar',
+		type: 'card',
+		version: '1.0.0',
+		data: {
+			foo: 1
+		}
+	})
+
+	const result2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'bar-baz',
+		type: 'card',
+		version: '1.0.0',
+		data: {
+			foo: 2
+		}
+	})
+
+	const card = await test.context.kernel.getCardsById(test.context.kernel.sessions.admin, [ result1.id, result2.id ], {
+		type: 'card'
+	})
+
+	test.deepEqual(_.sortBy(card, 'data.foo'), _.sortBy([ result1, result2 ], 'data.foo'))
+})
+
+ava('.getCardsById() should omit not found cards', async (test) => {
+	const result1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'foo-bar',
+		type: 'card',
+		version: '1.0.0',
+		data: {
+			foo: 1
+		}
+	})
+
+	const result2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+		slug: 'bar-baz',
+		type: 'card',
+		version: '1.0.0',
+		data: {
+			foo: 2
+		}
+	})
+
+	const card = await test.context.kernel.getCardsById(test.context.kernel.sessions.admin, [
+		result1.id,
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		result2.id
+	], {
+		type: 'card'
+	})
+
+	test.deepEqual(_.sortBy(card, 'data.foo'), _.sortBy([ result1, result2 ], 'data.foo'))
 })
 
 ava('.getCardById() should find an active card by its id', async (test) => {
@@ -1847,7 +1918,7 @@ ava('.query() should not consider active links to inactive cards', async (test) 
 		}
 	})
 
-	const link2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: `link-${card2.slug}-is-attached-to-${parent2.slug}`,
 		type: 'link',
 		version: '1.0.0',
@@ -1921,7 +1992,6 @@ ava('.query() should not consider active links to inactive cards', async (test) 
 				'is attached to': [
 					{
 						id: parent2.id,
-						$link: link2.id,
 						data: {
 							thread: true
 						}
@@ -1995,7 +2065,7 @@ ava('.query() should not consider inactive links', async (test) => {
 		}
 	})
 
-	const link2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: `link-${card2.slug}-is-attached-to-${parent2.slug}`,
 		type: 'link',
 		version: '1.0.0',
@@ -2068,7 +2138,6 @@ ava('.query() should not consider inactive links', async (test) => {
 				'is attached to': [
 					{
 						id: parent2.id,
-						$link: link2.id,
 						data: {
 							thread: true
 						}
@@ -2124,7 +2193,7 @@ ava('.query() should be able to query using links', async (test) => {
 		}
 	})
 
-	const link1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: `link-${card1.slug}-is-attached-to-${parent1.slug}`,
 		type: 'link',
 		version: '1.0.0',
@@ -2152,7 +2221,7 @@ ava('.query() should be able to query using links', async (test) => {
 		}
 	})
 
-	const link2 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: `link-${card2.slug}-is-attached-to-${parent1.slug}`,
 		type: 'link',
 		version: '1.0.0',
@@ -2180,7 +2249,7 @@ ava('.query() should be able to query using links', async (test) => {
 		}
 	})
 
-	const link3 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
+	await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: `link-${card3.slug}-is-attached-to-${parent2.slug}`,
 		type: 'link',
 		version: '1.0.0',
@@ -2254,7 +2323,6 @@ ava('.query() should be able to query using links', async (test) => {
 				'is attached to': [
 					{
 						id: parent1.id,
-						$link: link1.id,
 						data: {
 							thread: true
 						}
@@ -2271,7 +2339,6 @@ ava('.query() should be able to query using links', async (test) => {
 				'is attached to': [
 					{
 						id: parent1.id,
-						$link: link2.id,
 						data: {
 							thread: true
 						}
@@ -2288,7 +2355,6 @@ ava('.query() should be able to query using links', async (test) => {
 				'is attached to': [
 					{
 						id: parent2.id,
-						$link: link3.id,
 						data: {
 							thread: true
 						}

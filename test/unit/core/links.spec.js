@@ -21,9 +21,10 @@ const helpers = require('./helpers')
 
 ava.beforeEach(async (test) => {
 	await helpers.kernel.beforeEach(test)
+
 	test.context.context = {
-		getElementById: async (id, options) => {
-			return test.context.backend.getElementById(id, options)
+		getElementsById: async (id, options) => {
+			return test.context.backend.getElementsById(id, options)
 		}
 	}
 })
@@ -145,7 +146,7 @@ ava('.evaluate(is attached to) should return the declared target properties', as
 		type: 'card'
 	})
 
-	const link = await test.context.backend.upsertElement({
+	await test.context.backend.upsertElement({
 		type: 'link',
 		slug: `link-${input.slug}-is-attached-to-${card.slug}`,
 		version: '1.0.0',
@@ -192,7 +193,6 @@ ava('.evaluate(is attached to) should return the declared target properties', as
 
 	test.deepEqual(results, [
 		{
-			$link: link.id,
 			data: {
 				greeting: 'hello',
 				count: 1
@@ -216,7 +216,7 @@ ava('.evaluate(is attached to) should return the whole target if additionalPrope
 		type: 'card'
 	})
 
-	const link = await test.context.backend.upsertElement({
+	await test.context.backend.upsertElement({
 		type: 'link',
 		slug: `link-${input.slug}-has-attached-element-${card.slug}`,
 		version: '1.0.0',
@@ -264,19 +264,10 @@ ava('.evaluate(is attached to) should return the whole target if additionalPrope
 			created_at: card.created_at,
 			id: card.id,
 			slug: 'foo',
-			$link: link.id,
 			type: 'card',
 			version: '1.0.0',
 			active: true,
-			links: {
-				'has attached element': [
-					{
-						$link: link.id,
-						id: input.id,
-						slug: 'bar'
-					}
-				]
-			},
+			links: {},
 			tags: [],
 			requires: [],
 			capabilities: [],
@@ -353,7 +344,7 @@ ava('.evaluate(has attached element) should return matching elements', async (te
 		}
 	})
 
-	const link = await test.context.backend.upsertElement({
+	await test.context.backend.upsertElement({
 		type: 'link',
 		slug: `link-${card2.slug}-is-attached-to-${input.slug}`,
 		version: '1.0.0',
@@ -419,7 +410,6 @@ ava('.evaluate(has attached element) should return matching elements', async (te
 
 	test.deepEqual(results, [
 		{
-			$link: link.id,
 			id: card2.id,
 			data: {
 				count: 2
@@ -444,7 +434,7 @@ ava('.evaluateCard() should return one link of one type given one match', async 
 		data: {}
 	})
 
-	const link = await test.context.backend.upsertElement({
+	await test.context.backend.upsertElement({
 		type: 'link',
 		slug: `link-${input.slug}-is-attached-to-${card.slug}`,
 		version: '1.0.0',
@@ -492,7 +482,6 @@ ava('.evaluateCard() should return one link of one type given one match', async 
 	test.deepEqual(results, {
 		'is attached to': [
 			{
-				$link: link.id,
 				data: {
 					greeting: 'hello'
 				}
@@ -531,7 +520,7 @@ ava('.evaluateCard() should return multiple cards per link', async (test) => {
 		}
 	})
 
-	const link1 = await test.context.backend.upsertElement({
+	await test.context.backend.upsertElement({
 		type: 'link',
 		slug: `link-${card1.slug}-is-attached-to-${input.slug}`,
 		version: '1.0.0',
@@ -550,7 +539,7 @@ ava('.evaluateCard() should return multiple cards per link', async (test) => {
 		}
 	})
 
-	const link2 = await test.context.backend.upsertElement({
+	await test.context.backend.upsertElement({
 		type: 'link',
 		slug: `link-${card2.slug}-is-attached-to-${input.slug}`,
 		version: '1.0.0',
@@ -569,7 +558,7 @@ ava('.evaluateCard() should return multiple cards per link', async (test) => {
 		}
 	})
 
-	const link3 = await test.context.backend.upsertElement({
+	await test.context.backend.upsertElement({
 		type: 'link',
 		slug: `link-${card3.slug}-is-attached-to-${input.slug}`,
 		version: '1.0.0',
@@ -624,21 +613,18 @@ ava('.evaluateCard() should return multiple cards per link', async (test) => {
 	test.deepEqual(results, {
 		'has attached element': [
 			{
-				$link: link1.id,
 				id: card1.id,
 				data: {
 					count: 1
 				}
 			},
 			{
-				$link: link2.id,
 				id: card2.id,
 				data: {
 					count: 2
 				}
 			},
 			{
-				$link: link3.id,
 				id: card3.id,
 				data: {
 					count: 3
