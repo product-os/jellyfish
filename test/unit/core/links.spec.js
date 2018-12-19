@@ -22,7 +22,9 @@ const helpers = require('./helpers')
 ava.beforeEach(async (test) => {
 	await helpers.kernel.beforeEach(test)
 	test.context.context = {
-		query: test.context.backend.query.bind(test.context.backend)
+		getElementById: async (id, options) => {
+			return test.context.backend.getElementById(id, options)
+		}
 	}
 })
 
