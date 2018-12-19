@@ -16,6 +16,7 @@ import { Card } from '../../types';
 import { AuthenticatedImage } from '../components/AuthenticatedImage';
 import { tagStyle } from '../components/Tag';
 import { createPrefixRegExp, formatTimestamp } from '../services/helpers';
+import { getActor } from '../services/store-helpers';
 import Gravatar from './Gravatar';
 
 const colorHash = new ColorHash();
@@ -61,14 +62,15 @@ const EventWrapper = styled(Flex)`
 `;
 
 interface EventProps extends DefaultProps {
-	users: Card[];
 	card: Card;
 	openChannel?: (target: string) => void;
 }
 
 interface EventState {
-	actorName: string;
-	actorEmail: null | string;
+	actor: {
+		name: string;
+		email: null | string;
+	};
 }
 
 export class Event extends React.Component<EventProps, EventState> {
@@ -77,17 +79,8 @@ export class Event extends React.Component<EventProps, EventState> {
 	constructor(props: EventProps) {
 		super(props);
 
-		const actor = _.find(props.users, { id: props.card.data.actor });
-		const actorName = actor ?
-			actor.slug!.replace('user-', '') :
-			'unknown user';
-		const actorEmail = actor ?
-			actor.data.email :
-			null;
-
 		this.state = {
-			actorName,
-			actorEmail,
+			actor: getActor(this.props.card.data.actor),
 		};
 	}
 
@@ -158,7 +151,7 @@ export class Event extends React.Component<EventProps, EventState> {
 			<Txt
 				color={Theme.colors.text.light}
 			>
-				<em>{text}</em> <strong>{this.state.actorName}</strong>
+				<em>{text}</em> <strong>{this.state.actor.name}</strong>
 			</Txt>
 		);
 	}
@@ -170,7 +163,7 @@ export class Event extends React.Component<EventProps, EventState> {
 	}
 
 	public render(): React.ReactNode {
-		const { card, openChannel, users, ...props } = this.props;
+		const { card, openChannel, ...props } = this.props;
 
 		const isMessage = card.type === 'message' || card.type === 'whisper';
 
@@ -179,6 +172,7 @@ export class Event extends React.Component<EventProps, EventState> {
 			borderRadius: 10,
 			padding: '8px 16px',
 			marginRight: 8,
+			marginBottom: 8,
 
 			// Min-width is used to stop text from overflowing the flex container, see
 			// https://css-tricks.com/flexbox-truncated-text/ for a nice explanation
@@ -187,23 +181,21 @@ export class Event extends React.Component<EventProps, EventState> {
 			minWidth: 0,
 		};
 
-		const flexDir = card.type === 'whisper' ? 'row-reverse' : 'row';
-
 		return (
-			<EventWrapper {...props} className={`event-card--${card.type}`} flexDirection={flexDir}>
+			<EventWrapper {...props} className={`event-card--${card.type}`}>
 				<EventButton
 					onClick={this.openChannel}
 					style={{
 						borderLeftColor: threadColor(this.getTargetId(card)),
 					}}
 				>
-					<Gravatar small email={this.state.actorEmail} />
+					<Gravatar small email={this.state.actor.email} />
 				</EventButton>
 				<Box flex="1" style={messageStyle} pb={3} pr={3}>
-					<Flex justify="space-between" mb={2} flexDirection={flexDir}>
+					<Flex justify="space-between" mb={2}>
 						<Flex mt={isMessage ? 0 : '5px'} align="center">
 							{isMessage && (
-								<strong>{this.state.actorName}</strong>
+								<strong>{this.state.actor.name}</strong>
 							)}
 
 							{!isMessage && this.getTimelineElement(card)}

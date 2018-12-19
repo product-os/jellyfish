@@ -268,7 +268,15 @@ ava('.evaluate(is attached to) should return the whole target if additionalPrope
 			type: 'card',
 			version: '1.0.0',
 			active: true,
-			links: {},
+			links: {
+				'has attached element': [
+					{
+						$link: link.id,
+						id: input.id,
+						slug: 'bar'
+					}
+				]
+			},
 			tags: [],
 			requires: [],
 			capabilities: [],
@@ -345,7 +353,7 @@ ava('.evaluate(has attached element) should return matching elements', async (te
 		}
 	})
 
-	const link2 = await test.context.backend.upsertElement({
+	const link = await test.context.backend.upsertElement({
 		type: 'link',
 		slug: `link-${card2.slug}-is-attached-to-${input.slug}`,
 		version: '1.0.0',
@@ -411,8 +419,8 @@ ava('.evaluate(has attached element) should return matching elements', async (te
 
 	test.deepEqual(results, [
 		{
+			$link: link.id,
 			id: card2.id,
-			$link: link2.id,
 			data: {
 				count: 2
 			}
@@ -616,22 +624,22 @@ ava('.evaluateCard() should return multiple cards per link', async (test) => {
 	test.deepEqual(results, {
 		'has attached element': [
 			{
-				id: card1.id,
 				$link: link1.id,
+				id: card1.id,
 				data: {
 					count: 1
 				}
 			},
 			{
-				id: card2.id,
 				$link: link2.id,
+				id: card2.id,
 				data: {
 					count: 2
 				}
 			},
 			{
-				id: card3.id,
 				$link: link3.id,
+				id: card3.id,
 				data: {
 					count: 3
 				}
@@ -773,7 +781,8 @@ ava('.parseCard() should parse a "from" card', (test) => {
 	test.deepEqual(result, {
 		name: 'is attached to',
 		id: '87ca429f-5e46-419a-8f21-b43f68f23001',
-		slug: 'bar'
+		slug: 'bar',
+		type: 'card'
 	})
 })
 
@@ -818,7 +827,8 @@ ava('.parseCard() should parse a "to" card', (test) => {
 	test.deepEqual(result, {
 		name: 'has attached element',
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-		slug: 'bar'
+		slug: 'bar',
+		type: 'card'
 	})
 })
 

@@ -21,10 +21,10 @@ import { Tag } from '../components/Tag';
 import { actionCreators, selectors, StoreState } from '../core/store';
 import {
 	createChannel,
-	findUsernameById,
 	formatTimestamp,
 	getLocalSchema,
 } from '../services/helpers';
+import { getActor } from '../services/store-helpers';
 import TimelineLens from './Timeline';
 
 const Column = styled(Flex)`
@@ -73,7 +73,7 @@ const CardField = ({ field, payload, users, schema }: {
 		if (!len || !users) {
 			return null;
 		}
-		const names = value.map((id: string) => findUsernameById(users, id));
+		const names = value.map((id: string) => getActor(id).name);
 		return (
 			<Badge
 				tooltip={names.join(', ')}
@@ -84,7 +84,7 @@ const CardField = ({ field, payload, users, schema }: {
 		);
 	}
 	if (field === 'actor') {
-		return <Txt my={3} bold>{findUsernameById(users, value)}</Txt>;
+		return <Txt my={3} bold>{getActor(value).name}</Txt>;
 	}
 
 	// Rendering can be optimzed for some known fields

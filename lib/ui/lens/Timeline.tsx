@@ -319,7 +319,6 @@ export class Renderer extends TailStreamer<DefaultRendererProps, RendererState> 
 						return (
 							<Box key={card.id}>
 								<EventCard
-									users={this.props.allUsers}
 									openChannel={
 										this.getTargetId(card) !== channelTarget ? this.openChannel : undefined
 									}

@@ -16,6 +16,7 @@ export interface ICore {
 	status: AppStatus;
 	channels: Channel[];
 	types: Type[];
+	accounts: Card[];
 	allUsers: Card[];
 	session: null | {
 		authToken: string | null;
@@ -37,6 +38,7 @@ interface KnownState {
 }
 
 export const coreSelectors = {
+	getAccounts: (state: KnownState) => state.core.accounts,
 	getAllUsers: (state: KnownState) => state.core.allUsers,
 	getAppVersion: (state: KnownState) => _.get(state.core, ['config', 'version']) || null,
 	getChangelog: (state: KnownState) => _.get(state.core, ['config', 'changelog']) || null,
@@ -53,6 +55,7 @@ const actions = {
 	SET_STATUS: 'SET_STATUS',
 	SET_STATE: 'SET_STATE',
 	SET_TYPES: 'SET_TYPES',
+	SET_ACCOUNTS: 'SET_ACCOUNTS',
 	SET_ALL_USERS: 'SET_ALL_USERS',
 	UPDATE_CHANNEL: 'UPDATE_CHANNEL',
 	ADD_CHANNEL: 'ADD_CHANNEL',
@@ -154,17 +157,25 @@ export const actionCreators = {
 	}),
 
 	bootstrap: (): JellyThunk<Card, KnownState> => (dispatch, getState) => {
-		return Bluebird.all([
-			sdk.auth.whoami(),
-			sdk.card.getAllByType('type'),
-			sdk.card.getAllByType('user'),
-			sdk.getConfig(),
-			sdk.stream({
+		return Bluebird.props({
+			user: sdk.auth.whoami(),
+			accounts: sdk.card.getAllByType('account'),
+			types: sdk.card.getAllByType('type'),
+			allUsers: sdk.card.getAllByType('user'),
+			config: sdk.getConfig(),
+			stream: sdk.stream({
 				type: 'object',
 				additionalProperties: true,
 			}),
-		])
-		.then(([user, types, allUsers, config, stream]) => {
+		})
+		.then(({
+			user,
+			accounts,
+			types,
+			allUsers,
+			config,
+			stream,
+		}) => {
 			if (!user) {
 				throw new Error('Could not retrieve user');
 			}
@@ -174,6 +185,7 @@ export const actionCreators = {
 				dispatch(actionCreators.setUser(user!));
 				dispatch(actionCreators.setTypes(types as Type[]));
 				dispatch(actionCreators.setAllUsers(allUsers));
+				dispatch(actionCreators.setAccounts(accounts));
 				dispatch({
 					type: actions.SET_CONFIG,
 					value: config,
@@ -351,6 +363,11 @@ export const actionCreators = {
 		type: actions.SET_ALL_USERS,
 		value: users,
 	}),
+
+	setAccounts: (accounts: Card[]) => ({
+		type: actions.SET_ACCOUNTS,
+		value: accounts,
+	}),
 };
 
 export const core = (state: ICore, action: Action) => {
@@ -457,6 +474,11 @@ export const core = (state: ICore, action: Action) => {
 
 		case actions.SET_ALL_USERS:
 			newState.allUsers = _.sortBy(action.value, 'slug');
+
+			return newState;
+
+		case actions.SET_ACCOUNTS:
+			newState.accounts = _.sortBy(action.value, 'slug');
 
 			return newState;
 
