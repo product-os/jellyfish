@@ -90,6 +90,7 @@ interface HomeChannelProps extends RendererProps {
 	channels: Channel[];
 	user: Card | null;
 	version: string | null;
+	codename: string | null;
 	viewNotices: {
 		[k: string]: ViewNotice;
 	};
@@ -290,7 +291,7 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 					onClick={this.showChangelog}
 				>
 					<Txt monospace>
-						v{this.props.version}
+						v{this.props.version} {this.props.codename}
 					</Txt>
 				</Link>
 
@@ -313,6 +314,7 @@ const mapStateToProps = (state: StoreState) => {
 		channels: selectors.getChannels(state),
 		user: selectors.getCurrentUser(state),
 		version: selectors.getAppVersion(state),
+		codename: selectors.getAppCodename(state),
 		viewNotices: selectors.getViewNotices(state),
 	};
 };

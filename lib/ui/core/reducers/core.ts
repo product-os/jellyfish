@@ -41,6 +41,7 @@ export const coreSelectors = {
 	getAccounts: (state: KnownState) => state.core.accounts,
 	getAllUsers: (state: KnownState) => state.core.allUsers,
 	getAppVersion: (state: KnownState) => _.get(state.core, ['config', 'version']) || null,
+	getAppCodename: (state: KnownState) => _.get(state.core, ['config', 'codename']) || null,
 	getChangelog: (state: KnownState) => _.get(state.core, ['config', 'changelog']) || null,
 	getChannels: (state: KnownState) => state.core.channels,
 	getCurrentUser: (state: KnownState) => _.get(state.core, ['session', 'user']) || null,
