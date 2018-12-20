@@ -24,7 +24,7 @@ ava.beforeEach(async (test) => {
 
 	test.context.context = {
 		getElementsById: async (id, options) => {
-			return test.context.backend.getElementsById(id, options)
+			return test.context.backend.getElementsById(test.context.context, id, options)
 		}
 	}
 })
@@ -50,7 +50,7 @@ ava('.evaluate(is attached to) should return an empty array if the target does n
 		type: 'card'
 	})
 
-	await test.context.backend.upsertElement({
+	await test.context.backend.upsertElement(test.context.context, {
 		type: 'link',
 		slug: `link-${input.slug}-is-attached-to-4a962ad9-20b5-4dd8-a707-bf819593cc84`,
 		version: '1.0.0',
@@ -91,7 +91,7 @@ ava('.evaluate(is attached to) should return an empty array if the target exists
 		type: 'card'
 	})
 
-	await test.context.backend.upsertElement({
+	await test.context.backend.upsertElement(test.context.context, {
 		type: 'link',
 		slug: `link-${input.slug}-is-attached-to-${card.slug}`,
 		version: '1.0.0',
@@ -146,7 +146,7 @@ ava('.evaluate(is attached to) should return the declared target properties', as
 		type: 'card'
 	})
 
-	await test.context.backend.upsertElement({
+	await test.context.backend.upsertElement(test.context.context, {
 		type: 'link',
 		slug: `link-${input.slug}-is-attached-to-${card.slug}`,
 		version: '1.0.0',
@@ -166,7 +166,7 @@ ava('.evaluate(is attached to) should return the declared target properties', as
 		}
 	})
 
-	const linkedInput = await test.context.backend.getElementById(input.id, {
+	const linkedInput = await test.context.backend.getElementById(test.context.context, input.id, {
 		type: input.type
 	})
 
@@ -216,7 +216,7 @@ ava('.evaluate(is attached to) should return the whole target if additionalPrope
 		type: 'card'
 	})
 
-	const link = await test.context.backend.upsertElement({
+	const link = await test.context.backend.upsertElement(test.context.context, {
 		type: 'link',
 		slug: `link-${input.slug}-has-attached-element-${card.slug}`,
 		version: '1.0.0',
@@ -236,7 +236,7 @@ ava('.evaluate(is attached to) should return the whole target if additionalPrope
 		}
 	})
 
-	const linkedInput = await test.context.backend.getElementById(input.id, {
+	const linkedInput = await test.context.backend.getElementById(test.context.context, input.id, {
 		type: input.type
 	})
 
@@ -334,7 +334,7 @@ ava('.evaluate(has attached element) should return matching elements', async (te
 		}
 	})
 
-	await test.context.backend.upsertElement({
+	await test.context.backend.upsertElement(test.context.context, {
 		type: 'link',
 		slug: `link-${card1.slug}-is-attached-to-${input.slug}`,
 		version: '1.0.0',
@@ -353,7 +353,7 @@ ava('.evaluate(has attached element) should return matching elements', async (te
 		}
 	})
 
-	await test.context.backend.upsertElement({
+	await test.context.backend.upsertElement(test.context.context, {
 		type: 'link',
 		slug: `link-${card2.slug}-is-attached-to-${input.slug}`,
 		version: '1.0.0',
@@ -372,7 +372,7 @@ ava('.evaluate(has attached element) should return matching elements', async (te
 		}
 	})
 
-	await test.context.backend.upsertElement({
+	await test.context.backend.upsertElement(test.context.context, {
 		type: 'link',
 		slug: `link-${card3.slug}-is-attached-to-${input.slug}`,
 		version: '1.0.0',
@@ -391,7 +391,7 @@ ava('.evaluate(has attached element) should return matching elements', async (te
 		}
 	})
 
-	const linkedInput = await test.context.backend.getElementById(input.id, {
+	const linkedInput = await test.context.backend.getElementById(test.context.context, input.id, {
 		type: input.type
 	})
 
@@ -443,7 +443,7 @@ ava('.evaluateCard() should return one link of one type given one match', async 
 		data: {}
 	})
 
-	await test.context.backend.upsertElement({
+	await test.context.backend.upsertElement(test.context.context, {
 		type: 'link',
 		slug: `link-${input.slug}-is-attached-to-${card.slug}`,
 		version: '1.0.0',
@@ -463,7 +463,7 @@ ava('.evaluateCard() should return one link of one type given one match', async 
 		}
 	})
 
-	const linkedInput = await test.context.backend.getElementById(input.id, {
+	const linkedInput = await test.context.backend.getElementById(test.context.context, input.id, {
 		type: input.type
 	})
 
@@ -529,7 +529,7 @@ ava('.evaluateCard() should return multiple cards per link', async (test) => {
 		}
 	})
 
-	await test.context.backend.upsertElement({
+	await test.context.backend.upsertElement(test.context.context, {
 		type: 'link',
 		slug: `link-${card1.slug}-is-attached-to-${input.slug}`,
 		version: '1.0.0',
@@ -548,7 +548,7 @@ ava('.evaluateCard() should return multiple cards per link', async (test) => {
 		}
 	})
 
-	await test.context.backend.upsertElement({
+	await test.context.backend.upsertElement(test.context.context, {
 		type: 'link',
 		slug: `link-${card2.slug}-is-attached-to-${input.slug}`,
 		version: '1.0.0',
@@ -567,7 +567,7 @@ ava('.evaluateCard() should return multiple cards per link', async (test) => {
 		}
 	})
 
-	await test.context.backend.upsertElement({
+	await test.context.backend.upsertElement(test.context.context, {
 		type: 'link',
 		slug: `link-${card3.slug}-is-attached-to-${input.slug}`,
 		version: '1.0.0',
@@ -588,7 +588,7 @@ ava('.evaluateCard() should return multiple cards per link', async (test) => {
 		}
 	})
 
-	const linkedInput = await test.context.backend.getElementById(input.id, {
+	const linkedInput = await test.context.backend.getElementById(test.context.context, input.id, {
 		type: input.type
 	})
 
@@ -659,7 +659,7 @@ ava('.evaluateCard() should return false if one link is unsatisfied', async (tes
 		type: 'card'
 	})
 
-	await test.context.backend.upsertElement({
+	await test.context.backend.upsertElement(test.context.context, {
 		type: 'link',
 		slug: `link-${input.slug}-is-attached-to-${card1.slug}`,
 		version: '1.0.0',
@@ -687,7 +687,7 @@ ava('.evaluateCard() should return false if one link is unsatisfied', async (tes
 		}
 	})
 
-	await test.context.backend.upsertElement({
+	await test.context.backend.upsertElement(test.context.context, {
 		type: 'link',
 		slug: `link-${input.slug}-is-attached-to-${card2.slug}`,
 		version: '1.0.0',
@@ -706,7 +706,7 @@ ava('.evaluateCard() should return false if one link is unsatisfied', async (tes
 		}
 	})
 
-	const linkedInput = await test.context.backend.getElementById(input.id, {
+	const linkedInput = await test.context.backend.getElementById(test.context.context, input.id, {
 		type: input.type
 	})
 
