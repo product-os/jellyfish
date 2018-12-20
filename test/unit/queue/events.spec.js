@@ -34,7 +34,7 @@ ava('.post() should insert an active execute card', async (test) => {
 		data: '414f2345-4f5e-4571-820f-28a49731733d'
 	})
 
-	const card = await test.context.jellyfish.getCardById(test.context.session, event.id)
+	const card = await test.context.jellyfish.getCardById(test.context.context, test.context.session, event.id)
 	test.true(card.active)
 	test.is(card.type, 'execute')
 })
@@ -423,7 +423,7 @@ ava('.getLastExecutionEvent() should return null given no matching event', async
 })
 
 ava('.getLastExecutionEvent() should only consider execute cards', async (test) => {
-	await test.context.jellyfish.insertCard(test.context.session, {
+	await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
 		type: 'card',
 		slug: 'foobarbaz',
 		version: '1.0.0',

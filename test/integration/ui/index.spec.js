@@ -23,7 +23,9 @@ const WAIT_OPTS = {
 	timeout: 180 * 1000
 }
 
-const context = {}
+const context = {
+	context: require('../../../lib/logger/context').systemContext
+}
 
 // Useful for debugging failed tests
 // eslint-disable-next-line
@@ -171,12 +173,14 @@ ava.serial('should stop users from seeing messages attached to cards they can\'t
 		return window.sdk.auth.whoami()
 	})
 
-	const balenaOrgCard = await context.server.jellyfish.getCardBySlug(context.session, 'org-balena', {
-		type: 'org'
-	})
+	const balenaOrgCard = await context.server.jellyfish.getCardBySlug(
+		context.context, context.session, 'org-balena', {
+			type: 'org'
+		})
 
 	// Add the community user to the balena org
 	await context.server.jellyfish.insertCard(
+		context.context,
 		context.session,
 		{
 			type: 'link',

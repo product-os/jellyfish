@@ -43,7 +43,7 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 
 	const cards = []
 	for (const step of testCase.steps) {
-		const event = await test.context.jellyfish.insertCard(
+		const event = await test.context.jellyfish.insertCard(test.context.context,
 			test.context.session, {
 				type: 'external-event',
 				slug: test.context.generateRandomSlug({
@@ -78,14 +78,14 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 
 	test.true(cards.length > 0)
 
-	const head = await test.context.jellyfish.getCardById(
+	const head = await test.context.jellyfish.getCardById(test.context.context,
 		test.context.session, cards[0].id, {
 			type: cards[0].type
 		})
 	Reflect.deleteProperty(head, 'links')
 	Reflect.deleteProperty(head, 'markers')
 
-	const timeline = await test.context.jellyfish.query(
+	const timeline = await test.context.jellyfish.query(test.context.context,
 		test.context.session, {
 			type: 'object',
 			additionalProperties: true,
@@ -138,17 +138,17 @@ exports.translate = {
 	beforeEach: async (test) => {
 		await syncHelpers.beforeEach(test)
 
-		await test.context.jellyfish.insertCard(test.context.session,
+		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 			require('../../../default-cards/contrib/external-event.json'))
-		await test.context.jellyfish.insertCard(test.context.session,
+		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 			require('../../../default-cards/contrib/issue.json'))
-		await test.context.jellyfish.insertCard(test.context.session,
+		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 			require('../../../default-cards/contrib/pull-request.json'))
-		await test.context.jellyfish.insertCard(test.context.session,
+		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 			require('../../../default-cards/contrib/support-thread.json'))
-		await test.context.jellyfish.insertCard(test.context.session,
+		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 			require('../../../default-cards/contrib/whisper.json'))
-		await test.context.jellyfish.insertCard(test.context.session,
+		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 			require('../../../default-cards/contrib/action-integration-import-event.json'))
 
 		nock.disableNetConnect()
@@ -210,7 +210,7 @@ exports.mirror = {
 		test.context.username = username
 
 		// Create the user, only if it doesn't exist yet
-		const userCard = await test.context.jellyfish.getCardBySlug(
+		const userCard = await test.context.jellyfish.getCardBySlug(test.context.context,
 			test.context.jellyfish.sessions.admin,
 			`user-${test.context.username}`, {
 				type: 'user'
@@ -223,12 +223,12 @@ exports.mirror = {
 
 		// So it can access all the necessary cards, make the user a member of the
 		// balena org
-		const orgCard = await test.context.jellyfish.getCardBySlug(
+		const orgCard = await test.context.jellyfish.getCardBySlug(test.context.context,
 			test.context.session, 'org-balena', {
 				type: 'org'
 			})
 
-		await test.context.jellyfish.insertCard(test.context.session, {
+		await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
 			slug: `link-${orgCard.id}-has-member-${userCard.id}`,
 			type: 'link',
 			name: 'has member',
@@ -248,7 +248,7 @@ exports.mirror = {
 		})
 
 		// Force login, even if we don't know the password
-		const session = await test.context.jellyfish.insertCard(
+		const session = await test.context.jellyfish.insertCard(test.context.context,
 			test.context.jellyfish.sessions.admin, {
 				slug: `session-${userCard.slug}-integration-tests-${uuid()}`,
 				type: 'session',
