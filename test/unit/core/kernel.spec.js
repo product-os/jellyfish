@@ -340,7 +340,7 @@ ava('.insertCard() should not update links property when linking an invalid card
 	})
 })
 
-ava.only('.insertCard() should update links property when linking two cards in two different ways', async (test) => {
+ava('.insertCard() should update links property when linking two cards in two different ways', async (test) => {
 	const card1 = await test.context.kernel.insertCard(test.context.kernel.sessions.admin, {
 		slug: 'foo-bar',
 		type: 'card'

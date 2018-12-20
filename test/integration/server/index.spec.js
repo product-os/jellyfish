@@ -53,7 +53,7 @@ ava.serial('Users should be able to change their own email addresses', async (te
 	})
 })
 
-ava.only('Updating a user should not remove their org membership', async (test) => {
+ava.serial('Updating a user should not remove their org membership', async (test) => {
 	const {
 		sdk
 	} = test.context
