@@ -146,7 +146,7 @@
     "redux-thunk": "^2.2.0",
     "remove-markdown": "^0.3.0",
     "rendition": "^4.41.1",
-    "reql-schema": "^1.1.1",
+    "reql-schema": "^1.2.0",
     "skhema": "4.0.3",
     "socket.io": "^2.1.0",
     "static-eval": "^2.0.0",
