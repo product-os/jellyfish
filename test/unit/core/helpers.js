@@ -46,10 +46,11 @@ exports.backend = {
 		})
 
 		test.context.generateRandomSlug = exports.generateRandomSlug
-		await test.context.backend.connect()
+		test.context.context = null
+		await test.context.backend.connect(test.context.context)
 	},
 	afterEach: async (test) => {
-		await test.context.backend.destroy()
+		await test.context.backend.destroy(test.context.context)
 	}
 }
 
