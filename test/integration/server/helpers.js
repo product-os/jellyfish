@@ -20,10 +20,13 @@ const helpers = require('../../unit/core/helpers')
 const {
 	createServer
 } = require('../../../lib/server/create-server')
+const logger = require('../../../lib/logger')
 
 exports.server = {
 	beforeEach: async (test) => {
-		test.context.server = await createServer()
+		test.context.server = await createServer({
+			ctx: logger.create('integration-server')
+		})
 		test.context.jellyfish = test.context.server.jellyfish
 		test.context.session = test.context.jellyfish.sessions.admin
 		test.context.guestSession = test.context.jellyfish.sessions.guest

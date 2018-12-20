@@ -18,6 +18,7 @@ const randomstring = require('randomstring')
 const Backend = require('../../../lib/core/backend')
 const Cache = require('../../../lib/core/cache')
 const Kernel = require('../../../lib/core/kernel')
+const logger = require('../../../lib/logger')
 
 exports.generateRandomSlug = (options) => {
 	const suffix = randomstring.generate().toLowerCase()
@@ -46,10 +47,11 @@ exports.backend = {
 		})
 
 		test.context.generateRandomSlug = exports.generateRandomSlug
-		await test.context.backend.connect()
+		test.context.ctx = logger.create('test-unit-core')
+		await test.context.backend.connect(test.context.ctx)
 	},
 	afterEach: async (test) => {
-		await test.context.backend.destroy()
+		await test.context.backend.destroy(test.context.ctx)
 	}
 }
 
@@ -58,10 +60,10 @@ exports.kernel = {
 		await exports.backend.beforeEach(test)
 		test.context.kernel = new Kernel(test.context.backend)
 
-		await test.context.kernel.initialize({}, false)
+		await test.context.kernel.initialize(test.context.ctx, false)
 	},
 	afterEach: async (test) => {
-		await test.context.kernel.disconnect()
+		await test.context.kernel.disconnect(test.context.ctx)
 		await exports.backend.afterEach(test)
 	}
 }
