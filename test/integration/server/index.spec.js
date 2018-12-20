@@ -191,11 +191,11 @@ ava.serial('.query() should be able to see previously restricted cards after an 
 		password: 'foobarbaz'
 	})
 
-	const orgCard = await jellyfish.getCardBySlug(test.context.session, 'org-balena', {
+	const orgCard = await jellyfish.getCardBySlug(test.context.context, test.context.session, 'org-balena', {
 		type: 'org'
 	})
 
-	const entry = await jellyfish.insertCard(test.context.session, {
+	const entry = await jellyfish.insertCard(test.context.context, test.context.session, {
 		markers: [ orgCard.slug ],
 		type: 'scratchpad-entry',
 		slug: test.context.generateRandomSlug({
@@ -209,7 +209,7 @@ ava.serial('.query() should be able to see previously restricted cards after an 
 
 	test.deepEqual(unprivilegedResults, null)
 
-	await jellyfish.insertCard(test.context.session, defaults({
+	await jellyfish.insertCard(test.context.context, test.context.session, defaults({
 		slug: `link-${orgCard.id}-has-member-${user.id}`,
 		type: 'link',
 		name: 'has member',
@@ -500,7 +500,7 @@ ava.serial('When updating a user, inaccessible fields should not be removed', as
 	)
 
 	const rawUserCard =
-		await test.context.jellyfish.getCardById(test.context.session, user.id, {
+		await test.context.jellyfish.getCardById(test.context.context, test.context.session, user.id, {
 			type: 'user'
 		})
 
@@ -533,7 +533,7 @@ ava.serial('Users should not be able to login as the core admin user', async (te
 
 	const user = await sdk.auth.signup(userData)
 
-	await test.context.jellyfish.insertCard(
+	await test.context.jellyfish.insertCard(test.context.context,
 		test.context.session,
 		_.merge(user, {
 			data: {
@@ -586,7 +586,7 @@ if (process.env.NODE_ENV === 'production') {
 			test.context.jellyfish, test.context.session, result.response.data)
 
 		test.false(requestResult.error)
-		const card = await test.context.jellyfish.getCardById(
+		const card = await test.context.jellyfish.getCardById(test.context.context,
 			test.context.session, requestResult.data.id, {
 				type: 'external-event'
 			})
@@ -633,7 +633,7 @@ if (process.env.NODE_ENV === 'production') {
 			test.context.jellyfish, test.context.session, result.response.data)
 
 		test.false(requestResult.error)
-		const card = await test.context.jellyfish.getCardById(
+		const card = await test.context.jellyfish.getCardById(test.context.context,
 			test.context.session, requestResult.data.id, {
 				type: 'external-event'
 			})
@@ -679,7 +679,7 @@ ava.serial('should add and evaluate a time triggered action', async (test) => {
 		defaults
 	} = jellyfish
 
-	const typeCard = await jellyfish.getCardBySlug(
+	const typeCard = await jellyfish.getCardBySlug(test.context.context,
 		test.context.session, 'card', {
 			type: 'type'
 		})
@@ -697,7 +697,7 @@ ava.serial('should add and evaluate a time triggered action', async (test) => {
 		password: 'foobarbaz'
 	})
 
-	const trigger = await jellyfish.insertCard(test.context.session, defaults({
+	const trigger = await jellyfish.insertCard(test.context.context, test.context.session, defaults({
 		type: 'triggered-action',
 		slug: test.context.generateRandomSlug({
 			prefix: 'triggered-action'
@@ -725,7 +725,7 @@ ava.serial('should add and evaluate a time triggered action', async (test) => {
 	})
 
 	const waitUntilResults = async (length, times = 0) => {
-		const results = await test.context.jellyfish.query(test.context.session, {
+		const results = await test.context.jellyfish.query(test.context.context, test.context.session, {
 			type: 'object',
 			required: [ 'type', 'data' ],
 			properties: {
@@ -761,7 +761,7 @@ ava.serial('should add and evaluate a time triggered action', async (test) => {
 	test.true(results.length >= 3)
 
 	trigger.active = false
-	await test.context.jellyfish.insertCard(test.context.session, trigger, {
+	await test.context.jellyfish.insertCard(test.context.context, test.context.session, trigger, {
 		override: true
 	})
 })
@@ -863,7 +863,6 @@ ava.serial('should be able to resolve links', async (test) => {
 				'is attached to': [
 					{
 						id: thread.id,
-						$link: results[0].links['is attached to'][0].$link,
 						type: 'thread',
 						data: {
 							uuid
@@ -1023,7 +1022,7 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 			links: {
 				'is attached to': [
 					Object.assign({}, targetUser, {
-						$link: results[0].links['is attached to'][0].$link,
+						links: results[0].links['is attached to'][0].links,
 						data: _.omit(targetUser.data, [ 'password', 'roles' ])
 					})
 				]

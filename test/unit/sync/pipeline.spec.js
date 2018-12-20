@@ -83,7 +83,7 @@ ava('.importCards() should import a single card', async (test) => {
 })
 
 ava('.importCards() should patch an existing card', async (test) => {
-	const card = await test.context.jellyfish.insertCard(test.context.session, {
+	const card = await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
 		type: 'card',
 		slug: 'foo',
 		version: '1.0.0',
@@ -434,7 +434,7 @@ ava('.importCards() should add create events', async (test) => {
 
 	await test.context.flush(test.context.session)
 
-	const timeline = await test.context.jellyfish.query(test.context.session, {
+	const timeline = await test.context.jellyfish.query(test.context.context, test.context.session, {
 		type: 'object',
 		additionalProperties: true,
 		required: [ 'data' ],

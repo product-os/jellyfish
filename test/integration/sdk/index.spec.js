@@ -51,7 +51,7 @@ ava.serial('.action() should be able to successfully create a new card', async (
 		}
 	})
 
-	const results = await test.context.jellyfish.query(
+	const results = await test.context.jellyfish.query(test.context.context,
 		test.context.session,
 		{
 			type: 'object',
@@ -129,7 +129,7 @@ ava.serial('.query() should run a query on the server', async (test) => {
 		prefix: 'card'
 	})
 
-	await server.jellyfish.insertCard(test.context.session, {
+	await server.jellyfish.insertCard(test.context.context, test.context.session, {
 		name,
 		slug,
 		version: '1.0.0',
@@ -184,7 +184,7 @@ ava.serial('.query() should accept a "limit" option', async (test) => {
 	const baseTime = 1539092025937
 	const uuid = randomstring.generate()
 
-	const card1 = await server.jellyfish.insertCard(test.context.session, {
+	const card1 = await server.jellyfish.insertCard(test.context.context, test.context.session, {
 		version: '1.0.0',
 		slug: test.context.generateRandomSlug({
 			prefix: 'card'
@@ -203,7 +203,7 @@ ava.serial('.query() should accept a "limit" option', async (test) => {
 		tags: []
 	})
 
-	const card2 = await server.jellyfish.insertCard(test.context.session, {
+	const card2 = await server.jellyfish.insertCard(test.context.context, test.context.session, {
 		version: '1.0.0',
 		slug: test.context.generateRandomSlug({
 			prefix: 'card'
@@ -222,7 +222,7 @@ ava.serial('.query() should accept a "limit" option', async (test) => {
 		tags: []
 	})
 
-	await server.jellyfish.insertCard(test.context.session, {
+	await server.jellyfish.insertCard(test.context.context, test.context.session, {
 		version: '1.0.0',
 		slug: test.context.generateRandomSlug({
 			prefix: 'card'
@@ -283,7 +283,7 @@ ava.serial('.query() should accept a "skip" option', async (test) => {
 	const baseTime = 1539092025937
 	const uuid = randomstring.generate()
 
-	await server.jellyfish.insertCard(test.context.session, {
+	await server.jellyfish.insertCard(test.context.context, test.context.session, {
 		version: '1.0.0',
 		slug: test.context.generateRandomSlug({
 			prefix: 'card'
@@ -302,7 +302,7 @@ ava.serial('.query() should accept a "skip" option', async (test) => {
 		tags: []
 	})
 
-	const card2 = await server.jellyfish.insertCard(test.context.session, {
+	const card2 = await server.jellyfish.insertCard(test.context.context, test.context.session, {
 		version: '1.0.0',
 		slug: test.context.generateRandomSlug({
 			prefix: 'card'
@@ -321,7 +321,7 @@ ava.serial('.query() should accept a "skip" option', async (test) => {
 		tags: []
 	})
 
-	const card3 = await server.jellyfish.insertCard(test.context.session, {
+	const card3 = await server.jellyfish.insertCard(test.context.context, test.context.session, {
 		version: '1.0.0',
 		slug: test.context.generateRandomSlug({
 			prefix: 'card'
@@ -379,7 +379,7 @@ ava.serial('.query() should accept a "sortBy" option as a single key', async (te
 
 	const uuid = randomstring.generate()
 
-	const card1 = await server.jellyfish.insertCard(test.context.session, {
+	const card1 = await server.jellyfish.insertCard(test.context.context, test.context.session, {
 		version: '1.0.0',
 		slug: test.context.generateRandomSlug({
 			prefix: 'card'
@@ -397,7 +397,7 @@ ava.serial('.query() should accept a "sortBy" option as a single key', async (te
 		tags: []
 	})
 
-	const card2 = await server.jellyfish.insertCard(test.context.session, {
+	const card2 = await server.jellyfish.insertCard(test.context.context, test.context.session, {
 		version: '1.0.0',
 		slug: test.context.generateRandomSlug({
 			prefix: 'card'
@@ -415,7 +415,7 @@ ava.serial('.query() should accept a "sortBy" option as a single key', async (te
 		tags: []
 	})
 
-	const card3 = await server.jellyfish.insertCard(test.context.session, {
+	const card3 = await server.jellyfish.insertCard(test.context.context, test.context.session, {
 		version: '1.0.0',
 		slug: test.context.generateRandomSlug({
 			prefix: 'card'
@@ -433,7 +433,7 @@ ava.serial('.query() should accept a "sortBy" option as a single key', async (te
 		tags: []
 	})
 
-	const card4 = await server.jellyfish.insertCard(test.context.session, {
+	const card4 = await server.jellyfish.insertCard(test.context.context, test.context.session, {
 		version: '1.0.0',
 		slug: test.context.generateRandomSlug({
 			prefix: 'card'
@@ -489,7 +489,7 @@ ava.serial('.query() should accept a "sortBy" option as an array of keys', async
 
 	const uuid = randomstring.generate()
 
-	const card1 = await server.jellyfish.insertCard(test.context.session, {
+	const card1 = await server.jellyfish.insertCard(test.context.context, test.context.session, {
 		version: '1.0.0',
 		slug: test.context.generateRandomSlug({
 			prefix: 'card'
@@ -507,7 +507,7 @@ ava.serial('.query() should accept a "sortBy" option as an array of keys', async
 		tags: []
 	})
 
-	const card2 = await server.jellyfish.insertCard(test.context.session, {
+	const card2 = await server.jellyfish.insertCard(test.context.context, test.context.session, {
 		version: '1.0.0',
 		slug: test.context.generateRandomSlug({
 			prefix: 'card'
@@ -525,7 +525,7 @@ ava.serial('.query() should accept a "sortBy" option as an array of keys', async
 		tags: []
 	})
 
-	const card3 = await server.jellyfish.insertCard(test.context.session, {
+	const card3 = await server.jellyfish.insertCard(test.context.context, test.context.session, {
 		version: '1.0.0',
 		slug: test.context.generateRandomSlug({
 			prefix: 'card'
@@ -543,7 +543,7 @@ ava.serial('.query() should accept a "sortBy" option as an array of keys', async
 		tags: []
 	})
 
-	const card4 = await server.jellyfish.insertCard(test.context.session, {
+	const card4 = await server.jellyfish.insertCard(test.context.context, test.context.session, {
 		version: '1.0.0',
 		slug: test.context.generateRandomSlug({
 			prefix: 'card'
@@ -602,7 +602,7 @@ ava.serial('.card.get() should return a single element', async (test) => {
 	let cardsToInsert = 5
 
 	while (cardsToInsert--) {
-		await server.jellyfish.insertCard(test.context.session, {
+		await server.jellyfish.insertCard(test.context.context, test.context.session, {
 			version: '1.0.0',
 			slug: test.context.generateRandomSlug({
 				prefix: 'card'
@@ -618,7 +618,7 @@ ava.serial('.card.get() should return a single element', async (test) => {
 		})
 	}
 
-	const card = await server.jellyfish.insertCard(test.context.session, {
+	const card = await server.jellyfish.insertCard(test.context.context, test.context.session, {
 		version: '1.0.0',
 		name,
 		slug: test.context.generateRandomSlug({
@@ -654,7 +654,7 @@ ava.serial('.card.get() should work with slugs', async (test) => {
 	let cardsToInsert = 5
 
 	while (cardsToInsert--) {
-		await server.jellyfish.insertCard(test.context.session, {
+		await server.jellyfish.insertCard(test.context.context, test.context.session, {
 			version: '1.0.0',
 			slug: test.context.generateRandomSlug({
 				prefix: 'card'
@@ -670,7 +670,7 @@ ava.serial('.card.get() should work with slugs', async (test) => {
 		})
 	}
 
-	const card = await server.jellyfish.insertCard(test.context.session, {
+	const card = await server.jellyfish.insertCard(test.context.context, test.context.session, {
 		version: '1.0.0',
 		slug,
 		type: 'card',
@@ -707,7 +707,7 @@ ava.serial('.card.create() should create a new card', async (test) => {
 		slug
 	})
 
-	const results = await test.context.jellyfish.query(
+	const results = await test.context.jellyfish.query(test.context.context,
 		test.context.session,
 		{
 			type: 'object',
@@ -810,7 +810,7 @@ ava.serial('.event.create() should create a new event', async (test) => {
 
 	await sdk.event.create(event)
 
-	const results = await test.context.server.jellyfish.query(
+	const results = await test.context.server.jellyfish.query(test.context.context,
 		test.context.session,
 		{
 			type: 'object',

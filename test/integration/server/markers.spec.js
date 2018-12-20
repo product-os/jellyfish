@@ -45,7 +45,7 @@ ava.serial('Users should be able to view an element with no markers', async (tes
 	await sdk.auth.signup(users.community)
 	await sdk.auth.login(users.community)
 
-	const thread = await jellyfish.insertCard(test.context.session, {
+	const thread = await jellyfish.insertCard(test.context.context, test.context.session, {
 		slug: `thread-${randomstring.generate().toLowerCase()}`,
 		type: 'thread',
 		name: 'Test thread'
@@ -64,7 +64,7 @@ ava.serial('Users should not be able to view an element that has a marker they d
 		jellyfish
 	} = test.context.server
 
-	const thread = await jellyfish.insertCard(test.context.session, {
+	const thread = await jellyfish.insertCard(test.context.context, test.context.session, {
 		slug: `thread-${randomstring.generate().toLowerCase()}`,
 		type: 'thread',
 		name: 'Test entry',
@@ -105,7 +105,7 @@ ava.serial('Users should be able to view an element if all of their markers matc
 
 	await sdk.auth.login(users.community)
 
-	const thread = await jellyfish.insertCard(test.context.session, {
+	const thread = await jellyfish.insertCard(test.context.context, test.context.session, {
 		slug: `thread-${randomstring.generate().toLowerCase()}`,
 		type: 'thread',
 		name: 'Test entry',
@@ -130,7 +130,7 @@ ava.serial(
 		await sdk.auth.login(users.community)
 		const user = await sdk.auth.whoami()
 
-		const thread = await jellyfish.insertCard(test.context.session, {
+		const thread = await jellyfish.insertCard(test.context.context, test.context.session, {
 			slug: `thread-${randomstring.generate().toLowerCase()}`,
 			type: 'thread',
 			name: 'Test entry',
@@ -153,7 +153,7 @@ ava.serial('Users should be able to view an element using compound markers', asy
 	await sdk.auth.login(users.community)
 	const user = await sdk.auth.whoami()
 
-	const thread = await jellyfish.insertCard(test.context.session, {
+	const thread = await jellyfish.insertCard(test.context.context, test.context.session, {
 		slug: `thread-${randomstring.generate().toLowerCase()}`,
 		type: 'thread',
 		name: 'Test entry',
@@ -183,7 +183,7 @@ ava.serial(
 
 		await sdk.auth.login(users.community)
 
-		const thread = await jellyfish.insertCard(test.context.session, {
+		const thread = await jellyfish.insertCard(test.context.context, test.context.session, {
 			slug: `thread-${randomstring.generate().toLowerCase()}`,
 			type: 'thread',
 			name: 'Test entry',
@@ -226,7 +226,7 @@ ava.serial(
 
 		await sdk.auth.login(users.community)
 
-		const thread = await jellyfish.insertCard(test.context.session, {
+		const thread = await jellyfish.insertCard(test.context.context, test.context.session, {
 			slug: `thread-${randomstring.generate().toLowerCase()}`,
 			type: 'thread',
 			name: 'Test entry',
@@ -250,7 +250,7 @@ ava.serial('Users should be able to view an element using compound markers with 
 	await sdk.auth.login(users.community)
 	const user = await sdk.auth.whoami()
 
-	const thread = await jellyfish.insertCard(test.context.session, {
+	const thread = await jellyfish.insertCard(test.context.context, test.context.session, {
 		slug: `thread-${randomstring.generate().toLowerCase()}`,
 		type: 'thread',
 		name: 'Test entry',
@@ -293,7 +293,7 @@ ava.serial(
 
 		await sdk.auth.login(users.community)
 
-		const thread = await jellyfish.insertCard(test.context.session, {
+		const thread = await jellyfish.insertCard(test.context.context, test.context.session, {
 			slug: `thread-${randomstring.generate().toLowerCase()}`,
 			type: 'thread',
 			name: 'Test entry',
