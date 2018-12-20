@@ -19,7 +19,7 @@ NODE_DEBUG_ARGS = $(NODE_ARGS) \
 									--stack_trace_on_illegal \
 									--abort_on_stack_or_string_length_overflow
 
-LOGLEVEL ?= info
+LOGLEVEL ?= debug
 API_URL ?= http://localhost:8000/
 DB_HOST ?= localhost
 DB_PORT ?= 28015
