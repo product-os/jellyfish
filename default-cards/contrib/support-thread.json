@@ -43,6 +43,9 @@
               "type": "string",
               "format": "markdown"
             },
+            "inbox": {
+              "type": "string"
+            },
             "status": {
               "title": "Status",
               "type": "string",
