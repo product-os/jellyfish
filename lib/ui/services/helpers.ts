@@ -22,6 +22,7 @@ export const createChannel = (data: Channel['data']): Channel => {
 	const id = uuid();
 	return {
 		id,
+		created_at: new Date().toISOString(),
 		slug: `channel-${id}`,
 		type: 'channel',
 		version: '1.0.0',
