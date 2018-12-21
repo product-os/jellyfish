@@ -19,6 +19,7 @@ import { CardActions } from '../../components/CardActions';
 import { CloseButton } from '../../components/CloseButton';
 import { Event as EventCard } from '../../components/Event';
 import Icon from '../../components/Icon';
+import { IconButton } from '../../components/IconButton';
 import Label from '../../components/Label';
 import { Tag } from '../../components/Tag';
 import { sdk } from '../../core';
@@ -220,6 +221,20 @@ class Base extends React.Component<CardProps, CardState> {
 		return _.uniqBy(list, (item) => _.get(item, [ 'data', 'payload', 'message' ]));
 	}
 
+	public archive = () => {
+		sdk.card.update(this.props.card.id, _.merge({}, this.props.card, {
+			data: {
+				status: 'archived',
+			},
+		}))
+			.then(() => {
+				this.props.actions.addNotification('success', 'Archived support thread');
+			})
+			.catch((error) => {
+				this.props.actions.addNotification('danger', error.message || error);
+			});
+	}
+
 	public render(): React.ReactNode {
 		const { card, fieldOrder } = this.props;
 		const payload = card.data;
@@ -253,7 +268,11 @@ class Base extends React.Component<CardProps, CardState> {
 				className={`column--${card ? card.slug || card.type : 'unknown'}`}
 				flexDirection="column"
 			>
-				<Box p={3} style={{maxHeight: '50%', overflowY: 'auto'}}>
+				<Box
+					p={3}
+					flex="1"
+					style={{overflowY: 'auto'}}
+				>
 					<Flex mb={1} justify="space-between">
 
 						<Box>
@@ -266,6 +285,20 @@ class Base extends React.Component<CardProps, CardState> {
 						</Box>
 
 						<Flex>
+							<IconButton
+								plaintext
+								square
+								mr={1}
+								mb={3}
+								tooltip={{
+									placement: 'bottom',
+									text: 'Archive this support thread',
+								}}
+								onClick={this.archive}
+							>
+								<Icon name="archive" />
+							</IconButton>
+
 							<CardActions
 								card={card}
 							/>
@@ -363,7 +396,10 @@ class Base extends React.Component<CardProps, CardState> {
 					}
 				</Box>
 
-				<Box flex="1 0 50%" style={{ overflowY: 'auto'}}>
+				<Box
+					style={{ maxHeight: '50%' }}
+					flex="0"
+				>
 					<TimelineLens.data.renderer
 						card={this.props.card}
 						tail={this.props.card.links['has attached element']}

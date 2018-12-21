@@ -50,6 +50,7 @@ export interface Notification {
 }
 
 export interface Card {
+	created_at: string;
 	id: string;
 	version: string;
 	type: string;

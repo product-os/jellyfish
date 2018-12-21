@@ -7,7 +7,6 @@ import { bindActionCreators } from 'redux';
 import {
 	Box,
 	Flex,
-	Link,
 	Txt
 } from 'rendition';
 import { Markdown } from 'rendition/dist/extra/Markdown';
@@ -174,93 +173,69 @@ class Base extends React.Component<CardProps, {}> {
 		const cardSlug = _.get(card, 'slug');
 		const cardType = _.get(card, 'type');
 
-		const content = (
-			<>
-				<Flex justify="space-between">
-					<Txt mb={3}>
-						<strong>
-						{level > 0 &&
-							<Link onClick={this.openChannel} className={`header-link header-link--${card.slug || card.id}`}>
-								{card.name || card.slug || card.type}
-							</Link>
-						}
-						{!level && (
-							<div style={{ fontSize: 14, display: 'block' }}>
-								{card.name || card.slug || card.type}
-							</div>
-						)}
-						</strong>
-					</Txt>
-
-					{!level && (
-						<Flex align="baseline">
-							<CardActions
-								card={card}
-							/>
-
-							<CloseButton
-								mb={3}
-								mr={-3}
-								onClick={() => this.props.actions.removeChannel(this.props.channel)}
-							/>
-						</Flex>
-					)}
-				</Flex>
-
-				{!!card.tags && card.tags.length > 0 &&
-					<Box mb={1}>
-						{_.map(card.tags, (tag) => {
-							return <Tag mr={1}>#{tag}</Tag>;
-						})}
-					</Box>
-				}
-
-				{_.map(keys, (key) => {
-					return !!payload[key] ?
-						<CardField
-							key={key}
-							field={key}
-							payload={payload}
-							users={this.props.allUsers}
-							schema={_.get(schema, ['properties', 'data', 'properties', key])}
-						/>
-						: null;
-					})
-				}
-			</>
-		);
-
-		if (!level) {
-			return (
-				<Column
-					className={`column--${cardType || 'unknown'} column--slug-${cardSlug || 'unkown'}`}
-					flex={this.props.flex}
-					flexDirection="column"
-				>
-					<Box
-						p={3}
-						flex="1"
-						style={{overflowY: 'auto'}}
-					>
-						{content}
-					</Box>
-					<Box
-						style={{ maxHeight: '50%' }}
-						flex="0"
-					>
-						<TimelineLens.data.renderer
-							card={this.props.card}
-							tail={this.props.card.links['has attached element']}
-						/>
-					</Box>
-				</Column>
-			);
-		}
-
 		return (
-			<Box mb={3}>
-				{content}
-			</Box>
+			<Column
+				className={`column--${cardType || 'unknown'} column--slug-${cardSlug || 'unkown'}`}
+				flex={this.props.flex}
+				flexDirection="column"
+			>
+				<Box
+					p={3}
+					pb={0}
+					style={{overflowY: 'auto'}}
+				>
+					<Flex justify="space-between">
+						{card.created_at && (
+							<Txt mb={3}>
+								<strong>
+									Thread created at {formatTimestamp(card.created_at)}
+								</strong>
+							</Txt>
+						)}
+
+						{!level && (
+							<Flex align="baseline">
+								<CardActions
+									card={card}
+								/>
+
+								<CloseButton
+									mb={3}
+									mr={-3}
+									onClick={() => this.props.actions.removeChannel(this.props.channel)}
+								/>
+							</Flex>
+						)}
+					</Flex>
+
+					{!!card.tags && card.tags.length > 0 &&
+						<Box mb={1}>
+							{_.map(card.tags, (tag) => {
+								return <Tag mr={1}>#{tag}</Tag>;
+							})}
+						</Box>
+					}
+
+					{_.map(keys, (key) => {
+						return !!payload[key] ?
+							<CardField
+								key={key}
+								field={key}
+								payload={payload}
+								users={this.props.allUsers}
+								schema={_.get(schema, ['properties', 'data', 'properties', key])}
+							/>
+							: null;
+						})
+					}
+				</Box>
+				<Box flex="1">
+					<TimelineLens.data.renderer
+						card={this.props.card}
+						tail={this.props.card.links['has attached element']}
+					/>
+				</Box>
+			</Column>
 		);
 	}
 }

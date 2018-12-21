@@ -11,6 +11,7 @@ import SingleCardLens from './SingleCard';
 import SupportThreadLens from './support/SupportThread';
 import SupportThreadsLens from './support/SupportThreads';
 import TableLens from './Table';
+import ThreadLens from './Thread';
 import TimelineLens from './Timeline';
 import ViewLens from './View';
 
@@ -24,6 +25,7 @@ class LensService {
 		SupportThreadLens,
 		SupportThreadsLens,
 		TableLens,
+		ThreadLens,
 		TimelineLens,
 		ViewLens,
 	];
