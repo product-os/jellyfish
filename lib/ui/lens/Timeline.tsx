@@ -194,12 +194,20 @@ export class Renderer extends React.Component<DefaultRendererProps, RendererStat
 
 	public render(): React.ReactNode {
 		const head = this.props.card;
-		const { tail } = this.props;
-		const channelTarget = this.props.card.id;
+		const {
+			card,
+			actions,
+			allUsers,
+			tail,
+			type,
+			user,
+			...props
+		} = this.props;
+		const channelTarget = card.id;
 		const { messagesOnly } = this.state;
 
 		return (
-			<Column flexDirection="column">
+			<Column flexDirection="column" {...props}>
 				<Flex my={2} mr={2} justify="flex-end">
 					<Button
 						plaintext

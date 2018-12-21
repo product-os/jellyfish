@@ -268,7 +268,11 @@ class Base extends React.Component<CardProps, CardState> {
 				className={`column--${card ? card.slug || card.type : 'unknown'}`}
 				flexDirection="column"
 			>
-				<Box p={3} style={{maxHeight: '50%', overflowY: 'auto'}}>
+				<Box
+					p={3}
+					flex="1"
+					style={{overflowY: 'auto'}}
+				>
 					<Flex mb={1} justify="space-between">
 
 						<Box>
@@ -392,7 +396,10 @@ class Base extends React.Component<CardProps, CardState> {
 					}
 				</Box>
 
-				<Box flex="1 0 50%" style={{ overflowY: 'auto'}}>
+				<Box
+					style={{ maxHeight: '50%' }}
+					flex="0"
+				>
 					<TimelineLens.data.renderer
 						card={this.props.card}
 						tail={this.props.card.links['has attached element']}

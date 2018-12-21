@@ -239,11 +239,15 @@ class Base extends React.Component<CardProps, {}> {
 				>
 					<Box
 						p={3}
-						style={{maxHeight: '50%', overflowY: 'auto'}}
+						flex="1"
+						style={{overflowY: 'auto'}}
 					>
 						{content}
 					</Box>
-					<Box flex="1 0 50%" style={{ overflowY: 'auto'}}>
+					<Box
+						style={{ maxHeight: '50%' }}
+						flex="0"
+					>
 						<TimelineLens.data.renderer
 							card={this.props.card}
 							tail={this.props.card.links['has attached element']}
