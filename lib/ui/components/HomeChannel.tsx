@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import {
 	Box,
 	Button,
+	Divider,
 	Fixed,
 	Flex,
 	Link,
@@ -257,6 +258,15 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 			return <Icon style={{color: 'white'}} name="cog fa-spin" />;
 		}
 
+		const [ [ defaultViews ], groups ] = _.partition(this.groupViews(tail || []), (g) => {
+			return g.name === 'defaults';
+		});
+
+		const defaultUpdate = _.some(defaultViews.views, (card) => {
+			const update = this.props.viewNotices[card.id];
+			return update && (update.newMentions || update.newContent);
+		});
+
 		return (
 			<Flex
 				className="home-channel"
@@ -266,6 +276,7 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 			>
 				<Flex
 					justify="space-between"
+					style={{ position: 'relative' }}
 				>
 					<UserMenuBtn
 						plaintext={true}
@@ -280,6 +291,19 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 						{!!username && <Txt mx={2}>{username}</Txt>}
 
 						<Icon name="caret-down" />
+
+						{defaultUpdate && (
+							<Icon
+								name="circle"
+								style={{
+									color: 'green',
+									top: 44,
+									left: 44,
+									fontSize: 11,
+									position: 'absolute',
+								}}
+							/>
+						)}
 					</UserMenuBtn>
 				</Flex>
 
@@ -293,8 +317,35 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 						onClick={this.hideMenu}
 					>
 						<MenuPanel className="user-menu" mx={3} p={3}>
+							{user && (
+								<Link mb={2} href={`#/${user.id}`}>Your profile</Link>
+							)}
+
+							{_.map(defaultViews.views, (card) => {
+									const isActive = card.id === _.get(activeChannel, [ 'data' , 'target' ]);
+									const activeSlice = _.get(activeChannel, [ 'data', 'options', 'slice' ]);
+
+									const update = this.props.viewNotices[card.id];
+
+									return (
+										<Box mx={-3}>
+											<ViewLink
+												key={card.id}
+												card={card}
+												isActive={isActive}
+												activeSlice={activeSlice}
+												update={update}
+												open={this.open}
+											/>
+										</Box>
+									);
+							})}
+
+							<Divider my={2} bg="#eee" style={{height: 1, backgroundColor: '#eeeeee'}} />
+
 							<Button
 								w="100%"
+								pt={2}
 								className="user-menu__logout"
 								plaintext={true}
 								style={{textAlign: 'left', display: 'block'}}
@@ -302,9 +353,6 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 							>
 								Log out
 							</Button>
-							{user && (
-								<Link mt={2} href={`#/${user.id}`}>Your profile</Link>
-							)}
 						</MenuPanel>
 					</Fixed>
 				}
@@ -312,29 +360,27 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 				<Box flex="1">
 					{!tail && <Box p={3}><Icon style={{color: 'white'}} name="cog fa-spin" /></Box>}
 
-					{!!tail && _.map(this.groupViews(tail), (group) => {
-						const isExpanded = group.name === 'defaults' || this.isExpanded(group.name);
+					{!!tail && _.map(groups, (group) => {
+						const isExpanded = this.isExpanded(group.name);
 						return (
 							<>
-								{group.name !== 'defaults' && (
-									<Button
-										plaintext
-										primary
-										w="100%"
-										px={3}
-										my={2}
-										data-groupname={group.name}
-										onClick={this.toggleExpandGroup}
+								<Button
+									plaintext
+									primary
+									w="100%"
+									px={3}
+									my={2}
+									data-groupname={group.name}
+									onClick={this.toggleExpandGroup}
+								>
+									<Flex
+										style={{width: '100%'}}
+										justify="space-between"
 									>
-										<Flex
-											style={{width: '100%'}}
-											justify="space-between"
-										>
-											{group.name}
-											<Icon name={`chevron-${isExpanded ? 'up' : 'down'}`} />
-										</Flex>
-									</Button>
-								)}
+										{group.name}
+										<Icon name={`chevron-${isExpanded ? 'up' : 'down'}`} />
+									</Flex>
+								</Button>
 
 								{isExpanded && _.map(group.views, (card) => {
 									// A view shouldn't be able to display itself
