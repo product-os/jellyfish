@@ -27,6 +27,8 @@ const PRIORITY_VIEWS = [
 	'view-my-alerts',
 	'view-my-mentions',
 	'view-my-todo-items',
+	'view-all-messages',
+	'view-my-orgs',
 ];
 
 const getDefaultView = (user: Card | null, views: Card[]): Card | null => {
@@ -91,9 +93,11 @@ interface HomeChannelProps extends RendererProps {
 	user: Card | null;
 	version: string | null;
 	codename: string | null;
+	orgs: Card[];
 	viewNotices: {
 		[k: string]: ViewNotice;
 	};
+	uiState: any;
 	actions: typeof actionCreators;
 }
 
@@ -139,13 +143,8 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 			}
 		}
 
-		// Sorty by name, then sort the priority views to the top
-		const [ first, rest ] = _.partition<Card>(_.sortBy<Card>(tail, 'name'), (view) => {
-			return _.includes(PRIORITY_VIEWS, view.slug);
-		});
-
 		this.setState({
-			tail: first.concat(rest),
+			tail: _.sortBy<Card>(tail, 'name'),
 		});
 	}
 
@@ -187,6 +186,58 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 
 	public hideChangelog = () => {
 		this.setState({ showChangelog: false });
+	}
+
+	public isExpanded(name: string): boolean {
+		return _.get(this.props.uiState, [ 'sidebar', 'expanded' ], []).indexOf(name) > -1;
+	}
+
+	public toggleExpandGroup = (event: React.MouseEvent<HTMLButtonElement>) => {
+		const name = event.currentTarget.dataset.groupname!;
+		const state = _.cloneDeep(this.props.uiState);
+		if (this.isExpanded(name)) {
+			state.sidebar.expanded = _.without(state.sidebar.expanded, name);
+		} else {
+			state.sidebar.expanded.push(name);
+		}
+		this.props.actions.setUIState(state);
+	}
+
+	public groupViews = (tail: Card[]) => {
+		const groups: any = [];
+
+		// Sorty by name, then sort the priority views to the top
+		const [ defaults, nonDefaults ] = _.partition<Card>(tail, (view) => {
+			return _.includes(PRIORITY_VIEWS, view.slug);
+		});
+
+		groups.push({
+			name: 'defaults',
+			views: defaults,
+		});
+
+		const [ myViews, otherViews ] = _.partition<Card>(nonDefaults, (view) => {
+			return _.includes(view.markers, this.props.user!.slug);
+		});
+
+		groups.push({
+			name: 'My views',
+			views: myViews,
+		});
+
+		const remaining = _.groupBy(otherViews, 'markers[0]');
+
+		_.forEach(remaining, (views, key) => {
+			if (key !== 'undefined') {
+				const org = _.find(this.props.orgs, { slug: key });
+				groups.push({
+					name: org ? org.name : 'Unknown organisation',
+					views,
+				});
+			}
+		});
+
+		return groups;
 	}
 
 	public render(): React.ReactNode {
@@ -261,26 +312,53 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 				<Box flex="1">
 					{!tail && <Box p={3}><Icon style={{color: 'white'}} name="cog fa-spin" /></Box>}
 
-					{!!tail && _.map(tail, (card) => {
-						// A view shouldn't be able to display itself
-						if (card.id === head!.id) {
-							return null;
-						}
-
-						const isActive = card.id === _.get(activeChannel, [ 'data' , 'target' ]);
-						const activeSlice = _.get(activeChannel, [ 'data', 'options', 'slice' ]);
-
-						const update = this.props.viewNotices[card.id];
-
+					{!!tail && _.map(this.groupViews(tail), (group) => {
+						const isExpanded = group.name === 'defaults' || this.isExpanded(group.name);
 						return (
-							<ViewLink
-								key={card.id}
-								card={card}
-								isActive={isActive}
-								activeSlice={activeSlice}
-								update={update}
-								open={this.open}
-							/>
+							<>
+								{group.name !== 'defaults' && (
+									<Button
+										plaintext
+										primary
+										w="100%"
+										px={3}
+										my={2}
+										data-groupname={group.name}
+										onClick={this.toggleExpandGroup}
+									>
+										<Flex
+											style={{width: '100%'}}
+											justify="space-between"
+										>
+											{group.name}
+											<Icon name={`chevron-${isExpanded ? 'up' : 'down'}`} />
+										</Flex>
+									</Button>
+								)}
+
+								{isExpanded && _.map(group.views, (card) => {
+									// A view shouldn't be able to display itself
+									if (card.id === head!.id) {
+										return null;
+									}
+
+									const isActive = card.id === _.get(activeChannel, [ 'data' , 'target' ]);
+									const activeSlice = _.get(activeChannel, [ 'data', 'options', 'slice' ]);
+
+									const update = this.props.viewNotices[card.id];
+
+									return (
+										<ViewLink
+											key={card.id}
+											card={card}
+											isActive={isActive}
+											activeSlice={activeSlice}
+											update={update}
+											open={this.open}
+										/>
+									);
+								})}
+							</>
 						);
 					})}
 
@@ -314,8 +392,10 @@ const mapStateToProps = (state: StoreState) => {
 		channels: selectors.getChannels(state),
 		user: selectors.getCurrentUser(state),
 		version: selectors.getAppVersion(state),
+		orgs: selectors.getOrgs(state),
 		codename: selectors.getAppCodename(state),
 		viewNotices: selectors.getViewNotices(state),
+		uiState: selectors.getUIState(state),
 	};
 };
 

@@ -25,7 +25,13 @@ export const getDefaultState = (): StoreState => ({
 		viewNotices: {},
 		allUsers: [],
 		accounts: [],
+		orgs: [],
 		config: {},
+		ui: {
+			sidebar: {
+				expanded: [],
+			},
+		},
 	},
 	views: {
 		viewData: {},
