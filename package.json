@@ -1,6 +1,7 @@
 {
   "name": "jellyfish",
   "version": "12.2.5",
+  "codename": "blooming",
   "private": true,
   "description": "The Jellyfish Project",
   "main": "lib/server/index.js",
