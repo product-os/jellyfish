@@ -221,14 +221,14 @@ class Base extends React.Component<CardProps, CardState> {
 		return _.uniqBy(list, (item) => _.get(item, [ 'data', 'payload', 'message' ]));
 	}
 
-	public archive = () => {
+	public close = () => {
 		sdk.card.update(this.props.card.id, _.merge({}, this.props.card, {
 			data: {
-				status: 'archived',
+				status: 'closed',
 			},
 		}))
 			.then(() => {
-				this.props.actions.addNotification('success', 'Archived support thread');
+				this.props.actions.addNotification('success', 'Close this support thread');
 			})
 			.catch((error) => {
 				this.props.actions.addNotification('danger', error.message || error);
@@ -292,9 +292,9 @@ class Base extends React.Component<CardProps, CardState> {
 								mb={3}
 								tooltip={{
 									placement: 'bottom',
-									text: 'Archive this support thread',
+									text: 'Close this support thread',
 								}}
-								onClick={this.archive}
+								onClick={this.close}
 							>
 								<Icon name="archive" />
 							</IconButton>
