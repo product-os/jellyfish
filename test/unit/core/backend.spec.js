@@ -852,22 +852,6 @@ ava('.query() should be able to limit the results', async (test) => {
 	test.deepEqual(_.sortBy(results, [ 'test' ]), [ result1, result2 ])
 })
 
-ava('.query() should throw given an invalid limit', async (test) => {
-	await test.throwsAsync(test.context.backend.query(test.context.context, {
-		type: 'object',
-		additionalProperties: true,
-		properties: {
-			type: {
-				type: 'string',
-				const: 'card'
-			}
-		},
-		required: [ 'type' ]
-	}, {
-		limit: 101
-	}), errors.JellyfishInvalidLimit)
-})
-
 ava('.query() should be able to skip the results', async (test) => {
 	await test.context.backend.upsertElement(test.context.context, {
 		type: 'card',
