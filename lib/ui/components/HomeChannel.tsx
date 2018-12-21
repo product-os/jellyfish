@@ -214,6 +214,7 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 		groups.push({
 			name: 'defaults',
 			views: defaults,
+			key: '__defaults',
 		});
 
 		const [ myViews, otherViews ] = _.partition<Card>(nonDefaults, (view) => {
@@ -223,6 +224,7 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 		groups.push({
 			name: 'My views',
 			views: myViews,
+			key: '__myviews',
 		});
 
 		const remaining = _.groupBy(otherViews, 'markers[0]');
@@ -232,6 +234,7 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 				const org = _.find(this.props.orgs, { slug: key });
 				groups.push({
 					name: org ? org.name : 'Unknown organisation',
+					key,
 					views,
 				});
 			}
@@ -258,7 +261,7 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 		}
 
 		const [ [ defaultViews ], groups ] = _.partition(this.groupViews(tail || []), (g) => {
-			return g.name === 'defaults';
+			return g.key === '__defaults';
 		});
 
 		const defaultUpdate = _.some(defaultViews.views, (card) => {
@@ -370,6 +373,7 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 									px={3}
 									my={2}
 									data-groupname={group.name}
+									className={`home-channel__group-toggle--${group.key}`}
 									onClick={this.toggleExpandGroup}
 								>
 									<Flex
