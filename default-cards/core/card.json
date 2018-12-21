@@ -24,8 +24,7 @@
           "pattern": "^[a-z0-9-]+$"
         },
         "name": {
-          "type": "string",
-          "pattern": "^.*\\S.*$"
+          "type": "string"
         },
         "type": {
           "type": "string",
