@@ -12,8 +12,7 @@
       "type": "object",
       "properties": {
         "name": {
-          "type": "string",
-          "pattern": "^.*\\S.*$"
+          "type": "string"
         },
         "tags": {
           "type": "array",
