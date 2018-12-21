@@ -72,6 +72,7 @@ class CardList extends React.Component<CardListProps, CardListState> {
 	public openChannel(card: Card): void {
 		this.props.actions.addChannel(createChannel({
 			target: card.id,
+			cardType: card.type,
 			head: card,
 			parentChannel: this.props.channel.id,
 		}));

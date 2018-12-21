@@ -391,6 +391,7 @@ class AutoCompleteArea extends React.Component<AutoCompleteAreaProps, AutoState>
 										onClick={() => {
 											store.dispatch(actionCreators.addChannel(createChannel({
 												target: card.id,
+												cardType: card.type,
 												head: card,
 											})));
 

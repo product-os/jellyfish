@@ -18,7 +18,7 @@ export const debug = (...params: any[]) => {
 	}
 };
 
-export const createChannel = (data: Channel['data']): Channel => {
+export const createChannel = (data: Channel['data'] & { target: string, cardType: string }): Channel => {
 	const id = uuid();
 	return {
 		id,

@@ -37,6 +37,11 @@ const linkNameMap = {
 	'has member': 'is member of',
 };
 
+interface Options {
+	type?: 'string';
+	schema?: JellySchema;
+}
+
 /**
  * @namespace JellyfishSDK.card
  */
@@ -71,7 +76,7 @@ export class CardSdk {
 	 * 		console.log(card)
 	 * 	})
 	 */
-	public get(idOrSlug: string, options: any = {}): Bluebird<Card | null> {
+	public get(idOrSlug: string, options: Options = {}): Bluebird<Card | null> {
 		const schema: JellySchema = isUUID(idOrSlug) ? {
 				type: 'object',
 				properties: {
@@ -96,6 +101,13 @@ export class CardSdk {
 			};
 
 		_.merge(schema, options.schema);
+
+		if (options.type) {
+			schema.properties!.type = {
+				type: 'string',
+				const: options.type,
+			};
+		}
 
 		return this.sdk.query(schema)
 			.then(elements => _.first(elements) || null);
@@ -126,9 +138,10 @@ export class CardSdk {
 	 * 		console.log(card)
 	 * 	})
 	 */
-	public getWithTimeline(idOrSlug: string): Bluebird<Card | null> {
+	public getWithTimeline(idOrSlug: string, options: Options = {}): Bluebird<Card | null> {
+		const { schema, ...rest } = options;
 		return this.get(idOrSlug, {
-			schema: {
+			schema: _.merge(schema, {
 				$$links: {
 					'has attached element': {
 						type: 'object',
@@ -141,7 +154,8 @@ export class CardSdk {
 						additionalProperties: true,
 					},
 				},
-			},
+			}),
+			...rest,
 		});
 	}
 

@@ -17,6 +17,7 @@ export const getDefaultState = (): StoreState => ({
 		channels: [
 			createChannel({
 				target: 'view-all-views',
+				cardType: 'view',
 			}),
 		],
 		types: [],

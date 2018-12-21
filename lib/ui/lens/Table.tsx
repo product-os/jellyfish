@@ -63,6 +63,7 @@ class CardTable extends React.Component<CardTableProps, CardTableState> {
 
 	public openChannel(card: Card): void {
 		this.props.actions.addChannel(createChannel({
+			cardType: card!.type,
 			target: card.id,
 			head: card,
 			parentChannel: this.props.channel.id,

@@ -56,6 +56,7 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 			card = _.find(this.props.tail || [], { id: target });
 		}
 		const newChannel = createChannel({
+			cardType: card!.type,
 			target,
 			head: card,
 			parentChannel: this.props.channel.id,

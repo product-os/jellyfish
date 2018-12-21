@@ -5,6 +5,8 @@ import { StoreState } from '../core/store';
 import { actionCreators, selectors } from '../core/store';
 import { createChannel } from './helpers';
 
+const PATH_SEPARATOR = '~';
+
 const history = createHistory();
 
 const getCurrentPathFromUrl = () =>
@@ -13,7 +15,9 @@ const getCurrentPathFromUrl = () =>
 export const setPathFromState = (state: StoreState) => {
 	// Skip the first 'home' channel
 	const channels = _.tail(selectors.getChannels(state));
-	const url = channels.map(({ data }) => data.target).join('/');
+	const url = channels.map(({ data }) => {
+		return `${data.cardType}${PATH_SEPARATOR}${data.target}`;
+	}).join('/');
 
 	// Only update the URL if it is different to the current one, to avoid
 	// infinite loops
@@ -31,7 +35,9 @@ export const setChannelsFromPath = (path?: string) => {
 	const channels = selectors.getChannels(store.getState());
 	const homeChannel = _.first(channels);
 
-	const newChannels = targets.map(target => {
+	const newChannels = targets.map(value => {
+		const [ cardType, target ] = value.split(PATH_SEPARATOR);
+
 		const existingChannel = _.find(channels, (channel) =>
 			channel.data.target === target,
 		);
@@ -43,6 +49,7 @@ export const setChannelsFromPath = (path?: string) => {
 
 		return createChannel({
 			target,
+			cardType,
 		});
 	});
 

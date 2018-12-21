@@ -95,8 +95,10 @@ export const actionCreators = {
 
 	loadChannelData: (channel: Channel): JellyThunkSync<void, KnownState> =>
 		function loadChannelData(dispatch, getState): Bluebird<any> {
-			const { target } = channel.data;
-			const load = (): Bluebird<Card | null> => sdk.card.getWithTimeline(target)
+			const { target, cardType } = channel.data;
+			const load = (): Bluebird<Card | null> => sdk.card.getWithTimeline(target, {
+				type: cardType as any,
+			})
 				.then((result) => {
 					if (!result) {
 						const currentChannel = _.find(

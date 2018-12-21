@@ -63,7 +63,7 @@ const EventWrapper = styled(Flex)`
 
 interface EventProps extends DefaultProps {
 	card: Card;
-	openChannel?: (target: string) => void;
+	openChannel?: (target: string, card: any) => void;
 }
 
 interface EventState {
@@ -120,12 +120,12 @@ export class Event extends React.Component<EventProps, EventState> {
 			return;
 		}
 
-		const id = this.getTargetId(card);
-		openChannel(id);
+		const target = this.getTarget(card);
+		openChannel(target.id!, target as any);
 	}
 
-	public getTargetId(card: Card): string {
-		return _.get(card, [ 'links', 'is attached to', '0', 'id' ]) || card.id;
+	public getTarget(card: Card): Partial<Card> {
+		return _.get(card, [ 'links', 'is attached to', '0' ]) || card;
 	}
 
 	public getTimelineElement(card: Card): JSX.Element {
@@ -186,7 +186,7 @@ export class Event extends React.Component<EventProps, EventState> {
 				<EventButton
 					onClick={this.openChannel}
 					style={{
-						borderLeftColor: threadColor(this.getTargetId(card)),
+						borderLeftColor: threadColor(this.getTarget(card).id!),
 					}}
 				>
 					<Gravatar small email={this.state.actor.email} />
