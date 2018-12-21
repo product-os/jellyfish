@@ -42,8 +42,7 @@ COPY --from=base /usr/src/app /usr/src/app
 RUN rethinkdb --version && \
 		rethinkdb --daemon --bind all && \
 		make lint && \
-		make test-unit COVERAGE=0 && \
-		make test-integration COVERAGE=0
+		make test-unit COVERAGE=0
 
 FROM node:dubnium-jessie as runtime
 
