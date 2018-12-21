@@ -55,19 +55,18 @@ export class Renderer extends React.Component<DefaultRendererProps, RendererStat
 			showNewCardModal: false,
 			messagesOnly: true,
 		};
+	}
 
-		setTimeout(() => {
-			this.shouldScroll = true;
-
-			this.scrollToBottom();
-		}, 1000);
-
+	public componentDidMount(): void {
+		this.shouldScroll = true;
+		this.scrollToBottom();
 	}
 
 	public componentWillUpdate(): void {
-		if (this.scrollArea) {
+		const { scrollArea } = this;
+		if (scrollArea) {
 			// Only set the scroll flag if the scroll area is already at the bottom
-			this.shouldScroll = this.scrollArea.scrollTop === this.scrollArea.scrollHeight - this.scrollArea.offsetHeight;
+			this.shouldScroll = scrollArea.scrollTop >= scrollArea.scrollHeight - scrollArea.offsetHeight;
 		}
 	}
 

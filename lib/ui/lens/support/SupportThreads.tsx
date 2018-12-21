@@ -39,9 +39,6 @@ interface InterleavedProps extends RendererProps {
 }
 
 export class Interleaved extends React.Component<InterleavedProps, InterleavedState> {
-	private scrollArea: HTMLElement | null;
-	private shouldScroll: boolean = true;
-
 	constructor(props: InterleavedProps) {
 		super(props);
 
@@ -50,32 +47,6 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 			newMessage: '',
 			showNewCardModal: false,
 		};
-
-		setTimeout(() => this.scrollToBottom(), 1000);
-	}
-
-	public componentWillUpdate(): void {
-		if (!this.scrollArea) {
-			return;
-		}
-
-		// Only set the scroll flag if the scroll area is already at the bottom
-		this.shouldScroll = this.scrollArea.scrollTop === this.scrollArea.scrollHeight - this.scrollArea.offsetHeight;
-	}
-
-	public componentDidUpdate(): void {
-		// Scroll to bottom if the component has been updated with new items
-		this.scrollToBottom();
-	}
-
-	public scrollToBottom(): void {
-		if (!this.scrollArea) {
-			return;
-		}
-
-		if (this.shouldScroll) {
-			this.scrollArea.scrollTop = this.scrollArea.scrollHeight;
-		}
 	}
 
 	public openChannel = (target: string, card?: Card) => {
@@ -150,7 +121,6 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 		return (
 			<Column flexDirection="column">
 				<div
-					ref={(ref) => this.scrollArea = ref}
 					style={{
 						flex: 1,
 						paddingLeft: 16,
