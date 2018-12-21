@@ -18,6 +18,7 @@ import {
 } from '../services/helpers';
 import { createLink } from '../services/link';
 import Icon from './Icon';
+import { IconButton } from './IconButton';
 
 interface CardLinkerProps {
 	card: Card;
@@ -170,11 +171,10 @@ export class CardLinker extends React.Component<CardLinkerProps, CardLinkerState
 
 		return (
 			<>
-				<Button
+				<IconButton
 					plaintext
 					square={true}
 					mr={1}
-					className="card-actions__btn--edit"
 					onClick={this.openLinkModal}
 					tooltip={{
 						placement: 'left',
@@ -182,7 +182,7 @@ export class CardLinker extends React.Component<CardLinkerProps, CardLinkerState
 					}}
 				>
 					<Icon name="bezier-curve" />
-				</Button>
+				</IconButton>
 
 				{showLinkModal && (
 					<Modal

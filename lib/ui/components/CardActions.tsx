@@ -4,7 +4,7 @@ import * as _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Button, Flex, Link, Modal } from 'rendition';
+import { Flex, Link, Modal } from 'rendition';
 import { Form } from 'rendition/dist/unstable';
 import * as skhema from 'skhema';
 import styled from 'styled-components';
@@ -19,15 +19,10 @@ import { createLink } from '../services/link';
 import { CardLinker } from './CardLinker';
 import { ContextMenu } from './ContextMenu';
 import Icon from './Icon';
+import { IconButton } from './IconButton';
 
-const EllipsisButton = styled(Button)`
+const EllipsisButton = styled(IconButton)`
 	float: right;
-	color: #c3c3c3;
-
-	&:hover,
-	&:focus {
-		color: #333;
-	}
 `;
 
 const ActionLink = styled(Link)`
@@ -208,15 +203,19 @@ class Base extends React.Component<
 		return (
 			<React.Fragment>
 				<Flex align="right" justify="flex-end" mb={3}>
-					<Button
+					<IconButton
 						plaintext
 						square={true}
 						mr={1}
 						onClick={this.edit}
 						className="card-actions__btn--edit"
+						tooltip={{
+							placement: 'left',
+							text: 'Edit this element',
+						}}
 					>
 						<Icon name="pencil-alt" />
-					</Button>
+					</IconButton>
 
 					<CardLinker types={this.props.types} card={this.props.card} />
 
