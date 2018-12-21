@@ -270,7 +270,7 @@ class Base extends React.Component<CardProps, CardState> {
 			>
 				<Box
 					p={3}
-					flex="1"
+					pb={0}
 					style={{overflowY: 'auto'}}
 				>
 					<Flex mb={1} justify="space-between">
@@ -396,10 +396,7 @@ class Base extends React.Component<CardProps, CardState> {
 					}
 				</Box>
 
-				<Box
-					style={{ maxHeight: '50%' }}
-					flex="0"
-				>
+				<Box flex="1" style={{minHeight: 0}}>
 					<TimelineLens.data.renderer
 						card={this.props.card}
 						tail={this.props.card.links['has attached element']}
