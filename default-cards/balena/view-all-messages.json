@@ -3,7 +3,7 @@
   "name": "All messages",
   "version": "1.0.0",
   "type": "view",
-  "markers": [],
+  "markers": [ "org-balena" ],
   "tags": [],
   "links": {},
   "active": true,
@@ -20,6 +20,12 @@
             },
             "type": {
               "const": "message"
+            }
+          },
+          "markers": {
+            "type": "array",
+            "contains": {
+              "const": "org-balena"
             }
           },
           "required": [

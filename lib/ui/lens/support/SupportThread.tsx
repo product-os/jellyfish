@@ -221,14 +221,14 @@ class Base extends React.Component<CardProps, CardState> {
 		return _.uniqBy(list, (item) => _.get(item, [ 'data', 'payload', 'message' ]));
 	}
 
-	public archive = () => {
+	public close = () => {
 		sdk.card.update(this.props.card.id, _.merge({}, this.props.card, {
 			data: {
-				status: 'archived',
+				status: 'closed',
 			},
 		}))
 			.then(() => {
-				this.props.actions.addNotification('success', 'Archived support thread');
+				this.props.actions.addNotification('success', 'Close this support thread');
 			})
 			.catch((error) => {
 				this.props.actions.addNotification('danger', error.message || error);
@@ -270,7 +270,7 @@ class Base extends React.Component<CardProps, CardState> {
 			>
 				<Box
 					p={3}
-					flex="1"
+					pb={0}
 					style={{overflowY: 'auto'}}
 				>
 					<Flex mb={1} justify="space-between">
@@ -292,9 +292,9 @@ class Base extends React.Component<CardProps, CardState> {
 								mb={3}
 								tooltip={{
 									placement: 'bottom',
-									text: 'Archive this support thread',
+									text: 'Close this support thread',
 								}}
-								onClick={this.archive}
+								onClick={this.close}
 							>
 								<Icon name="archive" />
 							</IconButton>
@@ -396,10 +396,7 @@ class Base extends React.Component<CardProps, CardState> {
 					}
 				</Box>
 
-				<Box
-					style={{ maxHeight: '50%' }}
-					flex="0"
-				>
+				<Box flex="1" style={{minHeight: 0}}>
 					<TimelineLens.data.renderer
 						card={this.props.card}
 						tail={this.props.card.links['has attached element']}

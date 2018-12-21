@@ -110,60 +110,6 @@ ava.serial('should let users login', async (test) => {
 	test.pass()
 })
 
-ava.serial('should render a list of views in the sidebar', async (test) => {
-	const {
-		page
-	} = context
-
-	await page.waitForSelector('.home-channel', WAIT_OPTS)
-
-	await page.waitForSelector('.home-channel__item', WAIT_OPTS)
-
-	test.pass()
-})
-
-ava.serial('should render the community chat view for newly signed up users', async (test) => {
-	const {
-		page
-	} = context
-
-	await page.$$eval('.home-channel__item', (nodes) => {
-		for (const node of nodes) {
-			if (node.textContent === 'All messages') {
-				return node.click()
-			}
-		}
-		throw new Error('"All messages" link not found in sidebar')
-	})
-
-	await page.waitForSelector('.column--view-all-messages', WAIT_OPTS)
-
-	test.pass()
-})
-
-ava.serial('should allow newly signed up users to create new chat threads', async (test) => {
-	const {
-		page
-	} = context
-
-	await page.waitForSelector('.btn--add-thread', WAIT_OPTS)
-
-	await page.click('.btn--add-thread')
-
-	await page.waitForSelector('.column--thread', WAIT_OPTS)
-
-	test.pass()
-})
-
-ava.serial('should allow newly signed up users to create chat messages', async (test) => {
-	const {
-		page
-	} = context
-	const messageText = `My new message: ${randomstring.generate()}`
-	const result = await macros.createChatMessage(page, '.column--thread', messageText)
-	test.is(result, messageText)
-})
-
 ava.serial('should stop users from seeing messages attached to cards they can\'t view', async (test) => {
 	const {
 		page
@@ -201,6 +147,7 @@ ava.serial('should stop users from seeing messages attached to cards they can\'t
 	)
 
 	await page.reload()
+	await macros.waitForThenClickSelector(page, '.home-channel__group-toggle--org-balena')
 	await macros.waitForThenClickSelector(page, '.home-channel__item--view-scratchpad')
 	await page.waitForSelector('.column--view-scratchpad')
 	await macros.waitForThenClickSelector(page, '.btn--add-scratchpad-entry')
@@ -224,13 +171,36 @@ ava.serial('should stop users from seeing messages attached to cards they can\'t
 	await macros.logout(page)
 
 	await macros.signupUser(page, users.community2)
-	await page.waitForSelector('.column--view-all-messages', WAIT_OPTS)
-	await page.waitForSelector('.event-card__message', WAIT_OPTS)
-	const lastMessage = await page.evaluate(() => {
-		const nodes = document.querySelectorAll('.event-card__message')
-		const node = nodes[nodes.length - 1]
-		return node.innerText.trim()
-	})
+	const lastMessage = await page.evaluate((text) => {
+		return window.sdk.query({
+			type: 'object',
+			properties: {
+				type: {
+					const: 'message',
+					type: 'string'
+				},
+				data: {
+					type: 'object',
+					properties: {
+						payload: {
+							type: 'object',
+							properties: {
+								message: {
+									type: 'string',
+									pattern: text
+								}
+							},
+							required: [ 'message' ]
+						}
+					},
+					required: [ 'payload' ]
+				}
+			},
+			required: [ 'type', 'data' ]
+		})
+	}, messageText)
+
+	console.log('lastmessage', lastMessage)
 
 	test.not(messageText, lastMessage)
 })

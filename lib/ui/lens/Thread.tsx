@@ -182,7 +182,6 @@ class Base extends React.Component<CardProps, {}> {
 				<Box
 					p={3}
 					pb={0}
-					style={{overflowY: 'auto'}}
 				>
 					<Flex justify="space-between">
 						{card.created_at && (
@@ -229,7 +228,8 @@ class Base extends React.Component<CardProps, {}> {
 						})
 					}
 				</Box>
-				<Box flex="1">
+
+				<Box flex="1" style={{minHeight: 0}}>
 					<TimelineLens.data.renderer
 						card={this.props.card}
 						tail={this.props.card.links['has attached element']}

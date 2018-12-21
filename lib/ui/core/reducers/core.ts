@@ -17,6 +17,7 @@ export interface ICore {
 	channels: Channel[];
 	types: Type[];
 	accounts: Card[];
+	orgs: Card[];
 	allUsers: Card[];
 	session: null | {
 		authToken: string | null;
@@ -30,6 +31,11 @@ export interface ICore {
 		version?: string;
 		changelog?: string;
 	};
+	ui: {
+		sidebar: {
+			expanded: string[];
+		};
+	};
 }
 
 interface KnownState {
@@ -39,6 +45,7 @@ interface KnownState {
 
 export const coreSelectors = {
 	getAccounts: (state: KnownState) => state.core.accounts,
+	getOrgs: (state: KnownState) => state.core.orgs,
 	getAllUsers: (state: KnownState) => state.core.allUsers,
 	getAppVersion: (state: KnownState) => _.get(state.core, ['config', 'version']) || null,
 	getAppCodename: (state: KnownState) => _.get(state.core, ['config', 'codename']) || null,
@@ -49,6 +56,7 @@ export const coreSelectors = {
 	getSessionToken: (state: KnownState) => _.get(state.core, ['session', 'authToken']) || null,
 	getStatus: (state: KnownState) => state.core.status,
 	getTypes: (state: KnownState) => state.core.types,
+	getUIState: (state: KnownState) => state.core.ui,
 	getViewNotices: (state: KnownState) => state.core.viewNotices,
 };
 
@@ -56,6 +64,7 @@ const actions = {
 	SET_STATUS: 'SET_STATUS',
 	SET_STATE: 'SET_STATE',
 	SET_TYPES: 'SET_TYPES',
+	SET_ORGS: 'SET_ORGS',
 	SET_ACCOUNTS: 'SET_ACCOUNTS',
 	SET_ALL_USERS: 'SET_ALL_USERS',
 	UPDATE_CHANNEL: 'UPDATE_CHANNEL',
@@ -70,11 +79,17 @@ const actions = {
 	ADD_VIEW_NOTICE: 'ADD_VIEW_NOTICE',
 	REMOVE_VIEW_NOTICE: 'REMOVE_VIEW_NOTICE',
 	SET_CONFIG: 'SET_CONFIG',
+	SET_UI_STATE: 'SET_UI_STATE',
 };
 
 export const actionCreators = {
 	setState: (state: ICore) => ({
 		type: actions.SET_STATE,
+		value: state,
+	}),
+
+	setUIState: (state: ICore['ui']) => ({
+		type: actions.SET_UI_STATE,
 		value: state,
 	}),
 
@@ -160,6 +175,7 @@ export const actionCreators = {
 	bootstrap: (): JellyThunk<Card, KnownState> => (dispatch, getState) => {
 		return Bluebird.props({
 			user: sdk.auth.whoami(),
+			orgs: sdk.card.getAllByType('org'),
 			accounts: sdk.card.getAllByType('account'),
 			types: sdk.card.getAllByType('type'),
 			allUsers: sdk.card.getAllByType('user'),
@@ -180,6 +196,7 @@ export const actionCreators = {
 			accounts,
 			types,
 			allUsers,
+			orgs,
 			config,
 			stream,
 		}) => {
@@ -191,6 +208,7 @@ export const actionCreators = {
 			if (coreSelectors.getSessionToken(state)) {
 				dispatch(actionCreators.setUser(user!));
 				dispatch(actionCreators.setTypes(types as Type[]));
+				dispatch(actionCreators.setOrgs(orgs));
 				dispatch(actionCreators.setAllUsers(allUsers));
 				dispatch(actionCreators.setAccounts(accounts));
 				dispatch({
@@ -325,6 +343,11 @@ export const actionCreators = {
 		value: types,
 	}),
 
+	setOrgs: (orgs: Card[]) => ({
+		type: actions.SET_ORGS,
+		value: orgs,
+	}),
+
 	addNotification: (
 		type: Notification['type'],
 		message: string,
@@ -447,6 +470,11 @@ export const core = (state: ICore, action: Action) => {
 
 			return newState;
 
+		case actions.SET_ORGS:
+			newState.orgs = action.value;
+
+			return newState;
+
 		case actions.ADD_NOTIFICATION:
 			newState.notifications.push(action.value);
 
@@ -493,6 +521,12 @@ export const core = (state: ICore, action: Action) => {
 			newState.config = action.value;
 
 			return newState;
+
+		case actions.SET_UI_STATE:
+			newState.ui = action.value;
+
+			return newState;
+
 
 		default:
 			return newState;

@@ -182,6 +182,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 
 	public createView(view: FiltersView): Card {
 		const newView = _.cloneDeep(this.props.channel.data.head!);
+		const { user } = this.props;
 
 		newView.name = view.name;
 		newView.slug = 'view-user-created-view-' + sdk.utils.slugify(view.name);
@@ -192,7 +193,9 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 
 		newView.data.allOf = _.reject(newView.data.allOf, { name: USER_FILTER_NAME });
 
-		newView.data.actor = this.props.user!.id;
+		newView.data.actor = user!.id;
+
+		newView.markers = [ user!.slug ];
 
 		view.filters.forEach((filter) => {
 			newView.data.allOf.push({
