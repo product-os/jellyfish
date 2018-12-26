@@ -463,7 +463,7 @@ ava('.upsertElement() should not be able to upsert without a slug nor an id', as
 })
 
 ava('.upsertElement() should not consider ids when inserting an element with an existing id' +
-         ', but matching the slug of another element', async (test) => {
+					', but matching the slug of another element', async (test) => {
 	const result1 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'example'
 	})

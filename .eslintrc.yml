@@ -6,6 +6,7 @@ env:
 plugins:
   - lodash
   - jsdoc
+  - jellyfish
 extends:
   - 'plugin:react/recommended'
   - standard
@@ -425,4 +426,9 @@ rules:
   jsdoc/require-param-type:
     - error
   jsdoc/require-returns-type:
+    - error
+
+  # Jellyfish
+
+  jellyfish/logger-string-expression:
     - error
