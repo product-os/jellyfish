@@ -43,6 +43,13 @@ jobs:
               - /root/.npm
             key: v2-dependencies-{{ checksum "package.json" }}
 
+        - run:
+            name: Generate Docs
+            command: make dist/docs.html
+        - run:
+            name: Lint
+            command: make lint
+
         - persist_to_workspace:
             root: .
             paths:
@@ -61,15 +68,6 @@ jobs:
       - run:
           name: Start RethinkDB
           command: rethinkdb --daemon --bind all
-
-
-      - run: mkdir -p /tmp/test-results/screenshots
-      - run:
-          name: Generate Docs
-          command: make dist/docs.html
-      - run:
-          name: Lint
-          command: make lint
       - run:
           name: Unit Tests
           command: make test-unit COVERAGE=1
@@ -77,16 +75,10 @@ jobs:
           name: Backend Tests Without Cache
           command: make test COVERAGE=1 DISABLE_CACHE=1 FILES=./test/unit/core/backend.spec.js
 
-      - run:
-          name: Store Code Coverage Results
-          command: make report-coverage && cp -rf coverage /tmp/test-results
-
-      # Store artifacts for debugging purposes
-      - store_test_results:
-          path: /tmp/test-results
-      - store_artifacts:
-          path: /tmp/test-results
-          destination: test-results
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .nyc_output/*.json
 
   integration_tests:
     <<: *job_defaults
@@ -111,12 +103,10 @@ jobs:
           name: Sync Integration Tests Without Tokens
           command: make test-integration-sync COVERAGE=1 INTEGRATION_GITHUB_TOKEN= INTEGRATION_FRONT_TOKEN=
 
-      # Store artifacts for debugging purposes
-      - store_test_results:
-          path: /tmp/test-results
-      - store_artifacts:
-          path: /tmp/test-results
-          destination: test-results
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .nyc_output/*.json
 
   integration_tests_prod:
     <<: *job_defaults
@@ -141,12 +131,10 @@ jobs:
           name: Integration Tests (on production database)
           command: make test-integration COVERAGE=1 NODE_ENV=production
 
-      # Store artifacts for debugging purposes
-      - store_test_results:
-          path: /tmp/test-results
-      - store_artifacts:
-          path: /tmp/test-results
-          destination: test-results
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .nyc_output/*.json
 
   stress_tests:
     <<: *job_defaults
@@ -178,6 +166,26 @@ jobs:
           name: Parallel Core Inserts (previous)
           command: node stress/core/insert-parallel.js
 
+  results:
+    <<: *job_defaults
+
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: .
+
+      - run:
+          name: Store Code Coverage Results
+          command: make report-coverage && mkdir -p /tmp/test-results && cp -rf coverage /tmp/test-results
+
+      # Store artifacts for debugging purposes
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results
+
 workflows:
     version: 2
     build:
@@ -203,4 +211,11 @@ workflows:
             - stress_tests:
                 requires:
                     - build
+                <<: *workflow_filter
+
+            - results:
+                requires:
+                  - unit_tests
+                  - integration_tests
+                  - integration_tests_prod
                 <<: *workflow_filter
