@@ -1,0 +1,16 @@
+{
+  "name": "eslint-plugin-jellyfish",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Jellyfish Custom Rules",
+  "author": "Resin Inc. <hello@resin.io>",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test --recursive"
+  },
+  "devDependencies": {
+    "eslint": "~3.9.1",
+    "mocha": "^3.1.2"
+  },
+  "license": "Apache-2.0"
+}

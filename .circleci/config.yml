@@ -186,6 +186,14 @@ jobs:
           path: /tmp/test-results
           destination: test-results
 
+  eslint_jellyfish:
+    <<: *job_defaults
+    steps:
+      - checkout
+      - run:
+          name: Test
+          command: cd ./scripts/eslint-plugin-jellyfish && npm install && npm test
+
 workflows:
     version: 2
     build:
@@ -218,4 +226,7 @@ workflows:
                   - unit_tests
                   - integration_tests
                   - integration_tests_prod
+                <<: *workflow_filter
+
+            - eslint_jellyfish:
                 <<: *workflow_filter

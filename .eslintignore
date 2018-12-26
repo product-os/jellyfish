@@ -1,1 +1,3 @@
 lib/*/dist/**/*.js
+node_modules/*
+scripts/eslint-plugin-jellyfish/node_modules/*

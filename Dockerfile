@@ -6,7 +6,9 @@ WORKDIR /usr/src/app
 
 COPY package.json /usr/src/app
 COPY package-lock.json /usr/src/app
-RUN npm install
+RUN mkdir -p scripts/eslint-plugin-jellyfish
+COPY scripts/eslint-plugin-jellyfish/package.json /usr/src/app/scripts/eslint-plugin-jellyfish
+RUN npm ci
 
 COPY . /usr/src/app
 RUN make build
