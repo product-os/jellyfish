@@ -1,0 +1,131 @@
+{
+  "head": {
+    "name": "[IGNORE ME] Test issue",
+    "type": "support-thread",
+    "version": "1.0.0",
+    "active": true,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "environment": "production",
+      "inbox": "S/Forums",
+      "mirrors": [
+        "https://api2.frontapp.com/conversations/cnv_162vv2b"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "",
+      "status": "open"
+    }
+  },
+  "tail": [
+    {
+      "type": "message",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "mirrors": [
+          "https://api2.frontapp.com/messages/msg_27f4iuz"
+        ],
+        "timestamp": "2018-12-27T19:06:08.130Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "Ignore me, this is an integrations test!"
+        }
+      }
+    },
+    {
+      "type": "whisper",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "mirrors": [
+          "https://api2.frontapp.com/comments/com_2j5sxn"
+        ],
+        "timestamp": "2018-12-27T19:06:11.155Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "This is mirrored in [flowdock forums thread Xg6OqQ7h8xYHcWm-y9Z_r4lEgdI](https://www.flowdock.com/app/rulemotion/public-s-community/threads/Xg6OqQ7h8xYHcWm-y9Z_r4lEgdI)\n[](https://www.balena-cloud.com?hidden=murmur&source=flowdock&flow=rulemotion/public-s-community&thread=Xg6OqQ7h8xYHcWm-y9Z_r4lEgdI&hmac=624cb983d5a9ee32c91acaa5ed89b6c80850ad98536c0dac309955d5f3edd983)"
+        }
+      }
+    },
+    {
+      "type": "whisper",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "mirrors": [
+          "https://api2.frontapp.com/comments/com_2j5sxv"
+        ],
+        "timestamp": "2018-12-27T19:06:12.027Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "This is mirrored in [discourse troubleshooting thread 4838](https://forums.balena.io/t/4838)\n[](https://www.balena-cloud.com?hidden=murmur&source=flowdock&flow=rulemotion/public-s-community&thread=Xg6OqQ7h8xYHcWm-y9Z_r4lEgdI&hmac=76504dd5fd1df68b6b0981cfdf9607802f93f89b8450b72014f35272375f233b)"
+        }
+      }
+    },
+    {
+      "type": "message",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "mirrors": [
+          "https://api2.frontapp.com/messages/msg_27f4kqz"
+        ],
+        "timestamp": "2018-12-27T19:06:24.743",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "Test reply"
+        }
+      }
+    },
+    {
+      "type": "create",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "timestamp": "2018-12-27T19:06:08.130Z",
+        "payload": {
+          "name": "[IGNORE ME] Test issue",
+          "type": "support-thread",
+          "version": "1.0.0",
+          "active": true,
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "environment": "production",
+            "inbox": "S/Forums",
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_162vv2b"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open"
+          }
+        }
+      }
+    }
+  ]
+}
