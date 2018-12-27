@@ -23,7 +23,7 @@ const TOKEN = syncContext.getToken('github')
 ava.beforeEach(helpers.translate.beforeEach)
 ava.afterEach(helpers.translate.afterEach)
 
-helpers.translate.scenario(TOKEN ? ava : ava.skip, {
+helpers.translate.scenario(TOKEN && TOKEN.api ? ava : ava.skip, {
 	integration: require('../../../lib/sync/integrations/github'),
 	scenarios: require('./webhooks/github'),
 	slices: _.range(0, 3),
@@ -31,7 +31,7 @@ helpers.translate.scenario(TOKEN ? ava : ava.skip, {
 	stubRegex: /^\/repos\/.+\/.+\/issues\/\d+\/comments$/,
 	source: 'github',
 	options: {
-		token: TOKEN
+		token: TOKEN ? TOKEN.api : null
 	},
 	isAuthorized: (self, request) => {
 		return request.headers.authorization &&

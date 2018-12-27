@@ -118,10 +118,10 @@ ava.before(async (test) => {
 		}
 	})
 
-	if (TOKEN) {
+	if (TOKEN && TOKEN.api) {
 		test.context.github.authenticate({
 			type: 'token',
-			token: TOKEN
+			token: TOKEN.api
 		})
 	}
 })
@@ -134,7 +134,7 @@ ava.beforeEach(async (test) => {
 ava.afterEach(helpers.mirror.afterEach)
 
 // Skip all tests if there is no GitHub token
-const avaTest = TOKEN ? ava.serial : ava.serial.skip
+const avaTest = TOKEN && TOKEN.api ? ava.serial : ava.serial.skip
 
 avaTest('should be able to create an issue without comments', async (test) => {
 	const slug = test.context.getIssueSlug()

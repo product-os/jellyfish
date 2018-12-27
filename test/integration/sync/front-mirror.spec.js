@@ -89,8 +89,8 @@ const getMirrorWaitSchema = (slug) => {
 ava.before(async (test) => {
 	await helpers.mirror.before(test)
 
-	if (TOKEN) {
-		test.context.front = new Front(TOKEN)
+	if (TOKEN && TOKEN.api) {
+		test.context.front = new Front(TOKEN.api)
 	}
 
 	test.context.inbox = process.env.INTEGRATION_FRONT_TEST_INBOX
@@ -199,7 +199,7 @@ ava.beforeEach(async (test) => {
 ava.afterEach(helpers.mirror.afterEach)
 
 // Skip all tests if there is no Front token
-const avaTest = TOKEN ? ava.serial : ava.serial.skip
+const avaTest = TOKEN && TOKEN.api ? ava.serial : ava.serial.skip
 
 avaTest('should be able to comment on an inbound message', async (test) => {
 	const supportThread = await test.context.startSupportThread(

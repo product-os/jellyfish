@@ -23,7 +23,7 @@ const TOKEN = syncContext.getToken('front')
 ava.beforeEach(helpers.translate.beforeEach)
 ava.afterEach(helpers.translate.afterEach)
 
-helpers.translate.scenario(TOKEN ? ava : ava.skip, {
+helpers.translate.scenario(TOKEN && TOKEN.api ? ava : ava.skip, {
 	integration: require('../../../lib/sync/integrations/front'),
 	scenarios: require('./webhooks/front'),
 	slices: _.range(0, 2),
@@ -31,7 +31,7 @@ helpers.translate.scenario(TOKEN ? ava : ava.skip, {
 	stubRegex: /^\/conversations\/.+\/(messages|inboxes)$/,
 	source: 'front',
 	options: {
-		token: TOKEN
+		token: TOKEN ? TOKEN.api : null
 	},
 	isAuthorized: (self, request) => {
 		return request.headers.authorization === `Bearer ${self.options.token}`
