@@ -90,6 +90,21 @@ ava('.insertCard() should be able to insert a card', async (test) => {
 	test.deepEqual(element, card)
 })
 
+ava('.insertCard() should be able to set a tag with a colon', async (test) => {
+	const card = await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
+		slug: 'hello-world',
+		tags: [ 'foo:bar' ],
+		type: 'card',
+		version: '1.0.0',
+		data: {
+			foo: 'bar'
+		}
+	})
+
+	const element = await test.context.kernel.getCardById(test.context.context, test.context.kernel.sessions.admin, card.id)
+	test.deepEqual(element, card)
+})
+
 ava('.insertCard() should use defaults if required keys are missing', async (test) => {
 	const card = await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
 		slug: 'hello-world',
