@@ -15,6 +15,23 @@
  */
 
 module.exports = {
+	'intercom-inbound-archive': {
+		expected: require('./intercom-inbound-archive/expected.json'),
+		steps: [
+			require('./intercom-inbound-archive/01.json'),
+			require('./intercom-inbound-archive/02.json'),
+			require('./intercom-inbound-archive/03.json'),
+			require('./intercom-inbound-archive/04.json')
+		]
+	},
+	'intercom-unknown-inbound-message-archive': {
+		expected: require('./intercom-unknown-inbound-message-archive/expected.json'),
+		steps: [
+			require('./intercom-unknown-inbound-message-archive/01.json'),
+			require('./intercom-unknown-inbound-message-archive/02.json'),
+			require('./intercom-unknown-inbound-message-archive/03.json')
+		]
+	},
 	'inbound-inbound-inbound': {
 		expected: require('./inbound-inbound-inbound/expected.json'),
 		steps: [
