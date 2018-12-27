@@ -1,0 +1,196 @@
+{
+  "headers": {
+    "accept": "application/json",
+    "user-agent": "Needle/1.3.0 (Node.js v9.11.1; linux x64)",
+    "x-front-signature": "SDNZXANuo9N8k9o/Nf2c3BuABRg=",
+    "content-length": "4071",
+    "content-type": "application/json; charset=utf-8",
+    "host": "440f71d3.ngrok.io",
+    "connection": "close",
+    "x-forwarded-proto": "https",
+    "x-forwarded-for": "13.52.102.136"
+  },
+  "payload": {
+    "_links": {
+      "self": "https://api2.frontapp.com/events/evt_59vt783"
+    },
+    "id": "evt_59vt783",
+    "type": "out_reply",
+    "emitted_at": 1545937584.743,
+    "conversation": {
+      "_links": {
+        "self": "https://api2.frontapp.com/conversations/cnv_162vv2b",
+        "related": {
+          "events": "https://api2.frontapp.com/conversations/cnv_162vv2b/events",
+          "followers": "https://api2.frontapp.com/conversations/cnv_162vv2b/followers",
+          "messages": "https://api2.frontapp.com/conversations/cnv_162vv2b/messages",
+          "comments": "https://api2.frontapp.com/conversations/cnv_162vv2b/comments",
+          "inboxes": "https://api2.frontapp.com/conversations/cnv_162vv2b/inboxes"
+        }
+      },
+      "id": "cnv_162vv2b",
+      "subject": "[IGNORE ME] Test issue",
+      "status": "unassigned",
+      "assignee": null,
+      "recipient": {
+        "_links": {
+          "related": {
+            "contact": "https://api2.frontapp.com/contacts/crd_8qjg17"
+          }
+        },
+        "handle": "jviotti",
+        "role": "to"
+      },
+      "tags": [],
+      "last_message": {
+        "_links": {
+          "self": "https://api2.frontapp.com/messages/msg_27f4kqz",
+          "related": {
+            "conversation": "https://api2.frontapp.com/conversations/cnv_162vv2b"
+          }
+        },
+        "id": "msg_27f4kqz",
+        "type": "custom",
+        "is_inbound": false,
+        "created_at": 1545937584.743,
+        "blurb": "",
+        "body": "<p>Test reply</p>\n<a href=\"https://www.balena-cloud.com?hidden=reply&source=flowdock&flow=rulemotion/public-s-community&thread=Xg6OqQ7h8xYHcWm-y9Z_r4lEgdI&hmac=ed7fd13ddefc1a51af1e79e1092d665478b712e6bf07323ecc2737baaf02b533\" target=\"_blank\" rel=\"noopener noreferrer\"></a>",
+        "text": "Test reply",
+        "is_draft": false,
+        "error_type": null,
+        "metadata": {
+          "headers": {
+            "in_reply_to": "beb231dd601f347c7c733edc4dc849c0@frontapp.com"
+          }
+        },
+        "author": {
+          "_links": {
+            "self": "https://api2.frontapp.com/teammates/tea_grc",
+            "related": {
+              "inboxes": "https://api2.frontapp.com/teammates/tea_grc/inboxes",
+              "conversations": "https://api2.frontapp.com/teammates/tea_grc/conversations"
+            }
+          },
+          "id": "tea_grc",
+          "email": "juan@balena.io",
+          "username": "jviotti",
+          "first_name": "Juan Cruz",
+          "last_name": "Viotti",
+          "is_admin": true,
+          "is_available": true
+        },
+        "recipients": [
+          {
+            "_links": {
+              "related": {
+                "contact": "https://api2.frontapp.com/contacts/crd_2yqwmh"
+              }
+            },
+            "handle": "423a0f350b6f1102",
+            "role": "from"
+          },
+          {
+            "_links": {
+              "related": {
+                "contact": "https://api2.frontapp.com/contacts/crd_8qjg17"
+              }
+            },
+            "handle": "jviotti",
+            "role": "to"
+          }
+        ],
+        "attachments": []
+      },
+      "created_at": 1545937567.751,
+      "is_private": false
+    },
+    "source": {
+      "_meta": {
+        "type": "inboxes"
+      },
+      "data": [
+        {
+          "_links": {
+            "self": "https://api2.frontapp.com/inboxes/inb_23sp",
+            "related": {
+              "channels": "https://api2.frontapp.com/inboxes/inb_23sp/channels",
+              "conversations": "https://api2.frontapp.com/inboxes/inb_23sp/conversations",
+              "teammates": "https://api2.frontapp.com/inboxes/inb_23sp/teammates",
+              "owner": "https://api2.frontapp.com/teams/tim_qh"
+            }
+          },
+          "id": "inb_23sp",
+          "name": "S/Forums",
+          "is_private": false,
+          "address": "423a0f350b6f1102",
+          "send_as": "423a0f350b6f1102",
+          "type": "custom"
+        }
+      ]
+    },
+    "target": {
+      "_meta": {
+        "type": "message"
+      },
+      "data": {
+        "_links": {
+          "self": "https://api2.frontapp.com/messages/msg_27f4kqz",
+          "related": {
+            "conversation": "https://api2.frontapp.com/conversations/cnv_162vv2b"
+          }
+        },
+        "id": "msg_27f4kqz",
+        "type": "custom",
+        "is_inbound": false,
+        "created_at": 1545937584.743,
+        "blurb": "",
+        "body": "<p>Test reply</p>\n<a href=\"https://www.balena-cloud.com?hidden=reply&source=flowdock&flow=rulemotion/public-s-community&thread=Xg6OqQ7h8xYHcWm-y9Z_r4lEgdI&hmac=ed7fd13ddefc1a51af1e79e1092d665478b712e6bf07323ecc2737baaf02b533\" target=\"_blank\" rel=\"noopener noreferrer\"></a>",
+        "text": "Test reply",
+        "is_draft": false,
+        "error_type": null,
+        "metadata": {
+          "headers": {
+            "in_reply_to": "beb231dd601f347c7c733edc4dc849c0@frontapp.com"
+          }
+        },
+        "author": {
+          "_links": {
+            "self": "https://api2.frontapp.com/teammates/tea_grc",
+            "related": {
+              "inboxes": "https://api2.frontapp.com/teammates/tea_grc/inboxes",
+              "conversations": "https://api2.frontapp.com/teammates/tea_grc/conversations"
+            }
+          },
+          "id": "tea_grc",
+          "email": "juan@balena.io",
+          "username": "jviotti",
+          "first_name": "Juan Cruz",
+          "last_name": "Viotti",
+          "is_admin": true,
+          "is_available": true
+        },
+        "recipients": [
+          {
+            "_links": {
+              "related": {
+                "contact": "https://api2.frontapp.com/contacts/crd_2yqwmh"
+              }
+            },
+            "handle": "423a0f350b6f1102",
+            "role": "from"
+          },
+          {
+            "_links": {
+              "related": {
+                "contact": "https://api2.frontapp.com/contacts/crd_8qjg17"
+              }
+            },
+            "handle": "jviotti",
+            "role": "to"
+          }
+        ],
+        "attachments": []
+      }
+    }
+  }
+}
