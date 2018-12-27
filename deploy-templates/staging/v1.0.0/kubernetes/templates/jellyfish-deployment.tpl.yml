@@ -46,6 +46,8 @@ spec:
           value: {{{INTEGRATION_FRONT_TOKEN}}}
         - name: INTEGRATION_GITHUB_TOKEN
           value: {{{INTEGRATION_GITHUB_TOKEN}}}
+        - name: INTEGRATION_GITHUB_SIGNATURE_KEY
+          value: {{{INTEGRATION_GITHUB_SIGNATURE_KEY}}}
         ports:
         - containerPort: 8000
           name: jellyfish-api

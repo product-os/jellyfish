@@ -26,6 +26,8 @@ properties:
       type: string
   - INTEGRATION_GITHUB_TOKEN:
       type: string
+  - INTEGRATION_GITHUB_SIGNATURE_KEY:
+      type: string
   - DB_PASSWORD:
       type: string
       default:
