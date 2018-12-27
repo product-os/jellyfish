@@ -41,8 +41,7 @@
                   "type": "string"
                 },
                 "name": {
-                  "type": "string",
-                  "pattern": "^.*\\S.*$"
+                  "type": "string"
                 },
                 "tags": {
                   "type": "array",
