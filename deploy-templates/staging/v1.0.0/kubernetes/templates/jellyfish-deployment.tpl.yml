@@ -17,6 +17,18 @@ spec:
       - image: {{{jellyfish-application-image}}}
         name: jellyfish
         imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /ping
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 3
+        readinessProbe:
+          httpGet:
+            path: /ping
+            port: 8080
+          initialDelaySeconds: 2
+          periodSeconds: 2
         env:
         - name: DB_HOST
           value: rethinkdb
