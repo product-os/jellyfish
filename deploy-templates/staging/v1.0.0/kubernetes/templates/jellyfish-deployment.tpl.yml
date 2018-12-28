@@ -20,13 +20,13 @@ spec:
         livenessProbe:
           httpGet:
             path: /ping
-            port: 8080
+            port: 8000
           initialDelaySeconds: 5
           periodSeconds: 3
         readinessProbe:
           httpGet:
             path: /ping
-            port: 8080
+            port: 8000
           initialDelaySeconds: 2
           periodSeconds: 2
         env:
