@@ -1,8 +1,12 @@
 #!/usr/bin/env node
 
-const rethinkdb = require('rebirthdb-js')()
+const rethinkdb = require('rebirthdb-js')({
+	pool: false,
+	timeoutError: 2000
+})
 
 const run = async () => {
+	const connection = await rethinkdb.connect()
 	const userSlug = process.argv[process.argv.length - 1]
 
 	await rethinkdb
@@ -16,11 +20,11 @@ const run = async () => {
 				roles: [ 'user-team' ]
 			}
 		})
-		.run()
+		.run(connection)
 
 	console.log(`Gave ${userSlug} the user-team role`)
 
-	await rethinkdb.getPoolMaster().drain()
+	await connection.close()
 }
 
 run()
