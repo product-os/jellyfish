@@ -20,8 +20,8 @@ const _ = require('lodash')
 const randomstring = require('randomstring')
 const Front = require('front-sdk').Front
 const helpers = require('./helpers')
-const sync = require('../../../lib/sync')
-const TOKEN = sync.getToken('front')
+const syncContext = require('../../../lib/action-library/sync-context')
+const TOKEN = syncContext.getToken('front')
 
 // Because Front might take a while to process
 // message creation requests.
