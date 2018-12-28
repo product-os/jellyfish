@@ -21,7 +21,8 @@ const syncContext = require('../../../lib/action-library/sync-context')
 module.exports = {
 	beforeEach: async (test) => {
 		await helpers.worker.beforeEach(test, actionLibrary)
-		test.context.context = syncContext(test.context.worker.getExecutionContext())
+		test.context.context = syncContext(
+			test.context.session, test.context.worker.getExecutionContext())
 	},
 	afterEach: async (test) => {
 		await helpers.worker.afterEach(test)
