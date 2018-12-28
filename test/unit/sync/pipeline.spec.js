@@ -26,7 +26,7 @@ ava.beforeEach(helpers.beforeEach)
 ava.afterEach(helpers.afterEach)
 
 ava('.importCards() should import no card', async (test) => {
-	const result = await pipeline.importCards(test.context.context, test.context.session, [], {
+	const result = await pipeline.importCards(test.context.context, [], {
 		actor: test.context.actor.id
 	})
 
@@ -34,7 +34,7 @@ ava('.importCards() should import no card', async (test) => {
 })
 
 ava('.importCards() should throw if the type is invalid', async (test) => {
-	await test.throwsAsync(pipeline.importCards(test.context.context, test.context.session, [
+	await test.throwsAsync(pipeline.importCards(test.context.context, [
 		{
 			time: new Date(),
 			card: {
@@ -48,11 +48,11 @@ ava('.importCards() should throw if the type is invalid', async (test) => {
 		}
 	], {
 		actor: test.context.actor.id
-	}), errors.SyncNoElement)
+	}), test.context.worker.errors.WorkerNoElement)
 })
 
 ava('.importCards() should import a single card', async (test) => {
-	const result = await pipeline.importCards(test.context.context, test.context.session, [
+	const result = await pipeline.importCards(test.context.context, [
 		{
 			time: new Date(),
 			card: {
@@ -93,7 +93,7 @@ ava('.importCards() should patch an existing card', async (test) => {
 		}
 	})
 
-	const result = await pipeline.importCards(test.context.context, test.context.session, [
+	const result = await pipeline.importCards(test.context.context, [
 		{
 			time: new Date(),
 			card: test.context.kernel.defaults({
@@ -128,7 +128,7 @@ ava('.importCards() should patch an existing card', async (test) => {
 })
 
 ava('.importCards() should import two independent cards', async (test) => {
-	const result = await pipeline.importCards(test.context.context, test.context.session, [
+	const result = await pipeline.importCards(test.context.context, [
 		{
 			time: new Date(),
 			card: {
@@ -182,7 +182,7 @@ ava('.importCards() should import two independent cards', async (test) => {
 })
 
 ava('.importCards() should import two parallel cards', async (test) => {
-	const result = await pipeline.importCards(test.context.context, test.context.session, [
+	const result = await pipeline.importCards(test.context.context, [
 		[
 			{
 				time: new Date(),
@@ -240,7 +240,7 @@ ava('.importCards() should import two parallel cards', async (test) => {
 })
 
 ava('.importCards() should import dependent cards', async (test) => {
-	const result = await pipeline.importCards(test.context.context, test.context.session, [
+	const result = await pipeline.importCards(test.context.context, [
 		{
 			time: new Date(),
 			card: {
@@ -302,7 +302,7 @@ ava('.importCards() should import dependent cards', async (test) => {
 })
 
 ava('.importCards() should throw if a template does not evaluate', async (test) => {
-	await test.throwsAsync(pipeline.importCards(test.context.context, test.context.session, [
+	await test.throwsAsync(pipeline.importCards(test.context.context, [
 		{
 			time: new Date(),
 			card: {
@@ -333,7 +333,7 @@ ava('.importCards() should throw if a template does not evaluate', async (test) 
 })
 
 ava('.importCards() should import a dependent card in parallel segment', async (test) => {
-	const result = await pipeline.importCards(test.context.context, test.context.session, [
+	const result = await pipeline.importCards(test.context.context, [
 		{
 			time: new Date(),
 			card: {
@@ -417,7 +417,7 @@ ava('.importCards() should import a dependent card in parallel segment', async (
 })
 
 ava('.importCards() should add create events', async (test) => {
-	const result = await pipeline.importCards(test.context.context, test.context.session, [
+	const result = await pipeline.importCards(test.context.context, [
 		{
 			time: new Date(),
 			card: {
@@ -485,7 +485,6 @@ ava('.translateExternalEvent() should translate an external event through the no
 		}
 	}), {
 		context: test.context.context,
-		session: test.context.session,
 		actor: test.context.actor.id
 	})
 
@@ -537,7 +536,6 @@ ava('.translateExternalEvent() should destroy the integration even if there was 
 		}
 	}), {
 		context: test.context.context,
-		session: test.context.session,
 		actor: test.context.actor.id
 	}), errors.SyncInvalidTemplate)
 
@@ -578,7 +576,6 @@ ava('.translateExternalEvent() should destroy the integration even if there was 
 		}
 	}, {
 		context: test.context.context,
-		session: test.context.session,
 		actor: test.context.actor.id
 	}), TranslateError)
 
