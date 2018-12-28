@@ -19,6 +19,7 @@ const _ = require('lodash')
 const helpers = require('./helpers')
 const typedErrors = require('typed-errors')
 const pipeline = require('../../../lib/sync/pipeline')
+const errors = require('../../../lib/sync/errors')
 const NoOpIntegration = require('./noop-integration')
 
 ava.beforeEach(helpers.beforeEach)
@@ -47,7 +48,7 @@ ava('.importCards() should throw if the type is invalid', async (test) => {
 		}
 	], {
 		actor: test.context.actor.id
-	}), test.context.worker.errors.WorkerNoElement)
+	}), errors.SyncNoElement)
 })
 
 ava('.importCards() should import a single card', async (test) => {
@@ -328,7 +329,7 @@ ava('.importCards() should throw if a template does not evaluate', async (test) 
 		}
 	], {
 		actor: test.context.actor.id
-	}), test.context.worker.errors.WorkerInvalidTemplate)
+	}), errors.SyncInvalidTemplate)
 })
 
 ava('.importCards() should import a dependent card in parallel segment', async (test) => {
@@ -538,7 +539,7 @@ ava('.translateExternalEvent() should destroy the integration even if there was 
 		context: test.context.context,
 		session: test.context.session,
 		actor: test.context.actor.id
-	}), test.context.worker.errors.WorkerInvalidTemplate)
+	}), errors.SyncInvalidTemplate)
 
 	test.true(TestIntegration.instance.initialized)
 	test.true(TestIntegration.instance.destroyed)
