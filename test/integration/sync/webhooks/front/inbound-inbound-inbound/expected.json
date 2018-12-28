@@ -21,6 +21,37 @@
   },
   "tail": [
     {
+      "type": "create",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "timestamp": "2018-10-08T18:39:46.238Z",
+        "payload": {
+          "name": "Multiple in a row",
+          "type": "support-thread",
+          "active": true,
+          "version": "1.0.0",
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "environment": "production",
+            "inbox": "Demo Inbox",
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_11dw6zu"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open"
+          }
+        }
+      }
+    },
+    {
       "type": "message",
       "active": true,
       "version": "1.0.0",
@@ -55,37 +86,6 @@
           "mentionsUser": [],
           "alertsUser": [],
           "message": "Two\n\nOn Mon, Oct 8, 2018 at 7:39 PM Juan Cruz Viotti <juan@resin.io> wrote:\n\n> One\n>\n> On Mon, Oct 8, 2018 at 7:39 PM Juan Cruz Viotti <juan@resin.io> wrote:\n>\n>>\n>>"
-        }
-      }
-    },
-    {
-      "type": "create",
-      "active": true,
-      "version": "1.0.0",
-      "tags": [],
-      "requires": [],
-      "capabilities": [],
-      "data": {
-        "timestamp": "2018-10-08T18:39:45.162Z",
-        "payload": {
-          "name": "Multiple in a row",
-          "type": "support-thread",
-          "active": true,
-          "version": "1.0.0",
-          "tags": [],
-          "requires": [],
-          "capabilities": [],
-          "data": {
-            "environment": "production",
-            "inbox": "Demo Inbox",
-            "mirrors": [
-              "https://api2.frontapp.com/conversations/cnv_11dw6zu"
-            ],
-            "mentionsUser": [],
-            "alertsUser": [],
-            "description": "",
-            "status": "open"
-          }
         }
       }
     }

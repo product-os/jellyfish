@@ -40,25 +40,6 @@
       }
     },
     {
-      "type": "message",
-      "active": true,
-      "version": "1.0.0",
-      "tags": [],
-      "requires": [],
-      "capabilities": [],
-      "data": {
-        "mirrors": [
-          "https://api2.frontapp.com/messages/msg_1y9l9g3"
-        ],
-        "timestamp": "2018-10-10T22:14:18.632Z",
-        "payload": {
-          "mentionsUser": [],
-          "alertsUser": [],
-          "message": "Response!"
-        }
-      }
-    },
-    {
       "type": "create",
       "active": true,
       "version": "1.0.0",
@@ -66,7 +47,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "timestamp": "2018-10-10T22:13:52.817Z",
+        "timestamp": "2018-10-10T22:13:53.011Z",
         "payload": {
           "name": "Test Reply",
           "type": "support-thread",
@@ -86,6 +67,25 @@
             "description": "",
             "status": "open"
           }
+        }
+      }
+    },
+    {
+      "type": "message",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "mirrors": [
+          "https://api2.frontapp.com/messages/msg_1y9l9g3"
+        ],
+        "timestamp": "2018-10-10T22:14:18.632Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "Response!"
         }
       }
     }

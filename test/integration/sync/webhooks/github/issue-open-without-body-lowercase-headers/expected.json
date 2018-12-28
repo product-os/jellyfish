@@ -28,7 +28,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "timestamp": "2018-09-20T18:10:42Z",
+        "timestamp": "2018-09-20T18:10:42.000Z",
         "payload": {
           "name": "Issue without body",
           "active": true,

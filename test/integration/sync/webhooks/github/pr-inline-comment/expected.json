@@ -28,7 +28,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "timestamp": "2018-10-10T09:56:17Z",
+        "timestamp": "2018-10-10T09:56:17.000Z",
         "payload": {
           "name": "PR line comment",
           "version": "1.0.0",

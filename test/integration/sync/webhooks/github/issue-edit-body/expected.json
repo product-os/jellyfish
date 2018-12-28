@@ -28,7 +28,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "timestamp": "2018-09-20T18:19:14Z",
+        "timestamp": "2018-09-20T18:19:14.000Z",
         "payload": {
           "name": "Issue body edits",
           "active": true,
@@ -59,7 +59,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "timestamp": "2018-09-20T18:20:28Z",
+        "timestamp": "2018-09-20T18:20:28.000Z",
         "payload": {
           "name": "Issue body edits",
           "version": "1.0.0",

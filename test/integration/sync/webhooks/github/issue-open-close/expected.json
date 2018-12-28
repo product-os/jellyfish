@@ -28,7 +28,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "timestamp": "2018-09-20T17:59:02Z",
+        "timestamp": "2018-09-20T17:59:02.000Z",
         "payload": {
           "name": "Test Issue",
           "active": true,
@@ -59,7 +59,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "timestamp": "2018-09-20T17:59:57Z",
+        "timestamp": "2018-09-20T17:59:57.000Z",
         "payload": {
           "name": "Test Issue",
           "active": true,

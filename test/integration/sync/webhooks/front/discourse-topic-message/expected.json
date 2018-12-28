@@ -21,6 +21,37 @@
   },
   "tail": [
     {
+      "type": "create",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "timestamp": "2018-12-27T19:06:07.751Z",
+        "payload": {
+          "name": "[IGNORE ME] Test issue",
+          "type": "support-thread",
+          "version": "1.0.0",
+          "active": true,
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "environment": "production",
+            "inbox": "S/Forums",
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_162vv2b"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open"
+          }
+        }
+      }
+    },
+    {
       "type": "message",
       "active": true,
       "version": "1.0.0",
@@ -88,42 +119,11 @@
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_27f4kqz"
         ],
-        "timestamp": "2018-12-27T19:06:24.743",
+        "timestamp": "2018-12-27T19:06:24.743Z",
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
           "message": "Test reply"
-        }
-      }
-    },
-    {
-      "type": "create",
-      "active": true,
-      "version": "1.0.0",
-      "tags": [],
-      "requires": [],
-      "capabilities": [],
-      "data": {
-        "timestamp": "2018-12-27T19:06:08.130Z",
-        "payload": {
-          "name": "[IGNORE ME] Test issue",
-          "type": "support-thread",
-          "version": "1.0.0",
-          "active": true,
-          "tags": [],
-          "requires": [],
-          "capabilities": [],
-          "data": {
-            "environment": "production",
-            "inbox": "S/Forums",
-            "mirrors": [
-              "https://api2.frontapp.com/conversations/cnv_162vv2b"
-            ],
-            "mentionsUser": [],
-            "alertsUser": [],
-            "description": "",
-            "status": "open"
-          }
         }
       }
     }

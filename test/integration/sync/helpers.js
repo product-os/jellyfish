@@ -22,6 +22,15 @@ const helpers = require('../sdk/helpers')
 const syncHelpers = require('../../unit/sync/helpers')
 const queue = require('../../../lib/queue')
 
+const tailSort = [
+	(card) => {
+		return card.data.timestamp
+	},
+	(card) => {
+		return card.type
+	}
+]
+
 const webhookScenario = async (test, testCase, integration, stub) => {
 	await nock(stub.baseUrl)
 		.persist()
@@ -111,13 +120,7 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 		created_at: head.created_at
 	}, _.isEmpty)), head)
 
-	test.deepEqual(testCase.expected.tail.map((card, index) => {
-		card.id = _.get(timeline, [ index, 'id' ])
-		card.data.actor = _.get(timeline, [ index, 'data', 'actor' ])
-		card.data.target = head.id
-		card.data.timestamp = _.get(timeline, [ index, 'data', 'timestamp' ])
-		return card
-	}), timeline.map((card) => {
+	const actualTail = _.map(_.sortBy(timeline, tailSort), (card) => {
 		Reflect.deleteProperty(card, 'slug')
 		Reflect.deleteProperty(card, 'links')
 		Reflect.deleteProperty(card, 'markers')
@@ -131,7 +134,22 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 		}
 
 		return card
-	}))
+	})
+
+	const expectedTail = _.map(_.sortBy(testCase.expected.tail, tailSort), (card, index) => {
+		card.id = _.get(actualTail, [ index, 'id' ])
+		card.data.actor = _.get(actualTail, [ index, 'data', 'actor' ])
+
+		// TODO: This shouldn't be necessary anymore
+		if (testCase.mockTimestamps) {
+			card.data.timestamp = _.get(actualTail, [ index, 'data', 'timestamp' ])
+		}
+
+		card.data.target = head.id
+		return card
+	})
+
+	test.deepEqual(expectedTail, actualTail)
 }
 
 exports.translate = {
@@ -174,7 +192,11 @@ exports.translate = {
 				fn(`(${prefix}) ${testCaseName}`, async (test) => {
 					await webhookScenario(test, {
 						steps: testCase.steps.slice(slice),
-						expected: testCase.expected,
+						expected: {
+							head: testCase.expected.head,
+							tail: _.sortBy(testCase.expected.tail, tailSort)
+						},
+						mockTimestamps: slice > 1,
 						name: testCaseName,
 						variant: prefix
 					}, {

@@ -28,7 +28,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "timestamp": "2018-10-10T10:04:00Z",
+        "timestamp": "2018-10-10T10:04:00.000Z",
         "payload": {
           "name": "Open close PR",
           "type": "pull-request",
