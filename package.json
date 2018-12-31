@@ -149,7 +149,7 @@
     "remove-markdown": "^0.3.0",
     "rendition": "^4.41.1",
     "reql-schema": "^1.1.1",
-    "skhema": "4.0.3",
+    "skhema": "5.0.0",
     "socket.io": "^2.1.0",
     "static-eval": "^2.0.0",
     "styled-components": "^3.2.5",
