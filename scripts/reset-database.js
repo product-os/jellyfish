@@ -1,12 +1,16 @@
 #!/usr/bin/env node
 
 const Promise = require('bluebird')
-const rethinkdb = require('rebirthdb-js')()
+const rethinkdb = require('rebirthdb-js')({
+	pool: false,
+	timeoutError: 2000
+})
 
 const reset = async () => {
+	const connection = await rethinkdb.connect()
 	const list = await rethinkdb
 		.dbList()
-		.run()
+		.run(connection)
 
 	await Promise.map(list, (database) => {
 		// This is a special database
@@ -14,7 +18,7 @@ const reset = async () => {
 			return null
 		}
 
-		return rethinkdb.dbDrop(database).run().then(() => {
+		return rethinkdb.dbDrop(database).run(connection).then(() => {
 			console.log(`Dropped database ${database}`)
 		})
 	}, {
@@ -22,7 +26,7 @@ const reset = async () => {
 	})
 
 	console.log('Done')
-	await rethinkdb.getPoolMaster().drain()
+	await connection.close()
 }
 
 reset()
