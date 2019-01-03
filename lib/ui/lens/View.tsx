@@ -154,6 +154,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 
 	public openChannel(card: Card): void {
 		this.props.actions.addChannel(createChannel({
+			cardType: card!.type,
 			target: card.id,
 			head: card,
 			parentChannel: this.props.channel.id,
@@ -170,6 +171,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 			});
 
 			this.props.actions.addChannel(createChannel({
+				cardType: 'view',
 				target: view.id,
 				head: view,
 				parentChannel: this.props.channels[0].id,

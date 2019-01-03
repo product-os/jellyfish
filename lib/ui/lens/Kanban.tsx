@@ -246,6 +246,7 @@ class Kanban extends React.Component<KanbanProps, KanbanState> {
 		this.setState({
 			modalChannel: createChannel({
 				target: cardId,
+				cardType: card!.type,
 				head: card,
 			}),
 		});
@@ -284,6 +285,7 @@ class Kanban extends React.Component<KanbanProps, KanbanState> {
 		if (card) {
 			this.setState({
 				modalChannel: createChannel({
+					cardType: card.type,
 					target: card.id,
 					head: card,
 				}),

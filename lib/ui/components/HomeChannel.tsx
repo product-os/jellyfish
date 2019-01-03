@@ -155,16 +155,10 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 		}
 		this.props.actions.addChannel(createChannel({
 			target: card.id,
+			cardType: 'view',
 			head: card,
 			parentChannel: this.props.channel.id,
 			options,
-		}));
-	}
-
-	public openMessageChannel = (id: string) => {
-		this.props.actions.addChannel(createChannel({
-			target: id,
-			parentChannel: this.props.channel.id,
 		}));
 	}
 

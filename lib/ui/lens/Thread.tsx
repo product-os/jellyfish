@@ -140,6 +140,7 @@ class Base extends React.Component<CardProps, {}> {
 		const { card } = this.props;
 
 		this.props.actions.addChannel(createChannel({
+			cardType: card!.type,
 			target: card.id,
 			head: card,
 		}));

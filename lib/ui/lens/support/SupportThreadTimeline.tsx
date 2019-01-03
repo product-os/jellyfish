@@ -144,6 +144,7 @@ export class Renderer extends React.Component<DefaultRendererProps, RendererStat
 		}
 
 		const newChannel = createChannel({
+			cardType: card!.type,
 			target,
 			head: card,
 			parentChannel: this.props.channel.id,

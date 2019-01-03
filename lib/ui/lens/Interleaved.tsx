@@ -92,12 +92,9 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 	public openChannel = (target: string, card?: Card) => {
 		// If a card is not provided, see if a matching card can be found from this
 		// component's state/props
-		if (!card) {
-			card = _.find(this.props.tail || [], { id: target });
-		}
 		const newChannel = createChannel({
 			target,
-			head: card,
+			cardType: card!.type,
 			parentChannel: this.props.channel.id,
 		});
 
@@ -134,7 +131,7 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 		sdk.card.create(cardData as Card)
 			.then((thread) => {
 				if (thread) {
-					this.openChannel(thread.id);
+					this.openChannel(thread.id, thread);
 				}
 				return null;
 			})

@@ -35,6 +35,7 @@ export const createNotification = (title: string, body: string, target: string) 
 
 	notice.onclick = () => {
 		store.dispatch(actionCreators.addChannel(createChannel({
+			cardType: 'view',
 			target,
 			parentChannel: _.get(store.getState(), 'channels[0].id'),
 		})));

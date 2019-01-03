@@ -189,6 +189,7 @@ class Base extends React.Component<CardProps, CardState> {
 		const { card } = this.props;
 
 		this.props.actions.addChannel(createChannel({
+			cardType: card.type,
 			target: card.id,
 			head: card,
 		}));
@@ -198,6 +199,7 @@ class Base extends React.Component<CardProps, CardState> {
 		event.preventDefault();
 		const id = event.currentTarget.id;
 		this.props.actions.addChannel(createChannel({
+			cardType: 'user',
 			target: id,
 		}));
 	}
