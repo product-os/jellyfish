@@ -50,7 +50,7 @@ ava('.isValidExternalEventRequest() should return false given GitHub and a signa
 	test.false(result)
 })
 
-ava.skip('.isValidExternalEventRequest() should return false given GitHub and a signature mismatch', async (test) => {
+ava('.isValidExternalEventRequest() should return false given GitHub and a signature mismatch', async (test) => {
 	const result = sync.isValidExternalEventRequest({
 		api: 'xxxxx',
 		signature: 'secret'

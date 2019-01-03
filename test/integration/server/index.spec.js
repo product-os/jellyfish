@@ -15,6 +15,7 @@
  */
 
 const ava = require('ava')
+const crypto = require('crypto')
 const Bluebird = require('bluebird')
 const _ = require('lodash')
 const randomstring = require('randomstring')
@@ -610,10 +611,13 @@ ava.serial('should be able to post a GitHub event without a signature', async (t
 })
 
 ava.serial('should take a GitHub event with a valid signature', async (test) => {
-	const result = await test.context.http('POST', '/api/v2/hooks/github', {
-		foo: 'bar'
-	}, {
-		'x-hub-signature': 'sha1=52b582138706ac0c597c315cfc1a1bf177408a4d'
+	const object = '{"foo":"bar"}'
+	const hash = crypto.createHmac('sha1', process.env.INTEGRATION_GITHUB_SIGNATURE_KEY)
+		.update(object)
+		.digest('hex')
+
+	const result = await test.context.http('POST', '/api/v2/hooks/github', JSON.parse(object), {
+		'x-hub-signature': `sha1=${hash}`
 	})
 
 	test.is(result.code, 200)
@@ -648,13 +652,25 @@ ava.serial('should take a GitHub event with a valid signature', async (test) => 
 				'content-length': '13',
 				'content-type': 'application/json',
 				host: `localhost:${test.context.server.port}`,
-				'x-hub-signature': 'sha1=52b582138706ac0c597c315cfc1a1bf177408a4d'
+				'x-hub-signature': `sha1=${hash}`
 			},
 			payload: {
 				foo: 'bar'
 			}
 		}
 	})
+})
+
+ava.serial('should not ignore a GitHub signature mismatch', async (test) => {
+	const result = await test.context.http('POST', '/api/v2/hooks/github', {
+		foo: 'bar',
+		bar: 'baz'
+	}, {
+		'x-hub-signature': 'sha1=xxxxxxxxxxxxxxx'
+	})
+
+	test.is(result.code, 401)
+	test.true(result.response.error)
 })
 
 ava.serial('should add and evaluate a time triggered action', async (test) => {
