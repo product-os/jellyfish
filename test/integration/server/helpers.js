@@ -29,14 +29,15 @@ exports.server = {
 		test.context.guestSession = test.context.jellyfish.sessions.guest
 		test.context.generateRandomSlug = helpers.generateRandomSlug
 
-		test.context.http = (method, uri, payload) => {
+		test.context.http = (method, uri, payload, headers) => {
 			return new Bluebird((resolve, reject) => {
 				request({
 					method,
 					baseUrl: `http://localhost:${test.context.server.port}`,
 					url: uri,
 					json: true,
-					body: payload
+					body: payload,
+					headers
 				}, (error, response, body) => {
 					if (error) {
 						return reject(error)

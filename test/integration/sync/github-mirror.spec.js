@@ -121,7 +121,7 @@ ava.before(async (test) => {
 	if (TOKEN) {
 		test.context.github.authenticate({
 			type: 'token',
-			token: TOKEN
+			token: TOKEN.api
 		})
 	}
 })
