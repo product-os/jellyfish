@@ -21,25 +21,6 @@
   },
   "tail": [
     {
-      "type": "message",
-      "active": false,
-      "version": "1.0.0",
-      "tags": [],
-      "requires": [],
-      "capabilities": [],
-      "data": {
-        "mirrors": [
-          "https://github.com/resin-io/jellyfish/issues/714#issuecomment-423287504"
-        ],
-        "timestamp": "2018-09-20T18:32:15Z",
-        "payload": {
-          "mentionsUser": [],
-          "alertsUser": [],
-          "message": "First comment"
-        }
-      }
-    },
-    {
       "type": "create",
       "active": true,
       "version": "1.0.0",
@@ -47,7 +28,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "timestamp": "2018-09-20T18:30:59Z",
+        "timestamp": "2018-09-20T18:30:59.000Z",
         "payload": {
           "name": "Issue delete comment",
           "active": true,
@@ -67,6 +48,25 @@
             "archived": false
           },
           "type": "issue"
+        }
+      }
+    },
+    {
+      "type": "message",
+      "active": false,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "mirrors": [
+          "https://github.com/resin-io/jellyfish/issues/714#issuecomment-423287504"
+        ],
+        "timestamp": "2018-09-20T18:32:15.000Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "First comment"
         }
       }
     }

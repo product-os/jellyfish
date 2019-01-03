@@ -31,7 +31,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "timestamp": "2018-09-20T18:01:54Z",
+        "timestamp": "2018-09-20T18:01:54.000Z",
         "payload": {
           "name": "Issue with labels",
           "active": true,

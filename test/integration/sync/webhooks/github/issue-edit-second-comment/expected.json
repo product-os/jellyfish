@@ -21,44 +21,6 @@
   },
   "tail": [
     {
-      "type": "message",
-      "active": true,
-      "version": "1.0.0",
-      "tags": [],
-      "requires": [],
-      "capabilities": [],
-      "data": {
-        "mirrors": [
-          "https://github.com/resin-io/jellyfish/issues/719#issuecomment-424428899"
-        ],
-        "timestamp": "2018-09-25T17:20:36Z",
-        "payload": {
-          "mentionsUser": [],
-          "alertsUser": [],
-          "message": "First comment"
-        }
-      }
-    },
-    {
-      "type": "message",
-      "active": true,
-      "version": "1.0.0",
-      "tags": [],
-      "requires": [],
-      "capabilities": [],
-      "data": {
-        "mirrors": [
-          "https://github.com/resin-io/jellyfish/issues/719#issuecomment-424429646"
-        ],
-        "timestamp": "2018-09-25T17:24:19Z",
-        "payload": {
-          "mentionsUser": [],
-          "alertsUser": [],
-          "message": "Edited second comment"
-        }
-      }
-    },
-    {
       "type": "create",
       "active": true,
       "version": "1.0.0",
@@ -66,7 +28,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "timestamp": "2018-09-25T17:19:51Z",
+        "timestamp": "2018-09-25T17:19:51.000Z",
         "payload": {
           "name": "Issue with edition in second comment",
           "active": true,
@@ -86,6 +48,44 @@
             "archived": false
           },
           "type": "issue"
+        }
+      }
+    },
+    {
+      "type": "message",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "mirrors": [
+          "https://github.com/resin-io/jellyfish/issues/719#issuecomment-424428899"
+        ],
+        "timestamp": "2018-09-25T17:20:36.000Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "First comment"
+        }
+      }
+    },
+    {
+      "type": "message",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "mirrors": [
+          "https://github.com/resin-io/jellyfish/issues/719#issuecomment-424429646"
+        ],
+        "timestamp": "2018-09-25T17:24:19.000Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "Edited second comment"
         }
       }
     }

@@ -28,7 +28,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "timestamp": "2018-09-27T15:46:26Z",
+        "timestamp": "2018-09-27T15:46:26.000Z",
         "payload": {
           "name": "Issue re-open",
           "active": true,
@@ -59,7 +59,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "timestamp": "2018-09-27T15:47:33Z",
+        "timestamp": "2018-09-27T15:47:33.000Z",
         "payload": {
           "name": "Issue re-open",
           "active": true,
@@ -90,7 +90,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "timestamp": "2018-09-27T15:48:47Z",
+        "timestamp": "2018-09-27T15:48:47.000Z",
         "payload": {
           "name": "Issue re-open",
           "active": true,

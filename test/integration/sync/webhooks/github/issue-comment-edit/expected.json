@@ -21,25 +21,6 @@
   },
   "tail": [
     {
-      "type": "message",
-      "active": true,
-      "version": "1.0.0",
-      "tags": [],
-      "requires": [],
-      "capabilities": [],
-      "data": {
-        "mirrors": [
-          "https://github.com/resin-io/jellyfish/issues/712#issuecomment-423285064"
-        ],
-        "timestamp": "2018-09-20T18:25:19Z",
-        "payload": {
-          "mentionsUser": [],
-          "alertsUser": [],
-          "message": "Edited comment"
-        }
-      }
-    },
-    {
       "type": "create",
       "active": true,
       "version": "1.0.0",
@@ -47,7 +28,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "timestamp": "2018-09-20T18:24:21Z",
+        "timestamp": "2018-09-20T18:23:16.000Z",
         "payload": {
           "name": "Issue comment edit",
           "active": true,
@@ -67,6 +48,25 @@
             "archived": false
           },
           "type": "issue"
+        }
+      }
+    },
+    {
+      "type": "message",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "mirrors": [
+          "https://github.com/resin-io/jellyfish/issues/712#issuecomment-423285064"
+        ],
+        "timestamp": "2018-09-20T18:25:19.000Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "Edited comment"
         }
       }
     }

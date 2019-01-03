@@ -98,7 +98,6 @@ module.exports = {
 			require('./inbound-delay-message/03.json')
 		]
 	},
-
 	'inbound-delete-message': {
 		expected: require('./inbound-delete-message/expected.json'),
 		steps: [

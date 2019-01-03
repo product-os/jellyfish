@@ -40,25 +40,6 @@
       }
     },
     {
-      "type": "message",
-      "active": true,
-      "version": "1.0.0",
-      "tags": [],
-      "requires": [],
-      "capabilities": [],
-      "data": {
-        "mirrors": [
-          "https://api2.frontapp.com/messages/msg_1y9fb8z"
-        ],
-        "timestamp": "2018-10-10T21:50:10.973Z",
-        "payload": {
-          "mentionsUser": [],
-          "alertsUser": [],
-          "message": "Hey there!"
-        }
-      }
-    },
-    {
       "type": "create",
       "active": true,
       "version": "1.0.0",
@@ -86,6 +67,25 @@
             "description": "",
             "status": "open"
           }
+        }
+      }
+    },
+    {
+      "type": "message",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "mirrors": [
+          "https://api2.frontapp.com/messages/msg_1y9fb8z"
+        ],
+        "timestamp": "2018-10-10T21:50:10.973Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "Hey there!"
         }
       }
     }
