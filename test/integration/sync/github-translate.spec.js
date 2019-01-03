@@ -35,6 +35,6 @@ helpers.translate.scenario(TOKEN ? ava : ava.skip, {
 	},
 	isAuthorized: (self, request) => {
 		return request.headers.authorization &&
-			request.headers.authorization[0] === `token ${self.options.token}`
+			request.headers.authorization[0] === `token ${self.options.token.api}`
 	}
 })

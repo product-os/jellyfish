@@ -90,7 +90,7 @@ ava.before(async (test) => {
 	await helpers.mirror.before(test)
 
 	if (TOKEN) {
-		test.context.front = new Front(TOKEN)
+		test.context.front = new Front(TOKEN.api)
 	}
 
 	test.context.inbox = process.env.INTEGRATION_FRONT_TEST_INBOX
