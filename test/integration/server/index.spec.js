@@ -552,121 +552,110 @@ ava.serial('Users should not be able to login as the core admin user', async (te
 	}))
 })
 
-if (process.env.NODE_ENV === 'production') {
-	ava.serial.skip('should reject an external event from localhost', async (test) => {
-		const result = await test.context.http('POST', '/api/v2/hooks/test', {
-			foo: 'bar',
-			bar: 'baz'
-		})
-
-		test.is(result.code, 401)
-		test.true(result.response.error)
+ava.serial('should not be able to post an unsupported external event', async (test) => {
+	const result = await test.context.http('POST', '/api/v2/hooks/test', {
+		foo: 'bar',
+		bar: 'baz'
 	})
 
-	ava.serial.skip('should be able to reject an external event with a type coming from localhost', async (test) => {
-		const result = await test.context.http('POST', '/api/v2/hooks/test/foobarbaz', {
-			foo: 'bar',
-			bar: 'baz'
-		})
+	test.is(result.code, 401)
+	test.true(result.response.error)
+})
 
-		test.is(result.code, 401)
-		test.true(result.response.error)
+ava.serial('should be able to post a GitHub event without a signature', async (test) => {
+	const result = await test.context.http('POST', '/api/v2/hooks/github', {
+		foo: 'bar',
+		bar: 'baz'
 	})
-} else {
-	ava.serial('should be able to post an external event', async (test) => {
-		const result = await test.context.http('POST', '/api/v2/hooks/test', {
-			foo: 'bar',
-			bar: 'baz'
+
+	test.is(result.code, 200)
+	test.false(result.response.error)
+
+	const requestResult = await queue.waitResults(
+		test.context.jellyfish, test.context.session, result.response.data)
+
+	test.false(requestResult.error)
+	const card = await test.context.jellyfish.getCardById(test.context.context,
+		test.context.session, requestResult.data.id, {
+			type: 'external-event'
 		})
 
-		test.is(result.code, 200)
-		test.false(result.response.error)
-
-		const requestResult = await queue.waitResults(
-			test.context.jellyfish, test.context.session, result.response.data)
-
-		test.false(requestResult.error)
-		const card = await test.context.jellyfish.getCardById(test.context.context,
-			test.context.session, requestResult.data.id, {
-				type: 'external-event'
-			})
-
-		test.deepEqual(card, {
-			created_at: requestResult.data.created_at,
-			id: requestResult.data.id,
-			type: 'external-event',
-			slug: requestResult.data.slug,
-			version: '1.0.0',
-			active: true,
-			tags: [],
-			markers: [],
-			links: card.links,
-			requires: [],
-			capabilities: [],
-			data: {
-				source: 'test',
-				headers: {
-					accept: 'application/json',
-					connection: 'close',
-					'content-length': '25',
-					'content-type': 'application/json',
-					host: `localhost:${test.context.server.port}`
-				},
-				payload: {
-					foo: 'bar',
-					bar: 'baz'
-				}
+	test.deepEqual(card, {
+		created_at: requestResult.data.created_at,
+		id: requestResult.data.id,
+		type: 'external-event',
+		slug: requestResult.data.slug,
+		version: '1.0.0',
+		active: true,
+		tags: [],
+		markers: [],
+		links: card.links,
+		requires: [],
+		capabilities: [],
+		data: {
+			source: 'github',
+			headers: {
+				accept: 'application/json',
+				connection: 'close',
+				'content-length': '25',
+				'content-type': 'application/json',
+				host: `localhost:${test.context.server.port}`
+			},
+			payload: {
+				foo: 'bar',
+				bar: 'baz'
 			}
-		})
+		}
+	})
+})
+
+ava.serial('should take a GitHub event with a valid signature', async (test) => {
+	const result = await test.context.http('POST', '/api/v2/hooks/github', {
+		foo: 'bar'
+	}, {
+		'x-hub-signature': 'sha1=52b582138706ac0c597c315cfc1a1bf177408a4d'
 	})
 
-	ava.serial('should be able to post an external event with a type', async (test) => {
-		const result = await test.context.http('POST', '/api/v2/hooks/test/foobarbaz', {
-			foo: 'bar',
-			bar: 'baz'
+	test.is(result.code, 200)
+	test.false(result.response.error)
+
+	const requestResult = await queue.waitResults(
+		test.context.jellyfish, test.context.session, result.response.data)
+
+	test.false(requestResult.error)
+	const card = await test.context.jellyfish.getCardById(test.context.context,
+		test.context.session, requestResult.data.id, {
+			type: 'external-event'
 		})
 
-		test.is(result.code, 200)
-		test.false(result.response.error)
-
-		const requestResult = await queue.waitResults(
-			test.context.jellyfish, test.context.session, result.response.data)
-
-		test.false(requestResult.error)
-		const card = await test.context.jellyfish.getCardById(test.context.context,
-			test.context.session, requestResult.data.id, {
-				type: 'external-event'
-			})
-
-		test.deepEqual(card, {
-			created_at: requestResult.data.created_at,
-			id: requestResult.data.id,
-			type: 'external-event',
-			slug: requestResult.data.slug,
-			version: '1.0.0',
-			active: true,
-			tags: [],
-			markers: [],
-			links: card.links,
-			requires: [],
-			capabilities: [],
-			data: {
-				source: 'test',
-				headers: {
-					accept: 'application/json',
-					connection: 'close',
-					'content-length': '25',
-					'content-type': 'application/json',
-					host: `localhost:${test.context.server.port}`
-				},
-				payload: {
-					foo: 'bar',
-					bar: 'baz'
-				}
+	test.deepEqual(card, {
+		created_at: requestResult.data.created_at,
+		id: requestResult.data.id,
+		type: 'external-event',
+		slug: requestResult.data.slug,
+		version: '1.0.0',
+		active: true,
+		tags: [],
+		markers: [],
+		links: card.links,
+		requires: [],
+		capabilities: [],
+		data: {
+			source: 'github',
+			headers: {
+				accept: 'application/json',
+				connection: 'close',
+				'content-length': '13',
+				'content-type': 'application/json',
+				host: `localhost:${test.context.server.port}`,
+				'x-hub-signature': 'sha1=52b582138706ac0c597c315cfc1a1bf177408a4d'
+			},
+			payload: {
+				foo: 'bar'
 			}
-		})
+		}
 	})
-}
+})
 
 ava.serial('should add and evaluate a time triggered action', async (test) => {
 	const {
