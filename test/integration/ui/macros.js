@@ -60,10 +60,9 @@ exports.setInputValue = async (page, selector, value) => {
 }
 
 exports.logout = async (page) => {
-	await page.waitForSelector('.user-menu-toggle', exports.WAIT_OPTS)
-	await page.click('.user-menu-toggle')
+	await exports.waitForThenClickSelector(page, '.user-menu-toggle')
 	await page.waitForSelector('.user-menu', exports.WAIT_OPTS)
-	await page.click('.user-menu__logout')
+	await exports.waitForThenClickSelector(page, '.user-menu__logout')
 	await page.waitForSelector('.login-page', exports.WAIT_OPTS)
 }
 
