@@ -15,6 +15,12 @@
  */
 
 module.exports = {
+	'intercom-rule-reopen': {
+		expected: require('./intercom-rule-reopen/expected.json'),
+		steps: [
+			require('./intercom-rule-reopen/01.json')
+		]
+	},
 	'intercom-no-author': {
 		expected: require('./intercom-no-author/expected.json'),
 		steps: [
