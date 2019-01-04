@@ -74,7 +74,7 @@ export interface Channel extends Card {
 		// The uuid or slug of the head card
 		target: string;
 		// The type of the head card
-		cardType: string;
+		cardType?: string;
 		// The head card for this channel
 		head?: Card;
 		// Any error to be displayed

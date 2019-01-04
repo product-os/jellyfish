@@ -16,6 +16,7 @@ import { analytics, sdk } from '../core';
 import { actionCreators, selectors, StoreState } from '../core/store';
 import { getLocalSchema, removeUndefinedArrayItems } from '../services/helpers';
 import { createLink } from '../services/link';
+import { createPermaLink } from '../services/url-manager';
 import { CardLinker } from './CardLinker';
 import { ContextMenu } from './ContextMenu';
 import Icon from './Icon';
@@ -145,7 +146,7 @@ class Base extends React.Component<
 	public copyPermalink = (event: React.MouseEvent<HTMLElement>) => {
 		event.preventDefault();
 		event.stopPropagation();
-		copy(`${window.location.origin}/#/${this.props.card.id}`);
+		copy(createPermaLink(this.props.card));
 	}
 
 	public toggleMenu = () => {
