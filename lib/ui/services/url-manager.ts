@@ -16,7 +16,12 @@ export const setPathFromState = (state: StoreState) => {
 	// Skip the first 'home' channel
 	const channels = _.tail(selectors.getChannels(state));
 	const url = channels.map(({ data }) => {
-		return `${data.cardType}${PATH_SEPARATOR}${data.target}`;
+		const cardType = data.cardType || _.get(data, [ 'head', 'type' ]);
+		if (cardType) {
+			return `${cardType}${PATH_SEPARATOR}${data.target}`;
+		}
+
+		return data.target;
 	}).join('/');
 
 	// Only update the URL if it is different to the current one, to avoid
@@ -36,7 +41,15 @@ export const setChannelsFromPath = (path?: string) => {
 	const homeChannel = _.first(channels);
 
 	const newChannels = targets.map(value => {
-		const [ cardType, target ] = value.split(PATH_SEPARATOR);
+		const parts = value.split(PATH_SEPARATOR);
+		let target: string;
+		let cardType: string | undefined;
+		if (parts.length === 1) {
+			target = parts[0];
+		} else {
+			cardType = parts[0];
+			target = parts[1];
+		}
 
 		const existingChannel = _.find(channels, (channel) =>
 			channel.data.target === target,
