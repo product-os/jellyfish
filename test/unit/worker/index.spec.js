@@ -2457,7 +2457,7 @@ ava('action-create-event should create a link card', async (test) => {
 			type: 'message',
 			tags: [],
 			payload: {
-				messages: [ 'johndoe' ]
+				message: 'johndoe'
 			}
 		}
 	})
@@ -2513,6 +2513,116 @@ ava('action-create-event should create a link card', async (test) => {
 			}
 		}
 	}))
+})
+
+ava.only('events should always inherit their parent\'s markers', async (test) => {
+	const {
+		context,
+		jellyfish,
+		session
+	} = test.context
+
+	const marker = 'org-test'
+	const typeCard = await jellyfish.getCardBySlug(context, session, 'card', {
+		type: 'type'
+	})
+
+	const cardRequest = await test.context.worker.enqueue(session, {
+		action: 'action-create-card',
+		card: typeCard.id,
+		type: typeCard.type,
+		arguments: {
+			properties: {
+				markers: [ marker ]
+			}
+		}
+	})
+
+	await test.context.flush(session)
+	const cardResult = await queue.waitResults(
+		jellyfish, session, cardRequest)
+	test.false(cardResult.error)
+
+	const messageRequest = await test.context.worker.enqueue(session, {
+		action: 'action-create-event',
+		card: cardResult.data.id,
+		type: cardResult.data.type,
+		arguments: {
+			type: 'message',
+			tags: [],
+			payload: {
+				message: 'johndoe'
+			}
+		}
+	})
+
+	await test.context.flush(session)
+	const messageResult = await queue.waitResults(
+		jellyfish, session, messageRequest)
+	test.false(messageResult.error)
+
+	test.deepEqual(messageResult.data.markers, [ marker ])
+})
+
+ava('Updating a cards markers should update the markers of attached events', async (test) => {
+	const {
+		context,
+		jellyfish,
+		session
+	} = test.context
+	const marker = 'org-test'
+	const typeCard = await jellyfish.getCardBySlug(context, session, 'card', {
+		type: 'type'
+	})
+
+	const cardRequest = await test.context.worker.enqueue(session, {
+		action: 'action-create-card',
+		card: typeCard.id,
+		type: typeCard.type,
+		arguments: {
+			properties: {}
+		}
+	})
+
+	await test.context.flush(session)
+	const cardResult = await queue.waitResults(
+		jellyfish, session, cardRequest)
+	test.false(cardResult.error)
+
+	const messageRequest = await test.context.worker.enqueue(session, {
+		action: 'action-create-event',
+		card: cardResult.data.id,
+		type: cardResult.data.type,
+		arguments: {
+			type: 'message',
+			tags: [],
+			payload: {
+				message: 'johndoe'
+			}
+		}
+	})
+
+	await test.context.flush(session)
+	const messageResult = await queue.waitResults(jellyfish, session, messageRequest)
+	test.false(messageResult.error)
+
+	const updateRequest = await test.context.worker.enqueue(session, {
+		action: 'action-update-card',
+		card: cardResult.data.id,
+		type: cardResult.data.type,
+		arguments: {
+			properties: {
+				markers: [ marker ]
+			}
+		}
+	})
+
+	await test.context.flush(session)
+	await queue.waitResults(jellyfish, session, updateRequest)
+
+	const message = await jellyfish.getCardById(context, session, messageResult.data.id)
+
+	test.deepEqual(message.markers, [ marker ])
 })
 
 ava('should be able to insert a deeply nested card', async (test) => {

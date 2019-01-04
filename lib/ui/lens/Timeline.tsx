@@ -103,7 +103,6 @@ export class Renderer extends React.Component<DefaultRendererProps, RendererStat
 		const message = {
 			target: this.props.card,
 			type: 'message',
-			markers: this.props.card.markers || [],
 			tags,
 			payload: {
 				mentionsUser: mentions,
