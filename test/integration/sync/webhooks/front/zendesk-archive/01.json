@@ -1,0 +1,159 @@
+{
+  "headers": {
+    "accept": "application/json",
+    "connection": "close",
+    "content-length": "4014",
+    "content-type": "application/json; charset=utf-8",
+    "host": "jel.ly.fish",
+    "user-agent": "Needle/1.3.0 (Node.js v9.11.1; linux x64)",
+    "x-forwarded-for": "54.67.1.220",
+    "x-forwarded-host": "jel.ly.fish",
+    "x-forwarded-port": "443",
+    "x-forwarded-proto": "https",
+    "x-front-signature": "XLq8B4bdJzD/pKO/Q+4SlB1Av1s=",
+    "x-original-uri": "/api/v2/hooks/front/",
+    "x-real-ip": "54.67.1.220",
+    "x-scheme": "https"
+  },
+  "payload": {
+    "_links": {
+      "self": "https://api2.frontapp.com/events/evt_5c6czab"
+    },
+    "conversation": {
+      "_links": {
+        "related": {
+          "comments": "https://api2.frontapp.com/conversations/cnv_14y4y23/comments",
+          "events": "https://api2.frontapp.com/conversations/cnv_14y4y23/events",
+          "followers": "https://api2.frontapp.com/conversations/cnv_14y4y23/followers",
+          "inboxes": "https://api2.frontapp.com/conversations/cnv_14y4y23/inboxes",
+          "messages": "https://api2.frontapp.com/conversations/cnv_14y4y23/messages"
+        },
+        "self": "https://api2.frontapp.com/conversations/cnv_14y4y23"
+      },
+      "assignee": null,
+      "created_at": 1544033275.734,
+      "id": "cnv_14y4y23",
+      "is_private": false,
+      "last_message": {
+        "_links": {
+          "related": {
+            "conversation": "https://api2.frontapp.com/conversations/cnv_14y4y23"
+          },
+          "self": "https://api2.frontapp.com/messages/msg_27pbnez"
+        },
+        "attachments": [],
+        "author": {
+          "_links": {
+            "related": {
+              "conversations": "https://api2.frontapp.com/teammates/tea_t8s/conversations",
+              "inboxes": "https://api2.frontapp.com/teammates/tea_t8s/inboxes"
+            },
+            "self": "https://api2.frontapp.com/teammates/tea_t8s"
+          },
+          "email": "giovanni@balena.io",
+          "first_name": "Giovanni",
+          "id": "tea_t8s",
+          "is_admin": false,
+          "is_available": true,
+          "last_name": "Garufi",
+          "username": "nazrhom"
+        },
+        "blurb": "",
+        "body": "<p>Hi @ppiixx @rquant,</p>\n<p>Our sincere apologies. We released 2.29 earlier last week, but it was prematurely done. Until we iron out everything on our side, the download was masked from our website, meaning that it should not be used yet. </p>\n<p>Again we apologise and we will make this version available ASAP, but given the holiday season many of my colleagues are on leave making this process slower than usual. </p>\n<p>We will keep you updated.</p>\n<a href=\"https://www.balena-cloud.com?hidden=reply&source=flowdock&flow=rulemotion/public-s-community&thread=88uJvVivV5EMfqejHWKMzm_0DqQ&hmac=afd6f1e55cff2ebbadaa29e927f84bb7fbcddbf1b6a291b6fb81282c9a1f2c89\" target=\"_blank\" rel=\"noopener noreferrer\"></a>",
+        "created_at": 1546262577.716,
+        "error_type": null,
+        "id": "msg_27pbnez",
+        "is_draft": false,
+        "is_inbound": false,
+        "metadata": {
+          "headers": {
+            "in_reply_to": "be695b1134917956a8d9c4263ed81ce7@frontapp.com"
+          }
+        },
+        "recipients": [
+          {
+            "_links": {
+              "related": {
+                "contact": "https://api2.frontapp.com/contacts/crd_2yqwmh"
+              }
+            },
+            "handle": "423a0f350b6f1102",
+            "role": "from"
+          },
+          {
+            "_links": {
+              "related": {
+                "contact": "https://api2.frontapp.com/contacts/crd_5v78sx"
+              }
+            },
+            "handle": "rquant",
+            "role": "to"
+          }
+        ],
+        "text": "Hi @ppiixx @rquant,\nOur sincere apologies. We released 2.29 earlier last week, but it was prematurely done. Until we iron out everything on our side, the download was masked from our website, meaning that it should not be used yet. \nAgain we apologise and we will make this version available ASAP, but given the holiday season many of my colleagues are on leave making this process slower than usual. \nWe will keep you updated.",
+        "type": "custom"
+      },
+      "recipient": {
+        "_links": {
+          "related": {
+            "contact": "https://api2.frontapp.com/contacts/crd_5v78sx"
+          }
+        },
+        "handle": "rquant",
+        "role": "to"
+      },
+      "status": "archived",
+      "subject": "Intel Nuc 2.27+rev1 image link broken (shows NaN)",
+      "tags": [
+        {
+          "_links": {
+            "related": {
+              "conversations": "https://api2.frontapp.com/tags/tag_1ymar/conversations",
+              "owner": "https://api2.frontapp.com/teams/tim_qh"
+            },
+            "self": "https://api2.frontapp.com/tags/tag_1ymar"
+          },
+          "id": "tag_1ymar",
+          "is_private": false,
+          "name": "has-summary"
+        },
+        {
+          "_links": {
+            "related": {
+              "conversations": "https://api2.frontapp.com/tags/tag_jznd/conversations",
+              "owner": "https://api2.frontapp.com/teams/tim_qh"
+            },
+            "self": "https://api2.frontapp.com/tags/tag_jznd"
+          },
+          "id": "tag_jznd",
+          "is_private": false,
+          "name": "Needs audit"
+        }
+      ]
+    },
+    "emitted_at": 1546623948.376,
+    "id": "evt_5c6czab",
+    "source": {
+      "_meta": {
+        "type": "teammate"
+      },
+      "data": {
+        "_links": {
+          "related": {
+            "conversations": "https://api2.frontapp.com/teammates/tea_5bo3/conversations",
+            "inboxes": "https://api2.frontapp.com/teammates/tea_5bo3/inboxes"
+          },
+          "self": "https://api2.frontapp.com/teammates/tea_5bo3"
+        },
+        "email": "dimitrios@balena.io",
+        "first_name": "Dimitrios",
+        "id": "tea_5bo3",
+        "is_admin": false,
+        "is_available": true,
+        "last_name": "Lytras",
+        "username": "dimitrisnl"
+      }
+    },
+    "type": "archive"
+  }
+}

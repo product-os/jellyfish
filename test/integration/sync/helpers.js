@@ -196,7 +196,7 @@ exports.translate = {
 							head: testCase.expected.head,
 							tail: _.sortBy(testCase.expected.tail, tailSort)
 						},
-						mockTimestamps: slice > 1,
+						mockTimestamps: slice > 0,
 						name: testCaseName,
 						variant: prefix
 					}, {

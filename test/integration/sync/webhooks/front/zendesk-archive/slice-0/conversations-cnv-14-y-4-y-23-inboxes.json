@@ -1,0 +1,28 @@
+{
+  "_pagination": {
+    "prev": null,
+    "next": null
+  },
+  "_links": {
+    "self": "https://api2.frontapp.com/conversations/cnv_14y4y23/inboxes"
+  },
+  "_results": [
+    {
+      "_links": {
+        "self": "https://api2.frontapp.com/inboxes/inb_23sp",
+        "related": {
+          "channels": "https://api2.frontapp.com/inboxes/inb_23sp/channels",
+          "conversations": "https://api2.frontapp.com/inboxes/inb_23sp/conversations",
+          "teammates": "https://api2.frontapp.com/inboxes/inb_23sp/teammates",
+          "owner": "https://api2.frontapp.com/teams/tim_qh"
+        }
+      },
+      "id": "inb_23sp",
+      "name": "S/Forums",
+      "is_private": false,
+      "address": "423a0f350b6f1102",
+      "send_as": "423a0f350b6f1102",
+      "type": "custom"
+    }
+  ]
+}
