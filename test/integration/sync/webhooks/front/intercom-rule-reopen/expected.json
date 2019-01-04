@@ -1,0 +1,75 @@
+{
+  "head": {
+    "name": "Reconfiguration of wifi adapter settings for static IP not sticking",
+    "type": "support-thread",
+    "version": "1.0.0",
+    "active": true,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "environment": "production",
+      "inbox": "S/Forums",
+      "mirrors": [
+        "https://api2.frontapp.com/conversations/cnv_16ax9l7"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "",
+      "status": "open"
+    }
+  },
+  "tail": [
+    {
+      "active": true,
+      "capabilities": [],
+      "data": {
+        "payload": {
+          "name": "Reconfiguration of wifi adapter settings for static IP not sticking",
+          "type": "support-thread",
+          "version": "1.0.0",
+          "active": true,
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "environment": "production",
+            "inbox": "S/Forums",
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_16ax9l7"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open"
+          }
+        },
+        "timestamp": "2019-01-02T21:36:31.639Z"
+      },
+      "requires": [],
+      "tags": [],
+      "type": "create",
+      "version": "1.0.0"
+    },
+    {
+      "version": "1.0.0",
+      "tags": [],
+      "capabilities": [],
+      "type": "message",
+      "active": true,
+      "requires": [],
+      "data": {
+        "target": "70ac6348-5c4f-46e4-9499-d8e74c0b6ad7",
+        "timestamp": "2019-01-04T14:29:57.276Z",
+        "mirrors": [
+          "https://api2.frontapp.com/messages/msg_284xm4z"
+        ],
+        "payload": {
+          "alertsUser": [],
+          "mentionsUser": [],
+          "message": "Hi dt-rush,\nTo run the commands on the host OS what we do is generate bash scripts at runtime using the users parameters (stored in /data) and before we reboot the device we run the script. So they are running from the shell using the Command::new() portion of std::process::Command from Rust. \nFor some additional information about how the dockerfile looks here are the packages we are pulling in as well as the NetworkManager.service mask:\n---Snip---\nFROM balenalib/amd64-ubuntu\nENV INITSYSTEM on\nRUN apt-get update\nRUN apt-get install -y dnsmasq wireless-tools vim file udhcpd network-manager \\\n&& systemctl mask NetworkManager.service \\\n&& apt-get clean \\\n&& rm -rf /var/lib/apt/lists/*\n---Snip---\nThe rest is just some application specific stuff to put files in the container and run it.\nIll look into the systemd service idea today. One issue I am assuming I'd need to solve is bringing up the new wifi interface before I reboot, I'm not sure if NM will allow me to do that if the balena tunnel is running on another device however. If you have any other suggestions or details around that approach I'm listening.\nThanks,\nBrant"
+        }
+      }
+    }
+  ]
+}
