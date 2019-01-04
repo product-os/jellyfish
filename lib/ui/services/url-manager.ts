@@ -1,5 +1,6 @@
 import createHistory from 'history/createHashHistory';
 import * as _ from 'lodash';
+import { Card } from '../../types';
 import { store } from '../core';
 import { StoreState } from '../core/store';
 import { actionCreators, selectors } from '../core/store';
@@ -11,6 +12,10 @@ const history = createHistory();
 
 const getCurrentPathFromUrl = () =>
 	window.location.hash.replace(/^#\//, '');
+
+export const createPermaLink = (card: Card) => {
+	return `${window.location.origin}/#/${card.type}${PATH_SEPARATOR}${card.id}`;
+};
 
 export const setPathFromState = (state: StoreState) => {
 	// Skip the first 'home' channel
