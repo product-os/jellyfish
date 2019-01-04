@@ -207,6 +207,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 		});
 
 		delete newView.id;
+		delete newView.created_at;
 
 		return newView;
 	}
