@@ -1,0 +1,172 @@
+{
+  "headers": {
+    "accept": "application/json",
+    "connection": "close",
+    "content-length": "8237",
+    "content-type": "application/json; charset=utf-8",
+    "host": "jel.ly.fish",
+    "user-agent": "Needle/1.3.0 (Node.js v9.11.1; linux x64)",
+    "x-forwarded-for": "54.67.1.220",
+    "x-forwarded-host": "jel.ly.fish",
+    "x-forwarded-port": "443",
+    "x-forwarded-proto": "https",
+    "x-front-signature": "WZR6qgT67y8EvimrfUDTixSb1M0=",
+    "x-original-uri": "/api/v2/hooks/front/",
+    "x-real-ip": "54.67.1.220",
+    "x-scheme": "https"
+  },
+  "payload": {
+    "_links": {
+      "self": "https://api2.frontapp.com/events/evt_5c2a47n"
+    },
+    "conversation": {
+      "_links": {
+        "related": {
+          "comments": "https://api2.frontapp.com/conversations/cnv_16ax9l7/comments",
+          "events": "https://api2.frontapp.com/conversations/cnv_16ax9l7/events",
+          "followers": "https://api2.frontapp.com/conversations/cnv_16ax9l7/followers",
+          "inboxes": "https://api2.frontapp.com/conversations/cnv_16ax9l7/inboxes",
+          "messages": "https://api2.frontapp.com/conversations/cnv_16ax9l7/messages"
+        },
+        "self": "https://api2.frontapp.com/conversations/cnv_16ax9l7"
+      },
+      "assignee": null,
+      "created_at": 1546464991.639,
+      "id": "cnv_16ax9l7",
+      "is_private": false,
+      "last_message": {
+        "_links": {
+          "related": {
+            "conversation": "https://api2.frontapp.com/conversations/cnv_16ax9l7"
+          },
+          "self": "https://api2.frontapp.com/messages/msg_284xm4z"
+        },
+        "attachments": [],
+        "author": null,
+        "blurb": "",
+        "body": "<p>Hi dt-rush,<br />To run the commands on the host OS what we do is generate bash scripts at runtime using the users parameters (stored in /data) and before we reboot the device we run the script.  So they are running from the shell using the Command::new() portion of std::process::Command from Rust.  </p>\n<p>For some additional information about how the dockerfile looks here are the packages we are pulling in as well as the NetworkManager.service mask:</p>\n<p>---Snip---<br />FROM balenalib/amd64-ubuntu</p>\n<p>ENV INITSYSTEM on</p>\n<p>RUN apt-get update</p>\n<p>RUN apt-get install -y dnsmasq wireless-tools vim file udhcpd network-manager \\<br />    &amp;&amp; systemctl mask NetworkManager.service \\<br />    &amp;&amp; apt-get clean \\<br />    &amp;&amp; rm -rf /var/lib/apt/lists/*<br />---Snip---</p>\n<p>The rest is just some application specific stuff to put files in the container and run it.</p>\n<p>Ill look into the systemd service idea today.  One issue I am assuming I&#39;d need to solve is bringing up the new wifi interface before I reboot, I&#39;m not sure if NM will allow me to do that if the balena tunnel is running on another device however.  If you have any other suggestions or details around that approach I&#39;m listening.</p>\n<p>Thanks,<br />Brant</p>\n<a href=\"https://www.balena-cloud.com?hidden=reply&source=flowdock&flow=rulemotion/public-s-community&thread=TAz9aNXmYye6c4FeZGg-7MmHznc&hmac=d430d2534f80fa099bd2556deb1facc82d5dff927a1d6bec08e33a33e81466fc\" target=\"_blank\" rel=\"noopener noreferrer\"></a>",
+        "created_at": 1546612197.276,
+        "error_type": null,
+        "id": "msg_284xm4z",
+        "is_draft": false,
+        "is_inbound": false,
+        "metadata": {
+          "headers": {
+            "in_reply_to": "287f6fb565446cd6c9255a5bb1c6e3c9@frontapp.com"
+          }
+        },
+        "recipients": [
+          {
+            "_links": {
+              "related": {
+                "contact": "https://api2.frontapp.com/contacts/crd_2yqwmh"
+              }
+            },
+            "handle": "423a0f350b6f1102",
+            "role": "from"
+          },
+          {
+            "_links": {
+              "related": {
+                "contact": "https://api2.frontapp.com/contacts/crd_8rhkb7"
+              }
+            },
+            "handle": "BrantR",
+            "role": "to"
+          }
+        ],
+        "text": "Hi dt-rush,\nTo run the commands on the host OS what we do is generate bash scripts at runtime using the users parameters (stored in /data) and before we reboot the device we run the script. So they are running from the shell using the Command::new() portion of std::process::Command from Rust. \nFor some additional information about how the dockerfile looks here are the packages we are pulling in as well as the NetworkManager.service mask:\n---Snip---\nFROM balenalib/amd64-ubuntu\nENV INITSYSTEM on\nRUN apt-get update\nRUN apt-get install -y dnsmasq wireless-tools vim file udhcpd network-manager \\\n&& systemctl mask NetworkManager.service \\\n&& apt-get clean \\\n&& rm -rf /var/lib/apt/lists/*\n---Snip---\nThe rest is just some application specific stuff to put files in the container and run it.\nIll look into the systemd service idea today. One issue I am assuming I'd need to solve is bringing up the new wifi interface before I reboot, I'm not sure if NM will allow me to do that if the balena tunnel is running on another device however. If you have any other suggestions or details around that approach I'm listening.\nThanks,\nBrant",
+        "type": "custom"
+      },
+      "recipient": {
+        "_links": {
+          "related": {
+            "contact": "https://api2.frontapp.com/contacts/crd_8rhkb7"
+          }
+        },
+        "handle": "BrantR",
+        "role": "to"
+      },
+      "status": "unassigned",
+      "subject": "Reconfiguration of wifi adapter settings for static IP not sticking",
+      "tags": []
+    },
+    "emitted_at": 1546612197.276,
+    "id": "evt_5c2a47n",
+    "source": {
+      "_meta": {
+        "type": "inboxes"
+      },
+      "data": [
+        {
+          "_links": {
+            "related": {
+              "channels": "https://api2.frontapp.com/inboxes/inb_23sp/channels",
+              "conversations": "https://api2.frontapp.com/inboxes/inb_23sp/conversations",
+              "owner": "https://api2.frontapp.com/teams/tim_qh",
+              "teammates": "https://api2.frontapp.com/inboxes/inb_23sp/teammates"
+            },
+            "self": "https://api2.frontapp.com/inboxes/inb_23sp"
+          },
+          "address": "423a0f350b6f1102",
+          "id": "inb_23sp",
+          "is_private": false,
+          "name": "S/Forums",
+          "send_as": "423a0f350b6f1102",
+          "type": "custom"
+        }
+      ]
+    },
+    "target": {
+      "_meta": {
+        "type": "message"
+      },
+      "data": {
+        "_links": {
+          "related": {
+            "conversation": "https://api2.frontapp.com/conversations/cnv_16ax9l7"
+          },
+          "self": "https://api2.frontapp.com/messages/msg_284xm4z"
+        },
+        "attachments": [],
+        "author": null,
+        "blurb": "",
+        "body": "<p>Hi dt-rush,<br />To run the commands on the host OS what we do is generate bash scripts at runtime using the users parameters (stored in /data) and before we reboot the device we run the script.  So they are running from the shell using the Command::new() portion of std::process::Command from Rust.  </p>\n<p>For some additional information about how the dockerfile looks here are the packages we are pulling in as well as the NetworkManager.service mask:</p>\n<p>---Snip---<br />FROM balenalib/amd64-ubuntu</p>\n<p>ENV INITSYSTEM on</p>\n<p>RUN apt-get update</p>\n<p>RUN apt-get install -y dnsmasq wireless-tools vim file udhcpd network-manager \\<br />    &amp;&amp; systemctl mask NetworkManager.service \\<br />    &amp;&amp; apt-get clean \\<br />    &amp;&amp; rm -rf /var/lib/apt/lists/*<br />---Snip---</p>\n<p>The rest is just some application specific stuff to put files in the container and run it.</p>\n<p>Ill look into the systemd service idea today.  One issue I am assuming I&#39;d need to solve is bringing up the new wifi interface before I reboot, I&#39;m not sure if NM will allow me to do that if the balena tunnel is running on another device however.  If you have any other suggestions or details around that approach I&#39;m listening.</p>\n<p>Thanks,<br />Brant</p>\n<a href=\"https://www.balena-cloud.com?hidden=reply&source=flowdock&flow=rulemotion/public-s-community&thread=TAz9aNXmYye6c4FeZGg-7MmHznc&hmac=d430d2534f80fa099bd2556deb1facc82d5dff927a1d6bec08e33a33e81466fc\" target=\"_blank\" rel=\"noopener noreferrer\"></a>",
+        "created_at": 1546612197.276,
+        "error_type": null,
+        "id": "msg_284xm4z",
+        "is_draft": false,
+        "is_inbound": false,
+        "metadata": {
+          "headers": {
+            "in_reply_to": "287f6fb565446cd6c9255a5bb1c6e3c9@frontapp.com"
+          }
+        },
+        "recipients": [
+          {
+            "_links": {
+              "related": {
+                "contact": "https://api2.frontapp.com/contacts/crd_2yqwmh"
+              }
+            },
+            "handle": "423a0f350b6f1102",
+            "role": "from"
+          },
+          {
+            "_links": {
+              "related": {
+                "contact": "https://api2.frontapp.com/contacts/crd_8rhkb7"
+              }
+            },
+            "handle": "BrantR",
+            "role": "to"
+          }
+        ],
+        "text": "Hi dt-rush,\nTo run the commands on the host OS what we do is generate bash scripts at runtime using the users parameters (stored in /data) and before we reboot the device we run the script. So they are running from the shell using the Command::new() portion of std::process::Command from Rust. \nFor some additional information about how the dockerfile looks here are the packages we are pulling in as well as the NetworkManager.service mask:\n---Snip---\nFROM balenalib/amd64-ubuntu\nENV INITSYSTEM on\nRUN apt-get update\nRUN apt-get install -y dnsmasq wireless-tools vim file udhcpd network-manager \\\n&& systemctl mask NetworkManager.service \\\n&& apt-get clean \\\n&& rm -rf /var/lib/apt/lists/*\n---Snip---\nThe rest is just some application specific stuff to put files in the container and run it.\nIll look into the systemd service idea today. One issue I am assuming I'd need to solve is bringing up the new wifi interface before I reboot, I'm not sure if NM will allow me to do that if the balena tunnel is running on another device however. If you have any other suggestions or details around that approach I'm listening.\nThanks,\nBrant",
+        "type": "custom"
+      }
+    },
+    "type": "out_reply"
+  },
+  "source": "front"
+}

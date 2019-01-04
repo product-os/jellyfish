@@ -28,7 +28,7 @@ helpers.translate.scenario(TOKEN ? ava : ava.skip, {
 	scenarios: require('./webhooks/front'),
 	slices: _.range(0, 2),
 	baseUrl: 'https://api2.frontapp.com',
-	stubRegex: /^\/conversations\/.+\/(messages|inboxes)$/,
+	stubRegex: /^\/(conversations|contacts)\/.+(\/(messages|inboxes))?$/,
 	source: 'front',
 	options: {
 		token: TOKEN

@@ -15,6 +15,12 @@
  */
 
 module.exports = {
+	'intercom-no-author': {
+		expected: require('./intercom-no-author/expected.json'),
+		steps: [
+			require('./intercom-no-author/01.json')
+		]
+	},
 	'discourse-topic-message': {
 		expected: require('./discourse-topic-message/expected.json'),
 		steps: [
