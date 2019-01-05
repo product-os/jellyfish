@@ -2515,7 +2515,7 @@ ava('action-create-event should create a link card', async (test) => {
 	}))
 })
 
-ava.only('events should always inherit their parent\'s markers', async (test) => {
+ava('events should always inherit their parent\'s markers', async (test) => {
 	const {
 		context,
 		jellyfish,
