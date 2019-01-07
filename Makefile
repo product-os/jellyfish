@@ -1,6 +1,7 @@
 .PHONY: lint \
 	build-ui \
 	dev-ui \
+	storybook-dev \
 	report-coverage \
 	test \
 	build \
@@ -97,6 +98,9 @@ build-ui:
 
 dev-ui:
 	NODE_ENV=dev API_URL=$(API_URL) ./node_modules/.bin/webpack-dev-server --color
+
+storybook-dev:
+	./node_modules/.bin/start-storybook -p 6006
 
 report-coverage:
 	./node_modules/.bin/nyc --reporter=text --reporter=lcov --reporter=json report

@@ -16,7 +16,7 @@ interface TailStreamerState {
 /**
  * A generic class for streaming data to a `tail` property on this.state
  */
-export class TailStreamer<P, S> extends React.Component<P, TailStreamerState & S> {
+export class TailStreamer<P, S extends TailStreamerState> extends React.Component<P, S> {
 	public stream: JellyfishStream;
 
 	public componentWillUnmount(): void {

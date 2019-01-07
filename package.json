@@ -40,6 +40,8 @@
   "author": "Resin Inc. <hello@resin.io>",
   "license": "Apache-2.0",
   "devDependencies": {
+    "@storybook/addon-actions": "^4.0.2",
+    "@storybook/react": "^4.0.2",
     "@babel/preset-react": "^7.0.0",
     "@types/bluebird": "^3.5.20",
     "ava": "^1.0.0-rc.2",
@@ -78,7 +80,7 @@
     "ts-node": "^6.0.0",
     "tslint": "^5.10.0",
     "tslint-react": "^3.6.0",
-    "typescript": "~2.8.1",
+    "typescript": "^3.2.2",
     "webpack": "^4.1.1",
     "webpack-bundle-analyzer": "^2.13.1",
     "webpack-cli": "^2.0.12",
@@ -154,7 +156,7 @@
     "skhema": "5.0.0",
     "socket.io": "^2.1.0",
     "static-eval": "^2.0.0",
-    "styled-components": "^3.2.5",
+    "styled-components": "^3.4.10",
     "typed-errors": "^1.1.0",
     "uuid": "^3.2.1",
     "winston": "^3.1.0"

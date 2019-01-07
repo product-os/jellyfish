@@ -108,9 +108,9 @@ class Base extends React.Component<CardCreatorProps, CardCreatorState> {
 		this.setState({ newCardModel: model });
 	}
 
-	public handleTypeTargetSelect = (e: any) => {
+	public handleTypeTargetSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		this.setState({
-			selectedTypeTarget: _.find(this.props.type, { slug: e.target.value })!,
+			selectedTypeTarget: _.find(_.castArray(this.props.type), { slug: e.target.value })!,
 		});
 	}
 
