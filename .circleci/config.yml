@@ -192,6 +192,9 @@ jobs:
       - run:
           name: Store Code Coverage Results
           command: make report-coverage && mkdir -p /tmp/test-results && cp -rf coverage /tmp/test-results
+      - run:
+          name: Git Stats
+          command: gitstats . /tmp/test-results/gitstats
 
       # Store artifacts for debugging purposes
       - store_test_results:
