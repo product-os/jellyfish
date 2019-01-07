@@ -88,7 +88,7 @@ dev-ui:
 	NODE_ENV=dev API_URL=$(API_URL) ./node_modules/.bin/webpack-dev-server --color
 
 report-coverage:
-	./node_modules/.bin/nyc --reporter=text --reporter=lcov report
+	./node_modules/.bin/nyc --reporter=text --reporter=lcov --reporter=json report
 
 test:
 	node scripts/scrub-test-databases.js
