@@ -21,6 +21,7 @@ const ruleTester = new eslint.RuleTester()
 
 ruleTester.run('logger-string-expression', rule, {
 	valid: [
+		'logger.foobar',
 		'logger.debug(ctx, \'Foo Bar\')'
 	],
 	invalid: [
