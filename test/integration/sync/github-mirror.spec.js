@@ -20,8 +20,8 @@ const randomstring = require('randomstring')
 const Octokit = require('@octokit/rest')
 const packageJSON = require('../../../package.json')
 const helpers = require('./helpers')
-const syncContext = require('../../../lib/action-library/sync-context')
-const TOKEN = syncContext.getToken('github')
+const environment = require('../../../lib/environment')
+const TOKEN = environment.getIntegrationToken('github')
 
 const getMirrorWaitSchema = (slug) => {
 	return {
