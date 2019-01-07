@@ -20,26 +20,21 @@ summary() (
 		| head -5
 )
 
-echo "----------------------------------------------"
-echo "Most updated files last month"
-echo "----------------------------------------------"
+git log --pretty=format: --name-only --since "1 month ago" | hotfiles | summary > HOTFILES_MONTH
+git log --pretty=format: --name-only --since "1 week ago" | hotfiles | summary > HOTFILES_WEEK
+git log --pretty=format: --name-only --since "1 month ago" | hotmodules | summary > HOTMODULES_MONTH
+git log --pretty=format: --name-only --since "1 week ago" | hotmodules | summary > HOTMODULES_WEEK
 
-git log --pretty=format: --name-only --since "1 month ago" | hotfiles | summary
+echo "#### Most Updated Files"
+echo ""
+echo "Last Month | Last Week"
+echo "-----------|----------"
+paste -d\| HOTFILES_MONTH HOTFILES_WEEK | sed "s/^[ \t]*//"
+echo ""
+echo "#### Most Updated Modules"
+echo ""
+echo "Last Month | Last Week"
+echo "-----------|----------"
+paste -d\| HOTMODULES_MONTH HOTMODULES_WEEK | sed "s/^[ \t]*//"
 
-echo "----------------------------------------------"
-echo "Most updated files last week"
-echo "----------------------------------------------"
-
-git log --pretty=format: --name-only --since "1 week ago" | hotfiles | summary
-
-echo "----------------------------------------------"
-echo "Most updated modules last month"
-echo "----------------------------------------------"
-
-git log --pretty=format: --name-only --since "1 month ago" | hotmodules | summary
-
-echo "----------------------------------------------"
-echo "Most updated modules last week"
-echo "----------------------------------------------"
-
-git log --pretty=format: --name-only --since "1 week ago" | hotmodules | summary
+rm HOTFILES_MONTH HOTFILES_WEEK HOTMODULES_MONTH HOTMODULES_WEEK

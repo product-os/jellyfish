@@ -79,7 +79,7 @@ lint:
 		--exclude "lib/*/node_modules/**" \
 		--exclude "lib/*/dist/**"
 	./scripts/check-filenames.sh
-	shellcheck ./scripts/*.sh ./.circleci/*.sh ./deploy-templates/*.sh
+	shellcheck ./scripts/*.sh ./scripts/ci/*.sh ./.circleci/*.sh ./deploy-templates/*.sh
 
 build-ui:
 	NODE_ENV=production ./node_modules/.bin/webpack

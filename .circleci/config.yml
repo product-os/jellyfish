@@ -186,12 +186,8 @@ jobs:
           at: .
 
       - run:
-          name: Hot files
-          command: ./scripts/hotfiles.sh
-
-      - run:
-          name: Store Code Coverage Results
-          command: make report-coverage && mkdir -p /tmp/test-results && cp -rf coverage /tmp/test-results
+          name: Generate Coverage Results
+          command: make --silent report-coverage > COVERAGE && mkdir -p /tmp/test-results && cp -rf coverage /tmp/test-results
       - run:
           name: Git Stats
           command: gitstats . /tmp/test-results/gitstats
@@ -202,6 +198,14 @@ jobs:
       - store_artifacts:
           path: /tmp/test-results
           destination: test-results
+
+      - run:
+          name: Generate Summary
+          command: ./scripts/ci/summary.sh > SUMMARY
+
+      - run:
+          name: Post PR Summary
+          command: GITHUB_TOKEN=$INTEGRATION_GITHUB_TOKEN node scripts/github-pr-summary.js $CIRCLE_PULL_REQUEST ./SUMMARY
 
   eslint_jellyfish:
     <<: *job_defaults
