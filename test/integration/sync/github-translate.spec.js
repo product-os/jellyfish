@@ -17,8 +17,8 @@
 const ava = require('ava')
 const _ = require('lodash')
 const helpers = require('./helpers')
-const syncContext = require('../../../lib/action-library/sync-context')
-const TOKEN = syncContext.getToken('github')
+const environment = require('../../../lib/environment')
+const TOKEN = environment.getIntegrationToken('github')
 
 ava.beforeEach(helpers.translate.beforeEach)
 ava.afterEach(helpers.translate.afterEach)
