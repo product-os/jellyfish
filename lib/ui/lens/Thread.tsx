@@ -264,6 +264,12 @@ const lens: Lens = {
 		renderer: Renderer,
 		filter: {
 			type: 'object',
+			properties: {
+				type: {
+					type: 'string',
+					const: 'thread',
+				},
+			},
 		},
 	},
 };
