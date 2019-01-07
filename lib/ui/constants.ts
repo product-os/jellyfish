@@ -2,8 +2,7 @@
 export const LINKS: { [k: string]: { [t: string]: string } } = {
 	'support-thread': {
 		'scratchpad-entry': 'scratchpad entry was used in support thread',
-		issue: 'support thread has attached issue',
-		symptom: 'support thread has attached symptom',
+		'support-issue': 'support thread is attached to support issue',
 	},
 	'scratchpad-entry': {
 		'support-thread': 'support thread used scratchpad entry',
