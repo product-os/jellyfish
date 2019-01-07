@@ -156,7 +156,7 @@ class Base extends React.Component<CardCreatorProps, CardCreatorState> {
 				}}
 			>
 				{_.isArray(this.props.type) && (
-					<Flex>
+					<Flex align="center" pb={3}>
 						<Txt>Create a new</Txt>
 
 						<Select

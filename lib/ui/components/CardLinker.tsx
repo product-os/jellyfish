@@ -17,6 +17,7 @@ import {
 	createFullTextSearchFilter,
 } from '../services/helpers';
 import { createLink } from '../services/link';
+import { ContextMenu } from './ContextMenu';
 import Icon from './Icon';
 import { IconButton } from './IconButton';
 
@@ -26,15 +27,12 @@ interface CardLinkerProps {
 }
 
 interface CardLinkerState {
+	showMenu: boolean;
 	showLinkModal: boolean;
 	showCreateModal: boolean;
-	linkTypeTargets: Array<{ value: string, label: string | void }>;
 	results: Card[];
-	selectedTypeTarget: string;
-	selectedTarget: null | {
-		value: string;
-		label: string | void;
-	};
+	selectedTarget: Card | null;
+	selectedTypeTarget: Card | null;
 }
 
 export class CardLinker extends React.Component<CardLinkerProps, CardLinkerState> {
@@ -42,18 +40,14 @@ export class CardLinker extends React.Component<CardLinkerProps, CardLinkerState
 		super(props);
 
 		const { card, types } = props;
-		const linkTypeTargets = _.keys(LINKS[card.type]).map((slug) => ({
-			value: slug,
-			label: _.get(_.find(types, { slug }), 'name'),
-		}));
 
 		this.state = {
+			showMenu: false,
 			showLinkModal: false,
 			showCreateModal: false,
-			linkTypeTargets,
 			results: [],
-			selectedTypeTarget: _.get(linkTypeTargets, [ '0', 'value' ]) || null,
 			selectedTarget: null,
+			selectedTypeTarget: _.find(types, { slug: _.first(_.keys(LINKS[card.type])) }) || null,
 		};
 	}
 
@@ -61,6 +55,15 @@ export class CardLinker extends React.Component<CardLinkerProps, CardLinkerState
 		this.setState({
 			showLinkModal: true,
 			showCreateModal: false,
+			showMenu: false,
+		});
+	}
+
+	public openCreateModal = () => {
+		this.setState({
+			showLinkModal: false,
+			showCreateModal: true,
+			showMenu: false,
 		});
 	}
 
@@ -68,6 +71,7 @@ export class CardLinker extends React.Component<CardLinkerProps, CardLinkerState
 		this.setState({
 			showLinkModal: false,
 			showCreateModal: false,
+			showMenu: false,
 		});
 	}
 
@@ -76,12 +80,14 @@ export class CardLinker extends React.Component<CardLinkerProps, CardLinkerState
 		if (!selectedTypeTarget || !value) {
 			return [];
 		}
-		const typeCard = _.find(this.props.types, { slug: selectedTypeTarget })!;
-		const filter = createFullTextSearchFilter(typeCard.data.schema, value);
+
+		const filter = createFullTextSearchFilter(selectedTypeTarget.data.schema, value);
+
 		_.set(filter, [ 'properties', 'type' ], {
 			type: 'string',
-			const: typeCard.slug,
+			const: selectedTypeTarget.slug,
 		});
+
 		const results = await sdk.query(filter);
 
 		this.setState({
@@ -96,37 +102,35 @@ export class CardLinker extends React.Component<CardLinkerProps, CardLinkerState
 
 	public handleTypeTargetSelect = (e: any) => {
 		this.setState({
-			selectedTypeTarget: e.target.value,
+			selectedTypeTarget: _.find(this.props.types, { slug: e.target.value })!,
 		});
 	}
 
 	public handleTargetSelect = (target: { value: string, label: string | void }) => {
 		this.setState({
-			selectedTarget: target,
+			selectedTarget: _.find(this.state.results, { id: target.value }) || null,
 		});
 	}
 
 	public linkToExisting = async () => {
 		const { card } = this.props;
-		const { selectedTarget, selectedTypeTarget } = this.state;
+		const { selectedTypeTarget } = this.state;
 
-		if (!selectedTarget || !selectedTypeTarget) {
+		if (!selectedTypeTarget) {
 			return;
 		}
 
-		const linkName = LINKS[card.type][selectedTypeTarget];
+		const linkName = LINKS[card.type][selectedTypeTarget.slug];
 
-		const target = _.find(this.state.results, { id: selectedTarget.value });
-
-		if (!target) {
-			return;
-		}
-
-		createLink(this.props.card, target, linkName as any);
+		createLink(this.props.card, selectedTypeTarget, linkName as any);
 
 		this.setState({
 			showLinkModal: false,
 		});
+	}
+
+	public toggleMenu = () => {
+		this.setState({ showMenu: !this.state.showMenu });
 	}
 
 	public doneCreatingCard = (newCard: Card | null) => {
@@ -141,7 +145,7 @@ export class CardLinker extends React.Component<CardLinkerProps, CardLinkerState
 			return;
 		}
 
-		const linkName = LINKS[card.type][selectedTypeTarget];
+		const linkName = LINKS[card.type][selectedTypeTarget.slug];
 
 		createLink(this.props.card, newCard, linkName as any);
 
@@ -156,10 +160,19 @@ export class CardLinker extends React.Component<CardLinkerProps, CardLinkerState
 		const {
 			showCreateModal,
 			showLinkModal,
-			linkTypeTargets,
 			selectedTarget,
 			selectedTypeTarget,
 		} = this.state;
+
+		const availableTypes = types.filter(t => {
+			return LINKS[card.type].hasOwnProperty(t.slug);
+		});
+
+		const linkTypeTargets = availableTypes.map((item) => ({
+			value: item.slug,
+			label: item.name || item.slug,
+		}));
+
 
 		if (!LINKS[card.type]) {
 			return null;
@@ -167,29 +180,57 @@ export class CardLinker extends React.Component<CardLinkerProps, CardLinkerState
 
 		const typeCard = types.find(t => t.slug === card.type);
 		const typeName = typeCard ? typeCard.name : card.type;
-		const selectedTypeCard = types.find(t => t.slug === selectedTypeTarget);
+
+		const selectTargetValue = selectedTarget ? {
+			value: selectedTarget.id,
+			label: selectedTarget.name || selectedTarget.slug,
+		} : null;
 
 		return (
 			<>
-				<IconButton
-					plaintext
-					square={true}
-					mr={1}
-					onClick={this.openLinkModal}
-					tooltip={{
-						placement: 'left',
-						text: `Link this ${typeName} to another element`,
-					}}
-				>
-					<Icon name="bezier-curve" />
-				</IconButton>
+				<span>
+					<IconButton
+						plaintext
+						square={true}
+						onClick={this.toggleMenu}
+						tooltip={{
+							placement: 'left',
+							text: `Link this ${typeName} to another element`,
+						}}
+					>
+						<Icon name="bezier-curve" />
+					</IconButton>
+
+					{this.state.showMenu &&
+						<ContextMenu
+							position="bottom"
+							onClose={this.toggleMenu}
+						>
+							<Button
+								style={{ display: 'block' }}
+								mb={2}
+								plaintext
+								onClick={this.openLinkModal}
+							>
+								Link to existing element
+							</Button>
+							<Button
+								style={{ display: 'block' }}
+								plaintext
+								onClick={this.openCreateModal}
+							>
+								Create a new element to link to
+							</Button>
+						</ContextMenu>
+					}
+				</span>
 
 				{showLinkModal && (
 					<Modal
 						title={`Link this ${typeName} to another element`}
 						cancel={this.hideLinkModal}
 						primaryButtonProps={{
-							disabled: !selectedTarget,
+							disabled: !selectedTypeTarget,
 						}}
 						done={this.linkToExisting}
 					>
@@ -198,7 +239,7 @@ export class CardLinker extends React.Component<CardLinkerProps, CardLinkerState
 							{linkTypeTargets.length > 1 && (
 								<Select
 									ml={2}
-									value={selectedTypeTarget}
+									value={selectedTypeTarget ? selectedTypeTarget.slug : null}
 									onChange={this.handleTypeTargetSelect}
 								>
 									{linkTypeTargets.map(t => <option value={t.value} key={t.value}>{t.label || t.value}</option>)}
@@ -206,7 +247,7 @@ export class CardLinker extends React.Component<CardLinkerProps, CardLinkerState
 							)}
 							<Box flex="1" ml={2}>
 								<AsyncSelect
-									value={selectedTarget}
+									value={selectTargetValue}
 									cacheOptions
 									defaultOptions
 									onChange={this.handleTargetSelect}
@@ -214,37 +255,13 @@ export class CardLinker extends React.Component<CardLinkerProps, CardLinkerState
 								/>
 							</Box>
 						</Flex>
-
-						<Txt mb={2}><strong>OR</strong></Txt>
-
-						<Flex align="center">
-							<Txt>Link this {typeName} to a new {linkTypeTargets.length === 1 && (linkTypeTargets[0].label || linkTypeTargets[0].value)}</Txt>
-
-							{linkTypeTargets.length > 1 && (
-								<Select
-									ml={2}
-									value={selectedTypeTarget}
-									onChange={this.handleTypeTargetSelect}
-								>
-									{linkTypeTargets.map(t => <option value={t.value} key={t.value}>{t.label || t.value}</option>)}
-								</Select>
-							)}
-
-							<Button
-								ml={2}
-								success
-								onClick={() => this.setState({ showCreateModal: true, showLinkModal: false })}
-							>
-								<Icon name="plus" style={{color: 'white'}} />
-							</Button>
-						</Flex>
 					</Modal>
 				)}
 
 				<CardCreator
 					seed={{}}
 					show={showCreateModal}
-					type={selectedTypeCard!}
+					type={availableTypes}
 					done={this.doneCreatingCard}
 					cancel={() => this.setState({ showCreateModal: false, showLinkModal: true })}
 				/>
