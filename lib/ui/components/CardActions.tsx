@@ -102,7 +102,7 @@ class Base extends React.Component<
 	}
 
 	public updateEntry = () => {
-		const updatedEntry = removeUndefinedArrayItems(_.assign({}
+		const updatedEntry = removeUndefinedArrayItems(_.assign({},
 			this.props.card,
 			this.state.editModel,
 		));
