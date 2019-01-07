@@ -186,6 +186,10 @@ jobs:
           at: .
 
       - run:
+          name: Hot files
+          command: ./scripts/hotfiles.sh
+
+      - run:
           name: Store Code Coverage Results
           command: make report-coverage && mkdir -p /tmp/test-results && cp -rf coverage /tmp/test-results
 
