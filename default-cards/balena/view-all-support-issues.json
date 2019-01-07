@@ -1,0 +1,43 @@
+{
+  "slug": "view-all-support-issues",
+  "name": "All Support Issues",
+  "version": "1.0.0",
+  "type": "view",
+  "markers": [ "org-balena" ],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "allOf": [
+      {
+        "name": "All support issues",
+        "schema": {
+          "type": "object",
+          "$$sort": "input.a.name < input.b.name",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "support-issue"
+            },
+            "markers": {
+              "type": "array",
+              "contains": {
+                "const": "org-balena"
+              }
+            }
+          },
+          "additionalProperties": true,
+          "required": [
+            "type"
+          ]
+        }
+      }
+    ],
+    "lenses": [
+      "lens-list",
+      "lens-table"
+    ]
+  },
+  "requires": [],
+  "capabilities": []
+}
