@@ -30,6 +30,7 @@ ava.beforeEach(async (test) => {
 	}
 
 	test.context.context = {
+		cards: test.context.jellyfish.cards,
 		getCardById: test.context.jellyfish.getCardById,
 		getCardBySlug: test.context.jellyfish.getCardBySlug,
 		setTriggers: (triggers) => {
