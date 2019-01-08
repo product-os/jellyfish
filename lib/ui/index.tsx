@@ -1,4 +1,4 @@
-import * as Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
@@ -8,7 +8,11 @@ import { JellyfishUI } from './JellyfishUI';
 const SENTRY_DSN = process.env.SENTRY_DSN_UI;
 
 if (process.env.NODE_ENV === 'production' && SENTRY_DSN) {
-	Raven.config(SENTRY_DSN).install();
+	Sentry.init({
+		dsn: SENTRY_DSN,
+		release: process.env.VERSION,
+		environment: 'ui',
+	});
 }
 
 ReactDOM.render(

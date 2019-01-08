@@ -27,6 +27,8 @@ NODE_DEBUG ?= 'jellyfish:*'
 NODE_ENV ?= test
 COVERAGE ?= 1
 DISABLE_CACHE ?=
+SENTRY_DSN_SERVER ?=
+SENTRY_DSN_UI ?=
 
 ifeq ($(NODE_ENV),production)
 RETHINKDB_MIN_POOL_SIZE ?= 50
@@ -82,7 +84,7 @@ lint:
 	shellcheck ./scripts/*.sh ./scripts/ci/*.sh ./.circleci/*.sh ./deploy-templates/*.sh
 
 build-ui:
-	NODE_ENV=production ./node_modules/.bin/webpack
+	NODE_ENV=production SENTRY_DSN_UI=$(SENTRY_DSN_UI) ./node_modules/.bin/webpack
 
 dev-ui:
 	NODE_ENV=dev API_URL=$(API_URL) ./node_modules/.bin/webpack-dev-server --color
@@ -181,6 +183,7 @@ start-server:
 	DB_HOST=$(DB_HOST) \
 	DB_PORT=$(DB_PORT) \
 	LOGLEVEL=$(LOGLEVEL) \
+	SENTRY_DSN_SERVER=$(SENTRY_DSN_SERVER) \
 	INTEGRATION_GITHUB_TOKEN=$(INTEGRATION_GITHUB_TOKEN) \
 	INTEGRATION_GITHUB_SIGNATURE_KEY=$(INTEGRATION_GITHUB_SIGNATURE_KEY) \
 	INTEGRATION_FRONT_TOKEN=$(INTEGRATION_FRONT_TOKEN) \

@@ -13,6 +13,7 @@ const iconsFolderPath = path.join(uiRoot, 'icons')
 const audioFolderPath = path.join(uiRoot, 'audio')
 const faviconPath = path.join(uiRoot, 'favicon.ico')
 const outDir = path.join(root, 'dist')
+const packageJSON = require('./package.json')
 
 const config = {
 	mode: 'development',
@@ -89,7 +90,8 @@ const config = {
 				API_PREFIX: JSON.stringify(process.env.API_PREFIX || 'api/v2/'),
 				NODE_ENV: JSON.stringify(process.env.NODE_ENV),
 				SENTRY_DSN_UI: JSON.stringify(process.env.SENTRY_DSN_UI),
-				MIXPANEL_TOKEN_UI: JSON.stringify(process.env.MIXPANEL_TOKEN_UI)
+				MIXPANEL_TOKEN_UI: JSON.stringify(process.env.MIXPANEL_TOKEN_UI),
+				VERSION: JSON.stringify(packageJSON.version)
 			}
 		}),
 

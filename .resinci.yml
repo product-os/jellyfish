@@ -5,3 +5,8 @@ docker:
       dockerfile: Dockerfile
       docker_repo: balena/jellyfish
       publish: true
+      secrets:
+        - name: SENTRY_DSN_SERVER
+          vault_name: sentry-dsn
+        - name: SENTRY_DSN_UI
+          vault_name: sentry-dsn
