@@ -116,7 +116,7 @@
     "express": "^4.16.2",
     "fast-equals": "^1.5.3",
     "formulajs": "^1.0.8",
-    "front-sdk": "^0.3.4",
+    "front-sdk": "^0.3.5",
     "history": "^4.7.2",
     "howler": "^2.0.12",
     "isobj": "^1.0.0",
