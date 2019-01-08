@@ -1,0 +1,81 @@
+{
+  "slug": "support-issue",
+  "type": "type",
+  "version": "1.0.0",
+  "name": "Support Issue",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "$$formula": "AGGREGATE($events, 'tags')"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "mentionsUser": {
+              "type": "array",
+              "$$formula": "AGGREGATE($events, 'data.payload.mentionsUser')"
+            },
+            "alertsUser": {
+              "type": "array",
+              "$$formula": "AGGREGATE($events, 'data.payload.alertsUser')"
+            },
+            "severity": {
+              "title": "Severity",
+              "default": "low",
+              "enum": [
+                "high",
+                "medium",
+                "low"
+              ]
+            },
+            "shareable": {
+              "title": "Shareable",
+              "description": "Can this information be made publicly available?",
+              "type": "boolean"
+            },
+            "problem": {
+              "title": "Problem",
+              "type": "string",
+              "format": "markdown"
+            },
+            "solution": {
+              "title": "Solution",
+              "type": "string",
+              "format": "markdown"
+            }
+          }
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "additionalProperties": true
+    },
+    "slices": [
+      "properties.data.properties.severity"
+    ],
+    "fieldOrder": [
+      "name",
+      "tags",
+      "severity",
+      "shareable",
+      "problem",
+      "solution"
+    ]
+  },
+  "requires": [],
+  "capabilities": []
+}
