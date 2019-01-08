@@ -331,6 +331,11 @@ export class JellyfishSDK implements SDKInterface {
 			body,
 			requestOptions,
 		))
+			.tap((response) => {
+				if  (!response) {
+					throw new Error('Got empty response');
+				}
+			})
 			.catch((e) => {
 				if (e.message === 'Operation canceled by user') {
 					console.log('Caught Axios cancel error and ignoring it');
@@ -500,7 +505,7 @@ export class JellyfishSDK implements SDKInterface {
 		return this.post<ActionResponse<D>>('action', payload)
 			.then((response) => {
 				if  (!response) {
-					return {};
+					throw new Error('Got empty response');
 				}
 
 				const { error, data } = response.data;
