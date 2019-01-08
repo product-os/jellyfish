@@ -69,7 +69,13 @@ jobs:
           name: Start RethinkDB
           command: rethinkdb --daemon --bind all
       - run:
-          name: Unit Tests
+          name: Unit Tests 1
+          command: make test-unit COVERAGE=1
+      - run:
+          name: Unit Tests 2
+          command: make test-unit COVERAGE=1
+      - run:
+          name: Unit Tests 3
           command: make test-unit COVERAGE=1
       - run:
           name: Backend Tests Without Cache
@@ -97,7 +103,13 @@ jobs:
       - run: mkdir -p /tmp/test-results/screenshots
 
       - run:
-          name: Integration Tests
+          name: Integration Tests 1
+          command: make test-integration COVERAGE=1
+      - run:
+          name: Integration Tests 2
+          command: make test-integration COVERAGE=1
+      - run:
+          name: Integration Tests 3
           command: make test-integration COVERAGE=1
       - run:
           name: Sync Integration Tests Without Tokens
@@ -135,16 +147,6 @@ jobs:
           root: .
           paths:
             - .nyc_output/*.json
-
-  # To attempt to detect flaky tests
-  unit_tests2:
-    <<: *unit_tests
-  unit_tests3:
-    <<: *unit_tests
-  integration_tests2:
-    <<: *integration_tests
-  integration_tests3:
-    <<: *integration_tests
 
   stress_tests:
     <<: *job_defaults
@@ -226,24 +228,8 @@ workflows:
                 requires:
                     - build
                 <<: *workflow_filter
-            - unit_tests2:
-                requires:
-                    - build
-                <<: *workflow_filter
-            - unit_tests3:
-                requires:
-                    - build
-                <<: *workflow_filter
 
             - integration_tests:
-                requires:
-                    - build
-                <<: *workflow_filter
-            - integration_tests2:
-                requires:
-                    - build
-                <<: *workflow_filter
-            - integration_tests3:
                 requires:
                     - build
                 <<: *workflow_filter
@@ -261,11 +247,7 @@ workflows:
             - results:
                 requires:
                   - unit_tests
-                  - unit_tests2
-                  - unit_tests3
                   - integration_tests
-                  - integration_tests2
-                  - integration_tests3
                   - integration_tests_production
                 <<: *workflow_filter
 
