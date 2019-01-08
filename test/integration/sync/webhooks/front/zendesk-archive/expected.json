@@ -1,0 +1,23 @@
+{
+  "head": {
+    "name": "Reconfiguration of wifi adapter settings for static IP not sticking",
+    "type": "support-thread",
+    "version": "1.0.0",
+    "active": true,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "environment": "production",
+      "inbox": "S/Forums",
+      "mirrors": [
+        "https://api2.frontapp.com/conversations/cnv_16ax9l7"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "",
+      "status": "open"
+    }
+  },
+  "tail": []
+}

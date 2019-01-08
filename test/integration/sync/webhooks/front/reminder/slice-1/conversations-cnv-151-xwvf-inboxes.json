@@ -1,0 +1,28 @@
+{
+  "_pagination": {
+    "prev": null,
+    "next": null
+  },
+  "_links": {
+    "self": "https://api2.frontapp.com/conversations/cnv_151xwvf/inboxes"
+  },
+  "_results": [
+    {
+      "_links": {
+        "self": "https://api2.frontapp.com/inboxes/inb_nla",
+        "related": {
+          "channels": "https://api2.frontapp.com/inboxes/inb_nla/channels",
+          "conversations": "https://api2.frontapp.com/inboxes/inb_nla/conversations",
+          "teammates": "https://api2.frontapp.com/inboxes/inb_nla/teammates",
+          "owner": "https://api2.frontapp.com/teams/tim_qh"
+        }
+      },
+      "id": "inb_nla",
+      "name": "S/Paid_Support",
+      "is_private": false,
+      "address": "yg02r5dz",
+      "send_as": "Intercom",
+      "type": "intercom"
+    }
+  ]
+}

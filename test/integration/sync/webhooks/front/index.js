@@ -15,6 +15,13 @@
  */
 
 module.exports = {
+	reminder: {
+		expected: require('./reminder/expected.json'),
+		steps: [
+			require('./reminder/01.json'),
+			require('./reminder/02.json')
+		]
+	},
 	'intercom-rule-reopen': {
 		expected: require('./intercom-rule-reopen/expected.json'),
 		steps: [
