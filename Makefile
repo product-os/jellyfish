@@ -19,7 +19,15 @@ NODE_DEBUG_ARGS = $(NODE_ARGS) \
 									--stack_trace_on_illegal \
 									--abort_on_stack_or_string_length_overflow
 
+# Default to warn on tests
+ifdef CI
+LOGLEVEL ?= warn
+endif
+ifdef AVA_PATH
+LOGLEVEL ?= warn
+endif
 LOGLEVEL ?= info
+
 API_URL ?= http://localhost:8000/
 DB_HOST ?= localhost
 DB_PORT ?= 28015
@@ -27,6 +35,7 @@ NODE_DEBUG ?= 'jellyfish:*'
 NODE_ENV ?= test
 COVERAGE ?= 1
 DISABLE_CACHE ?=
+LOGENTRIES_TOKEN ?=
 SENTRY_DSN_SERVER ?=
 SENTRY_DSN_UI ?=
 
@@ -183,6 +192,7 @@ start-server:
 	DB_HOST=$(DB_HOST) \
 	DB_PORT=$(DB_PORT) \
 	LOGLEVEL=$(LOGLEVEL) \
+	LOGENTRIES_TOKEN=$(LOGENTRIES_TOKEN) \
 	SENTRY_DSN_SERVER=$(SENTRY_DSN_SERVER) \
 	INTEGRATION_GITHUB_TOKEN=$(INTEGRATION_GITHUB_TOKEN) \
 	INTEGRATION_GITHUB_SIGNATURE_KEY=$(INTEGRATION_GITHUB_SIGNATURE_KEY) \

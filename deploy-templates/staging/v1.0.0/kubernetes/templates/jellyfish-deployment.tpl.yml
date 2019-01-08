@@ -54,6 +54,8 @@ spec:
           value: {{{SENTRY_DSN_SERVER}}}
         - name: SENTRY_DSN_UI
           value: {{{SENTRY_DSN_UI}}}
+        - name: LOGENTRIES_TOKEN
+          value: {{{LOGENTRIES_TOKEN}}}
         - name: INTEGRATION_FRONT_TOKEN
           value: {{{INTEGRATION_FRONT_TOKEN}}}
         - name: INTEGRATION_GITHUB_TOKEN
