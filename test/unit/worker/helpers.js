@@ -78,8 +78,8 @@ exports.worker = {
 			const result = await test.context.worker.execute(session, request)
 
 			if (result.error) {
-				const Constructor = test.context.worker.errors[result.data.type] ||
-					test.context.jellyfish.errors[result.data.type] ||
+				const Constructor = test.context.worker.errors[result.data.name] ||
+					test.context.jellyfish.errors[result.data.name] ||
 					Error
 
 				throw new Constructor(result.data.message)

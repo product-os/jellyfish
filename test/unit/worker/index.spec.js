@@ -2427,7 +2427,7 @@ ava('should post an error execute event if logging in as a disallowed user', asy
 		timestamp: loginResult.timestamp,
 		data: {
 			message: 'Login disallowed',
-			type: 'WorkerAuthenticationError'
+			name: 'WorkerAuthenticationError'
 		}
 	})
 })
