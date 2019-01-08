@@ -684,9 +684,13 @@ ava('.execute() should execute a triggered action with a top level anyOf', async
 
 ava('.execute() should add a create event when creating a card', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'card')
+		test.context.context, test.context.session, 'card', {
+			type: 'type'
+		})
 	const actionCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'action-create-card')
+		test.context.context, test.context.session, 'action-create-card', {
+			type: 'action'
+		})
 
 	const request = await test.context.worker.enqueue(test.context.session, {
 		action: actionCard.slug,
@@ -708,24 +712,28 @@ ava('.execute() should add a create event when creating a card', async (test) =>
 		test.context.jellyfish, test.context.session, request)
 	test.false(result.error)
 
-	const timeline = await test.context.jellyfish.query(test.context.context, test.context.session, {
+	const cards = await test.context.jellyfish.query(test.context.context, test.context.session, {
+		$$links: {
+			'has attached element': {
+				type: 'object'
+			}
+		},
 		type: 'object',
 		additionalProperties: true,
 		required: [ 'data' ],
 		properties: {
-			data: {
-				type: 'object',
-				required: [ 'target' ],
-				additionalProperties: true,
-				properties: {
-					target: {
-						type: 'string',
-						const: result.data.id
-					}
-				}
+			id: {
+				type: 'string',
+				const: result.data.id
+			},
+			type: {
+				type: 'string',
+				const: result.data.type
 			}
 		}
 	})
+
+	const timeline = cards[0].links['has attached element']
 
 	test.is(timeline.length, 1)
 	test.is(timeline[0].type, 'create')
@@ -2178,7 +2186,14 @@ ava('should update a card to override an array property', async (test) => {
 })
 
 ava('should add an update event if updating a card', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context,
+		test.context.session,
+		'card',
+		{
+			type: 'type'
+		}
+	)
 	const createRequest = await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-card',
 		card: typeCard.id,
@@ -2218,24 +2233,28 @@ ava('should add an update event if updating a card', async (test) => {
 		test.context.jellyfish, test.context.session, updateRequest)
 	test.false(updateResult.error)
 
-	const timeline = await test.context.jellyfish.query(test.context.context, test.context.session, {
+	const resultCards = await test.context.jellyfish.query(test.context.context, test.context.session, {
+		$$links: {
+			'has attached element': {
+				type: 'object'
+			}
+		},
 		type: 'object',
 		additionalProperties: true,
 		required: [ 'data' ],
 		properties: {
-			data: {
-				type: 'object',
-				required: [ 'target' ],
-				additionalProperties: true,
-				properties: {
-					target: {
-						type: 'string',
-						const: createResult.data.id
-					}
-				}
+			id: {
+				type: 'string',
+				const: createResult.data.id
+			},
+			type: {
+				type: 'string',
+				const: createResult.data.type
 			}
 		}
 	})
+
+	const timeline = resultCards[0].links['has attached element']
 
 	test.deepEqual(timeline, [
 		{
@@ -2256,7 +2275,6 @@ ava('should add an update event if updating a card', async (test) => {
 			},
 			data: {
 				actor: test.context.actor.id,
-				target: createResult.data.id,
 				timestamp: timeline[0].data.timestamp,
 				payload: {
 					slug: 'foo',
@@ -2286,7 +2304,6 @@ ava('should add an update event if updating a card', async (test) => {
 			},
 			data: {
 				actor: test.context.actor.id,
-				target: createResult.data.id,
 				timestamp: timeline[1].data.timestamp,
 				payload: {
 					created_at: timeline[1].data.payload.created_at,
