@@ -122,6 +122,7 @@
     "isobj": "^1.0.0",
     "json-e": "^2.6.0",
     "json-schema-ref-parser": "^6.0.2",
+    "le_node": "^1.8.0",
     "localforage": "^1.6.0",
     "lodash": "^4.17.5",
     "mark.js": "^8.11.1",

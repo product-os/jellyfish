@@ -22,6 +22,8 @@ properties:
       type: string
   - SENTRY_DSN_UI:
       type: string
+  - LOGENTRIES_TOKEN:
+      type: string
   - INTEGRATION_FRONT_TOKEN:
       type: string
   - INTEGRATION_GITHUB_TOKEN:
