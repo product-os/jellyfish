@@ -23,7 +23,7 @@ ava.beforeEach(helpers.jellyfish.beforeEach)
 ava.afterEach(helpers.jellyfish.afterEach)
 
 ava('.post() should insert an active execute card', async (test) => {
-	const event = await events.post(test.context.jellyfish, test.context.session, {
+	const event = await events.post(test.context.context, test.context.jellyfish, test.context.session, {
 		id: '414f2345-4f5e-4571-820f-28a49731733d',
 		action: '57692206-8da2-46e1-91c9-159b2c6928ef',
 		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
@@ -42,7 +42,7 @@ ava('.post() should insert an active execute card', async (test) => {
 ava('.post() should set a present timestamp', async (test) => {
 	const currentDate = new Date()
 
-	const card = await events.post(test.context.jellyfish, test.context.session, {
+	const card = await events.post(test.context.context, test.context.jellyfish, test.context.session, {
 		id: '414f2345-4f5e-4571-820f-28a49731733d',
 		action: '57692206-8da2-46e1-91c9-159b2c6928ef',
 		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
@@ -57,7 +57,7 @@ ava('.post() should set a present timestamp', async (test) => {
 })
 
 ava('.post() should not use a passed id', async (test) => {
-	const card = await events.post(test.context.jellyfish, test.context.session, {
+	const card = await events.post(test.context.context, test.context.jellyfish, test.context.session, {
 		id: '8fd7be57-4f68-4faf-bbc6-200a7c62c41a',
 		action: '57692206-8da2-46e1-91c9-159b2c6928ef',
 		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
@@ -72,7 +72,7 @@ ava('.post() should not use a passed id', async (test) => {
 })
 
 ava('.post() should fail if the action is a slug', async (test) => {
-	await test.throwsAsync(events.post(test.context.jellyfish, test.context.session, {
+	await test.throwsAsync(events.post(test.context.context, test.context.jellyfish, test.context.session, {
 		id: '414f2345-4f5e-4571-820f-28a49731733d',
 		action: 'action-create-card',
 		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
@@ -85,7 +85,7 @@ ava('.post() should fail if the action is a slug', async (test) => {
 })
 
 ava('.post() should fail if no result error', async (test) => {
-	await test.throwsAsync(events.post(test.context.jellyfish, test.context.session, {
+	await test.throwsAsync(events.post(test.context.context, test.context.jellyfish, test.context.session, {
 		id: '414f2345-4f5e-4571-820f-28a49731733d',
 		action: 'action-create-card',
 		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
@@ -97,7 +97,7 @@ ava('.post() should fail if no result error', async (test) => {
 })
 
 ava('.post() should use the passed timestamp in the payload', async (test) => {
-	const card = await events.post(test.context.jellyfish, test.context.session, {
+	const card = await events.post(test.context.context, test.context.jellyfish, test.context.session, {
 		id: '414f2345-4f5e-4571-820f-28a49731733d',
 		action: '57692206-8da2-46e1-91c9-159b2c6928ef',
 		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
@@ -113,7 +113,7 @@ ava('.post() should use the passed timestamp in the payload', async (test) => {
 })
 
 ava('.post() should allow an object result', async (test) => {
-	const card = await events.post(test.context.jellyfish, test.context.session, {
+	const card = await events.post(test.context.context, test.context.jellyfish, test.context.session, {
 		id: '414f2345-4f5e-4571-820f-28a49731733d',
 		action: '57692206-8da2-46e1-91c9-159b2c6928ef',
 		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
@@ -132,7 +132,7 @@ ava('.post() should allow an object result', async (test) => {
 })
 
 ava.cb('.wait() should return when a certain execute event is inserted', (test) => {
-	events.wait(test.context.jellyfish, test.context.session, {
+	events.wait(test.context.context, test.context.jellyfish, test.context.session, {
 		id: '414f2345-4f5e-4571-820f-28a49731733d',
 		action: '57692206-8da2-46e1-91c9-159b2c6928ef',
 		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
@@ -142,7 +142,7 @@ ava.cb('.wait() should return when a certain execute event is inserted', (test) 
 	}).catch(test.end)
 
 	Bluebird.delay(500).then(() => {
-		return events.post(test.context.jellyfish, test.context.session, {
+		return events.post(test.context.context, test.context.jellyfish, test.context.session, {
 			id: '414f2345-4f5e-4571-820f-28a49731733d',
 			action: '57692206-8da2-46e1-91c9-159b2c6928ef',
 			card: '033d9184-70b2-4ec9-bc39-9a249b186422',
@@ -156,7 +156,7 @@ ava.cb('.wait() should return when a certain execute event is inserted', (test) 
 })
 
 ava('.wait() should return if the card already exists', async (test) => {
-	await events.post(test.context.jellyfish, test.context.session, {
+	await events.post(test.context.context, test.context.jellyfish, test.context.session, {
 		id: '414f2345-4f5e-4571-820f-28a49731733d',
 		action: '57692206-8da2-46e1-91c9-159b2c6928ef',
 		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
@@ -167,7 +167,7 @@ ava('.wait() should return if the card already exists', async (test) => {
 		data: '414f2345-4f5e-4571-820f-28a49731733d'
 	})
 
-	const card = await events.wait(test.context.jellyfish, test.context.session, {
+	const card = await events.wait(test.context.context, test.context.jellyfish, test.context.session, {
 		id: '414f2345-4f5e-4571-820f-28a49731733d',
 		action: '57692206-8da2-46e1-91c9-159b2c6928ef',
 		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
@@ -181,7 +181,7 @@ ava('.wait() should return if the card already exists', async (test) => {
 })
 
 ava('.wait() should be able to access the event payload', async (test) => {
-	await events.post(test.context.jellyfish, test.context.session, {
+	await events.post(test.context.context, test.context.jellyfish, test.context.session, {
 		id: '414f2345-4f5e-4571-820f-28a49731733d',
 		action: '57692206-8da2-46e1-91c9-159b2c6928ef',
 		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
@@ -192,7 +192,7 @@ ava('.wait() should be able to access the event payload', async (test) => {
 		data: '414f2345-4f5e-4571-820f-28a49731733d'
 	})
 
-	const card = await events.wait(test.context.jellyfish, test.context.session, {
+	const card = await events.wait(test.context.context, test.context.jellyfish, test.context.session, {
 		id: '414f2345-4f5e-4571-820f-28a49731733d',
 		action: '57692206-8da2-46e1-91c9-159b2c6928ef',
 		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
@@ -209,7 +209,7 @@ ava('.wait() should be able to access the event payload', async (test) => {
 })
 
 ava.cb('.wait() should ignore cards that do not match the id', (test) => {
-	events.wait(test.context.jellyfish, test.context.session, {
+	events.wait(test.context.context, test.context.jellyfish, test.context.session, {
 		id: 'b9999e1e-e707-4124-98b4-f4bcf1643b4c',
 		action: '57692206-8da2-46e1-91c9-159b2c6928ef',
 		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
@@ -220,7 +220,7 @@ ava.cb('.wait() should ignore cards that do not match the id', (test) => {
 	}).catch(test.end)
 
 	Bluebird.delay(500).then(async () => {
-		await events.post(test.context.jellyfish, test.context.session, {
+		await events.post(test.context.context, test.context.jellyfish, test.context.session, {
 			id: '414f2345-4f5e-4571-820f-28a49731733d',
 			action: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			card: '033d9184-70b2-4ec9-bc39-9a249b186422',
@@ -231,7 +231,7 @@ ava.cb('.wait() should ignore cards that do not match the id', (test) => {
 			data: '414f2345-4f5e-4571-820f-28a49731733d'
 		})
 
-		await events.post(test.context.jellyfish, test.context.session, {
+		await events.post(test.context.context, test.context.jellyfish, test.context.session, {
 			id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			action: '033d9184-70b2-4ec9-bc39-9a249b186422',
 			card: '414f2345-4f5e-4571-820f-28a49731733d',
@@ -242,7 +242,7 @@ ava.cb('.wait() should ignore cards that do not match the id', (test) => {
 			data: '414f2345-4f5e-4571-820f-28a49731733d'
 		})
 
-		await events.post(test.context.jellyfish, test.context.session, {
+		await events.post(test.context.context, test.context.jellyfish, test.context.session, {
 			id: 'b9999e1e-e707-4124-98b4-f4bcf1643b4c',
 			action: '57692206-8da2-46e1-91c9-159b2c6928ef',
 			card: '033d9184-70b2-4ec9-bc39-9a249b186422',
@@ -256,7 +256,7 @@ ava.cb('.wait() should ignore cards that do not match the id', (test) => {
 })
 
 ava('.getLastExecutionEvent() should return the last execution event given one event', async (test) => {
-	const card = await events.post(test.context.jellyfish, test.context.session, {
+	const card = await events.post(test.context.context, test.context.jellyfish, test.context.session, {
 		id: 'b9999e1e-e707-4124-98b4-f4bcf1643b4c',
 		action: '57692206-8da2-46e1-91c9-159b2c6928ef',
 		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
@@ -269,6 +269,7 @@ ava('.getLastExecutionEvent() should return the last execution event given one e
 	})
 
 	const event = await events.getLastExecutionEvent(
+		test.context.context,
 		test.context.jellyfish,
 		test.context.session,
 		'cb3523c5-b37d-41c8-ae32-9e7cc9309165')
@@ -297,7 +298,7 @@ ava('.getLastExecutionEvent() should return the last execution event given one e
 })
 
 ava('.getLastExecutionEvent() should return the last event given a matching and non-matching event', async (test) => {
-	const card1 = await events.post(test.context.jellyfish, test.context.session, {
+	const card1 = await events.post(test.context.context, test.context.jellyfish, test.context.session, {
 		id: 'b9999e1e-e707-4124-98b4-f4bcf1643b4c',
 		action: '57692206-8da2-46e1-91c9-159b2c6928ef',
 		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
@@ -309,7 +310,7 @@ ava('.getLastExecutionEvent() should return the last event given a matching and 
 		data: '414f2345-4f5e-4571-820f-28a49731733d'
 	})
 
-	await events.post(test.context.jellyfish, test.context.session, {
+	await events.post(test.context.context, test.context.jellyfish, test.context.session, {
 		id: '414f2345-4f5e-4571-820f-28a49731733d',
 		action: 'e4fe3f19-13ae-4421-b28f-6507af78d1f6',
 		card: '5201aae8-c937-4f92-940d-827d857bbcc2',
@@ -322,6 +323,7 @@ ava('.getLastExecutionEvent() should return the last event given a matching and 
 	})
 
 	const event = await events.getLastExecutionEvent(
+		test.context.context,
 		test.context.jellyfish,
 		test.context.session,
 		'cb3523c5-b37d-41c8-ae32-9e7cc9309165')
@@ -350,7 +352,7 @@ ava('.getLastExecutionEvent() should return the last event given a matching and 
 })
 
 ava('.getLastExecutionEvent() should return the last execution event given two matching events', async (test) => {
-	const card1 = await events.post(test.context.jellyfish, test.context.session, {
+	const card1 = await events.post(test.context.context, test.context.jellyfish, test.context.session, {
 		id: '414f2345-4f5e-4571-820f-28a49731733d',
 		action: '57692206-8da2-46e1-91c9-159b2c6928ef',
 		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
@@ -362,7 +364,7 @@ ava('.getLastExecutionEvent() should return the last execution event given two m
 		data: '414f2345-4f5e-4571-820f-28a49731733d'
 	})
 
-	await events.post(test.context.jellyfish, test.context.session, {
+	await events.post(test.context.context, test.context.jellyfish, test.context.session, {
 		id: 'b9999e1e-e707-4124-98b4-f4bcf1643b4c',
 		action: 'e4fe3f19-13ae-4421-b28f-6507af78d1f6',
 		card: '5201aae8-c937-4f92-940d-827d857bbcc2',
@@ -375,6 +377,7 @@ ava('.getLastExecutionEvent() should return the last execution event given two m
 	})
 
 	const event = await events.getLastExecutionEvent(
+		test.context.context,
 		test.context.jellyfish,
 		test.context.session,
 		'cb3523c5-b37d-41c8-ae32-9e7cc9309165')
@@ -403,7 +406,7 @@ ava('.getLastExecutionEvent() should return the last execution event given two m
 })
 
 ava('.getLastExecutionEvent() should return null given no matching event', async (test) => {
-	await events.post(test.context.jellyfish, test.context.session, {
+	await events.post(test.context.context, test.context.jellyfish, test.context.session, {
 		id: 'b9999e1e-e707-4124-98b4-f4bcf1643b4c',
 		action: 'e4fe3f19-13ae-4421-b28f-6507af78d1f6',
 		card: '5201aae8-c937-4f92-940d-827d857bbcc2',
@@ -416,6 +419,7 @@ ava('.getLastExecutionEvent() should return null given no matching event', async
 	})
 
 	const event = await events.getLastExecutionEvent(
+		test.context.context,
 		test.context.jellyfish,
 		test.context.session,
 		'cb3523c5-b37d-41c8-ae32-9e7cc9309165')
@@ -442,6 +446,7 @@ ava('.getLastExecutionEvent() should only consider execute cards', async (test) 
 	})
 
 	const event = await events.getLastExecutionEvent(
+		test.context.context,
 		test.context.jellyfish,
 		test.context.session,
 		'cb3523c5-b37d-41c8-ae32-9e7cc9309165')

@@ -75,7 +75,7 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 
 		await test.context.flush(test.context.session)
 		const result = await queue.waitResults(
-			test.context.jellyfish, test.context.session, request)
+			test.context.context, test.context.jellyfish, test.context.session, request)
 		test.false(result.error)
 		cards.push(...result.data)
 	}

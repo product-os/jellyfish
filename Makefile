@@ -20,12 +20,6 @@ NODE_DEBUG_ARGS = $(NODE_ARGS) \
 									--stack_trace_on_illegal \
 									--abort_on_stack_or_string_length_overflow
 
-ifdef AVA_PATH
-LOGLEVEL ?= warn
-else
-LOGLEVEL ?= info
-endif
-
 API_URL ?= http://localhost:8000/
 DB_HOST ?= localhost
 DB_PORT ?= 28015
@@ -102,6 +96,7 @@ storybook-dev:
 report-coverage:
 	./node_modules/.bin/nyc --reporter=text --reporter=lcov --reporter=json report
 
+test: LOGLEVEL = warn
 test:
 	node scripts/scrub-test-databases.js
 	NODE_ENV=$(NODE_ENV) \
@@ -188,6 +183,7 @@ test-e2e:
 
 build: build-ui
 
+start-server: LOGLEVEL = info
 start-server:
 	DEBUG=$(NODE_DEBUG) \
 	DB_HOST=$(DB_HOST) \
@@ -205,6 +201,7 @@ start-server:
 docker-compose.local.yml:
 	echo "version: \"3\"\n# Use this file to make local changes for the docker-compose setup" > docker-compose.local.yml
 
+start-dev-server: LOGLEVEL = info
 start-dev-server:
 	NODE_ENV=debug \
 	docker-compose -f docker-compose.dev.yml -f docker-compose.local.yml up
