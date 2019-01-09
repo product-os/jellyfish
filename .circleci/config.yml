@@ -75,8 +75,8 @@ jobs:
           name: Unit Tests 2
           command: make test-unit COVERAGE=1
       - run:
-          name: Unit Tests 3
-          command: make test-unit COVERAGE=1
+          name: Unit Tests (with debug logs)
+          command: make test-unit COVERAGE=1 LOGLEVEL=debug
       - run:
           name: Backend Tests Without Cache
           command: make test COVERAGE=1 DISABLE_CACHE=1 FILES=./test/unit/core/backend.spec.js
@@ -109,8 +109,8 @@ jobs:
           name: Integration Tests 2
           command: make test-integration COVERAGE=1
       - run:
-          name: Integration Tests 3
-          command: make test-integration COVERAGE=1
+          name: Integration Tests (with debug logs)
+          command: make test-integration COVERAGE=1 LOGLEVEL=debug
       - run:
           name: Sync Integration Tests Without Tokens
           command: make test-integration-sync COVERAGE=1 INTEGRATION_GITHUB_TOKEN= INTEGRATION_FRONT_TOKEN=

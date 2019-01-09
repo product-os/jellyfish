@@ -16,6 +16,7 @@
 
 const Bluebird = require('bluebird')
 const request = require('request')
+const randomstring = require('randomstring')
 const helpers = require('../../unit/core/helpers')
 const {
 	createServer
@@ -31,6 +32,9 @@ exports.server = {
 		test.context.session = test.context.jellyfish.sessions.admin
 		test.context.guestSession = test.context.jellyfish.sessions.guest
 		test.context.generateRandomSlug = helpers.generateRandomSlug
+		test.context.context = {
+			id: `SERVER-TEST-${randomstring.generate(20)}`
+		}
 
 		test.context.http = (method, uri, payload, headers) => {
 			return new Bluebird((resolve, reject) => {
