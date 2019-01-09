@@ -10,21 +10,21 @@ RUN npm ci
 COPY . /usr/src/app
 RUN make build
 
-FROM resinci/jellyfish-test as test
+#FROM resinci/jellyfish-test as test
 
-WORKDIR /usr/src/app
+#WORKDIR /usr/src/app
 
-COPY --from=base /usr/src/app /usr/src/app
+#COPY --from=base /usr/src/app /usr/src/app
 
 RUN rethinkdb --version && \
 		rethinkdb --daemon --bind all && \
 		make lint && \
 		make test-unit COVERAGE=0
 
-FROM node:dubnium-jessie as runtime
+#FROM node:dubnium-jessie as runtime
 
-WORKDIR /usr/src/app
+#WORKDIR /usr/src/app
 
-COPY --from=base /usr/src/app /usr/src/app
+#COPY --from=base /usr/src/app /usr/src/app
 
 CMD [ "make", "start-server" ]
