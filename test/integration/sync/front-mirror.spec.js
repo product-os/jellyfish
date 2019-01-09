@@ -201,6 +201,34 @@ ava.afterEach(helpers.mirror.afterEach)
 // Skip all tests if there is no Front token
 const avaTest = TOKEN ? ava.serial : ava.serial.skip
 
+avaTest('should be able to tag an unassigned conversation', async (test) => {
+	const supportThread = await test.context.startSupportThread(
+		`My Issue ${randomstring.generate()}`,
+		`Foo Bar ${randomstring.generate()}`)
+
+	const id = _.last(supportThread.data.mirrors[0].split('/'))
+	await test.context.front.conversation.update({
+		conversation_id: id,
+		tags: [],
+		assignee_id: null
+	})
+
+	await test.context.sdk.card.update(supportThread.id, {
+		type: supportThread.type,
+		tags: [ 'foo' ]
+	})
+
+	const result = await wait(() => {
+		return test.context.front.conversation.get({
+			conversation_id: id
+		})
+	}, (conversation) => {
+		return conversation.tags.length > 0
+	})
+
+	test.deepEqual(_.map(result.tags, 'name'), [ 'foo' ])
+})
+
 avaTest('should be able to comment on an inbound message', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		`My Issue ${randomstring.generate()}`,
