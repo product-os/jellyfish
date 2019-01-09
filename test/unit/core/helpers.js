@@ -46,7 +46,10 @@ exports.backend = {
 		})
 
 		test.context.generateRandomSlug = exports.generateRandomSlug
-		test.context.context = null
+		test.context.context = {
+			id: 'CORE-TEST'
+		}
+
 		await test.context.backend.connect(test.context.context)
 	},
 	afterEach: async (test) => {

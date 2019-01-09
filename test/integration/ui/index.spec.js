@@ -24,7 +24,9 @@ const WAIT_OPTS = {
 }
 
 const context = {
-	context: require('../../../lib/logger/context').systemContext
+	context: {
+		id: 'UI-INTEGRATION'
+	}
 }
 
 // Useful for debugging failed tests
