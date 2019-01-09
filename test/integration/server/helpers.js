@@ -23,7 +23,10 @@ const {
 
 exports.server = {
 	beforeEach: async (test) => {
-		test.context.server = await createServer()
+		test.context.server = await createServer({
+			id: 'SERVER'
+		})
+
 		test.context.jellyfish = test.context.server.jellyfish
 		test.context.session = test.context.jellyfish.sessions.admin
 		test.context.guestSession = test.context.jellyfish.sessions.guest

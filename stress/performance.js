@@ -22,7 +22,9 @@ const run = async () => {
 
 	const {
 		port
-	} =	await createServer()
+	} =	await createServer({
+		id: 'SERVER'
+	})
 
 	// Since AVA tests are running concurrently, set up an SDK instance that will
 	// communicate with whichever port this server instance bound to

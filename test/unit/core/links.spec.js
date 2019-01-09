@@ -22,7 +22,7 @@ const helpers = require('./helpers')
 ava.beforeEach(async (test) => {
 	await helpers.kernel.beforeEach(test)
 
-	test.context.context = {
+	test.context.linkContext = {
 		getElementsById: async (id, options) => {
 			return test.context.backend.getElementsById(test.context.context, id, options)
 		}
@@ -37,7 +37,7 @@ ava('.evaluate() should return an empty array if the link is unknown', async (te
 		type: 'card'
 	})
 
-	const results = await links.evaluate(test.context.context, input, 'foo bar baz', {
+	const results = await links.evaluate(test.context.linkContext, input, 'foo bar baz', {
 		type: 'object'
 	})
 
@@ -70,7 +70,7 @@ ava('.evaluate(is attached to) should return an empty array if the target does n
 		}
 	})
 
-	const results = await links.evaluate(test.context.context, input, 'is attached to', {
+	const results = await links.evaluate(test.context.linkContext, input, 'is attached to', {
 		type: 'object'
 	})
 
@@ -111,7 +111,7 @@ ava('.evaluate(is attached to) should return an empty array if the target exists
 		}
 	})
 
-	const results = await links.evaluate(test.context.context, input, 'is attached to', {
+	const results = await links.evaluate(test.context.linkContext, input, 'is attached to', {
 		type: 'object',
 		required: [ 'data' ],
 		properties: {
@@ -170,7 +170,7 @@ ava('.evaluate(is attached to) should return the declared target properties', as
 		type: input.type
 	})
 
-	const results = await links.evaluate(test.context.context, linkedInput, 'is attached to', {
+	const results = await links.evaluate(test.context.linkContext, linkedInput, 'is attached to', {
 		type: 'object',
 		required: [ 'data' ],
 		properties: {
@@ -240,7 +240,7 @@ ava('.evaluate(is attached to) should return the whole target if additionalPrope
 		type: input.type
 	})
 
-	const results = await links.evaluate(test.context.context, linkedInput, 'is attached to', {
+	const results = await links.evaluate(test.context.linkContext, linkedInput, 'is attached to', {
 		type: 'object',
 		additionalProperties: true,
 		required: [ 'data' ],
@@ -296,7 +296,7 @@ ava('.evaluate(has attached element) should return an empty array if the card ha
 		type: 'card'
 	})
 
-	const results = await links.evaluate(test.context.context, input, 'has attached element', {
+	const results = await links.evaluate(test.context.linkContext, input, 'has attached element', {
 		type: 'object'
 	})
 
@@ -395,7 +395,7 @@ ava('.evaluate(has attached element) should return matching elements', async (te
 		type: input.type
 	})
 
-	const results = await links.evaluate(test.context.context, linkedInput, 'has attached element', {
+	const results = await links.evaluate(test.context.linkContext, linkedInput, 'has attached element', {
 		type: 'object',
 		required: [ 'id', 'data' ],
 		properties: {
@@ -467,7 +467,7 @@ ava('.evaluateCard() should return one link of one type given one match', async 
 		type: input.type
 	})
 
-	const results = await links.evaluateCard(test.context.context, linkedInput, {
+	const results = await links.evaluateCard(test.context.linkContext, linkedInput, {
 		'is attached to': {
 			type: 'object',
 			required: [ 'data' ],
@@ -592,7 +592,7 @@ ava('.evaluateCard() should return multiple cards per link', async (test) => {
 		type: input.type
 	})
 
-	const results = await links.evaluateCard(test.context.context, linkedInput, {
+	const results = await links.evaluateCard(test.context.linkContext, linkedInput, {
 		'has attached element': {
 			type: 'object',
 			required: [ 'id', 'data' ],
@@ -710,7 +710,7 @@ ava('.evaluateCard() should return false if one link is unsatisfied', async (tes
 		type: input.type
 	})
 
-	const results = await links.evaluateCard(test.context.context, linkedInput, {
+	const results = await links.evaluateCard(test.context.linkContext, linkedInput, {
 		'has attached element': {
 			type: 'object'
 		},
