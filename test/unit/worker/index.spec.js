@@ -455,7 +455,7 @@ ava('.execute() should execute a triggered action', async (test) => {
 	const actionCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'action-create-card')
 
-	test.context.worker.setTriggers([
+	test.context.worker.setTriggers(test.context.context, [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			filter: {
@@ -554,7 +554,7 @@ ava('.execute() should not execute a triggered action with a future start date',
 	const actionCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'action-create-card')
 
-	test.context.worker.setTriggers([
+	test.context.worker.setTriggers(test.context.context, [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			filter: {
@@ -616,7 +616,7 @@ ava('.execute() should execute a triggered action with a top level anyOf', async
 	const actionCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'action-create-card')
 
-	test.context.worker.setTriggers([
+	test.context.worker.setTriggers(test.context.context, [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			filter: {
@@ -1076,7 +1076,7 @@ ava('.getTriggers() should initially be an empty array', (test) => {
 })
 
 ava('.setTriggers() should be able to set a trigger with a start date', (test) => {
-	test.context.worker.setTriggers([
+	test.context.worker.setTriggers(test.context.context, [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: 'action-foo-bar',
@@ -1112,7 +1112,7 @@ ava('.setTriggers() should be able to set a trigger with a start date', (test) =
 })
 
 ava('.setTriggers() should be able to set a trigger with an interval', (test) => {
-	test.context.worker.setTriggers([
+	test.context.worker.setTriggers(test.context.context, [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: 'action-foo-bar',
@@ -1142,7 +1142,7 @@ ava('.setTriggers() should be able to set a trigger with an interval', (test) =>
 })
 
 ava('.setTriggers() should be able to set triggers', (test) => {
-	test.context.worker.setTriggers([
+	test.context.worker.setTriggers(test.context.context, [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: 'action-foo-bar',
@@ -1200,7 +1200,7 @@ ava('.setTriggers() should be able to set triggers', (test) => {
 })
 
 ava('.setTriggers() should not store extra properties', (test) => {
-	test.context.worker.setTriggers([
+	test.context.worker.setTriggers(test.context.context, [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			foo: 'bar',
@@ -1237,7 +1237,7 @@ ava('.setTriggers() should not store extra properties', (test) => {
 
 ava('.setTriggers() should throw if no interval nor filter', (test) => {
 	test.throws(() => {
-		test.context.worker.setTriggers([
+		test.context.worker.setTriggers(test.context.context, [
 			{
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
@@ -1253,7 +1253,7 @@ ava('.setTriggers() should throw if no interval nor filter', (test) => {
 
 ava('.setTriggers() should throw if both interval and filter', (test) => {
 	test.throws(() => {
-		test.context.worker.setTriggers([
+		test.context.worker.setTriggers(test.context.context, [
 			{
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
@@ -1273,7 +1273,7 @@ ava('.setTriggers() should throw if both interval and filter', (test) => {
 
 ava('.setTriggers() should throw if no id', (test) => {
 	test.throws(() => {
-		test.context.worker.setTriggers([
+		test.context.worker.setTriggers(test.context.context, [
 			{
 				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 				type: 'card',
@@ -1291,7 +1291,7 @@ ava('.setTriggers() should throw if no id', (test) => {
 
 ava('.setTriggers() should throw if id is not a string', (test) => {
 	test.throws(() => {
-		test.context.worker.setTriggers([
+		test.context.worker.setTriggers(test.context.context, [
 			{
 				id: 999,
 				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
@@ -1310,7 +1310,7 @@ ava('.setTriggers() should throw if id is not a string', (test) => {
 
 ava('.setTriggers() should throw if interval is not a string', (test) => {
 	test.throws(() => {
-		test.context.worker.setTriggers([
+		test.context.worker.setTriggers(test.context.context, [
 			{
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
@@ -1327,7 +1327,7 @@ ava('.setTriggers() should throw if interval is not a string', (test) => {
 
 ava('.setTriggers() should throw if no action', (test) => {
 	test.throws(() => {
-		test.context.worker.setTriggers([
+		test.context.worker.setTriggers(test.context.context, [
 			{
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
@@ -1345,7 +1345,7 @@ ava('.setTriggers() should throw if no action', (test) => {
 
 ava('.setTriggers() should throw if action is not a string', (test) => {
 	test.throws(() => {
-		test.context.worker.setTriggers([
+		test.context.worker.setTriggers(test.context.context, [
 			{
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				action: 1,
@@ -1364,7 +1364,7 @@ ava('.setTriggers() should throw if action is not a string', (test) => {
 
 ava('.setTriggers() should throw if no card', (test) => {
 	test.throws(() => {
-		test.context.worker.setTriggers([
+		test.context.worker.setTriggers(test.context.context, [
 			{
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				action: 'action-create-card',
@@ -1382,7 +1382,7 @@ ava('.setTriggers() should throw if no card', (test) => {
 
 ava('.setTriggers() should throw if card is not a string', (test) => {
 	test.throws(() => {
-		test.context.worker.setTriggers([
+		test.context.worker.setTriggers(test.context.context, [
 			{
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				action: 'action-create-card',
@@ -1401,7 +1401,7 @@ ava('.setTriggers() should throw if card is not a string', (test) => {
 
 ava('.setTriggers() should throw if no filter', (test) => {
 	test.throws(() => {
-		test.context.worker.setTriggers([
+		test.context.worker.setTriggers(test.context.context, [
 			{
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				action: 'action-create-card',
@@ -1417,7 +1417,7 @@ ava('.setTriggers() should throw if no filter', (test) => {
 
 ava('.setTriggers() should throw if filter is not an object', (test) => {
 	test.throws(() => {
-		test.context.worker.setTriggers([
+		test.context.worker.setTriggers(test.context.context, [
 			{
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				action: 'action-create-card',
@@ -1434,7 +1434,7 @@ ava('.setTriggers() should throw if filter is not an object', (test) => {
 
 ava('.setTriggers() should throw if no arguments', (test) => {
 	test.throws(() => {
-		test.context.worker.setTriggers([
+		test.context.worker.setTriggers(test.context.context, [
 			{
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				action: 'action-create-card',
@@ -1450,7 +1450,7 @@ ava('.setTriggers() should throw if no arguments', (test) => {
 
 ava('.setTriggers() should throw if arguments is not an object', (test) => {
 	test.throws(() => {
-		test.context.worker.setTriggers([
+		test.context.worker.setTriggers(test.context.context, [
 			{
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				action: 'action-create-card',
@@ -1466,8 +1466,8 @@ ava('.setTriggers() should throw if arguments is not an object', (test) => {
 })
 
 ava('.tick() should not enqueue actions if there are no triggers', async (test) => {
-	test.context.worker.setTriggers([])
-	await test.context.worker.tick(test.context.session, {
+	test.context.worker.setTriggers(test.context.context, [])
+	await test.context.worker.tick(test.context.context, test.context.session, {
 		currentDate: new Date()
 	})
 
@@ -1476,7 +1476,7 @@ ava('.tick() should not enqueue actions if there are no triggers', async (test) 
 })
 
 ava('.tick() should not enqueue actions if there are no time triggers', async (test) => {
-	test.context.worker.setTriggers([
+	test.context.worker.setTriggers(test.context.context, [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: 'action-foo-bar',
@@ -1491,7 +1491,7 @@ ava('.tick() should not enqueue actions if there are no time triggers', async (t
 		}
 	])
 
-	await test.context.worker.tick(test.context.session, {
+	await test.context.worker.tick(test.context.context, test.context.session, {
 		currentDate: new Date()
 	})
 
@@ -1500,7 +1500,7 @@ ava('.tick() should not enqueue actions if there are no time triggers', async (t
 })
 
 ava('.tick() should not enqueue an action if there is a time trigger with a future start date', async (test) => {
-	test.context.worker.setTriggers([
+	test.context.worker.setTriggers(test.context.context, [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: 'action-foo-bar',
@@ -1514,7 +1514,7 @@ ava('.tick() should not enqueue an action if there is a time trigger with a futu
 		}
 	])
 
-	await test.context.worker.tick(test.context.session, {
+	await test.context.worker.tick(test.context.context, test.context.session, {
 		currentDate: new Date('2018-08-05T12:00:00.000Z')
 	})
 
@@ -1525,13 +1525,13 @@ ava('.tick() should not enqueue an action if there is a time trigger with a futu
 ava('.tick() should evaluate the current timestamp in a time triggered action', async (test) => {
 	const actionCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'action-create-card')
-	test.context.worker.setTriggers([
+	test.context.worker.setTriggers(test.context.context, [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: actionCard.slug,
 			type: 'card',
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			ctx: test.context.execContext,
+			context: test.context.context,
 			interval: 'PT1D',
 			startDate: '2018-08-05T12:00:00.000Z',
 			arguments: {
@@ -1547,7 +1547,7 @@ ava('.tick() should evaluate the current timestamp in a time triggered action', 
 		}
 	])
 
-	await test.context.worker.tick(test.context.session, {
+	await test.context.worker.tick(test.context.context, test.context.session, {
 		currentDate: new Date('2018-08-06T12:00:00.000Z')
 	})
 
@@ -1563,13 +1563,13 @@ ava('.tick() should evaluate the current timestamp in a time triggered action', 
 ava('.tick() should enqueue an action if there is a time trigger with a past start date', async (test) => {
 	const actionCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'action-create-card')
-	test.context.worker.setTriggers([
+	test.context.worker.setTriggers(test.context.context, [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: actionCard.slug,
 			type: 'card',
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			ctx: test.context.execContext,
+			context: test.context.context,
 			interval: 'PT1D',
 			startDate: '2018-08-05T12:00:00.000Z',
 			arguments: {
@@ -1581,7 +1581,7 @@ ava('.tick() should enqueue an action if there is a time trigger with a past sta
 		}
 	])
 
-	await test.context.worker.tick(test.context.session, {
+	await test.context.worker.tick(test.context.context, test.context.session, {
 		currentDate: new Date('2018-08-06T12:00:00.000Z')
 	})
 
@@ -1593,7 +1593,7 @@ ava('.tick() should enqueue an action if there is a time trigger with a past sta
 		id: request.id,
 		card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		type: 'card',
-		ctx: test.context.worker.getExecutionContext().execContext,
+		context: test.context.context,
 		action: actionCard,
 		actor: test.context.actor.id,
 		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
@@ -1611,13 +1611,13 @@ ava('.tick() should enqueue an action if there is a time trigger with a past sta
 ava('.tick() should enqueue an action if there is a time trigger with a present start date', async (test) => {
 	const actionCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'action-create-card')
-	test.context.worker.setTriggers([
+	test.context.worker.setTriggers(test.context.context, [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: actionCard.slug,
 			type: 'card',
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			ctx: test.context.execContext,
+			context: test.context.context,
 			interval: 'PT1D',
 			startDate: '2018-08-05T12:00:00.000Z',
 			arguments: {
@@ -1629,7 +1629,7 @@ ava('.tick() should enqueue an action if there is a time trigger with a present 
 		}
 	])
 
-	await test.context.worker.tick(test.context.session, {
+	await test.context.worker.tick(test.context.context, test.context.session, {
 		currentDate: new Date('2018-08-05T12:00:00.000Z')
 	})
 
@@ -1641,7 +1641,7 @@ ava('.tick() should enqueue an action if there is a time trigger with a present 
 		id: request.id,
 		card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		type: 'card',
-		ctx: test.context.worker.getExecutionContext().execContext,
+		context: test.context.context,
 		action: actionCard,
 		actor: test.context.actor.id,
 		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
@@ -1659,13 +1659,13 @@ ava('.tick() should enqueue an action if there is a time trigger with a present 
 ava('.tick() should not enqueue an action using a past timestamp', async (test) => {
 	const actionCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'action-create-card')
-	test.context.worker.setTriggers([
+	test.context.worker.setTriggers(test.context.context, [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: actionCard.slug,
 			type: 'card',
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			ctx: test.context.execContext,
+			context: test.context.context,
 			interval: 'PT1H',
 			startDate: '2050-08-05T12:00:00.000Z',
 			arguments: {
@@ -1677,7 +1677,7 @@ ava('.tick() should not enqueue an action using a past timestamp', async (test) 
 		}
 	])
 
-	await test.context.worker.tick(test.context.session, {
+	await test.context.worker.tick(test.context.context, test.context.session, {
 		currentDate: new Date('2050-08-06T12:00:00.000Z')
 	})
 
@@ -1692,13 +1692,13 @@ ava('.tick() should not enqueue an action using a past timestamp', async (test) 
 ava('.tick() should enqueue two actions if there are two time triggers with a past start dates', async (test) => {
 	const actionCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'action-create-card')
-	test.context.worker.setTriggers([
+	test.context.worker.setTriggers(test.context.context, [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: actionCard.slug,
 			type: 'card',
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			ctx: test.context.execContext,
+			context: test.context.context,
 			interval: 'PT1D',
 			startDate: '2018-08-05T12:00:00.000Z',
 			arguments: {
@@ -1713,7 +1713,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 			action: actionCard.slug,
 			type: 'card',
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			ctx: test.context.execContext,
+			context: test.context.context,
 			interval: 'PT2D',
 			startDate: '2018-08-04T12:00:00.000Z',
 			arguments: {
@@ -1725,7 +1725,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 		}
 	])
 
-	await test.context.worker.tick(test.context.session, {
+	await test.context.worker.tick(test.context.context, test.context.session, {
 		currentDate: new Date('2018-08-06T12:00:00.000Z')
 	})
 
@@ -1742,7 +1742,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 			id: requests[0].id,
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			type: 'card',
-			ctx: test.context.worker.getExecutionContext().execContext,
+			context: test.context.context,
 			action: actionCard,
 			actor: test.context.actor.id,
 			originator: '673bc300-88f7-4376-92ed-d32543d69429',
@@ -1759,7 +1759,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 			id: requests[1].id,
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			type: 'card',
-			ctx: test.context.worker.getExecutionContext().execContext,
+			context: test.context.context,
 			action: actionCard,
 			actor: test.context.actor.id,
 			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',

@@ -56,6 +56,7 @@ ava('.getRequest() should return null if the filter only has a type but there is
 		data: {}
 	}, {
 		currentDate: new Date(),
+		context: test.context.context,
 		matchCard: {
 			type: 'card',
 			version: '1.0.0',
@@ -106,6 +107,7 @@ ava('.getRequest() should return a request if the filter only has a type and the
 		data: {}
 	}, {
 		currentDate: date,
+		context: test.context.context,
 		matchCard: {
 			type: 'foo',
 			version: '1.0.0',
@@ -122,6 +124,7 @@ ava('.getRequest() should return a request if the filter only has a type and the
 		currentDate: date,
 		card: typeCard.id,
 		type: typeCard.type,
+		context: test.context.context,
 		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 		arguments: {
 			properties: {
@@ -167,6 +170,7 @@ ava('.getRequest() should return a request if the input match card is null', asy
 		data: {}
 	}, {
 		currentDate: date,
+		context: test.context.context,
 		matchCard: null
 	})
 
@@ -174,6 +178,7 @@ ava('.getRequest() should return a request if the input match card is null', asy
 		action: 'action-create-card',
 		currentDate: date,
 		card: typeCard.id,
+		context: test.context.context,
 		type: typeCard.type,
 		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 		arguments: {
@@ -212,6 +217,7 @@ ava('.getRequest() should return a request if both the input card and the match 
 
 	const request = await triggers.getRequest(trigger, null, {
 		currentDate: date,
+		context: test.context.context,
 		matchCard: null
 	})
 
@@ -219,6 +225,7 @@ ava('.getRequest() should return a request if both the input card and the match 
 		action: 'action-create-card',
 		currentDate: date,
 		card: typeCard.id,
+		context: test.context.context,
 		type: typeCard.type,
 		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 		arguments: {
@@ -257,6 +264,7 @@ ava('.getRequest() should return null if referencing source when no input card',
 
 	const request = await triggers.getRequest(trigger, null, {
 		currentDate: new Date(),
+		context: test.context.context,
 		matchCard: null
 	})
 
@@ -310,6 +318,7 @@ ava('.getRequest() should return a request given a complex matching filter', asy
 		}
 	}, {
 		currentDate: date,
+		context: test.context.context,
 		matchCard: {
 			type: 'foo',
 			version: '1.0.0',
@@ -327,6 +336,7 @@ ava('.getRequest() should return a request given a complex matching filter', asy
 		action: 'action-create-card',
 		currentDate: date,
 		card: typeCard.id,
+		context: test.context.context,
 		type: typeCard.type,
 		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 		arguments: {
@@ -381,6 +391,7 @@ ava('.getRequest() should return null given a complex non-matching filter', asyn
 		}
 	}, {
 		currentDate: new Date(),
+		context: test.context.context,
 		matchCard: {
 			type: 'foo',
 			version: '1.0.0',
@@ -450,6 +461,7 @@ ava('.getRequest() should parse source templates in the triggered action argumen
 		}
 	}, {
 		currentDate: date,
+		context: test.context.context,
 		matchCard: {
 			type: 'card',
 			version: '1.0.0',
@@ -469,6 +481,7 @@ ava('.getRequest() should parse source templates in the triggered action argumen
 		action: 'action-create-card',
 		card: typeCard.id,
 		type: typeCard.type,
+		context: test.context.context,
 		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 		currentDate: date,
 		arguments: {
@@ -519,6 +532,7 @@ ava('.getRequest() should parse timestamp templates in the triggered action argu
 		}
 	}, {
 		currentDate,
+		context: test.context.context,
 		matchCard: {
 			type: 'card',
 			version: '1.0.0',
@@ -538,6 +552,7 @@ ava('.getRequest() should parse timestamp templates in the triggered action argu
 		action: 'action-create-card',
 		currentDate,
 		card: typeCard.id,
+		context: test.context.context,
 		type: typeCard.type,
 		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 		arguments: {
@@ -599,6 +614,7 @@ ava('.getRequest() should return null if one of the templates is unsatisfied', a
 		}
 	}, {
 		currentDate: new Date(),
+		context: test.context.context,
 		matchCard: {
 			type: 'card',
 			version: '1.0.0',
