@@ -85,7 +85,7 @@ lint:
 	shellcheck ./scripts/*.sh ./scripts/ci/*.sh ./.circleci/*.sh ./deploy-templates/*.sh
 
 build-ui:
-	NODE_ENV=production SENTRY_DSN_UI=$(SENTRY_DSN_UI) ./node_modules/.bin/webpack
+	NODE_ENV=$(NODE_ENV) SENTRY_DSN_UI=$(SENTRY_DSN_UI) ./node_modules/.bin/webpack
 
 dev-ui:
 	NODE_ENV=dev API_URL=$(API_URL) ./node_modules/.bin/webpack-dev-server --color
