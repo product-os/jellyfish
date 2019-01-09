@@ -25,7 +25,7 @@ const WAIT_OPTS = {
 
 const context = {
 	context: {
-		id: 'UI-INTEGRATION'
+		id: `UI-INTEGRATION-TEST-${randomstring.generate(20)}`
 	}
 }
 

@@ -1380,6 +1380,7 @@ ava('.run() should create a card', async (test) => {
 		'action-create-card': actionLibrary['action-create-card']
 	}, {
 		actor: test.context.actor.id,
+		context: test.context.context,
 		action: actionCard,
 		timestamp: '2018-07-04T00:22:52.247Z',
 		card: typeCard.id,
@@ -1416,6 +1417,7 @@ ava('.run() should throw if the input card does not exist', async (test) => {
 	}, {
 		actor: test.context.actor.id,
 		action: actionCard,
+		context: test.context.context,
 		timestamp: '2018-07-04T00:22:52.247Z',
 		card: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
 		type: 'card',
@@ -1438,6 +1440,7 @@ ava('.run() should throw if the actor does not exist', async (test) => {
 	}, {
 		actor: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
 		action: actionCard,
+		context: test.context.context,
 		timestamp: '2018-07-04T00:22:52.247Z',
 		card: typeCard.id,
 		type: typeCard.type,
@@ -1458,6 +1461,7 @@ ava('.run() should throw if input card does not match the action filter', async 
 	}, {
 		actor: test.context.actor.id,
 		action: actionCard,
+		context: test.context.context,
 		timestamp: '2018-07-04T00:22:52.247Z',
 		card: actionCard.id,
 		type: actionCard.type,
@@ -1480,6 +1484,7 @@ ava('.run() should throw if the arguments do not match the action', async (test)
 	}, {
 		actor: test.context.actor.id,
 		action: actionCard,
+		context: test.context.context,
 		timestamp: '2018-07-04T00:22:52.247Z',
 		card: typeCard.id,
 		type: typeCard.type,
@@ -1498,6 +1503,7 @@ ava('.run() should throw if the action has no corresponding implementation', asy
 	await test.throwsAsync(executor.run(test.context.jellyfish, test.context.session, test.context.actionContext, {}, {
 		actor: test.context.actor.id,
 		action: actionCard,
+		context: test.context.context,
 		timestamp: '2018-07-04T00:22:52.247Z',
 		card: typeCard.id,
 		type: typeCard.type,

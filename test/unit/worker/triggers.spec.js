@@ -684,7 +684,7 @@ ava('.getTypeTriggers() should return a trigger card with a matching type', asyn
 
 	const updatedCard = await test.context.jellyfish.getCardById(test.context.context, test.context.session, insertedCards[0].id)
 
-	const result = await triggers.getTypeTriggers(test.context.jellyfish, test.context.session, 'foo')
+	const result = await triggers.getTypeTriggers(test.context.context, test.context.jellyfish, test.context.session, 'foo')
 	test.deepEqual(result, [
 		Object.assign({}, updatedCard, {
 			id: result[0].id
@@ -743,7 +743,7 @@ ava('.getTypeTriggers() should not return inactive cards', async (test) => {
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session, card)
 	}
 
-	const result = await triggers.getTypeTriggers(test.context.jellyfish, test.context.session, 'foo')
+	const result = await triggers.getTypeTriggers(test.context.context, test.context.jellyfish, test.context.session, 'foo')
 	test.deepEqual(result, [])
 })
 
@@ -838,7 +838,7 @@ ava('.getTypeTriggers() should ignore non-matching cards', async (test) => {
 		return test.context.jellyfish.insertCard(test.context.context, test.context.session, card)
 	})
 
-	const result = await triggers.getTypeTriggers(test.context.jellyfish, test.context.session, 'foo')
+	const result = await triggers.getTypeTriggers(test.context.context, test.context.jellyfish, test.context.session, 'foo')
 
 	const updatedCard = await test.context.jellyfish.getCardById(test.context.context, test.context.session, insertedCards[0].id)
 
@@ -940,7 +940,7 @@ ava('.getTypeTriggers() should ignore cards that are not triggered actions', asy
 		return test.context.jellyfish.insertCard(test.context.context, test.context.session, card)
 	})
 
-	const result = await triggers.getTypeTriggers(test.context.jellyfish, test.context.session, 'foo')
+	const result = await triggers.getTypeTriggers(test.context.context, test.context.jellyfish, test.context.session, 'foo')
 
 	const updatedCard = await test.context.jellyfish.getCardById(test.context.context, test.context.session, insertedCards[0].id)
 	test.deepEqual(result, [
@@ -999,7 +999,7 @@ ava('.getTypeTriggers() should not return triggered actions not associated with 
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session, card)
 	}
 
-	const result = await triggers.getTypeTriggers(test.context.jellyfish, test.context.session, 'foo')
+	const result = await triggers.getTypeTriggers(test.context.context, test.context.jellyfish, test.context.session, 'foo')
 	test.deepEqual(result, [])
 })
 

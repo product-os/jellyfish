@@ -47,7 +47,7 @@ exports.backend = {
 
 		test.context.generateRandomSlug = exports.generateRandomSlug
 		test.context.context = {
-			id: 'CORE-TEST'
+			id: `CORE-TEST-${randomstring.generate(20)}`
 		}
 
 		await test.context.backend.connect(test.context.context)
