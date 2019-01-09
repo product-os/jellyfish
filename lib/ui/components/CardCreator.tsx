@@ -4,7 +4,10 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
+	Flex,
 	Modal,
+	Select,
+	Txt
 } from 'rendition';
 import { Form } from 'rendition/dist/unstable';
 import * as skhema from 'skhema';
@@ -22,6 +25,7 @@ const slugify = (value: string) => {
 
 interface CardCreatorState {
 	newCardModel: {[key: string]: any };
+	selectedTypeTarget: Type;
 }
 
 interface CardCreatorProps {
@@ -30,7 +34,7 @@ interface CardCreatorProps {
 	done: (card: Card | null) => void;
 	cancel: () => void;
 	onCreate?: () => void;
-	type: Type;
+	type: Type | Type[];
 	actions: typeof actionCreators;
 }
 
@@ -40,16 +44,18 @@ class Base extends React.Component<CardCreatorProps, CardCreatorState> {
 
 		this.state = {
 			newCardModel: this.props.seed,
+			selectedTypeTarget: _.isArray(this.props.type) ? _.first(this.props.type)! : this.props.type,
 		};
 	}
 
 	public addEntry = () => {
-		if (!this.props.type) {
+		const { selectedTypeTarget } = this.state;
+		if (!selectedTypeTarget) {
 			return;
 		}
 
 		const newCard: Partial<Card> = removeUndefinedArrayItems({
-			type: this.props.type.slug,
+			type: selectedTypeTarget.slug,
 			...this.state.newCardModel,
 		});
 
@@ -102,7 +108,14 @@ class Base extends React.Component<CardCreatorProps, CardCreatorState> {
 		this.setState({ newCardModel: model });
 	}
 
+	public handleTypeTargetSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		this.setState({
+			selectedTypeTarget: _.find(_.castArray(this.props.type), { slug: e.target.value })!,
+		});
+	}
+
 	public render(): React.ReactNode {
+		const { selectedTypeTarget } = this.state;
 		if (!this.props.show) {
 			return null;
 		}
@@ -119,7 +132,7 @@ class Base extends React.Component<CardCreatorProps, CardCreatorState> {
 		}, {});
 
 		// Omit known computed values from the schema
-		const schema = _.omit((this.props.type as any).data.schema, [
+		const schema = _.omit((selectedTypeTarget as any).data.schema, [
 			'properties.data.properties.mentionsUser',
 			'properties.data.properties.alertsUser',
 		]);
@@ -134,7 +147,7 @@ class Base extends React.Component<CardCreatorProps, CardCreatorState> {
 		return (
 			<Modal
 				w={1060}
-				title={`Add ${this.props.type.name}`}
+				title={`Add ${selectedTypeTarget.name}`}
 				cancel={this.props.cancel}
 				done={this.addEntry}
 				primaryButtonProps={{
@@ -142,6 +155,26 @@ class Base extends React.Component<CardCreatorProps, CardCreatorState> {
 					disabled: !isValid,
 				}}
 			>
+				{_.isArray(this.props.type) && (
+					<Flex align="center" pb={3}>
+						<Txt>Create a new</Txt>
+
+						<Select
+							ml={2}
+							value={selectedTypeTarget.slug}
+							onChange={this.handleTypeTargetSelect}
+						>
+							{this.props.type.map(t => {
+								return (
+									<option value={t.slug} key={t.slug}>
+										{t.name || t.slug}
+									</option>
+								);
+							})}
+						</Select>
+					</Flex>
+				)}
+
 				<Form
 					uiSchema={uiSchema}
 					schema={schema}
