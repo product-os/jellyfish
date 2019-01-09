@@ -92,7 +92,7 @@ ava('.hasCard() id = yes (exists), slug = yes (exists)', async (test) => {
 		version: '1.0.0'
 	})
 
-	test.true(await utils.hasCard(test.context.jellyfish, test.context.session, {
+	test.true(await utils.hasCard(test.context.context, test.context.jellyfish, test.context.session, {
 		id: card.id,
 		slug: 'foo-bar'
 	}))
@@ -105,7 +105,7 @@ ava('.hasCard() id = yes (exists), slug = yes (not exist)', async (test) => {
 		version: '1.0.0'
 	})
 
-	test.true(await utils.hasCard(test.context.jellyfish, test.context.session, {
+	test.true(await utils.hasCard(test.context.context, test.context.jellyfish, test.context.session, {
 		id: card.id,
 		slug: 'foo-bar'
 	}))
@@ -118,14 +118,14 @@ ava('.hasCard() id = yes (not exist), slug = yes (exists)', async (test) => {
 		version: '1.0.0'
 	})
 
-	test.true(await utils.hasCard(test.context.jellyfish, test.context.session, {
+	test.true(await utils.hasCard(test.context.context, test.context.jellyfish, test.context.session, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		slug: 'foo-bar'
 	}))
 })
 
 ava('.hasCard() id = yes (not exist), slug = yes (not exist)', async (test) => {
-	test.false(await utils.hasCard(test.context.jellyfish, test.context.session, {
+	test.false(await utils.hasCard(test.context.context, test.context.jellyfish, test.context.session, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		slug: 'foo-bar'
 	}))
@@ -138,13 +138,13 @@ ava('.hasCard() id = no, slug = yes (exists)', async (test) => {
 		version: '1.0.0'
 	})
 
-	test.true(await utils.hasCard(test.context.jellyfish, test.context.session, {
+	test.true(await utils.hasCard(test.context.context, test.context.jellyfish, test.context.session, {
 		slug: 'foo-bar'
 	}))
 })
 
 ava('.hasCard() id = no, slug = yes (not exist)', async (test) => {
-	test.false(await utils.hasCard(test.context.jellyfish, test.context.session, {
+	test.false(await utils.hasCard(test.context.context, test.context.jellyfish, test.context.session, {
 		slug: 'foo-bar'
 	}))
 })

@@ -20,14 +20,11 @@ NODE_DEBUG_ARGS = $(NODE_ARGS) \
 									--stack_trace_on_illegal \
 									--abort_on_stack_or_string_length_overflow
 
-# Default to warn on tests
-ifdef CI
-LOGLEVEL ?= warn
-endif
 ifdef AVA_PATH
 LOGLEVEL ?= warn
-endif
+else
 LOGLEVEL ?= info
+endif
 
 API_URL ?= http://localhost:8000/
 DB_HOST ?= localhost
