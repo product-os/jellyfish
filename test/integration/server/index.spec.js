@@ -573,7 +573,7 @@ ava.serial('should be able to post a GitHub event without a signature', async (t
 	test.false(result.response.error)
 
 	const requestResult = await queue.waitResults(
-		test.context.jellyfish, test.context.session, result.response.data)
+		test.context.context, test.context.jellyfish, test.context.session, result.response.data)
 
 	test.false(requestResult.error)
 	const card = await test.context.jellyfish.getCardById(test.context.context,
@@ -624,7 +624,7 @@ ava.serial('should take a GitHub event with a valid signature', async (test) => 
 	test.false(result.response.error)
 
 	const requestResult = await queue.waitResults(
-		test.context.jellyfish, test.context.session, result.response.data)
+		test.context.context, test.context.jellyfish, test.context.session, result.response.data)
 
 	test.false(requestResult.error)
 	const card = await test.context.jellyfish.getCardById(test.context.context,
