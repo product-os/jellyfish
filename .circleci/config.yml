@@ -178,6 +178,24 @@ jobs:
           name: Parallel Core Inserts (previous)
           command: node stress/core/insert-parallel.js
 
+  # UI tests seem to contain most of the flaky tests
+  # Lets really make sure they are stable
+  flaky_ui_tests:
+    <<: *job_defaults
+
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: .
+
+      - run:
+          name: Start RethinkDB
+          command: rethinkdb --daemon --bind all
+      - run:
+          name: Flaky UI Tests
+          command: ./scripts/flaky-ui-tests.sh
+
   results:
     <<: *job_defaults
 
@@ -239,6 +257,11 @@ workflows:
                     - build
                 <<: *workflow_filter
 
+            - flaky_ui_tests:
+                requires:
+                    - build
+                <<: *workflow_filter
+
             - stress_tests:
                 requires:
                     - build
@@ -249,6 +272,7 @@ workflows:
                   - unit_tests
                   - integration_tests
                   - integration_tests_production
+                  - flaky_ui_tests
                 <<: *workflow_filter
 
             - eslint_jellyfish:
