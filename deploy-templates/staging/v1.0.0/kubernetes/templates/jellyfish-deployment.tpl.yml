@@ -29,6 +29,7 @@ spec:
             port: 8000
           initialDelaySeconds: 2
           periodSeconds: 2
+          failureThreshold: 30
         env:
         - name: DB_HOST
           value: rethinkdb
