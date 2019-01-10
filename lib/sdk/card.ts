@@ -23,8 +23,8 @@ import { isUUID } from './utils';
 // A map of link names and their synonymous form
 const linkNameMap = {
 	'is attached to': 'has attached element',
-	'scratchpad entry was used in support thread': 'support thread used scratchpad entry',
-	'support thread used scratchpad entry': 'scratchpad entry was used in support thread',
+	'support thread is attached to support issue': 'support thread has attached support issue',
+	'support thread has attached support issue': 'support thread is attached to support issue',
 	'support thread has attached issue': 'issue is attached to support thread',
 	'support thread has attached symptom': 'symptom is attached to support thread',
 	'architecture topic has attached issue': 'issue is attached to architecture topic',

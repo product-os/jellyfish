@@ -145,7 +145,7 @@ interface CardProps extends RendererProps {
 }
 
 interface CardState {
-	linkedScratchpadEntries: Card[];
+	linkedSupportIssues: Card[];
 	showStatuses: boolean;
 	showSummaries: boolean;
 }
@@ -155,7 +155,7 @@ class Base extends React.Component<CardProps, CardState> {
 		super(props);
 
 		this.state = {
-			linkedScratchpadEntries: [],
+			linkedSupportIssues: [],
 			showStatuses: false,
 			showSummaries: false,
 		};
@@ -166,7 +166,7 @@ class Base extends React.Component<CardProps, CardState> {
 	public loadLinks(id: string): void  {
 		sdk.query({
 			$$links: {
-				'scratchpad entry was used in support thread': {
+				'support thread is attached to support issue': {
 					type: 'object',
 					additionalProperties: true,
 				},
@@ -183,7 +183,7 @@ class Base extends React.Component<CardProps, CardState> {
 			.then(([ result ]) => {
 				if (result) {
 					this.setState({
-						linkedScratchpadEntries: _.get(result, [ 'links', 'scratchpad entry was used in support thread' ]),
+						linkedSupportIssues: _.get(result, [ 'links', 'support thread is attached to support issue' ]),
 					});
 				}
 			});
@@ -376,7 +376,7 @@ class Base extends React.Component<CardProps, CardState> {
 					)}
 
 
-					{_.map(this.state.linkedScratchpadEntries, (entry) => {
+					{_.map(this.state.linkedSupportIssues, (entry) => {
 						return (
 							<Link mr={2} href={`/#${entry.id}`}>{entry.name}</Link>
 						);
