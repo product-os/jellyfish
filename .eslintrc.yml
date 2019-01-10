@@ -416,7 +416,7 @@ rules:
   jsdoc/newline-after-description:
     - error
   jsdoc/require-example:
-    - error
+    - off
   jsdoc/require-hyphen-before-param-description:
     - error
   jsdoc/require-param:
