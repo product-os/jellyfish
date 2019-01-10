@@ -46,13 +46,11 @@
               "description": "Can this information be made publicly available?",
               "type": "boolean"
             },
-            "problem": {
-              "title": "Problem",
+            "Problem": {
               "type": "string",
               "format": "markdown"
             },
-            "solution": {
-              "title": "Solution",
+            "Solution": {
               "type": "string",
               "format": "markdown"
             }

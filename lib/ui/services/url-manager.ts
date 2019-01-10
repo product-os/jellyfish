@@ -14,7 +14,7 @@ const getCurrentPathFromUrl = () =>
 	window.location.hash.replace(/^#\//, '');
 
 export const createPermaLink = (card: Card) => {
-	return `${window.location.origin}/#/${card.type}${PATH_SEPARATOR}${card.id}`;
+	return `${window.location.origin}/#/${card.id}`;
 };
 
 export const setPathFromState = (state: StoreState) => {
@@ -54,6 +54,10 @@ export const setChannelsFromPath = (path?: string) => {
 		} else {
 			cardType = parts[0];
 			target = parts[1];
+		}
+
+		if (cardType === 'scratchpad-entry') {
+			cardType = 'support-issue';
 		}
 
 		const existingChannel = _.find(channels, (channel) =>
