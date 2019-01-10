@@ -198,9 +198,9 @@ ava.serial('.query() should be able to see previously restricted cards after an 
 
 	const entry = await jellyfish.insertCard(test.context.context, test.context.session, {
 		markers: [ orgCard.slug ],
-		type: 'scratchpad-entry',
+		type: 'support-issue',
 		slug: test.context.generateRandomSlug({
-			prefix: 'scratchpad-entry'
+			prefix: 'support-issue'
 		}),
 		version: '1.0.0',
 		name: 'Test entry'

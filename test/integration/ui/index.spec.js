@@ -150,25 +150,25 @@ ava.serial('should stop users from seeing messages attached to cards they can\'t
 
 	await page.reload()
 	await macros.waitForThenClickSelector(page, '.home-channel__group-toggle--org-balena')
-	await macros.waitForThenClickSelector(page, '.home-channel__item--view-scratchpad')
-	await page.waitForSelector('.column--view-scratchpad')
-	await macros.waitForThenClickSelector(page, '.btn--add-scratchpad-entry')
+	await macros.waitForThenClickSelector(page, '.home-channel__item--view-all-support-issues')
+	await page.waitForSelector('.column--view-all-support-issues')
+	await macros.waitForThenClickSelector(page, '.btn--add-support-issue')
 
 	await page.waitForSelector('.rendition-form__field--root_name', WAIT_OPTS)
 	await macros.setInputValue(
 		page,
 		'.rendition-form__field--root_name input',
-		`Test scratchpad entry ${randomstring.generate()}`
+		`Test support issue ${randomstring.generate()}`
 	)
 
 	// Submit the form
 	await page.click('.card-create-modal__submit')
 
-	await page.waitForSelector('.column--scratchpad-entry')
+	await page.waitForSelector('.column--support-issue')
 
 	const messageText = `My new message: ${randomstring.generate()}`
 
-	await macros.createChatMessage(page, '.column--scratchpad-entry', messageText)
+	await macros.createChatMessage(page, '.column--support-issue', messageText)
 
 	await macros.logout(page)
 
