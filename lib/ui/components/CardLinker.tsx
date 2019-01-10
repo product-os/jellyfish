@@ -165,7 +165,7 @@ export class CardLinker extends React.Component<CardLinkerProps, CardLinkerState
 		} = this.state;
 
 		const availableTypes = types.filter(t => {
-			return LINKS[card.type].hasOwnProperty(t.slug);
+			return LINKS[card.type] && LINKS[card.type].hasOwnProperty(t.slug);
 		});
 
 		const linkTypeTargets = availableTypes.map((item) => ({
