@@ -7,7 +7,7 @@ import {
 	setChannelsFromPath,
 	setPathFromState,
 } from '../services/url-manager';
-import { getDefaultState, ifNotInTestEnv } from './common';
+import { getDefaultState } from './common';
 import { STORAGE_KEY } from './constants';
 import { sdk as jellyfishSdk } from './sdk';
 import { actionCreators, actions, createJellyfishStore, selectors, StoreState } from './store';
@@ -19,7 +19,7 @@ export const analytics = new Analytics({
 	token: ANALYTICS_TOKEN,
 });
 
-const load = () => Bluebird.try(ifNotInTestEnv(() => {
+const load = () => Bluebird.try(() => {
 	debug('LOADING STATE FROM STORAGE');
 	return localForage.getItem<StoreState>(STORAGE_KEY)
 
@@ -55,7 +55,7 @@ const load = () => Bluebird.try(ifNotInTestEnv(() => {
 			store.subscribe(() => setPathFromState(store.getState()));
 		}
 	});
-}));
+});
 
 load()
 	.then(() => {
