@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 import { applyMiddleware, combineReducers, createStore, Middleware } from 'redux';
 import thunk from 'redux-thunk';
 import { debug } from '../services/helpers';
-import { Action, getDefaultState, ifNotInTestEnv } from './common';
+import { Action, getDefaultState } from './common';
 import { STORAGE_KEY } from './constants';
 import {
 	core,
@@ -31,11 +31,11 @@ export interface StoreState {
 // In memory storage should be used as a fallback if localStorage isn't
 // available for some reason. This functionality is waiting on:
 // https://github.com/localForage/localForage/pull/721
-ifNotInTestEnv(() => localForage.setDriver(localForage.LOCALSTORAGE))();
+localForage.setDriver(localForage.LOCALSTORAGE);
 
-const save = ifNotInTestEnv((state: StoreState) => {
+const save = (state: StoreState) => {
 	localForage.setItem(STORAGE_KEY, state);
-});
+};
 
 const rootReducer = combineReducers<StoreState>({
 	core,

@@ -40,11 +40,3 @@ export const getDefaultState = (): StoreState => ({
 		activeView: null,
 	},
 });
-
-export const ifNotInTestEnv = (fn: (...args: any[]) => any) => (...args: any[]) => {
-	if (process.env.NODE_ENV === 'test') {
-		return;
-	}
-
-	return fn.call(fn, ...args);
-};
