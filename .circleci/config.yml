@@ -193,8 +193,11 @@ jobs:
           name: Start RethinkDB
           command: rethinkdb --daemon --bind all
       - run:
-          name: Flaky UI Tests
-          command: ./scripts/flaky-ui-tests.sh
+          name: Flaky UI Tests (production bundle)
+          command: make build NODE_ENV=production && ./scripts/flaky-ui-tests.sh
+      - run:
+          name: Flaky UI Tests (debug bundle)
+          command: make build NODE_ENV=test && ./scripts/flaky-ui-tests.sh
 
   results:
     <<: *job_defaults
@@ -205,6 +208,9 @@ jobs:
       - attach_workspace:
           at: .
 
+      - run:
+          name: Webpack Bundle Report
+          command: make build-ui NODE_ENV=test && mkdir -p /tmp/test-results && cp webpack-bundle-report.html /tmp/test-results/webpack-bundle-report.html
       - run:
           name: Generate Coverage Results
           command: make --silent report-coverage > COVERAGE && mkdir -p /tmp/test-results && cp -rf coverage /tmp/test-results
