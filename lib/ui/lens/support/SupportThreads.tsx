@@ -11,12 +11,14 @@ import {
 } from 'rendition';
 import styled from 'styled-components';
 import { Card, Lens, RendererProps } from '../../../types';
+import Gravatar from '../../components/Gravatar';
 import { actionCreators, selectors, StoreState } from '../../core/store';
 import {
 	colorHash,
 	createChannel,
 	timeAgo,
 } from '../../services/helpers';
+import { getActor } from '../../services/store-helpers';
 
 const Column = styled(Flex)`
 	height: 100%;
@@ -99,6 +101,8 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 						const messages = _.filter(card.links['has attached element'], { type: 'message' });
 						const lastMessageOrWhisper = _.last(_.filter(card.links['has attached element'], (event) => event.type === 'message' || event.type === 'whisper'));
 
+						const actor = lastMessageOrWhisper ? getActor(lastMessageOrWhisper.data.actor) : null;
+
 						return (
 							<SupportThreadSummaryWrapper
 								key={card.id}
@@ -119,19 +123,28 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 								</Flex>
 								<Txt my={2}>{messages.length} message{messages.length !== 1 && 's'}</Txt>
 								{lastMessageOrWhisper && (
-									<Txt
-										style={{
-											whiteSpace: 'nowrap',
-											overflow: 'hidden',
-											textOverflow: 'ellipsis',
-											border: '1px solid #eee',
-											borderRadius: 10,
-											padding: '8px 16px',
-											background: (lastMessageOrWhisper || {}).type === 'whisper' ? '#eee' : 'white',
-										}}
-									>
-										{_.get(lastMessageOrWhisper, [ 'data', 'payload', 'message' ], '').split('\n').shift()}
-									</Txt>
+									<Flex>
+										<Gravatar
+											small
+											pr={2}
+											email={actor ? actor.email : null}
+										/>
+
+										<Txt
+											style={{
+												whiteSpace: 'nowrap',
+												overflow: 'hidden',
+												textOverflow: 'ellipsis',
+												border: '1px solid #eee',
+												borderRadius: 10,
+												padding: '4px 16px',
+												background: (lastMessageOrWhisper || {}).type === 'whisper' ? '#eee' : 'white',
+												flex: 1,
+											}}
+										>
+											{_.get(lastMessageOrWhisper, [ 'data', 'payload', 'message' ], '').split('\n').shift()}
+										</Txt>
+									</Flex>
 								)}
 							</SupportThreadSummaryWrapper>
 						);

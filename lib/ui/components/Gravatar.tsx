@@ -84,6 +84,14 @@ export default class Gravatar extends React.Component<GravatarProps, GravatarSta
 			);
 		}
 
-		return <Box style={style} {...props}><Icon name="user-circle" /></Box>;
+		style.padding = 4;
+
+		return (
+			<Box {...props}>
+				<Box style={style}>
+					<Icon name="user-circle" />
+				</Box>
+			</Box>
+		);
 	}
 }
