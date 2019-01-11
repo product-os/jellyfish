@@ -154,7 +154,11 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 		created_at: head.created_at
 	}, _.isEmpty)), head)
 
-	const actualTail = _.map(_.sortBy(timeline, tailSort), (card) => {
+	const tailFilter = (card) => {
+		return !testCase.ignoreUpdateEvents || card.type !== 'update'
+	}
+
+	const actualTail = _.map(_.sortBy(_.filter(timeline, tailFilter), tailSort), (card) => {
 		Reflect.deleteProperty(card, 'slug')
 		Reflect.deleteProperty(card, 'links')
 		Reflect.deleteProperty(card, 'markers')
@@ -170,12 +174,12 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 		return card
 	})
 
-	const expectedTail = _.map(_.sortBy(testCase.expected.tail, tailSort), (card, index) => {
+	const expectedTail = _.map(_.sortBy(_.filter(testCase.expected.tail, tailFilter), tailSort), (card, index) => {
 		card.id = _.get(actualTail, [ index, 'id' ])
 		card.data.actor = _.get(actualTail, [ index, 'data', 'actor' ])
 
 		// TODO: This shouldn't be necessary anymore
-		if (testCase.mockTimestamps) {
+		if (integration.source === 'github') {
 			card.data.timestamp = _.get(actualTail, [ index, 'data', 'timestamp' ])
 		}
 
@@ -227,11 +231,17 @@ exports.translate = {
 					await webhookScenario(test, {
 						steps: testCase.steps.slice(slice),
 						offset: slice,
+
+						// If we miss events such as when a head card was archived,
+						// we usually can't know the date this happened, but we can
+						// still apply it with a date approximation. In those cases,
+						// its helpful to omit the update events from the tail checks.
+						ignoreUpdateEvents: slice > 0,
+
 						expected: {
 							head: testCase.expected.head,
 							tail: _.sortBy(testCase.expected.tail, tailSort)
 						},
-						mockTimestamps: slice > 0,
 						name: testCaseName,
 						variant: prefix
 					}, {
