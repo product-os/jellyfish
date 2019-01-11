@@ -1,0 +1,28 @@
+{
+  "_pagination": {
+    "prev": null,
+    "next": null
+  },
+  "_links": {
+    "self": "https://api2.frontapp.com/conversations/cnv_11dvyca/inboxes"
+  },
+  "_results": [
+    {
+      "_links": {
+        "self": "https://api2.frontapp.com/inboxes/inb_2bcq",
+        "related": {
+          "channels": "https://api2.frontapp.com/inboxes/inb_2bcq/channels",
+          "conversations": "https://api2.frontapp.com/inboxes/inb_2bcq/conversations",
+          "teammates": "https://api2.frontapp.com/inboxes/inb_2bcq/teammates",
+          "owner": "https://api2.frontapp.com/teams/tim_mua"
+        }
+      },
+      "id": "inb_2bcq",
+      "name": "Demo Inbox",
+      "is_private": false,
+      "address": "26ww-resin_io_dev@in.frontapp.com",
+      "send_as": "26ww-resin_io_dev@in.frontapp.com",
+      "type": "smtp"
+    }
+  ]
+}
