@@ -1,3 +1,4 @@
+import ColorHash = require('color-hash');
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import * as moment from 'moment';
@@ -387,3 +388,7 @@ export const removeUndefinedArrayItems = (input: any): any => {
 
 	return input;
 };
+
+export const colorHash = _.memoize((input: string): string => {
+	return new ColorHash().hex(input);
+});

@@ -1,4 +1,3 @@
-import ColorHash = require('color-hash');
 import { circularDeepEqual } from 'fast-equals';
 import * as _ from 'lodash';
 import * as Mark from 'mark.js';
@@ -15,12 +14,10 @@ import styled from 'styled-components';
 import { Card } from '../../types';
 import { AuthenticatedImage } from '../components/AuthenticatedImage';
 import { tagStyle } from '../components/Tag';
-import { createPrefixRegExp, formatTimestamp } from '../services/helpers';
+import { colorHash, createPrefixRegExp, formatTimestamp } from '../services/helpers';
 import { getActor } from '../services/store-helpers';
 import Gravatar from './Gravatar';
 
-const colorHash = new ColorHash();
-const threadColor = _.memoize((text: string): string => colorHash.hex(text));
 const tagMatchRE = createPrefixRegExp('@|#|!');
 
 const EventButton = styled.button`
@@ -186,7 +183,7 @@ export class Event extends React.Component<EventProps, EventState> {
 				<EventButton
 					onClick={this.openChannel}
 					style={{
-						borderLeftColor: threadColor(this.getTarget(card).id!),
+						borderLeftColor: colorHash(this.getTarget(card).id!),
 					}}
 				>
 					<Gravatar small email={this.state.actor.email} />

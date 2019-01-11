@@ -6,24 +6,33 @@ import {
 	Box,
 	Flex,
 	Pill,
+	Theme,
 	Txt,
 } from 'rendition';
 import styled from 'styled-components';
-import uuid = require('uuid/v4');
 import { Card, Lens, RendererProps } from '../../../types';
-import { analytics, sdk } from '../../core';
 import { actionCreators, selectors, StoreState } from '../../core/store';
 import {
+	colorHash,
 	createChannel,
-	findUsernameById,
-	getUpdateObjectFromSchema,
-	getViewSchema,
 	timeAgo,
 } from '../../services/helpers';
 
 const Column = styled(Flex)`
 	height: 100%;
 	width: 100%;
+`;
+
+const SupportThreadSummaryWrapper = styled(Box)`
+	border-left-style: solid;
+	border-left-width: 3px;
+	border-bottom: 1px solid #eee;
+	cursor: pointer;
+	transition: background ease-in-out 150ms;
+
+	&:hover {
+		background: ${Theme.colors.gray.light};
+	}
 `;
 
 interface InterleavedState {
@@ -82,24 +91,21 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 				<div
 					style={{
 						flex: 1,
-						paddingLeft: 16,
-						paddingRight: 16,
 						paddingBottom: 16,
 						overflowY: 'auto',
 					}}
 				>
 					{(!!tail && tail.length > 0) && _.map(tail, (card: any) => {
-						const actorId = _.get(_.first(card.links['has attached element']), [ 'data', 'actor' ]);
 						const messages = _.filter(card.links['has attached element'], { type: 'message' });
 						const lastMessageOrWhisper = _.last(_.filter(card.links['has attached element'], (event) => event.type === 'message' || event.type === 'whisper'));
 
-						const actorName = findUsernameById(this.props.allUsers, actorId);
-
 						return (
-							<Box
+							<SupportThreadSummaryWrapper
 								key={card.id}
-								py={2}
-								style={{borderBottom: '1px solid #eee', cursor: 'pointer'}}
+								p={3}
+								style={{
+									borderLeftColor: colorHash(card.id),
+								}}
 								onClick={() => this.openChannel(card.id)}
 							>
 								<Flex justify="space-between">
@@ -107,7 +113,6 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 										{!!card.name && (
 											<Txt bold>{card.name}</Txt>
 										)}
-										<Txt my={2}><strong>{actorName}</strong></Txt>
 									</Box>
 
 									<Txt>{timeAgo(_.get(_.last(card.links['has attached element']), [ 'data', 'timestamp' ]))}</Txt>
@@ -128,7 +133,7 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 										{_.get(lastMessageOrWhisper, [ 'data', 'payload', 'message' ], '').split('\n').shift()}
 									</Txt>
 								)}
-							</Box>
+							</SupportThreadSummaryWrapper>
 						);
 					})}
 				</div>
