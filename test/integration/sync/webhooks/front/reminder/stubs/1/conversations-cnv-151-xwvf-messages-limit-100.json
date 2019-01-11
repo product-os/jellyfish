@@ -1,0 +1,53 @@
+{
+  "_pagination": {
+    "prev": null,
+    "next": null
+  },
+  "_links": {
+    "self": "https://api2.frontapp.com/conversations/cnv_151xwvf/messages?limit=100"
+  },
+  "_results": [
+    {
+      "_links": {
+        "self": "https://api2.frontapp.com/messages/msg_26k77bn",
+        "related": {
+          "conversation": "https://api2.frontapp.com/conversations/cnv_151xwvf"
+        }
+      },
+      "id": "msg_26k77bn",
+      "type": "intercom",
+      "is_inbound": true,
+      "created_at": 1545157973,
+      "blurb": " No worries. I've worked around it for now by pinning to an older base image. ",
+      "body": "<div><p>No worries. I've worked around it for now by pinning to an older base image.</p>\n</div>",
+      "text": "No worries. I've worked around it for now by pinning to an older base image. ",
+      "is_draft": false,
+      "error_type": null,
+      "metadata": {
+        "intercom_url": "https://app.intercom.io/a/apps/yg02r5dz/inbox/conversation/19917193258"
+      },
+      "author": null,
+      "recipients": [
+        {
+          "_links": {
+            "related": {
+              "contact": "https://api2.frontapp.com/contacts/crd_166upl"
+            }
+          },
+          "handle": "57a3a9f3006b38ab3a00004a",
+          "role": "from"
+        },
+        {
+          "_links": {
+            "related": {
+              "contact": "https://api2.frontapp.com/contacts/crd_5gqtnd"
+            }
+          },
+          "handle": "yg02r5dz",
+          "role": "to"
+        }
+      ],
+      "attachments": []
+    }
+  ]
+}

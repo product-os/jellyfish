@@ -1,0 +1,51 @@
+{
+  "_pagination": {
+    "prev": null,
+    "next": null
+  },
+  "_links": {
+    "self": "https://api2.frontapp.com/conversations/cnv_11sgs3f/messages?limit=100"
+  },
+  "_results": [
+    {
+      "_links": {
+        "self": "https://api2.frontapp.com/messages/msg_1y9m7wr",
+        "related": {
+          "conversation": "https://api2.frontapp.com/conversations/cnv_11sgs3f"
+        }
+      },
+      "id": "msg_1y9m7wr",
+      "type": "email",
+      "is_inbound": true,
+      "created_at": 1539209958.154,
+      "blurb": " Test ",
+      "body": "<div>Test</div>\n",
+      "text": "Test\n",
+      "is_draft": false,
+      "error_type": null,
+      "metadata": {},
+      "author": null,
+      "recipients": [
+        {
+          "_links": {
+            "related": {
+              "contact": "https://api2.frontapp.com/contacts/crd_5ef35"
+            }
+          },
+          "handle": "juan@resin.io",
+          "role": "from"
+        },
+        {
+          "_links": {
+            "related": {
+              "contact": null
+            }
+          },
+          "handle": "ei8z-resin_io@in.frontapp.com",
+          "role": "to"
+        }
+      ],
+      "attachments": []
+    }
+  ]
+}
