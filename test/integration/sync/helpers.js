@@ -15,6 +15,7 @@
  */
 
 const nock = require('nock')
+const errio = require('errio')
 const uuid = require('uuid/v4')
 const path = require('path')
 const _ = require('lodash')
@@ -31,7 +32,26 @@ const tailSort = [
 	}
 ]
 
+const requireStub = (basePath, offset, name) => {
+	if (offset === 0) {
+		throw new Error(`Couldn't find stub: ${name}`)
+	}
+
+	const stubPath = path.join(basePath, `${offset}`, `${name}.json`)
+	try {
+		return require(stubPath)
+	} catch (error) {
+		if (error.code === 'MODULE_NOT_FOUND') {
+			return requireStub(basePath, offset - 1, name)
+		}
+
+		throw error
+	}
+}
+
 const webhookScenario = async (test, testCase, integration, stub) => {
+	let webhookOffset = testCase.offset
+
 	await nock(stub.baseUrl)
 		.persist()
 		.get(stub.uriPath)
@@ -41,17 +61,30 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 				return callback(null, [ 401, this.req.headers ])
 			}
 
-			const json = path.join(stub.basePath, testCase.name,
-				testCase.variant, `${_.kebabCase(uri)}.json`)
+			const jsonPath = _.kebabCase(uri)
 			try {
-				return callback(null, [ 200, require(json) ])
+				return callback(null, [
+					200,
+					requireStub(
+						path.join(stub.basePath, testCase.name, 'stubs'),
+						webhookOffset, jsonPath)
+				])
 			} catch (error) {
-				return callback(null, [ 404, json ])
+				return callback(null, [
+					404,
+					{
+						name: jsonPath,
+						error: errio.fromObject(error, {
+							stack: true
+						})
+					}
+				])
 			}
 		})
 
 	const cards = []
 	for (const step of testCase.steps) {
+		webhookOffset += 1
 		const event = await test.context.jellyfish.insertCard(test.context.context,
 			test.context.session, {
 				type: 'external-event',
@@ -193,6 +226,7 @@ exports.translate = {
 				fn(`(${prefix}) ${testCaseName}`, async (test) => {
 					await webhookScenario(test, {
 						steps: testCase.steps.slice(slice),
+						offset: slice,
 						expected: {
 							head: testCase.expected.head,
 							tail: _.sortBy(testCase.expected.tail, tailSort)
