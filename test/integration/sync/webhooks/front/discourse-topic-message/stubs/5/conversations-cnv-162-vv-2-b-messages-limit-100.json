@@ -1,0 +1,129 @@
+{
+  "_pagination": {
+    "prev": null,
+    "next": null
+  },
+  "_links": {
+    "self": "https://api2.frontapp.com/conversations/cnv_162vv2b/messages?"
+  },
+  "_results": [
+    {
+      "_links": {
+        "self": "https://api2.frontapp.com/messages/msg_27f4kqz",
+        "related": {
+          "conversation": "https://api2.frontapp.com/conversations/cnv_162vv2b"
+        }
+      },
+      "id": "msg_27f4kqz",
+      "type": "custom",
+      "is_inbound": false,
+      "created_at": 1545937584.743,
+      "blurb": "",
+      "body": "<p>Test reply</p>\n<a href=\"https://www.balena-cloud.com/?hidden=reply&source=flowdock&flow=rulemotion/public-s-community&thread=Xg6OqQ7h8xYHcWm-y9Z_r4lEgdI&hmac=ed7fd13ddefc1a51af1e79e1092d665478b712e6bf07323ecc2737baaf02b533\" target=\"_blank\" rel=\"noopener noreferrer\"></a>",
+      "text": "Test reply",
+      "is_draft": false,
+      "error_type": null,
+      "metadata": {
+        "headers": {
+          "in_reply_to": "beb231dd601f347c7c733edc4dc849c0@frontapp.com"
+        }
+      },
+      "author": {
+        "_links": {
+          "self": "https://api2.frontapp.com/teammates/tea_grc",
+          "related": {
+            "inboxes": "https://api2.frontapp.com/teammates/tea_grc/inboxes",
+            "conversations": "https://api2.frontapp.com/teammates/tea_grc/conversations"
+          }
+        },
+        "id": "tea_grc",
+        "email": "juan@balena.io",
+        "username": "jviotti",
+        "first_name": "Juan Cruz",
+        "last_name": "Viotti",
+        "is_admin": true,
+        "is_available": true
+      },
+      "recipients": [
+        {
+          "_links": {
+            "related": {
+              "contact": "https://api2.frontapp.com/contacts/crd_2yqwmh"
+            }
+          },
+          "handle": "423a0f350b6f1102",
+          "role": "from"
+        },
+        {
+          "_links": {
+            "related": {
+              "contact": "https://api2.frontapp.com/contacts/crd_8qjg17"
+            }
+          },
+          "handle": "jviotti",
+          "role": "to"
+        }
+      ],
+      "attachments": []
+    },
+    {
+      "_links": {
+        "self": "https://api2.frontapp.com/messages/msg_27f4iuz",
+        "related": {
+          "conversation": "https://api2.frontapp.com/conversations/cnv_162vv2b"
+        }
+      },
+      "id": "msg_27f4iuz",
+      "type": "custom",
+      "is_inbound": false,
+      "created_at": 1545937568.13,
+      "blurb": "",
+      "body": "<p>Ignore me, this is an integrations test!</p>\n<br /><a href=\"https://www.balena-cloud.com/?hidden=reply&source=flowdock&flow=rulemotion/public-s-community&thread=Xg6OqQ7h8xYHcWm-y9Z_r4lEgdI&hmac=3768dadd79ba2608b88d1e4c6daa712568129c4f7f9507a65b3d4ee39c076c34\" target=\"_blank\" rel=\"noopener noreferrer\"></a>",
+      "text": "Ignore me, this is an integrations test!",
+      "is_draft": false,
+      "error_type": null,
+      "metadata": {
+        "headers": {
+          "in_reply_to": null
+        }
+      },
+      "author": {
+        "_links": {
+          "self": "https://api2.frontapp.com/teammates/tea_grc",
+          "related": {
+            "inboxes": "https://api2.frontapp.com/teammates/tea_grc/inboxes",
+            "conversations": "https://api2.frontapp.com/teammates/tea_grc/conversations"
+          }
+        },
+        "id": "tea_grc",
+        "email": "juan@balena.io",
+        "username": "jviotti",
+        "first_name": "Juan Cruz",
+        "last_name": "Viotti",
+        "is_admin": true,
+        "is_available": true
+      },
+      "recipients": [
+        {
+          "_links": {
+            "related": {
+              "contact": "https://api2.frontapp.com/contacts/crd_2yqwmh"
+            }
+          },
+          "handle": "423a0f350b6f1102",
+          "role": "from"
+        },
+        {
+          "_links": {
+            "related": {
+              "contact": "https://api2.frontapp.com/contacts/crd_8qjg17"
+            }
+          },
+          "handle": "jviotti",
+          "role": "to"
+        }
+      ],
+      "attachments": []
+    }
+  ]
+}
