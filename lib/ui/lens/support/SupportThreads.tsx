@@ -112,6 +112,9 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 								}}
 								onClick={() => this.openChannel(card.id)}
 							>
+								{card.data.inbox && (
+									<Pill mb={2} bg={colorHash(card.data.inbox)}>{card.data.inbox}</Pill>
+								)}
 								<Flex justify="space-between">
 									<Box>
 										{!!card.name && (
