@@ -26,7 +26,7 @@ ava.afterEach(helpers.translate.afterEach)
 helpers.translate.scenario(TOKEN ? ava : ava.skip, {
 	integration: require('../../../lib/sync/integrations/front'),
 	scenarios: require('./webhooks/front'),
-	slices: _.range(0, 3),
+	slices: _.range(0, 50),
 	baseUrl: 'https://api2.frontapp.com',
 	stubRegex: /^\/(conversations|contacts)\/.+(\/(messages|inboxes))?$/,
 	source: 'front',
