@@ -66,55 +66,6 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 		this.props.actions.addChannel(newChannel);
 	}
 
-	public addThread = (e: React.MouseEvent<HTMLElement>) => {
-		e.preventDefault();
-
-		const { head } = this.props.channel.data;
-
-		if (!head) {
-			console.warn('.addThread() called, but there is no head card');
-			return;
-		}
-
-		const schema = getViewSchema(head);
-
-		if (!schema) {
-			console.warn('.addThread() called, but there is no view schema available');
-			return;
-		}
-
-		const cardData = getUpdateObjectFromSchema(schema);
-
-		cardData.slug = `thread-${uuid()}`;
-		cardData.type = 'thread';
-		if (!cardData.data) {
-			cardData.data = {};
-		}
-
-		this.setState({ creatingCard: true });
-
-		sdk.card.create(cardData as Card)
-			.then((thread) => {
-				if (thread) {
-					this.openChannel(thread.id);
-				}
-				return null;
-			})
-			.then(() => {
-				analytics.track('element.create', {
-					element: {
-						type: cardData.type,
-					},
-				});
-			})
-			.catch((error) => {
-				this.props.actions.addNotification('danger', error.message);
-			})
-			.finally(() => {
-				this.setState({ creatingCard: false });
-			});
-	}
-
 	public render(): React.ReactNode {
 		const tail: Card[] = _.sortBy(this.props.tail, (element: any) => {
 			return _.get(_.last(element.links['has attached element']), [ 'data', 'timestamp' ]);
