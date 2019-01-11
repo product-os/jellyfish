@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import {
 	Box,
 	Flex,
+	Pill,
 	Txt,
 } from 'rendition';
 import styled from 'styled-components';
@@ -121,6 +122,12 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 
 		return (
 			<Column flexDirection="column">
+				{!!tail && (
+					<Box px={3} pb={2} style={{boxShadow: '0px 1px 3px #eee'}}>
+						<Pill primary>{tail.length} support threads</Pill>
+					</Box>
+				)}
+
 				<div
 					style={{
 						flex: 1,
