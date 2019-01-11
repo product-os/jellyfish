@@ -12,6 +12,7 @@
       {
         "name": "Active cards",
         "schema": {
+
           "type": "object",
           "properties": {
             "active": {

@@ -13,5 +13,8 @@ module.exports = {
         exclude: /node_modules/
       }
     ]
-  }
+  },
+	node: {
+   fs: 'empty'
+	}
 }
