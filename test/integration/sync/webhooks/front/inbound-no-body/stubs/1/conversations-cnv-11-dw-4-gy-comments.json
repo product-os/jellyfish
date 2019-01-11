@@ -1,0 +1,10 @@
+{
+  "_pagination": {
+    "prev": null,
+    "next": null
+  },
+  "_links": {
+    "self": "https://api2.frontapp.com/conversations/cnv_11dw4gy/comments"
+  },
+  "_results": []
+}
