@@ -216,8 +216,32 @@ exports.translate = {
 	},
 
 	scenario: async (ava, suite) => {
+		const getTestCaseOptions = (test) => {
+			return {
+				constructor: suite.integration,
+				source: suite.source,
+				options: Object.assign({
+					context: test.context.context,
+					session: test.context.session,
+					actor: test.context.actor.id
+				}, suite.options)
+			}
+		}
+
+		const stubOptions = {
+			baseUrl: suite.baseUrl,
+			uriPath: suite.stubRegex,
+			basePath: path.join(__dirname, 'webhooks', suite.source),
+			isAuthorized: _.partial(suite.isAuthorized, suite)
+		}
+
 		for (const testCaseName of Object.keys(suite.scenarios)) {
 			const testCase = suite.scenarios[testCaseName]
+			const fn = ava.serial || ava
+			const expected = {
+				head: testCase.expected.head,
+				tail: _.sortBy(testCase.expected.tail, tailSort)
+			}
 
 			for (const slice of suite.slices) {
 				if (testCase.steps.length <= slice) {
@@ -225,7 +249,6 @@ exports.translate = {
 				}
 
 				const prefix = `slice-${slice}`
-				const fn = ava.serial || ava
 
 				fn(`(${prefix}) ${testCaseName}`, async (test) => {
 					await webhookScenario(test, {
@@ -238,27 +261,33 @@ exports.translate = {
 						// its helpful to omit the update events from the tail checks.
 						ignoreUpdateEvents: slice > 0,
 
-						expected: {
-							head: testCase.expected.head,
-							tail: _.sortBy(testCase.expected.tail, tailSort)
-						},
+						expected,
 						name: testCaseName,
 						variant: prefix
-					}, {
-						constructor: suite.integration,
-						source: suite.source,
-						options: Object.assign({
-							context: test.context.context,
-							session: test.context.session,
-							actor: test.context.actor.id
-						}, suite.options)
-					}, {
-						baseUrl: suite.baseUrl,
-						uriPath: suite.stubRegex,
-						basePath: path.join(__dirname, 'webhooks', suite.source),
-						isAuthorized: _.partial(suite.isAuthorized, suite)
-					})
+					}, getTestCaseOptions(test), stubOptions)
 				})
+			}
+
+			// TODO: We should remove this, but lets start with Front
+			if (suite.source !== 'github') {
+				for (const step of _.initial(testCase.steps.slice(1))) {
+					const index = testCase.steps.indexOf(step)
+					const prefix = `omit-${index}`
+
+					// eslint-disable-next-line no-loop-func
+					fn(`(${prefix}) ${testCaseName}`, async (test) => {
+						const steps = _.cloneDeep(testCase.steps)
+						steps.splice(index, 1)
+						await webhookScenario(test, {
+							steps,
+							offset: 0,
+							ignoreUpdateEvents: true,
+							expected,
+							name: testCaseName,
+							variant: prefix
+						}, getTestCaseOptions(test), stubOptions)
+					})
+				}
 			}
 
 			// TODO: Test shuffling the steps
