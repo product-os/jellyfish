@@ -5,24 +5,36 @@ import { bindActionCreators } from 'redux';
 import {
 	Box,
 	Flex,
+	Pill,
+	Theme,
 	Txt,
 } from 'rendition';
 import styled from 'styled-components';
-import uuid = require('uuid/v4');
 import { Card, Lens, RendererProps } from '../../../types';
-import { analytics, sdk } from '../../core';
+import Gravatar from '../../components/Gravatar';
 import { actionCreators, selectors, StoreState } from '../../core/store';
 import {
+	colorHash,
 	createChannel,
-	findUsernameById,
-	getUpdateObjectFromSchema,
-	getViewSchema,
 	timeAgo,
 } from '../../services/helpers';
+import { getActor } from '../../services/store-helpers';
 
 const Column = styled(Flex)`
 	height: 100%;
 	width: 100%;
+`;
+
+const SupportThreadSummaryWrapper = styled(Box)`
+	border-left-style: solid;
+	border-left-width: 3px;
+	border-bottom: 1px solid #eee;
+	cursor: pointer;
+	transition: background ease-in-out 150ms;
+
+	&:hover {
+		background: ${Theme.colors.gray.light};
+	}
 `;
 
 interface InterleavedState {
@@ -65,55 +77,6 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 		this.props.actions.addChannel(newChannel);
 	}
 
-	public addThread = (e: React.MouseEvent<HTMLElement>) => {
-		e.preventDefault();
-
-		const { head } = this.props.channel.data;
-
-		if (!head) {
-			console.warn('.addThread() called, but there is no head card');
-			return;
-		}
-
-		const schema = getViewSchema(head);
-
-		if (!schema) {
-			console.warn('.addThread() called, but there is no view schema available');
-			return;
-		}
-
-		const cardData = getUpdateObjectFromSchema(schema);
-
-		cardData.slug = `thread-${uuid()}`;
-		cardData.type = 'thread';
-		if (!cardData.data) {
-			cardData.data = {};
-		}
-
-		this.setState({ creatingCard: true });
-
-		sdk.card.create(cardData as Card)
-			.then((thread) => {
-				if (thread) {
-					this.openChannel(thread.id);
-				}
-				return null;
-			})
-			.then(() => {
-				analytics.track('element.create', {
-					element: {
-						type: cardData.type,
-					},
-				});
-			})
-			.catch((error) => {
-				this.props.actions.addNotification('danger', error.message);
-			})
-			.finally(() => {
-				this.setState({ creatingCard: false });
-			});
-	}
-
 	public render(): React.ReactNode {
 		const tail: Card[] = _.sortBy(this.props.tail, (element: any) => {
 			return _.get(_.last(element.links['has attached element']), [ 'data', 'timestamp' ]);
@@ -121,56 +84,72 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 
 		return (
 			<Column flexDirection="column">
+				{!!tail && (
+					<Box px={3} pb={2} style={{boxShadow: '0px 1px 3px #eee'}}>
+						<Pill primary>{tail.length} support threads</Pill>
+					</Box>
+				)}
+
 				<div
 					style={{
 						flex: 1,
-						paddingLeft: 16,
-						paddingRight: 16,
 						paddingBottom: 16,
 						overflowY: 'auto',
 					}}
 				>
 					{(!!tail && tail.length > 0) && _.map(tail, (card: any) => {
-						const actorId = _.get(_.first(card.links['has attached element']), [ 'data', 'actor' ]);
 						const messages = _.filter(card.links['has attached element'], { type: 'message' });
 						const lastMessageOrWhisper = _.last(_.filter(card.links['has attached element'], (event) => event.type === 'message' || event.type === 'whisper'));
 
-						const actorName = findUsernameById(this.props.allUsers, actorId);
+						const actor = lastMessageOrWhisper ? getActor(lastMessageOrWhisper.data.actor) : null;
 
 						return (
-							<Box
+							<SupportThreadSummaryWrapper
 								key={card.id}
-								py={2}
-								style={{borderBottom: '1px solid #eee', cursor: 'pointer'}}
+								p={3}
+								style={{
+									borderLeftColor: colorHash(card.id),
+								}}
 								onClick={() => this.openChannel(card.id)}
 							>
+								{card.data.inbox && (
+									<Pill mb={2} bg={colorHash(card.data.inbox)}>{card.data.inbox}</Pill>
+								)}
 								<Flex justify="space-between">
 									<Box>
 										{!!card.name && (
 											<Txt bold>{card.name}</Txt>
 										)}
-										<Txt my={2}><strong>{actorName}</strong></Txt>
 									</Box>
 
 									<Txt>{timeAgo(_.get(_.last(card.links['has attached element']), [ 'data', 'timestamp' ]))}</Txt>
 								</Flex>
 								<Txt my={2}>{messages.length} message{messages.length !== 1 && 's'}</Txt>
 								{lastMessageOrWhisper && (
-									<Txt
-										style={{
-											whiteSpace: 'nowrap',
-											overflow: 'hidden',
-											textOverflow: 'ellipsis',
-											border: '1px solid #eee',
-											borderRadius: 10,
-											padding: '8px 16px',
-											background: (lastMessageOrWhisper || {}).type === 'whisper' ? '#eee' : 'white',
-										}}
-									>
-										{_.get(lastMessageOrWhisper, [ 'data', 'payload', 'message' ], '').split('\n').shift()}
-									</Txt>
+									<Flex>
+										<Gravatar
+											small
+											pr={2}
+											email={actor ? actor.email : null}
+										/>
+
+										<Txt
+											style={{
+												whiteSpace: 'nowrap',
+												overflow: 'hidden',
+												textOverflow: 'ellipsis',
+												border: '1px solid #eee',
+												borderRadius: 10,
+												padding: '4px 16px',
+												background: (lastMessageOrWhisper || {}).type === 'whisper' ? '#eee' : 'white',
+												flex: 1,
+											}}
+										>
+											{_.get(lastMessageOrWhisper, [ 'data', 'payload', 'message' ], '').split('\n').shift()}
+										</Txt>
+									</Flex>
 								)}
-							</Box>
+							</SupportThreadSummaryWrapper>
 						);
 					})}
 				</div>
