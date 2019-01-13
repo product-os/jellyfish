@@ -106,9 +106,6 @@ jobs:
           name: Integration Tests 1
           command: make test-integration COVERAGE=1
       - run:
-          name: Integration Tests 2
-          command: make test-integration COVERAGE=1
-      - run:
           name: Integration Tests (with debug logs)
           command: make test-integration COVERAGE=1 LOGLEVEL=debug
       - run:
