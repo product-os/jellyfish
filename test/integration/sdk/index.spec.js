@@ -61,7 +61,8 @@ ava.serial('.action() should be able to successfully create a new card', async (
 					const: name
 				},
 				type: {
-					type: 'string'
+					type: 'string',
+					const: 'card'
 				}
 			},
 			required: [ 'name' ]
@@ -151,6 +152,10 @@ ava.serial('.query() should run a query on the server', async (test) => {
 			name: {
 				type: 'string',
 				const: name
+			},
+			type: {
+				type: 'string',
+				const: 'card'
 			}
 		},
 		additionalProperties: true
@@ -636,7 +641,9 @@ ava.serial('.card.get() should return a single element', async (test) => {
 
 	await sdk.setAuthToken(test.context.session)
 
-	const result = await sdk.card.get(card.id)
+	const result = await sdk.card.get(card.id, {
+		type: 'card'
+	})
 
 	test.deepEqual(result, card)
 })
@@ -685,7 +692,9 @@ ava.serial('.card.get() should work with slugs', async (test) => {
 
 	await sdk.setAuthToken(test.context.session)
 
-	const result = await sdk.card.get(slug)
+	const result = await sdk.card.get(slug, {
+		type: 'card'
+	})
 
 	test.deepEqual(result, card)
 })
@@ -717,7 +726,8 @@ ava.serial('.card.create() should create a new card', async (test) => {
 					const: slug
 				},
 				type: {
-					type: 'string'
+					type: 'string',
+					const: 'card'
 				}
 			},
 			required: [ 'slug', 'type' ]
@@ -779,7 +789,9 @@ ava.serial('.card.remove() should be able to delete a card', async (test) => {
 	})
 
 	await sdk.card.remove(card.id, card.type)
-	const result = await sdk.card.get(card.id)
+	const result = await sdk.card.get(card.id, {
+		type: 'card'
+	})
 	test.false(result.active)
 })
 

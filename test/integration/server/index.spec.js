@@ -91,7 +91,9 @@ ava.serial('Updating a user should not remove their org membership', async (test
 		additionalProperties: true
 	}
 
-	const balenaOrg = await sdk.card.get('org-balena')
+	const balenaOrg = await sdk.card.get('org-balena', {
+		type: 'org'
+	})
 
 	await test.context.executeThenWait(() => {
 		return sdk.card.link(balenaOrg, user, 'has member')
@@ -122,7 +124,9 @@ ava.serial('Users should not be able to view other users passwords', async (test
 	await sdk.auth.signup(activeUserDetails)
 	await sdk.auth.login(activeUserDetails)
 
-	const fetchedUser = await sdk.card.get(targetUser.id)
+	const fetchedUser = await sdk.card.get(targetUser.id, {
+		type: 'user'
+	})
 
 	test.is(fetchedUser.data.password, undefined)
 })
@@ -206,7 +210,9 @@ ava.serial('.query() should be able to see previously restricted cards after an 
 		name: 'Test entry'
 	})
 
-	const unprivilegedResults = await sdk.card.get(entry.id)
+	const unprivilegedResults = await sdk.card.get(entry.id, {
+		type: 'support-issue'
+	})
 
 	test.deepEqual(unprivilegedResults, null)
 
@@ -229,7 +235,9 @@ ava.serial('.query() should be able to see previously restricted cards after an 
 		override: true
 	})
 
-	const privilegedResults = await sdk.card.get(entry.id)
+	const privilegedResults = await sdk.card.get(entry.id, {
+		type: 'support-issue'
+	})
 	test.deepEqual(privilegedResults.id, entry.id)
 })
 
@@ -298,7 +306,9 @@ ava.serial('timeline cards should reference the correct actor', async (test) => 
 		}))
 	}, waitQuery)
 
-	const card = await sdk.card.getWithTimeline(thread.id)
+	const card = await sdk.card.getWithTimeline(thread.id, {
+		type: 'thread'
+	})
 	test.truthy(card)
 
 	const timelineActors = _.uniq(card.links['has attached element'].map((item) => {
@@ -356,6 +366,7 @@ ava.serial('the guest user should not be able to change other users passwords', 
 	await test.throwsAsync(sdk.card.update(
 		targetUser.id,
 		{
+			type: 'user',
 			data: {
 				password: {
 					hash: '6dafdadfffffffaaaaa'
@@ -396,6 +407,7 @@ ava.serial('users with the "user-community" role should not be able to change ot
 	await test.throwsAsync(sdk.card.update(
 		targetUser.id,
 		{
+			type: 'user',
 			data: {
 				password: {
 					hash: '6dafdadfffffffaaaaa'

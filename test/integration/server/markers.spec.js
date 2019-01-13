@@ -51,7 +51,9 @@ ava.serial('Users should be able to view an element with no markers', async (tes
 		name: 'Test thread'
 	})
 
-	const userReadThread = await sdk.card.get(thread.id)
+	const userReadThread = await sdk.card.get(thread.id, {
+		type: 'thread'
+	})
 
 	test.deepEqual(thread, userReadThread)
 })
@@ -71,7 +73,9 @@ ava.serial('Users should not be able to view an element that has a marker they d
 		markers: [ 'org-private' ]
 	})
 
-	const userReadThread = await sdk.card.get(thread.id)
+	const userReadThread = await sdk.card.get(thread.id, {
+		type: 'thread'
+	})
 
 	test.deepEqual(userReadThread, null)
 })
@@ -112,7 +116,9 @@ ava.serial('Users should be able to view an element if all of their markers matc
 		markers: [ user.slug, orgSlug ]
 	})
 
-	const userReadThread = await sdk.card.get(thread.id)
+	const userReadThread = await sdk.card.get(thread.id, {
+		type: 'thread'
+	})
 
 	test.deepEqual(userReadThread, thread)
 })
@@ -137,7 +143,9 @@ ava.serial(
 			markers: [ user.slug, 'org-balena' ]
 		})
 
-		const userReadThread = await sdk.card.get(thread.id)
+		const userReadThread = await sdk.card.get(thread.id, {
+			type: 'thread'
+		})
 
 		test.deepEqual(userReadThread, null)
 	})
@@ -160,7 +168,9 @@ ava.serial('Users should be able to view an element using compound markers', asy
 		markers: [ `${user.slug}+user-ash` ]
 	})
 
-	const userReadThread = await sdk.card.get(thread.id)
+	const userReadThread = await sdk.card.get(thread.id, {
+		type: 'thread'
+	})
 
 	test.deepEqual(userReadThread, thread)
 })
@@ -190,7 +200,9 @@ ava.serial(
 			markers: [ `${user.slug}+user-ash`, 'org-private' ]
 		})
 
-		const userReadThread = await sdk.card.get(thread.id)
+		const userReadThread = await sdk.card.get(thread.id, {
+			type: 'thread'
+		})
 
 		test.deepEqual(userReadThread, null)
 	})
@@ -234,7 +246,9 @@ ava.serial(
 			markers: [ `${user.slug}+user-ash`, orgSlug ]
 		})
 
-		const userReadThread = await sdk.card.get(thread.id)
+		const userReadThread = await sdk.card.get(thread.id, {
+			type: 'thread'
+		})
 
 		test.deepEqual(userReadThread, thread)
 	})
@@ -257,7 +271,9 @@ ava.serial('Users should be able to view an element using compound markers with 
 		markers: [ `user-ash+${user.slug}+user-misty` ]
 	})
 
-	const userReadThread = await sdk.card.get(thread.id)
+	const userReadThread = await sdk.card.get(thread.id, {
+		type: 'thread'
+	})
 
 	test.deepEqual(userReadThread, thread)
 })
@@ -300,7 +316,9 @@ ava.serial(
 			markers: [ `${orgSlug}+org-private` ]
 		})
 
-		const userReadThread = await sdk.card.get(thread.id)
+		const userReadThread = await sdk.card.get(thread.id, {
+			type: 'thread'
+		})
 
 		test.deepEqual(userReadThread, thread)
 	})

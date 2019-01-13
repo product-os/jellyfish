@@ -56,12 +56,12 @@ export class AuthSdk {
 				throw new Error('No session token found');
 			}
 
-			return this.sdk.card.get(session)
+			return this.sdk.card.get(session, { type: 'session' })
 				.then((result) => {
 					if (!result) {
 						throw new Error('Could not retrieve session data');
 					}
-					return this.sdk.card.get(result.data.actor);
+					return this.sdk.card.get(result.data.actor, { type: 'user' });
 				});
 		});
 	}
@@ -137,7 +137,7 @@ export class AuthSdk {
 	 * 	})
 	 */
 	public loginWithToken(token: string): Bluebird<void> {
-		return this.sdk.card.get(token)
+		return this.sdk.card.get(token, { type: 'session' })
 		.then(() => {
 			this.sdk.setAuthToken(token);
 		});
