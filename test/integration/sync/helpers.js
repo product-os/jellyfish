@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+const combinatorics = require('js-combinatorics')
 const nock = require('nock')
 const errio = require('errio')
 const uuid = require('uuid/v4')
@@ -31,6 +32,36 @@ const tailSort = [
 		return card.type
 	}
 ]
+
+const getVariations = (sequence) => {
+	const invariant = _.last(sequence)
+	return combinatorics
+		.permutationCombination(sequence)
+		.toArray()
+		.filter((combination) => {
+			return _.includes(combination, invariant)
+		})
+
+		// Only consider the ones that preserve ordering for now
+		.filter((combination) => {
+			return _.isEqual(combination, _.clone(combination).sort((left, right) => {
+				return _.findIndex(sequence, (element) => {
+					return _.isEqual(element, left)
+				}) - _.findIndex(sequence, (element) => {
+					return _.isEqual(element, right)
+				})
+			}))
+		})
+
+		.map((combination) => {
+			return {
+				name: combination.map((element) => {
+					return sequence.indexOf(element) + 1
+				}).join('-'),
+				combination
+			}
+		})
+}
 
 const requireStub = (basePath, offset, name) => {
 	if (offset === 0) {
@@ -84,7 +115,7 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 
 	const cards = []
 	for (const step of testCase.steps) {
-		webhookOffset += 1
+		webhookOffset = Math.max(webhookOffset, _.findIndex(testCase.original, step) + 1)
 		const event = await test.context.jellyfish.insertCard(test.context.context,
 			test.context.session, {
 				type: 'external-event',
@@ -243,54 +274,32 @@ exports.translate = {
 				tail: _.sortBy(testCase.expected.tail, tailSort)
 			}
 
-			for (const slice of suite.slices) {
-				if (testCase.steps.length <= slice) {
+			for (const variation of getVariations(testCase.steps)) {
+				// TODO: We should remove this, but lets start with Front
+				if (suite.source === 'github' &&
+					variation.combination.length !== testCase.steps.length) {
 					continue
 				}
 
-				const prefix = `slice-${slice}`
-
-				fn(`(${prefix}) ${testCaseName}`, async (test) => {
+				// eslint-disable-next-line no-loop-func
+				fn(`(${variation.name}) ${testCaseName}`, async (test) => {
 					await webhookScenario(test, {
-						steps: testCase.steps.slice(slice),
-						offset: slice,
+						steps: variation.combination,
+						offset: _.findIndex(testCase.steps, _.first(variation.combination)) + 1,
+						original: testCase.steps,
 
 						// If we miss events such as when a head card was archived,
 						// we usually can't know the date this happened, but we can
 						// still apply it with a date approximation. In those cases,
 						// its helpful to omit the update events from the tail checks.
-						ignoreUpdateEvents: slice > 0,
+						ignoreUpdateEvents: variation.combination.length < testCase.steps.length,
 
 						expected,
 						name: testCaseName,
-						variant: prefix
+						variant: variation.name
 					}, getTestCaseOptions(test), stubOptions)
 				})
 			}
-
-			// TODO: We should remove this, but lets start with Front
-			if (suite.source !== 'github') {
-				for (const step of _.initial(testCase.steps.slice(1))) {
-					const index = testCase.steps.indexOf(step)
-					const prefix = `omit-${index}`
-
-					// eslint-disable-next-line no-loop-func
-					fn(`(${prefix}) ${testCaseName}`, async (test) => {
-						const steps = _.cloneDeep(testCase.steps)
-						steps.splice(index, 1)
-						await webhookScenario(test, {
-							steps,
-							offset: 0,
-							ignoreUpdateEvents: true,
-							expected,
-							name: testCaseName,
-							variant: prefix
-						}, getTestCaseOptions(test), stubOptions)
-					})
-				}
-			}
-
-			// TODO: Test shuffling the steps
 		}
 	}
 }
