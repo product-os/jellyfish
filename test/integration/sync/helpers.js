@@ -158,6 +158,7 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 		})
 	Reflect.deleteProperty(head, 'links')
 	Reflect.deleteProperty(head, 'markers')
+	Reflect.deleteProperty(head.data, 'origin')
 
 	const timeline = await test.context.jellyfish.query(test.context.context,
 		test.context.session, {
@@ -194,12 +195,17 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 		Reflect.deleteProperty(card, 'links')
 		Reflect.deleteProperty(card, 'markers')
 		Reflect.deleteProperty(card, 'created_at')
+		Reflect.deleteProperty(card.data, 'origin')
 
 		if (card.data.payload) {
 			Reflect.deleteProperty(card.data.payload, 'slug')
 			Reflect.deleteProperty(card.data.payload, 'links')
 			Reflect.deleteProperty(card.data.payload, 'markers')
 			Reflect.deleteProperty(card.data.payload, 'created_at')
+
+			if (card.data.payload.data) {
+				Reflect.deleteProperty(card.data.payload.data, 'origin')
+			}
 		}
 
 		return card
