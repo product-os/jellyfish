@@ -58,6 +58,15 @@ const DataContainer = styled.pre`
 	word-wrap: break-word;
 `;
 
+const transformMirror = (mirror: string) => {
+	if (mirror.includes('frontapp.com')) {
+		const id = mirror.split('/').pop();
+		return `https://app.frontapp.com/open/${id}`;
+	}
+
+	return mirror;
+};
+
 const CardField = ({ field, payload, users, schema }: {
 	field: string;
 	payload: { [key: string]: any };
@@ -76,7 +85,10 @@ const CardField = ({ field, payload, users, schema }: {
 		return (
 			<React.Fragment>
 				<Label my={3}>{field}</Label>
-				<Markdown>{value.join('\n- ')}</Markdown>
+				{value.map((mirror: string) => {
+					const url = transformMirror(mirror);
+					return <Link blank href={url}>{url}</Link>;
+				})}
 			</React.Fragment>
 		);
 	}
