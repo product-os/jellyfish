@@ -500,6 +500,7 @@ ava('.translateExternalEvent() should translate an external event through the no
 			version: '1.0.0',
 			links: result[0].links,
 			data: {
+				origin: result[0].data.origin,
 				payload: {
 					foo: 'bar',
 					bar: 'baz'
