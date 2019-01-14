@@ -47,6 +47,12 @@
             "archived": {
               "type": "boolean",
               "default": false
+            },
+            "head_branch": {
+              "type": "string"
+            },
+            "base_branch": {
+              "type": "string"
             }
           }
         }

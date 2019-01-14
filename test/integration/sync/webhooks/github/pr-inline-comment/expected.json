@@ -9,6 +9,8 @@
     "capabilities": [],
     "data": {
       "repository": "resin-io/jellyfish",
+      "base_branch": "master",
+      "head_branch": "pr-line-comment",
       "mirrors": [
         "https://github.com/resin-io/jellyfish/pull/774"
       ],
@@ -38,6 +40,8 @@
           "capabilities": [],
           "data": {
             "repository": "resin-io/jellyfish",
+            "base_branch": "master",
+            "head_branch": "pr-line-comment",
             "mirrors": [
               "https://github.com/resin-io/jellyfish/pull/774"
             ],

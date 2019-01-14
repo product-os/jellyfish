@@ -9,6 +9,8 @@
     "capabilities": [],
     "data": {
       "repository": "resin-io/jellyfish",
+      "head_branch": "pr-approve-merge",
+      "base_branch": "dummy-branch",
       "mirrors": [
         "https://github.com/resin-io/jellyfish/pull/778"
       ],
@@ -39,6 +41,8 @@
           "capabilities": [],
           "data": {
             "repository": "resin-io/jellyfish",
+            "head_branch": "pr-approve-merge",
+            "base_branch": "dummy-branch",
             "mirrors": [
               "https://github.com/resin-io/jellyfish/pull/778"
             ],
@@ -70,6 +74,8 @@
           "capabilities": [],
           "data": {
             "repository": "resin-io/jellyfish",
+            "head_branch": "pr-approve-merge",
+            "base_branch": "dummy-branch",
             "mirrors": [
               "https://github.com/resin-io/jellyfish/pull/778"
             ],
