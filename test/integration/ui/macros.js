@@ -20,6 +20,18 @@ exports.WAIT_OPTS = {
 	timeout: 60 * 1000
 }
 
+exports.retry = async (times, functionToTry) => {
+	try {
+		return functionToTry()
+	} catch (error) {
+		if (times) {
+			return exports.retry(times - 1, functionToTry)
+		}
+
+		throw error
+	}
+}
+
 exports.signupUser = async (page, user) => {
 	await page.waitForSelector('.login-page', exports.WAIT_OPTS)
 
@@ -62,8 +74,12 @@ exports.setInputValue = async (page, selector, value) => {
 exports.logout = async (page) => {
 	await exports.waitForThenClickSelector(page, '.user-menu-toggle')
 	await page.waitForSelector('.user-menu', exports.WAIT_OPTS)
-	await exports.waitForThenClickSelector(page, '.user-menu__logout')
-	await page.waitForSelector('.login-page', exports.WAIT_OPTS)
+	await exports.retry(3, async () => {
+		await exports.waitForThenClickSelector(page, '.user-menu__logout')
+		await page.waitForSelector('.login-page', {
+			timeout: 2 * 1000
+		})
+	})
 }
 
 exports.waitForThenClickSelector = async (page, selector) => {
