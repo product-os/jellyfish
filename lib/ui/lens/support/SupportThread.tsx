@@ -29,6 +29,7 @@ import {
 	formatTimestamp,
 	getLocalSchema,
 } from '../../services/helpers';
+import { getActor } from '../../services/store-helpers';
 import TimelineLens from './SupportThreadTimeline';
 
 const Column = styled(Flex)`
@@ -274,6 +275,8 @@ class Base extends React.Component<CardProps, CardState> {
 		const statuses = this.getStatuses(card);
 		const summaries = this.getSummaries(card);
 
+		const actor = getActor(_.get(createCard, [ 'data', 'actor' ]));
+
 		return (
 			<Column
 				flex={this.props.flex}
@@ -289,7 +292,7 @@ class Base extends React.Component<CardProps, CardState> {
 
 						<Box>
 							<Txt mb={1}>
-								Support conversation with <strong>{findUsernameById(this.props.allUsers, _.get(createCard, [ 'data', 'actor' ]))}</strong>
+								Conversation with <strong>{actor.name}</strong>
 							</Txt>
 							{!!card.name && (
 								<Txt bold>{card.name}</Txt>
