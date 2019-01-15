@@ -126,7 +126,8 @@ class ViewLinkBase extends React.Component<ViewLinkProps & ConnectedProps, ViewL
 						style={{display: 'block', flex: '1'}}
 						key={card.id}
 						py={2}
-						px={3}
+						pl={3}
+						pr={isActive ? 0 : 3}
 						color={isActive && !activeSlice ? '#333' : undefined}
 						onClick={() => this.open()}
 					>
@@ -147,7 +148,8 @@ class ViewLinkBase extends React.Component<ViewLinkProps & ConnectedProps, ViewL
 
 					{isActive &&
 						<EllipsisButton
-							px={3}
+							pr={3}
+							pl={1}
 							plaintext
 							onClick={this.toggleMenu}
 						>
