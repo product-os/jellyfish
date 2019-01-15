@@ -113,13 +113,12 @@ class CardTable extends React.Component<CardTableProps, CardTableState> {
 
 	public render(): React.ReactNode {
 		const tail = this.props.tail ? _.map(this.props.tail, (card) => {
-			const create = _.get(card, [ 'links', 'has attached element', '0' ]);
 			const update = _.find(_.get(card, [ 'links', 'has attached element' ]), { type: 'update' }) as any;
 
 			return {
 				name: card.name,
 				id: card.id,
-				Created: _.get(create, [ 'data', 'timestamp' ], null),
+				Created: card.created_at,
 				'Last updated': _.get(update, [ 'data', 'timestamp' ], null),
 			};
 		}) : null;

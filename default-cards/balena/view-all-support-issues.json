@@ -1,6 +1,6 @@
 {
   "slug": "view-all-support-issues",
-  "name": "All Support Issues",
+  "name": "All support issues",
   "version": "1.0.0",
   "type": "view",
   "markers": [ "org-balena" ],

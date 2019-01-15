@@ -1,12 +1,10 @@
 import * as Bluebird from 'bluebird';
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
-import { Dispatch } from 'redux';
 import * as skhema from 'skhema';
 import { analytics } from '../';
 import { Card } from '../../../types';
 import { hashCode } from '../../services/helpers';
-import { createNotification } from '../../services/notifications';
 import { loadSchema } from '../../services/sdk-helpers';
 import { Action, JellyThunkSync } from '../common';
 import { sdk } from '../sdk';
@@ -24,40 +22,6 @@ export interface IViews {
 	subscriptions: { [k: string]: Card };
 	activeView: string | null;
 }
-
-const findMentions = (data: Card): string[] => {
-	return _.get(data, 'data.mentionsUser') || _.get(data, 'data.payload.mentionsUser', []);
-};
-
-const findAlerts = (data: Card): string[] => {
-	return _.get(data, 'data.alertsUser') || _.get(data, 'data.payload.alertsUser', []);
-};
-
-const notify = (
-	viewId: string,
-	content: Card,
-	notifyType: 'mention' | 'update' | 'alert',
-	getState: () => StoreState,
-) => {
-	const state = getState();
-	const subscription = selectors.getSubscription(state, viewId);
-	const settings = _.get(subscription, ['data', 'notificationSettings', 'web' ]);
-
-	if (!settings) {
-		return;
-	}
-
-	if (!settings[notifyType]) {
-		// If the notify type isn't 'update' and the user allows 'update'
-		// notifications, we should notify, since a mention and an alert are
-		// technically updates
-		if (notifyType === 'update' || !settings.update) {
-			return;
-		}
-	}
-
-	createNotification('', _.get(content, 'data.payload.message'), viewId);
-};
 
 export const viewSelectors = {
 	getViewData: (state: StoreState, query: string | Card | JSONSchema6) => {
@@ -78,58 +42,6 @@ const actions = {
 	SET_ACTIVE_VIEW: 'SET_ACTIVE_VIEW',
 };
 
-const handleViewNotification = (
-	{
-		before,
-		after,
-	}: { before: Card | null, after: Card },
-	id: string,
-	dispatch: Dispatch<StoreState>,
-	getState: () => StoreState,
-) => {
-	let mentions: string[] = [];
-	let alerts: string[] = [];
-
-	const user = selectors.getCurrentUser(getState());
-	const content = after;
-
-	// If before is non-null then a card has been updated and we need to do
-	// some checking to make sure the user doesn't get spammed every time
-	// a card is updated. We only check new items added to the mentions array
-	if (before) {
-		const beforeMentions = findMentions(before);
-		const afterMentions = findMentions(after);
-		mentions = _.difference(afterMentions, beforeMentions);
-
-		const beforeAlerts = findAlerts(before);
-		const afterAlerts = findAlerts(after);
-		alerts = _.difference(beforeAlerts, afterAlerts);
-	} else {
-		mentions = findMentions(content);
-		alerts = findAlerts(content);
-	}
-
-	if (_.includes(alerts, user.id)) {
-		notify(id, content, 'alert', getState);
-		dispatch(allActionCreators.addViewNotice({
-			id,
-			newMentions: true,
-		}));
-	} else if (_.includes(mentions, user.id)) {
-		notify(id, content, 'mention', getState);
-		dispatch(allActionCreators.addViewNotice({
-			id,
-			newMentions: true,
-		}));
-	} else {
-		notify(id, content, 'update', getState);
-		dispatch(allActionCreators.addViewNotice({
-			id,
-			newContent: true,
-		}));
-	}
-};
-
 const getViewId = (query: string | Card | JSONSchema6) => {
 	if (_.isString(query)) {
 		return query;
@@ -142,9 +54,17 @@ const getViewId = (query: string | Card | JSONSchema6) => {
 
 const pendingLoadRequests: { [key: string]: number } = {};
 
+interface LoadViewOptions {
+	page: number;
+	limit: number;
+	sortBy: string | string[];
+	sortDir: 'asc' | 'desc';
+}
+
 export const actionCreators = {
 	loadViewResults: (
 		query: string | Card | JSONSchema6,
+		options: LoadViewOptions,
 	): JellyThunkSync<void, StoreState> => function loadViewResults(dispatch): void {
 		const id = getViewId(query);
 		const requestTimestamp = Date.now();
@@ -157,11 +77,20 @@ export const actionCreators = {
 				return;
 			}
 
-			return sdk.query(schema)
+			return sdk.query(schema, {
+				limit: options.limit,
+				skip: options.limit * options.page,
+				sortBy: options.sortBy,
+				sortDir: options.sortDir,
+			})
 				.then((data) => {
 					// Only update the store if this request is still the most recent once
 					if (pendingLoadRequests[id] === requestTimestamp) {
-						dispatch(actionCreators.setViewData(query, data));
+						if (options.page === 0) {
+							dispatch(actionCreators.setViewData(query, data));
+						} else {
+							dispatch(actionCreators.appendViewData(query, data));
+						}
 					}
 				});
 		})
@@ -194,10 +123,10 @@ export const actionCreators = {
 
 	streamView: (
 		query: string | Card | JSONSchema6,
-	): JellyThunkSync<void, StoreState> => function streamView(dispatch, getState): void {
+	): JellyThunkSync<void, StoreState> => function streamView(dispatch, getState): any {
 		const viewId = getViewId(query);
 
-		loadSchema(query)
+		return loadSchema(query)
 		.then((schema) => {
 
 			if (!schema) {
@@ -214,10 +143,6 @@ export const actionCreators = {
 
 				const afterValid = after && skhema.isValid(schema, after);
 				const beforeValid = before && skhema.isValid(schema, before);
-
-				if (afterValid || beforeValid) {
-					handleViewNotification({ after, before }, viewId, dispatch, getState);
-				}
 
 				// Only store view data if the view is active
 				if (getState().views.activeView !== viewId) {
@@ -307,7 +232,7 @@ export const actionCreators = {
 		};
 	},
 
-	appendViewData: (query: string | Card | JSONSchema6, data: Card): Action => {
+	appendViewData: (query: string | Card | JSONSchema6, data: Card | Card[]): Action => {
 		const id = getViewId(query);
 		return {
 			type: actions.APPEND_VIEW_DATA_ITEM,
@@ -441,12 +366,12 @@ export const views = (state: IViews, action: Action) => {
 			return state;
 
 		case actions.APPEND_VIEW_DATA_ITEM:
-			let appendTarget = state.viewData[action.value.id];
+			const appendTarget = state.viewData[action.value.id] || [];
 
-			if (appendTarget) {
-				appendTarget.push(action.value.data);
+			if (_.isArray(action.value.data)) {
+				appendTarget.push(...action.value.data);
 			} else {
-				appendTarget = [ action.value.data ];
+				appendTarget.push(action.value.data);
 			}
 
 			state.viewData[action.value.id] = appendTarget.slice();

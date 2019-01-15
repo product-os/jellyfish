@@ -34,7 +34,10 @@ export interface StoreState {
 localForage.setDriver(localForage.LOCALSTORAGE);
 
 const save = (state: StoreState) => {
-	localForage.setItem(STORAGE_KEY, state);
+	// Only save the core state to prevent localStorage from filling up with view data
+	localForage.setItem(STORAGE_KEY, {
+		core: state.core,
+	});
 };
 
 const rootReducer = combineReducers<StoreState>({

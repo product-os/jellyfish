@@ -16,6 +16,7 @@ import { actionCreators, selectors, StoreState } from '../../core/store';
 import {
 	colorHash,
 	createChannel,
+	formatTimestamp,
 	timeAgo,
 } from '../../services/helpers';
 import { getActor } from '../../services/store-helpers';
@@ -101,7 +102,9 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 						const messages = _.filter(card.links['has attached element'], { type: 'message' });
 						const lastMessageOrWhisper = _.last(_.filter(card.links['has attached element'], (event) => event.type === 'message' || event.type === 'whisper'));
 
-						const actor = lastMessageOrWhisper ? getActor(lastMessageOrWhisper.data.actor) : null;
+						const createCard = _.first((card as any).links['has attached element'])! as Card;
+						const actor = getActor(createCard.data.actor);
+						const lastActor = lastMessageOrWhisper ? getActor(lastMessageOrWhisper.data.actor) : null;
 
 						return (
 							<SupportThreadSummaryWrapper
@@ -112,17 +115,24 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 								}}
 								onClick={() => this.openChannel(card.id)}
 							>
-								{card.data.inbox && (
-									<Pill mb={2} bg={colorHash(card.data.inbox)}>{card.data.inbox}</Pill>
-								)}
+								<Flex justify="space-between">
+									{card.data.inbox && (
+										<Pill mb={2} bg={colorHash(card.data.inbox)}>{card.data.inbox}</Pill>
+									)}
+
+									<Txt>Created {formatTimestamp(card.created_at)}</Txt>
+								</Flex>
 								<Flex justify="space-between">
 									<Box>
 										{!!card.name && (
 											<Txt bold>{card.name}</Txt>
 										)}
+										{!card.name && !!actor && (
+											<Txt bold>{`Conversation with ${actor.name}`}</Txt>
+										)}
 									</Box>
 
-									<Txt>{timeAgo(_.get(_.last(card.links['has attached element']), [ 'data', 'timestamp' ]))}</Txt>
+									<Txt>Updated {timeAgo(_.get(_.last(card.links['has attached element']), [ 'data', 'timestamp' ]))}</Txt>
 								</Flex>
 								<Txt my={2}>{messages.length} message{messages.length !== 1 && 's'}</Txt>
 								{lastMessageOrWhisper && (
@@ -130,7 +140,7 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 										<Gravatar
 											small
 											pr={2}
-											email={actor ? actor.email : null}
+											email={lastActor ? lastActor.email : null}
 										/>
 
 										<Txt

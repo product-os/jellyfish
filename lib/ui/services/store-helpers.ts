@@ -9,7 +9,7 @@ export const getActor = (id: string) => {
 
 	const actor = _.find(allUsers, { id });
 
-	let name = 'unkown user';
+	let name = 'unknown user';
 	let email: string | null = null;
 
 	if (actor) {

@@ -29,6 +29,7 @@ import {
 	formatTimestamp,
 	getLocalSchema,
 } from '../../services/helpers';
+import { getActor } from '../../services/store-helpers';
 import TimelineLens from './SupportThreadTimeline';
 
 const Column = styled(Flex)`
@@ -58,6 +59,15 @@ const DataContainer = styled.pre`
 	word-wrap: break-word;
 `;
 
+const transformMirror = (mirror: string) => {
+	if (mirror.includes('frontapp.com')) {
+		const id = mirror.split('/').pop();
+		return `https://app.frontapp.com/open/${id}`;
+	}
+
+	return mirror;
+};
+
 const CardField = ({ field, payload, users, schema }: {
 	field: string;
 	payload: { [key: string]: any };
@@ -76,7 +86,10 @@ const CardField = ({ field, payload, users, schema }: {
 		return (
 			<React.Fragment>
 				<Label my={3}>{field}</Label>
-				<Markdown>{value.join('\n- ')}</Markdown>
+				{value.map((mirror: string) => {
+					const url = transformMirror(mirror);
+					return <Link key={url} blank href={url}>{url}</Link>;
+				})}
 			</React.Fragment>
 		);
 	}
@@ -262,6 +275,8 @@ class Base extends React.Component<CardProps, CardState> {
 		const statuses = this.getStatuses(card);
 		const summaries = this.getSummaries(card);
 
+		const actor = getActor(_.get(createCard, [ 'data', 'actor' ]));
+
 		return (
 			<Column
 				flex={this.props.flex}
@@ -277,7 +292,7 @@ class Base extends React.Component<CardProps, CardState> {
 
 						<Box>
 							<Txt mb={1}>
-								Support conversation with <strong>{findUsernameById(this.props.allUsers, _.get(createCard, [ 'data', 'actor' ]))}</strong>
+								Conversation with <strong>{actor.name}</strong>
 							</Txt>
 							{!!card.name && (
 								<Txt bold>{card.name}</Txt>
