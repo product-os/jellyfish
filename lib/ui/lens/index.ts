@@ -8,6 +8,7 @@ import KanbanLens from './Kanban';
 import ListLens from './List';
 import OrgLens from './Org';
 import SingleCardLens from './SingleCard';
+import SupportIssueTableLens from './support/SupportIssueTable';
 import SupportThreadLens from './support/SupportThread';
 import SupportThreadsLens from './support/SupportThreads';
 import TableLens from './Table';
@@ -22,6 +23,7 @@ class LensService {
 		ListLens,
 		OrgLens,
 		SingleCardLens,
+		SupportIssueTableLens,
 		SupportThreadLens,
 		SupportThreadsLens,
 		TableLens,
