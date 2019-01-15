@@ -232,6 +232,8 @@ exports.translate = {
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 			require('../../../default-cards/contrib/pull-request.json'))
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
+			require('../../../default-cards/contrib/repository.json'))
+		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 			require('../../../default-cards/contrib/support-thread.json'))
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 			require('../../../default-cards/contrib/whisper.json'))
