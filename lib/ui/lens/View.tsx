@@ -150,7 +150,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 	// For this to work properly there needs to be a mechanism for returning the
 	// total available items from the API.
 	public getQueryOptions(lens: string | null): ViewRendererState['options'] {
-		return (lens || this.state.lenses[0].slug) === 'lens-interleaved'
+		return (lens || _.get(this.state.lenses, ['0', 'slug'])) === 'lens-interleaved'
 			? this.state.options
 			: {
 				limit: 500,

@@ -9,6 +9,7 @@ import {
 	Card as CardComponent,
 	Flex,
 	Link,
+	Pill,
 	Txt
 } from 'rendition';
 import { Markdown } from 'rendition/dist/extra/Markdown';
@@ -25,9 +26,11 @@ import { Tag } from '../../components/Tag';
 import { sdk } from '../../core';
 import { actionCreators, selectors, StoreState } from '../../core/store';
 import {
+	colorHash,
 	findUsernameById,
 	formatTimestamp,
 	getLocalSchema,
+	timeAgo,
 } from '../../services/helpers';
 import { getActor } from '../../services/store-helpers';
 import TimelineLens from './SupportThreadTimeline';
@@ -161,6 +164,7 @@ interface CardState {
 	linkedSupportIssues: Card[];
 	showStatuses: boolean;
 	showSummaries: boolean;
+	expanded: boolean;
 }
 
 class Base extends React.Component<CardProps, CardState> {
@@ -171,6 +175,7 @@ class Base extends React.Component<CardProps, CardState> {
 			linkedSupportIssues: [],
 			showStatuses: false,
 			showSummaries: false,
+			expanded: false,
 		};
 
 		this.loadLinks(props.card.id);
@@ -189,6 +194,10 @@ class Base extends React.Component<CardProps, CardState> {
 				id: {
 					type: 'string',
 					const: id,
+				},
+				type: {
+					type: 'string',
+					const: 'support-thread',
 				},
 			},
 			additionalProperties: true,
@@ -248,6 +257,12 @@ class Base extends React.Component<CardProps, CardState> {
 			});
 	}
 
+	public handleExpandToggle = () => {
+		this.setState({
+			expanded: !this.state.expanded,
+		});
+	}
+
 	public render(): React.ReactNode {
 		const { card, fieldOrder } = this.props;
 		const payload = card.data;
@@ -284,18 +299,15 @@ class Base extends React.Component<CardProps, CardState> {
 				flexDirection="column"
 			>
 				<Box
-					p={3}
-					pb={0}
+					px={3}
+					pt={3}
+					mb={-24}
 					style={{overflowY: 'auto'}}
 				>
 					<Flex mb={1} justify="space-between">
-
 						<Box>
-							<Txt mb={1}>
-								Conversation with <strong>{actor.name}</strong>
-							</Txt>
-							{!!card.name && (
-								<Txt bold>{card.name}</Txt>
+							{card.data.inbox && (
+								<Pill bg={colorHash(card.data.inbox)}>{card.data.inbox}</Pill>
 							)}
 						</Box>
 
@@ -304,7 +316,6 @@ class Base extends React.Component<CardProps, CardState> {
 								plaintext
 								square
 								mr={1}
-								mb={3}
 								tooltip={{
 									placement: 'bottom',
 									text: 'Close this support thread',
@@ -319,11 +330,28 @@ class Base extends React.Component<CardProps, CardState> {
 							/>
 
 							<CloseButton
-								mb={3}
 								mr={-3}
 								onClick={() => this.props.actions.removeChannel(this.props.channel)}
 							/>
 						</Flex>
+					</Flex>
+
+					<Flex justify="space-between" mt={3}>
+						<Txt mb={1}>
+							Conversation with <strong>{actor.name}</strong>
+						</Txt>
+
+						<Txt>Created {formatTimestamp(card.created_at)}</Txt>
+					</Flex>
+
+					<Flex justify="space-between">
+						<Box>
+							{!!card.name && (
+								<Txt bold>{card.name}</Txt>
+							)}
+						</Box>
+
+						<Txt>Updated {timeAgo(_.get(_.last(card.links['has attached element']), [ 'data', 'timestamp' ]))}</Txt>
 					</Flex>
 
 					{!!card.tags && card.tags.length > 0 &&
@@ -337,78 +365,98 @@ class Base extends React.Component<CardProps, CardState> {
 						</Box>
 					}
 
-					{statuses.length > 0 && (
-						<div>
-							<strong>
-								<Link
-									mt={1}
-									onClick={() => this.setState({ showStatuses: !this.state.showStatuses })}
-								>
-									Statuses{' '}
-									<Icon name={`caret-${this.state.showStatuses ? 'down' : 'right'}`} />
-								</Link>
-							</strong>
-						</div>
+					{!this.state.expanded && (
+						<Link
+							onClick={this.handleExpandToggle}
+							mt={2}
+						>
+							More
+						</Link>
 					)}
 
-					{this.state.showStatuses && (
-						<CardComponent p={1} py={2}>
-							{_.map(statuses, (statusEvent: any) => {
+					{this.state.expanded && (
+						<>
+							{statuses.length > 0 && (
+								<div>
+									<strong>
+										<Link
+											mt={1}
+											onClick={() => this.setState({ showStatuses: !this.state.showStatuses })}
+										>
+											Statuses{' '}
+											<Icon name={`caret-${this.state.showStatuses ? 'down' : 'right'}`} />
+										</Link>
+									</strong>
+								</div>
+							)}
+
+							{this.state.showStatuses && (
+								<CardComponent p={1} py={2}>
+									{_.map(statuses, (statusEvent: any) => {
+										return (
+											<EventCard
+												card={statusEvent}
+												mb={1}
+											/>
+										);
+									})}
+								</CardComponent>
+							)}
+
+							{summaries.length > 0 && (
+								<div>
+									<strong>
+										<Link
+											mt={1}
+											onClick={() => this.setState({ showSummaries: !this.state.showSummaries })}
+										>
+											Summaries{' '}
+											<Icon name={`caret-${this.state.showSummaries ? 'down' : 'right'}`} />
+										</Link>
+									</strong>
+								</div>
+							)}
+							{this.state.showSummaries && (
+								<CardComponent p={1} py={2}>
+									{_.map(summaries, (summaryEvent: any) => {
+										return (
+											<EventCard
+												card={summaryEvent}
+												mb={1}
+											/>
+										);
+									})}
+								</CardComponent>
+							)}
+
+
+							{_.map(this.state.linkedSupportIssues, (entry) => {
 								return (
-									<EventCard
-										card={statusEvent}
-										mb={1}
-									/>
+									<Link mr={2} href={`/#${entry.id}`}>{entry.name}</Link>
 								);
 							})}
-						</CardComponent>
-					)}
 
-					{summaries.length > 0 && (
-						<div>
-							<strong>
-								<Link
-									mt={1}
-									onClick={() => this.setState({ showSummaries: !this.state.showSummaries })}
-								>
-									Summaries{' '}
-									<Icon name={`caret-${this.state.showSummaries ? 'down' : 'right'}`} />
-								</Link>
-							</strong>
-						</div>
-					)}
-					{this.state.showSummaries && (
-						<CardComponent p={1} py={2}>
-							{_.map(summaries, (summaryEvent: any) => {
-								return (
-									<EventCard
-										card={summaryEvent}
-										mb={1}
+							{_.map(keys, (key) => {
+								return !!payload[key] ?
+									<CardField
+										key={key}
+										field={key}
+										payload={payload}
+										users={this.props.allUsers}
+										schema={_.get(schema, ['properties', 'data', 'properties', key])}
 									/>
-								);
-							})}
-						</CardComponent>
+									: null;
+								})
+							}
+
+							<Link
+								mt={3}
+								onClick={this.handleExpandToggle}
+							>
+								Less
+							</Link>
+						</>
 					)}
-
-
-					{_.map(this.state.linkedSupportIssues, (entry) => {
-						return (
-							<Link mr={2} href={`/#${entry.id}`}>{entry.name}</Link>
-						);
-					})}
-
-					{_.map(keys, (key) => {
-						return !!payload[key] ?
-							<CardField
-								key={key}
-								field={key}
-								payload={payload}
-								users={this.props.allUsers}
-								schema={_.get(schema, ['properties', 'data', 'properties', key])}
-							/>
-							: null;
-						})
-					}
 				</Box>
 
 				<Box flex="1" style={{minHeight: 0}}>

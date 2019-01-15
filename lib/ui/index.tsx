@@ -4,13 +4,14 @@ import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Theme } from 'rendition';
 import { injectGlobal } from 'styled-components';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import { store } from './core';
 import { JellyfishUI } from './JellyfishUI';
 
 // tslint:disable-next-line
 injectGlobal`
   * {
-    boxSizing: border-box;
+    box-sizing: border-box;
   }
 
   body {
@@ -39,7 +40,9 @@ if (process.env.NODE_ENV === 'production' && SENTRY_DSN) {
 
 ReactDOM.render(
 	<Provider store={store}>
-		<JellyfishUI />
+		<ErrorBoundary>
+			<JellyfishUI />
+		</ErrorBoundary>
 	</Provider>,
 	document.getElementById('app'),
 );
