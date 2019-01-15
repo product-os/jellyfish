@@ -41,6 +41,10 @@
                 "low"
               ]
             },
+            "category": {
+              "title": "Category",
+              "type": "string"
+            },
             "shareable": {
               "title": "Shareable",
               "description": "Can this information be made publicly available?",
