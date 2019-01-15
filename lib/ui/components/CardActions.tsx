@@ -22,10 +22,6 @@ import { ContextMenu } from './ContextMenu';
 import Icon from './Icon';
 import { IconButton } from './IconButton';
 
-const EllipsisButton = styled(IconButton)`
-	float: right;
-`;
-
 const ActionLink = styled(Link)`
 	display: block !important;
 	cursor: pointer;
@@ -220,13 +216,16 @@ class Base extends React.Component<
 
 					<CardLinker types={this.props.types} card={this.props.card} />
 
-					<EllipsisButton
-						px={2}
-						mr={-1}
-						plaintext
-						onClick={this.toggleMenu}
-					>
-						<Icon name="ellipsis-v" />
+					<span>
+						<IconButton
+							px={2}
+							mr={-1}
+							plaintext
+							onClick={this.toggleMenu}
+						>
+							<Icon name="ellipsis-v" />
+
+						</IconButton>
 
 						{this.state.showMenu &&
 							<ContextMenu
@@ -262,7 +261,7 @@ class Base extends React.Component<
 								</>
 							</ContextMenu>
 						}
-					</EllipsisButton>
+					</span>
 
 				</Flex>
 
