@@ -203,7 +203,7 @@ class Base extends React.Component<
 
 		return (
 			<React.Fragment>
-				<Flex align="right" justify="flex-end" mb={3}>
+				<Flex align="right" justify="flex-end">
 					<IconButton
 						plaintext
 						square={true}
