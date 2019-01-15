@@ -39,6 +39,7 @@ interface InterleavedState {
 	newMessage: string;
 	showNewCardModal: boolean;
 	messagesOnly: boolean;
+	loadingPage: boolean;
 }
 
 interface InterleavedProps extends RendererProps {
@@ -46,11 +47,15 @@ interface InterleavedProps extends RendererProps {
 	tail?: Card[];
 	type?: Card;
 	actions: typeof actionCreators;
+	setPage: (page: number) => void;
+	page: number;
 }
 
 export class Interleaved extends React.Component<InterleavedProps, InterleavedState> {
 	private scrollArea: HTMLElement | null;
 	private shouldScroll: boolean = true;
+	private loadingPage: boolean = false;
+	private scrollBottomOffset: number = 0;
 
 	constructor(props: InterleavedProps) {
 		super(props);
@@ -60,6 +65,7 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 			newMessage: '',
 			showNewCardModal: false,
 			messagesOnly: true,
+			loadingPage: false,
 		};
 
 		setTimeout(() => this.scrollToBottom());
@@ -74,9 +80,23 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 		this.shouldScroll = this.scrollArea.scrollTop >= this.scrollArea.scrollHeight - this.scrollArea.offsetHeight;
 	}
 
-	public componentDidUpdate(): void {
+	public componentDidUpdate(nextProps: InterleavedProps): void {
 		// Scroll to bottom if the component has been updated with new items
 		this.scrollToBottom();
+
+		if (
+			nextProps.tail && this.props.tail &&
+			(nextProps.tail.length !== this.props.tail.length)
+		) {
+			window.requestAnimationFrame(() => {
+				const { scrollArea } = this;
+				if (!scrollArea) {
+					return;
+				}
+				scrollArea.scrollTop = scrollArea.scrollHeight - this.scrollBottomOffset - scrollArea.offsetHeight;
+			});
+		}
+
 	}
 
 	public scrollToBottom = () => {
@@ -154,6 +174,30 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 		this.setState({ messagesOnly: !this.state.messagesOnly });
 	}
 
+	public handleScroll = async () => {
+		const { scrollArea, loadingPage } = this;
+
+		if (!scrollArea) {
+			return;
+		}
+
+		this.scrollBottomOffset = scrollArea.scrollHeight - (scrollArea.scrollTop + scrollArea.offsetHeight);
+
+		if (loadingPage) {
+			return;
+		}
+
+		if (scrollArea.scrollTop > 200) {
+			return;
+		}
+
+		this.loadingPage = true;
+
+		await this.props.setPage(this.props.page + 1);
+
+		this.loadingPage = false;
+	}
+
 	public getTargetId(card: Card): string {
 		return _.get(card, [ 'links', 'is attached to', '0', 'id' ]) || card.id;
 	}
@@ -163,7 +207,7 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 		const channelTarget = this.props.channel.data.target;
 		const { messagesOnly } = this.state;
 
-		const tail: Card[] | null = this.props.tail ? _.sortBy(this.props.tail, 'data.timestamp') : null;
+		const tail: Card[] | null = this.props.tail ? _.reverse(this.props.tail.slice()) : null;
 
 		return (
 			<Column flex="1" flexDirection="column">
@@ -186,6 +230,7 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 
 				<div
 					ref={(ref) => this.scrollArea = ref}
+					onScroll={this.handleScroll}
 					style={{
 						flex: 1,
 						overflowY: 'auto',
@@ -193,6 +238,10 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 						paddingTop: 8,
 					}}
 				>
+					<Box p={3}>
+						<Icon name="cog fa-spin" />
+					</Box>
+
 					{(!!tail && tail.length > 0) && _.map(tail, card => {
 						if (messagesOnly && isHiddenEventType(card.type)) {
 							return null;

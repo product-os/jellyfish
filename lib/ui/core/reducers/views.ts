@@ -142,9 +142,17 @@ const getViewId = (query: string | Card | JSONSchema6) => {
 
 const pendingLoadRequests: { [key: string]: number } = {};
 
+interface LoadViewOptions {
+	page: number;
+	limit: number;
+	sortBy: string | string[];
+	sortDir: 'asc' | 'desc';
+}
+
 export const actionCreators = {
 	loadViewResults: (
 		query: string | Card | JSONSchema6,
+		options: LoadViewOptions,
 	): JellyThunkSync<void, StoreState> => function loadViewResults(dispatch): void {
 		const id = getViewId(query);
 		const requestTimestamp = Date.now();
@@ -157,11 +165,20 @@ export const actionCreators = {
 				return;
 			}
 
-			return sdk.query(schema)
+			return sdk.query(schema, {
+				limit: options.limit,
+				skip: options.limit * options.page,
+				sortBy: options.sortBy,
+				sortDir: options.sortDir,
+			})
 				.then((data) => {
 					// Only update the store if this request is still the most recent once
 					if (pendingLoadRequests[id] === requestTimestamp) {
-						dispatch(actionCreators.setViewData(query, data));
+						if (options.page === 0) {
+							dispatch(actionCreators.setViewData(query, data));
+						} else {
+							dispatch(actionCreators.appendViewData(query, data));
+						}
 					}
 				});
 		})
@@ -194,10 +211,10 @@ export const actionCreators = {
 
 	streamView: (
 		query: string | Card | JSONSchema6,
-	): JellyThunkSync<void, StoreState> => function streamView(dispatch, getState): void {
+	): JellyThunkSync<void, StoreState> => function streamView(dispatch, getState): any {
 		const viewId = getViewId(query);
 
-		loadSchema(query)
+		return loadSchema(query)
 		.then((schema) => {
 
 			if (!schema) {
@@ -307,7 +324,7 @@ export const actionCreators = {
 		};
 	},
 
-	appendViewData: (query: string | Card | JSONSchema6, data: Card): Action => {
+	appendViewData: (query: string | Card | JSONSchema6, data: Card | Card[]): Action => {
 		const id = getViewId(query);
 		return {
 			type: actions.APPEND_VIEW_DATA_ITEM,
@@ -441,12 +458,12 @@ export const views = (state: IViews, action: Action) => {
 			return state;
 
 		case actions.APPEND_VIEW_DATA_ITEM:
-			let appendTarget = state.viewData[action.value.id];
+			const appendTarget = state.viewData[action.value.id] || [];
 
-			if (appendTarget) {
-				appendTarget.push(action.value.data);
+			if (_.isArray(action.value.data)) {
+				appendTarget.push(...action.value.data);
 			} else {
-				appendTarget = [ action.value.data ];
+				appendTarget.push(action.value.data);
 			}
 
 			state.viewData[action.value.id] = appendTarget.slice();

@@ -88,7 +88,7 @@ const CardField = ({ field, payload, users, schema }: {
 				<Label my={3}>{field}</Label>
 				{value.map((mirror: string) => {
 					const url = transformMirror(mirror);
-					return <Link blank href={url}>{url}</Link>;
+					return <Link key={url} blank href={url}>{url}</Link>;
 				})}
 			</React.Fragment>
 		);

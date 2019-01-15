@@ -30,8 +30,15 @@ interface ViewRendererState {
 	filters: JSONSchema6[];
 	lenses: Lens[];
 	ready: boolean;
-	subscription: any;
 	tailType: Type | null;
+	activeLens: string | null;
+	activeSlice: string | null;
+	options: {
+		page: number;
+		limit: number;
+		sortBy: string | string[];
+		sortDir: 'asc' | 'desc';
+	};
 }
 
 interface ViewRendererProps extends RendererProps {
@@ -54,8 +61,13 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 			lenses: [],
 			ready: false,
 			tailType: null,
-			subscription: {
-				data: {},
+			activeLens: null,
+			activeSlice: null,
+			options: {
+				page: 0,
+				limit: 50,
+				sortBy: 'created_at',
+				sortDir: 'desc',
 			},
 		};
 	}
@@ -110,7 +122,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 			this.loadViewWithFilters(head, filters);
 		} else {
 			this.props.actions.streamView(head.id);
-			this.props.actions.loadViewResults(head.id);
+			this.props.actions.loadViewResults(head.id, this.state.options);
 		}
 
 		const lenses = _.chain(head)
@@ -238,33 +250,44 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 		});
 
 		this.props.actions.clearViewData(syntheticViewCard);
-		this.props.actions.loadViewResults(syntheticViewCard);
+		this.props.actions.loadViewResults(syntheticViewCard, this.state.options);
 		this.props.actions.streamView(syntheticViewCard);
 	}
 
 	public setLens = (e: React.MouseEvent<HTMLButtonElement>): void => {
 		const slug = e.currentTarget.dataset.slug;
 		const lens = _.find(this.state.lenses, { slug });
-		const { subscription } = this.state;
-
-		if (!subscription || !lens) {
+		if (!lens) {
 			return;
 		}
 
-		subscription.data.activeLens = lens.slug;
-		this.setState({ subscription });
+		this.setState({
+			activeLens: lens.slug,
+		});
 	}
 
 	public setSlice = (e: React.ChangeEvent<HTMLSelectElement>) => {
-		const { subscription } = this.state;
+		const slug = e.target.value;
+		this.setState({
+			activeSlice: slug,
+		});
+	}
 
-		if (!subscription) {
+	public setPage = async (page: number) => {
+		const { channel } = this.props;
+
+		const options = {
+			...this.state.options,
+			page,
+		};
+
+		if (!channel) {
 			return;
 		}
 
-		const slug = e.target.value;
-		subscription.data.activeSlice = slug;
-		this.setState({ subscription });
+		await this.props.actions.loadViewResults(channel.data.head!.id, this.state.options);
+
+		this.setState({ options });
 	}
 
 	render(): React.ReactNode {
@@ -276,12 +299,20 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 				</Box>
 			);
 		}
-		const { tail, types } = this.props;
-		const { tailType, lenses, subscription } = this.state;
+		const {
+			tail,
+			types,
+		} = this.props;
+		const {
+			tailType,
+			lenses,
+			activeLens,
+			activeSlice,
+		} = this.state;
 		const useFilters = !!tailType && tailType.slug !== 'view';
-		const activeLens = _.find(lenses, { slug: _.get(subscription, 'data.activeLens') }) || lenses[0];
+		const lens = _.find(lenses, { slug: activeLens }) || lenses[0];
 		const slices = getViewSlices(head, types);
-		const lensSupportsSlices = !!activeLens && !!activeLens.data.supportsSlices;
+		const lensSupportsSlices = !!lens && !!lens.data.supportsSlices;
 
 		return (
 			<Flex
@@ -309,17 +340,17 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 							</Box>
 
 							<Flex mx={3}>
-								<If condition={this.state.lenses.length > 1 && !!activeLens}>
+								<If condition={this.state.lenses.length > 1 && !!lens}>
 									<ButtonGroup>
-										{_.map(this.state.lenses, lens =>
+										{_.map(this.state.lenses, (item) =>
 											<Button
-												key={lens.slug}
-												bg={activeLens && activeLens.slug === lens.slug  ? '#333' : undefined}
+												key={item.slug}
+												bg={lens && lens.slug === item.slug  ? '#333' : undefined}
 												square={true}
-												data-slug={lens.slug}
+												data-slug={item.slug}
 												onClick={this.setLens}
 											>
-												<Icon name={lens.data.icon} />
+												<Icon name={item.data.icon} />
 											</Button>,
 										)}
 									</ButtonGroup>
@@ -329,7 +360,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 										Slice by:
 										<Select
 											ml={2}
-											value={_.get(subscription, ['data', 'activeSlice'])}
+											value={activeSlice}
 											onChange={lensSupportsSlices ? this.setSlice : _.noop}
 										>
 											{_.map(slices, (slice: any) => {
@@ -369,12 +400,13 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 						</Box>
 					</If>
 
-					{!!tail && !!activeLens &&
-						<activeLens.data.renderer
+					{!!tail && !!lens &&
+						<lens.data.renderer
 							channel={this.props.channel}
 							tail={tail}
+							setPage={this.setPage}
+							page={this.state.options.page}
 							type={tailType}
-							subscription={subscription}
 						/>
 					}
 				</Flex>

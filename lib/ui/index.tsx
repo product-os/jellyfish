@@ -7,6 +7,7 @@ import { injectGlobal } from 'styled-components';
 import { store } from './core';
 import { JellyfishUI } from './JellyfishUI';
 
+// tslint:disable-next-line
 injectGlobal`
   * {
     boxSizing: border-box;
