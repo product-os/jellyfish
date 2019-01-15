@@ -78,7 +78,7 @@ const actions = {
 	SET_ACTIVE_VIEW: 'SET_ACTIVE_VIEW',
 };
 
-const handleViewNotification = (
+const handleViewNotification = async (
 	{
 		before,
 		after,
