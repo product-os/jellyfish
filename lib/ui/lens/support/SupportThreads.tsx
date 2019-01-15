@@ -16,6 +16,7 @@ import { actionCreators, selectors, StoreState } from '../../core/store';
 import {
 	colorHash,
 	createChannel,
+	formatTimestamp,
 	timeAgo,
 } from '../../services/helpers';
 import { getActor } from '../../services/store-helpers';
@@ -114,9 +115,13 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 								}}
 								onClick={() => this.openChannel(card.id)}
 							>
-								{card.data.inbox && (
-									<Pill mb={2} bg={colorHash(card.data.inbox)}>{card.data.inbox}</Pill>
-								)}
+								<Flex justify="space-between">
+									{card.data.inbox && (
+										<Pill mb={2} bg={colorHash(card.data.inbox)}>{card.data.inbox}</Pill>
+									)}
+
+									<Txt>Created {formatTimestamp(card.created_at)}</Txt>
+								</Flex>
 								<Flex justify="space-between">
 									<Box>
 										{!!card.name && (
@@ -127,7 +132,7 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 										)}
 									</Box>
 
-									<Txt>{timeAgo(_.get(_.last(card.links['has attached element']), [ 'data', 'timestamp' ]))}</Txt>
+									<Txt>Updated {timeAgo(_.get(_.last(card.links['has attached element']), [ 'data', 'timestamp' ]))}</Txt>
 								</Flex>
 								<Txt my={2}>{messages.length} message{messages.length !== 1 && 's'}</Txt>
 								{lastMessageOrWhisper && (
