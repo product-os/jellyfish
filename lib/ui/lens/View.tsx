@@ -93,6 +93,14 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 			? _.map(_.filter(head.data.allOf, { name: USER_FILTER_NAME }), 'schema')
 			: [];
 
+		const lenses = _.chain(head)
+			.get('data.lenses')
+			.map((slug: string) => LensService.getLensBySlug(slug))
+			.compact()
+			.value();
+
+		const tailType = _.find(this.props.types, { slug: getTypeFromViewCard(head) }) || null;
+
 		if (options && options.slice) {
 			const { slice } = options;
 			const filter = {
@@ -122,16 +130,11 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 			this.loadViewWithFilters(head, filters);
 		} else {
 			this.props.actions.streamView(head.id);
-			this.props.actions.loadViewResults(head.id, this.state.options);
+			this.props.actions.loadViewResults(
+				head.id,
+				this.getQueryOptions(lenses[0].slug),
+			);
 		}
-
-		const lenses = _.chain(head)
-			.get('data.lenses')
-			.map((slug: string) => LensService.getLensBySlug(slug))
-			.compact()
-			.value();
-
-		const tailType = _.find(this.props.types, { slug: getTypeFromViewCard(head) }) || null;
 
 		// set default state
 		this.setState({
@@ -141,6 +144,20 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 			// mark as ready
 			ready: true,
 		});
+	}
+
+	// TODO: Make all lenses handle pagination and remove this exception.
+	// For this to work properly there needs to be a mechanism for returning the
+	// total available items from the API.
+	public getQueryOptions(lens: string | null): ViewRendererState['options'] {
+		return (lens || this.state.lenses[0].slug) === 'lens-interleaved'
+			? this.state.options
+			: {
+				limit: 500,
+				page: 0,
+				sortBy: 'created_at',
+				sortDir: 'desc',
+			};
 	}
 
 	public componentWillReceiveProps(nextProps: ViewRendererProps): void {
@@ -250,7 +267,10 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 		});
 
 		this.props.actions.clearViewData(syntheticViewCard);
-		this.props.actions.loadViewResults(syntheticViewCard, this.state.options);
+		this.props.actions.loadViewResults(
+			syntheticViewCard,
+			this.getQueryOptions(this.state.activeLens),
+		);
 		this.props.actions.streamView(syntheticViewCard);
 	}
 
@@ -285,7 +305,10 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 			return;
 		}
 
-		await this.props.actions.loadViewResults(channel.data.head!.id, this.state.options);
+		await this.props.actions.loadViewResults(
+			channel.data.head!.id,
+			this.getQueryOptions(this.state.activeLens),
+		);
 
 		this.setState({ options });
 	}
