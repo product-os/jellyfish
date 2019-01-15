@@ -190,6 +190,10 @@ class Base extends React.Component<CardProps, CardState> {
 					type: 'string',
 					const: id,
 				},
+				type: {
+					type: 'string',
+					const: 'support-thread',
+				},
 			},
 			additionalProperties: true,
 		} as any)
