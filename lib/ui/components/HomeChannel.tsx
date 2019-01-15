@@ -215,11 +215,13 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 			return _.includes(view.markers, this.props.user!.slug);
 		});
 
-		groups.push({
-			name: 'My views',
-			views: myViews,
-			key: '__myviews',
-		});
+		if (myViews.length) {
+			groups.push({
+				name: 'My views',
+				views: myViews,
+				key: '__myviews',
+			});
+		}
 
 		const remaining = _.groupBy(otherViews, 'markers[0]');
 
@@ -379,28 +381,30 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 									</Flex>
 								</Button>
 
-								{isExpanded && _.map(group.views, (card) => {
-									// A view shouldn't be able to display itself
-									if (card.id === head!.id) {
-										return null;
-									}
+								<div style={{display: isExpanded ? 'block' : 'none'}}>
+									{_.map(group.views, (card) => {
+										// A view shouldn't be able to display itself
+										if (card.id === head!.id) {
+											return null;
+										}
 
-									const isActive = card.id === _.get(activeChannel, [ 'data' , 'target' ]);
-									const activeSlice = _.get(activeChannel, [ 'data', 'options', 'slice' ]);
+										const isActive = card.id === _.get(activeChannel, [ 'data' , 'target' ]);
+										const activeSlice = _.get(activeChannel, [ 'data', 'options', 'slice' ]);
 
-									const update = this.props.viewNotices[card.id];
+										const update = this.props.viewNotices[card.id];
 
-									return (
-										<ViewLink
-											key={card.id}
-											card={card}
-											isActive={isActive}
-											activeSlice={activeSlice}
-											update={update}
-											open={this.open}
-										/>
-									);
-								})}
+										return (
+											<ViewLink
+												key={card.id}
+												card={card}
+												isActive={isActive}
+												activeSlice={activeSlice}
+												update={update}
+												open={this.open}
+											/>
+										);
+									})}
+								</div>
 							</>
 						);
 					})}
