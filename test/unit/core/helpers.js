@@ -29,7 +29,7 @@ exports.generateRandomSlug = (options) => {
 }
 
 exports.backend = {
-	beforeEach: async (test) => {
+	beforeEach: async (test, options = {}) => {
 		const dbName = `test_${randomstring.generate()}`
 		const cache = process.env.DISABLE_CACHE
 			? null
@@ -50,6 +50,10 @@ exports.backend = {
 			id: `CORE-TEST-${randomstring.generate(20)}`
 		}
 
+		if (options.skipConnect) {
+			return
+		}
+
 		await test.context.backend.connect(test.context.context)
 	},
 	afterEach: async (test) => {
@@ -59,9 +63,11 @@ exports.backend = {
 
 exports.kernel = {
 	beforeEach: async (test) => {
-		await exports.backend.beforeEach(test)
-		test.context.kernel = new Kernel(test.context.backend)
+		await exports.backend.beforeEach(test, {
+			skipConnect: true
+		})
 
+		test.context.kernel = new Kernel(test.context.backend)
 		await test.context.kernel.initialize(test.context.context, false)
 	},
 	afterEach: async (test) => {
