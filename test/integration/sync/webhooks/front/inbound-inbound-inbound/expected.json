@@ -71,6 +71,37 @@
       }
     },
     {
+      "active": true,
+      "capabilities": [],
+      "data": {
+        "payload": {
+          "active": true,
+          "capabilities": [],
+          "data": {
+            "alertsUser": [],
+            "description": "",
+            "environment": "production",
+            "inbox": "Demo Inbox",
+            "mentionsUser": [],
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_11dw6zu"
+            ],
+            "status": "open"
+          },
+          "name": "Multiple in a row",
+          "requires": [],
+          "tags": [],
+          "type": "support-thread",
+          "version": "1.0.0"
+        },
+        "timestamp": "2018-10-08T18:40:09.520Z"
+      },
+      "requires": [],
+      "tags": [],
+      "type": "update",
+      "version": "1.0.0"
+    },
+    {
       "type": "message",
       "active": true,
       "version": "1.0.0",
@@ -88,6 +119,37 @@
           "message": "Two\n\nOn Mon, Oct 8, 2018 at 7:39 PM Juan Cruz Viotti <juan@resin.io> wrote:\n\n> One\n>\n> On Mon, Oct 8, 2018 at 7:39 PM Juan Cruz Viotti <juan@resin.io> wrote:\n>\n>>\n>>"
         }
       }
+    },
+    {
+      "active": true,
+      "capabilities": [],
+      "data": {
+        "payload": {
+          "active": true,
+          "capabilities": [],
+          "data": {
+            "alertsUser": [],
+            "description": "",
+            "environment": "production",
+            "inbox": "Demo Inbox",
+            "mentionsUser": [],
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_11dw6zu"
+            ],
+            "status": "open"
+          },
+          "name": "Multiple in a row",
+          "requires": [],
+          "tags": [],
+          "type": "support-thread",
+          "version": "1.0.0"
+        },
+        "timestamp": "2018-10-08T18:40:12.958Z"
+      },
+      "requires": [],
+      "tags": [],
+      "type": "update",
+      "version": "1.0.0"
     }
   ]
 }

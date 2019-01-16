@@ -33,7 +33,7 @@ const tailSort = [
 	}
 ]
 
-const getVariations = (sequence) => {
+const getVariations = (sequence, options = {}) => {
 	const invariant = _.last(sequence)
 	return combinatorics
 		.permutationCombination(sequence)
@@ -44,6 +44,10 @@ const getVariations = (sequence) => {
 
 		// Only consider the ones that preserve ordering for now
 		.filter((combination) => {
+			if (options.permutations) {
+				return true
+			}
+
 			return _.isEqual(combination, _.clone(combination).sort((left, right) => {
 				return _.findIndex(sequence, (element) => {
 					return _.isEqual(element, left)
@@ -159,6 +163,7 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 	Reflect.deleteProperty(head, 'links')
 	Reflect.deleteProperty(head, 'markers')
 	Reflect.deleteProperty(head.data, 'origin')
+	Reflect.deleteProperty(head.data, 'translateDate')
 
 	const timeline = await test.context.jellyfish.query(test.context.context,
 		test.context.session, {
@@ -196,6 +201,7 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 		Reflect.deleteProperty(card, 'markers')
 		Reflect.deleteProperty(card, 'created_at')
 		Reflect.deleteProperty(card.data, 'origin')
+		Reflect.deleteProperty(card.data, 'translateDate')
 
 		if (card.data.payload) {
 			Reflect.deleteProperty(card.data.payload, 'slug')
@@ -205,6 +211,7 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 
 			if (card.data.payload.data) {
 				Reflect.deleteProperty(card.data.payload.data, 'origin')
+				Reflect.deleteProperty(card.data.payload.data, 'translateDate')
 			}
 		}
 
@@ -244,6 +251,7 @@ exports.translate = {
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 			require('../../../default-cards/contrib/action-integration-import-event.json'))
 
+		nock.cleanAll()
 		nock.disableNetConnect()
 	},
 	afterEach: async (test) => {
@@ -280,7 +288,9 @@ exports.translate = {
 				tail: _.sortBy(testCase.expected.tail, tailSort)
 			}
 
-			for (const variation of getVariations(testCase.steps)) {
+			for (const variation of getVariations(testCase.steps, {
+				permutations: suite.source !== 'github'
+			})) {
 				// TODO: We should remove this, but lets start with Front
 				if (suite.source === 'github' &&
 					variation.combination.length !== testCase.steps.length) {
@@ -298,7 +308,7 @@ exports.translate = {
 						// we usually can't know the date this happened, but we can
 						// still apply it with a date approximation. In those cases,
 						// its helpful to omit the update events from the tail checks.
-						ignoreUpdateEvents: variation.combination.length < testCase.steps.length,
+						ignoreUpdateEvents: !_.isEqual(variation.combination, testCase.steps),
 
 						expected,
 						name: testCaseName,

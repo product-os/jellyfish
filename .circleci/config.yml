@@ -86,6 +86,31 @@ jobs:
           paths:
             - .nyc_output/*.json
 
+  sync_tests:
+    <<: *job_defaults
+
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: .
+
+      - run:
+          name: Start RethinkDB
+          command: rethinkdb --daemon --bind all
+
+      - run:
+          name: Sync Tests
+          command: make test-integration-sync COVERAGE=1
+      - run:
+          name: Sync Integration Tests Without Tokens
+          command: make test-integration-sync COVERAGE=1 INTEGRATION_GITHUB_TOKEN= INTEGRATION_FRONT_TOKEN=
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .nyc_output/*.json
+
   integration_tests: &integration_tests
     <<: *job_defaults
 
@@ -103,14 +128,8 @@ jobs:
       - run: mkdir -p /tmp/test-results/screenshots
 
       - run:
-          name: Integration Tests 1
-          command: make test-integration COVERAGE=1
-      - run:
-          name: Integration Tests (with debug logs)
-          command: make test-integration COVERAGE=1 LOGLEVEL=debug
-      - run:
-          name: Sync Integration Tests Without Tokens
-          command: make test-integration-sync COVERAGE=1 INTEGRATION_GITHUB_TOKEN= INTEGRATION_FRONT_TOKEN=
+          name: Integration Tests
+          command: make test-integration-sdk test-integration-server test-integration-ui COVERAGE=1
 
       - persist_to_workspace:
           root: .
@@ -138,7 +157,7 @@ jobs:
           command: node ./scripts/reset-database.js && ./scripts/import-latest-production-backup.sh
       - run:
           name: Integration Tests (on production database)
-          command: make test-integration COVERAGE=1 NODE_ENV=production
+          command: make test-integration-sdk test-integration-server test-integration-ui COVERAGE=1
 
       - persist_to_workspace:
           root: .
@@ -270,12 +289,18 @@ workflows:
                     - build
                 <<: *workflow_filter
 
+            - sync_tests:
+                requires:
+                    - build
+                <<: *workflow_filter
+
             - results:
                 requires:
                   - unit_tests
                   - integration_tests
                   - integration_tests_production
                   - flaky_ui_tests
+                  - sync_tests
                 <<: *workflow_filter
 
             - eslint_jellyfish:

@@ -90,6 +90,37 @@
       }
     },
     {
+      "active": true,
+      "capabilities": [],
+      "data": {
+        "payload": {
+          "active": true,
+          "capabilities": [],
+          "data": {
+            "alertsUser": [],
+            "description": "",
+            "environment": "production",
+            "inbox": "S/Paid_Support",
+            "mentionsUser": [],
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_162d17f"
+            ],
+            "status": "open"
+          },
+          "name": "",
+          "requires": [],
+          "tags": [],
+          "type": "support-thread",
+          "version": "1.0.0"
+        },
+        "timestamp": "2018-12-27T15:08:33.530Z"
+      },
+      "requires": [],
+      "tags": [],
+      "type": "update",
+      "version": "1.0.0"
+    },
+    {
       "type": "update",
       "active": true,
       "version": "1.0.0",
@@ -98,6 +129,37 @@
       "capabilities": [],
       "data": {
         "timestamp": "2018-12-27T15:08:41.779Z",
+        "payload": {
+          "name": "",
+          "type": "support-thread",
+          "version": "1.0.0",
+          "active": true,
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "environment": "production",
+            "inbox": "S/Paid_Support",
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_162d17f"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "closed"
+          }
+        }
+      }
+    },
+    {
+      "type": "update",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "timestamp": "2018-12-27T15:08:44.053Z",
         "payload": {
           "name": "",
           "type": "support-thread",
