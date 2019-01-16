@@ -72,7 +72,7 @@
                 },
                 "sha": {
                   "type": "string",
-                  "pattern": "[0-9a-f]{5,40}"
+                  "pattern": "^[a-f0-9]{7,40}$"
                 }
               },
               "required": [

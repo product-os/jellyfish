@@ -6,13 +6,62 @@
     "tags": [],
     "requires": [],
     "capabilities": [],
+    "name": "Push Event",
     "data": {
-      "repository": {
-        "branch": "master",
-        "org": "balena-io",
-        "repo": "vb-test"
-      },
-      "sha": "f48f3cf84849d7573231b25a633798ecbe6b8e67"
+      "branch": "master",
+      "before": "a78a5b6f7e53cef5267ec13216ea4a9ba2cca92d",
+      "after": "f48f3cf84849d7573231b25a633798ecbe6b8e67",
+      "author": "nazrhom",
+      "commits": [
+        {
+          "id": "58270afc0a2ae23a1df28393f68df01375c6f56b",
+          "tree_id": "cab2c76fe80877feb182d149ddc13830046533b9",
+          "distinct": true,
+          "message": "Add gitignore",
+          "timestamp": "2018-12-27T11:13:56+01:00",
+          "url": "https://github.com/balena-io/vb-test/commit/58270afc0a2ae23a1df28393f68df01375c6f56b",
+          "author": {
+            "name": "Giovanni Garufi",
+            "email": "nazrhom@gmail.com",
+            "username": "nazrhom"
+          },
+          "committer": {
+            "name": "Giovanni Garufi",
+            "email": "nazrhom@gmail.com",
+            "username": "nazrhom"
+          },
+          "added": [
+            ".gitignore"
+          ],
+          "removed": [],
+          "modified": []
+        },
+        {
+          "id": "f48f3cf84849d7573231b25a633798ecbe6b8e67",
+          "tree_id": "3eda16ba33b73b70464cf62d7e4ea6a0cb7934ea",
+          "distinct": true,
+          "message": "Merge branch 'master' of github.com:resin-io/vb-test",
+          "timestamp": "2018-12-27T11:14:13+01:00",
+          "url": "https://github.com/balena-io/vb-test/commit/f48f3cf84849d7573231b25a633798ecbe6b8e67",
+          "author": {
+            "name": "Giovanni Garufi",
+            "email": "nazrhom@gmail.com",
+            "username": "nazrhom"
+          },
+          "committer": {
+            "name": "Giovanni Garufi",
+            "email": "nazrhom@gmail.com",
+            "username": "nazrhom"
+          },
+          "added": [
+            "test"
+          ],
+          "removed": [],
+          "modified": [
+            "README.md"
+          ]
+        }
+      ]
     }
   },
   "tail": [
@@ -27,13 +76,67 @@
         "timestamp": "2018-10-10T10:13:06Z",
         "payload": {
           "type": "gh-push",
+          "active": true,
+          "capabilities": [],
+          "name": "Push Event",
+          "requires": [],
+          "tags": [],
+          "version": "1.0.0",
           "data": {
-            "repository": {
-              "branch": "master",
-              "org": "balena-io",
-              "repo": "vb-test"
-            },
-            "sha": "f48f3cf84849d7573231b25a633798ecbe6b8e67"
+            "branch": "master",
+            "before": "a78a5b6f7e53cef5267ec13216ea4a9ba2cca92d",
+            "after": "f48f3cf84849d7573231b25a633798ecbe6b8e67",
+            "author": "nazrhom",
+            "commits": [
+              {
+                "id": "58270afc0a2ae23a1df28393f68df01375c6f56b",
+                "tree_id": "cab2c76fe80877feb182d149ddc13830046533b9",
+                "distinct": true,
+                "message": "Add gitignore",
+                "timestamp": "2018-12-27T11:13:56+01:00",
+                "url": "https://github.com/balena-io/vb-test/commit/58270afc0a2ae23a1df28393f68df01375c6f56b",
+                "author": {
+                  "name": "Giovanni Garufi",
+                  "email": "nazrhom@gmail.com",
+                  "username": "nazrhom"
+                },
+                "committer": {
+                  "name": "Giovanni Garufi",
+                  "email": "nazrhom@gmail.com",
+                  "username": "nazrhom"
+                },
+                "added": [
+                  ".gitignore"
+                ],
+                "removed": [],
+                "modified": []
+              },
+              {
+                "id": "f48f3cf84849d7573231b25a633798ecbe6b8e67",
+                "tree_id": "3eda16ba33b73b70464cf62d7e4ea6a0cb7934ea",
+                "distinct": true,
+                "message": "Merge branch 'master' of github.com:resin-io/vb-test",
+                "timestamp": "2018-12-27T11:14:13+01:00",
+                "url": "https://github.com/balena-io/vb-test/commit/f48f3cf84849d7573231b25a633798ecbe6b8e67",
+                "author": {
+                  "name": "Giovanni Garufi",
+                  "email": "nazrhom@gmail.com",
+                  "username": "nazrhom"
+                },
+                "committer": {
+                  "name": "Giovanni Garufi",
+                  "email": "nazrhom@gmail.com",
+                  "username": "nazrhom"
+                },
+                "added": [
+                  "test"
+                ],
+                "removed": [],
+                "modified": [
+                  "README.md"
+                ]
+              }
+            ]
           }
         }
       }

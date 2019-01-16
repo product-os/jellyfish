@@ -15,6 +15,12 @@
  */
 
 module.exports = {
+	'push-to-master': {
+		expected: require('./push-to-master/expected.json'),
+		steps: [
+			require('./push-to-master/01.json')
+		]
+	},
 	'push-to-open-pr': {
 		expected: require('./push-to-open-pr/expected.json'),
 		steps: [
