@@ -20,15 +20,18 @@ module.exports = class NoOpIntegration {
 	 * @class
 	 * @public
 	 *
+	 * @param {Object} options - options
+	 *
 	 * @description
 	 * Mainly for testing purposes.
 	 *
 	 * @example
-	 * const integration = new NoOpIntegration()
+	 * const integration = new NoOpIntegration({ ... })
 	 */
-	constructor () {
+	constructor (options) {
 		this.initialized = false
 		this.destroyed = false
+		this.options = options
 	}
 
 	/**
@@ -105,6 +108,7 @@ module.exports = class NoOpIntegration {
 		return [
 			{
 				time: new Date(),
+				actor: this.options.actor,
 				card: {
 					type: 'card',
 					slug: event.slug,
