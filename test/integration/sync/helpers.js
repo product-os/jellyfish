@@ -153,8 +153,8 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 	test.true(cards.length > 0)
 
 	const head = await test.context.jellyfish.getCardById(test.context.context,
-		test.context.session, cards[0].id, {
-			type: cards[0].type
+		test.context.session, cards[testCase.headIndex].id, {
+			type: cards[testCase.headIndex].type
 		})
 	Reflect.deleteProperty(head, 'links')
 	Reflect.deleteProperty(head, 'markers')
@@ -288,6 +288,7 @@ exports.translate = {
 					await webhookScenario(test, {
 						steps: variation.combination,
 						offset: _.findIndex(testCase.steps, _.first(variation.combination)) + 1,
+						headIndex: testCase.headIndex || 0,
 						original: testCase.steps,
 
 						// If we miss events such as when a head card was archived,

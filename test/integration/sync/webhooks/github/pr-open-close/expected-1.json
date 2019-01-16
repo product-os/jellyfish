@@ -1,0 +1,46 @@
+{
+  "head": {
+    "name":  "resin-io/jellyfish",
+    "type":  "repository",
+    "slug":  "repository-resin-io-jellyfish",
+    "active": true,
+    "capabilities": [ ],
+    "data": {
+      "git_url":  "git://github.com/resin-io/jellyfish.git",
+      "html_url": "https://github.com/resin-io/jellyfish",
+      "name":  "jellyfish",
+      "owner":  "resin-io"
+    },
+    "requires": [ ],
+    "tags": [ ],
+    "version":  "1.0.0"
+  },
+  "tail": [
+    {
+      "type": "create",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "timestamp": "2018-10-10T09:09:36.000Z",
+        "payload": {
+          "name":  "resin-io/jellyfish",
+          "type":  "repository",
+          "active": true,
+          "capabilities": [ ],
+          "data": {
+            "git_url":  "git://github.com/resin-io/jellyfish.git",
+            "html_url": "https://github.com/resin-io/jellyfish",
+            "name":  "jellyfish",
+            "owner":  "resin-io"
+          },
+          "requires": [ ],
+          "tags": [ ],
+          "version":  "1.0.0"
+        }
+      }
+    }
+  ]
+}

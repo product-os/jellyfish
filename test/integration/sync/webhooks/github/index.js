@@ -15,6 +15,13 @@
  */
 
 module.exports = {
+	'open-pr-and-create-repos': {
+		expected: require('./pr-open-close/expected-1.json'),
+		headIndex: 1,
+		steps: [
+			require('./pr-open-close/01-pr-opened.json')
+		]
+	},
 	'pr-open-from-fork': {
 		expected: require('./pr-open-from-fork/expected.json'),
 		steps: [
