@@ -1,1 +1,110 @@
-[]
+{
+  "head": {
+    "name": "Update readme",
+    "type": "pull-request",
+    "version": "1.0.0",
+    "active": true,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "repository": "balena-io/vb-test",
+      "head": {
+        "branch": "test-update",
+        "sha": "70b9a5f59ebf35cff5265f30c8b33ecae15ddad5"
+      },
+      "base": {
+        "branch": "master",
+        "sha": "070b3a25f36f470921cf1d7975cebc1a335ad5f2"
+      },
+      "mirrors": [
+        "https://github.com/balena-io/vb-test/pull/48"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "Change-type: patch\r\nSigned-off-by: Giovanni Garufi <giovanni@balena.io>",
+      "status": "open",
+      "archived": false
+    }
+  },
+  "tail": [
+    {
+      "type": "create",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "timestamp": "2018-10-10T09:09:36.000Z",
+        "payload": {
+          "name": "Update readme",
+          "active": true,
+          "version": "1.0.0",
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "repository": "balena-io/vb-test",
+            "head": {
+              "branch": "test-update",
+              "sha": "7792c35b172a6ee7b155c471a36c3cda1ef649f6"
+            },
+            "base": {
+              "branch": "master",
+              "sha": "070b3a25f36f470921cf1d7975cebc1a335ad5f2"
+            },
+            "mirrors": [
+              "https://github.com/balena-io/vb-test/pull/48"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "Change-type: patch\r\nSigned-off-by: Giovanni Garufi <giovanni@balena.io>",
+            "status": "open",
+            "archived": false
+          },
+          "type": "pull-request"
+        }
+      }
+    },
+    {
+      "type": "update",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "timestamp": "2018-10-10T09:11:51.000Z",
+        "payload": {
+          "name": "Update readme",
+          "active": true,
+          "version": "1.0.0",
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "repository": "balena-io/vb-test",
+            "head": {
+              "branch": "test-update",
+              "sha": "70b9a5f59ebf35cff5265f30c8b33ecae15ddad5"
+            },
+            "base": {
+              "branch": "master",
+              "sha": "070b3a25f36f470921cf1d7975cebc1a335ad5f2"
+            },
+            "mirrors": [
+              "https://github.com/balena-io/vb-test/pull/48"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "Change-type: patch\r\nSigned-off-by: Giovanni Garufi <giovanni@balena.io>",
+            "status": "open",
+            "archived": false
+          },
+          "type": "pull-request"
+        }
+      }
+    }
+  ]
+}
