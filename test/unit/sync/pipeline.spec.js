@@ -474,6 +474,7 @@ ava('.translateExternalEvent() should translate an external event through the no
 			source: 'test',
 			headers: {},
 			payload: {
+				actor: test.context.actor.id,
 				foo: 'bar',
 				bar: 'baz'
 			}
@@ -497,6 +498,7 @@ ava('.translateExternalEvent() should translate an external event through the no
 			data: {
 				origin: result[0].data.origin,
 				payload: {
+					actor: test.context.actor.id,
 					foo: 'bar',
 					bar: 'baz'
 				}
