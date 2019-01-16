@@ -8,8 +8,14 @@
     "requires": [],
     "capabilities": [],
     "data": {
-      "base_branch": "master",
-      "head_branch": "master",
+      "base": {
+        "branch": "master",
+        "sha": "070b3a25f36f470921cf1d7975cebc1a335ad5f2"
+      },
+      "head": {
+        "branch": "master",
+        "sha": "61c13a539195aece8506f4f7eb1c01765e935891"
+      },
       "repository": "balena-io/vb-test",
       "mirrors": [
         "https://github.com/balena-io/vb-test/pull/47"
@@ -39,8 +45,14 @@
           "requires": [],
           "capabilities": [],
           "data": {
-            "base_branch": "master",
-            "head_branch": "master",
+            "base": {
+              "branch": "master",
+              "sha": "070b3a25f36f470921cf1d7975cebc1a335ad5f2"
+            },
+            "head": {
+              "branch": "master",
+              "sha": "61c13a539195aece8506f4f7eb1c01765e935891"
+            },
             "repository": "balena-io/vb-test",
             "mirrors": [
               "https://github.com/balena-io/vb-test/pull/47"
@@ -72,8 +84,14 @@
           "requires": [],
           "capabilities": [],
           "data": {
-            "base_branch": "master",
-            "head_branch": "master",
+            "base": {
+              "branch": "master",
+              "sha": "070b3a25f36f470921cf1d7975cebc1a335ad5f2"
+            },
+            "head": {
+              "branch": "master",
+              "sha": "61c13a539195aece8506f4f7eb1c01765e935891"
+            },
             "repository": "balena-io/vb-test",
             "mirrors": [
               "https://github.com/balena-io/vb-test/pull/47"
