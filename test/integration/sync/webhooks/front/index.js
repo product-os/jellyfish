@@ -15,6 +15,20 @@
  */
 
 module.exports = {
+	'intercom-draft-message': {
+		expected: require('./intercom-draft-message/expected.json'),
+		steps: [
+			require('./intercom-draft-message/01.json'),
+			require('./intercom-draft-message/02.json')
+		]
+	},
+	'intercom-draft-comment': {
+		expected: require('./intercom-draft-comment/expected.json'),
+		steps: [
+			require('./intercom-draft-comment/01.json'),
+			require('./intercom-draft-comment/02.json')
+		]
+	},
 	'intercom-inbound-archive': {
 		expected: require('./intercom-inbound-archive/expected.json'),
 		steps: [
