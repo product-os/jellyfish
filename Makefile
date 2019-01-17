@@ -96,7 +96,7 @@ storybook-dev:
 report-coverage:
 	./node_modules/.bin/nyc --reporter=text --reporter=lcov --reporter=json report
 
-test: LOGLEVEL = warn
+test: LOGLEVEL = warning
 test:
 	node scripts/scrub-test-databases.js
 	NODE_ENV=$(NODE_ENV) \

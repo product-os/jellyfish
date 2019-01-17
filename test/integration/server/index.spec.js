@@ -38,6 +38,20 @@ const createUserDetails = () => {
 	}
 }
 
+ava.serial('The ping endpoint should continuously work', async (test) => {
+	const result1 = await test.context.http('GET', '/ping')
+	test.is(result1.code, 200)
+	test.false(result1.response.error)
+
+	const result2 = await test.context.http('GET', '/ping')
+	test.is(result2.code, 200)
+	test.false(result2.response.error)
+
+	const result3 = await test.context.http('GET', '/ping')
+	test.is(result3.code, 200)
+	test.false(result3.response.error)
+})
+
 ava.serial('Users should be able to change their own email addresses', async (test) => {
 	const {
 		sdk
