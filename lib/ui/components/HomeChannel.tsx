@@ -323,9 +323,11 @@ class HomeChannelBase extends TailStreamer<HomeChannelProps, HomeChannelState> {
 									const update = this.props.viewNotices[card.id];
 
 									return (
-										<Box mx={-3}>
+										<Box
+											mx={-3}
+											key={card.id}
+										>
 											<ViewLink
-												key={card.id}
 												card={card}
 												isActive={isActive}
 												activeSlice={activeSlice}
