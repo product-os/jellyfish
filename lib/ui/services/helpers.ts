@@ -103,13 +103,24 @@ const isToday = (momentDate: moment.Moment)  => {
 	return momentDate.isSame(TODAY, 'd');
 };
 
-export const formatTimestamp = _.memoize((stamp: string): string => {
+export const formatTimestamp = _.memoize((stamp: string, prefix: boolean = false): string => {
 	const momentDate = moment(stamp);
-	if (isToday(momentDate)) {
-		return momentDate.format('k:mm');
+	const today = isToday(momentDate);
+	const dateText = today
+		? momentDate.format('k:mm')
+		: momentDate.format('MMM Do, YYYY k:mm');
+
+	if (!prefix) {
+		return dateText;
 	}
 
-	return momentDate.format('MMM Do, YYYY k:mm');
+	return `${today ? 'at' : 'on'} ${dateText}`;
+}, (a, b) => {
+	if (b) {
+		return a + b;
+	}
+
+	return a;
 });
 
 export const timeAgo = (stamp: string): string => {

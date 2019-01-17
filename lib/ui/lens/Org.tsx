@@ -297,19 +297,26 @@ class Base extends React.Component<CardProps, CardState> {
 				}
 
 				<Box>
-					<Label>Members</Label>
-					{_.map(memberIds, (id) => {
-						return (
-							<Link
-								id={id}
-								onClick={this.openUserChannel}
-								href={`${window.location.hash}/${id}`}
-								style={{display: 'block'}}
-							>
-								{_.get(_.find(this.props.allUsers, { id }), 'slug')}
-							</Link>
-						);
-					})}
+					<Label>Members ({memberIds.length})</Label>
+					<Box
+						style={{
+							overflow: 'auto',
+							maxHeight: 150,
+						}}
+					>
+						{_.map(memberIds, (id) => {
+							return (
+								<Link
+									id={id}
+									onClick={this.openUserChannel}
+									href={`${window.location.hash}/${id}`}
+									style={{display: 'block'}}
+								>
+									{_.get(_.find(this.props.allUsers, { id }), 'slug')}
+								</Link>
+							);
+						})}
+					</Box>
 
 					<Box mt={3}>
 
@@ -343,11 +350,16 @@ class Base extends React.Component<CardProps, CardState> {
 				>
 					<Box
 						p={3}
-						style={{maxHeight: '50%', borderBottom: '1px solid #ccc'}}
+						flex="1"
+						style={{overflowY: 'auto'}}
 					>
 						{content}
 					</Box>
-					<Box flex="1 0 50%" style={{ overflowY: 'auto'}}>
+
+					<Box
+						style={{ maxHeight: '50%' }}
+						flex="0"
+					>
 						<TimelineLens.data.renderer card={this.props.card} />
 					</Box>
 				</Column>

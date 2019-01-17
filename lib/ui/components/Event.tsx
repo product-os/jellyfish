@@ -1,3 +1,4 @@
+import * as copy from 'copy-to-clipboard';
 import { circularDeepEqual } from 'fast-equals';
 import * as _ from 'lodash';
 import * as Mark from 'mark.js';
@@ -12,7 +13,11 @@ import {
 import { Markdown } from 'rendition/dist/extra/Markdown';
 import styled from 'styled-components';
 import { Card } from '../../types';
+import { ActionLink } from '../components/ActionLink';
 import { AuthenticatedImage } from '../components/AuthenticatedImage';
+import { ContextMenu } from '../components/ContextMenu';
+import Icon from '../components/Icon';
+import { IconButton } from '../components/IconButton';
 import { tagStyle } from '../components/Tag';
 import { colorHash, createPrefixRegExp, formatTimestamp } from '../services/helpers';
 import { getActor } from '../services/store-helpers';
@@ -37,13 +42,12 @@ const EventButton = styled.button`
 const EventWrapper = styled(Flex)`
 	word-break: break-word;
 
-	.event-card--timestamp {
-		color: #777;
+	.event-card--actions {
 		opacity: 0;
 	}
 
 	&:hover {
-		.event-card--timestamp {
+		.event-card--actions {
 			opacity: 1;
 		}
 	}
@@ -68,6 +72,7 @@ interface EventState {
 		name: string;
 		email: null | string;
 	};
+	showMenu: boolean;
 }
 
 export class Event extends React.Component<EventProps, EventState> {
@@ -78,11 +83,13 @@ export class Event extends React.Component<EventProps, EventState> {
 
 		this.state = {
 			actor: getActor(this.props.card.data.actor),
+			showMenu: false,
 		};
 	}
 
-	public shouldComponentUpdate(nextProps: EventProps): boolean {
-		return !circularDeepEqual(nextProps, this.props);
+	public shouldComponentUpdate(nextProps: EventProps, nextState: EventState): boolean {
+		return !circularDeepEqual(nextState, this.state) ||
+			!circularDeepEqual(nextProps, this.props);
 	}
 
 	public componentDidMount(): void {
@@ -159,6 +166,16 @@ export class Event extends React.Component<EventProps, EventState> {
 		}
 	}
 
+	public copyJSON = (event: React.MouseEvent<HTMLElement>) => {
+		event.preventDefault();
+		event.stopPropagation();
+		copy(JSON.stringify(this.props.card, null, 2));
+	}
+
+	public toggleMenu = () => {
+		this.setState({ showMenu: !this.state.showMenu });
+	}
+
 	public render(): React.ReactNode {
 		const { card, openChannel, ...props } = this.props;
 
@@ -196,11 +213,49 @@ export class Event extends React.Component<EventProps, EventState> {
 							)}
 
 							{!isMessage && this.getTimelineElement(card)}
+
+							{!!card.data && !!card.data.timestamp &&
+								<Txt
+									color={Theme.colors.text.light}
+									fontSize={1}
+									ml="6px"
+								>
+									{formatTimestamp(card.data.timestamp, true)}
+								</Txt>
+							}
 						</Flex>
 
-						{!!card.data && !!card.data.timestamp &&
-							<Txt className="event-card--timestamp" fontSize={1}>{formatTimestamp(card.data.timestamp)}</Txt>
-						}
+						<span>
+							<IconButton
+								className="event-card--actions"
+								px={2}
+								mr={card.type === 'whisper' ? -12 : -1}
+								plaintext
+								onClick={this.toggleMenu}
+							>
+								<Icon name="ellipsis-v" />
+
+							</IconButton>
+
+							{this.state.showMenu &&
+								<ContextMenu
+									position="bottom"
+									onClose={this.toggleMenu}
+								>
+									<>
+										<ActionLink
+											onClick={this.copyJSON}
+											tooltip={{
+												text: 'JSON copied!',
+												trigger: 'click',
+											}}
+										>
+											Copy as JSON
+										</ActionLink>
+									</>
+								</ContextMenu>
+							}
+						</span>
 					</Flex>
 
 					{isMessage && !!card.data.payload.message &&
