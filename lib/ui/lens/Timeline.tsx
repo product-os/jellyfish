@@ -206,7 +206,14 @@ export class Renderer extends React.Component<DefaultRendererProps, RendererStat
 		const channelTarget = card.id;
 		const { messagesOnly } = this.state;
 
-		const sortedTail = _.sortBy(tail, 'data.timestamp');
+		// Due to a bug in syncing, sometimes there can be duplicate cards in tail
+		const sortedTail = _.uniqBy(_.sortBy(tail, 'data.timestamp'), 'id');
+
+		if (messagesOnly) {
+			_.remove(sortedTail, (card) => {
+				return card.type !== 'message' && card.type !== 'whisper';
+			});
+		}
 
 		return (
 			<Column flexDirection="column" {...props}>
@@ -242,10 +249,6 @@ export class Renderer extends React.Component<DefaultRendererProps, RendererStat
 					)}
 
 					{(!!sortedTail && sortedTail.length > 0) && _.map(sortedTail, card => {
-						if (messagesOnly && card.type !== 'message') {
-							return null;
-						}
-
 						return (
 							<Box key={card.id}>
 								<EventCard
