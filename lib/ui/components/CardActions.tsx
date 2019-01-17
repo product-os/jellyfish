@@ -4,10 +4,9 @@ import * as _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Flex, Link, Modal } from 'rendition';
+import { Flex, Modal } from 'rendition';
 import { Form } from 'rendition/dist/unstable';
 import * as skhema from 'skhema';
-import styled from 'styled-components';
 import { Card, Type } from '../../types';
 import { CardCreator } from '../components/CardCreator';
 import { FreeFieldForm } from '../components/FreeFieldForm';
@@ -17,15 +16,11 @@ import { actionCreators, selectors, StoreState } from '../core/store';
 import { getLocalSchema, removeUndefinedArrayItems } from '../services/helpers';
 import { createLink } from '../services/link';
 import { createPermaLink } from '../services/url-manager';
+import { ActionLink } from './ActionLink';
 import { CardLinker } from './CardLinker';
 import { ContextMenu } from './ContextMenu';
 import Icon from './Icon';
 import { IconButton } from './IconButton';
-
-const ActionLink = styled(Link)`
-	display: block !important;
-	cursor: pointer;
-`;
 
 interface CardActionsState {
 	showEditModal: boolean;
@@ -145,6 +140,12 @@ class Base extends React.Component<
 		copy(createPermaLink(this.props.card));
 	}
 
+	public copyJSON = (event: React.MouseEvent<HTMLElement>) => {
+		event.preventDefault();
+		event.stopPropagation();
+		copy(JSON.stringify(this.props.card, null, 2));
+	}
+
 	public toggleMenu = () => {
 		this.setState({ showMenu: !this.state.showMenu });
 	}
@@ -242,6 +243,17 @@ class Base extends React.Component<
 										}}
 									>
 										Copy permalink
+									</ActionLink>
+
+									<ActionLink
+										mb={2}
+										onClick={this.copyJSON}
+										tooltip={{
+											text: 'JSON copied!',
+											trigger: 'click',
+										}}
+									>
+										Copy as JSON
 									</ActionLink>
 
 									<ActionLink
