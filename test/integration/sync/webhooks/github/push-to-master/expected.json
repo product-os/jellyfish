@@ -62,7 +62,15 @@
           ]
         }
       ]
-    }
+    },
+    "links": {
+      "refers to": [
+         {
+            "slug": "repository-balena-io-vb-test",
+            "type": "repository"
+         }
+       ]
+     }
   },
   "tail": [
     {

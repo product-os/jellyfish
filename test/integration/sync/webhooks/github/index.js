@@ -21,6 +21,12 @@ module.exports = {
 			require('./push-to-master/01.json')
 		]
 	},
+	'push-to-new-branch': {
+		expected: require('./push-to-new-branch/expected.json'),
+		steps: [
+			require('./push-to-new-branch/01.json')
+		]
+	},
 	'push-to-open-pr': {
 		expected: require('./push-to-open-pr/expected.json'),
 		steps: [

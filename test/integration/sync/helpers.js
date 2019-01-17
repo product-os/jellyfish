@@ -156,7 +156,8 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 		test.context.session, cards[testCase.headIndex].id, {
 			type: cards[testCase.headIndex].type
 		})
-	Reflect.deleteProperty(head, 'links')
+
+	deleteExtraLinks(testCase.expected.head, head)
 	Reflect.deleteProperty(head, 'markers')
 
 	const timeline = await test.context.jellyfish.query(test.context.context,
@@ -219,6 +220,39 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 	})
 
 	test.deepEqual(expectedTail, actualTail)
+}
+
+const deleteExtraLinks = (expected, result) => {
+	// If links is not present in expected we just remove the whole thing
+	if (!expected.links) {
+		Reflect.deleteProperty(result, 'links')
+	}
+
+	// Otherwise we recursively remove all relationships and links inside them
+	// where the relationship does not match the relationship specified in expected
+	const difference = getObjDifference(expected.links, result.links)
+
+	_.each(difference, (rel) => {
+		Reflect.deleteProperty(result.links, rel)
+	})
+
+	_.each(result.links, (links, relationship) => {
+		_.each(links, (link, index) => {
+			const linkDiff = getObjDifference(
+				expected.links[relationship][index],
+				result.links[relationship][index]
+			)
+			_.each(linkDiff, (rel) => {
+				Reflect.deleteProperty(result.links[relationship][index], rel)
+			})
+		})
+	})
+}
+
+const getObjDifference = (expected, obtained) => {
+	const expectedKeys = _.keys(expected)
+	const obtainedKeys = _.keys(obtained)
+	return _.difference(obtainedKeys, expectedKeys)
 }
 
 exports.translate = {
