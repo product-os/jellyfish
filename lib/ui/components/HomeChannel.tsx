@@ -130,9 +130,6 @@ class HomeChannelBase extends TailStreamer<HomeChannelProps, HomeChannelState> {
 	}
 
 	public setTail(tail: Card[]): void {
-		tail.forEach(card => {
-			this.props.actions.streamView(card);
-		});
 		// If there is only 1 channel, check for the home channel, otherwise, open
 		// the all messages view by default
 		if (this.props.channels.length === 1) {
