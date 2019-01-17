@@ -108,7 +108,7 @@ interface HomeChannelState {
 	messages: Card[];
 }
 
-class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
+class HomeChannelBase extends TailStreamer<HomeChannelProps, HomeChannelState> {
 	constructor(props: HomeChannelProps) {
 		super(props);
 
@@ -361,7 +361,7 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 					{!!tail && _.map(groups, (group) => {
 						const isExpanded = this.isExpanded(group.name);
 						return (
-							<>
+							<React.Fragment key={group.name}>
 								<Button
 									plaintext
 									primary
@@ -405,7 +405,7 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 										);
 									})}
 								</div>
-							</>
+							</React.Fragment>
 						);
 					})}
 
@@ -450,4 +450,4 @@ const mapDispatchToProps = (dispatch: any) => ({
 	actions: bindActionCreators(actionCreators, dispatch),
 });
 
-export const HomeChannel = connect(mapStateToProps, mapDispatchToProps)(Base);
+export const HomeChannel = connect(mapStateToProps, mapDispatchToProps)(HomeChannelBase);
