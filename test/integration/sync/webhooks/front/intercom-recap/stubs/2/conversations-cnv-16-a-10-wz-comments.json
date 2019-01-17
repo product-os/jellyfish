@@ -1,0 +1,127 @@
+{
+  "_pagination": {
+    "prev": null,
+    "next": null
+  },
+  "_links": {
+    "self": "https://api2.frontapp.com/conversations/cnv_16a10wz/comments"
+  },
+  "_results": [
+    {
+      "_links": {
+        "self": "https://api2.frontapp.com/comments/com_2nmd7n",
+        "related": {
+          "conversation": "https://api2.frontapp.com/conversations/cnv_16a10wz",
+          "mentions": "https://api2.frontapp.com/comments/com_2nmd7n/mentions"
+        }
+      },
+      "id": "com_2nmd7n",
+      "body": "closed",
+      "posted_at": 1547744307.834,
+      "author": {
+        "_links": {
+          "self": "https://api2.frontapp.com/teammates/tea_1amd",
+          "related": {
+            "inboxes": "https://api2.frontapp.com/teammates/tea_1amd/inboxes",
+            "conversations": "https://api2.frontapp.com/teammates/tea_1amd/conversations"
+          }
+        },
+        "id": "tea_1amd",
+        "email": "lucian@balena.io",
+        "username": "lucianbuzzo",
+        "first_name": "Lucian",
+        "last_name": "Buzzo",
+        "is_admin": false,
+        "is_available": true,
+        "is_blocked": false
+      }
+    },
+    {
+      "_links": {
+        "self": "https://api2.frontapp.com/comments/com_2kcn57",
+        "related": {
+          "conversation": "https://api2.frontapp.com/conversations/cnv_16a10wz",
+          "mentions": "https://api2.frontapp.com/comments/com_2kcn57/mentions"
+        }
+      },
+      "id": "com_2kcn57",
+      "body": "#summary user wanted to know how to rollback a device, showed them staged-releases (prev status)",
+      "posted_at": 1546532891.677,
+      "author": {
+        "_links": {
+          "self": "https://api2.frontapp.com/teammates/tea_6tnf",
+          "related": {
+            "inboxes": "https://api2.frontapp.com/teammates/tea_6tnf/inboxes",
+            "conversations": "https://api2.frontapp.com/teammates/tea_6tnf/conversations"
+          }
+        },
+        "id": "tea_6tnf",
+        "email": "lorenzoa@balena.io",
+        "username": "thundron",
+        "first_name": "Lorenzo Alberto Maria",
+        "last_name": "Ambrosi",
+        "is_admin": false,
+        "is_available": true,
+        "is_blocked": false
+      }
+    },
+    {
+      "_links": {
+        "self": "https://api2.frontapp.com/comments/com_2k4fer",
+        "related": {
+          "conversation": "https://api2.frontapp.com/conversations/cnv_16a10wz",
+          "mentions": "https://api2.frontapp.com/comments/com_2k4fer/mentions"
+        }
+      },
+      "id": "com_2k4fer",
+      "body": "#summary user wanted to know how to rollback a device, showed them staged-releases",
+      "posted_at": 1546452737.112,
+      "author": {
+        "_links": {
+          "self": "https://api2.frontapp.com/teammates/tea_111e",
+          "related": {
+            "inboxes": "https://api2.frontapp.com/teammates/tea_111e/inboxes",
+            "conversations": "https://api2.frontapp.com/teammates/tea_111e/conversations"
+          }
+        },
+        "id": "tea_111e",
+        "email": "cameron@balena.io",
+        "username": "camerondiver",
+        "first_name": "Cameron",
+        "last_name": "Diver",
+        "is_admin": false,
+        "is_available": true,
+        "is_blocked": false
+      }
+    },
+    {
+      "_links": {
+        "self": "https://api2.frontapp.com/comments/com_2k3oez",
+        "related": {
+          "conversation": "https://api2.frontapp.com/conversations/cnv_16a10wz",
+          "mentions": "https://api2.frontapp.com/comments/com_2k3oez/mentions"
+        }
+      },
+      "id": "com_2k3oez",
+      "body": "This is mirrored in [flowdock premium thread m-PT2l8ed9u-l_3FKX3kNhXzq5g](https://www.flowdock.com/app/rulemotion/public-s-premium/threads/m-PT2l8ed9u-l_3FKX3kNhXzq5g)\n[](https://www.balena-cloud.com?hidden=murmur&source=flowdock&flow=rulemotion/public-s-premium&thread=m-PT2l8ed9u-l_3FKX3kNhXzq5g&hmac=4938cfcb9c79d694fdfb1fc8cd4eb29f61dfc49959f85590f8c9327b69b2ca95)",
+      "posted_at": 1546448707.746,
+      "author": {
+        "_links": {
+          "self": "https://api2.frontapp.com/teammates/tea_1urh",
+          "related": {
+            "inboxes": "https://api2.frontapp.com/teammates/tea_1urh/inboxes",
+            "conversations": "https://api2.frontapp.com/teammates/tea_1urh/conversations"
+          }
+        },
+        "id": "tea_1urh",
+        "email": "syncbot@resin.io",
+        "username": "syncbot",
+        "first_name": "Syncbot",
+        "last_name": "Bot",
+        "is_admin": false,
+        "is_available": true,
+        "is_blocked": false
+      }
+    }
+  ]
+}

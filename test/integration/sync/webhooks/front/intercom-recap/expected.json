@@ -1,0 +1,326 @@
+{
+  "head": {
+    "name": "",
+    "type": "support-thread",
+    "version": "1.0.0",
+    "active": true,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "environment": "production",
+      "inbox": "S/Paid_Support",
+      "mirrors": [
+        "https://api2.frontapp.com/conversations/cnv_16a10wz"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "",
+      "status": "closed"
+    }
+  },
+  "tail": [
+    {
+      "active": true,
+      "capabilities": [],
+      "data": {
+        "payload": {
+          "name": "",
+          "type": "support-thread",
+          "version": "1.0.0",
+          "active": true,
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "environment": "production",
+            "inbox": "S/Paid_Support",
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_16a10wz"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open"
+          }
+        },
+        "timestamp": "2019-01-02T17:05:01.029Z"
+      },
+      "requires": [],
+      "tags": [],
+      "type": "create",
+      "version": "1.0.0"
+    },
+    {
+      "active": true,
+      "capabilities": [],
+      "data": {
+        "payload": {
+          "active": true,
+          "capabilities": [],
+          "data": {
+            "alertsUser": [],
+            "description": "",
+            "environment": "production",
+            "inbox": "S/Paid_Support",
+            "mentionsUser": [],
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_16a10wz"
+            ],
+            "status": "closed"
+          },
+          "name": "",
+          "requires": [],
+          "tags": [],
+          "type": "support-thread",
+          "version": "1.0.0"
+        },
+        "timestamp": "2019-01-02T17:05:02.029Z"
+      },
+      "requires": [],
+      "tags": [],
+      "type": "update",
+      "version": "1.0.0"
+    },
+    {
+      "version": "1.0.0",
+      "tags": [],
+      "capabilities": [],
+      "type": "message",
+      "active": true,
+      "requires": [],
+      "data": {
+        "timestamp": "2019-01-02T17:04:59.000Z",
+        "mirrors": [
+          "https://api2.frontapp.com/messages/msg_27vf9n7"
+        ],
+        "payload": {
+          "alertsUser": [],
+          "mentionsUser": [],
+          "message": "Hi, is there a quick and easy way to revert to an older release? I've done it succesfully by \"pushing\" the older commit but it doesn't seem to be working for me right now"
+        }
+      }
+    },
+    {
+      "version": "1.0.0",
+      "tags": [],
+      "capabilities": [],
+      "type": "whisper",
+      "active": true,
+      "requires": [],
+      "data": {
+        "timestamp": "2019-01-02T17:05:07.746Z",
+        "mirrors": [
+          "https://api2.frontapp.com/comments/com_2k3oez"
+        ],
+        "payload": {
+          "alertsUser": [],
+          "mentionsUser": [],
+          "message": "This is mirrored in [flowdock premium thread m-PT2l8ed9u-l_3FKX3kNhXzq5g](https://www.flowdock.com/app/rulemotion/public-s-premium/threads/m-PT2l8ed9u-l_3FKX3kNhXzq5g)\n[](https://www.balena-cloud.com?hidden=murmur&source=flowdock&flow=rulemotion/public-s-premium&thread=m-PT2l8ed9u-l_3FKX3kNhXzq5g&hmac=4938cfcb9c79d694fdfb1fc8cd4eb29f61dfc49959f85590f8c9327b69b2ca95)"
+        }
+      }
+    },
+    {
+      "version": "1.0.0",
+      "tags": [],
+      "capabilities": [],
+      "type": "message",
+      "active": true,
+      "requires": [],
+      "data": {
+        "timestamp": "2019-01-02T17:05:35.000Z",
+        "mirrors": [
+          "https://api2.frontapp.com/messages/msg_27vffoj"
+        ],
+        "payload": {
+          "alertsUser": [],
+          "mentionsUser": [],
+          "message": "Never mind I think I've gotten that to work again.. lol"
+        }
+      }
+    },
+    {
+      "version": "1.0.0",
+      "tags": [],
+      "capabilities": [],
+      "type": "message",
+      "active": true,
+      "requires": [],
+      "data": {
+        "timestamp": "2019-01-02T17:05:46.000Z",
+        "mirrors": [
+          "https://api2.frontapp.com/messages/msg_27vfhm3"
+        ],
+        "payload": {
+          "alertsUser": [],
+          "mentionsUser": [],
+          "message": "Is this something I can do on the balena dashboard for future reference?"
+        }
+      }
+    },
+    {
+      "version": "1.0.0",
+      "tags": [],
+      "capabilities": [],
+      "type": "message",
+      "active": true,
+      "requires": [],
+      "data": {
+        "timestamp": "2019-01-02T17:08:31.510Z",
+        "mirrors": [
+          "https://api2.frontapp.com/messages/msg_27vg2oz"
+        ],
+        "payload": {
+          "alertsUser": [],
+          "mentionsUser": [],
+          "message": "Hey, it's not actually implemented on the dashboard side, but you can use staged releases, with the code found in examples here: https://github.com/balena-io-projects/staged-releases"
+        }
+      }
+    },
+    {
+      "version": "1.0.0",
+      "tags": [],
+      "capabilities": [],
+      "type": "message",
+      "active": true,
+      "requires": [],
+      "data": {
+        "timestamp": "2019-01-02T17:08:45.286Z",
+        "mirrors": [
+          "https://api2.frontapp.com/messages/msg_27vg6m3"
+        ],
+        "payload": {
+          "alertsUser": [],
+          "mentionsUser": [],
+          "message": "I meant to say it's not implemented *yet*, but it is coming."
+        }
+      }
+    },
+    {
+      "version": "1.0.0",
+      "tags": [],
+      "capabilities": [],
+      "type": "whisper",
+      "active": true,
+      "requires": [],
+      "data": {
+        "timestamp": "2019-01-02T18:12:17.112Z",
+        "mirrors": [
+          "https://api2.frontapp.com/comments/com_2k4fer"
+        ],
+        "payload": {
+          "alertsUser": [],
+          "mentionsUser": [],
+          "message": "#summary user wanted to know how to rollback a device, showed them staged-releases"
+        }
+      }
+    },
+    {
+      "version": "1.0.0",
+      "tags": [],
+      "capabilities": [],
+      "type": "message",
+      "active": true,
+      "requires": [],
+      "data": {
+        "timestamp": "2019-01-03T16:14:48.000Z",
+        "mirrors": [
+          "https://api2.frontapp.com/messages/msg_280hbvv"
+        ],
+        "payload": {
+          "alertsUser": [],
+          "mentionsUser": [],
+          "message": "Sounds good, thanks!"
+        }
+      }
+    },
+    {
+      "version": "1.0.0",
+      "tags": [],
+      "capabilities": [],
+      "type": "whisper",
+      "active": true,
+      "requires": [],
+      "data": {
+        "timestamp": "2019-01-03T16:28:11.677Z",
+        "mirrors": [
+          "https://api2.frontapp.com/comments/com_2kcn57"
+        ],
+        "payload": {
+          "alertsUser": [],
+          "mentionsUser": [],
+          "message": "#summary user wanted to know how to rollback a device, showed them staged-releases (prev status)"
+        }
+      }
+    },
+    {
+      "version": "1.0.0",
+      "tags": [],
+      "capabilities": [],
+      "type": "whisper",
+      "active": true,
+      "requires": [],
+      "data": {
+        "timestamp": "2019-01-17T16:58:27.834Z",
+        "mirrors": [
+          "https://api2.frontapp.com/comments/com_2nmd7n"
+        ],
+        "payload": {
+          "alertsUser": [],
+          "mentionsUser": [],
+          "message": "closed"
+        }
+      }
+    },
+    {
+      "version": "1.0.0",
+      "tags": [],
+      "capabilities": [],
+      "type": "whisper",
+      "active": true,
+      "requires": [],
+      "data": {
+        "timestamp": "2019-01-17T17:18:42.935Z",
+        "mirrors": [
+          "https://api2.frontapp.com/comments/com_2nmlyb"
+        ],
+        "payload": {
+          "alertsUser": [],
+          "mentionsUser": [],
+          "message": "Test"
+        }
+      }
+    },
+    {
+      "active": true,
+      "capabilities": [],
+      "data": {
+        "payload": {
+          "active": true,
+          "capabilities": [],
+          "data": {
+            "alertsUser": [],
+            "description": "",
+            "environment": "production",
+            "inbox": "S/Paid_Support",
+            "mentionsUser": [],
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_16a10wz"
+            ],
+            "status": "closed"
+          },
+          "name": "",
+          "requires": [],
+          "tags": [],
+          "type": "support-thread",
+          "version": "1.0.0"
+        },
+        "timestamp": "2019-01-17T20:46:17.359Z"
+      },
+      "requires": [],
+      "tags": [],
+      "type": "update",
+      "version": "1.0.0"
+    }
+  ]
+}
