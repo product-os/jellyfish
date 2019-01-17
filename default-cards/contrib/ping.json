@@ -1,0 +1,31 @@
+{
+  "slug": "ping",
+  "type": "type",
+  "version": "1.0.0",
+  "name": "The ping card",
+  "markers": [],
+  "requires": [],
+  "capabilities": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [ "data" ],
+      "properties": {
+        "data": {
+          "type": "object",
+          "required": [ "timestamp" ],
+          "properties": {
+            "timestamp": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        }
+      }
+    }
+  }
+}
