@@ -206,6 +206,8 @@ export class Renderer extends React.Component<DefaultRendererProps, RendererStat
 		const channelTarget = card.id;
 		const { messagesOnly } = this.state;
 
+		const sortedTail = _.sortBy(tail, 'data.timestamp');
+
 		return (
 			<Column flexDirection="column" {...props}>
 				<Flex my={2} mr={2} justify="flex-end">
@@ -233,13 +235,13 @@ export class Renderer extends React.Component<DefaultRendererProps, RendererStat
 						paddingTop: 8,
 					}}
 				>
-					{!tail && (
+					{!sortedTail && (
 						<Box p={3}>
 							<Icon name="cog fa-spin" />
 						</Box>
 					)}
 
-					{(!!tail && tail.length > 0) && _.map(tail, card => {
+					{(!!sortedTail && sortedTail.length > 0) && _.map(sortedTail, card => {
 						if (messagesOnly && card.type !== 'message') {
 							return null;
 						}
