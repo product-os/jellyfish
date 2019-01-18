@@ -80,7 +80,9 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 
 	public render(): React.ReactNode {
 		const tail: Card[] = _.sortBy(this.props.tail, (element: any) => {
-			return _.get(_.last(element.links['has attached element']), [ 'data', 'timestamp' ]);
+			const timestamps = _.map(element.links['has attached element'], 'data.timestamp');
+			timestamps.sort();
+			return _.last(timestamps);
 		}).reverse() as any;
 
 		return (
@@ -105,6 +107,8 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 						const createCard = _.first((card as any).links['has attached element'])! as Card;
 						const actor = getActor(createCard.data.actor);
 						const lastActor = lastMessageOrWhisper ? getActor(lastMessageOrWhisper.data.actor) : null;
+
+						const timeline = _.sortBy(card.links['has attached element'], 'data.timestamp');
 
 						return (
 							<SupportThreadSummaryWrapper
@@ -132,7 +136,7 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 										)}
 									</Box>
 
-									<Txt>Updated {timeAgo(_.get(_.last(card.links['has attached element']), [ 'data', 'timestamp' ]))}</Txt>
+									<Txt>Updated {timeAgo(_.get(_.last(timeline), [ 'data', 'timestamp' ]))}</Txt>
 								</Flex>
 								<Txt my={2}>{messages.length} message{messages.length !== 1 && 's'}</Txt>
 								{lastMessageOrWhisper && (
