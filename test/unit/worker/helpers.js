@@ -80,7 +80,7 @@ exports.worker = {
 			actionLibrary,
 			test.context.queue)
 		test.context.flush = async (session) => {
-			if (await test.context.worker.length() === 0) {
+			if (await test.context.queue.length() === 0) {
 				return
 			}
 
