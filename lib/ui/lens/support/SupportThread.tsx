@@ -222,23 +222,23 @@ class Base extends React.Component<CardProps, CardState> {
 	}
 
 	public getStatuses(card: Card): Card[] {
-		const list = _.filter(_.get(card, [ 'links', 'has attached element' ]), (event) => {
+		const list = _.sortBy(_.filter(_.get(card, [ 'links', 'has attached element' ]), (event) => {
 			if (!_.includes(['message', 'whisper'], event.type)) {
 				return false;
 			}
-			return _.includes(event.tags, 'status');
-		});
+			return _.includes(event.data.payload.message, '#status');
+		}), 'data.timestamp');
 
 		return _.uniqBy(list, (item) => _.get(item, [ 'data', 'payload', 'message' ]));
 	}
 
 	public getSummaries(card: Card): Card[] {
-		const list = _.filter(_.get(card, [ 'links', 'has attached element' ]), (event) => {
+		const list = _.sortBy(_.filter(_.get(card, [ 'links', 'has attached element' ]), (event) => {
 			if (!_.includes(['message', 'whisper'], event.type)) {
 				return false;
 			}
-			return _.includes(event.tags, 'summary');
-		});
+			return _.includes(event.data.payload.message, '#summary');
+		}), 'data.timestamp');
 
 		return _.uniqBy(list, (item) => _.get(item, [ 'data', 'payload', 'message' ]));
 	}
