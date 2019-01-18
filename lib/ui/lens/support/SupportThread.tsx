@@ -310,11 +310,23 @@ class Base extends React.Component<CardProps, CardState> {
 					style={{overflowY: 'auto'}}
 				>
 					<Flex mb={1} justify="space-between">
-						<Box>
+						<Flex align="center">
 							{card.data.inbox && (
-								<Pill bg={colorHash(card.data.inbox)}>{card.data.inbox}</Pill>
+								<Pill
+									mr={3}
+									bg={colorHash(card.data.inbox)}
+								>
+									{card.data.inbox}
+								</Pill>
 							)}
-						</Box>
+
+							{!!card.tags && _.map(card.tags, (tag) => {
+									if (tag === 'status' || tag === 'summary') {
+										return null;
+									}
+									return <Tag key={tag} mr={2}>#{tag}</Tag>;
+							})}
+						</Flex>
 
 						<Flex>
 							<IconButton
@@ -358,17 +370,6 @@ class Base extends React.Component<CardProps, CardState> {
 
 						<Txt>Updated {timeAgo(_.get(_.last(card.links['has attached element']), [ 'data', 'timestamp' ]))}</Txt>
 					</Flex>
-
-					{!!card.tags && card.tags.length > 0 &&
-						<Box mb={1}>
-							{_.map(card.tags, (tag) => {
-								if (tag === 'status' || tag === 'summary') {
-									return null;
-								}
-								return <Tag mr={2}>#{tag}</Tag>;
-							})}
-						</Box>
-					}
 
 					{!this.state.expanded && (
 						<Link

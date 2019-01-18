@@ -9,6 +9,7 @@ export const tagStyle = `
 	padding: 2px 2px;
 	border-radius: ${Theme.radius}px;
 	border: 1px solid #c3c3c3;
+	line-height: 1;
 `;
 
 export const Tag = styled(Txt.span)`${tagStyle}`;
