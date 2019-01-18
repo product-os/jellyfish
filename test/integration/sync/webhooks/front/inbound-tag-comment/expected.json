@@ -1,0 +1,159 @@
+{
+  "head": {
+    "name": "Tag Backsync Test",
+    "type": "support-thread",
+    "version": "1.0.0",
+    "active": true,
+    "tags": [ "testTag" ],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "environment": "production",
+      "inbox": "Demo Inbox",
+      "mirrors": [
+        "https://api2.frontapp.com/conversations/cnv_183bv6i"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "",
+      "status": "open"
+    }
+  },
+  "tail": [
+    {
+      "type": "create",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "timestamp": "2019-01-18T16:34:53.073Z",
+        "payload": {
+          "name": "Tag Backsync Test",
+          "type": "support-thread",
+          "active": true,
+          "version": "1.0.0",
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "environment": "production",
+            "inbox": "Demo Inbox",
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_183bv6i"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open"
+          }
+        }
+      }
+    },
+    {
+      "active": true,
+      "capabilities": [],
+      "data": {
+        "payload": {
+          "active": true,
+          "capabilities": [],
+          "data": {
+            "alertsUser": [],
+            "description": "",
+            "environment": "production",
+            "inbox": "Demo Inbox",
+            "mentionsUser": [],
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_183bv6i"
+            ],
+            "status": "open"
+          },
+          "name": "Tag Backsync Test",
+          "requires": [],
+          "tags": [
+            "testTag"
+          ],
+          "type": "support-thread",
+          "version": "1.0.0"
+        },
+        "timestamp": "2019-01-18T16:35:05.795Z"
+      },
+      "requires": [],
+      "tags": [],
+      "type": "update",
+      "version": "1.0.0"
+    },
+    {
+      "type": "message",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "mirrors": [
+          "https://api2.frontapp.com/messages/msg_28s4nei"
+        ],
+        "timestamp": "2019-01-18T16:34:51.902Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "Foo"
+        }
+      }
+    },
+    {
+      "type": "whisper",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "mirrors": [
+          "https://api2.frontapp.com/comments/com_25mft6"
+        ],
+        "timestamp": "2019-01-18T16:35:18.193Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "hello"
+        }
+      }
+    },
+    {
+      "active": true,
+      "capabilities": [],
+      "data": {
+        "payload": {
+          "active": true,
+          "capabilities": [],
+          "data": {
+            "alertsUser": [],
+            "description": "",
+            "environment": "production",
+            "inbox": "Demo Inbox",
+            "mentionsUser": [],
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_183bv6i"
+            ],
+            "status": "open"
+          },
+          "name": "Tag Backsync Test",
+          "requires": [],
+          "tags": [
+            "testTag"
+          ],
+          "type": "support-thread",
+          "version": "1.0.0"
+        },
+        "timestamp": "2019-01-18T16:35:18.368Z"
+      },
+      "requires": [],
+      "tags": [],
+      "type": "update",
+      "version": "1.0.0"
+    }
+  ]
+}
