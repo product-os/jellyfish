@@ -65,7 +65,7 @@ ava('.enqueue() should include the actor from the passed session', async (test) 
 		}
 	})
 
-	const request = await test.context.worker.dequeue()
+	const request = await test.context.queue.dequeue()
 	test.is(session.data.actor, request.actor)
 })
 
@@ -90,7 +90,7 @@ ava('.enqueue() should include the whole passed action', async (test) => {
 		}
 	})
 
-	const request = await test.context.worker.dequeue()
+	const request = await test.context.queue.dequeue()
 	test.deepEqual(request.action, actionCard)
 })
 
@@ -110,7 +110,7 @@ ava('.enqueue() should set an originator', async (test) => {
 		}
 	})
 
-	const request = await test.context.worker.dequeue()
+	const request = await test.context.queue.dequeue()
 	test.is(request.originator, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
 })
 
@@ -132,7 +132,7 @@ ava('.enqueue() should take a current date', async (test) => {
 		}
 	})
 
-	const request = await test.context.worker.dequeue()
+	const request = await test.context.queue.dequeue()
 	test.is(request.timestamp, date.toISOString())
 })
 
@@ -155,7 +155,7 @@ ava('.enqueue() should set a present timestamp', async (test) => {
 		}
 	})
 
-	const request = await test.context.worker.dequeue()
+	const request = await test.context.queue.dequeue()
 	test.true(new Date(request.timestamp) >= currentDate)
 })
 
@@ -214,7 +214,7 @@ ava('.enqueue() should not store the password in the queue when using action-cre
 		}
 	})
 
-	const request = await test.context.worker.dequeue()
+	const request = await test.context.queue.dequeue()
 	test.falsy(request.arguments.hash.string)
 	test.falsy(request.arguments.hash.salt)
 })
@@ -256,7 +256,7 @@ ava('.enqueue() should not store the password in the queue when using action-cre
 		}
 	})
 
-	const request = await test.context.worker.dequeue()
+	const request = await test.context.queue.dequeue()
 	test.falsy(request.arguments.password.hash.string)
 	test.falsy(request.arguments.password.hash.salt)
 })
@@ -354,13 +354,6 @@ ava('enqueue() should fail to create an event with an action-create-card', async
 	)
 })
 
-ava('.dequeue() should return nothing if no requests', async (test) => {
-	const length = await test.context.queue.length()
-	test.is(length, 0)
-	const request = await test.context.worker.dequeue()
-	test.falsy(request)
-})
-
 ava('.dequeue() should reduce the queue length', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
 	await test.context.worker.enqueue(test.context.session, {
@@ -379,7 +372,7 @@ ava('.dequeue() should reduce the queue length', async (test) => {
 		}
 	})
 
-	await test.context.worker.dequeue()
+	await test.context.queue.dequeue()
 	const length = await test.context.queue.length()
 	test.is(length, 0)
 })
@@ -1582,7 +1575,7 @@ ava('.tick() should evaluate the current timestamp in a time triggered action', 
 	const length = await test.context.queue.length()
 	test.is(length, 1)
 
-	const request = await test.context.worker.dequeue()
+	const request = await test.context.queue.dequeue()
 	test.deepEqual(request.arguments.properties.data, {
 		timestamp: '2018-08-06T12:00:00.000Z'
 	})
@@ -1616,7 +1609,7 @@ ava('.tick() should enqueue an action if there is a time trigger with a past sta
 	const length = await test.context.queue.length()
 	test.is(length, 1)
 
-	const request = await test.context.worker.dequeue()
+	const request = await test.context.queue.dequeue()
 	test.deepEqual(request, {
 		id: request.id,
 		card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
@@ -1664,7 +1657,7 @@ ava('.tick() should enqueue an action if there is a time trigger with a present 
 	const length = await test.context.queue.length()
 	test.is(length, 1)
 
-	const request = await test.context.worker.dequeue()
+	const request = await test.context.queue.dequeue()
 	test.deepEqual(request, {
 		id: request.id,
 		card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
@@ -1712,7 +1705,7 @@ ava('.tick() should not enqueue an action using a past timestamp', async (test) 
 	const length = await test.context.queue.length()
 	test.is(length, 1)
 
-	const request = await test.context.worker.dequeue()
+	const request = await test.context.queue.dequeue()
 	const requestDate = new Date(request.timestamp)
 	test.false(requestDate.getTime() < Date.now())
 })
@@ -1761,8 +1754,8 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 	test.is(length, 2)
 
 	const requests = _.sortBy([
-		await test.context.worker.dequeue(),
-		await test.context.worker.dequeue()
+		await test.context.queue.dequeue(),
+		await test.context.queue.dequeue()
 	], [ 'originator' ])
 
 	test.deepEqual(requests, [
