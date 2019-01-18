@@ -101,14 +101,15 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 					}}
 				>
 					{(!!tail && tail.length > 0) && _.map(tail, (card: any) => {
-						const messages = _.filter(card.links['has attached element'], { type: 'message' });
-						const lastMessageOrWhisper = _.last(_.filter(card.links['has attached element'], (event) => event.type === 'message' || event.type === 'whisper'));
+						const timeline = _.sortBy(card.links['has attached element'], 'data.timestamp');
+
+						const messages = _.filter(timeline, (event) => event.type === 'message' || event.type === 'whisper')
+
+						const lastMessageOrWhisper = _.last(messages);
 
 						const createCard = _.first((card as any).links['has attached element'])! as Card;
 						const actor = getActor(createCard.data.actor);
 						const lastActor = lastMessageOrWhisper ? getActor(lastMessageOrWhisper.data.actor) : null;
-
-						const timeline = _.sortBy(card.links['has attached element'], 'data.timestamp');
 
 						return (
 							<SupportThreadSummaryWrapper
