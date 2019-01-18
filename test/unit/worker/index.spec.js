@@ -25,12 +25,7 @@ ava.beforeEach(async (test) => {
 
 ava.afterEach(helpers.worker.afterEach)
 
-ava('.length() should be zero by default', async (test) => {
-	const length = await test.context.worker.length()
-	test.is(length, 0)
-})
-
-ava('.enqueue() should increment length by one', async (test) => {
+ava('.enqueue() should increment the queue length by one', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
 	await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-card',
@@ -47,7 +42,7 @@ ava('.enqueue() should increment length by one', async (test) => {
 		}
 	})
 
-	const length = await test.context.worker.length()
+	const length = await test.context.queue.length()
 	test.is(length, 1)
 })
 
@@ -360,13 +355,13 @@ ava('enqueue() should fail to create an event with an action-create-card', async
 })
 
 ava('.dequeue() should return nothing if no requests', async (test) => {
-	const length = await test.context.worker.length()
+	const length = await test.context.queue.length()
 	test.is(length, 0)
 	const request = await test.context.worker.dequeue()
 	test.falsy(request)
 })
 
-ava('.dequeue() should reduce the length', async (test) => {
+ava('.dequeue() should reduce the queue length', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
 	await test.context.worker.enqueue(test.context.session, {
 		action: 'action-create-card',
@@ -385,7 +380,7 @@ ava('.dequeue() should reduce the length', async (test) => {
 	})
 
 	await test.context.worker.dequeue()
-	const length = await test.context.worker.length()
+	const length = await test.context.queue.length()
 	test.is(length, 0)
 })
 
@@ -1504,7 +1499,7 @@ ava('.tick() should not enqueue actions if there are no triggers', async (test) 
 		currentDate: new Date()
 	})
 
-	const length = await test.context.worker.length()
+	const length = await test.context.queue.length()
 	test.is(length, 0)
 })
 
@@ -1528,7 +1523,7 @@ ava('.tick() should not enqueue actions if there are no time triggers', async (t
 		currentDate: new Date()
 	})
 
-	const length = await test.context.worker.length()
+	const length = await test.context.queue.length()
 	test.is(length, 0)
 })
 
@@ -1551,7 +1546,7 @@ ava('.tick() should not enqueue an action if there is a time trigger with a futu
 		currentDate: new Date('2018-08-05T12:00:00.000Z')
 	})
 
-	const length = await test.context.worker.length()
+	const length = await test.context.queue.length()
 	test.is(length, 0)
 })
 
@@ -1584,7 +1579,7 @@ ava('.tick() should evaluate the current timestamp in a time triggered action', 
 		currentDate: new Date('2018-08-06T12:00:00.000Z')
 	})
 
-	const length = await test.context.worker.length()
+	const length = await test.context.queue.length()
 	test.is(length, 1)
 
 	const request = await test.context.worker.dequeue()
@@ -1618,7 +1613,7 @@ ava('.tick() should enqueue an action if there is a time trigger with a past sta
 		currentDate: new Date('2018-08-06T12:00:00.000Z')
 	})
 
-	const length = await test.context.worker.length()
+	const length = await test.context.queue.length()
 	test.is(length, 1)
 
 	const request = await test.context.worker.dequeue()
@@ -1666,7 +1661,7 @@ ava('.tick() should enqueue an action if there is a time trigger with a present 
 		currentDate: new Date('2018-08-05T12:00:00.000Z')
 	})
 
-	const length = await test.context.worker.length()
+	const length = await test.context.queue.length()
 	test.is(length, 1)
 
 	const request = await test.context.worker.dequeue()
@@ -1714,7 +1709,7 @@ ava('.tick() should not enqueue an action using a past timestamp', async (test) 
 		currentDate: new Date('2050-08-06T12:00:00.000Z')
 	})
 
-	const length = await test.context.worker.length()
+	const length = await test.context.queue.length()
 	test.is(length, 1)
 
 	const request = await test.context.worker.dequeue()
@@ -1762,7 +1757,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 		currentDate: new Date('2018-08-06T12:00:00.000Z')
 	})
 
-	const length = await test.context.worker.length()
+	const length = await test.context.queue.length()
 	test.is(length, 2)
 
 	const requests = _.sortBy([
