@@ -108,7 +108,7 @@ interface HomeChannelState {
 	messages: Card[];
 }
 
-class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
+class HomeChannelBase extends TailStreamer<HomeChannelProps, HomeChannelState> {
 	constructor(props: HomeChannelProps) {
 		super(props);
 
@@ -130,9 +130,6 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 	}
 
 	public setTail(tail: Card[]): void {
-		tail.forEach(card => {
-			this.props.actions.streamView(card);
-		});
 		// If there is only 1 channel, check for the home channel, otherwise, open
 		// the all messages view by default
 		if (this.props.channels.length === 1) {
@@ -326,9 +323,11 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 									const update = this.props.viewNotices[card.id];
 
 									return (
-										<Box mx={-3}>
+										<Box
+											mx={-3}
+											key={card.id}
+										>
 											<ViewLink
-												key={card.id}
 												card={card}
 												isActive={isActive}
 												activeSlice={activeSlice}
@@ -361,7 +360,7 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 					{!!tail && _.map(groups, (group) => {
 						const isExpanded = this.isExpanded(group.name);
 						return (
-							<>
+							<React.Fragment key={group.name}>
 								<Button
 									plaintext
 									primary
@@ -405,7 +404,7 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 										);
 									})}
 								</div>
-							</>
+							</React.Fragment>
 						);
 					})}
 
@@ -450,4 +449,4 @@ const mapDispatchToProps = (dispatch: any) => ({
 	actions: bindActionCreators(actionCreators, dispatch),
 });
 
-export const HomeChannel = connect(mapStateToProps, mapDispatchToProps)(Base);
+export const HomeChannel = connect(mapStateToProps, mapDispatchToProps)(HomeChannelBase);

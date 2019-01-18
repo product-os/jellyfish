@@ -206,6 +206,15 @@ export class Renderer extends React.Component<DefaultRendererProps, RendererStat
 		const channelTarget = card.id;
 		const { messagesOnly } = this.state;
 
+		// Due to a bug in syncing, sometimes there can be duplicate cards in tail
+		const sortedTail = _.uniqBy(_.sortBy(tail, 'data.timestamp'), 'id');
+
+		if (messagesOnly) {
+			_.remove(sortedTail, (card) => {
+				return card.type !== 'message' && card.type !== 'whisper';
+			});
+		}
+
 		return (
 			<Column flexDirection="column" {...props}>
 				<Flex my={2} mr={2} justify="flex-end">
@@ -233,17 +242,13 @@ export class Renderer extends React.Component<DefaultRendererProps, RendererStat
 						paddingTop: 8,
 					}}
 				>
-					{!tail && (
+					{!sortedTail && (
 						<Box p={3}>
 							<Icon name="cog fa-spin" />
 						</Box>
 					)}
 
-					{(!!tail && tail.length > 0) && _.map(tail, card => {
-						if (messagesOnly && card.type !== 'message') {
-							return null;
-						}
-
+					{(!!sortedTail && sortedTail.length > 0) && _.map(sortedTail, card => {
 						return (
 							<Box key={card.id}>
 								<EventCard
