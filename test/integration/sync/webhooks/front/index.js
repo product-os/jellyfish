@@ -15,6 +15,14 @@
  */
 
 module.exports = {
+	'inbound-tag-comment': {
+		expected: require('./inbound-tag-comment/expected.json'),
+		steps: [
+			require('./inbound-tag-comment/01.json'),
+			require('./inbound-tag-comment/02.json'),
+			require('./inbound-tag-comment/03.json')
+		]
+	},
 	'intercom-recap': {
 		expected: require('./intercom-recap/expected.json'),
 		steps: [

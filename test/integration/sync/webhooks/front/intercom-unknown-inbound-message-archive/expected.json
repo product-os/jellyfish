@@ -4,7 +4,7 @@
     "type": "support-thread",
     "version": "1.0.0",
     "active": true,
-    "tags": [],
+    "tags": [ "Needs audit" ],
     "requires": [],
     "capabilities": [],
     "data": {
@@ -134,7 +134,7 @@
           "type": "support-thread",
           "version": "1.0.0",
           "active": true,
-          "tags": [],
+          "tags": [ "Needs audit" ],
           "requires": [],
           "capabilities": [],
           "data": {
