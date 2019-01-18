@@ -6,10 +6,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
 	Box,
-	Card as CardComponent,
 	Flex,
 	Link,
 	Pill,
+	Theme,
 	Txt
 } from 'rendition';
 import { Markdown } from 'rendition/dist/extra/Markdown';
@@ -34,6 +34,11 @@ import {
 } from '../../services/helpers';
 import { getActor } from '../../services/store-helpers';
 import TimelineLens from './SupportThreadTimeline';
+
+const Extract = styled(Box)`
+	border-top: 1px solid ${Theme.colors.gray.light};
+	border-bottom: 1px solid ${Theme.colors.gray.light};
+`;
 
 const Column = styled(Flex)`
 	height: 100%;
@@ -222,23 +227,23 @@ class Base extends React.Component<CardProps, CardState> {
 	}
 
 	public getStatuses(card: Card): Card[] {
-		const list = _.filter(_.get(card, [ 'links', 'has attached element' ]), (event) => {
+		const list = _.sortBy(_.filter(_.get(card, [ 'links', 'has attached element' ]), (event) => {
 			if (!_.includes(['message', 'whisper'], event.type)) {
 				return false;
 			}
-			return _.includes(event.tags, 'status');
-		});
+			return _.includes(event.data.payload.message, '#status');
+		}), 'data.timestamp');
 
 		return _.uniqBy(list, (item) => _.get(item, [ 'data', 'payload', 'message' ]));
 	}
 
 	public getSummaries(card: Card): Card[] {
-		const list = _.filter(_.get(card, [ 'links', 'has attached element' ]), (event) => {
+		const list = _.sortBy(_.filter(_.get(card, [ 'links', 'has attached element' ]), (event) => {
 			if (!_.includes(['message', 'whisper'], event.type)) {
 				return false;
 			}
-			return _.includes(event.tags, 'summary');
-		});
+			return _.includes(event.data.payload.message, '#summary');
+		}), 'data.timestamp');
 
 		return _.uniqBy(list, (item) => _.get(item, [ 'data', 'payload', 'message' ]));
 	}
@@ -391,7 +396,7 @@ class Base extends React.Component<CardProps, CardState> {
 							)}
 
 							{this.state.showStatuses && (
-								<CardComponent p={1} py={2}>
+								<Extract py={2}>
 									{_.map(statuses, (statusEvent: any) => {
 										return (
 											<EventCard
@@ -400,7 +405,7 @@ class Base extends React.Component<CardProps, CardState> {
 											/>
 										);
 									})}
-								</CardComponent>
+								</Extract>
 							)}
 
 							{summaries.length > 0 && (
@@ -417,7 +422,7 @@ class Base extends React.Component<CardProps, CardState> {
 								</div>
 							)}
 							{this.state.showSummaries && (
-								<CardComponent p={1} py={2}>
+								<Extract py={2}>
 									{_.map(summaries, (summaryEvent: any) => {
 										return (
 											<EventCard
@@ -426,7 +431,7 @@ class Base extends React.Component<CardProps, CardState> {
 											/>
 										);
 									})}
-								</CardComponent>
+								</Extract>
 							)}
 
 
