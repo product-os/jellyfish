@@ -22,7 +22,6 @@ const path = require('path')
 const _ = require('lodash')
 const helpers = require('../sdk/helpers')
 const syncHelpers = require('../../unit/sync/helpers')
-const queue = require('../../../lib/queue')
 
 const tailSort = [
 	(card) => {
@@ -143,8 +142,8 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 		})
 
 		await test.context.flush(test.context.session)
-		const result = await queue.waitResults(
-			test.context.context, test.context.jellyfish, test.context.session, request)
+		const result = await test.context.queue.waitResults(
+			test.context.context, request)
 		test.false(result.error)
 		cards.push(...result.data)
 	}
