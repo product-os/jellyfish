@@ -32,3 +32,10 @@ ava('.length() should be zero by default', async (test) => {
 	const length = await test.context.queue.length()
 	test.is(length, 0)
 })
+
+ava('.dequeue() should return nothing if no requests', async (test) => {
+	const length = await test.context.queue.length()
+	test.is(length, 0)
+	const request = await test.context.queue.dequeue()
+	test.falsy(request)
+})

@@ -84,7 +84,7 @@ exports.worker = {
 				return
 			}
 
-			const request = await test.context.worker.dequeue()
+			const request = await test.context.queue.dequeue()
 			const result = await test.context.worker.execute(session, request)
 
 			if (result.error) {
