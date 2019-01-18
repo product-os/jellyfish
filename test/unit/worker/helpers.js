@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+const Queue = require('../../../lib/queue')
 const Worker = require('../../../lib/worker')
 const helpers = require('../core/helpers')
 
@@ -68,7 +69,16 @@ exports.jellyfish = {
 exports.worker = {
 	beforeEach: async (test, actionLibrary) => {
 		await exports.jellyfish.beforeEach(test)
-		test.context.worker = new Worker(test.context.jellyfish, test.context.session, actionLibrary)
+
+		test.context.queue = new Queue(
+			test.context.context,
+			test.context.jellyfish,
+			test.context.session)
+		test.context.worker = new Worker(
+			test.context.jellyfish,
+			test.context.session,
+			actionLibrary,
+			test.context.queue)
 		test.context.flush = async (session) => {
 			if (await test.context.worker.length() === 0) {
 				return

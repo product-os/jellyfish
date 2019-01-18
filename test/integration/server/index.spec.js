@@ -20,7 +20,6 @@ const Bluebird = require('bluebird')
 const _ = require('lodash')
 const randomstring = require('randomstring')
 const helpers = require('../sdk/helpers')
-const queue = require('../../../lib/queue')
 
 ava.before(helpers.sdk.beforeEach)
 ava.after(helpers.sdk.afterEach)
@@ -606,8 +605,8 @@ ava.serial('should be able to post a GitHub event without a signature', async (t
 	test.is(result.code, 200)
 	test.false(result.response.error)
 
-	const requestResult = await queue.waitResults(
-		test.context.context, test.context.jellyfish, test.context.session, result.response.data)
+	const requestResult = await test.context.queue.waitResults(
+		test.context.context, result.response.data)
 
 	test.false(requestResult.error)
 	const card = await test.context.jellyfish.getCardById(test.context.context,
@@ -657,8 +656,8 @@ ava.serial('should take a GitHub event with a valid signature', async (test) => 
 	test.is(result.code, 200)
 	test.false(result.response.error)
 
-	const requestResult = await queue.waitResults(
-		test.context.context, test.context.jellyfish, test.context.session, result.response.data)
+	const requestResult = await test.context.queue.waitResults(
+		test.context.context, result.response.data)
 
 	test.false(requestResult.error)
 	const card = await test.context.jellyfish.getCardById(test.context.context,
