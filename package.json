@@ -156,6 +156,7 @@
     "remove-markdown": "^0.3.0",
     "rendition": "^4.44.2",
     "reql-schema": "^1.1.1",
+    "response-time": "^2.3.2",
     "skhema": "5.0.0",
     "socket.io": "^2.1.0",
     "static-eval": "^2.0.0",
