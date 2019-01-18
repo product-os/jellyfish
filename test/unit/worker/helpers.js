@@ -14,51 +14,12 @@
  * limitations under the License.
  */
 
-const Queue = require('../../../lib/queue')
 const Worker = require('../../../lib/worker')
-const helpers = require('../core/helpers')
+const helpers = require('../queue/helpers')
 
 exports.jellyfish = {
 	beforeEach: async (test) => {
 		await helpers.jellyfish.beforeEach(test)
-		test.context.session = test.context.jellyfish.sessions.admin
-
-		const session = await test.context.jellyfish.getCardById(test.context.context,
-			test.context.session, test.context.session, {
-				type: 'session'
-			})
-
-		test.context.actor = await test.context.jellyfish.getCardById(test.context.context,
-			test.context.session, session.data.actor, {
-				type: 'user'
-			})
-
-		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../default-cards/contrib/execute.json'))
-		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../default-cards/contrib/create.json'))
-		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../default-cards/contrib/update.json'))
-		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../default-cards/contrib/message.json'))
-		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../default-cards/contrib/account.json'))
-		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../default-cards/contrib/triggered-action.json'))
-		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../default-cards/contrib/action-create-card.json'))
-		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../default-cards/contrib/action-create-event.json'))
-		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../default-cards/contrib/action-set-add.json'))
-		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../default-cards/contrib/action-create-user.json'))
-		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../default-cards/contrib/action-create-session.json'))
-		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../default-cards/contrib/action-update-card.json'))
-		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../default-cards/contrib/action-delete-card.json'))
 	},
 
 	afterEach: async (test) => {
@@ -68,17 +29,13 @@ exports.jellyfish = {
 
 exports.worker = {
 	beforeEach: async (test, actionLibrary) => {
-		await exports.jellyfish.beforeEach(test)
-
-		test.context.queue = new Queue(
-			test.context.context,
-			test.context.jellyfish,
-			test.context.session)
+		await helpers.queue.beforeEach(test)
 		test.context.worker = new Worker(
 			test.context.jellyfish,
 			test.context.session,
 			actionLibrary,
 			test.context.queue)
+
 		test.context.flush = async (session) => {
 			if (await test.context.queue.length() === 0) {
 				return
@@ -89,6 +46,7 @@ exports.worker = {
 
 			if (result.error) {
 				const Constructor = test.context.worker.errors[result.data.name] ||
+					test.context.queue.errors[result.data.name] ||
 					test.context.jellyfish.errors[result.data.name] ||
 					Error
 
@@ -98,5 +56,5 @@ exports.worker = {
 			await test.context.flush(session)
 		}
 	},
-	afterEach: exports.jellyfish.afterEach
+	afterEach: helpers.queue.afterEach
 }
