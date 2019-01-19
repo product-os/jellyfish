@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## 12.21.16 - 2019-01-19
 
+* Worker: Move cards essential to the worker to lib/worker [Juan Cruz Viotti]
 * Server: Don't insert cards using the worker directly [Juan Cruz Viotti]
 
 ## 12.21.15 - 2019-01-19
