@@ -19,11 +19,18 @@ const helpers = require('../queue/helpers')
 
 exports.jellyfish = {
 	beforeEach: async (test) => {
-		await helpers.jellyfish.beforeEach(test)
+		await helpers.queue.beforeEach(test)
+
+		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
+			require('../../../lib/worker/cards/update'))
+		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
+			require('../../../lib/worker/cards/create'))
+		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
+			require('../../../lib/worker/cards/triggered-action'))
 	},
 
 	afterEach: async (test) => {
-		await helpers.jellyfish.afterEach(test)
+		await helpers.queue.afterEach(test)
 	}
 }
 
@@ -35,6 +42,7 @@ exports.worker = {
 			test.context.session,
 			actionLibrary,
 			test.context.queue)
+		await test.context.worker.initialize(test.context.context)
 
 		test.context.flush = async (session) => {
 			const request = await test.context.queue.dequeue()
