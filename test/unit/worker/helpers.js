@@ -37,11 +37,11 @@ exports.worker = {
 			test.context.queue)
 
 		test.context.flush = async (session) => {
-			if (await test.context.queue.length() === 0) {
+			const request = await test.context.queue.dequeue()
+			if (!request) {
 				return
 			}
 
-			const request = await test.context.queue.dequeue()
 			const result = await test.context.worker.execute(session, request)
 
 			if (result.error) {

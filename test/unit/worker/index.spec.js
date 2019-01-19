@@ -1278,8 +1278,8 @@ ava('.tick() should not enqueue actions if there are no triggers', async (test) 
 		currentDate: new Date()
 	})
 
-	const length = await test.context.queue.length()
-	test.is(length, 0)
+	const request = await test.context.queue.dequeue()
+	test.falsy(request)
 })
 
 ava('.tick() should not enqueue actions if there are no time triggers', async (test) => {
@@ -1302,8 +1302,8 @@ ava('.tick() should not enqueue actions if there are no time triggers', async (t
 		currentDate: new Date()
 	})
 
-	const length = await test.context.queue.length()
-	test.is(length, 0)
+	const request = await test.context.queue.dequeue()
+	test.falsy(request)
 })
 
 ava('.tick() should not enqueue an action if there is a time trigger with a future start date', async (test) => {
@@ -1325,8 +1325,8 @@ ava('.tick() should not enqueue an action if there is a time trigger with a futu
 		currentDate: new Date('2018-08-05T12:00:00.000Z')
 	})
 
-	const length = await test.context.queue.length()
-	test.is(length, 0)
+	const request = await test.context.queue.dequeue()
+	test.falsy(request)
 })
 
 ava('.tick() should evaluate the current timestamp in a time triggered action', async (test) => {
