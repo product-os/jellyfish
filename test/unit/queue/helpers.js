@@ -15,6 +15,7 @@
  */
 
 const helpers = require('../core/helpers')
+const Queue = require('../../../lib/queue')
 
 exports.jellyfish = {
 	beforeEach: async (test) => {
@@ -55,5 +56,18 @@ exports.jellyfish = {
 
 	afterEach: async (test) => {
 		await helpers.jellyfish.afterEach(test)
+	}
+}
+
+exports.queue = {
+	beforeEach: async (test) => {
+		await exports.jellyfish.beforeEach(test)
+		test.context.queue = new Queue(
+			test.context.context,
+			test.context.jellyfish,
+			test.context.session)
+	},
+	afterEach: async (test) => {
+		await exports.jellyfish.afterEach(test)
 	}
 }
