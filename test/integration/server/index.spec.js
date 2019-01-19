@@ -54,9 +54,7 @@ ava.serial('The ping endpoint should continuously work', async (test) => {
 ava.serial('The status endpoint should return numeric queue lengths', async (test) => {
 	const result = await test.context.http('GET', '/status')
 	test.is(result.code, 200)
-	test.true(_.every(result.response.workers, (worker) => {
-		return _.isNumber(worker.queue)
-	}))
+	test.true(_.isNumber(result.response.queue.length))
 })
 
 ava.serial('Users should be able to change their own email addresses', async (test) => {
