@@ -21,14 +21,14 @@ spec:
           httpGet:
             path: /ping
             port: 8000
-          initialDelaySeconds: 45
+          initialDelaySeconds: 300
           periodSeconds: 10
           timeoutSeconds: 4
         readinessProbe:
           httpGet:
             path: /ping
             port: 8000
-          initialDelaySeconds: 45
+          initialDelaySeconds: 300
           periodSeconds: 10
           timeoutSeconds: 4
           failureThreshold: 30
