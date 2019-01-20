@@ -17,6 +17,9 @@
     "test": "make lint test",
     "heroku-postbuild": "npm install -g redoc-cli && make build dist/docs.html"
   },
+  "engines": {
+    "node": "9.11.2"
+  },
   "ava": {
     "timeout": "5m",
     "verbose": true,
