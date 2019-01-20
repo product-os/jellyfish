@@ -7,7 +7,7 @@ const uuid = require('uuid/v4')
 const {
 	jellyfishSdk
 } = require('../lib/sdk')
-const createServer = require('../lib/server.js')
+const bootstrap = require('../lib/bootstrap')
 const utils = require('./utils')
 
 const ITERATIONS = 10
@@ -22,7 +22,7 @@ const run = async () => {
 
 	const {
 		port
-	} =	await createServer({
+	} =	await bootstrap({
 		id: 'SERVER'
 	})
 
