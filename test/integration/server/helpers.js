@@ -18,24 +18,20 @@ const Bluebird = require('bluebird')
 const request = require('request')
 const randomstring = require('randomstring')
 const helpers = require('../../unit/core/helpers')
-const {
-	createServer
-} = require('../../../lib/server/create-server')
+const bootstrap = require('../../../lib/server/bootstrap')
 
 exports.server = {
 	beforeEach: async (test) => {
-		test.context.server = await createServer({
-			id: 'SERVER'
-		})
+		test.context.context = {
+			id: `SERVER-TEST-${randomstring.generate(20)}`
+		}
 
+		test.context.server = await bootstrap(test.context.context)
 		test.context.jellyfish = test.context.server.jellyfish
 		test.context.queue = test.context.server.queue
 		test.context.session = test.context.jellyfish.sessions.admin
 		test.context.guestSession = test.context.jellyfish.sessions.guest
 		test.context.generateRandomSlug = helpers.generateRandomSlug
-		test.context.context = {
-			id: `SERVER-TEST-${randomstring.generate(20)}`
-		}
 
 		test.context.http = (method, uri, payload, headers) => {
 			return new Bluebird((resolve, reject) => {
