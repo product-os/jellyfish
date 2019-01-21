@@ -103,7 +103,7 @@ export class Interleaved extends React.Component<InterleavedProps, InterleavedSt
 					{(!!tail && tail.length > 0) && _.map(tail, (card: any) => {
 						const timeline = _.sortBy(card.links['has attached element'], 'data.timestamp');
 
-						const messages = _.filter(timeline, (event) => event.type === 'message' || event.type === 'whisper')
+						const messages = _.filter(timeline, (event) => event.type === 'message' || event.type === 'whisper');
 
 						const lastMessageOrWhisper = _.last(messages);
 

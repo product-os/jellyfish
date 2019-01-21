@@ -167,8 +167,7 @@ interface CardProps extends RendererProps {
 
 interface CardState {
 	linkedSupportIssues: Card[];
-	showStatuses: boolean;
-	showSummaries: boolean;
+	showHighlights: boolean;
 	expanded: boolean;
 }
 
@@ -178,8 +177,7 @@ class Base extends React.Component<CardProps, CardState> {
 
 		this.state = {
 			linkedSupportIssues: [],
-			showStatuses: false,
-			showSummaries: false,
+			showHighlights: false,
 			expanded: false,
 		};
 
@@ -226,23 +224,12 @@ class Base extends React.Component<CardProps, CardState> {
 		}
 	}
 
-	public getStatuses(card: Card): Card[] {
+	public getHighlights(card: Card): Card[] {
 		const list = _.sortBy(_.filter(_.get(card, [ 'links', 'has attached element' ]), (event) => {
 			if (!_.includes(['message', 'whisper'], event.type)) {
 				return false;
 			}
-			return _.includes(event.data.payload.message, '#status');
-		}), 'data.timestamp');
-
-		return _.uniqBy(list, (item) => _.get(item, [ 'data', 'payload', 'message' ]));
-	}
-
-	public getSummaries(card: Card): Card[] {
-		const list = _.sortBy(_.filter(_.get(card, [ 'links', 'has attached element' ]), (event) => {
-			if (!_.includes(['message', 'whisper'], event.type)) {
-				return false;
-			}
-			return _.includes(event.data.payload.message, '#summary');
+			return !!event.data.payload.message.match(/(#summary|#status)/);
 		}), 'data.timestamp');
 
 		return _.uniqBy(list, (item) => _.get(item, [ 'data', 'payload', 'message' ]));
@@ -292,8 +279,7 @@ class Base extends React.Component<CardProps, CardState> {
 
 		const createCard = _.first((card as any).links['has attached element'])! as Card;
 
-		const statuses = this.getStatuses(card);
-		const summaries = this.getSummaries(card);
+		const highlights = this.getHighlights(card);
 
 		const actor = getActor(_.get(createCard, [ 'data', 'actor' ]));
 
@@ -382,23 +368,23 @@ class Base extends React.Component<CardProps, CardState> {
 
 					{this.state.expanded && (
 						<>
-							{statuses.length > 0 && (
+							{highlights.length > 0 && (
 								<div>
 									<strong>
 										<Link
 											mt={1}
-											onClick={() => this.setState({ showStatuses: !this.state.showStatuses })}
+											onClick={() => this.setState({ showHighlights: !this.state.showHighlights })}
 										>
-											Statuses{' '}
-											<Icon name={`caret-${this.state.showStatuses ? 'down' : 'right'}`} />
+											Highlights{' '}
+											<Icon name={`caret-${this.state.showHighlights ? 'down' : 'right'}`} />
 										</Link>
 									</strong>
 								</div>
 							)}
 
-							{this.state.showStatuses && (
+							{this.state.showHighlights && (
 								<Extract py={2}>
-									{_.map(statuses, (statusEvent: any) => {
+									{_.map(highlights, (statusEvent: any) => {
 										return (
 											<EventCard
 												card={statusEvent}
@@ -408,33 +394,6 @@ class Base extends React.Component<CardProps, CardState> {
 									})}
 								</Extract>
 							)}
-
-							{summaries.length > 0 && (
-								<div>
-									<strong>
-										<Link
-											mt={1}
-											onClick={() => this.setState({ showSummaries: !this.state.showSummaries })}
-										>
-											Summaries{' '}
-											<Icon name={`caret-${this.state.showSummaries ? 'down' : 'right'}`} />
-										</Link>
-									</strong>
-								</div>
-							)}
-							{this.state.showSummaries && (
-								<Extract py={2}>
-									{_.map(summaries, (summaryEvent: any) => {
-										return (
-											<EventCard
-												card={summaryEvent}
-												mb={1}
-											/>
-										);
-									})}
-								</Extract>
-							)}
-
 
 							{_.map(this.state.linkedSupportIssues, (entry) => {
 								return (
