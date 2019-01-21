@@ -1,0 +1,11 @@
+- [ ] Cancel 5 company subscriptions to paid services
+- [ ] Make use of the new production loop on all our backend systems
+- [ ] Replace RethinkDB
+- [ ] Integrate to Dicourse/Intercom/Zendesk/Email directly rather than through
+	Front
+- [ ] Implement a sales CRM on top of Jellyfish
+- [ ] Implement an Outreach integration
+- [ ] Use the new Balena DSL instead of JSON Schema
+- [ ] Converge cards and contracts
+- [ ] Start using Jellyfish to automate team processes (hiring, schedulers,
+	people contracts, on-boarding, off-boarding, access metrics, timezones)
