@@ -30,7 +30,7 @@ exports.server = {
 		test.context.jellyfish = test.context.server.jellyfish
 		test.context.queue = test.context.server.queue
 		test.context.session = test.context.jellyfish.sessions.admin
-		test.context.guestSession = test.context.jellyfish.sessions.guest
+		test.context.guestSession = test.context.server.guestSession
 		test.context.generateRandomSlug = helpers.generateRandomSlug
 
 		test.context.http = (method, uri, payload, headers) => {
