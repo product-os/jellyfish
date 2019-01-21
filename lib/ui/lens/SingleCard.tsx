@@ -132,7 +132,7 @@ interface CardProps extends RendererProps {
 	isDragging: any;
 }
 
-class Base extends React.Component<CardProps, {}> {
+class SingleCard extends React.Component<CardProps, {}> {
 	public openChannel = () => {
 		if (this.props.level === 0) {
 			return;
@@ -211,7 +211,7 @@ class Base extends React.Component<CardProps, {}> {
 				{!!card.tags && card.tags.length > 0 &&
 					<Box mb={1}>
 						{_.map(card.tags, (tag) => {
-							return <Tag mr={1}>#{tag}</Tag>;
+							return <Tag key={tag} mr={1}>#{tag}</Tag>;
 						})}
 					</Box>
 				}
@@ -277,7 +277,7 @@ const mapDispatchToProps = (dispatch: any) => ({
 	actions: bindActionCreators(actionCreators, dispatch),
 });
 
-export const Renderer = connect(mapStateToProps, mapDispatchToProps)(Base);
+export const Renderer = connect(mapStateToProps, mapDispatchToProps)(SingleCard);
 
 const lens: Lens = {
 	slug: 'lens-default',

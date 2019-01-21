@@ -1,0 +1,124 @@
+{
+  "head": {
+    "name": "",
+    "type": "support-thread",
+    "version": "1.0.0",
+    "active": true,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "environment": "production",
+      "inbox": "S/Paid_Support",
+      "mirrors": [
+        "https://api2.frontapp.com/conversations/cnv_173u3mz"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "",
+      "status": "open"
+    }
+  },
+  "tail": [
+    {
+      "type": "message",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "mirrors": [
+          "https://api2.frontapp.com/messages/msg_29osuib"
+        ],
+        "timestamp": "2019-01-17T10:18:32.000Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "JF test, please ignore"
+        }
+      }
+    },
+    {
+      "type": "create",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "timestamp": "2019-01-17T10:18:34.252Z",
+        "payload": {
+          "name": "",
+          "type": "support-thread",
+          "version": "1.0.0",
+          "active": true,
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "environment": "production",
+            "inbox": "S/Paid_Support",
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_173u3mz"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open"
+          }
+        }
+      }
+    },
+    {
+      "type": "whisper",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "mirrors": [
+          "https://api2.frontapp.com/comments/com_2njvtn"
+        ],
+        "timestamp": "2019-01-17T10:18:38.078Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "This is mirrored in [flowdock premium thread bH_y1MpNztvrG4oEUbZfPVqiMJg](https://www.flowdock.com/app/rulemotion/public-s-premium/threads/bH_y1MpNztvrG4oEUbZfPVqiMJg)\n[](https://www.balena-cloud.com?hidden=murmur&source=flowdock&flow=rulemotion/public-s-premium&thread=bH_y1MpNztvrG4oEUbZfPVqiMJg&hmac=73f3e2d8c0e6acf0cd24bb7c0760cfc65157c6ef13551e45dba93e65e18070d0)"
+        }
+      }
+    },
+    {
+      "active": true,
+      "capabilities": [],
+      "data": {
+        "payload": {
+          "active": true,
+          "capabilities": [],
+          "data": {
+            "alertsUser": [],
+            "description": "",
+            "environment": "production",
+            "inbox": "S/Paid_Support",
+            "mentionsUser": [],
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_173u3mz"
+            ],
+            "status": "open"
+          },
+          "name": "",
+          "requires": [],
+          "tags": [],
+          "type": "support-thread",
+          "version": "1.0.0"
+        },
+        "timestamp": "2019-01-17T10:18:38.133Z"
+      },
+      "requires": [],
+      "tags": [],
+      "type": "update",
+      "version": "1.0.0"
+    }
+  ]
+}

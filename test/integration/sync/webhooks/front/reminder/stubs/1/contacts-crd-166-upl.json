@@ -1,0 +1,46 @@
+{
+  "_links": {
+    "self": "https://api2.frontapp.com/contacts/crd_166upl",
+    "related": {
+      "notes": "https://api2.frontapp.com/contacts/crd_166upl/notes",
+      "conversations": "https://api2.frontapp.com/contacts/crd_166upl/conversations",
+      "owner": "https://api2.frontapp.com/teams/tim_qh"
+    }
+  },
+  "id": "crd_166upl",
+  "name": "charles@openrov.com",
+  "description": "",
+  "avatar_url": "https://api2.frontapp.com/contacts/crd_166upl/avatar-1487107843000",
+  "links": [],
+  "handles": [
+    {
+      "source": "intercom",
+      "handle": "57a3a9f3006b38ab3a00004a"
+    },
+    {
+      "source": "intercom",
+      "handle": "584b2d682659cd35a9d42253"
+    },
+    {
+      "source": "email",
+      "handle": "charles@openrov.com"
+    }
+  ],
+  "groups": [
+    {
+      "_links": {
+        "self": "https://api2.frontapp.com/contact_groups/grp_2bt",
+        "related": {
+          "contacts": "https://api2.frontapp.com/contact_groups/grp_2bt/contacts",
+          "owner": "https://api2.frontapp.com/teams/tim_qh"
+        }
+      },
+      "id": "grp_2bt",
+      "name": "Premium Customers",
+      "is_private": false
+    }
+  ],
+  "updated_at": 1487107843,
+  "custom_fields": {},
+  "is_private": false
+}

@@ -25,9 +25,9 @@ ava.beforeEach(async (test) => {
 	await helpers.jellyfish.beforeEach(test)
 
 	test.context.triggers = []
-	test.context.queue = []
+	test.context.stubQueue = []
 	test.context.executeAction = (session, request) => {
-		test.context.queue.push(request)
+		test.context.stubQueue.push(request)
 	}
 
 	test.context.actionContext = {
@@ -64,7 +64,7 @@ ava('.insertCard() should insert a card', async (test) => {
 		}
 	})
 
-	test.deepEqual(test.context.queue, [])
+	test.deepEqual(test.context.stubQueue, [])
 	const card = await test.context.jellyfish.getCardById(test.context.context, test.context.session, result.id)
 	test.deepEqual(card, test.context.jellyfish.defaults({
 		created_at: result.created_at,
@@ -99,7 +99,7 @@ ava('.insertCard() should ignore an explicit type property', async (test) => {
 		}
 	})
 
-	test.deepEqual(test.context.queue, [])
+	test.deepEqual(test.context.stubQueue, [])
 	const card = await test.context.jellyfish.getCardById(test.context.context, test.context.session, result.id)
 	test.is(card.type, 'card')
 })
@@ -116,7 +116,7 @@ ava('.insertCard() should default active to true', async (test) => {
 		version: '1.0.0'
 	})
 
-	test.deepEqual(test.context.queue, [])
+	test.deepEqual(test.context.stubQueue, [])
 	const card = await test.context.jellyfish.getCardById(test.context.context, test.context.session, result.id)
 	test.true(card.active)
 })
@@ -134,7 +134,7 @@ ava('.insertCard() should be able to set active to false', async (test) => {
 		active: false
 	})
 
-	test.deepEqual(test.context.queue, [])
+	test.deepEqual(test.context.stubQueue, [])
 	const card = await test.context.jellyfish.getCardById(test.context.context, test.context.session, result.id)
 	test.false(card.active)
 })
@@ -151,7 +151,7 @@ ava('.insertCard() should provide sane defaults for links', async (test) => {
 		version: '1.0.0'
 	})
 
-	test.deepEqual(test.context.queue, [])
+	test.deepEqual(test.context.stubQueue, [])
 	const card = await test.context.jellyfish.getCardById(test.context.context, test.context.session, result.id)
 	test.deepEqual(card.links, {})
 })
@@ -168,7 +168,7 @@ ava('.insertCard() should provide sane defaults for tags', async (test) => {
 		version: '1.0.0'
 	})
 
-	test.deepEqual(test.context.queue, [])
+	test.deepEqual(test.context.stubQueue, [])
 	const card = await test.context.jellyfish.getCardById(test.context.context, test.context.session, result.id)
 	test.deepEqual(card.tags, [])
 })
@@ -185,7 +185,7 @@ ava('.insertCard() should provide sane defaults for data', async (test) => {
 		version: '1.0.0'
 	})
 
-	test.deepEqual(test.context.queue, [])
+	test.deepEqual(test.context.stubQueue, [])
 	const card = await test.context.jellyfish.getCardById(test.context.context, test.context.session, result.id)
 	test.deepEqual(card.data, {})
 })
@@ -202,7 +202,7 @@ ava('.insertCard() should be able to set a slug', async (test) => {
 		version: '1.0.0'
 	})
 
-	test.deepEqual(test.context.queue, [])
+	test.deepEqual(test.context.stubQueue, [])
 	const card = await test.context.jellyfish.getCardById(test.context.context, test.context.session, result.id)
 	test.is(card.slug, 'foo-bar')
 })
@@ -220,7 +220,7 @@ ava('.insertCard() should be able to set a name', async (test) => {
 		name: 'Hello'
 	})
 
-	test.deepEqual(test.context.queue, [])
+	test.deepEqual(test.context.stubQueue, [])
 	const card = await test.context.jellyfish.getCardById(test.context.context, test.context.session, result.id)
 	test.is(card.name, 'Hello')
 })
@@ -244,7 +244,7 @@ ava('.insertCard() should not upsert if no changes were made', async (test) => {
 		active: true
 	})
 
-	test.deepEqual(test.context.queue, [])
+	test.deepEqual(test.context.stubQueue, [])
 })
 
 ava('.insertCard() should override if the override option is true', async (test) => {
@@ -266,7 +266,7 @@ ava('.insertCard() should override if the override option is true', async (test)
 		active: false
 	})
 
-	test.deepEqual(test.context.queue, [])
+	test.deepEqual(test.context.stubQueue, [])
 	const card = await test.context.jellyfish.getCardById(test.context.context, test.context.session, previousCard.id)
 	test.false(card.active)
 })
@@ -303,7 +303,7 @@ ava('.insertCard() should add a create event if attachEvents is true', async (te
 		slug: 'foo-bar-baz'
 	})
 
-	test.deepEqual(test.context.queue, [
+	test.deepEqual(test.context.stubQueue, [
 		{
 			action: 'action-create-event',
 			card: result.id,
@@ -334,7 +334,7 @@ ava('.insertCard() should add a create event not overriding even if override is 
 		version: '1.0.0'
 	})
 
-	test.deepEqual(test.context.queue, [
+	test.deepEqual(test.context.stubQueue, [
 		{
 			action: 'action-create-event',
 			card: result.id,
@@ -372,7 +372,7 @@ ava('.insertCard() should add an update event if attachEvents is true and overri
 		active: false
 	})
 
-	test.deepEqual(test.context.queue, [
+	test.deepEqual(test.context.stubQueue, [
 		{
 			action: 'action-create-event',
 			card: result.id,
@@ -438,7 +438,7 @@ ava('.insertCard() should execute one matching triggered action', async (test) =
 		}
 	})
 
-	test.deepEqual(test.context.queue, [
+	test.deepEqual(test.context.stubQueue, [
 		{
 			action: 'action-create-event',
 			card: result.id,
@@ -462,7 +462,7 @@ ava('.insertCard() should execute one matching triggered action', async (test) =
 			card: typeCard.id,
 			type: 'type',
 			context: test.context.context,
-			currentDate: test.context.queue[1].currentDate,
+			currentDate: test.context.stubQueue[1].currentDate,
 			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			arguments: {
 				properties: {
@@ -517,7 +517,7 @@ ava('.insertCard() should not execute non-matching triggered actions', async (te
 		}
 	})
 
-	test.deepEqual(test.context.queue, [
+	test.deepEqual(test.context.stubQueue, [
 		{
 			action: 'action-create-event',
 			card: result.id,
@@ -612,7 +612,7 @@ ava('.insertCard() should execute more than one matching triggered action', asyn
 		}
 	})
 
-	test.deepEqual(test.context.queue, [
+	test.deepEqual(test.context.stubQueue, [
 		{
 			action: 'action-create-event',
 			card: result.id,
@@ -637,7 +637,7 @@ ava('.insertCard() should execute more than one matching triggered action', asyn
 			type: 'type',
 			context: test.context.context,
 			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
-			currentDate: test.context.queue[1].currentDate,
+			currentDate: test.context.stubQueue[1].currentDate,
 			arguments: {
 				properties: {
 					slug: 'foo-bar-baz'
@@ -650,7 +650,7 @@ ava('.insertCard() should execute more than one matching triggered action', asyn
 			type: 'type',
 			context: test.context.context,
 			originator: 'd6cacdef-f53b-4b5b-8aa2-8476e48248a4',
-			currentDate: test.context.queue[2].currentDate,
+			currentDate: test.context.stubQueue[2].currentDate,
 			arguments: {
 				properties: {
 					slug: 'bar-baz-qux'
@@ -733,7 +733,7 @@ ava('.insertCard() should execute the matching triggered actions given more than
 		}
 	})
 
-	test.deepEqual(test.context.queue, [
+	test.deepEqual(test.context.stubQueue, [
 		{
 			action: 'action-create-event',
 			card: result.id,
@@ -758,7 +758,7 @@ ava('.insertCard() should execute the matching triggered actions given more than
 			type: 'type',
 			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			context: test.context.context,
-			currentDate: test.context.queue[1].currentDate,
+			currentDate: test.context.stubQueue[1].currentDate,
 			arguments: {
 				properties: {
 					slug: 'foo-bar-baz'

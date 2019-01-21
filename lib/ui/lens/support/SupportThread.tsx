@@ -6,9 +6,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
 	Box,
-	Card as CardComponent,
 	Flex,
 	Link,
+	Pill,
+	Theme,
 	Txt
 } from 'rendition';
 import { Markdown } from 'rendition/dist/extra/Markdown';
@@ -25,11 +26,19 @@ import { Tag } from '../../components/Tag';
 import { sdk } from '../../core';
 import { actionCreators, selectors, StoreState } from '../../core/store';
 import {
+	colorHash,
 	findUsernameById,
 	formatTimestamp,
 	getLocalSchema,
+	timeAgo,
 } from '../../services/helpers';
+import { getActor } from '../../services/store-helpers';
 import TimelineLens from './SupportThreadTimeline';
+
+const Extract = styled(Box)`
+	border-top: 1px solid ${Theme.colors.gray.light};
+	border-bottom: 1px solid ${Theme.colors.gray.light};
+`;
 
 const Column = styled(Flex)`
 	height: 100%;
@@ -58,6 +67,15 @@ const DataContainer = styled.pre`
 	word-wrap: break-word;
 `;
 
+const transformMirror = (mirror: string) => {
+	if (mirror.includes('frontapp.com')) {
+		const id = mirror.split('/').pop();
+		return `https://app.frontapp.com/open/${id}`;
+	}
+
+	return mirror;
+};
+
 const CardField = ({ field, payload, users, schema }: {
 	field: string;
 	payload: { [key: string]: any };
@@ -76,7 +94,10 @@ const CardField = ({ field, payload, users, schema }: {
 		return (
 			<React.Fragment>
 				<Label my={3}>{field}</Label>
-				<Markdown>{value.join('\n- ')}</Markdown>
+				{value.map((mirror: string) => {
+					const url = transformMirror(mirror);
+					return <Link key={url} blank href={url}>{url}</Link>;
+				})}
 			</React.Fragment>
 		);
 	}
@@ -148,6 +169,7 @@ interface CardState {
 	linkedSupportIssues: Card[];
 	showStatuses: boolean;
 	showSummaries: boolean;
+	expanded: boolean;
 }
 
 class Base extends React.Component<CardProps, CardState> {
@@ -158,6 +180,7 @@ class Base extends React.Component<CardProps, CardState> {
 			linkedSupportIssues: [],
 			showStatuses: false,
 			showSummaries: false,
+			expanded: false,
 		};
 
 		this.loadLinks(props.card.id);
@@ -176,6 +199,10 @@ class Base extends React.Component<CardProps, CardState> {
 				id: {
 					type: 'string',
 					const: id,
+				},
+				type: {
+					type: 'string',
+					const: 'support-thread',
 				},
 			},
 			additionalProperties: true,
@@ -200,23 +227,23 @@ class Base extends React.Component<CardProps, CardState> {
 	}
 
 	public getStatuses(card: Card): Card[] {
-		const list = _.filter(_.get(card, [ 'links', 'has attached element' ]), (event) => {
+		const list = _.sortBy(_.filter(_.get(card, [ 'links', 'has attached element' ]), (event) => {
 			if (!_.includes(['message', 'whisper'], event.type)) {
 				return false;
 			}
-			return _.includes(event.tags, 'status');
-		});
+			return _.includes(event.data.payload.message, '#status');
+		}), 'data.timestamp');
 
 		return _.uniqBy(list, (item) => _.get(item, [ 'data', 'payload', 'message' ]));
 	}
 
 	public getSummaries(card: Card): Card[] {
-		const list = _.filter(_.get(card, [ 'links', 'has attached element' ]), (event) => {
+		const list = _.sortBy(_.filter(_.get(card, [ 'links', 'has attached element' ]), (event) => {
 			if (!_.includes(['message', 'whisper'], event.type)) {
 				return false;
 			}
-			return _.includes(event.tags, 'summary');
-		});
+			return _.includes(event.data.payload.message, '#summary');
+		}), 'data.timestamp');
 
 		return _.uniqBy(list, (item) => _.get(item, [ 'data', 'payload', 'message' ]));
 	}
@@ -233,6 +260,12 @@ class Base extends React.Component<CardProps, CardState> {
 			.catch((error) => {
 				this.props.actions.addNotification('danger', error.message || error);
 			});
+	}
+
+	public handleExpandToggle = () => {
+		this.setState({
+			expanded: !this.state.expanded,
+		});
 	}
 
 	public render(): React.ReactNode {
@@ -262,6 +295,8 @@ class Base extends React.Component<CardProps, CardState> {
 		const statuses = this.getStatuses(card);
 		const summaries = this.getSummaries(card);
 
+		const actor = getActor(_.get(createCard, [ 'data', 'actor' ]));
+
 		return (
 			<Column
 				flex={this.props.flex}
@@ -269,18 +304,15 @@ class Base extends React.Component<CardProps, CardState> {
 				flexDirection="column"
 			>
 				<Box
-					p={3}
-					pb={0}
+					px={3}
+					pt={3}
+					mb={-24}
 					style={{overflowY: 'auto'}}
 				>
 					<Flex mb={1} justify="space-between">
-
 						<Box>
-							<Txt mb={1}>
-								Support conversation with <strong>{findUsernameById(this.props.allUsers, _.get(createCard, [ 'data', 'actor' ]))}</strong>
-							</Txt>
-							{!!card.name && (
-								<Txt bold>{card.name}</Txt>
+							{card.data.inbox && (
+								<Pill bg={colorHash(card.data.inbox)}>{card.data.inbox}</Pill>
 							)}
 						</Box>
 
@@ -289,7 +321,6 @@ class Base extends React.Component<CardProps, CardState> {
 								plaintext
 								square
 								mr={1}
-								mb={3}
 								tooltip={{
 									placement: 'bottom',
 									text: 'Close this support thread',
@@ -304,11 +335,28 @@ class Base extends React.Component<CardProps, CardState> {
 							/>
 
 							<CloseButton
-								mb={3}
 								mr={-3}
 								onClick={() => this.props.actions.removeChannel(this.props.channel)}
 							/>
 						</Flex>
+					</Flex>
+
+					<Flex justify="space-between" mt={3}>
+						<Txt mb={1}>
+							Conversation with <strong>{actor.name}</strong>
+						</Txt>
+
+						<Txt>Created {formatTimestamp(card.created_at)}</Txt>
+					</Flex>
+
+					<Flex justify="space-between">
+						<Box>
+							{!!card.name && (
+								<Txt bold>{card.name}</Txt>
+							)}
+						</Box>
+
+						<Txt>Updated {timeAgo(_.get(_.last(card.links['has attached element']), [ 'data', 'timestamp' ]))}</Txt>
 					</Flex>
 
 					{!!card.tags && card.tags.length > 0 &&
@@ -322,78 +370,98 @@ class Base extends React.Component<CardProps, CardState> {
 						</Box>
 					}
 
-					{statuses.length > 0 && (
-						<div>
-							<strong>
-								<Link
-									mt={1}
-									onClick={() => this.setState({ showStatuses: !this.state.showStatuses })}
-								>
-									Statuses{' '}
-									<Icon name={`caret-${this.state.showStatuses ? 'down' : 'right'}`} />
-								</Link>
-							</strong>
-						</div>
+					{!this.state.expanded && (
+						<Link
+							onClick={this.handleExpandToggle}
+							mt={2}
+						>
+							More
+						</Link>
 					)}
 
-					{this.state.showStatuses && (
-						<CardComponent p={1} py={2}>
-							{_.map(statuses, (statusEvent: any) => {
+					{this.state.expanded && (
+						<>
+							{statuses.length > 0 && (
+								<div>
+									<strong>
+										<Link
+											mt={1}
+											onClick={() => this.setState({ showStatuses: !this.state.showStatuses })}
+										>
+											Statuses{' '}
+											<Icon name={`caret-${this.state.showStatuses ? 'down' : 'right'}`} />
+										</Link>
+									</strong>
+								</div>
+							)}
+
+							{this.state.showStatuses && (
+								<Extract py={2}>
+									{_.map(statuses, (statusEvent: any) => {
+										return (
+											<EventCard
+												card={statusEvent}
+												mb={1}
+											/>
+										);
+									})}
+								</Extract>
+							)}
+
+							{summaries.length > 0 && (
+								<div>
+									<strong>
+										<Link
+											mt={1}
+											onClick={() => this.setState({ showSummaries: !this.state.showSummaries })}
+										>
+											Summaries{' '}
+											<Icon name={`caret-${this.state.showSummaries ? 'down' : 'right'}`} />
+										</Link>
+									</strong>
+								</div>
+							)}
+							{this.state.showSummaries && (
+								<Extract py={2}>
+									{_.map(summaries, (summaryEvent: any) => {
+										return (
+											<EventCard
+												card={summaryEvent}
+												mb={1}
+											/>
+										);
+									})}
+								</Extract>
+							)}
+
+
+							{_.map(this.state.linkedSupportIssues, (entry) => {
 								return (
-									<EventCard
-										card={statusEvent}
-										mb={1}
-									/>
+									<Link mr={2} href={`/#${entry.id}`}>{entry.name}</Link>
 								);
 							})}
-						</CardComponent>
-					)}
 
-					{summaries.length > 0 && (
-						<div>
-							<strong>
-								<Link
-									mt={1}
-									onClick={() => this.setState({ showSummaries: !this.state.showSummaries })}
-								>
-									Summaries{' '}
-									<Icon name={`caret-${this.state.showSummaries ? 'down' : 'right'}`} />
-								</Link>
-							</strong>
-						</div>
-					)}
-					{this.state.showSummaries && (
-						<CardComponent p={1} py={2}>
-							{_.map(summaries, (summaryEvent: any) => {
-								return (
-									<EventCard
-										card={summaryEvent}
-										mb={1}
+							{_.map(keys, (key) => {
+								return !!payload[key] ?
+									<CardField
+										key={key}
+										field={key}
+										payload={payload}
+										users={this.props.allUsers}
+										schema={_.get(schema, ['properties', 'data', 'properties', key])}
 									/>
-								);
-							})}
-						</CardComponent>
+									: null;
+								})
+							}
+
+							<Link
+								mt={3}
+								onClick={this.handleExpandToggle}
+							>
+								Less
+							</Link>
+						</>
 					)}
-
-
-					{_.map(this.state.linkedSupportIssues, (entry) => {
-						return (
-							<Link mr={2} href={`/#${entry.id}`}>{entry.name}</Link>
-						);
-					})}
-
-					{_.map(keys, (key) => {
-						return !!payload[key] ?
-							<CardField
-								key={key}
-								field={key}
-								payload={payload}
-								users={this.props.allUsers}
-								schema={_.get(schema, ['properties', 'data', 'properties', key])}
-							/>
-							: null;
-						})
-					}
 				</Box>
 
 				<Box flex="1" style={{minHeight: 0}}>

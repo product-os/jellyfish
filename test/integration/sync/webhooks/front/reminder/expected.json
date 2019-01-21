@@ -79,7 +79,7 @@
           "type": "support-thread",
           "version": "1.0.0",
           "active": true,
-          "tags": [],
+          "tags": [ "Needs audit" ],
           "requires": [],
           "capabilities": [],
           "data": {
@@ -95,6 +95,37 @@
           }
         },
         "timestamp": "2018-12-07T01:26:41.378Z"
+      },
+      "requires": [],
+      "tags": [],
+      "type": "update",
+      "version": "1.0.0"
+    },
+    {
+      "active": true,
+      "capabilities": [],
+      "data": {
+        "payload": {
+          "active": true,
+          "capabilities": [],
+          "data": {
+            "alertsUser": [],
+            "description": "",
+            "environment": "production",
+            "inbox": "S/Paid_Support",
+            "mentionsUser": [],
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_151xwvf"
+            ],
+            "status": "closed"
+          },
+          "name": "",
+          "requires": [],
+          "tags": [],
+          "type": "support-thread",
+          "version": "1.0.0"
+        },
+        "timestamp": "2019-01-04T16:10:38.128Z"
       },
       "requires": [],
       "tags": [],

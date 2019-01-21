@@ -1,6 +1,6 @@
 {
   "name": "jellyfish",
-  "version": "12.17.6",
+  "version": "12.21.31",
   "codename": "blooming",
   "private": true,
   "description": "The Jellyfish Project",
@@ -16,6 +16,9 @@
     "postinstall": "make docker-compose.local.yml",
     "test": "make lint test",
     "heroku-postbuild": "npm install -g redoc-cli && make build dist/docs.html"
+  },
+  "engines": {
+    "node": "9.11.2"
   },
   "ava": {
     "timeout": "5m",
@@ -154,8 +157,9 @@
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "remove-markdown": "^0.3.0",
-    "rendition": "^4.41.1",
+    "rendition": "^4.44.2",
     "reql-schema": "^1.1.1",
+    "response-time": "^2.3.2",
     "skhema": "5.0.0",
     "socket.io": "^2.1.0",
     "static-eval": "^2.0.0",

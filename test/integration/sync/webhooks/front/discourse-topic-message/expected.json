@@ -90,6 +90,37 @@
       }
     },
     {
+      "active": true,
+      "capabilities": [],
+      "data": {
+        "payload": {
+          "active": true,
+          "capabilities": [],
+          "data": {
+            "alertsUser": [],
+            "description": "",
+            "environment": "production",
+            "inbox": "S/Forums",
+            "mentionsUser": [],
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_162vv2b"
+            ],
+            "status": "open"
+          },
+          "name": "[IGNORE ME] Test issue",
+          "requires": [],
+          "tags": [],
+          "type": "support-thread",
+          "version": "1.0.0"
+        },
+        "timestamp": "2018-12-27T19:06:11.185Z"
+      },
+      "requires": [],
+      "tags": [],
+      "type": "update",
+      "version": "1.0.0"
+    },
+    {
       "type": "whisper",
       "active": true,
       "version": "1.0.0",
@@ -109,6 +140,68 @@
       }
     },
     {
+      "active": true,
+      "capabilities": [],
+      "data": {
+        "payload": {
+          "active": true,
+          "capabilities": [],
+          "data": {
+            "alertsUser": [],
+            "description": "",
+            "environment": "production",
+            "inbox": "S/Forums",
+            "mentionsUser": [],
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_162vv2b"
+            ],
+            "status": "open"
+          },
+          "name": "[IGNORE ME] Test issue",
+          "requires": [],
+          "tags": [],
+          "type": "support-thread",
+          "version": "1.0.0"
+        },
+        "timestamp": "2018-12-27T19:06:12.050Z"
+      },
+      "requires": [],
+      "tags": [],
+      "type": "update",
+      "version": "1.0.0"
+    },
+    {
+      "active": true,
+      "capabilities": [],
+      "data": {
+        "payload": {
+          "active": true,
+          "capabilities": [],
+          "data": {
+            "alertsUser": [],
+            "description": "",
+            "environment": "production",
+            "inbox": "S/Forums",
+            "mentionsUser": [],
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_162vv2b"
+            ],
+            "status": "open"
+          },
+          "name": "[IGNORE ME] Test issue",
+          "requires": [],
+          "tags": [],
+          "type": "support-thread",
+          "version": "1.0.0"
+        },
+        "timestamp": "2018-12-27T19:06:12.981Z"
+      },
+      "requires": [],
+      "tags": [],
+      "type": "update",
+      "version": "1.0.0"
+    },
+    {
       "type": "message",
       "active": true,
       "version": "1.0.0",
@@ -126,6 +219,37 @@
           "message": "Test reply"
         }
       }
+    },
+    {
+      "active": true,
+      "capabilities": [],
+      "data": {
+        "payload": {
+          "active": true,
+          "capabilities": [],
+          "data": {
+            "alertsUser": [],
+            "description": "",
+            "environment": "production",
+            "inbox": "S/Forums",
+            "mentionsUser": [],
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_162vv2b"
+            ],
+            "status": "open"
+          },
+          "name": "[IGNORE ME] Test issue",
+          "requires": [],
+          "tags": [],
+          "type": "support-thread",
+          "version": "1.0.0"
+        },
+        "timestamp": "2018-12-27T19:06:24.743Z"
+      },
+      "requires": [],
+      "tags": [],
+      "type": "update",
+      "version": "1.0.0"
     }
   ]
 }

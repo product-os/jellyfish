@@ -20,7 +20,6 @@ const Bluebird = require('bluebird')
 const _ = require('lodash')
 const randomstring = require('randomstring')
 const helpers = require('../sdk/helpers')
-const queue = require('../../../lib/queue')
 
 ava.before(helpers.sdk.beforeEach)
 ava.after(helpers.sdk.afterEach)
@@ -37,6 +36,26 @@ const createUserDetails = () => {
 		password: 'foobarbaz'
 	}
 }
+
+ava.serial('The ping endpoint should continuously work', async (test) => {
+	const result1 = await test.context.http('GET', '/ping')
+	test.is(result1.code, 200)
+	test.false(result1.response.error)
+
+	const result2 = await test.context.http('GET', '/ping')
+	test.is(result2.code, 200)
+	test.false(result2.response.error)
+
+	const result3 = await test.context.http('GET', '/ping')
+	test.is(result3.code, 200)
+	test.false(result3.response.error)
+})
+
+ava.serial('The status endpoint should return numeric queue lengths', async (test) => {
+	const result = await test.context.http('GET', '/status')
+	test.is(result.code, 200)
+	test.true(_.isNumber(result.response.queue.length))
+})
 
 ava.serial('Users should be able to change their own email addresses', async (test) => {
 	const {
@@ -584,8 +603,8 @@ ava.serial('should be able to post a GitHub event without a signature', async (t
 	test.is(result.code, 200)
 	test.false(result.response.error)
 
-	const requestResult = await queue.waitResults(
-		test.context.context, test.context.jellyfish, test.context.session, result.response.data)
+	const requestResult = await test.context.queue.waitResults(
+		test.context.context, result.response.data)
 
 	test.false(requestResult.error)
 	const card = await test.context.jellyfish.getCardById(test.context.context,
@@ -635,8 +654,8 @@ ava.serial('should take a GitHub event with a valid signature', async (test) => 
 	test.is(result.code, 200)
 	test.false(result.response.error)
 
-	const requestResult = await queue.waitResults(
-		test.context.context, test.context.jellyfish, test.context.session, result.response.data)
+	const requestResult = await test.context.queue.waitResults(
+		test.context.context, result.response.data)
 
 	test.false(requestResult.error)
 	const card = await test.context.jellyfish.getCardById(test.context.context,

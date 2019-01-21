@@ -1,0 +1,51 @@
+{
+  "_pagination": {
+    "prev": null,
+    "next": null
+  },
+  "_links": {
+    "self": "https://api2.frontapp.com/conversations/cnv_183bv6i/messages?"
+  },
+  "_results": [
+    {
+      "_links": {
+        "self": "https://api2.frontapp.com/messages/msg_28s4nei",
+        "related": {
+          "conversation": "https://api2.frontapp.com/conversations/cnv_183bv6i"
+        }
+      },
+      "id": "msg_28s4nei",
+      "type": "email",
+      "is_inbound": true,
+      "created_at": 1547829291.902,
+      "blurb": " Foo ",
+      "body": "<div>Foo</div>\n",
+      "text": "Foo\n",
+      "is_draft": false,
+      "error_type": null,
+      "metadata": {},
+      "author": null,
+      "recipients": [
+        {
+          "_links": {
+            "related": {
+              "contact": null
+            }
+          },
+          "handle": "juan@balena.io",
+          "role": "from"
+        },
+        {
+          "_links": {
+            "related": {
+              "contact": "https://api2.frontapp.com/contacts/crd_hgkpe"
+            }
+          },
+          "handle": "26ww-resin_io_dev@in.frontapp.com",
+          "role": "to"
+        }
+      ],
+      "attachments": []
+    }
+  ]
+}

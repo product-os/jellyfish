@@ -21,14 +21,16 @@ spec:
           httpGet:
             path: /ping
             port: 8000
-          initialDelaySeconds: 5
-          periodSeconds: 3
+          initialDelaySeconds: 600
+          periodSeconds: 10
+          timeoutSeconds: 4
         readinessProbe:
           httpGet:
             path: /ping
             port: 8000
-          initialDelaySeconds: 2
-          periodSeconds: 2
+          initialDelaySeconds: 600
+          periodSeconds: 10
+          timeoutSeconds: 4
           failureThreshold: 30
         env:
         - name: DB_HOST

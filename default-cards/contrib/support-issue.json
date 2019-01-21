@@ -41,6 +41,20 @@
                 "low"
               ]
             },
+            "fixedInOSVersion": {
+              "title": "Fixed in OS version",
+              "description": "The OS version that this issue was fixed in (if applicable)",
+              "type": "string"
+            },
+            "fixedInSupervisorVersion": {
+              "title": "Fixed in supervisor version",
+              "description": "The supervisor version that this issue was fixed in (if applicable)",
+              "type": "string"
+            },
+            "category": {
+              "title": "Category",
+              "type": "string"
+            },
             "shareable": {
               "title": "Shareable",
               "description": "Can this information be made publicly available?",

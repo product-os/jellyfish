@@ -20,15 +20,18 @@ module.exports = class NoOpIntegration {
 	 * @class
 	 * @public
 	 *
+	 * @param {Object} options - options
+	 *
 	 * @description
 	 * Mainly for testing purposes.
 	 *
 	 * @example
-	 * const integration = new NoOpIntegration()
+	 * const integration = new NoOpIntegration({ ... })
 	 */
-	constructor () {
+	constructor (options) {
 		this.initialized = false
 		this.destroyed = false
+		this.options = options
 	}
 
 	/**
@@ -77,9 +80,6 @@ module.exports = class NoOpIntegration {
 	 *
 	 * @param {Object} event - external event card
 	 * @param {Object} options - options
-	 * @param {Object} options.context - execution context
-	 * @param {String} options.session - session id
-	 * @param {String} options.actor - actor id
 	 * @returns {Array} card sequence
    *
    * @example
@@ -93,7 +93,7 @@ module.exports = class NoOpIntegration {
 	 * })
    */
 	// eslint-disable-next-line class-methods-use-this
-	async translate (event, options) {
+	async translate (event) {
 		if (!this.initialized) {
 			throw new Error('The integration is not initialized')
 		}
@@ -105,6 +105,7 @@ module.exports = class NoOpIntegration {
 		return [
 			{
 				time: new Date(),
+				actor: event.data.payload.actor,
 				card: {
 					type: 'card',
 					slug: event.slug,

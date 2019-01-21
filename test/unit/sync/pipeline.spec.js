@@ -26,9 +26,7 @@ ava.beforeEach(helpers.beforeEach)
 ava.afterEach(helpers.afterEach)
 
 ava('.importCards() should import no card', async (test) => {
-	const result = await pipeline.importCards(test.context.syncContext, [], {
-		actor: test.context.actor.id
-	})
+	const result = await pipeline.importCards(test.context.syncContext, [])
 
 	test.deepEqual(result, [])
 })
@@ -37,6 +35,7 @@ ava('.importCards() should throw if the type is invalid', async (test) => {
 	await test.throwsAsync(pipeline.importCards(test.context.syncContext, [
 		{
 			time: new Date(),
+			actor: test.context.actor.id,
 			card: {
 				slug: 'hello-world',
 				type: 'xxxxxxxxxxxxx',
@@ -46,15 +45,14 @@ ava('.importCards() should throw if the type is invalid', async (test) => {
 				}
 			}
 		}
-	], {
-		actor: test.context.actor.id
-	}), test.context.worker.errors.WorkerNoElement)
+	]), test.context.worker.errors.WorkerNoElement)
 })
 
 ava('.importCards() should import a single card', async (test) => {
 	const result = await pipeline.importCards(test.context.syncContext, [
 		{
 			time: new Date(),
+			actor: test.context.actor.id,
 			card: {
 				slug: 'hello-world',
 				type: 'card',
@@ -64,9 +62,7 @@ ava('.importCards() should import a single card', async (test) => {
 				}
 			}
 		}
-	], {
-		actor: test.context.actor.id
-	})
+	])
 
 	test.deepEqual(result, [
 		test.context.kernel.defaults({
@@ -96,6 +92,7 @@ ava('.importCards() should patch an existing card', async (test) => {
 	const result = await pipeline.importCards(test.context.syncContext, [
 		{
 			time: new Date(),
+			actor: test.context.actor.id,
 			card: test.context.kernel.defaults({
 				id: card.id,
 				slug: 'foo',
@@ -107,9 +104,7 @@ ava('.importCards() should patch an existing card', async (test) => {
 				}
 			})
 		}
-	], {
-		actor: test.context.actor.id
-	})
+	])
 
 	test.deepEqual(result, [
 		test.context.kernel.defaults({
@@ -131,6 +126,7 @@ ava('.importCards() should import two independent cards', async (test) => {
 	const result = await pipeline.importCards(test.context.syncContext, [
 		{
 			time: new Date(),
+			actor: test.context.actor.id,
 			card: {
 				type: 'card',
 				slug: 'foo',
@@ -142,6 +138,7 @@ ava('.importCards() should import two independent cards', async (test) => {
 		},
 		{
 			time: new Date(),
+			actor: test.context.actor.id,
 			card: {
 				type: 'card',
 				slug: 'bar',
@@ -151,9 +148,7 @@ ava('.importCards() should import two independent cards', async (test) => {
 				}
 			}
 		}
-	], {
-		actor: test.context.actor.id
-	})
+	])
 
 	test.deepEqual(result, [
 		{
@@ -186,6 +181,7 @@ ava('.importCards() should import two parallel cards', async (test) => {
 		[
 			{
 				time: new Date(),
+				actor: test.context.actor.id,
 				card: {
 					type: 'card',
 					slug: 'foo',
@@ -197,6 +193,7 @@ ava('.importCards() should import two parallel cards', async (test) => {
 			},
 			{
 				time: new Date(),
+				actor: test.context.actor.id,
 				card: {
 					type: 'card',
 					slug: 'bar',
@@ -207,9 +204,7 @@ ava('.importCards() should import two parallel cards', async (test) => {
 				}
 			}
 		]
-	], {
-		actor: test.context.actor.id
-	})
+	])
 
 	const sortedResult = _.sortBy(result, 'data.test')
 
@@ -243,6 +238,7 @@ ava('.importCards() should import dependent cards', async (test) => {
 	const result = await pipeline.importCards(test.context.syncContext, [
 		{
 			time: new Date(),
+			actor: test.context.actor.id,
 			card: {
 				type: 'card',
 				slug: 'foo',
@@ -254,6 +250,7 @@ ava('.importCards() should import dependent cards', async (test) => {
 		},
 		{
 			time: new Date(),
+			actor: test.context.actor.id,
 			card: {
 				type: 'card',
 				slug: 'bar',
@@ -265,9 +262,7 @@ ava('.importCards() should import dependent cards', async (test) => {
 				}
 			}
 		}
-	], {
-		actor: test.context.actor.id
-	})
+	])
 
 	test.deepEqual(result, [
 		test.context.kernel.defaults({
@@ -305,6 +300,7 @@ ava('.importCards() should throw if a template does not evaluate', async (test) 
 	await test.throwsAsync(pipeline.importCards(test.context.syncContext, [
 		{
 			time: new Date(),
+			actor: test.context.actor.id,
 			card: {
 				type: 'card',
 				slug: 'foo',
@@ -316,6 +312,7 @@ ava('.importCards() should throw if a template does not evaluate', async (test) 
 		},
 		{
 			time: new Date(),
+			actor: test.context.actor.id,
 			card: {
 				type: 'card',
 				slug: 'bar',
@@ -327,15 +324,14 @@ ava('.importCards() should throw if a template does not evaluate', async (test) 
 				}
 			}
 		}
-	], {
-		actor: test.context.actor.id
-	}), errors.SyncInvalidTemplate)
+	]), errors.SyncInvalidTemplate)
 })
 
 ava('.importCards() should import a dependent card in parallel segment', async (test) => {
 	const result = await pipeline.importCards(test.context.syncContext, [
 		{
 			time: new Date(),
+			actor: test.context.actor.id,
 			card: {
 				type: 'card',
 				slug: 'foo',
@@ -348,6 +344,7 @@ ava('.importCards() should import a dependent card in parallel segment', async (
 		[
 			{
 				time: new Date(),
+				actor: test.context.actor.id,
 				card: {
 					type: 'card',
 					slug: 'bar',
@@ -359,6 +356,7 @@ ava('.importCards() should import a dependent card in parallel segment', async (
 			},
 			{
 				time: new Date(),
+				actor: test.context.actor.id,
 				card: {
 					type: 'card',
 					slug: 'baz',
@@ -372,9 +370,7 @@ ava('.importCards() should import a dependent card in parallel segment', async (
 				}
 			}
 		]
-	], {
-		actor: test.context.actor.id
-	})
+	])
 
 	const sortedResult = _.sortBy(result, 'data.test')
 
@@ -420,6 +416,7 @@ ava('.importCards() should add create events', async (test) => {
 	const result = await pipeline.importCards(test.context.syncContext, [
 		{
 			time: new Date(),
+			actor: test.context.actor.id,
 			card: {
 				slug: 'hello-world',
 				type: 'card',
@@ -429,9 +426,7 @@ ava('.importCards() should add create events', async (test) => {
 				}
 			}
 		}
-	], {
-		actor: test.context.actor.id
-	})
+	])
 
 	await test.context.flush(test.context.session)
 
@@ -460,8 +455,8 @@ ava('.importCards() should add create events', async (test) => {
 
 ava('.translateExternalEvent() should translate an external event through the noop integration', async (test) => {
 	class TestIntegration extends NoOpIntegration {
-		constructor () {
-			super()
+		constructor (options) {
+			super(options)
 			TestIntegration.instance = this
 		}
 	}
@@ -479,6 +474,7 @@ ava('.translateExternalEvent() should translate an external event through the no
 			source: 'test',
 			headers: {},
 			payload: {
+				actor: test.context.actor.id,
 				foo: 'bar',
 				bar: 'baz'
 			}
@@ -500,7 +496,9 @@ ava('.translateExternalEvent() should translate an external event through the no
 			version: '1.0.0',
 			links: result[0].links,
 			data: {
+				origin: result[0].data.origin,
 				payload: {
+					actor: test.context.actor.id,
 					foo: 'bar',
 					bar: 'baz'
 				}
@@ -511,8 +509,8 @@ ava('.translateExternalEvent() should translate an external event through the no
 
 ava('.translateExternalEvent() should destroy the integration even if there was an import error', async (test) => {
 	class TestIntegration extends NoOpIntegration {
-		constructor () {
-			super()
+		constructor (options) {
+			super(options)
 			TestIntegration.instance = this
 		}
 	}

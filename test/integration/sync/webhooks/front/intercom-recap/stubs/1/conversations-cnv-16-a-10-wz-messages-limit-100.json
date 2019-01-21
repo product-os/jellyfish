@@ -1,0 +1,295 @@
+{
+  "_pagination": {
+    "prev": null,
+    "next": null
+  },
+  "_links": {
+    "self": "https://api2.frontapp.com/conversations/cnv_16a10wz/messages?limit=100"
+  },
+  "_results": [
+    {
+      "_links": {
+        "self": "https://api2.frontapp.com/messages/msg_280hbvv",
+        "related": {
+          "conversation": "https://api2.frontapp.com/conversations/cnv_16a10wz"
+        }
+      },
+      "id": "msg_280hbvv",
+      "type": "intercom",
+      "is_inbound": true,
+      "created_at": 1546532088,
+      "blurb": " Sounds good, thanks! ",
+      "body": "<div><p>Sounds good, thanks!</p>\n</div>",
+      "text": "Sounds good, thanks!",
+      "is_draft": false,
+      "error_type": null,
+      "metadata": {
+        "intercom_url": "https://app.intercom.io/a/apps/yg02r5dz/inbox/conversation/20265921558"
+      },
+      "author": null,
+      "recipients": [
+        {
+          "_links": {
+            "related": {
+              "contact": "https://api2.frontapp.com/contacts/crd_23f9g9"
+            }
+          },
+          "handle": "589b6c94e1832926cacecb02",
+          "role": "from"
+        },
+        {
+          "_links": {
+            "related": {
+              "contact": "https://api2.frontapp.com/contacts/crd_5gqtnd"
+            }
+          },
+          "handle": "yg02r5dz",
+          "role": "to"
+        }
+      ],
+      "attachments": []
+    },
+    {
+      "_links": {
+        "self": "https://api2.frontapp.com/messages/msg_27vg6m3",
+        "related": {
+          "conversation": "https://api2.frontapp.com/conversations/cnv_16a10wz"
+        }
+      },
+      "id": "msg_27vg6m3",
+      "type": "intercom",
+      "is_inbound": false,
+      "created_at": 1546448925.286,
+      "blurb": "I meant to say it's not implemented *yet*, but it is coming.",
+      "body": "<div><p>I meant to say it's not implemented <em>yet</em>, but it is coming.</p>\n</div>",
+      "text": "I meant to say it's not implemented *yet*, but it is coming.",
+      "is_draft": false,
+      "error_type": null,
+      "metadata": {
+        "intercom_url": "https://app.intercom.io/a/apps/yg02r5dz/inbox/conversation/20265921558"
+      },
+      "author": {
+        "_links": {
+          "self": "https://api2.frontapp.com/teammates/tea_111e",
+          "related": {
+            "inboxes": "https://api2.frontapp.com/teammates/tea_111e/inboxes",
+            "conversations": "https://api2.frontapp.com/teammates/tea_111e/conversations"
+          }
+        },
+        "id": "tea_111e",
+        "email": "cameron@balena.io",
+        "username": "camerondiver",
+        "first_name": "Cameron",
+        "last_name": "Diver",
+        "is_admin": false,
+        "is_available": true,
+        "is_blocked": false
+      },
+      "recipients": [
+        {
+          "_links": {
+            "related": {
+              "contact": "https://api2.frontapp.com/contacts/crd_5gqtnd"
+            }
+          },
+          "handle": "yg02r5dz",
+          "role": "from"
+        },
+        {
+          "_links": {
+            "related": {
+              "contact": "https://api2.frontapp.com/contacts/crd_23f9g9"
+            }
+          },
+          "handle": "589b6c94e1832926cacecb02",
+          "role": "to"
+        }
+      ],
+      "attachments": []
+    },
+    {
+      "_links": {
+        "self": "https://api2.frontapp.com/messages/msg_27vg2oz",
+        "related": {
+          "conversation": "https://api2.frontapp.com/conversations/cnv_16a10wz"
+        }
+      },
+      "id": "msg_27vg2oz",
+      "type": "intercom",
+      "is_inbound": false,
+      "created_at": 1546448911.51,
+      "blurb": "Hey, it's not actually implemented on the dashboard side, but you can use staged releases, with the code found in examples here: https://github.com/balena-io-projects/staged-releases",
+      "body": "<div><p>Hey, it's not actually implemented on the dashboard side, but you can use staged releases, with the code found in examples here: <a href=\"https://github.com/balena-io-projects/staged-releases\">https://github.com/balena-io-projects/staged-releases</a></p>\n</div>",
+      "text": "Hey, it's not actually implemented on the dashboard side, but you can use staged releases, with the code found in examples here: https://github.com/balena-io-projects/staged-releases",
+      "is_draft": false,
+      "error_type": null,
+      "metadata": {
+        "intercom_url": "https://app.intercom.io/a/apps/yg02r5dz/inbox/conversation/20265921558"
+      },
+      "author": {
+        "_links": {
+          "self": "https://api2.frontapp.com/teammates/tea_111e",
+          "related": {
+            "inboxes": "https://api2.frontapp.com/teammates/tea_111e/inboxes",
+            "conversations": "https://api2.frontapp.com/teammates/tea_111e/conversations"
+          }
+        },
+        "id": "tea_111e",
+        "email": "cameron@balena.io",
+        "username": "camerondiver",
+        "first_name": "Cameron",
+        "last_name": "Diver",
+        "is_admin": false,
+        "is_available": true,
+        "is_blocked": false
+      },
+      "recipients": [
+        {
+          "_links": {
+            "related": {
+              "contact": "https://api2.frontapp.com/contacts/crd_5gqtnd"
+            }
+          },
+          "handle": "yg02r5dz",
+          "role": "from"
+        },
+        {
+          "_links": {
+            "related": {
+              "contact": "https://api2.frontapp.com/contacts/crd_23f9g9"
+            }
+          },
+          "handle": "589b6c94e1832926cacecb02",
+          "role": "to"
+        }
+      ],
+      "attachments": []
+    },
+    {
+      "_links": {
+        "self": "https://api2.frontapp.com/messages/msg_27vfhm3",
+        "related": {
+          "conversation": "https://api2.frontapp.com/conversations/cnv_16a10wz"
+        }
+      },
+      "id": "msg_27vfhm3",
+      "type": "intercom",
+      "is_inbound": true,
+      "created_at": 1546448746,
+      "blurb": " Is this something I can do on the balena dashboard for future reference? ",
+      "body": "<div><p>Is this something I can do on the balena dashboard for future reference?</p>\n</div>",
+      "text": "Is this something I can do on the balena dashboard for future reference?",
+      "is_draft": false,
+      "error_type": null,
+      "metadata": {
+        "intercom_url": "https://app.intercom.io/a/apps/yg02r5dz/inbox/conversation/20265921558"
+      },
+      "author": null,
+      "recipients": [
+        {
+          "_links": {
+            "related": {
+              "contact": "https://api2.frontapp.com/contacts/crd_23f9g9"
+            }
+          },
+          "handle": "589b6c94e1832926cacecb02",
+          "role": "from"
+        },
+        {
+          "_links": {
+            "related": {
+              "contact": "https://api2.frontapp.com/contacts/crd_5gqtnd"
+            }
+          },
+          "handle": "yg02r5dz",
+          "role": "to"
+        }
+      ],
+      "attachments": []
+    },
+    {
+      "_links": {
+        "self": "https://api2.frontapp.com/messages/msg_27vffoj",
+        "related": {
+          "conversation": "https://api2.frontapp.com/conversations/cnv_16a10wz"
+        }
+      },
+      "id": "msg_27vffoj",
+      "type": "intercom",
+      "is_inbound": true,
+      "created_at": 1546448735,
+      "blurb": " Never mind I think I've gotten that to work again.. lol ",
+      "body": "<div><p>Never mind I think I've gotten that to work again.. lol</p>\n</div>",
+      "text": "Never mind I think I've gotten that to work again.. lol",
+      "is_draft": false,
+      "error_type": null,
+      "metadata": {
+        "intercom_url": "https://app.intercom.io/a/apps/yg02r5dz/inbox/conversation/20265921558"
+      },
+      "author": null,
+      "recipients": [
+        {
+          "_links": {
+            "related": {
+              "contact": "https://api2.frontapp.com/contacts/crd_23f9g9"
+            }
+          },
+          "handle": "589b6c94e1832926cacecb02",
+          "role": "from"
+        },
+        {
+          "_links": {
+            "related": {
+              "contact": "https://api2.frontapp.com/contacts/crd_5gqtnd"
+            }
+          },
+          "handle": "yg02r5dz",
+          "role": "to"
+        }
+      ],
+      "attachments": []
+    },
+    {
+      "_links": {
+        "self": "https://api2.frontapp.com/messages/msg_27vf9n7",
+        "related": {
+          "conversation": "https://api2.frontapp.com/conversations/cnv_16a10wz"
+        }
+      },
+      "id": "msg_27vf9n7",
+      "type": "intercom",
+      "is_inbound": true,
+      "created_at": 1546448699,
+      "blurb": " Hi, is there a quick and easy way to revert to an older release? I've done it succesfully by \"pushing\" the older commit but it doesn't seem to be working for me right now ",
+      "body": "<div><p>Hi, is there a quick and easy way to revert to an older release? I've done it succesfully by &quot;pushing&quot; the older commit but it doesn't seem to be working for me right now</p>\n</div>",
+      "text": "Hi, is there a quick and easy way to revert to an older release? I've done it succesfully by \"pushing\" the older commit but it doesn't seem to be working for me right now",
+      "is_draft": false,
+      "error_type": null,
+      "metadata": {
+        "intercom_url": "https://app.intercom.io/a/apps/yg02r5dz/inbox/conversation/20265921558"
+      },
+      "author": null,
+      "recipients": [
+        {
+          "_links": {
+            "related": {
+              "contact": "https://api2.frontapp.com/contacts/crd_23f9g9"
+            }
+          },
+          "handle": "589b6c94e1832926cacecb02",
+          "role": "from"
+        },
+        {
+          "_links": {
+            "related": {
+              "contact": "https://api2.frontapp.com/contacts/crd_5gqtnd"
+            }
+          },
+          "handle": "yg02r5dz",
+          "role": "to"
+        }
+      ],
+      "attachments": []
+    }
+  ]
+}

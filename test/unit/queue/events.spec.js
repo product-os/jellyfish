@@ -19,8 +19,8 @@ const Bluebird = require('bluebird')
 const helpers = require('./helpers')
 const events = require('../../../lib/queue/events')
 
-ava.beforeEach(helpers.jellyfish.beforeEach)
-ava.afterEach(helpers.jellyfish.afterEach)
+ava.beforeEach(helpers.queue.beforeEach)
+ava.afterEach(helpers.queue.afterEach)
 
 ava('.post() should insert an active execute card', async (test) => {
 	const event = await events.post(test.context.context, test.context.jellyfish, test.context.session, {

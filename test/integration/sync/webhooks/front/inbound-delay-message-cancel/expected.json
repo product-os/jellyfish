@@ -69,6 +69,37 @@
           }
         }
       }
+    },
+    {
+      "active": true,
+      "capabilities": [],
+      "data": {
+        "payload": {
+          "active": true,
+          "capabilities": [],
+          "data": {
+            "alertsUser": [],
+            "description": "",
+            "environment": "production",
+            "inbox": "Test_Contracts",
+            "mentionsUser": [],
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_11sgs3f"
+            ],
+            "status": "open"
+          },
+          "name": "Delay cancel",
+          "requires": [],
+          "tags": [],
+          "type": "support-thread",
+          "version": "1.0.0"
+        },
+        "timestamp": "2018-10-10T22:19:42.973Z"
+      },
+      "requires": [],
+      "tags": [],
+      "type": "update",
+      "version": "1.0.0"
     }
   ]
 }

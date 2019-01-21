@@ -15,70 +15,46 @@
  */
 
 const Worker = require('../../../lib/worker')
-const helpers = require('../core/helpers')
+const helpers = require('../queue/helpers')
 
 exports.jellyfish = {
 	beforeEach: async (test) => {
-		await helpers.jellyfish.beforeEach(test)
-		test.context.session = test.context.jellyfish.sessions.admin
-
-		const session = await test.context.jellyfish.getCardById(test.context.context,
-			test.context.session, test.context.session, {
-				type: 'session'
-			})
-
-		test.context.actor = await test.context.jellyfish.getCardById(test.context.context,
-			test.context.session, session.data.actor, {
-				type: 'user'
-			})
+		await helpers.queue.beforeEach(test)
 
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../default-cards/contrib/execute.json'))
+			require('../../../lib/worker/cards/update'))
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../default-cards/contrib/create.json'))
+			require('../../../lib/worker/cards/create'))
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../default-cards/contrib/update.json'))
-		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../default-cards/contrib/message.json'))
-		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../default-cards/contrib/account.json'))
-		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../default-cards/contrib/triggered-action.json'))
-		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../default-cards/contrib/action-create-card.json'))
-		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../default-cards/contrib/action-create-event.json'))
-		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../default-cards/contrib/action-set-add.json'))
-		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../default-cards/contrib/action-create-user.json'))
-		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../default-cards/contrib/action-create-session.json'))
-		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../default-cards/contrib/action-update-card.json'))
-		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../default-cards/contrib/action-delete-card.json'))
+			require('../../../lib/worker/cards/triggered-action'))
 	},
 
 	afterEach: async (test) => {
-		await helpers.jellyfish.afterEach(test)
+		await helpers.queue.afterEach(test)
 	}
 }
 
 exports.worker = {
 	beforeEach: async (test, actionLibrary) => {
-		await exports.jellyfish.beforeEach(test)
-		test.context.worker = new Worker(test.context.jellyfish, test.context.session, actionLibrary)
+		await helpers.queue.beforeEach(test)
+		test.context.worker = new Worker(
+			test.context.jellyfish,
+			test.context.session,
+			actionLibrary,
+			test.context.queue)
+		await test.context.worker.initialize(test.context.context)
+
 		test.context.flush = async (session) => {
-			if (await test.context.worker.length() === 0) {
+			const request = await test.context.queue.dequeue()
+			if (!request) {
 				return
 			}
 
-			const request = await test.context.worker.dequeue()
 			const result = await test.context.worker.execute(session, request)
 
 			if (result.error) {
 				const Constructor = test.context.worker.errors[result.data.name] ||
+					test.context.queue.errors[result.data.name] ||
 					test.context.jellyfish.errors[result.data.name] ||
 					Error
 
@@ -88,5 +64,5 @@ exports.worker = {
 			await test.context.flush(session)
 		}
 	},
-	afterEach: exports.jellyfish.afterEach
+	afterEach: helpers.queue.afterEach
 }

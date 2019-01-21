@@ -5,6 +5,7 @@ import { Alert, Box, Modal } from 'rendition';
 import { Card, RendererProps } from '../../types';
 import { LINKS } from '../constants';
 import { createLink } from '../services/link';
+import { ErrorBoundary } from './ErrorBoundary';
 
 // Load lens service
 import LensService from '../lens';
@@ -61,7 +62,7 @@ class ChannelRenderer extends React.Component<ChannelRendererProps, {
 		const lens = LensService.getLens(channel.data.head!);
 
 		return (
-			<>
+			<ErrorBoundary>
 				{connectDropTarget(
 					<div
 						style={{
@@ -83,8 +84,7 @@ class ChannelRenderer extends React.Component<ChannelRendererProps, {
 						Link {this.state.linkFrom!.type} <strong>{this.state.linkFrom!.name}</strong> to {this.props.channel.data.head!.type} <strong>{this.props.channel.data.head!.name}</strong>
 					</Modal>
 				)}
-
-			</>
+			</ErrorBoundary>
 		);
 	}
 }

@@ -108,7 +108,7 @@ interface HomeChannelState {
 	messages: Card[];
 }
 
-class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
+class HomeChannelBase extends TailStreamer<HomeChannelProps, HomeChannelState> {
 	constructor(props: HomeChannelProps) {
 		super(props);
 
@@ -130,9 +130,6 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 	}
 
 	public setTail(tail: Card[]): void {
-		tail.forEach(card => {
-			this.props.actions.streamView(card);
-		});
 		// If there is only 1 channel, check for the home channel, otherwise, open
 		// the all messages view by default
 		if (this.props.channels.length === 1) {
@@ -215,11 +212,13 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 			return _.includes(view.markers, this.props.user!.slug);
 		});
 
-		groups.push({
-			name: 'My views',
-			views: myViews,
-			key: '__myviews',
-		});
+		if (myViews.length) {
+			groups.push({
+				name: 'My views',
+				views: myViews,
+				key: '__myviews',
+			});
+		}
 
 		const remaining = _.groupBy(otherViews, 'markers[0]');
 
@@ -324,9 +323,11 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 									const update = this.props.viewNotices[card.id];
 
 									return (
-										<Box mx={-3}>
+										<Box
+											mx={-3}
+											key={card.id}
+										>
 											<ViewLink
-												key={card.id}
 												card={card}
 												isActive={isActive}
 												activeSlice={activeSlice}
@@ -359,7 +360,7 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 					{!!tail && _.map(groups, (group) => {
 						const isExpanded = this.isExpanded(group.name);
 						return (
-							<>
+							<React.Fragment key={group.name}>
 								<Button
 									plaintext
 									primary
@@ -379,29 +380,31 @@ class Base extends TailStreamer<HomeChannelProps, HomeChannelState> {
 									</Flex>
 								</Button>
 
-								{isExpanded && _.map(group.views, (card) => {
-									// A view shouldn't be able to display itself
-									if (card.id === head!.id) {
-										return null;
-									}
+								<div style={{display: isExpanded ? 'block' : 'none'}}>
+									{_.map(group.views, (card) => {
+										// A view shouldn't be able to display itself
+										if (card.id === head!.id) {
+											return null;
+										}
 
-									const isActive = card.id === _.get(activeChannel, [ 'data' , 'target' ]);
-									const activeSlice = _.get(activeChannel, [ 'data', 'options', 'slice' ]);
+										const isActive = card.id === _.get(activeChannel, [ 'data' , 'target' ]);
+										const activeSlice = _.get(activeChannel, [ 'data', 'options', 'slice' ]);
 
-									const update = this.props.viewNotices[card.id];
+										const update = this.props.viewNotices[card.id];
 
-									return (
-										<ViewLink
-											key={card.id}
-											card={card}
-											isActive={isActive}
-											activeSlice={activeSlice}
-											update={update}
-											open={this.open}
-										/>
-									);
-								})}
-							</>
+										return (
+											<ViewLink
+												key={card.id}
+												card={card}
+												isActive={isActive}
+												activeSlice={activeSlice}
+												update={update}
+												open={this.open}
+											/>
+										);
+									})}
+								</div>
+							</React.Fragment>
 						);
 					})}
 
@@ -446,4 +449,4 @@ const mapDispatchToProps = (dispatch: any) => ({
 	actions: bindActionCreators(actionCreators, dispatch),
 });
 
-export const HomeChannel = connect(mapStateToProps, mapDispatchToProps)(Base);
+export const HomeChannel = connect(mapStateToProps, mapDispatchToProps)(HomeChannelBase);

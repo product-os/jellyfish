@@ -15,33 +15,34 @@
  */
 
 module.exports = {
-	reminder: {
-		expected: require('./reminder/expected.json'),
+	'inbound-tag-comment': {
+		expected: require('./inbound-tag-comment/expected.json'),
 		steps: [
-			require('./reminder/01.json'),
-			require('./reminder/02.json')
+			require('./inbound-tag-comment/01.json'),
+			require('./inbound-tag-comment/02.json'),
+			require('./inbound-tag-comment/03.json')
 		]
 	},
-	'intercom-rule-reopen': {
-		expected: require('./intercom-rule-reopen/expected.json'),
+	'intercom-recap': {
+		expected: require('./intercom-recap/expected.json'),
 		steps: [
-			require('./intercom-rule-reopen/01.json')
+			require('./intercom-recap/01.json'),
+			require('./intercom-recap/02.json'),
+			require('./intercom-recap/03.json')
 		]
 	},
-	'intercom-no-author': {
-		expected: require('./intercom-no-author/expected.json'),
+	'intercom-draft-message': {
+		expected: require('./intercom-draft-message/expected.json'),
 		steps: [
-			require('./intercom-no-author/01.json')
+			require('./intercom-draft-message/01.json'),
+			require('./intercom-draft-message/02.json')
 		]
 	},
-	'discourse-topic-message': {
-		expected: require('./discourse-topic-message/expected.json'),
+	'intercom-draft-comment': {
+		expected: require('./intercom-draft-comment/expected.json'),
 		steps: [
-			require('./discourse-topic-message/01.json'),
-			require('./discourse-topic-message/02.json'),
-			require('./discourse-topic-message/03.json'),
-			require('./discourse-topic-message/04.json'),
-			require('./discourse-topic-message/05.json')
+			require('./intercom-draft-comment/01.json'),
+			require('./intercom-draft-comment/02.json')
 		]
 	},
 	'intercom-inbound-archive': {
@@ -69,16 +70,6 @@ module.exports = {
 			require('./inbound-inbound-inbound/03.json')
 		]
 	},
-	'inbound-archive-message': {
-		expected: require('./inbound-archive-message/expected.json'),
-		steps: [
-			require('./inbound-archive-message/01.json'),
-			require('./inbound-archive-message/02.json'),
-			require('./inbound-archive-message/03.json'),
-			require('./inbound-archive-message/04.json'),
-			require('./inbound-archive-message/05.json')
-		]
-	},
 	'inbound-archive-unarchive': {
 		expected: require('./inbound-archive-unarchive/expected.json'),
 		steps: [
@@ -94,14 +85,6 @@ module.exports = {
 			require('./inbound-archive/02.json')
 		]
 	},
-	'inbound-comment-comment': {
-		expected: require('./inbound-comment-comment/expected.json'),
-		steps: [
-			require('./inbound-comment-comment/01.json'),
-			require('./inbound-comment-comment/02.json'),
-			require('./inbound-comment-comment/03.json')
-		]
-	},
 	'inbound-delay-message-cancel': {
 		expected: require('./inbound-delay-message-cancel/expected.json'),
 		steps: [
@@ -115,16 +98,6 @@ module.exports = {
 			require('./inbound-delay-message/01.json'),
 			require('./inbound-delay-message/02.json'),
 			require('./inbound-delay-message/03.json')
-		]
-	},
-	'inbound-delete-message': {
-		expected: require('./inbound-delete-message/expected.json'),
-		steps: [
-			require('./inbound-delete-message/01.json'),
-			require('./inbound-delete-message/02.json'),
-			require('./inbound-delete-message/03.json'),
-			require('./inbound-delete-message/04.json'),
-			require('./inbound-delete-message/05.json')
 		]
 	},
 	'inbound-delete-undelete': {
@@ -192,6 +165,63 @@ module.exports = {
 		steps: [
 			require('./outbound/01.json'),
 			require('./outbound/02.json')
+		]
+	},
+	'inbound-comment-comment': {
+		expected: require('./inbound-comment-comment/expected.json'),
+		steps: [
+			require('./inbound-comment-comment/01.json'),
+			require('./inbound-comment-comment/02.json'),
+			require('./inbound-comment-comment/03.json')
+		]
+	},
+	'inbound-archive-message': {
+		expected: require('./inbound-archive-message/expected.json'),
+		steps: [
+			require('./inbound-archive-message/01.json'),
+			require('./inbound-archive-message/02.json'),
+			require('./inbound-archive-message/03.json'),
+			require('./inbound-archive-message/04.json'),
+			require('./inbound-archive-message/05.json')
+		]
+	},
+	'inbound-delete-message': {
+		expected: require('./inbound-delete-message/expected.json'),
+		steps: [
+			require('./inbound-delete-message/01.json'),
+			require('./inbound-delete-message/02.json'),
+			require('./inbound-delete-message/03.json'),
+			require('./inbound-delete-message/04.json'),
+			require('./inbound-delete-message/05.json')
+		]
+	},
+	'discourse-topic-message': {
+		expected: require('./discourse-topic-message/expected.json'),
+		steps: [
+			require('./discourse-topic-message/01.json'),
+			require('./discourse-topic-message/02.json'),
+			require('./discourse-topic-message/03.json'),
+			require('./discourse-topic-message/04.json'),
+			require('./discourse-topic-message/05.json')
+		]
+	},
+	reminder: {
+		expected: require('./reminder/expected.json'),
+		steps: [
+			require('./reminder/01.json'),
+			require('./reminder/02.json')
+		]
+	},
+	'intercom-rule-reopen': {
+		expected: require('./intercom-rule-reopen/expected.json'),
+		steps: [
+			require('./intercom-rule-reopen/01.json')
+		]
+	},
+	'intercom-no-author': {
+		expected: require('./intercom-no-author/expected.json'),
+		steps: [
+			require('./intercom-no-author/01.json')
 		]
 	}
 }
