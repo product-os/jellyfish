@@ -134,6 +134,7 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 			})
 
 		const request = await test.context.queue.enqueue(
+			test.context.worker.getId(),
 			test.context.session, {
 				context: test.context.context,
 				action: 'action-integration-import-event',
