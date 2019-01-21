@@ -221,7 +221,7 @@ export const getLocalSchema = (card: any) => {
 };
 
 export const createPrefixRegExp = _.memoize((prefix: string) => {
-	const regExp = new RegExp(`(\\s|^)([${prefix}][a-z\\d-\\/]+)`, 'gmi');
+	const regExp = new RegExp(`(\\s|^)([${prefix}][a-z\\d-_\\/]+)`, 'gmi');
 	return regExp;
 });
 
