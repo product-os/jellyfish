@@ -100,8 +100,8 @@ ava('should not store the password in the queue when using action-create-session
 	})
 
 	const request = await test.context.queue.dequeue(test.context.worker.getId())
-	test.falsy(request.arguments.password.hash.string)
-	test.falsy(request.arguments.password.hash.salt)
+	test.falsy(request.data.arguments.password.hash.string)
+	test.falsy(request.data.arguments.password.hash.salt)
 })
 
 ava('should fail to create an event with an action-create-card', async (test) => {
@@ -1398,7 +1398,7 @@ ava('.tick() should evaluate the current timestamp in a time triggered action', 
 	test.is(length, 1)
 
 	const request = await test.context.queue.dequeue(test.context.worker.getId())
-	test.deepEqual(request.arguments.properties.data, {
+	test.deepEqual(request.data.arguments.properties.data, {
 		timestamp: '2018-08-06T12:00:00.000Z'
 	})
 })
@@ -1432,23 +1432,30 @@ ava('.tick() should enqueue an action if there is a time trigger with a past sta
 	test.is(length, 1)
 
 	const request = await test.context.queue.dequeue(test.context.worker.getId())
-	test.deepEqual(request, {
+	test.deepEqual(request, test.context.jellyfish.defaults({
 		id: request.id,
-		card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-		type: 'card',
-		context: test.context.context,
-		action: actionCard,
-		actor: test.context.actor.id,
-		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
-		timestamp: '2018-08-06T12:00:00.000Z',
-		epoch: 1533556800000,
-		arguments: {
-			properties: {
-				version: '1.0.0',
-				slug: 'foo'
+		created_at: request.created_at,
+		slug: request.slug,
+		type: 'action-request',
+		data: {
+			input: {
+				id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				type: 'card'
+			},
+			context: test.context.context,
+			action: actionCard,
+			actor: test.context.actor.id,
+			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			timestamp: '2018-08-06T12:00:00.000Z',
+			epoch: 1533556800000,
+			arguments: {
+				properties: {
+					version: '1.0.0',
+					slug: 'foo'
+				}
 			}
 		}
-	})
+	}))
 })
 
 ava('.tick() should enqueue an action if there is a time trigger with a present start date', async (test) => {
@@ -1480,23 +1487,30 @@ ava('.tick() should enqueue an action if there is a time trigger with a present 
 	test.is(length, 1)
 
 	const request = await test.context.queue.dequeue(test.context.worker.getId())
-	test.deepEqual(request, {
+	test.deepEqual(request, test.context.jellyfish.defaults({
 		id: request.id,
-		card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-		type: 'card',
-		context: test.context.context,
-		action: actionCard,
-		actor: test.context.actor.id,
-		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
-		timestamp: '2018-08-05T12:00:00.000Z',
-		epoch: 1533470400000,
-		arguments: {
-			properties: {
-				version: '1.0.0',
-				slug: 'foo'
+		slug: request.slug,
+		created_at: request.created_at,
+		type: 'action-request',
+		data: {
+			input: {
+				id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				type: 'card'
+			},
+			context: test.context.context,
+			action: actionCard,
+			actor: test.context.actor.id,
+			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			timestamp: '2018-08-05T12:00:00.000Z',
+			epoch: 1533470400000,
+			arguments: {
+				properties: {
+					version: '1.0.0',
+					slug: 'foo'
+				}
 			}
 		}
-	})
+	}))
 })
 
 ava('.tick() should not enqueue an action using a past timestamp', async (test) => {
@@ -1528,7 +1542,7 @@ ava('.tick() should not enqueue an action using a past timestamp', async (test) 
 	test.is(length, 1)
 
 	const request = await test.context.queue.dequeue(test.context.worker.getId())
-	const requestDate = new Date(request.timestamp)
+	const requestDate = new Date(request.data.timestamp)
 	test.false(requestDate.getTime() < Date.now())
 })
 
@@ -1536,7 +1550,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 	const actionCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'action-create-card')
 	test.context.worker.setTriggers(test.context.context, [
-		{
+		test.context.jellyfish.defaults({
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: actionCard.slug,
 			type: 'card',
@@ -1550,8 +1564,8 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 					slug: 'foo'
 				}
 			}
-		},
-		{
+		}),
+		test.context.jellyfish.defaults({
 			id: '673bc300-88f7-4376-92ed-d32543d69429',
 			action: actionCard.slug,
 			type: 'card',
@@ -1565,7 +1579,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 					slug: 'bar'
 				}
 			}
-		}
+		})
 	])
 
 	await test.context.worker.tick(test.context.context, test.context.session, {
@@ -1578,43 +1592,59 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 	const requests = _.sortBy([
 		await test.context.queue.dequeue(test.context.worker.getId()),
 		await test.context.queue.dequeue(test.context.worker.getId())
-	], [ 'originator' ])
+	], (request) => {
+		return request.data.originator
+	})
 
 	test.deepEqual(requests, [
-		{
+		test.context.jellyfish.defaults({
 			id: requests[0].id,
-			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			type: 'card',
-			context: test.context.context,
-			action: actionCard,
-			actor: test.context.actor.id,
-			originator: '673bc300-88f7-4376-92ed-d32543d69429',
-			timestamp: '2018-08-06T12:00:00.000Z',
-			epoch: 1533556800000,
-			arguments: {
-				properties: {
-					version: '1.0.0',
-					slug: 'bar'
+			slug: requests[0].slug,
+			created_at: requests[0].created_at,
+			type: 'action-request',
+			data: {
+				input: {
+					id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+					type: 'card'
+				},
+				context: test.context.context,
+				action: actionCard,
+				actor: test.context.actor.id,
+				originator: '673bc300-88f7-4376-92ed-d32543d69429',
+				timestamp: '2018-08-06T12:00:00.000Z',
+				epoch: 1533556800000,
+				arguments: {
+					properties: {
+						version: '1.0.0',
+						slug: 'bar'
+					}
 				}
 			}
-		},
-		{
+		}),
+		test.context.jellyfish.defaults({
 			id: requests[1].id,
-			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			type: 'card',
-			context: test.context.context,
-			action: actionCard,
-			actor: test.context.actor.id,
-			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
-			timestamp: '2018-08-06T12:00:00.000Z',
-			epoch: 1533556800000,
-			arguments: {
-				properties: {
-					version: '1.0.0',
-					slug: 'foo'
+			slug: requests[1].slug,
+			created_at: requests[1].created_at,
+			type: 'action-request',
+			data: {
+				input: {
+					id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+					type: 'card'
+				},
+				context: test.context.context,
+				action: actionCard,
+				actor: test.context.actor.id,
+				originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+				timestamp: '2018-08-06T12:00:00.000Z',
+				epoch: 1533556800000,
+				arguments: {
+					properties: {
+						version: '1.0.0',
+						slug: 'foo'
+					}
 				}
 			}
-		}
+		})
 	])
 })
 

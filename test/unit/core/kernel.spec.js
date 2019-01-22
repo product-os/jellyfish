@@ -1846,6 +1846,7 @@ ava('.query() should query all cards of a certain type', async (test) => {
 })
 
 ava('.query() should return all action request cards', async (test) => {
+	const date = new Date()
 	const request = {
 		type: 'action-request',
 		slug: test.context.generateRandomSlug({
@@ -1853,11 +1854,15 @@ ava('.query() should return all action request cards', async (test) => {
 		}),
 		version: '1.0.0',
 		data: {
+			epoch: date.valueOf(),
 			action: 'action-foo',
+			context: test.context.context,
 			actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			timestamp: '2018-03-14T21:10:45.921Z',
-			executed: false,
+			timestamp: date.toISOString(),
+			input: {
+				id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				type: 'card'
+			},
 			arguments: {
 				foo: 'bar'
 			}
@@ -1875,28 +1880,7 @@ ava('.query() should return all action request cards', async (test) => {
 			},
 			data: {
 				type: 'object',
-				required: [ 'action', 'actor', 'target', 'timestamp', 'executed' ],
-				properties: {
-					action: {
-						type: 'string'
-					},
-					actor: {
-						type: 'string'
-					},
-					target: {
-						type: 'string'
-					},
-					timestamp: {
-						type: 'string'
-					},
-					executed: {
-						type: 'boolean'
-					},
-					arguments: {
-						type: 'object',
-						additionalProperties: true
-					}
-				}
+				additionalProperties: true
 			}
 		},
 		required: [ 'type', 'data' ]
@@ -1907,10 +1891,14 @@ ava('.query() should return all action request cards', async (test) => {
 			type: 'action-request',
 			data: {
 				action: 'action-foo',
+				context: test.context.context,
 				actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-				target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-				timestamp: '2018-03-14T21:10:45.921Z',
-				executed: false,
+				epoch: date.valueOf(),
+				input: {
+					id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+					type: 'card'
+				},
+				timestamp: date.toISOString(),
 				arguments: {
 					foo: 'bar'
 				}
@@ -1920,6 +1908,7 @@ ava('.query() should return all action request cards', async (test) => {
 })
 
 ava('.query() should be able to return both action requests and other cards', async (test) => {
+	const date = new Date()
 	const result1 = await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
 		type: 'action-request',
 		slug: test.context.generateRandomSlug({
@@ -1927,11 +1916,16 @@ ava('.query() should be able to return both action requests and other cards', as
 		}),
 		version: '1.0.0',
 		data: {
+			epoch: date.valueOf(),
 			action: 'action-foo',
+			context: test.context.context,
 			actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			timestamp: '2018-03-14T21:10:45.921Z',
-			executed: false,
+			timestamp: date.toISOString(),
+			input: {
+				id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				type: 'card'
+			},
 			arguments: {
 				foo: 'bar'
 			}
@@ -1943,7 +1937,7 @@ ava('.query() should be able to return both action requests and other cards', as
 		type: 'card',
 		version: '1.0.0',
 		data: {
-			executed: false
+			timestamp: date.toISOString()
 		}
 	})
 
@@ -1956,12 +1950,12 @@ ava('.query() should be able to return both action requests and other cards', as
 			data: {
 				type: 'object',
 				properties: {
-					executed: {
-						type: 'boolean',
-						const: false
+					timestamp: {
+						type: 'string',
+						const: date.toISOString()
 					}
 				},
-				required: [ 'executed' ]
+				required: [ 'timestamp' ]
 			}
 		},
 		required: [ 'id', 'data' ]
@@ -2737,14 +2731,8 @@ ava.cb('.stream() should report back action requests', (test) => {
 					actor: {
 						type: 'string'
 					},
-					target: {
-						type: 'string'
-					},
 					timestamp: {
 						type: 'string'
-					},
-					executed: {
-						type: 'boolean'
 					},
 					arguments: {
 						type: 'object',
@@ -2760,11 +2748,15 @@ ava.cb('.stream() should report back action requests', (test) => {
 			test.deepEqual(_.omit(change.after, [ 'id' ]), {
 				type: 'action-request',
 				data: {
+					context: test.context.context,
+					epoch: 1521170969543,
 					action: 'action-delete-card',
 					actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-					target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+					input: {
+						id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+						type: 'card'
+					},
 					timestamp: '2018-03-16T03:29:29.543Z',
-					executed: false,
 					arguments: {}
 				}
 			})
@@ -2783,11 +2775,15 @@ ava.cb('.stream() should report back action requests', (test) => {
 				}),
 				version: '1.0.0',
 				data: {
+					context: test.context.context,
 					action: 'action-delete-card',
 					actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-					target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+					epoch: 1521170969543,
 					timestamp: '2018-03-16T03:29:29.543Z',
-					executed: false,
+					input: {
+						id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+						type: 'card'
+					},
 					arguments: {}
 				}
 			}),
