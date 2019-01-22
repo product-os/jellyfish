@@ -149,6 +149,7 @@ ava.serial('should stop users from seeing messages attached to cards they can\'t
 	)
 
 	await page.reload()
+
 	await macros.waitForThenClickSelector(page, '.home-channel__group-toggle--org-balena')
 	await macros.waitForThenClickSelector(page, '.home-channel__item--view-all-support-issues')
 	await page.waitForSelector('.column--view-all-support-issues')
@@ -201,8 +202,6 @@ ava.serial('should stop users from seeing messages attached to cards they can\'t
 			required: [ 'type', 'data' ]
 		})
 	}, messageText)
-
-	console.log('lastmessage', lastMessage)
 
 	test.not(messageText, lastMessage)
 })

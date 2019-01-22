@@ -146,6 +146,8 @@ ava.serial('.query() should run a query on the server', async (test) => {
 
 	await sdk.setAuthToken(test.context.session)
 
+	console.log(name)
+
 	const results = await sdk.query({
 		type: 'object',
 		properties: {
@@ -158,8 +160,11 @@ ava.serial('.query() should run a query on the server', async (test) => {
 				const: 'card'
 			}
 		},
+		required: [ 'name', 'type' ],
 		additionalProperties: true
 	})
+
+	console.log(results)
 
 	test.deepEqual(results[0], {
 		id: results[0].id,

@@ -2359,7 +2359,7 @@ ava('.query() should take into account newly inserted links when processing null
 	test.deepEqual(results2, [])
 })
 
-ava('.query() should be able to query for cards without a certain type of link', async (test) => {
+ava.only('.query() should be able to query for cards without a certain type of link', async (test) => {
 	const parent1 = await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
 		slug: 'foo',
 		type: 'card',
@@ -3039,9 +3039,9 @@ ava.cb('.stream() should close without finding anything', (test) => {
 		},
 		required: [ 'slug' ]
 	}).then((emitter) => {
-		emitter.close()
 		emitter.on('error', test.end)
 		emitter.on('closed', test.end)
+		emitter.close()
 	}).catch(test.end)
 })
 

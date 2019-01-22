@@ -14,6 +14,10 @@ aliases:
       docker:
         - image: resinci/jellyfish-test
 
+      environment:
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
+
       working_directory: ~/repo
 
 version: 2
@@ -66,45 +70,8 @@ jobs:
           at: .
 
       - run:
-          name: Start RethinkDB
-          command: rethinkdb --daemon --bind all
-      - run:
-          name: Unit Tests 1
+          name: Unit Tests
           command: make test-unit COVERAGE=1
-      - run:
-          name: Unit Tests 2
-          command: make test-unit COVERAGE=1
-      - run:
-          name: Unit Tests (with debug logs)
-          command: make test-unit COVERAGE=1 LOGLEVEL=debug
-      - run:
-          name: Backend Tests Without Cache
-          command: make test COVERAGE=1 DISABLE_CACHE=1 FILES=./test/unit/core/backend.spec.js
-
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .nyc_output/*.json
-
-  sync_tests:
-    <<: *job_defaults
-
-    steps:
-      - checkout
-
-      - attach_workspace:
-          at: .
-
-      - run:
-          name: Start RethinkDB
-          command: rethinkdb --daemon --bind all
-
-      - run:
-          name: Sync Tests
-          command: make test-integration-sync COVERAGE=1
-      - run:
-          name: Sync Integration Tests Without Tokens
-          command: make test-integration-sync COVERAGE=1 INTEGRATION_GITHUB_TOKEN= INTEGRATION_FRONT_TOKEN=
 
       - persist_to_workspace:
           root: .
@@ -123,20 +90,32 @@ jobs:
       - run:
           name: Start RethinkDB
           command: rethinkdb --daemon --bind all
-
-      # Setup artifact store for UI integration test screenshots
-      - run: mkdir -p /tmp/test-results/screenshots
+      - run:
+          name: Start PostgreSQL
+          command: service postgresql start && su - postgres -c "psql -U postgres -d postgres -c \"alter user postgres with password 'postgres';\""
+      - run:
+          name: Start Redis
+          command: service redis-server start
 
       - run:
-          name: Integration Tests
-          command: make test-integration-sdk test-integration-server test-integration-ui COVERAGE=1
+          name: Integration Tests (with Redis)
+          command: make test-integration COVERAGE=1
+      - run:
+          name: Integration Tests (without Redis)
+          command: make test-integration COVERAGE=1 DISABLE_REDIS=1
+      - run:
+          name: Integration Tests (with debug logs)
+          command: make test-integration COVERAGE=1 LOGLEVEL=debug
+      - run:
+          name: Backend Tests Without Cache
+          command: make test COVERAGE=1 DISABLE_CACHE=1 FILES=./test/integration/core/backend.spec.js
 
       - persist_to_workspace:
           root: .
           paths:
             - .nyc_output/*.json
 
-  integration_tests_production:
+  sync_tests:
     <<: *job_defaults
 
     steps:
@@ -148,16 +127,50 @@ jobs:
       - run:
           name: Start RethinkDB
           command: rethinkdb --daemon --bind all
+      - run:
+          name: Start PostgreSQL
+          command: service postgresql start && su - postgres -c "psql -U postgres -d postgres -c \"alter user postgres with password 'postgres';\""
+      - run:
+          name: Start Redis
+          command: service redis-server start
+
+      - run:
+          name: Sync Tests
+          command: make test-e2e-sync COVERAGE=1
+      - run:
+          name: Sync End To End Tests Without Tokens
+          command: make test-e2e-sync COVERAGE=1 INTEGRATION_GITHUB_TOKEN= INTEGRATION_FRONT_TOKEN=
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .nyc_output/*.json
+
+  e2e_tests: &e2e_tests
+    <<: *job_defaults
+
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: .
+
+      - run:
+          name: Start RethinkDB
+          command: rethinkdb --daemon --bind all
+      - run:
+          name: Start PostgreSQL
+          command: service postgresql start && su - postgres -c "psql -U postgres -d postgres -c \"alter user postgres with password 'postgres';\""
+      - run:
+          name: Start Redis
+          command: service redis-server start
 
       # Setup artifact store for UI integration test screenshots
       - run: mkdir -p /tmp/test-results/screenshots
 
       - run:
-          name: Load Production Database Snapshot
-          command: node ./scripts/reset-database.js && ./scripts/import-latest-production-backup.sh
-      - run:
-          name: Integration Tests (on production database)
-          command: make test-integration-sdk test-integration-server test-integration-ui COVERAGE=1
+          name: End To End Tests
+          command: make test-e2e-sdk test-e2e-server test-e2e-ui COVERAGE=1
 
       - persist_to_workspace:
           root: .
@@ -176,6 +189,12 @@ jobs:
       - run:
           name: Start RethinkDB
           command: rethinkdb --daemon --bind all
+      - run:
+          name: Start PostgreSQL
+          command: service postgresql start && su - postgres -c "psql -U postgres -d postgres -c \"alter user postgres with password 'postgres';\""
+      - run:
+          name: Start Redis
+          command: service redis-server start
 
       # Stress Testing
       - run:
@@ -209,6 +228,12 @@ jobs:
           name: Start RethinkDB
           command: rethinkdb --daemon --bind all
       - run:
+          name: Start PostgreSQL
+          command: service postgresql start && su - postgres -c "psql -U postgres -d postgres -c \"alter user postgres with password 'postgres';\""
+      - run:
+          name: Start Redis
+          command: service redis-server start
+      - run:
           name: Flaky UI Tests (production bundle)
           command: make build NODE_ENV=production && ./scripts/flaky-ui-tests.sh
       - run:
@@ -226,10 +251,10 @@ jobs:
 
       - run:
           name: Webpack Bundle Report
-          command: make build-ui NODE_ENV=test && mkdir -p /tmp/test-results && cp webpack-bundle-report.html /tmp/test-results/webpack-bundle-report.html
+          command: make build NODE_ENV=test && mkdir -p /tmp/test-results && cp webpack-bundle-report.html /tmp/test-results/webpack-bundle-report.html
       - run:
           name: Generate Coverage Results
-          command: make --silent report-coverage > COVERAGE && mkdir -p /tmp/test-results && cp -rf coverage /tmp/test-results
+          command: make --silent coverage > COVERAGE && mkdir -p /tmp/test-results && cp -rf coverage /tmp/test-results
       - run:
           name: Git Stats
           command: gitstats . /tmp/test-results/gitstats
@@ -274,7 +299,7 @@ workflows:
                     - build
                 <<: *workflow_filter
 
-            - integration_tests_production:
+            - e2e_tests:
                 requires:
                     - build
                 <<: *workflow_filter
@@ -298,7 +323,7 @@ workflows:
                 requires:
                   - unit_tests
                   - integration_tests
-                  - integration_tests_production
+                  - e2e_tests
                   - flaky_ui_tests
                   - sync_tests
                 <<: *workflow_filter

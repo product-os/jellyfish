@@ -210,7 +210,7 @@ ava('.insertElement() should not insert an element without a slug nor an id to a
 
 ava('.insertElement() should fail to insert an element with a very long slug', async (test) => {
 	await test.throwsAsync(test.context.backend.insertElement(test.context.context, {
-		slug: _.join(_.times(150, _.constant('x')), ''),
+		slug: _.join(_.times(500, _.constant('x')), ''),
 		type: 'card'
 	}), errors.JellyfishInvalidSlug)
 })
@@ -582,6 +582,54 @@ ava('.query() should query the database using JSON schema', async (test) => {
 	})
 
 	test.deepEqual(_.sortBy(results, [ 'test' ]), [ result1, result2 ])
+})
+
+ava('.query() should escape malicious query keys', async (test) => {
+	await test.notThrowsAsync(async () => {
+		await test.context.backend.query(test.context.context, {
+			type: 'object',
+			properties: {
+				'Robert\'); DROP TABLE cards; --': {
+					type: 'object',
+					properties: {
+						'Robert\'); DROP TABLE cards; --': {
+							type: 'string',
+							const: 'foo'
+						}
+					}
+				}
+			},
+			required: [ 'slug' ]
+		})
+	})
+})
+
+ava('.query() should escape malicious query values', async (test) => {
+	await test.notThrowsAsync(async () => {
+		await test.context.backend.query(test.context.context, {
+			type: 'object',
+			properties: {
+				slug: {
+					type: 'string',
+					const: 'Robert\'; DROP TABLE cards; --'
+				}
+			},
+			required: [ 'slug' ]
+		})
+	})
+
+	await test.notThrowsAsync(async () => {
+		await test.context.backend.query(test.context.context, {
+			type: 'object',
+			properties: {
+				foo: {
+					type: 'string',
+					const: 'Robert\'; DROP TABLE cards; --'
+				}
+			},
+			required: [ 'slug' ]
+		})
+	})
 })
 
 ava('.query() should survive a deep schema', async (test) => {
@@ -2223,9 +2271,10 @@ ava.cb('.stream() should report back new elements that match a certain type', (t
 			}
 		},
 		required: [ 'type' ]
-	}).then((emitter) => {
+	}).then(async (emitter) => {
 		emitter.on('data', (change) => {
-			test.deepEqual(change.before, null)
+			test.is(change.type, 'INSERT')
+			test.is(change.before, null)
 			test.deepEqual(_.omit(change.after, [ 'id' ]), {
 				type: 'foo',
 				test: 1
@@ -2282,12 +2331,7 @@ ava.cb('.stream() should report back changes to certain elements', (test) => {
 		})
 	}).then((emitter) => {
 		emitter.on('data', (change) => {
-			test.deepEqual(_.omit(change.before, [ 'id' ]), {
-				slug: 'hello',
-				type: 'foo',
-				test: 1
-			})
-
+			test.is(change.type, 'UPDATE')
 			test.deepEqual(_.omit(change.after, [ 'id' ]), {
 				slug: 'hello',
 				type: 'foo',
@@ -2314,74 +2358,11 @@ ava.cb('.stream() should report back changes to certain elements', (test) => {
 	}).catch(test.end)
 })
 
-ava.cb('.stream() should close without finding anything', (test) => {
-	test.context.backend.stream(test.context.context, {
-		type: 'object',
-		properties: {
-			slug: {
-				type: 'string',
-				const: 'foobarbazqux'
-			}
-		},
-		required: [ 'slug' ]
-	}).then((emitter) => {
-		emitter.close()
-		emitter.on('error', test.end)
-		emitter.on('closed', test.end)
-	}).catch(test.end)
-})
-
-ava.cb('.stream() should set "before" to null if it previously did not match the schema', (test) => {
-	test.context.backend.insertElement(test.context.context, {
-		slug: 'foobarbaz',
-		type: 'foo',
-		test: '1'
-	}).then((emitter) => {
-		return test.context.backend.stream(test.context.context, {
-			type: 'object',
-			properties: {
-				slug: {
-					type: 'string'
-				},
-				type: {
-					type: 'string',
-					const: 'foo'
-				},
-				test: {
-					type: 'number'
-				}
-			},
-			required: [ 'slug', 'type', 'test' ]
-		})
-	}).then((emitter) => {
-		emitter.on('data', (change) => {
-			test.deepEqual(change.before, null)
-			test.deepEqual(_.omit(change.after, [ 'id' ]), {
-				slug: 'foobarbaz',
-				type: 'foo',
-				test: 1
-			})
-
-			emitter.close()
-		})
-
-		emitter.on('error', test.end)
-		emitter.on('closed', test.end)
-
-		return test.context.backend.upsertElement(test.context.context, {
-			slug: 'foobarbaz',
-			type: 'foo',
-			test: 1
-		})
-	}).catch(test.end)
-})
-
-ava.cb('.stream() should filter the "before" section of a change', (test) => {
+ava.cb('.stream() should report back changes to large elements', (test) => {
 	test.context.backend.insertElement(test.context.context, {
 		type: 'foo',
 		slug: 'hello',
-		test: 1,
-		extra: true
+		test: new Array(5000).join('foobar')
 	}).then(() => {
 		return test.context.backend.stream(test.context.context, {
 			type: 'object',
@@ -2394,23 +2375,18 @@ ava.cb('.stream() should filter the "before" section of a change', (test) => {
 					const: 'foo'
 				},
 				test: {
-					type: 'number'
+					type: 'string'
 				}
 			},
 			required: [ 'type' ]
 		})
 	}).then((emitter) => {
 		emitter.on('data', (change) => {
-			test.deepEqual(_.omit(change.before, [ 'id' ]), {
-				slug: 'hello',
-				type: 'foo',
-				test: 1
-			})
-
+			test.is(change.type, 'UPDATE')
 			test.deepEqual(_.omit(change.after, [ 'id' ]), {
 				slug: 'hello',
 				type: 'foo',
-				test: 2
+				test: new Array(5000).join('bazbuzz')
 			})
 
 			emitter.close()
@@ -2422,9 +2398,25 @@ ava.cb('.stream() should filter the "before" section of a change', (test) => {
 		return test.context.backend.upsertElement(test.context.context, {
 			slug: 'hello',
 			type: 'foo',
-			test: 2,
-			extra: true
+			test: new Array(5000).join('bazbuzz')
 		})
+	}).catch(test.end)
+})
+
+ava.cb('.stream() should close without finding anything', (test) => {
+	test.context.backend.stream(test.context.context, {
+		type: 'object',
+		properties: {
+			slug: {
+				type: 'string',
+				const: 'foobarbazqux'
+			}
+		},
+		required: [ 'slug' ]
+	}).then((emitter) => {
+		emitter.on('error', test.end)
+		emitter.on('closed', test.end)
+		emitter.close()
 	}).catch(test.end)
 })
 
