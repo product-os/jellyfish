@@ -15,6 +15,7 @@
  */
 
 const ava = require('ava')
+const uuid = require('uuid/v4')
 const _ = require('lodash')
 const Bluebird = require('bluebird')
 const errors = require('../../../lib/core/errors')
@@ -2411,5 +2412,103 @@ ava('.insertElement() should handle multiple parallel insertions on the same slu
 		})
 
 		test.is(results.length, 1)
+	}
+})
+
+ava('.lock() should be able to lock a non-locked slug', async (test) => {
+	const result = await test.context.backend.lock(
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84', 'locktest-1234')
+	test.is(result, 'locktest-1234')
+})
+
+ava('.lock() should not be able to lock a locked slug if the owner differs', async (test) => {
+	const result1 = await test.context.backend.lock(
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84', 'locktest-1234')
+	test.is(result1, 'locktest-1234')
+
+	const result2 = await test.context.backend.lock(
+		'38642376-7a4a-4164-854f-0a16cc6da588', 'locktest-1234')
+	test.falsy(result2)
+})
+
+ava('.lock() should be able to lock a locked slug if the owner is the same', async (test) => {
+	const result1 = await test.context.backend.lock(
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84', 'locktest-1234')
+	test.is(result1, 'locktest-1234')
+
+	const result2 = await test.context.backend.lock(
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84', 'locktest-1234')
+	test.is(result2, 'locktest-1234')
+})
+
+ava('.unlock() should not be able to unlock a non-locked slug', async (test) => {
+	const result = await test.context.backend.unlock(
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84', 'locktest-1234')
+	test.falsy(result)
+})
+
+ava('.unlock() should be able to unlock a locked slug by the same owner', async (test) => {
+	const lockResult = await test.context.backend.lock(
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84', 'locktest-1234')
+	test.is(lockResult, 'locktest-1234')
+
+	const unlockResult = await test.context.backend.unlock(
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84', 'locktest-1234')
+	test.is(unlockResult, 'locktest-1234')
+})
+
+ava('.unlock() should be able to let other owner take the same slug', async (test) => {
+	const lockResult1 = await test.context.backend.lock(
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84', 'locktest-1234')
+	test.is(lockResult1, 'locktest-1234')
+
+	const unlockResult = await test.context.backend.unlock(
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84', 'locktest-1234')
+	test.is(unlockResult, 'locktest-1234')
+
+	const lockResult2 = await test.context.backend.lock(
+		'98853c0c-d055-4d25-a7be-682a2d5decc5', 'locktest-1234')
+	test.is(lockResult2, 'locktest-1234')
+})
+
+ava('.unlock() should be able to let the same owner take the same slug', async (test) => {
+	const lockResult1 = await test.context.backend.lock(
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84', 'locktest-1234')
+	test.is(lockResult1, 'locktest-1234')
+
+	const unlockResult = await test.context.backend.unlock(
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84', 'locktest-1234')
+	test.is(unlockResult, 'locktest-1234')
+
+	const lockResult2 = await test.context.backend.lock(
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84', 'locktest-1234')
+	test.is(lockResult2, 'locktest-1234')
+})
+
+ava('.unlock() should not be able to unlock a locked slug if the owner differs', async (test) => {
+	const lockResult = await test.context.backend.lock(
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84', 'locktest-1234')
+	test.is(lockResult, 'locktest-1234')
+
+	const unlockResult = await test.context.backend.unlock(
+		'98853c0c-d055-4d25-a7be-682a2d5decc5', 'locktest-1234')
+	test.falsy(unlockResult)
+})
+
+ava('.lock() only one owner can lock a slug at a time', async (test) => {
+	for (const time of _.range(100)) {
+		const slug = `locktest-${time}`
+		const results = await Bluebird.all([
+			test.context.backend.lock(uuid(), slug),
+			test.context.backend.lock(uuid(), slug),
+			test.context.backend.lock(uuid(), slug),
+			test.context.backend.lock(uuid(), slug),
+			test.context.backend.lock(uuid(), slug),
+			test.context.backend.lock(uuid(), slug),
+			test.context.backend.lock(uuid(), slug),
+			test.context.backend.lock(uuid(), slug)
+		])
+
+		test.is(_.compact(results).length, 1)
 	}
 })
