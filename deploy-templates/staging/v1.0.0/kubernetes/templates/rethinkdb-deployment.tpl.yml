@@ -15,6 +15,15 @@ spec:
       containers:
       - image: {{{jellyfish-rethinkdb-image}}}
         name: rethinkdb
+        livenessProbe:
+          exec:
+            command:
+              - /probe.py
+          failureThreshold: 3
+          initialDelaySeconds: 15
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
         env:
         - name: DB_PASSWORD
           value: {{{DB_PASSWORD}}}
