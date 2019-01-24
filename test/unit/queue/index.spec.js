@@ -131,7 +131,7 @@ ava('.enqueue() should include the whole passed action', async (test) => {
 	})
 
 	const request = await test.context.queue.dequeue(test.context.queueActor)
-	test.deepEqual(request.data.action, actionCard)
+	test.deepEqual(request.data.action, actionCard.slug)
 })
 
 ava('.enqueue() should set an originator', async (test) => {

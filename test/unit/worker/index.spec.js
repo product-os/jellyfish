@@ -225,7 +225,7 @@ ava('.execute() should execute an action', async (test) => {
 	test.is(card.data.foo, 'bar')
 })
 
-ava('.execute() should add an execution event to the action', async (test) => {
+ava('.execute() should add an execution event to the action request', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card')
 	const actionCard = await test.context.jellyfish.getCardBySlug(
@@ -264,7 +264,7 @@ ava('.execute() should add an execution event to the action', async (test) => {
 				properties: {
 					target: {
 						type: 'string',
-						const: actionCard.id
+						const: request.id
 					}
 				}
 			}
@@ -312,64 +312,63 @@ ava('.execute() should execute a triggered action', async (test) => {
 		}
 	])
 
-	const request = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: actionCard.slug,
-		context: test.context.context,
-		card: typeCard.id,
-		type: typeCard.type,
-		arguments: {
-			properties: {
-				slug: 'foo',
-				version: '1.0.0',
-				data: {
-					command: 'foo-bar-baz'
+	const request = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, {
+			action: actionCard.slug,
+			context: test.context.context,
+			card: typeCard.id,
+			type: typeCard.type,
+			arguments: {
+				properties: {
+					slug: 'foo',
+					version: '1.0.0',
+					data: {
+						command: 'foo-bar-baz'
+					}
 				}
 			}
-		}
-	})
+		})
 
 	await test.context.flush(test.context.session)
 	const result = await test.context.queue.waitResults(
 		test.context.context, request)
 	test.false(result.error)
 
-	const card = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'foo-bar-baz')
+	const card = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'foo-bar-baz')
 	test.truthy(card)
 
-	const timeline = await test.context.jellyfish.query(test.context.context, test.context.session, {
-		type: 'object',
-		additionalProperties: true,
-		required: [ 'data' ],
-		properties: {
-			data: {
-				type: 'object',
-				required: [ 'payload', 'target' ],
-				additionalProperties: true,
-				properties: {
-					payload: {
-						type: 'object',
-						required: [ 'data' ],
-						properties: {
-							data: {
-								type: 'object',
-								required: [ 'slug' ],
-								properties: {
-									slug: {
-										type: 'string',
-										const: 'foo-bar-baz'
+	const timeline = await test.context.jellyfish.query(
+		test.context.context, test.context.session, {
+			type: 'object',
+			additionalProperties: true,
+			required: [ 'data' ],
+			properties: {
+				data: {
+					type: 'object',
+					required: [ 'payload' ],
+					additionalProperties: true,
+					properties: {
+						payload: {
+							type: 'object',
+							required: [ 'data' ],
+							properties: {
+								data: {
+									type: 'object',
+									required: [ 'slug' ],
+									properties: {
+										slug: {
+											type: 'string',
+											const: 'foo-bar-baz'
+										}
 									}
 								}
 							}
 						}
-					},
-					target: {
-						type: 'string',
-						const: actionCard.id
 					}
 				}
 			}
-		}
-	})
+		})
 
 	test.is(timeline.length, 1)
 	test.is(timeline[0].data.originator, 'cb3523c5-b37d-41c8-ae32-9e7cc9309165')
@@ -1443,7 +1442,7 @@ ava('.tick() should enqueue an action if there is a time trigger with a past sta
 				type: 'card'
 			},
 			context: test.context.context,
-			action: actionCard,
+			action: actionCard.slug,
 			actor: test.context.actor.id,
 			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			timestamp: '2018-08-06T12:00:00.000Z',
@@ -1498,7 +1497,7 @@ ava('.tick() should enqueue an action if there is a time trigger with a present 
 				type: 'card'
 			},
 			context: test.context.context,
-			action: actionCard,
+			action: actionCard.slug,
 			actor: test.context.actor.id,
 			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			timestamp: '2018-08-05T12:00:00.000Z',
@@ -1608,7 +1607,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 					type: 'card'
 				},
 				context: test.context.context,
-				action: actionCard,
+				action: actionCard.slug,
 				actor: test.context.actor.id,
 				originator: '673bc300-88f7-4376-92ed-d32543d69429',
 				timestamp: '2018-08-06T12:00:00.000Z',
@@ -1632,7 +1631,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 					type: 'card'
 				},
 				context: test.context.context,
-				action: actionCard,
+				action: actionCard.slug,
 				actor: test.context.actor.id,
 				originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				timestamp: '2018-08-06T12:00:00.000Z',
