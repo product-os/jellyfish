@@ -106,7 +106,7 @@ ava('.enqueue() should include the actor from the passed session', async (test) 
 	})
 
 	const request = await test.context.queue.dequeue(test.context.queueActor)
-	test.is(session.data.actor, request.actor)
+	test.is(session.data.actor, request.data.actor)
 })
 
 ava('.enqueue() should include the whole passed action', async (test) => {
@@ -131,7 +131,7 @@ ava('.enqueue() should include the whole passed action', async (test) => {
 	})
 
 	const request = await test.context.queue.dequeue(test.context.queueActor)
-	test.deepEqual(request.action, actionCard)
+	test.deepEqual(request.data.action, actionCard)
 })
 
 ava('.enqueue() should set an originator', async (test) => {
@@ -152,7 +152,7 @@ ava('.enqueue() should set an originator', async (test) => {
 	})
 
 	const request = await test.context.queue.dequeue(test.context.queueActor)
-	test.is(request.originator, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
+	test.is(request.data.originator, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
 })
 
 ava('.enqueue() should take a current date', async (test) => {
@@ -175,7 +175,7 @@ ava('.enqueue() should take a current date', async (test) => {
 	})
 
 	const request = await test.context.queue.dequeue(test.context.queueActor)
-	test.is(request.timestamp, date.toISOString())
+	test.is(request.data.timestamp, date.toISOString())
 })
 
 ava('.enqueue() should set a present timestamp', async (test) => {
@@ -199,7 +199,7 @@ ava('.enqueue() should set a present timestamp', async (test) => {
 	})
 
 	const request = await test.context.queue.dequeue(test.context.queueActor)
-	test.true(new Date(request.timestamp) >= currentDate)
+	test.true(new Date(request.data.timestamp) >= currentDate)
 })
 
 ava('.enqueue() should throw if the action was not found', async (test) => {
@@ -263,6 +263,6 @@ ava('.enqueue() should not store the password in the queue when using action-cre
 	})
 
 	const request = await test.context.queue.dequeue(test.context.queueActor)
-	test.falsy(request.arguments.hash.string)
-	test.falsy(request.arguments.hash.salt)
+	test.falsy(request.data.arguments.hash.string)
+	test.falsy(request.data.arguments.hash.salt)
 })
