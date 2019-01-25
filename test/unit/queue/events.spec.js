@@ -71,19 +71,6 @@ ava('.post() should not use a passed id', async (test) => {
 	test.not(card.id, '8fd7be57-4f68-4faf-bbc6-200a7c62c41a')
 })
 
-ava('.post() should fail if the action is a slug', async (test) => {
-	await test.throwsAsync(events.post(test.context.context, test.context.jellyfish, test.context.session, {
-		id: '414f2345-4f5e-4571-820f-28a49731733d',
-		action: 'action-create-card',
-		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
-		actor: '57692206-8da2-46e1-91c9-159b2c6928ef',
-		timestamp: '2018-06-30T19:34:42.829Z'
-	}, {
-		error: false,
-		data: '414f2345-4f5e-4571-820f-28a49731733d'
-	}), test.context.jellyfish.errors.JellyfishSchemaMismatch)
-})
-
 ava('.post() should fail if no result error', async (test) => {
 	await test.throwsAsync(events.post(test.context.context, test.context.jellyfish, test.context.session, {
 		id: '414f2345-4f5e-4571-820f-28a49731733d',
@@ -175,7 +162,7 @@ ava('.wait() should return if the card already exists', async (test) => {
 	})
 
 	test.is(card.type, 'execute')
-	test.is(card.data.target, '57692206-8da2-46e1-91c9-159b2c6928ef')
+	test.is(card.data.target, '414f2345-4f5e-4571-820f-28a49731733d')
 	test.is(card.data.actor, '57692206-8da2-46e1-91c9-159b2c6928ef')
 	test.is(card.data.payload.card, '033d9184-70b2-4ec9-bc39-9a249b186422')
 })
@@ -200,7 +187,7 @@ ava('.wait() should be able to access the event payload', async (test) => {
 	})
 
 	test.deepEqual(card.data.payload, {
-		id: '414f2345-4f5e-4571-820f-28a49731733d',
+		action: '57692206-8da2-46e1-91c9-159b2c6928ef',
 		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
 		timestamp: '2018-06-30T19:34:42.829Z',
 		error: false,
@@ -284,12 +271,12 @@ ava('.getLastExecutionEvent() should return the last execution event given one e
 		data: {
 			actor: '57692206-8da2-46e1-91c9-159b2c6928ef',
 			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
-			target: '57692206-8da2-46e1-91c9-159b2c6928ef',
+			target: 'b9999e1e-e707-4124-98b4-f4bcf1643b4c',
 			timestamp: event.data.timestamp,
 			payload: {
+				action: '57692206-8da2-46e1-91c9-159b2c6928ef',
 				card: '033d9184-70b2-4ec9-bc39-9a249b186422',
 				data: '414f2345-4f5e-4571-820f-28a49731733d',
-				id: 'b9999e1e-e707-4124-98b4-f4bcf1643b4c',
 				error: false,
 				timestamp: '2018-06-30T19:34:42.829Z'
 			}
@@ -338,10 +325,10 @@ ava('.getLastExecutionEvent() should return the last event given a matching and 
 		data: {
 			actor: '57692206-8da2-46e1-91c9-159b2c6928ef',
 			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
-			target: '57692206-8da2-46e1-91c9-159b2c6928ef',
+			target: 'b9999e1e-e707-4124-98b4-f4bcf1643b4c',
 			timestamp: event.data.timestamp,
 			payload: {
-				id: 'b9999e1e-e707-4124-98b4-f4bcf1643b4c',
+				action: '57692206-8da2-46e1-91c9-159b2c6928ef',
 				card: '033d9184-70b2-4ec9-bc39-9a249b186422',
 				data: '414f2345-4f5e-4571-820f-28a49731733d',
 				error: false,
@@ -392,10 +379,10 @@ ava('.getLastExecutionEvent() should return the last execution event given two m
 		data: {
 			actor: '57692206-8da2-46e1-91c9-159b2c6928ef',
 			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
-			target: '57692206-8da2-46e1-91c9-159b2c6928ef',
+			target: '414f2345-4f5e-4571-820f-28a49731733d',
 			timestamp: event.data.timestamp,
 			payload: {
-				id: '414f2345-4f5e-4571-820f-28a49731733d',
+				action: '57692206-8da2-46e1-91c9-159b2c6928ef',
 				card: '033d9184-70b2-4ec9-bc39-9a249b186422',
 				data: '414f2345-4f5e-4571-820f-28a49731733d',
 				error: false,

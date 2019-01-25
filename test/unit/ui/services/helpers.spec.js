@@ -19,6 +19,13 @@ require('ts-node').register()
 const ava = require('ava')
 const helpers = require('../../../../lib/ui/services/helpers')
 
+ava.only('.createPrefixRegExp() match underscore characters', (test) => {
+	const matchRE = helpers.createPrefixRegExp('@')
+	const match = matchRE.exec('Lorem ipsum @user_name dolor sit amet')
+
+	test.deepEqual(match[2], '@user_name')
+})
+
 ava('.getUpdateObjectFromSchema() should parse the `const` keyword', (test) => {
 	const schema = {
 		type: 'object',
