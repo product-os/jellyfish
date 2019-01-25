@@ -1436,6 +1436,96 @@ ava('.query() should correctly honour top level additionalProperties: true', asy
 	])
 })
 
+ava('.query() should resolve "limit" after resolving links', async (test) => {
+	await test.context.backend.upsertElement(test.context.context, {
+		type: 'thread',
+		slug: 'foo',
+		active: true,
+		data: {}
+	})
+
+	const thread2 = await test.context.backend.upsertElement(test.context.context, {
+		type: 'thread',
+		slug: 'bar',
+		active: true,
+		data: {}
+	})
+
+	const card1 = await test.context.backend.upsertElement(test.context.context, {
+		type: 'message',
+		slug: 'qux',
+		active: true,
+		data: {
+			payload: 'foo',
+			count: 1
+		}
+	})
+
+	const linkCard = await test.context.backend.upsertElement(test.context.context, {
+		type: 'link',
+		slug: `link-${card1.slug}-is-attached-to-${thread2.slug}`,
+		active: true,
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: {
+				id: card1.id,
+				type: card1.type
+			},
+			to: {
+				id: thread2.id,
+				type: thread2.type
+			}
+		}
+	})
+
+	const results = await test.context.backend.query(test.context.context, {
+		type: 'object',
+		additionalProperties: true,
+		required: [ 'type' ],
+		$$links: {
+			'has attached element': {
+				type: 'object',
+				additionalProperties: true
+			}
+		},
+		properties: {
+			type: {
+				type: 'string',
+				const: 'thread'
+			}
+		}
+	}, {
+		limit: 1
+	})
+
+	test.deepEqual(results, [
+		{
+			id: thread2.id,
+			active: true,
+			type: thread2.type,
+			slug: thread2.slug,
+			links: {
+				'has attached element': [
+					Object.assign({}, card1, {
+						links: {
+							'is attached to': [
+								{
+									$link: linkCard.id,
+									id: thread2.id,
+									slug: thread2.slug,
+									type: thread2.type
+								}
+							]
+						}
+					})
+				]
+			},
+			data: {}
+		}
+	])
+})
+
 ava('.query() should be able to query using links', async (test) => {
 	const thread1 = await test.context.backend.upsertElement(test.context.context, {
 		type: 'thread',
