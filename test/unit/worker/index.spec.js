@@ -1442,6 +1442,7 @@ ava('.tick() should enqueue an action if there is a time trigger with a past sta
 	test.deepEqual(request, test.context.jellyfish.defaults({
 		id: request.id,
 		created_at: request.created_at,
+		links: request.links,
 		slug: request.slug,
 		type: 'action-request',
 		data: {
@@ -1498,6 +1499,7 @@ ava('.tick() should enqueue an action if there is a time trigger with a present 
 	test.deepEqual(request, test.context.jellyfish.defaults({
 		id: request.id,
 		slug: request.slug,
+		links: request.links,
 		created_at: request.created_at,
 		type: 'action-request',
 		data: {
@@ -1611,6 +1613,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 		test.context.jellyfish.defaults({
 			id: requests[0].id,
 			slug: requests[0].slug,
+			links: requests[0].links,
 			created_at: requests[0].created_at,
 			type: 'action-request',
 			data: {
@@ -1635,6 +1638,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 		test.context.jellyfish.defaults({
 			id: requests[1].id,
 			slug: requests[1].slug,
+			links: requests[1].links,
 			created_at: requests[1].created_at,
 			type: 'action-request',
 			data: {
