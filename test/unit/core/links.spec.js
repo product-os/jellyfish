@@ -427,6 +427,78 @@ ava('.evaluate(has attached element) should return matching elements', async (te
 	])
 })
 
+ava('.evaluateCard() should traverse links between cards on different tables', async (test) => {
+	const card = await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
+		slug: 'session-1234',
+		type: 'session',
+		version: '1.0.0',
+		data: {
+			actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
+		}
+	})
+
+	const input = await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
+		slug: 'bar',
+		type: 'card',
+		data: {}
+	})
+
+	await test.context.backend.upsertElement(test.context.context, {
+		type: 'link',
+		slug: `link-${input.slug}-is-attached-to-${card.slug}`,
+		version: '1.0.0',
+		active: true,
+		name: 'is attached to',
+		markers: [],
+		data: {
+			inverseName: 'has attached element',
+			from: {
+				id: input.id,
+				type: input.type
+			},
+			to: {
+				id: card.id,
+				type: card.type
+			}
+		}
+	})
+
+	const linkedInput = await test.context.backend.getElementById(test.context.context, input.id, {
+		type: input.type
+	})
+
+	const results = await links.evaluateCard(test.context.linkContext, linkedInput, {
+		'is attached to': {
+			type: 'object',
+			required: [ 'data' ],
+			properties: {
+				data: {
+					type: 'object',
+					required: [ 'actor' ],
+					properties: {
+						actor: {
+							type: 'string',
+							const: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
+						}
+					},
+					additionalProperties: false
+				}
+			},
+			additionalProperties: false
+		}
+	})
+
+	test.deepEqual(results, {
+		'is attached to': [
+			{
+				data: {
+					actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
+				}
+			}
+		]
+	})
+})
+
 ava('.evaluateCard() should return one link of one type given one match', async (test) => {
 	const card = await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
 		slug: 'foo',
