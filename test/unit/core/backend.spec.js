@@ -208,6 +208,13 @@ ava('.insertElement() should not insert an element without a slug nor an id to a
 	}), errors.JellyfishDatabaseError)
 })
 
+ava('.insertElement() should fail to insert an element with a very long slug', async (test) => {
+	await test.throwsAsync(test.context.backend.insertElement(test.context.context, {
+		slug: _.join(_.times(150, _.constant('x')), ''),
+		type: 'card'
+	}), errors.JellyfishInvalidSlug)
+})
+
 ava('.insertElement() should insert an element with a non-existent slug', async (test) => {
 	const result = await test.context.backend.insertElement(test.context.context, {
 		slug: 'foo',
