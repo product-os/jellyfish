@@ -99,7 +99,10 @@ ava('should not store the password in the queue when using action-create-session
 		}
 	})
 
-	const request = await test.context.queue.dequeue(test.context.worker.getId())
+	const request = await test.context.queue.dequeue(
+		test.context.context, test.context.worker.getId())
+
+	test.truthy(request)
 	test.falsy(request.data.arguments.password.hash.string)
 	test.falsy(request.data.arguments.password.hash.salt)
 })
@@ -1313,7 +1316,8 @@ ava('.tick() should not enqueue actions if there are no triggers', async (test) 
 		currentDate: new Date()
 	})
 
-	const request = await test.context.queue.dequeue(test.context.worker.getId())
+	const request = await test.context.queue.dequeue(
+		test.context.context, test.context.worker.getId())
 	test.falsy(request)
 })
 
@@ -1337,7 +1341,8 @@ ava('.tick() should not enqueue actions if there are no time triggers', async (t
 		currentDate: new Date()
 	})
 
-	const request = await test.context.queue.dequeue(test.context.worker.getId())
+	const request = await test.context.queue.dequeue(
+		test.context.context, test.context.worker.getId())
 	test.falsy(request)
 })
 
@@ -1360,7 +1365,8 @@ ava('.tick() should not enqueue an action if there is a time trigger with a futu
 		currentDate: new Date('2018-08-05T12:00:00.000Z')
 	})
 
-	const request = await test.context.queue.dequeue(test.context.worker.getId())
+	const request = await test.context.queue.dequeue(
+		test.context.context, test.context.worker.getId())
 	test.falsy(request)
 })
 
@@ -1396,7 +1402,8 @@ ava('.tick() should evaluate the current timestamp in a time triggered action', 
 	const length = await test.context.queue.length()
 	test.is(length, 1)
 
-	const request = await test.context.queue.dequeue(test.context.worker.getId())
+	const request = await test.context.queue.dequeue(
+		test.context.context, test.context.worker.getId())
 	test.deepEqual(request.data.arguments.properties.data, {
 		timestamp: '2018-08-06T12:00:00.000Z'
 	})
@@ -1430,7 +1437,8 @@ ava('.tick() should enqueue an action if there is a time trigger with a past sta
 	const length = await test.context.queue.length()
 	test.is(length, 1)
 
-	const request = await test.context.queue.dequeue(test.context.worker.getId())
+	const request = await test.context.queue.dequeue(
+		test.context.context, test.context.worker.getId())
 	test.deepEqual(request, test.context.jellyfish.defaults({
 		id: request.id,
 		created_at: request.created_at,
@@ -1485,7 +1493,8 @@ ava('.tick() should enqueue an action if there is a time trigger with a present 
 	const length = await test.context.queue.length()
 	test.is(length, 1)
 
-	const request = await test.context.queue.dequeue(test.context.worker.getId())
+	const request = await test.context.queue.dequeue(
+		test.context.context, test.context.worker.getId())
 	test.deepEqual(request, test.context.jellyfish.defaults({
 		id: request.id,
 		slug: request.slug,
@@ -1540,7 +1549,8 @@ ava('.tick() should not enqueue an action using a past timestamp', async (test) 
 	const length = await test.context.queue.length()
 	test.is(length, 1)
 
-	const request = await test.context.queue.dequeue(test.context.worker.getId())
+	const request = await test.context.queue.dequeue(
+		test.context.context, test.context.worker.getId())
 	const requestDate = new Date(request.data.timestamp)
 	test.false(requestDate.getTime() < Date.now())
 })
@@ -1589,8 +1599,10 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 	test.is(length, 2)
 
 	const requests = _.sortBy([
-		await test.context.queue.dequeue(test.context.worker.getId()),
-		await test.context.queue.dequeue(test.context.worker.getId())
+		await test.context.queue.dequeue(
+			test.context.context, test.context.worker.getId()),
+		await test.context.queue.dequeue(
+			test.context.context, test.context.worker.getId())
 	], (request) => {
 		return request.data.originator
 	})

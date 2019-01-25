@@ -45,7 +45,8 @@ exports.worker = {
 		await test.context.worker.initialize(test.context.context)
 
 		test.context.flush = async (session) => {
-			const request = await test.context.queue.dequeue(test.context.worker.getId())
+			const request = await test.context.queue.dequeue(
+				test.context.context, test.context.worker.getId())
 			if (!request) {
 				return
 			}

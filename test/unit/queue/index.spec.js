@@ -34,7 +34,8 @@ ava('.length() should be zero by default', async (test) => {
 ava('.dequeue() should return nothing if no requests', async (test) => {
 	const length = await test.context.queue.length()
 	test.is(length, 0)
-	const request = await test.context.queue.dequeue(test.context.queueActor)
+	const request = await test.context.queue.dequeue(
+		test.context.context, test.context.queueActor)
 	test.falsy(request)
 })
 
@@ -57,7 +58,8 @@ ava('.dequeue() should reduce the queue length', async (test) => {
 		}
 	})
 
-	await test.context.queue.dequeue(test.context.queueActor)
+	await test.context.queue.dequeue(
+		test.context.context, test.context.queueActor)
 	const length = await test.context.queue.length()
 	test.is(length, 0)
 })
@@ -105,7 +107,8 @@ ava('.enqueue() should include the actor from the passed session', async (test) 
 		}
 	})
 
-	const request = await test.context.queue.dequeue(test.context.queueActor)
+	const request = await test.context.queue.dequeue(
+		test.context.context, test.context.queueActor)
 	test.is(session.data.actor, request.data.actor)
 })
 
@@ -130,7 +133,8 @@ ava('.enqueue() should include the whole passed action', async (test) => {
 		}
 	})
 
-	const request = await test.context.queue.dequeue(test.context.queueActor)
+	const request = await test.context.queue.dequeue(
+		test.context.context, test.context.queueActor)
 	test.deepEqual(request.data.action, actionCard.slug)
 })
 
@@ -151,7 +155,8 @@ ava('.enqueue() should set an originator', async (test) => {
 		}
 	})
 
-	const request = await test.context.queue.dequeue(test.context.queueActor)
+	const request = await test.context.queue.dequeue(
+		test.context.context, test.context.queueActor)
 	test.is(request.data.originator, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
 })
 
@@ -174,7 +179,8 @@ ava('.enqueue() should take a current date', async (test) => {
 		}
 	})
 
-	const request = await test.context.queue.dequeue(test.context.queueActor)
+	const request = await test.context.queue.dequeue(
+		test.context.context, test.context.queueActor)
 	test.is(request.data.timestamp, date.toISOString())
 })
 
@@ -198,7 +204,8 @@ ava('.enqueue() should set a present timestamp', async (test) => {
 		}
 	})
 
-	const request = await test.context.queue.dequeue(test.context.queueActor)
+	const request = await test.context.queue.dequeue(
+		test.context.context, test.context.queueActor)
 	test.true(new Date(request.data.timestamp) >= currentDate)
 })
 
@@ -262,7 +269,8 @@ ava('.enqueue() should not store the password in the queue when using action-cre
 		}
 	})
 
-	const request = await test.context.queue.dequeue(test.context.queueActor)
+	const request = await test.context.queue.dequeue(
+		test.context.context, test.context.queueActor)
 	test.falsy(request.data.arguments.hash.string)
 	test.falsy(request.data.arguments.hash.salt)
 })
