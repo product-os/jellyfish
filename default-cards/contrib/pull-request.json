@@ -47,7 +47,40 @@
             "archived": {
               "type": "boolean",
               "default": false
+            },
+            "head": {
+              "type": "object",
+              "properties": {
+                "branch": {
+                  "type": "string"
+                },
+                "sha": {
+                  "type": "string",
+                  "pattern": "[0-9a-f]{5,40}"
+                }
+              },
+              "required": [
+                "branch",
+                "sha"
+              ]
+            },
+            "base": {
+              "type": "object",
+              "properties": {
+                "branch": {
+                  "type": "string"
+                },
+                "sha": {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{7,40}$"
+                }
+              },
+              "required": [
+                "branch",
+                "sha"
+              ]
             }
+
           }
         }
       },

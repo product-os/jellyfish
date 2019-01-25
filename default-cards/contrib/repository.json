@@ -1,0 +1,40 @@
+{
+  "slug": "repository",
+  "name": "Github Repository",
+  "version": "1.0.0",
+  "type": "type",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "git_url": {
+              "type": "string"
+            },
+            "html_url": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "additionalProperties": true,
+      "required": [
+        "data"
+      ]
+    }
+  },
+  "requires": [],
+  "capabilities": []
+}

@@ -1,0 +1,54 @@
+{
+  "slug": "gh-push",
+  "name": "Push",
+  "version": "1.0.0",
+  "type": "type",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "properties": {
+            "before": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{7,40}$"
+            },
+            "after": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{7,40}$"
+            },
+            "commits": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              }
+            },
+            "author": {
+              "type": "string"
+            },
+            "branch": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": true,
+          "required": [
+            "before",
+            "after",
+            "branch"
+          ]
+        }
+      },
+      "additionalProperties": true,
+      "required": [
+        "data"
+      ]
+    }
+  },
+  "requires": [],
+  "capabilities": []
+}

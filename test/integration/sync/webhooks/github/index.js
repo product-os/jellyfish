@@ -15,6 +15,46 @@
  */
 
 module.exports = {
+	'push-to-master': {
+		expected: require('./push-to-master/expected.json'),
+		steps: [
+			require('./push-to-master/01.json')
+		]
+	},
+	'push-to-new-branch': {
+		expected: require('./push-to-new-branch/expected.json'),
+		steps: [
+			require('./push-to-new-branch/01.json')
+		]
+	},
+	'push-to-open-pr': {
+		expected: require('./push-to-open-pr/expected.json'),
+		steps: [
+			require('./push-to-open-pr/01.json'),
+			require('./push-to-open-pr/02.json')
+		]
+	},
+	'push-to-open-pr-from-fork': {
+		expected: require('./push-to-open-pr-from-fork/expected.json'),
+		steps: [
+			require('./push-to-open-pr-from-fork/01.json'),
+			require('./push-to-open-pr-from-fork/02.json')
+		]
+	},
+	'open-pr-and-create-repos': {
+		expected: require('./pr-open-close/expected-1.json'),
+		headIndex: 1,
+		steps: [
+			require('./pr-open-close/01-pr-opened.json')
+		]
+	},
+	'pr-open-from-fork': {
+		expected: require('./pr-open-from-fork/expected.json'),
+		steps: [
+			require('./pr-open-from-fork/01.json'),
+			require('./pr-open-from-fork/02.json')
+		]
+	},
 	'pr-approve-merge': {
 		expected: require('./pr-approve-merge/expected.json'),
 		steps: [

@@ -158,10 +158,11 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 	test.true(cards.length > 0)
 
 	const head = await test.context.jellyfish.getCardById(test.context.context,
-		test.context.session, cards[0].id, {
-			type: cards[0].type
+		test.context.session, cards[testCase.headIndex].id, {
+			type: cards[testCase.headIndex].type
 		})
-	Reflect.deleteProperty(head, 'links')
+
+	deleteExtraLinks(testCase.expected.head, head)
 	Reflect.deleteProperty(head, 'markers')
 	Reflect.deleteProperty(head.data, 'origin')
 	Reflect.deleteProperty(head.data, 'translateDate')
@@ -235,6 +236,39 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 	test.deepEqual(expectedTail, actualTail)
 }
 
+const deleteExtraLinks = (expected, result) => {
+	// If links is not present in expected we just remove the whole thing
+	if (!expected.links) {
+		Reflect.deleteProperty(result, 'links')
+	}
+
+	// Otherwise we recursively remove all relationships and links inside them
+	// where the relationship does not match the relationship specified in expected
+	const difference = getObjDifference(expected.links, result.links)
+
+	_.each(difference, (rel) => {
+		Reflect.deleteProperty(result.links, rel)
+	})
+
+	_.each(result.links, (links, relationship) => {
+		_.each(links, (link, index) => {
+			const linkDiff = getObjDifference(
+				expected.links[relationship][index],
+				result.links[relationship][index]
+			)
+			_.each(linkDiff, (rel) => {
+				Reflect.deleteProperty(result.links[relationship][index], rel)
+			})
+		})
+	})
+}
+
+const getObjDifference = (expected, obtained) => {
+	const expectedKeys = _.keys(expected)
+	const obtainedKeys = _.keys(obtained)
+	return _.difference(obtainedKeys, expectedKeys)
+}
+
 exports.translate = {
 	beforeEach: async (test) => {
 		await syncHelpers.beforeEach(test)
@@ -245,6 +279,10 @@ exports.translate = {
 			require('../../../default-cards/contrib/issue.json'))
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 			require('../../../default-cards/contrib/pull-request.json'))
+		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
+			require('../../../default-cards/contrib/repository.json'))
+		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
+			require('../../../default-cards/contrib/push.json'))
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 			require('../../../default-cards/contrib/support-thread.json'))
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
@@ -301,6 +339,7 @@ exports.translate = {
 					await webhookScenario(test, {
 						steps: variation.combination,
 						offset: _.findIndex(testCase.steps, _.first(variation.combination)) + 1,
+						headIndex: testCase.headIndex || 0,
 						original: testCase.steps,
 
 						// If we miss events such as when a head card was archived,

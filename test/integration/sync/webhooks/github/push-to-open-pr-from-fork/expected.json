@@ -1,6 +1,6 @@
 {
   "head": {
-    "name": "Open close PR",
+    "name": "test external",
     "type": "pull-request",
     "version": "1.0.0",
     "active": true,
@@ -8,33 +8,23 @@
     "requires": [],
     "capabilities": [],
     "data": {
-      "repository": "resin-io/jellyfish",
+      "repository": "balena-io/vb-test",
       "head": {
-        "branch": "new-dummy-pr",
-        "sha": "803d0ccc315e606fe8d00cf52138de654c3f35aa"
+        "branch": "master",
+        "sha": "b9dba648e8f751fff4a6b3454b8d6166c77b132b"
       },
       "base": {
         "branch": "master",
-        "sha": "c12f93d67ca958801cf9e1cf5ff670bb7623c614"
+        "sha": "070b3a25f36f470921cf1d7975cebc1a335ad5f2"
       },
       "mirrors": [
-        "https://github.com/resin-io/jellyfish/pull/772"
+        "https://github.com/balena-io/vb-test/pull/47"
       ],
       "mentionsUser": [],
       "alertsUser": [],
       "description": "",
-      "status": "closed",
+      "status": "open",
       "archived": false
-    },
-    "links": {
-      "has head at": [{
-        "type": "repository",
-        "slug": "repository-resin-io-jellyfish"
-      }],
-      "has base at": [{
-        "type": "repository",
-        "slug": "repository-resin-io-jellyfish"
-      }]
     }
   },
   "tail": [
@@ -48,24 +38,24 @@
       "data": {
         "timestamp": "2018-10-10T09:09:36.000Z",
         "payload": {
-          "name": "Open close PR",
+          "name": "test external",
           "active": true,
           "version": "1.0.0",
           "tags": [],
           "requires": [],
           "capabilities": [],
           "data": {
-            "repository": "resin-io/jellyfish",
+            "repository": "balena-io/vb-test",
             "head": {
-              "branch": "new-dummy-pr",
-              "sha": "803d0ccc315e606fe8d00cf52138de654c3f35aa"
+              "branch": "master",
+              "sha": "61c13a539195aece8506f4f7eb1c01765e935891"
             },
             "base": {
               "branch": "master",
-              "sha": "c12f93d67ca958801cf9e1cf5ff670bb7623c614"
+              "sha": "070b3a25f36f470921cf1d7975cebc1a335ad5f2"
             },
             "mirrors": [
-              "https://github.com/resin-io/jellyfish/pull/772"
+              "https://github.com/balena-io/vb-test/pull/47"
             ],
             "mentionsUser": [],
             "alertsUser": [],
@@ -87,29 +77,29 @@
       "data": {
         "timestamp": "2018-10-10T09:11:51.000Z",
         "payload": {
-          "name": "Open close PR",
+          "name": "test external",
           "active": true,
           "version": "1.0.0",
           "tags": [],
           "requires": [],
           "capabilities": [],
           "data": {
-            "repository": "resin-io/jellyfish",
+            "repository": "balena-io/vb-test",
             "head": {
-              "branch": "new-dummy-pr",
-              "sha": "803d0ccc315e606fe8d00cf52138de654c3f35aa"
+              "branch": "master",
+              "sha": "b9dba648e8f751fff4a6b3454b8d6166c77b132b"
             },
             "base": {
               "branch": "master",
-              "sha": "c12f93d67ca958801cf9e1cf5ff670bb7623c614"
+              "sha": "070b3a25f36f470921cf1d7975cebc1a335ad5f2"
             },
             "mirrors": [
-              "https://github.com/resin-io/jellyfish/pull/772"
+              "https://github.com/balena-io/vb-test/pull/47"
             ],
             "mentionsUser": [],
             "alertsUser": [],
             "description": "",
-            "status": "closed",
+            "status": "open",
             "archived": false
           },
           "type": "pull-request"
