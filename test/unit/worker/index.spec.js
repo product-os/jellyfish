@@ -1600,21 +1600,27 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 	const length = await test.context.queue.length()
 	test.is(length, 2)
 
-	const requests = _.sortBy([
-		await test.context.queue.dequeue(
-			test.context.context, test.context.worker.getId()),
-		await test.context.queue.dequeue(
-			test.context.context, test.context.worker.getId())
-	], (request) => {
-		return request.data.originator
+	const actionRequests = _.sortBy(await test.context.jellyfish.query(
+		test.context.context, test.context.session, {
+			type: 'object',
+			required: [ 'type' ],
+			additionalProperties: true,
+			properties: {
+				type: {
+					type: 'string',
+					const: 'action-request'
+				}
+			}
+		}), (actionRequest) => {
+		return actionRequest.data.originator
 	})
 
-	test.deepEqual(requests, [
+	test.deepEqual(actionRequests, [
 		test.context.jellyfish.defaults({
-			id: requests[0].id,
-			slug: requests[0].slug,
-			links: requests[0].links,
-			created_at: requests[0].created_at,
+			id: actionRequests[0].id,
+			slug: actionRequests[0].slug,
+			links: actionRequests[0].links,
+			created_at: actionRequests[0].created_at,
 			type: 'action-request',
 			data: {
 				input: {
@@ -1636,10 +1642,10 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 			}
 		}),
 		test.context.jellyfish.defaults({
-			id: requests[1].id,
-			slug: requests[1].slug,
-			links: requests[1].links,
-			created_at: requests[1].created_at,
+			id: actionRequests[1].id,
+			slug: actionRequests[1].slug,
+			links: actionRequests[1].links,
+			created_at: actionRequests[1].created_at,
 			type: 'action-request',
 			data: {
 				input: {
