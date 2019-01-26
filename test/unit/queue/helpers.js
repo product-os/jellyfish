@@ -60,9 +60,15 @@ exports.queue = {
 			test.context.context,
 			test.context.jellyfish,
 			test.context.session)
+
+		test.context.queue.once('error', (error) => {
+			throw error
+		})
+
 		await test.context.queue.initialize(test.context.context)
 	},
 	afterEach: async (test) => {
+		await test.context.queue.destroy()
 		await exports.jellyfish.afterEach(test)
 	}
 }
