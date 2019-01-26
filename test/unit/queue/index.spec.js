@@ -39,7 +39,7 @@ ava('.dequeue() should return nothing if no requests', async (test) => {
 	test.falsy(request)
 })
 
-ava('.dequeue() should reduce the queue length', async (test) => {
+ava('.dequeue() should not reduce the queue length', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card')
 	await test.context.queue.enqueue(test.context.queueActor, test.context.session, {
@@ -61,7 +61,7 @@ ava('.dequeue() should reduce the queue length', async (test) => {
 	await test.context.queue.dequeue(
 		test.context.context, test.context.queueActor)
 	const length = await test.context.queue.length()
-	test.is(length, 0)
+	test.is(length, 1)
 })
 
 ava('.enqueue() should increment the queue length by one', async (test) => {
