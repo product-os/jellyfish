@@ -31,13 +31,22 @@ exports.generateRandomSlug = (options) => {
 exports.backend = {
 	beforeEach: async (test, options = {}) => {
 		const dbName = `test_${randomstring.generate()}`
-		const cache = process.env.DISABLE_CACHE
+		test.context.cache = process.env.DISABLE_CACHE
 			? null
 			: new Cache({
 				mock: true,
 				database: dbName
 			})
-		test.context.backend = new Backend(cache, {
+
+		test.context.context = {
+			id: `CORE-TEST-${randomstring.generate(20)}`
+		}
+
+		if (test.context.cache) {
+			await test.context.cache.connect(test.context.context)
+		}
+
+		test.context.backend = new Backend(test.context.cache, {
 			host: process.env.DB_HOST,
 			port: process.env.DB_PORT,
 			database: dbName,
@@ -46,9 +55,6 @@ exports.backend = {
 		})
 
 		test.context.generateRandomSlug = exports.generateRandomSlug
-		test.context.context = {
-			id: `CORE-TEST-${randomstring.generate(20)}`
-		}
 
 		if (options.skipConnect) {
 			return
@@ -58,6 +64,10 @@ exports.backend = {
 	},
 	afterEach: async (test) => {
 		await test.context.backend.destroy(test.context.context)
+
+		if (test.context.cache) {
+			await test.context.cache.disconnect()
+		}
 	}
 }
 
