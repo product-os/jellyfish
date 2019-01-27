@@ -15,6 +15,7 @@
  */
 
 const ava = require('ava')
+const Bluebird = require('bluebird')
 const _ = require('lodash')
 const helpers = require('./helpers')
 const actionLibrary = require('../../../lib/action-library')
@@ -25,6 +26,20 @@ ava.beforeEach(async (test) => {
 })
 
 ava.afterEach(helpers.worker.afterEach)
+
+const waitUntil = async (fn, retry = 10) => {
+	if (retry === 0) {
+		throw new Error('Wait timeout')
+	}
+
+	const result = await fn()
+	if (result) {
+		return
+	}
+
+	await Bluebird.delay(100)
+	await waitUntil(fn, retry - 1)
+}
 
 ava('.getId() should preserve the same id during its lifetime', async (test) => {
 	const id1 = test.context.worker.getId()
@@ -1597,8 +1612,10 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 		currentDate: new Date('2018-08-06T12:00:00.000Z')
 	})
 
-	const length = await test.context.queue.length()
-	test.is(length, 2)
+	await waitUntil(async () => {
+		const length = await test.context.queue.length()
+		return length === 2
+	})
 
 	const actionRequests = _.sortBy(await test.context.jellyfish.query(
 		test.context.context, test.context.session, {
