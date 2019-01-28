@@ -50,6 +50,7 @@ usage() {
 	echo "Commands:" 1>&2
 	echo "" 1>&2
 	echo "    status              Print information about the environment" 1>&2
+	echo "    restart <container> Restart a container" 1>&2
 	echo "    logs <container>    Stream the logs from a container" 1>&2
 	echo "    shell <container>   Open a shell on a container" 1>&2
 	echo "    db-dashboard        Port-forward the RethinkDB dashboard" 1>&2
@@ -83,6 +84,15 @@ sleep 3
 
 if [ "$COMMAND" = "status" ]; then
 	kubectl get pods --namespace "$K8S_NAMESPACE"
+	exit 0
+fi
+
+if [ "$COMMAND" = "restart" ]; then
+	check "$SUBCOMMAND" "You must specify a container as an argument"
+	CONTAINER="$(get_container "$SUBCOMMAND")"
+	check "$CONTAINER" "Invalid container: $SUBCOMMAND"
+	echo "Restarting $CONTAINER..."
+	kubectl delete pod "$CONTAINER" --namespace "$K8S_NAMESPACE"
 	exit 0
 fi
 
