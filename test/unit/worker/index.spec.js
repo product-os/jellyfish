@@ -15,7 +15,6 @@
  */
 
 const ava = require('ava')
-const Bluebird = require('bluebird')
 const _ = require('lodash')
 const helpers = require('./helpers')
 const actionLibrary = require('../../../lib/action-library')
@@ -26,20 +25,6 @@ ava.beforeEach(async (test) => {
 })
 
 ava.afterEach(helpers.worker.afterEach)
-
-const waitUntil = async (fn, retry = 10) => {
-	if (retry === 0) {
-		throw new Error('Wait timeout')
-	}
-
-	const result = await fn()
-	if (result) {
-		return
-	}
-
-	await Bluebird.delay(100)
-	await waitUntil(fn, retry - 1)
-}
 
 ava('.getId() should preserve the same id during its lifetime', async (test) => {
 	const id1 = test.context.worker.getId()
@@ -1414,9 +1399,6 @@ ava('.tick() should evaluate the current timestamp in a time triggered action', 
 		currentDate: new Date('2018-08-06T12:00:00.000Z')
 	})
 
-	const length = await test.context.queue.length()
-	test.is(length, 1)
-
 	const request = await test.context.queue.dequeue(
 		test.context.context, test.context.worker.getId())
 	test.deepEqual(request.data.arguments.properties.data, {
@@ -1448,9 +1430,6 @@ ava('.tick() should enqueue an action if there is a time trigger with a past sta
 	await test.context.worker.tick(test.context.context, test.context.session, {
 		currentDate: new Date('2018-08-06T12:00:00.000Z')
 	})
-
-	const length = await test.context.queue.length()
-	test.is(length, 1)
 
 	const request = await test.context.queue.dequeue(
 		test.context.context, test.context.worker.getId())
@@ -1506,9 +1485,6 @@ ava('.tick() should enqueue an action if there is a time trigger with a present 
 		currentDate: new Date('2018-08-05T12:00:00.000Z')
 	})
 
-	const length = await test.context.queue.length()
-	test.is(length, 1)
-
 	const request = await test.context.queue.dequeue(
 		test.context.context, test.context.worker.getId())
 	test.deepEqual(request, test.context.jellyfish.defaults({
@@ -1563,9 +1539,6 @@ ava('.tick() should not enqueue an action using a past timestamp', async (test) 
 		currentDate: new Date('2050-08-06T12:00:00.000Z')
 	})
 
-	const length = await test.context.queue.length()
-	test.is(length, 1)
-
 	const request = await test.context.queue.dequeue(
 		test.context.context, test.context.worker.getId())
 	const requestDate = new Date(request.data.timestamp)
@@ -1610,11 +1583,6 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 
 	await test.context.worker.tick(test.context.context, test.context.session, {
 		currentDate: new Date('2018-08-06T12:00:00.000Z')
-	})
-
-	await waitUntil(async () => {
-		const length = await test.context.queue.length()
-		return length === 2
 	})
 
 	const actionRequests = _.sortBy(await test.context.jellyfish.query(

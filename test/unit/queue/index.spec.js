@@ -26,64 +26,10 @@ ava.beforeEach(async (test) => {
 
 ava.afterEach(helpers.queue.afterEach)
 
-ava('.length() should be zero by default', async (test) => {
-	const length = await test.context.queue.length()
-	test.is(length, 0)
-})
-
 ava('.dequeue() should return nothing if no requests', async (test) => {
-	const length = await test.context.queue.length()
-	test.is(length, 0)
 	const request = await test.context.queue.dequeue(
 		test.context.context, test.context.queueActor)
 	test.falsy(request)
-})
-
-ava('.dequeue() should not reduce the queue length', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'card')
-	await test.context.queue.enqueue(test.context.queueActor, test.context.session, {
-		action: 'action-create-card',
-		context: test.context.context,
-		card: typeCard.id,
-		type: typeCard.type,
-		arguments: {
-			properties: {
-				slug: 'foo',
-				version: '1.0.0',
-				data: {
-					foo: 1
-				}
-			}
-		}
-	})
-
-	await test.context.queue.dequeue(
-		test.context.context, test.context.queueActor)
-	const length = await test.context.queue.length()
-	test.is(length, 1)
-})
-
-ava('.enqueue() should increment the queue length by one', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'card')
-	await test.context.queue.enqueue(test.context.queueActor, test.context.session, {
-		action: 'action-create-card',
-		context: test.context.context,
-		card: typeCard.id,
-		type: typeCard.type,
-		arguments: {
-			properties: {
-				version: '1.0.0',
-				data: {
-					foo: 'bar'
-				}
-			}
-		}
-	})
-
-	const length = await test.context.queue.length()
-	test.is(length, 1)
 })
 
 ava('.enqueue() should include the actor from the passed session', async (test) => {
