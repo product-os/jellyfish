@@ -63,6 +63,7 @@ jspm_packages/
 # End of https://www.gitignore.io/api/node
 
 rethinkdb_data
+dump.rdb
 .tar.gz
 
 # Used by LocalFS file storage driver

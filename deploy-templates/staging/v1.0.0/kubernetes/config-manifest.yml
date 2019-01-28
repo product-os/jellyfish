@@ -30,6 +30,9 @@ properties:
       type: string
   - INTEGRATION_GITHUB_SIGNATURE_KEY:
       type: string
+  - REDIS_PASSWORD:
+      type: string
+
   - DB_PASSWORD:
       type: string
       default:

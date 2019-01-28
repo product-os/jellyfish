@@ -7,6 +7,7 @@ services:
      - "8000:8000"
     links:
      - rethinkdb
+     - redis
     volumes: [
       ".:/usr/src/app"
     ]
@@ -14,6 +15,8 @@ services:
      - DB_HOST=rethinkdb
      - DB_USER=admin
      - DB_PASSWORD=12345678
+     - REDIS_HOST=redis
+     - REDIS_PASSWORD=12345678
      - NODE_ENV=debug
   rethinkdb:
     image: balena/balena-rethinkdb
@@ -22,3 +25,9 @@ services:
     ports:
      - "8080:8080"
      - "28015:28015"
+  redis:
+    image: balena/balena-redis
+    environment:
+     - REDIS_PASSWORD=12345678
+    ports:
+     - "6379:6379"

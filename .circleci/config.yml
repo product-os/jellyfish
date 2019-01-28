@@ -69,11 +69,15 @@ jobs:
           name: Start RethinkDB
           command: rethinkdb --daemon --bind all
       - run:
-          name: Unit Tests 1
+          name: Start Redis
+          command: service redis-server start
+
+      - run:
+          name: Unit Tests (with Redis)
           command: make test-unit COVERAGE=1
       - run:
-          name: Unit Tests 2
-          command: make test-unit COVERAGE=1
+          name: Unit Tests (without Redis)
+          command: make test-unit COVERAGE=1 DISABLE_REDIS=1
       - run:
           name: Unit Tests (with debug logs)
           command: make test-unit COVERAGE=1 LOGLEVEL=debug
@@ -98,6 +102,9 @@ jobs:
       - run:
           name: Start RethinkDB
           command: rethinkdb --daemon --bind all
+      - run:
+          name: Start Redis
+          command: service redis-server start
 
       - run:
           name: Sync Tests
@@ -123,6 +130,9 @@ jobs:
       - run:
           name: Start RethinkDB
           command: rethinkdb --daemon --bind all
+      - run:
+          name: Start Redis
+          command: service redis-server start
 
       # Setup artifact store for UI integration test screenshots
       - run: mkdir -p /tmp/test-results/screenshots
@@ -148,6 +158,9 @@ jobs:
       - run:
           name: Start RethinkDB
           command: rethinkdb --daemon --bind all
+      - run:
+          name: Start Redis
+          command: service redis-server start
 
       # Setup artifact store for UI integration test screenshots
       - run: mkdir -p /tmp/test-results/screenshots
@@ -176,6 +189,9 @@ jobs:
       - run:
           name: Start RethinkDB
           command: rethinkdb --daemon --bind all
+      - run:
+          name: Start Redis
+          command: service redis-server start
 
       # Stress Testing
       - run:
@@ -208,6 +224,9 @@ jobs:
       - run:
           name: Start RethinkDB
           command: rethinkdb --daemon --bind all
+      - run:
+          name: Start Redis
+          command: service redis-server start
       - run:
           name: Flaky UI Tests (production bundle)
           command: make build NODE_ENV=production && ./scripts/flaky-ui-tests.sh

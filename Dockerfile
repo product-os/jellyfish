@@ -12,6 +12,7 @@ RUN make build NODE_ENV=production
 
 RUN rethinkdb --version && \
 		rethinkdb --daemon --bind all && \
+		service redis-server start && \
 		make lint && \
 		make test-unit COVERAGE=0
 
