@@ -16,6 +16,7 @@
 
 const randomstring = require('randomstring')
 const Backend = require('../../../lib/core/backend')
+const environment = require('../../../lib/environment')
 const Cache = require('../../../lib/core/cache')
 const Kernel = require('../../../lib/core/kernel')
 
@@ -31,12 +32,20 @@ exports.generateRandomSlug = (options) => {
 exports.backend = {
 	beforeEach: async (test, options = {}) => {
 		const dbName = `test_${randomstring.generate()}`
-		test.context.cache = process.env.DISABLE_CACHE
-			? null
-			: new Cache({
+
+		if (process.env.DISABLE_CACHE) {
+			test.context.cache = null
+		} else if (process.env.DISABLE_REDIS) {
+			test.context.cache = new Cache({
 				mock: true,
-				database: dbName
+				namespace: dbName
 			})
+		} else {
+			test.context.cache = new Cache(
+				Object.assign({}, environment.getRedisConfiguration(), {
+					namespace: dbName
+				}))
+		}
 
 		test.context.context = {
 			id: `CORE-TEST-${randomstring.generate(20)}`
@@ -98,10 +107,18 @@ exports.jellyfish = {
 
 exports.cache = {
 	beforeEach: async (test) => {
-		test.context.cache = new Cache({
-			mock: true,
-			database: `test_${randomstring.generate()}`
-		})
+		if (process.env.DISABLE_REDIS) {
+			test.context.cache = new Cache({
+				mock: true,
+				namespace: `test_${randomstring.generate()}`
+			})
+		} else {
+			test.context.cache = new Cache(
+				Object.assign({}, environment.getRedisConfiguration(), {
+					namespace: `test_${randomstring.generate()}`
+				}))
+		}
+
 		await test.context.cache.connect()
 	},
 	afterEach: async (test) => {

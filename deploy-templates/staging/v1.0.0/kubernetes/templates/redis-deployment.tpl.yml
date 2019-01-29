@@ -1,0 +1,23 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: redis
+  namespace: jellyfish
+spec:
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+      - image: {{{jellyfish-redis-image}}}
+        name: redis
+        env:
+        - name: REDIS_PASSWORD
+          value: {{{REDIS_PASSWORD}}}
+        ports:
+        - containerPort: 6379
+          name: data-port

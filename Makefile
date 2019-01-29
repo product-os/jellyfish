@@ -4,8 +4,9 @@
 	coverage \
 	test \
 	build \
-	start-server \
 	compose \
+	start-server \
+	start-redis \
 	start-db \
 	test-unit \
 	test-integration
@@ -32,12 +33,22 @@ DB_CERT ?=
 export DB_CERT
 DISABLE_CACHE ?=
 export DISABLE_CACHE
+DISABLE_REDIS ?=
+export DISABLE_REDIS
 LOGENTRIES_TOKEN ?=
 export LOGENTRIES_TOKEN
 SENTRY_DSN_SERVER ?=
 export SENTRY_DSN_SERVER
 NODE_ENV ?= test
 export NODE_ENV
+REDIS_NAMESPACE ?= $(SERVER_DATABASE)
+export REDIS_NAMESPACE
+REDIS_PASSWORD ?=
+export REDIS_PASSWORD
+REDIS_PORT ?= 6379
+export REDIS_PORT
+REDIS_HOST ?= localhost
+export REDIS_HOST
 
 FS_DRIVER ?= localFS
 export FS_DRIVER
@@ -183,6 +194,9 @@ compose: docker-compose.local.yml
 start-server: LOGLEVEL = info
 start-server:
 	$(NODE_EXEC) $(NODE_ARGS) lib/server/index.js
+
+start-redis:
+	redis-server --port $(REDIS_PORT)
 
 start-db:
 	rethinkdb --driver-port $(DB_PORT)

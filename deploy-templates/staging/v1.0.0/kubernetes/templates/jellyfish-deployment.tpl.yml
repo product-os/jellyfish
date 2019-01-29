@@ -33,6 +33,10 @@ spec:
           timeoutSeconds: 8
           failureThreshold: 30
         env:
+        - name: REDIS_HOST
+          value: redis
+        - name: REDIS_PASSWORD
+          value: {{{REDIS_PASSWORD}}}
         - name: DB_HOST
           value: rethinkdb
         - name: DB_USER
