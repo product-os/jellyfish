@@ -1,9 +1,12 @@
 .git
 .cache-loader
 .nyc_ouput
+.storybook
 coverage
-rethinkdb_data
-node_modules
+dist
 jellyfish-files
+rethinkdb_data
+dump.rdb
+node_modules
 docker-compose.local.yml
 Dockerfile

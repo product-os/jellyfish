@@ -10,3 +10,17 @@ docker:
           vault_name: sentry-dsn
         - name: SENTRY_DSN_UI
           vault_name: sentry-dsn
+    - path: .
+      dockerfile: Dockerfile.tick
+      docker_repo: balena/jellyfish-tick-server
+      publish: true
+      secrets:
+        - name: SENTRY_DSN_SERVER
+          vault_name: sentry-dsn
+    - path: .
+      dockerfile: Dockerfile.worker
+      docker_repo: balena/jellyfish-action-server
+      publish: true
+      secrets:
+        - name: SENTRY_DSN_SERVER
+          vault_name: sentry-dsn

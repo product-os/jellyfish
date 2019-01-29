@@ -1,0 +1,42 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: tick-server
+  namespace: jellyfish
+spec:
+  selector:
+    matchLabels:
+      app: tick-server
+  template:
+    metadata:
+      labels:
+        app: tick-server
+    spec:
+      containers:
+      - image: {{{jellyfish-tick-server-image}}}
+        name: tick-server
+        env:
+        - name: REDIS_HOST
+          value: redis
+        - name: REDIS_PASSWORD
+          value: {{{REDIS_PASSWORD}}}
+        - name: DB_HOST
+          value: rethinkdb
+        - name: DB_USER
+          value: {{{DB_USER}}}
+        - name: DB_PASSWORD
+          value: {{{DB_PASSWORD}}}
+        - name: NODE_ENV
+          value: {{{NODE_ENV}}}
+        - name: SENTRY_DSN_SERVER
+          value: {{{SENTRY_DSN_SERVER}}}
+        - name: LOGENTRIES_TOKEN
+          value: {{{LOGENTRIES_TOKEN}}}
+        - name: INTEGRATION_FRONT_TOKEN
+          value: {{{INTEGRATION_FRONT_TOKEN}}}
+        - name: INTEGRATION_GITHUB_TOKEN
+          value: {{{INTEGRATION_GITHUB_TOKEN}}}
+        - name: INTEGRATION_GITHUB_SIGNATURE_KEY
+          value: {{{INTEGRATION_GITHUB_SIGNATURE_KEY}}}
+      imagePullSecrets:
+        - name: com.docker.hub.travisciresin

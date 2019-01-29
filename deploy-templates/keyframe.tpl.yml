@@ -5,6 +5,24 @@ repo: 'https://github.com/resin-io/balena-jellyfish.git'
 children:
   sw:
     containerized-application:
+      jellyfish-action-server:
+        slug: jellyfish-action-server
+        version: #JF_VERSION#
+        type: sw.containerized-application
+        assets:
+          image:
+            url: 'balena/jellyfish-action-server:#JF_VERSION#'
+          repo:
+            url: 'https://github.com/balena-io/jellyfish.git'
+      jellyfish-tick-server:
+        slug: jellyfish-tick-server
+        version: #JF_VERSION#
+        type: sw.containerized-application
+        assets:
+          image:
+            url: 'balena/jellyfish-tick-server:#JF_VERSION#'
+          repo:
+            url: 'https://github.com/balena-io/jellyfish.git'
       jellyfish-application:
         slug: jellyfish-application
         version: #JF_VERSION#
