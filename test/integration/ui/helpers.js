@@ -22,7 +22,7 @@ exports.browser = {
 		await helpers.server.beforeEach(test)
 
 		const options = {
-			headless: !process.env.PUPPETEER_VISUAL_MODE,
+			headless: !process.env.VISUAL,
 			args: [
 				'--window-size=1366,768',
 
