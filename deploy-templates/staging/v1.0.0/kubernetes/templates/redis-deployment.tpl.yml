@@ -21,3 +21,5 @@ spec:
         ports:
         - containerPort: 6379
           name: data-port
+      imagePullSecrets:
+        - name: com.docker.hub.travisciresin
