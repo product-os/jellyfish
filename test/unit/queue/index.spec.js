@@ -220,3 +220,69 @@ ava('.enqueue() should not store the password in the queue when using action-cre
 	test.falsy(request.data.arguments.hash.string)
 	test.falsy(request.data.arguments.hash.salt)
 })
+
+ava('.dequeue() should self heal broken execute links', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card')
+
+	const actionRequest = await test.context.queue.enqueue(
+		test.context.queueActor, test.context.session, {
+			action: 'action-create-card',
+			context: test.context.context,
+			card: typeCard.id,
+			type: typeCard.type,
+			arguments: {
+				properties: {
+					slug: 'foo',
+					version: '1.0.0'
+				}
+			}
+		})
+
+	const eventCard = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, test.context.jellyfish.defaults({
+			slug: `execute-${actionRequest.id}`,
+			type: 'execute',
+			data: {
+				timestamp: '2019-01-29T19:53:34.158Z',
+				target: 'd6d6487d-49a2-483d-9466-59cd094a0c04',
+				actor: '678a9dc9-e35a-4de0-b611-22078f55164a',
+				payload: {
+					action: 'action-create-card',
+					card: 'd0ee68b6-c113-43be-9c45-77d543556a5d',
+					timestamp: '2019-01-29T19:53:34.137Z',
+					error: false,
+					data: {
+						foo: true
+					}
+				}
+			}
+		}))
+
+	const currentRequest = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, actionRequest.slug, {
+			type: actionRequest.type
+		})
+
+	test.deepEqual(currentRequest.links, {})
+
+	const request = await test.context.queue.dequeue(
+		test.context.context, test.context.queueActor)
+	test.falsy(request)
+
+	const updatedRequest = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, actionRequest.slug, {
+			type: actionRequest.type
+		})
+
+	test.deepEqual(updatedRequest.links, {
+		'is executed by': [
+			{
+				$link: updatedRequest.links['is executed by'][0].$link,
+				id: eventCard.id,
+				slug: eventCard.slug,
+				type: eventCard.type
+			}
+		]
+	})
+})
