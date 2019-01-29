@@ -6,6 +6,7 @@
 	test \
 	build \
 	start-server \
+	start-worker \
 	start-dev-server \
 	start-db \
 	test-e2e \
@@ -20,6 +21,7 @@ NODE_DEBUG_ARGS = $(NODE_ARGS) \
 									--stack_trace_on_illegal \
 									--abort_on_stack_or_string_length_overflow
 
+ACTION_SERVER_TYPE ?= worker
 API_URL ?= http://localhost:8000/
 DB_HOST ?= localhost
 DB_PORT ?= 28015
@@ -197,6 +199,19 @@ start-server:
 	RETHINKDB_MIN_POOL_SIZE=$(RETHINKDB_MIN_POOL_SIZE) \
 	RETHINKDB_MAX_POOL_SIZE=$(RETHINKDB_MAX_POOL_SIZE) \
 	$(NODE_EXEC) $(NODE_ARGS) lib/server/index.js
+
+start-worker: LOGLEVEL = info
+start-worker:
+	ACTION_SERVER_TYPE=$(ACTION_SERVER_TYPE) \
+	DEBUG=$(NODE_DEBUG) \
+	DB_HOST=$(DB_HOST) \
+	DB_PORT=$(DB_PORT) \
+	LOGLEVEL=$(LOGLEVEL) \
+	LOGENTRIES_TOKEN=$(LOGENTRIES_TOKEN) \
+	SENTRY_DSN_SERVER=$(SENTRY_DSN_SERVER) \
+	RETHINKDB_MIN_POOL_SIZE=$(RETHINKDB_MIN_POOL_SIZE) \
+	RETHINKDB_MAX_POOL_SIZE=$(RETHINKDB_MAX_POOL_SIZE) \
+	$(NODE_EXEC) $(NODE_ARGS) lib/action-server/index.js
 
 docker-compose.local.yml:
 	echo "version: \"3\"\n# Use this file to make local changes for the docker-compose setup" > docker-compose.local.yml

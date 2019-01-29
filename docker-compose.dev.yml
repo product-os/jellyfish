@@ -1,5 +1,33 @@
 version: "3"
 services:
+  worker:
+    build: lib/action-server
+    command: make start-worker
+    links:
+     - rethinkdb
+    volumes: [
+      ".:/usr/src/app"
+    ]
+    environment:
+     - ACTION_SERVER_TYPE=worker
+     - DB_HOST=rethinkdb
+     - DB_USER=admin
+     - DB_PASSWORD=12345678
+     - NODE_ENV=debug
+  tick:
+    build: lib/action-server
+    command: make start-worker
+    links:
+     - rethinkdb
+    volumes: [
+      ".:/usr/src/app"
+    ]
+    environment:
+     - ACTION_SERVER_TYPE=tick
+     - DB_HOST=rethinkdb
+     - DB_USER=admin
+     - DB_PASSWORD=12345678
+     - NODE_ENV=debug
   web:
     build: lib/server
     command: make start-server
