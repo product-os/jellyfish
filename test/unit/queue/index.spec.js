@@ -286,3 +286,47 @@ ava('.dequeue() should self heal broken execute links', async (test) => {
 		]
 	})
 })
+
+ava('.dequeue() should cope with link materialization failures', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card')
+
+	const actionRequest = await test.context.queue.enqueue(
+		test.context.queueActor, test.context.session, {
+			action: 'action-create-card',
+			context: test.context.context,
+			card: typeCard.id,
+			type: typeCard.type,
+			arguments: {
+				properties: {
+					slug: 'foo',
+					version: '1.0.0'
+				}
+			}
+		})
+
+	await test.context.queue.postResults(
+		test.context.queueActor, test.context.context, actionRequest, {
+			error: false,
+			data: {
+				foo: 'true'
+			}
+		})
+
+	// Simulate non-materialized links
+	await test.context.backend.upsertElement(
+		test.context.context, Object.assign({}, actionRequest, {
+			links: {}
+		}))
+
+	const currentRequest = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, actionRequest.slug, {
+			type: actionRequest.type
+		})
+
+	test.deepEqual(currentRequest.links, {})
+
+	const request = await test.context.queue.dequeue(
+		test.context.context, test.context.queueActor)
+	test.falsy(request)
+})
