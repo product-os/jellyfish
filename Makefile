@@ -196,7 +196,7 @@ start-server:
 	INTEGRATION_FRONT_TOKEN=$(INTEGRATION_FRONT_TOKEN) \
 	RETHINKDB_MIN_POOL_SIZE=$(RETHINKDB_MIN_POOL_SIZE) \
 	RETHINKDB_MAX_POOL_SIZE=$(RETHINKDB_MAX_POOL_SIZE) \
-	$(NODE_EXEC) $(NODE_ARGS) lib/server/index.js
+	$(NODE_EXEC) $(NODE_ARGS) lib/server/run.js
 
 docker-compose.local.yml:
 	echo "version: \"3\"\n# Use this file to make local changes for the docker-compose setup" > docker-compose.local.yml

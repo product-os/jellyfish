@@ -1,7 +1,7 @@
 reviewers: 1
 docker:
   builds:
-    - path: .
+    - path: lib/server
       dockerfile: Dockerfile
       docker_repo: balena/jellyfish
       publish: true

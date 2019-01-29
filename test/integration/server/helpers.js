@@ -18,7 +18,7 @@ const Bluebird = require('bluebird')
 const request = require('request')
 const randomstring = require('randomstring')
 const helpers = require('../../unit/core/helpers')
-const bootstrap = require('../../../lib/server/bootstrap')
+const bootstrap = require('../../../lib/server')
 
 exports.server = {
 	beforeEach: async (test) => {
