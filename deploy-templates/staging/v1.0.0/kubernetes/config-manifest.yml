@@ -30,9 +30,11 @@ properties:
       type: string
   - INTEGRATION_GITHUB_SIGNATURE_KEY:
       type: string
+
   - REDIS_PASSWORD:
       type: string
-
+      default:
+        eval: GENERATE_API_KEY({length: 24})
   - DB_PASSWORD:
       type: string
       default:
