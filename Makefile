@@ -1,45 +1,104 @@
 .PHONY: lint \
-	build-ui \
 	dev-ui \
-	storybook-dev \
-	report-coverage \
+	dev-storybook \
+	coverage \
 	test \
 	build \
 	start-server \
-	start-dev-server \
+	compose \
 	start-db \
-	test-e2e \
 	test-unit \
 	test-integration
 
+# -----------------------------------------------
+# Runtime Configuration
+# -----------------------------------------------
+
+PORT ?= 8000
+export PORT
+LOGLEVEL ?= debug
+export LOGLEVEL
+DB_HOST ?= localhost
+export DB_HOST
+DB_PORT ?= 28015
+export DB_PORT
+DB_USER ?=
+export DB_USER
+DB_PASSWORD ?=
+export DB_PASSWORD
+SERVER_DATABASE ?= jellyfish
+export SERVER_DATABASE
+DB_CERT ?=
+export DB_CERT
+DISABLE_CACHE ?=
+export DISABLE_CACHE
+LOGENTRIES_TOKEN ?=
+export LOGENTRIES_TOKEN
+SENTRY_DSN_SERVER ?=
+export SENTRY_DSN_SERVER
+NODE_ENV ?= test
+export NODE_ENV
+
+FS_DRIVER ?= localFS
+export FS_DRIVER
+AWS_ACCESS_KEY_ID ?=
+export AWS_ACCESS_KEY_ID
+AWS_SECRET_ACCESS_KEY ?=
+export AWS_SECRET_ACCESS_KEY
+
+ifeq ($(NODE_ENV),production)
+RETHINKDB_MIN_POOL_SIZE ?= 50
+RETHINKDB_MAX_POOL_SIZE ?= 1000
+else
+RETHINKDB_MIN_POOL_SIZE ?= 4
+RETHINKDB_MAX_POOL_SIZE ?= 20
+endif
+export RETHINKDB_MIN_POOL_SIZE
+export RETHINKDB_MAX_POOL_SIZE
+
+INTEGRATION_FRONT_TOKEN ?=
+export INTEGRATION_FRONT_TOKEN
+INTEGRATION_GITHUB_TOKEN ?=
+export INTEGRATION_GITHUB_TOKEN
+INTEGRATION_GITHUB_SIGNATURE_KEY ?=
+export INTEGRATION_GITHUB_SIGNATURE_KEY
+
+# -----------------------------------------------
+# Test Runtime Configuration
+# -----------------------------------------------
+
+TEST_INTEGRATION_GITHUB_REPO ?= balena-io/jellyfish-test-github
+export TEST_INTEGRATION_GITHUB_REPO
+TEST_INTEGRATION_FRONT_INBOX ?= inb_8t8y
+export TEST_INTEGRATION_FRONT_INBOX
+
+# -----------------------------------------------
+# Build Configuration
+# -----------------------------------------------
+
 # To make sure we don't silently swallow errors
 NODE_ARGS = --abort-on-uncaught-exception
-
 NODE_DEBUG_ARGS = $(NODE_ARGS) \
 									--trace-warnings \
 									--stack_trace_on_illegal \
 									--abort_on_stack_or_string_length_overflow
 
-API_URL ?= http://localhost:8000/
-DB_HOST ?= localhost
-DB_PORT ?= 28015
-NODE_DEBUG ?= 'jellyfish:*'
-NODE_ENV ?= test
-COVERAGE ?= 1
-DISABLE_CACHE ?=
-LOGENTRIES_TOKEN ?=
-SENTRY_DSN_SERVER ?=
-SENTRY_DSN_UI ?=
-
 ifeq ($(NODE_ENV),production)
-RETHINKDB_MIN_POOL_SIZE ?= 50
-RETHINKDB_MAX_POOL_SIZE ?= 1000
 NODE_EXEC="node"
 else
 NODE_EXEC="./node_modules/.bin/supervisor"
-RETHINKDB_MIN_POOL_SIZE ?= 4
-RETHINKDB_MAX_POOL_SIZE ?= 20
 endif
+
+# User parameters
+FIX ?=
+CI ?=
+export CI
+VISUAL ?=
+export VISUAL
+COVERAGE ?= 1
+export COVERAGE
+
+SENTRY_DSN_UI ?=
 
 ifeq ($(FIX),)
 ESLINT_OPTION_FIX =
@@ -60,19 +119,22 @@ ifndef CI
 AVA_ARGS += --fail-fast
 endif
 
-INTEGRATION_FRONT_TOKEN ?=
-INTEGRATION_GITHUB_TOKEN ?=
-INTEGRATION_GITHUB_SIGNATURE_KEY ?=
-
-# Test configuration
-INTEGRATION_GITHUB_TEST_REPO ?= "balena-io/jellyfish-test-github"
-INTEGRATION_FRONT_TEST_INBOX ?= "inb_8t8y"
+# -----------------------------------------------
+# Rules
+# -----------------------------------------------
 
 dist:
 	mkdir $@
 
 dist/docs.html: lib/server/api.yaml | dist
 	redoc-cli bundle -o $@ $<
+
+docker-compose.local.yml:
+	echo "version: \"3\"" > $@
+	echo "# Use this file to make local docker-compose changes" >> $@
+
+build:
+	SENTRY_DSN_UI=$(SENTRY_DSN_UI) ./node_modules/.bin/webpack
 
 lint:
 	./node_modules/.bin/eslint $(ESLINT_OPTION_FIX) \
@@ -84,130 +146,53 @@ lint:
 	./scripts/check-filenames.sh
 	shellcheck ./scripts/*.sh ./scripts/ci/*.sh ./.circleci/*.sh ./deploy-templates/*.sh
 
-build-ui:
-	NODE_ENV=$(NODE_ENV) SENTRY_DSN_UI=$(SENTRY_DSN_UI) ./node_modules/.bin/webpack
-
-dev-ui:
-	NODE_ENV=dev API_URL=$(API_URL) ./node_modules/.bin/webpack-dev-server --color
-
-storybook-dev:
-	./node_modules/.bin/start-storybook -p 6006
-
-report-coverage:
+coverage:
 	./node_modules/.bin/nyc --reporter=text --reporter=lcov --reporter=json report
 
 test: LOGLEVEL = warning
 test:
 	node scripts/scrub-test-databases.js
-	NODE_ENV=$(NODE_ENV) \
-	DB_HOST=$(DB_HOST) \
-	DB_PORT=$(DB_PORT) \
-	API_URL=$(API_URL) \
-	LOGLEVEL=$(LOGLEVEL) \
-	INTEGRATION_GITHUB_TEST_REPO=$(INTEGRATION_GITHUB_TEST_REPO) \
-	INTEGRATION_GITHUB_SIGNATURE_KEY=$(INTEGRATION_GITHUB_SIGNATURE_KEY) \
-	INTEGRATION_FRONT_TEST_INBOX=$(INTEGRATION_FRONT_TEST_INBOX) \
-	RETHINKDB_MIN_POOL_SIZE=$(RETHINKDB_MIN_POOL_SIZE) \
-	RETHINKDB_MAX_POOL_SIZE=$(RETHINKDB_MAX_POOL_SIZE) \
-	DISABLE_CACHE=$(DISABLE_CACHE) \
-	PUPPETEER_VISUAL_MODE=$(PUPPETEER_VISUAL_MODE) \
-	$(COVERAGE_COMMAND) node $(NODE_DEBUG_ARGS) ./node_modules/.bin/ava $(AVA_ARGS) $(FILES)
+	$(COVERAGE_COMMAND) node $(NODE_DEBUG_ARGS) \
+		./node_modules/.bin/ava $(AVA_ARGS) $(FILES)
 
 test-unit:
-	FILES="'./test/unit/**/*.spec.js'" \
-		NODE_ENV=$(NODE_ENV) \
-		DB_HOST=$(DB_HOST) \
-		DB_PORT=$(DB_PORT) \
-		API_URL=$(API_URL) \
-		LOGLEVEL=$(LOGLEVEL) \
-		CI=$(CI) \
-		INTEGRATION_GITHUB_TEST_REPO=$(INTEGRATION_GITHUB_TEST_REPO) \
-		INTEGRATION_FRONT_TEST_INBOX=$(INTEGRATION_FRONT_TEST_INBOX) \
-		DISABLE_CACHE=$(DISABLE_CACHE) \
-		COVERAGE=$(COVERAGE) \
-		make test
+	FILES="'./test/unit/**/*.spec.js'" make test
 
 test-integration:
 	FILES="'./test/integration/**/*.spec.js'" \
-		NODE_ENV=$(NODE_ENV) \
-		DB_HOST=$(DB_HOST) \
-		DB_PORT=$(DB_PORT) \
-		PUPPETEER_VISUAL_MODE=$(PUPPETEER_VISUAL_MODE) \
-		API_URL=$(API_URL) \
-		LOGLEVEL=$(LOGLEVEL) \
-		CI=$(CI) \
-		INTEGRATION_GITHUB_TEST_REPO=$(INTEGRATION_GITHUB_TEST_REPO) \
-		INTEGRATION_FRONT_TEST_INBOX=$(INTEGRATION_FRONT_TEST_INBOX) \
-		RETHINKDB_MIN_POOL_SIZE=$(RETHINKDB_MIN_POOL_SIZE) \
-		RETHINKDB_MAX_POOL_SIZE=$(RETHINKDB_MAX_POOL_SIZE) \
-		DISABLE_CACHE=$(DISABLE_CACHE) \
-		COVERAGE=$(COVERAGE) \
-		make test
+		AVA_OPTS="--serial" make test
 
 test-unit-%:
-	FILES="'./test/unit/$(subst test-unit-,,$@)/**/*.spec.js'" \
-		NODE_ENV=$(NODE_ENV) \
-		DB_HOST=$(DB_HOST) \
-		DB_PORT=$(DB_PORT) \
-		API_URL=$(API_URL) \
-		LOGLEVEL=$(LOGLEVEL) \
-		CI=$(CI) \
-		INTEGRATION_GITHUB_TEST_REPO=$(INTEGRATION_GITHUB_TEST_REPO) \
-		INTEGRATION_FRONT_TEST_INBOX=$(INTEGRATION_FRONT_TEST_INBOX) \
-		DISABLE_CACHE=$(DISABLE_CACHE) \
-		COVERAGE=$(COVERAGE) \
-		make test
+	FILES="'./test/unit/$(subst test-unit-,,$@)/**/*.spec.js'" make test
 
 test-integration-%:
 	FILES="'./test/integration/$(subst test-integration-,,$@)/**/*.spec.js'" \
-		NODE_ENV=$(NODE_ENV) \
-		DB_HOST=$(DB_HOST) \
-		DB_PORT=$(DB_PORT) \
-		PUPPETEER_VISUAL_MODE=$(PUPPETEER_VISUAL_MODE) \
-		API_URL=$(API_URL) \
-		LOGLEVEL=$(LOGLEVEL) \
-		CI=$(CI) \
-		INTEGRATION_GITHUB_TEST_REPO=$(INTEGRATION_GITHUB_TEST_REPO) \
-		INTEGRATION_FRONT_TEST_INBOX=$(INTEGRATION_FRONT_TEST_INBOX) \
-		AVA_OPTS="--serial" \
-		DISABLE_CACHE=$(DISABLE_CACHE) \
-		COVERAGE=$(COVERAGE) \
-		make test
+		AVA_OPTS="--serial" make test
 
-test-e2e:
-	@NODE_ENV=$(NODE_ENV) \
-		JF_TEST_USER=$(JF_TEST_USER) \
-		JF_TEST_PASSWORD=$(JF_TEST_PASSWORD) \
-		JF_URL=$(API_URL) \
-		./node_modules/.bin/ava test/e2e/**/*.spec.js
+ngrok-%:
+	ngrok start -config ./ngrok.yml $(subst ngrok-,,$@)
 
-build: build-ui
+compose: LOGLEVEL = info
+compose: docker-compose.local.yml
+	docker-compose -f docker-compose.dev.yml -f $< up
+
+# -----------------------------------------------
+# Entry Points
+# -----------------------------------------------
 
 start-server: LOGLEVEL = info
 start-server:
-	DEBUG=$(NODE_DEBUG) \
-	DB_HOST=$(DB_HOST) \
-	DB_PORT=$(DB_PORT) \
-	LOGLEVEL=$(LOGLEVEL) \
-	LOGENTRIES_TOKEN=$(LOGENTRIES_TOKEN) \
-	SENTRY_DSN_SERVER=$(SENTRY_DSN_SERVER) \
-	INTEGRATION_GITHUB_TOKEN=$(INTEGRATION_GITHUB_TOKEN) \
-	INTEGRATION_GITHUB_SIGNATURE_KEY=$(INTEGRATION_GITHUB_SIGNATURE_KEY) \
-	INTEGRATION_FRONT_TOKEN=$(INTEGRATION_FRONT_TOKEN) \
-	RETHINKDB_MIN_POOL_SIZE=$(RETHINKDB_MIN_POOL_SIZE) \
-	RETHINKDB_MAX_POOL_SIZE=$(RETHINKDB_MAX_POOL_SIZE) \
 	$(NODE_EXEC) $(NODE_ARGS) lib/server/index.js
-
-docker-compose.local.yml:
-	echo "version: \"3\"\n# Use this file to make local changes for the docker-compose setup" > docker-compose.local.yml
-
-start-dev-server: LOGLEVEL = info
-start-dev-server:
-	NODE_ENV=debug \
-	docker-compose -f docker-compose.dev.yml -f docker-compose.local.yml up
 
 start-db:
 	rethinkdb --driver-port $(DB_PORT)
 
-ngrok-%:
-	ngrok start -config ./ngrok.yml $(subst ngrok-,,$@)
+# -----------------------------------------------
+# Development
+# -----------------------------------------------
+
+dev-ui:
+	./node_modules/.bin/webpack-dev-server --color
+
+dev-storybook:
+	./node_modules/.bin/start-storybook -p 6006

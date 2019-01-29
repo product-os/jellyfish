@@ -226,10 +226,10 @@ jobs:
 
       - run:
           name: Webpack Bundle Report
-          command: make build-ui NODE_ENV=test && mkdir -p /tmp/test-results && cp webpack-bundle-report.html /tmp/test-results/webpack-bundle-report.html
+          command: make build NODE_ENV=test && mkdir -p /tmp/test-results && cp webpack-bundle-report.html /tmp/test-results/webpack-bundle-report.html
       - run:
           name: Generate Coverage Results
-          command: make --silent report-coverage > COVERAGE && mkdir -p /tmp/test-results && cp -rf coverage /tmp/test-results
+          command: make --silent coverage > COVERAGE && mkdir -p /tmp/test-results && cp -rf coverage /tmp/test-results
       - run:
           name: Git Stats
           command: gitstats . /tmp/test-results/gitstats

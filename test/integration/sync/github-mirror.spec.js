@@ -59,10 +59,10 @@ const getMirrorWaitSchema = (slug) => {
 ava.before(async (test) => {
 	await helpers.mirror.before(test)
 
-	const [ owner, repo ] = process.env.INTEGRATION_GITHUB_TEST_REPO.split('/')
+	const [ owner, repo ] = process.env.TEST_INTEGRATION_GITHUB_REPO.split('/')
 	test.context.repository = {
-		owner,
-		repo
+		owner: owner.trim(),
+		repo: repo.trim()
 	}
 
 	test.context.getIssueSlug = () => {
