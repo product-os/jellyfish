@@ -16,8 +16,6 @@
 
 const _ = require('lodash')
 const ava = require('ava')
-const path = require('path')
-const fs = require('fs')
 const skhema = require('skhema')
 const CARDS = require('../../../lib/core/cards')
 
@@ -36,17 +34,6 @@ const isCardMacro = async (test, type, card, expected) => {
 isCardMacro.title = (title, type, card, expected) => {
 	return `(${title}) skhema.valid() should return ${expected} using type ${type}`
 }
-
-const testCases = _.map(fs.readdirSync(path.join(__dirname, 'cards')), (file) => {
-	return {
-		name: file,
-		json: require(path.join(__dirname, 'cards', file))
-	}
-})
-
-testCases.forEach((testCase) => {
-	ava(`examples: ${testCase.name}`, isCardMacro, 'card', testCase.json.card, testCase.json.valid)
-})
 
 _.each(CARDS, async (value, key) => {
 	ava(`The "${key}" card should validate against the card type and its own type`, async (test) => {
