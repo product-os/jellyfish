@@ -85,6 +85,7 @@ const config = {
 		}),
 
 		new DefinePlugin({
+			/* eslint-disable no-process-env */
 			'process.env': {
 				API_URL: JSON.stringify(process.env.API_URL),
 				API_PREFIX: JSON.stringify(process.env.API_PREFIX || 'api/v2/'),
@@ -95,6 +96,7 @@ const config = {
 				// So that it matches git tags
 				VERSION: JSON.stringify(`v${packageJSON.version}`)
 			}
+			/* eslint-enable no-process-env */
 		}),
 
 		// The moment.js package includes its locales by default, they are huge and
@@ -103,6 +105,7 @@ const config = {
 	]
 }
 
+// eslint-disable-next-line no-process-env
 if (process.env.NODE_ENV === 'production') {
 	config.mode = 'production'
 	config.optimization = {

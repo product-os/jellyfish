@@ -16,11 +16,12 @@
 
 const ava = require('ava')
 const puppeteer = require('puppeteer')
+const environment = require('../../lib/environment')
 
 const config = {
-	JF_TEST_USER: process.env.JF_TEST_USER,
-	JF_TEST_PASSWORD: process.env.JF_TEST_PASSWORD,
-	JF_URL: process.env.JF_URL
+	JF_TEST_USER: environment.test.jellyfish.user,
+	JF_TEST_PASSWORD: environment.test.jellyfish.password,
+	JF_URL: environment.test.jellyfish.url
 }
 
 for (const key in config) {

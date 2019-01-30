@@ -147,7 +147,7 @@ rules:
   no-mixed-requires:
     - error
   no-process-env:
-    - off
+    - error
   no-process-exit:
     - off
   no-sync:

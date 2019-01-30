@@ -20,6 +20,7 @@ const Bluebird = require('bluebird')
 const _ = require('lodash')
 const randomstring = require('randomstring')
 const helpers = require('../sdk/helpers')
+const environment = require('../../../lib/environment')
 
 ava.before(helpers.sdk.beforeEach)
 ava.after(helpers.sdk.afterEach)
@@ -642,7 +643,7 @@ ava.serial('should be able to post a GitHub event without a signature', async (t
 
 ava.serial('should take a GitHub event with a valid signature', async (test) => {
 	const object = '{"foo":"bar"}'
-	const hash = crypto.createHmac('sha1', process.env.INTEGRATION_GITHUB_SIGNATURE_KEY)
+	const hash = crypto.createHmac('sha1', environment.integration.github.signatureKey)
 		.update(object)
 		.digest('hex')
 

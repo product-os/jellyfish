@@ -15,6 +15,7 @@
  */
 
 const puppeteer = require('puppeteer')
+const environment = require('../../../lib/environment')
 const helpers = require('../server/helpers')
 
 exports.browser = {
@@ -22,7 +23,7 @@ exports.browser = {
 		await helpers.server.beforeEach(test)
 
 		const options = {
-			headless: !process.env.VISUAL,
+			headless: !environment.flags.visual,
 			args: [
 				'--window-size=1366,768',
 
