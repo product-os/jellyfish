@@ -6,6 +6,8 @@
 	build \
 	compose \
 	start-server \
+	start-worker \
+	start-tick \
 	start-redis \
 	start-db \
 	test-unit \
@@ -194,6 +196,14 @@ compose: docker-compose.local.yml
 start-server: LOGLEVEL = info
 start-server:
 	$(NODE_EXEC) $(NODE_ARGS) lib/server/index.js
+
+start-worker: LOGLEVEL = info
+start-worker:
+	$(NODE_EXEC) $(NODE_ARGS) lib/action-server/worker.js
+
+start-tick: LOGLEVEL = info
+start-tick:
+	$(NODE_EXEC) $(NODE_ARGS) lib/action-server/tick.js
 
 start-redis:
 	redis-server --port $(REDIS_PORT)

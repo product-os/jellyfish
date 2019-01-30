@@ -18,6 +18,42 @@ services:
      - REDIS_HOST=redis
      - REDIS_PASSWORD=12345678
      - NODE_ENV=debug
+  tick:
+    build:
+      context: .
+      dockerfile: Dockerfile.tick
+    command: make start-tick
+    links:
+     - rethinkdb
+     - redis
+    volumes: [
+      ".:/usr/src/app"
+    ]
+    environment:
+     - DB_HOST=rethinkdb
+     - DB_USER=admin
+     - DB_PASSWORD=12345678
+     - REDIS_HOST=redis
+     - REDIS_PASSWORD=12345678
+     - NODE_ENV=debug
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    command: make start-worker
+    links:
+     - rethinkdb
+     - redis
+    volumes: [
+      ".:/usr/src/app"
+    ]
+    environment:
+     - DB_HOST=rethinkdb
+     - DB_USER=admin
+     - DB_PASSWORD=12345678
+     - REDIS_HOST=redis
+     - REDIS_PASSWORD=12345678
+     - NODE_ENV=debug
   rethinkdb:
     image: balena/balena-rethinkdb
     environment:

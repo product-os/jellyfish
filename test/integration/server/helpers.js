@@ -19,6 +19,13 @@ const request = require('request')
 const randomstring = require('randomstring')
 const helpers = require('../../unit/core/helpers')
 const bootstrap = require('../../../lib/server/bootstrap')
+const actionServer = require('../../../lib/action-server/bootstrap')
+
+const workerOptions = {
+	onError: (context, error) => {
+		throw error
+	}
+}
 
 exports.server = {
 	beforeEach: async (test) => {
@@ -27,6 +34,10 @@ exports.server = {
 		}
 
 		test.context.server = await bootstrap(test.context.context)
+		test.context.tickWorker = await actionServer.tick(test.context.context, workerOptions)
+		test.context.actionWorker1 = await actionServer.worker(test.context.context, workerOptions)
+		test.context.actionWorker2 = await actionServer.worker(test.context.context, workerOptions)
+
 		test.context.jellyfish = test.context.server.jellyfish
 		test.context.queue = test.context.server.queue
 		test.context.session = test.context.jellyfish.sessions.admin
@@ -57,6 +68,9 @@ exports.server = {
 	},
 
 	afterEach: async (test) => {
+		await test.context.actionWorker2.stop()
+		await test.context.actionWorker1.stop()
+		await test.context.tickWorker.stop()
 		await test.context.server.close()
 	}
 }
