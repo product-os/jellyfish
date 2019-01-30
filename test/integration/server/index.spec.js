@@ -204,6 +204,7 @@ ava.serial('.query() should be able to see previously restricted cards after an 
 		password: 'foobarbaz'
 	})
 
+	test.truthy(user, 'User should be defined')
 	await sdk.auth.login({
 		username,
 		password: 'foobarbaz'
@@ -213,6 +214,7 @@ ava.serial('.query() should be able to see previously restricted cards after an 
 		type: 'org'
 	})
 
+	test.truthy(orgCard, 'Org should exist')
 	const entry = await jellyfish.insertCard(test.context.context, test.context.session, {
 		markers: [ orgCard.slug ],
 		type: 'support-issue',
@@ -223,6 +225,7 @@ ava.serial('.query() should be able to see previously restricted cards after an 
 		name: 'Test entry'
 	})
 
+	test.truthy(entry, 'Entry should be defined')
 	const unprivilegedResults = await sdk.card.get(entry.id, {
 		type: 'support-issue'
 	})
@@ -251,6 +254,8 @@ ava.serial('.query() should be able to see previously restricted cards after an 
 	const privilegedResults = await sdk.card.get(entry.id, {
 		type: 'support-issue'
 	})
+
+	test.truthy(privilegedResults)
 	test.deepEqual(privilegedResults.id, entry.id)
 })
 
