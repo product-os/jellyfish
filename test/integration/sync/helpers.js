@@ -274,19 +274,19 @@ exports.translate = {
 		await syncHelpers.beforeEach(test)
 
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../default-cards/contrib/external-event.json'))
+			require('../../../lib/server/default-cards/contrib/external-event.json'))
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../default-cards/contrib/issue.json'))
+			require('../../../lib/server/default-cards/contrib/issue.json'))
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../default-cards/contrib/pull-request.json'))
+			require('../../../lib/server/default-cards/contrib/pull-request.json'))
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../default-cards/contrib/repository.json'))
+			require('../../../lib/server/default-cards/contrib/repository.json'))
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../default-cards/contrib/push.json'))
+			require('../../../lib/server/default-cards/contrib/push.json'))
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../default-cards/contrib/support-thread.json'))
+			require('../../../lib/server/default-cards/contrib/support-thread.json'))
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../default-cards/contrib/whisper.json'))
+			require('../../../lib/server/default-cards/contrib/whisper.json'))
 
 		nock.cleanAll()
 		nock.disableNetConnect()
