@@ -151,7 +151,7 @@ clean:
 dist:
 	mkdir $@
 
-dist/docs.html: lib/server/api.yaml | dist
+dist/docs.html: apps/server/api.yaml | dist
 	redoc-cli bundle -o $@ $<
 
 docker-compose.local.yml:
@@ -163,9 +163,9 @@ build:
 
 lint:
 	./node_modules/.bin/eslint $(ESLINT_OPTION_FIX) \
-		lib scripts test stress webpack.config.js
+		lib apps scripts test stress webpack.config.js
 	./node_modules/.bin/tslint $(TSLINT_OPTION_FIX) --format stylish \
-		"lib/**/*.ts" "lib/**/*.tsx" \
+		"lib/**/*.ts" "lib/**/*.tsx" "apps/**/*.ts" "apps/**/*.tsx" \
 		--exclude "lib/*/node_modules/**" \
 		--exclude "lib/*/dist/**"
 	./scripts/check-filenames.sh
@@ -207,7 +207,7 @@ compose: docker-compose.local.yml
 
 start-server: LOGLEVEL = info
 start-server:
-	$(NODE_EXEC) $(NODE_ARGS) lib/server/index.js
+	$(NODE_EXEC) $(NODE_ARGS) apps/server/index.js
 
 start-worker: LOGLEVEL = info
 start-worker:

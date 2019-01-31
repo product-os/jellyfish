@@ -15,7 +15,7 @@
  */
 
 const randomstring = require('randomstring')
-const logger = require('../logger').getLogger(__filename)
+const logger = require('../../lib/logger').getLogger(__filename)
 const bootstrap = require('./bootstrap')
 
 const context = {

@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-const core = require('../core')
-const Queue = require('../queue')
-const Worker = require('../worker')
-const actionLibrary = require('../action-library')
-const environment = require('../environment')
-const logger = require('../logger').getLogger(__filename)
+const core = require('../../lib/core')
+const Queue = require('../../lib/queue')
+const Worker = require('../../lib/worker')
+const actionLibrary = require('../../lib/action-library')
+const environment = require('../../lib/environment')
+const logger = require('../../lib/logger').getLogger(__filename)
 
 const cardLoader = require('./card-loader')
 const http = require('./http')
