@@ -31,7 +31,7 @@ exports.sdk = {
 		// Since AVA tests are running concurrently, set up an SDK instance that will
 		// communicate with whichever port this server instance bound to
 		test.context.sdk = getSdk({
-			apiPrefix: process.env.API_PREFIX || 'api/v2',
+			apiPrefix: 'api/v2',
 			apiUrl: `http://localhost:${test.context.server.port}`
 		})
 

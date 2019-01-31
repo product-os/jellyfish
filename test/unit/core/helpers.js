@@ -33,9 +33,9 @@ exports.backend = {
 	beforeEach: async (test, options = {}) => {
 		const dbName = `test_${randomstring.generate()}`
 
-		if (process.env.DISABLE_CACHE) {
+		if (environment.cache.disable) {
 			test.context.cache = null
-		} else if (process.env.DISABLE_REDIS) {
+		} else if (environment.redis.disable) {
 			test.context.cache = new Cache({
 				mock: true,
 				namespace: dbName
@@ -55,13 +55,10 @@ exports.backend = {
 			await test.context.cache.connect(test.context.context)
 		}
 
-		test.context.backend = new Backend(test.context.cache, {
-			host: process.env.DB_HOST,
-			port: process.env.DB_PORT,
-			database: dbName,
-			buffer: process.env.RETHINKDB_MIN_POOL_SIZE,
-			max: process.env.RETHINKDB_MAX_POOL_SIZE
-		})
+		test.context.backend = new Backend(
+			test.context.cache, Object.assign({}, environment.database, {
+				database: dbName
+			}))
 
 		test.context.generateRandomSlug = exports.generateRandomSlug
 
@@ -107,7 +104,7 @@ exports.jellyfish = {
 
 exports.cache = {
 	beforeEach: async (test) => {
-		if (process.env.DISABLE_REDIS) {
+		if (environment.redis.disable) {
 			test.context.cache = new Cache({
 				mock: true,
 				namespace: `test_${randomstring.generate()}`

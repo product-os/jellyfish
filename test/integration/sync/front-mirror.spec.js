@@ -93,7 +93,7 @@ ava.before(async (test) => {
 		test.context.front = new Front(TOKEN.api)
 	}
 
-	test.context.inbox = process.env.TEST_INTEGRATION_FRONT_INBOX.trim()
+	test.context.inbox = environment.test.integration.front.inbox
 
 	test.context.getWhisperSlug = () => {
 		return test.context.generateRandomSlug({
