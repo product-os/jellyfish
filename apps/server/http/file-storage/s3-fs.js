@@ -16,7 +16,7 @@
 
 const AWS = require('aws-sdk')
 const Bluebird = require('bluebird')
-const environment = require('../../../environment')
+const environment = require('../../../../lib/environment')
 
 module.exports = class S3FS {
 	constructor () {

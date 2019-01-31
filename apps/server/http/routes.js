@@ -23,9 +23,9 @@ const errio = require('errio')
 const multer = require('multer')
 const randomstring = require('randomstring')
 const Storage = require('./file-storage')
-const logger = require('../../logger').getLogger(__filename)
-const environment = require('../../environment')
-const sync = require('../../sync')
+const logger = require('../../../lib/logger').getLogger(__filename)
+const environment = require('../../../lib/environment')
+const sync = require('../../../lib/sync')
 const packageJSON = require('../../../package.json')
 
 const fileStore = new Storage({

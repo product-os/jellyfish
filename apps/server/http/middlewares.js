@@ -20,7 +20,7 @@ const bodyParser = require('body-parser')
 const compression = require('compression')
 const responseTime = require('response-time')
 const express = require('express')
-const logger = require('../../logger').getLogger(__filename)
+const logger = require('../../../lib/logger').getLogger(__filename)
 
 // A regex that matches file types that should be compressed
 const COMPRESSION_REGEX = /\.(mp3|js|map|svg)$/

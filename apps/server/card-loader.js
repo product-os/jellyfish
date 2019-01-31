@@ -17,7 +17,7 @@
 const Bluebird = require('bluebird')
 const path = require('path')
 const $RefParser = require('json-schema-ref-parser')
-const logger = require('../logger').getLogger(__filename)
+const logger = require('../../lib/logger').getLogger(__filename)
 
 const loadCard = async (cardPath) => {
 	return $RefParser.dereference(path.join(__dirname, 'default-cards', cardPath))
