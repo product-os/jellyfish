@@ -1067,3 +1067,24 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 		}
 	])
 })
+
+ava.serial('should display up to date information after resolving an action', async (test) => {
+	await test.context.sdk.setAuthToken(test.context.session)
+
+	for (const time in _.range(0, 50)) {
+		const card = await test.context.sdk.card.create({
+			type: 'card',
+			slug: test.context.generateRandomSlug({
+				prefix: `card-${time}`
+			}),
+			version: '1.0.0'
+		})
+
+		await test.context.sdk.card.remove(card.id, card.type)
+		const result = await test.context.sdk.card.get(card.id, {
+			type: 'card'
+		})
+
+		test.false(result.active)
+	}
+})
