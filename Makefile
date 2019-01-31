@@ -1,4 +1,5 @@
-.PHONY: lint \
+.PHONY: clean \
+	lint \
 	dev-ui \
 	dev-storybook \
 	coverage \
@@ -135,6 +136,17 @@ endif
 # -----------------------------------------------
 # Rules
 # -----------------------------------------------
+
+clean:
+	rm -rf \
+		rethinkdb_data \
+		dump.rdb \
+		.nyc_output \
+		coverage \
+		webpack-bundle-report.html \
+		jellyfish-files \
+		dist \
+		.cache-loader
 
 dist:
 	mkdir $@
