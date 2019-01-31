@@ -170,6 +170,7 @@ lint:
 		--exclude "lib/*/dist/**"
 	./scripts/check-filenames.sh
 	shellcheck ./scripts/*.sh ./scripts/ci/*.sh ./.circleci/*.sh ./deploy-templates/*.sh
+	./node_modules/.bin/deplint
 
 coverage:
 	./node_modules/.bin/nyc --reporter=text --reporter=lcov --reporter=json report

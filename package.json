@@ -14,6 +14,26 @@
     "start": "make start-server",
     "test": "make lint test"
   },
+  "deplint": {
+    "files": [
+      "lib/**/*.js",
+      "apps/**/*.js"
+    ],
+    "modules": [
+      "apps/server",
+      "lib/core",
+      "lib/action-library",
+      "lib/action-server",
+      "lib/environment",
+      "lib/jellyscript",
+      "lib/logger",
+      "lib/queue",
+      "lib/sdk",
+      "lib/sync",
+      "lib/worker",
+      "lib/ui"
+    ]
+  },
   "ava": {
     "timeout": "5m",
     "verbose": true,
@@ -46,6 +66,7 @@
     "cache-loader": "^1.2.2",
     "cli-spinner": "^0.2.8",
     "copy-webpack-plugin": "^4.5.1",
+    "deplint": "^1.1.1",
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.7.1",
     "eslint": "^4.5.0",
