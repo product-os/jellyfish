@@ -21,9 +21,9 @@
     ],
     "modules": [
       "apps/server",
+      "apps/action-server",
       "lib/core",
       "lib/action-library",
-      "lib/action-server",
       "lib/environment",
       "lib/jellyscript",
       "lib/logger",

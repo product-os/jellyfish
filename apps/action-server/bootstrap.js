@@ -17,12 +17,12 @@
 const randomstring = require('randomstring')
 const Bluebird = require('bluebird')
 const _ = require('lodash')
-const actionLibrary = require('../action-library')
-const logger = require('../logger').getLogger(__filename)
-const Worker = require('../worker')
-const Queue = require('../queue')
-const core = require('../core')
-const environment = require('../environment')
+const actionLibrary = require('../../lib/action-library')
+const logger = require('../../lib/logger').getLogger(__filename)
+const Worker = require('../../lib/worker')
+const Queue = require('../../lib/queue')
+const core = require('../../lib/core')
+const environment = require('../../lib/environment')
 
 const getActorKey = async (context, jellyfish, session, actorId) => {
 	const keySlug = `session-action-${actorId}`

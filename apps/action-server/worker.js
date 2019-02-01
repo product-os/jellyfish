@@ -15,26 +15,26 @@
  */
 
 const randomstring = require('randomstring')
-const logger = require('../logger').getLogger(__filename)
+const logger = require('../../lib/logger').getLogger(__filename)
 const bootstrap = require('./bootstrap')
 
 const context = {
-	id: `TICK-${randomstring.generate(20)}`
+	id: `WORKER-${randomstring.generate(20)}`
 }
 
 const startDate = new Date()
-logger.info(context, 'Starting tick worker', {
+logger.info(context, 'Starting worker', {
 	time: startDate.getTime()
 })
 
 const onError = (serverContext, error) => {
-	logger.exception(serverContext, 'Tick worker error', error)
+	logger.exception(serverContext, 'Worker error', error)
 	setTimeout(() => {
 		process.exit(1)
 	}, 5000)
 }
 
-bootstrap.tick(context, {
+bootstrap.worker(context, {
 	onError: (serverContext, error) => {
 		return onError(serverContext, error)
 	}
@@ -42,7 +42,7 @@ bootstrap.tick(context, {
 	const endDate = new Date()
 	const timeToStart = endDate.getTime() - startDate.getTime()
 
-	logger.info(context, 'Tick worker started', {
+	logger.info(context, 'Worker started', {
 		time: timeToStart
 	})
 }).catch((error) => {

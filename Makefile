@@ -212,11 +212,11 @@ start-server:
 
 start-worker: LOGLEVEL = info
 start-worker:
-	$(NODE_EXEC) $(NODE_ARGS) lib/action-server/worker.js
+	$(NODE_EXEC) $(NODE_ARGS) apps/action-server/worker.js
 
 start-tick: LOGLEVEL = info
 start-tick:
-	$(NODE_EXEC) $(NODE_ARGS) lib/action-server/tick.js
+	$(NODE_EXEC) $(NODE_ARGS) apps/action-server/tick.js
 
 start-redis:
 	redis-server --port $(REDIS_PORT)

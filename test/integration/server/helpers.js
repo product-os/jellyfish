@@ -19,7 +19,7 @@ const request = require('request')
 const randomstring = require('randomstring')
 const helpers = require('../../unit/core/helpers')
 const bootstrap = require('../../../apps/server/bootstrap')
-const actionServer = require('../../../lib/action-server/bootstrap')
+const actionServer = require('../../../apps/action-server/bootstrap')
 
 const workerOptions = {
 	onError: (context, error) => {
