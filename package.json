@@ -42,10 +42,10 @@
     "failWithoutAssertions": true,
     "files": [
       "test/unit/**/*.spec.js",
-      "test/integration/**/*.spec.js"
+      "test/e2e/**/*.spec.js"
     ],
     "require": [
-      "./test/integration/ui/browser-setup.js"
+      "./test/e2e/ui/browser-setup.js"
     ],
     "babel": {
       "testOptions": {
