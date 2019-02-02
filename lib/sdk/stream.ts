@@ -18,8 +18,8 @@ import { EventEmitter } from 'events';
 import * as _ from 'lodash';
 import * as io from 'socket.io-client';
 import uuid = require('uuid/v4');
-import { Card, JellySchema } from '../types';
 import { SDKInterface } from './index';
+import { Card, JellySchema } from './types';
 
 export interface StreamEventMap {
 	ready: {

@@ -1,10 +1,7 @@
 import { JSONSchema6 } from 'json-schema';
+import { Card, JellySchema } from './sdk';
 
-export interface JellySchema extends JSONSchema6 {
-	$$links?: {
-		[k: string]: JSONSchema6;
-	};
-}
+export { JellySchema, Card };
 
 export interface ContractCapability {
 	slug: string;
@@ -47,23 +44,6 @@ export interface Notification {
 	type: 'success' | 'danger' | 'warning' | 'info';
 	message: string;
 	timestamp: string;
-}
-
-export interface Card {
-	created_at: string;
-	id: string;
-	version: string;
-	type: string;
-	tags: string[];
-	markers: string[];
-	links: { [key: string]: any };
-	requires: object[];
-	capabilities: object[];
-	active: boolean;
-	data: { [key: string]: any };
-	name?: string;
-	slug: string;
-	transient?: object;
 }
 
 export interface Channel extends Card {

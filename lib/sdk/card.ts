@@ -16,8 +16,8 @@
 
 import * as Bluebird from 'bluebird';
 import * as _ from 'lodash';
-import { Card, JellySchema } from '../types';
 import { SDKInterface } from './index';
+import { Card, JellySchema } from './types';
 import { isUUID } from './utils';
 
 // A map of link names and their synonymous form

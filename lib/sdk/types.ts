@@ -16,7 +16,30 @@
 
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import * as Bluebird from 'bluebird';
-import { Card, JellySchema } from '../types';
+import { JSONSchema6 } from 'json-schema';
+
+export interface Card {
+	created_at: string;
+	id: string;
+	version: string;
+	type: string;
+	tags: string[];
+	markers: string[];
+	links: { [key: string]: any };
+	requires: object[];
+	capabilities: object[];
+	active: boolean;
+	data: { [key: string]: any };
+	name?: string;
+	slug: string;
+	transient?: object;
+}
+
+export interface JellySchema extends JSONSchema6 {
+	$$links?: {
+		[k: string]: JSONSchema6;
+	};
+}
 
 export interface Event extends Card {
 	data: {
