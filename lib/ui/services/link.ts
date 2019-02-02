@@ -1,6 +1,6 @@
-import { Card } from '../../types';
 import { analytics, sdk, store } from '../core';
 import { actionCreators } from '../core/store';
+import { Card } from '../types';
 
 interface CreateLinkOptions {
 	skipSuccessMessage?: boolean;

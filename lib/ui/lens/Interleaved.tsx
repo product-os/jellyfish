@@ -11,12 +11,12 @@ import {
 } from 'rendition';
 import styled from 'styled-components';
 import uuid = require('uuid/v4');
-import { Card, Lens, RendererProps } from '../../types';
 import { Event as EventCard } from '../components/Event';
 import Icon from '../components/Icon';
 import { analytics, sdk } from '../core';
 import { actionCreators, selectors, StoreState } from '../core/store';
 import { createChannel, getUpdateObjectFromSchema, getViewSchema } from '../services/helpers';
+import { Card, Lens, RendererProps } from '../types';
 
 const Column = styled(Flex)`
 	height: 100%;

@@ -9,7 +9,6 @@ import {
 	Select,
 	Txt,
 } from 'rendition';
-import { Card, Type } from '../../types';
 import { CardCreator } from '../components/CardCreator';
 import { LINKS } from '../constants';
 import { sdk } from '../core';
@@ -17,6 +16,7 @@ import {
 	createFullTextSearchFilter,
 } from '../services/helpers';
 import { createLink } from '../services/link';
+import { Card, Type } from '../types';
 import { ContextMenu } from './ContextMenu';
 import Icon from './Icon';
 import { IconButton } from './IconButton';

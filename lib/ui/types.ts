@@ -1,5 +1,5 @@
 import { JSONSchema6 } from 'json-schema';
-import { Card, JellySchema } from './sdk';
+import { Card, JellySchema } from '../sdk';
 
 export { JellySchema, Card };
 

@@ -1,7 +1,7 @@
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
-import { Card } from '../../types';
 import { sdk } from '../core';
+import { Card } from '../types';
 import { getViewSchema } from './helpers';
 
 export const loadSchema = async (query: string | Card | JSONSchema6) => {

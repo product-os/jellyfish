@@ -9,9 +9,9 @@ import {
 	Input,
 	Txt,
 } from 'rendition';
-import { Card, Lens, RendererProps, Type } from '../../types';
 import { analytics, sdk } from '../core';
 import { actionCreators, selectors, StoreState } from '../core/store';
+import { Card, Lens, RendererProps, Type } from '../types';
 
 interface TodoListState {
 	todoMessage: string;

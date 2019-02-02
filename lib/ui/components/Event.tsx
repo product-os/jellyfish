@@ -12,7 +12,6 @@ import {
 } from 'rendition';
 import { Markdown } from 'rendition/dist/extra/Markdown';
 import styled from 'styled-components';
-import { Card } from '../../types';
 import { ActionLink } from '../components/ActionLink';
 import { AuthenticatedImage } from '../components/AuthenticatedImage';
 import { ContextMenu } from '../components/ContextMenu';
@@ -21,6 +20,7 @@ import { IconButton } from '../components/IconButton';
 import { tagStyle } from '../components/Tag';
 import { colorHash, createPrefixRegExp, formatTimestamp } from '../services/helpers';
 import { getActor } from '../services/store-helpers';
+import { Card } from '../types';
 import Gravatar from './Gravatar';
 
 const tagMatchRE = createPrefixRegExp('@|#|!');

@@ -11,10 +11,10 @@ import {
 } from 'rendition';
 import { Form } from 'rendition/dist/unstable';
 import * as skhema from 'skhema';
-import { Card, Type } from '../../types';
 import { analytics, sdk } from '../core';
 import { actionCreators } from '../core/store';
 import { getLocalSchema, removeUndefinedArrayItems } from '../services/helpers';
+import { Card, Type } from '../types';
 import { FreeFieldForm } from './FreeFieldForm';
 
 const slugify = (value: string) => {

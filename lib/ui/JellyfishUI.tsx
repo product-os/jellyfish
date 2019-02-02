@@ -2,13 +2,13 @@ import * as _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Flex, Provider } from 'rendition';
-import { AppStatus, Channel } from '../types';
 import ChannelRenderer from './components/ChannelRenderer';
 import { HomeChannel } from './components/HomeChannel';
 import { Login } from './components/Login';
 import { Notifications } from './components/Notifications';
 import { Splash } from './components/Splash';
 import { selectors, StoreState } from './core/store';
+import { AppStatus, Channel } from './types';
 
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';

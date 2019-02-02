@@ -8,8 +8,8 @@ import {
 	Fixed,
 } from 'rendition';
 import styled from 'styled-components';
-import { Notification } from '../../types';
 import { actionCreators, selectors, StoreState } from '../core/store';
+import { Notification } from '../types';
 
 const MessageText = styled.span`
 	white-space: pre;

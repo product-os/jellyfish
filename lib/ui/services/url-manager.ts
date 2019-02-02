@@ -1,9 +1,9 @@
 import createHistory from 'history/createHashHistory';
 import * as _ from 'lodash';
-import { Card } from '../../types';
 import { store } from '../core';
 import { StoreState } from '../core/store';
 import { actionCreators, selectors } from '../core/store';
+import { Card } from '../types';
 import { createChannel } from './helpers';
 
 const PATH_SEPARATOR = '~';

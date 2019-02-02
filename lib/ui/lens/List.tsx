@@ -18,11 +18,11 @@ import {
 	Txt,
 } from 'rendition';
 import styled from 'styled-components';
-import { Card, Lens, RendererProps, Type } from '../../types';
 import { CardCreator } from '../components/CardCreator';
 import Icon from '../components/Icon';
 import { actionCreators } from '../core/store';
 import { createChannel, getUpdateObjectFromSchema, getViewSchema } from '../services/helpers';
+import { Card, Lens, RendererProps, Type } from '../types';
 import SingleCardLens from './SingleCard';
 
 const Column = styled(Flex)`

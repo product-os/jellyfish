@@ -14,7 +14,6 @@ import {
 import { Markdown } from 'rendition/dist/extra/Markdown';
 import { Mermaid } from 'rendition/dist/extra/Mermaid';
 import styled from 'styled-components';
-import { Card, Channel, Type } from '../../types';
 import { actionCreators, selectors, StoreState } from '../core/store';
 import {
 	createChannel,
@@ -22,6 +21,7 @@ import {
 	formatTimestamp,
 	getLocalSchema,
 } from '../services/helpers';
+import { Card, Channel, Type } from '../types';
 import { CardActions } from './CardActions';
 import Label from './Label';
 import { Tag } from './Tag';

@@ -15,7 +15,6 @@ import {
 import { Markdown } from 'rendition/dist/extra/Markdown';
 import { Mermaid } from 'rendition/dist/extra/Mermaid';
 import styled from 'styled-components';
-import { Card, Lens, RendererProps, Type } from '../../../types';
 import { CardActions } from '../../components/CardActions';
 import { CloseButton } from '../../components/CloseButton';
 import { Event as EventCard } from '../../components/Event';
@@ -33,6 +32,7 @@ import {
 	timeAgo,
 } from '../../services/helpers';
 import { getActor } from '../../services/store-helpers';
+import { Card, Lens, RendererProps, Type } from '../../types';
 import TimelineLens from './SupportThreadTimeline';
 
 const Extract = styled(Box)`

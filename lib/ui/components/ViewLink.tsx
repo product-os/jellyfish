@@ -10,9 +10,9 @@ import {
 	Link,
 } from 'rendition';
 import styled from 'styled-components';
-import { Card } from '../../types';
 import { actionCreators, selectors, StoreState } from '../core/store';
 import { getViewSlices } from '../services/helpers';
+import { Card } from '../types';
 import { ContextMenu } from './ContextMenu';
 import Icon from './Icon';
 import { NotificationsModal } from './NotificationsModal';

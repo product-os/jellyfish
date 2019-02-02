@@ -2,12 +2,12 @@ import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import * as React from 'react';
 import { JellyfishStream } from '../../sdk';
-import { Card } from '../../types';
 import { store } from '../core';
 import { sdk } from '../core/sdk';
 import { actionCreators } from '../core/store';
 import { debug } from '../services/helpers';
 import { loadSchema } from '../services/sdk-helpers';
+import { Card } from '../types';
 
 interface TailStreamerState {
 	tail: null | Card[];
