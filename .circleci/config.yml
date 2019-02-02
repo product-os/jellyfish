@@ -108,17 +108,17 @@ jobs:
 
       - run:
           name: Sync Tests
-          command: make test-integration-sync COVERAGE=1
+          command: make test-e2e-sync COVERAGE=1
       - run:
-          name: Sync Integration Tests Without Tokens
-          command: make test-integration-sync COVERAGE=1 INTEGRATION_GITHUB_TOKEN= INTEGRATION_FRONT_TOKEN=
+          name: Sync End To End Tests Without Tokens
+          command: make test-e2e-sync COVERAGE=1 INTEGRATION_GITHUB_TOKEN= INTEGRATION_FRONT_TOKEN=
 
       - persist_to_workspace:
           root: .
           paths:
             - .nyc_output/*.json
 
-  integration_tests: &integration_tests
+  e2e_tests: &e2e_tests
     <<: *job_defaults
 
     steps:
@@ -138,8 +138,8 @@ jobs:
       - run: mkdir -p /tmp/test-results/screenshots
 
       - run:
-          name: Integration Tests
-          command: make test-integration-sdk test-integration-server test-integration-ui COVERAGE=1
+          name: End To End Tests
+          command: make test-e2e-sdk test-e2e-server test-e2e-ui COVERAGE=1
 
       - persist_to_workspace:
           root: .
@@ -257,7 +257,7 @@ workflows:
                     - build
                 <<: *workflow_filter
 
-            - integration_tests:
+            - e2e_tests:
                 requires:
                     - build
                 <<: *workflow_filter
@@ -280,7 +280,7 @@ workflows:
             - results:
                 requires:
                   - unit_tests
-                  - integration_tests
+                  - e2e_tests
                   - flaky_ui_tests
                   - sync_tests
                 <<: *workflow_filter

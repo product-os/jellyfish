@@ -9,5 +9,5 @@ do
 	echo "--------------------------------------------------"
 	echo "Loop $((count+1)) of $MAX"
 	echo "--------------------------------------------------"
-	make test COVERAGE=0 LOGLEVEL=error FILES="./test/integration/ui/*.spec.js"
+	make test COVERAGE=0 LOGLEVEL=error FILES="./test/e2e/ui/*.spec.js"
 done

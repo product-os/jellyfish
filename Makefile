@@ -12,7 +12,7 @@
 	start-redis \
 	start-db \
 	test-unit \
-	test-integration
+	test-e2e
 
 # -----------------------------------------------
 # Runtime Configuration
@@ -184,15 +184,15 @@ test:
 test-unit:
 	FILES="'./test/unit/**/*.spec.js'" make test
 
-test-integration:
-	FILES="'./test/integration/**/*.spec.js'" \
+test-e2e:
+	FILES="'./test/e2e/**/*.spec.js'" \
 		AVA_OPTS="--serial" make test
 
 test-unit-%:
 	FILES="'./test/unit/$(subst test-unit-,,$@)/**/*.spec.js'" make test
 
-test-integration-%:
-	FILES="'./test/integration/$(subst test-integration-,,$@)/**/*.spec.js'" \
+test-e2e-%:
+	FILES="'./test/e2e/$(subst test-e2e-,,$@)/**/*.spec.js'" \
 		AVA_OPTS="--serial" make test
 
 ngrok-%:
