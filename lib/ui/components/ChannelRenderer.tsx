@@ -2,9 +2,9 @@ import * as _ from 'lodash';
 import * as React from 'react';
 import { DropTarget } from 'react-dnd';
 import { Alert, Box, Modal } from 'rendition';
-import { Card, RendererProps } from '../../types';
 import { LINKS } from '../constants';
 import { createLink } from '../services/link';
+import { Card, RendererProps } from '../types';
 import { ErrorBoundary } from './ErrorBoundary';
 
 // Load lens service

@@ -6,7 +6,6 @@ import Board, { BoardLane } from 'react-trello';
 import { bindActionCreators } from 'redux';
 import { Button, Flex, Modal } from 'rendition';
 import styled from 'styled-components';
-import { Card, Channel, Lens, RendererProps, Type } from '../../types';
 import { CardCreator } from '../components/CardCreator';
 import { ContextMenu } from '../components/ContextMenu';
 import { GroupUpdate } from '../components/GroupUpdate';
@@ -19,6 +18,7 @@ import {
 	getViewSchema,
 	getViewSlices,
 } from '../services/helpers';
+import { Card, Channel, Lens, RendererProps, Type } from '../types';
 import LensService from './index';
 
 const UNSORTED_GROUP_ID = 'JELLYFISH_UNSORTED_GROUP';

@@ -17,14 +17,14 @@
 import axios, { AxiosRequestConfig, AxiosResponse, CancelTokenSource } from 'axios';
 import * as Bluebird from 'bluebird';
 import * as _ from 'lodash';
-import { Card, JellySchema } from '../types';
 import { AuthSdk } from './auth';
 import { CardSdk } from './card';
 import { EventSdk } from './event';
 import { JellyfishStream, JellyfishStreamManager } from './stream';
+import { Card, JellySchema } from './types';
 import * as utils from './utils';
 
-export { JellyfishStream };
+export { JellyfishStream, Card, JellySchema };
 
 export type ActionResponse<D = any> = {
 	error: false;

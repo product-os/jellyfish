@@ -17,6 +17,7 @@
   "deplint": {
     "files": [
       "lib/**/*.js",
+      "lib/sdk/**/*.ts",
       "apps/**/*.js"
     ],
     "modules": [

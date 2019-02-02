@@ -13,7 +13,6 @@ import {
 	SchemaSieve,
 	Select,
 } from 'rendition';
-import { Card, Channel, Lens, RendererProps, Type } from '../../types';
 import ButtonGroup from '../components/ButtonGroup';
 import Icon from '../components/Icon';
 import { If } from '../components/If';
@@ -24,6 +23,7 @@ import {
 	getTypeFromViewCard,
 	getViewSlices,
 } from '../services/helpers';
+import { Card, Channel, Lens, RendererProps, Type } from '../types';
 import LensService from './index';
 
 interface ViewRendererState {

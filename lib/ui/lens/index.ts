@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import * as skhema from 'skhema';
-import { Card, Lens } from '../../types';
+import { Card, Lens } from '../types';
 
 // Load lenses
 import InterleavedLens from './Interleaved';

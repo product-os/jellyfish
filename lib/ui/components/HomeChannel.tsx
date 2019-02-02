@@ -15,9 +15,9 @@ import {
 } from 'rendition';
 import { Markdown } from 'rendition/dist/extra/Markdown';
 import styled from 'styled-components';
-import { Card, Channel, RendererProps, ViewNotice } from '../../types';
 import { actionCreators, selectors, StoreState } from '../core/store';
 import { createChannel } from '../services/helpers';
+import { Card, Channel, RendererProps, ViewNotice } from '../types';
 import Gravatar from './Gravatar';
 import Icon from './Icon';
 import { TailStreamer } from './TailStreamer';

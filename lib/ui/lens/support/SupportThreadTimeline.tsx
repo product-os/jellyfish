@@ -9,7 +9,6 @@ import {
 	Theme,
 } from 'rendition';
 import styled from 'styled-components';
-import { Card, Lens, RendererProps } from '../../../types';
 import AutocompleteTextarea from '../../components/AutocompleteTextarea';
 import { Event as EventCard } from '../../components/Event';
 import Icon from '../../components/Icon';
@@ -21,6 +20,7 @@ import {
 	getCurrentTimestamp,
 	getUserIdsByPrefix,
 } from '../../services/helpers';
+import { Card, Lens, RendererProps } from '../../types';
 
 const Column = styled(Flex)`
 	height: 100%;

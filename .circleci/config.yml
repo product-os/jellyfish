@@ -146,37 +146,6 @@ jobs:
           paths:
             - .nyc_output/*.json
 
-  integration_tests_production:
-    <<: *job_defaults
-
-    steps:
-      - checkout
-
-      - attach_workspace:
-          at: .
-
-      - run:
-          name: Start RethinkDB
-          command: rethinkdb --daemon --bind all
-      - run:
-          name: Start Redis
-          command: service redis-server start
-
-      # Setup artifact store for UI integration test screenshots
-      - run: mkdir -p /tmp/test-results/screenshots
-
-      - run:
-          name: Load Production Database Snapshot
-          command: node ./scripts/reset-database.js && ./scripts/import-latest-production-backup.sh
-      - run:
-          name: Integration Tests (on production database)
-          command: make test-integration-sdk test-integration-server test-integration-ui COVERAGE=1
-
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .nyc_output/*.json
-
   stress_tests:
     <<: *job_defaults
 
@@ -293,11 +262,6 @@ workflows:
                     - build
                 <<: *workflow_filter
 
-            - integration_tests_production:
-                requires:
-                    - build
-                <<: *workflow_filter
-
             - flaky_ui_tests:
                 requires:
                     - build
@@ -317,7 +281,6 @@ workflows:
                 requires:
                   - unit_tests
                   - integration_tests
-                  - integration_tests_production
                   - flaky_ui_tests
                   - sync_tests
                 <<: *workflow_filter
