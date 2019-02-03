@@ -56,7 +56,7 @@ jobs:
                 - dist
                 - node_modules
 
-  unit_tests: &unit_tests
+  integration_tests: &integration_tests
     <<: *job_defaults
 
     steps:
@@ -73,17 +73,17 @@ jobs:
           command: service redis-server start
 
       - run:
-          name: Unit Tests (with Redis)
-          command: make test-unit COVERAGE=1
+          name: Integration Tests (with Redis)
+          command: make test-integration COVERAGE=1
       - run:
-          name: Unit Tests (without Redis)
-          command: make test-unit COVERAGE=1 DISABLE_REDIS=1
+          name: Integration Tests (without Redis)
+          command: make test-integration COVERAGE=1 DISABLE_REDIS=1
       - run:
-          name: Unit Tests (with debug logs)
-          command: make test-unit COVERAGE=1 LOGLEVEL=debug
+          name: Integration Tests (with debug logs)
+          command: make test-integration COVERAGE=1 LOGLEVEL=debug
       - run:
           name: Backend Tests Without Cache
-          command: make test COVERAGE=1 DISABLE_CACHE=1 FILES=./test/unit/core/backend.spec.js
+          command: make test COVERAGE=1 DISABLE_CACHE=1 FILES=./test/integration/core/backend.spec.js
 
       - persist_to_workspace:
           root: .
@@ -252,7 +252,7 @@ workflows:
             - build:
                 <<: *workflow_filter
 
-            - unit_tests:
+            - integration_tests:
                 requires:
                     - build
                 <<: *workflow_filter
@@ -279,7 +279,7 @@ workflows:
 
             - results:
                 requires:
-                  - unit_tests
+                  - integration_tests
                   - e2e_tests
                   - flaky_ui_tests
                   - sync_tests
