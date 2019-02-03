@@ -16,7 +16,7 @@
 
 const marky = require('marky')
 const uuid = require('uuid/v4')
-const helpers = require('../../test/unit/core/helpers')
+const helpers = require('../../test/integration/core/helpers')
 const utils = require('../utils')
 
 const test = {

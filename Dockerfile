@@ -14,6 +14,6 @@ RUN rethinkdb --version && \
 		rethinkdb --daemon --bind all && \
 		service redis-server start && \
 		make lint && \
-		make test-unit COVERAGE=0
+		make test-integration COVERAGE=0
 
 CMD [ "make", "start-server" ]

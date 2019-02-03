@@ -11,7 +11,7 @@
 	start-tick \
 	start-redis \
 	start-db \
-	test-unit \
+	test-integration \
 	test-e2e
 
 # -----------------------------------------------
@@ -181,15 +181,15 @@ test:
 	$(COVERAGE_COMMAND) node $(NODE_DEBUG_ARGS) \
 		./node_modules/.bin/ava $(AVA_ARGS) $(FILES)
 
-test-unit:
-	FILES="'./test/unit/**/*.spec.js'" make test
+test-integration:
+	FILES="'./test/integration/**/*.spec.js'" make test
 
 test-e2e:
 	FILES="'./test/e2e/**/*.spec.js'" \
 		AVA_OPTS="--serial" make test
 
-test-unit-%:
-	FILES="'./test/unit/$(subst test-unit-,,$@)/**/*.spec.js'" make test
+test-integration-%:
+	FILES="'./test/unit/$(subst test-integration-,,$@)/**/*.spec.js'" make test
 
 test-e2e-%:
 	FILES="'./test/e2e/$(subst test-e2e-,,$@)/**/*.spec.js'" \

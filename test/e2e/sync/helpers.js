@@ -21,7 +21,7 @@ const uuid = require('uuid/v4')
 const path = require('path')
 const _ = require('lodash')
 const helpers = require('../sdk/helpers')
-const syncHelpers = require('../../unit/sync/helpers')
+const syncHelpers = require('../../integration/sync/helpers')
 
 const tailSort = [
 	(card) => {
