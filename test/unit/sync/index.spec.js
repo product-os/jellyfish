@@ -15,11 +15,7 @@
  */
 
 const ava = require('ava')
-const helpers = require('./helpers')
 const sync = require('../../../lib/sync')
-
-ava.beforeEach(helpers.beforeEach)
-ava.afterEach(helpers.afterEach)
 
 ava('.isValidExternalEventRequest() should return true for Front given anything', async (test) => {
 	const result = sync.isValidExternalEventRequest({

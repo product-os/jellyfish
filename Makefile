@@ -11,6 +11,7 @@
 	start-tick \
 	start-redis \
 	start-db \
+	test-unit \
 	test-integration \
 	test-e2e
 
@@ -104,6 +105,8 @@ NODE_EXEC="./node_modules/.bin/supervisor"
 endif
 
 # User parameters
+SCRUB ?= 1
+export SCRUB
 FIX ?=
 CI ?=
 export CI
@@ -111,6 +114,12 @@ VISUAL ?=
 export VISUAL
 COVERAGE ?= 1
 export COVERAGE
+
+ifeq ($(SCRUB),1)
+SCRUB_COMMAND = ./scripts/scrub-test-databases.js
+else
+SCRUB_COMMAND =
+endif
 
 SENTRY_DSN_UI ?=
 
@@ -177,9 +186,12 @@ coverage:
 
 test: LOGLEVEL = warning
 test:
-	node scripts/scrub-test-databases.js
+	$(SCRUB_COMMAND)
 	$(COVERAGE_COMMAND) node $(NODE_DEBUG_ARGS) \
 		./node_modules/.bin/ava $(AVA_ARGS) $(FILES)
+
+test-unit:
+	FILES="'./test/unit/**/*.spec.js'" SCRUB=0 make test
 
 test-integration:
 	FILES="'./test/integration/**/*.spec.js'" make test
@@ -188,8 +200,11 @@ test-e2e:
 	FILES="'./test/e2e/**/*.spec.js'" \
 		AVA_OPTS="--serial" make test
 
+test-unit-%:
+	FILES="'./test/unit/$(subst test-unit-,,$@)/**/*.spec.js'" SCRUB=0 make test
+
 test-integration-%:
-	FILES="'./test/unit/$(subst test-integration-,,$@)/**/*.spec.js'" make test
+	FILES="'./test/integration/$(subst test-integration-,,$@)/**/*.spec.js'" make test
 
 test-e2e-%:
 	FILES="'./test/e2e/$(subst test-e2e-,,$@)/**/*.spec.js'" \
