@@ -1,3 +1,9 @@
+/*
+ * Copyright (C) Balena.io - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited.
+ * Proprietary and confidential.
+ */
+
 import * as Sentry from '@sentry/browser';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';

@@ -1,3 +1,9 @@
+/*
+ * Copyright (C) Balena.io - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited.
+ * Proprietary and confidential.
+ */
+
 import * as localForage from 'localforage';
 import * as _ from 'lodash';
 import { applyMiddleware, combineReducers, createStore, Middleware } from 'redux';

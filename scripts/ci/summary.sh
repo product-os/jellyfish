@@ -1,5 +1,11 @@
 #!/bin/bash
 
+###
+# Copyright (C) Balena.io - All Rights Reserved
+# Unauthorized copying of this file, via any medium is strictly prohibited.
+# Proprietary and confidential.
+###
+
 set -eu
 
 API_URL="https://circleci.com/api/v1.1/project/github/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BUILD_NUM"

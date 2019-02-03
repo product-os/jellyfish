@@ -1,5 +1,11 @@
 #!/usr/bin/env node
 
+/*
+ * Copyright (C) Balena.io - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited.
+ * Proprietary and confidential.
+ */
+
 const fs = require('fs')
 const _ = require('lodash')
 const Octokit = require('@octokit/rest')

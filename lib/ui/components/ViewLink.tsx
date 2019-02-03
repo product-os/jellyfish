@@ -1,3 +1,9 @@
+/*
+ * Copyright (C) Balena.io - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited.
+ * Proprietary and confidential.
+ */
+
 import { circularDeepEqual } from 'fast-equals';
 import * as _ from 'lodash';
 import * as React from 'react';

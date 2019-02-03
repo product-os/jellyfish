@@ -1,3 +1,9 @@
+/*
+ * Copyright (C) Balena.io - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited.
+ * Proprietary and confidential.
+ */
+
 import { analytics, sdk, store } from '../core';
 import { actionCreators } from '../core/store';
 import { Card } from '../types';
