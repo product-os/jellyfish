@@ -56,6 +56,24 @@ jobs:
                 - dist
                 - node_modules
 
+  unit_tests: &unit_tests
+    <<: *job_defaults
+
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: .
+
+      - run:
+          name: Unit Tests
+          command: make test-unit COVERAGE=1
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .nyc_output/*.json
+
   integration_tests: &integration_tests
     <<: *job_defaults
 
@@ -252,6 +270,11 @@ workflows:
             - build:
                 <<: *workflow_filter
 
+            - unit_tests:
+                requires:
+                    - build
+                <<: *workflow_filter
+
             - integration_tests:
                 requires:
                     - build
@@ -279,6 +302,7 @@ workflows:
 
             - results:
                 requires:
+                  - unit_tests
                   - integration_tests
                   - e2e_tests
                   - flaky_ui_tests
