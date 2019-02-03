@@ -1,5 +1,11 @@
 #!/usr/bin/env node
 
+/*
+ * Copyright (C) Balena.io - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited.
+ * Proprietary and confidential.
+ */
+
 /**
  * This script loads a file called `scratchpad.yaml` file from the root of the
  * project and creates a `scratchpad-entry` card for each item in the yaml file.

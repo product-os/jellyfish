@@ -1,3 +1,9 @@
+/*
+ * Copyright (C) Balena.io - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited.
+ * Proprietary and confidential.
+ */
+
 import { JSONSchema6 } from 'json-schema';
 import * as _ from 'lodash';
 import { sdk } from '../core';

@@ -1,3 +1,9 @@
+/*
+ * Copyright (C) Balena.io - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited.
+ * Proprietary and confidential.
+ */
+
 // TODO Use 'LINK_CONSTRAINTS' on type cards instead of hardcoding here
 export const LINKS: { [k: string]: { [t: string]: string } } = {
 	'support-thread': {

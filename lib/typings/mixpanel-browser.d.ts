@@ -1,3 +1,9 @@
+/*
+ * Copyright (C) Balena.io - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited.
+ * Proprietary and confidential.
+ */
+
 /**
  * Taken from v2.14 of https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/mixpanel
  * This file is modified from the original source to satisfy typing
