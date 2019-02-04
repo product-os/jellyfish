@@ -14,6 +14,10 @@ aliases:
       docker:
         - image: resinci/jellyfish-test
 
+      environment:
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
+
       working_directory: ~/repo
 
 version: 2
@@ -86,6 +90,9 @@ jobs:
       - run:
           name: Start RethinkDB
           command: rethinkdb --daemon --bind all
+      - run:
+          name: Start PostgreSQL
+          command: service postgresql start && su - postgres -c "psql -U postgres -d postgres -c \"alter user postgres with password 'postgres';\""
       - run:
           name: Start Redis
           command: service redis-server start
