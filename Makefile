@@ -10,6 +10,7 @@
 	start-worker \
 	start-tick \
 	start-redis \
+	start-postgres \
 	start-db \
 	test-unit \
 	test-integration \
@@ -18,6 +19,14 @@
 # -----------------------------------------------
 # Runtime Configuration
 # -----------------------------------------------
+
+# The default postgres user is your local user
+POSTGRES_USER ?= $(shell whoami)
+export POSTGRES_USER
+POSTGRES_PASSWORD ?=
+export POSTGRES_PASSWORD
+POSTGRES_PORT ?= 5432
+export POSTGRES_PORT
 
 PORT ?= 8000
 export PORT
@@ -152,6 +161,7 @@ clean:
 		dump.rdb \
 		.nyc_output \
 		coverage \
+		postgres_data \
 		webpack-bundle-report.html \
 		jellyfish-files \
 		dist \
@@ -162,6 +172,9 @@ dist:
 
 dist/docs.html: apps/server/api.yaml | dist
 	redoc-cli bundle -o $@ $<
+
+postgres_data:
+	initdb --pgdata $@
 
 docker-compose.local.yml:
 	echo "version: \"3\"" > $@
@@ -238,6 +251,9 @@ start-redis:
 
 start-db:
 	rethinkdb --driver-port $(DB_PORT)
+
+start-postgres: postgres_data
+	postgres -D $< -p $(POSTGRES_PORT)
 
 # -----------------------------------------------
 # Development

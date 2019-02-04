@@ -16,5 +16,4 @@ RUN apt-get update && apt-get install -y nodejs gnuplot gitstats build-essential
 RUN sed -i 's/max_connections = 100/max_connections = 1000/g' /etc/postgresql/9.6/main/postgresql.conf
 
 RUN pip install rethinkdb
-RUN npm install -g npm
 RUN npm install -g redoc-cli
