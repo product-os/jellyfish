@@ -114,6 +114,8 @@ NODE_EXEC="./node_modules/.bin/supervisor"
 endif
 
 # User parameters
+MATCH ?=
+export MATCH
 SCRUB ?= 1
 export SCRUB
 FIX ?=
@@ -125,7 +127,7 @@ COVERAGE ?= 1
 export COVERAGE
 
 ifeq ($(SCRUB),1)
-SCRUB_COMMAND = ./scripts/scrub-test-databases.js
+SCRUB_COMMAND = ./scripts/scrub-test-databases.js; ./scripts/postgres-delete-test-databases.js
 else
 SCRUB_COMMAND =
 endif
@@ -149,6 +151,9 @@ endif
 AVA_ARGS = $(AVA_OPTS)
 ifndef CI
 AVA_ARGS += --fail-fast
+endif
+ifdef MATCH
+AVA_ARGS += --match $(MATCH)
 endif
 
 # -----------------------------------------------
