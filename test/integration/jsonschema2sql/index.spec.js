@@ -28,7 +28,7 @@ const SUPPORTED_SUITES = [
 	'anyOf',
 	// boolean_schema
 	'const',
-	// contains
+	'contains',
 	'default',
 	// definitions
 	// dependencies
