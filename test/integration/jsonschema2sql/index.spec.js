@@ -34,24 +34,24 @@ const SUPPORTED_SUITES = [
 	// definitions
 	// dependencies
 	'enum',
-	// exclusiveMaximum
-	// exclusiveMinimum
+	'exclusiveMaximum',
+	'exclusiveMinimum',
 	// items
-	// maxItems
+	'maxItems',
 	'maxLength',
-	// maxProperties
+	'maxProperties',
 	'maximum',
-	// minItems
+	'minItems',
 	'minLength',
-	// minProperties
+	'minProperties',
 	'minimum',
 	'multipleOf',
 	'not',
 	// oneOf
-	// bignum
+	'bignum',
 	// ecmascript-regex
 	'format',
-	// zeroTerminatedFloats
+	'zeroTerminatedFloats',
 	'pattern',
 	'patternProperties',
 	// properties
