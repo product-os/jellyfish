@@ -54,7 +54,7 @@ const SUPPORTED_SUITES = [
 	'pattern',
 	'patternProperties',
 	// properties
-	// propertyNames
+	'propertyNames',
 	// ref
 	// refRemote
 	'required',
