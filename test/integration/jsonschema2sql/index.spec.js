@@ -35,7 +35,7 @@ const SUPPORTED_SUITES = [
 	'enum',
 	'exclusiveMaximum',
 	'exclusiveMinimum',
-	// items
+	'items',
 	'maxItems',
 	'maxLength',
 	'maxProperties',
