@@ -44,7 +44,7 @@ const SUPPORTED_SUITES = [
 	'minLength',
 	// minProperties
 	'minimum',
-	// multipleOf
+	'multipleOf',
 	'not',
 	// oneOf
 	// bignum
