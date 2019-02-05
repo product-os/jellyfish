@@ -23,7 +23,7 @@ const jsonschema2sql = require('../../../lib/jsonschema2sql')
 /* eslint-disable capitalized-comments, lines-around-comment */
 const SUPPORTED_SUITES = [
 	// additionalItems
-	// additionalProperties
+	'additionalProperties',
 	'allOf',
 	'anyOf',
 	// boolean_schema
