@@ -5,6 +5,7 @@
  */
 
 const ava = require('ava')
+const _ = require('lodash')
 const jsonSchemaTestSuite = require('json-schema-test-suite')
 const uuid = require('uuid/v4')
 const pgp = require('pg-promise')()
@@ -26,7 +27,7 @@ const SUPPORTED_SUITES = [
 	'additionalProperties',
 	'allOf',
 	'anyOf',
-	// boolean_schema
+	'boolean_schema',
 	'const',
 	'contains',
 	'default',
@@ -202,30 +203,32 @@ for (const suite of jsonSchemaTestSuite.draft6()) {
 			 * object into another object and wrap the schema
 			 * accordingly.
 			 */
-			avaTest(`${title} [Nested object]`, async (test) => {
-				const results = await runner({
-					connection: test.context.connection,
-					table: `NESTED_${table}`,
-					elements: [
-						{
+			if (_.isPlainObject(scenario.schema)) {
+				avaTest(`${title} [Nested object]`, async (test) => {
+					const results = await runner({
+						connection: test.context.connection,
+						table: `NESTED_${table}`,
+						elements: [
+							{
+								wrapper: testCase.data
+							}
+						],
+						schema: {
+							type: 'object',
+							properties: {
+								wrapper: scenario.schema
+							}
+						}
+					})
+
+					test.is(results.length === 1, testCase.valid)
+					if (testCase.valid) {
+						test.deepEqual(results[0].card_data, {
 							wrapper: testCase.data
-						}
-					],
-					schema: {
-						type: 'object',
-						properties: {
-							wrapper: scenario.schema
-						}
+						})
 					}
 				})
-
-				test.is(results.length === 1, testCase.valid)
-				if (testCase.valid) {
-					test.deepEqual(results[0].card_data, {
-						wrapper: testCase.data
-					})
-				}
-			})
+			}
 		}
 	}
 }
