@@ -49,7 +49,7 @@ const SUPPORTED_SUITES = [
 	// oneOf
 	// bignum
 	// ecmascript-regex
-	// format
+	'format',
 	// zeroTerminatedFloats
 	'pattern',
 	'patternProperties',
