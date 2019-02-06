@@ -15,6 +15,7 @@ import styled from 'styled-components';
 const IconWrapper = styled(Box)`
 	width: 100%;
 	height: 100%;
+	position: relative;
 
 	img {
 		top: 50%;
