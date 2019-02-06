@@ -9,6 +9,7 @@ const Backend = require('../../../lib/core/backend')
 const environment = require('../../../lib/environment')
 const Cache = require('../../../lib/core/cache')
 const Kernel = require('../../../lib/core/kernel')
+const errors = require('../../../lib/core/errors')
 
 exports.generateRandomSlug = (options) => {
 	const suffix = randomstring.generate().toLowerCase()
@@ -46,7 +47,7 @@ exports.backend = {
 		}
 
 		test.context.backend = new Backend(
-			test.context.cache, Object.assign({}, environment.database, {
+			test.context.cache, errors, Object.assign({}, environment.database, {
 				database: dbName
 			}))
 
