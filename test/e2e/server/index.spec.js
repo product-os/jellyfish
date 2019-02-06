@@ -472,9 +472,11 @@ ava.serial('AGGREGATE($events): should work when creating cards via the SDK', as
 							const: id
 						}
 					}
-				}
+				},
+				required: [ 'mentionsUser' ]
 			}
-		}
+		},
+		required: [ 'type', 'data' ]
 	}
 
 	const card = await test.context.executeThenWait(() => {

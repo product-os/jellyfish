@@ -148,6 +148,7 @@ ava.serial('.query() should run a query on the server', async (test) => {
 				const: 'card'
 			}
 		},
+		required: [ 'name', 'type' ],
 		additionalProperties: true
 	})
 
