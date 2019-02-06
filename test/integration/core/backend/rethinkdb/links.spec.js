@@ -6,8 +6,8 @@
 
 const ava = require('ava')
 const _ = require('lodash')
-const links = require('../../../lib/core/links')
-const helpers = require('./helpers')
+const links = require('../../../../../lib/core/backend/rethinkdb/links')
+const helpers = require('../../helpers')
 
 ava.beforeEach(async (test) => {
 	await helpers.kernel.beforeEach(test)
