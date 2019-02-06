@@ -200,7 +200,7 @@ ava('.insertElement() should not insert an element without a slug nor an id to a
 
 ava('.insertElement() should fail to insert an element with a very long slug', async (test) => {
 	await test.throwsAsync(test.context.backend.insertElement(test.context.context, {
-		slug: _.join(_.times(150, _.constant('x')), ''),
+		slug: _.join(_.times(500, _.constant('x')), ''),
 		type: 'card'
 	}), errors.JellyfishInvalidSlug)
 })
@@ -572,6 +572,54 @@ ava('.query() should query the database using JSON schema', async (test) => {
 	})
 
 	test.deepEqual(_.sortBy(results, [ 'test' ]), [ result1, result2 ])
+})
+
+ava('.query() should escape malicious query keys', async (test) => {
+	await test.notThrowsAsync(async () => {
+		await test.context.backend.query(test.context.context, {
+			type: 'object',
+			properties: {
+				'Robert\'); DROP TABLE cards; --': {
+					type: 'object',
+					properties: {
+						'Robert\'); DROP TABLE cards; --': {
+							type: 'string',
+							const: 'foo'
+						}
+					}
+				}
+			},
+			required: [ 'slug' ]
+		})
+	})
+})
+
+ava('.query() should escape malicious query values', async (test) => {
+	await test.notThrowsAsync(async () => {
+		await test.context.backend.query(test.context.context, {
+			type: 'object',
+			properties: {
+				slug: {
+					type: 'string',
+					const: 'Robert\'; DROP TABLE cards; --'
+				}
+			},
+			required: [ 'slug' ]
+		})
+	})
+
+	await test.notThrowsAsync(async () => {
+		await test.context.backend.query(test.context.context, {
+			type: 'object',
+			properties: {
+				foo: {
+					type: 'string',
+					const: 'Robert\'; DROP TABLE cards; --'
+				}
+			},
+			required: [ 'slug' ]
+		})
+	})
 })
 
 ava('.query() should survive a deep schema', async (test) => {
