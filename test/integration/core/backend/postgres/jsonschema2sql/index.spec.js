@@ -9,8 +9,8 @@ const jsonSchemaTestSuite = require('json-schema-test-suite')
 const uuid = require('uuid/v4')
 const pgp = require('pg-promise')()
 const format = require('pg-format').literal
-const environment = require('../../../lib/environment')
-const jsonschema2sql = require('../../../lib/jsonschema2sql')
+const environment = require('../../../../../../lib/environment')
+const jsonschema2sql = require('../../../../../../lib/core/backend/postgres/jsonschema2sql')
 
 /*
  * The list of JSON Schema suites we support. This
