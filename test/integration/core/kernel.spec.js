@@ -3029,9 +3029,9 @@ ava.cb('.stream() should close without finding anything', (test) => {
 		},
 		required: [ 'slug' ]
 	}).then((emitter) => {
-		emitter.close()
 		emitter.on('error', test.end)
 		emitter.on('closed', test.end)
+		emitter.close()
 	}).catch(test.end)
 })
 
