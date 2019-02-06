@@ -24,7 +24,6 @@
       "apps/server",
       "apps/action-server",
       "lib/core",
-      "lib/jsonschema2sql",
       "lib/action-library",
       "lib/environment",
       "lib/jellyscript",
