@@ -2261,9 +2261,10 @@ ava.cb('.stream() should report back new elements that match a certain type', (t
 			}
 		},
 		required: [ 'type' ]
-	}).then((emitter) => {
+	}).then(async (emitter) => {
 		emitter.on('data', (change) => {
-			test.deepEqual(change.before, null)
+			test.is(change.type, 'insert')
+			test.is(change.before, null)
 			test.deepEqual(_.omit(change.after, [ 'id' ]), {
 				type: 'foo',
 				test: 1
@@ -2320,6 +2321,7 @@ ava.cb('.stream() should report back changes to certain elements', (test) => {
 		})
 	}).then((emitter) => {
 		emitter.on('data', (change) => {
+			test.is(change.type, 'update')
 			test.deepEqual(_.omit(change.before, [ 'id' ]), {
 				slug: 'hello',
 				type: 'foo',
@@ -2352,6 +2354,51 @@ ava.cb('.stream() should report back changes to certain elements', (test) => {
 	}).catch(test.end)
 })
 
+ava.cb('.stream() should report back changes to large elements', (test) => {
+	test.context.backend.insertElement(test.context.context, {
+		type: 'foo',
+		slug: 'hello',
+		test: new Array(5000).join('foobar')
+	}).then(() => {
+		return test.context.backend.stream(test.context.context, {
+			type: 'object',
+			properties: {
+				slug: {
+					type: 'string'
+				},
+				type: {
+					type: 'string',
+					const: 'foo'
+				},
+				test: {
+					type: 'string'
+				}
+			},
+			required: [ 'type' ]
+		})
+	}).then((emitter) => {
+		emitter.on('data', (change) => {
+			test.is(change.type, 'update')
+			test.deepEqual(_.omit(change.after, [ 'id' ]), {
+				slug: 'hello',
+				type: 'foo',
+				test: new Array(5000).join('bazbuzz')
+			})
+
+			emitter.close()
+		})
+
+		emitter.on('error', test.end)
+		emitter.on('closed', test.end)
+
+		return test.context.backend.upsertElement(test.context.context, {
+			slug: 'hello',
+			type: 'foo',
+			test: new Array(5000).join('bazbuzz')
+		})
+	}).catch(test.end)
+})
+
 ava.cb('.stream() should close without finding anything', (test) => {
 	test.context.backend.stream(test.context.context, {
 		type: 'object',
@@ -2363,9 +2410,9 @@ ava.cb('.stream() should close without finding anything', (test) => {
 		},
 		required: [ 'slug' ]
 	}).then((emitter) => {
-		emitter.close()
 		emitter.on('error', test.end)
 		emitter.on('closed', test.end)
+		emitter.close()
 	}).catch(test.end)
 })
 
