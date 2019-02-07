@@ -2276,7 +2276,7 @@ ava.cb('.stream() should report back new elements that match a certain type', (t
 		emitter.on('error', test.end)
 		emitter.on('closed', test.end)
 
-		return Bluebird.all([
+		await Bluebird.all([
 			test.context.backend.insertElement(test.context.context, {
 				type: 'foo',
 				slug: 'foo',
@@ -2378,6 +2378,21 @@ ava.cb('.stream() should report back changes to large elements', (test) => {
 		})
 	}).then((emitter) => {
 		emitter.on('data', (change) => {
+			// Livefeeds are asynchronous and can pick up a change a
+			// moment after the insertion, so there exist the
+			// possibility that we get the initial insert event here,
+			// and if so its fine to ignore, as it doesn't affect
+			// the semantics of the tests.
+			if (change.type === 'insert' &&
+				_.isNull(change.before) &&
+				_.isEqual(_.omit(change.after, [ 'id' ]), {
+					slug: 'hello',
+					type: 'foo',
+					test: new Array(5000).join('foobar')
+				})) {
+				return
+			}
+
 			test.is(change.type, 'update')
 			test.deepEqual(_.omit(change.after, [ 'id' ]), {
 				slug: 'hello',
@@ -2486,6 +2501,21 @@ ava.cb('.stream() should filter the "before" section of a change', (test) => {
 		})
 	}).then((emitter) => {
 		emitter.on('data', (change) => {
+			// Livefeeds are asynchronous and can pick up a change a
+			// moment after the insertion, so there exist the
+			// possibility that we get the initial insert event here,
+			// and if so its fine to ignore, as it doesn't affect
+			// the semantics of the tests.
+			if (change.type === 'insert' &&
+				_.isNull(change.before) &&
+				_.isEqual(_.omit(change.after, [ 'id' ]), {
+					type: 'foo',
+					slug: 'hello',
+					test: 1
+				})) {
+				return
+			}
+
 			test.deepEqual(_.omit(change.before, [ 'id' ]), {
 				slug: 'hello',
 				type: 'foo',
