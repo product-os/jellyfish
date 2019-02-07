@@ -53,7 +53,7 @@ const SUPPORTED_SUITES = [
 	'zeroTerminatedFloats',
 	'pattern',
 	'patternProperties',
-	// properties
+	'properties',
 	'propertyNames',
 	// ref
 	// refRemote
