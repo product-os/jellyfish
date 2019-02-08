@@ -22,7 +22,7 @@ module.exports = async (context) => {
 
 	logger.info(context, 'Instantiating core library')
 	const jellyfish = await core.create(context, cache, {
-		backend: environment.getDatabaseConfiguration()
+		backend: environment.database.options
 	})
 
 	logger.info(context, 'Creating queue instance')

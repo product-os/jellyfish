@@ -110,7 +110,7 @@ const bootstrap = async (context, library, options) => {
 
 	logger.info(context, 'Instantiating core library')
 	const jellyfish = await core.create(context, cache, {
-		backend: environment.getDatabaseConfiguration()
+		backend: environment.database.options
 	})
 
 	const session = jellyfish.sessions.admin

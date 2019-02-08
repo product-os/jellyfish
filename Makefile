@@ -20,6 +20,9 @@
 # Runtime Configuration
 # -----------------------------------------------
 
+DATABASE ?= rethinkdb
+export DATABASE
+
 # The default postgres user is your local user
 POSTGRES_USER ?= $(shell whoami)
 export POSTGRES_USER
@@ -27,6 +30,10 @@ POSTGRES_PASSWORD ?=
 export POSTGRES_PASSWORD
 POSTGRES_PORT ?= 5432
 export POSTGRES_PORT
+POSTGRES_HOST ?= localhost
+export POSTGRES_HOST
+POSTGRES_DATABASE ?= jellyfish
+export POSTGRES_DATABASE
 
 PORT ?= 8000
 export PORT
@@ -258,7 +265,7 @@ start-db:
 	rethinkdb --driver-port $(DB_PORT)
 
 start-postgres: postgres_data
-	postgres -D $< -p $(POSTGRES_PORT)
+	postgres -N 1000 -D $< -p $(POSTGRES_PORT)
 
 # -----------------------------------------------
 # Development

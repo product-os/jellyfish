@@ -11,6 +11,7 @@ const pgp = require('pg-promise')()
 const format = require('pg-format').literal
 const environment = require('../../../../../../lib/environment')
 const jsonschema2sql = require('../../../../../../lib/core/backend/postgres/jsonschema2sql')
+const IS_POSTGRES = environment.database.type === 'postgres'
 
 /*
  * The list of JSON Schema suites we support. This
@@ -98,6 +99,10 @@ const runner = async ({
 }
 
 ava.before(async (test) => {
+	if (!IS_POSTGRES) {
+		return
+	}
+
 	/*
 	 * Create a randomly generated database name where all the
 	 * test tables will be scoped. This ensures that can repeately
@@ -174,7 +179,7 @@ for (const suite of jsonSchemaTestSuite.draft6()) {
 			 * first place, but this is a nice way to measure how far
 			 * we are from supporting the whole set of tests.
 			 */
-			const avaTest = SUPPORTED_SUITES.includes(suite.name)
+			const avaTest = SUPPORTED_SUITES.includes(suite.name) && IS_POSTGRES
 				? ava : ava.skip
 
 			/*
@@ -234,7 +239,9 @@ for (const suite of jsonSchemaTestSuite.draft6()) {
  * Some extra tests not covered by the official JSON Schema test suite.
  */
 
-ava('injection - should escape malicious query keys', async (test) => {
+const avaTest = IS_POSTGRES ? ava : ava.skip
+
+avaTest('injection - should escape malicious query keys', async (test) => {
 	const table = 'malicious_queries_0'
 
 	const schema = {
@@ -270,7 +277,7 @@ ava('injection - should escape malicious query keys', async (test) => {
 	test.is(results.length, 1)
 })
 
-ava('injection - should escape malicious query values', async (test) => {
+avaTest('injection - should escape malicious query values', async (test) => {
 	const table = 'malicious_queries_1'
 
 	const schema = {
@@ -300,7 +307,7 @@ ava('injection - should escape malicious query values', async (test) => {
 	test.is(results.length, 1)
 })
 
-ava('order - should sort values in ascending order by default when specifying "sortBy"', async (test) => {
+avaTest('order - should sort values in ascending order by default when specifying "sortBy"', async (test) => {
 	const table = 'order_0'
 	const schema = {
 		type: 'object',
@@ -370,7 +377,7 @@ ava('order - should sort values in ascending order by default when specifying "s
 	])
 })
 
-ava('order - should be able to sort values in descending order', async (test) => {
+avaTest('order - should be able to sort values in descending order', async (test) => {
 	const table = 'order_1'
 
 	const schema = {
@@ -443,7 +450,7 @@ ava('order - should be able to sort values in descending order', async (test) =>
 	])
 })
 
-ava('order - should be able to sort values by a single string value', async (test) => {
+avaTest('order - should be able to sort values by a single string value', async (test) => {
 	const table = 'order_2'
 
 	const schema = {
