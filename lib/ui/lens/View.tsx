@@ -19,8 +19,6 @@ import {
 	SchemaSieve,
 	Select,
 } from 'rendition';
-import ButtonGroup from '../components/ButtonGroup';
-import Icon from '../components/Icon';
 import { If } from '../components/If';
 import { analytics, sdk } from '../core';
 import { actionCreators, selectors, StoreState } from '../core/store';
@@ -31,6 +29,9 @@ import {
 } from '../services/helpers';
 import { Card, Channel, Lens, RendererProps, Type } from '../types';
 import LensService from './index';
+
+import ButtonGroup from '../shame/ButtonGroup';
+import Icon from '../shame/Icon';
 
 interface ViewRendererState {
 	filters: JSONSchema6[];

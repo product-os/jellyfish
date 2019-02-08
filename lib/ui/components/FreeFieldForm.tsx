@@ -16,7 +16,8 @@ import {
 	Txt,
 } from 'rendition';
 import { Form } from 'rendition/dist/unstable';
-import Icon from './Icon';
+
+import Icon from '../shame/Icon';
 
 interface FreeFieldFormProps {
 	onSchemaChange: (schema: JSONSchema6) => void;

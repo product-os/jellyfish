@@ -15,7 +15,6 @@ import styled from 'styled-components';
 import { CardCreator } from '../components/CardCreator';
 import { ContextMenu } from '../components/ContextMenu';
 import { GroupUpdate } from '../components/GroupUpdate';
-import Icon from '../components/Icon';
 import { analytics, sdk } from '../core';
 import { actionCreators, selectors, StoreState } from '../core/store';
 import {
@@ -26,6 +25,8 @@ import {
 } from '../services/helpers';
 import { Card, Channel, Lens, RendererProps, Type } from '../types';
 import LensService from './index';
+
+import Icon from '../shame/Icon';
 
 const UNSORTED_GROUP_ID = 'JELLYFISH_UNSORTED_GROUP';
 

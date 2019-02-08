@@ -18,16 +18,17 @@ import {
 } from 'rendition';
 import { Markdown } from 'rendition/dist/extra/Markdown';
 import styled from 'styled-components';
-import { ActionLink } from '../components/ActionLink';
 import { AuthenticatedImage } from '../components/AuthenticatedImage';
 import { ContextMenu } from '../components/ContextMenu';
-import Icon from '../components/Icon';
-import { IconButton } from '../components/IconButton';
 import { tagStyle } from '../components/Tag';
 import { colorHash, createPrefixRegExp, formatTimestamp } from '../services/helpers';
 import { getActor } from '../services/store-helpers';
 import { Card } from '../types';
-import Gravatar from './Gravatar';
+
+import { ActionLink } from '../shame/ActionLink';
+import Gravatar from '../shame/Gravatar';
+import Icon from '../shame/Icon';
+import { IconButton } from '../shame/IconButton';
 
 const tagMatchRE = createPrefixRegExp('@|#|!');
 

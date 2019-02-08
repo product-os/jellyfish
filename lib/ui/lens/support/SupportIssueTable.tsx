@@ -18,7 +18,6 @@ import {
 } from 'rendition';
 import styled from 'styled-components';
 import { CardCreator } from '../../components/CardCreator';
-import Icon from '../../components/Icon';
 import { actionCreators } from '../../core/store';
 import {
 	createChannel,
@@ -27,6 +26,8 @@ import {
 	getViewSchema,
 } from '../../services/helpers';
 import { Card, Lens, RendererProps, Type } from '../../types';
+
+import Icon from '../../shame/Icon';
 
 const Column = styled(Flex)`
 	height: 100%;

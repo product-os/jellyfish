@@ -20,8 +20,9 @@ import { actionCreators, selectors, StoreState } from '../core/store';
 import { getViewSlices } from '../services/helpers';
 import { Card } from '../types';
 import { ContextMenu } from './ContextMenu';
-import Icon from './Icon';
 import { NotificationsModal } from './NotificationsModal';
+
+import Icon from '../shame/Icon';
 
 const EllipsisButton = styled(Button)`
 	float: right;

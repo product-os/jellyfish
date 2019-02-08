@@ -24,8 +24,9 @@ import {
 import { createLink } from '../services/link';
 import { Card, Type } from '../types';
 import { ContextMenu } from './ContextMenu';
-import Icon from './Icon';
-import { IconButton } from './IconButton';
+
+import Icon from '../shame/Icon';
+import { IconButton } from '../shame/IconButton';
 
 interface CardLinkerProps {
 	card: Card;

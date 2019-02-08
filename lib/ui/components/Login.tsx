@@ -22,8 +22,9 @@ import {
 	Txt,
 } from 'rendition';
 import { actionCreators } from '../core/store';
-import Icon from './Icon';
 import TopBar from './TopBar';
+
+import Icon from '../shame/Icon';
 
 interface LoginProps {
 	actions: typeof actionCreators;

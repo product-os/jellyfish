@@ -31,7 +31,11 @@ const config = {
 
 	resolve: {
 		// Add '.ts' and '.tsx' as resolvable extensions.
-		extensions: [ '.ts', '.tsx', '.js', '.json' ]
+		extensions: [ '.ts', '.tsx', '.js', '.json' ],
+		alias: {
+			'@jellyfish-ui-components': path.resolve(__dirname, 'lib/ui/components'),
+			'@jellyfish-ui-shame': path.resolve(__dirname, 'lib/ui/shame')
+		}
 	},
 
 	module: {

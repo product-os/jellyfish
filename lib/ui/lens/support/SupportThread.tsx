@@ -22,10 +22,7 @@ import { Markdown } from 'rendition/dist/extra/Markdown';
 import { Mermaid } from 'rendition/dist/extra/Mermaid';
 import styled from 'styled-components';
 import { CardActions } from '../../components/CardActions';
-import { CloseButton } from '../../components/CloseButton';
 import { Event as EventCard } from '../../components/Event';
-import Icon from '../../components/Icon';
-import { IconButton } from '../../components/IconButton';
 import Label from '../../components/Label';
 import { Tag } from '../../components/Tag';
 import { sdk } from '../../core';
@@ -40,6 +37,10 @@ import {
 import { getActor } from '../../services/store-helpers';
 import { Card, Lens, RendererProps, Type } from '../../types';
 import TimelineLens from './SupportThreadTimeline';
+
+import { CloseButton } from '../../shame/CloseButton';
+import Icon from '../../shame/Icon';
+import { IconButton } from '../../shame/IconButton';
 
 const Extract = styled(Box)`
 	border-top: 1px solid ${Theme.colors.gray.light};

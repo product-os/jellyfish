@@ -11,7 +11,8 @@ import { Alert, Box, Modal } from 'rendition';
 import { LINKS } from '../constants';
 import { createLink } from '../services/link';
 import { Card, RendererProps } from '../types';
-import { ErrorBoundary } from './ErrorBoundary';
+
+import { ErrorBoundary } from '../shame/ErrorBoundary';
 
 // Load lens service
 import LensService from '../lens';

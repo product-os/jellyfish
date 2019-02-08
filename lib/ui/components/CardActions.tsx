@@ -22,11 +22,12 @@ import { getLocalSchema, removeUndefinedArrayItems } from '../services/helpers';
 import { createLink } from '../services/link';
 import { createPermaLink } from '../services/url-manager';
 import { Card, Type } from '../types';
-import { ActionLink } from './ActionLink';
 import { CardLinker } from './CardLinker';
 import { ContextMenu } from './ContextMenu';
-import Icon from './Icon';
-import { IconButton } from './IconButton';
+
+import { ActionLink } from '../shame/ActionLink';
+import Icon from '../shame/Icon';
+import { IconButton } from '../shame/IconButton';
 
 interface CardActionsState {
 	showEditModal: boolean;

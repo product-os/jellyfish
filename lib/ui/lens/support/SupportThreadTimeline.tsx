@@ -15,9 +15,7 @@ import {
 	Theme,
 } from 'rendition';
 import styled from 'styled-components';
-import AutocompleteTextarea from '../../components/AutocompleteTextarea';
 import { Event as EventCard } from '../../components/Event';
-import Icon from '../../components/Icon';
 import { analytics, sdk } from '../../core';
 import { actionCreators, selectors, StoreState } from '../../core/store';
 import {
@@ -27,6 +25,9 @@ import {
 	getUserIdsByPrefix,
 } from '../../services/helpers';
 import { Card, Lens, RendererProps } from '../../types';
+
+import AutocompleteTextarea from '../../shame/AutocompleteTextarea';
+import Icon from '../../shame/Icon';
 
 const Column = styled(Flex)`
 	height: 100%;

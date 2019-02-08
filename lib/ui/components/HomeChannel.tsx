@@ -24,10 +24,11 @@ import styled from 'styled-components';
 import { actionCreators, selectors, StoreState } from '../core/store';
 import { createChannel } from '../services/helpers';
 import { Card, Channel, RendererProps, ViewNotice } from '../types';
-import Gravatar from './Gravatar';
-import Icon from './Icon';
 import { TailStreamer } from './TailStreamer';
 import { ViewLink } from './ViewLink';
+
+import Gravatar from '../shame/Gravatar';
+import Icon from '../shame/Icon';
 
 // View slugs that should be displayed first
 const PRIORITY_VIEWS = [

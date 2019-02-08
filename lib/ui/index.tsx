@@ -10,9 +10,10 @@ import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Theme } from 'rendition';
 import { injectGlobal } from 'styled-components';
-import { ErrorBoundary } from './components/ErrorBoundary';
 import { store } from './core';
 import { JellyfishUI } from './JellyfishUI';
+
+import { ErrorBoundary } from './shame/ErrorBoundary';
 
 // tslint:disable-next-line
 injectGlobal`

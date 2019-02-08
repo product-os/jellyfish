@@ -16,7 +16,6 @@ import {
 	Txt,
 } from 'rendition';
 import styled from 'styled-components';
-import Gravatar from '../../components/Gravatar';
 import { actionCreators, selectors, StoreState } from '../../core/store';
 import {
 	colorHash,
@@ -26,6 +25,8 @@ import {
 } from '../../services/helpers';
 import { getActor } from '../../services/store-helpers';
 import { Card, Lens, RendererProps } from '../../types';
+
+import Gravatar from '../../shame/Gravatar';
 
 const Column = styled(Flex)`
 	height: 100%;
