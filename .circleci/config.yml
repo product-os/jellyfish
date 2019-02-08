@@ -14,11 +14,21 @@ aliases:
       docker:
         - image: resinci/jellyfish-test
 
-      environment:
-        POSTGRES_USER: postgres
-        POSTGRES_PASSWORD: postgres
-
       working_directory: ~/repo
+
+  rethinkdb_job_defaults: &rethinkdb_job_defaults
+    <<: *job_defaults
+
+    environment:
+      DATABASE: rethinkdb
+
+  postgres_job_defaults: &postgres_job_defaults
+    <<: *job_defaults
+
+    environment:
+      DATABASE: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
 
 version: 2
 dependencies:
@@ -78,8 +88,8 @@ jobs:
           paths:
             - .nyc_output/*.json
 
-  integration_tests: &integration_tests
-    <<: *job_defaults
+  rethinkdb_integration_tests: &rethinkdb_integration_tests
+    <<: *rethinkdb_job_defaults
 
     steps:
       - checkout
@@ -90,9 +100,6 @@ jobs:
       - run:
           name: Start RethinkDB
           command: rethinkdb --daemon --bind all
-      - run:
-          name: Start PostgreSQL
-          command: service postgresql start && su - postgres -c "psql -U postgres -d postgres -c \"alter user postgres with password 'postgres';\""
       - run:
           name: Start Redis
           command: service redis-server start
@@ -115,8 +122,39 @@ jobs:
           paths:
             - .nyc_output/*.json
 
-  sync_tests:
-    <<: *job_defaults
+  postgres_integration_tests: &postgres_integration_tests
+    <<: *postgres_job_defaults
+
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: .
+
+      - run:
+          name: Start PostgreSQL
+          command: service postgresql start && su - postgres -c "psql -U postgres -d postgres -c \"alter user postgres with password 'postgres';\""
+      - run:
+          name: Start Redis
+          command: service redis-server start
+
+      - run:
+          name: Integration Tests (with Redis)
+          command: make test FILES=./test/integration/core/backend/postgres/jsonschema2sql/index.spec.js COVERAGE=1
+      - run:
+          name: Integration Tests (without Redis)
+          command: make test FILES=./test/integration/core/backend/postgres/jsonschema2sql/index.spec.js COVERAGE=1 DISABLE_REDIS=1
+      - run:
+          name: Integration Tests (with debug logs)
+          command: make test FILES=./test/integration/core/backend/postgres/jsonschema2sql/index.spec.js COVERAGE=1 LOGLEVEL=debug
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .nyc_output/*.json
+
+  rethinkdb_sync_tests_github:
+    <<: *rethinkdb_job_defaults
 
     steps:
       - checkout
@@ -133,18 +171,46 @@ jobs:
 
       - run:
           name: Sync Tests
-          command: make test-e2e-sync COVERAGE=1
+          command: make test FILES=./test/e2e/sync/github-*.spec.js COVERAGE=1
       - run:
           name: Sync End To End Tests Without Tokens
-          command: make test-e2e-sync COVERAGE=1 INTEGRATION_GITHUB_TOKEN= INTEGRATION_FRONT_TOKEN=
+          command: make test FILES=./test/e2e/sync/github-*.spec.js COVERAGE=1 INTEGRATION_GITHUB_TOKEN=
 
       - persist_to_workspace:
           root: .
           paths:
             - .nyc_output/*.json
 
-  e2e_tests: &e2e_tests
-    <<: *job_defaults
+  rethinkdb_sync_tests_front:
+    <<: *rethinkdb_job_defaults
+
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: .
+
+      - run:
+          name: Start RethinkDB
+          command: rethinkdb --daemon --bind all
+      - run:
+          name: Start Redis
+          command: service redis-server start
+
+      - run:
+          name: Sync Tests
+          command: make test FILES=./test/e2e/sync/front-*.spec.js COVERAGE=1
+      - run:
+          name: Sync End To End Tests Without Tokens
+          command: make test FILES=./test/e2e/sync/front-*.spec.js COVERAGE=1 INTEGRATION_FRONT_TOKEN=
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .nyc_output/*.json
+
+  rethinkdb_e2e_tests: &rethinkdb_e2e_tests
+    <<: *rethinkdb_job_defaults
 
     steps:
       - checkout
@@ -171,8 +237,8 @@ jobs:
           paths:
             - .nyc_output/*.json
 
-  stress_tests:
-    <<: *job_defaults
+  rethinkdb_stress_tests:
+    <<: *rethinkdb_job_defaults
 
     steps:
       - checkout
@@ -206,8 +272,8 @@ jobs:
 
   # UI tests seem to contain most of the flaky tests
   # Lets really make sure they are stable
-  flaky_ui_tests:
-    <<: *job_defaults
+  rethinkdb_flaky_ui_tests:
+    <<: *rethinkdb_job_defaults
 
     steps:
       - checkout
@@ -282,27 +348,37 @@ workflows:
                     - build
                 <<: *workflow_filter
 
-            - integration_tests:
+            - rethinkdb_integration_tests:
                 requires:
                     - build
                 <<: *workflow_filter
 
-            - e2e_tests:
+            - postgres_integration_tests:
                 requires:
                     - build
                 <<: *workflow_filter
 
-            - flaky_ui_tests:
+            - rethinkdb_e2e_tests:
                 requires:
                     - build
                 <<: *workflow_filter
 
-            - stress_tests:
+            - rethinkdb_flaky_ui_tests:
                 requires:
                     - build
                 <<: *workflow_filter
 
-            - sync_tests:
+            - rethinkdb_stress_tests:
+                requires:
+                    - build
+                <<: *workflow_filter
+
+            - rethinkdb_sync_tests_front:
+                requires:
+                    - build
+                <<: *workflow_filter
+
+            - rethinkdb_sync_tests_github:
                 requires:
                     - build
                 <<: *workflow_filter
@@ -310,10 +386,12 @@ workflows:
             - results:
                 requires:
                   - unit_tests
-                  - integration_tests
-                  - e2e_tests
-                  - flaky_ui_tests
-                  - sync_tests
+                  - rethinkdb_integration_tests
+                  - postgres_integration_tests
+                  - rethinkdb_e2e_tests
+                  - rethinkdb_flaky_ui_tests
+                  - rethinkdb_sync_tests_front
+                  - rethinkdb_sync_tests_github
                 <<: *workflow_filter
 
             - eslint_jellyfish:
