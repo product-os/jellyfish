@@ -198,6 +198,13 @@ ava('.insertElement() should not insert an element without a slug nor an id to a
 	}), errors.JellyfishDatabaseError)
 })
 
+ava('.insertElement() should not insert an element without a type', async (test) => {
+	await test.throwsAsync(test.context.backend.insertElement(test.context.context, {
+		slug: 'foo-bar-baz',
+		test: 'foo'
+	}), errors.JellyfishDatabaseError)
+})
+
 ava('.insertElement() should fail to insert an element with a very long slug', async (test) => {
 	await test.throwsAsync(test.context.backend.insertElement(test.context.context, {
 		slug: _.join(_.times(500, _.constant('x')), ''),
@@ -275,11 +282,13 @@ ava('.insertElement() should not re-use the id when inserting an element with an
 
 ava('.insertElement() should fail to insert an element with an existent slug', async (test) => {
 	await test.context.backend.insertElement(test.context.context, {
-		slug: 'bar'
+		slug: 'bar',
+		type: 'card'
 	})
 
 	await test.throwsAsync(test.context.backend.insertElement(test.context.context, {
 		slug: 'bar',
+		type: 'card',
 		foo: 'baz'
 	}), errors.JellyfishElementAlreadyExists)
 })
@@ -288,12 +297,14 @@ ava('.insertElement() should not re-use ids when inserting an' +
 				' element with an existent id but non-existent slug', async (test) => {
 	const result1 = await test.context.backend.insertElement(test.context.context, {
 		slug: 'foo',
+		type: 'card',
 		foo: 'bar'
 	})
 
 	const result2 = await test.context.backend.insertElement(test.context.context, {
 		id: result1.id,
 		slug: 'bar',
+		type: 'card',
 		foo: 'baz'
 	})
 
@@ -303,6 +314,7 @@ ava('.insertElement() should not re-use ids when inserting an' +
 ava('.insertElement() should fail to insert an element with a non-existent id but existent slug', async (test) => {
 	const result = await test.context.backend.insertElement(test.context.context, {
 		slug: 'foo',
+		type: 'card',
 		foo: 'bar'
 	})
 
@@ -310,6 +322,7 @@ ava('.insertElement() should fail to insert an element with a non-existent id bu
 
 	await test.throwsAsync(test.context.backend.insertElement(test.context.context, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		type: 'card',
 		slug: 'foo',
 		foo: 'baz'
 	}), errors.JellyfishElementAlreadyExists)
@@ -385,18 +398,27 @@ ava('.upsertElement() should update linked cards when inserting a link', async (
 ava('.upsertElement() should not be able to change a slug', async (test) => {
 	const result1 = await test.context.backend.upsertElement(test.context.context, {
 		test: 'foo',
+		type: 'card',
 		slug: 'foo',
 		hello: 'world'
 	})
 
 	const result2 = await test.context.backend.upsertElement(test.context.context, {
 		id: result1.id,
+		type: 'card',
 		slug: 'bar',
 		hello: 'world'
 	})
 
 	test.not(result1.id, result2.id)
 	test.is(result1.slug, 'foo')
+})
+
+ava('.upsertElement() should not insert an element without a type', async (test) => {
+	await test.throwsAsync(test.context.backend.upsertElement(test.context.context, {
+		slug: 'foo-bar-baz',
+		test: 'foo'
+	}), errors.JellyfishDatabaseError)
 })
 
 ava('.upsertElement() should insert a card with a slug', async (test) => {
@@ -463,22 +485,26 @@ ava('.upsertElement() should not be able to upsert without a slug nor an id', as
 ava('.upsertElement() should not consider ids when inserting an element with an existing id' +
 					', but matching the slug of another element', async (test) => {
 	const result1 = await test.context.backend.upsertElement(test.context.context, {
-		slug: 'example'
+		slug: 'example',
+		type: 'card'
 	})
 
 	const result2 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'bar',
+		type: 'card',
 		test: 'foo'
 	})
 
 	const result3 = await test.context.backend.upsertElement(test.context.context, {
 		id: result2.id,
 		slug: 'example',
+		type: 'card',
 		test: 'foo'
 	})
 
 	test.deepEqual(result3, {
 		id: result1.id,
+		type: 'card',
 		slug: 'example',
 		test: 'foo'
 	})
@@ -508,12 +534,14 @@ ava('.upsertElement() should replace an element with an existing id and the slug
 ava('.upsertElement() should ignore the id when' +
 					' inserting an element with a non existing id and the slug of an element', async (test) => {
 	const result1 = await test.context.backend.upsertElement(test.context.context, {
-		slug: 'example'
+		slug: 'example',
+		type: 'card'
 	})
 
 	const result2 = await test.context.backend.upsertElement(test.context.context, {
 		id: '9af7cf33-1a29-4f0c-a73b-f6a2b149850c',
 		slug: 'example',
+		type: 'card',
 		test: 'foo'
 	})
 
@@ -521,6 +549,7 @@ ava('.upsertElement() should ignore the id when' +
 	test.deepEqual(result2, {
 		id: result1.id,
 		slug: 'example',
+		type: 'card',
 		test: 'foo'
 	})
 })
