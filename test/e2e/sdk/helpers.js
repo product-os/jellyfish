@@ -4,8 +4,6 @@
  * Proprietary and confidential.
  */
 
-require('ts-node').register()
-
 const Bluebird = require('bluebird')
 const helpers = require('../server/helpers')
 const {

@@ -4,8 +4,6 @@
  * Proprietary and confidential.
  */
 
-require('ts-node').register()
-
 const ava = require('ava')
 const {
 	mount
@@ -16,7 +14,7 @@ const {
 } = require('rendition')
 const {
 	Event
-} = require('../../../../lib/ui/components/Event')
+} = require('../../../../lib/ui/components/Event.jsx')
 
 ava('Event component should highlight usernames in messages', (test) => {
 	const card = {

@@ -15,6 +15,9 @@ settings:
     additionalTagNames:
       customTags:
         - fulfil
+parserOptions:
+  ecmaFeatures:
+    jsx: true
 rules:
 
   # Possible Errors
@@ -432,3 +435,9 @@ rules:
 
   jellyfish/logger-string-expression:
     - error
+
+  # JSX
+  react/prop-types:
+    - off
+  react/display-name:
+    - off

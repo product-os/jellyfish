@@ -4,8 +4,6 @@
  * Proprietary and confidential.
  */
 
-require('ts-node').register()
-
 const ava = require('ava')
 const helpers = require('../../../../lib/ui/services/helpers')
 

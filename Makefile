@@ -144,10 +144,8 @@ SENTRY_DSN_UI ?=
 
 ifeq ($(FIX),)
 ESLINT_OPTION_FIX =
-TSLINT_OPTION_FIX =
 else
 ESLINT_OPTION_FIX = --fix
-TSLINT_OPTION_FIX = --fix
 endif
 
 ifeq ($(COVERAGE),1)
@@ -197,12 +195,8 @@ build:
 	SENTRY_DSN_UI=$(SENTRY_DSN_UI) ./node_modules/.bin/webpack
 
 lint:
-	./node_modules/.bin/eslint $(ESLINT_OPTION_FIX) \
+	./node_modules/.bin/eslint --ext .js,.jsx $(ESLINT_OPTION_FIX) \
 		lib apps scripts test stress webpack.config.js
-	./node_modules/.bin/tslint $(TSLINT_OPTION_FIX) --format stylish \
-		"lib/**/*.ts" "lib/**/*.tsx" "apps/**/*.ts" "apps/**/*.tsx" \
-		--exclude "lib/*/node_modules/**" \
-		--exclude "lib/*/dist/**"
 	./scripts/check-filenames.sh
 	shellcheck ./scripts/*.sh ./scripts/ci/*.sh ./.circleci/*.sh ./deploy-templates/*.sh
 	./node_modules/.bin/deplint
