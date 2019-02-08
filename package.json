@@ -1,7 +1,7 @@
 {
   "name": "jellyfish",
   "version": "12.36.4",
-  "codename": "blooming",
+  "codename": "nomura",
   "private": true,
   "description": "The Jellyfish Project",
   "main": "apps/server/index.js",
@@ -38,7 +38,7 @@
   "ava": {
     "timeout": "5m",
     "verbose": true,
-    "concurrency": 2,
+    "serial": true,
     "failWithoutAssertions": true,
     "files": [
       "test/unit/**/*.spec.js",

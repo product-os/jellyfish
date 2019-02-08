@@ -3,6 +3,7 @@
 	dev-ui \
 	dev-storybook \
 	coverage \
+	node \
 	test \
 	build \
 	compose \
@@ -241,6 +242,9 @@ ngrok-%:
 compose: LOGLEVEL = info
 compose: docker-compose.local.yml
 	docker-compose -f docker-compose.dev.yml -f $< up
+
+node:
+	node $(NODE_DEBUG_ARGS) $(FILE)
 
 # -----------------------------------------------
 # Entry Points
