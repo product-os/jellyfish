@@ -288,6 +288,10 @@ jobs:
           name: End To End Tests
           command: make test-e2e-sdk test-e2e-server test-e2e-ui COVERAGE=1
 
+      - run:
+          name: End To End Tests (without Redis)
+          command: make test-e2e-sdk test-e2e-server test-e2e-ui COVERAGE=1 DISABLE_REDIS=1
+
       - persist_to_workspace:
           root: .
           paths:
@@ -315,6 +319,10 @@ jobs:
       - run:
           name: End To End Tests
           command: make test-e2e-sdk test-e2e-server test-e2e-ui COVERAGE=1
+
+      - run:
+          name: End To End Tests (without Redis)
+          command: make test-e2e-sdk test-e2e-server test-e2e-ui COVERAGE=1 DISABLE_REDIS=1
 
       - persist_to_workspace:
           root: .
