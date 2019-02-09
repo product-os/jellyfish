@@ -17,8 +17,12 @@ const socket = require('./socket')
 
 module.exports = async (context) => {
 	logger.info(context, 'Setting up cache')
-	const cache = new core.MemoryCache(environment.getRedisConfiguration())
-	await cache.connect(context)
+	const cache = environment.cache.disable
+		? null
+		: new core.MemoryCache(environment.getRedisConfiguration())
+	if (cache) {
+		await cache.connect(context)
+	}
 
 	logger.info(context, 'Instantiating core library')
 	const jellyfish = await core.create(context, cache, {
@@ -73,7 +77,9 @@ module.exports = async (context) => {
 			await webServer.stop()
 			await queue.destroy()
 			await jellyfish.disconnect(context)
-			await cache.disconnect()
+			if (cache) {
+				await cache.disconnect()
+			}
 		}
 	}
 }
