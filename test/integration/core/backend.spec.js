@@ -43,7 +43,8 @@ ava('.getElementsById() should return an found element', async (test) => {
 	const element = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'example',
 		type: 'card',
-		test: 'foo'
+		test: 'foo',
+		active: true
 	})
 
 	const result = await test.context.backend.getElementsById(test.context.context, [ element.id ], {
@@ -57,7 +58,8 @@ ava('.getElementsById() should omit not found elements', async (test) => {
 	const element = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'example',
 		type: 'card',
-		test: 'foo'
+		test: 'foo',
+		active: true
 	})
 
 	const result = await test.context.backend.getElementsById(
@@ -72,7 +74,8 @@ ava('.getElementsById() should omit elements on another table', async (test) => 
 	const element = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'example',
 		type: 'card',
-		test: 'foo'
+		test: 'foo',
+		active: true
 	})
 
 	const result = await test.context.backend.getElementsById(test.context.context, [ element.id ], {
@@ -86,7 +89,8 @@ ava('.getElementsById() should get deterministic results', async (test) => {
 	const element = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'example',
 		type: 'card',
-		test: 'foo'
+		test: 'foo',
+		active: true
 	})
 
 	const result1 = await test.context.backend.getElementsById(
@@ -120,7 +124,8 @@ ava('.getElementById() should not break the cache if trying to query a valid slu
 	const element = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'example',
 		type: 'card',
-		test: 'foo'
+		test: 'foo',
+		active: true
 	})
 
 	const result1 = await test.context.backend.getElementById(test.context.context, 'example', {
@@ -140,7 +145,8 @@ ava('.getElementBySlug() should not break the cache if trying to query a valid i
 	const element = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'example',
 		type: 'card',
-		test: 'foo'
+		test: 'foo',
+		active: true
 	})
 
 	const result1 = await test.context.backend.getElementBySlug(test.context.context, element.id, {
@@ -168,7 +174,8 @@ ava('.getElementBySlug() should fetch an element given its slug', async (test) =
 	const element = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'example',
 		type: 'card',
-		test: 'foo'
+		test: 'foo',
+		active: true
 	})
 
 	const result = await test.context.backend.getElementBySlug(test.context.context, 'example', {
@@ -194,13 +201,15 @@ ava('.createTable() should ignore continuous attempts to create the same table',
 
 ava('.insertElement() should not insert an element without a slug nor an id to an existing table', async (test) => {
 	await test.throwsAsync(test.context.backend.insertElement(test.context.context, {
-		test: 'foo'
+		test: 'foo',
+		active: true
 	}), errors.JellyfishDatabaseError)
 })
 
 ava('.insertElement() should not insert an element without a type', async (test) => {
 	await test.throwsAsync(test.context.backend.insertElement(test.context.context, {
 		slug: 'foo-bar-baz',
+		active: true,
 		test: 'foo'
 	}), errors.JellyfishDatabaseError)
 })
@@ -208,13 +217,15 @@ ava('.insertElement() should not insert an element without a type', async (test)
 ava('.insertElement() should fail to insert an element with a very long slug', async (test) => {
 	await test.throwsAsync(test.context.backend.insertElement(test.context.context, {
 		slug: _.join(_.times(500, _.constant('x')), ''),
-		type: 'card'
+		type: 'card',
+		active: true
 	}), errors.JellyfishInvalidSlug)
 })
 
 ava('.insertElement() should insert an element with a non-existent slug', async (test) => {
 	const result = await test.context.backend.insertElement(test.context.context, {
 		slug: 'foo',
+		active: true,
 		type: 'card'
 	})
 
@@ -228,6 +239,7 @@ ava('.insertElement() should insert an element with a non-existent slug', async 
 ava('.insertElement() should not insert an element with a user defined id', async (test) => {
 	const result = await test.context.backend.insertElement(test.context.context, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		active: true,
 		slug: 'foo',
 		type: 'card',
 		foo: 'bar'
@@ -247,6 +259,7 @@ ava('.insertElement() should not insert an element with a user defined id', asyn
 ava('.insertElement() should insert an element with a non-existent id and slug', async (test) => {
 	const result = await test.context.backend.insertElement(test.context.context, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+		active: true,
 		slug: 'example',
 		type: 'card',
 		foo: 'bar'
@@ -266,6 +279,7 @@ ava('.insertElement() should insert an element with a non-existent id and slug',
 ava('.insertElement() should not re-use the id when inserting an element with an existent id', async (test) => {
 	const result1 = await test.context.backend.insertElement(test.context.context, {
 		slug: 'foo',
+		active: true,
 		type: 'card',
 		foo: 'bar'
 	})
@@ -273,6 +287,7 @@ ava('.insertElement() should not re-use the id when inserting an element with an
 	const result2 = await test.context.backend.insertElement(test.context.context, {
 		id: result1.id,
 		slug: 'bar',
+		active: true,
 		type: 'card',
 		foo: 'baz'
 	})
@@ -283,11 +298,13 @@ ava('.insertElement() should not re-use the id when inserting an element with an
 ava('.insertElement() should fail to insert an element with an existent slug', async (test) => {
 	await test.context.backend.insertElement(test.context.context, {
 		slug: 'bar',
+		active: true,
 		type: 'card'
 	})
 
 	await test.throwsAsync(test.context.backend.insertElement(test.context.context, {
 		slug: 'bar',
+		active: true,
 		type: 'card',
 		foo: 'baz'
 	}), errors.JellyfishElementAlreadyExists)
@@ -297,6 +314,7 @@ ava('.insertElement() should not re-use ids when inserting an' +
 				' element with an existent id but non-existent slug', async (test) => {
 	const result1 = await test.context.backend.insertElement(test.context.context, {
 		slug: 'foo',
+		active: true,
 		type: 'card',
 		foo: 'bar'
 	})
@@ -304,6 +322,7 @@ ava('.insertElement() should not re-use ids when inserting an' +
 	const result2 = await test.context.backend.insertElement(test.context.context, {
 		id: result1.id,
 		slug: 'bar',
+		active: true,
 		type: 'card',
 		foo: 'baz'
 	})
@@ -314,6 +333,7 @@ ava('.insertElement() should not re-use ids when inserting an' +
 ava('.insertElement() should fail to insert an element with a non-existent id but existent slug', async (test) => {
 	const result = await test.context.backend.insertElement(test.context.context, {
 		slug: 'foo',
+		active: true,
 		type: 'card',
 		foo: 'bar'
 	})
@@ -323,6 +343,7 @@ ava('.insertElement() should fail to insert an element with a non-existent id bu
 	await test.throwsAsync(test.context.backend.insertElement(test.context.context, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		type: 'card',
+		active: true,
 		slug: 'foo',
 		foo: 'baz'
 	}), errors.JellyfishElementAlreadyExists)
@@ -400,14 +421,16 @@ ava('.upsertElement() should not be able to change a slug', async (test) => {
 		test: 'foo',
 		type: 'card',
 		slug: 'foo',
-		hello: 'world'
+		hello: 'world',
+		active: true
 	})
 
 	const result2 = await test.context.backend.upsertElement(test.context.context, {
 		id: result1.id,
 		type: 'card',
 		slug: 'bar',
-		hello: 'world'
+		hello: 'world',
+		active: true
 	})
 
 	test.not(result1.id, result2.id)
@@ -417,7 +440,8 @@ ava('.upsertElement() should not be able to change a slug', async (test) => {
 ava('.upsertElement() should not insert an element without a type', async (test) => {
 	await test.throwsAsync(test.context.backend.upsertElement(test.context.context, {
 		slug: 'foo-bar-baz',
-		test: 'foo'
+		test: 'foo',
+		active: true
 	}), errors.JellyfishDatabaseError)
 })
 
@@ -425,7 +449,8 @@ ava('.upsertElement() should insert a card with a slug', async (test) => {
 	const result = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'example',
 		type: 'card',
-		test: 'foo'
+		test: 'foo',
+		active: true
 	})
 
 	test.not(result.id, 'example')
@@ -441,13 +466,15 @@ ava('.upsertElement() should replace an element given the slug but no id', async
 		slug: 'example',
 		type: 'card',
 		test: 'foo',
-		hello: 'world'
+		hello: 'world',
+		active: true
 	})
 
 	const result2 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'example',
 		type: 'card',
-		test: 'bar'
+		test: 'bar',
+		active: true
 	})
 
 	test.is(result1.id, result2.id)
@@ -462,6 +489,7 @@ ava('.upsertElement() should not let clients pick their own ids', async (test) =
 	const result = await test.context.backend.upsertElement(test.context.context, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		type: 'card',
+		active: true,
 		slug: 'example',
 		test: 'foo'
 	})
@@ -478,7 +506,8 @@ ava('.upsertElement() should not let clients pick their own ids', async (test) =
 
 ava('.upsertElement() should not be able to upsert without a slug nor an id', async (test) => {
 	await test.throwsAsync(test.context.backend.upsertElement(test.context.context, {
-		test: 'foo'
+		test: 'foo',
+		active: true
 	}), errors.JellyfishDatabaseError)
 })
 
@@ -486,11 +515,13 @@ ava('.upsertElement() should not consider ids when inserting an element with an 
 					', but matching the slug of another element', async (test) => {
 	const result1 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'example',
+		active: true,
 		type: 'card'
 	})
 
 	const result2 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'bar',
+		active: true,
 		type: 'card',
 		test: 'foo'
 	})
@@ -499,11 +530,13 @@ ava('.upsertElement() should not consider ids when inserting an element with an 
 		id: result2.id,
 		slug: 'example',
 		type: 'card',
-		test: 'foo'
+		test: 'foo',
+		active: true
 	})
 
 	test.deepEqual(result3, {
 		id: result1.id,
+		active: true,
 		type: 'card',
 		slug: 'example',
 		test: 'foo'
@@ -513,14 +546,16 @@ ava('.upsertElement() should not consider ids when inserting an element with an 
 ava('.upsertElement() should replace an element with an existing id and the slug of the same element', async (test) => {
 	const result1 = await test.context.backend.upsertElement(test.context.context, {
 		type: 'card',
-		slug: 'example'
+		slug: 'example',
+		active: true
 	})
 
 	const result2 = await test.context.backend.upsertElement(test.context.context, {
 		id: result1.id,
 		type: 'card',
 		slug: 'example',
-		test: 'foo'
+		test: 'foo',
+		active: true
 	})
 
 	test.is(result1.id, result2.id)
@@ -535,19 +570,22 @@ ava('.upsertElement() should ignore the id when' +
 					' inserting an element with a non existing id and the slug of an element', async (test) => {
 	const result1 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'example',
-		type: 'card'
+		type: 'card',
+		active: true
 	})
 
 	const result2 = await test.context.backend.upsertElement(test.context.context, {
 		id: '9af7cf33-1a29-4f0c-a73b-f6a2b149850c',
 		slug: 'example',
 		type: 'card',
-		test: 'foo'
+		test: 'foo',
+		active: true
 	})
 
 	test.not(result2.id, '9af7cf33-1a29-4f0c-a73b-f6a2b149850c')
 	test.deepEqual(result2, {
 		id: result1.id,
+		active: true,
 		slug: 'example',
 		type: 'card',
 		test: 'foo'
@@ -557,7 +595,8 @@ ava('.upsertElement() should ignore the id when' +
 ava('.upsertElement() should not insert an element with a non-matching id nor slug', async (test) => {
 	await test.throwsAsync(test.context.backend.upsertElement(test.context.context, {
 		id: '9af7cf33-1a29-4f0c-a73b-f6a2b149850c',
-		test: 'foo'
+		test: 'foo',
+		active: true
 	}), errors.JellyfishDatabaseError)
 })
 
@@ -565,19 +604,22 @@ ava('.query() should query the database using JSON schema', async (test) => {
 	const result1 = await test.context.backend.upsertElement(test.context.context, {
 		type: 'example',
 		slug: 'foo',
-		test: 1
+		test: 1,
+		active: true
 	})
 
 	await test.context.backend.upsertElement(test.context.context, {
 		type: 'test',
 		slug: 'bar',
-		test: 2
+		test: 2,
+		active: true
 	})
 
 	const result2 = await test.context.backend.upsertElement(test.context.context, {
 		type: 'example',
 		slug: 'baz',
-		test: 3
+		test: 3,
+		active: true
 	})
 
 	const results = await test.context.backend.query(test.context.context, {
@@ -585,6 +627,9 @@ ava('.query() should query the database using JSON schema', async (test) => {
 		properties: {
 			id: {
 				type: 'string'
+			},
+			active: {
+				type: 'boolean'
 			},
 			slug: {
 				type: 'string'
@@ -597,7 +642,7 @@ ava('.query() should query the database using JSON schema', async (test) => {
 				pattern: '^example$'
 			}
 		},
-		required: [ 'id', 'slug', 'test', 'type' ]
+		required: [ 'id', 'active', 'slug', 'test', 'type' ]
 	})
 
 	test.deepEqual(_.sortBy(results, [ 'test' ]), [ result1, result2 ])
@@ -685,19 +730,22 @@ ava('.query() should give the same results when omitting additionalProperties an
 	await test.context.backend.upsertElement(test.context.context, {
 		type: 'example',
 		slug: 'foo',
-		test: 1
+		test: 1,
+		active: true
 	})
 
 	await test.context.backend.upsertElement(test.context.context, {
 		type: 'test',
 		slug: 'bar',
-		test: 2
+		test: 2,
+		active: true
 	})
 
 	await test.context.backend.upsertElement(test.context.context, {
 		type: 'example',
 		slug: 'baz',
-		test: 3
+		test: 3,
+		active: true
 	})
 
 	const results1 = await test.context.backend.query(test.context.context, {
@@ -734,7 +782,8 @@ ava('.query() should query an element by its id', async (test) => {
 	const result = await test.context.backend.upsertElement(test.context.context, {
 		type: 'example',
 		slug: 'foo',
-		test: 1
+		test: 1,
+		active: true
 	})
 
 	const results = await test.context.backend.query(test.context.context, {
@@ -756,7 +805,8 @@ ava('.query() should fail to query an element by its id', async (test) => {
 	const result = await test.context.backend.upsertElement(test.context.context, {
 		type: 'example',
 		slug: 'foo',
-		test: 1
+		test: 1,
+		active: true
 	})
 
 	test.not(result.id, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
@@ -779,7 +829,8 @@ ava('.query() should query an element by its slug', async (test) => {
 	const result = await test.context.backend.upsertElement(test.context.context, {
 		type: 'example',
 		slug: 'hello',
-		test: 1
+		test: 1,
+		active: true
 	})
 
 	const results = await test.context.backend.query(test.context.context, {
@@ -801,7 +852,8 @@ ava('.query() should fail to query an element by its slug', async (test) => {
 	await test.context.backend.upsertElement(test.context.context, {
 		type: 'example',
 		slug: 'hello',
-		test: 1
+		test: 1,
+		active: true
 	})
 
 	const results = await test.context.backend.query(test.context.context, {
@@ -821,6 +873,7 @@ ava('.query() should fail to query an element by its slug', async (test) => {
 ava('.query() should not return unspecified properties', async (test) => {
 	const result = await test.context.backend.upsertElement(test.context.context, {
 		type: 'example',
+		active: true,
 		slug: 'hello',
 		test: 1
 	})
@@ -851,19 +904,22 @@ ava('.query() should be able to provide a sort function', async (test) => {
 	const result1 = await test.context.backend.upsertElement(test.context.context, {
 		type: 'card',
 		slug: 'baz',
-		test: 3
+		test: 3,
+		active: true
 	})
 
 	const result2 = await test.context.backend.upsertElement(test.context.context, {
 		type: 'card',
 		slug: 'foo',
-		test: 1
+		test: 1,
+		active: true
 	})
 
 	const result3 = await test.context.backend.upsertElement(test.context.context, {
 		type: 'card',
 		slug: 'bar',
-		test: 2
+		test: 2,
+		active: true
 	})
 
 	const results = await test.context.backend.query(test.context.context, {
@@ -887,6 +943,7 @@ ava('.query() should be able to limit the results', async (test) => {
 		type: 'card',
 		slug: 'foo',
 		test: 1,
+		active: true,
 		data: {
 			timestamp: '2018-07-20T23:15:45.702Z'
 		}
@@ -896,6 +953,7 @@ ava('.query() should be able to limit the results', async (test) => {
 		type: 'card',
 		slug: 'bar',
 		test: 2,
+		active: true,
 		data: {
 			timestamp: '2018-08-20T23:15:45.702Z'
 		}
@@ -905,6 +963,7 @@ ava('.query() should be able to limit the results', async (test) => {
 		type: 'card',
 		slug: 'baz',
 		test: 3,
+		active: true,
 		data: {
 			timestamp: '2018-09-20T23:15:45.702Z'
 		}
@@ -932,6 +991,7 @@ ava('.query() should be able to skip the results', async (test) => {
 		type: 'card',
 		slug: 'foo',
 		test: 1,
+		active: true,
 		data: {
 			timestamp: '2018-07-20T23:15:45.702Z'
 		}
@@ -941,6 +1001,7 @@ ava('.query() should be able to skip the results', async (test) => {
 		type: 'card',
 		slug: 'bar',
 		test: 2,
+		active: true,
 		data: {
 			timestamp: '2018-08-20T23:15:45.702Z'
 		}
@@ -950,6 +1011,7 @@ ava('.query() should be able to skip the results', async (test) => {
 		type: 'card',
 		slug: 'baz',
 		test: 3,
+		active: true,
 		data: {
 			timestamp: '2018-09-20T23:15:45.702Z'
 		}
@@ -977,6 +1039,7 @@ ava('.query() should be able to skip the results of a one-element query', async 
 		type: 'card',
 		slug: 'foo',
 		test: 1,
+		active: true,
 		data: {
 			timestamp: '2018-07-20T23:15:45.702Z'
 		}
@@ -1003,6 +1066,7 @@ ava('.query() should not skip the results of a one-element query if skip is set 
 		type: 'card',
 		slug: 'foo',
 		test: 1,
+		active: true,
 		data: {
 			timestamp: '2018-07-20T23:15:45.702Z'
 		}
@@ -1033,6 +1097,7 @@ ava('.query() should be able to limit the results of a one-element query to 0', 
 		type: 'card',
 		slug: 'foo',
 		test: 1,
+		active: true,
 		data: {
 			timestamp: '2018-07-20T23:15:45.702Z'
 		}
@@ -1059,6 +1124,7 @@ ava('.query() should not omit the results of a one-element query if limit is set
 		type: 'card',
 		slug: 'foo',
 		test: 1,
+		active: true,
 		data: {
 			timestamp: '2018-07-20T23:15:45.702Z'
 		}
@@ -1089,6 +1155,7 @@ ava('.query() should be able to limit and skip the results', async (test) => {
 		type: 'card',
 		slug: 'foo',
 		test: 1,
+		active: true,
 		data: {
 			timestamp: '2018-07-20T23:15:45.702Z'
 		}
@@ -1098,6 +1165,7 @@ ava('.query() should be able to limit and skip the results', async (test) => {
 		type: 'card',
 		slug: 'bar',
 		test: 2,
+		active: true,
 		data: {
 			timestamp: '2018-08-20T23:15:45.702Z'
 		}
@@ -1107,6 +1175,7 @@ ava('.query() should be able to limit and skip the results', async (test) => {
 		type: 'card',
 		slug: 'baz',
 		test: 3,
+		active: true,
 		data: {
 			timestamp: '2018-09-20T23:15:45.702Z'
 		}
@@ -1135,12 +1204,14 @@ ava('.query() should be able to sort the query using a key', async (test) => {
 		slug: 'foo',
 		type: 'card',
 		name: 'd',
+		active: true,
 		data: {}
 	})
 
 	const card2 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'bar',
 		type: 'card',
+		active: true,
 		name: 'a',
 		data: {}
 	})
@@ -1148,6 +1219,7 @@ ava('.query() should be able to sort the query using a key', async (test) => {
 	const card3 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'baz',
 		type: 'card',
+		active: true,
 		name: 'c',
 		data: {}
 	})
@@ -1155,6 +1227,7 @@ ava('.query() should be able to sort the query using a key', async (test) => {
 	const card4 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'qux',
 		type: 'card',
+		active: true,
 		name: 'b',
 		data: {}
 	})
@@ -1180,6 +1253,7 @@ ava('.query() should be able to sort the query in descending order', async (test
 	const card1 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'foo',
 		type: 'card',
+		active: true,
 		name: 'd',
 		data: {}
 	})
@@ -1187,6 +1261,7 @@ ava('.query() should be able to sort the query in descending order', async (test
 	const card2 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'bar',
 		type: 'card',
+		active: true,
 		name: 'a',
 		data: {}
 	})
@@ -1194,6 +1269,7 @@ ava('.query() should be able to sort the query in descending order', async (test
 	const card3 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'baz',
 		type: 'card',
+		active: true,
 		name: 'c',
 		data: {}
 	})
@@ -1202,6 +1278,7 @@ ava('.query() should be able to sort the query in descending order', async (test
 		slug: 'qux',
 		type: 'card',
 		name: 'b',
+		active: true,
 		data: {}
 	})
 
@@ -1227,6 +1304,7 @@ ava('.query() should be able to sort the query using an array of keys', async (t
 	const card1 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'foo',
 		type: 'card',
+		active: true,
 		data: {
 			code: 'd'
 		}
@@ -1235,6 +1313,7 @@ ava('.query() should be able to sort the query using an array of keys', async (t
 	const card2 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'bar',
 		type: 'card',
+		active: true,
 		data: {
 			code: 'a'
 		}
@@ -1243,6 +1322,7 @@ ava('.query() should be able to sort the query using an array of keys', async (t
 	const card3 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'baz',
 		type: 'card',
+		active: true,
 		data: {
 			code: 'c'
 		}
@@ -1251,6 +1331,7 @@ ava('.query() should be able to sort the query using an array of keys', async (t
 	const card4 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'qux',
 		type: 'card',
+		active: true,
 		data: {
 			code: 'b'
 		}
@@ -1277,6 +1358,7 @@ ava('.query() should apply sort before skip', async (test) => {
 	const card1 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'foo',
 		type: 'card',
+		active: true,
 		name: 'd',
 		data: {}
 	})
@@ -1284,6 +1366,7 @@ ava('.query() should apply sort before skip', async (test) => {
 	await test.context.backend.upsertElement(test.context.context, {
 		slug: 'bar',
 		type: 'card',
+		active: true,
 		name: 'a',
 		data: {}
 	})
@@ -1291,6 +1374,7 @@ ava('.query() should apply sort before skip', async (test) => {
 	const card3 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'baz',
 		type: 'card',
+		active: true,
 		name: 'c',
 		data: {}
 	})
@@ -1298,6 +1382,7 @@ ava('.query() should apply sort before skip', async (test) => {
 	await test.context.backend.upsertElement(test.context.context, {
 		slug: 'qux',
 		type: 'card',
+		active: true,
 		name: 'b',
 		data: {}
 	})
@@ -1324,6 +1409,7 @@ ava('.query() should apply sort before limit', async (test) => {
 	await test.context.backend.upsertElement(test.context.context, {
 		slug: 'foo',
 		type: 'card',
+		active: true,
 		name: 'd',
 		data: {}
 	})
@@ -1331,6 +1417,7 @@ ava('.query() should apply sort before limit', async (test) => {
 	const card2 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'bar',
 		type: 'card',
+		active: true,
 		name: 'a',
 		data: {}
 	})
@@ -1338,6 +1425,7 @@ ava('.query() should apply sort before limit', async (test) => {
 	await test.context.backend.upsertElement(test.context.context, {
 		slug: 'baz',
 		type: 'card',
+		active: true,
 		name: 'c',
 		data: {}
 	})
@@ -1345,6 +1433,7 @@ ava('.query() should apply sort before limit', async (test) => {
 	const card4 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'qux',
 		type: 'card',
+		active: true,
 		name: 'b',
 		data: {}
 	})
@@ -1370,10 +1459,12 @@ ava('.query() should apply sort before limit', async (test) => {
 ava('.query() should correctly honour top level additionalProperties: true', async (test) => {
 	const user1 = await test.context.backend.insertElement(test.context.context, {
 		slug: 'user-johndoe',
+		active: true,
 		type: 'user'
 	})
 	const user2 = await test.context.backend.insertElement(test.context.context, {
 		slug: 'user-janedoe',
+		active: true,
 		type: 'user'
 	})
 	const results1 = await test.context.backend.query(test.context.context, {
@@ -1476,11 +1567,13 @@ ava('.query() should correctly honour top level additionalProperties: true', asy
 	test.deepEqual(_.sortBy(results2, 'slug'), [
 		{
 			id: user2.id,
+			active: true,
 			slug: 'user-janedoe',
 			type: 'user'
 		},
 		{
 			id: user1.id,
+			active: true,
 			slug: 'user-johndoe',
 			type: 'user'
 		}
@@ -2308,11 +2401,13 @@ ava.cb('.stream() should report back new elements that match a certain type', (t
 		await Bluebird.all([
 			test.context.backend.insertElement(test.context.context, {
 				type: 'foo',
+				active: true,
 				slug: 'foo',
 				test: 1
 			}),
 			test.context.backend.insertElement(test.context.context, {
 				type: 'bar',
+				active: true,
 				slug: 'bar',
 				test: 3
 			})
@@ -2323,11 +2418,13 @@ ava.cb('.stream() should report back new elements that match a certain type', (t
 ava.cb('.stream() should report back changes to certain elements', (test) => {
 	test.context.backend.insertElement(test.context.context, {
 		type: 'foo',
+		active: true,
 		slug: 'hello',
 		test: 1
 	}).then(() => {
 		return test.context.backend.insertElement(test.context.context, {
 			type: 'bar',
+			active: true,
 			slug: 'qux',
 			test: 1
 		})
@@ -2371,11 +2468,13 @@ ava.cb('.stream() should report back changes to certain elements', (test) => {
 
 		return test.context.backend.upsertElement(test.context.context, {
 			slug: 'hello',
+			active: true,
 			type: 'foo',
 			test: 2
 		}).then(() => {
 			return test.context.backend.upsertElement(test.context.context, {
 				slug: 'qux',
+				active: true,
 				type: 'bar',
 				test: 2
 			})
@@ -2386,6 +2485,7 @@ ava.cb('.stream() should report back changes to certain elements', (test) => {
 ava.cb('.stream() should report back changes to large elements', (test) => {
 	test.context.backend.insertElement(test.context.context, {
 		type: 'foo',
+		active: true,
 		slug: 'hello',
 		test: new Array(5000).join('foobar')
 	}).then(() => {
@@ -2437,6 +2537,7 @@ ava.cb('.stream() should report back changes to large elements', (test) => {
 
 		return test.context.backend.upsertElement(test.context.context, {
 			slug: 'hello',
+			active: true,
 			type: 'foo',
 			test: new Array(5000).join('bazbuzz')
 		})
@@ -2463,6 +2564,7 @@ ava.cb('.stream() should close without finding anything', (test) => {
 ava.cb('.stream() should set "before" to null if it previously did not match the schema', (test) => {
 	test.context.backend.insertElement(test.context.context, {
 		slug: 'foobarbaz',
+		active: true,
 		type: 'foo',
 		test: '1'
 	}).then((emitter) => {
@@ -2499,6 +2601,7 @@ ava.cb('.stream() should set "before" to null if it previously did not match the
 
 		return test.context.backend.upsertElement(test.context.context, {
 			slug: 'foobarbaz',
+			active: true,
 			type: 'foo',
 			test: 1
 		})
@@ -2508,6 +2611,7 @@ ava.cb('.stream() should set "before" to null if it previously did not match the
 ava.cb('.stream() should filter the "before" section of a change', (test) => {
 	test.context.backend.insertElement(test.context.context, {
 		type: 'foo',
+		active: true,
 		slug: 'hello',
 		test: 1,
 		extra: true
@@ -2565,6 +2669,7 @@ ava.cb('.stream() should filter the "before" section of a change', (test) => {
 
 		return test.context.backend.upsertElement(test.context.context, {
 			slug: 'hello',
+			active: true,
 			type: 'foo',
 			test: 2,
 			extra: true
@@ -2588,6 +2693,7 @@ ava('.upsertElement() should handle multiple parallel insertions on the same slu
 	for (const time of _.range(200)) {
 		const object = {
 			slug: 'foo-bar-baz',
+			active: true,
 			type: 'stress-test',
 			time
 		}
@@ -2627,6 +2733,7 @@ ava('.insertElement() should handle multiple parallel insertions on the same slu
 		const object = {
 			slug: 'foo-bar-baz',
 			type: 'stress-test',
+			active: true,
 			time
 		}
 
