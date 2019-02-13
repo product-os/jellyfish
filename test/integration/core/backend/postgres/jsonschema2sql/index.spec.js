@@ -5,10 +5,10 @@
  */
 
 const ava = require('ava')
+const _ = require('lodash')
 const jsonSchemaTestSuite = require('json-schema-test-suite')
 const uuid = require('uuid/v4')
 const pgp = require('pg-promise')()
-const format = require('pg-format').literal
 const environment = require('../../../../../../lib/environment')
 const jsonschema2sql = require('../../../../../../lib/core/backend/postgres/jsonschema2sql')
 const IS_POSTGRES = environment.database.type === 'postgres'
@@ -75,16 +75,23 @@ const runner = async ({
 	 * 1. Create a unique table for the test.
 	 */
 	await connection.any(`CREATE TABLE IF NOT EXISTS ${table} (
-		id SERIAL PRIMARY KEY,
-		card_data jsonb
+		id VARCHAR (255) PRIMARY KEY NOT NULL,
+		slug VARCHAR (255) UNIQUE NOT NULL,
+		type VARCHAR (255) NOT NULL,
+		data jsonb
 	)`)
 
 	/*
 	 * 2. Insert the elements we will try to query.
 	 */
 	for (const item of elements) {
-		await connection.any(
-			`INSERT INTO ${table} (card_data) VALUES (${format(JSON.stringify(item))})`)
+		const id = uuid()
+		await connection.any(`INSERT INTO ${table} VALUES ($1, $2, $3, $4)`, [
+			_.get(item, [ 'id' ], id),
+			_.get(item, [ 'slug' ], `jsonschema2sql-${id}`),
+			_.get(item, [ 'type' ], 'card'),
+			JSON.stringify(item)
+		])
 	}
 
 	/*
@@ -198,7 +205,7 @@ for (const suite of jsonSchemaTestSuite.draft6()) {
 
 				test.is(results.length === 1, testCase.valid)
 				if (testCase.valid) {
-					test.deepEqual(results[0].card_data, testCase.data)
+					test.deepEqual(results[0].data, testCase.data)
 				}
 			})
 
@@ -226,7 +233,7 @@ for (const suite of jsonSchemaTestSuite.draft6()) {
 
 				test.is(results.length === 1, testCase.valid)
 				if (testCase.valid) {
-					test.deepEqual(results[0].card_data, {
+					test.deepEqual(results[0].data, {
 						wrapper: testCase.data
 					})
 				}
@@ -351,7 +358,7 @@ avaTest('order - should sort values in ascending order by default when specifyin
 
 	test.deepEqual(results, [
 		{
-			card_data: {
+			data: {
 				slug: 'alpha',
 				data: {
 					timestamp: 1549016100000
@@ -359,7 +366,7 @@ avaTest('order - should sort values in ascending order by default when specifyin
 			}
 		},
 		{
-			card_data: {
+			data: {
 				slug: 'beta',
 				data: {
 					timestamp: 1549016200000
@@ -367,7 +374,7 @@ avaTest('order - should sort values in ascending order by default when specifyin
 			}
 		},
 		{
-			card_data: {
+			data: {
 				slug: 'gamma',
 				data: {
 					timestamp: 1549016300000
@@ -424,7 +431,7 @@ avaTest('order - should be able to sort values in descending order', async (test
 
 	test.deepEqual(results, [
 		{
-			card_data: {
+			data: {
 				slug: 'gamma',
 				data: {
 					timestamp: 1549016300000
@@ -432,7 +439,7 @@ avaTest('order - should be able to sort values in descending order', async (test
 			}
 		},
 		{
-			card_data: {
+			data: {
 				slug: 'beta',
 				data: {
 					timestamp: 1549016200000
@@ -440,7 +447,7 @@ avaTest('order - should be able to sort values in descending order', async (test
 			}
 		},
 		{
-			card_data: {
+			data: {
 				slug: 'alpha',
 				data: {
 					timestamp: 1549016100000
@@ -496,7 +503,7 @@ avaTest('order - should be able to sort values by a single string value', async 
 
 	test.deepEqual(results, [
 		{
-			card_data: {
+			data: {
 				slug: 'alpha',
 				data: {
 					timestamp: 1549016100000
@@ -504,7 +511,7 @@ avaTest('order - should be able to sort values by a single string value', async 
 			}
 		},
 		{
-			card_data: {
+			data: {
 				slug: 'beta',
 				data: {
 					timestamp: 1549016200000
@@ -512,7 +519,7 @@ avaTest('order - should be able to sort values by a single string value', async 
 			}
 		},
 		{
-			card_data: {
+			data: {
 				slug: 'gamma',
 				data: {
 					timestamp: 1549016300000

@@ -21,7 +21,7 @@ if (!FILE) {
 }
 
 const table = path.basename(FILE, path.extname(FILE))
-const JSON_COLUMN = 'card_data'
+const JSON_COLUMN = 'data'
 
 const onError = (error) => {
 	console.error(error)
