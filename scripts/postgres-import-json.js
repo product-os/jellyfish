@@ -66,16 +66,17 @@ jsonStream.on('data', (object) => {
 	jsonStream.pause()
 
 	connection.any(`
-		INSERT INTO ${table} VALUES ($1, $2, $3, $4)
+		INSERT INTO ${table} VALUES ($1, $2, $3, $4, $5)
 		ON CONFLICT (slug)
 		DO
 			UPDATE
-				SET ${JSON_COLUMN} = $4::jsonb || jsonb_build_object('id', ${table}.${JSON_COLUMN}->'id')
+				SET ${JSON_COLUMN} = $5::jsonb || jsonb_build_object('id', ${table}.${JSON_COLUMN}->'id')
 		RETURNING *
 	`, [
 		object.id,
 		object.slug,
 		object.type,
+		object.active,
 		object
 	]).then((results) => {
 		count++

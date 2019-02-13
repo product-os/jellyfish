@@ -78,18 +78,19 @@ const runner = async ({
 		id VARCHAR (255) PRIMARY KEY NOT NULL,
 		slug VARCHAR (255) UNIQUE NOT NULL,
 		type VARCHAR (255) NOT NULL,
-		data jsonb
-	)`)
+		active BOOLEAN NOT NULL,
+		data jsonb)`)
 
 	/*
 	 * 2. Insert the elements we will try to query.
 	 */
 	for (const item of elements) {
 		const id = uuid()
-		await connection.any(`INSERT INTO ${table} VALUES ($1, $2, $3, $4)`, [
+		await connection.any(`INSERT INTO ${table} VALUES ($1, $2, $3, $4, $5)`, [
 			_.get(item, [ 'id' ], id),
 			_.get(item, [ 'slug' ], `jsonschema2sql-${id}`),
 			_.get(item, [ 'type' ], 'card'),
+			_.get(item, [ 'active' ], true),
 			JSON.stringify(item)
 		])
 	}
