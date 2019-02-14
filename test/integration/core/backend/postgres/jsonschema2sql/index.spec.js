@@ -201,7 +201,8 @@ for (const suite of jsonSchemaTestSuite.draft6()) {
 					connection: test.context.connection,
 					table,
 					elements: [ testCase.data ],
-					schema: scenario.schema
+					schema: scenario.schema,
+					assumeValidCard: false
 				})
 
 				test.is(results.length === 1, testCase.valid)
@@ -229,7 +230,8 @@ for (const suite of jsonSchemaTestSuite.draft6()) {
 						properties: {
 							wrapper: scenario.schema
 						}
-					}
+					},
+					assumeValidCard: false
 				})
 
 				test.is(results.length === 1, testCase.valid)
