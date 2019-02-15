@@ -111,6 +111,49 @@ const QUERIES = [
 		}
 	},
 	{
+		name: 'all-issues',
+		query: {
+			$$links: {
+				'has attached element': {
+					type: 'object',
+					properties: {
+						type: {
+							enum: [
+								'message',
+								'update',
+								'create',
+								'whisper'
+							]
+						}
+					},
+					additionalProperties: true
+				}
+			},
+			type: 'object',
+			properties: {
+				active: {
+					const: true,
+					type: 'boolean'
+				},
+				type: {
+					type: 'string',
+					const: 'issue'
+				}
+			},
+			required: [
+				'active',
+				'type'
+			],
+			additionalProperties: true
+		},
+		options: {
+			limit: 500,
+			skip: 0,
+			sortBy: 'created_at',
+			sortDir: 'desc'
+		}
+	},
+	{
 		name: 'all-views',
 		schema: {
 			type: 'object',
