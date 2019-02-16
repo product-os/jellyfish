@@ -394,7 +394,7 @@ rules:
   lodash/prefer-lodash-method:
     - off
   lodash/prefer-lodash-typecheck:
-    - error
+    - off
   lodash/prefer-matches:
     - error
     - 3
