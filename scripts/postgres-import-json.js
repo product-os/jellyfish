@@ -9,7 +9,6 @@
 const pgp = require('pg-promise')()
 const fs = require('fs')
 const _ = require('lodash')
-const path = require('path')
 const Bluebird = require('bluebird')
 const JSONStream = require('JSONStream')
 const environment = require('../lib/environment')
@@ -19,9 +18,6 @@ if (!FILE) {
 	console.error(`Usage: ${process.argv[0]} ${process.argv[1]} <file>`)
 	process.exit(1)
 }
-
-const table = path.basename(FILE, path.extname(FILE))
-const JSON_COLUMN = 'data'
 
 const onError = (error) => {
 	console.error(error)
@@ -56,29 +52,43 @@ jsonStream.on('data', (object) => {
 		}
 	}
 
-	const payload = JSON.stringify(object)
-
-	if (object.type === 'create') {
-		Reflect.deleteProperty(object.data, 'payload')
-	}
-
-	console.log('GOT', object.slug, payload.length)
+	console.log('GOT', object.slug, JSON.stringify(object).length)
 	jsonStream.pause()
 
-	connection.any(`
-		INSERT INTO ${table} VALUES ($1, $2, $3, $4, $5)
-		ON CONFLICT (slug)
-		DO
-			UPDATE
-				SET ${JSON_COLUMN} = $5::jsonb || jsonb_build_object('id', ${table}.${JSON_COLUMN}->'id')
-		RETURNING *
-	`, [
+	const payload = [
 		object.id,
 		object.slug,
 		object.type,
 		object.active,
-		object
-	]).then((results) => {
+		object.version || '1.0.0',
+		typeof object.name === 'string'
+			? object.name
+			: null,
+		object.tags || [],
+		object.markers || [],
+		object.created_at || new Date().toISOString(),
+		object.links || {},
+		object.requires || [],
+		object.capabilities || [],
+		object.data || {}
+	]
+
+	connection.any(`
+		INSERT INTO cards VALUES ($1, $2, $3, $4, $5,
+			$6, $7, $8, $9, $10, $11, $12, $13)
+		ON CONFLICT (slug) DO UPDATE SET
+			id = cards.id,
+			active = $4,
+			version = $5,
+			name = $6,
+			tags = $7,
+			markers = $8,
+			created_at = $9,
+			links = $10,
+			requires = $11,
+			capabilities = $12,
+			data = $13
+		RETURNING *`, payload).then((results) => {
 		count++
 		jsonStream.resume()
 	}).catch((error) => {
