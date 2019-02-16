@@ -76,9 +76,6 @@ const runner = async ({
 	 */
 	await connection.any(`CREATE TABLE IF NOT EXISTS ${table} (
 		id VARCHAR (255) PRIMARY KEY NOT NULL,
-		slug VARCHAR (255) UNIQUE NOT NULL,
-		type VARCHAR (255) NOT NULL,
-		active BOOLEAN NOT NULL,
 		data jsonb)`)
 
 	/*
@@ -86,11 +83,8 @@ const runner = async ({
 	 */
 	for (const item of elements) {
 		const id = uuid()
-		await connection.any(`INSERT INTO ${table} VALUES ($1, $2, $3, $4, $5)`, [
+		await connection.any(`INSERT INTO ${table} VALUES ($1, $2)`, [
 			_.get(item, [ 'id' ], id),
-			_.get(item, [ 'slug' ], `jsonschema2sql-${id}`),
-			_.get(item, [ 'type' ], 'card'),
-			_.get(item, [ 'active' ], true),
 			JSON.stringify(item)
 		])
 	}
