@@ -86,29 +86,6 @@ ava('.getElementsById() should omit not found elements', async (test) => {
 	test.deepEqual(result, [ element ])
 })
 
-ava('.getElementsById() should omit elements on another table', async (test) => {
-	const element = await test.context.backend.upsertElement(test.context.context, {
-		slug: 'example',
-		type: 'card',
-		test: 'foo',
-		version: '1.0.0',
-		tags: [],
-		markers: [],
-		requires: [],
-		links: {},
-		data: {},
-		capabilities: [],
-		created_at: new Date().toISOString(),
-		active: true
-	})
-
-	const result = await test.context.backend.getElementsById(test.context.context, [ element.id ], {
-		type: 'link'
-	})
-
-	test.deepEqual(result, [])
-})
-
 ava('.getElementsById() should get deterministic results', async (test) => {
 	const element = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'example',
