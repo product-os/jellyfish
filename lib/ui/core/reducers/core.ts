@@ -190,12 +190,6 @@ export const actionCreators = {
 			config: sdk.getConfig(),
 			stream: sdk.stream({
 				type: 'object',
-				$$links: {
-					'has attached element': {
-						type: 'object',
-						additionalProperties: true,
-					},
-				},
 				additionalProperties: true,
 			}),
 		})

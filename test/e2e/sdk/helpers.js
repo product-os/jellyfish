@@ -12,8 +12,6 @@ const {
 	getSdk
 } = require('../../../lib/sdk')
 
-const WAIT_TIMEOUT = 60 * 1000
-
 exports.sdk = {
 	beforeEach: async (test) => {
 		await helpers.server.beforeEach(test)
@@ -25,35 +23,22 @@ exports.sdk = {
 			apiUrl: `http://localhost:${test.context.server.port}`
 		})
 
-		test.context.executeThenWait = async (asyncFn, waitQuery) => {
-			const stream = await test.context.sdk.stream(waitQuery)
+		test.context.executeThenWait = async (asyncFn, waitQuery, times = 10) => {
+			if (times === 0) {
+				throw new Error('The wait query did not resolve')
+			}
 
-			return new Bluebird((resolve, reject) => {
-				const timeout = setTimeout(() => {
-					stream.destroy()
-					reject(new Error(`Did not receive any data after ${WAIT_TIMEOUT}ms`))
-				}, WAIT_TIMEOUT)
+			if (asyncFn) {
+				await asyncFn()
+			}
 
-				stream.on('update', (update) => {
-					if (update.data.after) {
-						resolve(update.data.after)
-						clearTimeout(timeout)
-						stream.destroy()
-					}
-				})
+			const results = await test.context.sdk.query(waitQuery)
+			if (results.length > 0) {
+				return results[0]
+			}
 
-				stream.on('streamError', (error) => {
-					reject(error.data)
-					clearTimeout(timeout)
-					stream.destroy()
-				})
-
-				asyncFn().catch((error) => {
-					reject(error)
-					clearTimeout(timeout)
-					stream.destroy()
-				})
-			})
+			await Bluebird.delay(2000)
+			return test.context.executeThenWait(null, waitQuery, times - 1)
 		}
 	},
 
