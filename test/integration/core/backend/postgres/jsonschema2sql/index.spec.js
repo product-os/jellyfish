@@ -75,23 +75,45 @@ const runner = async ({
 	 * 1. Create a unique table for the test.
 	 */
 	await connection.any(`CREATE TABLE IF NOT EXISTS ${table} (
-		id VARCHAR (255) PRIMARY KEY NOT NULL,
+		id TEXT PRIMARY KEY NOT NULL,
+		slug VARCHAR (255) UNIQUE NOT NULL,
 		type TEXT NOT NULL,
 		active BOOLEAN NOT NULL,
+		version TEXT NOT NULL,
 		name TEXT,
-		data jsonb NOT NULL)`)
+		tags TEXT[] NOT NULL,
+		markers TEXT[] NOT NULL,
+		created_at TEXT NOT NULL,
+		links JSONB NOT NULL,
+		requires JSONB[] NOT NULL,
+		capabilities JSONB[] NOT NULL,
+		data JSONB NOT NULL)`)
 
 	/*
 	 * 2. Insert the elements we will try to query.
 	 */
 	for (const item of elements) {
-		await connection.any(`INSERT INTO ${table} VALUES ($1, $2, $3, $4, $5)`, [
-			item.id,
-			item.type || 'card',
+		const id = uuid()
+		const payload = [
+			id,
+			item.slug || `test-${id}`,
+			item.type,
 			_.isBoolean(item.active) ? item.active : true,
-			_.isString(item.name) ? item.name : null,
-			item.data
-		])
+			item.version || '1.0.0',
+			typeof item.name === 'string'
+				? item.name
+				: null,
+			item.tags || [],
+			item.markers || [],
+			item.created_at || new Date().toISOString(),
+			item.links || {},
+			item.requires || [],
+			item.capabilities || [],
+			item.data || {}
+		]
+
+		await connection.any(`INSERT INTO ${table} VALUES
+			($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)`, payload)
 	}
 
 	/*
@@ -202,7 +224,8 @@ for (const suite of jsonSchemaTestSuite.draft6()) {
 						table,
 						elements: [
 							{
-								id: uuid(),
+								version: '1.0.0',
+								type: 'card',
 								data: testCase.data
 							}
 						],
@@ -236,7 +259,8 @@ for (const suite of jsonSchemaTestSuite.draft6()) {
 					table: `NESTED_${table}`,
 					elements: [
 						{
-							id: uuid(),
+							version: '1.0.0',
+							type: 'card',
 							data: {
 								wrapper: testCase.data
 							}
@@ -307,7 +331,8 @@ avaTest('injection - should escape malicious query keys', async (test) => {
 
 	const elements = [
 		{
-			id: uuid(),
+			version: '1.0.0',
+			type: 'card',
 			data: {
 				'Robert\'); DROP TABLE cards; --': {
 					'Robert\'); DROP TABLE cards; --': 'foo'
@@ -351,7 +376,8 @@ avaTest('injection - should escape malicious query values', async (test) => {
 
 	const elements = [
 		{
-			id: uuid(),
+			version: '1.0.0',
+			type: 'card',
 			data: {
 				foo: 'Robert\'; DROP TABLE cards; --'
 			}
@@ -370,34 +396,52 @@ avaTest('injection - should escape malicious query values', async (test) => {
 
 avaTest('order - should sort values in ascending order by default when specifying "sortBy"', async (test) => {
 	const table = 'order_0'
+
 	const schema = {
 		type: 'object',
 		properties: {
-			type: {
+			slug: {
 				type: 'string'
+			},
+			data: {
+				type: 'object',
+				required: [ 'foo' ],
+				properties: {
+					foo: {
+						type: 'number',
+						const: 1
+					}
+				}
 			}
 		},
-		required: [ 'type' ]
+		required: [ 'slug', 'data' ]
 	}
+
 	const elements = [
 		{
-			id: uuid(),
-			type: 'beta',
+			slug: 'beta',
+			version: '1.0.0',
+			type: 'card',
 			data: {
+				foo: 1,
 				timestamp: 1549016200000
 			}
 		},
 		{
-			id: uuid(),
-			type: 'gamma',
+			slug: 'gamma',
+			version: '1.0.0',
+			type: 'card',
 			data: {
+				foo: 1,
 				timestamp: 1549016300000
 			}
 		},
 		{
-			id: uuid(),
-			type: 'alpha',
+			slug: 'alpha',
+			version: '1.0.0',
+			type: 'card',
 			data: {
+				foo: 1,
 				timestamp: 1549016100000
 			}
 		}
@@ -413,36 +457,12 @@ avaTest('order - should sort values in ascending order by default when specifyin
 		}
 	})
 
-	console.log(results)
-
-	test.deepEqual(results, [
-		{
-			id: results[0].id,
-			type: 'alpha',
-			active: true,
-			name: null,
-			data: {
-				timestamp: 1549016100000
-			}
-		},
-		{
-			id: results[1].id,
-			type: 'beta',
-			active: true,
-			name: null,
-			data: {
-				timestamp: 1549016200000
-			}
-		},
-		{
-			id: results[2].id,
-			type: 'gamma',
-			active: true,
-			name: null,
-			data: {
-				timestamp: 1549016300000
-			}
-		}
+	test.deepEqual(_.map(results, (item) => {
+		return _.pick(item, [ 'slug', 'data' ])
+	}), [
+		_.pick(elements[2], [ 'slug', 'data' ]),
+		_.pick(elements[0], [ 'slug', 'data' ]),
+		_.pick(elements[1], [ 'slug', 'data' ])
 	])
 })
 
@@ -452,32 +472,48 @@ avaTest('order - should be able to sort values in descending order', async (test
 	const schema = {
 		type: 'object',
 		properties: {
-			type: {
+			slug: {
 				type: 'string'
+			},
+			data: {
+				type: 'object',
+				required: [ 'foo' ],
+				properties: {
+					foo: {
+						type: 'number',
+						const: 1
+					}
+				}
 			}
 		},
-		required: [ 'type' ]
+		required: [ 'slug', 'data' ]
 	}
 
 	const elements = [
 		{
-			id: uuid(),
-			type: 'beta',
+			slug: 'beta',
+			version: '1.0.0',
+			type: 'card',
 			data: {
+				foo: 1,
 				timestamp: 1549016200000
 			}
 		},
 		{
-			id: uuid(),
-			type: 'gamma',
+			slug: 'gamma',
+			version: '1.0.0',
+			type: 'card',
 			data: {
+				foo: 1,
 				timestamp: 1549016300000
 			}
 		},
 		{
-			id: uuid(),
-			type: 'alpha',
+			slug: 'alpha',
+			version: '1.0.0',
+			type: 'card',
 			data: {
+				foo: 1,
 				timestamp: 1549016100000
 			}
 		}
@@ -494,34 +530,12 @@ avaTest('order - should be able to sort values in descending order', async (test
 		}
 	})
 
-	test.deepEqual(results, [
-		{
-			id: results[0].id,
-			active: true,
-			name: null,
-			type: 'gamma',
-			data: {
-				timestamp: 1549016300000
-			}
-		},
-		{
-			id: results[1].id,
-			active: true,
-			name: null,
-			type: 'beta',
-			data: {
-				timestamp: 1549016200000
-			}
-		},
-		{
-			id: results[2].id,
-			active: true,
-			name: null,
-			type: 'alpha',
-			data: {
-				timestamp: 1549016100000
-			}
-		}
+	test.deepEqual(_.map(results, (item) => {
+		return _.pick(item, [ 'slug', 'data' ])
+	}), [
+		_.pick(elements[1], [ 'slug', 'data' ]),
+		_.pick(elements[0], [ 'slug', 'data' ]),
+		_.pick(elements[2], [ 'slug', 'data' ])
 	])
 })
 
@@ -531,32 +545,48 @@ avaTest('order - should be able to sort values by a single string value', async 
 	const schema = {
 		type: 'object',
 		properties: {
-			type: {
+			slug: {
 				type: 'string'
+			},
+			data: {
+				type: 'object',
+				required: [ 'foo' ],
+				properties: {
+					foo: {
+						type: 'number',
+						const: 1
+					}
+				}
 			}
 		},
-		required: [ 'type' ]
+		required: [ 'slug', 'data' ]
 	}
 
 	const elements = [
 		{
-			id: uuid(),
-			type: 'beta',
+			slug: 'beta',
+			version: '1.0.0',
+			type: 'card',
 			data: {
+				foo: 1,
 				timestamp: 1549016200000
 			}
 		},
 		{
-			id: uuid(),
-			type: 'gamma',
+			slug: 'gamma',
+			version: '1.0.0',
+			type: 'card',
 			data: {
+				foo: 1,
 				timestamp: 1549016300000
 			}
 		},
 		{
-			id: uuid(),
-			type: 'alpha',
+			slug: 'alpha',
+			version: '1.0.0',
+			type: 'card',
 			data: {
+				foo: 1,
 				timestamp: 1549016100000
 			}
 		}
@@ -568,38 +598,16 @@ avaTest('order - should be able to sort values by a single string value', async 
 		elements,
 		schema,
 		options: {
-			sortBy: 'type'
+			sortBy: 'slug'
 		}
 	})
 
-	test.deepEqual(results, [
-		{
-			id: results[0].id,
-			active: true,
-			name: null,
-			type: 'alpha',
-			data: {
-				timestamp: 1549016100000
-			}
-		},
-		{
-			id: results[1].id,
-			active: true,
-			name: null,
-			type: 'beta',
-			data: {
-				timestamp: 1549016200000
-			}
-		},
-		{
-			id: results[2].id,
-			active: true,
-			name: null,
-			type: 'gamma',
-			data: {
-				timestamp: 1549016300000
-			}
-		}
+	test.deepEqual(_.map(results, (item) => {
+		return _.pick(item, [ 'slug', 'data' ])
+	}), [
+		_.pick(elements[2], [ 'slug', 'data' ]),
+		_.pick(elements[0], [ 'slug', 'data' ]),
+		_.pick(elements[1], [ 'slug', 'data' ])
 	])
 })
 
@@ -608,11 +616,11 @@ avaTest('anyOf - nested anyOfs', async (test) => {
 
 	const schema = {
 		type: 'object',
-		required: [ 'type' ],
+		required: [ 'slug' ],
 		properties: {
-			type: {
+			slug: {
 				type: 'string',
-				const: 'foo'
+				pattern: '^foo*'
 			}
 		},
 		anyOf: [
@@ -646,60 +654,84 @@ avaTest('anyOf - nested anyOfs', async (test) => {
 
 	const elements = [
 		{
-			id: uuid(),
-			type: 'foo',
+			slug: 'foo-1',
+			version: '1.0.0',
+			type: 'card',
 			active: true,
 			name: 'active',
-			data: {}
+			data: {
+				xxx: 'foo'
+			}
 		},
 		{
-			id: uuid(),
-			type: 'foo',
+			slug: 'foo-2',
+			version: '1.0.0',
+			type: 'card',
 			active: false,
 			name: 'inactive',
-			data: {}
+			data: {
+				xxx: 'foo'
+			}
 		},
 		{
-			id: uuid(),
-			type: 'foo',
+			slug: 'foo-3',
+			version: '1.0.0',
+			type: 'card',
 			active: true,
 			name: 'inactive',
-			data: {}
+			data: {
+				xxx: 'foo'
+			}
 		},
 		{
-			id: uuid(),
-			type: 'foo',
+			slug: 'foo-4',
+			version: '1.0.0',
+			type: 'card',
 			active: false,
 			name: 'active',
-			data: {}
+			data: {
+				xxx: 'foo'
+			}
 		},
 		{
-			id: uuid(),
-			type: 'bar',
+			slug: 'bar-1',
+			version: '1.0.0',
+			type: 'card',
 			active: true,
 			name: 'active',
-			data: {}
+			data: {
+				xxx: 'bar'
+			}
 		},
 		{
-			id: uuid(),
-			type: 'bar',
+			slug: 'bar-2',
+			version: '1.0.0',
+			type: 'card',
 			active: false,
 			name: 'inactive',
-			data: {}
+			data: {
+				xxx: 'bar'
+			}
 		},
 		{
-			id: uuid(),
-			type: 'bar',
+			slug: 'bar-3',
+			version: '1.0.0',
+			type: 'card',
 			active: true,
 			name: 'inactive',
-			data: {}
+			data: {
+				xxx: 'bar'
+			}
 		},
 		{
-			id: uuid(),
-			type: 'bar',
+			slug: 'bar-4',
+			version: '1.0.0',
+			type: 'card',
 			active: false,
 			name: 'active',
-			data: {}
+			data: {
+				xxx: 'bar'
+			}
 		}
 	]
 
@@ -710,27 +742,9 @@ avaTest('anyOf - nested anyOfs', async (test) => {
 		schema
 	})
 
-	test.deepEqual(results, [
-		{
-			id: results[0].id,
-			type: 'foo',
-			active: true,
-			name: 'active',
-			data: {}
-		},
-		{
-			id: results[1].id,
-			type: 'foo',
-			active: true,
-			name: 'inactive',
-			data: {}
-		},
-		{
-			id: results[2].id,
-			type: 'foo',
-			active: false,
-			name: 'active',
-			data: {}
-		}
+	test.deepEqual(_.map(results, 'slug'), [
+		'foo-1',
+		'foo-3',
+		'foo-4'
 	])
 })
