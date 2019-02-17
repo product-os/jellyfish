@@ -218,20 +218,6 @@ ava('.getElementBySlug() should fetch an element given its slug', async (test) =
 	test.deepEqual(result, element)
 })
 
-ava('.createTable() should be able to create a table', async (test) => {
-	test.false(await test.context.backend.hasTable(test.context.context, 'foobar'))
-	await test.context.backend.createTable(test.context.context, 'foobar')
-	test.true(await test.context.backend.hasTable(test.context.context, 'foobar'))
-})
-
-ava('.createTable() should ignore continuous attempts to create the same table', async (test) => {
-	test.false(await test.context.backend.hasTable(test.context.context, 'foobar'))
-	await test.context.backend.createTable(test.context.context, 'foobar')
-	await test.context.backend.createTable(test.context.context, 'foobar')
-	await test.context.backend.createTable(test.context.context, 'foobar')
-	test.true(await test.context.backend.hasTable(test.context.context, 'foobar'))
-})
-
 ava('.insertElement() should not insert an element without a slug nor an id to an existing table', async (test) => {
 	await test.throwsAsync(test.context.backend.insertElement(test.context.context, {
 		test: 'foo',
