@@ -76,16 +76,21 @@ const runner = async ({
 	 */
 	await connection.any(`CREATE TABLE IF NOT EXISTS ${table} (
 		id VARCHAR (255) PRIMARY KEY NOT NULL,
-		data jsonb)`)
+		type TEXT NOT NULL,
+		active BOOLEAN NOT NULL,
+		name TEXT,
+		data jsonb NOT NULL)`)
 
 	/*
 	 * 2. Insert the elements we will try to query.
 	 */
 	for (const item of elements) {
-		const id = uuid()
-		await connection.any(`INSERT INTO ${table} VALUES ($1, $2)`, [
-			_.get(item, [ 'id' ], id),
-			JSON.stringify(item)
+		await connection.any(`INSERT INTO ${table} VALUES ($1, $2, $3, $4, $5)`, [
+			item.id,
+			item.type || 'card',
+			_.isBoolean(item.active) ? item.active : true,
+			_.isString(item.name) ? item.name : null,
+			item.data
 		])
 	}
 
@@ -190,20 +195,35 @@ for (const suite of jsonSchemaTestSuite.draft6()) {
 			 * schema, and we expect to get a result of the schema
 			 * is expected to match.
 			 */
-			avaTest(`${title} [Normal]`, async (test) => {
-				const results = await runner({
-					connection: test.context.connection,
-					table,
-					elements: [ testCase.data ],
-					schema: scenario.schema,
-					assumeValidCard: false
-				})
+			if (_.isPlainObject(testCase.data)) {
+				avaTest(`${title} [Normal]`, async (test) => {
+					const results = await runner({
+						connection: test.context.connection,
+						table,
+						elements: [
+							{
+								id: uuid(),
+								data: testCase.data
+							}
+						],
+						schema: {
+							type: 'object',
+							required: [ 'id', 'data' ],
+							properties: {
+								id: {
+									type: 'string'
+								},
+								data: scenario.schema
+							}
+						}
+					})
 
-				test.is(results.length === 1, testCase.valid)
-				if (testCase.valid) {
-					test.deepEqual(results[0].data, testCase.data)
-				}
-			})
+					test.is(results.length === 1, testCase.valid)
+					if (testCase.valid) {
+						test.deepEqual(results[0].data, testCase.data)
+					}
+				})
+			}
 
 			/*
 			 * Pretty much the same as before, but wrap the scenario
@@ -216,16 +236,28 @@ for (const suite of jsonSchemaTestSuite.draft6()) {
 					table: `NESTED_${table}`,
 					elements: [
 						{
-							wrapper: testCase.data
+							id: uuid(),
+							data: {
+								wrapper: testCase.data
+							}
 						}
 					],
 					schema: {
 						type: 'object',
+						required: [ 'id', 'data' ],
 						properties: {
-							wrapper: scenario.schema
+							id: {
+								type: 'string'
+							},
+							data: {
+								type: 'object',
+								required: [ 'wrapper' ],
+								properties: {
+									wrapper: scenario.schema
+								}
+							}
 						}
-					},
-					assumeValidCard: false
+					}
 				})
 
 				test.is(results.length === 1, testCase.valid)
@@ -250,13 +282,23 @@ avaTest('injection - should escape malicious query keys', async (test) => {
 
 	const schema = {
 		type: 'object',
+		required: [ 'id', 'data' ],
 		properties: {
-			'Robert\'); DROP TABLE cards; --': {
+			id: {
+				type: 'string'
+			},
+			data: {
 				type: 'object',
+				required: [ 'Robert\'); DROP TABLE cards; --' ],
 				properties: {
 					'Robert\'); DROP TABLE cards; --': {
-						type: 'string',
-						const: 'foo'
+						type: 'object',
+						properties: {
+							'Robert\'); DROP TABLE cards; --': {
+								type: 'string',
+								const: 'foo'
+							}
+						}
 					}
 				}
 			}
@@ -265,8 +307,11 @@ avaTest('injection - should escape malicious query keys', async (test) => {
 
 	const elements = [
 		{
-			'Robert\'); DROP TABLE cards; --': {
-				'Robert\'); DROP TABLE cards; --': 'foo'
+			id: uuid(),
+			data: {
+				'Robert\'); DROP TABLE cards; --': {
+					'Robert\'); DROP TABLE cards; --': 'foo'
+				}
 			}
 		}
 	]
@@ -286,18 +331,30 @@ avaTest('injection - should escape malicious query values', async (test) => {
 
 	const schema = {
 		type: 'object',
+		required: [ 'id', 'data' ],
 		properties: {
-			foo: {
-				type: 'string',
-				const: 'Robert\'; DROP TABLE cards; --'
+			id: {
+				type: 'string'
+			},
+			data: {
+				type: 'object',
+				required: [ 'foo' ],
+				properties: {
+					foo: {
+						type: 'string',
+						const: 'Robert\'; DROP TABLE cards; --'
+					}
+				}
 			}
-		},
-		required: [ 'foo' ]
+		}
 	}
 
 	const elements = [
 		{
-			foo: 'Robert\'; DROP TABLE cards; --'
+			id: uuid(),
+			data: {
+				foo: 'Robert\'; DROP TABLE cards; --'
+			}
 		}
 	]
 
@@ -316,27 +373,30 @@ avaTest('order - should sort values in ascending order by default when specifyin
 	const schema = {
 		type: 'object',
 		properties: {
-			slug: {
+			type: {
 				type: 'string'
 			}
 		},
-		required: [ 'slug' ]
+		required: [ 'type' ]
 	}
 	const elements = [
 		{
-			slug: 'beta',
+			id: uuid(),
+			type: 'beta',
 			data: {
 				timestamp: 1549016200000
 			}
 		},
 		{
-			slug: 'gamma',
+			id: uuid(),
+			type: 'gamma',
 			data: {
 				timestamp: 1549016300000
 			}
 		},
 		{
-			slug: 'alpha',
+			id: uuid(),
+			type: 'alpha',
 			data: {
 				timestamp: 1549016100000
 			}
@@ -353,29 +413,34 @@ avaTest('order - should sort values in ascending order by default when specifyin
 		}
 	})
 
+	console.log(results)
+
 	test.deepEqual(results, [
 		{
+			id: results[0].id,
+			type: 'alpha',
+			active: true,
+			name: null,
 			data: {
-				slug: 'alpha',
-				data: {
-					timestamp: 1549016100000
-				}
+				timestamp: 1549016100000
 			}
 		},
 		{
+			id: results[1].id,
+			type: 'beta',
+			active: true,
+			name: null,
 			data: {
-				slug: 'beta',
-				data: {
-					timestamp: 1549016200000
-				}
+				timestamp: 1549016200000
 			}
 		},
 		{
+			id: results[2].id,
+			type: 'gamma',
+			active: true,
+			name: null,
 			data: {
-				slug: 'gamma',
-				data: {
-					timestamp: 1549016300000
-				}
+				timestamp: 1549016300000
 			}
 		}
 	])
@@ -387,28 +452,31 @@ avaTest('order - should be able to sort values in descending order', async (test
 	const schema = {
 		type: 'object',
 		properties: {
-			slug: {
+			type: {
 				type: 'string'
 			}
 		},
-		required: [ 'slug' ]
+		required: [ 'type' ]
 	}
 
 	const elements = [
 		{
-			slug: 'beta',
+			id: uuid(),
+			type: 'beta',
 			data: {
 				timestamp: 1549016200000
 			}
 		},
 		{
-			slug: 'gamma',
+			id: uuid(),
+			type: 'gamma',
 			data: {
 				timestamp: 1549016300000
 			}
 		},
 		{
-			slug: 'alpha',
+			id: uuid(),
+			type: 'alpha',
 			data: {
 				timestamp: 1549016100000
 			}
@@ -428,27 +496,30 @@ avaTest('order - should be able to sort values in descending order', async (test
 
 	test.deepEqual(results, [
 		{
+			id: results[0].id,
+			active: true,
+			name: null,
+			type: 'gamma',
 			data: {
-				slug: 'gamma',
-				data: {
-					timestamp: 1549016300000
-				}
+				timestamp: 1549016300000
 			}
 		},
 		{
+			id: results[1].id,
+			active: true,
+			name: null,
+			type: 'beta',
 			data: {
-				slug: 'beta',
-				data: {
-					timestamp: 1549016200000
-				}
+				timestamp: 1549016200000
 			}
 		},
 		{
+			id: results[2].id,
+			active: true,
+			name: null,
+			type: 'alpha',
 			data: {
-				slug: 'alpha',
-				data: {
-					timestamp: 1549016100000
-				}
+				timestamp: 1549016100000
 			}
 		}
 	])
@@ -460,28 +531,31 @@ avaTest('order - should be able to sort values by a single string value', async 
 	const schema = {
 		type: 'object',
 		properties: {
-			slug: {
+			type: {
 				type: 'string'
 			}
 		},
-		required: [ 'slug' ]
+		required: [ 'type' ]
 	}
 
 	const elements = [
 		{
-			slug: 'beta',
+			id: uuid(),
+			type: 'beta',
 			data: {
 				timestamp: 1549016200000
 			}
 		},
 		{
-			slug: 'gamma',
+			id: uuid(),
+			type: 'gamma',
 			data: {
 				timestamp: 1549016300000
 			}
 		},
 		{
-			slug: 'alpha',
+			id: uuid(),
+			type: 'alpha',
 			data: {
 				timestamp: 1549016100000
 			}
@@ -494,33 +568,36 @@ avaTest('order - should be able to sort values by a single string value', async 
 		elements,
 		schema,
 		options: {
-			sortBy: 'slug'
+			sortBy: 'type'
 		}
 	})
 
 	test.deepEqual(results, [
 		{
+			id: results[0].id,
+			active: true,
+			name: null,
+			type: 'alpha',
 			data: {
-				slug: 'alpha',
-				data: {
-					timestamp: 1549016100000
-				}
+				timestamp: 1549016100000
 			}
 		},
 		{
+			id: results[1].id,
+			active: true,
+			name: null,
+			type: 'beta',
 			data: {
-				slug: 'beta',
-				data: {
-					timestamp: 1549016200000
-				}
+				timestamp: 1549016200000
 			}
 		},
 		{
+			id: results[2].id,
+			active: true,
+			name: null,
+			type: 'gamma',
 			data: {
-				slug: 'gamma',
-				data: {
-					timestamp: 1549016300000
-				}
+				timestamp: 1549016300000
 			}
 		}
 	])
@@ -531,9 +608,9 @@ avaTest('anyOf - nested anyOfs', async (test) => {
 
 	const schema = {
 		type: 'object',
-		required: [ 'slug' ],
+		required: [ 'type' ],
 		properties: {
-			slug: {
+			type: {
 				type: 'string',
 				const: 'foo'
 			}
@@ -569,44 +646,60 @@ avaTest('anyOf - nested anyOfs', async (test) => {
 
 	const elements = [
 		{
-			slug: 'foo',
+			id: uuid(),
+			type: 'foo',
 			active: true,
-			name: 'active'
+			name: 'active',
+			data: {}
 		},
 		{
-			slug: 'foo',
+			id: uuid(),
+			type: 'foo',
 			active: false,
-			name: 'inactive'
+			name: 'inactive',
+			data: {}
 		},
 		{
-			slug: 'foo',
+			id: uuid(),
+			type: 'foo',
 			active: true,
-			name: 'inactive'
+			name: 'inactive',
+			data: {}
 		},
 		{
-			slug: 'foo',
+			id: uuid(),
+			type: 'foo',
 			active: false,
-			name: 'active'
+			name: 'active',
+			data: {}
 		},
 		{
-			slug: 'bar',
+			id: uuid(),
+			type: 'bar',
 			active: true,
-			name: 'active'
+			name: 'active',
+			data: {}
 		},
 		{
-			slug: 'bar',
+			id: uuid(),
+			type: 'bar',
 			active: false,
-			name: 'inactive'
+			name: 'inactive',
+			data: {}
 		},
 		{
-			slug: 'bar',
+			id: uuid(),
+			type: 'bar',
 			active: true,
-			name: 'inactive'
+			name: 'inactive',
+			data: {}
 		},
 		{
-			slug: 'bar',
+			id: uuid(),
+			type: 'bar',
 			active: false,
-			name: 'active'
+			name: 'active',
+			data: {}
 		}
 	]
 
@@ -619,25 +712,25 @@ avaTest('anyOf - nested anyOfs', async (test) => {
 
 	test.deepEqual(results, [
 		{
-			data: {
-				slug: 'foo',
-				active: true,
-				name: 'active'
-			}
+			id: results[0].id,
+			type: 'foo',
+			active: true,
+			name: 'active',
+			data: {}
 		},
 		{
-			data: {
-				slug: 'foo',
-				active: true,
-				name: 'inactive'
-			}
+			id: results[1].id,
+			type: 'foo',
+			active: true,
+			name: 'inactive',
+			data: {}
 		},
 		{
-			data: {
-				slug: 'foo',
-				active: false,
-				name: 'active'
-			}
+			id: results[2].id,
+			type: 'foo',
+			active: false,
+			name: 'active',
+			data: {}
 		}
 	])
 })
