@@ -525,3 +525,119 @@ avaTest('order - should be able to sort values by a single string value', async 
 		}
 	])
 })
+
+avaTest('anyOf - nested anyOfs', async (test) => {
+	const table = 'any_of_nested_0'
+
+	const schema = {
+		type: 'object',
+		required: [ 'slug' ],
+		properties: {
+			slug: {
+				type: 'string',
+				const: 'foo'
+			}
+		},
+		anyOf: [
+			{
+				type: 'object',
+				anyOf: [
+					{
+						type: 'object',
+						required: [ 'active' ],
+						properties: {
+							active: {
+								type: 'boolean',
+								const: true
+							}
+						}
+					},
+					{
+						type: 'object',
+						required: [ 'name' ],
+						properties: {
+							name: {
+								type: 'string',
+								const: 'active'
+							}
+						}
+					}
+				]
+			}
+		]
+	}
+
+	const elements = [
+		{
+			slug: 'foo',
+			active: true,
+			name: 'active'
+		},
+		{
+			slug: 'foo',
+			active: false,
+			name: 'inactive'
+		},
+		{
+			slug: 'foo',
+			active: true,
+			name: 'inactive'
+		},
+		{
+			slug: 'foo',
+			active: false,
+			name: 'active'
+		},
+		{
+			slug: 'bar',
+			active: true,
+			name: 'active'
+		},
+		{
+			slug: 'bar',
+			active: false,
+			name: 'inactive'
+		},
+		{
+			slug: 'bar',
+			active: true,
+			name: 'inactive'
+		},
+		{
+			slug: 'bar',
+			active: false,
+			name: 'active'
+		}
+	]
+
+	const results = await runner({
+		connection: test.context.connection,
+		table,
+		elements,
+		schema
+	})
+
+	test.deepEqual(results, [
+		{
+			data: {
+				slug: 'foo',
+				active: true,
+				name: 'active'
+			}
+		},
+		{
+			data: {
+				slug: 'foo',
+				active: true,
+				name: 'inactive'
+			}
+		},
+		{
+			data: {
+				slug: 'foo',
+				active: false,
+				name: 'active'
+			}
+		}
+	])
+})
