@@ -67,7 +67,7 @@ jsonStream.on('data', (object) => {
 		object.tags || [],
 		object.markers || [],
 		object.created_at || new Date().toISOString(),
-		object.links || {},
+		{},
 		object.requires || [],
 		object.capabilities || [],
 		object.data || {}
@@ -88,9 +88,37 @@ jsonStream.on('data', (object) => {
 			requires = $11,
 			capabilities = $12,
 			data = $13
-		RETURNING *`, payload).then((results) => {
-		count++
-		jsonStream.resume()
+		RETURNING *`, payload).then(() => {
+		if (object.type !== 'link') {
+			return Bluebird.resolve()
+		}
+
+		return connection.any(`
+			INSERT INTO links VALUES ($1, $2, $3, $4, $5, $6)
+			ON CONFLICT (id) DO UPDATE SET
+				slug = $2,
+				name = $3,
+				inverseName = $4,
+				fromId = $5,
+				toId = $6
+		`, [
+			object.id,
+			object.slug,
+			object.name,
+			object.data.inverseName,
+			typeof object.data.from === 'string' ? object.data.from : object.data.from.id,
+			typeof object.data.to === 'string' ? object.data.to : object.data.to.id
+		]).catch((error) => {
+			if (error.constraint === 'links_toid_fkey' ||
+					error.constraint === 'links_fromid_fkey') {
+				return
+			}
+
+			throw error
+		}).then(() => {
+			count++
+			jsonStream.resume()
+		})
 	}).catch((error) => {
 		console.error('Insert error')
 		return onError(error)

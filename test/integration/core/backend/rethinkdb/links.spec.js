@@ -219,7 +219,7 @@ avaTest('.evaluate(is attached to) should return the whole target if additionalP
 		type: 'card'
 	})
 
-	const link = await test.context.backend.upsertElement(test.context.context, {
+	await test.context.backend.upsertElement(test.context.context, {
 		type: 'link',
 		slug: `link-${input.slug}-has-attached-element-${card.slug}`,
 		version: '1.0.0',
@@ -271,16 +271,7 @@ avaTest('.evaluate(is attached to) should return the whole target if additionalP
 			name: null,
 			version: '1.0.0',
 			active: true,
-			links: {
-				'has attached element': [
-					{
-						$link: link.id,
-						id: input.id,
-						slug: 'bar',
-						type: 'card'
-					}
-				]
-			},
+			links: {},
 			tags: [],
 			requires: [],
 			capabilities: [],

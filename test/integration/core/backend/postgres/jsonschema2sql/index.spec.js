@@ -12,6 +12,7 @@ const pgp = require('pg-promise')()
 const environment = require('../../../../../../lib/environment')
 const jsonschema2sql = require('../../../../../../lib/core/backend/postgres/jsonschema2sql')
 const cards = require('../../../../../../lib/core/backend/postgres/cards')
+const links = require('../../../../../../lib/core/backend/postgres/links')
 const errors = require('../../../../../../lib/core/errors')
 const IS_POSTGRES = environment.database.type === 'postgres'
 
@@ -83,6 +84,9 @@ const runner = async ({
 	 */
 	await cards.setup(context, connection, database, {
 		table
+	})
+	await links.setup(context, connection, database, {
+		cards: table
 	})
 
 	/*
@@ -745,5 +749,74 @@ avaTest('anyOf - nested anyOfs', async (test) => {
 		'foo-1',
 		'foo-3',
 		'foo-4'
+	])
+})
+
+avaTest('jsonb_pattern - inside items in a jsonb column', async (test) => {
+	const table = 'pattern_items_jsonb'
+
+	const schema = {
+		type: 'object',
+		required: [ 'id', 'type', 'data' ],
+		properties: {
+			id: {
+				type: 'string'
+			},
+			type: {
+				type: 'string'
+			},
+			data: {
+				type: 'object',
+				additionalProperties: true,
+				required: [ 'mirrors' ],
+				properties: {
+					mirrors: {
+						type: 'array',
+						items: {
+							type: 'string',
+							pattern: '^https'
+						}
+					}
+				}
+			}
+		}
+	}
+
+	const elements = [
+		{
+			slug: 'test-pattern-1',
+			version: '1.0.0',
+			type: 'card',
+			active: true,
+			name: 'active',
+			data: {
+				mirrors: []
+			}
+		},
+		{
+			slug: 'test-pattern-2',
+			version: '1.0.0',
+			type: 'card',
+			active: true,
+			name: 'active',
+			data: {
+				mirrors: [
+					'https://github.com/balena-io/jellyfish-test-github/issues/5998'
+				]
+			}
+		}
+	]
+
+	const results = await runner({
+		connection: test.context.connection,
+		database: test.context.database,
+		table,
+		elements,
+		schema
+	})
+
+	test.deepEqual(_.map(results, 'slug'), [
+		'test-pattern-1',
+		'test-pattern-2'
 	])
 })

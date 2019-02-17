@@ -277,6 +277,7 @@ ava.serial('timeline cards should reference the correct actor', async (test) => 
 	// Wait for links to be materialized
 	const waitQuery = {
 		type: 'object',
+		additionalProperties: true,
 		$$links: {
 			'has attached element': {
 				type: 'object',
@@ -293,18 +294,9 @@ ava.serial('timeline cards should reference the correct actor', async (test) => 
 			id: {
 				type: 'string',
 				const: thread.id
-			},
-			links: {
-				type: 'object',
-				properties: {
-					'has attached element': {
-						type: 'array'
-					}
-				},
-				required: [ 'has attached element' ]
 			}
 		},
-		required: [ 'id', 'links' ]
+		required: [ 'id' ]
 	}
 
 	await test.context.executeThenWait(() => {
@@ -586,7 +578,11 @@ ava.serial('should not be able to post an unsupported external event', async (te
 	test.true(result.response.error)
 })
 
-ava.serial('should be able to post a GitHub event without a signature', async (test) => {
+const githubAvaTest = environment.getIntegrationToken('github')
+	? ava.serial
+	: ava.skip
+
+githubAvaTest('should be able to post a GitHub event without a signature', async (test) => {
 	const result = await test.context.http('POST', '/api/v2/hooks/github', {
 		foo: 'bar',
 		bar: 'baz'
@@ -634,7 +630,7 @@ ava.serial('should be able to post a GitHub event without a signature', async (t
 	})
 })
 
-ava.serial('should take a GitHub event with a valid signature', async (test) => {
+githubAvaTest('should take a GitHub event with a valid signature', async (test) => {
 	const object = '{"foo":"bar"}'
 	const hash = crypto.createHmac('sha1', environment.integration.github.signatureKey)
 		.update(object)

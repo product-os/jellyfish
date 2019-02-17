@@ -25,16 +25,6 @@
       "description": "",
       "status": "closed",
       "archived": false
-    },
-    "links": {
-      "has head at": [{
-        "type": "repository",
-        "slug": "repository-resin-io-jellyfish"
-      }],
-      "has base at": [{
-        "type": "repository",
-        "slug": "repository-resin-io-jellyfish"
-      }]
     }
   },
   "tail": [
