@@ -390,7 +390,7 @@ rules:
   lodash/prefer-is-nil:
     - error
   lodash/prefer-lodash-chain:
-    - error
+    - off
   lodash/prefer-lodash-method:
     - off
   lodash/prefer-lodash-typecheck:
