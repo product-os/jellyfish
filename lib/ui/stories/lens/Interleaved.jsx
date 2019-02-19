@@ -61,12 +61,12 @@ const channel = {
 								},
 								type: {
 									const: 'message'
-								}
-							},
-							markers: {
-								type: 'array',
-								contains: {
-									const: 'org-balena'
+								},
+								markers: {
+									type: 'array',
+									contains: {
+										const: 'org-balena'
+									}
 								}
 							},
 							required: [

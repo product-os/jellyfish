@@ -24,7 +24,7 @@ const IS_POSTGRES = environment.database.type === 'postgres'
 /* eslint-disable capitalized-comments, lines-around-comment */
 const SUPPORTED_SUITES = [
 	// additionalItems
-	'additionalProperties',
+	// additionalProperties
 	'allOf',
 	'anyOf',
 	'boolean_schema',
@@ -54,7 +54,7 @@ const SUPPORTED_SUITES = [
 	'zeroTerminatedFloats',
 	'pattern',
 	'patternProperties',
-	'properties',
+	// 'properties',
 	'propertyNames',
 	// ref
 	// refRemote
