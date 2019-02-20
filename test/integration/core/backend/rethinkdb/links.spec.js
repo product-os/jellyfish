@@ -268,6 +268,7 @@ avaTest('.evaluate(is attached to) should return the whole target if additionalP
 			id: card.id,
 			slug: 'foo',
 			type: 'card',
+			name: null,
 			version: '1.0.0',
 			active: true,
 			links: {

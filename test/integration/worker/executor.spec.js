@@ -59,6 +59,7 @@ ava('.insertCard() should insert a card', async (test) => {
 	test.deepEqual(card, test.context.jellyfish.defaults({
 		created_at: result.created_at,
 		id: result.id,
+		name: null,
 		slug: 'foo',
 		type: 'card',
 		data: {
@@ -1137,6 +1138,7 @@ ava('.insertCard() should add a triggered action given a type with an AGGREGATE 
 			slug: 'triggered-action-test-thread-data-mentions',
 			type: 'triggered-action',
 			version: '1.0.0',
+			name: null,
 			active: true,
 			links: {},
 			tags: [],
@@ -1387,6 +1389,7 @@ ava('.run() should create a card', async (test) => {
 		created_at: result.created_at,
 		id: result.id,
 		slug: 'foo-bar-baz',
+		name: null,
 		type: 'card',
 		version: '1.0.0',
 		active: true,

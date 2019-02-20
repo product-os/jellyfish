@@ -779,6 +779,7 @@ ava('.upsertElement() should not consider ids when inserting an element with an 
 		created_at: result3.created_at,
 		capabilities: [],
 		active: true,
+		name: null,
 		type: 'card',
 		version: '1.0.0',
 		links: {},
@@ -867,6 +868,7 @@ ava('.upsertElement() should ignore the id when' +
 		id: result1.id,
 		created_at: result2.created_at,
 		links: {},
+		name: null,
 		version: '1.0.0',
 		tags: [],
 		data: {},
@@ -2370,6 +2372,7 @@ ava('.query() should resolve "limit" after resolving links', async (test) => {
 			capabilities: [],
 			created_at: thread2.created_at,
 			markers: [],
+			name: null,
 			requires: [],
 			tags: [],
 			version: '1.0.0',
@@ -2752,6 +2755,7 @@ ava('.query() should be able to query using links when getting an element by id'
 				'is attached to': [
 					{
 						active: true,
+						name: null,
 						slug: 'foo',
 						data: {
 							description: 'lorem ipsum dolor sit amet'
@@ -2879,6 +2883,7 @@ ava('.query() should be able to query using links when getting an element by slu
 					{
 						slug: 'foo',
 						active: true,
+						name: null,
 						data: {
 							description: 'lorem ipsum dolor sit amet'
 						},
@@ -3047,6 +3052,7 @@ ava('.query() should be able to query using links and an inverse name', async (t
 						active: true,
 						slug: 'foo',
 						id: message1.id,
+						name: null,
 						created_at: message1.created_at,
 						capabilities: [],
 						markers: [],
@@ -3072,6 +3078,7 @@ ava('.query() should be able to query using links and an inverse name', async (t
 						active: true,
 						slug: 'bar',
 						id: message2.id,
+						name: null,
 						created_at: message2.created_at,
 						capabilities: [],
 						markers: [],
@@ -3260,6 +3267,7 @@ ava('.query() should omit a result if a link does not match', async (test) => {
 					{
 						active: true,
 						data: {},
+						name: null,
 						id: thread.id,
 						created_at: thread.created_at,
 						capabilities: [],

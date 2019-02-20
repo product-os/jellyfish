@@ -752,6 +752,7 @@ ava.serial('.card.create() should resolve with the created card', async (test) =
 		id: card.id,
 		created_at: card.created_at,
 		version: '1.0.0',
+		name: null,
 		slug,
 		type: 'card',
 		active: true,

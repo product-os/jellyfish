@@ -254,6 +254,7 @@ ava('.getLastExecutionEvent() should return the last execution event given one e
 	test.deepEqual(event, test.context.kernel.defaults({
 		created_at: card.created_at,
 		id: card.id,
+		name: null,
 		slug: event.slug,
 		type: 'execute',
 		version: '1.0.0',
@@ -310,6 +311,7 @@ ava('.getLastExecutionEvent() should return the last event given a matching and 
 		id: card1.id,
 		slug: event.slug,
 		type: 'execute',
+		name: null,
 		version: '1.0.0',
 		links: {},
 		data: {
@@ -363,6 +365,7 @@ ava('.getLastExecutionEvent() should return the last execution event given two m
 		created_at: card1.created_at,
 		id: card1.id,
 		slug: event.slug,
+		name: null,
 		type: 'execute',
 		version: '1.0.0',
 		links: {},

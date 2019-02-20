@@ -18,6 +18,7 @@ ava.afterEach(helpers.kernel.afterEach)
 for (const key in CARDS) {
 	ava(`should contain the ${key} card by default`, async (test) => {
 		const card = await CARDS[key]
+		card.name = _.isString(card.name) ? card.name : null
 		const element = await test.context.kernel.getCardBySlug(
 			test.context.context, test.context.kernel.sessions.admin, card.slug)
 		test.deepEqual(card, _.omit(element, [ 'created_at', 'id' ]))
@@ -121,6 +122,7 @@ ava('.insertCard() should use defaults if required keys are missing', async (tes
 		created_at: card.created_at,
 		slug: 'hello-world',
 		type: 'card',
+		name: null,
 		active: true,
 		version: '1.0.0',
 		tags: [],
@@ -234,6 +236,7 @@ ava('.insertCard() should update links property when linking two cards', async (
 		created_at: card1.created_at,
 		id: card1.id,
 		slug: 'foo-bar',
+		name: null,
 		type: 'card',
 		version: '1.0.0',
 		active: true,
@@ -258,6 +261,7 @@ ava('.insertCard() should update links property when linking two cards', async (
 		created_at: card2.created_at,
 		id: card2.id,
 		slug: 'bar-baz',
+		name: null,
 		type: 'card',
 		version: '1.0.0',
 		active: true,
@@ -308,6 +312,7 @@ ava('.insertCard() should not update links property when linking a valid card to
 		created_at: card1.created_at,
 		id: card1.id,
 		slug: 'foo-bar',
+		name: null,
 		type: 'card',
 		version: '1.0.0',
 		active: true,
@@ -349,6 +354,7 @@ ava('.insertCard() should not update links property when linking an invalid card
 		created_at: card2.created_at,
 		id: card2.id,
 		slug: 'bar-baz',
+		name: null,
 		type: 'card',
 		version: '1.0.0',
 		active: true,
@@ -414,6 +420,7 @@ ava('.insertCard() should update links property when linking two cards in two di
 		id: card1.id,
 		slug: 'foo-bar',
 		type: 'card',
+		name: null,
 		version: '1.0.0',
 		active: true,
 		links: {
@@ -445,6 +452,7 @@ ava('.insertCard() should update links property when linking two cards in two di
 		created_at: card2.created_at,
 		id: card2.id,
 		slug: 'bar-baz',
+		name: null,
 		type: 'card',
 		version: '1.0.0',
 		active: true,
@@ -548,6 +556,7 @@ ava('.insertCard() should be able to remove a link', async (test) => {
 		created_at: card1.created_at,
 		id: card1.id,
 		slug: 'foo-bar',
+		name: null,
 		type: 'card',
 		version: '1.0.0',
 		active: true,
@@ -573,6 +582,7 @@ ava('.insertCard() should be able to remove a link', async (test) => {
 		created_at: card2.created_at,
 		id: card2.id,
 		slug: 'bar-baz',
+		name: null,
 		type: 'card',
 		version: '1.0.0',
 		active: true,
