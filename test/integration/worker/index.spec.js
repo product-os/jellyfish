@@ -1426,6 +1426,7 @@ ava('.tick() should enqueue an action if there is a time trigger with a past sta
 	test.deepEqual(request, test.context.jellyfish.defaults({
 		id: request.id,
 		created_at: request.created_at,
+		name: null,
 		links: request.links,
 		slug: request.slug,
 		type: 'action-request',
@@ -1480,6 +1481,7 @@ ava('.tick() should enqueue an action if there is a time trigger with a present 
 	test.deepEqual(request, test.context.jellyfish.defaults({
 		id: request.id,
 		slug: request.slug,
+		name: null,
 		links: request.links,
 		created_at: request.created_at,
 		type: 'action-request',
@@ -1594,6 +1596,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 		test.context.jellyfish.defaults({
 			id: actionRequests[0].id,
 			slug: actionRequests[0].slug,
+			name: null,
 			links: actionRequests[0].links,
 			created_at: actionRequests[0].created_at,
 			type: 'action-request',
@@ -1619,6 +1622,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 		test.context.jellyfish.defaults({
 			id: actionRequests[1].id,
 			slug: actionRequests[1].slug,
+			name: null,
 			links: actionRequests[1].links,
 			created_at: actionRequests[1].created_at,
 			type: 'action-request',
@@ -1689,6 +1693,7 @@ ava('should be able to login as a user with a password', async (test) => {
 	const session = await test.context.jellyfish.getCardById(test.context.context, test.context.session, loginResult.data.id)
 	test.deepEqual(session, test.context.kernel.defaults({
 		created_at: loginResult.data.created_at,
+		name: null,
 		id: loginResult.data.id,
 		slug: session.slug,
 		version: '1.0.0',
@@ -1894,6 +1899,7 @@ ava('should update a card to add an extra property', async (test) => {
 		created_at: updateResult.data.created_at,
 		id: updateResult.data.id,
 		slug: 'foo',
+		name: null,
 		version: '1.0.0',
 		type: 'card',
 		links: card.links,
@@ -1947,6 +1953,7 @@ ava('should update a card to set active to false', async (test) => {
 		created_at: updateResult.data.created_at,
 		id: updateResult.data.id,
 		version: '1.0.0',
+		name: null,
 		slug: 'foo',
 		type: 'card',
 		active: false,
@@ -1997,6 +2004,7 @@ ava('should update a card to set active to false using the card slug as input', 
 		created_at: updateResult.data.created_at,
 		id: updateResult.data.id,
 		type: 'card',
+		name: null,
 		version: '1.0.0',
 		slug: 'foo-bar-baz',
 		active: false,
@@ -2053,6 +2061,7 @@ ava('should update a card to override an array property', async (test) => {
 		created_at: updateResult.data.created_at,
 		id: updateResult.data.id,
 		type: 'card',
+		name: null,
 		slug: 'foo',
 		version: '1.0.0',
 		links: card.links,
@@ -2128,6 +2137,7 @@ ava('should add an update event if updating a card', async (test) => {
 		{
 			created_at: timeline[0].created_at,
 			id: timeline[0].id,
+			name: null,
 			version: '1.0.0',
 			type: 'create',
 			slug: timeline[0].slug,
@@ -2158,6 +2168,7 @@ ava('should add an update event if updating a card', async (test) => {
 		{
 			created_at: timeline[1].created_at,
 			id: timeline[1].id,
+			name: null,
 			version: '1.0.0',
 			type: 'update',
 			slug: timeline[1].slug,
@@ -2232,6 +2243,7 @@ ava('should delete a card using action-delete-card', async (test) => {
 	test.deepEqual(card, test.context.kernel.defaults({
 		created_at: deleteResult.data.created_at,
 		id: deleteResult.data.id,
+		name: null,
 		version: '1.0.0',
 		slug: 'foo',
 		type: 'card',
@@ -2282,6 +2294,7 @@ ava('should delete a card using action-update-card', async (test) => {
 	test.deepEqual(card, test.context.kernel.defaults({
 		created_at: updateResult.data.created_at,
 		id: updateResult.data.id,
+		name: null,
 		type: 'card',
 		slug: 'foo',
 		version: '1.0.0',

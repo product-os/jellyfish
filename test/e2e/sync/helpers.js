@@ -212,6 +212,7 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 
 	const expectedTail = _.map(_.sortBy(_.filter(testCase.expected.tail, tailFilter), tailSort), (card, index) => {
 		card.id = _.get(actualTail, [ index, 'id' ])
+		card.name = _.get(actualTail, [ index, 'name' ])
 		card.data.actor = _.get(actualTail, [ index, 'data', 'actor' ])
 
 		// TODO: This shouldn't be necessary anymore
