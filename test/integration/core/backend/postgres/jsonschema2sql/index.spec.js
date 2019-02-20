@@ -11,6 +11,7 @@ const uuid = require('uuid/v4')
 const pgp = require('pg-promise')()
 const environment = require('../../../../../../lib/environment')
 const jsonschema2sql = require('../../../../../../lib/core/backend/postgres/jsonschema2sql')
+const cards = require('../../../../../../lib/core/backend/postgres/cards')
 const IS_POSTGRES = environment.database.type === 'postgres'
 
 /*
@@ -64,30 +65,24 @@ const SUPPORTED_SUITES = [
 ]
 /* eslint-enable capitalized-comments, lines-around-comment */
 
+const context = {
+	id: 'jsonschema2sql-test'
+}
+
 const runner = async ({
 	connection,
+	database,
 	elements,
 	options,
 	schema,
 	table
 }) => {
 	/*
-	 * 1. Create a unique table for the test.
+	 * 1. Create the necessary tables for the test.
 	 */
-	await connection.any(`CREATE TABLE IF NOT EXISTS ${table} (
-		id TEXT PRIMARY KEY NOT NULL,
-		slug VARCHAR (255) UNIQUE NOT NULL,
-		type TEXT NOT NULL,
-		active BOOLEAN NOT NULL,
-		version TEXT NOT NULL,
-		name TEXT,
-		tags TEXT[] NOT NULL,
-		markers TEXT[] NOT NULL,
-		created_at TEXT NOT NULL,
-		links JSONB NOT NULL,
-		requires JSONB[] NOT NULL,
-		capabilities JSONB[] NOT NULL,
-		data JSONB NOT NULL)`)
+	await cards.setup(context, connection, database, {
+		table
+	})
 
 	/*
 	 * 2. Insert the elements we will try to query.
@@ -221,6 +216,7 @@ for (const suite of jsonSchemaTestSuite.draft6()) {
 				avaTest(`${title} [Normal]`, async (test) => {
 					const results = await runner({
 						connection: test.context.connection,
+						database: test.context.database,
 						table,
 						elements: [
 							{
@@ -256,6 +252,7 @@ for (const suite of jsonSchemaTestSuite.draft6()) {
 			avaTest(`${title} [Nested object]`, async (test) => {
 				const results = await runner({
 					connection: test.context.connection,
+					database: test.context.database,
 					table: `NESTED_${table}`,
 					elements: [
 						{
@@ -343,6 +340,7 @@ avaTest('injection - should escape malicious query keys', async (test) => {
 
 	const results = await runner({
 		connection: test.context.connection,
+		database: test.context.database,
 		table,
 		elements,
 		schema
@@ -386,6 +384,7 @@ avaTest('injection - should escape malicious query values', async (test) => {
 
 	const results = await runner({
 		connection: test.context.connection,
+		database: test.context.database,
 		table,
 		elements,
 		schema
@@ -449,6 +448,7 @@ avaTest('order - should sort values in ascending order by default when specifyin
 
 	const results = await runner({
 		connection: test.context.connection,
+		database: test.context.database,
 		table,
 		elements,
 		schema,
@@ -521,6 +521,7 @@ avaTest('order - should be able to sort values in descending order', async (test
 
 	const results = await runner({
 		connection: test.context.connection,
+		database: test.context.database,
 		table,
 		elements,
 		schema,
@@ -594,6 +595,7 @@ avaTest('order - should be able to sort values by a single string value', async 
 
 	const results = await runner({
 		connection: test.context.connection,
+		database: test.context.database,
 		table,
 		elements,
 		schema,
@@ -737,6 +739,7 @@ avaTest('anyOf - nested anyOfs', async (test) => {
 
 	const results = await runner({
 		connection: test.context.connection,
+		database: test.context.database,
 		table,
 		elements,
 		schema
