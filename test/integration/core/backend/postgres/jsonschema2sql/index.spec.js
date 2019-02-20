@@ -11,6 +11,8 @@ const uuid = require('uuid/v4')
 const pgp = require('pg-promise')()
 const environment = require('../../../../../../lib/environment')
 const jsonschema2sql = require('../../../../../../lib/core/backend/postgres/jsonschema2sql')
+const cards = require('../../../../../../lib/core/backend/postgres/cards')
+const errors = require('../../../../../../lib/core/errors')
 const IS_POSTGRES = environment.database.type === 'postgres'
 
 /*
@@ -64,56 +66,45 @@ const SUPPORTED_SUITES = [
 ]
 /* eslint-enable capitalized-comments, lines-around-comment */
 
+const context = {
+	id: 'jsonschema2sql-test'
+}
+
 const runner = async ({
 	connection,
+	database,
 	elements,
 	options,
 	schema,
 	table
 }) => {
 	/*
-	 * 1. Create a unique table for the test.
+	 * 1. Create the necessary tables for the test.
 	 */
-	await connection.any(`CREATE TABLE IF NOT EXISTS ${table} (
-		id TEXT PRIMARY KEY NOT NULL,
-		slug VARCHAR (255) UNIQUE NOT NULL,
-		type TEXT NOT NULL,
-		active BOOLEAN NOT NULL,
-		version TEXT NOT NULL,
-		name TEXT,
-		tags TEXT[] NOT NULL,
-		markers TEXT[] NOT NULL,
-		created_at TEXT NOT NULL,
-		links JSONB NOT NULL,
-		requires JSONB[] NOT NULL,
-		capabilities JSONB[] NOT NULL,
-		data JSONB NOT NULL)`)
+	await cards.setup(context, connection, database, {
+		table
+	})
 
 	/*
 	 * 2. Insert the elements we will try to query.
 	 */
 	for (const item of elements) {
-		const id = uuid()
-		const payload = [
-			id,
-			item.slug || `test-${id}`,
-			item.type,
-			_.isBoolean(item.active) ? item.active : true,
-			item.version || '1.0.0',
-			typeof item.name === 'string'
-				? item.name
-				: null,
-			item.tags || [],
-			item.markers || [],
-			item.created_at || new Date().toISOString(),
-			item.links || {},
-			item.requires || [],
-			item.capabilities || [],
-			item.data || {}
-		]
-
-		await connection.any(`INSERT INTO ${table} VALUES
-			($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)`, payload)
+		await cards.upsert(context, errors, connection, {
+			slug: item.slug || `test-${uuid()}`,
+			type: item.type,
+			active: _.isBoolean(item.active) ? item.active : true,
+			version: item.version || '1.0.0',
+			name: item.name,
+			tags: item.tags || [],
+			markers: item.markers || [],
+			created_at: item.created_at || new Date().toISOString(),
+			links: item.links || {},
+			requires: item.requires || [],
+			capabilities: item.capabilities || [],
+			data: item.data || {}
+		}, {
+			table
+		})
 	}
 
 	/*
@@ -221,6 +212,7 @@ for (const suite of jsonSchemaTestSuite.draft6()) {
 				avaTest(`${title} [Normal]`, async (test) => {
 					const results = await runner({
 						connection: test.context.connection,
+						database: test.context.database,
 						table,
 						elements: [
 							{
@@ -256,6 +248,7 @@ for (const suite of jsonSchemaTestSuite.draft6()) {
 			avaTest(`${title} [Nested object]`, async (test) => {
 				const results = await runner({
 					connection: test.context.connection,
+					database: test.context.database,
 					table: `NESTED_${table}`,
 					elements: [
 						{
@@ -343,6 +336,7 @@ avaTest('injection - should escape malicious query keys', async (test) => {
 
 	const results = await runner({
 		connection: test.context.connection,
+		database: test.context.database,
 		table,
 		elements,
 		schema
@@ -386,6 +380,7 @@ avaTest('injection - should escape malicious query values', async (test) => {
 
 	const results = await runner({
 		connection: test.context.connection,
+		database: test.context.database,
 		table,
 		elements,
 		schema
@@ -449,6 +444,7 @@ avaTest('order - should sort values in ascending order by default when specifyin
 
 	const results = await runner({
 		connection: test.context.connection,
+		database: test.context.database,
 		table,
 		elements,
 		schema,
@@ -521,6 +517,7 @@ avaTest('order - should be able to sort values in descending order', async (test
 
 	const results = await runner({
 		connection: test.context.connection,
+		database: test.context.database,
 		table,
 		elements,
 		schema,
@@ -594,6 +591,7 @@ avaTest('order - should be able to sort values by a single string value', async 
 
 	const results = await runner({
 		connection: test.context.connection,
+		database: test.context.database,
 		table,
 		elements,
 		schema,
@@ -737,6 +735,7 @@ avaTest('anyOf - nested anyOfs', async (test) => {
 
 	const results = await runner({
 		connection: test.context.connection,
+		database: test.context.database,
 		table,
 		elements,
 		schema
