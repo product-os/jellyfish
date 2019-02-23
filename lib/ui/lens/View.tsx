@@ -159,7 +159,7 @@ class ViewRenderer extends React.Component<ViewRendererProps, ViewRendererState>
 		return (lens || _.get(this.state.lenses, ['0', 'slug'])) === 'lens-interleaved'
 			? this.state.options
 			: {
-				limit: 500,
+				limit: 20,
 				page: 0,
 				sortBy: 'created_at',
 				sortDir: 'desc',
