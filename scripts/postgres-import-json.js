@@ -90,6 +90,7 @@ jsonStream.on('data', (object) => {
 			data = $13
 		RETURNING *`, payload).then(() => {
 		if (object.type !== 'link') {
+			jsonStream.resume()
 			return Bluebird.resolve()
 		}
 
