@@ -15,7 +15,7 @@ ava.afterEach(helpers.kernel.afterEach)
 
 ava('.getSessionUser() should throw if the session is invalid', async (test) => {
 	await test.throwsAsync(permissionFilter.getSessionUser(
-		test.context.context, test.context.backend, 'xxxxxxxxxxxxxxxxxxxxxxxxxx', {
+		test.context.context, test.context.backend, '4a962ad9-20b5-4dd8-a707-bf819593cc84', {
 			user: 'cards',
 			session: 'sessions'
 		}), errors.JellyfishNoElement)

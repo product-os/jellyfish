@@ -131,7 +131,7 @@ ava('.getElementById() should return null if the element id is not present', asy
 
 ava('.getElementById() should not break the cache if trying to query a valid slug with it', async (test) => {
 	const element = await test.context.backend.upsertElement(test.context.context, {
-		slug: 'example',
+		slug: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		type: 'card',
 		test: 'foo',
 		links: {},
@@ -145,15 +145,17 @@ ava('.getElementById() should not break the cache if trying to query a valid slu
 		active: true
 	})
 
-	const result1 = await test.context.backend.getElementById(test.context.context, 'example', {
-		type: 'card'
-	})
+	const result1 = await test.context.backend.getElementById(
+		test.context.context, '4a962ad9-20b5-4dd8-a707-bf819593cc84', {
+			type: 'card'
+		})
 
 	test.deepEqual(result1, null)
 
-	const result2 = await test.context.backend.getElementBySlug(test.context.context, 'example', {
-		type: 'card'
-	})
+	const result2 = await test.context.backend.getElementBySlug(
+		test.context.context, '4a962ad9-20b5-4dd8-a707-bf819593cc84', {
+			type: 'card'
+		})
 
 	test.deepEqual(result2, element)
 })
