@@ -7,6 +7,7 @@
 const ava = require('ava')
 const crypto = require('crypto')
 const Bluebird = require('bluebird')
+const uuid = require('uuid/v4')
 const _ = require('lodash')
 const randomstring = require('randomstring')
 const helpers = require('../sdk/helpers')
@@ -277,6 +278,7 @@ ava.serial('timeline cards should reference the correct actor', async (test) => 
 	// Wait for links to be materialized
 	const waitQuery = {
 		type: 'object',
+		additionalProperties: true,
 		$$links: {
 			'has attached element': {
 				type: 'object',
@@ -293,18 +295,9 @@ ava.serial('timeline cards should reference the correct actor', async (test) => 
 			id: {
 				type: 'string',
 				const: thread.id
-			},
-			links: {
-				type: 'object',
-				properties: {
-					'has attached element': {
-						type: 'array'
-					}
-				},
-				required: [ 'has attached element' ]
 			}
 		},
-		required: [ 'id', 'links' ]
+		required: [ 'id' ]
 	}
 
 	await test.context.executeThenWait(() => {
@@ -586,7 +579,11 @@ ava.serial('should not be able to post an unsupported external event', async (te
 	test.true(result.response.error)
 })
 
-ava.serial('should be able to post a GitHub event without a signature', async (test) => {
+const githubAvaTest = environment.getIntegrationToken('github')
+	? ava.serial
+	: ava.skip
+
+githubAvaTest('should be able to post a GitHub event without a signature', async (test) => {
 	const result = await test.context.http('POST', '/api/v2/hooks/github', {
 		foo: 'bar',
 		bar: 'baz'
@@ -634,7 +631,7 @@ ava.serial('should be able to post a GitHub event without a signature', async (t
 	})
 })
 
-ava.serial('should take a GitHub event with a valid signature', async (test) => {
+githubAvaTest('should take a GitHub event with a valid signature', async (test) => {
 	const object = '{"foo":"bar"}'
 	const hash = crypto.createHmac('sha1', environment.integration.github.signatureKey)
 		.update(object)
@@ -815,7 +812,7 @@ ava.serial('should be able to resolve links', async (test) => {
 		password: 'foobarbaz'
 	})
 
-	const uuid = randomstring.generate()
+	const id = randomstring.generate()
 	const thread = await sdk.card.create({
 		type: 'thread',
 		slug: test.context.generateRandomSlug({
@@ -823,7 +820,7 @@ ava.serial('should be able to resolve links', async (test) => {
 		}),
 		version: '1.0.0',
 		data: {
-			uuid
+			uuid: id
 		}
 	})
 
@@ -856,7 +853,7 @@ ava.serial('should be able to resolve links', async (test) => {
 						properties: {
 							uuid: {
 								type: 'string',
-								const: uuid
+								const: id
 							}
 						}
 					}
@@ -895,7 +892,7 @@ ava.serial('should be able to resolve links', async (test) => {
 						id: thread.id,
 						type: 'thread',
 						data: {
-							uuid
+							uuid: id
 						}
 					}
 				]
@@ -906,6 +903,7 @@ ava.serial('should be able to resolve links', async (test) => {
 })
 
 ava.serial('.query() additionalProperties should not affect listing users as a new user', async (test) => {
+	const id = uuid()
 	const username = randomstring.generate().toLowerCase()
 	const email = `${randomstring.generate()}@example.com`
 	await test.context.sdk.auth.signup({
@@ -932,7 +930,7 @@ ava.serial('.query() additionalProperties should not affect listing users as a n
 			},
 			id: {
 				type: 'string',
-				const: 'user'
+				const: id
 			}
 		}
 	})
@@ -947,7 +945,7 @@ ava.serial('.query() additionalProperties should not affect listing users as a n
 			},
 			id: {
 				type: 'string',
-				const: 'user'
+				const: id
 			}
 		}
 	})
@@ -982,13 +980,13 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 		password: 'foobarbaz'
 	})
 
-	const uuid = randomstring.generate()
+	const id = randomstring.generate()
 	const message = await sdk.event.create({
 		type: 'message',
 		tags: [],
 		target: targetUser,
 		payload: {
-			message: uuid
+			message: id
 		}
 	})
 
@@ -1030,7 +1028,7 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 						properties: {
 							message: {
 								type: 'string',
-								const: uuid
+								const: id
 							}
 						}
 					}

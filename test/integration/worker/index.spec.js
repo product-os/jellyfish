@@ -2141,16 +2141,7 @@ ava('should add an update event if updating a card', async (test) => {
 			version: '1.0.0',
 			type: 'create',
 			slug: timeline[0].slug,
-			links: {
-				'is attached to': [
-					{
-						$link: timeline[0].links['is attached to'][0].$link,
-						id: createResult.data.id,
-						slug: 'foo',
-						type: 'card'
-					}
-				]
-			},
+			links: timeline[0].links,
 			data: {
 				actor: test.context.actor.id,
 				target: createResult.data.id,
@@ -2172,16 +2163,7 @@ ava('should add an update event if updating a card', async (test) => {
 			version: '1.0.0',
 			type: 'update',
 			slug: timeline[1].slug,
-			links: {
-				'is attached to': [
-					{
-						$link: timeline[1].links['is attached to'][0].$link,
-						id: createResult.data.id,
-						slug: 'foo',
-						type: 'card'
-					}
-				]
-			},
+			links: timeline[1].links,
 			data: {
 				actor: test.context.actor.id,
 				target: createResult.data.id,
