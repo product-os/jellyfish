@@ -145,6 +145,25 @@ ava('.enqueue() should set a present timestamp', async (test) => {
 	test.true(new Date(request.data.timestamp) >= currentDate)
 })
 
+ava('.enqueue() should throw if the type is a slug and was not found', async (test) => {
+	await test.throwsAsync(test.context.queue.enqueue(
+		test.context.queueActor, test.context.session, {
+			action: 'action-create-card',
+			context: test.context.context,
+			card: 'foo-bar-baz-qux',
+			type: 'type',
+			arguments: {
+				properties: {
+					version: '1.0.0',
+					slug: 'foo',
+					data: {
+						foo: 'bar'
+					}
+				}
+			}
+		}), errors.QueueInvalidRequest)
+})
+
 ava('.enqueue() should throw if the action was not found', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card')
