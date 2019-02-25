@@ -7,6 +7,7 @@
 const ava = require('ava')
 const crypto = require('crypto')
 const Bluebird = require('bluebird')
+const uuid = require('uuid/v4')
 const _ = require('lodash')
 const randomstring = require('randomstring')
 const helpers = require('../sdk/helpers')
@@ -811,7 +812,7 @@ ava.serial('should be able to resolve links', async (test) => {
 		password: 'foobarbaz'
 	})
 
-	const uuid = randomstring.generate()
+	const id = randomstring.generate()
 	const thread = await sdk.card.create({
 		type: 'thread',
 		slug: test.context.generateRandomSlug({
@@ -819,7 +820,7 @@ ava.serial('should be able to resolve links', async (test) => {
 		}),
 		version: '1.0.0',
 		data: {
-			uuid
+			uuid: id
 		}
 	})
 
@@ -852,7 +853,7 @@ ava.serial('should be able to resolve links', async (test) => {
 						properties: {
 							uuid: {
 								type: 'string',
-								const: uuid
+								const: id
 							}
 						}
 					}
@@ -891,7 +892,7 @@ ava.serial('should be able to resolve links', async (test) => {
 						id: thread.id,
 						type: 'thread',
 						data: {
-							uuid
+							uuid: id
 						}
 					}
 				]
@@ -902,6 +903,7 @@ ava.serial('should be able to resolve links', async (test) => {
 })
 
 ava.serial('.query() additionalProperties should not affect listing users as a new user', async (test) => {
+	const id = uuid()
 	const username = randomstring.generate().toLowerCase()
 	const email = `${randomstring.generate()}@example.com`
 	await test.context.sdk.auth.signup({
@@ -928,7 +930,7 @@ ava.serial('.query() additionalProperties should not affect listing users as a n
 			},
 			id: {
 				type: 'string',
-				const: 'user'
+				const: id
 			}
 		}
 	})
@@ -943,7 +945,7 @@ ava.serial('.query() additionalProperties should not affect listing users as a n
 			},
 			id: {
 				type: 'string',
-				const: 'user'
+				const: id
 			}
 		}
 	})
@@ -978,13 +980,13 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 		password: 'foobarbaz'
 	})
 
-	const uuid = randomstring.generate()
+	const id = randomstring.generate()
 	const message = await sdk.event.create({
 		type: 'message',
 		tags: [],
 		target: targetUser,
 		payload: {
-			message: uuid
+			message: id
 		}
 	})
 
@@ -1026,7 +1028,7 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 						properties: {
 							message: {
 								type: 'string',
-								const: uuid
+								const: id
 							}
 						}
 					}
