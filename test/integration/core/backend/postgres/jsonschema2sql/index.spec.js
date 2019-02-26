@@ -757,9 +757,12 @@ avaTest('jsonb_pattern - inside items in a jsonb column', async (test) => {
 
 	const schema = {
 		type: 'object',
-		required: [ 'id', 'type', 'data' ],
+		required: [ 'id', 'slug', 'type', 'data' ],
 		properties: {
 			id: {
+				type: 'string'
+			},
+			slug: {
 				type: 'string'
 			},
 			type: {
