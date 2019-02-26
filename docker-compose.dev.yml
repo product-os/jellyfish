@@ -6,15 +6,19 @@ services:
     ports:
      - "8000:8000"
     links:
-     - rethinkdb
+     - database
      - redis
     volumes: [
       ".:/usr/src/app"
     ]
     environment:
-     - DB_HOST=rethinkdb
-     - DB_USER=admin
-     - DB_PASSWORD=12345678
+     - PORT=8000
+     - DATABASE=postgres
+     - POSTGRES_DATABASE=resin
+     - POSTGRES_USER=docker
+     - POSTGRES_PASSWORD=docker
+     - POSTGRES_PORT=5432
+     - POSTGRES_HOST=database
      - REDIS_HOST=redis
      - REDIS_PASSWORD=12345678
      - NODE_ENV=debug
@@ -24,15 +28,18 @@ services:
       dockerfile: Dockerfile.tick
     command: make start-tick
     links:
-     - rethinkdb
+     - database
      - redis
     volumes: [
       ".:/usr/src/app"
     ]
     environment:
-     - DB_HOST=rethinkdb
-     - DB_USER=admin
-     - DB_PASSWORD=12345678
+     - DATABASE=postgres
+     - POSTGRES_DATABASE=resin
+     - POSTGRES_USER=docker
+     - POSTGRES_PASSWORD=docker
+     - POSTGRES_PORT=5432
+     - POSTGRES_HOST=database
      - REDIS_HOST=redis
      - REDIS_PASSWORD=12345678
      - NODE_ENV=debug
@@ -42,25 +49,25 @@ services:
       dockerfile: Dockerfile.worker
     command: make start-worker
     links:
-     - rethinkdb
+     - database
      - redis
     volumes: [
       ".:/usr/src/app"
     ]
     environment:
-     - DB_HOST=rethinkdb
-     - DB_USER=admin
-     - DB_PASSWORD=12345678
+     - DATABASE=postgres
+     - POSTGRES_DATABASE=resin
+     - POSTGRES_USER=docker
+     - POSTGRES_PASSWORD=docker
+     - POSTGRES_PORT=5432
+     - POSTGRES_HOST=database
      - REDIS_HOST=redis
      - REDIS_PASSWORD=12345678
      - NODE_ENV=debug
-  rethinkdb:
-    image: balena/balena-rethinkdb
-    environment:
-     - DB_PASSWORD=12345678
+  database:
+    image: balena/open-balena-db
     ports:
-     - "8080:8080"
-     - "28015:28015"
+     - "5432:5432"
   redis:
     image: balena/balena-redis
     environment:
