@@ -28,3 +28,7 @@ properties:
       type: string
   - INTEGRATION_GITHUB_SIGNATURE_KEY:
       type: string
+
+  # TODO: Remove
+  - SENTRY_DSN_UI:
+      type: string
