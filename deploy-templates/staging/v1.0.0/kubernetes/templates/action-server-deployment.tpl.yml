@@ -17,16 +17,22 @@ spec:
       - image: {{{jellyfish-action-server-image}}}
         name: action-server
         env:
+        - name: DATABASE
+          value: postgres
+        - name: POSTGRES_DATABASE
+          value: {{POSTGRES_DATABASE}}
+        - name: POSTGRES_USER
+          value: {{POSTGRES_USER}}
+        - name: POSTGRES_PASSWORD
+          value: {{POSTGRES_PASSWORD}}
+        - name: POSTGRES_PORT
+          value: {{POSTGRES_PORT}}
+        - name: POSTGRES_HOST
+          value: {{POSTGRES_HOST}}
         - name: REDIS_HOST
-          value: redis
+          value: {{REDIS_HOST}}
         - name: REDIS_PASSWORD
           value: {{{REDIS_PASSWORD}}}
-        - name: DB_HOST
-          value: rethinkdb
-        - name: DB_USER
-          value: {{{DB_USER}}}
-        - name: DB_PASSWORD
-          value: {{{DB_PASSWORD}}}
         - name: NODE_ENV
           value: {{{NODE_ENV}}}
         - name: SENTRY_DSN_SERVER
