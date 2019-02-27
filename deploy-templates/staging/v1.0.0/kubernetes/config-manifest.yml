@@ -1,26 +1,24 @@
 ---
 properties:
-  - JELLYFISH_HOST:
-      type: hostname
-  - DB_USER:
+  - POSTGRES_DATABASE:
       type: string
+  - POSTGRES_USER:
+      type: string
+  - POSTGRES_PASSWORD:
+      type: string
+  - POSTGRES_PORT:
+      type: string
+  - POSTGRES_HOST:
+      type: hostname
+  - REDIS_HOST:
+      type: hostname
+  - REDIS_PASSWORD:
+      type: string
+      default:
+        eval: GENERATE_API_KEY({length: 24})
   - NODE_ENV:
       type: string
-  - ACTIONS_EMAIL:
-      type: string
-  - ACTIONS_PASSWORD:
-      type: string
-  - ACTIONS_USERNAME:
-      type: string
-  - AWS_ACCESS_KEY_ID:
-      type: string
-  - AWS_SECRET_ACCESS_KEY:
-      type: string
-  - FS_DRIVER:
-      type: string
   - SENTRY_DSN_SERVER:
-      type: string
-  - SENTRY_DSN_UI:
       type: string
   - LOGENTRIES_TOKEN:
       type: string
@@ -30,12 +28,3 @@ properties:
       type: string
   - INTEGRATION_GITHUB_SIGNATURE_KEY:
       type: string
-
-  - REDIS_PASSWORD:
-      type: string
-      default:
-        eval: GENERATE_API_KEY({length: 24})
-  - DB_PASSWORD:
-      type: string
-      default:
-        eval: GENERATE_API_KEY({length: 24})
