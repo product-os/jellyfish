@@ -1,5 +1,7 @@
 ---
 properties:
+  - JELLYFISH_HOST:
+      type: hostname
   - POSTGRES_DATABASE:
       type: string
   - POSTGRES_USER:
@@ -27,8 +29,4 @@ properties:
   - INTEGRATION_GITHUB_TOKEN:
       type: string
   - INTEGRATION_GITHUB_SIGNATURE_KEY:
-      type: string
-
-  # TODO: Remove
-  - SENTRY_DSN_UI:
       type: string
