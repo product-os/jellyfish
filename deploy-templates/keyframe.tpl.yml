@@ -32,15 +32,6 @@ children:
             url: 'balena/jellyfish:#JF_VERSION#'
           repo:
             url: 'https://github.com/balena-io/jellyfish.git'
-      jellyfish-rethinkdb:
-        slug: jellyfish-rethinkdb
-        version: latest
-        type: sw.containerized-application
-        assets:
-          image:
-            url: 'balena/balena-rethinkdb:latest'
-          repo:
-            url: 'https://github.com/balena-io/balena-rethinkdb.git'
       jellyfish-redis:
         slug: jellyfish-redis
         version: latest
