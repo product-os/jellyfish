@@ -25,7 +25,7 @@ spec:
         - name: POSTGRES_PASSWORD
           value: {{POSTGRES_PASSWORD}}
         - name: POSTGRES_PORT
-          value: {{POSTGRES_PORT}}
+          value: '{{POSTGRES_PORT}}'
         - name: POSTGRES_HOST
           value: {{POSTGRES_HOST}}
         - name: REDIS_HOST
