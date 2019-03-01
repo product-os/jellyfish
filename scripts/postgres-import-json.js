@@ -28,7 +28,8 @@ const connection = pgp({
 	user: environment.postgres.user,
 	password: environment.postgres.password,
 	database: 'jellyfish',
-	port: environment.postgres.port
+	port: environment.postgres.port,
+	host: environment.postgres.host
 })
 
 const readStream = fs.createReadStream(FILE)
