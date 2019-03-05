@@ -16,12 +16,6 @@ aliases:
 
       working_directory: ~/repo
 
-  rethinkdb_job_defaults: &rethinkdb_job_defaults
-    <<: *job_defaults
-
-    environment:
-      DATABASE: rethinkdb
-
   postgres_job_defaults: &postgres_job_defaults
     <<: *job_defaults
 
@@ -88,40 +82,6 @@ jobs:
           paths:
             - .nyc_output/*.json
 
-  rethinkdb_integration_tests: &rethinkdb_integration_tests
-    <<: *rethinkdb_job_defaults
-
-    steps:
-      - checkout
-
-      - attach_workspace:
-          at: .
-
-      - run:
-          name: Start RethinkDB
-          command: rethinkdb --daemon --bind all
-      - run:
-          name: Start Redis
-          command: service redis-server start
-
-      - run:
-          name: Integration Tests (with Redis)
-          command: make test-integration COVERAGE=1
-      - run:
-          name: Integration Tests (without Redis)
-          command: make test-integration COVERAGE=1 DISABLE_REDIS=1
-      - run:
-          name: Integration Tests (with debug logs)
-          command: make test-integration COVERAGE=1 LOGLEVEL=debug
-      - run:
-          name: Backend Tests Without Cache
-          command: make test COVERAGE=1 DISABLE_CACHE=1 FILES=./test/integration/core/backend.spec.js
-
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .nyc_output/*.json
-
   postgres_integration_tests: &postgres_integration_tests
     <<: *postgres_job_defaults
 
@@ -147,34 +107,6 @@ jobs:
       - run:
           name: Integration Tests (with debug logs)
           command: make test-integration COVERAGE=1 LOGLEVEL=debug
-
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .nyc_output/*.json
-
-  rethinkdb_sync_tests_github:
-    <<: *rethinkdb_job_defaults
-
-    steps:
-      - checkout
-
-      - attach_workspace:
-          at: .
-
-      - run:
-          name: Start RethinkDB
-          command: rethinkdb --daemon --bind all
-      - run:
-          name: Start Redis
-          command: service redis-server start
-
-      - run:
-          name: Sync Tests
-          command: make test FILES=./test/e2e/sync/github-*.spec.js COVERAGE=1
-      - run:
-          name: Sync End To End Tests Without Tokens
-          command: make test FILES=./test/e2e/sync/github-*.spec.js COVERAGE=1 INTEGRATION_GITHUB_TOKEN=
 
       - persist_to_workspace:
           root: .
@@ -209,34 +141,6 @@ jobs:
           paths:
             - .nyc_output/*.json
 
-  rethinkdb_sync_tests_front:
-    <<: *rethinkdb_job_defaults
-
-    steps:
-      - checkout
-
-      - attach_workspace:
-          at: .
-
-      - run:
-          name: Start RethinkDB
-          command: rethinkdb --daemon --bind all
-      - run:
-          name: Start Redis
-          command: service redis-server start
-
-      - run:
-          name: Sync Tests
-          command: make test FILES=./test/e2e/sync/front-*.spec.js COVERAGE=1
-      - run:
-          name: Sync End To End Tests Without Tokens
-          command: make test FILES=./test/e2e/sync/front-*.spec.js COVERAGE=1 INTEGRATION_FRONT_TOKEN=
-
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .nyc_output/*.json
-
   postgres_sync_tests_front:
     <<: *postgres_job_defaults
 
@@ -259,38 +163,6 @@ jobs:
       - run:
           name: Sync End To End Tests Without Tokens
           command: make test FILES=./test/e2e/sync/front-*.spec.js COVERAGE=1 INTEGRATION_FRONT_TOKEN=
-
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .nyc_output/*.json
-
-  rethinkdb_e2e_tests: &rethinkdb_e2e_tests
-    <<: *rethinkdb_job_defaults
-
-    steps:
-      - checkout
-
-      - attach_workspace:
-          at: .
-
-      - run:
-          name: Start RethinkDB
-          command: rethinkdb --daemon --bind all
-      - run:
-          name: Start Redis
-          command: service redis-server start
-
-      # Setup artifact store for UI integration test screenshots
-      - run: mkdir -p /tmp/test-results/screenshots
-
-      - run:
-          name: End To End Tests
-          command: make test-e2e-sdk test-e2e-server test-e2e-ui COVERAGE=1
-
-      - run:
-          name: End To End Tests (without Redis)
-          command: make test-e2e-sdk test-e2e-server test-e2e-ui COVERAGE=1 DISABLE_REDIS=1
 
       - persist_to_workspace:
           root: .
@@ -329,39 +201,6 @@ jobs:
           paths:
             - .nyc_output/*.json
 
-  rethinkdb_stress_tests:
-    <<: *rethinkdb_job_defaults
-
-    steps:
-      - checkout
-
-      - attach_workspace:
-          at: .
-
-      - run:
-          name: Start RethinkDB
-          command: rethinkdb --daemon --bind all
-      - run:
-          name: Start Redis
-          command: service redis-server start
-
-      # Stress Testing
-      - run:
-          name: Serial Core Inserts
-          command: make node FILE=stress/core/insert-serial.js
-      - run:
-          name: Parallel Core Inserts
-          command: make node FILE=stress/core/insert-parallel.js
-      - run:
-          name: Previous Commit
-          command: git checkout HEAD~1 && npm ci
-      - run:
-          name: Serial Core Inserts (previous)
-          command: node stress/core/insert-serial.js
-      - run:
-          name: Parallel Core Inserts (previous)
-          command: node stress/core/insert-parallel.js
-
   postgres_stress_tests:
     <<: *postgres_job_defaults
 
@@ -398,28 +237,6 @@ jobs:
 
   # UI tests seem to contain most of the flaky tests
   # Lets really make sure they are stable
-  rethinkdb_flaky_ui_tests:
-    <<: *rethinkdb_job_defaults
-
-    steps:
-      - checkout
-
-      - attach_workspace:
-          at: .
-
-      - run:
-          name: Start RethinkDB
-          command: rethinkdb --daemon --bind all
-      - run:
-          name: Start Redis
-          command: service redis-server start
-      - run:
-          name: Flaky UI Tests (production bundle)
-          command: make build NODE_ENV=production && ./scripts/flaky-ui-tests.sh
-      - run:
-          name: Flaky UI Tests (debug bundle)
-          command: make build NODE_ENV=test && ./scripts/flaky-ui-tests.sh
-
   postgres_flaky_ui_tests:
     <<: *postgres_job_defaults
 
@@ -496,17 +313,7 @@ workflows:
                     - build
                 <<: *workflow_filter
 
-            - rethinkdb_integration_tests:
-                requires:
-                    - build
-                <<: *workflow_filter
-
             - postgres_integration_tests:
-                requires:
-                    - build
-                <<: *workflow_filter
-
-            - rethinkdb_e2e_tests:
                 requires:
                     - build
                 <<: *workflow_filter
@@ -516,32 +323,12 @@ workflows:
                     - build
                 <<: *workflow_filter
 
-            - rethinkdb_flaky_ui_tests:
-                requires:
-                    - build
-                <<: *workflow_filter
-
             - postgres_flaky_ui_tests:
                 requires:
                     - build
                 <<: *workflow_filter
 
-            - rethinkdb_stress_tests:
-                requires:
-                    - build
-                <<: *workflow_filter
-
             - postgres_stress_tests:
-                requires:
-                    - build
-                <<: *workflow_filter
-
-            - rethinkdb_sync_tests_front:
-                requires:
-                    - build
-                <<: *workflow_filter
-
-            - rethinkdb_sync_tests_github:
                 requires:
                     - build
                 <<: *workflow_filter
@@ -559,12 +346,6 @@ workflows:
             - results:
                 requires:
                   - unit_tests
-
-                  - rethinkdb_integration_tests
-                  - rethinkdb_e2e_tests
-                  - rethinkdb_flaky_ui_tests
-                  - rethinkdb_sync_tests_front
-                  - rethinkdb_sync_tests_github
 
                   - postgres_integration_tests
                   - postgres_e2e_tests

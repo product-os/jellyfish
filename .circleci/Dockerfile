@@ -1,3 +1,4 @@
+# TODO: Use another base image
 FROM rethinkdb:2.3.6
 
 RUN apt-get update && apt-get install -y curl
@@ -15,5 +16,4 @@ RUN apt-get update && apt-get install -y nodejs gnuplot gitstats build-essential
 # Increase max postgres connections, so that AVA doesn't choke the DB with concurrent tests
 RUN sed -i 's/max_connections = 100/max_connections = 1000/g' /etc/postgresql/9.6/main/postgresql.conf
 
-RUN pip install rethinkdb
 RUN npm install -g redoc-cli

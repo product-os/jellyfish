@@ -43,13 +43,11 @@ usage() {
 	echo "    restart <container> Restart a container" 1>&2
 	echo "    logs <container>    Stream the logs from a container" 1>&2
 	echo "    shell <container>   Open a shell on a container" 1>&2
-	echo "    db-dashboard        Port-forward the RethinkDB dashboard" 1>&2
 	echo "" 1>&2
 	echo "Examples:" 1>&2
 	echo "" 1>&2
 	echo "    $0 status" 1>&2
 	echo "    $0 logs jellyfish" 1>&2
-	echo "    $0 logs rethinkdb" 1>&2
 	echo "    $0 shell jellyfish" 1>&2
 	exit 1
 }
@@ -101,16 +99,6 @@ if [ "$COMMAND" = "shell" ]; then
 	check "$CONTAINER" "Invalid container: $SUBCOMMAND"
 	echo "Starting shell at $CONTAINER..."
 	kubectl exec --stdin --tty "$CONTAINER" bash --namespace "$K8S_NAMESPACE"
-	exit 0
-fi
-
-if [ "$COMMAND" = "db-dashboard" ]; then
-	CONTAINER="$(get_container "rethinkdb")"
-	LOCAL_PORT="9999"
-	check "$CONTAINER" "No rethinkdb container found"
-	echo "Port forwarding $CONTAINER:8080 as localhost:$LOCAL_PORT..."
-	echo "You should be able to access the dashboard at http://localhost:$LOCAL_PORT"
-	kubectl port-forward "$CONTAINER" "$LOCAL_PORT":8080 --namespace "$K8S_NAMESPACE"
 	exit 0
 fi
 
