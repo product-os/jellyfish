@@ -12,7 +12,16 @@
       {
         "name": "Active cards",
         "schema": {
-
+          "$$links": {
+            "is attached to": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                }
+              }
+            }
+          },
           "type": "object",
           "properties": {
             "active": {
