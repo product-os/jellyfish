@@ -25,6 +25,7 @@ ava.beforeEach(async (test) => {
 		cards: test.context.jellyfish.cards,
 		getEventSlug: utils.getEventSlug,
 		privilegedSession: test.context.session,
+		context: test.context.context,
 		getCardById: (session, id, options) => {
 			return test.context.jellyfish.getCardById(test.context.context, session, id, options)
 		},
@@ -536,22 +537,14 @@ ava('.insertCard() should execute one matching triggered action', async (test) =
 		})
 
 	test.is(tail.length, 1)
+	test.deepEqual(test.context.stubQueue, [])
 
-	test.deepEqual(test.context.stubQueue, [
-		{
-			action: 'action-create-card',
-			card: typeCard.id,
-			type: 'type',
-			context: test.context.context,
-			currentDate: test.context.stubQueue[0].currentDate,
-			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
-			arguments: {
-				properties: {
-					slug: 'foo-bar-baz'
-				}
-			}
-		}
-	])
+	const resultCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'foo-bar-baz', {
+			type: typeCard.slug
+		})
+
+	test.truthy(resultCard)
 })
 
 ava('.insertCard() should not execute non-matching triggered actions', async (test) => {
@@ -602,6 +595,12 @@ ava('.insertCard() should not execute non-matching triggered actions', async (te
 	})
 
 	test.deepEqual(test.context.stubQueue, [])
+	const resultCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'foo-bar-baz', {
+			type: typeCard.slug
+		})
+
+	test.falsy(resultCard)
 })
 
 ava('.insertCard() should execute more than one matching triggered action', async (test) => {
@@ -680,38 +679,25 @@ ava('.insertCard() should execute more than one matching triggered action', asyn
 		}
 	})
 
-	test.deepEqual(test.context.stubQueue, [
-		{
-			action: 'action-create-card',
-			card: typeCard.id,
-			type: 'type',
-			context: test.context.context,
-			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
-			currentDate: test.context.stubQueue[0].currentDate,
-			arguments: {
-				properties: {
-					slug: 'foo-bar-baz'
-				}
-			}
-		},
-		{
-			action: 'action-create-card',
-			card: typeCard.id,
-			type: 'type',
-			context: test.context.context,
-			originator: 'd6cacdef-f53b-4b5b-8aa2-8476e48248a4',
-			currentDate: test.context.stubQueue[1].currentDate,
-			arguments: {
-				properties: {
-					slug: 'bar-baz-qux'
-				}
-			}
-		}
-	])
+	test.deepEqual(test.context.stubQueue, [])
+
+	const resultCard1 = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'foo-bar-baz', {
+			type: typeCard.slug
+		})
+
+	const resultCard2 = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'bar-baz-qux', {
+			type: typeCard.slug
+		})
+
+	test.truthy(resultCard1)
+	test.truthy(resultCard2)
 })
 
 ava('.insertCard() should execute the matching triggered actions given more than one', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card')
 	const triggers = [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
@@ -786,21 +772,20 @@ ava('.insertCard() should execute the matching triggered actions given more than
 		}
 	})
 
-	test.deepEqual(test.context.stubQueue, [
-		{
-			action: 'action-create-card',
-			card: typeCard.id,
-			type: 'type',
-			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
-			context: test.context.context,
-			currentDate: test.context.stubQueue[0].currentDate,
-			arguments: {
-				properties: {
-					slug: 'foo-bar-baz'
-				}
-			}
-		}
-	])
+	test.deepEqual(test.context.stubQueue, [])
+
+	const resultCard1 = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'foo-bar-baz', {
+			type: typeCard.slug
+		})
+
+	const resultCard2 = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'bar-baz-qux', {
+			type: typeCard.slug
+		})
+
+	test.truthy(resultCard1)
+	test.falsy(resultCard2)
 })
 
 ava('.insertCard() should evaluate a type formula', async (test) => {
