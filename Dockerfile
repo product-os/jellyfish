@@ -10,13 +10,11 @@ RUN npm ci
 COPY . /usr/src/app
 RUN make build NODE_ENV=production
 
-RUN rethinkdb --version && \
-		rethinkdb --daemon --bind all && \
-		service redis-server start && \
+RUN service redis-server start && \
 		service postgresql start && \
 		su - postgres -c "psql -U postgres -d postgres -c \"alter user postgres with password 'postgres';\"" && \
 		make lint && \
-		make test-unit COVERAGE=0 && \
-		make test-integration COVERAGE=0 POSTGRES_USER=postgres POSTGRES_PASSWORD=postgres
+		make test-unit DATABASE=postgres COVERAGE=0 && \
+		make test-integration DATABASE=postgres COVERAGE=0 POSTGRES_USER=postgres POSTGRES_PASSWORD=postgres
 
 CMD [ "make", "start-server" ]

@@ -21,7 +21,7 @@
 # Runtime Configuration
 # -----------------------------------------------
 
-DATABASE ?= rethinkdb
+DATABASE ?= postgres
 export DATABASE
 
 # The default postgres user is your local user
@@ -78,16 +78,6 @@ export AWS_ACCESS_KEY_ID
 AWS_SECRET_ACCESS_KEY ?=
 export AWS_SECRET_ACCESS_KEY
 
-ifeq ($(NODE_ENV),production)
-RETHINKDB_MIN_POOL_SIZE ?= 50
-RETHINKDB_MAX_POOL_SIZE ?= 1000
-else
-RETHINKDB_MIN_POOL_SIZE ?= 4
-RETHINKDB_MAX_POOL_SIZE ?= 20
-endif
-export RETHINKDB_MIN_POOL_SIZE
-export RETHINKDB_MAX_POOL_SIZE
-
 INTEGRATION_FRONT_TOKEN ?=
 export INTEGRATION_FRONT_TOKEN
 INTEGRATION_GITHUB_TOKEN ?=
@@ -135,7 +125,7 @@ COVERAGE ?= 1
 export COVERAGE
 
 ifeq ($(SCRUB),1)
-SCRUB_COMMAND = ./scripts/scrub-test-databases.js; ./scripts/postgres-delete-test-databases.js
+SCRUB_COMMAND = ./scripts/postgres-delete-test-databases.js
 else
 SCRUB_COMMAND =
 endif
@@ -168,7 +158,6 @@ endif
 
 clean:
 	rm -rf \
-		rethinkdb_data \
 		dump.rdb \
 		.nyc_output \
 		coverage \
@@ -258,9 +247,6 @@ start-tick:
 
 start-redis:
 	redis-server --port $(REDIS_PORT)
-
-start-db:
-	rethinkdb --driver-port $(DB_PORT)
 
 start-postgres: postgres_data
 	postgres -N 1000 -D $< -p $(POSTGRES_PORT)
