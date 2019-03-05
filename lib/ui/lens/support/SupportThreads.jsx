@@ -1,9 +1,9 @@
-
 /*
  * Copyright (C) Balena.io - All Rights Reserved
  * Unauthorized copying of this file, via any medium is strictly prohibited.
  * Proprietary and confidential.
  */
+
 const _ = require('lodash')
 const React = require('react')
 const {
@@ -16,6 +16,7 @@ const store = require('../../core/store')
 const helpers = require('../../services/helpers')
 const storeHelpers = require('../../services/store-helpers')
 const Gravatar = require('../../shame/Gravatar')
+const Icon = require('../../shame/Icon')
 const Column = styledComponents.default(rendition.Flex) `
 	height: 100%;
 	width: 100%;
@@ -53,7 +54,27 @@ class Interleaved extends React.Component {
 			newMessage: '',
 			showNewCardModal: false
 		}
+
+		this.handleScroll = async () => {
+			const {
+				scrollArea, loadingPage
+			} = this
+			if (!scrollArea) {
+				return
+			}
+			this.scrollBottomOffset = scrollArea.scrollHeight - (scrollArea.scrollTop + scrollArea.offsetHeight)
+			if (loadingPage) {
+				return
+			}
+			if (this.scrollBottomOffset > 200) {
+				return
+			}
+			this.loadingPage = true
+			await this.props.setPage(this.props.page + 1)
+			this.loadingPage = false
+		}
 	}
+
 	render () {
 		const tail = _.sortBy(this.props.tail, (element) => {
 			const timestamps = _.map(element.links['has attached element'], 'data.timestamp')
@@ -61,17 +82,17 @@ class Interleaved extends React.Component {
 			return _.last(timestamps)
 		}).reverse()
 		return (<Column flexDirection="column">
-			{Boolean(tail) && (<rendition.Box px={3} pb={2} style={{
-				boxShadow: '0px 1px 3px #eee'
-			}}>
-				<rendition.Pill primary>{tail.length} support threads</rendition.Pill>
-			</rendition.Box>)}
-
-			<div style={{
-				flex: 1,
-				paddingBottom: 16,
-				overflowY: 'auto'
-			}}>
+			<div
+				ref={(ref) => {
+					this.scrollArea = ref
+				}}
+				onScroll={this.handleScroll}
+				style={{
+					flex: 1,
+					paddingBottom: 16,
+					overflowY: 'auto'
+				}}
+			>
 				{(Boolean(tail) && tail.length > 0) && _.map(tail, (card) => {
 					const timeline = _.sortBy(card.links['has attached element'], 'data.timestamp')
 					const messages = _.filter(timeline, (event) => {
@@ -138,6 +159,10 @@ class Interleaved extends React.Component {
 						</SupportThreadSummaryWrapper>
 					)
 				})}
+
+				<rendition.Box p={3}>
+					<Icon.default name="cog fa-spin"/>
+				</rendition.Box>
 			</div>
 		</Column>)
 	}
