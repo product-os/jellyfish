@@ -229,7 +229,7 @@ const bootstrap = async (context, library, options) => {
 
 exports.worker = async (context, options) => {
 	return bootstrap(context, actionLibrary, {
-		delay: 10,
+		delay: 500,
 		onError: options.onError,
 		onLoop: async (serverContext, jellyfish, worker, queue, session) => {
 			const actionRequest = await queue.dequeue(serverContext, worker.getId())
