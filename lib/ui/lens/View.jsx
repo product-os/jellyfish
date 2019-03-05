@@ -83,11 +83,15 @@ class ViewRenderer extends React.Component {
 			if (!channel) {
 				return
 			}
-			await this.props.actions.loadViewResults(channel.data.head.id, this.getQueryOptions(this.state.activeLens))
 			this.setState({
 				options
 			})
+			await this.props.actions.loadViewResults(
+				channel.data.head.id,
+				this.getQueryOptions(this.state.activeLens)
+			)
 		}
+
 		this.state = {
 			filters: [],
 			lenses: [],
@@ -97,7 +101,7 @@ class ViewRenderer extends React.Component {
 			activeSlice: null,
 			options: {
 				page: 0,
-				limit: 50,
+				limit: 20,
 				sortBy: 'created_at',
 				sortDir: 'desc'
 			}
@@ -177,14 +181,18 @@ class ViewRenderer extends React.Component {
 	// For this to work properly there needs to be a mechanism for returning the
 	// total available items from the API.
 	getQueryOptions (lens) {
-		return (lens || _.get(this.state.lenses, [ '0', 'slug' ])) === 'lens-interleaved'
+		const options = (lens || _.get(this.state.lenses, [ '0', 'slug' ])) === 'lens-interleaved'
 			? this.state.options
 			: {
-				limit: 50,
+				limit: 20,
 				page: 0,
 				sortBy: 'created_at',
 				sortDir: 'desc'
 			}
+
+		options.page = this.state.options.page
+
+		return options
 	}
 	componentWillReceiveProps (nextProps) {
 		if (this.props.channel.data.target !== nextProps.channel.data.target) {
