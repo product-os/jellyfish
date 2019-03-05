@@ -9,6 +9,7 @@ const helpers = require('./helpers')
 const actionLibrary = require('../../../lib/action-library')
 const errors = require('../../../lib/worker/errors')
 const executor = require('../../../lib/worker/executor')
+const utils = require('../../../lib/worker/utils')
 const Promise = require('bluebird')
 
 ava.beforeEach(async (test) => {
@@ -22,14 +23,23 @@ ava.beforeEach(async (test) => {
 
 	test.context.actionContext = {
 		cards: test.context.jellyfish.cards,
-		getCardById: test.context.jellyfish.getCardById,
-		getCardBySlug: test.context.jellyfish.getCardBySlug,
+		getEventSlug: utils.getEventSlug,
+		privilegedSession: test.context.session,
+		getCardById: (session, id, options) => {
+			return test.context.jellyfish.getCardById(test.context.context, session, id, options)
+		},
+		getCardBySlug: (session, slug, options) => {
+			return test.context.jellyfish.getCardBySlug(test.context.context, session, slug, options)
+		},
 		setTriggers: (context, triggers) => {
 			test.context.triggers = triggers
 		},
 		insertCard: (session, typeCard, options, object) => {
 			return executor.insertCard(test.context.context, test.context.jellyfish, session, typeCard, {
 				override: options.override,
+				context: test.context.actionContext,
+				library: actionLibrary,
+				actor: test.context.actor.id,
 				currentTime: new Date(),
 				attachEvents: options.attachEvents,
 				executeAction: test.context.executeAction
@@ -46,6 +56,9 @@ ava('.insertCard() should insert a card', async (test) => {
 		currentTime: new Date(),
 		override: false,
 		attachEvents: false,
+		context: test.context.actionContext,
+		library: actionLibrary,
+		actor: test.context.actor.id,
 		executeAction: test.context.executeAction
 	}, {
 		slug: 'foo',
@@ -74,6 +87,9 @@ ava('.insertCard() should ignore an explicit type property', async (test) => {
 		currentTime: new Date(),
 		override: false,
 		attachEvents: false,
+		context: test.context.actionContext,
+		library: actionLibrary,
+		actor: test.context.actor.id,
 		executeAction: test.context.executeAction
 	}, {
 		active: true,
@@ -101,6 +117,9 @@ ava('.insertCard() should default active to true', async (test) => {
 		currentTime: new Date(),
 		override: false,
 		attachEvents: false,
+		context: test.context.actionContext,
+		library: actionLibrary,
+		actor: test.context.actor.id,
 		executeAction: test.context.executeAction
 	}, {
 		slug: 'foo',
@@ -118,6 +137,9 @@ ava('.insertCard() should be able to set active to false', async (test) => {
 		currentTime: new Date(),
 		override: false,
 		attachEvents: false,
+		context: test.context.actionContext,
+		library: actionLibrary,
+		actor: test.context.actor.id,
 		executeAction: test.context.executeAction
 	}, {
 		slug: 'foo',
@@ -136,6 +158,9 @@ ava('.insertCard() should provide sane defaults for links', async (test) => {
 		currentTime: new Date(),
 		override: false,
 		attachEvents: false,
+		context: test.context.actionContext,
+		library: actionLibrary,
+		actor: test.context.actor.id,
 		executeAction: test.context.executeAction
 	}, {
 		slug: 'foo',
@@ -153,6 +178,9 @@ ava('.insertCard() should provide sane defaults for tags', async (test) => {
 		currentTime: new Date(),
 		override: false,
 		attachEvents: false,
+		context: test.context.actionContext,
+		library: actionLibrary,
+		actor: test.context.actor.id,
 		executeAction: test.context.executeAction
 	}, {
 		slug: 'foo',
@@ -170,6 +198,9 @@ ava('.insertCard() should provide sane defaults for data', async (test) => {
 		currentTime: new Date(),
 		override: false,
 		attachEvents: false,
+		context: test.context.actionContext,
+		library: actionLibrary,
+		actor: test.context.actor.id,
 		executeAction: test.context.executeAction
 	}, {
 		slug: 'foo',
@@ -187,6 +218,9 @@ ava('.insertCard() should be able to set a slug', async (test) => {
 		currentTime: new Date(),
 		override: false,
 		attachEvents: false,
+		context: test.context.actionContext,
+		library: actionLibrary,
+		actor: test.context.actor.id,
 		executeAction: test.context.executeAction
 	}, {
 		slug: 'foo-bar',
@@ -204,6 +238,9 @@ ava('.insertCard() should be able to set a name', async (test) => {
 		currentTime: new Date(),
 		override: false,
 		attachEvents: false,
+		context: test.context.actionContext,
+		library: actionLibrary,
+		actor: test.context.actor.id,
 		executeAction: test.context.executeAction
 	}, {
 		slug: 'foo',
@@ -228,6 +265,9 @@ ava('.insertCard() should not upsert if no changes were made', async (test) => {
 		currentTime: new Date(),
 		override: true,
 		attachEvents: true,
+		context: test.context.actionContext,
+		library: actionLibrary,
+		actor: test.context.actor.id,
 		executeAction: test.context.executeAction
 	}, {
 		version: '1.0.0',
@@ -250,6 +290,9 @@ ava('.insertCard() should override if the override option is true', async (test)
 		currentTime: new Date(),
 		override: true,
 		attachEvents: false,
+		context: test.context.actionContext,
+		library: actionLibrary,
+		actor: test.context.actor.id,
 		executeAction: test.context.executeAction
 	}, {
 		version: '1.0.0',
@@ -274,6 +317,9 @@ ava('.insertCard() throw if card already exists and override is false', async (t
 		currentTime: new Date(),
 		override: false,
 		attachEvents: false,
+		context: test.context.actionContext,
+		library: actionLibrary,
+		actor: test.context.actor.id,
 		executeAction: test.context.executeAction
 	}, {
 		version: '1.0.0',
@@ -283,34 +329,47 @@ ava('.insertCard() throw if card already exists and override is false', async (t
 })
 
 ava('.insertCard() should add a create event if attachEvents is true', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
-	const result = await executor.insertCard(test.context.context, test.context.jellyfish, test.context.session, typeCard, {
-		currentTime: new Date(),
-		override: false,
-		attachEvents: true,
-		executeAction: test.context.executeAction
-	}, {
-		version: '1.0.0',
-		slug: 'foo-bar-baz'
-	})
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card')
+	const result = await executor.insertCard(
+		test.context.context, test.context.jellyfish, test.context.session, typeCard, {
+			currentTime: new Date(),
+			override: false,
+			attachEvents: true,
+			context: test.context.actionContext,
+			library: actionLibrary,
+			actor: test.context.actor.id,
+			executeAction: test.context.executeAction
+		}, {
+			version: '1.0.0',
+			slug: 'foo-bar-baz'
+		})
 
-	test.deepEqual(test.context.stubQueue, [
-		{
-			action: 'action-create-event',
-			card: result.id,
-			type: 'card',
-			context: test.context.context,
-			arguments: {
-				type: 'create',
-				tags: [],
-				payload: {
-					slug: 'foo-bar-baz',
-					type: 'card',
-					version: '1.0.0'
+	test.deepEqual(test.context.stubQueue, [])
+	const tail = await test.context.jellyfish.query(
+		test.context.context, test.context.session, {
+			type: 'object',
+			additionalProperties: true,
+			required: [ 'type', 'data' ],
+			properties: {
+				type: {
+					type: 'string',
+					const: 'create'
+				},
+				data: {
+					type: 'object',
+					required: [ 'target' ],
+					properties: {
+						target: {
+							type: 'string',
+							const: result.id
+						}
+					}
 				}
 			}
-		}
-	])
+		})
+
+	test.is(tail.length, 1)
 })
 
 ava('.insertCard() should add a create event not overriding even if override is true', async (test) => {
@@ -319,29 +378,40 @@ ava('.insertCard() should add a create event not overriding even if override is 
 		currentTime: new Date(),
 		override: true,
 		attachEvents: true,
+		context: test.context.actionContext,
+		library: actionLibrary,
+		actor: test.context.actor.id,
 		executeAction: test.context.executeAction
 	}, {
 		slug: 'foo-bar-baz',
 		version: '1.0.0'
 	})
 
-	test.deepEqual(test.context.stubQueue, [
-		{
-			action: 'action-create-event',
-			card: result.id,
-			type: 'card',
-			context: test.context.context,
-			arguments: {
-				type: 'create',
-				tags: [],
-				payload: {
-					slug: 'foo-bar-baz',
-					type: 'card',
-					version: '1.0.0'
+	test.deepEqual(test.context.stubQueue, [])
+	const tail = await test.context.jellyfish.query(
+		test.context.context, test.context.session, {
+			type: 'object',
+			additionalProperties: true,
+			required: [ 'type', 'data' ],
+			properties: {
+				type: {
+					type: 'string',
+					const: 'create'
+				},
+				data: {
+					type: 'object',
+					required: [ 'target' ],
+					properties: {
+						target: {
+							type: 'string',
+							const: result.id
+						}
+					}
 				}
 			}
-		}
-	])
+		})
+
+	test.is(tail.length, 1)
 })
 
 ava('.insertCard() should add an update event if attachEvents is true and overriding a card', async (test) => {
@@ -356,6 +426,9 @@ ava('.insertCard() should add an update event if attachEvents is true and overri
 		currentTime: new Date(),
 		override: true,
 		attachEvents: true,
+		context: test.context.actionContext,
+		library: actionLibrary,
+		actor: test.context.actor.id,
 		executeAction: test.context.executeAction
 	}, {
 		version: '1.0.0',
@@ -363,24 +436,31 @@ ava('.insertCard() should add an update event if attachEvents is true and overri
 		active: false
 	})
 
-	test.deepEqual(test.context.stubQueue, [
-		{
-			action: 'action-create-event',
-			card: result.id,
-			type: 'card',
-			context: test.context.context,
-			arguments: {
-				type: 'update',
-				tags: [],
-				payload: {
-					active: false,
-					slug: 'foo-bar-baz',
-					type: 'card',
-					version: '1.0.0'
+	test.deepEqual(test.context.stubQueue, [])
+	const tail = await test.context.jellyfish.query(
+		test.context.context, test.context.session, {
+			type: 'object',
+			additionalProperties: true,
+			required: [ 'type', 'data' ],
+			properties: {
+				type: {
+					type: 'string',
+					const: 'update'
+				},
+				data: {
+					type: 'object',
+					required: [ 'target' ],
+					properties: {
+						target: {
+							type: 'string',
+							const: result.id
+						}
+					}
 				}
 			}
-		}
-	])
+		})
+
+	test.is(tail.length, 1)
 })
 
 ava('.insertCard() should execute one matching triggered action', async (test) => {
@@ -419,6 +499,9 @@ ava('.insertCard() should execute one matching triggered action', async (test) =
 		currentTime: new Date(),
 		override: false,
 		attachEvents: true,
+		context: test.context.actionContext,
+		library: actionLibrary,
+		actor: test.context.actor.id,
 		executeAction: test.context.executeAction,
 		triggers
 	}, {
@@ -429,31 +512,38 @@ ava('.insertCard() should execute one matching triggered action', async (test) =
 		}
 	})
 
-	test.deepEqual(test.context.stubQueue, [
-		{
-			action: 'action-create-event',
-			card: result.id,
-			type: 'card',
-			context: test.context.context,
-			arguments: {
-				type: 'create',
-				tags: [],
-				payload: {
-					version: '1.0.0',
-					type: 'card',
-					slug: 'foo',
-					data: {
-						command: 'foo-bar-baz'
+	const tail = await test.context.jellyfish.query(
+		test.context.context, test.context.session, {
+			type: 'object',
+			additionalProperties: true,
+			required: [ 'type', 'data' ],
+			properties: {
+				type: {
+					type: 'string',
+					const: 'create'
+				},
+				data: {
+					type: 'object',
+					required: [ 'target' ],
+					properties: {
+						target: {
+							type: 'string',
+							const: result.id
+						}
 					}
 				}
 			}
-		},
+		})
+
+	test.is(tail.length, 1)
+
+	test.deepEqual(test.context.stubQueue, [
 		{
 			action: 'action-create-card',
 			card: typeCard.id,
 			type: 'type',
 			context: test.context.context,
-			currentDate: test.context.stubQueue[1].currentDate,
+			currentDate: test.context.stubQueue[0].currentDate,
 			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			arguments: {
 				properties: {
@@ -494,10 +584,13 @@ ava('.insertCard() should not execute non-matching triggered actions', async (te
 		}
 	]
 
-	const result = await executor.insertCard(test.context.context, test.context.jellyfish, test.context.session, typeCard, {
+	await executor.insertCard(test.context.context, test.context.jellyfish, test.context.session, typeCard, {
 		currentTime: new Date(),
 		override: false,
 		attachEvents: true,
+		context: test.context.actionContext,
+		library: actionLibrary,
+		actor: test.context.actor.id,
 		executeAction: test.context.executeAction,
 		triggers
 	}, {
@@ -508,26 +601,7 @@ ava('.insertCard() should not execute non-matching triggered actions', async (te
 		}
 	})
 
-	test.deepEqual(test.context.stubQueue, [
-		{
-			action: 'action-create-event',
-			card: result.id,
-			type: 'card',
-			context: test.context.context,
-			arguments: {
-				type: 'create',
-				tags: [],
-				payload: {
-					version: '1.0.0',
-					type: 'card',
-					slug: 'foo',
-					data: {
-						command: 'qux-bar-baz'
-					}
-				}
-			}
-		}
-	])
+	test.deepEqual(test.context.stubQueue, [])
 })
 
 ava('.insertCard() should execute more than one matching triggered action', async (test) => {
@@ -589,10 +663,13 @@ ava('.insertCard() should execute more than one matching triggered action', asyn
 		}
 	]
 
-	const result = await executor.insertCard(test.context.context, test.context.jellyfish, test.context.session, typeCard, {
+	await executor.insertCard(test.context.context, test.context.jellyfish, test.context.session, typeCard, {
 		currentTime: new Date(),
 		override: false,
 		attachEvents: true,
+		context: test.context.actionContext,
+		library: actionLibrary,
+		actor: test.context.actor.id,
 		executeAction: test.context.executeAction,
 		triggers
 	}, {
@@ -605,30 +682,12 @@ ava('.insertCard() should execute more than one matching triggered action', asyn
 
 	test.deepEqual(test.context.stubQueue, [
 		{
-			action: 'action-create-event',
-			card: result.id,
-			type: 'card',
-			context: test.context.context,
-			arguments: {
-				type: 'create',
-				tags: [],
-				payload: {
-					type: 'card',
-					slug: 'foo',
-					version: '1.0.0',
-					data: {
-						command: 'foo-bar-baz'
-					}
-				}
-			}
-		},
-		{
 			action: 'action-create-card',
 			card: typeCard.id,
 			type: 'type',
 			context: test.context.context,
 			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
-			currentDate: test.context.stubQueue[1].currentDate,
+			currentDate: test.context.stubQueue[0].currentDate,
 			arguments: {
 				properties: {
 					slug: 'foo-bar-baz'
@@ -641,7 +700,7 @@ ava('.insertCard() should execute more than one matching triggered action', asyn
 			type: 'type',
 			context: test.context.context,
 			originator: 'd6cacdef-f53b-4b5b-8aa2-8476e48248a4',
-			currentDate: test.context.stubQueue[2].currentDate,
+			currentDate: test.context.stubQueue[1].currentDate,
 			arguments: {
 				properties: {
 					slug: 'bar-baz-qux'
@@ -710,10 +769,13 @@ ava('.insertCard() should execute the matching triggered actions given more than
 		}
 	]
 
-	const result = await executor.insertCard(test.context.context, test.context.jellyfish, test.context.session, typeCard, {
+	await executor.insertCard(test.context.context, test.context.jellyfish, test.context.session, typeCard, {
 		currentTime: new Date(),
 		override: false,
 		attachEvents: true,
+		context: test.context.actionContext,
+		library: actionLibrary,
+		actor: test.context.actor.id,
 		executeAction: test.context.executeAction,
 		triggers
 	}, {
@@ -726,30 +788,12 @@ ava('.insertCard() should execute the matching triggered actions given more than
 
 	test.deepEqual(test.context.stubQueue, [
 		{
-			action: 'action-create-event',
-			card: result.id,
-			type: 'card',
-			context: test.context.context,
-			arguments: {
-				type: 'create',
-				tags: [],
-				payload: {
-					type: 'card',
-					slug: 'foo',
-					version: '1.0.0',
-					data: {
-						command: 'foo-bar-baz'
-					}
-				}
-			}
-		},
-		{
 			action: 'action-create-card',
 			card: typeCard.id,
 			type: 'type',
 			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			context: test.context.context,
-			currentDate: test.context.stubQueue[1].currentDate,
+			currentDate: test.context.stubQueue[0].currentDate,
 			arguments: {
 				properties: {
 					slug: 'foo-bar-baz'
@@ -794,6 +838,9 @@ ava('.insertCard() should evaluate a type formula', async (test) => {
 		currentTime: new Date(),
 		override: false,
 		attachEvents: true,
+		context: test.context.actionContext,
+		library: actionLibrary,
+		actor: test.context.actor.id,
 		executeAction: test.context.executeAction
 	}, {
 		slug: 'foo',
@@ -843,6 +890,9 @@ ava('.insertCard() should throw if the result of the formula is incompatible wit
 		currentTime: new Date(),
 		override: false,
 		attachEvents: true,
+		context: test.context.actionContext,
+		library: actionLibrary,
+		actor: test.context.actor.id,
 		executeAction: test.context.executeAction
 	}, {
 		slug: 'foo',
@@ -954,6 +1004,9 @@ ava('.insertCard() should remove previously inserted type triggered actions if i
 			currentTime: new Date(),
 			override: false,
 			attachEvents: false,
+			context: test.context.actionContext,
+			library: actionLibrary,
+			actor: test.context.actor.id,
 			executeAction: test.context.executeAction
 		}, {
 			slug: 'foo',
@@ -1055,6 +1108,9 @@ ava('.insertCard() should remove previously inserted type triggered actions if d
 			currentTime: new Date(),
 			override: true,
 			attachEvents: false,
+			context: test.context.actionContext,
+			library: actionLibrary,
+			actor: test.context.actor.id,
 			executeAction: test.context.executeAction
 		},
 		type
@@ -1086,6 +1142,9 @@ ava('.insertCard() should add a triggered action given a type with an AGGREGATE 
 		override: false,
 		attachEvents: false,
 		executeAction: test.context.executeAction,
+		context: test.context.actionContext,
+		library: actionLibrary,
+		actor: test.context.actor.id,
 		setTriggers: test.context.actionContext.setTriggers
 	}, {
 		slug: 'test-thread',
@@ -1164,6 +1223,9 @@ ava('.insertCard() should pre-register a triggered action if using AGGREGATE', a
 		override: false,
 		attachEvents: false,
 		executeAction: test.context.executeAction,
+		context: test.context.actionContext,
+		library: actionLibrary,
+		actor: test.context.actor.id,
 		setTriggers: test.context.actionContext.setTriggers
 	}, {
 		slug: 'test-thread',
@@ -1224,6 +1286,9 @@ ava('.insertCard() should update pre-registered triggered actions if removing an
 		attachEvents: false,
 		executeAction: test.context.executeAction,
 		triggers: test.context.triggers,
+		context: test.context.actionContext,
+		library: actionLibrary,
+		actor: test.context.actor.id,
 		setTriggers: test.context.actionContext.setTriggers
 	}, {
 		slug: 'test-thread',
@@ -1259,6 +1324,9 @@ ava('.insertCard() should update pre-registered triggered actions if removing an
 		attachEvents: false,
 		executeAction: test.context.executeAction,
 		triggers: test.context.triggers,
+		context: test.context.actionContext,
+		library: actionLibrary,
+		actor: test.context.actor.id,
 		setTriggers: test.context.actionContext.setTriggers
 	}, {
 		slug: 'test-thread',
@@ -1324,6 +1392,9 @@ ava('.insertCard() should add multiple triggered actions given a type with an AG
 		currentTime: new Date(),
 		override: false,
 		attachEvents: false,
+		context: test.context.actionContext,
+		library: actionLibrary,
+		actor: test.context.actor.id,
 		executeAction: test.context.executeAction,
 		setTriggers: test.context.actionContext.setTriggers
 	}, type)
@@ -1332,6 +1403,9 @@ ava('.insertCard() should add multiple triggered actions given a type with an AG
 		currentTime: new Date(),
 		override: true,
 		attachEvents: false,
+		context: test.context.actionContext,
+		library: actionLibrary,
+		actor: test.context.actor.id,
 		executeAction: test.context.executeAction,
 		setTriggers: test.context.actionContext.setTriggers
 	}, type)
@@ -1340,6 +1414,9 @@ ava('.insertCard() should add multiple triggered actions given a type with an AG
 		currentTime: new Date(),
 		override: true,
 		attachEvents: false,
+		context: test.context.actionContext,
+		library: actionLibrary,
+		actor: test.context.actor.id,
 		executeAction: test.context.executeAction,
 		setTriggers: test.context.actionContext.setTriggers
 	}, type)
