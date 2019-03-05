@@ -5,7 +5,6 @@
  */
 
 const CopyWebpackPlugin = require('copy-webpack-plugin')
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path')
 const DefinePlugin = require('webpack/lib/DefinePlugin')
@@ -23,41 +22,28 @@ const packageJSON = require('./package.json')
 
 const config = {
 	mode: 'development',
-	entry: path.join(root, 'lib', 'ui', 'index.tsx'),
+	target: 'web',
+	entry: path.join(root, 'lib', 'ui', 'index.jsx'),
 	output: {
 		filename: 'bundle.[hash].js',
 		path: outDir
 	},
 
 	resolve: {
-		// Add '.ts' and '.tsx' as resolvable extensions.
-		extensions: [ '.ts', '.tsx', '.js', '.json' ]
+		extensions: [ '.js', '.jsx', '.json' ],
+		alias: {
+			'@jellyfish-ui-components': path.resolve(__dirname, 'lib/ui/components'),
+			'@jellyfish-ui-shame': path.resolve(__dirname, 'lib/ui/shame')
+		}
 	},
 
 	module: {
 		rules: [
-			// All files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'.
 			{
-				test: /\.tsx?$/,
+				test: /\.(js|jsx)$/,
+				exclude: /node_modules/,
 				use: [
-					{
-						loader: 'cache-loader'
-					},
-					{
-						loader: 'thread-loader',
-						options: {
-							// There should be 1 cpu for the fork-ts-checker-webpack-plugin
-							workers: require('os').cpus().length - 1
-						}
-					},
-					{
-						loader: 'ts-loader',
-						options: {
-							// Disable type checker - we will use it in fork plugin
-							transpileOnly: true,
-							happyPackMode: true
-						}
-					}
+					'babel-loader'
 				]
 			}
 		]
@@ -83,8 +69,6 @@ const config = {
 				from: faviconPath
 			}
 		]),
-
-		new ForkTsCheckerWebpackPlugin(),
 
 		new HtmlWebpackPlugin({
 			template: indexFilePath
