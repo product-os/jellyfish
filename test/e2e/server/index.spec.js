@@ -586,7 +586,10 @@ const githubAvaTest = environment.getIntegrationToken('github')
 githubAvaTest('should be able to post a GitHub event without a signature', async (test) => {
 	const result = await test.context.http('POST', '/api/v2/hooks/github', {
 		foo: 'bar',
-		bar: 'baz'
+		bar: 'baz',
+		sender: {
+			login: 'johndoe'
+		}
 	})
 
 	test.is(result.code, 200)
@@ -619,20 +622,23 @@ githubAvaTest('should be able to post a GitHub event without a signature', async
 			headers: {
 				accept: 'application/json',
 				connection: 'close',
-				'content-length': '25',
+				'content-length': '54',
 				'content-type': 'application/json',
 				host: `localhost:${test.context.server.port}`
 			},
 			payload: {
 				foo: 'bar',
-				bar: 'baz'
+				bar: 'baz',
+				sender: {
+					login: 'johndoe'
+				}
 			}
 		}
 	})
 })
 
 githubAvaTest('should take a GitHub event with a valid signature', async (test) => {
-	const object = '{"foo":"bar"}'
+	const object = '{"foo":"bar","sender":{"login":"johndoe"}}'
 	const hash = crypto.createHmac('sha1', environment.integration.github.signatureKey)
 		.update(object)
 		.digest('hex')
@@ -671,13 +677,16 @@ githubAvaTest('should take a GitHub event with a valid signature', async (test) 
 			headers: {
 				accept: 'application/json',
 				connection: 'close',
-				'content-length': '13',
+				'content-length': '42',
 				'content-type': 'application/json',
 				host: `localhost:${test.context.server.port}`,
 				'x-hub-signature': `sha1=${hash}`
 			},
 			payload: {
-				foo: 'bar'
+				foo: 'bar',
+				sender: {
+					login: 'johndoe'
+				}
 			}
 		}
 	})

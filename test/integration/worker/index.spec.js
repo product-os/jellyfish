@@ -331,40 +331,10 @@ ava('.execute() should execute a triggered action', async (test) => {
 		test.context.context, test.context.session, 'foo-bar-baz')
 	test.truthy(card)
 
-	const timeline = await test.context.jellyfish.query(
-		test.context.context, test.context.session, {
-			type: 'object',
-			additionalProperties: true,
-			required: [ 'data' ],
-			properties: {
-				data: {
-					type: 'object',
-					required: [ 'payload' ],
-					additionalProperties: true,
-					properties: {
-						payload: {
-							type: 'object',
-							required: [ 'data' ],
-							properties: {
-								data: {
-									type: 'object',
-									required: [ 'slug' ],
-									properties: {
-										slug: {
-											type: 'string',
-											const: 'foo-bar-baz'
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		})
+	const resultCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'foo')
 
-	test.is(timeline.length, 1)
-	test.is(timeline[0].data.originator, 'cb3523c5-b37d-41c8-ae32-9e7cc9309165')
+	test.is(resultCard.data.command, 'foo-bar-baz')
 })
 
 ava('.execute() should not execute a triggered action with a future start date', async (test) => {
