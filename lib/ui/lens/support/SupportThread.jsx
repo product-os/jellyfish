@@ -69,7 +69,9 @@ const getHighlights = (card) => {
 		if (!_.includes([ 'message', 'whisper' ], event.type)) {
 			return false
 		}
-		return Boolean(event.data.payload.message.match(/(#summary|#status)/))
+		console.log(event)
+		const message = _.get(event, [ 'data', 'payload', 'message' ])
+		return Boolean(message) && Boolean(message.match(/(#summary|#status)/))
 	}), 'data.timestamp')
 	return _.uniqBy(list, (item) => {
 		return _.get(item, [ 'data', 'payload', 'message' ])
