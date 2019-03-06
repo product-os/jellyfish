@@ -100,6 +100,7 @@ ava('.importCards() should patch an existing card', async (test) => {
 	test.deepEqual(result, [
 		test.context.kernel.defaults({
 			created_at: card.created_at,
+			updated_at: result[0].updated_at,
 			id: card.id,
 			name: null,
 			slug: 'foo',

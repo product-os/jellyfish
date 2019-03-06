@@ -177,11 +177,18 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 			}
 		})
 
-	test.deepEqual(Object.assign({}, testCase.expected.head, _.omitBy({
-		id: head.id,
-		slug: head.slug,
-		created_at: head.created_at
-	}, _.isEmpty)), head)
+	test.deepEqual(
+		Object.assign(
+			testCase.expected.head,
+			_.pick(head, [
+				'id',
+				'slug',
+				'created_at',
+				'updated_at'
+			])
+		),
+		head
+	)
 
 	const tailFilter = (card) => {
 		return !testCase.ignoreUpdateEvents || card.type !== 'update'
@@ -192,6 +199,7 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 		Reflect.deleteProperty(card, 'links')
 		Reflect.deleteProperty(card, 'markers')
 		Reflect.deleteProperty(card, 'created_at')
+		Reflect.deleteProperty(card, 'updated_at')
 		Reflect.deleteProperty(card.data, 'origin')
 		Reflect.deleteProperty(card.data, 'translateDate')
 
@@ -200,6 +208,7 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 			Reflect.deleteProperty(card.data.payload, 'links')
 			Reflect.deleteProperty(card.data.payload, 'markers')
 			Reflect.deleteProperty(card.data.payload, 'created_at')
+			Reflect.deleteProperty(card.data.payload, 'updated_at')
 
 			if (card.data.payload.data) {
 				Reflect.deleteProperty(card.data.payload.data, 'origin')

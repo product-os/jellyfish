@@ -1178,6 +1178,7 @@ ava('.insertCard() should add a triggered action given a type with an AGGREGATE 
 	test.deepEqual(triggers, [
 		{
 			created_at: triggers[0].created_at,
+			updated_at: null,
 			id: triggers[0].id,
 			slug: 'triggered-action-test-thread-data-mentions',
 			type: 'triggered-action',
@@ -1449,6 +1450,7 @@ ava('.run() should create a card', async (test) => {
 
 	test.deepEqual(result, {
 		created_at: result.created_at,
+		updated_at: null,
 		id: result.id,
 		slug: 'foo-bar-baz',
 		name: null,

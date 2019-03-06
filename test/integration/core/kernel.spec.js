@@ -21,7 +21,7 @@ for (const key in CARDS) {
 		card.name = _.isString(card.name) ? card.name : null
 		const element = await test.context.kernel.getCardBySlug(
 			test.context.context, test.context.kernel.sessions.admin, card.slug)
-		test.deepEqual(card, _.omit(element, [ 'created_at', 'id' ]))
+		test.deepEqual(card, _.omit(element, [ 'created_at', 'id', 'updated_at' ]))
 	})
 }
 
@@ -120,6 +120,7 @@ ava('.insertCard() should use defaults if required keys are missing', async (tes
 	test.deepEqual(card, {
 		id: card.id,
 		created_at: card.created_at,
+		updated_at: null,
 		slug: 'hello-world',
 		type: 'card',
 		name: null,
@@ -2569,6 +2570,7 @@ ava('.getPendingRequests() should return an unexecuted action request', async (t
 		test.context.context, test.context.kernel.sessions.admin, {
 			type: 'action-request',
 			created_at: date.toISOString(),
+			updated_at: null,
 			version: '1.0.0',
 			active: true,
 			tags: [],
@@ -2593,6 +2595,7 @@ ava('.getPendingRequests() should return an unexecuted action request', async (t
 
 	const result = await test.context.kernel.getPendingRequests(
 		test.context.context, test.context.kernel.sessions.admin)
+
 	test.deepEqual(result, [ request ])
 })
 
