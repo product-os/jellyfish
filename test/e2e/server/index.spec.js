@@ -606,6 +606,7 @@ githubAvaTest('should be able to post a GitHub event without a signature', async
 
 	test.deepEqual(card, {
 		created_at: requestResult.data.created_at,
+		updated_at: null,
 		id: requestResult.data.id,
 		type: 'external-event',
 		name: null,
@@ -661,6 +662,7 @@ githubAvaTest('should take a GitHub event with a valid signature', async (test) 
 
 	test.deepEqual(card, {
 		created_at: requestResult.data.created_at,
+		updated_at: null,
 		id: requestResult.data.id,
 		type: 'external-event',
 		slug: requestResult.data.slug,

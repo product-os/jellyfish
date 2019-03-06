@@ -94,6 +94,7 @@ ava.serial('.action() should resolve with the created card', async (test) => {
 
 	test.deepEqual(card, {
 		created_at: card.created_at,
+		updated_at: null,
 		id: card.id,
 		name,
 		slug,
@@ -155,6 +156,7 @@ ava.serial('.query() should run a query on the server', async (test) => {
 	test.deepEqual(results[0], {
 		id: results[0].id,
 		created_at: results[0].created_at,
+		updated_at: null,
 		name,
 		slug,
 		version: '1.0.0',
@@ -751,6 +753,7 @@ ava.serial('.card.create() should resolve with the created card', async (test) =
 	test.deepEqual(card, {
 		id: card.id,
 		created_at: card.created_at,
+		updated_at: null,
 		version: '1.0.0',
 		name: null,
 		slug,

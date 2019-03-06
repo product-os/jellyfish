@@ -49,6 +49,7 @@ ava('.getElementsById() should return an found element', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		data: {},
 		links: {},
 		test: 'foo',
@@ -826,6 +827,7 @@ ava('.query() should query the database using JSON schema', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true
 	})
 
@@ -842,6 +844,7 @@ ava('.query() should query the database using JSON schema', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true
 	})
 
@@ -858,6 +861,7 @@ ava('.query() should query the database using JSON schema', async (test) => {
 		},
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true
 	})
 
@@ -1072,6 +1076,7 @@ ava('.query() should query an element by its id', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		slug: 'foo',
 		active: true
 	})
@@ -1137,6 +1142,7 @@ ava('.query() should query an element by its slug', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true
 	})
 
@@ -1169,6 +1175,7 @@ ava('.query() should fail to query an element by its slug', async (test) => {
 		},
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true
 	})
 
@@ -1200,6 +1207,7 @@ ava('.query() should not return unspecified properties', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		slug: 'hello'
 	})
 
@@ -1239,6 +1247,7 @@ ava('.query() should be able to provide a sort function', async (test) => {
 		},
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true
 	})
 
@@ -1255,6 +1264,7 @@ ava('.query() should be able to provide a sort function', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true
 	})
 
@@ -1271,6 +1281,7 @@ ava('.query() should be able to provide a sort function', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true
 	})
 
@@ -1301,6 +1312,7 @@ ava('.query() should be able to limit the results', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		data: {
 			test: 1,
@@ -1318,6 +1330,7 @@ ava('.query() should be able to limit the results', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		data: {
 			test: 2,
@@ -1335,6 +1348,7 @@ ava('.query() should be able to limit the results', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		data: {
 			test: 3,
@@ -1370,6 +1384,7 @@ ava('.query() should be able to skip the results', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		data: {
 			test: 1,
@@ -1387,6 +1402,7 @@ ava('.query() should be able to skip the results', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		data: {
 			test: 2,
@@ -1404,6 +1420,7 @@ ava('.query() should be able to skip the results', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		data: {
 			test: 3,
@@ -1439,6 +1456,7 @@ ava('.query() should be able to skip the results of a one-element query', async 
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		data: {
 			test: 1,
@@ -1473,6 +1491,7 @@ ava('.query() should not skip the results of a one-element query if skip is set 
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		data: {
 			test: 1,
@@ -1511,6 +1530,7 @@ ava('.query() should be able to limit the results of a one-element query to 0', 
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		data: {
 			test: 1,
@@ -1545,6 +1565,7 @@ ava('.query() should not omit the results of a one-element query if limit is set
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		data: {
 			test: 1,
@@ -1583,6 +1604,7 @@ ava('.query() should be able to limit and skip the results', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		data: {
 			test: 1,
@@ -1600,6 +1622,7 @@ ava('.query() should be able to limit and skip the results', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		data: {
 			test: 2,
@@ -1617,6 +1640,7 @@ ava('.query() should be able to limit and skip the results', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		data: {
 			test: 3,
@@ -1653,6 +1677,7 @@ ava('.query() should be able to sort the query using a key', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		name: 'd',
 		active: true,
 		data: {}
@@ -1669,6 +1694,7 @@ ava('.query() should be able to sort the query using a key', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		name: 'a',
 		data: {}
 	})
@@ -1683,6 +1709,7 @@ ava('.query() should be able to sort the query using a key', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		name: 'c',
 		data: {}
@@ -1699,6 +1726,7 @@ ava('.query() should be able to sort the query using a key', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		name: 'b',
 		data: {}
 	})
@@ -1731,6 +1759,7 @@ ava('.query() should be able to sort the query in descending order', async (test
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		name: 'd',
 		data: {}
@@ -1746,6 +1775,7 @@ ava('.query() should be able to sort the query in descending order', async (test
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		name: 'a',
 		data: {}
@@ -1761,6 +1791,7 @@ ava('.query() should be able to sort the query in descending order', async (test
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		name: 'c',
 		data: {}
@@ -1776,6 +1807,7 @@ ava('.query() should be able to sort the query in descending order', async (test
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		name: 'b',
 		active: true,
 		data: {}
@@ -1810,6 +1842,7 @@ ava('.query() should be able to sort the query using an array of keys', async (t
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		data: {
 			code: 'd'
@@ -1826,6 +1859,7 @@ ava('.query() should be able to sort the query using an array of keys', async (t
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		data: {
 			code: 'a'
@@ -1842,6 +1876,7 @@ ava('.query() should be able to sort the query using an array of keys', async (t
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		data: {
 			code: 'c'
@@ -1858,6 +1893,7 @@ ava('.query() should be able to sort the query using an array of keys', async (t
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		data: {
 			code: 'b'
@@ -1892,6 +1928,7 @@ ava('.query() should apply sort before skip', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		name: 'd',
 		data: {}
@@ -1907,6 +1944,7 @@ ava('.query() should apply sort before skip', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		name: 'a',
 		data: {}
@@ -1922,6 +1960,7 @@ ava('.query() should apply sort before skip', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		name: 'c',
 		data: {}
@@ -1937,6 +1976,7 @@ ava('.query() should apply sort before skip', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		name: 'b',
 		data: {}
@@ -1971,6 +2011,7 @@ ava('.query() should apply sort before limit', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		name: 'd',
 		data: {}
@@ -1986,6 +2027,7 @@ ava('.query() should apply sort before limit', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		name: 'a',
 		data: {}
@@ -2001,6 +2043,7 @@ ava('.query() should apply sort before limit', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		name: 'c',
 		data: {}
@@ -2016,6 +2059,7 @@ ava('.query() should apply sort before limit', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		name: 'b',
 		data: {}
@@ -2050,6 +2094,7 @@ ava('.query() should correctly honour top level additionalProperties: true', asy
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		type: 'user'
 	})
@@ -2065,6 +2110,7 @@ ava('.query() should correctly honour top level additionalProperties: true', asy
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		type: 'user'
 	})
 
@@ -2199,6 +2245,7 @@ ava('.query() should resolve "limit" after resolving links', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		data: {}
 	})
@@ -2213,6 +2260,7 @@ ava('.query() should resolve "limit" after resolving links', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		data: {}
 	})
@@ -2227,6 +2275,7 @@ ava('.query() should resolve "limit" after resolving links', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		data: {
 			payload: 'foo',
@@ -2244,6 +2293,7 @@ ava('.query() should resolve "limit" after resolving links', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -2285,6 +2335,7 @@ ava('.query() should resolve "limit" after resolving links', async (test) => {
 			active: true,
 			capabilities: [],
 			created_at: thread2.created_at,
+			updated_at: null,
 			markers: [],
 			name: null,
 			requires: [],
@@ -2313,6 +2364,7 @@ ava('.query() should be able to query using links', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		data: {}
 	})
@@ -2327,6 +2379,7 @@ ava('.query() should be able to query using links', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		data: {}
 	})
@@ -2341,6 +2394,7 @@ ava('.query() should be able to query using links', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		data: {}
 	})
@@ -2356,6 +2410,7 @@ ava('.query() should be able to query using links', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		data: {
 			payload: 'foo',
 			count: 1
@@ -2372,6 +2427,7 @@ ava('.query() should be able to query using links', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -2397,6 +2453,7 @@ ava('.query() should be able to query using links', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		data: {
 			payload: 'bar',
@@ -2414,6 +2471,7 @@ ava('.query() should be able to query using links', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -2439,6 +2497,7 @@ ava('.query() should be able to query using links', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		data: {
 			payload: 'baz',
@@ -2456,6 +2515,7 @@ ava('.query() should be able to query using links', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -2574,6 +2634,7 @@ ava('.query() should be able to query using links when getting an element by id'
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		slug: 'foo',
 		active: true,
 		data: {
@@ -2591,6 +2652,7 @@ ava('.query() should be able to query using links when getting an element by id'
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		data: {
 			payload: 'foo'
@@ -2606,6 +2668,7 @@ ava('.query() should be able to query using links when getting an element by id'
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		slug: `link-${message.slug}-has-attached-element-${thread.slug}`,
 		active: true,
 		name: 'is attached to',
@@ -2664,6 +2727,7 @@ ava('.query() should be able to query using links when getting an element by id'
 							description: 'lorem ipsum dolor sit amet'
 						},
 						created_at: thread.created_at,
+						updated_at: thread.updated_at,
 						markers: [],
 						requires: [],
 						tags: [],
@@ -2693,6 +2757,7 @@ ava('.query() should be able to query using links when getting an element by slu
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		data: {
 			description: 'lorem ipsum dolor sit amet'
@@ -2709,6 +2774,7 @@ ava('.query() should be able to query using links when getting an element by slu
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		data: {
 			payload: 'foo'
@@ -2725,6 +2791,7 @@ ava('.query() should be able to query using links when getting an element by slu
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -2783,6 +2850,7 @@ ava('.query() should be able to query using links when getting an element by slu
 						},
 						id: thread.id,
 						created_at: thread.created_at,
+						updated_at: thread.updated_at,
 						capabilities: [],
 						markers: [],
 						requires: [],
@@ -2811,6 +2879,7 @@ ava('.query() should be able to query using links and an inverse name', async (t
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		data: {
 			description: 'lorem ipsum dolor sit amet'
@@ -2827,6 +2896,7 @@ ava('.query() should be able to query using links and an inverse name', async (t
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		data: {
 			payload: 'foo'
@@ -2843,6 +2913,7 @@ ava('.query() should be able to query using links and an inverse name', async (t
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		data: {
 			payload: 'foo'
@@ -2859,6 +2930,7 @@ ava('.query() should be able to query using links and an inverse name', async (t
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -2884,6 +2956,7 @@ ava('.query() should be able to query using links and an inverse name', async (t
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -2939,6 +3012,7 @@ ava('.query() should be able to query using links and an inverse name', async (t
 						id: message1.id,
 						name: null,
 						created_at: message1.created_at,
+						updated_at: message1.updated_at,
 						capabilities: [],
 						markers: [],
 						requires: [],
@@ -2956,6 +3030,7 @@ ava('.query() should be able to query using links and an inverse name', async (t
 						id: message2.id,
 						name: null,
 						created_at: message2.created_at,
+						updated_at: message2.updated_at,
 						capabilities: [],
 						markers: [],
 						requires: [],
@@ -2987,6 +3062,7 @@ ava('.query() should omit a result if a link does not match', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		data: {}
 	})
@@ -3001,6 +3077,7 @@ ava('.query() should omit a result if a link does not match', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		data: {}
 	})
@@ -3015,6 +3092,7 @@ ava('.query() should omit a result if a link does not match', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		data: {
 			payload: 'foo'
@@ -3031,6 +3109,7 @@ ava('.query() should omit a result if a link does not match', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -3056,6 +3135,7 @@ ava('.query() should omit a result if a link does not match', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		data: {
 			payload: 'bar'
@@ -3072,6 +3152,7 @@ ava('.query() should omit a result if a link does not match', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		name: 'is attached to',
 		data: {
@@ -3137,6 +3218,7 @@ ava('.query() should omit a result if a link does not match', async (test) => {
 						name: null,
 						id: thread.id,
 						created_at: thread.created_at,
+						updated_at: thread.updated_at,
 						capabilities: [],
 						markers: [],
 						requires: [],
@@ -3201,6 +3283,7 @@ ava.cb('.stream() should report back new elements that match a certain type', (t
 				requires: [],
 				capabilities: [],
 				created_at: new Date().toISOString(),
+				updated_at: null,
 				active: true,
 				slug: 'foo',
 				data: {
@@ -3216,6 +3299,7 @@ ava.cb('.stream() should report back new elements that match a certain type', (t
 				requires: [],
 				capabilities: [],
 				created_at: new Date().toISOString(),
+				updated_at: null,
 				active: true,
 				slug: 'bar',
 				data: {
@@ -3236,6 +3320,7 @@ ava.cb('.stream() should report back changes to certain elements', (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		active: true,
 		slug: 'hello',
 		data: {
@@ -3251,6 +3336,7 @@ ava.cb('.stream() should report back changes to certain elements', (test) => {
 			requires: [],
 			capabilities: [],
 			created_at: new Date().toISOString(),
+			updated_at: null,
 			active: true,
 			slug: 'qux',
 			data: {
@@ -3318,6 +3404,7 @@ ava.cb('.stream() should report back changes to certain elements', (test) => {
 			requires: [],
 			capabilities: [],
 			created_at: new Date().toISOString(),
+			updated_at: null,
 			active: true,
 			type: 'foo',
 			data: {
@@ -3334,6 +3421,7 @@ ava.cb('.stream() should report back changes to certain elements', (test) => {
 				requires: [],
 				capabilities: [],
 				created_at: new Date().toISOString(),
+				updated_at: null,
 				type: 'bar',
 				data: {
 					test: 2
@@ -3354,6 +3442,7 @@ ava.cb('.stream() should report back changes to large elements', (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		slug: 'hello',
 		data: {
 			test: new Array(5000).join('foobar')
@@ -3425,6 +3514,7 @@ ava.cb('.stream() should report back changes to large elements', (test) => {
 			requires: [],
 			capabilities: [],
 			created_at: new Date().toISOString(),
+			updated_at: null,
 			type: 'foo',
 			data: {
 				test: new Array(5000).join('bazbuzz')
@@ -3461,6 +3551,7 @@ ava.cb('.stream() should set "before" to null if it previously did not match the
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		type: 'foo',
 		data: {
 			test: '1'
@@ -3515,6 +3606,7 @@ ava.cb('.stream() should set "before" to null if it previously did not match the
 			requires: [],
 			capabilities: [],
 			created_at: new Date().toISOString(),
+			updated_at: null,
 			type: 'foo',
 			data: {
 				test: 1
@@ -3534,6 +3626,7 @@ ava.cb('.stream() should filter the "before" section of a change', (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
+		updated_at: null,
 		slug: 'hello',
 		data: {
 			test: 1,
@@ -3613,6 +3706,7 @@ ava.cb('.stream() should filter the "before" section of a change', (test) => {
 			requires: [],
 			capabilities: [],
 			created_at: new Date().toISOString(),
+			updated_at: null,
 			active: true,
 			type: 'foo',
 			data: {
@@ -3647,6 +3741,7 @@ ava('.upsertElement() should handle multiple parallel insertions on the same slu
 			requires: [],
 			capabilities: [],
 			created_at: new Date().toISOString(),
+			updated_at: null,
 			type: 'stress-test',
 			data: {
 				time
@@ -3695,6 +3790,7 @@ ava('.insertElement() should handle multiple parallel insertions on the same slu
 			requires: [],
 			capabilities: [],
 			created_at: new Date().toISOString(),
+			updated_at: null,
 			active: true,
 			data: {
 				time
@@ -3855,6 +3951,7 @@ ava('.getPendingRequests() should return an unexecuted action request', async (t
 	const request = await test.context.backend.insertElement(test.context.context, {
 		type: 'action-request',
 		created_at: date.toISOString(),
+		updated_at: null,
 		version: '1.0.0',
 		active: true,
 		tags: [],
@@ -3886,6 +3983,7 @@ ava('.getPendingRequests() should return two unexecuted action requests', async 
 	const request1 = await test.context.backend.insertElement(test.context.context, {
 		type: 'action-request',
 		created_at: date.toISOString(),
+		updated_at: null,
 		version: '1.0.0',
 		active: true,
 		tags: [],
@@ -3911,6 +4009,7 @@ ava('.getPendingRequests() should return two unexecuted action requests', async 
 	const request2 = await test.context.backend.insertElement(test.context.context, {
 		type: 'action-request',
 		created_at: date.toISOString(),
+		updated_at: null,
 		version: '1.0.0',
 		active: true,
 		tags: [],
@@ -3942,6 +4041,7 @@ ava('.getPendingRequests() should be able to limit', async (test) => {
 	const request1 = await test.context.backend.insertElement(test.context.context, {
 		type: 'action-request',
 		created_at: date.toISOString(),
+		updated_at: null,
 		version: '1.0.0',
 		active: true,
 		tags: [],
@@ -4002,6 +4102,7 @@ ava('.getPendingRequests() should be able to skip', async (test) => {
 	await test.context.backend.insertElement(test.context.context, {
 		type: 'action-request',
 		created_at: date.toISOString(),
+		updated_at: null,
 		version: '1.0.0',
 		active: true,
 		tags: [],
@@ -4027,6 +4128,7 @@ ava('.getPendingRequests() should be able to skip', async (test) => {
 	const request2 = await test.context.backend.insertElement(test.context.context, {
 		type: 'action-request',
 		created_at: date.toISOString(),
+		updated_at: null,
 		version: '1.0.0',
 		active: true,
 		tags: [],
@@ -4062,6 +4164,7 @@ ava('.getPendingRequests() should omit an executed action request', async (test)
 	const request = await test.context.backend.insertElement(test.context.context, {
 		type: 'action-request',
 		created_at: date.toISOString(),
+		updated_at: null,
 		version: '1.0.0',
 		active: true,
 		tags: [],
@@ -4087,6 +4190,7 @@ ava('.getPendingRequests() should omit an executed action request', async (test)
 	const execute = await test.context.backend.insertElement(test.context.context, {
 		type: 'execute',
 		created_at: date.toISOString(),
+		updated_at: null,
 		slug: `execute-${request.id}`,
 		version: '1.0.0',
 		active: true,
@@ -4115,6 +4219,7 @@ ava('.getPendingRequests() should omit an executed action request', async (test)
 		type: 'link',
 		name: 'executes',
 		created_at: date.toISOString(),
+		updated_at: null,
 		slug: `link-${request.id}-${execute.id}`,
 		version: '1.0.0',
 		active: true,
