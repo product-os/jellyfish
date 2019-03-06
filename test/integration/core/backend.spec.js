@@ -3844,3 +3844,299 @@ ava('.lock() only one owner can lock a slug at a time', async (test) => {
 		test.is(_.compact(results).length, 1)
 	}
 })
+
+ava('.getPendingRequests() should return nothing by default', async (test) => {
+	const result = await test.context.backend.getPendingRequests(test.context.context)
+	test.deepEqual(result, [])
+})
+
+ava('.getPendingRequests() should return an unexecuted action request', async (test) => {
+	const date = new Date()
+	const request = await test.context.backend.insertElement(test.context.context, {
+		type: 'action-request',
+		created_at: date.toISOString(),
+		version: '1.0.0',
+		active: true,
+		tags: [],
+		markers: [],
+		links: {},
+		requires: [],
+		capabilities: [],
+		slug: 'request-1',
+		data: {
+			epoch: date.valueOf(),
+			timestamp: date.toISOString(),
+			context: test.context.context,
+			actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			action: 'action-foo',
+			input: {
+				id: '98853c0c-d055-4d25-a7be-682a2d5decc5',
+				type: 'card'
+			},
+			arguments: {}
+		}
+	})
+
+	const result = await test.context.backend.getPendingRequests(test.context.context)
+	test.deepEqual(result, [ request ])
+})
+
+ava('.getPendingRequests() should return two unexecuted action requests', async (test) => {
+	const date = new Date()
+	const request1 = await test.context.backend.insertElement(test.context.context, {
+		type: 'action-request',
+		created_at: date.toISOString(),
+		version: '1.0.0',
+		active: true,
+		tags: [],
+		markers: [],
+		links: {},
+		requires: [],
+		capabilities: [],
+		slug: 'request-1',
+		data: {
+			epoch: date.valueOf(),
+			timestamp: date.toISOString(),
+			context: test.context.context,
+			actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			action: 'action-foo',
+			input: {
+				id: '98853c0c-d055-4d25-a7be-682a2d5decc5',
+				type: 'card'
+			},
+			arguments: {}
+		}
+	})
+
+	const request2 = await test.context.backend.insertElement(test.context.context, {
+		type: 'action-request',
+		created_at: date.toISOString(),
+		version: '1.0.0',
+		active: true,
+		tags: [],
+		markers: [],
+		links: {},
+		requires: [],
+		capabilities: [],
+		slug: 'request-2',
+		data: {
+			epoch: date.valueOf(),
+			timestamp: date.toISOString(),
+			context: test.context.context,
+			actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			action: 'action-foo',
+			input: {
+				id: '98853c0c-d055-4d25-a7be-682a2d5decc5',
+				type: 'card'
+			},
+			arguments: {}
+		}
+	})
+
+	const result = await test.context.backend.getPendingRequests(test.context.context)
+	test.deepEqual(_.sortBy(result, 'slug'), _.sortBy([ request1, request2 ], 'slug'))
+})
+
+ava('.getPendingRequests() should be able to limit', async (test) => {
+	const date = new Date()
+	const request1 = await test.context.backend.insertElement(test.context.context, {
+		type: 'action-request',
+		created_at: date.toISOString(),
+		version: '1.0.0',
+		active: true,
+		tags: [],
+		markers: [],
+		links: {},
+		requires: [],
+		capabilities: [],
+		slug: 'request-1',
+		data: {
+			epoch: date.valueOf(),
+			timestamp: date.toISOString(),
+			context: test.context.context,
+			actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			action: 'action-foo',
+			input: {
+				id: '98853c0c-d055-4d25-a7be-682a2d5decc5',
+				type: 'card'
+			},
+			arguments: {}
+		}
+	})
+
+	await test.context.backend.insertElement(test.context.context, {
+		type: 'action-request',
+		created_at: date.toISOString(),
+		version: '1.0.0',
+		active: true,
+		tags: [],
+		markers: [],
+		links: {},
+		requires: [],
+		capabilities: [],
+		slug: 'request-2',
+		data: {
+			epoch: date.valueOf(),
+			timestamp: date.toISOString(),
+			context: test.context.context,
+			actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			action: 'action-foo',
+			input: {
+				id: '98853c0c-d055-4d25-a7be-682a2d5decc5',
+				type: 'card'
+			},
+			arguments: {}
+		}
+	})
+
+	const result = await test.context.backend.getPendingRequests(
+		test.context.context, {
+			limit: 1
+		})
+
+	test.deepEqual(result, [ request1 ])
+})
+
+ava('.getPendingRequests() should be able to skip', async (test) => {
+	const date = new Date()
+	await test.context.backend.insertElement(test.context.context, {
+		type: 'action-request',
+		created_at: date.toISOString(),
+		version: '1.0.0',
+		active: true,
+		tags: [],
+		markers: [],
+		links: {},
+		requires: [],
+		capabilities: [],
+		slug: 'request-1',
+		data: {
+			epoch: date.valueOf(),
+			timestamp: date.toISOString(),
+			context: test.context.context,
+			actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			action: 'action-foo',
+			input: {
+				id: '98853c0c-d055-4d25-a7be-682a2d5decc5',
+				type: 'card'
+			},
+			arguments: {}
+		}
+	})
+
+	const request2 = await test.context.backend.insertElement(test.context.context, {
+		type: 'action-request',
+		created_at: date.toISOString(),
+		version: '1.0.0',
+		active: true,
+		tags: [],
+		markers: [],
+		links: {},
+		requires: [],
+		capabilities: [],
+		slug: 'request-2',
+		data: {
+			epoch: date.valueOf(),
+			timestamp: date.toISOString(),
+			context: test.context.context,
+			actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			action: 'action-foo',
+			input: {
+				id: '98853c0c-d055-4d25-a7be-682a2d5decc5',
+				type: 'card'
+			},
+			arguments: {}
+		}
+	})
+
+	const result = await test.context.backend.getPendingRequests(
+		test.context.context, {
+			skip: 1
+		})
+
+	test.deepEqual(result, [ request2 ])
+})
+
+ava('.getPendingRequests() should omit an executed action request', async (test) => {
+	const date = new Date()
+	const request = await test.context.backend.insertElement(test.context.context, {
+		type: 'action-request',
+		created_at: date.toISOString(),
+		version: '1.0.0',
+		active: true,
+		tags: [],
+		markers: [],
+		links: {},
+		requires: [],
+		capabilities: [],
+		slug: 'request-1',
+		data: {
+			epoch: date.valueOf(),
+			timestamp: date.toISOString(),
+			context: test.context.context,
+			actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			action: 'action-foo',
+			input: {
+				id: '98853c0c-d055-4d25-a7be-682a2d5decc5',
+				type: 'card'
+			},
+			arguments: {}
+		}
+	})
+
+	const execute = await test.context.backend.insertElement(test.context.context, {
+		type: 'execute',
+		created_at: date.toISOString(),
+		slug: `execute-${request.id}`,
+		version: '1.0.0',
+		active: true,
+		links: {},
+		markers: [],
+		tags: [],
+		requires: [],
+		capabilities: [],
+		data: {
+			timestamp: date.toISOString(),
+			target: request.id,
+			actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			payload: {
+				action: 'action-foo',
+				card: '98853c0c-d055-4d25-a7be-682a2d5decc5',
+				timestamp: date.toISOString(),
+				error: false,
+				data: {
+					foo: 'bar'
+				}
+			}
+		}
+	})
+
+	await test.context.backend.insertElement(test.context.context, {
+		type: 'link',
+		name: 'executes',
+		created_at: date.toISOString(),
+		slug: `link-${request.id}-${execute.id}`,
+		version: '1.0.0',
+		active: true,
+		links: {},
+		markers: [],
+		tags: [],
+		requires: [],
+		capabilities: [],
+		data: {
+			inverseName: 'is executed by',
+			from: {
+				id: execute.id,
+				type: execute.type
+			},
+			to: {
+				id: request.id,
+				type: request.type
+			}
+		}
+	})
+
+	const result = await test.context.backend.getPendingRequests(
+		test.context.context)
+	test.deepEqual(result, [])
+})
