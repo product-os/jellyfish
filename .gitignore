@@ -82,6 +82,7 @@ webpack-bundle-report.html
 *.iml
 .idea/
 .vscode/
+.tmp
 
 # Execution files
 .tar.gz

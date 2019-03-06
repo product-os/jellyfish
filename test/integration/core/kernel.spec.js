@@ -2562,3 +2562,160 @@ ava('.unlock() should be able to let other owner take the same slug', async (tes
 		'98853c0c-d055-4d25-a7be-682a2d5decc5', 'locktest-1234')
 	test.is(lockResult2, 'locktest-1234')
 })
+
+ava('.getPendingRequests() should return an unexecuted action request', async (test) => {
+	const date = new Date()
+	const request = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			type: 'action-request',
+			created_at: date.toISOString(),
+			version: '1.0.0',
+			active: true,
+			tags: [],
+			markers: [],
+			links: {},
+			requires: [],
+			capabilities: [],
+			slug: 'action-request-1',
+			data: {
+				epoch: date.valueOf(),
+				timestamp: date.toISOString(),
+				context: test.context.context,
+				actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				action: 'action-foo',
+				input: {
+					id: '98853c0c-d055-4d25-a7be-682a2d5decc5',
+					type: 'card'
+				},
+				arguments: {}
+			}
+		})
+
+	const result = await test.context.kernel.getPendingRequests(
+		test.context.context, test.context.kernel.sessions.admin)
+	test.deepEqual(result, [ request ])
+})
+
+ava('.getPendingRequests() should be able to limit', async (test) => {
+	const date = new Date()
+	const request1 = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			type: 'action-request',
+			created_at: date.toISOString(),
+			version: '1.0.0',
+			active: true,
+			tags: [],
+			markers: [],
+			links: {},
+			requires: [],
+			capabilities: [],
+			slug: 'action-request-1',
+			data: {
+				epoch: date.valueOf(),
+				timestamp: date.toISOString(),
+				context: test.context.context,
+				actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				action: 'action-foo',
+				input: {
+					id: '98853c0c-d055-4d25-a7be-682a2d5decc5',
+					type: 'card'
+				},
+				arguments: {}
+			}
+		})
+
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			type: 'action-request',
+			created_at: date.toISOString(),
+			version: '1.0.0',
+			active: true,
+			tags: [],
+			markers: [],
+			links: {},
+			requires: [],
+			capabilities: [],
+			slug: 'action-request-2',
+			data: {
+				epoch: date.valueOf(),
+				timestamp: date.toISOString(),
+				context: test.context.context,
+				actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				action: 'action-foo',
+				input: {
+					id: '98853c0c-d055-4d25-a7be-682a2d5decc5',
+					type: 'card'
+				},
+				arguments: {}
+			}
+		})
+
+	const result = await test.context.kernel.getPendingRequests(
+		test.context.context, test.context.kernel.sessions.admin, {
+			limit: 1
+		})
+
+	test.deepEqual(result, [ request1 ])
+})
+
+ava('.getPendingRequests() should be able to skip', async (test) => {
+	const date = new Date()
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			type: 'action-request',
+			created_at: date.toISOString(),
+			version: '1.0.0',
+			active: true,
+			tags: [],
+			markers: [],
+			links: {},
+			requires: [],
+			capabilities: [],
+			slug: 'action-request-1',
+			data: {
+				epoch: date.valueOf(),
+				timestamp: date.toISOString(),
+				context: test.context.context,
+				actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				action: 'action-foo',
+				input: {
+					id: '98853c0c-d055-4d25-a7be-682a2d5decc5',
+					type: 'card'
+				},
+				arguments: {}
+			}
+		})
+
+	const request2 = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			type: 'action-request',
+			created_at: date.toISOString(),
+			version: '1.0.0',
+			active: true,
+			tags: [],
+			markers: [],
+			links: {},
+			requires: [],
+			capabilities: [],
+			slug: 'action-request-2',
+			data: {
+				epoch: date.valueOf(),
+				timestamp: date.toISOString(),
+				context: test.context.context,
+				actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				action: 'action-foo',
+				input: {
+					id: '98853c0c-d055-4d25-a7be-682a2d5decc5',
+					type: 'card'
+				},
+				arguments: {}
+			}
+		})
+
+	const result = await test.context.kernel.getPendingRequests(
+		test.context.context, test.context.kernel.sessions.admin, {
+			skip: 1
+		})
+
+	test.deepEqual(result, [ request2 ])
+})
