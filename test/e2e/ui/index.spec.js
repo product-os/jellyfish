@@ -5,6 +5,7 @@
  */
 
 const ava = require('ava')
+const Bluebird = require('bluebird')
 const randomstring = require('randomstring')
 const helpers = require('./helpers')
 const macros = require('./macros')
@@ -160,6 +161,16 @@ ava.serial('should stop users from seeing messages attached to cards they can\'t
 	const messageText = `My new message: ${randomstring.generate()}`
 
 	await macros.createChatMessage(page, '.column--support-issue', messageText)
+
+	// This reload checks that authorisation persists between reloads and tha the
+	// app will correctly bootstrap based on the URL
+	await page.reload()
+	await page.waitForSelector('.column--support-issue')
+
+	// Wait for a small delay then check again, this means the test will fail if
+	// there is a render issue in a subcomponent
+	await Bluebird.delay(500)
+	await page.waitForSelector('.column--support-issue')
 
 	await macros.logout(page)
 
