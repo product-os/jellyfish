@@ -44,12 +44,13 @@ exports.jellyfish = {
 }
 
 exports.queue = {
-	beforeEach: async (test) => {
+	beforeEach: async (test, options = {}) => {
 		await exports.jellyfish.beforeEach(test)
 		test.context.queue = new Queue(
 			test.context.context,
 			test.context.jellyfish,
-			test.context.session)
+			test.context.session,
+			options)
 
 		test.context.queue.once('error', (error) => {
 			throw error

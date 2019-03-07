@@ -9,7 +9,10 @@ const Bluebird = require('bluebird')
 const helpers = require('./helpers')
 const events = require('../../../lib/queue/events')
 
-ava.beforeEach(helpers.queue.beforeEach)
+ava.beforeEach(async (test) => {
+	await helpers.queue.beforeEach(test)
+})
+
 ava.afterEach(helpers.queue.afterEach)
 
 ava('.post() should insert an active execute card', async (test) => {
