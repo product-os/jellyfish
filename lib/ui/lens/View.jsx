@@ -22,6 +22,26 @@ const index = require('./index')
 const ButtonGroup = require('../shame/ButtonGroup')
 const Icon = require('../shame/Icon')
 const USER_FILTER_NAME = 'user-generated-filter'
+
+const createSyntheticViewCard = (view, filters) => {
+	const syntheticViewCard = _.cloneDeep(view)
+	const originalFilters = view
+		? _.reject(view.data.allOf, {
+			name: USER_FILTER_NAME
+		})
+		: []
+	syntheticViewCard.data.allOf = originalFilters
+	filters.forEach((filter) => {
+		syntheticViewCard.data.allOf.push({
+			name: USER_FILTER_NAME,
+			schema: _.assign(_.omit(filter, '$id'), {
+				type: 'object'
+			})
+		})
+	})
+	return syntheticViewCard
+}
+
 class ViewRenderer extends React.Component {
 	constructor (props) {
 		super(props)
@@ -77,6 +97,9 @@ class ViewRenderer extends React.Component {
 			const {
 				channel
 			} = this.props
+			if (page + 1 >= this.state.options.totalPages) {
+				return
+			}
 			const options = _.merge(this.state.options, {
 				page
 			})
@@ -86,10 +109,18 @@ class ViewRenderer extends React.Component {
 			this.setState({
 				options
 			})
-			await this.props.actions.loadViewResults(
-				channel.data.head.id,
+			const syntheticViewCard = createSyntheticViewCard(channel.data.head, this.state.filters)
+			const data = await this.props.actions.loadViewResults(
+				syntheticViewCard,
 				this.getQueryOptions(this.state.activeLens)
 			)
+			if (data.length < this.state.options.limit) {
+				this.setState({
+					options: Object.assign(this.state.options, {
+						totalPages: this.state.options.page + 1
+					})
+				})
+			}
 		}
 
 		this.state = {
@@ -101,6 +132,9 @@ class ViewRenderer extends React.Component {
 			activeSlice: null,
 			options: {
 				page: 0,
+
+				// TODO: Return a total count from the API so we can remove this hack
+				totalPages: Infinity,
 				limit: 20,
 				sortBy: 'created_at',
 				sortDir: 'desc'
@@ -251,25 +285,12 @@ class ViewRenderer extends React.Component {
 		Reflect.deleteProperty(newView, 'created_at')
 		return newView
 	}
+
 	loadViewWithFilters (view, filters) {
-		const syntheticViewCard = _.cloneDeep(view)
-		const originalFilters = view
-			? _.reject(view.data.allOf, {
-				name: USER_FILTER_NAME
-			})
-			: []
-		syntheticViewCard.data.allOf = originalFilters
-		filters.forEach((filter) => {
-			syntheticViewCard.data.allOf.push({
-				name: USER_FILTER_NAME,
-				schema: _.assign(_.omit(filter, '$id'), {
-					type: 'object'
-				})
-			})
-		})
+		const syntheticViewCard = createSyntheticViewCard(view, filters)
 		this.props.actions.clearViewData(syntheticViewCard)
-		this.props.actions.loadViewResults(syntheticViewCard, this.getQueryOptions(this.state.activeLens))
 		this.props.actions.streamView(syntheticViewCard)
+		return this.props.actions.loadViewResults(syntheticViewCard, this.getQueryOptions(this.state.activeLens))
 	}
 	render () {
 		const {
@@ -384,6 +405,7 @@ class ViewRenderer extends React.Component {
 							tail={tail}
 							setPage={this.setPage}
 							page={this.state.options.page}
+							totalPages={this.state.options.totalPages}
 							type={tailType}
 						/>
 					)}
