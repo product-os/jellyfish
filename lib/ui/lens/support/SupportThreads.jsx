@@ -160,9 +160,11 @@ class Interleaved extends React.Component {
 					)
 				})}
 
-				<rendition.Box p={3}>
-					<Icon.default name="cog fa-spin"/>
-				</rendition.Box>
+				{this.props.totalPages > this.props.page + 1 && (
+					<rendition.Box p={3}>
+						<Icon.default name="cog fa-spin"/>
+					</rendition.Box>
+				)}
 			</div>
 		</Column>)
 	}

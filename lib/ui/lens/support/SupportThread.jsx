@@ -69,7 +69,6 @@ const getHighlights = (card) => {
 		if (!_.includes([ 'message', 'whisper' ], event.type)) {
 			return false
 		}
-		console.log(event)
 		const message = _.get(event, [ 'data', 'payload', 'message' ])
 		return Boolean(message) && Boolean(message.match(/(#summary|#status)/))
 	}), 'data.timestamp')
