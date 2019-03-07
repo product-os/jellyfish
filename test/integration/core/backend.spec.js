@@ -4038,7 +4038,7 @@ ava('.getPendingRequests() should return two unexecuted action requests', async 
 
 ava('.getPendingRequests() should be able to limit', async (test) => {
 	const date = new Date()
-	const request1 = await test.context.backend.insertElement(test.context.context, {
+	await test.context.backend.insertElement(test.context.context, {
 		type: 'action-request',
 		created_at: date.toISOString(),
 		updated_at: null,
@@ -4089,12 +4089,21 @@ ava('.getPendingRequests() should be able to limit', async (test) => {
 		}
 	})
 
-	const result = await test.context.backend.getPendingRequests(
+	const result1 = await test.context.backend.getPendingRequests(
 		test.context.context, {
 			limit: 1
 		})
 
-	test.deepEqual(result, [ request1 ])
+	test.is(result1.length, 1)
+
+	const result2 = await test.context.backend.getPendingRequests(
+		test.context.context, {
+			limit: 1,
+			skip: 1
+		})
+
+	test.is(result2.length, 1)
+	test.not(result1[0].slug, result2[0].slug)
 })
 
 ava('.getPendingRequests() should be able to skip', async (test) => {
@@ -4125,7 +4134,7 @@ ava('.getPendingRequests() should be able to skip', async (test) => {
 		}
 	})
 
-	const request2 = await test.context.backend.insertElement(test.context.context, {
+	await test.context.backend.insertElement(test.context.context, {
 		type: 'action-request',
 		created_at: date.toISOString(),
 		updated_at: null,
@@ -4151,12 +4160,21 @@ ava('.getPendingRequests() should be able to skip', async (test) => {
 		}
 	})
 
-	const result = await test.context.backend.getPendingRequests(
+	const result1 = await test.context.backend.getPendingRequests(
 		test.context.context, {
 			skip: 1
 		})
 
-	test.deepEqual(result, [ request2 ])
+	test.is(result1.length, 1)
+
+	const result2 = await test.context.backend.getPendingRequests(
+		test.context.context, {
+			skip: 0,
+			limit: 1
+		})
+
+	test.is(result2.length, 1)
+	test.not(result1[0].slug, result2[0].slug)
 })
 
 ava('.getPendingRequests() should omit an executed action request', async (test) => {

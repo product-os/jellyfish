@@ -2601,7 +2601,7 @@ ava('.getPendingRequests() should return an unexecuted action request', async (t
 
 ava('.getPendingRequests() should be able to limit', async (test) => {
 	const date = new Date()
-	const request1 = await test.context.kernel.insertCard(
+	await test.context.kernel.insertCard(
 		test.context.context, test.context.kernel.sessions.admin, {
 			type: 'action-request',
 			created_at: date.toISOString(),
@@ -2653,12 +2653,21 @@ ava('.getPendingRequests() should be able to limit', async (test) => {
 			}
 		})
 
-	const result = await test.context.kernel.getPendingRequests(
+	const result1 = await test.context.kernel.getPendingRequests(
 		test.context.context, test.context.kernel.sessions.admin, {
 			limit: 1
 		})
 
-	test.deepEqual(result, [ request1 ])
+	test.is(result1.length, 1)
+
+	const result2 = await test.context.kernel.getPendingRequests(
+		test.context.context, test.context.kernel.sessions.admin, {
+			limit: 1,
+			skip: 1
+		})
+
+	test.is(result2.length, 1)
+	test.not(result1[0].slug, result2[0].slug)
 })
 
 ava('.getPendingRequests() should be able to skip', async (test) => {
@@ -2689,7 +2698,7 @@ ava('.getPendingRequests() should be able to skip', async (test) => {
 			}
 		})
 
-	const request2 = await test.context.kernel.insertCard(
+	await test.context.kernel.insertCard(
 		test.context.context, test.context.kernel.sessions.admin, {
 			type: 'action-request',
 			created_at: date.toISOString(),
@@ -2715,10 +2724,19 @@ ava('.getPendingRequests() should be able to skip', async (test) => {
 			}
 		})
 
-	const result = await test.context.kernel.getPendingRequests(
+	const result1 = await test.context.kernel.getPendingRequests(
 		test.context.context, test.context.kernel.sessions.admin, {
 			skip: 1
 		})
 
-	test.deepEqual(result, [ request2 ])
+	test.is(result1.length, 1)
+
+	const result2 = await test.context.kernel.getPendingRequests(
+		test.context.context, test.context.kernel.sessions.admin, {
+			skip: 0,
+			limit: 1
+		})
+
+	test.is(result2.length, 1)
+	test.not(result1[0].slug, result2[0].slug)
 })
