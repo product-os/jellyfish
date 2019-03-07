@@ -118,7 +118,10 @@ const bootstrap = async (context, library, options) => {
 	})
 
 	const session = jellyfish.sessions.admin
-	const queue = new Queue(context, jellyfish, session)
+	const queue = new Queue(context, jellyfish, session, {
+		enablePriorityBuffer: true
+	})
+
 	await queue.initialize(context)
 
 	queue.once('error', (error) => {
