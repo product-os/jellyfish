@@ -72,6 +72,52 @@ module.exports = (application, jellyfish, worker, queue) => {
 		})
 	})
 
+	application.get('/api/v2/id/:type/:id', (request, response) => {
+		jellyfish.getCardById(
+			request.context, request.sessionToken, request.params.id, {
+				type: request.params.type
+			}).then((card) => {
+			if (card) {
+				return response.status(200).json(card)
+			}
+
+			return response.status(404).end()
+		}).catch((error) => {
+			const errorObject = errio.toObject(error, {
+				stack: true
+			})
+
+			logger.exception(request.context, 'HTTP unexpected error', error)
+			return response.status(500).json({
+				error: true,
+				data: errorObject
+			})
+		})
+	})
+
+	application.get('/api/v2/slug/:type/:slug', (request, response) => {
+		jellyfish.getCardBySlug(
+			request.context, request.sessionToken, request.params.slug, {
+				type: request.params.type
+			}).then((card) => {
+			if (card) {
+				return response.status(200).json(card)
+			}
+
+			return response.status(404).end()
+		}).catch((error) => {
+			const errorObject = errio.toObject(error, {
+				stack: true
+			})
+
+			logger.exception(request.context, 'HTTP unexpected error', error)
+			return response.status(500).json({
+				error: true,
+				data: errorObject
+			})
+		})
+	})
+
 	// Some services, such as Workable, require the user to register
 	// different endpoints for every type of event we're interested in,
 	// which means we can't send more than one event type to
