@@ -243,7 +243,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 		})
 	})
 
-	application.post('/api/v2/query', (request, response) => {
+	application.get('/api/v2/query', (request, response) => {
 		if (_.isEmpty(request.body)) {
 			return response.status(400).json({
 				error: true,

@@ -24,7 +24,7 @@ paths:
                   changelog:
                     type: string
   /api/v2/query:
-    post:
+    get:
       summary: Query
       description: |
         Send a query using JSON Schema

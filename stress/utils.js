@@ -48,7 +48,7 @@ exports.query = (session, schema) => {
 	} : {}
 
 	return new Bluebird((resolve, reject) => {
-		client.post({
+		client.get({
 			url: '/api/v2/query',
 			headers,
 			body: {
