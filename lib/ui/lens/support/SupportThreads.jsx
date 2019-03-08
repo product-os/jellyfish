@@ -18,7 +18,8 @@ const storeHelpers = require('../../services/store-helpers')
 const Gravatar = require('../../shame/Gravatar')
 const Icon = require('../../shame/Icon')
 const {
-	getCreator
+	getCreator,
+	getLastUpdate
 } = require('./utils')
 const Column = styledComponents.default(rendition.Flex) `
 	height: 100%;
@@ -138,7 +139,7 @@ class Interleaved extends React.Component {
 								</rendition.Box>
 
 								<rendition.Txt>
-									Updated {helpers.timeAgo(_.get(_.last(timeline), [ 'data', 'timestamp' ]))}
+									Updated {helpers.timeAgo(_.get(getLastUpdate(card), [ 'data', 'timestamp' ]))}
 								</rendition.Txt>
 							</rendition.Flex>
 							<rendition.Txt my={2}>{messages.length} message{messages.length !== 1 && 's'}</rendition.Txt>

@@ -30,7 +30,8 @@ const Icon = require('../../shame/Icon')
 const IconButton = require('../../shame/IconButton')
 
 const {
-	getCreator
+	getCreator,
+	getLastUpdate
 } = require('./utils')
 
 const Extract = styledComponents.default(rendition.Box) `
@@ -296,7 +297,7 @@ class Base extends React.Component {
 						</rendition.Box>
 
 						<rendition.Txt>
-							Updated {helpers.timeAgo(_.get(_.last(card.links['has attached element']), [ 'data', 'timestamp' ]))}
+							Updated {helpers.timeAgo(_.get(getLastUpdate(card), [ 'data', 'timestamp' ]))}
 						</rendition.Txt>
 					</rendition.Flex>
 
