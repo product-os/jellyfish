@@ -2283,7 +2283,7 @@ ava('.query() should resolve "limit" after resolving links', async (test) => {
 		}
 	})
 
-	await test.context.backend.upsertElement(test.context.context, {
+	const link = await test.context.backend.upsertElement(test.context.context, {
 		type: 'link',
 		slug: `link-${card1.slug}-is-attached-to-${thread2.slug}`,
 		links: {},
@@ -2345,7 +2345,18 @@ ava('.query() should resolve "limit" after resolving links', async (test) => {
 			slug: thread2.slug,
 			links: {
 				'has attached element': [
-					card1
+					Object.assign(card1, {
+						links: {
+							'is attached to': [
+								{
+									$link: link.id,
+									id: thread2.id,
+									type: thread2.type,
+									slug: thread2.slug
+								}
+							]
+						}
+					})
 				]
 			},
 			data: {}
@@ -2659,7 +2670,7 @@ ava('.query() should be able to query using links when getting an element by id'
 		}
 	})
 
-	await test.context.backend.upsertElement(test.context.context, {
+	const link = await test.context.backend.upsertElement(test.context.context, {
 		type: 'link',
 		links: {},
 		version: '1.0.0',
@@ -2734,7 +2745,16 @@ ava('.query() should be able to query using links when getting an element by id'
 						version: '1.0.0',
 						capabilities: [],
 						id: thread.id,
-						links: thread.links,
+						links: {
+							'has attached element': [
+								{
+									$link: link.id,
+									id: message.id,
+									type: message.type,
+									slug: message.slug
+								}
+							]
+						},
 						type: 'thread'
 					}
 				]
@@ -2781,7 +2801,7 @@ ava('.query() should be able to query using links when getting an element by slu
 		}
 	})
 
-	await test.context.backend.upsertElement(test.context.context, {
+	const link = await test.context.backend.upsertElement(test.context.context, {
 		type: 'link',
 		slug: `link-${message.slug}-is-attached-to-${thread.slug}`,
 		version: '1.0.0',
@@ -2856,7 +2876,16 @@ ava('.query() should be able to query using links when getting an element by slu
 						requires: [],
 						tags: [],
 						version: '1.0.0',
-						links: thread.links,
+						links: {
+							'has attached element': [
+								{
+									$link: link.id,
+									id: message.id,
+									type: message.type,
+									slug: message.slug
+								}
+							]
+						},
 						type: 'thread'
 					}
 				]
@@ -2920,7 +2949,7 @@ ava('.query() should be able to query using links and an inverse name', async (t
 		}
 	})
 
-	await test.context.backend.upsertElement(test.context.context, {
+	const link1 = await test.context.backend.upsertElement(test.context.context, {
 		type: 'link',
 		slug: `link-${message1.slug}-is-attached-to-${thread.slug}`,
 		version: '1.0.0',
@@ -2946,7 +2975,7 @@ ava('.query() should be able to query using links and an inverse name', async (t
 		}
 	})
 
-	await test.context.backend.upsertElement(test.context.context, {
+	const link2 = await test.context.backend.upsertElement(test.context.context, {
 		type: 'link',
 		slug: `link-${message2.slug}-is-attached-to-${thread.slug}`,
 		version: '1.0.0',
@@ -3018,7 +3047,16 @@ ava('.query() should be able to query using links and an inverse name', async (t
 						requires: [],
 						tags: [],
 						version: '1.0.0',
-						links: message1.links,
+						links: {
+							'is attached to': [
+								{
+									$link: link1.id,
+									id: thread.id,
+									type: thread.type,
+									slug: thread.slug
+								}
+							]
+						},
 						type: 'message',
 						data: {
 							payload: 'foo'
@@ -3036,7 +3074,16 @@ ava('.query() should be able to query using links and an inverse name', async (t
 						requires: [],
 						tags: [],
 						version: '1.0.0',
-						links: message2.links,
+						links: {
+							'is attached to': [
+								{
+									$link: link2.id,
+									id: thread.id,
+									type: thread.type,
+									slug: thread.slug
+								}
+							]
+						},
 						type: 'message',
 						data: {
 							payload: 'foo'
@@ -3099,7 +3146,7 @@ ava('.query() should omit a result if a link does not match', async (test) => {
 		}
 	})
 
-	await test.context.backend.upsertElement(test.context.context, {
+	const link1 = await test.context.backend.upsertElement(test.context.context, {
 		type: 'link',
 		slug: `link-${card1.slug}-is-attached-to-${thread.slug}`,
 		version: '1.0.0',
@@ -3224,7 +3271,16 @@ ava('.query() should omit a result if a link does not match', async (test) => {
 						requires: [],
 						tags: [],
 						version: '1.0.0',
-						links: thread.links,
+						links: {
+							'has attached element': [
+								{
+									$link: link1.id,
+									id: card1.id,
+									slug: card1.slug,
+									type: card1.type
+								}
+							]
+						},
 						slug: 'mythread',
 						type: 'thread'
 					}
