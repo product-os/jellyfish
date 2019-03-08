@@ -134,7 +134,7 @@ class ViewRenderer extends React.Component {
 				page: 0,
 
 				// TODO: Return a total count from the API so we can remove this hack
-				totalPages: Infinity,
+				totalPages: this.props.tail < 20 ? 1 : Infinity,
 				limit: 20,
 				sortBy: 'created_at',
 				sortDir: 'desc'
