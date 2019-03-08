@@ -24,11 +24,16 @@ const Tag = require('../../components/Tag')
 const core = require('../../core')
 const store = require('../../core/store')
 const helpers = require('../../services/helpers')
-const storeHelpers = require('../../services/store-helpers')
 const SupportThreadTimeline = require('./SupportThreadTimeline')
 const CloseButton = require('../../shame/CloseButton')
 const Icon = require('../../shame/Icon')
 const IconButton = require('../../shame/IconButton')
+
+const {
+	getCreator,
+	getLastUpdate
+} = require('./utils')
+
 const Extract = styledComponents.default(rendition.Box) `
 	border-top: 1px solid ${rendition.Theme.colors.gray.light};
 	border-bottom: 1px solid ${rendition.Theme.colors.gray.light};
@@ -227,9 +232,8 @@ class Base extends React.Component {
 			return !_.includes(fieldOrder, key)
 		})
 		const keys = (fieldOrder || []).concat(unorderedKeys)
-		const createCard = _.first(card.links['has attached element'])
+		const actor = getCreator(card)
 		const highlights = getHighlights(card)
-		const actor = storeHelpers.getActor(_.get(createCard, [ 'data', 'actor' ]))
 		return (
 			<Column
 				flex={this.props.flex}
@@ -293,7 +297,7 @@ class Base extends React.Component {
 						</rendition.Box>
 
 						<rendition.Txt>
-							Updated {helpers.timeAgo(_.get(_.last(card.links['has attached element']), [ 'data', 'timestamp' ]))}
+							Updated {helpers.timeAgo(_.get(getLastUpdate(card), [ 'data', 'timestamp' ]))}
 						</rendition.Txt>
 					</rendition.Flex>
 
