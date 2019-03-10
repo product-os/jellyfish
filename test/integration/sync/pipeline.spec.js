@@ -295,6 +295,38 @@ ava('.importCards() should import dependent cards', async (test) => {
 	])
 })
 
+ava('.importCards() should not throw given string interpolation', async (test) => {
+	const results = await pipeline.importCards(test.context.syncContext, [
+		{
+			time: new Date(),
+			actor: test.context.actor.id,
+			card: {
+				type: 'card',
+				slug: 'bar',
+				version: '1.0.0',
+				data: {
+					// eslint-disable-next-line no-template-curly-in-string
+					foo: 'Hello ${world}:$foo #{bar}'
+				}
+			}
+		}
+	])
+
+	test.deepEqual(results, [
+		test.context.jellyfish.defaults({
+			id: results[0].id,
+			slug: 'bar',
+			created_at: results[0].created_at,
+			name: null,
+			type: 'card',
+			data: {
+				// eslint-disable-next-line no-template-curly-in-string
+				foo: 'Hello ${world}:$foo #{bar}'
+			}
+		})
+	])
+})
+
 ava('.importCards() should throw if a template does not evaluate', async (test) => {
 	await test.throwsAsync(pipeline.importCards(test.context.syncContext, [
 		{
