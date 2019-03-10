@@ -132,6 +132,66 @@ ava('.insertCard() should default active to true', async (test) => {
 	test.true(card.active)
 })
 
+ava('.insertCard() should ignore pointless updates', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+
+	const result1 = await executor.insertCard(test.context.context, test.context.jellyfish, test.context.session, typeCard, {
+		currentTime: new Date(),
+		override: false,
+		attachEvents: true,
+		context: test.context.actionContext,
+		library: actionLibrary,
+		actor: test.context.actor.id,
+		executeAction: test.context.executeAction
+	}, {
+		slug: 'foo',
+		version: '1.0.0',
+		active: true
+	})
+
+	const result2 = await executor.insertCard(
+		test.context.context, test.context.jellyfish, test.context.session, typeCard, {
+			currentTime: new Date(),
+			override: true,
+			attachEvents: true,
+			context: test.context.actionContext,
+			library: actionLibrary,
+			actor: test.context.actor.id,
+			executeAction: test.context.executeAction
+		}, {
+			id: result1.id,
+			slug: 'foo',
+			version: '1.0.0',
+			active: true
+		})
+
+	const result3 = await executor.insertCard(
+		test.context.context, test.context.jellyfish, test.context.session, typeCard, {
+			currentTime: new Date(),
+			override: true,
+			attachEvents: false,
+			context: test.context.actionContext,
+			library: actionLibrary,
+			actor: test.context.actor.id,
+			executeAction: test.context.executeAction
+		}, {
+			id: result1.id,
+			slug: 'foo',
+			version: '1.0.0',
+			active: true
+		})
+
+	test.deepEqual(test.context.stubQueue, [])
+	test.truthy(result1)
+	test.falsy(result2)
+	test.falsy(result3)
+
+	const card = await test.context.jellyfish.getCardById(
+		test.context.context, test.context.session, result1.id)
+	test.is(card.created_at, result1.created_at)
+	test.is(card.updated_at, result1.updated_at)
+})
+
 ava('.insertCard() should be able to set active to false', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
 	const result = await executor.insertCard(test.context.context, test.context.jellyfish, test.context.session, typeCard, {
