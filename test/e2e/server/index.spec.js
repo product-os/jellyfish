@@ -1091,3 +1091,23 @@ ava.serial('should display up to date information after resolving an action', as
 		test.false(result.active)
 	}
 })
+
+ava.serial('should fail with a user error given the wrong username during login', async (test) => {
+	const result = await test.context.http('POST', '/api/v2/action', {
+		card: 'user-nonexistentuser12345',
+		type: 'user',
+		action: 'action-create-session',
+		arguments: {
+			password: {
+				hash: {
+					string: '1234',
+					salt: 'user-nonexistentuser12345'
+				}
+			}
+		}
+	})
+
+	test.is(result.code, 400)
+	test.true(result.response.error)
+	test.is(result.response.data.name, 'AuthenticationError')
+})
