@@ -19,6 +19,7 @@ if (!COMMAND || !ARGUMENT) {
 const run = async () => {
 	const connection = pgp({
 		user: environment.postgres.user || process.env.USER,
+		host: environment.postgres.host,
 		password: environment.postgres.password,
 		database: environment.postgres.database || 'jellyfish',
 		port: environment.postgres.port || 5432
