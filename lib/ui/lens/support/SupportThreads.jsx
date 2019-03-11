@@ -15,9 +15,9 @@ const styledComponents = require('styled-components')
 const store = require('../../core/store')
 const helpers = require('../../services/helpers')
 const storeHelpers = require('../../services/store-helpers')
+const ColorHashPill = require('../../shame/ColorHashPill')
 const Gravatar = require('../../shame/Gravatar')
 const Icon = require('../../shame/Icon')
-const InboxPill = require('./InboxPill')
 const {
 	getCreator,
 	getLastUpdate
@@ -118,7 +118,10 @@ class Interleaved extends React.Component {
 							}}
 						>
 							<rendition.Flex justify="space-between">
-								<InboxPill.default card={card} mb={2} />
+								<rendition.Flex mb={2}>
+									<ColorHashPill.default value={_.get(card, [ 'data', 'inbox' ])} mr={2} />
+									<ColorHashPill.default value={_.get(card, [ 'data', 'status' ])} mr={2} />
+								</rendition.Flex>
 
 								<rendition.Txt>Created {helpers.formatTimestamp(card.created_at)}</rendition.Txt>
 							</rendition.Flex>

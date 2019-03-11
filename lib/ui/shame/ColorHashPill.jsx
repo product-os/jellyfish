@@ -11,22 +11,22 @@ import {
 } from 'rendition'
 import {
 	colorHash
-} from '../../services/helpers'
+} from '../services/helpers'
 
 export default (props) => {
-	const card = props.card
-	const rest = _.omit(props, 'card')
+	const value = props.value
+	const rest = _.omit(props, 'value')
 
-	if (!card.data.inbox) {
+	if (!value) {
 		return null
 	}
 
 	return (
 		<Pill
 			{...rest}
-			bg={colorHash(card.data.inbox)}
+			bg={colorHash(value)}
 		>
-			{card.data.inbox}
+			{value}
 		</Pill>
 	)
 }

@@ -25,9 +25,9 @@ const store = require('../../core/store')
 const helpers = require('../../services/helpers')
 const SupportThreadTimeline = require('./SupportThreadTimeline')
 const CloseButton = require('../../shame/CloseButton')
+const ColorHashPill = require('../../shame/ColorHashPill')
 const Icon = require('../../shame/Icon')
 const IconButton = require('../../shame/IconButton')
-const InboxPill = require('./InboxPill')
 
 const {
 	getCreator,
@@ -148,7 +148,8 @@ class SupportThreadBase extends React.Component {
 		const unorderedKeys = _.filter(_.keys(payload), (key) => {
 			return !_.includes(fieldOrder, key)
 		})
-		const keys = (fieldOrder || []).concat(unorderedKeys)
+		const keys = _.without((fieldOrder || []).concat(unorderedKeys), 'status', 'inbox')
+		console.log(keys)
 		const actor = getCreator(card)
 		const highlights = getHighlights(card)
 		return (
@@ -167,7 +168,8 @@ class SupportThreadBase extends React.Component {
 				>
 					<rendition.Flex mb={1} justify="space-between">
 						<rendition.Flex align="center">
-							<InboxPill.default card={card} mr={3} />
+							<ColorHashPill.default value={_.get(card, [ 'data', 'inbox' ])} mr={2} />
+							<ColorHashPill.default value={_.get(card, [ 'data', 'status' ])} mr={2} />
 
 							{Boolean(card.tags) && _.map(card.tags, (tag) => {
 								if (tag === 'status' || tag === 'summary') {
