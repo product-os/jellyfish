@@ -29,10 +29,7 @@
               "type": "string",
               "format": "email"
             }
-          },
-          "required": [
-            "email"
-          ]
+          }
         }
       },
       "required": [
