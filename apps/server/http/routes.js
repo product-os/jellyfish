@@ -229,7 +229,9 @@ module.exports = (application, jellyfish, worker, queue) => {
 			: request.body
 
 		logger.info(request.context, 'HTTP action request', {
-			action
+			card: action.card,
+			type: action.type,
+			action: action.action
 		})
 
 		if (_.isEmpty(action)) {
@@ -282,14 +284,20 @@ module.exports = (application, jellyfish, worker, queue) => {
 			})
 
 			if (error.expected) {
-				logger.info(request.context, 'HTTP expected error', errorObject)
+				logger.info(request.context, 'HTTP expected error', {
+					error: errorObject
+				})
+
 				return response.status(400).json({
 					error: true,
 					data: errorObject
 				})
 			}
 
-			logger.exception(request.context, 'HTTP unexpected error', errorObject)
+			logger.exception(request.context, 'HTTP unexpected error', {
+				error: errorObject
+			})
+
 			return response.status(500).json({
 				error: true,
 				data: errorObject
