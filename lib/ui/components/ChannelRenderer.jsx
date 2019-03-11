@@ -38,36 +38,55 @@ class ChannelRenderer extends React.Component {
 		const {
 			channel, connectDropTarget, isOver
 		} = this.props
+		const style = {
+			position: 'absolute',
+			width: _.get(this.props.space, [ 'width' ], 'auto'),
+			left: _.get(this.props.space, [ 'left' ], 'auto'),
+			height: '100%',
+			transition: 'all ease-in-out 150ms',
+			background: isOver ? '#ccc' : 'white',
+			borderLeft: '1px solid #eee',
+			minWidth: 0
+		}
 		if (!channel.data.head) {
 			if (channel.data.error) {
-				return <rendition.Alert m={2} danger={true}>{channel.data.error.toString()}</rendition.Alert>
+				return (
+					<rendition.Alert
+						m={2}
+						danger={true}
+						style={style}
+					>
+						{channel.data.error.toString()}
+					</rendition.Alert>
+				)
 			}
-			return (<rendition.Box flex="1">
-				<rendition.Box p={3}>
-					<i className="fas fa-cog fa-spin"/>
+			return (
+				<rendition.Box
+					style={style}
+				>
+					<rendition.Box p={3}>
+						<i className="fas fa-cog fa-spin"/>
+					</rendition.Box>
 				</rendition.Box>
-			</rendition.Box>)
+			)
 		}
 		const lens = lensService.default.getLens(channel.data.head)
-		return (<ErrorBoundary.ErrorBoundary>
-			{connectDropTarget(<div style={{
-				flex: this.props.flex,
-				background: isOver ? '#ccc' : 'none',
-				borderLeft: '1px solid #eee',
-				minWidth: 0
-			}}>
-				<lens.data.renderer card={channel.data.head} level={0} {...this.props}/>
-			</div>)}
+		return (
+			<ErrorBoundary.ErrorBoundary>
+				{connectDropTarget(<div style={style}>
+					<lens.data.renderer card={channel.data.head} level={0} {...this.props}/>
+				</div>)}
 
-			{this.state.showLinkModal && (<rendition.Modal cancel={() => {
-				return this.setState({
-					showLinkModal: false
-				})
-			}} done={() => { return this.link() }}>
-				Link {this.state.linkFrom.type} <strong>{this.state.linkFrom.name}</strong> to
-				{this.props.channel.data.head.type} <strong>{this.props.channel.data.head.name}</strong>
-			</rendition.Modal>)}
-		</ErrorBoundary.ErrorBoundary>)
+				{this.state.showLinkModal && (<rendition.Modal cancel={() => {
+					return this.setState({
+						showLinkModal: false
+					})
+				}} done={() => { return this.link() }}>
+					Link {this.state.linkFrom.type} <strong>{this.state.linkFrom.name}</strong> to
+					{this.props.channel.data.head.type} <strong>{this.props.channel.data.head.name}</strong>
+				</rendition.Modal>)}
+			</ErrorBoundary.ErrorBoundary>
+		)
 	}
 }
 const squareTarget = {
