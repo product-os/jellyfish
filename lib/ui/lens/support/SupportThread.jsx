@@ -119,7 +119,13 @@ class SupportThreadBase extends React.Component {
 		return !circularDeepEqual(nextProps, this.props) || !circularDeepEqual(nextState, this.state)
 	}
 	componentWillUpdate (nextProps) {
-		if (nextProps.card.id !== this.props.card.id) {
+		if (
+			(nextProps.card.id !== this.props.card.id) ||
+			!circularDeepEqual(
+				nextProps.card.links['support thread is attached to support issue'],
+				this.props.card.links['support thread is attached to support issue']
+			)
+		) {
 			this.loadLinks(nextProps.card.id)
 		}
 	}
@@ -249,7 +255,7 @@ class SupportThreadBase extends React.Component {
 							</Extract>)}
 
 							{_.map(this.state.linkedSupportIssues, (entry) => {
-								return (<rendition.Link mr={2} href={`/#${entry.id}`}>{entry.name}</rendition.Link>)
+								return (<rendition.Link mr={2} href={`/#support-issue~${entry.id}`}>{entry.name}</rendition.Link>)
 							})}
 
 							{_.map(keys, (key) => {
