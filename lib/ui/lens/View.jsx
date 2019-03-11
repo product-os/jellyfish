@@ -132,9 +132,7 @@ class ViewRenderer extends React.Component {
 			activeSlice: null,
 			options: {
 				page: 0,
-
-				// TODO: Return a total count from the API so we can remove this hack
-				totalPages: this.props.tail < 20 ? 1 : Infinity,
+				totalPages: Infinity,
 				limit: 20,
 				sortBy: 'created_at',
 				sortDir: 'desc'
@@ -229,6 +227,16 @@ class ViewRenderer extends React.Component {
 		return options
 	}
 	componentWillReceiveProps (nextProps) {
+
+		// TODO: Get an actual total count from the API
+		if (nextProps.tail && nextProps.tail.length < 20) {
+			this.setState({
+				options: Object.assign(this.state.options, {
+					totalPages: 1
+				})
+			})
+		}
+
 		if (this.props.channel.data.target !== nextProps.channel.data.target) {
 			this.setState({
 				ready: false
