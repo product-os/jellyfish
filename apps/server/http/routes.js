@@ -294,10 +294,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 				})
 			}
 
-			logger.exception(request.context, 'HTTP unexpected error', {
-				error: errorObject
-			})
-
+			logger.exception(request.context, 'HTTP unexpected error', error)
 			return response.status(500).json({
 				error: true,
 				data: errorObject
