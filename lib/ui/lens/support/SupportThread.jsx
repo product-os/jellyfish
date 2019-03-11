@@ -28,6 +28,7 @@ const SupportThreadTimeline = require('./SupportThreadTimeline')
 const CloseButton = require('../../shame/CloseButton')
 const Icon = require('../../shame/Icon')
 const IconButton = require('../../shame/IconButton')
+const InboxPill = require('./InboxPill')
 
 const {
 	getCreator,
@@ -250,11 +251,7 @@ class Base extends React.Component {
 				>
 					<rendition.Flex mb={1} justify="space-between">
 						<rendition.Flex align="center">
-							{card.data.inbox && (
-								<rendition.Pill mr={3} bg={helpers.colorHash(card.data.inbox)}>
-									{card.data.inbox}
-								</rendition.Pill>
-							)}
+							<InboxPill.default card={card} mr={3} />
 
 							{Boolean(card.tags) && _.map(card.tags, (tag) => {
 								if (tag === 'status' || tag === 'summary') {

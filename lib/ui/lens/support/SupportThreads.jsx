@@ -17,6 +17,7 @@ const helpers = require('../../services/helpers')
 const storeHelpers = require('../../services/store-helpers')
 const Gravatar = require('../../shame/Gravatar')
 const Icon = require('../../shame/Icon')
+const InboxPill = require('./InboxPill')
 const {
 	getCreator,
 	getLastUpdate
@@ -117,14 +118,7 @@ class Interleaved extends React.Component {
 							}}
 						>
 							<rendition.Flex justify="space-between">
-								{card.data.inbox && (
-									<rendition.Pill
-										mb={2}
-										bg={helpers.colorHash(card.data.inbox)}
-									>
-										{card.data.inbox}
-									</rendition.Pill>
-								)}
+								<InboxPill.default card={card} mb={2} />
 
 								<rendition.Txt>Created {helpers.formatTimestamp(card.created_at)}</rendition.Txt>
 							</rendition.Flex>
