@@ -144,7 +144,16 @@ class SupportThreadBase extends React.Component {
 		const unorderedKeys = _.filter(_.keys(payload), (key) => {
 			return !_.includes(fieldOrder, key)
 		})
-		const keys = _.without((fieldOrder || []).concat(unorderedKeys), 'status', 'inbox')
+
+		// Omit the status and inbox fields as they are rendered seperately, also
+		// omit some fields that are used by the sync functionality
+		const keys = _.without((fieldOrder || []).concat(unorderedKeys),
+			'status',
+			'inbox',
+			'origin',
+			'environment',
+			'translateDate'
+		)
 		console.log(keys)
 		const actor = getCreator(card)
 		const highlights = getHighlights(card)
@@ -265,9 +274,11 @@ class SupportThreadBase extends React.Component {
 									: null
 							})}
 
-							<rendition.Link mt={3} onClick={this.handleExpandToggle}>
-										Less
-							</rendition.Link>
+							<rendition.Box>
+								<rendition.Link mt={3} onClick={this.handleExpandToggle}>
+									Less
+								</rendition.Link>
+							</rendition.Box>
 						</React.Fragment>
 					)}
 				</rendition.Box>
