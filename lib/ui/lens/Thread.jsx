@@ -25,11 +25,8 @@ const helpers = require('../services/helpers')
 const storeHelpers = require('../services/store-helpers')
 const Timeline = require('./Timeline')
 const CloseButton = require('../shame/CloseButton')
-const Column = styledComponents.default(rendition.Flex) `
-	height: 100%;
-	overflow-y: auto;
-	min-width: 270px;
-`
+const Column = require('../shame/Column').default
+
 const Badge = styledComponents.default(rendition.Txt) `
 	display: inline-block;
 	background: #555;
@@ -151,7 +148,6 @@ class Base extends React.Component {
 			<Column
 				className={`column--${cardType || 'unknown'} column--slug-${cardSlug || 'unkown'}`}
 				flex={this.props.flex}
-				flexDirection="column"
 			>
 				<rendition.Box p={3} pb={0}>
 					<rendition.Flex justify="space-between">

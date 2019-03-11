@@ -14,7 +14,6 @@ const {
 } = require('react-redux')
 const redux = require('redux')
 const rendition = require('rendition')
-const styledComponents = require('styled-components')
 const CardActions = require('../components/CardActions')
 const CardField = require('../components/CardField').default
 const Tag = require('../components/Tag')
@@ -22,11 +21,8 @@ const store = require('../core/store')
 const helpers = require('../services/helpers')
 const Timeline = require('./Timeline')
 const CloseButton = require('../shame/CloseButton')
-const Column = styledComponents.default(rendition.Flex) `
-	height: 100%;
-	overflow-y: auto;
-	min-width: 270px;
-`
+const Column = require('../shame/Column').default
+
 class SingleCard extends React.Component {
 	constructor (props) {
 		super(props)
@@ -135,7 +131,7 @@ class SingleCard extends React.Component {
 				<Column
 					className={`column--${cardType || 'unknown'} column--slug-${cardSlug || 'unkown'}`}
 					flex={this.props.flex}
-					flexDirection="column"
+					overflowY
 				>
 					<rendition.Box p={3} flex="1" style={{
 						overflowY: 'auto'

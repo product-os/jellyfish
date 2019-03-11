@@ -227,7 +227,6 @@ class ViewRenderer extends React.Component {
 		return options
 	}
 	componentWillReceiveProps (nextProps) {
-
 		// TODO: Get an actual total count from the API
 		if (nextProps.tail && nextProps.tail.length < 20) {
 			this.setState({

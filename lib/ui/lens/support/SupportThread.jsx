@@ -26,6 +26,7 @@ const helpers = require('../../services/helpers')
 const SupportThreadTimeline = require('./SupportThreadTimeline')
 const CloseButton = require('../../shame/CloseButton')
 const ColorHashPill = require('../../shame/ColorHashPill')
+const Column = require('../../shame/Column').default
 const Icon = require('../../shame/Icon')
 const IconButton = require('../../shame/IconButton')
 
@@ -37,11 +38,6 @@ const {
 const Extract = styledComponents.default(rendition.Box) `
 	border-top: 1px solid ${rendition.Theme.colors.gray.light};
 	border-bottom: 1px solid ${rendition.Theme.colors.gray.light};
-`
-const Column = styledComponents.default(rendition.Flex) `
-	height: 100%;
-	overflow-y: auto;
-	min-width: 270px;
 `
 const transformMirror = (mirror) => {
 	if (mirror.includes('frontapp.com')) {
@@ -156,7 +152,7 @@ class SupportThreadBase extends React.Component {
 			<Column
 				flex={this.props.flex}
 				className={`column--${card ? card.slug || card.type : 'unknown'}`}
-				flexDirection="column"
+				overflowY
 			>
 				<rendition.Box
 					px={3}

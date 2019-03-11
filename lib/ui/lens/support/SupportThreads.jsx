@@ -16,16 +16,14 @@ const store = require('../../core/store')
 const helpers = require('../../services/helpers')
 const storeHelpers = require('../../services/store-helpers')
 const ColorHashPill = require('../../shame/ColorHashPill')
+const Column = require('../../shame/Column').default
 const Gravatar = require('../../shame/Gravatar')
 const Icon = require('../../shame/Icon')
 const {
 	getCreator,
 	getLastUpdate
 } = require('./utils')
-const Column = styledComponents.default(rendition.Flex) `
-	height: 100%;
-	width: 100%;
-`
+
 const SupportThreadSummaryWrapper = styledComponents.default(rendition.Box) `
 	border-left-style: solid;
 	border-left-width: 3px;
@@ -86,7 +84,7 @@ class Interleaved extends React.Component {
 			timestamps.sort()
 			return _.last(timestamps)
 		}).reverse()
-		return (<Column flexDirection="column">
+		return (<Column>
 			<div
 				ref={(ref) => {
 					this.scrollArea = ref
