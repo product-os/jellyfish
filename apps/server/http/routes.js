@@ -286,6 +286,13 @@ module.exports = (application, jellyfish, worker, queue) => {
 			return results
 		}).then((results) => {
 			if (results.error) {
+				if (results.data.expected) {
+					return response.status(400).json({
+						error: true,
+						data: _.pick(errio.fromObject(results.data), [ 'name', 'message' ])
+					})
+				}
+
 				logger.exception(request.context,
 					'HTTP response error', errio.fromObject(results.data))
 			}
