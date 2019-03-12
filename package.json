@@ -122,6 +122,7 @@
     "compression": "^1.7.2",
     "copy-to-clipboard": "^3.0.8",
     "core-js": "^2.6.4",
+    "debounce-promise": "^3.1.0",
     "errio": "^1.2.2",
     "esprima": "^4.0.0",
     "express": "^4.16.2",
