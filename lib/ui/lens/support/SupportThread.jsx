@@ -46,6 +46,7 @@ const transformMirror = (mirror) => {
 	}
 	return mirror
 }
+
 const getHighlights = (card) => {
 	const list = _.sortBy(_.filter(_.get(card, [ 'links', 'has attached element' ]), (event) => {
 		if (!_.includes([ 'message', 'whisper' ], event.type)) {
@@ -58,6 +59,7 @@ const getHighlights = (card) => {
 		return _.get(item, [ 'data', 'payload', 'message' ])
 	})
 }
+
 class SupportThreadBase extends React.Component {
 	constructor (props) {
 		super(props)
@@ -160,7 +162,6 @@ class SupportThreadBase extends React.Component {
 			'environment',
 			'translateDate'
 		)
-		console.log(keys)
 		const actor = getCreator(card)
 		const highlights = getHighlights(card)
 		return (
@@ -250,23 +251,35 @@ class SupportThreadBase extends React.Component {
 
 							{this.state.showHighlights && (<Extract py={2}>
 								{_.map(highlights, (statusEvent) => {
-									return (<Event.Event card={statusEvent} mb={1}/>)
+									return (
+										<Event.Event key={statusEvent.id} card={statusEvent} mb={1}/>
+									)
 								})}
 							</Extract>)}
 
 							{_.map(this.state.linkedSupportIssues, (entry) => {
-								return (<rendition.Link mr={2} href={`/#support-issue~${entry.id}`}>{entry.name}</rendition.Link>)
+								return (
+									<rendition.Link
+										mr={2}
+										href={`/#support-issue~${entry.id}`}
+										key={entry.id}
+									>
+										{entry.name}
+									</rendition.Link>
+								)
 							})}
 
 							{_.map(keys, (key) => {
 								if (key === 'mirrors' && payload[key]) {
-									return (<React.Fragment>
-										<Label.default my={3}>{key}</Label.default>
-										{payload[key].map((mirror) => {
-											const url = transformMirror(mirror)
-											return <rendition.Link key={url} blank href={url}>{url}</rendition.Link>
-										})}
-									</React.Fragment>)
+									return (
+										<React.Fragment key={key}>
+											<Label.default my={3}>{key}</Label.default>
+											{payload[key].map((mirror) => {
+												const url = transformMirror(mirror)
+												return <rendition.Link key={url} blank href={url}>{url}</rendition.Link>
+											})}
+										</React.Fragment>
+									)
 								}
 
 								return payload[key]
@@ -301,6 +314,7 @@ class SupportThreadBase extends React.Component {
 		)
 	}
 }
+
 const mapStateToProps = (state) => {
 	return {
 		allUsers: store.selectors.getAllUsers(state),
@@ -308,11 +322,13 @@ const mapStateToProps = (state) => {
 		types: store.selectors.getTypes(state)
 	}
 }
+
 const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: redux.bindActionCreators(store.actionCreators, dispatch)
 	}
 }
+
 exports.Renderer = connect(mapStateToProps, mapDispatchToProps)(SupportThreadBase)
 const lens = {
 	slug: 'lens-support-thread',
