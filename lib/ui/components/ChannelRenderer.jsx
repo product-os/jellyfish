@@ -36,8 +36,11 @@ class ChannelRenderer extends React.Component {
 	}
 	render () {
 		const {
-			channel, connectDropTarget, isOver
+			channel,
+			connectDropTarget,
+			isOver
 		} = this.props
+
 		const style = {
 			position: 'absolute',
 			width: _.get(this.props.space, [ 'width' ], 'auto'),
@@ -48,6 +51,7 @@ class ChannelRenderer extends React.Component {
 			borderLeft: '1px solid #eee',
 			minWidth: 0
 		}
+
 		if (!channel.data.head) {
 			if (channel.data.error) {
 				return (
@@ -70,7 +74,9 @@ class ChannelRenderer extends React.Component {
 				</rendition.Box>
 			)
 		}
+
 		const lens = lensService.default.getLens(channel.data.head)
+
 		return (
 			<ErrorBoundary.ErrorBoundary>
 				{connectDropTarget(<div style={style}>

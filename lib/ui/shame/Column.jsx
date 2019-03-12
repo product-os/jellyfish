@@ -4,7 +4,8 @@ import {
 } from 'rendition'
 
 export default styled(Flex).attrs({
-	flexDirection: 'column'
+	flexDirection: 'column',
+	flex: '1'
 }) `
 	height: 100%;
 	${(props) => {
