@@ -43,6 +43,52 @@ ava.serial('The ping endpoint should continuously work', async (test) => {
 	test.false(result3.response.error)
 })
 
+ava.serial('signing up with an existent username is a user error', async (test) => {
+	const userDetails = createUserDetails()
+	const username = `user-${userDetails.username.toLowerCase()}`
+
+	const signup1 = await test.context.http('POST', '/api/v2/action', {
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			email: userDetails.email,
+			username,
+			hash: {
+				string: userDetails.password,
+				salt: username
+			}
+		}
+	})
+
+	test.is(signup1.code, 200)
+	test.false(signup1.response.error)
+	test.is(signup1.response.data.slug, username)
+
+	const signup2 = await test.context.http('POST', '/api/v2/action', {
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			email: userDetails.email,
+			username,
+			hash: {
+				string: userDetails.password,
+				salt: username
+			}
+		}
+	})
+
+	test.is(signup2.code, 400)
+	test.deepEqual(signup2.response, {
+		error: true,
+		data: {
+			name: 'JellyfishElementAlreadyExists',
+			message: signup2.response.data.message
+		}
+	})
+})
+
 ava.serial('Users should be able to change their own email addresses', async (test) => {
 	const {
 		sdk
