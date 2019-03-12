@@ -2262,6 +2262,68 @@ ava('.query() should be able to query using links', async (test) => {
 	])
 })
 
+ava.cb('.stream() should include data if additionalProperties true', (test) => {
+	test.context.kernel.stream(test.context.context, test.context.kernel.sessions.admin, {
+		type: 'object',
+		additionalProperties: true,
+		required: [ 'slug', 'active', 'type' ],
+		properties: {
+			slug: {
+				type: 'string',
+				const: 'card-foo-bar-baz'
+			},
+			active: {
+				type: 'boolean',
+				const: true
+			},
+			type: {
+				type: 'string',
+				const: 'card'
+			}
+		}
+	}).then((emitter) => {
+		emitter.on('data', (change) => {
+			test.deepEqual(change, {
+				type: 'insert',
+				before: null,
+				after: {
+					id: change.after.id,
+					slug: 'card-foo-bar-baz',
+					type: 'card',
+					active: true,
+					version: '1.0.0',
+					tags: [],
+					name: null,
+					markers: [],
+					created_at: change.after.created_at,
+					updated_at: null,
+					links: {},
+					requires: [],
+					capabilities: [],
+					data: {
+						test: 1
+					}
+				}
+			})
+
+			emitter.close()
+		})
+
+		emitter.on('error', test.end)
+		emitter.on('closed', test.end)
+
+		return test.context.kernel.insertCard(
+			test.context.context, test.context.kernel.sessions.admin, {
+				slug: 'card-foo-bar-baz',
+				type: 'card',
+				version: '1.0.0',
+				data: {
+					test: 1
+				}
+			})
+	})
+})
+
 ava.cb('.stream() should report back new elements that match a certain slug', (test) => {
 	test.context.kernel.stream(test.context.context, test.context.kernel.sessions.admin, {
 		type: 'object',
