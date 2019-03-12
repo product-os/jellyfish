@@ -140,6 +140,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 	// apart from differentiating the endpoints.
 	application.all('/api/v2/hooks/:provider/:type*?', (request, response) => {
 		const hostname = request.headers.host
+		const startDate = new Date()
 		logger.info(request.context, 'Received webhook', {
 			source: request.params.provider
 		})
@@ -171,6 +172,12 @@ module.exports = (application, jellyfish, worker, queue) => {
 			})
 		}
 
+		const validateDate = new Date()
+		logger.info(request.context, 'Webhook validated', {
+			source: request.params.provider,
+			time: validateDate.getTime() - startDate.getTime()
+		})
+
 		const EXTERNAL_EVENT_TYPE = 'external-event'
 		return jellyfish.getCardBySlug(
 			request.context, jellyfish.sessions.admin, EXTERNAL_EVENT_TYPE, {
@@ -199,6 +206,12 @@ module.exports = (application, jellyfish, worker, queue) => {
 				}
 			})
 		}).then((actionRequest) => {
+			const enqueuedDate = new Date()
+			logger.info(request.context, 'Webhook enqueued', {
+				source: request.params.provider,
+				time: enqueuedDate.getTime() - startDate.getTime()
+			})
+
 			return response.status(200).json({
 				error: false,
 				data: actionRequest
