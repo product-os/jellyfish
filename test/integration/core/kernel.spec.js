@@ -21,7 +21,7 @@ for (const key in CARDS) {
 		card.name = _.isString(card.name) ? card.name : null
 		const element = await test.context.kernel.getCardBySlug(
 			test.context.context, test.context.kernel.sessions.admin, card.slug)
-		test.deepEqual(card, _.omit(element, [ 'created_at', 'id', 'updated_at' ]))
+		test.deepEqual(card, _.omit(element, [ 'created_at', 'id', 'updated_at', 'linked_at' ]))
 	})
 }
 
@@ -121,6 +121,7 @@ ava('.insertCard() should use defaults if required keys are missing', async (tes
 		id: card.id,
 		created_at: card.created_at,
 		updated_at: null,
+		linked_at: {},
 		slug: 'hello-world',
 		type: 'card',
 		name: null,
@@ -558,6 +559,25 @@ ava('.insertCard() should not overwrite the "created_at" field when overriding a
 	})
 
 	test.is(card.created_at, update.created_at)
+})
+
+ava('.insertCard() should not overwrite the "linked_at" field when overriding a card', async (test) => {
+	const card = await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
+		slug: `card-${uuid()}`,
+		type: 'card'
+	})
+
+	const update = await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
+		slug: card.slug,
+		type: 'card',
+		linked_at: {
+			foo: 'bar'
+		}
+	}, {
+		override: true
+	})
+
+	test.deepEqual(card.linked_at, update.linked_at)
 })
 
 ava('.insertCard() should not be able to set links', async (test) => {
@@ -2297,6 +2317,7 @@ ava.cb('.stream() should include data if additionalProperties true', (test) => {
 					markers: [],
 					created_at: change.after.created_at,
 					updated_at: null,
+					linked_at: {},
 					links: {},
 					requires: [],
 					capabilities: [],
@@ -2633,6 +2654,7 @@ ava('.getPendingRequests() should return an unexecuted action request', async (t
 			type: 'action-request',
 			created_at: date.toISOString(),
 			updated_at: null,
+			linked_at: {},
 			version: '1.0.0',
 			active: true,
 			tags: [],
