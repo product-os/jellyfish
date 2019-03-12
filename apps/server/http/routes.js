@@ -84,8 +84,15 @@ module.exports = (application, jellyfish, worker, queue) => {
 			return response.status(404).end()
 		}).catch((error) => {
 			const errorObject = errio.toObject(error, {
-				stack: true
+				stack: !error.expected
 			})
+
+			if (error.expected) {
+				return response.status(400).json({
+					error: true,
+					data: _.omit(errorObject, [ 'expected' ])
+				})
+			}
 
 			logger.exception(request.context, 'HTTP unexpected error', error)
 			return response.status(500).json({
@@ -107,8 +114,15 @@ module.exports = (application, jellyfish, worker, queue) => {
 			return response.status(404).end()
 		}).catch((error) => {
 			const errorObject = errio.toObject(error, {
-				stack: true
+				stack: !error.expected
 			})
+
+			if (error.expected) {
+				return response.status(400).json({
+					error: true,
+					data: _.omit(errorObject, [ 'expected' ])
+				})
+			}
 
 			logger.exception(request.context, 'HTTP unexpected error', error)
 			return response.status(500).json({
@@ -280,7 +294,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 			return response.status(code).json(results)
 		}).catch((error) => {
 			const errorObject = errio.toObject(error, {
-				stack: true
+				stack: !error.expected
 			})
 
 			if (error.expected) {
@@ -290,7 +304,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 
 				return response.status(400).json({
 					error: true,
-					data: errorObject
+					data: _.omit(errorObject, [ 'expected' ])
 				})
 			}
 
@@ -347,6 +361,17 @@ module.exports = (application, jellyfish, worker, queue) => {
 				data
 			})
 		}).catch((error) => {
+			if (error.expected) {
+				response.status(400).json({
+					error: true,
+					data: {
+						name: error.name,
+						message: error.message
+					}
+				})
+				return
+			}
+
 			response.status(500).json({
 				error: true,
 				data: error.message
