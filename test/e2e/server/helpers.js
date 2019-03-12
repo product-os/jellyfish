@@ -36,14 +36,19 @@ exports.server = {
 
 		test.context.http = (method, uri, payload, headers) => {
 			return new Bluebird((resolve, reject) => {
-				request({
+				const options = {
 					method,
 					baseUrl: `http://localhost:${test.context.server.port}`,
 					url: uri,
 					json: true,
-					body: payload,
 					headers
-				}, (error, response, body) => {
+				}
+
+				if (payload) {
+					options.body = payload
+				}
+
+				request(options, (error, response, body) => {
 					if (error) {
 						return reject(error)
 					}
