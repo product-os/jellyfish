@@ -25,6 +25,9 @@
         "data": {
           "type": "object",
           "properties": {
+            "handle": {
+              "type": "string"
+            },
             "email": {
               "type": "string",
               "format": "email"
