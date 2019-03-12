@@ -14,10 +14,9 @@ const {
 } = require('react-redux')
 const redux = require('redux')
 const rendition = require('rendition')
-const Markdown = require('rendition/dist/extra/Markdown')
-const Mermaid = require('rendition/dist/extra/Mermaid')
 const styledComponents = require('styled-components')
 const CardActions = require('../../components/CardActions')
+const CardField = require('../../components/CardField').default
 const Event = require('../../components/Event')
 const Label = require('../../components/Label')
 const Tag = require('../../components/Tag')
@@ -26,6 +25,8 @@ const store = require('../../core/store')
 const helpers = require('../../services/helpers')
 const SupportThreadTimeline = require('./SupportThreadTimeline')
 const CloseButton = require('../../shame/CloseButton')
+const ColorHashPill = require('../../shame/ColorHashPill')
+const Column = require('../../shame/Column').default
 const Icon = require('../../shame/Icon')
 const IconButton = require('../../shame/IconButton')
 
@@ -37,30 +38,6 @@ const {
 const Extract = styledComponents.default(rendition.Box) `
 	border-top: 1px solid ${rendition.Theme.colors.gray.light};
 	border-bottom: 1px solid ${rendition.Theme.colors.gray.light};
-`
-const Column = styledComponents.default(rendition.Flex) `
-	height: 100%;
-	overflow-y: auto;
-	min-width: 270px;
-`
-const Badge = styledComponents.default(rendition.Txt) `
-	display: inline-block;
-	background: #555;
-	color: white;
-	border-radius: 4px;
-	padding: 1px 8px;
-	margin-right: 4px;
-	font-size: 14px;
-`
-const DataContainer = styledComponents.default.pre `
-	background: none;
-	color: inherit;
-	border: 0;
-	margin: 0;
-	padding: 0;
-	font-size: inherit;
-	white-space: pre-wrap;
-	word-wrap: break-word;
 `
 const transformMirror = (mirror) => {
 	if (mirror.includes('frontapp.com')) {
@@ -81,71 +58,7 @@ const getHighlights = (card) => {
 		return _.get(item, [ 'data', 'payload', 'message' ])
 	})
 }
-const CardField = ({
-	field, payload, users, schema
-}) => {
-	const value = payload[field]
-	if (typeof value === 'undefined') {
-		return null
-	}
-
-	// If the field starts with '$$' it is metaData and shouldn't be displayed
-	if (_.startsWith(field, '$$')) {
-		return null
-	}
-	if (field === 'mirrors') {
-		return (<React.Fragment>
-			<Label.default my={3}>{field}</Label.default>
-			{value.map((mirror) => {
-				const url = transformMirror(mirror)
-				return <rendition.Link key={url} blank href={url}>{url}</rendition.Link>
-			})}
-		</React.Fragment>)
-	}
-	if (field === 'alertsUser' || field === 'mentionsUser') {
-		const len = value.length
-		if (!len || !users) {
-			return null
-		}
-		const names = value.map((id) => {
-			return helpers.findUsernameById(users, id)
-		})
-		return (
-			<Badge tooltip={names.join(', ')} my={1}>
-				{field === 'alertsUser' ? 'Alerts' : 'Mentions'} {len} user{len !== 1 && 's'}
-			</Badge>
-		)
-	}
-	if (field === 'actor') {
-		return <rendition.Txt my={3} bold>{helpers.findUsernameById(users, value)}</rendition.Txt>
-	}
-
-	// Rendering can be optimzed for some known fields
-	if (field === 'timestamp') {
-		return <rendition.Txt my={3} color="#777">{helpers.formatTimestamp(value)}</rendition.Txt>
-	}
-	if (schema && schema.format === 'mermaid') {
-		return (<React.Fragment>
-			<Label.default my={3}>{field}</Label.default>
-			<Mermaid.Mermaid value={value}/>
-		</React.Fragment>)
-	}
-	if (schema && schema.format === 'markdown') {
-		return (<React.Fragment>
-			<Label.default my={3}>{field}</Label.default>
-			<Markdown.Markdown>{value}</Markdown.Markdown>
-		</React.Fragment>)
-	}
-	return (<React.Fragment>
-		<Label.default my={3}>{field}</Label.default>
-		{_.isObject(payload[field])
-			? <rendition.Txt monospace={true}>
-				<DataContainer>{JSON.stringify(payload[field], null, 4)}</DataContainer>
-			</rendition.Txt>
-			: <rendition.Txt>{`${payload[field]}`}</rendition.Txt>}
-	</React.Fragment>)
-}
-class Base extends React.Component {
+class SupportThreadBase extends React.Component {
 	constructor (props) {
 		super(props)
 		this.close = () => {
@@ -206,7 +119,13 @@ class Base extends React.Component {
 		return !circularDeepEqual(nextProps, this.props) || !circularDeepEqual(nextState, this.state)
 	}
 	componentWillUpdate (nextProps) {
-		if (nextProps.card.id !== this.props.card.id) {
+		if (
+			(nextProps.card.id !== this.props.card.id) ||
+			!circularDeepEqual(
+				nextProps.card.links['support thread is attached to support issue'],
+				this.props.card.links['support thread is attached to support issue']
+			)
+		) {
 			this.loadLinks(nextProps.card.id)
 		}
 	}
@@ -231,14 +150,24 @@ class Base extends React.Component {
 		const unorderedKeys = _.filter(_.keys(payload), (key) => {
 			return !_.includes(fieldOrder, key)
 		})
-		const keys = (fieldOrder || []).concat(unorderedKeys)
+
+		// Omit the status and inbox fields as they are rendered seperately, also
+		// omit some fields that are used by the sync functionality
+		const keys = _.without((fieldOrder || []).concat(unorderedKeys),
+			'status',
+			'inbox',
+			'origin',
+			'environment',
+			'translateDate'
+		)
+		console.log(keys)
 		const actor = getCreator(card)
 		const highlights = getHighlights(card)
 		return (
 			<Column
 				flex={this.props.flex}
 				className={`column--${card ? card.slug || card.type : 'unknown'}`}
-				flexDirection="column"
+				overflowY
 			>
 				<rendition.Box
 					px={3}
@@ -250,11 +179,8 @@ class Base extends React.Component {
 				>
 					<rendition.Flex mb={1} justify="space-between">
 						<rendition.Flex align="center">
-							{card.data.inbox && (
-								<rendition.Pill mr={3} bg={helpers.colorHash(card.data.inbox)}>
-									{card.data.inbox}
-								</rendition.Pill>
-							)}
+							<ColorHashPill.default value={_.get(card, [ 'data', 'inbox' ])} mr={2} />
+							<ColorHashPill.default value={_.get(card, [ 'data', 'status' ])} mr={2} />
 
 							{Boolean(card.tags) && _.map(card.tags, (tag) => {
 								if (tag === 'status' || tag === 'summary') {
@@ -329,10 +255,20 @@ class Base extends React.Component {
 							</Extract>)}
 
 							{_.map(this.state.linkedSupportIssues, (entry) => {
-								return (<rendition.Link mr={2} href={`/#${entry.id}`}>{entry.name}</rendition.Link>)
+								return (<rendition.Link mr={2} href={`/#support-issue~${entry.id}`}>{entry.name}</rendition.Link>)
 							})}
 
 							{_.map(keys, (key) => {
+								if (key === 'mirrors' && payload[key]) {
+									return (<React.Fragment>
+										<Label.default my={3}>{key}</Label.default>
+										{payload[key].map((mirror) => {
+											const url = transformMirror(mirror)
+											return <rendition.Link key={url} blank href={url}>{url}</rendition.Link>
+										})}
+									</React.Fragment>)
+								}
+
 								return payload[key]
 									? <CardField
 										key={key}
@@ -344,9 +280,11 @@ class Base extends React.Component {
 									: null
 							})}
 
-							<rendition.Link mt={3} onClick={this.handleExpandToggle}>
-										Less
-							</rendition.Link>
+							<rendition.Box>
+								<rendition.Link mt={3} onClick={this.handleExpandToggle}>
+									Less
+								</rendition.Link>
+							</rendition.Box>
 						</React.Fragment>
 					)}
 				</rendition.Box>
@@ -375,7 +313,7 @@ const mapDispatchToProps = (dispatch) => {
 		actions: redux.bindActionCreators(store.actionCreators, dispatch)
 	}
 }
-exports.Renderer = connect(mapStateToProps, mapDispatchToProps)(Base)
+exports.Renderer = connect(mapStateToProps, mapDispatchToProps)(SupportThreadBase)
 const lens = {
 	slug: 'lens-support-thread',
 	type: 'lens',

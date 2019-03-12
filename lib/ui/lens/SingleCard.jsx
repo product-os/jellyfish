@@ -14,94 +14,15 @@ const {
 } = require('react-redux')
 const redux = require('redux')
 const rendition = require('rendition')
-const Markdown = require('rendition/dist/extra/Markdown')
-const Mermaid = require('rendition/dist/extra/Mermaid')
-const styledComponents = require('styled-components')
 const CardActions = require('../components/CardActions')
-const Label = require('../components/Label')
+const CardField = require('../components/CardField').default
 const Tag = require('../components/Tag')
 const store = require('../core/store')
 const helpers = require('../services/helpers')
-const storeHelpers = require('../services/store-helpers')
 const Timeline = require('./Timeline')
 const CloseButton = require('../shame/CloseButton')
-const Column = styledComponents.default(rendition.Flex) `
-	height: 100%;
-	overflow-y: auto;
-	min-width: 270px;
-`
-const Badge = styledComponents.default(rendition.Txt) `
-	display: inline-block;
-	background: #555;
-	color: white;
-	border-radius: 4px;
-	padding: 1px 8px;
-	margin-right: 4px;
-	font-size: 14px;
-`
-const DataContainer = styledComponents.default.pre `
-	background: none;
-	color: inherit;
-	border: 0;
-	margin: 0;
-	padding: 0;
-	font-size: inherit;
-	white-space: pre-wrap;
-	word-wrap: break-word;
-`
-const CardField = ({
-	field, payload, users, schema
-}) => {
-	const value = payload[field]
-	if (typeof value === 'undefined') {
-		return null
-	}
+const Column = require('../shame/Column').default
 
-	// If the field starts with '$$' it is metaData and shouldn't be displayed
-	if (_.startsWith(field, '$$')) {
-		return null
-	}
-	if (field === 'alertsUser' || field === 'mentionsUser') {
-		const len = value.length
-		if (!len || !users) {
-			return null
-		}
-		const names = value.map((id) => {
-			return storeHelpers.getActor(id).name
-		})
-		return (<Badge tooltip={names.join(', ')} my={1}>
-			{field === 'alertsUser' ? 'Alerts' : 'Mentions'} {len} user{len !== 1 && 's'}
-		</Badge>)
-	}
-	if (field === 'actor') {
-		return <rendition.Txt my={3} bold>{storeHelpers.getActor(value).name}</rendition.Txt>
-	}
-
-	// Rendering can be optimzed for some known fields
-	if (field === 'timestamp') {
-		return <rendition.Txt my={3} color="#777">{helpers.formatTimestamp(value)}</rendition.Txt>
-	}
-	if (schema && schema.format === 'mermaid') {
-		return (<React.Fragment>
-			<Label.default my={3}>{field}</Label.default>
-			<Mermaid.Mermaid value={value}/>
-		</React.Fragment>)
-	}
-	if (schema && schema.format === 'markdown') {
-		return (<React.Fragment>
-			<Label.default my={3}>{field}</Label.default>
-			<Markdown.Markdown>{value}</Markdown.Markdown>
-		</React.Fragment>)
-	}
-	return (<React.Fragment>
-		<Label.default my={3}>{field}</Label.default>
-		{_.isObject(payload[field])
-			? <rendition.Txt monospace={true}>
-				<DataContainer>{JSON.stringify(payload[field], null, 4)}</DataContainer>
-			</rendition.Txt>
-			: <rendition.Txt>{`${payload[field]}`}</rendition.Txt>}
-	</React.Fragment>)
-}
 class SingleCard extends React.Component {
 	constructor (props) {
 		super(props)
@@ -210,7 +131,7 @@ class SingleCard extends React.Component {
 				<Column
 					className={`column--${cardType || 'unknown'} column--slug-${cardSlug || 'unkown'}`}
 					flex={this.props.flex}
-					flexDirection="column"
+					overflowY
 				>
 					<rendition.Box p={3} flex="1" style={{
 						overflowY: 'auto'

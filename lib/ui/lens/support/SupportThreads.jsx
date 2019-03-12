@@ -15,16 +15,15 @@ const styledComponents = require('styled-components')
 const store = require('../../core/store')
 const helpers = require('../../services/helpers')
 const storeHelpers = require('../../services/store-helpers')
+const ColorHashPill = require('../../shame/ColorHashPill')
+const Column = require('../../shame/Column').default
 const Gravatar = require('../../shame/Gravatar')
 const Icon = require('../../shame/Icon')
 const {
 	getCreator,
 	getLastUpdate
 } = require('./utils')
-const Column = styledComponents.default(rendition.Flex) `
-	height: 100%;
-	width: 100%;
-`
+
 const SupportThreadSummaryWrapper = styledComponents.default(rendition.Box) `
 	border-left-style: solid;
 	border-left-width: 3px;
@@ -85,7 +84,7 @@ class Interleaved extends React.Component {
 			timestamps.sort()
 			return _.last(timestamps)
 		}).reverse()
-		return (<Column flexDirection="column">
+		return (<Column>
 			<div
 				ref={(ref) => {
 					this.scrollArea = ref
@@ -117,14 +116,10 @@ class Interleaved extends React.Component {
 							}}
 						>
 							<rendition.Flex justify="space-between">
-								{card.data.inbox && (
-									<rendition.Pill
-										mb={2}
-										bg={helpers.colorHash(card.data.inbox)}
-									>
-										{card.data.inbox}
-									</rendition.Pill>
-								)}
+								<rendition.Flex mb={2}>
+									<ColorHashPill.default value={_.get(card, [ 'data', 'inbox' ])} mr={2} />
+									<ColorHashPill.default value={_.get(card, [ 'data', 'status' ])} mr={2} />
+								</rendition.Flex>
 
 								<rendition.Txt>Created {helpers.formatTimestamp(card.created_at)}</rendition.Txt>
 							</rendition.Flex>

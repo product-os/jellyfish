@@ -7,10 +7,14 @@
 const _ = require('lodash')
 const React = require('react')
 const Async = require('react-select/lib/Async')
+const {
+	connect
+} = require('react-redux')
+const redux = require('redux')
 const rendition = require('rendition')
-const CardCreator = require('../components/CardCreator')
 const constants = require('../constants')
 const core = require('../core')
+const store = require('../core/store')
 const helpers = require('../services/helpers')
 const link = require('../services/link')
 const ContextMenu = require('./ContextMenu')
@@ -22,21 +26,12 @@ class CardLinker extends React.Component {
 		this.openLinkModal = () => {
 			this.setState({
 				showLinkModal: true,
-				showCreateModal: false,
-				showMenu: false
-			})
-		}
-		this.openCreateModal = () => {
-			this.setState({
-				showLinkModal: false,
-				showCreateModal: true,
 				showMenu: false
 			})
 		}
 		this.hideLinkModal = () => {
 			this.setState({
 				showLinkModal: false,
-				showCreateModal: false,
 				showMenu: false
 			})
 		}
@@ -93,55 +88,63 @@ class CardLinker extends React.Component {
 				showLinkModal: false
 			})
 		}
+
 		this.toggleMenu = () => {
 			this.setState({
 				showMenu: !this.state.showMenu
 			})
 		}
-		this.doneCreatingCard = (newCard) => {
-			const {
-				card
-			} = this.props
-			const {
-				selectedTypeTarget
-			} = this.state
-			if (!newCard) {
-				return
-			}
-			if (!selectedTypeTarget) {
-				return
-			}
-			const linkName = constants.LINKS[card.type][selectedTypeTarget.slug]
-			link.createLink(this.props.card, newCard, linkName)
-			this.setState({
-				showLinkModal: false,
-				showCreateModal: false
-			})
-		}
+
 		const {
 			card, types
 		} = props
+
 		this.state = {
 			showMenu: false,
 			showLinkModal: false,
-			showCreateModal: false,
 			results: [],
 			selectedTarget: null,
 			selectedTypeTarget: _.find(types, {
 				slug: _.first(_.keys(constants.LINKS[card.type]))
 			}) || null
 		}
+
+		this.openCreateChannel = () => {
+			this.props.actions.addChannel(helpers.createChannel({
+				head: {
+					action: 'create',
+					types: this.getAvailableTypes(),
+					onDone: {
+						action: 'link',
+						target: this.props.card
+					}
+				},
+				canonical: false
+			}))
+		}
 	}
+
+	getAvailableTypes () {
+		const {
+			card,
+			types
+		} = this.props
+
+		const availableTypes = types.filter((type) => {
+			return constants.LINKS[card.type] && constants.LINKS[card.type].hasOwnProperty(type.slug)
+		})
+
+		return availableTypes
+	}
+
 	render () {
 		const {
 			card, types
 		} = this.props
 		const {
-			showCreateModal, showLinkModal, selectedTarget, selectedTypeTarget
+			showLinkModal, selectedTarget, selectedTypeTarget
 		} = this.state
-		const availableTypes = types.filter((type) => {
-			return constants.LINKS[card.type] && constants.LINKS[card.type].hasOwnProperty(type.slug)
-		})
+		const availableTypes = this.getAvailableTypes()
 		const linkTypeTargets = availableTypes.map((item) => {
 			return {
 				value: item.slug,
@@ -175,7 +178,7 @@ class CardLinker extends React.Component {
 						</rendition.Button>
 						<rendition.Button style={{
 							display: 'block'
-						}} plaintext onClick={this.openCreateModal}>
+						}} plaintext onClick={this.openCreateChannel}>
 							Create a new element to link to
 						</rendition.Button>
 					</ContextMenu.ContextMenu>
@@ -217,19 +220,14 @@ class CardLinker extends React.Component {
 					</rendition.Flex>
 				</rendition.Modal>
 			)}
-
-			<CardCreator.CardCreator
-				seed={{}}
-				show={showCreateModal}
-				type={availableTypes}
-				done={this.doneCreatingCard}
-				cancel={() => {
-					return this.setState({
-						showCreateModal: false, showLinkModal: true
-					})
-				}}
-			/>
 		</React.Fragment>)
 	}
 }
-exports.CardLinker = CardLinker
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		actions: redux.bindActionCreators(store.actionCreators, dispatch)
+	}
+}
+
+exports.CardLinker = connect(null, mapDispatchToProps)(CardLinker)

@@ -12,7 +12,6 @@ const {
 const reactResizeObserver = require('react-resize-observer')
 const redux = require('redux')
 const rendition = require('rendition')
-const styledComponents = require('styled-components')
 const uuid = require('uuid/v4')
 const Event = require('../components/Event')
 const core = require('../core')
@@ -20,11 +19,7 @@ const store = require('../core/store')
 const helpers = require('../services/helpers')
 const Icon = require('../shame/Icon')
 
-const Column = styledComponents.default(rendition.Flex) `
-	height: 100%;
-	min-width: 350px;
-	position: relative;
-`
+const Column = require('../shame/Column').default
 
 const NONE_MESSAGE_TIMELINE_TYPES = [
 	'create',
@@ -178,7 +173,12 @@ class Interleaved extends React.Component {
 		} = this.state
 		const tail = this.props.tail ? _.reverse(this.props.tail.slice()) : null
 		return (
-			<Column flex="1" flexDirection="column">
+			<Column
+				flex="1"
+				style={{
+					position: 'relative'
+				}}
+			>
 				<reactResizeObserver.default onResize={this.scrollToBottom}/>
 				<rendition.Flex my={2} mr={2} justify="flex-end">
 					<rendition.Button

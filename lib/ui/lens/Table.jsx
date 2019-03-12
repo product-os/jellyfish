@@ -11,16 +11,11 @@ const {
 } = require('react-redux')
 const redux = require('redux')
 const rendition = require('rendition')
-const styledComponents = require('styled-components')
 const CardCreator = require('../components/CardCreator')
 const store = require('../core/store')
 const helpers = require('../services/helpers')
+const Column = require('../shame/Column').default
 const Icon = require('../shame/Icon')
-const Column = styledComponents.default(rendition.Flex) `
-	height: 100%;
-	min-width: 330px;
-	overflow-y: auto;
-`
 const COLUMNS = [
 	{
 		field: 'name',
@@ -109,7 +104,7 @@ class CardTable extends React.Component {
 				'Last updated': _.get(update, [ 'data', 'timestamp' ], null)
 			}
 		}) : null
-		return (<Column flex="1" flexDirection="column">
+		return (<Column overflowY flex="1">
 			<rendition.Box flex="1" style={{
 				position: 'relative'
 			}}>

@@ -11,17 +11,13 @@ const {
 } = require('react-redux')
 const redux = require('redux')
 const rendition = require('rendition')
-const styledComponents = require('styled-components')
 const Event = require('../components/Event')
 const core = require('../core')
 const store = require('../core/store')
 const helpers = require('../services/helpers')
 const AutocompleteTextarea = require('../shame/AutocompleteTextarea')
 const Icon = require('../shame/Icon')
-const Column = styledComponents.default(rendition.Flex) `
-	height: 100%;
-	min-width: 330px;
-`
+const Column = require('../shame/Column').default
 
 const getTargetId = (card) => {
 	return _.get(card, [ 'links', 'is attached to', '0', 'id' ]) || card.id
@@ -180,7 +176,7 @@ class Renderer extends React.Component {
 				return item.type !== 'message' && item.type !== 'whisper'
 			})
 		}
-		return (<Column flexDirection="column" {...props}>
+		return (<Column {...props}>
 			<rendition.Flex my={2} mr={2} justify="flex-end">
 				<rendition.Button
 					plaintext

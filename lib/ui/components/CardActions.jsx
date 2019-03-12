@@ -14,13 +14,10 @@ const redux = require('redux')
 const rendition = require('rendition')
 const unstable = require('rendition/dist/unstable')
 const skhema = require('skhema')
-const CardCreator = require('../components/CardCreator')
 const FreeFieldForm = require('../components/FreeFieldForm')
-const constants = require('../constants')
 const core = require('../core')
 const store = require('../core/store')
 const helpers = require('../services/helpers')
-const link = require('../services/link')
 const urlManager = require('../services/url-manager')
 const CardLinker = require('./CardLinker')
 const ContextMenu = require('./ContextMenu')
@@ -37,19 +34,6 @@ class Base extends React.Component {
 				})
 			this.setState({
 				showDeleteModal: false
-			})
-		}
-		this.doneCreatingCard = (newCard) => {
-			const {
-				card
-			} = this.props
-			if (!newCard) {
-				return
-			}
-			const linkName = constants.LINKS[card.type].issue
-			link.createLink(this.props.card, newCard, linkName)
-			this.setState({
-				showCreateProductIssue: false
 			})
 		}
 		this.updateEntry = () => {
@@ -129,11 +113,6 @@ class Base extends React.Component {
 				editModel: model
 			})
 		}
-		this.createProductIssue = () => {
-			this.setState({
-				showCreateProductIssue: true
-			})
-		}
 		const cardType = _.find(this.props.types, {
 			slug: this.props.card.type
 		})
@@ -151,16 +130,12 @@ class Base extends React.Component {
 		this.state = {
 			showEditModal: false,
 			showDeleteModal: false,
-			showCreateProductIssue: false,
 			showMenu: false,
 			editModel: {},
 			schema
 		}
 	}
 	render () {
-		const issueType = _.find(this.props.types, {
-			slug: 'issue'
-		})
 		const localSchema = helpers.getLocalSchema(this.state.editModel)
 		const freeFieldData = _.reduce(localSchema.properties, (carry, _value, key) => {
 			const cardValue = _.get(this.props.card, [ 'data', key ])
@@ -221,12 +196,6 @@ class Base extends React.Component {
 									<ActionLink.ActionLink onClick={this.toggleDeleteModal}>
 											Delete
 									</ActionLink.ActionLink>
-
-									{(this.props.card.type === 'support-thread') && (
-										<ActionLink.ActionLink mt={2} onClick={this.createProductIssue}>
-											Create product issue
-										</ActionLink.ActionLink>
-									)}
 								</React.Fragment>
 							</ContextMenu.ContextMenu>}
 					</span>
@@ -262,23 +231,6 @@ class Base extends React.Component {
 						/>
 					</rendition.Modal>
 				)}
-
-				<CardCreator.CardCreator
-					seed={{
-						data: {
-							repository: 'resin-io/hq'
-						}
-					}}
-					show={this.state.showCreateProductIssue}
-					type={issueType}
-					onCreate={this.doneCreatingCard}
-					done={_.noop}
-					cancel={() => {
-						return this.setState({
-							showCreateProductIssue: false
-						})
-					}}
-				/>
 			</React.Fragment>
 		)
 	}

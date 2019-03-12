@@ -18,19 +18,79 @@ const Splash = require('./components/Splash')
 const store = require('./core/store')
 const reactDnd = require('react-dnd')
 const reactDndHtml5Backend = require('react-dnd-html5-backend')
+const reactResizeObserver = require('react-resize-observer')
 
 // Register the mermaid and markdown widgets for rendition forms
 require('rendition/dist/extra/Form/markdown')
 require('rendition/dist/extra/Form/mermaid')
-const calcFlex = (num) => {
-	let start = num
-	let flex = 1
-	while (start--) {
-		flex *= 2
-	}
-	return flex
-}
+
 class UI extends React.Component {
+	constructor () {
+		super()
+
+		this.state = {
+			spaces: []
+		}
+	}
+
+	// Space allocation algorithm is as follows:
+	// 1. Get the inner width of the window
+	// 2. Deduct the width of the sidebar
+	// 3. For all but the last two channels set their width to 50px, deducting
+	//    the total of their widths from the window
+	// 4. For the last two channels split the remaining window width in a 1:2
+	//    ratio
+	calcWidth (channels) {
+		const sidebarWidth = 180
+		const squishedWidth = 24
+		const channelMinWidth = 300
+
+		if (!channels) {
+			return
+		}
+
+		const channelsToRender = channels.length - 1
+		const squished = channelsToRender - 2
+
+		const spaces = []
+
+		if (squished > 0) {
+			for (let item = 0; item < squished; item++) {
+				spaces.push({
+					left: sidebarWidth + item * squishedWidth,
+					width: channelMinWidth
+				})
+			}
+		}
+
+		const width = window.innerWidth - sidebarWidth - Math.max(squished * squishedWidth, 0)
+
+		if (channels.length === 2) {
+			spaces.push({
+				left: sidebarWidth + Math.max(squished * squishedWidth, 0),
+				width
+			})
+		} else {
+			spaces.push({
+				left: sidebarWidth + Math.max(squished * squishedWidth, 0),
+				width: width / 3
+			})
+
+			spaces.push({
+				left: sidebarWidth + Math.max(squished * squishedWidth, 0) + width / 3,
+				width: width / 3 * 2
+			})
+		}
+
+		this.setState({
+			spaces
+		})
+	}
+
+	componentWillReceiveProps (nextProps) {
+		this.calcWidth(nextProps.channels)
+	}
+
 	render () {
 		if (this.props.status === 'initializing') {
 			return <Splash.Splash />
@@ -42,22 +102,41 @@ class UI extends React.Component {
 			</rendition.Provider>)
 		}
 		const [ home, ...rest ] = this.props.channels
-		return (<rendition.Provider style={{
-			height: '100%',
-			fontSize: 14
-		}}>
-			<rendition.Flex flex="1" style={{
-				height: '100%'
-			}}>
-				<HomeChannel.HomeChannel channel={home}/>
 
-				{_.map(rest, (channel, index) => {
-					return (<ChannelRenderer.default key={channel.id} channel={channel} flex={calcFlex(index)}/>)
-				})}
-			</rendition.Flex>
+		const {
+			spaces
+		} = this.state
 
-			<Notifications.Notifications />
-		</rendition.Provider>)
+		return (
+			<rendition.Provider
+				style={{
+					height: '100%',
+					fontSize: 14
+				}}
+			>
+				<reactResizeObserver.default onResize={() => {
+					this.calcWidth(this.props.channels)
+				}}/>
+
+				<rendition.Flex flex="1" style={{
+					height: '100%'
+				}}>
+					<HomeChannel.HomeChannel channel={home}/>
+
+					{_.map(rest, (channel, index) => {
+						return (
+							<ChannelRenderer.default
+								key={channel.id}
+								channel={channel}
+								space={spaces[index]}
+							/>
+						)
+					})}
+				</rendition.Flex>
+
+				<Notifications.Notifications />
+			</rendition.Provider>
+		)
 	}
 }
 const mapStateToProps = (state) => {

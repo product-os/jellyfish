@@ -132,8 +132,6 @@ class ViewRenderer extends React.Component {
 			activeSlice: null,
 			options: {
 				page: 0,
-
-				// TODO: Return a total count from the API so we can remove this hack
 				totalPages: Infinity,
 				limit: 20,
 				sortBy: 'created_at',
@@ -229,6 +227,15 @@ class ViewRenderer extends React.Component {
 		return options
 	}
 	componentWillReceiveProps (nextProps) {
+		// TODO: Get an actual total count from the API
+		if (nextProps.tail && nextProps.tail.length < 20) {
+			this.setState({
+				options: Object.assign(this.state.options, {
+					totalPages: 1
+				})
+			})
+		}
+
 		if (this.props.channel.data.target !== nextProps.channel.data.target) {
 			this.setState({
 				ready: false
@@ -313,6 +320,20 @@ class ViewRenderer extends React.Component {
 		}) || lenses[0]
 		const slices = helpers.getViewSlices(head, types)
 		const lensSupportsSlices = Boolean(lens) && Boolean(lens.data.supportsSlices)
+
+		// Always expose the created_at and updated_at field for filtering
+		const schemaForFilters = _.get(_.cloneDeep(tailType), [ 'data', 'schema' ], {})
+		_.set(schemaForFilters, [ 'properties', 'created_at' ], {
+			title: 'Created at',
+			type: 'string',
+			format: 'date-time'
+		})
+		_.set(schemaForFilters, [ 'properties', 'updated_at' ], {
+			title: 'Last updated',
+			type: 'string',
+			format: 'date-time'
+		})
+
 		return (
 			<rendition.Flex
 				flex={this.props.flex}
@@ -329,7 +350,7 @@ class ViewRenderer extends React.Component {
 								<If.If condition={useFilters}>
 									<rendition.Box mt={0} flex="1 0 auto">
 										<rendition.Filters
-											schema={tailType.data.schema}
+											schema={schemaForFilters}
 											filters={this.state.filters}
 											onFiltersUpdate={this.updateFilters}
 											onViewsUpdate={this.saveView}
@@ -379,7 +400,7 @@ class ViewRenderer extends React.Component {
 						<If.If condition={useFilters && this.state.filters.length > 0}>
 							<rendition.Box flex="1 0 auto" mb={3} mx={3}>
 								<rendition.Filters
-									schema={tailType.data.schema}
+									schema={schemaForFilters}
 									filters={this.state.filters}
 									onFiltersUpdate={this.updateFilters}
 									onViewsUpdate={this.saveView}
