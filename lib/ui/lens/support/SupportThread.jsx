@@ -173,7 +173,6 @@ class SupportThreadBase extends React.Component {
 				<rendition.Box
 					px={3}
 					pt={3}
-					mb={-24}
 					style={{
 						overflowY: 'auto'
 					}}
