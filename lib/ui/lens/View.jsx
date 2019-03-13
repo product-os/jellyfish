@@ -368,9 +368,7 @@ class ViewRenderer extends React.Component {
 											return (
 												<rendition.Button
 													key={item.slug}
-													style={{
-														background: lens && lens.slug === item.slug ? '#333' : false
-													}}
+													bg={ lens && lens.slug === item.slug ? '#333' : false}
 													square={true}
 													data-slug={item.slug}
 													onClick={this.setLens}
