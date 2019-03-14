@@ -10,8 +10,9 @@ if [ -z "$ARGV_SNAPSHOT" ]; then
 fi
 
 DATABASE=jellyfish
-OWNER="$(whoami)"
+OWNER="jellyfishuser"
 
+psql template1 -c "create user $OWNER;" || true
 psql template1 -c "drop database $DATABASE;" || true
 psql template1 -c "create database $DATABASE with owner $OWNER;" || true
 psql "$DATABASE" < "$ARGV_SNAPSHOT"
