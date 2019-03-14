@@ -103,7 +103,9 @@ class Interleaved extends React.Component {
 					})
 					const lastMessageOrWhisper = _.last(messages)
 					const actor = getCreator(card)
-					const lastActor = lastMessageOrWhisper ? storeHelpers.getActor(lastMessageOrWhisper.data.actor) : null
+					const lastActor = lastMessageOrWhisper
+						? storeHelpers.getActor(_.get(lastMessageOrWhisper, [ 'data', 'actor' ]))
+						: null
 					return (
 						<SupportThreadSummaryWrapper
 							key={card.id}
