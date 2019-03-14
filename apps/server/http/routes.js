@@ -187,7 +187,6 @@ module.exports = (application, jellyfish, worker, queue) => {
 				throw new Error(`No type card: ${EXTERNAL_EVENT_TYPE}`)
 			}
 
-			const suffix = randomstring.generate().toLowerCase()
 			return queue.enqueue(worker.getId(), jellyfish.sessions.admin, {
 				action: 'action-create-card',
 				card: typeCard.id,
@@ -195,7 +194,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 				context: request.context,
 				arguments: {
 					properties: {
-						slug: `${EXTERNAL_EVENT_TYPE}-${suffix}`,
+						slug: `${EXTERNAL_EVENT_TYPE}-${uuid()}`,
 						version: '1.0.0',
 						data: {
 							source: request.params.provider,
