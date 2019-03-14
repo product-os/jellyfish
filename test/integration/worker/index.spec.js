@@ -1662,10 +1662,12 @@ ava('should be able to login as a user with a password', async (test) => {
 	test.false(loginResult.error)
 
 	const session = await test.context.jellyfish.getCardById(test.context.context, test.context.session, loginResult.data.id)
+
 	test.deepEqual(session, test.context.kernel.defaults({
-		created_at: loginResult.data.created_at,
+		created_at: session.created_at,
+		linked_at: session.linked_at,
 		name: null,
-		id: loginResult.data.id,
+		id: session.id,
 		slug: session.slug,
 		version: '1.0.0',
 		type: 'session',
@@ -1869,6 +1871,7 @@ ava('should update a card to add an extra property', async (test) => {
 	test.deepEqual(card, test.context.kernel.defaults({
 		created_at: updateResult.data.created_at,
 		updated_at: updateResult.data.updated_at,
+		linked_at: card.linked_at,
 		id: updateResult.data.id,
 		slug: 'foo',
 		name: null,
@@ -1924,6 +1927,7 @@ ava('should update a card to set active to false', async (test) => {
 	test.deepEqual(card, test.context.kernel.defaults({
 		created_at: updateResult.data.created_at,
 		updated_at: updateResult.data.updated_at,
+		linked_at: card.linked_at,
 		id: updateResult.data.id,
 		version: '1.0.0',
 		name: null,
@@ -1976,6 +1980,7 @@ ava('should update a card to set active to false using the card slug as input', 
 	test.deepEqual(card, test.context.kernel.defaults({
 		created_at: updateResult.data.created_at,
 		updated_at: updateResult.data.updated_at,
+		linked_at: card.linked_at,
 		id: updateResult.data.id,
 		type: 'card',
 		name: null,
@@ -2034,6 +2039,7 @@ ava('should update a card to override an array property', async (test) => {
 	test.deepEqual(card, test.context.kernel.defaults({
 		created_at: updateResult.data.created_at,
 		updated_at: updateResult.data.updated_at,
+		linked_at: card.linked_at,
 		id: updateResult.data.id,
 		type: 'card',
 		name: null,
@@ -2111,6 +2117,7 @@ ava('should add an update event if updating a card', async (test) => {
 	test.deepEqual(timeline, [
 		{
 			created_at: timeline[0].created_at,
+			linked_at: timeline[0].linked_at,
 			updated_at: null,
 			id: timeline[0].id,
 			name: null,
@@ -2135,6 +2142,7 @@ ava('should add an update event if updating a card', async (test) => {
 		{
 			created_at: timeline[1].created_at,
 			updated_at: null,
+			linked_at: timeline[1].linked_at,
 			id: timeline[1].id,
 			name: null,
 			version: '1.0.0',
@@ -2148,6 +2156,7 @@ ava('should add an update event if updating a card', async (test) => {
 				payload: {
 					created_at: timeline[1].data.payload.created_at,
 					updated_at: null,
+					linked_at: timeline[1].data.payload.linked_at,
 					active: true,
 					slug: 'foo',
 					type: 'card',
@@ -2203,6 +2212,7 @@ ava('should delete a card using action-delete-card', async (test) => {
 	test.deepEqual(card, test.context.kernel.defaults({
 		created_at: deleteResult.data.created_at,
 		updated_at: deleteResult.data.updated_at,
+		linked_at: card.linked_at,
 		id: deleteResult.data.id,
 		name: null,
 		version: '1.0.0',
@@ -2255,6 +2265,7 @@ ava('should delete a card using action-update-card', async (test) => {
 	test.deepEqual(card, test.context.kernel.defaults({
 		created_at: updateResult.data.created_at,
 		updated_at: updateResult.data.updated_at,
+		linked_at: card.linked_at,
 		id: updateResult.data.id,
 		name: null,
 		type: 'card',

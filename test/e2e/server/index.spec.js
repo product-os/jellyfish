@@ -653,6 +653,7 @@ githubAvaTest('should be able to post a GitHub event without a signature', async
 	test.deepEqual(card, {
 		created_at: requestResult.data.created_at,
 		updated_at: null,
+		linked_at: card.linked_at,
 		id: requestResult.data.id,
 		type: 'external-event',
 		name: null,
@@ -709,6 +710,7 @@ githubAvaTest('should take a GitHub event with a valid signature', async (test) 
 	test.deepEqual(card, {
 		created_at: requestResult.data.created_at,
 		updated_at: null,
+		linked_at: card.linked_at,
 		id: requestResult.data.id,
 		type: 'external-event',
 		slug: requestResult.data.slug,
@@ -1108,6 +1110,7 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 				'is attached to': [
 					Object.assign({}, targetUser, {
 						links: results[0].links['is attached to'][0].links,
+						linked_at: results[0].links['is attached to'][0].linked_at,
 						data: _.omit(targetUser.data, [ 'password', 'roles' ])
 					})
 				]

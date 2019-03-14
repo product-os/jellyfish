@@ -184,7 +184,8 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 				'id',
 				'slug',
 				'created_at',
-				'updated_at'
+				'updated_at',
+				'linked_at'
 			])
 		),
 		head
@@ -200,6 +201,7 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 		Reflect.deleteProperty(card, 'markers')
 		Reflect.deleteProperty(card, 'created_at')
 		Reflect.deleteProperty(card, 'updated_at')
+		Reflect.deleteProperty(card, 'linked_at')
 		Reflect.deleteProperty(card.data, 'origin')
 		Reflect.deleteProperty(card.data, 'translateDate')
 
@@ -209,6 +211,7 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 			Reflect.deleteProperty(card.data.payload, 'markers')
 			Reflect.deleteProperty(card.data.payload, 'created_at')
 			Reflect.deleteProperty(card.data.payload, 'updated_at')
+			Reflect.deleteProperty(card.data.payload, 'linked_at')
 
 			if (card.data.payload.data) {
 				Reflect.deleteProperty(card.data.payload.data, 'origin')
