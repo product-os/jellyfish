@@ -5,6 +5,18 @@
  */
 
 module.exports = {
+	'inbound-comment-edit': {
+		expected: require('./inbound-comment-edit/expected.json'),
+		steps: [
+			require('./inbound-comment-edit/01.json'),
+			require('./inbound-comment-edit/02.json'),
+
+			// TODO: There is a Front bug where they won't emit
+			// a webhook for comment edits. We just simulate it
+			// here for completeness until they fix it
+			require('./inbound-comment-edit/03-fake.json')
+		]
+	},
 	'inbound-tag-comment': {
 		expected: require('./inbound-tag-comment/expected.json'),
 		steps: [
