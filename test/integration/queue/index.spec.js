@@ -203,7 +203,7 @@ ava('.enqueue() should throw if the session was not found', async (test) => {
 				}
 			}
 		}
-	}), test.context.jellyfish.errors.JellyfishNoElement)
+	}), test.context.jellyfish.errors.JellyfishInvalidSession)
 })
 
 ava('.enqueue() should not store the password in the queue when using action-create-user', async (test) => {

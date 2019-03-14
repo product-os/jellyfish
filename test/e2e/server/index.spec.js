@@ -1322,3 +1322,61 @@ ava.serial('should fail with a user error when posting an action with an expired
 		}
 	})
 })
+
+ava.serial('should fail when querying an invalid session with an invalid session', async (test) => {
+	const session = '4a962ad9-20b5-4dd8-a707-bf819593cc84'
+
+	const result = await test.context.http(
+		'GET', `/api/v2/id/session/${session}`, null, {
+			Authorization: `Bearer ${session}`
+		})
+
+	test.is(result.code, 400)
+	test.deepEqual(result.response, {
+		error: true,
+		data: {
+			name: 'JellyfishInvalidSession',
+			message: result.response.data.message
+		}
+	})
+})
+
+ava.serial('should fail with a user error when executing an unknown action', async (test) => {
+	const admin = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'user-admin', {
+			type: 'user'
+		})
+
+	const session = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			type: 'session',
+			slug: test.context.generateRandomSlug({
+				prefix: 'session'
+			}),
+			version: '1.0.0',
+			data: {
+				actor: admin.id
+			}
+		})
+
+	const result = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: 'user-admin',
+			type: 'user',
+			action: 'action-foo-bar-baz-qux',
+			arguments: {
+				foo: 'bar'
+			}
+		}, {
+			Authorization: `Bearer ${session.id}`
+		})
+
+	test.is(result.code, 400)
+	test.deepEqual(result.response, {
+		error: true,
+		data: {
+			name: 'QueueInvalidAction',
+			message: result.response.data.message
+		}
+	})
+})
