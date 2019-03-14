@@ -40,7 +40,16 @@ ava.serial('Updates to support threads should be reflected in the support thread
 	} = context
 
 	await page.goto(`http://localhost:${server.port}`)
-	await macros.signupUser(page, user)
+	await context.createUser(user)
+	await page.waitForSelector('.login-page')
+
+	await page.type('.login-page__input--username', user.username)
+	await page.type('.login-page__input--password', user.password)
+
+	await page.click('.login-page__submit--login')
+
+	await page.waitForSelector('.home-channel')
+
 	const communityUser = await page.evaluate(() => {
 		return window.sdk.auth.whoami()
 	})

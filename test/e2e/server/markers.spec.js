@@ -32,7 +32,7 @@ ava.serial('Users should be able to view an element with no markers', async (tes
 		jellyfish
 	} = test.context.server
 
-	await sdk.auth.signup(users.community)
+	await test.context.createUser(users.community)
 	await sdk.auth.login(users.community)
 
 	const thread = await jellyfish.insertCard(test.context.context, test.context.session, {

@@ -23,8 +23,8 @@ ava.afterEach(async (test) => {
 
 const createUserDetails = () => {
 	return {
-		username: randomstring.generate(),
-		email: `${randomstring.generate()}@example.com`,
+		username: randomstring.generate().toLowerCase(),
+		email: `${randomstring.generate().toLowerCase()}@example.com`,
 		password: 'foobarbaz'
 	}
 }
@@ -43,11 +43,11 @@ ava.serial('The ping endpoint should continuously work', async (test) => {
 	test.false(result3.response.error)
 })
 
-ava.serial('signing up with an existent username is a user error', async (test) => {
+ava.serial('creating a user with the guest user session should fail', async (test) => {
 	const userDetails = createUserDetails()
 	const username = `user-${userDetails.username.toLowerCase()}`
 
-	const signup1 = await test.context.http('POST', '/api/v2/action', {
+	const result = await test.context.http('POST', '/api/v2/action', {
 		card: 'user',
 		type: 'type',
 		action: 'action-create-user',
@@ -61,30 +61,35 @@ ava.serial('signing up with an existent username is a user error', async (test) 
 		}
 	})
 
-	test.is(signup1.code, 200)
-	test.false(signup1.response.error)
-	test.is(signup1.response.data.slug, username)
-
-	const signup2 = await test.context.http('POST', '/api/v2/action', {
-		card: 'user',
-		type: 'type',
-		action: 'action-create-user',
-		arguments: {
-			email: userDetails.email,
-			username,
-			hash: {
-				string: userDetails.password,
-				salt: username
-			}
-		}
-	})
-
-	test.is(signup2.code, 400)
-	test.deepEqual(signup2.response, {
+	test.is(result.code, 400)
+	test.deepEqual(result.response, {
 		error: true,
 		data: {
-			name: 'JellyfishElementAlreadyExists',
-			message: signup2.response.data.message
+			name: 'QueueInvalidAction',
+			message: 'No such action: action-create-user'
+		}
+	})
+})
+
+ava.serial('creating a user with the guest user session using action-create-card should fail', async (test) => {
+	const username = `user-${createUserDetails().username.toLowerCase()}`
+
+	const result = await test.context.http('POST', '/api/v2/action', {
+		card: 'user',
+		type: 'type',
+		action: 'action-create-card',
+		arguments: {
+			slug: username,
+			type: 'user'
+		}
+	})
+
+	test.is(result.code, 400)
+	test.deepEqual(result.response, {
+		error: true,
+		data: {
+			name: 'QueueInvalidAction',
+			message: 'No such action: action-create-card'
 		}
 	})
 })
@@ -95,7 +100,8 @@ ava.serial('Users should be able to change their own email addresses', async (te
 	} = test.context
 
 	const userDetails = createUserDetails()
-	const user = await sdk.auth.signup(userDetails)
+	const user = await test.context.createUser(userDetails)
+
 	await sdk.auth.login(userDetails)
 
 	user.data.email = 'test@example.com'
@@ -111,7 +117,7 @@ ava.serial('Updating a user should not remove their org membership', async (test
 	} = test.context
 
 	const userDetails = createUserDetails()
-	const user = await sdk.auth.signup(userDetails)
+	const user = await test.context.createUser(userDetails)
 	await sdk.auth.login(userDetails)
 
 	const waitQuery = {
@@ -168,11 +174,11 @@ ava.serial('Users should not be able to view other users passwords', async (test
 		sdk
 	} = test.context
 
-	const targetUser = await sdk.auth.signup(createUserDetails())
+	const targetUser = await test.context.createUser(createUserDetails())
 
 	const activeUserDetails = createUserDetails()
 
-	await sdk.auth.signup(activeUserDetails)
+	await test.context.createUser(activeUserDetails)
 	await sdk.auth.login(activeUserDetails)
 
 	const fetchedUser = await sdk.card.get(targetUser.id, {
@@ -183,11 +189,12 @@ ava.serial('Users should not be able to view other users passwords', async (test
 })
 
 ava.serial('.query() the guest user should only see its own private fields', async (test) => {
-	await test.context.sdk.auth.signup({
+	await test.context.createUser({
 		username: randomstring.generate(),
 		email: `${randomstring.generate()}@example.com`,
 		password: 'foobarbaz'
 	})
+
 	await test.context.sdk.auth.logout()
 	const results = await test.context.sdk.query({
 		type: 'object',
@@ -236,7 +243,7 @@ ava.serial('.query() should be able to see previously restricted cards after an 
 	const username = randomstring.generate().toLowerCase()
 	const email = `${randomstring.generate()}@example.com`
 
-	const user = await sdk.auth.signup({
+	const user = await test.context.createUser({
 		username,
 		email,
 		password: 'foobarbaz'
@@ -304,7 +311,7 @@ ava.serial('timeline cards should reference the correct actor', async (test) => 
 	const username = randomstring.generate().toLowerCase()
 	const email = `${randomstring.generate()}@example.com`
 
-	const user = await sdk.auth.signup({
+	const user = await test.context.createUser({
 		username,
 		email,
 		password: 'foobarbaz'
@@ -370,7 +377,7 @@ ava.serial('.query() community users should be able to query views', async (test
 	const username = randomstring.generate().toLowerCase()
 	const email = `${randomstring.generate()}@example.com`
 
-	await test.context.sdk.auth.signup({
+	await test.context.createUser({
 		username,
 		email,
 		password: 'foobarbaz'
@@ -405,7 +412,7 @@ ava.serial('the guest user should not be able to change other users passwords', 
 	const username = randomstring.generate().toLowerCase()
 	const email = `${randomstring.generate()}@example.com`
 
-	const targetUser = await sdk.auth.signup({
+	const targetUser = await test.context.createUser({
 		username,
 		email,
 		password: 'foobarbaz'
@@ -432,7 +439,7 @@ ava.serial('users with the "user-community" role should not be able to change ot
 	const username = randomstring.generate().toLowerCase()
 	const email = `${randomstring.generate()}@example.com`
 
-	const targetUser = await sdk.auth.signup({
+	const targetUser = await test.context.createUser({
 		username,
 		email,
 		password: 'foobarbaz'
@@ -441,7 +448,7 @@ ava.serial('users with the "user-community" role should not be able to change ot
 	const communityUsername = randomstring.generate().toLowerCase()
 	const communityEmail = `${randomstring.generate()}@example.com`
 
-	await sdk.auth.signup({
+	await test.context.createUser({
 		username: communityUsername,
 		email: communityEmail,
 		password: 'foobarbaz'
@@ -478,7 +485,7 @@ ava.serial('AGGREGATE($events): should work when creating cards via the SDK', as
 	}
 
 	// Create a new user
-	await sdk.auth.signup(userDetails)
+	await test.context.createUser(userDetails)
 
 	// Login as the new user
 	await sdk.auth.login(userDetails)
@@ -545,7 +552,7 @@ ava.serial('When updating a user, inaccessible fields should not be removed', as
 	}
 
 	// Create a new user
-	const user = await sdk.auth.signup(userDetails)
+	const user = await test.context.createUser(userDetails)
 
 	await sdk.auth.login(userDetails)
 
@@ -580,21 +587,16 @@ ava.serial('Users should not be able to login as the core admin user', async (te
 	// First check that the guest user cannot login
 	sdk.auth.logout()
 
+	console.log('attempting login')
 	await test.throwsAsync(sdk.auth.login({
 		username: 'admin'
 	}))
 
 	const role = 'user-community'
 
-	sdk.auth.logout()
+	const userData = createUserDetails()
 
-	const userData = {
-		username: `${role}-${randomstring.generate()}`,
-		email: `${role}-${randomstring.generate()}@example.com`,
-		password: 'password'
-	}
-
-	const user = await sdk.auth.signup(userData)
+	const user = await test.context.createUser(userData)
 
 	await test.context.jellyfish.insertCard(test.context.context,
 		test.context.session,
@@ -772,7 +774,7 @@ ava.serial('should add and evaluate a time triggered action', async (test) => {
 	const username = randomstring.generate().toLowerCase()
 	const email = `${randomstring.generate()}@example.com`
 
-	await sdk.auth.signup({
+	await test.context.createUser({
 		username,
 		email,
 		password: 'foobarbaz'
@@ -860,7 +862,7 @@ ava.serial('should be able to resolve links', async (test) => {
 	const username = randomstring.generate().toLowerCase()
 	const email = `${randomstring.generate()}@example.com`
 
-	await test.context.sdk.auth.signup({
+	await test.context.createUser({
 		username,
 		email,
 		password: 'foobarbaz'
@@ -965,12 +967,12 @@ ava.serial('.query() additionalProperties should not affect listing users as a n
 	const id = uuid()
 	const username = randomstring.generate().toLowerCase()
 	const email = `${randomstring.generate()}@example.com`
-	await test.context.sdk.auth.signup({
+	await test.context.createUser({
 		username: randomstring.generate().toLowerCase(),
 		email: `${randomstring.generate()}@example.com`,
 		password: 'xxxxxxxxx'
 	})
-	await test.context.sdk.auth.signup({
+	await test.context.createUser({
 		username,
 		email,
 		password: 'foobarbaz'
@@ -1019,7 +1021,7 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 	const username1 = randomstring.generate().toLowerCase()
 	const email1 = `${randomstring.generate()}@example.com`
 
-	await test.context.sdk.auth.signup({
+	await test.context.createUser({
 		username: username1,
 		email: email1,
 		password: 'foobarbaz'
@@ -1028,7 +1030,7 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 	const username2 = randomstring.generate().toLowerCase()
 	const email2 = `${randomstring.generate()}@example.com`
 
-	const targetUser = await test.context.sdk.auth.signup({
+	const targetUser = await test.context.createUser({
 		username: username2,
 		email: email2,
 		password: 'secret'

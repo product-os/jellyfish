@@ -98,6 +98,32 @@ exports.server = {
 				card
 			)
 		}
+
+		test.context.createUser = async (user) => {
+			const action = {
+				card: 'user',
+				type: 'type',
+				action: 'action-create-user',
+				arguments: {
+					email: user.email,
+					username: `user-${user.username}`,
+					hash: {
+						string: user.password,
+						salt: `user-${user.username}`
+					}
+				},
+				context: test.context.context
+			}
+
+			const results = await test.context.queue.enqueue(
+				test.context.server.worker.getId(),
+				test.context.session, action
+			).then((actionRequest) => {
+				return test.context.queue.waitResults({}, actionRequest)
+			})
+
+			return results.data
+		}
 	},
 
 	afterEach: async (test) => {

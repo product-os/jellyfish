@@ -63,33 +63,15 @@ ava.after(async () => {
 	})
 })
 
-ava.serial('should let new users signup', async (test) => {
+ava.serial('should let users login', async (test) => {
 	const {
 		page,
 		server
 	} = context
 
+	await context.createUser(users.community)
+
 	await page.goto(`http://localhost:${server.port}`)
-
-	await macros.signupUser(page, users.community)
-
-	test.pass()
-})
-
-ava.serial('should let users logout', async (test) => {
-	const {
-		page
-	} = context
-
-	await macros.logout(page)
-
-	test.pass()
-})
-
-ava.serial('should let users login', async (test) => {
-	const {
-		page
-	} = context
 
 	await page.waitForSelector('.login-page', WAIT_OPTS)
 
@@ -148,7 +130,8 @@ ava.serial('should stop users from seeing messages attached to cards they can\'t
 
 	await macros.logout(page)
 
-	await macros.signupUser(page, users.community2)
+	await context.createUser(users.community2)
+
 	const lastMessage = await page.evaluate((text) => {
 		return window.sdk.query({
 			type: 'object',
