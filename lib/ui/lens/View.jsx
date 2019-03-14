@@ -309,8 +309,11 @@ class ViewRenderer extends React.Component {
 			</rendition.Box>)
 		}
 		const {
-			tail, types
+			types
 		} = this.props
+
+		const tail = _.sortBy(this.props.tail, this.state.options.sortBy)
+
 		const {
 			tailType, lenses, activeLens, activeSlice
 		} = this.state
