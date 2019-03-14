@@ -1322,3 +1322,21 @@ ava.serial('should fail with a user error when posting an action with an expired
 		}
 	})
 })
+
+ava.serial('should fail when querying an invalid session with an invalid session', async (test) => {
+	const session = '4a962ad9-20b5-4dd8-a707-bf819593cc84'
+
+	const result = await test.context.http(
+		'GET', `/api/v2/id/session/${session}`, null, {
+			Authorization: `Bearer ${session}`
+		})
+
+	test.is(result.code, 400)
+	test.deepEqual(result.response, {
+		error: true,
+		data: {
+			name: 'JellyfishInvalidSession',
+			message: result.response.data.message
+		}
+	})
+})
