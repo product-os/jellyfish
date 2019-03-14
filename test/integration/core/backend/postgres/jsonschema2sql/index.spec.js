@@ -101,6 +101,7 @@ const runner = async ({
 			name: item.name,
 			tags: item.tags || [],
 			markers: item.markers || [],
+			linked_at: item.linked_at || {},
 			created_at: item.created_at || new Date().toISOString(),
 			links: item.links || {},
 			requires: item.requires || [],
