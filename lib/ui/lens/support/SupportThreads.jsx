@@ -108,6 +108,8 @@ class Interleaved extends React.Component {
 						: null
 					return (
 						<SupportThreadSummaryWrapper
+							data-test-component="support-thread-summary"
+							data-test-id={card.id}
 							key={card.id}
 							p={3}
 							style={{
@@ -143,16 +145,19 @@ class Interleaved extends React.Component {
 							{lastMessageOrWhisper && (<rendition.Flex>
 								<Gravatar.default small pr={2} email={lastActor ? lastActor.email : null}/>
 
-								<rendition.Txt style={{
-									whiteSpace: 'nowrap',
-									overflow: 'hidden',
-									textOverflow: 'ellipsis',
-									border: '1px solid #eee',
-									borderRadius: 10,
-									padding: '4px 16px',
-									background: (lastMessageOrWhisper || {}).type === 'whisper' ? '#eee' : 'white',
-									flex: 1
-								}}>
+								<rendition.Txt
+									data-test-component="support-thread-summary__message"
+									style={{
+										whiteSpace: 'nowrap',
+										overflow: 'hidden',
+										textOverflow: 'ellipsis',
+										border: '1px solid #eee',
+										borderRadius: 10,
+										padding: '4px 16px',
+										background: (lastMessageOrWhisper || {}).type === 'whisper' ? '#eee' : 'white',
+										flex: 1
+									}}
+								>
 									{_.get(lastMessageOrWhisper, [ 'data', 'payload', 'message' ], '').split('\n').shift()}
 								</rendition.Txt>
 							</rendition.Flex>)}

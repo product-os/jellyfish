@@ -167,7 +167,8 @@ class SupportThreadBase extends React.Component {
 		return (
 			<Column
 				flex={this.props.flex}
-				className={`column--${card ? card.slug || card.type : 'unknown'}`}
+				data-test-component="column"
+				data-test-id={card.id}
 				overflowY
 			>
 				<rendition.Box

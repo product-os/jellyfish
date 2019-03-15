@@ -92,7 +92,6 @@ class HomeChannelBase extends TailStreamer.TailStreamer {
 		this.open = (card, options) => {
 			if (this.props.viewNotices[card.id]) {
 				this.props.actions.removeViewNotice(card.id)
-				this.props.actions.setActiveView(card.id)
 			}
 			this.props.actions.addChannel(helpers.createChannel({
 				target: card.id,
@@ -179,9 +178,6 @@ class HomeChannelBase extends TailStreamer.TailStreamer {
 			messages: []
 		}
 		this.streamTail(this.props.channel.data.target)
-		if (this.props.channels.length > 1) {
-			this.props.actions.setActiveView(this.props.channels[1].data.target)
-		}
 	}
 	shouldComponentUpdate (nextProps, nextState) {
 		return !circularDeepEqual(nextState, this.state) || !circularDeepEqual(nextProps, this.props)

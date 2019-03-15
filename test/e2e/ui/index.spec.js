@@ -112,33 +112,7 @@ ava.serial('should stop users from seeing messages attached to cards they can\'t
 		return window.sdk.auth.whoami()
 	})
 
-	const balenaOrgCard = await context.server.jellyfish.getCardBySlug(
-		context.context, context.session, 'org-balena', {
-			type: 'org'
-		})
-
-	// Add the community user to the balena org
-	await context.server.jellyfish.insertCard(
-		context.context,
-		context.session,
-		{
-			type: 'link',
-			name: 'has member',
-			slug: `link-${balenaOrgCard.id}--${communityUser.id}`,
-			data: {
-				from: {
-					id: balenaOrgCard.id,
-					type: balenaOrgCard.type
-				},
-				to: {
-					id: communityUser.id,
-					type: communityUser.type
-				},
-				inverseName: 'is member of'
-			}
-		}
-	)
-
+	await context.addUserToBalenaOrg(communityUser.id)
 	await page.reload()
 
 	await macros.waitForThenClickSelector(page, '.home-channel__group-toggle--org-balena')

@@ -60,6 +60,44 @@ exports.server = {
 				})
 			})
 		}
+
+		test.context.addUserToBalenaOrg = async (userId) => {
+			const context = test.context
+			const balenaOrgCard = await context.server.jellyfish.getCardBySlug(
+				context.context, context.session, 'org-balena', {
+					type: 'org'
+				})
+
+			// Add the community user to the balena org
+			await context.server.jellyfish.insertCard(
+				context.context,
+				context.session,
+				{
+					type: 'link',
+					name: 'has member',
+					slug: `link-${balenaOrgCard.id}--${userId}`,
+					data: {
+						from: {
+							id: balenaOrgCard.id,
+							type: balenaOrgCard.type
+						},
+						to: {
+							id: userId,
+							type: 'user'
+						},
+						inverseName: 'is member of'
+					}
+				}
+			)
+		}
+
+		test.context.insertCard = (card) => {
+			return test.context.server.jellyfish.insertCard(
+				test.context.context,
+				test.context.session,
+				card
+			)
+		}
 	},
 
 	afterEach: async (test) => {
