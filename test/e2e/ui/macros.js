@@ -22,6 +22,14 @@ exports.retry = async (times, functionToTry) => {
 	}
 }
 
+exports.makeSelector = (componentName, slug, id) => {
+	return _.uniq([
+		`[data-test-component="${componentName}"]`,
+		slug && `[data-test-slug="${slug}"]`,
+		id && `[data-test-id="${id}"]`
+	]).join('')
+}
+
 exports.signupUser = async (page, user) => {
 	await page.waitForSelector('.login-page', exports.WAIT_OPTS)
 
@@ -82,10 +90,13 @@ exports.createChatMessage = async (page, scopeSelector, messageText) => {
 	await page.type('textarea', messageText)
 	await page.keyboard.press('Enter')
 	await page.waitForSelector(`${scopeSelector} .event-card__message`, exports.WAIT_OPTS)
-	const result = await page.$eval(`${scopeSelector} .event-card__message`, (node) => {
-		// Trim any trailing line feeds
-		return node.innerText.trim()
-	})
+}
 
-	return result
+exports.getElementText = async (page, selector) => {
+	await page.waitForSelector(selector)
+	const element = await page.$(selector)
+	const text = await page.evaluate((ele) => {
+		return ele.textContent
+	}, element)
+	return text
 }

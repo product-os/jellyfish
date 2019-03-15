@@ -154,7 +154,7 @@ class Event extends React.Component {
 			background: '#eee',
 			borderRadius: 10,
 			padding: '8px 16px',
-			marginRight: 8,
+			marginRight: 80,
 			marginBottom: 8,
 
 			// Min-width is used to stop text from overflowing the flex container, see
@@ -163,6 +163,14 @@ class Event extends React.Component {
 		} : {
 			minWidth: 0
 		}
+
+		if (this.state.actor.proxy) {
+			messageStyle.background = '#f5fcff'
+			messageStyle.padding = '8px 12px'
+			messageStyle.margin = '0 8px 16px 0'
+			messageStyle.borderRadius = 10
+		}
+
 		return (<EventWrapper {...props} className={`event-card--${card.type}`}>
 			<EventButton onClick={this.openChannel} style={{
 				borderLeftColor: helpers.colorHash(getTarget(card).id)
@@ -211,9 +219,12 @@ class Event extends React.Component {
 
 				{isMessage && Boolean(card.data.payload.message) && (
 					<div ref={this.setMessageElement}>
-						<Markdown.Markdown style={{
-							fontSize: 'inherit'
-						}} className="event-card__message">
+						<Markdown.Markdown
+							style={{
+								fontSize: 'inherit'
+							}}
+							className="event-card__message"
+						>
 							{card.data.payload.message}
 						</Markdown.Markdown>
 					</div>

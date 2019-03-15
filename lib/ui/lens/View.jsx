@@ -309,8 +309,11 @@ class ViewRenderer extends React.Component {
 			</rendition.Box>)
 		}
 		const {
-			tail, types
+			types
 		} = this.props
+
+		const tail = _.sortBy(this.props.tail, this.state.options.sortBy)
+
 		const {
 			tailType, lenses, activeLens, activeSlice
 		} = this.state
@@ -368,7 +371,7 @@ class ViewRenderer extends React.Component {
 											return (
 												<rendition.Button
 													key={item.slug}
-													bg={lens && lens.slug === item.slug ? '#333' : false}
+													bg={ lens && lens.slug === item.slug ? '#333' : false}
 													square={true}
 													data-slug={item.slug}
 													onClick={this.setLens}

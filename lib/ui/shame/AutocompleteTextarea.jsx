@@ -3,22 +3,31 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited.
  * Proprietary and confidential.
  */
+
 /* global process */
 /* eslint-disable no-process-env */
-const ReactTextareaAutocomplete = require('@webscopeio/react-textarea-autocomplete/dist/react-textarea-autocomplete.cjs.js')
-const _ = require('lodash')
-const React = require('react')
-const rendition = require('rendition')
-const styledComponents = require('styled-components')
-const core = require('../core')
-const store = require('../core/store')
-const helpers = require('../services/helpers')
-const reactDnD = require('react-dnd')
+import ReactTextareaAutocomplete from '@webscopeio/react-textarea-autocomplete'
+import * as _ from 'lodash'
+import React from 'react'
+import TextareaAutosize from 'react-autosize-textarea'
+import {
+	Box,
+	Card,
+	Link,
+	Theme,
+	Txt
+} from 'rendition'
+import styled from 'styled-components'
+import * as core from '../core'
+import * as store from '../core/store'
+import * as helpers from '../services/helpers'
+import * as reactDnD from 'react-dnd'
 
 // ReactTextareaAutocomplete autocompletion doesn't work with JSDom, so disable
 // it during testing
 const ACTIVE = process.env.NODE_ENV !== 'test'
-const Container = styledComponents.default(rendition.Box) `
+
+const Container = styled(Box) `
 	.rta {
 		position: relative;
 		font-size: 1em;
@@ -46,8 +55,8 @@ const Container = styledComponents.default(rendition.Box) `
 		width: 100%;
 		height: 100%;
 		font-size: 1em;
-		border-radius: ${rendition.Theme.radius}px;
-		border: 1px solid ${rendition.Theme.colors.gray.main};
+		border-radius: ${Theme.radius}px;
+		border: 1px solid ${Theme.colors.gray.main};
 		padding: 8px 16px;
 		resize: vertical;
 		display: block;
@@ -55,7 +64,7 @@ const Container = styledComponents.default(rendition.Box) `
 			box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.1);
 		}
 		&::placeholder {
-			color: ${rendition.Theme.colors.gray.main};
+			color: ${Theme.colors.gray.main};
 		}
 	}
 	.rta__autocomplete {
@@ -222,17 +231,20 @@ const Loader = () => {
 	return <span>Loading</span>
 }
 const QUICK_SEARCH_RE = /^\s*\?[\w_-]+/
+
 const SubAuto = (props) => {
 	const {
 		value, className, onChange, onKeyPress, placeholder
 	} = props
 	const rest = _.omit(props, [ 'value', 'className', 'onChange', 'onKeyPress', 'placeholder' ])
-	const rows = Math.min((value || '').split('\n').length, 10)
 	return (
 		<Container {...rest}>
 			<ReactTextareaAutocomplete
+				textAreaComponent={{
+					component: TextareaAutosize,
+					ref: 'innerRef'
+				}}
 				className={className}
-				rows={rows || 1}
 				value={value}
 				onChange={onChange}
 				onKeyPress={onKeyPress}
@@ -243,30 +255,35 @@ const SubAuto = (props) => {
 		</Container>
 	)
 }
+
 const cardSource = {
 	beginDrag (props) {
 		return props.card
 	}
 }
+
 const collect = (connect, monitor) => {
 	return {
 		connectDragSource: connect.dragSource(),
 		isDragging: monitor.isDragging()
 	}
 }
+
 class QuickSearchItem extends React.Component {
 	render () {
 		const {
 			card, connectDragSource, onClick
 		} = this.props
 		return connectDragSource(<span>
-			<rendition.Link onClick={onClick}>
+			<Link onClick={onClick}>
 				{card.name || card.slug || card.id}
-			</rendition.Link>
+			</Link>
 		</span>)
 	}
 }
+
 const ConnectedQuickSearchItem = reactDnD.DragSource('channel', cardSource, collect)(QuickSearchItem)
+
 class AutoCompleteArea extends React.Component {
 	constructor (props) {
 		super(props)
@@ -352,7 +369,7 @@ class AutoCompleteArea extends React.Component {
 					{...rest}
 				/>
 
-				{this.state.showQuickSearchPanel && (<rendition.Card p={3} style={{
+				{this.state.showQuickSearchPanel && (<Card p={3} style={{
 					position: 'fixed',
 					background: 'white',
 					bottom: 80,
@@ -361,9 +378,9 @@ class AutoCompleteArea extends React.Component {
 					maxHeight: '75%',
 					overflow: 'auto'
 				}}>
-					<rendition.Txt mb={2}><strong>Quick search results</strong></rendition.Txt>
+					<Txt mb={2}><strong>Quick search results</strong></Txt>
 					{!this.state.results && (<i className="fas fa-cog fa-spin"/>)}
-					{this.state.results && this.state.results.length === 0 && (<rendition.Txt>No results found</rendition.Txt>)}
+					{this.state.results && this.state.results.length === 0 && (<Txt>No results found</Txt>)}
 					{_.map(this.state.results, (card) => {
 						return (<div key={card.id}>
 							<ConnectedQuickSearchItem card={card} onClick={() => {
@@ -379,9 +396,10 @@ class AutoCompleteArea extends React.Component {
 							}}/>
 						</div>)
 					})}
-				</rendition.Card>)}
+				</Card>)}
 			</React.Fragment>
 		)
 	}
 }
-exports.default = AutoCompleteArea
+
+export default AutoCompleteArea

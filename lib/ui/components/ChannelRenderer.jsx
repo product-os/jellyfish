@@ -78,7 +78,7 @@ class ChannelRenderer extends React.Component {
 		const lens = lensService.default.getLens(channel.data.head)
 
 		return (
-			<ErrorBoundary.ErrorBoundary>
+			<ErrorBoundary.ErrorBoundary style={style}>
 				{connectDropTarget(<div style={style}>
 					<lens.data.renderer card={channel.data.head} level={0} {...this.props}/>
 				</div>)}

@@ -255,6 +255,7 @@ start-postgres: postgres_data
 # Development
 # -----------------------------------------------
 
+dev-ui: NODE_ENV = development
 dev-ui:
 	./node_modules/.bin/webpack-dev-server --color
 

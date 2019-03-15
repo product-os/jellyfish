@@ -171,7 +171,8 @@ class Interleaved extends React.Component {
 		const {
 			messagesOnly
 		} = this.state
-		const tail = this.props.tail ? _.reverse(this.props.tail.slice()) : null
+		const tail = this.props.tail || null
+
 		return (
 			<Column
 				flex="1"

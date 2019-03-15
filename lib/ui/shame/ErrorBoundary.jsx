@@ -67,10 +67,12 @@ class ErrorBoundary extends React.Component {
 	}
 	render () {
 		if (this.state.hasError) {
-			return (<IconWrapper>
-				<h1>Oh no, Something went wrong!</h1>
-				<rendition.Img src="/icons/dead-jellyfish.svg"/>
-			</IconWrapper>)
+			return (
+				<IconWrapper style={this.props.style}>
+					<h1>Oh no, Something went wrong!</h1>
+					<rendition.Img src="/icons/dead-jellyfish.svg"/>
+				</IconWrapper>
+			)
 		}
 		return this.props.children
 	}

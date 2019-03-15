@@ -89,7 +89,7 @@ class ViewLinkBase extends React.Component {
 						py={2}
 						pl={3}
 						pr={isActive ? 0 : 3}
-						color={isActive && !activeSlice ? '#333' : false}
+						color={isActive && !activeSlice ? '#333' : ''}
 						onClick={() => {
 							return this.open()
 						}}
@@ -162,7 +162,7 @@ class ViewLinkBase extends React.Component {
 												py={2}
 												pr={3}
 												pl={4}
-												color={isActiveSlice ? '#333' : false}
+												color={isActiveSlice ? '#333' : ''}
 												onClick={() => {
 													return this.open({
 														slice: {
