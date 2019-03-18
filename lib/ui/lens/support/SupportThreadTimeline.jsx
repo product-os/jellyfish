@@ -11,7 +11,7 @@ const {
 } = require('react-redux')
 const redux = require('redux')
 const rendition = require('rendition')
-const Event = require('../../components/Event')
+const Event = require('../../components/Event').default
 const core = require('../../core')
 const store = require('../../core/store')
 const helpers = require('../../services/helpers')
@@ -25,7 +25,7 @@ const getTargetId = (card) => {
 }
 
 // Default renderer for a card and a timeline
-class Renderer extends React.Component {
+class SupportThreadTimelineRenderer extends React.Component {
 	constructor (props) {
 		super(props)
 		this.shouldScroll = true
@@ -221,7 +221,7 @@ class Renderer extends React.Component {
 				{(Boolean(sortedTail) && sortedTail.length > 0) && _.map(sortedTail, (card) => {
 					return (
 						<rendition.Box key={card.id}>
-							<Event.Event
+							<Event
 								openChannel={getTargetId(card) === channelTarget ? false : this.openChannel}
 								card={card}
 							/>
@@ -241,16 +241,28 @@ class Renderer extends React.Component {
 						<Icon.default name={whisper ? 'eye-slash' : 'eye'}/>
 					</rendition.Button>
 
-					<rendition.Box flex="1">
+					<rendition.Box
+						flex="1"
+						pt={3}
+						pb={2}
+						pr={3}
+					>
 						<AutocompleteTextarea.default
-							py={3}
-							pr={3}
 							className="new-message-input"
 							value={this.state.newMessage}
 							onChange={this.handleNewMessageChange}
 							onTextSubmit={this.handleNewMessageSubmit}
 							placeholder={whisper ? 'Type your comment...' : 'Type your reply...'}
 						/>
+						<rendition.Txt
+							style={{
+								textAlign: 'right',
+								opacity: 0.75
+							}}
+							fontSize={11}
+						>
+							Press shift + enter to send
+						</rendition.Txt>
 					</rendition.Box>
 
 					<rendition.Button
@@ -278,7 +290,7 @@ class Renderer extends React.Component {
 		</Column>)
 	}
 }
-exports.Renderer = Renderer
+exports.Renderer = SupportThreadTimelineRenderer
 const mapStateToProps = (state) => {
 	return {
 		allUsers: store.selectors.getAllUsers(state),
@@ -297,7 +309,7 @@ const lens = {
 	name: 'Timeline lens',
 	data: {
 		icon: 'address-card',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(Renderer),
+		renderer: connect(mapStateToProps, mapDispatchToProps)(SupportThreadTimelineRenderer),
 
 		// This lens can display event-like objects
 		filter: {

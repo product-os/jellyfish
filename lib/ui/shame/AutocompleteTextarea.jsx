@@ -333,9 +333,9 @@ class AutoCompleteArea extends React.Component {
 			}
 		}
 		this.handleOnKeyPress = (event) => {
-			// If the Enter key is pressed without the shift modifier, run the submit
+			// If the Enter key is pressed with the shift modifier, run the submit
 			// callback
-			if (event.key === 'Enter' && !event.shiftKey && this.props.onTextSubmit) {
+			if (event.key === 'Enter' && event.shiftKey && this.props.onTextSubmit) {
 				this.props.onTextSubmit(event)
 			}
 		}

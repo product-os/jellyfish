@@ -12,9 +12,7 @@ const React = require('react')
 const {
 	Provider
 } = require('rendition')
-const {
-	Event
-} = require('../../../../lib/ui/components/Event.jsx')
+const Event = require('../../../../lib/ui/components/Event.jsx').default
 
 ava('Event component should highlight usernames in messages', (test) => {
 	const card = {

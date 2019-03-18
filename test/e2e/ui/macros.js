@@ -88,7 +88,9 @@ exports.waitForThenClickSelector = async (page, selector) => {
 exports.createChatMessage = async (page, scopeSelector, messageText) => {
 	await page.waitForSelector('.new-message-input', exports.WAIT_OPTS)
 	await page.type('textarea', messageText)
+	await page.keyboard.down('Shift')
 	await page.keyboard.press('Enter')
+	await page.keyboard.up('Shift')
 	await page.waitForSelector(`${scopeSelector} .event-card__message`, exports.WAIT_OPTS)
 }
 
