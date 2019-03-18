@@ -14,6 +14,7 @@ const jsonschema2sql = require('../../../../../../lib/core/backend/postgres/json
 const cards = require('../../../../../../lib/core/backend/postgres/cards')
 const links = require('../../../../../../lib/core/backend/postgres/links')
 const errors = require('../../../../../../lib/core/errors')
+const regexpTestSuite = require('./regexp')
 const IS_POSTGRES = environment.database.type === 'postgres'
 
 /*
@@ -62,8 +63,10 @@ const SUPPORTED_SUITES = [
 	// ref
 	// refRemote
 	'required',
-	'type'
+	'type',
 	// uniqueItems
+
+	'regexp'
 ]
 /* eslint-enable capitalized-comments, lines-around-comment */
 
@@ -162,10 +165,22 @@ ava.before(async (test) => {
 })
 
 /*
+ * Load the standard set of draft6 tests
+ */
+const testSuites = jsonSchemaTestSuite.draft6()
+
+/*
+ * Add a test suite for the non-standard key word "regexp" that is used by the
+ * client for doing case insensitive pattern matching.
+ * see: https://github.com/epoberezkin/ajv-keywords#regexp
+ */
+testSuites.push(regexpTestSuite)
+
+/*
  * The JSON Schema tests are divided in suites, where
  * each of them corresponds to a JSON Schema keyword.
  */
-for (const suite of jsonSchemaTestSuite.draft6()) {
+for (const suite of testSuites) {
 	/*
 	 * Each suite is then divided in scenarios, which
 	 * describe an object, along with a series of schemas
@@ -177,6 +192,7 @@ for (const suite of jsonSchemaTestSuite.draft6()) {
 		 * flag to determine whether it should match or
 		 * not the scenario's object.
 		 */
+		console.log(scenario)
 		for (const testCase of scenario.tests) {
 			/*
 			 * We will execute each test case in a different
