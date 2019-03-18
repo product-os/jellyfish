@@ -11,7 +11,7 @@ const {
 } = require('react-redux')
 const redux = require('redux')
 const rendition = require('rendition')
-const Event = require('../components/Event')
+const Event = require('../components/Event').default
 const core = require('../core')
 const store = require('../core/store')
 const helpers = require('../services/helpers')
@@ -211,7 +211,7 @@ class Renderer extends React.Component {
 				{(Boolean(sortedTail) && sortedTail.length > 0) && _.map(sortedTail, (item) => {
 					return (
 						<rendition.Box key={item.id}>
-							<Event.Event
+							<Event
 								openChannel={getTargetId(item) === channelTarget ? false : this.openChannel}
 								card={item}
 							/>

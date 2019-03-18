@@ -17,7 +17,7 @@ const rendition = require('rendition')
 const styledComponents = require('styled-components')
 const CardActions = require('../../components/CardActions')
 const CardField = require('../../components/CardField').default
-const Event = require('../../components/Event')
+const Event = require('../../components/Event').default
 const Label = require('../../components/Label')
 const Tag = require('../../components/Tag')
 const core = require('../../core')
@@ -252,7 +252,7 @@ class SupportThreadBase extends React.Component {
 							{this.state.showHighlights && (<Extract py={2}>
 								{_.map(highlights, (statusEvent) => {
 									return (
-										<Event.Event key={statusEvent.id} card={statusEvent} mb={1}/>
+										<Event key={statusEvent.id} card={statusEvent} mb={1}/>
 									)
 								})}
 							</Extract>)}

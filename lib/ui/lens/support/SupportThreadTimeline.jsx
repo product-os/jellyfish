@@ -11,7 +11,7 @@ const {
 } = require('react-redux')
 const redux = require('redux')
 const rendition = require('rendition')
-const Event = require('../../components/Event')
+const Event = require('../../components/Event').default
 const core = require('../../core')
 const store = require('../../core/store')
 const helpers = require('../../services/helpers')
@@ -25,7 +25,7 @@ const getTargetId = (card) => {
 }
 
 // Default renderer for a card and a timeline
-class Renderer extends React.Component {
+class SupportThreadTimelineRenderer extends React.Component {
 	constructor (props) {
 		super(props)
 		this.shouldScroll = true
@@ -221,7 +221,7 @@ class Renderer extends React.Component {
 				{(Boolean(sortedTail) && sortedTail.length > 0) && _.map(sortedTail, (card) => {
 					return (
 						<rendition.Box key={card.id}>
-							<Event.Event
+							<Event
 								openChannel={getTargetId(card) === channelTarget ? false : this.openChannel}
 								card={card}
 							/>
@@ -278,7 +278,7 @@ class Renderer extends React.Component {
 		</Column>)
 	}
 }
-exports.Renderer = Renderer
+exports.Renderer = SupportThreadTimelineRenderer
 const mapStateToProps = (state) => {
 	return {
 		allUsers: store.selectors.getAllUsers(state),
@@ -297,7 +297,7 @@ const lens = {
 	name: 'Timeline lens',
 	data: {
 		icon: 'address-card',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(Renderer),
+		renderer: connect(mapStateToProps, mapDispatchToProps)(SupportThreadTimelineRenderer),
 
 		// This lens can display event-like objects
 		filter: {

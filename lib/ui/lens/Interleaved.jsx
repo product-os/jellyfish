@@ -13,7 +13,7 @@ const reactResizeObserver = require('react-resize-observer')
 const redux = require('redux')
 const rendition = require('rendition')
 const uuid = require('uuid/v4')
-const Event = require('../components/Event')
+const Event = require('../components/Event').default
 const core = require('../core')
 const store = require('../core/store')
 const helpers = require('../services/helpers')
@@ -219,7 +219,7 @@ class Interleaved extends React.Component {
 						}
 						return (
 							<rendition.Box key={card.id}>
-								<Event.Event
+								<Event
 									openChannel={getTargetId(card) === channelTarget ? false : this.openChannel}
 									card={card}
 								/>

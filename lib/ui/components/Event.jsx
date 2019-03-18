@@ -4,27 +4,45 @@
  * Proprietary and confidential.
  */
 
-const copy = require('copy-to-clipboard')
-const {
+import copy from 'copy-to-clipboard'
+import {
 	circularDeepEqual
-} = require('fast-equals')
-const _ = require('lodash')
-const Mark = require('mark.js')
-const React = require('react')
-const rendition = require('rendition')
-const Markdown = require('rendition/dist/extra/Markdown')
-const styledComponents = require('styled-components')
-const AuthenticatedImage = require('../components/AuthenticatedImage')
-const ContextMenu = require('../components/ContextMenu')
-const Tag = require('../components/Tag')
-const helpers = require('../services/helpers')
-const storeHelpers = require('../services/store-helpers')
-const ActionLink = require('../shame/ActionLink')
-const Gravatar = require('../shame/Gravatar')
-const Icon = require('../shame/Icon')
-const IconButton = require('../shame/IconButton')
+} from 'fast-equals'
+import _ from 'lodash'
+import Mark from 'mark.js'
+import React from 'react'
+import {
+	Box,
+	Flex,
+	Theme,
+	Txt
+}	from 'rendition'
+import {
+	Markdown
+} from 'rendition/dist/extra/Markdown'
+import styled from 'styled-components'
+import AuthenticatedImage from '../components/AuthenticatedImage'
+import {
+	ContextMenu
+} from '../components/ContextMenu'
+import {
+	Tag
+} from '../components/Tag'
+import helpers from '../services/helpers'
+import {
+	getActor
+} from '../services/store-helpers'
+import {
+	ActionLink
+} from '../shame/ActionLink'
+import Gravatar from '../shame/Gravatar'
+import Icon from '../shame/Icon'
+import {
+	IconButton
+} from '../shame/IconButton'
+
 const tagMatchRE = helpers.createPrefixRegExp('@|#|!')
-const EventButton = styledComponents.default.button `
+const EventButton = styled.button `
 	cursor: pointer;
 	border: 0;
 	background: none;
@@ -42,7 +60,10 @@ const getTarget = (card) => {
 	return _.get(card, [ 'links', 'is attached to', '0' ]) || card
 }
 
-const EventWrapper = styledComponents.default(rendition.Flex) `
+// Min-width is used to stop text from overflowing the flex container, see
+// https://css-tricks.com/flexbox-truncated-text/ for a nice explanation
+const EventWrapper = styled(Flex) `
+	min-width: 0;
 	word-break: break-word;
 
 	.event-card--actions {
@@ -64,6 +85,30 @@ const EventWrapper = styledComponents.default(rendition.Flex) `
 		border-color: #FFC19B;
 	}
 `
+
+const MessageWrapper = styled(Box) `
+	box-shadow: rgba(0, 0, 0, 0.25) 0px 0px 3px;
+	padding: 8px 12px;
+	margin: 0 8px 16px 0;
+	border-radius: 10px;
+`
+
+const ProxyWrapper = styled(Box) `
+	background: #f5fcff;
+	border: 3px solid #d7f3ff;
+	padding: 8px 12px;
+	margin: 0 8px 16px 0;
+	border-radius: 10px;
+`
+
+const WhisperWrapper = styled(Box) `
+	background: #eee;
+	border-radius: 10px;
+	padding: 8px 16px;
+	margin-right: 80px;
+	margin-bottom: 8px;
+`
+
 class Event extends React.Component {
 	constructor (props) {
 		super(props)
@@ -93,17 +138,19 @@ class Event extends React.Component {
 			})
 		}
 		this.state = {
-			actor: storeHelpers.getActor(this.props.card.data.actor),
+			actor: getActor(this.props.card.data.actor),
 			showMenu: false
 		}
 	}
+
 	shouldComponentUpdate (nextProps, nextState) {
-		return !circularDeepEqual(nextState, this.state) ||
-            !circularDeepEqual(nextProps, this.props)
+		return !circularDeepEqual(nextState, this.state) || !circularDeepEqual(nextProps, this.props)
 	}
+
 	componentDidMount () {
 		this.processText()
 	}
+
 	processText () {
 		if (!this.messageElement) {
 			return
@@ -116,21 +163,20 @@ class Event extends React.Component {
 		})
 		const instance = new Mark(this.messageElement)
 
-		// TODO: Update @types/mark.js to include the 'ignoreGroups' options
-		// https://github.com/DefinitelyTyped/DefinitelyTyped/pull/31334
 		instance.markRegExp(tagMatchRE, {
 			element: 'span',
 			className: 'rendition-tag-hl',
 			ignoreGroups: 1
 		})
 	}
+
 	getTimelineElement (card) {
 		const targetCard = _.get(card, [ 'links', 'is attached to', '0' ], {})
 		if (targetCard.type === 'user') {
 			return (
-				<rendition.Txt color={rendition.Theme.colors.text.light}>
+				<Txt color={Theme.colors.text.light}>
 					<strong>{targetCard.slug.replace('user-', '')}</strong> joined
-				</rendition.Txt>
+				</Txt>
 			)
 		}
 		let text = `${targetCard.name || targetCard.slug || targetCard.type || ''}`
@@ -140,105 +186,93 @@ class Event extends React.Component {
 		if (card.type === 'update') {
 			text += ' updated by'
 		}
-		return (<rendition.Txt color={rendition.Theme.colors.text.light}>
+		return (<Txt color={Theme.colors.text.light}>
 			<em>{text}</em> <strong>{this.state.actor.name}</strong>
-		</rendition.Txt>)
+		</Txt>)
 	}
+
 	render () {
 		const {
 			card
 		} = this.props
 		const props = _.omit(this.props, [ 'card', 'openChannel' ])
 		const isMessage = card.type === 'message' || card.type === 'whisper'
-		const messageStyle = card.type === 'whisper' ? {
-			background: '#eee',
-			borderRadius: 10,
-			padding: '8px 16px',
-			marginRight: 80,
-			marginBottom: 8,
 
-			// Min-width is used to stop text from overflowing the flex container, see
-			// https://css-tricks.com/flexbox-truncated-text/ for a nice explanation
-			minWidth: 0
-		} : {
-			minWidth: 0,
-			boxShadow: 'rgba(0, 0, 0, 0.25) 0px 0px 3px',
-			padding: '8px 12px',
-			margin: '0 8px 16px 0',
-			borderRadius: 10
+		let InnerWrapper = MessageWrapper
+		if (card.type === 'whisper') {
+			InnerWrapper = WhisperWrapper
 		}
 
 		if (this.state.actor.proxy) {
-			messageStyle.background = '#f5fcff'
-			messageStyle.border = '3px solid #d7f3ff'
-			messageStyle.padding = '8px 12px'
-			messageStyle.margin = '0 8px 16px 0'
-			messageStyle.borderRadius = 10
+			InnerWrapper = ProxyWrapper
 		}
 
-		return (<EventWrapper {...props} className={`event-card--${card.type}`}>
-			<EventButton onClick={this.openChannel} style={{
-				borderLeftColor: helpers.colorHash(getTarget(card).id)
-			}}>
-				<Gravatar.default small email={this.state.actor.email}/>
-			</EventButton>
-			<rendition.Box flex="1" style={messageStyle} pb={3} pr={3}>
-				<rendition.Flex justify="space-between" mb={2}>
-					<rendition.Flex mt={isMessage ? 0 : '5px'} align="center">
-						{isMessage && (<strong>{this.state.actor.name}</strong>)}
+		return (
+			<EventWrapper {...props} className={`event-card--${card.type}`}>
+				<EventButton onClick={this.openChannel} style={{
+					borderLeftColor: helpers.colorHash(getTarget(card).id)
+				}}>
+					<Gravatar.default small email={this.state.actor.email}/>
+				</EventButton>
+				<InnerWrapper flex="1">
+					<Flex justify="space-between" mb={2}>
+						<Flex mt={isMessage ? 0 : '5px'} align="center">
+							{isMessage && (<strong>{this.state.actor.name}</strong>)}
 
-						{!isMessage && this.getTimelineElement(card)}
+							{!isMessage && this.getTimelineElement(card)}
 
-						{Boolean(card.data) && Boolean(card.data.timestamp) && (
-							<rendition.Txt color={rendition.Theme.colors.text.light} fontSize={1} ml="6px">
-								{helpers.formatTimestamp(card.data.timestamp, true)}
-							</rendition.Txt>
-						)}
-					</rendition.Flex>
+							{Boolean(card.data) && Boolean(card.data.timestamp) && (
+								<Txt color={Theme.colors.text.light} fontSize={1} ml="6px">
+									{helpers.formatTimestamp(card.data.timestamp, true)}
+								</Txt>
+							)}
+						</Flex>
 
-					<span>
-						<IconButton.IconButton
-							className="event-card--actions"
-							px={2}
-							mr={card.type === 'whisper' ? -12 : -1}
-							plaintext
-							onClick={this.toggleMenu}>
-							<Icon.default name="ellipsis-v"/>
+						<span>
+							<IconButton
+								className="event-card--actions"
+								px={2}
+								mr={card.type === 'whisper' ? -12 : -1}
+								plaintext
+								onClick={this.toggleMenu}>
+								<Icon name="ellipsis-v"/>
 
-						</IconButton.IconButton>
+							</IconButton>
 
-						{this.state.showMenu && (
-							<ContextMenu.ContextMenu position="bottom" onClose={this.toggleMenu}>
-								<React.Fragment>
-									<ActionLink.ActionLink onClick={this.copyJSON} tooltip={{
-										text: 'JSON copied!',
-										trigger: 'click'
-									}}>
-												Copy as JSON
-									</ActionLink.ActionLink>
-								</React.Fragment>
-							</ContextMenu.ContextMenu>
-						)}
-					</span>
-				</rendition.Flex>
+							{this.state.showMenu && (
+								<ContextMenu position="bottom" onClose={this.toggleMenu}>
+									<React.Fragment>
+										<ActionLink onClick={this.copyJSON} tooltip={{
+											text: 'JSON copied!',
+											trigger: 'click'
+										}}>
+													Copy as JSON
+										</ActionLink>
+									</React.Fragment>
+								</ContextMenu>
+							)}
+						</span>
+					</Flex>
 
-				{isMessage && Boolean(card.data.payload.message) && (
-					<div ref={this.setMessageElement}>
-						<Markdown.Markdown
-							style={{
-								fontSize: 'inherit'
-							}}
-							className="event-card__message"
-						>
-							{card.data.payload.message}
-						</Markdown.Markdown>
-					</div>
-				)}
-				{isMessage && Boolean(card.data.payload.file) && (
-					<AuthenticatedImage.AuthenticatedImage cardId={card.id} fileName={card.data.payload.file}/>
-				)}
-			</rendition.Box>
-		</EventWrapper>)
+					{isMessage && Boolean(card.data.payload.message) && (
+						<div ref={this.setMessageElement}>
+							<Markdown
+								style={{
+									fontSize: 'inherit'
+								}}
+								className="event-card__message"
+							>
+								{card.data.payload.message}
+							</Markdown>
+						</div>
+					)}
+					{isMessage && Boolean(card.data.payload.file) && (
+						<AuthenticatedImage cardId={card.id} fileName={card.data.payload.file}/>
+					)}
+				</InnerWrapper>
+			</EventWrapper>
+		)
 	}
 }
-exports.Event = Event
+
+export default Event
