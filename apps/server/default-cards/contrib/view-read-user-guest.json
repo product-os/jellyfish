@@ -168,12 +168,6 @@
                   "const": "action-create-session"
                 },
                 {
-                  "const": "action-create-user"
-                },
-                {
-                  "const": "action-create-card"
-                },
-                {
                   "const": "action-update-card"
                 },
                 {

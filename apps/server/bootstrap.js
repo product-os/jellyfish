@@ -69,6 +69,7 @@ module.exports = async (context) => {
 	await webServer.start()
 
 	return {
+		worker,
 		jellyfish,
 		queue,
 		guestSession: results.guestSession.id,

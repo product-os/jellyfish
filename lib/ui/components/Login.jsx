@@ -112,10 +112,6 @@ class Base extends React.Component {
 		return (<React.Fragment>
 			<TopBar.default>
 				<rendition.Img w={70} pl={2} p={10} src="/icons/jellyfish.svg"/>
-
-				<rendition.Button className="login-signup-toggle" mr={3} onClick={this.toggleSignup}>
-					{this.state.showSignup ? 'Log in' : 'Sign up'}
-				</rendition.Button>
 			</TopBar.default>
 
 			<rendition.Container mt={4} className="login-page">

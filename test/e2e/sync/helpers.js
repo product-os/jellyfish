@@ -377,7 +377,7 @@ exports.mirror = {
 			`user-${test.context.username}`, {
 				type: 'user'
 			}) ||
-			await test.context.sdk.auth.signup({
+			await test.context.createUser({
 				username: test.context.username,
 				email: `${test.context.username}@example.com`,
 				password: 'foobarbaz'
