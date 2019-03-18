@@ -4,23 +4,29 @@
  * Proprietary and confidential.
  */
 
-const {
+import {
 	circularDeepEqual
-} = require('fast-equals')
-const _ = require('lodash')
-const React = require('react')
-const {
+} from 'fast-equals'
+import * as _ from 'lodash'
+import React from 'react'
+import {
 	connect
-} = require('react-redux')
-const redux = require('redux')
-const rendition = require('rendition')
-const If = require('../components/If')
-const core = require('../core')
-const store = require('../core/store')
-const helpers = require('../services/helpers')
-const index = require('./index')
-const ButtonGroup = require('../shame/ButtonGroup')
-const Icon = require('../shame/Icon')
+} from 'react-redux'
+import * as redux from 'redux'
+import {
+	Box,
+	Button,
+	Filters,
+	Flex,
+	SchemaSieve
+} from 'rendition'
+import * as core from '../core'
+import * as store from '../core/store'
+import * as helpers from '../services/helpers'
+import LensService from './'
+import ButtonGroup from '../shame/ButtonGroup'
+import Icon from '../shame/Icon'
+
 const USER_FILTER_NAME = 'user-generated-filter'
 
 const createSyntheticViewCard = (view, filters) => {
@@ -45,83 +51,6 @@ const createSyntheticViewCard = (view, filters) => {
 class ViewRenderer extends React.Component {
 	constructor (props) {
 		super(props)
-		this.saveView = ([ view ]) => {
-			core.sdk.card.create(this.createView(view))
-				.then((card) => {
-					core.analytics.track('element.create', {
-						element: {
-							type: 'view'
-						}
-					})
-					this.props.actions.addChannel(helpers.createChannel({
-						cardType: 'view',
-						target: card.id,
-						head: card,
-						parentChannel: this.props.channels[0].id
-					}))
-				})
-				.catch((error) => {
-					this.props.actions.addNotification('danger', error.message)
-				})
-		}
-		this.updateFilters = _.debounce((filters) => {
-			const {
-				head
-			} = this.props.channel.data
-			if (head) {
-				this.loadViewWithFilters(head, filters)
-			}
-			this.setState({
-				filters
-			})
-		}, 350)
-		this.setLens = (event) => {
-			const slug = event.currentTarget.dataset.slug
-			const lens = _.find(this.state.lenses, {
-				slug
-			})
-			if (!lens) {
-				return
-			}
-			this.setState({
-				activeLens: lens.slug
-			})
-		}
-		this.setSlice = (event) => {
-			const slug = event.target.value
-			this.setState({
-				activeSlice: slug
-			})
-		}
-		this.setPage = async (page) => {
-			const {
-				channel
-			} = this.props
-			if (page + 1 >= this.state.options.totalPages) {
-				return
-			}
-			const options = _.merge(this.state.options, {
-				page
-			})
-			if (!channel) {
-				return
-			}
-			this.setState({
-				options
-			})
-			const syntheticViewCard = createSyntheticViewCard(channel.data.head, this.state.filters)
-			const data = await this.props.actions.loadViewResults(
-				syntheticViewCard,
-				this.getQueryOptions(this.state.activeLens)
-			)
-			if (data.length < this.state.options.limit) {
-				this.setState({
-					options: Object.assign(this.state.options, {
-						totalPages: this.state.options.page + 1
-					})
-				})
-			}
-		}
 
 		this.state = {
 			filters: [],
@@ -138,10 +67,107 @@ class ViewRenderer extends React.Component {
 				sortDir: 'desc'
 			}
 		}
+
+		const methods = [
+			'saveView',
+			'setLens',
+			'setPage',
+			'setSlice',
+			'updateFilters'
+		]
+		methods.forEach((method) => {
+			this[method] = this[method].bind(this)
+		})
+
+		this.updateFilters = _.debounce(this.updateFilters, 350)
 	}
+
+	saveView ([ view ]) {
+		core.sdk.card.create(this.createView(view))
+			.then((card) => {
+				core.analytics.track('element.create', {
+					element: {
+						type: 'view'
+					}
+				})
+				this.props.actions.addChannel(helpers.createChannel({
+					cardType: 'view',
+					target: card.id,
+					head: card,
+					parentChannel: this.props.channels[0].id
+				}))
+			})
+			.catch((error) => {
+				this.props.actions.addNotification('danger', error.message)
+			})
+	}
+
+	updateFilters (filters) {
+		const {
+			head
+		} = this.props.channel.data
+		if (head) {
+			this.loadViewWithFilters(head, filters)
+		}
+		this.setState({
+			filters
+		})
+	}
+
+	setLens (event) {
+		const slug = event.currentTarget.dataset.slug
+		const lens = _.find(this.state.lenses, {
+			slug
+		})
+		if (!lens) {
+			return
+		}
+		this.setState({
+			activeLens: lens.slug
+		})
+	}
+
+	setSlice (event) {
+		const slug = event.target.value
+		this.setState({
+			activeSlice: slug
+		})
+	}
+
+	async setPage (page) {
+		const {
+			channel
+		} = this.props
+		if (page + 1 >= this.state.options.totalPages) {
+			return
+		}
+		const options = _.merge(this.state.options, {
+			page
+		})
+		if (!channel) {
+			return
+		}
+		this.setState({
+			options
+		})
+		const syntheticViewCard = createSyntheticViewCard(channel.data.head, this.state.filters)
+		const data = await this.props.actions.loadViewResults(
+			syntheticViewCard,
+			this.getQueryOptions(this.state.activeLens)
+		)
+		if (data.length < this.state.options.limit) {
+			this.setState({
+				options: Object.assign(this.state.options, {
+					totalPages: this.state.options.page + 1
+				})
+			})
+		}
+	}
+
 	componentDidMount () {
 		this.bootstrap(this.props.channel)
 	}
+
 	bootstrap (channel) {
 		const {
 			head, options
@@ -160,7 +186,7 @@ class ViewRenderer extends React.Component {
 			: []
 		const lenses = _.chain(head)
 			.get([ 'data', 'lenses' ])
-			.map((slug) => { return index.default.getLensBySlug(slug) })
+			.map((slug) => { return LensService.default.getLensBySlug(slug) })
 			.compact()
 			.value()
 		const tailType = _.find(this.props.types, {
@@ -226,6 +252,7 @@ class ViewRenderer extends React.Component {
 
 		return options
 	}
+
 	componentWillReceiveProps (nextProps) {
 		// TODO: Get an actual total count from the API
 		if (nextProps.tail && nextProps.tail.length < 20) {
@@ -283,7 +310,7 @@ class ViewRenderer extends React.Component {
 		view.filters.forEach((filter) => {
 			newView.data.allOf.push({
 				name: USER_FILTER_NAME,
-				schema: _.assign(rendition.SchemaSieve.unflattenSchema(filter), {
+				schema: _.assign(SchemaSieve.unflattenSchema(filter), {
 					type: 'object'
 				})
 			})
@@ -304,9 +331,9 @@ class ViewRenderer extends React.Component {
 			head
 		} = this.props.channel.data
 		if (!this.state.ready || !head || _.isEmpty(head.data)) {
-			return (<rendition.Box p={3}>
+			return (<Box p={3}>
 				<i className="fas fa-cog fa-spin"/>
-			</rendition.Box>)
+			</Box>)
 		}
 		const {
 			types
@@ -338,7 +365,7 @@ class ViewRenderer extends React.Component {
 		})
 
 		return (
-			<rendition.Flex
+			<Flex
 				flex={this.props.flex}
 				className={`column--${head ? head.slug || head.type : 'unknown'}`}
 				flexDirection="column"
@@ -346,46 +373,46 @@ class ViewRenderer extends React.Component {
 					height: '100%', overflowY: 'auto', position: 'relative'
 				}}
 			>
-				<If.If condition={Boolean(head)}>
-					<rendition.Box>
-						<rendition.Flex mt={3} justify="space-between">
-							<rendition.Box flex="1" mx={3}>
-								<If.If condition={useFilters}>
-									<rendition.Box mt={0} flex="1 0 auto">
-										<rendition.Filters
+				{Boolean(head) && (
+					<Box>
+						<Flex mt={3} justify="space-between">
+							<Box flex="1" mx={3}>
+								{useFilters && (
+									<Box mt={0} flex="1 0 auto">
+										<Filters
 											schema={schemaForFilters}
 											filters={this.state.filters}
 											onFiltersUpdate={this.updateFilters}
 											onViewsUpdate={this.saveView}
 											renderMode={[ 'add', 'search' ]}
 										/>
-									</rendition.Box>
+									</Box>
+								)}
+							</Box>
 
-								</If.If>
-							</rendition.Box>
-
-							<rendition.Flex mx={3}>
-								<If.If condition={this.state.lenses.length > 1 && Boolean(lens)}>
-									<ButtonGroup.default>
+							<Flex mx={3}>
+								{this.state.lenses.length > 1 && Boolean(lens) && (
+									<ButtonGroup>
 										{_.map(this.state.lenses, (item) => {
 											return (
-												<rendition.Button
+												<Button
 													key={item.slug}
 													bg={ lens && lens.slug === item.slug ? '#333' : false}
 													square={true}
 													data-slug={item.slug}
 													onClick={this.setLens}
 												>
-													<Icon.default name={item.data.icon}/>
-												</rendition.Button>
+													<Icon name={item.data.icon}/>
+												</Button>
 											)
 										})}
-									</ButtonGroup.default>
-								</If.If>
+									</ButtonGroup>
+								)}
+
 								{slices && slices.length > 0 && lensSupportsSlices &&
-							<rendition.Box ml={3}>
+							<Box ml={3}>
 											Slice by:
-								<rendition.Select
+								<Select
 									ml={2}
 									value={activeSlice}
 									onChange={lensSupportsSlices ? this.setSlice : _.noop}
@@ -395,33 +422,33 @@ class ViewRenderer extends React.Component {
 											{slice.title}
 										</option>)
 									})}
-								</rendition.Select>
-							</rendition.Box>}
-							</rendition.Flex>
-						</rendition.Flex>
+								</Select>
+							</Box>}
+							</Flex>
+						</Flex>
 
-						<If.If condition={useFilters && this.state.filters.length > 0}>
-							<rendition.Box flex="1 0 auto" mb={3} mx={3}>
-								<rendition.Filters
+						{useFilters && this.state.filters.length > 0 && (
+							<Box flex="1 0 auto" mb={3} mx={3}>
+								<Filters
 									schema={schemaForFilters}
 									filters={this.state.filters}
 									onFiltersUpdate={this.updateFilters}
 									onViewsUpdate={this.saveView}
 									renderMode={[ 'summary' ]}
 								/>
-							</rendition.Box>
-						</If.If>
-					</rendition.Box>
-				</If.If>
+							</Box>
+						)}
+					</Box>
+				)}
 
-				<rendition.Flex style={{
+				<Flex style={{
 					height: '100%', minHeight: 0
 				}}>
-					<If.If condition={!tail}>
-						<rendition.Box p={3}>
-							<Icon.default name="cog fa-spin"/>
-						</rendition.Box>
-					</If.If>
+					{!tail && (
+						<Box p={3}>
+							<Icon name="cog fa-spin"/>
+						</Box>
+					)}
 
 					{Boolean(tail) && Boolean(lens) && (
 						<lens.data.renderer
@@ -433,11 +460,12 @@ class ViewRenderer extends React.Component {
 							type={tailType}
 						/>
 					)}
-				</rendition.Flex>
-			</rendition.Flex>
+				</Flex>
+			</Flex>
 		)
 	}
 }
+
 const mapStateToProps = (state, ownProps) => {
 	const target = ownProps.channel.data.target
 	return {
@@ -447,11 +475,13 @@ const mapStateToProps = (state, ownProps) => {
 		user: store.selectors.getCurrentUser(state)
 	}
 }
+
 const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: redux.bindActionCreators(store.actionCreators, dispatch)
 	}
 }
+
 const lens = {
 	slug: 'lens-view',
 	type: 'lens',
@@ -471,4 +501,5 @@ const lens = {
 		}
 	}
 }
-exports.default = lens
+
+export default lens
