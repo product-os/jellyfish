@@ -161,11 +161,16 @@ class Event extends React.Component {
 			// https://css-tricks.com/flexbox-truncated-text/ for a nice explanation
 			minWidth: 0
 		} : {
-			minWidth: 0
+			minWidth: 0,
+			boxShadow: 'rgba(0, 0, 0, 0.25) 0px 0px 3px',
+			padding: '8px 12px',
+			margin: '0 8px 16px 0',
+			borderRadius: 10
 		}
 
 		if (this.state.actor.proxy) {
 			messageStyle.background = '#f5fcff'
+			messageStyle.border = '3px solid #d7f3ff'
 			messageStyle.padding = '8px 12px'
 			messageStyle.margin = '0 8px 16px 0'
 			messageStyle.borderRadius = 10
