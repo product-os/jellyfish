@@ -241,16 +241,28 @@ class SupportThreadTimelineRenderer extends React.Component {
 						<Icon.default name={whisper ? 'eye-slash' : 'eye'}/>
 					</rendition.Button>
 
-					<rendition.Box flex="1">
+					<rendition.Box
+						flex="1"
+						pt={3}
+						pb={2}
+						pr={3}
+					>
 						<AutocompleteTextarea.default
-							py={3}
-							pr={3}
 							className="new-message-input"
 							value={this.state.newMessage}
 							onChange={this.handleNewMessageChange}
 							onTextSubmit={this.handleNewMessageSubmit}
 							placeholder={whisper ? 'Type your comment...' : 'Type your reply...'}
 						/>
+						<rendition.Txt
+							style={{
+								textAlign: 'right',
+								opacity: 0.75
+							}}
+							fontSize={11}
+						>
+							Press shift + enter to send
+						</rendition.Txt>
 					</rendition.Box>
 
 					<rendition.Button

@@ -226,15 +226,24 @@ class Renderer extends React.Component {
 						borderTop: '1px solid #eee'
 					}}
 				>
-					<AutocompleteTextarea.default
-						p={3}
-						flex="1"
-						className="new-message-input"
-						value={this.state.newMessage}
-						onChange={this.handleNewMessageChange}
-						onTextSubmit={this.handleNewMessageSubmit}
-						placeholder="Type to comment on this thread..."
-					/>
+					<rendition.Box flex="1" px={3} pt={3} pb={2}>
+						<AutocompleteTextarea.default
+							className="new-message-input"
+							value={this.state.newMessage}
+							onChange={this.handleNewMessageChange}
+							onTextSubmit={this.handleNewMessageSubmit}
+							placeholder="Type to comment on this thread..."
+						/>
+						<rendition.Txt
+							style={{
+								textAlign: 'right',
+								opacity: 0.75
+							}}
+							fontSize={11}
+						>
+							Press shift + enter to send
+						</rendition.Txt>
+					</rendition.Box>
 
 					<rendition.Button square mr={3} mt={3} onClick={this.handleUploadButtonClick}>
 						<Icon.default name="image"/>
