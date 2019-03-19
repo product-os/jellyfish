@@ -55,6 +55,10 @@ const config = {
 		port: 9000
 	},
 
+	node: {
+		fs: 'empty'
+	},
+
 	plugins: [
 		new CopyWebpackPlugin([
 			{

@@ -16,10 +16,11 @@ import * as redux from 'redux'
 import {
 	Box,
 	Button,
-	Filters,
 	Flex,
-	SchemaSieve
+	SchemaSieve,
+	Select
 } from 'rendition'
+import Filters from '../components/Filters'
 import * as core from '../core'
 import * as store from '../core/store'
 import * as helpers from '../services/helpers'
@@ -29,6 +30,8 @@ import Icon from '../shame/Icon'
 
 const USER_FILTER_NAME = 'user-generated-filter'
 
+const TIMELINE_FILTER_PROP = '$$links'
+
 const createSyntheticViewCard = (view, filters) => {
 	const syntheticViewCard = _.cloneDeep(view)
 	const originalFilters = view
@@ -37,14 +40,37 @@ const createSyntheticViewCard = (view, filters) => {
 		})
 		: []
 	syntheticViewCard.data.allOf = originalFilters
+
+	// If the filter users the timeline filter prop, add a $$links expression to
+	// additionally filter by the timeline
+	// TODO: Make the filters component generate $$links statements natively
 	filters.forEach((filter) => {
-		syntheticViewCard.data.allOf.push({
-			name: USER_FILTER_NAME,
-			schema: _.assign(_.omit(filter, '$id'), {
+		const linkSchema = _.get(filter, [ 'anyOf', '0', 'properties', TIMELINE_FILTER_PROP ])
+		const schema = linkSchema
+			? {
+				$$links: {
+					'has attached element': linkSchema
+				}
+			}
+			: _.assign(_.omit(filter, '$id'), {
 				type: 'object'
 			})
+
+		// $$link queries don't work with full text search as they `anyOf` logic
+		// can't express the query on timeline elements, so the subschema has to be
+		// stripped from the full text search query schema
+		if (schema.title === 'full_text_search') {
+			schema.anyOf[0].anyOf = schema.anyOf[0].anyOf.filter((item) => {
+				return !item.properties.$$links
+			})
+		}
+
+		syntheticViewCard.data.allOf.push({
+			name: USER_FILTER_NAME,
+			schema
 		})
 	})
+
 	return syntheticViewCard
 }
 
@@ -362,6 +388,30 @@ class ViewRenderer extends React.Component {
 			title: 'Last updated',
 			type: 'string',
 			format: 'date-time'
+		})
+
+		// Add the timeline link prop to spoof the filters component into generating
+		// subschemas for the $$links property - see the createSyntheticViewCard()
+		// method for how we unpack the filters
+		_.set(schemaForFilters, [ 'properties', TIMELINE_FILTER_PROP ], {
+			title: 'Timeline',
+			type: 'object',
+			properties: {
+				data: {
+					type: 'object',
+					properties: {
+						payload: {
+							type: 'object',
+							properties: {
+								message: {
+									title: 'Timeline message',
+									type: 'string'
+								}
+							}
+						}
+					}
+				}
+			}
 		})
 
 		return (
