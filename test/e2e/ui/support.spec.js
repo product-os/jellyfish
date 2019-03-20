@@ -91,3 +91,50 @@ ava.serial('Updates to support threads should be reflected in the support thread
 
 	test.is(rand, messageText)
 })
+
+ava.serial('You should be able to link support threads to existing support issues', async (test) => {
+	const {
+		page
+	} = context
+	const name = `test-support-issue-${randomstring.generate().toLowerCase()}`
+
+	const supportIssue = await page.evaluate((cardName) => {
+		return window.sdk.card.create({
+			type: 'support-issue',
+			name: cardName
+		})
+	}, name)
+
+	await page.waitForSelector('[data-test="card-linker-action"]')
+	await page.click('[data-test="card-linker-action"]')
+
+	await page.waitForSelector('[data-test="card-linker-action--existing"]')
+	await page.click('[data-test="card-linker-action--existing"]')
+
+	await page.waitForSelector('[data-test="card-linker--existing__input"]')
+	await page.click('[data-test="card-linker--existing__input"]')
+
+	await page.type('#react-select-2-input', name)
+
+	await page.waitForSelector('#react-select-2-option-0')
+
+	await page.keyboard.press('Enter')
+
+	await page.click('[data-test="card-linker--existing__submit"]')
+
+	await page.waitForSelector('[data-test="support-thread__expand"]')
+	await page.click('[data-test="support-thread__expand"]')
+
+	await page.waitForSelector('[data-test="support-thread__linked-support-issue"]')
+
+	const issueWithLinks = await page.evaluate((card) => {
+		return window.sdk.card.get(card.id, {
+			type: 'support-issue'
+		})
+	}, supportIssue)
+
+	test.is(
+		issueWithLinks.links['support issue has attached support thread'][0].type,
+		'support-thread'
+	)
+})

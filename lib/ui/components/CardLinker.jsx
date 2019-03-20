@@ -77,13 +77,14 @@ class CardLinker extends React.Component {
 				card
 			} = this.props
 			const {
-				selectedTypeTarget
+				selectedTypeTarget,
+				selectedTarget
 			} = this.state
-			if (!selectedTypeTarget) {
+			if (!selectedTypeTarget || !selectedTarget) {
 				return
 			}
 			const linkName = constants.LINKS[card.type][selectedTypeTarget.slug]
-			link.createLink(this.props.card, selectedTypeTarget, linkName)
+			link.createLink(this.props.card, selectedTarget, linkName)
 			this.setState({
 				showLinkModal: false
 			})
@@ -162,23 +163,44 @@ class CardLinker extends React.Component {
 		} : null
 		return (<React.Fragment>
 			<span>
-				<IconButton.IconButton plaintext square={true} onClick={this.toggleMenu} tooltip={{
-					placement: 'left',
-					text: `Link this ${typeName} to another element`
-				}}>
+				<IconButton.IconButton
+					data-test="card-linker-action"
+					plaintext
+					square={true}
+					onClick={this.toggleMenu}
+					tooltip={{
+						placement: 'left',
+						text: `Link this ${typeName} to another element`
+					}}
+				>
 					<Icon.default name="bezier-curve"/>
 				</IconButton.IconButton>
 
 				{this.state.showMenu && (
-					<ContextMenu.ContextMenu position="bottom" onClose={this.toggleMenu}>
-						<rendition.Button style={{
-							display: 'block'
-						}} mb={2} plaintext onClick={this.openLinkModal}>
+					<ContextMenu.ContextMenu
+						position="bottom"
+						onClose={this.toggleMenu}
+					>
+						<rendition.Button
+							style={{
+								display: 'block'
+							}}
+							mb={2}
+							plaintext
+							onClick={this.openLinkModal}
+							data-test="card-linker-action--existing"
+						>
 							Link to existing element
 						</rendition.Button>
-						<rendition.Button style={{
-							display: 'block'
-						}} plaintext onClick={this.openCreateChannel}>
+
+						<rendition.Button
+							style={{
+								display: 'block'
+							}}
+							plaintext
+							onClick={this.openCreateChannel}
+							data-test="card-linker-action--new"
+						>
 							Create a new element to link to
 						</rendition.Button>
 					</ContextMenu.ContextMenu>
@@ -190,13 +212,14 @@ class CardLinker extends React.Component {
 					title={`Link this ${typeName} to another element`}
 					cancel={this.hideLinkModal}
 					primaryButtonProps={{
-						disabled: !selectedTypeTarget
+						disabled: !selectedTypeTarget,
+						'data-test': 'card-linker--existing__submit'
 					}}
 					done={this.linkToExisting}
 				>
 					<rendition.Flex align="center">
 						<rendition.Txt>
-							Link this {typeName} to
+							Link this {typeName} to{' '}
 							{linkTypeTargets.length === 1 && (linkTypeTargets[0].label || linkTypeTargets[0].value)}
 						</rendition.Txt>
 						{linkTypeTargets.length > 1 && (
@@ -209,8 +232,13 @@ class CardLinker extends React.Component {
 								})}
 							</rendition.Select>
 						)}
-						<rendition.Box flex="1" ml={2}>
+						<rendition.Box
+							flex="1"
+							ml={2}
+							data-test="card-linker--existing__input"
+						>
 							<Async.default
+								classNamePrefix="jellyfish-async-select"
 								value={selectTargetValue}
 								cacheOptions defaultOptions
 								onChange={this.handleTargetSelect}

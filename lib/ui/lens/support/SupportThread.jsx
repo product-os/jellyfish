@@ -229,7 +229,11 @@ class SupportThreadBase extends React.Component {
 					</rendition.Flex>
 
 					{!this.state.expanded && (
-						<rendition.Link onClick={this.handleExpandToggle} mt={2}>
+						<rendition.Link
+							onClick={this.handleExpandToggle}
+							mt={2}
+							data-test="support-thread__expand"
+						>
 							More
 						</rendition.Link>
 					)}
@@ -263,6 +267,7 @@ class SupportThreadBase extends React.Component {
 										mr={2}
 										href={`/#support-issue~${entry.id}`}
 										key={entry.id}
+										data-test="support-thread__linked-support-issue"
 									>
 										{entry.name}
 									</rendition.Link>
