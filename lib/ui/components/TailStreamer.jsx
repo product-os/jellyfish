@@ -20,7 +20,7 @@ const {
 class TailStreamer extends React.Component {
 	componentWillUnmount () {
 		if (this.stream) {
-			this.stream.destroy()
+			this.stream.close()
 		}
 	}
 	setTail (tail) {
@@ -30,7 +30,7 @@ class TailStreamer extends React.Component {
 	}
 	async streamTail (query) {
 		if (this.stream) {
-			this.stream.destroy()
+			this.stream.close()
 			this.setState({
 				tail: null
 			})
