@@ -39,6 +39,8 @@ spec:
           value: {{{SENTRY_DSN_SERVER}}}
         - name: LOGENTRIES_TOKEN
           value: {{{LOGENTRIES_TOKEN}}}
+        - name: LOGLEVEL
+          value: {{{LOGLEVEL}}}
         - name: INTEGRATION_FRONT_TOKEN
           value: {{{INTEGRATION_FRONT_TOKEN}}}
         - name: INTEGRATION_GITHUB_TOKEN
