@@ -27,7 +27,8 @@ properties:
   - LOGLEVEL:
       type: string
       enum:
-        - error
+        - crit
+        - warning
         - info
         - debug
   - INTEGRATION_FRONT_TOKEN:
