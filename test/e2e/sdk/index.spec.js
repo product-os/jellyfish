@@ -5,6 +5,7 @@
  */
 
 const ava = require('ava')
+const Bluebird = require('bluebird')
 const _ = require('lodash')
 const randomstring = require('randomstring')
 const helpers = require('./helpers')
@@ -864,4 +865,75 @@ ava.serial('.event.create() should create a new event', async (test) => {
 			test: 1
 		}
 	})
+})
+
+ava.serial.cb('.stream() should stream new cards', (test) => {
+	const {
+		sdk,
+		server
+	} = test.context
+
+	const slug1 = `test-card-${randomstring.generate()}`.toLowerCase()
+	const slug2 = `test-card-${randomstring.generate()}`.toLowerCase()
+
+	sdk.setAuthToken(test.context.session)
+	sdk.stream({
+		type: 'object',
+		properties: {
+			slug: {
+				type: 'string',
+				const: slug1
+			},
+			data: {
+				type: 'object',
+				required: [ 'test' ],
+				properties: {
+					test: {
+						type: 'number'
+					}
+				}
+			}
+		},
+		required: [ 'type' ]
+	})
+		.then(async (stream) => {
+			stream.on('error', test.end)
+			stream.on('disconnect', () => {
+				test.end()
+			})
+
+			stream.on('update', (update) => {
+				test.is(update.data.type, 'insert')
+				test.is(update.data.before, null)
+				test.deepEqual(_.omit(update.data.after, [ 'id' ]), {
+					slug: slug1,
+					data: {
+						test: 1
+					}
+				})
+
+				stream.close()
+			})
+
+			try {
+				await Bluebird.all([
+					server.jellyfish.insertCard(test.context.context, test.context.session, {
+						type: 'card',
+						slug: slug1,
+						data: {
+							test: 1
+						}
+					}),
+					server.jellyfish.insertCard(test.context.context, test.context.session, {
+						type: 'card',
+						slug: slug2,
+						data: {
+							test: 3
+						}
+					})
+				])
+			} catch (error) {
+				throw error
+			}
+		})
 })

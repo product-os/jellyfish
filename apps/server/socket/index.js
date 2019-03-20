@@ -21,23 +21,22 @@ module.exports = (jellyfish, server) => {
 			if (!payload.token) {
 				return socket.emit({
 					error: true,
-					data: 'No session token',
-					id: payload.id
+					data: 'No session token'
 				})
 			}
 
-			return jellyfish.stream({
-				id: `SOCKET-REQUEST-${randomstring.generate(20)}`
-			}, payload.token, payload.data.query).then((stream) => {
-				socket.emit('ready', {
-					id: payload.id
-				})
+			const id = `SOCKET-REQUEST-${randomstring.generate(20)}`
 
-				openStreams[payload.id] = stream
+			return jellyfish.stream({
+				id
+			}, payload.token, payload.data.query).then((stream) => {
+				socket.emit('ready')
+
+				openStreams[id] = stream
 
 				const closeStream = () => {
 					stream.close()
-					Reflect.deleteProperty(openStreams, payload.id)
+					Reflect.deleteProperty(openStreams, id)
 				}
 
 				stream.on('data', (results) => {
@@ -45,15 +44,8 @@ module.exports = (jellyfish, server) => {
 					// partial data and not the full result set
 					socket.emit('update', {
 						error: false,
-						data: results,
-						id: payload.id
+						data: results
 					})
-				})
-
-				socket.on('destroy', (streamId) => {
-					if (payload.id === streamId) {
-						closeStream()
-					}
 				})
 
 				socket.on('disconnect', () => {
@@ -62,8 +54,7 @@ module.exports = (jellyfish, server) => {
 			}).catch((error) => {
 				socket.emit('streamError', {
 					error: true,
-					data: error.message,
-					id: payload.id
+					data: error.message
 				})
 			})
 		})
