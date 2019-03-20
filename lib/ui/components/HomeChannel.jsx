@@ -14,7 +14,6 @@ const {
 } = require('react-redux')
 const redux = require('redux')
 const rendition = require('rendition')
-const Markdown = require('rendition/dist/extra/Markdown')
 const styledComponents = require('styled-components')
 const store = require('../core/store')
 const helpers = require('../services/helpers')
@@ -114,16 +113,6 @@ class HomeChannelBase extends TailStreamer.TailStreamer {
 				showMenu: false
 			})
 		}
-		this.showChangelog = () => {
-			this.setState({
-				showChangelog: true
-			})
-		}
-		this.hideChangelog = () => {
-			this.setState({
-				showChangelog: false
-			})
-		}
 		this.toggleExpandGroup = (event) => {
 			const name = event.currentTarget.dataset.groupname
 			const state = _.cloneDeep(this.props.uiState)
@@ -169,10 +158,10 @@ class HomeChannelBase extends TailStreamer.TailStreamer {
 					})
 				}
 			})
+
 			return groups
 		}
 		this.state = {
-			showChangelog: false,
 			showMenu: false,
 			tail: null,
 			messages: []
@@ -331,24 +320,21 @@ class HomeChannelBase extends TailStreamer.TailStreamer {
 				})}
 
 			</rendition.Box>
-			<rendition.Link p={2} fontSize={1} onClick={this.showChangelog}>
+			<rendition.Link
+				p={2}
+				fontSize={1}
+				href='https://github.com/balena-io/jellyfish/blob/master/CHANGELOG.md'
+				blank
+			>
 				<rendition.Txt monospace>
 						v{this.props.version} {this.props.codename}
 				</rendition.Txt>
 			</rendition.Link>
-
-			{this.state.showChangelog && (
-				<rendition.Modal done={this.hideChangelog}>
-					<Markdown.Markdown>{this.props.changelog || ''}</Markdown.Markdown>
-				</rendition.Modal>
-			)}
-
 		</rendition.Flex>)
 	}
 }
 const mapStateToProps = (state) => {
 	return {
-		changelog: store.selectors.getChangelog(state),
 		channels: store.selectors.getChannels(state),
 		user: store.selectors.getCurrentUser(state),
 		version: store.selectors.getAppVersion(state),
