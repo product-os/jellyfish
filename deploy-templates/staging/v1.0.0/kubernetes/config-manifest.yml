@@ -24,6 +24,13 @@ properties:
       type: string
   - LOGENTRIES_TOKEN:
       type: string
+  - LOGLEVEL:
+      type: string
+      enum:
+        - crit
+        - warning
+        - info
+        - debug
   - INTEGRATION_FRONT_TOKEN:
       type: string
   - INTEGRATION_GITHUB_TOKEN:
