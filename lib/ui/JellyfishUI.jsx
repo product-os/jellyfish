@@ -9,11 +9,18 @@ const React = require('react')
 const {
 	connect
 } = require('react-redux')
-const rendition = require('rendition')
+const {
+	Flex,
+	Provider
+} = require('rendition')
 const ChannelRenderer = require('./components/ChannelRenderer')
 const HomeChannel = require('./components/HomeChannel')
-const Login = require('./components/Login')
-const Notifications = require('./components/Notifications')
+const {
+	Login
+} = require('./components/Login')
+const {
+	Notifications
+} = require('./components/Notifications')
 const Splash = require('./components/Splash')
 const store = require('./core/store')
 const reactDnd = require('react-dnd')
@@ -96,10 +103,12 @@ class UI extends React.Component {
 			return <Splash.Splash />
 		}
 		if (this.props.status === 'unauthorized') {
-			return (<rendition.Provider>
-				<Login.Login />
-				<Notifications.Notifications />
-			</rendition.Provider>)
+			return (
+				<Provider>
+					<Login />
+					<Notifications />
+				</Provider>
+			)
 		}
 		const [ home, ...rest ] = this.props.channels
 
@@ -107,8 +116,11 @@ class UI extends React.Component {
 			spaces
 		} = this.state
 
+		const user = this.props.user
+		const userHasOrg = Boolean(user) && user.links['is member of']
+
 		return (
-			<rendition.Provider
+			<Provider
 				style={{
 					height: '100%',
 					fontSize: 14
@@ -118,11 +130,27 @@ class UI extends React.Component {
 					this.calcWidth(this.props.channels)
 				}}/>
 
-				<rendition.Flex flex="1" style={{
+				<Flex flex="1" style={{
 					height: '100%'
 				}}>
 					<HomeChannel.HomeChannel channel={home}/>
 
+					{(!rest.length && !userHasOrg) && (
+						<Flex
+							flex="1"
+							justify="center"
+							pt="20%"
+						>
+							<p
+								style={{
+									textAlign: 'center'
+								}}
+							>
+								Looks like you are not part of an organisation yet.<br/>
+								Contact your friendly Jellyfish administrator for assistance.
+							</p>
+						</Flex>
+					)}
 					{_.map(rest, (channel, index) => {
 						return (
 							<ChannelRenderer.default
@@ -132,17 +160,18 @@ class UI extends React.Component {
 							/>
 						)
 					})}
-				</rendition.Flex>
+				</Flex>
 
-				<Notifications.Notifications />
-			</rendition.Provider>
+				<Notifications />
+			</Provider>
 		)
 	}
 }
 const mapStateToProps = (state) => {
 	return {
 		channels: store.selectors.getChannels(state),
-		status: store.selectors.getStatus(state)
+		status: store.selectors.getStatus(state),
+		user: store.selectors.getCurrentUser(state)
 	}
 }
 exports.JellyfishUI = reactDnd.DragDropContext(reactDndHtml5Backend.default)(connect(mapStateToProps)(UI))
