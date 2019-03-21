@@ -33,7 +33,20 @@ exports.worker = {
 		test.context.worker = new Worker(
 			test.context.jellyfish,
 			test.context.session,
-			actionLibrary,
+			Object.assign({
+				// For testing purposes
+				'action-test-originator': {
+					card: Object.assign({}, actionLibrary['action-create-card'].card, {
+						slug: 'action-test-originator'
+					}),
+					handler: async (session, context, card, request) => {
+						request.arguments.properties.data = request.arguments.properties.data || {}
+						request.arguments.properties.data.originator = request.originator
+						return actionLibrary['action-create-card']
+							.handler(session, context, card, request)
+					}
+				}
+			}, actionLibrary),
 			test.context.queue)
 		await test.context.worker.initialize(test.context.context)
 

@@ -524,6 +524,149 @@ ava('.insertCard() should add an update event if attachEvents is true and overri
 	test.is(tail.length, 1)
 })
 
+ava('.insertCard() should pass a triggered action as an action originator', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card')
+	const triggers = [
+		{
+			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			filter: {
+				type: 'object',
+				required: [ 'data' ],
+				properties: {
+					data: {
+						type: 'object',
+						required: [ 'command' ],
+						properties: {
+							command: {
+								type: 'string',
+								const: 'foo-bar-baz'
+							}
+						}
+					}
+				}
+			},
+			action: 'action-test-originator',
+			card: typeCard.id,
+			type: typeCard.type,
+			arguments: {
+				properties: {
+					slug: 'foo-bar-baz'
+				}
+			}
+		}
+	]
+
+	await executor.insertCard(
+		test.context.context, test.context.jellyfish, test.context.session, typeCard, {
+			currentTime: new Date(),
+			override: false,
+			attachEvents: true,
+			context: test.context.actionContext,
+			library: Object.assign({
+				'action-test-originator': {
+					card: Object.assign({}, actionLibrary['action-create-card'].card, {
+						slug: 'action-test-originator'
+					}),
+					handler: async (session, context, card, request) => {
+						request.arguments.properties.data = request.arguments.properties.data || {}
+						request.arguments.properties.data.originator = request.originator
+						return actionLibrary['action-create-card']
+							.handler(session, context, card, request)
+					}
+				}
+			}, actionLibrary),
+			actor: test.context.actor.id,
+			executeAction: test.context.executeAction,
+			triggers
+		}, {
+			slug: 'foo',
+			version: '1.0.0',
+			data: {
+				command: 'foo-bar-baz'
+			}
+		})
+
+	const resultCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'foo-bar-baz', {
+			type: typeCard.slug
+		})
+
+	test.is(resultCard.data.originator, 'cb3523c5-b37d-41c8-ae32-9e7cc9309165')
+})
+
+ava('.insertCard() should be able to override a triggered action originator', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card')
+	const triggers = [
+		{
+			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			filter: {
+				type: 'object',
+				required: [ 'data' ],
+				properties: {
+					data: {
+						type: 'object',
+						required: [ 'command' ],
+						properties: {
+							command: {
+								type: 'string',
+								const: 'foo-bar-baz'
+							}
+						}
+					}
+				}
+			},
+			action: 'action-test-originator',
+			card: typeCard.id,
+			type: typeCard.type,
+			arguments: {
+				properties: {
+					slug: 'foo-bar-baz'
+				}
+			}
+		}
+	]
+
+	await executor.insertCard(
+		test.context.context, test.context.jellyfish, test.context.session, typeCard, {
+			currentTime: new Date(),
+			override: false,
+			attachEvents: true,
+			context: test.context.actionContext,
+			originator: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			library: Object.assign({
+				'action-test-originator': {
+					card: Object.assign({}, actionLibrary['action-create-card'].card, {
+						slug: 'action-test-originator'
+					}),
+					handler: async (session, context, card, request) => {
+						request.arguments.properties.data = request.arguments.properties.data || {}
+						request.arguments.properties.data.originator = request.originator
+						return actionLibrary['action-create-card']
+							.handler(session, context, card, request)
+					}
+				}
+			}, actionLibrary),
+			actor: test.context.actor.id,
+			executeAction: test.context.executeAction,
+			triggers
+		}, {
+			slug: 'foo',
+			version: '1.0.0',
+			data: {
+				command: 'foo-bar-baz'
+			}
+		})
+
+	const resultCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'foo-bar-baz', {
+			type: typeCard.slug
+		})
+
+	test.is(resultCard.data.originator, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
+})
+
 ava('.insertCard() should execute one matching triggered action', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
 	const triggers = [
