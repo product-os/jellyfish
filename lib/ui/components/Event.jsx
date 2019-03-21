@@ -217,7 +217,13 @@ class Event extends React.Component {
 				<InnerWrapper flex="1">
 					<Flex justify="space-between" mb={2}>
 						<Flex mt={isMessage ? 0 : '5px'} align="center">
-							{isMessage && (<strong>{this.state.actor.name}</strong>)}
+							{isMessage && (
+								<Txt
+									tooltip={this.state.actor.email}
+								>
+									<strong>{this.state.actor.name}</strong>
+								</Txt>
+							)}
 
 							{!isMessage && this.getTimelineElement(card)}
 

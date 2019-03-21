@@ -211,7 +211,7 @@ class SupportThreadBase extends React.Component {
 					</rendition.Flex>
 
 					<rendition.Flex justify="space-between" mt={3}>
-						<rendition.Txt mb={1}>
+						<rendition.Txt mb={1} tooltip={actor.email}>
 								Conversation with <strong>{actor.name}</strong>
 						</rendition.Txt>
 
