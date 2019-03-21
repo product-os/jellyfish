@@ -33,6 +33,8 @@ properties:
         - debug
   - INTEGRATION_FRONT_TOKEN:
       type: string
+  - INTEGRATION_INTERCOM_TOKEN:
+      type: string
   - INTEGRATION_GITHUB_TOKEN:
       type: string
   - INTEGRATION_GITHUB_SIGNATURE_KEY:

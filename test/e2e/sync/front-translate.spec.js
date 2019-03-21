@@ -17,13 +17,14 @@ helpers.translate.scenario(TOKEN ? ava : ava.skip, {
 	integration: require('../../../lib/sync/integrations/front'),
 	scenarios: require('./webhooks/front'),
 	slices: _.range(0, 50),
-	baseUrl: 'https://api2.frontapp.com',
-	stubRegex: /^\/(conversations|contacts)\/.+(\/(messages|inboxes))?$/,
+	baseUrl: /(api2.frontapp.com|api.intercom.io)(:443)?$/,
+	stubRegex: /.*/,
 	source: 'front',
 	options: {
 		token: TOKEN
 	},
 	isAuthorized: (self, request) => {
-		return request.headers.authorization === `Bearer ${self.options.token.api}`
+		return request.headers.authorization === `Bearer ${self.options.token.api}` ||
+			request.headers.authorization.startsWith('Basic')
 	}
 })

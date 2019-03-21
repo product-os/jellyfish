@@ -41,6 +41,8 @@ spec:
           value: {{{LOGENTRIES_TOKEN}}}
         - name: LOGLEVEL
           value: {{{LOGLEVEL}}}
+        - name: INTEGRATION_INTERCOM_TOKEN
+          value: {{{INTEGRATION_INTERCOM_TOKEN}}}
         - name: INTEGRATION_FRONT_TOKEN
           value: {{{INTEGRATION_FRONT_TOKEN}}}
         - name: INTEGRATION_GITHUB_TOKEN

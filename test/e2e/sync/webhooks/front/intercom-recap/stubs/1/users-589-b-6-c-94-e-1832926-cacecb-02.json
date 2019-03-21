@@ -1,0 +1,149 @@
+{
+  "type": "user",
+  "id": "589b6c94e1832926cacecb02",
+  "user_id": "g_jacob_kring",
+  "anonymous": false,
+  "email": "jacobkring@hibersense.com",
+  "phone": null,
+  "name": null,
+  "pseudonym": "Purple Glass from Pittsburgh",
+  "avatar": {
+    "type": "avatar",
+    "image_url": "https://d2ojpxxtu63wzl.cloudfront.net/static/71061c4b0fec4b1a6d2b1c16cbd6f234_1abfd243d58122dc969a243f3db0af197ae4f66962936b5ccbda5bfb941a385a"
+  },
+  "app_id": "yg02r5dz",
+  "companies": {
+    "type": "company.list",
+    "companies": []
+  },
+  "location_data": {
+    "type": "location_data",
+    "city_name": "Somerville",
+    "continent_code": "NA",
+    "country_name": "United States",
+    "postal_code": "02144",
+    "region_name": "Massachusetts",
+    "timezone": "America/New_York",
+    "country_code": "USA",
+    "latitude": 42.3996,
+    "longitude": -71.1246
+  },
+  "last_request_at": 1552596239,
+  "created_at": 1486580884,
+  "remote_created_at": 1486667939,
+  "signed_up_at": 1486667939,
+  "updated_at": 1552596363,
+  "session_count": 2821,
+  "social_profiles": {
+    "type": "social_profile.list",
+    "social_profiles": [
+      {
+        "type": "social_profile",
+        "name": "foursquare",
+        "id": "8066117",
+        "username": null,
+        "url": "https://foursquare.com/user/8066117"
+      },
+      {
+        "type": "social_profile",
+        "name": "github",
+        "id": null,
+        "username": "jacobkring",
+        "url": "https://github.com/jacobkring"
+      },
+      {
+        "type": "social_profile",
+        "name": "google",
+        "id": "107186477435532365825",
+        "username": null,
+        "url": "https://plus.google.com/107186477435532365825"
+      },
+      {
+        "type": "social_profile",
+        "name": "linkedin",
+        "id": "215088983",
+        "username": "jacobkring",
+        "url": "https://www.linkedin.com/in/jacobkring"
+      },
+      {
+        "type": "social_profile",
+        "name": "facebook",
+        "id": null,
+        "username": "jacobdamore",
+        "url": "https://www.facebook.com/jacobdamore"
+      }
+    ]
+  },
+  "unsubscribed_from_emails": false,
+  "marked_email_as_spam": false,
+  "has_hard_bounced": false,
+  "tags": {
+    "type": "tag.list",
+    "tags": [
+      {
+        "type": "tag",
+        "id": "875634",
+        "name": "paid_feb2017"
+      }
+    ]
+  },
+  "segments": {
+    "type": "segment.list",
+    "segments": [
+      {
+        "type": "segment",
+        "id": "542b9fddd6927122ca0000b7"
+      },
+      {
+        "type": "segment",
+        "id": "54cf3c91e87ee74fc8000097"
+      },
+      {
+        "type": "segment",
+        "id": "54d240952ca462038c000003"
+      },
+      {
+        "type": "segment",
+        "id": "54ef4fe529323e3f5400000a"
+      },
+      {
+        "type": "segment",
+        "id": "55e6b1843b6125b981000056"
+      },
+      {
+        "type": "segment",
+        "id": "561ba4cfa312b282f6000011"
+      },
+      {
+        "type": "segment",
+        "id": "568d2ee58ea72f345e000005"
+      },
+      {
+        "type": "segment",
+        "id": "56aedb55f57b3596b900010c"
+      },
+      {
+        "type": "segment",
+        "id": "58d17c6b1a83193824a13852"
+      }
+    ]
+  },
+  "custom_attributes": {
+    "Company": "HiberSense",
+    "First Name": "Jacob",
+    "host": "dashboard.balena-cloud.com",
+    "Last Name": "Kring",
+    "has_disabled_newsletter": false,
+    "job_title": "Chief Executive Officer + Co-founder of HiberSense",
+    "Account Type": "professional"
+  },
+  "referrer": "https://accounts.google.com/signin/oauth/oauthchooseaccount?client_id=589508415201-qgbs22j0me9dfr6mo2f41i7grvatp6g6.apps.googleusercontent.com&as=A0GBUQcY4X8-E31dRTH5iA&destination=https://dashboard.balena-cloud.com&approval_state=!ChRvb0hJX3M3TVd2TG1jMFNvZk1FUxIfbzFPNUhXLV8tU2NUQU9FaERQUmpBazNhQzFhUWx4WQ∙AJDr988AAAAAXIrLtfmKOher-ObSEgNURhw_VbTj7nlG&oauthgdpr=1&xsrfsig=ChkAeAh8T25PNMvdFEX-n3G533QBkYIFO8c7Eg5hcHByb3ZhbF9zdGF0ZRILZGVzdGluYXRpb24SBXNvYWN1Eg9vYXV0aHJpc2t5c2NvcGU&flowName=GeneralOAuthFlow",
+  "utm_campaign": null,
+  "utm_content": null,
+  "utm_medium": null,
+  "utm_source": null,
+  "utm_term": null,
+  "do_not_track": null,
+  "last_seen_ip": "50.245.54.131",
+  "user_agent_data": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36"
+}
