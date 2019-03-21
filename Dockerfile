@@ -8,7 +8,7 @@ RUN mkdir -p scripts/eslint-plugin-jellyfish
 COPY scripts/eslint-plugin-jellyfish/package.json /usr/src/app/scripts/eslint-plugin-jellyfish
 RUN npm ci
 COPY . /usr/src/app
-RUN make build NODE_ENV=production
+RUN make build NODE_ENV=production SENTRY_DSN_UI="https://ff836b1e4abc4d0699bcaaf07ce4ea08@sentry.io/1366139"
 
 RUN service redis-server start && \
 		service postgresql start && \
