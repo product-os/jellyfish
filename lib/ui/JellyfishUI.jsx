@@ -14,7 +14,7 @@ const {
 	Provider
 } = require('rendition')
 const ChannelRenderer = require('./components/ChannelRenderer')
-const HomeChannel = require('./components/HomeChannel')
+const HomeChannel = require('./components/HomeChannel').default
 const {
 	Login
 } = require('./components/Login')
@@ -133,7 +133,7 @@ class UI extends React.Component {
 				<Flex flex="1" style={{
 					height: '100%'
 				}}>
-					<HomeChannel.HomeChannel channel={home}/>
+					<HomeChannel channel={home}/>
 
 					{(!rest.length && !userHasOrg) && (
 						<Flex

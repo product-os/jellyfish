@@ -8,6 +8,7 @@
   "links": {},
   "active": true,
   "data": {
+    "namespace": "Support",
     "allOf": [
       {
         "name": "All support issues",
