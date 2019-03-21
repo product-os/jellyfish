@@ -6,7 +6,6 @@
 
 const combinatorics = require('js-combinatorics')
 const nock = require('nock')
-const errio = require('errio')
 const uuid = require('uuid/v4')
 const path = require('path')
 const _ = require('lodash')
@@ -58,7 +57,7 @@ const getVariations = (sequence, options = {}) => {
 
 const requireStub = (basePath, offset, name) => {
 	if (offset === 0) {
-		throw new Error(`Couldn't find stub: ${name}`)
+		throw new Error(`Couldn't find stub: ${name} at ${basePath}`)
 	}
 
 	const stubPath = path.join(basePath, `${offset}`, `${name}.json`)
@@ -86,24 +85,12 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 			}
 
 			const jsonPath = _.kebabCase(uri)
-			try {
-				return callback(null, [
-					200,
-					requireStub(
-						path.join(stub.basePath, testCase.name, 'stubs'),
-						webhookOffset, jsonPath)
-				])
-			} catch (error) {
-				return callback(null, [
-					404,
-					{
-						name: jsonPath,
-						error: errio.fromObject(error, {
-							stack: true
-						})
-					}
-				])
-			}
+			return callback(null, [
+				200,
+				requireStub(
+					path.join(stub.basePath, testCase.name, 'stubs'),
+					webhookOffset, jsonPath)
+			])
 		})
 
 	const cards = []
