@@ -247,7 +247,7 @@ class ViewRenderer extends React.Component {
 			this.loadViewWithFilters(head, filters)
 		} else {
 			this.props.actions.streamView(head.id)
-			this.props.actions.loadViewResults(head.id, this.getQueryOptions(lenses[0].slug))
+			this.props.actions.loadViewResults(head.id, this.getQueryOptions(_.get(lenses, [ '0', 'slug' ])))
 		}
 
 		// Set default state

@@ -46,7 +46,7 @@ const TreeMenu = (props) => {
 	const {
 		node
 	} = props
-	if (!node.children.length) {
+	if (!node.children.length && node.card) {
 		const card = node.card
 
 		const isActive = card.id === _.get(props.activeChannel, [ 'data', 'target' ])
@@ -359,6 +359,7 @@ class HomeChannelBase extends TailStreamer {
 			const update = this.props.viewNotices[card.id]
 			return update && (update.newMentions || update.newContent)
 		})
+		console.log({ groups })
 		return (
 			<Flex
 				className="home-channel"
