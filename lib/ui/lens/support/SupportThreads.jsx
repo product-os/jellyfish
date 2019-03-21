@@ -4,38 +4,24 @@
  * Proprietary and confidential.
  */
 
-const _ = require('lodash')
-const React = require('react')
-const {
+import * as _ from 'lodash'
+import * as React from 'react'
+import {
 	connect
-} = require('react-redux')
-const redux = require('redux')
-const rendition = require('rendition')
-const styledComponents = require('styled-components')
-const store = require('../../core/store')
-const helpers = require('../../services/helpers')
-const storeHelpers = require('../../services/store-helpers')
-const ColorHashPill = require('../../shame/ColorHashPill')
-const Column = require('../../shame/Column').default
-const Gravatar = require('../../shame/Gravatar')
-const Icon = require('../../shame/Icon')
-const {
-	getCreator,
-	getLastUpdate
-} = require('./utils')
+} from 'react-redux'
+import * as redux from 'redux'
+import {
+	Box,
+	Tabs
+} from 'rendition'
+import * as store from '../../core/store'
+import * as helpers from '../../services/helpers'
+import * as storeHelpers from '../../services/store-helpers'
+import Column from '../../shame/Column'
+import Icon from '../../shame/Icon'
+import SupportThreadSummary from './SupportThreadSummary'
 
-const SupportThreadSummaryWrapper = styledComponents.default(rendition.Box) `
-	border-left-style: solid;
-	border-left-width: 3px;
-	border-bottom: 1px solid #eee;
-	cursor: pointer;
-	transition: background ease-in-out 150ms;
-
-	&:hover {
-		background: ${rendition.Theme.colors.gray.light};
-	}
-`
-class Interleaved extends React.Component {
+export class SupportThreads extends React.Component {
 	constructor (props) {
 		super(props)
 		this.openChannel = (target, obj) => {
@@ -84,115 +70,101 @@ class Interleaved extends React.Component {
 			timestamps.sort()
 			return _.last(timestamps)
 		}).reverse()
-		return (<Column>
-			<div
-				ref={(ref) => {
-					this.scrollArea = ref
-				}}
-				onScroll={this.handleScroll}
-				style={{
-					flex: 1,
-					paddingBottom: 16,
-					overflowY: 'auto'
-				}}
-			>
-				{(Boolean(tail) && tail.length > 0) && _.map(tail, (card) => {
-					const timeline = _.sortBy(card.links['has attached element'], 'data.timestamp')
-					const messages = _.filter(timeline, (event) => {
-						return event.type === 'message' || event.type === 'whisper'
-					})
-					const lastMessageOrWhisper = _.last(messages)
-					const actor = getCreator(card)
-					const lastActor = lastMessageOrWhisper
-						? storeHelpers.getActor(_.get(lastMessageOrWhisper, [ 'data', 'actor' ]))
-						: null
-					return (
-						<SupportThreadSummaryWrapper
-							data-test-component="support-thread-summary"
-							data-test-id={card.id}
-							key={card.id}
-							p={3}
-							style={{
-								borderLeftColor: helpers.colorHash(card.id)
-							}}
-							onClick={() => {
-								return this.openChannel(card.id)
-							}}
-						>
-							<rendition.Flex justify="space-between">
-								<rendition.Flex mb={2}>
-									<ColorHashPill.default value={_.get(card, [ 'data', 'inbox' ])} mr={2} />
-									<ColorHashPill.default value={_.get(card, [ 'data', 'status' ])} mr={2} />
-								</rendition.Flex>
 
-								<rendition.Txt>Created {helpers.formatTimestamp(card.created_at)}</rendition.Txt>
-							</rendition.Flex>
-							<rendition.Flex justify="space-between">
-								<rendition.Box>
-									{Boolean(card.name) && (
-										<rendition.Txt bold>{card.name}</rendition.Txt>
-									)}
-									{!card.name && Boolean(actor) && (
-										<rendition.Txt bold>{`Conversation with ${actor.name}`}</rendition.Txt>
-									)}
-								</rendition.Box>
+		const pendingAgentResponse = []
+		const pendingUserResponse = []
 
-								<rendition.Txt>
-									Updated {helpers.timeAgo(_.get(getLastUpdate(card), [ 'data', 'timestamp' ]))}
-								</rendition.Txt>
-							</rendition.Flex>
-							<rendition.Txt my={2}>{messages.length} message{messages.length !== 1 && 's'}</rendition.Txt>
-							{lastMessageOrWhisper && (<rendition.Flex>
-								<Gravatar.default small pr={2} email={lastActor ? lastActor.email : null}/>
+		for (const card of tail) {
+			const timeline = _.sortBy(card.links['has attached element'], 'data.timestamp')
+			const messages = _.filter(timeline, [ 'type', 'message' ])
+			const actor = storeHelpers.getActor(_.get(_.last(messages), [ 'data', 'actor' ]))
+			if (actor.proxy) {
+				pendingAgentResponse.push(card)
+			} else {
+				pendingUserResponse.push(card)
+			}
+		}
 
-								<rendition.Txt
-									data-test-component="support-thread-summary__message"
+		const segments = [
+			{
+				name: 'All',
+				cards: tail
+			},
+			{
+				name: 'pending agent response',
+				cards: pendingAgentResponse
+			},
+			{
+				name: 'pending user response',
+				cards: pendingUserResponse
+			}
+		]
+
+		return (
+			<Column>
+				{tail.length > 0 && (
+					<Tabs
+						mt={-8}
+						tabs={_.map(segments, 'name')}
+					>
+						{segments.map((segment) => {
+							return (
+								<div
+									ref={(ref) => {
+										this.scrollArea = ref
+									}}
+									key={segment.name}
+									onScroll={this.handleScroll}
 									style={{
-										whiteSpace: 'nowrap',
-										overflow: 'hidden',
-										textOverflow: 'ellipsis',
-										border: '1px solid #eee',
-										borderRadius: 10,
-										padding: '4px 16px',
-										background: (lastMessageOrWhisper || {}).type === 'whisper' ? '#eee' : 'white',
-										flex: 1
+										flex: 1,
+										paddingBottom: 16,
+										overflowY: 'auto'
 									}}
 								>
-									{_.get(lastMessageOrWhisper, [ 'data', 'payload', 'message' ], '').split('\n').shift()}
-								</rendition.Txt>
-							</rendition.Flex>)}
-						</SupportThreadSummaryWrapper>
-					)
-				})}
+									{_.map(segment.cards, (card) => {
+										return (
+											<SupportThreadSummary
+												card={card}
+												openChannel={this.openChannel}
+											/>
+										)
+									})}
+								</div>
+							)
+						})}
+					</Tabs>
+				)}
 
 				{this.props.totalPages > this.props.page + 1 && (
-					<rendition.Box p={3}>
-						<Icon.default name="cog fa-spin"/>
-					</rendition.Box>
+					<Box p={3}>
+						<Icon name="cog fa-spin"/>
+					</Box>
 				)}
-			</div>
-		</Column>)
+			</Column>
+		)
 	}
 }
-exports.Interleaved = Interleaved
+
 const mapStateToProps = (state) => {
 	return {
 		allUsers: store.selectors.getAllUsers(state)
 	}
 }
+
 const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: redux.bindActionCreators(store.actionCreators, dispatch)
 	}
 }
+
 const lens = {
 	slug: 'lens-support-threads',
 	type: 'lens',
 	version: '1.0.0',
-	name: 'Interleaved lens',
+	name: 'SupportThreads lens',
 	data: {
 		icon: 'address-card',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(Interleaved),
+		renderer: connect(mapStateToProps, mapDispatchToProps)(SupportThreads),
 		filter: {
 			type: 'array',
 			items: {
@@ -206,4 +178,4 @@ const lens = {
 		}
 	}
 }
-exports.default = lens
+export default lens
