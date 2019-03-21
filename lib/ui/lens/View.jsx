@@ -88,7 +88,7 @@ class ViewRenderer extends React.Component {
 			options: {
 				page: 0,
 				totalPages: Infinity,
-				limit: 20,
+				limit: 30,
 				sortBy: 'created_at',
 				sortDir: 'desc'
 			}
@@ -268,7 +268,7 @@ class ViewRenderer extends React.Component {
 		const options = (lens || _.get(this.state.lenses, [ '0', 'slug' ])) === 'lens-interleaved'
 			? this.state.options
 			: {
-				limit: 20,
+				limit: 30,
 				page: 0,
 				sortBy: 'created_at',
 				sortDir: 'desc'
@@ -281,7 +281,7 @@ class ViewRenderer extends React.Component {
 
 	componentWillReceiveProps (nextProps) {
 		// TODO: Get an actual total count from the API
-		if (nextProps.tail && nextProps.tail.length < 20) {
+		if (nextProps.tail && nextProps.tail.length < 30) {
 			this.setState({
 				options: Object.assign(this.state.options, {
 					totalPages: 1
