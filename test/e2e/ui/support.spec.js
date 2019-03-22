@@ -56,11 +56,9 @@ ava.serial('Updates to support threads should be reflected in the support thread
 	await context.addUserToBalenaOrg(communityUser.id)
 	await page.reload()
 
-	await page.waitForSelector('.home-channel__group-toggle--org-balena')
-	await page.click('.home-channel__group-toggle--org-balena')
-
-	await page.waitForSelector('.home-channel__item--view-all-support-threads')
-	await page.click('.home-channel__item--view-all-support-threads')
+	await macros.waitForThenClickSelector(page, '[data-test="home-channel__group-toggle--org-balena"]')
+	await macros.waitForThenClickSelector(page, '[data-test="home-channel__group-toggle--Support"]')
+	await macros.waitForThenClickSelector(page, '[data-test="home-channel__item--view-all-support-threads"]')
 
 	await page.waitForSelector('.column--view-all-support-threads')
 	await page.click('.column--view-all-support-threads')
