@@ -23,7 +23,7 @@ ava.serial('.action() should be able to successfully create a new card', async (
 		sdk
 	} = test.context
 
-	await sdk.setAuthToken(test.context.session)
+	sdk.setAuthToken(test.context.session)
 
 	const name = `test-card-${randomstring.generate()}`
 
@@ -74,7 +74,7 @@ ava.serial('.action() should resolve with the created card', async (test) => {
 		sdk
 	} = test.context
 
-	await sdk.setAuthToken(test.context.session)
+	sdk.setAuthToken(test.context.session)
 
 	const name = `test-card-${randomstring.generate()}`
 	const slug = test.context.generateRandomSlug({
@@ -139,7 +139,7 @@ ava.serial('.query() should run a query on the server', async (test) => {
 		data: {}
 	})
 
-	await sdk.setAuthToken(test.context.session)
+	sdk.setAuthToken(test.context.session)
 
 	const results = await sdk.query({
 		type: 'object',
@@ -244,7 +244,7 @@ ava.serial('.query() should accept a "limit" option', async (test) => {
 		tags: []
 	})
 
-	await sdk.setAuthToken(test.context.session)
+	sdk.setAuthToken(test.context.session)
 
 	const results = await sdk.query({
 		type: 'object',
@@ -343,7 +343,7 @@ ava.serial('.query() should accept a "skip" option', async (test) => {
 		tags: []
 	})
 
-	await sdk.setAuthToken(test.context.session)
+	sdk.setAuthToken(test.context.session)
 
 	const results = await sdk.query({
 		type: 'object',
@@ -454,7 +454,7 @@ ava.serial('.query() should accept a "sortBy" option as a single key', async (te
 		tags: []
 	})
 
-	await sdk.setAuthToken(test.context.session)
+	sdk.setAuthToken(test.context.session)
 
 	const results = await sdk.query({
 		type: 'object',
@@ -564,7 +564,7 @@ ava.serial('.query() should accept a "sortBy" option as an array of keys', async
 		tags: []
 	})
 
-	await sdk.setAuthToken(test.context.session)
+	sdk.setAuthToken(test.context.session)
 
 	const results = await sdk.query({
 		type: 'object',
@@ -637,7 +637,7 @@ ava.serial('.card.get() should return a single element', async (test) => {
 		data: {}
 	})
 
-	await sdk.setAuthToken(test.context.session)
+	sdk.setAuthToken(test.context.session)
 
 	const result = await sdk.card.get(card.id, {
 		type: 'card'
@@ -688,7 +688,7 @@ ava.serial('.card.get() should work with slugs', async (test) => {
 		data: {}
 	})
 
-	await sdk.setAuthToken(test.context.session)
+	sdk.setAuthToken(test.context.session)
 
 	const result = await sdk.card.get(slug, {
 		type: 'card'
@@ -740,7 +740,7 @@ ava.serial('.card.get() should work for ids without a type option', async (test)
 		data: {}
 	})
 
-	await sdk.setAuthToken(test.context.session)
+	sdk.setAuthToken(test.context.session)
 
 	const result = await sdk.card.get(card.id)
 
@@ -789,7 +789,7 @@ ava.serial('.card.get() should work for slugs without a type option', async (tes
 		data: {}
 	})
 
-	await sdk.setAuthToken(test.context.session)
+	sdk.setAuthToken(test.context.session)
 
 	const result = await sdk.card.get(slug)
 
@@ -801,7 +801,7 @@ ava.serial('.card.create() should create a new card', async (test) => {
 		sdk
 	} = test.context
 
-	await sdk.setAuthToken(test.context.session)
+	sdk.setAuthToken(test.context.session)
 
 	const slug = test.context.generateRandomSlug({
 		prefix: 'card'
@@ -842,7 +842,7 @@ ava.serial('.card.create() should resolve with the created card', async (test) =
 		sdk
 	} = test.context
 
-	await sdk.setAuthToken(test.context.session)
+	sdk.setAuthToken(test.context.session)
 
 	const slug = test.context.generateRandomSlug({
 		prefix: 'card'
@@ -878,7 +878,7 @@ ava.serial('.card.remove() should be able to delete a card', async (test) => {
 		sdk
 	} = test.context
 
-	await sdk.setAuthToken(test.context.session)
+	sdk.setAuthToken(test.context.session)
 
 	const card = await sdk.card.create({
 		type: 'card',
@@ -900,7 +900,7 @@ ava.serial('.event.create() should create a new event', async (test) => {
 		sdk
 	} = test.context
 
-	await sdk.setAuthToken(test.context.session)
+	sdk.setAuthToken(test.context.session)
 
 	const slug = test.context.generateRandomSlug({
 		prefix: 'card'
