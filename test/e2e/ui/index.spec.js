@@ -65,22 +65,12 @@ ava.after(async () => {
 
 ava.serial('should let users login', async (test) => {
 	const {
-		page,
-		server
+		page
 	} = context
 
 	await context.createUser(users.community)
 
-	await page.goto(`http://localhost:${server.port}`)
-
-	await page.waitForSelector('.login-page', WAIT_OPTS)
-
-	await page.type('.login-page__input--username', users.community.username)
-	await page.type('.login-page__input--password', users.community.password)
-
-	await page.click('.login-page__submit--login')
-
-	await page.waitForSelector('.home-channel', WAIT_OPTS)
+	await macros.loginUser(page, users.community)
 
 	test.pass()
 })

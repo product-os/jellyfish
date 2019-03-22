@@ -171,26 +171,41 @@ class Base extends React.Component {
 					<CardLinker.CardLinker types={this.props.types} card={this.props.card}/>
 
 					<span>
-						<IconButton.IconButton px={2} mr={-1} plaintext onClick={this.toggleMenu}>
+						<IconButton.IconButton
+							px={2}
+							mr={-1}
+							plaintext
+							onClick={this.toggleMenu}
+							data-test="card-action-menu"
+						>
 							<Icon.default name="ellipsis-v"/>
-
 						</IconButton.IconButton>
 
 						{this.state.showMenu &&
 							<ContextMenu.ContextMenu position="bottom" onClose={this.toggleMenu}>
 								<React.Fragment>
-									<ActionLink.ActionLink mb={2} onClick={this.copyPermalink} tooltip={{
-										text: 'Permalink copied!',
-										trigger: 'click'
-									}}>
-											Copy permalink
+									<ActionLink.ActionLink
+										mb={2}
+										onClick={this.copyPermalink}
+										tooltip={{
+											text: 'Permalink copied!',
+											trigger: 'click'
+										}}
+										data-test="card-action-menu__permalink"
+									>
+										Copy permalink
 									</ActionLink.ActionLink>
 
-									<ActionLink.ActionLink mb={2} onClick={this.copyJSON} tooltip={{
-										text: 'JSON copied!',
-										trigger: 'click'
-									}}>
-											Copy as JSON
+									<ActionLink.ActionLink
+										mb={2}
+										onClick={this.copyJSON}
+										tooltip={{
+											text: 'JSON copied!',
+											trigger: 'click'
+										}}
+										data-test="card-action-menu__json"
+									>
+										Copy as JSON
 									</ActionLink.ActionLink>
 
 									<ActionLink.ActionLink onClick={this.toggleDeleteModal}>

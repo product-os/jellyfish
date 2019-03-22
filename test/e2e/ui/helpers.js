@@ -24,6 +24,11 @@ exports.browser = {
 		}
 
 		test.context.browser = await puppeteer.launch(options)
+		const browserContext = test.context.browser.defaultBrowserContext()
+
+		// Allow the clipboard API to be accessed so we can easily test
+		// copy-to-clipboard functionality
+		browserContext.overridePermissions('http://localhost:8000', [ 'clipboard-read' ])
 		test.context.page = await test.context.browser.newPage()
 		test.context.page.setViewport({
 			width: 1366,
