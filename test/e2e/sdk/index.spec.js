@@ -697,6 +697,105 @@ ava.serial('.card.get() should work with slugs', async (test) => {
 	test.deepEqual(result, card)
 })
 
+ava.serial('.card.get() should work for ids without a type option', async (test) => {
+	const {
+		sdk,
+		server
+	} = test.context
+
+	const name = `test-card-${randomstring.generate()}`
+
+	let cardsToInsert = 5
+
+	while (cardsToInsert--) {
+		await server.jellyfish.insertCard(test.context.context, test.context.session, {
+			version: '1.0.0',
+			slug: test.context.generateRandomSlug({
+				prefix: 'card'
+			}),
+			type: 'card',
+			active: true,
+			links: {},
+			requires: [],
+			capabilities: [],
+			markers: [],
+			tags: [],
+			data: {}
+		})
+	}
+
+	const card = await server.jellyfish.insertCard(test.context.context, test.context.session, {
+		version: '1.0.0',
+		name,
+		slug: test.context.generateRandomSlug({
+			prefix: 'card'
+		}),
+		type: 'card',
+		active: true,
+		links: {},
+		requires: [],
+		capabilities: [],
+		markers: [],
+		tags: [],
+		data: {}
+	})
+
+	await sdk.setAuthToken(test.context.session)
+
+	const result = await sdk.card.get(card.id)
+
+	test.deepEqual(result, card)
+})
+
+ava.serial('.card.get() should work for slugs without a type option', async (test) => {
+	const {
+		sdk,
+		server
+	} = test.context
+
+	const slug = test.context.generateRandomSlug({
+		prefix: 'card'
+	})
+
+	let cardsToInsert = 5
+
+	while (cardsToInsert--) {
+		await server.jellyfish.insertCard(test.context.context, test.context.session, {
+			version: '1.0.0',
+			slug: test.context.generateRandomSlug({
+				prefix: 'card'
+			}),
+			type: 'card',
+			active: true,
+			links: {},
+			requires: [],
+			capabilities: [],
+			markers: [],
+			tags: [],
+			data: {}
+		})
+	}
+
+	const card = await server.jellyfish.insertCard(test.context.context, test.context.session, {
+		version: '1.0.0',
+		slug,
+		type: 'card',
+		active: true,
+		links: {},
+		requires: [],
+		capabilities: [],
+		markers: [],
+		tags: [],
+		data: {}
+	})
+
+	await sdk.setAuthToken(test.context.session)
+
+	const result = await sdk.card.get(slug)
+
+	test.deepEqual(result, card)
+})
+
 ava.serial('.card.create() should create a new card', async (test) => {
 	const {
 		sdk
