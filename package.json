@@ -162,7 +162,7 @@
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "remove-markdown": "^0.3.0",
-    "rendition": "^4.58.0",
+    "rendition": "^4.58.2",
     "response-time": "^2.3.2",
     "skhema": "5.2.2",
     "socket.io": "^2.1.0",

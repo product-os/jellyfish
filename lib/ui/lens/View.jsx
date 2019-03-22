@@ -80,7 +80,6 @@ class ViewRenderer extends React.Component {
 
 		this.state = {
 			filters: [],
-			lenses: [],
 			ready: false,
 			tailType: null,
 			activeLens: null,
@@ -142,7 +141,7 @@ class ViewRenderer extends React.Component {
 
 	setLens (event) {
 		const slug = event.currentTarget.dataset.slug
-		const lens = _.find(this.state.lenses, {
+		const lens = _.find(this.lenses, {
 			slug
 		})
 		if (!lens) {
@@ -215,6 +214,9 @@ class ViewRenderer extends React.Component {
 			.map((slug) => { return LensService.default.getLensBySlug(slug) })
 			.compact()
 			.value()
+
+		this.lenses = lenses
+
 		const tailType = _.find(this.props.types, {
 			slug: helpers.getTypeFromViewCard(head)
 		}) || null
@@ -253,7 +255,6 @@ class ViewRenderer extends React.Component {
 		// Set default state
 		this.setState({
 			filters,
-			lenses,
 			tailType,
 
 			// Mark as ready
@@ -264,15 +265,21 @@ class ViewRenderer extends React.Component {
 	// TODO: Make all lenses handle pagination and remove this exception.
 	// For this to work properly there needs to be a mechanism for returning the
 	// total available items from the API.
-	getQueryOptions (lens) {
-		const options = (lens || _.get(this.state.lenses, [ '0', 'slug' ])) === 'lens-interleaved'
-			? this.state.options
-			: {
-				limit: 30,
-				page: 0,
-				sortBy: 'created_at',
-				sortDir: 'desc'
-			}
+	getQueryOptions (lensSlug) {
+		const lens = lensSlug
+			? _.find(this.lenses, {
+				slug: lensSlug
+			})
+			: _.first(this.lenses)
+		const options = _.merge({
+			limit: 30,
+			page: 0,
+			sortBy: 'created_at',
+			sortDir: 'desc'
+		},
+		this.state.options,
+		_.get(lens, [ 'data', 'queryOptions' ])
+		)
 
 		options.page = this.state.options.page
 
@@ -368,8 +375,9 @@ class ViewRenderer extends React.Component {
 		const tail = _.sortBy(this.props.tail, this.state.options.sortBy)
 
 		const {
-			tailType, lenses, activeLens, activeSlice
+			tailType, activeLens, activeSlice
 		} = this.state
+		const lenses = this.lenses
 		const useFilters = Boolean(tailType) && tailType.slug !== 'view'
 		const lens = _.find(lenses, {
 			slug: activeLens
@@ -441,9 +449,9 @@ class ViewRenderer extends React.Component {
 							</Box>
 
 							<Flex mx={3}>
-								{this.state.lenses.length > 1 && Boolean(lens) && (
+								{this.lenses.length > 1 && Boolean(lens) && (
 									<ButtonGroup>
-										{_.map(this.state.lenses, (item) => {
+										{_.map(this.lenses, (item) => {
 											return (
 												<Button
 													key={item.slug}

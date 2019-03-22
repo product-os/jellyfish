@@ -104,7 +104,11 @@ export class SupportThreads extends React.Component {
 			<Column>
 				{tail.length > 0 && (
 					<Tabs
-						mt={-8}
+						style={{
+							height: '100%',
+							display: 'flex',
+							flexDirection: 'column'
+						}}
 						tabs={_.map(segments, 'name')}
 					>
 						{segments.map((segment) => {
@@ -116,7 +120,7 @@ export class SupportThreads extends React.Component {
 									key={segment.name}
 									onScroll={this.handleScroll}
 									style={{
-										flex: 1,
+										height: '100%',
 										paddingBottom: 16,
 										overflowY: 'auto'
 									}}
@@ -129,17 +133,18 @@ export class SupportThreads extends React.Component {
 											/>
 										)
 									})}
+
+									{this.props.totalPages > this.props.page + 1 && (
+										<Box p={3}>
+											<Icon name="cog fa-spin"/>
+										</Box>
+									)}
 								</div>
 							)
 						})}
 					</Tabs>
 				)}
 
-				{this.props.totalPages > this.props.page + 1 && (
-					<Box p={3}>
-						<Icon name="cog fa-spin"/>
-					</Box>
-				)}
 			</Column>
 		)
 	}
@@ -175,6 +180,11 @@ const lens = {
 					}
 				}
 			}
+		},
+		queryOptions: {
+			limit: 30,
+			sortBy: [ 'created_at' ],
+			sortDir: 'desc'
 		}
 	}
 }
