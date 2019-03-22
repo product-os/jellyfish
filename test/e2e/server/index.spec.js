@@ -79,8 +79,11 @@ ava.serial('creating a user with the guest user session using action-create-card
 		type: 'type',
 		action: 'action-create-card',
 		arguments: {
-			slug: username,
-			type: 'user'
+			reason: null,
+			properties: {
+				slug: username,
+				type: 'user'
+			}
 		}
 	})
 
@@ -797,6 +800,7 @@ ava.serial('should add and evaluate a time triggered action', async (test) => {
 			targetType: typeCard.type,
 			interval: 'PT1S',
 			arguments: {
+				reason: null,
 				properties: {
 					version: '1.0.0',
 					slug: {

@@ -32,6 +32,7 @@ ava.serial('.action() should be able to successfully create a new card', async (
 		type: 'type',
 		action: 'action-create-card',
 		arguments: {
+			reason: null,
 			properties: {
 				slug: test.context.generateRandomSlug({
 					prefix: 'card'
@@ -85,6 +86,7 @@ ava.serial('.action() should resolve with the created card', async (test) => {
 		type: 'type',
 		action: 'action-create-card',
 		arguments: {
+			reason: null,
 			properties: {
 				slug,
 				version: '1.0.0',

@@ -1645,6 +1645,7 @@ ava('.run() should create a card', async (test) => {
 		card: typeCard.id,
 		type: typeCard.type,
 		arguments: {
+			reason: null,
 			properties: {
 				slug: 'foo-bar-baz',
 				version: '1.0.0'
@@ -1770,6 +1771,7 @@ ava('.run() should throw if the action has no corresponding implementation', asy
 		card: typeCard.id,
 		type: typeCard.type,
 		arguments: {
+			reason: null,
 			properties: {
 				version: '1.0.0',
 				slug: 'foo-bar-baz'
