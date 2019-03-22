@@ -24,6 +24,15 @@
         "data": {
           "type": "object",
           "properties": {
+            "category": {
+              "type": "string",
+              "default": "general",
+              "enum": [
+                "devices",
+                "fleetops",
+                "general"
+              ]
+            },
             "environment": {
               "type": "string",
               "enum": [

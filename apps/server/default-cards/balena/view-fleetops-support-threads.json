@@ -1,6 +1,6 @@
 {
-  "slug": "view-all-support-threads",
-  "name": "Support threads",
+  "slug": "view-fleetops-support-threads",
+  "name": "FleetOps Support",
   "version": "1.0.0",
   "type": "view",
   "markers": [ "org-balena" ],
@@ -43,15 +43,16 @@
               "type": "object",
               "properties": {
                 "category": {
-                  "description": "This field is not required and should match cases where the field is not present OR is 'general'",
-                  "const": "general"
+                  "const": "fleetops"
                 }
-              }
+              },
+              "required": [ "category" ]
             }
           },
           "required": [
             "active",
-            "type"
+            "type",
+            "data"
           ],
           "additionalProperties": true
         }

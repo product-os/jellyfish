@@ -1,6 +1,6 @@
 {
-  "slug": "view-all-support-threads",
-  "name": "Support threads",
+  "slug": "view-devices-support-threads",
+  "name": "Device support",
   "version": "1.0.0",
   "type": "view",
   "markers": [ "org-balena" ],
@@ -43,10 +43,10 @@
               "type": "object",
               "properties": {
                 "category": {
-                  "description": "This field is not required and should match cases where the field is not present OR is 'general'",
-                  "const": "general"
+                  "const": "devices"
                 }
-              }
+              },
+              "required": [ "category" ]
             }
           },
           "required": [
