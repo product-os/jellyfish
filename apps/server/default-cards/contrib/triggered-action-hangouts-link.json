@@ -44,6 +44,7 @@
     "target": "message",
     "targetType": "type",
     "arguments": {
+      "reason": null,
       "properties": {
         "data": {
           "timestamp": "{source.data.timestamp}",

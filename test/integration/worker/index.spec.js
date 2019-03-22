@@ -109,6 +109,7 @@ ava('should fail to create an event with an action-create-card', async (test) =>
 		card: typeType.id,
 		type: typeType.type,
 		arguments: {
+			reason: null,
 			properties: {
 				slug: 'test-thread',
 				version: '1.0.0',
@@ -150,6 +151,7 @@ ava('should fail to create an event with an action-create-card', async (test) =>
 		card: typeResult.data.id,
 		type: typeResult.data.type,
 		arguments: {
+			reason: null,
 			properties: {
 				version: '1.0.0',
 				slug: 'foo',
@@ -171,6 +173,7 @@ ava('should fail to create an event with an action-create-card', async (test) =>
 		context: test.context.context,
 		type: cardType.type,
 		arguments: {
+			reason: null,
 			properties: {
 				version: '1.0.0',
 				slug: 'bar',
@@ -200,6 +203,7 @@ ava('.execute() should execute an action', async (test) => {
 		card: typeCard.id,
 		type: typeCard.type,
 		arguments: {
+			reason: null,
 			properties: {
 				slug: 'foo',
 				version: '1.0.0',
@@ -230,6 +234,7 @@ ava('.execute() should add an execution event to the action request', async (tes
 		card: typeCard.id,
 		type: typeCard.type,
 		arguments: {
+			reason: null,
 			properties: {
 				slug: 'foo',
 				version: '1.0.0',
@@ -404,6 +409,7 @@ ava('.execute() should execute a triggered action', async (test) => {
 			card: typeCard.id,
 			type: typeCard.type,
 			arguments: {
+				reason: null,
 				properties: {
 					version: '1.0.0',
 					slug: 'foo-bar-baz'
@@ -419,6 +425,7 @@ ava('.execute() should execute a triggered action', async (test) => {
 			card: typeCard.id,
 			type: typeCard.type,
 			arguments: {
+				reason: null,
 				properties: {
 					slug: 'foo',
 					version: '1.0.0',
@@ -474,6 +481,7 @@ ava('.execute() should not execute a triggered action with a future start date',
 			card: typeCard.id,
 			type: typeCard.type,
 			arguments: {
+				reason: null,
 				properties: {
 					version: '1.0.0',
 					slug: 'foo-bar-baz'
@@ -488,6 +496,7 @@ ava('.execute() should not execute a triggered action with a future start date',
 		card: typeCard.id,
 		type: typeCard.type,
 		arguments: {
+			reason: null,
 			properties: {
 				slug: 'foo',
 				version: '1.0.0',
@@ -547,6 +556,7 @@ ava('.execute() should execute a triggered action with a top level anyOf', async
 			card: typeCard.id,
 			type: typeCard.type,
 			arguments: {
+				reason: null,
 				properties: {
 					version: '1.0.0',
 					slug: 'foo-bar-baz'
@@ -561,6 +571,7 @@ ava('.execute() should execute a triggered action with a top level anyOf', async
 		card: typeCard.id,
 		type: typeCard.type,
 		arguments: {
+			reason: null,
 			properties: {
 				version: '1.0.0',
 				slug: 'foo',
@@ -592,6 +603,7 @@ ava('.execute() should add a create event when creating a card', async (test) =>
 		card: typeCard.id,
 		type: typeCard.type,
 		arguments: {
+			reason: null,
 			properties: {
 				version: '1.0.0',
 				slug: 'foo',
@@ -639,6 +651,7 @@ ava('.execute() should be able to AGGREGATE based on the card timeline', async (
 		card: typeType.id,
 		type: typeType.type,
 		arguments: {
+			reason: null,
 			properties: {
 				slug: 'test-thread',
 				version: '1.0.0',
@@ -680,6 +693,7 @@ ava('.execute() should be able to AGGREGATE based on the card timeline', async (
 		card: typeResult.data.id,
 		type: typeResult.data.type,
 		arguments: {
+			reason: null,
 			properties: {
 				version: '1.0.0',
 				slug: 'foo',
@@ -742,6 +756,7 @@ ava('.execute() AGGREGATE should create a property on the target if it does not 
 		card: typeType.id,
 		type: typeType.type,
 		arguments: {
+			reason: null,
 			properties: {
 				slug: 'test-thread',
 				version: '1.0.0',
@@ -783,6 +798,7 @@ ava('.execute() AGGREGATE should create a property on the target if it does not 
 		card: typeResult.data.id,
 		type: typeResult.data.type,
 		arguments: {
+			reason: null,
 			properties: {
 				slug: 'foo',
 				version: '1.0.0',
@@ -828,6 +844,7 @@ ava('.execute() AGGREGATE should work with $$ prefixed properties', async (test)
 		card: typeType.id,
 		type: typeType.type,
 		arguments: {
+			reason: null,
 			properties: {
 				slug: 'test-thread',
 				version: '1.0.0',
@@ -869,6 +886,7 @@ ava('.execute() AGGREGATE should work with $$ prefixed properties', async (test)
 		card: typeResult.data.id,
 		type: 'type',
 		arguments: {
+			reason: null,
 			properties: {
 				slug: 'foo',
 				version: '1.0.0',
@@ -917,6 +935,7 @@ ava('.execute() should create a message with tags', async (test) => {
 		card: typeType.id,
 		type: typeType.type,
 		arguments: {
+			reason: null,
 			properties: {
 				slug: 'test-thread',
 				version: '1.0.0',
@@ -948,6 +967,7 @@ ava('.execute() should create a message with tags', async (test) => {
 		card: typeResult.data.id,
 		type: typeResult.data.type,
 		arguments: {
+			reason: null,
 			properties: {
 				slug: 'foo',
 				version: '1.0.0'
@@ -1156,6 +1176,7 @@ ava('.setTriggers() should throw if no interval nor filter', (test) => {
 				type: 'card',
 				action: 'action-create-card',
 				arguments: {
+					reason: null,
 					foo: 'bar'
 				}
 			}
@@ -1176,6 +1197,7 @@ ava('.setTriggers() should throw if both interval and filter', (test) => {
 				type: 'card',
 				action: 'action-create-card',
 				arguments: {
+					reason: null,
 					foo: 'bar'
 				}
 			}
@@ -1194,6 +1216,7 @@ ava('.setTriggers() should throw if no id', (test) => {
 					type: 'object'
 				},
 				arguments: {
+					reason: null,
 					foo: 'bar'
 				}
 			}
@@ -1213,6 +1236,7 @@ ava('.setTriggers() should throw if id is not a string', (test) => {
 					type: 'object'
 				},
 				arguments: {
+					reason: null,
 					foo: 'bar'
 				}
 			}
@@ -1230,6 +1254,7 @@ ava('.setTriggers() should throw if interval is not a string', (test) => {
 				action: 'action-create-card',
 				interval: 999,
 				arguments: {
+					reason: null,
 					foo: 'bar'
 				}
 			}
@@ -1285,6 +1310,7 @@ ava('.setTriggers() should throw if no card', (test) => {
 					type: 'object'
 				},
 				arguments: {
+					reason: null,
 					foo: 'bar'
 				}
 			}
@@ -1304,6 +1330,7 @@ ava('.setTriggers() should throw if card is not a string', (test) => {
 					type: 'object'
 				},
 				arguments: {
+					reason: null,
 					foo: 'bar'
 				}
 			}
@@ -1320,6 +1347,7 @@ ava('.setTriggers() should throw if no filter', (test) => {
 				type: 'card',
 				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 				arguments: {
+					reason: null,
 					foo: 'bar'
 				}
 			}
@@ -1337,6 +1365,7 @@ ava('.setTriggers() should throw if filter is not an object', (test) => {
 				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 				filter: 'foo',
 				arguments: {
+					reason: null,
 					foo: 'bar'
 				}
 			}
@@ -1450,6 +1479,7 @@ ava('.tick() should evaluate the current timestamp in a time triggered action', 
 			interval: 'PT1D',
 			startDate: '2018-08-05T12:00:00.000Z',
 			arguments: {
+				reason: null,
 				properties: {
 					slug: 'foo',
 					data: {
@@ -1628,6 +1658,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 			interval: 'PT1D',
 			startDate: '2018-08-05T12:00:00.000Z',
 			arguments: {
+				reason: null,
 				properties: {
 					version: '1.0.0',
 					slug: 'foo'
@@ -1643,6 +1674,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 			interval: 'PT2D',
 			startDate: '2018-08-04T12:00:00.000Z',
 			arguments: {
+				reason: null,
 				properties: {
 					version: '1.0.0',
 					slug: 'bar'
@@ -1690,6 +1722,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 				timestamp: '2018-08-06T12:00:00.000Z',
 				epoch: 1533556800000,
 				arguments: {
+					reason: null,
 					properties: {
 						version: '1.0.0',
 						slug: 'bar'
@@ -1716,6 +1749,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 				timestamp: '2018-08-06T12:00:00.000Z',
 				epoch: 1533556800000,
 				arguments: {
+					reason: null,
 					properties: {
 						version: '1.0.0',
 						slug: 'foo'
@@ -1898,6 +1932,7 @@ ava('should fail to update a card if the schema does not match', async (test) =>
 		card: typeCard.id,
 		type: typeCard.type,
 		arguments: {
+			reason: null,
 			properties: {
 				slug: 'foo',
 				version: '1.0.0',
@@ -1919,6 +1954,7 @@ ava('should fail to update a card if the schema does not match', async (test) =>
 		card: result.data.id,
 		type: result.data.type,
 		arguments: {
+			reason: null,
 			properties: {
 				version: '1.0.0',
 				foobar: true
@@ -1939,6 +1975,7 @@ ava('should update a card to add an extra property', async (test) => {
 		card: typeCard.id,
 		type: typeCard.type,
 		arguments: {
+			reason: null,
 			properties: {
 				slug: 'foo',
 				version: '1.0.0',
@@ -1960,6 +1997,7 @@ ava('should update a card to add an extra property', async (test) => {
 		card: createResult.data.id,
 		type: createResult.data.type,
 		arguments: {
+			reason: null,
 			properties: {
 				version: '1.0.0',
 				data: {
@@ -2000,6 +2038,7 @@ ava('should update a card to set active to false', async (test) => {
 		card: typeCard.id,
 		type: typeCard.type,
 		arguments: {
+			reason: null,
 			properties: {
 				slug: 'foo',
 				version: '1.0.0'
@@ -2018,6 +2057,7 @@ ava('should update a card to set active to false', async (test) => {
 		card: createResult.data.id,
 		type: createResult.data.type,
 		arguments: {
+			reason: null,
 			properties: {
 				version: '1.0.0',
 				active: false
@@ -2045,6 +2085,253 @@ ava('should update a card to set active to false', async (test) => {
 	}))
 })
 
+ava('should update a card along with a reason', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card')
+	const createRequest = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, {
+			action: 'action-create-card',
+			context: test.context.context,
+			card: typeCard.id,
+			type: typeCard.type,
+			arguments: {
+				reason: null,
+				properties: {
+					slug: 'foo',
+					version: '1.0.0'
+				}
+			}
+		})
+
+	await test.context.flush(test.context.session)
+	const createResult = await test.context.queue.waitResults(
+		test.context.context, createRequest)
+	test.false(createResult.error)
+
+	const updateRequest = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, {
+			action: 'action-update-card',
+			context: test.context.context,
+			card: createResult.data.id,
+			type: createResult.data.type,
+			arguments: {
+				reason: 'This card should have been inactive',
+				properties: {
+					version: '1.0.0',
+					active: false
+				}
+			}
+		})
+
+	await test.context.flush(test.context.session)
+	const updateResult = await test.context.queue.waitResults(
+		test.context.context, updateRequest)
+	test.false(updateResult.error)
+
+	const timeline = await test.context.jellyfish.query(
+		test.context.context, test.context.session, {
+			type: 'object',
+			additionalProperties: true,
+			required: [ 'type', 'data' ],
+			properties: {
+				type: {
+					type: 'string',
+					const: 'update'
+				},
+				data: {
+					type: 'object',
+					required: [ 'target' ],
+					additionalProperties: true,
+					properties: {
+						target: {
+							type: 'string',
+							const: updateResult.data.id
+						}
+					}
+				}
+			}
+		})
+
+	test.is(timeline.length, 1)
+	test.is(timeline[0].name, 'This card should have been inactive')
+})
+
+ava('should upsert an existing card along with a reason', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card')
+	const createRequest = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, {
+			action: 'action-create-card',
+			context: test.context.context,
+			card: typeCard.id,
+			type: typeCard.type,
+			arguments: {
+				reason: null,
+				properties: {
+					slug: 'foo',
+					version: '1.0.0'
+				}
+			}
+		})
+
+	await test.context.flush(test.context.session)
+	const createResult = await test.context.queue.waitResults(
+		test.context.context, createRequest)
+	test.false(createResult.error)
+
+	const updateRequest = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, {
+			action: 'action-upsert-card',
+			context: test.context.context,
+			card: typeCard.id,
+			type: typeCard.type,
+			arguments: {
+				reason: 'This card should have been inactive',
+				properties: {
+					slug: createResult.data.slug,
+					version: '1.0.0',
+					active: false
+				}
+			}
+		})
+
+	await test.context.flush(test.context.session)
+	const updateResult = await test.context.queue.waitResults(
+		test.context.context, updateRequest)
+	test.false(updateResult.error)
+
+	const timeline = await test.context.jellyfish.query(
+		test.context.context, test.context.session, {
+			type: 'object',
+			additionalProperties: true,
+			required: [ 'type', 'data' ],
+			properties: {
+				type: {
+					type: 'string',
+					const: 'update'
+				},
+				data: {
+					type: 'object',
+					required: [ 'target' ],
+					additionalProperties: true,
+					properties: {
+						target: {
+							type: 'string',
+							const: updateResult.data.id
+						}
+					}
+				}
+			}
+		})
+
+	test.is(timeline.length, 1)
+	test.is(timeline[0].name, 'This card should have been inactive')
+})
+
+ava('should create a new card along with a reason', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card')
+	const createRequest = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, {
+			action: 'action-create-card',
+			context: test.context.context,
+			card: typeCard.id,
+			type: typeCard.type,
+			arguments: {
+				reason: 'My new card',
+				properties: {
+					slug: 'foo',
+					version: '1.0.0'
+				}
+			}
+		})
+
+	await test.context.flush(test.context.session)
+	const createResult = await test.context.queue.waitResults(
+		test.context.context, createRequest)
+	test.false(createResult.error)
+
+	const timeline = await test.context.jellyfish.query(
+		test.context.context, test.context.session, {
+			type: 'object',
+			additionalProperties: true,
+			required: [ 'type', 'data' ],
+			properties: {
+				type: {
+					type: 'string',
+					const: 'create'
+				},
+				data: {
+					type: 'object',
+					required: [ 'target' ],
+					additionalProperties: true,
+					properties: {
+						target: {
+							type: 'string',
+							const: createResult.data.id
+						}
+					}
+				}
+			}
+		})
+
+	test.is(timeline.length, 1)
+	test.is(timeline[0].name, 'My new card')
+})
+
+ava('should upsert a new card along with a reason', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card')
+
+	const upsertRequest = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, {
+			action: 'action-upsert-card',
+			context: test.context.context,
+			card: typeCard.id,
+			type: typeCard.type,
+			arguments: {
+				reason: 'New card!',
+				properties: {
+					slug: 'foo-bar-baz-qux',
+					version: '1.0.0',
+					active: false
+				}
+			}
+		})
+
+	await test.context.flush(test.context.session)
+	const upsertResult = await test.context.queue.waitResults(
+		test.context.context, upsertRequest)
+	test.false(upsertResult.error)
+
+	const timeline = await test.context.jellyfish.query(
+		test.context.context, test.context.session, {
+			type: 'object',
+			additionalProperties: true,
+			required: [ 'type', 'data' ],
+			properties: {
+				type: {
+					type: 'string',
+					const: 'create'
+				},
+				data: {
+					type: 'object',
+					required: [ 'target' ],
+					additionalProperties: true,
+					properties: {
+						target: {
+							type: 'string',
+							const: upsertResult.data.id
+						}
+					}
+				}
+			}
+		})
+
+	test.is(timeline.length, 1)
+	test.is(timeline[0].name, 'New card!')
+})
+
 ava('should update a card to set active to false using the card slug as input', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
 	const createRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
@@ -2053,6 +2340,7 @@ ava('should update a card to set active to false using the card slug as input', 
 		card: typeCard.id,
 		type: typeCard.type,
 		arguments: {
+			reason: null,
 			properties: {
 				version: '1.0.0',
 				slug: 'foo-bar-baz'
@@ -2071,6 +2359,7 @@ ava('should update a card to set active to false using the card slug as input', 
 		card: 'foo-bar-baz',
 		type: 'card',
 		arguments: {
+			reason: null,
 			properties: {
 				version: '1.0.0',
 				active: false
@@ -2106,6 +2395,7 @@ ava('should update a card to override an array property', async (test) => {
 		card: typeCard.id,
 		type: typeCard.type,
 		arguments: {
+			reason: null,
 			properties: {
 				slug: 'foo',
 				version: '1.0.0',
@@ -2127,6 +2417,7 @@ ava('should update a card to override an array property', async (test) => {
 		card: createResult.data.id,
 		type: createResult.data.type,
 		arguments: {
+			reason: null,
 			properties: {
 				version: '1.0.0',
 				data: {
@@ -2167,6 +2458,7 @@ ava('should add an update event if updating a card', async (test) => {
 		card: typeCard.id,
 		type: typeCard.type,
 		arguments: {
+			reason: null,
 			properties: {
 				slug: 'foo',
 				version: '1.0.0',
@@ -2188,6 +2480,7 @@ ava('should add an update event if updating a card', async (test) => {
 		card: createResult.data.id,
 		type: createResult.data.type,
 		arguments: {
+			reason: null,
 			properties: {
 				version: '1.0.0',
 				data: {
@@ -2290,6 +2583,7 @@ ava('should delete a card using action-delete-card', async (test) => {
 		card: typeCard.id,
 		type: typeCard.type,
 		arguments: {
+			reason: null,
 			properties: {
 				slug: 'foo',
 				version: '1.0.0'
@@ -2338,6 +2632,7 @@ ava('should delete a card using action-update-card', async (test) => {
 		card: typeCard.id,
 		type: typeCard.type,
 		arguments: {
+			reason: null,
 			properties: {
 				slug: 'foo',
 				version: '1.0.0'
@@ -2356,6 +2651,7 @@ ava('should delete a card using action-update-card', async (test) => {
 		card: createResult.data.id,
 		type: createResult.data.type,
 		arguments: {
+			reason: null,
 			properties: {
 				version: '1.0.0',
 				active: false
@@ -2428,6 +2724,7 @@ ava('action-create-event should create a link card', async (test) => {
 		card: typeCard.id,
 		type: typeCard.type,
 		arguments: {
+			reason: null,
 			properties: {}
 		}
 	})
@@ -2504,6 +2801,53 @@ ava('action-create-event should create a link card', async (test) => {
 	}))
 })
 
+ava('action-create-event: should be able to add an event name', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+
+	const cardRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+		action: 'action-create-card',
+		context: test.context.context,
+		card: typeCard.id,
+		type: typeCard.type,
+		arguments: {
+			reason: null,
+			properties: {}
+		}
+	})
+
+	await test.context.flush(test.context.session)
+	const cardResult = await test.context.queue.waitResults(
+		test.context.context, cardRequest)
+	test.false(cardResult.error)
+
+	const messageRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+		action: 'action-create-event',
+		context: test.context.context,
+		card: cardResult.data.id,
+		type: cardResult.data.type,
+		arguments: {
+			type: 'message',
+			name: 'Hello world',
+			tags: [],
+			payload: {
+				message: 'johndoe'
+			}
+		}
+	})
+
+	await test.context.flush(test.context.session)
+	const messageResult = await test.context.queue.waitResults(
+		test.context.context, messageRequest)
+	test.false(messageResult.error)
+
+	const event = await test.context.jellyfish.getCardById(
+		test.context.context, test.context.session, messageResult.data.id, {
+			type: messageResult.data.type
+		})
+
+	test.is(event.name, 'Hello world')
+})
+
 ava('events should always inherit their parent\'s markers', async (test) => {
 	const {
 		context,
@@ -2522,6 +2866,7 @@ ava('events should always inherit their parent\'s markers', async (test) => {
 		card: typeCard.id,
 		type: typeCard.type,
 		arguments: {
+			reason: null,
 			properties: {
 				markers: [ marker ]
 			}
@@ -2572,6 +2917,7 @@ ava('Updating a cards markers should update the markers of attached events', asy
 		card: typeCard.id,
 		type: typeCard.type,
 		arguments: {
+			reason: null,
 			properties: {}
 		}
 	})
@@ -2606,6 +2952,7 @@ ava('Updating a cards markers should update the markers of attached events', asy
 		card: cardResult.data.id,
 		type: cardResult.data.type,
 		arguments: {
+			reason: null,
 			properties: {
 				markers: [ marker ]
 			}
@@ -2665,6 +3012,7 @@ ava('should be able to insert a deeply nested card', async (test) => {
 		card: typeCard.id,
 		type: typeCard.type,
 		arguments: {
+			reason: null,
 			properties: {
 				slug: 'foo',
 				version: '1.0.0',
@@ -2726,6 +3074,7 @@ ava('should be able to upsert a deeply nested card', async (test) => {
 		card: typeCard.id,
 		type: typeCard.type,
 		arguments: {
+			reason: null,
 			properties: {
 				slug: 'foo',
 				version: '1.0.0',
@@ -2745,6 +3094,7 @@ ava('should be able to upsert a deeply nested card', async (test) => {
 		card: createResult.data.id,
 		type: createResult.data.type,
 		arguments: {
+			reason: null,
 			properties: {
 				data
 			}

@@ -192,6 +192,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 				type: typeCard.type,
 				context: request.context,
 				arguments: {
+					reason: null,
 					properties: {
 						slug: `${EXTERNAL_EVENT_TYPE}-${uuid()}`,
 						version: '1.0.0',
