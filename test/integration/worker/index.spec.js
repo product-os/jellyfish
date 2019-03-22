@@ -268,6 +268,113 @@ ava('.execute() should add an execution event to the action request', async (tes
 	test.is(timeline[0].type, 'execute')
 })
 
+ava('.insertCard() should pass a triggered action originator', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card')
+
+	test.context.worker.setTriggers(test.context.context, [
+		{
+			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			filter: {
+				type: 'object',
+				required: [ 'data' ],
+				properties: {
+					data: {
+						type: 'object',
+						required: [ 'command' ],
+						properties: {
+							command: {
+								type: 'string',
+								const: 'foo-bar-baz'
+							}
+						}
+					}
+				}
+			},
+			action: 'action-test-originator',
+			card: typeCard.id,
+			type: typeCard.type,
+			arguments: {
+				properties: {
+					slug: 'foo-bar-baz'
+				}
+			}
+		}
+	])
+
+	await test.context.worker.insertCard(
+		test.context.context, test.context.session, typeCard, {
+			timestamp: new Date().toISOString(),
+			actor: test.context.actor.id,
+			attachEvents: true,
+			override: false
+		}, {
+			slug: 'foo',
+			version: '1.0.0',
+			data: {
+				command: 'foo-bar-baz'
+			}
+		})
+
+	const card = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'foo-bar-baz')
+	test.is(card.data.originator, 'cb3523c5-b37d-41c8-ae32-9e7cc9309165')
+})
+
+ava('.insertCard() should take an originator option', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card')
+
+	test.context.worker.setTriggers(test.context.context, [
+		{
+			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			filter: {
+				type: 'object',
+				required: [ 'data' ],
+				properties: {
+					data: {
+						type: 'object',
+						required: [ 'command' ],
+						properties: {
+							command: {
+								type: 'string',
+								const: 'foo-bar-baz'
+							}
+						}
+					}
+				}
+			},
+			action: 'action-test-originator',
+			card: typeCard.id,
+			type: typeCard.type,
+			arguments: {
+				properties: {
+					slug: 'foo-bar-baz'
+				}
+			}
+		}
+	])
+
+	await test.context.worker.insertCard(
+		test.context.context, test.context.session, typeCard, {
+			timestamp: new Date().toISOString(),
+			actor: test.context.actor.id,
+			originator: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			attachEvents: true,
+			override: false
+		}, {
+			slug: 'foo',
+			version: '1.0.0',
+			data: {
+				command: 'foo-bar-baz'
+			}
+		})
+
+	const card = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'foo-bar-baz')
+	test.is(card.data.originator, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
+})
+
 ava('.execute() should execute a triggered action', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card')

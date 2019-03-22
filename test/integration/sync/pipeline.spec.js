@@ -487,6 +487,65 @@ ava('.importCards() should add create events', async (test) => {
 	test.is(timeline[0].type, 'create')
 })
 
+ava('.translateExternalEvent() should pass the originator to the sync context', async (test) => {
+	class TestIntegration extends NoOpIntegration {
+		constructor (options) {
+			super(options)
+			TestIntegration.instance = this
+		}
+	}
+
+	const slug = test.context.generateRandomSlug({
+		prefix: 'external-event'
+	})
+
+	const result = await pipeline.translateExternalEvent(
+		TestIntegration, test.context.kernel.defaults({
+			id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			type: 'external-event',
+			slug,
+			version: '1.0.0',
+			data: {
+				source: 'test',
+				headers: {},
+				payload: {
+					actor: test.context.actor.id,
+					foo: 'bar',
+					bar: 'baz'
+				}
+			}
+		}), {
+			context: Object.assign({}, test.context.syncContext, {
+				upsertElement: async (type, object, options) => {
+					object.data.originator = options.originator
+					return test.context.syncContext.upsertElement(type, object, options)
+				}
+			}),
+			actor: test.context.actor.id
+		})
+
+	test.deepEqual(result, [
+		test.context.kernel.defaults({
+			created_at: result[0].created_at,
+			id: result[0].id,
+			slug,
+			type: 'card',
+			name: null,
+			version: '1.0.0',
+			links: result[0].links,
+			data: {
+				origin: result[0].data.origin,
+				originator: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				payload: {
+					actor: test.context.actor.id,
+					foo: 'bar',
+					bar: 'baz'
+				}
+			}
+		})
+	])
+})
+
 ava('.translateExternalEvent() should translate an external event through the noop integration', async (test) => {
 	class TestIntegration extends NoOpIntegration {
 		constructor (options) {
