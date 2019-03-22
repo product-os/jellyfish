@@ -359,7 +359,7 @@ class HomeChannelBase extends TailStreamer {
 			const update = this.props.viewNotices[card.id]
 			return update && (update.newMentions || update.newContent)
 		})
-		console.log({ groups })
+
 		return (
 			<Flex
 				className="home-channel"
