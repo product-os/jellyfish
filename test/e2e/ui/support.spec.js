@@ -5,19 +5,19 @@
  */
 
 const ava = require('ava')
-const randomstring = require('randomstring')
+const uuid = require('uuid/v4')
 const helpers = require('./helpers')
 const macros = require('./macros')
 
 const context = {
 	context: {
-		id: `UI-INTEGRATION-TEST-${randomstring.generate(20)}`
+		id: `UI-INTEGRATION-TEST-${uuid()}`
 	}
 }
 
 const user = {
-	username: `johndoe-${randomstring.generate().toLowerCase()}`,
-	email: `johndoe-${randomstring.generate().toLowerCase()}@example.com`,
+	username: `johndoe-${uuid()}`,
+	email: `johndoe-${uuid()}@example.com`,
 	password: 'password'
 }
 
@@ -78,7 +78,7 @@ ava.serial('Updates to support threads should be reflected in the support thread
 	await page.waitForSelector('.rta__textarea')
 	await page.click('.rta__textarea')
 
-	const rand = randomstring.generate()
+	const rand = uuid()
 
 	const columnSelector = macros.makeSelector('column', null, supportThread.id)
 	await macros.createChatMessage(page, columnSelector, `%${rand}`)
@@ -94,7 +94,7 @@ ava.serial('You should be able to link support threads to existing support issue
 	const {
 		page
 	} = context
-	const name = `test-support-issue-${randomstring.generate().toLowerCase()}`
+	const name = `test-support-issue-${uuid()}`
 
 	const supportIssue = await page.evaluate((cardName) => {
 		return window.sdk.card.create({

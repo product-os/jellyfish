@@ -4,7 +4,7 @@
  * Proprietary and confidential.
  */
 
-const randomstring = require('randomstring')
+const uuid = require('uuid/v4')
 const Bluebird = require('bluebird')
 const _ = require('lodash')
 const actionLibrary = require('../../lib/action-library')
@@ -254,7 +254,7 @@ exports.tick = async (context, options) => {
 		onError: options.onError,
 		onLoop: async (serverContext, jellyfish, worker, queue, session) => {
 			return worker.tick({
-				id: `TICK-REQUEST-${randomstring.generate(20)}`
+				id: `TICK-REQUEST-${uuid()}`
 			}, session, {
 				currentDate: new Date()
 			})

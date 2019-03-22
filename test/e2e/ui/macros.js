@@ -31,7 +31,7 @@ exports.makeSelector = (componentName, slug, id) => {
 }
 
 exports.loginUser = async (page, user) => {
-	await page.goto(`http://localhost:8000`)
+	await page.goto('http://localhost:8000')
 
 	await page.waitForSelector('.login-page')
 

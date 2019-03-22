@@ -6,7 +6,7 @@
 
 const ava = require('ava')
 const Bluebird = require('bluebird')
-const randomstring = require('randomstring')
+const uuid = require('uuid/v4')
 const helpers = require('./helpers')
 const macros = require('./macros')
 
@@ -16,7 +16,7 @@ const WAIT_OPTS = {
 
 const context = {
 	context: {
-		id: `UI-INTEGRATION-TEST-${randomstring.generate(20)}`
+		id: `UI-INTEGRATION-TEST-${uuid()}`
 	}
 }
 
@@ -35,18 +35,18 @@ const screenshot = async (test, page) => {
 
 const users = {
 	community: {
-		username: `johndoe-${randomstring.generate().toLowerCase()}`,
-		email: `johndoe-${randomstring.generate().toLowerCase()}@example.com`,
+		username: `johndoe-${uuid()}`,
+		email: `johndoe-${uuid()}@example.com`,
 		password: 'password'
 	},
 	community2: {
-		username: `janedoe-${randomstring.generate().toLowerCase()}`,
-		email: `janedoe-${randomstring.generate().toLowerCase()}@example.com`,
+		username: `janedoe-${uuid()}`,
+		email: `janedoe-${uuid()}@example.com`,
 		password: 'password'
 	},
 	admin: {
-		username: `team-admin-${randomstring.generate().toLowerCase()}`,
-		email: `team-admin-${randomstring.generate().toLowerCase()}@example.com`,
+		username: `team-admin-${uuid()}`,
+		email: `team-admin-${uuid()}@example.com`,
 		password: 'password'
 	}
 }
@@ -97,7 +97,7 @@ ava.serial('should stop users from seeing messages attached to cards they can\'t
 	await macros.setInputValue(
 		page,
 		'.rendition-form__field--root_name input',
-		`Test support issue ${randomstring.generate()}`
+		`Test support issue ${uuid()}`
 	)
 
 	// Submit the form
@@ -105,7 +105,7 @@ ava.serial('should stop users from seeing messages attached to cards they can\'t
 
 	await page.waitForSelector('.column--support-issue')
 
-	const messageText = `My new message: ${randomstring.generate()}`
+	const messageText = `My new message: ${uuid()}`
 
 	await macros.createChatMessage(page, '.column--support-issue', messageText)
 

@@ -7,7 +7,7 @@
 const ava = require('ava')
 const Bluebird = require('bluebird')
 const _ = require('lodash')
-const randomstring = require('randomstring')
+const uuid = require('uuid/v4')
 const helpers = require('./helpers')
 
 ava.before(helpers.sdk.beforeEach)
@@ -25,7 +25,7 @@ ava.serial('.action() should be able to successfully create a new card', async (
 
 	sdk.setAuthToken(test.context.session)
 
-	const name = `test-card-${randomstring.generate()}`
+	const name = `test-card-${uuid()}`
 
 	await sdk.action({
 		card: 'card',
@@ -76,7 +76,7 @@ ava.serial('.action() should resolve with the created card', async (test) => {
 
 	sdk.setAuthToken(test.context.session)
 
-	const name = `test-card-${randomstring.generate()}`
+	const name = `test-card-${uuid()}`
 	const slug = test.context.generateRandomSlug({
 		prefix: 'card'
 	})
@@ -120,7 +120,7 @@ ava.serial('.query() should run a query on the server', async (test) => {
 		server
 	} = test.context
 
-	const name = `test-card-${randomstring.generate()}`
+	const name = `test-card-${uuid()}`
 	const slug = test.context.generateRandomSlug({
 		prefix: 'card'
 	})
@@ -185,7 +185,7 @@ ava.serial('.query() should accept a "limit" option', async (test) => {
 	const limit = 2
 
 	const baseTime = 1539092025937
-	const uuid = randomstring.generate()
+	const id = uuid()
 
 	const card1 = await server.jellyfish.insertCard(test.context.context, test.context.session, {
 		version: '1.0.0',
@@ -194,7 +194,7 @@ ava.serial('.query() should accept a "limit" option', async (test) => {
 		}),
 		data: {
 			timestamp: new Date(baseTime + 1000).toISOString(),
-			uuid
+			uuid: id
 		},
 		name: 'card1',
 		type: 'card',
@@ -213,7 +213,7 @@ ava.serial('.query() should accept a "limit" option', async (test) => {
 		}),
 		data: {
 			timestamp: new Date(baseTime + 2000).toISOString(),
-			uuid
+			uuid: id
 		},
 		name: 'card2',
 		type: 'card',
@@ -232,7 +232,7 @@ ava.serial('.query() should accept a "limit" option', async (test) => {
 		}),
 		data: {
 			timestamp: new Date(baseTime + 3000).toISOString(),
-			uuid
+			uuid: id
 		},
 		name: 'card3',
 		type: 'card',
@@ -261,7 +261,7 @@ ava.serial('.query() should accept a "limit" option', async (test) => {
 				properties: {
 					uuid: {
 						type: 'string',
-						const: uuid
+						const: id
 					}
 				}
 			}
@@ -284,7 +284,7 @@ ava.serial('.query() should accept a "skip" option', async (test) => {
 	const skip = 1
 
 	const baseTime = 1539092025937
-	const uuid = randomstring.generate()
+	const id = uuid()
 
 	await server.jellyfish.insertCard(test.context.context, test.context.session, {
 		version: '1.0.0',
@@ -293,7 +293,7 @@ ava.serial('.query() should accept a "skip" option', async (test) => {
 		}),
 		data: {
 			timestamp: new Date(baseTime + 1000).toISOString(),
-			uuid
+			uuid: id
 		},
 		name: 'card1',
 		type: 'card',
@@ -312,7 +312,7 @@ ava.serial('.query() should accept a "skip" option', async (test) => {
 		}),
 		data: {
 			timestamp: new Date(baseTime + 2000).toISOString(),
-			uuid
+			uuid: id
 		},
 		name: 'card2',
 		type: 'card',
@@ -331,7 +331,7 @@ ava.serial('.query() should accept a "skip" option', async (test) => {
 		}),
 		data: {
 			timestamp: new Date(baseTime + 3000).toISOString(),
-			uuid
+			uuid: id
 		},
 		name: 'card3',
 		type: 'card',
@@ -360,7 +360,7 @@ ava.serial('.query() should accept a "skip" option', async (test) => {
 				properties: {
 					uuid: {
 						type: 'string',
-						const: uuid
+						const: id
 					}
 				}
 			}
@@ -380,7 +380,7 @@ ava.serial('.query() should accept a "sortBy" option as a single key', async (te
 		server
 	} = test.context
 
-	const uuid = randomstring.generate()
+	const id = uuid()
 
 	const card1 = await server.jellyfish.insertCard(test.context.context, test.context.session, {
 		version: '1.0.0',
@@ -389,7 +389,7 @@ ava.serial('.query() should accept a "sortBy" option as a single key', async (te
 		}),
 		name: 'd',
 		data: {
-			uuid
+			uuid: id
 		},
 		type: 'card',
 		active: true,
@@ -407,7 +407,7 @@ ava.serial('.query() should accept a "sortBy" option as a single key', async (te
 		}),
 		name: 'a',
 		data: {
-			uuid
+			uuid: id
 		},
 		type: 'card',
 		active: true,
@@ -425,7 +425,7 @@ ava.serial('.query() should accept a "sortBy" option as a single key', async (te
 		}),
 		name: 'c',
 		data: {
-			uuid
+			uuid: id
 		},
 		type: 'card',
 		active: true,
@@ -443,7 +443,7 @@ ava.serial('.query() should accept a "sortBy" option as a single key', async (te
 		}),
 		name: 'b',
 		data: {
-			uuid
+			uuid: id
 		},
 		type: 'card',
 		active: true,
@@ -471,7 +471,7 @@ ava.serial('.query() should accept a "sortBy" option as a single key', async (te
 				properties: {
 					uuid: {
 						type: 'string',
-						const: uuid
+						const: id
 					}
 				}
 			}
@@ -490,7 +490,7 @@ ava.serial('.query() should accept a "sortBy" option as an array of keys', async
 		server
 	} = test.context
 
-	const uuid = randomstring.generate()
+	const id = uuid()
 
 	const card1 = await server.jellyfish.insertCard(test.context.context, test.context.session, {
 		version: '1.0.0',
@@ -499,7 +499,7 @@ ava.serial('.query() should accept a "sortBy" option as an array of keys', async
 		}),
 		data: {
 			code: 'd',
-			uuid
+			uuid: id
 		},
 		type: 'card',
 		active: true,
@@ -517,7 +517,7 @@ ava.serial('.query() should accept a "sortBy" option as an array of keys', async
 		}),
 		data: {
 			code: 'a',
-			uuid
+			uuid: id
 		},
 		type: 'card',
 		active: true,
@@ -535,7 +535,7 @@ ava.serial('.query() should accept a "sortBy" option as an array of keys', async
 		}),
 		data: {
 			code: 'c',
-			uuid
+			uuid: id
 		},
 		type: 'card',
 		active: true,
@@ -553,7 +553,7 @@ ava.serial('.query() should accept a "sortBy" option as an array of keys', async
 		}),
 		data: {
 			code: 'b',
-			uuid
+			uuid: id
 		},
 		type: 'card',
 		active: true,
@@ -581,7 +581,7 @@ ava.serial('.query() should accept a "sortBy" option as an array of keys', async
 				properties: {
 					uuid: {
 						type: 'string',
-						const: uuid
+						const: id
 					}
 				}
 			}
@@ -600,7 +600,7 @@ ava.serial('.card.get() should return a single element', async (test) => {
 		server
 	} = test.context
 
-	const name = `test-card-${randomstring.generate()}`
+	const name = `test-card-${uuid()}`
 
 	let cardsToInsert = 5
 
@@ -703,7 +703,7 @@ ava.serial('.card.get() should work for ids without a type option', async (test)
 		server
 	} = test.context
 
-	const name = `test-card-${randomstring.generate()}`
+	const name = `test-card-${uuid()}`
 
 	let cardsToInsert = 5
 
@@ -974,8 +974,8 @@ ava.serial.cb('.stream() should stream new cards', (test) => {
 		server
 	} = test.context
 
-	const slug1 = `test-card-${randomstring.generate()}`.toLowerCase()
-	const slug2 = `test-card-${randomstring.generate()}`.toLowerCase()
+	const slug1 = `test-card-${uuid()}`.toLowerCase()
+	const slug2 = `test-card-${uuid()}`.toLowerCase()
 
 	sdk.setAuthToken(test.context.session)
 	sdk.stream({

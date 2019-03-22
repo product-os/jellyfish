@@ -7,7 +7,7 @@
 const ava = require('ava')
 const Bluebird = require('bluebird')
 const _ = require('lodash')
-const randomstring = require('randomstring')
+const uuid = require('uuid/v4')
 const Front = require('front-sdk').Front
 const helpers = require('./helpers')
 const environment = require('../../../lib/environment')
@@ -125,7 +125,7 @@ ava.before(async (test) => {
 			subject: title,
 			body: description,
 			sender: {
-				handle: `jellytest-${randomstring.generate().slice(0, 4)}`
+				handle: `jellytest-${uuid().slice(0, 4)}`
 			}
 		})
 
@@ -193,8 +193,8 @@ const avaTest = TOKEN ? ava.serial : ava.serial.skip
 
 avaTest('should be able to tag an unassigned conversation', async (test) => {
 	const supportThread = await test.context.startSupportThread(
-		`My Issue ${randomstring.generate()}`,
-		`Foo Bar ${randomstring.generate()}`)
+		`My Issue ${uuid()}`,
+		`Foo Bar ${uuid()}`)
 
 	const id = _.last(supportThread.data.mirrors[0].split('/'))
 	await test.context.front.conversation.update({
@@ -221,8 +221,8 @@ avaTest('should be able to tag an unassigned conversation', async (test) => {
 
 avaTest('should be able to comment on an inbound message', async (test) => {
 	const supportThread = await test.context.startSupportThread(
-		`My Issue ${randomstring.generate()}`,
-		`Foo Bar ${randomstring.generate()}`)
+		`My Issue ${uuid()}`,
+		`Foo Bar ${uuid()}`)
 
 	await test.context.createComment(supportThread,
 		test.context.getWhisperSlug(), 'First comment')
@@ -241,8 +241,8 @@ avaTest('should be able to comment on an inbound message', async (test) => {
 
 avaTest('should be able to close an inbound message', async (test) => {
 	const supportThread = await test.context.startSupportThread(
-		`My Issue ${randomstring.generate()}`,
-		`Foo Bar ${randomstring.generate()}`)
+		`My Issue ${uuid()}`,
+		`Foo Bar ${uuid()}`)
 
 	await test.context.sdk.card.update(supportThread.id, {
 		type: supportThread.type,
@@ -264,8 +264,8 @@ avaTest('should be able to close an inbound message', async (test) => {
 
 avaTest('should be able to archive an inbound message', async (test) => {
 	const supportThread = await test.context.startSupportThread(
-		`My Issue ${randomstring.generate()}`,
-		`Foo Bar ${randomstring.generate()}`)
+		`My Issue ${uuid()}`,
+		`Foo Bar ${uuid()}`)
 
 	await test.context.sdk.card.update(supportThread.id, {
 		type: supportThread.type,

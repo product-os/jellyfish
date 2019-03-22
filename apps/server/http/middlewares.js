@@ -5,7 +5,7 @@
  */
 
 const _ = require('lodash')
-const randomstring = require('randomstring')
+const uuid = require('uuid/v4')
 const bodyParser = require('body-parser')
 const compression = require('compression')
 const responseTime = require('response-time')
@@ -60,7 +60,7 @@ module.exports = (application, jellyfish, options) => {
 
 	application.use((request, response, next) => {
 		const context = {
-			id: `REQUEST-${randomstring.generate(20)}`
+			id: `REQUEST-${uuid()}`
 		}
 
 		logger.info(context, 'HTTP request start', {

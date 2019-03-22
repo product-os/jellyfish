@@ -5,18 +5,13 @@
  */
 
 const ava = require('ava')
-const Bluebird = require('bluebird')
-const randomstring = require('randomstring')
+const uuid = require('uuid/v4')
 const helpers = require('./helpers')
 const macros = require('./macros')
 
-const WAIT_OPTS = {
-	timeout: 180 * 1000
-}
-
 const context = {
 	context: {
-		id: `UI-INTEGRATION-TEST-${randomstring.generate(20)}`
+		id: `UI-INTEGRATION-TEST-${uuid()}`
 	}
 }
 
@@ -34,8 +29,8 @@ const screenshot = async (test, page) => {
 }
 
 const user = {
-	username: `johndoe-${randomstring.generate().toLowerCase()}`,
-	email: `johndoe-${randomstring.generate().toLowerCase()}@example.com`,
+	username: `johndoe-${uuid()}`,
+	email: `johndoe-${uuid()}@example.com`,
 	password: 'password'
 }
 
@@ -48,7 +43,7 @@ ava.before(async () => {
 	await context.addUserToBalenaOrg(userCard.id)
 	await macros.loginUser(context.page, user)
 	const card = await context.insertCard({
-		slug: `thread-${randomstring.generate().toLowerCase()}`,
+		slug: `thread-${uuid()}`,
 		type: 'thread'
 	})
 	context.testCard = card

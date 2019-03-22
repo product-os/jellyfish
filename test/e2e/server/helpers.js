@@ -6,7 +6,7 @@
 
 const Bluebird = require('bluebird')
 const request = require('request')
-const randomstring = require('randomstring')
+const uuid = require('uuid/v4')
 const helpers = require('../../integration/core/helpers')
 const bootstrap = require('../../../apps/server/bootstrap')
 const actionServer = require('../../../apps/action-server/bootstrap')
@@ -20,7 +20,7 @@ const workerOptions = {
 exports.server = {
 	beforeEach: async (test) => {
 		test.context.context = {
-			id: `SERVER-TEST-${randomstring.generate(20)}`
+			id: `SERVER-TEST-${uuid()}`
 		}
 
 		test.context.server = await bootstrap(test.context.context)

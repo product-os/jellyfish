@@ -4,7 +4,7 @@
  * Proprietary and confidential.
  */
 
-const randomstring = require('randomstring')
+const uuid = require('uuid/v4')
 const _ = require('lodash')
 const socketIo = require('socket.io')
 
@@ -25,7 +25,7 @@ module.exports = (jellyfish, server) => {
 				})
 			}
 
-			const id = `SOCKET-REQUEST-${randomstring.generate(20)}`
+			const id = `SOCKET-REQUEST-${uuid()}`
 
 			return jellyfish.stream({
 				id
