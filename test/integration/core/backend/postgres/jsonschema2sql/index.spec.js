@@ -192,7 +192,6 @@ for (const suite of testSuites) {
 		 * flag to determine whether it should match or
 		 * not the scenario's object.
 		 */
-		console.log(scenario)
 		for (const testCase of scenario.tests) {
 			/*
 			 * We will execute each test case in a different
