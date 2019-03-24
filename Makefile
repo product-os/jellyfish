@@ -5,7 +5,7 @@
 	coverage \
 	node \
 	test \
-	build \
+	build-ui \
 	compose \
 	start-server \
 	start-worker \
@@ -48,6 +48,10 @@ DB_USER ?=
 export DB_USER
 DB_PASSWORD ?=
 export DB_PASSWORD
+SERVER_HOST ?= http://localhost
+export SERVER_HOST
+SERVER_PORT ?= $(PORT)
+export SERVER_PORT
 SERVER_DATABASE ?= jellyfish
 export SERVER_DATABASE
 DB_CERT ?=
@@ -182,8 +186,9 @@ docker-compose.local.yml:
 	echo "version: \"3\"" > $@
 	echo "# Use this file to make local docker-compose changes" >> $@
 
-build:
-	SENTRY_DSN_UI=$(SENTRY_DSN_UI) ./node_modules/.bin/webpack
+build-ui:
+	SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
+		./node_modules/.bin/webpack
 
 lint:
 	./node_modules/.bin/eslint --ext .js,.jsx $(ESLINT_OPTION_FIX) \

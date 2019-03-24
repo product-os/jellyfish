@@ -44,7 +44,7 @@ jobs:
         # --unsafe-perm flag allows the postinstall script to run correctly
         - run:
             name: Install Dependencies
-            command: npm ci --unsafe-perm && make build
+            command: npm ci --unsafe-perm && make build-ui
 
         - save_cache:
             paths:
@@ -254,10 +254,10 @@ jobs:
           command: service redis-server start
       - run:
           name: Flaky UI Tests (production bundle)
-          command: make build NODE_ENV=production && ./scripts/flaky-ui-tests.sh
+          command: make build-ui NODE_ENV=production && ./scripts/flaky-ui-tests.sh
       - run:
           name: Flaky UI Tests (debug bundle)
-          command: make build NODE_ENV=test && ./scripts/flaky-ui-tests.sh
+          command: make build-ui NODE_ENV=test && ./scripts/flaky-ui-tests.sh
 
   results:
     <<: *job_defaults
@@ -270,7 +270,7 @@ jobs:
 
       - run:
           name: Webpack Bundle Report
-          command: make build NODE_ENV=test && mkdir -p /tmp/test-results && cp webpack-bundle-report.html /tmp/test-results/webpack-bundle-report.html
+          command: make build-ui NODE_ENV=test && mkdir -p /tmp/test-results && cp webpack-bundle-report.html /tmp/test-results/webpack-bundle-report.html
       - run:
           name: Generate Coverage Results
           command: make --silent coverage > COVERAGE && mkdir -p /tmp/test-results && cp -rf coverage /tmp/test-results
