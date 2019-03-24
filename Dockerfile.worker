@@ -1,12 +1,9 @@
 FROM resinci/jellyfish-test as base
 
 WORKDIR /usr/src/app
-
-COPY package.json /usr/src/app
-COPY package-lock.json /usr/src/app
-RUN mkdir -p scripts/eslint-plugin-jellyfish
-COPY scripts/eslint-plugin-jellyfish/package.json /usr/src/app/scripts/eslint-plugin-jellyfish
-RUN npm ci
+RUN npm install --global partial-install
 COPY . /usr/src/app
+RUN partial-install apps/action-server/worker.js /usr/src/app
+RUN npm ci
 
 CMD [ "make", "start-worker" ]
