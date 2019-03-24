@@ -9,7 +9,13 @@ const _ = require('lodash')
 const socketIo = require('socket.io')
 
 module.exports = (jellyfish, server) => {
-	const socketServer = socketIo(server)
+	const socketServer = socketIo(server, {
+		// Don't fallback to long polling, so we can have more
+		// than one socket server replicas even without sticky
+		// sessions.
+		// See https://socket.io/docs/using-multiple-nodes/
+		transports: [ 'websocket' ]
+	})
 
 	const openStreams = {}
 
