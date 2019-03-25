@@ -42,9 +42,11 @@ injectGlobal `
 		height: 100%;
 	}
 `
+
 const SENTRY_DSN = process.env.SENTRY_DSN_UI
 
-if (process.env.NODE_ENV === 'production' && SENTRY_DSN) {
+if (process.env.NODE_ENV === 'production' &&
+	SENTRY_DSN && SENTRY_DSN !== '0') {
 	Sentry.init({
 		dsn: SENTRY_DSN,
 		release: process.env.VERSION,
