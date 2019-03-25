@@ -87,7 +87,32 @@ class SupportThreadBase extends React.Component {
 			expanded: false
 		}
 		this.loadLinks(props.card.id)
+
+		this.setCategory = this.setCategory.bind(this)
 	}
+
+	setCategory (event) {
+		event.preventDefault()
+
+		const category = event.target.dataset.category
+
+		if (category === _.get(this.props.card, [ 'data', 'category' ])) {
+			return
+		}
+
+		const update = _.cloneDeep(this.props.card)
+		_.set(update, [ 'data', 'category' ], category)
+
+		core.sdk.card.update(update.id, update)
+			.then(() => {
+				this.props.actions.addNotification('success', `Successfully set support thread category to: ${category}`)
+				this.props.actions.removeChannel(this.props.channel)
+			})
+			.catch((error) => {
+				this.props.actions.addNotification('danger', error.message || error)
+			})
+	}
+
 	loadLinks (id) {
 		core.sdk.query({
 			$$links: {
@@ -141,6 +166,8 @@ class SupportThreadBase extends React.Component {
 		})
 		const typeSchema = _.get(typeCard, [ 'data', 'schema' ])
 		const localSchema = helpers.getLocalSchema(card)
+		const defaultCategory = _.get(typeSchema, [ 'properties', 'data', 'properties', 'category', 'default' ])
+		const categoryOptions = _.get(typeSchema, [ 'properties', 'data', 'properties', 'category', 'enum' ])
 
 		// Local schemas are considered weak and are overridden by a type schema
 		const schema = _.merge({}, {
@@ -174,9 +201,6 @@ class SupportThreadBase extends React.Component {
 				<rendition.Box
 					px={3}
 					pt={3}
-					style={{
-						overflowY: 'auto'
-					}}
 				>
 					<rendition.Flex mb={1} justify="space-between">
 						<rendition.Flex align="center">
@@ -191,7 +215,26 @@ class SupportThreadBase extends React.Component {
 							})}
 						</rendition.Flex>
 
-						<rendition.Flex>
+						<rendition.Flex align="center">
+							<rendition.DropDownButton
+								primary
+								label={_.get(card, [ 'data', 'category' ], defaultCategory)}
+								joined
+								outline
+							>
+								{_.map(categoryOptions, (item) => {
+									return (
+										<rendition.Link
+											data-category={item}
+											key={item}
+											onClick={this.setCategory}
+										>
+											{item}
+										</rendition.Link>
+									)
+								})}
+							</rendition.DropDownButton>
+
 							<IconButton.IconButton plaintext square mr={1} tooltip={{
 								placement: 'bottom',
 								text: 'Close this support thread'
