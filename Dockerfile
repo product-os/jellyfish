@@ -13,8 +13,11 @@ COPY scripts/eslint-plugin-jellyfish/package.json /usr/src/app/scripts/eslint-pl
 RUN npm ci
 COPY . /usr/src/app
 
-# TODO: Move this to a UI dockerfile
-RUN make build NODE_ENV=production SENTRY_DSN_UI="https://ff836b1e4abc4d0699bcaaf07ce4ea08@sentry.io/1366139"
+RUN make build-ui \
+	NODE_ENV=production \
+	SENTRY_DSN_UI="https://ff836b1e4abc4d0699bcaaf07ce4ea08@sentry.io/1366139" \
+	SERVER_HOST="https://jel.ly.fish" \
+	SERVER_PORT=443
 
 ###########################################################
 # Test
