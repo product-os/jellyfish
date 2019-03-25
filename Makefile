@@ -226,7 +226,7 @@ ngrok-%:
 
 compose: LOGLEVEL = info
 compose: docker-compose.local.yml
-	docker-compose -f docker-compose.dev.yml -f $< up
+	docker-compose -f docker-compose.dev.yml -f $< up --build
 
 node:
 	node $(NODE_DEBUG_ARGS) $(FILE)

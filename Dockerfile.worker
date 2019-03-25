@@ -1,12 +1,14 @@
-FROM resinci/jellyfish-test as base
+###########################################################
+# Runtime
+###########################################################
+
+FROM balena/open-balena-base:v5.3.1
 
 WORKDIR /usr/src/app
 
 COPY package.json /usr/src/app
 COPY package-lock.json /usr/src/app
-RUN mkdir -p scripts/eslint-plugin-jellyfish
-COPY scripts/eslint-plugin-jellyfish/package.json /usr/src/app/scripts/eslint-plugin-jellyfish
-RUN npm ci
+RUN NODE_ENV=production npm ci
 COPY . /usr/src/app
 
 CMD [ "make", "start-worker" ]
