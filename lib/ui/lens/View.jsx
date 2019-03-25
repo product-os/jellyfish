@@ -26,6 +26,9 @@ import * as store from '../core/store'
 import * as helpers from '../services/helpers'
 import LensService from './'
 import ButtonGroup from '../shame/ButtonGroup'
+import {
+	CloseButton
+} from '../shame/CloseButton'
 import Icon from '../shame/Icon'
 
 const USER_FILTER_NAME = 'user-generated-filter'
@@ -467,21 +470,30 @@ class ViewRenderer extends React.Component {
 									</ButtonGroup>
 								)}
 
-								{slices && slices.length > 0 && lensSupportsSlices &&
-							<Box ml={3}>
-											Slice by:
-								<Select
-									ml={2}
-									value={activeSlice}
-									onChange={lensSupportsSlices ? this.setSlice : _.noop}
-								>
-									{_.map(slices, (slice) => {
-										return (<option key={slice.path} value={slice.path}>
-											{slice.title}
-										</option>)
-									})}
-								</Select>
-							</Box>}
+								{slices && slices.length > 0 && lensSupportsSlices && (
+									<Box ml={3}>
+													Slice by:
+										<Select
+											ml={2}
+											value={activeSlice}
+											onChange={lensSupportsSlices ? this.setSlice : _.noop}
+										>
+											{_.map(slices, (slice) => {
+												return (<option key={slice.path} value={slice.path}>
+													{slice.title}
+												</option>)
+											})}
+										</Select>
+									</Box>
+								)}
+
+								<CloseButton
+									mr={-3}
+									mt={-3}
+									onClick={() => {
+										return this.props.actions.removeChannel(this.props.channel)
+									}}
+								/>
 							</Flex>
 						</Flex>
 
