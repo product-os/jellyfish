@@ -30,6 +30,19 @@ exports.makeSelector = (componentName, slug, id) => {
 	]).join('')
 }
 
+exports.loginUser = async (page, user) => {
+	await page.goto('http://localhost:8000')
+
+	await page.waitForSelector('.login-page')
+
+	await page.type('.login-page__input--username', user.username)
+	await page.type('.login-page__input--password', user.password)
+
+	await page.click('.login-page__submit--login')
+
+	await page.waitForSelector('.home-channel')
+}
+
 exports.signupUser = async (page, user) => {
 	await page.waitForSelector('.login-page', exports.WAIT_OPTS)
 

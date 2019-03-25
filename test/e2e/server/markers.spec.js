@@ -5,7 +5,7 @@
  */
 
 const ava = require('ava')
-const randomstring = require('randomstring')
+const uuid = require('uuid/v4')
 const helpers = require('../sdk/helpers')
 
 ava.before(helpers.sdk.beforeEach)
@@ -18,8 +18,8 @@ ava.afterEach(async (test) => {
 
 const users = {
 	community: {
-		username: `johndoe-${randomstring.generate().toLowerCase()}`,
-		email: `johndoe-${randomstring.generate().toLowerCase()}@example.com`,
+		username: `johndoe-${uuid()}`,
+		email: `johndoe-${uuid()}@example.com`,
 		password: 'password'
 	}
 }
@@ -36,7 +36,7 @@ ava.serial('Users should be able to view an element with no markers', async (tes
 	await sdk.auth.login(users.community)
 
 	const thread = await jellyfish.insertCard(test.context.context, test.context.session, {
-		slug: `thread-${randomstring.generate().toLowerCase()}`,
+		slug: `thread-${uuid()}`,
 		type: 'thread',
 		name: 'Test thread'
 	})
@@ -57,7 +57,7 @@ ava.serial('Users should not be able to view an element that has a marker they d
 	} = test.context.server
 
 	const thread = await jellyfish.insertCard(test.context.context, test.context.session, {
-		slug: `thread-${randomstring.generate().toLowerCase()}`,
+		slug: `thread-${uuid()}`,
 		type: 'thread',
 		name: 'Test entry',
 		markers: [ 'org-private' ]
@@ -84,7 +84,7 @@ ava.serial('Users should be able to view an element if all of their markers matc
 	// Sign in as the admin
 	await sdk.setAuthToken(test.context.session)
 
-	const orgSlug = `org-balena-${randomstring.generate().toLowerCase()}`
+	const orgSlug = `org-balena-${uuid()}`
 
 	// Create the balena org
 	const org = await sdk.card.create({
@@ -100,7 +100,7 @@ ava.serial('Users should be able to view an element if all of their markers matc
 	await sdk.auth.login(users.community)
 
 	const thread = await jellyfish.insertCard(test.context.context, test.context.session, {
-		slug: `thread-${randomstring.generate().toLowerCase()}`,
+		slug: `thread-${uuid()}`,
 		type: 'thread',
 		name: 'Test entry',
 		markers: [ user.slug, orgSlug ]
@@ -127,7 +127,7 @@ ava.serial(
 		const user = await sdk.auth.whoami()
 
 		const thread = await jellyfish.insertCard(test.context.context, test.context.session, {
-			slug: `thread-${randomstring.generate().toLowerCase()}`,
+			slug: `thread-${uuid()}`,
 			type: 'thread',
 			name: 'Test entry',
 			markers: [ user.slug, 'org-balena' ]
@@ -152,7 +152,7 @@ ava.serial('Users should be able to view an element using compound markers', asy
 	const user = await sdk.auth.whoami()
 
 	const thread = await jellyfish.insertCard(test.context.context, test.context.session, {
-		slug: `thread-${randomstring.generate().toLowerCase()}`,
+		slug: `thread-${uuid()}`,
 		type: 'thread',
 		name: 'Test entry',
 		markers: [ `${user.slug}+user-ash` ]
@@ -184,7 +184,7 @@ ava.serial(
 		await sdk.auth.login(users.community)
 
 		const thread = await jellyfish.insertCard(test.context.context, test.context.session, {
-			slug: `thread-${randomstring.generate().toLowerCase()}`,
+			slug: `thread-${uuid()}`,
 			type: 'thread',
 			name: 'Test entry',
 			markers: [ `${user.slug}+user-ash`, 'org-private' ]
@@ -213,7 +213,7 @@ ava.serial(
 		// Sign in as the admin
 		await sdk.setAuthToken(test.context.session)
 
-		const orgSlug = `org-balena-${randomstring.generate().toLowerCase()}`
+		const orgSlug = `org-balena-${uuid()}`
 
 		// Create the balena org
 		const org = await sdk.card.create({
@@ -229,7 +229,7 @@ ava.serial(
 		await sdk.auth.login(users.community)
 
 		const thread = await jellyfish.insertCard(test.context.context, test.context.session, {
-			slug: `thread-${randomstring.generate().toLowerCase()}`,
+			slug: `thread-${uuid()}`,
 			type: 'thread',
 			name: 'Test entry',
 			version: '1.0.0',
@@ -255,7 +255,7 @@ ava.serial('Users should be able to view an element using compound markers with 
 	const user = await sdk.auth.whoami()
 
 	const thread = await jellyfish.insertCard(test.context.context, test.context.session, {
-		slug: `thread-${randomstring.generate().toLowerCase()}`,
+		slug: `thread-${uuid()}`,
 		type: 'thread',
 		name: 'Test entry',
 		markers: [ `user-ash+${user.slug}+user-misty` ]
@@ -284,7 +284,7 @@ ava.serial(
 		// Sign in as the admin
 		await sdk.setAuthToken(test.context.session)
 
-		const orgSlug = `org-balena-${randomstring.generate().toLowerCase()}`
+		const orgSlug = `org-balena-${uuid()}`
 
 		// Create the balena org
 		const org = await sdk.card.create({
@@ -300,7 +300,7 @@ ava.serial(
 		await sdk.auth.login(users.community)
 
 		const thread = await jellyfish.insertCard(test.context.context, test.context.session, {
-			slug: `thread-${randomstring.generate().toLowerCase()}`,
+			slug: `thread-${uuid()}`,
 			type: 'thread',
 			name: 'Test entry',
 			markers: [ `${orgSlug}+org-private` ]

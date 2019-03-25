@@ -4,32 +4,158 @@
  * Proprietary and confidential.
  */
 
-const {
+import {
 	circularDeepEqual
-} = require('fast-equals')
-const _ = require('lodash')
-const React = require('react')
-const {
+} from 'fast-equals'
+import * as _ from 'lodash'
+import React from 'react'
+import {
 	connect
-} = require('react-redux')
-const redux = require('redux')
-const rendition = require('rendition')
-const Markdown = require('rendition/dist/extra/Markdown')
-const styledComponents = require('styled-components')
-const store = require('../core/store')
-const helpers = require('../services/helpers')
-const TailStreamer = require('./TailStreamer')
-const ViewLink = require('./ViewLink')
-const Gravatar = require('../shame/Gravatar')
-const Icon = require('../shame/Icon')
+} from 'react-redux'
+import * as redux from 'redux'
+import {
+	Box,
+	Button,
+	Divider,
+	Fixed,
+	Flex,
+	Link,
+	Txt
+} from 'rendition'
+import styled from 'styled-components'
+import * as store from '../core/store'
+import * as helpers from '../services/helpers'
+import {
+	TailStreamer
+} from './TailStreamer'
+import {
+	ViewLink
+} from './ViewLink'
+import Gravatar from '../shame/Gravatar'
+import Icon from '../shame/Icon'
 
 // View slugs that should be displayed first
-const PRIORITY_VIEWS = [
+const DEFAULT_VIEWS = [
 	'view-my-alerts',
 	'view-my-mentions',
 	'view-my-todo-items',
 	'view-my-orgs'
 ]
+
+const TreeMenu = (props) => {
+	const {
+		node
+	} = props
+	if (!node.children.length && node.card) {
+		const card = node.card
+
+		const isActive = card.id === _.get(props.activeChannel, [ 'data', 'target' ])
+		const activeSlice = _.get(props.activeChannel, [ 'data', 'options', 'slice' ])
+		const update = props.viewNotices[card.id]
+		return (
+			<ViewLink
+				key={card.id}
+				card={card}
+				isActive={isActive}
+				activeSlice={activeSlice}
+				update={update}
+				open={props.open}
+			/>
+		)
+	}
+
+	const isExpanded = node.key === 'root' || props.isExpanded(node.name)
+
+	return (
+		<Box key={node.key}>
+			{node.name && (
+				<Button
+					plaintext
+					primary
+					w="100%"
+					px={3}
+					my={2}
+					data-groupname={node.name}
+					data-test={`home-channel__group-toggle--${node.key}`}
+					onClick={props.toggleExpandGroup}
+				>
+					<Flex style={{
+						width: '100%'
+					}} justify="space-between">
+						{node.name}
+						<Icon name={`chevron-${isExpanded ? 'up' : 'down'}`}/>
+					</Flex>
+				</Button>
+			)}
+
+			<Box
+				style={{
+					display: isExpanded ? 'block' : 'none'
+				}}
+				pl={node.key === 'root' ? 0 : 1}
+			>
+				{node.children.map((child) => {
+					return (
+						<TreeMenu
+							key={child.key}
+							node={child}
+							isExpanded={props.isExpanded}
+							toggleExpandGroup={props.toggleExpandGroup}
+							activeChannel={props.activeChannel}
+							viewNotices={props.viewNotices}
+							open={props.open}
+						/>
+					)
+				})}
+			</Box>
+		</Box>
+	)
+}
+
+const viewsToTree = (views, root = {}) => {
+	const result = _.defaults(root, {
+		name: null,
+		key: 'root',
+		children: []
+	})
+
+	for (const view of views) {
+		let node = result
+		if (view.data.namespace) {
+			const parts = view.data.namespace.split('.')
+			for (const part of parts) {
+				let exists = false
+				for (const item of result.children) {
+					if (item.name === part) {
+						node = item
+						exists = true
+						break
+					}
+				}
+
+				if (!exists) {
+					node.children.push({
+						name: part,
+						key: part,
+						children: []
+					})
+
+					node = node.children[node.children.length - 1]
+				}
+			}
+		}
+
+		node.children.push({
+			name: view.name,
+			key: view.slug,
+			card: view,
+			children: []
+		})
+	}
+
+	return result
+}
+
 const getDefaultView = (user, views) => {
 	const homeViewId = _.get(user, [ 'data', 'profile', 'homeView' ])
 	if (homeViewId) {
@@ -44,7 +170,8 @@ const getDefaultView = (user, views) => {
 		slug: 'view-all-messages'
 	}) || null
 }
-const MenuPanel = styledComponents.default(rendition.Box) `
+
+const MenuPanel = styled(Box) `
 	position: absolute;
 	top: 64px;
 	width: 180px;
@@ -76,7 +203,8 @@ const MenuPanel = styledComponents.default(rendition.Box) `
 		left: 14px;
 	}
 `
-const UserMenuBtn = styledComponents.default(rendition.Button) `
+
+const UserMenuBtn = styled(Button) `
 	background: transparent;
 	color: #888;
 
@@ -86,99 +214,106 @@ const UserMenuBtn = styledComponents.default(rendition.Button) `
 		color: #333;
 	}
 `
-class HomeChannelBase extends TailStreamer.TailStreamer {
+
+class HomeChannelBase extends TailStreamer {
 	constructor (props) {
 		super(props)
-		this.open = (card, options) => {
-			if (this.props.viewNotices[card.id]) {
-				this.props.actions.removeViewNotice(card.id)
-			}
-			this.props.actions.addChannel(helpers.createChannel({
-				target: card.id,
-				cardType: 'view',
-				head: card,
-				parentChannel: this.props.channel.id,
-				options
-			}))
-		}
-		this.logout = () => {
-			this.props.actions.logout()
-		}
-		this.showMenu = () => {
-			this.setState({
-				showMenu: true
-			})
-		}
-		this.hideMenu = () => {
-			this.setState({
-				showMenu: false
-			})
-		}
-		this.showChangelog = () => {
-			this.setState({
-				showChangelog: true
-			})
-		}
-		this.hideChangelog = () => {
-			this.setState({
-				showChangelog: false
-			})
-		}
-		this.toggleExpandGroup = (event) => {
-			const name = event.currentTarget.dataset.groupname
-			const state = _.cloneDeep(this.props.uiState)
-			if (this.isExpanded(name)) {
-				state.sidebar.expanded = _.without(state.sidebar.expanded, name)
-			} else {
-				state.sidebar.expanded.push(name)
-			}
-			this.props.actions.setUIState(state)
-		}
-		this.groupViews = (tail) => {
-			const groups = []
-
-			// Sorty by name, then sort the priority views to the top
-			const [ defaults, nonDefaults ] = _.partition(tail, (view) => {
-				return _.includes(PRIORITY_VIEWS, view.slug)
-			})
-			groups.push({
-				name: 'defaults',
-				views: defaults,
-				key: '__defaults'
-			})
-			const [ myViews, otherViews ] = _.partition(nonDefaults, (view) => {
-				return _.includes(view.markers, this.props.user.slug)
-			})
-			if (myViews.length) {
-				groups.push({
-					name: 'My views',
-					views: myViews,
-					key: '__myviews'
-				})
-			}
-			const remaining = _.groupBy(otherViews, 'markers[0]')
-			_.forEach(remaining, (views, key) => {
-				if (key !== 'undefined') {
-					const org = _.find(this.props.orgs, {
-						slug: key
-					})
-					groups.push({
-						name: org ? org.name : 'Unknown organisation',
-						key,
-						views
-					})
-				}
-			})
-			return groups
-		}
 		this.state = {
-			showChangelog: false,
 			showMenu: false,
 			tail: null,
 			messages: []
 		}
 		this.streamTail(this.props.channel.data.target)
+
+		this.open = this.open.bind(this)
+		this.logout = this.logout.bind(this)
+		this.showMenu = this.showMenu.bind(this)
+		this.hideMenu = this.hideMenu.bind(this)
+		this.toggleExpandGroup = this.toggleExpandGroup.bind(this)
+		this.isExpanded = this.isExpanded.bind(this)
 	}
+
+	groupViews (tail) {
+		const groups = {
+			defaults: [],
+			main: {
+				name: null,
+				key: 'root',
+				children: []
+			}
+		}
+
+		// Sorty by name, then sort the priority views to the top
+		const [ defaults, nonDefaults ] = _.partition(tail, (view) => {
+			return _.includes(DEFAULT_VIEWS, view.slug)
+		})
+		groups.defaults = defaults
+
+		const [ myViews, otherViews ] = _.partition(nonDefaults, (view) => {
+			return _.includes(view.markers, this.props.user.slug)
+		})
+		if (myViews.length) {
+			groups.main.children.push(viewsToTree(myViews, {
+				name: 'My views',
+				key: '__myViews'
+			}))
+		}
+		const remaining = _.groupBy(otherViews, 'markers[0]')
+		_.forEach(remaining, (views, key) => {
+			if (key !== 'undefined') {
+				const org = _.find(this.props.orgs, {
+					slug: key
+				})
+				groups.main.children.push(viewsToTree(views, {
+					name: org ? org.name : 'Unknown organisation',
+					key
+				}))
+			}
+		})
+
+		return groups
+	}
+
+	toggleExpandGroup (event) {
+		const name = event.currentTarget.dataset.groupname
+		const state = _.cloneDeep(this.props.uiState)
+		if (this.isExpanded(name)) {
+			state.sidebar.expanded = _.without(state.sidebar.expanded, name)
+		} else {
+			state.sidebar.expanded.push(name)
+		}
+		this.props.actions.setUIState(state)
+	}
+
+	showMenu () {
+		this.setState({
+			showMenu: true
+		})
+	}
+
+	hideMenu () {
+		this.setState({
+			showMenu: false
+		})
+	}
+
+	logout () {
+		this.props.actions.logout()
+	}
+
+	open (card, options) {
+		if (this.props.viewNotices[card.id]) {
+			this.props.actions.removeViewNotice(card.id)
+		}
+		this.props.actions.addChannel(helpers.createChannel({
+			target: card.id,
+			cardType: 'view',
+			head: card,
+			parentChannel: this.props.channel.id,
+			options
+		}))
+	}
+
 	shouldComponentUpdate (nextProps, nextState) {
 		return !circularDeepEqual(nextState, this.state) || !circularDeepEqual(nextProps, this.props)
 	}
@@ -213,142 +348,114 @@ class HomeChannelBase extends TailStreamer.TailStreamer {
 		const email = user ? user.data.email : null
 		const username = user ? user.slug.replace(/user-/, '') : null
 		if (!head) {
-			return <Icon.default style={{
+			return <Icon style={{
 				color: 'white'
 			}} name="cog fa-spin"/>
 		}
-		const [ [ defaultViews ], groups ] = _.partition(this.groupViews(tail || []), [ 'key', '__defaults' ])
-		const defaultUpdate = _.some(defaultViews.views, (card) => {
+		const groupedViews = this.groupViews(tail)
+		const groups = groupedViews.main
+		const defaultViews = groupedViews.defaults
+		const defaultUpdate = _.some(defaultViews, (card) => {
 			const update = this.props.viewNotices[card.id]
 			return update && (update.newMentions || update.newContent)
 		})
-		return (<rendition.Flex className="home-channel" flexDirection="column" flex="0 0 180px" style={{
-			height: '100%', overflowY: 'auto'
-		}}>
-			<rendition.Flex justify="space-between" style={{
-				position: 'relative'
-			}}>
-				<UserMenuBtn plaintext={true} className="user-menu-toggle" py={3} pl={3} pr={2} onClick={this.showMenu}>
-					<Gravatar.default email={email}/>
 
-					{Boolean(username) && <rendition.Txt mx={2}>{username}</rendition.Txt>}
+		return (
+			<Flex
+				className="home-channel"
+				flexDirection="column"
+				flex="0 0 180px"
+				style={{
+					height: '100%', overflowY: 'auto'
+				}}
+			>
+				<Flex justify="space-between" style={{
+					position: 'relative'
+				}}>
+					<UserMenuBtn plaintext={true} className="user-menu-toggle" py={3} pl={3} pr={2} onClick={this.showMenu}>
+						<Gravatar.default email={email}/>
 
-					<Icon.default name="caret-down"/>
+						{Boolean(username) && <Txt mx={2}>{username}</Txt>}
 
-					{defaultUpdate && (<Icon.default name="circle" style={{
-						color: 'green',
-						top: 44,
-						left: 44,
-						fontSize: 11,
-						position: 'absolute'
-					}}/>)}
-				</UserMenuBtn>
-			</rendition.Flex>
+						<Icon name="caret-down"/>
 
-			{this.state.showMenu && (
-				<rendition.Fixed top={true} right={true} bottom={true} left={true} z={9999999} onClick={this.hideMenu}>
-					<MenuPanel className="user-menu" mx={3} p={3}>
-						{user && (<rendition.Link mb={2} href={`#/${user.id}`}>Your profile</rendition.Link>)}
+						{defaultUpdate && (<Icon name="circle" style={{
+							color: 'green',
+							top: 44,
+							left: 44,
+							fontSize: 11,
+							position: 'absolute'
+						}}/>)}
+					</UserMenuBtn>
+				</Flex>
 
-						{_.map(defaultViews.views, (card) => {
-							const isActive = card.id === _.get(activeChannel, [ 'data', 'target' ])
-							const activeSlice = _.get(activeChannel, [ 'data', 'options', 'slice' ])
-							const update = this.props.viewNotices[card.id]
-							return (<rendition.Box mx={-3} key={card.id}>
-								<ViewLink.ViewLink
-									card={card}
-									isActive={isActive}
-									activeSlice={activeSlice}
-									update={update}
-									open={this.open}
-								/>
-							</rendition.Box>)
-						})}
+				{this.state.showMenu && (
+					<Fixed top={true} right={true} bottom={true} left={true} z={9999999} onClick={this.hideMenu}>
+						<MenuPanel className="user-menu" mx={3} p={3}>
+							{user && (<Link mb={2} href={`#/${user.id}`}>Your profile</Link>)}
 
-						<rendition.Divider my={2} bg="#eee" style={{
-							height: 1, backgroundColor: '#eeeeee'
-						}}/>
-
-						<rendition.Button w="100%" pt={2} className="user-menu__logout" plaintext={true} style={{
-							textAlign: 'left', display: 'block'
-						}} onClick={this.logout}>
-						Log out
-						</rendition.Button>
-					</MenuPanel>
-				</rendition.Fixed>
-			)}
-
-			<rendition.Box flex="1">
-				{!tail && <rendition.Box p={3}><Icon.default style={{
-					color: 'white'
-				}} name="cog fa-spin"/></rendition.Box>}
-
-				{Boolean(tail) && _.map(groups, (group) => {
-					const isExpanded = this.isExpanded(group.name)
-					return (<React.Fragment key={group.name}>
-						<rendition.Button
-							plaintext
-							primary
-							w="100%"
-							px={3}
-							my={2}
-							data-groupname={group.name}
-							className={`home-channel__group-toggle--${group.key}`}
-							onClick={this.toggleExpandGroup}
-						>
-							<rendition.Flex style={{
-								width: '100%'
-							}} justify="space-between">
-								{group.name}
-								<Icon.default name={`chevron-${isExpanded ? 'up' : 'down'}`}/>
-							</rendition.Flex>
-						</rendition.Button>
-
-						<div style={{
-							display: isExpanded ? 'block' : 'none'
-						}}>
-							{_.map(group.views, (card) => {
-								// A view shouldn't be able to display itself
-								if (card.id === head.id) {
-									return null
-								}
+							{_.map(defaultViews, (card) => {
 								const isActive = card.id === _.get(activeChannel, [ 'data', 'target' ])
 								const activeSlice = _.get(activeChannel, [ 'data', 'options', 'slice' ])
 								const update = this.props.viewNotices[card.id]
-								return (
-									<ViewLink.ViewLink
-										key={card.id}
+								return (<Box mx={-3} key={card.id}>
+									<ViewLink
 										card={card}
 										isActive={isActive}
 										activeSlice={activeSlice}
 										update={update}
 										open={this.open}
 									/>
-								)
+								</Box>)
 							})}
-						</div>
-					</React.Fragment>)
-				})}
 
-			</rendition.Box>
-			<rendition.Link p={2} fontSize={1} onClick={this.showChangelog}>
-				<rendition.Txt monospace>
-						v{this.props.version} {this.props.codename}
-				</rendition.Txt>
-			</rendition.Link>
+							<Divider my={2} bg="#eee" style={{
+								height: 1, backgroundColor: '#eeeeee'
+							}}/>
 
-			{this.state.showChangelog && (
-				<rendition.Modal done={this.hideChangelog}>
-					<Markdown.Markdown>{this.props.changelog || ''}</Markdown.Markdown>
-				</rendition.Modal>
-			)}
+							<Button w="100%" pt={2} className="user-menu__logout" plaintext={true} style={{
+								textAlign: 'left', display: 'block'
+							}} onClick={this.logout}>
+							Log out
+							</Button>
+						</MenuPanel>
+					</Fixed>
+				)}
 
-		</rendition.Flex>)
+				<Box flex="1">
+					{!tail && <Box p={3}><Icon style={{
+						color: 'white'
+					}} name="cog fa-spin"/></Box>}
+
+					{Boolean(tail) && (
+						<TreeMenu
+							node={groups}
+							isExpanded={this.isExpanded}
+							toggleExpandGroup={this.toggleExpandGroup}
+							activeChannel={activeChannel}
+							viewNotices={this.props.viewNotices}
+							open={this.open}
+						/>
+					)}
+				</Box>
+
+				<Link
+					p={2}
+					fontSize={1}
+					href='https://github.com/balena-io/jellyfish/blob/master/CHANGELOG.md'
+					blank
+				>
+					<Txt monospace>
+							v{this.props.version} {this.props.codename}
+					</Txt>
+				</Link>
+			</Flex>
+		)
 	}
 }
+
 const mapStateToProps = (state) => {
 	return {
-		changelog: store.selectors.getChangelog(state),
 		channels: store.selectors.getChannels(state),
 		user: store.selectors.getCurrentUser(state),
 		version: store.selectors.getAppVersion(state),
@@ -358,9 +465,11 @@ const mapStateToProps = (state) => {
 		uiState: store.selectors.getUIState(state)
 	}
 }
+
 const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: redux.bindActionCreators(store.actionCreators, dispatch)
 	}
 }
-exports.HomeChannel = connect(mapStateToProps, mapDispatchToProps)(HomeChannelBase)
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeChannelBase)

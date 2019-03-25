@@ -1,6 +1,6 @@
 {
-  "slug": "view-support-threads-to-audit",
-  "name": "Support threads to audit",
+  "slug": "view-devices-support-threads",
+  "name": "Device support",
   "version": "1.0.0",
   "type": "view",
   "markers": [ "org-balena" ],
@@ -42,11 +42,11 @@
             "data": {
               "type": "object",
               "properties": {
-                "status": {
-                  "type": "string",
-                  "const": "closed"
+                "category": {
+                  "const": "devices"
                 }
-              }
+              },
+              "required": [ "category" ]
             }
           },
           "required": [

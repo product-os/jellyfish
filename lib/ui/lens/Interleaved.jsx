@@ -280,6 +280,11 @@ const lens = {
 					}
 				}
 			}
+		},
+		queryOptions: {
+			limit: 30,
+			sortBy: 'created_at',
+			sortDir: 'desc'
 		}
 	}
 }

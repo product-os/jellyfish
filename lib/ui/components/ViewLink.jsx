@@ -81,7 +81,7 @@ class ViewLinkBase extends React.Component {
 			<rendition.Box>
 				<rendition.Flex justify="space-between" bg={(isActive && !activeSlice) ? '#eee' : 'none'}>
 					<rendition.Link
-						className={`home-channel__item home-channel__item--${card.slug}`}
+						data-test={`home-channel__item--${card.slug}`}
 						style={{
 							display: 'block', flex: '1'
 						}}

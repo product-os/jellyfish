@@ -87,6 +87,7 @@ const EventWrapper = styled(Flex) `
 `
 
 const MessageWrapper = styled(Box) `
+	min-width: 0;
 	box-shadow: rgba(0, 0, 0, 0.25) 0px 0px 3px;
 	padding: 8px 12px;
 	margin: 0 8px 16px 0;
@@ -94,6 +95,7 @@ const MessageWrapper = styled(Box) `
 `
 
 const ProxyWrapper = styled(Box) `
+	min-width: 0;
 	background: #f5fcff;
 	border: 3px solid #d7f3ff;
 	padding: 8px 12px;
@@ -102,6 +104,7 @@ const ProxyWrapper = styled(Box) `
 `
 
 const WhisperWrapper = styled(Box) `
+	min-width: 0;
 	background: #eee;
 	border-radius: 10px;
 	padding: 8px 16px;
@@ -217,7 +220,13 @@ class Event extends React.Component {
 				<InnerWrapper flex="1">
 					<Flex justify="space-between" mb={2}>
 						<Flex mt={isMessage ? 0 : '5px'} align="center">
-							{isMessage && (<strong>{this.state.actor.name}</strong>)}
+							{isMessage && (
+								<Txt
+									tooltip={this.state.actor.email}
+								>
+									<strong>{this.state.actor.name}</strong>
+								</Txt>
+							)}
 
 							{!isMessage && this.getTimelineElement(card)}
 

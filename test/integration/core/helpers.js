@@ -4,7 +4,7 @@
  * Proprietary and confidential.
  */
 
-const randomstring = require('randomstring')
+const uuid = require('uuid/v4')
 const Backend = require('../../../lib/core/backend')
 const environment = require('../../../lib/environment')
 const Cache = require('../../../lib/core/cache')
@@ -12,7 +12,7 @@ const Kernel = require('../../../lib/core/kernel')
 const errors = require('../../../lib/core/errors')
 
 exports.generateRandomSlug = (options) => {
-	const suffix = randomstring.generate().toLowerCase()
+	const suffix = uuid()
 	if (options.prefix) {
 		return `${options.prefix}-${suffix}`
 	}
@@ -22,7 +22,7 @@ exports.generateRandomSlug = (options) => {
 
 exports.backend = {
 	beforeEach: async (test, options = {}) => {
-		const dbName = `test_${randomstring.generate()}`
+		const dbName = `test_${uuid().replace(/-/g, '_')}`
 
 		if (environment.cache.disable) {
 			test.context.cache = null
@@ -39,7 +39,7 @@ exports.backend = {
 		}
 
 		test.context.context = {
-			id: `CORE-TEST-${randomstring.generate(20)}`
+			id: `CORE-TEST-${uuid()}`
 		}
 
 		if (test.context.cache) {
@@ -98,12 +98,12 @@ exports.cache = {
 		if (environment.redis.disable) {
 			test.context.cache = new Cache({
 				mock: true,
-				namespace: `test_${randomstring.generate()}`
+				namespace: `test_${uuid()}`
 			})
 		} else {
 			test.context.cache = new Cache(
 				Object.assign({}, environment.getRedisConfiguration(), {
-					namespace: `test_${randomstring.generate()}`
+					namespace: `test_${uuid()}`
 				}))
 		}
 

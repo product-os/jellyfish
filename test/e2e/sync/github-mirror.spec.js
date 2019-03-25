@@ -6,7 +6,7 @@
 
 const ava = require('ava')
 const _ = require('lodash')
-const randomstring = require('randomstring')
+const uuid = require('uuid/v4')
 const Octokit = require('@octokit/rest')
 const packageJSON = require('../../../package.json')
 const helpers = require('./helpers')
@@ -118,7 +118,7 @@ ava.before(async (test) => {
 
 ava.after(helpers.mirror.after)
 ava.beforeEach(async (test) => {
-	await helpers.mirror.beforeEach(test, randomstring.generate().toLowerCase())
+	await helpers.mirror.beforeEach(test, uuid())
 })
 
 ava.afterEach(helpers.mirror.afterEach)
@@ -128,7 +128,7 @@ const avaTest = TOKEN ? ava.serial : ava.serial.skip
 
 avaTest('should be able to create an issue without comments', async (test) => {
 	const slug = test.context.getIssueSlug()
-	const title = `Test Issue ${randomstring.generate()}`
+	const title = `Test Issue ${uuid()}`
 	const issue = await test.context.createIssue(
 		test.context.repository, slug, title, {
 			body: 'Issue body',
@@ -154,7 +154,7 @@ avaTest('should be able to create an issue without comments', async (test) => {
 
 avaTest('should be able to create an issue with a comment', async (test) => {
 	const issueSlug = test.context.getIssueSlug()
-	const title = `Test Issue ${randomstring.generate()}`
+	const title = `Test Issue ${uuid()}`
 	const issue = await test.context.createIssue(
 		test.context.repository, issueSlug, title, {
 			body: 'Issue body',

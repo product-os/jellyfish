@@ -8,6 +8,7 @@
   "links": {},
   "active": true,
   "data": {
+    "namespace": "Support",
     "allOf": [
       {
         "name": "Active cards",
@@ -37,6 +38,15 @@
             "type": {
               "type": "string",
               "const": "support-thread"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "category": {
+                  "description": "This field is not required and should match cases where the field is not present OR is 'general'",
+                  "const": "general"
+                }
+              }
             }
           },
           "required": [
