@@ -28,6 +28,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "account-jviotti",
         "timestamp": "2018-12-27T19:06:07.751Z",
         "payload": {
           "name": "[IGNORE ME] Test issue",
@@ -59,6 +60,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "user-jviotti",
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_27f4iuz"
         ],
@@ -78,6 +80,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "user-syncbot",
         "mirrors": [
           "https://api2.frontapp.com/comments/com_2j5sxn"
         ],
@@ -93,6 +96,7 @@
       "active": true,
       "capabilities": [],
       "data": {
+        "actor": "user-syncbot",
         "payload": {
           "active": true,
           "capabilities": [],
@@ -128,6 +132,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "user-syncbot",
         "mirrors": [
           "https://api2.frontapp.com/comments/com_2j5sxv"
         ],
@@ -143,6 +148,7 @@
       "active": true,
       "capabilities": [],
       "data": {
+        "actor": "user-syncbot",
         "payload": {
           "active": true,
           "capabilities": [],
@@ -174,6 +180,7 @@
       "active": true,
       "capabilities": [],
       "data": {
+        "actor": "user-syncbot",
         "payload": {
           "active": true,
           "capabilities": [],
@@ -209,6 +216,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "user-jviotti",
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_27f4kqz"
         ],
@@ -224,6 +232,7 @@
       "active": true,
       "capabilities": [],
       "data": {
+        "actor": "user-jviotti",
         "payload": {
           "active": true,
           "capabilities": [],

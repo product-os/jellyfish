@@ -28,6 +28,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "account-juan-resin-io",
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_27dmk4b"
         ],
@@ -48,6 +49,7 @@
       "capabilities": [],
       "data": {
         "timestamp": "2018-12-27T13:15:11.547Z",
+        "actor": "account-juan-resin-io",
         "payload": {
           "name": "",
           "type": "support-thread",
@@ -78,6 +80,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "user-syncbot",
         "mirrors": [
           "https://api2.frontapp.com/comments/com_2j30ej"
         ],
@@ -93,6 +96,7 @@
       "active": true,
       "capabilities": [],
       "data": {
+        "actor": "user-syncbot",
         "payload": {
           "active": true,
           "capabilities": [],
@@ -128,6 +132,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "user-jviotti",
         "timestamp": "2018-12-27T13:15:38.558Z",
         "payload": {
           "name": "",

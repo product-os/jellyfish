@@ -28,6 +28,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "account-juan-resin-io",
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_29osuib"
         ],
@@ -47,6 +48,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "account-juan-resin-io",
         "timestamp": "2019-01-17T10:18:34.252Z",
         "payload": {
           "name": "",
@@ -78,6 +80,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "user-syncbot",
         "mirrors": [
           "https://api2.frontapp.com/comments/com_2njvtn"
         ],
@@ -93,6 +96,7 @@
       "active": true,
       "capabilities": [],
       "data": {
+        "actor": "user-syncbot",
         "payload": {
           "active": true,
           "capabilities": [],

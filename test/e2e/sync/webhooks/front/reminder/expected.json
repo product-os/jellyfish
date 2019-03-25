@@ -24,6 +24,7 @@
       "active": true,
       "capabilities": [],
       "data": {
+        "actor": "account-charles-openrov-com",
         "payload": {
           "name": "",
           "type": "support-thread",
@@ -59,6 +60,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "account-charles-openrov-com",
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_26k77bn"
         ],
@@ -74,6 +76,7 @@
       "active": true,
       "capabilities": [],
       "data": {
+        "actor": "user-camerondiver",
         "payload": {
           "name": "",
           "type": "support-thread",
@@ -105,6 +108,7 @@
       "active": true,
       "capabilities": [],
       "data": {
+        "actor": "user-admin",
         "payload": {
           "active": true,
           "capabilities": [],

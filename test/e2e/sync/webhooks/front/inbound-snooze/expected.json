@@ -28,6 +28,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "account-juan-resin-io",
         "timestamp": "2018-10-10T21:35:22.171Z",
         "payload": {
           "name": "Snooze me",
@@ -59,6 +60,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "user-jviotti",
         "timestamp": "2018-10-10T21:35:33.868Z",
         "payload": {
           "name": "Snooze me",

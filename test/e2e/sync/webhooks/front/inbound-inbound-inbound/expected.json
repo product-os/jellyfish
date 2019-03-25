@@ -28,6 +28,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "account-juan-resin-io",
         "timestamp": "2018-10-08T18:39:46.238Z",
         "payload": {
           "name": "Multiple in a row",
@@ -59,6 +60,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "account-juan-resin-io",
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_1w1ffia"
         ],
@@ -74,6 +76,7 @@
       "active": true,
       "capabilities": [],
       "data": {
+        "actor": "account-juan-resin-io",
         "payload": {
           "active": true,
           "capabilities": [],
@@ -109,6 +112,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "account-juan-resin-io",
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_1w1ffpe"
         ],
@@ -124,6 +128,7 @@
       "active": true,
       "capabilities": [],
       "data": {
+        "actor": "account-juan-resin-io",
         "payload": {
           "active": true,
           "capabilities": [],

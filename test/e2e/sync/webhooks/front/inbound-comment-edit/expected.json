@@ -28,6 +28,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "account-juan-balena-io",
         "timestamp": "2019-03-13T19:54:20.843Z",
         "payload": {
           "name": "Comment Edit Test",
@@ -59,6 +60,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "account-juan-balena-io",
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_2ged8ve"
         ],
@@ -78,6 +80,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "user-accounts-front-dev",
         "mirrors": [
           "https://api2.frontapp.com/comments/com_2q8hiy"
         ],
@@ -97,6 +100,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "user-accounts-front-dev",
         "payload": {
           "data": {
             "inbox": "Demo Inbox",
@@ -128,6 +132,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "user-accounts-front-dev",
         "payload": {
           "data": {
             "inbox": "Demo Inbox",

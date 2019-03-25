@@ -28,6 +28,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "account-juan-resin-io",
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_1y9f9ir"
         ],
@@ -47,6 +48,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "account-juan-resin-io",
         "timestamp": "2018-10-10T21:39:51.388Z",
         "payload": {
           "name": "Delay me!",
@@ -74,6 +76,7 @@
       "active": true,
       "capabilities": [],
       "data": {
+        "actor": "user-jviotti",
         "payload": {
           "active": true,
           "capabilities": [],
@@ -109,6 +112,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "user-jviotti",
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_1y9fb8z"
         ],
@@ -124,6 +128,7 @@
       "active": true,
       "capabilities": [],
       "data": {
+        "actor": "user-jviotti",
         "payload": {
           "active": true,
           "capabilities": [],

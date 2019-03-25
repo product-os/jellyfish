@@ -24,6 +24,7 @@
       "active": true,
       "capabilities": [],
       "data": {
+        "actor": "account-brantr",
         "payload": {
           "active": true,
           "capabilities": [],
@@ -59,6 +60,7 @@
       "active": true,
       "requires": [],
       "data": {
+        "actor": "account-brantr",
         "target": "70ac6348-5c4f-46e4-9499-d8e74c0b6ad7",
         "timestamp": "2019-01-04T14:29:57.276Z",
         "mirrors": [

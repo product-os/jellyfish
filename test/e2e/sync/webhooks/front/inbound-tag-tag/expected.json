@@ -31,6 +31,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "account-juan-resin-io",
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_1w1f12q"
         ],
@@ -50,6 +51,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "account-juan-resin-io",
         "timestamp": "2018-10-08T18:36:29.628Z",
         "payload": {
           "name": "Inbound tag",
@@ -81,6 +83,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "user-accounts-front-dev",
         "timestamp": "2018-10-08T18:36:48.985Z",
         "payload": {
           "name": "Inbound tag",
@@ -114,6 +117,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "user-accounts-front-dev",
         "timestamp": "2018-10-08T18:37:01.634Z",
         "payload": {
           "name": "Inbound tag",

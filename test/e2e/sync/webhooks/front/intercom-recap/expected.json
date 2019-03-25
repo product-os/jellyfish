@@ -24,6 +24,7 @@
       "active": true,
       "capabilities": [],
       "data": {
+        "actor": "account-jacobkring-hibersense-com",
         "payload": {
           "name": "",
           "type": "support-thread",
@@ -55,6 +56,7 @@
       "active": true,
       "capabilities": [],
       "data": {
+        "actor": "user-jviotti",
         "payload": {
           "active": true,
           "capabilities": [],
@@ -90,6 +92,7 @@
       "active": true,
       "requires": [],
       "data": {
+        "actor": "account-jacobkring-hibersense-com",
         "timestamp": "2019-01-02T17:04:59.000Z",
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_27vf9n7"
@@ -109,6 +112,7 @@
       "active": true,
       "requires": [],
       "data": {
+        "actor": "user-syncbot",
         "timestamp": "2019-01-02T17:05:07.746Z",
         "mirrors": [
           "https://api2.frontapp.com/comments/com_2k3oez"
@@ -128,6 +132,7 @@
       "active": true,
       "requires": [],
       "data": {
+        "actor": "account-jacobkring-hibersense-com",
         "timestamp": "2019-01-02T17:05:35.000Z",
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_27vffoj"
@@ -147,6 +152,7 @@
       "active": true,
       "requires": [],
       "data": {
+        "actor": "account-jacobkring-hibersense-com",
         "timestamp": "2019-01-02T17:05:46.000Z",
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_27vfhm3"
@@ -166,6 +172,7 @@
       "active": true,
       "requires": [],
       "data": {
+        "actor": "user-camerondiver",
         "timestamp": "2019-01-02T17:08:31.510Z",
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_27vg2oz"
@@ -185,6 +192,7 @@
       "active": true,
       "requires": [],
       "data": {
+        "actor": "user-camerondiver",
         "timestamp": "2019-01-02T17:08:45.286Z",
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_27vg6m3"
@@ -204,6 +212,7 @@
       "active": true,
       "requires": [],
       "data": {
+        "actor": "user-camerondiver",
         "timestamp": "2019-01-02T18:12:17.112Z",
         "mirrors": [
           "https://api2.frontapp.com/comments/com_2k4fer"
@@ -223,6 +232,7 @@
       "active": true,
       "requires": [],
       "data": {
+        "actor": "account-jacobkring-hibersense-com",
         "timestamp": "2019-01-03T16:14:48.000Z",
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_280hbvv"
@@ -242,6 +252,7 @@
       "active": true,
       "requires": [],
       "data": {
+        "actor": "user-thundron",
         "timestamp": "2019-01-03T16:28:11.677Z",
         "mirrors": [
           "https://api2.frontapp.com/comments/com_2kcn57"
@@ -261,6 +272,7 @@
       "active": true,
       "requires": [],
       "data": {
+        "actor": "user-lucianbuzzo",
         "timestamp": "2019-01-17T16:58:27.834Z",
         "mirrors": [
           "https://api2.frontapp.com/comments/com_2nmd7n"
@@ -280,6 +292,7 @@
       "active": true,
       "requires": [],
       "data": {
+        "actor": "user-jviotti",
         "timestamp": "2019-01-17T17:18:42.935Z",
         "mirrors": [
           "https://api2.frontapp.com/comments/com_2nmlyb"
@@ -295,6 +308,7 @@
       "active": true,
       "capabilities": [],
       "data": {
+        "actor": "user-jviotti",
         "payload": {
           "active": true,
           "capabilities": [],

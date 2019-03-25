@@ -28,6 +28,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "account-juan-balena-io",
         "timestamp": "2019-01-18T16:34:53.073Z",
         "payload": {
           "name": "Tag Backsync Test",
@@ -55,6 +56,7 @@
       "active": true,
       "capabilities": [],
       "data": {
+        "actor": "user-accounts-front-dev",
         "payload": {
           "active": true,
           "capabilities": [],
@@ -92,6 +94,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "account-juan-balena-io",
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_28s4nei"
         ],
@@ -111,6 +114,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "user-accounts-front-dev",
         "mirrors": [
           "https://api2.frontapp.com/comments/com_25mft6"
         ],
@@ -126,6 +130,7 @@
       "active": true,
       "capabilities": [],
       "data": {
+        "actor": "user-accounts-front-dev",
         "payload": {
           "active": true,
           "capabilities": [],
