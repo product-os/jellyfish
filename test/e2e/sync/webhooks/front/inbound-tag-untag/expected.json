@@ -28,6 +28,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "account-juan-resin-io",
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_1w1f6h6"
         ],
@@ -47,6 +48,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "account-juan-resin-io",
         "timestamp": "2018-10-08T18:37:51.995Z",
         "payload": {
           "name": "Tag untag",
@@ -78,6 +80,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "user-accounts-front-dev",
         "timestamp": "2018-10-08T18:37:58.816Z",
         "payload": {
           "name": "Tag untag",
@@ -111,6 +114,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "user-accounts-front-dev",
         "timestamp": "2018-10-08T18:38:05.068Z",
         "payload": {
           "name": "Tag untag",

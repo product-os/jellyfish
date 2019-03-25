@@ -6,6 +6,7 @@
 
 const combinatorics = require('js-combinatorics')
 const nock = require('nock')
+const Bluebird = require('bluebird')
 const uuid = require('uuid/v4')
 const path = require('path')
 const _ = require('lodash')
@@ -182,7 +183,7 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 		return !testCase.ignoreUpdateEvents || card.type !== 'update'
 	}
 
-	const actualTail = _.map(_.sortBy(_.filter(timeline, tailFilter), tailSort), (card) => {
+	const actualTail = await Bluebird.map(_.sortBy(_.filter(timeline, tailFilter), tailSort), async (card) => {
 		Reflect.deleteProperty(card, 'slug')
 		Reflect.deleteProperty(card, 'links')
 		Reflect.deleteProperty(card, 'markers')
@@ -191,6 +192,10 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 		Reflect.deleteProperty(card, 'linked_at')
 		Reflect.deleteProperty(card.data, 'origin')
 		Reflect.deleteProperty(card.data, 'translateDate')
+
+		const actorCard = await test.context.jellyfish.getCardById(
+			test.context.context, test.context.session, card.data.actor)
+		card.data.actor = actorCard ? actorCard.slug : card.data.actor
 
 		if (card.data.payload) {
 			Reflect.deleteProperty(card.data.payload, 'slug')
@@ -212,10 +217,10 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 	const expectedTail = _.map(_.sortBy(_.filter(testCase.expected.tail, tailFilter), tailSort), (card, index) => {
 		card.id = _.get(actualTail, [ index, 'id' ])
 		card.name = _.get(actualTail, [ index, 'name' ])
-		card.data.actor = _.get(actualTail, [ index, 'data', 'actor' ])
 
 		// TODO: This shouldn't be necessary anymore
 		if (integration.source === 'github') {
+			card.data.actor = _.get(actualTail, [ index, 'data', 'actor' ])
 			card.data.timestamp = _.get(actualTail, [ index, 'data', 'timestamp' ])
 		}
 

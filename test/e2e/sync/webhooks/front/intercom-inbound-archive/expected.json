@@ -28,6 +28,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "account-juan-resin-io",
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_27e04ar"
         ],
@@ -47,6 +48,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "account-juan-resin-io",
         "timestamp": "2018-12-27T15:08:30.430Z",
         "payload": {
           "name": "",
@@ -78,6 +80,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "user-syncbot",
         "mirrors": [
           "https://api2.frontapp.com/comments/com_2j3o0r"
         ],
@@ -93,6 +96,7 @@
       "active": true,
       "capabilities": [],
       "data": {
+        "actor": "user-syncbot",
         "payload": {
           "active": true,
           "capabilities": [],
@@ -128,6 +132,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "user-jviotti",
         "timestamp": "2018-12-27T15:08:41.779Z",
         "payload": {
           "name": "",
@@ -159,6 +164,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "user-admin",
         "timestamp": "2018-12-27T15:08:44.053Z",
         "payload": {
           "name": "",

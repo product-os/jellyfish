@@ -28,6 +28,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "account-juan-resin-io",
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_1w1emp6"
         ],
@@ -47,6 +48,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "account-juan-resin-io",
         "timestamp": "2018-10-08T18:32:45.832Z",
         "payload": {
           "name": "open-close",
@@ -78,6 +80,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
+        "actor": "user-accounts-front-dev",
         "timestamp": "2018-10-08T18:33:08.140Z",
         "payload": {
           "name": "open-close",
