@@ -23,8 +23,7 @@ const getTargetId = (card) => {
 	return _.get(card, [ 'links', 'is attached to', '0', 'id' ]) || card.id
 }
 
-// Default renderer for a card and a timeline
-class Renderer extends React.Component {
+class TimelineRenderer extends React.Component {
 	constructor (props) {
 		super(props)
 		this.shouldScroll = true
@@ -176,96 +175,98 @@ class Renderer extends React.Component {
 				return item.type !== 'message' && item.type !== 'whisper'
 			})
 		}
-		return (<Column {...props}>
-			<rendition.Flex my={2} mr={2} justify="flex-end">
-				<rendition.Button
-					plaintext
-					tooltip={{
-						placement: 'left',
-						text: `${messagesOnly ? 'Show' : 'Hide'} create and update events`
-					}}
-					className="timeline__checkbox--additional-info"
-					color={messagesOnly ? rendition.Theme.colors.text.light : false}
-					ml={2}
-					onClick={this.handleEventToggle}
-				>
-					<Icon.default name="stream"/>
-				</rendition.Button>
-			</rendition.Flex>
 
-			<div
-				ref={(ref) => {
-					this.scrollArea = ref
-				}}
-				style={{
-					flex: 1,
-					overflowY: 'auto',
-					borderTop: '1px solid #eee',
-					paddingTop: 8
-				}}
-			>
-				{!sortedTail && (<rendition.Box p={3}>
-					<Icon.default name="cog fa-spin"/>
-				</rendition.Box>)}
-
-				{(Boolean(sortedTail) && sortedTail.length > 0) && _.map(sortedTail, (item) => {
-					return (
-						<rendition.Box key={item.id}>
-							<Event
-								openChannel={getTargetId(item) === channelTarget ? false : this.openChannel}
-								card={item}
-							/>
-						</rendition.Box>
-					)
-				})}
-			</div>
-
-			{head && head.type !== 'view' &&
-				<rendition.Flex
-					style={{
-						borderTop: '1px solid #eee'
-					}}
-				>
-					<rendition.Box flex="1" px={3} pt={3} pb={2}>
-						<AutocompleteTextarea.default
-							className="new-message-input"
-							value={this.state.newMessage}
-							onChange={this.handleNewMessageChange}
-							onTextSubmit={this.handleNewMessageSubmit}
-							placeholder="Type to comment on this thread..."
-						/>
-						<rendition.Txt
-							style={{
-								textAlign: 'right',
-								opacity: 0.75
-							}}
-							fontSize={11}
-						>
-							Press shift + enter to send
-						</rendition.Txt>
-					</rendition.Box>
-
-					<rendition.Button square mr={3} mt={3} onClick={this.handleUploadButtonClick}>
-						<Icon.default name="image"/>
+		return (
+			<Column {...props}>
+				<rendition.Flex my={2} mr={2} justify="flex-end">
+					<rendition.Button
+						plaintext
+						tooltip={{
+							placement: 'left',
+							text: `${messagesOnly ? 'Show' : 'Hide'} create and update events`
+						}}
+						className="timeline__checkbox--additional-info"
+						color={messagesOnly ? rendition.Theme.colors.text.light : false}
+						ml={2}
+						onClick={this.handleEventToggle}
+					>
+						<Icon.default name="stream"/>
 					</rendition.Button>
-
-					<input
-						style={{
-							display: 'none'
-						}}
-						type="file"
-						ref={(el) => {
-							this.fileInputElement = el
-						}}
-						onChange={this.handleFileChange}
-					/>
 				</rendition.Flex>
-			}
 
-		</Column>)
+				<div
+					ref={(ref) => {
+						this.scrollArea = ref
+					}}
+					style={{
+						flex: 1,
+						overflowY: 'auto',
+						borderTop: '1px solid #eee',
+						paddingTop: 8
+					}}
+				>
+					{!sortedTail && (<rendition.Box p={3}>
+						<Icon.default name="cog fa-spin"/>
+					</rendition.Box>)}
+
+					{(Boolean(sortedTail) && sortedTail.length > 0) && _.map(sortedTail, (item) => {
+						return (
+							<rendition.Box key={item.id}>
+								<Event
+									openChannel={getTargetId(item) === channelTarget ? false : this.openChannel}
+									card={item}
+								/>
+							</rendition.Box>
+						)
+					})}
+				</div>
+
+				{head && head.type !== 'view' &&
+					<rendition.Flex
+						style={{
+							borderTop: '1px solid #eee'
+						}}
+					>
+						<rendition.Box flex="1" px={3} pt={3} pb={2}>
+							<AutocompleteTextarea.default
+								className="new-message-input"
+								value={this.state.newMessage}
+								onChange={this.handleNewMessageChange}
+								onTextSubmit={this.handleNewMessageSubmit}
+								placeholder="Type to comment on this thread..."
+							/>
+							<rendition.Txt
+								style={{
+									textAlign: 'right',
+									opacity: 0.75
+								}}
+								fontSize={11}
+							>
+								Press shift + enter to send
+							</rendition.Txt>
+						</rendition.Box>
+
+						<rendition.Button square mr={3} mt={3} onClick={this.handleUploadButtonClick}>
+							<Icon.default name="image"/>
+						</rendition.Button>
+
+						<input
+							style={{
+								display: 'none'
+							}}
+							type="file"
+							ref={(el) => {
+								this.fileInputElement = el
+							}}
+							onChange={this.handleFileChange}
+						/>
+					</rendition.Flex>
+				}
+			</Column>
+		)
 	}
 }
-exports.Renderer = Renderer
+
 const mapStateToProps = (state) => {
 	return {
 		allUsers: store.selectors.getAllUsers(state),
@@ -284,7 +285,7 @@ const lens = {
 	name: 'Timeline lens',
 	data: {
 		icon: 'address-card',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(Renderer),
+		renderer: connect(mapStateToProps, mapDispatchToProps)(TimelineRenderer),
 
 		// This lens can display event-like objects
 		filter: {

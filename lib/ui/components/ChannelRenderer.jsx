@@ -52,6 +52,8 @@ class ChannelRenderer extends React.Component {
 			minWidth: 0
 		}
 
+		console.log('channel renderer', channel)
+
 		if (!channel.data.head) {
 			if (channel.data.error) {
 				return (

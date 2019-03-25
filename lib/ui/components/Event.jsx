@@ -141,7 +141,7 @@ class Event extends React.Component {
 			})
 		}
 		this.state = {
-			actor: getActor(this.props.card.data.actor),
+			actor: getActor(_.get(this.props.card, [ 'data', 'actor' ])),
 			showMenu: false
 		}
 	}

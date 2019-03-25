@@ -24,6 +24,7 @@ const core = require('../../core')
 const store = require('../../core/store')
 const helpers = require('../../services/helpers')
 const SupportThreadTimeline = require('./SupportThreadTimeline')
+const ActionLink = require('../../shame/ActionLink')
 const CloseButton = require('../../shame/CloseButton')
 const ColorHashPill = require('../../shame/ColorHashPill')
 const Column = require('../../shame/Column').default
@@ -89,6 +90,16 @@ class SupportThreadBase extends React.Component {
 		this.loadLinks(props.card.id)
 
 		this.setCategory = this.setCategory.bind(this)
+		this.openSupportIssueView = this.openSupportIssueView.bind(this)
+	}
+
+	openSupportIssueView () {
+		const newChannel = helpers.createChannel({
+			target: 'view-all-support-issues',
+			cardType: 'view',
+			parentChannel: this.props.channel.id
+		})
+		this.props.actions.addChannel(newChannel)
 	}
 
 	setCategory (event) {
@@ -242,7 +253,11 @@ class SupportThreadBase extends React.Component {
 								<Icon.default name="archive"/>
 							</IconButton.IconButton>
 
-							<CardActions.CardActions card={card}/>
+							<CardActions.CardActions card={card}>
+								<ActionLink.ActionLink onClick={this.openSupportIssueView}>
+									Search support issues
+								</ActionLink.ActionLink>
+							</CardActions.CardActions>
 
 							<CloseButton.CloseButton
 								mr={-3}

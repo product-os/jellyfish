@@ -35,8 +35,7 @@ class SingleCard extends React.Component {
 			} = this.props
 			this.props.actions.addChannel(helpers.createChannel({
 				cardType: card.type,
-				target: card.id,
-				head: card
+				target: card.id
 			}))
 		}
 	}
@@ -126,6 +125,7 @@ class SingleCard extends React.Component {
 				})}
 			</React.Fragment>
 		)
+
 		if (!level) {
 			return (
 				<Column

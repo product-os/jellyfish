@@ -537,7 +537,7 @@ class ViewRenderer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-	const target = ownProps.channel.data.target
+	const target = ownProps.channel.data.head.id
 	return {
 		channels: store.selectors.getChannels(state),
 		tail: store.selectors.getViewData(state, target),
