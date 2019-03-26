@@ -60,6 +60,19 @@ const getTarget = (card) => {
 	return _.get(card, [ 'links', 'is attached to', '0' ]) || card
 }
 
+const getMessage = (card) => {
+	const message = _.get(card, [ 'data', 'payload', 'message' ], '')
+
+	// Fun hack to extract attached images from synced front messages
+	if (message.includes('<div></div><img src="/api/1/companies/resin_io/attachments')) {
+		console.log(message)
+		const source = message.match(/".*"/)[0]
+		return `![Attached image](https://app.frontapp.com${source.replace(/"/g, '')})`
+	}
+
+	return message
+}
+
 // Min-width is used to stop text from overflowing the flex container, see
 // https://css-tricks.com/flexbox-truncated-text/ for a nice explanation
 const EventWrapper = styled(Flex) `
@@ -210,6 +223,8 @@ class Event extends React.Component {
 			InnerWrapper = ProxyWrapper
 		}
 
+		const message = getMessage(card)
+
 		return (
 			<EventWrapper {...props} className={`event-card--${card.type}`}>
 				<EventButton onClick={this.openChannel} style={{
@@ -263,7 +278,7 @@ class Event extends React.Component {
 						</span>
 					</Flex>
 
-					{isMessage && Boolean(card.data.payload.message) && (
+					{isMessage && Boolean(message) && (
 						<div ref={this.setMessageElement}>
 							<Markdown
 								style={{
@@ -271,7 +286,7 @@ class Event extends React.Component {
 								}}
 								className="event-card__message"
 							>
-								{card.data.payload.message}
+								{message}
 							</Markdown>
 						</div>
 					)}

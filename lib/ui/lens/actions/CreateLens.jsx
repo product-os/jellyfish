@@ -9,7 +9,6 @@ import React from 'react'
 import {
 	connect
 } from 'react-redux'
-import AsyncCreatableSelect from 'react-select/lib/AsyncCreatable'
 import * as constants from '../../constants'
 import * as redux from 'redux'
 import {
