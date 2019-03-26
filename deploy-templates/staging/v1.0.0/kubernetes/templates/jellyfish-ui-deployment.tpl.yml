@@ -1,40 +1,25 @@
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: jellyfish
+  name: jellyfish-ui
   namespace: jellyfish
 spec:
   selector:
     matchLabels:
-      app: jellyfish
+      app: jellyfish-ui
   replicas: 1
   template:
     metadata:
       labels:
-        app: jellyfish
+        app: jellyfish-ui
     spec:
       containers:
-      - image: {{{jellyfish-api-image}}}
-        name: jellyfish
+      - image: {{{jellyfish-ui-image}}}
+        name: jellyfish-ui
         imagePullPolicy: Always
-        livenessProbe:
-          httpGet:
-            path: /ping
-            port: 8000
-          initialDelaySeconds: 20
-          periodSeconds: 10
-          timeoutSeconds: 8
-        readinessProbe:
-          httpGet:
-            path: /ping
-            port: 8000
-          initialDelaySeconds: 20
-          periodSeconds: 10
-          timeoutSeconds: 8
-          failureThreshold: 30
         env:
         - name: PORT
-          value: '8000'
+          value: '80'
         - name: DATABASE
           value: postgres
         - name: POSTGRES_DATABASE
@@ -68,7 +53,7 @@ spec:
         - name: INTEGRATION_GITHUB_SIGNATURE_KEY
           value: {{{INTEGRATION_GITHUB_SIGNATURE_KEY}}}
         ports:
-        - containerPort: 8000
-          name: jellyfish-api
+        - containerPort: 80
+          name: jellyfish-ui
       imagePullSecrets:
         - name: com.docker.hub.travisciresin
