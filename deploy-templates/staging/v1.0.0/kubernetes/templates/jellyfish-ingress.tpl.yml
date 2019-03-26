@@ -21,7 +21,7 @@ spec:
             path: /
             backend:
               serviceName: jellyfish
-              servicePort: 9000
+              servicePort: 8000
     -
       host: {{{JELLYFISH_API_HOST}}}
       http:

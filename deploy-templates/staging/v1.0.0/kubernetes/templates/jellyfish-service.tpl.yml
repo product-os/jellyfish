@@ -9,5 +9,5 @@ spec:
   selector:
     app: jellyfish
   ports:
-  - port: 9000
-    name: jellyfish-ui
+  - port: 8000
+    name: jellyfish-api
