@@ -1,6 +1,6 @@
 {
   "name": "jellyfish",
-  "version": "14.6.0",
+  "version": "14.6.1",
   "codename": "aurelia",
   "private": true,
   "description": "The Jellyfish Project",
@@ -36,9 +36,13 @@
   },
   "ava": {
     "babel": {
-      "extensions": [ "jsx" ]
+      "extensions": [
+        "jsx"
+      ]
     },
-    "extensions": [ "js" ],
+    "extensions": [
+      "js"
+    ],
     "timeout": "5m",
     "verbose": true,
     "serial": true,
