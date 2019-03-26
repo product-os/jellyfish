@@ -9,6 +9,7 @@ import React from 'react'
 import {
 	connect
 } from 'react-redux'
+import AsyncCreatableSelect from 'react-select/lib/AsyncCreatable'
 import * as constants from '../../constants'
 import * as redux from 'redux'
 import {
@@ -40,6 +41,76 @@ const slugify = (value) => {
 	return value
 		.replace(/[^a-z0-9-]/g, '-')
 		.replace(/-{1,}/g, '-')
+}
+
+const AutoCompleteWidget = (props) => {
+	const getTargets = async (value) => {
+		const schema = {
+			type: 'object',
+			properties: {
+				active: {
+					const: true
+				},
+				type: {
+					const: props.options.resource
+				},
+				data: {
+					type: 'object',
+					properties: {
+						repository: {
+							regexp: {
+								pattern: value,
+								flags: 'i'
+							}
+						}
+					},
+					required: [ 'repository' ]
+				}
+			},
+			required: [ 'type', 'data', 'active' ]
+		}
+		const schemaKeyPath = props.options.keyPath.split('.').join('.properties.')
+		_.set(schemaKeyPath, {
+			regexp: {
+				pattern: value,
+				flags: 'i'
+			}
+		})
+
+		const results = await sdk.query(schema)
+
+		return _.uniq(_.map(results, 'data.repository')).map((repo) => {
+			return {
+				value: repo,
+				label: repo
+			}
+		})
+	}
+
+	const selectedValue = props.value ? {
+		value: props.value,
+		label: props.value
+	} : null
+
+	const onChange = (option) => {
+		props.onChange(option === null ? null : option.value)
+	}
+
+	const formatCreateLabel = (value) => {
+		return `Use "${value}"`
+	}
+
+	return (
+		<AsyncCreatableSelect
+			classNamePrefix="jellyfish-async-select"
+			value={selectedValue}
+			isClearable
+			cacheOptions
+			onChange={onChange}
+			loadOptions={getTargets}
+			formatCreateLabel={formatCreateLabel}
+		/>
+	)
 }
 
 class CreateLens extends React.Component {
@@ -194,9 +265,18 @@ class CreateLens extends React.Component {
 		])
 		const uiSchema = _.get(schema, [ 'properties', 'name' ])
 			? {
-				'ui:order': [ 'name', '*' ]
+				'ui:order': [ 'name', 'tags', '*' ]
 			}
 			: {}
+
+		_.set(uiSchema, [ 'data', 'repository' ], {
+			'ui:widget': AutoCompleteWidget,
+			'ui:options': {
+				resource: 'issue',
+				keyPath: 'data.repository'
+			}
+		})
+
 		const isValid = skhema.isValid(schema, helpers.removeUndefinedArrayItems(this.state.newCardModel)) &&
             skhema.isValid(localSchema, helpers.removeUndefinedArrayItems(freeFieldData))
 
