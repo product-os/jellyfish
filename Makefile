@@ -12,10 +12,12 @@
 	start-tick \
 	start-redis \
 	start-postgres \
-	start-db \
 	test-unit \
 	test-integration \
 	test-e2e
+
+# See https://stackoverflow.com/a/18137056
+MAKEFILE_PATH := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
 # -----------------------------------------------
 # Runtime Configuration
@@ -231,7 +233,10 @@ ngrok-%:
 
 compose: LOGLEVEL = info
 compose: docker-compose.local.yml
-	docker-compose -f docker-compose.dev.yml -f $< up --build
+	docker-compose -f docker-compose.dev.yml -f $< up
+
+compose-build-%: docker-compose.local.yml
+	docker-compose -f docker-compose.dev.yml build $(subst compose-build-,,$@)
 
 node:
 	node $(NODE_DEBUG_ARGS) $(FILE)

@@ -1,6 +1,6 @@
 version: "3"
 services:
-  web:
+  api:
     build: .
     command: make start-server
     ports:
@@ -64,6 +64,23 @@ services:
      - REDIS_HOST=redis
      - REDIS_PASSWORD=12345678
      - NODE_ENV=debug
+  ui:
+    build:
+      context: .
+      args:
+       - SERVER_HOST=http://localhost
+       - SERVER_PORT=8000
+       - SENTRY_DSN_UI=0
+      dockerfile: Dockerfile.ui
+    ports:
+     - "9000:80"
+    links:
+     - api
+    environment:
+      - NGINX_PORT=80
+    volumes: [
+      ".:/usr/src/app"
+    ]
   database:
     image: balena/open-balena-db
     ports:
