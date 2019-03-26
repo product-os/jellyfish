@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: jellyfish-api
+  namespace: jellyfish
+  name: jellyfish-api
+spec:
+  selector:
+    app: jellyfish
+  ports:
+  - port: 8000
+    name: jellyfish-api
