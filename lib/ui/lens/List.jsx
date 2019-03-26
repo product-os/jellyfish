@@ -115,7 +115,6 @@ class CardList extends React.Component {
 		this.props.actions.addChannel(helpers.createChannel({
 			target: card.id,
 			cardType: card.type,
-			head: card,
 			parentChannel: this.props.channel.id
 		}))
 	}

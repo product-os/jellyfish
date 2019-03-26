@@ -24,6 +24,7 @@ const core = require('../../core')
 const store = require('../../core/store')
 const helpers = require('../../services/helpers')
 const SupportThreadTimeline = require('./SupportThreadTimeline')
+const ActionLink = require('../../shame/ActionLink')
 const CloseButton = require('../../shame/CloseButton')
 const ColorHashPill = require('../../shame/ColorHashPill')
 const Column = require('../../shame/Column').default
@@ -36,6 +37,7 @@ const {
 } = require('./utils')
 
 const Extract = styledComponents.default(rendition.Box) `
+	background: lightyellow;
 	border-top: 1px solid ${rendition.Theme.colors.gray.light};
 	border-bottom: 1px solid ${rendition.Theme.colors.gray.light};
 `
@@ -89,6 +91,16 @@ class SupportThreadBase extends React.Component {
 		this.loadLinks(props.card.id)
 
 		this.setCategory = this.setCategory.bind(this)
+		this.openSupportIssueView = this.openSupportIssueView.bind(this)
+	}
+
+	openSupportIssueView () {
+		const newChannel = helpers.createChannel({
+			target: 'view-all-support-issues',
+			cardType: 'view',
+			parentChannel: this.props.channel.id
+		})
+		this.props.actions.addChannel(newChannel)
 	}
 
 	setCategory (event) {
@@ -180,9 +192,10 @@ class SupportThreadBase extends React.Component {
 			return !_.includes(fieldOrder, key)
 		})
 
-		// Omit the status and inbox fields as they are rendered seperately, also
+		// Omit the category, status and inbox fields as they are rendered seperately, also
 		// omit some fields that are used by the sync functionality
 		const keys = _.without((fieldOrder || []).concat(unorderedKeys),
+			'category',
 			'status',
 			'inbox',
 			'origin',
@@ -202,39 +215,26 @@ class SupportThreadBase extends React.Component {
 					px={3}
 					pt={3}
 				>
-					<rendition.Flex mb={1} justify="space-between">
-						<rendition.Flex align="center">
-							<ColorHashPill.default value={_.get(card, [ 'data', 'inbox' ])} mr={2} />
-							<ColorHashPill.default value={_.get(card, [ 'data', 'status' ])} mr={2} />
-
-							{Boolean(card.tags) && _.map(card.tags, (tag) => {
-								if (tag === 'status' || tag === 'summary') {
-									return null
-								}
-								return <Tag.Tag key={tag} mr={2}>#{tag}</Tag.Tag>
+					<rendition.Flex mb={2} justify="space-between">
+						<rendition.DropDownButton
+							primary
+							label={_.get(card, [ 'data', 'category' ], defaultCategory)}
+							joined
+						>
+							{_.map(categoryOptions, (item) => {
+								return (
+									<rendition.Link
+										data-category={item}
+										key={item}
+										onClick={this.setCategory}
+									>
+										{item}
+									</rendition.Link>
+								)
 							})}
-						</rendition.Flex>
+						</rendition.DropDownButton>
 
 						<rendition.Flex align="center">
-							<rendition.DropDownButton
-								primary
-								label={_.get(card, [ 'data', 'category' ], defaultCategory)}
-								joined
-								outline
-							>
-								{_.map(categoryOptions, (item) => {
-									return (
-										<rendition.Link
-											data-category={item}
-											key={item}
-											onClick={this.setCategory}
-										>
-											{item}
-										</rendition.Link>
-									)
-								})}
-							</rendition.DropDownButton>
-
 							<IconButton.IconButton plaintext square mr={1} tooltip={{
 								placement: 'bottom',
 								text: 'Close this support thread'
@@ -242,7 +242,11 @@ class SupportThreadBase extends React.Component {
 								<Icon.default name="archive"/>
 							</IconButton.IconButton>
 
-							<CardActions.CardActions card={card}/>
+							<CardActions.CardActions card={card}>
+								<ActionLink.ActionLink onClick={this.openSupportIssueView}>
+									Search support issues
+								</ActionLink.ActionLink>
+							</CardActions.CardActions>
 
 							<CloseButton.CloseButton
 								mr={-3}
@@ -253,21 +257,33 @@ class SupportThreadBase extends React.Component {
 						</rendition.Flex>
 					</rendition.Flex>
 
-					<rendition.Flex justify="space-between" mt={3}>
-						<rendition.Txt mb={1} tooltip={actor.email}>
-								Conversation with <strong>{actor.name}</strong>
-						</rendition.Txt>
+					<rendition.Flex align="center" mb={2}>
+						<ColorHashPill.default value={_.get(card, [ 'data', 'inbox' ])} mr={2} />
+						<ColorHashPill.default value={_.get(card, [ 'data', 'status' ])} mr={2} />
 
-						<rendition.Txt>Created {helpers.formatTimestamp(card.created_at)}</rendition.Txt>
+						{Boolean(card.tags) && _.map(card.tags, (tag) => {
+							if (tag === 'status' || tag === 'summary') {
+								return null
+							}
+							return <Tag.Tag key={tag} mr={2}>{tag}</Tag.Tag>
+						})}
 					</rendition.Flex>
 
-					<rendition.Flex justify="space-between">
-						<rendition.Box>
-							{Boolean(card.name) && (<rendition.Txt bold>{card.name}</rendition.Txt>)}
+					<rendition.Txt mb={1} tooltip={actor.email}>
+						Conversation with <strong>{actor.name}</strong>
+					</rendition.Txt>
+
+					{Boolean(card.name) && (
+						<rendition.Box mb={1}>
+							<rendition.Txt bold>{card.name}</rendition.Txt>
 						</rendition.Box>
+					)}
+
+					<rendition.Flex justify="space-between">
+						<rendition.Txt><em>Created {helpers.formatTimestamp(card.created_at)}</em></rendition.Txt>
 
 						<rendition.Txt>
-							Updated {helpers.timeAgo(_.get(getLastUpdate(card), [ 'data', 'timestamp' ]))}
+							<em>Updated {helpers.timeAgo(_.get(getLastUpdate(card), [ 'data', 'timestamp' ]))}</em>
 						</rendition.Txt>
 					</rendition.Flex>
 

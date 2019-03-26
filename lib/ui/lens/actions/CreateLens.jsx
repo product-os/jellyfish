@@ -137,8 +137,10 @@ class CreateLens extends React.Component {
 	}
 
 	handleTypeTargetSelect (event) {
+		const types = this.props.channel.data.head.types
+
 		this.setState({
-			selectedTypeTarget: _.find(_.castArray(this.props.type), {
+			selectedTypeTarget: _.find(_.castArray(types), {
 				slug: event.target.value
 			})
 		})
@@ -198,6 +200,8 @@ class CreateLens extends React.Component {
 		const isValid = skhema.isValid(schema, helpers.removeUndefinedArrayItems(this.state.newCardModel)) &&
             skhema.isValid(localSchema, helpers.removeUndefinedArrayItems(freeFieldData))
 
+		const types = this.props.channel.data.head.types
+
 		return (
 			<Column
 				overflowY
@@ -213,12 +217,12 @@ class CreateLens extends React.Component {
 							onClick={this.close}
 						/>
 					</Flex>
-					{_.isArray(this.props.type) && (
+					{_.isArray(types) && (
 						<Flex align="center" pb={3}>
 							<Txt>Create a new</Txt>
 
 							<Select ml={2} value={selectedTypeTarget.slug} onChange={this.handleTypeTargetSelect}>
-								{this.props.type.map((type) => {
+								{types.map((type) => {
 									return (
 										<option value={type.slug} key={type.slug}>
 											{type.name || type.slug}

@@ -28,6 +28,7 @@ class ChannelRenderer extends React.Component {
 		const fromCard = this.state.linkFrom
 		const toCard = this.props.channel.data.head
 		const linkName = _.get(constants.LINKS, [ fromCard.type, toCard.type ], 'is attached to')
+
 		link.createLink(fromCard, toCard, linkName)
 		this.setState({
 			showLinkModal: false,
@@ -79,34 +80,65 @@ class ChannelRenderer extends React.Component {
 
 		return (
 			<ErrorBoundary.ErrorBoundary style={style}>
-				{connectDropTarget(<div style={style}>
-					<lens.data.renderer card={channel.data.head} level={0} {...this.props}/>
-				</div>)}
+				{
+					connectDropTarget(
+						<div style={style}>
+							<lens.data.renderer card={channel.data.head} level={0} {...this.props}/>
+						</div>
+					)
+				}
 
-				{this.state.showLinkModal && (<rendition.Modal cancel={() => {
-					return this.setState({
-						showLinkModal: false
-					})
-				}} done={() => { return this.link() }}>
-					Link {this.state.linkFrom.type} <strong>{this.state.linkFrom.name}</strong> to
-					{this.props.channel.data.head.type} <strong>{this.props.channel.data.head.name}</strong>
-				</rendition.Modal>)}
+				{this.state.showLinkModal && (
+					<rendition.Modal
+						cancel={() => {
+							return this.setState({
+								showLinkModal: false
+							})
+						}}
+						done={() => {
+							return this.link()
+						}}
+					>
+						Link {this.state.linkFrom.type} <strong>{this.state.linkFrom.name}</strong> to{' '}
+						{this.props.channel.data.head.type} <strong>{this.props.channel.data.head.name}</strong>
+					</rendition.Modal>
+				)}
 			</ErrorBoundary.ErrorBoundary>
 		)
 	}
 }
-const squareTarget = {
-	drop (_props, monitor, component) {
+
+const target = {
+	drop (props, monitor, component) {
+		console.log({
+			props,
+			monitor,
+			component
+		})
+		const fromCard = monitor.getItem()
+		const toCard = props.channel.data.head
+		console.log({
+			fromCard,
+			toCard
+		})
+
+		// Make sure we don't link a card to itself
+		if (fromCard.id === toCard.id) {
+			return
+		}
+
 		component.setState({
 			showLinkModal: true,
 			linkFrom: monitor.getItem()
 		})
 	}
 }
+
 const collect = (connect, monitor) => {
 	return {
 		connectDropTarget: connect.dropTarget(),
 		isOver: monitor.isOver()
 	}
 }
-exports.default = reactDnd.DropTarget('channel', squareTarget, collect)(ChannelRenderer)
+
+exports.default = reactDnd.DropTarget('channel', target, collect)(ChannelRenderer)

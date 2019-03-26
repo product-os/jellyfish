@@ -185,7 +185,6 @@ class Base extends React.Component {
 							<ContextMenu.ContextMenu position="bottom" onClose={this.toggleMenu}>
 								<React.Fragment>
 									<ActionLink.ActionLink
-										mb={2}
 										onClick={this.copyPermalink}
 										tooltip={{
 											text: 'Permalink copied!',
@@ -197,7 +196,6 @@ class Base extends React.Component {
 									</ActionLink.ActionLink>
 
 									<ActionLink.ActionLink
-										mb={2}
 										onClick={this.copyJSON}
 										tooltip={{
 											text: 'JSON copied!',
@@ -211,6 +209,8 @@ class Base extends React.Component {
 									<ActionLink.ActionLink onClick={this.toggleDeleteModal}>
 											Delete
 									</ActionLink.ActionLink>
+
+									{this.props.children}
 								</React.Fragment>
 							</ContextMenu.ContextMenu>}
 					</span>
