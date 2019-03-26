@@ -33,6 +33,7 @@ import {
 	analytics,
 	sdk
 } from '../../core'
+import AutoCompleteWidget from '../../components/AutoCompleteWidget'
 import {
 	FreeFieldForm
 } from '../../components/FreeFieldForm'
@@ -41,76 +42,6 @@ const slugify = (value) => {
 	return value
 		.replace(/[^a-z0-9-]/g, '-')
 		.replace(/-{1,}/g, '-')
-}
-
-const AutoCompleteWidget = (props) => {
-	const getTargets = async (value) => {
-		const schema = {
-			type: 'object',
-			properties: {
-				active: {
-					const: true
-				},
-				type: {
-					const: props.options.resource
-				},
-				data: {
-					type: 'object',
-					properties: {
-						repository: {
-							regexp: {
-								pattern: value,
-								flags: 'i'
-							}
-						}
-					},
-					required: [ 'repository' ]
-				}
-			},
-			required: [ 'type', 'data', 'active' ]
-		}
-		const schemaKeyPath = props.options.keyPath.split('.').join('.properties.')
-		_.set(schemaKeyPath, {
-			regexp: {
-				pattern: value,
-				flags: 'i'
-			}
-		})
-
-		const results = await sdk.query(schema)
-
-		return _.uniq(_.map(results, 'data.repository')).map((repo) => {
-			return {
-				value: repo,
-				label: repo
-			}
-		})
-	}
-
-	const selectedValue = props.value ? {
-		value: props.value,
-		label: props.value
-	} : null
-
-	const onChange = (option) => {
-		props.onChange(option === null ? null : option.value)
-	}
-
-	const formatCreateLabel = (value) => {
-		return `Use "${value}"`
-	}
-
-	return (
-		<AsyncCreatableSelect
-			classNamePrefix="jellyfish-async-select"
-			value={selectedValue}
-			isClearable
-			cacheOptions
-			onChange={onChange}
-			loadOptions={getTargets}
-			formatCreateLabel={formatCreateLabel}
-		/>
-	)
 }
 
 class CreateLens extends React.Component {
@@ -288,6 +219,7 @@ class CreateLens extends React.Component {
 			}
 			: {}
 
+		// Add autocompletion for the repository field
 		_.set(uiSchema, [ 'data', 'repository' ], {
 			'ui:widget': AutoCompleteWidget,
 			'ui:options': {
