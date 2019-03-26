@@ -14,7 +14,7 @@ spec:
         app: jellyfish
     spec:
       containers:
-      - image: {{{jellyfish-api-image}}}
+      - image: {{{jellyfish-application-image}}}
         name: jellyfish
         imagePullPolicy: Always
         livenessProbe:
