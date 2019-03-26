@@ -2,6 +2,8 @@
 properties:
   - JELLYFISH_HOST:
       type: hostname
+  - JELLYFISH_API_HOST:
+      type: hostname
   - POSTGRES_DATABASE:
       type: string
   - POSTGRES_USER:

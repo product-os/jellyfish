@@ -11,6 +11,7 @@ spec:
       secretName: jellyfish-tls
       hosts:
         - {{{JELLYFISH_HOST}}}
+        - {{{JELLYFISH_API_HOST}}}
   rules:
     -
       host: {{{JELLYFISH_HOST}}}
@@ -21,4 +22,13 @@ spec:
             backend:
               serviceName: jellyfish
               servicePort: 8000 
+    -
+      host: {{{JELLYFISH_API_HOST}}}
+      http:
+        paths:
+          -
+            path: /
+            backend:
+              serviceName: jellyfish-api
+              servicePort: 8000
 
