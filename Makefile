@@ -215,7 +215,7 @@ test-integration:
 	FILES="'./test/integration/**/*.spec.js'" make test
 
 test-e2e:
-	FILES="'./test/e2e/**/*.spec.js'" \
+	FILES="'./test/e2e/**/*.spec.{js,jsx}'" \
 		AVA_OPTS="--serial" make test
 
 test-unit-%:
@@ -225,7 +225,7 @@ test-integration-%:
 	FILES="'./test/integration/$(subst test-integration-,,$@)/**/*.spec.js'" make test
 
 test-e2e-%:
-	FILES="'./test/e2e/$(subst test-e2e-,,$@)/**/*.spec.js'" \
+	FILES="'./test/e2e/$(subst test-e2e-,,$@)/**/*.spec.{js,jsx}'" \
 		AVA_OPTS="--serial" make test
 
 ngrok-%:

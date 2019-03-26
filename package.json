@@ -36,12 +36,9 @@
   },
   "ava": {
     "babel": {
-      "testOptions": {},
-      "extensions": [
-        "js",
-        "jsx"
-      ]
+      "extensions": [ "jsx" ]
     },
+    "extensions": [ "js" ],
     "timeout": "5m",
     "verbose": true,
     "serial": true,
@@ -51,8 +48,7 @@
       "test/e2e/**/*.spec.js"
     ],
     "require": [
-      "@babel/register",
-      "@babel/polyfill",
+      "./test/register",
       "./test/e2e/ui/browser-setup.js"
     ]
   },
