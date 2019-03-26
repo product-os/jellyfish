@@ -14,7 +14,7 @@ COPY scripts/eslint-plugin-jellyfish/package.json \
 RUN npm ci
 COPY . /usr/src/app
 
-ARG SERVER_HOST=https://api.ly.fish
+ARG SERVER_HOST=https://jel.ly.fish
 ARG SERVER_PORT=443
 ARG SENTRY_DSN_UI=https://ff836b1e4abc4d0699bcaaf07ce4ea08@sentry.io/1366139
 
