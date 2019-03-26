@@ -198,6 +198,7 @@ lint:
 	./scripts/check-filenames.sh
 	shellcheck ./scripts/*.sh ./scripts/ci/*.sh ./.circleci/*.sh ./deploy-templates/*.sh
 	./node_modules/.bin/deplint
+	./node_modules/.bin/depcheck --ignore-bin-package --ignores=@storybook/*
 
 coverage:
 	./node_modules/.bin/nyc --reporter=text --reporter=lcov --reporter=json report
