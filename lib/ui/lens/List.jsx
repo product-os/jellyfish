@@ -15,11 +15,9 @@ const reactResizeObserver = require('react-resize-observer')
 const reactVirtualized = require('react-virtualized')
 const redux = require('redux')
 const rendition = require('rendition')
-const CardCreator = require('../components/CardCreator')
 const store = require('../core/store')
 const helpers = require('../services/helpers')
 const SingleCard = require('./SingleCard')
-const Icon = require('../shame/Icon')
 const Column = require('../shame/Column').default
 
 class CardList extends React.Component {
@@ -27,36 +25,6 @@ class CardList extends React.Component {
 		super(props)
 		this.clearCellCache = () => {
 			this.cache.clearAll()
-		}
-		this.showNewCardModal = () => {
-			this.setState({
-				showNewCardModal: true
-			})
-		}
-		this.hideNewCardModal = () => {
-			this.setState({
-				showNewCardModal: false
-			})
-		}
-		this.startCreatingCard = () => {
-			this.hideNewCardModal()
-			this.setState({
-				creatingCard: true
-			})
-		}
-		this.doneCreatingCard = (card) => {
-			if (card) {
-				this.openChannel(card)
-			}
-			this.setState({
-				creatingCard: false
-			})
-		}
-		this.cancelCreatingCard = () => {
-			this.hideNewCardModal()
-			this.setState({
-				creatingCard: false
-			})
 		}
 		this.rowRenderer = (rowProps) => {
 			const {
@@ -94,14 +62,24 @@ class CardList extends React.Component {
 				</reactVirtualized.CellMeasurer>
 			)
 		}
-		this.state = {
-			creatingCard: false,
-			showNewCardModal: false
-		}
+
 		this.cache = new reactVirtualized.CellMeasurerCache({
 			defaultHeight: 300,
 			fixedWidth: true
 		})
+		this.openCreateChannel = () => {
+			this.props.actions.addChannel(helpers.createChannel({
+				head: {
+					action: 'create',
+					types: this.props.type,
+					seed: this.getSeedData(),
+					onDone: {
+						action: 'open'
+					}
+				},
+				canonical: false
+			}))
+		}
 	}
 	componentWillUpdate ({
 		tail
@@ -178,23 +156,11 @@ class CardList extends React.Component {
 						<rendition.Button
 							success={true}
 							className={`btn--add-${this.props.type.slug}`}
-							onClick={this.showNewCardModal}
-							disabled={this.state.creatingCard}
+							onClick={this.openCreateChannel}
 						>
-							{this.state.creatingCard && <Icon.default name="cog fa-spin"/>}
-							{!this.state.creatingCard &&
-						<span>Add {this.props.type.name || this.props.type.slug}</span>}
+							Add {this.props.type.name || this.props.type.slug}
 						</rendition.Button>
 					</rendition.Flex>
-
-					<CardCreator.CardCreator
-						seed={this.getSeedData()}
-						show={this.state.showNewCardModal}
-						type={this.props.type}
-						onCreate={this.startCreatingCard}
-						done={this.doneCreatingCard}
-						cancel={this.cancelCreatingCard}
-					/>
 				</React.Fragment>
 			)}
 		</Column>)

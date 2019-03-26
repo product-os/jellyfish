@@ -13,7 +13,6 @@ const reactTrello = require('react-trello')
 const redux = require('redux')
 const rendition = require('rendition')
 const styledComponents = require('styled-components')
-const CardCreator = require('../components/CardCreator')
 const ContextMenu = require('../components/ContextMenu')
 const GroupUpdate = require('../components/GroupUpdate')
 const core = require('../core')
@@ -50,11 +49,13 @@ class CustomLaneHeader extends React.Component {
 				showMenu: !this.state.showMenu
 			})
 		}
+
 		this.toggleUpdateModal = () => {
 			this.setState({
 				showUpdateModal: !this.state.showUpdateModal
 			})
 		}
+
 		this.state = {
 			showMenu: false,
 			showUpdateModal: false
@@ -135,50 +136,30 @@ class Kanban extends React.Component {
 				})
 			})
 		}
-		this.toggleNewCardModal = () => {
-			this.setState({
-				showNewCardModal: !this.state.showNewCardModal
-			})
-		}
 		this.clearModalChannel = () => {
 			this.setState({
 				modalChannel: null
 			})
 		}
-		this.startCreatingCard = () => {
-			this.setState({
-				showNewCardModal: false
-			})
-			this.setState({
-				creatingCard: true
-			})
-		}
-		this.doneCreatingCard = (card) => {
-			if (card) {
-				this.setState({
-					modalChannel: helpers.createChannel({
-						cardType: card.type,
-						target: card.id,
-						head: card
-					})
-				})
-			}
-			this.setState({
-				creatingCard: false
-			})
-		}
-		this.cancelCreatingCard = () => {
-			this.setState({
-				showNewCardModal: false,
-				creatingCard: false
-			})
-		}
 		this.state = {
-			creatingCard: false,
-			modalChannel: null,
-			showNewCardModal: false
+			modalChannel: null
+		}
+
+		this.openCreateChannel = () => {
+			this.props.actions.addChannel(helpers.createChannel({
+				head: {
+					action: 'create',
+					types: this.props.type,
+					seed: this.getSeedData(),
+					onDone: {
+						action: 'open'
+					}
+				},
+				canonical: false
+			}))
 		}
 	}
+
 	getSlices () {
 		const view = this.props.channel.data.head
 		if (!view) {
@@ -282,24 +263,18 @@ class Kanban extends React.Component {
 			)}
 			{Boolean(type) && (
 				<React.Fragment>
-					<rendition.Button success={true} onClick={this.toggleNewCardModal} m={3} style={{
-						position: 'absolute',
-						bottom: 0,
-						right: 0
-					}} disabled={this.state.creatingCard}>
-						{this.state.creatingCard && <Icon.default name="cog fa-spin"/>}
-						{!this.state.creatingCard &&
-						<span>Add {typeName}</span>}
+					<rendition.Button
+						success
+						onClick={this.openCreateChannel}
+						m={3}
+						style={{
+							position: 'absolute',
+							bottom: 0,
+							right: 0
+						}}
+					>
+						Add {typeName}
 					</rendition.Button>
-
-					<CardCreator.CardCreator
-						seed={this.getSeedData()}
-						show={this.state.showNewCardModal}
-						type={type}
-						onCreate={this.startCreatingCard}
-						done={this.doneCreatingCard}
-						cancel={this.toggleNewCardModal}
-					/>
 				</React.Fragment>
 			)}
 		</rendition.Flex>)
