@@ -23,13 +23,22 @@ children:
             url: 'balena/jellyfish-tick-server:#JF_VERSION#'
           repo:
             url: 'https://github.com/balena-io/jellyfish.git'
-      jellyfish-application:
-        slug: jellyfish-application
+      jellyfish-api:
+        slug: jellyfish-api
         version: #JF_VERSION#
         type: sw.containerized-application
         assets:
           image:
             url: 'balena/jellyfish:#JF_VERSION#'
+          repo:
+            url: 'https://github.com/balena-io/jellyfish.git'
+      jellyfish-ui:
+        slug: jellyfish-ui
+        version: #JF_VERSION#
+        type: sw.containerized-application
+        assets:
+          image:
+            url: 'balena/jellyfish-ui:#JF_VERSION#'
           repo:
             url: 'https://github.com/balena-io/jellyfish.git'
       jellyfish-redis:
