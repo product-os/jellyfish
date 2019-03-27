@@ -1,0 +1,29 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: jellyfish-ui
+  namespace: jellyfish
+spec:
+  selector:
+    matchLabels:
+      app: jellyfish-ui
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: jellyfish-ui
+    spec:
+      containers:
+      - image: {{{jellyfish-ui-image}}}
+        name: jellyfish-ui
+        imagePullPolicy: Always
+        env:
+        - name: NGINX_PORT
+          value: '80'
+        - name: NODE_ENV
+          value: {{{NODE_ENV}}}
+        ports:
+        - containerPort: 80
+          name: jellyfish-ui
+      imagePullSecrets:
+        - name: com.docker.hub.travisciresin
