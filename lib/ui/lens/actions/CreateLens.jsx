@@ -227,6 +227,16 @@ class CreateLens extends React.Component {
 			}
 		})
 
+		// Always show tags input
+		if (!schema.properties.tags) {
+			_.set(schema, [ 'properties', 'tags' ], {
+				type: 'array',
+				items: {
+					type: 'string'
+				}
+			})
+		}
+
 		const isValid = skhema.isValid(schema, helpers.removeUndefinedArrayItems(this.state.newCardModel)) &&
             skhema.isValid(localSchema, helpers.removeUndefinedArrayItems(freeFieldData))
 

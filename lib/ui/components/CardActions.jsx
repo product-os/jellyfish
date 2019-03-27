@@ -160,6 +160,18 @@ class Base extends React.Component {
 			}
 		})
 
+		const schema = this.state.schema
+
+		// Always show tags input
+		if (!schema.properties.tags) {
+			_.set(schema, [ 'properties', 'tags' ], {
+				type: 'array',
+				items: {
+					type: 'string'
+				}
+			})
+		}
+
 		const isValid = skhema.isValid(this.state.schema, helpers.removeUndefinedArrayItems(this.state.editModel)) &&
             skhema.isValid(localSchema, helpers.removeUndefinedArrayItems(freeFieldData))
 		return (
@@ -243,7 +255,7 @@ class Base extends React.Component {
 					}}>
 						<unstable.Form
 							uiSchema={uiSchema}
-							schema={this.state.schema}
+							schema={schema}
 							value={this.state.editModel}
 							onFormChange={this.handleFormChange}
 							hideSubmitButton={true}

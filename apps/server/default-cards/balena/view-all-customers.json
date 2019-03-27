@@ -1,0 +1,46 @@
+{
+  "slug": "view-all-customers",
+  "name": "All customers",
+  "version": "1.0.0",
+  "type": "view",
+  "markers": [ "org-balena" ],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "namespace": "Sales",
+    "allOf": [
+      {
+        "name": "Active cards",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "active": {
+              "const": true,
+              "type": "boolean"
+            },
+            "slug": {
+              "not": {
+                "const": "org-balena"
+              }
+            },
+            "type": {
+              "type": "string",
+              "const": "org"
+            }
+          },
+          "required": [
+            "active",
+            "type"
+          ],
+          "additionalProperties": true
+        }
+      }
+    ],
+    "lenses": [
+      "lens-kanban"
+    ]
+  },
+  "requires": [],
+  "capabilities": []
+}

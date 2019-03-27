@@ -15,6 +15,9 @@ const rendition = require('rendition')
 const styledComponents = require('styled-components')
 const ContextMenu = require('../components/ContextMenu')
 const GroupUpdate = require('../components/GroupUpdate')
+const {
+	Tag
+} = require('../components/Tag')
 const core = require('../core')
 const store = require('../core/store')
 const helpers = require('../services/helpers')
@@ -30,6 +33,38 @@ const EllipsisButton = styledComponents.default(rendition.Button) `
 		color: white;
 	}
 `
+
+const OrgCard = (props) => {
+	const {
+		card
+	} = props
+
+	const arr = _.get(card, [ 'data', 'profile', 'projectedArr' ])
+
+	return (
+		<rendition.Box p={2}>
+			{Boolean(card.tags) && _.map(card.tags, (tag) => {
+				return (
+					<Tag
+						key={tag}
+						mr={2}
+					>
+						{tag}
+					</Tag>
+				)
+			})}
+			<rendition.Txt>{card.name}</rendition.Txt>
+
+			{arr && (
+				<rendition.Pill bg="#2297DE">
+					Projected ARR: {arr.toFixed(2)}
+				</rendition.Pill>
+			)}
+
+		</rendition.Box>
+	)
+}
+
 const cardMapper = (card) => {
 	const message = _.find(_.get(card, [ 'links', 'has attached element' ]), {
 		type: 'message'
@@ -38,6 +73,7 @@ const cardMapper = (card) => {
 		id: card.id,
 		type: card.type,
 		title: card.name || card.slug || `${card.type}: ${card.id.substr(0, 7)}`,
+		card,
 		description: _.get(message, [ 'data', 'payload', 'message' ])
 	}
 }
@@ -66,7 +102,7 @@ class CustomLaneHeader extends React.Component {
 			props
 		} = this
 		return (<div>
-			{props.title}
+			<strong>{props.title}</strong>
 			<EllipsisButton px={2} plaintext onClick={this.toggleMenu}>
 				<Icon.default name="ellipsis-v"/>
 			</EllipsisButton>
@@ -185,7 +221,7 @@ class Kanban extends React.Component {
 			const lane = {
 				id: `${slice.path}__${value}`,
 				cards: [],
-				title: `${slice.title}: ${value}`
+				title: value
 			}
 			if (!cards.length) {
 				lanes.push(lane)
@@ -249,12 +285,15 @@ class Kanban extends React.Component {
 					padding: '0 12px',
 					background: 'none'
 				}}
+				customCardLayout={type.slug === 'org'}
 				customLaneHeader={type ? <CustomLaneHeader schema={type.data.schema}/> : null}
 				data={data}
 				draggable={true}
 				handleDragEnd={this.handleDragEnd}
 				onCardClick={this.onCardClick}
-			/>
+			>
+				<OrgCard />
+			</reactTrello.default>
 
 			{Boolean(this.state.modalChannel) && Boolean(lens) && (
 				<rendition.Modal w={960} done={this.clearModalChannel}>
@@ -301,6 +340,11 @@ const lens = {
 		renderer: connect(mapStateToProps, mapDispatchToProps)(Kanban),
 		filter: {
 			type: 'array'
+		},
+		queryOptions: {
+			limit: 500,
+			sortBy: [ 'created_at' ],
+			sortDir: 'desc'
 		}
 	}
 }

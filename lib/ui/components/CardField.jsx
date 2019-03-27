@@ -23,17 +23,6 @@ const Badge = styled(Txt) `
 	margin-right: 4px;
 	font-size: 14px;
 `
-const DataContainer = styled.pre `
-	background: none;
-	color: inherit;
-	border: 0;
-	margin: 0;
-	padding: 0;
-	font-size: inherit;
-	white-space: pre-wrap;
-	word-wrap: break-word;
-`
-
 const CardField = ({
 	field, payload, users, schema
 }) => {
@@ -78,14 +67,25 @@ const CardField = ({
 			<Markdown>{value}</Markdown>
 		</React.Fragment>)
 	}
-	return (<React.Fragment>
-		<Label.default my={3}>{field}</Label.default>
-		{_.isObject(payload[field])
-			? <Txt monospace={true}>
-				<DataContainer>{JSON.stringify(payload[field], null, 4)}</DataContainer>
-			</Txt>
-			: <Txt>{`${payload[field]}`}</Txt>}
-	</React.Fragment>)
+	return (
+		<React.Fragment>
+			<Label.default my={3}>{field}</Label.default>
+
+			{_.isObject(payload[field]) ? _.map(payload[field], (item, key) => {
+				return (
+					<CardField
+						key={key}
+						field={key}
+						payload={payload[field]}
+						users={users}
+						schema={_.get(schema, [ 'properties', key ], {})}
+					/>
+				)
+			})
+				: <Txt>{`${payload[field]}`}</Txt>
+			}
+		</React.Fragment>
+	)
 }
 
 export default CardField

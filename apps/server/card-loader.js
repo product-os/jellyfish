@@ -64,7 +64,6 @@ module.exports = async (context, jellyfish, worker, session) => {
 		await loadCard('contrib/thread.json'),
 
 		// Triggered actions
-		await loadCard('contrib/triggered-action-create-join-org.json'),
 		await loadCard('contrib/triggered-action-hangouts-link.json'),
 		await loadCard('contrib/triggered-action-integration-github-import-event.json'),
 		await loadCard('contrib/triggered-action-integration-github-mirror-event.json'),
@@ -83,6 +82,7 @@ module.exports = async (context, jellyfish, worker, session) => {
 		await loadCard('balena/architecture-topic.json'),
 		await loadCard('balena/os-test-result.json'),
 		await loadCard('balena/view-all-architecture-topics.json'),
+		await loadCard('balena/view-all-customers.json'),
 		await loadCard('balena/view-all-issues.json'),
 		await loadCard('balena/view-all-messages.json'),
 		await loadCard('balena/view-all-support-issues.json'),
