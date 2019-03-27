@@ -11,11 +11,9 @@ const {
 } = require('react-redux')
 const redux = require('redux')
 const rendition = require('rendition')
-const CardCreator = require('../components/CardCreator')
 const store = require('../core/store')
 const helpers = require('../services/helpers')
 const Column = require('../shame/Column').default
-const Icon = require('../shame/Icon')
 const COLUMNS = [
 	{
 		field: 'name',
@@ -36,39 +34,19 @@ const COLUMNS = [
 class CardTable extends React.Component {
 	constructor (props) {
 		super(props)
-		this.showNewCardModal = () => {
-			this.setState({
-				showNewCardModal: true
-			})
-		}
-		this.hideNewCardModal = () => {
-			this.setState({
-				showNewCardModal: false
-			})
-		}
-		this.startCreatingCard = () => {
-			this.hideNewCardModal()
-			this.setState({
-				creatingCard: true
-			})
-		}
-		this.doneCreatingCard = (card) => {
-			if (card) {
-				this.openChannel(card)
-			}
-			this.setState({
-				creatingCard: false
-			})
-		}
-		this.cancelCreatingCard = () => {
-			this.hideNewCardModal()
-			this.setState({
-				creatingCard: false
-			})
-		}
-		this.state = {
-			creatingCard: false,
-			showNewCardModal: false
+
+		this.openCreateChannel = () => {
+			this.props.actions.addChannel(helpers.createChannel({
+				head: {
+					action: 'create',
+					types: this.props.type,
+					seed: this.getSeedData(),
+					onDone: {
+						action: 'open'
+					}
+				},
+				canonical: false
+			}))
 		}
 	}
 	openChannel (card) {
@@ -128,21 +106,13 @@ class CardTable extends React.Component {
 						}}
 						justify="flex-end"
 					>
-						<rendition.Button success={true} onClick={this.showNewCardModal} disabled={this.state.creatingCard}>
-							{this.state.creatingCard && <Icon.default name="cog fa-spin"/>}
-							{!this.state.creatingCard &&
-						<span>Add {this.props.type.name || this.props.type.slug}</span>}
+						<rendition.Button
+							success
+							onClick={this.openCreateChannel}
+						>
+							Add {this.props.type.name || this.props.type.slug}
 						</rendition.Button>
 					</rendition.Flex>
-
-					<CardCreator.CardCreator
-						seed={this.getSeedData()}
-						show={this.state.showNewCardModal}
-						type={this.props.type}
-						onCreate={this.startCreatingCard}
-						done={this.doneCreatingCard}
-						cancel={this.cancelCreatingCard}
-					/>
 				</React.Fragment>
 			}
 		</Column>)

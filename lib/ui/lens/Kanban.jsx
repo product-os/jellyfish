@@ -13,9 +13,11 @@ const reactTrello = require('react-trello')
 const redux = require('redux')
 const rendition = require('rendition')
 const styledComponents = require('styled-components')
-const CardCreator = require('../components/CardCreator')
 const ContextMenu = require('../components/ContextMenu')
 const GroupUpdate = require('../components/GroupUpdate')
+const {
+	Tag
+} = require('../components/Tag')
 const core = require('../core')
 const store = require('../core/store')
 const helpers = require('../services/helpers')
@@ -31,6 +33,38 @@ const EllipsisButton = styledComponents.default(rendition.Button) `
 		color: white;
 	}
 `
+
+const OrgCard = (props) => {
+	const {
+		card
+	} = props
+
+	const arr = _.get(card, [ 'data', 'profile', 'projectedArr' ])
+
+	return (
+		<rendition.Box p={2}>
+			{Boolean(card.tags) && _.map(card.tags, (tag) => {
+				return (
+					<Tag
+						key={tag}
+						mr={2}
+					>
+						{tag}
+					</Tag>
+				)
+			})}
+			<rendition.Txt>{card.name}</rendition.Txt>
+
+			{arr && (
+				<rendition.Pill bg="#2297DE">
+					Projected ARR: {arr.toFixed(2)}
+				</rendition.Pill>
+			)}
+
+		</rendition.Box>
+	)
+}
+
 const cardMapper = (card) => {
 	const message = _.find(_.get(card, [ 'links', 'has attached element' ]), {
 		type: 'message'
@@ -39,6 +73,7 @@ const cardMapper = (card) => {
 		id: card.id,
 		type: card.type,
 		title: card.name || card.slug || `${card.type}: ${card.id.substr(0, 7)}`,
+		card,
 		description: _.get(message, [ 'data', 'payload', 'message' ])
 	}
 }
@@ -50,11 +85,13 @@ class CustomLaneHeader extends React.Component {
 				showMenu: !this.state.showMenu
 			})
 		}
+
 		this.toggleUpdateModal = () => {
 			this.setState({
 				showUpdateModal: !this.state.showUpdateModal
 			})
 		}
+
 		this.state = {
 			showMenu: false,
 			showUpdateModal: false
@@ -65,7 +102,7 @@ class CustomLaneHeader extends React.Component {
 			props
 		} = this
 		return (<div>
-			{props.title}
+			<strong>{props.title}</strong>
 			<EllipsisButton px={2} plaintext onClick={this.toggleMenu}>
 				<Icon.default name="ellipsis-v"/>
 			</EllipsisButton>
@@ -135,50 +172,30 @@ class Kanban extends React.Component {
 				})
 			})
 		}
-		this.toggleNewCardModal = () => {
-			this.setState({
-				showNewCardModal: !this.state.showNewCardModal
-			})
-		}
 		this.clearModalChannel = () => {
 			this.setState({
 				modalChannel: null
 			})
 		}
-		this.startCreatingCard = () => {
-			this.setState({
-				showNewCardModal: false
-			})
-			this.setState({
-				creatingCard: true
-			})
-		}
-		this.doneCreatingCard = (card) => {
-			if (card) {
-				this.setState({
-					modalChannel: helpers.createChannel({
-						cardType: card.type,
-						target: card.id,
-						head: card
-					})
-				})
-			}
-			this.setState({
-				creatingCard: false
-			})
-		}
-		this.cancelCreatingCard = () => {
-			this.setState({
-				showNewCardModal: false,
-				creatingCard: false
-			})
-		}
 		this.state = {
-			creatingCard: false,
-			modalChannel: null,
-			showNewCardModal: false
+			modalChannel: null
+		}
+
+		this.openCreateChannel = () => {
+			this.props.actions.addChannel(helpers.createChannel({
+				head: {
+					action: 'create',
+					types: this.props.type,
+					seed: this.getSeedData(),
+					onDone: {
+						action: 'open'
+					}
+				},
+				canonical: false
+			}))
 		}
 	}
+
 	getSlices () {
 		const view = this.props.channel.data.head
 		if (!view) {
@@ -204,7 +221,7 @@ class Kanban extends React.Component {
 			const lane = {
 				id: `${slice.path}__${value}`,
 				cards: [],
-				title: `${slice.title}: ${value}`
+				title: value
 			}
 			if (!cards.length) {
 				lanes.push(lane)
@@ -268,12 +285,15 @@ class Kanban extends React.Component {
 					padding: '0 12px',
 					background: 'none'
 				}}
+				customCardLayout={type.slug === 'org'}
 				customLaneHeader={type ? <CustomLaneHeader schema={type.data.schema}/> : null}
 				data={data}
 				draggable={true}
 				handleDragEnd={this.handleDragEnd}
 				onCardClick={this.onCardClick}
-			/>
+			>
+				<OrgCard />
+			</reactTrello.default>
 
 			{Boolean(this.state.modalChannel) && Boolean(lens) && (
 				<rendition.Modal w={960} done={this.clearModalChannel}>
@@ -282,24 +302,18 @@ class Kanban extends React.Component {
 			)}
 			{Boolean(type) && (
 				<React.Fragment>
-					<rendition.Button success={true} onClick={this.toggleNewCardModal} m={3} style={{
-						position: 'absolute',
-						bottom: 0,
-						right: 0
-					}} disabled={this.state.creatingCard}>
-						{this.state.creatingCard && <Icon.default name="cog fa-spin"/>}
-						{!this.state.creatingCard &&
-						<span>Add {typeName}</span>}
+					<rendition.Button
+						success
+						onClick={this.openCreateChannel}
+						m={3}
+						style={{
+							position: 'absolute',
+							bottom: 0,
+							right: 0
+						}}
+					>
+						Add {typeName}
 					</rendition.Button>
-
-					<CardCreator.CardCreator
-						seed={this.getSeedData()}
-						show={this.state.showNewCardModal}
-						type={type}
-						onCreate={this.startCreatingCard}
-						done={this.doneCreatingCard}
-						cancel={this.toggleNewCardModal}
-					/>
 				</React.Fragment>
 			)}
 		</rendition.Flex>)
@@ -326,6 +340,11 @@ const lens = {
 		renderer: connect(mapStateToProps, mapDispatchToProps)(Kanban),
 		filter: {
 			type: 'array'
+		},
+		queryOptions: {
+			limit: 500,
+			sortBy: [ 'created_at' ],
+			sortDir: 'desc'
 		}
 	}
 }

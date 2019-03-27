@@ -32,6 +32,7 @@ import {
 	analytics,
 	sdk
 } from '../../core'
+import AutoCompleteWidget from '../../components/AutoCompleteWidget'
 import {
 	FreeFieldForm
 } from '../../components/FreeFieldForm'
@@ -46,11 +47,14 @@ class CreateLens extends React.Component {
 	constructor (props) {
 		super(props)
 
-		const types = this.props.channel.data.head.types
+		const {
+			types,
+			seed
+		} = this.props.channel.data.head
 
 		this.state = {
-			newCardModel: this.props.seed,
-			selectedTypeTarget: _.first(types)
+			newCardModel: seed,
+			selectedTypeTarget: _.first(_.castArray(types))
 		}
 
 		this.bindMethods([
@@ -127,8 +131,13 @@ class CreateLens extends React.Component {
 				}
 				this.handleDone(card || null)
 			})
+
+		const {
+			seed
+		} = this.props.channel.data.head
+
 		this.setState({
-			newCardModel: this.props.seed
+			newCardModel: seed
 		})
 	}
 
@@ -152,6 +161,17 @@ class CreateLens extends React.Component {
 		} = this.props.channel.data.head
 
 		if (!onDone) {
+			return
+		}
+
+		if (onDone.action === 'open') {
+			this.props.actions.addChannel(helpers.createChannel({
+				cardType: newCard.type,
+				target: newCard.id
+			}))
+
+			this.close()
+
 			return
 		}
 
@@ -194,9 +214,29 @@ class CreateLens extends React.Component {
 		])
 		const uiSchema = _.get(schema, [ 'properties', 'name' ])
 			? {
-				'ui:order': [ 'name', '*' ]
+				'ui:order': [ 'name', 'tags', '*' ]
 			}
 			: {}
+
+		// Add autocompletion for the repository field
+		_.set(uiSchema, [ 'data', 'repository' ], {
+			'ui:widget': AutoCompleteWidget,
+			'ui:options': {
+				resource: 'issue',
+				keyPath: 'data.repository'
+			}
+		})
+
+		// Always show tags input
+		if (!schema.properties.tags) {
+			_.set(schema, [ 'properties', 'tags' ], {
+				type: 'array',
+				items: {
+					type: 'string'
+				}
+			})
+		}
+
 		const isValid = skhema.isValid(schema, helpers.removeUndefinedArrayItems(this.state.newCardModel)) &&
             skhema.isValid(localSchema, helpers.removeUndefinedArrayItems(freeFieldData))
 
@@ -259,6 +299,7 @@ class CreateLens extends React.Component {
 							primary
 							disabled={!isValid}
 							onClick={this.addEntry}
+							data-test="card-creator__submit"
 						>
 							Submit
 						</Button>

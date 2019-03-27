@@ -14,6 +14,7 @@ const redux = require('redux')
 const rendition = require('rendition')
 const unstable = require('rendition/dist/unstable')
 const skhema = require('skhema')
+const AutoCompleteWidget = require('../components/AutoCompleteWidget').default
 const FreeFieldForm = require('../components/FreeFieldForm')
 const core = require('../core')
 const store = require('../core/store')
@@ -149,6 +150,28 @@ class Base extends React.Component {
 				'ui:order': [ 'name', '*' ]
 			}
 			: {}
+
+		// Add autocompletion for the repository field
+		_.set(uiSchema, [ 'data', 'repository' ], {
+			'ui:widget': AutoCompleteWidget,
+			'ui:options': {
+				resource: 'issue',
+				keyPath: 'data.repository'
+			}
+		})
+
+		const schema = this.state.schema
+
+		// Always show tags input
+		if (!schema.properties.tags) {
+			_.set(schema, [ 'properties', 'tags' ], {
+				type: 'array',
+				items: {
+					type: 'string'
+				}
+			})
+		}
+
 		const isValid = skhema.isValid(this.state.schema, helpers.removeUndefinedArrayItems(this.state.editModel)) &&
             skhema.isValid(localSchema, helpers.removeUndefinedArrayItems(freeFieldData))
 		return (
@@ -232,7 +255,7 @@ class Base extends React.Component {
 					}}>
 						<unstable.Form
 							uiSchema={uiSchema}
-							schema={this.state.schema}
+							schema={schema}
 							value={this.state.editModel}
 							onFormChange={this.handleFormChange}
 							hideSubmitButton={true}
