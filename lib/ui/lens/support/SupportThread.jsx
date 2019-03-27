@@ -171,10 +171,6 @@ class SupportThreadBase extends React.Component {
 			})
 		])
 			.then(([ supportIssueResult, issueResult ]) => {
-				console.log({
-					supportIssueResult,
-					issueResult
-				})
 				if (supportIssueResult.length) {
 					this.setState({
 						linkedSupportIssues: _.get(
@@ -216,7 +212,6 @@ class SupportThreadBase extends React.Component {
 			linkedSupportIssues,
 			linkedGitHubIssues
 		} = this.state
-		console.log(this.state)
 		const payload = card.data
 		const typeCard = _.find(this.props.types, {
 			slug: card.type
