@@ -8,6 +8,7 @@ const ava = require('ava')
 const uuid = require('uuid/v4')
 const helpers = require('./helpers')
 const macros = require('./macros')
+const environment = require('../../../lib/environment')
 
 const context = {
 	context: {
@@ -35,11 +36,10 @@ ava.after(async () => {
 
 ava.serial('Updates to support threads should be reflected in the support thread list', async (test) => {
 	const {
-		page,
-		server
+		page
 	} = context
 
-	await page.goto(`http://localhost:${server.port}`)
+	await page.goto(`http://localhost:${environment.ui.port}`)
 	await context.createUser(user)
 	await page.waitForSelector('.login-page')
 

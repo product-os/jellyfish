@@ -5,7 +5,6 @@
  */
 
 const _ = require('lodash')
-const path = require('path')
 const Bluebird = require('bluebird')
 const fs = require('fs')
 const uuid = require('uuid/v4')
@@ -35,10 +34,6 @@ const changelog = rawChangelog.slice(rawChangelog.indexOf('##'))
 	.join('##')
 
 module.exports = (application, jellyfish, worker, queue) => {
-	application.get('/', (request, response) => {
-		response.sendFile(path.join('dist', 'index.html'))
-	})
-
 	application.get('/api/v2/config', (request, response) => {
 		response.send({
 			changelog,

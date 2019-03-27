@@ -13,16 +13,6 @@ COPY scripts/eslint-plugin-jellyfish/package.json /usr/src/app/scripts/eslint-pl
 RUN npm ci
 COPY . /usr/src/app
 
-ARG SERVER_HOST=https://jel.ly.fish
-ARG SERVER_PORT=443
-ARG SENTRY_DSN_UI=https://ff836b1e4abc4d0699bcaaf07ce4ea08@sentry.io/1366139
-
-RUN make build-ui \
-	NODE_ENV=production \
-	SENTRY_DSN_UI=$SENTRY_DSN_UI \
-	SERVER_HOST=$SERVER_HOST \
-	SERVER_PORT=$SERVER_PORT
-
 ###########################################################
 # Test
 ###########################################################
