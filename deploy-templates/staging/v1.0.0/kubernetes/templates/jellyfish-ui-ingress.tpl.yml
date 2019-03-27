@@ -1,20 +1,21 @@
 kind: Ingress
 apiVersion: extensions/v1beta1
 metadata:
-  name: jellyfish
+  name: jellyfish-ui
   namespace: jellyfish
   annotations:
     kubernetes.io/tls-acme: 'true'
 spec:
   tls:
-    - secretName: jellyfish-api-tls
+    - secretName: jellyfish-ui-tls
       hosts:
-        - {{{JELLYFISH_API_HOST}}}
+        - {{{JELLYFISH_HOST}}}
   rules:
-    - host: {{{JELLYFISH_API_HOST}}}
+    - host: {{{JELLYFISH_HOST}}}
       http:
         paths:
           - path: /
             backend:
-              serviceName: jellyfish-api
-              servicePort: 8000
+              serviceName: jellyfish-ui
+              servicePort: 80
+
