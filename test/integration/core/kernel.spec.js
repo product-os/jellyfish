@@ -2617,13 +2617,13 @@ ava.cb('.stream() should report back inactive elements', (test) => {
 	}).catch(test.end)
 })
 
-ava('.lock() should be able to lock a non-locked slug', async (test) => {
+ava.only('.lock() should be able to lock a non-locked slug', async (test) => {
 	const result = await test.context.kernel.lock(
 		'4a962ad9-20b5-4dd8-a707-bf819593cc84', 'locktest-1234')
 	test.is(result, 'locktest-1234')
 })
 
-ava('.unlock() should be able to unlock a locked slug by the same owner', async (test) => {
+ava.only('.unlock() should be able to unlock a locked slug by the same owner', async (test) => {
 	const lockResult = await test.context.kernel.lock(
 		'4a962ad9-20b5-4dd8-a707-bf819593cc84', 'locktest-1234')
 	test.is(lockResult, 'locktest-1234')
@@ -2633,7 +2633,25 @@ ava('.unlock() should be able to unlock a locked slug by the same owner', async 
 	test.is(unlockResult, 'locktest-1234')
 })
 
-ava('.unlock() should be able to let other owner take the same slug', async (test) => {
+ava.only('.lock() should not let the same owner take a lock twice without unlocking', async (test) => {
+	const lockResult1 = await test.context.kernel.lock(
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84', 'locktest-1234')
+	test.is(lockResult1, 'locktest-1234')
+
+	const lockResult2 = await test.context.kernel.lock(
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84', 'locktest-1234')
+	test.falsy(lockResult2)
+
+	const unlockResult = await test.context.kernel.unlock(
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84', 'locktest-1234')
+	test.is(unlockResult, 'locktest-1234')
+
+	const lockResult3 = await test.context.kernel.lock(
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84', 'locktest-1234')
+	test.is(lockResult3, 'locktest-1234')
+})
+
+ava.only('.unlock() should be able to let other owner take the same slug', async (test) => {
 	const lockResult1 = await test.context.kernel.lock(
 		'4a962ad9-20b5-4dd8-a707-bf819593cc84', 'locktest-1234')
 	test.is(lockResult1, 'locktest-1234')

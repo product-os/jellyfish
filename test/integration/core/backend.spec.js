@@ -4351,24 +4351,24 @@ ava('.lock() should unlock when locking an old entry even if the owner does not 
 	test.is(result2, 'locktest-1234')
 })
 
-ava('.lock() should unlock when locking an old entry if the owner matches', async (test) => {
+ava('.lock() should not unlock when locking an old entry if the owner matches', async (test) => {
 	const result1 = await test.context.backend.lock(
-		'4a962ad9-20b5-4dd8-a707-bf819593cc84', 'locktest-1234', new Date('1995-12-17T03:24:00'))
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84', 'locktest-1234', new Date(new Date() - 100))
 	test.is(result1, 'locktest-1234')
 
 	const result2 = await test.context.backend.lock(
 		'4a962ad9-20b5-4dd8-a707-bf819593cc84', 'locktest-1234')
-	test.is(result2, 'locktest-1234')
+	test.falsy(result2)
 })
 
-ava('.lock() should be able to lock a locked slug if the owner is the same', async (test) => {
+ava('.lock() should not be able to lock a locked slug if the owner is the same', async (test) => {
 	const result1 = await test.context.backend.lock(
 		'4a962ad9-20b5-4dd8-a707-bf819593cc84', 'locktest-1234')
 	test.is(result1, 'locktest-1234')
 
 	const result2 = await test.context.backend.lock(
 		'4a962ad9-20b5-4dd8-a707-bf819593cc84', 'locktest-1234')
-	test.is(result2, 'locktest-1234')
+	test.falsy(result2)
 })
 
 ava('.unlock() should not be able to unlock a non-locked slug', async (test) => {
