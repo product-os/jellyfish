@@ -179,8 +179,7 @@ clean:
 		.cache-loader
 
 dist:
-	SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
-		./node_modules/.bin/webpack
+	mkdir $@
 
 dist/docs.html: apps/server/api.yaml | dist
 	redoc-cli bundle -o $@ $<
@@ -192,7 +191,9 @@ docker-compose.local.yml:
 	echo "version: \"3\"" > $@
 	echo "# Use this file to make local docker-compose changes" >> $@
 
-build-ui: dist
+build-ui:
+	SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
+		./node_modules/.bin/webpack
 
 lint:
 	./node_modules/.bin/eslint --ext .js,.jsx $(ESLINT_OPTION_FIX) \
@@ -266,7 +267,7 @@ start-redis:
 start-postgres: postgres_data
 	postgres -N 1000 -D $< -p $(POSTGRES_PORT)
 
-start-static: dist
+start-static: build-ui
 	cd $< && python -m SimpleHTTPServer $(UI_PORT)
 
 # -----------------------------------------------
