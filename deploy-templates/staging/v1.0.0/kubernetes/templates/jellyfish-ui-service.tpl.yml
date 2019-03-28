@@ -11,4 +11,3 @@ spec:
   ports:
   - port: 80
     name: jellyfish-ui
-  type: LoadBalancer
