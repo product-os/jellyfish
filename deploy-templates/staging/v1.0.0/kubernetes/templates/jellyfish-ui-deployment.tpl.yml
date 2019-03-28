@@ -17,6 +17,21 @@ spec:
       - image: {{{jellyfish-ui-image}}}
         name: jellyfish-ui
         imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 2
+          periodSeconds: 5
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 5
+          failureThreshold: 4
         env:
         - name: NGINX_PORT
           value: '80'
