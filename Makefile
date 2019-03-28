@@ -11,6 +11,7 @@
 	start-worker \
 	start-tick \
 	start-redis \
+	start-static \
 	start-postgres \
 	test-unit \
 	test-integration \
@@ -50,6 +51,8 @@ DB_USER ?=
 export DB_USER
 DB_PASSWORD ?=
 export DB_PASSWORD
+UI_PORT ?= 9000
+export UI_PORT
 SERVER_HOST ?= http://localhost
 export SERVER_HOST
 SERVER_PORT ?= $(PORT)
@@ -176,7 +179,8 @@ clean:
 		.cache-loader
 
 dist:
-	mkdir $@
+	SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
+		./node_modules/.bin/webpack
 
 dist/docs.html: apps/server/api.yaml | dist
 	redoc-cli bundle -o $@ $<
@@ -188,9 +192,7 @@ docker-compose.local.yml:
 	echo "version: \"3\"" > $@
 	echo "# Use this file to make local docker-compose changes" >> $@
 
-build-ui:
-	SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
-		./node_modules/.bin/webpack
+build-ui: dist
 
 lint:
 	./node_modules/.bin/eslint --ext .js,.jsx $(ESLINT_OPTION_FIX) \
@@ -263,6 +265,9 @@ start-redis:
 
 start-postgres: postgres_data
 	postgres -N 1000 -D $< -p $(POSTGRES_PORT)
+
+start-static: dist
+	cd $< && python -m SimpleHTTPServer $(UI_PORT)
 
 # -----------------------------------------------
 # Development

@@ -7,34 +7,16 @@
 const _ = require('lodash')
 const uuid = require('uuid/v4')
 const bodyParser = require('body-parser')
-const compression = require('compression')
 const responseTime = require('response-time')
-const express = require('express')
 const logger = require('../../../lib/logger').getLogger(__filename)
 
-// A regex that matches file types that should be compressed
-const COMPRESSION_REGEX = /\.(mp3|js|map|svg)$/
-
 module.exports = (application, jellyfish, options) => {
-	// Enable compression only for static files and the homepage
-	application.use(compression({
-		filter: (request, response) => {
-			if (request.url === '/' || request.url.match(COMPRESSION_REGEX)) {
-				return compression.filter(request, response)
-			}
-
-			return false
-		}
-	}))
-
 	application.use(bodyParser.json({
 		// A small trick to preserve the unparsed JSON
 		verify: (request, response, buffer, encoding) => {
 			request.rawBody = buffer.toString('utf8')
 		}
 	}))
-
-	application.use(express.static('dist'))
 
 	application.use((request, response, next) => {
 		response.header('Access-Control-Allow-Origin', '*')

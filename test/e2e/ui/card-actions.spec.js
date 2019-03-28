@@ -8,6 +8,7 @@ const ava = require('ava')
 const uuid = require('uuid/v4')
 const helpers = require('./helpers')
 const macros = require('./macros')
+const environment = require('../../../lib/environment')
 
 const context = {
 	context: {
@@ -47,7 +48,8 @@ ava.before(async () => {
 		type: 'thread'
 	})
 	context.testCard = card
-	await context.page.goto(`http://localhost:8000/#/${card.type}~${card.id}`)
+	await context.page.goto(
+		`http://localhost:${environment.ui.port}/#/${card.type}~${card.id}`)
 	await context.page.waitForSelector('.column--thread')
 })
 

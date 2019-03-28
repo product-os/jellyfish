@@ -5,6 +5,7 @@
  */
 
 const _ = require('lodash')
+const environment = require('../../../lib/environment')
 
 exports.WAIT_OPTS = {
 	timeout: 60 * 1000
@@ -31,7 +32,7 @@ exports.makeSelector = (componentName, slug, id) => {
 }
 
 exports.loginUser = async (page, user) => {
-	await page.goto('http://localhost:8000')
+	await page.goto(`http://localhost:${environment.ui.port}`)
 
 	await page.waitForSelector('.login-page')
 
