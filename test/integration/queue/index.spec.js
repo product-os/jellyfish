@@ -120,6 +120,38 @@ ava('.enqueue() should take a current date', async (test) => {
 	test.is(request.data.timestamp, date.toISOString())
 })
 
+ava('.dequeue() should not let the same owner take a request twice', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card')
+	const actionRequest = await test.context.queue.enqueue(
+		test.context.queueActor, test.context.session, {
+			action: 'action-create-card',
+			context: test.context.context,
+			card: typeCard.id,
+			type: typeCard.type,
+			arguments: {
+				properties: {
+					version: '1.0.0',
+					slug: 'foo',
+					data: {
+						foo: 'bar'
+					}
+				}
+			}
+		})
+
+	const request1 = await test.context.queue.dequeue(
+		test.context.context, test.context.queueActor)
+
+	test.truthy(request1)
+	test.is(request1.slug, actionRequest.slug)
+
+	const request2 = await test.context.queue.dequeue(
+		test.context.context, test.context.queueActor)
+
+	test.falsy(request2)
+})
+
 ava('.enqueue() should set a present timestamp', async (test) => {
 	const currentDate = new Date()
 	const typeCard = await test.context.jellyfish.getCardBySlug(
