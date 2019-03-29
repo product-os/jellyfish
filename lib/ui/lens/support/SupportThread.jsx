@@ -379,7 +379,7 @@ class SupportThreadBase extends React.Component {
 							})}
 
 							{Boolean(linkedGitHubIssues && linkedGitHubIssues.length) && (
-								<rendition.Txt><strong>Linked support issues</strong></rendition.Txt>
+								<rendition.Txt><strong>Linked github issues</strong></rendition.Txt>
 							)}
 							{_.map(linkedGitHubIssues, (entry) => {
 								return (
