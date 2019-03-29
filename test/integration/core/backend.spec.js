@@ -2168,6 +2168,27 @@ ava('.query() should apply sort before limit', async (test) => {
 	test.deepEqual(results, [ card2, card4 ])
 })
 
+ava('.query() should escape malicious sortBy statements', async (test) => {
+	const injection = 'created_at; DROP TABLE cards; --'
+	const error = await test.throwsAsync(() => {
+		return test.context.backend.query(test.context.context, {
+			type: 'object',
+			additionalProperties: true,
+			properties: {
+				type: {
+					type: 'string',
+					const: 'card'
+				}
+			},
+			required: [ 'type' ]
+		}, {
+			sortBy: [ injection ]
+		})
+	})
+
+	test.is(error.message, `column cards.${injection} does not exist`)
+})
+
 ava('.query() should correctly honour top level additionalProperties: true', async (test) => {
 	const user1 = await test.context.backend.insertElement(test.context.context, {
 		slug: 'user-johndoe',
