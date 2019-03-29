@@ -124,6 +124,16 @@ class CardLinker extends React.Component {
 				canonical: false
 			}))
 		}
+
+		this.openVisualizeChannel = () => {
+			this.props.actions.addChannel(helpers.createChannel({
+				head: {
+					action: 'visualize-links',
+					card: this.props.card
+				},
+				canonical: false
+			}))
+		}
 	}
 
 	getAvailableTypes () {
@@ -202,11 +212,23 @@ class CardLinker extends React.Component {
 								style={{
 									display: 'block'
 								}}
+								mb={2}
 								plaintext
 								onClick={this.openCreateChannel}
 								data-test="card-linker-action--new"
 							>
 								Create a new element to link to
+							</rendition.Button>
+
+							<rendition.Button
+								style={{
+									display: 'block'
+								}}
+								plaintext
+								onClick={this.openVisualizeChannel}
+								data-test="card-linker-action--visualize"
+							>
+								Visualize links
 							</rendition.Button>
 						</ContextMenu.ContextMenu>
 					)}

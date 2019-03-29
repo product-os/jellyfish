@@ -1,6 +1,6 @@
 {
   "slug": "view-all-issues",
-  "name": "All issues",
+  "name": "All GitHub issues",
   "version": "1.0.0",
   "type": "view",
   "markers": [ "org-balena" ],

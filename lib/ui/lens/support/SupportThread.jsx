@@ -4,6 +4,7 @@
  * Proprietary and confidential.
  */
 
+const Bluebird = require('bluebird')
 const {
 	circularDeepEqual
 } = require('fast-equals')
@@ -85,6 +86,7 @@ class SupportThreadBase extends React.Component {
 		}
 		this.state = {
 			linkedSupportIssues: [],
+			linkedGitHubIssues: [],
 			showHighlights: false,
 			expanded: false
 		}
@@ -126,30 +128,64 @@ class SupportThreadBase extends React.Component {
 	}
 
 	loadLinks (id) {
-		core.sdk.query({
-			$$links: {
-				'support thread is attached to support issue': {
-					type: 'object',
-					additionalProperties: true
-				}
-			},
-			type: 'object',
-			properties: {
-				id: {
-					type: 'string',
-					const: id
+		Bluebird.all([
+			core.sdk.query({
+				$$links: {
+					'support thread is attached to support issue': {
+						type: 'object',
+						additionalProperties: true
+					}
 				},
-				type: {
-					type: 'string',
-					const: 'support-thread'
-				}
-			},
-			additionalProperties: true
-		})
-			.then(([ result ]) => {
-				if (result) {
+				type: 'object',
+				properties: {
+					id: {
+						type: 'string',
+						const: id
+					},
+					type: {
+						type: 'string',
+						const: 'support-thread'
+					}
+				},
+				additionalProperties: true
+			}),
+			core.sdk.query({
+				$$links: {
+					'support thread is attached to issue': {
+						type: 'object',
+						additionalProperties: true
+					}
+				},
+				type: 'object',
+				properties: {
+					id: {
+						type: 'string',
+						const: id
+					},
+					type: {
+						type: 'string',
+						const: 'support-thread'
+					}
+				},
+				additionalProperties: true
+			})
+		])
+			.then(([ supportIssueResult, issueResult ]) => {
+				if (supportIssueResult.length) {
 					this.setState({
-						linkedSupportIssues: _.get(result, [ 'links', 'support thread is attached to support issue' ])
+						linkedSupportIssues: _.get(
+							supportIssueResult[0],
+							[ 'links', 'support thread is attached to support issue' ]
+						)
+					})
+				}
+
+				if (issueResult.length) {
+					this.setState({
+						linkedGitHubIssues: _.get(
+							issueResult[0],
+							[ 'links', 'support thread is attached to issue' ]
+						)
 					})
 				}
 			})
@@ -172,6 +208,10 @@ class SupportThreadBase extends React.Component {
 		const {
 			card, fieldOrder
 		} = this.props
+		const {
+			linkedSupportIssues,
+			linkedGitHubIssues
+		} = this.state
 		const payload = card.data
 		const typeCard = _.find(this.props.types, {
 			slug: card.type
@@ -320,16 +360,39 @@ class SupportThreadBase extends React.Component {
 								})}
 							</Extract>)}
 
-							{_.map(this.state.linkedSupportIssues, (entry) => {
+							{Boolean(linkedSupportIssues && linkedSupportIssues.length) && (
+								<rendition.Txt><strong>Linked support issues</strong></rendition.Txt>
+							)}
+							{_.map(linkedSupportIssues, (entry) => {
 								return (
-									<rendition.Link
-										mr={2}
-										href={`/#support-issue~${entry.id}`}
-										key={entry.id}
-										data-test="support-thread__linked-support-issue"
-									>
-										{entry.name}
-									</rendition.Link>
+									<div>
+										<rendition.Link
+											mr={2}
+											href={`/#support-issue~${entry.id}`}
+											key={entry.id}
+											data-test="support-thread__linked-support-issue"
+										>
+											{entry.name}
+										</rendition.Link>
+									</div>
+								)
+							})}
+
+							{Boolean(linkedGitHubIssues && linkedGitHubIssues.length) && (
+								<rendition.Txt><strong>Linked github issues</strong></rendition.Txt>
+							)}
+							{_.map(linkedGitHubIssues, (entry) => {
+								return (
+									<div>
+										<rendition.Link
+											mr={2}
+											href={`/#issue~${entry.id}`}
+											key={entry.id}
+											data-test="support-thread__linked-issue"
+										>
+											{entry.name}
+										</rendition.Link>
+									</div>
 								)
 							})}
 

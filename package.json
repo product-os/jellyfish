@@ -116,6 +116,7 @@
     "body-parser": "^1.18.2",
     "color-hash": "^1.0.3",
     "copy-to-clipboard": "^3.0.8",
+    "d3": "^5.9.2",
     "debounce-promise": "^3.1.0",
     "errio": "^1.2.2",
     "esprima": "^4.0.0",
