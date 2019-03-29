@@ -422,10 +422,17 @@ class HomeChannelBase extends TailStreamer {
 					</Fixed>
 				)}
 
-				<Box flex="1">
-					{!tail && <Box p={3}><Icon style={{
-						color: 'white'
-					}} name="cog fa-spin"/></Box>}
+				<Box
+					flex="1"
+					style={{
+						overflowY: 'auto'
+					}}
+				>
+					{!tail && (
+						<Box p={3}>
+							<Icon name="cog fa-spin"/>
+						</Box>
+					)}
 
 					{Boolean(tail) && (
 						<TreeMenu
