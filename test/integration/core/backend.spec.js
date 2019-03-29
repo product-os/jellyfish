@@ -4514,7 +4514,22 @@ ava('.getPendingRequests() should return an unexecuted action request', async (t
 		}
 	})
 
-	const result = await test.context.backend.getPendingRequests(test.context.context)
+	const wait = async (length, times = 3) => {
+		const requests = await test.context.backend.getPendingRequests(
+			test.context.context)
+		if (requests.length >= length) {
+			return requests
+		}
+
+		if (times > 0) {
+			await Bluebird.delay(100)
+			return wait(length, times - 1)
+		}
+
+		return requests
+	}
+
+	const result = await wait(1)
 	test.deepEqual(result, [ request ])
 })
 
@@ -4574,7 +4589,22 @@ ava('.getPendingRequests() should return two unexecuted action requests', async 
 		}
 	})
 
-	const result = await test.context.backend.getPendingRequests(test.context.context)
+	const wait = async (length, times = 3) => {
+		const requests = await test.context.backend.getPendingRequests(
+			test.context.context)
+		if (requests.length >= length) {
+			return requests
+		}
+
+		if (times > 0) {
+			await Bluebird.delay(100)
+			return wait(length, times - 1)
+		}
+
+		return requests
+	}
+
+	const result = await wait(2)
 	test.deepEqual(_.sortBy(result, 'slug'), _.sortBy([ request1, request2 ], 'slug'))
 })
 
@@ -4632,6 +4662,23 @@ ava('.getPendingRequests() should be able to limit', async (test) => {
 			arguments: {}
 		}
 	})
+
+	const wait = async (length, times = 3) => {
+		const requests = await test.context.backend.getPendingRequests(
+			test.context.context)
+		if (requests.length >= length) {
+			return requests
+		}
+
+		if (times > 0) {
+			await Bluebird.delay(100)
+			return wait(length, times - 1)
+		}
+
+		throw new Error(`Didn't get ${length} requests in time`)
+	}
+
+	await wait(2)
 
 	const result1 = await test.context.backend.getPendingRequests(
 		test.context.context, {
@@ -4705,6 +4752,23 @@ ava('.getPendingRequests() should be able to skip', async (test) => {
 			arguments: {}
 		}
 	})
+
+	const wait = async (length, times = 3) => {
+		const requests = await test.context.backend.getPendingRequests(
+			test.context.context)
+		if (requests.length >= length) {
+			return requests
+		}
+
+		if (times > 0) {
+			await Bluebird.delay(100)
+			return wait(length, times - 1)
+		}
+
+		throw new Error(`Didn't get ${length} requests in time`)
+	}
+
+	await wait(1)
 
 	const result1 = await test.context.backend.getPendingRequests(
 		test.context.context, {
@@ -4807,6 +4871,23 @@ ava('.getPendingRequests() should omit an executed action request', async (test)
 			}
 		}
 	})
+
+	const wait = async (times = 3) => {
+		const requests = await test.context.backend.getPendingRequests(
+			test.context.context)
+		if (requests.length === 0) {
+			return requests
+		}
+
+		if (times > 0) {
+			await Bluebird.delay(100)
+			return wait(times - 1)
+		}
+
+		throw new Error('The queue did not get empty in time')
+	}
+
+	await wait()
 
 	const result = await test.context.backend.getPendingRequests(
 		test.context.context)
