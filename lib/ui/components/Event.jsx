@@ -65,7 +65,6 @@ const getMessage = (card) => {
 
 	// Fun hack to extract attached images from synced front messages
 	if (message.includes('<div></div><img src="/api/1/companies/resin_io/attachments')) {
-		console.log(message)
 		const source = message.match(/".*"/)[0]
 		return `![Attached image](https://app.frontapp.com${source.replace(/"/g, '')})`
 	}
@@ -250,6 +249,17 @@ class Event extends React.Component {
 									{helpers.formatTimestamp(card.data.timestamp, true)}
 								</Txt>
 							)}
+							{card.pending &&
+								<Txt color={Theme.colors.text.light} fontSize={1} ml="6px">
+									sending...
+									<Icon
+										style={{
+											marginLeft: 6
+										}}
+										name="cog fa-spin"
+									/>
+								</Txt>
+							}
 						</Flex>
 
 						<span>
@@ -284,7 +294,7 @@ class Event extends React.Component {
 								style={{
 									fontSize: 'inherit'
 								}}
-								className="event-card__message"
+								data-test={card.pending ? '' : 'event-card__message'}
 							>
 								{message}
 							</Markdown>

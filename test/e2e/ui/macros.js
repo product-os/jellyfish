@@ -105,7 +105,7 @@ exports.createChatMessage = async (page, scopeSelector, messageText) => {
 	await page.keyboard.down('Shift')
 	await page.keyboard.press('Enter')
 	await page.keyboard.up('Shift')
-	await page.waitForSelector(`${scopeSelector} .event-card__message`, exports.WAIT_OPTS)
+	await page.waitForSelector(`${scopeSelector} [data-test="event-card__message"]`, exports.WAIT_OPTS)
 }
 
 exports.getElementText = async (page, selector) => {
