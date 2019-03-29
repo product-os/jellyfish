@@ -70,7 +70,11 @@ const Container = styled(Box) `
 	.rta__autocomplete {
 		position: absolute;
 		display: block;
-		transform: translateY(-100%);
+		margin-top: 1em;
+	}
+	.rta__autocomplete--top {
+		margin-top: 0;
+		margin-bottom: 1em;
 	}
 	.rta__list {
 		margin: 0;
@@ -140,7 +144,9 @@ const getTrigger = _.memoize(() => {
 				const usernames = store.selectors.getAllUsers(core.store.getState())
 					.map(({
 						slug
-					}) => { return `@${_.trimStart(slug, 'user-')}` })
+					}) => {
+						return `@${slug.replace(/^user-/, '')}`
+					})
 				if (!token) {
 					return usernames
 				}
@@ -160,7 +166,7 @@ const getTrigger = _.memoize(() => {
 					.map(({
 						slug
 					}) => {
-						return `!${_.trimStart(slug, 'user-')}`
+						return `@${slug.replace(/^user-/, '')}`
 					})
 				if (!token) {
 					return usernames
