@@ -7,7 +7,7 @@ spec:
   selector:
     matchLabels:
       app: jellyfish
-  replicas: 1
+  replicas: 2
   template:
     metadata:
       labels:
@@ -19,14 +19,14 @@ spec:
         imagePullPolicy: Always
         livenessProbe:
           httpGet:
-            path: /ping
+            path: /status
             port: 8000
           initialDelaySeconds: 20
           periodSeconds: 10
           timeoutSeconds: 8
         readinessProbe:
           httpGet:
-            path: /ping
+            path: /status
             port: 8000
           initialDelaySeconds: 20
           periodSeconds: 10
