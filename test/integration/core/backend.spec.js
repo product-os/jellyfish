@@ -965,6 +965,22 @@ ava('.query() should escape malicious query keys', async (test) => {
 })
 
 ava('.query() should escape malicious query values', async (test) => {
+	const injection = 'id FROM cards; DROP TABLE cards; COMMIT; SELECT *'
+	const error = await test.throwsAsync(() => {
+		return test.context.backend.query(test.context.context, {
+			type: 'object',
+			properties: {
+				[injection]: {
+					type: 'string',
+					const: 'foo'
+				}
+			},
+			required: [ injection ]
+		})
+	})
+
+	test.is(error.message, `column cards.${injection} does not exist`)
+
 	await test.notThrowsAsync(async () => {
 		await test.context.backend.query(test.context.context, {
 			type: 'object',
