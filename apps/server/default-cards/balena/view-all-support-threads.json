@@ -1,6 +1,6 @@
 {
   "slug": "view-all-support-threads",
-  "name": "Support threads",
+  "name": "General",
   "version": "1.0.0",
   "type": "view",
   "markers": [ "org-balena" ],

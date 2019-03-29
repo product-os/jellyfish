@@ -1,6 +1,6 @@
 {
   "slug": "view-devices-support-threads",
-  "name": "Device support",
+  "name": "Devices",
   "version": "1.0.0",
   "type": "view",
   "markers": [ "org-balena" ],
