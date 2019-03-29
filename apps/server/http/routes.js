@@ -61,8 +61,54 @@ module.exports = (application, jellyfish, worker, queue) => {
 	})
 
 	application.get('/ping', (request, response) => {
-		return response.status(200).json({
-			error: false
+		const PING_TYPE = 'ping'
+		const PING_SLUG = 'ping-api'
+
+		return jellyfish.getCardBySlug(request.context, jellyfish.sessions.admin, PING_TYPE, {
+			type: 'type'
+		}).then(async (typeCard) => {
+			if (!typeCard) {
+				throw new Error(`No type card: ${PING_TYPE}`)
+			}
+
+			const actionRequest = await queue.enqueue(worker.getId(), jellyfish.sessions.admin, {
+				action: 'action-upsert-card',
+				card: typeCard.id,
+				type: typeCard.type,
+				context: request.context,
+				arguments: {
+					reason: null,
+					properties: {
+						slug: PING_SLUG,
+						version: '1.0.0',
+						data: {
+							timestamp: new Date().toISOString()
+						}
+					}
+				}
+			})
+
+			const results = await queue.waitResults(
+				request.context, actionRequest)
+
+			if (results.error) {
+				return response.status(500).json(results)
+			}
+
+			return response.status(200).json({
+				error: false,
+				data: _.omit(results.data, [ 'links' ])
+			})
+		}).catch((error) => {
+			const errorObject = errio.toObject(error, {
+				stack: true
+			})
+
+			logger.exception(request.context, 'Ping error', error)
+			return response.status(500).json({
+				error: true,
+				data: errorObject
+			})
 		})
 	})
 
