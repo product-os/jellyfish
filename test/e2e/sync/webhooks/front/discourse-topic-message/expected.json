@@ -68,7 +68,7 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "Ignore me, this is an integrations test!"
+          "message": "Ignore me, this is an integrations test!\n\n\nhttps://www.balena-cloud.com/?hidden=reply&source=flowdock&flow=rulemotion/public-s-community&thread=Xg6OqQ7h8xYHcWm-y9Z_r4lEgdI&hmac=3768dadd79ba2608b88d1e4c6daa712568129c4f7f9507a65b3d4ee39c076c34"
         }
       }
     },
@@ -224,7 +224,7 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "Test reply"
+          "message": "Test reply\n\nhttps://www.balena-cloud.com?hidden=reply&source=flowdock&flow=rulemotion/public-s-community&thread=Xg6OqQ7h8xYHcWm-y9Z_r4lEgdI&hmac=ed7fd13ddefc1a51af1e79e1092d665478b712e6bf07323ecc2737baaf02b533"
         }
       }
     },
