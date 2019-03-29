@@ -68,7 +68,7 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "One\n\nOn Mon, Oct 8, 2018 at 7:39 PM Juan Cruz Viotti <juan@resin.io> wrote:\n\n>\n>"
+          "message": "One\nOn Mon, Oct 8, 2018 at 7:39 PM Juan Cruz Viotti <juan@resin.io> wrote:\n>"
         }
       }
     },
@@ -120,7 +120,7 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "Two\n\nOn Mon, Oct 8, 2018 at 7:39 PM Juan Cruz Viotti <juan@resin.io> wrote:\n\n> One\n>\n> On Mon, Oct 8, 2018 at 7:39 PM Juan Cruz Viotti <juan@resin.io> wrote:\n>\n>>\n>>"
+          "message": "Two\nOn Mon, Oct 8, 2018 at 7:39 PM Juan Cruz Viotti <juan@resin.io> wrote:\n> One\nOn Mon, Oct 8, 2018 at 7:39 PM Juan Cruz Viotti <juan@resin.io> wrote:\n>"
         }
       }
     },

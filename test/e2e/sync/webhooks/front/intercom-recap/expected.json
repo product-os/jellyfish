@@ -200,7 +200,7 @@
         "payload": {
           "alertsUser": [],
           "mentionsUser": [],
-          "message": "I meant to say it's not implemented *yet*, but it is coming."
+          "message": "I meant to say it's not implemented yet, but it is coming."
         }
       }
     },
