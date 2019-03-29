@@ -11,6 +11,7 @@ const {
 } = require('react-redux')
 const redux = require('redux')
 const rendition = require('rendition')
+const uuid = require('uuid/v4')
 const Event = require('../components/Event').default
 const core = require('../core')
 const store = require('../core/store')
@@ -87,14 +88,15 @@ class TimelineRenderer extends React.Component {
 		this.state = {
 			newMessage: '',
 			showNewCardModal: false,
-			messagesOnly: true
+			messagesOnly: true,
+			pendingMessages: []
 		}
 	}
 	componentDidMount () {
 		this.shouldScroll = true
 		this.scrollToBottom()
 	}
-	componentWillUpdate () {
+	componentWillUpdate (nextProps) {
 		const {
 			scrollArea
 		} = this
@@ -103,10 +105,31 @@ class TimelineRenderer extends React.Component {
 			this.shouldScroll = scrollArea.scrollTop >= scrollArea.scrollHeight - scrollArea.offsetHeight
 		}
 	}
+
+	componentWillReceiveProps (nextProps) {
+		const {
+			pendingMessages
+		} = this.state
+
+		if (pendingMessages.length) {
+			const stillPending = pendingMessages.filter((item) => {
+				const match = _.find(nextProps.tail, {
+					slug: item.slug
+				})
+				return !match
+			})
+
+			this.setState({
+				pendingMessages: stillPending
+			})
+		}
+	}
+
 	componentDidUpdate () {
 		// Scroll to bottom if the component has been updated with new items
 		this.scrollToBottom()
 	}
+
 	scrollToBottom () {
 		if (!this.scrollArea) {
 			return
@@ -138,12 +161,32 @@ class TimelineRenderer extends React.Component {
 			target: this.props.card,
 			type: 'message',
 			tags,
+			slug: `message-${uuid()}`,
 			payload: {
 				mentionsUser: mentions,
 				alertsUser: alerts,
 				message: newMessage
 			}
 		}
+
+		// Synthesize the event card and add it to the pending messages so it can be
+		// rendered in advance of the API request completing it
+		this.setState({
+			pendingMessages: this.state.pendingMessages.concat({
+				pending: true,
+				type: message.type,
+				tags,
+				slug: message.slug,
+				links: {
+					'is attached to': [ this.props.card ]
+				},
+				data: {
+					actor: this.props.user.id,
+					payload: message.payload
+				}
+			})
+		})
+
 		core.sdk.event.create(message)
 			.then(() => {
 				core.analytics.track('element.create', {
@@ -156,6 +199,7 @@ class TimelineRenderer extends React.Component {
 				this.props.actions.addNotification('danger', error.message || error)
 			})
 	}
+
 	render () {
 		const head = this.props.card
 		const {
@@ -165,7 +209,8 @@ class TimelineRenderer extends React.Component {
 		const props = _.omit(this.props, [ 'card', 'action', 'allUsers', 'tail', 'type', 'user' ])
 		const channelTarget = card.id
 		const {
-			messagesOnly
+			messagesOnly,
+			pendingMessages
 		} = this.state
 
 		// Due to a bug in syncing, sometimes there can be duplicate cards in tail
@@ -214,6 +259,16 @@ class TimelineRenderer extends React.Component {
 							<rendition.Box key={item.id}>
 								<Event
 									openChannel={getTargetId(item) === channelTarget ? false : this.openChannel}
+									card={item}
+								/>
+							</rendition.Box>
+						)
+					})}
+					{Boolean(pendingMessages.length) && _.map(pendingMessages, (item) => {
+						return (
+							<rendition.Box key={item.slug}>
+								<Event
+									openChannel={false}
 									card={item}
 								/>
 							</rendition.Box>

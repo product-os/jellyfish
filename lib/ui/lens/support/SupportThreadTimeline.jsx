@@ -11,6 +11,7 @@ const {
 } = require('react-redux')
 const redux = require('redux')
 const rendition = require('rendition')
+const uuid = require('uuid/v4')
 const Event = require('../../components/Event').default
 const core = require('../../core')
 const store = require('../../core/store')
@@ -100,7 +101,26 @@ class SupportThreadTimelineRenderer extends React.Component {
 			showNewCardModal: false,
 			messagesOnly: true,
 			whisper: true,
-			messageSymbol: false
+			messageSymbol: false,
+			pendingMessages: []
+		}
+	}
+	componentWillReceiveProps (nextProps) {
+		const {
+			pendingMessages
+		} = this.state
+
+		if (pendingMessages.length) {
+			const stillPending = pendingMessages.filter((item) => {
+				const match = _.find(nextProps.tail, {
+					slug: item.slug
+				})
+				return !match
+			})
+
+			this.setState({
+				pendingMessages: stillPending
+			})
 		}
 	}
 	componentDidMount () {
@@ -149,6 +169,7 @@ class SupportThreadTimelineRenderer extends React.Component {
 		const message = {
 			target: this.props.card,
 			type: whisper ? 'whisper' : 'message',
+			slug: `${whisper ? 'whisper' : 'message'}-${uuid()}`,
 			tags,
 			payload: {
 				mentionsUser: mentions,
@@ -156,6 +177,25 @@ class SupportThreadTimelineRenderer extends React.Component {
 				message: newMessage.replace(messageSymbolRE, '')
 			}
 		}
+
+		// Synthesize the event card and add it to the pending messages so it can be
+		// rendered in advance of the API request completing it
+		this.setState({
+			pendingMessages: this.state.pendingMessages.concat({
+				pending: true,
+				type: message.type,
+				tags,
+				slug: message.slug,
+				links: {
+					'is attached to': [ this.props.card ]
+				},
+				data: {
+					actor: this.props.user.id,
+					payload: message.payload
+				}
+			})
+		})
+
 		core.sdk.event.create(message)
 			.then(() => {
 				core.analytics.track('element.create', {
@@ -176,7 +216,8 @@ class SupportThreadTimelineRenderer extends React.Component {
 		const channelTarget = this.props.card.id
 		const whisper = this.state.messageSymbol ? false : this.state.whisper
 		const {
-			messagesOnly
+			messagesOnly,
+			pendingMessages
 		} = this.state
 
 		// Due to a bug in syncing, sometimes there can be duplicate cards in tail
@@ -224,6 +265,17 @@ class SupportThreadTimelineRenderer extends React.Component {
 							<Event
 								openChannel={getTargetId(card) === channelTarget ? false : this.openChannel}
 								card={card}
+							/>
+						</rendition.Box>
+					)
+				})}
+
+				{Boolean(pendingMessages.length) && _.map(pendingMessages, (item) => {
+					return (
+						<rendition.Box key={item.slug}>
+							<Event
+								openChannel={false}
+								card={item}
 							/>
 						</rendition.Box>
 					)
