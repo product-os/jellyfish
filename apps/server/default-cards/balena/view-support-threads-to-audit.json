@@ -58,6 +58,7 @@
       }
     ],
     "lenses": [
+      "lens-interleaved",
       "lens-support-threads",
       "lens-kanban"
     ]

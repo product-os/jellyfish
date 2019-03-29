@@ -127,6 +127,7 @@ const WhisperWrapper = styled(Box) `
 class Event extends React.Component {
 	constructor (props) {
 		super(props)
+
 		this.openChannel = () => {
 			const {
 				card, openChannel
@@ -137,23 +138,32 @@ class Event extends React.Component {
 			const target = getTarget(card)
 			openChannel(target.id, target)
 		}
+
 		this.setMessageElement = (element) => {
 			if (element) {
 				this.messageElement = element
 			}
 		}
+
 		this.copyJSON = (event) => {
 			event.preventDefault()
 			event.stopPropagation()
 			copy(JSON.stringify(this.props.card, null, 2))
 		}
+
 		this.toggleMenu = () => {
 			this.setState({
 				showMenu: !this.state.showMenu
 			})
 		}
+
+		const createCard = _.find(_.get(this.props.card, [ 'links', 'has attached element' ]), {
+			type: 'create'
+		})
+		const actor = _.get(this.props.card, [ 'data', 'actor' ]) || _.get(createCard, [ 'data', 'actor' ])
+
 		this.state = {
-			actor: getActor(_.get(this.props.card, [ 'data', 'actor' ])),
+			actor: getActor(actor),
 			showMenu: false
 		}
 	}
@@ -224,6 +234,8 @@ class Event extends React.Component {
 
 		const message = getMessage(card)
 
+		const timestamp = _.get(card, [ 'data', 'timestamp' ]) || card.created_at
+
 		return (
 			<EventWrapper {...props} className={`event-card--${card.type}`}>
 				<EventButton onClick={this.openChannel} style={{
@@ -244,9 +256,9 @@ class Event extends React.Component {
 
 							{!isMessage && this.getTimelineElement(card)}
 
-							{Boolean(card.data) && Boolean(card.data.timestamp) && (
+							{Boolean(card.data) && Boolean(timestamp) && (
 								<Txt color={Theme.colors.text.light} fontSize={1} ml="6px">
-									{helpers.formatTimestamp(card.data.timestamp, true)}
+									{helpers.formatTimestamp(timestamp, true)}
 								</Txt>
 							)}
 							{card.pending &&
@@ -302,6 +314,10 @@ class Event extends React.Component {
 					)}
 					{isMessage && Boolean(card.data.payload.file) && (
 						<AuthenticatedImage cardId={card.id} fileName={card.data.payload.file}/>
+					)}
+
+					{!isMessage && Boolean(card.name) && (
+						<Txt>{card.name}</Txt>
 					)}
 				</InnerWrapper>
 			</EventWrapper>

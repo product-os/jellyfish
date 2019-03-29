@@ -171,7 +171,24 @@ class Interleaved extends React.Component {
 		const {
 			messagesOnly
 		} = this.state
-		const tail = this.props.tail || null
+
+		let tail = this.props.tail || null
+
+		// If tail has expanded links, interleave them in with the head cards
+		_.forEach(tail, (card) => {
+			_.forEach(card.links, (collection, verb) => {
+				// If the $link property is present, the link hasn't been expanded, so
+				// exit early
+				if (collection[0] && collection[0].$link) {
+					return
+				}
+				for (const item of collection) {
+					tail.push(item)
+				}
+			})
+		})
+
+		tail = _.sortBy(tail, 'created_at')
 
 		return (
 			<Column
@@ -268,7 +285,7 @@ const lens = {
 	version: '1.0.0',
 	name: 'Interleaved lens',
 	data: {
-		icon: 'address-card',
+		icon: 'list',
 		renderer: connect(mapStateToProps, mapDispatchToProps)(Interleaved),
 		filter: {
 			type: 'array',
