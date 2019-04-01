@@ -88,6 +88,8 @@ module.exports = async (context, jellyfish, worker, session) => {
 		await loadCard('balena/view-all-support-issues.json'),
 		await loadCard('balena/view-all-support-threads.json'),
 		await loadCard('balena/view-fleetops-support-threads.json'),
+		await loadCard('balena/view-backend-support-threads.json'),
+		await loadCard('balena/view-customer-success-support-threads.json'),
 		await loadCard('balena/view-devices-support-threads.json'),
 		await loadCard('balena/view-all-users.json'),
 		await loadCard('balena/view-changelogs.json'),
