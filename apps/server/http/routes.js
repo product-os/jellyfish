@@ -372,12 +372,21 @@ module.exports = (application, jellyfish, worker, queue) => {
 			}
 
 			return viewCardFromSlug
-		}).then((schema) => {
+		}).then(async (schema) => {
 			request.payload = schema
-			return jellyfish.query(
+			const startDate = new Date()
+			const data = await jellyfish.query(
 				request.context, request.sessionToken, schema, request.body.options)
-		}).then((data) => {
-			response.status(200).json({
+			const endDate = new Date()
+			const queryTime = endDate.getTime() - startDate.getTime()
+			if (queryTime > 2000) {
+				logger.warn(request.context, 'Slow query schema', {
+					time: queryTime,
+					schema
+				})
+			}
+
+			return response.status(200).json({
 				error: false,
 				data
 			})
