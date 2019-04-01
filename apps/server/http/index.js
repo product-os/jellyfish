@@ -10,12 +10,12 @@ const http = require('http')
 const middlewares = require('./middlewares')
 const routes = require('./routes')
 
-module.exports = (jellyfish, worker, queue, configuration, options) => {
+module.exports = (context, jellyfish, worker, queue, configuration, options) => {
 	const application = express()
 	const server = http.Server(application)
 	application.set('port', configuration.port)
 
-	middlewares(application, jellyfish, {
+	middlewares(context, application, jellyfish, {
 		guestSession: options.guestSession
 	})
 
