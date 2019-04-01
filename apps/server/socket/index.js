@@ -9,7 +9,9 @@ const _ = require('lodash')
 const socketIo = require('socket.io')
 
 module.exports = (jellyfish, server) => {
-	const socketServer = socketIo(server)
+	const socketServer = socketIo(server, {
+		transports: [ 'websocket', 'polling' ]
+	})
 
 	const openStreams = {}
 
