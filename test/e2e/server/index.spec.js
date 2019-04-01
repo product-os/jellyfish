@@ -1289,3 +1289,158 @@ ava.serial('should fail with a user error when executing an unknown action', asy
 		}
 	})
 })
+
+ava.serial('should fail with a user error given an arguments mismatch', async (test) => {
+	const admin = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'user-admin', {
+			type: 'user'
+		})
+
+	const session = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			type: 'session',
+			slug: test.context.generateRandomSlug({
+				prefix: 'session'
+			}),
+			version: '1.0.0',
+			data: {
+				actor: admin.id
+			}
+		})
+
+	const result = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: 'user',
+			type: 'type',
+			action: 'action-create-card',
+			arguments: {
+				foo: 'bar'
+			}
+		}, {
+			Authorization: `Bearer ${session.id}`
+		})
+
+	test.is(result.code, 400)
+	test.deepEqual(result.response, {
+		error: true,
+		data: {
+			name: 'WorkerSchemaMismatch',
+			message: result.response.data.message
+		}
+	})
+})
+
+ava.serial('an upsert that renders a card invalid for its type is a user error', async (test) => {
+	const admin = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'user-admin', {
+			type: 'user'
+		})
+
+	const session = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			type: 'session',
+			slug: test.context.generateRandomSlug({
+				prefix: 'session'
+			}),
+			version: '1.0.0',
+			data: {
+				actor: admin.id
+			}
+		})
+
+	const slug = `ping-test-${uuid()}`
+
+	const result1 = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: 'ping',
+			type: 'type',
+			action: 'action-create-card',
+			arguments: {
+				reason: null,
+				properties: {
+					slug,
+					version: '1.0.0',
+					data: {
+						timestamp: new Date().toISOString()
+					}
+				}
+			}
+		}, {
+			Authorization: `Bearer ${session.id}`
+		})
+
+	test.is(result1.code, 200)
+
+	const result2 = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: 'ping',
+			type: 'type',
+			action: 'action-upsert-card',
+			arguments: {
+				reason: null,
+				properties: {
+					slug,
+					version: '1.0.0',
+					data: {
+						timestamp: 'foo'
+					}
+				}
+			}
+		}, {
+			Authorization: `Bearer ${session.id}`
+		})
+
+	test.is(result2.code, 400)
+	test.deepEqual(result2.response, {
+		error: true,
+		data: {
+			name: 'JellyfishSchemaMismatch',
+			message: result2.response.data.message
+		}
+	})
+})
+
+ava.serial('should fail with a user error if no action card type', async (test) => {
+	const admin = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'user-admin', {
+			type: 'user'
+		})
+
+	const session = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			type: 'session',
+			slug: test.context.generateRandomSlug({
+				prefix: 'session'
+			}),
+			version: '1.0.0',
+			data: {
+				actor: admin.id
+			}
+		})
+
+	const slug = `ping-test-${uuid()}`
+
+	const result = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: 'ping',
+			action: 'action-create-card',
+			arguments: {
+				reason: null,
+				properties: {
+					slug,
+					version: '1.0.0',
+					data: {
+						timestamp: new Date().toISOString()
+					}
+				}
+			}
+		}, {
+			Authorization: `Bearer ${session.id}`
+		})
+
+	test.is(result.code, 400)
+	test.deepEqual(result.response, {
+		error: true,
+		data: 'No action card type'
+	})
+})

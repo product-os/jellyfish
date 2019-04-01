@@ -262,6 +262,13 @@ module.exports = (application, jellyfish, worker, queue) => {
 			})
 		}
 
+		if (!action.type) {
+			return response.status(400).json({
+				error: true,
+				data: 'No action card type'
+			})
+		}
+
 		const files = []
 
 		if (request.files) {
