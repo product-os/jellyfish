@@ -19,7 +19,7 @@ COPY . /usr/src/app
 
 FROM balena/open-balena-base:v5.3.1 as test
 
-RUN apt-get update && apt-get install redis-server postgresql shellcheck
+RUN apt-get update && apt-get install -y redis-server postgresql shellcheck
 
 # Redis will try to set ulimit at startup, and that won't work
 # in non-privileged containers
@@ -42,6 +42,9 @@ RUN service redis-server stop && service postgresql stop
 ###########################################################
 
 FROM balena/open-balena-base:v5.3.1 as runtime
+
+# For debugging purposes
+RUN apt-get update && apt-get install -y postgresql-client
 
 WORKDIR /usr/src/app
 

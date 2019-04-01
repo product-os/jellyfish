@@ -4,6 +4,9 @@
 
 FROM balena/open-balena-base:v5.3.1
 
+# For debugging purposes
+RUN apt-get update && apt-get install -y postgresql-client
+
 WORKDIR /usr/src/app
 
 COPY package.json /usr/src/app
