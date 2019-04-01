@@ -56,7 +56,7 @@ module.exports = async (context) => {
 		context, jellyfish, worker, jellyfish.sessions.admin)
 
 	logger.info(context, 'Configuring HTTP server')
-	const webServer = await http(jellyfish, worker, queue, {
+	const webServer = await http(context, jellyfish, worker, queue, {
 		port: environment.http.port
 	}, {
 		guestSession: results.guestSession.id

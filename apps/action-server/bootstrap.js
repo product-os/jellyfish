@@ -242,6 +242,7 @@ exports.worker = async (context, options) => {
 
 			return getActorKey(
 				serverContext, jellyfish, session, actionRequest.data.actor).then((key) => {
+				actionRequest.data.context.worker = serverContext.id
 				return worker.execute(key.id, actionRequest)
 			})
 		}
@@ -254,7 +255,8 @@ exports.tick = async (context, options) => {
 		onError: options.onError,
 		onLoop: async (serverContext, jellyfish, worker, queue, session) => {
 			return worker.tick({
-				id: `TICK-REQUEST-${uuid()}`
+				id: `TICK-REQUEST-${uuid()}`,
+				worker: serverContext.id
 			}, session, {
 				currentDate: new Date()
 			})

@@ -10,7 +10,7 @@ const bodyParser = require('body-parser')
 const responseTime = require('response-time')
 const logger = require('../../../lib/logger').getLogger(__filename)
 
-module.exports = (application, jellyfish, options) => {
+module.exports = (rootContext, application, jellyfish, options) => {
 	application.use(bodyParser.json({
 		// A small trick to preserve the unparsed JSON
 		verify: (request, response, buffer, encoding) => {
@@ -42,7 +42,8 @@ module.exports = (application, jellyfish, options) => {
 
 	application.use((request, response, next) => {
 		const context = {
-			id: `REQUEST-${uuid()}`
+			id: `REQUEST-${uuid()}`,
+			api: rootContext.id
 		}
 
 		logger.info(context, 'HTTP request start', {
