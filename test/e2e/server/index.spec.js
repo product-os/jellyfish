@@ -1289,3 +1289,43 @@ ava.serial('should fail with a user error when executing an unknown action', asy
 		}
 	})
 })
+
+ava.serial('should fail with a user error given an arguments mismatch', async (test) => {
+	const admin = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'user-admin', {
+			type: 'user'
+		})
+
+	const session = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			type: 'session',
+			slug: test.context.generateRandomSlug({
+				prefix: 'session'
+			}),
+			version: '1.0.0',
+			data: {
+				actor: admin.id
+			}
+		})
+
+	const result = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: 'user',
+			type: 'type',
+			action: 'action-create-card',
+			arguments: {
+				foo: 'bar'
+			}
+		}, {
+			Authorization: `Bearer ${session.id}`
+		})
+
+	test.is(result.code, 400)
+	test.deepEqual(result.response, {
+		error: true,
+		data: {
+			name: 'WorkerSchemaMismatch',
+			message: result.response.data.message
+		}
+	})
+})
