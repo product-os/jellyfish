@@ -5,17 +5,12 @@
  */
 
 const copy = require('copy-to-clipboard')
-const _ = require('lodash')
 const React = require('react')
 const {
 	connect
 } = require('react-redux')
 const redux = require('redux')
 const rendition = require('rendition')
-const unstable = require('rendition/dist/unstable')
-const skhema = require('skhema')
-const AutoCompleteWidget = require('../components/AutoCompleteWidget').default
-const FreeFieldForm = require('../components/FreeFieldForm')
 const core = require('../core')
 const store = require('../core/store')
 const helpers = require('../services/helpers')
@@ -35,42 +30,6 @@ class Base extends React.Component {
 				})
 			this.setState({
 				showDeleteModal: false
-			})
-		}
-		this.updateEntry = () => {
-			const updatedEntry = helpers.removeUndefinedArrayItems(_.assign({}, this.props.card, this.state.editModel))
-			const {
-				id, type
-			} = this.props.card
-			core.sdk.card.update(id, updatedEntry)
-				.then(() => {
-					core.analytics.track('element.update', {
-						element: {
-							id,
-							type
-						}
-					})
-				})
-				.catch((error) => {
-					this.props.actions.addNotification('danger', error.message)
-				})
-			this.setState({
-				showEditModal: false,
-				editModel: {}
-			})
-		}
-		this.edit = () => {
-			this.setState({
-				showEditModal: true,
-
-				// Omit known immutable values
-				editModel: _.omit(_.cloneDeep(this.props.card), [ 'id', 'slug' ])
-			})
-		}
-		this.cancelEdit = () => {
-			this.setState({
-				showEditModal: false,
-				editModel: {}
 			})
 		}
 		this.copyPermalink = (event) => {
@@ -93,87 +52,27 @@ class Base extends React.Component {
 				showDeleteModal: !this.state.showDeleteModal
 			})
 		}
-		this.handleFormChange = (data) => {
-			this.setState({
-				editModel: data.formData
-			})
+		this.openEditChannel = () => {
+			this.props.actions.addChannel(helpers.createChannel({
+				head: {
+					action: 'edit',
+					types: this.props.types,
+					card: this.props.card,
+					onDone: {
+						action: 'close'
+					}
+				},
+				canonical: false
+			}))
 		}
-		this.setFreeFieldData = (data) => {
-			const model = this.state.editModel
-			_.forEach(data, (value, key) => {
-				_.set(model, [ 'data', key ], value)
-			})
-			this.setState({
-				editModel: model
-			})
-		}
-		this.setLocalSchema = (schema) => {
-			const model = this.state.editModel
-			_.set(model, [ 'data', '$$localSchema' ], schema)
-			this.setState({
-				editModel: model
-			})
-		}
-		const cardType = _.find(this.props.types, {
-			slug: this.props.card.type
-		})
 
 		// Omit known computed values from the schema
-		const schema = _.omit(cardType ? cardType.data.schema : {}, [
-			'properties.data.properties.mentionsUser',
-			'properties.data.properties.alertsUser',
-
-			// Omit user password object
-			// TODO: replace this with dynamic comparison against user permissions
-			// see: https://github.com/resin-io/jellyfish/issues/390
-			'properties.data.properties.password'
-		])
 		this.state = {
-			showEditModal: false,
 			showDeleteModal: false,
-			showMenu: false,
-			editModel: {},
-			schema
+			showMenu: false
 		}
 	}
 	render () {
-		const localSchema = helpers.getLocalSchema(this.state.editModel)
-		const freeFieldData = _.reduce(localSchema.properties, (carry, _value, key) => {
-			const cardValue = _.get(this.props.card, [ 'data', key ])
-			if (cardValue) {
-				carry[key] = cardValue
-			}
-			return carry
-		}, {})
-		const uiSchema = _.get(this.state.schema, [ 'properties', 'name' ])
-			? {
-				'ui:order': [ 'name', '*' ]
-			}
-			: {}
-
-		// Add autocompletion for the repository field
-		_.set(uiSchema, [ 'data', 'repository' ], {
-			'ui:widget': AutoCompleteWidget,
-			'ui:options': {
-				resource: 'issue',
-				keyPath: 'data.repository'
-			}
-		})
-
-		const schema = this.state.schema
-
-		// Always show tags input
-		if (!schema.properties.tags) {
-			_.set(schema, [ 'properties', 'tags' ], {
-				type: 'array',
-				items: {
-					type: 'string'
-				}
-			})
-		}
-
-		const isValid = skhema.isValid(this.state.schema, helpers.removeUndefinedArrayItems(this.state.editModel)) &&
-            skhema.isValid(localSchema, helpers.removeUndefinedArrayItems(freeFieldData))
 		return (
 			<React.Fragment>
 				<rendition.Flex align="right" justify="flex-end">
@@ -181,7 +80,7 @@ class Base extends React.Component {
 						plaintext
 						square={true}
 						mr={1}
-						onClick={this.edit}
+						onClick={this.openEditChannel}
 						className="card-actions__btn--edit"
 						tooltip={{
 							placement: 'left',
@@ -248,27 +147,6 @@ class Base extends React.Component {
 					/>
 				)}
 
-				{this.state.showEditModal && (
-					<rendition.Modal w={1060} cancel={this.cancelEdit} done={this.updateEntry} primaryButtonProps={{
-						className: 'card-edit-modal__submit',
-						disabled: !isValid
-					}}>
-						<unstable.Form
-							uiSchema={uiSchema}
-							schema={schema}
-							value={this.state.editModel}
-							onFormChange={this.handleFormChange}
-							hideSubmitButton={true}
-						/>
-
-						<FreeFieldForm.FreeFieldForm
-							schema={localSchema}
-							data={freeFieldData}
-							onDataChange={this.setFreeFieldData}
-							onSchemaChange={this.setLocalSchema}
-						/>
-					</rendition.Modal>
-				)}
 			</React.Fragment>
 		)
 	}
