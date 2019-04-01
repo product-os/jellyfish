@@ -94,11 +94,21 @@ class SupportThreadBase extends React.Component {
 
 		this.setCategory = this.setCategory.bind(this)
 		this.openSupportIssueView = this.openSupportIssueView.bind(this)
+		this.openGitHubIssueView = this.openGitHubIssueView.bind(this)
 	}
 
 	openSupportIssueView () {
 		const newChannel = helpers.createChannel({
 			target: 'view-all-support-issues',
+			cardType: 'view',
+			parentChannel: this.props.channel.id
+		})
+		this.props.actions.addChannel(newChannel)
+	}
+
+	openGitHubIssueView () {
+		const newChannel = helpers.createChannel({
+			target: 'view-all-issues',
 			cardType: 'view',
 			parentChannel: this.props.channel.id
 		})
@@ -285,6 +295,10 @@ class SupportThreadBase extends React.Component {
 							<CardActions.CardActions card={card}>
 								<ActionLink.ActionLink onClick={this.openSupportIssueView}>
 									Search support issues
+								</ActionLink.ActionLink>
+
+								<ActionLink.ActionLink onClick={this.openGitHubIssueView}>
+									Search GitHub issues
 								</ActionLink.ActionLink>
 							</CardActions.CardActions>
 

@@ -460,6 +460,7 @@ class ViewRenderer extends React.Component {
 													key={item.slug}
 													bg={ lens && lens.slug === item.slug ? '#333' : false}
 													square={true}
+													data-test={`lens-selector--${item.slug}`}
 													data-slug={item.slug}
 													onClick={this.setLens}
 												>

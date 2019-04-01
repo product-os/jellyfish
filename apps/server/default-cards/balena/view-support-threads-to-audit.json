@@ -1,6 +1,6 @@
 {
   "slug": "view-support-threads-to-audit",
-  "name": "Support threads to audit",
+  "name": "To audit",
   "version": "1.0.0",
   "type": "view",
   "markers": [ "org-balena" ],
@@ -58,6 +58,7 @@
       }
     ],
     "lenses": [
+      "lens-interleaved",
       "lens-support-threads",
       "lens-kanban"
     ]
