@@ -1399,3 +1399,48 @@ ava.serial('an upsert that renders a card invalid for its type is a user error',
 		}
 	})
 })
+
+ava.serial('should fail with a user error if no action card type', async (test) => {
+	const admin = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'user-admin', {
+			type: 'user'
+		})
+
+	const session = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			type: 'session',
+			slug: test.context.generateRandomSlug({
+				prefix: 'session'
+			}),
+			version: '1.0.0',
+			data: {
+				actor: admin.id
+			}
+		})
+
+	const slug = `ping-test-${uuid()}`
+
+	const result = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: 'ping',
+			action: 'action-create-card',
+			arguments: {
+				reason: null,
+				properties: {
+					slug,
+					version: '1.0.0',
+					data: {
+						timestamp: new Date().toISOString()
+					}
+				}
+			}
+		}, {
+			Authorization: `Bearer ${session.id}`
+		})
+
+	test.is(result.code, 400)
+	test.deepEqual(result.response, {
+		error: true,
+		data: 'No action card type'
+	})
+})
