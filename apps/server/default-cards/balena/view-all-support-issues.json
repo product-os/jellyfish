@@ -19,12 +19,6 @@
             "type": {
               "type": "string",
               "const": "support-issue"
-            },
-            "markers": {
-              "type": "array",
-              "contains": {
-                "const": "org-balena"
-              }
             }
           },
           "additionalProperties": true,
