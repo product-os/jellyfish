@@ -50,10 +50,15 @@ exports.worker = {
 			test.context.queue)
 		await test.context.worker.initialize(test.context.context)
 
-		test.context.flush = async (session) => {
+		test.context.flush = async (session, expect = 0) => {
 			const request = await test.context.queue.dequeue(
 				test.context.context, test.context.worker.getId())
 			if (!request) {
+				if (expect <= 0) {
+					return
+				}
+
+				await test.context.flush(session, expect)
 				return
 			}
 
@@ -68,7 +73,7 @@ exports.worker = {
 				throw new Constructor(result.data.message)
 			}
 
-			await test.context.flush(session)
+			await test.context.flush(session, expect - 1)
 		}
 	},
 	afterEach: helpers.queue.afterEach

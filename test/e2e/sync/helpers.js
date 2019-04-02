@@ -121,7 +121,7 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 				arguments: {}
 			})
 
-		await test.context.flush(test.context.session)
+		await test.context.flush(test.context.session, 1)
 		const result = await test.context.queue.waitResults(
 			test.context.context, request)
 		test.false(result.error)
