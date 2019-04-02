@@ -74,8 +74,12 @@ class CreateLens extends React.Component {
 	}
 
 	handleFormChange (data) {
+		const {
+			seed
+		} = this.props.channel.data.head
+
 		this.setState({
-			newCardModel: data.formData
+			newCardModel: Object.assign({}, seed, data.formData)
 		})
 	}
 
