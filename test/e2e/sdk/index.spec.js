@@ -1039,7 +1039,7 @@ ava.serial.cb('.stream() should stream new cards', (test) => {
 		})
 })
 
-ava.serial.only('.auth.loginWithToken() should work with a valid token', async (test) => {
+ava.serial('.auth.loginWithToken() should work with a valid token', async (test) => {
 	const {
 		sdk
 	} = test.context
@@ -1049,7 +1049,7 @@ ava.serial.only('.auth.loginWithToken() should work with a valid token', async (
 	})
 })
 
-ava.serial.only('.auth.loginWithToken() should throw with an invalid token', async (test) => {
+ava.serial('.auth.loginWithToken() should throw with an invalid token', async (test) => {
 	const {
 		sdk
 	} = test.context
