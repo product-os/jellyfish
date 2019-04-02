@@ -87,7 +87,8 @@ class CardLinker extends React.Component {
 			const linkName = constants.LINKS[card.type][selectedTypeTarget.slug]
 			link.createLink(this.props.card, selectedTarget, linkName)
 			this.setState({
-				showLinkModal: false
+				showLinkModal: false,
+				selectedTarget: null
 			})
 		}
 
