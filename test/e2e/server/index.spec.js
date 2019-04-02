@@ -1090,7 +1090,7 @@ ava.serial('should fail with a user error when querying an id with an expired se
 		})
 
 	const result = await test.context.http(
-		'GET', '/api/v2/id/user/4a962ad9-20b5-4dd8-a707-bf819593cc84', null, {
+		'GET', '/api/v2/id/4a962ad9-20b5-4dd8-a707-bf819593cc84', null, {
 			Authorization: `Bearer ${session.id}`
 		})
 
@@ -1165,7 +1165,7 @@ ava.serial('should fail with a user error when querying a slug with an expired s
 		})
 
 	const result = await test.context.http(
-		'GET', '/api/v2/slug/user/user-admin', null, {
+		'GET', '/api/v2/slug/user-admin', null, {
 			Authorization: `Bearer ${session.id}`
 		})
 
@@ -1277,7 +1277,7 @@ ava.serial('should fail when querying an invalid session with an invalid session
 	const session = '4a962ad9-20b5-4dd8-a707-bf819593cc84'
 
 	const result = await test.context.http(
-		'GET', `/api/v2/id/session/${session}`, null, {
+		'GET', `/api/v2/id/${session}`, null, {
 			Authorization: `Bearer ${session}`
 		})
 

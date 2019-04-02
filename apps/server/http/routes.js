@@ -138,11 +138,9 @@ module.exports = (application, jellyfish, worker, queue) => {
 		})
 	})
 
-	application.get('/api/v2/id/:type/:id', (request, response) => {
+	application.get('/api/v2/id/:id', (request, response) => {
 		jellyfish.getCardById(
-			request.context, request.sessionToken, request.params.id, {
-				type: request.params.type
-			}).then((card) => {
+			request.context, request.sessionToken, request.params.id).then((card) => {
 			if (card) {
 				return response.status(200).json(card)
 			}
@@ -168,7 +166,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 		})
 	})
 
-	application.get('/api/v2/slug/:type/:slug', (request, response) => {
+	application.get('/api/v2/slug/:slug', (request, response) => {
 		jellyfish.getCardBySlug(
 			request.context, request.sessionToken, request.params.slug, {
 				type: request.params.type
