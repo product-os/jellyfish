@@ -183,7 +183,15 @@ class Interleaved extends React.Component {
 					return
 				}
 				for (const item of collection) {
-					tail.push(item)
+					// TODO: Due to a bug in links, its possible for an event to get
+					// linked to a card twice, so remove any duplicates here
+					if (
+						!_.find(tail, {
+							id: item.id
+						})
+					) {
+						tail.push(item)
+					}
 				}
 			})
 		})
