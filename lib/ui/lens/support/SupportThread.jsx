@@ -4,43 +4,60 @@
  * Proprietary and confidential.
  */
 
-const Bluebird = require('bluebird')
-const {
+import * as Bluebird from 'bluebird'
+import {
 	circularDeepEqual
-} = require('fast-equals')
-const _ = require('lodash')
-const React = require('react')
-const {
+} from 'fast-equals'
+import * as _ from 'lodash'
+import React from 'react'
+import {
 	connect
-} = require('react-redux')
-const redux = require('redux')
-const rendition = require('rendition')
-const styledComponents = require('styled-components')
-const CardActions = require('../../components/CardActions')
-const CardField = require('../../components/CardField').default
-const Event = require('../../components/Event').default
-const Label = require('../../components/Label')
-const Tag = require('../../components/Tag')
-const core = require('../../core')
-const store = require('../../core/store')
-const helpers = require('../../services/helpers')
-const SupportThreadTimeline = require('./SupportThreadTimeline')
-const ActionLink = require('../../shame/ActionLink')
-const CloseButton = require('../../shame/CloseButton')
-const ColorHashPill = require('../../shame/ColorHashPill')
-const Column = require('../../shame/Column').default
-const Icon = require('../../shame/Icon')
-const IconButton = require('../../shame/IconButton')
+} from 'react-redux'
+import * as redux from 'redux'
+import {
+	Box,
+	DropDownButton,
+	Flex,
+	Link,
+	Theme,
+	Txt
+} from 'rendition'
+import styled from 'styled-components'
+import {
+	CardActions
+} from '../../components/CardActions'
+import CardField from '../../components/CardField'
+import Event from '../../components/Event'
+import Label from '../../components/Label'
+import {
+	Tag
+} from '../../components/Tag'
+import * as core from '../../core'
+import * as store from '../../core/store'
+import * as helpers from '../../services/helpers'
+import SupportThreadTimeline from './SupportThreadTimeline'
+import {
+	ActionLink
+} from '../../shame/ActionLink'
+import {
+	CloseButton
+} from '../../shame/CloseButton'
+import ColorHashPill from '../../shame/ColorHashPill'
+import Column from '../../shame/Column'
+import Icon from '../../shame/Icon'
+import {
+	IconButton
+} from '../../shame/IconButton'
 
 const {
 	getCreator,
 	getLastUpdate
 } = require('./utils')
 
-const Extract = styledComponents.default(rendition.Box) `
+const Extract = styled(Box) `
 	background: lightyellow;
-	border-top: 1px solid ${rendition.Theme.colors.gray.light};
-	border-bottom: 1px solid ${rendition.Theme.colors.gray.light};
+	border-top: 1px solid ${Theme.colors.gray.light};
+	border-bottom: 1px solid ${Theme.colors.gray.light};
 `
 const transformMirror = (mirror) => {
 	if (mirror.includes('frontapp.com')) {
@@ -261,124 +278,124 @@ class SupportThreadBase extends React.Component {
 				data-test-id={card.id}
 				overflowY
 			>
-				<rendition.Box
+				<Box
 					px={3}
 					pt={3}
 				>
-					<rendition.Flex mb={2} justify="space-between">
-						<rendition.DropDownButton
+					<Flex mb={2} justify="space-between">
+						<DropDownButton
 							primary
 							label={_.get(card, [ 'data', 'category' ], defaultCategory)}
 							joined
 						>
 							{_.map(categoryOptions, (item) => {
 								return (
-									<rendition.Link
+									<Link
 										data-category={item}
 										key={item}
 										onClick={this.setCategory}
 									>
 										{item}
-									</rendition.Link>
+									</Link>
 								)
 							})}
-						</rendition.DropDownButton>
+						</DropDownButton>
 
-						<rendition.Flex align="center">
-							<IconButton.IconButton plaintext square mr={1} tooltip={{
+						<Flex align="center">
+							<IconButton plaintext square mr={1} tooltip={{
 								placement: 'bottom',
 								text: 'Close this support thread'
 							}} onClick={this.close}>
-								<Icon.default name="archive"/>
-							</IconButton.IconButton>
+								<Icon name="archive"/>
+							</IconButton>
 
-							<CardActions.CardActions card={card}>
-								<ActionLink.ActionLink onClick={this.openSupportIssueView}>
+							<CardActions card={card}>
+								<ActionLink onClick={this.openSupportIssueView}>
 									Search support issues
-								</ActionLink.ActionLink>
+								</ActionLink>
 
-								<ActionLink.ActionLink onClick={this.openGitHubIssueView}>
+								<ActionLink onClick={this.openGitHubIssueView}>
 									Search GitHub issues
-								</ActionLink.ActionLink>
-							</CardActions.CardActions>
+								</ActionLink>
+							</CardActions>
 
-							<CloseButton.CloseButton
+							<CloseButton
 								mr={-3}
 								onClick={() => {
 									return this.props.actions.removeChannel(this.props.channel)
 								}}
 							/>
-						</rendition.Flex>
-					</rendition.Flex>
+						</Flex>
+					</Flex>
 
-					<rendition.Flex align="center" mb={1} wrap>
-						<ColorHashPill.default value={_.get(card, [ 'data', 'inbox' ])} mr={2} mb={1} />
-						<ColorHashPill.default value={_.get(card, [ 'data', 'status' ])} mr={2} mb={1} />
+					<Flex align="center" mb={1} wrap>
+						<ColorHashPill value={_.get(card, [ 'data', 'inbox' ])} mr={2} mb={1} />
+						<ColorHashPill value={_.get(card, [ 'data', 'status' ])} mr={2} mb={1} />
 
 						{Boolean(card.tags) && _.map(card.tags, (tag) => {
 							if (tag === 'status' || tag === 'summary') {
 								return null
 							}
-							return <Tag.Tag key={tag} mr={2} mb={1}>{tag}</Tag.Tag>
+							return <Tag key={tag} mr={2} mb={1}>{tag}</Tag>
 						})}
 
 						{Boolean(linkedGitHubIssues && linkedGitHubIssues.length) && _.map(linkedGitHubIssues, (entry) => {
 							return (
-								<Tag.Tag key={entry.id} mr={2} mb={1} tooltip={entry.name}>
-									<Icon.default name="github" brands />
-									<rendition.Link
+								<Tag key={entry.id} mr={2} mb={1} tooltip={entry.name}>
+									<Icon name="github" brands />
+									<Link
 										ml={1}
 										href={`/#issue~${entry.id}`}
 										key={entry.id}
 										data-test="support-thread__linked-issue"
 									>
 										{entry.name}
-									</rendition.Link>
-								</Tag.Tag>
+									</Link>
+								</Tag>
 							)
 						})}
-					</rendition.Flex>
+					</Flex>
 
-					<rendition.Txt mb={1} tooltip={actor.email}>
+					<Txt mb={1} tooltip={actor.email}>
 						Conversation with <strong>{actor.name}</strong>
-					</rendition.Txt>
+					</Txt>
 
 					{Boolean(card.name) && (
-						<rendition.Box mb={1}>
-							<rendition.Txt bold>{card.name}</rendition.Txt>
-						</rendition.Box>
+						<Box mb={1}>
+							<Txt bold>{card.name}</Txt>
+						</Box>
 					)}
 
-					<rendition.Flex justify="space-between">
-						<rendition.Txt><em>Created {helpers.formatTimestamp(card.created_at)}</em></rendition.Txt>
+					<Flex justify="space-between">
+						<Txt><em>Created {helpers.formatTimestamp(card.created_at)}</em></Txt>
 
-						<rendition.Txt>
+						<Txt>
 							<em>Updated {helpers.timeAgo(_.get(getLastUpdate(card), [ 'data', 'timestamp' ]))}</em>
-						</rendition.Txt>
-					</rendition.Flex>
+						</Txt>
+					</Flex>
 
 					{!this.state.expanded && (
-						<rendition.Link
+						<Link
 							onClick={this.handleExpandToggle}
 							mt={2}
 							data-test="support-thread__expand"
 						>
 							More
-						</rendition.Link>
+						</Link>
 					)}
 
 					{this.state.expanded && (
 						<React.Fragment>
 							{highlights.length > 0 && (<div>
 								<strong>
-									<rendition.Link mt={1} onClick={() => {
+									<Link mt={1} onClick={() => {
 										return this.setState({
 											showHighlights: !this.state.showHighlights
 										})
 									}}>
 													Highlights{' '}
-										<Icon.default name={`caret-${this.state.showHighlights ? 'down' : 'right'}`}/>
-									</rendition.Link>
+										<Icon name={`caret-${this.state.showHighlights ? 'down' : 'right'}`}/>
+									</Link>
 								</strong>
 							</div>)}
 
@@ -391,19 +408,19 @@ class SupportThreadBase extends React.Component {
 							</Extract>)}
 
 							{Boolean(linkedSupportIssues && linkedSupportIssues.length) && (
-								<rendition.Txt><strong>Linked support issues</strong></rendition.Txt>
+								<Txt><strong>Linked support issues</strong></Txt>
 							)}
 							{_.map(linkedSupportIssues, (entry) => {
 								return (
 									<div>
-										<rendition.Link
+										<Link
 											mr={2}
 											href={`/#support-issue~${entry.id}`}
 											key={entry.id}
 											data-test="support-thread__linked-support-issue"
 										>
 											{entry.name}
-										</rendition.Link>
+										</Link>
 									</div>
 								)
 							})}
@@ -415,7 +432,7 @@ class SupportThreadBase extends React.Component {
 											<Label.default my={3}>{key}</Label.default>
 											{payload[key].map((mirror) => {
 												const url = transformMirror(mirror)
-												return <rendition.Link key={url} blank href={url}>{url}</rendition.Link>
+												return <Link key={url} blank href={url}>{url}</Link>
 											})}
 										</React.Fragment>
 									)
@@ -432,23 +449,23 @@ class SupportThreadBase extends React.Component {
 									: null
 							})}
 
-							<rendition.Box>
-								<rendition.Link mt={3} onClick={this.handleExpandToggle}>
+							<Box>
+								<Link mt={3} onClick={this.handleExpandToggle}>
 									Less
-								</rendition.Link>
-							</rendition.Box>
+								</Link>
+							</Box>
 						</React.Fragment>
 					)}
-				</rendition.Box>
+				</Box>
 
-				<rendition.Box flex="1" style={{
+				<Box flex="1" style={{
 					minHeight: 0
 				}}>
 					<SupportThreadTimeline.default.data.renderer
 						card={this.props.card}
 						tail={this.props.card.links['has attached element']}
 					/>
-				</rendition.Box>
+				</Box>
 			</Column>
 		)
 	}
@@ -468,15 +485,14 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-exports.Renderer = connect(mapStateToProps, mapDispatchToProps)(SupportThreadBase)
-const lens = {
+export default {
 	slug: 'lens-support-thread',
 	type: 'lens',
 	version: '1.0.0',
 	name: 'Support thread lens',
 	data: {
 		icon: 'address-card',
-		renderer: exports.Renderer,
+		renderer: connect(mapStateToProps, mapDispatchToProps)(SupportThreadBase),
 		filter: {
 			type: 'object',
 			properties: {
@@ -488,4 +504,3 @@ const lens = {
 		}
 	}
 }
-exports.default = lens
