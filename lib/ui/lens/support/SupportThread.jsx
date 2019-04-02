@@ -321,6 +321,22 @@ class SupportThreadBase extends React.Component {
 							}
 							return <Tag.Tag key={tag} mr={2}>{tag}</Tag.Tag>
 						})}
+
+						{Boolean(linkedGitHubIssues && linkedGitHubIssues.length) && _.map(linkedGitHubIssues, (entry) => {
+							return (
+								<Tag.Tag key={entry.id} mr={2}>
+									<Icon.default name="github" brands />
+									<rendition.Link
+										ml={1}
+										href={`/#issue~${entry.id}`}
+										key={entry.id}
+										data-test="support-thread__linked-issue"
+									>
+										{entry.name}
+									</rendition.Link>
+								</Tag.Tag>
+							)
+						})}
 					</rendition.Flex>
 
 					<rendition.Txt mb={1} tooltip={actor.email}>
@@ -385,24 +401,6 @@ class SupportThreadBase extends React.Component {
 											href={`/#support-issue~${entry.id}`}
 											key={entry.id}
 											data-test="support-thread__linked-support-issue"
-										>
-											{entry.name}
-										</rendition.Link>
-									</div>
-								)
-							})}
-
-							{Boolean(linkedGitHubIssues && linkedGitHubIssues.length) && (
-								<rendition.Txt><strong>Linked github issues</strong></rendition.Txt>
-							)}
-							{_.map(linkedGitHubIssues, (entry) => {
-								return (
-									<div>
-										<rendition.Link
-											mr={2}
-											href={`/#issue~${entry.id}`}
-											key={entry.id}
-											data-test="support-thread__linked-issue"
 										>
 											{entry.name}
 										</rendition.Link>

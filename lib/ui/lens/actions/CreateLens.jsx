@@ -137,10 +137,6 @@ class CreateLens extends React.Component {
 				})
 			})
 
-		const {
-			seed
-		} = this.props.channel.data.head
-
 		this.setState({
 			submitting: true
 		})
