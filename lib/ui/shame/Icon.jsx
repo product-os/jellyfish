@@ -6,5 +6,5 @@
  */
 import React from 'react'
 export default function Icon (props) {
-	return <i {...props} className={`fas fa-${props.name}`}/>
+	return <i {...props} className={`fa${props.brands ? 'b' : 's'} fa-${props.name}`}/>
 }

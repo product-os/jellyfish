@@ -12,6 +12,8 @@ export const tagStyle = `
 	border-radius: ${rendition.Theme.radius}px;
 	border: 1px solid #c3c3c3;
 	line-height: 1;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 `
 
 export const Tag = styled(rendition.Txt.span) `

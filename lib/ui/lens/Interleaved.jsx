@@ -172,7 +172,7 @@ class Interleaved extends React.Component {
 			messagesOnly
 		} = this.state
 
-		let tail = this.props.tail || null
+		let tail = this.props.tail ? this.props.tail.slice() : null
 
 		// If tail has expanded links, interleave them in with the head cards
 		_.forEach(tail, (card) => {
