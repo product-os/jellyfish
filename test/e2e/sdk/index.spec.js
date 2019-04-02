@@ -9,6 +9,7 @@ const Bluebird = require('bluebird')
 const _ = require('lodash')
 const uuid = require('uuid/v4')
 const helpers = require('./helpers')
+const environment = require('../../../lib/environment')
 
 ava.before(helpers.sdk.beforeEach)
 ava.after(helpers.sdk.afterEach)
@@ -1057,4 +1058,58 @@ ava.serial('.auth.loginWithToken() should throw with an invalid token', async (t
 	await test.throwsAsync(() => {
 		return sdk.auth.loginWithToken('foobarbazbuzz')
 	})
+})
+
+ava.serial('should broadcast github issue links', async (test) => {
+	test.context.sdk.setAuthToken(test.context.session)
+
+	const issueSlug = test.context.generateRandomSlug({
+		prefix: 'issue'
+	})
+
+	const threadSlug = test.context.generateRandomSlug({
+		prefix: 'thread'
+	})
+
+	const issue = await test.context.sdk.card.create({
+		type: 'issue',
+		version: '1.0.0',
+		slug: issueSlug,
+		name: 'Test Issue',
+		data: {
+			repository: environment.test.integration.github.repo,
+			description: 'Foo Bar',
+			tags: [],
+			status: 'open',
+			archived: false
+		}
+	})
+
+	const thread = await test.context.sdk.card.create({
+		type: 'support-thread',
+		version: '1.0.0',
+		slug: threadSlug,
+		name: 'Test Thread',
+		data: {
+			category: 'general',
+			environment: 'production',
+			description: 'Foo Bar',
+			inbox: 'S/Paid_Support',
+			status: 'open'
+		}
+	})
+
+	test.truthy(issue)
+	test.truthy(thread)
+
+	await test.context.sdk.card.link(thread, issue, 'support thread is attached to issue')
+
+	const fullCard = await test.context.sdk.card.getWithTimeline(issue.id, {
+		type: issue.type
+	})
+
+	const broadcast = _.last(fullCard.links['has attached element'])
+	test.is(broadcast.type, 'message')
+	test.is(broadcast.data.payload.message,
+		`This issue has attached support thread https://jel.ly.fish/#/support-thread~${thread.id}`)
 })
