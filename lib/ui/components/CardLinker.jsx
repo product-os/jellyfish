@@ -116,6 +116,9 @@ class CardLinker extends React.Component {
 				head: {
 					action: 'create',
 					types: this.getAvailableTypes(),
+					seed: {
+						markers: this.props.card.markers
+					},
 					onDone: {
 						action: 'link',
 						target: this.props.card
