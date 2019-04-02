@@ -24,6 +24,7 @@ import {
 	CloseButton
 } from '../../shame/CloseButton'
 import Column from '../../shame/Column'
+import Icon from '../../shame/Icon'
 import {
 	Form
 } from 'rendition/dist/unstable'
@@ -112,17 +113,12 @@ class CreateLens extends React.Component {
 			type: selectedTypeTarget.slug
 		}, this.state.newCardModel))
 
-		if (this.props.onCreate) {
-			this.props.onCreate()
-		}
-
 		if (newCard.type === 'org' && newCard.name) {
 			newCard.slug = `org-${slugify(newCard.name)}`
 		}
 
 		sdk.card.create(newCard)
 			.catch((error) => {
-				this.props.done(null)
 				this.props.actions.addNotification('danger', error.message)
 			})
 			.then((card) => {
@@ -135,13 +131,18 @@ class CreateLens extends React.Component {
 				}
 				this.handleDone(card || null)
 			})
+			.finally(() => {
+				this.setState({
+					submitting: false
+				})
+			})
 
 		const {
 			seed
 		} = this.props.channel.data.head
 
 		this.setState({
-			newCardModel: seed
+			submitting: true
 		})
 	}
 
@@ -305,7 +306,7 @@ class CreateLens extends React.Component {
 							onClick={this.addEntry}
 							data-test="card-creator__submit"
 						>
-							Submit
+							{this.state.submitting ? <Icon name="cog fa-spin" /> : 'Submit' }
 						</Button>
 					</Flex>
 				</div>
