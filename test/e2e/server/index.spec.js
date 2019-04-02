@@ -1104,6 +1104,47 @@ ava.serial('should fail with a user error when querying an id with an expired se
 	})
 })
 
+ava.serial('should get all elements by type', async (test) => {
+	const admin = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'user-admin', {
+			type: 'user'
+		})
+
+	const session = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			type: 'session',
+			slug: test.context.generateRandomSlug({
+				prefix: 'session'
+			}),
+			version: '1.0.0',
+			data: {
+				actor: admin.id
+			}
+		})
+
+	const result = await test.context.http(
+		'GET', '/api/v2/type/user', null, {
+			Authorization: `Bearer ${session.id}`
+		})
+
+	test.is(result.code, 200)
+
+	const users = await test.context.jellyfish.query(
+		test.context.context, test.context.session, {
+			type: 'object',
+			required: [ 'type' ],
+			additionalProperties: true,
+			properties: {
+				type: {
+					type: 'string',
+					const: 'user'
+				}
+			}
+		})
+
+	test.deepEqual(result.response, users)
+})
+
 ava.serial('should fail with a user error when querying a slug with an expired session', async (test) => {
 	const admin = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'user-admin', {
