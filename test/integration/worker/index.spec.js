@@ -3109,3 +3109,568 @@ ava('should be able to upsert a deeply nested card', async (test) => {
 	test.deepEqual(updateResult.data.version, '1.0.0')
 	test.deepEqual(updateResult.data.data, data)
 })
+
+ava('should post a broadcast message to an empty thread', async (test) => {
+	const thread = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			type: 'card',
+			version: '1.0.0',
+			slug: 'thread-1',
+			data: {}
+		})
+
+	const request = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, {
+			action: 'action-broadcast',
+			card: thread.id,
+			type: thread.type,
+			context: test.context.context,
+			arguments: {
+				message: 'Broadcast test'
+			}
+		})
+
+	await test.context.flush(test.context.session, 1)
+	const result = await test.context.queue.waitResults(
+		test.context.context, request)
+	test.false(result.error)
+
+	const threadWithLinks = await test.context.jellyfish.query(
+		test.context.context, test.context.session, {
+			type: 'object',
+			$$links: {
+				'has attached element': {
+					type: 'object',
+					additionalProperties: true
+				}
+			},
+			required: [ 'id', 'type' ],
+			additionalProperties: true,
+			properties: {
+				id: {
+					type: 'string',
+					const: thread.id
+				},
+				type: {
+					type: 'string',
+					const: thread.type
+				},
+				links: {
+					type: 'object'
+				}
+			}
+		})
+
+	const timeline = threadWithLinks[0].links['has attached element']
+
+	test.deepEqual(_.map(timeline, (card) => {
+		return _.pick(card, [ 'type', 'slug', 'data' ])
+	}), [
+		{
+			type: 'message',
+			slug: result.data.slug,
+			data: {
+				actor: timeline[0].data.actor,
+				timestamp: timeline[0].data.timestamp,
+				target: thread.id,
+				payload: {
+					alertsUser: [],
+					mentionsUser: [],
+					message: 'Broadcast test'
+				}
+			}
+		}
+	])
+})
+
+ava('should post a broadcast message to a non empty thread', async (test) => {
+	const thread = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			type: 'card',
+			version: '1.0.0',
+			slug: 'thread-1',
+			data: {}
+		})
+
+	const messageRequest = await test.context.queue.enqueue(test.context.worker.getId(),
+		test.context.session, {
+			action: 'action-create-event',
+			context: test.context.context,
+			card: thread.id,
+			type: thread.type,
+			arguments: {
+				type: 'message',
+				payload: {
+					message: 'Foo'
+				}
+			}
+		})
+
+	await test.context.flush(test.context.session, 1)
+	const messageResult = await test.context.queue.waitResults(
+		test.context.context, messageRequest)
+	test.false(messageResult.error)
+
+	const request = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, {
+			action: 'action-broadcast',
+			card: thread.id,
+			type: thread.type,
+			context: test.context.context,
+			arguments: {
+				message: 'Broadcast test'
+			}
+		})
+
+	await test.context.flush(test.context.session, 1)
+	const result = await test.context.queue.waitResults(
+		test.context.context, request)
+	test.false(result.error)
+
+	const threadWithLinks = await test.context.jellyfish.query(
+		test.context.context, test.context.session, {
+			type: 'object',
+			$$links: {
+				'has attached element': {
+					type: 'object',
+					additionalProperties: true
+				}
+			},
+			required: [ 'id', 'type' ],
+			additionalProperties: true,
+			properties: {
+				id: {
+					type: 'string',
+					const: thread.id
+				},
+				type: {
+					type: 'string',
+					const: thread.type
+				},
+				links: {
+					type: 'object'
+				}
+			}
+		})
+
+	const timeline = threadWithLinks[0].links['has attached element']
+
+	test.deepEqual(_.map(_.sortBy(timeline, (card) => {
+		return card.data.timestamp
+	}), (card) => {
+		return _.pick(card, [ 'type', 'slug', 'data' ])
+	}), [
+		{
+			type: 'message',
+			slug: timeline[0].slug,
+			data: {
+				actor: timeline[0].data.actor,
+				timestamp: timeline[0].data.timestamp,
+				target: thread.id,
+				payload: {
+					message: 'Foo'
+				}
+			}
+		},
+		{
+			type: 'message',
+			slug: result.data.slug,
+			data: {
+				actor: timeline[1].data.actor,
+				timestamp: timeline[1].data.timestamp,
+				target: thread.id,
+				payload: {
+					alertsUser: [],
+					mentionsUser: [],
+					message: 'Broadcast test'
+				}
+			}
+		}
+	])
+})
+
+ava('should not broadcast the same message twice', async (test) => {
+	const thread = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			type: 'card',
+			version: '1.0.0',
+			slug: 'thread-1',
+			data: {}
+		})
+
+	const request1 = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, {
+			action: 'action-broadcast',
+			card: thread.id,
+			type: thread.type,
+			context: test.context.context,
+			arguments: {
+				message: 'Broadcast test'
+			}
+		})
+
+	await test.context.flush(test.context.session, 1)
+	const result1 = await test.context.queue.waitResults(
+		test.context.context, request1)
+	test.false(result1.error)
+
+	const messageRequest = await test.context.queue.enqueue(test.context.worker.getId(),
+		test.context.session, {
+			action: 'action-create-event',
+			context: test.context.context,
+			card: thread.id,
+			type: thread.type,
+			arguments: {
+				type: 'message',
+				payload: {
+					message: 'Foo'
+				}
+			}
+		})
+
+	await test.context.flush(test.context.session, 1)
+	const messageResult = await test.context.queue.waitResults(
+		test.context.context, messageRequest)
+	test.false(messageResult.error)
+
+	const request2 = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, {
+			action: 'action-broadcast',
+			card: thread.id,
+			type: thread.type,
+			context: test.context.context,
+			arguments: {
+				message: 'Broadcast test'
+			}
+		})
+
+	await test.context.flush(test.context.session, 1)
+	const result2 = await test.context.queue.waitResults(
+		test.context.context, request2)
+	test.false(result2.error)
+
+	const threadWithLinks = await test.context.jellyfish.query(
+		test.context.context, test.context.session, {
+			type: 'object',
+			$$links: {
+				'has attached element': {
+					type: 'object',
+					additionalProperties: true
+				}
+			},
+			required: [ 'id', 'type' ],
+			additionalProperties: true,
+			properties: {
+				id: {
+					type: 'string',
+					const: thread.id
+				},
+				type: {
+					type: 'string',
+					const: thread.type
+				},
+				links: {
+					type: 'object'
+				}
+			}
+		})
+
+	const timeline = threadWithLinks[0].links['has attached element']
+
+	test.deepEqual(_.map(_.sortBy(timeline, (card) => {
+		return card.data.timestamp
+	}), (card) => {
+		return _.pick(card, [ 'type', 'slug', 'data' ])
+	}), [
+		{
+			type: 'message',
+			slug: result1.data.slug,
+			data: {
+				actor: timeline[0].data.actor,
+				timestamp: timeline[0].data.timestamp,
+				target: thread.id,
+				payload: {
+					alertsUser: [],
+					mentionsUser: [],
+					message: 'Broadcast test'
+				}
+			}
+		},
+		{
+			type: 'message',
+			slug: timeline[1].slug,
+			data: {
+				actor: timeline[1].data.actor,
+				timestamp: timeline[1].data.timestamp,
+				target: thread.id,
+				payload: {
+					message: 'Foo'
+				}
+			}
+		}
+	])
+})
+
+ava('should broadcast different messages', async (test) => {
+	const thread = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			type: 'card',
+			version: '1.0.0',
+			slug: 'thread-1',
+			data: {}
+		})
+
+	const request1 = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, {
+			action: 'action-broadcast',
+			card: thread.id,
+			type: thread.type,
+			context: test.context.context,
+			arguments: {
+				message: 'Broadcast test 1'
+			}
+		})
+
+	await test.context.flush(test.context.session, 1)
+	const result1 = await test.context.queue.waitResults(
+		test.context.context, request1)
+	test.false(result1.error)
+
+	const messageRequest = await test.context.queue.enqueue(test.context.worker.getId(),
+		test.context.session, {
+			action: 'action-create-event',
+			context: test.context.context,
+			card: thread.id,
+			type: thread.type,
+			arguments: {
+				type: 'message',
+				payload: {
+					message: 'Foo'
+				}
+			}
+		})
+
+	await test.context.flush(test.context.session, 1)
+	const messageResult = await test.context.queue.waitResults(
+		test.context.context, messageRequest)
+	test.false(messageResult.error)
+
+	const request2 = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, {
+			action: 'action-broadcast',
+			card: thread.id,
+			type: thread.type,
+			context: test.context.context,
+			arguments: {
+				message: 'Broadcast test 2'
+			}
+		})
+
+	await test.context.flush(test.context.session, 1)
+	const result2 = await test.context.queue.waitResults(
+		test.context.context, request2)
+	test.false(result2.error)
+
+	const threadWithLinks = await test.context.jellyfish.query(
+		test.context.context, test.context.session, {
+			type: 'object',
+			$$links: {
+				'has attached element': {
+					type: 'object',
+					additionalProperties: true
+				}
+			},
+			required: [ 'id', 'type' ],
+			additionalProperties: true,
+			properties: {
+				id: {
+					type: 'string',
+					const: thread.id
+				},
+				type: {
+					type: 'string',
+					const: thread.type
+				},
+				links: {
+					type: 'object'
+				}
+			}
+		})
+
+	const timeline = threadWithLinks[0].links['has attached element']
+
+	test.deepEqual(_.map(_.sortBy(timeline, (card) => {
+		return card.data.timestamp
+	}), (card) => {
+		return _.pick(card, [ 'type', 'slug', 'data' ])
+	}), [
+		{
+			type: 'message',
+			slug: result1.data.slug,
+			data: {
+				actor: timeline[0].data.actor,
+				timestamp: timeline[0].data.timestamp,
+				target: thread.id,
+				payload: {
+					alertsUser: [],
+					mentionsUser: [],
+					message: 'Broadcast test 1'
+				}
+			}
+		},
+		{
+			type: 'message',
+			slug: timeline[1].slug,
+			data: {
+				actor: timeline[1].data.actor,
+				timestamp: timeline[1].data.timestamp,
+				target: thread.id,
+				payload: {
+					message: 'Foo'
+				}
+			}
+		},
+		{
+			type: 'message',
+			slug: result2.data.slug,
+			data: {
+				actor: timeline[2].data.actor,
+				timestamp: timeline[2].data.timestamp,
+				target: thread.id,
+				payload: {
+					alertsUser: [],
+					mentionsUser: [],
+					message: 'Broadcast test 2'
+				}
+			}
+		}
+	])
+})
+
+ava('should broadcast the same message twice given different actors', async (test) => {
+	const thread = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			type: 'card',
+			version: '1.0.0',
+			slug: 'thread-1',
+			data: {}
+		})
+
+	const rogueUser = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			type: 'user',
+			version: '1.0.0',
+			slug: 'user-admin-fake-test',
+			data: {
+				disallowLogin: true,
+				email: 'accounts+jellyfish@resin.io',
+				roles: [ 'user-community' ]
+			}
+		})
+
+	const rogueSession = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			type: 'session',
+			version: '1.0.0',
+			slug: 'session-rogue-user-test',
+			data: {
+				actor: rogueUser.id
+			}
+		})
+
+	const request1 = await test.context.queue.enqueue(test.context.worker.getId(),
+		rogueSession.id, {
+			action: 'action-create-event',
+			context: test.context.context,
+			card: thread.id,
+			type: thread.type,
+			arguments: {
+				type: 'message',
+				payload: {
+					message: 'Broadcast test'
+				}
+			}
+		})
+
+	await test.context.flush(test.context.session, 1)
+	const result1 = await test.context.queue.waitResults(
+		test.context.context, request1)
+	test.false(result1.error)
+
+	const request2 = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, {
+			action: 'action-broadcast',
+			card: thread.id,
+			type: thread.type,
+			context: test.context.context,
+			arguments: {
+				message: 'Broadcast test'
+			}
+		})
+
+	await test.context.flush(test.context.session, 1)
+	const result2 = await test.context.queue.waitResults(
+		test.context.context, request2)
+	test.false(result2.error)
+
+	const threadWithLinks = await test.context.jellyfish.query(
+		test.context.context, test.context.session, {
+			type: 'object',
+			$$links: {
+				'has attached element': {
+					type: 'object',
+					additionalProperties: true
+				}
+			},
+			required: [ 'id', 'type' ],
+			additionalProperties: true,
+			properties: {
+				id: {
+					type: 'string',
+					const: thread.id
+				},
+				type: {
+					type: 'string',
+					const: thread.type
+				},
+				links: {
+					type: 'object'
+				}
+			}
+		})
+
+	const timeline = threadWithLinks[0].links['has attached element']
+
+	test.deepEqual(_.map(_.sortBy(timeline, (card) => {
+		return card.data.timestamp
+	}), (card) => {
+		return _.pick(card, [ 'type', 'slug', 'data' ])
+	}), [
+		{
+			type: 'message',
+			slug: result1.data.slug,
+			data: {
+				actor: timeline[0].data.actor,
+				timestamp: timeline[0].data.timestamp,
+				target: thread.id,
+				payload: {
+					message: 'Broadcast test'
+				}
+			}
+		},
+		{
+			type: 'message',
+			slug: result2.data.slug,
+			data: {
+				actor: timeline[1].data.actor,
+				timestamp: timeline[1].data.timestamp,
+				target: thread.id,
+				payload: {
+					alertsUser: [],
+					mentionsUser: [],
+					message: 'Broadcast test'
+				}
+			}
+		}
+	])
+})

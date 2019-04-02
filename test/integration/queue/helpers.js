@@ -21,6 +21,8 @@ exports.jellyfish = {
 			require('../../../apps/server/default-cards/contrib/message.json'))
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 			require('../../../apps/server/default-cards/contrib/account.json'))
+		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
+			require('../../../apps/server/default-cards/contrib/view-read-user-community.json'))
 
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 			actionLibrary['action-create-card'].card)
