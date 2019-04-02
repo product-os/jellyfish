@@ -153,6 +153,8 @@ class ViewRenderer extends React.Component {
 		this.setState({
 			activeLens: lens.slug
 		})
+
+		this.props.actions.setViewLens(this.props.card.id, lens.slug)
 	}
 
 	setSlice (event) {
@@ -220,6 +222,12 @@ class ViewRenderer extends React.Component {
 
 		this.lenses = lenses
 
+		const activeLens = _.find(lenses, {
+			slug: this.props.userActiveLens
+		})
+			? this.props.userActiveLens
+			: _.get(lenses, [ '0', 'slug' ])
+
 		const tailType = _.find(this.props.types, {
 			slug: helpers.getTypeFromViewCard(head)
 		}) || null
@@ -252,11 +260,12 @@ class ViewRenderer extends React.Component {
 			this.loadViewWithFilters(head, filters)
 		} else {
 			this.props.actions.streamView(head.id)
-			this.props.actions.loadViewResults(head.id, this.getQueryOptions(_.get(lenses, [ '0', 'slug' ])))
+			this.props.actions.loadViewResults(head.id, this.getQueryOptions(activeLens))
 		}
 
 		// Set default state
 		this.setState({
+			activeLens,
 			filters,
 			tailType,
 
@@ -543,7 +552,8 @@ const mapStateToProps = (state, ownProps) => {
 		channels: store.selectors.getChannels(state),
 		tail: store.selectors.getViewData(state, target),
 		types: store.selectors.getTypes(state),
-		user: store.selectors.getCurrentUser(state)
+		user: store.selectors.getCurrentUser(state),
+		userActiveLens: store.selectors.getUsersViewLens(state, target)
 	}
 }
 

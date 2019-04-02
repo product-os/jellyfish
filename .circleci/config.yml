@@ -252,6 +252,10 @@ jobs:
       - run:
           name: Start Redis
           command: service redis-server start
+
+      # Setup artifact store for UI integration test screenshots
+      - run: mkdir -p /tmp/test-results/screenshots
+
       - run:
           name: Flaky UI Tests (production bundle)
           command: make build-ui NODE_ENV=production && ./scripts/flaky-ui-tests.sh
