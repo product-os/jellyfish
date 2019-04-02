@@ -306,15 +306,6 @@ class SupportThreadTimelineRenderer extends React.Component {
 							onTextSubmit={this.handleNewMessageSubmit}
 							placeholder={whisper ? 'Type your comment...' : 'Type your reply...'}
 						/>
-						<rendition.Txt
-							style={{
-								textAlign: 'right',
-								opacity: 0.75
-							}}
-							fontSize={11}
-						>
-							Press shift + enter to send
-						</rendition.Txt>
 					</rendition.Box>
 
 					<rendition.Button

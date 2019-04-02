@@ -290,15 +290,6 @@ class TimelineRenderer extends React.Component {
 								onTextSubmit={this.handleNewMessageSubmit}
 								placeholder="Type to comment on this thread..."
 							/>
-							<rendition.Txt
-								style={{
-									textAlign: 'right',
-									opacity: 0.75
-								}}
-								fontSize={11}
-							>
-								Press shift + enter to send
-							</rendition.Txt>
 						</rendition.Box>
 
 						<rendition.Button square mr={3} mt={3} onClick={this.handleUploadButtonClick}>

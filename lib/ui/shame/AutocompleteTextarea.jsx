@@ -374,6 +374,15 @@ class AutoCompleteArea extends React.Component {
 					placeholder={placeholder}
 					{...rest}
 				/>
+				<Txt
+					style={{
+						textAlign: 'right',
+						opacity: 0.75
+					}}
+					fontSize={11}
+				>
+					Press shift + enter to send
+				</Txt>
 
 				{this.state.showQuickSearchPanel && (<Card p={3} style={{
 					position: 'fixed',
