@@ -21,6 +21,8 @@ import Column from '../../shame/Column'
 import Icon from '../../shame/Icon'
 import SupportThreadSummary from './SupportThreadSummary'
 
+const SLUG = 'lens-support-threads'
+
 export class SupportThreads extends React.Component {
 	constructor (props) {
 		super(props)
@@ -101,7 +103,7 @@ export class SupportThreads extends React.Component {
 		]
 
 		return (
-			<Column>
+			<Column data-test={`lens--${lens.slug}`}>
 				{tail.length > 0 && (
 					<Tabs
 						style={{
@@ -163,7 +165,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const lens = {
-	slug: 'lens-support-threads',
+	slug: SLUG,
 	type: 'lens',
 	version: '1.0.0',
 	name: 'SupportThreads lens',
