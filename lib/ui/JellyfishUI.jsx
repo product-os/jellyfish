@@ -154,6 +154,7 @@ class UI extends React.Component {
 					{_.map(rest, (channel, index) => {
 						return (
 							<ChannelRenderer.default
+								user={user}
 								key={channel.id}
 								channel={channel}
 								space={spaces[index]}
