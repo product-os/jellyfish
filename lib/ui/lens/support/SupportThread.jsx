@@ -311,20 +311,20 @@ class SupportThreadBase extends React.Component {
 						</rendition.Flex>
 					</rendition.Flex>
 
-					<rendition.Flex align="center" mb={2}>
-						<ColorHashPill.default value={_.get(card, [ 'data', 'inbox' ])} mr={2} />
-						<ColorHashPill.default value={_.get(card, [ 'data', 'status' ])} mr={2} />
+					<rendition.Flex align="center" mb={1} wrap>
+						<ColorHashPill.default value={_.get(card, [ 'data', 'inbox' ])} mr={2} mb={1} />
+						<ColorHashPill.default value={_.get(card, [ 'data', 'status' ])} mr={2} mb={1} />
 
 						{Boolean(card.tags) && _.map(card.tags, (tag) => {
 							if (tag === 'status' || tag === 'summary') {
 								return null
 							}
-							return <Tag.Tag key={tag} mr={2}>{tag}</Tag.Tag>
+							return <Tag.Tag key={tag} mr={2} mb={1}>{tag}</Tag.Tag>
 						})}
 
 						{Boolean(linkedGitHubIssues && linkedGitHubIssues.length) && _.map(linkedGitHubIssues, (entry) => {
 							return (
-								<Tag.Tag key={entry.id} mr={2}>
+								<Tag.Tag key={entry.id} mr={2} mb={1} tooltip={entry.name}>
 									<Icon.default name="github" brands />
 									<rendition.Link
 										ml={1}
