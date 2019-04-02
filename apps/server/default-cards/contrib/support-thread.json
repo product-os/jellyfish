@@ -28,9 +28,11 @@
               "type": "string",
               "default": "general",
               "enum": [
+                "general",
+                "customer-success",
+                "backend",
                 "devices",
-                "fleetops",
-                "general"
+                "fleetops"
               ]
             },
             "environment": {

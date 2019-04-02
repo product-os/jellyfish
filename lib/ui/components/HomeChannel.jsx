@@ -92,7 +92,7 @@ const TreeMenu = (props) => {
 				style={{
 					display: isExpanded ? 'block' : 'none'
 				}}
-				pl={node.key === 'root' ? 0 : 1}
+				pl={node.key === 'root' ? 0 : 2}
 			>
 				{node.children.map((child) => {
 					return (

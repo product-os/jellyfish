@@ -1,0 +1,68 @@
+{
+  "slug": "view-customer-success-support-threads",
+  "name": "Customer success",
+  "version": "1.0.0",
+  "type": "view",
+  "markers": [ "org-balena" ],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "namespace": "Support",
+    "allOf": [
+      {
+        "name": "Active cards",
+        "schema": {
+          "$$links": {
+            "has attached element": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "enum": [
+                    "message",
+                    "update",
+                    "create",
+                    "whisper"
+                  ]
+                }
+              },
+              "additionalProperties": true
+            }
+          },
+          "type": "object",
+          "properties": {
+            "active": {
+              "const": true,
+              "type": "boolean"
+            },
+            "type": {
+              "type": "string",
+              "const": "support-thread"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "category": {
+                  "const": "customer-success"
+                }
+              },
+              "required": [ "category" ]
+            }
+          },
+          "required": [
+            "active",
+            "type"
+          ],
+          "additionalProperties": true
+        }
+      }
+    ],
+    "lenses": [
+      "lens-interleaved",
+      "lens-support-threads",
+      "lens-kanban"
+    ]
+  },
+  "requires": [],
+  "capabilities": []
+}
