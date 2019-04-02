@@ -105,11 +105,42 @@ module.exports = (application, jellyfish, worker, queue) => {
 		})
 	})
 
-	application.get('/api/v2/id/:type/:id', (request, response) => {
+	application.get('/api/v2/type/:type', (request, response) => {
+		jellyfish.query(request.context, request.sessionToken, {
+			type: 'object',
+			additionalProperties: true,
+			required: [ 'type' ],
+			properties: {
+				type: {
+					type: 'string',
+					const: request.params.type
+				}
+			}
+		}).then((results) => {
+			return response.status(200).json(results)
+		}).catch((error) => {
+			const errorObject = errio.toObject(error, {
+				stack: !error.expected
+			})
+
+			if (error.expected) {
+				return response.status(400).json({
+					error: true,
+					data: _.omit(errorObject, [ 'expected' ])
+				})
+			}
+
+			logger.exception(request.context, 'HTTP unexpected error', error)
+			return response.status(500).json({
+				error: true,
+				data: errorObject
+			})
+		})
+	})
+
+	application.get('/api/v2/id/:id', (request, response) => {
 		jellyfish.getCardById(
-			request.context, request.sessionToken, request.params.id, {
-				type: request.params.type
-			}).then((card) => {
+			request.context, request.sessionToken, request.params.id).then((card) => {
 			if (card) {
 				return response.status(200).json(card)
 			}
@@ -135,7 +166,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 		})
 	})
 
-	application.get('/api/v2/slug/:type/:slug', (request, response) => {
+	application.get('/api/v2/slug/:slug', (request, response) => {
 		jellyfish.getCardBySlug(
 			request.context, request.sessionToken, request.params.slug, {
 				type: request.params.type

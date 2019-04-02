@@ -1090,7 +1090,7 @@ ava.serial('should fail with a user error when querying an id with an expired se
 		})
 
 	const result = await test.context.http(
-		'GET', '/api/v2/id/user/4a962ad9-20b5-4dd8-a707-bf819593cc84', null, {
+		'GET', '/api/v2/id/4a962ad9-20b5-4dd8-a707-bf819593cc84', null, {
 			Authorization: `Bearer ${session.id}`
 		})
 
@@ -1102,6 +1102,47 @@ ava.serial('should fail with a user error when querying an id with an expired se
 			message: result.response.data.message
 		}
 	})
+})
+
+ava.serial('should get all elements by type', async (test) => {
+	const admin = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'user-admin', {
+			type: 'user'
+		})
+
+	const session = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			type: 'session',
+			slug: test.context.generateRandomSlug({
+				prefix: 'session'
+			}),
+			version: '1.0.0',
+			data: {
+				actor: admin.id
+			}
+		})
+
+	const result = await test.context.http(
+		'GET', '/api/v2/type/user', null, {
+			Authorization: `Bearer ${session.id}`
+		})
+
+	test.is(result.code, 200)
+
+	const users = await test.context.jellyfish.query(
+		test.context.context, test.context.session, {
+			type: 'object',
+			required: [ 'type' ],
+			additionalProperties: true,
+			properties: {
+				type: {
+					type: 'string',
+					const: 'user'
+				}
+			}
+		})
+
+	test.deepEqual(result.response, users)
 })
 
 ava.serial('should fail with a user error when querying a slug with an expired session', async (test) => {
@@ -1124,7 +1165,7 @@ ava.serial('should fail with a user error when querying a slug with an expired s
 		})
 
 	const result = await test.context.http(
-		'GET', '/api/v2/slug/user/user-admin', null, {
+		'GET', '/api/v2/slug/user-admin', null, {
 			Authorization: `Bearer ${session.id}`
 		})
 
@@ -1236,7 +1277,7 @@ ava.serial('should fail when querying an invalid session with an invalid session
 	const session = '4a962ad9-20b5-4dd8-a707-bf819593cc84'
 
 	const result = await test.context.http(
-		'GET', `/api/v2/id/session/${session}`, null, {
+		'GET', `/api/v2/id/${session}`, null, {
 			Authorization: `Bearer ${session}`
 		})
 
