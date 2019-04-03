@@ -72,13 +72,18 @@ ava.serial('A lens selection should be remembered', async (test) => {
 
 	await page.click('[data-test="lens-selector--lens-support-threads"]')
 
+	// TODO remove these screenshots once we are certain the flakiness is resolved
 	await screenshot(test, page)
 	await page.waitForSelector('[data-test="lens--lens-support-threads"]')
 
 	await screenshot(test, page)
 	await page.reload()
 	await screenshot(test, page)
-	await page.waitForSelector('[data-test="lens--lens-support-threads"]')
+
+	// Wait for a while as reload can take some time
+	await page.waitForSelector('[data-test="lens--lens-support-threads"]', {
+		timeout: 0
+	})
 
 	test.pass()
 })

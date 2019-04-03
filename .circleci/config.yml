@@ -196,6 +196,13 @@ jobs:
           name: End To End Tests (without Redis)
           command: make test-e2e-sdk test-e2e-server test-e2e-ui COVERAGE=1 DISABLE_REDIS=1
 
+      # Store artifacts for debugging purposes
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results
+
       - persist_to_workspace:
           root: .
           paths:
@@ -262,6 +269,13 @@ jobs:
       - run:
           name: Flaky UI Tests (debug bundle)
           command: make build-ui NODE_ENV=test && ./scripts/flaky-ui-tests.sh
+
+      # Store artifacts for debugging purposes
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results
 
   results:
     <<: *job_defaults
