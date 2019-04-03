@@ -138,3 +138,105 @@ ava.serial('You should be able to link support threads to existing support issue
 		'support-thread'
 	)
 })
+
+ava.serial('Support thread timeline should default to sending whispers', async (test) => {
+	const {
+		page
+	} = context
+
+	const supportThread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'support-thread'
+		})
+	})
+
+	await page.goto(`http://localhost:${environment.ui.port}/#/support-thread~${supportThread.id}`)
+
+	const columnSelector = macros.makeSelector('column', null, supportThread.id)
+	await page.waitForSelector(columnSelector)
+
+	const rand = uuid()
+
+	await macros.createChatMessage(page, columnSelector, `${rand}`)
+
+	const messageText = await macros.getElementText(page, '.event-card--whisper [data-test="event-card__message"]')
+
+	test.is(rand, messageText.trim())
+})
+
+ava.serial('Support thread timeline should send a message if the input is prefixed with a "%" character', async (test) => {
+	const {
+		page
+	} = context
+
+	const supportThread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'support-thread'
+		})
+	})
+
+	await page.goto(`http://localhost:${environment.ui.port}/#/support-thread~${supportThread.id}`)
+
+	const columnSelector = macros.makeSelector('column', null, supportThread.id)
+	await page.waitForSelector(columnSelector)
+
+	const rand = uuid()
+
+	await macros.createChatMessage(page, columnSelector, `%${rand}`)
+
+	const messageText = await macros.getElementText(page, '.event-card--message [data-test="event-card__message"]')
+
+	test.is(rand, messageText.trim())
+})
+
+ava.serial('Support thread timeline should send a message if the whisper button is toggled', async (test) => {
+	const {
+		page
+	} = context
+
+	const supportThread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'support-thread'
+		})
+	})
+
+	await page.goto(`http://localhost:${environment.ui.port}/#/support-thread~${supportThread.id}`)
+
+	const columnSelector = macros.makeSelector('column', null, supportThread.id)
+	await page.waitForSelector(columnSelector)
+
+	await macros.waitForThenClickSelector(page, '[data-test="support-thread-timeline__whisper-toggle"]')
+
+	const rand = uuid()
+
+	await macros.createChatMessage(page, columnSelector, `${rand}`)
+
+	const messageText = await macros.getElementText(page, '.event-card--message [data-test="event-card__message"]')
+
+	test.is(rand, messageText.trim())
+})
+
+ava.serial('Support thread timeline should revert to "whisper" mode after sending a message', async (test) => {
+	const {
+		page
+	} = context
+
+	const supportThread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'support-thread'
+		})
+	})
+
+	await page.goto(`http://localhost:${environment.ui.port}/#/support-thread~${supportThread.id}`)
+
+	const columnSelector = macros.makeSelector('column', null, supportThread.id)
+	await page.waitForSelector(columnSelector)
+
+	const rand = uuid()
+
+	await macros.createChatMessage(page, columnSelector, `${rand}`)
+
+	const messageText = await macros.getElementText(page, '.event-card--whisper [data-test="event-card__message"]')
+
+	test.is(rand, messageText.trim())
+})

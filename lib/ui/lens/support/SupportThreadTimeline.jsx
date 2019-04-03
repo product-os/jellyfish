@@ -155,6 +155,10 @@ class SupportThreadTimelineRenderer extends React.Component {
 		}
 		this.setState({
 			newMessage: '',
+
+			// Set the "whisper" state back to true, resetting the message input to
+			// whisper mode and helping to prevent accidental public responses
+			whisper: true,
 			messageSymbol: false
 		})
 		const {
@@ -289,7 +293,12 @@ class SupportThreadTimelineRenderer extends React.Component {
 					}}
 					bg={whisper ? '#eee' : 'white'}
 				>
-					<rendition.Button square plaintext onClick={this.toggleWhisper}>
+					<rendition.Button
+						square
+						plaintext
+						onClick={this.toggleWhisper}
+						data-test="support-thread-timeline__whisper-toggle"
+					>
 						<Icon.default name={whisper ? 'eye-slash' : 'eye'}/>
 					</rendition.Button>
 

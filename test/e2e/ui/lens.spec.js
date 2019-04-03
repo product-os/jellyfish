@@ -5,6 +5,7 @@
  */
 
 const ava = require('ava')
+const Bluebird = require('bluebird')
 const uuid = require('uuid/v4')
 const helpers = require('./helpers')
 const macros = require('./macros')
@@ -72,18 +73,21 @@ ava.serial('A lens selection should be remembered', async (test) => {
 
 	await page.click('[data-test="lens-selector--lens-support-threads"]')
 
-	// TODO remove these screenshots once we are certain the flakiness is resolved
-	await screenshot(test, page)
+	await Bluebird.delay(2000)
+
 	await page.waitForSelector('[data-test="lens--lens-support-threads"]')
 
-	await screenshot(test, page)
-	await page.reload()
+	await macros.waitForThenClickSelector(page, '[data-test="home-channel__item--view-all-support-issues"]')
+	await page.waitForSelector('.column--view-all-support-issues')
+
+	await macros.waitForThenClickSelector(page, '[data-test="home-channel__item--view-all-support-threads"]')
+	await page.waitForSelector('.column--view-all-support-threads')
+
+	// TODO remove this screenshot once we are certain the flakiness is resolved
 	await screenshot(test, page)
 
 	// Wait for a while as reload can take some time
-	await page.waitForSelector('[data-test="lens--lens-support-threads"]', {
-		timeout: 0
-	})
+	await page.waitForSelector('[data-test="lens--lens-support-threads"]')
 
 	test.pass()
 })
