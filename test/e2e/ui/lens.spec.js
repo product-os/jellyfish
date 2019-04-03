@@ -77,7 +77,13 @@ ava.serial('A lens selection should be remembered', async (test) => {
 	await page.waitForSelector('[data-test="lens--lens-support-threads"]')
 
 	await screenshot(test, page)
-	await page.reload()
+
+	await macros.waitForThenClickSelector(page, '[data-test="home-channel__item--view-all-support-issues"]')
+	await page.waitForSelector('.column--view-all-support-issues')
+
+	await macros.waitForThenClickSelector(page, '[data-test="home-channel__item--view-all-support-threads"]')
+	await page.waitForSelector('.column--view-all-support-threads')
+
 	await screenshot(test, page)
 
 	// Wait for a while as reload can take some time
