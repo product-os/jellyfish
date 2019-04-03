@@ -300,6 +300,7 @@ class SupportThreadTimelineRenderer extends React.Component {
 						pr={3}
 					>
 						<AutocompleteTextarea.default
+							user={this.props.user}
 							className="new-message-input"
 							value={this.state.newMessage}
 							onChange={this.handleNewMessageChange}

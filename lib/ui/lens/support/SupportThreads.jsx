@@ -103,7 +103,7 @@ export class SupportThreads extends React.Component {
 		]
 
 		return (
-			<Column data-test={`lens--${lens.slug}`}>
+			<Column data-test={`lens--${SLUG}`}>
 				{tail.length > 0 && (
 					<Tabs
 						style={{

@@ -284,6 +284,7 @@ class TimelineRenderer extends React.Component {
 					>
 						<rendition.Box flex="1" px={3} pt={3} pb={2}>
 							<AutocompleteTextarea.default
+								user={this.props.user}
 								className="new-message-input"
 								value={this.state.newMessage}
 								onChange={this.handleNewMessageChange}
