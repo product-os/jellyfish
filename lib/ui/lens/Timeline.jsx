@@ -284,21 +284,13 @@ class TimelineRenderer extends React.Component {
 					>
 						<rendition.Box flex="1" px={3} pt={3} pb={2}>
 							<AutocompleteTextarea.default
+								user={this.props.user}
 								className="new-message-input"
 								value={this.state.newMessage}
 								onChange={this.handleNewMessageChange}
 								onTextSubmit={this.handleNewMessageSubmit}
 								placeholder="Type to comment on this thread..."
 							/>
-							<rendition.Txt
-								style={{
-									textAlign: 'right',
-									opacity: 0.75
-								}}
-								fontSize={11}
-							>
-								Press shift + enter to send
-							</rendition.Txt>
 						</rendition.Box>
 
 						<rendition.Button square mr={3} mt={3} onClick={this.handleUploadButtonClick}>

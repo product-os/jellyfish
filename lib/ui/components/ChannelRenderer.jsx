@@ -76,7 +76,7 @@ class ChannelRenderer extends React.Component {
 			)
 		}
 
-		const lens = lensService.default.getLens(channel.data.head)
+		const lens = lensService.default.getLens(channel.data.head, this.props.user)
 
 		return (
 			<ErrorBoundary.ErrorBoundary style={style}>
@@ -117,10 +117,6 @@ const target = {
 		})
 		const fromCard = monitor.getItem()
 		const toCard = props.channel.data.head
-		console.log({
-			fromCard,
-			toCard
-		})
 
 		// Make sure we don't link a card to itself
 		if (fromCard.id === toCard.id) {

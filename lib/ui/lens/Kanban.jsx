@@ -274,7 +274,7 @@ class Kanban extends React.Component {
 		const typeName = type ? type.name || type.slug : ''
 		let lens = null
 		if (this.state.modalChannel) {
-			const lenses = index.default.getLenses(this.state.modalChannel.data.head)
+			const lenses = index.default.getLenses(this.state.modalChannel.data.head, this.props.user)
 			lens = lenses[0]
 		}
 		return (<rendition.Flex flexDirection="column" style={{
@@ -321,7 +321,8 @@ class Kanban extends React.Component {
 }
 const mapStateToProps = (state) => {
 	return {
-		types: store.selectors.getTypes(state)
+		types: store.selectors.getTypes(state),
+		user: store.selectors.getCurrentUser(state)
 	}
 }
 const mapDispatchToProps = (dispatch) => {

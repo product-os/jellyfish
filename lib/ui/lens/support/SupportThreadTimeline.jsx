@@ -300,21 +300,13 @@ class SupportThreadTimelineRenderer extends React.Component {
 						pr={3}
 					>
 						<AutocompleteTextarea.default
+							user={this.props.user}
 							className="new-message-input"
 							value={this.state.newMessage}
 							onChange={this.handleNewMessageChange}
 							onTextSubmit={this.handleNewMessageSubmit}
 							placeholder={whisper ? 'Type your comment...' : 'Type your reply...'}
 						/>
-						<rendition.Txt
-							style={{
-								textAlign: 'right',
-								opacity: 0.75
-							}}
-							fontSize={11}
-						>
-							Press shift + enter to send
-						</rendition.Txt>
 					</rendition.Box>
 
 					<rendition.Button

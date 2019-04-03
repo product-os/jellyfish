@@ -290,6 +290,10 @@ class QuickSearchItem extends React.Component {
 
 const ConnectedQuickSearchItem = reactDnD.DragSource('channel', cardSource, collect)(QuickSearchItem)
 
+const getSendCommand = (user) => {
+	return _.get(user.data, [ 'profile', 'sendCommand' ], 'shift+enter')
+}
+
 class AutoCompleteArea extends React.Component {
 	constructor (props) {
 		super(props)
@@ -339,9 +343,15 @@ class AutoCompleteArea extends React.Component {
 			}
 		}
 		this.handleOnKeyPress = (event) => {
-			// If the Enter key is pressed with the shift modifier, run the submit
-			// callback
-			if (event.key === 'Enter' && event.shiftKey && this.props.onTextSubmit) {
+			const sendCommand = getSendCommand(this.props.user)
+
+			// If the send command is shift+enter, only submit the text if the shift
+			// key is pressed
+			const shouldSend = sendCommand === 'shift+enter'
+				? Boolean(event.shiftKey)
+				: !event.shiftKey
+
+			if (event.key === 'Enter' && shouldSend && this.props.onTextSubmit) {
 				this.props.onTextSubmit(event)
 			}
 		}
@@ -361,9 +371,13 @@ class AutoCompleteArea extends React.Component {
 	render () {
 		const {
 			className,
-			placeholder
+			placeholder,
+			user
 		} = this.props
-		const rest = _.omit(this.props, [ 'value', 'className', 'onChange', 'onTextSubmit', 'placeholder' ])
+		const rest = _.omit(this.props, [ 'value', 'className', 'onChange', 'onTextSubmit', 'placeholder', 'user' ])
+
+		const sendCommand = getSendCommand(user)
+
 		return (
 			<React.Fragment>
 				<SubAuto
@@ -374,6 +388,15 @@ class AutoCompleteArea extends React.Component {
 					placeholder={placeholder}
 					{...rest}
 				/>
+				<Txt
+					style={{
+						textAlign: 'right',
+						opacity: 0.75
+					}}
+					fontSize={11}
+				>
+					Press {sendCommand} to send
+				</Txt>
 
 				{this.state.showQuickSearchPanel && (<Card p={3} style={{
 					position: 'fixed',

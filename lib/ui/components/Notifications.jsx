@@ -36,6 +36,7 @@ class JellyFishAlert extends React.Component {
 				warning={type === 'warning'}
 				info={type === 'info'}
 				data-id={id}
+				data-test={`alert--${type}`}
 				onDismiss={this.dismiss}
 			>
 				<MessageText>{_.isString(message) ? message : JSON.stringify(message)}</MessageText>
