@@ -56,6 +56,8 @@ const EventButton = styled.button `
 	border-left-width: 3px;
 `
 
+const FRONT_IMG_RE = /^\[\/api\/1\/companies\/resin_io\/attachments\/[a-z0-9]+\?resource_link_id=\d+\]$/
+
 const getTarget = (card) => {
 	return _.get(card, [ 'links', 'is attached to', '0' ]) || card
 }
@@ -63,10 +65,16 @@ const getTarget = (card) => {
 const getMessage = (card) => {
 	const message = _.get(card, [ 'data', 'payload', 'message' ], '')
 
-	// Fun hack to extract attached images from synced front messages
+	// Fun hack to extract attached images embedded in HTML from synced front messages
 	if (message.includes('<div></div><img src="/api/1/companies/resin_io/attachments')) {
 		const source = message.match(/".*"/)[0]
 		return `![Attached image](https://app.frontapp.com${source.replace(/"/g, '')})`
+	}
+
+	// Fun hack to extract attached images from synced front messages embedded in
+	// a different way
+	if (message.match(FRONT_IMG_RE)) {
+		return `![Attached image](https://app.frontapp.com${message.slice(1, -1)})`
 	}
 
 	return message
