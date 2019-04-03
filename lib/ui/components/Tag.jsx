@@ -14,6 +14,8 @@ export const tagStyle = `
 	line-height: 1;
 	white-space: nowrap;
 	text-overflow: ellipsis;
+	overflow: hidden;
+	max-width: 180px;
 `
 
 export const Tag = styled(rendition.Txt.span) `
