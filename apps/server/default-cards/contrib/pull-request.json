@@ -86,7 +86,6 @@
       },
       "additionalProperties": true,
       "required": [
-        "tags",
         "data"
       ]
     }
