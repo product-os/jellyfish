@@ -37,6 +37,28 @@
                     "type": "string"
                   }
                 },
+                "attachments": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [ "url", "name", "mime", "bytesize" ],
+                    "additionalProperties": false,
+                    "properties": {
+                      "url": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "mime": {
+                        "type": "string"
+                      },
+                      "bytesize": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                },
                 "message": {
                   "type": "string",
                   "format": "markdown"

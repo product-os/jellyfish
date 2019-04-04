@@ -1,0 +1,157 @@
+{
+  "_pagination": {
+    "prev": null,
+    "next": null
+  },
+  "_links": {
+    "self": "https://api2.frontapp.com/conversations/cnv_1bd652j/messages?limit=100"
+  },
+  "_results": [
+    {
+      "_links": {
+        "self": "https://api2.frontapp.com/messages/msg_2irqdgz",
+        "related": {
+          "conversation": "https://api2.frontapp.com/conversations/cnv_1bd652j"
+        }
+      },
+      "id": "msg_2irqdgz",
+      "type": "intercom",
+      "is_inbound": true,
+      "created_at": 1554382271,
+      "blurb": "",
+      "body": "<div></div>",
+      "text": "",
+      "is_draft": false,
+      "error_type": null,
+      "metadata": {
+        "intercom_url": "https://app.intercom.io/a/apps/yg02r5dz/inbox/conversation/21490929822"
+      },
+      "author": null,
+      "recipients": [
+        {
+          "_links": {
+            "related": {
+              "contact": null
+            }
+          },
+          "handle": "5457936368f6f465d7002858",
+          "role": "from"
+        },
+        {
+          "_links": {
+            "related": {
+              "contact": "https://api2.frontapp.com/contacts/crd_5gqtnd"
+            }
+          },
+          "handle": "yg02r5dz",
+          "role": "to"
+        }
+      ],
+      "attachments": [
+        {
+          "url": "https://api2.frontapp.com/download/fil_375dxfn",
+          "filename": "webpack.config.js",
+          "content_type": "text/plain",
+          "size": 2818,
+          "metadata": {
+            "is_inline": false
+          }
+        }
+      ]
+    },
+    {
+      "_links": {
+        "self": "https://api2.frontapp.com/messages/msg_2irqd2r",
+        "related": {
+          "conversation": "https://api2.frontapp.com/conversations/cnv_1bd652j"
+        }
+      },
+      "id": "msg_2irqd2r",
+      "type": "intercom",
+      "is_inbound": true,
+      "created_at": 1554382265,
+      "blurb": "",
+      "body": "<div></div>",
+      "text": "",
+      "is_draft": false,
+      "error_type": null,
+      "metadata": {
+        "intercom_url": "https://app.intercom.io/a/apps/yg02r5dz/inbox/conversation/21490929822"
+      },
+      "author": null,
+      "recipients": [
+        {
+          "_links": {
+            "related": {
+              "contact": null
+            }
+          },
+          "handle": "5457936368f6f465d7002858",
+          "role": "from"
+        },
+        {
+          "_links": {
+            "related": {
+              "contact": "https://api2.frontapp.com/contacts/crd_5gqtnd"
+            }
+          },
+          "handle": "yg02r5dz",
+          "role": "to"
+        }
+      ],
+      "attachments": [
+        {
+          "url": "https://api2.frontapp.com/download/fil_375dw9f",
+          "filename": "webhooks.tar.xz",
+          "content_type": "application/force-download",
+          "size": 1700,
+          "metadata": {
+            "is_inline": false
+          }
+        }
+      ]
+    },
+    {
+      "_links": {
+        "self": "https://api2.frontapp.com/messages/msg_2irqbh7",
+        "related": {
+          "conversation": "https://api2.frontapp.com/conversations/cnv_1bd652j"
+        }
+      },
+      "id": "msg_2irqbh7",
+      "type": "intercom",
+      "is_inbound": true,
+      "created_at": 1554382242,
+      "blurb": "Attachment test",
+      "body": "<div><p>Attachment test</p>\n</div>",
+      "text": "Attachment test",
+      "is_draft": false,
+      "error_type": null,
+      "metadata": {
+        "intercom_url": "https://app.intercom.io/a/apps/yg02r5dz/inbox/conversation/21490929822"
+      },
+      "author": null,
+      "recipients": [
+        {
+          "_links": {
+            "related": {
+              "contact": null
+            }
+          },
+          "handle": "5457936368f6f465d7002858",
+          "role": "from"
+        },
+        {
+          "_links": {
+            "related": {
+              "contact": "https://api2.frontapp.com/contacts/crd_5gqtnd"
+            }
+          },
+          "handle": "yg02r5dz",
+          "role": "to"
+        }
+      ],
+      "attachments": []
+    }
+  ]
+}

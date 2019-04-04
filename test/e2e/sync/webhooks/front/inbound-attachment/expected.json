@@ -1,0 +1,251 @@
+{
+  "head": {
+    "name": "",
+    "version": "1.0.0",
+    "type": "support-thread",
+    "active": true,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "environment": "production",
+      "inbox": "S/Paid_Support",
+      "mirrors": [
+        "https://api2.frontapp.com/conversations/cnv_1bd652j"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "",
+      "status": "open"
+    }
+  },
+  "tail": [
+    {
+      "type": "create",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": "account-juan-resin-io",
+        "timestamp": "2019-04-04T12:50:44.290Z",
+        "payload": {
+          "name": "",
+          "type": "support-thread",
+          "version": "1.0.0",
+          "active": true,
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "environment": "production",
+            "inbox": "S/Paid_Support",
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_1bd652j"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open"
+          }
+        }
+      }
+    },
+    {
+      "type": "message",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": "account-juan-resin-io",
+        "mirrors": [
+          "https://api2.frontapp.com/messages/msg_2irqbh7"
+        ],
+        "timestamp": "2019-04-04T12:50:42.000Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "Attachment test"
+        }
+      }
+    },
+    {
+      "version": "1.0.0",
+      "tags": [],
+      "capabilities": [],
+      "type": "whisper",
+      "active": true,
+      "requires": [],
+      "data": {
+        "actor": "user-syncbot",
+        "timestamp": "2019-04-04T12:50:46.770Z",
+        "mirrors": [
+          "https://api2.frontapp.com/comments/com_37adv7"
+        ],
+        "payload": {
+          "alertsUser": [],
+          "mentionsUser": [],
+          "message": "This is mirrored in [flowdock premium thread i2wIK9GpIvbofyoxnxENgGO1Jas](https://www.flowdock.com/app/rulemotion/public-s-premium/threads/i2wIK9GpIvbofyoxnxENgGO1Jas)\n[](https://www.balena-cloud.com?hidden=murmur&source=flowdock&flow=rulemotion/public-s-premium&thread=i2wIK9GpIvbofyoxnxENgGO1Jas&hmac=9ca94355a429a9ac18672da643178c325bb27f6a008cd9229455ff7ea9c4b7c0)"
+        }
+      }
+    },
+    {
+      "type": "update",
+      "active": true,
+      "version": "1.0.0",
+      "name": null,
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": "user-syncbot",
+        "payload": {
+          "data": {
+            "inbox": "S/Paid_Support",
+            "status": "open",
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_1bd652j"
+            ],
+            "alertsUser": [],
+            "description": "",
+            "environment": "production",
+            "mentionsUser": []
+          },
+          "name": "",
+          "tags": [],
+          "type": "support-thread",
+          "active": true,
+          "version": "1.0.0",
+          "requires": [],
+          "capabilities": []
+        },
+        "timestamp": "2019-04-04T12:50:46.811Z"
+      }
+    },
+    {
+      "type": "message",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": "account-juan-resin-io",
+        "mirrors": [
+          "https://api2.frontapp.com/messages/msg_2irqd2r"
+        ],
+        "timestamp": "2019-04-04T12:51:05.000Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "attachments": [
+            {
+              "url": "https://api2.frontapp.com/download/fil_375dw9f",
+              "name": "webhooks.tar.xz",
+              "mime": "application/force-download",
+              "bytesize": 1700
+            }
+          ],
+          "message": ""
+        }
+      }
+    },
+    {
+      "type": "update",
+      "active": true,
+      "version": "1.0.0",
+      "name": null,
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": "account-juan-resin-io",
+        "payload": {
+          "data": {
+            "inbox": "S/Paid_Support",
+            "status": "open",
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_1bd652j"
+            ],
+            "alertsUser": [],
+            "description": "",
+            "environment": "production",
+            "mentionsUser": []
+          },
+          "name": "",
+          "tags": [],
+          "type": "support-thread",
+          "active": true,
+          "version": "1.0.0",
+          "requires": [],
+          "capabilities": []
+        },
+        "timestamp": "2019-04-04T12:51:05.000Z"
+      }
+    },
+    {
+      "type": "message",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": "account-juan-resin-io",
+        "mirrors": [
+          "https://api2.frontapp.com/messages/msg_2irqdgz"
+        ],
+        "timestamp": "2019-04-04T12:51:11.000Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "attachments": [
+            {
+              "url": "https://api2.frontapp.com/download/fil_375dxfn",
+              "name": "webpack.config.js",
+              "mime": "text/plain",
+              "bytesize": 2818
+            }
+          ],
+          "message": ""
+        }
+      }
+    },
+    {
+      "type": "update",
+      "active": true,
+      "version": "1.0.0",
+      "name": null,
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": "account-juan-resin-io",
+        "payload": {
+          "data": {
+            "inbox": "S/Paid_Support",
+            "status": "open",
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_1bd652j"
+            ],
+            "alertsUser": [],
+            "description": "",
+            "environment": "production",
+            "mentionsUser": []
+          },
+          "name": "",
+          "tags": [],
+          "type": "support-thread",
+          "active": true,
+          "version": "1.0.0",
+          "requires": [],
+          "capabilities": []
+        },
+        "timestamp": "2019-04-04T12:51:11.000Z"
+      }
+    }
+  ]
+}
