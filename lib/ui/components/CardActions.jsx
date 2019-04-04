@@ -25,6 +25,9 @@ class Base extends React.Component {
 		super(props)
 		this.delete = () => {
 			core.sdk.card.remove(this.props.card.id, this.props.card.type)
+				.then(() => {
+					this.props.actions.addNotification('success', 'Deleted card')
+				})
 				.catch((error) => {
 					this.props.actions.addNotification('danger', error.message)
 				})
@@ -128,7 +131,10 @@ class Base extends React.Component {
 										Copy as JSON
 									</ActionLink.ActionLink>
 
-									<ActionLink.ActionLink onClick={this.toggleDeleteModal}>
+									<ActionLink.ActionLink
+										onClick={this.toggleDeleteModal}
+										data-test="card-action-menu__delete"
+									>
 											Delete
 									</ActionLink.ActionLink>
 
@@ -144,6 +150,9 @@ class Base extends React.Component {
 						title="Are you sure you want to delete this item?"
 						cancel={this.toggleDeleteModal}
 						done={this.delete}
+						primaryButtonProps={{
+							'data-test': 'card-delete__submit'
+						}}
 					/>
 				)}
 
