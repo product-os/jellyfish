@@ -215,6 +215,26 @@ avaTest('should be able to post a complex code comment', async (test) => {
 		test.context.username)
 })
 
+avaTest('should be able to comment using triple backticks', async (test) => {
+	const supportThread = await test.context.startSupportThread(
+		`My Issue ${uuid()}`,
+		`Foo Bar ${uuid()}`)
+
+	await test.context.createComment(supportThread,
+		test.context.getWhisperSlug(), '```Foo\nBar```')
+	const result = await test.context.front.conversation.listComments({
+		conversation_id: _.last(supportThread.data.mirrors[0].split('/'))
+	})
+
+	// eslint-disable-next-line no-underscore-dangle
+	const comments = result._results
+
+	test.is(comments.length, 1)
+	test.is(comments[0].body, '```Foo\nBar```')
+	test.is(comments[0].author.username.replace(/_/g, '-'),
+		test.context.username)
+})
+
 avaTest('should be able to comment using brackets', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		`My Issue ${uuid()}`,
