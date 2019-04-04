@@ -1485,3 +1485,75 @@ ava.serial('should fail with a user error if no action card type', async (test) 
 		data: 'No action card type'
 	})
 })
+
+ava.serial('should report a user error if creating the same event twice', async (test) => {
+	const admin = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'user-admin', {
+			type: 'user'
+		})
+
+	const session = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			type: 'session',
+			slug: test.context.generateRandomSlug({
+				prefix: 'session'
+			}),
+			version: '1.0.0',
+			data: {
+				actor: admin.id
+			}
+		})
+
+	const thread = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			type: 'card',
+			slug: test.context.generateRandomSlug({
+				prefix: 'thread'
+			}),
+			version: '1.0.0',
+			data: {}
+		})
+
+	const args = {
+		slug: test.context.generateRandomSlug({
+			prefix: 'whisper'
+		}),
+		tags: [],
+		type: 'whisper',
+		payload: {
+			message: 'foo bar baz',
+			alertsUser: [],
+			mentionsUser: []
+		}
+	}
+
+	const result1 = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: thread.id,
+			type: thread.type,
+			action: 'action-create-event',
+			arguments: args
+		}, {
+			Authorization: `Bearer ${session.id}`
+		})
+
+	const result2 = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: thread.id,
+			type: thread.type,
+			action: 'action-create-event',
+			arguments: args
+		}, {
+			Authorization: `Bearer ${session.id}`
+		})
+
+	test.is(result1.code, 200)
+	test.is(result2.code, 400)
+	test.deepEqual(result2.response, {
+		error: true,
+		data: {
+			name: 'JellyfishElementAlreadyExists',
+			message: result2.response.data.message
+		}
+	})
+})
