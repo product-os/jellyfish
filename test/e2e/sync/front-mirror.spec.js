@@ -191,6 +191,50 @@ ava.afterEach(helpers.mirror.afterEach)
 // Skip all tests if there is no Front token
 const avaTest = TOKEN ? ava.serial : ava.serial.skip
 
+avaTest('should be able to post a complex code comment', async (test) => {
+	const supportThread = await test.context.startSupportThread(
+		`My Issue ${uuid()}`,
+		`Foo Bar ${uuid()}`)
+
+	// eslint-disable-next-line max-len
+	const message = 'One last piece of the puzzle is to get the image url to pull. To get that you can run this from the browser console or sdk. \n\n`(await sdk.pine.get({ resource: \'release\', id: <release-id>, options: { $expand: { image__is_part_of__release: { $expand: { image: { $select: [\'is_stored_at__image_location\'] } } }} } })).image__is_part_of__release.map(({ image }) => image[0].is_stored_at__image_location )`\n'
+
+	await test.context.createComment(supportThread,
+		test.context.getWhisperSlug(), message)
+
+	const result = await test.context.front.conversation.listComments({
+		conversation_id: _.last(supportThread.data.mirrors[0].split('/'))
+	})
+
+	// eslint-disable-next-line no-underscore-dangle
+	const comments = result._results
+
+	test.is(comments.length, 1)
+	test.is(comments[0].body, message)
+	test.is(comments[0].author.username.replace(/_/g, '-'),
+		test.context.username)
+})
+
+avaTest('should be able to comment using brackets', async (test) => {
+	const supportThread = await test.context.startSupportThread(
+		`My Issue ${uuid()}`,
+		`Foo Bar ${uuid()}`)
+
+	await test.context.createComment(supportThread,
+		test.context.getWhisperSlug(), 'Hello <world> foo <bar>')
+	const result = await test.context.front.conversation.listComments({
+		conversation_id: _.last(supportThread.data.mirrors[0].split('/'))
+	})
+
+	// eslint-disable-next-line no-underscore-dangle
+	const comments = result._results
+
+	test.is(comments.length, 1)
+	test.is(comments[0].body, 'Hello <world> foo <bar>')
+	test.is(comments[0].author.username.replace(/_/g, '-'),
+		test.context.username)
+})
+
 avaTest('should be able to tag an unassigned conversation', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		`My Issue ${uuid()}`,
