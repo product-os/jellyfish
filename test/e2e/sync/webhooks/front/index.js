@@ -5,6 +5,14 @@
  */
 
 module.exports = {
+	'inbound-message-html': {
+		expected: require('./inbound-message-html/expected.json'),
+		steps: [
+			require('./inbound-message-html/01.json'),
+			require('./inbound-message-html/02.json'),
+			require('./inbound-message-html/03.json')
+		]
+	},
 	'inbound-comment-edit': {
 		expected: require('./inbound-comment-edit/expected.json'),
 		steps: [
