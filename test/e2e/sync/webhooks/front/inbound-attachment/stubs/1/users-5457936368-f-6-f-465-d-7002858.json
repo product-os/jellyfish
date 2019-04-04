@@ -1,0 +1,96 @@
+{
+  "type": "user",
+  "id": "5457936368f6f465d7002858",
+  "user_id": "jviotti2",
+  "anonymous": false,
+  "email": "juan@resin.io",
+  "phone": null,
+  "name": null,
+  "pseudonym": null,
+  "avatar": {
+    "type": "avatar",
+    "image_url": null
+  },
+  "app_id": "yg02r5dz",
+  "companies": {
+    "type": "company.list",
+    "companies": []
+  },
+  "location_data": {
+    "type": "location_data",
+    "city_name": "Oxford",
+    "continent_code": "EU",
+    "country_name": "United Kingdom",
+    "postal_code": "OX1",
+    "region_name": "England",
+    "timezone": "Europe/London",
+    "country_code": "GBR",
+    "latitude": 51.734,
+    "longitude": -1.2637
+  },
+  "last_request_at": 1553175063,
+  "created_at": 1415025507,
+  "remote_created_at": 1415025505,
+  "signed_up_at": 1415025505,
+  "updated_at": 1553181236,
+  "session_count": 41,
+  "social_profiles": {
+    "type": "social_profile.list",
+    "social_profiles": []
+  },
+  "unsubscribed_from_emails": false,
+  "marked_email_as_spam": false,
+  "has_hard_bounced": false,
+  "tags": {
+    "type": "tag.list",
+    "tags": [
+      {
+        "type": "tag",
+        "id": "48740",
+        "name": "resin"
+      },
+      {
+        "type": "tag",
+        "id": "145721",
+        "name": "in_salesforce"
+      }
+    ]
+  },
+  "segments": {
+    "type": "segment.list",
+    "segments": [
+      {
+        "type": "segment",
+        "id": "54fc7b1cd142943dfc0000ce"
+      },
+      {
+        "type": "segment",
+        "id": "58d17caee55e8e9e72de008e"
+      }
+    ]
+  },
+  "custom_attributes": {
+    "Account Type": "professional",
+    "Company": "Resin.io",
+    "First Name": "Juan Cruz",
+    "Last Name": "Viotti",
+    "gitlab_id": 260,
+    "hasPasswordSet": true,
+    "has_disabled_newsletter": false,
+    "host": "dashboard.balena-cloud.com",
+    "iat": 1415025505,
+    "id": 270,
+    "loggedIn": true,
+    "public_key": "false",
+    "username": "jviotti2"
+  },
+  "referrer": "https://resin.io/",
+  "utm_campaign": null,
+  "utm_content": null,
+  "utm_medium": null,
+  "utm_source": null,
+  "utm_term": null,
+  "do_not_track": null,
+  "last_seen_ip": "192.76.8.71",
+  "user_agent_data": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36"
+}

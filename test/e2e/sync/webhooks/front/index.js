@@ -5,6 +5,15 @@
  */
 
 module.exports = {
+	'inbound-attachment': {
+		expected: require('./inbound-attachment/expected.json'),
+		steps: [
+			require('./inbound-attachment/01.json'),
+			require('./inbound-attachment/02.json'),
+			require('./inbound-attachment/03.json'),
+			require('./inbound-attachment/04.json')
+		]
+	},
 	'inbound-message-html': {
 		expected: require('./inbound-message-html/expected.json'),
 		steps: [
