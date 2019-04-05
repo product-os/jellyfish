@@ -291,14 +291,39 @@ module.exports = (application, jellyfish, worker, queue) => {
 		})
 	})
 
-	application.get('/api/v2/file/:cardId/:fileName', (request, response) => {
-		const card = jellyfish.getCardById(
+	application.get('/api/v2/file/:cardId/:fileName', async (request, response) => {
+		const card = await jellyfish.getCardById(
 			request.context, request.sessionToken, request.params.cardId)
 		if (!card) {
 			response.send(404)
 		}
 
-		fileStore.retrieve(
+		const attachment = _.find(_.get(card, [ 'data', 'payload', 'attachments' ]), (item) => {
+			return item.url.includes(request.params.fileName)
+		})
+
+		if (attachment) {
+			return sync.getFile(request.params.fileName, {
+				source: 'front',
+				context: request.context,
+				logger,
+				token: environment.getIntegrationToken('front')
+			})
+				.then((file) => {
+					return response.status(200).send(file)
+				})
+				.catch((error) => {
+					return response.status(500).json({
+						error: true,
+						data: {
+							type: 'Error',
+							message: error.message
+						}
+					})
+				})
+		}
+
+		return fileStore.retrieve(
 			request.params.cardId, request.params.fileName).then((file) => {
 			return response.status(200).send(file)
 		}).catch((error) => {
