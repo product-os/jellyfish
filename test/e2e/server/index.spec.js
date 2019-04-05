@@ -1557,3 +1557,68 @@ ava.serial('should report a user error if creating the same event twice', async 
 		}
 	})
 })
+
+ava.serial('should respond with an error given a payload middleware exception', async (test) => {
+	const admin = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'user-admin', {
+			type: 'user'
+		})
+
+	const session = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			type: 'session',
+			slug: test.context.generateRandomSlug({
+				prefix: 'session'
+			}),
+			version: '1.0.0',
+			data: {
+				actor: admin.id
+			}
+		})
+
+	const data = {}
+
+	for (const time of _.range(0, 1000)) {
+		data[`${time}-${uuid()}`] = {
+			foo: 'foo bar baz qux foo bar baz qux foo bar baz qux',
+			bar: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 ],
+			baz: 'foo bar baz qux foo bar baz qux foo bar baz qux'
+		}
+	}
+
+	const result = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: 'card',
+			type: 'type',
+			action: 'action-create-card',
+			arguments: {
+				reason: null,
+				properties: {
+					slug: test.context.generateRandomSlug({
+						prefix: 'payload-test'
+					}),
+					version: '1.0.0',
+					data
+				}
+			}
+		}, {
+			Authorization: `Bearer ${session.id}`
+		})
+
+	test.is(result.code, 413)
+	test.deepEqual(result.response, {
+		error: true,
+		data: {
+			expected: 198078,
+			expose: true,
+			length: 198078,
+			limit: 102400,
+			name: 'PayloadTooLargeError',
+			message: result.response.data.message,
+			stack: result.response.data.stack,
+			status: 413,
+			statusCode: 413,
+			type: 'entity.too.large'
+		}
+	})
+})
