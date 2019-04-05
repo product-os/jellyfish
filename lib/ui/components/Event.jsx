@@ -13,6 +13,7 @@ import Mark from 'mark.js'
 import React from 'react'
 import {
 	Box,
+	Button,
 	Flex,
 	Theme,
 	Txt
@@ -242,6 +243,8 @@ class Event extends React.Component {
 
 		const message = getMessage(card)
 
+		const attachments = _.get(card, [ 'data', 'payload', 'attachments' ])
+
 		const timestamp = _.get(card, [ 'data', 'timestamp' ]) || card.created_at
 
 		return (
@@ -307,6 +310,17 @@ class Event extends React.Component {
 							)}
 						</span>
 					</Flex>
+
+					{Boolean(attachments) && _.map(attachments, (attachment) => {
+						return (
+							<Button
+								key={attachment.url}
+							>
+								<Icon name="file-download" />
+								<Txt monospace ml={2}>{attachment.name}</Txt>
+							</Button>
+						)
+					})}
 
 					{isMessage && Boolean(message) && (
 						<div ref={this.setMessageElement}>
