@@ -95,3 +95,18 @@ ava.serial('should let users copy a card as JSON', async (test) => {
 
 	test.deepEqual(testCard, JSON.parse(copiedJSON))
 })
+
+ava.serial('should let users delete a card', async (test) => {
+	const {
+		page
+	} = context
+
+	await macros.waitForThenClickSelector(page, '[data-test="card-action-menu__delete"]')
+	await macros.waitForThenClickSelector(page, '[data-test="card-delete__submit"]')
+
+	// Wait for the success alert as a heuristic for the action completing
+	// successfully
+	await page.waitForSelector('[data-test="alert--success"]')
+
+	test.pass()
+})
