@@ -7,6 +7,8 @@
 const uuid = require('uuid/v4')
 const Bluebird = require('bluebird')
 const _ = require('lodash')
+const path = require('path')
+const lockfile = Bluebird.promisifyAll(require('lockfile'))
 const actionLibrary = require('../../lib/action-library')
 const logger = require('../../lib/logger').getLogger(__filename)
 const Worker = require('../../lib/worker')
@@ -142,12 +144,30 @@ const bootstrap = async (context, library, options) => {
 	let refreshingTriggers = Bluebird.resolve()
 	let currentIteration = Bluebird.resolve()
 
+	const lockPath = environment.lockfile || path.join(
+		process.cwd(), `${context.id}.lock`)
+
 	const loop = async () => {
+		logger.info(context, 'Acquiring lock', {
+			lockfile: lockPath
+		})
+
+		await lockfile.lockAsync(lockPath, {
+			wait: 60000,
+			stale: 30000
+		})
+
 		if (run) {
 			currentIteration = options.onLoop(
 				context, jellyfish, worker, queue, session)
 			await currentIteration
 		}
+
+		logger.info(context, 'Releasing lock', {
+			lockfile: lockPath
+		})
+
+		await lockfile.unlockAsync(lockPath)
 
 		if (!run) {
 			return Bluebird.resolve()

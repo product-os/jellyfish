@@ -16,6 +16,10 @@ spec:
       containers:
       - image: {{{jellyfish-action-server-image}}}
         name: action-server
+        lifecycle:
+          preStop:
+            exec:
+              command: [ 'node', 'scripts/lock.js', '/tmp/worker.lock' ]
         env:
         - name: DATABASE
           value: postgres
@@ -41,6 +45,8 @@ spec:
           value: {{{LOGENTRIES_TOKEN}}}
         - name: LOGLEVEL
           value: {{{LOGLEVEL}}}
+        - name: LOCKFILE
+          value: /tmp/worker.lock
         - name: INTEGRATION_INTERCOM_TOKEN
           value: {{{INTEGRATION_INTERCOM_TOKEN}}}
         - name: INTEGRATION_FRONT_TOKEN
