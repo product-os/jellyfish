@@ -6,9 +6,11 @@
 
 const Bluebird = require('bluebird')
 const express = require('express')
+const errio = require('errio')
 const http = require('http')
 const middlewares = require('./middlewares')
 const routes = require('./routes')
+const logger = require('../../../lib/logger').getLogger(__filename)
 
 module.exports = (context, jellyfish, worker, queue, configuration, options) => {
 	const application = express()
@@ -20,6 +22,21 @@ module.exports = (context, jellyfish, worker, queue, configuration, options) => 
 	})
 
 	routes(application, jellyfish, worker, queue)
+
+	// We must define 4 arguments even if we don't use them
+	// otherwise Express doesn't take it as an error handler.
+	// See https://expressjs.com/en/guide/using-middleware.html
+	application.use((error, request, response, next) => {
+		const errorObject = errio.toObject(error, {
+			stack: true
+		})
+
+		logger.exception(request.context || context, 'Middleware error', error)
+		response.status(error.statusCode || 500).json({
+			error: true,
+			data: errorObject
+		})
+	})
 
 	return {
 		server,
