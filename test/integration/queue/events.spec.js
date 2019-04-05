@@ -5,6 +5,7 @@
  */
 
 const ava = require('ava')
+const _ = require('lodash')
 const Bluebird = require('bluebird')
 const helpers = require('./helpers')
 const events = require('../../../lib/queue/events')
@@ -158,6 +159,29 @@ ava('.wait() should return if the card already exists', async (test) => {
 	test.is(card.data.target, '414f2345-4f5e-4571-820f-28a49731733d')
 	test.is(card.data.actor, '57692206-8da2-46e1-91c9-159b2c6928ef')
 	test.is(card.data.payload.card, '033d9184-70b2-4ec9-bc39-9a249b186422')
+})
+
+ava.cb('.wait() should be able to access the event payload of a huge event', (test) => {
+	const BIG_EXECUTE_CARD = require('./big-execute.json')
+
+	events.wait(
+		test.context.context, test.context.jellyfish, test.context.session, {
+			id: BIG_EXECUTE_CARD.slug.replace(/^execute-/g, ''),
+			action: BIG_EXECUTE_CARD.data.action,
+			card: BIG_EXECUTE_CARD.data.target,
+			actor: BIG_EXECUTE_CARD.data.actor
+		}).then((card) => {
+		test.deepEqual(card.data.payload, BIG_EXECUTE_CARD.data.payload)
+		test.end()
+	}).catch(test.end)
+
+	Bluebird.delay(500).then(() => {
+		// Use the backend class directly so we can inject "links"
+		return test.context.backend.insertElement(
+			test.context.context, BIG_EXECUTE_CARD).then((execute) => {
+			test.deepEqual(_.omit(execute, [ 'id' ]), BIG_EXECUTE_CARD)
+		})
+	}).catch(test.end)
 })
 
 ava('.wait() should be able to access the event payload', async (test) => {
