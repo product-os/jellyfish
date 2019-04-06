@@ -601,7 +601,7 @@ githubAvaTest('should be able to post a GitHub event without a signature', async
 		})
 
 	test.deepEqual(card, {
-		created_at: requestResult.data.created_at,
+		created_at: card.created_at,
 		updated_at: null,
 		linked_at: card.linked_at,
 		id: requestResult.data.id,
@@ -658,7 +658,7 @@ githubAvaTest('should take a GitHub event with a valid signature', async (test) 
 		})
 
 	test.deepEqual(card, {
-		created_at: requestResult.data.created_at,
+		created_at: card.created_at,
 		updated_at: null,
 		linked_at: card.linked_at,
 		id: requestResult.data.id,
@@ -819,7 +819,7 @@ ava.serial('should be able to resolve links', async (test) => {
 		}
 	})
 
-	const message = await sdk.event.create({
+	const messageRequest = await sdk.event.create({
 		type: 'message',
 		tags: [],
 		target: thread,
@@ -828,6 +828,8 @@ ava.serial('should be able to resolve links', async (test) => {
 			mentionsUser: []
 		}
 	})
+
+	const message = await sdk.card.get(messageRequest.id)
 
 	const results = await sdk.query({
 		$$links: {
@@ -949,7 +951,8 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 	await test.context.sdk.auth.login(user1Details)
 
 	const id = uuid()
-	const message = await sdk.event.create({
+
+	const messageRequest = await sdk.event.create({
 		type: 'message',
 		tags: [],
 		target: targetUser,
@@ -957,6 +960,8 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 			message: id
 		}
 	})
+
+	const message = await sdk.card.get(messageRequest.id)
 
 	const results = await sdk.query({
 		$$links: {
