@@ -209,7 +209,7 @@ avaTest('should be able to post a complex code comment', async (test) => {
 	// eslint-disable-next-line no-underscore-dangle
 	const comments = result._results
 
-	test.is(comments.length, 1)
+	test.true(comments.length > 0)
 	test.is(comments[0].body, message)
 	test.is(comments[0].author.username.replace(/_/g, '-'),
 		test.context.username)
@@ -229,7 +229,7 @@ avaTest('should be able to comment using triple backticks', async (test) => {
 	// eslint-disable-next-line no-underscore-dangle
 	const comments = result._results
 
-	test.is(comments.length, 1)
+	test.true(comments.length > 0)
 	test.is(comments[0].body, '```Foo\nBar```')
 	test.is(comments[0].author.username.replace(/_/g, '-'),
 		test.context.username)
@@ -249,7 +249,7 @@ avaTest('should be able to comment using brackets', async (test) => {
 	// eslint-disable-next-line no-underscore-dangle
 	const comments = result._results
 
-	test.is(comments.length, 1)
+	test.true(comments.length > 0)
 	test.is(comments[0].body, 'Hello <world> foo <bar>')
 	test.is(comments[0].author.username.replace(/_/g, '-'),
 		test.context.username)
