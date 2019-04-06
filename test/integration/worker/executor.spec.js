@@ -1654,21 +1654,9 @@ ava('.run() should create a card', async (test) => {
 	})
 
 	test.deepEqual(result, {
-		created_at: result.created_at,
-		updated_at: null,
-		linked_at: result.linked_at,
 		id: result.id,
-		slug: 'foo-bar-baz',
-		name: null,
 		type: 'card',
-		version: '1.0.0',
-		active: true,
-		links: {},
-		markers: [],
-		tags: [],
-		requires: [],
-		capabilities: [],
-		data: {}
+		slug: 'foo-bar-baz'
 	})
 })
 

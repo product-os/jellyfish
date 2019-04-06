@@ -122,7 +122,10 @@ exports.server = {
 				return test.context.queue.waitResults({}, actionRequest)
 			})
 
-			return results.data
+			return test.context.jellyfish.getCardById(
+				test.context.context, test.context.session, results.data.id, {
+					type: results.data.type
+				})
 		}
 	},
 

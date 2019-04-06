@@ -999,7 +999,12 @@ ava('.execute() should create a message with tags', async (test) => {
 		test.context.context, messageRequest)
 	test.false(messageResult.error)
 
-	test.deepEqual(messageResult.data.tags, [ 'testtag' ])
+	const element = await test.context.jellyfish.getCardById(
+		test.context.context, test.context.session, messageResult.data.id, {
+			type: messageResult.data.type
+		})
+
+	test.deepEqual(element.tags, [ 'testtag' ])
 })
 
 ava('.getTriggers() should initially be an empty array', (test) => {
@@ -1761,48 +1766,52 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 })
 
 ava('should be able to login as a user with a password', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'user')
-	const createUserRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-create-user',
-		card: typeCard.id,
-		context: test.context.context,
-		type: typeCard.type,
-		arguments: {
-			email: 'johndoe@example.com',
-			username: 'user-johndoe',
-			hash: {
-				string: 'foobarbaz',
-				salt: 'user-johndoe'
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'user')
+	const createUserRequest = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, {
+			action: 'action-create-user',
+			card: typeCard.id,
+			context: test.context.context,
+			type: typeCard.type,
+			arguments: {
+				email: 'johndoe@example.com',
+				username: 'user-johndoe',
+				hash: {
+					string: 'foobarbaz',
+					salt: 'user-johndoe'
+				}
 			}
-		}
-	})
+		})
 
 	await test.context.flush(test.context.session, 1)
 	const signupResult = await test.context.queue.waitResults(
 		test.context.context, createUserRequest)
 	test.false(signupResult.error)
 
-	const loginRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-create-session',
-		card: signupResult.data.id,
-		context: test.context.context,
-		type: signupResult.data.type,
-		arguments: {
-			password: {
-				hash: {
-					string: 'foobarbaz',
-					salt: signupResult.data.slug
+	const loginRequest = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, {
+			action: 'action-create-session',
+			card: signupResult.data.id,
+			context: test.context.context,
+			type: signupResult.data.type,
+			arguments: {
+				password: {
+					hash: {
+						string: 'foobarbaz',
+						salt: signupResult.data.slug
+					}
 				}
 			}
-		}
-	})
+		})
 
 	await test.context.flush(test.context.session, 1)
 	const loginResult = await test.context.queue.waitResults(
 		test.context.context, loginRequest)
 	test.false(loginResult.error)
 
-	const session = await test.context.jellyfish.getCardById(test.context.context, test.context.session, loginResult.data.id)
+	const session = await test.context.jellyfish.getCardById(
+		test.context.context, test.context.session, loginResult.data.id)
 
 	test.deepEqual(session, test.context.kernel.defaults({
 		created_at: session.created_at,
@@ -1815,7 +1824,7 @@ ava('should be able to login as a user with a password', async (test) => {
 		links: session.links,
 		data: {
 			actor: signupResult.data.id,
-			expiration: loginResult.data.data.expiration
+			expiration: session.data.expiration
 		}
 	}))
 
@@ -2012,10 +2021,16 @@ ava('should update a card to add an extra property', async (test) => {
 		test.context.context, updateRequest)
 	test.false(updateResult.error)
 
-	const card = await test.context.jellyfish.getCardById(test.context.context, test.context.session, updateResult.data.id)
+	const updateCard = await test.context.jellyfish.getCardById(
+		test.context.context, test.context.session, updateResult.data.id, {
+			type: updateResult.data.type
+		})
+
+	const card = await test.context.jellyfish.getCardById(
+		test.context.context, test.context.session, updateResult.data.id)
 	test.deepEqual(card, test.context.kernel.defaults({
-		created_at: updateResult.data.created_at,
-		updated_at: updateResult.data.updated_at,
+		created_at: updateCard.created_at,
+		updated_at: updateCard.updated_at,
 		linked_at: card.linked_at,
 		id: updateResult.data.id,
 		slug: 'foo',
@@ -2070,10 +2085,11 @@ ava('should update a card to set active to false', async (test) => {
 		test.context.context, updateRequest)
 	test.false(updateResult.error)
 
-	const card = await test.context.jellyfish.getCardById(test.context.context, test.context.session, updateResult.data.id)
+	const card = await test.context.jellyfish.getCardById(
+		test.context.context, test.context.session, updateResult.data.id)
 	test.deepEqual(card, test.context.kernel.defaults({
-		created_at: updateResult.data.created_at,
-		updated_at: updateResult.data.updated_at,
+		created_at: card.created_at,
+		updated_at: card.updated_at,
 		linked_at: card.linked_at,
 		id: updateResult.data.id,
 		version: '1.0.0',
@@ -2372,10 +2388,11 @@ ava('should update a card to set active to false using the card slug as input', 
 		test.context.context, updateRequest)
 	test.false(updateResult.error)
 
-	const card = await test.context.jellyfish.getCardById(test.context.context, test.context.session, updateResult.data.id)
+	const card = await test.context.jellyfish.getCardById(
+		test.context.context, test.context.session, updateResult.data.id)
 	test.deepEqual(card, test.context.kernel.defaults({
-		created_at: updateResult.data.created_at,
-		updated_at: updateResult.data.updated_at,
+		created_at: card.created_at,
+		updated_at: card.updated_at,
 		linked_at: card.linked_at,
 		id: updateResult.data.id,
 		type: 'card',
@@ -2432,11 +2449,12 @@ ava('should update a card to override an array property', async (test) => {
 		test.context.context, updateRequest)
 	test.false(updateResult.error)
 
-	const card = await test.context.jellyfish.getCardById(test.context.context, test.context.session, updateResult.data.id)
+	const card = await test.context.jellyfish.getCardById(
+		test.context.context, test.context.session, updateResult.data.id)
 
 	test.deepEqual(card, test.context.kernel.defaults({
-		created_at: updateResult.data.created_at,
-		updated_at: updateResult.data.updated_at,
+		created_at: card.created_at,
+		updated_at: card.updated_at,
 		linked_at: card.linked_at,
 		id: updateResult.data.id,
 		type: 'card',
@@ -2609,10 +2627,11 @@ ava('should delete a card using action-delete-card', async (test) => {
 		test.context.context, deleteRequest)
 	test.false(deleteResult.error)
 
-	const card = await test.context.jellyfish.getCardById(test.context.context, test.context.session, deleteResult.data.id)
+	const card = await test.context.jellyfish.getCardById(
+		test.context.context, test.context.session, deleteResult.data.id)
 	test.deepEqual(card, test.context.kernel.defaults({
-		created_at: deleteResult.data.created_at,
-		updated_at: deleteResult.data.updated_at,
+		created_at: card.created_at,
+		updated_at: card.updated_at,
 		linked_at: card.linked_at,
 		id: deleteResult.data.id,
 		name: null,
@@ -2664,10 +2683,11 @@ ava('should delete a card using action-update-card', async (test) => {
 		test.context.context, updateRequest)
 	test.false(updateResult.error)
 
-	const card = await test.context.jellyfish.getCardById(test.context.context, test.context.session, updateResult.data.id)
+	const card = await test.context.jellyfish.getCardById(
+		test.context.context, test.context.session, updateResult.data.id)
 	test.deepEqual(card, test.context.kernel.defaults({
-		created_at: updateResult.data.created_at,
-		updated_at: updateResult.data.updated_at,
+		created_at: card.created_at,
+		updated_at: card.updated_at,
 		linked_at: card.linked_at,
 		id: updateResult.data.id,
 		name: null,
@@ -2860,44 +2880,51 @@ ava('events should always inherit their parent\'s markers', async (test) => {
 		type: 'type'
 	})
 
-	const cardRequest = await test.context.queue.enqueue(test.context.worker.getId(), session, {
-		action: 'action-create-card',
-		context: test.context.context,
-		card: typeCard.id,
-		type: typeCard.type,
-		arguments: {
-			reason: null,
-			properties: {
-				markers: [ marker ]
+	const cardRequest = await test.context.queue.enqueue(
+		test.context.worker.getId(), session, {
+			action: 'action-create-card',
+			context: test.context.context,
+			card: typeCard.id,
+			type: typeCard.type,
+			arguments: {
+				reason: null,
+				properties: {
+					markers: [ marker ]
+				}
 			}
-		}
-	})
+		})
 
 	await test.context.flush(test.context.session, 1)
 	const cardResult = await test.context.queue.waitResults(
 		test.context.context, cardRequest)
 	test.false(cardResult.error)
 
-	const messageRequest = await test.context.queue.enqueue(test.context.worker.getId(), session, {
-		action: 'action-create-event',
-		context: test.context.context,
-		card: cardResult.data.id,
-		type: cardResult.data.type,
-		arguments: {
-			type: 'message',
-			tags: [],
-			payload: {
-				message: 'johndoe'
+	const messageRequest = await test.context.queue.enqueue(
+		test.context.worker.getId(), session, {
+			action: 'action-create-event',
+			context: test.context.context,
+			card: cardResult.data.id,
+			type: cardResult.data.type,
+			arguments: {
+				type: 'message',
+				tags: [],
+				payload: {
+					message: 'johndoe'
+				}
 			}
-		}
-	})
+		})
 
 	await test.context.flush(test.context.session, 1)
 	const messageResult = await test.context.queue.waitResults(
 		test.context.context, messageRequest)
 	test.false(messageResult.error)
 
-	test.deepEqual(messageResult.data.markers, [ marker ])
+	const card = await test.context.jellyfish.getCardById(
+		test.context.context, test.context.session, messageResult.data.id, {
+			type: messageResult.data.type
+		})
+
+	test.deepEqual(card.markers, [ marker ])
 })
 
 ava('Updating a cards markers should update the markers of attached events', async (test) => {
@@ -3025,9 +3052,15 @@ ava('should be able to insert a deeply nested card', async (test) => {
 	const createResult = await test.context.queue.waitResults(
 		test.context.context, createRequest)
 	test.false(createResult.error)
-	test.deepEqual(createResult.data.slug, 'foo')
-	test.deepEqual(createResult.data.version, '1.0.0')
-	test.deepEqual(createResult.data.data, data)
+
+	const card = await test.context.jellyfish.getCardById(
+		test.context.context, test.context.session, createResult.data.id, {
+			type: createResult.data.type
+		})
+
+	test.deepEqual(card.slug, 'foo')
+	test.deepEqual(card.version, '1.0.0')
+	test.deepEqual(card.data, data)
 })
 
 ava('should be able to upsert a deeply nested card', async (test) => {
@@ -3067,47 +3100,56 @@ ava('should be able to upsert a deeply nested card', async (test) => {
 		}
 	}
 
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
-	const createRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-create-card',
-		context: test.context.context,
-		card: typeCard.id,
-		type: typeCard.type,
-		arguments: {
-			reason: null,
-			properties: {
-				slug: 'foo',
-				version: '1.0.0',
-				data: {}
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card')
+	const createRequest = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, {
+			action: 'action-create-card',
+			context: test.context.context,
+			card: typeCard.id,
+			type: typeCard.type,
+			arguments: {
+				reason: null,
+				properties: {
+					slug: 'foo',
+					version: '1.0.0',
+					data: {}
+				}
 			}
-		}
-	})
+		})
 
 	await test.context.flush(test.context.session, 1)
 	const createResult = await test.context.queue.waitResults(
 		test.context.context, createRequest)
 	test.false(createResult.error)
 
-	const updateRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-update-card',
-		context: test.context.context,
-		card: createResult.data.id,
-		type: createResult.data.type,
-		arguments: {
-			reason: null,
-			properties: {
-				data
+	const updateRequest = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, {
+			action: 'action-update-card',
+			context: test.context.context,
+			card: createResult.data.id,
+			type: createResult.data.type,
+			arguments: {
+				reason: null,
+				properties: {
+					data
+				}
 			}
-		}
-	})
+		})
 
 	await test.context.flush(test.context.session, 1)
 	const updateResult = await test.context.queue.waitResults(
 		test.context.context, updateRequest)
 	test.false(updateResult.error)
-	test.deepEqual(updateResult.data.slug, 'foo')
-	test.deepEqual(updateResult.data.version, '1.0.0')
-	test.deepEqual(updateResult.data.data, data)
+
+	const card = await test.context.jellyfish.getCardById(
+		test.context.context, test.context.session, updateResult.data.id, {
+			type: updateResult.data.type
+		})
+
+	test.deepEqual(card.slug, 'foo')
+	test.deepEqual(card.version, '1.0.0')
+	test.deepEqual(card.data, data)
 })
 
 ava('should post a broadcast message to an empty thread', async (test) => {
