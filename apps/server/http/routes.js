@@ -13,7 +13,7 @@ const multer = require('multer')
 const Storage = require('./file-storage')
 const logger = require('../../../lib/logger').getLogger(__filename)
 const environment = require('../../../lib/environment')
-const sync = require('../../../lib/sync')
+const sync = require('@balena/jellysync')
 const packageJSON = require('../../../package.json')
 
 const fileStore = new Storage({

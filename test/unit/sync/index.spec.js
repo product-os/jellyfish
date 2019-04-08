@@ -5,7 +5,7 @@
  */
 
 const ava = require('ava')
-const sync = require('../../../lib/sync')
+const sync = require('@balena/jellysync')
 
 ava('.isValidExternalEventRequest() should return true for Front given anything', async (test) => {
 	const result = sync.isValidExternalEventRequest({

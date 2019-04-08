@@ -14,7 +14,7 @@ ava.beforeEach(helpers.translate.beforeEach)
 ava.afterEach(helpers.translate.afterEach)
 
 helpers.translate.scenario(TOKEN ? ava : ava.skip, {
-	integration: require('../../../lib/sync/integrations/front'),
+	integration: require('@balena/jellysync/dist/lib/integrations/front'),
 	scenarios: require('./webhooks/front'),
 	slices: _.range(0, 50),
 	baseUrl: /(api2.frontapp.com|api.intercom.io)(:443)?$/,

@@ -103,6 +103,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
     "@babel/register": "^7.0.0",
+    "@balena/jellysync": "^0.5.0-catch-up-with-jellyfish-1d44511318df10dbd47869de5ec607b4f058bc12",
     "@octokit/rest": "^16.6.1",
     "@sentry/browser": "^4.4.2",
     "@sentry/node": "^4.4.2",
@@ -123,7 +124,6 @@
     "express": "^4.16.2",
     "fast-equals": "^1.5.3",
     "formulajs": "^1.0.8",
-    "front-sdk": "^0.3.5",
     "history": "^4.7.2",
     "howler": "^2.0.12",
     "html-to-text": "^5.0.0",

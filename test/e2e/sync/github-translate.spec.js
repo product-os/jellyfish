@@ -14,7 +14,7 @@ ava.beforeEach(helpers.translate.beforeEach)
 ava.afterEach(helpers.translate.afterEach)
 
 helpers.translate.scenario(TOKEN ? ava : ava.skip, {
-	integration: require('../../../lib/sync/integrations/github'),
+	integration: require('@balena/jellysync/dist/lib/integrations/github'),
 	scenarios: require('./webhooks/github'),
 	slices: _.range(0, 3),
 	baseUrl: 'https://api.github.com',
