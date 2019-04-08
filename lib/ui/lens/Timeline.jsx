@@ -155,7 +155,7 @@ class TimelineRenderer extends React.Component {
 		const mentions = helpers.getUserIdsByPrefix('@', newMessage, allUsers)
 		const alerts = helpers.getUserIdsByPrefix('!', newMessage, allUsers)
 		const tags = helpers.findWordsByPrefix('#', newMessage).map((tag) => {
-			return tag.slice(1)
+			return tag.slice(1).toLowerCase()
 		})
 		const message = {
 			target: this.props.card,
