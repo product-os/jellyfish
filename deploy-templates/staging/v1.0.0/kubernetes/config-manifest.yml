@@ -26,8 +26,6 @@ properties:
       type: string
   - LOGENTRIES_TOKEN:
       type: string
-  - LOCKFILE:
-      type: string
   - LOGLEVEL:
       type: string
       enum:

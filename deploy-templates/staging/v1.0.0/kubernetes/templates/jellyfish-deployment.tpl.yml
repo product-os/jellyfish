@@ -13,6 +13,7 @@ spec:
       labels:
         app: jellyfish
     spec:
+      terminationGracePeriodSeconds: 120
       containers:
       - image: {{{jellyfish-api-image}}}
         name: jellyfish

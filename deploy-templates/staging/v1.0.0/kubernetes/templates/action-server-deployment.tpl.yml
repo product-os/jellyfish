@@ -13,6 +13,7 @@ spec:
       labels:
         app: action-server
     spec:
+      terminationGracePeriodSeconds: 120
       containers:
       - image: {{{jellyfish-action-server-image}}}
         name: action-server
