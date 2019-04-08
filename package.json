@@ -124,7 +124,7 @@
     "fast-equals": "^1.5.3",
     "file-saver": "^2.0.1",
     "formulajs": "^1.0.8",
-    "front-sdk": "^0.3.5",
+    "front-sdk": "^0.7.1",
     "history": "^4.7.2",
     "howler": "^2.0.12",
     "html-to-text": "^5.0.0",
