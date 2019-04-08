@@ -73,7 +73,7 @@ const getHighlights = (card) => {
 			return false
 		}
 		const message = _.get(event, [ 'data', 'payload', 'message' ])
-		return Boolean(message) && Boolean(message.match(/(#summary|#status)/))
+		return Boolean(message) && Boolean(message.match(/(#summary|#status)/gi))
 	}), 'data.timestamp')
 	return _.uniqBy(list, (item) => {
 		return _.get(item, [ 'data', 'payload', 'message' ])
