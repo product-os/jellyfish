@@ -28,7 +28,9 @@ import styled from 'styled-components'
 import {
 	sdk
 } from '../core'
-import AuthenticatedImage from '../components/AuthenticatedImage'
+import {
+	AuthenticatedImage
+} from '../components/AuthenticatedImage'
 import {
 	ContextMenu
 } from '../components/ContextMenu'
@@ -329,6 +331,17 @@ class Event extends React.Component {
 					</Flex>
 
 					{Boolean(attachments) && _.map(attachments, (attachment) => {
+						// If the mime type is of an image, display the file as an image
+						if (attachment.mime.match(/image\//)) {
+							return (
+								<AuthenticatedImage
+									key={attachment.url}
+									cardId={card.id}
+									fileName={attachment.url.split('/').pop()}
+								/>
+							)
+						}
+
 						return (
 							<Button
 								key={attachment.url}
