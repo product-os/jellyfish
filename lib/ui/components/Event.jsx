@@ -8,11 +8,15 @@ import copy from 'copy-to-clipboard'
 import {
 	circularDeepEqual
 } from 'fast-equals'
+import {
+	saveAs
+} from 'file-saver'
 import _ from 'lodash'
 import Mark from 'mark.js'
 import React from 'react'
 import {
 	Box,
+	Button,
 	Flex,
 	Theme,
 	Txt
@@ -21,6 +25,9 @@ import {
 	Markdown
 } from 'rendition/dist/extra/Markdown'
 import styled from 'styled-components'
+import {
+	sdk
+} from '../core'
 import AuthenticatedImage from '../components/AuthenticatedImage'
 import {
 	ContextMenu
@@ -184,6 +191,17 @@ class Event extends React.Component {
 		this.processText()
 	}
 
+	downloadAttachment (attachment) {
+		sdk.getFile(this.props.card.id, attachment.url.split('/').pop())
+			.then((data) => {
+				const blob = new Blob([ data ], {
+					type: attachment.mime
+				})
+
+				saveAs(blob, attachment.name)
+			})
+	}
+
 	processText () {
 		if (!this.messageElement) {
 			return
@@ -241,6 +259,8 @@ class Event extends React.Component {
 		}
 
 		const message = getMessage(card)
+
+		const attachments = _.get(card, [ 'data', 'payload', 'attachments' ])
 
 		const timestamp = _.get(card, [ 'data', 'timestamp' ]) || card.created_at
 
@@ -307,6 +327,20 @@ class Event extends React.Component {
 							)}
 						</span>
 					</Flex>
+
+					{Boolean(attachments) && _.map(attachments, (attachment) => {
+						return (
+							<Button
+								key={attachment.url}
+								onClick={() => {
+									this.downloadAttachment(attachment)
+								}}
+							>
+								<Icon name="file-download" />
+								<Txt monospace ml={2}>{attachment.name}</Txt>
+							</Button>
+						)
+					})}
 
 					{isMessage && Boolean(message) && (
 						<div ref={this.setMessageElement}>
