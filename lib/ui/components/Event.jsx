@@ -33,7 +33,7 @@ import {
 	ContextMenu
 } from '../components/ContextMenu'
 import {
-	Tag
+	tagStyle
 } from '../components/Tag'
 import helpers from '../services/helpers'
 import {
@@ -104,7 +104,7 @@ const EventWrapper = styled(Flex) `
 	}
 
 	.rendition-tag-hl {
-		${Tag.tagStyle}
+		${tagStyle}
 	}
 
 	.rendition-tag-hl--self {
