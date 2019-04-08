@@ -65,6 +65,7 @@ jspm_packages/
 postgres_data
 dump.rdb
 .tar.gz
+*.lock
 
 # Used by LocalFS file storage driver
 jellyfish-files

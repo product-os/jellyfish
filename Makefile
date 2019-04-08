@@ -79,6 +79,8 @@ REDIS_PORT ?= 6379
 export REDIS_PORT
 REDIS_HOST ?= localhost
 export REDIS_HOST
+LOCKFILE ?=
+export LOCKFILE
 
 FS_DRIVER ?= localFS
 export FS_DRIVER
