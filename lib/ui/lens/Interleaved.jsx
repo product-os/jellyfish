@@ -229,9 +229,11 @@ class Interleaved extends React.Component {
 						paddingTop: 8
 					}}
 				>
-					<rendition.Box p={3}>
-						<Icon.default spin name="cog"/>
-					</rendition.Box>
+					{this.props.totalPages > this.props.page + 1 && (
+						<rendition.Box p={3}>
+							<Icon.default spin name="cog"/>
+						</rendition.Box>
+					)}
 
 					{(Boolean(tail) && tail.length > 0) && _.map(tail, (card) => {
 						if (messagesOnly && isHiddenEventType(card.type)) {

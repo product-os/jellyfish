@@ -16,7 +16,10 @@
           "properties": {
             "type": {
               "type": "string",
-              "const": "message"
+              "enum": [
+                "message",
+                "whisper"
+              ]
             },
             "data": {
               "type": "object",
@@ -24,16 +27,14 @@
                 "payload": {
                   "type": "object",
                   "properties": {
-                    "mentionsUser": {
-                      "contains": {
-                        "const": {
-                          "$eval": "user.id"
-                        }
+                    "message": {
+                      "pattern": {
+                        "$eval": "'@' + user.slug[5:]"
                       }
                     }
                   },
                   "required": [
-                    "mentionsUser"
+                    "message"
                   ],
                   "additionalProperties": true
                 }
