@@ -66,6 +66,8 @@ class CreateLens extends React.Component {
 			'setFreeFieldData',
 			'setLocalSchema'
 		])
+
+		this.handleFormChange = _.debounce(this.handleFormChange, 500)
 	}
 
 	bindMethods (methods) {
