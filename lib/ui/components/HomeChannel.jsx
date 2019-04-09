@@ -348,9 +348,15 @@ class HomeChannelBase extends TailStreamer {
 		const email = user ? user.data.email : null
 		const username = user ? user.slug.replace(/user-/, '') : null
 		if (!head) {
-			return <Icon style={{
-				color: 'white'
-			}} name="cog fa-spin"/>
+			return (
+				<Icon
+					style={{
+						color: 'white'
+					}}
+					spin
+					name="cog"
+				/>
+			)
 		}
 		const groupedViews = this.groupViews(tail)
 		const groups = groupedViews.main
@@ -430,7 +436,7 @@ class HomeChannelBase extends TailStreamer {
 				>
 					{!tail && (
 						<Box p={3}>
-							<Icon name="cog fa-spin"/>
+							<Icon spin name="cog"/>
 						</Box>
 					)}
 

@@ -11,6 +11,7 @@ const rendition = require('rendition')
 const constants = require('../constants')
 const link = require('../services/link')
 const ErrorBoundary = require('../shame/ErrorBoundary')
+const Icon = require('../shame/Icon').default
 
 // Load lens service
 const lensService = require('../lens')
@@ -70,7 +71,7 @@ class ChannelRenderer extends React.Component {
 					style={style}
 				>
 					<rendition.Box p={3}>
-						<i className="fas fa-cog fa-spin"/>
+						<Icon spin name="cog"/>
 					</rendition.Box>
 				</rendition.Box>
 			)

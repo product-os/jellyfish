@@ -229,7 +229,7 @@ class Interleaved extends React.Component {
 					}}
 				>
 					<rendition.Box p={3}>
-						<Icon.default name="cog fa-spin"/>
+						<Icon.default spin name="cog"/>
 					</rendition.Box>
 
 					{(Boolean(tail) && tail.length > 0) && _.map(tail, (card) => {
@@ -261,7 +261,7 @@ class Interleaved extends React.Component {
 							onClick={this.addThread}
 							disabled={this.state.creatingCard}
 						>
-							{this.state.creatingCard && <Icon.default name="cog fa-spin"/>}
+							{this.state.creatingCard && <Icon.default spin name="cog"/>}
 							{!this.state.creatingCard && 'Add a Chat thread'}
 						</rendition.Button>
 					</rendition.Flex>

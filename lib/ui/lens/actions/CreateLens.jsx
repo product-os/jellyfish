@@ -304,7 +304,7 @@ class CreateLens extends React.Component {
 							onClick={this.addEntry}
 							data-test="card-creator__submit"
 						>
-							{this.state.submitting ? <Icon name="cog fa-spin" /> : 'Submit' }
+							{this.state.submitting ? <Icon spin name="cog"/> : 'Submit' }
 						</Button>
 					</Flex>
 				</div>

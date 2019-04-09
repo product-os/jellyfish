@@ -202,7 +202,7 @@ class Base extends React.Component {
 										disabled={signupDisabled}
 										onClick={this.signup}
 									>
-										{this.state.loggingIn ? <Icon.default name="cog fa-spin"/> : 'Sign up'}
+										{this.state.loggingIn ? <Icon.default spin name="cog"/> : 'Sign up'}
 									</rendition.Button>
 								</rendition.Box>
 								<rendition.Txt color="#908c99" fontSize={0} my={4} align="center">
@@ -264,7 +264,7 @@ class Base extends React.Component {
 										disabled={!this.state.username || !this.state.password || this.state.loggingIn}
 										onClick={this.login}
 									>
-										{this.state.loggingIn ? <Icon.default name="cog fa-spin"/> : 'Log in'}
+										{this.state.loggingIn ? <Icon.default spin name="cog"/> : 'Log in'}
 									</rendition.Button>
 								</rendition.Box>
 							</form>

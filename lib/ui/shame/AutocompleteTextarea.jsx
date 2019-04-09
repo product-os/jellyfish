@@ -22,6 +22,7 @@ import * as core from '../core'
 import * as store from '../core/store'
 import * as helpers from '../services/helpers'
 import * as reactDnD from 'react-dnd'
+import Icon from './Icon'
 
 // ReactTextareaAutocomplete autocompletion doesn't work with JSDom, so disable
 // it during testing
@@ -411,7 +412,7 @@ class AutoCompleteArea extends React.Component {
 					overflow: 'auto'
 				}}>
 					<Txt mb={2}><strong>Quick search results</strong></Txt>
-					{!this.state.results && (<i className="fas fa-cog fa-spin"/>)}
+					{!this.state.results && <Icon spin name="cog"/>}
 					{this.state.results && this.state.results.length === 0 && (<Txt>No results found</Txt>)}
 					{_.map(this.state.results, (card) => {
 						return (<div key={card.id}>

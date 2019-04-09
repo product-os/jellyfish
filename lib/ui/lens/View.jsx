@@ -376,9 +376,11 @@ class ViewRenderer extends React.Component {
 			head
 		} = this.props.channel.data
 		if (!this.state.ready || !head || _.isEmpty(head.data)) {
-			return (<Box p={3}>
-				<i className="fas fa-cog fa-spin"/>
-			</Box>)
+			return (
+				<Box p={3}>
+					<Icon spin name="cog"/>
+				</Box>
+			)
 		}
 		const {
 			types
@@ -526,7 +528,7 @@ class ViewRenderer extends React.Component {
 				}}>
 					{!tail && (
 						<Box p={3}>
-							<Icon name="cog fa-spin"/>
+							<Icon spin name="cog"/>
 						</Box>
 					)}
 
