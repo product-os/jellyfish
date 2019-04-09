@@ -67,8 +67,8 @@ const EventButton = styled.button `
 
 const FRONT_IMG_RE = /^\[\/api\/1\/companies\/resin_io\/attachments\/[a-z0-9]+\?resource_link_id=\d+\]$/
 
-const getTarget = (card) => {
-	return _.get(card, [ 'links', 'is attached to', '0' ]) || card
+const getTargetId = (card) => {
+	return _.get(card, [ 'data', 'target' ]) || card.id
 }
 
 const getMessage = (card) => {
@@ -152,8 +152,8 @@ class Event extends React.Component {
 			if (!openChannel) {
 				return
 			}
-			const target = getTarget(card)
-			openChannel(target.id, target)
+			const targetId = getTargetId(card)
+			openChannel(targetId)
 		}
 
 		this.setMessageElement = (element) => {
@@ -269,7 +269,7 @@ class Event extends React.Component {
 		return (
 			<EventWrapper {...props} className={`event-card--${card.type}`}>
 				<EventButton onClick={this.openChannel} style={{
-					borderLeftColor: helpers.colorHash(getTarget(card).id)
+					borderLeftColor: helpers.colorHash(getTargetId(card))
 				}}>
 					<Gravatar.default small email={this.state.actor.email}/>
 				</EventButton>
