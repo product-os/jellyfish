@@ -101,6 +101,7 @@ ava.serial('should stop users from seeing messages attached to cards they can\'t
 	)
 
 	// Submit the form
+	await page.waitForSelector('[data-test="card-creator__submit"]:not([disabled])')
 	await page.click('[data-test="card-creator__submit"]')
 
 	await page.waitForSelector('.column--support-issue')
