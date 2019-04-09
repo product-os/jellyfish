@@ -63,10 +63,11 @@ class EditLens extends React.Component {
 		}
 
 		this.updateEntry = this.updateEntry.bind(this)
-		this.handleFormChange = this.handleFormChange.bind(this)
 		this.setFreeFieldData = this.setFreeFieldData.bind(this)
 		this.setLocalSchema = this.setLocalSchema.bind(this)
 		this.close = this.close.bind(this)
+
+		this.handleFormChange = _.debounce(this.handleFormChange.bind(this), 500)
 	}
 
 	close () {
