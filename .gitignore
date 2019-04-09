@@ -74,6 +74,7 @@ jellyfish-files
 dist/
 .cache-loader/
 webpack-bundle-report.html
+*.0x
 
 # End of https://www.gitignore.io/api/node
 

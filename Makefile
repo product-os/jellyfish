@@ -121,7 +121,12 @@ NODE_DEBUG_ARGS = $(NODE_ARGS) \
 ifeq ($(NODE_ENV),production)
 NODE_EXEC="node"
 else
+ifeq ($(NODE_ENV),profile)
+# See https://github.com/davidmarkclements/0x
+NODE_EXEC=0x --open -- node
+else
 NODE_EXEC="./node_modules/.bin/supervisor"
+endif
 endif
 
 # User parameters
@@ -171,6 +176,7 @@ endif
 
 clean:
 	rm -rf \
+		*.0x \
 		dump.rdb \
 		.nyc_output \
 		coverage \
