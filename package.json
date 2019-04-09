@@ -94,7 +94,6 @@
     "percentile": "^1.2.1",
     "puppeteer": "1.13.0",
     "request": "^2.88.0",
-    "supervisor": "^0.12.0",
     "webpack": "^4.1.1",
     "webpack-bundle-analyzer": "^2.13.1",
     "webpack-cli": "^2.0.12",
