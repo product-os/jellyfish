@@ -207,12 +207,15 @@ const getTrigger = _.memoize(() => {
 		'#': {
 			dataProvider: (token) => {
 				const types = [
+					'#analytics',
+					'#billing',
+					'#device-management',
+					'#pendinguserresponse',
 					'#provisioning',
 					'#sales',
-					'#billing',
-					'#users',
-					'#device-management',
-					'#analytics'
+					'#status',
+					'#summary',
+					'#users'
 				]
 				if (!token) {
 					return types

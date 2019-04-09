@@ -77,13 +77,49 @@ export class SupportThreads extends React.Component {
 		const pendingUserResponse = []
 
 		for (const card of tail) {
+			/**
+			 * Check if the thread is pending user response:
+			 *
+			 * 1. Work through the timeline in reverse, so that we evaluate the most
+			 *    recent events first
+			 * 2. If there is a message or whisper that has the 'pendinguserresponse' tag,
+			 *    then we are waiting for a response
+			 * 3. If a proxy response is found before the tag, then we are not waiting
+			 *    for a response
+			 */
+
+			// Sort the timeline by timestamp rathern than created_at as they might
+			// not be the same value if the card was backsynced
 			const timeline = _.sortBy(card.links['has attached element'], 'data.timestamp')
-			const messages = _.filter(timeline, [ 'type', 'message' ])
-			const actor = storeHelpers.getActor(_.get(_.last(messages), [ 'data', 'actor' ]))
-			if (actor.proxy) {
-				pendingAgentResponse.push(card)
-			} else {
+
+			// Reverse the timeline, so the newest messages appear first
+			timeline.reverse()
+
+			let isPendingUserResponse = false
+
+			// Iterate over the timeline
+			for (const event of timeline) {
+				if (event.type === 'message' || event.type === 'whisper') {
+					// If the message contains the 'pendinguserresponse' tag, then we are
+					// waiting on a response and can break out of the loop
+					if (event.data.payload.message && event.data.payload.message.match(/#pendinguserresponse/gi)) {
+						isPendingUserResponse = true
+						break
+					}
+
+					// If we are still looping and the message came from a user/proxy then
+					// we can simply break out of the loop
+					const actor = storeHelpers.getActor(event.data.actor)
+					if (actor.proxy) {
+						break
+					}
+				}
+			}
+
+			if (isPendingUserResponse) {
 				pendingUserResponse.push(card)
+			} else {
+				pendingAgentResponse.push(card)
 			}
 		}
 

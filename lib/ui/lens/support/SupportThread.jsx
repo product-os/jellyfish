@@ -333,7 +333,7 @@ class SupportThreadBase extends React.Component {
 						<ColorHashPill value={_.get(card, [ 'data', 'status' ])} mr={2} mb={1} />
 
 						{Boolean(card.tags) && _.map(card.tags, (tag) => {
-							if (tag === 'status' || tag === 'summary') {
+							if (tag === 'status' || tag === 'summary' || tag === 'pendinguserresponse') {
 								return null
 							}
 							return <Tag key={tag} mr={2} mb={1}>{tag}</Tag>
