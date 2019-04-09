@@ -64,12 +64,19 @@ module.exports = (application, jellyfish, worker, queue) => {
 		const PING_TYPE = 'ping'
 		const PING_SLUG = 'ping-api'
 
+		const getTypeStartDate = new Date()
 		return jellyfish.getCardBySlug(request.context, jellyfish.sessions.admin, PING_TYPE, {
 			type: 'type'
 		}).then(async (typeCard) => {
+			const getTypeEndDate = new Date()
 			if (!typeCard) {
 				throw new Error(`No type card: ${PING_TYPE}`)
 			}
+
+			logger.info(request.context, 'Got type card', {
+				slug: typeCard.slug,
+				time: getTypeEndDate.getTime() - getTypeStartDate.getTime()
+			})
 
 			const actionRequest = await queue.enqueue(worker.getId(), jellyfish.sessions.admin, {
 				action: 'action-ping',
