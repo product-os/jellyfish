@@ -34,6 +34,17 @@ const SupportThreadSummaryWrapper = styled(Box) `
 	}
 `
 
+const SummaryMessage = styled(Txt) `
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	border: 1px solid #eee;
+	border-radius: 10px;
+	padding: 4px 16px;
+	color: #333;
+	flex: 1;
+`
+
 export default function SupportThreadSummary (props) {
 	const card = props.card
 	const timeline = _.sortBy(card.links['has attached element'], 'data.timestamp')
@@ -45,15 +56,22 @@ export default function SupportThreadSummary (props) {
 	const lastActor = lastMessageOrWhisper
 		? storeHelpers.getActor(_.get(lastMessageOrWhisper, [ 'data', 'actor' ]))
 		: null
+
+	const style = {
+		borderLeftColor: helpers.colorHash(card.id)
+	}
+
+	if (props.active) {
+		style.background = '#9f9f9f'
+		style.color = 'white'
+	}
+
 	return (
 		<SupportThreadSummaryWrapper
 			data-test-component="support-thread-summary"
 			data-test-id={card.id}
-			key={card.id}
 			p={3}
-			style={{
-				borderLeftColor: helpers.colorHash(card.id)
-			}}
+			style={style}
 			onClick={() => {
 				return props.openChannel(card.id)
 			}}
@@ -85,17 +103,10 @@ export default function SupportThreadSummary (props) {
 				<Flex>
 					<Gravatar.default small pr={2} email={lastActor ? lastActor.email : null}/>
 
-					<Txt
+					<SummaryMessage
 						data-test-component="support-thread-summary__message"
 						style={{
-							whiteSpace: 'nowrap',
-							overflow: 'hidden',
-							textOverflow: 'ellipsis',
-							border: '1px solid #eee',
-							borderRadius: 10,
-							padding: '4px 16px',
-							background: (lastMessageOrWhisper || {}).type === 'whisper' ? '#eee' : 'white',
-							flex: 1
+							background: (lastMessageOrWhisper || {}).type === 'whisper' ? '#eee' : 'white'
 						}}
 					>
 						{
@@ -103,7 +114,7 @@ export default function SupportThreadSummary (props) {
 								.split('\n')
 								.shift()
 						}
-					</Txt>
+					</SummaryMessage>
 				</Flex>
 			)}
 		</SupportThreadSummaryWrapper>

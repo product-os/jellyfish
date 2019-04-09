@@ -87,6 +87,11 @@ export class SupportThreads extends React.Component {
 			}
 		}
 
+		const activeThread = _.get(
+			_.find(this.props.channels, [ 'data.cardType', 'support-thread' ]),
+			[ 'data', 'head', 'id' ]
+		)
+
 		const segments = [
 			{
 				name: 'All',
@@ -130,6 +135,8 @@ export class SupportThreads extends React.Component {
 									{_.map(segment.cards, (card) => {
 										return (
 											<SupportThreadSummary
+												key={card.id}
+												active={activeThread === card.id}
 												card={card}
 												openChannel={this.openChannel}
 											/>
@@ -154,7 +161,8 @@ export class SupportThreads extends React.Component {
 
 const mapStateToProps = (state) => {
 	return {
-		allUsers: store.selectors.getAllUsers(state)
+		allUsers: store.selectors.getAllUsers(state),
+		channels: store.selectors.getChannels(state)
 	}
 }
 
