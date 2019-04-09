@@ -118,15 +118,11 @@ NODE_DEBUG_ARGS = $(NODE_ARGS) \
 									--stack_trace_on_illegal \
 									--abort_on_stack_or_string_length_overflow
 
-ifeq ($(NODE_ENV),production)
-NODE_EXEC="node"
-else
 ifeq ($(NODE_ENV),profile)
 # See https://github.com/davidmarkclements/0x
-NODE_EXEC=0x --open -- node
+NODE = 0x --open -- node
 else
-NODE_EXEC="./node_modules/.bin/supervisor"
-endif
+NODE = "node"
 endif
 
 # User parameters
@@ -259,15 +255,15 @@ node:
 
 start-server: LOGLEVEL = info
 start-server:
-	$(NODE_EXEC) $(NODE_ARGS) apps/server/index.js
+	$(NODE) $(NODE_ARGS) apps/server/index.js
 
 start-worker: LOGLEVEL = info
 start-worker:
-	$(NODE_EXEC) $(NODE_ARGS) apps/action-server/worker.js
+	$(NODE) $(NODE_ARGS) apps/action-server/worker.js
 
 start-tick: LOGLEVEL = info
 start-tick:
-	$(NODE_EXEC) $(NODE_ARGS) apps/action-server/tick.js
+	$(NODE) $(NODE_ARGS) apps/action-server/tick.js
 
 start-redis:
 	redis-server --port $(REDIS_PORT)
