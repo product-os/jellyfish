@@ -42,6 +42,19 @@ module.exports = (application, jellyfish, worker, queue) => {
 		})
 	})
 
+	/*
+	 * This endpoint should very simple and should not
+	 * communicate with the API by design.
+	 * The idea is that this endpoint checks the container
+	 * health and that only, as otherwise we are
+	 * side-checking the database health, and get restarted
+	 * even if the database and not the container is the
+	 * problem.
+	 */
+	application.get('/health', (request, response) => {
+		return response.status(200).end()
+	})
+
 	application.get('/status', (request, response) => {
 		return Bluebird.props({
 			kernel: jellyfish.getStatus()

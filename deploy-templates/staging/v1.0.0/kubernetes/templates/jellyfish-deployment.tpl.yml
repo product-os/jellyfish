@@ -20,14 +20,14 @@ spec:
         imagePullPolicy: Always
         livenessProbe:
           httpGet:
-            path: /status
+            path: /health
             port: 8000
           initialDelaySeconds: 20
           periodSeconds: 10
           timeoutSeconds: 8
         readinessProbe:
           httpGet:
-            path: /status
+            path: /health
             port: 8000
           initialDelaySeconds: 20
           periodSeconds: 10
