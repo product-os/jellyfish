@@ -4,7 +4,6 @@
  * Proprietary and confidential.
  */
 
-const uuid = require('uuid/v4')
 const Bluebird = require('bluebird')
 const _ = require('lodash')
 const path = require('path')
@@ -15,6 +14,7 @@ const Worker = require('../../lib/worker')
 const Queue = require('../../lib/queue')
 const core = require('../../lib/core')
 const environment = require('../../lib/environment')
+const uuid = require('../../lib/uuid')
 
 const getActorKey = async (context, jellyfish, session, actorId) => {
 	const keySlug = `session-action-${actorId}`
@@ -274,8 +274,9 @@ exports.tick = async (context, options) => {
 		delay: 2000,
 		onError: options.onError,
 		onLoop: async (serverContext, jellyfish, worker, queue, session) => {
+			const id = await uuid()
 			return worker.tick({
-				id: `TICK-REQUEST-${uuid()}`,
+				id: `TICK-REQUEST-${id}`,
 				worker: serverContext.id
 			}, session, {
 				currentDate: new Date()

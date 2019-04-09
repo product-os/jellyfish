@@ -5,10 +5,10 @@
  */
 
 const _ = require('lodash')
-const uuid = require('uuid/v4')
 const bodyParser = require('body-parser')
 const responseTime = require('response-time')
 const logger = require('../../../lib/logger').getLogger(__filename)
+const uuid = require('../../../lib/uuid')
 
 module.exports = (rootContext, application, jellyfish, options) => {
 	application.use(bodyParser.json({
@@ -41,17 +41,19 @@ module.exports = (rootContext, application, jellyfish, options) => {
 	})
 
 	application.use((request, response, next) => {
-		const context = {
-			id: `REQUEST-${uuid()}`,
-			api: rootContext.id
-		}
+		uuid().then((id) => {
+			const context = {
+				id: `REQUEST-${id}`,
+				api: rootContext.id
+			}
 
-		logger.info(context, 'HTTP request start', {
-			uri: request.originalUrl
-		})
+			logger.info(context, 'HTTP request start', {
+				uri: request.originalUrl
+			})
 
-		request.context = context
-		return next()
+			request.context = context
+			return next()
+		}).catch(next)
 	})
 
 	application.use(responseTime((request, response, time) => {

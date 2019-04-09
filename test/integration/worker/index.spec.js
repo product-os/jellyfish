@@ -46,6 +46,10 @@ ava('.getId() different workers should get different ids', async (test) => {
 		actionLibrary,
 		test.context.queue)
 
+	await worker1.initialize(test.context.context)
+	await worker2.initialize(test.context.context)
+	await worker3.initialize(test.context.context)
+
 	test.not(worker1.getId(), worker2.getId())
 	test.not(worker1.getId(), worker3.getId())
 	test.not(worker2.getId(), worker3.getId())
