@@ -21,30 +21,11 @@ const Column = require('../../shame/Column').default
 const Icon = require('../../shame/Icon')
 const messageSymbolRE = /^\s*%\s*/
 
-const getTargetId = (card) => {
-	return _.get(card, [ 'links', 'is attached to', '0', 'id' ]) || card.id
-}
-
 // Default renderer for a card and a timeline
 class SupportThreadTimelineRenderer extends React.Component {
 	constructor (props) {
 		super(props)
 		this.shouldScroll = true
-		this.openChannel = (target, obj) => {
-			// If a card is not provided, see if a matching card can be found from this
-			// component's state/props
-			const card = obj || _.find(this.props.tail || [], {
-				id: target
-			})
-			const newChannel = helpers.createChannel({
-				cardType: card.type,
-				target,
-				head: card,
-				parentChannel: this.props.channel.id
-			})
-			this.props.actions.addChannel(newChannel)
-			this.props.actions.loadChannelData(newChannel)
-		}
 		this.handleNewMessageChange = (event) => {
 			const newMessage = event.target.value
 			const messageSymbol = Boolean(newMessage.match(messageSymbolRE))
@@ -190,12 +171,10 @@ class SupportThreadTimelineRenderer extends React.Component {
 				type: message.type,
 				tags,
 				slug: message.slug,
-				links: {
-					'is attached to': [ this.props.card ]
-				},
 				data: {
 					actor: this.props.user.id,
-					payload: message.payload
+					payload: message.payload,
+					target: this.props.card.id
 				}
 			})
 		})
@@ -217,7 +196,6 @@ class SupportThreadTimelineRenderer extends React.Component {
 		const {
 			tail
 		} = this.props
-		const channelTarget = this.props.card.id
 		const whisper = this.state.messageSymbol ? false : this.state.whisper
 		const {
 			messagesOnly,
@@ -267,7 +245,6 @@ class SupportThreadTimelineRenderer extends React.Component {
 					return (
 						<rendition.Box key={card.id}>
 							<Event
-								openChannel={getTargetId(card) === channelTarget ? false : this.openChannel}
 								card={card}
 							/>
 						</rendition.Box>
@@ -278,7 +255,6 @@ class SupportThreadTimelineRenderer extends React.Component {
 					return (
 						<rendition.Box key={item.slug}>
 							<Event
-								openChannel={false}
 								card={item}
 							/>
 						</rendition.Box>

@@ -128,9 +128,7 @@ ava.serial('You should be able to link support threads to existing support issue
 	await page.waitForSelector('[data-test="support-thread__linked-support-issue"]')
 
 	const issueWithLinks = await page.evaluate((card) => {
-		return window.sdk.card.get(card.id, {
-			type: 'support-issue'
-		})
+		return window.sdk.card.getWithLinks(card.id, 'support issue has attached support thread')
 	}, supportIssue)
 
 	test.is(

@@ -2474,25 +2474,7 @@ ava('.query() should resolve "limit" after resolving links', async (test) => {
 			version: '1.0.0',
 			type: thread2.type,
 			slug: thread2.slug,
-			links: {
-				'has attached element': [
-					Object.assign(card1, {
-						linked_at: {
-							'is attached to': link.created_at
-						},
-						links: {
-							'is attached to': [
-								{
-									$link: link.id,
-									id: thread2.id,
-									type: thread2.type,
-									slug: thread2.slug
-								}
-							]
-						}
-					})
-				]
-			},
+			links: results[0].links,
 			data: {}
 		}
 	])
@@ -2578,16 +2560,7 @@ ava('adding a link should update the linked_at field', async (test) => {
 		linked_at: {
 			'has attached element': link.created_at
 		},
-		links: {
-			'has attached element': [
-				{
-					$link: link.id,
-					id: card.id,
-					slug: card.slug,
-					type: card.type
-				}
-			]
-		},
+		links: results[0].links,
 		markers: [],
 		name: null,
 		requires: [],
@@ -2618,16 +2591,7 @@ ava('adding a link should update the linked_at field', async (test) => {
 		linked_at: {
 			'is attached to': link.created_at
 		},
-		links: {
-			'is attached to': [
-				{
-					$link: link.id,
-					id: thread.id,
-					slug: thread.slug,
-					type: thread.type
-				}
-			]
-		},
+		links: results2[0].links,
 		markers: [],
 		name: null,
 		requires: [],
@@ -2763,24 +2727,7 @@ ava('adding a link should augment an existing linked_at field', async (test) => 
 			'has attached element': link.created_at,
 			'thread has card': link2.created_at
 		},
-		links: {
-			'has attached element': [
-				{
-					$link: link.id,
-					id: card.id,
-					slug: card.slug,
-					type: card.type
-				}
-			],
-			'thread has card': [
-				{
-					$link: link2.id,
-					id: card2.id,
-					slug: card2.slug,
-					type: card2.type
-				}
-			]
-		},
+		links: results[0].links,
 		markers: [],
 		name: null,
 		requires: [],
@@ -3188,16 +3135,7 @@ ava('.query() should be able to query using links when getting an element by id'
 						version: '1.0.0',
 						capabilities: [],
 						id: thread.id,
-						links: {
-							'has attached element': [
-								{
-									$link: link.id,
-									id: message.id,
-									type: message.type,
-									slug: message.slug
-								}
-							]
-						},
+						links: results[0].links['is attached to'][0].links,
 						type: 'thread'
 					}
 				]
@@ -3325,16 +3263,7 @@ ava('.query() should be able to query using links when getting an element by slu
 						requires: [],
 						tags: [],
 						version: '1.0.0',
-						links: {
-							'has attached element': [
-								{
-									$link: link.id,
-									id: message.id,
-									type: message.type,
-									slug: message.slug
-								}
-							]
-						},
+						links: results[0].links['is attached to'][0].links,
 						type: 'thread'
 					}
 				]
@@ -3504,16 +3433,7 @@ ava('.query() should be able to query using links and an inverse name', async (t
 						requires: [],
 						tags: [],
 						version: '1.0.0',
-						links: {
-							'is attached to': [
-								{
-									$link: link1.id,
-									id: thread.id,
-									type: thread.type,
-									slug: thread.slug
-								}
-							]
-						},
+						links: results[0].links['has attached element'][0].links,
 						type: 'message',
 						data: {
 							payload: 'foo'
@@ -3534,16 +3454,7 @@ ava('.query() should be able to query using links and an inverse name', async (t
 						requires: [],
 						tags: [],
 						version: '1.0.0',
-						links: {
-							'is attached to': [
-								{
-									$link: link2.id,
-									id: thread.id,
-									type: thread.type,
-									slug: thread.slug
-								}
-							]
-						},
+						links: results[0].links['has attached element'][1].links,
 						type: 'message',
 						data: {
 							payload: 'foo'
@@ -3740,16 +3651,7 @@ ava('.query() should omit a result if a link does not match', async (test) => {
 						requires: [],
 						tags: [],
 						version: '1.0.0',
-						links: {
-							'has attached element': [
-								{
-									$link: link1.id,
-									id: card1.id,
-									slug: card1.slug,
-									type: card1.type
-								}
-							]
-						},
+						links: results[0].links['is attached to'][0].links,
 						slug: 'mythread',
 						type: 'thread'
 					}

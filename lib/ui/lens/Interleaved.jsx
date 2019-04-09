@@ -27,10 +27,6 @@ const NONE_MESSAGE_TIMELINE_TYPES = [
 	'update'
 ]
 
-const getTargetId = (card) => {
-	return _.get(card, [ 'links', 'is attached to', '0', 'id' ]) || card.id
-}
-
 const isHiddenEventType = (type) => {
 	return _.includes(NONE_MESSAGE_TIMELINE_TYPES, type)
 }
@@ -49,12 +45,11 @@ class Interleaved extends React.Component {
 				this.scrollArea.scrollTop = this.scrollArea.scrollHeight
 			}
 		}
-		this.openChannel = (target, card) => {
+		this.openChannel = (target) => {
 			// If a card is not provided, see if a matching card can be found from this
 			// component's state/props
 			const newChannel = helpers.createChannel({
 				target,
-				cardType: card.type,
 				parentChannel: this.props.channel.id
 			})
 			this.props.actions.addChannel(newChannel)
@@ -85,7 +80,7 @@ class Interleaved extends React.Component {
 			core.sdk.card.create(cardData)
 				.then((thread) => {
 					if (thread) {
-						this.openChannel(thread.id, thread)
+						this.openChannel(thread.id)
 					}
 					return null
 				})
@@ -167,7 +162,6 @@ class Interleaved extends React.Component {
 		const {
 			head
 		} = this.props.channel.data
-		const channelTarget = this.props.channel.data.target
 		const {
 			messagesOnly
 		} = this.state
@@ -245,7 +239,7 @@ class Interleaved extends React.Component {
 						return (
 							<rendition.Box key={card.id}>
 								<Event
-									openChannel={getTargetId(card) === channelTarget ? false : this.openChannel}
+									openChannel={this.openChannel}
 									card={card}
 								/>
 							</rendition.Box>

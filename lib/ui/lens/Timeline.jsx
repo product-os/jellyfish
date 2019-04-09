@@ -20,30 +20,10 @@ const AutocompleteTextarea = require('../shame/AutocompleteTextarea')
 const Icon = require('../shame/Icon')
 const Column = require('../shame/Column').default
 
-const getTargetId = (card) => {
-	return _.get(card, [ 'links', 'is attached to', '0', 'id' ]) || card.id
-}
-
 class TimelineRenderer extends React.Component {
 	constructor (props) {
 		super(props)
 		this.shouldScroll = true
-		this.openChannel = (target, obj) => {
-			// If a card is not provided, see if a matching card can be found from this
-			// component's state/props
-			const card = obj || _.find(this.props.tail || [], {
-				id: target
-			})
-
-			const newChannel = helpers.createChannel({
-				cardType: card.type,
-				target,
-				head: card,
-				parentChannel: this.props.channel.id
-			})
-			this.props.actions.addChannel(newChannel)
-			this.props.actions.loadChannelData(newChannel)
-		}
 		this.handleNewMessageChange = (event) => {
 			this.setState({
 				newMessage: event.target.value
@@ -177,12 +157,10 @@ class TimelineRenderer extends React.Component {
 				type: message.type,
 				tags,
 				slug: message.slug,
-				links: {
-					'is attached to': [ this.props.card ]
-				},
 				data: {
 					actor: this.props.user.id,
-					payload: message.payload
+					payload: message.payload,
+					target: this.props.card.id
 				}
 			})
 		})
@@ -203,15 +181,18 @@ class TimelineRenderer extends React.Component {
 	render () {
 		const head = this.props.card
 		const {
-			card,
 			tail
 		} = this.props
 		const props = _.omit(this.props, [ 'card', 'action', 'allUsers', 'tail', 'type', 'user' ])
-		const channelTarget = card.id
 		const {
 			messagesOnly,
 			pendingMessages
 		} = this.state
+
+		console.log({
+			tail,
+			pendingMessages
+		})
 
 		// Due to a bug in syncing, sometimes there can be duplicate cards in tail
 		const sortedTail = _.uniqBy(_.sortBy(tail, 'data.timestamp'), 'id')
@@ -258,7 +239,6 @@ class TimelineRenderer extends React.Component {
 						return (
 							<rendition.Box key={item.id}>
 								<Event
-									openChannel={getTargetId(item) === channelTarget ? false : this.openChannel}
 									card={item}
 								/>
 							</rendition.Box>
@@ -268,7 +248,6 @@ class TimelineRenderer extends React.Component {
 						return (
 							<rendition.Box key={item.slug}>
 								<Event
-									openChannel={false}
 									card={item}
 								/>
 							</rendition.Box>
