@@ -112,7 +112,7 @@ export TEST_INTEGRATION_FRONT_INBOX
 # -----------------------------------------------
 
 # To make sure we don't silently swallow errors
-NODE_ARGS = --abort-on-uncaught-exception
+NODE_ARGS = --abort-on-uncaught-exception --trace-sync-io
 NODE_DEBUG_ARGS = $(NODE_ARGS) \
 									--trace-warnings \
 									--stack_trace_on_illegal \
