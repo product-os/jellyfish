@@ -148,7 +148,7 @@ const bootstrap = async (context, library, options) => {
 		process.cwd(), `${context.id}.lock`)
 
 	const loop = async () => {
-		logger.info(context, 'Acquiring lock', {
+		logger.debug(context, 'Acquiring lock', {
 			lockfile: lockPath
 		})
 
@@ -163,7 +163,7 @@ const bootstrap = async (context, library, options) => {
 			await currentIteration
 		}
 
-		logger.info(context, 'Releasing lock', {
+		logger.debug(context, 'Releasing lock', {
 			lockfile: lockPath
 		})
 
