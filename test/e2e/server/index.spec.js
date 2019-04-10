@@ -535,7 +535,6 @@ ava.serial('Users should not be able to login as the core admin user', async (te
 	// First check that the guest user cannot login
 	sdk.auth.logout()
 
-	console.log('attempting login')
 	await test.throwsAsync(sdk.auth.login({
 		username: 'admin'
 	}))
@@ -1626,4 +1625,88 @@ ava.serial('should respond with an error given a payload middleware exception', 
 			type: 'entity.too.large'
 		}
 	})
+})
+
+ava.serial('should increment a card value using action-increment', async (test) => {
+	const admin = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'user-admin', {
+			type: 'user'
+		})
+
+	const session = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			type: 'session',
+			slug: test.context.generateRandomSlug({
+				prefix: 'session'
+			}),
+			version: '1.0.0',
+			data: {
+				actor: admin.id
+			}
+		})
+
+	const result1 = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: 'card',
+			type: 'type',
+			action: 'action-create-card',
+			arguments: {
+				reason: null,
+				properties: {
+					slug: test.context.generateRandomSlug({
+						prefix: 'increment-test'
+					})
+				}
+			}
+		}, {
+			Authorization: `Bearer ${session.id}`
+		})
+
+	const card = result1.response.data
+
+	await test.context.http(
+		'POST', '/api/v2/action', {
+			card: card.id,
+			type: card.type,
+			action: 'action-increment',
+			arguments: {
+				reason: null,
+				path: [
+					'data',
+					'count'
+				]
+			}
+		}, {
+			Authorization: `Bearer ${session.id}`
+		})
+
+	const updatedCard1 = await test.context.jellyfish.getCardById(test.context.context,
+		test.context.session, card.id, {
+			type: 'card'
+		})
+
+	test.is(updatedCard1.data.count, 1)
+
+	await test.context.http(
+		'POST', '/api/v2/action', {
+			card: card.id,
+			type: card.type,
+			action: 'action-increment',
+			arguments: {
+				reason: null,
+				path: [
+					'data',
+					'count'
+				]
+			}
+		}, {
+			Authorization: `Bearer ${session.id}`
+		})
+
+	const updatedCard2 = await test.context.jellyfish.getCardById(test.context.context,
+		test.context.session, card.id, {
+			type: 'card'
+		})
+
+	test.is(updatedCard2.data.count, 2)
 })
