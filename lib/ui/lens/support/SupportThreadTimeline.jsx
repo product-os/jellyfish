@@ -274,6 +274,10 @@ class SupportThreadTimelineRenderer extends React.Component {
 						plaintext
 						onClick={this.toggleWhisper}
 						data-test="support-thread-timeline__whisper-toggle"
+						tooltip={{
+							placement: 'right',
+							text: `Toggle response visibility (currently ${whisper ? 'private' : 'public'})`
+						}}
 					>
 						<Icon.default name={whisper ? 'eye-slash' : 'eye'}/>
 					</rendition.Button>
