@@ -181,7 +181,7 @@ export class SupportThreads extends React.Component {
 
 									{this.props.totalPages > this.props.page + 1 && (
 										<Box p={3}>
-											<Icon name="cog fa-spin"/>
+											<Icon spin name="cog"/>
 										</Box>
 									)}
 								</div>

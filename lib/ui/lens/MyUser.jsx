@@ -107,7 +107,7 @@ class MyUser extends React.Component {
 						</Select>
 
 						{this.state.updatingSendCommand && (
-							<Icon name="cog fa-spin" />
+							<Icon spin name="cog" />
 						)}
 					</Box>
 				</Box>

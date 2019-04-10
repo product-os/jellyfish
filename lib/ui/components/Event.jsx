@@ -298,7 +298,8 @@ class Event extends React.Component {
 										style={{
 											marginLeft: 6
 										}}
-										name="cog fa-spin"
+										spin
+										name="cog"
 									/>
 								</Txt>
 							}

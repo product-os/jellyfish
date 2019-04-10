@@ -232,7 +232,7 @@ class TimelineRenderer extends React.Component {
 					}}
 				>
 					{!sortedTail && (<rendition.Box p={3}>
-						<Icon.default name="cog fa-spin"/>
+						<Icon.default spin name="cog"/>
 					</rendition.Box>)}
 
 					{(Boolean(sortedTail) && sortedTail.length > 0) && _.map(sortedTail, (item) => {

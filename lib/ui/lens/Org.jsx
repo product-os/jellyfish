@@ -25,6 +25,7 @@ const link = require('../services/link')
 const Timeline = require('./Timeline')
 const CloseButton = require('../shame/CloseButton')
 const Column = require('../shame/Column').default
+const Icon = require('../shame/Icon').default
 
 class Base extends React.Component {
 	constructor (props) {
@@ -221,7 +222,7 @@ class Base extends React.Component {
 							onClick={this.addMember}
 						>
 							{this.state.addingMember
-								? <i className="fas fa-cog fa-spin"/>
+								? <Icon spin class="cog"/>
 								: 'Add member'}
 						</rendition.Button>
 					</rendition.Box>
