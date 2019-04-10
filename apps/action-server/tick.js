@@ -6,6 +6,7 @@
 
 const logger = require('../../lib/logger').getLogger(__filename)
 const uuid = require('../../lib/uuid')
+const packageJSON = require('../../package.json')
 const bootstrap = require('./bootstrap')
 
 const onError = (serverContext, error) => {
@@ -18,7 +19,7 @@ const onError = (serverContext, error) => {
 const startDate = new Date()
 uuid().then((id) => {
 	const context = {
-		id: `TICK-${id}`
+		id: `TICK-${packageJSON.version}-${id}`
 	}
 
 	logger.info(context, 'Starting tick worker', {
@@ -41,6 +42,6 @@ uuid().then((id) => {
 	})
 }).catch((error) => {
 	return onError({
-		id: 'TICK-ERROR'
+		id: `TICK-ERROR-${packageJSON.version}`
 	}, error)
 })

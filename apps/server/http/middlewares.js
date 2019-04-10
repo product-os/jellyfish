@@ -9,6 +9,7 @@ const bodyParser = require('body-parser')
 const responseTime = require('response-time')
 const logger = require('../../../lib/logger').getLogger(__filename)
 const uuid = require('../../../lib/uuid')
+const packageJSON = require('../../../package.json')
 
 module.exports = (rootContext, application, jellyfish, options) => {
 	application.use(bodyParser.json({
@@ -43,7 +44,7 @@ module.exports = (rootContext, application, jellyfish, options) => {
 	application.use((request, response, next) => {
 		uuid().then((id) => {
 			const context = {
-				id: `REQUEST-${id}`,
+				id: `REQUEST-${packageJSON.version}-${id}`,
 				api: rootContext.id
 			}
 

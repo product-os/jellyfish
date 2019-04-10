@@ -6,11 +6,12 @@
 
 const logger = require('../../lib/logger').getLogger(__filename)
 const uuid = require('../../lib/uuid')
+const packageJSON = require('../../package.json')
 const bootstrap = require('./bootstrap')
 
 uuid().then((id) => {
 	const context = {
-		id: `SERVER-${id}`
+		id: `SERVER-${packageJSON.version}-${id}`
 	}
 
 	const startDate = new Date()
@@ -40,7 +41,7 @@ uuid().then((id) => {
 	})
 }).catch((error) => {
 	logger.exception({
-		id: 'SERVER-NONE'
+		id: `SERVER-ERROR-${packageJSON.version}`
 	}, 'Server error', error)
 	setTimeout(() => {
 		process.exit(1)
