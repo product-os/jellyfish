@@ -13,6 +13,7 @@ import TextareaAutosize from 'react-autosize-textarea'
 import {
 	Box,
 	Card,
+	Flex,
 	Link,
 	Theme,
 	Txt
@@ -206,33 +207,53 @@ const getTrigger = _.memoize(() => {
 			}
 		},
 		'#': {
-			dataProvider: (token) => {
-				const types = [
-					'#analytics',
-					'#billing',
-					'#device-management',
-					'#pendinguserresponse',
-					'#provisioning',
-					'#sales',
-					'#status',
-					'#summary',
-					'#users'
-				]
+			dataProvider: _.debounce(async (token) => {
 				if (!token) {
-					return types
+					return []
 				}
-				const matcher = `#${token.toLowerCase()}`
-				return types.filter((slug) => {
-					return _.startsWith(slug, matcher)
+
+				const matcher = token.toLowerCase()
+
+				const cards = await core.sdk.query({
+					type: 'object',
+					properties: {
+						type: {
+							const: 'tag'
+						},
+						name: {
+							pattern: `^${matcher}`
+						},
+						data: {
+							type: 'object'
+						}
+					}
+				}, {
+					limit: 10
 				})
-			},
+
+				return cards.filter((card) => {
+					return _.startsWith(card.name, matcher)
+				})
+			}, 250, {
+				leading: true
+			}),
 			component: ({
 				entity
 			}) => {
-				return <div>{entity}</div>
+				return (
+					<Flex
+						style={{
+							minWidth: 160
+						}}
+						justify="space-between"
+					>
+						<Txt mr={3}>#{entity.name}</Txt>
+						<Txt>x {entity.data.count}</Txt>
+					</Flex>
+				)
 			},
 			output: (item) => {
-				return item
+				return `#${item.name}`
 			}
 		}
 	}
