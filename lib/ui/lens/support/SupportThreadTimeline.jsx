@@ -290,7 +290,7 @@ class SupportThreadTimelineRenderer extends React.Component {
 							value={this.state.newMessage}
 							onChange={this.handleNewMessageChange}
 							onTextSubmit={this.handleNewMessageSubmit}
-							placeholder={whisper ? 'Type your comment...' : 'Type your reply...'}
+							placeholder={whisper ? 'Type your private comment...' : 'Type your public reply...'}
 						/>
 					</rendition.Box>
 
