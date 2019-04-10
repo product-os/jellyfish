@@ -91,6 +91,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 				time: getTypeEndDate.getTime() - getTypeStartDate.getTime()
 			})
 
+			const enqueueStartDate = new Date()
 			const actionRequest = await queue.enqueue(worker.getId(), jellyfish.sessions.admin, {
 				action: 'action-ping',
 				card: typeCard.id,
@@ -101,8 +102,21 @@ module.exports = (application, jellyfish, worker, queue) => {
 				}
 			})
 
+			const enqueueEndDate = new Date()
+			logger.info(request.context, 'Enqueue ping request', {
+				slug: actionRequest.slug,
+				time: enqueueEndDate.getTime() - enqueueStartDate.getTime()
+			})
+
+			const waitStartDate = new Date()
 			const results = await queue.waitResults(
 				request.context, actionRequest)
+
+			const waitEndDate = new Date()
+			logger.info(request.context, 'Waiting for ping results', {
+				slug: actionRequest.slug,
+				time: waitEndDate.getTime() - waitStartDate.getTime()
+			})
 
 			if (results.error) {
 				return response.status(500).json(results)
