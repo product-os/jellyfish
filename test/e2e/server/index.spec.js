@@ -28,6 +28,46 @@ const createUserDetails = () => {
 	}
 }
 
+ava.serial('/api/v2/heap should return 404 given no sample', async (test) => {
+	const result = await test.context.http('GET', '/api/v2/heap')
+	test.is(result.code, 404)
+	test.falsy(result.response)
+})
+
+ava.serial('/api/v2/heap should sample and get a diff', async (test) => {
+	const result1 = await test.context.http('POST', '/api/v2/heap')
+	test.is(result1.code, 200)
+
+	const result2 = await test.context.http('GET', '/api/v2/heap')
+	test.is(result2.code, 200)
+	test.deepEqual(Object.keys(result2.response), [ 'before', 'after', 'change' ])
+})
+
+ava.serial('/api/v2/heap should sample twice and get a diff', async (test) => {
+	const result1 = await test.context.http('POST', '/api/v2/heap')
+	test.is(result1.code, 200)
+
+	const result2 = await test.context.http('POST', '/api/v2/heap')
+	test.is(result2.code, 200)
+
+	const result3 = await test.context.http('GET', '/api/v2/heap')
+	test.is(result3.code, 200)
+	test.deepEqual(Object.keys(result3.response), [ 'before', 'after', 'change' ])
+})
+
+ava.serial('/api/v2/heap should delete a sample after retrieving it', async (test) => {
+	const result1 = await test.context.http('POST', '/api/v2/heap')
+	test.is(result1.code, 200)
+
+	const result2 = await test.context.http('GET', '/api/v2/heap')
+	test.is(result2.code, 200)
+	test.deepEqual(Object.keys(result2.response), [ 'before', 'after', 'change' ])
+
+	const result3 = await test.context.http('GET', '/api/v2/heap')
+	test.is(result3.code, 404)
+	test.falsy(result3.response)
+})
+
 ava.serial('The ping endpoint should continuously work', async (test) => {
 	const result1 = await test.context.http('GET', '/ping')
 	test.is(result1.code, 200)

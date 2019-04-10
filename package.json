@@ -29,6 +29,7 @@
       "lib/logger",
       "lib/queue",
       "lib/uuid",
+      "lib/heap",
       "lib/sdk",
       "lib/sync",
       "lib/worker",
@@ -101,6 +102,7 @@
     "webpack-dev-server": "^3.1.10"
   },
   "dependencies": {
+    "@airbnb/node-memwatch": "^1.0.2",
     "@babel/polyfill": "^7.2.5",
     "@babel/register": "^7.0.0",
     "@octokit/rest": "^16.6.1",

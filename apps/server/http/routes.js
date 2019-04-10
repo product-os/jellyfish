@@ -14,6 +14,7 @@ const logger = require('../../../lib/logger').getLogger(__filename)
 const environment = require('../../../lib/environment')
 const sync = require('../../../lib/sync')
 const uuid = require('../../../lib/uuid')
+const heap = require('../../../lib/heap')
 const packageJSON = require('../../../package.json')
 
 const fileStore = new Storage({
@@ -137,6 +138,20 @@ module.exports = (application, jellyfish, worker, queue) => {
 				data: errorObject
 			})
 		})
+	})
+
+	application.post('/api/v2/heap', (request, response) => {
+		heap.sample()
+		return response.status(200).end()
+	})
+
+	application.get('/api/v2/heap', (request, response) => {
+		const result = heap.diff()
+		if (!result) {
+			return response.status(404).end()
+		}
+
+		return response.status(200).json(result)
 	})
 
 	application.get('/api/v2/type/:type', (request, response) => {
