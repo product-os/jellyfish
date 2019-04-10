@@ -2476,6 +2476,86 @@ ava.cb('.stream() should report back elements of a certain type', (test) => {
 	}).catch(test.end)
 })
 
+ava.cb('.stream() should be able to attach a large number of streams', (test) => {
+	const schema = {
+		type: 'object',
+		properties: {
+			slug: {
+				type: 'string'
+			},
+			type: {
+				type: 'string',
+				const: 'card'
+			},
+			data: {
+				type: 'object',
+				properties: {
+					email: {
+						type: 'string'
+					}
+				},
+				required: [ 'email' ]
+			}
+		},
+		required: [ 'type' ]
+	}
+
+	const times = 400
+
+	Bluebird.all(_.times(times, () => {
+		return test.context.kernel.stream(
+			test.context.context, test.context.kernel.sessions.admin, schema)
+	})).then((streams) => {
+		const promises = streams.map((emitter) => {
+			return new Bluebird((resolve, reject) => {
+				let result = null
+
+				emitter.on('data', (change) => {
+					result = change
+					setTimeout(() => {
+						emitter.close()
+					}, 200)
+				})
+
+				emitter.on('error', reject)
+				emitter.on('closed', () => {
+					return resolve(result)
+				})
+			})
+		})
+
+		return Bluebird.delay(8000).then(() => {
+			return test.context.kernel.insertCard(
+				test.context.context, test.context.kernel.sessions.admin, {
+					slug: 'johndoe',
+					type: 'card',
+					version: '1.0.0',
+					data: {
+						email: 'johndoe@example.com'
+					}
+				})
+		}).then(() => {
+			return Bluebird.all(promises)
+		})
+	}).then((results) => {
+		test.deepEqual(results.map((result) => {
+			return _.omit(result, [ 'id' ])
+		}), _.times(times, _.constant({
+			before: null,
+			type: 'insert',
+			after: {
+				slug: 'johndoe',
+				type: 'card',
+				data: {
+					email: 'johndoe@example.com'
+				}
+			}
+		})))
+
+		test.end()
+	}).catch(test.end)
+})
+
 ava.cb('.stream() should report back action requests', (test) => {
 	test.context.kernel.stream(test.context.context, test.context.kernel.sessions.admin, {
 		type: 'object',
