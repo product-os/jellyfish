@@ -28,6 +28,7 @@
       "lib/jellyscript",
       "lib/logger",
       "lib/queue",
+      "lib/uuid",
       "lib/sdk",
       "lib/sync",
       "lib/worker",

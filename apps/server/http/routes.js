@@ -7,13 +7,13 @@
 const _ = require('lodash')
 const Bluebird = require('bluebird')
 const fs = require('fs')
-const uuid = require('uuid/v4')
 const errio = require('errio')
 const multer = require('multer')
 const Storage = require('./file-storage')
 const logger = require('../../../lib/logger').getLogger(__filename)
 const environment = require('../../../lib/environment')
 const sync = require('../../../lib/sync')
+const uuid = require('../../../lib/uuid')
 const packageJSON = require('../../../package.json')
 
 const fileStore = new Storage({
@@ -285,23 +285,25 @@ module.exports = (application, jellyfish, worker, queue) => {
 				throw new Error(`No type card: ${EXTERNAL_EVENT_TYPE}`)
 			}
 
-			return queue.enqueue(worker.getId(), jellyfish.sessions.admin, {
-				action: 'action-create-card',
-				card: typeCard.id,
-				type: typeCard.type,
-				context: request.context,
-				arguments: {
-					reason: null,
-					properties: {
-						slug: `${EXTERNAL_EVENT_TYPE}-${uuid()}`,
-						version: '1.0.0',
-						data: {
-							source: request.params.provider,
-							headers: request.headers,
-							payload: request.body
+			return uuid().then((id) => {
+				return queue.enqueue(worker.getId(), jellyfish.sessions.admin, {
+					action: 'action-create-card',
+					card: typeCard.id,
+					type: typeCard.type,
+					context: request.context,
+					arguments: {
+						reason: null,
+						properties: {
+							slug: `${EXTERNAL_EVENT_TYPE}-${id}`,
+							version: '1.0.0',
+							data: {
+								source: request.params.provider,
+								headers: request.headers,
+								payload: request.body
+							}
 						}
 					}
-				}
+				})
 			})
 		}).then((actionRequest) => {
 			const enqueuedDate = new Date()
@@ -400,22 +402,24 @@ module.exports = (application, jellyfish, worker, queue) => {
 
 		const files = []
 
-		if (request.files) {
-			// Upload magic
-			request.files.forEach((file) => {
-				const name = `${uuid()}.${file.originalname}`
-				_.set(action.arguments.properties, file.fieldname, name)
-				files.push({
-					buffer: file.buffer,
-					name
+		return uuid().then((id) => {
+			if (request.files) {
+				// Upload magic
+				request.files.forEach((file) => {
+					const name = `${id}.${file.originalname}`
+					_.set(action.arguments.properties, file.fieldname, name)
+					files.push({
+						buffer: file.buffer,
+						name
+					})
 				})
-			})
-		}
+			}
 
-		request.payload = action
-		action.context = request.context
+			request.payload = action
+			action.context = request.context
 
-		return queue.enqueue(worker.getId(), request.sessionToken, action).then((actionRequest) => {
+			return queue.enqueue(worker.getId(), request.sessionToken, action)
+		}).then((actionRequest) => {
 			return queue.waitResults(request.context, actionRequest)
 		}).then(async (results) => {
 			logger.info(request.context, 'Got action results', results)

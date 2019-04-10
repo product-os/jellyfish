@@ -4,9 +4,9 @@
  * Proprietary and confidential.
  */
 
-const uuid = require('uuid/v4')
 const _ = require('lodash')
 const socketIo = require('socket.io')
+const uuid = require('../../../lib/uuid')
 
 module.exports = (jellyfish, server) => {
 	const socketServer = socketIo(server, {
@@ -27,31 +27,33 @@ module.exports = (jellyfish, server) => {
 				})
 			}
 
-			const id = `SOCKET-REQUEST-${uuid()}`
-
-			return jellyfish.stream({
-				id
-			}, payload.token, payload.data.query).then((stream) => {
-				socket.emit('ready')
-
-				openStreams[id] = stream
-
-				const closeStream = () => {
-					stream.close()
-					Reflect.deleteProperty(openStreams, id)
+			return uuid().then((id) => {
+				const context = {
+					id: `SOCKET-REQUEST-${id}`
 				}
 
-				stream.on('data', (results) => {
-					// The event name is changed to `update` to indicate that this is
-					// partial data and not the full result set
-					socket.emit('update', {
-						error: false,
-						data: results
-					})
-				})
+				return jellyfish.stream(context, payload.token, payload.data.query).then((stream) => {
+					socket.emit('ready')
 
-				socket.on('disconnect', () => {
-					closeStream()
+					openStreams[context.id] = stream
+
+					const closeStream = () => {
+						stream.close()
+						Reflect.deleteProperty(openStreams, context.id)
+					}
+
+					stream.on('data', (results) => {
+						// The event name is changed to `update` to indicate that this is
+						// partial data and not the full result set
+						socket.emit('update', {
+							error: false,
+							data: results
+						})
+					})
+
+					socket.on('disconnect', () => {
+						closeStream()
+					})
 				})
 			}).catch((error) => {
 				socket.emit('streamError', {
