@@ -313,6 +313,7 @@
                 "symptom",
                 "organizer",
                 "os-test-result",
+                "tag",
                 "todo",
                 "triggered-action",
                 "whisper",
