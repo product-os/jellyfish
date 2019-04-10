@@ -81,6 +81,8 @@ REDIS_HOST ?= localhost
 export REDIS_HOST
 LOCKFILE ?=
 export LOCKFILE
+POD_NAME ?= localhost
+export POD_NAME
 
 FS_DRIVER ?= localFS
 export FS_DRIVER

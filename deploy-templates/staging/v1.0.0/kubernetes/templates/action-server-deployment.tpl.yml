@@ -22,6 +22,10 @@ spec:
             exec:
               command: [ 'node', 'scripts/lock.js', '/tmp/worker.lock' ]
         env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
         - name: DATABASE
           value: postgres
         - name: POSTGRES_DATABASE

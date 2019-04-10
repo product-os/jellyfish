@@ -33,6 +33,10 @@ spec:
           timeoutSeconds: 5
           failureThreshold: 4
         env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
         - name: NGINX_PORT
           value: '80'
         - name: NODE_ENV

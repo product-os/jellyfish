@@ -8,10 +8,11 @@ const logger = require('../../lib/logger').getLogger(__filename)
 const uuid = require('../../lib/uuid')
 const packageJSON = require('../../package.json')
 const bootstrap = require('./bootstrap')
+const environment = require('../../lib/environment')
 
 uuid().then((id) => {
 	const context = {
-		id: `SERVER-${packageJSON.version}-${id}`
+		id: `SERVER-${packageJSON.version}-${environment.pod.name}-${id}`
 	}
 
 	const startDate = new Date()
@@ -41,7 +42,7 @@ uuid().then((id) => {
 	})
 }).catch((error) => {
 	logger.exception({
-		id: `SERVER-ERROR-${packageJSON.version}`
+		id: `SERVER-ERROR-${environment.pod.name}-${packageJSON.version}`
 	}, 'Server error', error)
 	setTimeout(() => {
 		process.exit(1)
