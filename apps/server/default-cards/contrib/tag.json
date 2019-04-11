@@ -1,0 +1,37 @@
+{
+  "slug": "tag",
+  "type": "type",
+  "version": "1.0.0",
+  "name": "Tag",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "count": {
+              "type": "number"
+            },
+            "color": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "requires": [],
+  "capabilities": []
+}

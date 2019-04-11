@@ -61,11 +61,13 @@ module.exports = async (context, jellyfish, worker, session) => {
 		await loadCard('contrib/push.json'),
 		await loadCard('contrib/support-issue.json'),
 		await loadCard('contrib/support-thread.json'),
+		await loadCard('contrib/tag.json'),
 		await loadCard('contrib/thread.json'),
 
 		// Triggered actions
 		await loadCard('contrib/triggered-action-github-issue-link.json'),
 		await loadCard('contrib/triggered-action-hangouts-link.json'),
+		await loadCard('contrib/triggered-action-increment-tag.json'),
 		await loadCard('contrib/triggered-action-integration-github-import-event.json'),
 		await loadCard('contrib/triggered-action-integration-github-mirror-event.json'),
 		await loadCard('contrib/triggered-action-integration-front-import-event.json'),
