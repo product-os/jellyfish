@@ -23,9 +23,4 @@ echo "- [Code Coverage]($(get_artifact_link "$ARTIFACT_COVERAGE"))"
 echo "- [Repo Stats]($(get_artifact_link "$ARTIFACT_GITSTATS"))"
 echo "- [Webpack Bundle Report]($(get_artifact_link "$ARTIFACT_WEBPACK_REPORT"))"
 echo ""
-echo "#### Coverage Summary"
-echo ""
-# Remove the first and last line so we get a proper table
-tail -n +2 < COVERAGE | sed '$d'
-echo ""
-./scripts/hotfiles.sh
+./scripts/ci/hotfiles.sh

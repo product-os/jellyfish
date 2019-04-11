@@ -20,7 +20,7 @@ spec:
         lifecycle:
           preStop:
             exec:
-              command: [ 'node', 'scripts/lock.js', '/tmp/worker.lock' ]
+              command: [ 'node', 'scripts/production/lock.js', '/tmp/worker.lock' ]
         env:
         - name: POD_NAME
           valueFrom:
