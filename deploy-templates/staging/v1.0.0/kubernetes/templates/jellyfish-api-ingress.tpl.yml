@@ -9,6 +9,7 @@ metadata:
     ingress.kubernetes.io/session-cookie-name: "jellyfishAPI"
     ingress.kubernetes.io/session-cookie-expires: "172800"
     ingress.kubernetes.io/session-cookie-max-age: "172800"
+    ingress.kubernetes.io/limit-rpm: "120"
 spec:
   tls:
     - secretName: jellyfish-api-tls
