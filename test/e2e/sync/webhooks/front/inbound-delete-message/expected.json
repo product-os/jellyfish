@@ -184,7 +184,7 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "Response!\n—\nJuan Cruz Viotti,Software Engineer, Resin.io (https://resin.io)twt: @resin_io\n> On Wed, Oct 10, 2018 at 11:28 pm, <juan@resin.io> Juan Cruz Viotti wrote:\n\nHello"
+          "message": "Response!\n\n—\nJuan Cruz Viotti,\n\nSoftware Engineer, Resin.io (https://resin.io)\n\ntwt: @resin\\_io\n\n> On Wed, Oct 10, 2018 at 11:28 pm, <[juan@resin.io](mailto:juan@resin.io)\\> Juan Cruz Viotti wrote:\n> \n> Hello"
         }
       }
     },

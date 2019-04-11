@@ -2775,9 +2775,22 @@ ava('.getPendingRequests() should return an unexecuted action request', async (t
 			}
 		})
 
-	const result = await test.context.kernel.getPendingRequests(
-		test.context.context, test.context.kernel.sessions.admin)
+	const wait = async (expected, times = 10) => {
+		const result = await test.context.kernel.getPendingRequests(
+			test.context.context, test.context.kernel.sessions.admin)
+		if (result.length >= expected) {
+			return result
+		}
 
+		if (times <= 0) {
+			throw new Error(`Didn't get ${expected} requests in time`)
+		}
+
+		await Bluebird.delay(100)
+		return wait(expected, times - 1)
+	}
+
+	const result = await wait(1)
 	test.deepEqual(result, [ request ])
 })
 

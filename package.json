@@ -127,7 +127,6 @@
     "front-sdk": "^0.7.1",
     "history": "^4.7.2",
     "howler": "^2.0.12",
-    "html-to-text": "^5.0.0",
     "intercom-client": "^2.10.4",
     "isobj": "^1.0.0",
     "json-e": "^2.6.0",
@@ -167,6 +166,7 @@
     "socket.io-client": "^2.2.0",
     "static-eval": "^2.0.0",
     "styled-components": "^3.4.10",
+    "turndown": "^5.0.3",
     "typed-errors": "^1.1.0",
     "uuid": "^3.2.1",
     "winston": "^3.1.0"
