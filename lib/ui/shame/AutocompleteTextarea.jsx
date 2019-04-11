@@ -374,11 +374,25 @@ class AutoCompleteArea extends React.Component {
 		this.handleOnKeyPress = (event) => {
 			const sendCommand = getSendCommand(this.props.user)
 
+			let shouldSend = false
+
 			// If the send command is shift+enter, only submit the text if the shift
 			// key is pressed
-			const shouldSend = sendCommand === 'shift+enter'
-				? Boolean(event.shiftKey)
-				: !event.shiftKey
+			if (sendCommand === 'shift+enter') {
+				shouldSend = Boolean(event.shiftKey)
+			}
+
+			// If the send command is ctrl+enter, only submit the text if the shift
+			// key is pressed
+			if (sendCommand === 'ctrl+enter') {
+				shouldSend = Boolean(event.ctrlKey)
+			}
+
+			// If the send command is enter, only submit the text if the shift
+			// key is NOT pressed
+			if (sendCommand === 'enter') {
+				shouldSend = !event.shiftKey && !event.ctrlKey
+			}
 
 			if (event.key === 'Enter' && shouldSend && this.props.onTextSubmit) {
 				this.props.onTextSubmit(event)

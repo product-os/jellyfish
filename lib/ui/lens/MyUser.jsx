@@ -17,7 +17,8 @@ import {
 	Select
 } from 'rendition'
 import {
-	actionCreators
+	actionCreators,
+	selectors
 } from '../core'
 import Column from '../shame/Column'
 import {
