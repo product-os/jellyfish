@@ -5,6 +5,7 @@
  */
 
 const uuid = require('uuid/v4')
+const Bluebird = require('bluebird')
 const ava = require('ava')
 const errors = require('../../../lib/queue/errors')
 const helpers = require('./helpers')
@@ -115,8 +116,22 @@ ava('.enqueue() should take a current date', async (test) => {
 		}
 	})
 
-	const request = await test.context.queue.dequeue(
-		test.context.context, test.context.queueActor)
+	const dequeue = async (times = 10) => {
+		const request = await test.context.queue.dequeue(
+			test.context.context, test.context.queueActor)
+		if (request) {
+			return request
+		}
+
+		if (times <= 0) {
+			throw new Error('Didn\'t dequeue in time')
+		}
+
+		await Bluebird.delay(100)
+		return dequeue(times - 1)
+	}
+
+	const request = await dequeue()
 	test.is(request.data.timestamp, date.toISOString())
 })
 

@@ -180,7 +180,7 @@
         "payload": {
           "alertsUser": [],
           "mentionsUser": [],
-          "message": "Hey, it's not actually implemented on the dashboard side, but you can use staged releases, with the code found in examples here: https://github.com/balena-io-projects/staged-releases"
+          "message": "Hey, it's not actually implemented on the dashboard side, but you can use staged releases, with the code found in examples here: [https://github.com/balena-io-projects/staged-releases](https://github.com/balena-io-projects/staged-releases)"
         }
       }
     },
@@ -200,7 +200,7 @@
         "payload": {
           "alertsUser": [],
           "mentionsUser": [],
-          "message": "I meant to say it's not implemented yet, but it is coming."
+          "message": "I meant to say it's not implemented _yet_, but it is coming."
         }
       }
     },
