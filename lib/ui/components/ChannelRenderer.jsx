@@ -8,10 +8,22 @@ const _ = require('lodash')
 const React = require('react')
 const reactDnd = require('react-dnd')
 const rendition = require('rendition')
+const styled = require('styled-components').default
 const constants = require('../constants')
 const link = require('../services/link')
 const ErrorBoundary = require('../shame/ErrorBoundary')
 const Icon = require('../shame/Icon').default
+
+const ErrorNotFound = styled.h1 `
+	color: white;
+	background: url(/icons/jellyfish.svg) repeat;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	font-size: 200px;
+	background-size: 14px;
+	margin: 10% auto;
+	background-color: #c5edff;
+`
 
 // Load lens service
 const lensService = require('../lens')
@@ -66,6 +78,15 @@ class ChannelRenderer extends React.Component {
 					</rendition.Alert>
 				)
 			}
+
+			if (channel.data.head === null) {
+				return (
+					<ErrorNotFound>
+						404
+					</ErrorNotFound>
+				)
+			}
+
 			return (
 				<rendition.Box
 					style={style}
