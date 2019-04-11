@@ -34,6 +34,10 @@ spec:
           timeoutSeconds: 8
           failureThreshold: 30
         env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
         - name: PORT
           value: '8000'
         - name: DATABASE
