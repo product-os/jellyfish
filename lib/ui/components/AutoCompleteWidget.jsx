@@ -15,6 +15,7 @@ const AutoCompleteWidget = (props) => {
 	const getTargets = async (value) => {
 		const schema = {
 			type: 'object',
+			description: `Find by pattern on type ${props.options.resource}`,
 			properties: {
 				active: {
 					const: true

@@ -167,6 +167,7 @@ class SupportThreadBase extends React.Component {
 					}
 				},
 				type: 'object',
+				description: `Support thread by id ${id} attached to support issue`,
 				properties: {
 					id: {
 						type: 'string',
@@ -187,6 +188,7 @@ class SupportThreadBase extends React.Component {
 					}
 				},
 				type: 'object',
+				description: `Support thread by id ${id} attached to issue`,
 				properties: {
 					id: {
 						type: 'string',
