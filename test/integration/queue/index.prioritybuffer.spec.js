@@ -59,7 +59,7 @@ ava('should add a new action request to the priority buffer', async (test) => {
 	test.deepEqual(test.context.queue.priority, [ request ])
 })
 
-ava('should not add more than 10 requests', async (test) => {
+ava('should not add more than 20 requests', async (test) => {
 	const request1 = await insertRequest(test)
 	const request2 = await insertRequest(test)
 	const request3 = await insertRequest(test)
@@ -70,9 +70,19 @@ ava('should not add more than 10 requests', async (test) => {
 	const request8 = await insertRequest(test)
 	const request9 = await insertRequest(test)
 	const request10 = await insertRequest(test)
+	const request11 = await insertRequest(test)
+	const request12 = await insertRequest(test)
+	const request13 = await insertRequest(test)
+	const request14 = await insertRequest(test)
+	const request15 = await insertRequest(test)
+	const request16 = await insertRequest(test)
+	const request17 = await insertRequest(test)
+	const request18 = await insertRequest(test)
+	const request19 = await insertRequest(test)
+	const request20 = await insertRequest(test)
 
 	const wait = async (times = 20) => {
-		if (test.context.queue.priority.length >= 10) {
+		if (test.context.queue.priority.length >= 20) {
 			return
 		}
 
@@ -96,11 +106,21 @@ ava('should not add more than 10 requests', async (test) => {
 		request7,
 		request8,
 		request9,
-		request10
+		request10,
+		request11,
+		request12,
+		request13,
+		request14,
+		request15,
+		request16,
+		request17,
+		request18,
+		request19,
+		request20
 	])
 
-	const request11 = await insertRequest(test)
-	const request12 = await insertRequest(test)
+	const request21 = await insertRequest(test)
+	const request22 = await insertRequest(test)
 
 	await Bluebird.delay(800)
 
@@ -117,7 +137,7 @@ ava('should not add more than 10 requests', async (test) => {
 		await waitForTail(slug, times - 1)
 	}
 
-	await waitForTail(request12.slug)
+	await waitForTail(request22.slug)
 
 	test.deepEqual(test.context.queue.priority, [
 		request3,
@@ -129,6 +149,16 @@ ava('should not add more than 10 requests', async (test) => {
 		request9,
 		request10,
 		request11,
-		request12
+		request12,
+		request13,
+		request14,
+		request15,
+		request16,
+		request17,
+		request18,
+		request19,
+		request20,
+		request21,
+		request22
 	])
 })
