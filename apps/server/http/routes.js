@@ -512,12 +512,10 @@ module.exports = (application, jellyfish, worker, queue) => {
 				request.context, request.sessionToken, schema, request.body.options)
 			const endDate = new Date()
 			const queryTime = endDate.getTime() - startDate.getTime()
-			if (queryTime > 2000) {
-				logger.warn(request.context, 'Slow query schema', {
-					time: queryTime,
-					schema
-				})
-			}
+			logger.info(request.context, 'JSON Schema query', {
+				time: queryTime,
+				schema
+			})
 
 			return response.status(200).json({
 				error: false,

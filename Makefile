@@ -175,6 +175,7 @@ endif
 clean:
 	rm -rf \
 		*.0x \
+		*.lock \
 		dump.rdb \
 		.nyc_output \
 		coverage \
