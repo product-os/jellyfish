@@ -18,7 +18,7 @@ import {
 } from 'rendition'
 import {
 	actionCreators
-} from '../core/store'
+} from '../core'
 import Column from '../shame/Column'
 import {
 	CloseButton

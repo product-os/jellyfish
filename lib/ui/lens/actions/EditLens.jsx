@@ -17,7 +17,6 @@ import {
 import {
 	Form
 } from 'rendition/dist/unstable'
-import * as store from '../../core/store'
 import * as helpers from '../../services/helpers'
 import {
 	CloseButton
@@ -25,6 +24,7 @@ import {
 import Column from '../../shame/Column'
 import * as skhema from 'skhema'
 import {
+	actionCreators,
 	analytics,
 	sdk
 } from '../../core'
@@ -223,7 +223,13 @@ class EditLens extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: redux.bindActionCreators(store.actionCreators, dispatch)
+		actions: redux.bindActionCreators(
+			_.pick(actionCreators, [
+				'addNotification',
+				'removeChannel'
+			]),
+			dispatch
+		)
 	}
 }
 

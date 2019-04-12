@@ -14,8 +14,10 @@ const {
 const redux = require('redux')
 const rendition = require('rendition')
 const constants = require('../constants')
-const core = require('../core')
-const store = require('../core/store')
+const {
+	actionCreators,
+	sdk
+} = require('../core')
 const helpers = require('../services/helpers')
 const link = require('../services/link')
 const ContextMenu = require('./ContextMenu')
@@ -48,7 +50,7 @@ class CardLinker extends React.Component {
 				type: 'string',
 				const: selectedTypeTarget.slug
 			})
-			const results = await core.sdk.query(filter)
+			const results = await sdk.query(filter)
 			this.setState({
 				results
 			})
@@ -286,7 +288,9 @@ class CardLinker extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: redux.bindActionCreators(store.actionCreators, dispatch)
+		actions: {
+			addChannel: redux.bindActionCreators(actionCreators.addChannel, dispatch)
+		}
 	}
 }
 

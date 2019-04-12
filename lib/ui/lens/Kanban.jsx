@@ -18,8 +18,12 @@ const GroupUpdate = require('../components/GroupUpdate')
 const {
 	Tag
 } = require('../components/Tag')
-const core = require('../core')
-const store = require('../core/store')
+const {
+	actionCreators,
+	analytics,
+	selectors,
+	sdk
+} = require('../core')
 const helpers = require('../services/helpers')
 const index = require('./index')
 const Icon = require('../shame/Icon')
@@ -147,9 +151,9 @@ class Kanban extends React.Component {
 				return
 			}
 			_.set(card, slice.path.replace(/properties\./g, ''), targetValue)
-			core.sdk.card.update(card.id, card)
+			sdk.card.update(card.id, card)
 				.then(() => {
-					core.analytics.track('element.update', {
+					analytics.track('element.update', {
 						element: {
 							type: card.type,
 							id: card.id
@@ -232,7 +236,7 @@ class Kanban extends React.Component {
 			}, slice.path, {
 				const: value
 			})
-			const validator = core.sdk.utils.compileSchema(schema)
+			const validator = sdk.utils.compileSchema(schema)
 			const [ slicedCards, remaining ] = _.partition(cards, (card) => {
 				return validator(card)
 			})
@@ -321,13 +325,19 @@ class Kanban extends React.Component {
 }
 const mapStateToProps = (state) => {
 	return {
-		types: store.selectors.getTypes(state),
-		user: store.selectors.getCurrentUser(state)
+		types: selectors.getTypes(state),
+		user: selectors.getCurrentUser(state)
 	}
 }
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: redux.bindActionCreators(store.actionCreators, dispatch)
+		actions: redux.bindActionCreators(
+			_.pick(actionCreators, [
+				'addChannel',
+				'addNotification'
+			]),
+			dispatch
+		)
 	}
 }
 const lens = {

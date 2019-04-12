@@ -22,7 +22,9 @@ const {
 	Notifications
 } = require('./components/Notifications')
 const Splash = require('./components/Splash')
-const store = require('./core/store')
+const {
+	selectors
+} = require('./core')
 const reactDnd = require('react-dnd')
 const reactDndHtml5Backend = require('react-dnd-html5-backend')
 const reactResizeObserver = require('react-resize-observer')
@@ -170,9 +172,9 @@ class UI extends React.Component {
 }
 const mapStateToProps = (state) => {
 	return {
-		channels: store.selectors.getChannels(state),
-		status: store.selectors.getStatus(state),
-		user: store.selectors.getCurrentUser(state)
+		channels: selectors.getChannels(state),
+		status: selectors.getStatus(state),
+		user: selectors.getCurrentUser(state)
 	}
 }
 exports.JellyfishUI = reactDnd.DragDropContext(reactDndHtml5Backend.default)(connect(mapStateToProps)(UI))

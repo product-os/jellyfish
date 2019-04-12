@@ -5,14 +5,18 @@
  */
 
 const copy = require('copy-to-clipboard')
+const _ = require('lodash')
 const React = require('react')
 const {
 	connect
 } = require('react-redux')
 const redux = require('redux')
 const rendition = require('rendition')
-const core = require('../core')
-const store = require('../core/store')
+const {
+	actionCreators,
+	sdk,
+	selectors
+}	= require('../core')
 const helpers = require('../services/helpers')
 const urlManager = require('../services/url-manager')
 const CardLinker = require('./CardLinker')
@@ -24,7 +28,7 @@ class Base extends React.Component {
 	constructor (props) {
 		super(props)
 		this.delete = () => {
-			core.sdk.card.remove(this.props.card.id, this.props.card.type)
+			sdk.card.remove(this.props.card.id, this.props.card.type)
 				.then(() => {
 					this.props.actions.addNotification('success', 'Deleted card')
 				})
@@ -160,14 +164,23 @@ class Base extends React.Component {
 		)
 	}
 }
+
 const mapStateToProps = (state) => {
 	return {
-		types: store.selectors.getTypes(state)
+		types: selectors.getTypes(state)
 	}
 }
+
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: redux.bindActionCreators(store.actionCreators, dispatch)
+		actions: redux.bindActionCreators(
+			_.pick(actionCreators, [
+				'addNotification',
+				'addChannel'
+			]),
+			dispatch
+		)
 	}
 }
+
 exports.CardActions = connect(mapStateToProps, mapDispatchToProps)(Base)

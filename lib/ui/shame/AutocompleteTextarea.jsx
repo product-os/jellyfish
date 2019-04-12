@@ -19,8 +19,12 @@ import {
 	Txt
 } from 'rendition'
 import styled from 'styled-components'
-import * as core from '../core'
-import * as store from '../core/store'
+import {
+	actionCreators,
+	selectors,
+	sdk,
+	store
+} from '../core'
 import * as helpers from '../services/helpers'
 import * as reactDnD from 'react-dnd'
 import Icon from './Icon'
@@ -143,7 +147,7 @@ const getTrigger = _.memoize(() => {
 		},
 		'@': {
 			dataProvider: (token) => {
-				const usernames = store.selectors.getAllUsers(core.store.getState())
+				const usernames = selectors.getAllUsers(store.getState())
 					.map(({
 						slug
 					}) => {
@@ -164,7 +168,7 @@ const getTrigger = _.memoize(() => {
 		},
 		'!': {
 			dataProvider: (token) => {
-				const usernames = store.selectors.getAllUsers(core.store.getState())
+				const usernames = selectors.getAllUsers(store.getState())
 					.map(({
 						slug
 					}) => {
@@ -185,7 +189,7 @@ const getTrigger = _.memoize(() => {
 		},
 		'?': {
 			dataProvider: (token) => {
-				const types = store.selectors.getTypes(core.store.getState())
+				const types = selectors.getTypes(store.getState())
 					.map(({
 						slug
 					}) => { return `?${slug}` })
@@ -214,7 +218,7 @@ const getTrigger = _.memoize(() => {
 
 				const matcher = token.toLowerCase()
 
-				const cards = await core.sdk.query({
+				const cards = await sdk.query({
 					type: 'object',
 					properties: {
 						type: {
@@ -328,7 +332,7 @@ class AutoCompleteArea extends React.Component {
 				type: 'string',
 				const: typeCard.slug
 			})
-			core.sdk.query(filter)
+			sdk.query(filter)
 				.then((results) => {
 					this.setState({
 						results
@@ -345,7 +349,7 @@ class AutoCompleteArea extends React.Component {
 			if (value.match(QUICK_SEARCH_RE)) {
 				const [ typeSlug, ...rest ] = value.trim().split(/\s+/)
 				const slug = typeSlug.replace('?', '')
-				const types = store.selectors.getTypes(core.store.getState())
+				const types = selectors.getTypes(store.getState())
 				const typeCard = _.find(types, {
 					slug
 				})
@@ -438,7 +442,7 @@ class AutoCompleteArea extends React.Component {
 					{_.map(this.state.results, (card) => {
 						return (<div key={card.id}>
 							<ConnectedQuickSearchItem card={card} onClick={() => {
-								core.store.dispatch(store.actionCreators.addChannel(helpers.createChannel({
+								store.dispatch(actionCreators.addChannel(helpers.createChannel({
 									target: card.id,
 									cardType: card.type
 								})))

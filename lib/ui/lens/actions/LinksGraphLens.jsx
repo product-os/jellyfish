@@ -11,13 +11,13 @@ import {
 	connect
 } from 'react-redux'
 import * as redux from 'redux'
-import * as store from '../../core/store'
 import * as helpers from '../../services/helpers'
 import {
 	CloseButton
 } from '../../shame/CloseButton'
 import Column from '../../shame/Column'
 import {
+	actionCreators,
 	sdk
 } from '../../core'
 import ReactResizeObserver from 'react-resize-observer'
@@ -222,7 +222,9 @@ class CreateLens extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: redux.bindActionCreators(store.actionCreators, dispatch)
+		actions: {
+			removeChannel: redux.bindActionCreators(actionCreators.removeChannel, dispatch)
+		}
 	}
 }
 

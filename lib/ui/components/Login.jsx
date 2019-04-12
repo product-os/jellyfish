@@ -11,20 +11,23 @@ const {
 } = require('react-redux')
 const redux = require('redux')
 const rendition = require('rendition')
-const store = require('../core/store')
+const {
+	actionCreators
+} = require('../core')
 const TopBar = require('./TopBar')
 const Icon = require('../shame/Icon')
+
 class Base extends React.Component {
 	constructor (props) {
 		super(props)
+
 		this.signup = (event) => {
 			event.preventDefault()
 			const {
 				username, password, email
 			} = this.state
 			this.setState({
-				loggingIn: true,
-				signupError: ''
+				loggingIn: true
 			})
 			Bluebird.try(() => {
 				return this.props.actions.signup({
@@ -35,9 +38,9 @@ class Base extends React.Component {
 			})
 				.catch((error) => {
 					this.setState({
-						signupError: error.message,
 						loggingIn: false
 					})
+					this.props.actions.addNotification('danger', error.message || error)
 				})
 		}
 		this.login = (event) => {
@@ -56,9 +59,9 @@ class Base extends React.Component {
 			})
 				.catch((error) => {
 					this.setState({
-						loginError: error.message,
 						loggingIn: false
 					})
+					this.props.actions.addNotification('danger', error.message || error)
 				})
 		}
 		this.toggleSignup = () => {
@@ -99,9 +102,7 @@ class Base extends React.Component {
 			passwordConfirmation: '',
 			showPassword: false,
 			email: '',
-			loggingIn: false,
-			signupError: '',
-			loginError: ''
+			loggingIn: false
 		}
 	}
 	render () {
@@ -126,9 +127,6 @@ class Base extends React.Component {
 							</rendition.Txt>
 
 							<rendition.Divider color="#eee" mb={4}/>
-
-							{this.state.signupError &&
-								<rendition.Alert danger={true} mb={3}>{this.state.signupError}</rendition.Alert>}
 
 							<form onSubmit={this.signup}>
 								<rendition.Txt fontSize={1} mb={1}>Email</rendition.Txt>
@@ -228,9 +226,6 @@ class Base extends React.Component {
 
 							<rendition.Divider color="#eee" mb={4}/>
 
-							{this.state.loginError &&
-								<rendition.Alert danger={true} mb={3}>{this.state.loginError}</rendition.Alert>}
-
 							<form onSubmit={this.login}>
 								<rendition.Txt fontSize={1} mb={1}>Username</rendition.Txt>
 								<rendition.Input
@@ -277,7 +272,11 @@ class Base extends React.Component {
 }
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: redux.bindActionCreators(store.actionCreators, dispatch)
+		actions: {
+			addNotification: redux.bindActionCreators(actionCreators.addNotification, dispatch),
+			login: redux.bindActionCreators(actionCreators.login, dispatch),
+			signup: redux.bindActionCreators(actionCreators.signup, dispatch)
+		}
 	}
 }
 exports.Login = connect(null, mapDispatchToProps)(Base)

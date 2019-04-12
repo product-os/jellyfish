@@ -21,8 +21,12 @@ import {
 	Select
 } from 'rendition'
 import Filters from '../components/Filters'
-import * as core from '../core'
-import * as store from '../core/store'
+import {
+	actionCreators,
+	analytics,
+	selectors,
+	sdk
+} from '../core'
 import * as helpers from '../services/helpers'
 import LensService from './'
 import ButtonGroup from '../shame/ButtonGroup'
@@ -111,9 +115,9 @@ class ViewRenderer extends React.Component {
 	}
 
 	saveView ([ view ]) {
-		core.sdk.card.create(this.createView(view))
+		sdk.card.create(this.createView(view))
 			.then((card) => {
-				core.analytics.track('element.create', {
+				analytics.track('element.create', {
 					element: {
 						type: 'view'
 					}
@@ -343,7 +347,7 @@ class ViewRenderer extends React.Component {
 			user
 		} = this.props
 		newView.name = view.name
-		newView.slug = `view-user-created-view-${core.sdk.utils.slugify(view.name)}`
+		newView.slug = `view-user-created-view-${sdk.utils.slugify(view.name)}`
 		if (!newView.data.allOf) {
 			newView.data.allOf = []
 		}
@@ -551,17 +555,25 @@ class ViewRenderer extends React.Component {
 const mapStateToProps = (state, ownProps) => {
 	const target = ownProps.channel.data.head.id
 	return {
-		channels: store.selectors.getChannels(state),
-		tail: store.selectors.getViewData(state, target),
-		types: store.selectors.getTypes(state),
-		user: store.selectors.getCurrentUser(state),
-		userActiveLens: store.selectors.getUsersViewLens(state, target)
+		channels: selectors.getChannels(state),
+		tail: selectors.getViewData(state, target),
+		types: selectors.getTypes(state),
+		user: selectors.getCurrentUser(state),
+		userActiveLens: selectors.getUsersViewLens(state, target)
 	}
 }
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: redux.bindActionCreators(store.actionCreators, dispatch)
+		actions: {
+			addChannel: redux.bindActionCreators(actionCreators.addChannel, dispatch),
+			addNotification: redux.bindActionCreators(actionCreators.addNotification, dispatch),
+			clearViewData: redux.bindActionCreators(actionCreators.clearViewData, dispatch),
+			loadViewResults: redux.bindActionCreators(actionCreators.loadViewResults, dispatch),
+			removeChannel: redux.bindActionCreators(actionCreators.addChannel, dispatch),
+			setViewLens: redux.bindActionCreators(actionCreators.setViewLens, dispatch),
+			streamView: redux.bindActionCreators(actionCreators.streamView, dispatch)
+		}
 	}
 }
 

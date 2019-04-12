@@ -13,8 +13,12 @@ const redux = require('redux')
 const rendition = require('rendition')
 const uuid = require('uuid/v4')
 const Event = require('../components/Event').default
-const core = require('../core')
-const store = require('../core/store')
+const {
+	actionCreators,
+	analytics,
+	sdk,
+	selectors
+} = require('../core')
 const helpers = require('../services/helpers')
 const AutocompleteTextarea = require('../shame/AutocompleteTextarea')
 const Icon = require('../shame/Icon')
@@ -53,9 +57,9 @@ class TimelineRenderer extends React.Component {
 					file
 				}
 			}
-			core.sdk.event.create(message)
+			sdk.event.create(message)
 				.then(() => {
-					core.analytics.track('element.create', {
+					analytics.track('element.create', {
 						element: {
 							type: 'message'
 						}
@@ -165,9 +169,9 @@ class TimelineRenderer extends React.Component {
 			})
 		})
 
-		core.sdk.event.create(message)
+		sdk.event.create(message)
 			.then(() => {
-				core.analytics.track('element.create', {
+				analytics.track('element.create', {
 					element: {
 						type: 'message'
 					}
@@ -188,11 +192,6 @@ class TimelineRenderer extends React.Component {
 			messagesOnly,
 			pendingMessages
 		} = this.state
-
-		console.log({
-			tail,
-			pendingMessages
-		})
 
 		// Due to a bug in syncing, sometimes there can be duplicate cards in tail
 		const sortedTail = _.uniqBy(_.sortBy(tail, 'data.timestamp'), 'id')
@@ -295,13 +294,15 @@ class TimelineRenderer extends React.Component {
 
 const mapStateToProps = (state) => {
 	return {
-		allUsers: store.selectors.getAllUsers(state),
-		user: store.selectors.getCurrentUser(state)
+		allUsers: selectors.getAllUsers(state),
+		user: selectors.getCurrentUser(state)
 	}
 }
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: redux.bindActionCreators(store.actionCreators, dispatch)
+		actions: {
+			addNotification: redux.bindActionCreators(actionCreators.addNotification, dispatch)
+		}
 	}
 }
 const lens = {

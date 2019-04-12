@@ -11,7 +11,9 @@ const {
 } = require('react-redux')
 const redux = require('redux')
 const rendition = require('rendition')
-const store = require('../core/store')
+const {
+	actionCreators
+} = require('../core')
 const helpers = require('../services/helpers')
 const Column = require('../shame/Column').default
 const COLUMNS = [
@@ -120,7 +122,9 @@ class CardTable extends React.Component {
 }
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: redux.bindActionCreators(store.actionCreators, dispatch)
+		actions: {
+			addChannel: redux.bindActionCreators(actionCreators.addChannel, dispatch)
+		}
 	}
 }
 const lens = {

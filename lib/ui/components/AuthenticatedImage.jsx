@@ -6,7 +6,9 @@
 
 const React = require('react')
 const styledComponents = require('styled-components')
-const core = require('../core')
+const {
+	sdk
+} = require('../core')
 const ResponsiveImg = styledComponents.default.img `
 	height: auto;
 	max-width: 100%;
@@ -19,7 +21,7 @@ class AuthenticatedImage extends React.Component {
 		}
 	}
 	componentDidMount () {
-		core.sdk.getFile(this.props.cardId, this.props.fileName)
+		sdk.getFile(this.props.cardId, this.props.fileName)
 			.then((data) => {
 				const blob = new Blob([ data ])
 				this.setState({

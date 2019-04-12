@@ -17,7 +17,6 @@ import {
 	Select,
 	Txt
 } from 'rendition'
-import * as store from '../../core/store'
 import * as helpers from '../../services/helpers'
 import * as link from '../../services/link'
 import {
@@ -30,6 +29,7 @@ import {
 } from 'rendition/dist/unstable'
 import * as skhema from 'skhema'
 import {
+	actionCreators,
 	analytics,
 	sdk
 } from '../../core'
@@ -315,7 +315,14 @@ class CreateLens extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: redux.bindActionCreators(store.actionCreators, dispatch)
+		actions: redux.bindActionCreators(
+			_.pick(actionCreators, [
+				'addChannel',
+				'addNotification',
+				'removeChannel'
+			]),
+			dispatch
+		)
 	}
 }
 

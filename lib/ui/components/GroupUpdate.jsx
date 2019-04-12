@@ -9,7 +9,10 @@ const _ = require('lodash')
 const React = require('react')
 const rendition = require('rendition')
 const unstable = require('rendition/dist/unstable')
-const core = require('../core')
+const {
+	analytics,
+	sdk
+} = require('../core')
 const DELIMITER = '___'
 class GroupUpdate extends React.Component {
 	constructor (props) {
@@ -45,9 +48,9 @@ class GroupUpdate extends React.Component {
 			Bluebird.map(this.props.cards, ({
 				id, type
 			}) => {
-				return core.sdk.card.update(id, update)
+				return sdk.card.update(id, update)
 					.then(() => {
-						core.analytics.track('element.update', {
+						analytics.track('element.update', {
 							element: {
 								id,
 								type
