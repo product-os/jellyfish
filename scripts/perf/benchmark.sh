@@ -32,4 +32,4 @@ run() {
 	/usr/sbin/ab -n "$1" -c "$2" -m "$3" "$URL/$4"
 }
 
-run 1000 30 GET ping
+run 100 3 GET ping
