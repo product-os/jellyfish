@@ -33,7 +33,7 @@ ava.after(async () => {
 	})
 })
 
-ava.serial('The send command should default to shift+enter', async (test) => {
+ava.serial('The send command should default to "shift+enter"', async (test) => {
 	const {
 		page
 	} = context
@@ -41,6 +41,8 @@ ava.serial('The send command should default to shift+enter', async (test) => {
 	await page.goto(`http://localhost:${environment.ui.port}`)
 	const user = await context.createUser(userDetails)
 	await page.waitForSelector('.login-page')
+
+	context.user = user
 
 	await page.type('.login-page__input--username', userDetails.username)
 	await page.type('.login-page__input--password', userDetails.password)
@@ -84,7 +86,7 @@ ava.serial('The send command should default to shift+enter', async (test) => {
 	test.pass()
 })
 
-ava.serial('The send command should be configurable', async (test) => {
+ava.serial('You should be able to change the send command to "enter"', async (test) => {
 	const {
 		page
 	} = context
@@ -112,6 +114,48 @@ ava.serial('The send command should be configurable', async (test) => {
 	await page.type('textarea', rand)
 	await page.keyboard.press('Enter')
 	await page.waitForSelector('.column--thread [data-test="event-card__message"]')
+
+	test.pass()
+})
+
+ava.serial('You should be able to change the send command to "ctrl+enter"', async (test) => {
+	const {
+		page,
+		user
+	} = context
+
+	await page.goto(`http://localhost:${environment.ui.port}/#/user~${user.id}`)
+
+	await page.waitForSelector('[data-test="lens-my-user__send-command-select"] select')
+	await page.select('[data-test="lens-my-user__send-command-select"] select', 'ctrl+enter')
+
+	// Wait for the success alert as a heuristic for the action completing
+	// successfully
+	await page.waitForSelector('[data-test="alert--success"]')
+
+	// Create a new thread
+	const thread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'thread'
+		})
+	})
+
+	await page.goto(`http://localhost:${environment.ui.port}/#/thread~${thread.id}`)
+
+	await page.waitForSelector('.column--thread')
+
+	// Unfortunately puppeteer Control+Enter doesn't seem to work at all
+	// TODO: Fix this test so it works
+	/*
+	const rand = uuid()
+
+	await page.waitForSelector('.new-message-input')
+	await page.type('textarea', rand)
+	await page.keyboard.down('ControlLeft')
+	await page.keyboard.press('Enter')
+	await page.keyboard.up('ControlLeft')
+	await page.waitForSelector('.column--thread [data-test="event-card__message"]')
+	*/
 
 	test.pass()
 })

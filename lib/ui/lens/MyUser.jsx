@@ -17,7 +17,8 @@ import {
 	Select
 } from 'rendition'
 import {
-	actionCreators
+	actionCreators,
+	selectors
 } from '../core'
 import Column from '../shame/Column'
 import {
@@ -56,6 +57,10 @@ class MyUser extends React.Component {
 	render () {
 		const user = this.props.card
 		const sendCommand = _.get(user.data, [ 'profile', 'sendCommand' ], 'shift+enter')
+		const userType = _.find(this.props.types, {
+			slug: 'user'
+		})
+		const sendOptions = userType.data.schema.properties.data.properties.profile.properties.sendCommand.enum
 
 		return (
 			<Column data-test={`lens--${SLUG}`}>
@@ -102,8 +107,11 @@ class MyUser extends React.Component {
 							onChange={this.handleSendCommandChange}
 							disabled={this.state.updatingSendCommand}
 						>
-							<option>shift+enter</option>
-							<option>enter</option>
+							{_.map(sendOptions, (value) => {
+								return (
+									<option key={value}>{value}</option>
+								)
+							})}
 						</Select>
 
 						{this.state.updatingSendCommand && (
@@ -113,6 +121,12 @@ class MyUser extends React.Component {
 				</Box>
 			</Column>
 		)
+	}
+}
+
+const mapStateToProps = (state) => {
+	return {
+		types: selectors.getTypes(state)
 	}
 }
 
@@ -129,7 +143,7 @@ export default {
 	name: 'Support thread lens',
 	data: {
 		icon: 'address-card',
-		renderer: connect(null, mapDispatchToProps)(MyUser),
+		renderer: connect(mapStateToProps, mapDispatchToProps)(MyUser),
 		filter: {
 			type: 'object',
 			properties: {
