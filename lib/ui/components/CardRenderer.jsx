@@ -17,7 +17,10 @@ const rendition = require('rendition')
 const Markdown = require('rendition/dist/extra/Markdown')
 const Mermaid = require('rendition/dist/extra/Mermaid')
 const styledComponents = require('styled-components')
-const store = require('../core/store')
+const {
+	actionCreators,
+	selectors
+} = require('../core')
 const helpers = require('../services/helpers')
 const CardActions = require('./CardActions')
 const Label = require('./Label')
@@ -111,14 +114,6 @@ class Base extends React.Component {
 				parentChannel: this.props.channel.id
 			}))
 		}
-		this.refresh = () => {
-			const {
-				channel
-			} = this.props
-			if (channel) {
-				this.props.actions.loadChannelData(channel)
-			}
-		}
 		this.delete = () => {
 			const {
 				channel
@@ -194,13 +189,19 @@ class Base extends React.Component {
 }
 const mapStateToProps = (state) => {
 	return {
-		allUsers: store.selectors.getAllUsers(state),
-		types: store.selectors.getTypes(state)
+		allUsers: selectors.getAllUsers(state),
+		types: selectors.getTypes(state)
 	}
 }
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: redux.bindActionCreators(store.actionCreators, dispatch)
+		actions: redux.bindActionCreators(
+			_.pick(actionCreators, [
+				'addChannel',
+				'removeChannel'
+			]),
+			dispatch
+		)
 	}
 }
 exports.CardRenderer = connect(mapStateToProps, mapDispatchToProps)(Base)

@@ -11,8 +11,12 @@ const {
 } = require('react-redux')
 const redux = require('redux')
 const rendition = require('rendition')
-const core = require('../core')
-const store = require('../core/store')
+const {
+	actionCreators,
+	analytics,
+	sdk,
+	selectors
+} = require('../core')
 class TodoList extends React.Component {
 	constructor (props) {
 		super(props)
@@ -29,14 +33,14 @@ class TodoList extends React.Component {
 		this.handleCheckChange = (event) => {
 			const id = event.currentTarget.dataset.id || ''
 			const complete = event.currentTarget.checked
-			core.sdk.card.update(id, {
+			sdk.card.update(id, {
 				type: 'todo',
 				data: {
 					complete
 				}
 			})
 				.then(() => {
-					core.analytics.track('element.update', {
+					analytics.track('element.update', {
 						element: {
 							type: 'todo',
 							id
@@ -65,7 +69,7 @@ class TodoList extends React.Component {
 			}
 		}
 		this.addTodo = () => {
-			core.sdk.card.create({
+			sdk.card.create({
 				type: 'todo',
 				data: {
 					actor: this.props.user.id,
@@ -73,7 +77,7 @@ class TodoList extends React.Component {
 				}
 			})
 				.then(() => {
-					core.analytics.track('element.create', {
+					analytics.track('element.create', {
 						element: {
 							type: 'todo'
 						}
@@ -134,12 +138,14 @@ class TodoList extends React.Component {
 }
 const mapStateToProps = (state) => {
 	return {
-		user: store.selectors.getCurrentUser(state)
+		user: selectors.getCurrentUser(state)
 	}
 }
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: redux.bindActionCreators(store.actionCreators, dispatch)
+		actions: {
+			addNotification: redux.bindActionCreators(actionCreators.addNotification, dispatch)
+		}
 	}
 }
 const lens = {

@@ -6,9 +6,11 @@
 
 const _ = require('lodash')
 const React = require('react')
-const core = require('../core')
-const sdk = require('../core/sdk')
-const store = require('../core/store')
+const {
+	actionCreators,
+	sdk,
+	store
+} = require('../core')
 const helpers = require('../services/helpers')
 const {
 	loadSchema
@@ -39,11 +41,11 @@ class TailStreamer extends React.Component {
 		if (!schema) {
 			return
 		}
-		this.stream = await sdk.sdk.stream(schema)
+		this.stream = await sdk.stream(schema)
 
 		// Set the initial tail once a stream is ready, to minimize risk of missing
 		// timeline data
-		sdk.sdk.query(schema)
+		sdk.query(schema)
 			.then((data) => {
 				this.setTail(_.uniqBy(data.concat(this.state.tail || []), 'id'))
 			})
@@ -75,7 +77,7 @@ class TailStreamer extends React.Component {
 		})
 		this.stream.on('streamError', (response) => {
 			console.error('Received a stream error', response.data)
-			core.store.dispatch(store.actionCreators.addNotification('danger', response.data))
+			store.dispatch(actionCreators.addNotification('danger', response.data))
 		})
 	}
 }

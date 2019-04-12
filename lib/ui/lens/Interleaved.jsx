@@ -14,8 +14,12 @@ const redux = require('redux')
 const rendition = require('rendition')
 const uuid = require('uuid/v4')
 const Event = require('../components/Event').default
-const core = require('../core')
-const store = require('../core/store')
+const {
+	actionCreators,
+	analytics,
+	sdk,
+	selectors
+} = require('../core')
 const helpers = require('../services/helpers')
 const Icon = require('../shame/Icon')
 
@@ -77,7 +81,7 @@ class Interleaved extends React.Component {
 			this.setState({
 				creatingCard: true
 			})
-			core.sdk.card.create(cardData)
+			sdk.card.create(cardData)
 				.then((thread) => {
 					if (thread) {
 						this.openChannel(thread.id)
@@ -85,7 +89,7 @@ class Interleaved extends React.Component {
 					return null
 				})
 				.then(() => {
-					core.analytics.track('element.create', {
+					analytics.track('element.create', {
 						element: {
 							type: cardData.type
 						}
@@ -271,14 +275,21 @@ class Interleaved extends React.Component {
 	}
 }
 exports.Interleaved = Interleaved
+
 const mapStateToProps = (state) => {
 	return {
-		allUsers: store.selectors.getAllUsers(state)
+		allUsers: selectors.getAllUsers(state)
 	}
 }
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: redux.bindActionCreators(store.actionCreators, dispatch)
+		actions: redux.bindActionCreators(
+			_.pick(actionCreators, [
+				'addChannel',
+				'addNotification'
+			]),
+			dispatch
+		)
 	}
 }
 const lens = {

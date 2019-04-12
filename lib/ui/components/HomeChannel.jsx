@@ -23,7 +23,10 @@ import {
 	Txt
 } from 'rendition'
 import styled from 'styled-components'
-import * as store from '../core/store'
+import {
+	actionCreators,
+	selectors
+} from '../core'
 import * as helpers from '../services/helpers'
 import {
 	TailStreamer
@@ -469,19 +472,24 @@ class HomeChannelBase extends TailStreamer {
 
 const mapStateToProps = (state) => {
 	return {
-		channels: store.selectors.getChannels(state),
-		user: store.selectors.getCurrentUser(state),
-		version: store.selectors.getAppVersion(state),
-		orgs: store.selectors.getOrgs(state),
-		codename: store.selectors.getAppCodename(state),
-		viewNotices: store.selectors.getViewNotices(state),
-		uiState: store.selectors.getUIState(state)
+		channels: selectors.getChannels(state),
+		user: selectors.getCurrentUser(state),
+		version: selectors.getAppVersion(state),
+		orgs: selectors.getOrgs(state),
+		codename: selectors.getAppCodename(state),
+		viewNotices: selectors.getViewNotices(state),
+		uiState: selectors.getUIState(state)
 	}
 }
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: redux.bindActionCreators(store.actionCreators, dispatch)
+		actions: {
+			addChannel: redux.bindActionCreators(actionCreators.addChannel, dispatch),
+			logout: redux.bindActionCreators(actionCreators.logout, dispatch),
+			removeViewNotice: redux.bindActionCreators(actionCreators.removeViewNotice, dispatch),
+			setUIState: redux.bindActionCreators(actionCreators.setUIState, dispatch)
+		}
 	}
 }
 

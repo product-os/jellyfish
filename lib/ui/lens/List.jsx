@@ -15,7 +15,9 @@ const reactResizeObserver = require('react-resize-observer')
 const reactVirtualized = require('react-virtualized')
 const redux = require('redux')
 const rendition = require('rendition')
-const store = require('../core/store')
+const {
+	actionCreators
+} = require('../core')
 const helpers = require('../services/helpers')
 const SingleCard = require('./SingleCard')
 const Column = require('../shame/Column').default
@@ -168,7 +170,9 @@ class CardList extends React.Component {
 }
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: redux.bindActionCreators(store.actionCreators, dispatch)
+		actions: {
+			addChannel: redux.bindActionCreators(actionCreators.addChannel, dispatch)
+		}
 	}
 }
 const lens = {

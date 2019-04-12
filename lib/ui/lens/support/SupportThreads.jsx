@@ -14,7 +14,10 @@ import {
 	Box,
 	Tabs
 } from 'rendition'
-import * as store from '../../core/store'
+import {
+	actionCreators,
+	selectors
+} from '../../core'
 import * as helpers from '../../services/helpers'
 import * as storeHelpers from '../../services/store-helpers'
 import Column from '../../shame/Column'
@@ -197,14 +200,19 @@ export class SupportThreads extends React.Component {
 
 const mapStateToProps = (state) => {
 	return {
-		allUsers: store.selectors.getAllUsers(state),
-		channels: store.selectors.getChannels(state)
+		allUsers: selectors.getAllUsers(state),
+		channels: selectors.getChannels(state)
 	}
 }
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: redux.bindActionCreators(store.actionCreators, dispatch)
+		actions: redux.bindActionCreators(
+			_.pick(actionCreators, [
+				'addChannel'
+			]),
+			dispatch
+		)
 	}
 }
 

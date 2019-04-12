@@ -12,7 +12,10 @@ const {
 const redux = require('redux')
 const rendition = require('rendition')
 const styledComponents = require('styled-components')
-const store = require('../core/store')
+const {
+	actionCreators,
+	selectors
+} = require('../core')
 const MessageText = styledComponents.default.span `
 	white-space: pre;
 `
@@ -70,12 +73,12 @@ class Base extends React.Component {
 }
 const mapStateToProps = (state) => {
 	return {
-		notifications: store.selectors.getNotifications(state)
+		notifications: selectors.getNotifications(state)
 	}
 }
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: redux.bindActionCreators(store.actionCreators, dispatch)
+		actions: redux.bindActionCreators(actionCreators, dispatch)
 	}
 }
 exports.Notifications = connect(mapStateToProps, mapDispatchToProps)(Base)

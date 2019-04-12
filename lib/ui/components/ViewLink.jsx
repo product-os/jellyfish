@@ -15,7 +15,10 @@ const {
 const redux = require('redux')
 const rendition = require('rendition')
 const styledComponents = require('styled-components')
-const store = require('../core/store')
+const {
+	selectors,
+	actionCreators
+} = require('../core')
 const helpers = require('../services/helpers')
 const ContextMenu = require('./ContextMenu')
 const NotificationsModal = require('./NotificationsModal')
@@ -188,14 +191,14 @@ class ViewLinkBase extends React.Component {
 }
 const mapStateToProps = (state, ownProps) => {
 	return {
-		subscription: store.selectors.getSubscription(state, ownProps.card.id),
-		types: store.selectors.getTypes(state)
+		subscription: selectors.getSubscription(state, ownProps.card.id),
+		types: selectors.getTypes(state)
 	}
 }
 const mapDispatchToProps = (dispatch) => {
 	return redux.bindActionCreators({
-		saveSubscription: store.actionCreators.saveSubscription,
-		setDefault: store.actionCreators.setDefault
+		saveSubscription: actionCreators.saveSubscription,
+		setDefault: actionCreators.setDefault
 	}, dispatch)
 }
 exports.ViewLink = connect(mapStateToProps, mapDispatchToProps)(ViewLinkBase)

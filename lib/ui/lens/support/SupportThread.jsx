@@ -32,8 +32,11 @@ import Label from '../../components/Label'
 import {
 	Tag
 } from '../../components/Tag'
-import * as core from '../../core'
-import * as store from '../../core/store'
+import {
+	actionCreators,
+	selectors,
+	sdk
+} from '../../core'
 import * as helpers from '../../services/helpers'
 import SupportThreadTimeline from './SupportThreadTimeline'
 import {
@@ -84,7 +87,7 @@ class SupportThreadBase extends React.Component {
 	constructor (props) {
 		super(props)
 		this.close = () => {
-			core.sdk.card.update(this.props.card.id, _.merge({}, this.props.card, {
+			sdk.card.update(this.props.card.id, _.merge({}, this.props.card, {
 				data: {
 					status: 'closed'
 				}
@@ -144,7 +147,7 @@ class SupportThreadBase extends React.Component {
 		const update = _.cloneDeep(this.props.card)
 		_.set(update, [ 'data', 'category' ], category)
 
-		core.sdk.card.update(update.id, update)
+		sdk.card.update(update.id, update)
 			.then(() => {
 				this.props.actions.addNotification('success', `Successfully set support thread category to: ${category}`)
 				this.props.actions.removeChannel(this.props.channel)
@@ -156,7 +159,7 @@ class SupportThreadBase extends React.Component {
 
 	loadLinks (id) {
 		Bluebird.all([
-			core.sdk.query({
+			sdk.query({
 				$$links: {
 					'support thread is attached to support issue': {
 						type: 'object',
@@ -176,7 +179,7 @@ class SupportThreadBase extends React.Component {
 				},
 				additionalProperties: true
 			}),
-			core.sdk.query({
+			sdk.query({
 				$$links: {
 					'support thread is attached to issue': {
 						type: 'object',
@@ -473,15 +476,22 @@ class SupportThreadBase extends React.Component {
 
 const mapStateToProps = (state) => {
 	return {
-		allUsers: store.selectors.getAllUsers(state),
-		accounts: store.selectors.getAccounts(state),
-		types: store.selectors.getTypes(state)
+		allUsers: selectors.getAllUsers(state),
+		accounts: selectors.getAccounts(state),
+		types: selectors.getTypes(state)
 	}
 }
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: redux.bindActionCreators(store.actionCreators, dispatch)
+		actions: redux.bindActionCreators(
+			_.pick(actionCreators, [
+				'addChannel',
+				'addNotification',
+				'removeChannel'
+			]),
+			dispatch
+		)
 	}
 }
 

@@ -13,8 +13,12 @@ const redux = require('redux')
 const rendition = require('rendition')
 const uuid = require('uuid/v4')
 const Event = require('../../components/Event').default
-const core = require('../../core')
-const store = require('../../core/store')
+const {
+	actionCreators,
+	analytics,
+	sdk,
+	selectors
+} = require('../../core')
 const helpers = require('../../services/helpers')
 const AutocompleteTextarea = require('../../shame/AutocompleteTextarea')
 const Column = require('../../shame/Column').default
@@ -60,9 +64,9 @@ class SupportThreadTimelineRenderer extends React.Component {
 					}
 				}
 			}
-			core.sdk.card.create(message)
+			sdk.card.create(message)
 				.then(() => {
-					core.analytics.track('element.create', {
+					analytics.track('element.create', {
 						element: {
 							type: 'whisper'
 						}
@@ -179,9 +183,9 @@ class SupportThreadTimelineRenderer extends React.Component {
 			})
 		})
 
-		core.sdk.event.create(message)
+		sdk.event.create(message)
 			.then(() => {
-				core.analytics.track('element.create', {
+				analytics.track('element.create', {
 					element: {
 						type: message.type
 					}
@@ -326,13 +330,15 @@ class SupportThreadTimelineRenderer extends React.Component {
 exports.Renderer = SupportThreadTimelineRenderer
 const mapStateToProps = (state) => {
 	return {
-		allUsers: store.selectors.getAllUsers(state),
-		user: store.selectors.getCurrentUser(state)
+		allUsers: selectors.getAllUsers(state),
+		user: selectors.getCurrentUser(state)
 	}
 }
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: redux.bindActionCreators(store.actionCreators, dispatch)
+		actions: {
+			addNotification: redux.bindActionCreators(actionCreators.addNotification, dispatch)
+		}
 	}
 }
 const lens = {

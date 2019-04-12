@@ -19,7 +19,10 @@ const CardActions = require('../components/CardActions')
 const CardField = require('../components/CardField').default
 const Label = require('../components/Label')
 const Tag = require('../components/Tag')
-const store = require('../core/store')
+const {
+	actionCreators,
+	selectors
+} = require('../core')
 const helpers = require('../services/helpers')
 const link = require('../services/link')
 const Timeline = require('./Timeline')
@@ -256,13 +259,20 @@ class Base extends React.Component {
 }
 const mapStateToProps = (state) => {
 	return {
-		allUsers: store.selectors.getAllUsers(state),
-		types: store.selectors.getTypes(state)
+		allUsers: selectors.getAllUsers(state),
+		types: selectors.getTypes(state)
 	}
 }
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: redux.bindActionCreators(store.actionCreators, dispatch)
+		actions: redux.bindActionCreators(
+			_.pick(actionCreators, [
+				'addChannel',
+				'addNotification',
+				'removeChannel'
+			]),
+			dispatch
+		)
 	}
 }
 exports.Renderer = connect(mapStateToProps, mapDispatchToProps)(Base)
