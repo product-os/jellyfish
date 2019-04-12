@@ -204,8 +204,8 @@ build-ui:
 lint:
 	./node_modules/.bin/eslint --ext .js,.jsx $(ESLINT_OPTION_FIX) \
 		lib apps scripts test stress webpack.config.js
-	./scripts/check-filenames.sh
-	shellcheck ./scripts/*.sh ./scripts/ci/*.sh ./.circleci/*.sh ./deploy-templates/*.sh
+	./scripts/lint/check-filenames.sh
+	shellcheck ./scripts/*.sh ./scripts/*/*.sh ./.circleci/*.sh ./deploy-templates/*.sh
 	./node_modules/.bin/deplint
 	./node_modules/.bin/depcheck --ignore-bin-package --ignores=@storybook/*
 

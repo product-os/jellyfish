@@ -1,5 +1,0 @@
-#!/bin/sh
-
-set -e
-
-PGPASSWORD="$POSTGRES_PASSWORD" psql "$POSTGRES_DATABASE" --host="$POSTGRES_HOST" --username="$POSTGRES_USER"

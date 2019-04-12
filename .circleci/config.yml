@@ -265,10 +265,10 @@ jobs:
 
       - run:
           name: Flaky UI Tests (production bundle)
-          command: make build-ui NODE_ENV=production && ./scripts/flaky-ui-tests.sh
+          command: make build-ui NODE_ENV=production && ./scripts/ci/flaky-ui-tests.sh
       - run:
           name: Flaky UI Tests (debug bundle)
-          command: make build-ui NODE_ENV=test && ./scripts/flaky-ui-tests.sh
+          command: make build-ui NODE_ENV=test && ./scripts/ci/flaky-ui-tests.sh
 
       # Store artifacts for debugging purposes
       - store_test_results:
@@ -291,7 +291,7 @@ jobs:
           command: make build-ui NODE_ENV=test && mkdir -p /tmp/test-results && cp webpack-bundle-report.html /tmp/test-results/webpack-bundle-report.html
       - run:
           name: Generate Coverage Results
-          command: make --silent coverage > COVERAGE && mkdir -p /tmp/test-results && cp -rf coverage /tmp/test-results
+          command: make coverage && mkdir -p /tmp/test-results && cp -rf coverage /tmp/test-results
       - run:
           name: Git Stats
           command: gitstats . /tmp/test-results/gitstats
@@ -309,7 +309,7 @@ jobs:
 
       - run:
           name: Post PR Summary
-          command: GITHUB_TOKEN=$INTEGRATION_GITHUB_TOKEN node scripts/github-pr-summary.js $CIRCLE_PULL_REQUEST ./SUMMARY
+          command: GITHUB_TOKEN=$INTEGRATION_GITHUB_TOKEN node scripts/ci/github-pr-summary.js $CIRCLE_PULL_REQUEST ./SUMMARY
 
   eslint_jellyfish:
     <<: *job_defaults

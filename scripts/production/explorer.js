@@ -5,7 +5,7 @@
  */
 
 const pgp = require('pg-promise')()
-const environment = require('../lib/environment')
+const environment = require('../../lib/environment')
 
 const COMMAND = process.argv[2]
 const ARGUMENT = process.argv[3]

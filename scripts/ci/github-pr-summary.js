@@ -9,7 +9,7 @@
 const fs = require('fs')
 const _ = require('lodash')
 const Octokit = require('@octokit/rest')
-const packageJSON = require('../package.json')
+const packageJSON = require('../../package.json')
 
 const OWNER = 'balena-io'
 const REPO = 'jellyfish'
