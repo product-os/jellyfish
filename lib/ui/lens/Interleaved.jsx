@@ -50,13 +50,10 @@ class Interleaved extends React.Component {
 			}
 		}
 		this.openChannel = (target) => {
-			// If a card is not provided, see if a matching card can be found from this
-			// component's state/props
-			const newChannel = helpers.createChannel({
+			this.props.actions.addChannel({
 				target,
 				parentChannel: this.props.channel.id
 			})
-			this.props.actions.addChannel(newChannel)
 		}
 		this.addThread = (event) => {
 			event.preventDefault()

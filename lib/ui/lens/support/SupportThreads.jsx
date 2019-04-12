@@ -18,7 +18,6 @@ import {
 	actionCreators,
 	selectors
 } from '../../core'
-import * as helpers from '../../services/helpers'
 import * as storeHelpers from '../../services/store-helpers'
 import Column from '../../shame/Column'
 import Icon from '../../shame/Icon'
@@ -35,13 +34,11 @@ export class SupportThreads extends React.Component {
 			const card = obj || _.find(this.props.tail || [], {
 				id: target
 			})
-			const newChannel = helpers.createChannel({
+			this.props.actions.addChannel({
 				cardType: card.type,
 				target,
-				head: card,
 				parentChannel: this.props.channel.id
 			})
-			this.props.actions.addChannel(newChannel)
 		}
 		this.state = {
 			creatingCard: false,

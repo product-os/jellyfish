@@ -27,7 +27,6 @@ import {
 	actionCreators,
 	selectors
 } from '../core'
-import * as helpers from '../services/helpers'
 import {
 	TailStreamer
 } from './TailStreamer'
@@ -308,13 +307,13 @@ class HomeChannelBase extends TailStreamer {
 		if (this.props.viewNotices[card.id]) {
 			this.props.actions.removeViewNotice(card.id)
 		}
-		this.props.actions.addChannel(helpers.createChannel({
+		this.props.actions.addChannel({
 			target: card.id,
 			cardType: 'view',
 			head: card,
 			parentChannel: this.props.channel.id,
 			options
-		}))
+		})
 	}
 
 	shouldComponentUpdate (nextProps, nextState) {

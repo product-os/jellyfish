@@ -17,7 +17,6 @@ const {
 	sdk,
 	selectors
 }	= require('../core')
-const helpers = require('../services/helpers')
 const urlManager = require('../services/url-manager')
 const CardLinker = require('./CardLinker')
 const ContextMenu = require('./ContextMenu')
@@ -60,7 +59,7 @@ class Base extends React.Component {
 			})
 		}
 		this.openEditChannel = () => {
-			this.props.actions.addChannel(helpers.createChannel({
+			this.props.actions.addChannel({
 				head: {
 					action: 'edit',
 					types: this.props.types,
@@ -70,7 +69,7 @@ class Base extends React.Component {
 					}
 				},
 				canonical: false
-			}))
+			})
 		}
 
 		// Omit known computed values from the schema

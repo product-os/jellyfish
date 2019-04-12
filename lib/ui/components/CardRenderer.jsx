@@ -107,12 +107,12 @@ class Base extends React.Component {
 			const {
 				card
 			} = this.props
-			this.props.actions.addChannel(helpers.createChannel({
+			this.props.actions.addChannel({
 				target: card.id,
 				cardType: card.type,
 				head: card,
 				parentChannel: this.props.channel.id
-			}))
+			})
 		}
 		this.delete = () => {
 			const {

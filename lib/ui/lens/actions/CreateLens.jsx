@@ -168,10 +168,10 @@ class CreateLens extends React.Component {
 		}
 
 		if (onDone.action === 'open') {
-			this.props.actions.addChannel(helpers.createChannel({
+			this.props.actions.addChannel({
 				cardType: newCard.type,
 				target: newCard.id
-			}))
+			})
 
 			this.close()
 

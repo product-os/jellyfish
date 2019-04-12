@@ -70,7 +70,7 @@ class CardList extends React.Component {
 			fixedWidth: true
 		})
 		this.openCreateChannel = () => {
-			this.props.actions.addChannel(helpers.createChannel({
+			this.props.actions.addChannel({
 				head: {
 					action: 'create',
 					types: this.props.type,
@@ -80,7 +80,7 @@ class CardList extends React.Component {
 					}
 				},
 				canonical: false
-			}))
+			})
 		}
 	}
 	componentWillUpdate ({
@@ -92,11 +92,11 @@ class CardList extends React.Component {
 		}
 	}
 	openChannel (card) {
-		this.props.actions.addChannel(helpers.createChannel({
+		this.props.actions.addChannel({
 			target: card.id,
 			cardType: card.type,
 			parentChannel: this.props.channel.id
-		}))
+		})
 	}
 	getSeedData () {
 		const {
