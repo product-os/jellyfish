@@ -220,6 +220,7 @@ const getTrigger = _.memoize(() => {
 
 				const cards = await sdk.query({
 					type: 'object',
+					description: `Tag that matches ${matcher}`,
 					properties: {
 						type: {
 							const: 'tag'

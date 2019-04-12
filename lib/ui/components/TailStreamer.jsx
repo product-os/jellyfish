@@ -41,6 +41,8 @@ class TailStreamer extends React.Component {
 		if (!schema) {
 			return
 		}
+
+		schema.description = schema.description || 'Tail streamer'
 		this.stream = await sdk.stream(schema)
 
 		// Set the initial tail once a stream is ready, to minimize risk of missing
