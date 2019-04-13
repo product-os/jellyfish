@@ -2673,7 +2673,7 @@ ava('.unlock() should be able to let other owner take the same slug', async (tes
 	test.is(lockResult2, 'locktest-1234')
 })
 
-ava('.getPendingRequests() should return an unexecuted action request', async (test) => {
+ava('.query() should return an unexecuted action request', async (test) => {
 	const date = new Date()
 	const request = await test.context.kernel.insertCard(
 		test.context.context, test.context.kernel.sessions.admin, {
@@ -2703,26 +2703,26 @@ ava('.getPendingRequests() should return an unexecuted action request', async (t
 			}
 		})
 
-	const wait = async (expected, times = 10) => {
-		const result = await test.context.kernel.getPendingRequests(
-			test.context.context, test.context.kernel.sessions.admin)
-		if (result.length >= expected) {
-			return result
-		}
+	const result = await test.context.kernel.query(
+		test.context.context, test.context.kernel.sessions.admin, {
+			type: 'object',
+			additionalProperties: true,
+			required: [ 'type' ],
+			$$links: {
+				'is executed by': null
+			},
+			properties: {
+				type: {
+					type: 'string',
+					const: 'action-request'
+				}
+			}
+		})
 
-		if (times <= 0) {
-			throw new Error(`Didn't get ${expected} requests in time`)
-		}
-
-		await Bluebird.delay(100)
-		return wait(expected, times - 1)
-	}
-
-	const result = await wait(1)
 	test.deepEqual(result, [ request ])
 })
 
-ava('.getPendingRequests() should be able to limit', async (test) => {
+ava('.query() should be able to limit', async (test) => {
 	const date = new Date()
 	await test.context.kernel.insertCard(
 		test.context.context, test.context.kernel.sessions.admin, {
@@ -2776,15 +2776,41 @@ ava('.getPendingRequests() should be able to limit', async (test) => {
 			}
 		})
 
-	const result1 = await test.context.kernel.getPendingRequests(
+	const result1 = await test.context.kernel.query(
 		test.context.context, test.context.kernel.sessions.admin, {
+			type: 'object',
+			additionalProperties: true,
+			required: [ 'type' ],
+			$$links: {
+				'is executed by': null
+			},
+			properties: {
+				type: {
+					type: 'string',
+					const: 'action-request'
+				}
+			}
+		}, {
 			limit: 1
 		})
 
 	test.is(result1.length, 1)
 
-	const result2 = await test.context.kernel.getPendingRequests(
+	const result2 = await test.context.kernel.query(
 		test.context.context, test.context.kernel.sessions.admin, {
+			type: 'object',
+			additionalProperties: true,
+			required: [ 'type' ],
+			$$links: {
+				'is executed by': null
+			},
+			properties: {
+				type: {
+					type: 'string',
+					const: 'action-request'
+				}
+			}
+		}, {
 			limit: 1,
 			skip: 1
 		})
@@ -2793,7 +2819,7 @@ ava('.getPendingRequests() should be able to limit', async (test) => {
 	test.not(result1[0].slug, result2[0].slug)
 })
 
-ava('.getPendingRequests() should be able to skip', async (test) => {
+ava('.query() should be able to skip', async (test) => {
 	const date = new Date()
 	await test.context.kernel.insertCard(
 		test.context.context, test.context.kernel.sessions.admin, {
@@ -2847,15 +2873,41 @@ ava('.getPendingRequests() should be able to skip', async (test) => {
 			}
 		})
 
-	const result1 = await test.context.kernel.getPendingRequests(
+	const result1 = await test.context.kernel.query(
 		test.context.context, test.context.kernel.sessions.admin, {
+			type: 'object',
+			additionalProperties: true,
+			required: [ 'type' ],
+			$$links: {
+				'is executed by': null
+			},
+			properties: {
+				type: {
+					type: 'string',
+					const: 'action-request'
+				}
+			}
+		}, {
 			skip: 1
 		})
 
 	test.is(result1.length, 1)
 
-	const result2 = await test.context.kernel.getPendingRequests(
+	const result2 = await test.context.kernel.query(
 		test.context.context, test.context.kernel.sessions.admin, {
+			type: 'object',
+			additionalProperties: true,
+			required: [ 'type' ],
+			$$links: {
+				'is executed by': null
+			},
+			properties: {
+				type: {
+					type: 'string',
+					const: 'action-request'
+				}
+			}
+		}, {
 			skip: 0,
 			limit: 1
 		})
