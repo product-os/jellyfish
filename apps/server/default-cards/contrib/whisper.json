@@ -47,6 +47,13 @@
                 }
               },
               "additionalProperties": true
+            },
+            "readBy": {
+              "description": "Users that have seen this message",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             }
           },
           "required": [
