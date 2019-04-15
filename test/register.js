@@ -9,5 +9,7 @@
 // See https://github.com/avajs/ava/blob/master/docs/recipes/babel.md#compile-sources
 
 require('@babel/register')({
-	extensions: [ '.jsx' ]
+	only: [
+		/lib\/ui/
+	]
 })
