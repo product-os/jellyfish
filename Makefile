@@ -272,10 +272,10 @@ start-redis:
 	redis-server --port $(REDIS_PORT)
 
 start-postgres: postgres_data
-	postgres -N 1000 -D $< -p $(POSTGRES_PORT)
+	postgres -N 100 -D $< -p $(POSTGRES_PORT)
 
-start-static: build-ui
-	cd dist && python -m SimpleHTTPServer $(UI_PORT)
+start-static:
+	cd dist && python2 -m SimpleHTTPServer $(UI_PORT)
 
 # -----------------------------------------------
 # Development
