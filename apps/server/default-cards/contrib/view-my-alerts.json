@@ -24,16 +24,14 @@
                 "payload": {
                   "type": "object",
                   "properties": {
-                    "alertsUser": {
-                      "contains": {
-                        "const": {
-                          "$eval": "user.id"
-                        }
+                    "message": {
+                      "pattern": {
+                        "$eval": "'@' + user.slug[5:]"
                       }
                     }
                   },
                   "required": [
-                    "alertsUser"
+                    "message"
                   ],
                   "additionalProperties": true
                 }
