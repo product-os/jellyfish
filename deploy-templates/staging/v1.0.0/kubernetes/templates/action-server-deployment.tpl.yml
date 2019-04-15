@@ -21,13 +21,6 @@ spec:
           preStop:
             exec:
               command: [ 'node', 'scripts/production/lock.js', '/tmp/worker.lock' ]
-        resources:
-          requests:
-            memory: "256Mi"
-            cpu: "300m"
-          limits:
-            memory: "1Gi"
-            cpu: "1000m"
         env:
         - name: POD_NAME
           valueFrom:
