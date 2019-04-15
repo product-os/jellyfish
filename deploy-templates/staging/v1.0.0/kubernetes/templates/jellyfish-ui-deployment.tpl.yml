@@ -32,13 +32,6 @@ spec:
           periodSeconds: 5
           timeoutSeconds: 5
           failureThreshold: 4
-        resources:
-          requests:
-            memory: "128Mi"
-            cpu: "150m"
-          limits:
-            memory: "256Mi"
-            cpu: "500m"
         env:
         - name: POD_NAME
           valueFrom:
