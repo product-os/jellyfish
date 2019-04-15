@@ -160,7 +160,7 @@
     "rendition": "^4.58.2",
     "request-promise": "^4.2.2",
     "response-time": "^2.3.2",
-    "skhema": "5.2.2",
+    "skhema": "^5.2.4",
     "socket.io": "^2.1.0",
     "socket.io-client": "^2.2.0",
     "static-eval": "^2.0.0",
