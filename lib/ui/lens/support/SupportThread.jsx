@@ -118,21 +118,19 @@ class SupportThreadBase extends React.Component {
 	}
 
 	openSupportIssueView () {
-		const newChannel = helpers.createChannel({
+		this.props.actions.addChannel({
 			target: 'view-all-support-issues',
 			cardType: 'view',
 			parentChannel: this.props.channel.id
 		})
-		this.props.actions.addChannel(newChannel)
 	}
 
 	openGitHubIssueView () {
-		const newChannel = helpers.createChannel({
+		this.props.actions.addChannel({
 			target: 'view-all-issues',
 			cardType: 'view',
 			parentChannel: this.props.channel.id
 		})
-		this.props.actions.addChannel(newChannel)
 	}
 
 	setCategory (event) {

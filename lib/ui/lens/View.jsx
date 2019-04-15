@@ -122,12 +122,11 @@ class ViewRenderer extends React.Component {
 						type: 'view'
 					}
 				})
-				this.props.actions.addChannel(helpers.createChannel({
+				this.props.actions.addChannel({
 					cardType: 'view',
 					target: card.id,
-					head: card,
 					parentChannel: this.props.channels[0].id
-				}))
+				})
 			})
 			.catch((error) => {
 				this.props.actions.addNotification('danger', error.message)
@@ -334,12 +333,11 @@ class ViewRenderer extends React.Component {
 		}
 	}
 	openChannel (card) {
-		this.props.actions.addChannel(helpers.createChannel({
+		this.props.actions.addChannel({
 			cardType: card.type,
 			target: card.id,
-			head: card,
 			parentChannel: this.props.channel.id
-		}))
+		})
 	}
 	createView (view) {
 		const newView = _.cloneDeep(this.props.channel.data.head)

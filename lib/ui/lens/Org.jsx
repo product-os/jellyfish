@@ -69,19 +69,18 @@ class Base extends React.Component {
 			const {
 				card
 			} = this.props
-			this.props.actions.addChannel(helpers.createChannel({
+			this.props.actions.addChannel({
 				cardType: card.type,
-				target: card.id,
-				head: card
-			}))
+				target: card.id
+			})
 		}
 		this.openUserChannel = (event) => {
 			event.preventDefault()
 			const id = event.currentTarget.id
-			this.props.actions.addChannel(helpers.createChannel({
+			this.props.actions.addChannel({
 				cardType: 'user',
 				target: id
-			}))
+			})
 		}
 		this.state = {
 			selectedUser: null,

@@ -169,11 +169,10 @@ class Kanban extends React.Component {
 				id: cardId
 			})
 			this.setState({
-				modalChannel: helpers.createChannel({
+				modalChannel: {
 					target: cardId,
-					cardType: card.type,
-					head: card
-				})
+					cardType: card.type
+				}
 			})
 		}
 		this.clearModalChannel = () => {
@@ -186,7 +185,7 @@ class Kanban extends React.Component {
 		}
 
 		this.openCreateChannel = () => {
-			this.props.actions.addChannel(helpers.createChannel({
+			this.props.actions.addChannel({
 				head: {
 					action: 'create',
 					types: this.props.type,
@@ -196,7 +195,7 @@ class Kanban extends React.Component {
 					}
 				},
 				canonical: false
-			}))
+			})
 		}
 	}
 

@@ -457,10 +457,10 @@ class AutoCompleteArea extends React.Component {
 					{_.map(this.state.results, (card) => {
 						return (<div key={card.id}>
 							<ConnectedQuickSearchItem card={card} onClick={() => {
-								store.dispatch(actionCreators.addChannel(helpers.createChannel({
+								store.dispatch(actionCreators.addChannel({
 									target: card.id,
 									cardType: card.type
-								})))
+								}))
 								this.setState({
 									showQuickSearchPanel: false,
 									results: null

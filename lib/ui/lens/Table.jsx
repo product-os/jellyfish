@@ -38,7 +38,7 @@ class CardTable extends React.Component {
 		super(props)
 
 		this.openCreateChannel = () => {
-			this.props.actions.addChannel(helpers.createChannel({
+			this.props.actions.addChannel({
 				head: {
 					action: 'create',
 					types: this.props.type,
@@ -48,16 +48,15 @@ class CardTable extends React.Component {
 					}
 				},
 				canonical: false
-			}))
+			})
 		}
 	}
 	openChannel (card) {
-		this.props.actions.addChannel(helpers.createChannel({
+		this.props.actions.addChannel({
 			cardType: card.type,
 			target: card.id,
-			head: card,
 			parentChannel: this.props.channel.id
-		}))
+		})
 	}
 	getSeedData () {
 		const {

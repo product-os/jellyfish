@@ -115,7 +115,7 @@ class CardLinker extends React.Component {
 		}
 
 		this.openCreateChannel = () => {
-			this.props.actions.addChannel(helpers.createChannel({
+			this.props.actions.addChannel({
 				head: {
 					action: 'create',
 					types: this.getAvailableTypes(),
@@ -128,17 +128,17 @@ class CardLinker extends React.Component {
 					}
 				},
 				canonical: false
-			}))
+			})
 		}
 
 		this.openVisualizeChannel = () => {
-			this.props.actions.addChannel(helpers.createChannel({
+			this.props.actions.addChannel({
 				head: {
 					action: 'visualize-links',
 					card: this.props.card
 				},
 				canonical: false
-			}))
+			})
 		}
 	}
 

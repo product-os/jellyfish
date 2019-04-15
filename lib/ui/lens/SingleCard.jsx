@@ -36,10 +36,10 @@ class SingleCard extends React.Component {
 			const {
 				card
 			} = this.props
-			this.props.actions.addChannel(helpers.createChannel({
+			this.props.actions.addChannel({
 				cardType: card.type,
 				target: card.id
-			}))
+			})
 		}
 	}
 	shouldComponentUpdate (nextProps) {
