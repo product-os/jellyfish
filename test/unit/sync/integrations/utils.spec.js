@@ -31,3 +31,10 @@ ava('.parseHTML() should parse <p>\\n correctly', (test) => {
 	const result = utils.parseHTML(string)
 	test.is(result, expected)
 })
+
+ava('.parseHTML() should parse <code> correctly', (test) => {
+	const string = '<div><p>Foo <code>bar</code> baz</p>\n</div>'
+	const expected = 'Foo `bar` baz'
+	const result = utils.parseHTML(string)
+	test.is(result, expected)
+})
