@@ -563,15 +563,16 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: {
-			addChannel: redux.bindActionCreators(actionCreators.addChannel, dispatch),
-			addNotification: redux.bindActionCreators(actionCreators.addNotification, dispatch),
-			clearViewData: redux.bindActionCreators(actionCreators.clearViewData, dispatch),
-			loadViewResults: redux.bindActionCreators(actionCreators.loadViewResults, dispatch),
-			removeChannel: redux.bindActionCreators(actionCreators.addChannel, dispatch),
-			setViewLens: redux.bindActionCreators(actionCreators.setViewLens, dispatch),
-			streamView: redux.bindActionCreators(actionCreators.streamView, dispatch)
-		}
+		actions: redux.bindActionCreators(
+			_.pick(actionCreators, [
+				'addChannel',
+				'addNotification',
+				'clearViewData',
+				'loadViewResults',
+				'removeChannel',
+				'setViewLens',
+				'streamView'
+			]), dispatch)
 	}
 }
 
