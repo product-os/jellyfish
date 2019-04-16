@@ -47,7 +47,7 @@ const SummaryMessage = styled(Txt) `
 
 export default function SupportThreadSummary (props) {
 	const card = props.card
-	const timeline = _.sortBy(card.links['has attached element'], 'data.timestamp')
+	const timeline = _.sortBy(_.get(card.links, [ 'has attached element' ], []), 'data.timestamp')
 	const messages = _.filter(timeline, (event) => {
 		return event.type === 'message' || event.type === 'whisper'
 	})
