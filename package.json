@@ -157,6 +157,7 @@
     "react-select": "^2.4.2",
     "react-trello": "^1.31.3",
     "react-virtualized": "^9.20.0",
+    "react-visibility-sensor": "^5.0.2",
     "redis": "^2.8.0",
     "redis-mock": "^0.39.0",
     "redux": "^3.7.2",

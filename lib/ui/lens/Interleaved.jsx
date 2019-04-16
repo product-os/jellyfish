@@ -134,6 +134,7 @@ class Interleaved extends React.Component {
 		setTimeout(() => {
 			return this.scrollToBottom()
 		})
+		this.handleCardVisible = this.handleCardVisible.bind(this)
 	}
 	componentWillUpdate () {
 		if (!this.scrollArea) {
@@ -159,6 +160,25 @@ class Interleaved extends React.Component {
 			})
 		}
 	}
+
+	handleCardVisible (card) {
+		const userSlug = this.props.user.slug
+		if (card.type === 'message' || card.type === 'whisper') {
+			const readBy = _.get(card, [ 'data', 'readBy' ], [])
+
+			if (!_.includes(readBy, userSlug)) {
+				readBy.push(userSlug)
+
+				card.data.readBy = readBy
+
+				sdk.card.update(card.id, card)
+					.catch((error) => {
+						console.error(error)
+					})
+			}
+		}
+	}
+
 	render () {
 		const {
 			head
@@ -242,6 +262,7 @@ class Interleaved extends React.Component {
 						return (
 							<rendition.Box key={card.id}>
 								<Event
+									onCardVisible={this.handleCardVisible}
 									openChannel={this.openChannel}
 									card={card}
 								/>
@@ -277,7 +298,8 @@ exports.Interleaved = Interleaved
 
 const mapStateToProps = (state) => {
 	return {
-		allUsers: selectors.getAllUsers(state)
+		allUsers: selectors.getAllUsers(state),
+		user: selectors.getCurrentUser(state)
 	}
 }
 const mapDispatchToProps = (dispatch) => {

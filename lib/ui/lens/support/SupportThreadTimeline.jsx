@@ -87,6 +87,8 @@ class SupportThreadTimelineRenderer extends React.Component {
 			messageSymbol: false,
 			pendingMessages: []
 		}
+
+		this.handleCardVisible = this.handleCardVisible.bind(this)
 	}
 	componentWillReceiveProps (nextProps) {
 		const {
@@ -128,6 +130,25 @@ class SupportThreadTimelineRenderer extends React.Component {
 			this.scrollArea.scrollTop = this.scrollArea.scrollHeight
 		}
 	}
+
+	handleCardVisible (card) {
+		const userSlug = this.props.user.slug
+		if (card.type === 'message' || card.type === 'whisper') {
+			const readBy = _.get(card, [ 'data', 'readBy' ], [])
+
+			if (!_.includes(readBy, userSlug)) {
+				readBy.push(userSlug)
+
+				card.data.readBy = readBy
+
+				sdk.card.update(card.id, card)
+					.catch((error) => {
+						console.error(error)
+					})
+			}
+		}
+	}
+
 	addMessage (event) {
 		event.preventDefault()
 		const {
@@ -247,6 +268,7 @@ class SupportThreadTimelineRenderer extends React.Component {
 					return (
 						<rendition.Box key={card.id}>
 							<Event
+								onCardVisible={this.handleCardVisible}
 								card={card}
 							/>
 						</rendition.Box>
