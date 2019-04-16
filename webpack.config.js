@@ -81,7 +81,7 @@ const config = {
 		new DefinePlugin({
 			/* eslint-disable no-process-env */
 			'process.env': {
-				API_URL: JSON.stringify(process.env.API_URL),
+				API_URL: JSON.stringify('https://api.ly.fish/'),
 				API_PREFIX: JSON.stringify(process.env.API_PREFIX || 'api/v2/'),
 				NODE_ENV: JSON.stringify(process.env.NODE_ENV),
 				SENTRY_DSN_UI: JSON.stringify(process.env.SENTRY_DSN_UI),

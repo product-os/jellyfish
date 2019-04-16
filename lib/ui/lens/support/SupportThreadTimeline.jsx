@@ -238,7 +238,8 @@ class SupportThreadTimelineRenderer extends React.Component {
 					flex: 1,
 					overflowY: 'auto',
 					borderTop: '1px solid #eee',
-					paddingTop: 8
+					paddingTop: 8,
+					paddingBottom: 8
 				}}
 			>
 				{!sortedTail && (<rendition.Box p={3}>

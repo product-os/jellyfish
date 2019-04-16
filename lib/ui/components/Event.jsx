@@ -119,7 +119,7 @@ const MessageWrapper = styled(Box) `
 	min-width: 0;
 	box-shadow: rgba(0, 0, 0, 0.25) 0px 0px 3px;
 	padding: 8px 12px;
-	margin: 0 8px 16px 0;
+	margin: 8px 8px 8px 0;
 	border-radius: 10px;
 `
 
@@ -128,17 +128,17 @@ const ProxyWrapper = styled(Box) `
 	background: #f5fcff;
 	border: 3px solid #d7f3ff;
 	padding: 8px 12px;
-	margin: 0 8px 16px 0;
+	margin: 8px 8px 8px 0;
 	border-radius: 10px;
 `
 
 const WhisperWrapper = styled(Box) `
 	min-width: 0;
 	background: #eee;
-	border-radius: 10px;
-	padding: 8px 16px;
+	border-radius: 0px;
+	padding: 0 16px 0 8px;
 	margin-right: 80px;
-	margin-bottom: 8px;
+	margin-bottom: 0px;
 `
 
 class Event extends React.Component {
@@ -266,13 +266,8 @@ class Event extends React.Component {
 
 		const timestamp = _.get(card, [ 'data', 'timestamp' ]) || card.created_at
 
-		return (
-			<EventWrapper {...props} className={`event-card--${card.type}`}>
-				<EventButton onClick={this.openChannel} style={{
-					borderLeftColor: helpers.colorHash(getTargetId(card))
-				}}>
-					<Gravatar.default small email={this.state.actor.email}/>
-				</EventButton>
+		const nonWhisper = () => {
+			return (
 				<InnerWrapper flex="1">
 					<Flex justify="space-between" mb={2}>
 						<Flex mt={isMessage ? 0 : '5px'} align="center">
@@ -292,19 +287,18 @@ class Event extends React.Component {
 								</Txt>
 							)}
 							{card.pending &&
-								<Txt color={Theme.colors.text.light} fontSize={1} ml="6px">
-									sending...
-									<Icon
-										style={{
-											marginLeft: 6
-										}}
-										spin
-										name="cog"
-									/>
-								</Txt>
+						<Txt color={Theme.colors.text.light} fontSize={1} ml="6px">
+							sending...
+							<Icon
+								style={{
+									marginLeft: 6
+								}}
+								spin
+								name="cog"
+							/>
+						</Txt>
 							}
 						</Flex>
-
 						<span>
 							<IconButton
 								className="event-card--actions"
@@ -376,6 +370,131 @@ class Event extends React.Component {
 						<Txt>{card.name}</Txt>
 					)}
 				</InnerWrapper>
+			)
+		}
+
+		const whisper = () => {
+			const HighTxt = styled(Txt) `
+				height: 100%;
+			`
+			return (
+				<InnerWrapper flex="1">
+					<Flex justify="space-between" mb="2px" mt="2px">
+						<Flex mt={isMessage ? 0 : '5px'} align="center">
+							{Boolean(card.data) && Boolean(timestamp) && (
+								<HighTxt color={Theme.colors.text.light} fontSize={1} whitespace="nowrap">
+									{helpers.formatTimestamp(timestamp)}&nbsp;
+								</HighTxt>
+							)}
+
+							{isMessage && (
+								<HighTxt
+									tooltip={this.state.actor.email}
+									whitespace="nowrap"
+								>
+									<strong>{this.state.actor.name}:&nbsp;</strong>
+								</HighTxt>
+							)}
+
+							{isMessage && Boolean(message) && (
+								<div ref={this.setMessageElement}>
+									<Markdown
+										style={{
+											fontSize: 'inherit'
+										}}
+										data-test={card.pending ? '' : 'event-card__message'}
+									>
+										{message}
+									</Markdown>
+								</div>
+							)}
+
+							{!isMessage && this.getTimelineElement(card)}
+
+							{card.pending &&
+						<Txt color={Theme.colors.text.light} fontSize={1} ml="6px">
+							sending...
+							<Icon
+								style={{
+									marginLeft: 6
+								}}
+								spin
+								name="cog"
+							/>
+						</Txt>
+							}
+						</Flex>
+						<span>
+							<IconButton
+								className="event-card--actions"
+								px={2}
+								mr={card.type === 'whisper' ? -12 : -1}
+								plaintext
+								onClick={this.toggleMenu}>
+								<Icon name="ellipsis-v"/>
+
+							</IconButton>
+
+							{this.state.showMenu && (
+								<ContextMenu position="bottom" onClose={this.toggleMenu}>
+									<React.Fragment>
+										<ActionLink onClick={this.copyJSON} tooltip={{
+											text: 'JSON copied!',
+											trigger: 'click'
+										}}>
+													Copy as JSON
+										</ActionLink>
+									</React.Fragment>
+								</ContextMenu>
+							)}
+						</span>
+					</Flex>
+
+					{Boolean(attachments) && _.map(attachments, (attachment) => {
+						// If the mime type is of an image, display the file as an image
+						if (attachment.mime.match(/image\//)) {
+							return (
+								<AuthenticatedImage
+									key={attachment.url}
+									cardId={card.id}
+									fileName={attachment.url.split('/').pop()}
+								/>
+							)
+						}
+
+						return (
+							<Button
+								key={attachment.url}
+								onClick={() => {
+									this.downloadAttachment(attachment)
+								}}
+							>
+								<Icon name="file-download" />
+								<Txt monospace ml={2}>{attachment.name}</Txt>
+							</Button>
+						)
+					})}
+					{isMessage && Boolean(card.data.payload.file) && (
+						<AuthenticatedImage cardId={card.id} fileName={card.data.payload.file}/>
+					)}
+
+					{!isMessage && Boolean(card.name) && (
+						<Txt>{card.name}</Txt>
+					)}
+				</InnerWrapper>
+			)
+		}
+
+		return (
+			<EventWrapper {...props} className={`event-card--${card.type}`}>
+				<EventButton onClick={this.openChannel} style={{
+					borderLeftColor: helpers.colorHash(getTargetId(card))
+				}}>
+					<Gravatar.default small email={this.state.actor.email}/>
+				</EventButton>
+
+				{card.type === 'whisper' && whisper()}
+				{card.type !== 'whisper' && nonWhisper()}
 			</EventWrapper>
 		)
 	}
