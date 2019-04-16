@@ -7,6 +7,7 @@
 /* global process */
 /* eslint-disable no-process-env */
 import ReactTextareaAutocomplete from '@webscopeio/react-textarea-autocomplete'
+import emoji from 'node-emoji'
 import * as _ from 'lodash'
 import React from 'react'
 import TextareaAutosize from 'react-autosize-textarea'
@@ -114,36 +115,30 @@ const Container = styled(Box) `
 	}
 `
 const AutocompleteItem = ({
-	entity: {
-		char, name
-	}
+	entity
 }) => {
-	return <div>{`${name}: ${char}`}</div>
+	return (
+		<Flex
+			style={{
+				minWidth: 160
+			}}
+		>
+			<Txt mr={3}>{entity.emoji}</Txt>
+			<Txt>:{entity.key}:</Txt>
+		</Flex>
+	)
 }
-const baseData = [
-	{
-		name: 'smile', char: '🙂'
-	},
-	{
-		name: 'heart', char: '❤️'
-	},
-	{
-		name: '+1', char: '👍'
-	}
-]
 const getTrigger = _.memoize(() => {
 	return {
 		':': {
 			dataProvider: (token) => {
 				if (!token) {
-					return baseData
+					return []
 				}
-				return baseData.filter(({
-					name
-				}) => { return _.startsWith(name, token) })
+				return emoji.search(token).slice(0, 10)
 			},
 			component: AutocompleteItem,
-			output: (item) => { return item.char }
+			output: (item) => { return item.emoji }
 		},
 		'@': {
 			dataProvider: (token) => {
