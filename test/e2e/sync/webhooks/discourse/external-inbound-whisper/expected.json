@@ -1,0 +1,96 @@
+{
+  "head": {
+    "name": "External topic whisper test",
+    "type": "support-thread",
+    "version": "1.0.0",
+    "active": true,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "environment": "production",
+      "inbox": "S/Forums",
+      "mirrors": [
+        "https://forums.balena.io/t/external-topic-whisper-test/6056"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "",
+      "status": "open"
+    }
+  },
+  "tail": [
+    {
+      "type": "create",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": "account-goetted",
+        "timestamp": "2019-04-16T15:10:13.324Z",
+        "payload": {
+          "name": "External topic whisper test",
+          "type": "support-thread",
+          "version": "1.0.0",
+          "active": true,
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "environment": "production",
+            "inbox": "S/Forums",
+            "mirrors": [
+              "https://forums.balena.io/t/external-topic-whisper-test/6056"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open"
+          }
+        }
+      }
+    },
+    {
+      "type": "message",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": "account-goetted",
+        "mirrors": [
+          "https://forums.balena.io/t/external-topic-whisper-test/6056/1"
+        ],
+        "timestamp": "2019-04-16T15:16:30.462Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "Description Foo bar baz"
+        }
+      }
+    },
+    {
+      "type": "whisper",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": "user-jviotti",
+        "mirrors": [
+          "https://forums.balena.io/t/external-topic-whisper-test/6056/2"
+        ],
+        "timestamp": "2019-04-16T15:16:50.403Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "Test whisper"
+        }
+      }
+    }
+  ]
+}

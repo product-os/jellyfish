@@ -1,0 +1,96 @@
+{
+  "head": {
+    "name": "Inbound message delete test",
+    "type": "support-thread",
+    "version": "1.0.0",
+    "active": true,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "environment": "production",
+      "inbox": "S/Forums",
+      "mirrors": [
+        "https://forums.balena.io/t/inbound-message-delete-test/6069"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "",
+      "status": "open"
+    }
+  },
+  "tail": [
+    {
+      "type": "create",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": "user-jviotti",
+        "timestamp": "2019-04-16T15:37:05.317Z",
+        "payload": {
+          "name": "Inbound message delete test",
+          "type": "support-thread",
+          "version": "1.0.0",
+          "active": true,
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "environment": "production",
+            "inbox": "S/Forums",
+            "mirrors": [
+              "https://forums.balena.io/t/inbound-message-delete-test/6069"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open"
+          }
+        }
+      }
+    },
+    {
+      "type": "message",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": "user-jviotti",
+        "mirrors": [
+          "https://forums.balena.io/t/inbound-message-delete-test/6069/1"
+        ],
+        "timestamp": "2019-04-16T15:37:05.317Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "Foo Bar Baz 99999999"
+        }
+      }
+    },
+    {
+      "type": "message",
+      "active": false,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": "user-jviotti",
+        "mirrors": [
+          "https://forums.balena.io/t/inbound-message-delete-test/6069/2"
+        ],
+        "timestamp": "2019-04-16T15:37:13.455Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "Message 1"
+        }
+      }
+    }
+  ]
+}

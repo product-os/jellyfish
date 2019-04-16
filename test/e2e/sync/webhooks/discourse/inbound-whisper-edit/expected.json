@@ -1,0 +1,96 @@
+{
+  "head": {
+    "name": "Inbound edit whisper test 2",
+    "type": "support-thread",
+    "version": "1.0.0",
+    "active": true,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "environment": "production",
+      "inbox": "S/Forums",
+      "mirrors": [
+        "https://forums.balena.io/t/inbound-edit-whisper-test-2/6058"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "",
+      "status": "open"
+    }
+  },
+  "tail": [
+    {
+      "type": "create",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": "user-jviotti",
+        "timestamp": "2019-04-16T15:35:50.533Z",
+        "payload": {
+          "name": "Inbound edit whisper test 2",
+          "type": "support-thread",
+          "version": "1.0.0",
+          "active": true,
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "environment": "production",
+            "inbox": "S/Forums",
+            "mirrors": [
+              "https://forums.balena.io/t/inbound-edit-whisper-test-2/6058"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open"
+          }
+        }
+      }
+    },
+    {
+      "type": "message",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": "user-jviotti",
+        "mirrors": [
+          "https://forums.balena.io/t/inbound-edit-whisper-test-2/6058/1"
+        ],
+        "timestamp": "2019-04-16T15:35:50.533Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "Device Type test test test"
+        }
+      }
+    },
+    {
+      "type": "whisper",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": "user-jviotti",
+        "mirrors": [
+          "https://forums.balena.io/t/inbound-edit-whisper-test-2/6058/2"
+        ],
+        "timestamp": "2019-04-16T15:35:57.983Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "My whisper edit"
+        }
+      }
+    }
+  ]
+}
