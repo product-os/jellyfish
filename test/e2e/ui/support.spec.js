@@ -61,7 +61,6 @@ ava.serial('Updates to support threads should be reflected in the support thread
 	await macros.waitForThenClickSelector(page, '[data-test="home-channel__item--view-all-support-threads"]')
 
 	await page.waitForSelector('.column--view-all-support-threads')
-	await page.click('.column--view-all-support-threads')
 
 	await page.click('[data-test="lens-selector--lens-support-threads"]')
 
@@ -106,6 +105,7 @@ ava.serial('You should be able to link support threads to existing support issue
 	}, name)
 
 	await page.waitForSelector('[data-test="card-linker-action"]')
+
 	await page.click('[data-test="card-linker-action"]')
 
 	await page.waitForSelector('[data-test="card-linker-action--existing"]')

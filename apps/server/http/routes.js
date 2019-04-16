@@ -407,7 +407,14 @@ module.exports = (application, jellyfish, worker, queue) => {
 				// Upload magic
 				request.files.forEach((file) => {
 					const name = `${id}.${file.originalname}`
-					_.set(action.arguments.properties, file.fieldname, name)
+
+					_.set(action.arguments.payload, file.fieldname, {
+						name: file.originalname,
+						slug: name,
+						mime: file.mimetype,
+						bytesize: file.buffer.byteLength
+					})
+
 					files.push({
 						buffer: file.buffer,
 						name

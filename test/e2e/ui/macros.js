@@ -11,6 +11,18 @@ exports.WAIT_OPTS = {
 	timeout: 60 * 1000
 }
 
+// Useful for debugging failed tests
+exports.screenshot = async (test, page) => {
+	test.context.screenshots = (test.context.screenshots || 0) + 1
+	const dir = '/tmp/test-results/screenshots'
+	const file = `${test.title}.${test.context.screenshots}.png`
+	const path = `${dir}/${file}`
+	await page.screenshot({
+		path
+	})
+	console.log(`Saved screenshot: ${file}`)
+}
+
 exports.retry = async (times, functionToTry) => {
 	try {
 		return functionToTry()

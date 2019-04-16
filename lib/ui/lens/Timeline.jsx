@@ -271,7 +271,13 @@ class TimelineRenderer extends React.Component {
 							/>
 						</rendition.Box>
 
-						<rendition.Button square mr={3} mt={3} onClick={this.handleUploadButtonClick}>
+						<rendition.Button
+							square
+							mr={3}
+							mt={3}
+							data-test="file-upload-button"
+							onClick={this.handleUploadButtonClick}
+						>
 							<Icon.default name="image"/>
 						</rendition.Button>
 

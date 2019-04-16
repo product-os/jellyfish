@@ -32,22 +32,23 @@ module.exports = class LocalFS {
 
 	retrieve (scope, name, retries = 0) {
 		return new Bluebird((resolve, reject) => {
-			fs.readFile(path.join(this.STORAGE_DIR, scope, name), async (err, data) => {
+			fs.readFile(path.join(this.STORAGE_DIR, scope, name), (err, data) => {
 				if (err) {
-					if (retries < this.numberOfRetries) {
-						return Bluebird.delay(100)
-							.then(() => {
-								return this.retrieve(scope, name, retries + 1)
-							})
-							.then((file) => {
-								resolve(file)
-							})
-					}
 					return reject(err)
 				}
 
 				return resolve(data)
 			})
 		})
+			.catch((err) => {
+				if (retries < this.numberOfRetries) {
+					return Bluebird.delay(100)
+						.then(() => {
+							return this.retrieve(scope, name, retries + 1)
+						})
+				}
+
+				throw err
+			})
 	}
 }
