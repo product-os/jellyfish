@@ -1,6 +1,6 @@
 {
   "head": {
-    "name": "Inbound edit whisper test 2",
+    "name": "Whisper edition test",
     "type": "support-thread",
     "version": "1.0.0",
     "active": true,
@@ -11,7 +11,7 @@
       "environment": "production",
       "inbox": "S/Forums",
       "mirrors": [
-        "https://forums.balena.io/t/6068"
+        "https://forums.balena.io/t/6105"
       ],
       "mentionsUser": [],
       "alertsUser": [],
@@ -29,9 +29,9 @@
       "capabilities": [],
       "data": {
         "actor": "user-jviotti",
-        "timestamp": "2019-04-16T15:35:50.533Z",
+        "timestamp": "2019-04-17T15:18:58.306Z",
         "payload": {
-          "name": "Inbound edit whisper test 2",
+          "name": "Whisper edition test",
           "type": "support-thread",
           "version": "1.0.0",
           "active": true,
@@ -42,7 +42,7 @@
             "environment": "production",
             "inbox": "S/Forums",
             "mirrors": [
-              "https://forums.balena.io/t/6068"
+              "https://forums.balena.io/t/6105"
             ],
             "mentionsUser": [],
             "alertsUser": [],
@@ -62,13 +62,13 @@
       "data": {
         "actor": "user-jviotti",
         "mirrors": [
-          "https://forums.balena.io/t/6068/1"
+          "https://forums.balena.io/t/6105/1"
         ],
-        "timestamp": "2019-04-16T15:35:50.533Z",
+        "timestamp": "2019-04-17T15:18:58.306Z",
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "Device Type test test test"
+          "message": "Test 0000000000000000"
         }
       }
     },
@@ -82,13 +82,13 @@
       "data": {
         "actor": "user-jviotti",
         "mirrors": [
-          "https://forums.balena.io/t/6068/2"
+          "https://forums.balena.io/t/6105/2"
         ],
-        "timestamp": "2019-04-16T15:35:57.983Z",
+        "timestamp": "2019-04-17T15:19:14.219Z",
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "My whisper edit"
+          "message": "Edited whisper"
         }
       }
     }

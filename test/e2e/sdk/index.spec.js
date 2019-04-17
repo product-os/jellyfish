@@ -1108,8 +1108,11 @@ ava.serial('should broadcast github issue links', async (test) => {
 		type: issue.type
 	})
 
-	const broadcast = _.last(fullCard.links['has attached element'])
-	test.is(broadcast.type, 'message')
+	const broadcast = _.find(fullCard.links['has attached element'], {
+		type: 'message'
+	})
+
+	test.truthy(broadcast)
 	test.is(broadcast.data.payload.message,
 		`This issue has attached support thread https://jel.ly.fish/#/support-thread~${thread.id}`)
 })
