@@ -11,7 +11,7 @@
       "environment": "production",
       "inbox": "S/Forums",
       "mirrors": [
-        "https://forums.balena.io/t/inbound-with-image/6075"
+        "https://forums.balena.io/t/6075"
       ],
       "mentionsUser": [],
       "alertsUser": [],
@@ -42,7 +42,7 @@
             "environment": "production",
             "inbox": "S/Forums",
             "mirrors": [
-              "https://forums.balena.io/t/inbound-with-image/6075"
+              "https://forums.balena.io/t/6075"
             ],
             "mentionsUser": [],
             "alertsUser": [],
@@ -62,13 +62,13 @@
       "data": {
         "actor": "user-jviotti",
         "mirrors": [
-          "https://forums.balena.io/t/inbound-with-image/6075/1"
+          "https://forums.balena.io/t/6075/1"
         ],
         "timestamp": "2019-04-16T15:44:03.167Z",
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "![](https://forums.balena.io/uploads/balena/original/2X/1/1105c95e7f862b9b5372d1691f9f5e9cd434eb5b.png)"
+          "message": "![46](https://forums.balena.io/uploads/balena/original/2X/1/1105c95e7f862b9b5372d1691f9f5e9cd434eb5b.png)"
         }
       }
     }

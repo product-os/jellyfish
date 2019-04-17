@@ -11,7 +11,7 @@
       "environment": "production",
       "inbox": "S/Forums",
       "mirrors": [
-        "https://forums.balena.io/t/inbound-with-file/6076"
+        "https://forums.balena.io/t/6076"
       ],
       "mentionsUser": [],
       "alertsUser": [],
@@ -42,7 +42,7 @@
             "environment": "production",
             "inbox": "S/Forums",
             "mirrors": [
-              "https://forums.balena.io/t/inbound-with-file/6076"
+              "https://forums.balena.io/t/6076"
             ],
             "mentionsUser": [],
             "alertsUser": [],
@@ -62,7 +62,7 @@
       "data": {
         "actor": "user-jviotti",
         "mirrors": [
-          "https://forums.balena.io/t/inbound-with-file/6076/1"
+          "https://forums.balena.io/t/6076/1"
         ],
         "timestamp": "2019-04-16T15:44:44.723Z",
         "payload": {

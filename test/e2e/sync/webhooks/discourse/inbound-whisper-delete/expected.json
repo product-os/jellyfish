@@ -11,7 +11,7 @@
       "environment": "production",
       "inbox": "S/Forums",
       "mirrors": [
-        "https://forums.balena.io/t/inbound-with-whisper-delete/6086"
+        "https://forums.balena.io/t/6086"
       ],
       "mentionsUser": [],
       "alertsUser": [],
@@ -42,7 +42,7 @@
             "environment": "production",
             "inbox": "S/Forums",
             "mirrors": [
-              "https://forums.balena.io/t/inbound-with-whisper-delete/6086"
+              "https://forums.balena.io/t/6086"
             ],
             "mentionsUser": [],
             "alertsUser": [],
@@ -62,7 +62,7 @@
       "data": {
         "actor": "user-jviotti",
         "mirrors": [
-          "https://forums.balena.io/t/inbound-with-whisper-delete/6086/1"
+          "https://forums.balena.io/t/6086/1"
         ],
         "timestamp": "2019-04-16T18:11:44.639Z",
         "payload": {
@@ -82,7 +82,7 @@
       "data": {
         "actor": "user-jviotti",
         "mirrors": [
-          "https://forums.balena.io/t/inbound-with-whisper-delete/6086/2"
+          "https://forums.balena.io/t/6086/2"
         ],
         "timestamp": "2019-04-16T18:11:56.597Z",
         "payload": {

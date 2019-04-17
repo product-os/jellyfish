@@ -11,7 +11,7 @@
       "environment": "production",
       "inbox": "S/Forums",
       "mirrors": [
-        "https://forums.balena.io/t/file-attachment-test/6074"
+        "https://forums.balena.io/t/6074"
       ],
       "mentionsUser": [],
       "alertsUser": [],
@@ -42,7 +42,7 @@
             "environment": "production",
             "inbox": "S/Forums",
             "mirrors": [
-              "https://forums.balena.io/t/file-attachment-test/6074"
+              "https://forums.balena.io/t/6074"
             ],
             "mentionsUser": [],
             "alertsUser": [],
@@ -62,7 +62,7 @@
       "data": {
         "actor": "user-jviotti",
         "mirrors": [
-          "https://forums.balena.io/t/file-attachment-test/6074/1"
+          "https://forums.balena.io/t/6074/1"
         ],
         "timestamp": "2019-04-16T15:42:37.174Z",
         "payload": {
@@ -82,13 +82,13 @@
       "data": {
         "actor": "user-jviotti",
         "mirrors": [
-          "https://forums.balena.io/t/file-attachment-test/6074/2"
+          "https://forums.balena.io/t/6074/2"
         ],
         "timestamp": "2019-04-16T15:43:27.803Z",
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "My file attachment [pcasm-book.pdf](https://forums.balena.io/uploads/balena/original/2X/1/1179cf7f41c08ea5f3c31b200b8002a77f44269d.pdf) (1.0 MB)"
+          "message": "My file attachment[pcasm-book.pdf](https://forums.balena.io/uploads/balena/original/2X/1/1179cf7f41c08ea5f3c31b200b8002a77f44269d.pdf) (1.0 MB)"
         }
       }
     }

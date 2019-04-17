@@ -11,7 +11,7 @@
       "environment": "production",
       "inbox": "S/Forums",
       "mirrors": [
-        "https://forums.balena.io/t/conversation-with-multiple-tags/6085"
+        "https://forums.balena.io/t/6085"
       ],
       "mentionsUser": [],
       "alertsUser": [],
@@ -42,7 +42,7 @@
             "environment": "production",
             "inbox": "S/Forums",
             "mirrors": [
-              "https://forums.balena.io/t/conversation-with-multiple-tags/6085"
+              "https://forums.balena.io/t/6085"
             ],
             "mentionsUser": [],
             "alertsUser": [],
@@ -62,7 +62,7 @@
       "data": {
         "actor": "user-jviotti",
         "mirrors": [
-          "https://forums.balena.io/t/conversation-with-multiple-tags/6085/1"
+          "https://forums.balena.io/t/6085/1"
         ],
         "timestamp": "2019-04-16T18:10:47.680Z",
         "payload": {

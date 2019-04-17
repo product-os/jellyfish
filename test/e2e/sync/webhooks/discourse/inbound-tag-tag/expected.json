@@ -11,7 +11,7 @@
       "environment": "production",
       "inbox": "S/Forums",
       "mirrors": [
-        "https://forums.balena.io/t/inbound-tag-tag/6061"
+        "https://forums.balena.io/t/6061"
       ],
       "mentionsUser": [],
       "alertsUser": [],
@@ -42,7 +42,7 @@
             "environment": "production",
             "inbox": "S/Forums",
             "mirrors": [
-              "https://forums.balena.io/t/inbound-tag-tag/6061"
+              "https://forums.balena.io/t/6061"
             ],
             "mentionsUser": [],
             "alertsUser": [],
@@ -62,7 +62,7 @@
       "data": {
         "actor": "user-jviotti",
         "mirrors": [
-          "https://forums.balena.io/t/inbound-tag-tag/6061/1"
+          "https://forums.balena.io/t/6061/1"
         ],
         "timestamp": "2019-04-16T15:22:46.539Z",
         "payload": {
@@ -81,7 +81,7 @@
       "capabilities": [],
       "data": {
         "actor": "user-jviotti",
-        "timestamp": "2019-04-16T15:23:05.857Z",
+        "timestamp": "2019-04-16T15:22:46.539Z",
         "payload": {
           "name": "Inbound tag tag",
           "type": "support-thread",
@@ -94,7 +94,7 @@
             "environment": "production",
             "inbox": "S/Forums",
             "mirrors": [
-              "https://forums.balena.io/t/inbound-tag-tag/6061"
+              "https://forums.balena.io/t/6061"
             ],
             "mentionsUser": [],
             "alertsUser": [],
@@ -113,7 +113,7 @@
       "capabilities": [],
       "data": {
         "actor": "user-jviotti",
-        "timestamp": "2019-04-16T15:23:05.857Z",
+        "timestamp": "2019-04-16T15:22:46.539Z",
         "payload": {
           "name": "Inbound tag tag",
           "type": "support-thread",
@@ -126,7 +126,7 @@
             "environment": "production",
             "inbox": "S/Forums",
             "mirrors": [
-              "https://forums.balena.io/t/inbound-tag-tag/6061"
+              "https://forums.balena.io/t/6061"
             ],
             "mentionsUser": [],
             "alertsUser": [],

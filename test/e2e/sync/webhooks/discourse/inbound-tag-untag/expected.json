@@ -11,7 +11,7 @@
       "environment": "production",
       "inbox": "S/Forums",
       "mirrors": [
-        "https://forums.balena.io/t/inbound-tag-untag-test/6062"
+        "https://forums.balena.io/t/6062"
       ],
       "mentionsUser": [],
       "alertsUser": [],
@@ -29,7 +29,7 @@
       "capabilities": [],
       "data": {
         "actor": "user-jviotti",
-        "timestamp": "2019-04-16T15:23:38.459Z",
+        "timestamp": "2019-04-16T15:23:38.520Z",
         "payload": {
           "name": "Inbound tag untag test",
           "type": "support-thread",
@@ -42,7 +42,7 @@
             "environment": "production",
             "inbox": "S/Forums",
             "mirrors": [
-              "https://forums.balena.io/t/inbound-tag-untag-test/6062"
+              "https://forums.balena.io/t/6062"
             ],
             "mentionsUser": [],
             "alertsUser": [],
@@ -62,7 +62,7 @@
       "data": {
         "actor": "user-jviotti",
         "mirrors": [
-          "https://forums.balena.io/t/inbound-tag-untag-test/6062/1"
+          "https://forums.balena.io/t/6062/1"
         ],
         "timestamp": "2019-04-16T15:23:38.520Z",
         "payload": {
@@ -81,7 +81,7 @@
       "capabilities": [],
       "data": {
         "actor": "user-jviotti",
-        "timestamp": "2019-04-16T15:23:46.541Z",
+        "timestamp": "2019-04-16T15:23:38.520Z",
         "payload": {
           "name": "Inbound tag untag test",
           "type": "support-thread",
@@ -94,7 +94,7 @@
             "environment": "production",
             "inbox": "S/Forums",
             "mirrors": [
-              "https://forums.balena.io/t/inbound-tag-untag-test/6062"
+              "https://forums.balena.io/t/6062"
             ],
             "mentionsUser": [],
             "alertsUser": [],
@@ -113,7 +113,7 @@
       "capabilities": [],
       "data": {
         "actor": "user-jviotti",
-        "timestamp": "2019-04-16T15:23:56.210Z",
+        "timestamp": "2019-04-16T15:23:38.520Z",
         "payload": {
           "name": "Inbound tag untag test",
           "type": "support-thread",
@@ -126,7 +126,7 @@
             "environment": "production",
             "inbox": "S/Forums",
             "mirrors": [
-              "https://forums.balena.io/t/inbound-tag-untag-test/6062"
+              "https://forums.balena.io/t/6062"
             ],
             "mentionsUser": [],
             "alertsUser": [],
