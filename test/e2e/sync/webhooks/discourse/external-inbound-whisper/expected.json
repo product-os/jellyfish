@@ -11,7 +11,7 @@
       "environment": "production",
       "inbox": "S/Forums",
       "mirrors": [
-        "https://forums.balena.io/t/external-topic-whisper-test/6056"
+        "https://forums.balena.io/t/6056"
       ],
       "mentionsUser": [],
       "alertsUser": [],
@@ -29,7 +29,7 @@
       "capabilities": [],
       "data": {
         "actor": "account-goetted",
-        "timestamp": "2019-04-16T15:10:13.324Z",
+        "timestamp": "2019-04-16T15:16:30.462Z",
         "payload": {
           "name": "External topic whisper test",
           "type": "support-thread",
@@ -42,7 +42,7 @@
             "environment": "production",
             "inbox": "S/Forums",
             "mirrors": [
-              "https://forums.balena.io/t/external-topic-whisper-test/6056"
+              "https://forums.balena.io/t/6056"
             ],
             "mentionsUser": [],
             "alertsUser": [],
@@ -62,7 +62,7 @@
       "data": {
         "actor": "account-goetted",
         "mirrors": [
-          "https://forums.balena.io/t/external-topic-whisper-test/6056/1"
+          "https://forums.balena.io/t/6056/1"
         ],
         "timestamp": "2019-04-16T15:16:30.462Z",
         "payload": {
@@ -82,7 +82,7 @@
       "data": {
         "actor": "user-jviotti",
         "mirrors": [
-          "https://forums.balena.io/t/external-topic-whisper-test/6056/2"
+          "https://forums.balena.io/t/6056/2"
         ],
         "timestamp": "2019-04-16T15:16:50.403Z",
         "payload": {

@@ -11,7 +11,7 @@
       "environment": "production",
       "inbox": "S/Forums",
       "mirrors": [
-        "https://forums.balena.io/t/test-internal-topic-title-edit/6060"
+        "https://forums.balena.io/t/6060"
       ],
       "mentionsUser": [],
       "alertsUser": [],
@@ -42,7 +42,7 @@
             "environment": "production",
             "inbox": "S/Forums",
             "mirrors": [
-              "https://forums.balena.io/t/test-internal-topic-title-edit/6060"
+              "https://forums.balena.io/t/6060"
             ],
             "mentionsUser": [],
             "alertsUser": [],
@@ -62,7 +62,7 @@
       "data": {
         "actor": "user-jviotti",
         "mirrors": [
-          "https://forums.balena.io/t/test-internal-topic-title-edit/6060/1"
+          "https://forums.balena.io/t/6060/1"
         ],
         "timestamp": "2019-04-16T15:21:35.940Z",
         "payload": {
@@ -81,7 +81,7 @@
       "capabilities": [],
       "data": {
         "actor": "user-jviotti",
-        "timestamp": "2019-04-16T15:21:46.847Z",
+        "timestamp": "2019-04-16T15:21:35.940Z",
         "payload": {
           "name": "The new edit title",
           "type": "support-thread",
@@ -94,7 +94,7 @@
             "environment": "production",
             "inbox": "S/Forums",
             "mirrors": [
-              "https://forums.balena.io/t/test-internal-topic-title-edit/6060"
+              "https://forums.balena.io/t/6060"
             ],
             "mentionsUser": [],
             "alertsUser": [],
