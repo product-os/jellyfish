@@ -93,7 +93,7 @@ class SupportThreadBase extends React.Component {
 				}
 			}))
 				.then(() => {
-					this.props.actions.addNotification('success', 'Close this support thread')
+					this.props.actions.addNotification('success', 'Closed this support thread')
 				})
 				.catch((error) => {
 					this.props.actions.addNotification('danger', error.message || error)
