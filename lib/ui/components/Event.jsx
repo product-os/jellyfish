@@ -387,6 +387,18 @@ class Event extends React.Component {
 								</HighTxt>
 							)}
 
+							{card.pending &&
+								<Txt color={Theme.colors.text.light} fontSize={1}>
+									<Icon
+										style={{
+											marginLeft: 6
+										}}
+										spin
+										name="cog"
+									/>&nbsp;
+								</Txt>
+							}
+
 							{isMessage && (
 								<HighTxt
 									tooltip={this.state.actor.email}
@@ -410,19 +422,6 @@ class Event extends React.Component {
 							)}
 
 							{!isMessage && this.getTimelineElement(card)}
-
-							{card.pending &&
-						<Txt color={Theme.colors.text.light} fontSize={1} ml="6px">
-							sending...
-							<Icon
-								style={{
-									marginLeft: 6
-								}}
-								spin
-								name="cog"
-							/>
-						</Txt>
-							}
 						</Flex>
 						<span>
 							<IconButton
