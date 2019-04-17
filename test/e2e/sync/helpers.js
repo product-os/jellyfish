@@ -321,10 +321,10 @@ exports.translate = {
 			}
 
 			for (const variation of getVariations(testCase.steps, {
-				permutations: suite.source !== 'github'
+				permutations: suite.source !== 'github' && suite.source !== 'discourse'
 			})) {
-				// TODO: We should remove this, but lets start with Front
-				if (suite.source === 'github' &&
+				// TODO: We should remove this check
+				if ((suite.source === 'github' || suite.source === 'discourse') &&
 					variation.combination.length !== testCase.steps.length) {
 					continue
 				}
