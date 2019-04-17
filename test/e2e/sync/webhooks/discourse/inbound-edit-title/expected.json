@@ -1,0 +1,108 @@
+{
+  "head": {
+    "name": "The new edit title",
+    "type": "support-thread",
+    "version": "1.0.0",
+    "active": true,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "environment": "production",
+      "inbox": "S/Forums",
+      "mirrors": [
+        "https://forums.balena.io/t/test-internal-topic-title-edit/6060"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "",
+      "status": "open"
+    }
+  },
+  "tail": [
+    {
+      "type": "create",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": "user-jviotti",
+        "timestamp": "2019-04-16T15:21:35.940Z",
+        "payload": {
+          "name": "Test internal topic title edit",
+          "type": "support-thread",
+          "version": "1.0.0",
+          "active": true,
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "environment": "production",
+            "inbox": "S/Forums",
+            "mirrors": [
+              "https://forums.balena.io/t/test-internal-topic-title-edit/6060"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open"
+          }
+        }
+      }
+    },
+    {
+      "type": "message",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": "user-jviotti",
+        "mirrors": [
+          "https://forums.balena.io/t/test-internal-topic-title-edit/6060/1"
+        ],
+        "timestamp": "2019-04-16T15:21:35.940Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "Test test test 12345"
+        }
+      }
+    },
+    {
+      "type": "update",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": "user-jviotti",
+        "timestamp": "2019-04-16T15:21:46.847Z",
+        "payload": {
+          "name": "The new edit title",
+          "type": "support-thread",
+          "version": "1.0.0",
+          "active": true,
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "environment": "production",
+            "inbox": "S/Forums",
+            "mirrors": [
+              "https://forums.balena.io/t/test-internal-topic-title-edit/6060"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open"
+          }
+        }
+      }
+    }
+  ]
+}

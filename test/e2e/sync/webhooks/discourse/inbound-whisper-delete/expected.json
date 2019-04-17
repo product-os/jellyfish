@@ -1,0 +1,96 @@
+{
+  "head": {
+    "name": "Inbound with whisper delete",
+    "type": "support-thread",
+    "version": "1.0.0",
+    "active": true,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "environment": "production",
+      "inbox": "S/Forums",
+      "mirrors": [
+        "https://forums.balena.io/t/inbound-with-whisper-delete/6086"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "",
+      "status": "open"
+    }
+  },
+  "tail": [
+    {
+      "type": "create",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": "user-jviotti",
+        "timestamp": "2019-04-16T18:11:44.639Z",
+        "payload": {
+          "name": "Inbound with whisper delete",
+          "type": "support-thread",
+          "version": "1.0.0",
+          "active": true,
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "environment": "production",
+            "inbox": "S/Forums",
+            "mirrors": [
+              "https://forums.balena.io/t/inbound-with-whisper-delete/6086"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open"
+          }
+        }
+      }
+    },
+    {
+      "type": "message",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": "user-jviotti",
+        "mirrors": [
+          "https://forums.balena.io/t/inbound-with-whisper-delete/6086/1"
+        ],
+        "timestamp": "2019-04-16T18:11:44.639Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "Foo bar baz foo bar baz"
+        }
+      }
+    },
+    {
+      "type": "whisper",
+      "active": false,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": "user-jviotti",
+        "mirrors": [
+          "https://forums.balena.io/t/inbound-with-whisper-delete/6086/2"
+        ],
+        "timestamp": "2019-04-16T18:11:56.597Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "Whisper 123"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "head": {
+    "name": "File attachment test",
+    "type": "support-thread",
+    "version": "1.0.0",
+    "active": true,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "environment": "production",
+      "inbox": "S/Forums",
+      "mirrors": [
+        "https://forums.balena.io/t/file-attachment-test/6074"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "",
+      "status": "open"
+    }
+  },
+  "tail": [
+    {
+      "type": "create",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": "user-jviotti",
+        "timestamp": "2019-04-16T15:42:37.174Z",
+        "payload": {
+          "name": "File attachment test",
+          "type": "support-thread",
+          "version": "1.0.0",
+          "active": true,
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "environment": "production",
+            "inbox": "S/Forums",
+            "mirrors": [
+              "https://forums.balena.io/t/file-attachment-test/6074"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open"
+          }
+        }
+      }
+    },
+    {
+      "type": "message",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": "user-jviotti",
+        "mirrors": [
+          "https://forums.balena.io/t/file-attachment-test/6074/1"
+        ],
+        "timestamp": "2019-04-16T15:42:37.174Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "Foo Bar baz test test test"
+        }
+      }
+    },
+    {
+      "type": "message",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": "user-jviotti",
+        "mirrors": [
+          "https://forums.balena.io/t/file-attachment-test/6074/2"
+        ],
+        "timestamp": "2019-04-16T15:43:27.803Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "My file attachment [pcasm-book.pdf](https://forums.balena.io/uploads/balena/original/2X/1/1179cf7f41c08ea5f3c31b200b8002a77f44269d.pdf) (1.0 MB)"
+        }
+      }
+    }
+  ]
+}

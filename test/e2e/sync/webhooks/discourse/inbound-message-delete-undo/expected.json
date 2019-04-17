@@ -1,0 +1,96 @@
+{
+  "head": {
+    "name": "Inbound message delete undo test",
+    "type": "support-thread",
+    "version": "1.0.0",
+    "active": true,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "environment": "production",
+      "inbox": "S/Forums",
+      "mirrors": [
+        "https://forums.balena.io/t/inbound-message-delete-undo-test/6072"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "",
+      "status": "open"
+    }
+  },
+  "tail": [
+    {
+      "type": "create",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": "user-jviotti",
+        "timestamp": "2019-04-16T15:39:50.437Z",
+        "payload": {
+          "name": "Inbound message delete undo test",
+          "type": "support-thread",
+          "version": "1.0.0",
+          "active": true,
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "environment": "production",
+            "inbox": "S/Forums",
+            "mirrors": [
+              "https://forums.balena.io/t/inbound-message-delete-undo-test/6072"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open"
+          }
+        }
+      }
+    },
+    {
+      "type": "message",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": "user-jviotti",
+        "mirrors": [
+          "https://forums.balena.io/t/inbound-message-delete-undo-test/6072/1"
+        ],
+        "timestamp": "2019-04-16T15:39:50.437Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "Device Type Supervisor Version"
+        }
+      }
+    },
+    {
+      "type": "message",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": "user-jviotti",
+        "mirrors": [
+          "https://forums.balena.io/t/inbound-message-delete-undo-test/6072/2"
+        ],
+        "timestamp": "2019-04-16T15:39:57.872Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "Test reply"
+        }
+      }
+    }
+  ]
+}

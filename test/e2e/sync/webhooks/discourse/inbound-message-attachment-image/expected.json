@@ -1,0 +1,96 @@
+{
+  "head": {
+    "name": "Image attachment test",
+    "type": "support-thread",
+    "version": "1.0.0",
+    "active": true,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "environment": "production",
+      "inbox": "S/Forums",
+      "mirrors": [
+        "https://forums.balena.io/t/image-attachment-test/6073"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "",
+      "status": "open"
+    }
+  },
+  "tail": [
+    {
+      "type": "create",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": "user-jviotti",
+        "timestamp": "2019-04-16T15:41:37.201Z",
+        "payload": {
+          "name": "Image attachment test",
+          "type": "support-thread",
+          "version": "1.0.0",
+          "active": true,
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "environment": "production",
+            "inbox": "S/Forums",
+            "mirrors": [
+              "https://forums.balena.io/t/image-attachment-test/6073"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open"
+          }
+        }
+      }
+    },
+    {
+      "type": "message",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": "user-jviotti",
+        "mirrors": [
+          "https://forums.balena.io/t/image-attachment-test/6073/1"
+        ],
+        "timestamp": "2019-04-16T15:41:37.201Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "Foo Bar baz test test"
+        }
+      }
+    },
+    {
+      "type": "message",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": "user-jviotti",
+        "mirrors": [
+          "https://forums.balena.io/t/image-attachment-test/6073/2"
+        ],
+        "timestamp": "2019-04-16T15:42:02.483Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "My image\n![(https://forums.balena.io/uploads/balena/original/2X/1/1105c95e7f862b9b5372d1691f9f5e9cd434eb5b.png)"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "head": {
+    "name": "Inbound with image",
+    "type": "support-thread",
+    "version": "1.0.0",
+    "active": true,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "environment": "production",
+      "inbox": "S/Forums",
+      "mirrors": [
+        "https://forums.balena.io/t/inbound-with-image/6075"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "",
+      "status": "open"
+    }
+  },
+  "tail": [
+    {
+      "type": "create",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": "user-jviotti",
+        "timestamp": "2019-04-16T15:44:03.167Z",
+        "payload": {
+          "name": "Inbound with image",
+          "type": "support-thread",
+          "version": "1.0.0",
+          "active": true,
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "environment": "production",
+            "inbox": "S/Forums",
+            "mirrors": [
+              "https://forums.balena.io/t/inbound-with-image/6075"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open"
+          }
+        }
+      }
+    },
+    {
+      "type": "message",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": "user-jviotti",
+        "mirrors": [
+          "https://forums.balena.io/t/inbound-with-image/6075/1"
+        ],
+        "timestamp": "2019-04-16T15:44:03.167Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "![](https://forums.balena.io/uploads/balena/original/2X/1/1105c95e7f862b9b5372d1691f9f5e9cd434eb5b.png)"
+        }
+      }
+    }
+  ]
+}
