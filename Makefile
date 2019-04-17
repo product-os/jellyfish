@@ -100,6 +100,17 @@ export INTEGRATION_GITHUB_TOKEN
 INTEGRATION_GITHUB_SIGNATURE_KEY ?=
 export INTEGRATION_GITHUB_SIGNATURE_KEY
 
+# A Discourse API token
+INTEGRATION_DISCOURSE_TOKEN ?=
+export INTEGRATION_DISCOURSE_TOKEN
+# The Discourse username the API token belongs to, as
+# we need to pass that alongside the token every time.
+INTEGRATION_DISCOURSE_USERNAME ?=
+export INTEGRATION_DISCOURSE_USERNAME
+# The secret set when configuring the webhooks
+INTEGRATION_DISCOURSE_SIGNATURE_KEY ?=
+export INTEGRATION_DISCOURSE_SIGNATURE_KEY
+
 # -----------------------------------------------
 # Test Runtime Configuration
 # -----------------------------------------------
