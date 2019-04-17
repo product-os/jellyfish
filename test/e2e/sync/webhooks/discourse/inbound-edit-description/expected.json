@@ -1,6 +1,6 @@
 {
   "head": {
-    "name": "Internal topic edit description",
+    "name": "Updated description test take",
     "type": "support-thread",
     "version": "1.0.0",
     "active": true,
@@ -11,7 +11,7 @@
       "environment": "production",
       "inbox": "S/Forums",
       "mirrors": [
-        "https://forums.balena.io/t/6058"
+        "https://forums.balena.io/t/6104"
       ],
       "mentionsUser": [],
       "alertsUser": [],
@@ -29,9 +29,9 @@
       "capabilities": [],
       "data": {
         "actor": "user-jviotti",
-        "timestamp": "2019-04-16T15:18:53.667Z",
+        "timestamp": "2019-04-17T15:17:50.935Z",
         "payload": {
-          "name": "Internal topic edit description",
+          "name": "Updated description test take",
           "type": "support-thread",
           "version": "1.0.0",
           "active": true,
@@ -42,7 +42,7 @@
             "environment": "production",
             "inbox": "S/Forums",
             "mirrors": [
-              "https://forums.balena.io/t/6058"
+              "https://forums.balena.io/t/6104"
             ],
             "mentionsUser": [],
             "alertsUser": [],
@@ -62,13 +62,13 @@
       "data": {
         "actor": "user-jviotti",
         "mirrors": [
-          "https://forums.balena.io/t/6058/1"
+          "https://forums.balena.io/t/6104/1"
         ],
-        "timestamp": "2019-04-16T15:18:53.667Z",
+        "timestamp": "2019-04-17T15:17:50.935Z",
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "The updated description"
+          "message": "Updated description 8888"
         }
       }
     }

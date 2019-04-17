@@ -1,6 +1,6 @@
 {
   "head": {
-    "name": "Test inbound topic",
+    "name": "External inbound test with message",
     "type": "support-thread",
     "version": "1.0.0",
     "active": true,
@@ -11,7 +11,7 @@
       "environment": "production",
       "inbox": "S/Forums",
       "mirrors": [
-        "https://forums.balena.io/t/6049"
+        "https://forums.balena.io/t/6108"
       ],
       "mentionsUser": [],
       "alertsUser": [],
@@ -29,9 +29,9 @@
       "capabilities": [],
       "data": {
         "actor": "account-goetted",
-        "timestamp": "2019-04-16T15:10:13.324Z",
+        "timestamp": "2019-04-17T15:24:08.882Z",
         "payload": {
-          "name": "Test inbound topic",
+          "name": "External inbound test with message",
           "type": "support-thread",
           "version": "1.0.0",
           "active": true,
@@ -42,7 +42,7 @@
             "environment": "production",
             "inbox": "S/Forums",
             "mirrors": [
-              "https://forums.balena.io/t/6049"
+              "https://forums.balena.io/t/6108"
             ],
             "mentionsUser": [],
             "alertsUser": [],
@@ -62,13 +62,13 @@
       "data": {
         "actor": "account-goetted",
         "mirrors": [
-          "https://forums.balena.io/t/6049/1"
+          "https://forums.balena.io/t/6108/1"
         ],
-        "timestamp": "2019-04-16T15:10:13.324Z",
+        "timestamp": "2019-04-17T15:24:08.882Z",
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "Test topic description"
+          "message": "Foo bar baz foo bar baz foo bar baz"
         }
       }
     },
@@ -82,13 +82,13 @@
       "data": {
         "actor": "user-jviotti",
         "mirrors": [
-          "https://forums.balena.io/t/6049/2"
+          "https://forums.balena.io/t/6108/2"
         ],
-        "timestamp": "2019-04-16T15:11:28.506Z",
+        "timestamp": "2019-04-17T15:24:47.336Z",
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "Test reply"
+          "message": "Test message"
         }
       }
     }

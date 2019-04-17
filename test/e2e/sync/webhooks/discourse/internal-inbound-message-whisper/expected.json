@@ -1,6 +1,6 @@
 {
   "head": {
-    "name": "Test internal topic with message and whisper",
+    "name": "One whisper and one message",
     "type": "support-thread",
     "version": "1.0.0",
     "active": true,
@@ -11,7 +11,7 @@
       "environment": "production",
       "inbox": "S/Forums",
       "mirrors": [
-        "https://forums.balena.io/t/6057"
+        "https://forums.balena.io/t/6106"
       ],
       "mentionsUser": [],
       "alertsUser": [],
@@ -29,9 +29,9 @@
       "capabilities": [],
       "data": {
         "actor": "user-jviotti",
-        "timestamp": "2019-04-16T15:17:35.896Z",
+        "timestamp": "2019-04-17T15:20:18.947Z",
         "payload": {
-          "name": "Test internal topic with message and whisper",
+          "name": "One whisper and one message",
           "type": "support-thread",
           "version": "1.0.0",
           "active": true,
@@ -42,7 +42,7 @@
             "environment": "production",
             "inbox": "S/Forums",
             "mirrors": [
-              "https://forums.balena.io/t/6057"
+              "https://forums.balena.io/t/6106"
             ],
             "mentionsUser": [],
             "alertsUser": [],
@@ -62,13 +62,13 @@
       "data": {
         "actor": "user-jviotti",
         "mirrors": [
-          "https://forums.balena.io/t/6057/1"
+          "https://forums.balena.io/t/6106/1"
         ],
-        "timestamp": "2019-04-16T15:17:35.896Z",
+        "timestamp": "2019-04-17T15:20:18.947Z",
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "Test test test test test"
+          "message": "Issue description foo bar baz"
         }
       }
     },
@@ -82,13 +82,13 @@
       "data": {
         "actor": "user-jviotti",
         "mirrors": [
-          "https://forums.balena.io/t/6057/2"
+          "https://forums.balena.io/t/6106/2"
         ],
-        "timestamp": "2019-04-16T15:17:53.272Z",
+        "timestamp": "2019-04-17T15:20:37.401Z",
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "Test reply"
+          "message": "My message"
         }
       }
     },
@@ -102,13 +102,13 @@
       "data": {
         "actor": "user-jviotti",
         "mirrors": [
-          "https://forums.balena.io/t/6057/3"
+          "https://forums.balena.io/t/6106/3"
         ],
-        "timestamp": "2019-04-16T15:18:01.026Z",
+        "timestamp": "2019-04-17T15:20:49.552Z",
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "Test whisper"
+          "message": "My whisper"
         }
       }
     }

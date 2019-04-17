@@ -85,7 +85,19 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 				return callback(null, [ 401, this.req.headers ])
 			}
 
-			const jsonPath = _.kebabCase(uri)
+			// Omit query parameters that start with "api" as
+			// they contain secrets.
+			const [ baseUri, queryParams ] = uri.split('?')
+			const queryString = (queryParams || '').split('&').reduce((accumulator, part) => {
+				const [ key, value ] = part.split('=')
+				if (key.startsWith('api')) {
+					return accumulator
+				}
+
+				return [ accumulator, key, value ].join('-')
+			}, '')
+
+			const jsonPath = _.kebabCase(`${baseUri}-${queryString}`)
 			return callback(null, [
 				200,
 				requireStub(

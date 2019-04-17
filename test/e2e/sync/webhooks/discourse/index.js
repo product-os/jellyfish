@@ -9,14 +9,16 @@ module.exports = {
 		expected: require('./external-inbound-message/expected.json'),
 		steps: [
 			require('./external-inbound-message/01.json'),
-			require('./external-inbound-message/02.json')
+			require('./external-inbound-message/02.json'),
+			require('./external-inbound-message/03.json')
 		]
 	},
 	'external-inbound-whisper': {
 		expected: require('./external-inbound-whisper/expected.json'),
 		steps: [
 			require('./external-inbound-whisper/01.json'),
-			require('./external-inbound-whisper/02.json')
+			require('./external-inbound-whisper/02.json'),
+			require('./external-inbound-whisper/03.json')
 		]
 	},
 	'inbound-attachment-file': {
@@ -38,7 +40,9 @@ module.exports = {
 		steps: [
 			require('./inbound-edit-description/01.json'),
 			require('./inbound-edit-description/02.json'),
-			require('./inbound-edit-description/03.json')
+			require('./inbound-edit-description/03.json'),
+			require('./inbound-edit-description/04.json'),
+			require('./inbound-edit-description/05.json')
 		]
 	},
 	'inbound-edit-title': {
@@ -130,7 +134,8 @@ module.exports = {
 		steps: [
 			require('./inbound-whisper-edit/01.json'),
 			require('./inbound-whisper-edit/02.json'),
-			require('./inbound-whisper-edit/03.json')
+			require('./inbound-whisper-edit/03.json'),
+			require('./inbound-whisper-edit/04.json')
 		]
 	},
 	'inbound-with-tag': {
@@ -152,7 +157,8 @@ module.exports = {
 		steps: [
 			require('./internal-inbound-message-whisper/01.json'),
 			require('./internal-inbound-message-whisper/02.json'),
-			require('./internal-inbound-message-whisper/03.json')
+			require('./internal-inbound-message-whisper/03.json'),
+			require('./internal-inbound-message-whisper/04.json')
 		]
 	}
 }
