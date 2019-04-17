@@ -38,3 +38,87 @@ ava('.parseHTML() should parse <code> correctly', (test) => {
 	const result = utils.parseHTML(string)
 	test.is(result, expected)
 })
+
+ava('.parseHTML() should parse a root relative link without a base url', (test) => {
+	// eslint-disable-next-line max-len
+	const string = '<p><a class="attachment" href="/uploads/balena/original/2X/1/1179cf7f41c08ea5f3c31b200b8002a77f44269d.pdf">pcasm-book.pdf</a> (1.0 MB)</p>'
+	// eslint-disable-next-line max-len
+	const expected = '[pcasm-book.pdf](/uploads/balena/original/2X/1/1179cf7f41c08ea5f3c31b200b8002a77f44269d.pdf) (1.0 MB)'
+	const result = utils.parseHTML(string)
+	test.is(result, expected)
+})
+
+ava('.parseHTML() should parse a root relative link with a base url', (test) => {
+	// eslint-disable-next-line max-len
+	const string = '<p><a class="attachment" href="/uploads/balena/original/2X/1/1179cf7f41c08ea5f3c31b200b8002a77f44269d.pdf">pcasm-book.pdf</a> (1.0 MB)</p>'
+	// eslint-disable-next-line max-len
+	const expected = '[pcasm-book.pdf](https://jel.ly.fish/uploads/balena/original/2X/1/1179cf7f41c08ea5f3c31b200b8002a77f44269d.pdf) (1.0 MB)'
+	const result = utils.parseHTML(string, {
+		baseUrl: 'https://jel.ly.fish'
+	})
+
+	test.is(result, expected)
+})
+
+ava('.parseHTML() should parse a relative link without a base url', (test) => {
+	// eslint-disable-next-line max-len
+	const string = '<p><a class="attachment" href="uploads/balena/original/2X/1/1179cf7f41c08ea5f3c31b200b8002a77f44269d.pdf">pcasm-book.pdf</a> (1.0 MB)</p>'
+	// eslint-disable-next-line max-len
+	const expected = '[pcasm-book.pdf](uploads/balena/original/2X/1/1179cf7f41c08ea5f3c31b200b8002a77f44269d.pdf) (1.0 MB)'
+	const result = utils.parseHTML(string)
+	test.is(result, expected)
+})
+
+ava('.parseHTML() should parse a relative link with a base url', (test) => {
+	// eslint-disable-next-line max-len
+	const string = '<p><a class="attachment" href="uploads/balena/original/2X/1/1179cf7f41c08ea5f3c31b200b8002a77f44269d.pdf">pcasm-book.pdf</a> (1.0 MB)</p>'
+	// eslint-disable-next-line max-len
+	const expected = '[pcasm-book.pdf](https://jel.ly.fish/uploads/balena/original/2X/1/1179cf7f41c08ea5f3c31b200b8002a77f44269d.pdf) (1.0 MB)'
+	const result = utils.parseHTML(string, {
+		baseUrl: 'https://jel.ly.fish'
+	})
+
+	test.is(result, expected)
+})
+
+ava('.parseHTML() should parse a root relative image without a base url', (test) => {
+	// eslint-disable-next-line max-len
+	const string = '<p><img src="/uploads/balena/original/2X/1/1105c95e7f862b9b5372d1691f9f5e9cd434eb5b.png" alt="46" width="690" height="431"></p>'
+	// eslint-disable-next-line max-len
+	const expected = '![46](/uploads/balena/original/2X/1/1105c95e7f862b9b5372d1691f9f5e9cd434eb5b.png)'
+	const result = utils.parseHTML(string)
+	test.is(result, expected)
+})
+
+ava('.parseHTML() should parse a root relative image with a base url', (test) => {
+	// eslint-disable-next-line max-len
+	const string = '<p><img src="/uploads/balena/original/2X/1/1105c95e7f862b9b5372d1691f9f5e9cd434eb5b.png" alt="46" width="690" height="431"></p>'
+	// eslint-disable-next-line max-len
+	const expected = '![46](https://jel.ly.fish/uploads/balena/original/2X/1/1105c95e7f862b9b5372d1691f9f5e9cd434eb5b.png)'
+	const result = utils.parseHTML(string, {
+		baseUrl: 'https://jel.ly.fish'
+	})
+
+	test.is(result, expected)
+})
+
+ava('.parseHTML() should parse a relative image without a base url', (test) => {
+	// eslint-disable-next-line max-len
+	const string = '<p><img src="uploads/balena/original/2X/1/1105c95e7f862b9b5372d1691f9f5e9cd434eb5b.png" alt="46" width="690" height="431"></p>'
+	// eslint-disable-next-line max-len
+	const expected = '![46](uploads/balena/original/2X/1/1105c95e7f862b9b5372d1691f9f5e9cd434eb5b.png)'
+	const result = utils.parseHTML(string)
+	test.is(result, expected)
+})
+
+ava('.parseHTML() should parse a relative image with a base url', (test) => {
+	// eslint-disable-next-line max-len
+	const string = '<p><img src="uploads/balena/original/2X/1/1105c95e7f862b9b5372d1691f9f5e9cd434eb5b.png" alt="46" width="690" height="431"></p>'
+	// eslint-disable-next-line max-len
+	const expected = '![46](https://jel.ly.fish/uploads/balena/original/2X/1/1105c95e7f862b9b5372d1691f9f5e9cd434eb5b.png)'
+	const result = utils.parseHTML(string, {
+		baseUrl: 'https://jel.ly.fish'
+	})
+
+	test.is(result, expected)
+})
