@@ -55,16 +55,14 @@ class SupportThreadTimelineRenderer extends React.Component {
 		this.handleFileChange = (event) => {
 			const file = _.first(event.target.files)
 			const message = {
+				target: this.props.card,
+				tags: [],
 				type: 'whisper',
-				data: {
-					timestamp: helpers.getCurrentTimestamp(),
-					actor: this.props.user.id,
-					payload: {
-						file
-					}
+				payload: {
+					file
 				}
 			}
-			sdk.card.create(message)
+			sdk.event.create(message)
 				.then(() => {
 					analytics.track('element.create', {
 						element: {

@@ -36,7 +36,7 @@ class AuthenticatedImage extends React.Component {
 		if (!imageSrc) {
 			return null
 		}
-		return <ResponsiveImg src={imageSrc}/>
+		return <ResponsiveImg src={imageSrc} data-test={this.props['data-test']} />
 	}
 }
 exports.AuthenticatedImage = AuthenticatedImage

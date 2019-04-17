@@ -119,7 +119,7 @@ class UI extends React.Component {
 		} = this.state
 
 		const user = this.props.user
-		const userHasOrg = Boolean(user) && user.links['is member of']
+		const userHasOrg = Boolean(user) && user.linked_at['is member of']
 
 		return (
 			<Provider

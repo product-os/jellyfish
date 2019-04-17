@@ -466,7 +466,7 @@ class SupportThreadBase extends React.Component {
 				}}>
 					<SupportThreadTimeline.default.data.renderer
 						card={this.props.card}
-						tail={this.props.card.links['has attached element']}
+						tail={_.get(this.props.card.links, [ 'has attached element' ], [])}
 					/>
 				</Box>
 			</Column>

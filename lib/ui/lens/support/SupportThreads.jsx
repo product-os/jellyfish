@@ -68,7 +68,10 @@ export class SupportThreads extends React.Component {
 
 	render () {
 		const tail = _.sortBy(this.props.tail, (element) => {
-			const timestamps = _.map(element.links['has attached element'], 'data.timestamp')
+			const timestamps = _.map(
+				_.get(element.links, [ 'has attached element' ], []),
+				'data.timestamp'
+			)
 			timestamps.sort()
 			return _.last(timestamps)
 		}).reverse()
@@ -90,7 +93,10 @@ export class SupportThreads extends React.Component {
 
 			// Sort the timeline by timestamp rathern than created_at as they might
 			// not be the same value if the card was backsynced
-			const timeline = _.sortBy(card.links['has attached element'], 'data.timestamp')
+			const timeline = _.sortBy(
+				_.get(card.links, [ 'has attached element' ], []),
+				'data.timestamp'
+			)
 
 			// Reverse the timeline, so the newest messages appear first
 			timeline.reverse()

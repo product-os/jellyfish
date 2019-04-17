@@ -193,14 +193,18 @@ class Event extends React.Component {
 		this.processText()
 	}
 
-	downloadAttachment (attachment) {
-		sdk.getFile(this.props.card.id, attachment.url.split('/').pop())
+	downloadAttachment ({
+		slug,
+		name,
+		mime
+	}) {
+		sdk.getFile(this.props.card.id, slug)
 			.then((data) => {
 				const blob = new Blob([ data ], {
-					type: attachment.mime
+					type: mime
 				})
 
-				saveAs(blob, attachment.name)
+				saveAs(blob, name)
 			})
 	}
 
@@ -262,7 +266,17 @@ class Event extends React.Component {
 
 		const message = getMessage(card)
 
-		const attachments = _.get(card, [ 'data', 'payload', 'attachments' ])
+		const attachments = _.get(card, [ 'data', 'payload', 'attachments' ], []).map((attachment) => {
+			return {
+				slug: attachment.url.split('/').pop(),
+				mime: attachment.mime,
+				name: attachment.name
+			}
+		})
+
+		if (_.get(card, [ 'data', 'payload', 'file' ])) {
+			attachments.push(card.data.payload.file)
+		}
 
 		const timestamp = _.get(card, [ 'data', 'timestamp' ]) || card.created_at
 
@@ -333,12 +347,13 @@ class Event extends React.Component {
 
 					{Boolean(attachments) && _.map(attachments, (attachment) => {
 						// If the mime type is of an image, display the file as an image
-						if (attachment.mime.match(/image\//)) {
+						if (attachment.mime && attachment.mime.match(/image\//)) {
 							return (
 								<AuthenticatedImage
-									key={attachment.url}
+									data-test="event-card__image"
+									key={attachment.slug}
 									cardId={card.id}
-									fileName={attachment.url.split('/').pop()}
+									fileName={attachment.slug}
 								/>
 							)
 						}
@@ -349,6 +364,7 @@ class Event extends React.Component {
 								onClick={() => {
 									this.downloadAttachment(attachment)
 								}}
+								data-test="event-card__file"
 							>
 								<Icon name="file-download" />
 								<Txt monospace ml={2}>{attachment.name}</Txt>
@@ -367,9 +383,6 @@ class Event extends React.Component {
 								{message}
 							</Markdown>
 						</div>
-					)}
-					{isMessage && Boolean(card.data.payload.file) && (
-						<AuthenticatedImage cardId={card.id} fileName={card.data.payload.file}/>
 					)}
 
 					{!isMessage && Boolean(card.name) && (

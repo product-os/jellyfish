@@ -49,6 +49,12 @@ exports.browser = {
 			width: 1366,
 			height: 768
 		})
+
+		test.context.page.on('pageerror', function (err) {
+			const theTempValue = err.toString()
+			console.log(`Page error: ${theTempValue}`)
+			console.log(err)
+		})
 	},
 
 	afterEach: async (test) => {

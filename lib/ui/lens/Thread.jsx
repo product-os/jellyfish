@@ -119,7 +119,9 @@ class Base extends React.Component {
 				<rendition.Box flex="1" style={{
 					minHeight: 0
 				}}>
-					<Timeline.default.data.renderer card={this.props.card} tail={this.props.card.links['has attached element']}/>
+					<Timeline.default.data.renderer
+						card={this.props.card}
+						tail={_.get(this.props.card, [ 'links', 'has attached element' ], [])}/>
 				</rendition.Box>
 			</Column>
 		)
