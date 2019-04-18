@@ -29,7 +29,7 @@
       "capabilities": [],
       "data": {
         "actor": "account-goetted",
-        "timestamp": "2019-04-17T15:26:14.250Z",
+        "timestamp": "2019-04-17T15:26:14.102Z",
         "payload": {
           "name": "External inbound test with whisper",
           "type": "support-thread",

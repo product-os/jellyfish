@@ -29,7 +29,7 @@
       "capabilities": [],
       "data": {
         "actor": "user-jviotti",
-        "timestamp": "2019-04-16T18:11:44.639Z",
+        "timestamp": "2019-04-16T18:11:44.129Z",
         "payload": {
           "name": "Inbound with whisper delete",
           "type": "support-thread",

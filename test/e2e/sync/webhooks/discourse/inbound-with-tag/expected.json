@@ -29,13 +29,13 @@
       "capabilities": [],
       "data": {
         "actor": "user-jviotti",
-        "timestamp": "2019-04-16T18:09:57.756Z",
+        "timestamp": "2019-04-16T18:09:57.523Z",
         "payload": {
           "name": "Conversation with a tag",
           "type": "support-thread",
           "version": "1.0.0",
           "active": true,
-          "tags": [],
+          "tags": [ "wifi" ],
           "requires": [],
           "capabilities": [],
           "data": {
@@ -70,40 +70,6 @@
           "alertsUser": [],
           "message": "Foo 3333333333333333333"
         }
-      }
-    },
-    {
-      "type": "update",
-      "active": true,
-      "version": "1.0.0",
-      "tags": [],
-      "requires": [],
-      "capabilities": [],
-      "data": {
-        "actor": "user-jviotti",
-        "payload": {
-          "data": {
-            "inbox": "S/Forums",
-            "status": "open",
-            "mirrors": [
-              "https://forums.balena.io/t/6084"
-            ],
-            "alertsUser": [],
-            "description": "",
-            "environment": "production",
-            "mentionsUser": []
-          },
-          "name": "Conversation with a tag",
-          "tags": [
-            "wifi"
-          ],
-          "type": "support-thread",
-          "active": true,
-          "version": "1.0.0",
-          "requires": [],
-          "capabilities": []
-        },
-        "timestamp": "2019-04-16T18:09:57.756Z"
       }
     }
   ]
