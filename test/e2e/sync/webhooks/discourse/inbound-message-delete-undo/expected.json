@@ -29,7 +29,7 @@
       "capabilities": [],
       "data": {
         "actor": "user-jviotti",
-        "timestamp": "2019-04-16T15:39:50.437Z",
+        "timestamp": "2019-04-16T15:39:50.333Z",
         "payload": {
           "name": "Inbound message delete undo test",
           "type": "support-thread",

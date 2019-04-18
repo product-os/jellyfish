@@ -29,7 +29,7 @@
       "capabilities": [],
       "data": {
         "actor": "user-jviotti",
-        "timestamp": "2019-04-16T15:37:05.317Z",
+        "timestamp": "2019-04-16T15:37:05.252Z",
         "payload": {
           "name": "Inbound message delete test",
           "type": "support-thread",
