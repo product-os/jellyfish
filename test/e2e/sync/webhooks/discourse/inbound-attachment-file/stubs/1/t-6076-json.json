@@ -1,0 +1,114 @@
+{
+  "timeline_lookup": [
+    [
+      1,
+      1
+    ]
+  ],
+  "tags": [],
+  "id": 6076,
+  "title": "Inbound with file",
+  "fancy_title": "Inbound with file",
+  "posts_count": 1,
+  "created_at": "2019-04-16T15:44:44.657Z",
+  "views": 1,
+  "reply_count": 0,
+  "like_count": 0,
+  "last_posted_at": "2019-04-16T15:44:44.723Z",
+  "visible": true,
+  "closed": false,
+  "archived": false,
+  "has_summary": false,
+  "archetype": "regular",
+  "slug": "inbound-with-file",
+  "category_id": 44,
+  "word_count": 18,
+  "deleted_at": null,
+  "user_id": 4,
+  "featured_link": null,
+  "pinned_globally": false,
+  "pinned_at": null,
+  "pinned_until": null,
+  "draft": null,
+  "draft_key": "topic_6076",
+  "draft_sequence": 1,
+  "posted": true,
+  "unpinned": null,
+  "pinned": false,
+  "details": {
+    "created_by": {
+      "id": 4,
+      "username": "jviotti",
+      "name": "Juan Cruz Viotti",
+      "avatar_template": "/user_avatar/forums.balena.io/jviotti/{size}/220_2.png"
+    },
+    "last_poster": {
+      "id": 4,
+      "username": "jviotti",
+      "name": "Juan Cruz Viotti",
+      "avatar_template": "/user_avatar/forums.balena.io/jviotti/{size}/220_2.png"
+    },
+    "participants": [
+      {
+        "id": 4,
+        "username": "jviotti",
+        "name": "Juan Cruz Viotti",
+        "avatar_template": "/user_avatar/forums.balena.io/jviotti/{size}/220_2.png",
+        "post_count": 1,
+        "primary_group_name": "balena",
+        "primary_group_flair_url": "https://discourse-cdn-sjc1.com/business5/uploads/balena/original/2X/b/bf13cc92e2146553f9a44cf00cdf95c977f74ab5.png",
+        "primary_group_flair_color": "",
+        "primary_group_flair_bg_color": ""
+      }
+    ],
+    "notification_level": 3,
+    "notifications_reason_id": 1,
+    "can_move_posts": true,
+    "can_edit": true,
+    "can_delete": true,
+    "can_remove_allowed_users": true,
+    "can_remove_self_id": 4,
+    "can_invite_to": true,
+    "can_invite_via_email": true,
+    "can_create_post": true,
+    "can_reply_as_new_topic": true,
+    "can_flag_topic": true,
+    "can_convert_topic": true
+  },
+  "current_post_number": 1,
+  "highest_post_number": 1,
+  "last_read_post_number": 1,
+  "last_read_post_id": 34025,
+  "deleted_by": null,
+  "has_deleted": false,
+  "actions_summary": [
+    {
+      "id": 4,
+      "count": 0,
+      "hidden": false,
+      "can_act": true
+    },
+    {
+      "id": 8,
+      "count": 0,
+      "hidden": false,
+      "can_act": true
+    },
+    {
+      "id": 7,
+      "count": 0,
+      "hidden": false,
+      "can_act": true
+    }
+  ],
+  "chunk_size": 20,
+  "bookmarked": false,
+  "topic_timer": null,
+  "private_topic_timer": null,
+  "message_bus_last_id": 2,
+  "participant_count": 1,
+  "pending_posts_count": 0,
+  "can_vote": false,
+  "vote_count": null,
+  "user_voted": false
+}
