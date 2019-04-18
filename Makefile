@@ -282,6 +282,10 @@ start-tick:
 start-redis:
 	redis-server --port $(REDIS_PORT)
 
+# You might need to increase the maximum amount of semaphores
+# system-wide in order to set the max connections parameters.
+# In OpenBSD, set kern.seminfo.semmns=200 in /etc/sysctl.conf
+# See https://www.postgresql.org/docs/11/kernel-resources.html
 start-postgres: postgres_data
 	postgres -N 100 -D $< -p $(POSTGRES_PORT)
 
