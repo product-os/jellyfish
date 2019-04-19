@@ -5,7 +5,8 @@
  */
 
 const ava = require('ava')
-const _ = require('lodash')
+const querystring = require('querystring')
+const url = require('url')
 const helpers = require('./helpers')
 const environment = require('../../../lib/environment')
 const TOKEN = environment.getIntegrationToken('discourse')
@@ -22,7 +23,9 @@ helpers.translate.scenario(TOKEN ? ava : ava.skip, {
 	options: {
 		token: TOKEN
 	},
-
-	// TODO: Write a real authorized function
-	isAuthorized: _.constant(true)
+	isAuthorized: (self, request) => {
+		const params = querystring.parse(url.parse(request.path).query)
+		return params.api_key === self.options.token.api &&
+			params.api_username === self.options.token.username
+	}
 })
