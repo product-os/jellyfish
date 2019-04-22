@@ -237,6 +237,14 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 		}
 
 		card.data.target = head.id
+
+		// If we have to ignore the update events, then we can't also
+		// trust the create event to be what it should have been at
+		// the beginning, as services might not preserve that information.
+		if (testCase.ignoreUpdateEvents && card.type === 'create') {
+			card.data.payload = _.get(actualTail, [ index, 'data', 'payload' ])
+		}
+
 		return card
 	})
 
@@ -336,7 +344,7 @@ exports.translate = {
 				permutations: suite.source !== 'github' && suite.source !== 'discourse'
 			})) {
 				// TODO: We should remove this check
-				if ((suite.source === 'github' || suite.source === 'discourse') &&
+				if (suite.source === 'github' &&
 					variation.combination.length !== testCase.steps.length) {
 					continue
 				}
