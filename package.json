@@ -113,6 +113,7 @@
     "bluebird": "^3.5.1",
     "blueimp-md5": "^2.10.0",
     "body-parser": "^1.18.2",
+    "cheerio": "^1.0.0-rc.3",
     "color-hash": "^1.0.3",
     "copy-to-clipboard": "^3.0.8",
     "d3": "^5.9.2",
