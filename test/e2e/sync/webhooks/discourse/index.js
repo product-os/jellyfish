@@ -105,8 +105,7 @@ module.exports = {
 			require('./inbound-tag-tag/02.json'),
 			require('./inbound-tag-tag/03.json'),
 			require('./inbound-tag-tag/04.json'),
-			require('./inbound-tag-tag/05.json'),
-			require('./inbound-tag-tag/06.json')
+			require('./inbound-tag-tag/05.json')
 		]
 	},
 	'inbound-tag-untag': {
@@ -116,8 +115,7 @@ module.exports = {
 			require('./inbound-tag-untag/02.json'),
 			require('./inbound-tag-untag/03.json'),
 			require('./inbound-tag-untag/04.json'),
-			require('./inbound-tag-untag/05.json'),
-			require('./inbound-tag-untag/06.json')
+			require('./inbound-tag-untag/05.json')
 		]
 	},
 	'inbound-whisper-delete': {
