@@ -9,19 +9,39 @@
   "data": {
     "filter": {
       "type": "object",
-      "required": [
-        "type"
-      ],
-      "properties": {
-        "type": {
-          "type": "string",
-          "enum": [
-            "message",
-            "whisper",
-            "support-thread"
-          ]
+      "anyOf": [
+        {
+          "required": [ "type" ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "message",
+                "whisper"
+              ]
+            }
+          }
+        },
+        {
+          "required": [ "type", "data" ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "support-thread"
+            },
+            "data": {
+              "type": "object",
+              "required": [ "inbox" ],
+              "properties": {
+                "inbox": {
+                  "type": "string",
+                  "enum": [ "S/Paid_Support", "Test Inbox" ]
+                }
+              }
+            }
+          }
         }
-      }
+      ]
     },
     "action": "action-integration-front-mirror-event",
     "target": {
