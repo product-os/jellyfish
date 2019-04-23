@@ -1,0 +1,338 @@
+/*
+ * Copyright (C) Balena.io - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited.
+ * Proprietary and confidential.
+ */
+
+const ava = require('ava')
+const _ = require('lodash')
+const Bluebird = require('bluebird')
+const request = require('request')
+const uuid = require('uuid/v4')
+const helpers = require('./helpers')
+const environment = require('../../../lib/environment')
+const utils = require('../../../lib/sync/integrations/utils')
+const TOKEN = environment.getIntegrationToken('discourse')
+
+const getMirrorWaitSchema = (slug) => {
+	return {
+		type: 'object',
+		required: [ 'id', 'type', 'slug', 'data' ],
+		properties: {
+			id: {
+				type: 'string'
+			},
+			type: {
+				type: 'string'
+			},
+			slug: {
+				type: 'string',
+				const: slug
+			},
+			data: {
+				type: 'object',
+				additionalProperties: true,
+				required: [ 'mirrors' ],
+				properties: {
+					mirrors: {
+						type: 'array',
+						items: {
+							type: 'string',
+							pattern: '^https:\\/\\/forums\\.balena\\.io'
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+ava.before(async (test) => {
+	await helpers.mirror.before(test)
+	test.context.category = environment.test.integration.discourse.category
+
+	test.context.getWhisperSlug = () => {
+		return test.context.generateRandomSlug({
+			prefix: 'whisper'
+		})
+	}
+
+	test.context.getMessageSlug = () => {
+		return test.context.generateRandomSlug({
+			prefix: 'message'
+		})
+	}
+
+	test.context.createWhisper = async (target, slug, body) => {
+		return test.context.executeThenWait(async () => {
+			return test.context.sdk.event.create({
+				slug,
+				target,
+				type: 'whisper',
+				payload: {
+					mentionsUser: [],
+					alertsUser: [],
+					message: body
+				}
+			})
+		}, getMirrorWaitSchema(slug))
+	}
+
+	test.context.createMessage = async (target, slug, body) => {
+		return test.context.executeThenWait(async () => {
+			return test.context.sdk.event.create({
+				slug,
+				target,
+				type: 'message',
+				payload: {
+					mentionsUser: [],
+					alertsUser: [],
+					message: body
+				}
+			})
+		}, getMirrorWaitSchema(slug))
+	}
+
+	test.context.getTopic = async (id) => {
+		return new Bluebird((resolve, reject) => {
+			request({
+				method: 'GET',
+				baseUrl: 'https://forums.balena.io',
+				json: true,
+				uri: `/t/${id}.json`,
+				qs: {
+					api_key: TOKEN.api,
+					api_username: TOKEN.username
+				}
+			}, (error, response, body) => {
+				if (error) {
+					return reject(error)
+				}
+
+				if (response.statusCode === 404) {
+					return resolve(null)
+				}
+
+				if (response.statusCode !== 200) {
+					return reject(new Error(
+						`Got ${response.statusCode}: ${JSON.stringify(body, null, 2)}`))
+				}
+
+				return resolve(body)
+			})
+		})
+	}
+
+	test.context.startSupportThread = async (username, title, description) => {
+		const post = await new Bluebird((resolve, reject) => {
+			request({
+				method: 'POST',
+				baseUrl: 'https://forums.balena.io',
+				json: true,
+				uri: '/posts.json',
+				body: {
+					title,
+					raw: description,
+					category: _.parseInt(test.context.category)
+				},
+				qs: {
+					api_key: TOKEN.api,
+					api_username: username
+				}
+			}, (error, response, body) => {
+				if (error) {
+					return reject(error)
+				}
+
+				if (response.statusCode !== 200) {
+					return reject(new Error(
+						`Got ${response.statusCode}: ${JSON.stringify(body, null, 2)}`))
+				}
+
+				return resolve(body)
+			})
+		})
+
+		const slug = test.context.generateRandomSlug({
+			prefix: 'support-thread-discourse-test'
+		})
+
+		return test.context.sdk.card.create({
+			name: title,
+			slug,
+			type: 'support-thread',
+			version: '1.0.0',
+			data: {
+				mirrors: [ `https://forums.balena.io/t/${post.topic_id}` ],
+				environment: 'production',
+				inbox: 'S/Forums',
+				mentionsUser: [],
+				alertsUser: [],
+				description: '',
+				status: 'open'
+			}
+		})
+	}
+})
+
+ava.after(helpers.mirror.after)
+ava.beforeEach(async (test) => {
+	await helpers.mirror.beforeEach(
+		test, environment.integration.discourse.username)
+})
+
+ava.afterEach(helpers.mirror.afterEach)
+
+// Skip all tests if there is no Discourse token
+const avaTest = TOKEN ? ava.serial : ava.serial.skip
+
+avaTest('should add and remove a thread tag', async (test) => {
+	const supportThread = await test.context.startSupportThread(
+		test.context.username,
+		`My Issue ${uuid()}`,
+		`Foo Bar ${uuid()}`)
+
+	await test.context.sdk.card.update(supportThread.id, {
+		type: supportThread.type,
+		tags: [ 'foo' ]
+	})
+
+	await test.context.sdk.card.update(supportThread.id, {
+		type: supportThread.type,
+		tags: []
+	})
+
+	const mirrorId = supportThread.data.mirrors[0]
+	const topic = await test.context.getTopic(_.last(mirrorId.split('/')))
+	test.deepEqual(topic.tags, [])
+})
+
+avaTest('should add a thread tag', async (test) => {
+	const supportThread = await test.context.startSupportThread(
+		test.context.username,
+		`My Issue ${uuid()}`,
+		`Foo Bar ${uuid()}`)
+
+	await test.context.sdk.card.update(supportThread.id, {
+		type: supportThread.type,
+		tags: [ 'foo' ]
+	})
+
+	const mirrorId = supportThread.data.mirrors[0]
+	const topic = await test.context.getTopic(_.last(mirrorId.split('/')))
+	test.deepEqual(topic.tags, [ 'foo' ])
+})
+
+avaTest('should send a whisper', async (test) => {
+	const supportThread = await test.context.startSupportThread(
+		test.context.username,
+		`My Issue ${uuid()}`,
+		`Foo Bar ${uuid()}`)
+
+	await test.context.createWhisper(supportThread,
+		test.context.getWhisperSlug(), 'First whisper')
+
+	const mirrorId = supportThread.data.mirrors[0]
+	const topic = await test.context.getTopic(_.last(mirrorId.split('/')))
+	const lastPost = _.last(topic.post_stream.posts)
+
+	test.is(test.context.username, lastPost.username)
+	test.is(utils.parseHTML(lastPost.cooked), 'First whisper')
+	test.is(lastPost.post_type, 4)
+})
+
+avaTest('should update a whisper', async (test) => {
+	const supportThread = await test.context.startSupportThread(
+		test.context.username,
+		`My Issue ${uuid()}`,
+		`Foo Bar ${uuid()}`)
+
+	const whisper = await test.context.createWhisper(supportThread,
+		test.context.getWhisperSlug(), 'First whisper')
+
+	const mirrorId = supportThread.data.mirrors[0]
+	const topicBefore = await test.context.getTopic(_.last(mirrorId.split('/')))
+
+	await test.context.sdk.card.update(whisper.id, {
+		type: whisper.type,
+		data: {
+			payload: {
+				message: 'Edited whisper'
+			}
+		}
+	})
+
+	const topicAfter = await test.context.getTopic(_.last(mirrorId.split('/')))
+	const lastPost = _.last(topicAfter.post_stream.posts)
+
+	test.is(test.context.username, lastPost.username)
+	test.is(utils.parseHTML(lastPost.cooked), 'Edited whisper')
+	test.is(lastPost.post_type, 4)
+	test.is(topicBefore.post_stream.posts.length, topicAfter.post_stream.posts.length)
+})
+
+avaTest('should send a message', async (test) => {
+	const supportThread = await test.context.startSupportThread(
+		test.context.username,
+		`My Issue ${uuid()}`,
+		`Foo Bar ${uuid()}`)
+
+	await test.context.createMessage(supportThread,
+		test.context.getMessageSlug(), 'First comment')
+
+	const mirrorId = supportThread.data.mirrors[0]
+	const topic = await test.context.getTopic(_.last(mirrorId.split('/')))
+	const lastPost = _.last(topic.post_stream.posts)
+
+	test.is(test.context.username, lastPost.username)
+	test.is(utils.parseHTML(lastPost.cooked), 'First comment')
+	test.is(lastPost.post_type, 1)
+})
+
+avaTest('should update a message', async (test) => {
+	const supportThread = await test.context.startSupportThread(
+		test.context.username,
+		`My Issue ${uuid()}`,
+		`Foo Bar ${uuid()}`)
+
+	const message = await test.context.createMessage(supportThread,
+		test.context.getMessageSlug(), 'First comment')
+
+	const mirrorId = supportThread.data.mirrors[0]
+	const topicBefore = await test.context.getTopic(_.last(mirrorId.split('/')))
+
+	await test.context.sdk.card.update(message.id, {
+		type: message.type,
+		data: {
+			payload: {
+				message: 'Edited comment'
+			}
+		}
+	})
+
+	const topicAfter = await test.context.getTopic(_.last(mirrorId.split('/')))
+	const lastPost = _.last(topicAfter.post_stream.posts)
+
+	test.is(test.context.username, lastPost.username)
+	test.is(utils.parseHTML(lastPost.cooked), 'Edited comment')
+	test.is(lastPost.post_type, 1)
+	test.is(topicBefore.post_stream.posts.length, topicAfter.post_stream.posts.length)
+})
+
+avaTest('should update the thread title', async (test) => {
+	const supportThread = await test.context.startSupportThread(
+		test.context.username,
+		`My Issue ${uuid()}`,
+		`Foo Bar ${uuid()}`)
+
+	const newTitle = `New issue title ${uuid()}`
+
+	await test.context.sdk.card.update(supportThread.id, {
+		type: supportThread.type,
+		name: newTitle
+	})
+
+	const mirrorId = supportThread.data.mirrors[0]
+	const topic = await test.context.getTopic(_.last(mirrorId.split('/')))
+	test.is(topic.title, newTitle)
+})

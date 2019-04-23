@@ -1,0 +1,57 @@
+{
+  "slug": "triggered-action-integration-discourse-mirror-event",
+  "type": "triggered-action",
+  "version": "1.0.0",
+  "tags": [],
+  "markers": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "filter": {
+      "type": "object",
+      "anyOf": [
+        {
+          "required": [ "type" ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "message",
+                "whisper"
+              ]
+            }
+          }
+        },
+        {
+          "required": [ "type", "data" ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "support-thread"
+            },
+            "data": {
+              "type": "object",
+              "required": [ "inbox" ],
+              "properties": {
+                "inbox": {
+                  "type": "string",
+                  "enum": [ "S/Forums" ]
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "action": "action-integration-discourse-mirror-event",
+    "target": {
+      "$eval": "source.id"
+    },
+    "targetType": {
+      "$eval": "source.type"
+    },
+    "arguments": {}
+  },
+  "requires": [],
+  "capabilities": []
+}
