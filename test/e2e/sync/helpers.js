@@ -341,7 +341,7 @@ exports.translate = {
 			}
 
 			for (const variation of getVariations(testCase.steps, {
-				permutations: suite.source !== 'github' && suite.source !== 'discourse'
+				permutations: suite.source !== 'github'
 			})) {
 				// TODO: We should remove this check
 				if (suite.source === 'github' &&
@@ -363,7 +363,7 @@ exports.translate = {
 						// its helpful to omit the update events from the tail checks.
 						ignoreUpdateEvents: !_.isEqual(variation.combination, testCase.steps),
 
-						expected,
+						expected: _.cloneDeep(expected),
 						name: testCaseName,
 						variant: variation.name
 					}, getTestCaseOptions(test), stubOptions)
