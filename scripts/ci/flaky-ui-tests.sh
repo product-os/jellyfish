@@ -8,7 +8,7 @@
 
 set -eu
 
-MAX=5
+MAX=2
 
 for ((count=0; count<MAX; count++))
 do
