@@ -67,7 +67,10 @@ ava.serial('Updates to support threads should be reflected in the support thread
 	// Create a new support thread
 	const supportThread = await page.evaluate(() => {
 		return window.sdk.card.create({
-			type: 'support-thread'
+			type: 'support-thread',
+			data: {
+				inbox: 'S/Paid_Support'
+			}
 		})
 	})
 
@@ -100,7 +103,10 @@ ava.serial('You should be able to link support threads to existing support issue
 	const supportIssue = await page.evaluate((cardName) => {
 		return window.sdk.card.create({
 			type: 'support-issue',
-			name: cardName
+			name: cardName,
+			data: {
+				inbox: 'S/Paid_Support'
+			}
 		})
 	}, name)
 
@@ -144,7 +150,10 @@ ava.serial('Support thread timeline should default to sending whispers', async (
 
 	const supportThread = await page.evaluate(() => {
 		return window.sdk.card.create({
-			type: 'support-thread'
+			type: 'support-thread',
+			data: {
+				inbox: 'S/Paid_Support'
+			}
 		})
 	})
 
@@ -169,7 +178,10 @@ ava.serial('Support thread timeline should send a message if the input is prefix
 
 	const supportThread = await page.evaluate(() => {
 		return window.sdk.card.create({
-			type: 'support-thread'
+			type: 'support-thread',
+			data: {
+				inbox: 'S/Paid_Support'
+			}
 		})
 	})
 
@@ -194,7 +206,10 @@ ava.serial('Support thread timeline should send a message if the whisper button 
 
 	const supportThread = await page.evaluate(() => {
 		return window.sdk.card.create({
-			type: 'support-thread'
+			type: 'support-thread',
+			data: {
+				inbox: 'S/Paid_Support'
+			}
 		})
 	})
 
@@ -221,7 +236,10 @@ ava.serial('Support thread timeline should revert to "whisper" mode after sendin
 
 	const supportThread = await page.evaluate(() => {
 		return window.sdk.card.create({
-			type: 'support-thread'
+			type: 'support-thread',
+			data: {
+				inbox: 'S/Paid_Support'
+			}
 		})
 	})
 
