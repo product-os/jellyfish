@@ -60,5 +60,11 @@ spec:
           value: {{{INTEGRATION_GITHUB_TOKEN}}}
         - name: INTEGRATION_GITHUB_SIGNATURE_KEY
           value: {{{INTEGRATION_GITHUB_SIGNATURE_KEY}}}
+        - name: INTEGRATION_DISCOURSE_TOKEN
+          value: {{{INTEGRATION_DISCOURSE_TOKEN}}}
+        - name: INTEGRATION_DISCOURSE_USERNAME
+          value: {{{INTEGRATION_DISCOURSE_USERNAME}}}
+        - name: INTEGRATION_DISCOURSE_SIGNATURE_KEY
+          value: {{{INTEGRATION_DISCOURSE_SIGNATURE_KEY}}}
       imagePullSecrets:
         - name: com.docker.hub.travisciresin
