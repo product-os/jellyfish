@@ -1,6 +1,6 @@
 {
-  "slug": "view-all-support-threads",
-  "name": "General",
+  "slug": "view-all-forums-threads",
+  "name": "Forums",
   "version": "1.0.0",
   "type": "view",
   "markers": [ "org-balena" ],
@@ -8,7 +8,7 @@
   "links": {},
   "active": true,
   "data": {
-    "namespace": "Support",
+    "namespace": "Experimental",
     "allOf": [
       {
         "name": "Active cards",
@@ -44,7 +44,7 @@
               "properties": {
                 "inbox": {
                   "type": "string",
-                  "const": "S/Paid_Support"
+                  "const": "S/Forums"
                 },
                 "category": {
                   "description": "This field is not required and should match cases where the field is not present OR is 'general'",
