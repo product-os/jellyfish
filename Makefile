@@ -119,6 +119,8 @@ TEST_INTEGRATION_GITHUB_REPO ?= balena-io/jellyfish-test-github
 export TEST_INTEGRATION_GITHUB_REPO
 TEST_INTEGRATION_FRONT_INBOX ?= inb_8t8y
 export TEST_INTEGRATION_FRONT_INBOX
+TEST_INTEGRATION_DISCOURSE_CATEGORY ?= 44 # sandbox
+export TEST_INTEGRATION_DISCOURSE_CATEGORY
 
 # -----------------------------------------------
 # Build Configuration
