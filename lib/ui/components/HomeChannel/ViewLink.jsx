@@ -18,11 +18,11 @@ const styledComponents = require('styled-components')
 const {
 	selectors,
 	actionCreators
-} = require('../core')
-const helpers = require('../services/helpers')
-const ContextMenu = require('./ContextMenu')
-const NotificationsModal = require('./NotificationsModal')
-const Icon = require('../shame/Icon')
+} = require('../../core')
+const helpers = require('../../services/helpers')
+const ContextMenu = require('../ContextMenu')
+const NotificationsModal = require('../NotificationsModal')
+const Icon = require('../../shame/Icon')
 const EllipsisButton = styledComponents.default(rendition.Button) `
 	float: right;
 	color: #c3c3c3;

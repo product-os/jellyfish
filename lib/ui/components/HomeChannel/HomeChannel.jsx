@@ -10,10 +10,6 @@ import {
 import * as _ from 'lodash'
 import React from 'react'
 import {
-	connect
-} from 'react-redux'
-import * as redux from 'redux'
-import {
 	Box,
 	Button,
 	Divider,
@@ -22,16 +18,13 @@ import {
 	Link,
 	Txt
 } from 'rendition'
-import styled from 'styled-components'
-import {
-	actionCreators,
-	selectors
-} from '../core'
+import TreeMenu from './TreeMenu'
 import {
 	ViewLink
 } from './ViewLink'
-import Gravatar from '../shame/Gravatar'
-import Icon from '../shame/Icon'
+import Gravatar from '../../shame/Gravatar'
+import Icon from '../../shame/Icon'
+import MenuPanel from '../../shame/MenuPanel'
 
 // View slugs that should be displayed first
 const DEFAULT_VIEWS = [
@@ -40,76 +33,6 @@ const DEFAULT_VIEWS = [
 	'view-my-todo-items',
 	'view-my-orgs'
 ]
-
-const TreeMenu = (props) => {
-	const {
-		node
-	} = props
-	if (!node.children.length && node.card) {
-		const card = node.card
-
-		const isActive = card.id === _.get(props.activeChannel, [ 'data', 'target' ])
-		const activeSlice = _.get(props.activeChannel, [ 'data', 'options', 'slice' ])
-		const update = props.viewNotices[card.id]
-		return (
-			<ViewLink
-				key={card.id}
-				card={card}
-				isActive={isActive}
-				activeSlice={activeSlice}
-				update={update}
-				open={props.open}
-			/>
-		)
-	}
-
-	const isExpanded = node.key === 'root' || props.isExpanded(node.name)
-
-	return (
-		<Box key={node.key}>
-			{node.name && (
-				<Button
-					plaintext
-					primary
-					w="100%"
-					px={3}
-					my={2}
-					data-groupname={node.name}
-					data-test={`home-channel__group-toggle--${node.key}`}
-					onClick={props.toggleExpandGroup}
-				>
-					<Flex style={{
-						width: '100%'
-					}} justify="space-between">
-						{node.name}
-						<Icon name={`chevron-${isExpanded ? 'up' : 'down'}`}/>
-					</Flex>
-				</Button>
-			)}
-
-			<Box
-				style={{
-					display: isExpanded ? 'block' : 'none'
-				}}
-				pl={node.key === 'root' ? 0 : 2}
-			>
-				{node.children.map((child) => {
-					return (
-						<TreeMenu
-							key={child.key}
-							node={child}
-							isExpanded={props.isExpanded}
-							toggleExpandGroup={props.toggleExpandGroup}
-							activeChannel={props.activeChannel}
-							viewNotices={props.viewNotices}
-							open={props.open}
-						/>
-					)
-				})}
-			</Box>
-		</Box>
-	)
-}
 
 const viewsToTree = (views, root = {}) => {
 	const result = _.defaults(root, {
@@ -170,51 +93,7 @@ const getDefaultView = (user, views) => {
 	}) || null
 }
 
-const MenuPanel = styled(Box) `
-	position: absolute;
-	top: 64px;
-	width: 180px;
-	background: white;
-	box-shadow: 0 1px 4px rgba(17, 17, 17, 0.5);
-	border-radius: 3px;
-
-	&::before {
-		content: '';
-		width: 0;
-		height: 0;
-		border-left: 5px solid transparent;
-		border-right: 5px solid transparent;
-		border-bottom: 5px solid #ccc;
-		position: absolute;
-    top: -6px;
-		left: 14px;
-	}
-
-	&::after {
-		content: '';
-		width: 0;
-		height: 0;
-		border-left: 5px solid transparent;
-		border-right: 5px solid transparent;
-		border-bottom: 5px solid white;
-		position: absolute;
-    top: -5px;
-		left: 14px;
-	}
-`
-
-const UserMenuBtn = styled(Button) `
-	background: transparent;
-	color: #888;
-
-	&:hover,
-	&:focus,
-	&:active {
-		color: #333;
-	}
-`
-
-class HomeChannelBase extends React.Component {
+export default class HomeChannel extends React.Component {
 	constructor (props) {
 		super(props)
 		this.state = {
@@ -350,6 +229,7 @@ class HomeChannelBase extends React.Component {
 				}
 			}, user
 		} = this.props
+
 		const {
 			tail
 		} = this.state
@@ -387,7 +267,7 @@ class HomeChannelBase extends React.Component {
 				<Flex justify="space-between" style={{
 					position: 'relative'
 				}}>
-					<UserMenuBtn plaintext={true} className="user-menu-toggle" py={3} pl={3} pr={2} onClick={this.showMenu}>
+					<Button plaintext={true} className="user-menu-toggle" py={3} pl={3} pr={2} onClick={this.showMenu}>
 						<Gravatar.default email={email}/>
 
 						{Boolean(username) && <Txt mx={2}>{username}</Txt>}
@@ -401,7 +281,7 @@ class HomeChannelBase extends React.Component {
 							fontSize: 11,
 							position: 'absolute'
 						}}/>)}
-					</UserMenuBtn>
+					</Button>
 				</Flex>
 
 				{this.state.showMenu && (
@@ -475,32 +355,3 @@ class HomeChannelBase extends React.Component {
 		)
 	}
 }
-
-const mapStateToProps = (state, ownProps) => {
-	const target = _.get(ownProps, [ 'channel', 'data', 'head', 'id' ])
-	return {
-		channels: selectors.getChannels(state),
-		codename: selectors.getAppCodename(state),
-		orgs: selectors.getOrgs(state),
-		tail: target ? selectors.getViewData(state, target) : null,
-		uiState: selectors.getUIState(state),
-		user: selectors.getCurrentUser(state),
-		version: selectors.getAppVersion(state),
-		viewNotices: selectors.getViewNotices(state)
-	}
-}
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		actions: redux.bindActionCreators(
-			_.pick(actionCreators, [
-				'addChannel',
-				'loadViewResults',
-				'logout',
-				'removeViewNotice',
-				'setUIState'
-			]), dispatch)
-	}
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(HomeChannelBase)
