@@ -13,6 +13,14 @@ module.exports = {
 			require('./external-inbound-message/03.json')
 		]
 	},
+	'external-inbound-whisper-eventual-post-stream': {
+		expected: require('./external-inbound-whisper-eventual-post-stream/expected.json'),
+		steps: [
+			require('./external-inbound-whisper-eventual-post-stream/01.json'),
+			require('./external-inbound-whisper-eventual-post-stream/02.json'),
+			require('./external-inbound-whisper-eventual-post-stream/03.json')
+		]
+	},
 	'external-inbound-whisper': {
 		expected: require('./external-inbound-whisper/expected.json'),
 		steps: [
