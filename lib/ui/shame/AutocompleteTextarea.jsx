@@ -390,7 +390,7 @@ class AutoCompleteArea extends React.Component {
 				shouldSend = !event.shiftKey && !event.ctrlKey
 			}
 
-			if (event.key === 'Enter' && shouldSend && this.props.onTextSubmit) {
+			if ((event.which === 13 || event.keyCode === 13) && shouldSend && this.props.onTextSubmit) {
 				this.props.onTextSubmit(event)
 			}
 		}
