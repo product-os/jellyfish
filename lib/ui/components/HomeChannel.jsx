@@ -28,9 +28,6 @@ import {
 	selectors
 } from '../core'
 import {
-	TailStreamer
-} from './TailStreamer'
-import {
 	ViewLink
 } from './ViewLink'
 import Gravatar from '../shame/Gravatar'
@@ -217,7 +214,7 @@ const UserMenuBtn = styled(Button) `
 	}
 `
 
-class HomeChannelBase extends TailStreamer {
+class HomeChannelBase extends React.Component {
 	constructor (props) {
 		super(props)
 		this.state = {
@@ -225,7 +222,6 @@ class HomeChannelBase extends TailStreamer {
 			tail: null,
 			messages: []
 		}
-		this.streamTail(this.props.channel.data.target)
 
 		this.open = this.open.bind(this)
 		this.logout = this.logout.bind(this)
@@ -233,6 +229,8 @@ class HomeChannelBase extends TailStreamer {
 		this.hideMenu = this.hideMenu.bind(this)
 		this.toggleExpandGroup = this.toggleExpandGroup.bind(this)
 		this.isExpanded = this.isExpanded.bind(this)
+
+		this.props.actions.loadViewResults(this.props.channel.data.head)
 	}
 
 	groupViews (tail) {
@@ -319,19 +317,28 @@ class HomeChannelBase extends TailStreamer {
 	shouldComponentUpdate (nextProps, nextState) {
 		return !circularDeepEqual(nextState, this.state) || !circularDeepEqual(nextProps, this.props)
 	}
-	setTail (tail) {
+
+	componentDidUpdate (prevProps) {
 		// If there is only 1 channel, check for the home channel, otherwise, open
 		// the all messages view by default
-		if (this.props.channels.length === 1) {
-			const view = getDefaultView(this.props.user, tail)
+		if (!prevProps.tail && this.props.tail && this.props.channels.length === 1) {
+			const view = getDefaultView(this.props.user, this.props.tail)
 			if (view) {
 				this.open(view)
 			}
 		}
-		this.setState({
-			tail: _.sortBy(tail, 'name')
-		})
 	}
+
+	static getDerivedStateFromProps (nextProps, nextState) {
+		const {
+			tail
+		} = nextProps
+
+		return tail ? {
+			tail: _.sortBy(tail, 'name')
+		} : null
+	}
+
 	isExpanded (name) {
 		return _.includes(_.get(this.props.uiState, [ 'sidebar', 'expanded' ], []), name)
 	}
@@ -469,26 +476,30 @@ class HomeChannelBase extends TailStreamer {
 	}
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
+	const target = _.get(ownProps, [ 'channel', 'data', 'head', 'id' ])
 	return {
 		channels: selectors.getChannels(state),
+		codename: selectors.getAppCodename(state),
+		orgs: selectors.getOrgs(state),
+		tail: target ? selectors.getViewData(state, target) : null,
+		uiState: selectors.getUIState(state),
 		user: selectors.getCurrentUser(state),
 		version: selectors.getAppVersion(state),
-		orgs: selectors.getOrgs(state),
-		codename: selectors.getAppCodename(state),
-		viewNotices: selectors.getViewNotices(state),
-		uiState: selectors.getUIState(state)
+		viewNotices: selectors.getViewNotices(state)
 	}
 }
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: {
-			addChannel: redux.bindActionCreators(actionCreators.addChannel, dispatch),
-			logout: redux.bindActionCreators(actionCreators.logout, dispatch),
-			removeViewNotice: redux.bindActionCreators(actionCreators.removeViewNotice, dispatch),
-			setUIState: redux.bindActionCreators(actionCreators.setUIState, dispatch)
-		}
+		actions: redux.bindActionCreators(
+			_.pick(actionCreators, [
+				'addChannel',
+				'loadViewResults',
+				'logout',
+				'removeViewNotice',
+				'setUIState'
+			]), dispatch)
 	}
 }
 
