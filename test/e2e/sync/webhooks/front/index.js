@@ -214,16 +214,6 @@ module.exports = {
 			require('./inbound-delete-message/05.json')
 		]
 	},
-	'discourse-topic-message': {
-		expected: require('./discourse-topic-message/expected.json'),
-		steps: [
-			require('./discourse-topic-message/01.json'),
-			require('./discourse-topic-message/02.json'),
-			require('./discourse-topic-message/03.json'),
-			require('./discourse-topic-message/04.json'),
-			require('./discourse-topic-message/05.json')
-		]
-	},
 	reminder: {
 		expected: require('./reminder/expected.json'),
 		steps: [
