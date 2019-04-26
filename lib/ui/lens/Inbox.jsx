@@ -1,9 +1,9 @@
-
 /*
  * Copyright (C) Balena.io - All Rights Reserved
  * Unauthorized copying of this file, via any medium is strictly prohibited.
  * Proprietary and confidential.
  */
+
 const _ = require('lodash')
 const React = require('react')
 const {
@@ -12,15 +12,12 @@ const {
 const reactResizeObserver = require('react-resize-observer')
 const redux = require('redux')
 const rendition = require('rendition')
-const uuid = require('uuid/v4')
 const Event = require('../components/Event').default
 const {
 	actionCreators,
-	analytics,
 	sdk,
 	selectors
 } = require('../core')
-const helpers = require('../services/helpers')
 const Icon = require('../shame/Icon')
 
 const Column = require('../shame/Column').default
@@ -54,52 +51,6 @@ class Interleaved extends React.Component {
 				target,
 				parentChannel: this.props.channel.id
 			})
-		}
-		this.addThread = (event) => {
-			event.preventDefault()
-			const {
-				head
-			} = this.props.channel.data
-			if (!head) {
-				console.warn('.addThread() called, but there is no head card')
-				return
-			}
-			const schema = helpers.getViewSchema(head, this.props.user)
-			if (!schema) {
-				console.warn('.addThread() called, but there is no view schema available')
-				return
-			}
-			const cardData = helpers.getUpdateObjectFromSchema(schema)
-			cardData.slug = `thread-${uuid()}`
-			cardData.type = 'thread'
-			if (!cardData.data) {
-				cardData.data = {}
-			}
-			this.setState({
-				creatingCard: true
-			})
-			sdk.card.create(cardData)
-				.then((thread) => {
-					if (thread) {
-						this.openChannel(thread.id)
-					}
-					return null
-				})
-				.then(() => {
-					analytics.track('element.create', {
-						element: {
-							type: cardData.type
-						}
-					})
-				})
-				.catch((error) => {
-					this.props.actions.addNotification('danger', error.message)
-				})
-				.finally(() => {
-					this.setState({
-						creatingCard: false
-					})
-				})
 		}
 		this.handleEventToggle = () => {
 			this.setState({
@@ -186,9 +137,6 @@ class Interleaved extends React.Component {
 
 	render () {
 		const {
-			head
-		} = this.props.channel.data
-		const {
 			messagesOnly
 		} = this.state
 
@@ -267,7 +215,6 @@ class Interleaved extends React.Component {
 						return (
 							<rendition.Box key={card.id}>
 								<Event
-									onCardVisible={this.handleCardVisible}
 									openChannel={this.openChannel}
 									card={card}
 								/>
@@ -275,26 +222,6 @@ class Interleaved extends React.Component {
 						)
 					})}
 				</div>
-
-				{head && head.slug !== 'view-my-alerts' && head.slug !== 'view-my-mentions' && (
-					<rendition.Flex
-						p={3}
-						style={{
-							borderTop: '1px solid #eee'
-						}}
-						justify="flex-end"
-					>
-						<rendition.Button
-							className="btn--add-thread"
-							success={true}
-							onClick={this.addThread}
-							disabled={this.state.creatingCard}
-						>
-							{this.state.creatingCard && <Icon.default spin name="cog"/>}
-							{!this.state.creatingCard && 'Add a Chat thread'}
-						</rendition.Button>
-					</rendition.Flex>
-				)}
 			</Column>
 		)
 	}
@@ -319,10 +246,10 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 const lens = {
-	slug: 'lens-interleaved',
+	slug: 'lens-inbox',
 	type: 'lens',
 	version: '1.0.0',
-	name: 'Interleaved lens',
+	name: 'Inbox lens',
 	data: {
 		icon: 'list',
 		renderer: connect(mapStateToProps, mapDispatchToProps)(Interleaved),

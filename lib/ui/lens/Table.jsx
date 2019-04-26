@@ -12,7 +12,8 @@ const {
 const redux = require('redux')
 const rendition = require('rendition')
 const {
-	actionCreators
+	actionCreators,
+	selectors
 } = require('../core')
 const helpers = require('../services/helpers')
 const Column = require('../shame/Column').default
@@ -65,7 +66,7 @@ class CardTable extends React.Component {
 		if (!head || head.type !== 'view') {
 			return {}
 		}
-		const schema = helpers.getViewSchema(head)
+		const schema = helpers.getViewSchema(head, this.props.user)
 		if (!schema) {
 			return {}
 		}
@@ -119,6 +120,11 @@ class CardTable extends React.Component {
 		</Column>)
 	}
 }
+const mapStateToProps = (state) => {
+	return {
+		user: selectors.getCurrentUser(state)
+	}
+}
 const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: {
@@ -132,7 +138,7 @@ const lens = {
 	version: '1.0.0',
 	name: 'Default table lens',
 	data: {
-		renderer: connect(null, mapDispatchToProps)(CardTable),
+		renderer: connect(mapStateToProps, mapDispatchToProps)(CardTable),
 		icon: 'table',
 		type: '*',
 		filter: {

@@ -84,6 +84,10 @@ ava.serial('Updates to support threads should be reflected in the support thread
 
 	const rand = uuid()
 
+	await require('bluebird').delay(10 * 1000)
+
+	await macros.screenshot(test, page)
+
 	const columnSelector = macros.makeSelector('column', null, supportThread.id)
 	await macros.createChatMessage(page, columnSelector, `%${rand}`)
 

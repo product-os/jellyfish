@@ -18,13 +18,15 @@ import HomeChannel from './HomeChannel'
 
 const mapStateToProps = (state, ownProps) => {
 	const target = _.get(ownProps, [ 'channel', 'data', 'head', 'id' ])
+	const user = selectors.getCurrentUser(state)
 	return {
 		channels: selectors.getChannels(state),
 		codename: selectors.getAppCodename(state),
 		orgs: selectors.getOrgs(state),
 		tail: target ? selectors.getViewData(state, target) : null,
+		mentions: selectors.getViewData(state, 'view-my-inbox'),
 		uiState: selectors.getUIState(state),
-		user: selectors.getCurrentUser(state),
+		user,
 		version: selectors.getAppVersion(state),
 		viewNotices: selectors.getViewNotices(state)
 	}
@@ -38,7 +40,8 @@ const mapDispatchToProps = (dispatch) => {
 				'loadViewResults',
 				'logout',
 				'removeViewNotice',
-				'setUIState'
+				'setUIState',
+				'streamView'
 			]), dispatch)
 	}
 }

@@ -16,7 +16,8 @@ const reactVirtualized = require('react-virtualized')
 const redux = require('redux')
 const rendition = require('rendition')
 const {
-	actionCreators
+	actionCreators,
+	selectors
 } = require('../core')
 const helpers = require('../services/helpers')
 const SingleCard = require('./SingleCard')
@@ -105,7 +106,7 @@ class CardList extends React.Component {
 		if (!head || head.type !== 'view') {
 			return {}
 		}
-		const schema = helpers.getViewSchema(head)
+		const schema = helpers.getViewSchema(head, this.props.user)
 		if (!schema) {
 			return {}
 		}
@@ -168,6 +169,11 @@ class CardList extends React.Component {
 		</Column>)
 	}
 }
+const mapStateToProps = (state) => {
+	return {
+		user: selectors.getCurrentUser(state)
+	}
+}
 const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: {
@@ -181,7 +187,7 @@ const lens = {
 	version: '1.0.0',
 	name: 'Default list lens',
 	data: {
-		renderer: connect(null, mapDispatchToProps)(CardList),
+		renderer: connect(mapStateToProps, mapDispatchToProps)(CardList),
 		icon: 'address-card',
 		type: '*',
 		filter: {

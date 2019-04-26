@@ -1,0 +1,126 @@
+{
+  "slug": "view-my-inbox",
+  "name": "Inbox",
+  "version": "1.0.0",
+  "type": "view",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "allOf": [
+      {
+        "name": "message or whisper",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "message",
+                "whisper"
+              ]
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+      {
+        "name": "Unread",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "object",
+              "properties": {
+                "readBy": {
+                  "type": "array",
+                  "items": {
+                    "not": {
+                      "const": {
+                        "$eval": "user.slug"
+                      }
+                    }
+                  }
+                }
+              },
+              "additionalProperties": true
+            }
+          },
+          "additionalProperties": true
+        }
+      }
+    ],
+    "anyOf": [
+      {
+        "name": "My mentions",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "object",
+              "properties": {
+                "payload": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "pattern": {
+                        "$eval": "'@' + user.slug[5:]"
+                      }
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "additionalProperties": true
+                }
+              },
+              "required": [
+                "payload"
+              ],
+              "additionalProperties": true
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+      {
+        "name": "My alerts",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "object",
+              "properties": {
+                "payload": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "pattern": {
+                        "$eval": "'!' + user.slug[5:]"
+                      }
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "additionalProperties": true
+                }
+              },
+              "required": [
+                "payload"
+              ],
+              "additionalProperties": true
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+    ],
+    "lenses": [
+      "lens-inbox"
+    ]
+  },
+  "requires": [],
+  "capabilities": []
+}

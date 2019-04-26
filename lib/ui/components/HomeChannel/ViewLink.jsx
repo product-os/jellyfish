@@ -15,6 +15,7 @@ const {
 const redux = require('redux')
 const rendition = require('rendition')
 const styledComponents = require('styled-components')
+const MentionsCount = require('./MentionsCount').default
 const {
 	selectors,
 	actionCreators
@@ -97,15 +98,13 @@ class ViewLinkBase extends React.Component {
 							return this.open()
 						}}
 					>
-						{card.name}
+						<rendition.Flex justify="space-between">
+							{card.name}
 
-						{!isActive && Boolean(update) &&
-							<Icon.default name="circle" style={{
-								color: update.newContent ? 'green' : 'orange',
-								marginTop: 4,
-								float: 'right',
-								fontSize: 11
-							}}/>}
+							{Boolean(update) && card.slug === 'view-my-inbox' && (
+								<MentionsCount mr={2}>{update}</MentionsCount>
+							)}
+						</rendition.Flex>
 					</rendition.Link>
 
 					{isActive &&

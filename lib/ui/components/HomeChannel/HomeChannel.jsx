@@ -18,6 +18,7 @@ import {
 	Link,
 	Txt
 } from 'rendition'
+import MentionsCount from './MentionsCount'
 import TreeMenu from './TreeMenu'
 import {
 	ViewLink
@@ -28,8 +29,7 @@ import MenuPanel from '../../shame/MenuPanel'
 
 // View slugs that should be displayed first
 const DEFAULT_VIEWS = [
-	'view-my-alerts',
-	'view-my-mentions',
+	'view-my-inbox',
 	'view-my-todo-items',
 	'view-my-orgs'
 ]
@@ -110,6 +110,8 @@ export default class HomeChannel extends React.Component {
 		this.isExpanded = this.isExpanded.bind(this)
 
 		this.props.actions.loadViewResults(this.props.channel.data.head)
+		this.props.actions.loadViewResults('view-my-inbox')
+		this.props.actions.streamView('view-my-inbox')
 	}
 
 	groupViews (tail) {
@@ -227,7 +229,9 @@ export default class HomeChannel extends React.Component {
 				data: {
 					head
 				}
-			}, user
+			},
+			user,
+			mentions
 		} = this.props
 
 		const {
@@ -239,9 +243,6 @@ export default class HomeChannel extends React.Component {
 		if (!head) {
 			return (
 				<Icon
-					style={{
-						color: 'white'
-					}}
 					spin
 					name="cog"
 				/>
@@ -250,10 +251,6 @@ export default class HomeChannel extends React.Component {
 		const groupedViews = this.groupViews(tail)
 		const groups = groupedViews.main
 		const defaultViews = groupedViews.defaults
-		const defaultUpdate = _.some(defaultViews, (card) => {
-			const update = this.props.viewNotices[card.id]
-			return update && (update.newMentions || update.newContent)
-		})
 
 		return (
 			<Flex
@@ -274,13 +271,9 @@ export default class HomeChannel extends React.Component {
 
 						<Icon name="caret-down"/>
 
-						{defaultUpdate && (<Icon name="circle" style={{
-							color: 'green',
-							top: 44,
-							left: 44,
-							fontSize: 11,
-							position: 'absolute'
-						}}/>)}
+						{mentions && mentions.length > 0 && (
+							<MentionsCount>{mentions.length}</MentionsCount>
+						)}
 					</Button>
 				</Flex>
 
@@ -292,13 +285,12 @@ export default class HomeChannel extends React.Component {
 							{_.map(defaultViews, (card) => {
 								const isActive = card.id === _.get(activeChannel, [ 'data', 'target' ])
 								const activeSlice = _.get(activeChannel, [ 'data', 'options', 'slice' ])
-								const update = this.props.viewNotices[card.id]
 								return (<Box mx={-3} key={card.id}>
 									<ViewLink
 										card={card}
 										isActive={isActive}
 										activeSlice={activeSlice}
-										update={update}
+										update={card.slug === 'view-my-inbox' ? (mentions && mentions.length) : 0}
 										open={this.open}
 									/>
 								</Box>)
