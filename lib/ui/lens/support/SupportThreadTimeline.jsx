@@ -134,17 +134,22 @@ class SupportThreadTimelineRenderer extends React.Component {
 	handleCardVisible (card) {
 		const userSlug = this.props.user.slug
 		if (card.type === 'message' || card.type === 'whisper') {
-			const readBy = _.get(card, [ 'data', 'readBy' ], [])
+			const message = _.get(card, [ 'data', 'palyoad', 'message' ], '')
 
-			if (!_.includes(readBy, userSlug)) {
-				readBy.push(userSlug)
+			// Only continue if the message mentions the current user
+			if (message.includes(`@${userSlug.slice(5)}`) || message.includes(`!${userSlug.slice(5)}`)) {
+				const readBy = _.get(card, [ 'data', 'readBy' ], [])
 
-				card.data.readBy = readBy
+				if (!_.includes(readBy, userSlug)) {
+					readBy.push(userSlug)
 
-				sdk.card.update(card.id, card)
-					.catch((error) => {
-						console.error(error)
-					})
+					card.data.readBy = readBy
+
+					sdk.card.update(card.id, card)
+						.catch((error) => {
+							console.error(error)
+						})
+				}
 			}
 		}
 	}
