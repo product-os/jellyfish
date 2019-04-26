@@ -137,6 +137,7 @@
     "lodash": "^4.17.5",
     "lru-cache": "^5.1.1",
     "mark.js": "^8.11.1",
+    "marked": "^0.6.2",
     "mixpanel-browser": "^2.22.4",
     "mkdirp-promise": "^5.0.1",
     "moment": "^2.22.1",
