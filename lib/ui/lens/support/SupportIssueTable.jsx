@@ -4,25 +4,35 @@
  * Proprietary and confidential.
  */
 
-const _ = require('lodash')
-const React = require('react')
-const {
+import _ from 'lodash'
+import React from 'react'
+import {
 	connect
-} = require('react-redux')
-const redux = require('redux')
-const rendition = require('rendition')
-const {
+} from 'react-redux'
+import {
+	bindActionCreators
+} from 'redux'
+import {
+	Box,
+	Button,
+	Flex,
+	Link,
+	Table,
+	Txt
+} from 'rendition'
+import {
 	actionCreators,
 	selectors
-} = require('../../core')
-const helpers = require('../../services/helpers')
-const Column = require('../../shame/Column').default
+} from '../../core'
+import helpers from '../../services/helpers'
+import Column from '../../shame/Column'
+
 const COLUMNS = [
 	{
 		field: 'name',
 		sortable: true,
 		render: (value) => {
-			return <rendition.Link>{value}</rendition.Link>
+			return <Link>{value}</Link>
 		}
 	},
 	{
@@ -53,44 +63,6 @@ const COLUMNS = [
 	}
 ]
 class CardTable extends React.Component {
-	constructor (props) {
-		super(props)
-
-		this.openCreateChannel = () => {
-			this.props.actions.addChannel({
-				head: {
-					action: 'create',
-					types: this.props.type,
-					seed: this.getSeedData(),
-					onDone: {
-						action: 'open'
-					}
-				},
-				canonical: false
-			})
-		}
-	}
-	openChannel (card) {
-		this.props.actions.addChannel({
-			cardType: card.type,
-			target: card.id,
-			head: card,
-			parentChannel: this.props.channel.id
-		})
-	}
-	getSeedData () {
-		const {
-			head
-		} = this.props.channel.data
-		if (!head || head.type !== 'view') {
-			return {}
-		}
-		const schema = helpers.getViewSchema(head, this.props.user)
-		if (!schema) {
-			return {}
-		}
-		return helpers.getUpdateObjectFromSchema(schema)
-	}
 	render () {
 		const tail = this.props.tail ? _.map(this.props.tail, (card) => {
 			const update = _.find(_.get(card, [ 'links', 'has attached element' ]), {
@@ -107,10 +79,10 @@ class CardTable extends React.Component {
 			}
 		}) : null
 		return (<Column flex="1" overflowY>
-			<rendition.Box flex="1" style={{
+			<Box flex="1" style={{
 				position: 'relative'
 			}}>
-				{Boolean(tail) && tail.length > 0 && (<rendition.Table rowKey="id" data={tail} columns={COLUMNS} onRowClick={({
+				{Boolean(tail) && tail.length > 0 && (<Table rowKey="id" data={tail} columns={COLUMNS} onRowClick={({
 					id
 				}) => {
 					return this.openChannel(_.find(this.props.tail, {
@@ -118,42 +90,45 @@ class CardTable extends React.Component {
 					}))
 				}}/>)}
 				{Boolean(tail) && tail.length === 0 &&
-            <rendition.Txt.p p={3}>No results found</rendition.Txt.p>}
-			</rendition.Box>
+            <Txt.p p={3}>No results found</Txt.p>}
+			</Box>
 
 			{Boolean(this.props.type) && (
 				<React.Fragment>
-					<rendition.Flex
+					<Flex
 						p={3}
 						style={{
 							borderTop: '1px solid #eee'
 						}}
 						justify="flex-end"
 					>
-						<rendition.Button
+						<Button
 							success={true}
 							onClick={this.openCreateChannel}
 						>
 							Add {this.props.type.name || this.props.type.slug}
-						</rendition.Button>
-					</rendition.Flex>
+						</Button>
+					</Flex>
 				</React.Fragment>
 			)}
 		</Column>)
 	}
 }
+
 const mapStateToProps = (state) => {
 	return {
 		user: selectors.getCurrentUser(state)
 	}
 }
+
 const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: {
-			addChannel: redux.bindActionCreators(actionCreators.addChannel, dispatch)
+			addChannel: bindActionCreators(actionCreators.addChannel, dispatch)
 		}
 	}
 }
+
 const lens = {
 	slug: 'lens-support-issue-table',
 	type: 'lens',
@@ -180,4 +155,5 @@ const lens = {
 		}
 	}
 }
-exports.default = lens
+
+export default lens

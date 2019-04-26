@@ -4,26 +4,39 @@
  * Proprietary and confidential.
  */
 
-const {
+import {
 	circularDeepEqual
-} = require('fast-equals')
-const React = require('react')
-const {
+} from 'fast-equals'
+import React from 'react'
+import {
 	connect
-} = require('react-redux')
-const reactResizeObserver = require('react-resize-observer')
-const reactVirtualized = require('react-virtualized')
-const redux = require('redux')
-const rendition = require('rendition')
-const {
+} from 'react-redux'
+import ReactResizeObserver from 'react-resize-observer'
+import {
+	AutoSizer,
+	List,
+	CellMeasurer,
+	CellMeasurerCache
+} from 'react-virtualized'
+import {
+	bindActionCreators
+} from 'redux'
+import {
+	Flex,
+	Button,
+	Box,
+	Txt,
+	Divider
+} from 'rendition'
+import {
 	actionCreators,
 	selectors
-} = require('../core')
-const helpers = require('../services/helpers')
-const SingleCard = require('./SingleCard')
-const Column = require('../shame/Column').default
+} from '../core'
+import BaseLens from './common/BaseLens'
+import SingleCard from './SingleCard'
+import Column from '../shame/Column'
 
-class CardList extends React.Component {
+class CardList extends BaseLens {
 	constructor (props) {
 		super(props)
 		this.clearCellCache = () => {
@@ -44,7 +57,7 @@ class CardList extends React.Component {
 				return null
 			}
 			return (
-				<reactVirtualized.CellMeasurer
+				<CellMeasurer
 					cache={this.cache}
 					columnIndex={0}
 					key={card.id}
@@ -54,36 +67,24 @@ class CardList extends React.Component {
 				>
 					{() => {
 						return (
-							<rendition.Box px={3} pb={3} style={rowProps.style}>
+							<Box px={3} pb={3} style={rowProps.style}>
 								<SingleCard.default.data.renderer card={card} level={1}/>
-								<rendition.Divider color="#eee" m={0} style={{
+								<Divider color="#eee" m={0} style={{
 									height: 1
 								}}/>
-							</rendition.Box>
+							</Box>
 						)
 					}}
-				</reactVirtualized.CellMeasurer>
+				</CellMeasurer>
 			)
 		}
 
-		this.cache = new reactVirtualized.CellMeasurerCache({
+		this.cache = new CellMeasurerCache({
 			defaultHeight: 300,
 			fixedWidth: true
 		})
-		this.openCreateChannel = () => {
-			this.props.actions.addChannel({
-				head: {
-					action: 'create',
-					types: this.props.type,
-					seed: this.getSeedData(),
-					onDone: {
-						action: 'open'
-					}
-				},
-				canonical: false
-			})
-		}
 	}
+
 	componentWillUpdate ({
 		tail
 	}) {
@@ -92,95 +93,81 @@ class CardList extends React.Component {
 			this.clearCellCache()
 		}
 	}
-	openChannel (card) {
-		this.props.actions.addChannel({
-			target: card.id,
-			cardType: card.type,
-			parentChannel: this.props.channel.id
-		})
-	}
-	getSeedData () {
-		const {
-			head
-		} = this.props.channel.data
-		if (!head || head.type !== 'view') {
-			return {}
-		}
-		const schema = helpers.getViewSchema(head, this.props.user)
-		if (!schema) {
-			return {}
-		}
-		return helpers.getUpdateObjectFromSchema(schema)
-	}
+
 	render () {
 		const {
 			tail
 		} = this.props
-		return (<Column flex="1" overflowY>
-			<rendition.Box flex="1" style={{
-				position: 'relative'
-			}}>
-				<reactResizeObserver.default onResize={this.clearCellCache}/>
-				{Boolean(tail) && tail.length > 0 && (
-					<reactVirtualized.AutoSizer>
-						{({
-							width, height
-						}) => {
-							return (
-								<reactVirtualized.List
-									width={width}
-									height={height}
-									deferredMeasurementCache={this.cache}
-									rowHeight={this.cache.rowHeight}
-									rowRenderer={this.rowRenderer}
-									rowCount={tail.length}
-									onResize={this.clearCellCache}
-									overscanRowCount={3}
-								/>
-							)
-						}}
-					</reactVirtualized.AutoSizer>
-				)}
+		return (
+			<Column flex="1" overflowY>
+				<Box flex="1" style={{
+					position: 'relative'
+				}}>
+					<ReactResizeObserver onResize={this.clearCellCache}/>
+					{Boolean(tail) && tail.length > 0 && (
+						<AutoSizer>
+							{({
+								width, height
+							}) => {
+								return (
+									<List
+										width={width}
+										height={height}
+										deferredMeasurementCache={this.cache}
+										rowHeight={this.cache.rowHeight}
+										rowRenderer={this.rowRenderer}
+										rowCount={tail.length}
+										onResize={this.clearCellCache}
+										overscanRowCount={3}
+									/>
+								)
+							}}
+						</AutoSizer>
+					)}
 
-				{Boolean(tail) && tail.length === 0 && (
-					<rendition.Txt.p p={3}>No results found</rendition.Txt.p>
-				)}
-			</rendition.Box>
+					{Boolean(tail) && tail.length === 0 && (
+						<Txt.p p={3}>No results found</Txt.p>
+					)}
+				</Box>
 
-			{Boolean(this.props.type) && (
-				<React.Fragment>
-					<rendition.Flex
-						p={3}
-						style={{
-							borderTop: '1px solid #eee'
-						}}
-						justify="flex-end"
-					>
-						<rendition.Button
-							success={true}
-							className={`btn--add-${this.props.type.slug}`}
-							onClick={this.openCreateChannel}
+				{Boolean(this.props.type) && (
+					<React.Fragment>
+						<Flex
+							p={3}
+							style={{
+								borderTop: '1px solid #eee'
+							}}
+							justify="flex-end"
 						>
-							Add {this.props.type.name || this.props.type.slug}
-						</rendition.Button>
-					</rendition.Flex>
-				</React.Fragment>
-			)}
-		</Column>)
+							<Button
+								success={true}
+								className={`btn--add-${this.props.type.slug}`}
+								onClick={this.openCreateChannel}
+							>
+								Add {this.props.type.name || this.props.type.slug}
+							</Button>
+						</Flex>
+					</React.Fragment>
+				)}
+			</Column>
+		)
 	}
 }
+
 const mapStateToProps = (state) => {
 	return {
 		user: selectors.getCurrentUser(state)
 	}
 }
+
 const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: {
-			addChannel: redux.bindActionCreators(actionCreators.addChannel, dispatch)
+			addChannel: bindActionCreators(actionCreators.addChannel, dispatch)
 		}
 	}
 }
+
 const lens = {
 	slug: 'lens-list',
 	type: 'lens',
@@ -203,4 +190,5 @@ const lens = {
 		}
 	}
 }
-exports.default = lens
+
+export default lens

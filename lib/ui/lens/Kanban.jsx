@@ -4,31 +4,42 @@
  * Proprietary and confidential.
  */
 
-const _ = require('lodash')
-const React = require('react')
-const {
+import _ from 'lodash'
+import React from 'react'
+import {
 	connect
-} = require('react-redux')
-const reactTrello = require('react-trello')
-const redux = require('redux')
-const rendition = require('rendition')
-const styledComponents = require('styled-components')
-const ContextMenu = require('../components/ContextMenu')
-const GroupUpdate = require('../components/GroupUpdate')
-const {
+} from 'react-redux'
+import ReactTrello from 'react-trello'
+import {
+	bindActionCreators
+} from 'redux'
+import {
+	Button,
+	Modal,
+	Flex,
+	Box,
+	Pill,
+	Txt
+} from 'rendition'
+import styled from 'styled-components'
+import ContextMenu from '../components/ContextMenu'
+import GroupUpdate from '../components/GroupUpdate'
+import {
 	Tag
-} = require('../components/Tag')
-const {
+} from '../components/Tag'
+import {
 	actionCreators,
 	analytics,
 	selectors,
 	sdk
-} = require('../core')
-const helpers = require('../services/helpers')
-const index = require('./index')
-const Icon = require('../shame/Icon')
+} from '../core'
+import helpers from '../services/helpers'
+import BaseLens from './common/BaseLens'
+import index from './index'
+import Icon from '../shame/Icon'
+
 const UNSORTED_GROUP_ID = 'JELLYFISH_UNSORTED_GROUP'
-const EllipsisButton = styledComponents.default(rendition.Button) `
+const EllipsisButton = styled(Button) `
 	float: right;
 	color: #c3c3c3;
 
@@ -46,7 +57,7 @@ const OrgCard = (props) => {
 	const arr = _.get(card, [ 'data', 'profile', 'projectedArr' ])
 
 	return (
-		<rendition.Box p={2}>
+		<Box p={2}>
 			{Boolean(card.tags) && _.map(card.tags, (tag) => {
 				return (
 					<Tag
@@ -57,15 +68,15 @@ const OrgCard = (props) => {
 					</Tag>
 				)
 			})}
-			<rendition.Txt>{card.name}</rendition.Txt>
+			<Txt>{card.name}</Txt>
 
 			{arr && (
-				<rendition.Pill bg="#2297DE">
+				<Pill bg="#2297DE">
 					Projected ARR: {arr.toFixed(2)}
-				</rendition.Pill>
+				</Pill>
 			)}
 
-		</rendition.Box>
+		</Box>
 	)
 }
 
@@ -81,9 +92,11 @@ const cardMapper = (card) => {
 		description: _.get(message, [ 'data', 'payload', 'message' ])
 	}
 }
+
 class CustomLaneHeader extends React.Component {
 	constructor (props) {
 		super(props)
+
 		this.toggleMenu = () => {
 			this.setState({
 				showMenu: !this.state.showMenu
@@ -101,102 +114,101 @@ class CustomLaneHeader extends React.Component {
 			showUpdateModal: false
 		}
 	}
+
 	render () {
 		const {
 			props
 		} = this
-		return (<div>
-			<strong>{props.title}</strong>
-			<EllipsisButton px={2} plaintext onClick={this.toggleMenu}>
-				<Icon.default name="ellipsis-v"/>
-			</EllipsisButton>
 
-			{this.state.showMenu && (
-				<ContextMenu.ContextMenu position="bottom" onClose={this.toggleMenu}>
-					<rendition.Button plaintext onClick={this.toggleUpdateModal}>
-					Update all items in this list
-					</rendition.Button>
-				</ContextMenu.ContextMenu>
-			)}
+		return (
+			<div>
+				<strong>{props.title}</strong>
+				<EllipsisButton px={2} plaintext onClick={this.toggleMenu}>
+					<Icon name="ellipsis-v"/>
+				</EllipsisButton>
 
-			{this.state.showUpdateModal && (
-				<GroupUpdate.GroupUpdate cards={props.cards} schema={props.schema} onClose={this.toggleUpdateModal}/>
-			)}
-		</div>)
+				{this.state.showMenu && (
+					<ContextMenu.ContextMenu position="bottom" onClose={this.toggleMenu}>
+						<Button plaintext onClick={this.toggleUpdateModal}>
+						Update all items in this list
+						</Button>
+					</ContextMenu.ContextMenu>
+				)}
+
+				{this.state.showUpdateModal && (
+					<GroupUpdate.GroupUpdate cards={props.cards} schema={props.schema} onClose={this.toggleUpdateModal}/>
+				)}
+			</div>
+		)
 	}
 }
-class Kanban extends React.Component {
+
+class Kanban extends BaseLens {
 	constructor (props) {
 		super(props)
-		this.handleDragEnd = (cardId, _sourceLaneId, targetLaneId) => {
-			const card = _.find(this.props.tail, {
-				id: cardId
-			})
-			if (!card) {
-				console.warn(`Could not find card by id: ${cardId}`)
-				return
-			}
-			const activeSlice = _.get(this.props, [ 'subscription', 'data', 'activeSlice' ])
-			const slices = this.getSlices()
-			const slice = _.find(slices, {
-				patch: activeSlice
-			}) || slices[0]
-			if (!slice) {
-				return
-			}
-			const targetValue = _.find(slice.values, (value) => {
-				return targetLaneId === `${slice.path}__${value}`
-			})
-			if (!targetValue) {
-				return
-			}
-			_.set(card, slice.path.replace(/properties\./g, ''), targetValue)
-			sdk.card.update(card.id, card)
-				.then(() => {
-					analytics.track('element.update', {
-						element: {
-							type: card.type,
-							id: card.id
-						}
-					})
-				})
-				.catch((error) => {
-					this.props.actions.addNotification('danger', error.message)
-				})
-		}
-		this.onCardClick = (cardId) => {
-			const card = _.find(this.props.tail, {
-				id: cardId
-			})
-			this.setState({
-				modalChannel: {
-					target: cardId,
-					cardType: card.type
-				}
-			})
-		}
-		this.clearModalChannel = () => {
-			this.setState({
-				modalChannel: null
-			})
-		}
+
 		this.state = {
 			modalChannel: null
 		}
 
-		this.openCreateChannel = () => {
-			this.props.actions.addChannel({
-				head: {
-					action: 'create',
-					types: this.props.type,
-					seed: this.getSeedData(),
-					onDone: {
-						action: 'open'
-					}
-				},
-				canonical: false
-			})
+		this.handleDragEnd = this.handleDragEnd.bind(this)
+		this.onCardClick = this.onCardClick.bind(this)
+		this.clearModalChannel = this.clearModalChannel.bind(this)
+	}
+
+	onCardClick (cardId) {
+		const card = _.find(this.props.tail, {
+			id: cardId
+		})
+		this.setState({
+			modalChannel: {
+				target: cardId,
+				cardType: card.type
+			}
+		})
+	}
+
+	clearModalChannel () {
+		this.setState({
+			modalChannel: null
+		})
+	}
+
+	handleDragEnd (cardId, _sourceLaneId, targetLaneId) {
+		const card = _.find(this.props.tail, {
+			id: cardId
+		})
+		if (!card) {
+			console.warn(`Could not find card by id: ${cardId}`)
+			return
 		}
+		const activeSlice = _.get(this.props, [ 'subscription', 'data', 'activeSlice' ])
+		const slices = this.getSlices()
+		const slice = _.find(slices, {
+			patch: activeSlice
+		}) || slices[0]
+		if (!slice) {
+			return
+		}
+		const targetValue = _.find(slice.values, (value) => {
+			return targetLaneId === `${slice.path}__${value}`
+		})
+		if (!targetValue) {
+			return
+		}
+		_.set(card, slice.path.replace(/properties\./g, ''), targetValue)
+		sdk.card.update(card.id, card)
+			.then(() => {
+				analytics.track('element.update', {
+					element: {
+						type: card.type,
+						id: card.id
+					}
+				})
+			})
+			.catch((error) => {
+				this.props.actions.addNotification('danger', error.message)
+			})
 	}
 
 	getSlices () {
@@ -206,6 +218,7 @@ class Kanban extends React.Component {
 		}
 		return helpers.getViewSlices(view, this.props.types) || []
 	}
+
 	getLanes () {
 		if (!this.props.tail || !this.props.tail.length) {
 			return []
@@ -254,83 +267,83 @@ class Kanban extends React.Component {
 		}
 		return lanes
 	}
-	getSeedData () {
-		const {
-			head
-		} = this.props.channel.data
-		if (!head || head.type !== 'view') {
-			return {}
-		}
-		const schema = helpers.getViewSchema(head, this.props.user)
-		if (!schema) {
-			return {}
-		}
-		return helpers.getUpdateObjectFromSchema(schema)
-	}
+
 	render () {
 		const data = {
 			lanes: this.getLanes()
 		}
+
 		const {
 			type
 		} = this.props
+
 		const typeName = type ? type.name || type.slug : ''
+
 		let lens = null
+
 		if (this.state.modalChannel) {
-			const lenses = index.default.getLenses(this.state.modalChannel.data.head, this.props.user)
+			const lenses = index.getLenses(this.state.modalChannel.data.head, this.props.user)
 			lens = lenses[0]
 		}
-		return (<rendition.Flex flexDirection="column" style={{
-			height: '100%', width: '100%', position: 'relative'
-		}}>
-			<reactTrello.default
-				style={{
-					padding: '0 12px',
-					background: 'none'
-				}}
-				customCardLayout={type.slug === 'org'}
-				customLaneHeader={type ? <CustomLaneHeader schema={type.data.schema}/> : null}
-				data={data}
-				draggable={true}
-				handleDragEnd={this.handleDragEnd}
-				onCardClick={this.onCardClick}
-			>
-				<OrgCard />
-			</reactTrello.default>
 
-			{Boolean(this.state.modalChannel) && Boolean(lens) && (
-				<rendition.Modal w={960} done={this.clearModalChannel}>
-					<lens.data.renderer channel={this.state.modalChannel} card={this.state.modalChannel.data.head}/>
-				</rendition.Modal>
-			)}
-			{Boolean(type) && (
-				<React.Fragment>
-					<rendition.Button
-						success
-						onClick={this.openCreateChannel}
-						m={3}
-						style={{
-							position: 'absolute',
-							bottom: 0,
-							right: 0
-						}}
-					>
-						Add {typeName}
-					</rendition.Button>
-				</React.Fragment>
-			)}
-		</rendition.Flex>)
+		return (
+			<Flex
+				flexDirection="column"
+				style={{
+					height: '100%', width: '100%', position: 'relative'
+				}}
+			>
+				<ReactTrello
+					style={{
+						padding: '0 12px',
+						background: 'none'
+					}}
+					customCardLayout={type.slug === 'org'}
+					customLaneHeader={type ? <CustomLaneHeader schema={type.data.schema}/> : null}
+					data={data}
+					draggable={true}
+					handleDragEnd={this.handleDragEnd}
+					onCardClick={this.onCardClick}
+				>
+					<OrgCard />
+				</ReactTrello>
+
+				{Boolean(this.state.modalChannel) && Boolean(lens) && (
+					<Modal w={960} done={this.clearModalChannel}>
+						<lens.data.renderer channel={this.state.modalChannel} card={this.state.modalChannel.data.head}/>
+					</Modal>
+				)}
+				{Boolean(type) && (
+					<React.Fragment>
+						<Button
+							success
+							onClick={this.openCreateChannel}
+							m={3}
+							style={{
+								position: 'absolute',
+								bottom: 0,
+								right: 0
+							}}
+						>
+							Add {typeName}
+						</Button>
+					</React.Fragment>
+				)}
+			</Flex>
+		)
 	}
 }
+
 const mapStateToProps = (state) => {
 	return {
 		types: selectors.getTypes(state),
 		user: selectors.getCurrentUser(state)
 	}
 }
+
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: redux.bindActionCreators(
+		actions: bindActionCreators(
 			_.pick(actionCreators, [
 				'addChannel',
 				'addNotification'
@@ -339,6 +352,7 @@ const mapDispatchToProps = (dispatch) => {
 		)
 	}
 }
+
 const lens = {
 	slug: 'lens-kanban',
 	type: 'lens',
@@ -358,4 +372,5 @@ const lens = {
 		}
 	}
 }
-exports.default = lens
+
+export default lens
