@@ -261,7 +261,7 @@ class Kanban extends React.Component {
 		if (!head || head.type !== 'view') {
 			return {}
 		}
-		const schema = helpers.getViewSchema(head)
+		const schema = helpers.getViewSchema(head, this.props.user)
 		if (!schema) {
 			return {}
 		}

@@ -14,6 +14,7 @@ import {
 import _ from 'lodash'
 import Mark from 'mark.js'
 import React from 'react'
+import VisibilitySensor from 'react-visibility-sensor'
 import {
 	Box,
 	Button,
@@ -183,6 +184,8 @@ class Event extends React.Component {
 			actor: getActor(actor),
 			showMenu: false
 		}
+
+		this.handleVisibilityChange = this.handleVisibilityChange.bind(this)
 	}
 
 	shouldComponentUpdate (nextProps, nextState) {
@@ -225,6 +228,12 @@ class Event extends React.Component {
 			className: 'rendition-tag-hl',
 			ignoreGroups: 1
 		})
+	}
+
+	handleVisibilityChange (isVisible) {
+		if (isVisible && this.props.onCardVisible) {
+			this.props.onCardVisible(this.props.card)
+		}
 	}
 
 	getTimelineElement (card) {
@@ -281,115 +290,119 @@ class Event extends React.Component {
 		const timestamp = _.get(card, [ 'data', 'timestamp' ]) || card.created_at
 
 		return (
-			<EventWrapper {...props} className={`event-card--${card.type}`}>
-				<EventButton onClick={this.openChannel} style={{
-					borderLeftColor: helpers.colorHash(getTargetId(card))
-				}}>
-					<Gravatar.default small email={this.state.actor.email}/>
-				</EventButton>
-				<InnerWrapper flex="1">
-					<Flex justify="space-between" mb={2}>
-						<Flex mt={isMessage ? 0 : '5px'} align="center">
-							{isMessage && (
-								<Txt
-									tooltip={this.state.actor.email}
-								>
-									<strong>{this.state.actor.name}</strong>
-								</Txt>
-							)}
+			<VisibilitySensor
+				onChange={this.handleVisibilityChange}
+			>
+				<EventWrapper {...props} className={`event-card--${card.type}`}>
+					<EventButton onClick={this.openChannel} style={{
+						borderLeftColor: helpers.colorHash(getTargetId(card))
+					}}>
+						<Gravatar.default small email={this.state.actor.email}/>
+					</EventButton>
+					<InnerWrapper flex="1">
+						<Flex justify="space-between" mb={2}>
+							<Flex mt={isMessage ? 0 : '5px'} align="center">
+								{isMessage && (
+									<Txt
+										tooltip={this.state.actor.email}
+									>
+										<strong>{this.state.actor.name}</strong>
+									</Txt>
+								)}
 
-							{!isMessage && this.getTimelineElement(card)}
+								{!isMessage && this.getTimelineElement(card)}
 
-							{Boolean(card.data) && Boolean(timestamp) && (
-								<Txt color={Theme.colors.text.light} fontSize={1} ml="6px">
-									{helpers.formatTimestamp(timestamp, true)}
-								</Txt>
-							)}
-							{card.pending &&
-								<Txt color={Theme.colors.text.light} fontSize={1} ml="6px">
-									sending...
-									<Icon
-										style={{
-											marginLeft: 6
-										}}
-										spin
-										name="cog"
-									/>
-								</Txt>
-							}
+								{Boolean(card.data) && Boolean(timestamp) && (
+									<Txt color={Theme.colors.text.light} fontSize={1} ml="6px">
+										{helpers.formatTimestamp(timestamp, true)}
+									</Txt>
+								)}
+								{card.pending &&
+									<Txt color={Theme.colors.text.light} fontSize={1} ml="6px">
+										sending...
+										<Icon
+											style={{
+												marginLeft: 6
+											}}
+											spin
+											name="cog"
+										/>
+									</Txt>
+								}
+							</Flex>
+
+							<span>
+								<IconButton
+									className="event-card--actions"
+									px={2}
+									mr={card.type === 'whisper' ? -12 : -1}
+									plaintext
+									onClick={this.toggleMenu}>
+									<Icon name="ellipsis-v"/>
+
+								</IconButton>
+
+								{this.state.showMenu && (
+									<ContextMenu position="bottom" onClose={this.toggleMenu}>
+										<React.Fragment>
+											<ActionLink onClick={this.copyJSON} tooltip={{
+												text: 'JSON copied!',
+												trigger: 'click'
+											}}>
+														Copy as JSON
+											</ActionLink>
+										</React.Fragment>
+									</ContextMenu>
+								)}
+							</span>
 						</Flex>
 
-						<span>
-							<IconButton
-								className="event-card--actions"
-								px={2}
-								mr={card.type === 'whisper' ? -12 : -1}
-								plaintext
-								onClick={this.toggleMenu}>
-								<Icon name="ellipsis-v"/>
+						{Boolean(attachments) && _.map(attachments, (attachment) => {
+							// If the mime type is of an image, display the file as an image
+							if (attachment.mime && attachment.mime.match(/image\//)) {
+								return (
+									<AuthenticatedImage
+										data-test="event-card__image"
+										key={attachment.slug}
+										cardId={card.id}
+										fileName={attachment.slug}
+									/>
+								)
+							}
 
-							</IconButton>
-
-							{this.state.showMenu && (
-								<ContextMenu position="bottom" onClose={this.toggleMenu}>
-									<React.Fragment>
-										<ActionLink onClick={this.copyJSON} tooltip={{
-											text: 'JSON copied!',
-											trigger: 'click'
-										}}>
-													Copy as JSON
-										</ActionLink>
-									</React.Fragment>
-								</ContextMenu>
-							)}
-						</span>
-					</Flex>
-
-					{Boolean(attachments) && _.map(attachments, (attachment) => {
-						// If the mime type is of an image, display the file as an image
-						if (attachment.mime && attachment.mime.match(/image\//)) {
 							return (
-								<AuthenticatedImage
-									data-test="event-card__image"
-									key={attachment.slug}
-									cardId={card.id}
-									fileName={attachment.slug}
-								/>
+								<Button
+									key={attachment.url}
+									onClick={() => {
+										this.downloadAttachment(attachment)
+									}}
+									data-test="event-card__file"
+								>
+									<Icon name="file-download" />
+									<Txt monospace ml={2}>{attachment.name}</Txt>
+								</Button>
 							)
-						}
+						})}
 
-						return (
-							<Button
-								key={attachment.url}
-								onClick={() => {
-									this.downloadAttachment(attachment)
-								}}
-								data-test="event-card__file"
-							>
-								<Icon name="file-download" />
-								<Txt monospace ml={2}>{attachment.name}</Txt>
-							</Button>
-						)
-					})}
+						{isMessage && Boolean(message) && (
+							<div ref={this.setMessageElement}>
+								<Markdown
+									style={{
+										fontSize: 'inherit'
+									}}
+									data-test={card.pending ? '' : 'event-card__message'}
+								>
+									{message}
+								</Markdown>
+							</div>
+						)}
 
-					{isMessage && Boolean(message) && (
-						<div ref={this.setMessageElement}>
-							<Markdown
-								style={{
-									fontSize: 'inherit'
-								}}
-								data-test={card.pending ? '' : 'event-card__message'}
-							>
-								{message}
-							</Markdown>
-						</div>
-					)}
-
-					{!isMessage && Boolean(card.name) && (
-						<Txt>{card.name}</Txt>
-					)}
-				</InnerWrapper>
-			</EventWrapper>
+						{!isMessage && Boolean(card.name) && (
+							<Txt>{card.name}</Txt>
+						)}
+					</InnerWrapper>
+				</EventWrapper>
+			</VisibilitySensor>
 		)
 	}
 }

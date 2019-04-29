@@ -75,6 +75,8 @@ class TimelineRenderer extends React.Component {
 			messagesOnly: true,
 			pendingMessages: []
 		}
+
+		this.handleCardVisible = this.handleCardVisible.bind(this)
 	}
 	componentDidMount () {
 		this.shouldScroll = true
@@ -182,6 +184,29 @@ class TimelineRenderer extends React.Component {
 			})
 	}
 
+	handleCardVisible (card) {
+		const userSlug = this.props.user.slug
+		if (card.type === 'message' || card.type === 'whisper') {
+			const message = _.get(card, [ 'data', 'payload', 'message' ], '')
+
+			// Only continue if the message mentions the current user
+			if (message.includes(`@${userSlug.slice(5)}`) || message.includes(`!${userSlug.slice(5)}`)) {
+				const readBy = _.get(card, [ 'data', 'readBy' ], [])
+
+				if (!_.includes(readBy, userSlug)) {
+					readBy.push(userSlug)
+
+					card.data.readBy = readBy
+
+					sdk.card.update(card.id, card)
+						.catch((error) => {
+							console.error(error)
+						})
+				}
+			}
+		}
+	}
+
 	render () {
 		const head = this.props.card
 		const {
@@ -238,6 +263,7 @@ class TimelineRenderer extends React.Component {
 						return (
 							<rendition.Box key={item.id}>
 								<Event
+									onCardVisible={this.handleCardVisible}
 									card={item}
 								/>
 							</rendition.Box>

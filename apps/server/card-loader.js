@@ -77,8 +77,7 @@ module.exports = async (context, jellyfish, worker, session) => {
 
 		// User facing views
 		await loadCard('contrib/view-all-views.json'),
-		await loadCard('contrib/view-my-alerts.json'),
-		await loadCard('contrib/view-my-mentions.json'),
+		await loadCard('contrib/view-my-inbox.json'),
 		await loadCard('contrib/view-my-orgs.json'),
 		await loadCard('contrib/view-my-todo-items.json'),
 

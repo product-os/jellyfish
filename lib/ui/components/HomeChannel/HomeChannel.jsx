@@ -10,10 +10,6 @@ import {
 import * as _ from 'lodash'
 import React from 'react'
 import {
-	connect
-} from 'react-redux'
-import * as redux from 'redux'
-import {
 	Box,
 	Button,
 	Divider,
@@ -22,97 +18,21 @@ import {
 	Link,
 	Txt
 } from 'rendition'
-import styled from 'styled-components'
-import {
-	actionCreators,
-	selectors
-} from '../core'
-import {
-	TailStreamer
-} from './TailStreamer'
+import MentionsCount from './MentionsCount'
+import TreeMenu from './TreeMenu'
 import {
 	ViewLink
 } from './ViewLink'
-import Gravatar from '../shame/Gravatar'
-import Icon from '../shame/Icon'
+import Gravatar from '../../shame/Gravatar'
+import Icon from '../../shame/Icon'
+import MenuPanel from '../../shame/MenuPanel'
 
 // View slugs that should be displayed first
 const DEFAULT_VIEWS = [
-	'view-my-alerts',
-	'view-my-mentions',
+	'view-my-inbox',
 	'view-my-todo-items',
 	'view-my-orgs'
 ]
-
-const TreeMenu = (props) => {
-	const {
-		node
-	} = props
-	if (!node.children.length && node.card) {
-		const card = node.card
-
-		const isActive = card.id === _.get(props.activeChannel, [ 'data', 'target' ])
-		const activeSlice = _.get(props.activeChannel, [ 'data', 'options', 'slice' ])
-		const update = props.viewNotices[card.id]
-		return (
-			<ViewLink
-				key={card.id}
-				card={card}
-				isActive={isActive}
-				activeSlice={activeSlice}
-				update={update}
-				open={props.open}
-			/>
-		)
-	}
-
-	const isExpanded = node.key === 'root' || props.isExpanded(node.name)
-
-	return (
-		<Box key={node.key}>
-			{node.name && (
-				<Button
-					plaintext
-					primary
-					w="100%"
-					px={3}
-					my={2}
-					data-groupname={node.name}
-					data-test={`home-channel__group-toggle--${node.key}`}
-					onClick={props.toggleExpandGroup}
-				>
-					<Flex style={{
-						width: '100%'
-					}} justify="space-between">
-						{node.name}
-						<Icon name={`chevron-${isExpanded ? 'up' : 'down'}`}/>
-					</Flex>
-				</Button>
-			)}
-
-			<Box
-				style={{
-					display: isExpanded ? 'block' : 'none'
-				}}
-				pl={node.key === 'root' ? 0 : 2}
-			>
-				{node.children.map((child) => {
-					return (
-						<TreeMenu
-							key={child.key}
-							node={child}
-							isExpanded={props.isExpanded}
-							toggleExpandGroup={props.toggleExpandGroup}
-							activeChannel={props.activeChannel}
-							viewNotices={props.viewNotices}
-							open={props.open}
-						/>
-					)
-				})}
-			</Box>
-		</Box>
-	)
-}
 
 const viewsToTree = (views, root = {}) => {
 	const result = _.defaults(root, {
@@ -173,51 +93,7 @@ const getDefaultView = (user, views) => {
 	}) || null
 }
 
-const MenuPanel = styled(Box) `
-	position: absolute;
-	top: 64px;
-	width: 180px;
-	background: white;
-	box-shadow: 0 1px 4px rgba(17, 17, 17, 0.5);
-	border-radius: 3px;
-
-	&::before {
-		content: '';
-		width: 0;
-		height: 0;
-		border-left: 5px solid transparent;
-		border-right: 5px solid transparent;
-		border-bottom: 5px solid #ccc;
-		position: absolute;
-    top: -6px;
-		left: 14px;
-	}
-
-	&::after {
-		content: '';
-		width: 0;
-		height: 0;
-		border-left: 5px solid transparent;
-		border-right: 5px solid transparent;
-		border-bottom: 5px solid white;
-		position: absolute;
-    top: -5px;
-		left: 14px;
-	}
-`
-
-const UserMenuBtn = styled(Button) `
-	background: transparent;
-	color: #888;
-
-	&:hover,
-	&:focus,
-	&:active {
-		color: #333;
-	}
-`
-
-class HomeChannelBase extends TailStreamer {
+export default class HomeChannel extends React.Component {
 	constructor (props) {
 		super(props)
 		this.state = {
@@ -225,7 +101,6 @@ class HomeChannelBase extends TailStreamer {
 			tail: null,
 			messages: []
 		}
-		this.streamTail(this.props.channel.data.target)
 
 		this.open = this.open.bind(this)
 		this.logout = this.logout.bind(this)
@@ -233,6 +108,13 @@ class HomeChannelBase extends TailStreamer {
 		this.hideMenu = this.hideMenu.bind(this)
 		this.toggleExpandGroup = this.toggleExpandGroup.bind(this)
 		this.isExpanded = this.isExpanded.bind(this)
+
+		if (this.props.channel.data.head) {
+			this.props.actions.loadViewResults(this.props.channel.data.head)
+		}
+
+		this.props.actions.loadViewResults('view-my-inbox')
+		this.props.actions.streamView('view-my-inbox')
 	}
 
 	groupViews (tail) {
@@ -319,19 +201,28 @@ class HomeChannelBase extends TailStreamer {
 	shouldComponentUpdate (nextProps, nextState) {
 		return !circularDeepEqual(nextState, this.state) || !circularDeepEqual(nextProps, this.props)
 	}
-	setTail (tail) {
+
+	componentDidUpdate (prevProps) {
 		// If there is only 1 channel, check for the home channel, otherwise, open
 		// the all messages view by default
-		if (this.props.channels.length === 1) {
-			const view = getDefaultView(this.props.user, tail)
+		if (!prevProps.tail && this.props.tail && this.props.channels.length === 1) {
+			const view = getDefaultView(this.props.user, this.props.tail)
 			if (view) {
 				this.open(view)
 			}
 		}
-		this.setState({
-			tail: _.sortBy(tail, 'name')
-		})
 	}
+
+	static getDerivedStateFromProps (nextProps, nextState) {
+		const {
+			tail
+		} = nextProps
+
+		return tail ? {
+			tail: _.sortBy(tail, 'name')
+		} : null
+	}
+
 	isExpanded (name) {
 		return _.includes(_.get(this.props.uiState, [ 'sidebar', 'expanded' ], []), name)
 	}
@@ -341,8 +232,11 @@ class HomeChannelBase extends TailStreamer {
 				data: {
 					head
 				}
-			}, user
+			},
+			user,
+			mentions
 		} = this.props
+
 		const {
 			tail
 		} = this.state
@@ -351,22 +245,17 @@ class HomeChannelBase extends TailStreamer {
 		const username = user ? user.slug.replace(/user-/, '') : null
 		if (!head) {
 			return (
-				<Icon
-					style={{
-						color: 'white'
-					}}
-					spin
-					name="cog"
-				/>
+				<Box p={3}>
+					<Icon
+						spin
+						name="cog"
+					/>
+				</Box>
 			)
 		}
 		const groupedViews = this.groupViews(tail)
 		const groups = groupedViews.main
 		const defaultViews = groupedViews.defaults
-		const defaultUpdate = _.some(defaultViews, (card) => {
-			const update = this.props.viewNotices[card.id]
-			return update && (update.newMentions || update.newContent)
-		})
 
 		return (
 			<Flex
@@ -380,21 +269,17 @@ class HomeChannelBase extends TailStreamer {
 				<Flex justify="space-between" style={{
 					position: 'relative'
 				}}>
-					<UserMenuBtn plaintext={true} className="user-menu-toggle" py={3} pl={3} pr={2} onClick={this.showMenu}>
+					<Button plaintext={true} className="user-menu-toggle" py={3} pl={3} pr={2} onClick={this.showMenu}>
 						<Gravatar.default email={email}/>
 
 						{Boolean(username) && <Txt mx={2}>{username}</Txt>}
 
 						<Icon name="caret-down"/>
 
-						{defaultUpdate && (<Icon name="circle" style={{
-							color: 'green',
-							top: 44,
-							left: 44,
-							fontSize: 11,
-							position: 'absolute'
-						}}/>)}
-					</UserMenuBtn>
+						{mentions && mentions.length > 0 && (
+							<MentionsCount>{mentions.length}</MentionsCount>
+						)}
+					</Button>
 				</Flex>
 
 				{this.state.showMenu && (
@@ -405,13 +290,12 @@ class HomeChannelBase extends TailStreamer {
 							{_.map(defaultViews, (card) => {
 								const isActive = card.id === _.get(activeChannel, [ 'data', 'target' ])
 								const activeSlice = _.get(activeChannel, [ 'data', 'options', 'slice' ])
-								const update = this.props.viewNotices[card.id]
 								return (<Box mx={-3} key={card.id}>
 									<ViewLink
 										card={card}
 										isActive={isActive}
 										activeSlice={activeSlice}
-										update={update}
+										update={card.slug === 'view-my-inbox' ? (mentions && mentions.length) : 0}
 										open={this.open}
 									/>
 								</Box>)
@@ -468,28 +352,3 @@ class HomeChannelBase extends TailStreamer {
 		)
 	}
 }
-
-const mapStateToProps = (state) => {
-	return {
-		channels: selectors.getChannels(state),
-		user: selectors.getCurrentUser(state),
-		version: selectors.getAppVersion(state),
-		orgs: selectors.getOrgs(state),
-		codename: selectors.getAppCodename(state),
-		viewNotices: selectors.getViewNotices(state),
-		uiState: selectors.getUIState(state)
-	}
-}
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		actions: {
-			addChannel: redux.bindActionCreators(actionCreators.addChannel, dispatch),
-			logout: redux.bindActionCreators(actionCreators.logout, dispatch),
-			removeViewNotice: redux.bindActionCreators(actionCreators.removeViewNotice, dispatch),
-			setUIState: redux.bindActionCreators(actionCreators.setUIState, dispatch)
-		}
-	}
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(HomeChannelBase)
