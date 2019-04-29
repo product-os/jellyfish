@@ -5,6 +5,14 @@
  */
 
 module.exports = {
+	'inbound-delete-topic': {
+		expected: require('./inbound-delete-topic/expected.json'),
+		steps: [
+			require('./inbound-delete-topic/01.json'),
+			require('./inbound-delete-topic/02.json'),
+			require('./inbound-delete-topic/03.json')
+		]
+	},
 	'external-inbound-message': {
 		expected: require('./external-inbound-message/expected.json'),
 		steps: [
