@@ -3069,7 +3069,11 @@ ava('.query() should return an unexecuted action request', async (test) => {
 			}
 		})
 
-	test.deepEqual(result, [ request ])
+	test.deepEqual(result, [
+		Object.assign({}, request, {
+			updated_at: result[0].updated_at
+		})
+	])
 })
 
 ava('.query() should be able to limit', async (test) => {

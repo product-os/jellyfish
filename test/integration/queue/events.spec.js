@@ -179,7 +179,9 @@ ava.cb('.wait() should be able to access the event payload of a huge event', (te
 		// Use the backend class directly so we can inject "links"
 		return test.context.backend.insertElement(
 			test.context.context, BIG_EXECUTE_CARD).then((execute) => {
-			test.deepEqual(_.omit(execute, [ 'id' ]), BIG_EXECUTE_CARD)
+			test.deepEqual(_.omit(execute, [ 'id' ]), Object.assign({}, BIG_EXECUTE_CARD, {
+				created_at: execute.created_at
+			}))
 		})
 	}).catch(test.end)
 })
