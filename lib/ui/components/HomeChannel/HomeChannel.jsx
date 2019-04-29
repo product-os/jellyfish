@@ -109,7 +109,10 @@ export default class HomeChannel extends React.Component {
 		this.toggleExpandGroup = this.toggleExpandGroup.bind(this)
 		this.isExpanded = this.isExpanded.bind(this)
 
-		this.props.actions.loadViewResults(this.props.channel.data.head)
+		if (this.props.channel.data.head) {
+			this.props.actions.loadViewResults(this.props.channel.data.head)
+		}
+
 		this.props.actions.loadViewResults('view-my-inbox')
 		this.props.actions.streamView('view-my-inbox')
 	}
@@ -242,10 +245,12 @@ export default class HomeChannel extends React.Component {
 		const username = user ? user.slug.replace(/user-/, '') : null
 		if (!head) {
 			return (
-				<Icon
-					spin
-					name="cog"
-				/>
+				<Box p={3}>
+					<Icon
+						spin
+						name="cog"
+					/>
+				</Box>
 			)
 		}
 		const groupedViews = this.groupViews(tail)
