@@ -4,11 +4,12 @@
     "type": "support-thread",
     "version": "1.0.0",
     "active": true,
-    "tags": [ "support", "docker" ],
+    "tags": [],
     "requires": [],
     "capabilities": [],
     "data": {
       "environment": "production",
+      "tags": [ "support", "docker" ],
       "inbox": "S/Forums",
       "mirrors": [
         "https://forums.balena.io/t/6085"
@@ -35,11 +36,12 @@
           "type": "support-thread",
           "version": "1.0.0",
           "active": true,
-          "tags": [ "support", "docker" ],
+          "tags": [],
           "requires": [],
           "capabilities": [],
           "data": {
             "environment": "production",
+            "tags": [ "support", "docker" ],
             "inbox": "S/Forums",
             "mirrors": [
               "https://forums.balena.io/t/6085"

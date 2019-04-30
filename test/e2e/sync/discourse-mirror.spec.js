@@ -220,12 +220,16 @@ avaTest('should add and remove a thread tag', async (test) => {
 
 	await test.context.sdk.card.update(supportThread.id, {
 		type: supportThread.type,
-		tags: [ 'foo' ]
+		data: {
+			tags: [ 'foo' ]
+		}
 	})
 
 	await test.context.sdk.card.update(supportThread.id, {
 		type: supportThread.type,
-		tags: []
+		data: {
+			tags: []
+		}
 	})
 
 	const mirrorId = supportThread.data.mirrors[0]
@@ -241,12 +245,30 @@ avaTest('should add a thread tag', async (test) => {
 
 	await test.context.sdk.card.update(supportThread.id, {
 		type: supportThread.type,
-		tags: [ 'foo' ]
+		data: {
+			tags: [ 'foo' ]
+		}
 	})
 
 	const mirrorId = supportThread.data.mirrors[0]
 	const topic = await test.context.getTopic(_.last(mirrorId.split('/')))
 	test.deepEqual(topic.tags, [ 'foo' ])
+})
+
+avaTest('should not sync top level tags', async (test) => {
+	const supportThread = await test.context.startSupportThread(
+		test.context.username,
+		`My Issue ${uuid()}`,
+		`Foo Bar ${uuid()}`)
+
+	await test.context.sdk.card.update(supportThread.id, {
+		type: supportThread.type,
+		tags: [ 'foo' ]
+	})
+
+	const mirrorId = supportThread.data.mirrors[0]
+	const topic = await test.context.getTopic(_.last(mirrorId.split('/')))
+	test.deepEqual(topic.tags, [])
 })
 
 avaTest('should send a whisper', async (test) => {

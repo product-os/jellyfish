@@ -4,11 +4,12 @@
     "type": "support-thread",
     "version": "1.0.0",
     "active": true,
-    "tags": [ "wifi" ],
+    "tags": [],
     "requires": [],
     "capabilities": [],
     "data": {
       "environment": "production",
+      "tags": [ "wifi" ],
       "inbox": "S/Forums",
       "mirrors": [
         "https://forums.balena.io/t/6084"
@@ -35,11 +36,12 @@
           "type": "support-thread",
           "version": "1.0.0",
           "active": true,
-          "tags": [ "wifi" ],
+          "tags": [],
           "requires": [],
           "capabilities": [],
           "data": {
             "environment": "production",
+            "tags": [ "wifi" ],
             "inbox": "S/Forums",
             "mirrors": [
               "https://forums.balena.io/t/6084"

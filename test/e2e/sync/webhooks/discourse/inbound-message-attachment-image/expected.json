@@ -9,6 +9,7 @@
     "capabilities": [],
     "data": {
       "environment": "production",
+      "tags": [],
       "inbox": "S/Forums",
       "mirrors": [
         "https://forums.balena.io/t/6073"
@@ -40,6 +41,7 @@
           "capabilities": [],
           "data": {
             "environment": "production",
+            "tags": [],
             "inbox": "S/Forums",
             "mirrors": [
               "https://forums.balena.io/t/6073"
