@@ -1,0 +1,98 @@
+{
+  "head": {
+    "name": "Inbound topic test 12345",
+    "type": "support-thread",
+    "version": "1.0.0",
+    "active": true,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "environment": "production",
+      "tags": [],
+      "inbox": "S/Forums",
+      "mirrors": [
+        "https://forums.balena.io/t/6897"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "",
+      "status": "open"
+    }
+  },
+  "tail": [
+    {
+      "type": "create",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": "user-jviotti",
+        "timestamp": "2019-04-30T17:24:42.708Z",
+        "payload": {
+          "name": "Inbound topic test 12345",
+          "type": "support-thread",
+          "version": "1.0.0",
+          "active": true,
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "environment": "production",
+            "tags": [],
+            "inbox": "S/Forums",
+            "mirrors": [
+              "https://forums.balena.io/t/6897"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open"
+          }
+        }
+      }
+    },
+    {
+      "type": "message",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": "user-jviotti",
+        "mirrors": [
+          "https://forums.balena.io/t/6897/1"
+        ],
+        "timestamp": "2019-04-30T17:24:42.758Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "Supervisor Version 88888888888"
+        }
+      }
+    },
+    {
+      "type": "whisper",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": "user-jviotti",
+        "mirrors": [
+          "https://forums.balena.io/t/6897/2"
+        ],
+        "timestamp": "2019-04-30T17:24:58.266Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "Emoji whisper <img src=\"https://sjc1.discourse-cdn.com/business5/images/emoji/apple/smiley.png?v=9\" class=\"emoji\" alt=\":smiley:\">"
+        }
+      }
+    }
+  ]
+}
