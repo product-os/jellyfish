@@ -6,12 +6,16 @@
 
 const _ = require('lodash')
 const socketIo = require('socket.io')
+const redisAdapter = require('socket.io-redis')
+const environment = require('../../../lib/environment')
 const uuid = require('../../../lib/uuid')
 
 module.exports = (jellyfish, server) => {
 	const socketServer = socketIo(server, {
 		transports: [ 'websocket', 'polling' ]
 	})
+
+	socketServer.adapter(redisAdapter(environment.getRedisConfiguration()))
 
 	const openStreams = {}
 
@@ -60,6 +64,25 @@ module.exports = (jellyfish, server) => {
 					error: true,
 					data: error.message
 				})
+			})
+		})
+
+		socket.on('typing', (payload) => {
+			if (!payload.token) {
+				return socket.emit({
+					error: true,
+					data: 'No session token'
+				})
+			}
+
+			const {
+				user,
+				card
+			} = payload
+
+			return socket.broadcast.emit('typing', {
+				user,
+				card
 			})
 		})
 	})

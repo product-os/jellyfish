@@ -168,6 +168,7 @@
     "skhema": "^5.2.4",
     "socket.io": "^2.1.0",
     "socket.io-client": "^2.2.0",
+    "socket.io-redis": "^5.2.0",
     "static-eval": "^2.0.0",
     "styled-components": "^3.4.10",
     "turndown": "^5.0.3",

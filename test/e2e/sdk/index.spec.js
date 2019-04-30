@@ -1040,6 +1040,38 @@ ava.serial.cb('.stream() should stream new cards', (test) => {
 		})
 })
 
+ava.serial.cb('.stream() should emit an event using the .type() method', (test) => {
+	const {
+		sdk
+	} = test.context
+
+	sdk.setAuthToken(test.context.session)
+	sdk.stream()
+		.then(async (stream1) => {
+			const stream2 = await sdk.stream()
+
+			stream1.on('error', test.end)
+			stream2.on('error', test.end)
+
+			stream2.on('disconnect', () => {
+				test.end()
+			})
+
+			const user = 'user-foo'
+			const card = '26585e96-af18-4519-a45d-8016e987ef06'
+
+			stream1.on('typing', (payload) => {
+				test.is(payload.user, user)
+				test.is(payload.card, card)
+
+				stream1.close()
+				stream2.close()
+			})
+
+			stream2.type(user, card)
+		})
+})
+
 ava.serial('.auth.loginWithToken() should work with a valid token', async (test) => {
 	const {
 		sdk
