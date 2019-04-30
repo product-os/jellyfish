@@ -9,6 +9,18 @@ import {
 } from 'rendition'
 import styled from 'styled-components'
 
+const getFontSize = (string) => {
+	if (string.length === 1) {
+		return 14
+	}
+
+	if (string.length === 2) {
+		return 12
+	}
+
+	return 10
+}
+
 const MentionsCount = styled(Box) `
 	background: ${(props) => {
 		return props.theme.colors.secondary.main
@@ -22,6 +34,9 @@ const MentionsCount = styled(Box) `
 	display: inline-flex;
 	justify-content: center;
 	align-items: center;
+	font-size: ${(props) => {
+		return getFontSize(props.children)
+	}}px;
 `
 
 export default MentionsCount
