@@ -1,0 +1,84 @@
+{
+  "slug": "triggered-action-discourse-summary",
+  "type": "triggered-action",
+  "version": "1.0.0",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "filter": {
+      "type": "object",
+      "required": [
+        "active",
+        "type",
+        "data"
+      ],
+      "properties": {
+        "active": {
+          "type": "boolean",
+          "const": true
+        },
+        "type": {
+          "type": "string",
+          "const": "whisper"
+        },
+        "data": {
+          "type": "object",
+          "required": [ "payload", "target" ],
+          "properties": {
+            "payload": {
+              "type": "object",
+              "required": [ "message" ],
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "pattern": "#summary"
+                }
+              }
+            },
+            "target": {
+              "type": "object",
+              "required": [ "type", "data" ],
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "support-thread"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [ "status", "inbox" ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "const": "open"
+                    },
+                    "inbox": {
+                      "type": "string",
+                      "const": "S/Forums"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "action": "action-update-card",
+    "target": {
+      "$eval": "source.data.target"
+    },
+    "targetType": "support-thread",
+    "arguments": {
+      "reason": "Closed with #summary tag",
+      "properties": {
+        "data": {
+          "status": "closed"
+        }
+      }
+    }
+  },
+  "requires": [],
+  "capabilities": []
+}
