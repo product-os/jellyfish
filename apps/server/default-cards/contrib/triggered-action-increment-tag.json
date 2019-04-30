@@ -49,7 +49,7 @@
     "arguments": {
       "reason": null,
       "name": {
-        "$eval": "matchRE('(\\s|^)(#[a-zA-Z\\d-_\\/]+)', source.data.payload.message)"
+        "$eval": "matchRE('(\\s|^)(#[a-zA-Z\\d-_\\/]+)', 'gm', source.data.payload.message)"
       }
     }
   },
