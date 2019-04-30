@@ -186,6 +186,32 @@ ava.afterEach(helpers.mirror.afterEach)
 // Skip all tests if there is no Discourse token
 const avaTest = TOKEN ? ava.serial : ava.serial.skip
 
+avaTest('should close a thread with a #summary whisper', async (test) => {
+	const supportThread = await test.context.startSupportThread(
+		test.context.username,
+		`My Issue ${uuid()}`,
+		`Foo Bar ${uuid()}`)
+
+	test.is(supportThread.data.status, 'open')
+
+	await test.context.createWhisper(supportThread,
+		test.context.getWhisperSlug(), '#summary Foo Bar')
+
+	const thread = await test.context.sdk.getById(supportThread.id)
+	test.true(thread.active)
+	test.is(thread.data.status, 'closed')
+
+	const mirrorId = supportThread.data.mirrors[0]
+	const topic = await test.context.getTopic(_.last(mirrorId.split('/')))
+
+	// We will not close the remote thread as this is an internal thing
+	test.truthy(topic.visible)
+	test.falsy(topic.closed)
+	test.falsy(topic.archived)
+	test.falsy(topic.deleted_by)
+	test.falsy(topic.deleted_at)
+})
+
 avaTest('should add and remove a thread tag', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		test.context.username,
