@@ -226,6 +226,10 @@ lint:
 coverage:
 	./node_modules/.bin/nyc --reporter=text --reporter=lcov --reporter=json report
 
+create-user: LOGLEVEL = warning
+create-user:
+	./scripts/dev/create-user.js
+
 test: LOGLEVEL = warning
 test:
 	$(SCRUB_COMMAND)
