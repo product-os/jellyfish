@@ -4,6 +4,9 @@
  * Proprietary and confidential.
  */
 
+const {
+	commaListsAnd
+} = require('common-tags')
 const _ = require('lodash')
 const React = require('react')
 const {
@@ -11,6 +14,7 @@ const {
 } = require('react-redux')
 const redux = require('redux')
 const rendition = require('rendition')
+const styled = require('styled-components').default
 const uuid = require('uuid/v4')
 const Event = require('../../components/Event').default
 const {
@@ -25,12 +29,31 @@ const Column = require('../../shame/Column').default
 const Icon = require('../../shame/Icon')
 const messageSymbolRE = /^\s*%\s*/
 
+const TypingNotice = styled.div `
+	background: white;
+	transform: translateY(-10px);
+	height: 0;
+	overflow: visible;
+	> * {
+		display: inline-block;
+		border-radius: 3px;
+		padding: 0 5px;
+		box-shadow: rgba(0,0,0,0.25) 0px 0px 3px;
+	}
+`
+
 // Default renderer for a card and a timeline
 class SupportThreadTimelineRenderer extends React.Component {
 	constructor (props) {
 		super(props)
 		this.shouldScroll = true
+
+		this.signalTyping = _.throttle(() => {
+			this.props.actions.signalTyping(this.props.card.id)
+		}, 1500)
+
 		this.handleNewMessageChange = (event) => {
+			this.signalTyping()
 			const newMessage = event.target.value
 			const messageSymbol = Boolean(newMessage.match(messageSymbolRE))
 			this.setState({
@@ -222,7 +245,8 @@ class SupportThreadTimelineRenderer extends React.Component {
 	render () {
 		const head = this.props.card
 		const {
-			tail
+			tail,
+			usersTyping
 		} = this.props
 		const whisper = this.state.messageSymbol ? false : this.state.whisper
 		const {
@@ -237,6 +261,19 @@ class SupportThreadTimelineRenderer extends React.Component {
 				return card.type !== 'message' && card.type !== 'whisper'
 			})
 		}
+
+		let typingMessage = null
+
+		if (usersTyping.length === 1) {
+			typingMessage = `${usersTyping[0].slice(5)} is typing...`
+		} else if (usersTyping.length > 1) {
+			const typing = usersTyping.map((slug) => {
+				return slug.slice(5)
+			})
+
+			typingMessage = commaListsAnd `${typing} are typing...`
+		}
+
 		return (<Column>
 			<rendition.Flex my={2} mr={2} justify="flex-end">
 				<rendition.Button
@@ -290,6 +327,14 @@ class SupportThreadTimelineRenderer extends React.Component {
 					)
 				})}
 			</div>
+
+			{typingMessage && (
+				<TypingNotice>
+					<rendition.Box bg="white" ml={3}>
+						<em>{typingMessage}</em>
+					</rendition.Box>
+				</TypingNotice>
+			)}
 
 			{head && head.type !== 'view' &&
 				<rendition.Flex
@@ -353,17 +398,22 @@ class SupportThreadTimelineRenderer extends React.Component {
 	}
 }
 exports.Renderer = SupportThreadTimelineRenderer
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
+	const card = ownProps.card
+
 	return {
 		allUsers: selectors.getAllUsers(state),
-		user: selectors.getCurrentUser(state)
+		user: selectors.getCurrentUser(state),
+		usersTyping: selectors.getUsersTypingOnCard(state, card.id)
 	}
 }
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: {
-			addNotification: redux.bindActionCreators(actionCreators.addNotification, dispatch)
-		}
+		actions: redux.bindActionCreators(
+			_.pick(actionCreators, [
+				'addNotification',
+				'signalTyping'
+			]), dispatch)
 	}
 }
 const lens = {
