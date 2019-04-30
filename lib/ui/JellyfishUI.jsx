@@ -4,30 +4,43 @@
  * Proprietary and confidential.
  */
 
-const _ = require('lodash')
-const React = require('react')
-const {
+import _ from 'lodash'
+import React from 'react'
+import {
 	connect
-} = require('react-redux')
-const {
+} from 'react-redux'
+import {
 	Flex,
 	Provider
-} = require('rendition')
-const ChannelRenderer = require('./components/ChannelRenderer')
-const HomeChannel = require('./components/HomeChannel').default
-const {
+} from 'rendition'
+import ChannelRenderer from './components/ChannelRenderer'
+import HomeChannel from './components/HomeChannel'
+import {
 	Login
-} = require('./components/Login')
-const {
+} from './components/Login'
+import {
 	Notifications
-} = require('./components/Notifications')
-const Splash = require('./components/Splash')
-const {
+} from './components/Notifications'
+import Splash from './components/Splash'
+import {
 	selectors
-} = require('./core')
-const reactDnd = require('react-dnd')
-const reactDndHtml5Backend = require('react-dnd-html5-backend')
-const reactResizeObserver = require('react-resize-observer')
+} from './core'
+import {
+	DragDropContext
+} from 'react-dnd'
+import ReactDndHtml5Backend from 'react-dnd-html5-backend'
+import ReactResizeObserver from 'react-resize-observer'
+import {
+	injectGlobal
+} from 'styled-components'
+
+injectGlobal `
+	textarea,
+	input {
+		line-height: 1.5;
+    font-family: Roboto, Arial, sans-serif;
+  }
+`
 
 // Register the mermaid and markdown widgets for rendition forms
 require('rendition/dist/extra/Form/markdown')
@@ -128,7 +141,7 @@ class UI extends React.Component {
 					fontSize: 14
 				}}
 			>
-				<reactResizeObserver.default onResize={() => {
+				<ReactResizeObserver onResize={() => {
 					this.calcWidth(this.props.channels)
 				}}/>
 
@@ -177,4 +190,4 @@ const mapStateToProps = (state) => {
 		user: selectors.getCurrentUser(state)
 	}
 }
-exports.JellyfishUI = reactDnd.DragDropContext(reactDndHtml5Backend.default)(connect(mapStateToProps)(UI))
+export default DragDropContext(ReactDndHtml5Backend)(connect(mapStateToProps)(UI))

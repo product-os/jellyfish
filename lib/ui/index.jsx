@@ -18,9 +18,7 @@ const {
 	injectGlobal
 } = require('styled-components')
 const core = require('./core')
-const {
-	JellyfishUI
-} = require('./JellyfishUI')
+const JellyfishUI = require('./JellyfishUI').default
 const {
 	ErrorBoundary
 } = require('./shame/ErrorBoundary')
