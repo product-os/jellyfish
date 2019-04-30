@@ -151,51 +151,51 @@ export class SupportThreads extends React.Component {
 
 		return (
 			<Column data-test={`lens--${SLUG}`}>
-				{tail.length > 0 && (
-					<Tabs
-						style={{
-							height: '100%',
-							display: 'flex',
-							flexDirection: 'column'
-						}}
-						tabs={_.map(segments, 'name')}
-					>
-						{segments.map((segment) => {
-							return (
-								<div
-									ref={(ref) => {
-										this.scrollArea = ref
-									}}
-									key={segment.name}
-									onScroll={this.handleScroll}
-									style={{
-										height: '100%',
-										paddingBottom: 16,
-										overflowY: 'auto'
-									}}
-								>
-									{_.map(segment.cards, (card) => {
-										return (
-											<SupportThreadSummary
-												key={card.id}
-												active={activeThread === card.id}
-												card={card}
-												openChannel={this.openChannel}
-											/>
-										)
-									})}
+				<Tabs
+					style={{
+						height: '100%',
+						display: 'flex',
+						flexDirection: 'column'
+					}}
+					tabs={_.map(segments, 'name')}
+				>
+					{segments.map((segment) => {
+						return (
+							<div
+								ref={(ref) => {
+									this.scrollArea = ref
+								}}
+								key={segment.name}
+								onScroll={this.handleScroll}
+								style={{
+									height: '100%',
+									paddingBottom: 16,
+									overflowY: 'auto'
+								}}
+							>
+								{segment.cards.length === 0 && (
+									<Box p={3}><strong>Good job! There are no support threads here</strong></Box>
+								)}
+								{_.map(segment.cards, (card) => {
+									return (
+										<SupportThreadSummary
+											key={card.id}
+											active={activeThread === card.id}
+											card={card}
+											openChannel={this.openChannel}
+										/>
+									)
+								})}
 
-									{this.props.totalPages > this.props.page + 1 && (
-										<Box p={3}>
-											<Icon spin name="cog"/>
-										</Box>
-									)}
-								</div>
-							)
-						})}
-					</Tabs>
-				)}
-
+								{this.props.totalPages > this.props.page + 1 && (
+									<Box p={3}>
+										<Icon spin name="cog"/>
+									</Box>
+								)}
+							</div>
+						)
+					})}
+				</Tabs>
 			</Column>
 		)
 	}
