@@ -9,6 +9,7 @@
     "capabilities": [],
     "data": {
       "environment": "production",
+      "tags": [],
       "inbox": "S/Forums",
       "mirrors": [
         "https://forums.balena.io/t/6062"
@@ -40,6 +41,7 @@
           "capabilities": [],
           "data": {
             "environment": "production",
+            "tags": [],
             "inbox": "S/Forums",
             "mirrors": [
               "https://forums.balena.io/t/6062"
@@ -87,11 +89,12 @@
           "type": "support-thread",
           "version": "1.0.0",
           "active": true,
-          "tags": [ "raspberrypi3" ],
+          "tags": [],
           "requires": [],
           "capabilities": [],
           "data": {
             "environment": "production",
+            "tags": [ "raspberrypi3" ],
             "inbox": "S/Forums",
             "mirrors": [
               "https://forums.balena.io/t/6062"
@@ -124,6 +127,7 @@
           "capabilities": [],
           "data": {
             "environment": "production",
+            "tags": [],
             "inbox": "S/Forums",
             "mirrors": [
               "https://forums.balena.io/t/6062"
