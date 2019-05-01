@@ -5,6 +5,21 @@
  */
 
 module.exports = {
+	'inbound-emoji': {
+		expected: require('./inbound-emoji/expected.json'),
+		steps: [
+			require('./inbound-emoji/01.json'),
+			require('./inbound-emoji/02.json')
+		]
+	},
+	'inbound-whisper-emoji': {
+		expected: require('./inbound-whisper-emoji/expected.json'),
+		steps: [
+			require('./inbound-whisper-emoji/01.json'),
+			require('./inbound-whisper-emoji/02.json'),
+			require('./inbound-whisper-emoji/03.json')
+		]
+	},
 	'inbound-delete-topic': {
 		expected: require('./inbound-delete-topic/expected.json'),
 		steps: [
