@@ -24,6 +24,8 @@ if (!TOKEN) {
 
 if (!PR || isNaN(PR) || !FILE) {
 	console.error(`Usage: ${process.argv[0]} ${process.argv[1]} <number> <body>`)
+	console.error(`Number: ${PR}`)
+	console.error(`Body: ${FILE}`)
 	process.exit(1)
 }
 
