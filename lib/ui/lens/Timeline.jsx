@@ -353,6 +353,7 @@ class TimelineRenderer extends React.Component {
 						return (
 							<Box key={item.slug}>
 								<Event
+									user={this.props.user}
 									card={item}
 								/>
 							</Box>

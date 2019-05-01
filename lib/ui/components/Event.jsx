@@ -106,13 +106,26 @@ const EventWrapper = styled(Flex) `
 		}
 	}
 
-	.rendition-tag-hl {
+	.rendition-tag--hl {
+		position: relative;
 		${tagStyle}
 	}
 
-	.rendition-tag-hl--self {
+	a .rendition-tag--hl {
+		color: #333;
+	}
+
+	.rendition-tag--personal {
 		background: #FFF1C2;
 		border-color: #FFC19B;
+	}
+
+	.rendition-tag--read:after {
+		content: '✔';
+		position: absolute;
+    top: -4px;
+    right: -4px;
+    font-size: 10px;
 	}
 
 	/*
@@ -234,10 +247,32 @@ class Event extends React.Component {
 		})
 		const instance = new Mark(this.messageElement)
 
+		const readBy = this.props.card.data.readBy || []
+		const userSlug = this.props.user.slug
+		const username = userSlug.slice(5)
+
 		instance.markRegExp(tagMatchRE, {
 			element: 'span',
-			className: 'rendition-tag-hl',
-			ignoreGroups: 1
+			className: 'rendition-tag--hl',
+			ignoreGroups: 1,
+			each (element) {
+				const text = element.innerText
+				if (text.charAt(0) === '#') {
+					return
+				}
+
+				const trimmed = text.slice(1)
+
+				if (trimmed === username) {
+					element.className += ' rendition-tag--personal'
+				}
+				if (!readBy.length) {
+					return
+				}
+				if (_.includes(readBy, `user-${trimmed}`)) {
+					element.className += ' rendition-tag--read'
+				}
+			}
 		})
 	}
 
