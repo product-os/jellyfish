@@ -5,6 +5,14 @@
  */
 
 module.exports = {
+	'inbound-preview': {
+		expected: require('./inbound-preview/expected.json'),
+		steps: [
+			require('./inbound-preview/01.json'),
+			require('./inbound-preview/02.json'),
+			require('./inbound-preview/03.json')
+		]
+	},
 	'inbound-emoji': {
 		expected: require('./inbound-emoji/expected.json'),
 		steps: [
