@@ -360,7 +360,7 @@ class TimelineRenderer extends React.Component {
 				</div>
 
 				{typingMessage && (
-					<TypingNotice>
+					<TypingNotice data-test="typing-notice">
 						<Box bg="white" ml={3}>
 							<em>{typingMessage}</em>
 						</Box>
