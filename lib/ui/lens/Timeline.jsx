@@ -4,29 +4,37 @@
  * Proprietary and confidential.
  */
 
-const {
+import {
 	commaListsAnd
-} = require('common-tags')
-const _ = require('lodash')
-const React = require('react')
-const {
+} from 'common-tags'
+import _ from 'lodash'
+import React from 'react'
+import {
 	connect
-} = require('react-redux')
-const redux = require('redux')
-const rendition = require('rendition')
-const styled = require('styled-components').default
-const uuid = require('uuid/v4')
-const Event = require('../components/Event').default
-const {
+} from 'react-redux'
+import {
+	bindActionCreators
+} from 'redux'
+import {
+	Box,
+	Button,
+	Flex,
+	Theme
+} from 'rendition'
+import styled from 'styled-components'
+import uuid from 'uuid/v4'
+import Event from '../components/Event'
+import {
 	actionCreators,
 	analytics,
 	sdk,
 	selectors
-} = require('../core')
-const helpers = require('../services/helpers')
-const AutocompleteTextarea = require('../shame/AutocompleteTextarea')
-const Column = require('../shame/Column').default
-const Icon = require('../shame/Icon')
+} from '../core'
+import helpers from '../services/helpers'
+import AutocompleteTextarea from '../shame/AutocompleteTextarea'
+import Column from '../shame/Column'
+import Icon from '../shame/Icon'
+
 const messageSymbolRE = /^\s*%\s*/
 
 const TypingNotice = styled.div `
@@ -42,67 +50,11 @@ const TypingNotice = styled.div `
 	}
 `
 
-// Default renderer for a card and a timeline
 class TimelineRenderer extends React.Component {
 	constructor (props) {
 		super(props)
 		this.shouldScroll = true
 
-		this.signalTyping = _.throttle(() => {
-			this.props.actions.signalTyping(this.props.card.id)
-		}, 1500)
-
-		this.handleNewMessageChange = (event) => {
-			this.signalTyping()
-			const newMessage = event.target.value
-			const messageSymbol = !this.props.allowWhispers || Boolean(newMessage.match(messageSymbolRE))
-			this.setState({
-				newMessage,
-				messageSymbol
-			})
-		}
-		this.handleNewMessageSubmit = (event) => {
-			this.addMessage(event)
-		}
-		this.handleEventToggle = () => {
-			this.setState({
-				messagesOnly: !this.state.messagesOnly
-			})
-		}
-		this.handleUploadButtonClick = () => {
-			const element = this.fileInputElement
-			if (element) {
-				element.click()
-			}
-		}
-		this.handleFileChange = (event) => {
-			const type = this.props.allowWhispers ? 'whisper' : 'message'
-			const file = _.first(event.target.files)
-			const message = {
-				target: this.props.card,
-				tags: [],
-				type,
-				payload: {
-					file
-				}
-			}
-			sdk.event.create(message)
-				.then(() => {
-					analytics.track('element.create', {
-						element: {
-							type
-						}
-					})
-				})
-				.catch((error) => {
-					this.props.actions.addNotification('danger', error.message || error)
-				})
-		}
-		this.toggleWhisper = () => {
-			this.setState({
-				whisper: !this.state.whisper
-			})
-		}
 		this.state = {
 			newMessage: '',
 			showNewCardModal: false,
@@ -113,7 +65,76 @@ class TimelineRenderer extends React.Component {
 		}
 
 		this.handleCardVisible = this.handleCardVisible.bind(this)
+		this.toggleWhisper = this.toggleWhisper.bind(this)
+		this.handleFileChange = this.handleFileChange.bind(this)
+		this.handleUploadButtonClick = this.handleUploadButtonClick.bind(this)
+		this.handleEventToggle = this.handleEventToggle.bind(this)
+		this.handleNewMessageSubmit = this.handleNewMessageSubmit.bind(this)
+		this.handleNewMessageChange = this.handleNewMessageChange.bind(this)
+
+		this.signalTyping = _.throttle(() => {
+			this.props.actions.signalTyping(this.props.card.id)
+		}, 1500)
 	}
+
+	handleNewMessageChange (event) {
+		this.signalTyping()
+		const newMessage = event.target.value
+		const messageSymbol = !this.props.allowWhispers || Boolean(newMessage.match(messageSymbolRE))
+		this.setState({
+			newMessage,
+			messageSymbol
+		})
+	}
+
+	handleNewMessageSubmit (event) {
+		this.addMessage(event)
+	}
+
+	handleEventToggle () {
+		this.setState({
+			messagesOnly: !this.state.messagesOnly
+		})
+	}
+
+	toggleWhisper () {
+		this.setState({
+			whisper: !this.state.whisper
+		})
+	}
+
+	handleUploadButtonClick () {
+		const element = this.fileInputElement
+		if (element) {
+			element.click()
+		}
+	}
+
+	handleFileChange (event) {
+		const type = this.props.allowWhispers ? 'whisper' : 'message'
+		const file = _.first(event.target.files)
+		const message = {
+			target: this.props.card,
+			tags: [],
+			type,
+			payload: {
+				file
+			}
+		}
+
+		sdk.event.create(message)
+			.then(() => {
+				analytics.track('element.create', {
+					element: {
+						type
+					}
+				})
+			})
+			.catch((error) => {
+				this.props.actions.addNotification('danger', error.message || error)
+			})
+	}
+
 	componentWillReceiveProps (nextProps) {
 		const {
 			pendingMessages
@@ -132,20 +153,24 @@ class TimelineRenderer extends React.Component {
 			})
 		}
 	}
+
 	componentDidMount () {
 		this.shouldScroll = true
 		this.scrollToBottom()
 	}
+
 	componentWillUpdate () {
 		if (this.scrollArea) {
 			// Only set the scroll flag if the scroll area is already at the bottom
 			this.shouldScroll = this.scrollArea.scrollTop >= this.scrollArea.scrollHeight - this.scrollArea.offsetHeight
 		}
 	}
+
 	componentDidUpdate () {
 		// Scroll to bottom if the component has been updated with new items
 		this.scrollToBottom()
 	}
+
 	scrollToBottom () {
 		if (!this.scrollArea) {
 			return
@@ -245,6 +270,7 @@ class TimelineRenderer extends React.Component {
 				this.props.actions.addNotification('danger', error.message || error)
 			})
 	}
+
 	render () {
 		const head = this.props.card
 		const {
@@ -278,133 +304,134 @@ class TimelineRenderer extends React.Component {
 			typingMessage = commaListsAnd `${typing} are typing...`
 		}
 
-		return (<Column>
-			<rendition.Flex my={2} mr={2} justify="flex-end">
-				<rendition.Button
-					plaintext
-					tooltip={{
-						placement: 'left',
-						text: `${messagesOnly ? 'Show' : 'Hide'} create and update events`
+		return (
+			<Column>
+				<Flex my={2} mr={2} justify="flex-end">
+					<Button
+						plaintext
+						tooltip={{
+							placement: 'left',
+							text: `${messagesOnly ? 'Show' : 'Hide'} create and update events`
+						}}
+						className="timeline__checkbox--additional-info"
+						color={messagesOnly ? Theme.colors.text.light : false}
+						ml={2}
+						onClick={this.handleEventToggle}
+					>
+						<Icon name="stream"/>
+					</Button>
+				</Flex>
+
+				<div
+					ref={(ref) => {
+						this.scrollArea = ref
 					}}
-					className="timeline__checkbox--additional-info"
-					color={messagesOnly ? rendition.Theme.colors.text.light : false}
-					ml={2}
-					onClick={this.handleEventToggle}
-				>
-					<Icon.default name="stream"/>
-				</rendition.Button>
-			</rendition.Flex>
-
-			<div
-				ref={(ref) => {
-					this.scrollArea = ref
-				}}
-				style={{
-					flex: 1,
-					overflowY: 'auto',
-					borderTop: '1px solid #eee',
-					paddingTop: 8
-				}}
-			>
-				{!sortedTail && (<rendition.Box p={3}>
-					<Icon.default spin name="cog"/>
-				</rendition.Box>)}
-
-				{(Boolean(sortedTail) && sortedTail.length > 0) && _.map(sortedTail, (card) => {
-					return (
-						<rendition.Box key={card.id}>
-							<Event
-								onCardVisible={this.handleCardVisible}
-								card={card}
-							/>
-						</rendition.Box>
-					)
-				})}
-
-				{Boolean(pendingMessages.length) && _.map(pendingMessages, (item) => {
-					return (
-						<rendition.Box key={item.slug}>
-							<Event
-								card={item}
-							/>
-						</rendition.Box>
-					)
-				})}
-			</div>
-
-			{typingMessage && (
-				<TypingNotice>
-					<rendition.Box bg="white" ml={3}>
-						<em>{typingMessage}</em>
-					</rendition.Box>
-				</TypingNotice>
-			)}
-
-			{head && head.type !== 'view' &&
-				<rendition.Flex
 					style={{
-						borderTop: '1px solid #eee'
+						flex: 1,
+						overflowY: 'auto',
+						borderTop: '1px solid #eee',
+						paddingTop: 8
 					}}
-					bg={whisper ? '#eee' : 'white'}
 				>
-					{allowWhispers && (
-						<rendition.Button
-							square
-							plaintext
-							onClick={this.toggleWhisper}
-							data-test="timeline__whisper-toggle"
-							tooltip={{
-								placement: 'right',
-								text: `Toggle response visibility (currently ${whisper ? 'private' : 'public'})`
-							}}
-						>
-							<Icon.default name={whisper ? 'eye-slash' : 'eye'}/>
-						</rendition.Button>
-					)}
+					{!sortedTail && (<Box p={3}>
+						<Icon spin name="cog"/>
+					</Box>)}
 
-					<rendition.Box
-						flex="1"
-						pt={3}
-						pb={2}
-						pr={3}
-						pl={allowWhispers ? 0 : 3}
-					>
-						<AutocompleteTextarea.default
-							user={this.props.user}
-							className="new-message-input"
-							value={this.state.newMessage}
-							onChange={this.handleNewMessageChange}
-							onTextSubmit={this.handleNewMessageSubmit}
-							placeholder={whisper ? 'Type your private comment...' : 'Type your public reply...'}
-						/>
-					</rendition.Box>
+					{(Boolean(sortedTail) && sortedTail.length > 0) && _.map(sortedTail, (card) => {
+						return (
+							<Box key={card.id}>
+								<Event
+									onCardVisible={this.handleCardVisible}
+									card={card}
+								/>
+							</Box>
+						)
+					})}
 
-					<rendition.Button
-						square
-						mr={3}
-						mt={3}
-						onClick={this.handleUploadButtonClick}
-					>
-						<Icon.default name="image"/>
-					</rendition.Button>
+					{Boolean(pendingMessages.length) && _.map(pendingMessages, (item) => {
+						return (
+							<Box key={item.slug}>
+								<Event
+									card={item}
+								/>
+							</Box>
+						)
+					})}
+				</div>
 
-					<input
+				{typingMessage && (
+					<TypingNotice>
+						<Box bg="white" ml={3}>
+							<em>{typingMessage}</em>
+						</Box>
+					</TypingNotice>
+				)}
+
+				{head && head.type !== 'view' &&
+					<Flex
 						style={{
-							display: 'none'
+							borderTop: '1px solid #eee'
 						}}
-						type="file"
-						ref={(el) => {
-							this.fileInputElement = el
-						}}
-						onChange={this.handleFileChange}
-					/>
-				</rendition.Flex>
-			}
+						bg={whisper ? '#eee' : 'white'}
+					>
+						{allowWhispers && (
+							<Button
+								square
+								plaintext
+								onClick={this.toggleWhisper}
+								data-test="timeline__whisper-toggle"
+								tooltip={{
+									placement: 'right',
+									text: `Toggle response visibility (currently ${whisper ? 'private' : 'public'})`
+								}}
+							>
+								<Icon name={whisper ? 'eye-slash' : 'eye'}/>
+							</Button>
+						)}
 
-		</Column>)
+						<Box
+							flex="1"
+							pt={3}
+							pb={2}
+							pr={3}
+							pl={allowWhispers ? 0 : 3}
+						>
+							<AutocompleteTextarea
+								user={this.props.user}
+								className="new-message-input"
+								value={this.state.newMessage}
+								onChange={this.handleNewMessageChange}
+								onTextSubmit={this.handleNewMessageSubmit}
+								placeholder={whisper ? 'Type your private comment...' : 'Type your public reply...'}
+							/>
+						</Box>
+
+						<Button
+							square
+							mr={3}
+							mt={3}
+							onClick={this.handleUploadButtonClick}
+						>
+							<Icon name="image"/>
+						</Button>
+
+						<input
+							style={{
+								display: 'none'
+							}}
+							type="file"
+							ref={(el) => {
+								this.fileInputElement = el
+							}}
+							onChange={this.handleFileChange}
+						/>
+					</Flex>
+				}
+			</Column>
+		)
 	}
 }
-exports.Renderer = TimelineRenderer
+
 const mapStateToProps = (state, ownProps) => {
 	const card = ownProps.card
 
@@ -414,15 +441,17 @@ const mapStateToProps = (state, ownProps) => {
 		usersTyping: selectors.getUsersTypingOnCard(state, card.id)
 	}
 }
+
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: redux.bindActionCreators(
+		actions: bindActionCreators(
 			_.pick(actionCreators, [
 				'addNotification',
 				'signalTyping'
 			]), dispatch)
 	}
 }
+
 const lens = {
 	slug: 'lens-timeline',
 	type: 'lens',
@@ -463,4 +492,5 @@ const lens = {
 		}
 	}
 }
-exports.default = lens
+
+export default lens
