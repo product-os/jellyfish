@@ -33,6 +33,29 @@ const changelog = rawChangelog.slice(rawChangelog.indexOf('##'))
 	.slice(0, 10)
 	.join('##')
 
+const sendHTTPError = (request, response, error) => {
+	const errorObject = errio.toObject(error, {
+		stack: !error.expected
+	})
+
+	if (error.expected) {
+		logger.info(request.context, 'HTTP expected error', {
+			error: errorObject
+		})
+
+		return response.status(400).json({
+			error: true,
+			data: _.omit(errorObject, [ 'expected' ])
+		})
+	}
+
+	logger.exception(request.context, 'HTTP unexpected error', error)
+	return response.status(500).json({
+		error: true,
+		data: errorObject
+	})
+}
+
 module.exports = (application, jellyfish, worker, queue) => {
 	application.get('/api/v2/config', (request, response) => {
 		response.send({
@@ -153,22 +176,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 		}).then((results) => {
 			return response.status(200).json(results)
 		}).catch((error) => {
-			const errorObject = errio.toObject(error, {
-				stack: !error.expected
-			})
-
-			if (error.expected) {
-				return response.status(400).json({
-					error: true,
-					data: _.omit(errorObject, [ 'expected' ])
-				})
-			}
-
-			logger.exception(request.context, 'HTTP unexpected error', error)
-			return response.status(500).json({
-				error: true,
-				data: errorObject
-			})
+			return sendHTTPError(request, response, error)
 		})
 	})
 
@@ -181,22 +189,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 
 			return response.status(404).end()
 		}).catch((error) => {
-			const errorObject = errio.toObject(error, {
-				stack: !error.expected
-			})
-
-			if (error.expected) {
-				return response.status(400).json({
-					error: true,
-					data: _.omit(errorObject, [ 'expected' ])
-				})
-			}
-
-			logger.exception(request.context, 'HTTP unexpected error', error)
-			return response.status(500).json({
-				error: true,
-				data: errorObject
-			})
+			return sendHTTPError(request, response, error)
 		})
 	})
 
@@ -211,22 +204,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 
 			return response.status(404).end()
 		}).catch((error) => {
-			const errorObject = errio.toObject(error, {
-				stack: !error.expected
-			})
-
-			if (error.expected) {
-				return response.status(400).json({
-					error: true,
-					data: _.omit(errorObject, [ 'expected' ])
-				})
-			}
-
-			logger.exception(request.context, 'HTTP unexpected error', error)
-			return response.status(500).json({
-				error: true,
-				data: errorObject
-			})
+			return sendHTTPError(request, response, error)
 		})
 	})
 
@@ -349,13 +327,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 					return response.status(200).send(file)
 				})
 				.catch((error) => {
-					return response.status(500).json({
-						error: true,
-						data: {
-							type: 'Error',
-							message: error.message
-						}
-					})
+					return sendHTTPError(request, response, error)
 				})
 		}
 
@@ -363,13 +335,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 			request.params.cardId, request.params.fileName).then((file) => {
 			return response.status(200).send(file)
 		}).catch((error) => {
-			return response.status(500).json({
-				error: true,
-				data: {
-					type: 'Error',
-					message: error.message
-				}
-			})
+			return sendHTTPError(request, response, error)
 		})
 	})
 
@@ -454,26 +420,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 			const code = results.error ? 500 : 200
 			return response.status(code).json(results)
 		}).catch((error) => {
-			const errorObject = errio.toObject(error, {
-				stack: !error.expected
-			})
-
-			if (error.expected) {
-				logger.info(request.context, 'HTTP expected error', {
-					error: errorObject
-				})
-
-				return response.status(400).json({
-					error: true,
-					data: _.omit(errorObject, [ 'expected' ])
-				})
-			}
-
-			logger.exception(request.context, 'HTTP unexpected error', error)
-			return response.status(500).json({
-				error: true,
-				data: errorObject
-			})
+			return sendHTTPError(request, response, error)
 		})
 	})
 
