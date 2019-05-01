@@ -49,6 +49,8 @@ const config = {
 		]
 	},
 
+	devtool: 'source-map',
+
 	devServer: {
 		contentBase: outDir,
 		compress: true,
