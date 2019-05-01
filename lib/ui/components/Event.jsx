@@ -307,7 +307,7 @@ class Event extends React.Component {
 		const {
 			card
 		} = this.props
-		const props = _.omit(this.props, [ 'card', 'openChannel' ])
+		const props = _.omit(this.props, [ 'card', 'openChannel', 'onCardVisible' ])
 		const isMessage = card.type === 'message' || card.type === 'whisper'
 
 		let InnerWrapper = MessageWrapper
