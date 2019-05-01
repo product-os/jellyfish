@@ -38,7 +38,7 @@ import {
 	sdk
 } from '../../core'
 import * as helpers from '../../services/helpers'
-import SupportThreadTimeline from './SupportThreadTimeline'
+import Timeline from '../Timeline'
 import {
 	ActionLink
 } from '../../shame/ActionLink'
@@ -405,7 +405,12 @@ class SupportThreadBase extends React.Component {
 							{this.state.showHighlights && (<Extract py={2}>
 								{_.map(highlights, (statusEvent) => {
 									return (
-										<Event key={statusEvent.id} card={statusEvent} mb={1}/>
+										<Event
+											key={statusEvent.id}
+											card={statusEvent}
+											user={this.props.user}
+											mb={1}
+										/>
 									)
 								})}
 							</Extract>)}
@@ -464,7 +469,8 @@ class SupportThreadBase extends React.Component {
 				<Box flex="1" style={{
 					minHeight: 0
 				}}>
-					<SupportThreadTimeline.default.data.renderer
+					<Timeline.data.renderer
+						allowWhispers
 						card={this.props.card}
 						tail={_.get(this.props.card.links, [ 'has attached element' ], [])}
 					/>
@@ -478,7 +484,8 @@ const mapStateToProps = (state) => {
 	return {
 		allUsers: selectors.getAllUsers(state),
 		accounts: selectors.getAccounts(state),
-		types: selectors.getTypes(state)
+		types: selectors.getTypes(state),
+		user: selectors.getCurrentUser(state)
 	}
 }
 

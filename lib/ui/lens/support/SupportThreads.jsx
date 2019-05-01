@@ -173,7 +173,7 @@ export class SupportThreads extends React.Component {
 									overflowY: 'auto'
 								}}
 							>
-								{segment.cards.length === 0 && (
+								{!(this.props.totalPages > this.props.page + 1) && segment.cards.length === 0 && (
 									<Box p={3}><strong>Good job! There are no support threads here</strong></Box>
 								)}
 								{_.map(segment.cards, (card) => {
