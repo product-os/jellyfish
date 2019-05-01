@@ -86,8 +86,6 @@ ava.serial('Updates to support threads should be reflected in the support thread
 
 	await require('bluebird').delay(10 * 1000)
 
-	await macros.screenshot(test, page)
-
 	const columnSelector = macros.makeSelector('column', null, supportThread.id)
 	await macros.createChatMessage(page, columnSelector, `%${rand}`)
 
@@ -222,7 +220,7 @@ ava.serial('Support thread timeline should send a message if the whisper button 
 	const columnSelector = macros.makeSelector('column', null, supportThread.id)
 	await page.waitForSelector(columnSelector)
 
-	await macros.waitForThenClickSelector(page, '[data-test="support-thread-timeline__whisper-toggle"]')
+	await macros.waitForThenClickSelector(page, '[data-test="timeline__whisper-toggle"]')
 
 	const rand = uuid()
 

@@ -23,17 +23,6 @@ const userDetails = {
 	password: 'password'
 }
 
-const screenshot = async (test, page) => {
-	test.context.screenshots = (test.context.screenshots || 0) + 1
-	const dir = '/tmp/test-results/screenshots'
-	const file = `${test.title}.${test.context.screenshots}.png`
-	const path = `${dir}/${file}`
-	await page.screenshot({
-		path
-	})
-	console.log(`Saved screenshot: ${file}`)
-}
-
 ava.before(async () => {
 	await helpers.browser.beforeEach({
 		context
@@ -82,9 +71,6 @@ ava.serial('A lens selection should be remembered', async (test) => {
 
 	await macros.waitForThenClickSelector(page, '[data-test="home-channel__item--view-all-support-threads"]')
 	await page.waitForSelector('.column--view-all-support-threads')
-
-	// TODO remove this screenshot once we are certain the flakiness is resolved
-	await screenshot(test, page)
 
 	// Wait for a while as reload can take some time
 	await page.waitForSelector('[data-test="lens--lens-support-threads"]')

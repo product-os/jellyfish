@@ -38,7 +38,7 @@ import {
 	sdk
 } from '../../core'
 import * as helpers from '../../services/helpers'
-import SupportThreadTimeline from './SupportThreadTimeline'
+import Timeline from '../Timeline'
 import {
 	ActionLink
 } from '../../shame/ActionLink'
@@ -464,7 +464,8 @@ class SupportThreadBase extends React.Component {
 				<Box flex="1" style={{
 					minHeight: 0
 				}}>
-					<SupportThreadTimeline.default.data.renderer
+					<Timeline.default.data.renderer
+						allowWhispers
 						card={this.props.card}
 						tail={_.get(this.props.card.links, [ 'has attached element' ], [])}
 					/>
