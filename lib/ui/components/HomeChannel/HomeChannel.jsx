@@ -203,6 +203,10 @@ export default class HomeChannel extends React.Component {
 	}
 
 	componentDidUpdate (prevProps) {
+		if (!prevProps.channel.data.head && this.props.channel.data.head) {
+			this.props.actions.loadViewResults(this.props.channel.data.head)
+		}
+
 		// If there is only 1 channel, check for the home channel, otherwise, open
 		// the all messages view by default
 		if (!prevProps.tail && this.props.tail && this.props.channels.length === 1) {

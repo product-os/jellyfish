@@ -269,6 +269,7 @@ class Interleaved extends React.Component {
 								<Event
 									onCardVisible={this.handleCardVisible}
 									openChannel={this.openChannel}
+									user={this.props.user}
 									card={card}
 								/>
 							</rendition.Box>

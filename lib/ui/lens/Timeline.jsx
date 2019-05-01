@@ -343,6 +343,7 @@ class TimelineRenderer extends React.Component {
 								<Event
 									onCardVisible={this.handleCardVisible}
 									card={card}
+									user={this.props.user}
 								/>
 							</Box>
 						)

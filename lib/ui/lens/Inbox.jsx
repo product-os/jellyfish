@@ -215,6 +215,7 @@ class Interleaved extends React.Component {
 						return (
 							<rendition.Box key={card.id}>
 								<Event
+									user={this.props.user}
 									openChannel={this.openChannel}
 									card={card}
 								/>
