@@ -186,6 +186,90 @@ ava.afterEach(helpers.mirror.afterEach)
 // Skip all tests if there is no Discourse token
 const avaTest = TOKEN ? ava.serial : ava.serial.skip
 
+avaTest('should not re-open a closed thread with a whisper', async (test) => {
+	const supportThread = await test.context.startSupportThread(
+		test.context.username,
+		`My Issue ${uuid()}`,
+		`Foo Bar ${uuid()}`)
+
+	await test.context.sdk.card.update(supportThread.id, {
+		type: supportThread.type,
+		data: {
+			status: 'closed'
+		}
+	})
+
+	await test.context.createWhisper(supportThread,
+		test.context.getWhisperSlug(), 'Hello')
+
+	const thread = await test.context.sdk.getById(supportThread.id)
+	test.true(thread.active)
+	test.is(thread.data.status, 'closed')
+})
+
+avaTest('should not re-open an archived thread with a whisper', async (test) => {
+	const supportThread = await test.context.startSupportThread(
+		test.context.username,
+		`My Issue ${uuid()}`,
+		`Foo Bar ${uuid()}`)
+
+	await test.context.sdk.card.update(supportThread.id, {
+		type: supportThread.type,
+		data: {
+			status: 'archived'
+		}
+	})
+
+	await test.context.createWhisper(supportThread,
+		test.context.getWhisperSlug(), 'Hello')
+
+	const thread = await test.context.sdk.getById(supportThread.id)
+	test.true(thread.active)
+	test.is(thread.data.status, 'archived')
+})
+
+avaTest('should re-open a closed thread with a message', async (test) => {
+	const supportThread = await test.context.startSupportThread(
+		test.context.username,
+		`My Issue ${uuid()}`,
+		`Foo Bar ${uuid()}`)
+
+	await test.context.sdk.card.update(supportThread.id, {
+		type: supportThread.type,
+		data: {
+			status: 'closed'
+		}
+	})
+
+	await test.context.createMessage(supportThread,
+		test.context.getMessageSlug(), 'Hello')
+
+	const thread = await test.context.sdk.getById(supportThread.id)
+	test.true(thread.active)
+	test.is(thread.data.status, 'open')
+})
+
+avaTest('should re-open an archived thread with a message', async (test) => {
+	const supportThread = await test.context.startSupportThread(
+		test.context.username,
+		`My Issue ${uuid()}`,
+		`Foo Bar ${uuid()}`)
+
+	await test.context.sdk.card.update(supportThread.id, {
+		type: supportThread.type,
+		data: {
+			status: 'archived'
+		}
+	})
+
+	await test.context.createMessage(supportThread,
+		test.context.getMessageSlug(), 'Hello')
+
+	const thread = await test.context.sdk.getById(supportThread.id)
+	test.true(thread.active)
+	test.is(thread.data.status, 'open')
+})
+
 avaTest('should close a thread with a #summary whisper', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		test.context.username,
