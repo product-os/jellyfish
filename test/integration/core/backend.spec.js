@@ -936,7 +936,7 @@ ava('.query() should query the database using JSON schema', async (test) => {
 		required: [ 'id', 'active', 'slug', 'data', 'type' ]
 	})
 
-	test.deepEqual(_.sortBy(results, [ 'data', 'test' ]), [ result1, result2 ])
+	test.deepEqual(_.sortBy(results, 'data.test'), [ result1, result2 ])
 })
 
 ava('.query() should escape malicious query keys', async (test) => {

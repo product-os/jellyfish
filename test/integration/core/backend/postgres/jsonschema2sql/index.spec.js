@@ -839,3 +839,54 @@ avaTest('jsonb_pattern - inside items in a jsonb column', async (test) => {
 		'test-pattern-2'
 	])
 })
+
+avaTest('jsonb_pattern - pattern keyword should be case sensitive', async (test) => {
+	const table = 'pattern_case_jsonb'
+
+	const schema = {
+		type: 'object',
+		required: [ 'id', 'slug', 'type', 'data' ],
+		properties: {
+			id: {
+				type: 'string'
+			},
+			slug: {
+				type: 'string'
+			},
+			type: {
+				type: 'string'
+			},
+			name: {
+				pattern: 'foo'
+			}
+		}
+	}
+
+	const elements = [
+		{
+			slug: 'test-pattern-1',
+			version: '1.0.0',
+			type: 'card',
+			active: true,
+			name: 'foo'
+		},
+		{
+			slug: 'test-pattern-2',
+			version: '1.0.0',
+			type: 'card',
+			active: true,
+			name: 'FOO'
+		}
+	]
+
+	const results = await runner({
+		connection: test.context.connection,
+		database: test.context.database,
+		table,
+		elements,
+		schema
+	})
+
+	test.is(results.length, 1)
+	test.deepEqual(results[0].slug, elements[0].slug)
+})
