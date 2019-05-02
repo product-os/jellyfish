@@ -1,6 +1,6 @@
 {
   "slug": "view-backend-support-threads",
-  "name": "Backend",
+  "name": "Investigating",
   "version": "1.0.0",
   "type": "view",
   "markers": [ "org-balena" ],
@@ -43,7 +43,7 @@
               "type": "object",
               "properties": {
                 "category": {
-                  "const": "backend"
+                  "const": "investigating"
                 }
               },
               "required": [ "category" ]
