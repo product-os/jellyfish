@@ -4,6 +4,7 @@
  * Proprietary and confidential.
  */
 
+const clone = require('deep-copy')
 const _ = require('lodash')
 const React = require('react')
 const rendition = require('rendition')
@@ -96,7 +97,7 @@ class FreeFieldForm extends React.Component {
 		return (
 			<rendition.Box>
 				<unstable.Form
-					schema={_.cloneDeep(this.props.schema)}
+					schema={clone(this.props.schema)}
 					value={this.props.data}
 					onFormChange={this.handleFormChange}
 					hideSubmitButton={true}

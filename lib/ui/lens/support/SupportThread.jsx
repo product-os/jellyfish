@@ -5,6 +5,7 @@
  */
 
 import * as Bluebird from 'bluebird'
+import clone from 'deep-copy'
 import {
 	circularDeepEqual
 } from 'fast-equals'
@@ -142,7 +143,7 @@ class SupportThreadBase extends React.Component {
 			return
 		}
 
-		const update = _.cloneDeep(this.props.card)
+		const update = clone(this.props.card)
 		_.set(update, [ 'data', 'category' ], category)
 
 		sdk.card.update(update.id, update)
