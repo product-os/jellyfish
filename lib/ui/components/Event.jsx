@@ -397,6 +397,8 @@ class Event extends React.Component {
 											}}>
 														Copy as JSON
 											</ActionLink>
+
+											{this.props.menuOptions}
 										</React.Fragment>
 									</ContextMenu>
 								)}

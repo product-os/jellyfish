@@ -4,6 +4,7 @@
  * Proprietary and confidential.
  */
 
+import * as Bluebird from 'bluebird'
 import _ from 'lodash'
 import React from 'react'
 import {
@@ -13,15 +14,23 @@ import {
 	bindActionCreators
 } from 'redux'
 import {
-	Box
+	Box,
+	Button,
+	Flex
 } from 'rendition'
 import Event from '../components/Event'
 import {
 	actionCreators,
-	selectors
+	selectors,
+	sdk
 } from '../core'
+import {
+	ActionLink
+} from '../shame/ActionLink'
 import Icon from '../shame/Icon'
 import Column from '../shame/Column'
+
+const INBOX_VIEW_SLUG = 'view-my-inbox'
 
 class Inbox extends React.Component {
 	constructor (props) {
@@ -34,14 +43,63 @@ class Inbox extends React.Component {
 				parentChannel: this.props.channel.id
 			})
 		}
+
 		this.state = {
 			creatingCard: false,
 			newMessage: '',
 			showNewCardModal: false,
-			loadingPage: false
+			loadingPage: false,
+			markingAllAsRead: false
 		}
 
 		this.handleScroll = this.handleScroll.bind(this)
+
+		this.markAllAsRead = this.markAllAsRead.bind(this)
+	}
+
+	async handleCardVisible (card) {
+		const userSlug = this.props.user.slug
+		if (card.type === 'message' || card.type === 'whisper') {
+			const message = _.get(card, [ 'data', 'payload', 'message' ], '')
+
+			// Only continue if the message mentions the current user
+			if (message.includes(`@${userSlug.slice(5)}`) || message.includes(`!${userSlug.slice(5)}`)) {
+				const readBy = _.get(card, [ 'data', 'readBy' ], [])
+
+				if (!_.includes(readBy, userSlug)) {
+					readBy.push(userSlug)
+
+					card.data.readBy = readBy
+
+					return sdk.card.update(card.id, card)
+						.catch((error) => {
+							console.error(error)
+						})
+				}
+			}
+		}
+
+		return null
+	}
+
+	async markAllAsRead () {
+		this.setState({
+			markingAllAsRead: true
+		})
+
+		try {
+			const cards = await sdk.query(INBOX_VIEW_SLUG)
+
+			await Bluebird.map(cards, (card) => {
+				return this.handleCardVisible(card)
+			})
+		} catch (error) {
+			this.props.actions.addNotification('danger', error.message || error)
+		}
+
+		this.setState({
+			markingAllAsRead: false
+		})
 	}
 
 	async handleScroll () {
@@ -69,6 +127,9 @@ class Inbox extends React.Component {
 
 	render () {
 		let tail = this.props.tail ? this.props.tail.slice() : null
+		const {
+			markingAllAsRead
+		} = this.state
 
 		if (tail) {
 			tail = _.sortBy(tail, 'created_at')
@@ -82,6 +143,22 @@ class Inbox extends React.Component {
 					position: 'relative'
 				}}
 			>
+				<Flex
+					justify="flex-end"
+					px={3}
+					pb={3}
+				>
+					<Button
+						onClick={this.markAllAsRead}
+						disabled={markingAllAsRead || tail.length === 0}
+					>
+						{markingAllAsRead
+							? <Icon name="cog" spin />
+							: 'Mark all as read'
+						}
+					</Button>
+				</Flex>
+
 				<div
 					ref={(ref) => {
 						this.scrollArea = ref
@@ -101,6 +178,15 @@ class Inbox extends React.Component {
 									user={this.props.user}
 									openChannel={this.openChannel}
 									card={card}
+									menuOptions={(
+										<ActionLink
+											onClick={() => {
+												this.handleCardVisible(card)
+											}}
+										>
+											Mark as read
+										</ActionLink>
+									)}
 								/>
 							</Box>
 						)
@@ -122,16 +208,19 @@ const mapStateToProps = (state) => {
 		user: selectors.getCurrentUser(state)
 	}
 }
+
 const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: bindActionCreators(
 			_.pick(actionCreators, [
-				'addChannel'
+				'addChannel',
+				'addNotification'
 			]),
 			dispatch
 		)
 	}
 }
+
 const lens = {
 	slug: 'lens-inbox',
 	type: 'lens',
@@ -158,4 +247,5 @@ const lens = {
 		}
 	}
 }
+
 export default lens
