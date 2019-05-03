@@ -1,7 +1,7 @@
 {
   "name": "jellyfish",
   "version": "16.23.0",
-  "codename": "aurelia",
+  "codename": "cyanea",
   "private": true,
   "description": "The Jellyfish Project",
   "main": "apps/server/index.js",

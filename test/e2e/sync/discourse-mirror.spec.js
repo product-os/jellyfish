@@ -157,7 +157,7 @@ ava.before(async (test) => {
 			prefix: 'support-thread-discourse-test'
 		})
 
-		return test.context.sdk.card.create({
+		const result = await test.context.sdk.card.create({
 			name: title,
 			slug,
 			type: 'support-thread',
@@ -171,6 +171,10 @@ ava.before(async (test) => {
 				description: '',
 				status: 'open'
 			}
+		})
+
+		return test.context.sdk.getById(result.id, {
+			type: 'support-thread'
 		})
 	}
 })
