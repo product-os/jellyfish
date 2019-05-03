@@ -5,6 +5,7 @@
  */
 
 const ava = require('ava')
+const Bluebird = require('bluebird')
 const uuid = require('uuid/v4')
 const helpers = require('./helpers')
 const macros = require('./macros')
@@ -100,6 +101,49 @@ ava.serial('A notice should be displayed when another user is typing', async (te
 	const messageText = await macros.getElementText(incognitoPage, '[data-test="typing-notice"]')
 
 	test.is(messageText, `${userDetails1.username} is typing...`)
+
+	test.pass()
+})
+
+ava.serial('Messages typed but not sent should be preserved when navigating away', async (test) => {
+	const {
+		page
+	} = context
+
+	const thread1 = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'thread'
+		})
+	})
+
+	const thread2 = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'thread'
+		})
+	})
+
+	// Navigate to the thread page
+	await page.goto(`http://localhost:${environment.ui.port}/#/thread~${thread1.id}`)
+	await page.waitForSelector(`.column--slug-${thread1.slug}`)
+
+	const rand = uuid()
+
+	await page.waitForSelector('.new-message-input')
+	await page.type('textarea', rand)
+
+	// The delay here isn't ideal, but it helps mitigate issues that can occur due
+	// to the message preservation being debounced in the UI
+	await Bluebird.delay(1000)
+
+	await page.goto(`http://localhost:${environment.ui.port}/#/thread~${thread2.id}`)
+	await page.waitForSelector(`.column--slug-${thread2.slug}`)
+
+	await page.goto(`http://localhost:${environment.ui.port}/#/thread~${thread1.id}`)
+	await page.waitForSelector(`.column--slug-${thread1.slug}`)
+
+	const messageText = await macros.getElementText(page, 'textarea')
+
+	test.is(messageText, rand)
 
 	test.pass()
 })

@@ -4,6 +4,7 @@
  * Proprietary and confidential.
  */
 
+import clone from 'deep-copy'
 import * as _ from 'lodash'
 import React from 'react'
 import {
@@ -58,7 +59,7 @@ class EditLens extends React.Component {
 		])
 		this.state = {
 			// Omit known immutable values
-			editModel: _.omit(_.cloneDeep(card), [ 'id', 'slug' ]),
+			editModel: _.omit(clone(card), [ 'id', 'slug' ]),
 			schema
 		}
 

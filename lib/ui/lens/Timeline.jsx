@@ -56,7 +56,7 @@ class TimelineRenderer extends React.Component {
 		this.shouldScroll = true
 
 		this.state = {
-			newMessage: '',
+			newMessage: this.props.timelineMessage,
 			showNewCardModal: false,
 			messagesOnly: true,
 			whisper: Boolean(this.props.allowWhispers),
@@ -75,6 +75,10 @@ class TimelineRenderer extends React.Component {
 		this.signalTyping = _.throttle(() => {
 			this.props.actions.signalTyping(this.props.card.id)
 		}, 1500)
+
+		this.preserveMessage = _.debounce((newMessage) => {
+			this.props.actions.setTimelineMessage(this.props.card.id, newMessage)
+		}, 150)
 	}
 
 	handleNewMessageChange (event) {
@@ -85,6 +89,8 @@ class TimelineRenderer extends React.Component {
 			newMessage,
 			messageSymbol
 		})
+
+		this.preserveMessage(newMessage)
 	}
 
 	handleNewMessageSubmit (event) {
@@ -224,6 +230,7 @@ class TimelineRenderer extends React.Component {
 			whisper: allowWhispers,
 			messageSymbol: false
 		})
+		this.props.actions.setTimelineMessage(this.props.card.id, '')
 		const mentions = helpers.getUserIdsByPrefix('@', newMessage, allUsers)
 		const alerts = helpers.getUserIdsByPrefix('!', newMessage, allUsers)
 		const tags = helpers.findWordsByPrefix('#', newMessage).map((tag) => {
@@ -440,7 +447,8 @@ const mapStateToProps = (state, ownProps) => {
 	return {
 		allUsers: selectors.getAllUsers(state),
 		user: selectors.getCurrentUser(state),
-		usersTyping: selectors.getUsersTypingOnCard(state, card.id)
+		usersTyping: selectors.getUsersTypingOnCard(state, card.id),
+		timelineMessage: selectors.getTimelineMessage(state, card.id)
 	}
 }
 
@@ -449,6 +457,7 @@ const mapDispatchToProps = (dispatch) => {
 		actions: bindActionCreators(
 			_.pick(actionCreators, [
 				'addNotification',
+				'setTimelineMessage',
 				'signalTyping'
 			]), dispatch)
 	}

@@ -1746,7 +1746,9 @@ ava.serial('should create a new tag using using action-increment-tag', async (te
 			Authorization: `Bearer ${session.id}`
 		})
 
-	const id = result.response.data.id
+	test.is(result.response.data.length, 1)
+
+	const id = result.response.data[0].id
 
 	const tag = await test.context.jellyfish.getCardById(test.context.context,
 		test.context.session, id, {
@@ -1987,7 +1989,7 @@ ava.serial('should sanely handle line breaks before tags in messages/whispers', 
 	}))
 })
 
-ava.serial.only('should sanely handle multiple tags in messages/whispers', async (test) => {
+ava.serial('should sanely handle multiple tags in messages/whispers', async (test) => {
 	const admin = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'user-admin', {
 			type: 'user'
@@ -2100,4 +2102,75 @@ ava.serial.only('should sanely handle multiple tags in messages/whispers', async
 		slug: tag3.slug,
 		type: 'tag'
 	}))
+})
+
+ava.serial('/query endpoint should allow you to query using a view\'s slug', async (test) => {
+	const admin = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'user-admin', {
+			type: 'user'
+		})
+
+	const session = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			type: 'session',
+			slug: test.context.generateRandomSlug({
+				prefix: 'session'
+			}),
+			version: '1.0.0',
+			data: {
+				actor: admin.id
+			}
+		})
+
+	const result = await test.context.http(
+		'POST',
+		'/api/v2/query',
+		{
+			query: 'view-all-views'
+		},
+		{
+			Authorization: `Bearer ${session.id}`
+		}
+	)
+
+	test.is(result.code, 200)
+	test.deepEqual(_.uniq(_.map(result.response.data, 'type')), [ 'view' ])
+})
+
+ava.serial('/query endpoint should allow you to query using a view\'s id', async (test) => {
+	const admin = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'user-admin', {
+			type: 'user'
+		})
+
+	const view = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'view-all-views', {
+			type: 'view'
+		})
+
+	const session = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			type: 'session',
+			slug: test.context.generateRandomSlug({
+				prefix: 'session'
+			}),
+			version: '1.0.0',
+			data: {
+				actor: admin.id
+			}
+		})
+
+	const result = await test.context.http(
+		'POST',
+		'/api/v2/query',
+		{
+			query: view.id
+		},
+		{
+			Authorization: `Bearer ${session.id}`
+		}
+	)
+
+	test.is(result.code, 200)
+	test.deepEqual(_.uniq(_.map(result.response.data, 'type')), [ 'view' ])
 })

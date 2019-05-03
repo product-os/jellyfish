@@ -4,6 +4,7 @@
  * Proprietary and confidential.
  */
 
+import clone from 'deep-copy'
 import {
 	circularDeepEqual
 } from 'fast-equals'
@@ -40,7 +41,7 @@ const USER_FILTER_NAME = 'user-generated-filter'
 const TIMELINE_FILTER_PROP = '$$links'
 
 const createSyntheticViewCard = (view, filters) => {
-	const syntheticViewCard = _.cloneDeep(view)
+	const syntheticViewCard = clone(view)
 	const originalFilters = view
 		? _.reject(view.data.allOf, {
 			name: USER_FILTER_NAME
@@ -340,7 +341,7 @@ class ViewRenderer extends React.Component {
 		})
 	}
 	createView (view) {
-		const newView = _.cloneDeep(this.props.channel.data.head)
+		const newView = clone(this.props.channel.data.head)
 		const {
 			user
 		} = this.props
@@ -402,7 +403,7 @@ class ViewRenderer extends React.Component {
 		const lensSupportsSlices = Boolean(lens) && Boolean(lens.data.supportsSlices)
 
 		// Always expose the created_at and updated_at field for filtering
-		const schemaForFilters = _.get(_.cloneDeep(tailType), [ 'data', 'schema' ], {})
+		const schemaForFilters = _.get(clone(tailType), [ 'data', 'schema' ], {})
 		_.set(schemaForFilters, [ 'properties', 'created_at' ], {
 			title: 'Created at',
 			type: 'string',

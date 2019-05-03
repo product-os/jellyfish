@@ -1,3 +1,10 @@
+/*
+ * Copyright (C) Balena.io - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited.
+ * Proprietary and confidential.
+ */
+
+import clone from 'deep-copy'
 import * as _ from 'lodash'
 import * as React from 'react'
 import FaPieChart from 'react-icons/lib/fa/pie-chart'
@@ -82,7 +89,7 @@ class ViewsMenu extends React.Component {
 	}
 
 	loadView (view) {
-		const filters = _.cloneDeep(view.filters)
+		const filters = clone(view.filters)
 		this.props.setFilters(filters)
 		this.setState({
 			showViewsMenu: false

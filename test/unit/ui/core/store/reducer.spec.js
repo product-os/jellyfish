@@ -45,7 +45,8 @@ ava('reducer should create a default state if one is not provided', (test) => {
 			ui: {
 				sidebar: {
 					expanded: []
-				}
+				},
+				timelines: {}
 			}
 		},
 		views: {
@@ -57,8 +58,6 @@ ava('reducer should create a default state if one is not provided', (test) => {
 
 ava('REMOVE_VIEW_DATA_ITEM action should do nothing if there is no view data', (test) => {
 	const initialState = reducer()
-
-	console.log(actions.REMOVE_VIEW_DATA_ITEM)
 
 	const newState = reducer(initialState, {
 		type: actions.REMOVE_VIEW_DATA_ITEM,

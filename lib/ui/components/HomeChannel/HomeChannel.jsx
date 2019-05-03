@@ -4,6 +4,7 @@
  * Proprietary and confidential.
  */
 
+import clone from 'deep-copy'
 import {
 	circularDeepEqual
 } from 'fast-equals'
@@ -160,7 +161,7 @@ export default class HomeChannel extends React.Component {
 
 	toggleExpandGroup (event) {
 		const name = event.currentTarget.dataset.groupname
-		const state = _.cloneDeep(this.props.uiState)
+		const state = clone(this.props.uiState)
 		if (this.isExpanded(name)) {
 			state.sidebar.expanded = _.without(state.sidebar.expanded, name)
 		} else {

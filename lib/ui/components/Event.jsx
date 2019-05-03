@@ -307,7 +307,12 @@ class Event extends React.Component {
 		const {
 			card
 		} = this.props
-		const props = _.omit(this.props, [ 'card', 'openChannel', 'onCardVisible' ])
+		const props = _.omit(this.props, [
+			'card',
+			'menuOptions',
+			'onCardVisible',
+			'openChannel'
+		])
 		const isMessage = card.type === 'message' || card.type === 'whisper'
 
 		let InnerWrapper = MessageWrapper
@@ -397,6 +402,8 @@ class Event extends React.Component {
 											}}>
 														Copy as JSON
 											</ActionLink>
+
+											{this.props.menuOptions}
 										</React.Fragment>
 									</ContextMenu>
 								)}
