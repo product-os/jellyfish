@@ -437,28 +437,33 @@ module.exports = (application, jellyfish, worker, queue) => {
 				return request.body.query
 			}
 
-			// Try and load the view by id first
-			const viewCardFromId = await jellyfish.getCardById(
-				request.context, request.sessionToken, request.body.query, {
-					type: 'view'
-				})
-
-			if (viewCardFromId && viewCardFromId.type === 'view') {
-				return viewCardFromId
-			}
-
 			// Now try and load the view by slug
 			const viewCardFromSlug = await jellyfish.getCardBySlug(
 				request.context, request.sessionToken, request.body.query, {
 					type: 'view'
 				})
 
-			if (!viewCardFromSlug || viewCardFromSlug.type !== 'view') {
+			if (viewCardFromSlug && viewCardFromSlug.type === 'view') {
+				return viewCardFromSlug
+			}
+
+			try {
+				// Try and load the view by id first
+				const viewCardFromId = await jellyfish.getCardById(
+					request.context, request.sessionToken, request.body.query, {
+						type: 'view'
+					})
+
+				if (!viewCardFromId || viewCardFromId.type !== 'view') {
+					throw new jellyfish.errors.JellyfishNoView(
+						`Unknown view: ${request.body.query}`)
+				}
+
+				return viewCardFromId
+			} catch (error) {
 				throw new jellyfish.errors.JellyfishNoView(
 					`Unknown view: ${request.body.query}`)
 			}
-
-			return viewCardFromSlug
 		}).then(async (schema) => {
 			request.payload = schema
 			const startDate = new Date()
