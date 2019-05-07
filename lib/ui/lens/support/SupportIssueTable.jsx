@@ -26,6 +26,7 @@ import {
 } from '../../core'
 import helpers from '../../services/helpers'
 import Column from '../../shame/Column'
+import BaseLens from '../common/BaseLens'
 
 const COLUMNS = [
 	{
@@ -62,12 +63,13 @@ const COLUMNS = [
 		sortable: true
 	}
 ]
-class CardTable extends React.Component {
+class CardTable extends BaseLens {
 	render () {
 		const tail = this.props.tail ? _.map(this.props.tail, (card) => {
 			const update = _.find(_.get(card, [ 'links', 'has attached element' ]), {
 				type: 'update'
 			})
+
 			return {
 				name: card.name,
 				id: card.id,
@@ -78,40 +80,43 @@ class CardTable extends React.Component {
 				fixedInSupervisorVersion: card.data.fixedInSupervisorVersion
 			}
 		}) : null
-		return (<Column flex="1" overflowY>
-			<Box flex="1" style={{
-				position: 'relative'
-			}}>
-				{Boolean(tail) && tail.length > 0 && (<Table rowKey="id" data={tail} columns={COLUMNS} onRowClick={({
-					id
-				}) => {
-					return this.openChannel(_.find(this.props.tail, {
-						id
-					}))
-				}}/>)}
-				{Boolean(tail) && tail.length === 0 &&
-            <Txt.p p={3}>No results found</Txt.p>}
-			</Box>
 
-			{Boolean(this.props.type) && (
-				<React.Fragment>
-					<Flex
-						p={3}
-						style={{
-							borderTop: '1px solid #eee'
-						}}
-						justify="flex-end"
-					>
-						<Button
-							success={true}
-							onClick={this.openCreateChannel}
+		return (
+			<Column flex="1" overflowY>
+				<Box flex="1" style={{
+					position: 'relative'
+				}}>
+					{Boolean(tail) && tail.length > 0 && (<Table rowKey="id" data={tail} columns={COLUMNS} onRowClick={({
+						id
+					}) => {
+						return this.openChannel(_.find(this.props.tail, {
+							id
+						}))
+					}}/>)}
+					{Boolean(tail) && tail.length === 0 &&
+							<Txt.p p={3}>No results found</Txt.p>}
+				</Box>
+
+				{Boolean(this.props.type) && (
+					<React.Fragment>
+						<Flex
+							p={3}
+							style={{
+								borderTop: '1px solid #eee'
+							}}
+							justify="flex-end"
 						>
-							Add {this.props.type.name || this.props.type.slug}
-						</Button>
-					</Flex>
-				</React.Fragment>
-			)}
-		</Column>)
+							<Button
+								success={true}
+								onClick={this.openCreateChannel}
+							>
+								Add {this.props.type.name || this.props.type.slug}
+							</Button>
+						</Flex>
+					</React.Fragment>
+				)}
+			</Column>
+		)
 	}
 }
 
