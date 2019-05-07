@@ -65,7 +65,7 @@
     "@babel/preset-env": "^7.3.1",
     "@babel/preset-react": "^7.0.0",
     "@storybook/react": "^4.0.2",
-    "ava": "^1.0.0-rc.2",
+    "ava": "^1.4.1",
     "browser-env": "^3.2.5",
     "cli-spinner": "^0.2.8",
     "copy-webpack-plugin": "^4.5.1",
