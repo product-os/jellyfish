@@ -6,7 +6,7 @@
 
 const ava = require('ava')
 const _ = require('lodash')
-const jsonSchemaTestSuite = require('json-schema-test-suite')
+const jsonSchemaTestSuite = require('@json-schema-org/tests')
 const uuid = require('uuid/v4')
 const pgp = require('pg-promise')()
 const environment = require('../../../../../../lib/environment')
