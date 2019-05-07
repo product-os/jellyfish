@@ -41,6 +41,12 @@
                 "type": "string"
               }
             },
+            "mirrors": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
             "environment": {
               "type": "string",
               "enum": [
