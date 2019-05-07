@@ -70,7 +70,7 @@ ava.serial('.action() should be able to successfully create a new card', async (
 	])
 })
 
-ava.serial('.action() should resolve with the created card', async (test) => {
+ava.serial('.action() should resolve with the slug, id and type of the card', async (test) => {
 	const {
 		sdk
 	} = test.context
@@ -97,21 +97,9 @@ ava.serial('.action() should resolve with the created card', async (test) => {
 	})
 
 	test.deepEqual(card, {
-		created_at: card.created_at,
-		updated_at: null,
-		linked_at: card.linked_at,
 		id: card.id,
-		name,
 		slug,
-		version: '1.0.0',
-		type: 'card',
-		active: true,
-		links: card.links,
-		requires: [],
-		capabilities: [],
-		markers: [],
-		tags: [],
-		data: {}
+		type: 'card'
 	})
 })
 
@@ -838,7 +826,7 @@ ava.serial('.card.create() should create a new card', async (test) => {
 	})
 })
 
-ava.serial('.card.create() should resolve with the created card', async (test) => {
+ava.serial('.card.create() should resolve with the slug, id and type of the created card', async (test) => {
 	const {
 		sdk
 	} = test.context
@@ -857,20 +845,8 @@ ava.serial('.card.create() should resolve with the created card', async (test) =
 
 	test.deepEqual(card, {
 		id: card.id,
-		created_at: card.created_at,
-		updated_at: null,
-		linked_at: card.linked_at,
-		version: '1.0.0',
-		name: null,
 		slug,
-		type: 'card',
-		active: true,
-		links: card.links,
-		requires: [],
-		capabilities: [],
-		markers: [],
-		tags: [],
-		data: {}
+		type: 'card'
 	})
 })
 

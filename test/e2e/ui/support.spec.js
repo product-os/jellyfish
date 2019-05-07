@@ -39,20 +39,14 @@ ava.serial('Updates to support threads should be reflected in the support thread
 		page
 	} = context
 
-	await page.goto(`http://localhost:${environment.ui.port}`)
 	await context.createUser(user)
-	await page.waitForSelector('.login-page')
 
-	await page.type('.login-page__input--username', user.username)
-	await page.type('.login-page__input--password', user.password)
-
-	await page.click('.login-page__submit--login')
-
-	await page.waitForSelector('.home-channel')
+	await macros.loginUser(page, user)
 
 	const communityUser = await page.evaluate(() => {
 		return window.sdk.auth.whoami()
 	})
+
 	await context.addUserToBalenaOrg(communityUser.id)
 	await page.reload()
 
@@ -75,7 +69,7 @@ ava.serial('Updates to support threads should be reflected in the support thread
 	})
 
 	// Wait for the new support thread to appear in view
-	const summarySelector = macros.makeSelector('support-thread-summary', null, supportThread.id)
+	const summarySelector = `[data-test-component="support-thread-summary"][data-test-id="${supportThread.id}"]`
 	await page.waitForSelector(summarySelector)
 	await page.click(summarySelector)
 
@@ -83,8 +77,6 @@ ava.serial('Updates to support threads should be reflected in the support thread
 	await page.click('.rta__textarea')
 
 	const rand = uuid()
-
-	await require('bluebird').delay(10 * 1000)
 
 	const columnSelector = macros.makeSelector('column', null, supportThread.id)
 	await macros.createChatMessage(page, columnSelector, `%${rand}`)
