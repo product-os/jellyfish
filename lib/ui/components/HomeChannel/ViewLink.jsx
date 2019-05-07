@@ -87,16 +87,15 @@ class ViewLinkBase extends React.Component {
 					<rendition.Link
 						data-test={`home-channel__item--${card.slug}`}
 						style={{
-							display: 'block', flex: '1'
+							display: 'block',
+							flex: '1'
 						}}
 						key={card.id}
 						py={2}
 						pl={3}
 						pr={isActive ? 0 : 3}
-						color={isActive && !activeSlice ? '#333' : ''}
-						onClick={() => {
-							return this.open()
-						}}
+						color="#333"
+						href={`#/view~${card.id}`}
 					>
 						<rendition.Flex justify="space-between">
 							{card.name}
@@ -164,8 +163,10 @@ class ViewLinkBase extends React.Component {
 												py={2}
 												pr={3}
 												pl={4}
-												color={isActiveSlice ? '#333' : ''}
-												onClick={() => {
+												color="#333"
+												href={`#/view~${card.id}`}
+												onClick={(event) => {
+													event.preventDefault()
 													return this.open({
 														slice: {
 															title: slice.title,
