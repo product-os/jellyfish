@@ -17,3 +17,5 @@ docker:
       dockerfile: Dockerfile.ui
       docker_repo: balena/jellyfish-ui
       publish: true
+npm:
+  platforms: []
