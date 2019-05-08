@@ -28,6 +28,7 @@
             },
             "payload": {
               "type": "object",
+              "required": [ "message" ],
               "properties": {
                 "mentionsUser": {
                   "type": "array",

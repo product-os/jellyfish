@@ -721,7 +721,8 @@ ava('.execute() should be able to AGGREGATE based on the card timeline', async (
 		arguments: {
 			type: 'message',
 			payload: {
-				mentions: [ 'johndoe' ]
+				mentions: [ 'johndoe' ],
+				message: 'Hello'
 			}
 		}
 	})
@@ -734,7 +735,8 @@ ava('.execute() should be able to AGGREGATE based on the card timeline', async (
 		arguments: {
 			type: 'message',
 			payload: {
-				mentions: [ 'janedoe', 'johnsmith' ]
+				mentions: [ 'janedoe', 'johnsmith' ],
+				message: 'Hello'
 			}
 		}
 	})
@@ -825,7 +827,8 @@ ava('.execute() AGGREGATE should create a property on the target if it does not 
 			type: 'message',
 			tags: [],
 			payload: {
-				mentions: [ 'johndoe' ]
+				mentions: [ 'johndoe' ],
+				message: 'Hello'
 			}
 		}
 	})
@@ -915,7 +918,8 @@ ava('.execute() AGGREGATE should work with $$ prefixed properties', async (test)
 			type: 'message',
 			tags: [],
 			payload: {
-				$$mentions: [ 'johndoe' ]
+				$$mentions: [ 'johndoe' ],
+				message: 'Hello'
 			}
 		}
 	})
@@ -993,7 +997,8 @@ ava('.execute() should create a message with tags', async (test) => {
 			type: 'message',
 			tags: [ 'testtag' ],
 			payload: {
-				$$mentions: [ 'johndoe' ]
+				$$mentions: [ 'johndoe' ],
+				message: 'Hello'
 			}
 		}
 	})
