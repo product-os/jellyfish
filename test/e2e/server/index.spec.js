@@ -1585,8 +1585,11 @@ ava.serial('should respond with an error given a payload middleware exception', 
 	for (const time of _.range(0, 1000)) {
 		data[`${time}-${uuid()}`] = {
 			foo: 'foo bar baz qux foo bar baz qux foo bar baz qux',
-			bar: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 ],
-			baz: 'foo bar baz qux foo bar baz qux foo bar baz qux'
+			bar: _.range(1, 10000),
+			baz: 'foo bar baz qux foo bar baz qux foo bar baz qux',
+			xxx: 'foo bar baz qux foo bar baz qux foo bar baz qux',
+			yyy: _.range(1, 10000),
+			zzz: 'foo bar baz qux foo bar baz qux foo bar baz qux'
 		}
 	}
 
@@ -1613,10 +1616,10 @@ ava.serial('should respond with an error given a payload middleware exception', 
 	test.deepEqual(result.response, {
 		error: true,
 		data: {
-			expected: 198078,
+			expected: 98061078,
 			expose: true,
-			length: 198078,
-			limit: 102400,
+			length: 98061078,
+			limit: 5242880,
 			url: '/api/v2/action',
 			method: 'POST',
 			name: 'PayloadTooLargeError',

@@ -13,6 +13,11 @@ const packageJSON = require('../../../package.json')
 
 module.exports = (rootContext, application, jellyfish, options) => {
 	application.use(bodyParser.json({
+		// Handle big payloads without a `PayloadTooLarge` error.
+		// This is particularly important when receiving web hooks,
+		// as sometimes they end up being huge.
+		limit: '5mb',
+
 		// A small trick to preserve the unparsed JSON
 		verify: (request, response, buffer, encoding) => {
 			request.rawBody = buffer.toString('utf8')
