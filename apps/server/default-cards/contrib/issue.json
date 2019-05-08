@@ -28,6 +28,12 @@
             "repository": {
               "type": "string"
             },
+            "mirrors": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
             "mentionsUser": {
               "type": "array",
               "$$formula": "AGGREGATE($events, 'data.payload.mentionsUser')"

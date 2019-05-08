@@ -52,7 +52,7 @@ const sendHTTPError = (request, response, error) => {
 	logger.exception(request.context, 'HTTP unexpected error', error)
 	return response.status(500).json({
 		error: true,
-		data: errorObject
+		data: errorObject.message || error
 	})
 }
 

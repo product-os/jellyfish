@@ -14,7 +14,13 @@ import {
 import _ from 'lodash'
 import Mark from 'mark.js'
 import React from 'react'
+import {
+	connect
+} from 'react-redux'
 import VisibilitySensor from 'react-visibility-sensor'
+import {
+	bindActionCreators
+} from 'redux'
 import {
 	Box,
 	Button,
@@ -27,6 +33,7 @@ import {
 } from 'rendition/dist/extra/Markdown'
 import styled from 'styled-components'
 import {
+	actionCreators,
 	sdk
 } from '../core'
 import {
@@ -232,6 +239,9 @@ class Event extends React.Component {
 				})
 
 				saveAs(blob, name)
+			})
+			.catch((error) => {
+				this.props.actions.addNotification('danger', error.message || error)
 			})
 	}
 
@@ -460,4 +470,13 @@ class Event extends React.Component {
 	}
 }
 
-export default Event
+const mapDispatchToProps = (dispatch) => {
+	return {
+		actions: bindActionCreators(
+			_.pick(actionCreators, [
+				'addNotification'
+			]), dispatch)
+	}
+}
+
+export default connect(null, mapDispatchToProps)(Event)
