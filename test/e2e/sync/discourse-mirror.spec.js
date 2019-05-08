@@ -190,6 +190,18 @@ ava.afterEach(helpers.mirror.afterEach)
 // Skip all tests if there is no Discourse token
 const avaTest = TOKEN ? ava.serial : ava.serial.skip
 
+avaTest('should fail with a user error if posting an invalid message', async (test) => {
+	const supportThread = await test.context.startSupportThread(
+		test.context.username,
+		`My Issue ${uuid()}`,
+		`Foo Bar ${uuid()}`)
+
+	const error = await test.throwsAsync(test.context.createMessage(supportThread,
+		test.context.getMessageSlug(), '.'))
+	test.is(error.name, 'SyncInvalidRequest')
+	test.true(error.expected)
+})
+
 avaTest('should not re-open a closed thread with a whisper', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		test.context.username,
