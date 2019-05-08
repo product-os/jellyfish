@@ -343,8 +343,8 @@ avaTest('should be able to archive an inbound message', async (test) => {
 			conversation_id: _.last(supportThread.data.mirrors[0].split('/'))
 		})
 	}, (conversation) => {
-		return conversation.status === 'deleted'
+		return conversation.status === 'archived'
 	})
 
-	test.is(result.status, 'deleted')
+	test.is(result.status, 'archived')
 })

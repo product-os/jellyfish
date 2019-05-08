@@ -31,6 +31,10 @@ module.exports = (context, jellyfish, worker, queue, configuration, options) => 
 			stack: true
 		})
 
+		// So we get more info about the error
+		errorObject.url = request.url
+		errorObject.method = request.method
+
 		logger.exception(request.context || context, 'Middleware error', error)
 		response.status(error.statusCode || 500).json({
 			error: true,
