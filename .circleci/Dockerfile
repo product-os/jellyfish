@@ -1,5 +1,9 @@
 FROM resinci/jellyfish-base:3daf0d44 as base
 
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main" > \
+	/etc/apt/sources.list.d/pgdg.list && \
+	wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+
 # Install node, git and packages required to run headless chrome
 RUN apt-get update && apt-get install -y gnuplot gitstats \
 	python-pip libx11-xcb1 libxcomposite1 \
