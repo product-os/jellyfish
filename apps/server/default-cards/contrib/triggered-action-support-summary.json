@@ -1,5 +1,5 @@
 {
-  "slug": "triggered-action-discourse-reopen",
+  "slug": "triggered-action-support-summary",
   "type": "triggered-action",
   "version": "1.0.0",
   "markers": [],
@@ -21,12 +21,22 @@
         },
         "type": {
           "type": "string",
-          "const": "message"
+          "const": "whisper"
         },
         "data": {
           "type": "object",
-          "required": [ "target" ],
+          "required": [ "payload", "target" ],
           "properties": {
+            "payload": {
+              "type": "object",
+              "required": [ "message" ],
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "pattern": "#summary"
+                }
+              }
+            },
             "target": {
               "type": "object",
               "required": [ "type", "data" ],
@@ -37,17 +47,11 @@
                 },
                 "data": {
                   "type": "object",
-                  "required": [ "status", "inbox" ],
+                  "required": [ "status" ],
                   "properties": {
                     "status": {
                       "type": "string",
-                      "not": {
-                        "const": "open"
-                      }
-                    },
-                    "inbox": {
-                      "type": "string",
-                      "const": "S/Forums"
+                      "const": "open"
                     }
                   }
                 }
@@ -62,12 +66,11 @@
       "$eval": "source.data.target"
     },
     "targetType": "support-thread",
-    "mode": "insert",
     "arguments": {
-      "reason": "Re-open because of activity",
+      "reason": "Closed with #summary tag",
       "properties": {
         "data": {
-          "status": "open"
+          "status": "closed"
         }
       }
     }
