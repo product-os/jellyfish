@@ -205,6 +205,10 @@ const bootstrap = async (context, library, options) => {
 				object.interval = trigger.data.interval
 			}
 
+			if (trigger.data.mode) {
+				object.mode = trigger.data.mode
+			}
+
 			return object
 		}))
 	}

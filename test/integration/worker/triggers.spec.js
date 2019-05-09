@@ -16,6 +16,7 @@ ava.afterEach(helpers.jellyfish.afterEach)
 ava('.getRequest() should return null if the filter only has a type but there is no match', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
 	const trigger = {
+		mode: 'insert',
 		filter: {
 			type: 'object',
 			required: [ 'type' ],
@@ -46,6 +47,7 @@ ava('.getRequest() should return null if the filter only has a type but there is
 		data: {}
 	}, {
 		currentDate: new Date(),
+		mode: 'insert',
 		context: test.context.context,
 		matchCard: {
 			type: 'card',
@@ -65,6 +67,7 @@ ava('.getRequest() should return a request if the filter only has a type and the
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
 	const trigger = {
 		id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+		mode: 'insert',
 		filter: {
 			type: 'object',
 			required: [ 'type' ],
@@ -97,6 +100,7 @@ ava('.getRequest() should return a request if the filter only has a type and the
 		data: {}
 	}, {
 		currentDate: date,
+		mode: 'insert',
 		context: test.context.context,
 		matchCard: {
 			type: 'foo',
@@ -128,6 +132,7 @@ ava('.getRequest() should return a request if the input match card is null', asy
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
 	const trigger = {
 		id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+		mode: 'insert',
 		filter: {
 			type: 'object',
 			required: [ 'type' ],
@@ -160,6 +165,7 @@ ava('.getRequest() should return a request if the input match card is null', asy
 		data: {}
 	}, {
 		currentDate: date,
+		mode: 'insert',
 		context: test.context.context,
 		matchCard: null
 	})
@@ -183,6 +189,7 @@ ava('.getRequest() should return a request if both the input card and the match 
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
 	const trigger = {
 		id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+		mode: 'insert',
 		filter: {
 			type: 'object',
 			required: [ 'type' ],
@@ -207,6 +214,7 @@ ava('.getRequest() should return a request if both the input card and the match 
 
 	const request = await triggers.getRequest(trigger, null, {
 		currentDate: date,
+		mode: 'insert',
 		context: test.context.context,
 		matchCard: null
 	})
@@ -230,6 +238,7 @@ ava('.getRequest() should return null if referencing source when no input card',
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
 	const trigger = {
 		id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+		mode: 'insert',
 		filter: {
 			type: 'object',
 			required: [ 'type' ],
@@ -254,6 +263,7 @@ ava('.getRequest() should return null if referencing source when no input card',
 
 	const request = await triggers.getRequest(trigger, null, {
 		currentDate: new Date(),
+		mode: 'insert',
 		context: test.context.context,
 		matchCard: null
 	})
@@ -265,6 +275,7 @@ ava('.getRequest() should return a request given a complex matching filter', asy
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
 	const trigger = {
 		id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+		mode: 'insert',
 		filter: {
 			type: 'object',
 			required: [ 'type', 'data' ],
@@ -308,6 +319,7 @@ ava('.getRequest() should return a request given a complex matching filter', asy
 		}
 	}, {
 		currentDate: date,
+		mode: 'insert',
 		context: test.context.context,
 		matchCard: {
 			type: 'foo',
@@ -340,6 +352,7 @@ ava('.getRequest() should return a request given a complex matching filter', asy
 ava('.getRequest() should return null given a complex non-matching filter', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
 	const trigger = {
+		mode: 'insert',
 		filter: {
 			type: 'object',
 			required: [ 'type', 'data' ],
@@ -381,6 +394,7 @@ ava('.getRequest() should return null given a complex non-matching filter', asyn
 		}
 	}, {
 		currentDate: new Date(),
+		mode: 'insert',
 		context: test.context.context,
 		matchCard: {
 			type: 'foo',
@@ -402,6 +416,7 @@ ava('.getRequest() should parse source templates in the triggered action argumen
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
 	const trigger = {
 		id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+		mode: 'insert',
 		filter: {
 			type: 'object',
 			required: [ 'data' ],
@@ -451,6 +466,7 @@ ava('.getRequest() should parse source templates in the triggered action argumen
 		}
 	}, {
 		currentDate: date,
+		mode: 'insert',
 		context: test.context.context,
 		matchCard: {
 			type: 'card',
@@ -485,10 +501,263 @@ ava('.getRequest() should parse source templates in the triggered action argumen
 	})
 })
 
+ava('.getRequest() should return the request if the mode matches on update', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const trigger = {
+		id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+		filter: {
+			type: 'object',
+			required: [ 'data' ],
+			properties: {
+				data: {
+					type: 'object',
+					required: [ 'command' ],
+					properties: {
+						command: {
+							type: 'string',
+							const: 'foo-bar-baz'
+						}
+					}
+				}
+			}
+		},
+		action: 'action-create-card',
+		card: typeCard.id,
+		type: typeCard.type,
+		mode: 'update',
+		arguments: {
+			properties: {
+				slug: {
+					$eval: 'source.data.slug'
+				},
+				data: {
+					number: {
+						$eval: 'source.data.number'
+					}
+				}
+			}
+		}
+	}
+
+	const date = new Date()
+
+	const request = await triggers.getRequest(trigger, {
+		type: 'card',
+		version: '1.0.0',
+		active: true,
+		links: {},
+		tags: [],
+		markers: [],
+		data: {
+			command: 'foo-bar-baz',
+			slug: 'hello-world',
+			number: 6
+		}
+	}, {
+		currentDate: date,
+		context: test.context.context,
+		mode: 'update',
+		matchCard: {
+			type: 'card',
+			version: '1.0.0',
+			active: true,
+			links: {},
+			tags: [],
+			markers: [],
+			data: {
+				command: 'foo-bar-baz',
+				slug: 'hello-world',
+				number: 6
+			}
+		}
+	})
+
+	test.deepEqual(request, {
+		action: 'action-create-card',
+		card: typeCard.id,
+		type: typeCard.type,
+		context: test.context.context,
+		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+		currentDate: date,
+		arguments: {
+			properties: {
+				slug: 'hello-world',
+				data: {
+					number: 6
+				}
+			}
+		}
+	})
+})
+
+ava('.getRequest() should return the request if the mode matches on insert', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const trigger = {
+		id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+		filter: {
+			type: 'object',
+			required: [ 'data' ],
+			properties: {
+				data: {
+					type: 'object',
+					required: [ 'command' ],
+					properties: {
+						command: {
+							type: 'string',
+							const: 'foo-bar-baz'
+						}
+					}
+				}
+			}
+		},
+		action: 'action-create-card',
+		card: typeCard.id,
+		type: typeCard.type,
+		mode: 'insert',
+		arguments: {
+			properties: {
+				slug: {
+					$eval: 'source.data.slug'
+				},
+				data: {
+					number: {
+						$eval: 'source.data.number'
+					}
+				}
+			}
+		}
+	}
+
+	const date = new Date()
+
+	const request = await triggers.getRequest(trigger, {
+		type: 'card',
+		version: '1.0.0',
+		active: true,
+		links: {},
+		tags: [],
+		markers: [],
+		data: {
+			command: 'foo-bar-baz',
+			slug: 'hello-world',
+			number: 6
+		}
+	}, {
+		currentDate: date,
+		context: test.context.context,
+		mode: 'insert',
+		matchCard: {
+			type: 'card',
+			version: '1.0.0',
+			active: true,
+			links: {},
+			tags: [],
+			markers: [],
+			data: {
+				command: 'foo-bar-baz',
+				slug: 'hello-world',
+				number: 6
+			}
+		}
+	})
+
+	test.deepEqual(request, {
+		action: 'action-create-card',
+		card: typeCard.id,
+		type: typeCard.type,
+		context: test.context.context,
+		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+		currentDate: date,
+		arguments: {
+			properties: {
+				slug: 'hello-world',
+				data: {
+					number: 6
+				}
+			}
+		}
+	})
+})
+
+ava('.getRequest() should return null if the mode does not match', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const trigger = {
+		id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+		filter: {
+			type: 'object',
+			required: [ 'data' ],
+			properties: {
+				data: {
+					type: 'object',
+					required: [ 'command' ],
+					properties: {
+						command: {
+							type: 'string',
+							const: 'foo-bar-baz'
+						}
+					}
+				}
+			}
+		},
+		action: 'action-create-card',
+		card: typeCard.id,
+		type: typeCard.type,
+		mode: 'update',
+		arguments: {
+			properties: {
+				slug: {
+					$eval: 'source.data.slug'
+				},
+				data: {
+					number: {
+						$eval: 'source.data.number'
+					}
+				}
+			}
+		}
+	}
+
+	const date = new Date()
+
+	const request = await triggers.getRequest(trigger, {
+		type: 'card',
+		version: '1.0.0',
+		active: true,
+		links: {},
+		tags: [],
+		markers: [],
+		data: {
+			command: 'foo-bar-baz',
+			slug: 'hello-world',
+			number: 6
+		}
+	}, {
+		currentDate: date,
+		context: test.context.context,
+		mode: 'insert',
+		matchCard: {
+			type: 'card',
+			version: '1.0.0',
+			active: true,
+			links: {},
+			tags: [],
+			markers: [],
+			data: {
+				command: 'foo-bar-baz',
+				slug: 'hello-world',
+				number: 6
+			}
+		}
+	})
+
+	test.deepEqual(request, null)
+})
+
 ava('.getRequest() should parse timestamp templates in the triggered action arguments', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
 	const trigger = {
 		id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+		mode: 'insert',
 		filter: {
 			type: 'object'
 		},
@@ -522,6 +791,7 @@ ava('.getRequest() should parse timestamp templates in the triggered action argu
 		}
 	}, {
 		currentDate,
+		mode: 'insert',
 		context: test.context.context,
 		matchCard: {
 			type: 'card',
@@ -558,6 +828,7 @@ ava('.getRequest() should parse timestamp templates in the triggered action argu
 ava('.getRequest() should return null if one of the templates is unsatisfied', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
 	const trigger = {
+		mode: 'insert',
 		filter: {
 			type: 'object',
 			required: [ 'data' ],
@@ -604,6 +875,7 @@ ava('.getRequest() should return null if one of the templates is unsatisfied', a
 		}
 	}, {
 		currentDate: new Date(),
+		mode: 'insert',
 		context: test.context.context,
 		matchCard: {
 			type: 'card',
