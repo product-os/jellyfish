@@ -62,6 +62,7 @@
       "$eval": "source.data.target"
     },
     "targetType": "support-thread",
+    "mode": "insert",
     "arguments": {
       "reason": "Re-open because of activity",
       "properties": {

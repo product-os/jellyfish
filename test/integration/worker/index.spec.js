@@ -455,6 +455,222 @@ ava('.execute() should execute a triggered action', async (test) => {
 	test.is(resultCard.data.command, 'foo-bar-baz')
 })
 
+ava('.execute() should detect an upsert to a non-existent card as an insert', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card')
+	const actionCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'action-create-card')
+
+	test.context.worker.setTriggers(test.context.context, [
+		{
+			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			filter: {
+				type: 'object',
+				required: [ 'data' ],
+				properties: {
+					data: {
+						type: 'object',
+						required: [ 'command' ],
+						properties: {
+							command: {
+								type: 'string',
+								const: 'foo-bar-baz'
+							}
+						}
+					}
+				}
+			},
+			mode: 'insert',
+			action: 'action-upsert-card',
+			card: typeCard.id,
+			type: typeCard.type,
+			arguments: {
+				reason: null,
+				properties: {
+					version: '1.0.0',
+					slug: 'foo-bar-baz'
+				}
+			}
+		}
+	])
+
+	const request = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, {
+			action: actionCard.slug,
+			context: test.context.context,
+			card: typeCard.id,
+			type: typeCard.type,
+			arguments: {
+				reason: null,
+				properties: {
+					slug: 'foo',
+					version: '1.0.0',
+					data: {
+						command: 'foo-bar-baz'
+					}
+				}
+			}
+		})
+
+	await test.context.flush(test.context.session, 1)
+	const result = await test.context.queue.waitResults(
+		test.context.context, request)
+	test.false(result.error)
+
+	const card = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'foo-bar-baz')
+	test.truthy(card)
+
+	const resultCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'foo')
+
+	test.is(resultCard.data.command, 'foo-bar-baz')
+})
+
+ava('.execute() should execute a triggered action given a matching mode', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card')
+	const actionCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'action-create-card')
+
+	test.context.worker.setTriggers(test.context.context, [
+		{
+			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			filter: {
+				type: 'object',
+				required: [ 'data' ],
+				properties: {
+					data: {
+						type: 'object',
+						required: [ 'command' ],
+						properties: {
+							command: {
+								type: 'string',
+								const: 'foo-bar-baz'
+							}
+						}
+					}
+				}
+			},
+			mode: 'insert',
+			action: 'action-create-card',
+			card: typeCard.id,
+			type: typeCard.type,
+			arguments: {
+				reason: null,
+				properties: {
+					version: '1.0.0',
+					slug: 'foo-bar-baz'
+				}
+			}
+		}
+	])
+
+	const request = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, {
+			action: actionCard.slug,
+			context: test.context.context,
+			card: typeCard.id,
+			type: typeCard.type,
+			arguments: {
+				reason: null,
+				properties: {
+					slug: 'foo',
+					version: '1.0.0',
+					data: {
+						command: 'foo-bar-baz'
+					}
+				}
+			}
+		})
+
+	await test.context.flush(test.context.session, 1)
+	const result = await test.context.queue.waitResults(
+		test.context.context, request)
+	test.false(result.error)
+
+	const card = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'foo-bar-baz')
+	test.truthy(card)
+
+	const resultCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'foo')
+
+	test.is(resultCard.data.command, 'foo-bar-baz')
+})
+
+ava('.execute() should not execute a triggered action given a non matching mode', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card')
+	const actionCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'action-create-card')
+
+	test.context.worker.setTriggers(test.context.context, [
+		{
+			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			filter: {
+				type: 'object',
+				required: [ 'data' ],
+				properties: {
+					data: {
+						type: 'object',
+						required: [ 'command' ],
+						properties: {
+							command: {
+								type: 'string',
+								const: 'foo-bar-baz'
+							}
+						}
+					}
+				}
+			},
+			mode: 'update',
+			action: 'action-create-card',
+			card: typeCard.id,
+			type: typeCard.type,
+			arguments: {
+				reason: null,
+				properties: {
+					version: '1.0.0',
+					slug: 'foo-bar-baz'
+				}
+			}
+		}
+	])
+
+	const request = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, {
+			action: actionCard.slug,
+			context: test.context.context,
+			card: typeCard.id,
+			type: typeCard.type,
+			arguments: {
+				reason: null,
+				properties: {
+					slug: 'foo',
+					version: '1.0.0',
+					data: {
+						command: 'foo-bar-baz'
+					}
+				}
+			}
+		})
+
+	await test.context.flush(test.context.session, 1)
+	const result = await test.context.queue.waitResults(
+		test.context.context, request)
+	test.false(result.error)
+
+	const card = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'foo-bar-baz')
+	test.falsy(card)
+
+	const resultCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'foo')
+
+	test.is(resultCard.data.command, 'foo-bar-baz')
+})
+
 ava('.execute() should not execute a triggered action with a future start date', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card')
@@ -1181,6 +1397,42 @@ ava('.setTriggers() should not store extra properties', (test) => {
 	])
 })
 
+ava('.setTriggers() should store a mode', (test) => {
+	test.context.worker.setTriggers(test.context.context, [
+		{
+			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			mode: 'update',
+			action: 'action-foo-bar',
+			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			type: 'card',
+			filter: {
+				type: 'object'
+			},
+			arguments: {
+				foo: 'bar'
+			}
+		}
+	])
+
+	const triggers = test.context.worker.getTriggers()
+
+	test.deepEqual(triggers, [
+		{
+			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			action: 'action-foo-bar',
+			mode: 'update',
+			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			type: 'card',
+			filter: {
+				type: 'object'
+			},
+			arguments: {
+				foo: 'bar'
+			}
+		}
+	])
+})
+
 ava('.setTriggers() should throw if no interval nor filter', (test) => {
 	test.throws(() => {
 		test.context.worker.setTriggers(test.context.context, [
@@ -1191,6 +1443,26 @@ ava('.setTriggers() should throw if no interval nor filter', (test) => {
 				action: 'action-create-card',
 				arguments: {
 					reason: null,
+					foo: 'bar'
+				}
+			}
+		])
+	}, test.context.worker.errors.WorkerInvalidTrigger)
+})
+
+ava('.setTriggers() should throw if mode is not a string', (test) => {
+	test.throws(() => {
+		test.context.worker.setTriggers(test.context.context, [
+			{
+				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+				action: 'action-foo-bar',
+				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+				type: 'card',
+				mode: 1,
+				filter: {
+					type: 'object'
+				},
+				arguments: {
 					foo: 'bar'
 				}
 			}
