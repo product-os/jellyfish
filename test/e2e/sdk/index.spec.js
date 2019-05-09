@@ -893,6 +893,7 @@ ava.serial('.event.create() should create a new event', async (test) => {
 		target: card,
 		type: 'message',
 		payload: {
+			message: 'Foo',
 			test: 1
 		}
 	}
@@ -940,6 +941,7 @@ ava.serial('.event.create() should create a new event', async (test) => {
 	test.deepEqual(result.data, {
 		target: card.id,
 		payload: {
+			message: 'Foo',
 			test: 1
 		}
 	})

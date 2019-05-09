@@ -31,11 +31,20 @@ import {
 	selectors
 } from '../core'
 import helpers from '../services/helpers'
+import {
+	createPermaLink
+} from '../services/url-manager'
 import AutocompleteTextarea from '../shame/AutocompleteTextarea'
 import Column from '../shame/Column'
 import Icon from '../shame/Icon'
 
 const messageSymbolRE = /^\s*%\s*/
+
+/*
+ * This message text is used when uploading a file so that syncing can be done
+ * effectively without have to sync the entire file
+ */
+const FILE_PROXY_MESSAGE = '[](#jellyfish-hidden)A file has been uploaded using Jellyfish:'
 
 const TypingNotice = styled.div `
 	background: white;
@@ -124,7 +133,8 @@ class TimelineRenderer extends React.Component {
 			tags: [],
 			type,
 			payload: {
-				file
+				file,
+				message: `${FILE_PROXY_MESSAGE} ${createPermaLink(this.props.card)}`
 			}
 		}
 

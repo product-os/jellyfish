@@ -94,6 +94,10 @@ const getMessage = (card) => {
 		return `![Attached image](https://app.frontapp.com${message.slice(1, -1)})`
 	}
 
+	if (_.startsWith(message, '[](#jellyfish-hidden)')) {
+		return ''
+	}
+
 	return message
 }
 
