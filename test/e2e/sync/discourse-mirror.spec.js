@@ -190,6 +190,34 @@ ava.afterEach(helpers.mirror.afterEach)
 // Skip all tests if there is no Discourse token
 const avaTest = TOKEN ? ava.serial : ava.serial.skip
 
+avaTest('should not re-open a closed thread by marking a message as read', async (test) => {
+	const supportThread = await test.context.startSupportThread(
+		test.context.username,
+		`My Issue ${uuid()}`,
+		`Foo Bar ${uuid()}`)
+
+	const message = await test.context.createMessage(supportThread,
+		test.context.getMessageSlug(), 'Hello')
+
+	await test.context.sdk.card.update(supportThread.id, {
+		type: supportThread.type,
+		data: {
+			status: 'closed'
+		}
+	})
+
+	await test.context.sdk.card.update(message.id, {
+		type: message.type,
+		data: {
+			readBy: [ 'johndoe' ]
+		}
+	})
+
+	const thread = await test.context.sdk.getById(supportThread.id)
+	test.true(thread.active)
+	test.is(thread.data.status, 'closed')
+})
+
 avaTest('should fail with a user error if posting an invalid message', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		test.context.username,
