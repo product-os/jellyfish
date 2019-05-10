@@ -269,7 +269,7 @@ class Event extends React.Component {
 
 		// Modify all links in the message to open in a new tab
 		// TODO: Make this an option in the rendition <Markdown /> component.
-		this.messageElement.querySelectorAll('a').forEach((node) => {
+		Array.from(this.messageElement.querySelectorAll('a')).forEach((node) => {
 			node.setAttribute('target', '_blank')
 		})
 		const instance = new Mark(this.messageElement)
