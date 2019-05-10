@@ -15,7 +15,6 @@ import {
 } from 'redux'
 import {
 	Button,
-	Modal,
 	Flex,
 	Box,
 	Pill,
@@ -35,7 +34,6 @@ import {
 } from '../core'
 import helpers from '../services/helpers'
 import BaseLens from './common/BaseLens'
-import index from './index'
 import Icon from '../shame/Icon'
 
 const UNSORTED_GROUP_ID = 'JELLYFISH_UNSORTED_GROUP'
@@ -263,8 +261,6 @@ class Kanban extends BaseLens {
 		} = this.props
 
 		const typeName = type ? type.name || type.slug : ''
-
-		let lens = null
 
 		return (
 			<Flex

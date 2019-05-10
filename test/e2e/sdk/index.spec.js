@@ -1070,6 +1070,22 @@ ava.serial('.auth.loginWithToken() should throw with an invalid token', async (t
 	})
 })
 
+ava.serial('.auth.loginWithToken() should refresh your session token', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const newToken = await sdk.auth.loginWithToken(test.context.session)
+
+	test.not(newToken, test.context.session)
+
+	test.is(newToken, sdk.getAuthToken())
+
+	await test.notThrowsAsync(() => {
+		return sdk.auth.whoami()
+	})
+})
+
 ava.serial('should broadcast github issue links', async (test) => {
 	test.context.sdk.setAuthToken(test.context.session)
 
