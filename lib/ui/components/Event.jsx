@@ -227,10 +227,6 @@ class Event extends React.Component {
 		return !circularDeepEqual(nextState, this.state) || !circularDeepEqual(nextProps, this.props)
 	}
 
-	componentDidMount () {
-		this.processText()
-	}
-
 	downloadAttachment ({
 		slug,
 		name,
