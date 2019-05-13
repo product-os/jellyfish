@@ -109,6 +109,12 @@ ava.before(async (test) => {
 					return reject(error)
 				}
 
+				if (response.statusCode === 429) {
+					return test.context.getTopic(id)
+						.then(resolve)
+						.catch(reject)
+				}
+
 				if (response.statusCode === 404) {
 					return resolve(null)
 				}
@@ -142,6 +148,12 @@ ava.before(async (test) => {
 			}, (error, response, body) => {
 				if (error) {
 					return reject(error)
+				}
+
+				if (response.statusCode === 429) {
+					return test.context.startSupportThread(username, title, description)
+						.then(resolve)
+						.catch(reject)
 				}
 
 				if (response.statusCode !== 200) {

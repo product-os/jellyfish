@@ -25,9 +25,10 @@ exports.jellyfish = {
 }
 
 exports.worker = {
-	beforeEach: async (test, actionLibrary) => {
+	beforeEach: async (test, actionLibrary, options = {}) => {
 		await helpers.queue.beforeEach(test, {
-			enablePriorityBuffer: true
+			enablePriorityBuffer: true,
+			suffix: options.suffix
 		})
 
 		test.context.worker = new Worker(

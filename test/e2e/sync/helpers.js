@@ -13,6 +13,8 @@ const _ = require('lodash')
 const helpers = require('../sdk/helpers')
 const syncHelpers = require('../../integration/sync/helpers')
 
+const TRANSLATE_PREFIX = uuid()
+
 const tailSort = [
 	(card) => {
 		return card.data.timestamp
@@ -286,7 +288,9 @@ const getObjDifference = (expected, obtained) => {
 
 exports.translate = {
 	beforeEach: async (test) => {
-		await syncHelpers.beforeEach(test)
+		await syncHelpers.beforeEach(test, {
+			suffix: TRANSLATE_PREFIX
+		})
 
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 			require('../../../apps/server/default-cards/contrib/external-event.json'))

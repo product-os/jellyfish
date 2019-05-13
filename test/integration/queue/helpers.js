@@ -9,11 +9,12 @@ const Queue = require('../../../lib/queue')
 const actionLibrary = require('../../../lib/action-library')
 
 exports.jellyfish = {
-	beforeEach: async (test) => {
-		await helpers.jellyfish.beforeEach(test)
+	beforeEach: async (test, options) => {
+		await helpers.jellyfish.beforeEach(test, options)
 		test.context.session = test.context.jellyfish.sessions.admin
 
-		const session = await test.context.jellyfish.getCardById(test.context.context, test.context.session, test.context.session)
+		const session = await test.context.jellyfish.getCardById(
+			test.context.context, test.context.session, test.context.session)
 		test.context.actor = await test.context.jellyfish.getCardById(
 			test.context.context, test.context.session, session.data.actor)
 
@@ -47,7 +48,10 @@ exports.jellyfish = {
 
 exports.queue = {
 	beforeEach: async (test, options = {}) => {
-		await exports.jellyfish.beforeEach(test)
+		await exports.jellyfish.beforeEach(test, {
+			suffix: options.suffix
+		})
+
 		test.context.queue = new Queue(
 			test.context.context,
 			test.context.jellyfish,

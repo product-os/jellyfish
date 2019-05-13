@@ -22,7 +22,8 @@ exports.generateRandomSlug = (options) => {
 
 exports.backend = {
 	beforeEach: async (test, options = {}) => {
-		const dbName = `test_${uuid().replace(/-/g, '_')}`
+		const suffix = options.suffix || uuid()
+		const dbName = `test_${suffix.replace(/-/g, '_')}`
 
 		if (environment.cache.disable) {
 			test.context.cache = null
@@ -60,7 +61,12 @@ exports.backend = {
 		await test.context.backend.connect(test.context.context)
 	},
 	afterEach: async (test) => {
-		await test.context.backend.destroy(test.context.context)
+		/*
+		 * We can just disconnect and not destroy the whole
+		 * database as test databases are destroyed before
+		 * the next test run anyways.
+		 */
+		await test.context.backend.disconnect(test.context.context)
 
 		if (test.context.cache) {
 			await test.context.cache.disconnect()
@@ -69,10 +75,16 @@ exports.backend = {
 }
 
 exports.kernel = {
-	beforeEach: async (test) => {
+	beforeEach: async (test, options = {}) => {
 		await exports.backend.beforeEach(test, {
-			skipConnect: true
+			skipConnect: true,
+			suffix: options.suffix
 		})
+
+		if (options.suffix) {
+			await test.context.backend.connect(test.context.context)
+			await test.context.backend.reset(test.context.context)
+		}
 
 		test.context.kernel = new Kernel(test.context.backend)
 		await test.context.kernel.initialize(test.context.context)
@@ -84,8 +96,8 @@ exports.kernel = {
 }
 
 exports.jellyfish = {
-	beforeEach: async (test) => {
-		await exports.kernel.beforeEach(test)
+	beforeEach: async (test, options) => {
+		await exports.kernel.beforeEach(test, options)
 		test.context.jellyfish = test.context.kernel
 	},
 	afterEach: async (test) => {
