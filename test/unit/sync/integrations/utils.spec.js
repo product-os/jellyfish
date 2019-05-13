@@ -85,7 +85,7 @@ ava('.parseHTML() should parse a root relative image without a base url', (test)
 	// eslint-disable-next-line max-len
 	const string = '<p><img src="/uploads/balena/original/2X/1/1105c95e7f862b9b5372d1691f9f5e9cd434eb5b.png" alt="46" width="690" height="431"></p>'
 	// eslint-disable-next-line max-len
-	const expected = '![46](/uploads/balena/original/2X/1/1105c95e7f862b9b5372d1691f9f5e9cd434eb5b.png)'
+	const expected = '<img src="/uploads/balena/original/2X/1/1105c95e7f862b9b5372d1691f9f5e9cd434eb5b.png" alt="46" width="690" height="431">'
 	const result = utils.parseHTML(string)
 	test.is(result, expected)
 })
@@ -94,7 +94,8 @@ ava('.parseHTML() should parse a root relative image with a base url', (test) =>
 	// eslint-disable-next-line max-len
 	const string = '<p><img src="/uploads/balena/original/2X/1/1105c95e7f862b9b5372d1691f9f5e9cd434eb5b.png" alt="46" width="690" height="431"></p>'
 	// eslint-disable-next-line max-len
-	const expected = '![46](https://jel.ly.fish/uploads/balena/original/2X/1/1105c95e7f862b9b5372d1691f9f5e9cd434eb5b.png)'
+	const expected = '<img src="https://jel.ly.fish/uploads/balena/original/2X/1/1105c95e7f862b9b5372d1691f9f5e9cd434eb5b.png" alt="46" width="690" height="431">'
+
 	const result = utils.parseHTML(string, {
 		baseUrl: 'https://jel.ly.fish'
 	})
@@ -106,7 +107,7 @@ ava('.parseHTML() should parse a relative image without a base url', (test) => {
 	// eslint-disable-next-line max-len
 	const string = '<p><img src="uploads/balena/original/2X/1/1105c95e7f862b9b5372d1691f9f5e9cd434eb5b.png" alt="46" width="690" height="431"></p>'
 	// eslint-disable-next-line max-len
-	const expected = '![46](uploads/balena/original/2X/1/1105c95e7f862b9b5372d1691f9f5e9cd434eb5b.png)'
+	const expected = '<img src="uploads/balena/original/2X/1/1105c95e7f862b9b5372d1691f9f5e9cd434eb5b.png" alt="46" width="690" height="431">'
 	const result = utils.parseHTML(string)
 	test.is(result, expected)
 })
@@ -115,7 +116,7 @@ ava('.parseHTML() should parse a relative image with a base url', (test) => {
 	// eslint-disable-next-line max-len
 	const string = '<p><img src="uploads/balena/original/2X/1/1105c95e7f862b9b5372d1691f9f5e9cd434eb5b.png" alt="46" width="690" height="431"></p>'
 	// eslint-disable-next-line max-len
-	const expected = '![46](https://jel.ly.fish/uploads/balena/original/2X/1/1105c95e7f862b9b5372d1691f9f5e9cd434eb5b.png)'
+	const expected = '<img src="https://jel.ly.fish/uploads/balena/original/2X/1/1105c95e7f862b9b5372d1691f9f5e9cd434eb5b.png" alt="46" width="690" height="431">'
 	const result = utils.parseHTML(string, {
 		baseUrl: 'https://jel.ly.fish'
 	})

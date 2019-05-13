@@ -90,7 +90,7 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "Emoji whisper <img src=\"https://sjc1.discourse-cdn.com/business5/images/emoji/apple/smiley.png?v=9\" class=\"emoji\" alt=\":smiley:\">"
+          "message": "Emoji whisper <img src=\"https://sjc1.discourse-cdn.com/business5/images/emoji/apple/smiley.png?v=9\" title=\":smiley:\" class=\"emoji\" alt=\":smiley:\">"
         }
       }
     }
