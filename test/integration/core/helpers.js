@@ -60,7 +60,12 @@ exports.backend = {
 		await test.context.backend.connect(test.context.context)
 	},
 	afterEach: async (test) => {
-		await test.context.backend.destroy(test.context.context)
+		/*
+		 * We can just disconnect and not destroy the whole
+		 * database as test databases are destroyed before
+		 * the next test run anyways.
+		 */
+		await test.context.backend.disconnect(test.context.context)
 
 		if (test.context.cache) {
 			await test.context.cache.disconnect()
