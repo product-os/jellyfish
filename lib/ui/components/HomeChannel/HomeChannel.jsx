@@ -112,6 +112,7 @@ export default class HomeChannel extends React.Component {
 
 		if (this.props.channel.data.head) {
 			this.props.actions.loadViewResults(this.props.channel.data.head)
+			this.props.actions.streamView(this.props.channel.data.head)
 		}
 
 		this.props.actions.loadViewResults('view-my-inbox')
@@ -206,6 +207,7 @@ export default class HomeChannel extends React.Component {
 	componentDidUpdate (prevProps) {
 		if (!prevProps.channel.data.head && this.props.channel.data.head) {
 			this.props.actions.loadViewResults(this.props.channel.data.head)
+			this.props.actions.streamView(this.props.channel.data.head)
 		}
 
 		// If there is only 1 channel, check for the home channel, otherwise, open

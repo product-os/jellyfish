@@ -116,7 +116,9 @@ class ViewRenderer extends React.Component {
 	}
 
 	saveView ([ view ]) {
-		sdk.card.create(this.createView(view))
+		const newView = this.createView(view)
+
+		sdk.card.create(newView)
 			.then((card) => {
 				analytics.track('element.create', {
 					element: {
@@ -235,6 +237,7 @@ class ViewRenderer extends React.Component {
 		const tailType = _.find(this.props.types, {
 			slug: helpers.getTypeFromViewCard(head)
 		}) || null
+
 		if (options && options.slice) {
 			const {
 				slice
@@ -246,21 +249,29 @@ class ViewRenderer extends React.Component {
 				type: 'object',
 				properties: {}
 			}
-			_.set(filter, slice.path, {
-				const: slice.value
-			})
-			const keys = slice.path.split('.')
 
-			// Make sure that "property" keys correspond with { type: 'object' },
-			// otherwise the filter won't work
-			while (keys.length) {
-				if (keys.pop() === 'properties') {
-					_.set(filter, keys.concat('type'), 'object')
-				}
-			}
-			filters.push({
-				anyOf: [ filter ]
+			const existingFilter = filters.find((item) => {
+				return item.anyOf && item.anyOf[0].description === filter.description
 			})
+
+			// If a matching filter already exists, don't add it twice
+			if (!existingFilter) {
+				_.set(filter, slice.path, {
+					const: slice.value
+				})
+				const keys = slice.path.split('.')
+
+				// Make sure that "property" keys correspond with { type: 'object' },
+				// otherwise the filter won't work
+				while (keys.length) {
+					if (keys.pop() === 'properties') {
+						_.set(filter, keys.concat('type'), 'object')
+					}
+				}
+				filters.push({
+					anyOf: [ filter ]
+				})
+			}
 			this.loadViewWithFilters(head, filters)
 		} else {
 			this.props.actions.streamView(head.id)
@@ -365,6 +376,7 @@ class ViewRenderer extends React.Component {
 		})
 		Reflect.deleteProperty(newView, 'id')
 		Reflect.deleteProperty(newView, 'created_at')
+		Reflect.deleteProperty(newView.data, 'namespace')
 		return newView
 	}
 

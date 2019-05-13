@@ -15,7 +15,6 @@ import {
 } from 'redux'
 import {
 	Button,
-	Modal,
 	Flex,
 	Box,
 	Pill,
@@ -35,7 +34,6 @@ import {
 } from '../core'
 import helpers from '../services/helpers'
 import BaseLens from './common/BaseLens'
-import index from './index'
 import Icon from '../shame/Icon'
 
 const UNSORTED_GROUP_ID = 'JELLYFISH_UNSORTED_GROUP'
@@ -147,31 +145,16 @@ class Kanban extends BaseLens {
 	constructor (props) {
 		super(props)
 
-		this.state = {
-			modalChannel: null
-		}
-
 		this.handleDragEnd = this.handleDragEnd.bind(this)
 		this.onCardClick = this.onCardClick.bind(this)
-		this.clearModalChannel = this.clearModalChannel.bind(this)
 	}
 
 	onCardClick (cardId) {
 		const card = _.find(this.props.tail, {
 			id: cardId
 		})
-		this.setState({
-			modalChannel: {
-				target: cardId,
-				cardType: card.type
-			}
-		})
-	}
 
-	clearModalChannel () {
-		this.setState({
-			modalChannel: null
-		})
+		this.openChannel(card)
 	}
 
 	handleDragEnd (cardId, _sourceLaneId, targetLaneId) {
@@ -279,13 +262,6 @@ class Kanban extends BaseLens {
 
 		const typeName = type ? type.name || type.slug : ''
 
-		let lens = null
-
-		if (this.state.modalChannel) {
-			const lenses = index.getLenses(this.state.modalChannel.data.head, this.props.user)
-			lens = lenses[0]
-		}
-
 		return (
 			<Flex
 				flexDirection="column"
@@ -308,11 +284,6 @@ class Kanban extends BaseLens {
 					<OrgCard />
 				</ReactTrello>
 
-				{Boolean(this.state.modalChannel) && Boolean(lens) && (
-					<Modal w={960} done={this.clearModalChannel}>
-						<lens.data.renderer channel={this.state.modalChannel} card={this.state.modalChannel.data.head}/>
-					</Modal>
-				)}
 				{Boolean(type) && (
 					<React.Fragment>
 						<Button
