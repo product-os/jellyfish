@@ -122,3 +122,24 @@ ava('.parseHTML() should parse a relative image with a base url', (test) => {
 
 	test.is(result, expected)
 })
+
+ava('.parseHTML() should remove style tags', (test) => {
+	const string = `
+	<div>\r
+		<div>\r\r\r
+			<style>
+			.foo {
+				color: red;
+			}
+			</style>\r
+		</div>\r
+		<div lang="EN-US" class="foo">Hello</div>
+	</div>`
+	// eslint-disable-next-line max-len
+	const expected = 'Hello'
+	const result = utils.parseHTML(string, {
+		baseUrl: 'https://jel.ly.fish'
+	})
+
+	test.is(result, expected)
+})
