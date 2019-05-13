@@ -202,6 +202,47 @@ ava.afterEach(helpers.mirror.afterEach)
 // Skip all tests if there is no Discourse token
 const avaTest = TOKEN ? ava.serial : ava.serial.skip
 
+avaTest('should not update a post by posting a #summary whisper', async (test) => {
+	const supportThread = await test.context.startSupportThread(
+		test.context.username,
+		`My summary issue ${uuid()}`,
+		`Foo Bar ${uuid()}`)
+
+	await helpers.mirror.beforeEach(
+		test, environment.test.integration.discourse.username)
+
+	await test.context.createWhisper(supportThread,
+		test.context.getWhisperSlug(), '#summary Foo Bar')
+
+	const mirrorId = supportThread.data.mirrors[0]
+	const topic = await test.context.getTopic(_.last(mirrorId.split('/')))
+	const firstPost = topic.post_stream.posts[0]
+	test.is(firstPost.updated_at, firstPost.created_at)
+})
+
+avaTest('should not update a post by defining no new tags', async (test) => {
+	const supportThread = await test.context.startSupportThread(
+		test.context.username,
+		`My re-tagged issue ${uuid()}`,
+		`Foo Bar ${uuid()}`)
+
+	await helpers.mirror.beforeEach(
+		test, environment.test.integration.discourse.username)
+
+	await test.context.sdk.card.update(supportThread.id, {
+		type: supportThread.type,
+		data: {
+			tags: []
+		}
+	})
+
+	const mirrorId = supportThread.data.mirrors[0]
+	const topic = await test.context.getTopic(_.last(mirrorId.split('/')))
+	test.deepEqual(topic.tags, [])
+	const firstPost = topic.post_stream.posts[0]
+	test.is(firstPost.updated_at, firstPost.created_at)
+})
+
 avaTest('should not re-open a closed thread by marking a message as read', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		test.context.username,
