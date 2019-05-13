@@ -73,6 +73,8 @@ const EventButton = styled.button `
 	border-left-width: 3px;
 `
 
+const INITIAL_MESSAGE_LENGTH = 500
+
 const FRONT_IMG_RE = /^\[\/api\/1\/companies\/resin_io\/attachments\/[a-z0-9]+\?resource_link_id=\d+\]$/
 
 const getTargetId = (card) => {
@@ -210,6 +212,16 @@ class Event extends React.Component {
 			})
 		}
 
+		this.expand = () => {
+			this.setState({
+				expanded: !this.state.expanded
+			})
+
+			setTimeout(() => {
+				this.processText()
+			}, 50)
+		}
+
 		const createCard = _.find(_.get(this.props.card, [ 'links', 'has attached element' ]), {
 			type: 'create'
 		})
@@ -217,7 +229,8 @@ class Event extends React.Component {
 
 		this.state = {
 			actor: getActor(actor),
-			showMenu: false
+			showMenu: false,
+			expanded: false
 		}
 
 		this.handleVisibilityChange = this.handleVisibilityChange.bind(this)
@@ -225,6 +238,10 @@ class Event extends React.Component {
 
 	shouldComponentUpdate (nextProps, nextState) {
 		return !circularDeepEqual(nextState, this.state) || !circularDeepEqual(nextProps, this.props)
+	}
+
+	componentDidMount () {
+		this.processText()
 	}
 
 	downloadAttachment ({
@@ -336,6 +353,14 @@ class Event extends React.Component {
 
 		const message = getMessage(card)
 
+		let slicedMessage = this.state.expanded
+			? message
+			: message.slice(0, INITIAL_MESSAGE_LENGTH)
+
+		if (message.length > INITIAL_MESSAGE_LENGTH && !this.state.expanded) {
+			slicedMessage += '...'
+		}
+
 		const attachments = _.get(card, [ 'data', 'payload', 'attachments' ], []).map((attachment) => {
 			return {
 				slug: attachment.url.split('/').pop(),
@@ -422,7 +447,9 @@ class Event extends React.Component {
 
 						{Boolean(attachments) && _.map(attachments, (attachment) => {
 							// If the mime type is of an image, display the file as an image
-							if (attachment.mime && attachment.mime.match(/image\//)) {
+							// Additionally, if there are many attachements, skip trying to
+							// render them
+							if (attachments.length < 3 && attachment.mime && attachment.mime.match(/image\//)) {
 								return (
 									<AuthenticatedImage
 										data-test="event-card__image"
@@ -440,6 +467,8 @@ class Event extends React.Component {
 										this.downloadAttachment(attachment)
 									}}
 									data-test="event-card__file"
+									mr={2}
+									mb={2}
 								>
 									<Icon name="file-download" />
 									<Txt monospace ml={2}>{attachment.name}</Txt>
@@ -455,8 +484,17 @@ class Event extends React.Component {
 									}}
 									data-test={card.pending ? '' : 'event-card__message'}
 								>
-									{message}
+									{slicedMessage}
 								</Markdown>
+								{message.length > INITIAL_MESSAGE_LENGTH && (
+									<Button
+										mt={2}
+										plaintext
+										onClick={this.expand}
+									>
+										<Icon name={`chevron-${this.state.expanded ? 'up' : 'down'}`} />
+									</Button>
+								)}
 							</div>
 						)}
 
