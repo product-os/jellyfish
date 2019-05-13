@@ -143,3 +143,14 @@ ava('.parseHTML() should remove style tags', (test) => {
 
 	test.is(result, expected)
 })
+
+ava('.parseHTML() should strip out 1x1px images', (test) => {
+	// eslint-disable-next-line max-len
+	const string = '<img border="0" width="1" height="1" style="width:.0104in;height:.0104in" id="_x0000_i1072" src="foo.png"><p>Hello</p>'
+	const expected = 'Hello'
+	const result = utils.parseHTML(string, {
+		baseUrl: 'https://jel.ly.fish'
+	})
+
+	test.is(result, expected)
+})
