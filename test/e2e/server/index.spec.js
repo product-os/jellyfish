@@ -268,20 +268,22 @@ ava.serial('.query() should be able to see previously restricted cards after an 
 	test.truthy(user, 'User should be defined')
 	await sdk.auth.login(userDetails)
 
-	const orgCard = await jellyfish.getCardBySlug(test.context.context, test.context.session, 'org-balena', {
-		type: 'org'
-	})
+	const orgCard = await jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'org-balena', {
+			type: 'org'
+		})
 
 	test.truthy(orgCard, 'Org should exist')
-	const entry = await jellyfish.insertCard(test.context.context, test.context.session, {
-		markers: [ orgCard.slug ],
-		type: 'support-issue',
-		slug: test.context.generateRandomSlug({
-			prefix: 'support-issue'
-		}),
-		version: '1.0.0',
-		name: 'Test entry'
-	})
+	const entry = await jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			markers: [ orgCard.slug ],
+			type: 'support-issue',
+			slug: test.context.generateRandomSlug({
+				prefix: 'support-issue'
+			}),
+			version: '1.0.0',
+			name: 'Test entry'
+		})
 
 	test.truthy(entry, 'Entry should be defined')
 	const unprivilegedResults = await sdk.card.get(entry.id, {
@@ -290,24 +292,25 @@ ava.serial('.query() should be able to see previously restricted cards after an 
 
 	test.deepEqual(unprivilegedResults, null)
 
-	await jellyfish.insertCard(test.context.context, test.context.session, defaults({
-		slug: `link-${orgCard.id}-has-member-${user.id}`,
-		type: 'link',
-		name: 'has member',
-		data: {
-			inverseName: 'is member of',
-			from: {
-				id: orgCard.id,
-				type: orgCard.type
-			},
-			to: {
-				id: user.id,
-				type: user.type
+	await jellyfish.insertCard(
+		test.context.context, test.context.session, defaults({
+			slug: `link-${orgCard.id}-has-member-${user.id}`,
+			type: 'link',
+			name: 'has member',
+			data: {
+				inverseName: 'is member of',
+				from: {
+					id: orgCard.id,
+					type: orgCard.type
+				},
+				to: {
+					id: user.id,
+					type: user.type
+				}
 			}
-		}
-	}), {
-		override: true
-	})
+		}), {
+			override: true
+		})
 
 	const privilegedResults = await sdk.card.get(entry.id, {
 		type: 'support-issue'

@@ -37,10 +37,7 @@ ava('should only expose the required methods', (test) => {
 		'stream',
 		'getStatus',
 		'lock',
-		'unlock',
-
-		// TODO: Make this private
-		'getUserMarkers'
+		'unlock'
 	])
 })
 
