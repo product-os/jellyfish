@@ -28,11 +28,6 @@ ava('should only expose the required methods', (test) => {
 		'connect',
 		'disconnect',
 		'reset',
-		'getTables',
-
-		// TODO: Make this private
-		'hasTable',
-
 		'insertElement',
 		'upsertElement',
 		'getElementById',
