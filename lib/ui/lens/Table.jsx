@@ -82,7 +82,7 @@ class CardTable extends BaseLens {
 							style={{
 								borderTop: '1px solid #eee'
 							}}
-							justify="flex-end"
+							justifyContent="flex-end"
 						>
 							<Button
 								success

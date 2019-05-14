@@ -67,14 +67,14 @@ class MyUser extends React.Component {
 				<Box
 					p={3}
 				>
-					<Flex justify="space-between" mb={3}>
+					<Flex justifyContent="space-between" mb={3}>
 						<Heading.h3>
 							Account
 						</Heading.h3>
 
 						<Flex align="center">
 							<CloseButton
-								mr={-3}
+								ml={3}
 								onClick={() => {
 									return this.props.actions.removeChannel(this.props.channel)
 								}}

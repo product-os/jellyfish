@@ -245,7 +245,7 @@ const getTrigger = _.memoize(() => {
 						style={{
 							minWidth: 160
 						}}
-						justify="space-between"
+						justifyContent="space-between"
 					>
 						<Txt mr={3}>#{entity.name}</Txt>
 						<Txt>x {entity.data.count}</Txt>

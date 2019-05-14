@@ -76,7 +76,7 @@ export default function SupportThreadSummary (props) {
 				return props.openChannel(card.id)
 			}}
 		>
-			<Flex justify="space-between">
+			<Flex justifyContent="space-between">
 				<Flex mb={2}>
 					<ColorHashPill value={_.get(card, [ 'data', 'inbox' ])} mr={2} />
 					<ColorHashPill value={_.get(card, [ 'data', 'status' ])} mr={2} />
@@ -84,7 +84,7 @@ export default function SupportThreadSummary (props) {
 
 				<Txt>Created {helpers.formatTimestamp(card.created_at)}</Txt>
 			</Flex>
-			<Flex justify="space-between">
+			<Flex justifyContent="space-between">
 				<Box>
 					{Boolean(card.name) && (
 						<Txt bold>{card.name}</Txt>

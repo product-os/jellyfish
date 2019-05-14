@@ -22,9 +22,7 @@ const getFontSize = (string) => {
 }
 
 const MentionsCount = styled(Box) `
-	background: ${(props) => {
-		return props.theme.colors.secondary.main
-	}};
+	background: rgb(255, 197, 35);
 	color: white;
 	width: 18px;
 	height: 18px;

@@ -18,8 +18,7 @@ import {
 import {
 	Box,
 	Button,
-	Flex,
-	Theme
+	Flex
 } from 'rendition'
 import styled from 'styled-components'
 import uuid from 'uuid/v4'
@@ -323,20 +322,18 @@ class TimelineRenderer extends React.Component {
 
 		return (
 			<Column>
-				<Flex my={2} mr={2} justify="flex-end">
+				<Flex my={2} mr={2} justifyContent="flex-end">
 					<Button
-						plaintext
+						plain
 						tooltip={{
 							placement: 'left',
 							text: `${messagesOnly ? 'Show' : 'Hide'} create and update events`
 						}}
 						className="timeline__checkbox--additional-info"
-						color={messagesOnly ? Theme.colors.text.light : false}
 						ml={2}
 						onClick={this.handleEventToggle}
-					>
-						<Icon name="stream"/>
-					</Button>
+						icon={<Icon name="stream"/>}
+					/>
 				</Flex>
 
 				<div
@@ -395,17 +392,17 @@ class TimelineRenderer extends React.Component {
 					>
 						{allowWhispers && (
 							<Button
-								square
-								plaintext
+								px={2}
+								mb={1}
+								plain
 								onClick={this.toggleWhisper}
 								data-test="timeline__whisper-toggle"
 								tooltip={{
 									placement: 'right',
 									text: `Toggle response visibility (currently ${whisper ? 'private' : 'public'})`
 								}}
-							>
-								<Icon name={whisper ? 'eye-slash' : 'eye'}/>
-							</Button>
+								icon={<Icon name={whisper ? 'eye-slash' : 'eye'}/>}
+							/>
 						)}
 
 						<Box
@@ -426,13 +423,12 @@ class TimelineRenderer extends React.Component {
 						</Box>
 
 						<Button
-							square
+							plain
 							mr={3}
-							mt={3}
+							mb={1}
 							onClick={this.handleUploadButtonClick}
-						>
-							<Icon name="image"/>
-						</Button>
+							icon={<Icon name="image"/>}
+						/>
 
 						<input
 							style={{

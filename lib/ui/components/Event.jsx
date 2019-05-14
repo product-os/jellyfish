@@ -54,9 +54,6 @@ import {
 } from '../shame/ActionLink'
 import Gravatar from '../shame/Gravatar'
 import Icon from '../shame/Icon'
-import {
-	IconButton
-} from '../shame/IconButton'
 
 const tagMatchRE = helpers.createPrefixRegExp('@|#|!')
 const EventButton = styled.button `
@@ -386,7 +383,7 @@ class Event extends React.Component {
 						<Gravatar.default small email={this.state.actor.email}/>
 					</EventButton>
 					<InnerWrapper flex="1">
-						<Flex justify="space-between" mb={2}>
+						<Flex justifyContent="space-between" mb={2}>
 							<Flex mt={isMessage ? 0 : '5px'} align="center">
 								{isMessage && (
 									<Txt
@@ -418,15 +415,14 @@ class Event extends React.Component {
 							</Flex>
 
 							<span>
-								<IconButton
+								<Button
 									className="event-card--actions"
 									px={2}
 									mr={card.type === 'whisper' ? -12 : -1}
-									plaintext
-									onClick={this.toggleMenu}>
-									<Icon name="ellipsis-v"/>
-
-								</IconButton>
+									plain
+									onClick={this.toggleMenu}
+									icon={<Icon name="ellipsis-v"/>}
+								/>
 
 								{this.state.showMenu && (
 									<ContextMenu position="bottom" onClose={this.toggleMenu}>
@@ -489,7 +485,7 @@ class Event extends React.Component {
 								{message.length > INITIAL_MESSAGE_LENGTH && (
 									<Button
 										mt={2}
-										plaintext
+										plain
 										onClick={this.expand}
 									>
 										<Icon name={`chevron-${this.state.expanded ? 'up' : 'down'}`} />

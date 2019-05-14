@@ -226,9 +226,9 @@ class Interleaved extends React.Component {
 				}}
 			>
 				<reactResizeObserver.default onResize={this.scrollToBottom}/>
-				<rendition.Flex my={2} mr={2} justify="flex-end">
+				<rendition.Flex my={2} mr={2} justifyContent="flex-end">
 					<rendition.Button
-						plaintext
+						plain
 						tooltip={{
 							placement: 'left',
 							text: `${messagesOnly ? 'Show' : 'Hide'} create and update events`
@@ -283,7 +283,7 @@ class Interleaved extends React.Component {
 						style={{
 							borderTop: '1px solid #eee'
 						}}
-						justify="flex-end"
+						justifyContent="flex-end"
 					>
 						<rendition.Button
 							className="btn--add-thread"

@@ -144,7 +144,7 @@ class Inbox extends React.Component {
 				}}
 			>
 				<Flex
-					justify="flex-end"
+					justifyContent="flex-end"
 					px={3}
 					pb={3}
 				>

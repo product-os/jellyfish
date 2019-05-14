@@ -17,6 +17,7 @@ import * as redux from 'redux'
 import {
 	Box,
 	Button,
+	ButtonGroup,
 	Flex,
 	SchemaSieve,
 	Select
@@ -30,7 +31,6 @@ import {
 } from '../core'
 import * as helpers from '../services/helpers'
 import LensService from './'
-import ButtonGroup from '../shame/ButtonGroup'
 import {
 	CloseButton
 } from '../shame/CloseButton'
@@ -462,7 +462,7 @@ class ViewRenderer extends React.Component {
 			>
 				{Boolean(head) && (
 					<Box>
-						<Flex mt={3} justify="space-between">
+						<Flex mt={3} justifyContent="space-between">
 							<Box flex="1" mx={3}>
 								{useFilters && (
 									<Box mt={0} flex="1 0 auto">
@@ -485,13 +485,12 @@ class ViewRenderer extends React.Component {
 												<Button
 													key={item.slug}
 													bg={ lens && lens.slug === item.slug ? '#333' : false}
-													square={true}
 													data-test={`lens-selector--${item.slug}`}
 													data-slug={item.slug}
 													onClick={this.setLens}
-												>
-													<Icon name={item.data.icon}/>
-												</Button>
+													pt={11}
+													icon={<Icon name={item.data.icon}/>}
+												/>
 											)
 										})}
 									</ButtonGroup>
@@ -515,7 +514,7 @@ class ViewRenderer extends React.Component {
 								)}
 
 								<CloseButton
-									mr={-3}
+									ml={3}
 									mt={-3}
 									onClick={() => {
 										return this.props.actions.removeChannel(this.props.channel)

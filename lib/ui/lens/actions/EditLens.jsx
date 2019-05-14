@@ -177,10 +177,8 @@ class EditLens extends React.Component {
 				overflowY
 				p={3}
 			>
-				<Flex py={2} flex={0} align="start" justify="flex-end">
+				<Flex py={2} flex={0} align="start" justifyContent="flex-end">
 					<CloseButton
-						mb={3}
-						mr={-3}
 						onClick={this.close}
 					/>
 				</Flex>
@@ -200,7 +198,7 @@ class EditLens extends React.Component {
 					onSchemaChange={this.setLocalSchema}
 				/>
 
-				<Flex justify="flex-end" mt={4}>
+				<Flex justifyContent="flex-end" mt={4}>
 					<Button
 						onClick={this.close}
 						mr={2}

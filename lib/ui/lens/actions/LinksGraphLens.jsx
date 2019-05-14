@@ -202,7 +202,7 @@ class CreateLens extends React.Component {
 					style={{
 						position: 'absolute',
 						top: 26,
-						right: 0
+						right: 26
 					}}
 					onClick={this.close}
 				/>

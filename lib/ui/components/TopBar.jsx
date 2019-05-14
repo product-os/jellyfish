@@ -9,7 +9,7 @@ const rendition = require('rendition')
 exports.default = ({
 	children
 }) => {
-	return (<rendition.Flex justify="space-between" align="center" style={{
+	return (<rendition.Flex justifyContent="space-between" align="center" style={{
 		boxShadow: '0 1px 3px rgba(0, 0, 0, 0.2)'
 	}}>
 		{children}

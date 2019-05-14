@@ -121,13 +121,13 @@ class CustomLaneHeader extends React.Component {
 		return (
 			<div>
 				<strong>{props.title}</strong>
-				<EllipsisButton px={2} plaintext onClick={this.toggleMenu}>
+				<EllipsisButton px={2} plain onClick={this.toggleMenu}>
 					<Icon name="ellipsis-v"/>
 				</EllipsisButton>
 
 				{this.state.showMenu && (
 					<ContextMenu.ContextMenu position="bottom" onClose={this.toggleMenu}>
-						<Button plaintext onClick={this.toggleUpdateModal}>
+						<Button plain onClick={this.toggleUpdateModal}>
 						Update all items in this list
 						</Button>
 					</ContextMenu.ContextMenu>

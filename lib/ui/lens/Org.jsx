@@ -128,7 +128,7 @@ class Base extends React.Component {
 			})
 		const content = (
 			<React.Fragment>
-				<rendition.Flex justify="space-between">
+				<rendition.Flex justifyContent="space-between">
 					<rendition.Txt mb={3}>
 						<strong>
 							{level > 0 && (
@@ -156,8 +156,7 @@ class Base extends React.Component {
 							<CardActions.CardActions card={card}/>
 
 							<CloseButton.CloseButton
-								mb={3}
-								mr={-3}
+								ml={3}
 								onClick={() => {
 									return this.props.actions.removeChannel(this.props.channel)
 								}}

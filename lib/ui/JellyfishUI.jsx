@@ -11,7 +11,8 @@ import {
 } from 'react-redux'
 import {
 	Flex,
-	Provider
+	Provider,
+	Theme
 } from 'rendition'
 import ChannelRenderer from './components/ChannelRenderer'
 import HomeChannel from './components/HomeChannel'
@@ -31,14 +32,32 @@ import {
 import ReactDndHtml5Backend from 'react-dnd-html5-backend'
 import ReactResizeObserver from 'react-resize-observer'
 import {
-	injectGlobal
+	createGlobalStyle
 } from 'styled-components'
 
-injectGlobal `
+import 'circular-std'
+
+const GlobalStyle = createGlobalStyle `
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    line-height: 1.5;
+    margin: 0;
+    font-family: ${Theme.font};
+  }
+
+	html,
+	body,
+	#app {
+		height: 100%;
+	}
+
 	textarea,
 	input {
 		line-height: 1.5;
-    font-family: Roboto, Arial, sans-serif;
+    font-family: ${Theme.font};
   }
 `
 
@@ -141,6 +160,7 @@ class UI extends React.Component {
 					fontSize: 14
 				}}
 			>
+				<GlobalStyle />
 				<ReactResizeObserver onResize={() => {
 					this.calcWidth(this.props.channels)
 				}}/>
@@ -153,7 +173,7 @@ class UI extends React.Component {
 					{(!rest.length && !userHasOrg) && (
 						<Flex
 							flex="1"
-							justify="center"
+							justifyContent="center"
 							pt="20%"
 						>
 							<p

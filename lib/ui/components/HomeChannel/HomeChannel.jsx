@@ -273,10 +273,10 @@ export default class HomeChannel extends React.Component {
 					height: '100%', overflowY: 'auto'
 				}}
 			>
-				<Flex justify="space-between" style={{
+				<Flex justifyContent="space-between" style={{
 					position: 'relative'
 				}}>
-					<Button plaintext={true} className="user-menu-toggle" py={3} pl={3} pr={2} onClick={this.showMenu}>
+					<Button plain={true} className="user-menu-toggle" py={3} pl={3} pr={2} onClick={this.showMenu}>
 						<Gravatar.default email={email}/>
 
 						{Boolean(username) && <Txt mx={2}>{username}</Txt>}
@@ -312,7 +312,7 @@ export default class HomeChannel extends React.Component {
 								height: 1, backgroundColor: '#eeeeee'
 							}}/>
 
-							<Button w="100%" pt={2} className="user-menu__logout" plaintext={true} style={{
+							<Button w="100%" pt={2} className="user-menu__logout" plain={true} style={{
 								textAlign: 'left', display: 'block'
 							}} onClick={this.logout}>
 							Log out

@@ -111,7 +111,7 @@ class FilterSummary extends React.Component {
 						</form>
 					</Modal>
 				)}
-				<Flex justify="space-between">
+				<Flex justifyContent="space-between">
 					<Flex wrap>
 						{this.props.filters.map((filter, index) => {
 							return (
@@ -129,7 +129,7 @@ class FilterSummary extends React.Component {
 
 					<Button
 						primary
-						plaintext
+						plain
 						fontSize={13}
 						mt={-7}
 						onClick={() => {

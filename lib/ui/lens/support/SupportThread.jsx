@@ -17,6 +17,7 @@ import {
 import * as redux from 'redux'
 import {
 	Box,
+	Button,
 	DropDownButton,
 	Flex,
 	Link,
@@ -49,9 +50,6 @@ import {
 import ColorHashPill from '../../shame/ColorHashPill'
 import Column from '../../shame/Column'
 import Icon from '../../shame/Icon'
-import {
-	IconButton
-} from '../../shame/IconButton'
 
 const {
 	getCreator,
@@ -286,7 +284,7 @@ class SupportThreadBase extends React.Component {
 					px={3}
 					pt={3}
 				>
-					<Flex mb={2} justify="space-between">
+					<Flex mb={2} justifyContent="space-between">
 						<DropDownButton
 							primary
 							label={_.get(card, [ 'data', 'category' ], defaultCategory)}
@@ -306,12 +304,16 @@ class SupportThreadBase extends React.Component {
 						</DropDownButton>
 
 						<Flex align="center">
-							<IconButton plaintext square mr={1} tooltip={{
-								placement: 'bottom',
-								text: 'Close this support thread'
-							}} onClick={this.close}>
-								<Icon name="archive"/>
-							</IconButton>
+							<Button
+								plain
+								mr={3}
+								tooltip={{
+									placement: 'bottom',
+									text: 'Close this support thread'
+								}}
+								onClick={this.close}
+								icon={<Icon name="archive"/>}
+							/>
 
 							<CardActions card={card}>
 								<ActionLink onClick={this.openSupportIssueView}>
@@ -324,7 +326,7 @@ class SupportThreadBase extends React.Component {
 							</CardActions>
 
 							<CloseButton
-								mr={-3}
+								ml={3}
 								onClick={() => {
 									return this.props.actions.removeChannel(this.props.channel)
 								}}
@@ -370,7 +372,7 @@ class SupportThreadBase extends React.Component {
 						</Box>
 					)}
 
-					<Flex justify="space-between">
+					<Flex justifyContent="space-between">
 						<Txt><em>Created {helpers.formatTimestamp(card.created_at)}</em></Txt>
 
 						<Txt>

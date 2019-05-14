@@ -182,7 +182,7 @@ class Base extends React.Component {
 
 									<rendition.Button
 										square
-										plaintext
+										plain
 										mt={20}
 										type="button"
 										onClick={this.togglePasswordVisibility}

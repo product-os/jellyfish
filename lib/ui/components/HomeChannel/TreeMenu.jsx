@@ -44,9 +44,9 @@ const TreeMenu = (props) => {
 		<Box key={node.key}>
 			{node.name && (
 				<Button
-					plaintext
+					plain
 					primary
-					w="100%"
+					width="100%"
 					px={3}
 					my={2}
 					data-groupname={node.name}
@@ -55,7 +55,7 @@ const TreeMenu = (props) => {
 				>
 					<Flex style={{
 						width: '100%'
-					}} justify="space-between">
+					}} justifyContent="space-between">
 						{node.name}
 						<Icon name={`chevron-${isExpanded ? 'up' : 'down'}`}/>
 					</Flex>

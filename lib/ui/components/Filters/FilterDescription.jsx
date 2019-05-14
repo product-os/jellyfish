@@ -1,9 +1,10 @@
 import * as _ from 'lodash'
 import * as React from 'react'
 import styled from 'styled-components'
+import FaClose from 'react-icons/lib/fa/close'
 import {
-	DeleteButton,
 	Box,
+	Button,
 	Flex
 } from 'rendition'
 
@@ -18,6 +19,10 @@ const ButtonWrapper = styled.button `
 
 const WrappingEm = styled.em `
 	white-space: pre-wrap;
+`
+
+const DeleteButton = styled(Button) `
+	color: rgba(0, 0, 0, 0.4);
 `
 
 const FilterDescriptionInner = (props) => {
@@ -48,9 +53,15 @@ const FilterDescription = (props) => {
 
 			{Boolean(props.delete) && (
 				<DeleteButton
+					plain
+					p={1}
+					fontSize={1}
+					ml={1}
 					color={props.dark ? '#fff' : ''}
 					onClick={props.delete}
-				/>
+				>
+					<FaClose />
+				</DeleteButton>
 			)}
 		</div>
 	)
