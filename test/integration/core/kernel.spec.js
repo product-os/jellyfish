@@ -2631,7 +2631,7 @@ ava('.lock() should be able to lock a non-locked slug', async (test) => {
 	}
 
 	const result = await test.context.kernel.lock(
-		'4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
+		test.context.context, '4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
 	test.is(result, card.slug)
 })
 
@@ -2653,11 +2653,11 @@ ava('.unlock() should be able to unlock a locked slug by the same owner', async 
 	}
 
 	const lockResult = await test.context.kernel.lock(
-		'4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
+		test.context.context, '4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
 	test.is(lockResult, card.slug)
 
 	const unlockResult = await test.context.kernel.unlock(
-		'4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
+		test.context.context, '4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
 	test.is(unlockResult, card.slug)
 })
 
@@ -2679,19 +2679,19 @@ ava('.lock() should not let the same owner take a lock twice without unlocking',
 	}
 
 	const lockResult1 = await test.context.kernel.lock(
-		'4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
+		test.context.context, '4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
 	test.is(lockResult1, card.slug)
 
 	const lockResult2 = await test.context.kernel.lock(
-		'4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
+		test.context.context, '4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
 	test.falsy(lockResult2)
 
 	const unlockResult = await test.context.kernel.unlock(
-		'4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
+		test.context.context, '4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
 	test.is(unlockResult, card.slug)
 
 	const lockResult3 = await test.context.kernel.lock(
-		'4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
+		test.context.context, '4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
 	test.is(lockResult3, card.slug)
 })
 
@@ -2713,15 +2713,15 @@ ava('.unlock() should be able to let other owner take the same slug', async (tes
 	}
 
 	const lockResult1 = await test.context.kernel.lock(
-		'4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
+		test.context.context, '4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
 	test.is(lockResult1, card.slug)
 
 	const unlockResult = await test.context.kernel.unlock(
-		'4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
+		test.context.context, '4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
 	test.is(unlockResult, card.slug)
 
 	const lockResult2 = await test.context.kernel.lock(
-		'98853c0c-d055-4d25-a7be-682a2d5decc5', card)
+		test.context.context, '98853c0c-d055-4d25-a7be-682a2d5decc5', card)
 	test.is(lockResult2, card.slug)
 })
 
