@@ -15,6 +15,34 @@ const helpers = require('./helpers')
 ava.beforeEach(helpers.kernel.beforeEach)
 ava.afterEach(helpers.kernel.afterEach)
 
+ava('should only expose the required methods', (test) => {
+	const methods = Object.getOwnPropertyNames(
+		Reflect.getPrototypeOf(test.context.kernel))
+
+	/*
+	 * Think very hard before extending this interface, as its
+	 * very easy to add cruft over time that will get abused.
+	 * All private methods should remain private.
+	 */
+	test.deepEqual(methods, [
+		'constructor',
+		'disconnect',
+		'initialize',
+		'getCardById',
+		'getCardBySlug',
+		'insertCard',
+		'query',
+		'stream',
+		'defaults',
+		'getStatus',
+		'lock',
+		'unlock',
+
+		// TODO: Make this private
+		'popRequest'
+	])
+})
+
 for (const key in CARDS) {
 	ava(`should contain the ${key} card by default`, async (test) => {
 		const card = await CARDS[key]
