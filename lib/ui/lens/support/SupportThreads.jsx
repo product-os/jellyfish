@@ -77,6 +77,7 @@ export class SupportThreads extends React.Component {
 		}).reverse()
 
 		const pendingAgentResponse = []
+		const pendingEngineerResponse = []
 		const pendingUserResponse = []
 
 		for (const card of tail) {
@@ -102,14 +103,33 @@ export class SupportThreads extends React.Component {
 			timeline.reverse()
 
 			let isPendingUserResponse = false
+			let isPendingEngineerResponse = false
+			let hasEngineerResponse = false
 
 			// Iterate over the timeline
 			for (const event of timeline) {
 				if (event.type === 'message' || event.type === 'whisper') {
+					// If the message contains the 'pendingagentresponse' tag, then we are
+					// waiting on a response from the agent and can break out of the loop
+					if (event.data.payload.message && event.data.payload.message.match(/#pendingagentresponse/gi)) {
+						break
+					}
+
 					// If the message contains the 'pendinguserresponse' tag, then we are
-					// waiting on a response and can break out of the loop
+					// waiting on a response from the user and can break out of the loop
 					if (event.data.payload.message && event.data.payload.message.match(/#pendinguserresponse/gi)) {
 						isPendingUserResponse = true
+						break
+					}
+
+					// If the message contains the 'pendinguserresponse' tag, then we are
+					// waiting on a response from the user and can break out of the loop
+					if (
+						!hasEngineerResponse &&
+						event.data.payload.message &&
+						event.data.payload.message.match(/#pendingengineerresponse/gi)
+					) {
+						isPendingEngineerResponse = true
 						break
 					}
 
@@ -119,10 +139,16 @@ export class SupportThreads extends React.Component {
 					if (actor.proxy) {
 						break
 					}
+
+					if (!actor.proxy) {
+						hasEngineerResponse = true
+					}
 				}
 			}
 
-			if (isPendingUserResponse) {
+			if (isPendingEngineerResponse) {
+				pendingEngineerResponse.push(card)
+			} else if (isPendingUserResponse) {
 				pendingUserResponse.push(card)
 			} else {
 				pendingAgentResponse.push(card)
@@ -146,6 +172,10 @@ export class SupportThreads extends React.Component {
 			{
 				name: 'pending user response',
 				cards: pendingUserResponse
+			},
+			{
+				name: 'pending engineer response',
+				cards: pendingEngineerResponse
 			}
 		]
 
