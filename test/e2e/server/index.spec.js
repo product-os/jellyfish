@@ -906,6 +906,7 @@ ava.serial('should be able to resolve links', async (test) => {
 					{
 						id: thread.id,
 						type: 'thread',
+						markers: [],
 						data: {
 							uuid: id
 						}
