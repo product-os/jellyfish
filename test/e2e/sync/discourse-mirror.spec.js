@@ -129,8 +129,8 @@ ava.before(async (test) => {
 		})
 	}
 
-	test.context.startSupportThread = async (username, title, description) => {
-		const post = await new Bluebird((resolve, reject) => {
+	const createSupportThread = async (username, title, description) => {
+		return new Bluebird((resolve, reject) => {
 			request({
 				method: 'POST',
 				baseUrl: 'https://forums.balena.io',
@@ -151,7 +151,7 @@ ava.before(async (test) => {
 				}
 
 				if (response.statusCode === 429) {
-					return test.context.startSupportThread(username, title, description)
+					return createSupportThread(username, title, description)
 						.then(resolve)
 						.catch(reject)
 				}
@@ -164,10 +164,17 @@ ava.before(async (test) => {
 				return resolve(body)
 			})
 		})
+	}
 
+	test.context.startSupportThread = async (username, title, description) => {
+		const post = await createSupportThread(username, title, description)
 		const slug = test.context.generateRandomSlug({
 			prefix: 'support-thread-discourse-test'
 		})
+
+		if (!post.topic_id) {
+			throw new Error(`No topic id in post: ${JSON.stringify(post, null, 2)}`)
+		}
 
 		const result = await test.context.sdk.card.create({
 			name: title,
