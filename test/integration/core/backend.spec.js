@@ -40,10 +40,7 @@ ava('should only expose the required methods', (test) => {
 		'unlock',
 
 		// TODO: Make this private
-		'getUserMarkers',
-
-		// TODO: Make this private
-		'popRequest'
+		'getUserMarkers'
 	])
 })
 

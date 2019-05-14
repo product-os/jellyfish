@@ -36,10 +36,7 @@ ava('should only expose the required methods', (test) => {
 		'defaults',
 		'getStatus',
 		'lock',
-		'unlock',
-
-		// TODO: Make this private
-		'popRequest'
+		'unlock'
 	])
 })
 
