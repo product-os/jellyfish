@@ -325,6 +325,7 @@ rules:
     - error
   prefer-reflect:
     - error
+    - exceptions: [ getOwnPropertyNames ]
   prefer-spread:
     - error
   prefer-numeric-literals:

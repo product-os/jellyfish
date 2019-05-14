@@ -15,7 +15,7 @@ ava.beforeEach(helpers.backend.beforeEach)
 ava.afterEach(helpers.backend.afterEach)
 
 ava('should only expose the required methods', (test) => {
-	const methods = Reflect.getOwnPropertyNames(
+	const methods = Object.getOwnPropertyNames(
 		Reflect.getPrototypeOf(test.context.backend))
 
 	/*
@@ -25,7 +25,6 @@ ava('should only expose the required methods', (test) => {
 	 */
 	test.deepEqual(methods, [
 		'constructor',
-		'destroy',
 		'connect',
 		'disconnect',
 		'reset',
