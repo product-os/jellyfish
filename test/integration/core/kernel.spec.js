@@ -2661,51 +2661,115 @@ ava.cb('.stream() should report back inactive elements', (test) => {
 })
 
 ava('.lock() should be able to lock a non-locked slug', async (test) => {
+	const card = {
+		slug: 'locktest-1234',
+		links: {},
+		type: 'card',
+		version: '1.0.0',
+		tags: [],
+		markers: [],
+		linked_at: {},
+		requires: [],
+		capabilities: [],
+		created_at: new Date().toISOString(),
+		updated_at: null,
+		active: true,
+		data: {}
+	}
+
 	const result = await test.context.kernel.lock(
-		'4a962ad9-20b5-4dd8-a707-bf819593cc84', 'locktest-1234')
-	test.is(result, 'locktest-1234')
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
+	test.is(result, card.slug)
 })
 
 ava('.unlock() should be able to unlock a locked slug by the same owner', async (test) => {
+	const card = {
+		slug: 'locktest-1234',
+		links: {},
+		type: 'card',
+		version: '1.0.0',
+		tags: [],
+		markers: [],
+		linked_at: {},
+		requires: [],
+		capabilities: [],
+		created_at: new Date().toISOString(),
+		updated_at: null,
+		active: true,
+		data: {}
+	}
+
 	const lockResult = await test.context.kernel.lock(
-		'4a962ad9-20b5-4dd8-a707-bf819593cc84', 'locktest-1234')
-	test.is(lockResult, 'locktest-1234')
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
+	test.is(lockResult, card.slug)
 
 	const unlockResult = await test.context.kernel.unlock(
-		'4a962ad9-20b5-4dd8-a707-bf819593cc84', 'locktest-1234')
-	test.is(unlockResult, 'locktest-1234')
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
+	test.is(unlockResult, card.slug)
 })
 
 ava('.lock() should not let the same owner take a lock twice without unlocking', async (test) => {
+	const card = {
+		slug: 'locktest-1234',
+		links: {},
+		type: 'card',
+		version: '1.0.0',
+		tags: [],
+		markers: [],
+		linked_at: {},
+		requires: [],
+		capabilities: [],
+		created_at: new Date().toISOString(),
+		updated_at: null,
+		active: true,
+		data: {}
+	}
+
 	const lockResult1 = await test.context.kernel.lock(
-		'4a962ad9-20b5-4dd8-a707-bf819593cc84', 'locktest-1234')
-	test.is(lockResult1, 'locktest-1234')
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
+	test.is(lockResult1, card.slug)
 
 	const lockResult2 = await test.context.kernel.lock(
-		'4a962ad9-20b5-4dd8-a707-bf819593cc84', 'locktest-1234')
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
 	test.falsy(lockResult2)
 
 	const unlockResult = await test.context.kernel.unlock(
-		'4a962ad9-20b5-4dd8-a707-bf819593cc84', 'locktest-1234')
-	test.is(unlockResult, 'locktest-1234')
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
+	test.is(unlockResult, card.slug)
 
 	const lockResult3 = await test.context.kernel.lock(
-		'4a962ad9-20b5-4dd8-a707-bf819593cc84', 'locktest-1234')
-	test.is(lockResult3, 'locktest-1234')
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
+	test.is(lockResult3, card.slug)
 })
 
 ava('.unlock() should be able to let other owner take the same slug', async (test) => {
+	const card = {
+		slug: 'locktest-1234',
+		links: {},
+		type: 'card',
+		version: '1.0.0',
+		tags: [],
+		markers: [],
+		linked_at: {},
+		requires: [],
+		capabilities: [],
+		created_at: new Date().toISOString(),
+		updated_at: null,
+		active: true,
+		data: {}
+	}
+
 	const lockResult1 = await test.context.kernel.lock(
-		'4a962ad9-20b5-4dd8-a707-bf819593cc84', 'locktest-1234')
-	test.is(lockResult1, 'locktest-1234')
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
+	test.is(lockResult1, card.slug)
 
 	const unlockResult = await test.context.kernel.unlock(
-		'4a962ad9-20b5-4dd8-a707-bf819593cc84', 'locktest-1234')
-	test.is(unlockResult, 'locktest-1234')
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
+	test.is(unlockResult, card.slug)
 
 	const lockResult2 = await test.context.kernel.lock(
-		'98853c0c-d055-4d25-a7be-682a2d5decc5', 'locktest-1234')
-	test.is(lockResult2, 'locktest-1234')
+		'98853c0c-d055-4d25-a7be-682a2d5decc5', card)
+	test.is(lockResult2, card.slug)
 })
 
 ava('.query() should return an unexecuted action request', async (test) => {
