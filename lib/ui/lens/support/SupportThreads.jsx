@@ -109,6 +109,12 @@ export class SupportThreads extends React.Component {
 			// Iterate over the timeline
 			for (const event of timeline) {
 				if (event.type === 'message' || event.type === 'whisper') {
+					// If the message contains the 'pendingagentresponse' tag, then we are
+					// waiting on a response from the agent and can break out of the loop
+					if (event.data.payload.message && event.data.payload.message.match(/#pendingagentresponse/gi)) {
+						break
+					}
+
 					// If the message contains the 'pendinguserresponse' tag, then we are
 					// waiting on a response from the user and can break out of the loop
 					if (event.data.payload.message && event.data.payload.message.match(/#pendinguserresponse/gi)) {
