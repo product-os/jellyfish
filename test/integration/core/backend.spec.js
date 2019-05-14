@@ -1331,77 +1331,6 @@ ava('.query() should not return unspecified properties', async (test) => {
 	])
 })
 
-ava('.query() should be able to provide a sort function', async (test) => {
-	const result1 = await test.context.backend.upsertElement(test.context.context, {
-		type: 'card',
-		slug: 'baz',
-		version: '1.0.0',
-		links: {},
-		tags: [],
-		markers: [],
-		requires: [],
-		data: {
-			test: 3
-		},
-		capabilities: [],
-		linked_at: {},
-		created_at: new Date().toISOString(),
-		updated_at: null,
-		active: true
-	})
-
-	const result2 = await test.context.backend.upsertElement(test.context.context, {
-		type: 'card',
-		slug: 'foo',
-		version: '1.0.0',
-		links: {},
-		data: {
-			test: 1
-		},
-		tags: [],
-		markers: [],
-		linked_at: {},
-		requires: [],
-		capabilities: [],
-		created_at: new Date().toISOString(),
-		updated_at: null,
-		active: true
-	})
-
-	const result3 = await test.context.backend.upsertElement(test.context.context, {
-		type: 'card',
-		slug: 'bar',
-		data: {
-			test: 2
-		},
-		version: '1.0.0',
-		links: {},
-		tags: [],
-		markers: [],
-		linked_at: {},
-		requires: [],
-		capabilities: [],
-		created_at: new Date().toISOString(),
-		updated_at: null,
-		active: true
-	})
-
-	const results = await test.context.backend.query(test.context.context, {
-		type: 'object',
-		$$sort: 'input.a.data.test > input.b.data.test',
-		additionalProperties: true,
-		properties: {
-			type: {
-				type: 'string',
-				const: 'card'
-			}
-		},
-		required: [ 'type' ]
-	})
-
-	test.deepEqual(results, [ result1, result3, result2 ])
-})
-
 ava('.query() should be able to limit the results', async (test) => {
 	const result1 = await test.context.backend.upsertElement(test.context.context, {
 		type: 'card',
@@ -2962,7 +2891,6 @@ ava('.query() should be able to query using links', async (test) => {
 	const results = await test.context.backend.query(test.context.context, {
 		type: 'object',
 		required: [ 'type', 'links', 'data' ],
-		$$sort: 'input.a.data.count < input.b.data.count',
 		$$links: {
 			'is attached to': {
 				type: 'object',
@@ -3001,6 +2929,8 @@ ava('.query() should be able to query using links', async (test) => {
 				}
 			}
 		}
+	}, {
+		sortBy: [ 'data', 'count' ]
 	})
 
 	test.deepEqual(results, [
