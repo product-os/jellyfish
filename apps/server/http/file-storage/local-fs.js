@@ -34,6 +34,10 @@ module.exports = class LocalFS {
 		return new Bluebird((resolve, reject) => {
 			fs.readFile(path.join(this.STORAGE_DIR, scope, name), (err, data) => {
 				if (err) {
+					if (err.code === 'ENOENT') {
+						return resolve(null)
+					}
+
 					return reject(err)
 				}
 

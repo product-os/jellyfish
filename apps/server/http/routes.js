@@ -333,6 +333,10 @@ module.exports = (application, jellyfish, worker, queue) => {
 
 		return fileStore.retrieve(
 			request.params.cardId, request.params.fileName).then((file) => {
+			if (!file) {
+				return response.status(404).end()
+			}
+
 			return response.status(200).send(file)
 		}).catch((error) => {
 			return sendHTTPError(request, response, error)

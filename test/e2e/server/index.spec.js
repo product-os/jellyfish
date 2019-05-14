@@ -28,6 +28,25 @@ const createUserDetails = () => {
 	}
 }
 
+ava.serial('should return 404 given a non existent attachment in a card', async (test) => {
+	// The current user can always see its own session
+	const result = await test.context.http(
+		'GET', `/api/v2/file/${test.context.session}/fil_3e7h9zv`)
+	test.deepEqual(result, {
+		code: 404,
+		response: 'Not Found'
+	})
+})
+
+ava.serial('should return 404 given an attachment in a non existent card', async (test) => {
+	const result = await test.context.http(
+		'GET', '/api/v2/file/23cb39dc-f333-4197-b332-c46812abadf9/fil_3e7h9zv')
+	test.deepEqual(result, {
+		code: 404,
+		response: 'Not Found'
+	})
+})
+
 ava.serial('The ping endpoint should continuously work', async (test) => {
 	const result1 = await test.context.http('GET', '/ping')
 	test.is(result1.code, 200)
