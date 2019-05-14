@@ -796,50 +796,6 @@ ava('.query() should be able to limit the results', async (test) => {
 	test.deepEqual(_.sortBy(results, [ 'data', 'test' ]), [ result1, result2 ])
 })
 
-ava('.query() should be able to sort the results', async (test) => {
-	const result1 = await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
-		slug: 'bar',
-		type: 'card',
-		version: '1.0.0',
-		data: {
-			test: 2
-		}
-	})
-
-	const result2 = await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
-		slug: 'baz',
-		type: 'card',
-		version: '1.0.0',
-		data: {
-			test: 3
-		}
-	})
-
-	const result3 = await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
-		slug: 'foo',
-		type: 'card',
-		version: '1.0.0',
-		data: {
-			test: 1
-		}
-	})
-
-	const results = await test.context.kernel.query(test.context.context, test.context.kernel.sessions.admin, {
-		type: 'object',
-		$$sort: 'input.a.data.test < input.b.data.test',
-		additionalProperties: true,
-		properties: {
-			type: {
-				type: 'string',
-				const: 'card'
-			}
-		},
-		required: [ 'type' ]
-	})
-
-	test.deepEqual(results, [ result3, result1, result2 ])
-})
-
 ava('.query() should be able to skip the results', async (test) => {
 	await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
 		slug: 'foo',
@@ -1963,7 +1919,6 @@ ava('.query() should not consider inactive links', async (test) => {
 	const results = await test.context.kernel.query(test.context.context, test.context.kernel.sessions.admin, {
 		type: 'object',
 		required: [ 'type', 'links', 'data' ],
-		$$sort: 'input.a.data.count < input.b.data.count',
 		$$links: {
 			'is attached to': {
 				type: 'object',
@@ -2147,7 +2102,6 @@ ava('.query() should be able to query using links', async (test) => {
 	const results = await test.context.kernel.query(test.context.context, test.context.kernel.sessions.admin, {
 		type: 'object',
 		required: [ 'type', 'links', 'data' ],
-		$$sort: 'input.a.data.count < input.b.data.count',
 		$$links: {
 			'is attached to': {
 				type: 'object',
@@ -2191,6 +2145,8 @@ ava('.query() should be able to query using links', async (test) => {
 				additionalProperties: false
 			}
 		}
+	}, {
+		sortBy: [ 'data', 'count' ]
 	})
 
 	test.deepEqual(results, [

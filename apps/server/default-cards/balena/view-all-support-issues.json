@@ -14,7 +14,6 @@
         "name": "All support issues",
         "schema": {
           "type": "object",
-          "$$sort": "input.a.name < input.b.name",
           "properties": {
             "type": {
               "type": "string",
