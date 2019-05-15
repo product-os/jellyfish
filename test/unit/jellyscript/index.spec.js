@@ -387,7 +387,7 @@ ava('.getTypeTriggers() should report back watchers when aggregating events', as
 				type: 'thread',
 				action: 'action-set-add',
 				target: {
-					$eval: 'source.data.target'
+					$eval: 'source.links[\'is attached to\'][0].id'
 				},
 				arguments: {
 					property: 'data.mentions',
@@ -401,24 +401,26 @@ ava('.getTypeTriggers() should report back watchers when aggregating events', as
 				},
 				filter: {
 					type: 'object',
+					$$links: {
+						'is attached to': {
+							type: 'object',
+							required: [ 'type' ],
+							properties: {
+								type: {
+									type: 'string',
+									const: 'thread'
+								}
+							}
+						}
+					},
 					required: [ 'data' ],
 					properties: {
 						data: {
 							type: 'object',
-							required: [ 'target', 'payload' ],
+							required: [ 'payload' ],
 							properties: {
 								payload: {
 									type: 'object'
-								},
-								target: {
-									type: 'object',
-									required: [ 'type' ],
-									properties: {
-										type: {
-											type: 'string',
-											const: 'thread'
-										}
-									}
 								}
 							}
 						}

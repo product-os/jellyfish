@@ -9,6 +9,28 @@
   "data": {
     "filter": {
       "type": "object",
+      "$$links": {
+        "is attached to": {
+          "type": "object",
+          "required": [ "type", "data" ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "support-thread"
+            },
+            "data": {
+              "type": "object",
+              "required": [ "status" ],
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "const": "open"
+                }
+              }
+            }
+          }
+        }
+      },
       "required": [
         "active",
         "type",
@@ -25,7 +47,7 @@
         },
         "data": {
           "type": "object",
-          "required": [ "payload", "target" ],
+          "required": [ "payload" ],
           "properties": {
             "payload": {
               "type": "object",
@@ -36,26 +58,6 @@
                   "pattern": "#summary"
                 }
               }
-            },
-            "target": {
-              "type": "object",
-              "required": [ "type", "data" ],
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "const": "support-thread"
-                },
-                "data": {
-                  "type": "object",
-                  "required": [ "status" ],
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "const": "open"
-                    }
-                  }
-                }
-              }
             }
           }
         }
@@ -63,7 +65,7 @@
     },
     "action": "action-update-card",
     "target": {
-      "$eval": "source.data.target"
+      "$eval": "source.links['is attached to'][0].id"
     },
     "arguments": {
       "reason": "Closed with #summary tag",

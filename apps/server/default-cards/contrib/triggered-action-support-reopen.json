@@ -8,12 +8,32 @@
   "active": true,
   "data": {
     "filter": {
+      "$$links": {
+        "is attached to": {
+          "type": "object",
+          "required": [ "type", "data" ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "support-thread"
+            },
+            "data": {
+              "type": "object",
+              "required": [ "status" ],
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "not": {
+                    "const": "open"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "type": "object",
-      "required": [
-        "active",
-        "type",
-        "data"
-      ],
+      "required": [ "active", "type" ],
       "properties": {
         "active": {
           "type": "boolean",
@@ -22,40 +42,12 @@
         "type": {
           "type": "string",
           "const": "message"
-        },
-        "data": {
-          "type": "object",
-          "required": [ "target" ],
-          "properties": {
-            "target": {
-              "type": "object",
-              "required": [ "type", "data" ],
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "const": "support-thread"
-                },
-                "data": {
-                  "type": "object",
-                  "required": [ "status" ],
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "not": {
-                        "const": "open"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
         }
       }
     },
     "action": "action-update-card",
     "target": {
-      "$eval": "source.data.target"
+      "$eval": "source.links['is attached to'][0].id"
     },
     "mode": "insert",
     "arguments": {

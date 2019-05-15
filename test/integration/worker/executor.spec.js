@@ -1446,7 +1446,7 @@ ava('.insertCard() should pre-register a triggered action if using AGGREGATE', a
 			id: test.context.triggers[0].id,
 			action: 'action-set-add',
 			card: {
-				$eval: 'source.data.target'
+				$eval: 'source.links[\'is attached to\'][0].id'
 			},
 			filter: test.context.triggers[0].filter,
 			arguments: {
