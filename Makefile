@@ -172,7 +172,7 @@ ESLINT_OPTION_FIX = --fix
 endif
 
 ifeq ($(COVERAGE),1)
-COVERAGE_COMMAND = ./node_modules/.bin/nyc --no-clean
+COVERAGE_COMMAND = ./node_modules/.bin/nyc --no-clean --exclude '**/*.spec.js'  --exclude '**/*.spec.jsx'
 else
 COVERAGE_COMMAND =
 endif
@@ -259,6 +259,9 @@ test-integration-%:
 test-e2e-%:
 	FILES="'./test/e2e/$(subst test-e2e-,,$@)/**/*.spec.{js,jsx}'" \
 		AVA_OPTS="--serial" make test
+
+test-ui:
+	FILES="'./lib/ui/**/*.spec.{js,jsx}'" SCRUB=0 make test
 
 ngrok-%:
 	ngrok start -config ./ngrok.yml $(subst ngrok-,,$@)
