@@ -20,12 +20,12 @@ ava('.isValidExternalEventRequest() should return false for an unknown integrati
 	test.false(result)
 })
 
-ava('.isValidExternalEventRequest() should return true given GitHub and no signature header', async (test) => {
+ava('.isValidExternalEventRequest() should return false given GitHub and no signature header', async (test) => {
 	const result = sync.isValidExternalEventRequest({
 		api: 'xxxxx',
 		signature: 'secret'
 	}, 'github', '....', {})
-	test.true(result)
+	test.false(result)
 })
 
 ava('.isValidExternalEventRequest() should return false given GitHub and a signature but no key', async (test) => {
