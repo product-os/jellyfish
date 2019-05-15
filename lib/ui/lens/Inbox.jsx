@@ -52,12 +52,12 @@ class Inbox extends React.Component {
 			markingAllAsRead: false
 		}
 
+		this.bindScrollArea = this.bindScrollArea.bind(this)
 		this.handleScroll = this.handleScroll.bind(this)
-
 		this.markAllAsRead = this.markAllAsRead.bind(this)
 	}
 
-	async handleCardVisible (card) {
+	async setCardRead (card) {
 		const userSlug = this.props.user.slug
 		if (card.type === 'message' || card.type === 'whisper') {
 			const message = _.get(card, [ 'data', 'payload', 'message' ], '')
@@ -82,6 +82,16 @@ class Inbox extends React.Component {
 		return null
 	}
 
+	async handleCardRead (event) {
+		const id = event.target.dataset.cardid
+
+		const card = _.find(this.props.tail, {
+			id
+		})
+
+		this.setCardRead(card)
+	}
+
 	async markAllAsRead () {
 		this.setState({
 			markingAllAsRead: true
@@ -91,7 +101,7 @@ class Inbox extends React.Component {
 			const cards = await sdk.query(INBOX_VIEW_SLUG)
 
 			await Bluebird.map(cards, (card) => {
-				return this.handleCardVisible(card)
+				return this.setCardRead(card)
 			})
 		} catch (error) {
 			this.props.actions.addNotification('danger', error.message || error)
@@ -123,6 +133,10 @@ class Inbox extends React.Component {
 		this.loadingPage = true
 		await this.props.setPage(this.props.page + 1)
 		this.loadingPage = false
+	}
+
+	bindScrollArea (ref) {
+		this.scrollArea = ref
 	}
 
 	render () {
@@ -160,9 +174,7 @@ class Inbox extends React.Component {
 				</Flex>
 
 				<div
-					ref={(ref) => {
-						this.scrollArea = ref
-					}}
+					ref={this.bindScrollArea}
 					onScroll={this.handleScroll}
 					style={{
 						flex: 1,
@@ -180,9 +192,8 @@ class Inbox extends React.Component {
 									card={card}
 									menuOptions={(
 										<ActionLink
-											onClick={() => {
-												this.handleCardVisible(card)
-											}}
+											data-cardid={card.id}
+											onClick={this.handleCardRead}
 										>
 											Mark as read
 										</ActionLink>

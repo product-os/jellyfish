@@ -102,6 +102,7 @@ class ViewRenderer extends React.Component {
 		}
 
 		const methods = [
+			'close',
 			'saveView',
 			'setLens',
 			'setPage',
@@ -113,6 +114,10 @@ class ViewRenderer extends React.Component {
 		})
 
 		this.updateFilters = _.debounce(this.updateFilters, 350)
+	}
+
+	close () {
+		this.props.actions.removeChannel(this.props.channel)
 	}
 
 	saveView ([ view ]) {
@@ -386,6 +391,7 @@ class ViewRenderer extends React.Component {
 		this.props.actions.streamView(syntheticViewCard)
 		return this.props.actions.loadViewResults(syntheticViewCard, this.getQueryOptions(this.state.activeLens))
 	}
+
 	render () {
 		const {
 			head
@@ -516,9 +522,7 @@ class ViewRenderer extends React.Component {
 								<CloseButton
 									ml={3}
 									mt={-3}
-									onClick={() => {
-										return this.props.actions.removeChannel(this.props.channel)
-									}}
+									onClick={this.close}
 								/>
 							</Flex>
 						</Flex>

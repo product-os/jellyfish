@@ -41,6 +41,10 @@ class SingleCard extends React.Component {
 				target: card.id
 			})
 		}
+
+		this.close = () => {
+			this.props.actions.removeChannel(this.props.channel)
+		}
 	}
 	shouldComponentUpdate (nextProps) {
 		return !circularDeepEqual(nextProps, this.props)
@@ -99,9 +103,7 @@ class SingleCard extends React.Component {
 
 						<CloseButton.CloseButton
 							ml={3}
-							onClick={() => {
-								return this.props.actions.removeChannel(this.props.channel)
-							}}
+							onClick={this.close}
 						/>
 					</rendition.Flex>)}
 				</rendition.Flex>

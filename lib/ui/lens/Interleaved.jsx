@@ -135,6 +135,7 @@ class Interleaved extends React.Component {
 			return this.scrollToBottom()
 		})
 		this.handleCardVisible = this.handleCardVisible.bind(this)
+		this.bindScrollArea = this.bindScrollArea.bind(this)
 	}
 	componentWillUpdate () {
 		if (!this.scrollArea) {
@@ -182,6 +183,10 @@ class Interleaved extends React.Component {
 				}
 			}
 		}
+	}
+
+	bindScrollArea (ref) {
+		this.scrollArea = ref
 	}
 
 	render () {
@@ -243,9 +248,7 @@ class Interleaved extends React.Component {
 				</rendition.Flex>
 
 				<div
-					ref={(ref) => {
-						this.scrollArea = ref
-					}}
+					ref={this.bindScrollArea}
 					onScroll={this.handleScroll}
 					style={{
 						flex: 1,

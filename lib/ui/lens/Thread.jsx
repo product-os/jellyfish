@@ -42,6 +42,10 @@ class Base extends React.Component {
 				head: card
 			})
 		}
+
+		this.close = () => {
+			return this.props.actions.removeChannel(this.props.channel)
+		}
 	}
 	shouldComponentUpdate (nextProps) {
 		return !circularDeepEqual(nextProps, this.props)
@@ -88,9 +92,7 @@ class Base extends React.Component {
 
 							<CloseButton.CloseButton
 								ml={3}
-								onClick={() => {
-									return this.props.actions.removeChannel(this.props.channel)
-								}}
+								onClick={this.close}
 							/>
 						</rendition.Flex>)}
 					</rendition.Flex>

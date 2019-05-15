@@ -35,6 +35,10 @@ class MyUser extends React.Component {
 
 		this.handleSendCommandChange = this.handleSendCommandChange.bind(this)
 
+		this.close = () => {
+			this.props.actions.removeChannel(this.props.channel)
+		}
+
 		this.state = {
 			updatingSendCommand: false
 		}
@@ -75,9 +79,7 @@ class MyUser extends React.Component {
 						<Flex align="center">
 							<CloseButton
 								ml={3}
-								onClick={() => {
-									return this.props.actions.removeChannel(this.props.channel)
-								}}
+								onClick={this.close}
 							/>
 						</Flex>
 					</Flex>

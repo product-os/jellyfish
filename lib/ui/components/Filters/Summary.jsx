@@ -21,7 +21,14 @@ class FilterSummary extends React.Component {
 			scope: this.props.scopes ? this.props.scopes[0].slug : null
 		}
 
+		this.toggleForm = () => {
+			this.setState({
+				showForm: !this.state.showForm
+			})
+		}
+
 		this.save = this.save.bind(this)
+		this.cancel = this.cancel.bind(this)
 	}
 
 	save (event) {
@@ -46,10 +53,22 @@ class FilterSummary extends React.Component {
 		})
 	}
 
+	cancel () {
+		this.setState({
+			showForm: false
+		})
+	}
+
 	handleChange (event) {
 		const name = event.target.value
 		this.setState({
 			name
+		})
+	}
+
+	handleVisibleToChange (event) {
+		this.setState({
+			scope: event.target.value
 		})
 	}
 
@@ -62,11 +81,7 @@ class FilterSummary extends React.Component {
 				{this.state.showForm && (
 					<Modal
 						title="Save current view"
-						cancel={() => {
-							return this.setState({
-								showForm: false
-							})
-						}}
+						cancel={this.cancel}
 						done={this.save}
 						action="Save"
 					>
@@ -79,12 +94,7 @@ class FilterSummary extends React.Component {
 										mt="-7px"
 										width="auto"
 										value={this.state.scope}
-										onChange={(event) => {
-											return this.setState({
-												scope: event.target.value
-											})
-										}
-										}
+										onChange={this.handleVisibleToChange}
 									>
 										{scopes.map(({
 											name, slug
@@ -103,9 +113,7 @@ class FilterSummary extends React.Component {
 								width="100%"
 								value={this.state.name}
 								placeholder="Enter a name for the view"
-								onChange={(event) => {
-									return this.handleChange(event)
-								}}
+								onChange={this.handleChange}
 								autoFocus
 							/>
 						</form>
@@ -119,8 +127,8 @@ class FilterSummary extends React.Component {
 									<FilterDescription
 										dark={this.props.dark}
 										filter={filter}
-										edit={() => { return this.props.edit(filter) }}
-										delete={() => { return this.props.delete(filter) }}
+										edit={this.props.edit}
+										delete={this.props.delete}
 									/>
 								</Box>
 							)
@@ -132,11 +140,7 @@ class FilterSummary extends React.Component {
 						plain
 						fontSize={13}
 						mt={-7}
-						onClick={() => {
-							return this.setState({
-								showForm: !this.state.showForm
-							})
-						}}
+						onClick={this.toggleForm}
 					>
 						<FaBookmarkO style={{
 							marginRight: 6

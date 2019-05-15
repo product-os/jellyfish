@@ -5,25 +5,15 @@
  */
 
 import clone from 'deep-copy'
-import * as _ from 'lodash'
 import * as React from 'react'
 import FaPieChart from 'react-icons/lib/fa/pie-chart'
-import FaTrash from 'react-icons/lib/fa/trash'
 import styled from 'styled-components'
 import {
 	Box,
-	DropDownButton,
-	Txt
+	DropDownButton
 } from 'rendition'
-import FilterDescription from './FilterDescription'
 
 const Wrapper = styled.div ``
-
-const UnstyledList = styled.ul `
-	list-style: none;
-	padding: 0 !important;
-	margin: 0;
-`
 
 const PlainPanel = styled.div `
 	border-radius: 2px;
@@ -75,10 +65,6 @@ export const ViewListItem = styled.li `
 	}
 `
 
-const ViewListItemLabel = styled(Txt) `
-	cursor: pointer;
-`
-
 class ViewsMenu extends React.Component {
 	constructor (props) {
 		super(props)
@@ -98,12 +84,9 @@ class ViewsMenu extends React.Component {
 
 	render () {
 		const {
-			views, renderMode, hasMultipleScopes
+			views, renderMode
 		} = this.props
 		const hasViews = views.length > 0
-		const groupedViews = _.groupBy(views, (item) => {
-			return item.scope || 'Unscoped'
-		})
 
 		let soloRender = false
 		if (renderMode) {
@@ -137,49 +120,6 @@ class ViewsMenu extends React.Component {
 								{'You haven\'t created any views yet'}
 							</Box>
 						)}
-						{hasViews &&
-							_.map(groupedViews, (items, scope) => {
-								return (
-									<Box key={scope}>
-										{hasMultipleScopes && (
-											<Txt fontSize={13} ml={20} mb={2} mt={2} color="#aaa">
-												{scope}
-											</Txt>
-										)}
-										<UnstyledList>
-											{items.map((view) => {
-												return (
-													<ViewListItem key={view.name}>
-														<ViewListItemLabel
-															m={0}
-															onClick={() => { return this.loadView(view) }}
-														>
-															{view.name}
-															<br />
-															<Txt m={0} fontSize={12} color="#aaa">
-																{view.filters.length} filter
-																{view.filters.length > 1 && 's'}
-															</Txt>
-														</ViewListItemLabel>
-														<button onClick={() => { return this.props.deleteView(view) }}>
-															<FaTrash name="trash" />
-														</button>
-														<Preview>
-															{view.filters.map((filter) => {
-																return (
-																	<Box mb={10} key={filter.$id}>
-																		<FilterDescription filter={filter} />
-																	</Box>
-																)
-															})}
-														</Preview>
-													</ViewListItem>
-												)
-											})}
-										</UnstyledList>
-									</Box>
-								)
-							})}
 					</Box>
 				</DropDownButton>
 			</Wrapper>

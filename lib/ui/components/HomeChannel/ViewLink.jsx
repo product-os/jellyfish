@@ -65,6 +65,7 @@ class ViewLinkBase extends React.Component {
 				showSettings: false
 			})
 		}
+		this.openSlice = this.openSlice.bind(this)
 		this.state = {
 			showMenu: false,
 			showSettings: false
@@ -75,6 +76,21 @@ class ViewLinkBase extends React.Component {
 	}
 	shouldComponentUpdate (nextProps, nextState) {
 		return !circularDeepEqual(nextState, this.state) || !circularDeepEqual(nextProps, this.props)
+	}
+	openSlice (event) {
+		event.preventDefault()
+
+		const title = event.target.dataset.slicetitle
+		const path = event.target.dataset.slicepath
+		const value = event.target.dataset.slicevalue
+
+		this.open({
+			slice: {
+				title,
+				path,
+				value
+			}
+		})
 	}
 	render () {
 		const {
@@ -165,16 +181,10 @@ class ViewLinkBase extends React.Component {
 												pl={4}
 												color="#333"
 												href={`#/view~${card.id}`}
-												onClick={(event) => {
-													event.preventDefault()
-													return this.open({
-														slice: {
-															title: slice.title,
-															path: slice.path,
-															value
-														}
-													})
-												}}
+												data-slicetitle={slice.title}
+												data-slicepath={slice.path}
+												data-slicevalue={value}
+												onClick={this.openSlice}
 											>
 												{slice.title}: {value}
 											</rendition.Link>

@@ -72,6 +72,8 @@ class UI extends React.Component {
 		this.state = {
 			spaces: []
 		}
+
+		this.handleResize = this.handleResize.bind(this)
 	}
 
 	// Space allocation algorithm is as follows:
@@ -132,6 +134,10 @@ class UI extends React.Component {
 		this.calcWidth(nextProps.channels)
 	}
 
+	handleResize () {
+		this.calcWidth(this.props.channels)
+	}
+
 	render () {
 		if (this.props.status === 'initializing') {
 			return <Splash.Splash />
@@ -161,9 +167,7 @@ class UI extends React.Component {
 				}}
 			>
 				<GlobalStyle />
-				<ReactResizeObserver onResize={() => {
-					this.calcWidth(this.props.channels)
-				}}/>
+				<ReactResizeObserver onResize={this.handleResize}/>
 
 				<Flex flex="1" style={{
 					height: '100%'

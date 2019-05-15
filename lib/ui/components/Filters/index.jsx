@@ -4,6 +4,7 @@
  * Proprietary and confidential.
  */
 
+/* eslint-disable react/jsx-no-bind */
 import clone from 'deep-copy'
 import * as _ from 'lodash'
 import * as React from 'react'

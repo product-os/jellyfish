@@ -85,6 +85,7 @@ const getHighlights = (card) => {
 class SupportThreadBase extends React.Component {
 	constructor (props) {
 		super(props)
+
 		this.close = () => {
 			sdk.card.update(this.props.card.id, _.merge({}, this.props.card, {
 				data: {
@@ -98,11 +99,23 @@ class SupportThreadBase extends React.Component {
 					this.props.actions.addNotification('danger', error.message || error)
 				})
 		}
+
 		this.handleExpandToggle = () => {
 			this.setState({
 				expanded: !this.state.expanded
 			})
 		}
+
+		this.closeChannel = () => {
+			return this.props.actions.removeChannel(this.props.channel)
+		}
+
+		this.toggleHighlights = () => {
+			this.setState({
+				showHighlights: !this.state.showHighlights
+			})
+		}
+
 		this.state = {
 			linkedSupportIssues: [],
 			linkedGitHubIssues: [],
@@ -327,9 +340,7 @@ class SupportThreadBase extends React.Component {
 
 							<CloseButton
 								ml={3}
-								onClick={() => {
-									return this.props.actions.removeChannel(this.props.channel)
-								}}
+								onClick={this.closeChannel}
 							/>
 						</Flex>
 					</Flex>
@@ -392,31 +403,34 @@ class SupportThreadBase extends React.Component {
 
 					{this.state.expanded && (
 						<React.Fragment>
-							{highlights.length > 0 && (<div>
-								<strong>
-									<Link mt={1} onClick={() => {
-										return this.setState({
-											showHighlights: !this.state.showHighlights
-										})
-									}}>
-													Highlights{' '}
-										<Icon name={`caret-${this.state.showHighlights ? 'down' : 'right'}`}/>
-									</Link>
-								</strong>
-							</div>)}
+							{highlights.length > 0 && (
+								<div>
+									<strong>
+										<Link
+											mt={1}
+											onClick={this.toggleHighlights}
+										>
+														Highlights{' '}
+											<Icon name={`caret-${this.state.showHighlights ? 'down' : 'right'}`}/>
+										</Link>
+									</strong>
+								</div>
+							)}
 
-							{this.state.showHighlights && (<Extract py={2}>
-								{_.map(highlights, (statusEvent) => {
-									return (
-										<Event
-											key={statusEvent.id}
-											card={statusEvent}
-											user={this.props.user}
-											mb={1}
-										/>
-									)
-								})}
-							</Extract>)}
+							{this.state.showHighlights && (
+								<Extract py={2}>
+									{_.map(highlights, (statusEvent) => {
+										return (
+											<Event
+												key={statusEvent.id}
+												card={statusEvent}
+												user={this.props.user}
+												mb={1}
+											/>
+										)
+									})}
+								</Extract>
+							)}
 
 							{Boolean(linkedSupportIssues && linkedSupportIssues.length) && (
 								<Txt><strong>Linked support issues</strong></Txt>

@@ -82,6 +82,9 @@ class Base extends React.Component {
 				target: id
 			})
 		}
+		this.close = () => {
+			this.props.actions.removeChannel(this.props.channel)
+		}
 		this.state = {
 			selectedUser: null,
 			addingMember: false
@@ -157,9 +160,7 @@ class Base extends React.Component {
 
 							<CloseButton.CloseButton
 								ml={3}
-								onClick={() => {
-									return this.props.actions.removeChannel(this.props.channel)
-								}}
+								onClick={this.close}
 							/>
 						</rendition.Flex>
 					)}

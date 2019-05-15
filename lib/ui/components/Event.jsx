@@ -55,6 +55,16 @@ import {
 import Gravatar from '../shame/Gravatar'
 import Icon from '../shame/Icon'
 
+const getAttachments = (card) => {
+	return _.get(card, [ 'data', 'payload', 'attachments' ], []).map((attachment) => {
+		return {
+			slug: attachment.url.split('/').pop(),
+			mime: attachment.mime,
+			name: attachment.name
+		}
+	})
+}
+
 const tagMatchRE = helpers.createPrefixRegExp('@|#|!')
 const EventButton = styled.button `
 	cursor: pointer;
@@ -231,6 +241,7 @@ class Event extends React.Component {
 		}
 
 		this.handleVisibilityChange = this.handleVisibilityChange.bind(this)
+		this.downloadAttachment = this.downloadAttachment.bind(this)
 	}
 
 	shouldComponentUpdate (nextProps, nextState) {
@@ -241,11 +252,18 @@ class Event extends React.Component {
 		this.processText()
 	}
 
-	downloadAttachment ({
-		slug,
-		name,
-		mime
-	}) {
+	downloadAttachment (event) {
+		const attachments = getAttachments(this.props.card)
+		const attachmentSlug = event.target.dataset.attachmentSlug
+		const attachment = _.find(attachments, {
+			slug: attachmentSlug
+		})
+		const {
+			slug,
+			name,
+			mime
+		} = attachment
+
 		sdk.getFile(this.props.card.id, slug)
 			.then((data) => {
 				const blob = new Blob([ data ], {
@@ -358,13 +376,7 @@ class Event extends React.Component {
 			slicedMessage += '...'
 		}
 
-		const attachments = _.get(card, [ 'data', 'payload', 'attachments' ], []).map((attachment) => {
-			return {
-				slug: attachment.url.split('/').pop(),
-				mime: attachment.mime,
-				name: attachment.name
-			}
-		})
+		const attachments = getAttachments(card)
 
 		if (_.get(card, [ 'data', 'payload', 'file' ])) {
 			attachments.push(card.data.payload.file)
@@ -459,9 +471,8 @@ class Event extends React.Component {
 							return (
 								<Button
 									key={attachment.url}
-									onClick={() => {
-										this.downloadAttachment(attachment)
-									}}
+									data-attachmentslug={attachment.slug}
+									onClick={this.downloadAttachment}
 									data-test="event-card__file"
 									mr={2}
 									mb={2}

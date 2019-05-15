@@ -72,6 +72,8 @@ class TimelineRenderer extends React.Component {
 			pendingMessages: []
 		}
 
+		this.bindScrollArea = this.bindScrollArea.bind(this)
+		this.bindFileInput = this.bindFileInput.bind(this)
 		this.handleCardVisible = this.handleCardVisible.bind(this)
 		this.toggleWhisper = this.toggleWhisper.bind(this)
 		this.handleFileChange = this.handleFileChange.bind(this)
@@ -287,6 +289,14 @@ class TimelineRenderer extends React.Component {
 			})
 	}
 
+	bindScrollArea (ref) {
+		this.scrollArea = ref
+	}
+
+	bindFileInput (ref) {
+		this.fileInputElement = ref
+	}
+
 	render () {
 		const head = this.props.card
 		const {
@@ -337,9 +347,7 @@ class TimelineRenderer extends React.Component {
 				</Flex>
 
 				<div
-					ref={(ref) => {
-						this.scrollArea = ref
-					}}
+					ref={this.bindScrollArea}
 					style={{
 						flex: 1,
 						overflowY: 'auto',
@@ -435,9 +443,7 @@ class TimelineRenderer extends React.Component {
 								display: 'none'
 							}}
 							type="file"
-							ref={(el) => {
-								this.fileInputElement = el
-							}}
+							ref={this.bindFileInput}
 							onChange={this.handleFileChange}
 						/>
 					</Flex>
