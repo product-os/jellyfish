@@ -302,7 +302,6 @@ ava('.insertCard() should pass a triggered action originator', async (test) => {
 			},
 			action: 'action-test-originator',
 			card: typeCard.id,
-			type: typeCard.type,
 			arguments: {
 				properties: {
 					slug: 'foo-bar-baz'
@@ -355,7 +354,6 @@ ava('.insertCard() should take an originator option', async (test) => {
 			},
 			action: 'action-test-originator',
 			card: typeCard.id,
-			type: typeCard.type,
 			arguments: {
 				properties: {
 					slug: 'foo-bar-baz'
@@ -411,7 +409,6 @@ ava('.execute() should execute a triggered action', async (test) => {
 			},
 			action: 'action-create-card',
 			card: typeCard.id,
-			type: typeCard.type,
 			arguments: {
 				reason: null,
 				properties: {
@@ -483,7 +480,6 @@ ava('.execute() should detect an upsert to a non-existent card as an insert', as
 			mode: 'insert',
 			action: 'action-upsert-card',
 			card: typeCard.id,
-			type: typeCard.type,
 			arguments: {
 				reason: null,
 				properties: {
@@ -555,7 +551,6 @@ ava('.execute() should execute a triggered action given a matching mode', async 
 			mode: 'insert',
 			action: 'action-create-card',
 			card: typeCard.id,
-			type: typeCard.type,
 			arguments: {
 				reason: null,
 				properties: {
@@ -627,7 +622,6 @@ ava('.execute() should not execute a triggered action given a non matching mode'
 			mode: 'update',
 			action: 'action-create-card',
 			card: typeCard.id,
-			type: typeCard.type,
 			arguments: {
 				reason: null,
 				properties: {
@@ -699,7 +693,6 @@ ava('.execute() should not execute a triggered action with a future start date',
 			startDate: '2500-01-01T00:00:00.000Z',
 			action: 'action-create-card',
 			card: typeCard.id,
-			type: typeCard.type,
 			arguments: {
 				reason: null,
 				properties: {
@@ -774,7 +767,6 @@ ava('.execute() should execute a triggered action with a top level anyOf', async
 			},
 			action: 'action-create-card',
 			card: typeCard.id,
-			type: typeCard.type,
 			arguments: {
 				reason: null,
 				properties: {
@@ -1243,7 +1235,6 @@ ava('.setTriggers() should be able to set a trigger with a start date', (test) =
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: 'action-foo-bar',
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			type: 'card',
 			startDate: '2008-01-01T00:00:00.000Z',
 			filter: {
 				type: 'object'
@@ -1261,7 +1252,6 @@ ava('.setTriggers() should be able to set a trigger with a start date', (test) =
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: 'action-foo-bar',
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			type: 'card',
 			startDate: '2008-01-01T00:00:00.000Z',
 			filter: {
 				type: 'object'
@@ -1279,7 +1269,6 @@ ava('.setTriggers() should be able to set a trigger with an interval', (test) =>
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: 'action-foo-bar',
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			type: 'card',
 			interval: 'PT1H',
 			arguments: {
 				foo: 'bar'
@@ -1294,7 +1283,6 @@ ava('.setTriggers() should be able to set a trigger with an interval', (test) =>
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: 'action-foo-bar',
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			type: 'card',
 			interval: 'PT1H',
 			arguments: {
 				foo: 'bar'
@@ -1309,7 +1297,6 @@ ava('.setTriggers() should be able to set triggers', (test) => {
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: 'action-foo-bar',
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			type: 'card',
 			filter: {
 				type: 'object'
 			},
@@ -1338,7 +1325,6 @@ ava('.setTriggers() should be able to set triggers', (test) => {
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: 'action-foo-bar',
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			type: 'card',
 			filter: {
 				type: 'object'
 			},
@@ -1350,7 +1336,6 @@ ava('.setTriggers() should be able to set triggers', (test) => {
 			id: 'd6cacdef-f53b-4b5b-8aa2-8476e48248a4',
 			action: 'action-foo-bar',
 			card: 'a13474e4-7b44-453b-9f3e-aa783b8f37ea',
-			type: 'card',
 			filter: {
 				type: 'object'
 			},
@@ -1369,7 +1354,6 @@ ava('.setTriggers() should not store extra properties', (test) => {
 			bar: 'baz',
 			action: 'action-foo-bar',
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			type: 'card',
 			filter: {
 				type: 'object'
 			},
@@ -1386,7 +1370,6 @@ ava('.setTriggers() should not store extra properties', (test) => {
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: 'action-foo-bar',
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			type: 'card',
 			filter: {
 				type: 'object'
 			},
@@ -1404,7 +1387,6 @@ ava('.setTriggers() should store a mode', (test) => {
 			mode: 'update',
 			action: 'action-foo-bar',
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			type: 'card',
 			filter: {
 				type: 'object'
 			},
@@ -1422,7 +1404,6 @@ ava('.setTriggers() should store a mode', (test) => {
 			action: 'action-foo-bar',
 			mode: 'update',
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			type: 'card',
 			filter: {
 				type: 'object'
 			},
@@ -1439,7 +1420,6 @@ ava('.setTriggers() should throw if no interval nor filter', (test) => {
 			{
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-				type: 'card',
 				action: 'action-create-card',
 				arguments: {
 					reason: null,
@@ -1457,7 +1437,6 @@ ava('.setTriggers() should throw if mode is not a string', (test) => {
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				action: 'action-foo-bar',
 				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-				type: 'card',
 				mode: 1,
 				filter: {
 					type: 'object'
@@ -1480,7 +1459,6 @@ ava('.setTriggers() should throw if both interval and filter', (test) => {
 				filter: {
 					type: 'object'
 				},
-				type: 'card',
 				action: 'action-create-card',
 				arguments: {
 					reason: null,
@@ -1496,7 +1474,6 @@ ava('.setTriggers() should throw if no id', (test) => {
 		test.context.worker.setTriggers(test.context.context, [
 			{
 				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-				type: 'card',
 				action: 'action-create-card',
 				filter: {
 					type: 'object'
@@ -1516,7 +1493,6 @@ ava('.setTriggers() should throw if id is not a string', (test) => {
 			{
 				id: 999,
 				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-				type: 'card',
 				action: 'action-create-card',
 				filter: {
 					type: 'object'
@@ -1536,7 +1512,6 @@ ava('.setTriggers() should throw if interval is not a string', (test) => {
 			{
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-				type: 'card',
 				action: 'action-create-card',
 				interval: 999,
 				arguments: {
@@ -1554,7 +1529,6 @@ ava('.setTriggers() should throw if no action', (test) => {
 			{
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-				type: 'card',
 				filter: {
 					type: 'object'
 				},
@@ -1573,7 +1547,6 @@ ava('.setTriggers() should throw if action is not a string', (test) => {
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				action: 1,
 				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-				type: 'card',
 				filter: {
 					type: 'object'
 				},
@@ -1591,7 +1564,6 @@ ava('.setTriggers() should throw if no card', (test) => {
 			{
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				action: 'action-create-card',
-				type: 'card',
 				filter: {
 					type: 'object'
 				},
@@ -1611,7 +1583,6 @@ ava('.setTriggers() should throw if card is not a string', (test) => {
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				action: 'action-create-card',
 				card: 1,
-				type: 'card',
 				filter: {
 					type: 'object'
 				},
@@ -1630,7 +1601,6 @@ ava('.setTriggers() should throw if no filter', (test) => {
 			{
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				action: 'action-create-card',
-				type: 'card',
 				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 				arguments: {
 					reason: null,
@@ -1647,7 +1617,6 @@ ava('.setTriggers() should throw if filter is not an object', (test) => {
 			{
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				action: 'action-create-card',
-				type: 'card',
 				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 				filter: 'foo',
 				arguments: {
@@ -1665,7 +1634,6 @@ ava('.setTriggers() should throw if no arguments', (test) => {
 			{
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				action: 'action-create-card',
-				type: 'card',
 				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 				filter: {
 					type: 'object'
@@ -1681,7 +1649,6 @@ ava('.setTriggers() should throw if arguments is not an object', (test) => {
 			{
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				action: 'action-create-card',
-				type: 'card',
 				card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 				filter: {
 					type: 'object'
@@ -1708,7 +1675,6 @@ ava('.tick() should not enqueue actions if there are no time triggers', async (t
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: 'action-foo-bar',
-			type: 'card',
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			filter: {
 				type: 'object'
@@ -1733,7 +1699,6 @@ ava('.tick() should not enqueue an action if there is a time trigger with a futu
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: 'action-foo-bar',
-			type: 'card',
 			card: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			interval: 'PT1H',
 			startDate: '2018-09-05T12:00:00.000Z',
@@ -1825,8 +1790,7 @@ ava('.tick() should enqueue an action if there is a time trigger with a past sta
 		type: 'action-request',
 		data: {
 			input: {
-				id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-				type: 'card'
+				id: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
 			},
 			context: test.context.context,
 			action: actionCard.slug,
@@ -1881,8 +1845,7 @@ ava('.tick() should enqueue an action if there is a time trigger with a present 
 		type: 'action-request',
 		data: {
 			input: {
-				id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-				type: 'card'
+				id: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
 			},
 			context: test.context.context,
 			action: actionCard.slug,
@@ -1998,8 +1961,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 			type: 'action-request',
 			data: {
 				input: {
-					id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-					type: 'card'
+					id: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
 				},
 				context: test.context.context,
 				action: actionCard.slug,
@@ -2025,8 +1987,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 			type: 'action-request',
 			data: {
 				input: {
-					id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-					type: 'card'
+					id: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
 				},
 				context: test.context.context,
 				action: actionCard.slug,

@@ -1119,7 +1119,6 @@ ava('.insertCard() should remove previously inserted type triggered actions if i
 				},
 				action: 'action-create-card',
 				target: typeCard.id,
-				targetType: typeCard.type,
 				arguments: {
 					properties: {
 						slug: {
@@ -1161,7 +1160,6 @@ ava('.insertCard() should remove previously inserted type triggered actions if i
 				},
 				action: 'action-create-card',
 				target: typeCard.id,
-				targetType: typeCard.type,
 				arguments: {
 					properties: {
 						slug: {
@@ -1270,7 +1268,6 @@ ava('.insertCard() should remove previously inserted type triggered actions if d
 			},
 			action: 'action-create-card',
 			target: typeCard.id,
-			targetType: typeCard.type,
 			arguments: {
 				properties: {
 					slug: {
@@ -1397,7 +1394,6 @@ ava('.insertCard() should add a triggered action given a type with an AGGREGATE 
 			data: {
 				type: 'test-thread',
 				target: triggers[0].data.target,
-				targetType: triggers[0].data.targetType,
 				action: triggers[0].data.action,
 				arguments: triggers[0].data.arguments,
 				filter: triggers[0].data.filter
@@ -1449,7 +1445,6 @@ ava('.insertCard() should pre-register a triggered action if using AGGREGATE', a
 		{
 			id: test.context.triggers[0].id,
 			action: 'action-set-add',
-			type: 'test-thread',
 			card: {
 				$eval: 'source.data.target'
 			},
