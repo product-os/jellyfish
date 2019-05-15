@@ -2601,15 +2601,16 @@ ava.cb('.stream() should report back inactive elements', (test) => {
 		emitter.on('error', test.end)
 		emitter.on('closed', test.end)
 
-		return test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
-			slug: 'card-bar',
-			active: false,
-			type: 'card',
-			version: '1.0.0',
-			data: {
-				test: 2
-			}
-		})
+		return test.context.kernel.insertCard(
+			test.context.context, test.context.kernel.sessions.admin, {
+				slug: 'card-bar',
+				active: false,
+				type: 'card',
+				version: '1.0.0',
+				data: {
+					test: 2
+				}
+			})
 	}).catch(test.end)
 })
 
@@ -2630,8 +2631,12 @@ ava('.lock() should be able to lock a non-locked slug', async (test) => {
 		data: {}
 	}
 
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, card)
+
 	const result = await test.context.kernel.lock(
-		test.context.context, '4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
+		test.context.context, test.context.kernel.sessions.admin,
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
 	test.is(result, card.slug)
 })
 
@@ -2652,12 +2657,17 @@ ava('.unlock() should be able to unlock a locked slug by the same owner', async 
 		data: {}
 	}
 
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, card)
+
 	const lockResult = await test.context.kernel.lock(
-		test.context.context, '4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
+		test.context.context, test.context.kernel.sessions.admin,
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
 	test.is(lockResult, card.slug)
 
 	const unlockResult = await test.context.kernel.unlock(
-		test.context.context, '4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
+		test.context.context, test.context.kernel.sessions.admin,
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
 	test.is(unlockResult, card.slug)
 })
 
@@ -2678,21 +2688,303 @@ ava('.lock() should not let the same owner take a lock twice without unlocking',
 		data: {}
 	}
 
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, card)
+
 	const lockResult1 = await test.context.kernel.lock(
-		test.context.context, '4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
+		test.context.context, test.context.kernel.sessions.admin,
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
 	test.is(lockResult1, card.slug)
 
 	const lockResult2 = await test.context.kernel.lock(
-		test.context.context, '4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
+		test.context.context, test.context.kernel.sessions.admin,
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
 	test.falsy(lockResult2)
 
 	const unlockResult = await test.context.kernel.unlock(
-		test.context.context, '4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
+		test.context.context, test.context.kernel.sessions.admin,
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
 	test.is(unlockResult, card.slug)
 
 	const lockResult3 = await test.context.kernel.lock(
-		test.context.context, '4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
+		test.context.context, test.context.kernel.sessions.admin,
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
 	test.is(lockResult3, card.slug)
+})
+
+ava('.lock() should not let a user lock a card it does not have access to', async (test) => {
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'view-read-user-johndoe',
+			type: 'view',
+			version: '1.0.0',
+			data: {
+				allOf: [
+					{
+						name: 'Types',
+						schema: {
+							type: 'object',
+							properties: {
+								slug: {
+									type: 'string',
+									anyOf: [
+										{
+											const: 'user'
+										},
+										{
+											const: 'type'
+										}
+									]
+								},
+								type: {
+									type: 'string',
+									const: 'type'
+								},
+								data: {
+									type: 'object',
+									additionalProperties: true
+								}
+							},
+							required: [ 'slug', 'type', 'data' ]
+						}
+					}
+				]
+			}
+		})
+
+	const userCard = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'user-johndoe',
+			type: 'user',
+			version: '1.0.0',
+			data: {
+				email: 'johndoe@example.com',
+				roles: []
+			}
+		})
+
+	const session = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: test.context.generateRandomSlug({
+				prefix: 'session'
+			}),
+			type: 'session',
+			version: '1.0.0',
+			data: {
+				actor: userCard.id
+			}
+		})
+
+	const card = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'locktest-1234',
+			links: {},
+			type: 'card',
+			version: '1.0.0',
+			tags: [],
+			markers: [],
+			linked_at: {},
+			requires: [],
+			capabilities: [],
+			created_at: new Date().toISOString(),
+			updated_at: null,
+			active: true,
+			data: {}
+		})
+
+	const result = await test.context.kernel.getCardById(
+		test.context.context, session.id, card.id)
+	test.falsy(result)
+
+	const lockResult = await test.context.kernel.lock(
+		test.context.context, session.id,
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
+	test.falsy(lockResult)
+})
+
+ava('.unlock() should not let a user unlock an unlocked card it does not have access to', async (test) => {
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'view-read-user-johndoe',
+			type: 'view',
+			version: '1.0.0',
+			data: {
+				allOf: [
+					{
+						name: 'Types',
+						schema: {
+							type: 'object',
+							properties: {
+								slug: {
+									type: 'string',
+									anyOf: [
+										{
+											const: 'user'
+										},
+										{
+											const: 'type'
+										}
+									]
+								},
+								type: {
+									type: 'string',
+									const: 'type'
+								},
+								data: {
+									type: 'object',
+									additionalProperties: true
+								}
+							},
+							required: [ 'slug', 'type', 'data' ]
+						}
+					}
+				]
+			}
+		})
+
+	const userCard = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'user-johndoe',
+			type: 'user',
+			version: '1.0.0',
+			data: {
+				email: 'johndoe@example.com',
+				roles: []
+			}
+		})
+
+	const session = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: test.context.generateRandomSlug({
+				prefix: 'session'
+			}),
+			type: 'session',
+			version: '1.0.0',
+			data: {
+				actor: userCard.id
+			}
+		})
+
+	const card = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'locktest-1234',
+			links: {},
+			type: 'card',
+			version: '1.0.0',
+			tags: [],
+			markers: [],
+			linked_at: {},
+			requires: [],
+			capabilities: [],
+			created_at: new Date().toISOString(),
+			updated_at: null,
+			active: true,
+			data: {}
+		})
+
+	const result = await test.context.kernel.getCardById(
+		test.context.context, session.id, card.id)
+	test.falsy(result)
+
+	const unlockResult = await test.context.kernel.unlock(
+		test.context.context, session.id,
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
+	test.falsy(unlockResult)
+})
+
+ava('.unlock() should not let a user unlock a locked card it does not have access to', async (test) => {
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'view-read-user-johndoe',
+			type: 'view',
+			version: '1.0.0',
+			data: {
+				allOf: [
+					{
+						name: 'Types',
+						schema: {
+							type: 'object',
+							properties: {
+								slug: {
+									type: 'string',
+									anyOf: [
+										{
+											const: 'user'
+										},
+										{
+											const: 'type'
+										}
+									]
+								},
+								type: {
+									type: 'string',
+									const: 'type'
+								},
+								data: {
+									type: 'object',
+									additionalProperties: true
+								}
+							},
+							required: [ 'slug', 'type', 'data' ]
+						}
+					}
+				]
+			}
+		})
+
+	const userCard = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'user-johndoe',
+			type: 'user',
+			version: '1.0.0',
+			data: {
+				email: 'johndoe@example.com',
+				roles: []
+			}
+		})
+
+	const session = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: test.context.generateRandomSlug({
+				prefix: 'session'
+			}),
+			type: 'session',
+			version: '1.0.0',
+			data: {
+				actor: userCard.id
+			}
+		})
+
+	const card = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'locktest-1234',
+			links: {},
+			type: 'card',
+			version: '1.0.0',
+			tags: [],
+			markers: [],
+			linked_at: {},
+			requires: [],
+			capabilities: [],
+			created_at: new Date().toISOString(),
+			updated_at: null,
+			active: true,
+			data: {}
+		})
+
+	const result = await test.context.kernel.getCardById(
+		test.context.context, session.id, card.id)
+	test.falsy(result)
+
+	const lockResult = await test.context.kernel.lock(
+		test.context.context, test.context.kernel.sessions.admin,
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
+	test.is(lockResult, 'locktest-1234')
+
+	const unlockResult = await test.context.kernel.unlock(
+		test.context.context, session.id,
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
+	test.falsy(unlockResult)
 })
 
 ava('.unlock() should be able to let other owner take the same slug', async (test) => {
@@ -2712,16 +3004,22 @@ ava('.unlock() should be able to let other owner take the same slug', async (tes
 		data: {}
 	}
 
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, card)
+
 	const lockResult1 = await test.context.kernel.lock(
-		test.context.context, '4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
+		test.context.context, test.context.kernel.sessions.admin,
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
 	test.is(lockResult1, card.slug)
 
 	const unlockResult = await test.context.kernel.unlock(
-		test.context.context, '4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
+		test.context.context, test.context.kernel.sessions.admin,
+		'4a962ad9-20b5-4dd8-a707-bf819593cc84', card)
 	test.is(unlockResult, card.slug)
 
 	const lockResult2 = await test.context.kernel.lock(
-		test.context.context, '98853c0c-d055-4d25-a7be-682a2d5decc5', card)
+		test.context.context, test.context.kernel.sessions.admin,
+		'98853c0c-d055-4d25-a7be-682a2d5decc5', card)
 	test.is(lockResult2, card.slug)
 })
 
