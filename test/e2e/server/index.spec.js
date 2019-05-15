@@ -600,7 +600,7 @@ const githubAvaTest = environment.getIntegrationToken('github')
 	? ava.serial
 	: ava.skip
 
-githubAvaTest('should be able to post a GitHub event without a signature', async (test) => {
+githubAvaTest('should not be able to post a GitHub event without a signature', async (test) => {
 	const result = await test.context.http('POST', '/api/v2/hooks/github', {
 		foo: 'bar',
 		bar: 'baz',
@@ -609,51 +609,8 @@ githubAvaTest('should be able to post a GitHub event without a signature', async
 		}
 	})
 
-	test.is(result.code, 200)
-	test.false(result.response.error)
-
-	const requestResult = await test.context.queue.waitResults(
-		test.context.context, result.response.data)
-
-	test.false(requestResult.error)
-	const card = await test.context.jellyfish.getCardById(test.context.context,
-		test.context.session, requestResult.data.id, {
-			type: 'external-event'
-		})
-
-	test.deepEqual(card, {
-		created_at: card.created_at,
-		updated_at: null,
-		linked_at: card.linked_at,
-		id: requestResult.data.id,
-		type: 'external-event',
-		name: null,
-		slug: requestResult.data.slug,
-		version: '1.0.0',
-		active: true,
-		tags: [],
-		markers: [],
-		links: card.links,
-		requires: [],
-		capabilities: [],
-		data: {
-			source: 'github',
-			headers: {
-				accept: 'application/json',
-				connection: 'close',
-				'content-length': '54',
-				'content-type': 'application/json',
-				host: `localhost:${test.context.server.port}`
-			},
-			payload: {
-				foo: 'bar',
-				bar: 'baz',
-				sender: {
-					login: 'johndoe'
-				}
-			}
-		}
-	})
+	test.is(result.code, 401)
+	test.true(result.response.error)
 })
 
 githubAvaTest('should take a GitHub event with a valid signature', async (test) => {
