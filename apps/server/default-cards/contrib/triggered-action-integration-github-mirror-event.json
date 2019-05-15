@@ -27,9 +27,6 @@
     "target": {
       "$eval": "source.id"
     },
-    "targetType": {
-      "$eval": "source.type"
-    },
     "arguments": {}
   },
   "requires": [],

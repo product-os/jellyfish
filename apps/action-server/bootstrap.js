@@ -43,46 +43,6 @@ const getActorKey = async (context, jellyfish, session, actorId) => {
 	})
 }
 
-const getTriggerTargetType = (trigger) => {
-	if (trigger.data.targetType) {
-		return trigger.data.targetType
-	}
-
-	if (trigger.data.target.$eval === 'source.data.target' && _.has(trigger, [
-		'data',
-		'filter',
-		'properties',
-		'data',
-		'properties',
-		'target',
-		'properties',
-		'type',
-		'const'
-	])) {
-		return _.get(trigger, [
-			'data',
-			'filter',
-			'properties',
-			'data',
-			'properties',
-			'target',
-			'properties',
-			'type',
-			'const'
-		])
-	}
-
-	return _.get(trigger, [
-		'data',
-		'filter',
-		'properties',
-		'type',
-		'const'
-	], {
-		$eval: 'source.type'
-	})
-}
-
 const SCHEMA_ACTIVE_TRIGGERS = {
 	type: 'object',
 	properties: {
@@ -187,12 +147,9 @@ const bootstrap = async (context, library, options) => {
 		})
 
 		worker.setTriggers(context, triggers.map((trigger) => {
-			const targetType = getTriggerTargetType(trigger)
-
 			const object = {
 				id: trigger.id,
 				action: trigger.data.action,
-				type: targetType,
 				card: trigger.data.target,
 				arguments: trigger.data.arguments
 			}

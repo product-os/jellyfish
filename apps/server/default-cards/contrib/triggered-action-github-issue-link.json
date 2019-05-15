@@ -50,9 +50,6 @@
     "target": {
       "$eval": "source.data.to.id"
     },
-    "targetType": {
-      "$eval": "source.data.to.type"
-    },
     "arguments": {
       "message": "This ${source.data.inverseName} https://jel.ly.fish/#/${source.data.from.type}~${source.data.from.id}"
     }

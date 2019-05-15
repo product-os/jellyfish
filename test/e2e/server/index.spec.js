@@ -713,7 +713,6 @@ ava.serial('should add and evaluate a time triggered action', async (test) => {
 		data: {
 			action: 'action-create-card',
 			target: typeCard.id,
-			targetType: typeCard.type,
 			interval: 'PT1S',
 			arguments: {
 				reason: null,

@@ -29,7 +29,6 @@ ava('.getRequest() should return null if the filter only has a type but there is
 		},
 		action: 'action-create-card',
 		card: typeCard.id,
-		type: typeCard.type,
 		arguments: {
 			properties: {
 				slug: 'foo-bar-baz'
@@ -80,7 +79,6 @@ ava('.getRequest() should return a request if the filter only has a type and the
 		},
 		action: 'action-create-card',
 		card: typeCard.id,
-		type: typeCard.type,
 		arguments: {
 			properties: {
 				slug: 'foo-bar-baz'
@@ -117,7 +115,6 @@ ava('.getRequest() should return a request if the filter only has a type and the
 		action: 'action-create-card',
 		currentDate: date,
 		card: typeCard.id,
-		type: typeCard.type,
 		context: test.context.context,
 		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 		arguments: {
@@ -145,7 +142,6 @@ ava('.getRequest() should return a request if the input match card is null', asy
 		},
 		action: 'action-create-card',
 		card: typeCard.id,
-		type: typeCard.type,
 		arguments: {
 			properties: {
 				slug: 'foo-bar-baz'
@@ -175,7 +171,6 @@ ava('.getRequest() should return a request if the input match card is null', asy
 		currentDate: date,
 		card: typeCard.id,
 		context: test.context.context,
-		type: typeCard.type,
 		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 		arguments: {
 			properties: {
@@ -202,7 +197,6 @@ ava('.getRequest() should return a request if both the input card and the match 
 		},
 		action: 'action-create-card',
 		card: typeCard.id,
-		type: typeCard.type,
 		arguments: {
 			properties: {
 				slug: 'foo-bar-baz'
@@ -224,7 +218,6 @@ ava('.getRequest() should return a request if both the input card and the match 
 		currentDate: date,
 		card: typeCard.id,
 		context: test.context.context,
-		type: typeCard.type,
 		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 		arguments: {
 			properties: {
@@ -251,7 +244,6 @@ ava('.getRequest() should return null if referencing source when no input card',
 		},
 		action: 'action-create-card',
 		card: typeCard.id,
-		type: typeCard.type,
 		arguments: {
 			properties: {
 				slug: {
@@ -297,7 +289,6 @@ ava('.getRequest() should return a request given a complex matching filter', asy
 		},
 		action: 'action-create-card',
 		card: typeCard.id,
-		type: typeCard.type,
 		arguments: {
 			properties: {
 				slug: 'foo-bar-baz'
@@ -339,7 +330,6 @@ ava('.getRequest() should return a request given a complex matching filter', asy
 		currentDate: date,
 		card: typeCard.id,
 		context: test.context.context,
-		type: typeCard.type,
 		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 		arguments: {
 			properties: {
@@ -374,7 +364,6 @@ ava('.getRequest() should return null given a complex non-matching filter', asyn
 		},
 		action: 'action-create-card',
 		card: typeCard.id,
-		type: typeCard.type,
 		arguments: {
 			properties: {
 				slug: 'foo-bar-baz'
@@ -435,7 +424,6 @@ ava('.getRequest() should parse source templates in the triggered action argumen
 		},
 		action: 'action-create-card',
 		card: typeCard.id,
-		type: typeCard.type,
 		arguments: {
 			properties: {
 				slug: {
@@ -486,7 +474,6 @@ ava('.getRequest() should parse source templates in the triggered action argumen
 	test.deepEqual(request, {
 		action: 'action-create-card',
 		card: typeCard.id,
-		type: typeCard.type,
 		context: test.context.context,
 		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 		currentDate: date,
@@ -523,7 +510,6 @@ ava('.getRequest() should return the request if the mode matches on update', asy
 		},
 		action: 'action-create-card',
 		card: typeCard.id,
-		type: typeCard.type,
 		mode: 'update',
 		arguments: {
 			properties: {
@@ -575,7 +561,6 @@ ava('.getRequest() should return the request if the mode matches on update', asy
 	test.deepEqual(request, {
 		action: 'action-create-card',
 		card: typeCard.id,
-		type: typeCard.type,
 		context: test.context.context,
 		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 		currentDate: date,
@@ -612,7 +597,6 @@ ava('.getRequest() should return the request if the mode matches on insert', asy
 		},
 		action: 'action-create-card',
 		card: typeCard.id,
-		type: typeCard.type,
 		mode: 'insert',
 		arguments: {
 			properties: {
@@ -664,7 +648,6 @@ ava('.getRequest() should return the request if the mode matches on insert', asy
 	test.deepEqual(request, {
 		action: 'action-create-card',
 		card: typeCard.id,
-		type: typeCard.type,
 		context: test.context.context,
 		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 		currentDate: date,
@@ -701,7 +684,6 @@ ava('.getRequest() should return null if the mode does not match', async (test) 
 		},
 		action: 'action-create-card',
 		card: typeCard.id,
-		type: typeCard.type,
 		mode: 'update',
 		arguments: {
 			properties: {
@@ -763,7 +745,6 @@ ava('.getRequest() should parse timestamp templates in the triggered action argu
 		},
 		action: 'action-create-card',
 		card: typeCard.id,
-		type: typeCard.type,
 		arguments: {
 			properties: {
 				data: {
@@ -813,7 +794,6 @@ ava('.getRequest() should parse timestamp templates in the triggered action argu
 		currentDate,
 		card: typeCard.id,
 		context: test.context.context,
-		type: typeCard.type,
 		originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 		arguments: {
 			properties: {
@@ -847,7 +827,6 @@ ava('.getRequest() should return null if one of the templates is unsatisfied', a
 		},
 		action: 'action-create-card',
 		card: typeCard.id,
-		type: typeCard.type,
 		arguments: {
 			properties: {
 				slug: {
@@ -923,7 +902,6 @@ ava('.getTypeTriggers() should return a trigger card with a matching type', asyn
 				},
 				action: 'action-create-card',
 				target: typeCard.id,
-				targetType: typeCard.type,
 				arguments: {
 					properties: {
 						slug: {
@@ -984,7 +962,6 @@ ava('.getTypeTriggers() should not return inactive cards', async (test) => {
 				},
 				action: 'action-create-card',
 				target: typeCard.id,
-				targetType: typeCard.type,
 				arguments: {
 					properties: {
 						slug: {
@@ -1038,7 +1015,6 @@ ava('.getTypeTriggers() should ignore non-matching cards', async (test) => {
 				},
 				action: 'action-create-card',
 				target: typeCard.id,
-				targetType: typeCard.type,
 				arguments: {
 					properties: {
 						slug: {
@@ -1079,7 +1055,6 @@ ava('.getTypeTriggers() should ignore non-matching cards', async (test) => {
 				},
 				action: 'action-create-card',
 				target: typeCard.id,
-				targetType: typeCard.type,
 				arguments: {
 					properties: {
 						slug: {
@@ -1140,7 +1115,6 @@ ava('.getTypeTriggers() should ignore cards that are not triggered actions', asy
 				},
 				action: 'action-create-card',
 				target: typeCard.id,
-				targetType: typeCard.type,
 				arguments: {
 					properties: {
 						slug: {
@@ -1181,7 +1155,6 @@ ava('.getTypeTriggers() should ignore cards that are not triggered actions', asy
 				},
 				action: 'action-create-card',
 				target: typeCard.id,
-				targetType: typeCard.type,
 				arguments: {
 					properties: {
 						slug: {
@@ -1240,7 +1213,6 @@ ava('.getTypeTriggers() should not return triggered actions not associated with 
 				},
 				action: 'action-create-card',
 				target: typeCard.id,
-				targetType: typeCard.type,
 				arguments: {
 					properties: {
 						slug: {
@@ -1344,7 +1316,6 @@ ava('.getStartDate() should return the specified date if valid', async (test) =>
 			startDate: date.toISOString(),
 			action: 'action-create-card',
 			target: typeCard.id,
-			targetType: typeCard.type,
 			arguments: {
 				properties: {
 					slug: 'foo'
@@ -1375,7 +1346,6 @@ ava('.getNextExecutionDate() should return null if no interval', async (test) =>
 			},
 			action: 'action-create-card',
 			target: typeCard.id,
-			targetType: typeCard.type,
 			arguments: {
 				properties: {
 					slug: 'foo'
@@ -1403,7 +1373,6 @@ ava('.getNextExecutionDate() should return epoch if no last execution date', asy
 			interval: 'PT1H',
 			action: 'action-create-card',
 			target: typeCard.id,
-			targetType: typeCard.type,
 			arguments: {
 				properties: {
 					slug: 'foo'
@@ -1431,7 +1400,6 @@ ava('.getNextExecutionDate() should return epoch if last execution date is not a
 			interval: 'PT1H',
 			action: 'action-create-card',
 			target: typeCard.id,
-			targetType: typeCard.type,
 			arguments: {
 				properties: {
 					slug: 'foo'
@@ -1459,7 +1427,6 @@ ava('.getNextExecutionDate() should return epoch if last execution date is not a
 			interval: 'PT1H',
 			action: 'action-create-card',
 			target: typeCard.id,
-			targetType: typeCard.type,
 			arguments: {
 				properties: {
 					slug: 'foo'
@@ -1490,7 +1457,6 @@ ava('.getNextExecutionDate() should throw if the interval is invalid', async (te
 				interval: 'FOOBARBAZ',
 				action: 'action-create-card',
 				target: typeCard.id,
-				targetType: typeCard.type,
 				arguments: {
 					properties: {
 						slug: 'foo'
@@ -1518,7 +1484,6 @@ ava('.getNextExecutionDate() should return the next interval after the last exec
 			action: 'action-create-card',
 			startDate: '2018-01-01T00:00:00.000Z',
 			target: typeCard.id,
-			targetType: typeCard.type,
 			arguments: {
 				properties: {
 					slug: 'foo'
@@ -1548,7 +1513,6 @@ ava('.getNextExecutionDate() should return the start date if the last execution 
 			action: 'action-create-card',
 			startDate: '2018-01-01T05:00:00.000Z',
 			target: typeCard.id,
-			targetType: typeCard.type,
 			arguments: {
 				properties: {
 					slug: 'foo'
@@ -1578,7 +1542,6 @@ ava('.getNextExecutionDate() should return the subsequent interval if the last '
 			action: 'action-create-card',
 			startDate: '2018-01-01T05:00:00.000Z',
 			target: typeCard.id,
-			targetType: typeCard.type,
 			arguments: {
 				properties: {
 					slug: 'foo'
@@ -1607,7 +1570,6 @@ ava('.getNextExecutionDate() should return the next interval if the last executi
 			action: 'action-create-card',
 			startDate: '2018-01-01T05:00:00.000Z',
 			target: typeCard.id,
-			targetType: typeCard.type,
 			arguments: {
 				properties: {
 					slug: 'foo'

@@ -42,7 +42,6 @@
     },
     "action": "action-create-card",
     "target": "message",
-    "targetType": "type",
     "arguments": {
       "reason": null,
       "properties": {

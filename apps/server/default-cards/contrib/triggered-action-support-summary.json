@@ -65,7 +65,6 @@
     "target": {
       "$eval": "source.data.target"
     },
-    "targetType": "support-thread",
     "arguments": {
       "reason": "Closed with #summary tag",
       "properties": {

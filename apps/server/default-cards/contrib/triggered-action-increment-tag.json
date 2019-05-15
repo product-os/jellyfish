@@ -45,7 +45,6 @@
     },
     "action": "action-increment-tag",
     "target": "tag",
-    "targetType": "type",
     "arguments": {
       "reason": null,
       "name": {
