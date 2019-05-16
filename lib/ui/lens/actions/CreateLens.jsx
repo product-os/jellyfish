@@ -251,12 +251,10 @@ class CreateLens extends React.Component {
 				p={3}
 			>
 				<div>
-					<Flex flex={0} align="start" justify="space-between">
+					<Flex flex={0} align="start" justifyContent="space-between">
 						<h3>{`Add ${selectedTypeTarget.name}`}</h3>
 
 						<CloseButton
-							mb={3}
-							mr={-3}
 							onClick={this.close}
 						/>
 					</Flex>
@@ -291,7 +289,7 @@ class CreateLens extends React.Component {
 						onSchemaChange={this.setLocalSchema}
 					/>
 
-					<Flex justify="flex-end" mt={4}>
+					<Flex justifyContent="flex-end" mt={4}>
 						<Button
 							onClick={this.close}
 							mr={2}

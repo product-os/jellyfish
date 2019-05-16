@@ -22,7 +22,7 @@ const helpers = require('../services/helpers')
 const link = require('../services/link')
 const ContextMenu = require('./ContextMenu')
 const Icon = require('../shame/Icon')
-const IconButton = require('../shame/IconButton')
+
 class CardLinker extends React.Component {
 	constructor (props) {
 		super(props)
@@ -184,18 +184,18 @@ class CardLinker extends React.Component {
 		return connectDragSource(
 			<div>
 				<span>
-					<IconButton.IconButton
+					<rendition.Button
 						data-test="card-linker-action"
-						plaintext
-						square={true}
+						plain
 						onClick={this.toggleMenu}
+						mr={2}
 						tooltip={{
 							placement: 'left',
 							text: `Link this ${typeName} to another element`
 						}}
 					>
 						<Icon.default name="bezier-curve"/>
-					</IconButton.IconButton>
+					</rendition.Button>
 
 					{this.state.showMenu && (
 						<ContextMenu.ContextMenu
@@ -207,7 +207,7 @@ class CardLinker extends React.Component {
 									display: 'block'
 								}}
 								mb={2}
-								plaintext
+								plain
 								onClick={this.openLinkModal}
 								data-test="card-linker-action--existing"
 							>
@@ -219,7 +219,7 @@ class CardLinker extends React.Component {
 									display: 'block'
 								}}
 								mb={2}
-								plaintext
+								plain
 								onClick={this.openCreateChannel}
 								data-test="card-linker-action--new"
 							>
@@ -230,7 +230,7 @@ class CardLinker extends React.Component {
 								style={{
 									display: 'block'
 								}}
-								plaintext
+								plain
 								onClick={this.openVisualizeChannel}
 								data-test="card-linker-action--visualize"
 							>

@@ -103,7 +103,7 @@ class FreeFieldForm extends React.Component {
 					hideSubmitButton={true}
 				/>
 
-				<rendition.Flex justify="space-between" pt={60}>
+				<rendition.Flex justifyContent="space-between" pt={60}>
 					<rendition.Txt mt={9}>Add a new field</rendition.Txt>
 
 					<rendition.Input value={this.state.key} onChange={this.setFieldTitle} placeholder="Enter the field title"/>

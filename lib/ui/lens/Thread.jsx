@@ -42,6 +42,10 @@ class Base extends React.Component {
 				head: card
 			})
 		}
+
+		this.close = () => {
+			return this.props.actions.removeChannel(this.props.channel)
+		}
 	}
 	shouldComponentUpdate (nextProps) {
 		return !circularDeepEqual(nextProps, this.props)
@@ -76,7 +80,7 @@ class Base extends React.Component {
 				flex={this.props.flex}
 			>
 				<rendition.Box p={3} pb={0}>
-					<rendition.Flex justify="space-between">
+					<rendition.Flex justifyContent="space-between">
 						{card.created_at && (<rendition.Txt mb={3}>
 							<strong>
 										Thread created at {helpers.formatTimestamp(card.created_at)}
@@ -87,11 +91,8 @@ class Base extends React.Component {
 							<CardActions.CardActions card={card}/>
 
 							<CloseButton.CloseButton
-								mb={3}
-								mr={-3}
-								onClick={() => {
-									return this.props.actions.removeChannel(this.props.channel)
-								}}
+								ml={3}
+								onClick={this.close}
 							/>
 						</rendition.Flex>)}
 					</rendition.Flex>

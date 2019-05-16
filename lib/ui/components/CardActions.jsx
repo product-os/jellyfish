@@ -22,7 +22,6 @@ const CardLinker = require('./CardLinker')
 const ContextMenu = require('./ContextMenu')
 const ActionLink = require('../shame/ActionLink')
 const Icon = require('../shame/Icon')
-const IconButton = require('../shame/IconButton')
 class Base extends React.Component {
 	constructor (props) {
 		super(props)
@@ -81,33 +80,30 @@ class Base extends React.Component {
 	render () {
 		return (
 			<React.Fragment>
-				<rendition.Flex align="right" justify="flex-end">
-					<IconButton.IconButton
-						plaintext
-						square={true}
-						mr={1}
+				<rendition.Flex alignItems="center" justifyContent="flex-end">
+					<rendition.Button
+						plain
+						mr={3}
 						onClick={this.openEditChannel}
 						className="card-actions__btn--edit"
 						tooltip={{
 							placement: 'left',
 							text: 'Edit this element'
 						}}
-					>
-						<Icon.default name="pencil-alt"/>
-					</IconButton.IconButton>
+						icon={<Icon.default name="pencil-alt"/>}
+					/>
 
 					<CardLinker.CardLinker types={this.props.types} card={this.props.card}/>
 
 					<span>
-						<IconButton.IconButton
+						<rendition.Button
 							px={2}
 							mr={-1}
-							plaintext
+							plain
 							onClick={this.toggleMenu}
 							data-test="card-action-menu"
-						>
-							<Icon.default name="ellipsis-v"/>
-						</IconButton.IconButton>
+							icon={<Icon.default name="ellipsis-v"/>}
+						/>
 
 						{this.state.showMenu &&
 							<ContextMenu.ContextMenu position="bottom" onClose={this.toggleMenu}>

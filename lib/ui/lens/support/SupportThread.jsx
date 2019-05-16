@@ -17,6 +17,7 @@ import {
 import * as redux from 'redux'
 import {
 	Box,
+	Button,
 	DropDownButton,
 	Flex,
 	Link,
@@ -49,9 +50,6 @@ import {
 import ColorHashPill from '../../shame/ColorHashPill'
 import Column from '../../shame/Column'
 import Icon from '../../shame/Icon'
-import {
-	IconButton
-} from '../../shame/IconButton'
 
 const {
 	getCreator,
@@ -87,6 +85,7 @@ const getHighlights = (card) => {
 class SupportThreadBase extends React.Component {
 	constructor (props) {
 		super(props)
+
 		this.close = () => {
 			sdk.card.update(this.props.card.id, _.merge({}, this.props.card, {
 				data: {
@@ -100,11 +99,23 @@ class SupportThreadBase extends React.Component {
 					this.props.actions.addNotification('danger', error.message || error)
 				})
 		}
+
 		this.handleExpandToggle = () => {
 			this.setState({
 				expanded: !this.state.expanded
 			})
 		}
+
+		this.closeChannel = () => {
+			return this.props.actions.removeChannel(this.props.channel)
+		}
+
+		this.toggleHighlights = () => {
+			this.setState({
+				showHighlights: !this.state.showHighlights
+			})
+		}
+
 		this.state = {
 			linkedSupportIssues: [],
 			linkedGitHubIssues: [],
@@ -286,7 +297,7 @@ class SupportThreadBase extends React.Component {
 					px={3}
 					pt={3}
 				>
-					<Flex mb={2} justify="space-between">
+					<Flex mb={2} justifyContent="space-between">
 						<DropDownButton
 							primary
 							label={_.get(card, [ 'data', 'category' ], defaultCategory)}
@@ -306,12 +317,16 @@ class SupportThreadBase extends React.Component {
 						</DropDownButton>
 
 						<Flex align="center">
-							<IconButton plaintext square mr={1} tooltip={{
-								placement: 'bottom',
-								text: 'Close this support thread'
-							}} onClick={this.close}>
-								<Icon name="archive"/>
-							</IconButton>
+							<Button
+								plain
+								mr={3}
+								tooltip={{
+									placement: 'bottom',
+									text: 'Close this support thread'
+								}}
+								onClick={this.close}
+								icon={<Icon name="archive"/>}
+							/>
 
 							<CardActions card={card}>
 								<ActionLink onClick={this.openSupportIssueView}>
@@ -324,10 +339,8 @@ class SupportThreadBase extends React.Component {
 							</CardActions>
 
 							<CloseButton
-								mr={-3}
-								onClick={() => {
-									return this.props.actions.removeChannel(this.props.channel)
-								}}
+								ml={3}
+								onClick={this.closeChannel}
 							/>
 						</Flex>
 					</Flex>
@@ -370,7 +383,7 @@ class SupportThreadBase extends React.Component {
 						</Box>
 					)}
 
-					<Flex justify="space-between">
+					<Flex justifyContent="space-between">
 						<Txt><em>Created {helpers.formatTimestamp(card.created_at)}</em></Txt>
 
 						<Txt>
@@ -390,31 +403,34 @@ class SupportThreadBase extends React.Component {
 
 					{this.state.expanded && (
 						<React.Fragment>
-							{highlights.length > 0 && (<div>
-								<strong>
-									<Link mt={1} onClick={() => {
-										return this.setState({
-											showHighlights: !this.state.showHighlights
-										})
-									}}>
-													Highlights{' '}
-										<Icon name={`caret-${this.state.showHighlights ? 'down' : 'right'}`}/>
-									</Link>
-								</strong>
-							</div>)}
+							{highlights.length > 0 && (
+								<div>
+									<strong>
+										<Link
+											mt={1}
+											onClick={this.toggleHighlights}
+										>
+														Highlights{' '}
+											<Icon name={`caret-${this.state.showHighlights ? 'down' : 'right'}`}/>
+										</Link>
+									</strong>
+								</div>
+							)}
 
-							{this.state.showHighlights && (<Extract py={2}>
-								{_.map(highlights, (statusEvent) => {
-									return (
-										<Event
-											key={statusEvent.id}
-											card={statusEvent}
-											user={this.props.user}
-											mb={1}
-										/>
-									)
-								})}
-							</Extract>)}
+							{this.state.showHighlights && (
+								<Extract py={2}>
+									{_.map(highlights, (statusEvent) => {
+										return (
+											<Event
+												key={statusEvent.id}
+												card={statusEvent}
+												user={this.props.user}
+												mb={1}
+											/>
+										)
+									})}
+								</Extract>
+							)}
 
 							{Boolean(linkedSupportIssues && linkedSupportIssues.length) && (
 								<Txt><strong>Linked support issues</strong></Txt>

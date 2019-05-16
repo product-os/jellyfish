@@ -13,33 +13,11 @@ const ReactDOM = require('react-dom')
 const {
 	Provider
 } = require('react-redux')
-const rendition = require('rendition')
-const {
-	injectGlobal
-} = require('styled-components')
 const core = require('./core')
 const JellyfishUI = require('./JellyfishUI').default
 const {
 	ErrorBoundary
 } = require('./shame/ErrorBoundary')
-
-injectGlobal `
-  * {
-    box-sizing: border-box;
-  }
-
-  body {
-    line-height: 1.5;
-    margin: 0;
-    font-family: ${rendition.Theme.font};
-  }
-
-	html,
-	body,
-	#app {
-		height: 100%;
-	}
-`
 
 const SENTRY_DSN = process.env.SENTRY_DSN_UI
 

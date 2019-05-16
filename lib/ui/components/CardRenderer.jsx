@@ -150,7 +150,7 @@ class Base extends React.Component {
 		const keys = (fieldOrder || []).concat(unorderedKeys)
 		const inView = _.get(channel, [ 'data', 'head', 'type' ]) === 'view'
 		return (<rendition.Box mb={3}>
-			<rendition.Flex justify="space-between">
+			<rendition.Flex justifyContent="space-between">
 				<rendition.Heading.h4 my={3}>
 					{inView && (
 						<rendition.Link onClick={this.openChannel}>

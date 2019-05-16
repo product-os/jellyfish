@@ -1,9 +1,9 @@
-import * as _ from 'lodash'
 import * as React from 'react'
 import styled from 'styled-components'
+import FaClose from 'react-icons/lib/fa/close'
 import {
-	DeleteButton,
 	Box,
+	Button,
 	Flex
 } from 'rendition'
 
@@ -18,6 +18,10 @@ const ButtonWrapper = styled.button `
 
 const WrappingEm = styled.em `
 	white-space: pre-wrap;
+`
+
+const DeleteButton = styled(Button) `
+	color: rgba(0, 0, 0, 0.4);
 `
 
 const FilterDescriptionInner = (props) => {
@@ -37,23 +41,52 @@ const FilterDescriptionInner = (props) => {
 	)
 }
 
-const FilterDescription = (props) => {
-	return (
-		<div>
-			<ButtonWrapper onClick={props.edit ? props.edit : _.noop}>
-				<Flex>
-					<FilterDescriptionInner filter={props.filter} />
-				</Flex>
-			</ButtonWrapper>
+class FilterDescription extends React.Component {
+	constructor (props) {
+		super(props)
 
-			{Boolean(props.delete) && (
-				<DeleteButton
-					color={props.dark ? '#fff' : ''}
-					onClick={props.delete}
-				/>
-			)}
-		</div>
-	)
+		this.edit = this.edit.bind(this)
+		this.delete = this.delete.bind(this)
+	}
+
+	edit () {
+		if (this.props.edit) {
+			this.props.edit(this.props.filter)
+		}
+	}
+
+	delete () {
+		this.props.delete(this.props.filter)
+	}
+
+	render () {
+		const {
+			props
+		} = this
+
+		return (
+			<div>
+				<ButtonWrapper onClick={this.edit}>
+					<Flex>
+						<FilterDescriptionInner filter={props.filter} />
+					</Flex>
+				</ButtonWrapper>
+
+				{Boolean(props.delete) && (
+					<DeleteButton
+						plain
+						p={1}
+						fontSize={1}
+						ml={1}
+						color={props.dark ? '#fff' : ''}
+						onClick={this.delete}
+					>
+						<FaClose />
+					</DeleteButton>
+				)}
+			</div>
+		)
+	}
 }
 
 export default FilterDescription

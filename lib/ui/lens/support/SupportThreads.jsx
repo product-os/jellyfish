@@ -64,6 +64,12 @@ export class SupportThreads extends React.Component {
 			await this.props.setPage(this.props.page + 1)
 			this.loadingPage = false
 		}
+
+		this.bindScrollArea = this.bindScrollArea.bind(this)
+	}
+
+	bindScrollArea (ref) {
+		this.scrollArea = ref
 	}
 
 	render () {
@@ -192,9 +198,7 @@ export class SupportThreads extends React.Component {
 					{segments.map((segment) => {
 						return (
 							<div
-								ref={(ref) => {
-									this.scrollArea = ref
-								}}
+								ref={this.bindScrollArea}
 								key={segment.name}
 								onScroll={this.handleScroll}
 								style={{

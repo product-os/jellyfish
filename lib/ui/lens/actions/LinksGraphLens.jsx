@@ -38,6 +38,7 @@ class CreateLens extends React.Component {
 		this.loadNodeLinks(card)
 
 		this.close = this.close.bind(this)
+		this.bindCanvas = this.bindCanvas.bind(this)
 		this.resizeCanvas = this.resizeCanvas.bind(this)
 	}
 
@@ -194,6 +195,10 @@ class CreateLens extends React.Component {
 		this.props.actions.removeChannel(this.props.channel)
 	}
 
+	bindCanvas (elem) {
+		this.$canvas = elem
+	}
+
 	render () {
 		return (
 			<Column>
@@ -202,14 +207,12 @@ class CreateLens extends React.Component {
 					style={{
 						position: 'absolute',
 						top: 26,
-						right: 0
+						right: 26
 					}}
 					onClick={this.close}
 				/>
 				<canvas
-					ref={(elem) => {
-						this.$canvas = elem
-					}}
+					ref={this.bindCanvas}
 					style={{
 						width: '100%',
 						height: '100%'

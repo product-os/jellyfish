@@ -245,7 +245,7 @@ const getTrigger = _.memoize(() => {
 						style={{
 							minWidth: 160
 						}}
-						justify="space-between"
+						justifyContent="space-between"
 					>
 						<Txt mr={3}>#{entity.name}</Txt>
 						<Txt>x {entity.data.count}</Txt>
@@ -301,12 +301,22 @@ const collect = (connect, monitor) => {
 }
 
 class QuickSearchItem extends React.Component {
+	constructor (props) {
+		super(props)
+
+		this.onClick = this.onClick.bind(this)
+	}
+
+	onClick () {
+		this.props.onClick(this.props.card)
+	}
+
 	render () {
 		const {
-			card, connectDragSource, onClick
+			card, connectDragSource
 		} = this.props
 		return connectDragSource(<span>
-			<Link onClick={onClick}>
+			<Link onClick={this.onClick}>
 				{card.name || card.slug || card.id}
 			</Link>
 		</span>)
@@ -399,7 +409,10 @@ class AutoCompleteArea extends React.Component {
 			value: props.value || '',
 			results: null
 		}
+
+		this.openQuickSearchItem = this.openQuickSearchItem.bind(this)
 	}
+
 	componentWillUpdate (nextProps) {
 		if (nextProps.value !== this.props.value) {
 			this.setState({
@@ -407,6 +420,19 @@ class AutoCompleteArea extends React.Component {
 			})
 		}
 	}
+
+	openQuickSearchItem (card) {
+		store.dispatch(actionCreators.addChannel({
+			target: card.id,
+			cardType: card.type
+		}))
+
+		this.setState({
+			showQuickSearchPanel: false,
+			results: null
+		})
+	}
+
 	render () {
 		const {
 			className,
@@ -451,16 +477,7 @@ class AutoCompleteArea extends React.Component {
 					{this.state.results && this.state.results.length === 0 && (<Txt>No results found</Txt>)}
 					{_.map(this.state.results, (card) => {
 						return (<div key={card.id}>
-							<ConnectedQuickSearchItem card={card} onClick={() => {
-								store.dispatch(actionCreators.addChannel({
-									target: card.id,
-									cardType: card.type
-								}))
-								this.setState({
-									showQuickSearchPanel: false,
-									results: null
-								})
-							}}/>
+							<ConnectedQuickSearchItem card={card} onClick={this.openQuickSearchItem}/>
 						</div>)
 					})}
 				</Card>)}

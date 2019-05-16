@@ -18,8 +18,7 @@ import {
 import {
 	Box,
 	Button,
-	Flex,
-	Theme
+	Flex
 } from 'rendition'
 import styled from 'styled-components'
 import uuid from 'uuid/v4'
@@ -73,6 +72,8 @@ class TimelineRenderer extends React.Component {
 			pendingMessages: []
 		}
 
+		this.bindScrollArea = this.bindScrollArea.bind(this)
+		this.bindFileInput = this.bindFileInput.bind(this)
 		this.handleCardVisible = this.handleCardVisible.bind(this)
 		this.toggleWhisper = this.toggleWhisper.bind(this)
 		this.handleFileChange = this.handleFileChange.bind(this)
@@ -288,6 +289,14 @@ class TimelineRenderer extends React.Component {
 			})
 	}
 
+	bindScrollArea (ref) {
+		this.scrollArea = ref
+	}
+
+	bindFileInput (ref) {
+		this.fileInputElement = ref
+	}
+
 	render () {
 		const head = this.props.card
 		const {
@@ -323,26 +332,22 @@ class TimelineRenderer extends React.Component {
 
 		return (
 			<Column>
-				<Flex my={2} mr={2} justify="flex-end">
+				<Flex my={2} mr={2} justifyContent="flex-end">
 					<Button
-						plaintext
+						plain
 						tooltip={{
 							placement: 'left',
 							text: `${messagesOnly ? 'Show' : 'Hide'} create and update events`
 						}}
 						className="timeline__checkbox--additional-info"
-						color={messagesOnly ? Theme.colors.text.light : false}
 						ml={2}
 						onClick={this.handleEventToggle}
-					>
-						<Icon name="stream"/>
-					</Button>
+						icon={<Icon name="stream"/>}
+					/>
 				</Flex>
 
 				<div
-					ref={(ref) => {
-						this.scrollArea = ref
-					}}
+					ref={this.bindScrollArea}
 					style={{
 						flex: 1,
 						overflowY: 'auto',
@@ -395,17 +400,17 @@ class TimelineRenderer extends React.Component {
 					>
 						{allowWhispers && (
 							<Button
-								square
-								plaintext
+								px={2}
+								mb={1}
+								plain
 								onClick={this.toggleWhisper}
 								data-test="timeline__whisper-toggle"
 								tooltip={{
 									placement: 'right',
 									text: `Toggle response visibility (currently ${whisper ? 'private' : 'public'})`
 								}}
-							>
-								<Icon name={whisper ? 'eye-slash' : 'eye'}/>
-							</Button>
+								icon={<Icon name={whisper ? 'eye-slash' : 'eye'}/>}
+							/>
 						)}
 
 						<Box
@@ -426,22 +431,19 @@ class TimelineRenderer extends React.Component {
 						</Box>
 
 						<Button
-							square
+							plain
 							mr={3}
-							mt={3}
+							mb={1}
 							onClick={this.handleUploadButtonClick}
-						>
-							<Icon name="image"/>
-						</Button>
+							icon={<Icon name="image"/>}
+						/>
 
 						<input
 							style={{
 								display: 'none'
 							}}
 							type="file"
-							ref={(el) => {
-								this.fileInputElement = el
-							}}
+							ref={this.bindFileInput}
 							onChange={this.handleFileChange}
 						/>
 					</Flex>

@@ -20,12 +20,12 @@ exports.screenshot = async (test, page) => {
 	await page.screenshot({
 		path
 	})
-	console.log(`Saved screenshot: ${file}`)
 }
 
 exports.retry = async (times, functionToTry) => {
 	try {
-		return functionToTry()
+		const result = await functionToTry()
+		return result
 	} catch (error) {
 		if (times) {
 			return exports.retry(times - 1, functionToTry)
@@ -98,8 +98,8 @@ exports.setInputValue = async (page, selector, value) => {
 exports.logout = async (page) => {
 	await exports.waitForThenClickSelector(page, '.user-menu-toggle')
 	await page.waitForSelector('.user-menu', exports.WAIT_OPTS)
+	await exports.waitForThenClickSelector(page, '.user-menu__logout')
 	await exports.retry(3, async () => {
-		await exports.waitForThenClickSelector(page, '.user-menu__logout')
 		await page.waitForSelector('.login-page', {
 			timeout: 2 * 1000
 		})
@@ -107,8 +107,10 @@ exports.logout = async (page) => {
 }
 
 exports.waitForThenClickSelector = async (page, selector) => {
-	await page.waitForSelector(selector)
-	await page.click(selector)
+	await exports.retry(3, async () => {
+		await page.waitForSelector(selector)
+		await page.click(selector)
+	})
 }
 
 exports.createChatMessage = async (page, scopeSelector, messageText) => {

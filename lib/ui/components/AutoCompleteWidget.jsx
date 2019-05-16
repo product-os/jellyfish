@@ -11,8 +11,26 @@ import {
 	sdk
 } from '../core'
 
-const AutoCompleteWidget = (props) => {
-	const getTargets = async (value) => {
+const	formatCreateLabel = (value) => {
+	return `Use "${value}"`
+}
+
+export default class AutoCompleteWidget extends React.Component {
+	constructor (props) {
+		super(props)
+
+		this.getTargets = this.getTargets.bind(this)
+		this.onChange = this.onChange.bind(this)
+	}
+
+	onChange (option) {
+		this.props.onChange(option === null ? null : option.value)
+	}
+
+	async getTargets (value) {
+		const {
+			props
+		} = this
 		const schema = {
 			type: 'object',
 			description: `Find by pattern on type ${props.options.resource}`,
@@ -56,30 +74,26 @@ const AutoCompleteWidget = (props) => {
 		})
 	}
 
-	const selectedValue = props.value ? {
-		value: props.value,
-		label: props.value
-	} : null
+	render () {
+		const {
+			props
+		} = this
 
-	const onChange = (option) => {
-		props.onChange(option === null ? null : option.value)
+		const selectedValue = props.value ? {
+			value: props.value,
+			label: props.value
+		} : null
+
+		return (
+			<AsyncCreatableSelect
+				classNamePrefix="jellyfish-async-select"
+				value={selectedValue}
+				isClearable
+				cacheOptions
+				onChange={this.onChange}
+				loadOptions={this.getTargets}
+				formatCreateLabel={formatCreateLabel}
+			/>
+		)
 	}
-
-	const formatCreateLabel = (value) => {
-		return `Use "${value}"`
-	}
-
-	return (
-		<AsyncCreatableSelect
-			classNamePrefix="jellyfish-async-select"
-			value={selectedValue}
-			isClearable
-			cacheOptions
-			onChange={onChange}
-			loadOptions={getTargets}
-			formatCreateLabel={formatCreateLabel}
-		/>
-	)
 }
-
-export default AutoCompleteWidget

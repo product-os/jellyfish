@@ -46,6 +46,22 @@ const COLUMNS = [
 ]
 
 class CardTable extends BaseLens {
+	constructor (props) {
+		super(props)
+
+		this.handleRowClick = this.handleRowClick.bind(this)
+	}
+
+	handleRowClick ({
+		id
+	}) {
+		this.openChannel(
+			_.find(this.props.tail, {
+				id
+			})
+		)
+	}
+
 	render () {
 		const tail = this.props.tail ? _.map(this.props.tail, (card) => {
 			const update = _.find(_.get(card, [ 'links', 'has attached element' ]), {
@@ -64,13 +80,14 @@ class CardTable extends BaseLens {
 				<Box flex="1" style={{
 					position: 'relative'
 				}}>
-					{Boolean(tail) && tail.length > 0 && (<Table rowKey="id" data={tail} columns={COLUMNS} onRowClick={({
-						id
-					}) => {
-						return this.openChannel(_.find(this.props.tail, {
-							id
-						}))
-					}}/>)}
+					{Boolean(tail) && tail.length > 0 && (
+						<Table
+							rowKey="id"
+							data={tail}
+							columns={COLUMNS}
+							onRowClick={this.handleRowClick}
+						/>
+					)}
 					{Boolean(tail) && tail.length === 0 &&
 							<Txt.p p={3}>No results found</Txt.p>}
 				</Box>
@@ -82,7 +99,7 @@ class CardTable extends BaseLens {
 							style={{
 								borderTop: '1px solid #eee'
 							}}
-							justify="flex-end"
+							justifyContent="flex-end"
 						>
 							<Button
 								success

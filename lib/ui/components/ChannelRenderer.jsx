@@ -36,7 +36,17 @@ class ChannelRenderer extends React.Component {
 			showLinkModal: false,
 			linkFrom: null
 		}
+
+		this.closeLinkModal = this.closeLinkModal.bind(this)
+		this.link = this.link.bind(this)
 	}
+
+	closeLinkModal () {
+		this.setState({
+			showLinkModal: false
+		})
+	}
+
 	link () {
 		const fromCard = this.state.linkFrom
 		const toCard = this.props.channel.data.head
@@ -48,6 +58,7 @@ class ChannelRenderer extends React.Component {
 			linkFrom: null
 		})
 	}
+
 	render () {
 		const {
 			channel,
@@ -112,14 +123,8 @@ class ChannelRenderer extends React.Component {
 
 				{this.state.showLinkModal && (
 					<rendition.Modal
-						cancel={() => {
-							return this.setState({
-								showLinkModal: false
-							})
-						}}
-						done={() => {
-							return this.link()
-						}}
+						cancel={this.closeLinkModal}
+						done={this.link}
 					>
 						Link {this.state.linkFrom.type} <strong>{this.state.linkFrom.name}</strong> to{' '}
 						{this.props.channel.data.head.type} <strong>{this.props.channel.data.head.name}</strong>

@@ -102,7 +102,7 @@ class TodoList extends React.Component {
 		return (<React.Fragment>
 			<rendition.Flex p={3} style={{
 				borderTop: '1px solid #eee'
-			}} justify="space-between">
+			}} justifyContent="space-between">
 				<rendition.Input
 					w="100%"
 					mr={3}

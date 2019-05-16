@@ -4,14 +4,15 @@
  * Proprietary and confidential.
  */
 
+/* eslint-disable react/jsx-no-bind */
 import clone from 'deep-copy'
 import * as _ from 'lodash'
 import * as React from 'react'
 import FaFilter from 'react-icons/lib/fa/filter'
+import FaClose from 'react-icons/lib/fa/close'
 import {
 	Button,
 	Box,
-	DeleteButton,
 	Flex,
 	Modal,
 	Search,
@@ -71,7 +72,8 @@ const RelativeBox = styled(Box) `
 	position: relative;
 `
 
-const ExtraRuleDeleteBtn = styled(DeleteButton) `
+const DeleteButton = styled(Button) `
+	color: rgba(0, 0, 0, 0.4);
 	position: absolute;
 	bottom: 7px;
 	right: -35px;
@@ -399,7 +401,7 @@ class Filters extends React.Component {
 
 		return (
 			<FilterWrapper mb={3}>
-				<Flex justify="space-between">
+				<Flex justifyContent="space-between">
 					{this.shouldRenderComponent('add') && (
 						<Button
 							mr={30}
@@ -411,13 +413,9 @@ class Filters extends React.Component {
 								})
 							}
 							}
+							icon={<FaFilter />}
 							{...this.props.addFilterButtonProps}
-						>
-							<FaFilter style={{
-								marginRight: 10
-							}} />
-							Add filter
-						</Button>
+						/>
 					)}
 
 					{this.shouldRenderComponent('search') && (
@@ -526,9 +524,16 @@ class Filters extends React.Component {
 											/>
 										</Flex>
 										{index > 0 && (
-											<ExtraRuleDeleteBtn
-												onClick={() => { return this.removeCompound(index) }}
-											/>
+											<DeleteButton
+												plain
+												fontSize={1}
+												p={1}
+												onClick={() => {
+													this.removeCompound(index)
+												}}
+											>
+												<FaClose />
+											</DeleteButton>
 										)}
 									</RelativeBox>
 								)

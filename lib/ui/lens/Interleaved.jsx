@@ -135,6 +135,7 @@ class Interleaved extends React.Component {
 			return this.scrollToBottom()
 		})
 		this.handleCardVisible = this.handleCardVisible.bind(this)
+		this.bindScrollArea = this.bindScrollArea.bind(this)
 	}
 	componentWillUpdate () {
 		if (!this.scrollArea) {
@@ -184,6 +185,10 @@ class Interleaved extends React.Component {
 		}
 	}
 
+	bindScrollArea (ref) {
+		this.scrollArea = ref
+	}
+
 	render () {
 		const {
 			head
@@ -226,9 +231,9 @@ class Interleaved extends React.Component {
 				}}
 			>
 				<reactResizeObserver.default onResize={this.scrollToBottom}/>
-				<rendition.Flex my={2} mr={2} justify="flex-end">
+				<rendition.Flex my={2} mr={2} justifyContent="flex-end">
 					<rendition.Button
-						plaintext
+						plain
 						tooltip={{
 							placement: 'left',
 							text: `${messagesOnly ? 'Show' : 'Hide'} create and update events`
@@ -243,9 +248,7 @@ class Interleaved extends React.Component {
 				</rendition.Flex>
 
 				<div
-					ref={(ref) => {
-						this.scrollArea = ref
-					}}
+					ref={this.bindScrollArea}
 					onScroll={this.handleScroll}
 					style={{
 						flex: 1,
@@ -283,7 +286,7 @@ class Interleaved extends React.Component {
 						style={{
 							borderTop: '1px solid #eee'
 						}}
-						justify="flex-end"
+						justifyContent="flex-end"
 					>
 						<rendition.Button
 							className="btn--add-thread"

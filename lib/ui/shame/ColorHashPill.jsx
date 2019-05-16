@@ -7,7 +7,7 @@
 import React from 'react'
 import _ from 'lodash'
 import {
-	Pill
+	Badge
 } from 'rendition'
 import {
 	colorHash
@@ -22,11 +22,12 @@ export default (props) => {
 	}
 
 	return (
-		<Pill
+		<Badge
 			{...rest}
+			xsmall
 			bg={colorHash(value)}
 		>
 			{value}
-		</Pill>
+		</Badge>
 	)
 }

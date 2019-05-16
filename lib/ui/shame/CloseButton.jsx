@@ -1,16 +1,21 @@
-
 /*
  * Copyright (C) Balena.io - All Rights Reserved
  * Unauthorized copying of this file, via any medium is strictly prohibited.
  * Proprietary and confidential.
  */
+
 import React from 'react'
-import Icon from './Icon'
 import {
-	IconButton
-} from './IconButton'
+	Button
+} from 'rendition'
+import Icon from './Icon'
+
 export const CloseButton = (props) => {
-	return (<IconButton plaintext square {...props}>
-		<Icon name="times"/>
-	</IconButton>)
+	return (
+		<Button
+			{...props}
+			plain
+			icon={<Icon name="times"/>}
+		/>
+	)
 }

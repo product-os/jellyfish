@@ -65,6 +65,7 @@ class ViewLinkBase extends React.Component {
 				showSettings: false
 			})
 		}
+		this.openSlice = this.openSlice.bind(this)
 		this.state = {
 			showMenu: false,
 			showSettings: false
@@ -76,6 +77,21 @@ class ViewLinkBase extends React.Component {
 	shouldComponentUpdate (nextProps, nextState) {
 		return !circularDeepEqual(nextState, this.state) || !circularDeepEqual(nextProps, this.props)
 	}
+	openSlice (event) {
+		event.preventDefault()
+
+		const title = event.target.dataset.slicetitle
+		const path = event.target.dataset.slicepath
+		const value = event.target.dataset.slicevalue
+
+		this.open({
+			slice: {
+				title,
+				path,
+				value
+			}
+		})
+	}
 	render () {
 		const {
 			activeSlice, card, isActive, types, update
@@ -83,7 +99,7 @@ class ViewLinkBase extends React.Component {
 		const slices = isActive ? helpers.getViewSlices(card, types) : null
 		return (
 			<rendition.Box>
-				<rendition.Flex justify="space-between" bg={(isActive && !activeSlice) ? '#eee' : 'none'}>
+				<rendition.Flex justifyContent="space-between" bg={(isActive && !activeSlice) ? '#eee' : 'none'}>
 					<rendition.Link
 						data-test={`home-channel__item--${card.slug}`}
 						style={{
@@ -97,7 +113,7 @@ class ViewLinkBase extends React.Component {
 						color="#333"
 						href={`#/view~${card.id}`}
 					>
-						<rendition.Flex justify="space-between">
+						<rendition.Flex justifyContent="space-between">
 							{card.name}
 
 							{Boolean(update) && card.slug === 'view-my-inbox' && (
@@ -107,7 +123,7 @@ class ViewLinkBase extends React.Component {
 					</rendition.Link>
 
 					{isActive &&
-							<EllipsisButton pr={3} pl={1} plaintext onClick={this.toggleMenu}>
+							<EllipsisButton pr={3} pl={1} plain onClick={this.toggleMenu}>
 								<Icon.default name="ellipsis-v"/>
 							</EllipsisButton>}
 
@@ -115,14 +131,14 @@ class ViewLinkBase extends React.Component {
 							<ContextMenu.ContextMenu onClose={this.toggleMenu}>
 								<rendition.Button style={{
 									display: 'block'
-								}} mb={2} plaintext onClick={this.toggleSettings}>
+								}} mb={2} plain onClick={this.toggleSettings}>
 									Settings
 								</rendition.Button>
 								<rendition.Button
 									style={{
 										display: 'block'
 									}}
-									plaintext
+									plain
 									tooltip="Set this view as the default page when logging in"
 									onClick={this.setDefault}
 								>
@@ -165,16 +181,10 @@ class ViewLinkBase extends React.Component {
 												pl={4}
 												color="#333"
 												href={`#/view~${card.id}`}
-												onClick={(event) => {
-													event.preventDefault()
-													return this.open({
-														slice: {
-															title: slice.title,
-															path: slice.path,
-															value
-														}
-													})
-												}}
+												data-slicetitle={slice.title}
+												data-slicepath={slice.path}
+												data-slicevalue={value}
+												onClick={this.openSlice}
 											>
 												{slice.title}: {value}
 											</rendition.Link>

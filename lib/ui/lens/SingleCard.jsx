@@ -41,6 +41,10 @@ class SingleCard extends React.Component {
 				target: card.id
 			})
 		}
+
+		this.close = () => {
+			this.props.actions.removeChannel(this.props.channel)
+		}
 	}
 	shouldComponentUpdate (nextProps) {
 		return !circularDeepEqual(nextProps, this.props)
@@ -71,7 +75,7 @@ class SingleCard extends React.Component {
 		const cardType = _.get(card, [ 'type' ])
 		const content = (
 			<React.Fragment>
-				<rendition.Flex justify="space-between">
+				<rendition.Flex justifyContent="space-between">
 					<rendition.Txt mb={3}>
 						<strong>
 							{level > 0 && (
@@ -98,11 +102,8 @@ class SingleCard extends React.Component {
 						<CardActions.CardActions card={card}/>
 
 						<CloseButton.CloseButton
-							mb={3}
-							mr={-3}
-							onClick={() => {
-								return this.props.actions.removeChannel(this.props.channel)
-							}}
+							ml={3}
+							onClick={this.close}
 						/>
 					</rendition.Flex>)}
 				</rendition.Flex>
