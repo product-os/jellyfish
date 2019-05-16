@@ -20,6 +20,7 @@ class AuthenticatedImage extends React.Component {
 			imageSrc: null
 		}
 	}
+
 	componentDidMount () {
 		sdk.getFile(this.props.cardId, this.props.fileName)
 			.then((data) => {
@@ -29,13 +30,16 @@ class AuthenticatedImage extends React.Component {
 				})
 			})
 	}
+
 	render () {
 		const {
 			imageSrc
 		} = this.state
+
 		if (!imageSrc) {
 			return null
 		}
+
 		return <ResponsiveImg src={imageSrc} data-test={this.props['data-test']} />
 	}
 }
