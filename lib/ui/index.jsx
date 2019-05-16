@@ -8,11 +8,19 @@
 
 require('@babel/polyfill')
 const Sentry = require('@sentry/browser')
+require('circular-std')
 const React = require('react')
 const ReactDOM = require('react-dom')
 const {
 	Provider
 } = require('react-redux')
+const {
+	Theme
+} = require('rendition')
+const {
+	createGlobalStyle
+} = require('styled-components')
+
 const core = require('./core')
 const JellyfishUI = require('./JellyfishUI').default
 const {
@@ -30,12 +38,40 @@ if (process.env.NODE_ENV === 'production' &&
 	})
 }
 
+const GlobalStyle = createGlobalStyle `
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    line-height: 1.5;
+    margin: 0;
+    font-family: ${Theme.font};
+  }
+
+	html,
+	body,
+	#app {
+		height: 100%;
+	}
+
+	textarea,
+	input {
+		line-height: 1.5;
+    font-family: ${Theme.font};
+  }
+`
+
 ReactDOM.render(
 	(
 		<Provider store={core.store}>
-			<ErrorBoundary>
-				<JellyfishUI />
-			</ErrorBoundary>
+			<React.Fragment>
+				<GlobalStyle />
+
+				<ErrorBoundary>
+					<JellyfishUI />
+				</ErrorBoundary>
+			</React.Fragment>
 		</Provider>
 	),
 	document.getElementById('app')

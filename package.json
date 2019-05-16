@@ -166,7 +166,7 @@
     "redis-mock": "^0.39.0",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
-    "rendition": "^8.7.0",
+    "rendition": "^8.7.2",
     "request-promise": "^4.2.2",
     "response-time": "^2.3.2",
     "skhema": "^5.2.5",

@@ -11,8 +11,7 @@ import {
 } from 'react-redux'
 import {
 	Flex,
-	Provider,
-	Theme
+	Provider
 } from 'rendition'
 import ChannelRenderer from './components/ChannelRenderer'
 import HomeChannel from './components/HomeChannel'
@@ -31,35 +30,6 @@ import {
 } from 'react-dnd'
 import ReactDndHtml5Backend from 'react-dnd-html5-backend'
 import ReactResizeObserver from 'react-resize-observer'
-import {
-	createGlobalStyle
-} from 'styled-components'
-
-import 'circular-std'
-
-const GlobalStyle = createGlobalStyle `
-  * {
-    box-sizing: border-box;
-  }
-
-  body {
-    line-height: 1.5;
-    margin: 0;
-    font-family: ${Theme.font};
-  }
-
-	html,
-	body,
-	#app {
-		height: 100%;
-	}
-
-	textarea,
-	input {
-		line-height: 1.5;
-    font-family: ${Theme.font};
-  }
-`
 
 // Register the mermaid and markdown widgets for rendition forms
 require('rendition/dist/extra/Form/markdown')
@@ -166,7 +136,6 @@ class UI extends React.Component {
 					fontSize: 14
 				}}
 			>
-				<GlobalStyle />
 				<ReactResizeObserver onResize={this.handleResize}/>
 
 				<Flex flex="1" style={{

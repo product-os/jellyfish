@@ -112,7 +112,15 @@ class Base extends React.Component {
 		const signupDisabled = !email || !username || !password || loggingIn || password !== passwordConfirmation
 		return (<React.Fragment>
 			<TopBar.default>
-				<rendition.Img w={70} pl={2} p={10} src="/icons/jellyfish.svg"/>
+				<rendition.Img
+					width={70}
+					style={{
+						height: 70
+					}}
+					pl={2}
+					p={10}
+					src="/icons/jellyfish.svg"
+				/>
 			</TopBar.default>
 
 			<rendition.Container mt={4} className="login-page">
@@ -145,7 +153,7 @@ class Base extends React.Component {
 								<rendition.Input
 									className="login-page__input--username"
 									mb={5}
-									w="100%"
+									width="100%"
 									emphasized={true}
 									placeholder="Username"
 									value={this.state.username}
@@ -157,7 +165,7 @@ class Base extends React.Component {
 										<rendition.Txt fontSize={1} mb={1}>Password</rendition.Txt>
 										<rendition.Input
 											className="login-page__input--password"
-											w="100%"
+											width="100%"
 											emphasized={true}
 											placeholder="Password"
 											type={this.state.showPassword ? 'text' : 'password'}
@@ -194,7 +202,7 @@ class Base extends React.Component {
 								<rendition.Box>
 									<rendition.Button
 										className="login-page__submit--signup"
-										w="100%"
+										width="100%"
 										primary={true}
 										emphasized={true}
 										disabled={signupDisabled}
@@ -231,7 +239,7 @@ class Base extends React.Component {
 								<rendition.Input
 									className="login-page__input--username"
 									mb={5}
-									w="100%"
+									width="100%"
 									emphasized={true}
 									placeholder="Username"
 									value={this.state.username}
@@ -242,7 +250,7 @@ class Base extends React.Component {
 								<rendition.Input
 									className="login-page__input--password"
 									mb={5}
-									w="100%"
+									width="100%"
 									emphasized={true}
 									placeholder="Password"
 									type="password"
@@ -253,7 +261,7 @@ class Base extends React.Component {
 								<rendition.Box>
 									<rendition.Button
 										className="login-page__submit--login"
-										w="100%"
+										width="100%"
 										primary={true}
 										emphasized={true}
 										disabled={!this.state.username || !this.state.password || this.state.loggingIn}
