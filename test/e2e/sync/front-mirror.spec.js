@@ -83,12 +83,33 @@ ava.before(async (test) => {
 		test.context.front = new Front(TOKEN.api)
 	}
 
-	test.context.inbox = environment.test.integration.front.inbox
+	test.context.inboxes = environment.test.integration.front.inboxes
+
+	test.context.getMessageSlug = () => {
+		return test.context.generateRandomSlug({
+			prefix: 'message'
+		})
+	}
 
 	test.context.getWhisperSlug = () => {
 		return test.context.generateRandomSlug({
 			prefix: 'whisper'
 		})
+	}
+
+	test.context.createMessage = async (target, slug, body) => {
+		return test.context.executeThenWait(async () => {
+			return test.context.sdk.event.create({
+				slug,
+				target,
+				type: 'message',
+				payload: {
+					mentionsUser: [],
+					alertsUser: [],
+					message: body
+				}
+			})
+		}, getMirrorWaitSchema(slug))
 	}
 
 	test.context.createComment = async (target, slug, body) => {
@@ -106,10 +127,10 @@ ava.before(async (test) => {
 		}, getMirrorWaitSchema(slug))
 	}
 
-	test.context.startSupportThread = async (title, description) => {
+	test.context.startSupportThread = async (title, description, inbox) => {
 		// We need a "custom" channel in order to simulate an inbound
 		const channels = await test.context.front.inbox.listChannels({
-			inbox_id: test.context.inbox
+			inbox_id: inbox
 		})
 
 		// eslint-disable-next-line no-underscore-dangle
@@ -139,8 +160,8 @@ ava.before(async (test) => {
 			})
 		})
 
-		const inbox = await test.context.front.inbox.get({
-			inbox_id: test.context.inbox
+		const remoteInbox = await test.context.front.inbox.get({
+			inbox_id: test.context.inboxes[0]
 		})
 
 		const slug = test.context.generateRandomSlug({
@@ -157,7 +178,7 @@ ava.before(async (test) => {
 					// eslint-disable-next-line no-underscore-dangle
 					mirrors: [ message._links.related.conversation ],
 					environment: 'production',
-					inbox: inbox.name,
+					inbox: remoteInbox.name,
 					mentionsUser: [],
 					alertsUser: [],
 					description,
@@ -171,7 +192,7 @@ ava.before(async (test) => {
 ava.after(helpers.mirror.after)
 ava.beforeEach(async (test) => {
 	const teammates = await test.context.front.inbox.listTeammates({
-		inbox_id: test.context.inbox
+		inbox_id: test.context.inboxes[0]
 	})
 
 	// Find the first available teammate for the tests
@@ -180,7 +201,7 @@ ava.beforeEach(async (test) => {
 		is_available: true
 	})
 	if (!teammate) {
-		throw new Error(`No available teammate for inbox ${test.context.inbox}`)
+		throw new Error(`No available teammate for inbox ${test.context.inboxes[0]}`)
 	}
 
 	await helpers.mirror.beforeEach(test, teammate.username.replace(/_/g, '-'))
@@ -191,10 +212,60 @@ ava.afterEach(helpers.mirror.afterEach)
 // Skip all tests if there is no Front token
 const avaTest = TOKEN ? ava.serial : ava.serial.skip
 
+avaTest('should be able to reply to a moved inbound message', async (test) => {
+	const supportThread = await test.context.startSupportThread(
+		`My Issue ${uuid()}`,
+		`Foo Bar ${uuid()}`,
+		test.context.inboxes[0])
+
+	const conversationId = _.last(supportThread.data.mirrors[0].split('/'))
+
+	await test.context.front.conversation.update({
+		conversation_id: conversationId,
+		inbox_id: test.context.inboxes[1]
+	})
+
+	await test.context.createMessage(supportThread,
+		test.context.getMessageSlug(), 'Message in another inbox')
+	const result = await test.context.front.conversation.listMessages({
+		conversation_id: conversationId
+	})
+
+	// eslint-disable-next-line no-underscore-dangle
+	const messages = result._results
+
+	test.is(messages.length, 2)
+	test.is(messages[0].body, '<p>Message in another inbox</p>\n')
+	test.is(messages[0].author.username.replace(/_/g, '-'),
+		test.context.username)
+})
+
+avaTest('should be able to reply to an inbound message', async (test) => {
+	const supportThread = await test.context.startSupportThread(
+		`My Issue ${uuid()}`,
+		`Foo Bar ${uuid()}`,
+		test.context.inboxes[0])
+
+	await test.context.createMessage(supportThread,
+		test.context.getMessageSlug(), 'First message')
+	const result = await test.context.front.conversation.listMessages({
+		conversation_id: _.last(supportThread.data.mirrors[0].split('/'))
+	})
+
+	// eslint-disable-next-line no-underscore-dangle
+	const messages = result._results
+
+	test.is(messages.length, 2)
+	test.is(messages[0].body, '<p>First message</p>\n')
+	test.is(messages[0].author.username.replace(/_/g, '-'),
+		test.context.username)
+})
+
 avaTest('should be able to post a complex code comment', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		`My Issue ${uuid()}`,
-		`Foo Bar ${uuid()}`)
+		`Foo Bar ${uuid()}`,
+		test.context.inboxes[0])
 
 	// eslint-disable-next-line max-len
 	const message = 'One last piece of the puzzle is to get the image url to pull. To get that you can run this from the browser console or sdk. \n\n`(await sdk.pine.get({ resource: \'release\', id: <release-id>, options: { $expand: { image__is_part_of__release: { $expand: { image: { $select: [\'is_stored_at__image_location\'] } } }} } })).image__is_part_of__release.map(({ image }) => image[0].is_stored_at__image_location )`\n'
@@ -218,7 +289,8 @@ avaTest('should be able to post a complex code comment', async (test) => {
 avaTest('should be able to comment using triple backticks', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		`My Issue ${uuid()}`,
-		`Foo Bar ${uuid()}`)
+		`Foo Bar ${uuid()}`,
+		test.context.inboxes[0])
 
 	await test.context.createComment(supportThread,
 		test.context.getWhisperSlug(), '```Foo\nBar```')
@@ -238,7 +310,8 @@ avaTest('should be able to comment using triple backticks', async (test) => {
 avaTest('should be able to comment using brackets', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		`My Issue ${uuid()}`,
-		`Foo Bar ${uuid()}`)
+		`Foo Bar ${uuid()}`,
+		test.context.inboxes[0])
 
 	await test.context.createComment(supportThread,
 		test.context.getWhisperSlug(), 'Hello <world> foo <bar>')
@@ -258,7 +331,8 @@ avaTest('should be able to comment using brackets', async (test) => {
 avaTest('should be able to tag an unassigned conversation', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		`My Issue ${uuid()}`,
-		`Foo Bar ${uuid()}`)
+		`Foo Bar ${uuid()}`,
+		test.context.inboxes[0])
 
 	const id = _.last(supportThread.data.mirrors[0].split('/'))
 	await test.context.front.conversation.update({
@@ -286,7 +360,8 @@ avaTest('should be able to tag an unassigned conversation', async (test) => {
 avaTest('should be able to comment on an inbound message', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		`My Issue ${uuid()}`,
-		`Foo Bar ${uuid()}`)
+		`Foo Bar ${uuid()}`,
+		test.context.inboxes[0])
 
 	await test.context.createComment(supportThread,
 		test.context.getWhisperSlug(), 'First comment')
@@ -306,7 +381,8 @@ avaTest('should be able to comment on an inbound message', async (test) => {
 avaTest('should be able to close an inbound message', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		`My Issue ${uuid()}`,
-		`Foo Bar ${uuid()}`)
+		`Foo Bar ${uuid()}`,
+		test.context.inboxes[0])
 
 	await test.context.sdk.card.update(supportThread.id, {
 		type: supportThread.type,
@@ -329,7 +405,8 @@ avaTest('should be able to close an inbound message', async (test) => {
 avaTest('should be able to archive an inbound message', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		`My Issue ${uuid()}`,
-		`Foo Bar ${uuid()}`)
+		`Foo Bar ${uuid()}`,
+		test.context.inboxes[0])
 
 	await test.context.sdk.card.update(supportThread.id, {
 		type: supportThread.type,
