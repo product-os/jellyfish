@@ -1,0 +1,33 @@
+{
+  "slug": "view-write-user-community",
+  "name": "Community write read permissions",
+  "version": "1.0.0",
+  "type": "view",
+  "tags": [],
+  "markers": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "allOf": [
+      {
+        "name": "Sessions",
+        "schema": {
+          "description": "Users cannot read the session type directly",
+          "type": "object",
+          "properties": {
+            "slug": {
+              "not": {
+                "const": "session"
+              }
+            }
+          },
+          "required": [
+            "type"
+          ]
+        }
+      }
+    ]
+  },
+  "requires": [],
+  "capabilities": []
+}
