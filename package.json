@@ -132,7 +132,6 @@
     "history": "^4.7.2",
     "howler": "^2.0.12",
     "intercom-client": "^2.10.4",
-    "isobj": "^1.0.0",
     "json-e": "^2.6.0",
     "json-schema-ref-parser": "^6.0.2",
     "le_node": "^1.8.0",
