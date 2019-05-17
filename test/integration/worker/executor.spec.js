@@ -189,7 +189,6 @@ ava('.insertCard() should ignore pointless updates', async (test) => {
 	const card = await test.context.jellyfish.getCardById(
 		test.context.context, test.context.session, result1.id)
 	test.is(card.created_at, result1.created_at)
-	test.is(card.updated_at, result1.updated_at)
 })
 
 ava('.insertCard() should be able to set active to false', async (test) => {

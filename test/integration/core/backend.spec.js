@@ -750,6 +750,7 @@ ava('.upsertElement() should not consider ids when inserting an element with an 
 	test.deepEqual(result3, {
 		id: result1.id,
 		created_at: result3.created_at,
+		updated_at: result3.updated_at,
 		capabilities: [],
 		active: true,
 		name: null,
@@ -845,6 +846,7 @@ ava('.upsertElement() should ignore the id when' +
 	test.deepEqual(result2, {
 		id: result1.id,
 		created_at: result2.created_at,
+		updated_at: result2.updated_at,
 		links: {},
 		name: null,
 		version: '1.0.0',
@@ -2419,7 +2421,7 @@ ava('.query() should resolve "limit" after resolving links', async (test) => {
 			active: true,
 			capabilities: [],
 			created_at: thread2.created_at,
-			updated_at: null,
+			updated_at: thread2.updated_at,
 			linked_at: {
 				'has attached element': link.created_at
 			},
@@ -2523,7 +2525,7 @@ ava('adding a link should update the linked_at field', async (test) => {
 		slug: thread.slug,
 		tags: [],
 		type: thread.type,
-		updated_at: null,
+		updated_at: thread.updated_at,
 		version: '1.0.0'
 	})
 
@@ -2554,7 +2556,7 @@ ava('adding a link should update the linked_at field', async (test) => {
 		slug: card.slug,
 		tags: [],
 		type: card.type,
-		updated_at: null,
+		updated_at: card.updated_at,
 		version: '1.0.0'
 	})
 })
@@ -2690,7 +2692,7 @@ ava('adding a link should augment an existing linked_at field', async (test) => 
 		slug: thread.slug,
 		tags: [],
 		type: thread.type,
-		updated_at: null,
+		updated_at: thread.updated_at,
 		version: '1.0.0'
 	})
 })
