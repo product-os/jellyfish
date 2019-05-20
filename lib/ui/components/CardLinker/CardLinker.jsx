@@ -20,7 +20,6 @@ import {
 } from 'rendition'
 import constants from '../../constants'
 import helpers from '../../services/helpers'
-import link from '../../services/link'
 import ContextMenu from '../ContextMenu'
 import Icon from '../../shame/Icon'
 
@@ -88,7 +87,7 @@ class CardLinker extends React.Component {
 				return
 			}
 			const linkName = constants.LINKS[card.type][selectedTypeTarget.slug]
-			link.createLink(this.props.card, selectedTarget, linkName)
+			this.props.actions.createLink(this.props.card, selectedTarget, linkName)
 			this.setState({
 				showLinkModal: false,
 				selectedTarget: null

@@ -24,7 +24,6 @@ const {
 	selectors
 } = require('../core')
 const helpers = require('../services/helpers')
-const link = require('../services/link')
 const Timeline = require('./Timeline')
 const CloseButton = require('../shame/CloseButton')
 const Column = require('../shame/Column').default
@@ -51,7 +50,7 @@ class Base extends React.Component {
 			this.setState({
 				addingMember: true
 			})
-			link.createLink(this.props.card, user, 'has member')
+			this.props.actions.createLink(this.props.card, user, 'has member')
 				.catch((error) => {
 					this.props.actions.addNotification('danger', error.message || error)
 				})
@@ -268,6 +267,7 @@ const mapDispatchToProps = (dispatch) => {
 			_.pick(actionCreators, [
 				'addChannel',
 				'addNotification',
+				'createLink',
 				'removeChannel'
 			]),
 			dispatch

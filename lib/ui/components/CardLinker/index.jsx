@@ -13,6 +13,7 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: {
 			addChannel: bindActionCreators(actionCreators.addChannel, dispatch),
+			createLink: bindActionCreators(actionCreators.createLink, dispatch),
 			queryAPI: bindActionCreators(actionCreators.queryAPI, dispatch)
 		}
 	}
