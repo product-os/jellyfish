@@ -243,11 +243,10 @@
               "type": "object",
               "required": [
                 "actor",
-                "target",
+                "input",
                 "action",
                 "timestamp",
-                "arguments",
-                "executed"
+                "arguments"
               ],
               "properties": {
                 "actor": {
@@ -256,8 +255,8 @@
                     "$eval": "user.id"
                   }
                 },
-                "target": {
-                  "type": "string"
+                "input": {
+                  "type": "object"
                 },
                 "action": {
                   "type": "string"
@@ -267,19 +266,12 @@
                 },
                 "arguments": {
                   "type": "object"
-                },
-                "executed": {
-                  "type": "boolean"
-                },
-                "result": {
-                  "type": "object",
-                  "additionalProperties": true
                 }
               }
             }
           },
+          "additionalProperties": true,
           "required": [
-            "id",
             "type",
             "data"
           ]
