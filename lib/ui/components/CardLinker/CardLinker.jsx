@@ -11,12 +11,6 @@ import {
 } from 'react-dnd'
 import Async from 'react-select/lib/Async'
 import {
-	connect
-} from 'react-redux'
-import {
-	bindActionCreators
-} from 'redux'
-import {
 	Box,
 	Button,
 	Modal,
@@ -26,7 +20,6 @@ import {
 } from 'rendition'
 import constants from '../../constants'
 import {
-	actionCreators,
 	sdk
 } from '../../core'
 import helpers from '../../services/helpers'
@@ -297,14 +290,6 @@ class CardLinker extends React.Component {
 	}
 }
 
-const mapDispatchToProps = (dispatch) => {
-	return {
-		actions: {
-			addChannel: bindActionCreators(actionCreators.addChannel, dispatch)
-		}
-	}
-}
-
 const collect = (connector, monitor) => {
 	return {
 		connectDragSource: connector.dragSource(),
@@ -318,6 +303,4 @@ const cardSource = {
 	}
 }
 
-export default DragSource('channel', cardSource, collect)(
-	connect(null, mapDispatchToProps)(CardLinker)
-)
+export default DragSource('channel', cardSource, collect)(CardLinker)
