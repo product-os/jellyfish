@@ -11,9 +11,7 @@ import {
 	Button,
 	Flex
 } from 'rendition'
-import {
-	ViewLink
-} from './ViewLink'
+import ViewLink from '../ViewLink'
 import Icon from '../../shame/Icon'
 
 const TreeMenu = (props) => {

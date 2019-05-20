@@ -15,7 +15,7 @@ const {
 const redux = require('redux')
 const rendition = require('rendition')
 const styledComponents = require('styled-components')
-const MentionsCount = require('./MentionsCount').default
+const MentionsCount = require('../MentionsCount').default
 const {
 	selectors,
 	actionCreators
