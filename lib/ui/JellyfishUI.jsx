@@ -11,8 +11,7 @@ import {
 } from 'react-redux'
 import {
 	Flex,
-	Provider,
-	Theme
+	Provider
 } from 'rendition'
 import ChannelRenderer from './components/ChannelRenderer'
 import HomeChannel from './components/HomeChannel'
