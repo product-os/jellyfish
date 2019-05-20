@@ -1,5 +1,3 @@
-import {
-	ViewLink
-} from './ViewLink'
+import ViewLink from './ViewLink'
 
 export default ViewLink

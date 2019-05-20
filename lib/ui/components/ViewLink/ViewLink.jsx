@@ -4,54 +4,57 @@
  * Proprietary and confidential.
  */
 
-const {
+import {
 	circularDeepEqual
-} = require('fast-equals')
-const _ = require('lodash')
-const React = require('react')
-const {
+} from 'fast-equals'
+import _ from 'lodash'
+import React from 'react'
+import {
 	connect
-} = require('react-redux')
-const redux = require('redux')
-const rendition = require('rendition')
-const styledComponents = require('styled-components')
-const MentionsCount = require('../MentionsCount').default
-const {
+} from 'react-redux'
+import {
+	bindActionCreators
+} from 'redux'
+import {
+	Button,
+	Box,
+	Flex,
+	Link
+} from 'rendition'
+import MentionsCount from '../MentionsCount'
+import {
 	selectors,
 	actionCreators
-} = require('../../core')
-const helpers = require('../../services/helpers')
-const ContextMenu = require('../ContextMenu')
-const NotificationsModal = require('../NotificationsModal')
-const Icon = require('../../shame/Icon')
-const EllipsisButton = styledComponents.default(rendition.Button) `
-	float: right;
-	color: #c3c3c3;
+} from '../../core'
+import helpers from '../../services/helpers'
+import ContextMenu from '../ContextMenu'
+import NotificationsModal from '../NotificationsModal'
+import Icon from '../../shame/Icon'
 
-	&:hover,
-	&:focus {
-		color: #333;
-	}
-`
 class ViewLinkBase extends React.Component {
 	constructor (props) {
 		super(props)
+
 		this.open = (options) => {
 			this.props.open(this.props.card, options)
 		}
+
 		this.toggleMenu = () => {
 			this.setState({
 				showMenu: !this.state.showMenu
 			})
 		}
+
 		this.toggleSettings = () => {
 			this.setState({
 				showSettings: !this.state.showSettings
 			})
 		}
+
 		this.setDefault = () => {
 			this.props.setDefault(this.props.card)
 		}
+
 		this.saveNotificationSettings = (settings) => {
 			const {
 				subscription
@@ -65,18 +68,23 @@ class ViewLinkBase extends React.Component {
 				showSettings: false
 			})
 		}
+
 		this.openSlice = this.openSlice.bind(this)
+
 		this.state = {
 			showMenu: false,
 			showSettings: false
 		}
 	}
+
 	getNotificationSettings () {
 		return _.get(this.props.subscription, [ 'data', 'notificationSettings' ]) || {}
 	}
+
 	shouldComponentUpdate (nextProps, nextState) {
 		return !circularDeepEqual(nextState, this.state) || !circularDeepEqual(nextProps, this.props)
 	}
+
 	openSlice (event) {
 		event.preventDefault()
 
@@ -92,15 +100,16 @@ class ViewLinkBase extends React.Component {
 			}
 		})
 	}
+
 	render () {
 		const {
 			activeSlice, card, isActive, types, update
 		} = this.props
 		const slices = isActive ? helpers.getViewSlices(card, types) : null
 		return (
-			<rendition.Box>
-				<rendition.Flex justifyContent="space-between" bg={(isActive && !activeSlice) ? '#eee' : 'none'}>
-					<rendition.Link
+			<Box>
+				<Flex justifyContent="space-between" bg={(isActive && !activeSlice) ? '#eee' : 'none'}>
+					<Link
 						data-test={`home-channel__item--${card.slug}`}
 						style={{
 							display: 'block',
@@ -113,28 +122,33 @@ class ViewLinkBase extends React.Component {
 						color="#333"
 						href={`#/view~${card.id}`}
 					>
-						<rendition.Flex justifyContent="space-between">
+						<Flex justifyContent="space-between">
 							{card.name}
 
 							{Boolean(update) && card.slug === 'view-my-inbox' && (
 								<MentionsCount mr={2}>{update}</MentionsCount>
 							)}
-						</rendition.Flex>
-					</rendition.Link>
+						</Flex>
+					</Link>
 
 					{isActive &&
-							<EllipsisButton pr={3} pl={1} plain onClick={this.toggleMenu}>
-								<Icon.default name="ellipsis-v"/>
-							</EllipsisButton>}
+							<Button
+								pr={3}
+								pl={1}
+								plain
+								onClick={this.toggleMenu}
+								icon={<Icon name="ellipsis-v"/>}
+							/>
+					}
 
 					{this.state.showMenu &&
 							<ContextMenu.ContextMenu onClose={this.toggleMenu}>
-								<rendition.Button style={{
+								<Button style={{
 									display: 'block'
 								}} mb={2} plain onClick={this.toggleSettings}>
 									Settings
-								</rendition.Button>
-								<rendition.Button
+								</Button>
+								<Button
 									style={{
 										display: 'block'
 									}}
@@ -143,7 +157,7 @@ class ViewLinkBase extends React.Component {
 									onClick={this.setDefault}
 								>
 									Set as default
-								</rendition.Button>
+								</Button>
 							</ContextMenu.ContextMenu>}
 
 					<NotificationsModal.NotificationsModal
@@ -152,7 +166,7 @@ class ViewLinkBase extends React.Component {
 						onCancel={this.toggleSettings}
 						onDone={this.saveNotificationSettings}
 					/>
-				</rendition.Flex>
+				</Flex>
 				{isActive && Boolean(slices) && (
 					<ul
 						style={{
@@ -160,55 +174,60 @@ class ViewLinkBase extends React.Component {
 						}}
 					>
 						{_.map(slices, (slice) => {
-							return (<React.Fragment key={slice.path}>
-								{_.map(slice.values, (value) => {
-									const isActiveSlice = activeSlice && (
-										activeSlice.path === slice.path && activeSlice.value === value
-									)
-									return (
-										<li
-											key={value}
-											style={{
-												background: (isActiveSlice) ? '#eee' : 'none'
-											}}
-										>
-											<rendition.Link
+							return (
+								<React.Fragment key={slice.path}>
+									{_.map(slice.values, (value) => {
+										const isActiveSlice = activeSlice && (
+											activeSlice.path === slice.path && activeSlice.value === value
+										)
+										return (
+											<li
+												key={value}
 												style={{
-													display: 'block'
+													background: (isActiveSlice) ? '#eee' : 'none'
 												}}
-												py={2}
-												pr={3}
-												pl={4}
-												color="#333"
-												href={`#/view~${card.id}`}
-												data-slicetitle={slice.title}
-												data-slicepath={slice.path}
-												data-slicevalue={value}
-												onClick={this.openSlice}
 											>
-												{slice.title}: {value}
-											</rendition.Link>
-										</li>
-									)
-								})}
-							</React.Fragment>)
+												<Link
+													style={{
+														display: 'block'
+													}}
+													py={2}
+													pr={3}
+													pl={4}
+													color="#333"
+													href={`#/view~${card.id}`}
+													data-slicetitle={slice.title}
+													data-slicepath={slice.path}
+													data-slicevalue={value}
+													onClick={this.openSlice}
+												>
+													{slice.title}: {value}
+												</Link>
+											</li>
+										)
+									})}
+								</React.Fragment>
+							)
 						})}
 					</ul>
 				)}
-			</rendition.Box>
+			</Box>
 		)
 	}
 }
+
 const mapStateToProps = (state, ownProps) => {
 	return {
 		subscription: selectors.getSubscription(state, ownProps.card.id),
 		types: selectors.getTypes(state)
 	}
 }
+
 const mapDispatchToProps = (dispatch) => {
-	return redux.bindActionCreators({
+	return bindActionCreators({
 		saveSubscription: actionCreators.saveSubscription,
 		setDefault: actionCreators.setDefault
 	}, dispatch)
 }
-exports.ViewLink = connect(mapStateToProps, mapDispatchToProps)(ViewLinkBase)
+
+export default connect(mapStateToProps, mapDispatchToProps)(ViewLinkBase)
