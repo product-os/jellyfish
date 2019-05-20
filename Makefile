@@ -172,7 +172,7 @@ ESLINT_OPTION_FIX = --fix
 endif
 
 ifeq ($(COVERAGE),1)
-COVERAGE_COMMAND = ./node_modules/.bin/nyc --no-clean --exclude '**/*.spec.js'  --exclude '**/*.spec.jsx'
+COVERAGE_COMMAND = ./node_modules/.bin/nyc --no-clean --extension .js --extension .jsx --exclude '**/*.spec.js' --exclude '**/*.spec.jsx'
 else
 COVERAGE_COMMAND =
 endif
