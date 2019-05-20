@@ -10,28 +10,18 @@ import {
 import _ from 'lodash'
 import React from 'react'
 import {
-	connect
-} from 'react-redux'
-import {
-	bindActionCreators
-} from 'redux'
-import {
 	Button,
 	Box,
 	Flex,
 	Link
 } from 'rendition'
 import MentionsCount from '../MentionsCount'
-import {
-	selectors,
-	actionCreators
-} from '../../core'
 import helpers from '../../services/helpers'
 import ContextMenu from '../ContextMenu'
 import NotificationsModal from '../NotificationsModal'
 import Icon from '../../shame/Icon'
 
-class ViewLinkBase extends React.Component {
+export default class ViewLink extends React.Component {
 	constructor (props) {
 		super(props)
 
@@ -108,10 +98,10 @@ class ViewLinkBase extends React.Component {
 
 	render () {
 		const {
-			activeSlice, 
-			card, 
-			isActive, 
-			types, 
+			activeSlice,
+			card,
+			isActive,
+			types,
 			update
 		} = this.props
 
@@ -226,19 +216,3 @@ class ViewLinkBase extends React.Component {
 		)
 	}
 }
-
-const mapStateToProps = (state, ownProps) => {
-	return {
-		subscription: selectors.getSubscription(state, ownProps.card.id),
-		types: selectors.getTypes(state)
-	}
-}
-
-const mapDispatchToProps = (dispatch) => {
-	return bindActionCreators({
-		saveSubscription: actionCreators.saveSubscription,
-		setDefault: actionCreators.setDefault
-	}, dispatch)
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ViewLinkBase)
