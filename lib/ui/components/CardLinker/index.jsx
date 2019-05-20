@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import {
 	connect
 } from 'react-redux'
@@ -11,11 +12,13 @@ import CardLinker from './CardLinker'
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: {
-			addChannel: bindActionCreators(actionCreators.addChannel, dispatch),
-			createLink: bindActionCreators(actionCreators.createLink, dispatch),
-			queryAPI: bindActionCreators(actionCreators.queryAPI, dispatch)
-		}
+		actions: bindActionCreators(
+			_.pick(actionCreators, [
+				'addChannel',
+				'addNotification',
+				'createLink',
+				'queryAPI'
+			]), dispatch)
 	}
 }
 

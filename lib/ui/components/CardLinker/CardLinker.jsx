@@ -39,27 +39,33 @@ class CardLinker extends React.Component {
 			})
 		}
 		this.getLinkTargets = async (value) => {
-			const {
-				selectedTypeTarget
-			} = this.state
-			if (!selectedTypeTarget || !value) {
-				return []
-			}
-			const filter = helpers.createFullTextSearchFilter(selectedTypeTarget.data.schema, value)
-			_.set(filter, [ 'properties', 'type' ], {
-				type: 'string',
-				const: selectedTypeTarget.slug
-			})
-			const results = await this.props.queryAPI(filter)
-			this.setState({
-				results
-			})
-			return results.map((card) => {
-				return {
-					label: card.name || card.slug || card.id,
-					value: card.id
+			try {
+				const {
+					selectedTypeTarget
+				} = this.state
+				if (!selectedTypeTarget || !value) {
+					return []
 				}
-			})
+				const filter = helpers.createFullTextSearchFilter(selectedTypeTarget.data.schema, value)
+				_.set(filter, [ 'properties', 'type' ], {
+					type: 'string',
+					const: selectedTypeTarget.slug
+				})
+				const results = await this.props.actions.queryAPI(filter)
+				this.setState({
+					results
+				})
+				return results.map((card) => {
+					return {
+						label: card.name || card.slug || card.id,
+						value: card.id
+					}
+				})
+			} catch (error) {
+				this.props.actions.addNotification('danger', error.message || error)
+			}
+
+			return null
 		}
 		this.handleTypeTargetSelect = (event) => {
 			this.setState({
