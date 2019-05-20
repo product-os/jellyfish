@@ -35,46 +35,51 @@ class ViewLinkBase extends React.Component {
 	constructor (props) {
 		super(props)
 
-		this.open = (options) => {
-			this.props.open(this.props.card, options)
-		}
-
-		this.toggleMenu = () => {
-			this.setState({
-				showMenu: !this.state.showMenu
-			})
-		}
-
-		this.toggleSettings = () => {
-			this.setState({
-				showSettings: !this.state.showSettings
-			})
-		}
-
-		this.setDefault = () => {
-			this.props.setDefault(this.props.card)
-		}
-
-		this.saveNotificationSettings = (settings) => {
-			const {
-				subscription
-			} = this.props
-			if (!subscription) {
-				return
-			}
-			subscription.data.notificationSettings = settings
-			this.props.saveSubscription(subscription, this.props.card.id)
-			this.setState({
-				showSettings: false
-			})
-		}
-
-		this.openSlice = this.openSlice.bind(this)
-
 		this.state = {
 			showMenu: false,
 			showSettings: false
 		}
+
+		this.open = this.open.bind(this)
+		this.openSlice = this.openSlice.bind(this)
+		this.saveNotificationSettings = this.saveNotificationSettings.bind(this)
+		this.setDefault = this.setDefault.bind(this)
+		this.toggleMenu = this.toggleMenu.bind(this)
+		this.toggleSettings = this.toggleMenu.bind(this)
+	}
+
+	open (options) {
+		this.props.open(this.props.card, options)
+	}
+
+	toggleMenu () {
+		this.setState({
+			showMenu: !this.state.showMenu
+		})
+	}
+
+	toggleSettings () {
+		this.setState({
+			showSettings: !this.state.showSettings
+		})
+	}
+
+	setDefault () {
+		this.props.setDefault(this.props.card)
+	}
+
+	saveNotificationSettings (settings) {
+		const {
+			subscription
+		} = this.props
+		if (!subscription) {
+			return
+		}
+		subscription.data.notificationSettings = settings
+		this.props.saveSubscription(subscription, this.props.card.id)
+		this.setState({
+			showSettings: false
+		})
 	}
 
 	getNotificationSettings () {
@@ -103,9 +108,15 @@ class ViewLinkBase extends React.Component {
 
 	render () {
 		const {
-			activeSlice, card, isActive, types, update
+			activeSlice, 
+			card, 
+			isActive, 
+			types, 
+			update
 		} = this.props
+
 		const slices = isActive ? helpers.getViewSlices(card, types) : null
+
 		return (
 			<Box>
 				<Flex justifyContent="space-between" bg={(isActive && !activeSlice) ? '#eee' : 'none'}>
