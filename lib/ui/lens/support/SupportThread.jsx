@@ -25,9 +25,7 @@ import {
 	Txt
 } from 'rendition'
 import styled from 'styled-components'
-import {
-	CardActions
-} from '../../components/CardActions'
+import CardActions from '../../components/CardActions'
 import CardField from '../../components/CardField'
 import Event from '../../components/Event'
 import Label from '../../components/Label'

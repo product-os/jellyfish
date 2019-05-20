@@ -16,12 +16,12 @@ const {
 	actionCreators,
 	sdk,
 	selectors
-}	= require('../core')
-const urlManager = require('../services/url-manager')
-const CardLinker = require('./CardLinker')
-const ContextMenu = require('./ContextMenu')
-const ActionLink = require('../shame/ActionLink')
-const Icon = require('../shame/Icon')
+}	= require('../../core')
+const urlManager = require('../../services/url-manager')
+const CardLinker = require('../CardLinker')
+const ContextMenu = require('../ContextMenu')
+const ActionLink = require('../../shame/ActionLink')
+const Icon = require('../../shame/Icon')
 class Base extends React.Component {
 	constructor (props) {
 		super(props)

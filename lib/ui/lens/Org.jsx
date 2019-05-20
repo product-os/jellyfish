@@ -15,7 +15,7 @@ const {
 const reactSelect = require('react-select')
 const redux = require('redux')
 const rendition = require('rendition')
-const CardActions = require('../components/CardActions')
+const CardActions = require('../components/CardActions').default
 const CardField = require('../components/CardField').default
 const Label = require('../components/Label')
 const Tag = require('../components/Tag')
@@ -156,7 +156,7 @@ class Base extends React.Component {
 
 					{!level && (
 						<rendition.Flex align="baseline">
-							<CardActions.CardActions card={card}/>
+							<CardActions card={card}/>
 
 							<CloseButton.CloseButton
 								ml={3}

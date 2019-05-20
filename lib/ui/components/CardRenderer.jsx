@@ -22,7 +22,7 @@ const {
 	selectors
 } = require('../core')
 const helpers = require('../services/helpers')
-const CardActions = require('./CardActions')
+const CardActions = require('./CardActions').default
 const Label = require('./Label')
 const Tag = require('./Tag')
 const Badge = styledComponents.default(rendition.Txt) `
@@ -161,7 +161,7 @@ class Base extends React.Component {
 				</rendition.Heading.h4>
 
 				{!inView &&
-            <CardActions.CardActions card={card}/>}
+            <CardActions card={card}/>}
 			</rendition.Flex>
 
 			{Boolean(card.tags) && card.tags.length > 0 && (
