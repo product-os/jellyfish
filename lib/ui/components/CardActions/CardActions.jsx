@@ -4,25 +4,36 @@
  * Proprietary and confidential.
  */
 
-const copy = require('copy-to-clipboard')
-const _ = require('lodash')
-const React = require('react')
-const {
+import copy from 'copy-to-clipboard'
+import _ from 'lodash'
+import React from 'react'
+import {
 	connect
-} = require('react-redux')
-const redux = require('redux')
-const rendition = require('rendition')
-const {
+} from 'react-redux'
+import {
+	bindActionCreators
+} from 'redux'
+import {
+	Button,
+	Flex,
+	Modal
+} from 'rendition'
+import {
 	actionCreators,
 	sdk,
 	selectors
-}	= require('../../core')
-const urlManager = require('../../services/url-manager')
-const CardLinker = require('../CardLinker')
-const ContextMenu = require('../ContextMenu')
-const ActionLink = require('../../shame/ActionLink')
-const Icon = require('../../shame/Icon')
-class Base extends React.Component {
+}	from '../../core'
+import {
+	createPermaLink
+} from '../../services/url-manager'
+import CardLinker from '../CardLinker'
+import ContextMenu from '../ContextMenu'
+import {
+	ActionLink
+} from '../../shame/ActionLink'
+import Icon from '../../shame/Icon'
+
+class CardActions extends React.Component {
 	constructor (props) {
 		super(props)
 		this.delete = () => {
@@ -40,7 +51,7 @@ class Base extends React.Component {
 		this.copyPermalink = (event) => {
 			event.preventDefault()
 			event.stopPropagation()
-			copy(urlManager.createPermaLink(this.props.card))
+			copy(createPermaLink(this.props.card))
 		}
 		this.copyJSON = (event) => {
 			event.preventDefault()
@@ -80,8 +91,8 @@ class Base extends React.Component {
 	render () {
 		return (
 			<React.Fragment>
-				<rendition.Flex alignItems="center" justifyContent="flex-end">
-					<rendition.Button
+				<Flex alignItems="center" justifyContent="flex-end">
+					<Button
 						plain
 						mr={3}
 						onClick={this.openEditChannel}
@@ -90,25 +101,25 @@ class Base extends React.Component {
 							placement: 'left',
 							text: 'Edit this element'
 						}}
-						icon={<Icon.default name="pencil-alt"/>}
+						icon={<Icon name="pencil-alt"/>}
 					/>
 
 					<CardLinker.CardLinker types={this.props.types} card={this.props.card}/>
 
 					<span>
-						<rendition.Button
+						<Button
 							px={2}
 							mr={-1}
 							plain
 							onClick={this.toggleMenu}
 							data-test="card-action-menu"
-							icon={<Icon.default name="ellipsis-v"/>}
+							icon={<Icon name="ellipsis-v"/>}
 						/>
 
 						{this.state.showMenu &&
 							<ContextMenu.ContextMenu position="bottom" onClose={this.toggleMenu}>
 								<React.Fragment>
-									<ActionLink.ActionLink
+									<ActionLink
 										onClick={this.copyPermalink}
 										tooltip={{
 											text: 'Permalink copied!',
@@ -117,9 +128,9 @@ class Base extends React.Component {
 										data-test="card-action-menu__permalink"
 									>
 										Copy permalink
-									</ActionLink.ActionLink>
+									</ActionLink>
 
-									<ActionLink.ActionLink
+									<ActionLink
 										onClick={this.copyJSON}
 										tooltip={{
 											text: 'JSON copied!',
@@ -128,24 +139,24 @@ class Base extends React.Component {
 										data-test="card-action-menu__json"
 									>
 										Copy as JSON
-									</ActionLink.ActionLink>
+									</ActionLink>
 
-									<ActionLink.ActionLink
+									<ActionLink
 										onClick={this.toggleDeleteModal}
 										data-test="card-action-menu__delete"
 									>
 											Delete
-									</ActionLink.ActionLink>
+									</ActionLink>
 
 									{this.props.children}
 								</React.Fragment>
 							</ContextMenu.ContextMenu>}
 					</span>
 
-				</rendition.Flex>
+				</Flex>
 
 				{this.state.showDeleteModal && (
-					<rendition.Modal
+					<Modal
 						title="Are you sure you want to delete this item?"
 						cancel={this.toggleDeleteModal}
 						done={this.delete}
@@ -168,7 +179,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: redux.bindActionCreators(
+		actions: bindActionCreators(
 			_.pick(actionCreators, [
 				'addNotification',
 				'addChannel'
@@ -178,4 +189,4 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-exports.CardActions = connect(mapStateToProps, mapDispatchToProps)(Base)
+export default connect(mapStateToProps, mapDispatchToProps)(CardActions)
