@@ -159,7 +159,6 @@
           },
           "additionalProperties": true,
           "required": [
-            "id",
             "type",
             "data"
           ]
@@ -219,7 +218,6 @@
           "additionalProperties": true,
           "required": [
             "data",
-            "id",
             "type"
           ]
         }
