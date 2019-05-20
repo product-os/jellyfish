@@ -2,7 +2,7 @@
 # Base
 ###########################################################
 
-FROM balena/open-balena-base:v5.3.1 as base
+FROM resinci/jellyfish-base:3daf0d44 as base
 
 WORKDIR /usr/src/app
 

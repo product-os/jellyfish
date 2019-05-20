@@ -2,7 +2,7 @@
 # Base
 ###########################################################
 
-FROM balena/open-balena-base:v5.3.1 as base
+FROM resinci/jellyfish-base:3daf0d44 as base
 
 WORKDIR /usr/src/app
 
@@ -17,13 +17,7 @@ COPY . /usr/src/app
 # Test
 ###########################################################
 
-FROM balena/open-balena-base:v5.3.1 as test
-
-RUN apt-get update && apt-get install -y redis-server postgresql shellcheck
-
-# Redis will try to set ulimit at startup, and that won't work
-# in non-privileged containers
-RUN sed -i 's/[ \t]*ulimit.*/:/g' /etc/init.d/redis-server
+FROM resinci/jellyfish-test:8e6b2a01 as test
 
 WORKDIR /usr/src/app
 
@@ -35,18 +29,12 @@ RUN service redis-server start && \
 		make lint && \
 		make test-unit COVERAGE=0 && \
 		make test-integration COVERAGE=0 POSTGRES_USER=postgres POSTGRES_PASSWORD=postgres
-RUN service redis-server stop && service postgresql stop
 
 ###########################################################
 # Runtime
 ###########################################################
 
-FROM balena/open-balena-base:v5.3.1 as runtime
-
-# For debugging purposes
-RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main" > /etc/apt/sources.list.d/pgdg.list
-RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
-RUN apt-get update && apt-get install -y postgresql-client-10
+FROM resinci/jellyfish-base:3daf0d44 as runtime
 
 WORKDIR /usr/src/app
 
