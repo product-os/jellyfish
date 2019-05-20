@@ -19,9 +19,6 @@ import {
 	Select
 } from 'rendition'
 import constants from '../../constants'
-import {
-	sdk
-} from '../../core'
 import helpers from '../../services/helpers'
 import link from '../../services/link'
 import ContextMenu from '../ContextMenu'
@@ -54,7 +51,7 @@ class CardLinker extends React.Component {
 				type: 'string',
 				const: selectedTypeTarget.slug
 			})
-			const results = await sdk.query(filter)
+			const results = await this.props.queryAPI(filter)
 			this.setState({
 				results
 			})

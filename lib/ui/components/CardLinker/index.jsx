@@ -12,7 +12,8 @@ import CardLinker from './CardLinker'
 const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: {
-			addChannel: bindActionCreators(actionCreators.addChannel, dispatch)
+			addChannel: bindActionCreators(actionCreators.addChannel, dispatch),
+			queryAPI: bindActionCreators(actionCreators.queryAPI, dispatch)
 		}
 	}
 }
