@@ -9,6 +9,17 @@
 // See https://github.com/avajs/ava/blob/master/docs/recipes/babel.md#compile-sources
 
 require('@babel/register')({
+	presets: [
+		[
+			'@babel/preset-env',
+			{
+				targets: {
+					node: '10'
+				}
+			}
+		],
+		'@babel/preset-react'
+	],
 	only: [
 		/lib\/ui/
 	]
