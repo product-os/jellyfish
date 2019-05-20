@@ -1,5 +1,3 @@
-import {
-	CardLinker
-} from './CardLinker'
+import CardLinker from './CardLinker'
 
 export default CardLinker
