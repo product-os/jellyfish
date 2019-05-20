@@ -1,4 +1,5 @@
 .git
+.tmp
 .cache-loader
 .nyc_ouput
 .storybook

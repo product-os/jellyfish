@@ -1,4 +1,4 @@
-FROM balena/open-balena-base:v5.3.1 as base
+FROM resinci/jellyfish-base:3daf0d44 as base
 
 # Install node, git and packages required to run headless chrome
 RUN apt-get update && apt-get install -y gnuplot gitstats \
@@ -7,3 +7,7 @@ RUN apt-get update && apt-get install -y gnuplot gitstats \
 	libgconf2-4 libasound2 libatk1.0-0 libgtk-3-0 shellcheck redis-server postgresql
 
 RUN npm install -g redoc-cli
+
+# Redis will try to set ulimit at startup, and that won't work
+# in non-privileged containers
+RUN sed -i 's/[ \t]*ulimit.*/:/g' /etc/init.d/redis-server
