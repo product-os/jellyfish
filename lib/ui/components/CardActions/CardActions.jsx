@@ -104,7 +104,7 @@ class CardActions extends React.Component {
 						icon={<Icon name="pencil-alt"/>}
 					/>
 
-					<CardLinker.CardLinker types={this.props.types} card={this.props.card}/>
+					<CardLinker types={this.props.types} card={this.props.card}/>
 
 					<span>
 						<Button

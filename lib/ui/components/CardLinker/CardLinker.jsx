@@ -13,15 +13,15 @@ const {
 } = require('react-redux')
 const redux = require('redux')
 const rendition = require('rendition')
-const constants = require('../constants')
+const constants = require('../../constants')
 const {
 	actionCreators,
 	sdk
-} = require('../core')
-const helpers = require('../services/helpers')
-const link = require('../services/link')
-const ContextMenu = require('./ContextMenu')
-const Icon = require('../shame/Icon')
+} = require('../../core')
+const helpers = require('../../services/helpers')
+const link = require('../../services/link')
+const ContextMenu = require('../ContextMenu')
+const Icon = require('../../shame/Icon')
 
 class CardLinker extends React.Component {
 	constructor (props) {
