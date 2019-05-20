@@ -40,7 +40,6 @@ module.exports = async (context, jellyfish, worker, session) => {
 		// Roles
 		await loadCard('contrib/view-read-user-community.json'),
 		await loadCard('contrib/view-read-user-guest.json'),
-		await loadCard('contrib/view-write-user-community.json'),
 		await loadCard('contrib/view-write-user-guest.json'),
 
 		// Internal views
