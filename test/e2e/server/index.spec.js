@@ -2158,3 +2158,28 @@ ava.serial('/query endpoint should allow you to query using a view\'s id', async
 	test.is(result.code, 200)
 	test.deepEqual(_.uniq(_.map(result.response.data, 'type')), [ 'view' ])
 })
+
+ava.serial('Users should not be able to create sessions as other users', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const user1Details = createUserDetails()
+
+	await test.context.createUser(user1Details)
+
+	const targetUser = await test.context.createUser(createUserDetails())
+
+	await test.context.sdk.auth.login(user1Details)
+
+	await test.throwsAsync(async () => {
+		await sdk.card.create({
+			slug: `session-${targetUser.slug}-${Date.now()}`,
+			type: 'session',
+			data: {
+				actor: targetUser.id,
+				expiration: new Date(Date.now() + 1000 * 120).toISOString()
+			}
+		})
+	})
+})
