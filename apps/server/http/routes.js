@@ -170,6 +170,26 @@ module.exports = (application, jellyfish, worker, queue) => {
 		})
 	})
 
+	application.get('/oauth/:provider', (request, response) => {
+		const provider = request.params.provider
+		const code = request.query.code
+		const state = request.query.state
+
+		logger.info(request.context, 'OAuth authorization', {
+			provider,
+			code,
+			state
+		})
+
+		// TODO: Exchange the authorization token with an access
+		// token by delegating to the right integration.
+		return request.status(200).json({
+			provider,
+			code,
+			state
+		})
+	})
+
 	application.get('/api/v2/type/:type', (request, response) => {
 		jellyfish.query(request.context, request.sessionToken, {
 			type: 'object',
