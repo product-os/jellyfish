@@ -3,7 +3,6 @@
 .cache-loader
 .nyc_ouput
 .storybook
-.tmp
 coverage
 dist
 jellyfish-files
