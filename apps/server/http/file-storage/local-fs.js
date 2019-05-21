@@ -42,7 +42,8 @@ module.exports = class LocalFS {
 		})
 			.catch((err) => {
 				if (retries < this.numberOfRetries) {
-					return Bluebird.delay(100)
+					// Progressively increase the delay the more retries are attempted
+					return Bluebird.delay(100 + (100 * retries))
 						.then(() => {
 							return this.retrieve(scope, name, retries + 1)
 						})
