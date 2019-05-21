@@ -76,6 +76,7 @@ module.exports = async (context, jellyfish, worker, session) => {
 		await loadCard('contrib/triggered-action-integration-discourse-mirror-event.json'),
 		await loadCard('contrib/triggered-action-support-summary.json'),
 		await loadCard('contrib/triggered-action-support-reopen.json'),
+		await loadCard('contrib/triggered-action-support-closed-issue-reopen.json'),
 
 		// User facing views
 		await loadCard('contrib/view-all-views.json'),

@@ -1,0 +1,73 @@
+{
+  "slug": "triggered-action-support-closed-issue-reopen",
+  "type": "triggered-action",
+  "version": "1.0.0",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "filter": {
+      "$$links": {
+        "issue is attached to support thread": {
+          "type": "object",
+          "required": [ "type", "data" ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "support-thread"
+            },
+            "data": {
+              "type": "object",
+              "required": [ "status" ],
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "not": {
+                    "const": "open"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "type": "object",
+      "required": [ "active", "type", "data" ],
+      "properties": {
+        "active": {
+          "type": "boolean",
+          "const": true
+        },
+        "type": {
+          "type": "string",
+          "const": "issue"
+        },
+        "data": {
+          "type": "object",
+          "required": [ "status" ],
+          "properties": {
+            "status": {
+              "type": "string",
+              "const": "closed"
+            }
+          }
+        }
+      }
+    },
+    "action": "action-update-card",
+    "target": {
+      "$eval": "source.links['issue is attached to support thread'][0].id"
+    },
+    "arguments": {
+      "reason": "Re-opened because linked issue was closed",
+      "properties": {
+        "data": {
+          "status": "open"
+        }
+      }
+    }
+  },
+  "requires": [],
+  "capabilities": []
+}

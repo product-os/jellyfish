@@ -212,6 +212,65 @@ ava.afterEach(helpers.mirror.afterEach)
 // Skip all tests if there is no Front token
 const avaTest = TOKEN ? ava.serial : ava.serial.skip
 
+avaTest('should re-open a closed support thread if an attached issue is closed', async (test) => {
+	const supportThread = await test.context.startSupportThread(
+		`My Issue ${uuid()}`,
+		`Foo Bar ${uuid()}`,
+		test.context.inboxes[0])
+
+	const issue = await test.context.sdk.card.create({
+		name: 'My issue',
+		slug: `issue-link-test-${uuid()}`,
+		type: 'issue',
+		version: '1.0.0',
+		data: {
+			repository: 'balena-io/jellyfish-test-github',
+			description: 'Foo bar',
+			status: 'open',
+			mentionsUser: [],
+			alertsUser: []
+		}
+	})
+
+	await test.context.sdk.card.link(
+		supportThread, issue, 'support thread has attached issue')
+
+	const conversationId = _.last(supportThread.data.mirrors[0].split('/'))
+
+	await test.context.sdk.card.update(supportThread.id, {
+		type: supportThread.type,
+		data: {
+			status: 'closed'
+		}
+	})
+
+	const remoteConversationBefore =
+		await test.context.front.conversation.get({
+			conversation_id: conversationId
+		})
+
+	test.is(remoteConversationBefore.status, 'archived')
+
+	await test.context.sdk.card.update(issue.id, {
+		type: issue.type,
+		data: {
+			status: 'closed'
+		}
+	})
+
+	const newSupportThread =
+		await test.context.sdk.card.get(supportThread.id)
+
+	test.is(newSupportThread.data.status, 'open')
+
+	const remoteConversationAfter =
+		await test.context.front.conversation.get({
+			conversation_id: conversationId
+		})
+
+	test.is(remoteConversationAfter.status, 'unassigned')
+})
+
 avaTest('should be able to reply to a moved inbound message', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		`My Issue ${uuid()}`,
