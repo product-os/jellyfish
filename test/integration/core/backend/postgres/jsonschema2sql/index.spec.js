@@ -118,7 +118,7 @@ const runner = async ({
 	/*
 	 * 3. Query the elements back using our translator.
 	 */
-	const query = jsonschema2sql(table, schema, options)
+	const query = jsonschema2sql.createQuery(table, schema, options)
 
 	/*
 	 * 4. Return the results.

@@ -3623,6 +3623,268 @@ ava('.query() should omit a result if a link does not match', async (test) => {
 	])
 })
 
+ava('.query() should be able to text search for a value', async (test) => {
+	const description = uuid()
+
+	const thread = await test.context.backend.upsertElement(test.context.context, {
+		type: 'thread',
+		slug: 'mythread',
+		version: '1.0.0',
+		links: {},
+		tags: [],
+		markers: [],
+		requires: [],
+		capabilities: [],
+		created_at: new Date().toISOString(),
+		updated_at: null,
+		linked_at: {},
+		active: true,
+		data: {
+			description
+		}
+	})
+
+	await test.context.backend.upsertElement(test.context.context, {
+		type: 'thread',
+		slug: `mythread-${uuid()}`,
+		version: '1.0.0',
+		links: {},
+		tags: [],
+		markers: [],
+		requires: [],
+		capabilities: [],
+		created_at: new Date().toISOString(),
+		updated_at: null,
+		linked_at: {},
+		active: true,
+		data: {
+			description: 'foo bar baz'
+		}
+	})
+
+	const results = await test.context.backend.query(test.context.context, {
+		type: 'object',
+		additionalProperties: true,
+		$$search: description
+	})
+
+	test.deepEqual(results, [
+		{
+			active: true,
+			capabilities: [],
+			created_at: thread.created_at,
+			data: {
+				description
+			},
+			id: thread.id,
+			linked_at: {},
+			links: {},
+			markers: [],
+			name: null,
+			requires: [],
+			slug: 'mythread',
+			tags: [],
+			type: 'thread',
+			updated_at: null,
+			version: '1.0.0'
+		}
+	])
+})
+
+ava('.query() should be able to text search on links', async (test) => {
+	const payload = uuid()
+
+	const thread = await test.context.backend.upsertElement(test.context.context, {
+		type: 'thread',
+		slug: 'mythread',
+		version: '1.0.0',
+		links: {},
+		tags: [],
+		markers: [],
+		requires: [],
+		capabilities: [],
+		created_at: new Date().toISOString(),
+		updated_at: null,
+		linked_at: {},
+		active: true,
+		data: {
+			description: 'lorem ipsum dolor sit amet'
+		}
+	})
+
+	const thread2 = await test.context.backend.upsertElement(test.context.context, {
+		type: 'thread',
+		slug: 'mythread2',
+		version: '1.0.0',
+		links: {},
+		tags: [],
+		markers: [],
+		requires: [],
+		capabilities: [],
+		created_at: new Date().toISOString(),
+		updated_at: null,
+		linked_at: {},
+		active: true,
+		data: {
+			description: 'lorem ipsum dolor sit amet'
+		}
+	})
+
+	const message1 = await test.context.backend.upsertElement(test.context.context, {
+		type: 'message',
+		slug: 'foo',
+		version: '1.0.0',
+		links: {},
+		tags: [],
+		markers: [],
+		requires: [],
+		capabilities: [],
+		created_at: new Date().toISOString(),
+		updated_at: null,
+		linked_at: {},
+		active: true,
+		data: {
+			payload
+		}
+	})
+
+	const message2 = await test.context.backend.upsertElement(test.context.context, {
+		type: 'message',
+		slug: 'bar',
+		version: '1.0.0',
+		links: {},
+		tags: [],
+		markers: [],
+		requires: [],
+		capabilities: [],
+		created_at: new Date().toISOString(),
+		updated_at: null,
+		linked_at: {},
+		active: true,
+		data: {
+			payload: 'foo'
+		}
+	})
+
+	const link1 = await test.context.backend.upsertElement(test.context.context, {
+		type: 'link',
+		slug: `link-${message1.slug}-is-attached-to-${thread.slug}`,
+		version: '1.0.0',
+		links: {},
+		tags: [],
+		markers: [],
+		requires: [],
+		capabilities: [],
+		linked_at: {},
+		created_at: new Date().toISOString(),
+		updated_at: null,
+		active: true,
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: {
+				id: message1.id,
+				type: message1.type
+			},
+			to: {
+				id: thread.id,
+				type: thread.type
+			}
+		}
+	})
+
+	await test.context.backend.upsertElement(test.context.context, {
+		type: 'link',
+		slug: `link-${message2.slug}-is-attached-to-${thread.slug}`,
+		version: '1.0.0',
+		links: {},
+		tags: [],
+		markers: [],
+		requires: [],
+		capabilities: [],
+		created_at: new Date().toISOString(),
+		updated_at: null,
+		linked_at: {},
+		active: true,
+		name: 'is attached to',
+		data: {
+			inverseName: 'has attached element',
+			from: {
+				id: message2.id,
+				type: message2.type
+			},
+			to: {
+				id: thread2.id,
+				type: thread2.type
+			}
+		}
+	})
+
+	const results = await test.context.backend.query(test.context.context, {
+		type: 'object',
+		required: [ 'type', 'links', 'data' ],
+		$$links: {
+			'has attached element': {
+				type: 'object',
+				additionalProperties: true
+			}
+		},
+		properties: {
+			links: {
+				type: 'object',
+				additionalProperties: true
+			},
+			id: {
+				type: 'string',
+				const: thread.id
+			},
+			data: {
+				type: 'object',
+				additionalProperties: true
+			},
+			type: {
+				type: 'string',
+				const: 'thread'
+			}
+		}
+	})
+
+	test.deepEqual(results, [
+		{
+			id: thread.id,
+			type: 'thread',
+			links: {
+				'has attached element': [
+					{
+						active: true,
+						slug: 'foo',
+						id: message1.id,
+						name: null,
+						created_at: message1.created_at,
+						updated_at: message1.updated_at,
+						linked_at: {
+							'is attached to': link1.created_at
+						},
+						capabilities: [],
+						markers: [],
+						requires: [],
+						tags: [],
+						version: '1.0.0',
+						links: results[0].links['has attached element'][0].links,
+						type: 'message',
+						data: {
+							payload
+						}
+					}
+				]
+			},
+			data: {
+				description: 'lorem ipsum dolor sit amet'
+			}
+		}
+	])
+})
+
 ava.cb('.stream() should report back new elements that match a certain type', (test) => {
 	test.context.backend.stream(test.context.context, {
 		type: 'object',
