@@ -34,6 +34,27 @@ import Icon from './Icon'
 // it during testing
 const ACTIVE = process.env.NODE_ENV !== 'test'
 
+const getUsers = async (value) => {
+	const results = await sdk.query({
+		type: 'object',
+		properties: {
+			type: {
+				const: 'user'
+			},
+			slug: {
+				pattern: value
+			}
+		},
+		required: [ 'type', 'slug' ],
+		additionalProperties: true
+	}, {
+		limit: 10,
+		sortBy: 'slug'
+	})
+
+	return results
+}
+
 const Container = styled(Box) `
 	.rta {
 		position: relative;
@@ -141,20 +162,18 @@ const getTrigger = _.memoize(() => {
 			output: (item) => { return item.emoji }
 		},
 		'@': {
-			dataProvider: (token) => {
-				const usernames = selectors.getAllUsers(store.getState())
-					.map(({
-						slug
-					}) => {
-						return `@${slug.replace(/^user-/, '')}`
-					})
+			dataProvider: async (token) => {
 				if (!token) {
-					return usernames
+					return []
 				}
-				const matcher = `@${token.toLowerCase()}`
-				return usernames.filter((name) => {
-					return _.startsWith(name, matcher)
+				const users = await getUsers(token.slice(1))
+				const usernames = users.map(({
+					slug
+				}) => {
+					return `@${slug.replace(/^user-/, '')}`
 				})
+
+				return usernames
 			},
 			component: ({
 				entity
@@ -162,20 +181,18 @@ const getTrigger = _.memoize(() => {
 			output: (item) => { return item }
 		},
 		'!': {
-			dataProvider: (token) => {
-				const usernames = selectors.getAllUsers(store.getState())
-					.map(({
-						slug
-					}) => {
-						return `@${slug.replace(/^user-/, '')}`
-					})
+			dataProvider: async (token) => {
 				if (!token) {
-					return usernames
+					return []
 				}
-				const matcher = `!${token.toLowerCase()}`
-				return usernames.filter((name) => {
-					return _.startsWith(name, matcher)
+				const users = await getUsers(token.slice(1))
+				const usernames = users.map(({
+					slug
+				}) => {
+					return `!${slug.replace(/^user-/, '')}`
 				})
+
+				return usernames
 			},
 			component: ({
 				entity

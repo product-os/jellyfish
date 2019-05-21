@@ -110,7 +110,6 @@ class Base extends React.Component {
 								key={key}
 								field={key}
 								payload={payload}
-								users={this.props.allUsers}
 								schema={_.get(schema, [ 'properties', 'data', 'properties', key ])}
 							/>
 							: null
@@ -130,7 +129,6 @@ class Base extends React.Component {
 }
 const mapStateToProps = (state) => {
 	return {
-		allUsers: selectors.getAllUsers(state),
 		types: selectors.getTypes(state)
 	}
 }

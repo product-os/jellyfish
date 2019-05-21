@@ -47,13 +47,20 @@ import {
 } from '../components/Tag'
 import helpers from '../services/helpers'
 import {
-	getActor
-} from '../services/store-helpers'
-import {
 	ActionLink
 } from '../shame/ActionLink'
 import Gravatar from '../shame/Gravatar'
 import Icon from '../shame/Icon'
+
+const ActorPlaceholder = styled.span `
+	width: 80px;
+	line-height: inherit;
+	background: #eee;
+	display: inline-block;
+	color: #eee;
+	border-radius: 10px;
+	text-align: center;
+`
 
 const getAttachments = (card) => {
 	return _.get(card, [ 'data', 'payload', 'attachments' ], []).map((attachment) => {
@@ -171,7 +178,7 @@ const MessageWrapper = styled(Box) `
 const ProxyWrapper = styled(Box) `
 	min-width: 0;
 	background: #f5fcff;
-	border: 3px solid #d7f3ff;
+	box-shadow: #d7f3ff 0px 0px 0px 3px;
 	padding: 8px 12px;
 	margin: 0 8px 16px 0;
 	border-radius: 10px;
@@ -229,13 +236,8 @@ class Event extends React.Component {
 			}, 50)
 		}
 
-		const createCard = _.find(_.get(this.props.card, [ 'links', 'has attached element' ]), {
-			type: 'create'
-		})
-		const actor = _.get(this.props.card, [ 'data', 'actor' ]) || _.get(createCard, [ 'data', 'actor' ])
-
 		this.state = {
-			actor: getActor(actor),
+			actor: null,
 			showMenu: false,
 			expanded: false
 		}
@@ -248,8 +250,18 @@ class Event extends React.Component {
 		return !circularDeepEqual(nextState, this.state) || !circularDeepEqual(nextProps, this.props)
 	}
 
-	componentDidMount () {
+	async componentDidMount () {
 		this.processText()
+
+		const createCard = _.find(_.get(this.props.card, [ 'links', 'has attached element' ]), {
+			type: 'create'
+		})
+
+		const actorId = _.get(this.props.card, [ 'data', 'actor' ]) || _.get(createCard, [ 'data', 'actor' ])
+		const actor = await this.props.actions.getActor(actorId)
+		this.setState({
+			actor
+		})
 	}
 
 	downloadAttachment (event) {
@@ -341,7 +353,7 @@ class Event extends React.Component {
 			text += ' updated by'
 		}
 		return (<Txt color={Theme.colors.text.light}>
-			<em>{text}</em> <strong>{this.state.actor.name}</strong>
+			<em>{text}</em> <strong>{this.state.actor ? this.state.actor.name : ''}</strong>
 		</Txt>)
 	}
 
@@ -349,6 +361,9 @@ class Event extends React.Component {
 		const {
 			card
 		} = this.props
+		const {
+			actor
+		} = this.state
 		const props = _.omit(this.props, [
 			'card',
 			'menuOptions',
@@ -362,7 +377,7 @@ class Event extends React.Component {
 			InnerWrapper = WhisperWrapper
 		}
 
-		if (this.state.actor.proxy) {
+		if (actor && actor.proxy) {
 			InnerWrapper = ProxyWrapper
 		}
 
@@ -392,16 +407,21 @@ class Event extends React.Component {
 					<EventButton onClick={this.openChannel} style={{
 						borderLeftColor: helpers.colorHash(getTargetId(card))
 					}}>
-						<Gravatar.default small email={this.state.actor.email}/>
+						<Gravatar.default small email={actor ? actor.email : null}/>
 					</EventButton>
 					<InnerWrapper flex="1">
 						<Flex justifyContent="space-between" mb={2}>
 							<Flex mt={isMessage ? 0 : '5px'} align="center">
 								{isMessage && (
 									<Txt
-										tooltip={this.state.actor.email}
+										tooltip={actor ? actor.email : 'loading...'}
 									>
-										<strong>{this.state.actor.name}</strong>
+										<strong>
+											{actor
+												? actor.name
+												: <ActorPlaceholder>Loading...</ActorPlaceholder>
+											}
+										</strong>
 									</Txt>
 								)}
 
@@ -519,7 +539,8 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: bindActionCreators(
 			_.pick(actionCreators, [
-				'addNotification'
+				'addNotification',
+				'getActor'
 			]), dispatch)
 	}
 }

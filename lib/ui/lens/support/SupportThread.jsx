@@ -115,6 +115,7 @@ class SupportThreadBase extends React.Component {
 		}
 
 		this.state = {
+			actor: null,
 			linkedSupportIssues: [],
 			linkedGitHubIssues: [],
 			showHighlights: false,
@@ -125,6 +126,14 @@ class SupportThreadBase extends React.Component {
 		this.setCategory = this.setCategory.bind(this)
 		this.openSupportIssueView = this.openSupportIssueView.bind(this)
 		this.openGitHubIssueView = this.openGitHubIssueView.bind(this)
+	}
+
+	async componentDidMount () {
+		const actor = await getCreator(this.props.actions.getActor, this.props.card)
+
+		this.setState({
+			actor
+		})
 	}
 
 	openSupportIssueView () {
@@ -282,7 +291,10 @@ class SupportThreadBase extends React.Component {
 			'environment',
 			'translateDate'
 		)
-		const actor = getCreator(card)
+		const {
+			actor
+		} = this.state
+
 		const highlights = getHighlights(card)
 		return (
 			<Column
@@ -343,7 +355,7 @@ class SupportThreadBase extends React.Component {
 						</Flex>
 					</Flex>
 
-					<Flex align="center" mb={1} wrap>
+					<Flex alignItems="center" mb={1} wrap="true">
 						<ColorHashPill value={_.get(card, [ 'data', 'inbox' ])} mr={2} mb={1} />
 						<ColorHashPill value={_.get(card, [ 'data', 'status' ])} mr={2} mb={1} />
 
@@ -371,9 +383,11 @@ class SupportThreadBase extends React.Component {
 						})}
 					</Flex>
 
-					<Txt mb={1} tooltip={actor.email}>
-						Conversation with <strong>{actor.name}</strong>
-					</Txt>
+					{Boolean(actor) && (
+						<Txt mb={1} tooltip={actor.email}>
+							Conversation with <strong>{actor.name}</strong>
+						</Txt>
+					)}
 
 					{Boolean(card.name) && (
 						<Box mb={1}>
@@ -466,7 +480,6 @@ class SupportThreadBase extends React.Component {
 										key={key}
 										field={key}
 										payload={payload}
-										users={this.props.allUsers}
 										schema={_.get(schema, [ 'properties', 'data', 'properties', key ])}
 									/>
 									: null
@@ -497,7 +510,6 @@ class SupportThreadBase extends React.Component {
 
 const mapStateToProps = (state) => {
 	return {
-		allUsers: selectors.getAllUsers(state),
 		accounts: selectors.getAccounts(state),
 		types: selectors.getTypes(state),
 		user: selectors.getCurrentUser(state)
@@ -510,6 +522,7 @@ const mapDispatchToProps = (dispatch) => {
 			_.pick(actionCreators, [
 				'addChannel',
 				'addNotification',
+				'getActor',
 				'removeChannel'
 			]),
 			dispatch

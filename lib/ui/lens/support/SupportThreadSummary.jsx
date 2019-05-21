@@ -14,7 +14,6 @@ import {
 } from 'rendition'
 import styled from 'styled-components'
 import * as helpers from '../../services/helpers'
-import * as storeHelpers from '../../services/store-helpers'
 import ColorHashPill from '../../shame/ColorHashPill'
 import Gravatar from '../../shame/Gravatar'
 import {
@@ -50,6 +49,29 @@ export default class SupportThreadSummary extends React.Component {
 		super(props)
 
 		this.openChannel = this.openChannel.bind(this)
+
+		this.state = {
+			actor: null,
+			lastActor: null
+		}
+	}
+
+	async componentDidMount () {
+		const card = this.props.card
+		const timeline = _.sortBy(_.get(card.links, [ 'has attached element' ], []), 'data.timestamp')
+		const messages = _.filter(timeline, (event) => {
+			return event.type === 'message' || event.type === 'whisper'
+		})
+		const lastMessageOrWhisper = _.last(messages)
+		const actor = await getCreator(this.props.getActor, card)
+		const lastActor = lastMessageOrWhisper
+			? await this.props.getActor(_.get(lastMessageOrWhisper, [ 'data', 'actor' ]))
+			: null
+
+		this.setState({
+			actor,
+			lastActor
+		})
 	}
 
 	openChannel () {
@@ -60,6 +82,10 @@ export default class SupportThreadSummary extends React.Component {
 		const {
 			props
 		} = this
+		const {
+			actor,
+			lastActor
+		} = this.state
 
 		const card = props.card
 		const timeline = _.sortBy(_.get(card.links, [ 'has attached element' ], []), 'data.timestamp')
@@ -67,10 +93,6 @@ export default class SupportThreadSummary extends React.Component {
 			return event.type === 'message' || event.type === 'whisper'
 		})
 		const lastMessageOrWhisper = _.last(messages)
-		const actor = getCreator(card)
-		const lastActor = lastMessageOrWhisper
-			? storeHelpers.getActor(_.get(lastMessageOrWhisper, [ 'data', 'actor' ]))
-			: null
 
 		const style = {
 			borderLeftColor: helpers.colorHash(card.id)

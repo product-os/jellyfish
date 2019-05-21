@@ -1,6 +1,5 @@
 import * as _ from 'lodash'
 import React from 'react'
-import styled from 'styled-components'
 import {
 	Txt
 } from 'rendition'
@@ -12,19 +11,9 @@ import {
 } from 'rendition/dist/extra/Mermaid'
 import Label from '../components/Label'
 import * as helpers from '../services/helpers'
-import * as storeHelpers from '../services/store-helpers'
 
-const Badge = styled(Txt) `
-	display: inline-block;
-	background: #555;
-	color: white;
-	border-radius: 4px;
-	padding: 1px 8px;
-	margin-right: 4px;
-	font-size: 14px;
-`
 const CardField = ({
-	field, payload, users, schema
+	field, payload, schema
 }) => {
 	const value = payload[field]
 	if (typeof value === 'undefined') {
@@ -34,21 +23,6 @@ const CardField = ({
 	// If the field starts with '$$' it is metaData and shouldn't be displayed
 	if (_.startsWith(field, '$$')) {
 		return null
-	}
-	if (field === 'alertsUser' || field === 'mentionsUser') {
-		const len = value.length
-		if (!len || !users) {
-			return null
-		}
-		const names = value.map((id) => {
-			return storeHelpers.getActor(id).name
-		})
-		return (<Badge tooltip={names.join(', ')} my={1}>
-			{field === 'alertsUser' ? 'Alerts' : 'Mentions'} {len} user{len !== 1 && 's'}
-		</Badge>)
-	}
-	if (field === 'actor') {
-		return <Txt my={3} bold>{storeHelpers.getActor(value).name}</Txt>
 	}
 
 	// Rendering can be optimzed for some known fields
@@ -77,7 +51,6 @@ const CardField = ({
 						key={key}
 						field={key}
 						payload={payload[field]}
-						users={users}
 						schema={_.get(schema, [ 'properties', key ], {})}
 					/>
 				)

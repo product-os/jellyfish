@@ -226,8 +226,7 @@ class TimelineRenderer extends React.Component {
 			newMessage
 		} = this.state
 		const {
-			allowWhispers,
-			allUsers
+			allowWhispers
 		} = this.props
 		if (!newMessage) {
 			return
@@ -242,8 +241,8 @@ class TimelineRenderer extends React.Component {
 			messageSymbol: false
 		})
 		this.props.actions.setTimelineMessage(this.props.card.id, '')
-		const mentions = helpers.getUserIdsByPrefix('@', newMessage, allUsers)
-		const alerts = helpers.getUserIdsByPrefix('!', newMessage, allUsers)
+		const mentions = helpers.getUserSlugsByPrefix('@', newMessage)
+		const alerts = helpers.getUserSlugsByPrefix('!', newMessage)
 		const tags = helpers.findWordsByPrefix('#', newMessage).map((tag) => {
 			return tag.slice(1).toLowerCase()
 		})
@@ -457,7 +456,6 @@ const mapStateToProps = (state, ownProps) => {
 	const card = ownProps.card
 
 	return {
-		allUsers: selectors.getAllUsers(state),
 		user: selectors.getCurrentUser(state),
 		usersTyping: selectors.getUsersTypingOnCard(state, card.id),
 		timelineMessage: selectors.getTimelineMessage(state, card.id)

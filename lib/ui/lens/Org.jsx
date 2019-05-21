@@ -12,7 +12,7 @@ const React = require('react')
 const {
 	connect
 } = require('react-redux')
-const reactSelect = require('react-select')
+const AsyncSelect = require('react-select/lib/Async').default
 const redux = require('redux')
 const rendition = require('rendition')
 const CardActions = require('../components/CardActions').default
@@ -29,7 +29,7 @@ const CloseButton = require('../shame/CloseButton')
 const Column = require('../shame/Column').default
 const Icon = require('../shame/Icon').default
 
-class Base extends React.Component {
+class Org extends React.Component {
 	constructor (props) {
 		super(props)
 		this.handleUserSelect = (selectedUser) => {
@@ -37,20 +37,22 @@ class Base extends React.Component {
 				selectedUser
 			})
 		}
-		this.addMember = () => {
+		this.addMember = async () => {
 			if (!this.state.selectedUser || this.state.addingMember) {
 				return
 			}
-			const user = _.find(this.props.allUsers, {
-				id: this.state.selectedUser.value
-			})
-			if (!user) {
-				return
-			}
+
 			this.setState({
 				addingMember: true
 			})
-			this.props.actions.createLink(this.props.card, user, 'has member')
+
+			const user = await this.props.actions.getActor(this.state.selectedUser.value)
+
+			if (!user) {
+				return
+			}
+
+			this.props.actions.createLink(this.props.card, user.card, 'has member')
 				.catch((error) => {
 					this.props.actions.addNotification('danger', error.message || error)
 				})
@@ -86,16 +88,115 @@ class Base extends React.Component {
 		}
 		this.state = {
 			selectedUser: null,
-			addingMember: false
+			addingMember: false,
+			members: null
+		}
+
+		this.getMembers = this.getMembers.bind(this)
+	}
+
+	componentDidMount () {
+		this.loadMembers()
+	}
+
+	componentDidUpdate (prevProps) {
+		if (prevProps.card.linked_at['has member'] !== this.props.card.linked_at['has member']) {
+			this.loadMembers()
 		}
 	}
+
+	async loadMembers () {
+		try {
+			const result = await this.props.actions.queryAPI({
+				$$links: {
+					'has member': {
+						type: 'object',
+						additionalProperties: true
+					}
+				},
+				type: 'object',
+				properties: {
+					type: {
+						const: 'org'
+					},
+					slug: {
+						const: this.props.card.slug
+					},
+					links: {
+						type: 'object'
+					}
+				},
+				required: [ 'type', 'slug' ]
+			}, {
+				sortBy: 'slug',
+				limit: 1
+			})
+
+			if (result[0]) {
+				this.setState({
+					members: result[0].links['has member']
+				})
+			}
+		} catch (error) {
+			this.props.actions.addNotification('danger', error.message || error)
+		}
+	}
+
 	shouldComponentUpdate (nextProps, nextState) {
 		return !circularDeepEqual(nextState, this.state) || !circularDeepEqual(nextProps, this.props)
 	}
+
+	async getMembers (value) {
+		try {
+			const memberIds = _.map(this.state.members, 'id')
+			const results = await this.props.actions.queryAPI({
+				type: 'object',
+				properties: {
+					type: {
+						const: 'user'
+					},
+					slug: {
+						pattern: value
+					}
+				},
+				required: [ 'type', 'slug' ],
+				additionalProperties: true
+			}, {
+				limit: 10,
+				sortBy: 'slug'
+			})
+
+			const memberOptions = results.filter((user) => {
+				return !_.includes(memberIds, user.id)
+			})
+				.map(({
+					id, slug
+				}) => {
+					return {
+						value: id,
+						label: slug
+					}
+				})
+
+			return memberOptions
+		} catch (error) {
+			this.props.actions.addNotification('danger', error.message || error)
+		}
+
+		return null
+	}
+
 	render () {
 		const {
-			card, fieldOrder, level
+			card,
+			fieldOrder,
+			level
 		} = this.props
+
+		const {
+			members
+		} = this.state
+
 		const payload = card.data
 		const typeCard = _.find(this.props.types, {
 			slug: card.type
@@ -116,18 +217,7 @@ class Base extends React.Component {
 		const keys = (fieldOrder || []).concat(unorderedKeys)
 		const cardSlug = _.get(card, [ 'slug' ])
 		const cardType = _.get(card, [ 'type' ])
-		const memberIds = _.map(card.links['has member'], 'id')
-		const memberOptions = this.props.allUsers.filter((user) => {
-			return !_.includes(memberIds, user.id)
-		})
-			.map(({
-				id, slug
-			}) => {
-				return {
-					value: id,
-					label: slug
-				}
-			})
+
 		const content = (
 			<React.Fragment>
 				<rendition.Flex justifyContent="space-between">
@@ -178,42 +268,49 @@ class Base extends React.Component {
 							key={key}
 							field={key}
 							payload={payload}
-							users={this.props.allUsers}
 							schema={_.get(schema, [ 'properties', 'data', 'properties', key ])}
 						/>
 						: null
 				})}
 
 				<rendition.Box>
-					<Label.default>Members ({memberIds.length})</Label.default>
-					<rendition.Box style={{
-						overflow: 'auto',
-						maxHeight: 150
-					}}>
-						{_.map(memberIds, (id) => {
-							return (
-								<rendition.Link
-									id={id}
-									onClick={this.openUserChannel}
-									href={`${window.location.hash}/${id}`}
-									style={{
-										display: 'block'
-									}}
-								>
-									{_.get(_.find(this.props.allUsers, {
-										id
-									}), [ 'slug' ])}
-								</rendition.Link>
-							)
-						})}
-					</rendition.Box>
+					{members === null && (
+						<Icon spin name="cog"/>
+					)}
+
+					{Boolean(members) && (
+						<React.Fragment>
+							<Label.default>Members ({members.length})</Label.default>
+							<rendition.Box style={{
+								overflow: 'auto',
+								maxHeight: 150
+							}}>
+								{_.map(members, (member) => {
+									return (
+										<rendition.Link
+											key={member.id}
+											id={member.id}
+											onClick={this.openUserChannel}
+											href={`${window.location.hash}/${member.id}`}
+											style={{
+												display: 'block'
+											}}
+										>
+											{member.slug}
+										</rendition.Link>
+									)
+								})}
+							</rendition.Box>
+						</React.Fragment>
+					)}
 
 					<rendition.Box mt={3}>
 
-						<reactSelect.default
+						<AsyncSelect
 							value={this.state.selectedUser}
+							cacheOptions defaultOptions
 							onChange={this.handleUserSelect}
-							options={memberOptions}
+							loadOptions={this.getMembers}
 						/>
 
 						<rendition.Button
@@ -223,7 +320,7 @@ class Base extends React.Component {
 							onClick={this.addMember}
 						>
 							{this.state.addingMember
-								? <Icon spin class="cog"/>
+								? <Icon spin name="cog"/>
 								: 'Add member'}
 						</rendition.Button>
 					</rendition.Box>
@@ -257,7 +354,6 @@ class Base extends React.Component {
 }
 const mapStateToProps = (state) => {
 	return {
-		allUsers: selectors.getAllUsers(state),
 		types: selectors.getTypes(state)
 	}
 }
@@ -268,13 +364,15 @@ const mapDispatchToProps = (dispatch) => {
 				'addChannel',
 				'addNotification',
 				'createLink',
+				'getActor',
+				'queryAPI',
 				'removeChannel'
 			]),
 			dispatch
 		)
 	}
 }
-exports.Renderer = connect(mapStateToProps, mapDispatchToProps)(Base)
+exports.Renderer = connect(mapStateToProps, mapDispatchToProps)(Org)
 const lens = {
 	slug: 'lens-org',
 	type: 'lens',
