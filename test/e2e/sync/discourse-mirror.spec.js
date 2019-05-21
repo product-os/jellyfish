@@ -209,6 +209,63 @@ ava.afterEach(helpers.mirror.afterEach)
 // Skip all tests if there is no Discourse token
 const avaTest = TOKEN ? ava.serial : ava.serial.skip
 
+avaTest('should re-open a closed support thread if an attached issue is closed', async (test) => {
+	const supportThread = await test.context.startSupportThread(
+		test.context.username,
+		`My closed issue topic ${uuid()}`,
+		`Foo Bar ${uuid()}`)
+
+	const issue = await test.context.sdk.card.create({
+		name: 'My issue',
+		slug: `issue-link-test-${uuid()}`,
+		type: 'issue',
+		version: '1.0.0',
+		data: {
+			repository: 'balena-io/jellyfish-test-github',
+			description: 'Foo bar',
+			status: 'open',
+			mentionsUser: [],
+			alertsUser: []
+		}
+	})
+
+	await test.context.sdk.card.link(
+		supportThread, issue, 'support thread has attached issue')
+
+	await test.context.sdk.card.update(supportThread.id, {
+		type: supportThread.type,
+		data: {
+			status: 'closed'
+		}
+	})
+
+	const mirrorId = supportThread.data.mirrors[0]
+	const topicBefore = await test.context.getTopic(_.last(mirrorId.split('/')))
+
+	test.falsy(topicBefore.deleted_at)
+	test.false(topicBefore.closed)
+	test.true(topicBefore.visible)
+
+	await test.context.sdk.card.update(issue.id, {
+		type: issue.type,
+		data: {
+			status: 'closed'
+		}
+	})
+
+	const newSupportThread =
+		await test.context.sdk.card.get(supportThread.id)
+
+	test.is(newSupportThread.data.status, 'open')
+
+	const topicAfter = await test.context.getTopic(_.last(mirrorId.split('/')))
+
+	// We never close remote topics
+	test.falsy(topicAfter.deleted_at)
+	test.false(topicAfter.closed)
+	test.true(topicAfter.visible)
+})
+
 avaTest('should not update a post by posting a #summary whisper', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		test.context.username,
