@@ -15,7 +15,7 @@ const {
 const reactSelect = require('react-select')
 const redux = require('redux')
 const rendition = require('rendition')
-const CardActions = require('../components/CardActions')
+const CardActions = require('../components/CardActions').default
 const CardField = require('../components/CardField').default
 const Label = require('../components/Label')
 const Tag = require('../components/Tag')
@@ -24,7 +24,6 @@ const {
 	selectors
 } = require('../core')
 const helpers = require('../services/helpers')
-const link = require('../services/link')
 const Timeline = require('./Timeline')
 const CloseButton = require('../shame/CloseButton')
 const Column = require('../shame/Column').default
@@ -51,7 +50,7 @@ class Base extends React.Component {
 			this.setState({
 				addingMember: true
 			})
-			link.createLink(this.props.card, user, 'has member')
+			this.props.actions.createLink(this.props.card, user, 'has member')
 				.catch((error) => {
 					this.props.actions.addNotification('danger', error.message || error)
 				})
@@ -156,7 +155,7 @@ class Base extends React.Component {
 
 					{!level && (
 						<rendition.Flex align="baseline">
-							<CardActions.CardActions card={card}/>
+							<CardActions card={card}/>
 
 							<CloseButton.CloseButton
 								ml={3}
@@ -268,6 +267,7 @@ const mapDispatchToProps = (dispatch) => {
 			_.pick(actionCreators, [
 				'addChannel',
 				'addNotification',
+				'createLink',
 				'removeChannel'
 			]),
 			dispatch

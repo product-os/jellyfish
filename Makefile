@@ -172,7 +172,7 @@ ESLINT_OPTION_FIX = --fix
 endif
 
 ifeq ($(COVERAGE),1)
-COVERAGE_COMMAND = ./node_modules/.bin/nyc --no-clean
+COVERAGE_COMMAND = ./node_modules/.bin/nyc --no-clean --extension .js --extension .jsx --exclude '**/*.spec.js' --exclude '**/*.spec.jsx' --exclude 'test/e2e/ui/macros.js'
 else
 COVERAGE_COMMAND =
 endif
@@ -225,7 +225,7 @@ lint:
 	./scripts/lint/check-filenames.sh
 	shellcheck ./scripts/*.sh ./scripts/*/*.sh ./.circleci/*.sh ./deploy-templates/*.sh
 	./node_modules/.bin/deplint
-	./node_modules/.bin/depcheck --ignore-bin-package --ignores=@storybook/*
+	./node_modules/.bin/depcheck --ignore-bin-package --ignores='@storybook/*,@babel/*'
 
 coverage:
 	./node_modules/.bin/nyc --reporter=text --reporter=lcov --reporter=json report
@@ -259,6 +259,9 @@ test-integration-%:
 test-e2e-%:
 	FILES="'./test/e2e/$(subst test-e2e-,,$@)/**/*.spec.{js,jsx}'" \
 		AVA_OPTS="--serial" make test
+
+test-ui:
+	FILES="'./lib/ui/**/*.spec.{js,jsx}'" SCRUB=0 make test
 
 ngrok-%:
 	ngrok start -config ./ngrok.yml $(subst ngrok-,,$@)

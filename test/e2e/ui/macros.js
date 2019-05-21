@@ -123,10 +123,12 @@ exports.createChatMessage = async (page, scopeSelector, messageText) => {
 }
 
 exports.getElementText = async (page, selector) => {
-	await page.waitForSelector(selector)
-	const element = await page.$(selector)
-	const text = await page.evaluate((ele) => {
-		return ele.textContent
-	}, element)
-	return text
+	return exports.retry(3, async () => {
+		await page.waitForSelector(selector)
+		const element = await page.$(selector)
+		const text = await page.evaluate((ele) => {
+			return ele.textContent
+		}, element)
+		return text
+	})
 }

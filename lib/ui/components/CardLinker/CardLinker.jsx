@@ -4,24 +4,24 @@
  * Proprietary and confidential.
  */
 
-const _ = require('lodash')
-const React = require('react')
-const reactDnd = require('react-dnd')
-const Async = require('react-select/lib/Async')
-const {
-	connect
-} = require('react-redux')
-const redux = require('redux')
-const rendition = require('rendition')
-const constants = require('../constants')
-const {
-	actionCreators,
-	sdk
-} = require('../core')
-const helpers = require('../services/helpers')
-const link = require('../services/link')
-const ContextMenu = require('./ContextMenu')
-const Icon = require('../shame/Icon')
+import _ from 'lodash'
+import React from 'react'
+import {
+	DragSource
+} from 'react-dnd'
+import Async from 'react-select/lib/Async'
+import {
+	Box,
+	Button,
+	Modal,
+	Flex,
+	Txt,
+	Select
+} from 'rendition'
+import constants from '../../constants'
+import helpers from '../../services/helpers'
+import ContextMenu from '../ContextMenu'
+import Icon from '../../shame/Icon'
 
 class CardLinker extends React.Component {
 	constructor (props) {
@@ -39,27 +39,33 @@ class CardLinker extends React.Component {
 			})
 		}
 		this.getLinkTargets = async (value) => {
-			const {
-				selectedTypeTarget
-			} = this.state
-			if (!selectedTypeTarget || !value) {
-				return []
-			}
-			const filter = helpers.createFullTextSearchFilter(selectedTypeTarget.data.schema, value)
-			_.set(filter, [ 'properties', 'type' ], {
-				type: 'string',
-				const: selectedTypeTarget.slug
-			})
-			const results = await sdk.query(filter)
-			this.setState({
-				results
-			})
-			return results.map((card) => {
-				return {
-					label: card.name || card.slug || card.id,
-					value: card.id
+			try {
+				const {
+					selectedTypeTarget
+				} = this.state
+				if (!selectedTypeTarget || !value) {
+					return []
 				}
-			})
+				const filter = helpers.createFullTextSearchFilter(selectedTypeTarget.data.schema, value)
+				_.set(filter, [ 'properties', 'type' ], {
+					type: 'string',
+					const: selectedTypeTarget.slug
+				})
+				const results = await this.props.actions.queryAPI(filter)
+				this.setState({
+					results
+				})
+				return results.map((card) => {
+					return {
+						label: card.name || card.slug || card.id,
+						value: card.id
+					}
+				})
+			} catch (error) {
+				this.props.actions.addNotification('danger', error.message || error)
+			}
+
+			return null
 		}
 		this.handleTypeTargetSelect = (event) => {
 			this.setState({
@@ -87,7 +93,7 @@ class CardLinker extends React.Component {
 				return
 			}
 			const linkName = constants.LINKS[card.type][selectedTypeTarget.slug]
-			link.createLink(this.props.card, selectedTarget, linkName)
+			this.props.actions.createLink(this.props.card, selectedTarget, linkName)
 			this.setState({
 				showLinkModal: false,
 				selectedTarget: null
@@ -184,7 +190,7 @@ class CardLinker extends React.Component {
 		return connectDragSource(
 			<div>
 				<span>
-					<rendition.Button
+					<Button
 						data-test="card-linker-action"
 						plain
 						onClick={this.toggleMenu}
@@ -194,15 +200,15 @@ class CardLinker extends React.Component {
 							text: `Link this ${typeName} to another element`
 						}}
 					>
-						<Icon.default name="bezier-curve"/>
-					</rendition.Button>
+						<Icon name="bezier-curve"/>
+					</Button>
 
 					{this.state.showMenu && (
 						<ContextMenu.ContextMenu
 							position="bottom"
 							onClose={this.toggleMenu}
 						>
-							<rendition.Button
+							<Button
 								style={{
 									display: 'block'
 								}}
@@ -212,9 +218,9 @@ class CardLinker extends React.Component {
 								data-test="card-linker-action--existing"
 							>
 								Link to existing element
-							</rendition.Button>
+							</Button>
 
-							<rendition.Button
+							<Button
 								style={{
 									display: 'block'
 								}}
@@ -224,9 +230,9 @@ class CardLinker extends React.Component {
 								data-test="card-linker-action--new"
 							>
 								Create a new element to link to
-							</rendition.Button>
+							</Button>
 
-							<rendition.Button
+							<Button
 								style={{
 									display: 'block'
 								}}
@@ -235,13 +241,13 @@ class CardLinker extends React.Component {
 								data-test="card-linker-action--visualize"
 							>
 								Visualize links
-							</rendition.Button>
+							</Button>
 						</ContextMenu.ContextMenu>
 					)}
 				</span>
 
 				{showLinkModal && (
-					<rendition.Modal
+					<Modal
 						title={`Link this ${typeName} to another element`}
 						cancel={this.hideLinkModal}
 						primaryButtonProps={{
@@ -250,47 +256,39 @@ class CardLinker extends React.Component {
 						}}
 						done={this.linkToExisting}
 					>
-						<rendition.Flex align="center">
-							<rendition.Txt>
+						<Flex align="center">
+							<Txt>
 								Link this {typeName} to{' '}
 								{linkTypeTargets.length === 1 && (linkTypeTargets[0].label || linkTypeTargets[0].value)}
-							</rendition.Txt>
+							</Txt>
 							{linkTypeTargets.length > 1 && (
-								<rendition.Select ml={2}
+								<Select ml={2}
 									value={selectedTypeTarget ? selectedTypeTarget.slug : null}
 									onChange={this.handleTypeTargetSelect}
 								>
 									{linkTypeTargets.map((type) => {
 										return <option value={type.value} key={type.value}>{type.label || type.value}</option>
 									})}
-								</rendition.Select>
+								</Select>
 							)}
-							<rendition.Box
+							<Box
 								flex="1"
 								ml={2}
 								data-test="card-linker--existing__input"
 							>
-								<Async.default
+								<Async
 									classNamePrefix="jellyfish-async-select"
 									value={selectTargetValue}
 									cacheOptions defaultOptions
 									onChange={this.handleTargetSelect}
 									loadOptions={this.getLinkTargets}
 								/>
-							</rendition.Box>
-						</rendition.Flex>
-					</rendition.Modal>
+							</Box>
+						</Flex>
+					</Modal>
 				)}
 			</div>
 		)
-	}
-}
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		actions: {
-			addChannel: redux.bindActionCreators(actionCreators.addChannel, dispatch)
-		}
 	}
 }
 
@@ -307,6 +305,4 @@ const cardSource = {
 	}
 }
 
-exports.CardLinker = reactDnd.DragSource('channel', cardSource, collect)(
-	connect(null, mapDispatchToProps)(CardLinker)
-)
+export default DragSource('channel', cardSource, collect)(CardLinker)

@@ -10,9 +10,17 @@ const reactDnd = require('react-dnd')
 const rendition = require('rendition')
 const styled = require('styled-components').default
 const constants = require('../constants')
-const link = require('../services/link')
 const ErrorBoundary = require('../shame/ErrorBoundary')
 const Icon = require('../shame/Icon').default
+const {
+	connect
+} = require('react-redux')
+const {
+	bindActionCreators
+} = require('redux')
+const {
+	actionCreators
+} = require('../core')
 
 const ErrorNotFound = styled.h1 `
 	color: white;
@@ -52,7 +60,7 @@ class ChannelRenderer extends React.Component {
 		const toCard = this.props.channel.data.head
 		const linkName = _.get(constants.LINKS, [ fromCard.type, toCard.type ], 'is attached to')
 
-		link.createLink(fromCard, toCard, linkName)
+		this.props.actions.createLink(fromCard, toCard, linkName)
 		this.setState({
 			showLinkModal: false,
 			linkFrom: null
@@ -157,11 +165,21 @@ const target = {
 	}
 }
 
-const collect = (connect, monitor) => {
+const collect = (connector, monitor) => {
 	return {
-		connectDropTarget: connect.dropTarget(),
+		connectDropTarget: connector.dropTarget(),
 		isOver: monitor.isOver()
 	}
 }
 
-exports.default = reactDnd.DropTarget('channel', target, collect)(ChannelRenderer)
+const mapDispatchToProps = (dispatch) => {
+	return {
+		actions: {
+			createLink: bindActionCreators(actionCreators.createLink, dispatch)
+		}
+	}
+}
+
+exports.default = reactDnd.DropTarget('channel', target, collect)(
+	connect(null, mapDispatchToProps)(ChannelRenderer)
+)

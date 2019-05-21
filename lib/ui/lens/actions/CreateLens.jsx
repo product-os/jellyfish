@@ -18,7 +18,6 @@ import {
 	Txt
 } from 'rendition'
 import * as helpers from '../../services/helpers'
-import * as link from '../../services/link'
 import {
 	CloseButton
 } from '../../shame/CloseButton'
@@ -190,7 +189,7 @@ class CreateLens extends React.Component {
 				return
 			}
 			const linkName = constants.LINKS[card.type][selectedTypeTarget.slug]
-			link.createLink(card, newCard, linkName)
+			this.props.actions.createLink(card, newCard, linkName)
 			this.close()
 		}
 	}
@@ -317,6 +316,7 @@ const mapDispatchToProps = (dispatch) => {
 			_.pick(actionCreators, [
 				'addChannel',
 				'addNotification',
+				'createLink',
 				'removeChannel'
 			]),
 			dispatch

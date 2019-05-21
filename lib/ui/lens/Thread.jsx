@@ -14,7 +14,7 @@ const {
 } = require('react-redux')
 const redux = require('redux')
 const rendition = require('rendition')
-const CardActions = require('../components/CardActions')
+const CardActions = require('../components/CardActions').default
 const CardField = require('../components/CardField').default
 const Tag = require('../components/Tag')
 const {
@@ -88,7 +88,7 @@ class Base extends React.Component {
 						</rendition.Txt>)}
 
 						{!level && (<rendition.Flex align="baseline">
-							<CardActions.CardActions card={card}/>
+							<CardActions card={card}/>
 
 							<CloseButton.CloseButton
 								ml={3}

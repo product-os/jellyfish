@@ -176,6 +176,7 @@ class UI extends React.Component {
 		)
 	}
 }
+
 const mapStateToProps = (state) => {
 	return {
 		channels: selectors.getChannels(state),

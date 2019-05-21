@@ -19,11 +19,9 @@ import {
 	Link,
 	Txt
 } from 'rendition'
-import MentionsCount from './MentionsCount'
+import MentionsCount from '../MentionsCount'
 import TreeMenu from './TreeMenu'
-import {
-	ViewLink
-} from './ViewLink'
+import ViewLink from '../ViewLink'
 import Gravatar from '../../shame/Gravatar'
 import Icon from '../../shame/Icon'
 import MenuPanel from '../../shame/MenuPanel'

@@ -72,9 +72,7 @@ ava.serial('should let users copy a card as JSON', async (test) => {
 	} = context
 
 	await macros.waitForThenClickSelector(page, '[data-test="card-action-menu"]')
-	console.log('clicked selector, menu')
 	await macros.waitForThenClickSelector(page, '[data-test="card-action-menu__json"]')
-	console.log('clicked selector, json')
 
 	const copiedJSON = await page.evaluate(() => {
 		return window.navigator.clipboard.readText()
