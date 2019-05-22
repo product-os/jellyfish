@@ -179,12 +179,14 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 			}
 		})
 
+	testCase.expected.head.slug =
+		testCase.expected.head.slug || head.slug
+
 	test.deepEqual(
 		Object.assign(
 			testCase.expected.head,
 			_.pick(head, [
 				'id',
-				'slug',
 				'created_at',
 				'updated_at',
 				'linked_at'
@@ -245,6 +247,7 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 		// the beginning, as services might not preserve that information.
 		if (testCase.ignoreUpdateEvents && card.type === 'create') {
 			card.data.payload = _.get(actualTail, [ index, 'data', 'payload' ])
+			card.data.timestamp = _.get(actualTail, [ index, 'data', 'timestamp' ])
 		}
 
 		return card
