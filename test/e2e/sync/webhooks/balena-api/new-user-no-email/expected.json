@@ -1,0 +1,64 @@
+{
+  "head": {
+    "name": null,
+    "slug": "user-johndoe",
+    "type": "user",
+    "version": "1.0.0",
+    "active": true,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "disallowLogin": true,
+      "email": "new@change.me",
+      "roles": [ "user-community" ],
+      "mirrors": [
+        "https://api.balena-cloud.com/v5/user(999)"
+      ],
+      "profile": {
+        "company": "Souvlaki Tek",
+        "name": {
+          "first": "John",
+          "last": "Doe"
+        }
+      }
+    }
+  },
+  "tail": [
+    {
+      "type": "create",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": "user-admin",
+        "timestamp": "2019-04-17T15:24:08.731Z",
+        "payload": {
+          "type": "user",
+          "version": "1.0.0",
+          "active": true,
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "disallowLogin": true,
+            "email": "new@change.me",
+            "roles": [ "user-community" ],
+            "mirrors": [
+              "https://api.balena-cloud.com/v5/user(999)"
+            ],
+            "profile": {
+              "company": "Souvlaki Tek",
+              "name": {
+                "first": "John",
+                "last": "Doe"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
