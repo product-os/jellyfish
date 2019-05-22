@@ -133,7 +133,7 @@ ava.serial('Messages typed but not sent should be preserved when navigating away
 
 	// The delay here isn't ideal, but it helps mitigate issues that can occur due
 	// to the message preservation being debounced in the UI
-	await Bluebird.delay(1000)
+	await Bluebird.delay(5000)
 
 	await page.goto(`http://localhost:${environment.ui.port}/#/thread~${thread2.id}`)
 	await page.waitForSelector(`.column--slug-${thread2.slug}`)

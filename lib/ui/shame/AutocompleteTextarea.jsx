@@ -282,9 +282,19 @@ const QUICK_SEARCH_RE = /^\s*\?[\w_-]+/
 
 const SubAuto = (props) => {
 	const {
-		value, className, onChange, onKeyPress, placeholder
+		value,
+		className,
+		onChange,
+		onKeyPress,
+		placeholder
 	} = props
-	const rest = _.omit(props, [ 'value', 'className', 'onChange', 'onKeyPress', 'placeholder' ])
+	const rest = _.omit(props, [
+		'value',
+		'className',
+		'onChange',
+		'onKeyPress',
+		'placeholder'
+	])
 	return (
 		<Container {...rest}>
 			<ReactTextareaAutocomplete
@@ -417,8 +427,8 @@ class AutoCompleteArea extends React.Component {
 				shouldSend = !event.shiftKey && !event.ctrlKey
 			}
 
-			if ((event.which === 13 || event.keyCode === 13) && shouldSend && this.props.onTextSubmit) {
-				this.props.onTextSubmit(event)
+			if ((event.which === 13 || event.keyCode === 13) && shouldSend && this.props.onSubmit) {
+				this.props.onSubmit(event)
 			}
 		}
 		this.state = {
@@ -456,7 +466,7 @@ class AutoCompleteArea extends React.Component {
 			placeholder,
 			user
 		} = this.props
-		const rest = _.omit(this.props, [ 'value', 'className', 'onChange', 'onTextSubmit', 'placeholder', 'user' ])
+		const rest = _.omit(this.props, [ 'value', 'className', 'onChange', 'onSubmit', 'placeholder', 'user' ])
 
 		const sendCommand = getSendCommand(user)
 
