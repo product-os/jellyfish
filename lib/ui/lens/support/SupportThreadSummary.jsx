@@ -4,6 +4,9 @@
  * Proprietary and confidential.
  */
 
+import {
+	circularDeepEqual
+} from 'fast-equals'
 import * as _ from 'lodash'
 import * as React from 'react'
 import {
@@ -54,6 +57,10 @@ export default class SupportThreadSummary extends React.Component {
 			actor: null,
 			lastActor: null
 		}
+	}
+
+	shouldComponentUpdate (nextProps, nextState) {
+		return !circularDeepEqual(nextState, this.state) || !circularDeepEqual(nextProps, this.props)
 	}
 
 	async componentDidMount () {
