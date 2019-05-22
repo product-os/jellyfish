@@ -407,7 +407,7 @@ class ViewRenderer extends React.Component {
 			types
 		} = this.props
 
-		const tail = _.sortBy(this.props.tail, this.state.options.sortBy)
+		const tail = this.props.tail && _.sortBy(this.props.tail, this.state.options.sortBy)
 
 		const {
 			tailType, activeLens, activeSlice
