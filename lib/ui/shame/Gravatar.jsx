@@ -11,21 +11,37 @@ const React = require('react')
 const rendition = require('rendition')
 const Icon = require('./Icon')
 const GRAVATAR_URL = 'https://www.gravatar.com/avatar/'
-const getGravatar = _.memoize((email) => {
-	return new Bluebird((resolve) => {
-		// The query string makes gravatar return a 404 if the image is not found.
-		// Ordinarily gravatar will return a default image if the avatar isn't found
-		const avatarUrl = `${GRAVATAR_URL + md5(email.trim())}?d=404`
-		const img = new Image()
-		img.src = avatarUrl
-		img.onload = () => {
-			return resolve(avatarUrl)
+
+const getGravatar = (() => {
+	const cache = {}
+
+	return async (email) => {
+		if (cache[email]) {
+			return cache[email]
 		}
-		img.onerror = () => {
-			return resolve('')
-		}
-	})
-})
+
+		const url = await new Bluebird((resolve) => {
+			// The query string makes gravatar return a 404 if the image is not found.
+			// Ordinarily gravatar will return a default image if the avatar isn't found
+			const avatarUrl = `${GRAVATAR_URL + md5(email.trim())}?d=404`
+			const img = new Image()
+			img.src = avatarUrl
+			img.onload = () => {
+				return resolve(avatarUrl)
+			}
+			img.onerror = () => {
+				return resolve('')
+			}
+		})
+
+		cache[email] = url
+
+		return url
+	}
+})()
+
+console.log('loaded')
+
 class Gravatar extends React.Component {
 	constructor (props) {
 		super(props)
