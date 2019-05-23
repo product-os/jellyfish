@@ -1,0 +1,16 @@
+name: Jellyfish Action Server
+slug: jellyfish-action-server
+type: sw.containerized-application
+markers: []
+tags: []
+links: {}
+active: true
+requires: []
+capabilities: []
+data:
+  assets:
+    image:
+      url: 'balena/jellyfish-action-server:17.19.0'
+    repo:
+      url: 'https://github.com/balena-io/jellyfish.git'
+version: 17.19.0
