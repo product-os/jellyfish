@@ -24,7 +24,7 @@
       "active": true,
       "capabilities": [],
       "data": {
-        "actor": "account-charles-openrov-com",
+        "actor": "user-charles-openrov-com",
         "payload": {
           "name": "",
           "type": "support-thread",
@@ -60,7 +60,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "account-charles-openrov-com",
+        "actor": "user-charles-openrov-com",
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_26k77bn"
         ],

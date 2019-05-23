@@ -24,7 +24,7 @@
       "active": true,
       "capabilities": [],
       "data": {
-        "actor": "account-jacobkring-hibersense-com",
+        "actor": "user-jacobkring-hibersense-com",
         "payload": {
           "name": "",
           "type": "support-thread",
@@ -92,7 +92,7 @@
       "active": true,
       "requires": [],
       "data": {
-        "actor": "account-jacobkring-hibersense-com",
+        "actor": "user-jacobkring-hibersense-com",
         "timestamp": "2019-01-02T17:04:59.000Z",
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_27vf9n7"
@@ -132,7 +132,7 @@
       "active": true,
       "requires": [],
       "data": {
-        "actor": "account-jacobkring-hibersense-com",
+        "actor": "user-jacobkring-hibersense-com",
         "timestamp": "2019-01-02T17:05:35.000Z",
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_27vffoj"
@@ -152,7 +152,7 @@
       "active": true,
       "requires": [],
       "data": {
-        "actor": "account-jacobkring-hibersense-com",
+        "actor": "user-jacobkring-hibersense-com",
         "timestamp": "2019-01-02T17:05:46.000Z",
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_27vfhm3"
@@ -232,7 +232,7 @@
       "active": true,
       "requires": [],
       "data": {
-        "actor": "account-jacobkring-hibersense-com",
+        "actor": "user-jacobkring-hibersense-com",
         "timestamp": "2019-01-03T16:14:48.000Z",
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_280hbvv"
