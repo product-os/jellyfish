@@ -1,6 +1,7 @@
 import * as _ from 'lodash'
 import React from 'react'
 import {
+	Link,
 	Txt
 } from 'rendition'
 import {
@@ -18,6 +19,17 @@ const CardField = ({
 	const value = payload[field]
 	if (typeof value === 'undefined') {
 		return null
+	}
+
+	if (field === 'mirrors') {
+		return (
+			<React.Fragment>
+				<Label.default my={3}>{field}</Label.default>
+				{_.map(value, (mirror) => {
+					return <Link blank href={mirror} key={mirror}>{mirror}</Link>
+				})}
+			</React.Fragment>
+		)
 	}
 
 	// If the field starts with '$$' it is metaData and shouldn't be displayed
