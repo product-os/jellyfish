@@ -10,32 +10,24 @@ import {
 import _ from 'lodash'
 import React from 'react'
 import {
-	connect
-} from 'react-redux'
-import {
-	bindActionCreators
-} from 'redux'
-import {
 	Box,
 	Button,
 	Flex
 } from 'rendition'
 import styled from 'styled-components'
 import uuid from 'uuid/v4'
-import Event from '../components/Event'
+import Event from '../../components/Event'
 import {
-	actionCreators,
 	analytics,
-	sdk,
-	selectors
-} from '../core'
-import helpers from '../services/helpers'
+	sdk
+} from '../../core'
+import helpers from '../../services/helpers'
 import {
 	createPermaLink
-} from '../services/url-manager'
-import AutocompleteTextarea from '../shame/AutocompleteTextarea'
-import Column from '../shame/Column'
-import Icon from '../shame/Icon'
+} from '../../services/url-manager'
+import Column from '../../shame/Column'
+import Icon from '../../shame/Icon'
+import MessageInput from './MessageInput'
 
 const messageSymbolRE = /^\s*%\s*/
 
@@ -58,7 +50,7 @@ const TypingNotice = styled.div `
 	}
 `
 
-class TimelineRenderer extends React.Component {
+export default class Timeline extends React.Component {
 	constructor (props) {
 		super(props)
 		this.shouldScroll = true
@@ -77,7 +69,6 @@ class TimelineRenderer extends React.Component {
 		this.handleCardVisible = this.handleCardVisible.bind(this)
 		this.toggleWhisper = this.toggleWhisper.bind(this)
 		this.handleFileChange = this.handleFileChange.bind(this)
-		this.handleUploadButtonClick = this.handleUploadButtonClick.bind(this)
 		this.handleEventToggle = this.handleEventToggle.bind(this)
 		this.handleNewMessageSubmit = this.handleNewMessageSubmit.bind(this)
 		this.handleNewMessageChange = this.handleNewMessageChange.bind(this)
@@ -88,10 +79,10 @@ class TimelineRenderer extends React.Component {
 
 		this.preserveMessage = _.debounce((newMessage) => {
 			this.props.actions.setTimelineMessage(this.props.card.id, newMessage)
-		}, 150)
+		}, 1500)
 	}
 
-	handleNewMessageChange (event) {
+	async handleNewMessageChange (event) {
 		this.signalTyping()
 		const newMessage = event.target.value
 		const messageSymbol = !this.props.allowWhispers || Boolean(newMessage.match(messageSymbolRE))
@@ -117,13 +108,6 @@ class TimelineRenderer extends React.Component {
 		this.setState({
 			whisper: !this.state.whisper
 		})
-	}
-
-	handleUploadButtonClick () {
-		const element = this.fileInputElement
-		if (element) {
-			element.click()
-		}
 	}
 
 	handleFileChange (event) {
@@ -226,8 +210,7 @@ class TimelineRenderer extends React.Component {
 			newMessage
 		} = this.state
 		const {
-			allowWhispers,
-			allUsers
+			allowWhispers
 		} = this.props
 		if (!newMessage) {
 			return
@@ -242,8 +225,8 @@ class TimelineRenderer extends React.Component {
 			messageSymbol: false
 		})
 		this.props.actions.setTimelineMessage(this.props.card.id, '')
-		const mentions = helpers.getUserIdsByPrefix('@', newMessage, allUsers)
-		const alerts = helpers.getUserIdsByPrefix('!', newMessage, allUsers)
+		const mentions = helpers.getUserSlugsByPrefix('@', newMessage)
+		const alerts = helpers.getUserSlugsByPrefix('!', newMessage)
 		const tags = helpers.findWordsByPrefix('#', newMessage).map((tag) => {
 			return tag.slice(1).toLowerCase()
 		})
@@ -298,7 +281,6 @@ class TimelineRenderer extends React.Component {
 	}
 
 	render () {
-		const head = this.props.card
 		const {
 			allowWhispers,
 			tail,
@@ -391,129 +373,17 @@ class TimelineRenderer extends React.Component {
 					</TypingNotice>
 				)}
 
-				{head && head.type !== 'view' &&
-					<Flex
-						style={{
-							borderTop: '1px solid #eee'
-						}}
-						bg={whisper ? '#eee' : 'white'}
-					>
-						{allowWhispers && (
-							<Button
-								px={2}
-								mb={1}
-								plain
-								onClick={this.toggleWhisper}
-								data-test="timeline__whisper-toggle"
-								tooltip={{
-									placement: 'right',
-									text: `Toggle response visibility (currently ${whisper ? 'private' : 'public'})`
-								}}
-								icon={<Icon name={whisper ? 'eye-slash' : 'eye'}/>}
-							/>
-						)}
-
-						<Box
-							flex="1"
-							pt={3}
-							pb={2}
-							pr={3}
-							pl={allowWhispers ? 0 : 3}
-						>
-							<AutocompleteTextarea
-								user={this.props.user}
-								className="new-message-input"
-								value={this.state.newMessage}
-								onChange={this.handleNewMessageChange}
-								onTextSubmit={this.handleNewMessageSubmit}
-								placeholder={whisper ? 'Type your private comment...' : 'Type your public reply...'}
-							/>
-						</Box>
-
-						<Button
-							plain
-							mr={3}
-							mb={1}
-							onClick={this.handleUploadButtonClick}
-							icon={<Icon name="image"/>}
-						/>
-
-						<input
-							style={{
-								display: 'none'
-							}}
-							type="file"
-							ref={this.bindFileInput}
-							onChange={this.handleFileChange}
-						/>
-					</Flex>
-				}
+				<MessageInput
+					allowWhispers={allowWhispers}
+					whisper={whisper}
+					toggleWhisper={this.toggleWhisper}
+					user={this.props.user}
+					value={this.state.newMessage}
+					onChange={this.handleNewMessageChange}
+					onSubmit={this.handleNewMessageSubmit}
+					onFileChange={this.handleFileChange}
+				/>
 			</Column>
 		)
 	}
 }
-
-const mapStateToProps = (state, ownProps) => {
-	const card = ownProps.card
-
-	return {
-		allUsers: selectors.getAllUsers(state),
-		user: selectors.getCurrentUser(state),
-		usersTyping: selectors.getUsersTypingOnCard(state, card.id),
-		timelineMessage: selectors.getTimelineMessage(state, card.id)
-	}
-}
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		actions: bindActionCreators(
-			_.pick(actionCreators, [
-				'addNotification',
-				'setTimelineMessage',
-				'signalTyping'
-			]), dispatch)
-	}
-}
-
-const lens = {
-	slug: 'lens-timeline',
-	type: 'lens',
-	version: '1.0.0',
-	name: 'Timeline lens',
-	data: {
-		icon: 'address-card',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(TimelineRenderer),
-
-		// This lens can display event-like objects
-		filter: {
-			type: 'array',
-			items: {
-				type: 'object',
-				properties: {
-					data: {
-						type: 'object',
-						properties: {
-							timestamp: {
-								type: 'string',
-								format: 'date-time'
-							},
-							actor: {
-								type: 'string',
-								format: 'uuid'
-							},
-							payload: {
-								type: 'object'
-							}
-						},
-						required: [
-							'timestamp',
-							'actor'
-						]
-					}
-				}
-			}
-		}
-	}
-}
-
-export default lens

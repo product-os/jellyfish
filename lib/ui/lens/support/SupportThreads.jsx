@@ -4,6 +4,7 @@
  * Proprietary and confidential.
  */
 
+import * as fastEquals from 'fast-equals'
 import * as _ from 'lodash'
 import * as React from 'react'
 import {
@@ -18,7 +19,6 @@ import {
 	actionCreators,
 	selectors
 } from '../../core'
-import * as storeHelpers from '../../services/store-helpers'
 import Column from '../../shame/Column'
 import Icon from '../../shame/Icon'
 import SupportThreadSummary from './SupportThreadSummary'
@@ -43,7 +43,8 @@ export class SupportThreads extends React.Component {
 		this.state = {
 			creatingCard: false,
 			newMessage: '',
-			showNewCardModal: false
+			showNewCardModal: false,
+			segments: []
 		}
 
 		this.handleScroll = async () => {
@@ -68,11 +69,17 @@ export class SupportThreads extends React.Component {
 		this.bindScrollArea = this.bindScrollArea.bind(this)
 	}
 
-	bindScrollArea (ref) {
-		this.scrollArea = ref
+	componentDidMount () {
+		this.generateSegments()
 	}
 
-	render () {
+	componentDidUpdate (prevProps) {
+		if (!fastEquals.deepEqual(this.props.tail, prevProps.tail)) {
+			this.generateSegments()
+		}
+	}
+
+	async generateSegments () {
 		const tail = _.sortBy(this.props.tail, (element) => {
 			const timestamps = _.map(
 				_.get(element.links, [ 'has attached element' ], []),
@@ -141,7 +148,8 @@ export class SupportThreads extends React.Component {
 
 					// If we are still looping and the message came from a user/proxy then
 					// we can simply break out of the loop
-					const actor = storeHelpers.getActor(event.data.actor)
+					const actor = await this.props.actions.getActor(event.data.actor)
+
 					if (actor.proxy) {
 						break
 					}
@@ -161,11 +169,6 @@ export class SupportThreads extends React.Component {
 			}
 		}
 
-		const activeThread = _.get(
-			_.find(this.props.channels, [ 'data.cardType', 'support-thread' ]),
-			[ 'data', 'head', 'id' ]
-		)
-
 		const segments = [
 			{
 				name: 'All',
@@ -184,6 +187,25 @@ export class SupportThreads extends React.Component {
 				cards: pendingEngineerResponse
 			}
 		]
+
+		this.setState({
+			segments
+		})
+	}
+
+	bindScrollArea (ref) {
+		this.scrollArea = ref
+	}
+
+	render () {
+		const activeThread = _.get(
+			_.find(this.props.channels, [ 'data.cardType', 'support-thread' ]),
+			[ 'data', 'head', 'id' ]
+		)
+
+		const {
+			segments
+		} = this.state
 
 		return (
 			<Column data-test={`lens--${SLUG}`}>
@@ -213,6 +235,7 @@ export class SupportThreads extends React.Component {
 								{_.map(segment.cards, (card) => {
 									return (
 										<SupportThreadSummary
+											getActor={this.props.actions.getActor}
 											key={card.id}
 											active={activeThread === card.id}
 											card={card}
@@ -237,7 +260,6 @@ export class SupportThreads extends React.Component {
 
 const mapStateToProps = (state) => {
 	return {
-		allUsers: selectors.getAllUsers(state),
 		channels: selectors.getChannels(state)
 	}
 }
@@ -246,7 +268,8 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: redux.bindActionCreators(
 			_.pick(actionCreators, [
-				'addChannel'
+				'addChannel',
+				'getActor'
 			]),
 			dispatch
 		)

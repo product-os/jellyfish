@@ -307,7 +307,6 @@ exports.Interleaved = Interleaved
 
 const mapStateToProps = (state) => {
 	return {
-		allUsers: selectors.getAllUsers(state),
 		user: selectors.getCurrentUser(state)
 	}
 }

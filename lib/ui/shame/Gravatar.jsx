@@ -10,6 +10,7 @@ const _ = require('lodash')
 const React = require('react')
 const rendition = require('rendition')
 const Icon = require('./Icon')
+
 const GRAVATAR_URL = 'https://www.gravatar.com/avatar/'
 
 const getGravatar = (() => {
@@ -40,8 +41,6 @@ const getGravatar = (() => {
 	}
 })()
 
-console.log('loaded')
-
 class Gravatar extends React.Component {
 	constructor (props) {
 		super(props)
@@ -52,6 +51,7 @@ class Gravatar extends React.Component {
 			this.load(this.props.email)
 		}
 	}
+
 	componentWillReceiveProps (nextProps) {
 		if (this.props.email !== nextProps.email) {
 			if (nextProps.email) {
@@ -63,6 +63,7 @@ class Gravatar extends React.Component {
 			}
 		}
 	}
+
 	load (email) {
 		getGravatar(email)
 			.then((avatarUrl) => {
@@ -71,6 +72,7 @@ class Gravatar extends React.Component {
 				})
 			})
 	}
+
 	render () {
 		const {
 			small
@@ -79,7 +81,8 @@ class Gravatar extends React.Component {
 		const style = {
 			borderRadius: 3,
 			width: 36,
-			height: 36
+			height: 36,
+			textAlign: 'center'
 		}
 		if (small) {
 			style.width = 24
@@ -91,11 +94,20 @@ class Gravatar extends React.Component {
 			</rendition.Box>)
 		}
 		style.padding = 4
-		return (<rendition.Box {...props}>
-			<rendition.Box style={style}>
-				<Icon.default name="user-circle"/>
+		return (
+			<rendition.Box {...props}>
+				<rendition.Flex
+					p='4px'
+					bg={rendition.Theme.colors.text.light}
+					color='white'
+					flexDirection='column'
+					justifyContent='center'
+					style={style}
+				>
+					<Icon.default name="user"/>
+				</rendition.Flex>
 			</rendition.Box>
-		</rendition.Box>)
+		)
 	}
 }
 exports.default = Gravatar

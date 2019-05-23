@@ -34,6 +34,27 @@ import Icon from './Icon'
 // it during testing
 const ACTIVE = process.env.NODE_ENV !== 'test'
 
+const getUsers = async (value) => {
+	const results = await sdk.query({
+		type: 'object',
+		properties: {
+			type: {
+				const: 'user'
+			},
+			slug: {
+				pattern: value
+			}
+		},
+		required: [ 'type', 'slug' ],
+		additionalProperties: true
+	}, {
+		limit: 10,
+		sortBy: 'slug'
+	})
+
+	return results
+}
+
 const Container = styled(Box) `
 	.rta {
 		position: relative;
@@ -141,20 +162,18 @@ const getTrigger = _.memoize(() => {
 			output: (item) => { return item.emoji }
 		},
 		'@': {
-			dataProvider: (token) => {
-				const usernames = selectors.getAllUsers(store.getState())
-					.map(({
-						slug
-					}) => {
-						return `@${slug.replace(/^user-/, '')}`
-					})
+			dataProvider: async (token) => {
 				if (!token) {
-					return usernames
+					return []
 				}
-				const matcher = `@${token.toLowerCase()}`
-				return usernames.filter((name) => {
-					return _.startsWith(name, matcher)
+				const users = await getUsers(token.slice(1))
+				const usernames = users.map(({
+					slug
+				}) => {
+					return `@${slug.replace(/^user-/, '')}`
 				})
+
+				return usernames
 			},
 			component: ({
 				entity
@@ -162,20 +181,18 @@ const getTrigger = _.memoize(() => {
 			output: (item) => { return item }
 		},
 		'!': {
-			dataProvider: (token) => {
-				const usernames = selectors.getAllUsers(store.getState())
-					.map(({
-						slug
-					}) => {
-						return `@${slug.replace(/^user-/, '')}`
-					})
+			dataProvider: async (token) => {
 				if (!token) {
-					return usernames
+					return []
 				}
-				const matcher = `!${token.toLowerCase()}`
-				return usernames.filter((name) => {
-					return _.startsWith(name, matcher)
+				const users = await getUsers(token.slice(1))
+				const usernames = users.map(({
+					slug
+				}) => {
+					return `!${slug.replace(/^user-/, '')}`
 				})
+
+				return usernames
 			},
 			component: ({
 				entity
@@ -265,9 +282,19 @@ const QUICK_SEARCH_RE = /^\s*\?[\w_-]+/
 
 const SubAuto = (props) => {
 	const {
-		value, className, onChange, onKeyPress, placeholder
+		value,
+		className,
+		onChange,
+		onKeyPress,
+		placeholder
 	} = props
-	const rest = _.omit(props, [ 'value', 'className', 'onChange', 'onKeyPress', 'placeholder' ])
+	const rest = _.omit(props, [
+		'value',
+		'className',
+		'onChange',
+		'onKeyPress',
+		'placeholder'
+	])
 	return (
 		<Container {...rest}>
 			<ReactTextareaAutocomplete
@@ -400,8 +427,8 @@ class AutoCompleteArea extends React.Component {
 				shouldSend = !event.shiftKey && !event.ctrlKey
 			}
 
-			if ((event.which === 13 || event.keyCode === 13) && shouldSend && this.props.onTextSubmit) {
-				this.props.onTextSubmit(event)
+			if ((event.which === 13 || event.keyCode === 13) && shouldSend && this.props.onSubmit) {
+				this.props.onSubmit(event)
 			}
 		}
 		this.state = {
@@ -439,7 +466,7 @@ class AutoCompleteArea extends React.Component {
 			placeholder,
 			user
 		} = this.props
-		const rest = _.omit(this.props, [ 'value', 'className', 'onChange', 'onTextSubmit', 'placeholder', 'user' ])
+		const rest = _.omit(this.props, [ 'value', 'className', 'onChange', 'onSubmit', 'placeholder', 'user' ])
 
 		const sendCommand = getSendCommand(user)
 

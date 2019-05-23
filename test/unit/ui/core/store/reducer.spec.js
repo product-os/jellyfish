@@ -38,8 +38,7 @@ ava('reducer should create a default state if one is not provided', (test) => {
 			session: null,
 			notifications: [],
 			viewNotices: {},
-			allUsers: [],
-			accounts: [],
+			actors: {},
 			orgs: [],
 			config: {},
 			ui: {

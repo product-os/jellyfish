@@ -69,80 +69,28 @@ ava('.getUpdateObjectFromSchema() should parse the `contains` keyword', (test) =
 	})
 })
 
-ava('.getUserIdsByPrefix() should get user ids by parsing text', (test) => {
-	const users = [
-		{
-			slug: 'user-johndoe',
-			id: 'd4b00966-e18f-475a-aa01-7becd3c092d7'
-		},
-		{
-			slug: 'user-janedoe',
-			id: 'ad0fe4d4-5da9-4465-8ddf-7b2d7aac49d5'
-		}
-	]
-
+ava('.getUserSlugsByPrefix() should get user ids by parsing text', (test) => {
 	const source = '@johndoe'
 
-	const result = helpers.getUserIdsByPrefix('@', source, users)
+	const result = helpers.getUserSlugsByPrefix('@', source)
 
-	test.deepEqual(result, [ 'd4b00966-e18f-475a-aa01-7becd3c092d7' ])
+	test.deepEqual(result, [ 'user-johndoe' ])
 })
 
-ava('.getUserIdsByPrefix() should ignore unknown users', (test) => {
-	const users = [
-		{
-			slug: 'user-johndoe',
-			id: 'd4b00966-e18f-475a-aa01-7becd3c092d7'
-		},
-		{
-			slug: 'user-janedoe',
-			id: 'ad0fe4d4-5da9-4465-8ddf-7b2d7aac49d5'
-		}
-	]
+ava('.getUserSlugsByPrefix() should return an array of unique values', (test) => {
+	const source = '@johndoe @johndoe @janedoe'
 
-	const source = '@foobar'
+	const result = helpers.getUserSlugsByPrefix('@', source)
 
-	const result = helpers.getUserIdsByPrefix('@', source, users)
-
-	test.deepEqual(result, [])
+	test.deepEqual(result, [ 'user-johndoe', 'user-janedoe' ])
 })
 
-ava('.getUserIdsByPrefix() should return an array of unique values', (test) => {
-	const users = [
-		{
-			slug: 'user-johndoe',
-			id: 'd4b00966-e18f-475a-aa01-7becd3c092d7'
-		},
-		{
-			slug: 'user-janedoe',
-			id: 'ad0fe4d4-5da9-4465-8ddf-7b2d7aac49d5'
-		}
-	]
-
-	const source = '@johndoe @johndow'
-
-	const result = helpers.getUserIdsByPrefix('@', source, users)
-
-	test.deepEqual(result, [ 'd4b00966-e18f-475a-aa01-7becd3c092d7' ])
-})
-
-ava('.getUserIdsByPrefix() should be able to use an exclamation mark as a prefix', (test) => {
-	const users = [
-		{
-			slug: 'user-johndoe',
-			id: 'd4b00966-e18f-475a-aa01-7becd3c092d7'
-		},
-		{
-			slug: 'user-janedoe',
-			id: 'ad0fe4d4-5da9-4465-8ddf-7b2d7aac49d5'
-		}
-	]
-
+ava('.getUserSlugsByPrefix() should be able to use an exclamation mark as a prefix', (test) => {
 	const source = '!johndoe'
 
-	const result = helpers.getUserIdsByPrefix('!', source, users)
+	const result = helpers.getUserSlugsByPrefix('!', source)
 
-	test.deepEqual(result, [ 'd4b00966-e18f-475a-aa01-7becd3c092d7' ])
+	test.deepEqual(result, [ 'user-johndoe' ])
 })
 
 ava('.findWordsByPrefix() should ignore # symbols in urls', (test) => {

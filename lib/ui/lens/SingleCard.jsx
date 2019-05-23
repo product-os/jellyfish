@@ -122,7 +122,6 @@ class SingleCard extends React.Component {
 							key={key}
 							field={key}
 							payload={payload}
-							users={this.props.allUsers}
 							schema={_.get(schema, [ 'properties', 'data', 'properties', key ])}
 						/>
 						: null
@@ -162,7 +161,6 @@ class SingleCard extends React.Component {
 }
 const mapStateToProps = (state) => {
 	return {
-		allUsers: selectors.getAllUsers(state),
 		types: selectors.getTypes(state)
 	}
 }
