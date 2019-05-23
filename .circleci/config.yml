@@ -77,6 +77,10 @@ jobs:
           name: Unit Tests
           command: make test-unit COVERAGE=1
 
+      - run:
+          name: UI Component Tests
+          command: make test-ui COVERAGE=1
+
       - persist_to_workspace:
           root: .
           paths:
