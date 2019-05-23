@@ -68,7 +68,7 @@
     "@json-schema-org/tests": "^1.0.0",
     "@storybook/react": "^4.0.2",
     "ava": "^1.4.1",
-    "browser-env": "^3.2.5",
+    "browser-env": "^3.2.6",
     "cli-spinner": "^0.2.8",
     "copy-webpack-plugin": "^4.5.1",
     "depcheck": "^0.7.2",
