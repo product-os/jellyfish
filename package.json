@@ -163,7 +163,7 @@
     "react-virtualized": "^9.20.0",
     "react-visibility-sensor": "^5.0.2",
     "redis": "^2.8.0",
-    "redis-mock": "^0.39.0",
+    "redis-mock": "^0.44.0",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "rendition": "^8.7.2",
