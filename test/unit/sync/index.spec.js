@@ -95,3 +95,41 @@ ava('.isValidExternalEventRequest() should return true given Discourse and a sig
 
 	test.true(result)
 })
+
+ava('.isValidExternalEventRequest() should return false given Balena API and no signature header', async (test) => {
+	const result = sync.isValidExternalEventRequest({
+		api: 'xxxxx',
+		signature: 'secret'
+	}, 'balena-api', '....', {})
+	test.false(result)
+})
+
+ava('.isValidExternalEventRequest() should return false given Balena API and a signature but no key', async (test) => {
+	const result = sync.isValidExternalEventRequest(null, 'balena-api', '....', {
+		'x-balena-signature': 'sha1=aaaabbbbcccc'
+	})
+
+	test.false(result)
+})
+
+ava('.isValidExternalEventRequest() should return false given Balena API and a signature mismatch', async (test) => {
+	const result = sync.isValidExternalEventRequest({
+		api: 'xxxxx',
+		signature: 'secret'
+	}, 'balena-api', '{"foo":"bar"}', {
+		'x-balena-signature': 'sha1=foobarbaz'
+	})
+
+	test.false(result)
+})
+
+ava('.isValidExternalEventRequest() should return true given Balena API and a signature match', async (test) => {
+	const result = sync.isValidExternalEventRequest({
+		api: 'xxxxx',
+		signature: 'secret'
+	}, 'balena-api', '{"foo":"bar"}', {
+		'x-balena-signature': 'sha1=52b582138706ac0c597c315cfc1a1bf177408a4d'
+	})
+
+	test.true(result)
+})

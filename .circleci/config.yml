@@ -201,6 +201,34 @@ jobs:
           paths:
             - .nyc_output/*.json
 
+  postgres_sync_tests_balena_api:
+    <<: *postgres_job_defaults
+
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: .
+
+      - run:
+          name: Start PostgreSQL
+          command: service postgresql start && su - postgres -c "psql -U postgres -d postgres -c \"alter user postgres with password 'postgres';\""
+      - run:
+          name: Start Redis
+          command: service redis-server start
+
+      - run:
+          name: Sync Tests
+          command: make test FILES=./test/e2e/sync/balena-api-*.spec.js COVERAGE=1
+      - run:
+          name: Sync End To End Tests Without Tokens
+          command: make test FILES=./test/e2e/sync/balena-api-*.spec.js COVERAGE=1 INTEGRATION_BALENA_API_TOKEN=
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .nyc_output/*.json
+
   postgres_e2e_tests: &postgres_e2e_tests
     <<: *postgres_job_defaults
 
@@ -393,6 +421,11 @@ workflows:
                     - build
                 <<: *workflow_filter
 
+            - postgres_sync_tests_balena_api:
+                requires:
+                    - build
+                <<: *workflow_filter
+
             - postgres_sync_tests_github:
                 requires:
                     - build
@@ -407,6 +440,7 @@ workflows:
                   - postgres_flaky_ui_tests
                   - postgres_sync_tests_front
                   - postgres_sync_tests_discourse
+                  - postgres_sync_tests_balena_api
                   - postgres_sync_tests_github
                 <<: *workflow_filter
 

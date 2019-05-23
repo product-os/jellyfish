@@ -1,0 +1,20 @@
+{
+  "headers": {
+    "accept": "*/*",
+    "connection": "close",
+    "content-type": "application/json"
+  },
+  "payload": {
+    "timestamp": "2019-04-17T15:25:45.231Z",
+    "resource": "user",
+    "type": "update",
+    "payload": {
+      "id": 999,
+      "username": "johndoe",
+      "company": "Souvlaki Tek",
+      "first_name": "John",
+      "last_name": "Doe",
+      "email": "ceo@souvlakitek.com"
+    }
+  }
+}
