@@ -62,6 +62,8 @@ const ActorPlaceholder = styled.span `
 	text-align: center;
 `
 
+const MESSAGE_COLLAPSED_HEIGHT = 400
+
 const getAttachments = (card) => {
 	return _.get(card, [ 'data', 'payload', 'attachments' ], []).map((attachment) => {
 		return {
@@ -86,8 +88,6 @@ const EventButton = styled.button `
 	border-left-style: solid;
 	border-left-width: 3px;
 `
-
-const INITIAL_MESSAGE_LENGTH = 500
 
 const FRONT_IMG_RE = /^\[\/api\/1\/companies\/resin_io\/attachments\/[a-z0-9]+\?resource_link_id=\d+\]$/
 
@@ -169,26 +169,32 @@ const EventWrapper = styled(Flex) `
 
 const MessageWrapper = styled(Box) `
 	min-width: 0;
+	position: relative;
 	box-shadow: rgba(0, 0, 0, 0.25) 0px 0px 3px;
-	padding: 8px 12px;
+	padding-left: 12px
+	padding-right: 12px
 	margin: 0 8px 16px 0;
 	border-radius: 10px;
 `
 
 const ProxyWrapper = styled(Box) `
 	min-width: 0;
+	position: relative;
 	background: #f5fcff;
 	box-shadow: #d7f3ff 0px 0px 0px 3px;
-	padding: 8px 12px;
+	padding-left: 12px
+	padding-right: 12px
 	margin: 0 8px 16px 0;
 	border-radius: 10px;
 `
 
 const WhisperWrapper = styled(Box) `
 	min-width: 0;
+	position: relative;
 	background: #eee;
 	border-radius: 10px;
-	padding: 8px 16px;
+	padding-left: 16px
+	padding-right: 16px
 	margin-right: 80px;
 	margin-bottom: 8px;
 `
@@ -211,6 +217,9 @@ class Event extends React.Component {
 		this.setMessageElement = (element) => {
 			if (element) {
 				this.messageElement = element
+				this.setState({
+					messageHeight: element.clientHeight
+				})
 			}
 		}
 
@@ -230,16 +239,13 @@ class Event extends React.Component {
 			this.setState({
 				expanded: !this.state.expanded
 			})
-
-			setTimeout(() => {
-				this.processText()
-			}, 50)
 		}
 
 		this.state = {
 			actor: null,
 			showMenu: false,
-			expanded: false
+			expanded: false,
+			messageHeight: null
 		}
 
 		this.handleVisibilityChange = this.handleVisibilityChange.bind(this)
@@ -383,14 +389,6 @@ class Event extends React.Component {
 
 		const message = getMessage(card)
 
-		let slicedMessage = this.state.expanded
-			? message
-			: message.slice(0, INITIAL_MESSAGE_LENGTH)
-
-		if (message.length > INITIAL_MESSAGE_LENGTH && !this.state.expanded) {
-			slicedMessage += '...'
-		}
-
 		const attachments = getAttachments(card)
 
 		if (_.get(card, [ 'data', 'payload', 'file' ])) {
@@ -398,6 +396,7 @@ class Event extends React.Component {
 		}
 
 		const timestamp = _.get(card, [ 'data', 'timestamp' ]) || card.created_at
+		const messageOverflows = this.state.messageHeight >= MESSAGE_COLLAPSED_HEIGHT
 
 		return (
 			<VisibilitySensor
@@ -409,7 +408,11 @@ class Event extends React.Component {
 					}}>
 						<Gravatar.default small email={actor ? actor.email : null}/>
 					</EventButton>
-					<InnerWrapper flex="1">
+					<InnerWrapper
+						flex="1"
+						pt={2}
+						pb={messageOverflows ? 0 : 2}
+					>
 						<Flex justifyContent="space-between" mb={2}>
 							<Flex mt={isMessage ? 0 : '5px'} align="center">
 								{isMessage && (
@@ -463,7 +466,7 @@ class Event extends React.Component {
 												text: 'JSON copied!',
 												trigger: 'click'
 											}}>
-														Copy as JSON
+												Copy as JSON
 											</ActionLink>
 
 											{this.props.menuOptions}
@@ -504,25 +507,40 @@ class Event extends React.Component {
 						})}
 
 						{isMessage && Boolean(message) && (
-							<div ref={this.setMessageElement}>
+							<Box
+								ref={this.setMessageElement}
+								py='3px'
+							>
 								<Markdown
+									py='3px'
 									style={{
-										fontSize: 'inherit'
+										fontSize: 'inherit',
+										overflow: 'hidden',
+										maxHeight: !this.state.expanded && messageOverflows
+											? MESSAGE_COLLAPSED_HEIGHT
+											: 'none'
 									}}
 									data-test={card.pending ? '' : 'event-card__message'}
+									flex={0}
 								>
-									{slicedMessage}
+									{message}
 								</Markdown>
-								{message.length > INITIAL_MESSAGE_LENGTH && (
+
+								{messageOverflows && (
 									<Button
-										mt={2}
+										className="event-card__expand"
 										plain
+										width="100%"
+										py={1}
 										onClick={this.expand}
+										style={this.state.expanded ? {} : {
+											boxShadow: '0 -5px 5px -5px rgba(0,0,0,0.5)'
+										}}
 									>
 										<Icon name={`chevron-${this.state.expanded ? 'up' : 'down'}`} />
 									</Button>
 								)}
-							</div>
+							</Box>
 						)}
 
 						{!isMessage && Boolean(card.name) && (
