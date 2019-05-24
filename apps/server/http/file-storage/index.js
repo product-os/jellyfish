@@ -34,7 +34,7 @@ module.exports = class Storage {
 	}
 
 	store (scope, name, data) {
-		this.backend.store(scope, name, data)
+		return this.backend.store(scope, name, data)
 	}
 
 	retrieve (scope, name) {
