@@ -56,12 +56,13 @@ export default class Timeline extends React.Component {
 		this.shouldScroll = true
 
 		this.state = {
-			newMessage: this.props.timelineMessage,
-			showNewCardModal: false,
-			messagesOnly: true,
-			whisper: Boolean(this.props.allowWhispers),
+			hideWhispers: false,
 			messageSymbol: false,
-			pendingMessages: []
+			messagesOnly: true,
+			newMessage: this.props.timelineMessage,
+			pendingMessages: [],
+			showNewCardModal: false,
+			whisper: Boolean(this.props.allowWhispers)
 		}
 
 		this.bindScrollArea = this.bindScrollArea.bind(this)
@@ -72,6 +73,7 @@ export default class Timeline extends React.Component {
 		this.handleEventToggle = this.handleEventToggle.bind(this)
 		this.handleNewMessageSubmit = this.handleNewMessageSubmit.bind(this)
 		this.handleNewMessageChange = this.handleNewMessageChange.bind(this)
+		this.handleWhisperToggle = this.handleWhisperToggle.bind(this)
 
 		this.signalTyping = _.throttle(() => {
 			this.props.actions.signalTyping(this.props.card.id)
@@ -101,6 +103,12 @@ export default class Timeline extends React.Component {
 	handleEventToggle () {
 		this.setState({
 			messagesOnly: !this.state.messagesOnly
+		})
+	}
+
+	handleWhisperToggle () {
+		this.setState({
+			hideWhispers: !this.state.hideWhispers
 		})
 	}
 
@@ -289,7 +297,8 @@ export default class Timeline extends React.Component {
 		const whisper = allowWhispers && this.state.messageSymbol ? false : this.state.whisper
 		const {
 			messagesOnly,
-			pendingMessages
+			pendingMessages,
+			hideWhispers
 		} = this.state
 
 		// Due to a bug in syncing, sometimes there can be duplicate cards in tail
@@ -319,7 +328,24 @@ export default class Timeline extends React.Component {
 						plain
 						tooltip={{
 							placement: 'left',
+							text: `${hideWhispers ? 'Show' : 'Hide'} whispers`
+						}}
+						style={{
+							opacity: hideWhispers ? 0.5 : 1
+						}}
+						ml={2}
+						onClick={this.handleWhisperToggle}
+						icon={<Icon name="user-secret"/>}
+					/>
+
+					<Button
+						plain
+						tooltip={{
+							placement: 'left',
 							text: `${messagesOnly ? 'Show' : 'Hide'} create and update events`
+						}}
+						style={{
+							opacity: messagesOnly ? 0.5 : 1
 						}}
 						className="timeline__checkbox--additional-info"
 						ml={2}
@@ -342,6 +368,10 @@ export default class Timeline extends React.Component {
 					</Box>)}
 
 					{(Boolean(sortedTail) && sortedTail.length > 0) && _.map(sortedTail, (card) => {
+						if (hideWhispers && card.type === 'whisper') {
+							return null
+						}
+
 						return (
 							<Box key={card.id}>
 								<Event
