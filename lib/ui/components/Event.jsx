@@ -171,8 +171,6 @@ const MessageWrapper = styled(Box) `
 	min-width: 0;
 	position: relative;
 	box-shadow: rgba(0, 0, 0, 0.25) 0px 0px 3px;
-	padding-left: 12px
-	padding-right: 12px
 	margin: 0 8px 16px 0;
 	border-radius: 10px;
 `
@@ -182,8 +180,6 @@ const ProxyWrapper = styled(Box) `
 	position: relative;
 	background: #f5fcff;
 	box-shadow: #d7f3ff 0px 0px 0px 3px;
-	padding-left: 12px
-	padding-right: 12px
 	margin: 0 8px 16px 0;
 	border-radius: 10px;
 `
@@ -191,12 +187,33 @@ const ProxyWrapper = styled(Box) `
 const WhisperWrapper = styled(Box) `
 	min-width: 0;
 	position: relative;
-	background: #eee;
-	border-radius: 10px;
-	padding-left: 16px
-	padding-right: 16px
+	background: #333;
+	color: white;
+	border-radius: 4px;
 	margin-right: 80px;
 	margin-bottom: 8px;
+
+	.rendition-tag--hl {
+		background: none;
+	}
+
+	a .rendition-tag--hl {
+		color: white;
+	}
+
+	a .rendition-tag--personal,
+	.rendition-tag--personal {
+		background: #FFF1C2;
+		color: #333;
+
+		&.rendition-tag--read:after {
+			background: #FFC19B;
+			border-radius: 5px;
+			font-size: 8px;
+			padding: 2px;
+		}
+	}
+
 `
 
 class Event extends React.Component {
@@ -412,6 +429,7 @@ class Event extends React.Component {
 					<InnerWrapper
 						flex="1"
 						pt={2}
+						px="12px"
 						pb={messageOverflows ? 0 : 2}
 					>
 						<Flex justifyContent="space-between" mb={2}>
@@ -516,7 +534,7 @@ class Event extends React.Component {
 									py='3px'
 									style={{
 										fontSize: 'inherit',
-										overflow: 'hidden',
+										overflow: messageOverflows ? 'hidden' : 'initial',
 										maxHeight: !this.state.expanded && messageOverflows
 											? MESSAGE_COLLAPSED_HEIGHT
 											: 'none'

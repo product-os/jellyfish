@@ -44,6 +44,18 @@ const SummaryMessage = styled(Txt) `
 	border-radius: 10px;
 	padding: 4px 16px;
 	color: #333;
+	background: white;
+	flex: 1;
+`
+
+const SummaryWhisper = styled(Txt) `
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	border-radius: 10px;
+	padding: 4px 16px;
+	color: white;
+	background: #333;
 	flex: 1;
 `
 
@@ -110,6 +122,10 @@ export default class SupportThreadSummary extends React.Component {
 			style.color = 'white'
 		}
 
+		const Container = (lastMessageOrWhisper || {}).type === 'whisper'
+			? SummaryWhisper
+			: SummaryMessage
+
 		return (
 			<SupportThreadSummaryWrapper
 				data-test-component="support-thread-summary"
@@ -145,18 +161,15 @@ export default class SupportThreadSummary extends React.Component {
 					<Flex>
 						<Gravatar.default small pr={2} email={lastActor ? lastActor.email : null}/>
 
-						<SummaryMessage
+						<Container
 							data-test-component="support-thread-summary__message"
-							style={{
-								background: (lastMessageOrWhisper || {}).type === 'whisper' ? '#eee' : 'white'
-							}}
 						>
 							{
 								_.get(lastMessageOrWhisper, [ 'data', 'payload', 'message' ], '')
 									.split('\n')
 									.shift()
 							}
-						</SummaryMessage>
+						</Container>
 					</Flex>
 				)}
 			</SupportThreadSummaryWrapper>
