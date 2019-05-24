@@ -119,7 +119,7 @@ export default class SupportThreadSummary extends React.Component {
 				onClick={this.openChannel}
 			>
 				<Flex justifyContent="space-between">
-					<Flex mb={2}>
+					<Flex mb={2} alignItems="flex-start">
 						<ColorHashPill value={_.get(card, [ 'data', 'inbox' ])} mr={2} />
 						<ColorHashPill value={_.get(card, [ 'data', 'status' ])} mr={2} />
 					</Flex>
