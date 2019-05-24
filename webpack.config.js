@@ -12,18 +12,25 @@ const IgnorePlugin = require('webpack/lib/IgnorePlugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const root = path.resolve(__dirname, '.')
-const uiRoot = path.join(root, 'lib', 'ui')
-const indexFilePath = path.join(uiRoot, 'index.html')
-const iconsFolderPath = path.join(uiRoot, 'icons')
-const audioFolderPath = path.join(uiRoot, 'audio')
-const faviconPath = path.join(uiRoot, 'favicon.ico')
+const resourcesRoot = path.join(root, 'lib', 'ui')
+
+// eslint-disable-next-line no-process-env
+const UI_DIRECTORY = process.env.UI_DIRECTORY || 'lib/ui'
+
+const uiRoot = path.join(root, UI_DIRECTORY)
+const indexFilePath = path.join(resourcesRoot, 'index.html')
+const iconsFolderPath = path.join(resourcesRoot, 'icons')
+const audioFolderPath = path.join(resourcesRoot, 'audio')
+const faviconPath = path.join(resourcesRoot, 'favicon.ico')
 const outDir = path.join(root, 'dist')
 const packageJSON = require('./package.json')
+
+console.log(`Generating bundle from ${uiRoot}`)
 
 const config = {
 	mode: 'development',
 	target: 'web',
-	entry: path.join(root, 'lib', 'ui', 'index.jsx'),
+	entry: path.join(uiRoot, 'index.jsx'),
 	output: {
 		filename: 'bundle.[hash].js',
 		path: outDir
@@ -32,8 +39,8 @@ const config = {
 	resolve: {
 		extensions: [ '.js', '.jsx', '.json' ],
 		alias: {
-			'@jellyfish-ui-components': path.resolve(__dirname, 'lib/ui/components'),
-			'@jellyfish-ui-shame': path.resolve(__dirname, 'lib/ui/shame')
+			'@jellyfish-ui-components': path.resolve(uiRoot, 'components'),
+			'@jellyfish-ui-shame': path.resolve(uiRoot, 'shame')
 		}
 	},
 
@@ -43,7 +50,12 @@ const config = {
 				test: /\.(js|jsx)$/,
 				exclude: /node_modules/,
 				use: [
-					'babel-loader'
+					{
+						loader: 'babel-loader',
+						options: {
+							presets: [ '@babel/preset-react' ]
+						}
+					}
 				]
 			},
 			{
