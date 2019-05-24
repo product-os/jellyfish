@@ -39,6 +39,7 @@ avaTest('should change the remote username to an existing unsynced user', async 
 			payload: {
 				timestamp: '2019-04-17T15:25:46.231Z',
 				resource: 'user',
+				source: 'api.balena-cloud.com',
 				type: 'create',
 				payload: {
 					id: 124,
@@ -57,6 +58,7 @@ avaTest('should change the remote username to an existing unsynced user', async 
 			payload: {
 				timestamp: '2019-04-17T15:26:45.231Z',
 				resource: 'user',
+				source: 'api.balena-cloud.com',
 				type: 'update',
 				payload: {
 					id: 124,
@@ -138,6 +140,7 @@ avaTest('should change the remote username to an existing user', async (test) =>
 			payload: {
 				timestamp: '2019-04-17T15:25:45.231Z',
 				resource: 'user',
+				source: 'api.balena-cloud.com',
 				type: 'create',
 				payload: {
 					id: 123,
@@ -156,6 +159,7 @@ avaTest('should change the remote username to an existing user', async (test) =>
 			payload: {
 				timestamp: '2019-04-17T15:25:46.231Z',
 				resource: 'user',
+				source: 'api.balena-cloud.com',
 				type: 'create',
 				payload: {
 					id: 124,
@@ -174,6 +178,7 @@ avaTest('should change the remote username to an existing user', async (test) =>
 			payload: {
 				timestamp: '2019-04-17T15:26:45.231Z',
 				resource: 'user',
+				source: 'api.balena-cloud.com',
 				type: 'update',
 				payload: {
 					id: 124,
@@ -256,6 +261,7 @@ avaTest('should change the remote username to an existing user while removing ex
 			payload: {
 				timestamp: '2019-04-17T15:25:45.231Z',
 				resource: 'user',
+				source: 'api.balena-cloud.com',
 				type: 'create',
 				payload: {
 					id: 123,
@@ -274,6 +280,7 @@ avaTest('should change the remote username to an existing user while removing ex
 			payload: {
 				timestamp: '2019-04-17T15:25:46.231Z',
 				resource: 'user',
+				source: 'api.balena-cloud.com',
 				type: 'create',
 				payload: {
 					id: 124,
@@ -292,6 +299,7 @@ avaTest('should change the remote username to an existing user while removing ex
 			payload: {
 				timestamp: '2019-04-17T15:26:49.231Z',
 				resource: 'user',
+				source: 'api.balena-cloud.com',
 				type: 'update',
 				payload: {
 					id: 124,
@@ -379,6 +387,7 @@ avaTest('should change the remote username to an existing user and add a name', 
 			payload: {
 				timestamp: '2019-04-17T15:25:45.231Z',
 				resource: 'user',
+				source: 'api.balena-cloud.com',
 				type: 'create',
 				payload: {
 					id: 123,
@@ -397,6 +406,7 @@ avaTest('should change the remote username to an existing user and add a name', 
 			payload: {
 				timestamp: '2019-04-17T15:25:46.231Z',
 				resource: 'user',
+				source: 'api.balena-cloud.com',
 				type: 'create',
 				payload: {
 					id: 124,
@@ -415,6 +425,7 @@ avaTest('should change the remote username to an existing user and add a name', 
 			payload: {
 				timestamp: '2019-04-17T15:26:49.231Z',
 				resource: 'user',
+				source: 'api.balena-cloud.com',
 				type: 'update',
 				payload: {
 					id: 124,
@@ -504,6 +515,7 @@ avaTest('should change the remote username to an existing user while removing th
 			payload: {
 				timestamp: '2019-04-17T15:25:45.231Z',
 				resource: 'user',
+				source: 'api.balena-cloud.com',
 				type: 'create',
 				payload: {
 					id: 123,
@@ -524,6 +536,7 @@ avaTest('should change the remote username to an existing user while removing th
 			payload: {
 				timestamp: '2019-04-17T15:25:46.231Z',
 				resource: 'user',
+				source: 'api.balena-cloud.com',
 				type: 'create',
 				payload: {
 					id: 124,
@@ -540,6 +553,7 @@ avaTest('should change the remote username to an existing user while removing th
 			payload: {
 				timestamp: '2019-04-17T15:26:49.231Z',
 				resource: 'user',
+				source: 'api.balena-cloud.com',
 				type: 'update',
 				payload: {
 					id: 124,
@@ -621,6 +635,7 @@ avaTest('should change the remote username to an existing user while removing th
 			payload: {
 				timestamp: '2019-04-17T15:25:45.231Z',
 				resource: 'user',
+				source: 'api.balena-cloud.com',
 				type: 'create',
 				payload: {
 					id: 123,
@@ -641,6 +656,7 @@ avaTest('should change the remote username to an existing user while removing th
 			payload: {
 				timestamp: '2019-04-17T15:25:46.231Z',
 				resource: 'user',
+				source: 'api.balena-cloud.com',
 				type: 'create',
 				payload: {
 					id: 124,
@@ -661,6 +677,7 @@ avaTest('should change the remote username to an existing user while removing th
 			payload: {
 				timestamp: '2019-04-17T15:26:45.231Z',
 				resource: 'user',
+				source: 'api.balena-cloud.com',
 				type: 'update',
 				payload: {
 					id: 124,
@@ -752,6 +769,7 @@ avaTest('should change the remote username to an existing user with a name', asy
 			payload: {
 				timestamp: '2019-04-17T15:25:45.231Z',
 				resource: 'user',
+				source: 'api.balena-cloud.com',
 				type: 'create',
 				payload: {
 					id: 123,
@@ -772,6 +790,7 @@ avaTest('should change the remote username to an existing user with a name', asy
 			payload: {
 				timestamp: '2019-04-17T15:25:46.231Z',
 				resource: 'user',
+				source: 'api.balena-cloud.com',
 				type: 'create',
 				payload: {
 					id: 124,
@@ -792,6 +811,7 @@ avaTest('should change the remote username to an existing user with a name', asy
 			payload: {
 				timestamp: '2019-04-17T15:26:45.231Z',
 				resource: 'user',
+				source: 'api.balena-cloud.com',
 				type: 'update',
 				payload: {
 					id: 124,
@@ -884,6 +904,7 @@ avaTest('should change the remote username', async (test) => {
 			payload: {
 				timestamp: '2019-04-17T15:25:45.231Z',
 				resource: 'user',
+				source: 'api.balena-cloud.com',
 				type: 'create',
 				payload: {
 					id: 123,
@@ -902,6 +923,7 @@ avaTest('should change the remote username', async (test) => {
 			payload: {
 				timestamp: '2019-04-17T15:26:45.231Z',
 				resource: 'user',
+				source: 'api.balena-cloud.com',
 				type: 'update',
 				payload: {
 					id: 123,
@@ -972,6 +994,7 @@ avaTest('should change the remote username while filling in the company', async 
 			payload: {
 				timestamp: '2019-04-17T15:25:45.231Z',
 				resource: 'user',
+				source: 'api.balena-cloud.com',
 				type: 'create',
 				payload: {
 					id: 123,
@@ -988,6 +1011,7 @@ avaTest('should change the remote username while filling in the company', async 
 			payload: {
 				timestamp: '2019-04-17T15:26:45.231Z',
 				resource: 'user',
+				source: 'api.balena-cloud.com',
 				type: 'update',
 				payload: {
 					id: 123,
@@ -1057,6 +1081,7 @@ avaTest('should change the remote username while filling in the first name', asy
 			payload: {
 				timestamp: '2019-04-17T15:25:45.231Z',
 				resource: 'user',
+				source: 'api.balena-cloud.com',
 				type: 'create',
 				payload: {
 					id: 123,
@@ -1073,6 +1098,7 @@ avaTest('should change the remote username while filling in the first name', asy
 			payload: {
 				timestamp: '2019-04-17T15:26:45.231Z',
 				resource: 'user',
+				source: 'api.balena-cloud.com',
 				type: 'update',
 				payload: {
 					id: 123,
@@ -1144,6 +1170,7 @@ avaTest('should change the remote username while filling in the last name', asyn
 			payload: {
 				timestamp: '2019-04-17T15:25:45.231Z',
 				resource: 'user',
+				source: 'api.balena-cloud.com',
 				type: 'create',
 				payload: {
 					id: 123,
@@ -1160,6 +1187,7 @@ avaTest('should change the remote username while filling in the last name', asyn
 			payload: {
 				timestamp: '2019-04-17T15:26:45.231Z',
 				resource: 'user',
+				source: 'api.balena-cloud.com',
 				type: 'update',
 				payload: {
 					id: 123,
@@ -1231,6 +1259,7 @@ avaTest('should change the remote username while not changing anything else', as
 			payload: {
 				timestamp: '2019-04-17T15:25:45.231Z',
 				resource: 'user',
+				source: 'api.balena-cloud.com',
 				type: 'create',
 				payload: {
 					id: 123,
@@ -1247,6 +1276,7 @@ avaTest('should change the remote username while not changing anything else', as
 			payload: {
 				timestamp: '2019-04-17T15:26:45.231Z',
 				resource: 'user',
+				source: 'api.balena-cloud.com',
 				type: 'update',
 				payload: {
 					id: 123,
@@ -1325,6 +1355,7 @@ avaTest('should add a company and email to an existing user', async (test) => {
 			payload: {
 				timestamp: '2019-04-17T15:25:45.231Z',
 				resource: 'user',
+				source: 'api.balena-cloud.com',
 				type: 'update',
 				payload: {
 					id: 123,
@@ -1411,6 +1442,7 @@ avaTest('should add a first name to an existing user', async (test) => {
 			payload: {
 				timestamp: '2019-04-17T15:25:45.231Z',
 				resource: 'user',
+				source: 'api.balena-cloud.com',
 				type: 'update',
 				payload: {
 					id: 123,
@@ -1498,6 +1530,7 @@ avaTest('should add a last name to an existing user', async (test) => {
 			payload: {
 				timestamp: '2019-04-17T15:25:45.231Z',
 				resource: 'user',
+				source: 'api.balena-cloud.com',
 				type: 'update',
 				payload: {
 					id: 123,
@@ -1585,6 +1618,7 @@ avaTest('should link an existing user by adding no data', async (test) => {
 			payload: {
 				timestamp: '2019-04-17T15:25:45.231Z',
 				resource: 'user',
+				source: 'api.balena-cloud.com',
 				type: 'update',
 				payload: {
 					id: 123,
