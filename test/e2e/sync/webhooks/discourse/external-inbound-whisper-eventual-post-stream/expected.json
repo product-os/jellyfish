@@ -29,7 +29,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "account-goetted",
+        "actor": "user-goetted",
         "timestamp": "2019-04-17T15:24:08.731Z",
         "payload": {
           "name": "External inbound test with message",
@@ -62,7 +62,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "account-goetted",
+        "actor": "user-goetted",
         "mirrors": [
           "https://forums.balena.io/t/6108/1"
         ],
