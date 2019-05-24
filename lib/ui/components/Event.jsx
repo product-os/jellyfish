@@ -272,10 +272,11 @@ class Event extends React.Component {
 
 	downloadAttachment (event) {
 		const attachments = getAttachments(this.props.card)
-		const attachmentSlug = event.target.dataset.attachmentSlug
+		const attachmentSlug = event.currentTarget.dataset.attachmentslug
 		const attachment = _.find(attachments, {
 			slug: attachmentSlug
 		})
+
 		const {
 			slug,
 			name,
