@@ -8,6 +8,7 @@
     "timestamp": "2019-04-17T15:25:45.231Z",
     "resource": "user",
     "type": "update",
+    "source": "api.balena-cloud.com",
     "payload": {
       "id": 999,
       "username": "johndoe",

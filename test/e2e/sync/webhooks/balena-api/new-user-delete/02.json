@@ -8,6 +8,7 @@
     "timestamp": "2019-04-17T15:28:45.893Z",
     "resource": "user",
     "type": "delete",
+    "source": "api.balena-cloud.com",
     "payload": {
       "id": 999,
       "username": "johndoe",
