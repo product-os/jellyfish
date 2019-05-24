@@ -28,7 +28,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "account-juan-resin-io",
+        "actor": "user-juan-resin-io",
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_27e04ar"
         ],
@@ -48,7 +48,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "account-juan-resin-io",
+        "actor": "user-juan-resin-io",
         "timestamp": "2018-12-27T15:08:30.430Z",
         "payload": {
           "name": "",

@@ -28,7 +28,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "account-juan-resin-io",
+        "actor": "user-juan-resin-io",
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_1y9m7wr"
         ],
@@ -48,7 +48,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "account-juan-resin-io",
+        "actor": "user-juan-resin-io",
         "timestamp": "2018-10-10T22:19:18.438Z",
         "payload": {
           "name": "Delay cancel",

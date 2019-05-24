@@ -31,7 +31,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "account-juan-resin-io",
+        "actor": "user-juan-resin-io",
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_1w1f12q"
         ],
@@ -51,7 +51,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "account-juan-resin-io",
+        "actor": "user-juan-resin-io",
         "timestamp": "2018-10-08T18:36:29.628Z",
         "payload": {
           "name": "Inbound tag",

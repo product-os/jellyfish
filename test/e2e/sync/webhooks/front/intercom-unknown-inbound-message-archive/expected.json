@@ -28,7 +28,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "account-juan-resin-io",
+        "actor": "user-juan-resin-io",
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_27dmk4b"
         ],
@@ -49,7 +49,7 @@
       "capabilities": [],
       "data": {
         "timestamp": "2018-12-27T13:15:11.547Z",
-        "actor": "account-juan-resin-io",
+        "actor": "user-juan-resin-io",
         "payload": {
           "name": "",
           "type": "support-thread",

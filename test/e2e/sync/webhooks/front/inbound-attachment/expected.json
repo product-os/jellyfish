@@ -28,7 +28,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "account-juan-resin-io",
+        "actor": "user-juan-resin-io",
         "timestamp": "2019-04-04T12:50:44.290Z",
         "payload": {
           "name": "",
@@ -60,7 +60,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "account-juan-resin-io",
+        "actor": "user-juan-resin-io",
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_2irqbh7"
         ],
@@ -133,7 +133,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "account-juan-resin-io",
+        "actor": "user-juan-resin-io",
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_2irqd2r"
         ],
@@ -162,7 +162,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "account-juan-resin-io",
+        "actor": "user-juan-resin-io",
         "payload": {
           "data": {
             "inbox": "S/Paid_Support",
@@ -194,7 +194,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "account-juan-resin-io",
+        "actor": "user-juan-resin-io",
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_2irqdgz"
         ],
@@ -223,7 +223,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "account-juan-resin-io",
+        "actor": "user-juan-resin-io",
         "payload": {
           "data": {
             "inbox": "S/Paid_Support",

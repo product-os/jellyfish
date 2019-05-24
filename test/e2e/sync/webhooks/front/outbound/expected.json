@@ -28,7 +28,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "account-juan-resin-io",
+        "actor": "user-juan-resin-io",
         "timestamp": "2018-10-10T22:08:57.175Z",
         "payload": {
           "name": "Outbound test",

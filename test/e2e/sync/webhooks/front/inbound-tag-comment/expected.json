@@ -28,7 +28,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "account-juan-balena-io",
+        "actor": "user-juan-balena-io",
         "timestamp": "2019-01-18T16:34:53.073Z",
         "payload": {
           "name": "Tag Backsync Test",
@@ -94,7 +94,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "account-juan-balena-io",
+        "actor": "user-juan-balena-io",
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_28s4nei"
         ],

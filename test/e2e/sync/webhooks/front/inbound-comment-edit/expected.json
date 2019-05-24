@@ -28,7 +28,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "account-juan-balena-io",
+        "actor": "user-juan-balena-io",
         "timestamp": "2019-03-13T19:54:20.843Z",
         "payload": {
           "name": "Comment Edit Test",
@@ -60,7 +60,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "account-juan-balena-io",
+        "actor": "user-juan-balena-io",
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_2ged8ve"
         ],
