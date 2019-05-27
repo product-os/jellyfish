@@ -44,7 +44,7 @@ jobs:
         # --unsafe-perm flag allows the postinstall script to run correctly
         - run:
             name: Install Dependencies
-            command: npm ci --unsafe-perm && make build-ui
+            command: npm ci --unsafe-perm && make build-ui && ./scripts/node-modules-clean.sh
 
         - save_cache:
             paths:
