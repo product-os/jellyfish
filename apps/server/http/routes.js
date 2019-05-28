@@ -252,75 +252,77 @@ module.exports = (application, jellyfish, worker, queue) => {
 		const integrationToken = environment.getIntegrationToken(
 			request.params.provider)
 
-		if (!sync.isValidExternalEventRequest(
-			integrationToken,
-			request.params.provider,
-			request.rawBody,
-			request.headers)) {
-			logger.warn(request.context, 'Webhook rejected', {
-				source: request.params.provider,
-				hostname,
-				body: request.body
-			})
+		return Bluebird.try(async () => {
+			if (!await sync.isValidExternalEventRequest(
+				integrationToken,
+				request.params.provider,
+				request.rawBody,
+				request.headers)) {
+				logger.warn(request.context, 'Webhook rejected', {
+					source: request.params.provider,
+					hostname,
+					body: request.body
+				})
 
-			return response.status(401).json({
-				error: true,
-				data: 'Webhook rejected'
-			})
-		}
-
-		if (_.isEmpty(request.body)) {
-			return response.status(400).json({
-				error: true,
-				data: 'Invalid external event'
-			})
-		}
-
-		const validateDate = new Date()
-		logger.info(request.context, 'Webhook validated', {
-			source: request.params.provider,
-			time: validateDate.getTime() - startDate.getTime()
-		})
-
-		const EXTERNAL_EVENT_TYPE = 'external-event'
-		return jellyfish.getCardBySlug(
-			request.context, jellyfish.sessions.admin, EXTERNAL_EVENT_TYPE, {
-				type: 'type'
-			}).then((typeCard) => {
-			if (!typeCard) {
-				throw new Error(`No type card: ${EXTERNAL_EVENT_TYPE}`)
+				return response.status(401).json({
+					error: true,
+					data: 'Webhook rejected'
+				})
 			}
 
-			return uuid().then((id) => {
-				return queue.enqueue(worker.getId(), jellyfish.sessions.admin, {
-					action: 'action-create-card',
-					card: typeCard.id,
-					type: typeCard.type,
-					context: request.context,
-					arguments: {
-						reason: null,
-						properties: {
-							slug: `${EXTERNAL_EVENT_TYPE}-${id}`,
-							version: '1.0.0',
-							data: {
-								source: request.params.provider,
-								headers: request.headers,
-								payload: request.body
-							}
-						}
-					}
+			if (_.isEmpty(request.body)) {
+				return response.status(400).json({
+					error: true,
+					data: 'Invalid external event'
 				})
-			})
-		}).then((actionRequest) => {
-			const enqueuedDate = new Date()
-			logger.info(request.context, 'Webhook enqueued', {
+			}
+
+			const validateDate = new Date()
+			logger.info(request.context, 'Webhook validated', {
 				source: request.params.provider,
-				time: enqueuedDate.getTime() - startDate.getTime()
+				time: validateDate.getTime() - startDate.getTime()
 			})
 
-			return response.status(200).json({
-				error: false,
-				data: actionRequest
+			const EXTERNAL_EVENT_TYPE = 'external-event'
+			return jellyfish.getCardBySlug(
+				request.context, jellyfish.sessions.admin, EXTERNAL_EVENT_TYPE, {
+					type: 'type'
+				}).then((typeCard) => {
+				if (!typeCard) {
+					throw new Error(`No type card: ${EXTERNAL_EVENT_TYPE}`)
+				}
+
+				return uuid().then((id) => {
+					return queue.enqueue(worker.getId(), jellyfish.sessions.admin, {
+						action: 'action-create-card',
+						card: typeCard.id,
+						type: typeCard.type,
+						context: request.context,
+						arguments: {
+							reason: null,
+							properties: {
+								slug: `${EXTERNAL_EVENT_TYPE}-${id}`,
+								version: '1.0.0',
+								data: {
+									source: request.params.provider,
+									headers: request.headers,
+									payload: request.body
+								}
+							}
+						}
+					})
+				})
+			}).then((actionRequest) => {
+				const enqueuedDate = new Date()
+				logger.info(request.context, 'Webhook enqueued', {
+					source: request.params.provider,
+					time: enqueuedDate.getTime() - startDate.getTime()
+				})
+
+				return response.status(200).json({
+					error: false,
+					data: actionRequest
+				})
 			})
 		}).catch((error) => {
 			return response.status(500).json({
