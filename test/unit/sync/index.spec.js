@@ -8,20 +8,20 @@ const ava = require('ava')
 const sync = require('../../../lib/sync')
 
 ava('.isValidExternalEventRequest() should return true for Front given anything', async (test) => {
-	const result = sync.isValidExternalEventRequest({
+	const result = await sync.isValidExternalEventRequest({
 		api: 'xxxxxxx'
 	}, 'front', '....', {})
 	test.true(result)
 })
 
 ava('.isValidExternalEventRequest() should return false for an unknown integration', async (test) => {
-	const result = sync.isValidExternalEventRequest(
+	const result = await sync.isValidExternalEventRequest(
 		null, 'helloworld', '....', {})
 	test.false(result)
 })
 
 ava('.isValidExternalEventRequest() should return false given GitHub and no signature header', async (test) => {
-	const result = sync.isValidExternalEventRequest({
+	const result = await sync.isValidExternalEventRequest({
 		api: 'xxxxx',
 		signature: 'secret'
 	}, 'github', '....', {})
@@ -29,7 +29,7 @@ ava('.isValidExternalEventRequest() should return false given GitHub and no sign
 })
 
 ava('.isValidExternalEventRequest() should return false given GitHub and a signature but no key', async (test) => {
-	const result = sync.isValidExternalEventRequest(null, 'github', '....', {
+	const result = await sync.isValidExternalEventRequest(null, 'github', '....', {
 		'x-hub-signature': 'sha1=aaaabbbbcccc'
 	})
 
@@ -37,7 +37,7 @@ ava('.isValidExternalEventRequest() should return false given GitHub and a signa
 })
 
 ava('.isValidExternalEventRequest() should return false given GitHub and a signature mismatch', async (test) => {
-	const result = sync.isValidExternalEventRequest({
+	const result = await sync.isValidExternalEventRequest({
 		api: 'xxxxx',
 		signature: 'secret'
 	}, 'github', '{"foo":"bar"}', {
@@ -48,7 +48,7 @@ ava('.isValidExternalEventRequest() should return false given GitHub and a signa
 })
 
 ava('.isValidExternalEventRequest() should return true given GitHub and a signature match', async (test) => {
-	const result = sync.isValidExternalEventRequest({
+	const result = await sync.isValidExternalEventRequest({
 		api: 'xxxxx',
 		signature: 'secret'
 	}, 'github', '{"foo":"bar"}', {
@@ -59,7 +59,7 @@ ava('.isValidExternalEventRequest() should return true given GitHub and a signat
 })
 
 ava('.isValidExternalEventRequest() should return true given Discourse and no signature header', async (test) => {
-	const result = sync.isValidExternalEventRequest({
+	const result = await sync.isValidExternalEventRequest({
 		api: 'xxxxx',
 		signature: 'secret'
 	}, 'discourse', '....', {})
@@ -67,7 +67,7 @@ ava('.isValidExternalEventRequest() should return true given Discourse and no si
 })
 
 ava('.isValidExternalEventRequest() should return false given Discourse and a signature but no key', async (test) => {
-	const result = sync.isValidExternalEventRequest(null, 'discourse', '....', {
+	const result = await sync.isValidExternalEventRequest(null, 'discourse', '....', {
 		'x-discourse-event-signature': 'sha256=aaaabbbbcccc'
 	})
 
@@ -75,7 +75,7 @@ ava('.isValidExternalEventRequest() should return false given Discourse and a si
 })
 
 ava('.isValidExternalEventRequest() should return false given Discourse and a signature mismatch', async (test) => {
-	const result = sync.isValidExternalEventRequest({
+	const result = await sync.isValidExternalEventRequest({
 		api: 'xxxxx',
 		signature: 'secret'
 	}, 'discourse', '{"foo":"bar"}', {
@@ -86,7 +86,7 @@ ava('.isValidExternalEventRequest() should return false given Discourse and a si
 })
 
 ava('.isValidExternalEventRequest() should return true given Discourse and a signature match', async (test) => {
-	const result = sync.isValidExternalEventRequest({
+	const result = await sync.isValidExternalEventRequest({
 		api: 'xxxxx',
 		signature: 'secret'
 	}, 'discourse', '{"foo":"bar"}', {
@@ -97,7 +97,7 @@ ava('.isValidExternalEventRequest() should return true given Discourse and a sig
 })
 
 ava('.isValidExternalEventRequest() should return false given Balena API and no signature header', async (test) => {
-	const result = sync.isValidExternalEventRequest({
+	const result = await sync.isValidExternalEventRequest({
 		api: 'xxxxx',
 		signature: 'secret'
 	}, 'balena-api', '....', {})
@@ -105,7 +105,7 @@ ava('.isValidExternalEventRequest() should return false given Balena API and no 
 })
 
 ava('.isValidExternalEventRequest() should return false given Balena API and a signature but no key', async (test) => {
-	const result = sync.isValidExternalEventRequest(null, 'balena-api', '....', {
+	const result = await sync.isValidExternalEventRequest(null, 'balena-api', '....', {
 		'x-balena-signature': 'sha1=aaaabbbbcccc'
 	})
 
@@ -113,7 +113,7 @@ ava('.isValidExternalEventRequest() should return false given Balena API and a s
 })
 
 ava('.isValidExternalEventRequest() should return false given Balena API and a signature mismatch', async (test) => {
-	const result = sync.isValidExternalEventRequest({
+	const result = await sync.isValidExternalEventRequest({
 		api: 'xxxxx',
 		signature: 'secret'
 	}, 'balena-api', '{"foo":"bar"}', {
@@ -124,7 +124,7 @@ ava('.isValidExternalEventRequest() should return false given Balena API and a s
 })
 
 ava('.isValidExternalEventRequest() should return true given Balena API and a signature match', async (test) => {
-	const result = sync.isValidExternalEventRequest({
+	const result = await sync.isValidExternalEventRequest({
 		api: 'xxxxx',
 		signature: 'secret'
 	}, 'balena-api', '{"foo":"bar"}', {
