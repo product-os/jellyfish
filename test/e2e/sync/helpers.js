@@ -111,6 +111,13 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 	const cards = []
 	for (const step of testCase.steps) {
 		webhookOffset = Math.max(webhookOffset, _.findIndex(testCase.original, step) + 1)
+
+		const data = {
+			source: integration.source,
+			headers: step.headers,
+			payload: step.payload
+		}
+
 		const event = await test.context.jellyfish.insertCard(test.context.context,
 			test.context.session, {
 				type: 'external-event',
@@ -118,11 +125,7 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 					prefix: 'external-event'
 				}),
 				version: '1.0.0',
-				data: {
-					source: integration.source,
-					headers: step.headers,
-					payload: step.payload
-				}
+				data: await testCase.prepareEvent(data)
 			})
 
 		const request = await test.context.queue.enqueue(
@@ -356,10 +359,15 @@ exports.translate = {
 					continue
 				}
 
+				const prepareEventNoop = async (data) => {
+					return data
+				}
+
 				// eslint-disable-next-line no-loop-func
 				fn(`(${variation.name}) ${testCaseName}`, async (test) => {
 					await webhookScenario(test, {
 						steps: variation.combination,
+						prepareEvent: suite.prepareEvent || prepareEventNoop,
 						offset: _.findIndex(testCase.steps, _.first(variation.combination)) + 1,
 						headIndex: testCase.headIndex || 0,
 						original: testCase.steps,
