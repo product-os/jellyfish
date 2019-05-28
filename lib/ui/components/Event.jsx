@@ -214,6 +214,11 @@ const WhisperWrapper = styled(Box) `
 		}
 	}
 
+	code {
+		color: #333;
+		background-color: #f6f8fa;
+	}
+
 `
 
 class Event extends React.Component {
