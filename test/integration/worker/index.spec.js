@@ -2074,7 +2074,7 @@ ava('should be able to login as a user with a password', async (test) => {
 	test.true(new Date(session.data.expiration) > currentDate)
 })
 
-ava('should be able to login as a password-less user', async (test) => {
+ava('should not be able to login as a password-less user', async (test) => {
 	const user = await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
 		type: 'user',
 		version: '1.0.0',
@@ -2085,7 +2085,7 @@ ava('should be able to login as a password-less user', async (test) => {
 		}
 	})
 
-	const loginRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+	await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-create-session',
 		context: test.context.context,
 		card: user.id,
@@ -2095,15 +2095,9 @@ ava('should be able to login as a password-less user', async (test) => {
 		}
 	})
 
-	await test.context.flush(test.context.session, 1)
-	const loginResult = await test.context.queue.waitResults(
-		test.context.context, loginRequest)
-	test.false(loginResult.error)
-
-	const session = await test.context.jellyfish.getCardById(test.context.context, test.context.session, loginResult.data.id)
-	test.is(session.data.actor, user.id)
-	const currentDate = new Date()
-	test.true(new Date(session.data.expiration) > currentDate)
+	await test.throwsAsync(
+		test.context.flush(test.context.session, 1),
+		test.context.worker.errors.WorkerAuthenticationError)
 })
 
 ava('should not be able to login as a password-less disallowed user', async (test) => {
