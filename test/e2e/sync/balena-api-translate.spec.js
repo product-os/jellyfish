@@ -6,7 +6,10 @@
 
 const ava = require('ava')
 const querystring = require('querystring')
+const randomstring = require('randomstring')
 const url = require('url')
+const jose = require('node-jose')
+const jws = require('jsonwebtoken')
 const uuid = require('uuid/v4')
 const helpers = require('./helpers')
 const environment = require('../../../lib/environment')
@@ -16,6 +19,33 @@ ava.beforeEach(helpers.translate.beforeEach)
 ava.afterEach(helpers.translate.afterEach)
 
 const avaTest = TOKEN ? ava.serial : ava.skip
+
+const prepareEvent = async (event) => {
+	const signedToken = jws.sign({
+		data: event.payload
+	}, Buffer.from(TOKEN.privateKey, 'base64'), {
+		algorithm: 'ES256',
+		expiresIn: 10 * 60 * 1000,
+		audience: 'jellyfish',
+		issuer: 'api.balena-cloud.com',
+		jwtid: randomstring.generate(20),
+		subject: `${event.payload.id}`
+	})
+
+	const keyValue = Buffer.from(TOKEN.publicKey, 'base64')
+	const encryptionKey = await jose.JWK.asKey(keyValue, 'pem')
+
+	const cipher = jose.JWE.createEncrypt({
+		format: 'compact'
+	}, encryptionKey)
+	cipher.update(signedToken)
+
+	const result = await cipher.final()
+	event.source = 'balena-api'
+	event.payload = result
+	event.headers['content-type'] = 'application/jose'
+	return event
+}
 
 avaTest('should change the remote username to an existing unsynced user', async (test) => {
 	await test.context.jellyfish.insertCard(
@@ -74,11 +104,7 @@ avaTest('should change the remote username to an existing unsynced user', async 
 				type: 'external-event',
 				slug: `external-event-${uuid()}`,
 				version: '1.0.0',
-				data: {
-					source: 'balena-api',
-					headers: externalEvent.headers,
-					payload: externalEvent.payload
-				}
+				data: await prepareEvent(externalEvent)
 			})
 
 		const request = await test.context.queue.enqueue(
@@ -194,11 +220,7 @@ avaTest('should change the remote username to an existing user', async (test) =>
 				type: 'external-event',
 				slug: `external-event-${uuid()}`,
 				version: '1.0.0',
-				data: {
-					source: 'balena-api',
-					headers: externalEvent.headers,
-					payload: externalEvent.payload
-				}
+				data: await prepareEvent(externalEvent)
 			})
 
 		const request = await test.context.queue.enqueue(
@@ -313,11 +335,7 @@ avaTest('should change the remote username to an existing user while removing ex
 				type: 'external-event',
 				slug: `external-event-${uuid()}`,
 				version: '1.0.0',
-				data: {
-					source: 'balena-api',
-					headers: externalEvent.headers,
-					payload: externalEvent.payload
-				}
+				data: await prepareEvent(externalEvent)
 			})
 
 		const request = await test.context.queue.enqueue(
@@ -441,11 +459,7 @@ avaTest('should change the remote username to an existing user and add a name', 
 				type: 'external-event',
 				slug: `external-event-${uuid()}`,
 				version: '1.0.0',
-				data: {
-					source: 'balena-api',
-					headers: externalEvent.headers,
-					payload: externalEvent.payload
-				}
+				data: await prepareEvent(externalEvent)
 			})
 
 		const request = await test.context.queue.enqueue(
@@ -567,11 +581,7 @@ avaTest('should change the remote username to an existing user while removing th
 				type: 'external-event',
 				slug: `external-event-${uuid()}`,
 				version: '1.0.0',
-				data: {
-					source: 'balena-api',
-					headers: externalEvent.headers,
-					payload: externalEvent.payload
-				}
+				data: await prepareEvent(externalEvent)
 			})
 
 		const request = await test.context.queue.enqueue(
@@ -694,11 +704,7 @@ avaTest('should change the remote username to an existing user while removing th
 				type: 'external-event',
 				slug: `external-event-${uuid()}`,
 				version: '1.0.0',
-				data: {
-					source: 'balena-api',
-					headers: externalEvent.headers,
-					payload: externalEvent.payload
-				}
+				data: await prepareEvent(externalEvent)
 			})
 
 		const request = await test.context.queue.enqueue(
@@ -829,11 +835,7 @@ avaTest('should change the remote username to an existing user with a name', asy
 				type: 'external-event',
 				slug: `external-event-${uuid()}`,
 				version: '1.0.0',
-				data: {
-					source: 'balena-api',
-					headers: externalEvent.headers,
-					payload: externalEvent.payload
-				}
+				data: await prepareEvent(externalEvent)
 			})
 
 		const request = await test.context.queue.enqueue(
@@ -939,11 +941,7 @@ avaTest('should change the remote username', async (test) => {
 				type: 'external-event',
 				slug: `external-event-${uuid()}`,
 				version: '1.0.0',
-				data: {
-					source: 'balena-api',
-					headers: externalEvent.headers,
-					payload: externalEvent.payload
-				}
+				data: await prepareEvent(externalEvent)
 			})
 
 		const request = await test.context.queue.enqueue(
@@ -1026,11 +1024,7 @@ avaTest('should change the remote username while filling in the company', async 
 				type: 'external-event',
 				slug: `external-event-${uuid()}`,
 				version: '1.0.0',
-				data: {
-					source: 'balena-api',
-					headers: externalEvent.headers,
-					payload: externalEvent.payload
-				}
+				data: await prepareEvent(externalEvent)
 			})
 
 		const request = await test.context.queue.enqueue(
@@ -1113,11 +1107,7 @@ avaTest('should change the remote username while filling in the first name', asy
 				type: 'external-event',
 				slug: `external-event-${uuid()}`,
 				version: '1.0.0',
-				data: {
-					source: 'balena-api',
-					headers: externalEvent.headers,
-					payload: externalEvent.payload
-				}
+				data: await prepareEvent(externalEvent)
 			})
 
 		const request = await test.context.queue.enqueue(
@@ -1202,11 +1192,7 @@ avaTest('should change the remote username while filling in the last name', asyn
 				type: 'external-event',
 				slug: `external-event-${uuid()}`,
 				version: '1.0.0',
-				data: {
-					source: 'balena-api',
-					headers: externalEvent.headers,
-					payload: externalEvent.payload
-				}
+				data: await prepareEvent(externalEvent)
 			})
 
 		const request = await test.context.queue.enqueue(
@@ -1290,11 +1276,7 @@ avaTest('should change the remote username while not changing anything else', as
 				type: 'external-event',
 				slug: `external-event-${uuid()}`,
 				version: '1.0.0',
-				data: {
-					source: 'balena-api',
-					headers: externalEvent.headers,
-					payload: externalEvent.payload
-				}
+				data: await prepareEvent(externalEvent)
 			})
 
 		const request = await test.context.queue.enqueue(
@@ -1371,11 +1353,7 @@ avaTest('should add a company and email to an existing user', async (test) => {
 				type: 'external-event',
 				slug: `external-event-${uuid()}`,
 				version: '1.0.0',
-				data: {
-					source: 'balena-api',
-					headers: externalEvent.headers,
-					payload: externalEvent.payload
-				}
+				data: await prepareEvent(externalEvent)
 			})
 
 		const request = await test.context.queue.enqueue(
@@ -1457,11 +1435,7 @@ avaTest('should add a first name to an existing user', async (test) => {
 				type: 'external-event',
 				slug: `external-event-${uuid()}`,
 				version: '1.0.0',
-				data: {
-					source: 'balena-api',
-					headers: externalEvent.headers,
-					payload: externalEvent.payload
-				}
+				data: await prepareEvent(externalEvent)
 			})
 
 		const request = await test.context.queue.enqueue(
@@ -1545,11 +1519,7 @@ avaTest('should add a last name to an existing user', async (test) => {
 				type: 'external-event',
 				slug: `external-event-${uuid()}`,
 				version: '1.0.0',
-				data: {
-					source: 'balena-api',
-					headers: externalEvent.headers,
-					payload: externalEvent.payload
-				}
+				data: await prepareEvent(externalEvent)
 			})
 
 		const request = await test.context.queue.enqueue(
@@ -1632,11 +1602,7 @@ avaTest('should link an existing user by adding no data', async (test) => {
 				type: 'external-event',
 				slug: `external-event-${uuid()}`,
 				version: '1.0.0',
-				data: {
-					source: 'balena-api',
-					headers: externalEvent.headers,
-					payload: externalEvent.payload
-				}
+				data: await prepareEvent(externalEvent)
 			})
 
 		const request = await test.context.queue.enqueue(
@@ -1682,6 +1648,7 @@ helpers.translate.scenario(TOKEN ? ava : ava.skip, {
 	baseUrl: 'https://api.balena-cloud.com',
 	stubRegex: /.*/,
 	source: 'balena-api',
+	prepareEvent,
 	options: {
 		token: TOKEN
 	},
