@@ -111,6 +111,7 @@
     "ajv-keywords": "^3.4.0",
     "aws-sdk": "^2.289.0",
     "axios": "^0.18.0",
+    "bcrypt": "^3.0.6",
     "bluebird": "^3.5.1",
     "blueimp-md5": "^2.10.0",
     "body-parser": "^1.18.2",

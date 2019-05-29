@@ -68,16 +68,13 @@ ava('should not store the password in the queue when using action-create-user', 
 		arguments: {
 			email: 'johndoe@example.com',
 			username: 'user-johndoe',
-			hash: {
-				string: password,
-				salt: 'user-johndoe'
-			}
+			password
 		}
 	})
 
 	const createUserRequest = await test.context.queue.enqueue(
 		test.context.worker.getId(), test.context.session, request)
-	test.not(createUserRequest.data.arguments.hash.string, password)
+	test.not(createUserRequest.data.arguments.hash, password)
 
 	await test.context.flush(test.context.session, 1)
 	const result = await test.context.queue.waitResults(
@@ -89,6 +86,8 @@ ava('should not store the password in the queue when using action-create-session
 	const userCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'user')
 
+	const password = 'foobarbaz'
+
 	const request1 = await test.context.worker.pre(test.context.session, {
 		action: 'action-create-user',
 		context: test.context.context,
@@ -97,10 +96,7 @@ ava('should not store the password in the queue when using action-create-session
 		arguments: {
 			email: 'johndoe@example.com',
 			username: 'user-johndoe',
-			hash: {
-				string: 'foobarbaz',
-				salt: 'user-johndoe'
-			}
+			password
 		}
 	})
 
@@ -112,8 +108,6 @@ ava('should not store the password in the queue when using action-create-session
 		test.context.context, createUserRequest)
 	test.false(result.error)
 
-	const plaintextPassword = 'foobarbaz'
-
 	const request2 = await test.context.worker.pre(test.context.session, {
 		action: 'action-create-session',
 		context: test.context.context,
@@ -121,10 +115,7 @@ ava('should not store the password in the queue when using action-create-session
 		type: result.data.type,
 		arguments: {
 			password: {
-				hash: {
-					string: plaintextPassword,
-					salt: result.data.slug
-				}
+				hash: password
 			}
 		}
 	})
@@ -136,7 +127,7 @@ ava('should not store the password in the queue when using action-create-session
 		test.context.context, test.context.worker.getId())
 
 	test.truthy(request)
-	test.not(request.data.arguments.password.hash.string, plaintextPassword)
+	test.not(request.data.arguments.password.hash, password)
 })
 
 ava('should fail to create an event with an action-create-card', async (test) => {
@@ -2049,6 +2040,8 @@ ava('should be able to login as a user with a password', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'user')
 
+	const password = 'foobarbaz'
+
 	const request1 = await test.context.worker.pre(test.context.session, {
 		action: 'action-create-user',
 		card: typeCard.id,
@@ -2057,10 +2050,7 @@ ava('should be able to login as a user with a password', async (test) => {
 		arguments: {
 			email: 'johndoe@example.com',
 			username: 'user-johndoe',
-			hash: {
-				string: 'foobarbaz',
-				salt: 'user-johndoe'
-			}
+			password
 		}
 	})
 
@@ -2079,10 +2069,7 @@ ava('should be able to login as a user with a password', async (test) => {
 		type: signupResult.data.type,
 		arguments: {
 			password: {
-				hash: {
-					string: 'foobarbaz',
-					salt: signupResult.data.slug
-				}
+				hash: password
 			}
 		}
 	})
@@ -2128,19 +2115,18 @@ ava('should not be able to login as a password-less user', async (test) => {
 		}
 	})
 
-	await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-create-session',
-		context: test.context.context,
-		card: user.id,
-		type: user.type,
-		arguments: {
-			password: {}
-		}
-	})
-
 	await test.throwsAsync(
-		test.context.flush(test.context.session, 1),
-		test.context.worker.errors.WorkerAuthenticationError)
+		test.context.worker.pre(test.context.session, {
+			action: 'action-create-session',
+			context: test.context.context,
+			card: user.id,
+			type: user.type,
+			arguments: {
+				password: {}
+			}
+		}),
+		'Incorrect username or password'
+	)
 })
 
 ava('should not be able to login as a password-less disallowed user', async (test) => {
@@ -2155,22 +2141,23 @@ ava('should not be able to login as a password-less disallowed user', async (tes
 		}
 	})
 
-	await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-create-session',
-		context: test.context.context,
-		card: user.id,
-		type: user.type,
-		arguments: {
-			password: {}
-		}
-	})
-
 	await test.throwsAsync(
-		test.context.flush(test.context.session, 1),
-		test.context.worker.errors.WorkerAuthenticationError)
+		test.context.worker.pre(test.context.session, {
+			action: 'action-create-session',
+			context: test.context.context,
+			card: user.id,
+			type: user.type,
+			arguments: {
+				password: {
+					hash: ''
+				}
+			}
+		}),
+		'Incorrect username or password'
+	)
 })
 
-ava('should fail if signing up with the wrong password', async (test) => {
+ava('should fail if signing in with the wrong password', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'user')
 
 	const request1 = await test.context.worker.pre(test.context.session, {
@@ -2181,10 +2168,7 @@ ava('should fail if signing up with the wrong password', async (test) => {
 		arguments: {
 			email: 'johndoe@example.com',
 			username: 'user-johndoe',
-			hash: {
-				string: 'xxxxxxxxxxxx',
-				salt: 'user-johndoe'
-			}
+			password: 'xxxxxxxxxxxx'
 		}
 	})
 
@@ -2196,27 +2180,20 @@ ava('should fail if signing up with the wrong password', async (test) => {
 		test.context.context, createUserRequest)
 	test.false(signupResult.error)
 
-	const request2 = await test.context.worker.pre(test.context.session, {
-		action: 'action-create-session',
-		context: test.context.context,
-		card: signupResult.data.id,
-		type: signupResult.data.type,
-		arguments: {
-			password: {
-				hash: {
-					string: 'foobarbaz',
-					salt: signupResult.data.slug
+	await test.throwsAsync(
+		test.context.worker.pre(test.context.session, {
+			action: 'action-create-session',
+			context: test.context.context,
+			card: signupResult.data.id,
+			type: signupResult.data.type,
+			arguments: {
+				password: {
+					hash: 'foobarbaz'
 				}
 			}
-		}
-	})
-
-	await test.context.queue.enqueue(
-		test.context.worker.getId(), test.context.session, request2)
-
-	await test.throwsAsync(
-		test.context.flush(test.context.session, 1),
-		test.context.worker.errors.WorkerAuthenticationError)
+		}),
+		'Incorrect username or password'
+	)
 })
 
 ava('should fail to update a card if the schema does not match', async (test) => {
@@ -2995,10 +2972,7 @@ ava('should post an error execute event if logging in as a disallowed user', asy
 		type: adminCard.type,
 		arguments: {
 			password: {
-				hash: {
-					string: 'foobarbaz',
-					salt: adminCard.slug
-				}
+				hash: 'foobarbaz'
 			}
 		}
 	})

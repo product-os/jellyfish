@@ -72,10 +72,7 @@ ava.serial('creating a user with the guest user session should fail', async (tes
 		arguments: {
 			email: userDetails.email,
 			username,
-			hash: {
-				string: userDetails.password,
-				salt: username
-			}
+			password: userDetails.password
 		}
 	})
 
@@ -1048,10 +1045,7 @@ ava.serial('should fail with a user error given the wrong username during login'
 		action: 'action-create-session',
 		arguments: {
 			password: {
-				hash: {
-					string: '1234',
-					salt: 'user-nonexistentuser12345'
-				}
+				hash: '1234'
 			}
 		}
 	})
@@ -1137,10 +1131,9 @@ ava.serial('should get all elements by type', async (test) => {
 })
 
 ava.serial('should fail with a user error when querying a slug with an expired session', async (test) => {
-	const admin = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-admin', {
-			type: 'user'
-		})
+	const userDetails = createUserDetails()
+
+	const user = await test.context.createUser(userDetails)
 
 	const session = await test.context.jellyfish.insertCard(
 		test.context.context, test.context.session, {
@@ -1150,7 +1143,7 @@ ava.serial('should fail with a user error when querying a slug with an expired s
 			}),
 			version: '1.0.0',
 			data: {
-				actor: admin.id,
+				actor: user.id,
 				expiration: '2015-04-10T23:00:00.000Z'
 			}
 		})
@@ -1171,10 +1164,9 @@ ava.serial('should fail with a user error when querying a slug with an expired s
 })
 
 ava.serial('should fail with a user error when querying with an expired session', async (test) => {
-	const admin = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-admin', {
-			type: 'user'
-		})
+	const userDetails = createUserDetails()
+
+	const user = await test.context.createUser(userDetails)
 
 	const session = await test.context.jellyfish.insertCard(
 		test.context.context, test.context.session, {
@@ -1184,7 +1176,7 @@ ava.serial('should fail with a user error when querying with an expired session'
 			}),
 			version: '1.0.0',
 			data: {
-				actor: admin.id,
+				actor: user.id,
 				expiration: '2015-04-10T23:00:00.000Z'
 			}
 		})
@@ -1219,10 +1211,9 @@ ava.serial('should fail with a user error when querying with an expired session'
 })
 
 ava.serial('should fail with a user error when posting an action with an expired session', async (test) => {
-	const admin = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-admin', {
-			type: 'user'
-		})
+	const userDetails = createUserDetails()
+
+	const user = await test.context.createUser(userDetails)
 
 	const session = await test.context.jellyfish.insertCard(
 		test.context.context, test.context.session, {
@@ -1232,22 +1223,19 @@ ava.serial('should fail with a user error when posting an action with an expired
 			}),
 			version: '1.0.0',
 			data: {
-				actor: admin.id,
+				actor: user.id,
 				expiration: '2015-04-10T23:00:00.000Z'
 			}
 		})
 
 	const result = await test.context.http(
 		'POST', '/api/v2/action', {
-			card: 'user-nonexistentuser12345',
+			card: user.slug,
 			type: 'user',
 			action: 'action-create-session',
 			arguments: {
 				password: {
-					hash: {
-						string: '1234',
-						salt: 'user-nonexistentuser12345'
-					}
+					hash: userDetails.password
 				}
 			}
 		}, {
