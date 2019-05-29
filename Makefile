@@ -180,8 +180,11 @@ else
 ESLINT_OPTION_FIX = --fix
 endif
 
+NYC_TMP_DIR = .tmp/nyc-lib
+NYC_GLOBAL_OPS = --extension .js --extension .jsx
+NYC_OPTS = $(NYC_GLOBAL_OPS) --exclude '**/*.spec.js' --exclude '**/*.spec.jsx' --compact=false
 ifeq ($(COVERAGE),1)
-COVERAGE_COMMAND = ./node_modules/.bin/nyc --no-clean --extension .js --extension .jsx --exclude '**/*.spec.js' --exclude '**/*.spec.jsx' --exclude 'test/e2e/ui/macros.js'
+COVERAGE_COMMAND = ./node_modules/.bin/nyc --no-clean $(NYC_OPTS) --exclude 'test/e2e/ui/macros.js'
 else
 COVERAGE_COMMAND =
 endif
@@ -224,9 +227,19 @@ docker-compose.local.yml:
 	echo "version: \"3\"" > $@
 	echo "# Use this file to make local docker-compose changes" >> $@
 
+ifeq ($(COVERAGE),1)
 build-ui:
-	SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
+	rm -rf $(NYC_TMP_DIR) && mkdir -p $(NYC_TMP_DIR)
+	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/ui $(NYC_TMP_DIR)/ui
+	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/sdk $(NYC_TMP_DIR)/sdk
+	NODE_ENV=test UI_DIRECTORY="./$(NYC_TMP_DIR)/ui" \
+		SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
 		./node_modules/.bin/webpack
+else
+build-ui:
+	UI_DIRECTORY="./lib/ui" SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
+		./node_modules/.bin/webpack
+endif
 
 lint:
 	./node_modules/.bin/eslint --ext .js,.jsx $(ESLINT_OPTION_FIX) \
@@ -237,7 +250,7 @@ lint:
 	./node_modules/.bin/depcheck --ignore-bin-package --ignores='@storybook/*,@babel/*'
 
 coverage:
-	./node_modules/.bin/nyc --reporter=text --reporter=lcov --reporter=json report
+	./node_modules/.bin/nyc $(NYC_GLOBAL_OPS) --reporter=text --reporter=html --reporter=json report
 
 create-user: LOGLEVEL = warning
 create-user:

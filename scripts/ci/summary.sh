@@ -9,7 +9,7 @@
 set -eu
 
 API_URL="https://circleci.com/api/v1.1/project/github/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BUILD_NUM"
-ARTIFACT_COVERAGE="test-results/coverage/lcov-report/index.html"
+ARTIFACT_COVERAGE="test-results/coverage/index.html"
 ARTIFACT_GITSTATS="test-results/gitstats/index.html"
 ARTIFACT_WEBPACK_REPORT="test-results/webpack-bundle-report.html"
 
