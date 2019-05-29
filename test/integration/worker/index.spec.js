@@ -78,6 +78,8 @@ ava('should not store the password in the queue when using action-create-session
 		test.context.context, createUserRequest)
 	test.false(result.error)
 
+	const plaintextPassword = 'foobarbaz'
+
 	await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-create-session',
 		context: test.context.context,
@@ -86,7 +88,7 @@ ava('should not store the password in the queue when using action-create-session
 		arguments: {
 			password: {
 				hash: {
-					string: 'foobarbaz',
+					string: plaintextPassword,
 					salt: result.data.slug
 				}
 			}
@@ -97,8 +99,7 @@ ava('should not store the password in the queue when using action-create-session
 		test.context.context, test.context.worker.getId())
 
 	test.truthy(request)
-	test.falsy(request.data.arguments.password.hash.string)
-	test.falsy(request.data.arguments.password.hash.salt)
+	test.not(request.data.arguments.password.hash.string, plaintextPassword)
 })
 
 ava('should fail to create an event with an action-create-card', async (test) => {
