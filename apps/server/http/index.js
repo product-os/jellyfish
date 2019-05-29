@@ -27,13 +27,14 @@ module.exports = (context, jellyfish, worker, queue, configuration, options) => 
 	// otherwise Express doesn't take it as an error handler.
 	// See https://expressjs.com/en/guide/using-middleware.html
 	application.use((error, request, response, next) => {
+		// So we get more info about the error
+		error.url = request.url
+		error.method = request.method
+		error.ip = request.ip
+
 		const errorObject = errio.toObject(error, {
 			stack: true
 		})
-
-		// So we get more info about the error
-		errorObject.url = request.url
-		errorObject.method = request.method
 
 		logger.exception(request.context || context, 'Middleware error', error)
 		response.status(error.statusCode || 500).json({

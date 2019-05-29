@@ -38,6 +38,7 @@ const sendHTTPError = (request, response, error) => {
 	// to `errio` (which doesn't handle other data very well).
 	if (!_.isError(error)) {
 		logger.crit(request.context, 'Invalid error object', {
+			ip: request.ip,
 			error
 		})
 	}
@@ -48,6 +49,7 @@ const sendHTTPError = (request, response, error) => {
 
 	if (error.expected) {
 		logger.info(request.context, 'HTTP expected error', {
+			ip: request.ip,
 			error: errorObject
 		})
 
@@ -176,6 +178,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 		const state = request.query.state
 
 		logger.info(request.context, 'OAuth authorization', {
+			ip: request.ip,
 			provider,
 			code,
 			state
@@ -246,6 +249,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 		const hostname = request.headers.host
 		const startDate = new Date()
 		logger.info(request.context, 'Received webhook', {
+			ip: request.ip,
 			source: request.params.provider
 		})
 
@@ -259,6 +263,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 				request.rawBody,
 				request.headers)) {
 				logger.warn(request.context, 'Webhook rejected', {
+					ip: request.ip,
 					source: request.params.provider,
 					hostname,
 					body: request.body
@@ -280,6 +285,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 			const validateDate = new Date()
 			logger.info(request.context, 'Webhook validated', {
 				source: request.params.provider,
+				ip: request.ip,
 				time: validateDate.getTime() - startDate.getTime()
 			})
 
@@ -316,6 +322,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 				const enqueuedDate = new Date()
 				logger.info(request.context, 'Webhook enqueued', {
 					source: request.params.provider,
+					ip: request.ip,
 					time: enqueuedDate.getTime() - startDate.getTime()
 				})
 
@@ -381,6 +388,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 			: request.body
 
 		logger.info(request.context, 'HTTP action request', {
+			ip: request.ip,
 			card: action.card,
 			type: action.type,
 			action: action.action
@@ -507,6 +515,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 			const queryTime = endDate.getTime() - startDate.getTime()
 			logger.info(request.context, 'JSON Schema query', {
 				time: queryTime,
+				ip: request.ip,
 				schema
 			})
 
