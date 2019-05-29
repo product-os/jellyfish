@@ -35,9 +35,6 @@
               "type": "string",
               "anyOf": [
                 {
-                  "const": "action-request"
-                },
-                {
                   "const": "execute"
                 },
                 {
@@ -216,56 +213,6 @@
                   "const": {
                     "$eval": "user.id"
                   }
-                }
-              }
-            }
-          },
-          "additionalProperties": true,
-          "required": [
-            "type",
-            "data"
-          ]
-        }
-      },
-      {
-        "name": "My Action Requests",
-        "schema": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string"
-            },
-            "type": {
-              "type": "string",
-              "const": "action-request"
-            },
-            "data": {
-              "type": "object",
-              "required": [
-                "actor",
-                "input",
-                "action",
-                "timestamp",
-                "arguments"
-              ],
-              "properties": {
-                "actor": {
-                  "type": "string",
-                  "const": {
-                    "$eval": "user.id"
-                  }
-                },
-                "input": {
-                  "type": "object"
-                },
-                "action": {
-                  "type": "string"
-                },
-                "timestamp": {
-                  "type": "string"
-                },
-                "arguments": {
-                  "type": "object"
                 }
               }
             }

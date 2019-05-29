@@ -133,38 +133,6 @@
         }
       },
       {
-        "name": "My Action Requests",
-        "schema": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string"
-            },
-            "type": {
-              "type": "string",
-              "const": "action-request"
-            },
-            "data": {
-              "type": "object",
-              "properties": {
-                "actor": {
-                  "type": "string",
-                  "const": {
-                    "$eval": "user.id"
-                  }
-                }
-              },
-              "additionalProperties": true
-            }
-          },
-          "additionalProperties": true,
-          "required": [
-            "type",
-            "data"
-          ]
-        }
-      },
-      {
         "name": "Myself",
         "schema": {
           "type": "object",

@@ -411,7 +411,7 @@ ava.serial('the guest user should not be able to change other users passwords', 
 
 	const targetUser = await test.context.createUser(createUserDetails())
 
-	await test.throwsAsync(sdk.card.update(
+	const error = await test.throwsAsync(sdk.card.update(
 		targetUser.id,
 		{
 			type: 'user',
@@ -422,6 +422,8 @@ ava.serial('the guest user should not be able to change other users passwords', 
 			}
 		}
 	))
+
+	test.is(error.name, 'JellyfishSchemaMismatch')
 })
 
 ava.serial('users with the "user-community" role should not be able to change other users passwords', async (test) => {
@@ -437,7 +439,7 @@ ava.serial('users with the "user-community" role should not be able to change ot
 
 	await sdk.auth.login(communityUserDetails)
 
-	await test.throwsAsync(sdk.card.update(
+	const error = await test.throwsAsync(sdk.card.update(
 		targetUser.id,
 		{
 			type: 'user',
@@ -448,6 +450,8 @@ ava.serial('users with the "user-community" role should not be able to change ot
 			}
 		}
 	))
+
+	test.is(error.name, 'JellyfishSchemaMismatch')
 })
 
 ava.serial('AGGREGATE($events): should work when creating cards via the SDK', async (test) => {
@@ -557,9 +561,11 @@ ava.serial('Users should not be able to login as the core admin user', async (te
 	// First check that the guest user cannot login
 	sdk.auth.logout()
 
-	await test.throwsAsync(sdk.auth.login({
+	const error1 = await test.throwsAsync(sdk.auth.login({
 		username: 'admin'
 	}))
+
+	test.is(error1.name, 'AuthenticationError')
 
 	const role = 'user-community'
 
@@ -581,9 +587,11 @@ ava.serial('Users should not be able to login as the core admin user', async (te
 
 	await sdk.auth.login(userData)
 
-	await test.throwsAsync(sdk.auth.login({
+	const error2 = await test.throwsAsync(sdk.auth.login({
 		username: 'admin'
 	}))
+
+	test.is(error2.name, 'AuthenticationError')
 })
 
 ava.serial('should not be able to post an unsupported external event', async (test) => {
@@ -2172,7 +2180,7 @@ ava.serial('Users should not be able to create sessions as other users', async (
 
 	await test.context.sdk.auth.login(user1Details)
 
-	await test.throwsAsync(async () => {
+	const error = await test.throwsAsync(async () => {
 		await sdk.card.create({
 			slug: `session-${targetUser.slug}-${Date.now()}`,
 			type: 'session',
@@ -2182,4 +2190,47 @@ ava.serial('Users should not be able to create sessions as other users', async (
 			}
 		})
 	})
+
+	test.is(error.name, 'JellyfishSchemaMismatch')
+})
+
+ava.serial('Users should not be able to create action requests', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const actionRequest = {
+		type: 'action-request',
+		slug: 'action-request-8202f128-dbc2-4629-8318-609cdbc20336',
+		data: {
+			epoch: 1559123116431,
+			timestamp: '2019-05-29T09:45:16.431Z',
+			context: {
+				id: 'REQUEST-17.21.6-237c6999-64bb-4df0-ba7f-2f303003a609',
+				api: 'SERVER-17.21.6-localhost-e0f6fe9b-60e3-4d41-b575-1e719febe55b'
+			},
+			actor: 'ea04afb6-5574-483f-bf06-7490e54e0a74',
+			action: 'action-create-session',
+			input: {
+				id: '42d1cd57-a052-49df-b416-3ade986c1aec'
+			},
+			arguments: {
+				password: {
+					hash: '696dba0661d2ab3eb0c1fe5c417ca8c18278f5a324ebc8827dbcef829e07c20'
+				}
+			}
+		}
+	}
+
+	const userDetails = createUserDetails()
+
+	await test.context.createUser(userDetails)
+
+	await test.context.sdk.auth.login(userDetails)
+
+	const error = await test.throwsAsync(async () => {
+		await sdk.card.create(actionRequest)
+	})
+
+	test.is(error.name, 'JellyfishSchemaMismatch')
 })
