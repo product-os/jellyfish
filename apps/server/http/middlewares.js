@@ -54,6 +54,7 @@ module.exports = (rootContext, application, jellyfish, options) => {
 			}
 
 			logger.info(context, 'HTTP request start', {
+				ip: request.ip,
 				uri: request.originalUrl
 			})
 
@@ -65,12 +66,14 @@ module.exports = (rootContext, application, jellyfish, options) => {
 	application.use(responseTime((request, response, time) => {
 		logger.info(request.context, 'HTTP request end', {
 			uri: request.originalUrl,
+			ip: request.ip,
 			time
 		})
 
 		if (time > 5000) {
 			logger.info(request.context, 'Slow HTTP request', {
 				uri: request.originalUrl,
+				ip: request.ip,
 				payload: request.payload,
 				time
 			})
