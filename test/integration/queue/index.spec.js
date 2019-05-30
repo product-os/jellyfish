@@ -254,6 +254,7 @@ ava('.enqueue() should throw if the session was not found', async (test) => {
 })
 
 ava('.enqueue() should not store the password in the queue when using action-create-user', async (test) => {
+	const plaintextPassword = 'foobarbaz'
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'user')
 	await test.context.queue.enqueue(test.context.queueActor, test.context.session, {
@@ -265,7 +266,7 @@ ava('.enqueue() should not store the password in the queue when using action-cre
 			email: 'johndoe@example.com',
 			username: 'user-johndoe',
 			hash: {
-				string: 'foobarbaz',
+				string: plaintextPassword,
 				salt: 'user-johndoe'
 			}
 		}
@@ -273,8 +274,7 @@ ava('.enqueue() should not store the password in the queue when using action-cre
 
 	const request = await test.context.queue.dequeue(
 		test.context.context, test.context.queueActor)
-	test.falsy(request.data.arguments.hash.string)
-	test.falsy(request.data.arguments.hash.salt)
+	test.not(request.data.arguments.hash.string, plaintextPassword)
 })
 
 ava('.dequeue() should cope with link materialization failures', async (test) => {
