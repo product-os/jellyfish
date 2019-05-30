@@ -62,7 +62,8 @@ export default class Timeline extends React.Component {
 			newMessage: this.props.timelineMessage,
 			pendingMessages: [],
 			showNewCardModal: false,
-			whisper: Boolean(this.props.allowWhispers)
+			whisper: Boolean(this.props.allowWhispers),
+			uploadingFiles: []
 		}
 
 		this.bindScrollArea = this.bindScrollArea.bind(this)
@@ -125,14 +126,23 @@ export default class Timeline extends React.Component {
 			target: this.props.card,
 			tags: [],
 			type,
+			slug: `${type}-${uuid()}`,
 			payload: {
 				file,
 				message: `${FILE_PROXY_MESSAGE} ${createPermaLink(this.props.card)}`
 			}
 		}
 
+		this.setState({
+			uploadingFiles: this.state.uploadingFiles.concat(message.slug)
+		})
+
 		sdk.event.create(message)
 			.then(() => {
+				this.setState({
+					uploadingFiles: _.without(this.state.uploadingFiles, message.slug)
+				})
+
 				analytics.track('element.create', {
 					element: {
 						type
@@ -370,6 +380,14 @@ export default class Timeline extends React.Component {
 					{(Boolean(sortedTail) && sortedTail.length > 0) && _.map(sortedTail, (card) => {
 						if (hideWhispers && card.type === 'whisper') {
 							return null
+						}
+
+						if (_.includes(this.state.uploadingFiles, card.slug)) {
+							return (
+								<Box p={3}>
+									<Icon name="cog" spin /><em>{' '}Uploading file...</em>
+								</Box>
+							)
 						}
 
 						return (
