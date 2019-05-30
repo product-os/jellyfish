@@ -3656,10 +3656,21 @@ ava.cb('.stream() should report back new elements that match a certain type', (t
 			emitter.close()
 		})
 
-		emitter.on('error', test.end)
-		emitter.on('closed', test.end)
+		let promise = Promise.resolve()
 
-		await Bluebird.all([
+		emitter.on('error', (error) => {
+			promise.then(() => {
+				test.end(error)
+			}).catch(test.end)
+		})
+
+		emitter.on('closed', () => {
+			promise.then(() => {
+				test.end()
+			}).catch(test.end)
+		})
+
+		promise = Bluebird.all([
 			test.context.backend.insertElement(test.context.context, {
 				type: 'foo',
 				version: '1.0.0',
@@ -3782,10 +3793,21 @@ ava.cb('.stream() should report back changes to certain elements', (test) => {
 			emitter.close()
 		})
 
-		emitter.on('error', test.end)
-		emitter.on('closed', test.end)
+		let promise = Promise.resolve()
 
-		return test.context.backend.upsertElement(test.context.context, {
+		emitter.on('error', (error) => {
+			promise.then(() => {
+				test.end(error)
+			}).catch(test.end)
+		})
+
+		emitter.on('closed', () => {
+			promise.then(() => {
+				test.end()
+			}).catch(test.end)
+		})
+
+		promise = test.context.backend.upsertElement(test.context.context, {
 			slug: 'hello',
 			version: '1.0.0',
 			tags: [],
@@ -3894,10 +3916,21 @@ ava.cb('.stream() should report back changes to large elements', (test) => {
 			emitter.close()
 		})
 
-		emitter.on('error', test.end)
-		emitter.on('closed', test.end)
+		let promise = Promise.resolve()
 
-		return test.context.backend.upsertElement(test.context.context, {
+		emitter.on('error', (error) => {
+			promise.then(() => {
+				test.end(error)
+			}).catch(test.end)
+		})
+
+		emitter.on('closed', () => {
+			promise.then(() => {
+				test.end()
+			}).catch(test.end)
+		})
+
+		promise = test.context.backend.upsertElement(test.context.context, {
 			slug: 'hello',
 			active: true,
 			version: '1.0.0',
@@ -3988,10 +4021,21 @@ ava.cb('.stream() should set "before" to null if it previously did not match the
 			emitter.close()
 		})
 
-		emitter.on('error', test.end)
-		emitter.on('closed', test.end)
+		let promise = Promise.resolve()
 
-		return test.context.backend.upsertElement(test.context.context, {
+		emitter.on('error', (error) => {
+			promise.then(() => {
+				test.end(error)
+			}).catch(test.end)
+		})
+
+		emitter.on('closed', () => {
+			promise.then(() => {
+				test.end()
+			}).catch(test.end)
+		})
+
+		promise = test.context.backend.upsertElement(test.context.context, {
 			slug: 'foobarbaz',
 			active: true,
 			links: {},
@@ -4091,10 +4135,21 @@ ava.cb('.stream() should filter the "before" section of a change', (test) => {
 			emitter.close()
 		})
 
-		emitter.on('error', test.end)
-		emitter.on('closed', test.end)
+		let promise = Promise.resolve()
 
-		return test.context.backend.upsertElement(test.context.context, {
+		emitter.on('error', (error) => {
+			promise.then(() => {
+				test.end(error)
+			}).catch(test.end)
+		})
+
+		emitter.on('closed', () => {
+			promise.then(() => {
+				test.end()
+			}).catch(test.end)
+		})
+
+		promise = test.context.backend.upsertElement(test.context.context, {
 			slug: 'hello',
 			version: '1.0.0',
 			tags: [],
