@@ -186,7 +186,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 
 		// TODO: Exchange the authorization token with an access
 		// token by delegating to the right integration.
-		return request.status(200).json({
+		return response.status(200).json({
 			provider,
 			code,
 			state
