@@ -1761,6 +1761,52 @@ ava.serial('should create a new tag using using action-increment-tag', async (te
 	}))
 })
 
+ava.serial('action-increment-tag should not try two concurrent inserts', async (test) => {
+	const admin = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'user-admin', {
+			type: 'user'
+		})
+
+	const session = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			type: 'session',
+			slug: test.context.generateRandomSlug({
+				prefix: 'session'
+			}),
+			version: '1.0.0',
+			data: {
+				actor: admin.id
+			}
+		})
+
+	const headers = {
+		Authorization: `Bearer ${session.id}`
+	}
+
+	for (const time of _.range(10)) {
+		const options = {
+			card: 'tag',
+			type: 'type',
+			action: 'action-increment-tag',
+			arguments: {
+				reason: null,
+				name: test.context.generateRandomSlug({
+					prefix: `increment-tag-test-${time}`
+				})
+			}
+		}
+
+		const results = await Bluebird.all([
+			test.context.http('POST', '/api/v2/action', options, headers),
+			test.context.http('POST', '/api/v2/action', options, headers)
+		])
+
+		test.deepEqual(_.reject(results, {
+			code: 200
+		}), [])
+	}
+})
+
 ava.serial('should increment an existing tag using using action-increment-tag', async (test) => {
 	const admin = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'user-admin', {
