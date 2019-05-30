@@ -56,7 +56,6 @@ exports.queue = {
 			test.context.context,
 			test.context.jellyfish,
 			test.context.session,
-			actionLibrary,
 			options)
 
 		test.context.queue.once('error', (error) => {

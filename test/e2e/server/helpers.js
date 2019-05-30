@@ -100,7 +100,7 @@ exports.server = {
 		}
 
 		test.context.createUser = async (user) => {
-			const action = {
+			const action = await test.context.server.worker.pre(test.context.session, {
 				card: 'user',
 				type: 'type',
 				action: 'action-create-user',
@@ -113,7 +113,7 @@ exports.server = {
 					}
 				},
 				context: test.context.context
-			}
+			})
 
 			const results = await test.context.queue.enqueue(
 				test.context.server.worker.getId(),

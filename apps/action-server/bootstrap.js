@@ -80,7 +80,7 @@ const bootstrap = async (context, library, options) => {
 	})
 
 	const session = jellyfish.sessions.admin
-	const queue = new Queue(context, jellyfish, session, actionLibrary, {
+	const queue = new Queue(context, jellyfish, session, {
 		enablePriorityBuffer: true
 	})
 

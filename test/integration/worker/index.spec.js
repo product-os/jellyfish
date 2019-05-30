@@ -55,10 +55,41 @@ ava('.getId() different workers should get different ids', async (test) => {
 	test.not(worker2.getId(), worker3.getId())
 })
 
+ava('should not store the password in the queue when using action-create-user', async (test) => {
+	const userCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'user')
+	const password = 'foobarbaz'
+
+	const request = await test.context.worker.pre(test.context.session, {
+		action: 'action-create-user',
+		context: test.context.context,
+		card: userCard.id,
+		type: userCard.type,
+		arguments: {
+			email: 'johndoe@example.com',
+			username: 'user-johndoe',
+			hash: {
+				string: password,
+				salt: 'user-johndoe'
+			}
+		}
+	})
+
+	const createUserRequest = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, request)
+	test.not(createUserRequest.data.arguments.hash.string, password)
+
+	await test.context.flush(test.context.session, 1)
+	const result = await test.context.queue.waitResults(
+		test.context.context, createUserRequest)
+	test.false(result.error)
+})
+
 ava('should not store the password in the queue when using action-create-session', async (test) => {
 	const userCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'user')
-	const createUserRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+
+	const request1 = await test.context.worker.pre(test.context.session, {
 		action: 'action-create-user',
 		context: test.context.context,
 		card: userCard.id,
@@ -73,6 +104,9 @@ ava('should not store the password in the queue when using action-create-session
 		}
 	})
 
+	const createUserRequest = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, request1)
+
 	await test.context.flush(test.context.session, 1)
 	const result = await test.context.queue.waitResults(
 		test.context.context, createUserRequest)
@@ -80,7 +114,7 @@ ava('should not store the password in the queue when using action-create-session
 
 	const plaintextPassword = 'foobarbaz'
 
-	await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+	const request2 = await test.context.worker.pre(test.context.session, {
 		action: 'action-create-session',
 		context: test.context.context,
 		card: result.data.id,
@@ -94,6 +128,9 @@ ava('should not store the password in the queue when using action-create-session
 			}
 		}
 	})
+
+	await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, request2)
 
 	const request = await test.context.queue.dequeue(
 		test.context.context, test.context.worker.getId())
@@ -2011,42 +2048,47 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 ava('should be able to login as a user with a password', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'user')
-	const createUserRequest = await test.context.queue.enqueue(
-		test.context.worker.getId(), test.context.session, {
-			action: 'action-create-user',
-			card: typeCard.id,
-			context: test.context.context,
-			type: typeCard.type,
-			arguments: {
-				email: 'johndoe@example.com',
-				username: 'user-johndoe',
-				hash: {
-					string: 'foobarbaz',
-					salt: 'user-johndoe'
-				}
+
+	const request1 = await test.context.worker.pre(test.context.session, {
+		action: 'action-create-user',
+		card: typeCard.id,
+		context: test.context.context,
+		type: typeCard.type,
+		arguments: {
+			email: 'johndoe@example.com',
+			username: 'user-johndoe',
+			hash: {
+				string: 'foobarbaz',
+				salt: 'user-johndoe'
 			}
-		})
+		}
+	})
+
+	const createUserRequest = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, request1)
 
 	await test.context.flush(test.context.session, 1)
 	const signupResult = await test.context.queue.waitResults(
 		test.context.context, createUserRequest)
 	test.false(signupResult.error)
 
-	const loginRequest = await test.context.queue.enqueue(
-		test.context.worker.getId(), test.context.session, {
-			action: 'action-create-session',
-			card: signupResult.data.id,
-			context: test.context.context,
-			type: signupResult.data.type,
-			arguments: {
-				password: {
-					hash: {
-						string: 'foobarbaz',
-						salt: signupResult.data.slug
-					}
+	const request2 = await test.context.worker.pre(test.context.session, {
+		action: 'action-create-session',
+		card: signupResult.data.id,
+		context: test.context.context,
+		type: signupResult.data.type,
+		arguments: {
+			password: {
+				hash: {
+					string: 'foobarbaz',
+					salt: signupResult.data.slug
 				}
 			}
-		})
+		}
+	})
+
+	const loginRequest = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, request2)
 
 	await test.context.flush(test.context.session, 1)
 	const loginResult = await test.context.queue.waitResults(
@@ -2130,7 +2172,8 @@ ava('should not be able to login as a password-less disallowed user', async (tes
 
 ava('should fail if signing up with the wrong password', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'user')
-	const createUserRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+
+	const request1 = await test.context.worker.pre(test.context.session, {
 		action: 'action-create-user',
 		context: test.context.context,
 		card: typeCard.id,
@@ -2145,12 +2188,15 @@ ava('should fail if signing up with the wrong password', async (test) => {
 		}
 	})
 
+	const createUserRequest = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, request1)
+
 	await test.context.flush(test.context.session, 1)
 	const signupResult = await test.context.queue.waitResults(
 		test.context.context, createUserRequest)
 	test.false(signupResult.error)
 
-	await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+	const request2 = await test.context.worker.pre(test.context.session, {
 		action: 'action-create-session',
 		context: test.context.context,
 		card: signupResult.data.id,
@@ -2164,6 +2210,9 @@ ava('should fail if signing up with the wrong password', async (test) => {
 			}
 		}
 	})
+
+	await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, request2)
 
 	await test.throwsAsync(
 		test.context.flush(test.context.session, 1),
