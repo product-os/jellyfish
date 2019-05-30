@@ -29,6 +29,9 @@ class AuthenticatedImage extends React.Component {
 					imageSrc: URL.createObjectURL(blob)
 				})
 			})
+			.catch((error) => {
+				console.error(error)
+			})
 	}
 
 	render () {
