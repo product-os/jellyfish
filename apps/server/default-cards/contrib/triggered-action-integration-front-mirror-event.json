@@ -35,7 +35,7 @@
               "properties": {
                 "inbox": {
                   "type": "string",
-                  "enum": [ "S/Paid_Support", "Test Inbox" ]
+                  "enum": [ "S/Paid_Support", "Test Inbox", "Testfront" ]
                 }
               }
             }
