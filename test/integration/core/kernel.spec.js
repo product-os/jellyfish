@@ -2246,10 +2246,21 @@ ava.cb('.stream() should include data if additionalProperties true', (test) => {
 			emitter.close()
 		})
 
-		emitter.on('error', test.end)
-		emitter.on('closed', test.end)
+		let promise = Promise.resolve()
 
-		return test.context.kernel.insertCard(
+		emitter.on('error', (error) => {
+			promise.then(() => {
+				test.end(error)
+			}).catch(test.end)
+		})
+
+		emitter.on('closed', () => {
+			promise.then(() => {
+				test.end()
+			}).catch(test.end)
+		})
+
+		promise = test.context.kernel.insertCard(
 			test.context.context, test.context.kernel.sessions.admin, {
 				slug: 'card-foo-bar-baz',
 				type: 'card',
@@ -2308,10 +2319,21 @@ ava.cb('.stream() should report back new elements that match a certain slug', (t
 			emitter.close()
 		})
 
-		emitter.on('error', test.end)
-		emitter.on('closed', test.end)
+		let promise = Promise.resolve()
 
-		return Bluebird.all([
+		emitter.on('error', (error) => {
+			promise.then(() => {
+				test.end(error)
+			}).catch(test.end)
+		})
+
+		emitter.on('closed', () => {
+			promise.then(() => {
+				test.end()
+			}).catch(test.end)
+		})
+
+		promise = Bluebird.all([
 			test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
 				slug: 'card-foo',
 				type: 'card',
@@ -2355,6 +2377,8 @@ ava.cb('.stream() should report back elements of a certain type', (test) => {
 		},
 		required: [ 'type' ]
 	}).then((emitter) => {
+		let promise = Bluebird.resolve()
+
 		emitter.on('data', (change) => {
 			test.deepEqual(change.before, null)
 			test.deepEqual(_.omit(change.after, [ 'id' ]), {
@@ -2368,10 +2392,19 @@ ava.cb('.stream() should report back elements of a certain type', (test) => {
 			emitter.close()
 		})
 
-		emitter.on('error', test.end)
-		emitter.on('closed', test.end)
+		emitter.on('error', (error) => {
+			promise.then(() => {
+				test.end(error)
+			}).catch(test.end)
+		})
 
-		return Bluebird.all([
+		emitter.on('closed', () => {
+			promise.then(() => {
+				test.end()
+			}).catch(test.end)
+		})
+
+		promise = Bluebird.all([
 			test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
 				slug: 'card-foo',
 				type: 'card',
@@ -2522,10 +2555,21 @@ ava.cb('.stream() should report back action requests', (test) => {
 			emitter.close()
 		})
 
-		emitter.on('error', test.end)
-		emitter.on('closed', test.end)
+		let promise = Promise.resolve()
 
-		return Bluebird.all([
+		emitter.on('error', (error) => {
+			promise.then(() => {
+				test.end(error)
+			}).catch(test.end)
+		})
+
+		emitter.on('closed', () => {
+			promise.then(() => {
+				test.end()
+			}).catch(test.end)
+		})
+
+		promise = Bluebird.all([
 			test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
 				type: 'action-request',
 				slug: test.context.generateRandomSlug({
@@ -2598,10 +2642,21 @@ ava.cb('.stream() should report back inactive elements', (test) => {
 			emitter.close()
 		})
 
-		emitter.on('error', test.end)
-		emitter.on('closed', test.end)
+		let promise = Promise.resolve()
 
-		return test.context.kernel.insertCard(
+		emitter.on('error', (error) => {
+			promise.then(() => {
+				test.end(error)
+			}).catch(test.end)
+		})
+
+		emitter.on('closed', () => {
+			promise.then(() => {
+				test.end()
+			}).catch(test.end)
+		})
+
+		promise = test.context.kernel.insertCard(
 			test.context.context, test.context.kernel.sessions.admin, {
 				slug: 'card-bar',
 				active: false,
