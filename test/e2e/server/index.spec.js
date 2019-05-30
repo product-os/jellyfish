@@ -1316,7 +1316,7 @@ ava.serial('should fail with a user error when executing an unknown action', asy
 	test.deepEqual(result.response, {
 		error: true,
 		data: {
-			name: 'QueueInvalidAction',
+			name: 'WorkerInvalidAction',
 			message: result.response.data.message
 		}
 	})

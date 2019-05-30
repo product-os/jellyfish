@@ -410,7 +410,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 
 		const files = []
 
-		return uuid().then((id) => {
+		return uuid().then(async (id) => {
 			if (request.files) {
 				// Upload magic
 				request.files.forEach((file) => {
@@ -433,7 +433,8 @@ module.exports = (application, jellyfish, worker, queue) => {
 			request.payload = action
 			action.context = request.context
 
-			return queue.enqueue(worker.getId(), request.sessionToken, action)
+			const finalRequest = await worker.pre(request.sessionToken, action)
+			return queue.enqueue(worker.getId(), request.sessionToken, finalRequest)
 		}).then((actionRequest) => {
 			return queue.waitResults(request.context, actionRequest)
 		}).then(async (results) => {

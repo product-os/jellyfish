@@ -253,30 +253,6 @@ ava('.enqueue() should throw if the session was not found', async (test) => {
 	}), test.context.jellyfish.errors.JellyfishInvalidSession)
 })
 
-ava('.enqueue() should not store the password in the queue when using action-create-user', async (test) => {
-	const plaintextPassword = 'foobarbaz'
-	const typeCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user')
-	await test.context.queue.enqueue(test.context.queueActor, test.context.session, {
-		action: 'action-create-user',
-		context: test.context.context,
-		card: typeCard.id,
-		type: typeCard.type,
-		arguments: {
-			email: 'johndoe@example.com',
-			username: 'user-johndoe',
-			hash: {
-				string: plaintextPassword,
-				salt: 'user-johndoe'
-			}
-		}
-	})
-
-	const request = await test.context.queue.dequeue(
-		test.context.context, test.context.queueActor)
-	test.not(request.data.arguments.hash.string, plaintextPassword)
-})
-
 ava('.dequeue() should cope with link materialization failures', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card')
