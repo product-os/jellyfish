@@ -75,7 +75,11 @@ export default class SupportThreadSummary extends React.Component {
 		return !circularDeepEqual(nextState, this.state) || !circularDeepEqual(nextProps, this.props)
 	}
 
-	async componentDidMount () {
+	componentDidMount () {
+		this.setActors()
+	}
+
+	async setActors () {
 		const card = this.props.card
 		const timeline = _.sortBy(_.get(card.links, [ 'has attached element' ], []), 'data.timestamp')
 		const messages = _.filter(timeline, (event) => {
@@ -93,7 +97,14 @@ export default class SupportThreadSummary extends React.Component {
 		})
 	}
 
-	getActors
+	componentDidUpdate (prevProps) {
+		// If there is a new timeline element, recalculate the actors
+		const timeline = _.get(this.props.card.links, [ 'has attached element' ], [])
+		const prevTimeline = _.get(prevProps.card.links, [ 'has attached element' ], [])
+		if (timeline.length !== prevTimeline.length) {
+			this.setActors()
+		}
+	}
 
 	openChannel () {
 		this.props.openChannel(this.props.card.id)
