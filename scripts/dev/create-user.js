@@ -70,7 +70,7 @@ const run = async () => {
 	}
 
 	const createUser = async (user) => {
-		const action = {
+		const action = await server.worker.pre(session, {
 			card: 'user',
 			type: 'type',
 			action: 'action-create-user',
@@ -83,7 +83,7 @@ const run = async () => {
 				}
 			},
 			context
-		}
+		})
 
 		const results = await queue.enqueue(
 			server.worker.getId(),
