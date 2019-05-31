@@ -14,18 +14,16 @@ import {
 import {
 	actionCreators
 } from '../../core'
-import CardLinker from './CardLinker'
+import Login from './Login'
 
 const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: bindActionCreators(
 			_.pick(actionCreators, [
-				'addChannel',
 				'addNotification',
-				'createLink',
-				'queryAPI'
+				'login'
 			]), dispatch)
 	}
 }
 
-export default connect(null, mapDispatchToProps)(CardLinker)
+export default connect(null, mapDispatchToProps)(Login)

@@ -93,6 +93,8 @@ export default class SupportThreadSummary extends React.Component {
 		})
 	}
 
+	getActors
+
 	openChannel () {
 		this.props.openChannel(this.props.card.id)
 	}

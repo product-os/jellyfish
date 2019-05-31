@@ -6,12 +6,6 @@
 
 import React from 'react'
 import {
-	connect
-} from 'react-redux'
-import {
-	bindActionCreators
-} from 'redux'
-import {
 	Box,
 	Button,
 	Container,
@@ -22,12 +16,9 @@ import {
 	Input,
 	Txt
 } from 'rendition'
-import {
-	actionCreators
-} from '../core'
-import Icon from '../shame/Icon'
+import Icon from '../../shame/Icon'
 
-class Login extends React.Component {
+export default class Login extends React.Component {
 	constructor (props) {
 		super(props)
 
@@ -156,12 +147,3 @@ class Login extends React.Component {
 		)
 	}
 }
-const mapDispatchToProps = (dispatch) => {
-	return {
-		actions: {
-			addNotification: bindActionCreators(actionCreators.addNotification, dispatch),
-			login: bindActionCreators(actionCreators.login, dispatch)
-		}
-	}
-}
-export default connect(null, mapDispatchToProps)(Login)
