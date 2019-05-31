@@ -21,7 +21,7 @@ import {
 } from '../../core'
 import Column from '../../shame/Column'
 import Icon from '../../shame/Icon'
-import SupportThreadSummary from './SupportThreadSummary'
+import CardChatSummary from '../../components/CardChatSummary'
 
 const SLUG = 'lens-support-threads'
 
@@ -234,7 +234,7 @@ export class SupportThreads extends React.Component {
 								)}
 								{_.map(segment.cards, (card) => {
 									return (
-										<SupportThreadSummary
+										<CardChatSummary
 											getActor={this.props.actions.getActor}
 											key={card.id}
 											active={activeThread === card.id}

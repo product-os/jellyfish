@@ -16,15 +16,11 @@ import {
 	Txt
 } from 'rendition'
 import styled from 'styled-components'
-import * as helpers from '../../services/helpers'
-import ColorHashPill from '../../shame/ColorHashPill'
-import Gravatar from '../../shame/Gravatar'
-import {
-	getCreator,
-	getLastUpdate
-} from './utils'
+import * as helpers from '../services/helpers'
+import ColorHashPill from '../shame/ColorHashPill'
+import Gravatar from '../shame/Gravatar'
 
-const SupportThreadSummaryWrapper = styled(Box) `
+const SummaryWrapper = styled(Box) `
 	border-left-style: solid;
 	border-left-width: 3px;
 	border-bottom: 1px solid #eee;
@@ -86,7 +82,7 @@ export default class SupportThreadSummary extends React.Component {
 			return event.type === 'message' || event.type === 'whisper'
 		})
 		const lastMessageOrWhisper = _.last(messages)
-		const actor = await getCreator(this.props.getActor, card)
+		const actor = await helpers.getCreator(this.props.getActor, card)
 		const lastActor = lastMessageOrWhisper
 			? await this.props.getActor(_.get(lastMessageOrWhisper, [ 'data', 'actor' ]))
 			: null
@@ -140,8 +136,8 @@ export default class SupportThreadSummary extends React.Component {
 			: SummaryMessage
 
 		return (
-			<SupportThreadSummaryWrapper
-				data-test-component="support-thread-summary"
+			<SummaryWrapper
+				data-test-component="card-chat-summary"
 				data-test-id={card.id}
 				p={3}
 				style={style}
@@ -166,7 +162,7 @@ export default class SupportThreadSummary extends React.Component {
 					</Box>
 
 					<Txt>
-						Updated {helpers.timeAgo(_.get(getLastUpdate(card), [ 'data', 'timestamp' ]))}
+						Updated {helpers.timeAgo(_.get(helpers.getLastUpdate(card), [ 'data', 'timestamp' ]))}
 					</Txt>
 				</Flex>
 				<Txt my={2}>{messages.length} message{messages.length !== 1 && 's'}</Txt>
@@ -175,7 +171,7 @@ export default class SupportThreadSummary extends React.Component {
 						<Gravatar.default small pr={2} email={lastActor ? lastActor.email : null}/>
 
 						<Container
-							data-test-component="support-thread-summary__message"
+							data-test-component="card-chat-summary__message"
 						>
 							{
 								_.get(lastMessageOrWhisper, [ 'data', 'payload', 'message' ], '')
@@ -185,7 +181,7 @@ export default class SupportThreadSummary extends React.Component {
 						</Container>
 					</Flex>
 				)}
-			</SupportThreadSummaryWrapper>
+			</SummaryWrapper>
 		)
 	}
 }
