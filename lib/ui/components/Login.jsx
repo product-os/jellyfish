@@ -4,70 +4,33 @@
  * Proprietary and confidential.
  */
 
-const Bluebird = require('bluebird')
-const React = require('react')
-const {
+import React from 'react'
+import {
 	connect
-} = require('react-redux')
-const redux = require('redux')
-const rendition = require('rendition')
-const {
+} from 'react-redux'
+import {
+	bindActionCreators
+} from 'redux'
+import {
+	Box,
+	Button,
+	Container,
+	Divider,
+	Flex,
+	Heading,
+	Img,
+	Input,
+	Txt
+} from 'rendition'
+import {
 	actionCreators
-} = require('../core')
-const TopBar = require('./TopBar')
-const Icon = require('../shame/Icon')
+} from '../core'
+import Icon from '../shame/Icon'
 
-class Base extends React.Component {
+class Login extends React.Component {
 	constructor (props) {
 		super(props)
 
-		this.login = (event) => {
-			event.preventDefault()
-			const {
-				username, password
-			} = this.state
-			this.setState({
-				loggingIn: true
-			})
-			return Bluebird.try(() => {
-				return this.props.actions.login({
-					username,
-					password
-				})
-			})
-				.catch((error) => {
-					this.setState({
-						loggingIn: false
-					})
-					this.props.actions.addNotification('danger', error.message || error)
-				})
-		}
-		this.togglePasswordVisibility = (event) => {
-			event.preventDefault()
-			this.setState({
-				showPassword: !this.state.showPassword
-			})
-		}
-		this.handleEmailChange = (event) => {
-			this.setState({
-				email: event.target.value
-			})
-		}
-		this.handleUsernameChange = (event) => {
-			this.setState({
-				username: event.target.value
-			})
-		}
-		this.handlePasswordChange = (event) => {
-			this.setState({
-				password: event.target.value
-			})
-		}
-		this.handlePasswordConfirmationChange = (event) => {
-			this.setState({
-				passwordConfirmation: event.target.value
-			})
-		}
 		this.state = {
 			username: '',
 			password: '',
@@ -76,7 +39,46 @@ class Base extends React.Component {
 			email: '',
 			loggingIn: false
 		}
+
+		this.handlePasswordChange = this.handlePasswordChange.bind(this)
+		this.handleUsernameChange = this.handleUsernameChange.bind(this)
+		this.login = this.login.bind(this)
 	}
+
+	handleUsernameChange (event) {
+		this.setState({
+			username: event.target.value
+		})
+	}
+
+	handlePasswordChange (event) {
+		this.setState({
+			password: event.target.value
+		})
+	}
+
+	login (event) {
+		event.preventDefault()
+		const {
+			username, password
+		} = this.state
+
+		this.setState({
+			loggingIn: true
+		})
+
+		return this.props.actions.login({
+			username,
+			password
+		})
+			.catch((error) => {
+				this.setState({
+					loggingIn: false
+				})
+				this.props.actions.addNotification('danger', error.message || error)
+			})
+	}
+
 	render () {
 		const {
 			username, password, loggingIn
@@ -84,8 +86,12 @@ class Base extends React.Component {
 
 		return (
 			<React.Fragment>
-				<TopBar.default>
-					<rendition.Img
+				<Flex justifyContent="space-between" align="center"
+					style={{
+						boxShadow: '0 1px 3px rgba(0, 0, 0, 0.2)'
+					}}
+				>
+					<Img
 						width={70}
 						style={{
 							height: 70
@@ -94,22 +100,22 @@ class Base extends React.Component {
 						p={10}
 						src="/icons/jellyfish.svg"
 					/>
-				</TopBar.default>
+				</Flex>
 
-				<rendition.Container mt={4} className="login-page">
-					<rendition.Box className="login-page__login" mx="auto" style={{
+				<Container mt={4} className="login-page">
+					<Box className="login-page__login" mx="auto" style={{
 						maxWidth: 470
 					}}>
-						<rendition.Txt align="center" mb={4}>
-							<rendition.Heading.h2 mb={2}>Log in to Jellyfish</rendition.Heading.h2>
+						<Txt align="center" mb={4}>
+							<Heading.h2 mb={2}>Log in to Jellyfish</Heading.h2>
 							<span>Enter your details below</span>
-						</rendition.Txt>
+						</Txt>
 
-						<rendition.Divider color="#eee" mb={4}/>
+						<Divider color="#eee" mb={4}/>
 
 						<form onSubmit={this.login}>
-							<rendition.Txt fontSize={1} mb={1}>Username</rendition.Txt>
-							<rendition.Input
+							<Txt fontSize={1} mb={1}>Username</Txt>
+							<Input
 								className="login-page__input--username"
 								mb={5}
 								width="100%"
@@ -119,8 +125,8 @@ class Base extends React.Component {
 								onChange={this.handleUsernameChange}
 							/>
 
-							<rendition.Txt fontSize={1} mb={1}>Password</rendition.Txt>
-							<rendition.Input
+							<Txt fontSize={1} mb={1}>Password</Txt>
+							<Input
 								className="login-page__input--password"
 								mb={5}
 								width="100%"
@@ -131,8 +137,8 @@ class Base extends React.Component {
 								onChange={this.handlePasswordChange}
 							/>
 
-							<rendition.Box>
-								<rendition.Button
+							<Box>
+								<Button
 									className="login-page__submit--login"
 									width="100%"
 									primary={true}
@@ -140,12 +146,12 @@ class Base extends React.Component {
 									type="submit"
 									disabled={!username || !password || loggingIn}
 								>
-									{loggingIn ? <Icon.default spin name="cog"/> : 'Log in'}
-								</rendition.Button>
-							</rendition.Box>
+									{loggingIn ? <Icon spin name="cog"/> : 'Log in'}
+								</Button>
+							</Box>
 						</form>
-					</rendition.Box>
-				</rendition.Container>
+					</Box>
+				</Container>
 			</React.Fragment>
 		)
 	}
@@ -153,9 +159,9 @@ class Base extends React.Component {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: {
-			addNotification: redux.bindActionCreators(actionCreators.addNotification, dispatch),
-			login: redux.bindActionCreators(actionCreators.login, dispatch)
+			addNotification: bindActionCreators(actionCreators.addNotification, dispatch),
+			login: bindActionCreators(actionCreators.login, dispatch)
 		}
 	}
 }
-exports.Login = connect(null, mapDispatchToProps)(Base)
+export default connect(null, mapDispatchToProps)(Login)

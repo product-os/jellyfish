@@ -15,9 +15,7 @@ import {
 } from 'rendition'
 import ChannelRenderer from './components/ChannelRenderer'
 import HomeChannel from './components/HomeChannel'
-import {
-	Login
-} from './components/Login'
+import Login from './components/Login'
 import {
 	Notifications
 } from './components/Notifications'
@@ -35,7 +33,7 @@ import ReactResizeObserver from 'react-resize-observer'
 require('rendition/dist/extra/Form/markdown')
 require('rendition/dist/extra/Form/mermaid')
 
-class UI extends React.Component {
+class JellyfishUI extends React.Component {
 	constructor () {
 		super()
 
@@ -184,4 +182,4 @@ const mapStateToProps = (state) => {
 		user: selectors.getCurrentUser(state)
 	}
 }
-export default DragDropContext(ReactDndHtml5Backend)(connect(mapStateToProps)(UI))
+export default DragDropContext(ReactDndHtml5Backend)(connect(mapStateToProps)(JellyfishUI))
