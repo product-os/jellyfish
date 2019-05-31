@@ -1,0 +1,246 @@
+{
+  "id": "d967c40b-7495-4132-b2ff-16d16259d783",
+  "slug": "support-thread-d31d563c-e1bf-4d22-98e8-d843275030b3",
+  "type": "support-thread",
+  "active": true,
+  "version": "1.0.0",
+  "name": null,
+  "tags": [],
+  "markers": [],
+  "created_at": "2019-05-31T12:28:29.370Z",
+  "links": {
+    "has attached element": [
+      {
+        "id": "dd6cd93e-37ca-4ab3-af04-c65334e5a3ff",
+        "data": {
+          "actor": "713a47bb-74f4-4506-ada7-e5b4060b8b6a",
+          "target": "d967c40b-7495-4132-b2ff-16d16259d783",
+          "payload": {
+            "slug": "support-thread-d31d563c-e1bf-4d22-98e8-d843275030b3",
+            "type": "support-thread",
+            "linked_at": {}
+          },
+          "timestamp": "2019-05-31T12:28:29.054Z"
+        },
+        "name": null,
+        "slug": "create-1d2b48d0-39f7-4b67-94e2-46d486261186",
+        "tags": [],
+        "type": "create",
+        "links": {},
+        "active": true,
+        "markers": [],
+        "version": "1.0.0",
+        "requires": [],
+        "linked_at": {
+          "is attached to": "2019-05-31T12:28:29.416Z"
+        },
+        "created_at": "2019-05-31T12:28:29.380Z",
+        "updated_at": null,
+        "capabilities": []
+      },
+      {
+        "id": "dd603f75-1077-4313-9aee-f8c1ea05642d",
+        "data": {
+          "actor": "713a47bb-74f4-4506-ada7-e5b4060b8b6a",
+          "target": "d967c40b-7495-4132-b2ff-16d16259d783",
+          "payload": {
+            "message": "x",
+            "alertsUser": [],
+            "mentionsUser": []
+          },
+          "timestamp": "2019-05-31T12:30:12.779Z"
+        },
+        "name": null,
+        "slug": "whisper-78d4ecf1-3806-40d4-a967-643f837b90fa",
+        "tags": [],
+        "type": "whisper",
+        "links": {},
+        "active": true,
+        "markers": [],
+        "version": "1.0.0",
+        "requires": [],
+        "linked_at": {
+          "is attached to": "2019-05-31T12:30:13.697Z"
+        },
+        "created_at": "2019-05-31T12:30:13.413Z",
+        "updated_at": null,
+        "capabilities": []
+      },
+      {
+        "id": "36535491-9f24-4218-9825-1db60bfbe0b5",
+        "data": {
+          "actor": "99eb9304-96a7-4350-9360-c4bdf8c2e99c",
+          "target": "d967c40b-7495-4132-b2ff-16d16259d783",
+          "payload": {
+            "message": "y",
+            "alertsUser": [],
+            "mentionsUser": []
+          },
+          "timestamp": "2019-05-31T12:32:56.869Z"
+        },
+        "name": null,
+        "slug": "whisper-df045665-404b-401e-abbe-c6ef7d87edbe",
+        "tags": [],
+        "type": "whisper",
+        "links": {},
+        "active": true,
+        "markers": [],
+        "version": "1.0.0",
+        "requires": [],
+        "linked_at": {
+          "is attached to": "2019-05-31T12:32:57.803Z"
+        },
+        "created_at": "2019-05-31T12:32:57.529Z",
+        "updated_at": null,
+        "capabilities": []
+      },
+      {
+        "id": "edb95c56-bb43-4f13-8f03-ca5b4069530d",
+        "data": {
+          "actor": "713a47bb-74f4-4506-ada7-e5b4060b8b6a",
+          "target": "d967c40b-7495-4132-b2ff-16d16259d783",
+          "payload": {
+            "message": "n",
+            "alertsUser": [],
+            "mentionsUser": []
+          },
+          "timestamp": "2019-05-31T13:28:07.313Z"
+        },
+        "name": null,
+        "slug": "whisper-09edbe71-0edf-4a7c-bb3f-34c086a727a3",
+        "tags": [],
+        "type": "whisper",
+        "links": {},
+        "active": true,
+        "markers": [],
+        "version": "1.0.0",
+        "requires": [],
+        "linked_at": {
+          "is attached to": "2019-05-31T13:28:07.907Z"
+        },
+        "created_at": "2019-05-31T13:28:07.655Z",
+        "updated_at": null,
+        "capabilities": []
+      },
+      {
+        "id": "23afc4ee-43fb-4a1e-86af-a2fbf215172b",
+        "data": {
+          "actor": "99eb9304-96a7-4350-9360-c4bdf8c2e99c",
+          "target": "d967c40b-7495-4132-b2ff-16d16259d783",
+          "payload": {
+            "message": "y",
+            "alertsUser": [],
+            "mentionsUser": []
+          },
+          "timestamp": "2019-05-31T13:28:38.562Z"
+        },
+        "name": null,
+        "slug": "whisper-b4d7c601-de63-4a95-a0b9-3891873e8065",
+        "tags": [],
+        "type": "whisper",
+        "links": {},
+        "active": true,
+        "markers": [],
+        "version": "1.0.0",
+        "requires": [],
+        "linked_at": {
+          "is attached to": "2019-05-31T13:28:39.361Z"
+        },
+        "created_at": "2019-05-31T13:28:39.152Z",
+        "updated_at": null,
+        "capabilities": []
+      },
+      {
+        "id": "c6ff109f-5c71-4867-b3a2-5267470be4c1",
+        "data": {
+          "actor": "713a47bb-74f4-4506-ada7-e5b4060b8b6a",
+          "target": "d967c40b-7495-4132-b2ff-16d16259d783",
+          "payload": {
+            "message": "x",
+            "alertsUser": [],
+            "mentionsUser": []
+          },
+          "timestamp": "2019-05-31T13:28:43.116Z"
+        },
+        "name": null,
+        "slug": "whisper-e6094ee7-16d1-4ac9-985f-b811bca58274",
+        "tags": [],
+        "type": "whisper",
+        "links": {},
+        "active": true,
+        "markers": [],
+        "version": "1.0.0",
+        "requires": [],
+        "linked_at": {
+          "is attached to": "2019-05-31T13:28:43.526Z"
+        },
+        "created_at": "2019-05-31T13:28:43.276Z",
+        "updated_at": null,
+        "capabilities": []
+      },
+      {
+        "id": "80405e75-6507-456f-b41c-9c8f85729cf7",
+        "data": {
+          "actor": "99eb9304-96a7-4350-9360-c4bdf8c2e99c",
+          "target": "d967c40b-7495-4132-b2ff-16d16259d783",
+          "payload": {
+            "message": "y",
+            "alertsUser": [],
+            "mentionsUser": []
+          },
+          "timestamp": "2019-05-31T13:42:21.233Z"
+        },
+        "name": null,
+        "slug": "whisper-8e4a3e2b-10ad-451f-9ccd-8811f0110ea2",
+        "tags": [],
+        "type": "whisper",
+        "links": {},
+        "active": true,
+        "markers": [],
+        "version": "1.0.0",
+        "requires": [],
+        "linked_at": {
+          "is attached to": "2019-05-31T13:42:21.764Z"
+        },
+        "created_at": "2019-05-31T13:42:21.491Z",
+        "updated_at": null,
+        "capabilities": []
+      },
+      {
+        "id": "acbfc1ec-bf55-44aa-9361-910f52df3c05",
+        "data": {
+          "actor": "713a47bb-74f4-4506-ada7-e5b4060b8b6a",
+          "target": "d967c40b-7495-4132-b2ff-16d16259d783",
+          "payload": {
+            "message": "x",
+            "alertsUser": [],
+            "mentionsUser": []
+          },
+          "timestamp": "2019-05-31T13:42:00.300Z"
+        },
+        "name": null,
+        "slug": "whisper-c643e8ee-df73-4592-b9d3-7c6e4f5ca72e",
+        "tags": [],
+        "type": "whisper",
+        "links": {},
+        "active": true,
+        "markers": [],
+        "version": "1.0.0",
+        "requires": [],
+        "linked_at": {
+          "is attached to": "2019-05-31T13:42:00.783Z"
+        },
+        "created_at": "2019-05-31T13:42:00.548Z",
+        "updated_at": null,
+        "capabilities": []
+      }
+    ]
+  },
+  "requires": [],
+  "capabilities": [],
+  "data": {},
+  "updated_at": null,
+  "linked_at": {
+    "has attached element": "2019-05-31T13:42:21.764Z"
+  }
+}

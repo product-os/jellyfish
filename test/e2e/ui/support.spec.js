@@ -69,7 +69,7 @@ ava.serial('Updates to support threads should be reflected in the support thread
 	})
 
 	// Wait for the new support thread to appear in view
-	const summarySelector = `[data-test-component="support-thread-summary"][data-test-id="${supportThread.id}"]`
+	const summarySelector = `[data-test-component="card-chat-summary"][data-test-id="${supportThread.id}"]`
 	await macros.waitForThenClickSelector(page, summarySelector)
 
 	await macros.waitForThenClickSelector(page, '.rta__textarea')
@@ -79,7 +79,7 @@ ava.serial('Updates to support threads should be reflected in the support thread
 	const columnSelector = macros.makeSelector('column', null, supportThread.id)
 	await macros.createChatMessage(page, columnSelector, `%${rand}`)
 
-	const messageSelector = `${summarySelector} ${macros.makeSelector('support-thread-summary__message')}`
+	const messageSelector = `${summarySelector} ${macros.makeSelector('card-chat-summary__message')}`
 
 	const messageText = await macros.getElementText(page, messageSelector)
 

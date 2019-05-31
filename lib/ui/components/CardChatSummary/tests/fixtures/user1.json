@@ -1,0 +1,22 @@
+{
+  "id": "713a47bb-74f4-4506-ada7-e5b4060b8b6a",
+  "slug": "user-lucianbuzzo",
+  "type": "user",
+  "active": true,
+  "version": "1.0.0",
+  "name": null,
+  "tags": [],
+  "markers": [],
+  "created_at": "2019-05-31T09:40:40.871Z",
+  "links": {},
+  "requires": [],
+  "capabilities": [],
+  "data": {
+    "email": "lucian.buzzo@gmail.com"
+  },
+  "updated_at": "2019-05-31T12:29:59.351Z",
+  "linked_at": {
+    "is member of": "2019-05-31T09:40:41.073Z",
+    "has attached element": "2019-05-31T12:29:59.440Z"
+  }
+}

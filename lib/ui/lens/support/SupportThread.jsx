@@ -49,11 +49,6 @@ import ColorHashPill from '../../shame/ColorHashPill'
 import Column from '../../shame/Column'
 import Icon from '../../shame/Icon'
 
-const {
-	getCreator,
-	getLastUpdate
-} = require('./utils')
-
 const Extract = styled(Box) `
 	background: lightyellow;
 	border-top: 1px solid ${Theme.colors.gray.light};
@@ -129,7 +124,7 @@ class SupportThreadBase extends React.Component {
 	}
 
 	async componentDidMount () {
-		const actor = await getCreator(this.props.actions.getActor, this.props.card)
+		const actor = await helpers.getCreator(this.props.actions.getActor, this.props.card)
 
 		this.setState({
 			actor
@@ -399,7 +394,7 @@ class SupportThreadBase extends React.Component {
 						<Txt><em>Created {helpers.formatTimestamp(card.created_at)}</em></Txt>
 
 						<Txt>
-							<em>Updated {helpers.timeAgo(_.get(getLastUpdate(card), [ 'data', 'timestamp' ]))}</em>
+							<em>Updated {helpers.timeAgo(_.get(helpers.getLastUpdate(card), [ 'data', 'timestamp' ]))}</em>
 						</Txt>
 					</Flex>
 

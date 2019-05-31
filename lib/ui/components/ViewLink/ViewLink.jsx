@@ -17,8 +17,9 @@ import {
 } from 'rendition'
 import MentionsCount from '../MentionsCount'
 import helpers from '../../services/helpers'
-import ContextMenu from '../ContextMenu'
-import NotificationsModal from '../NotificationsModal'
+import {
+	ContextMenu
+} from '../ContextMenu'
 import Icon from '../../shame/Icon'
 
 export default class ViewLink extends React.Component {
@@ -26,16 +27,13 @@ export default class ViewLink extends React.Component {
 		super(props)
 
 		this.state = {
-			showMenu: false,
-			showSettings: false
+			showMenu: false
 		}
 
 		this.open = this.open.bind(this)
 		this.openSlice = this.openSlice.bind(this)
-		this.saveNotificationSettings = this.saveNotificationSettings.bind(this)
 		this.setDefault = this.setDefault.bind(this)
 		this.toggleMenu = this.toggleMenu.bind(this)
-		this.toggleSettings = this.toggleMenu.bind(this)
 	}
 
 	open (options) {
@@ -48,32 +46,8 @@ export default class ViewLink extends React.Component {
 		})
 	}
 
-	toggleSettings () {
-		this.setState({
-			showSettings: !this.state.showSettings
-		})
-	}
-
 	setDefault () {
 		this.props.setDefault(this.props.card)
-	}
-
-	saveNotificationSettings (settings) {
-		const {
-			subscription
-		} = this.props
-		if (!subscription) {
-			return
-		}
-		subscription.data.notificationSettings = settings
-		this.props.saveSubscription(subscription, this.props.card.id)
-		this.setState({
-			showSettings: false
-		})
-	}
-
-	getNotificationSettings () {
-		return _.get(this.props.subscription, [ 'data', 'notificationSettings' ]) || {}
 	}
 
 	shouldComponentUpdate (nextProps, nextState) {
@@ -143,12 +117,7 @@ export default class ViewLink extends React.Component {
 					}
 
 					{this.state.showMenu &&
-							<ContextMenu.ContextMenu onClose={this.toggleMenu}>
-								<Button style={{
-									display: 'block'
-								}} mb={2} plain onClick={this.toggleSettings}>
-									Settings
-								</Button>
+							<ContextMenu onClose={this.toggleMenu}>
 								<Button
 									style={{
 										display: 'block'
@@ -159,14 +128,8 @@ export default class ViewLink extends React.Component {
 								>
 									Set as default
 								</Button>
-							</ContextMenu.ContextMenu>}
-
-					<NotificationsModal.NotificationsModal
-						show={this.state.showSettings}
-						settings={this.getNotificationSettings()}
-						onCancel={this.toggleSettings}
-						onDone={this.saveNotificationSettings}
-					/>
+							</ContextMenu>
+					}
 				</Flex>
 				{isActive && Boolean(slices) && (
 					<ul

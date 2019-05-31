@@ -21,7 +21,7 @@ import {
 } from '../../core'
 import Column from '../../shame/Column'
 import Icon from '../../shame/Icon'
-import SupportThreadSummary from './SupportThreadSummary'
+import CardChatSummary from '../../components/CardChatSummary'
 
 const SLUG = 'lens-support-threads'
 
@@ -67,6 +67,7 @@ export class SupportThreads extends React.Component {
 		}
 
 		this.bindScrollArea = this.bindScrollArea.bind(this)
+		this.setActiveIndex = this.setActiveIndex.bind(this)
 	}
 
 	componentDidMount () {
@@ -193,6 +194,13 @@ export class SupportThreads extends React.Component {
 		})
 	}
 
+	setActiveIndex (index) {
+		const target = _.get(this.props, [ 'channel', 'data', 'head', 'id' ])
+		this.props.actions.setLensState(SLUG, target, {
+			activeIndex: index
+		})
+	}
+
 	bindScrollArea (ref) {
 		this.scrollArea = ref
 	}
@@ -210,6 +218,8 @@ export class SupportThreads extends React.Component {
 		return (
 			<Column data-test={`lens--${SLUG}`}>
 				<Tabs
+					activeIndex={this.props.lensState.activeIndex}
+					onActive={this.setActiveIndex}
 					style={{
 						height: '100%',
 						display: 'flex',
@@ -234,7 +244,7 @@ export class SupportThreads extends React.Component {
 								)}
 								{_.map(segment.cards, (card) => {
 									return (
-										<SupportThreadSummary
+										<CardChatSummary
 											getActor={this.props.actions.getActor}
 											key={card.id}
 											active={activeThread === card.id}
@@ -258,9 +268,11 @@ export class SupportThreads extends React.Component {
 	}
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
+	const target = _.get(ownProps, [ 'channel', 'data', 'head', 'id' ])
 	return {
-		channels: selectors.getChannels(state)
+		channels: selectors.getChannels(state),
+		lensState: selectors.getLensState(state, SLUG, target)
 	}
 }
 
@@ -269,7 +281,8 @@ const mapDispatchToProps = (dispatch) => {
 		actions: redux.bindActionCreators(
 			_.pick(actionCreators, [
 				'addChannel',
-				'getActor'
+				'getActor',
+				'setLensState'
 			]),
 			dispatch
 		)
