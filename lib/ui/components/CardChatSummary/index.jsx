@@ -16,9 +16,9 @@ import {
 	Txt
 } from 'rendition'
 import styled from 'styled-components'
-import * as helpers from '../services/helpers'
-import ColorHashPill from '../shame/ColorHashPill'
-import Gravatar from '../shame/Gravatar'
+import * as helpers from '../../services/helpers'
+import ColorHashPill from '../../shame/ColorHashPill'
+import Gravatar from '../../shame/Gravatar'
 
 const SummaryWrapper = styled(Box) `
 	border-left-style: solid;
@@ -55,7 +55,7 @@ const SummaryWhisper = styled(Txt) `
 	flex: 1;
 `
 
-export default class SupportThreadSummary extends React.Component {
+export default class CardChatSummary extends React.Component {
 	constructor (props) {
 		super(props)
 
