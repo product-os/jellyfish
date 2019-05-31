@@ -166,7 +166,7 @@ const getTrigger = _.memoize(() => {
 				if (!token) {
 					return []
 				}
-				const users = await getUsers(token.slice(1))
+				const users = await getUsers(token)
 				const usernames = users.map(({
 					slug
 				}) => {
@@ -185,7 +185,7 @@ const getTrigger = _.memoize(() => {
 				if (!token) {
 					return []
 				}
-				const users = await getUsers(token.slice(1))
+				const users = await getUsers(token)
 				const usernames = users.map(({
 					slug
 				}) => {
