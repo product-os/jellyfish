@@ -143,7 +143,6 @@ avaTest('should change the remote username to an existing unsynced user', async 
 
 	test.false(janeDoe.active)
 	test.deepEqual(janeDoe.data, {
-		disallowLogin: true,
 		email: 'jane@balena.io',
 		translateDate: '2019-04-17T15:26:45.231Z',
 		roles: [ 'user-community' ],
@@ -247,7 +246,6 @@ avaTest('should change the remote username to an existing user', async (test) =>
 
 	test.true(johnDoe.active)
 	test.deepEqual(johnDoe.data, {
-		disallowLogin: true,
 		translateDate: '2019-04-17T15:26:45.231Z',
 		email: 'jane@balena.io',
 		roles: [ 'user-community' ],
@@ -260,7 +258,6 @@ avaTest('should change the remote username to an existing user', async (test) =>
 
 	test.false(janeDoe.active)
 	test.deepEqual(janeDoe.data, {
-		disallowLogin: true,
 		translateDate: '2019-04-17T15:26:45.231Z',
 		email: 'jane@balena.io',
 		roles: [ 'user-community' ],
@@ -362,7 +359,6 @@ avaTest('should change the remote username to an existing user while removing ex
 
 	test.true(johnDoe.active)
 	test.deepEqual(johnDoe.data, {
-		disallowLogin: true,
 		translateDate: '2019-04-17T15:26:49.231Z',
 		email: 'john@souvlakitek.com',
 		roles: [ 'user-community' ],
@@ -379,7 +375,6 @@ avaTest('should change the remote username to an existing user while removing ex
 
 	test.false(janeDoe.active)
 	test.deepEqual(janeDoe.data, {
-		disallowLogin: true,
 		translateDate: '2019-04-17T15:26:49.231Z',
 		email: 'new@change.me',
 		roles: [ 'user-community' ],
@@ -486,7 +481,6 @@ avaTest('should change the remote username to an existing user and add a name', 
 
 	test.true(johnDoe.active)
 	test.deepEqual(johnDoe.data, {
-		disallowLogin: true,
 		email: 'john@souvlakitek.com',
 		translateDate: '2019-04-17T15:26:49.231Z',
 		roles: [ 'user-community' ],
@@ -503,7 +497,6 @@ avaTest('should change the remote username to an existing user and add a name', 
 
 	test.false(janeDoe.active)
 	test.deepEqual(janeDoe.data, {
-		disallowLogin: true,
 		email: 'new@change.me',
 		translateDate: '2019-04-17T15:26:49.231Z',
 		roles: [ 'user-community' ],
@@ -608,7 +601,6 @@ avaTest('should change the remote username to an existing user while removing th
 
 	test.true(johnDoe.active)
 	test.deepEqual(johnDoe.data, {
-		disallowLogin: true,
 		translateDate: '2019-04-17T15:26:49.231Z',
 		email: 'john@souvlakitek.com',
 		roles: [ 'user-community' ],
@@ -625,7 +617,6 @@ avaTest('should change the remote username to an existing user while removing th
 
 	test.false(janeDoe.active)
 	test.deepEqual(janeDoe.data, {
-		disallowLogin: true,
 		translateDate: '2019-04-17T15:26:49.231Z',
 		email: 'new@change.me',
 		roles: [ 'user-community' ],
@@ -731,7 +722,6 @@ avaTest('should change the remote username to an existing user while removing th
 
 	test.true(johnDoe.active)
 	test.deepEqual(johnDoe.data, {
-		disallowLogin: true,
 		translateDate: '2019-04-17T15:26:45.231Z',
 		email: 'john@souvlakitek.com',
 		roles: [ 'user-community' ],
@@ -748,7 +738,6 @@ avaTest('should change the remote username to an existing user while removing th
 
 	test.false(janeDoe.active)
 	test.deepEqual(janeDoe.data, {
-		disallowLogin: true,
 		email: 'jane@balena.io',
 		translateDate: '2019-04-17T15:26:45.231Z',
 		roles: [ 'user-community' ],
@@ -862,7 +851,6 @@ avaTest('should change the remote username to an existing user with a name', asy
 
 	test.true(johnDoe.active)
 	test.deepEqual(johnDoe.data, {
-		disallowLogin: true,
 		email: 'jane@balena.io',
 		translateDate: '2019-04-17T15:26:45.231Z',
 		roles: [ 'user-community' ],
@@ -879,7 +867,6 @@ avaTest('should change the remote username to an existing user with a name', asy
 
 	test.false(janeDoe.active)
 	test.deepEqual(janeDoe.data, {
-		disallowLogin: true,
 		email: 'jane@balena.io',
 		translateDate: '2019-04-17T15:26:45.231Z',
 		roles: [ 'user-community' ],
@@ -967,7 +954,6 @@ avaTest('should change the remote username', async (test) => {
 		test.context.context, test.context.session, 'user-johndoe123')
 
 	test.deepEqual(oldUsername.data, {
-		disallowLogin: true,
 		email: 'admin@souvlakitek.com',
 		translateDate: '2019-04-17T15:26:45.231Z',
 		roles: [ 'user-community' ],
@@ -1050,7 +1036,6 @@ avaTest('should change the remote username while filling in the company', async 
 		test.context.context, test.context.session, 'user-johndoe123')
 
 	test.deepEqual(oldUsername.data, {
-		disallowLogin: true,
 		email: 'new@change.me',
 		translateDate: '2019-04-17T15:26:45.231Z',
 		roles: [ 'user-community' ],
@@ -1133,7 +1118,6 @@ avaTest('should change the remote username while filling in the first name', asy
 		test.context.context, test.context.session, 'user-johndoe123')
 
 	test.deepEqual(oldUsername.data, {
-		disallowLogin: true,
 		email: 'new@change.me',
 		translateDate: '2019-04-17T15:26:45.231Z',
 		roles: [ 'user-community' ],
@@ -1218,7 +1202,6 @@ avaTest('should change the remote username while filling in the last name', asyn
 		test.context.context, test.context.session, 'user-johndoe123')
 
 	test.deepEqual(oldUsername.data, {
-		disallowLogin: true,
 		email: 'new@change.me',
 		translateDate: '2019-04-17T15:26:45.231Z',
 		roles: [ 'user-community' ],
@@ -1302,7 +1285,6 @@ avaTest('should change the remote username while not changing anything else', as
 		test.context.context, test.context.session, 'user-johndoe123')
 
 	test.deepEqual(oldUsername.data, {
-		disallowLogin: true,
 		email: 'new@change.me',
 		translateDate: '2019-04-17T15:26:45.231Z',
 		roles: [ 'user-community' ],

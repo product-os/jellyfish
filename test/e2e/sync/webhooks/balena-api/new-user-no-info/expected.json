@@ -9,7 +9,6 @@
     "requires": [],
     "capabilities": [],
     "data": {
-      "disallowLogin": true,
       "email": "johndoe@souvlakitek.com",
       "roles": [ "user-community" ],
       "mirrors": [
@@ -36,7 +35,6 @@
           "requires": [],
           "capabilities": [],
           "data": {
-            "disallowLogin": true,
             "email": "johndoe@souvlakitek.com",
             "roles": [ "user-community" ],
             "mirrors": [

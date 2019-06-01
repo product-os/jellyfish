@@ -2118,56 +2118,122 @@ ava('should be able to login as a user with a password', async (test) => {
 })
 
 ava('should not be able to login as a password-less user', async (test) => {
-	const user = await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
-		type: 'user',
-		version: '1.0.0',
-		slug: 'user-johndoe',
-		data: {
-			email: 'johndoe@example.com',
-			roles: []
-		}
-	})
+	const user = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			type: 'user',
+			version: '1.0.0',
+			slug: 'user-johndoe',
+			data: {
+				email: 'johndoe@example.com',
+				roles: []
+			}
+		})
 
-	await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+	await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, {
+			action: 'action-create-session',
+			context: test.context.context,
+			card: user.id,
+			type: user.type,
+			arguments: {
+				password: {}
+			}
+		})
+
+	await test.throwsAsync(
+		test.context.flush(test.context.session, 1),
+		test.context.worker.errors.WorkerSchemaMismatch)
+})
+
+ava('should not be able to login as a password-less user given a random password', async (test) => {
+	const user = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			type: 'user',
+			version: '1.0.0',
+			slug: 'user-johndoe',
+			data: {
+				email: 'johndoe@example.com',
+				roles: []
+			}
+		})
+
+	const request = await test.context.worker.pre(test.context.session, {
 		action: 'action-create-session',
 		context: test.context.context,
 		card: user.id,
 		type: user.type,
 		arguments: {
-			password: {}
+			password: {
+				string: 'foobar',
+				salt: user.slug
+			}
 		}
 	})
 
+	await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, request)
+
 	await test.throwsAsync(
 		test.context.flush(test.context.session, 1),
-		test.context.worker.errors.WorkerAuthenticationError)
+		test.context.worker.errors.WorkerSchemaMismatch)
+})
+
+ava('should not be able to login as a password-less non-disallowed user', async (test) => {
+	const user = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			type: 'user',
+			version: '1.0.0',
+			slug: 'user-johndoe',
+			data: {
+				disallowLogin: false,
+				email: 'johndoe@example.com',
+				roles: []
+			}
+		})
+
+	await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, {
+			action: 'action-create-session',
+			context: test.context.context,
+			card: user.id,
+			type: user.type,
+			arguments: {
+				password: {}
+			}
+		})
+
+	await test.throwsAsync(
+		test.context.flush(test.context.session, 1),
+		test.context.worker.errors.WorkerSchemaMismatch)
 })
 
 ava('should not be able to login as a password-less disallowed user', async (test) => {
-	const user = await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
-		type: 'user',
-		version: '1.0.0',
-		slug: 'user-johndoe',
-		data: {
-			disallowLogin: true,
-			email: 'johndoe@example.com',
-			roles: []
-		}
-	})
+	const user = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			type: 'user',
+			version: '1.0.0',
+			slug: 'user-johndoe',
+			data: {
+				disallowLogin: true,
+				email: 'johndoe@example.com',
+				roles: []
+			}
+		})
 
-	await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-create-session',
-		context: test.context.context,
-		card: user.id,
-		type: user.type,
-		arguments: {
-			password: {}
-		}
-	})
+	await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, {
+			action: 'action-create-session',
+			context: test.context.context,
+			card: user.id,
+			type: user.type,
+			arguments: {
+				password: {}
+			}
+		})
 
 	await test.throwsAsync(
 		test.context.flush(test.context.session, 1),
-		test.context.worker.errors.WorkerAuthenticationError)
+		test.context.worker.errors.WorkerSchemaMismatch)
 })
 
 ava('should fail if signing up with the wrong password', async (test) => {
@@ -3890,7 +3956,6 @@ ava('should broadcast the same message twice given different actors', async (tes
 			version: '1.0.0',
 			slug: 'user-admin-fake-test',
 			data: {
-				disallowLogin: true,
 				email: 'accounts+jellyfish@resin.io',
 				roles: [ 'user-community' ]
 			}
