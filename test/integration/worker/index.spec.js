@@ -68,7 +68,7 @@ ava('should not store the password in the queue when using action-create-user', 
 		arguments: {
 			email: 'johndoe@example.com',
 			username: 'user-johndoe',
-			hash: {
+			password: {
 				string: password,
 				salt: 'user-johndoe'
 			}
@@ -77,7 +77,7 @@ ava('should not store the password in the queue when using action-create-user', 
 
 	const createUserRequest = await test.context.queue.enqueue(
 		test.context.worker.getId(), test.context.session, request)
-	test.not(createUserRequest.data.arguments.hash.string, password)
+	test.not(createUserRequest.data.arguments.password.string, password)
 
 	await test.context.flush(test.context.session, 1)
 	const result = await test.context.queue.waitResults(
@@ -97,7 +97,7 @@ ava('should not store the password in the queue when using action-create-session
 		arguments: {
 			email: 'johndoe@example.com',
 			username: 'user-johndoe',
-			hash: {
+			password: {
 				string: 'foobarbaz',
 				salt: 'user-johndoe'
 			}
@@ -2057,7 +2057,7 @@ ava('should be able to login as a user with a password', async (test) => {
 		arguments: {
 			email: 'johndoe@example.com',
 			username: 'user-johndoe',
-			hash: {
+			password: {
 				string: 'foobarbaz',
 				salt: 'user-johndoe'
 			}
@@ -2247,7 +2247,7 @@ ava('should fail if signing up with the wrong password', async (test) => {
 		arguments: {
 			email: 'johndoe@example.com',
 			username: 'user-johndoe',
-			hash: {
+			password: {
 				string: 'xxxxxxxxxxxx',
 				salt: 'user-johndoe'
 			}

@@ -92,7 +92,7 @@ exports.signup = (username, password) => {
 		arguments: {
 			email: 'test@example.com',
 			username,
-			hash: {
+			password: {
 				string: password,
 				salt: username
 			}

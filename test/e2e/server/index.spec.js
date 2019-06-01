@@ -72,7 +72,7 @@ ava.serial('creating a user with the guest user session should fail', async (tes
 		arguments: {
 			email: userDetails.email,
 			username,
-			hash: {
+			password: {
 				string: userDetails.password,
 				salt: username
 			}
