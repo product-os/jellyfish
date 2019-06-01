@@ -77,9 +77,7 @@ const run = async () => {
 			arguments: {
 				email: user.email,
 				username: `user-${user.username}`,
-				password: {
-					string: user.password
-				}
+				password: user.password
 			},
 			context
 		})

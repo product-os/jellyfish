@@ -68,9 +68,7 @@ ava('should not store the password in the queue when using action-create-user', 
 		arguments: {
 			email: 'johndoe@example.com',
 			username: 'user-johndoe',
-			password: {
-				string: password
-			}
+			password
 		}
 	})
 
@@ -96,9 +94,7 @@ ava('should not store the password in the queue when using action-create-session
 		arguments: {
 			email: 'johndoe@example.com',
 			username: 'user-johndoe',
-			password: {
-				string: 'foobarbaz'
-			}
+			password: 'foobarbaz'
 		}
 	})
 
@@ -2054,9 +2050,7 @@ ava('should be able to login as a user with a password', async (test) => {
 		arguments: {
 			email: 'johndoe@example.com',
 			username: 'user-johndoe',
-			password: {
-				string: 'foobarbaz'
-			}
+			password: 'foobarbaz'
 		}
 	})
 
@@ -2241,9 +2235,7 @@ ava('should fail if signing up with the wrong password', async (test) => {
 		arguments: {
 			email: 'johndoe@example.com',
 			username: 'user-johndoe',
-			password: {
-				string: 'xxxxxxxxxxxx'
-			}
+			password: 'xxxxxxxxxxxx'
 		}
 	})
 
