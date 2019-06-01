@@ -562,7 +562,7 @@ ava.serial('Users should not be able to login as the core admin user', async (te
 		username: 'admin'
 	}))
 
-	test.is(error1.name, 'AuthenticationError')
+	test.is(error1.name, 'WorkerAuthenticationError')
 
 	const role = 'user-community'
 
@@ -588,7 +588,7 @@ ava.serial('Users should not be able to login as the core admin user', async (te
 		username: 'admin'
 	}))
 
-	test.is(error2.name, 'AuthenticationError')
+	test.is(error2.name, 'WorkerAuthenticationError')
 })
 
 ava.serial('should not be able to post an unsupported external event', async (test) => {
@@ -1050,7 +1050,7 @@ ava.serial('should fail with a user error given the wrong username during login'
 
 	test.is(result.code, 400)
 	test.true(result.response.error)
-	test.is(result.response.data.name, 'AuthenticationError')
+	test.is(result.response.data.name, 'WorkerAuthenticationError')
 })
 
 ava.serial('should fail with a user error when querying an id with an expired session', async (test) => {

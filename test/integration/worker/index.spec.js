@@ -2136,7 +2136,7 @@ ava('should not be able to login as a password-less user given a random password
 			}
 		})
 
-	const request = await test.context.worker.pre(test.context.session, {
+	await test.throwsAsync(test.context.worker.pre(test.context.session, {
 		action: 'action-create-session',
 		context: test.context.context,
 		card: user.id,
@@ -2144,14 +2144,7 @@ ava('should not be able to login as a password-less user given a random password
 		arguments: {
 			password: 'foobar'
 		}
-	})
-
-	await test.context.queue.enqueue(
-		test.context.worker.getId(), test.context.session, request)
-
-	await test.throwsAsync(
-		test.context.flush(test.context.session, 1),
-		test.context.worker.errors.WorkerAuthenticationError)
+	}), test.context.worker.errors.WorkerAuthenticationError)
 })
 
 ava('should not be able to login as a password-less non-disallowed user', async (test) => {
@@ -2231,7 +2224,7 @@ ava('should fail if signing up with the wrong password', async (test) => {
 		test.context.context, createUserRequest)
 	test.false(signupResult.error)
 
-	const request2 = await test.context.worker.pre(test.context.session, {
+	await test.throwsAsync(test.context.worker.pre(test.context.session, {
 		action: 'action-create-session',
 		context: test.context.context,
 		card: signupResult.data.id,
@@ -2239,14 +2232,7 @@ ava('should fail if signing up with the wrong password', async (test) => {
 		arguments: {
 			password: 'foobarbaz'
 		}
-	})
-
-	await test.context.queue.enqueue(
-		test.context.worker.getId(), test.context.session, request2)
-
-	await test.throwsAsync(
-		test.context.flush(test.context.session, 1),
-		test.context.worker.errors.WorkerAuthenticationError)
+	}), test.context.worker.errors.WorkerAuthenticationError)
 })
 
 ava('should fail to update a card if the schema does not match', async (test) => {
