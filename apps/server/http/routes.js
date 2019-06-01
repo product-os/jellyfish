@@ -346,7 +346,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 		const card = await jellyfish.getCardById(
 			request.context, request.sessionToken, request.params.cardId)
 		if (!card) {
-			response.send(404)
+			response.sendStatus(404)
 		}
 
 		const attachment = _.find(_.get(card, [ 'data', 'payload', 'attachments' ]), (item) => {
