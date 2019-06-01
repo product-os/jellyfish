@@ -114,11 +114,7 @@ ava('should not store the password in the queue when using action-create-session
 		card: result.data.id,
 		type: result.data.type,
 		arguments: {
-			password: {
-				hash: {
-					string: plaintextPassword
-				}
-			}
+			password: plaintextPassword
 		}
 	})
 
@@ -129,7 +125,7 @@ ava('should not store the password in the queue when using action-create-session
 		test.context.context, test.context.worker.getId())
 
 	test.truthy(request)
-	test.not(request.data.arguments.password.hash.string, plaintextPassword)
+	test.not(request.data.arguments.password, plaintextPassword)
 })
 
 ava('should fail to create an event with an action-create-card', async (test) => {
@@ -2068,11 +2064,7 @@ ava('should be able to login as a user with a password', async (test) => {
 		context: test.context.context,
 		type: signupResult.data.type,
 		arguments: {
-			password: {
-				hash: {
-					string: 'foobarbaz'
-				}
-			}
+			password: 'foobarbaz'
 		}
 	})
 
@@ -2124,9 +2116,7 @@ ava('should not be able to login as a password-less user', async (test) => {
 			context: test.context.context,
 			card: user.id,
 			type: user.type,
-			arguments: {
-				password: {}
-			}
+			arguments: {}
 		})
 
 	await test.throwsAsync(
@@ -2152,9 +2142,7 @@ ava('should not be able to login as a password-less user given a random password
 		card: user.id,
 		type: user.type,
 		arguments: {
-			password: {
-				string: 'foobar'
-			}
+			password: 'foobar'
 		}
 	})
 
@@ -2163,7 +2151,7 @@ ava('should not be able to login as a password-less user given a random password
 
 	await test.throwsAsync(
 		test.context.flush(test.context.session, 1),
-		test.context.worker.errors.WorkerSchemaMismatch)
+		test.context.worker.errors.WorkerAuthenticationError)
 })
 
 ava('should not be able to login as a password-less non-disallowed user', async (test) => {
@@ -2185,9 +2173,7 @@ ava('should not be able to login as a password-less non-disallowed user', async 
 			context: test.context.context,
 			card: user.id,
 			type: user.type,
-			arguments: {
-				password: {}
-			}
+			arguments: {}
 		})
 
 	await test.throwsAsync(
@@ -2214,9 +2200,7 @@ ava('should not be able to login as a password-less disallowed user', async (tes
 			context: test.context.context,
 			card: user.id,
 			type: user.type,
-			arguments: {
-				password: {}
-			}
+			arguments: {}
 		})
 
 	await test.throwsAsync(
@@ -2253,11 +2237,7 @@ ava('should fail if signing up with the wrong password', async (test) => {
 		card: signupResult.data.id,
 		type: signupResult.data.type,
 		arguments: {
-			password: {
-				hash: {
-					string: 'foobarbaz'
-				}
-			}
+			password: 'foobarbaz'
 		}
 	})
 
@@ -3044,11 +3024,7 @@ ava('should post an error execute event if logging in as a disallowed user', asy
 		card: adminCard.id,
 		type: adminCard.type,
 		arguments: {
-			password: {
-				hash: {
-					string: 'foobarbaz'
-				}
-			}
+			password: 'foobarbaz'
 		}
 	})
 

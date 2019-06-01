@@ -1044,11 +1044,7 @@ ava.serial('should fail with a user error given the wrong username during login'
 		type: 'user',
 		action: 'action-create-session',
 		arguments: {
-			password: {
-				hash: {
-					string: '1234'
-				}
-			}
+			password: '1234'
 		}
 	})
 
@@ -1239,11 +1235,7 @@ ava.serial('should fail with a user error when posting an action with an expired
 			type: 'user',
 			action: 'action-create-session',
 			arguments: {
-				password: {
-					hash: {
-						string: '1234'
-					}
-				}
+				password: '1234'
 			}
 		}, {
 			Authorization: `Bearer ${session.id}`
@@ -2257,9 +2249,8 @@ ava.serial('Users should not be able to create action requests', async (test) =>
 				id: '42d1cd57-a052-49df-b416-3ade986c1aec'
 			},
 			arguments: {
-				password: {
-					hash: '696dba0661d2ab3eb0c1fe5c417ca8c18278f5a324ebc8827dbcef829e07c20'
-				}
+				password:
+					'696dba0661d2ab3eb0c1fe5c417ca8c18278f5a324ebc8827dbcef829e07c20'
 			}
 		}
 	}
