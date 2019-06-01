@@ -78,8 +78,7 @@ const run = async () => {
 				email: user.email,
 				username: `user-${user.username}`,
 				password: {
-					string: user.password,
-					salt: `user-${user.username}`
+					string: user.password
 				}
 			},
 			context

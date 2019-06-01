@@ -75,8 +75,7 @@ exports.login = (session, username, password) => {
 		arguments: {
 			password: {
 				hash: {
-					string: password,
-					salt: username
+					string: password
 				}
 			}
 		}
@@ -93,8 +92,7 @@ exports.signup = (username, password) => {
 			email: 'test@example.com',
 			username,
 			password: {
-				string: password,
-				salt: username
+				string: password
 			}
 		}
 	})

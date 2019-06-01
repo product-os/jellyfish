@@ -69,8 +69,7 @@ ava('should not store the password in the queue when using action-create-user', 
 			email: 'johndoe@example.com',
 			username: 'user-johndoe',
 			password: {
-				string: password,
-				salt: 'user-johndoe'
+				string: password
 			}
 		}
 	})
@@ -98,8 +97,7 @@ ava('should not store the password in the queue when using action-create-session
 			email: 'johndoe@example.com',
 			username: 'user-johndoe',
 			password: {
-				string: 'foobarbaz',
-				salt: 'user-johndoe'
+				string: 'foobarbaz'
 			}
 		}
 	})
@@ -122,8 +120,7 @@ ava('should not store the password in the queue when using action-create-session
 		arguments: {
 			password: {
 				hash: {
-					string: plaintextPassword,
-					salt: result.data.slug
+					string: plaintextPassword
 				}
 			}
 		}
@@ -2058,8 +2055,7 @@ ava('should be able to login as a user with a password', async (test) => {
 			email: 'johndoe@example.com',
 			username: 'user-johndoe',
 			password: {
-				string: 'foobarbaz',
-				salt: 'user-johndoe'
+				string: 'foobarbaz'
 			}
 		}
 	})
@@ -2080,8 +2076,7 @@ ava('should be able to login as a user with a password', async (test) => {
 		arguments: {
 			password: {
 				hash: {
-					string: 'foobarbaz',
-					salt: signupResult.data.slug
+					string: 'foobarbaz'
 				}
 			}
 		}
@@ -2164,8 +2159,7 @@ ava('should not be able to login as a password-less user given a random password
 		type: user.type,
 		arguments: {
 			password: {
-				string: 'foobar',
-				salt: user.slug
+				string: 'foobar'
 			}
 		}
 	})
@@ -2248,8 +2242,7 @@ ava('should fail if signing up with the wrong password', async (test) => {
 			email: 'johndoe@example.com',
 			username: 'user-johndoe',
 			password: {
-				string: 'xxxxxxxxxxxx',
-				salt: 'user-johndoe'
+				string: 'xxxxxxxxxxxx'
 			}
 		}
 	})
@@ -2270,8 +2263,7 @@ ava('should fail if signing up with the wrong password', async (test) => {
 		arguments: {
 			password: {
 				hash: {
-					string: 'foobarbaz',
-					salt: signupResult.data.slug
+					string: 'foobarbaz'
 				}
 			}
 		}
@@ -3062,8 +3054,7 @@ ava('should post an error execute event if logging in as a disallowed user', asy
 		arguments: {
 			password: {
 				hash: {
-					string: 'foobarbaz',
-					salt: adminCard.slug
+					string: 'foobarbaz'
 				}
 			}
 		}

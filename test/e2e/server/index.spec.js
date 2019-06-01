@@ -73,8 +73,7 @@ ava.serial('creating a user with the guest user session should fail', async (tes
 			email: userDetails.email,
 			username,
 			password: {
-				string: userDetails.password,
-				salt: username
+				string: userDetails.password
 			}
 		}
 	})
@@ -1049,8 +1048,7 @@ ava.serial('should fail with a user error given the wrong username during login'
 		arguments: {
 			password: {
 				hash: {
-					string: '1234',
-					salt: 'user-nonexistentuser12345'
+					string: '1234'
 				}
 			}
 		}
@@ -1245,8 +1243,7 @@ ava.serial('should fail with a user error when posting an action with an expired
 			arguments: {
 				password: {
 					hash: {
-						string: '1234',
-						salt: 'user-nonexistentuser12345'
+						string: '1234'
 					}
 				}
 			}
