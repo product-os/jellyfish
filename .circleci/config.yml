@@ -131,7 +131,7 @@ jobs:
 
       - run:
           name: Sync Tests
-          command: make test FILES=./test/e2e/sync/github-*.spec.js COVERAGE=1
+          command: make test FILES=./test/e2e/sync/github-*.spec.js COVERAGE=1 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY
       - run:
           name: Sync End To End Tests Without Tokens
           command: make test FILES=./test/e2e/sync/github-*.spec.js COVERAGE=1 INTEGRATION_GITHUB_TOKEN=
@@ -159,7 +159,7 @@ jobs:
 
       - run:
           name: Sync Tests
-          command: make test FILES=./test/e2e/sync/front-*.spec.js COVERAGE=1
+          command: make test FILES=./test/e2e/sync/front-*.spec.js COVERAGE=1 INTEGRATION_FRONT_TOKEN=$FRONT_TOKEN INTEGRATION_INTERCOM_TOKEN=$INTERCOM_TOKEN
       - run:
           name: Sync End To End Tests Without Tokens
           command: make test FILES=./test/e2e/sync/front-*.spec.js COVERAGE=1 INTEGRATION_FRONT_TOKEN=
@@ -187,7 +187,7 @@ jobs:
 
       - run:
           name: Sync Tests
-          command: make test FILES=./test/e2e/sync/discourse-*.spec.js COVERAGE=1
+          command: make test FILES=./test/e2e/sync/discourse-*.spec.js COVERAGE=1 INTEGRATION_DISCOURSE_TOKEN=$DISCOURSE_TOKEN INTEGRATION_DISCOURSE_SIGNATURE_KEY=$DISCOURSE_SIGNATURE_KEY INTEGRATION_DISCOURSE_USERNAME=$DISCOURSE_USERNAME
       - run:
           name: Sync End To End Tests Without Tokens
           command: make test FILES=./test/e2e/sync/discourse-*.spec.js COVERAGE=1 INTEGRATION_DISCOURSE_TOKEN=
@@ -215,7 +215,7 @@ jobs:
 
       - run:
           name: Sync Tests
-          command: make test FILES=./test/e2e/sync/balena-api-*.spec.js COVERAGE=1
+          command: make test FILES=./test/e2e/sync/balena-api-*.spec.js COVERAGE=1 INTEGRATION_BALENA_API_TOKEN=$BALENA_API_TOKEN INTEGRATION_BALENA_API_PUBLIC_KEY=$BALENA_API_PUBLIC_KEY INTEGRATION_BALENA_API_PRIVATE_KEY=$BALENA_API_PRIVATE_KEY
       - run:
           name: Sync End To End Tests Without Tokens
           command: make test FILES=./test/e2e/sync/balena-api-*.spec.js COVERAGE=1 INTEGRATION_BALENA_API_TOKEN=
@@ -365,7 +365,7 @@ jobs:
 
       - run:
           name: Post PR Summary
-          command: GITHUB_TOKEN=$INTEGRATION_GITHUB_TOKEN node scripts/ci/github-pr-summary.js $CIRCLE_PULL_REQUEST ./SUMMARY
+          command: GITHUB_TOKEN=$GITHUB_TOKEN node scripts/ci/github-pr-summary.js $CIRCLE_PULL_REQUEST ./SUMMARY
 
   eslint_jellyfish:
     <<: *job_defaults
