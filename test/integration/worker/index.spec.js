@@ -129,6 +129,408 @@ ava('should not store the password in the queue when using action-create-session
 	test.not(request.data.arguments.password, plaintextPassword)
 })
 
+ava('should not store the passwords in the queue when using action-set-password', async (test) => {
+	const userCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'user')
+
+	const request1 = await test.context.worker.pre(test.context.session, {
+		action: 'action-create-user',
+		context: test.context.context,
+		card: userCard.id,
+		type: userCard.type,
+		arguments: {
+			email: 'johndoe@example.com',
+			username: 'user-johndoe',
+			password: 'foobarbaz'
+		}
+	})
+
+	const createUserRequest = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, request1)
+
+	await test.context.flush(test.context.session, 1)
+	const result = await test.context.queue.waitResults(
+		test.context.context, createUserRequest)
+	test.false(result.error)
+
+	const plaintextPassword = 'foobarbaz'
+
+	const request2 = await test.context.worker.pre(test.context.session, {
+		action: 'action-set-password',
+		context: test.context.context,
+		card: result.data.id,
+		type: result.data.type,
+		arguments: {
+			currentPassword: plaintextPassword,
+			newPassword: 'new-password'
+		}
+	})
+
+	await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, request2)
+
+	const request = await test.context.queue.dequeue(
+		test.context.context, test.context.worker.getId())
+
+	test.truthy(request)
+	test.truthy(request.data.arguments.currentPassword)
+	test.truthy(request.data.arguments.newPassword)
+	test.not(request.data.arguments.currentPassword, plaintextPassword)
+	test.not(request.data.arguments.newPassword, 'new-password')
+})
+
+ava('PBKDF: should update a user password', async (test) => {
+	// Based on https://stackoverflow.com/a/17201493/1641422
+	const DEFAULT_ITERATIONS = 10000
+	const DEFAULT_KEY_LENGTH = 64
+	const DEFAULT_DIGEST = 'sha512'
+	const key = crypto.pbkdf2Sync(
+		'foobarbaz',
+		'user-johndoe',
+		DEFAULT_ITERATIONS,
+		DEFAULT_KEY_LENGTH,
+		DEFAULT_DIGEST)
+
+	const userCard = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			slug: 'user-johndoe',
+			type: 'user',
+			data: {
+				email: 'johndoe@example.com',
+				roles: [ 'user-community' ],
+				password: {
+					hash: key.toString('hex')
+				}
+			}
+		})
+
+	const request2 = await test.context.worker.pre(test.context.session, {
+		action: 'action-set-password',
+		context: test.context.context,
+		card: userCard.id,
+		type: userCard.type,
+		arguments: {
+			currentPassword: 'foobarbaz',
+			newPassword: 'new-password'
+		}
+	})
+
+	const request = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, request2)
+	await test.context.flush(test.context.session, 1)
+	const result = await test.context.queue.waitResults(
+		test.context.context, request)
+	test.false(result.error)
+
+	await test.throwsAsync(test.context.worker.pre(test.context.session, {
+		action: 'action-create-session',
+		card: userCard.id,
+		context: test.context.context,
+		type: userCard.type,
+		arguments: {
+			password: 'foobarbaz'
+		}
+	}), test.context.worker.errors.WorkerAuthenticationError)
+
+	const request3 = await test.context.worker.pre(test.context.session, {
+		action: 'action-create-session',
+		card: userCard.id,
+		context: test.context.context,
+		type: userCard.type,
+		arguments: {
+			password: 'new-password'
+		}
+	})
+
+	const loginRequest = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, request3)
+	await test.context.flush(test.context.session, 1)
+	const loginResult = await test.context.queue.waitResults(
+		test.context.context, loginRequest)
+	test.false(loginResult.error)
+})
+
+ava('PBKDF: should not change a user password given invalid current password', async (test) => {
+	// Based on https://stackoverflow.com/a/17201493/1641422
+	const DEFAULT_ITERATIONS = 10000
+	const DEFAULT_KEY_LENGTH = 64
+	const DEFAULT_DIGEST = 'sha512'
+	const key = crypto.pbkdf2Sync(
+		'foobarbaz',
+		'user-johndoe',
+		DEFAULT_ITERATIONS,
+		DEFAULT_KEY_LENGTH,
+		DEFAULT_DIGEST)
+
+	const userCard = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			slug: 'user-johndoe',
+			type: 'user',
+			data: {
+				email: 'johndoe@example.com',
+				roles: [ 'user-community' ],
+				password: {
+					hash: key.toString('hex')
+				}
+			}
+		})
+
+	await test.throwsAsync(test.context.worker.pre(test.context.session, {
+		action: 'action-set-password',
+		context: test.context.context,
+		card: userCard.id,
+		type: userCard.type,
+		arguments: {
+			currentPassword: 'xxxxxxxxxxxxxxxxxxxxxx',
+			newPassword: 'new-password'
+		}
+	}), test.context.worker.errors.WorkerAuthenticationError)
+})
+
+ava('PBKDF: should change the hash when updating a user password', async (test) => {
+	// Based on https://stackoverflow.com/a/17201493/1641422
+	const DEFAULT_ITERATIONS = 10000
+	const DEFAULT_KEY_LENGTH = 64
+	const DEFAULT_DIGEST = 'sha512'
+	const key = crypto.pbkdf2Sync(
+		'foobarbaz',
+		'user-johndoe',
+		DEFAULT_ITERATIONS,
+		DEFAULT_KEY_LENGTH,
+		DEFAULT_DIGEST)
+
+	const userCard = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			slug: 'user-johndoe',
+			type: 'user',
+			data: {
+				email: 'johndoe@example.com',
+				roles: [ 'user-community' ],
+				password: {
+					hash: key.toString('hex')
+				}
+			}
+		})
+
+	const userBefore = await test.context.jellyfish.getCardById(
+		test.context.context, test.context.session, userCard.id)
+
+	const request2 = await test.context.worker.pre(test.context.session, {
+		action: 'action-set-password',
+		context: test.context.context,
+		card: userCard.id,
+		type: userCard.type,
+		arguments: {
+			currentPassword: 'foobarbaz',
+			newPassword: 'new-password'
+		}
+	})
+
+	const request = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, request2)
+	await test.context.flush(test.context.session, 1)
+	const result = await test.context.queue.waitResults(
+		test.context.context, request)
+	test.false(result.error)
+
+	const userAfter = await test.context.jellyfish.getCardById(
+		test.context.context, test.context.session, userCard.id)
+
+	test.falsy(userBefore.data.hash)
+	test.truthy(userBefore.data.password)
+
+	test.truthy(userAfter.data.hash)
+	test.falsy(userAfter.data.password)
+
+	test.not(userBefore.data.password.hash, userAfter.data.hash)
+})
+
+ava('should not change the password of a password-less user ', async (test) => {
+	const userCard = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			slug: 'user-johndoe',
+			type: 'user',
+			data: {
+				email: 'johndoe@example.com',
+				roles: [ 'user-community' ]
+			}
+		})
+
+	await test.throwsAsync(test.context.worker.pre(test.context.session, {
+		action: 'action-set-password',
+		context: test.context.context,
+		card: userCard.id,
+		type: userCard.type,
+		arguments: {
+			currentPassword: 'xxxxxxxxxxxxxxxxxxxxxx',
+			newPassword: 'new-password'
+		}
+	}), test.context.worker.errors.WorkerAuthenticationError)
+})
+
+ava('should change a user password', async (test) => {
+	const userCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'user')
+
+	const request1 = await test.context.worker.pre(test.context.session, {
+		action: 'action-create-user',
+		context: test.context.context,
+		card: userCard.id,
+		type: userCard.type,
+		arguments: {
+			email: 'johndoe@example.com',
+			username: 'user-johndoe',
+			password: 'foobarbaz'
+		}
+	})
+
+	const createUserRequest = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, request1)
+
+	await test.context.flush(test.context.session, 1)
+	const signupResult = await test.context.queue.waitResults(
+		test.context.context, createUserRequest)
+	test.false(signupResult.error)
+
+	const plaintextPassword = 'foobarbaz'
+
+	const request2 = await test.context.worker.pre(test.context.session, {
+		action: 'action-set-password',
+		context: test.context.context,
+		card: signupResult.data.id,
+		type: signupResult.data.type,
+		arguments: {
+			currentPassword: plaintextPassword,
+			newPassword: 'new-password'
+		}
+	})
+
+	const request = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, request2)
+	await test.context.flush(test.context.session, 1)
+	const result = await test.context.queue.waitResults(
+		test.context.context, request)
+	test.false(result.error)
+
+	await test.throwsAsync(test.context.worker.pre(test.context.session, {
+		action: 'action-create-session',
+		card: signupResult.data.id,
+		context: test.context.context,
+		type: signupResult.data.type,
+		arguments: {
+			password: plaintextPassword
+		}
+	}), test.context.worker.errors.WorkerAuthenticationError)
+
+	const request3 = await test.context.worker.pre(test.context.session, {
+		action: 'action-create-session',
+		card: signupResult.data.id,
+		context: test.context.context,
+		type: signupResult.data.type,
+		arguments: {
+			password: 'new-password'
+		}
+	})
+
+	const loginRequest = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, request3)
+	await test.context.flush(test.context.session, 1)
+	const loginResult = await test.context.queue.waitResults(
+		test.context.context, loginRequest)
+	test.false(loginResult.error)
+})
+
+ava('should not change a user password given invalid current password', async (test) => {
+	const userCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'user')
+
+	const request1 = await test.context.worker.pre(test.context.session, {
+		action: 'action-create-user',
+		context: test.context.context,
+		card: userCard.id,
+		type: userCard.type,
+		arguments: {
+			email: 'johndoe@example.com',
+			username: 'user-johndoe',
+			password: 'foobarbaz'
+		}
+	})
+
+	const createUserRequest = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, request1)
+
+	await test.context.flush(test.context.session, 1)
+	const signupResult = await test.context.queue.waitResults(
+		test.context.context, createUserRequest)
+	test.false(signupResult.error)
+
+	await test.throwsAsync(test.context.worker.pre(test.context.session, {
+		action: 'action-set-password',
+		context: test.context.context,
+		card: signupResult.data.id,
+		type: signupResult.data.type,
+		arguments: {
+			currentPassword: 'xxxxxxxxxxxxxxxxxxxxxx',
+			newPassword: 'new-password'
+		}
+	}), test.context.worker.errors.WorkerAuthenticationError)
+})
+
+ava('should change the hash when updating a user password', async (test) => {
+	const userCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'user')
+
+	const request1 = await test.context.worker.pre(test.context.session, {
+		action: 'action-create-user',
+		context: test.context.context,
+		card: userCard.id,
+		type: userCard.type,
+		arguments: {
+			email: 'johndoe@example.com',
+			username: 'user-johndoe',
+			password: 'foobarbaz'
+		}
+	})
+
+	const createUserRequest = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, request1)
+
+	await test.context.flush(test.context.session, 1)
+	const signupResult = await test.context.queue.waitResults(
+		test.context.context, createUserRequest)
+	test.false(signupResult.error)
+
+	const userBefore = await test.context.jellyfish.getCardById(
+		test.context.context, test.context.session, signupResult.data.id)
+
+	const plaintextPassword = 'foobarbaz'
+
+	const request2 = await test.context.worker.pre(test.context.session, {
+		action: 'action-set-password',
+		context: test.context.context,
+		card: signupResult.data.id,
+		type: signupResult.data.type,
+		arguments: {
+			currentPassword: plaintextPassword,
+			newPassword: 'new-password'
+		}
+	})
+
+	const request = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, request2)
+	await test.context.flush(test.context.session, 1)
+	const result = await test.context.queue.waitResults(
+		test.context.context, request)
+	test.false(result.error)
+
+	const userAfter = await test.context.jellyfish.getCardById(
+		test.context.context, test.context.session, signupResult.data.id)
+
+	test.truthy(userBefore.data.hash)
+	test.truthy(userAfter.data.hash)
+	test.not(userBefore.data.hash, userAfter.data.hash)
+})
+
 ava('should fail to create an event with an action-create-card', async (test) => {
 	const cardType = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card')
