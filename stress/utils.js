@@ -73,12 +73,7 @@ exports.login = (session, username, password) => {
 		target: username,
 		action: 'action-create-session',
 		arguments: {
-			password: {
-				hash: {
-					string: password,
-					salt: username
-				}
-			}
+			password
 		}
 	}).get('id').catch({
 		message: `No such input card: ${username}`
@@ -92,10 +87,7 @@ exports.signup = (username, password) => {
 		arguments: {
 			email: 'test@example.com',
 			username,
-			hash: {
-				string: password,
-				salt: username
-			}
+			password
 		}
 	})
 }

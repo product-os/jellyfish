@@ -15,14 +15,10 @@ aliases:
         - image: resinci/jellyfish-test
 
       working_directory: ~/repo
-
-  postgres_job_defaults: &postgres_job_defaults
-    <<: *job_defaults
-
-    environment:
-      DATABASE: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      environment:
+        DATABASE: postgres
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
 
 version: 2
 dependencies:
@@ -86,8 +82,8 @@ jobs:
           paths:
             - .nyc_output/*.json
 
-  postgres_integration_tests: &postgres_integration_tests
-    <<: *postgres_job_defaults
+  integration_tests: &integration_tests
+    <<: *job_defaults
 
     steps:
       - checkout
@@ -117,8 +113,8 @@ jobs:
           paths:
             - .nyc_output/*.json
 
-  postgres_sync_tests_github:
-    <<: *postgres_job_defaults
+  sync_tests_github:
+    <<: *job_defaults
 
     steps:
       - checkout
@@ -145,8 +141,8 @@ jobs:
           paths:
             - .nyc_output/*.json
 
-  postgres_sync_tests_front:
-    <<: *postgres_job_defaults
+  sync_tests_front:
+    <<: *job_defaults
 
     steps:
       - checkout
@@ -173,8 +169,8 @@ jobs:
           paths:
             - .nyc_output/*.json
 
-  postgres_sync_tests_discourse:
-    <<: *postgres_job_defaults
+  sync_tests_discourse:
+    <<: *job_defaults
 
     steps:
       - checkout
@@ -201,8 +197,8 @@ jobs:
           paths:
             - .nyc_output/*.json
 
-  postgres_sync_tests_balena_api:
-    <<: *postgres_job_defaults
+  sync_tests_balena_api:
+    <<: *job_defaults
 
     steps:
       - checkout
@@ -229,8 +225,8 @@ jobs:
           paths:
             - .nyc_output/*.json
 
-  postgres_e2e_tests: &postgres_e2e_tests
-    <<: *postgres_job_defaults
+  e2e_tests: &e2e_tests
+    <<: *job_defaults
 
     steps:
       - checkout
@@ -268,8 +264,8 @@ jobs:
           paths:
             - .nyc_output/*.json
 
-  postgres_stress_tests:
-    <<: *postgres_job_defaults
+  stress_tests:
+    <<: *job_defaults
 
     steps:
       - checkout
@@ -304,8 +300,8 @@ jobs:
 
   # UI tests seem to contain most of the flaky tests
   # Lets really make sure they are stable
-  postgres_flaky_ui_tests:
-    <<: *postgres_job_defaults
+  flaky_ui_tests:
+    <<: *job_defaults
 
     steps:
       - checkout
@@ -391,42 +387,42 @@ workflows:
                     - build
                 <<: *workflow_filter
 
-            - postgres_integration_tests:
+            - integration_tests:
                 requires:
                     - build
                 <<: *workflow_filter
 
-            - postgres_e2e_tests:
+            - e2e_tests:
                 requires:
                     - build
                 <<: *workflow_filter
 
-            - postgres_flaky_ui_tests:
+            - flaky_ui_tests:
                 requires:
                     - build
                 <<: *workflow_filter
 
-            - postgres_stress_tests:
+            - stress_tests:
                 requires:
                     - build
                 <<: *workflow_filter
 
-            - postgres_sync_tests_front:
+            - sync_tests_front:
                 requires:
                     - build
                 <<: *workflow_filter
 
-            - postgres_sync_tests_discourse:
+            - sync_tests_discourse:
                 requires:
                     - build
                 <<: *workflow_filter
 
-            - postgres_sync_tests_balena_api:
+            - sync_tests_balena_api:
                 requires:
                     - build
                 <<: *workflow_filter
 
-            - postgres_sync_tests_github:
+            - sync_tests_github:
                 requires:
                     - build
                 <<: *workflow_filter
@@ -435,13 +431,13 @@ workflows:
                 requires:
                   - unit_tests
 
-                  - postgres_integration_tests
-                  - postgres_e2e_tests
-                  - postgres_flaky_ui_tests
-                  - postgres_sync_tests_front
-                  - postgres_sync_tests_discourse
-                  - postgres_sync_tests_balena_api
-                  - postgres_sync_tests_github
+                  - integration_tests
+                  - e2e_tests
+                  - flaky_ui_tests
+                  - sync_tests_front
+                  - sync_tests_discourse
+                  - sync_tests_balena_api
+                  - sync_tests_github
                 <<: *workflow_filter
 
             - eslint_jellyfish:

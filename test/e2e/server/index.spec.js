@@ -72,10 +72,7 @@ ava.serial('creating a user with the guest user session should fail', async (tes
 		arguments: {
 			email: userDetails.email,
 			username,
-			hash: {
-				string: userDetails.password,
-				salt: username
-			}
+			password: userDetails.password
 		}
 	})
 
@@ -565,7 +562,7 @@ ava.serial('Users should not be able to login as the core admin user', async (te
 		username: 'admin'
 	}))
 
-	test.is(error1.name, 'AuthenticationError')
+	test.is(error1.name, 'WorkerAuthenticationError')
 
 	const role = 'user-community'
 
@@ -591,7 +588,7 @@ ava.serial('Users should not be able to login as the core admin user', async (te
 		username: 'admin'
 	}))
 
-	test.is(error2.name, 'AuthenticationError')
+	test.is(error2.name, 'WorkerAuthenticationError')
 })
 
 ava.serial('should not be able to post an unsupported external event', async (test) => {
@@ -1047,18 +1044,13 @@ ava.serial('should fail with a user error given the wrong username during login'
 		type: 'user',
 		action: 'action-create-session',
 		arguments: {
-			password: {
-				hash: {
-					string: '1234',
-					salt: 'user-nonexistentuser12345'
-				}
-			}
+			password: '1234'
 		}
 	})
 
 	test.is(result.code, 400)
 	test.true(result.response.error)
-	test.is(result.response.data.name, 'AuthenticationError')
+	test.is(result.response.data.name, 'WorkerAuthenticationError')
 })
 
 ava.serial('should fail with a user error when querying an id with an expired session', async (test) => {
@@ -1243,12 +1235,7 @@ ava.serial('should fail with a user error when posting an action with an expired
 			type: 'user',
 			action: 'action-create-session',
 			arguments: {
-				password: {
-					hash: {
-						string: '1234',
-						salt: 'user-nonexistentuser12345'
-					}
-				}
+				password: '1234'
 			}
 		}, {
 			Authorization: `Bearer ${session.id}`
@@ -2262,9 +2249,8 @@ ava.serial('Users should not be able to create action requests', async (test) =>
 				id: '42d1cd57-a052-49df-b416-3ade986c1aec'
 			},
 			arguments: {
-				password: {
-					hash: '696dba0661d2ab3eb0c1fe5c417ca8c18278f5a324ebc8827dbcef829e07c20'
-				}
+				password:
+					'696dba0661d2ab3eb0c1fe5c417ca8c18278f5a324ebc8827dbcef829e07c20'
 			}
 		}
 	}
