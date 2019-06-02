@@ -5,6 +5,7 @@
  */
 
 const ava = require('ava')
+const crypto = require('crypto')
 const _ = require('lodash')
 const helpers = require('./helpers')
 const actionLibrary = require('../../../lib/action-library')
@@ -2096,6 +2097,106 @@ ava('should be able to login as a user with a password', async (test) => {
 
 	const currentDate = new Date()
 	test.true(new Date(session.data.expiration) > currentDate)
+})
+
+ava('should be able to login as a user with a PBKDF hash', async (test) => {
+	// Based on https://stackoverflow.com/a/17201493/1641422
+	const DEFAULT_ITERATIONS = 10000
+	const DEFAULT_KEY_LENGTH = 64
+	const DEFAULT_DIGEST = 'sha512'
+	const key = crypto.pbkdf2Sync(
+		'foobarbaz',
+		'user-johndoe',
+		DEFAULT_ITERATIONS,
+		DEFAULT_KEY_LENGTH,
+		DEFAULT_DIGEST)
+
+	const userCard = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			slug: 'user-johndoe',
+			type: 'user',
+			data: {
+				email: 'johndoe@example.com',
+				roles: [ 'user-community' ],
+				password: {
+					hash: key.toString('hex')
+				}
+			}
+		})
+
+	const request = await test.context.worker.pre(test.context.session, {
+		action: 'action-create-session',
+		card: userCard.id,
+		context: test.context.context,
+		type: userCard.type,
+		arguments: {
+			password: 'foobarbaz'
+		}
+	})
+
+	const loginRequest = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, request)
+	await test.context.flush(test.context.session, 1)
+	const loginResult = await test.context.queue.waitResults(
+		test.context.context, loginRequest)
+	test.false(loginResult.error)
+
+	const session = await test.context.jellyfish.getCardById(
+		test.context.context, test.context.session, loginResult.data.id)
+
+	test.deepEqual(session, test.context.kernel.defaults({
+		created_at: session.created_at,
+		linked_at: session.linked_at,
+		name: null,
+		id: session.id,
+		slug: session.slug,
+		version: '1.0.0',
+		type: 'session',
+		links: session.links,
+		data: {
+			actor: userCard.id,
+			expiration: session.data.expiration
+		}
+	}))
+
+	const currentDate = new Date()
+	test.true(new Date(session.data.expiration) > currentDate)
+})
+
+ava('should fail to login as a user with a PBKDF hash', async (test) => {
+	// Based on https://stackoverflow.com/a/17201493/1641422
+	const DEFAULT_ITERATIONS = 10000
+	const DEFAULT_KEY_LENGTH = 64
+	const DEFAULT_DIGEST = 'sha512'
+	const key = crypto.pbkdf2Sync(
+		'foobarbaz',
+		'user-johndoe',
+		DEFAULT_ITERATIONS,
+		DEFAULT_KEY_LENGTH,
+		DEFAULT_DIGEST)
+
+	const userCard = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			slug: 'user-johndoe',
+			type: 'user',
+			data: {
+				email: 'johndoe@example.com',
+				roles: [ 'user-community' ],
+				password: {
+					hash: key.toString('hex')
+				}
+			}
+		})
+
+	await test.throwsAsync(test.context.worker.pre(test.context.session, {
+		action: 'action-create-session',
+		card: userCard.id,
+		context: test.context.context,
+		type: userCard.type,
+		arguments: {
+			password: 'xxxxxxxxxxx'
+		}
+	}), test.context.worker.errors.WorkerAuthenticationError)
 })
 
 ava('should not be able to login as a password-less user', async (test) => {

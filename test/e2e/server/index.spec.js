@@ -530,7 +530,7 @@ ava.serial('When updating a user, inaccessible fields should not be removed', as
 	await sdk.card.update(
 		user.id,
 		_.merge(
-			_.omit(user, [ 'data', 'password' ]),
+			_.omit(user, [ 'data', 'hash' ]),
 			{
 				type: user.type,
 				data: {
@@ -547,7 +547,7 @@ ava.serial('When updating a user, inaccessible fields should not be removed', as
 
 	test.is(rawUserCard.data.email, 'test@example.com')
 	test.is(_.has(rawUserCard, [ 'data', 'roles' ]), true)
-	test.is(_.has(rawUserCard, [ 'data', 'password', 'hash' ]), true)
+	test.is(_.has(rawUserCard, [ 'data', 'hash' ]), true)
 })
 
 ava.serial('Users should not be able to login as the core admin user', async (test) => {
@@ -1008,7 +1008,7 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 					Object.assign({}, targetUser, {
 						links: results[0].links['is attached to'][0].links,
 						linked_at: results[0].links['is attached to'][0].linked_at,
-						data: _.omit(targetUser.data, [ 'password', 'roles' ])
+						data: _.omit(targetUser.data, [ 'hash', 'roles' ])
 					})
 				]
 			},
