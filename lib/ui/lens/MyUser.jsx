@@ -12,15 +12,22 @@ import {
 import * as redux from 'redux'
 import {
 	Box,
+	Alert,
 	Flex,
+	Button,
 	Heading,
 	Select
 } from 'rendition'
+import {
+	Form
+} from 'rendition/dist/unstable'
 import {
 	actionCreators,
 	selectors
 } from '../core'
 import Column from '../shame/Column'
+import * as helpers from '../services/helpers'
+import * as skhema from 'skhema'
 import {
 	CloseButton
 } from '../shame/CloseButton'
@@ -39,9 +46,22 @@ class MyUser extends React.Component {
 			this.props.actions.removeChannel(this.props.channel)
 		}
 
+		this.bindMethods([
+			'handlePasswordFormChange',
+			'changePassword'
+		])
+
 		this.state = {
-			updatingSendCommand: false
+			updatingSendCommand: false,
+			settingPassword: false,
+			changePassword: {}
 		}
+	}
+
+	bindMethods (methods) {
+		methods.forEach((method) => {
+			this[method] = this[method].bind(this)
+		})
 	}
 
 	async handleSendCommandChange (event) {
@@ -58,6 +78,30 @@ class MyUser extends React.Component {
 		})
 	}
 
+	handlePasswordFormChange (data) {
+		this.setState({
+			changePassword: Object.assign({}, data.formData)
+		})
+	}
+
+	async changePassword () {
+		this.setState({
+			settingPassword: true
+		})
+
+		const {
+			currentPassword,
+			newPassword
+		} = this.state.changePassword
+
+		await this.props.actions.setPassword(currentPassword, newPassword)
+
+		this.setState({
+			settingPassword: false,
+			changePassword: {}
+		})
+	}
+
 	render () {
 		const user = this.props.card
 		const sendCommand = _.get(user.data, [ 'profile', 'sendCommand' ], 'shift+enter')
@@ -65,6 +109,35 @@ class MyUser extends React.Component {
 			slug: 'user'
 		})
 		const sendOptions = userType.data.schema.properties.data.properties.profile.properties.sendCommand.enum
+
+		// This is the old PBKDF password hash location
+		const shouldChangePassword = Boolean(user.data.password)
+
+		const schema = {
+			type: 'object',
+			required: [ 'currentPassword', 'newPassword' ],
+			properties: {
+				currentPassword: {
+					type: 'string'
+				},
+				newPassword: {
+					type: 'string'
+				}
+			}
+		}
+
+		const isValid = skhema.isValid(schema,
+			helpers.removeUndefinedArrayItems(this.state.changePassword))
+
+		const uiSchema = {
+			'ui:order': [ 'currentPassword', 'newPassword', '*' ],
+			currentPassword: {
+				'ui:widget': 'password'
+			},
+			newPassword: {
+				'ui:widget': 'password'
+			}
+		}
 
 		return (
 			<Column data-test={`lens--${SLUG}`}>
@@ -119,6 +192,33 @@ class MyUser extends React.Component {
 						{this.state.updatingSendCommand && (
 							<Icon spin name="cog" />
 						)}
+					</Box>
+
+					<Box mt={3}>
+						<label>
+							Change password:
+						</label>
+
+						{shouldChangePassword && (
+							<Alert my={2} warning>
+								You have a password reset due!
+							</Alert>
+						)}
+
+						<Form
+							schema={schema}
+							uiSchema={uiSchema}
+							onFormChange={this.handlePasswordFormChange}
+							value={this.state.changePassword}
+							hideSubmitButton={true}
+						/>
+						<Button
+							primary
+							onClick={this.changePassword}
+							disabled={!isValid || this.state.settingPassword}
+						>
+							Submit
+						</Button>
 					</Box>
 				</Box>
 			</Column>
