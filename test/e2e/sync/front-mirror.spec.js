@@ -299,6 +299,16 @@ avaTest('should be able to reply to a moved inbound message', async (test) => {
 		test.context.username)
 })
 
+/*
+ * We need to have a custom channel on the test inbox in
+ * order to simulate incoming messages.
+ * Before this test will pass, we need to be able to
+ * reply to messages using custom channels.
+ *
+ * Looks like just adding a random URL to the "Outgoing"
+ * section of the custom channel configuration makes it
+ * all work (?)
+ */
 avaTest('should be able to reply to an inbound message', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		`My Issue ${uuid()}`,
