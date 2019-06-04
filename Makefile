@@ -124,6 +124,12 @@ export INTEGRATION_DISCOURSE_USERNAME
 INTEGRATION_DISCOURSE_SIGNATURE_KEY ?=
 export INTEGRATION_DISCOURSE_SIGNATURE_KEY
 
+# Outreach
+INTEGRATION_OUTREACH_APP_ID ?=
+export INTEGRATION_OUTREACH_APP_ID
+INTEGRATION_OUTREACH_APP_SECRET ?=
+export INTEGRATION_OUTREACH_APP_SECRET
+
 # -----------------------------------------------
 # Test Runtime Configuration
 # -----------------------------------------------
