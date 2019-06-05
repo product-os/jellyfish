@@ -19,7 +19,7 @@ module.exports = async (context) => {
 	logger.info(context, 'Setting up cache')
 	const cache = environment.cache.disable
 		? null
-		: new core.MemoryCache(environment.getRedisConfiguration())
+		: new core.MemoryCache(environment.redis)
 	if (cache) {
 		await cache.connect(context)
 	}

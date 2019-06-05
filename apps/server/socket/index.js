@@ -15,7 +15,7 @@ module.exports = (jellyfish, server) => {
 		transports: [ 'websocket', 'polling' ]
 	})
 
-	socketServer.adapter(redisAdapter(environment.getRedisConfiguration()))
+	socketServer.adapter(redisAdapter(environment.redis))
 
 	const openStreams = {}
 
