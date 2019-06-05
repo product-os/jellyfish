@@ -46,6 +46,10 @@ spec:
           value: {{{LOGLEVEL}}}
         - name: LOCKFILE
           value: /tmp/worker.lock
+        - name: INTEGRATION_BALENA_API_PRIVATE_KEY
+          value: {{{INTEGRATION_BALENA_API_PRIVATE_KEY}}}
+        - name: INTEGRATION_BALENA_API_PUBLIC_KEY
+          value: {{{INTEGRATION_BALENA_API_PUBLIC_KEY}}}
         - name: INTEGRATION_INTERCOM_TOKEN
           value: {{{INTEGRATION_INTERCOM_TOKEN}}}
         - name: INTEGRATION_FRONT_TOKEN
