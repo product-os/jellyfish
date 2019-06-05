@@ -34,7 +34,7 @@ exports.backend = {
 			})
 		} else {
 			test.context.cache = new Cache(
-				Object.assign({}, environment.getRedisConfiguration(), {
+				Object.assign({}, environment.redis, {
 					namespace: dbName
 				}))
 		}
@@ -114,7 +114,7 @@ exports.cache = {
 			})
 		} else {
 			test.context.cache = new Cache(
-				Object.assign({}, environment.getRedisConfiguration(), {
+				Object.assign({}, environment.redis, {
 					namespace: `test_${uuid()}`
 				}))
 		}

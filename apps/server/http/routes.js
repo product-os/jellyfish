@@ -257,11 +257,12 @@ module.exports = (application, jellyfish, worker, queue) => {
 			request.params.provider)
 
 		return Bluebird.try(async () => {
-			if (!await sync.isValidExternalEventRequest(
-				integrationToken,
+			if (!await sync.isValidEvent(
 				request.params.provider,
-				request.rawBody,
-				request.headers)) {
+				integrationToken, {
+					raw: request.rawBody,
+					headers: request.headers
+				})) {
 				logger.warn(request.context, 'Webhook rejected', {
 					ip: request.ip,
 					source: request.params.provider,
@@ -346,7 +347,15 @@ module.exports = (application, jellyfish, worker, queue) => {
 		const card = await jellyfish.getCardById(
 			request.context, request.sessionToken, request.params.cardId)
 		if (!card) {
-			response.sendStatus(404)
+			return response.sendStatus(404)
+		}
+
+		const sessionCard = await jellyfish.getCardById(
+			request.context, request.sessionToken, request.sessionToken, {
+				type: 'session'
+			})
+		if (!sessionCard) {
+			return response.sendStatus(401)
 		}
 
 		const attachment = _.find(_.get(card, [ 'data', 'payload', 'attachments' ]), (item) => {
@@ -354,18 +363,27 @@ module.exports = (application, jellyfish, worker, queue) => {
 		})
 
 		if (attachment) {
-			return sync.getFile(request.params.fileName, {
-				source: 'front',
-				context: request.context,
-				logger,
-				token: environment.getIntegrationToken('front')
+			return sync.getFile(
+				'front',
+				environment.getIntegrationToken('front'),
+				request.params.fileName, {
+					log: {
+						warn: (message, data) => {
+							// eslint-disable-next-line jellyfish/logger-string-expression
+							logger.warn(request.context, message, data)
+						},
+						info: (message, data) => {
+							// eslint-disable-next-line jellyfish/logger-string-expression
+							logger.info(request.context, message, data)
+						}
+					}
+				}, {
+					actor: sessionCard.data.actor
+				}).then((file) => {
+				return response.status(200).send(file)
+			}).catch((error) => {
+				return sendHTTPError(request, response, error)
 			})
-				.then((file) => {
-					return response.status(200).send(file)
-				})
-				.catch((error) => {
-					return sendHTTPError(request, response, error)
-				})
 		}
 
 		return fileStore.retrieve(

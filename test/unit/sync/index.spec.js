@@ -10,90 +10,123 @@ const jws = require('jsonwebtoken')
 const jose = require('node-jose')
 const sync = require('../../../lib/sync')
 
-ava('.isValidExternalEventRequest() should return true for Front given anything', async (test) => {
-	const result = await sync.isValidExternalEventRequest({
+ava('.isValidEvent() should return true for Front given anything', async (test) => {
+	const result = await sync.isValidEvent('front', {
 		api: 'xxxxxxx'
-	}, 'front', '....', {})
-	test.true(result)
-})
-
-ava('.isValidExternalEventRequest() should return false for an unknown integration', async (test) => {
-	const result = await sync.isValidExternalEventRequest(
-		null, 'helloworld', '....', {})
-	test.false(result)
-})
-
-ava('.isValidExternalEventRequest() should return false given GitHub and no signature header', async (test) => {
-	const result = await sync.isValidExternalEventRequest({
-		api: 'xxxxx',
-		signature: 'secret'
-	}, 'github', '....', {})
-	test.false(result)
-})
-
-ava('.isValidExternalEventRequest() should return false given GitHub and a signature but no key', async (test) => {
-	const result = await sync.isValidExternalEventRequest(null, 'github', '....', {
-		'x-hub-signature': 'sha1=aaaabbbbcccc'
-	})
-
-	test.false(result)
-})
-
-ava('.isValidExternalEventRequest() should return false given GitHub and a signature mismatch', async (test) => {
-	const result = await sync.isValidExternalEventRequest({
-		api: 'xxxxx',
-		signature: 'secret'
-	}, 'github', '{"foo":"bar"}', {
-		'x-hub-signature': 'sha1=foobarbaz'
-	})
-
-	test.false(result)
-})
-
-ava('.isValidExternalEventRequest() should return true given GitHub and a signature match', async (test) => {
-	const result = await sync.isValidExternalEventRequest({
-		api: 'xxxxx',
-		signature: 'secret'
-	}, 'github', '{"foo":"bar"}', {
-		'x-hub-signature': 'sha1=52b582138706ac0c597c315cfc1a1bf177408a4d'
+	}, {
+		headers: {},
+		raw: '....'
 	})
 
 	test.true(result)
 })
 
-ava('.isValidExternalEventRequest() should return true given Discourse and no signature header', async (test) => {
-	const result = await sync.isValidExternalEventRequest({
+ava('.isValidEvent() should return false for an unknown integration', async (test) => {
+	const result = await sync.isValidEvent('helloworld', null, {
+		headers: {},
+		raw: '....'
+	})
+
+	test.false(result)
+})
+
+ava('.isValidEvent() should return false given GitHub and no signature header', async (test) => {
+	const result = await sync.isValidEvent('github', {
 		api: 'xxxxx',
 		signature: 'secret'
-	}, 'discourse', '....', {})
+	}, {
+		headers: {},
+		raw: '....'
+	})
+
+	test.false(result)
+})
+
+ava('.isValidEvent() should return false given GitHub and a signature but no key', async (test) => {
+	const result = await sync.isValidEvent('github', null, {
+		raw: '....',
+		headers: {
+			'x-hub-signature': 'sha1=aaaabbbbcccc'
+		}
+	})
+
+	test.false(result)
+})
+
+ava('.isValidEvent() should return false given GitHub and a signature mismatch', async (test) => {
+	const result = await sync.isValidEvent('github', {
+		api: 'xxxxx',
+		signature: 'secret'
+	}, {
+		raw: '{"foo":"bar"}',
+		headers: {
+			'x-hub-signature': 'sha1=foobarbaz'
+		}
+	})
+
+	test.false(result)
+})
+
+ava('.isValidEvent() should return true given GitHub and a signature match', async (test) => {
+	const result = await sync.isValidEvent('github', {
+		api: 'xxxxx',
+		signature: 'secret'
+	}, {
+		raw: '{"foo":"bar"}',
+		headers: {
+			'x-hub-signature': 'sha1=52b582138706ac0c597c315cfc1a1bf177408a4d'
+		}
+	})
+
 	test.true(result)
 })
 
-ava('.isValidExternalEventRequest() should return false given Discourse and a signature but no key', async (test) => {
-	const result = await sync.isValidExternalEventRequest(null, 'discourse', '....', {
-		'x-discourse-event-signature': 'sha256=aaaabbbbcccc'
+ava('.isValidEvent() should return true given Discourse and no signature header', async (test) => {
+	const result = await sync.isValidEvent('discourse', {
+		api: 'xxxxx',
+		signature: 'secret'
+	}, {
+		raw: '....',
+		headers: {}
+	})
+
+	test.true(result)
+})
+
+ava('.isValidEvent() should return false given Discourse and a signature but no key', async (test) => {
+	const result = await sync.isValidEvent('discourse', null, {
+		raw: '....',
+		headers: {
+			'x-discourse-event-signature': 'sha256=aaaabbbbcccc'
+		}
 	})
 
 	test.false(result)
 })
 
-ava('.isValidExternalEventRequest() should return false given Discourse and a signature mismatch', async (test) => {
-	const result = await sync.isValidExternalEventRequest({
+ava('.isValidEvent() should return false given Discourse and a signature mismatch', async (test) => {
+	const result = await sync.isValidEvent('discourse', {
 		api: 'xxxxx',
 		signature: 'secret'
-	}, 'discourse', '{"foo":"bar"}', {
-		'x-discourse-event-signature': 'sha256=foobarbaz'
+	}, {
+		raw: '{"foo":"bar"}',
+		headers: {
+			'x-discourse-event-signature': 'sha256=foobarbaz'
+		}
 	})
 
 	test.false(result)
 })
 
-ava('.isValidExternalEventRequest() should return true given Discourse and a signature match', async (test) => {
-	const result = await sync.isValidExternalEventRequest({
+ava('.isValidEvent() should return true given Discourse and a signature match', async (test) => {
+	const result = await sync.isValidEvent('discourse', {
 		api: 'xxxxx',
 		signature: 'secret'
-	}, 'discourse', '{"foo":"bar"}', {
-		'x-discourse-event-signature': 'sha256=3f3ab3986b656abb17af3eb1443ed6c08ef8fff9fea83915909d1b421aec89be'
+	}, {
+		raw: '{"foo":"bar"}',
+		headers: {
+			'x-discourse-event-signature': 'sha256=3f3ab3986b656abb17af3eb1443ed6c08ef8fff9fea83915909d1b421aec89be'
+		}
 	})
 
 	test.true(result)
@@ -104,25 +137,33 @@ const TEST_BALENA_API_PRIVATE_KEY = 'LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tCk1JR0h
 // eslint-disable-next-line max-len
 const TEST_BALENA_API_PUBLIC_KEY = 'LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUZrd0V3WUhLb1pJemowQ0FRWUlLb1pJemowREFRY0RRZ0FFZ2htVHE0V0RZWVhGdld1OHZMRXVmaCtVQkhKQQo0UmZoVkhoTVNmMDZTZ1NwOHhEeStUeGVKTGZ3YVhtQk9vNFFydjBZM0Z4MXJUQXZjRUM0ejBsVm9nPT0KLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tCg=='
 
-ava('.isValidExternalEventRequest() should return false given Balena API and invalid JSON', async (test) => {
-	const result = await sync.isValidExternalEventRequest({
+ava('.isValidEvent() should return false given Balena API and invalid JSON', async (test) => {
+	const result = await sync.isValidEvent('balena-api', {
 		api: 'xxxxx',
 		publicKey: TEST_BALENA_API_PUBLIC_KEY,
 		privateKey: TEST_BALENA_API_PRIVATE_KEY
-	}, 'balena-api', '{"foo":"bar"}', {
-		'content-type': 'application/jose'
+	}, {
+		raw: '{"foo":"bar"}',
+		headers: {
+			'content-type': 'application/jose'
+		}
 	})
+
 	test.false(result)
 })
 
-ava('.isValidExternalEventRequest() should return false given Balena API and invalid payload', async (test) => {
-	const result = await sync.isValidExternalEventRequest({
+ava('.isValidEvent() should return false given Balena API and invalid payload', async (test) => {
+	const result = await sync.isValidEvent('balena-api', {
 		api: 'xxxxx',
 		publicKey: TEST_BALENA_API_PUBLIC_KEY,
 		privateKey: TEST_BALENA_API_PRIVATE_KEY
-	}, 'balena-api', 'xxxxxxxxxxxxxx', {
-		'content-type': 'application/jose'
+	}, {
+		raw: 'xxxxxxxxxxxxxx',
+		headers: {
+			'content-type': 'application/jose'
+		}
 	})
+
 	test.false(result)
 })
 
@@ -150,50 +191,59 @@ const encryptPayload = async (payload) => {
 	return result
 }
 
-ava('.isValidExternalEventRequest() should return true given Balena API and a key match', async (test) => {
+ava('.isValidEvent() should return true given Balena API and a key match', async (test) => {
 	const payload = await encryptPayload({
 		id: 666,
 		foo: 'bar'
 	})
 
-	const result = await sync.isValidExternalEventRequest({
+	const result = await sync.isValidEvent('balena-api', {
 		api: 'xxxxx',
 		publicKey: TEST_BALENA_API_PUBLIC_KEY,
 		privateKey: TEST_BALENA_API_PRIVATE_KEY
-	}, 'balena-api', payload, {
-		'content-type': 'application/jose'
+	}, {
+		raw: payload,
+		headers: {
+			'content-type': 'application/jose'
+		}
 	})
 
 	test.true(result)
 })
 
-ava('.isValidExternalEventRequest() should return false given Balena API and no public key', async (test) => {
+ava('.isValidEvent() should return false given Balena API and no public key', async (test) => {
 	const payload = await encryptPayload({
 		id: 666,
 		foo: 'bar'
 	})
 
-	const result = await sync.isValidExternalEventRequest({
+	const result = await sync.isValidEvent('balena-api', {
 		api: 'xxxxx',
 		privateKey: TEST_BALENA_API_PRIVATE_KEY
-	}, 'balena-api', payload, {
-		'content-type': 'application/jose'
+	}, {
+		raw: payload,
+		headers: {
+			'content-type': 'application/jose'
+		}
 	})
 
 	test.false(result)
 })
 
-ava('.isValidExternalEventRequest() should return true given Balena API and no private key', async (test) => {
+ava('.isValidEvent() should return true given Balena API and no private key', async (test) => {
 	const payload = await encryptPayload({
 		id: 666,
 		foo: 'bar'
 	})
 
-	const result = await sync.isValidExternalEventRequest({
+	const result = await sync.isValidEvent('balena-api', {
 		api: 'xxxxx',
 		publicKey: TEST_BALENA_API_PUBLIC_KEY
-	}, 'balena-api', payload, {
-		'content-type': 'application/jose'
+	}, {
+		raw: payload,
+		headers: {
+			'content-type': 'application/jose'
+		}
 	})
 
 	test.false(result)
