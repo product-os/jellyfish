@@ -5,10 +5,14 @@
  */
 
 const ava = require('ava')
+const _ = require('lodash')
 const randomstring = require('randomstring')
+const querystring = require('querystring')
+const nock = require('nock')
 const jws = require('jsonwebtoken')
 const jose = require('node-jose')
 const sync = require('../../../lib/sync')
+const oauth = require('../../../lib/sync/oauth')
 
 ava('.isValidEvent() should return true for Front given anything', async (test) => {
 	const result = await sync.isValidEvent('front', {
@@ -247,4 +251,566 @@ ava('.isValidEvent() should return true given Balena API and no private key', as
 	})
 
 	test.false(result)
+})
+
+ava('.getAssociateUrl() should return null given an invalid integration', (test) => {
+	const result = sync.getAssociateUrl('helloworld', {
+		appId: 'xxxxx'
+	}, 'user-jellyfish', {
+		origin: 'https://jel.ly.fish/oauth/helloworld',
+		scopes: [ 'all' ]
+	})
+
+	test.falsy(result)
+})
+
+ava('.getAssociateUrl() should return null given no token', (test) => {
+	const result = sync.getAssociateUrl('outreach', null, 'user-jellyfish', {
+		origin: 'https://jel.ly.fish/oauth/outreach',
+		scopes: [ 'all' ]
+	})
+
+	test.falsy(result)
+})
+
+ava('.getAssociateUrl() should return null given no appId', (test) => {
+	const result = sync.getAssociateUrl('outreach', {
+		api: 'xxxxxx'
+	}, 'user-jellyfish', {
+		origin: 'https://jel.ly.fish/oauth/outreach',
+		scopes: [ 'all' ]
+	})
+
+	test.falsy(result)
+})
+
+ava('.getAssociateUrl() should be able to generate an Outreach URL', (test) => {
+	const result = sync.getAssociateUrl('outreach', {
+		appId: 'dJyXQHeh8PLKUr4gdsoUYQ8vFvqJ1D20lnFMxBLg'
+	}, 'user-jellyfish', {
+		origin: 'https://jel.ly.fish/oauth/outreach',
+		scopes: [ 'all' ]
+	})
+
+	const qs = [
+		'response_type=code',
+		'client_id=dJyXQHeh8PLKUr4gdsoUYQ8vFvqJ1D20lnFMxBLg',
+		'redirect_uri=https%3A%2F%2Fjel.ly.fish%2Foauth%2Foutreach',
+		'scope=all',
+		'state=user-jellyfish'
+	].join('&')
+
+	test.is(result, `https://api.outreach.io/oauth/authorize?${qs}`)
+})
+
+ava('.OAUTH_INTEGRATIONS should be an array of strings', (test) => {
+	test.true(_.isArray(sync.OAUTH_INTEGRATIONS))
+	test.true(_.every(sync.OAUTH_INTEGRATIONS, _.isString))
+})
+
+ava('.OAUTH_INTEGRATIONS should contain no duplicates', (test) => {
+	test.deepEqual(sync.OAUTH_INTEGRATIONS, _.uniq(sync.OAUTH_INTEGRATIONS))
+})
+
+ava('.OAUTH_INTEGRATIONS should contain outreach', (test) => {
+	test.true(sync.OAUTH_INTEGRATIONS.includes('outreach'))
+})
+
+ava('.associate() should return null given an invalid integration', async (test) => {
+	const data = {
+		'user-johndoe': {
+			type: 'user',
+			slug: 'user-johndoe',
+			data: {
+				email: 'johndoe@test.com'
+			}
+		}
+	}
+
+	const result = await sync.associate('helloworld', {
+		appId: 'dJyXQHeh8PLKUr4gdsoUYQ8vFvqJ1D20lnFMxBLg',
+		appSecret: 'NlfY38rTt5xxa+Ehi2kV/2rA85C98iDdMF7xD9xr'
+	}, 'user-johndoe', {
+		log: {
+			warn: _.noop
+		},
+		getElementBySlug: async (type, slug) => {
+			return data[slug]
+		},
+		upsertElement: async (type, object, options) => {
+			data[object.slug] = Object.assign({}, object, {
+				type
+			})
+		}
+	}, {
+		code: '12345',
+		origin: 'https://jel.ly.fish/oauth/helloworld'
+	})
+
+	test.falsy(result)
+})
+
+ava('.associate() should return null given no token', async (test) => {
+	const data = {
+		'user-johndoe': {
+			type: 'user',
+			slug: 'user-johndoe',
+			data: {
+				email: 'johndoe@test.com'
+			}
+		}
+	}
+
+	const result = await sync.associate('outreach', null, 'user-johndoe', {
+		log: {
+			warn: _.noop
+		},
+		getElementBySlug: async (type, slug) => {
+			return data[slug]
+		},
+		upsertElement: async (type, object, options) => {
+			data[object.slug] = Object.assign({}, object, {
+				type
+			})
+		}
+	}, {
+		code: '12345',
+		origin: 'https://jel.ly.fish/oauth/outreach'
+	})
+
+	test.falsy(result)
+})
+
+ava('.associate() should return null given no appId', async (test) => {
+	const data = {
+		'user-johndoe': {
+			type: 'user',
+			slug: 'user-johndoe',
+			data: {
+				email: 'johndoe@test.com'
+			}
+		}
+	}
+
+	const result = await sync.associate('outreach', {
+		appSecret: 'NlfY38rTt5xxa+Ehi2kV/2rA85C98iDdMF7xD9xr'
+	}, 'user-johndoe', {
+		log: {
+			warn: _.noop
+		},
+		getElementBySlug: async (type, slug) => {
+			return data[slug]
+		},
+		upsertElement: async (type, object, options) => {
+			data[object.slug] = Object.assign({}, object, {
+				type
+			})
+		}
+	}, {
+		code: '12345',
+		origin: 'https://jel.ly.fish/oauth/outreach'
+	})
+
+	test.falsy(result)
+})
+
+ava('.associate() should return null given no appSecret', async (test) => {
+	const data = {
+		'user-johndoe': {
+			type: 'user',
+			slug: 'user-johndoe',
+			data: {
+				email: 'johndoe@test.com'
+			}
+		}
+	}
+
+	const result = await sync.associate('outreach', {
+		appId: 'dJyXQHeh8PLKUr4gdsoUYQ8vFvqJ1D20lnFMxBLg'
+	}, 'user-johndoe', {
+		log: {
+			warn: _.noop
+		},
+		getElementBySlug: async (type, slug) => {
+			return data[slug]
+		},
+		upsertElement: async (type, object, options) => {
+			data[object.slug] = Object.assign({}, object, {
+				type
+			})
+		}
+	}, {
+		code: '12345',
+		origin: 'https://jel.ly.fish/oauth/outreach'
+	})
+
+	test.falsy(result)
+})
+
+ava('.associate() should return null if the user does not exist', async (test) => {
+	const data = {}
+
+	const result = await sync.associate('outreach', {
+		appId: 'dJyXQHeh8PLKUr4gdsoUYQ8vFvqJ1D20lnFMxBLg',
+		appSecret: 'NlfY38rTt5xxa+Ehi2kV/2rA85C98iDdMF7xD9xr'
+	}, 'user-johndoe', {
+		log: {
+			warn: _.noop
+		},
+		getElementBySlug: async (type, slug) => {
+			return data[slug]
+		},
+		upsertElement: async (type, object, options) => {
+			data[object.slug] = Object.assign({}, object, {
+				type
+			})
+		}
+	}, {
+		code: '12345',
+		origin: 'https://jel.ly.fish/oauth/outreach'
+	})
+
+	test.falsy(result)
+	test.deepEqual(data, {})
+})
+
+ava('.associate() should set the access token in the user card', async (test) => {
+	const data = {
+		'user-johndoe': {
+			type: 'user',
+			slug: 'user-johndoe',
+			data: {
+				email: 'johndoe@test.com'
+			}
+		}
+	}
+
+	nock.cleanAll()
+	nock.disableNetConnect()
+
+	await nock('https://api.outreach.io')
+		.post('/oauth/token')
+		.reply(function (uri, request, callback) {
+			const body = querystring.decode(request)
+
+			console.log(request)
+
+			if (_.isEqual(body, {
+				grant_type: 'authorization_code',
+				client_id: 'dJyXQHeh8PLKUr4gdsoUYQ8vFvqJ1D20lnFMxBLg',
+				client_secret: 'NlfY38rTt5xxa+Ehi2kV/2rA85C98iDdMF7xD9xr',
+				redirect_uri: 'https://jel.ly.fish/oauth/outreach',
+				code: '12345'
+			})) {
+				return callback(null, [ 200, {
+					access_token: 'KSTWMqidua67hjM2NDE1ZTZjNGZmZjI3',
+					token_type: 'bearer',
+					expires_in: 3600,
+					refresh_token: 'POolsdYTlmM2YxOTQ5MGE3YmNmMDFkNTVk',
+					scope: 'create'
+				} ])
+			}
+
+			return callback(null, [ 400, {
+				error: 'invalid_request',
+				error_description: 'Something went wrong'
+			} ])
+		})
+
+	const result = await sync.associate('outreach', {
+		appId: 'dJyXQHeh8PLKUr4gdsoUYQ8vFvqJ1D20lnFMxBLg',
+		appSecret: 'NlfY38rTt5xxa+Ehi2kV/2rA85C98iDdMF7xD9xr'
+	}, 'user-johndoe', {
+		log: {
+			warn: _.noop
+		},
+		getElementBySlug: async (type, slug) => {
+			return data[slug]
+		},
+		upsertElement: async (type, object, options) => {
+			data[object.slug] = Object.assign({}, object, {
+				type
+			})
+		}
+	}, {
+		code: '12345',
+		origin: 'https://jel.ly.fish/oauth/outreach'
+	})
+
+	nock.cleanAll()
+
+	test.falsy(result)
+	test.deepEqual(data, {
+		'user-johndoe': {
+			type: 'user',
+			slug: 'user-johndoe',
+			data: {
+				email: 'johndoe@test.com',
+				oauth: {
+					outreach: {
+						access_token: 'KSTWMqidua67hjM2NDE1ZTZjNGZmZjI3',
+						token_type: 'bearer',
+						expires_in: 3600,
+						refresh_token: 'POolsdYTlmM2YxOTQ5MGE3YmNmMDFkNTVk',
+						scope: 'create'
+					}
+				}
+			}
+		}
+	})
+})
+
+ava('.associate() should not replace other integrations', async (test) => {
+	const data = {
+		'user-johndoe': {
+			type: 'user',
+			slug: 'user-johndoe',
+			data: {
+				email: 'johndoe@test.com',
+				oauth: {
+					foo: {
+						secret: 'bar'
+					}
+				}
+			}
+		}
+	}
+
+	nock.cleanAll()
+	nock.disableNetConnect()
+
+	await nock('https://api.outreach.io')
+		.post('/oauth/token')
+		.reply(function (uri, request, callback) {
+			const body = querystring.decode(request)
+
+			console.log(request)
+
+			if (_.isEqual(body, {
+				grant_type: 'authorization_code',
+				client_id: 'dJyXQHeh8PLKUr4gdsoUYQ8vFvqJ1D20lnFMxBLg',
+				client_secret: 'NlfY38rTt5xxa+Ehi2kV/2rA85C98iDdMF7xD9xr',
+				redirect_uri: 'https://jel.ly.fish/oauth/outreach',
+				code: '12345'
+			})) {
+				return callback(null, [ 200, {
+					access_token: 'KSTWMqidua67hjM2NDE1ZTZjNGZmZjI3',
+					token_type: 'bearer',
+					expires_in: 3600,
+					refresh_token: 'POolsdYTlmM2YxOTQ5MGE3YmNmMDFkNTVk',
+					scope: 'create'
+				} ])
+			}
+
+			return callback(null, [ 400, {
+				error: 'invalid_request',
+				error_description: 'Something went wrong'
+			} ])
+		})
+
+	const result = await sync.associate('outreach', {
+		appId: 'dJyXQHeh8PLKUr4gdsoUYQ8vFvqJ1D20lnFMxBLg',
+		appSecret: 'NlfY38rTt5xxa+Ehi2kV/2rA85C98iDdMF7xD9xr'
+	}, 'user-johndoe', {
+		log: {
+			warn: _.noop
+		},
+		getElementBySlug: async (type, slug) => {
+			return data[slug]
+		},
+		upsertElement: async (type, object, options) => {
+			data[object.slug] = Object.assign({}, object, {
+				type
+			})
+		}
+	}, {
+		code: '12345',
+		origin: 'https://jel.ly.fish/oauth/outreach'
+	})
+
+	nock.cleanAll()
+
+	test.falsy(result)
+	test.deepEqual(data, {
+		'user-johndoe': {
+			type: 'user',
+			slug: 'user-johndoe',
+			data: {
+				email: 'johndoe@test.com',
+				oauth: {
+					foo: {
+						secret: 'bar'
+					},
+					outreach: {
+						access_token: 'KSTWMqidua67hjM2NDE1ZTZjNGZmZjI3',
+						token_type: 'bearer',
+						expires_in: 3600,
+						refresh_token: 'POolsdYTlmM2YxOTQ5MGE3YmNmMDFkNTVk',
+						scope: 'create'
+					}
+				}
+			}
+		}
+	})
+})
+
+ava('.associate() should replace previous integration data', async (test) => {
+	const data = {
+		'user-johndoe': {
+			type: 'user',
+			slug: 'user-johndoe',
+			data: {
+				email: 'johndoe@test.com',
+				oauth: {
+					outreach: {
+						access_token: 'KSTWMqidua67hjM2NDE1ZTZjNGZmZjI3',
+						token_type: 'bearer',
+						expires_in: 3600,
+						refresh_token: 'yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy',
+						scope: 'create'
+					}
+				}
+			}
+		}
+	}
+
+	nock.cleanAll()
+	nock.disableNetConnect()
+
+	await nock('https://api.outreach.io')
+		.post('/oauth/token')
+		.reply(function (uri, request, callback) {
+			const body = querystring.decode(request)
+
+			console.log(request)
+
+			if (_.isEqual(body, {
+				grant_type: 'authorization_code',
+				client_id: 'dJyXQHeh8PLKUr4gdsoUYQ8vFvqJ1D20lnFMxBLg',
+				client_secret: 'NlfY38rTt5xxa+Ehi2kV/2rA85C98iDdMF7xD9xr',
+				redirect_uri: 'https://jel.ly.fish/oauth/outreach',
+				code: '12345'
+			})) {
+				return callback(null, [ 200, {
+					access_token: 'KSTWMqidua67hjM2NDE1ZTZjNGZmZjI3',
+					token_type: 'bearer',
+					expires_in: 3600,
+					refresh_token: 'POolsdYTlmM2YxOTQ5MGE3YmNmMDFkNTVk',
+					scope: 'create'
+				} ])
+			}
+
+			return callback(null, [ 400, {
+				error: 'invalid_request',
+				error_description: 'Something went wrong'
+			} ])
+		})
+
+	const result = await sync.associate('outreach', {
+		appId: 'dJyXQHeh8PLKUr4gdsoUYQ8vFvqJ1D20lnFMxBLg',
+		appSecret: 'NlfY38rTt5xxa+Ehi2kV/2rA85C98iDdMF7xD9xr'
+	}, 'user-johndoe', {
+		log: {
+			warn: _.noop
+		},
+		getElementBySlug: async (type, slug) => {
+			return data[slug]
+		},
+		upsertElement: async (type, object, options) => {
+			data[object.slug] = Object.assign({}, object, {
+				type
+			})
+		}
+	}, {
+		code: '12345',
+		origin: 'https://jel.ly.fish/oauth/outreach'
+	})
+
+	nock.cleanAll()
+
+	test.falsy(result)
+	test.deepEqual(data, {
+		'user-johndoe': {
+			type: 'user',
+			slug: 'user-johndoe',
+			data: {
+				email: 'johndoe@test.com',
+				oauth: {
+					outreach: {
+						access_token: 'KSTWMqidua67hjM2NDE1ZTZjNGZmZjI3',
+						token_type: 'bearer',
+						expires_in: 3600,
+						refresh_token: 'POolsdYTlmM2YxOTQ5MGE3YmNmMDFkNTVk',
+						scope: 'create'
+					}
+				}
+			}
+		}
+	})
+})
+
+ava('.associate() should throw given a code mismatch', async (test) => {
+	const data = {
+		'user-johndoe': {
+			type: 'user',
+			slug: 'user-johndoe',
+			data: {
+				email: 'johndoe@test.com'
+			}
+		}
+	}
+
+	nock.cleanAll()
+	nock.disableNetConnect()
+
+	await nock('https://api.outreach.io')
+		.post('/oauth/token')
+		.reply(function (uri, request, callback) {
+			const body = querystring.decode(request)
+
+			console.log(request)
+
+			if (_.isEqual(body, {
+				grant_type: 'authorization_code',
+				client_id: 'dJyXQHeh8PLKUr4gdsoUYQ8vFvqJ1D20lnFMxBLg',
+				client_secret: 'NlfY38rTt5xxa+Ehi2kV/2rA85C98iDdMF7xD9xr',
+				redirect_uri: 'https://jel.ly.fish/oauth/outreach',
+				code: '12345'
+			})) {
+				return callback(null, [ 200, {
+					access_token: 'KSTWMqidua67hjM2NDE1ZTZjNGZmZjI3',
+					token_type: 'bearer',
+					expires_in: 3600,
+					refresh_token: 'POolsdYTlmM2YxOTQ5MGE3YmNmMDFkNTVk',
+					scope: 'create'
+				} ])
+			}
+
+			return callback(null, [ 400, {
+				error: 'invalid_request',
+				error_description: 'Something went wrong'
+			} ])
+		})
+
+	await test.throwsAsync(sync.associate('outreach', {
+		appId: 'dJyXQHeh8PLKUr4gdsoUYQ8vFvqJ1D20lnFMxBLg',
+		appSecret: 'NlfY38rTt5xxa+Ehi2kV/2rA85C98iDdMF7xD9xr'
+	}, 'user-johndoe', {
+		log: {
+			warn: _.noop
+		},
+		getElementBySlug: async (type, slug) => {
+			return data[slug]
+		},
+		upsertElement: async (type, object, options) => {
+			data[object.slug] = Object.assign({}, object, {
+				type
+			})
+		}
+	}, {
+		code: 'invalidcode',
+		origin: 'https://jel.ly.fish/oauth/outreach'
+	}), oauth.OAuthUnsuccessfulResponse)
+
+	nock.cleanAll()
 })
