@@ -257,7 +257,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 			request.params.provider)
 
 		return Bluebird.try(async () => {
-			if (!await sync.isValidExternalEventRequest(
+			if (!await sync.isValidEvent(
 				integrationToken,
 				request.params.provider,
 				request.rawBody,
