@@ -601,9 +601,9 @@ ava.serial('should not be able to post an unsupported external event', async (te
 	test.true(result.response.error)
 })
 
-const githubAvaTest = environment.getIntegrationToken('github')
-	? ava.serial
-	: ava.skip
+const githubAvaTest = _.some(_.values(environment.integration.github), _.isEmpty)
+	? ava.skip
+	: ava.serial
 
 githubAvaTest('should not be able to post a GitHub event without a signature', async (test) => {
 	const result = await test.context.http('POST', '/api/v2/hooks/github', {

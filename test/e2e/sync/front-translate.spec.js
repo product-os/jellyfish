@@ -8,12 +8,14 @@ const ava = require('ava')
 const _ = require('lodash')
 const helpers = require('./helpers')
 const environment = require('../../../lib/environment')
-const TOKEN = environment.getIntegrationToken('front')
+const TOKEN = environment.integration.front
 
 ava.beforeEach(helpers.translate.beforeEach)
 ava.afterEach(helpers.translate.afterEach)
 
-helpers.translate.scenario(TOKEN ? ava : ava.skip, {
+const avaTest = _.some(_.values(TOKEN), _.isEmpty) ? ava.skip : ava
+
+helpers.translate.scenario(avaTest, {
 	integration: require('../../../lib/sync/integrations/front'),
 	scenarios: require('./webhooks/front'),
 	slices: _.range(0, 50),
