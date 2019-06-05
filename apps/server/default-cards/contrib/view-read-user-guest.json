@@ -169,6 +169,9 @@
                 },
                 {
                   "const": "action-create-event"
+                },
+                {
+                  "const": "action-oauth-associate"
                 }
               ]
             },
