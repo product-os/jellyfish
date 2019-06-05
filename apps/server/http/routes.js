@@ -355,18 +355,25 @@ module.exports = (application, jellyfish, worker, queue) => {
 		})
 
 		if (attachment) {
-			return sync.getFile(request.params.fileName, {
-				source: 'front',
-				context: request.context,
-				logger,
-				token: environment.getIntegrationToken('front')
+			return sync.getFile(
+				'front',
+				environment.getIntegrationToken('front'),
+				request.params.fileName, {
+					log: {
+						warn: (message, data) => {
+							// eslint-disable-next-line jellyfish/logger-string-expression
+							logger.warn(request.context, message, data)
+						},
+						info: (message, data) => {
+							// eslint-disable-next-line jellyfish/logger-string-expression
+							logger.info(request.context, message, data)
+						}
+					}
+				}).then((file) => {
+				return response.status(200).send(file)
+			}).catch((error) => {
+				return sendHTTPError(request, response, error)
 			})
-				.then((file) => {
-					return response.status(200).send(file)
-				})
-				.catch((error) => {
-					return sendHTTPError(request, response, error)
-				})
 		}
 
 		return fileStore.retrieve(
