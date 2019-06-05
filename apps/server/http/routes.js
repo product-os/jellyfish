@@ -347,7 +347,15 @@ module.exports = (application, jellyfish, worker, queue) => {
 		const card = await jellyfish.getCardById(
 			request.context, request.sessionToken, request.params.cardId)
 		if (!card) {
-			response.sendStatus(404)
+			return response.sendStatus(404)
+		}
+
+		const sessionCard = await jellyfish.getCardById(
+			request.context, request.sessionToken, request.sessionToken, {
+				type: 'session'
+			})
+		if (!sessionCard) {
+			return response.sendStatus(401)
 		}
 
 		const attachment = _.find(_.get(card, [ 'data', 'payload', 'attachments' ]), (item) => {
@@ -369,6 +377,8 @@ module.exports = (application, jellyfish, worker, queue) => {
 							logger.info(request.context, message, data)
 						}
 					}
+				}, {
+					actor: sessionCard.data.actor
 				}).then((file) => {
 				return response.status(200).send(file)
 			}).catch((error) => {
