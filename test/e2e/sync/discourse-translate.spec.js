@@ -6,15 +6,18 @@
 
 const ava = require('ava')
 const querystring = require('querystring')
+const _ = require('lodash')
 const url = require('url')
 const helpers = require('./helpers')
 const environment = require('../../../lib/environment')
-const TOKEN = environment.getIntegrationToken('discourse')
+const TOKEN = environment.integration.discourse
 
 ava.beforeEach(helpers.translate.beforeEach)
 ava.afterEach(helpers.translate.afterEach)
 
-helpers.translate.scenario(TOKEN ? ava : ava.skip, {
+const avaTest = _.some(_.values(TOKEN), _.isEmpty) ? ava.skip : ava
+
+helpers.translate.scenario(avaTest, {
 	integration: require('../../../lib/sync/integrations/discourse'),
 	scenarios: require('./webhooks/discourse'),
 	baseUrl: 'https://forums.balena.io',

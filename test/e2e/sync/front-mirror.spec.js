@@ -11,7 +11,7 @@ const uuid = require('uuid/v4')
 const Front = require('front-sdk').Front
 const helpers = require('./helpers')
 const environment = require('../../../lib/environment')
-const TOKEN = environment.getIntegrationToken('front')
+const TOKEN = environment.integration.front
 
 // Because Front might take a while to process
 // message creation requests.
@@ -210,7 +210,7 @@ ava.beforeEach(async (test) => {
 ava.afterEach(helpers.mirror.afterEach)
 
 // Skip all tests if there is no Front token
-const avaTest = TOKEN ? ava.serial : ava.serial.skip
+const avaTest = _.some(_.values(TOKEN), _.isEmpty) ? ava.serial.skip : ava.serial
 
 avaTest('should re-open a closed support thread if an attached issue is closed', async (test) => {
 	const supportThread = await test.context.startSupportThread(

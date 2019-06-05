@@ -253,8 +253,8 @@ module.exports = (application, jellyfish, worker, queue) => {
 			source: request.params.provider
 		})
 
-		const integrationToken = environment.getIntegrationToken(
-			request.params.provider)
+		const integrationToken =
+			environment.integration[request.params.provider]
 
 		return Bluebird.try(async () => {
 			if (!await sync.isValidEvent(
@@ -365,7 +365,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 		if (attachment) {
 			return sync.getFile(
 				'front',
-				environment.getIntegrationToken('front'),
+				environment.integration.front,
 				request.params.fileName, {
 					log: {
 						warn: (message, data) => {

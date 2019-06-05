@@ -12,7 +12,7 @@ const uuid = require('uuid/v4')
 const helpers = require('./helpers')
 const environment = require('../../../lib/environment')
 const utils = require('../../../lib/sync/integrations/utils')
-const TOKEN = environment.getIntegrationToken('discourse')
+const TOKEN = environment.integration.discourse
 
 const getMirrorWaitSchema = (slug) => {
 	return {
@@ -207,7 +207,7 @@ ava.beforeEach(async (test) => {
 ava.afterEach(helpers.mirror.afterEach)
 
 // Skip all tests if there is no Discourse token
-const avaTest = TOKEN ? ava.serial : ava.serial.skip
+const avaTest = _.some(_.values(TOKEN), _.isEmpty) ? ava.skip : ava.serial
 
 avaTest('should re-open a closed support thread if an attached issue is closed', async (test) => {
 	const supportThread = await test.context.startSupportThread(

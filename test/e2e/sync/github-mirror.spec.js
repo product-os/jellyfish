@@ -11,7 +11,7 @@ const Octokit = require('@octokit/rest')
 const packageJSON = require('../../../package.json')
 const helpers = require('./helpers')
 const environment = require('../../../lib/environment')
-const TOKEN = environment.getIntegrationToken('github')
+const TOKEN = environment.integration.github
 
 const getMirrorWaitSchema = (slug) => {
 	return {
@@ -124,7 +124,7 @@ ava.beforeEach(async (test) => {
 ava.afterEach(helpers.mirror.afterEach)
 
 // Skip all tests if there is no GitHub token
-const avaTest = TOKEN ? ava.serial : ava.serial.skip
+const avaTest = _.some(_.values(TOKEN), _.isEmpty) ? ava.serial.skip : ava.serial
 
 avaTest('should be able to create an issue without comments', async (test) => {
 	const slug = test.context.getIssueSlug()
