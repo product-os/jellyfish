@@ -22,7 +22,8 @@ RUN make build-ui \
 	COVERAGE=0 \
 	SENTRY_DSN_UI=$SENTRY_DSN_UI \
 	SERVER_HOST=$SERVER_HOST \
-	SERVER_PORT=$SERVER_PORT
+	SERVER_PORT=$SERVER_PORT \
+	OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish
 
 ###########################################################
 # Runtime

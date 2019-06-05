@@ -83,6 +83,8 @@ LOCKFILE ?=
 export LOCKFILE
 POD_NAME ?= localhost
 export POD_NAME
+OAUTH_REDIRECT_BASE_URL ?= $(SERVER_HOST):$(UI_PORT)
+export OAUTH_REDIRECT_BASE_URL
 
 FS_DRIVER ?= localFS
 export FS_DRIVER
@@ -121,6 +123,12 @@ export INTEGRATION_DISCOURSE_USERNAME
 # The secret set when configuring the webhooks
 INTEGRATION_DISCOURSE_SIGNATURE_KEY ?=
 export INTEGRATION_DISCOURSE_SIGNATURE_KEY
+
+# Outreach
+INTEGRATION_OUTREACH_APP_ID ?=
+export INTEGRATION_OUTREACH_APP_ID
+INTEGRATION_OUTREACH_APP_SECRET ?=
+export INTEGRATION_OUTREACH_APP_SECRET
 
 # -----------------------------------------------
 # Test Runtime Configuration
