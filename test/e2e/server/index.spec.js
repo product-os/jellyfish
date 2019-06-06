@@ -371,6 +371,7 @@ ava.serial('creating a user with the guest user session should fail', async (tes
 	test.deepEqual(result.response, {
 		error: true,
 		data: {
+			context: result.response.data.context,
 			name: 'QueueInvalidAction',
 			message: 'No such action: action-create-user'
 		}
@@ -397,6 +398,7 @@ ava.serial('creating a user with the guest user session using action-create-card
 	test.deepEqual(result.response, {
 		error: true,
 		data: {
+			context: result.response.data.context,
 			name: 'QueueInvalidAction',
 			message: 'No such action: action-create-card'
 		}
@@ -1388,6 +1390,7 @@ ava.serial('should fail with a user error when querying an id with an expired se
 	test.deepEqual(result.response, {
 		error: true,
 		data: {
+			context: result.response.data.context,
 			name: 'JellyfishSessionExpired',
 			message: result.response.data.message
 		}
@@ -1463,6 +1466,7 @@ ava.serial('should fail with a user error when querying a slug with an expired s
 	test.deepEqual(result.response, {
 		error: true,
 		data: {
+			context: result.response.data.context,
 			name: 'JellyfishSessionExpired',
 			message: result.response.data.message
 		}
@@ -1552,6 +1556,7 @@ ava.serial('should fail with a user error when posting an action with an expired
 	test.deepEqual(result.response, {
 		error: true,
 		data: {
+			context: result.response.data.context,
 			name: 'JellyfishSessionExpired',
 			message: result.response.data.message
 		}
@@ -1570,6 +1575,7 @@ ava.serial('should fail when querying an invalid session with an invalid session
 	test.deepEqual(result.response, {
 		error: true,
 		data: {
+			context: result.response.data.context,
 			name: 'JellyfishInvalidSession',
 			message: result.response.data.message
 		}
@@ -1610,6 +1616,7 @@ ava.serial('should fail with a user error when executing an unknown action', asy
 	test.deepEqual(result.response, {
 		error: true,
 		data: {
+			context: result.response.data.context,
 			name: 'WorkerInvalidAction',
 			message: result.response.data.message
 		}
