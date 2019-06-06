@@ -17,7 +17,7 @@ const onError = (serverContext, error) => {
 }
 
 const startDate = new Date()
-uuid().then((id) => {
+uuid.random().then((id) => {
 	const context = {
 		id: `WORKER-${packageJSON.version}-${id}`
 	}

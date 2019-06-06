@@ -10,7 +10,7 @@ const packageJSON = require('../../package.json')
 const bootstrap = require('./bootstrap')
 const environment = require('../../lib/environment')
 
-uuid().then((id) => {
+uuid.random().then((id) => {
 	const context = {
 		id: `SERVER-${packageJSON.version}-${environment.pod.name}-${id}`
 	}

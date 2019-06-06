@@ -354,7 +354,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 					throw new Error(`No type card: ${EXTERNAL_EVENT_TYPE}`)
 				}
 
-				return uuid().then((id) => {
+				return uuid.random().then((id) => {
 					return queue.enqueue(worker.getId(), jellyfish.sessions.admin, {
 						action: 'action-create-card',
 						card: typeCard.id,
@@ -483,7 +483,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 
 		const files = []
 
-		return uuid().then(async (id) => {
+		return uuid.random().then(async (id) => {
 			if (request.files) {
 				// Upload magic
 				request.files.forEach((file) => {
