@@ -172,6 +172,21 @@ module.exports = (application, jellyfish, worker, queue) => {
 		})
 	})
 
+	application.get('/api/v2/oauth/:provider/:slug', (request, response) => {
+		const provider = request.params.provider
+		const associateUrl = sync.getAssociateUrl(
+			provider,
+			environment.integration[provider],
+			request.params.slug, {
+				origin: `${environment.oauth.redirectBaseUrl}/oauth/${provider}`
+			})
+
+		const status = associateUrl ? 200 : 400
+		return response.status(status).json({
+			url: associateUrl
+		})
+	})
+
 	application.get('/oauth/:provider', (request, response) => {
 		const provider = request.params.provider
 		const code = request.query.code
