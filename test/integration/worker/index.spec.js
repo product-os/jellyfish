@@ -3528,6 +3528,7 @@ ava('should post an error execute event if logging in as a disallowed user', asy
 		timestamp: loginResult.timestamp,
 		data: {
 			expected: true,
+			context: test.context.context,
 			message: 'Login disallowed',
 			name: 'WorkerAuthenticationError',
 			stack: loginResult.data.stack

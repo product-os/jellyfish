@@ -22,6 +22,7 @@ ava.beforeEach(async (test) => {
 	}
 
 	test.context.actionContext = {
+		errors,
 		cards: test.context.jellyfish.cards,
 		getEventSlug: utils.getEventSlug,
 		privilegedSession: test.context.session,
