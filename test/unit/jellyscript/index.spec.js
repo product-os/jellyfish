@@ -7,50 +7,6 @@
 const ava = require('ava')
 const jellyscript = require('../../../lib/jellyscript')
 
-ava('HASH: should pass if the password and salt matches', (test) => {
-	const options = {
-		input: {
-			string: 'foobarbaz',
-			salt: 'user-foo'
-		}
-	}
-
-	const hash = jellyscript.evaluate('HASH(input)', options)
-	test.deepEqual(jellyscript.evaluate('HASH(input)', options), hash)
-})
-
-ava('HASH: should not pass if the password do not match', (test) => {
-	const hash = jellyscript.evaluate('HASH(input)', {
-		input: {
-			string: 'foobarbaz',
-			salt: 'user-foo'
-		}
-	})
-
-	test.notDeepEqual(jellyscript.evaluate('HASH(input)', {
-		input: {
-			string: 'foobarqux',
-			salt: 'user-foo'
-		}
-	}), hash)
-})
-
-ava('HASH: should not pass given a different salt', (test) => {
-	const hash = jellyscript.evaluate('HASH(input)', {
-		input: {
-			string: 'foobarbaz',
-			salt: 'user-foo'
-		}
-	})
-
-	test.notDeepEqual(jellyscript.evaluate('HASH(input)', {
-		input: {
-			string: 'foobarbaz',
-			salt: 'user-bar'
-		}
-	}), hash)
-})
-
 ava('.evaluate(): should return null if no input', (test) => {
 	const result = jellyscript.evaluate('POW(input, 2)', {
 		context: {},
@@ -296,34 +252,6 @@ ava('.evaluateObject() should evaluate nested formulas', async (test) => {
 				baz: 4
 			}
 		}
-	})
-})
-
-ava('.evaluateObject() should evaluate a password hash', async (test) => {
-	const result = jellyscript.evaluateObject({
-		type: 'object',
-		properties: {
-			foo: {
-				type: 'string',
-				$$formula: 'HASH({ string: input.password, salt: input.username })'
-			}
-		}
-	}, {
-		foo: {
-			password: 'foo',
-			username: 'user-johndoe'
-		}
-	})
-
-	const hash = jellyscript.evaluate('HASH(input)', {
-		input: {
-			string: 'foo',
-			salt: 'user-johndoe'
-		}
-	})
-
-	test.deepEqual(result, {
-		foo: hash.value
 	})
 })
 
