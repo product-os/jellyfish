@@ -1329,6 +1329,22 @@ ava.serial('should display up to date information after resolving an action', as
 	}
 })
 
+ava.serial('should fail with a user error given no input card', async (test) => {
+	const result = await test.context.http('POST', '/api/v2/action', {
+		type: 'user',
+		action: 'action-create-session',
+		arguments: {
+			password: '1234'
+		}
+	})
+
+	test.is(result.code, 400)
+	test.deepEqual(result.response, {
+		error: true,
+		data: 'No input card'
+	})
+})
+
 ava.serial('should fail with a user error given the wrong username during login', async (test) => {
 	const result = await test.context.http('POST', '/api/v2/action', {
 		card: 'user-nonexistentuser12345',
