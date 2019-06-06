@@ -82,6 +82,10 @@ spec:
           value: {{{INTEGRATION_DISCOURSE_USERNAME}}}
         - name: INTEGRATION_DISCOURSE_SIGNATURE_KEY
           value: {{{INTEGRATION_DISCOURSE_SIGNATURE_KEY}}}
+        - name: INTEGRATION_OUTREACH_APP_ID
+          value: {{{INTEGRATION_OUTREACH_APP_ID}}}
+        - name: INTEGRATION_OUTREACH_APP_SECRET
+          value: {{{INTEGRATION_OUTREACH_APP_SECRET}}}
         ports:
         - containerPort: 8000
           name: jellyfish-api
