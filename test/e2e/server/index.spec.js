@@ -30,6 +30,17 @@ const createUserDetails = () => {
 	}
 }
 
+ava.serial('/api/v2/oauth should return 400 given an unknown oauth integration', async (test) => {
+	const result = await test.context.http(
+		'GET', '/api/v2/oauth/helloworld/user-test')
+	test.deepEqual(result, {
+		code: 400,
+		response: {
+			url: null
+		}
+	})
+})
+
 ava.serial('should return 404 given a non existent attachment in a card', async (test) => {
 	// The current user can always see its own session
 	const result = await test.context.http(
@@ -54,6 +65,26 @@ const outreachTest =
 	environment.integration.outreach.appSecret
 		? ava.serial
 		: ava.serial.skip
+
+outreachTest('/api/v2/oauth should return a url given outreach', async (test) => {
+	const result = await test.context.http(
+		'GET', '/api/v2/oauth/outreach/user-test')
+
+	const redirectUri = `${environment.oauth.redirectBaseUrl}/oauth/outreach`
+	const qs = [
+		'response_type=code',
+		`client_id=${environment.integration.outreach.appId}`,
+		`redirect_uri=${encodeURIComponent(redirectUri)}`,
+		'scope=prospects.all',
+		'state=user-test'
+	].join('&')
+	test.deepEqual(result, {
+		code: 200,
+		response: {
+			url: `https://api.outreach.io/oauth/authorize?${qs}`
+		}
+	})
+})
 
 outreachTest('should be able to associate a user with Outreach', async (test) => {
 	const userCard = await test.context.jellyfish.insertCard(

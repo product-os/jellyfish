@@ -257,8 +257,7 @@ ava('.getAssociateUrl() should return null given an invalid integration', (test)
 	const result = sync.getAssociateUrl('helloworld', {
 		appId: 'xxxxx'
 	}, 'user-jellyfish', {
-		origin: 'https://jel.ly.fish/oauth/helloworld',
-		scopes: [ 'all' ]
+		origin: 'https://jel.ly.fish/oauth/helloworld'
 	})
 
 	test.falsy(result)
@@ -266,8 +265,7 @@ ava('.getAssociateUrl() should return null given an invalid integration', (test)
 
 ava('.getAssociateUrl() should return null given no token', (test) => {
 	const result = sync.getAssociateUrl('outreach', null, 'user-jellyfish', {
-		origin: 'https://jel.ly.fish/oauth/outreach',
-		scopes: [ 'all' ]
+		origin: 'https://jel.ly.fish/oauth/outreach'
 	})
 
 	test.falsy(result)
@@ -277,8 +275,7 @@ ava('.getAssociateUrl() should return null given no appId', (test) => {
 	const result = sync.getAssociateUrl('outreach', {
 		api: 'xxxxxx'
 	}, 'user-jellyfish', {
-		origin: 'https://jel.ly.fish/oauth/outreach',
-		scopes: [ 'all' ]
+		origin: 'https://jel.ly.fish/oauth/outreach'
 	})
 
 	test.falsy(result)
@@ -288,15 +285,14 @@ ava('.getAssociateUrl() should be able to generate an Outreach URL', (test) => {
 	const result = sync.getAssociateUrl('outreach', {
 		appId: 'dJyXQHeh8PLKUr4gdsoUYQ8vFvqJ1D20lnFMxBLg'
 	}, 'user-jellyfish', {
-		origin: 'https://jel.ly.fish/oauth/outreach',
-		scopes: [ 'all' ]
+		origin: 'https://jel.ly.fish/oauth/outreach'
 	})
 
 	const qs = [
 		'response_type=code',
 		'client_id=dJyXQHeh8PLKUr4gdsoUYQ8vFvqJ1D20lnFMxBLg',
 		'redirect_uri=https%3A%2F%2Fjel.ly.fish%2Foauth%2Foutreach',
-		'scope=all',
+		'scope=prospects.all',
 		'state=user-jellyfish'
 	].join('&')
 
