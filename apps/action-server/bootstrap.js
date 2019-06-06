@@ -235,7 +235,7 @@ exports.tick = async (context, options) => {
 		delay: 2000,
 		onError: options.onError,
 		onLoop: async (serverContext, jellyfish, worker, queue, session) => {
-			const id = await uuid()
+			const id = await uuid.random()
 			return worker.tick({
 				id: `TICK-REQUEST-${id}`,
 				worker: serverContext.id

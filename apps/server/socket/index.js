@@ -31,7 +31,7 @@ module.exports = (jellyfish, server) => {
 				})
 			}
 
-			return uuid().then((id) => {
+			return uuid.random().then((id) => {
 				const context = {
 					id: `SOCKET-REQUEST-${id}`
 				}

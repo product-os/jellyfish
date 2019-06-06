@@ -47,7 +47,7 @@ module.exports = (rootContext, application, jellyfish, options) => {
 	})
 
 	application.use((request, response, next) => {
-		uuid().then((id) => {
+		uuid.random().then((id) => {
 			const context = {
 				id: `REQUEST-${packageJSON.version}-${id}`,
 				api: rootContext.id
