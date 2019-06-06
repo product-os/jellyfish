@@ -493,8 +493,6 @@ ava('.associate() should set the access token in the user card', async (test) =>
 		.reply(function (uri, request, callback) {
 			const body = querystring.decode(request)
 
-			console.log(request)
-
 			if (_.isEqual(body, {
 				grant_type: 'authorization_code',
 				client_id: 'dJyXQHeh8PLKUr4gdsoUYQ8vFvqJ1D20lnFMxBLg',
@@ -583,8 +581,6 @@ ava('.associate() should not replace other integrations', async (test) => {
 		.post('/oauth/token')
 		.reply(function (uri, request, callback) {
 			const body = querystring.decode(request)
-
-			console.log(request)
 
 			if (_.isEqual(body, {
 				grant_type: 'authorization_code',
@@ -682,8 +678,6 @@ ava('.associate() should replace previous integration data', async (test) => {
 		.reply(function (uri, request, callback) {
 			const body = querystring.decode(request)
 
-			console.log(request)
-
 			if (_.isEqual(body, {
 				grant_type: 'authorization_code',
 				client_id: 'dJyXQHeh8PLKUr4gdsoUYQ8vFvqJ1D20lnFMxBLg',
@@ -767,8 +761,6 @@ ava('.associate() should throw given a code mismatch', async (test) => {
 		.post('/oauth/token')
 		.reply(function (uri, request, callback) {
 			const body = querystring.decode(request)
-
-			console.log(request)
 
 			if (_.isEqual(body, {
 				grant_type: 'authorization_code',

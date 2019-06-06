@@ -184,12 +184,52 @@ module.exports = (application, jellyfish, worker, queue) => {
 			state
 		})
 
-		// TODO: Exchange the authorization token with an access
-		// token by delegating to the right integration.
-		return response.status(200).json({
-			provider,
-			code,
-			state
+		return Bluebird.try(async () => {
+			if (!state ||
+				!await jellyfish.getCardBySlug(request.context, request.sessionToken, state)) {
+				return response.sendStatus(400)
+			}
+
+			const data = await worker.pre(request.sessionToken, {
+				action: 'action-oauth-associate',
+				context: request.context,
+				card: state,
+				type: 'user',
+				arguments: {
+					provider,
+					code,
+					origin: `${environment.oauth.redirectBaseUrl}/oauth/${provider}`
+				}
+			})
+
+			const actionRequest = await queue.enqueue(
+				worker.getId(), request.sessionToken, data)
+			const results = await queue.waitResults(
+				request.context, actionRequest)
+
+			if (results.error) {
+				if (results.data.expected || results.data.name === 'OAuthUnsuccessfulResponse') {
+					return response.status(401).json({
+						error: true,
+						data: _.pick(results.data, [ 'name', 'message' ])
+					})
+				}
+
+				logger.exception(request.context,
+					'OAuth error', errio.fromObject(results.data))
+				return response.status(500).json(results)
+			}
+
+			if (!results.data) {
+				return response.sendStatus(401)
+			}
+
+			return response.status(200).json({
+				error: false,
+				slug: results.data.slug
+			})
+		}).catch((error) => {
+			return sendHTTPError(request, response, error)
 		})
 	})
 

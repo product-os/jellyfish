@@ -7,6 +7,8 @@
 const ava = require('ava')
 const crypto = require('crypto')
 const Bluebird = require('bluebird')
+const querystring = require('querystring')
+const nock = require('nock')
 const uuid = require('uuid/v4')
 const _ = require('lodash')
 const helpers = require('../sdk/helpers')
@@ -47,6 +49,84 @@ ava.serial('should return 404 given an attachment in a non existent card', async
 	})
 })
 
+const outreachTest =
+	environment.integration.outreach.appId &&
+	environment.integration.outreach.appSecret
+		? ava.serial
+		: ava.serial.skip
+
+outreachTest('should be able to associate a user with Outreach', async (test) => {
+	const userCard = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			type: 'user',
+			slug: test.context.generateRandomSlug({
+				prefix: 'user-oauth-test'
+			}),
+			version: '1.0.0',
+			data: {
+				email: 'test@jellysync.io',
+				roles: [ 'user-community' ]
+			}
+		})
+
+	nock.cleanAll()
+
+	await nock('https://api.outreach.io')
+		.post('/oauth/token')
+		.reply(function (uri, request, callback) {
+			const body = querystring.decode(request)
+
+			if (_.isEqual(body, {
+				grant_type: 'authorization_code',
+				client_id: environment.integration.outreach.appId,
+				client_secret: environment.integration.outreach.appSecret,
+				redirect_uri: `${environment.oauth.redirectBaseUrl}/oauth/outreach`,
+				code: '123456'
+			})) {
+				return callback(null, [ 200, {
+					access_token: 'KSTWMqidua67hjM2NDE1ZTZjNGZmZjI3',
+					token_type: 'bearer',
+					expires_in: 3600,
+					refresh_token: 'POolsdYTlmM2YxOTQ5MGE3YmNmMDFkNTVk',
+					scope: 'create'
+				} ])
+			}
+
+			return callback(null, [ 400, {
+				error: 'invalid_request',
+				error_description: 'Something went wrong'
+			} ])
+		})
+
+	const result = await test.context.http(
+		'GET', `/oauth/outreach?code=123456&state=${userCard.slug}`)
+
+	test.deepEqual(result, {
+		code: 200,
+		response: {
+			error: false,
+			slug: userCard.slug
+		}
+	})
+
+	const newUserCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, userCard.slug, {
+			type: userCard.type
+		})
+
+	test.deepEqual(newUserCard.data.oauth, {
+		outreach: {
+			access_token: 'KSTWMqidua67hjM2NDE1ZTZjNGZmZjI3',
+			token_type: 'bearer',
+			expires_in: 3600,
+			refresh_token: 'POolsdYTlmM2YxOTQ5MGE3YmNmMDFkNTVk',
+			scope: 'create'
+		}
+	})
+
+	nock.cleanAll()
+})
+
 ava.serial('The ping endpoint should continuously work', async (test) => {
 	const result1 = await test.context.http('GET', '/ping')
 	test.is(result1.code, 200)
@@ -59,6 +139,186 @@ ava.serial('The ping endpoint should continuously work', async (test) => {
 	const result3 = await test.context.http('GET', '/ping')
 	test.is(result3.code, 200)
 	test.false(result3.response.error)
+})
+
+outreachTest('should not be able to associate a user with Outreach given the wrong code', async (test) => {
+	const userCard = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			type: 'user',
+			slug: test.context.generateRandomSlug({
+				prefix: 'user-oauth-test'
+			}),
+			version: '1.0.0',
+			data: {
+				email: 'test@jellysync.io',
+				roles: [ 'user-community' ]
+			}
+		})
+
+	nock.cleanAll()
+
+	await nock('https://api.outreach.io')
+		.post('/oauth/token')
+		.reply(function (uri, request, callback) {
+			const body = querystring.decode(request)
+
+			if (_.isEqual(body, {
+				grant_type: 'authorization_code',
+				client_id: environment.integration.outreach.appId,
+				client_secret: environment.integration.outreach.appSecret,
+				redirect_uri: `${environment.oauth.redirectBaseUrl}/oauth/outreach`,
+				code: '123456'
+			})) {
+				return callback(null, [ 200, {
+					access_token: 'KSTWMqidua67hjM2NDE1ZTZjNGZmZjI3',
+					token_type: 'bearer',
+					expires_in: 3600,
+					refresh_token: 'POolsdYTlmM2YxOTQ5MGE3YmNmMDFkNTVk',
+					scope: 'create'
+				} ])
+			}
+
+			return callback(null, [ 400, {
+				error: 'invalid_request',
+				error_description: 'Something went wrong'
+			} ])
+		})
+
+	const result = await test.context.http(
+		'GET', `/oauth/outreach?code=999999999&state=${userCard.slug}`)
+
+	test.deepEqual(result, {
+		code: 401,
+		response: {
+			error: true,
+			data: {
+				message: result.response.data.message,
+				name: 'OAuthUnsuccessfulResponse'
+			}
+		}
+	})
+
+	const newUserCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, userCard.slug, {
+			type: userCard.type
+		})
+
+	test.falsy(newUserCard.data.oauth)
+	nock.cleanAll()
+})
+
+outreachTest('should not be able to associate a user with Outreach given no state', async (test) => {
+	const userCard = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			type: 'user',
+			slug: test.context.generateRandomSlug({
+				prefix: 'user-oauth-test'
+			}),
+			version: '1.0.0',
+			data: {
+				email: 'test@jellysync.io',
+				roles: [ 'user-community' ]
+			}
+		})
+
+	nock.cleanAll()
+
+	await nock('https://api.outreach.io')
+		.post('/oauth/token')
+		.reply(function (uri, request, callback) {
+			const body = querystring.decode(request)
+
+			if (_.isEqual(body, {
+				grant_type: 'authorization_code',
+				client_id: environment.integration.outreach.appId,
+				client_secret: environment.integration.outreach.appSecret,
+				redirect_uri: `${environment.oauth.redirectBaseUrl}/oauth/outreach`,
+				code: '123456'
+			})) {
+				return callback(null, [ 200, {
+					access_token: 'KSTWMqidua67hjM2NDE1ZTZjNGZmZjI3',
+					token_type: 'bearer',
+					expires_in: 3600,
+					refresh_token: 'POolsdYTlmM2YxOTQ5MGE3YmNmMDFkNTVk',
+					scope: 'create'
+				} ])
+			}
+
+			return callback(null, [ 400, {
+				error: 'invalid_request',
+				error_description: 'Something went wrong'
+			} ])
+		})
+
+	const result = await test.context.http(
+		'GET', '/oauth/outreach?code=123456')
+
+	test.is(result.code, 400)
+
+	const newUserCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, userCard.slug, {
+			type: userCard.type
+		})
+
+	test.falsy(newUserCard.data.oauth)
+	nock.cleanAll()
+})
+
+outreachTest('should not be able to associate a user with Outreach given an invalid state', async (test) => {
+	const userCard = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			type: 'user',
+			slug: test.context.generateRandomSlug({
+				prefix: 'user-oauth-test'
+			}),
+			version: '1.0.0',
+			data: {
+				email: 'test@jellysync.io',
+				roles: [ 'user-community' ]
+			}
+		})
+
+	nock.cleanAll()
+
+	await nock('https://api.outreach.io')
+		.post('/oauth/token')
+		.reply(function (uri, request, callback) {
+			const body = querystring.decode(request)
+
+			if (_.isEqual(body, {
+				grant_type: 'authorization_code',
+				client_id: environment.integration.outreach.appId,
+				client_secret: environment.integration.outreach.appSecret,
+				redirect_uri: `${environment.oauth.redirectBaseUrl}/oauth/outreach`,
+				code: '123456'
+			})) {
+				return callback(null, [ 200, {
+					access_token: 'KSTWMqidua67hjM2NDE1ZTZjNGZmZjI3',
+					token_type: 'bearer',
+					expires_in: 3600,
+					refresh_token: 'POolsdYTlmM2YxOTQ5MGE3YmNmMDFkNTVk',
+					scope: 'create'
+				} ])
+			}
+
+			return callback(null, [ 400, {
+				error: 'invalid_request',
+				error_description: 'Something went wrong'
+			} ])
+		})
+
+	const result = await test.context.http(
+		'GET', '/oauth/outreach?code=123456&state=testtesttesttest')
+
+	test.is(result.code, 400)
+
+	const newUserCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, userCard.slug, {
+			type: userCard.type
+		})
+
+	test.falsy(newUserCard.data.oauth)
+	nock.cleanAll()
 })
 
 ava.serial('creating a user with the guest user session should fail', async (test) => {
@@ -620,7 +880,7 @@ githubAvaTest('should not be able to post a GitHub event without a signature', a
 
 githubAvaTest('should take a GitHub event with a valid signature', async (test) => {
 	const object = '{"foo":"bar","sender":{"login":"johndoe"}}'
-	const hash = crypto.createHmac('sha1', environment.integration.github.signatureKey)
+	const hash = crypto.createHmac('sha1', environment.integration.github.signature)
 		.update(object)
 		.digest('hex')
 
