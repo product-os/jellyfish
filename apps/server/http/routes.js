@@ -481,6 +481,13 @@ module.exports = (application, jellyfish, worker, queue) => {
 			})
 		}
 
+		if (!action.card) {
+			return response.status(400).json({
+				error: true,
+				data: 'No input card'
+			})
+		}
+
 		const files = []
 
 		return uuid.random().then(async (id) => {
