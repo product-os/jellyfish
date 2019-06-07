@@ -1,4 +1,4 @@
-FROM resinci/jellyfish-base:3daf0d44 as base
+FROM resinci/jellyfish-base:a9c56613 as base
 
 # Install node, git and packages required to run headless chrome
 RUN apt-get update && apt-get install -y gnuplot gitstats \

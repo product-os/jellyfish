@@ -2,7 +2,7 @@
 # Base
 ###########################################################
 
-FROM resinci/jellyfish-base:3daf0d44 as base
+FROM resinci/jellyfish-base:a9c56613 as base
 
 WORKDIR /usr/src/app
 
@@ -16,7 +16,7 @@ COPY . /usr/src/app
 # Test
 ###########################################################
 
-FROM resinci/jellyfish-test:8e6b2a01 as test
+FROM resinci/jellyfish-test:c605ed72 as test
 
 WORKDIR /usr/src/app
 
@@ -33,7 +33,7 @@ RUN service redis-server start && \
 # Runtime
 ###########################################################
 
-FROM resinci/jellyfish-base:3daf0d44 as runtime
+FROM resinci/jellyfish-base:a9c56613 as runtime
 
 WORKDIR /usr/src/app
 
