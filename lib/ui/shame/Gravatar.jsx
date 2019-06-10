@@ -17,7 +17,7 @@ const getGravatar = (() => {
 	const cache = {}
 
 	return async (email) => {
-		if (cache[email]) {
+		if (_.has(cache, email)) {
 			return cache[email]
 		}
 

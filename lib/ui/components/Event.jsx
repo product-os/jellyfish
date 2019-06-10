@@ -110,7 +110,7 @@ const getMessage = (card) => {
 		return `![Attached image](https://app.frontapp.com${message.slice(1, -1)})`
 	}
 
-	if (_.startsWith(message, '[](#jellyfish-hidden)')) {
+	if (message.includes('#jellyfish-hidden')) {
 		return ''
 	}
 
@@ -192,6 +192,11 @@ const WhisperWrapper = styled(Box) `
 	border-radius: 4px;
 	margin-right: 80px;
 	margin-bottom: 8px;
+
+	.event-card--actions,
+	.event-card__expand {
+		color: white;
+	}
 
 	.rendition-tag--hl {
 		background: none;
@@ -404,9 +409,7 @@ class Event extends React.Component {
 		let InnerWrapper = MessageWrapper
 		if (card.type === 'whisper') {
 			InnerWrapper = WhisperWrapper
-		}
-
-		if (actor && actor.proxy) {
+		} else if (actor && actor.proxy) {
 			InnerWrapper = ProxyWrapper
 		}
 
@@ -455,7 +458,11 @@ class Event extends React.Component {
 								{!isMessage && this.getTimelineElement(card)}
 
 								{Boolean(card.data) && Boolean(timestamp) && (
-									<Txt color={Theme.colors.text.light} fontSize={1} ml="6px">
+									<Txt
+										color={card.type === 'whisper' ? 'white' : Theme.colors.text.light}
+										fontSize={1}
+										ml="6px"
+									>
 										{helpers.formatTimestamp(timestamp, true)}
 									</Txt>
 								)}
@@ -520,6 +527,7 @@ class Event extends React.Component {
 									key={attachment.url}
 									data-attachmentslug={attachment.slug}
 									onClick={this.downloadAttachment}
+									light={card.type === 'whisper'}
 									data-test="event-card__file"
 									mr={2}
 									mb={2}
