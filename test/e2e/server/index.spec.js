@@ -284,7 +284,7 @@ outreachTest('should not be able to associate a user with Outreach given no stat
 	const result = await test.context.http(
 		'GET', '/oauth/outreach?code=123456')
 
-	test.is(result.code, 400)
+	test.is(result.code, 401)
 
 	const newUserCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, userCard.slug, {
@@ -341,7 +341,7 @@ outreachTest('should not be able to associate a user with Outreach given an inva
 	const result = await test.context.http(
 		'GET', '/oauth/outreach?code=123456&state=testtesttesttest')
 
-	test.is(result.code, 400)
+	test.is(result.code, 401)
 
 	const newUserCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, userCard.slug, {
