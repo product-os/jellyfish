@@ -40,4 +40,4 @@ WORKDIR /usr/src/app
 COPY --from=base /usr/src/app /usr/src/app
 RUN NODE_ENV=production npm ci
 
-CMD [ "make", "start-server", "OAUTH_REDIRECT_BASE_URL=https://api.ly.fish" ]
+CMD [ "make", "start-server", "OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish" ]
