@@ -195,7 +195,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 				ip: request.ip
 			}).then((results) => {
 			if (!results) {
-				return response.sendStatus(401)
+				return response.send(401)
 			}
 
 			return response.status(200).json({
@@ -378,7 +378,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 		const card = await jellyfish.getCardById(
 			request.context, request.sessionToken, request.params.cardId)
 		if (!card) {
-			return response.sendStatus(404)
+			return response.send(404)
 		}
 
 		const sessionCard = await jellyfish.getCardById(
@@ -386,7 +386,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 				type: 'session'
 			})
 		if (!sessionCard) {
-			return response.sendStatus(401)
+			return response.send(401)
 		}
 
 		const attachment = _.find(_.get(card, [ 'data', 'payload', 'attachments' ]), (item) => {
