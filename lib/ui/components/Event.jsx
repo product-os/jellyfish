@@ -193,6 +193,11 @@ const WhisperWrapper = styled(Box) `
 	margin-right: 80px;
 	margin-bottom: 8px;
 
+	.event-card--actions,
+	.event-card__expand {
+		color: white;
+	}
+
 	.rendition-tag--hl {
 		background: none;
 	}
@@ -453,7 +458,11 @@ class Event extends React.Component {
 								{!isMessage && this.getTimelineElement(card)}
 
 								{Boolean(card.data) && Boolean(timestamp) && (
-									<Txt color={Theme.colors.text.light} fontSize={1} ml="6px">
+									<Txt
+										color={card.type === 'whisper' ? 'white' : Theme.colors.text.light}
+										fontSize={1}
+										ml="6px"
+									>
 										{helpers.formatTimestamp(timestamp, true)}
 									</Txt>
 								)}
