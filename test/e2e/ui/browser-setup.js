@@ -25,3 +25,6 @@ NotificationStub.close = _.noop
 NotificationStub.onClick = _.noop
 global.HowlerGlobal = HowlerGlobal
 global.Notification = NotificationStub
+global.URL = {
+	createObjectURL: _.constant('https://jel.ly.fish/icons/jellyfish.svg')
+}

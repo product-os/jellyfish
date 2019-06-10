@@ -36,9 +36,7 @@ import {
 	actionCreators,
 	sdk
 } from '../core'
-import {
-	AuthenticatedImage
-} from '../components/AuthenticatedImage'
+import AuthenticatedImage from '../components/AuthenticatedImage'
 import {
 	ContextMenu
 } from '../components/ContextMenu'
