@@ -10,4 +10,4 @@ COPY package.json package-lock.json /usr/src/app/
 RUN NODE_ENV=production npm ci
 COPY . /usr/src/app
 
-CMD [ "make", "start-tick", "OAUTH_REDIRECT_BASE_URL=https://api.ly.fish" ]
+CMD [ "make", "start-tick", "OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish" ]
