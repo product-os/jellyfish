@@ -4,16 +4,15 @@
  * Proprietary and confidential.
  */
 
-const React = require('react')
-const styledComponents = require('styled-components')
-const {
-	sdk
-} = require('../core')
-const ResponsiveImg = styledComponents.default.img `
+import React from 'react'
+import styled from 'styled-components'
+
+const ResponsiveImg = styled.img `
 	height: auto;
 	max-width: 100%;
 `
-class AuthenticatedImage extends React.Component {
+
+export default class AuthenticatedImage extends React.Component {
 	constructor (props) {
 		super(props)
 		this.state = {
@@ -22,7 +21,7 @@ class AuthenticatedImage extends React.Component {
 	}
 
 	componentDidMount () {
-		sdk.getFile(this.props.cardId, this.props.fileName)
+		this.props.actions.getFile(this.props.cardId, this.props.fileName)
 			.then((data) => {
 				const blob = new Blob([ data ])
 				this.setState({
@@ -30,7 +29,7 @@ class AuthenticatedImage extends React.Component {
 				})
 			})
 			.catch((error) => {
-				console.error(error)
+				this.props.actions.addNotification('danger', error.message || error)
 			})
 	}
 
@@ -43,7 +42,11 @@ class AuthenticatedImage extends React.Component {
 			return null
 		}
 
-		return <ResponsiveImg src={imageSrc} data-test={this.props['data-test']} />
+		return (
+			<ResponsiveImg
+				src={imageSrc}
+				data-test={this.props['data-test']}
+			/>
+		)
 	}
 }
-exports.AuthenticatedImage = AuthenticatedImage
