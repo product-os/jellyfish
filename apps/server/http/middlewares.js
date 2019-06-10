@@ -67,6 +67,7 @@ module.exports = (rootContext, application, jellyfish, options) => {
 		logger.info(request.context, 'HTTP request end', {
 			uri: request.originalUrl,
 			ip: request.ip,
+			status: response.statusCode,
 			time
 		})
 
