@@ -404,9 +404,7 @@ class Event extends React.Component {
 		let InnerWrapper = MessageWrapper
 		if (card.type === 'whisper') {
 			InnerWrapper = WhisperWrapper
-		}
-
-		if (actor && actor.proxy) {
+		} else if (actor && actor.proxy) {
 			InnerWrapper = ProxyWrapper
 		}
 
