@@ -110,7 +110,7 @@ const getMessage = (card) => {
 		return `![Attached image](https://app.frontapp.com${message.slice(1, -1)})`
 	}
 
-	if (_.startsWith(message, '[](#jellyfish-hidden)')) {
+	if (message.includes('#jellyfish-hidden')) {
 		return ''
 	}
 
@@ -527,6 +527,7 @@ class Event extends React.Component {
 									key={attachment.url}
 									data-attachmentslug={attachment.slug}
 									onClick={this.downloadAttachment}
+									light={card.type === 'whisper'}
 									data-test="event-card__file"
 									mr={2}
 									mb={2}
