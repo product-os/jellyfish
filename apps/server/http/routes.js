@@ -182,7 +182,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 		})
 	})
 
-	application.get('/oauth/:provider', (request, response) => {
+	const oauthAssociate = async (request, response, slug, code) => {
 		return oauth.associate(
 			request.context,
 			jellyfish,
@@ -190,8 +190,8 @@ module.exports = (application, jellyfish, worker, queue) => {
 			queue,
 			request.sessionToken,
 			request.params.provider, {
-				actor: request.query.state,
-				code: request.query.code,
+				actor: slug,
+				code,
 				ip: request.ip
 			}).then((results) => {
 			if (!results) {
@@ -212,6 +212,16 @@ module.exports = (application, jellyfish, worker, queue) => {
 
 			return sendHTTPError(request, response, error)
 		})
+	}
+
+	application.post('/api/v2/oauth/:provider', (request, response) => {
+		return oauthAssociate(
+			request, response, request.body.slug, request.body.code)
+	})
+
+	application.get('/oauth/:provider', (request, response) => {
+		return oauthAssociate(
+			request, response, request.query.state, request.query.code)
 	})
 
 	application.get('/api/v2/type/:type', (request, response) => {
