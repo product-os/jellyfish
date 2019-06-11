@@ -406,6 +406,7 @@ class Filters extends React.Component {
 						<Button
 							mr={30}
 							disabled={this.props.disabled}
+							data-test="filters__add-filter"
 							primary
 							onClick={() => {
 								return this.setState({
@@ -458,6 +459,9 @@ class Filters extends React.Component {
 							}}
 							done={() => { return this.addFilter() }}
 							action="Save"
+							primaryButtonProps={{
+								'data-test': 'filters__save-filter'
+							}}
 						>
 							{map(this.state.edit, ({
 								field, operator, value
@@ -465,7 +469,10 @@ class Filters extends React.Component {
 								const operators = this.getOperators(field)
 
 								return (
-									<RelativeBox key={index}>
+									<RelativeBox
+										key={index}
+										data-test="filters__filter-edit-form"
+									>
 										{index > 0 && <Txt my={2}>OR</Txt>}
 										<Flex>
 											<Select

@@ -27,8 +27,9 @@ class FilterSummary extends React.Component {
 			})
 		}
 
-		this.save = this.save.bind(this)
 		this.cancel = this.cancel.bind(this)
+		this.handleChange = this.handleChange.bind(this)
+		this.save = this.save.bind(this)
 	}
 
 	save (event) {
@@ -76,6 +77,7 @@ class FilterSummary extends React.Component {
 		const {
 			scopes
 		} = this.props
+
 		return (
 			<Box>
 				{this.state.showForm && (
@@ -84,6 +86,9 @@ class FilterSummary extends React.Component {
 						cancel={this.cancel}
 						done={this.save}
 						action="Save"
+						primaryButtonProps={{
+							'data-test': 'filters__save-view'
+						}}
 					>
 						<form onSubmit={this.save}>
 							{Boolean(scopes) && scopes.length > 1 && (
@@ -111,6 +116,7 @@ class FilterSummary extends React.Component {
 
 							<Input
 								width="100%"
+								data-test="filters__save-view-name"
 								value={this.state.name}
 								placeholder="Enter a name for the view"
 								onChange={this.handleChange}
@@ -141,6 +147,7 @@ class FilterSummary extends React.Component {
 						fontSize={13}
 						mt={-7}
 						onClick={this.toggleForm}
+						data-test="filters__open-save-view-modal"
 					>
 						<FaBookmarkO style={{
 							marginRight: 6

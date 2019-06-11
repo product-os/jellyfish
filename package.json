@@ -109,8 +109,6 @@
     "@sentry/browser": "^4.4.2",
     "@sentry/node": "^4.4.2",
     "@webscopeio/react-textarea-autocomplete": "^4.3.3",
-    "ajv": "^6.10.0",
-    "ajv-keywords": "^3.4.0",
     "aws-sdk": "^2.289.0",
     "axios": "^0.18.0",
     "bcrypt": "^3.0.6",

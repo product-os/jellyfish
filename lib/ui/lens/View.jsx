@@ -22,6 +22,7 @@ import {
 	SchemaSieve,
 	Select
 } from 'rendition'
+import uuid from 'uuid/v4'
 import Filters from '../components/Filters'
 import {
 	actionCreators,
@@ -362,7 +363,7 @@ class ViewRenderer extends React.Component {
 			user
 		} = this.props
 		newView.name = view.name
-		newView.slug = `view-user-created-view-${sdk.utils.slugify(view.name)}`
+		newView.slug = `view-user-created-view-${uuid()}-${helpers.slugify(view.name)}`
 		if (!newView.data.allOf) {
 			newView.data.allOf = []
 		}
