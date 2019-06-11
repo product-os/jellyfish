@@ -20,7 +20,7 @@ helpers.translate.scenario(avaTest, {
 	scenarios: require('./webhooks/github'),
 	slices: _.range(0, 3),
 	baseUrl: 'https://api.github.com',
-	stubRegex: /^\/repos\/.+\/.+\/(issues|pulls)\/\d+(\/comments)*$/,
+	stubRegex: /.*/,
 	source: 'github',
 	options: {
 		token: TOKEN
