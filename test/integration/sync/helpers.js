@@ -12,6 +12,7 @@ module.exports = {
 	beforeEach: async (test, options) => {
 		await helpers.worker.beforeEach(test, actionLibrary, options)
 		test.context.syncContext = syncContext.fromWorkerContext(
+			'test',
 			test.context.worker.getActionContext(test.context.context),
 			test.context.context,
 			test.context.session)
