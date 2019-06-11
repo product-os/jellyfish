@@ -37,12 +37,6 @@ import {
 	FreeFieldForm
 } from '../../components/FreeFieldForm'
 
-const slugify = (value) => {
-	return value
-		.replace(/[^a-z0-9-]/g, '-')
-		.replace(/-{1,}/g, '-')
-}
-
 class CreateLens extends React.Component {
 	constructor (props) {
 		super(props)
@@ -115,7 +109,7 @@ class CreateLens extends React.Component {
 		}, this.state.newCardModel))
 
 		if (newCard.type === 'org' && newCard.name) {
-			newCard.slug = `org-${slugify(newCard.name)}`
+			newCard.slug = `org-${helpers.slugify(newCard.name)}`
 		}
 
 		sdk.card.create(newCard)
