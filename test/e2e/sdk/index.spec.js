@@ -1108,9 +1108,7 @@ ava.serial('.auth.loginWithToken() should work with a valid token', async (test)
 		sdk
 	} = test.context
 
-	await test.notThrowsAsync(() => {
-		return sdk.auth.loginWithToken(test.context.session)
-	})
+	await test.notThrowsAsync(sdk.auth.loginWithToken(test.context.session))
 })
 
 ava.serial('.auth.loginWithToken() should throw with an invalid token', async (test) => {
@@ -1118,9 +1116,9 @@ ava.serial('.auth.loginWithToken() should throw with an invalid token', async (t
 		sdk
 	} = test.context
 
-	await test.throwsAsync(() => {
-		return sdk.auth.loginWithToken('foobarbazbuzz')
-	})
+	const error = await test.throwsAsync(sdk.auth.loginWithToken('foobarbazbuzz'))
+
+	test.is(error.message, 'Token is invalid: foobarbazbuzz')
 })
 
 ava.serial('.auth.loginWithToken() should refresh your session token', async (test) => {
@@ -1134,9 +1132,7 @@ ava.serial('.auth.loginWithToken() should refresh your session token', async (te
 
 	test.is(newToken, sdk.getAuthToken())
 
-	await test.notThrowsAsync(() => {
-		return sdk.auth.whoami()
-	})
+	await test.notThrowsAsync(sdk.auth.whoami())
 })
 
 ava.serial('should broadcast github issue links', async (test) => {
