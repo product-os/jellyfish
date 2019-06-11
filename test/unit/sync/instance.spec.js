@@ -241,7 +241,7 @@ ava('should be able to refresh an expired OAuth token and retry if needed using 
 		})
 	}, {
 		origin: 'https://jel.ly.fish/oauth/balena-cloud',
-		defaultUser: 'user-jellysync',
+		defaultUser: 'jellysync',
 		provider: 'balena-cloud',
 		context: {
 			log: {
@@ -447,7 +447,7 @@ ava('should not refresh an OAuth token if not needed when using the default user
 		})
 	}, {
 		origin: 'https://jel.ly.fish/oauth/balena-cloud',
-		defaultUser: 'user-jellysync',
+		defaultUser: 'jellysync',
 		provider: 'balena-cloud',
 		context: {
 			log: {
@@ -604,7 +604,7 @@ ava('should throw if actor is not associated with service and the default user i
 	}, {
 		origin: 'https://jel.ly.fish/oauth/balena-cloud',
 		provider: 'balena-cloud',
-		defaultUser: 'user-foobar',
+		defaultUser: 'foobar',
 		context: {
 			log: {
 				info: _.noop
@@ -671,7 +671,7 @@ ava('should throw if neither the actor nor the default user are associated with 
 	}, {
 		origin: 'https://jel.ly.fish/oauth/balena-cloud',
 		provider: 'balena-cloud',
-		defaultUser: 'user-jellysync',
+		defaultUser: 'jellysync',
 		context: {
 			log: {
 				info: _.noop
