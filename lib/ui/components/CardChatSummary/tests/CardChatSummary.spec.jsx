@@ -93,21 +93,3 @@ ava('It should change the actor after an update', async (test) => {
 
 	test.is(component.state().lastActor.id, newWhisper.data.actor)
 })
-
-ava('It should open a channel on click', (test) => {
-	const spy = sinon.spy()
-
-	const component = shallow(
-		<CardChatSummary
-			active
-			card={card}
-			getActor={getActor}
-			openChannel={spy}
-		/>
-	)
-
-	component.simulate('click')
-
-	test.is(spy.callCount, 1)
-	test.is(spy.args[0][0], card.id)
-})

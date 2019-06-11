@@ -87,8 +87,8 @@ ava.serial('A notice should be displayed when another user is typing', async (te
 	})
 
 	// Navigate to the thread page
-	await incognitoPage.goto(`http://localhost:${environment.ui.port}/#/thread~${thread.id}`)
-	await page.goto(`http://localhost:${environment.ui.port}/#/thread~${thread.id}`)
+	await incognitoPage.goto(`http://localhost:${environment.ui.port}/${thread.id}`)
+	await page.goto(`http://localhost:${environment.ui.port}/${thread.id}`)
 
 	await page.waitForSelector('.column--thread')
 	await incognitoPage.waitForSelector('.column--thread')
@@ -123,7 +123,7 @@ ava.serial('Messages typed but not sent should be preserved when navigating away
 	})
 
 	// Navigate to the thread page
-	await page.goto(`http://localhost:${environment.ui.port}/#/thread~${thread1.id}`)
+	await page.goto(`http://localhost:${environment.ui.port}/${thread1.id}`)
 	await page.waitForSelector(`.column--slug-${thread1.slug}`)
 
 	const rand = uuid()
@@ -135,10 +135,10 @@ ava.serial('Messages typed but not sent should be preserved when navigating away
 	// to the message preservation being debounced in the UI
 	await Bluebird.delay(5000)
 
-	await page.goto(`http://localhost:${environment.ui.port}/#/thread~${thread2.id}`)
+	await page.goto(`http://localhost:${environment.ui.port}/${thread2.id}`)
 	await page.waitForSelector(`.column--slug-${thread2.slug}`)
 
-	await page.goto(`http://localhost:${environment.ui.port}/#/thread~${thread1.id}`)
+	await page.goto(`http://localhost:${environment.ui.port}/${thread1.id}`)
 	await page.waitForSelector(`.column--slug-${thread1.slug}`)
 
 	const messageText = await macros.getElementText(page, 'textarea')

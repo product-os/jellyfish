@@ -22,9 +22,6 @@ import {
 	sdk
 } from '../../core'
 import helpers from '../../services/helpers'
-import {
-	createPermaLink
-} from '../../services/url-manager'
 import Column from '../../shame/Column'
 import Icon from '../../shame/Icon'
 import MessageInput from './MessageInput'
@@ -129,7 +126,7 @@ export default class Timeline extends React.Component {
 			slug: `${type}-${uuid()}`,
 			payload: {
 				file,
-				message: `${FILE_PROXY_MESSAGE} ${createPermaLink(this.props.card)}`
+				message: `${FILE_PROXY_MESSAGE} ${helpers.createPermaLink(this.props.card)}`
 			}
 		}
 

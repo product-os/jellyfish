@@ -6,10 +6,14 @@
 
 import * as Bluebird from 'bluebird'
 import _ from 'lodash'
+import path from 'path'
 import React from 'react'
 import {
 	connect
 } from 'react-redux'
+import {
+	withRouter
+} from 'react-router-dom'
 import {
 	bindActionCreators
 } from 'redux'
@@ -37,11 +41,11 @@ class Inbox extends React.Component {
 		super(props)
 
 		this.loadingPage = false
+
 		this.openChannel = (target) => {
-			this.props.actions.addChannel({
-				target,
-				parentChannel: this.props.channel.id
-			})
+			this.props.history.push(
+				path.join(window.location.pathname, target)
+			)
 		}
 
 		this.state = {
@@ -140,10 +144,11 @@ class Inbox extends React.Component {
 	}
 
 	render () {
-		let tail = this.props.tail ? this.props.tail.slice() : null
 		const {
 			markingAllAsRead
 		} = this.state
+
+		let tail = this.props.tail ? this.props.tail.slice() : null
 
 		if (tail) {
 			tail = _.sortBy(tail, 'created_at')
@@ -224,7 +229,6 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: bindActionCreators(
 			_.pick(actionCreators, [
-				'addChannel',
 				'addNotification'
 			]),
 			dispatch
@@ -239,7 +243,7 @@ const lens = {
 	name: 'Inbox lens',
 	data: {
 		icon: 'list',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(Inbox),
+		renderer: withRouter(connect(mapStateToProps, mapDispatchToProps))(Inbox),
 		filter: {
 			type: 'array',
 			items: {

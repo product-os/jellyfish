@@ -13,6 +13,9 @@ import React from 'react'
 import {
 	connect
 } from 'react-redux'
+import {
+	Redirect
+} from 'react-router-dom'
 import * as redux from 'redux'
 import {
 	Box,
@@ -88,6 +91,7 @@ class ViewRenderer extends React.Component {
 		super(props)
 
 		this.state = {
+			redirectTo: null,
 			filters: [],
 			ready: false,
 			tailType: null,
@@ -103,7 +107,6 @@ class ViewRenderer extends React.Component {
 		}
 
 		const methods = [
-			'close',
 			'saveView',
 			'setLens',
 			'setPage',
@@ -117,10 +120,6 @@ class ViewRenderer extends React.Component {
 		this.updateFilters = _.debounce(this.updateFilters, 350)
 	}
 
-	close () {
-		this.props.actions.removeChannel(this.props.channel)
-	}
-
 	saveView ([ view ]) {
 		const newView = this.createView(view)
 
@@ -131,10 +130,8 @@ class ViewRenderer extends React.Component {
 						type: 'view'
 					}
 				})
-				this.props.actions.addChannel({
-					cardType: 'view',
-					target: card.id,
-					parentChannel: this.props.channels[0].id
+				this.setState({
+					redirectTo: `/${card.slug || card.id}`
 				})
 			})
 			.catch((error) => {
@@ -245,13 +242,18 @@ class ViewRenderer extends React.Component {
 		}) || null
 
 		if (options && options.slice) {
+			const slices = helpers.getViewSlices(head, this.props.types)
+			const sliceTitle = _.find(slices, {
+				path: options.slice.path
+			}).title
 			const {
 				slice
 			} = options
+
 			const filter = {
 				name: USER_FILTER_NAME,
 				title: 'is',
-				description: `${slice.title} is ${slice.value}`,
+				description: `${sliceTitle} is ${slice.value}`,
 				type: 'object',
 				properties: {}
 			}
@@ -350,13 +352,7 @@ class ViewRenderer extends React.Component {
 			})
 		}
 	}
-	openChannel (card) {
-		this.props.actions.addChannel({
-			cardType: card.type,
-			target: card.id,
-			parentChannel: this.props.channel.id
-		})
-	}
+
 	createView (view) {
 		const newView = clone(this.props.channel.data.head)
 		const {
@@ -397,22 +393,33 @@ class ViewRenderer extends React.Component {
 		const {
 			head
 		} = this.props.channel.data
-		if (!this.state.ready || !head || _.isEmpty(head.data)) {
+
+		const {
+			types
+		} = this.props
+
+		const {
+			tailType,
+			activeLens,
+			activeSlice,
+			ready,
+			redirectTo
+		} = this.state
+
+		if (!ready || !head || _.isEmpty(head.data)) {
 			return (
 				<Box p={3}>
 					<Icon spin name="cog"/>
 				</Box>
 			)
 		}
-		const {
-			types
-		} = this.props
+
+		if (redirectTo) {
+			return <Redirect push to={redirectTo} />
+		}
 
 		const tail = this.props.tail && _.sortBy(this.props.tail, this.state.options.sortBy)
 
-		const {
-			tailType, activeLens, activeSlice
-		} = this.state
 		const lenses = this.lenses
 		const useFilters = Boolean(tailType) && tailType.slug !== 'view'
 		const lens = _.find(lenses, {
@@ -523,7 +530,7 @@ class ViewRenderer extends React.Component {
 								<CloseButton
 									ml={3}
 									mt={-3}
-									onClick={this.close}
+									channel={this.props.channel}
 								/>
 							</Flex>
 						</Flex>
@@ -582,11 +589,9 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: redux.bindActionCreators(
 			_.pick(actionCreators, [
-				'addChannel',
 				'addNotification',
 				'clearViewData',
 				'loadViewResults',
-				'removeChannel',
 				'setViewLens',
 				'streamView'
 			]), dispatch)

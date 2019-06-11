@@ -7,6 +7,7 @@
 import {
 	circularDeepEqual
 } from 'fast-equals'
+import * as _ from 'lodash'
 import React from 'react'
 import {
 	connect
@@ -162,9 +163,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: {
-			addChannel: bindActionCreators(actionCreators.addChannel, dispatch)
-		}
+		actions: bindActionCreators(
+			_.pick(actionCreators, [
+				'addChannel'
+			]), dispatch)
 	}
 }
 

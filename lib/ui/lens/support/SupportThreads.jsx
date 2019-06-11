@@ -28,18 +28,7 @@ const SLUG = 'lens-support-threads'
 export class SupportThreads extends React.Component {
 	constructor (props) {
 		super(props)
-		this.openChannel = (target, obj) => {
-			// If a card is not provided, see if a matching card can be found from this
-			// component's state/props
-			const card = obj || _.find(this.props.tail || [], {
-				id: target
-			})
-			this.props.actions.addChannel({
-				cardType: card.type,
-				target,
-				parentChannel: this.props.channel.id
-			})
-		}
+
 		this.state = {
 			creatingCard: false,
 			newMessage: '',
@@ -249,7 +238,6 @@ export class SupportThreads extends React.Component {
 											key={card.id}
 											active={activeThread === card.id}
 											card={card}
-											openChannel={this.openChannel}
 										/>
 									)
 								})}
@@ -280,7 +268,6 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: redux.bindActionCreators(
 			_.pick(actionCreators, [
-				'addChannel',
 				'getActor',
 				'setLensState'
 			]),

@@ -83,7 +83,9 @@ const config = {
 		contentBase: outDir,
 		compress: true,
 		port: 9000,
-		historyApiFallback: true
+		historyApiFallback: {
+			disableDotRule: true
+		}
 	},
 
 	node: {

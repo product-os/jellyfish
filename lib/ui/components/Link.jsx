@@ -4,19 +4,17 @@
  * Proprietary and confidential.
  */
 
+import _ from 'lodash'
+import path from 'path'
 import React from 'react'
 import {
 	withRouter
 } from 'react-router-dom'
 import {
-	pathWithoutChannel
-} from '../services/helpers'
-import {
-	Button
+	Link
 } from 'rendition'
-import Icon from './Icon'
 
-class CloseButtonBase extends React.Component {
+class RouterLink extends React.Component {
 	constructor (props) {
 		super(props)
 
@@ -26,23 +24,37 @@ class CloseButtonBase extends React.Component {
 	navigate (event) {
 		event.preventDefault()
 		const {
+			append,
 			history,
-			channel
+			location,
+			to
 		} = this.props
 
-		history.push(pathWithoutChannel(channel))
+		if (to) {
+			history.push(to)
+		}
+
+		if (append) {
+			history.push(path.join(location.pathname, append))
+		}
 	}
 
 	render () {
+		const props = _.omit(this.props, [
+			'match',
+			'location',
+			'history',
+			'to',
+			'append'
+		])
+
 		return (
-			<Button
-				{...this.props}
-				plain
-				icon={<Icon name="times"/>}
+			<Link
+				{...props}
 				onClick={this.navigate}
 			/>
 		)
 	}
 }
 
-export const CloseButton = withRouter(CloseButtonBase)
+export default withRouter(RouterLink)

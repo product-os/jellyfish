@@ -5,10 +5,14 @@
  * Proprietary and confidential.
  */
 const _ = require('lodash')
+const path = require('path')
 const React = require('react')
 const {
 	connect
 } = require('react-redux')
+const {
+	withRouter
+} = require('react-router-dom')
 const reactResizeObserver = require('react-resize-observer')
 const redux = require('redux')
 const rendition = require('rendition')
@@ -50,10 +54,9 @@ class Interleaved extends React.Component {
 			}
 		}
 		this.openChannel = (target) => {
-			this.props.actions.addChannel({
-				target,
-				parentChannel: this.props.channel.id
-			})
+			this.props.history.push(
+				path.join(window.location.pathname, target)
+			)
 		}
 		this.addThread = (event) => {
 			event.preventDefault()
@@ -81,7 +84,7 @@ class Interleaved extends React.Component {
 			sdk.card.create(cardData)
 				.then((thread) => {
 					if (thread) {
-						this.openChannel(thread.id)
+						this.openChannel(thread.slug || thread.id)
 					}
 					return null
 				})
@@ -314,7 +317,6 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: redux.bindActionCreators(
 			_.pick(actionCreators, [
-				'addChannel',
 				'addNotification'
 			]),
 			dispatch
@@ -328,7 +330,7 @@ const lens = {
 	name: 'Interleaved lens',
 	data: {
 		icon: 'list',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(Interleaved),
+		renderer: withRouter(connect(mapStateToProps, mapDispatchToProps)(Interleaved)),
 		filter: {
 			type: 'array',
 			items: {
@@ -347,4 +349,5 @@ const lens = {
 		}
 	}
 }
+
 exports.default = lens

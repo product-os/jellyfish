@@ -36,7 +36,7 @@ ava.before(async () => {
 	})
 	context.testCard = card
 	await context.page.goto(
-		`http://localhost:${environment.ui.port}/#/${card.type}~${card.id}`)
+		`http://localhost:${environment.ui.port}/${card.id}`)
 	await context.page.waitForSelector('.column--thread')
 })
 

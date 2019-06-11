@@ -42,10 +42,6 @@ class MyUser extends React.Component {
 
 		this.handleSendCommandChange = this.handleSendCommandChange.bind(this)
 
-		this.close = () => {
-			this.props.actions.removeChannel(this.props.channel)
-		}
-
 		this.bindMethods([
 			'handlePasswordFormChange',
 			'changePassword'
@@ -152,7 +148,7 @@ class MyUser extends React.Component {
 						<Flex align="center">
 							<CloseButton
 								ml={3}
-								onClick={this.close}
+								channel={this.props.channel}
 							/>
 						</Flex>
 					</Flex>

@@ -144,7 +144,7 @@ ava.serial('Support thread timeline should default to sending whispers', async (
 		})
 	})
 
-	await page.goto(`http://localhost:${environment.ui.port}/#/support-thread~${supportThread.id}`)
+	await page.goto(`http://localhost:${environment.ui.port}/${supportThread.id}`)
 
 	const columnSelector = macros.makeSelector('column', null, supportThread.id)
 	await page.waitForSelector(columnSelector)
@@ -172,7 +172,7 @@ ava.serial('Support thread timeline should send a message if the input is prefix
 		})
 	})
 
-	await page.goto(`http://localhost:${environment.ui.port}/#/support-thread~${supportThread.id}`)
+	await page.goto(`http://localhost:${environment.ui.port}/${supportThread.id}`)
 
 	const columnSelector = macros.makeSelector('column', null, supportThread.id)
 	await page.waitForSelector(columnSelector)
@@ -200,7 +200,7 @@ ava.serial('Support thread timeline should send a message if the whisper button 
 		})
 	})
 
-	await page.goto(`http://localhost:${environment.ui.port}/#/support-thread~${supportThread.id}`)
+	await page.goto(`http://localhost:${environment.ui.port}/${supportThread.id}`)
 
 	const columnSelector = macros.makeSelector('column', null, supportThread.id)
 	await page.waitForSelector(columnSelector)
@@ -230,7 +230,7 @@ ava.serial('Support thread timeline should revert to "whisper" mode after sendin
 		})
 	})
 
-	await page.goto(`http://localhost:${environment.ui.port}/#/support-thread~${supportThread.id}`)
+	await page.goto(`http://localhost:${environment.ui.port}/${supportThread.id}`)
 
 	const columnSelector = macros.makeSelector('column', null, supportThread.id)
 	await page.waitForSelector(columnSelector)

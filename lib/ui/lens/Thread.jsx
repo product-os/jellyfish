@@ -12,13 +12,11 @@ const React = require('react')
 const {
 	connect
 } = require('react-redux')
-const redux = require('redux')
 const rendition = require('rendition')
 const CardActions = require('../components/CardActions').default
 const CardField = require('../components/CardField').default
 const Tag = require('../components/Tag')
 const {
-	actionCreators,
 	selectors
 } = require('../core')
 const helpers = require('../services/helpers')
@@ -26,30 +24,11 @@ const Timeline = require('./Timeline')
 const CloseButton = require('../shame/CloseButton')
 const Column = require('../shame/Column').default
 
-class Base extends React.Component {
-	constructor (props) {
-		super(props)
-		this.openChannel = () => {
-			if (this.props.level === 0) {
-				return
-			}
-			const {
-				card
-			} = this.props
-			this.props.actions.addChannel({
-				cardType: card.type,
-				target: card.id,
-				head: card
-			})
-		}
-
-		this.close = () => {
-			return this.props.actions.removeChannel(this.props.channel)
-		}
-	}
+class Thread extends React.Component {
 	shouldComponentUpdate (nextProps) {
 		return !circularDeepEqual(nextProps, this.props)
 	}
+
 	render () {
 		const {
 			card, fieldOrder, level
@@ -74,6 +53,7 @@ class Base extends React.Component {
 		const keys = (fieldOrder || []).concat(unorderedKeys)
 		const cardSlug = _.get(card, [ 'slug' ])
 		const cardType = _.get(card, [ 'type' ])
+
 		return (
 			<Column
 				className={`column--${cardType || 'unknown'} column--slug-${cardSlug || 'unkown'}`}
@@ -92,7 +72,7 @@ class Base extends React.Component {
 
 							<CloseButton.CloseButton
 								ml={3}
-								onClick={this.close}
+								channel={this.props.channel}
 							/>
 						</rendition.Flex>)}
 					</rendition.Flex>
@@ -132,18 +112,8 @@ const mapStateToProps = (state) => {
 		types: selectors.getTypes(state)
 	}
 }
-const mapDispatchToProps = (dispatch) => {
-	return {
-		actions: redux.bindActionCreators(
-			_.pick(actionCreators, [
-				'addChannel',
-				'removeChannel'
-			]),
-			dispatch
-		)
-	}
-}
-exports.Renderer = connect(mapStateToProps, mapDispatchToProps)(Base)
+
+exports.Renderer = connect(mapStateToProps)(Thread)
 const lens = {
 	slug: 'lens-default',
 	type: 'lens',

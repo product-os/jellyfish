@@ -77,21 +77,6 @@ const viewsToTree = (views, root = {}) => {
 	return result
 }
 
-const getDefaultView = (user, views) => {
-	const homeViewId = _.get(user, [ 'data', 'profile', 'homeView' ])
-	if (homeViewId) {
-		const homeView = _.find(views, {
-			id: homeViewId
-		})
-		if (homeView) {
-			return homeView
-		}
-	}
-	return _.find(views, {
-		slug: 'view-all-messages'
-	}) || null
-}
-
 export default class HomeChannel extends React.Component {
 	constructor (props) {
 		super(props)
@@ -101,7 +86,6 @@ export default class HomeChannel extends React.Component {
 			messages: []
 		}
 
-		this.open = this.open.bind(this)
 		this.logout = this.logout.bind(this)
 		this.showMenu = this.showMenu.bind(this)
 		this.hideMenu = this.hideMenu.bind(this)
@@ -185,19 +169,6 @@ export default class HomeChannel extends React.Component {
 		this.props.actions.logout()
 	}
 
-	open (card, options) {
-		if (this.props.viewNotices[card.id]) {
-			this.props.actions.removeViewNotice(card.id)
-		}
-		this.props.actions.addChannel({
-			target: card.id,
-			cardType: 'view',
-			head: card,
-			parentChannel: this.props.channel.id,
-			options
-		})
-	}
-
 	shouldComponentUpdate (nextProps, nextState) {
 		return !circularDeepEqual(nextState, this.state) || !circularDeepEqual(nextProps, this.props)
 	}
@@ -206,15 +177,6 @@ export default class HomeChannel extends React.Component {
 		if (!prevProps.channel.data.head && this.props.channel.data.head) {
 			this.props.actions.loadViewResults(this.props.channel.data.head)
 			this.props.actions.streamView(this.props.channel.data.head)
-		}
-
-		// If there is only 1 channel, check for the home channel, otherwise, open
-		// the all messages view by default
-		if (!prevProps.tail && this.props.tail && this.props.channels.length === 1) {
-			const view = getDefaultView(this.props.user, this.props.tail)
-			if (view) {
-				this.open(view)
-			}
 		}
 	}
 
@@ -261,6 +223,8 @@ export default class HomeChannel extends React.Component {
 		const groupedViews = this.groupViews(tail)
 		const groups = groupedViews.main
 		const defaultViews = groupedViews.defaults
+		const activeChannelTarget = _.get(activeChannel, [ 'data', 'target' ])
+		const activeSlice = _.get(activeChannel, [ 'data', 'options', 'slice' ])
 
 		return (
 			<Flex
@@ -290,20 +254,22 @@ export default class HomeChannel extends React.Component {
 				{this.state.showMenu && (
 					<Fixed top={true} right={true} bottom={true} left={true} z={9999999} onClick={this.hideMenu}>
 						<MenuPanel className="user-menu" mx={3} p={3}>
-							{user && (<Link mb={2} href={`#/${user.id}`}>Your profile</Link>)}
+							{user && (<Link mb={2} href={`/${user.id}`}>Your profile</Link>)}
 
 							{_.map(defaultViews, (card) => {
-								const isActive = card.id === _.get(activeChannel, [ 'data', 'target' ])
-								const activeSlice = _.get(activeChannel, [ 'data', 'options', 'slice' ])
-								return (<Box mx={-3} key={card.id}>
-									<ViewLink
-										card={card}
-										isActive={isActive}
-										activeSlice={activeSlice}
-										update={card.slug === 'view-my-inbox' ? (mentions && mentions.length) : 0}
-										open={this.open}
-									/>
-								</Box>)
+								const isActive = card.slug === activeChannelTarget ||
+									card.id === activeChannelTarget
+								return (
+									<Box mx={-3} key={card.id}>
+										<ViewLink
+											card={card}
+											isActive={isActive}
+											activeSlice={activeSlice}
+											update={card.slug === 'view-my-inbox' ? (mentions && mentions.length) : 0}
+											open={this.open}
+										/>
+									</Box>
+								)
 							})}
 
 							<Divider my={2} bg="#eee" style={{
@@ -338,7 +304,6 @@ export default class HomeChannel extends React.Component {
 							toggleExpandGroup={this.toggleExpandGroup}
 							activeChannel={activeChannel}
 							viewNotices={this.props.viewNotices}
-							open={this.open}
 						/>
 					)}
 				</Box>

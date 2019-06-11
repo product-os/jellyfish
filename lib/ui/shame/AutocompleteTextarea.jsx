@@ -15,17 +15,16 @@ import {
 	Box,
 	Card,
 	Flex,
-	Link,
 	Theme,
 	Txt
 } from 'rendition'
 import styled from 'styled-components'
 import {
-	actionCreators,
 	selectors,
 	sdk,
 	store
 } from '../core'
+import Link from '../components/Link'
 import * as helpers from '../services/helpers'
 import * as reactDnD from 'react-dnd'
 import Icon from './Icon'
@@ -343,7 +342,7 @@ class QuickSearchItem extends React.Component {
 			card, connectDragSource
 		} = this.props
 		return connectDragSource(<span>
-			<Link onClick={this.onClick}>
+			<Link append={card.slug || card.id}>
 				{card.name || card.slug || card.id}
 			</Link>
 		</span>)
@@ -449,11 +448,6 @@ class AutoCompleteArea extends React.Component {
 	}
 
 	openQuickSearchItem (card) {
-		store.dispatch(actionCreators.addChannel({
-			target: card.id,
-			cardType: card.type
-		}))
-
 		this.setState({
 			showQuickSearchPanel: false,
 			results: null

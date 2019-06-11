@@ -5,10 +5,14 @@
  */
 
 import _ from 'lodash'
+import path from 'path'
 import React from 'react'
 import {
 	connect
 } from 'react-redux'
+import {
+	withRouter
+} from 'react-router-dom'
 import ReactTrello from 'react-trello'
 import {
 	bindActionCreators
@@ -20,6 +24,7 @@ import {
 	Pill,
 	Txt
 } from 'rendition'
+import skhema from 'skhema'
 import styled from 'styled-components'
 import ContextMenu from '../components/ContextMenu'
 import GroupUpdate from '../components/GroupUpdate'
@@ -154,7 +159,9 @@ class Kanban extends BaseLens {
 			id: cardId
 		})
 
-		this.openChannel(card)
+		this.props.history.push(
+			path.join(window.location.pathname, card.slug || card.id)
+		)
 	}
 
 	handleDragEnd (cardId, _sourceLaneId, targetLaneId) {
@@ -231,9 +238,8 @@ class Kanban extends BaseLens {
 			}, slice.path, {
 				const: value
 			})
-			const validator = sdk.utils.compileSchema(schema)
 			const [ slicedCards, remaining ] = _.partition(cards, (card) => {
-				return validator(card)
+				return skhema.isValid(schema, card)
 			})
 			lane.cards = _.map(slicedCards, cardMapper)
 			cards = remaining
@@ -316,7 +322,6 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: bindActionCreators(
 			_.pick(actionCreators, [
-				'addChannel',
 				'addNotification'
 			]),
 			dispatch
@@ -332,7 +337,7 @@ const lens = {
 	data: {
 		supportsSlices: true,
 		icon: 'columns',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(Kanban),
+		renderer: withRouter(connect(mapStateToProps, mapDispatchToProps)(Kanban)),
 		filter: {
 			type: 'array'
 		},

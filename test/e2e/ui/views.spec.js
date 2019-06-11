@@ -47,7 +47,7 @@ ava.serial('Should be able to save a new view', async (test) => {
 	await macros.loginUser(page, userDetails)
 
 	// Navigate to the all messages view
-	await page.goto(`http://localhost:${environment.ui.port}/#/view~view-all-messages`)
+	await page.goto(`http://localhost:${environment.ui.port}/view-all-messages`)
 
 	await macros.waitForThenClickSelector(page, '[data-test="home-channel__group-toggle--org-balena"]')
 	await macros.waitForThenClickSelector(page, '[data-test="home-channel__item--view-all-messages"]')
