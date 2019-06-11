@@ -405,6 +405,65 @@ ava.serial('creating a user with the guest user session using action-create-card
 	})
 })
 
+ava.serial('creating a user with a community user session should succeed', async (test) => {
+	const userDetails = createUserDetails()
+
+	const user = await test.context.createUser(userDetails)
+
+	const result1 = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: user.slug,
+			type: 'user',
+			action: 'action-create-session',
+			arguments: {
+				password: userDetails.password
+			}
+		})
+
+	test.is(result1.code, 200)
+
+	const token = result1.response.data.id
+
+	const newUserDetails = createUserDetails()
+
+	const result2 = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: 'user',
+			type: 'type',
+			action: 'action-create-user',
+			arguments: {
+				email: newUserDetails.email,
+				username: `user-${newUserDetails.username}`,
+				password: newUserDetails.password
+			}
+		}, {
+			Authorization: `Bearer ${token}`
+		})
+
+	test.is(result2.code, 200)
+
+	const newUserId = result2.response.data.id
+
+	const card = await test.context.jellyfish.getCardById(test.context.context,
+		test.context.session, newUserId, {
+			type: 'user'
+		})
+
+	test.deepEqual(card, test.context.jellyfish.defaults({
+		created_at: card.created_at,
+		linked_at: card.linked_at,
+		type: 'user',
+		slug: `user-${newUserDetails.username}`,
+		id: card.id,
+		name: null,
+		data: {
+			email: newUserDetails.email,
+			roles: [ 'user-community' ],
+			hash: card.data.hash
+		}
+	}))
+})
+
 ava.serial('Users should be able to change their own email addresses', async (test) => {
 	const {
 		sdk

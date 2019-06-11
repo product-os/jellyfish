@@ -1050,14 +1050,65 @@ ava.serial.cb('.stream() should emit an event using the .type() method', (test) 
 		})
 })
 
+ava.serial('.auth.signup() should fail with an invalid token', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	sdk.setAuthToken(uuid())
+
+	const details = {
+		username: `testuser-${uuid()}`,
+		email: `testuser-${uuid()}@example.com`,
+		password: 'password'
+	}
+
+	const error = await test.throwsAsync(sdk.auth.signup(details))
+
+	test.is(error.name, 'JellyfishInvalidSession')
+})
+
+ava.serial('.auth.signup() should work with a valid token', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	sdk.setAuthToken(test.context.session)
+
+	const details = {
+		username: `testuser-${uuid()}`,
+		email: `testuser-${uuid()}@example.com`,
+		password: 'password'
+	}
+
+	const user = await sdk.auth.signup(details)
+
+	const card = await test.context.jellyfish.getCardById(test.context.context,
+		test.context.session, user.id, {
+			type: 'user'
+		})
+
+	test.deepEqual(card, test.context.jellyfish.defaults({
+		created_at: card.created_at,
+		linked_at: card.linked_at,
+		type: 'user',
+		slug: `user-${details.username}`,
+		id: card.id,
+		name: null,
+		data: {
+			email: details.email,
+			roles: [ 'user-community' ],
+			hash: card.data.hash
+		}
+	}))
+})
+
 ava.serial('.auth.loginWithToken() should work with a valid token', async (test) => {
 	const {
 		sdk
 	} = test.context
 
-	await test.notThrowsAsync(() => {
-		return sdk.auth.loginWithToken(test.context.session)
-	})
+	await test.notThrowsAsync(sdk.auth.loginWithToken(test.context.session))
 })
 
 ava.serial('.auth.loginWithToken() should throw with an invalid token', async (test) => {
@@ -1065,9 +1116,9 @@ ava.serial('.auth.loginWithToken() should throw with an invalid token', async (t
 		sdk
 	} = test.context
 
-	await test.throwsAsync(() => {
-		return sdk.auth.loginWithToken('foobarbazbuzz')
-	})
+	const error = await test.throwsAsync(sdk.auth.loginWithToken('foobarbazbuzz'))
+
+	test.is(error.message, 'Token is invalid: foobarbazbuzz')
 })
 
 ava.serial('.auth.loginWithToken() should refresh your session token', async (test) => {
@@ -1081,9 +1132,7 @@ ava.serial('.auth.loginWithToken() should refresh your session token', async (te
 
 	test.is(newToken, sdk.getAuthToken())
 
-	await test.notThrowsAsync(() => {
-		return sdk.auth.whoami()
-	})
+	await test.notThrowsAsync(sdk.auth.whoami())
 })
 
 ava.serial('should broadcast github issue links', async (test) => {
