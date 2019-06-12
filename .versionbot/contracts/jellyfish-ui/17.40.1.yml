@@ -1,0 +1,16 @@
+name: Jellyfish UI
+slug: jellyfish-ui
+type: sw.containerized-application
+markers: []
+tags: []
+links: {}
+active: true
+requires: []
+capabilities: []
+data:
+  assets:
+    image:
+      url: 'balena/jellyfish-ui:17.40.1'
+    repo:
+      url: 'https://github.com/balena-io/jellyfish.git'
+version: 17.40.1
