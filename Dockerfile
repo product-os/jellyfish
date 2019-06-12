@@ -1,43 +1,13 @@
 ###########################################################
-# Base
+# Runtime
 ###########################################################
 
-FROM resinci/jellyfish-base:a9c56613 as base
+FROM resinci/jellyfish-base:a9c56613
 
 WORKDIR /usr/src/app
 
 COPY package.json package-lock.json /usr/src/app/
-RUN mkdir -p scripts/eslint-plugin-jellyfish
-COPY scripts/eslint-plugin-jellyfish/package.json /usr/src/app/scripts/eslint-plugin-jellyfish
-RUN npm ci
-COPY . /usr/src/app
-
-###########################################################
-# Test
-###########################################################
-
-FROM resinci/jellyfish-test:c605ed72 as test
-
-WORKDIR /usr/src/app
-
-COPY --from=base /usr/src/app /usr/src/app
-
-RUN service redis-server start && \
-		service postgresql start && \
-		su - postgres -c "psql -U postgres -d postgres -c \"alter user postgres with password 'postgres';\"" && \
-		make lint && \
-		make test-unit COVERAGE=0 && \
-		make test-integration COVERAGE=0 POSTGRES_USER=postgres POSTGRES_PASSWORD=postgres
-
-###########################################################
-# Runtime
-###########################################################
-
-FROM resinci/jellyfish-base:a9c56613 as runtime
-
-WORKDIR /usr/src/app
-
-COPY --from=base /usr/src/app /usr/src/app
 RUN NODE_ENV=production npm ci
+COPY . /usr/src/app
 
 CMD [ "make", "start-server", "OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish" ]
