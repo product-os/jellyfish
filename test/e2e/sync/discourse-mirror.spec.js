@@ -209,6 +209,65 @@ ava.afterEach(helpers.mirror.afterEach)
 // Skip all tests if there is no Discourse token
 const avaTest = _.some(_.values(TOKEN), _.isEmpty) ? ava.skip : ava.serial
 
+avaTest('should send a whisper as a non moderator user', async (test) => {
+	const supportThread = await test.context.startSupportThread(
+		test.context.username,
+		`My Issue ${uuid()}`,
+		`Foo Bar ${uuid()}`)
+
+	await helpers.mirror.beforeEach(
+		test, environment.test.integration.discourse.nonModeratorUsername)
+	await test.context.createWhisper(supportThread,
+		test.context.getWhisperSlug(), 'First whisper')
+
+	const mirrorId = supportThread.data.mirrors[0]
+	const topic = await test.context.getTopic(_.last(mirrorId.split('/')))
+	const lastPost = _.last(topic.post_stream.posts)
+
+	test.not(test.context.username, lastPost.username)
+	test.is(environment.integration.discourse.username, lastPost.username)
+	const baseUrl = 'https://forums.balena.io'
+	test.is(utils.parseHTML(lastPost.cooked, {
+		baseUrl
+	}), [
+		`(${test.context.username}) First whisper`,
+		'',
+		'* * *',
+		'',
+		[
+			'> This message was posted as',
+			`[@${lastPost.username}](${baseUrl}/u/${lastPost.username}) because`,
+			`[@${test.context.username}](${baseUrl}/u/${test.context.username})`,
+			'is not a Discourse moderator'
+		].join(' ')
+	].join('\n'))
+	test.is(lastPost.post_type, 4)
+
+	await helpers.mirror.afterEach(test)
+})
+
+avaTest('should send a message as a non moderator user', async (test) => {
+	const supportThread = await test.context.startSupportThread(
+		test.context.username,
+		`My Issue ${uuid()}`,
+		`Foo Bar ${uuid()}`)
+
+	await helpers.mirror.beforeEach(
+		test, environment.test.integration.discourse.nonModeratorUsername)
+	await test.context.createMessage(supportThread,
+		test.context.getMessageSlug(), 'First comment')
+
+	const mirrorId = supportThread.data.mirrors[0]
+	const topic = await test.context.getTopic(_.last(mirrorId.split('/')))
+	const lastPost = _.last(topic.post_stream.posts)
+
+	test.is(test.context.username, lastPost.username)
+	test.is(utils.parseHTML(lastPost.cooked), 'First comment')
+	test.is(lastPost.post_type, 1)
+
+	await helpers.mirror.afterEach(test)
+})
+
 avaTest('should re-open a closed support thread if an attached issue is closed', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		test.context.username,
