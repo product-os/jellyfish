@@ -1,5 +1,5 @@
 {
-  "slug": "triggered-action-integration-discourse-import-event",
+  "slug": "triggered-action-integration-import-event",
   "type": "triggered-action",
   "version": "1.0.0",
   "tags": [],
@@ -26,7 +26,7 @@
           "properties": {
             "source": {
               "type": "string",
-              "const": "discourse"
+              "enum": [ "balena-api", "front", "discourse", "github" ]
             }
           }
         }
