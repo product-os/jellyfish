@@ -32,3 +32,4 @@ RUN make build-ui \
 FROM nginx:1.15
 WORKDIR /usr/src/app
 COPY --from=base /usr/src/app/dist /usr/share/nginx/html
+COPY apps/ui/conf/nginx.conf /etc/nginx/conf.d/default.conf

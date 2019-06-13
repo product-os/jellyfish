@@ -33,7 +33,8 @@ const config = {
 	entry: path.join(uiRoot, 'index.jsx'),
 	output: {
 		filename: 'bundle.[hash].js',
-		path: outDir
+		path: outDir,
+		publicPath: '/'
 	},
 
 	resolve: {
@@ -81,7 +82,8 @@ const config = {
 	devServer: {
 		contentBase: outDir,
 		compress: true,
-		port: 9000
+		port: 9000,
+		historyApiFallback: true
 	},
 
 	node: {
