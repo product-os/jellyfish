@@ -200,6 +200,11 @@ const WhisperWrapper = styled(Box) `
 		background: none;
 	}
 
+	a {
+		color: white;
+		text-decoration: underline;
+	}
+
 	a .rendition-tag--hl {
 		color: white;
 	}
