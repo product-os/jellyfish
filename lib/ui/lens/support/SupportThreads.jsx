@@ -238,6 +238,7 @@ export class SupportThreads extends React.Component {
 											key={card.id}
 											active={activeThread === card.id}
 											card={card}
+											channel={this.props.channel}
 										/>
 									)
 								})}
