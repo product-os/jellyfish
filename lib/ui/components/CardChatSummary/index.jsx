@@ -128,6 +128,8 @@ export default class CardChatSummary extends React.Component {
 			style.color = 'white'
 		}
 
+		const to = helpers.appendToChannelPath(this.props.channel, card)
+
 		const Container = (lastMessageOrWhisper || {}).type === 'whisper'
 			? SummaryWhisper
 			: SummaryMessage
@@ -138,7 +140,7 @@ export default class CardChatSummary extends React.Component {
 				data-test-id={card.id}
 				p={3}
 				style={style}
-				append={card.slug || card.id}
+				to={to}
 			>
 				<Flex justifyContent="space-between">
 					<Flex mb={2} alignItems="flex-start">
