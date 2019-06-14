@@ -247,9 +247,9 @@ const getTrigger = _.memoize(() => {
 					limit: 10
 				})
 
-				return cards.filter((card) => {
-					return _.startsWith(card.name, matcher)
-				})
+				return _.reverse(
+					_.sortBy(cards, 'data.count')
+				)
 			}, 250, {
 				leading: true
 			}),
