@@ -21,7 +21,9 @@ const TreeMenu = (props) => {
 	if (!node.children.length && node.card) {
 		const card = node.card
 
-		const isActive = card.id === _.get(props.activeChannel, [ 'data', 'target' ])
+		const activeChannelTarget = _.get(props.activeChannel, [ 'data', 'target' ])
+		const isActive = card.slug === activeChannelTarget ||
+			card.id === activeChannelTarget
 		const activeSlice = _.get(props.activeChannel, [ 'data', 'options', 'slice' ])
 		const update = props.viewNotices[card.id]
 		return (

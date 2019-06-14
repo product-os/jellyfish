@@ -10,19 +10,15 @@ import {
 	connect
 } from 'react-redux'
 import {
-	bindActionCreators
-} from 'redux'
-import {
 	Box,
 	Button,
 	Flex,
-	Link,
 	Table,
 	Txt
 } from 'rendition'
 import BaseLens from './common/BaseLens'
+import Link from '../components/Link'
 import {
-	actionCreators,
 	selectors
 } from '../core'
 import Column from '../shame/Column'
@@ -31,8 +27,8 @@ const COLUMNS = [
 	{
 		field: 'name',
 		sortable: true,
-		render: (value) => {
-			return <Link>{value}</Link>
+		render: (value, item) => {
+			return <Link append={item.slug || item.id}>{value}</Link>
 		}
 	},
 	{
@@ -46,22 +42,6 @@ const COLUMNS = [
 ]
 
 class CardTable extends BaseLens {
-	constructor (props) {
-		super(props)
-
-		this.handleRowClick = this.handleRowClick.bind(this)
-	}
-
-	handleRowClick ({
-		id
-	}) {
-		this.openChannel(
-			_.find(this.props.tail, {
-				id
-			})
-		)
-	}
-
 	render () {
 		const tail = this.props.tail ? _.map(this.props.tail, (card) => {
 			const update = _.find(_.get(card, [ 'links', 'has attached element' ]), {
@@ -70,6 +50,7 @@ class CardTable extends BaseLens {
 			return {
 				name: card.name,
 				id: card.id,
+				slug: card.slug,
 				Created: card.created_at,
 				'Last updated': _.get(update, [ 'data', 'timestamp' ], null)
 			}
@@ -85,7 +66,6 @@ class CardTable extends BaseLens {
 							rowKey="id"
 							data={tail}
 							columns={COLUMNS}
-							onRowClick={this.handleRowClick}
 						/>
 					)}
 					{Boolean(tail) && tail.length === 0 &&
@@ -121,21 +101,13 @@ const mapStateToProps = (state) => {
 	}
 }
 
-const mapDispatchToProps = (dispatch) => {
-	return {
-		actions: {
-			addChannel: bindActionCreators(actionCreators.addChannel, dispatch)
-		}
-	}
-}
-
 const lens = {
 	slug: 'lens-table',
 	type: 'lens',
 	version: '1.0.0',
 	name: 'Default table lens',
 	data: {
-		renderer: connect(mapStateToProps, mapDispatchToProps)(CardTable),
+		renderer: connect(mapStateToProps)(CardTable),
 		icon: 'table',
 		type: '*',
 		filter: {

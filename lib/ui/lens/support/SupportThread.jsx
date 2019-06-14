@@ -29,6 +29,7 @@ import CardActions from '../../components/CardActions'
 import CardField from '../../components/CardField'
 import Event from '../../components/Event'
 import Label from '../../components/Label'
+import RouterLink from '../../components/Link'
 import {
 	Tag
 } from '../../components/Tag'
@@ -39,9 +40,6 @@ import {
 } from '../../core'
 import * as helpers from '../../services/helpers'
 import Timeline from '../Timeline'
-import {
-	ActionLink
-} from '../../shame/ActionLink'
 import {
 	CloseButton
 } from '../../shame/CloseButton'
@@ -99,10 +97,6 @@ class SupportThreadBase extends React.Component {
 			})
 		}
 
-		this.closeChannel = () => {
-			return this.props.actions.removeChannel(this.props.channel)
-		}
-
 		this.toggleHighlights = () => {
 			this.setState({
 				showHighlights: !this.state.showHighlights
@@ -119,8 +113,6 @@ class SupportThreadBase extends React.Component {
 		this.loadLinks(props.card.id)
 
 		this.setCategory = this.setCategory.bind(this)
-		this.openSupportIssueView = this.openSupportIssueView.bind(this)
-		this.openGitHubIssueView = this.openGitHubIssueView.bind(this)
 	}
 
 	async componentDidMount () {
@@ -128,22 +120,6 @@ class SupportThreadBase extends React.Component {
 
 		this.setState({
 			actor
-		})
-	}
-
-	openSupportIssueView () {
-		this.props.actions.addChannel({
-			target: 'view-all-support-issues',
-			cardType: 'view',
-			parentChannel: this.props.channel.id
-		})
-	}
-
-	openGitHubIssueView () {
-		this.props.actions.addChannel({
-			target: 'view-all-issues',
-			cardType: 'view',
-			parentChannel: this.props.channel.id
 		})
 	}
 
@@ -162,7 +138,6 @@ class SupportThreadBase extends React.Component {
 		sdk.card.update(update.id, update)
 			.then(() => {
 				this.props.actions.addNotification('success', `Successfully set support thread category to: ${category}`)
-				this.props.actions.removeChannel(this.props.channel)
 			})
 			.catch((error) => {
 				this.props.actions.addNotification('danger', error.message || error)
@@ -334,18 +309,18 @@ class SupportThreadBase extends React.Component {
 							/>
 
 							<CardActions card={card}>
-								<ActionLink onClick={this.openSupportIssueView}>
+								<RouterLink append="view-all-support-issues">
 									Search support issues
-								</ActionLink>
+								</RouterLink>
 
-								<ActionLink onClick={this.openGitHubIssueView}>
+								<RouterLink append="view-all-issues">
 									Search GitHub issues
-								</ActionLink>
+								</RouterLink>
 							</CardActions>
 
 							<CloseButton
 								ml={3}
-								onClick={this.closeChannel}
+								channel={this.props.channel}
 							/>
 						</Flex>
 					</Flex>
@@ -367,7 +342,7 @@ class SupportThreadBase extends React.Component {
 									<Icon name="github" brands />
 									<Link
 										ml={1}
-										href={`/#issue~${entry.id}`}
+										href={`/${entry.slug || entry.id}`}
 										key={entry.id}
 										data-test="support-thread__linked-issue"
 									>
@@ -447,7 +422,7 @@ class SupportThreadBase extends React.Component {
 									<div>
 										<Link
 											mr={2}
-											href={`/#support-issue~${entry.id}`}
+											href={`/${entry.slug || entry.id}`}
 											key={entry.id}
 											data-test="support-thread__linked-support-issue"
 										>
@@ -515,10 +490,8 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: redux.bindActionCreators(
 			_.pick(actionCreators, [
-				'addChannel',
 				'addNotification',
-				'getActor',
-				'removeChannel'
+				'getActor'
 			]),
 			dispatch
 		)

@@ -12,9 +12,9 @@ import React from 'react'
 import {
 	Button,
 	Box,
-	Flex,
-	Link
+	Flex
 } from 'rendition'
+import Link from '../Link'
 import MentionsCount from '../MentionsCount'
 import helpers from '../../services/helpers'
 import {
@@ -30,14 +30,8 @@ export default class ViewLink extends React.Component {
 			showMenu: false
 		}
 
-		this.open = this.open.bind(this)
-		this.openSlice = this.openSlice.bind(this)
 		this.setDefault = this.setDefault.bind(this)
 		this.toggleMenu = this.toggleMenu.bind(this)
-	}
-
-	open (options) {
-		this.props.open(this.props.card, options)
 	}
 
 	toggleMenu () {
@@ -52,22 +46,6 @@ export default class ViewLink extends React.Component {
 
 	shouldComponentUpdate (nextProps, nextState) {
 		return !circularDeepEqual(nextState, this.state) || !circularDeepEqual(nextProps, this.props)
-	}
-
-	openSlice (event) {
-		event.preventDefault()
-
-		const title = event.target.dataset.slicetitle
-		const path = event.target.dataset.slicepath
-		const value = event.target.dataset.slicevalue
-
-		this.open({
-			slice: {
-				title,
-				path,
-				value
-			}
-		})
 	}
 
 	render () {
@@ -95,7 +73,7 @@ export default class ViewLink extends React.Component {
 						pl={3}
 						pr={isActive ? 0 : 3}
 						color="#333"
-						href={`#/view~${card.id}`}
+						to={`/${card.slug || card.id}`}
 					>
 						<Flex justifyContent="space-between">
 							{card.name}
@@ -144,6 +122,7 @@ export default class ViewLink extends React.Component {
 										const isActiveSlice = activeSlice && (
 											activeSlice.path === slice.path && activeSlice.value === value
 										)
+										const path = `/${card.slug || card.id}...${slice.path}+is+${encodeURIComponent(value)}`
 										return (
 											<li
 												key={value}
@@ -159,11 +138,10 @@ export default class ViewLink extends React.Component {
 													pr={3}
 													pl={4}
 													color="#333"
-													href={`#/view~${card.id}`}
 													data-slicetitle={slice.title}
 													data-slicepath={slice.path}
 													data-slicevalue={value}
-													onClick={this.openSlice}
+													to={path}
 												>
 													{slice.title}: {value}
 												</Link>

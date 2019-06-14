@@ -4,7 +4,6 @@
  * Proprietary and confidential.
  */
 
-import _ from 'lodash'
 import React from 'react'
 import {
 	connect
@@ -13,12 +12,12 @@ import {
 	Flex,
 	Provider
 } from 'rendition'
-import ChannelRenderer from './components/ChannelRenderer'
 import HomeChannel from './components/HomeChannel'
 import Login from './components/Login'
 import {
 	Notifications
 } from './components/Notifications'
+import RouteHandler from './components/RouteHandler'
 import Splash from './components/Splash'
 import {
 	selectors
@@ -27,86 +26,36 @@ import {
 	DragDropContext
 } from 'react-dnd'
 import ReactDndHtml5Backend from 'react-dnd-html5-backend'
-import ReactResizeObserver from 'react-resize-observer'
+import {
+	BrowserRouter as Router,
+	Route,
+	Redirect
+} from 'react-router-dom'
 
 // Register the mermaid and markdown widgets for rendition forms
 require('rendition/dist/extra/Form/markdown')
 require('rendition/dist/extra/Form/mermaid')
 
+// Check if the path begins with a hash fragment, followed by a slash: /#/
+const LEGACY_PATH_CHECK_RE = /^\/#\//
+const isLegacyPath = (path) => {
+	if (path.match(LEGACY_PATH_CHECK_RE)) {
+		return true
+	}
+
+	return false
+}
+
+// Removes # fragment prefix and type prefixes for a url path
+const LEGACY_PATH_REPLACE_RE = /(^\/#\/|[a-z-]+~)/g
+const transformLegacyPath = (path) => {
+	return path.replace(LEGACY_PATH_REPLACE_RE, '')
+}
+
 class JellyfishUI extends React.Component {
-	constructor () {
-		super()
-
-		this.state = {
-			spaces: []
-		}
-
-		this.handleResize = this.handleResize.bind(this)
-	}
-
-	// Space allocation algorithm is as follows:
-	// 1. Get the inner width of the window
-	// 2. Deduct the width of the sidebar
-	// 3. For all but the last two channels set their width to 50px, deducting
-	//    the total of their widths from the window
-	// 4. For the last two channels split the remaining window width in a 1:2
-	//    ratio
-	calcWidth (channels) {
-		const sidebarWidth = 180
-		const squishedWidth = 24
-		const channelMinWidth = 300
-
-		if (!channels) {
-			return
-		}
-
-		const channelsToRender = channels.length - 1
-		const squished = channelsToRender - 2
-
-		const spaces = []
-
-		if (squished > 0) {
-			for (let item = 0; item < squished; item++) {
-				spaces.push({
-					left: sidebarWidth + item * squishedWidth,
-					width: channelMinWidth
-				})
-			}
-		}
-
-		const width = window.innerWidth - sidebarWidth - Math.max(squished * squishedWidth, 0)
-
-		if (channels.length === 2) {
-			spaces.push({
-				left: sidebarWidth + Math.max(squished * squishedWidth, 0),
-				width
-			})
-		} else {
-			spaces.push({
-				left: sidebarWidth + Math.max(squished * squishedWidth, 0),
-				width: width / 3
-			})
-
-			spaces.push({
-				left: sidebarWidth + Math.max(squished * squishedWidth, 0) + width / 3,
-				width: width / 3 * 2
-			})
-		}
-
-		this.setState({
-			spaces
-		})
-	}
-
-	componentWillReceiveProps (nextProps) {
-		this.calcWidth(nextProps.channels)
-	}
-
-	handleResize () {
-		this.calcWidth(this.props.channels)
-	}
-
 	render () {
+		const path = window.location.pathname + window.location.hash
+
 		if (this.props.status === 'initializing') {
 			return <Splash.Splash />
 		}
@@ -118,14 +67,7 @@ class JellyfishUI extends React.Component {
 				</Provider>
 			)
 		}
-		const [ home, ...rest ] = this.props.channels
-
-		const {
-			spaces
-		} = this.state
-
-		const user = this.props.user
-		const userHasOrg = Boolean(user) && _.get(user, [ 'linked_at', 'is member of' ])
+		const [ home ] = this.props.channels
 
 		return (
 			<Provider
@@ -134,42 +76,21 @@ class JellyfishUI extends React.Component {
 					fontSize: 14
 				}}
 			>
-				<ReactResizeObserver onResize={this.handleResize}/>
-
-				<Flex flex="1" style={{
-					height: '100%'
-				}}>
-					<HomeChannel channel={home}/>
-
-					{(!rest.length && !userHasOrg) && (
-						<Flex
-							flex="1"
-							justifyContent="center"
-							pt="20%"
-						>
-							<p
-								style={{
-									textAlign: 'center'
-								}}
-							>
-								Looks like you are not part of an organisation yet.<br/>
-								Contact your friendly Jellyfish administrator for assistance.
-							</p>
-						</Flex>
+				<Router>
+					{isLegacyPath(path) && (
+						<Redirect to={transformLegacyPath(path)} />
 					)}
-					{_.map(rest, (channel, index) => {
-						return (
-							<ChannelRenderer.default
-								user={user}
-								key={channel.id}
-								channel={channel}
-								space={spaces[index]}
-							/>
-						)
-					})}
-				</Flex>
 
-				<Notifications />
+					<Flex flex="1" style={{
+						height: '100%'
+					}}>
+						<HomeChannel channel={home}/>
+
+						<Route path="/*" component={RouteHandler} />
+					</Flex>
+
+					<Notifications />
+				</Router>
 			</Provider>
 		)
 	}
@@ -178,8 +99,8 @@ class JellyfishUI extends React.Component {
 const mapStateToProps = (state) => {
 	return {
 		channels: selectors.getChannels(state),
-		status: selectors.getStatus(state),
-		user: selectors.getCurrentUser(state)
+		status: selectors.getStatus(state)
 	}
 }
+
 export default DragDropContext(ReactDndHtml5Backend)(connect(mapStateToProps)(JellyfishUI))

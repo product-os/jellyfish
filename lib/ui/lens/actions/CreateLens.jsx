@@ -9,6 +9,9 @@ import React from 'react'
 import {
 	connect
 } from 'react-redux'
+import {
+	Redirect
+} from 'react-router-dom'
 import * as constants from '../../constants'
 import * as redux from 'redux'
 import {
@@ -161,12 +164,9 @@ class CreateLens extends React.Component {
 		}
 
 		if (onDone.action === 'open') {
-			this.props.actions.addChannel({
-				cardType: newCard.type,
-				target: newCard.id
+			this.setState({
+				redirectTo: `/${newCard.slug || newCard.id}`
 			})
-
-			this.close()
 
 			return
 		}
@@ -190,8 +190,13 @@ class CreateLens extends React.Component {
 
 	render () {
 		const {
+			redirectTo,
 			selectedTypeTarget
 		} = this.state
+
+		if (redirectTo) {
+			return <Redirect push to={redirectTo} />
+		}
 
 		const localSchema = helpers.getLocalSchema(this.state.newCardModel)
 
@@ -308,7 +313,6 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: redux.bindActionCreators(
 			_.pick(actionCreators, [
-				'addChannel',
 				'addNotification',
 				'createLink',
 				'removeChannel'

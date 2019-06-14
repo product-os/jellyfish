@@ -28,6 +28,7 @@ const Timeline = require('./Timeline')
 const CloseButton = require('../shame/CloseButton')
 const Column = require('../shame/Column').default
 const Icon = require('../shame/Icon').default
+const Link = require('../components/Link').default
 
 class Org extends React.Component {
 	constructor (props) {
@@ -62,29 +63,6 @@ class Org extends React.Component {
 						selectedUser: null
 					})
 				})
-		}
-		this.openChannel = () => {
-			if (this.props.level === 0) {
-				return
-			}
-			const {
-				card
-			} = this.props
-			this.props.actions.addChannel({
-				cardType: card.type,
-				target: card.id
-			})
-		}
-		this.openUserChannel = (event) => {
-			event.preventDefault()
-			const id = event.currentTarget.id
-			this.props.actions.addChannel({
-				cardType: 'user',
-				target: id
-			})
-		}
-		this.close = () => {
-			this.props.actions.removeChannel(this.props.channel)
 		}
 		this.state = {
 			selectedUser: null,
@@ -223,14 +201,6 @@ class Org extends React.Component {
 				<rendition.Flex justifyContent="space-between">
 					<rendition.Txt mb={3}>
 						<strong>
-							{level > 0 && (
-								<rendition.Link
-									onClick={this.openChannel}
-									className={`header-link header-link--${card.slug || card.id}`}
-								>
-									{card.name || card.slug || card.type}
-								</rendition.Link>
-							)}
 							{!level && (
 								<div
 									style={{
@@ -249,7 +219,7 @@ class Org extends React.Component {
 
 							<CloseButton.CloseButton
 								ml={3}
-								onClick={this.close}
+								channel={this.props.channel}
 							/>
 						</rendition.Flex>
 					)}
@@ -287,17 +257,16 @@ class Org extends React.Component {
 							}}>
 								{_.map(members, (member) => {
 									return (
-										<rendition.Link
+										<Link
 											key={member.id}
 											id={member.id}
-											onClick={this.openUserChannel}
-											href={`${window.location.hash}/${member.id}`}
+											append={member.id}
 											style={{
 												display: 'block'
 											}}
 										>
 											{member.slug}
-										</rendition.Link>
+										</Link>
 									)
 								})}
 							</rendition.Box>
@@ -361,12 +330,10 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: redux.bindActionCreators(
 			_.pick(actionCreators, [
-				'addChannel',
 				'addNotification',
 				'createLink',
 				'getActor',
-				'queryAPI',
-				'removeChannel'
+				'queryAPI'
 			]),
 			dispatch
 		)

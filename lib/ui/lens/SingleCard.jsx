@@ -12,13 +12,12 @@ const React = require('react')
 const {
 	connect
 } = require('react-redux')
-const redux = require('redux')
 const rendition = require('rendition')
 const CardActions = require('../components/CardActions').default
 const CardField = require('../components/CardField').default
+const Link = require('../components/Link').default
 const Tag = require('../components/Tag')
 const {
-	actionCreators,
 	selectors
 } = require('../core')
 const helpers = require('../services/helpers')
@@ -27,28 +26,10 @@ const CloseButton = require('../shame/CloseButton')
 const Column = require('../shame/Column').default
 
 class SingleCard extends React.Component {
-	constructor (props) {
-		super(props)
-		this.openChannel = () => {
-			if (this.props.level === 0) {
-				return
-			}
-			const {
-				card
-			} = this.props
-			this.props.actions.addChannel({
-				cardType: card.type,
-				target: card.id
-			})
-		}
-
-		this.close = () => {
-			this.props.actions.removeChannel(this.props.channel)
-		}
-	}
 	shouldComponentUpdate (nextProps) {
 		return !circularDeepEqual(nextProps, this.props)
 	}
+
 	render () {
 		const {
 			card, fieldOrder, level
@@ -79,12 +60,12 @@ class SingleCard extends React.Component {
 					<rendition.Txt mb={3}>
 						<strong>
 							{level > 0 && (
-								<rendition.Link
-									onClick={this.openChannel}
+								<Link
+									append={card.slug || card.id}
 									className={`header-link header-link--${card.slug || card.id}`}
 								>
 									{card.name || card.slug || card.type}
-								</rendition.Link>
+								</Link>
 							)}
 							{!level && (
 								<div
@@ -103,7 +84,7 @@ class SingleCard extends React.Component {
 
 						<CloseButton.CloseButton
 							ml={3}
-							onClick={this.close}
+							channel={this.props.channel}
 						/>
 					</rendition.Flex>)}
 				</rendition.Flex>
@@ -159,23 +140,14 @@ class SingleCard extends React.Component {
 		</rendition.Box>)
 	}
 }
+
 const mapStateToProps = (state) => {
 	return {
 		types: selectors.getTypes(state)
 	}
 }
-const mapDispatchToProps = (dispatch) => {
-	return {
-		actions: redux.bindActionCreators(
-			_.pick(actionCreators, [
-				'addChannel',
-				'removeChannel'
-			]),
-			dispatch
-		)
-	}
-}
-exports.Renderer = connect(mapStateToProps, mapDispatchToProps)(SingleCard)
+
+exports.Renderer = connect(mapStateToProps)(SingleCard)
 const lens = {
 	slug: 'lens-default',
 	type: 'lens',

@@ -16,16 +16,19 @@ import {
 	Txt
 } from 'rendition'
 import styled from 'styled-components'
+import Link from '../Link'
 import * as helpers from '../../services/helpers'
 import ColorHashPill from '../../shame/ColorHashPill'
 import Gravatar from '../../shame/Gravatar'
 
-const SummaryWrapper = styled(Box) `
+const SummaryWrapper = styled(Link) `
+	display: block;
 	border-left-style: solid;
 	border-left-width: 3px;
 	border-bottom: 1px solid #eee;
 	cursor: pointer;
 	transition: background ease-in-out 150ms;
+	color: black;
 
 	&:hover {
 		background: ${Theme.colors.gray.light};
@@ -58,8 +61,6 @@ const SummaryWhisper = styled(Txt) `
 export default class CardChatSummary extends React.Component {
 	constructor (props) {
 		super(props)
-
-		this.openChannel = this.openChannel.bind(this)
 
 		this.state = {
 			actor: null,
@@ -102,10 +103,6 @@ export default class CardChatSummary extends React.Component {
 		}
 	}
 
-	openChannel () {
-		this.props.openChannel(this.props.card.id)
-	}
-
 	render () {
 		const {
 			props
@@ -141,7 +138,7 @@ export default class CardChatSummary extends React.Component {
 				data-test-id={card.id}
 				p={3}
 				style={style}
-				onClick={this.openChannel}
+				append={card.slug || card.id}
 			>
 				<Flex justifyContent="space-between">
 					<Flex mb={2} alignItems="flex-start">

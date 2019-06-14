@@ -21,8 +21,17 @@ exports.browser = {
 	beforeEach: async (test) => {
 		await helpers.server.beforeEach(test)
 
+		const distDir = path.resolve(ROOT_PATH, 'dist')
+
 		const application = express()
-		application.use(express.static(path.resolve(ROOT_PATH, 'dist')))
+
+		// Serve static files from the dist directory
+		application.use(express.static(distDir))
+
+		// If a file isn't found, just serve index.html
+		application.use((req, res) => {
+			return res.sendFile(path.resolve(distDir, 'index.html'))
+		})
 		test.context.express = http.Server(application)
 		await new Bluebird((resolve, reject) => {
 			test.context.express.once('error', reject)

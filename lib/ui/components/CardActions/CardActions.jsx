@@ -23,11 +23,9 @@ import {
 	sdk,
 	selectors
 }	from '../../core'
-import {
-	createPermaLink
-} from '../../services/url-manager'
 import CardLinker from '../CardLinker'
 import ContextMenu from '../ContextMenu'
+import * as helpers from '../../services/helpers'
 import {
 	ActionLink
 } from '../../shame/ActionLink'
@@ -51,7 +49,7 @@ class CardActions extends React.Component {
 		this.copyPermalink = (event) => {
 			event.preventDefault()
 			event.stopPropagation()
-			copy(createPermaLink(this.props.card))
+			copy(helpers.createPermaLink(this.props.card))
 		}
 		this.copyJSON = (event) => {
 			event.preventDefault()
