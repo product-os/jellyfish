@@ -243,7 +243,7 @@ const lens = {
 	name: 'Inbox lens',
 	data: {
 		icon: 'list',
-		renderer: withRouter(connect(mapStateToProps, mapDispatchToProps))(Inbox),
+		renderer: withRouter(connect(mapStateToProps, mapDispatchToProps)(Inbox)),
 		filter: {
 			type: 'array',
 			items: {
