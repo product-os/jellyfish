@@ -64,6 +64,8 @@ ava.before(async () => {
 	await context.addUserToBalenaOrg(user2.id)
 	await incognitoPage.reload()
 
+	context.user2 = user2
+
 	context.incognitoPage = incognitoPage
 })
 
@@ -144,6 +146,44 @@ ava.serial('Messages typed but not sent should be preserved when navigating away
 	const messageText = await macros.getElementText(page, 'textarea')
 
 	test.is(messageText, rand)
+
+	test.pass()
+})
+
+ava.serial('Messages that ping a user should appear in their inbox', async (test) => {
+	const {
+		user2,
+		page,
+		incognitoPage
+	} = context
+
+	const thread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'thread'
+		})
+	})
+
+	// Navigate to the thread page
+	await page.goto(`http://localhost:${environment.ui.port}/${thread.id}`)
+
+	const columnSelector = `.column--slug-${thread.slug}`
+	await page.waitForSelector(columnSelector)
+
+	const msg = `@${user2.slug.slice(5)} ${uuid()}`
+
+	await page.waitForSelector('.new-message-input')
+
+	await macros.createChatMessage(page, columnSelector, msg)
+
+	await macros.waitForThenClickSelector(incognitoPage, '.user-menu-toggle')
+	await macros.waitForThenClickSelector(
+		incognitoPage,
+		'[data-test="home-channel__item--view-my-inbox"]'
+	)
+
+	const messageText = await macros.getElementText(incognitoPage, '[data-test="event-card__message"]')
+
+	test.is(messageText.trim(), msg)
 
 	test.pass()
 })
