@@ -21,6 +21,7 @@ import {
 } from 'rendition'
 import MentionsCount from '../MentionsCount'
 import TreeMenu from './TreeMenu'
+import RouterLink from '../Link'
 import ViewLink from '../ViewLink'
 import Gravatar from '../../shame/Gravatar'
 import Icon from '../../shame/Icon'
@@ -254,7 +255,14 @@ export default class HomeChannel extends React.Component {
 				{this.state.showMenu && (
 					<Fixed top={true} right={true} bottom={true} left={true} z={9999999} onClick={this.hideMenu}>
 						<MenuPanel className="user-menu" mx={3} p={3}>
-							{user && (<Link mb={2} href={`/${user.id}`}>Your profile</Link>)}
+							{user && (
+								<RouterLink
+									mb={2}
+									to={`/${user.slug}`}
+								>
+									Your profile
+								</RouterLink>
+							)}
 
 							{_.map(defaultViews, (card) => {
 								const isActive = card.slug === activeChannelTarget ||
