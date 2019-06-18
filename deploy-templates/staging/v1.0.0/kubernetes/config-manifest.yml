@@ -47,6 +47,8 @@ properties:
       type: string
   - INTEGRATION_GITHUB_SIGNATURE_KEY:
       type: string
+  - INTEGRATION_DEFAULT_USER:
+      type: string
   - INTEGRATION_DISCOURSE_TOKEN:
       type: string
   - INTEGRATION_DISCOURSE_USERNAME:
