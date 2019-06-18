@@ -144,7 +144,9 @@ const TEST_BALENA_API_PUBLIC_KEY = 'LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUZrd0V3
 ava('.isValidEvent() should return false given Balena API and invalid JSON', async (test) => {
 	const result = await sync.isValidEvent('balena-api', {
 		api: 'xxxxx',
-		publicKey: TEST_BALENA_API_PUBLIC_KEY,
+		production: {
+			publicKey: TEST_BALENA_API_PUBLIC_KEY
+		},
 		privateKey: TEST_BALENA_API_PRIVATE_KEY
 	}, {
 		raw: '{"foo":"bar"}',
@@ -159,7 +161,9 @@ ava('.isValidEvent() should return false given Balena API and invalid JSON', asy
 ava('.isValidEvent() should return false given Balena API and invalid payload', async (test) => {
 	const result = await sync.isValidEvent('balena-api', {
 		api: 'xxxxx',
-		publicKey: TEST_BALENA_API_PUBLIC_KEY,
+		production: {
+			publicKey: TEST_BALENA_API_PUBLIC_KEY
+		},
 		privateKey: TEST_BALENA_API_PRIVATE_KEY
 	}, {
 		raw: 'xxxxxxxxxxxxxx',
@@ -203,7 +207,9 @@ ava('.isValidEvent() should return true given Balena API and a key match', async
 
 	const result = await sync.isValidEvent('balena-api', {
 		api: 'xxxxx',
-		publicKey: TEST_BALENA_API_PUBLIC_KEY,
+		production: {
+			publicKey: TEST_BALENA_API_PUBLIC_KEY
+		},
 		privateKey: TEST_BALENA_API_PRIVATE_KEY
 	}, {
 		raw: payload,
@@ -242,7 +248,9 @@ ava('.isValidEvent() should return true given Balena API and no private key', as
 
 	const result = await sync.isValidEvent('balena-api', {
 		api: 'xxxxx',
-		publicKey: TEST_BALENA_API_PUBLIC_KEY
+		production: {
+			publicKey: TEST_BALENA_API_PUBLIC_KEY
+		}
 	}, {
 		raw: payload,
 		headers: {
