@@ -1,0 +1,28 @@
+{
+  "slug": "triggered-action-integration-outreach-mirror-event",
+  "type": "triggered-action",
+  "version": "1.0.0",
+  "tags": [],
+  "markers": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "filter": {
+      "type": "object",
+      "required": [ "type" ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "user"
+        }
+      }
+    },
+    "action": "action-integration-outreach-mirror-event",
+    "target": {
+      "$eval": "source.id"
+    },
+    "arguments": {}
+  },
+  "requires": [],
+  "capabilities": []
+}

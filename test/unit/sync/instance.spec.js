@@ -118,7 +118,8 @@ ava('should be able to refresh an expired OAuth token and retry if needed', asyn
 		provider: 'balena-cloud',
 		context: {
 			log: {
-				info: _.noop
+				info: _.noop,
+				warn: _.noop
 			},
 			getElementById: async (type, id) => {
 				return data[id]
@@ -245,7 +246,8 @@ ava('should be able to refresh an expired OAuth token and retry if needed using 
 		provider: 'balena-cloud',
 		context: {
 			log: {
-				info: _.noop
+				info: _.noop,
+				warn: _.noop
 			},
 			getElementBySlug: async (type, slug) => {
 				return _.find(_.values(data), {
@@ -350,7 +352,8 @@ ava('should not refresh an OAuth token if not needed', async (test) => {
 		provider: 'balena-cloud',
 		context: {
 			log: {
-				info: _.noop
+				info: _.noop,
+				warn: _.noop
 			},
 			getElementById: async (type, id) => {
 				return data[id]
@@ -451,7 +454,8 @@ ava('should not refresh an OAuth token if not needed when using the default user
 		provider: 'balena-cloud',
 		context: {
 			log: {
-				info: _.noop
+				info: _.noop,
+				warn: _.noop
 			},
 			getElementBySlug: async (type, slug) => {
 				return _.find(_.values(data), {
@@ -546,7 +550,8 @@ ava('should throw if actor is not associated with service and there is no defaul
 		provider: 'balena-cloud',
 		context: {
 			log: {
-				info: _.noop
+				info: _.noop,
+				warn: _.noop
 			},
 			getElementBySlug: async (type, slug) => {
 				return _.find(_.values(data), {
@@ -607,7 +612,8 @@ ava('should throw if actor is not associated with service and the default user i
 		defaultUser: 'foobar',
 		context: {
 			log: {
-				info: _.noop
+				info: _.noop,
+				warn: _.noop
 			},
 			getElementBySlug: async (type, slug) => {
 				return _.find(_.values(data), {
@@ -674,7 +680,8 @@ ava('should throw if neither the actor nor the default user are associated with 
 		defaultUser: 'jellysync',
 		context: {
 			log: {
-				info: _.noop
+				info: _.noop,
+				warn: _.noop
 			},
 			getElementBySlug: async (type, slug) => {
 				return _.find(_.values(data), {
