@@ -215,10 +215,10 @@ jobs:
 
       - run:
           name: Sync Tests
-          command: make test FILES=./test/e2e/sync/balena-api-*.spec.js COVERAGE=1 INTEGRATION_BALENA_API_PUBLIC_KEY=$BALENA_API_PUBLIC_KEY INTEGRATION_BALENA_API_PRIVATE_KEY=$BALENA_API_PRIVATE_KEY
+          command: make test FILES=./test/e2e/sync/balena-api-*.spec.js COVERAGE=1 INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION=$BALENA_API_PUBLIC_KEY_PRODUCTION INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING=$BALENA_API_PUBLIC_KEY_STAGING INTEGRATION_BALENA_API_PRIVATE_KEY=$BALENA_API_PRIVATE_KEY
       - run:
           name: Sync End To End Tests Without Tokens
-          command: make test FILES=./test/e2e/sync/balena-api-*.spec.js COVERAGE=1 INTEGRATION_BALENA_API_PUBLIC_KEY= INTEGRATION_BALENA_API_PRIVATE_KEY==
+          command: make test FILES=./test/e2e/sync/balena-api-*.spec.js COVERAGE=1 INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION= INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING= INTEGRATION_BALENA_API_PRIVATE_KEY=
 
       - persist_to_workspace:
           root: .

@@ -33,7 +33,7 @@ const prepareEvent = async (event) => {
 		subject: `${event.payload.id}`
 	})
 
-	const keyValue = Buffer.from(TOKEN.publicKey, 'base64')
+	const keyValue = Buffer.from(TOKEN.production.publicKey, 'base64')
 	const encryptionKey = await jose.JWK.asKey(keyValue, 'pem')
 
 	const cipher = jose.JWE.createEncrypt({
