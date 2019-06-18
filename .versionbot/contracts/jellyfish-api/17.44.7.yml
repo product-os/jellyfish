@@ -1,0 +1,16 @@
+name: Jellyfish API Server
+slug: jellyfish-api
+type: sw.containerized-application
+markers: []
+tags: []
+links: {}
+active: true
+requires: []
+capabilities: []
+data:
+  assets:
+    image:
+      url: 'balena/jellyfish:17.44.7'
+    repo:
+      url: 'https://github.com/balena-io/jellyfish.git'
+version: 17.44.7
