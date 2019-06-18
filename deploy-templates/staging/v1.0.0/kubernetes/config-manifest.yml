@@ -35,7 +35,9 @@ properties:
         - debug
   - INTEGRATION_BALENA_API_PRIVATE_KEY:
       type: string
-  - INTEGRATION_BALENA_API_PUBLIC_KEY:
+  - INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION:
+      type: string
+  - INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING:
       type: string
   - INTEGRATION_FRONT_TOKEN:
       type: string
