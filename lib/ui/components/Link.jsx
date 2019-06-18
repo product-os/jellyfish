@@ -21,22 +21,33 @@ class RouterLink extends React.Component {
 		this.navigate = this.navigate.bind(this)
 	}
 
-	navigate (event) {
-		event.preventDefault()
+	makeUrl () {
 		const {
 			append,
-			history,
 			location,
 			to
 		} = this.props
 
 		if (to) {
-			history.push(to)
+			return to
 		}
 
 		if (append) {
-			history.push(path.join(location.pathname, append))
+			return path.join(location.pathname, append)
 		}
+
+		return ''
+	}
+
+	navigate (event) {
+		event.preventDefault()
+		const {
+			history
+		} = this.props
+
+		const url = this.makeUrl()
+
+		history.push(url)
 	}
 
 	render () {
@@ -48,9 +59,12 @@ class RouterLink extends React.Component {
 			'append'
 		])
 
+		const url = this.makeUrl()
+
 		return (
 			<Link
 				{...props}
+				href={url}
 				onClick={this.navigate}
 			/>
 		)
