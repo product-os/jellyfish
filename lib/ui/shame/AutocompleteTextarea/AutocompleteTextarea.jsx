@@ -148,7 +148,10 @@ class AutoCompleteArea extends React.Component {
 			type: 'string',
 			const: typeCard.slug
 		})
-		sdk.query(filter)
+		sdk.query(filter, {
+			limit: 20,
+			sortBy: 'name'
+		})
 			.then((results) => {
 				this.setState({
 					results
