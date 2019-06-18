@@ -17,6 +17,7 @@ import Login from './components/Login'
 import {
 	Notifications
 } from './components/Notifications'
+import Oauth from './components/Oauth'
 import RouteHandler from './components/RouteHandler'
 import Splash from './components/Splash'
 import {
@@ -29,7 +30,8 @@ import ReactDndHtml5Backend from 'react-dnd-html5-backend'
 import {
 	BrowserRouter as Router,
 	Route,
-	Redirect
+	Redirect,
+	Switch
 } from 'react-router-dom'
 
 // Register the mermaid and markdown widgets for rendition forms
@@ -86,7 +88,10 @@ class JellyfishUI extends React.Component {
 					}}>
 						<HomeChannel channel={home}/>
 
-						<Route path="/*" component={RouteHandler} />
+						<Switch>
+							<Route path="/oauth/:integration" component={Oauth} />
+							<Route path="/*" component={RouteHandler} />
+						</Switch>
 					</Flex>
 
 					<Notifications />

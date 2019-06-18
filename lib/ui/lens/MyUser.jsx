@@ -16,7 +16,10 @@ import {
 	Flex,
 	Button,
 	Heading,
-	Select
+	Select,
+	Txt,
+	Divider,
+	Link
 } from 'rendition'
 import {
 	Form
@@ -44,7 +47,8 @@ class MyUser extends React.Component {
 
 		this.bindMethods([
 			'handlePasswordFormChange',
-			'changePassword'
+			'changePassword',
+			'startAuthorize'
 		])
 
 		this.state = {
@@ -58,6 +62,15 @@ class MyUser extends React.Component {
 		methods.forEach((method) => {
 			this[method] = this[method].bind(this)
 		})
+	}
+
+	async startAuthorize () {
+		this.setState({
+			fetchingIntegrationUrl: true
+		})
+		const user = this.props.card
+		const url = await this.props.actions.getIntegrationAuthUrl(user, 'outreach')
+		window.location.href = url
 	}
 
 	async handleSendCommandChange (event) {
@@ -216,6 +229,32 @@ class MyUser extends React.Component {
 							Submit
 						</Button>
 					</Box>
+
+					<Heading.h4 mt={4}>Integrations</Heading.h4>
+
+					<Divider color="#eee" />
+
+					<Flex justifyContent="space-between" alignItems="center">
+						<Link href="https://www.outreach.io/" blank>
+							<Txt bold>Outreach</Txt>
+						</Link>
+
+						{_.get(user, [ 'data', 'oauth', 'outreach' ]) ? (
+							<Txt>Authorized</Txt>
+						) : (
+							<Button
+								data-test="integration-connection--outreach"
+								onClick={this.startAuthorize}
+							>
+								{this.state.fetchingIntegrationUrl ? (
+									<Icon spin name="cog" />
+								) : 'Connect'
+								}
+							</Button>
+						)}
+					</Flex>
+
+					<Divider color="#eee" />
 				</Box>
 			</Column>
 		)
