@@ -1191,3 +1191,201 @@ ava.serial('should broadcast github issue links', async (test) => {
 	test.is(broadcast.data.payload.message,
 		`This issue has attached support thread https://jel.ly.fish/#/support-thread~${thread.id}`)
 })
+
+ava.serial('should link two cards together', async (test) => {
+	test.context.sdk.setAuthToken(test.context.session)
+
+	const issueSlug = test.context.generateRandomSlug({
+		prefix: 'issue'
+	})
+
+	const threadSlug = test.context.generateRandomSlug({
+		prefix: 'thread'
+	})
+
+	const issue = await test.context.sdk.card.create({
+		type: 'issue',
+		version: '1.0.0',
+		slug: issueSlug,
+		name: 'Test Issue',
+		data: {
+			repository: environment.test.integration.github.repo,
+			description: 'Foo Bar',
+			tags: [],
+			status: 'open',
+			archived: false
+		}
+	})
+
+	const thread = await test.context.sdk.card.create({
+		type: 'support-thread',
+		version: '1.0.0',
+		slug: threadSlug,
+		name: 'Test Thread',
+		data: {
+			category: 'general',
+			environment: 'production',
+			description: 'Foo Bar',
+			inbox: 'S/Paid_Support',
+			status: 'open'
+		}
+	})
+
+	test.truthy(issue)
+	test.truthy(thread)
+
+	await test.context.sdk.card.link(issue, thread,
+		'is attached to')
+
+	const expandedIssue = _.first(await test.context.sdk.query({
+		type: 'object',
+		required: [ 'id', 'links' ],
+		additionalProperties: true,
+		$$links: {
+			'is attached to': {
+				type: 'object',
+				additionalProperties: true
+			}
+		},
+		properties: {
+			id: {
+				type: 'string',
+				const: issue.id
+			},
+			links: {
+				type: 'object'
+			}
+		}
+	}))
+
+	const expandedThread = _.first(await test.context.sdk.query({
+		type: 'object',
+		required: [ 'id', 'links' ],
+		additionalProperties: true,
+		$$links: {
+			'has attached element': {
+				type: 'object',
+				additionalProperties: true
+			}
+		},
+		properties: {
+			id: {
+				type: 'string',
+				const: thread.id
+			},
+			links: {
+				type: 'object'
+			}
+		}
+	}))
+
+	test.deepEqual(thread, _.pick(_.find(expandedIssue.links['is attached to'], {
+		id: thread.id
+	}), [ 'id', 'type', 'slug' ]))
+
+	test.deepEqual(issue, _.pick(_.find(expandedThread.links['has attached element'], {
+		id: issue.id
+	}), [ 'id', 'type', 'slug' ]))
+})
+
+ava.serial('linking two cards should be idempotent', async (test) => {
+	test.context.sdk.setAuthToken(test.context.session)
+
+	const issueSlug = test.context.generateRandomSlug({
+		prefix: 'issue'
+	})
+
+	const threadSlug = test.context.generateRandomSlug({
+		prefix: 'thread'
+	})
+
+	const issue = await test.context.sdk.card.create({
+		type: 'issue',
+		version: '1.0.0',
+		slug: issueSlug,
+		name: 'Test Issue',
+		data: {
+			repository: environment.test.integration.github.repo,
+			description: 'Foo Bar',
+			tags: [],
+			status: 'open',
+			archived: false
+		}
+	})
+
+	const thread = await test.context.sdk.card.create({
+		type: 'support-thread',
+		version: '1.0.0',
+		slug: threadSlug,
+		name: 'Test Thread',
+		data: {
+			category: 'general',
+			environment: 'production',
+			description: 'Foo Bar',
+			inbox: 'S/Paid_Support',
+			status: 'open'
+		}
+	})
+
+	test.truthy(issue)
+	test.truthy(thread)
+
+	await test.context.sdk.card.link(issue, thread,
+		'is attached to')
+	await test.context.sdk.card.link(issue, thread,
+		'is attached to')
+	await test.context.sdk.card.link(issue, thread,
+		'is attached to')
+	await test.context.sdk.card.link(issue, thread,
+		'is attached to')
+
+	const expandedIssue = _.first(await test.context.sdk.query({
+		type: 'object',
+		required: [ 'id', 'links' ],
+		additionalProperties: true,
+		$$links: {
+			'is attached to': {
+				type: 'object',
+				additionalProperties: true
+			}
+		},
+		properties: {
+			id: {
+				type: 'string',
+				const: issue.id
+			},
+			links: {
+				type: 'object'
+			}
+		}
+	}))
+
+	const expandedThread = _.first(await test.context.sdk.query({
+		type: 'object',
+		required: [ 'id', 'links' ],
+		additionalProperties: true,
+		$$links: {
+			'has attached element': {
+				type: 'object',
+				additionalProperties: true
+			}
+		},
+		properties: {
+			id: {
+				type: 'string',
+				const: thread.id
+			},
+			links: {
+				type: 'object'
+			}
+		}
+	}))
+
+	test.deepEqual(thread, _.pick(_.find(expandedIssue.links['is attached to'], {
+		id: thread.id
+	}), [ 'id', 'type', 'slug' ]))
+
+	test.deepEqual(issue, _.pick(_.find(expandedThread.links['has attached element'], {
+		id: issue.id
+	}), [ 'id', 'type', 'slug' ]))
+})
