@@ -31,6 +31,8 @@ ava('should only expose the required methods', (test) => {
 		'getCardById',
 		'getCardBySlug',
 		'insertCard',
+		'replaceCard',
+		'patchCard',
 		'query',
 		'stream',
 		'defaults',
@@ -174,7 +176,7 @@ ava('.insertCard() should throw if the card already exists', async (test) => {
 	), errors.JellyfishElementAlreadyExists)
 })
 
-ava('.insertCard() should replace an element given override is true', async (test) => {
+ava('.replaceCard() should replace an element', async (test) => {
 	const card1 = await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
 		slug: 'foo-bar',
 		type: 'card',
@@ -182,13 +184,11 @@ ava('.insertCard() should replace an element given override is true', async (tes
 		data: {}
 	})
 
-	const card2 = await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
+	const card2 = await test.context.kernel.replaceCard(test.context.context, test.context.kernel.sessions.admin, {
 		slug: 'foo-bar',
 		type: 'card',
 		version: '1.0.0',
 		data: {}
-	}, {
-		override: true
 	})
 
 	test.is(card1.id, card2.id)
@@ -437,7 +437,7 @@ ava('.insertCard() read access on a property should not allow to write other pro
 		}
 	})
 
-	await test.throwsAsync(test.context.kernel.insertCard(test.context.context, session.id, {
+	await test.throwsAsync(test.context.kernel.replaceCard(test.context.context, session.id, {
 		id: targetUserCard.id,
 		slug: 'user-janedoe',
 		type: 'user',
@@ -446,8 +446,6 @@ ava('.insertCard() read access on a property should not allow to write other pro
 			email: 'pwned@example.com',
 			roles: []
 		}
-	}, {
-		override: true
 	}), errors.JellyfishSchemaMismatch)
 })
 
@@ -569,37 +567,33 @@ ava('.insertCard() should restrict the visibility of the user using write roles'
 	}), errors.JellyfishUnknownCardType)
 })
 
-ava('.insertCard() should not overwrite the "created_at" field when overriding a card', async (test) => {
+ava('.replaceCard() should not overwrite the "created_at" field when overriding a card', async (test) => {
 	const card = await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
 		slug: `card-${uuid()}`,
 		type: 'card'
 	})
 
-	const update = await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
+	const update = await test.context.kernel.replaceCard(test.context.context, test.context.kernel.sessions.admin, {
 		slug: card.slug,
 		type: 'card',
 		created_at: new Date(633009018000).toISOString()
-	}, {
-		override: true
 	})
 
 	test.is(card.created_at, update.created_at)
 })
 
-ava('.insertCard() should not overwrite the "linked_at" field when overriding a card', async (test) => {
+ava('.replaceCard() should not overwrite the "linked_at" field when overriding a card', async (test) => {
 	const card = await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
 		slug: `card-${uuid()}`,
 		type: 'card'
 	})
 
-	const update = await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
+	const update = await test.context.kernel.replaceCard(test.context.context, test.context.kernel.sessions.admin, {
 		slug: card.slug,
 		type: 'card',
 		linked_at: {
 			foo: 'bar'
 		}
-	}, {
-		override: true
 	})
 
 	test.deepEqual(card.linked_at, update.linked_at)
@@ -625,20 +619,18 @@ ava('.insertCard() should not be able to set links', async (test) => {
 	test.deepEqual(element.links, {})
 })
 
-ava('.insertCard() should not be able to set links when overriding a card', async (test) => {
+ava('.replaceCard() should not be able to set links when overriding a card', async (test) => {
 	const card = await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
 		slug: `card-${uuid()}`,
 		type: 'card'
 	})
 
-	const update = await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
+	const update = await test.context.kernel.replaceCard(test.context.context, test.context.kernel.sessions.admin, {
 		slug: card.slug,
 		type: 'card',
 		links: {
 			foo: 'bar'
 		}
-	}, {
-		override: true
 	})
 
 	test.deepEqual(update.links, {})

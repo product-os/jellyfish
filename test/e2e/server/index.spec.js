@@ -640,17 +640,13 @@ ava.serial('Users should not be able to login as the core admin user', async (te
 
 	const user = await test.context.createUser(userData)
 
-	await test.context.jellyfish.insertCard(test.context.context,
+	await test.context.jellyfish.replaceCard(test.context.context,
 		test.context.session,
 		_.merge(user, {
 			data: {
 				roles: [ role ]
 			}
-		}),
-		{
-			override: true
-		}
-	)
+		}))
 
 	await sdk.auth.login(userData)
 
@@ -757,9 +753,8 @@ ava.serial('should add and evaluate a time triggered action', async (test) => {
 	test.true(results.length >= 3)
 
 	trigger.active = false
-	await test.context.jellyfish.insertCard(test.context.context, test.context.session, trigger, {
-		override: true
-	})
+	await test.context.jellyfish.patchCard(
+		test.context.context, test.context.session, trigger)
 })
 
 ava.serial('should be able to resolve links', async (test) => {

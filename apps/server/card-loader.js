@@ -16,12 +16,10 @@ const loadCard = async (cardPath) => {
 module.exports = async (context, jellyfish, worker, session) => {
 	logger.info(context, 'Setting up guest user')
 
-	const guestUser = await jellyfish.insertCard(
-		context, session, await loadCard('contrib/user-guest.json'), {
-			override: true
-		})
+	const guestUser = await jellyfish.replaceCard(
+		context, session, await loadCard('contrib/user-guest.json'))
 
-	const guestUserSession = await jellyfish.insertCard(
+	const guestUserSession = await jellyfish.replaceCard(
 		context, session, jellyfish.defaults({
 			slug: 'session-guest',
 			version: '1.0.0',
@@ -29,9 +27,7 @@ module.exports = async (context, jellyfish, worker, session) => {
 			data: {
 				actor: guestUser.id
 			}
-		}), {
-			override: true
-		})
+		}))
 
 	logger.info(context, 'Done setting up guest session')
 	logger.info(context, 'Setting default cards')

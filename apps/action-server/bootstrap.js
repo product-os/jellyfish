@@ -31,16 +31,14 @@ const getActorKey = async (context, jellyfish, session, actorId) => {
 		actor: actorId
 	})
 
-	return jellyfish.insertCard(context, session, jellyfish.defaults({
+	return jellyfish.replaceCard(context, session, jellyfish.defaults({
 		slug: keySlug,
 		version: '1.0.0',
 		type: 'session',
 		data: {
 			actor: actorId
 		}
-	}), {
-		override: true
-	})
+	}))
 }
 
 const SCHEMA_ACTIVE_TRIGGERS = {
