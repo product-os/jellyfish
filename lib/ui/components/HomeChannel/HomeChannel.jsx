@@ -260,7 +260,7 @@ export default class HomeChannel extends React.Component {
 									mb={2}
 									to={`/${user.slug}`}
 								>
-									Your profile
+									Settings
 								</RouterLink>
 							)}
 
