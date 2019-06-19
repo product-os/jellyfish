@@ -46,7 +46,6 @@ module.exports = async (context, jellyfish, worker, session) => {
 		// Types
 		await loadCard('contrib/ping.json'),
 		await loadCard('contrib/todo.json'),
-		await loadCard('contrib/account.json'),
 		await loadCard('contrib/external-event.json'),
 		await loadCard('contrib/message.json'),
 		await loadCard('contrib/whisper.json'),
