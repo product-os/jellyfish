@@ -4,6 +4,7 @@
  * Proprietary and confidential.
  */
 
+import Bluebird from 'bluebird'
 import * as fastEquals from 'fast-equals'
 import * as _ from 'lodash'
 import * as React from 'react'
@@ -83,7 +84,7 @@ export class SupportThreads extends React.Component {
 		const pendingEngineerResponse = []
 		const pendingUserResponse = []
 
-		for (const card of tail) {
+		await Bluebird.map(tail, async (card) => {
 			/**
 			 * Check if the thread is pending user response:
 			 *
@@ -157,7 +158,7 @@ export class SupportThreads extends React.Component {
 			} else {
 				pendingAgentResponse.push(card)
 			}
-		}
+		})
 
 		const segments = [
 			{
