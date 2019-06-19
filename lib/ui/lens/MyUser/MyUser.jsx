@@ -7,10 +7,6 @@
 import * as _ from 'lodash'
 import React from 'react'
 import {
-	connect
-} from 'react-redux'
-import * as redux from 'redux'
-import {
 	Box,
 	Alert,
 	Flex,
@@ -24,22 +20,18 @@ import {
 import {
 	Form
 } from 'rendition/dist/unstable'
-import {
-	actionCreators,
-	selectors
-} from '../core'
-import Column from '../shame/Column'
-import * as helpers from '../services/helpers'
 import * as skhema from 'skhema'
+import * as helpers from '../../services/helpers'
+import Column from '../../shame/Column'
 import {
 	CloseButton
-} from '../shame/CloseButton'
-import Gravatar from '../shame/Gravatar'
-import Icon from '../shame/Icon'
+} from '../../shame/CloseButton'
+import Gravatar from '../../shame/Gravatar'
+import Icon from '../../shame/Icon'
 
 const SLUG = 'lens-my-user'
 
-class MyUser extends React.Component {
+export default class MyUser extends React.Component {
 	constructor (props) {
 		super(props)
 
@@ -258,43 +250,5 @@ class MyUser extends React.Component {
 				</Box>
 			</Column>
 		)
-	}
-}
-
-const mapStateToProps = (state) => {
-	return {
-		types: selectors.getTypes(state)
-	}
-}
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		actions: redux.bindActionCreators(actionCreators, dispatch)
-	}
-}
-
-export default {
-	slug: SLUG,
-	type: 'lens',
-	version: '1.0.0',
-	name: 'Support thread lens',
-	data: {
-		icon: 'address-card',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(MyUser),
-		filter: {
-			type: 'object',
-			properties: {
-				type: {
-					type: 'string',
-					const: 'user'
-				},
-				slug: {
-					type: 'string',
-					const: {
-						$eval: 'user.slug'
-					}
-				}
-			}
-		}
 	}
 }
