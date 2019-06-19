@@ -1,6 +1,6 @@
 {
   "slug": "view-all-customers",
-  "name": "All customers",
+  "name": "All accounts",
   "version": "1.0.0",
   "type": "view",
   "markers": [ "org-balena" ],
@@ -19,14 +19,9 @@
               "const": true,
               "type": "boolean"
             },
-            "slug": {
-              "not": {
-                "const": "org-balena"
-              }
-            },
             "type": {
               "type": "string",
-              "const": "org"
+              "const": "account"
             }
           },
           "required": [
@@ -38,6 +33,7 @@
       }
     ],
     "lenses": [
+      "lens-list",
       "lens-kanban"
     ]
   },
