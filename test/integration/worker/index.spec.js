@@ -577,8 +577,7 @@ ava('.insertCard() should pass a triggered action originator', async (test) => {
 		test.context.context, test.context.session, typeCard, {
 			timestamp: new Date().toISOString(),
 			actor: test.context.actor.id,
-			attachEvents: true,
-			override: false
+			attachEvents: true
 		}, {
 			slug: 'foo',
 			version: '1.0.0',
@@ -630,8 +629,7 @@ ava('.insertCard() should take an originator option', async (test) => {
 			timestamp: new Date().toISOString(),
 			actor: test.context.actor.id,
 			originator: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			attachEvents: true,
-			override: false
+			attachEvents: true
 		}, {
 			slug: 'foo',
 			version: '1.0.0',

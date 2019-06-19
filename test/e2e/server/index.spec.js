@@ -359,7 +359,7 @@ ava.serial('.query() should be able to see previously restricted cards after an 
 
 	test.deepEqual(unprivilegedResults, null)
 
-	await jellyfish.insertCard(
+	await jellyfish.replaceCard(
 		test.context.context, test.context.session, defaults({
 			slug: `link-${orgCard.id}-has-member-${user.id}`,
 			type: 'link',
@@ -375,9 +375,7 @@ ava.serial('.query() should be able to see previously restricted cards after an 
 					type: user.type
 				}
 			}
-		}), {
-			override: true
-		})
+		}))
 
 	const privilegedResults = await sdk.card.get(entry.id, {
 		type: 'support-issue'
@@ -689,32 +687,31 @@ ava.serial('should add and evaluate a time triggered action', async (test) => {
 
 	await sdk.auth.login(userDetails)
 
-	const trigger = await jellyfish.insertCard(test.context.context, test.context.session, defaults({
-		type: 'triggered-action',
-		slug: test.context.generateRandomSlug({
-			prefix: 'triggered-action'
-		}),
-		version: '1.0.0',
-		data: {
-			action: 'action-create-card',
-			target: typeCard.id,
-			interval: 'PT1S',
-			arguments: {
-				reason: null,
-				properties: {
-					version: '1.0.0',
-					slug: {
-						$eval: 'str(epoch)'
-					},
-					data: {
-						origin: 'time-trigger'
+	const trigger = await jellyfish.replaceCard(
+		test.context.context, test.context.session, defaults({
+			type: 'triggered-action',
+			slug: test.context.generateRandomSlug({
+				prefix: 'triggered-action'
+			}),
+			version: '1.0.0',
+			data: {
+				action: 'action-create-card',
+				target: typeCard.id,
+				interval: 'PT1S',
+				arguments: {
+					reason: null,
+					properties: {
+						version: '1.0.0',
+						slug: {
+							$eval: 'str(epoch)'
+						},
+						data: {
+							origin: 'time-trigger'
+						}
 					}
 				}
 			}
-		}
-	}), {
-		override: true
-	})
+		}))
 
 	const waitUntilResults = async (length, times = 0) => {
 		const results = await test.context.jellyfish.query(test.context.context, test.context.session, {

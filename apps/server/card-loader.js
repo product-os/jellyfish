@@ -109,8 +109,7 @@ module.exports = async (context, jellyfish, worker, session) => {
 			type: card.type
 		})
 
-		return worker.insertCard(context, session, typeCard, {
-			override: true,
+		return worker.replaceCard(context, session, typeCard, {
 			attachEvents: false
 		}, card)
 	})
