@@ -417,7 +417,7 @@ exports.mirror = {
 				type: 'org'
 			})
 
-		await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
+		await test.context.jellyfish.replaceCard(test.context.context, test.context.session, {
 			slug: `link-${orgCard.id}-has-member-${userCard.id}`,
 			type: 'link',
 			name: 'has member',
@@ -432,8 +432,6 @@ exports.mirror = {
 					type: userCard.type
 				}
 			}
-		}, {
-			override: true
 		})
 
 		// Force login, even if we don't know the password
