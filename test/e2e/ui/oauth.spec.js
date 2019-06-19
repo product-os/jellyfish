@@ -58,6 +58,8 @@ outreachTest('A user should be able to connect their account to outreach', async
 	// Navigate to the user profile page
 	await page.goto(`http://localhost:${environment.ui.port}/${user.slug}`)
 
+	await macros.waitForThenClickSelector(page, 'button[role="tab"]:nth-of-type(4)')
+
 	// Wait for the outreach API redirect to occur before continuing
 	await new Promise(async (resolve) => {
 		const requestListener = (req) => {

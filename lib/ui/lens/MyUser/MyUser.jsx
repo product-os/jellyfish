@@ -14,6 +14,7 @@ import {
 	Heading,
 	Select,
 	Txt,
+	Tabs,
 	Divider,
 	Link
 } from 'rendition'
@@ -142,57 +143,37 @@ export default class MyUser extends React.Component {
 
 		return (
 			<Column data-test={`lens--${SLUG}`}>
-				<Box
+				<Flex
+					justifyContent="space-between"
 					p={3}
 				>
-					<Flex justifyContent="space-between" mb={3}>
-						<Heading.h3>
-							Account
-						</Heading.h3>
+					<Heading.h3>
+						Settings
+					</Heading.h3>
 
-						<Flex align="center">
-							<CloseButton
-								ml={3}
-								channel={this.props.channel}
-							/>
+					<Flex align="center">
+						<CloseButton
+							ml={3}
+							channel={this.props.channel}
+						/>
+					</Flex>
+				</Flex>
+
+				<Tabs
+					tabs={[ 'Profile', 'Account', 'Interface', 'Oauth' ]}
+					px={3}
+				>
+					<Box mt={3}>
+						<Flex>
+							<Gravatar.default email={user.data.email}/>
+
+							<Box ml={2}>
+								<strong>{user.slug.replace('user-', '')}</strong>
+
+								<br />
+								<strong>{user.data.email}</strong>
+							</Box>
 						</Flex>
-					</Flex>
-
-					<Flex mb={3}>
-						<Gravatar.default email={user.data.email}/>
-
-						<Box ml={2}>
-							<strong>{user.slug.replace('user-', '')}</strong>
-
-							<br />
-							<strong>{user.data.email}</strong>
-						</Box>
-					</Flex>
-
-					<Box>
-						<label>
-							Command to send messages:
-						</label>
-
-						<br/>
-
-						<Select
-							data-test={`${SLUG}__send-command-select`}
-							mr={3}
-							value={sendCommand}
-							onChange={this.handleSendCommandChange}
-							disabled={this.state.updatingSendCommand}
-						>
-							{_.map(sendOptions, (value) => {
-								return (
-									<option key={value}>{value}</option>
-								)
-							})}
-						</Select>
-
-						{this.state.updatingSendCommand && (
-							<Icon spin name="cog" />
-						)}
 					</Box>
 
 					<Box mt={3}>
@@ -222,32 +203,58 @@ export default class MyUser extends React.Component {
 						</Button>
 					</Box>
 
-					<Heading.h4 mt={4}>Integrations</Heading.h4>
+					<Box mt={3}>
+						<label>
+							Command to send messages:
+						</label>
 
-					<Divider color="#eee" />
+						<br/>
 
-					<Flex justifyContent="space-between" alignItems="center">
-						<Link href="https://www.outreach.io/" blank>
-							<Txt bold>Outreach</Txt>
-						</Link>
+						<Select
+							data-test={`${SLUG}__send-command-select`}
+							mr={3}
+							value={sendCommand}
+							onChange={this.handleSendCommandChange}
+							disabled={this.state.updatingSendCommand}
+						>
+							{_.map(sendOptions, (value) => {
+								return (
+									<option key={value}>{value}</option>
+								)
+							})}
+						</Select>
 
-						{_.get(user, [ 'data', 'oauth', 'outreach' ]) ? (
-							<Txt>Authorized</Txt>
-						) : (
-							<Button
-								data-test="integration-connection--outreach"
-								onClick={this.startAuthorize}
-							>
-								{this.state.fetchingIntegrationUrl ? (
-									<Icon spin name="cog" />
-								) : 'Connect'
-								}
-							</Button>
+						{this.state.updatingSendCommand && (
+							<Icon spin name="cog" />
 						)}
-					</Flex>
+					</Box>
 
-					<Divider color="#eee" />
-				</Box>
+					<Box mt={3}>
+						<Divider color="#eee" />
+
+						<Flex justifyContent="space-between" alignItems="center">
+							<Link href="https://www.outreach.io/" blank>
+								<Txt bold>Outreach</Txt>
+							</Link>
+
+							{_.get(user, [ 'data', 'oauth', 'outreach' ]) ? (
+								<Txt>Authorized</Txt>
+							) : (
+								<Button
+									data-test="integration-connection--outreach"
+									onClick={this.startAuthorize}
+								>
+									{this.state.fetchingIntegrationUrl ? (
+										<Icon spin name="cog" />
+									) : 'Connect'
+									}
+								</Button>
+							)}
+						</Flex>
+
+						<Divider color="#eee" />
+					</Box>
+				</Tabs>
 			</Column>
 		)
 	}
