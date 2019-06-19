@@ -340,7 +340,8 @@ class Timeline extends React.Component {
 		} = this.state
 
 		// Due to a bug in syncing, sometimes there can be duplicate cards in tail
-		const sortedTail = _.uniqBy(_.sortBy(tail, 'data.timestamp'), 'id')
+		const sortedTail = _.uniqBy(
+			_.sortBy(tail, helpers.getTrueEventTimestamp), 'id')
 
 		// Remove non-message and non-whisper cards and update cards that don't have
 		// a "name" field. Update cards with a "name" field provide a human readable

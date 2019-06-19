@@ -444,7 +444,8 @@ export default class Event extends React.Component {
 
 		const attachments = getAttachments(card)
 
-		const timestamp = _.get(card, [ 'data', 'timestamp' ]) || card.created_at
+		const timestamp = helpers.getTrueEventTimestamp(card)
+
 		const messageOverflows = this.state.messageHeight >= MESSAGE_COLLAPSED_HEIGHT
 
 		return (

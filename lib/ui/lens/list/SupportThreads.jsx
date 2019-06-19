@@ -44,7 +44,7 @@ const timestampSort = (cards) => {
 	return _.sortBy(cards, (element) => {
 		const timestamps = _.map(
 			_.get(element.links, [ 'has attached element' ], []),
-			'data.timestamp'
+			helpers.getTrueEventTimestamp
 		)
 		timestamps.sort()
 		return _.last(timestamps)
@@ -103,12 +103,7 @@ export class SupportThreads extends React.Component {
 			 *    for a response
 			 */
 
-			// Sort the timeline by timestamp rathern than created_at as they might
-			// not be the same value if the card was backsynced
-			const timeline = _.sortBy(
-				_.get(card.links, [ 'has attached element' ], []),
-				'data.timestamp'
-			)
+			const timeline = _.sortBy(tail, helpers.getTrueEventTimestamp)
 
 			// If the card contains a message/whisper tagged as a discussion, move it to the discussion tab
 			for (const event of timeline) {
