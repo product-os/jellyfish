@@ -4,14 +4,21 @@
  * Proprietary and confidential.
  */
 
+import _ from 'lodash'
 import React from 'react'
 import {
 	connect
 } from 'react-redux'
 import {
+	bindActionCreators
+} from 'redux'
+import {
 	Flex,
 	Provider
 } from 'rendition'
+import {
+	saveAs
+} from 'file-saver'
 import HomeChannel from './components/HomeChannel'
 import Login from './components/Login'
 import {
@@ -21,6 +28,7 @@ import Oauth from './components/Oauth'
 import RouteHandler from './components/RouteHandler'
 import Splash from './components/Splash'
 import {
+	actionCreators,
 	selectors
 } from './core'
 import {
@@ -55,6 +63,25 @@ const transformLegacyPath = (path) => {
 }
 
 class JellyfishUI extends React.Component {
+	constructor (props) {
+		super(props)
+
+		// Add a utility to the window to dump the core state, this is useful for
+		// debugging
+		window.dumpState = async () => {
+			const state = await this.props.actions.dumpState()
+
+			const blob = new Blob(
+				[ JSON.stringify(state) ],
+				{
+					type: 'application/json;charset=utf-8'
+				}
+			)
+
+			saveAs(blob, `jellyfish-ui-dump__${new Date().toISOString()}.json`)
+		}
+	}
+
 	render () {
 		const path = window.location.pathname + window.location.hash
 
@@ -108,4 +135,15 @@ const mapStateToProps = (state) => {
 	}
 }
 
-export default DragDropContext(ReactDndHtml5Backend)(connect(mapStateToProps)(JellyfishUI))
+const mapDispatchToProps = (dispatch) => {
+	return {
+		actions: bindActionCreators(
+			_.pick(actionCreators, [
+				'dumpState'
+			]), dispatch)
+	}
+}
+
+export default DragDropContext(ReactDndHtml5Backend)(
+	connect(mapStateToProps, mapDispatchToProps)(JellyfishUI)
+)
