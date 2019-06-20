@@ -7,10 +7,6 @@
 import * as _ from 'lodash'
 import React from 'react'
 import {
-	connect
-} from 'react-redux'
-import * as redux from 'redux'
-import {
 	Box,
 	Alert,
 	Flex,
@@ -18,28 +14,25 @@ import {
 	Heading,
 	Select,
 	Txt,
+	Tabs,
 	Divider,
 	Link
 } from 'rendition'
 import {
 	Form
 } from 'rendition/dist/unstable'
-import {
-	actionCreators,
-	selectors
-} from '../core'
-import Column from '../shame/Column'
-import * as helpers from '../services/helpers'
 import * as skhema from 'skhema'
+import * as helpers from '../../services/helpers'
+import Column from '../../shame/Column'
 import {
 	CloseButton
-} from '../shame/CloseButton'
-import Gravatar from '../shame/Gravatar'
-import Icon from '../shame/Icon'
+} from '../../shame/CloseButton'
+import Gravatar from '../../shame/Gravatar'
+import Icon from '../../shame/Icon'
 
 const SLUG = 'lens-my-user'
 
-class MyUser extends React.Component {
+export default class MyUser extends React.Component {
 	constructor (props) {
 		super(props)
 
@@ -150,57 +143,37 @@ class MyUser extends React.Component {
 
 		return (
 			<Column data-test={`lens--${SLUG}`}>
-				<Box
+				<Flex
+					justifyContent="space-between"
 					p={3}
 				>
-					<Flex justifyContent="space-between" mb={3}>
-						<Heading.h3>
-							Account
-						</Heading.h3>
+					<Heading.h3>
+						Settings
+					</Heading.h3>
 
-						<Flex align="center">
-							<CloseButton
-								ml={3}
-								channel={this.props.channel}
-							/>
+					<Flex align="center">
+						<CloseButton
+							ml={3}
+							channel={this.props.channel}
+						/>
+					</Flex>
+				</Flex>
+
+				<Tabs
+					tabs={[ 'Profile', 'Account', 'Interface', 'Oauth' ]}
+					px={3}
+				>
+					<Box mt={3}>
+						<Flex>
+							<Gravatar.default email={user.data.email}/>
+
+							<Box ml={2}>
+								<strong>{user.slug.replace('user-', '')}</strong>
+
+								<br />
+								<strong>{user.data.email}</strong>
+							</Box>
 						</Flex>
-					</Flex>
-
-					<Flex mb={3}>
-						<Gravatar.default email={user.data.email}/>
-
-						<Box ml={2}>
-							<strong>{user.slug.replace('user-', '')}</strong>
-
-							<br />
-							<strong>{user.data.email}</strong>
-						</Box>
-					</Flex>
-
-					<Box>
-						<label>
-							Command to send messages:
-						</label>
-
-						<br/>
-
-						<Select
-							data-test={`${SLUG}__send-command-select`}
-							mr={3}
-							value={sendCommand}
-							onChange={this.handleSendCommandChange}
-							disabled={this.state.updatingSendCommand}
-						>
-							{_.map(sendOptions, (value) => {
-								return (
-									<option key={value}>{value}</option>
-								)
-							})}
-						</Select>
-
-						{this.state.updatingSendCommand && (
-							<Icon spin name="cog" />
-						)}
 					</Box>
 
 					<Box mt={3}>
@@ -230,71 +203,59 @@ class MyUser extends React.Component {
 						</Button>
 					</Box>
 
-					<Heading.h4 mt={4}>Integrations</Heading.h4>
+					<Box mt={3}>
+						<label>
+							Command to send messages:
+						</label>
 
-					<Divider color="#eee" />
+						<br/>
 
-					<Flex justifyContent="space-between" alignItems="center">
-						<Link href="https://www.outreach.io/" blank>
-							<Txt bold>Outreach</Txt>
-						</Link>
+						<Select
+							data-test={`${SLUG}__send-command-select`}
+							mr={3}
+							value={sendCommand}
+							onChange={this.handleSendCommandChange}
+							disabled={this.state.updatingSendCommand}
+						>
+							{_.map(sendOptions, (value) => {
+								return (
+									<option key={value}>{value}</option>
+								)
+							})}
+						</Select>
 
-						{_.get(user, [ 'data', 'oauth', 'outreach' ]) ? (
-							<Txt>Authorized</Txt>
-						) : (
-							<Button
-								data-test="integration-connection--outreach"
-								onClick={this.startAuthorize}
-							>
-								{this.state.fetchingIntegrationUrl ? (
-									<Icon spin name="cog" />
-								) : 'Connect'
-								}
-							</Button>
+						{this.state.updatingSendCommand && (
+							<Icon spin name="cog" />
 						)}
-					</Flex>
+					</Box>
 
-					<Divider color="#eee" />
-				</Box>
+					<Box mt={3}>
+						<Divider color="#eee" />
+
+						<Flex justifyContent="space-between" alignItems="center">
+							<Link href="https://www.outreach.io/" blank>
+								<Txt bold>Outreach</Txt>
+							</Link>
+
+							{_.get(user, [ 'data', 'oauth', 'outreach' ]) ? (
+								<Txt>Authorized</Txt>
+							) : (
+								<Button
+									data-test="integration-connection--outreach"
+									onClick={this.startAuthorize}
+								>
+									{this.state.fetchingIntegrationUrl ? (
+										<Icon spin name="cog" />
+									) : 'Connect'
+									}
+								</Button>
+							)}
+						</Flex>
+
+						<Divider color="#eee" />
+					</Box>
+				</Tabs>
 			</Column>
 		)
-	}
-}
-
-const mapStateToProps = (state) => {
-	return {
-		types: selectors.getTypes(state)
-	}
-}
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		actions: redux.bindActionCreators(actionCreators, dispatch)
-	}
-}
-
-export default {
-	slug: SLUG,
-	type: 'lens',
-	version: '1.0.0',
-	name: 'Support thread lens',
-	data: {
-		icon: 'address-card',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(MyUser),
-		filter: {
-			type: 'object',
-			properties: {
-				type: {
-					type: 'string',
-					const: 'user'
-				},
-				slug: {
-					type: 'string',
-					const: {
-						$eval: 'user.slug'
-					}
-				}
-			}
-		}
 	}
 }

@@ -7,6 +7,7 @@
 const ava = require('ava')
 const uuid = require('uuid/v4')
 const helpers = require('./helpers')
+const macros = require('./macros')
 const environment = require('../../../lib/environment')
 
 const context = {
@@ -38,21 +39,11 @@ ava.serial('The send command should default to "shift+enter"', async (test) => {
 		page
 	} = context
 
-	await page.goto(`http://localhost:${environment.ui.port}`)
 	const user = await context.createUser(userDetails)
-	await page.waitForSelector('.login-page')
-
 	context.user = user
-
-	await page.type('.login-page__input--username', userDetails.username)
-	await page.type('.login-page__input--password', userDetails.password)
-
-	await page.click('.login-page__submit--login')
-
-	await page.waitForSelector('.home-channel')
-
 	await context.addUserToBalenaOrg(user.id)
-	await page.reload()
+
+	await macros.loginUser(page, userDetails)
 
 	// Create a new thread
 	const thread = await page.evaluate(() => {
@@ -65,6 +56,8 @@ ava.serial('The send command should default to "shift+enter"', async (test) => {
 	await page.goto(`http://localhost:${environment.ui.port}/${user.id}/${thread.id}`)
 
 	await page.waitForSelector('[data-test="lens--lens-my-user"]')
+
+	await macros.waitForThenClickSelector(page, 'button[role="tab"]:nth-of-type(3)')
 
 	const element = await page.$('[data-test="lens-my-user__send-command-select"] select')
 	const value = await page.evaluate((elem) => {
@@ -126,6 +119,7 @@ ava.serial('You should be able to change the send command to "ctrl+enter"', asyn
 
 	await page.goto(`http://localhost:${environment.ui.port}/${user.id}`)
 
+	await macros.waitForThenClickSelector(page, 'button[role="tab"]:nth-of-type(3)')
 	await page.waitForSelector('[data-test="lens-my-user__send-command-select"] select')
 	await page.select('[data-test="lens-my-user__send-command-select"] select', 'ctrl+enter')
 
