@@ -182,7 +182,7 @@ class RouteHandler extends React.Component {
 
 				{_.map(channels.slice(1), (channel, index) => {
 					return (
-						<ChannelRenderer.default
+						<ChannelRenderer
 							user={user}
 							key={channel.id}
 							channel={channel}
