@@ -4,15 +4,26 @@
  * Proprietary and confidential.
  */
 
-const clone = require('deep-copy')
-const _ = require('lodash')
-const React = require('react')
-const rendition = require('rendition')
-const unstable = require('rendition/dist/unstable')
-const Icon = require('../shame/Icon')
-class FreeFieldForm extends React.Component {
+import clone from 'deep-copy'
+import _ from 'lodash'
+import React from 'react'
+import {
+	Box,
+	Button,
+	Flex,
+	Input,
+	Select,
+	Txt
+} from 'rendition'
+import {
+	Form
+} from 'rendition/dist/unstable'
+import Icon from '../shame/Icon'
+
+export default class FreeFieldForm extends React.Component {
 	constructor (props) {
 		super(props)
+
 		this.dataTypes = [
 			{
 				key: 'string',
@@ -60,71 +71,91 @@ class FreeFieldForm extends React.Component {
 				}
 			}
 		]
-		this.setFieldTitle = (event) => {
-			this.setState({
-				key: event.currentTarget.value
-			})
-		}
-		this.setFieldType = (event) => {
-			this.setState({
-				fieldType: event.currentTarget.value
-			})
-		}
-		this.addField = () => {
-			const {
-				key, fieldType
-			} = this.state
-			const schema = this.props.schema
-			const subSchema = _.find(this.dataTypes, {
-				key: fieldType
-			}).schema
-			_.set(schema, [ 'properties', key ], subSchema)
-			this.setState({
-				key: '',
-				fieldType: _.first(this.dataTypes).key
-			})
-			this.props.onSchemaChange(schema)
-		}
-		this.handleFormChange = (data) => {
-			this.props.onDataChange(data.formData)
-		}
+
 		this.state = {
 			key: '',
 			fieldType: _.first(this.dataTypes).key
 		}
+
+		this.addField = this.addField.bind(this)
+		this.handleFormChange = this.handleFormChange.bind(this)
+		this.setFieldTitle = this.setFieldTitle.bind(this)
+		this.setFieldType = this.setFieldType.bind(this)
 	}
+
+	addField () {
+		const {
+			key, fieldType
+		} = this.state
+		const schema = this.props.schema
+		const subSchema = _.find(this.dataTypes, {
+			key: fieldType
+		}).schema
+
+		_.set(schema, [ 'properties', key ], subSchema)
+
+		this.setState({
+			key: '',
+			fieldType: _.first(this.dataTypes).key
+		})
+
+		this.props.onSchemaChange(schema)
+	}
+
+	handleFormChange (data) {
+		this.props.onDataChange(data.formData)
+	}
+
+	setFieldTitle (event) {
+		this.setState({
+			key: event.currentTarget.value
+		})
+	}
+
+	setFieldType (event) {
+		this.setState({
+			fieldType: event.currentTarget.value
+		})
+	}
+
 	render () {
 		return (
-			<rendition.Box>
-				<unstable.Form
+			<Box>
+				<Form
 					schema={clone(this.props.schema)}
 					value={this.props.data}
 					onFormChange={this.handleFormChange}
 					hideSubmitButton={true}
 				/>
 
-				<rendition.Flex justifyContent="space-between" pt={60}>
-					<rendition.Txt mt={9}>Add a new field</rendition.Txt>
+				<Flex justifyContent="space-between" pt={60}>
+					<Txt mt={9}>Add a new field</Txt>
 
-					<rendition.Input value={this.state.key} onChange={this.setFieldTitle} placeholder="Enter the field title"/>
+					<Input
+						value={this.state.key}
+						onChange={this.setFieldTitle}
+						placeholder="Enter the field title"
+					/>
 
-					<rendition.Select value={this.state.fieldType} onChange={this.setFieldType}>
+					<Select value={this.state.fieldType} onChange={this.setFieldType}>
 						{this.dataTypes.map((item) => {
-							return (<option key={item.key} value={item.key}>
-								{item.name}
-							</option>)
+							return (
+								<option key={item.key} value={item.key}>
+									{item.name}
+								</option>
+							)
 						})}
-					</rendition.Select>
+					</Select>
 
-					<rendition.Button success onClick={this.addField}>
-						<Icon.default style={{
-							marginRight: 10
-						}} name="plus"/>
-							Add field
-					</rendition.Button>
-				</rendition.Flex>
-			</rendition.Box>
+					<Button
+						success
+						onClick={this.addField}
+						icon={<Icon name="plus"/>}
+					>
+						Add field
+					</Button>
+				</Flex>
+			</Box>
 		)
 	}
 }
-exports.FreeFieldForm = FreeFieldForm
