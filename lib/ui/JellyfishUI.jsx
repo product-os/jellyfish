@@ -43,8 +43,8 @@ import {
 } from 'react-router-dom'
 
 // Register the mermaid and markdown widgets for rendition forms
-require('rendition/dist/extra/Form/markdown')
-require('rendition/dist/extra/Form/mermaid')
+import 'rendition/dist/extra/Form/markdown'
+import 'rendition/dist/extra/Form/mermaid'
 
 // Check if the path begins with a hash fragment, followed by a slash: /#/
 const LEGACY_PATH_CHECK_RE = /^\/#\//
@@ -86,7 +86,7 @@ class JellyfishUI extends React.Component {
 		const path = window.location.pathname + window.location.hash
 
 		if (this.props.status === 'initializing') {
-			return <Splash.Splash />
+			return <Splash />
 		}
 		if (this.props.status === 'unauthorized') {
 			return (

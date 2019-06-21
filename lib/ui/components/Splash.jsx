@@ -4,10 +4,14 @@
  * Proprietary and confidential.
  */
 
-const React = require('react')
-const rendition = require('rendition')
-const styledComponents = require('styled-components')
-const SplashWrapper = styledComponents.default(rendition.Box) `
+import React from 'react'
+import {
+	Box,
+	Img
+} from 'rendition'
+import styled from 'styled-components'
+
+const SplashWrapper = styled(Box) `
 	width: 100%;
 	height: 100%;
 	background: lighten(#f0f4c3, 10%);
@@ -74,11 +78,13 @@ const SplashWrapper = styledComponents.default(rendition.Box) `
 		75% { transform: rotate(-15deg); }
 	}
 `
-exports.Splash = (props) => {
-	return (<SplashWrapper className="splash" {...props}>
-		<div className="splash__wave -one"/>
-		<div className="splash__wave -two"/>
-		<div className="splash__wave -three"/>
-		<rendition.Img className="splash__icon" src="/icons/jellyfish.svg"/>
-	</SplashWrapper>)
+export default function Splash (props) {
+	return (
+		<SplashWrapper className="splash" {...props}>
+			<div className="splash__wave -one"/>
+			<div className="splash__wave -two"/>
+			<div className="splash__wave -three"/>
+			<Img className="splash__icon" src="/icons/jellyfish.svg"/>
+		</SplashWrapper>
+	)
 }
