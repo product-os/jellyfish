@@ -1,0 +1,85 @@
+{
+  "slug": "account",
+  "type": "type",
+  "name": "Account",
+  "version": "1.0.0",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "markers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-_/:+]+$"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "default": "Nominal",
+              "enum": [
+                "Nominal",
+                "Potential",
+                "Possible",
+                "Probable",
+                "Closed Won",
+                "Needs Attention",
+                "Awaiting Response",
+                "Overages / Upgrades - Awaiting Resolution",
+                "Closed Lost",
+                "Closed Churned",
+                "Ghosted"
+              ]
+            },
+            "industry": {
+              "title": "Industry",
+              "type": "string"
+            },
+            "usecase": {
+              "title": "Use case(s)",
+              "type": "string"
+            },
+            "stack": {
+              "title": "Tech stack",
+              "type": "string"
+            },
+            "location": {
+              "title": "Location",
+              "type": "string"
+            },
+            "stageOfBusiness": {
+              "title": "Stage of business",
+              "type": "string"
+            },
+            "projectedArr": {
+              "title": "Projected ARR",
+              "type": "number"
+            },
+            "description": {
+              "type": "string",
+              "format": "markdown"
+            }
+          }
+        }
+      },
+      "required": [
+        "name",
+        "data"
+      ]
+    },
+		"slices": [
+			"properties.data.properties.profile.properties.status"
+		]
+  },
+  "requires": [],
+  "capabilities": []
+}

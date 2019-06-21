@@ -270,6 +270,7 @@
               "enum": [
                 "account",
                 "architecture-topic",
+                "contact",
                 "issue",
                 "pull-request",
                 "thread",

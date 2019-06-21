@@ -54,6 +54,8 @@ class CreateLens extends React.Component {
 			selectedTypeTarget: _.first(_.castArray(types))
 		}
 
+		console.log('state', this.state)
+
 		this.bindMethods([
 			'addEntry',
 			'close',
