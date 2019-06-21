@@ -204,7 +204,7 @@ class CardLinker extends React.Component {
 					</Button>
 
 					{this.state.showMenu && (
-						<ContextMenu.ContextMenu
+						<ContextMenu
 							position="bottom"
 							onClose={this.toggleMenu}
 						>
@@ -242,7 +242,7 @@ class CardLinker extends React.Component {
 							>
 								Visualize links
 							</Button>
-						</ContextMenu.ContextMenu>
+						</ContextMenu>
 					)}
 				</span>
 

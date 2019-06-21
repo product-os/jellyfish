@@ -131,15 +131,19 @@ class CustomLaneHeader extends React.Component {
 				</EllipsisButton>
 
 				{this.state.showMenu && (
-					<ContextMenu.ContextMenu position="bottom" onClose={this.toggleMenu}>
+					<ContextMenu position="bottom" onClose={this.toggleMenu}>
 						<Button plain onClick={this.toggleUpdateModal}>
 						Update all items in this list
 						</Button>
-					</ContextMenu.ContextMenu>
+					</ContextMenu>
 				)}
 
 				{this.state.showUpdateModal && (
-					<GroupUpdate.GroupUpdate cards={props.cards} schema={props.schema} onClose={this.toggleUpdateModal}/>
+					<GroupUpdate
+						cards={props.cards}
+						schema={props.schema}
+						onClose={this.toggleUpdateModal}
+					/>
 				)}
 			</div>
 		)

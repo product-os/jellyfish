@@ -115,7 +115,7 @@ class CardActions extends React.Component {
 						/>
 
 						{this.state.showMenu &&
-							<ContextMenu.ContextMenu position="bottom" onClose={this.toggleMenu}>
+							<ContextMenu position="bottom" onClose={this.toggleMenu}>
 								<React.Fragment>
 									<ActionLink
 										onClick={this.copyPermalink}
@@ -148,7 +148,7 @@ class CardActions extends React.Component {
 
 									{this.props.children}
 								</React.Fragment>
-							</ContextMenu.ContextMenu>}
+							</ContextMenu>}
 					</span>
 
 				</Flex>
