@@ -4,8 +4,6 @@
  * Proprietary and confidential.
  */
 
-/* global process */
-/* eslint-disable no-process-env */
 import ReactTextareaAutocomplete from '@webscopeio/react-textarea-autocomplete'
 import * as _ from 'lodash'
 import React from 'react'
@@ -23,6 +21,7 @@ import {
 } from '../../core'
 import Link from '../../components/Link'
 import * as helpers from '../../services/helpers'
+import * as environment from '../../environment'
 import Icon from '../Icon'
 import Container from './Container'
 import {
@@ -31,7 +30,7 @@ import {
 
 // ReactTextareaAutocomplete autocompletion doesn't work with JSDom, so disable
 // it during testing
-const ACTIVE = process.env.NODE_ENV !== 'test'
+const ACTIVE = !environment.isTest()
 const QUICK_SEARCH_RE = /^\s*\?[\w_-]+/
 
 const QuickSearchPanel = styled(Card) `

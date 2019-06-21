@@ -3,8 +3,6 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited.
  * Proprietary and confidential.
  */
-/* global process */
-/* eslint-disable no-process-env */
 
 require('@babel/polyfill')
 const Sentry = require('@sentry/browser')
@@ -26,14 +24,12 @@ const JellyfishUI = require('./JellyfishUI').default
 const {
 	ErrorBoundary
 } = require('./shame/ErrorBoundary')
+const environment = require('./environment')
 
-const SENTRY_DSN = process.env.SENTRY_DSN_UI
-
-if (process.env.NODE_ENV === 'production' &&
-	SENTRY_DSN && SENTRY_DSN !== '0') {
+if (environment.isProduction() && environment.sentry.dsn !== '0') {
 	Sentry.init({
-		dsn: SENTRY_DSN,
-		release: process.env.VERSION,
+		dsn: environment.sentry.dsn,
+		release: environment.version,
 		environment: 'ui'
 	})
 }
