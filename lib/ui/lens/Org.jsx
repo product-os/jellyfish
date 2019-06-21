@@ -250,7 +250,7 @@ class Org extends React.Component {
 
 					{Boolean(members) && (
 						<React.Fragment>
-							<Label.default>Members ({members.length})</Label.default>
+							<Label>Members ({members.length})</Label>
 							<rendition.Box style={{
 								overflow: 'auto',
 								maxHeight: 150

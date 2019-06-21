@@ -436,7 +436,7 @@ class SupportThreadBase extends React.Component {
 								if (key === 'mirrors' && payload[key]) {
 									return (
 										<React.Fragment key={key}>
-											<Label.default my={3}>{key}</Label.default>
+											<Label my={3}>{key}</Label>
 											{payload[key].map((mirror) => {
 												const url = transformMirror(mirror)
 												return <Link key={url} blank href={url}>{url}</Link>
