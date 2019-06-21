@@ -123,7 +123,7 @@ class ChannelRenderer extends React.Component {
 			)
 		}
 
-		const lens = lensService.default.getLens(channel.data.head, this.props.user)
+		const lens = lensService.getLens(channel.data.head, this.props.user)
 
 		return (
 			<ErrorBoundary style={style}>
