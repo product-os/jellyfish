@@ -1,13 +1,17 @@
-
 /*
  * Copyright (C) Balena.io - All Rights Reserved
  * Unauthorized copying of this file, via any medium is strictly prohibited.
  * Proprietary and confidential.
  */
-const React = require('react')
-const rendition = require('rendition')
-const styledComponents = require('styled-components')
-const IconWrapper = styledComponents.default(rendition.Box) `
+
+import React from 'react'
+import {
+	Box,
+	Img
+} from 'rendition'
+import styled from 'styled-components'
+
+const IconWrapper = styled(Box) `
 	width: 100%;
 	height: 100%;
 	position: relative;
@@ -41,21 +45,22 @@ const IconWrapper = styledComponents.default(rendition.Box) `
 		75% { transform: skew(15deg, -15deg); }
 	}
 `
-class ErrorBoundary extends React.Component {
+
+export default class ErrorBoundary extends React.Component {
 	constructor (props) {
 		super(props)
-		this.state = {
-			hasError: false
-		}
+
 		this.state = {
 			hasError: false
 		}
 	}
+
 	static getDerivedStateFromError (_error) {
 		return {
 			hasError: true
 		}
 	}
+
 	componentDidCatch (error, info) {
 		console.error('Caught error in boundary', {
 			info,
@@ -65,16 +70,17 @@ class ErrorBoundary extends React.Component {
 			hasError: true
 		})
 	}
+
 	render () {
 		if (this.state.hasError) {
 			return (
 				<IconWrapper style={this.props.style}>
 					<h1>Oh no, Something went wrong!</h1>
-					<rendition.Img src="/icons/dead-jellyfish.svg"/>
+					<Img src="/icons/dead-jellyfish.svg"/>
 				</IconWrapper>
 			)
 		}
+
 		return this.props.children
 	}
 }
-exports.ErrorBoundary = ErrorBoundary

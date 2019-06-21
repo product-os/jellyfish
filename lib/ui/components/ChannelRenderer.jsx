@@ -16,9 +16,7 @@ import {
 } from 'rendition'
 import styled from 'styled-components'
 import constants from '../constants'
-import {
-	ErrorBoundary
-} from '../shame/ErrorBoundary'
+import ErrorBoundary from '../shame/ErrorBoundary'
 import Icon from '../shame/Icon'
 import {
 	connect

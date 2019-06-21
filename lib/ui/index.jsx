@@ -21,9 +21,7 @@ const {
 
 const core = require('./core')
 const JellyfishUI = require('./JellyfishUI').default
-const {
-	ErrorBoundary
-} = require('./shame/ErrorBoundary')
+const ErrorBoundary = require('./shame/ErrorBoundary')
 const environment = require('./environment')
 
 if (environment.isProduction() && environment.sentry.dsn !== '0') {
@@ -64,9 +62,9 @@ ReactDOM.render(
 			<React.Fragment>
 				<GlobalStyle />
 
-				<ErrorBoundary>
+				<ErrorBoundary.default>
 					<JellyfishUI />
-				</ErrorBoundary>
+				</ErrorBoundary.default>
 			</React.Fragment>
 		</Provider>
 	),
