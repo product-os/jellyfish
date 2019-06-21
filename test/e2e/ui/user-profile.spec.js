@@ -5,6 +5,7 @@
  */
 
 const ava = require('ava')
+const bluebird = require('bluebird')
 const uuid = require('uuid/v4')
 const helpers = require('./helpers')
 const macros = require('./macros')
@@ -71,6 +72,7 @@ ava.serial('The send command should default to "shift+enter"', async (test) => {
 
 	await page.waitForSelector('.new-message-input')
 	await page.type('textarea', rand)
+	await bluebird.delay(500)
 	await page.keyboard.down('Shift')
 	await page.keyboard.press('Enter')
 	await page.keyboard.up('Shift')
@@ -105,6 +107,7 @@ ava.serial('You should be able to change the send command to "enter"', async (te
 
 	await page.waitForSelector('.new-message-input')
 	await page.type('textarea', rand)
+	await bluebird.delay(500)
 	await page.keyboard.press('Enter')
 	await page.waitForSelector('.column--thread [data-test="event-card__message"]')
 

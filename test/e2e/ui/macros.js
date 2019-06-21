@@ -4,6 +4,7 @@
  * Proprietary and confidential.
  */
 
+const bluebird = require('bluebird')
 const _ = require('lodash')
 const environment = require('../../../lib/environment')
 
@@ -116,6 +117,7 @@ exports.waitForThenClickSelector = async (page, selector) => {
 exports.createChatMessage = async (page, scopeSelector, messageText) => {
 	await page.waitForSelector('.new-message-input', exports.WAIT_OPTS)
 	await page.type('textarea', messageText)
+	await bluebird.delay(500)
 	await page.keyboard.down('Shift')
 	await page.keyboard.press('Enter')
 	await page.keyboard.up('Shift')

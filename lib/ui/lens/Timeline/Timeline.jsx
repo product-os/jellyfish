@@ -70,7 +70,7 @@ export default class Timeline extends React.Component {
 		this.handleFileChange = this.handleFileChange.bind(this)
 		this.handleEventToggle = this.handleEventToggle.bind(this)
 		this.handleNewMessageSubmit = this.handleNewMessageSubmit.bind(this)
-		this.handleNewMessageChange = this.handleNewMessageChange.bind(this)
+		this.handleNewMessageChange = _.debounce(this.handleNewMessageChange.bind(this), 100)
 		this.handleWhisperToggle = this.handleWhisperToggle.bind(this)
 
 		this.signalTyping = _.throttle(() => {
@@ -82,7 +82,7 @@ export default class Timeline extends React.Component {
 		}, 1500)
 	}
 
-	async handleNewMessageChange (event) {
+	handleNewMessageChange (event) {
 		this.signalTyping()
 		const newMessage = event.target.value
 		const messageSymbol = !this.props.allowWhispers || Boolean(newMessage.match(messageSymbolRE))
