@@ -4,25 +4,26 @@
  * Proprietary and confidential.
  */
 
-require('@babel/polyfill')
-const Sentry = require('@sentry/browser')
-require('circular-std')
-const React = require('react')
-const ReactDOM = require('react-dom')
-const {
+import '@babel/polyfill'
+import Sentry from '@sentry/browser'
+import 'circular-std'
+import React from 'react'
+import ReactDOM from 'react-dom'
+import {
 	Provider
-} = require('react-redux')
-const {
+} from 'react-redux'
+import {
 	Theme
-} = require('rendition')
-const {
+} from 'rendition'
+import {
 	createGlobalStyle
-} = require('styled-components')
-
-const core = require('./core')
-const JellyfishUI = require('./JellyfishUI').default
-const ErrorBoundary = require('./shame/ErrorBoundary')
-const environment = require('./environment')
+} from 'styled-components'
+import {
+	store
+} from './core'
+import JellyfishUI from './JellyfishUI'
+import ErrorBoundary from './shame/ErrorBoundary'
+import * as environment from './environment'
 
 if (environment.isProduction() && environment.sentry.dsn !== '0') {
 	Sentry.init({
@@ -58,13 +59,13 @@ const GlobalStyle = createGlobalStyle `
 
 ReactDOM.render(
 	(
-		<Provider store={core.store}>
+		<Provider store={store}>
 			<React.Fragment>
 				<GlobalStyle />
 
-				<ErrorBoundary.default>
+				<ErrorBoundary>
 					<JellyfishUI />
-				</ErrorBoundary.default>
+				</ErrorBoundary>
 			</React.Fragment>
 		</Provider>
 	),
