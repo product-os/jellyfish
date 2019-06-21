@@ -37,9 +37,7 @@ import {
 	sdk
 } from '../core'
 import AuthenticatedImage from '../components/AuthenticatedImage'
-import {
-	ContextMenu
-} from '../components/ContextMenu'
+import ContextMenu from '../components/ContextMenu'
 import {
 	tagStyle
 } from '../components/Tag'

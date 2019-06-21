@@ -4,13 +4,18 @@
  * Proprietary and confidential.
  */
 
-const React = require('react')
-const ReactDOM = require('react-dom')
-const rendition = require('rendition')
-const styledComponents = require('styled-components')
+import React from 'react'
+import ReactDOM from 'react-dom'
+import {
+	Box,
+	Fixed
+} from 'rendition'
+import styled from 'styled-components'
+
 const ARROW_WIDTH = 7
 const ARROW_RIGHT_OFFSET = 11
-const Menu = styledComponents.default(rendition.Box) `
+
+const Menu = styled(Box) `
 	background-clip: padding-box;
 	background-color: #fff;
 	border-radius: 3px;
@@ -80,11 +85,13 @@ const Menu = styledComponents.default(rendition.Box) `
 		}
 	}
 `
-class ContextMenu extends React.Component {
+
+export default class ContextMenu extends React.Component {
 	constructor (props) {
 		super(props)
 		this.state = {}
 	}
+
 	componentDidMount () {
 		// eslint-disable-next-line react/no-find-dom-node
 		const node = ReactDOM.findDOMNode(this)
@@ -110,24 +117,40 @@ class ContextMenu extends React.Component {
 			})
 		}
 	}
+
 	render () {
 		const {
-			onClose, children
+			children,
+			onClose,
+			position
 		} = this.props
 		const {
-			offsetLeft, offsetTop, offsetRight
+			offsetLeft,
+			offsetRight,
+			offsetTop
 		} = this.state
 		const display = offsetLeft && offsetTop ? 'block' : 'none'
-		return (<rendition.Fixed top right bottom left z={999} onClick={onClose}>
-			<Menu className={`context-menu--${this.props.position || 'left'}`} style={{
-				top: offsetTop,
-				left: offsetLeft,
-				right: offsetRight,
-				display
-			}}>
-				{children}
-			</Menu>
-		</rendition.Fixed>)
+		return (
+			<Fixed
+				top
+				right
+				bottom
+				left
+				z={999}
+				onClick={onClose}
+			>
+				<Menu
+					className={`context-menu--${position || 'left'}`}
+					style={{
+						top: offsetTop,
+						left: offsetLeft,
+						right: offsetRight,
+						display
+					}}
+				>
+					{children}
+				</Menu>
+			</Fixed>
+		)
 	}
 }
-exports.ContextMenu = ContextMenu
