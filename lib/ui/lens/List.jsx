@@ -69,7 +69,7 @@ class CardList extends BaseLens {
 					{() => {
 						return (
 							<Box px={3} pb={3} style={rowProps.style}>
-								<SingleCard.default.data.renderer card={card} level={1}/>
+								<SingleCard.data.renderer card={card} level={1}/>
 								<Divider color="#eee" m={0} style={{
 									height: 1
 								}}/>
