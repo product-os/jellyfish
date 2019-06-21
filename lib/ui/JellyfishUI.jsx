@@ -21,9 +21,7 @@ import {
 } from 'file-saver'
 import HomeChannel from './components/HomeChannel'
 import Login from './components/Login'
-import {
-	Notifications
-} from './components/Notifications'
+import Notifications from './components/Notifications'
 import Oauth from './components/Oauth'
 import RouteHandler from './components/RouteHandler'
 import Splash from './components/Splash'

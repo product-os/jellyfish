@@ -4,34 +4,43 @@
  * Proprietary and confidential.
  */
 
-const _ = require('lodash')
-const React = require('react')
-const {
+import _ from 'lodash'
+import React from 'react'
+import {
 	connect
-} = require('react-redux')
-const redux = require('redux')
-const rendition = require('rendition')
-const styledComponents = require('styled-components')
-const {
+} from 'react-redux'
+import {
+	bindActionCreators
+} from 'redux'
+import {
+	Alert,
+	Box,
+	Fixed
+} from 'rendition'
+import styled from 'styled-components'
+import {
 	actionCreators,
 	selectors
-} = require('../core')
-const MessageText = styledComponents.default.span `
+} from '../core'
+
+const MessageText = styled.span `
 	white-space: pre;
 `
 class JellyFishAlert extends React.Component {
 	constructor (props) {
 		super(props)
+
 		this.dismiss = () => {
 			this.props.onDismiss(this.props.id)
 		}
 	}
+
 	render () {
 		const {
 			id, type, message
 		} = this.props
 		return (
-			<rendition.Alert
+			<Alert
 				key={id}
 				mb={2}
 				success={type === 'success'}
@@ -42,43 +51,69 @@ class JellyFishAlert extends React.Component {
 				data-test={`alert--${type}`}
 				onDismiss={this.dismiss}
 			>
-				<MessageText>{_.isString(message) ? message : JSON.stringify(message)}</MessageText>
-			</rendition.Alert>
+				<MessageText>
+					{_.isString(message) ? message : JSON.stringify(message)}
+				</MessageText>
+			</Alert>
 		)
 	}
 }
-class Base extends React.Component {
+
+class Notifications extends React.Component {
 	constructor (props) {
 		super(props)
+
 		this.remove = (id) => {
 			this.props.actions.removeNotification(id)
 		}
 	}
+
 	render () {
 		if (!this.props.notifications.length) {
 			return null
 		}
-		return (<rendition.Fixed top={true} left={true} right={true}>
-			<rendition.Box m={3} style={{
-				opacity: 0.95
-			}}>
-				{this.props.notifications.map(({
-					type, id, message
-				}) => {
-					return (<JellyFishAlert key={id} id={id} type={type} message={message} onDismiss={this.remove}/>)
-				})}
-			</rendition.Box>
-		</rendition.Fixed>)
+
+		return (
+			<Fixed
+				top
+				left
+				right
+			>
+				<Box
+					m={3}
+					style={{
+						opacity: 0.95
+					}}
+				>
+					{this.props.notifications.map(({
+						type, id, message
+					}) => {
+						return (
+							<JellyFishAlert
+								key={id}
+								id={id}
+								type={type}
+								message={message}
+								onDismiss={this.remove}
+							/>
+						)
+					})}
+				</Box>
+			</Fixed>
+		)
 	}
 }
+
 const mapStateToProps = (state) => {
 	return {
 		notifications: selectors.getNotifications(state)
 	}
 }
+
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: redux.bindActionCreators(actionCreators, dispatch)
+		actions: bindActionCreators(actionCreators, dispatch)
 	}
 }
-exports.Notifications = connect(mapStateToProps, mapDispatchToProps)(Base)
+
+export default connect(mapStateToProps, mapDispatchToProps)(Notifications)
