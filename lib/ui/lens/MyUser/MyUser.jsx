@@ -165,7 +165,7 @@ export default class MyUser extends React.Component {
 				>
 					<Box mt={3}>
 						<Flex>
-							<Gravatar.default email={user.data.email}/>
+							<Gravatar email={user.data.email}/>
 
 							<Box ml={2}>
 								<strong>{user.slug.replace('user-', '')}</strong>

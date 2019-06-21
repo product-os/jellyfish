@@ -433,7 +433,7 @@ class Event extends React.Component {
 					<EventButton onClick={this.openChannel} style={{
 						borderLeftColor: helpers.colorHash(getTargetId(card))
 					}}>
-						<Gravatar.default small email={actor ? actor.email : null}/>
+						<Gravatar small email={actor ? actor.email : null}/>
 					</EventButton>
 					<InnerWrapper
 						flex="1"

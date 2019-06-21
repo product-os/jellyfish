@@ -167,7 +167,7 @@ export default class CardChatSummary extends React.Component {
 				<Txt my={2}>{messages.length} message{messages.length !== 1 && 's'}</Txt>
 				{lastMessageOrWhisper && (
 					<Flex>
-						<Gravatar.default small pr={2} email={lastActor ? lastActor.email : null}/>
+						<Gravatar small pr={2} email={lastActor ? lastActor.email : null}/>
 
 						<Container
 							data-test-component="card-chat-summary__message"

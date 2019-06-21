@@ -4,12 +4,17 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited.
  * Proprietary and confidential.
  */
-const Bluebird = require('bluebird')
-const md5 = require('blueimp-md5')
-const _ = require('lodash')
-const React = require('react')
-const rendition = require('rendition')
-const Icon = require('./Icon')
+import Bluebird from 'bluebird'
+import md5 from 'blueimp-md5'
+import _ from 'lodash'
+import React from 'react'
+import {
+	Box,
+	Flex,
+	Img,
+	Theme
+} from 'rendition'
+import Icon from './Icon'
 
 const GRAVATAR_URL = 'https://www.gravatar.com/avatar/'
 
@@ -41,12 +46,13 @@ const getGravatar = (() => {
 	}
 })()
 
-class Gravatar extends React.Component {
+export default class Gravatar extends React.Component {
 	constructor (props) {
 		super(props)
 		this.state = {
 			avatarUrl: ''
 		}
+
 		if (this.props.email) {
 			this.load(this.props.email)
 		}
@@ -84,30 +90,35 @@ class Gravatar extends React.Component {
 			height: 36,
 			textAlign: 'center'
 		}
+
 		if (small) {
 			style.width = 24
 			style.height = 24
 		}
+
 		if (this.state.avatarUrl) {
-			return (<rendition.Box {...props}>
-				<rendition.Img style={style} src={this.state.avatarUrl}/>
-			</rendition.Box>)
+			return (
+				<Box {...props}>
+					<Img style={style} src={this.state.avatarUrl}/>
+				</Box>
+			)
 		}
+
 		style.padding = 4
+
 		return (
-			<rendition.Box {...props}>
-				<rendition.Flex
+			<Box {...props}>
+				<Flex
 					p='4px'
-					bg={rendition.Theme.colors.text.light}
+					bg={Theme.colors.text.light}
 					color='white'
 					flexDirection='column'
 					justifyContent='center'
 					style={style}
 				>
-					<Icon.default name="user"/>
-				</rendition.Flex>
-			</rendition.Box>
+					<Icon name="user"/>
+				</Flex>
+			</Box>
 		)
 	}
 }
-exports.default = Gravatar
