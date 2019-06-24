@@ -5,15 +5,7 @@
  */
 
 import React from 'react'
-import {
-	Box,
-	Flex,
-	Heading
-} from 'rendition'
-import CardActions from '../../components/CardActions'
-import {
-	CloseButton
-} from '../../shame/CloseButton'
+import CardLayout from '../../layouts/CardLayout'
 
 export default class Contact extends React.Component {
 	render () {
@@ -24,22 +16,10 @@ export default class Contact extends React.Component {
 		} = this.props
 
 		return (
-			<Box p={3}>
-				<Flex justifyContent="space-between">
-					<Heading.h4>
-						{card.name || card.slug || card.type}
-					</Heading.h4>
-
-					<Flex align="baseline">
-						<CardActions card={card}/>
-
-						<CloseButton
-							ml={3}
-							channel={channel}
-						/>
-					</Flex>
-				</Flex>
-			</Box>
+			<CardLayout
+				card={card}
+				channel={channel}
+			/>
 		)
 	}
 }

@@ -23,10 +23,7 @@ import {
 } from 'rendition/dist/unstable'
 import * as skhema from 'skhema'
 import * as helpers from '../../services/helpers'
-import Column from '../../shame/Column'
-import {
-	CloseButton
-} from '../../shame/CloseButton'
+import CardLayout from '../../layouts/CardLayout'
 import Gravatar from '../../shame/Gravatar'
 import Icon from '../../shame/Icon'
 
@@ -142,25 +139,20 @@ export default class MyUser extends React.Component {
 		}
 
 		return (
-			<Column data-test={`lens--${SLUG}`}>
-				<Flex
-					justifyContent="space-between"
-					p={3}
-				>
-					<Heading.h3>
+			<CardLayout
+				data-test={`lens--${SLUG}`}
+				card={user}
+				channel={this.props.channel}
+				noActions
+				title={(
+					<Heading.h4>
 						Settings
-					</Heading.h3>
-
-					<Flex align="center">
-						<CloseButton
-							ml={3}
-							channel={this.props.channel}
-						/>
-					</Flex>
-				</Flex>
-
+					</Heading.h4>
+				)}
+			>
 				<Tabs
 					tabs={[ 'Profile', 'Account', 'Interface', 'Oauth' ]}
+					pt={3}
 					px={3}
 				>
 					<Box mt={3}>
@@ -255,7 +247,7 @@ export default class MyUser extends React.Component {
 						<Divider color="#eee" />
 					</Box>
 				</Tabs>
-			</Column>
+			</CardLayout>
 		)
 	}
 }

@@ -25,7 +25,6 @@ import {
 	Txt
 } from 'rendition'
 import styled from 'styled-components'
-import CardActions from '../../components/CardActions'
 import CardField from '../../components/CardField'
 import Event from '../../components/Event'
 import Label from '../../components/Label'
@@ -40,11 +39,8 @@ import {
 } from '../../core'
 import * as helpers from '../../services/helpers'
 import Timeline from '../Timeline'
-import {
-	CloseButton
-} from '../../shame/CloseButton'
+import CardLayout from '../../layouts/CardLayout'
 import ColorHashPill from '../../shame/ColorHashPill'
-import Column from '../../shame/Column'
 import Icon from '../../shame/Icon'
 
 const Extract = styled(Box) `
@@ -225,7 +221,9 @@ class SupportThreadBase extends React.Component {
 	}
 	render () {
 		const {
-			card, fieldOrder
+			card,
+			channel,
+			fieldOrder
 		} = this.props
 		const {
 			linkedSupportIssues,
@@ -266,18 +264,13 @@ class SupportThreadBase extends React.Component {
 		} = this.state
 
 		const highlights = getHighlights(card)
+
 		return (
-			<Column
-				flex={this.props.flex}
-				data-test-component="column"
-				data-test-id={card.id}
-				overflowY
-			>
-				<Box
-					px={3}
-					pt={3}
-				>
-					<Flex mb={2} justifyContent="space-between">
+			<CardLayout
+				card={card}
+				channel={channel}
+				title={(
+					<Flex flex={1} justifyContent="space-between">
 						<DropDownButton
 							primary
 							label={_.get(card, [ 'data', 'category' ], defaultCategory)}
@@ -296,35 +289,34 @@ class SupportThreadBase extends React.Component {
 							})}
 						</DropDownButton>
 
-						<Flex align="center">
-							<Button
-								plain
-								mr={3}
-								tooltip={{
-									placement: 'bottom',
-									text: 'Close this support thread'
-								}}
-								onClick={this.close}
-								icon={<Icon name="archive"/>}
-							/>
-
-							<CardActions card={card}>
-								<RouterLink append="view-all-support-issues">
-									Search support issues
-								</RouterLink>
-
-								<RouterLink append="view-all-issues">
-									Search GitHub issues
-								</RouterLink>
-							</CardActions>
-
-							<CloseButton
-								ml={3}
-								channel={this.props.channel}
-							/>
-						</Flex>
+						<Button
+							plain
+							mr={3}
+							tooltip={{
+								placement: 'bottom',
+								text: 'Close this support thread'
+							}}
+							onClick={this.close}
+							icon={<Icon name="archive"/>}
+						/>
 					</Flex>
+				)}
+				actionItems={(
+					<React.Fragment>
+						<RouterLink append="view-all-support-issues">
+							Search support issues
+						</RouterLink>
 
+						<RouterLink append="view-all-issues">
+							Search GitHub issues
+						</RouterLink>
+					</React.Fragment>
+				)}
+			>
+				<Box
+					px={3}
+					pt={3}
+				>
 					<Flex alignItems="center" mb={1} wrap="true">
 						<ColorHashPill value={_.get(card, [ 'data', 'inbox' ])} mr={2} mb={1} />
 						<ColorHashPill value={_.get(card, [ 'data', 'status' ])} mr={2} mb={1} />
@@ -473,7 +465,7 @@ class SupportThreadBase extends React.Component {
 						tail={_.get(this.props.card.links, [ 'has attached element' ], [])}
 					/>
 				</Box>
-			</Column>
+			</CardLayout>
 		)
 	}
 }

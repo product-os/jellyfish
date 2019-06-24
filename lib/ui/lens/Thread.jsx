@@ -14,10 +14,8 @@ import {
 } from 'react-redux'
 import {
 	Box,
-	Flex,
 	Txt
 } from 'rendition'
-import CardActions from '../components/CardActions'
 import CardField from '../components/CardField'
 import {
 	Tag
@@ -27,10 +25,7 @@ import {
 } from '../core'
 import * as helpers from '../services/helpers'
 import Timeline from './Timeline'
-import {
-	CloseButton
-} from '../shame/CloseButton'
-import Column from '../shame/Column'
+import CardLayout from '../layouts/CardLayout'
 
 class Thread extends React.Component {
 	shouldComponentUpdate (nextProps) {
@@ -40,8 +35,8 @@ class Thread extends React.Component {
 	render () {
 		const {
 			card,
+			channel,
 			fieldOrder,
-			level,
 			types
 		} = this.props
 
@@ -66,36 +61,20 @@ class Thread extends React.Component {
 		})
 
 		const keys = (fieldOrder || []).concat(unorderedKeys)
-		const cardSlug = _.get(card, [ 'slug' ])
-		const cardType = _.get(card, [ 'type' ])
 
 		return (
-			<Column
-				className={`column--${cardType || 'unknown'} column--slug-${cardSlug || 'unkown'}`}
-				flex={this.props.flex}
+			<CardLayout
+				card={card}
+				channel={channel}
+				title={(
+					<Txt mb={3}>
+						<strong>
+							Thread created at {helpers.formatTimestamp(card.created_at)}
+						</strong>
+					</Txt>
+				)}
 			>
-				<Box p={3} pb={0}>
-					<Flex justifyContent="space-between">
-						{card.created_at && (
-							<Txt mb={3}>
-								<strong>
-									Thread created at {helpers.formatTimestamp(card.created_at)}
-								</strong>
-							</Txt>
-						)}
-
-						{!level && (
-							<Flex align="baseline">
-								<CardActions card={card}/>
-
-								<CloseButton
-									ml={3}
-									channel={this.props.channel}
-								/>
-							</Flex>
-						)}
-					</Flex>
-
+				<Box px={3} pb={0}>
 					{Boolean(card.tags) && card.tags.length > 0 && (
 						<Box mb={1}>
 							{_.map(card.tags, (tag) => {
@@ -124,7 +103,7 @@ class Thread extends React.Component {
 						tail={_.get(this.props.card, [ 'links', 'has attached element' ], [])}
 					/>
 				</Box>
-			</Column>
+			</CardLayout>
 		)
 	}
 }

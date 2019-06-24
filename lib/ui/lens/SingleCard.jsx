@@ -13,25 +13,18 @@ import {
 	connect
 } from 'react-redux'
 import {
-	Box,
-	Flex,
-	Txt
+	Box
 } from 'rendition'
-import CardActions from '../components/CardActions'
 import CardField from '../components/CardField'
-import Link from '../components/Link'
 import {
 	Tag
 } from '../components/Tag'
 import {
 	selectors
 } from '../core'
+import CardLayout from '../layouts/CardLayout'
 import * as helpers from '../services/helpers'
 import Timeline from './Timeline'
-import {
-	CloseButton
-} from '../shame/CloseButton'
-import Column from '../shame/Column'
 
 class SingleCard extends React.Component {
 	shouldComponentUpdate (nextProps) {
@@ -40,7 +33,9 @@ class SingleCard extends React.Component {
 
 	render () {
 		const {
-			card, fieldOrder, level
+			card,
+			channel,
+			fieldOrder
 		} = this.props
 		const payload = card.data
 		const typeCard = _.find(this.props.types, {
@@ -60,95 +55,48 @@ class SingleCard extends React.Component {
 			return !_.includes(fieldOrder, key)
 		})
 		const keys = (fieldOrder || []).concat(unorderedKeys)
-		const cardSlug = _.get(card, [ 'slug' ])
-		const cardType = _.get(card, [ 'type' ])
-		const content = (
-			<React.Fragment>
-				<Flex justifyContent="space-between">
-					<Txt mb={3}>
-						<strong>
-							{level > 0 && (
-								<Link
-									append={card.slug || card.id}
-									className={`header-link header-link--${card.slug || card.id}`}
-								>
-									{card.name || card.slug || card.type}
-								</Link>
-							)}
-							{!level && (
-								<div
-									style={{
-										fontSize: 14, display: 'block'
-									}}
-								>
-									{card.name || card.slug || card.type}
-								</div>
-							)}
-						</strong>
-					</Txt>
-
-					{!level && (<Flex align="baseline">
-						<CardActions card={card}/>
-
-						<CloseButton
-							ml={3}
-							channel={this.props.channel}
-						/>
-					</Flex>)}
-				</Flex>
-
-				{Boolean(card.tags) && card.tags.length > 0 && (
-					<Box mb={1}>
-						{_.map(card.tags, (tag) => {
-							return <Tag key={tag} mr={1}>#{tag}</Tag>
-						})}
-					</Box>
-				)}
-
-				{_.map(keys, (key) => {
-					return payload[key]
-						? <CardField
-							key={key}
-							field={key}
-							payload={payload}
-							schema={_.get(schema, [ 'properties', 'data', 'properties', key ])}
-						/>
-						: null
-				})}
-			</React.Fragment>
-		)
-
-		if (!level) {
-			return (
-				<Column
-					className={`column--${cardType || 'unknown'} column--slug-${cardSlug || 'unkown'}`}
-					flex={this.props.flex}
-					overflowY
-				>
-					<Box p={3} flex="1" style={{
-						overflowY: 'auto'
-					}}>
-						{content}
-					</Box>
-					<Box
-						style={{
-							maxHeight: '50%'
-						}}
-						flex="0"
-					>
-						<Timeline.data.renderer
-							card={this.props.card}
-							tail={_.get(this.props.card.links, [ 'has attached element' ], [])}
-						/>
-					</Box>
-				</Column>
-			)
-		}
 
 		return (
-			<Box mb={3}>
-				{content}
-			</Box>
+			<CardLayout
+				overflowY
+				card={card}
+				channel={channel}
+			>
+				<Box p={3} flex="1" style={{
+					overflowY: 'auto'
+				}}>
+					{Boolean(card.tags) && card.tags.length > 0 && (
+						<Box mb={1}>
+							{_.map(card.tags, (tag) => {
+								return <Tag key={tag} mr={1}>#{tag}</Tag>
+							})}
+						</Box>
+					)}
+
+					{_.map(keys, (key) => {
+						return payload[key]
+							? <CardField
+								key={key}
+								field={key}
+								payload={payload}
+								schema={_.get(schema, [ 'properties', 'data', 'properties', key ])}
+							/>
+							: null
+					})}
+				</Box>
+
+				<Box
+					style={{
+						maxHeight: '50%'
+					}}
+					flex="0"
+				>
+					<Timeline.data.renderer
+						card={this.props.card}
+						tail={_.get(this.props.card.links, [ 'has attached element' ], [])}
+					/>
+				</Box>
+			</CardLayout>
 		)
 	}
 }
