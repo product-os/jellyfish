@@ -32,7 +32,7 @@ import {
 	actionCreators,
 	selectors
 } from '../core'
-import helpers from '../services/helpers'
+import * as helpers from '../services/helpers'
 import Timeline from './Timeline'
 import {
 	CloseButton

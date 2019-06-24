@@ -41,7 +41,7 @@ import ContextMenu from '../components/ContextMenu'
 import {
 	tagStyle
 } from '../components/Tag'
-import helpers from '../services/helpers'
+import * as helpers from '../services/helpers'
 import {
 	ActionLink
 } from '../shame/ActionLink'

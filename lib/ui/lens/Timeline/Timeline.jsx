@@ -21,7 +21,7 @@ import {
 	analytics,
 	sdk
 } from '../../core'
-import helpers from '../../services/helpers'
+import * as helpers from '../../services/helpers'
 import Column from '../../shame/Column'
 import Icon from '../../shame/Icon'
 import MessageInput from './MessageInput'

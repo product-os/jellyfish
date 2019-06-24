@@ -25,7 +25,7 @@ import {
 import {
 	selectors
 } from '../core'
-import helpers from '../services/helpers'
+import * as helpers from '../services/helpers'
 import Timeline from './Timeline'
 import {
 	CloseButton
@@ -39,8 +39,8 @@ class Thread extends React.Component {
 
 	render () {
 		const {
-			card, 
-			fieldOrder, 
+			card,
+			fieldOrder,
 			level,
 			types
 		} = this.props

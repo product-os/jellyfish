@@ -37,7 +37,7 @@ import {
 	selectors,
 	sdk
 } from '../core'
-import helpers from '../services/helpers'
+import * as helpers from '../services/helpers'
 import BaseLens from './common/BaseLens'
 import Icon from '../shame/Icon'
 

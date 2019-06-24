@@ -5,7 +5,7 @@
  */
 
 import React from 'react'
-import helpers from '../../services/helpers'
+import * as helpers from '../../services/helpers'
 
 export default class BaseLens extends React.Component {
 	constructor (props) {

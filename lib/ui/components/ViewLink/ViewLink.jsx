@@ -16,7 +16,7 @@ import {
 } from 'rendition'
 import Link from '../Link'
 import MentionsCount from '../MentionsCount'
-import helpers from '../../services/helpers'
+import * as helpers from '../../services/helpers'
 import ContextMenu from '../ContextMenu'
 import Icon from '../../shame/Icon'
 
