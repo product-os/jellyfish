@@ -5,7 +5,7 @@
  */
 
 import '@babel/polyfill'
-import Sentry from '@sentry/browser'
+import * as Sentry from '@sentry/browser'
 import 'circular-std'
 import React from 'react'
 import ReactDOM from 'react-dom'
