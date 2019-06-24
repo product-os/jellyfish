@@ -4,21 +4,31 @@
  * Proprietary and confidential.
  */
 
-const Bluebird = require('bluebird')
-const _ = require('lodash')
-const React = require('react')
-const rendition = require('rendition')
-const unstable = require('rendition/dist/unstable')
-const {
+import Bluebird from 'bluebird'
+import _ from 'lodash'
+import React from 'react'
+import {
+	Fixed,
+	Modal,
+	ProgressBar,
+	SchemaSieve,
+	Select
+} from 'rendition'
+import {
+	Form
+} from 'rendition/dist/unstable'
+import {
 	analytics,
 	sdk
-} = require('../core')
+} from '../core'
+
 const DELIMITER = '___'
-class GroupUpdate extends React.Component {
+
+export default class GroupUpdate extends React.Component {
 	constructor (props) {
 		super(props)
 		this.setSchema = (schema) => {
-			const flatSchema = rendition.SchemaSieve.flattenSchema(schema, DELIMITER)
+			const flatSchema = SchemaSieve.flattenSchema(schema, DELIMITER)
 
 			// Remove known metadata properties
 			if (flatSchema.properties) {
@@ -86,9 +96,11 @@ class GroupUpdate extends React.Component {
 			processingProgress: 0
 		}
 	}
+
 	componentDidMount () {
 		this.setSchema(this.props.schema)
 	}
+
 	render () {
 		const {
 			flatSchema, selectedField, updateData, processing, processingProgress
@@ -96,9 +108,10 @@ class GroupUpdate extends React.Component {
 		const {
 			length
 		} = this.props.cards
+
 		return (
-			<rendition.Fixed z={9} top right bottom left onClick={this.props.onClose}>
-				<rendition.Modal
+			<Fixed z={9} top right bottom left onClick={this.props.onClose}>
+				<Modal
 					title={`Updating ${length} item${length === 1 ? '' : 's'}`}
 					cancel={this.props.onClose}
 					done={this.updateCards}
@@ -107,34 +120,42 @@ class GroupUpdate extends React.Component {
 						disabled: _.isEmpty(updateData) || processing
 					}}
 				>
-					{processing &&
-							<React.Fragment>
-								<p>Processing updates...</p>
-								<rendition.ProgressBar primary value={processingProgress}/>
-							</React.Fragment>}
+					{processing && (
+						<React.Fragment>
+							<p>Processing updates...</p>
+							<ProgressBar primary value={processingProgress}/>
+						</React.Fragment>
+					)}
 
-					{!processing &&
-							<React.Fragment>
-								<p>Select a field to update:</p>
+					{!processing && (
+						<React.Fragment>
+							<p>Select a field to update:</p>
 
-								{Boolean(flatSchema) &&
-									<rendition.Select value={selectedField} onChange={this.handleFieldChange} mb={3}>
-										{_.map(flatSchema.properties, (value, key) => {
-											return (<option value={key}>{value.title || key}</option>)
-										})}
-									</rendition.Select>}
+							{Boolean(flatSchema) && (
+								<Select value={selectedField} onChange={this.handleFieldChange} mb={3}>
+									{_.map(flatSchema.properties, (value, key) => {
+										return (<option value={key}>{value.title || key}</option>)
+									})}
+								</Select>
+							)}
 
-								{Boolean(flatSchema) && Boolean(selectedField) &&
-									<unstable.Form schema={{
+							{Boolean(flatSchema) && Boolean(selectedField) && (
+								<Form
+									schema={{
 										type: 'object',
 										properties: {
 											[selectedField]: flatSchema.properties[selectedField]
 										}
-									}} hideSubmitButton value={updateData} onFormChange={this.setUpdateData}/>}
-							</React.Fragment>}
-				</rendition.Modal>
-			</rendition.Fixed>
+									}}
+									hideSubmitButton
+									value={updateData}
+									onFormChange={this.setUpdateData}
+								/>
+							)}
+						</React.Fragment>
+					)}
+				</Modal>
+			</Fixed>
 		)
 	}
 }
-exports.GroupUpdate = GroupUpdate

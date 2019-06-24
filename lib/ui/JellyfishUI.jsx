@@ -21,9 +21,7 @@ import {
 } from 'file-saver'
 import HomeChannel from './components/HomeChannel'
 import Login from './components/Login'
-import {
-	Notifications
-} from './components/Notifications'
+import Notifications from './components/Notifications'
 import Oauth from './components/Oauth'
 import RouteHandler from './components/RouteHandler'
 import Splash from './components/Splash'
@@ -43,8 +41,8 @@ import {
 } from 'react-router-dom'
 
 // Register the mermaid and markdown widgets for rendition forms
-require('rendition/dist/extra/Form/markdown')
-require('rendition/dist/extra/Form/mermaid')
+import 'rendition/dist/extra/Form/markdown'
+import 'rendition/dist/extra/Form/mermaid'
 
 // Check if the path begins with a hash fragment, followed by a slash: /#/
 const LEGACY_PATH_CHECK_RE = /^\/#\//
@@ -86,7 +84,7 @@ class JellyfishUI extends React.Component {
 		const path = window.location.pathname + window.location.hash
 
 		if (this.props.status === 'initializing') {
-			return <Splash.Splash />
+			return <Splash />
 		}
 		if (this.props.status === 'unauthorized') {
 			return (

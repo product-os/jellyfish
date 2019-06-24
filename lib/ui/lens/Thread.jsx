@@ -4,25 +4,33 @@
  * Proprietary and confidential.
  */
 
-const {
+import {
 	circularDeepEqual
-} = require('fast-equals')
-const _ = require('lodash')
-const React = require('react')
-const {
+} from 'fast-equals'
+import _ from 'lodash'
+import React from 'react'
+import {
 	connect
-} = require('react-redux')
-const rendition = require('rendition')
-const CardActions = require('../components/CardActions').default
-const CardField = require('../components/CardField').default
-const Tag = require('../components/Tag')
-const {
+} from 'react-redux'
+import {
+	Box,
+	Flex,
+	Txt
+} from 'rendition'
+import CardActions from '../components/CardActions'
+import CardField from '../components/CardField'
+import {
+	Tag
+} from '../components/Tag'
+import {
 	selectors
-} = require('../core')
-const helpers = require('../services/helpers')
-const Timeline = require('./Timeline')
-const CloseButton = require('../shame/CloseButton')
-const Column = require('../shame/Column').default
+} from '../core'
+import * as helpers from '../services/helpers'
+import Timeline from './Timeline'
+import {
+	CloseButton
+} from '../shame/CloseButton'
+import Column from '../shame/Column'
 
 class Thread extends React.Component {
 	shouldComponentUpdate (nextProps) {
@@ -31,10 +39,15 @@ class Thread extends React.Component {
 
 	render () {
 		const {
-			card, fieldOrder, level
+			card,
+			fieldOrder,
+			level,
+			types
 		} = this.props
+
 		const payload = card.data
-		const typeCard = _.find(this.props.types, {
+
+		const typeCard = _.find(types, {
 			slug: card.type
 		})
 		const typeSchema = _.get(typeCard, [ 'data', 'schema' ])
@@ -47,9 +60,11 @@ class Thread extends React.Component {
 				data: localSchema
 			}
 		}, typeSchema)
+
 		const unorderedKeys = _.filter(_.keys(payload), (key) => {
 			return !_.includes(fieldOrder, key)
 		})
+
 		const keys = (fieldOrder || []).concat(unorderedKeys)
 		const cardSlug = _.get(card, [ 'slug' ])
 		const cardType = _.get(card, [ 'type' ])
@@ -59,30 +74,35 @@ class Thread extends React.Component {
 				className={`column--${cardType || 'unknown'} column--slug-${cardSlug || 'unkown'}`}
 				flex={this.props.flex}
 			>
-				<rendition.Box p={3} pb={0}>
-					<rendition.Flex justifyContent="space-between">
-						{card.created_at && (<rendition.Txt mb={3}>
-							<strong>
-										Thread created at {helpers.formatTimestamp(card.created_at)}
-							</strong>
-						</rendition.Txt>)}
+				<Box p={3} pb={0}>
+					<Flex justifyContent="space-between">
+						{card.created_at && (
+							<Txt mb={3}>
+								<strong>
+									Thread created at {helpers.formatTimestamp(card.created_at)}
+								</strong>
+							</Txt>
+						)}
 
-						{!level && (<rendition.Flex align="baseline">
-							<CardActions card={card}/>
+						{!level && (
+							<Flex align="baseline">
+								<CardActions card={card}/>
 
-							<CloseButton.CloseButton
-								ml={3}
-								channel={this.props.channel}
-							/>
-						</rendition.Flex>)}
-					</rendition.Flex>
+								<CloseButton
+									ml={3}
+									channel={this.props.channel}
+								/>
+							</Flex>
+						)}
+					</Flex>
 
-					{Boolean(card.tags) && card.tags.length > 0 &&
-							<rendition.Box mb={1}>
-								{_.map(card.tags, (tag) => {
-									return <Tag.Tag mr={1}>#{tag}</Tag.Tag>
-								})}
-							</rendition.Box>}
+					{Boolean(card.tags) && card.tags.length > 0 && (
+						<Box mb={1}>
+							{_.map(card.tags, (tag) => {
+								return <Tag mr={1}>#{tag}</Tag>
+							})}
+						</Box>
+					)}
 
 					{_.map(keys, (key) => {
 						return payload[key]
@@ -94,26 +114,27 @@ class Thread extends React.Component {
 							/>
 							: null
 					})}
-				</rendition.Box>
+				</Box>
 
-				<rendition.Box flex="1" style={{
+				<Box flex="1" style={{
 					minHeight: 0
 				}}>
-					<Timeline.default.data.renderer
+					<Timeline.data.renderer
 						card={this.props.card}
-						tail={_.get(this.props.card, [ 'links', 'has attached element' ], [])}/>
-				</rendition.Box>
+						tail={_.get(this.props.card, [ 'links', 'has attached element' ], [])}
+					/>
+				</Box>
 			</Column>
 		)
 	}
 }
+
 const mapStateToProps = (state) => {
 	return {
 		types: selectors.getTypes(state)
 	}
 }
 
-exports.Renderer = connect(mapStateToProps)(Thread)
 const lens = {
 	slug: 'lens-default',
 	type: 'lens',
@@ -121,7 +142,7 @@ const lens = {
 	name: 'Default lens',
 	data: {
 		icon: 'address-card',
-		renderer: exports.Renderer,
+		renderer: connect(mapStateToProps)(Thread),
 		filter: {
 			type: 'object',
 			properties: {
@@ -133,4 +154,5 @@ const lens = {
 		}
 	}
 }
-exports.default = lens
+
+export default lens

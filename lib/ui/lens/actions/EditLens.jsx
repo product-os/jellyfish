@@ -30,9 +30,7 @@ import {
 	sdk
 } from '../../core'
 import AutoCompleteWidget from '../../components/AutoCompleteWidget'
-import {
-	FreeFieldForm
-} from '../../components/FreeFieldForm'
+import FreeFieldForm from '../../components/FreeFieldForm'
 
 class EditLens extends React.Component {
 	constructor (props) {

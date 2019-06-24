@@ -225,7 +225,7 @@ class ViewRenderer extends React.Component {
 			: []
 		const lenses = _.chain(head)
 			.get([ 'data', 'lenses' ])
-			.map((slug) => { return LensService.default.getLensBySlug(slug) })
+			.map((slug) => { return LensService.getLensBySlug(slug) })
 			.compact()
 			.value()
 

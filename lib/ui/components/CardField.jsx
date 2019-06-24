@@ -24,7 +24,7 @@ const CardField = ({
 	if (field === 'mirrors') {
 		return (
 			<React.Fragment>
-				<Label.default my={3}>{field}</Label.default>
+				<Label my={3}>{field}</Label>
 				{_.map(value, (mirror) => {
 					return <Link blank href={mirror} key={mirror}>{mirror}</Link>
 				})}
@@ -43,19 +43,19 @@ const CardField = ({
 	}
 	if (schema && schema.format === 'mermaid') {
 		return (<React.Fragment>
-			<Label.default my={3}>{field}</Label.default>
+			<Label my={3}>{field}</Label>
 			<Mermaid value={value}/>
 		</React.Fragment>)
 	}
 	if (schema && schema.format === 'markdown') {
 		return (<React.Fragment>
-			<Label.default my={3}>{field}</Label.default>
+			<Label my={3}>{field}</Label>
 			<Markdown>{value}</Markdown>
 		</React.Fragment>)
 	}
 	return (
 		<React.Fragment>
-			<Label.default my={3}>{field}</Label.default>
+			<Label my={3}>{field}</Label>
 
 			{_.isObject(payload[field]) ? _.map(payload[field], (item, key) => {
 				return (

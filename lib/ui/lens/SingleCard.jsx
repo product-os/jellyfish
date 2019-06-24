@@ -4,26 +4,34 @@
  * Proprietary and confidential.
  */
 
-const {
+import {
 	circularDeepEqual
-} = require('fast-equals')
-const _ = require('lodash')
-const React = require('react')
-const {
+} from 'fast-equals'
+import _ from 'lodash'
+import React from 'react'
+import {
 	connect
-} = require('react-redux')
-const rendition = require('rendition')
-const CardActions = require('../components/CardActions').default
-const CardField = require('../components/CardField').default
-const Link = require('../components/Link').default
-const Tag = require('../components/Tag')
-const {
+} from 'react-redux'
+import {
+	Box,
+	Flex,
+	Txt
+} from 'rendition'
+import CardActions from '../components/CardActions'
+import CardField from '../components/CardField'
+import Link from '../components/Link'
+import {
+	Tag
+} from '../components/Tag'
+import {
 	selectors
-} = require('../core')
-const helpers = require('../services/helpers')
-const Timeline = require('./Timeline')
-const CloseButton = require('../shame/CloseButton')
-const Column = require('../shame/Column').default
+} from '../core'
+import * as helpers from '../services/helpers'
+import Timeline from './Timeline'
+import {
+	CloseButton
+} from '../shame/CloseButton'
+import Column from '../shame/Column'
 
 class SingleCard extends React.Component {
 	shouldComponentUpdate (nextProps) {
@@ -56,8 +64,8 @@ class SingleCard extends React.Component {
 		const cardType = _.get(card, [ 'type' ])
 		const content = (
 			<React.Fragment>
-				<rendition.Flex justifyContent="space-between">
-					<rendition.Txt mb={3}>
+				<Flex justifyContent="space-between">
+					<Txt mb={3}>
 						<strong>
 							{level > 0 && (
 								<Link
@@ -77,24 +85,24 @@ class SingleCard extends React.Component {
 								</div>
 							)}
 						</strong>
-					</rendition.Txt>
+					</Txt>
 
-					{!level && (<rendition.Flex align="baseline">
+					{!level && (<Flex align="baseline">
 						<CardActions card={card}/>
 
-						<CloseButton.CloseButton
+						<CloseButton
 							ml={3}
 							channel={this.props.channel}
 						/>
-					</rendition.Flex>)}
-				</rendition.Flex>
+					</Flex>)}
+				</Flex>
 
 				{Boolean(card.tags) && card.tags.length > 0 && (
-					<rendition.Box mb={1}>
+					<Box mb={1}>
 						{_.map(card.tags, (tag) => {
-							return <Tag.Tag key={tag} mr={1}>#{tag}</Tag.Tag>
+							return <Tag key={tag} mr={1}>#{tag}</Tag>
 						})}
-					</rendition.Box>
+					</Box>
 				)}
 
 				{_.map(keys, (key) => {
@@ -109,6 +117,7 @@ class SingleCard extends React.Component {
 				})}
 			</React.Fragment>
 		)
+
 		if (!level) {
 			return (
 				<Column
@@ -116,28 +125,31 @@ class SingleCard extends React.Component {
 					flex={this.props.flex}
 					overflowY
 				>
-					<rendition.Box p={3} flex="1" style={{
+					<Box p={3} flex="1" style={{
 						overflowY: 'auto'
 					}}>
 						{content}
-					</rendition.Box>
-					<rendition.Box
+					</Box>
+					<Box
 						style={{
 							maxHeight: '50%'
 						}}
 						flex="0"
 					>
-						<Timeline.default.data.renderer
+						<Timeline.data.renderer
 							card={this.props.card}
 							tail={_.get(this.props.card.links, [ 'has attached element' ], [])}
 						/>
-					</rendition.Box>
+					</Box>
 				</Column>
 			)
 		}
-		return (<rendition.Box mb={3}>
-			{content}
-		</rendition.Box>)
+
+		return (
+			<Box mb={3}>
+				{content}
+			</Box>
+		)
 	}
 }
 
@@ -147,7 +159,6 @@ const mapStateToProps = (state) => {
 	}
 }
 
-exports.Renderer = connect(mapStateToProps)(SingleCard)
 const lens = {
 	slug: 'lens-default',
 	type: 'lens',
@@ -155,10 +166,11 @@ const lens = {
 	name: 'Default lens',
 	data: {
 		icon: 'address-card',
-		renderer: exports.Renderer,
+		renderer: connect(mapStateToProps)(SingleCard),
 		filter: {
 			type: 'object'
 		}
 	}
 }
-exports.default = lens
+
+export default lens

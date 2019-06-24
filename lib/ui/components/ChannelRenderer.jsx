@@ -4,23 +4,30 @@
  * Proprietary and confidential.
  */
 
-const _ = require('lodash')
-const React = require('react')
-const reactDnd = require('react-dnd')
-const rendition = require('rendition')
-const styled = require('styled-components').default
-const constants = require('../constants')
-const ErrorBoundary = require('../shame/ErrorBoundary')
-const Icon = require('../shame/Icon').default
-const {
+import _ from 'lodash'
+import React from 'react'
+import {
+	DropTarget
+} from 'react-dnd'
+import {
+	Alert,
+	Box,
+	Modal
+} from 'rendition'
+import styled from 'styled-components'
+import constants from '../constants'
+import ErrorBoundary from '../shame/ErrorBoundary'
+import Icon from '../shame/Icon'
+import {
 	connect
-} = require('react-redux')
-const {
+} from 'react-redux'
+import {
 	bindActionCreators
-} = require('redux')
-const {
+} from 'redux'
+import {
 	actionCreators
-} = require('../core')
+} from '../core'
+import lensService from '../lens'
 
 const ErrorNotFound = styled.h1 `
 	color: white;
@@ -32,9 +39,6 @@ const ErrorNotFound = styled.h1 `
 	margin: 10% auto;
 	background-color: #c5edff;
 `
-
-// Load lens service
-const lensService = require('../lens')
 
 // Selects an appropriate renderer for a card
 class ChannelRenderer extends React.Component {
@@ -88,13 +92,13 @@ class ChannelRenderer extends React.Component {
 		if (!channel.data.head) {
 			if (channel.data.error) {
 				return (
-					<rendition.Alert
+					<Alert
 						m={2}
 						danger={true}
 						style={style}
 					>
 						{channel.data.error.toString()}
-					</rendition.Alert>
+					</Alert>
 				)
 			}
 
@@ -107,20 +111,20 @@ class ChannelRenderer extends React.Component {
 			}
 
 			return (
-				<rendition.Box
+				<Box
 					style={style}
 				>
-					<rendition.Box p={3}>
+					<Box p={3}>
 						<Icon spin name="cog"/>
-					</rendition.Box>
-				</rendition.Box>
+					</Box>
+				</Box>
 			)
 		}
 
-		const lens = lensService.default.getLens(channel.data.head, this.props.user)
+		const lens = lensService.getLens(channel.data.head, this.props.user)
 
 		return (
-			<ErrorBoundary.ErrorBoundary style={style}>
+			<ErrorBoundary style={style}>
 				{
 					connectDropTarget(
 						<div style={style}>
@@ -130,15 +134,15 @@ class ChannelRenderer extends React.Component {
 				}
 
 				{this.state.showLinkModal && (
-					<rendition.Modal
+					<Modal
 						cancel={this.closeLinkModal}
 						done={this.link}
 					>
 						Link {this.state.linkFrom.type} <strong>{this.state.linkFrom.name}</strong> to{' '}
 						{this.props.channel.data.head.type} <strong>{this.props.channel.data.head.name}</strong>
-					</rendition.Modal>
+					</Modal>
 				)}
-			</ErrorBoundary.ErrorBoundary>
+			</ErrorBoundary>
 		)
 	}
 }
@@ -180,6 +184,6 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-exports.default = reactDnd.DropTarget('channel', target, collect)(
+export default DropTarget('channel', target, collect)(
 	connect(null, mapDispatchToProps)(ChannelRenderer)
 )

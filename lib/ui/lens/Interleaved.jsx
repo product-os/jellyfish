@@ -4,30 +4,36 @@
  * Proprietary and confidential.
  */
 
-const _ = require('lodash')
-const path = require('path')
-const React = require('react')
-const {
+import _ from 'lodash'
+import path from 'path'
+import React from 'react'
+import {
 	connect
-} = require('react-redux')
-const {
+} from 'react-redux'
+import {
 	withRouter
-} = require('react-router-dom')
-const reactResizeObserver = require('react-resize-observer')
-const redux = require('redux')
-const rendition = require('rendition')
-const uuid = require('uuid/v4')
-const Event = require('../components/Event').default
-const {
+} from 'react-router-dom'
+import ReactResizeObserver from 'react-resize-observer'
+import {
+	bindActionCreators
+} from 'redux'
+import {
+	Box,
+	Button,
+	Flex,
+	Theme
+} from 'rendition'
+import uuid from 'uuid/v4'
+import Event from '../components/Event'
+import {
 	actionCreators,
 	analytics,
 	sdk,
 	selectors
-} = require('../core')
-const helpers = require('../services/helpers')
-const Icon = require('../shame/Icon')
-
-const Column = require('../shame/Column').default
+} from '../core'
+import * as helpers from '../services/helpers'
+import Column from '../shame/Column'
+import Icon from '../shame/Icon'
 
 const NONE_MESSAGE_TIMELINE_TYPES = [
 	'create',
@@ -39,7 +45,7 @@ const isHiddenEventType = (type) => {
 	return _.includes(NONE_MESSAGE_TIMELINE_TYPES, type)
 }
 
-class Interleaved extends React.Component {
+export class Interleaved extends React.Component {
 	constructor (props) {
 		super(props)
 		this.shouldScroll = true
@@ -233,22 +239,22 @@ class Interleaved extends React.Component {
 					position: 'relative'
 				}}
 			>
-				<reactResizeObserver.default onResize={this.scrollToBottom}/>
-				<rendition.Flex my={2} mr={2} justifyContent="flex-end">
-					<rendition.Button
+				<ReactResizeObserver onResize={this.scrollToBottom}/>
+				<Flex my={2} mr={2} justifyContent="flex-end">
+					<Button
 						plain
 						tooltip={{
 							placement: 'left',
 							text: `${messagesOnly ? 'Show' : 'Hide'} create and update events`
 						}}
 						className="timeline__checkbox--additional-info"
-						color={messagesOnly ? rendition.Theme.colors.text.light : false}
+						color={messagesOnly ? Theme.colors.text.light : false}
 						ml={2}
 						onClick={this.handleEventToggle}
 					>
-						<Icon.default name="stream"/>
-					</rendition.Button>
-				</rendition.Flex>
+						<Icon name="stream"/>
+					</Button>
+				</Flex>
 
 				<div
 					ref={this.bindScrollArea}
@@ -261,9 +267,9 @@ class Interleaved extends React.Component {
 					}}
 				>
 					{this.props.totalPages > this.props.page + 1 && (
-						<rendition.Box p={3}>
-							<Icon.default spin name="cog"/>
-						</rendition.Box>
+						<Box p={3}>
+							<Icon spin name="cog"/>
+						</Box>
 					)}
 
 					{(Boolean(tail) && tail.length > 0) && _.map(tail, (card) => {
@@ -271,51 +277,51 @@ class Interleaved extends React.Component {
 							return null
 						}
 						return (
-							<rendition.Box key={card.id}>
+							<Box key={card.id}>
 								<Event
 									onCardVisible={this.handleCardVisible}
 									openChannel={this.openChannel}
 									user={this.props.user}
 									card={card}
 								/>
-							</rendition.Box>
+							</Box>
 						)
 					})}
 				</div>
 
 				{head && head.slug !== 'view-my-alerts' && head.slug !== 'view-my-mentions' && (
-					<rendition.Flex
+					<Flex
 						p={3}
 						style={{
 							borderTop: '1px solid #eee'
 						}}
 						justifyContent="flex-end"
 					>
-						<rendition.Button
+						<Button
 							className="btn--add-thread"
 							success={true}
 							onClick={this.addThread}
 							disabled={this.state.creatingCard}
 						>
-							{this.state.creatingCard && <Icon.default spin name="cog"/>}
+							{this.state.creatingCard && <Icon spin name="cog"/>}
 							{!this.state.creatingCard && 'Add a Chat thread'}
-						</rendition.Button>
-					</rendition.Flex>
+						</Button>
+					</Flex>
 				)}
 			</Column>
 		)
 	}
 }
-exports.Interleaved = Interleaved
 
 const mapStateToProps = (state) => {
 	return {
 		user: selectors.getCurrentUser(state)
 	}
 }
+
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: redux.bindActionCreators(
+		actions: bindActionCreators(
 			_.pick(actionCreators, [
 				'addNotification'
 			]),
@@ -323,6 +329,7 @@ const mapDispatchToProps = (dispatch) => {
 		)
 	}
 }
+
 const lens = {
 	slug: 'lens-interleaved',
 	type: 'lens',
@@ -350,4 +357,4 @@ const lens = {
 	}
 }
 
-exports.default = lens
+export default lens

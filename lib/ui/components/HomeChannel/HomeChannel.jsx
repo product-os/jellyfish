@@ -240,7 +240,7 @@ export default class HomeChannel extends React.Component {
 					position: 'relative'
 				}}>
 					<Button plain={true} className="user-menu-toggle" py={3} pl={3} pr={2} onClick={this.showMenu}>
-						<Gravatar.default email={email}/>
+						<Gravatar email={email}/>
 
 						{Boolean(username) && <Txt mx={2}>{username}</Txt>}
 

@@ -37,13 +37,11 @@ import {
 	sdk
 } from '../core'
 import AuthenticatedImage from '../components/AuthenticatedImage'
-import {
-	ContextMenu
-} from '../components/ContextMenu'
+import ContextMenu from '../components/ContextMenu'
 import {
 	tagStyle
 } from '../components/Tag'
-import helpers from '../services/helpers'
+import * as helpers from '../services/helpers'
 import {
 	ActionLink
 } from '../shame/ActionLink'
@@ -435,7 +433,7 @@ class Event extends React.Component {
 					<EventButton onClick={this.openChannel} style={{
 						borderLeftColor: helpers.colorHash(getTargetId(card))
 					}}>
-						<Gravatar.default small email={actor ? actor.email : null}/>
+						<Gravatar small email={actor ? actor.email : null}/>
 					</EventButton>
 					<InnerWrapper
 						flex="1"

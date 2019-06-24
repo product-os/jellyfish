@@ -36,9 +36,7 @@ import {
 	sdk
 } from '../../core'
 import AutoCompleteWidget from '../../components/AutoCompleteWidget'
-import {
-	FreeFieldForm
-} from '../../components/FreeFieldForm'
+import FreeFieldForm from '../../components/FreeFieldForm'
 
 class CreateLens extends React.Component {
 	constructor (props) {
@@ -53,8 +51,6 @@ class CreateLens extends React.Component {
 			newCardModel: seed,
 			selectedTypeTarget: _.first(_.castArray(types))
 		}
-
-		console.log('state', this.state)
 
 		this.bindMethods([
 			'addEntry',

@@ -19,7 +19,7 @@ import {
 	Select
 } from 'rendition'
 import constants from '../../constants'
-import helpers from '../../services/helpers'
+import * as helpers from '../../services/helpers'
 import ContextMenu from '../ContextMenu'
 import Icon from '../../shame/Icon'
 
@@ -204,7 +204,7 @@ class CardLinker extends React.Component {
 					</Button>
 
 					{this.state.showMenu && (
-						<ContextMenu.ContextMenu
+						<ContextMenu
 							position="bottom"
 							onClose={this.toggleMenu}
 						>
@@ -242,7 +242,7 @@ class CardLinker extends React.Component {
 							>
 								Visualize links
 							</Button>
-						</ContextMenu.ContextMenu>
+						</ContextMenu>
 					)}
 				</span>
 

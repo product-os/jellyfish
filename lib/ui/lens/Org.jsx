@@ -4,40 +4,53 @@
  * Proprietary and confidential.
  */
 
-const {
+import {
 	circularDeepEqual
-}	= require('fast-equals')
-const _ = require('lodash')
-const React = require('react')
-const {
+}	from 'fast-equals'
+import _ from 'lodash'
+import React from 'react'
+import {
 	connect
-} = require('react-redux')
-const AsyncSelect = require('react-select/lib/Async').default
-const redux = require('redux')
-const rendition = require('rendition')
-const CardActions = require('../components/CardActions').default
-const CardField = require('../components/CardField').default
-const Label = require('../components/Label')
-const Tag = require('../components/Tag')
-const {
+} from 'react-redux'
+import AsyncSelect from 'react-select/lib/Async'
+import {
+	bindActionCreators
+} from 'redux'
+import {
+	Box,
+	Button,
+	Flex,
+	Txt
+} from 'rendition'
+import CardActions from '../components/CardActions'
+import CardField from '../components/CardField'
+import Label from '../components/Label'
+import {
+	Tag
+} from '../components/Tag'
+import {
 	actionCreators,
 	selectors
-} = require('../core')
-const helpers = require('../services/helpers')
-const Timeline = require('./Timeline')
-const CloseButton = require('../shame/CloseButton')
-const Column = require('../shame/Column').default
-const Icon = require('../shame/Icon').default
-const Link = require('../components/Link').default
+} from '../core'
+import * as helpers from '../services/helpers'
+import Timeline from './Timeline'
+import {
+	CloseButton
+} from '../shame/CloseButton'
+import Column from '../shame/Column'
+import Icon from '../shame/Icon'
+import Link from '../components/Link'
 
 class Org extends React.Component {
 	constructor (props) {
 		super(props)
+
 		this.handleUserSelect = (selectedUser) => {
 			this.setState({
 				selectedUser
 			})
 		}
+
 		this.addMember = async () => {
 			if (!this.state.selectedUser || this.state.addingMember) {
 				return
@@ -64,6 +77,7 @@ class Org extends React.Component {
 					})
 				})
 		}
+
 		this.state = {
 			selectedUser: null,
 			addingMember: false,
@@ -198,8 +212,8 @@ class Org extends React.Component {
 
 		const content = (
 			<React.Fragment>
-				<rendition.Flex justifyContent="space-between">
-					<rendition.Txt mb={3}>
+				<Flex justifyContent="space-between">
+					<Txt mb={3}>
 						<strong>
 							{!level && (
 								<div
@@ -211,26 +225,26 @@ class Org extends React.Component {
 								</div>
 							)}
 						</strong>
-					</rendition.Txt>
+					</Txt>
 
 					{!level && (
-						<rendition.Flex align="baseline">
+						<Flex align="baseline">
 							<CardActions card={card}/>
 
-							<CloseButton.CloseButton
+							<CloseButton
 								ml={3}
 								channel={this.props.channel}
 							/>
-						</rendition.Flex>
+						</Flex>
 					)}
-				</rendition.Flex>
+				</Flex>
 
 				{Boolean(card.tags) && card.tags.length > 0 &&
-							<rendition.Box mb={1}>
+							<Box mb={1}>
 								{_.map(card.tags, (tag) => {
 									return <Tag.Tag mr={1}>#{tag}</Tag.Tag>
 								})}
-							</rendition.Box>}
+							</Box>}
 
 				{_.map(keys, (key) => {
 					return payload[key]
@@ -243,15 +257,15 @@ class Org extends React.Component {
 						: null
 				})}
 
-				<rendition.Box>
+				<Box>
 					{members === null && (
 						<Icon spin name="cog"/>
 					)}
 
 					{Boolean(members) && (
 						<React.Fragment>
-							<Label.default>Members ({members.length})</Label.default>
-							<rendition.Box style={{
+							<Label>Members ({members.length})</Label>
+							<Box style={{
 								overflow: 'auto',
 								maxHeight: 150
 							}}>
@@ -269,11 +283,11 @@ class Org extends React.Component {
 										</Link>
 									)
 								})}
-							</rendition.Box>
+							</Box>
 						</React.Fragment>
 					)}
 
-					<rendition.Box mt={3}>
+					<Box mt={3}>
 
 						<AsyncSelect
 							value={this.state.selectedUser}
@@ -282,7 +296,7 @@ class Org extends React.Component {
 							loadOptions={this.getMembers}
 						/>
 
-						<rendition.Button
+						<Button
 							mt={3}
 							success
 							disabled={!this.state.selectedUser || this.state.addingMember}
@@ -291,44 +305,50 @@ class Org extends React.Component {
 							{this.state.addingMember
 								? <Icon spin name="cog"/>
 								: 'Add member'}
-						</rendition.Button>
-					</rendition.Box>
-				</rendition.Box>
+						</Button>
+					</Box>
+				</Box>
 			</React.Fragment>
 		)
+
 		if (!level) {
 			return (
 				<Column
 					className={`column--${cardType || 'unknown'} column--slug-${cardSlug || 'unkown'}`}
 					flex={this.props.flex}
 				>
-					<rendition.Box p={3} flex="1" style={{
+					<Box p={3} flex="1" style={{
 						overflowY: 'auto'
 					}}>
 						{content}
-					</rendition.Box>
+					</Box>
 
-					<rendition.Box style={{
+					<Box style={{
 						maxHeight: '50%'
 					}} flex="0">
-						<Timeline.default.data.renderer card={this.props.card}/>
-					</rendition.Box>
+						<Timeline.data.renderer card={this.props.card}/>
+					</Box>
 				</Column>
 			)
 		}
-		return (<rendition.Box mb={3}>
-			{content}
-		</rendition.Box>)
+
+		return (
+			<Box mb={3}>
+				{content}
+			</Box>
+		)
 	}
 }
+
 const mapStateToProps = (state) => {
 	return {
 		types: selectors.getTypes(state)
 	}
 }
+
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: redux.bindActionCreators(
+		actions: bindActionCreators(
 			_.pick(actionCreators, [
 				'addNotification',
 				'createLink',
@@ -339,7 +359,7 @@ const mapDispatchToProps = (dispatch) => {
 		)
 	}
 }
-exports.Renderer = connect(mapStateToProps, mapDispatchToProps)(Org)
+
 const lens = {
 	slug: 'lens-org',
 	type: 'lens',
@@ -347,7 +367,7 @@ const lens = {
 	name: 'Org lens',
 	data: {
 		icon: 'address-card',
-		renderer: exports.Renderer,
+		renderer: connect(mapStateToProps, mapDispatchToProps)(Org),
 		filter: {
 			type: 'object',
 			properties: {
@@ -359,4 +379,5 @@ const lens = {
 		}
 	}
 }
-exports.default = lens
+
+export default lens
