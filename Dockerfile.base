@@ -1,4 +1,4 @@
-FROM balena/open-balena-base:v7.2.1 as base
+FROM balena/open-balena-base:v7.2.2 as base
 
 # For debugging purposes
 RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main" > /etc/apt/sources.list.d/pgdg.list
