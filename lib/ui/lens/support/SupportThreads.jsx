@@ -83,6 +83,7 @@ export class SupportThreads extends React.Component {
 		const pendingAgentResponse = []
 		const pendingEngineerResponse = []
 		const pendingUserResponse = []
+		const discussions = []
 
 		await Bluebird.map(tail, async (card) => {
 			/**
@@ -102,6 +103,14 @@ export class SupportThreads extends React.Component {
 				_.get(card.links, [ 'has attached element' ], []),
 				'data.timestamp'
 			)
+
+			// If the card contains a message/whisper tagged as a discussion, move it to the discussion tab
+			for (const event of timeline) {
+				if (_.includes(event.tags, 'discussion')) {
+					discussions.push(card)
+					return
+				}
+			}
 
 			// Reverse the timeline, so the newest messages appear first
 			timeline.reverse()
@@ -176,6 +185,10 @@ export class SupportThreads extends React.Component {
 			{
 				name: 'pending engineer response',
 				cards: pendingEngineerResponse
+			},
+			{
+				name: 'discussions',
+				cards: discussions
 			}
 		]
 
