@@ -25,7 +25,7 @@ import {
 	Txt
 } from 'rendition'
 import styled from 'styled-components'
-import CardField from '../../components/CardField'
+import CardFields from '../../components/CardFields'
 import Event from '../../components/Event'
 import Label from '../../components/Label'
 import RouterLink from '../../components/Link'
@@ -48,14 +48,6 @@ const Extract = styled(Box) `
 	border-top: 1px solid ${Theme.colors.gray.light};
 	border-bottom: 1px solid ${Theme.colors.gray.light};
 `
-const transformMirror = (mirror) => {
-	if (mirror.includes('frontapp.com')) {
-		const id = mirror.split('/').pop()
-		return `https://app.frontapp.com/open/${id}`
-	}
-	return mirror
-}
-
 const getHighlights = (card) => {
 	const list = _.sortBy(_.filter(_.get(card, [ 'links', 'has attached element' ]), (event) => {
 		if (!_.includes([ 'message', 'whisper' ], event.type)) {
@@ -229,36 +221,13 @@ class SupportThreadBase extends React.Component {
 			linkedSupportIssues,
 			linkedGitHubIssues
 		} = this.state
-		const payload = card.data
 		const typeCard = _.find(this.props.types, {
 			slug: card.type
 		})
 		const typeSchema = _.get(typeCard, [ 'data', 'schema' ])
-		const localSchema = helpers.getLocalSchema(card)
 		const defaultCategory = _.get(typeSchema, [ 'properties', 'data', 'properties', 'category', 'default' ])
 		const categoryOptions = _.get(typeSchema, [ 'properties', 'data', 'properties', 'category', 'enum' ])
 
-		// Local schemas are considered weak and are overridden by a type schema
-		const schema = _.merge({}, {
-			type: 'object',
-			properties: {
-				data: localSchema
-			}
-		}, typeSchema)
-		const unorderedKeys = _.filter(_.keys(payload), (key) => {
-			return !_.includes(fieldOrder, key)
-		})
-
-		// Omit the category, status and inbox fields as they are rendered seperately, also
-		// omit some fields that are used by the sync functionality
-		const keys = _.without((fieldOrder || []).concat(unorderedKeys),
-			'category',
-			'status',
-			'inbox',
-			'origin',
-			'environment',
-			'translateDate'
-		)
 		const {
 			actor
 		} = this.state
@@ -424,28 +393,19 @@ class SupportThreadBase extends React.Component {
 								)
 							})}
 
-							{_.map(keys, (key) => {
-								if (key === 'mirrors' && payload[key]) {
-									return (
-										<React.Fragment key={key}>
-											<Label my={3}>{key}</Label>
-											{payload[key].map((mirror) => {
-												const url = transformMirror(mirror)
-												return <Link key={url} blank href={url}>{url}</Link>
-											})}
-										</React.Fragment>
-									)
-								}
-
-								return payload[key]
-									? <CardField
-										key={key}
-										field={key}
-										payload={payload}
-										schema={_.get(schema, [ 'properties', 'data', 'properties', key ])}
-									/>
-									: null
-							})}
+							<CardFields
+								card={card}
+								fieldOrder={fieldOrder}
+								type={typeCard}
+								omit={[
+									'category',
+									'status',
+									'inbox',
+									'origin',
+									'environment',
+									'translateDate'
+								]}
+							/>
 
 							<Box>
 								<Link mt={3} onClick={this.handleExpandToggle}>

@@ -20,7 +20,7 @@ import {
 	Box,
 	Button
 } from 'rendition'
-import CardField from '../../components/CardField'
+import CardFields from '../../components/CardFields'
 import Label from '../../components/Label'
 import {
 	Tag
@@ -30,7 +30,6 @@ import {
 	selectors
 } from '../../core'
 import CardLayout from '../../layouts/CardLayout'
-import * as helpers from '../../services/helpers'
 import Timeline from '../list/Timeline'
 import Icon from '../../shame/Icon'
 import Link from '../../components/Link'
@@ -183,24 +182,9 @@ class Org extends React.Component {
 			members
 		} = this.state
 
-		const payload = card.data
 		const typeCard = _.find(this.props.types, {
 			slug: card.type
 		})
-		const typeSchema = _.get(typeCard, [ 'data', 'schema' ])
-		const localSchema = helpers.getLocalSchema(card)
-
-		// Local schemas are considered weak and are overridden by a type schema
-		const schema = _.merge({}, {
-			type: 'object',
-			properties: {
-				data: localSchema
-			}
-		}, typeSchema)
-		const unorderedKeys = _.filter(_.keys(payload), (key) => {
-			return !_.includes(fieldOrder, key)
-		})
-		const keys = (fieldOrder || []).concat(unorderedKeys)
 
 		return (
 			<CardLayout
@@ -208,23 +192,19 @@ class Org extends React.Component {
 				channel={channel}
 			>
 				<Box px={3}>
-					{Boolean(card.tags) && card.tags.length > 0 &&
-								<Box mb={1}>
-									{_.map(card.tags, (tag) => {
-										return <Tag.Tag mr={1}>#{tag}</Tag.Tag>
-									})}
-								</Box>}
+					{Boolean(card.tags) && card.tags.length > 0 && (
+						<Box mb={1}>
+							{_.map(card.tags, (tag) => {
+								return <Tag.Tag mr={1}>#{tag}</Tag.Tag>
+							})}
+						</Box>
+					)}
 
-					{_.map(keys, (key) => {
-						return payload[key]
-							? <CardField
-								key={key}
-								field={key}
-								payload={payload}
-								schema={_.get(schema, [ 'properties', 'data', 'properties', key ])}
-							/>
-							: null
-					})}
+					<CardFields
+						card={card}
+						fieldOrder={fieldOrder}
+						type={typeCard}
+					/>
 
 					<Box>
 						{members === null && (

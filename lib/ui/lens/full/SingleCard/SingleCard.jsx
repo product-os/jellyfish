@@ -12,12 +12,11 @@ import React from 'react'
 import {
 	Box
 } from 'rendition'
-import CardField from '../../../components/CardField'
+import CardFields from '../../../components/CardFields'
 import {
 	Tag
 } from '../../../components/Tag'
 import CardLayout from '../../../layouts/CardLayout'
-import * as helpers from '../../../services/helpers'
 import Timeline from '../../list/Timeline'
 
 export default class SingleCardFull extends React.Component {
@@ -31,24 +30,9 @@ export default class SingleCardFull extends React.Component {
 			channel,
 			fieldOrder
 		} = this.props
-		const payload = card.data
 		const typeCard = _.find(this.props.types, {
 			slug: card.type
 		})
-		const typeSchema = _.get(typeCard, [ 'data', 'schema' ])
-		const localSchema = helpers.getLocalSchema(card)
-
-		// Local schemas are considered weak and are overridden by a type schema
-		const schema = _.merge({}, {
-			type: 'object',
-			properties: {
-				data: localSchema
-			}
-		}, typeSchema)
-		const unorderedKeys = _.filter(_.keys(payload), (key) => {
-			return !_.includes(fieldOrder, key)
-		})
-		const keys = (fieldOrder || []).concat(unorderedKeys)
 
 		return (
 			<CardLayout
@@ -67,16 +51,11 @@ export default class SingleCardFull extends React.Component {
 						</Box>
 					)}
 
-					{_.map(keys, (key) => {
-						return payload[key]
-							? <CardField
-								key={key}
-								field={key}
-								payload={payload}
-								schema={_.get(schema, [ 'properties', 'data', 'properties', key ])}
-							/>
-							: null
-					})}
+					<CardFields
+						card={card}
+						fieldOrder={fieldOrder}
+						type={typeCard}
+					/>
 				</Box>
 
 				<Box
