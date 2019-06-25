@@ -13,9 +13,9 @@ import {
 	Tabs,
 	Txt
 } from 'rendition'
-import Link from '../../components/Link'
-import CardLayout from '../../layouts/CardLayout'
-import Icon from '../../shame/Icon'
+import Link from '../../../components/Link'
+import CardLayout from '../../../layouts/CardLayout'
+import Icon from '../../../shame/Icon'
 
 export default class Account extends React.Component {
 	constructor (props) {

@@ -22,17 +22,17 @@ import {
 	Button,
 	Flex
 } from 'rendition'
-import Event from '../components/Event'
+import Event from '../../components/Event'
 import {
 	actionCreators,
 	selectors,
 	sdk
-} from '../core'
+} from '../../core'
 import {
 	ActionLink
-} from '../shame/ActionLink'
-import Icon from '../shame/Icon'
-import Column from '../shame/Column'
+} from '../../shame/ActionLink'
+import Icon from '../../shame/Icon'
+import Column from '../../shame/Column'
 
 const INBOX_VIEW_SLUG = 'view-my-inbox'
 
@@ -243,6 +243,7 @@ const lens = {
 	name: 'Inbox lens',
 	data: {
 		icon: 'list',
+		format: 'list',
 		renderer: withRouter(connect(mapStateToProps, mapDispatchToProps)(Inbox)),
 		filter: {
 			type: 'array',

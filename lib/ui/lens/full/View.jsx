@@ -26,19 +26,21 @@ import {
 	Select
 } from 'rendition'
 import uuid from 'uuid/v4'
-import Filters from '../components/Filters'
+import Filters from '../../components/Filters'
 import {
 	actionCreators,
 	analytics,
 	selectors,
 	sdk
-} from '../core'
-import * as helpers from '../services/helpers'
-import LensService from './'
+} from '../../core'
+import * as helpers from '../../services/helpers'
+import {
+	getLensBySlug
+} from '../'
 import {
 	CloseButton
-} from '../shame/CloseButton'
-import Icon from '../shame/Icon'
+} from '../../shame/CloseButton'
+import Icon from '../../shame/Icon'
 
 const USER_FILTER_NAME = 'user-generated-filter'
 
@@ -225,7 +227,7 @@ class ViewRenderer extends React.Component {
 			: []
 		const lenses = _.chain(head)
 			.get([ 'data', 'lenses' ])
-			.map((slug) => { return LensService.getLensBySlug(slug) })
+			.map((slug) => { return getLensBySlug(slug) })
 			.compact()
 			.value()
 
@@ -606,6 +608,7 @@ const lens = {
 	data: {
 		type: 'view',
 		icon: 'filter',
+		format: 'full',
 		renderer: connect(mapStateToProps, mapDispatchToProps)(ViewRenderer),
 		filter: {
 			type: 'object',

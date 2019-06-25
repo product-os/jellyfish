@@ -5,7 +5,7 @@
  */
 
 import React from 'react'
-import CardLayout from '../../layouts/CardLayout'
+import CardLayout from '../../../layouts/CardLayout'
 
 export default class Contact extends React.Component {
 	render () {

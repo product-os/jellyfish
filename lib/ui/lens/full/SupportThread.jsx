@@ -38,7 +38,7 @@ import {
 	sdk
 } from '../../core'
 import * as helpers from '../../services/helpers'
-import Timeline from '../Timeline'
+import Timeline from '../list/Timeline'
 import CardLayout from '../../layouts/CardLayout'
 import ColorHashPill from '../../shame/ColorHashPill'
 import Icon from '../../shame/Icon'
@@ -496,6 +496,7 @@ export default {
 	version: '1.0.0',
 	name: 'Support thread lens',
 	data: {
+		format: 'full',
 		icon: 'address-card',
 		renderer: connect(mapStateToProps, mapDispatchToProps)(SupportThreadBase),
 		filter: {

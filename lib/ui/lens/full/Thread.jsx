@@ -16,16 +16,16 @@ import {
 	Box,
 	Txt
 } from 'rendition'
-import CardField from '../components/CardField'
+import CardField from '../../components/CardField'
 import {
 	Tag
-} from '../components/Tag'
+} from '../../components/Tag'
 import {
 	selectors
-} from '../core'
-import * as helpers from '../services/helpers'
-import Timeline from './Timeline'
-import CardLayout from '../layouts/CardLayout'
+} from '../../core'
+import * as helpers from '../../services/helpers'
+import Timeline from '../list/Timeline'
+import CardLayout from '../../layouts/CardLayout'
 
 class Thread extends React.Component {
 	shouldComponentUpdate (nextProps) {
@@ -121,6 +121,7 @@ const lens = {
 	name: 'Default lens',
 	data: {
 		icon: 'address-card',
+		format: 'full',
 		renderer: connect(mapStateToProps)(Thread),
 		filter: {
 			type: 'object',

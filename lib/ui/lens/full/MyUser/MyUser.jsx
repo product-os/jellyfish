@@ -22,10 +22,10 @@ import {
 	Form
 } from 'rendition/dist/unstable'
 import * as skhema from 'skhema'
-import * as helpers from '../../services/helpers'
-import CardLayout from '../../layouts/CardLayout'
-import Gravatar from '../../shame/Gravatar'
-import Icon from '../../shame/Icon'
+import * as helpers from '../../../services/helpers'
+import CardLayout from '../../../layouts/CardLayout'
+import Gravatar from '../../../shame/Gravatar'
+import Icon from '../../../shame/Icon'
 
 const SLUG = 'lens-my-user'
 

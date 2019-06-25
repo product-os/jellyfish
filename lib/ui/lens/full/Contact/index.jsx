@@ -13,7 +13,7 @@ import {
 } from 'redux'
 import {
 	actionCreators
-} from '../../core'
+} from '../../../core'
 import Contact from './Contact'
 
 const mapStateToProps = (state, ownProps) => {
@@ -38,6 +38,7 @@ const lens = {
 	name: 'Contact lens',
 	data: {
 		icon: 'address-card',
+		format: 'full',
 		renderer: connect(mapStateToProps, mapDispatchToProps)(Contact),
 		filter: {
 			type: 'object',

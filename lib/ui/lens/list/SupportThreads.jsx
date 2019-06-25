@@ -298,6 +298,7 @@ const lens = {
 	name: 'SupportThreads lens',
 	data: {
 		icon: 'address-card',
+		format: 'list',
 		renderer: connect(mapStateToProps, mapDispatchToProps)(SupportThreads),
 		filter: {
 			type: 'array',

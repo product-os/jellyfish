@@ -32,10 +32,10 @@ import {
 import {
 	actionCreators,
 	selectors
-} from '../core'
-import BaseLens from './common/BaseLens'
-import SingleCard from './SingleCard'
-import Column from '../shame/Column'
+} from '../../core'
+import BaseLens from '../common/BaseLens'
+import SingleCard from '../snippet/SingleCard'
+import Column from '../../shame/Column'
 
 class CardList extends BaseLens {
 	constructor (props) {
@@ -69,7 +69,7 @@ class CardList extends BaseLens {
 					{() => {
 						return (
 							<Box px={3} pb={3} style={rowProps.style}>
-								<SingleCard.data.renderer card={card} level={1}/>
+								<SingleCard.data.renderer card={card}/>
 								<Divider color="#eee" m={0} style={{
 									height: 1
 								}}/>
@@ -176,6 +176,7 @@ const lens = {
 	version: '1.0.0',
 	name: 'Default list lens',
 	data: {
+		format: 'list',
 		renderer: connect(mapStateToProps, mapDispatchToProps)(CardList),
 		icon: 'address-card',
 		type: '*',

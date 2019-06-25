@@ -10,23 +10,17 @@ import {
 import _ from 'lodash'
 import React from 'react'
 import {
-	connect
-} from 'react-redux'
-import {
 	Box
 } from 'rendition'
-import CardField from '../components/CardField'
+import CardField from '../../../components/CardField'
 import {
 	Tag
-} from '../components/Tag'
-import {
-	selectors
-} from '../core'
-import CardLayout from '../layouts/CardLayout'
-import * as helpers from '../services/helpers'
-import Timeline from './Timeline'
+} from '../../../components/Tag'
+import CardLayout from '../../../layouts/CardLayout'
+import * as helpers from '../../../services/helpers'
+import Timeline from '../../list/Timeline'
 
-class SingleCard extends React.Component {
+export default class SingleCardFull extends React.Component {
 	shouldComponentUpdate (nextProps) {
 		return !circularDeepEqual(nextProps, this.props)
 	}
@@ -100,25 +94,3 @@ class SingleCard extends React.Component {
 		)
 	}
 }
-
-const mapStateToProps = (state) => {
-	return {
-		types: selectors.getTypes(state)
-	}
-}
-
-const lens = {
-	slug: 'lens-default',
-	type: 'lens',
-	version: '1.0.0',
-	name: 'Default lens',
-	data: {
-		icon: 'address-card',
-		renderer: connect(mapStateToProps)(SingleCard),
-		filter: {
-			type: 'object'
-		}
-	}
-}
-
-export default lens

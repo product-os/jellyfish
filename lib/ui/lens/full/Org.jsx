@@ -20,20 +20,20 @@ import {
 	Box,
 	Button
 } from 'rendition'
-import CardField from '../components/CardField'
-import Label from '../components/Label'
+import CardField from '../../components/CardField'
+import Label from '../../components/Label'
 import {
 	Tag
-} from '../components/Tag'
+} from '../../components/Tag'
 import {
 	actionCreators,
 	selectors
-} from '../core'
-import CardLayout from '../layouts/CardLayout'
-import * as helpers from '../services/helpers'
-import Timeline from './Timeline'
-import Icon from '../shame/Icon'
-import Link from '../components/Link'
+} from '../../core'
+import CardLayout from '../../layouts/CardLayout'
+import * as helpers from '../../services/helpers'
+import Timeline from '../list/Timeline'
+import Icon from '../../shame/Icon'
+import Link from '../../components/Link'
 
 class Org extends React.Component {
 	constructor (props) {
@@ -315,6 +315,7 @@ const lens = {
 	version: '1.0.0',
 	name: 'Org lens',
 	data: {
+		format: 'full',
 		icon: 'address-card',
 		renderer: connect(mapStateToProps, mapDispatchToProps)(Org),
 		filter: {

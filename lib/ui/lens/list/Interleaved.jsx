@@ -24,16 +24,16 @@ import {
 	Theme
 } from 'rendition'
 import uuid from 'uuid/v4'
-import Event from '../components/Event'
+import Event from '../../components/Event'
 import {
 	actionCreators,
 	analytics,
 	sdk,
 	selectors
-} from '../core'
-import * as helpers from '../services/helpers'
-import Column from '../shame/Column'
-import Icon from '../shame/Icon'
+} from '../../core'
+import * as helpers from '../../services/helpers'
+import Column from '../../shame/Column'
+import Icon from '../../shame/Icon'
 
 const NONE_MESSAGE_TIMELINE_TYPES = [
 	'create',
@@ -337,6 +337,7 @@ const lens = {
 	name: 'Interleaved lens',
 	data: {
 		icon: 'list',
+		format: 'list',
 		renderer: withRouter(connect(mapStateToProps, mapDispatchToProps)(Interleaved)),
 		filter: {
 			type: 'array',
