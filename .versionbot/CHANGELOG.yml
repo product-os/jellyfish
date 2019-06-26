@@ -1,4 +1,43 @@
 - commits:
+    - subject: 'UI: Allow contacts to be linked to users'
+      hash: 9e10625bf41f3c40139b983985edff00da903838
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Allow users to link contacts to accounts'
+      hash: 230d2cb6c11e1da4451803910a7af99e452496a6
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Refactor link modal into a seperate component'
+      hash: 2551e77d667f2fc595d04699fcd667d155ac0804
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Add an SDK method for retrieving cards by creator'
+      hash: cb61f7ab34adb9623aee036bd3600b367e8e513f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 17.57.0
+  date: 2019-06-26T14:48:10.727Z
+- commits:
     - subject: Add machine-readable changelog
       hash: 21ba3feabdcc4a558ed561597dc72ab0a8c754c0
       body: ''
