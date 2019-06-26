@@ -76,10 +76,10 @@ ava.serial('Updates to support threads should be reflected in the support thread
 
 	const rand = uuid()
 
-	const columnSelector = macros.makeSelector('column', null, supportThread.id)
+	const columnSelector = '.column--support-thread'
 	await macros.createChatMessage(page, columnSelector, `%${rand}`)
 
-	const messageSelector = `${summarySelector} ${macros.makeSelector('card-chat-summary__message')}`
+	const messageSelector = `${summarySelector} [data-test="card-chat-summary__message"]`
 
 	const messageText = await macros.getElementText(page, messageSelector)
 
@@ -146,7 +146,7 @@ ava.serial('Support thread timeline should default to sending whispers', async (
 
 	await page.goto(`http://localhost:${environment.ui.port}/${supportThread.id}`)
 
-	const columnSelector = macros.makeSelector('column', null, supportThread.id)
+	const columnSelector = '.column--support-thread'
 	await page.waitForSelector(columnSelector)
 
 	const rand = uuid()
@@ -174,7 +174,7 @@ ava.serial('Support thread timeline should send a message if the input is prefix
 
 	await page.goto(`http://localhost:${environment.ui.port}/${supportThread.id}`)
 
-	const columnSelector = macros.makeSelector('column', null, supportThread.id)
+	const columnSelector = '.column--support-thread'
 	await page.waitForSelector(columnSelector)
 
 	const rand = uuid()
@@ -202,7 +202,7 @@ ava.serial('Support thread timeline should send a message if the whisper button 
 
 	await page.goto(`http://localhost:${environment.ui.port}/${supportThread.id}`)
 
-	const columnSelector = macros.makeSelector('column', null, supportThread.id)
+	const columnSelector = '.column--support-thread'
 	await page.waitForSelector(columnSelector)
 
 	await macros.waitForThenClickSelector(page, '[data-test="timeline__whisper-toggle"]')
@@ -232,7 +232,7 @@ ava.serial('Support thread timeline should revert to "whisper" mode after sendin
 
 	await page.goto(`http://localhost:${environment.ui.port}/${supportThread.id}`)
 
-	const columnSelector = macros.makeSelector('column', null, supportThread.id)
+	const columnSelector = '.column--support-thread'
 	await page.waitForSelector(columnSelector)
 
 	const rand = uuid()

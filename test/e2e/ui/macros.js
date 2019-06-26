@@ -36,14 +36,6 @@ exports.retry = async (times, functionToTry) => {
 	}
 }
 
-exports.makeSelector = (componentName, slug, id) => {
-	return _.uniq([
-		`[data-test-component="${componentName}"]`,
-		slug && `[data-test-slug="${slug}"]`,
-		id && `[data-test-id="${id}"]`
-	]).join('')
-}
-
 exports.loginUser = async (page, user) => {
 	await page.goto(`http://localhost:${environment.ui.port}`)
 

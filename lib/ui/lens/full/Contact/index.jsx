@@ -43,14 +43,9 @@ const lens = {
 		filter: {
 			type: 'object',
 			properties: {
-				data: {
-					type: 'object',
-					properties: {
-						type: {
-							type: 'string',
-							const: 'contact'
-						}
-					}
+				type: {
+					type: 'string',
+					const: 'contact'
 				}
 			}
 		}

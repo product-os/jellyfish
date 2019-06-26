@@ -27,7 +27,6 @@ import {
 import styled from 'styled-components'
 import CardFields from '../../components/CardFields'
 import Event from '../../components/Event'
-import Label from '../../components/Label'
 import RouterLink from '../../components/Link'
 import {
 	Tag
