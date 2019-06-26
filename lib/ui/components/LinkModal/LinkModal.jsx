@@ -123,6 +123,8 @@ export default class LinkModal extends React.Component {
 			}
 		})
 		if (!constants.LINKS[card.type]) {
+			console.error(`No known link types for ${card.type}`)
+
 			return null
 		}
 		const typeCard = _.find(types, [ 'slug', card.type ])
@@ -132,9 +134,12 @@ export default class LinkModal extends React.Component {
 			label: selectedTarget.name || selectedTarget.slug
 		} : null
 
+		const title = `Link this ${typeName} to ${linkTypeTargets.length === 1
+			? (linkTypeTargets[0].label || linkTypeTargets[0].value) : 'another element'}`
+
 		return (
 			<Modal
-				title={`Link this ${typeName} to another element`}
+				title={title}
 				cancel={this.props.onHide}
 				primaryButtonProps={{
 					disabled: !selectedTypeTarget,
@@ -143,10 +148,11 @@ export default class LinkModal extends React.Component {
 				done={this.linkToExisting}
 			>
 				<Flex align="center">
-					<Txt>
-						Link this {typeName} to{' '}
-						{linkTypeTargets.length === 1 && (linkTypeTargets[0].label || linkTypeTargets[0].value)}
-					</Txt>
+					{linkTypeTargets.length > 1 && (
+						<Txt>
+							Link this {typeName} to{' '}
+						</Txt>
+					)}
 					{linkTypeTargets.length > 1 && (
 						<Select ml={2}
 							value={selectedTypeTarget ? selectedTypeTarget.slug : null}

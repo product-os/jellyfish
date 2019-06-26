@@ -12,12 +12,15 @@ import {
 	bindActionCreators
 } from 'redux'
 import {
-	actionCreators
+	actionCreators,
+	selectors
 } from '../../../core'
 import Contact from './Contact'
 
 const mapStateToProps = (state, ownProps) => {
-	return {}
+	return {
+		types: selectors.getTypes(state)
+	}
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -25,6 +28,7 @@ const mapDispatchToProps = (dispatch) => {
 		actions: bindActionCreators(
 			_.pick(actionCreators, [
 				'addNotification',
+				'getLinks',
 				'setTimelineMessage',
 				'signalTyping'
 			]), dispatch)
