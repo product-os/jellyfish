@@ -15,17 +15,16 @@ import {
 import * as constants from '../../constants'
 import * as redux from 'redux'
 import {
+	Box,
 	Button,
 	Flex,
+	Heading,
 	Select,
 	Txt
 } from 'rendition'
 import * as helpers from '../../services/helpers'
-import {
-	CloseButton
-} from '../../shame/CloseButton'
-import Column from '../../shame/Column'
 import Icon from '../../shame/Icon'
+import CardLayout from '../../layouts/CardLayout'
 import {
 	Form
 } from 'rendition/dist/unstable'
@@ -192,6 +191,11 @@ class CreateLens extends React.Component {
 			selectedTypeTarget
 		} = this.state
 
+		const {
+			card,
+			channel
+		} = this.props
+
 		if (redirectTo) {
 			return <Redirect push to={redirectTo} />
 		}
@@ -242,18 +246,16 @@ class CreateLens extends React.Component {
 		const types = this.props.channel.data.head.types
 
 		return (
-			<Column
+			<CardLayout
+				noActions
 				overflowY
-				p={3}
+				card={card}
+				channel={channel}
+				title={(
+					<Heading.h4>Add {selectedTypeTarget.name}</Heading.h4>
+				)}
 			>
-				<div>
-					<Flex flex={0} align="start" justifyContent="space-between">
-						<h3>{`Add ${selectedTypeTarget.name}`}</h3>
-
-						<CloseButton
-							onClick={this.close}
-						/>
-					</Flex>
+				<Box px={3} pb={3}>
 					{_.isArray(types) && (
 						<Flex align="center" pb={3}>
 							<Txt>Create a new</Txt>
@@ -301,8 +303,8 @@ class CreateLens extends React.Component {
 							{this.state.submitting ? <Icon spin name="cog"/> : 'Submit' }
 						</Button>
 					</Flex>
-				</div>
-			</Column>
+				</Box>
+			</CardLayout>
 		)
 	}
 }

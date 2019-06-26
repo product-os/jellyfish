@@ -16,14 +16,14 @@ import {
 } from 'rendition'
 import styled from 'styled-components'
 import uuid from 'uuid/v4'
-import Event from '../../components/Event'
+import Event from '../../../components/Event'
 import {
 	analytics,
 	sdk
-} from '../../core'
-import * as helpers from '../../services/helpers'
-import Column from '../../shame/Column'
-import Icon from '../../shame/Icon'
+} from '../../../core'
+import * as helpers from '../../../services/helpers'
+import Column from '../../../shame/Column'
+import Icon from '../../../shame/Icon'
 import MessageInput from './MessageInput'
 
 const messageSymbolRE = /^\s*%\s*/

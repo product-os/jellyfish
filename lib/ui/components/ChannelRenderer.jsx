@@ -27,7 +27,9 @@ import {
 import {
 	actionCreators
 } from '../core'
-import lensService from '../lens'
+import {
+	getLens
+} from '../lens'
 
 const ErrorNotFound = styled.h1 `
 	color: white;
@@ -121,7 +123,7 @@ class ChannelRenderer extends React.Component {
 			)
 		}
 
-		const lens = lensService.getLens(channel.data.head, this.props.user)
+		const lens = getLens('full', channel.data.head, this.props.user)
 
 		return (
 			<ErrorBoundary style={style}>

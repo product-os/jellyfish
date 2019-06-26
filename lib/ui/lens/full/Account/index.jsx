@@ -4,17 +4,18 @@
  * Proprietary and confidential.
  */
 
+import * as _ from 'lodash'
 import {
 	connect
 } from 'react-redux'
-import * as redux from 'redux'
+import {
+	bindActionCreators
+} from 'redux'
 import {
 	actionCreators,
 	selectors
-} from '../../core'
-import MyUser from './MyUser'
-
-const SLUG = 'lens-my-user'
+} from '../../../core'
+import Account from './Account'
 
 const mapStateToProps = (state) => {
 	return {
@@ -24,32 +25,39 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: redux.bindActionCreators(actionCreators, dispatch)
+		actions: bindActionCreators(
+			_.pick(actionCreators, [
+				'addChannel',
+				'addNotification',
+				'createLink',
+				'getActor',
+				'getLinks',
+				'queryAPI'
+			]),
+			dispatch
+		)
 	}
 }
 
-export default {
-	slug: SLUG,
+const lens = {
+	slug: 'lens-org',
 	type: 'lens',
 	version: '1.0.0',
-	name: 'Support thread lens',
+	name: 'Org lens',
 	data: {
 		icon: 'address-card',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(MyUser),
+		format: 'full',
+		renderer: connect(mapStateToProps, mapDispatchToProps)(Account),
 		filter: {
 			type: 'object',
 			properties: {
 				type: {
 					type: 'string',
-					const: 'user'
-				},
-				slug: {
-					type: 'string',
-					const: {
-						$eval: 'user.slug'
-					}
+					const: 'account'
 				}
 			}
 		}
 	}
 }
+
+export default lens

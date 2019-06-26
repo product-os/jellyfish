@@ -14,7 +14,7 @@ import {
 import {
 	actionCreators,
 	selectors
-} from '../../core'
+} from '../../../core'
 import Timeline from './Timeline'
 
 const mapStateToProps = (state, ownProps) => {
@@ -44,6 +44,7 @@ const lens = {
 	version: '1.0.0',
 	name: 'Timeline lens',
 	data: {
+		format: 'list',
 		icon: 'address-card',
 		renderer: connect(mapStateToProps, mapDispatchToProps)(Timeline),
 

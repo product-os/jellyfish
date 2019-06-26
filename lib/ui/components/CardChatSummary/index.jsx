@@ -170,7 +170,7 @@ export default class CardChatSummary extends React.Component {
 						<Gravatar small pr={2} email={lastActor ? lastActor.email : null}/>
 
 						<Container
-							data-test-component="card-chat-summary__message"
+							data-test="card-chat-summary__message"
 						>
 							{
 								_.get(lastMessageOrWhisper, [ 'data', 'payload', 'message' ], '')

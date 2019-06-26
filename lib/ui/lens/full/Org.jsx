@@ -18,28 +18,21 @@ import {
 } from 'redux'
 import {
 	Box,
-	Button,
-	Flex,
-	Txt
+	Button
 } from 'rendition'
-import CardActions from '../components/CardActions'
-import CardField from '../components/CardField'
-import Label from '../components/Label'
+import CardFields from '../../components/CardFields'
+import Label from '../../components/Label'
 import {
 	Tag
-} from '../components/Tag'
+} from '../../components/Tag'
 import {
 	actionCreators,
 	selectors
-} from '../core'
-import * as helpers from '../services/helpers'
-import Timeline from './Timeline'
-import {
-	CloseButton
-} from '../shame/CloseButton'
-import Column from '../shame/Column'
-import Icon from '../shame/Icon'
-import Link from '../components/Link'
+} from '../../core'
+import CardLayout from '../../layouts/CardLayout'
+import Timeline from '../list/Timeline'
+import Icon from '../../shame/Icon'
+import Link from '../../components/Link'
 
 class Org extends React.Component {
 	constructor (props) {
@@ -181,161 +174,97 @@ class Org extends React.Component {
 	render () {
 		const {
 			card,
-			fieldOrder,
-			level
+			channel,
+			fieldOrder
 		} = this.props
 
 		const {
 			members
 		} = this.state
 
-		const payload = card.data
 		const typeCard = _.find(this.props.types, {
 			slug: card.type
 		})
-		const typeSchema = _.get(typeCard, [ 'data', 'schema' ])
-		const localSchema = helpers.getLocalSchema(card)
-
-		// Local schemas are considered weak and are overridden by a type schema
-		const schema = _.merge({}, {
-			type: 'object',
-			properties: {
-				data: localSchema
-			}
-		}, typeSchema)
-		const unorderedKeys = _.filter(_.keys(payload), (key) => {
-			return !_.includes(fieldOrder, key)
-		})
-		const keys = (fieldOrder || []).concat(unorderedKeys)
-		const cardSlug = _.get(card, [ 'slug' ])
-		const cardType = _.get(card, [ 'type' ])
-
-		const content = (
-			<React.Fragment>
-				<Flex justifyContent="space-between">
-					<Txt mb={3}>
-						<strong>
-							{!level && (
-								<div
-									style={{
-										fontSize: 14, display: 'block'
-									}}
-								>
-									{card.name || card.slug || card.type}
-								</div>
-							)}
-						</strong>
-					</Txt>
-
-					{!level && (
-						<Flex align="baseline">
-							<CardActions card={card}/>
-
-							<CloseButton
-								ml={3}
-								channel={this.props.channel}
-							/>
-						</Flex>
-					)}
-				</Flex>
-
-				{Boolean(card.tags) && card.tags.length > 0 &&
-							<Box mb={1}>
-								{_.map(card.tags, (tag) => {
-									return <Tag.Tag mr={1}>#{tag}</Tag.Tag>
-								})}
-							</Box>}
-
-				{_.map(keys, (key) => {
-					return payload[key]
-						? <CardField
-							key={key}
-							field={key}
-							payload={payload}
-							schema={_.get(schema, [ 'properties', 'data', 'properties', key ])}
-						/>
-						: null
-				})}
-
-				<Box>
-					{members === null && (
-						<Icon spin name="cog"/>
-					)}
-
-					{Boolean(members) && (
-						<React.Fragment>
-							<Label>Members ({members.length})</Label>
-							<Box style={{
-								overflow: 'auto',
-								maxHeight: 150
-							}}>
-								{_.map(members, (member) => {
-									return (
-										<Link
-											key={member.id}
-											id={member.id}
-											append={member.id}
-											style={{
-												display: 'block'
-											}}
-										>
-											{member.slug}
-										</Link>
-									)
-								})}
-							</Box>
-						</React.Fragment>
-					)}
-
-					<Box mt={3}>
-
-						<AsyncSelect
-							value={this.state.selectedUser}
-							cacheOptions defaultOptions
-							onChange={this.handleUserSelect}
-							loadOptions={this.getMembers}
-						/>
-
-						<Button
-							mt={3}
-							success
-							disabled={!this.state.selectedUser || this.state.addingMember}
-							onClick={this.addMember}
-						>
-							{this.state.addingMember
-								? <Icon spin name="cog"/>
-								: 'Add member'}
-						</Button>
-					</Box>
-				</Box>
-			</React.Fragment>
-		)
-
-		if (!level) {
-			return (
-				<Column
-					className={`column--${cardType || 'unknown'} column--slug-${cardSlug || 'unkown'}`}
-					flex={this.props.flex}
-				>
-					<Box p={3} flex="1" style={{
-						overflowY: 'auto'
-					}}>
-						{content}
-					</Box>
-
-					<Box style={{
-						maxHeight: '50%'
-					}} flex="0">
-						<Timeline.data.renderer card={this.props.card}/>
-					</Box>
-				</Column>
-			)
-		}
 
 		return (
-			<Box mb={3}>
-				{content}
-			</Box>
+			<CardLayout
+				card={card}
+				channel={channel}
+			>
+				<Box px={3}>
+					{Boolean(card.tags) && card.tags.length > 0 && (
+						<Box mb={1}>
+							{_.map(card.tags, (tag) => {
+								return <Tag.Tag mr={1}>#{tag}</Tag.Tag>
+							})}
+						</Box>
+					)}
+
+					<CardFields
+						card={card}
+						fieldOrder={fieldOrder}
+						type={typeCard}
+					/>
+
+					<Box>
+						{members === null && (
+							<Icon spin name="cog"/>
+						)}
+
+						{Boolean(members) && (
+							<React.Fragment>
+								<Label>Members ({members.length})</Label>
+								<Box style={{
+									overflow: 'auto',
+									maxHeight: 150
+								}}>
+									{_.map(members, (member) => {
+										return (
+											<Link
+												key={member.id}
+												id={member.id}
+												append={member.id}
+												style={{
+													display: 'block'
+												}}
+											>
+												{member.slug}
+											</Link>
+										)
+									})}
+								</Box>
+							</React.Fragment>
+						)}
+
+						<Box mt={3}>
+
+							<AsyncSelect
+								value={this.state.selectedUser}
+								cacheOptions defaultOptions
+								onChange={this.handleUserSelect}
+								loadOptions={this.getMembers}
+							/>
+
+							<Button
+								mt={3}
+								success
+								disabled={!this.state.selectedUser || this.state.addingMember}
+								onClick={this.addMember}
+							>
+								{this.state.addingMember
+									? <Icon spin name="cog"/>
+									: 'Add member'}
+							</Button>
+						</Box>
+					</Box>
+				</Box>
+
+				<Box style={{
+					maxHeight: '50%'
+				}} flex="0">
+					<Timeline.data.renderer card={this.props.card}/>
+				</Box>
+			</CardLayout>
 		)
 	}
 }
@@ -366,6 +295,7 @@ const lens = {
 	version: '1.0.0',
 	name: 'Org lens',
 	data: {
+		format: 'full',
 		icon: 'address-card',
 		renderer: connect(mapStateToProps, mapDispatchToProps)(Org),
 		filter: {

@@ -1,0 +1,42 @@
+{
+  "slug": "view-all-contacts",
+  "name": "All contacts",
+  "version": "1.0.0",
+  "type": "view",
+  "markers": [ "org-balena" ],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "namespace": "Sales",
+    "allOf": [
+      {
+        "name": "Active contacts",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "active": {
+              "const": true,
+              "type": "boolean"
+            },
+            "type": {
+              "type": "string",
+              "const": "contact"
+            }
+          },
+          "required": [
+            "active",
+            "type"
+          ],
+          "additionalProperties": true
+        }
+      }
+    ],
+    "lenses": [
+      "lens-list",
+      "lens-kanban"
+    ]
+  },
+  "requires": [],
+  "capabilities": []
+}

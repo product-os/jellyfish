@@ -12,17 +12,16 @@ import {
 } from 'react-redux'
 import * as redux from 'redux'
 import {
+	Box,
 	Button,
-	Flex
+	Flex,
+	Heading
 } from 'rendition'
 import {
 	Form
 } from 'rendition/dist/unstable'
+import CardLayout from '../../layouts/CardLayout'
 import * as helpers from '../../services/helpers'
-import {
-	CloseButton
-} from '../../shame/CloseButton'
-import Column from '../../shame/Column'
 import * as skhema from 'skhema'
 import {
 	actionCreators,
@@ -134,6 +133,7 @@ class EditLens extends React.Component {
 		const {
 			card
 		} = this.props.channel.data.head
+
 		const freeFieldData = _.reduce(localSchema.properties, (carry, _value, key) => {
 			const cardValue = _.get(card, [ 'data', key ])
 			if (cardValue) {
@@ -170,50 +170,54 @@ class EditLens extends React.Component {
 
 		const isValid = skhema.isValid(this.state.schema, helpers.removeUndefinedArrayItems(this.state.editModel)) &&
             skhema.isValid(localSchema, helpers.removeUndefinedArrayItems(freeFieldData))
+
 		return (
-			<Column
+			<CardLayout
 				overflowY
-				p={3}
+				noActions
+				card={card}
+				channel={this.props.channel}
+				title={(
+					<Heading.h4>
+						<em>Edit</em> {card.name || card.type}
+					</Heading.h4>
+				)}
 			>
-				<Flex py={2} flex={0} align="start" justifyContent="flex-end">
-					<CloseButton
-						onClick={this.close}
+				<Box p={3}>
+					<Form
+						uiSchema={uiSchema}
+						schema={schema}
+						value={this.state.editModel}
+						onFormChange={this.handleFormChange}
+						hideSubmitButton={true}
 					/>
-				</Flex>
 
-				<Form
-					uiSchema={uiSchema}
-					schema={schema}
-					value={this.state.editModel}
-					onFormChange={this.handleFormChange}
-					hideSubmitButton={true}
-				/>
+					<FreeFieldForm
+						schema={localSchema}
+						data={freeFieldData}
+						onDataChange={this.setFreeFieldData}
+						onSchemaChange={this.setLocalSchema}
+					/>
 
-				<FreeFieldForm
-					schema={localSchema}
-					data={freeFieldData}
-					onDataChange={this.setFreeFieldData}
-					onSchemaChange={this.setLocalSchema}
-				/>
+					<Flex justifyContent="flex-end" mt={4}>
+						<Button
+							onClick={this.close}
+							mr={2}
+						>
+							Cancel
+						</Button>
 
-				<Flex justifyContent="flex-end" mt={4}>
-					<Button
-						onClick={this.close}
-						mr={2}
-					>
-						Cancel
-					</Button>
-
-					<Button
-						primary
-						disabled={!isValid}
-						onClick={this.updateEntry}
-						data-test="card-edit__submit"
-					>
-						Submit
-					</Button>
-				</Flex>
-			</Column>
+						<Button
+							primary
+							disabled={!isValid}
+							onClick={this.updateEntry}
+							data-test="card-edit__submit"
+						>
+							Submit
+						</Button>
+					</Flex>
+				</Box>
+			</CardLayout>
 		)
 	}
 }

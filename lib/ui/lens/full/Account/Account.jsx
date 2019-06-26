@@ -10,17 +10,12 @@ import {
 	Box,
 	Button,
 	Divider,
-	Flex,
-	Heading,
 	Tabs,
 	Txt
 } from 'rendition'
-import Link from '../../components/Link'
-import {
-	CloseButton
-} from '../../shame/CloseButton'
-import Column from '../../shame/Column'
-import Icon from '../../shame/Icon'
+import Link from '../../../components/Link'
+import CardLayout from '../../../layouts/CardLayout'
+import Icon from '../../../shame/Icon'
 
 export default class Account extends React.Component {
 	constructor (props) {
@@ -65,29 +60,18 @@ export default class Account extends React.Component {
 
 	render () {
 		const {
-			card
+			card,
+			channel
 		} = this.props
 		const {
 			contacts
 		} = this.state
 
 		return (
-			<Column
-				className={`column--account column--slug-${card.slug}`}
-				flex={this.props.flex}
+			<CardLayout
+				card={card}
+				channel={channel}
 			>
-				<Flex
-					p={3}
-					justifyContent="space-between"
-				>
-					<Heading.h4>{card.name}</Heading.h4>
-
-					<CloseButton
-						ml={3}
-						channel={this.props.channel}
-					/>
-				</Flex>
-
 				<Divider width="100%" color="#eee" />
 
 				<Tabs
@@ -131,7 +115,7 @@ export default class Account extends React.Component {
 						</Button>
 					</Box>
 				</Tabs>
-			</Column>
+			</CardLayout>
 		)
 	}
 }

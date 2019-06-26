@@ -13,6 +13,14 @@ import {
 import Label from '../components/Label'
 import * as helpers from '../services/helpers'
 
+const transformMirror = (mirror) => {
+	if (mirror.includes('frontapp.com')) {
+		const id = mirror.split('/').pop()
+		return `https://app.frontapp.com/open/${id}`
+	}
+	return mirror
+}
+
 const CardField = ({
 	field, payload, schema
 }) => {
@@ -26,7 +34,8 @@ const CardField = ({
 			<React.Fragment>
 				<Label my={3}>{field}</Label>
 				{_.map(value, (mirror) => {
-					return <Link blank href={mirror} key={mirror}>{mirror}</Link>
+					const url = transformMirror(mirror)
+					return <Link blank href={url} key={mirror}>{url}</Link>
 				})}
 			</React.Fragment>
 		)

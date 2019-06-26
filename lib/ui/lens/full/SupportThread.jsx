@@ -25,10 +25,8 @@ import {
 	Txt
 } from 'rendition'
 import styled from 'styled-components'
-import CardActions from '../../components/CardActions'
-import CardField from '../../components/CardField'
+import CardFields from '../../components/CardFields'
 import Event from '../../components/Event'
-import Label from '../../components/Label'
 import RouterLink from '../../components/Link'
 import {
 	Tag
@@ -39,12 +37,9 @@ import {
 	sdk
 } from '../../core'
 import * as helpers from '../../services/helpers'
-import Timeline from '../Timeline'
-import {
-	CloseButton
-} from '../../shame/CloseButton'
+import Timeline from '../list/Timeline'
+import CardLayout from '../../layouts/CardLayout'
 import ColorHashPill from '../../shame/ColorHashPill'
-import Column from '../../shame/Column'
 import Icon from '../../shame/Icon'
 
 const Extract = styled(Box) `
@@ -52,14 +47,6 @@ const Extract = styled(Box) `
 	border-top: 1px solid ${Theme.colors.gray.light};
 	border-bottom: 1px solid ${Theme.colors.gray.light};
 `
-const transformMirror = (mirror) => {
-	if (mirror.includes('frontapp.com')) {
-		const id = mirror.split('/').pop()
-		return `https://app.frontapp.com/open/${id}`
-	}
-	return mirror
-}
-
 const getHighlights = (card) => {
 	const list = _.sortBy(_.filter(_.get(card, [ 'links', 'has attached element' ]), (event) => {
 		if (!_.includes([ 'message', 'whisper' ], event.type)) {
@@ -225,59 +212,33 @@ class SupportThreadBase extends React.Component {
 	}
 	render () {
 		const {
-			card, fieldOrder
+			card,
+			channel,
+			fieldOrder
 		} = this.props
 		const {
 			linkedSupportIssues,
 			linkedGitHubIssues
 		} = this.state
-		const payload = card.data
 		const typeCard = _.find(this.props.types, {
 			slug: card.type
 		})
 		const typeSchema = _.get(typeCard, [ 'data', 'schema' ])
-		const localSchema = helpers.getLocalSchema(card)
 		const defaultCategory = _.get(typeSchema, [ 'properties', 'data', 'properties', 'category', 'default' ])
 		const categoryOptions = _.get(typeSchema, [ 'properties', 'data', 'properties', 'category', 'enum' ])
 
-		// Local schemas are considered weak and are overridden by a type schema
-		const schema = _.merge({}, {
-			type: 'object',
-			properties: {
-				data: localSchema
-			}
-		}, typeSchema)
-		const unorderedKeys = _.filter(_.keys(payload), (key) => {
-			return !_.includes(fieldOrder, key)
-		})
-
-		// Omit the category, status and inbox fields as they are rendered seperately, also
-		// omit some fields that are used by the sync functionality
-		const keys = _.without((fieldOrder || []).concat(unorderedKeys),
-			'category',
-			'status',
-			'inbox',
-			'origin',
-			'environment',
-			'translateDate'
-		)
 		const {
 			actor
 		} = this.state
 
 		const highlights = getHighlights(card)
+
 		return (
-			<Column
-				flex={this.props.flex}
-				data-test-component="column"
-				data-test-id={card.id}
-				overflowY
-			>
-				<Box
-					px={3}
-					pt={3}
-				>
-					<Flex mb={2} justifyContent="space-between">
+			<CardLayout
+				card={card}
+				channel={channel}
+				title={(
+					<Flex flex={1} justifyContent="space-between">
 						<DropDownButton
 							primary
 							label={_.get(card, [ 'data', 'category' ], defaultCategory)}
@@ -296,35 +257,34 @@ class SupportThreadBase extends React.Component {
 							})}
 						</DropDownButton>
 
-						<Flex align="center">
-							<Button
-								plain
-								mr={3}
-								tooltip={{
-									placement: 'bottom',
-									text: 'Close this support thread'
-								}}
-								onClick={this.close}
-								icon={<Icon name="archive"/>}
-							/>
-
-							<CardActions card={card}>
-								<RouterLink append="view-all-support-issues">
-									Search support issues
-								</RouterLink>
-
-								<RouterLink append="view-all-issues">
-									Search GitHub issues
-								</RouterLink>
-							</CardActions>
-
-							<CloseButton
-								ml={3}
-								channel={this.props.channel}
-							/>
-						</Flex>
+						<Button
+							plain
+							mr={3}
+							tooltip={{
+								placement: 'bottom',
+								text: 'Close this support thread'
+							}}
+							onClick={this.close}
+							icon={<Icon name="archive"/>}
+						/>
 					</Flex>
+				)}
+				actionItems={(
+					<React.Fragment>
+						<RouterLink append="view-all-support-issues">
+							Search support issues
+						</RouterLink>
 
+						<RouterLink append="view-all-issues">
+							Search GitHub issues
+						</RouterLink>
+					</React.Fragment>
+				)}
+			>
+				<Box
+					px={3}
+					pt={3}
+				>
 					<Flex alignItems="center" mb={1} wrap="true">
 						<ColorHashPill value={_.get(card, [ 'data', 'inbox' ])} mr={2} mb={1} />
 						<ColorHashPill value={_.get(card, [ 'data', 'status' ])} mr={2} mb={1} />
@@ -432,28 +392,19 @@ class SupportThreadBase extends React.Component {
 								)
 							})}
 
-							{_.map(keys, (key) => {
-								if (key === 'mirrors' && payload[key]) {
-									return (
-										<React.Fragment key={key}>
-											<Label my={3}>{key}</Label>
-											{payload[key].map((mirror) => {
-												const url = transformMirror(mirror)
-												return <Link key={url} blank href={url}>{url}</Link>
-											})}
-										</React.Fragment>
-									)
-								}
-
-								return payload[key]
-									? <CardField
-										key={key}
-										field={key}
-										payload={payload}
-										schema={_.get(schema, [ 'properties', 'data', 'properties', key ])}
-									/>
-									: null
-							})}
+							<CardFields
+								card={card}
+								fieldOrder={fieldOrder}
+								type={typeCard}
+								omit={[
+									'category',
+									'status',
+									'inbox',
+									'origin',
+									'environment',
+									'translateDate'
+								]}
+							/>
 
 							<Box>
 								<Link mt={3} onClick={this.handleExpandToggle}>
@@ -473,7 +424,7 @@ class SupportThreadBase extends React.Component {
 						tail={_.get(this.props.card.links, [ 'has attached element' ], [])}
 					/>
 				</Box>
-			</Column>
+			</CardLayout>
 		)
 	}
 }
@@ -504,6 +455,7 @@ export default {
 	version: '1.0.0',
 	name: 'Support thread lens',
 	data: {
+		format: 'full',
 		icon: 'address-card',
 		renderer: connect(mapStateToProps, mapDispatchToProps)(SupportThreadBase),
 		filter: {
