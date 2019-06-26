@@ -107,3 +107,24 @@ ava.serial('should let users create new contacts attached to accounts', async (t
 
 	test.is(results[0].links['is member of account'].length, 1)
 })
+
+ava.serial('should let users create new contacts', async (test) => {
+	const {
+		page
+	} = context
+
+	await macros.waitForThenClickSelector(page, '[data-test="home-channel__item--view-all-contacts"]')
+	await macros.waitForThenClickSelector(page, '.btn--add-contact')
+
+	const name = `test contact ${uuid()}`
+
+	await page.waitForSelector('#root_name')
+
+	await macros.setInputValue(page, '#root_name', name)
+	await bluebird.delay(1000)
+	await macros.waitForThenClickSelector(page, '[data-test="card-creator__submit"]')
+
+	await page.waitForSelector('.column--contact')
+
+	test.pass()
+})
