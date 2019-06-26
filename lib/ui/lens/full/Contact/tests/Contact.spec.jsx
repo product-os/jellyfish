@@ -14,11 +14,18 @@ import {
 	contact
 } from './fixtures'
 
+const actions = {
+	async getLinks () {
+		return []
+	}
+}
+
 ava('It should render', (test) => {
 	test.notThrows(() => {
 		shallow(
 			<Contact
 				card={contact}
+				actions={actions}
 			/>
 		)
 	})

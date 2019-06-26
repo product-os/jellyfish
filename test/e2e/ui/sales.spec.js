@@ -113,8 +113,6 @@ ava.serial('should let users create new contacts', async (test) => {
 		page
 	} = context
 
-	await macros.waitForThenClickSelector(page, '[data-test="home-channel__group-toggle--org-balena"]')
-	await macros.waitForThenClickSelector(page, '[data-test="home-channel__group-toggle--Sales"]')
 	await macros.waitForThenClickSelector(page, '[data-test="home-channel__item--view-all-contacts"]')
 	await macros.waitForThenClickSelector(page, '.btn--add-contact')
 

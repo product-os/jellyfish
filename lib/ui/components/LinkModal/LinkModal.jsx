@@ -6,13 +6,9 @@
 
 import _ from 'lodash'
 import React from 'react'
-import {
-	DragSource
-} from 'react-dnd'
 import Async from 'react-select/lib/Async'
 import {
 	Box,
-	Button,
 	Modal,
 	Flex,
 	Txt,
@@ -20,8 +16,6 @@ import {
 } from 'rendition'
 import constants from '../../constants'
 import * as helpers from '../../services/helpers'
-import ContextMenu from '../ContextMenu'
-import Icon from '../../shame/Icon'
 
 export default class LinkModal extends React.Component {
 	constructor (props) {
@@ -147,7 +141,7 @@ export default class LinkModal extends React.Component {
 				}}
 				done={this.linkToExisting}
 			>
-				<Flex align="center">
+				<Flex alignItems="center">
 					{linkTypeTargets.length > 1 && (
 						<Txt>
 							Link this {typeName} to{' '}

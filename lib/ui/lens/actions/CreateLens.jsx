@@ -257,7 +257,7 @@ class CreateLens extends React.Component {
 			>
 				<Box px={3} pb={3}>
 					{_.isArray(types) && (
-						<Flex align="center" pb={3}>
+						<Flex alignItems="center" pb={3}>
 							<Txt>Create a new</Txt>
 
 							<Select ml={2} value={selectedTypeTarget.slug} onChange={this.handleTypeTargetSelect}>
