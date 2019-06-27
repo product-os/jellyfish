@@ -1,4 +1,19 @@
 - commits:
+    - subject: >-
+        UI: Fix bug that stops support threads from loading if an actor is not
+        found
+      hash: e70b2dbe99058de7b7be72ae430591fa69dc18c8
+      body: |
+        Fixes #2143
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 17.57.1
+  date: 2019-06-27T10:12:53.210Z
+- commits:
     - subject: 'UI: Allow contacts to be linked to users'
       hash: 9e10625bf41f3c40139b983985edff00da903838
       body: ''
