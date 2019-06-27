@@ -27,7 +27,6 @@ const SummaryWrapper = styled(Link) `
 	border-left-width: 3px;
 	border-bottom: 1px solid #eee;
 	cursor: pointer;
-	transition: background ease-in-out 150ms;
 	color: black;
 
 	&:hover {

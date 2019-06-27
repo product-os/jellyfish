@@ -220,10 +220,7 @@ export class SupportThreads extends React.Component {
 	}
 
 	render () {
-		const activeThread = _.get(
-			_.find(this.props.channels, [ 'data.cardType', 'support-thread' ]),
-			[ 'data', 'head', 'id' ]
-		)
+		const threadTargets = _.map(this.props.channels, 'data.target')
 
 		const {
 			segments
@@ -256,12 +253,13 @@ export class SupportThreads extends React.Component {
 								{!(this.props.totalPages > this.props.page + 1) && segment.cards.length === 0 && (
 									<Box p={3}><strong>Good job! There are no support threads here</strong></Box>
 								)}
+
 								{_.map(segment.cards, (card) => {
 									return (
 										<CardChatSummary
 											getActor={this.props.actions.getActor}
 											key={card.id}
-											active={activeThread === card.id}
+											active={_.includes(threadTargets, card.slug) || _.includes(threadTargets, card.id)}
 											card={card}
 											channel={this.props.channel}
 										/>
