@@ -1,4 +1,70 @@
 - commits:
+    - subject: 'UI: Increase spacing between notifications and bottom of window'
+      hash: 6e825cee5f112650be3092eeca7172f41ea1187d
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Reduce notification lifetime to 7.5s'
+      hash: a72571dc44a18edea2bfbe0a17cae80d5ed7dd38
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Move notifications to the bottom left of the screen'
+      hash: abfa95629c3d0dc2f2396aa0b277dcdb1e4a9f94
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Improve feedback when closing support thread'
+      hash: 2b9a166be7cd63d88a33745eaa1efd4f766ba27d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Highlight active support thread'
+      hash: 17ba8c1f1c0695129d68f3cb95c364963b69e7e1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Improve render performance of support thread lens'
+      hash: 81527ea7ad7151f53122ba735eb693466c7091ff
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Fix incorrect sort order of support threads'
+      hash: dcc0eac284e55b02b01625a4d4788ad2f976432f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 17.58.0
+  date: 2019-06-27T14:29:54.399Z
+- commits:
     - subject: 'UI: Improve render performance of timelines'
       hash: 2b59c0f9d1e8e1f97f17814819a1df68d8626960
       body: ''
