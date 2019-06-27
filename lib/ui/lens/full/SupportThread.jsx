@@ -65,16 +65,24 @@ class SupportThreadBase extends React.Component {
 		super(props)
 
 		this.close = () => {
+			this.setState({
+				isClosing: true
+			})
+
 			sdk.card.update(this.props.card.id, _.merge({}, this.props.card, {
 				data: {
 					status: 'closed'
 				}
 			}))
 				.then(() => {
-					this.props.actions.addNotification('success', 'Closed this support thread')
+					this.props.actions.addNotification('success', 'Closed support thread')
+					this.props.actions.removeChannel(this.props.channel)
 				})
 				.catch((error) => {
 					this.props.actions.addNotification('danger', error.message || error)
+					this.setState({
+						isClosing: false
+					})
 				})
 		}
 
@@ -92,6 +100,7 @@ class SupportThreadBase extends React.Component {
 
 		this.state = {
 			actor: null,
+			isClosing: false,
 			linkedSupportIssues: [],
 			linkedGitHubIssues: [],
 			showHighlights: false,
@@ -228,7 +237,8 @@ class SupportThreadBase extends React.Component {
 		const categoryOptions = _.get(typeSchema, [ 'properties', 'data', 'properties', 'category', 'enum' ])
 
 		const {
-			actor
+			actor,
+			isClosing
 		} = this.state
 
 		const highlights = getHighlights(card)
@@ -265,7 +275,12 @@ class SupportThreadBase extends React.Component {
 								text: 'Close this support thread'
 							}}
 							onClick={this.close}
-							icon={<Icon name="archive"/>}
+							icon={
+								<Icon
+									name={isClosing ? 'cog' : 'archive'}
+									spin={isClosing}
+								/>
+							}
 						/>
 					</Flex>
 				)}
@@ -442,7 +457,8 @@ const mapDispatchToProps = (dispatch) => {
 		actions: redux.bindActionCreators(
 			_.pick(actionCreators, [
 				'addNotification',
-				'getActor'
+				'getActor',
+				'removeChannel'
 			]),
 			dispatch
 		)
