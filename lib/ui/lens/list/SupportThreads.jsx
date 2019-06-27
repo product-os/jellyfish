@@ -5,7 +5,10 @@
  */
 
 import Bluebird from 'bluebird'
-import * as fastEquals from 'fast-equals'
+import {
+	circularDeepEqual,
+	deepEqual
+} from 'fast-equals'
 import * as _ from 'lodash'
 import * as React from 'react'
 import {
@@ -25,6 +28,17 @@ import Icon from '../../shame/Icon'
 import CardChatSummary from '../../components/CardChatSummary'
 
 const SLUG = 'lens-support-threads'
+
+const timestampSort = (cards) => {
+	return _.sortBy(cards, (element) => {
+		const timestamps = _.map(
+			_.get(element.links, [ 'has attached element' ], []),
+			'data.timestamp'
+		)
+		timestamps.sort()
+		return _.last(timestamps)
+	}).reverse()
+}
 
 export class SupportThreads extends React.Component {
 	constructor (props) {
@@ -60,25 +74,22 @@ export class SupportThreads extends React.Component {
 		this.setActiveIndex = this.setActiveIndex.bind(this)
 	}
 
+	shouldComponentUpdate (nextProps, nextState) {
+		return !circularDeepEqual(nextState, this.state) || !circularDeepEqual(nextProps, this.props)
+	}
+
 	componentDidMount () {
 		this.generateSegments()
 	}
 
 	componentDidUpdate (prevProps) {
-		if (!fastEquals.deepEqual(this.props.tail, prevProps.tail)) {
+		if (!deepEqual(this.props.tail, prevProps.tail)) {
 			this.generateSegments()
 		}
 	}
 
 	async generateSegments () {
-		const tail = _.sortBy(this.props.tail, (element) => {
-			const timestamps = _.map(
-				_.get(element.links, [ 'has attached element' ], []),
-				'data.timestamp'
-			)
-			timestamps.sort()
-			return _.last(timestamps)
-		}).reverse()
+		const tail = timestampSort(this.props.tail)
 
 		const pendingAgentResponse = []
 		const pendingEngineerResponse = []
@@ -176,19 +187,19 @@ export class SupportThreads extends React.Component {
 			},
 			{
 				name: 'pending agent response',
-				cards: pendingAgentResponse
+				cards: timestampSort(pendingAgentResponse)
 			},
 			{
 				name: 'pending user response',
-				cards: pendingUserResponse
+				cards: timestampSort(pendingUserResponse)
 			},
 			{
 				name: 'pending engineer response',
-				cards: pendingEngineerResponse
+				cards: timestampSort(pendingEngineerResponse)
 			},
 			{
 				name: 'discussions',
-				cards: discussions
+				cards: timestampSort(discussions)
 			}
 		]
 
@@ -209,10 +220,7 @@ export class SupportThreads extends React.Component {
 	}
 
 	render () {
-		const activeThread = _.get(
-			_.find(this.props.channels, [ 'data.cardType', 'support-thread' ]),
-			[ 'data', 'head', 'id' ]
-		)
+		const threadTargets = _.map(this.props.channels, 'data.target')
 
 		const {
 			segments
@@ -245,12 +253,13 @@ export class SupportThreads extends React.Component {
 								{!(this.props.totalPages > this.props.page + 1) && segment.cards.length === 0 && (
 									<Box p={3}><strong>Good job! There are no support threads here</strong></Box>
 								)}
+
 								{_.map(segment.cards, (card) => {
 									return (
 										<CardChatSummary
 											getActor={this.props.actions.getActor}
 											key={card.id}
-											active={activeThread === card.id}
+											active={_.includes(threadTargets, card.slug) || _.includes(threadTargets, card.id)}
 											card={card}
 											channel={this.props.channel}
 										/>

@@ -50,6 +50,7 @@ class JellyFishAlert extends React.Component {
 				data-id={id}
 				data-test={`alert--${type}`}
 				onDismiss={this.dismiss}
+				prefix={false}
 			>
 				<MessageText>
 					{_.isString(message) ? message : JSON.stringify(message)}
@@ -69,15 +70,20 @@ class Notifications extends React.Component {
 	}
 
 	render () {
-		if (!this.props.notifications.length) {
+		const {
+			notifications
+		} = this.props
+
+		if (!notifications.length) {
 			return null
 		}
 
 		return (
 			<Fixed
-				top
 				left
-				right
+				bottom
+				pb={3}
+				width={350}
 			>
 				<Box
 					m={3}
@@ -85,7 +91,7 @@ class Notifications extends React.Component {
 						opacity: 0.95
 					}}
 				>
-					{this.props.notifications.map(({
+					{notifications.map(({
 						type, id, message
 					}) => {
 						return (
