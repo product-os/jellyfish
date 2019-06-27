@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'UI: Improve render performance of timelines'
+      hash: 2b59c0f9d1e8e1f97f17814819a1df68d8626960
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 17.57.2
+  date: 2019-06-27T11:08:24.059Z
+- commits:
     - subject: >-
         UI: Fix bug that stops support threads from loading if an actor is not
         found
