@@ -82,6 +82,7 @@ class Notifications extends React.Component {
 			<Fixed
 				left
 				bottom
+				pb={3}
 				width={350}
 			>
 				<Box
