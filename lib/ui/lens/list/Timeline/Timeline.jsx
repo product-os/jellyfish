@@ -7,6 +7,9 @@
 import {
 	commaListsAnd
 } from 'common-tags'
+import {
+	circularDeepEqual
+} from 'fast-equals'
 import _ from 'lodash'
 import React from 'react'
 import {
@@ -47,12 +50,15 @@ const TypingNotice = styled.div `
 	}
 `
 
+const PAGE_SIZE = 20
+
 export default class Timeline extends React.Component {
 	constructor (props) {
 		super(props)
 		this.shouldScroll = true
 
 		this.state = {
+			page: 1,
 			hideWhispers: false,
 			messageSymbol: false,
 			messagesOnly: true,
@@ -80,6 +86,8 @@ export default class Timeline extends React.Component {
 		this.preserveMessage = _.debounce((newMessage) => {
 			this.props.actions.setTimelineMessage(this.props.card.id, newMessage)
 		}, 1500)
+
+		this.handleScroll = this.handleScroll.bind(this)
 	}
 
 	handleNewMessageChange (event) {
@@ -151,6 +159,10 @@ export default class Timeline extends React.Component {
 			})
 	}
 
+	shouldComponentUpdate (nextProps, nextState) {
+		return !circularDeepEqual(nextState, this.state) || !circularDeepEqual(nextProps, this.props)
+	}
+
 	componentWillReceiveProps (nextProps) {
 		const {
 			pendingMessages
@@ -175,16 +187,24 @@ export default class Timeline extends React.Component {
 		this.scrollToBottom()
 	}
 
-	componentWillUpdate () {
+	componentWillUpdate (nextProps, nextState) {
 		if (this.scrollArea) {
 			// Only set the scroll flag if the scroll area is already at the bottom
 			this.shouldScroll = this.scrollArea.scrollTop >= this.scrollArea.scrollHeight - this.scrollArea.offsetHeight
 		}
 	}
 
-	componentDidUpdate () {
+	componentDidUpdate (prevProps, prevState) {
 		// Scroll to bottom if the component has been updated with new items
 		this.scrollToBottom()
+		if (
+			this.scrollArea &&
+			this.scrollBottomOffset &&
+			this.scrollBottomOffset !== this.scrollArea.scrollHeight - this.scrollArea.offsetHeight - this.scrollArea.scrollTop
+		) {
+			this.scrollArea.scrollTop = this.scrollArea.scrollHeight - (this.scrollArea.offsetHeight + this.scrollBottomOffset)
+			this.scrollBottomOffset = this.scrollArea.scrollHeight - this.scrollArea.offsetHeight - this.scrollArea.scrollTop
+		}
 	}
 
 	scrollToBottom () {
@@ -193,6 +213,22 @@ export default class Timeline extends React.Component {
 		}
 		if (this.shouldScroll) {
 			this.scrollArea.scrollTop = this.scrollArea.scrollHeight
+		}
+	}
+
+	handleScroll (event) {
+		if (this.scrollArea) {
+			this.scrollBottomOffset = this.scrollArea.scrollHeight - this.scrollArea.offsetHeight - this.scrollArea.scrollTop
+		}
+
+		if (
+			this.scrollArea &&
+			this.scrollArea.scrollTop < 250 &&
+			this.state.page * PAGE_SIZE < this.props.tail.length
+		) {
+			this.setState({
+				page: this.state.page + 1
+			})
 		}
 	}
 
@@ -363,6 +399,7 @@ export default class Timeline extends React.Component {
 
 				<div
 					ref={this.bindScrollArea}
+					onScroll={this.handleScroll}
 					style={{
 						flex: 1,
 						overflowY: 'auto',
@@ -374,7 +411,8 @@ export default class Timeline extends React.Component {
 						<Icon spin name="cog"/>
 					</Box>)}
 
-					{(Boolean(sortedTail) && sortedTail.length > 0) && _.map(sortedTail, (card) => {
+					{(Boolean(sortedTail) && sortedTail.length > 0) &&
+					_.map(sortedTail.slice(0 - (PAGE_SIZE * this.state.page)), (card) => {
 						if (hideWhispers && card.type === 'whisper') {
 							return null
 						}
