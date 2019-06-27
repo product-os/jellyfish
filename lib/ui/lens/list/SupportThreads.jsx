@@ -5,7 +5,10 @@
  */
 
 import Bluebird from 'bluebird'
-import * as fastEquals from 'fast-equals'
+import {
+	circularDeepEqual,
+	deepEqual
+} from 'fast-equals'
 import * as _ from 'lodash'
 import * as React from 'react'
 import {
@@ -71,12 +74,16 @@ export class SupportThreads extends React.Component {
 		this.setActiveIndex = this.setActiveIndex.bind(this)
 	}
 
+	shouldComponentUpdate (nextProps, nextState) {
+		return !circularDeepEqual(nextState, this.state) || !circularDeepEqual(nextProps, this.props)
+	}
+
 	componentDidMount () {
 		this.generateSegments()
 	}
 
 	componentDidUpdate (prevProps) {
-		if (!fastEquals.deepEqual(this.props.tail, prevProps.tail)) {
+		if (!deepEqual(this.props.tail, prevProps.tail)) {
 			this.generateSegments()
 		}
 	}
