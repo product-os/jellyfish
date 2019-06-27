@@ -26,6 +26,17 @@ import CardChatSummary from '../../components/CardChatSummary'
 
 const SLUG = 'lens-support-threads'
 
+const timestampSort = (cards) => {
+	return _.sortBy(cards, (element) => {
+		const timestamps = _.map(
+			_.get(element.links, [ 'has attached element' ], []),
+			'data.timestamp'
+		)
+		timestamps.sort()
+		return _.last(timestamps)
+	}).reverse()
+}
+
 export class SupportThreads extends React.Component {
 	constructor (props) {
 		super(props)
@@ -71,14 +82,7 @@ export class SupportThreads extends React.Component {
 	}
 
 	async generateSegments () {
-		const tail = _.sortBy(this.props.tail, (element) => {
-			const timestamps = _.map(
-				_.get(element.links, [ 'has attached element' ], []),
-				'data.timestamp'
-			)
-			timestamps.sort()
-			return _.last(timestamps)
-		}).reverse()
+		const tail = timestampSort(this.props.tail)
 
 		const pendingAgentResponse = []
 		const pendingEngineerResponse = []
@@ -176,19 +180,19 @@ export class SupportThreads extends React.Component {
 			},
 			{
 				name: 'pending agent response',
-				cards: pendingAgentResponse
+				cards: timestampSort(pendingAgentResponse)
 			},
 			{
 				name: 'pending user response',
-				cards: pendingUserResponse
+				cards: timestampSort(pendingUserResponse)
 			},
 			{
 				name: 'pending engineer response',
-				cards: pendingEngineerResponse
+				cards: timestampSort(pendingEngineerResponse)
 			},
 			{
 				name: 'discussions',
-				cards: discussions
+				cards: timestampSort(discussions)
 			}
 		]
 
