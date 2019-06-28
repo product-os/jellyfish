@@ -110,7 +110,11 @@ class RouteHandler extends React.Component {
 	}
 
 	setChannelsFromPath () {
-		const path = this.props.location.pathname
+		let path = this.props.location.pathname
+		if (path === '/.') {
+			path = '/'
+		}
+
 		const targets = _.compact(_.trim(path, '/').split('/'))
 		const {
 			channels
