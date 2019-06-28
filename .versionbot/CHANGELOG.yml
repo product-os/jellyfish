@@ -1,4 +1,35 @@
 - commits:
+    - subject: Remove interleaved lens from support thread views
+      hash: 103b241cbe966b596ea08f1493c052f84ae33a62
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Fix issue where path param can be a period'
+      hash: 19b256a4ed9ad0a59f31136e81f70184608b32ce
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Make a best attempt to rewrite malformed legacy URLs'
+      hash: 935ad45e1efb0092df6fe93eeb491ad570b59617
+      body: |
+        Fixes #2137
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 17.58.1
+  date: 2019-06-28T12:18:44.161Z
+- commits:
     - subject: 'UI: Increase spacing between notifications and bottom of window'
       hash: 6e825cee5f112650be3092eeca7172f41ea1187d
       body: ''
