@@ -44,8 +44,9 @@ import {
 import 'rendition/dist/extra/Form/markdown'
 import 'rendition/dist/extra/Form/mermaid'
 
-// Check if the path begins with a hash fragment, followed by a slash: /#/
-const LEGACY_PATH_CHECK_RE = /^\/#\//
+// Check if the path begins with a hash fragment, followed by a slash: /#/ OR
+// A path that begins with a type and a tilde
+const LEGACY_PATH_CHECK_RE = /^\/(#\/|[a-z-].+~)/
 const isLegacyPath = (path) => {
 	if (path.match(LEGACY_PATH_CHECK_RE)) {
 		return true
