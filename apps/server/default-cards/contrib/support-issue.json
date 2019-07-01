@@ -51,6 +51,20 @@
               "description": "The supervisor version that this issue was fixed in (if applicable)",
               "type": "string"
             },
+            "affectedOSVersions": {
+              "title": "Affected OS versions",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "affectedSupervisorVersions": {
+              "title": "Affected supervisor versions",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
             "category": {
               "title": "Category",
               "type": "string"
