@@ -1,4 +1,79 @@
 - commits:
+    - subject: 'UI: Fix bug when marking card as read from inbox'
+      hash: fe898111660c42671701bd50393a1ef0570c7e87
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Fix color of whipser context menus'
+      hash: 38e96bed47131a516ac4f9180ce30799f00cf9e7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: Add fields for affected OS and supervisor versions to support issues
+      hash: 8b69c83d849a58bf6a8bf821c4bc4f45516d10e3
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'Ui: Make linked support issues more visible on support threads'
+      hash: 35b3f45793f87477110f3a102dbbc5aedff65e89
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Make close button work on create and edit lenses'
+      hash: a7a2a7f4f05b8e47804553b763759b00a31caac7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Add quick actions for archiving and re-opening support threads'
+      hash: 00a217012b304b8010cc3a0cf9a84ec2c6c2971a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Add a custom lens for auditing support threads'
+      hash: 06d17864309d4b8143462c30f38ec0ab5db8c99a
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Use WIP Jellyfish brand icon'
+      hash: 0bb5ac96f7e08e1af9b4792b805e435b2d8568f8
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 17.59.0
+  date: 2019-07-01T09:55:00.793Z
+- commits:
     - subject: Remove interleaved lens from support thread views
       hash: 103b241cbe966b596ea08f1493c052f84ae33a62
       body: ''
