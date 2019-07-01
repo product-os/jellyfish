@@ -42,11 +42,20 @@ import CardLayout from '../../layouts/CardLayout'
 import ColorHashPill from '../../shame/ColorHashPill'
 import Icon from '../../shame/Icon'
 
+const JellyIcon = styled.img.attrs({
+	src: '/icons/jellyfish.svg'
+}) `
+	height: 15px;
+	transform: translateY(3px);
+	margin-top: -2px;
+`
+
 const Extract = styled(Box) `
 	background: lightyellow;
 	border-top: 1px solid ${Theme.colors.gray.light};
 	border-bottom: 1px solid ${Theme.colors.gray.light};
 `
+
 const getHighlights = (card) => {
 	const list = _.sortBy(_.filter(_.get(card, [ 'links', 'has attached element' ]), (event) => {
 		if (!_.includes([ 'message', 'whisper' ], event.type)) {
@@ -410,6 +419,22 @@ class SupportThreadBase extends React.Component {
 								</Tag>
 							)
 						})}
+
+						{Boolean(linkedSupportIssues && linkedSupportIssues.length) && _.map(linkedSupportIssues, (entry) => {
+							return (
+								<Tag key={entry.id} mr={2} mb={1} tooltip={entry.name}>
+									<JellyIcon />
+									<Link
+										ml={1}
+										href={`/${entry.slug || entry.id}`}
+										key={entry.id}
+										data-test="support-thread__linked-support-issue"
+									>
+										{entry.name}
+									</Link>
+								</Tag>
+							)
+						})}
 					</Flex>
 
 					{Boolean(actor) && (
@@ -472,24 +497,6 @@ class SupportThreadBase extends React.Component {
 									})}
 								</Extract>
 							)}
-
-							{Boolean(linkedSupportIssues && linkedSupportIssues.length) && (
-								<Txt><strong>Linked support issues</strong></Txt>
-							)}
-							{_.map(linkedSupportIssues, (entry) => {
-								return (
-									<div>
-										<Link
-											mr={2}
-											href={`/${entry.slug || entry.id}`}
-											key={entry.id}
-											data-test="support-thread__linked-support-issue"
-										>
-											{entry.name}
-										</Link>
-									</div>
-								)
-							})}
 
 							<CardFields
 								card={card}
