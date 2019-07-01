@@ -57,6 +57,7 @@ class Inbox extends React.Component {
 		}
 
 		this.bindScrollArea = this.bindScrollArea.bind(this)
+		this.handleCardRead = this.handleCardRead.bind(this)
 		this.handleScroll = this.handleScroll.bind(this)
 		this.markAllAsRead = this.markAllAsRead.bind(this)
 	}
