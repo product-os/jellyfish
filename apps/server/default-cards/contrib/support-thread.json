@@ -71,6 +71,7 @@
             "status": {
               "title": "Status",
               "type": "string",
+              "default": "open",
               "enum": [
                 "open",
                 "closed",

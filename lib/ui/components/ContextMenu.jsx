@@ -140,7 +140,7 @@ export default class ContextMenu extends React.Component {
 				onClick={onClose}
 			>
 				<Menu
-					className={`context-menu--${position || 'left'}`}
+					className={`context-menu context-menu--${position || 'left'}`}
 					style={{
 						top: offsetTop,
 						left: offsetLeft,

@@ -175,6 +175,7 @@ class EditLens extends React.Component {
 			<CardLayout
 				overflowY
 				noActions
+				onClose={this.close}
 				card={card}
 				channel={this.props.channel}
 				title={(

@@ -42,11 +42,20 @@ import CardLayout from '../../layouts/CardLayout'
 import ColorHashPill from '../../shame/ColorHashPill'
 import Icon from '../../shame/Icon'
 
+const JellyIcon = styled.img.attrs({
+	src: '/icons/jellyfish.svg'
+}) `
+	height: 15px;
+	transform: translateY(3px);
+	margin-top: -2px;
+`
+
 const Extract = styled(Box) `
 	background: lightyellow;
 	border-top: 1px solid ${Theme.colors.gray.light};
 	border-bottom: 1px solid ${Theme.colors.gray.light};
 `
+
 const getHighlights = (card) => {
 	const list = _.sortBy(_.filter(_.get(card, [ 'links', 'has attached element' ]), (event) => {
 		if (!_.includes([ 'message', 'whisper' ], event.type)) {
@@ -64,6 +73,28 @@ class SupportThreadBase extends React.Component {
 	constructor (props) {
 		super(props)
 
+		this.reopen = () => {
+			this.setState({
+				isClosing: true
+			})
+
+			sdk.card.update(this.props.card.id, _.merge({}, this.props.card, {
+				data: {
+					status: 'open'
+				}
+			}))
+				.then(() => {
+					this.props.actions.addNotification('success', 'Opened support thread')
+					this.props.actions.removeChannel(this.props.channel)
+				})
+				.catch((error) => {
+					this.props.actions.addNotification('danger', error.message || error)
+					this.setState({
+						isClosing: false
+					})
+				})
+		}
+
 		this.close = () => {
 			this.setState({
 				isClosing: true
@@ -76,6 +107,28 @@ class SupportThreadBase extends React.Component {
 			}))
 				.then(() => {
 					this.props.actions.addNotification('success', 'Closed support thread')
+					this.props.actions.removeChannel(this.props.channel)
+				})
+				.catch((error) => {
+					this.props.actions.addNotification('danger', error.message || error)
+					this.setState({
+						isClosing: false
+					})
+				})
+		}
+
+		this.archive = () => {
+			this.setState({
+				isClosing: true
+			})
+
+			sdk.card.update(this.props.card.id, _.merge({}, this.props.card, {
+				data: {
+					status: 'archived'
+				}
+			}))
+				.then(() => {
+					this.props.actions.addNotification('success', 'Archived support thread')
 					this.props.actions.removeChannel(this.props.channel)
 				})
 				.catch((error) => {
@@ -243,6 +296,8 @@ class SupportThreadBase extends React.Component {
 
 		const highlights = getHighlights(card)
 
+		const status = _.get(card, [ 'data', 'status' ], 'open')
+
 		return (
 			<CardLayout
 				card={card}
@@ -267,21 +322,59 @@ class SupportThreadBase extends React.Component {
 							})}
 						</DropDownButton>
 
-						<Button
-							plain
-							mr={3}
-							tooltip={{
-								placement: 'bottom',
-								text: 'Close this support thread'
-							}}
-							onClick={this.close}
-							icon={
-								<Icon
-									name={isClosing ? 'cog' : 'archive'}
-									spin={isClosing}
-								/>
-							}
-						/>
+						{status === 'open' && (
+							<Button
+								plain
+								mr={3}
+								tooltip={{
+									placement: 'bottom',
+									text: 'Close this support thread'
+								}}
+								onClick={this.close}
+								icon={
+									<Icon
+										name={isClosing ? 'cog' : 'archive'}
+										spin={isClosing}
+									/>
+								}
+							/>
+						)}
+
+						{status === 'closed' && (
+							<Button
+								plain
+								mr={3}
+								tooltip={{
+									placement: 'bottom',
+									text: 'Archive this support thread'
+								}}
+								onClick={this.archive}
+								icon={
+									<Icon
+										name={isClosing ? 'cog' : 'box'}
+										spin={isClosing}
+									/>
+								}
+							/>
+						)}
+
+						{status === 'archived' && (
+							<Button
+								plain
+								mr={3}
+								tooltip={{
+									placement: 'bottom',
+									text: 'Open this support thread'
+								}}
+								onClick={this.reopen}
+								icon={
+									<Icon
+										name={isClosing ? 'cog' : 'box-open'}
+										spin={isClosing}
+									/>
+								}
+							/>
+						)}
 					</Flex>
 				)}
 				actionItems={(
@@ -320,6 +413,22 @@ class SupportThreadBase extends React.Component {
 										href={`/${entry.slug || entry.id}`}
 										key={entry.id}
 										data-test="support-thread__linked-issue"
+									>
+										{entry.name}
+									</Link>
+								</Tag>
+							)
+						})}
+
+						{Boolean(linkedSupportIssues && linkedSupportIssues.length) && _.map(linkedSupportIssues, (entry) => {
+							return (
+								<Tag key={entry.id} mr={2} mb={1} tooltip={entry.name}>
+									<JellyIcon />
+									<Link
+										ml={1}
+										href={`/${entry.slug || entry.id}`}
+										key={entry.id}
+										data-test="support-thread__linked-support-issue"
 									>
 										{entry.name}
 									</Link>
@@ -388,24 +497,6 @@ class SupportThreadBase extends React.Component {
 									})}
 								</Extract>
 							)}
-
-							{Boolean(linkedSupportIssues && linkedSupportIssues.length) && (
-								<Txt><strong>Linked support issues</strong></Txt>
-							)}
-							{_.map(linkedSupportIssues, (entry) => {
-								return (
-									<div>
-										<Link
-											mr={2}
-											href={`/${entry.slug || entry.id}`}
-											key={entry.id}
-											data-test="support-thread__linked-support-issue"
-										>
-											{entry.name}
-										</Link>
-									</div>
-								)
-							})}
 
 							<CardFields
 								card={card}
