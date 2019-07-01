@@ -46,19 +46,23 @@
                   "type": "string",
                   "const": "closed"
                 }
-              }
+              },
+              "required": [
+                "status"
+              ]
             }
           },
           "required": [
             "active",
-            "type"
+            "type",
+            "data"
           ],
           "additionalProperties": true
         }
       }
     ],
     "lenses": [
-      "lens-support-threads",
+      "lens-support-threads-to-audit",
       "lens-kanban"
     ]
   },
