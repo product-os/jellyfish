@@ -89,7 +89,7 @@ export default class Login extends React.Component {
 						}}
 						pl={2}
 						p={10}
-						src="/icons/jellyfish.svg"
+						src="/icons/jellyfish-icon.svg"
 					/>
 				</Flex>
 
