@@ -249,6 +249,7 @@ class CreateLens extends React.Component {
 			<CardLayout
 				noActions
 				overflowY
+				onClose={this.close}
 				card={card}
 				channel={channel}
 				title={(

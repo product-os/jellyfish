@@ -51,6 +51,7 @@ export default function CardLayout (props) {
 						)}
 
 						<CloseButton
+							onClick={props.onClose}
 							ml={3}
 							channel={channel}
 						/>

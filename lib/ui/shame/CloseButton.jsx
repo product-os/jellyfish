@@ -31,6 +31,10 @@ class CloseButtonBase extends React.Component {
 		} = this.props
 
 		history.push(pathWithoutChannel(channel))
+
+		if (this.props.onClick) {
+			this.props.onClick()
+		}
 	}
 
 	render () {
