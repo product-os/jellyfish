@@ -203,6 +203,11 @@ const WhisperWrapper = styled(Box) `
 		text-decoration: underline;
 	}
 
+	.context-menu,
+	.context-menu a {
+		color: black;
+	}
+
 	a .rendition-tag--hl {
 		color: white;
 	}
