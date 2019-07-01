@@ -64,6 +64,28 @@ class SupportThreadBase extends React.Component {
 	constructor (props) {
 		super(props)
 
+		this.reopen = () => {
+			this.setState({
+				isClosing: true
+			})
+
+			sdk.card.update(this.props.card.id, _.merge({}, this.props.card, {
+				data: {
+					status: 'open'
+				}
+			}))
+				.then(() => {
+					this.props.actions.addNotification('success', 'Opened support thread')
+					this.props.actions.removeChannel(this.props.channel)
+				})
+				.catch((error) => {
+					this.props.actions.addNotification('danger', error.message || error)
+					this.setState({
+						isClosing: false
+					})
+				})
+		}
+
 		this.close = () => {
 			this.setState({
 				isClosing: true
@@ -76,6 +98,28 @@ class SupportThreadBase extends React.Component {
 			}))
 				.then(() => {
 					this.props.actions.addNotification('success', 'Closed support thread')
+					this.props.actions.removeChannel(this.props.channel)
+				})
+				.catch((error) => {
+					this.props.actions.addNotification('danger', error.message || error)
+					this.setState({
+						isClosing: false
+					})
+				})
+		}
+
+		this.archive = () => {
+			this.setState({
+				isClosing: true
+			})
+
+			sdk.card.update(this.props.card.id, _.merge({}, this.props.card, {
+				data: {
+					status: 'archived'
+				}
+			}))
+				.then(() => {
+					this.props.actions.addNotification('success', 'Archived support thread')
 					this.props.actions.removeChannel(this.props.channel)
 				})
 				.catch((error) => {
@@ -243,6 +287,8 @@ class SupportThreadBase extends React.Component {
 
 		const highlights = getHighlights(card)
 
+		const status = _.get(card, [ 'data', 'status' ], 'open')
+
 		return (
 			<CardLayout
 				card={card}
@@ -267,21 +313,59 @@ class SupportThreadBase extends React.Component {
 							})}
 						</DropDownButton>
 
-						<Button
-							plain
-							mr={3}
-							tooltip={{
-								placement: 'bottom',
-								text: 'Close this support thread'
-							}}
-							onClick={this.close}
-							icon={
-								<Icon
-									name={isClosing ? 'cog' : 'archive'}
-									spin={isClosing}
-								/>
-							}
-						/>
+						{status === 'open' && (
+							<Button
+								plain
+								mr={3}
+								tooltip={{
+									placement: 'bottom',
+									text: 'Close this support thread'
+								}}
+								onClick={this.close}
+								icon={
+									<Icon
+										name={isClosing ? 'cog' : 'archive'}
+										spin={isClosing}
+									/>
+								}
+							/>
+						)}
+
+						{status === 'closed' && (
+							<Button
+								plain
+								mr={3}
+								tooltip={{
+									placement: 'bottom',
+									text: 'Archive this support thread'
+								}}
+								onClick={this.archive}
+								icon={
+									<Icon
+										name={isClosing ? 'cog' : 'box'}
+										spin={isClosing}
+									/>
+								}
+							/>
+						)}
+
+						{status === 'archived' && (
+							<Button
+								plain
+								mr={3}
+								tooltip={{
+									placement: 'bottom',
+									text: 'Open this support thread'
+								}}
+								onClick={this.reopen}
+								icon={
+									<Icon
+										name={isClosing ? 'cog' : 'box-open'}
+										spin={isClosing}
+									/>
+								}
+							/>
+						)}
 					</Flex>
 				)}
 				actionItems={(
