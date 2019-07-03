@@ -10,12 +10,12 @@ import {
 import _ from 'lodash'
 import React from 'react'
 import {
-	Box
+	Box,
+	Divider,
+	Tabs
 } from 'rendition'
+import Segment from './Segment'
 import CardFields from '../../../components/CardFields'
-import {
-	Tag
-} from '../../../components/Tag'
 import CardLayout from '../../../layouts/CardLayout'
 import Timeline from '../../list/Timeline'
 
@@ -30,9 +30,19 @@ export default class SingleCardFull extends React.Component {
 			channel,
 			fieldOrder
 		} = this.props
-		const typeCard = _.find(this.props.types, {
+		const type = _.find(this.props.types, {
 			slug: card.type
 		})
+
+		const tabs = [ 'Info', 'Timeline' ]
+
+		const relationships = _.get(type, [ 'data', 'meta', 'relationships' ])
+
+		if (relationships) {
+			for (const segment of relationships) {
+				tabs.push(segment.title)
+			}
+		}
 
 		return (
 			<CardLayout
@@ -40,35 +50,39 @@ export default class SingleCardFull extends React.Component {
 				card={card}
 				channel={channel}
 			>
-				<Box p={3} flex="1" style={{
-					overflowY: 'auto'
-				}}>
-					{Boolean(card.tags) && card.tags.length > 0 && (
-						<Box mb={1}>
-							{_.map(card.tags, (tag) => {
-								return <Tag key={tag} mr={1}>#{tag}</Tag>
-							})}
-						</Box>
-					)}
+				<Divider width="100%" color="#eee" />
 
-					<CardFields
-						card={card}
-						fieldOrder={fieldOrder}
-						type={typeCard}
-					/>
-				</Box>
-
-				<Box
+				<Tabs
+					tabs={tabs}
 					style={{
-						maxHeight: '50%'
+						flex: 1
 					}}
-					flex="0"
 				>
+					<Box p={3}>
+						<CardFields
+							card={card}
+							fieldOrder={fieldOrder}
+							type={type}
+						/>
+					</Box>
+
 					<Timeline.data.renderer
 						card={this.props.card}
 						tail={_.get(this.props.card.links, [ 'has attached element' ], [])}
 					/>
-				</Box>
+
+					{relationships && _.map(relationships, (segment) => {
+						return (
+							<Segment
+								card={card}
+								segment={segment}
+								addChannel={this.props.actions.addChannel}
+								getLinks={this.props.actions.getLinks}
+								queryAPI={this.props.actions.queryAPI}
+							/>
+						)
+					})}
+				</Tabs>
 			</CardLayout>
 		)
 	}

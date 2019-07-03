@@ -52,7 +52,7 @@ export default class Account extends React.Component {
 	}
 
 	async bootstrap () {
-		const contacts = await this.props.actions.getLinks(this.props.card, 'has contact')
+		const contacts = await this.props.actions.getLinks(this.props.card, 'contact')
 		this.setState({
 			contacts
 		})

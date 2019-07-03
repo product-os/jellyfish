@@ -12,7 +12,6 @@ import {
 import {
 	Redirect
 } from 'react-router-dom'
-import * as constants from '../../constants'
 import * as redux from 'redux'
 import {
 	Box,
@@ -179,8 +178,7 @@ class CreateLens extends React.Component {
 			if (!selectedTypeTarget) {
 				return
 			}
-			const linkName = constants.LINKS[card.type][selectedTypeTarget.slug]
-			this.props.actions.createLink(card, newCard, linkName)
+			this.props.actions.createLink(card, newCard)
 			this.close()
 		}
 	}

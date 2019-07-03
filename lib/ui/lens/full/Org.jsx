@@ -59,7 +59,7 @@ class Org extends React.Component {
 				return
 			}
 
-			this.props.actions.createLink(this.props.card, user.card, 'has member')
+			this.props.actions.createLink(this.props.card, user.card)
 				.catch((error) => {
 					this.props.actions.addNotification('danger', error.message || error)
 				})
