@@ -78,7 +78,15 @@
     },
 		"slices": [
 			"properties.data.properties.profile.properties.status"
-		]
+		],
+    "meta": {
+      "relationships": [
+        {
+          "title": "Contacts",
+          "link": "contact"
+        }
+      ]
+    }
   },
   "requires": [],
   "capabilities": []

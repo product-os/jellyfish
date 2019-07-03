@@ -7,12 +7,15 @@
 import _ from 'lodash'
 import React from 'react'
 import {
-	Box
+	Box,
+	Button,
+	Flex
 } from 'rendition'
 import {
 	evalSchema
 } from '../../../services/helpers'
 import Link from '../../../components/Link'
+import LinkModal from '../../../components/LinkModal'
 import Icon from '../../../shame/Icon'
 
 export default class Segment extends React.Component {
@@ -20,8 +23,25 @@ export default class Segment extends React.Component {
 		super(props)
 
 		this.state = {
-			results: null
+			results: null,
+			showLinkModal: false
 		}
+
+		this.openCreateChannel = this.openCreateChannel.bind(this)
+		this.openLinkModal = this.openLinkModal.bind(this)
+		this.hideLinkModal = this.hideLinkModal.bind(this)
+	}
+
+	openLinkModal () {
+		this.setState({
+			showLinkModal: true
+		})
+	}
+
+	hideLinkModal () {
+		this.setState({
+			showLinkModal: false
+		})
 	}
 
 	async componentDidMount () {
@@ -47,10 +67,47 @@ export default class Segment extends React.Component {
 		}
 	}
 
+	openCreateChannel () {
+		const {
+			addChannel,
+			card,
+			segment,
+			types
+		} = this.props
+
+		addChannel({
+			head: {
+				action: 'create',
+				types: _.find(types, {
+					slug: segment.link
+				}),
+				seed: {
+					markers: card.markers
+				},
+				onDone: {
+					action: 'link',
+					target: card
+				}
+			},
+			canonical: false
+		})
+	}
+
 	render () {
 		const {
-			results
+			results,
+			showLinkModal
 		} = this.state
+
+		const {
+			card,
+			segment,
+			types
+		} = this.props
+
+		const type = _.find(types, {
+			slug: segment.link
+		})
 
 		if (!results) {
 			return (
@@ -59,6 +116,7 @@ export default class Segment extends React.Component {
 				</Box>
 			)
 		}
+
 		return (
 			<Box p={3}>
 				{results.length === 0 && (
@@ -72,6 +130,34 @@ export default class Segment extends React.Component {
 						</div>
 					)
 				})}
+
+				{segment.link && (
+					<Flex mt={4}>
+						<Button
+							mr={2}
+							success
+							data-test={`add-${type.slug}`}
+							onClick={this.openCreateChannel}
+						>
+							Add new {type.name || type.slug}
+						</Button>
+
+						<Button
+							outline
+							data-test={`link-to-${type.slug}`}
+							onClick={this.openLinkModal}
+						>
+							Link to an existing {type.name || type.slug}
+						</Button>
+					</Flex>
+				)}
+
+				<LinkModal
+					card={card}
+					types={[ type ]}
+					show={showLinkModal}
+					onHide={this.hideLinkModal}
+				/>
 			</Box>
 		)
 	}

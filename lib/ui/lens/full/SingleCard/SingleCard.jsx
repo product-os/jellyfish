@@ -28,9 +28,10 @@ export default class SingleCardFull extends React.Component {
 		const {
 			card,
 			channel,
-			fieldOrder
+			fieldOrder,
+			types
 		} = this.props
-		const type = _.find(this.props.types, {
+		const type = _.find(types, {
 			slug: card.type
 		})
 
@@ -76,6 +77,7 @@ export default class SingleCardFull extends React.Component {
 							<Segment
 								card={card}
 								segment={segment}
+								types={types}
 								addChannel={this.props.actions.addChannel}
 								getLinks={this.props.actions.getLinks}
 								queryAPI={this.props.actions.queryAPI}
