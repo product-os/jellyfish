@@ -140,13 +140,9 @@ class CreateLens extends React.Component {
 		this.props.actions.removeChannel(this.props.channel)
 	}
 
-	handleTypeTargetSelect (event) {
-		const types = this.props.channel.data.head.types
-
+	handleTypeTargetSelect (payload) {
 		this.setState({
-			selectedTypeTarget: _.find(_.castArray(types), {
-				slug: event.target.value
-			})
+			selectedTypeTarget: payload.value
 		})
 	}
 
@@ -259,15 +255,13 @@ class CreateLens extends React.Component {
 						<Flex alignItems="center" pb={3}>
 							<Txt>Create a new</Txt>
 
-							<Select ml={2} value={selectedTypeTarget.slug} onChange={this.handleTypeTargetSelect}>
-								{types.map((type) => {
-									return (
-										<option value={type.slug} key={type.slug}>
-											{type.name || type.slug}
-										</option>
-									)
-								})}
-							</Select>
+							<Select
+								ml={2}
+								value={selectedTypeTarget}
+								onChange={this.handleTypeTargetSelect}
+								options={types}
+								labelKey="name"
+							/>
 						</Flex>
 					)}
 

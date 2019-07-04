@@ -36,6 +36,14 @@ exports.retry = async (times, functionToTry) => {
 	}
 }
 
+exports.getElementValue = async (page, selector) => {
+	const element = await page.$(selector)
+	const valueHandle = await element.getProperty('value')
+	const value = await valueHandle.jsonValue()
+
+	return value
+}
+
 exports.loginUser = async (page, user) => {
 	await page.goto(`http://localhost:${environment.ui.port}`)
 

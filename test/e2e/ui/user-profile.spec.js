@@ -60,12 +60,10 @@ ava.serial('The send command should default to "shift+enter"', async (test) => {
 
 	await macros.waitForThenClickSelector(page, 'button[role="tab"]:nth-of-type(3)')
 
-	const element = await page.$('[data-test="lens-my-user__send-command-select"] select')
-	const value = await page.evaluate((elem) => {
-		return elem.value
-	}, element)
+	await macros.waitForThenClickSelector(page, '[data-test="lens-my-user__send-command-select"]')
+	await macros.waitForThenClickSelector(page, '[role="menubar"] > div:nth-of-type(1) > button[role="menuitem"]')
 
-	// Assert a sane default value
+	const value = await macros.getElementValue(page, '[data-test="lens-my-user__send-command-select"]')
 	test.is(value, 'shift+enter')
 
 	const rand = uuid()
@@ -86,7 +84,13 @@ ava.serial('You should be able to change the send command to "enter"', async (te
 		page
 	} = context
 
-	await page.select('[data-test="lens-my-user__send-command-select"] select', 'enter')
+	await macros.waitForThenClickSelector(page, '[data-test="lens-my-user__send-command-select"]')
+	await macros.waitForThenClickSelector(page, '[role="menubar"] > div:nth-of-type(3) > button[role="menuitem"]')
+
+	await bluebird.delay(1000)
+
+	const value = await macros.getElementValue(page, '[data-test="lens-my-user__send-command-select"]')
+	test.is(value, 'enter')
 
 	// Wait for the success alert as a heuristic for the action completing
 	// successfully
@@ -123,8 +127,14 @@ ava.serial('You should be able to change the send command to "ctrl+enter"', asyn
 	await page.goto(`http://localhost:${environment.ui.port}/${user.id}`)
 
 	await macros.waitForThenClickSelector(page, 'button[role="tab"]:nth-of-type(3)')
-	await page.waitForSelector('[data-test="lens-my-user__send-command-select"] select')
-	await page.select('[data-test="lens-my-user__send-command-select"] select', 'ctrl+enter')
+
+	await macros.waitForThenClickSelector(page, '[data-test="lens-my-user__send-command-select"]')
+	await macros.waitForThenClickSelector(page, '[role="menubar"] > div:nth-of-type(2) > button[role="menuitem"]')
+
+	await bluebird.delay(1000)
+
+	const value = await macros.getElementValue(page, '[data-test="lens-my-user__send-command-select"]')
+	test.is(value, 'ctrl+enter')
 
 	// Wait for the success alert as a heuristic for the action completing
 	// successfully

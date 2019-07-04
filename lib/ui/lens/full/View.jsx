@@ -22,8 +22,7 @@ import {
 	Button,
 	ButtonGroup,
 	Flex,
-	SchemaSieve,
-	Select
+	SchemaSieve
 } from 'rendition'
 import uuid from 'uuid/v4'
 import Filters from '../../components/Filters'
@@ -397,13 +396,8 @@ class ViewRenderer extends React.Component {
 		} = this.props.channel.data
 
 		const {
-			types
-		} = this.props
-
-		const {
 			tailType,
 			activeLens,
-			activeSlice,
 			ready,
 			redirectTo
 		} = this.state
@@ -427,8 +421,6 @@ class ViewRenderer extends React.Component {
 		const lens = _.find(lenses, {
 			slug: activeLens
 		}) || lenses[0]
-		const slices = helpers.getViewSlices(head, types)
-		const lensSupportsSlices = Boolean(lens) && Boolean(lens.data.supportsSlices)
 
 		// Always expose the created_at and updated_at field for filtering
 		const schemaForFilters = _.get(clone(tailType), [ 'data', 'schema' ], {})
@@ -510,23 +502,6 @@ class ViewRenderer extends React.Component {
 											)
 										})}
 									</ButtonGroup>
-								)}
-
-								{slices && slices.length > 0 && lensSupportsSlices && (
-									<Box ml={3}>
-													Slice by:
-										<Select
-											ml={2}
-											value={activeSlice}
-											onChange={lensSupportsSlices ? this.setSlice : _.noop}
-										>
-											{_.map(slices, (slice) => {
-												return (<option key={slice.path} value={slice.path}>
-													{slice.title}
-												</option>)
-											})}
-										</Select>
-									</Box>
 								)}
 
 								<CloseButton

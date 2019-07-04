@@ -69,6 +69,49 @@
         {
           "title": "Account",
           "link": "account"
+        },
+        {
+          "title": "Support",
+          "query": [
+            {
+              "link": "user"
+            },
+            {
+              "$$links": {
+                "has attached element": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "const": "create"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "actor": {
+                          "const": {
+                            "$eval": "result.id"
+                          }
+                        }
+                      },
+                      "required": [
+                        "actor"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              },
+              "type": "object",
+              "properties": {
+                "type": {
+                  "const": "support-thread"
+                }
+              },
+              "additionalProperties": true
+            }
+          ]
         }
       ]
     }

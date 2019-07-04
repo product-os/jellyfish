@@ -74,7 +74,7 @@ export default class FreeFieldForm extends React.Component {
 
 		this.state = {
 			key: '',
-			fieldType: _.first(this.dataTypes).key
+			fieldType: _.first(this.dataTypes)
 		}
 
 		this.addField = this.addField.bind(this)
@@ -88,15 +88,13 @@ export default class FreeFieldForm extends React.Component {
 			key, fieldType
 		} = this.state
 		const schema = this.props.schema
-		const subSchema = _.find(this.dataTypes, {
-			key: fieldType
-		}).schema
+		const subSchema = fieldType.schema
 
 		_.set(schema, [ 'properties', key ], subSchema)
 
 		this.setState({
 			key: '',
-			fieldType: _.first(this.dataTypes).key
+			fieldType: _.first(this.dataTypes)
 		})
 
 		this.props.onSchemaChange(schema)
@@ -112,9 +110,9 @@ export default class FreeFieldForm extends React.Component {
 		})
 	}
 
-	setFieldType (event) {
+	setFieldType (field) {
 		this.setState({
-			fieldType: event.currentTarget.value
+			fieldType: field.value
 		})
 	}
 
@@ -137,15 +135,12 @@ export default class FreeFieldForm extends React.Component {
 						placeholder="Enter the field title"
 					/>
 
-					<Select value={this.state.fieldType} onChange={this.setFieldType}>
-						{this.dataTypes.map((item) => {
-							return (
-								<option key={item.key} value={item.key}>
-									{item.name}
-								</option>
-							)
-						})}
-					</Select>
+					<Select
+						value={this.state.fieldType}
+						onChange={this.setFieldType}
+						options={this.dataTypes}
+						labelKey="name"
+					/>
 
 					<Button
 						success
