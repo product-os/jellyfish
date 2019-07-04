@@ -95,6 +95,7 @@ ava.serial('should stop users from seeing messages attached to cards they can\'t
 
 	const messageText = `My new message: ${uuid()}`
 
+	await macros.waitForThenClickSelector(page, '[role="tablist"] button:nth-of-type(2)')
 	await macros.createChatMessage(page, '.column--support-issue', messageText)
 
 	// This reload checks that authorisation persists between reloads and tha the
