@@ -13,11 +13,15 @@ import {
 	Button
 } from 'rendition'
 import {
-	LINKS
-} from '../../constants'
+	constants
+} from '../../core'
 import ContextMenu from '../ContextMenu'
 import LinkModal from '../LinkModal'
 import Icon from '../../shame/Icon'
+
+const {
+	LINKS
+} = constants
 
 class CardLinker extends React.Component {
 	constructor (props) {

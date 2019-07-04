@@ -289,7 +289,7 @@ avaTest('should re-open a closed support thread if an attached issue is closed',
 	})
 
 	await test.context.sdk.card.link(
-		supportThread, issue, 'support thread has attached issue')
+		supportThread, issue, 'support thread is attached to issue')
 
 	await test.context.sdk.card.update(supportThread.id, {
 		type: supportThread.type,

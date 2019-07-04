@@ -15,9 +15,13 @@ import {
 	Select
 } from 'rendition'
 import {
-	LINKS
-} from '../../constants'
+	constants
+} from '../../core'
 import * as helpers from '../../services/helpers'
+
+const {
+	LINKS
+} = constants
 
 export default class LinkModal extends React.Component {
 	constructor (props) {
