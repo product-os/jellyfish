@@ -12,7 +12,9 @@ import {
 import {
 	Button
 } from 'rendition'
-import constants from '../../constants'
+import {
+	LINKS
+} from '../../constants'
 import ContextMenu from '../ContextMenu'
 import LinkModal from '../LinkModal'
 import Icon from '../../shame/Icon'
@@ -87,7 +89,7 @@ class CardLinker extends React.Component {
 		} = this.props
 
 		const availableTypes = types.filter((type) => {
-			return constants.LINKS[card.type] && constants.LINKS[card.type].hasOwnProperty(type.slug)
+			return LINKS[card.type] && LINKS[card.type].hasOwnProperty(type.slug)
 		})
 
 		return availableTypes
@@ -103,7 +105,7 @@ class CardLinker extends React.Component {
 			showLinkModal
 		} = this.state
 		const availableTypes = this.getAvailableTypes()
-		if (!constants.LINKS[card.type]) {
+		if (!LINKS[card.type]) {
 			return null
 		}
 		const typeCard = _.find(types, [ 'slug', card.type ])

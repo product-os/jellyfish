@@ -15,7 +15,6 @@ import {
 	Modal
 } from 'rendition'
 import styled from 'styled-components'
-import constants from '../constants'
 import ErrorBoundary from '../shame/ErrorBoundary'
 import Icon from '../shame/Icon'
 import {
@@ -64,9 +63,7 @@ class ChannelRenderer extends React.Component {
 	link () {
 		const fromCard = this.state.linkFrom
 		const toCard = this.props.channel.data.head
-		const linkName = _.get(constants.LINKS, [ fromCard.type, toCard.type ], 'is attached to')
-
-		this.props.actions.createLink(fromCard, toCard, linkName)
+		this.props.actions.createLink(fromCard, toCard)
 		this.setState({
 			showLinkModal: false,
 			linkFrom: null

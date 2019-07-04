@@ -4,10 +4,15 @@
  * Proprietary and confidential.
  */
 
+import * as _ from 'lodash'
 import {
 	connect
 } from 'react-redux'
 import {
+	bindActionCreators
+} from 'redux'
+import {
+	actionCreators,
 	selectors
 } from '../../../core'
 import SingleCard from './SingleCard'
@@ -15,6 +20,17 @@ import SingleCard from './SingleCard'
 const mapStateToProps = (state) => {
 	return {
 		types: selectors.getTypes(state)
+	}
+}
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		actions: bindActionCreators(
+			_.pick(actionCreators, [
+				'addChannel',
+				'getLinks',
+				'queryAPI'
+			]), dispatch)
 	}
 }
 
@@ -26,7 +42,7 @@ const lens = {
 	data: {
 		format: 'full',
 		icon: 'address-card',
-		renderer: connect(mapStateToProps)(SingleCard),
+		renderer: connect(mapStateToProps, mapDispatchToProps)(SingleCard),
 		filter: {
 			type: 'object'
 		}

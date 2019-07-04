@@ -14,7 +14,9 @@ import {
 	Txt,
 	Select
 } from 'rendition'
-import constants from '../../constants'
+import {
+	LINKS
+} from '../../constants'
 import * as helpers from '../../services/helpers'
 
 export default class LinkModal extends React.Component {
@@ -74,8 +76,7 @@ export default class LinkModal extends React.Component {
 			if (!selectedTypeTarget || !selectedTarget) {
 				return
 			}
-			const linkName = constants.LINKS[card.type][selectedTypeTarget.slug]
-			this.props.actions.createLink(this.props.card, selectedTarget, linkName)
+			this.props.actions.createLink(card, selectedTarget)
 			this.setState({
 				selectedTarget: null
 			})
@@ -90,7 +91,7 @@ export default class LinkModal extends React.Component {
 			results: [],
 			selectedTarget: null,
 			selectedTypeTarget: _.find(types, {
-				slug: _.first(_.keys(constants.LINKS[card.type]))
+				slug: _.first(_.keys(LINKS[card.type]))
 			}) || null
 		}
 	}
@@ -116,7 +117,7 @@ export default class LinkModal extends React.Component {
 				label: item.name || item.slug
 			}
 		})
-		if (!constants.LINKS[card.type]) {
+		if (!LINKS[card.type]) {
 			console.error(`No known link types for ${card.type}`)
 
 			return null
