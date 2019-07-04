@@ -1,4 +1,44 @@
 - commits:
+    - subject: 'UI: Fix broken e2e tests'
+      hash: fce796069489c0ec17829670b591551095de24e4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Use unified lens instead of custom org lens'
+      hash: f6d9b71e373212d965755f70163b33110d2b5d9f
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Add ability to link to new or existing cards'
+      hash: ccd2db0da506a4b199f35eff92a7be59885e3f55
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Improve single card lens'
+      hash: 745831e9b7eb8deb985950db382af2829da4b928
+      body: |
+        Layout can be determined from additional options on the type card
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 17.60.0
+  date: 2019-07-04T08:12:02.273Z
+- commits:
     - subject: 'UI: Fix bug when marking card as read from inbox'
       hash: fe898111660c42671701bd50393a1ef0570c7e87
       body: ''
