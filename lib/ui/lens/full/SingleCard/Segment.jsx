@@ -4,6 +4,9 @@
  * Proprietary and confidential.
  */
 
+import {
+	circularDeepEqual
+} from 'fast-equals'
 import _ from 'lodash'
 import React from 'react'
 import {
@@ -32,6 +35,12 @@ export default class Segment extends React.Component {
 		this.hideLinkModal = this.hideLinkModal.bind(this)
 	}
 
+	componentDidUpdate (prevProps) {
+		if (!circularDeepEqual(prevProps.card, this.props.card)) {
+			this.getData()
+		}
+	}
+
 	openLinkModal () {
 		this.setState({
 			showLinkModal: true
@@ -44,7 +53,11 @@ export default class Segment extends React.Component {
 		})
 	}
 
-	async componentDidMount () {
+	componentDidMount () {
+		this.getData()
+	}
+
+	async getData () {
 		const {
 			card,
 			segment,
