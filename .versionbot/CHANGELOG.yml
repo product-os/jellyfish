@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'UI: Unify link verb definitions'
+      hash: a68d7b9b9c992fb3671bddd515b8b22b50926bed
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 17.60.2
+  date: 2019-07-08T11:05:12.854Z
+- commits:
     - subject: 'UI: Update segments when card changes'
       hash: ffd33ef27abb88c51565abe0a2224de158d9ad53
       body: ''
