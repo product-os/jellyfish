@@ -9,7 +9,7 @@
   "data": {
     "filter": {
       "$$links": {
-        "issue is attached to support thread": {
+        "issue has attached support thread": {
           "type": "object",
           "required": [ "type", "data" ],
           "properties": {
@@ -57,7 +57,7 @@
     },
     "action": "action-update-card",
     "target": {
-      "$eval": "source.links['issue is attached to support thread'][0].id"
+      "$eval": "source.links['issue has attached support thread'][0].id"
     },
     "arguments": {
       "reason": "Re-opened because linked issue was closed",

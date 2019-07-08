@@ -1235,14 +1235,14 @@ ava.serial('should link two cards together', async (test) => {
 	test.truthy(thread)
 
 	await test.context.sdk.card.link(issue, thread,
-		'is attached to')
+		'issue has attached support thread')
 
 	const expandedIssue = _.first(await test.context.sdk.query({
 		type: 'object',
 		required: [ 'id', 'links' ],
 		additionalProperties: true,
 		$$links: {
-			'is attached to': {
+			'issue has attached support thread': {
 				type: 'object',
 				additionalProperties: true
 			}
@@ -1263,7 +1263,7 @@ ava.serial('should link two cards together', async (test) => {
 		required: [ 'id', 'links' ],
 		additionalProperties: true,
 		$$links: {
-			'has attached element': {
+			'support thread is attached to issue': {
 				type: 'object',
 				additionalProperties: true
 			}
@@ -1279,11 +1279,11 @@ ava.serial('should link two cards together', async (test) => {
 		}
 	}))
 
-	test.deepEqual(thread, _.pick(_.find(expandedIssue.links['is attached to'], {
+	test.deepEqual(thread, _.pick(_.find(expandedIssue.links['issue has attached support thread'], {
 		id: thread.id
 	}), [ 'id', 'type', 'slug' ]))
 
-	test.deepEqual(issue, _.pick(_.find(expandedThread.links['has attached element'], {
+	test.deepEqual(issue, _.pick(_.find(expandedThread.links['support thread is attached to issue'], {
 		id: issue.id
 	}), [ 'id', 'type', 'slug' ]))
 })
@@ -1331,20 +1331,20 @@ ava.serial('linking two cards should be idempotent', async (test) => {
 	test.truthy(thread)
 
 	await test.context.sdk.card.link(issue, thread,
-		'is attached to')
+		'issue has attached support thread')
 	await test.context.sdk.card.link(issue, thread,
-		'is attached to')
+		'issue has attached support thread')
 	await test.context.sdk.card.link(issue, thread,
-		'is attached to')
+		'issue has attached support thread')
 	await test.context.sdk.card.link(issue, thread,
-		'is attached to')
+		'issue has attached support thread')
 
 	const expandedIssue = _.first(await test.context.sdk.query({
 		type: 'object',
 		required: [ 'id', 'links' ],
 		additionalProperties: true,
 		$$links: {
-			'is attached to': {
+			'issue has attached support thread': {
 				type: 'object',
 				additionalProperties: true
 			}
@@ -1365,7 +1365,7 @@ ava.serial('linking two cards should be idempotent', async (test) => {
 		required: [ 'id', 'links' ],
 		additionalProperties: true,
 		$$links: {
-			'has attached element': {
+			'support thread is attached to issue': {
 				type: 'object',
 				additionalProperties: true
 			}
@@ -1381,11 +1381,11 @@ ava.serial('linking two cards should be idempotent', async (test) => {
 		}
 	}))
 
-	test.deepEqual(thread, _.pick(_.find(expandedIssue.links['is attached to'], {
+	test.deepEqual(thread, _.pick(_.find(expandedIssue.links['issue has attached support thread'], {
 		id: thread.id
 	}), [ 'id', 'type', 'slug' ]))
 
-	test.deepEqual(issue, _.pick(_.find(expandedThread.links['has attached element'], {
+	test.deepEqual(issue, _.pick(_.find(expandedThread.links['support thread is attached to issue'], {
 		id: issue.id
 	}), [ 'id', 'type', 'slug' ]))
 })
