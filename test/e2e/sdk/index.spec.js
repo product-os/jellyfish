@@ -1135,6 +1135,25 @@ ava.serial('.auth.loginWithToken() should refresh your session token', async (te
 	await test.notThrowsAsync(sdk.auth.whoami())
 })
 
+ava.serial('.auth.refreshToken() should not throw if called multiple times in a row', async (test) => {
+	test.context.sdk.setAuthToken(test.context.session)
+
+	await test.notThrowsAsync(async () => {
+		await test.context.sdk.auth.refreshToken()
+		await test.context.sdk.auth.refreshToken()
+		await test.context.sdk.auth.refreshToken()
+		await test.context.sdk.auth.refreshToken()
+		await test.context.sdk.auth.refreshToken()
+		await test.context.sdk.auth.refreshToken()
+		await test.context.sdk.auth.refreshToken()
+		await test.context.sdk.auth.refreshToken()
+		await test.context.sdk.auth.refreshToken()
+		await test.context.sdk.auth.refreshToken()
+		await test.context.sdk.auth.refreshToken()
+		await test.context.sdk.auth.refreshToken()
+	})
+})
+
 ava.serial('should broadcast github issue links', async (test) => {
 	test.context.sdk.setAuthToken(test.context.session)
 
