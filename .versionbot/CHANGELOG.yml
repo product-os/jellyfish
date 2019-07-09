@@ -1,4 +1,20 @@
 - commits:
+    - subject: 'sdk: Don''t throw if executing .refreshToken() multiple times'
+      hash: add25b90c326361fef74138690bd07c5c936e31c
+      body: |
+        I added a "ui" suffix in the slug so that we know that these are UI
+        created sessions (just for convenience when skimming through logs)
+      footer:
+        Change-type: patch
+        change-type: patch
+        Fixes: 'https://sentry.io/share/issue/e649e2d5cec545d3aceb7b73dbc1fc93/'
+        fixes: 'https://sentry.io/share/issue/e649e2d5cec545d3aceb7b73dbc1fc93/'
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 17.61.1
+  date: 2019-07-09T08:09:28.018Z
+- commits:
     - subject: Update open-balena-base to 8.0.0
       hash: 40899b1a4fb2207ed137ea8849357f7ea388e564
       body: |
