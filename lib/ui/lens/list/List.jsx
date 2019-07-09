@@ -34,7 +34,9 @@ import {
 	selectors
 } from '../../core'
 import BaseLens from '../common/BaseLens'
-import SingleCard from '../snippet/SingleCard'
+import {
+	getLens
+} from '../'
 import Column from '../../shame/Column'
 
 class CardList extends BaseLens {
@@ -53,6 +55,8 @@ class CardList extends BaseLens {
 			} = this.props
 			const card = tail[rowProps.index]
 
+			const lens = getLens('snippet', card, {})
+
 			// Don't show the card if its the head, this can happen on view types
 			if (card.id === head.id) {
 				return null
@@ -69,7 +73,7 @@ class CardList extends BaseLens {
 					{() => {
 						return (
 							<Box px={3} pb={3} style={rowProps.style}>
-								<SingleCard.data.renderer card={card}/>
+								<lens.data.renderer card={card}/>
 								<Divider color="#eee" m={0} style={{
 									height: 1
 								}}/>
