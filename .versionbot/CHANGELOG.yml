@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'discourse: Retry API requests on 5xx'
+      hash: 09ca06bb41bbb5958a93c4687887c7c3666f533b
+      body: |
+        We logged some sporadic 502 responses in production. Lets just retry on
+        any 5xx code rather than complicating the conditionals.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 17.61.6
+  date: 2019-07-09T16:53:18.399Z
+- commits:
     - subject: 'discourse: Retry some more for post eventual consistency'
       hash: fc75c085d7839b8bd9381cca14ddefcc4135f024
       body: ''
