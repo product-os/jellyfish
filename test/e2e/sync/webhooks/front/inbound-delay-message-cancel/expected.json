@@ -28,7 +28,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-juan-resin-io",
+        "actor": {
+          "active": true,
+          "slug": "user-juan-resin-io"
+        },
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_1y9m7wr"
         ],
@@ -48,7 +51,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-juan-resin-io",
+        "actor": {
+          "active": true,
+          "slug": "user-juan-resin-io"
+        },
         "timestamp": "2018-10-10T22:19:18.438Z",
         "payload": {
           "name": "Delay cancel",
@@ -76,7 +82,10 @@
       "active": true,
       "capabilities": [],
       "data": {
-        "actor": "user-jviotti",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "payload": {
           "active": true,
           "capabilities": [],

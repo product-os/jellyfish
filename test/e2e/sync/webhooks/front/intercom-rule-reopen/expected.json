@@ -24,7 +24,10 @@
       "active": true,
       "capabilities": [],
       "data": {
-        "actor": "user-brantr",
+        "actor": {
+          "active": true,
+          "slug": "user-brantr"
+        },
         "payload": {
           "name": "Reconfiguration of wifi adapter settings for static IP not sticking",
           "type": "support-thread",
@@ -60,7 +63,10 @@
       "active": true,
       "requires": [],
       "data": {
-        "actor": "user-brantr",
+        "actor": {
+          "active": true,
+          "slug": "user-brantr"
+        },
         "target": "70ac6348-5c4f-46e4-9499-d8e74c0b6ad7",
         "timestamp": "2019-01-04T14:29:57.276Z",
         "mirrors": [

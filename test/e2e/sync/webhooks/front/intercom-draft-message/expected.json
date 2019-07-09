@@ -28,7 +28,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-jviotti2",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti2"
+        },
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_29otzx7"
         ],
@@ -48,7 +51,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-jviotti2",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti2"
+        },
         "timestamp": "2019-01-17T10:42:43.662Z",
         "payload": {
           "name": "",
@@ -80,7 +86,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-syncbot",
+        "actor": {
+          "active": true,
+          "slug": "user-syncbot"
+        },
         "mirrors": [
           "https://api2.frontapp.com/comments/com_2njyhf"
         ],
@@ -96,7 +105,10 @@
       "active": true,
       "capabilities": [],
       "data": {
-        "actor": "user-syncbot",
+        "actor": {
+          "active": true,
+          "slug": "user-syncbot"
+        },
         "payload": {
           "active": true,
           "capabilities": [],

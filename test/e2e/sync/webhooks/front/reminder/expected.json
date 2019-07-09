@@ -24,7 +24,10 @@
       "active": true,
       "capabilities": [],
       "data": {
-        "actor": "user-gh-spiderkeys",
+        "actor": {
+          "active": true,
+          "slug": "user-gh-spiderkeys"
+        },
         "payload": {
           "name": "",
           "type": "support-thread",
@@ -60,7 +63,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-gh-spiderkeys",
+        "actor": {
+          "active": true,
+          "slug": "user-gh-spiderkeys"
+        },
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_26k77bn"
         ],
@@ -76,7 +82,10 @@
       "active": true,
       "capabilities": [],
       "data": {
-        "actor": "user-camerondiver",
+        "actor": {
+          "active": true,
+          "slug": "user-camerondiver"
+        },
         "payload": {
           "name": "",
           "type": "support-thread",
@@ -108,7 +117,10 @@
       "active": true,
       "capabilities": [],
       "data": {
-        "actor": "user-admin",
+        "actor": {
+          "active": true,
+          "slug": "user-admin"
+        },
         "payload": {
           "active": true,
           "capabilities": [],

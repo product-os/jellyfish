@@ -28,7 +28,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-juan-resin-io",
+        "actor": {
+          "active": true,
+          "slug": "user-juan-resin-io"
+        },
         "timestamp": "2018-10-08T18:42:30.582Z",
         "payload": {
           "name": "Send me a comment",
@@ -56,7 +59,10 @@
       "active": true,
       "capabilities": [],
       "data": {
-        "actor": "user-accounts-front-dev",
+        "actor": {
+          "active": true,
+          "slug": "user-accounts-front-dev"
+        },
         "payload": {
           "active": true,
           "capabilities": [],
@@ -92,7 +98,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-accounts-front-dev",
+        "actor": {
+          "active": true,
+          "slug": "user-accounts-front-dev"
+        },
         "mirrors": [
           "https://api2.frontapp.com/comments/com_1xdtgy"
         ],
@@ -112,7 +121,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-accounts-front-dev",
+        "actor": {
+          "active": true,
+          "slug": "user-accounts-front-dev"
+        },
         "mirrors": [
           "https://api2.frontapp.com/comments/com_1xdthu"
         ],
@@ -128,7 +140,10 @@
       "active": true,
       "capabilities": [],
       "data": {
-        "actor": "user-accounts-front-dev",
+        "actor": {
+          "active": true,
+          "slug": "user-accounts-front-dev"
+        },
         "payload": {
           "active": true,
           "capabilities": [],

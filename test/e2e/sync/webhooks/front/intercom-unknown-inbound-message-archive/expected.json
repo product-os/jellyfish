@@ -28,7 +28,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-jviotti2",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti2"
+        },
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_27dmk4b"
         ],
@@ -49,7 +52,10 @@
       "capabilities": [],
       "data": {
         "timestamp": "2018-12-27T13:15:11.547Z",
-        "actor": "user-jviotti2",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti2"
+        },
         "payload": {
           "name": "",
           "type": "support-thread",
@@ -80,7 +86,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-syncbot",
+        "actor": {
+          "active": true,
+          "slug": "user-syncbot"
+        },
         "mirrors": [
           "https://api2.frontapp.com/comments/com_2j30ej"
         ],
@@ -96,7 +105,10 @@
       "active": true,
       "capabilities": [],
       "data": {
-        "actor": "user-syncbot",
+        "actor": {
+          "active": true,
+          "slug": "user-syncbot"
+        },
         "payload": {
           "active": true,
           "capabilities": [],
@@ -132,7 +144,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-jviotti",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "timestamp": "2018-12-27T13:15:38.558Z",
         "payload": {
           "name": "",

@@ -28,7 +28,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-juan-resin-io",
+        "actor": {
+          "active": true,
+          "slug": "user-juan-resin-io"
+        },
         "timestamp": "2018-10-08T18:50:47.782Z",
         "payload": {
           "name": "Undelete",
@@ -60,7 +63,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-accounts-front-dev",
+        "actor": {
+          "active": true,
+          "slug": "user-accounts-front-dev"
+        },
         "timestamp": "2018-10-08T18:50:52.438Z",
         "payload": {
           "name": "Undelete",
@@ -92,7 +98,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-accounts-front-dev",
+        "actor": {
+          "active": true,
+          "slug": "user-accounts-front-dev"
+        },
         "timestamp": "2018-10-08T18:51:29.916Z",
         "payload": {
           "name": "Undelete",
