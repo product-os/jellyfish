@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'discourse: Retry some more for post eventual consistency'
+      hash: fc75c085d7839b8bd9381cca14ddefcc4135f024
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        See: 'https://sentry.io/share/issue/d841971bf6e346dd916a81105e41e42f/'
+        see: 'https://sentry.io/share/issue/d841971bf6e346dd916a81105e41e42f/'
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 17.61.5
+  date: 2019-07-09T13:19:26.956Z
+- commits:
     - subject: 'UI: Fix filter select options'
       hash: a13dd882f7e02e663c4c4ee5818be24b52a2e0e0
       body: ''
