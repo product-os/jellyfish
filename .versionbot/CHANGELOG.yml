@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'github: Retry API requests on server errors'
+      hash: b55db50abdc1e009568a48c1b9ca4caddf0dc4db
+      body: |
+        We get various 502 Server Error responses in production per week.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 17.61.7
+  date: 2019-07-09T17:52:05.140Z
+- commits:
     - subject: 'discourse: Retry API requests on 5xx'
       hash: 09ca06bb41bbb5958a93c4687887c7c3666f533b
       body: |
