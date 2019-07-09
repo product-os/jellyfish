@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'UI: Surface linked user support threads on accounts'
+      hash: 3d7f42cc559e6b66af351a35e443edd667453978
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 17.61.2
+  date: 2019-07-09T09:12:24.872Z
+- commits:
     - subject: 'sdk: Don''t throw if executing .refreshToken() multiple times'
       hash: add25b90c326361fef74138690bd07c5c936e31c
       body: |
