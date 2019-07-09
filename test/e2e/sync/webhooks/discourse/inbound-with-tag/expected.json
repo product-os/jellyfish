@@ -29,7 +29,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-jviotti",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "timestamp": "2019-04-16T18:09:57.523Z",
         "payload": {
           "name": "Conversation with a tag",
@@ -62,7 +65,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-jviotti",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "mirrors": [
           "https://forums.balena.io/t/6084/1"
         ],

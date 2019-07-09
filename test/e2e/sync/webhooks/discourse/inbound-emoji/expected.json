@@ -29,7 +29,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-jviotti",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "timestamp": "2019-04-30T17:23:33.269Z",
         "payload": {
           "name": "Topic example with emojis",
@@ -62,7 +65,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-jviotti",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "mirrors": [
           "https://forums.balena.io/t/6895/1"
         ],

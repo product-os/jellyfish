@@ -28,7 +28,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-juan-resin-io",
+        "actor": {
+          "active": true,
+          "slug": "user-juan-resin-io"
+        },
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_1y9mrbf"
         ],
@@ -48,7 +51,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-juan-resin-io",
+        "actor": {
+          "active": true,
+          "slug": "user-juan-resin-io"
+        },
         "timestamp": "2018-10-10T22:22:30.693Z",
         "payload": {
           "name": "Archive message",
@@ -80,7 +86,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-jviotti",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "timestamp": "2018-10-10T22:22:37.849Z",
         "payload": {
           "name": "Archive message",
@@ -112,7 +121,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-jviotti",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "timestamp": "2018-10-10T22:22:46.382Z",
         "payload": {
           "name": "Archive message",
@@ -140,7 +152,10 @@
       "active": true,
       "capabilities": [],
       "data": {
-        "actor": "user-jviotti",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "payload": {
           "active": true,
           "capabilities": [],
@@ -176,7 +191,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-jviotti",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_1y9msqb"
         ],
@@ -192,7 +210,10 @@
       "active": true,
       "capabilities": [],
       "data": {
-        "actor": "user-jviotti",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "payload": {
           "active": true,
           "capabilities": [],

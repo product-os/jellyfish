@@ -29,7 +29,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-jviotti",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "timestamp": "2019-04-16T15:41:37.050Z",
         "payload": {
           "name": "Image attachment test",
@@ -62,7 +65,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-jviotti",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "mirrors": [
           "https://forums.balena.io/t/6073/1"
         ],
@@ -82,7 +88,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-jviotti",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "mirrors": [
           "https://forums.balena.io/t/6073/2"
         ],

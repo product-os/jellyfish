@@ -29,7 +29,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-jviotti",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "timestamp": "2019-04-16T15:21:35.841Z",
         "payload": {
           "name": "Test internal topic title edit",
@@ -62,7 +65,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-jviotti",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "mirrors": [
           "https://forums.balena.io/t/6060/1"
         ],
@@ -82,7 +88,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-jviotti",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "timestamp": "2019-04-16T15:22:03.985Z",
         "payload": {
           "name": "The new edit title",

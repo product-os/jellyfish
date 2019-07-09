@@ -28,7 +28,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-juan-resin-io",
+        "actor": {
+          "active": true,
+          "slug": "user-juan-resin-io"
+        },
         "timestamp": "2018-10-10T21:34:20.450Z",
         "payload": {
           "name": "Snooze cancel",
@@ -60,7 +63,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-jviotti",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "timestamp": "2018-10-10T21:34:27.674Z",
         "payload": {
           "name": "Snooze cancel",
@@ -92,7 +98,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-jviotti",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "timestamp": "2018-10-10T21:34:32.255Z",
         "payload": {
           "name": "Snooze cancel",

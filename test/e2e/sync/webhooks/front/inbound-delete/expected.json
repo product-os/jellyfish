@@ -28,7 +28,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-juan-resin-io",
+        "actor": {
+          "active": true,
+          "slug": "user-juan-resin-io"
+        },
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_1w1ewpe"
         ],
@@ -48,7 +51,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-juan-resin-io",
+        "actor": {
+          "active": true,
+          "slug": "user-juan-resin-io"
+        },
         "timestamp": "2018-10-08T18:35:23.129Z",
         "payload": {
           "name": "Inbound delete",
@@ -80,7 +86,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-accounts-front-dev",
+        "actor": {
+          "active": true,
+          "slug": "user-accounts-front-dev"
+        },
         "timestamp": "2018-10-08T18:35:32.544Z",
         "payload": {
           "name": "Inbound delete",

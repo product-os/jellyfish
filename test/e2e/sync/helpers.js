@@ -216,7 +216,12 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 
 		const actorCard = await test.context.jellyfish.getCardById(
 			test.context.context, test.context.session, card.data.actor)
-		card.data.actor = actorCard ? actorCard.slug : card.data.actor
+		card.data.actor = actorCard
+			? {
+				slug: actorCard.slug,
+				active: actorCard.active
+			}
+			: card.data.actor
 
 		if (card.data.payload) {
 			Reflect.deleteProperty(card.data.payload, 'slug')

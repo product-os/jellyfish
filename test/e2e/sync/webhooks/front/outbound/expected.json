@@ -28,7 +28,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-juan-resin-io",
+        "actor": {
+          "active": true,
+          "slug": "user-juan-resin-io"
+        },
         "timestamp": "2018-10-10T22:08:57.175Z",
         "payload": {
           "name": "Outbound test",
@@ -60,7 +63,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-jviotti",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "mirrors": [
           "https://api2.frontapp.com/messages/msg_1y9kf8r"
         ],

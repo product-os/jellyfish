@@ -32,7 +32,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-admin",
+        "actor": {
+          "active": true,
+          "slug": "user-admin"
+        },
         "timestamp": "2019-04-17T15:24:08.731Z",
         "payload": {
           "type": "user",

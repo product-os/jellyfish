@@ -29,7 +29,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-goetted",
+        "actor": {
+          "active": true,
+          "slug": "user-goetted"
+        },
         "timestamp": "2019-04-17T15:24:08.731Z",
         "payload": {
           "name": "External inbound test with message",
@@ -62,7 +65,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-goetted",
+        "actor": {
+          "active": true,
+          "slug": "user-goetted"
+        },
         "mirrors": [
           "https://forums.balena.io/t/6108/1"
         ],
@@ -82,7 +88,10 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "actor": "user-jviotti",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "mirrors": [
           "https://forums.balena.io/t/6108/2"
         ],
