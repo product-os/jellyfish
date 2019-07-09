@@ -19,9 +19,13 @@ import {
 } from '../../core'
 import * as helpers from '../../services/helpers'
 
-const {
-	LINKS
-} = constants
+const selectChildRender = (type) => {
+	return (
+		<Txt px={20} py="4px">
+			{type.label || type.value}
+		</Txt>
+	)
+}
 
 export default class LinkModal extends React.Component {
 	constructor (props) {
@@ -55,10 +59,10 @@ export default class LinkModal extends React.Component {
 
 			return null
 		}
-		this.handleTypeTargetSelect = (event) => {
+		this.handleTypeTargetSelect = (target) => {
 			this.setState({
 				selectedTypeTarget: _.find(this.props.types, {
-					slug: event.target.value
+					slug: target.option.value
 				})
 			})
 		}
@@ -95,7 +99,7 @@ export default class LinkModal extends React.Component {
 			results: [],
 			selectedTarget: null,
 			selectedTypeTarget: _.find(types, {
-				slug: _.first(_.keys(LINKS[card.type]))
+				slug: _.first(_.keys(constants.LINKS[card.type]))
 			}) || null
 		}
 	}
@@ -121,7 +125,7 @@ export default class LinkModal extends React.Component {
 				label: item.name || item.slug
 			}
 		})
-		if (!LINKS[card.type]) {
+		if (!constants.LINKS[card.type]) {
 			console.error(`No known link types for ${card.type}`)
 
 			return null
@@ -154,13 +158,11 @@ export default class LinkModal extends React.Component {
 					)}
 					{linkTypeTargets.length > 1 && (
 						<Select ml={2}
-							value={selectedTypeTarget ? selectedTypeTarget.slug : null}
+							value={selectedTypeTarget ? selectedTypeTarget.name || selectedTypeTarget.slug : null}
 							onChange={this.handleTypeTargetSelect}
-						>
-							{linkTypeTargets.map((type) => {
-								return <option value={type.value} key={type.value}>{type.label || type.value}</option>
-							})}
-						</Select>
+							options={linkTypeTargets}
+							children={selectChildRender}
+						/>
 					)}
 					<Box
 						flex="1"

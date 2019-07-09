@@ -21,7 +21,7 @@ import {
 	Button,
 	Flex,
 	Box,
-	Pill,
+	Badge,
 	Txt
 } from 'rendition'
 import skhema from 'skhema'
@@ -74,9 +74,9 @@ const OrgCard = (props) => {
 			<Txt>{card.name}</Txt>
 
 			{arr && (
-				<Pill bg="#2297DE">
+				<Badge bg="#2297DE">
 					Projected ARR: {arr.toFixed(2)}
-				</Pill>
+				</Badge>
 			)}
 
 		</Box>

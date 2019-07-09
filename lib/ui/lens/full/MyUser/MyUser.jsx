@@ -14,6 +14,7 @@ import {
 	Heading,
 	Select,
 	Txt,
+	Tab,
 	Tabs,
 	Divider,
 	Link
@@ -63,8 +64,8 @@ export default class MyUser extends React.Component {
 		window.location.href = url
 	}
 
-	async handleSendCommandChange (event) {
-		const command = event.target.value
+	async handleSendCommandChange (payload) {
+		const command = payload.value
 
 		this.setState({
 			updatingSendCommand: true
@@ -155,97 +156,100 @@ export default class MyUser extends React.Component {
 					pt={3}
 					px={3}
 				>
-					<Box mt={3}>
-						<Flex>
-							<Gravatar email={user.data.email}/>
+					<Tab title="Profile">
+						<Box mt={3}>
+							<Flex>
+								<Gravatar email={user.data.email}/>
 
-							<Box ml={2}>
-								<strong>{user.slug.replace('user-', '')}</strong>
+								<Box ml={2}>
+									<strong>{user.slug.replace('user-', '')}</strong>
 
-								<br />
-								<strong>{user.data.email}</strong>
-							</Box>
-						</Flex>
-					</Box>
+									<br />
+									<strong>{user.data.email}</strong>
+								</Box>
+							</Flex>
+						</Box>
+					</Tab>
 
-					<Box mt={3}>
-						<label>
-							Change password:
-						</label>
+					<Tab title="Account">
+						<Box mt={3}>
+							<label>
+								Change password:
+							</label>
 
-						{shouldChangePassword && (
-							<Alert my={2} warning>
-								You have a password reset due!
-							</Alert>
-						)}
-
-						<Form
-							schema={schema}
-							uiSchema={uiSchema}
-							onFormChange={this.handlePasswordFormChange}
-							value={this.state.changePassword}
-							hideSubmitButton={true}
-						/>
-						<Button
-							primary
-							onClick={this.changePassword}
-							disabled={!isValid || this.state.settingPassword}
-						>
-							Submit
-						</Button>
-					</Box>
-
-					<Box mt={3}>
-						<label>
-							Command to send messages:
-						</label>
-
-						<br/>
-
-						<Select
-							data-test={`${SLUG}__send-command-select`}
-							mr={3}
-							value={sendCommand}
-							onChange={this.handleSendCommandChange}
-							disabled={this.state.updatingSendCommand}
-						>
-							{_.map(sendOptions, (value) => {
-								return (
-									<option key={value}>{value}</option>
-								)
-							})}
-						</Select>
-
-						{this.state.updatingSendCommand && (
-							<Icon spin name="cog" />
-						)}
-					</Box>
-
-					<Box mt={3}>
-						<Divider color="#eee" />
-
-						<Flex justifyContent="space-between" alignItems="center">
-							<Link href="https://www.outreach.io/" blank>
-								<Txt bold>Outreach</Txt>
-							</Link>
-
-							{_.get(user, [ 'data', 'oauth', 'outreach' ]) ? (
-								<Txt>Authorized</Txt>
-							) : (
-								<Button
-									data-test="integration-connection--outreach"
-									onClick={this.startAuthorize}
-								>
-									{this.state.fetchingIntegrationUrl ? (
-										<Icon spin name="cog" />
-									) : 'Connect'
-									}
-								</Button>
+							{shouldChangePassword && (
+								<Alert my={2} warning>
+									You have a password reset due!
+								</Alert>
 							)}
-						</Flex>
 
-						<Divider color="#eee" />
-					</Box>
+							<Form
+								schema={schema}
+								uiSchema={uiSchema}
+								onFormChange={this.handlePasswordFormChange}
+								value={this.state.changePassword}
+								hideSubmitButton={true}
+							/>
+							<Button
+								primary
+								onClick={this.changePassword}
+								disabled={!isValid || this.state.settingPassword}
+							>
+								Submit
+							</Button>
+						</Box>
+					</Tab>
+
+					<Tab title="Interface">
+						<Box mt={3}>
+							<label>
+								Command to send messages:
+							</label>
+
+							<br/>
+
+							<Select
+								data-test={`${SLUG}__send-command-select`}
+								mr={3}
+								value={sendCommand}
+								onChange={this.handleSendCommandChange}
+								disabled={this.state.updatingSendCommand}
+								options={sendOptions}
+							/>
+
+							{this.state.updatingSendCommand && (
+								<Icon spin name="cog" />
+							)}
+						</Box>
+					</Tab>
+
+					<Tab title="Oauth">
+						<Box mt={3}>
+							<Divider color="#eee" />
+
+							<Flex justifyContent="space-between" alignItems="center">
+								<Link href="https://www.outreach.io/" blank>
+									<Txt bold>Outreach</Txt>
+								</Link>
+
+								{_.get(user, [ 'data', 'oauth', 'outreach' ]) ? (
+									<Txt>Authorized</Txt>
+								) : (
+									<Button
+										data-test="integration-connection--outreach"
+										onClick={this.startAuthorize}
+									>
+										{this.state.fetchingIntegrationUrl ? (
+											<Icon spin name="cog" />
+										) : 'Connect'
+										}
+									</Button>
+								)}
+							</Flex>
+
+							<Divider color="#eee" />
+						</Box>
+					</Tab>
 				</Tabs>
 			</CardLayout>
 		)

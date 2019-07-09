@@ -4,6 +4,7 @@
  * Proprietary and confidential.
  */
 
+import Bluebird from 'bluebird'
 import {
 	circularDeepEqual
 } from 'fast-equals'
@@ -36,7 +37,16 @@ export default class Segment extends React.Component {
 	}
 
 	componentDidUpdate (prevProps) {
-		if (!circularDeepEqual(prevProps.card, this.props.card)) {
+		if (
+			!circularDeepEqual(prevProps.segment, this.props.segment)
+		) {
+			this.setState({
+				results: null
+			})
+			this.getData()
+		} else if (
+			!circularDeepEqual(prevProps.card, this.props.card)
+		) {
 			this.getData()
 		}
 	}
@@ -71,11 +81,22 @@ export default class Segment extends React.Component {
 				results
 			})
 		} else if (segment.query) {
-			const results = await	queryAPI(evalSchema(segment.query, {
-				card
-			}))
+			let context = [ card ]
+			for (const relation of _.castArray(segment.query)) {
+				if (relation.link) {
+					context = getLinks(card, relation.link)
+				} else {
+					const mapped = await Bluebird.map(context, (item) => {
+						return queryAPI(evalSchema(relation, {
+							result: item
+						}))
+					})
+					context = _.flatten(mapped)
+				}
+			}
+
 			this.setState({
-				results
+				results: _.flatten(context)
 			})
 		}
 	}

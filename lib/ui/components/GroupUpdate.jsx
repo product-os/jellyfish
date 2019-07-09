@@ -85,9 +85,9 @@ export default class GroupUpdate extends React.Component {
 				}
 			})
 		}
-		this.handleFieldChange = (event) => {
+		this.handleFieldChange = (field) => {
 			this.setState({
-				selectedField: event.target.value
+				selectedField: field.option.value
 			})
 		}
 		this.state = {
@@ -132,11 +132,18 @@ export default class GroupUpdate extends React.Component {
 							<p>Select a field to update:</p>
 
 							{Boolean(flatSchema) && (
-								<Select value={selectedField} onChange={this.handleFieldChange} mb={3}>
-									{_.map(flatSchema.properties, (value, key) => {
-										return (<option value={key}>{value.title || key}</option>)
+								<Select
+									value={_.get(flatSchema.properties, [ selectedField, 'title' ], selectedField)}
+									onChange={this.handleFieldChange}
+									mb={3}
+									labelKey="label"
+									options={_.map(flatSchema.properties, (value, key) => {
+										return {
+											value: key,
+											label: value.title || key
+										}
 									})}
-								</Select>
+								/>
 							)}
 
 							{Boolean(flatSchema) && Boolean(selectedField) && (

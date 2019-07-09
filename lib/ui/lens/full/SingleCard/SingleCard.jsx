@@ -12,6 +12,7 @@ import React from 'react'
 import {
 	Box,
 	Divider,
+	Tab,
 	Tabs
 } from 'rendition'
 import Segment from './Segment'
@@ -59,29 +60,35 @@ export default class SingleCardFull extends React.Component {
 						flex: 1
 					}}
 				>
-					<Box p={3}>
-						<CardFields
-							card={card}
-							fieldOrder={fieldOrder}
-							type={type}
-						/>
-					</Box>
-
-					<Timeline.data.renderer
-						card={this.props.card}
-						tail={_.get(this.props.card.links, [ 'has attached element' ], [])}
-					/>
-
-					{relationships && _.map(relationships, (segment) => {
-						return (
-							<Segment
+					<Tab title="Info">
+						<Box p={3}>
+							<CardFields
 								card={card}
-								segment={segment}
-								types={types}
-								addChannel={this.props.actions.addChannel}
-								getLinks={this.props.actions.getLinks}
-								queryAPI={this.props.actions.queryAPI}
+								fieldOrder={fieldOrder}
+								type={type}
 							/>
+						</Box>
+					</Tab>
+
+					<Tab title="Timeline">
+						<Timeline.data.renderer
+							card={this.props.card}
+							tail={_.get(this.props.card.links, [ 'has attached element' ], [])}
+						/>
+					</Tab>
+
+					{_.map(relationships, (segment, index) => {
+						return (
+							<Tab title={segment.title} key={segment.title}>
+								<Segment
+									card={card}
+									segment={segment}
+									types={types}
+									addChannel={this.props.actions.addChannel}
+									getLinks={this.props.actions.getLinks}
+									queryAPI={this.props.actions.queryAPI}
+								/>
+							</Tab>
 						)
 					})}
 				</Tabs>
