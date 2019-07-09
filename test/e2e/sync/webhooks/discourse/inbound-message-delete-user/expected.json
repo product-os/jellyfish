@@ -1,0 +1,98 @@
+{
+  "head": {
+    "name": "External inbound test with message",
+    "type": "support-thread",
+    "version": "1.0.0",
+    "active": true,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "environment": "production",
+      "tags": [],
+      "inbox": "S/Forums",
+      "mirrors": [
+        "https://forums.balena.io/t/6108"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "",
+      "status": "open"
+    }
+  },
+  "tail": [
+    {
+      "type": "create",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": "user-goetted",
+        "timestamp": "2019-04-17T15:24:08.731Z",
+        "payload": {
+          "name": "External inbound test with message",
+          "type": "support-thread",
+          "version": "1.0.0",
+          "active": true,
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "environment": "production",
+            "tags": [],
+            "inbox": "S/Forums",
+            "mirrors": [
+              "https://forums.balena.io/t/6108"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open"
+          }
+        }
+      }
+    },
+    {
+      "type": "message",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": "user-goetted",
+        "mirrors": [
+          "https://forums.balena.io/t/6108/1"
+        ],
+        "timestamp": "2019-04-17T15:24:08.882Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "Foo bar baz foo bar baz foo bar baz"
+        }
+      }
+    },
+    {
+      "type": "message",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": "user-jviotti",
+        "mirrors": [
+          "https://forums.balena.io/t/6108/2"
+        ],
+        "timestamp": "2019-04-17T15:24:47.336Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "Test message"
+        }
+      }
+    }
+  ]
+}

@@ -100,11 +100,13 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 			}, '')
 
 			const jsonPath = _.kebabCase(`${baseUri}-${queryString}`)
+			const content = requireStub(
+				path.join(stub.basePath, testCase.name, 'stubs'),
+				webhookOffset, jsonPath)
+			const code = content ? 200 : 404
 			return callback(null, [
-				200,
-				requireStub(
-					path.join(stub.basePath, testCase.name, 'stubs'),
-					webhookOffset, jsonPath)
+				code,
+				content
 			])
 		})
 
