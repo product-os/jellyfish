@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'discourse: Retry requests some times if Discourse is down'
+      hash: 40cfeda44ef89ffab626bacbbdec8db2b7c43fac
+      body: |
+        Just as an extra way to cope with any weird issues, eventually throwing
+        a user error if needed.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 17.61.3
+  date: 2019-07-09T09:44:57.528Z
+- commits:
     - subject: 'UI: Surface linked user support threads on accounts'
       hash: 3d7f42cc559e6b66af351a35e443edd667453978
       body: ''
