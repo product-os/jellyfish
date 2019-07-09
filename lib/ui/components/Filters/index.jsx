@@ -476,22 +476,21 @@ class Filters extends React.Component {
 										{index > 0 && <Txt my={2}>OR</Txt>}
 										<Flex>
 											<Select
-												value={field}
+												value={_.get(this.state.schema.properties, [ field, 'title' ], field)}
 												onChange={(event) => {
-													return this.setEditField(event.target.value, index)
+													return this.setEditField(event.option.value, index)
 												}}
-											>
-												{map(
+												labelKey="label"
+												options={map(
 													this.state.schema.properties,
 													(subschema, key) => {
-														return (
-															<option key={key} value={key}>
-																{subschema.title || key}
-															</option>
-														)
+														return {
+															value: key,
+															label: subschema.title || key
+														}
 													}
 												)}
-											</Select>
+											/>
 
 											{operators.length === 1 && (
 												<Txt mx={1} p="7px 20px 0">
@@ -502,21 +501,22 @@ class Filters extends React.Component {
 											{operators.length > 1 && (
 												<Select
 													ml={1}
-													value={operator}
+													value={_.find(operators, {
+														slug: operator
+													}).label}
 													onChange={(event) => {
-														return this.setEditOperator(event.target.value, index)
+														return this.setEditOperator(event.option.value, index)
 													}}
-												>
-													{map(operators, ({
+													labelKey="label"
+													options={map(operators, ({
 														slug, label
 													}) => {
-														return (
-															<option key={slug} value={slug}>
-																{label}
-															</option>
-														)
+														return {
+															value: slug,
+															label
+														}
 													})}
-												</Select>
+												/>
 											)}
 
 											<FilterInput
