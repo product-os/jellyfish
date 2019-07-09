@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'UI: Fix filter select options'
+      hash: a13dd882f7e02e663c4c4ee5818be24b52a2e0e0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 17.61.4
+  date: 2019-07-09T10:41:10.362Z
+- commits:
     - subject: 'discourse: Retry requests some times if Discourse is down'
       hash: 40cfeda44ef89ffab626bacbbdec8db2b7c43fac
       body: |
