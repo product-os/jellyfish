@@ -488,7 +488,7 @@ ava.serial('the guest user should not be able to change other users passwords', 
 		}
 	))
 
-	test.is(error.name, 'JellyfishSchemaMismatch')
+	test.is(error.name, 'JellyfishNoElement')
 })
 
 ava.serial('users with the "user-community" role should not be able to change other users passwords', async (test) => {
@@ -749,9 +749,16 @@ ava.serial('should add and evaluate a time triggered action', async (test) => {
 	const results = await waitUntilResults(3)
 	test.true(results.length >= 3)
 
-	trigger.active = false
-	await test.context.jellyfish.patchCard(
-		test.context.context, test.context.session, trigger)
+	await test.context.jellyfish.patchCardBySlug(
+		test.context.context, test.context.session, trigger.slug, [
+			{
+				op: 'replace',
+				path: '/active',
+				value: false
+			}
+		], {
+			type: trigger.type
+		})
 })
 
 ava.serial('should be able to resolve links', async (test) => {
