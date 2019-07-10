@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'core: Let "name" be null'
+      hash: 1ea76f755522e921a946b4294117efc04f73c2d8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 17.62.1
+  date: 2019-07-10T18:28:30.579Z
+- commits:
     - subject: 'UI: Add a custom snippet lens for contacts'
       hash: 596a3d7a57aa07577ce5ea109e4df26f17b9b256
       body: ''
