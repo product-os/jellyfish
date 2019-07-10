@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'core: Add JSON Patch support to kernel'
+      hash: 0e5d151f9b2ec467e0621e7cb2d9db232047ce91
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 17.63.0
+  date: 2019-07-10T19:35:35.813Z
+- commits:
     - subject: 'core: Let "name" be null'
       hash: 1ea76f755522e921a946b4294117efc04f73c2d8
       body: ''
