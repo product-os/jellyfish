@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'worker: Extract out the generic bits of executor.insertCard()'
+      hash: e9c53a17e89c7248872dc78461821125998e6ed9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 17.63.2
+  date: 2019-07-10T21:19:43.467Z
+- commits:
     - subject: 'action-library/worker: Localise override/replace options in worker'
       hash: 73a5896bbb3a9c055ccca9cf5df16a6553bd8842
       body: ''
