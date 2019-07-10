@@ -1,4 +1,28 @@
 - commits:
+    - subject: 'queue: Force core to dequeue already executed requests'
+      hash: 15c6d4cddc260e095bedd1b84e3dd65cf465f092
+      body: |
+        For performance reasons.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'core: Remove action request from queue given an execute event'
+      hash: 1eef201c2bc7d9a938cbf88a87ac53a65c2f4928
+      body: |
+        Faster than waiting for the link card between an execute event and the
+        action request.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 17.61.10
+  date: 2019-07-09T21:30:55.748Z
+- commits:
     - subject: 'sync: Expand active state of actors'
       hash: 2a3ffdff2763a65624b0ae7703d0d4f059e17d4f
       body: ''
