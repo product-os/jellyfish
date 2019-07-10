@@ -11,20 +11,21 @@ import {
 } from 'react-dnd'
 import {
 	Alert,
-	Box,
-	Modal
+	Box
 } from 'rendition'
-import styled from 'styled-components'
-import ErrorBoundary from '../shame/ErrorBoundary'
-import Icon from '../shame/Icon'
 import {
 	connect
 } from 'react-redux'
 import {
 	bindActionCreators
 } from 'redux'
+import styled from 'styled-components'
+import ErrorBoundary from '../shame/ErrorBoundary'
+import Icon from '../shame/Icon'
+import LinkModal from './LinkModal'
 import {
-	actionCreators
+	actionCreators,
+	selectors
 } from '../core'
 import {
 	getLens
@@ -70,12 +71,31 @@ class ChannelRenderer extends React.Component {
 		})
 	}
 
+	displayLinkUI (from) {
+		this.setState({
+			showLinkModal: true,
+			linkFrom: from
+		})
+	}
+
 	render () {
 		const {
 			channel,
 			connectDropTarget,
-			isOver
+			isOver,
+			types,
+			user
 		} = this.props
+
+		const {
+			head,
+			error
+		} = channel.data
+
+		const {
+			linkFrom,
+			showLinkModal
+		} = this.state
 
 		const style = {
 			position: 'absolute',
@@ -88,20 +108,20 @@ class ChannelRenderer extends React.Component {
 			minWidth: 0
 		}
 
-		if (!channel.data.head) {
-			if (channel.data.error) {
+		if (!head) {
+			if (error) {
 				return (
 					<Alert
 						m={2}
 						danger={true}
 						style={style}
 					>
-						{channel.data.error.toString()}
+						{error.toString()}
 					</Alert>
 				)
 			}
 
-			if (channel.data.head === null) {
+			if (head === null) {
 				return (
 					<ErrorNotFound>
 						404
@@ -120,26 +140,26 @@ class ChannelRenderer extends React.Component {
 			)
 		}
 
-		const lens = getLens('full', channel.data.head, this.props.user)
+		const lens = getLens('full', head, user)
 
 		return (
 			<ErrorBoundary style={style}>
 				{
 					connectDropTarget(
 						<div style={style}>
-							<lens.data.renderer card={channel.data.head} level={0} {...this.props}/>
+							<lens.data.renderer card={head} level={0} {...this.props}/>
 						</div>
 					)
 				}
 
-				{this.state.showLinkModal && (
-					<Modal
-						cancel={this.closeLinkModal}
-						done={this.link}
-					>
-						Link {this.state.linkFrom.type} <strong>{this.state.linkFrom.name}</strong> to{' '}
-						{this.props.channel.data.head.type} <strong>{this.props.channel.data.head.name}</strong>
-					</Modal>
+				{showLinkModal && (
+					<LinkModal
+						target={head}
+						card={linkFrom}
+						types={types}
+						show={showLinkModal}
+						onHide={this.closeLinkModal}
+					/>
 				)}
 			</ErrorBoundary>
 		)
@@ -148,11 +168,6 @@ class ChannelRenderer extends React.Component {
 
 const target = {
 	drop (props, monitor, component) {
-		console.log({
-			props,
-			monitor,
-			component
-		})
 		const fromCard = monitor.getItem()
 		const toCard = props.channel.data.head
 
@@ -161,10 +176,7 @@ const target = {
 			return
 		}
 
-		component.setState({
-			showLinkModal: true,
-			linkFrom: monitor.getItem()
-		})
+		component.displayLinkUI(monitor.getItem())
 	}
 }
 
@@ -172,6 +184,12 @@ const collect = (connector, monitor) => {
 	return {
 		connectDropTarget: connector.dropTarget(),
 		isOver: monitor.isOver()
+	}
+}
+
+const mapStateToProps = (state) => {
+	return {
+		types: selectors.getTypes(state)
 	}
 }
 
@@ -183,6 +201,6 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-export default DropTarget('channel', target, collect)(
-	connect(null, mapDispatchToProps)(ChannelRenderer)
+export default connect(mapStateToProps, mapDispatchToProps)(
+	DropTarget('channel', target, collect)(ChannelRenderer)
 )
