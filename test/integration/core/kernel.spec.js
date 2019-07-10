@@ -32,7 +32,7 @@ ava('should only expose the required methods', (test) => {
 		'getCardBySlug',
 		'insertCard',
 		'replaceCard',
-		'patchCard',
+		'patchCardBySlug',
 		'query',
 		'stream',
 		'defaults',
@@ -67,6 +67,1180 @@ ava('.disconnect() should gracefully close streams', async (test) => {
 		})
 		await test.context.kernel.disconnect(test.context.context)
 	})
+})
+
+ava('.patchCardBySlug() should throw an error if the element does not exist', async (test) => {
+	await test.throwsAsync(test.context.kernel.patchCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, 'foobarbaz', [
+			{
+				op: 'replace',
+				path: '/active',
+				value: false
+			}
+		], {
+			type: 'card'
+		}), errors.JellyfishNoElement)
+})
+
+ava('.patchCardBySlug() should apply a single operation', async (test) => {
+	const card = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'foobarbaz',
+			tags: [],
+			type: 'card',
+			version: '1.0.0',
+			data: {
+				foo: 'bar'
+			}
+		})
+
+	await test.context.kernel.patchCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, card.slug, [
+			{
+				op: 'replace',
+				path: '/data/foo',
+				value: 'baz'
+			}
+		], {
+			type: card.type
+		})
+
+	const result = await test.context.kernel.getCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, card.slug, {
+			type: card.type
+		})
+
+	test.deepEqual(result, {
+		id: card.id,
+		active: true,
+		name: null,
+		capabilities: [],
+		created_at: card.created_at,
+		linked_at: card.linked_at,
+		links: card.links,
+		markers: card.markers,
+		requires: card.requires,
+		slug: 'foobarbaz',
+		updated_at: result.updated_at,
+		tags: [],
+		type: 'card',
+		version: '1.0.0',
+		data: {
+			foo: 'baz'
+		}
+	})
+})
+
+ava('.patchCardBySlug() should delete a property inside data', async (test) => {
+	const card = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'foobarbaz',
+			tags: [],
+			type: 'card',
+			version: '1.0.0',
+			data: {
+				foo: 'bar',
+				bar: 'baz'
+			}
+		})
+
+	await test.context.kernel.patchCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, card.slug, [
+			{
+				op: 'remove',
+				path: '/data/foo'
+			}
+		], {
+			type: card.type
+		})
+
+	const result = await test.context.kernel.getCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, card.slug, {
+			type: card.type
+		})
+
+	test.deepEqual(result, {
+		id: card.id,
+		active: true,
+		name: null,
+		capabilities: [],
+		created_at: card.created_at,
+		linked_at: card.linked_at,
+		links: card.links,
+		markers: card.markers,
+		requires: card.requires,
+		slug: 'foobarbaz',
+		updated_at: result.updated_at,
+		tags: [],
+		type: 'card',
+		version: '1.0.0',
+		data: {
+			bar: 'baz'
+		}
+	})
+})
+
+ava('.patchCardBySlug() should apply more than one operation', async (test) => {
+	const card = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'foobarbaz',
+			tags: [],
+			type: 'card',
+			version: '1.0.0',
+			data: {}
+		})
+
+	await test.context.kernel.patchCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, card.slug, [
+			{
+				op: 'add',
+				path: '/data/foo',
+				value: {}
+			},
+			{
+				op: 'add',
+				path: '/data/foo/bar',
+				value: 'baz'
+			},
+			{
+				op: 'add',
+				path: '/data/foo/qux',
+				value: 1
+			}
+		], {
+			type: card.type
+		})
+
+	const result = await test.context.kernel.getCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, card.slug, {
+			type: card.type
+		})
+
+	test.deepEqual(result, {
+		id: card.id,
+		active: true,
+		name: null,
+		capabilities: [],
+		created_at: card.created_at,
+		linked_at: card.linked_at,
+		links: card.links,
+		markers: card.markers,
+		requires: card.requires,
+		slug: 'foobarbaz',
+		updated_at: result.updated_at,
+		tags: [],
+		type: 'card',
+		version: '1.0.0',
+		data: {
+			foo: {
+				qux: 1,
+				bar: 'baz'
+			}
+		}
+	})
+})
+
+ava('.patchCardBySlug() should not be able to delete an id', async (test) => {
+	const card = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'foobarbaz',
+			tags: [],
+			type: 'card',
+			version: '1.0.0',
+			data: {
+				foo: 'bar'
+			}
+		})
+
+	const patched = await test.context.kernel.patchCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, card.slug, [
+			{
+				op: 'remove',
+				path: '/id'
+			}
+		], {
+			type: card.type
+		})
+
+	const result = await test.context.kernel.getCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, card.slug, {
+			type: card.type
+		})
+
+	test.deepEqual(patched, card)
+	test.deepEqual(result, card)
+})
+
+ava('.patchCardBySlug() should not be able to delete a top level property', async (test) => {
+	const card = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'foobarbaz',
+			tags: [],
+			type: 'card',
+			version: '1.0.0',
+			data: {
+				foo: 'bar'
+			}
+		})
+
+	await test.throwsAsync(test.context.kernel.patchCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, card.slug, [
+			{
+				op: 'remove',
+				path: '/tags'
+			}
+		], {
+			type: card.type
+		}), errors.JellyfishSchemaMismatch)
+
+	const result = await test.context.kernel.getCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, card.slug, {
+			type: card.type
+		})
+
+	test.deepEqual(result, card)
+})
+
+ava('.patchCardBySlug() should throw if the patch does not match', async (test) => {
+	const card = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'foobarbaz',
+			tags: [],
+			type: 'card',
+			version: '1.0.0',
+			data: {
+				foo: 'bar'
+			}
+		})
+
+	await test.throwsAsync(test.context.kernel.patchCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, card.slug, [
+			{
+				op: 'delete',
+				path: '/data/hello'
+			}
+		], {
+			type: card.type
+		}), errors.JellyfishSchemaMismatch)
+
+	const result = await test.context.kernel.getCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, card.slug, {
+			type: card.type
+		})
+
+	test.deepEqual(result, card)
+})
+
+ava('.patchCardBySlug() should throw if adding to non existent property', async (test) => {
+	const card = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'foobarbaz',
+			tags: [],
+			type: 'card',
+			version: '1.0.0',
+			data: {
+				foo: 'bar'
+			}
+		})
+
+	await test.throwsAsync(test.context.kernel.patchCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, card.slug, [
+			{
+				op: 'add',
+				path: '/data/hello/world',
+				value: 1
+			}
+		], {
+			type: card.type
+		}), errors.JellyfishInvalidPatch)
+
+	const result = await test.context.kernel.getCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, card.slug, {
+			type: card.type
+		})
+
+	test.deepEqual(result, card)
+})
+
+ava('.patchCardBySlug() should throw given an invalid operation', async (test) => {
+	const card = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'foobarbaz',
+			tags: [],
+			type: 'card',
+			version: '1.0.0',
+			data: {
+				foo: 'bar'
+			}
+		})
+
+	await test.throwsAsync(test.context.kernel.patchCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, card.slug, [
+			{
+				op: 'bar',
+				path: '/data/foo',
+				value: 1
+			}
+		], {
+			type: card.type
+		}), errors.JellyfishInvalidPatch)
+
+	const result = await test.context.kernel.getCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, card.slug, {
+			type: card.type
+		})
+
+	test.deepEqual(result, card)
+})
+
+ava('.patchCardBySlug() should not apply half matching patches', async (test) => {
+	const card = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'foobarbaz',
+			tags: [],
+			type: 'card',
+			version: '1.0.0',
+			data: {
+				foo: 'bar'
+			}
+		})
+
+	await test.throwsAsync(test.context.kernel.patchCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, card.slug, [
+			{
+				op: 'add',
+				path: '/data/test',
+				value: 2
+			},
+			{
+				op: 'add',
+				path: '/data/hello/world',
+				value: 1
+			}
+		], {
+			type: card.type
+		}), errors.JellyfishInvalidPatch)
+
+	const result = await test.context.kernel.getCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, card.slug, {
+			type: card.type
+		})
+
+	test.deepEqual(result, card)
+})
+
+ava('.patchCardBySlug() should not break the type schema', async (test) => {
+	const card = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'user-johndoe',
+			type: 'user',
+			version: '1.0.0',
+			data: {
+				email: 'johndoe@example.com',
+				roles: []
+			}
+		})
+
+	await test.throwsAsync(test.context.kernel.patchCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, card.slug, [
+			{
+				op: 'remove',
+				path: '/data/email'
+			}
+		], {
+			type: card.type
+		}), errors.JellyfishSchemaMismatch)
+
+	const result = await test.context.kernel.getCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, card.slug, {
+			type: card.type
+		})
+
+	test.deepEqual(result, card)
+})
+
+ava('.patchCardBySlug() should apply a no-op patch', async (test) => {
+	const card = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'foobarbaz',
+			tags: [],
+			type: 'card',
+			version: '1.0.0',
+			data: {
+				foo: 'bar'
+			}
+		})
+
+	const patched = await test.context.kernel.patchCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, card.slug, [
+			{
+				op: 'replace',
+				path: '/data/foo',
+				value: 'bar'
+			}
+		], {
+			type: card.type
+		})
+
+	const result = await test.context.kernel.getCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, card.slug, {
+			type: card.type
+		})
+
+	test.deepEqual(patched, card)
+	test.deepEqual(result, card)
+})
+
+ava('.patchCardBySlug() should apply an empty set of patches', async (test) => {
+	const card = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'foobarbaz',
+			tags: [],
+			type: 'card',
+			version: '1.0.0',
+			data: {
+				foo: 'bar'
+			}
+		})
+
+	const patched = await test.context.kernel.patchCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, card.slug, [], {
+			type: card.type
+		})
+
+	const result = await test.context.kernel.getCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, card.slug, {
+			type: card.type
+		})
+
+	test.deepEqual(patched, card)
+	test.deepEqual(result, card)
+})
+
+ava('.patchCardBySlug() should ignore changes to read-only properties', async (test) => {
+	const card = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'foobarbaz',
+			tags: [],
+			type: 'card',
+			version: '1.0.0',
+			data: {
+				foo: 'bar'
+			}
+		})
+
+	const patched = await test.context.kernel.patchCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, card.slug, [
+			{
+				op: 'add',
+				path: '/links/foo',
+				value: 'bar'
+			},
+			{
+				op: 'replace',
+				path: '/created_at',
+				value: new Date().toISOString()
+			},
+			{
+				op: 'add',
+				path: '/linked_at/foo',
+				value: 'bar'
+			}
+		], {
+			type: card.type
+		})
+
+	const result = await test.context.kernel.getCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, card.slug, {
+			type: card.type
+		})
+
+	test.deepEqual(patched, card)
+	test.deepEqual(result, card)
+})
+
+ava('.patchCardBySlug() should be able to patch cards hidden to the user', async (test) => {
+	await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
+		slug: 'view-read-user-johndoe',
+		type: 'view',
+		version: '1.0.0',
+		data: {
+			allOf: [
+				{
+					name: 'Types',
+					schema: {
+						type: 'object',
+						properties: {
+							slug: {
+								type: 'string',
+								anyOf: [
+									{
+										const: 'user'
+									},
+									{
+										const: 'type'
+									}
+								]
+							},
+							type: {
+								type: 'string',
+								const: 'type'
+							},
+							data: {
+								type: 'object',
+								additionalProperties: true
+							}
+						},
+						required: [ 'slug', 'type', 'data' ]
+					}
+				}
+			]
+		}
+	})
+
+	const userCard = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'user-johndoe',
+			type: 'user',
+			version: '1.0.0',
+			data: {
+				email: 'johndoe@example.com',
+				roles: []
+			}
+		})
+
+	const session = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: test.context.generateRandomSlug({
+				prefix: 'session'
+			}),
+			type: 'session',
+			version: '1.0.0',
+			data: {
+				actor: userCard.id
+			}
+		})
+
+	test.falsy(await test.context.kernel.getCardBySlug(
+		test.context.context, session.id, userCard.slug, {
+			type: userCard.type
+		}))
+
+	await test.throwsAsync(test.context.kernel.patchCardBySlug(
+		test.context.context, session.id, userCard.slug, [
+			{
+				op: 'add',
+				path: '/data/foo',
+				value: 'bar'
+			}
+		], {
+			type: userCard.type
+		}), errors.JellyfishNoElement)
+
+	const result = await test.context.kernel.getCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, userCard.slug, {
+			type: userCard.type
+		})
+
+	test.deepEqual(result, userCard)
+})
+
+ava('.patchCardBySlug() should not allow updates in hidden fields', async (test) => {
+	await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
+		slug: 'view-read-user-johndoe',
+		type: 'view',
+		version: '1.0.0',
+		data: {
+			anyOf: [
+				{
+					name: 'Users',
+					schema: {
+						type: 'object',
+						required: [ 'slug', 'type', 'data' ],
+						properties: {
+							slug: {
+								type: 'string'
+							},
+							type: {
+								type: 'string',
+								const: 'user'
+							},
+							data: {
+								type: 'object',
+								required: [ 'email' ],
+								additionalProperties: false,
+								properties: {
+									email: {
+										type: 'string'
+									}
+								}
+							}
+						}
+					}
+				},
+				{
+					name: 'Types',
+					schema: {
+						type: 'object',
+						properties: {
+							slug: {
+								type: 'string',
+								anyOf: [
+									{
+										const: 'user'
+									},
+									{
+										const: 'type'
+									}
+								]
+							},
+							type: {
+								type: 'string',
+								const: 'type'
+							},
+							data: {
+								type: 'object',
+								additionalProperties: true
+							}
+						},
+						required: [ 'slug', 'type', 'data' ]
+					}
+				}
+			]
+		}
+	})
+
+	const userCard = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'user-johndoe',
+			type: 'user',
+			version: '1.0.0',
+			data: {
+				email: 'johndoe@example.com',
+				roles: []
+			}
+		})
+
+	const session = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: test.context.generateRandomSlug({
+				prefix: 'session'
+			}),
+			type: 'session',
+			version: '1.0.0',
+			data: {
+				actor: userCard.id
+			}
+		})
+
+	const filteredUser = await test.context.kernel.getCardBySlug(
+		test.context.context, session.id, userCard.slug, {
+			type: userCard.type
+		})
+
+	test.deepEqual(filteredUser.data, {
+		email: 'johndoe@example.com'
+	})
+
+	await test.throwsAsync(test.context.kernel.patchCardBySlug(
+		test.context.context, session.id, userCard.slug, [
+			{
+				op: 'replace',
+				path: '/data/roles',
+				value: [ 'admin' ]
+			}
+		], {
+			type: userCard.type
+		}), errors.JellyfishSchemaMismatch)
+
+	const result = await test.context.kernel.getCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, userCard.slug, {
+			type: userCard.type
+		})
+
+	test.deepEqual(result, userCard)
+})
+
+ava('.patchCardBySlug() should not return the full card', async (test) => {
+	await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
+		slug: 'view-read-user-johndoe',
+		type: 'view',
+		version: '1.0.0',
+		data: {
+			anyOf: [
+				{
+					name: 'Users',
+					schema: {
+						type: 'object',
+						required: [ 'slug', 'type', 'data' ],
+						properties: {
+							slug: {
+								type: 'string'
+							},
+							type: {
+								type: 'string',
+								const: 'user'
+							},
+							data: {
+								type: 'object',
+								required: [ 'email' ],
+								additionalProperties: false,
+								properties: {
+									email: {
+										type: 'string'
+									}
+								}
+							}
+						}
+					}
+				},
+				{
+					name: 'Types',
+					schema: {
+						type: 'object',
+						properties: {
+							slug: {
+								type: 'string',
+								anyOf: [
+									{
+										const: 'user'
+									},
+									{
+										const: 'type'
+									}
+								]
+							},
+							type: {
+								type: 'string',
+								const: 'type'
+							},
+							data: {
+								type: 'object',
+								additionalProperties: true
+							}
+						},
+						required: [ 'slug', 'type', 'data' ]
+					}
+				}
+			]
+		}
+	})
+
+	const userCard = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'user-johndoe',
+			type: 'user',
+			version: '1.0.0',
+			data: {
+				email: 'johndoe@example.com',
+				hash: 'secret',
+				roles: []
+			}
+		})
+
+	const session = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: test.context.generateRandomSlug({
+				prefix: 'session'
+			}),
+			type: 'session',
+			version: '1.0.0',
+			data: {
+				actor: userCard.id
+			}
+		})
+
+	const filteredUser = await test.context.kernel.getCardBySlug(
+		test.context.context, session.id, userCard.slug, {
+			type: userCard.type
+		})
+
+	test.deepEqual(filteredUser.data, {
+		email: 'johndoe@example.com'
+	})
+
+	const patched = await test.context.kernel.patchCardBySlug(
+		test.context.context, session.id, userCard.slug, [
+			{
+				op: 'replace',
+				path: '/data/email',
+				value: 'johndoe@gmail.com'
+			}
+		], {
+			type: userCard.type
+		})
+
+	test.deepEqual(patched.data, {
+		email: 'johndoe@gmail.com'
+	})
+
+	const result = await test.context.kernel.getCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, userCard.slug, {
+			type: userCard.type
+		})
+
+	test.deepEqual(result.data, {
+		email: 'johndoe@gmail.com',
+		hash: 'secret',
+		roles: []
+	})
+})
+
+ava('.patchCardBySlug() should not allow a patch that makes a card inaccessible', async (test) => {
+	await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
+		slug: 'view-read-user-johndoe',
+		type: 'view',
+		version: '1.0.0',
+		data: {
+			anyOf: [
+				{
+					name: 'Random',
+					schema: {
+						type: 'object',
+						required: [ 'data' ],
+						additionalProperties: true,
+						properties: {
+							data: {
+								type: 'object',
+								required: [ 'foo' ],
+								additionalProperties: true,
+								properties: {
+									foo: {
+										type: 'number',
+										const: 7
+									}
+								}
+							}
+						}
+					}
+				},
+				{
+					name: 'Types',
+					schema: {
+						type: 'object',
+						properties: {
+							slug: {
+								type: 'string',
+								anyOf: [
+									{
+										const: 'card'
+									},
+									{
+										const: 'user'
+									},
+									{
+										const: 'type'
+									}
+								]
+							},
+							type: {
+								type: 'string',
+								const: 'type'
+							},
+							data: {
+								type: 'object',
+								additionalProperties: true
+							}
+						},
+						required: [ 'slug', 'type', 'data' ]
+					}
+				}
+			]
+		}
+	})
+
+	const userCard = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'user-johndoe',
+			type: 'user',
+			version: '1.0.0',
+			data: {
+				email: 'johndoe@example.com',
+				hash: 'secret',
+				roles: []
+			}
+		})
+
+	const session = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: test.context.generateRandomSlug({
+				prefix: 'session'
+			}),
+			type: 'session',
+			version: '1.0.0',
+			data: {
+				actor: userCard.id
+			}
+		})
+
+	const randomCard = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'random-1',
+			type: 'card',
+			version: '1.0.0',
+			data: {
+				hello: 'world',
+				foo: 7
+			}
+		})
+
+	const filteredCard = await test.context.kernel.getCardBySlug(
+		test.context.context, session.id, randomCard.slug, {
+			type: randomCard.type
+		})
+
+	test.deepEqual(filteredCard, randomCard)
+
+	await test.throwsAsync(test.context.kernel.patchCardBySlug(
+		test.context.context, session.id, randomCard.slug, [
+			{
+				op: 'replace',
+				path: '/data/foo',
+				value: 8
+			}
+		], {
+			type: randomCard.type
+		}), errors.JellyfishSchemaMismatch)
+
+	const result = await test.context.kernel.getCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, randomCard.slug, {
+			type: randomCard.type
+		})
+
+	test.deepEqual(result, randomCard)
+})
+
+ava('.patchCardBySlug() should not remove inaccessible fields', async (test) => {
+	await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
+		slug: 'view-read-user-johndoe',
+		type: 'view',
+		version: '1.0.0',
+		data: {
+			anyOf: [
+				{
+					name: 'Users',
+					schema: {
+						type: 'object',
+						required: [ 'slug', 'type', 'data' ],
+						properties: {
+							slug: {
+								type: 'string'
+							},
+							type: {
+								type: 'string',
+								const: 'user'
+							},
+							data: {
+								type: 'object',
+								required: [ 'email' ],
+								additionalProperties: false,
+								properties: {
+									email: {
+										type: 'string'
+									}
+								}
+							}
+						}
+					}
+				},
+				{
+					name: 'Types',
+					schema: {
+						type: 'object',
+						properties: {
+							slug: {
+								type: 'string',
+								anyOf: [
+									{
+										const: 'user'
+									},
+									{
+										const: 'type'
+									}
+								]
+							},
+							type: {
+								type: 'string',
+								const: 'type'
+							},
+							data: {
+								type: 'object',
+								additionalProperties: true
+							}
+						},
+						required: [ 'slug', 'type', 'data' ]
+					}
+				}
+			]
+		}
+	})
+
+	const userCard = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'user-johndoe',
+			type: 'user',
+			version: '1.0.0',
+			data: {
+				email: 'johndoe@example.com',
+				hash: 'secret',
+				roles: []
+			}
+		})
+
+	const session = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: test.context.generateRandomSlug({
+				prefix: 'session'
+			}),
+			type: 'session',
+			version: '1.0.0',
+			data: {
+				actor: userCard.id
+			}
+		})
+
+	const filteredUser = await test.context.kernel.getCardBySlug(
+		test.context.context, session.id, userCard.slug, {
+			type: userCard.type
+		})
+
+	test.deepEqual(filteredUser.data, {
+		email: 'johndoe@example.com'
+	})
+
+	await test.throwsAsync(test.context.kernel.patchCardBySlug(
+		test.context.context, session.id, userCard.slug, [
+			{
+				op: 'remove',
+				path: '/data/hash'
+			}
+		], {
+			type: userCard.type
+		}), errors.JellyfishSchemaMismatch)
+
+	const result = await test.context.kernel.getCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, userCard.slug, {
+			type: userCard.type
+		})
+
+	test.deepEqual(result, userCard)
+})
+
+ava('.patchCardBySlug() should not add an inaccesible field', async (test) => {
+	await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
+		slug: 'view-read-user-johndoe',
+		type: 'view',
+		version: '1.0.0',
+		data: {
+			anyOf: [
+				{
+					name: 'Users',
+					schema: {
+						type: 'object',
+						required: [ 'slug', 'type', 'data' ],
+						properties: {
+							slug: {
+								type: 'string'
+							},
+							type: {
+								type: 'string',
+								const: 'user'
+							},
+							data: {
+								type: 'object',
+								required: [ 'email' ],
+								additionalProperties: false,
+								properties: {
+									email: {
+										type: 'string'
+									}
+								}
+							}
+						}
+					}
+				},
+				{
+					name: 'Types',
+					schema: {
+						type: 'object',
+						properties: {
+							slug: {
+								type: 'string',
+								anyOf: [
+									{
+										const: 'user'
+									},
+									{
+										const: 'type'
+									}
+								]
+							},
+							type: {
+								type: 'string',
+								const: 'type'
+							},
+							data: {
+								type: 'object',
+								additionalProperties: true
+							}
+						},
+						required: [ 'slug', 'type', 'data' ]
+					}
+				}
+			]
+		}
+	})
+
+	const userCard = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'user-johndoe',
+			type: 'user',
+			version: '1.0.0',
+			data: {
+				email: 'johndoe@example.com',
+				hash: 'secret',
+				roles: []
+			}
+		})
+
+	const session = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: test.context.generateRandomSlug({
+				prefix: 'session'
+			}),
+			type: 'session',
+			version: '1.0.0',
+			data: {
+				actor: userCard.id
+			}
+		})
+
+	const filteredUser = await test.context.kernel.getCardBySlug(
+		test.context.context, session.id, userCard.slug, {
+			type: userCard.type
+		})
+
+	test.deepEqual(filteredUser.data, {
+		email: 'johndoe@example.com'
+	})
+
+	await test.throwsAsync(test.context.kernel.patchCardBySlug(
+		test.context.context, session.id, userCard.slug, [
+			{
+				op: 'add',
+				path: '/data/special',
+				value: 7
+			}
+		], {
+			type: userCard.type
+		}), errors.JellyfishSchemaMismatch)
+
+	const result = await test.context.kernel.getCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, userCard.slug, {
+			type: userCard.type
+		})
+
+	test.deepEqual(result, userCard)
 })
 
 ava('.insertCard() should throw an error if the element is not a valid card', async (test) => {
