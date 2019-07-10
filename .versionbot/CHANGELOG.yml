@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'action-library/worker: Localise override/replace options in worker'
+      hash: 73a5896bbb3a9c055ccca9cf5df16a6553bd8842
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 17.63.1
+  date: 2019-07-10T20:15:58.528Z
+- commits:
     - subject: 'core: Add JSON Patch support to kernel'
       hash: 0e5d151f9b2ec467e0621e7cb2d9db232047ce91
       body: ''
