@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'UI: Add a custom snippet lens for contacts'
+      hash: 596a3d7a57aa07577ce5ea109e4df26f17b9b256
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 17.62.0
+  date: 2019-07-10T15:47:35.421Z
+- commits:
     - subject: 'queue: Force core to dequeue already executed requests'
       hash: 15c6d4cddc260e095bedd1b84e3dd65cf465f092
       body: |
