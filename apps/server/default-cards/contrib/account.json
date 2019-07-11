@@ -85,6 +85,16 @@
           "title": "Contacts",
           "link": "has contact",
           "type": "contact"
+        },
+        {
+          "title": "Primary owner",
+          "link": "has primary owner",
+          "type": "user"
+        },
+        {
+          "title": "Secondary owners",
+          "link": "has secondary owner",
+          "type": "user"
         }
       ]
     }
