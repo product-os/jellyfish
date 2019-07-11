@@ -1,4 +1,25 @@
 - commits:
+    - subject: Add opportunity relationships
+      hash: aee4e6cb5c9ad125f9018b09d540d73ed3bf8cc9
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: Add the opportunity card type
+      hash: 7d7f6d2406efb27e96f14455376818cd46887e06
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 17.66.0
+  date: 2019-07-11T15:20:16.177Z
+- commits:
     - subject: Add primary and secondary owner link constraints to accounts
       hash: aeb5a03c478c7bda34d2295502cc84d288cbeda2
       body: ''
