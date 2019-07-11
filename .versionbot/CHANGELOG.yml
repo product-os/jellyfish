@@ -1,4 +1,18 @@
 - commits:
+    - subject: >-
+        UI: Refactor link support to work with multipl verbs for the same type
+        pair
+      hash: a9dc06510f10aeb46d2a4e5fd80999e9fbdef9c0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 17.63.4
+  date: 2019-07-11T12:29:55.137Z
+- commits:
     - subject: 'worker: Stop evaluating input objects with jellyscript'
       hash: 9599beac25d822c669f311064b4322fd35c20742
       body: ''
