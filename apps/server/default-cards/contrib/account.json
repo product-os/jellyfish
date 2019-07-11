@@ -82,6 +82,11 @@
     "meta": {
       "relationships": [
         {
+          "title": "Opportunities",
+          "link": "has attached opportunity",
+          "type": "opportunity"
+        },
+        {
           "title": "Contacts",
           "link": "has contact",
           "type": "contact"

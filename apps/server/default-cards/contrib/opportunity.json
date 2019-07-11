@@ -48,6 +48,15 @@
         }
       },
       "additionalProperties": true
+    },
+    "meta": {
+      "relationships": [
+        {
+          "title": "Account",
+          "link": "is attached to account",
+          "type": "account"
+        }
+      ]
     }
   },
   "requires": [],
