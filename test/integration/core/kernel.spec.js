@@ -131,6 +131,55 @@ ava('.patchCardBySlug() should apply a single operation', async (test) => {
 	})
 })
 
+ava('.patchCardBySlug() should add an element to an array', async (test) => {
+	const card = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'foobarbaz',
+			tags: [],
+			type: 'card',
+			version: '1.0.0',
+			data: {
+				foo: 'bar'
+			}
+		})
+
+	await test.context.kernel.patchCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, card.slug, [
+			{
+				op: 'add',
+				path: '/markers/0',
+				value: 'test'
+			}
+		], {
+			type: card.type
+		})
+
+	const result = await test.context.kernel.getCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, card.slug, {
+			type: card.type
+		})
+
+	test.deepEqual(result, {
+		id: card.id,
+		active: true,
+		name: null,
+		capabilities: [],
+		created_at: card.created_at,
+		linked_at: card.linked_at,
+		links: {},
+		markers: [ 'test' ],
+		requires: [],
+		slug: 'foobarbaz',
+		updated_at: result.updated_at,
+		tags: [],
+		type: 'card',
+		version: '1.0.0',
+		data: {
+			foo: 'bar'
+		}
+	})
+})
+
 ava('.patchCardBySlug() should delete a property inside data', async (test) => {
 	const card = await test.context.kernel.insertCard(
 		test.context.context, test.context.kernel.sessions.admin, {
