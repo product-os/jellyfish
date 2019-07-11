@@ -68,13 +68,15 @@
       "relationships": [
         {
           "title": "Account",
-          "link": "account"
+          "link": "is member of account",
+          "type": "account"
         },
         {
           "title": "Support",
           "query": [
             {
-              "link": "user"
+              "link": "is attached to user",
+              "type": "user"
             },
             {
               "$$links": {

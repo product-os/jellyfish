@@ -19,133 +19,175 @@ import {
 } from '../../core'
 import * as helpers from '../../services/helpers'
 
-const selectChildRender = (type) => {
-	return (
-		<Txt px={20} py="4px">
-			{type.label || type.value}
-		</Txt>
-	)
-}
-
 export default class LinkModal extends React.Component {
 	constructor (props) {
 		super(props)
-		this.getLinkTargets = async (value) => {
-			try {
-				const {
-					selectedTypeTarget
-				} = this.state
-				if (!selectedTypeTarget || !value) {
-					return []
-				}
-				const filter = helpers.createFullTextSearchFilter(selectedTypeTarget.data.schema, value)
-				_.set(filter, [ 'properties', 'type' ], {
-					type: 'string',
-					const: selectedTypeTarget.slug
-				})
-				const results = await this.props.actions.queryAPI(filter)
-				this.setState({
-					results
-				})
-				return results.map((card) => {
-					return {
-						label: card.name || card.slug || card.id,
-						value: card.id
-					}
-				})
-			} catch (error) {
-				this.props.actions.addNotification('danger', error.message || error)
-			}
-
-			return null
-		}
-		this.handleTypeTargetSelect = (target) => {
-			this.setState({
-				selectedTypeTarget: _.find(this.props.types, {
-					slug: target.option.value
-				})
-			})
-		}
-		this.handleTargetSelect = (target) => {
-			this.setState({
-				selectedTarget: _.find(this.state.results, {
-					id: target.value
-				}) || null
-			})
-		}
-		this.linkToExisting = async () => {
-			const {
-				card
-			} = this.props
-			const {
-				selectedTypeTarget,
-				selectedTarget
-			} = this.state
-			if (!selectedTypeTarget || !selectedTarget) {
-				return
-			}
-			this.props.actions.createLink(card, selectedTarget)
-			this.setState({
-				selectedTarget: null
-			})
-			this.props.onHide()
-		}
 
 		const {
-			card, types
+			card,
+			target
 		} = props
+
+		const linkType = _.find(constants.LINKS, [ 'data.from', card.type ])
 
 		this.state = {
 			results: [],
-			selectedTarget: null,
-			selectedTypeTarget: _.find(types, {
-				slug: _.first(_.keys(constants.LINKS[card.type]))
-			}) || null
+			selectedTarget: target || null,
+			linkType: Object.assign({}, linkType, {
+				title: linkType.data.title
+			})
 		}
+
+		this.getLinkTargets = this.getLinkTargets.bind(this)
+		this.handleTargetSelect = this.handleTargetSelect.bind(this)
+		this.handleLinkTypeSelect = this.handleLinkTypeSelect.bind(this)
+		this.linkToExisting = this.linkToExisting.bind(this)
+	}
+
+	async handleTargetSelect (target) {
+		// Find the full card from cached results and save it to state
+		this.setState({
+			selectedTarget: _.find(this.state.results, {
+				id: target.value
+			}) || null
+		})
+	}
+
+	async handleLinkTypeSelect (payload) {
+		this.setState({
+			linkType: payload.option
+		})
+	}
+
+	async linkToExisting () {
+		const {
+			card
+		} = this.props
+
+		const {
+			linkType,
+			selectedTarget
+		} = this.state
+
+		if (!linkType || !selectedTarget) {
+			return
+		}
+
+		// Create the link asynchronously without waiting for the result
+		this.props.actions.createLink(card, selectedTarget, linkType.name)
+		this.setState({
+			selectedTarget: null
+		})
+
+		// Trigger the onHide callback to close the modal
+		this.props.onHide()
+	}
+
+	async getLinkTargets (term) {
+		try {
+			const {
+				linkType
+			} = this.state
+
+			// If there is no search term, return an empty array
+			if (!linkType || !term) {
+				return []
+			}
+
+			// Retrieve the target type of the selected link
+			const typeCard = _.find(this.props.types, {
+				slug: linkType.data.to
+			})
+
+			// Create full text search query based on the target type and search term
+			const filter = helpers.createFullTextSearchFilter(typeCard.data.schema, term)
+
+			// Additionally, restrict the query to only filter for cards of the chosen
+			// type
+			_.set(filter, [ 'properties', 'type' ], {
+				type: 'string',
+				const: typeCard.slug
+			})
+
+			// Query the API for results and set them to state so they can be accessed
+			// when an option is selected
+			const results = await this.props.actions.queryAPI(filter)
+			this.setState({
+				results
+			})
+
+			// Return the results in a format understood by the AsyncSelect component
+			return results.map((card) => {
+				return {
+					label: card.name || card.slug || card.id,
+					value: card.id
+				}
+			})
+		} catch (error) {
+			this.props.actions.addNotification('danger', error.message || error)
+		}
+
+		return null
 	}
 
 	render () {
 		const {
 			card,
 			show,
-			types
+			types,
+			target
 		} = this.props
 		const {
 			selectedTarget,
-			selectedTypeTarget
+			linkType
 		} = this.state
 
 		if (!show) {
 			return null
 		}
 
-		const linkTypeTargets = types.map((item) => {
-			return {
-				value: item.slug,
-				label: item.name || item.slug
-			}
-		})
-		if (!constants.LINKS[card.type]) {
+		// Create an array of available link types, then map over them and move the
+		// data.title file to the root of the object, as the rendition Select
+		// component can't use a non-root field for the `labelKey` prop
+		// TODO make the Select component allow nested fields for the `labelKey` prop
+		let linkTypeTargets = _.filter(constants.LINKS, [ 'data.from', card.type ])
+			.map((constraint) => {
+				return Object.assign({}, constraint, {
+					title: constraint.data.title
+				})
+			})
+
+		// If the target prop was provided, restrict link options to those that can
+		// link to the target
+		if (target) {
+			linkTypeTargets = _.filter(linkTypeTargets, [ 'data.to', target.type ])
+		}
+
+		if (!linkTypeTargets.length) {
 			console.error(`No known link types for ${card.type}`)
 
 			return null
 		}
-		const typeCard = _.find(types, [ 'slug', card.type ])
-		const typeName = typeCard ? typeCard.name : card.type
+
+		// If there is a selectedTarget, create an object that AsyncSelect can use
+		// as a value
 		const selectTargetValue = selectedTarget ? {
 			value: selectedTarget.id,
 			label: selectedTarget.name || selectedTarget.slug
 		} : null
 
+		const typeCard = _.find(types, [ 'slug', card.type ])
+		const typeName = typeCard ? typeCard.name : card.type
+
 		const title = `Link this ${typeName} to ${linkTypeTargets.length === 1
-			? (linkTypeTargets[0].label || linkTypeTargets[0].value) : 'another element'}`
+			? linkTypeTargets[0].title : 'another element'}`
 
 		return (
 			<Modal
 				title={title}
 				cancel={this.props.onHide}
 				primaryButtonProps={{
-					disabled: !selectedTypeTarget,
+					disabled: !linkType,
 					'data-test': 'card-linker--existing__submit'
 				}}
 				done={this.linkToExisting}
@@ -158,10 +200,10 @@ export default class LinkModal extends React.Component {
 					)}
 					{linkTypeTargets.length > 1 && (
 						<Select ml={2}
-							value={selectedTypeTarget ? selectedTypeTarget.name || selectedTypeTarget.slug : null}
-							onChange={this.handleTypeTargetSelect}
+							value={linkType}
+							onChange={this.handleLinkTypeSelect}
+							labelKey="title"
 							options={linkTypeTargets}
-							children={selectChildRender}
 						/>
 					)}
 					<Box
@@ -171,6 +213,7 @@ export default class LinkModal extends React.Component {
 					>
 						<Async
 							classNamePrefix="jellyfish-async-select"
+							isDisabled={Boolean(target)}
 							value={selectTargetValue}
 							cacheOptions defaultOptions
 							onChange={this.handleTargetSelect}

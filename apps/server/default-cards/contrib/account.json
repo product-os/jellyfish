@@ -83,7 +83,8 @@
       "relationships": [
         {
           "title": "Contacts",
-          "link": "contact"
+          "link": "has contact",
+          "type": "contact"
         }
       ]
     }

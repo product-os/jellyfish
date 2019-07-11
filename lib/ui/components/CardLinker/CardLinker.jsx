@@ -93,7 +93,11 @@ class CardLinker extends React.Component {
 		} = this.props
 
 		const availableTypes = types.filter((type) => {
-			return LINKS[card.type] && LINKS[card.type].hasOwnProperty(type.slug)
+			return _.find(LINKS, {
+				data: {
+					from: card.type
+				}
+			})
 		})
 
 		return availableTypes
@@ -108,8 +112,8 @@ class CardLinker extends React.Component {
 		const {
 			showLinkModal
 		} = this.state
-		const availableTypes = this.getAvailableTypes()
-		if (!LINKS[card.type]) {
+
+		if (!_.some(LINKS, [ 'data.from', card.type ])) {
 			return null
 		}
 		const typeCard = _.find(types, [ 'slug', card.type ])
@@ -176,7 +180,7 @@ class CardLinker extends React.Component {
 
 				<LinkModal
 					card={card}
-					types={availableTypes}
+					types={types}
 					show={showLinkModal}
 					onHide={this.hideLinkModal}
 				/>

@@ -113,7 +113,7 @@ export default class Segment extends React.Component {
 			head: {
 				action: 'create',
 				types: _.find(types, {
-					slug: segment.link
+					slug: segment.type
 				}),
 				seed: {
 					markers: card.markers
@@ -140,7 +140,7 @@ export default class Segment extends React.Component {
 		} = this.props
 
 		const type = _.find(types, {
-			slug: segment.link
+			slug: segment.type
 		})
 
 		if (!results) {
@@ -159,7 +159,7 @@ export default class Segment extends React.Component {
 
 				{_.map(results, (result) => {
 					return (
-						<div>
+						<div key={result.id}>
 							<Link append={result.slug || result.id}>{result.name || result.slug}</Link>
 						</div>
 					)

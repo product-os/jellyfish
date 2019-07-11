@@ -31,7 +31,9 @@ import * as skhema from 'skhema'
 import {
 	actionCreators,
 	analytics,
-	sdk
+	constants,
+	sdk,
+	selectors
 } from '../../core'
 import AutoCompleteWidget from '../../components/AutoCompleteWidget'
 import FreeFieldForm from '../../components/FreeFieldForm'
@@ -42,18 +44,40 @@ class CreateLens extends React.Component {
 
 		const {
 			types,
-			seed
+			seed,
+			onDone
 		} = this.props.channel.data.head
+		const {
+			allTypes
+		} = this.props
+
+		let selectedTypeTarget = null
+		let linkOption = null
+
+		if (onDone && onDone.action === 'link') {
+			linkOption = _.find(constants.LINKS, {
+				data: {
+					from: onDone.target.type
+				}
+			})
+
+			selectedTypeTarget = _.find(allTypes, {
+				slug: linkOption.data.to
+			})
+		} else {
+			selectedTypeTarget = _.first(_.castArray(types))
+		}
 
 		this.state = {
 			newCardModel: seed,
-			selectedTypeTarget: _.first(_.castArray(types))
+			selectedTypeTarget,
+			linkOption
 		}
 
 		this.bindMethods([
 			'addEntry',
 			'close',
-			'handleTypeTargetSelect',
+			'handlLinkOptionSelect',
 			'handleFormChange',
 			'setFreeFieldData',
 			'setLocalSchema'
@@ -140,9 +164,15 @@ class CreateLens extends React.Component {
 		this.props.actions.removeChannel(this.props.channel)
 	}
 
-	handleTypeTargetSelect (payload) {
+	handlLinkOptionSelect (payload) {
+		const option = payload.value
+		const selectedTypeTarget = _.find(this.props.allTypes, {
+			slug: option.data.to
+		})
+
 		this.setState({
-			selectedTypeTarget: payload.value
+			selectedTypeTarget,
+			linkOption: option
 		})
 	}
 
@@ -166,6 +196,7 @@ class CreateLens extends React.Component {
 		if (onDone.action === 'link') {
 			const card = onDone.target
 			const {
+				linkOption,
 				selectedTypeTarget
 			} = this.state
 			if (!newCard) {
@@ -174,7 +205,7 @@ class CreateLens extends React.Component {
 			if (!selectedTypeTarget) {
 				return
 			}
-			this.props.actions.createLink(card, newCard)
+			this.props.actions.createLink(card, newCard, linkOption.name)
 			this.close()
 		}
 	}
@@ -182,7 +213,8 @@ class CreateLens extends React.Component {
 	render () {
 		const {
 			redirectTo,
-			selectedTypeTarget
+			selectedTypeTarget,
+			linkOption
 		} = this.state
 
 		const {
@@ -237,7 +269,24 @@ class CreateLens extends React.Component {
 		const isValid = skhema.isValid(schema, helpers.removeUndefinedArrayItems(this.state.newCardModel)) &&
             skhema.isValid(localSchema, helpers.removeUndefinedArrayItems(freeFieldData))
 
-		const types = this.props.channel.data.head.types
+		const head = this.props.channel.data.head
+
+		let linkTypeTargets = null
+
+		if (linkOption) {
+			const target = head.onDone.target
+
+			// Create an array of available link types, then map over them and move the
+			// data.title file to the root of the object, as the rendition Select
+			// component can't use a non-root field for the `labelKey` prop
+			// TODO make the Select component allow nested fields for the `labelKey` prop
+			linkTypeTargets = _.filter(constants.LINKS, [ 'data.from', target.type ])
+				.map((constraint) => {
+					return Object.assign({}, constraint, {
+						title: constraint.data.title
+					})
+				})
+		}
 
 		return (
 			<CardLayout
@@ -247,20 +296,22 @@ class CreateLens extends React.Component {
 				card={card}
 				channel={channel}
 				title={(
-					<Heading.h4>Add {selectedTypeTarget.name}</Heading.h4>
+					<Heading.h4>
+						Add {linkOption ? linkOption.data.title : selectedTypeTarget.name}
+					</Heading.h4>
 				)}
 			>
 				<Box px={3} pb={3}>
-					{_.isArray(types) && (
+					{Boolean(linkOption) && (
 						<Flex alignItems="center" pb={3}>
 							<Txt>Create a new</Txt>
 
 							<Select
 								ml={2}
-								value={selectedTypeTarget}
-								onChange={this.handleTypeTargetSelect}
-								options={types}
-								labelKey="name"
+								value={linkOption.data.title}
+								onChange={this.handlLinkOptionSelect}
+								options={linkTypeTargets}
+								labelKey="title"
 							/>
 						</Flex>
 					)}
@@ -302,6 +353,12 @@ class CreateLens extends React.Component {
 	}
 }
 
+const mapStateToProps = (state) => {
+	return {
+		allTypes: selectors.getTypes(state)
+	}
+}
+
 const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: redux.bindActionCreators(
@@ -321,7 +378,7 @@ export default {
 	version: '1.0.0',
 	name: 'Default list lens',
 	data: {
-		renderer: connect(null, mapDispatchToProps)(CreateLens),
+		renderer: connect(mapStateToProps, mapDispatchToProps)(CreateLens),
 		icon: 'address-card',
 		type: '*'
 	}
