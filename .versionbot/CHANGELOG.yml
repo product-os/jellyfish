@@ -1,4 +1,16 @@
 - commits:
+    - subject: Allow contacts to be linked to users as their primary owner
+      hash: 072d59f614a758c452f3b79ad44275d6882da97e
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 17.64.0
+  date: 2019-07-11T13:02:26.013Z
+- commits:
     - subject: >-
         UI: Refactor link support to work with multipl verbs for the same type
         pair
