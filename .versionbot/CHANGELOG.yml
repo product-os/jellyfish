@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'worker: Stop evaluating input objects with jellyscript'
+      hash: 9599beac25d822c669f311064b4322fd35c20742
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 17.63.3
+  date: 2019-07-10T22:13:11.447Z
+- commits:
     - subject: 'worker: Extract out the generic bits of executor.insertCard()'
       hash: e9c53a17e89c7248872dc78461821125998e6ed9
       body: ''
