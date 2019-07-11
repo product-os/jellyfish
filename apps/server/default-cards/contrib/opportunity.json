@@ -1,0 +1,64 @@
+{
+  "slug": "opportunity",
+  "type": "type",
+  "version": "1.0.0",
+  "name": "Opportunity",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "title": "Status",
+              "type": "string",
+              "default": "Created",
+              "enum": [
+                "Created",
+                "Discovery",
+                "Evaluation",
+                "Committed ",
+                "Closed Won",
+                "Closed Lost"
+              ]
+            },
+            "dueDate": {
+              "title": "Due date",
+              "type": "string",
+              "format": "date-time"
+            },
+            "value": {
+              "title": "Value",
+              "type": "number",
+              "format": "currency",
+              "minimum": 0
+            },
+          },
+          "required": [
+            "status"
+          ]
+        }
+      },
+      "additionalProperties": true
+    },
+    "meta": {
+      "relationships": [
+        {
+          "title": "Account",
+          "link": "is attached to account",
+          "type": "account"
+        }
+      ]
+    }
+  },
+  "requires": [],
+  "capabilities": []
+}

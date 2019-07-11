@@ -1,0 +1,42 @@
+{
+  "slug": "view-all-opportunities",
+  "name": "All opportunities",
+  "version": "1.0.0",
+  "type": "view",
+  "markers": [ "org-balena" ],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "namespace": "Sales",
+    "allOf": [
+      {
+        "name": "Active opportunities",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "active": {
+              "const": true,
+              "type": "boolean"
+            },
+            "type": {
+              "type": "string",
+              "const": "opportunity"
+            }
+          },
+          "required": [
+            "active",
+            "type"
+          ],
+          "additionalProperties": true
+        }
+      }
+    ],
+    "lenses": [
+      "lens-list",
+      "lens-kanban"
+    ]
+  },
+  "requires": [],
+  "capabilities": []
+}
