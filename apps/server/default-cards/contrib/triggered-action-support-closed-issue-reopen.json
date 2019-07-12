@@ -61,11 +61,13 @@
     },
     "arguments": {
       "reason": "Re-opened because linked issue was closed",
-      "properties": {
-        "data": {
-          "status": "open"
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/data/status",
+          "value": "open"
         }
-      }
+      ]
     }
   },
   "requires": [],

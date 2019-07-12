@@ -52,11 +52,13 @@
     "mode": "insert",
     "arguments": {
       "reason": "Re-open because of activity",
-      "properties": {
-        "data": {
-          "status": "open"
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/data/status",
+          "value": "open"
         }
-      }
+      ]
     }
   },
   "requires": [],

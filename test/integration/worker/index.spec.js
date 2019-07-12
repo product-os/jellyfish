@@ -2500,16 +2500,19 @@ ava('should fail to update a card if the schema does not match', async (test) =>
 		type: result.data.type,
 		arguments: {
 			reason: null,
-			properties: {
-				version: '1.0.0',
-				foobar: true
-			}
+			patch: [
+				{
+					op: 'add',
+					path: '/foobar',
+					value: true
+				}
+			]
 		}
 	})
 
 	await test.throwsAsync(
 		test.context.flush(test.context.session, 1),
-		test.context.worker.errors.WorkerSchemaMismatch)
+		test.context.jellyfish.errors.JellyfishSchemaMismatch)
 })
 
 ava('should update a card to add an extra property', async (test) => {
@@ -2543,12 +2546,13 @@ ava('should update a card to add an extra property', async (test) => {
 		type: createResult.data.type,
 		arguments: {
 			reason: null,
-			properties: {
-				version: '1.0.0',
-				data: {
-					bar: 'baz'
+			patch: [
+				{
+					op: 'add',
+					path: '/data/bar',
+					value: 'baz'
 				}
-			}
+			]
 		}
 	})
 
@@ -2609,10 +2613,13 @@ ava('should update a card to set active to false', async (test) => {
 		type: createResult.data.type,
 		arguments: {
 			reason: null,
-			properties: {
-				version: '1.0.0',
-				active: false
-			}
+			patch: [
+				{
+					op: 'replace',
+					path: '/active',
+					value: false
+				}
+			]
 		}
 	})
 
@@ -2668,10 +2675,13 @@ ava('should update a card along with a reason', async (test) => {
 			type: createResult.data.type,
 			arguments: {
 				reason: 'This card should have been inactive',
-				properties: {
-					version: '1.0.0',
-					active: false
-				}
+				patch: [
+					{
+						op: 'replace',
+						path: '/active',
+						value: false
+					}
+				]
 			}
 		})
 
@@ -2905,19 +2915,23 @@ ava('should update a card to set active to false using the card slug as input', 
 		test.context.context, createRequest)
 	test.false(createResult.error)
 
-	const updateRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-update-card',
-		context: test.context.context,
-		card: 'foo-bar-baz',
-		type: 'card',
-		arguments: {
-			reason: null,
-			properties: {
-				version: '1.0.0',
-				active: false
+	const updateRequest = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, {
+			action: 'action-update-card',
+			context: test.context.context,
+			card: 'foo-bar-baz',
+			type: 'card',
+			arguments: {
+				reason: null,
+				patch: [
+					{
+						op: 'replace',
+						path: '/active',
+						value: false
+					}
+				]
 			}
-		}
-	})
+		})
 
 	await test.context.flush(test.context.session, 1)
 	const updateResult = await test.context.queue.waitResults(
@@ -2964,21 +2978,23 @@ ava('should update a card to override an array property', async (test) => {
 		test.context.context, createRequest)
 	test.false(createResult.error)
 
-	const updateRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-update-card',
-		context: test.context.context,
-		card: createResult.data.id,
-		type: createResult.data.type,
-		arguments: {
-			reason: null,
-			properties: {
-				version: '1.0.0',
-				data: {
-					roles: []
-				}
+	const updateRequest = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, {
+			action: 'action-update-card',
+			context: test.context.context,
+			card: createResult.data.id,
+			type: createResult.data.type,
+			arguments: {
+				reason: null,
+				patch: [
+					{
+						op: 'replace',
+						path: '/data/roles',
+						value: []
+					}
+				]
 			}
-		}
-	})
+		})
 
 	await test.context.flush(test.context.session, 1)
 	const updateResult = await test.context.queue.waitResults(
@@ -3035,12 +3051,13 @@ ava('should add an update event if updating a card', async (test) => {
 		type: createResult.data.type,
 		arguments: {
 			reason: null,
-			properties: {
-				version: '1.0.0',
-				data: {
-					foo: 2
+			patch: [
+				{
+					op: 'replace',
+					path: '/data/foo',
+					value: 2
 				}
-			}
+			]
 		}
 	})
 
@@ -3190,19 +3207,23 @@ ava('should delete a card using action-update-card', async (test) => {
 		test.context.context, createRequest)
 	test.false(createResult.error)
 
-	const updateRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-update-card',
-		context: test.context.context,
-		card: createResult.data.id,
-		type: createResult.data.type,
-		arguments: {
-			reason: null,
-			properties: {
-				version: '1.0.0',
-				active: false
+	const updateRequest = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, {
+			action: 'action-update-card',
+			context: test.context.context,
+			card: createResult.data.id,
+			type: createResult.data.type,
+			arguments: {
+				reason: null,
+				patch: [
+					{
+						op: 'replace',
+						path: '/active',
+						value: false
+					}
+				]
 			}
-		}
-	})
+		})
 
 	await test.context.flush(test.context.session, 1)
 	const updateResult = await test.context.queue.waitResults(
@@ -3506,9 +3527,13 @@ ava('Updating a cards markers should update the markers of attached events', asy
 			type: cardResult.data.type,
 			arguments: {
 				reason: null,
-				properties: {
-					markers: [ marker ]
-				}
+				patch: [
+					{
+						op: 'replace',
+						path: '/markers',
+						value: [ marker ]
+					}
+				]
 			}
 		})
 
@@ -3658,9 +3683,93 @@ ava('should be able to upsert a deeply nested card', async (test) => {
 			type: createResult.data.type,
 			arguments: {
 				reason: null,
-				properties: {
-					data
-				}
+				patch: [
+					{
+						op: 'add',
+						path: '/data/foo',
+						value: {}
+					},
+					{
+						op: 'add',
+						path: '/data/foo/bar',
+						value: {}
+					},
+					{
+						op: 'add',
+						path: '/data/foo/bar/baz',
+						value: {}
+					},
+					{
+						op: 'add',
+						path: '/data/foo/bar/baz/qux',
+						value: {}
+					},
+					{
+						op: 'add',
+						path: '/data/foo/bar/baz/qux/foo',
+						value: {}
+					},
+					{
+						op: 'add',
+						path: '/data/foo/bar/baz/qux/foo/bar',
+						value: {}
+					},
+					{
+						op: 'add',
+						path: '/data/foo/bar/baz/qux/foo/bar/baz',
+						value: {}
+					},
+					{
+						op: 'add',
+						path: '/data/foo/bar/baz/qux/foo/bar/baz/qux',
+						value: {}
+					},
+					{
+						op: 'add',
+						path: '/data/foo/bar/baz/qux/foo/bar/baz/qux/foo',
+						value: {}
+					},
+					{
+						op: 'add',
+						path: '/data/foo/bar/baz/qux/foo/bar/baz/qux/foo/bar',
+						value: {}
+					},
+					{
+						op: 'add',
+						path: '/data/foo/bar/baz/qux/foo/bar/baz/qux/foo/bar/baz',
+						value: {}
+					},
+					{
+						op: 'add',
+						path: '/data/foo/bar/baz/qux/foo/bar/baz/qux/foo/bar/baz/qux',
+						value: {}
+					},
+					{
+						op: 'add',
+						path: '/data/foo/bar/baz/qux/foo/bar/baz/qux/foo/bar/baz/qux/foo',
+						value: {}
+					},
+					{
+						op: 'add',
+						path: '/data/foo/bar/baz/qux/foo/bar/baz/qux/foo/bar/baz/qux/foo/bar',
+						value: {}
+					},
+					{
+						op: 'add',
+						path: '/data/foo/bar/baz/qux/foo/bar/baz/qux/foo/bar/baz/qux/foo/bar/baz',
+						value: {}
+					},
+					{
+						op: 'add',
+						path: '/data/foo/bar/baz/qux/foo/bar/baz/qux/foo/bar/baz/qux/foo/bar/baz/qux',
+						value: {}
+					},
+					{
+						op: 'add',
+						path: '/data/foo/bar/baz/qux/foo/bar/baz/qux/foo/bar/baz/qux/foo/bar/baz/qux/test',
+						value: 1
+					}
+				]
 			}
 		})
 
