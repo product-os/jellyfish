@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'worker: Re-write executor tests to use .patchCard()'
+      hash: fa391f480429c4150d1819df28dbb6f95db461e5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 17.66.2
+  date: 2019-07-12T07:44:18.469Z
+- commits:
     - subject: 'action-library: Use .patchCard() in action-upsert-card'
       hash: 79f2a0d1950563b85f392b1d738fe15703c730f7
       body: ''
