@@ -38,7 +38,6 @@ ava.beforeEach(async (test) => {
 		},
 		insertCard: (session, typeCard, options, object) => {
 			return executor.insertCard(test.context.context, test.context.jellyfish, session, typeCard, {
-				override: options.override,
 				context: test.context.actionContext,
 				library: actionLibrary,
 				actor: test.context.actor.id,
@@ -130,53 +129,49 @@ ava('.insertCard() should default active to true', async (test) => {
 	test.true(card.active)
 })
 
-ava('.insertCard() should ignore pointless updates', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+ava('.patchCard() should ignore pointless updates', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card')
 
-	const result1 = await executor.insertCard(test.context.context, test.context.jellyfish, test.context.session, typeCard, {
-		currentTime: new Date(),
-		attachEvents: true,
-		context: test.context.actionContext,
-		library: actionLibrary,
-		actor: test.context.actor.id,
-		executeAction: test.context.executeAction
-	}, {
-		slug: 'foo',
-		version: '1.0.0',
-		active: true
-	})
-
-	const result2 = await executor.insertCard(
+	const result1 = await executor.insertCard(
 		test.context.context, test.context.jellyfish, test.context.session, typeCard, {
 			currentTime: new Date(),
-			override: true,
 			attachEvents: true,
 			context: test.context.actionContext,
 			library: actionLibrary,
 			actor: test.context.actor.id,
 			executeAction: test.context.executeAction
 		}, {
-			id: result1.id,
 			slug: 'foo',
 			version: '1.0.0',
 			active: true
 		})
 
-	const result3 = await executor.insertCard(
+	const result2 = await executor.patchCard(
 		test.context.context, test.context.jellyfish, test.context.session, typeCard, {
 			currentTime: new Date(),
-			override: true,
+			attachEvents: true,
+			context: test.context.actionContext,
+			library: actionLibrary,
+			actor: test.context.actor.id,
+			executeAction: test.context.executeAction
+		}, result1, [])
+
+	const result3 = await executor.patchCard(
+		test.context.context, test.context.jellyfish, test.context.session, typeCard, {
+			currentTime: new Date(),
 			attachEvents: false,
 			context: test.context.actionContext,
 			library: actionLibrary,
 			actor: test.context.actor.id,
 			executeAction: test.context.executeAction
-		}, {
-			id: result1.id,
-			slug: 'foo',
-			version: '1.0.0',
-			active: true
-		})
+		}, result1, [
+			{
+				op: 'replace',
+				path: '/active',
+				value: true
+			}
+		])
 
 	test.deepEqual(test.context.stubQueue, [])
 	test.truthy(result1)
@@ -304,32 +299,27 @@ ava('.insertCard() should be able to set a name', async (test) => {
 	test.is(card.name, 'Hello')
 })
 
-ava('.insertCard() should not upsert if no changes were made', async (test) => {
-	await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
+ava('.patchCard() should not upsert if no changes were made', async (test) => {
+	const element = await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
 		slug: 'foo-bar-baz',
 		type: 'card',
 		version: '1.0.0'
 	})
 
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
-	await executor.insertCard(test.context.context, test.context.jellyfish, test.context.session, typeCard, {
+	await executor.patchCard(test.context.context, test.context.jellyfish, test.context.session, typeCard, {
 		currentTime: new Date(),
-		override: true,
 		attachEvents: true,
 		context: test.context.actionContext,
 		library: actionLibrary,
 		actor: test.context.actor.id,
 		executeAction: test.context.executeAction
-	}, {
-		version: '1.0.0',
-		slug: 'foo-bar-baz',
-		active: true
-	})
+	}, element, [])
 
 	test.deepEqual(test.context.stubQueue, [])
 })
 
-ava('.insertCard() should override if the override option is true', async (test) => {
+ava('.patchCard() should set a card to inactive', async (test) => {
 	const previousCard = await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
 		slug: 'foo-bar-baz',
 		type: 'card',
@@ -337,19 +327,20 @@ ava('.insertCard() should override if the override option is true', async (test)
 	})
 
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
-	await executor.insertCard(test.context.context, test.context.jellyfish, test.context.session, typeCard, {
+	await executor.patchCard(test.context.context, test.context.jellyfish, test.context.session, typeCard, {
 		currentTime: new Date(),
-		override: true,
 		attachEvents: false,
 		context: test.context.actionContext,
 		library: actionLibrary,
 		actor: test.context.actor.id,
 		executeAction: test.context.executeAction
-	}, {
-		version: '1.0.0',
-		slug: 'foo-bar-baz',
-		active: false
-	})
+	}, previousCard, [
+		{
+			op: 'replace',
+			path: '/active',
+			value: false
+		}
+	])
 
 	test.deepEqual(test.context.stubQueue, [])
 	const card = await test.context.jellyfish.getCardById(test.context.context, test.context.session, previousCard.id)
@@ -421,69 +412,28 @@ ava('.insertCard() should add a create event if attachEvents is true', async (te
 	test.is(tail.length, 1)
 })
 
-ava('.insertCard() should add a create event not overriding even if override is true', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
-	const result = await executor.insertCard(test.context.context, test.context.jellyfish, test.context.session, typeCard, {
-		currentTime: new Date(),
-		override: true,
-		attachEvents: true,
-		context: test.context.actionContext,
-		library: actionLibrary,
-		actor: test.context.actor.id,
-		executeAction: test.context.executeAction
-	}, {
-		slug: 'foo-bar-baz',
-		version: '1.0.0'
-	})
-
-	test.deepEqual(test.context.stubQueue, [])
-	const tail = await test.context.jellyfish.query(
-		test.context.context, test.context.session, {
-			type: 'object',
-			additionalProperties: true,
-			required: [ 'type', 'data' ],
-			properties: {
-				type: {
-					type: 'string',
-					const: 'create'
-				},
-				data: {
-					type: 'object',
-					required: [ 'target' ],
-					properties: {
-						target: {
-							type: 'string',
-							const: result.id
-						}
-					}
-				}
-			}
-		})
-
-	test.is(tail.length, 1)
-})
-
-ava('.insertCard() should add an update event if attachEvents is true and overriding a card', async (test) => {
-	await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
+ava('.patchCard() should add an update event if attachEvents is true', async (test) => {
+	const element = await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
 		slug: 'foo-bar-baz',
 		type: 'card',
 		version: '1.0.0'
 	})
 
 	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
-	const result = await executor.insertCard(test.context.context, test.context.jellyfish, test.context.session, typeCard, {
+	const result = await executor.patchCard(test.context.context, test.context.jellyfish, test.context.session, typeCard, {
 		currentTime: new Date(),
-		override: true,
 		attachEvents: true,
 		context: test.context.actionContext,
 		library: actionLibrary,
 		actor: test.context.actor.id,
 		executeAction: test.context.executeAction
-	}, {
-		version: '1.0.0',
-		slug: 'foo-bar-baz',
-		active: false
-	})
+	}, element, [
+		{
+			op: 'replace',
+			path: '/active',
+			value: false
+		}
+	])
 
 	test.deepEqual(test.context.stubQueue, [])
 	const tail = await test.context.jellyfish.query(
@@ -1111,7 +1061,7 @@ ava('.insertCard() should remove previously inserted type triggered actions if i
 	])
 })
 
-ava('.insertCard() should remove previously inserted type triggered actions if deactivating a type', async (test) => {
+ava('.patchCard() should remove previously inserted type triggered actions if deactivating a type', async (test) => {
 	const type = await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
 		type: 'type',
 		version: '1.0.0',
@@ -1165,22 +1115,27 @@ ava('.insertCard() should remove previously inserted type triggered actions if d
 		}
 	})
 
-	type.active = false
-	await executor.insertCard(
+	await executor.patchCard(
 		test.context.context,
 		test.context.jellyfish,
 		test.context.session,
 		await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'type'),
 		{
 			currentTime: new Date(),
-			override: true,
 			attachEvents: false,
 			context: test.context.actionContext,
 			library: actionLibrary,
 			actor: test.context.actor.id,
 			executeAction: test.context.executeAction
 		},
-		type
+		type,
+		[
+			{
+				op: 'replace',
+				path: '/active',
+				value: false
+			}
+		]
 	)
 
 	const triggers = await test.context.jellyfish.query(test.context.context, test.context.session, {
@@ -1345,46 +1300,46 @@ ava('.insertCard() should pre-register a triggered action if using AGGREGATE', a
 
 ava('.insertCard() should update pre-registered triggered actions if removing an AGGREGATE', async (test) => {
 	const typeType = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'type')
-	await executor.insertCard(test.context.context, test.context.jellyfish, test.context.session, typeType, {
-		currentTime: new Date(),
-		attachEvents: false,
-		executeAction: test.context.executeAction,
-		triggers: test.context.triggers,
-		context: test.context.actionContext,
-		library: actionLibrary,
-		actor: test.context.actor.id,
-		setTriggers: test.context.actionContext.setTriggers
-	}, {
-		slug: 'test-thread',
-		version: '1.0.0',
-		data: {
-			schema: {
-				type: 'object',
-				properties: {
-					type: {
-						type: 'string',
-						const: 'test-thread'
-					},
-					data: {
-						type: 'object',
-						properties: {
-							mentions: {
-								type: 'array',
-								$$formula: 'AGGREGATE($events, "data.payload.mentions")'
-							}
+	const element = await executor.insertCard(
+		test.context.context, test.context.jellyfish, test.context.session, typeType, {
+			currentTime: new Date(),
+			attachEvents: false,
+			executeAction: test.context.executeAction,
+			triggers: test.context.triggers,
+			context: test.context.actionContext,
+			library: actionLibrary,
+			actor: test.context.actor.id,
+			setTriggers: test.context.actionContext.setTriggers
+		}, {
+			slug: 'test-thread',
+			version: '1.0.0',
+			data: {
+				schema: {
+					type: 'object',
+					properties: {
+						type: {
+							type: 'string',
+							const: 'test-thread'
 						},
-						additionalProperties: true
-					}
-				},
-				additionalProperties: true,
-				required: [ 'type', 'data' ]
+						data: {
+							type: 'object',
+							properties: {
+								mentions: {
+									type: 'array',
+									$$formula: 'AGGREGATE($events, "data.payload.mentions")'
+								}
+							},
+							additionalProperties: true
+						}
+					},
+					additionalProperties: true,
+					required: [ 'type', 'data' ]
+				}
 			}
-		}
-	})
+		})
 
-	await executor.insertCard(test.context.context, test.context.jellyfish, test.context.session, typeType, {
+	await executor.patchCard(test.context.context, test.context.jellyfish, test.context.session, typeType, {
 		currentTime: new Date(),
-		override: true,
 		attachEvents: false,
 		executeAction: test.context.executeAction,
 		triggers: test.context.triggers,
@@ -1392,32 +1347,12 @@ ava('.insertCard() should update pre-registered triggered actions if removing an
 		library: actionLibrary,
 		actor: test.context.actor.id,
 		setTriggers: test.context.actionContext.setTriggers
-	}, {
-		slug: 'test-thread',
-		version: '1.0.0',
-		data: {
-			schema: {
-				type: 'object',
-				properties: {
-					type: {
-						type: 'string',
-						const: 'test-thread'
-					},
-					data: {
-						type: 'object',
-						properties: {
-							mentions: {
-								type: 'array'
-							}
-						},
-						additionalProperties: true
-					}
-				},
-				additionalProperties: true,
-				required: [ 'type', 'data' ]
-			}
+	}, element, [
+		{
+			op: 'remove',
+			path: '/data/schema/properties/data/properties/mentions/$$formula'
 		}
-	})
+	])
 
 	test.deepEqual(test.context.triggers, [])
 })
@@ -1452,37 +1387,50 @@ ava('.insertCard() should add multiple triggered actions given a type with an AG
 		}
 	}
 
-	await executor.insertCard(test.context.context, test.context.jellyfish, test.context.session, typeType, {
-		currentTime: new Date(),
-		attachEvents: false,
-		context: test.context.actionContext,
-		library: actionLibrary,
-		actor: test.context.actor.id,
-		executeAction: test.context.executeAction,
-		setTriggers: test.context.actionContext.setTriggers
-	}, type)
+	const element = await executor.insertCard(
+		test.context.context, test.context.jellyfish, test.context.session, typeType, {
+			currentTime: new Date(),
+			attachEvents: false,
+			context: test.context.actionContext,
+			library: actionLibrary,
+			actor: test.context.actor.id,
+			executeAction: test.context.executeAction,
+			setTriggers: test.context.actionContext.setTriggers
+		}, type)
 
-	await executor.insertCard(test.context.context, test.context.jellyfish, test.context.session, typeType, {
-		currentTime: new Date(),
-		override: true,
-		attachEvents: false,
-		context: test.context.actionContext,
-		library: actionLibrary,
-		actor: test.context.actor.id,
-		executeAction: test.context.executeAction,
-		setTriggers: test.context.actionContext.setTriggers
-	}, type)
+	await executor.patchCard(
+		test.context.context, test.context.jellyfish, test.context.session, typeType, {
+			currentTime: new Date(),
+			attachEvents: false,
+			context: test.context.actionContext,
+			library: actionLibrary,
+			actor: test.context.actor.id,
+			executeAction: test.context.executeAction,
+			setTriggers: test.context.actionContext.setTriggers
+		}, element, [
+			{
+				op: 'replace',
+				path: '/active',
+				value: false
+			}
+		])
 
-	await executor.insertCard(test.context.context, test.context.jellyfish, test.context.session, typeType, {
-		currentTime: new Date(),
-		override: true,
-		attachEvents: false,
-		context: test.context.actionContext,
-		library: actionLibrary,
-		actor: test.context.actor.id,
-		executeAction: test.context.executeAction,
-		setTriggers: test.context.actionContext.setTriggers
-	}, type)
+	await executor.patchCard(
+		test.context.context, test.context.jellyfish, test.context.session, typeType, {
+			currentTime: new Date(),
+			attachEvents: false,
+			context: test.context.actionContext,
+			library: actionLibrary,
+			actor: test.context.actor.id,
+			executeAction: test.context.executeAction,
+			setTriggers: test.context.actionContext.setTriggers
+		}, element, [
+			{
+				op: 'replace',
+				path: '/active',
+				value: true
+			}
+		])
 
 	const triggers = await test.context.jellyfish.query(test.context.context, test.context.session, {
 		type: 'object',
