@@ -537,7 +537,7 @@ ava.serial('the guest user should not be able to change other users passwords', 
 		}
 	))
 
-	test.is(error.name, 'WorkerSchemaMismatch')
+	test.is(error.name, 'JellyfishNoElement')
 })
 
 ava.serial('users with the "user-community" role should not be able to change other users passwords', async (test) => {
@@ -565,7 +565,7 @@ ava.serial('users with the "user-community" role should not be able to change ot
 		}
 	))
 
-	test.is(error.name, 'WorkerSchemaMismatch')
+	test.is(error.name, 'JellyfishSchemaMismatch')
 })
 
 ava.serial('AGGREGATE($events): should work when creating cards via the SDK', async (test) => {
