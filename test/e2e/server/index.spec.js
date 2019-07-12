@@ -488,7 +488,7 @@ ava.serial('the guest user should not be able to change other users passwords', 
 		}
 	))
 
-	test.is(error.name, 'JellyfishSchemaMismatch')
+	test.is(error.name, 'JellyfishNoElement')
 })
 
 ava.serial('users with the "user-community" role should not be able to change other users passwords', async (test) => {

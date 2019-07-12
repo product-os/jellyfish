@@ -3107,23 +3107,13 @@ ava('should add an update event if updating a card', async (test) => {
 				actor: test.context.actor.id,
 				target: createResult.data.id,
 				timestamp: timeline[1].data.timestamp,
-				payload: {
-					created_at: timeline[1].data.payload.created_at,
-					updated_at: null,
-					linked_at: timeline[1].data.payload.linked_at,
-					active: true,
-					slug: 'foo',
-					type: 'card',
-					version: '1.0.0',
-					links: timeline[1].data.payload.links,
-					tags: [],
-					markers: [],
-					requires: [],
-					capabilities: [],
-					data: {
-						foo: 2
+				payload: [
+					{
+						op: 'replace',
+						path: '/data/foo',
+						value: 2
 					}
-				}
+				]
 			}
 		}
 	].map(test.context.kernel.defaults))
@@ -3466,63 +3456,68 @@ ava('Updating a cards markers should update the markers of attached events', asy
 		session
 	} = test.context
 	const marker = 'org-test'
-	const typeCard = await jellyfish.getCardBySlug(context, session, 'card', {
-		type: 'type'
-	})
+	const typeCard = await jellyfish.getCardBySlug(
+		context, session, 'card', {
+			type: 'type'
+		})
 
-	const cardRequest = await test.context.queue.enqueue(test.context.worker.getId(), session, {
-		action: 'action-create-card',
-		context: test.context.context,
-		card: typeCard.id,
-		type: typeCard.type,
-		arguments: {
-			reason: null,
-			properties: {}
-		}
-	})
+	const cardRequest = await test.context.queue.enqueue(
+		test.context.worker.getId(), session, {
+			action: 'action-create-card',
+			context: test.context.context,
+			card: typeCard.id,
+			type: typeCard.type,
+			arguments: {
+				reason: null,
+				properties: {}
+			}
+		})
 
 	await test.context.flush(test.context.session, 1)
 	const cardResult = await test.context.queue.waitResults(
 		test.context.context, cardRequest)
 	test.false(cardResult.error)
 
-	const messageRequest = await test.context.queue.enqueue(test.context.worker.getId(), session, {
-		action: 'action-create-event',
-		context: test.context.context,
-		card: cardResult.data.id,
-		type: cardResult.data.type,
-		arguments: {
-			type: 'message',
-			tags: [],
-			payload: {
-				message: 'johndoe'
+	const messageRequest = await test.context.queue.enqueue(
+		test.context.worker.getId(), session, {
+			action: 'action-create-event',
+			context: test.context.context,
+			card: cardResult.data.id,
+			type: cardResult.data.type,
+			arguments: {
+				type: 'message',
+				tags: [],
+				payload: {
+					message: 'johndoe'
+				}
 			}
-		}
-	})
+		})
 
 	await test.context.flush(session)
 	const messageResult = await test.context.queue.waitResults(
 		test.context.context, messageRequest)
 	test.false(messageResult.error)
 
-	const updateRequest = await test.context.queue.enqueue(test.context.worker.getId(), session, {
-		action: 'action-update-card',
-		context: test.context.context,
-		card: cardResult.data.id,
-		type: cardResult.data.type,
-		arguments: {
-			reason: null,
-			properties: {
-				markers: [ marker ]
+	const updateRequest = await test.context.queue.enqueue(
+		test.context.worker.getId(), session, {
+			action: 'action-update-card',
+			context: test.context.context,
+			card: cardResult.data.id,
+			type: cardResult.data.type,
+			arguments: {
+				reason: null,
+				properties: {
+					markers: [ marker ]
+				}
 			}
-		}
-	})
+		})
 
 	await test.context.flush(session)
 	await test.context.queue.waitResults(
 		test.context.context, updateRequest)
 
-	const message = await jellyfish.getCardById(context, session, messageResult.data.id)
+	const message = await jellyfish.getCardById(
+		context, session, messageResult.data.id)
 
 	test.deepEqual(message.markers, [ marker ])
 })
