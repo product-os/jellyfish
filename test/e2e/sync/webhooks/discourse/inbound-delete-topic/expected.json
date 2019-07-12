@@ -93,27 +93,13 @@
           "slug": "user-jviotti"
         },
         "timestamp": "2019-04-29T16:22:22.561Z",
-        "payload": {
-          "name": "Topic deletion test take 2",
-          "type": "support-thread",
-          "version": "1.0.0",
-          "active": false,
-          "tags": [],
-          "requires": [],
-          "capabilities": [],
-          "data": {
-            "environment": "production",
-            "tags": [],
-            "inbox": "S/Forums",
-            "mirrors": [
-              "https://forums.balena.io/t/6752"
-            ],
-            "mentionsUser": [],
-            "alertsUser": [],
-            "description": "",
-            "status": "open"
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/active",
+            "value": false
           }
-        }
+        ]
       }
     }
   ]

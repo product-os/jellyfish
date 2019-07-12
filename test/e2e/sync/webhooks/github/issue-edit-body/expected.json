@@ -60,26 +60,13 @@
       "capabilities": [],
       "data": {
         "timestamp": "2018-09-20T18:20:28.000Z",
-        "payload": {
-          "name": "Issue body edits",
-          "version": "1.0.0",
-          "active": true,
-          "tags": [],
-          "requires": [],
-          "capabilities": [],
-          "data": {
-            "repository": "resin-io/jellyfish",
-            "mirrors": [
-              "https://github.com/resin-io/jellyfish/issues/711"
-            ],
-            "mentionsUser": [],
-            "alertsUser": [],
-            "description": "Updated body",
-            "status": "open",
-            "archived": false
-          },
-          "type": "issue"
-        }
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/description",
+            "value": "Updated body"
+          }
+        ]
       }
     }
   ]

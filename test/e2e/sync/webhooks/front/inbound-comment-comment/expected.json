@@ -63,26 +63,13 @@
           "active": true,
           "slug": "user-accounts-front-dev"
         },
-        "payload": {
-          "active": true,
-          "capabilities": [],
-          "data": {
-            "alertsUser": [],
-            "description": "",
-            "environment": "production",
-            "inbox": "Demo Inbox",
-            "mentionsUser": [],
-            "mirrors": [
-              "https://api2.frontapp.com/conversations/cnv_11dweh6"
-            ],
-            "status": "open"
-          },
-          "name": "Send me a comment",
-          "requires": [],
-          "tags": [],
-          "type": "support-thread",
-          "version": "1.0.0"
-        },
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2018-10-08T18:42:38.089Z"
+          }
+        ],
         "timestamp": "2018-10-08T18:42:38.089Z"
       },
       "requires": [],
@@ -144,26 +131,13 @@
           "active": true,
           "slug": "user-accounts-front-dev"
         },
-        "payload": {
-          "active": true,
-          "capabilities": [],
-          "data": {
-            "alertsUser": [],
-            "description": "",
-            "environment": "production",
-            "inbox": "Demo Inbox",
-            "mentionsUser": [],
-            "mirrors": [
-              "https://api2.frontapp.com/conversations/cnv_11dweh6"
-            ],
-            "status": "open"
-          },
-          "name": "Send me a comment",
-          "requires": [],
-          "tags": [],
-          "type": "support-thread",
-          "version": "1.0.0"
-        },
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2018-10-08T18:42:40.761Z"
+          }
+        ],
         "timestamp": "2018-10-08T18:42:40.761Z"
       },
       "requires": [],

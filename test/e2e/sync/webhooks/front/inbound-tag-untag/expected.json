@@ -91,28 +91,18 @@
           "slug": "user-accounts-front-dev"
         },
         "timestamp": "2018-10-08T18:37:58.816Z",
-        "payload": {
-          "name": "Tag untag",
-          "type": "support-thread",
-          "active": true,
-          "version": "1.0.0",
-          "tags": [
-            "foo"
-          ],
-          "requires": [],
-          "capabilities": [],
-          "data": {
-            "environment": "production",
-            "inbox": "Demo Inbox",
-            "mirrors": [
-              "https://api2.frontapp.com/conversations/cnv_11dw1xu"
-            ],
-            "mentionsUser": [],
-            "alertsUser": [],
-            "description": "",
-            "status": "open"
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2018-10-08T18:37:58.816Z"
+          },
+          {
+            "op": "add",
+            "path": "/tags/0",
+            "value": "foo"
           }
-        }
+        ]
       }
     },
     {
@@ -128,26 +118,17 @@
           "slug": "user-accounts-front-dev"
         },
         "timestamp": "2018-10-08T18:38:05.068Z",
-        "payload": {
-          "name": "Tag untag",
-          "type": "support-thread",
-          "active": true,
-          "version": "1.0.0",
-          "tags": [],
-          "requires": [],
-          "capabilities": [],
-          "data": {
-            "environment": "production",
-            "inbox": "Demo Inbox",
-            "mirrors": [
-              "https://api2.frontapp.com/conversations/cnv_11dw1xu"
-            ],
-            "mentionsUser": [],
-            "alertsUser": [],
-            "description": "",
-            "status": "open"
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2018-10-08T18:38:05.068Z"
+          },
+          {
+            "op": "remove",
+            "path": "/tags/0"
           }
-        }
+        ]
       }
     }
   ]

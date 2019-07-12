@@ -93,27 +93,13 @@
           "slug": "user-jviotti"
         },
         "timestamp": "2019-04-16T15:22:03.985Z",
-        "payload": {
-          "name": "The new edit title",
-          "type": "support-thread",
-          "version": "1.0.0",
-          "active": true,
-          "tags": [],
-          "requires": [],
-          "capabilities": [],
-          "data": {
-            "environment": "production",
-            "tags": [],
-            "inbox": "S/Forums",
-            "mirrors": [
-              "https://forums.balena.io/t/6060"
-            ],
-            "mentionsUser": [],
-            "alertsUser": [],
-            "description": "",
-            "status": "open"
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/name",
+            "value": "The new edit title"
           }
-        }
+        ]
       }
     }
   ]

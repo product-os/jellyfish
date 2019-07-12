@@ -60,26 +60,13 @@
       "capabilities": [],
       "data": {
         "timestamp": "2018-09-20T17:59:57.000Z",
-        "payload": {
-          "name": "Test Issue",
-          "active": true,
-          "version": "1.0.0",
-          "tags": [],
-          "requires": [],
-          "capabilities": [],
-          "data": {
-            "repository": "resin-io/jellyfish",
-            "mirrors": [
-              "https://github.com/resin-io/jellyfish/issues/705"
-            ],
-            "mentionsUser": [],
-            "alertsUser": [],
-            "description": "Foo Bar",
-            "status": "closed",
-            "archived": false
-          },
-          "type": "issue"
-        }
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/status",
+            "value": "closed"
+          }
+        ]
       }
     }
   ]

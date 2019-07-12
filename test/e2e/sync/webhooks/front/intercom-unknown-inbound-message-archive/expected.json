@@ -109,26 +109,13 @@
           "active": true,
           "slug": "user-syncbot"
         },
-        "payload": {
-          "active": true,
-          "capabilities": [],
-          "data": {
-            "alertsUser": [],
-            "description": "",
-            "environment": "production",
-            "inbox": "S/Paid_Support",
-            "mentionsUser": [],
-            "mirrors": [
-              "https://api2.frontapp.com/conversations/cnv_16263rn"
-            ],
-            "status": "open"
-          },
-          "name": "",
-          "requires": [],
-          "tags": [],
-          "type": "support-thread",
-          "version": "1.0.0"
-        },
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2018-12-27T13:15:14.205Z"
+          }
+        ],
         "timestamp": "2018-12-27T13:15:14.205Z"
       },
       "requires": [],
@@ -149,26 +136,23 @@
           "slug": "user-jviotti"
         },
         "timestamp": "2018-12-27T13:15:38.558Z",
-        "payload": {
-          "name": "",
-          "type": "support-thread",
-          "version": "1.0.0",
-          "active": true,
-          "tags": [ "Needs audit" ],
-          "requires": [],
-          "capabilities": [],
-          "data": {
-            "environment": "production",
-            "inbox": "S/Paid_Support",
-            "mirrors": [
-               "https://api2.frontapp.com/conversations/cnv_16263rn"
-            ],
-            "mentionsUser": [],
-            "alertsUser": [],
-            "description": "",
-            "status": "closed"
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2018-12-27T13:15:38.558Z"
+          },
+          {
+            "op": "replace",
+            "path": "/data/status",
+            "value": "closed"
+          },
+          {
+            "op": "add",
+            "path": "/tags/0",
+            "value": "Needs audit"
           }
-        }
+        ]
       }
     }
   ]

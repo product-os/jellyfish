@@ -76,34 +76,13 @@
       "capabilities": [],
       "data": {
         "timestamp": "2018-10-10T10:44:15.000Z",
-        "payload": {
-          "name": "Test PR",
-          "type": "pull-request",
-          "active": true,
-          "version": "1.0.0",
-          "tags": [],
-          "requires": [],
-          "capabilities": [],
-          "data": {
-            "repository": "resin-io/jellyfish",
-            "head": {
-              "branch": "pr-approve-merge",
-              "sha": "803d0ccc315e606fe8d00cf52138de654c3f35aa"
-            },
-            "base": {
-              "branch": "dummy-branch",
-              "sha": "aa2842d09fcd8aa84710550bc0cf2790fba06282"
-            },
-            "mirrors": [
-              "https://github.com/resin-io/jellyfish/pull/778"
-            ],
-            "mentionsUser": [],
-            "alertsUser": [],
-            "description": "Signed-off-by: Juan Cruz Viotti <juan@resin.io>",
-            "status": "closed",
-            "archived": false
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/status",
+            "value": "closed"
           }
-        }
+        ]
       }
     }
   ]

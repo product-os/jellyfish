@@ -94,28 +94,18 @@
           "slug": "user-accounts-front-dev"
         },
         "timestamp": "2018-10-08T18:36:48.985Z",
-        "payload": {
-          "name": "Inbound tag",
-          "type": "support-thread",
-          "active": true,
-          "version": "1.0.0",
-          "tags": [
-            "foo"
-          ],
-          "requires": [],
-          "capabilities": [],
-          "data": {
-            "environment": "production",
-            "inbox": "Demo Inbox",
-            "mirrors": [
-              "https://api2.frontapp.com/conversations/cnv_11dvyca"
-            ],
-            "mentionsUser": [],
-            "alertsUser": [],
-            "description": "",
-            "status": "open"
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2018-10-08T18:36:48.985Z"
+          },
+          {
+            "op": "add",
+            "path": "/tags/0",
+            "value": "foo"
           }
-        }
+        ]
       }
     },
     {
@@ -131,29 +121,18 @@
           "slug": "user-accounts-front-dev"
         },
         "timestamp": "2018-10-08T18:37:01.634Z",
-        "payload": {
-          "name": "Inbound tag",
-          "type": "support-thread",
-          "version": "1.0.0",
-          "active": true,
-          "tags": [
-            "foo",
-            "bar"
-          ],
-          "requires": [],
-          "capabilities": [],
-          "data": {
-            "environment": "production",
-            "inbox": "Demo Inbox",
-            "mirrors": [
-              "https://api2.frontapp.com/conversations/cnv_11dvyca"
-            ],
-            "mentionsUser": [],
-            "alertsUser": [],
-            "description": "",
-            "status": "open"
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2018-10-08T18:37:01.634Z"
+          },
+          {
+            "op": "add",
+            "path": "/tags/1",
+            "value": "bar"
           }
-        }
+        ]
       }
     }
   ]
