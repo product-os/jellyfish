@@ -54,6 +54,10 @@ jobs:
             name: Lint
             command: make lint
 
+        - run:
+            name: Automated Code Review (dangerfile)
+            command: DANGER_GITHUB_API_TOKEN=$GITHUB_TOKEN ./node_modules/.bin/danger ci
+
         - persist_to_workspace:
             root: .
             paths:

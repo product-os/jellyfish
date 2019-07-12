@@ -72,6 +72,7 @@
     "browser-env": "^3.2.5",
     "cli-spinner": "^0.2.8",
     "copy-webpack-plugin": "^4.5.1",
+    "danger": "^9.1.0",
     "depcheck": "^0.7.2",
     "deplint": "^1.1.1",
     "enzyme": "^3.9.0",
