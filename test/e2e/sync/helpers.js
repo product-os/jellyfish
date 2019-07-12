@@ -223,7 +223,14 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 			}
 			: card.data.actor
 
-		if (card.data.payload) {
+		if (card.type === 'update') {
+			card.data.payload = card.data.payload.filter((operation) => {
+				return ![
+					'/data/origin',
+					'/linked_at/has attached element'
+				].includes(operation.path)
+			})
+		} else if (card.data.payload) {
 			Reflect.deleteProperty(card.data.payload, 'slug')
 			Reflect.deleteProperty(card.data.payload, 'links')
 			Reflect.deleteProperty(card.data.payload, 'markers')

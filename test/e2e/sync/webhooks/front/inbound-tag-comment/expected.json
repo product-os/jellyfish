@@ -63,28 +63,18 @@
           "active": true,
           "slug": "user-accounts-front-dev"
         },
-        "payload": {
-          "active": true,
-          "capabilities": [],
-          "data": {
-            "alertsUser": [],
-            "description": "",
-            "environment": "production",
-            "inbox": "Demo Inbox",
-            "mentionsUser": [],
-            "mirrors": [
-              "https://api2.frontapp.com/conversations/cnv_183bv6i"
-            ],
-            "status": "open"
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2019-01-18T16:35:05.795Z"
           },
-          "name": "Tag Backsync Test",
-          "requires": [],
-          "tags": [
-            "testTag"
-          ],
-          "type": "support-thread",
-          "version": "1.0.0"
-        },
+          {
+            "op": "add",
+            "path": "/tags/0",
+            "value": "testTag"
+          }
+        ],
         "timestamp": "2019-01-18T16:35:05.795Z"
       },
       "requires": [],
@@ -146,28 +136,13 @@
           "active": true,
           "slug": "user-accounts-front-dev"
         },
-        "payload": {
-          "active": true,
-          "capabilities": [],
-          "data": {
-            "alertsUser": [],
-            "description": "",
-            "environment": "production",
-            "inbox": "Demo Inbox",
-            "mentionsUser": [],
-            "mirrors": [
-              "https://api2.frontapp.com/conversations/cnv_183bv6i"
-            ],
-            "status": "open"
-          },
-          "name": "Tag Backsync Test",
-          "requires": [],
-          "tags": [
-            "testTag"
-          ],
-          "type": "support-thread",
-          "version": "1.0.0"
-        },
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2019-01-18T16:35:18.368Z"
+          }
+        ],
         "timestamp": "2019-01-18T16:35:18.368Z"
       },
       "requires": [],

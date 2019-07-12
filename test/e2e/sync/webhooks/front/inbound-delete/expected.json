@@ -91,26 +91,18 @@
           "slug": "user-accounts-front-dev"
         },
         "timestamp": "2018-10-08T18:35:32.544Z",
-        "payload": {
-          "name": "Inbound delete",
-          "type": "support-thread",
-          "active": true,
-          "tags": [],
-          "version": "1.0.0",
-          "requires": [],
-          "capabilities": [],
-          "data": {
-            "environment": "production",
-            "inbox": "Demo Inbox",
-            "mirrors": [
-              "https://api2.frontapp.com/conversations/cnv_11dvvhm"
-            ],
-            "mentionsUser": [],
-            "alertsUser": [],
-            "description": "",
-            "status": "archived"
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2018-10-08T18:35:32.544Z"
+          },
+          {
+            "op": "replace",
+            "path": "/data/status",
+            "value": "archived"
           }
-        }
+        ]
       }
     }
   ]

@@ -68,26 +68,18 @@
           "slug": "user-jviotti"
         },
         "timestamp": "2018-10-10T21:34:27.674Z",
-        "payload": {
-          "name": "Snooze cancel",
-          "type": "support-thread",
-          "active": true,
-          "version": "1.0.0",
-          "tags": [],
-          "requires": [],
-          "capabilities": [],
-          "data": {
-            "environment": "production",
-            "inbox": "Test_Contracts",
-            "mirrors": [
-              "https://api2.frontapp.com/conversations/cnv_11sddxf"
-            ],
-            "mentionsUser": [],
-            "alertsUser": [],
-            "description": "",
-            "status": "closed"
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2018-10-10T21:34:27.674Z"
+          },
+          {
+            "op": "replace",
+            "path": "/data/status",
+            "value": "closed"
           }
-        }
+        ]
       }
     },
     {
@@ -103,26 +95,18 @@
           "slug": "user-jviotti"
         },
         "timestamp": "2018-10-10T21:34:32.255Z",
-        "payload": {
-          "name": "Snooze cancel",
-          "type": "support-thread",
-          "active": true,
-          "version": "1.0.0",
-          "tags": [],
-          "requires": [],
-          "capabilities": [],
-          "data": {
-            "environment": "production",
-            "inbox": "Test_Contracts",
-            "mirrors": [
-              "https://api2.frontapp.com/conversations/cnv_11sddxf"
-            ],
-            "mentionsUser": [],
-            "alertsUser": [],
-            "description": "",
-            "status": "open"
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2018-10-10T21:34:32.255Z"
+          },
+          {
+            "op": "replace",
+            "path": "/data/status",
+            "value": "open"
           }
-        }
+        ]
       }
     }
   ]

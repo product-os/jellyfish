@@ -114,26 +114,13 @@
           "active": true,
           "slug": "user-syncbot"
         },
-        "payload": {
-          "data": {
-            "inbox": "S/Paid_Support",
-            "status": "open",
-            "mirrors": [
-              "https://api2.frontapp.com/conversations/cnv_1bd652j"
-            ],
-            "alertsUser": [],
-            "description": "",
-            "environment": "production",
-            "mentionsUser": []
-          },
-          "name": "",
-          "tags": [],
-          "type": "support-thread",
-          "active": true,
-          "version": "1.0.0",
-          "requires": [],
-          "capabilities": []
-        },
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2019-04-04T12:50:46.811Z"
+          }
+        ],
         "timestamp": "2019-04-04T12:50:46.811Z"
       }
     },
@@ -181,26 +168,13 @@
           "active": true,
           "slug": "user-jviotti2"
         },
-        "payload": {
-          "data": {
-            "inbox": "S/Paid_Support",
-            "status": "open",
-            "mirrors": [
-              "https://api2.frontapp.com/conversations/cnv_1bd652j"
-            ],
-            "alertsUser": [],
-            "description": "",
-            "environment": "production",
-            "mentionsUser": []
-          },
-          "name": "",
-          "tags": [],
-          "type": "support-thread",
-          "active": true,
-          "version": "1.0.0",
-          "requires": [],
-          "capabilities": []
-        },
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2019-04-04T12:51:05.000Z"
+          }
+        ],
         "timestamp": "2019-04-04T12:51:05.000Z"
       }
     },
@@ -248,26 +222,13 @@
           "active": true,
           "slug": "user-jviotti2"
         },
-        "payload": {
-          "data": {
-            "inbox": "S/Paid_Support",
-            "status": "open",
-            "mirrors": [
-              "https://api2.frontapp.com/conversations/cnv_1bd652j"
-            ],
-            "alertsUser": [],
-            "description": "",
-            "environment": "production",
-            "mentionsUser": []
-          },
-          "name": "",
-          "tags": [],
-          "type": "support-thread",
-          "active": true,
-          "version": "1.0.0",
-          "requires": [],
-          "capabilities": []
-        },
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2019-04-04T12:51:11.000Z"
+          }
+        ],
         "timestamp": "2019-04-04T12:51:11.000Z"
       }
     }

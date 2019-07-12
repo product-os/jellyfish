@@ -86,26 +86,13 @@
           "active": true,
           "slug": "user-jviotti"
         },
-        "payload": {
-          "active": true,
-          "capabilities": [],
-          "data": {
-            "alertsUser": [],
-            "description": "",
-            "environment": "production",
-            "inbox": "Test_Contracts",
-            "mentionsUser": [],
-            "mirrors": [
-              "https://api2.frontapp.com/conversations/cnv_11sdsiz"
-            ],
-            "status": "open"
-          },
-          "name": "Delay me!",
-          "requires": [],
-          "tags": [],
-          "type": "support-thread",
-          "version": "1.0.0"
-        },
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2018-10-10T21:40:09.713Z"
+          }
+        ],
         "timestamp": "2018-10-10T21:40:09.713Z"
       },
       "requires": [],
@@ -144,26 +131,13 @@
           "active": true,
           "slug": "user-jviotti"
         },
-        "payload": {
-          "active": true,
-          "capabilities": [],
-          "data": {
-            "alertsUser": [],
-            "description": "",
-            "environment": "production",
-            "inbox": "Test_Contracts",
-            "mentionsUser": [],
-            "mirrors": [
-              "https://api2.frontapp.com/conversations/cnv_11sdsiz"
-            ],
-            "status": "open"
-          },
-          "name": "Delay me!",
-          "requires": [],
-          "tags": [],
-          "type": "support-thread",
-          "version": "1.0.0"
-        },
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2018-10-10T21:50:10.973Z"
+          }
+        ],
         "timestamp": "2018-10-10T21:50:10.973Z"
       },
       "requires": [],

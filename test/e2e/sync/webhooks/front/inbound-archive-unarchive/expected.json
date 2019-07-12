@@ -68,26 +68,18 @@
           "slug": "user-accounts-front-dev"
         },
         "timestamp": "2018-10-08T18:50:09.298Z",
-        "payload": {
-          "name": "Unarchive",
-          "type": "support-thread",
-          "version": "1.0.0",
-          "active": true,
-          "tags": [],
-          "requires": [],
-          "capabilities": [],
-          "data": {
-            "environment": "production",
-            "inbox": "Demo Inbox",
-            "mirrors": [
-              "https://api2.frontapp.com/conversations/cnv_11dwyua"
-            ],
-            "mentionsUser": [],
-            "alertsUser": [],
-            "description": "",
-            "status": "closed"
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2018-10-08T18:50:09.298Z"
+          },
+          {
+            "op": "replace",
+            "path": "/data/status",
+            "value": "closed"
           }
-        }
+        ]
       }
     },
     {
@@ -103,26 +95,18 @@
           "slug": "user-accounts-front-dev"
         },
         "timestamp": "2018-10-08T18:50:16.901Z",
-        "payload": {
-          "name": "Unarchive",
-          "version": "1.0.0",
-          "active": true,
-          "tags": [],
-          "requires": [],
-          "capabilities": [],
-          "data": {
-            "environment": "production",
-            "inbox": "Demo Inbox",
-            "mirrors": [
-              "https://api2.frontapp.com/conversations/cnv_11dwyua"
-            ],
-            "mentionsUser": [],
-            "alertsUser": [],
-            "description": "",
-            "status": "open"
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2018-10-08T18:50:16.901Z"
           },
-          "type": "support-thread"
-        }
+          {
+            "op": "replace",
+            "path": "/data/status",
+            "value": "open"
+          }
+        ]
       }
     }
   ]

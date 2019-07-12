@@ -60,26 +60,13 @@
       "capabilities": [],
       "data": {
         "timestamp": "2018-09-27T14:30:19.000Z",
-        "payload": {
-          "name": "Issue close label toggle",
-          "type": "issue",
-          "active": true,
-          "version": "1.0.0",
-          "tags": [],
-          "requires": [],
-          "capabilities": [],
-          "data": {
-            "repository": "resin-io/jellyfish",
-            "mirrors": [
-              "https://github.com/resin-io/jellyfish/issues/724"
-            ],
-            "mentionsUser": [],
-            "alertsUser": [],
-            "description": "",
-            "status": "closed",
-            "archived": false
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/status",
+            "value": "closed"
           }
-        }
+        ]
       }
     },
     {
@@ -91,28 +78,13 @@
       "capabilities": [],
       "data": {
         "timestamp": "2018-09-27T14:31:38.000Z",
-        "payload": {
-          "name": "Issue close label toggle",
-          "type": "issue",
-          "active": true,
-          "version": "1.0.0",
-          "tags": [
-            "chore"
-          ],
-          "requires": [],
-          "capabilities": [],
-          "data": {
-            "repository": "resin-io/jellyfish",
-            "mirrors": [
-              "https://github.com/resin-io/jellyfish/issues/724"
-            ],
-            "mentionsUser": [],
-            "alertsUser": [],
-            "description": "",
-            "status": "closed",
-            "archived": false
+        "payload": [
+          {
+            "op": "add",
+            "path": "/tags/0",
+            "value": "chore"
           }
-        }
+        ]
       }
     },
     {
@@ -124,26 +96,12 @@
       "capabilities": [],
       "data": {
         "timestamp": "2018-09-27T14:32:50.000Z",
-        "payload": {
-          "name": "Issue close label toggle",
-          "type": "issue",
-          "active": true,
-          "version": "1.0.0",
-          "tags": [],
-          "requires": [],
-          "capabilities": [],
-          "data": {
-            "repository": "resin-io/jellyfish",
-            "mirrors": [
-              "https://github.com/resin-io/jellyfish/issues/724"
-            ],
-            "mentionsUser": [],
-            "alertsUser": [],
-            "description": "",
-            "status": "closed",
-            "archived": false
+        "payload": [
+          {
+            "op": "remove",
+            "path": "/tags/0"
           }
-        }
+        ]
       }
     }
   ]

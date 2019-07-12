@@ -60,26 +60,13 @@
       "capabilities": [],
       "data": {
         "timestamp": "2018-09-26T17:56:59.000Z",
-        "payload": {
-          "name": "Comment on closed issue",
-          "type": "issue",
-          "version": "1.0.0",
-          "active": true,
-          "tags": [],
-          "requires": [],
-          "capabilities": [],
-          "data": {
-            "repository": "resin-io/jellyfish",
-            "mirrors": [
-              "https://github.com/resin-io/jellyfish/issues/722"
-            ],
-            "mentionsUser": [],
-            "alertsUser": [],
-            "description": "",
-            "status": "closed",
-            "archived": false
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/status",
+            "value": "closed"
           }
-        }
+        ]
       }
     },
     {

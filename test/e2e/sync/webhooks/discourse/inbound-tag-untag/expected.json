@@ -93,27 +93,13 @@
           "slug": "user-jviotti"
         },
         "timestamp": "2019-04-16T15:24:06.575Z",
-        "payload": {
-          "name": "Inbound tag untag test",
-          "type": "support-thread",
-          "version": "1.0.0",
-          "active": true,
-          "tags": [],
-          "requires": [],
-          "capabilities": [],
-          "data": {
-            "environment": "production",
-            "tags": [ "raspberrypi3" ],
-            "inbox": "S/Forums",
-            "mirrors": [
-              "https://forums.balena.io/t/6062"
-            ],
-            "mentionsUser": [],
-            "alertsUser": [],
-            "description": "",
-            "status": "open"
+        "payload": [
+          {
+            "op": "add",
+            "path": "/data/tags/0",
+            "value": "raspberrypi3"
           }
-        }
+        ]
       }
     },
     {
@@ -129,27 +115,12 @@
           "slug": "user-jviotti"
         },
         "timestamp": "2019-04-16T15:24:06.578Z",
-        "payload": {
-          "name": "Inbound tag untag test",
-          "type": "support-thread",
-          "version": "1.0.0",
-          "active": true,
-          "tags": [],
-          "requires": [],
-          "capabilities": [],
-          "data": {
-            "environment": "production",
-            "tags": [],
-            "inbox": "S/Forums",
-            "mirrors": [
-              "https://forums.balena.io/t/6062"
-            ],
-            "mentionsUser": [],
-            "alertsUser": [],
-            "description": "",
-            "status": "open"
+        "payload": [
+          {
+            "op": "remove",
+            "path": "/data/tags/0"
           }
-        }
+        ]
       }
     }
   ]

@@ -79,26 +79,13 @@
       "capabilities": [],
       "data": {
         "timestamp": "2018-09-20T18:28:35.000Z",
-        "payload": {
-          "name": "Issue closed with comment",
-          "active": true,
-          "version": "1.0.0",
-          "tags": [],
-          "requires": [],
-          "capabilities": [],
-          "data": {
-            "repository": "resin-io/jellyfish",
-            "mirrors": [
-              "https://github.com/resin-io/jellyfish/issues/713"
-            ],
-            "mentionsUser": [],
-            "alertsUser": [],
-            "description": "",
-            "status": "closed",
-            "archived": false
-          },
-          "type": "issue"
-        }
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/status",
+            "value": "closed"
+          }
+        ]
       }
     }
   ]

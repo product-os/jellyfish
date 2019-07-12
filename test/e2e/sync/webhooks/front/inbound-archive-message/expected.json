@@ -91,26 +91,18 @@
           "slug": "user-jviotti"
         },
         "timestamp": "2018-10-10T22:22:37.849Z",
-        "payload": {
-          "name": "Archive message",
-          "type": "support-thread",
-          "version": "1.0.0",
-          "active": true,
-          "tags": [],
-          "requires": [],
-          "capabilities": [],
-          "data": {
-            "environment": "production",
-            "inbox": "Test_Contracts",
-            "mirrors": [
-              "https://api2.frontapp.com/conversations/cnv_11sh0cz"
-            ],
-            "mentionsUser": [],
-            "alertsUser": [],
-            "description": "",
-            "status": "closed"
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2018-10-10T22:22:37.849Z"
+          },
+          {
+            "op": "replace",
+            "path": "/data/status",
+            "value": "closed"
           }
-        }
+        ]
       }
     },
     {
@@ -126,26 +118,18 @@
           "slug": "user-jviotti"
         },
         "timestamp": "2018-10-10T22:22:46.382Z",
-        "payload": {
-          "name": "Archive message",
-          "version": "1.0.0",
-          "active": true,
-          "tags": [],
-          "requires": [],
-          "capabilities": [],
-          "data": {
-            "environment": "production",
-            "inbox": "Test_Contracts",
-            "mirrors": [
-              "https://api2.frontapp.com/conversations/cnv_11sh0cz"
-            ],
-            "mentionsUser": [],
-            "alertsUser": [],
-            "description": "",
-            "status": "open"
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2018-10-10T22:22:46.382Z"
           },
-          "type": "support-thread"
-        }
+          {
+            "op": "replace",
+            "path": "/data/status",
+            "value": "open"
+          }
+        ]
       }
     },
     {
@@ -156,26 +140,13 @@
           "active": true,
           "slug": "user-jviotti"
         },
-        "payload": {
-          "active": true,
-          "capabilities": [],
-          "data": {
-            "alertsUser": [],
-            "description": "",
-            "environment": "production",
-            "inbox": "Test_Contracts",
-            "mentionsUser": [],
-            "mirrors": [
-              "https://api2.frontapp.com/conversations/cnv_11sh0cz"
-            ],
-            "status": "open"
-          },
-          "name": "Archive message",
-          "requires": [],
-          "tags": [],
-          "type": "support-thread",
-          "version": "1.0.0"
-        },
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2018-10-10T22:22:46.537Z"
+          }
+        ],
         "timestamp": "2018-10-10T22:22:46.537Z"
       },
       "requires": [],
@@ -214,26 +185,13 @@
           "active": true,
           "slug": "user-jviotti"
         },
-        "payload": {
-          "active": true,
-          "capabilities": [],
-          "data": {
-            "alertsUser": [],
-            "description": "",
-            "environment": "production",
-            "inbox": "Test_Contracts",
-            "mentionsUser": [],
-            "mirrors": [
-              "https://api2.frontapp.com/conversations/cnv_11sh0cz"
-            ],
-            "status": "open"
-          },
-          "name": "Archive message",
-          "requires": [],
-          "tags": [],
-          "type": "support-thread",
-          "version": "1.0.0"
-        },
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2018-10-10T22:22:58.705Z"
+          }
+        ],
         "timestamp": "2018-10-10T22:22:58.705Z"
       },
       "requires": [],

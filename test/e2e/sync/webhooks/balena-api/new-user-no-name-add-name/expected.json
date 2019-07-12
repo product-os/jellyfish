@@ -70,28 +70,21 @@
           "slug": "user-admin"
         },
         "timestamp": "2019-04-17T15:25:45.231Z",
-        "payload": {
-          "type": "user",
-          "version": "1.0.0",
-          "active": true,
-          "tags": [],
-          "requires": [],
-          "capabilities": [],
-          "data": {
-            "email": "johndoe@souvlakitek.com",
-            "roles": [ "user-community" ],
-            "mirrors": [
-              "https://api.balena-cloud.com/v5/user(999)"
-            ],
-            "profile": {
-              "company": "Souvlaki Tek",
-              "name": {
-                "first": "John",
-                "last": "Doe"
-              }
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2019-04-17T15:25:45.231Z"
+          },
+          {
+            "op": "add",
+            "path": "/data/profile/name",
+            "value": {
+              "last": "Doe",
+              "first": "John"
             }
           }
-        }
+        ]
       }
     }
   ]

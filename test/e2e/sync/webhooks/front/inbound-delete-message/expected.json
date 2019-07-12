@@ -91,26 +91,18 @@
           "slug": "user-jviotti"
         },
         "timestamp": "2018-10-10T22:28:47.412Z",
-        "payload": {
-          "name": "Delete message test",
-          "version": "1.0.0",
-          "active": true,
-          "tags": [],
-          "requires": [],
-          "capabilities": [],
-          "data": {
-            "environment": "production",
-            "inbox": "Test_Contracts",
-            "mirrors": [
-              "https://api2.frontapp.com/conversations/cnv_11she63"
-            ],
-            "mentionsUser": [],
-            "alertsUser": [],
-            "description": "",
-            "status": "archived"
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2018-10-10T22:28:47.412Z"
           },
-          "type": "support-thread"
-        }
+          {
+            "op": "replace",
+            "path": "/data/status",
+            "value": "archived"
+          }
+        ]
       }
     },
     {
@@ -126,26 +118,18 @@
           "slug": "user-jviotti"
         },
         "timestamp": "2018-10-10T22:29:00.113Z",
-        "payload": {
-          "name": "Delete message test",
-          "type": "support-thread",
-          "active": true,
-          "version": "1.0.0",
-          "tags": [],
-          "requires": [],
-          "capabilities": [],
-          "data": {
-            "environment": "production",
-            "inbox": "Test_Contracts",
-            "mirrors": [
-              "https://api2.frontapp.com/conversations/cnv_11she63"
-            ],
-            "mentionsUser": [],
-            "alertsUser": [],
-            "description": "",
-            "status": "open"
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2018-10-10T22:29:00.113Z"
+          },
+          {
+            "op": "replace",
+            "path": "/data/status",
+            "value": "open"
           }
-        }
+        ]
       }
     },
     {
@@ -156,26 +140,13 @@
           "active": true,
           "slug": "user-jviotti"
         },
-        "payload": {
-          "active": true,
-          "capabilities": [],
-          "data": {
-            "alertsUser": [],
-            "description": "",
-            "environment": "production",
-            "inbox": "Test_Contracts",
-            "mentionsUser": [],
-            "mirrors": [
-              "https://api2.frontapp.com/conversations/cnv_11she63"
-            ],
-            "status": "open"
-          },
-          "name": "Delete message test",
-          "requires": [],
-          "tags": [],
-          "type": "support-thread",
-          "version": "1.0.0"
-        },
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2018-10-10T22:29:00.541Z"
+          }
+        ],
         "timestamp": "2018-10-10T22:29:00.541Z"
       },
       "requires": [],
@@ -214,26 +185,13 @@
           "active": true,
           "slug": "user-jviotti"
         },
-        "payload": {
-          "active": true,
-          "capabilities": [],
-          "data": {
-            "alertsUser": [],
-            "description": "",
-            "environment": "production",
-            "inbox": "Test_Contracts",
-            "mentionsUser": [],
-            "mirrors": [
-              "https://api2.frontapp.com/conversations/cnv_11she63"
-            ],
-            "status": "open"
-          },
-          "name": "Delete message test",
-          "requires": [],
-          "tags": [],
-          "type": "support-thread",
-          "version": "1.0.0"
-        },
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2018-10-10T22:29:12.763Z"
+          }
+        ],
         "timestamp": "2018-10-10T22:29:12.763Z"
       },
       "requires": [],

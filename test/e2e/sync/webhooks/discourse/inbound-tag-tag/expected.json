@@ -93,27 +93,13 @@
           "slug": "user-jviotti"
         },
         "timestamp": "2019-04-16T15:23:14.588Z",
-        "payload": {
-          "name": "Inbound tag tag",
-          "type": "support-thread",
-          "version": "1.0.0",
-          "active": true,
-          "tags": [],
-          "requires": [],
-          "capabilities": [],
-          "data": {
-            "environment": "production",
-            "tags": [ "raspberrypi3" ],
-            "inbox": "S/Forums",
-            "mirrors": [
-              "https://forums.balena.io/t/6061"
-            ],
-            "mentionsUser": [],
-            "alertsUser": [],
-            "description": "",
-            "status": "open"
+        "payload": [
+          {
+            "op": "add",
+            "path": "/data/tags/0",
+            "value": "raspberrypi3"
           }
-        }
+        ]
       }
     },
     {
@@ -129,27 +115,13 @@
           "slug": "user-jviotti"
         },
         "timestamp": "2019-04-16T15:23:14.591Z",
-        "payload": {
-          "name": "Inbound tag tag",
-          "type": "support-thread",
-          "version": "1.0.0",
-          "active": true,
-          "tags": [],
-          "requires": [],
-          "capabilities": [],
-          "data": {
-            "environment": "production",
-            "tags": [ "raspberrypi3", "docker" ],
-            "inbox": "S/Forums",
-            "mirrors": [
-              "https://forums.balena.io/t/6061"
-            ],
-            "mentionsUser": [],
-            "alertsUser": [],
-            "description": "",
-            "status": "open"
+        "payload": [
+          {
+            "op": "add",
+            "path": "/data/tags/1",
+            "value": "docker"
           }
-        }
+        ]
       }
     }
   ]

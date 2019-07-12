@@ -86,26 +86,13 @@
           "active": true,
           "slug": "user-jviotti"
         },
-        "payload": {
-          "active": true,
-          "capabilities": [],
-          "data": {
-            "alertsUser": [],
-            "description": "",
-            "environment": "production",
-            "inbox": "Test_Contracts",
-            "mentionsUser": [],
-            "mirrors": [
-              "https://api2.frontapp.com/conversations/cnv_11sgs3f"
-            ],
-            "status": "open"
-          },
-          "name": "Delay cancel",
-          "requires": [],
-          "tags": [],
-          "type": "support-thread",
-          "version": "1.0.0"
-        },
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2018-10-10T22:19:42.973Z"
+          }
+        ],
         "timestamp": "2018-10-10T22:19:42.973Z"
       },
       "requires": [],
