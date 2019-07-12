@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'action-library: Use .patchCard() in sync engine'
+      hash: fa97de4ffc53f5e6fee9411eaabf2d05e3441761
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 17.66.3
+  date: 2019-07-12T17:31:55.531Z
+- commits:
     - subject: 'worker: Re-write executor tests to use .patchCard()'
       hash: fa391f480429c4150d1819df28dbb6f95db461e5
       body: ''
