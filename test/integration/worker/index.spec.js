@@ -713,77 +713,6 @@ ava('.execute() should execute a triggered action', async (test) => {
 	test.is(resultCard.data.command, 'foo-bar-baz')
 })
 
-ava('.execute() should detect an upsert to a non-existent card as an insert', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'card')
-	const actionCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'action-create-card')
-
-	test.context.worker.setTriggers(test.context.context, [
-		{
-			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
-			filter: {
-				type: 'object',
-				required: [ 'data' ],
-				properties: {
-					data: {
-						type: 'object',
-						required: [ 'command' ],
-						properties: {
-							command: {
-								type: 'string',
-								const: 'foo-bar-baz'
-							}
-						}
-					}
-				}
-			},
-			mode: 'insert',
-			action: 'action-upsert-card',
-			card: typeCard.id,
-			arguments: {
-				reason: null,
-				properties: {
-					version: '1.0.0',
-					slug: 'foo-bar-baz'
-				}
-			}
-		}
-	])
-
-	const request = await test.context.queue.enqueue(
-		test.context.worker.getId(), test.context.session, {
-			action: actionCard.slug,
-			context: test.context.context,
-			card: typeCard.id,
-			type: typeCard.type,
-			arguments: {
-				reason: null,
-				properties: {
-					slug: 'foo',
-					version: '1.0.0',
-					data: {
-						command: 'foo-bar-baz'
-					}
-				}
-			}
-		})
-
-	await test.context.flush(test.context.session, 1)
-	const result = await test.context.queue.waitResults(
-		test.context.context, request)
-	test.false(result.error)
-
-	const card = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'foo-bar-baz')
-	test.truthy(card)
-
-	const resultCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'foo')
-
-	test.is(resultCard.data.command, 'foo-bar-baz')
-})
-
 ava('.execute() should execute a triggered action given a matching mode', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card')
@@ -2500,16 +2429,19 @@ ava('should fail to update a card if the schema does not match', async (test) =>
 		type: result.data.type,
 		arguments: {
 			reason: null,
-			properties: {
-				version: '1.0.0',
-				foobar: true
-			}
+			patch: [
+				{
+					op: 'add',
+					path: '/foobar',
+					value: true
+				}
+			]
 		}
 	})
 
 	await test.throwsAsync(
 		test.context.flush(test.context.session, 1),
-		test.context.worker.errors.WorkerSchemaMismatch)
+		test.context.jellyfish.errors.JellyfishSchemaMismatch)
 })
 
 ava('should update a card to add an extra property', async (test) => {
@@ -2543,12 +2475,13 @@ ava('should update a card to add an extra property', async (test) => {
 		type: createResult.data.type,
 		arguments: {
 			reason: null,
-			properties: {
-				version: '1.0.0',
-				data: {
-					bar: 'baz'
+			patch: [
+				{
+					op: 'add',
+					path: '/data/bar',
+					value: 'baz'
 				}
-			}
+			]
 		}
 	})
 
@@ -2609,10 +2542,13 @@ ava('should update a card to set active to false', async (test) => {
 		type: createResult.data.type,
 		arguments: {
 			reason: null,
-			properties: {
-				version: '1.0.0',
-				active: false
-			}
+			patch: [
+				{
+					op: 'replace',
+					path: '/active',
+					value: false
+				}
+			]
 		}
 	})
 
@@ -2668,82 +2604,13 @@ ava('should update a card along with a reason', async (test) => {
 			type: createResult.data.type,
 			arguments: {
 				reason: 'This card should have been inactive',
-				properties: {
-					version: '1.0.0',
-					active: false
-				}
-			}
-		})
-
-	await test.context.flush(test.context.session, 1)
-	const updateResult = await test.context.queue.waitResults(
-		test.context.context, updateRequest)
-	test.false(updateResult.error)
-
-	const timeline = await test.context.jellyfish.query(
-		test.context.context, test.context.session, {
-			type: 'object',
-			additionalProperties: true,
-			required: [ 'type', 'data' ],
-			properties: {
-				type: {
-					type: 'string',
-					const: 'update'
-				},
-				data: {
-					type: 'object',
-					required: [ 'target' ],
-					additionalProperties: true,
-					properties: {
-						target: {
-							type: 'string',
-							const: updateResult.data.id
-						}
+				patch: [
+					{
+						op: 'replace',
+						path: '/active',
+						value: false
 					}
-				}
-			}
-		})
-
-	test.is(timeline.length, 1)
-	test.is(timeline[0].name, 'This card should have been inactive')
-})
-
-ava('should upsert an existing card along with a reason', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'card')
-	const createRequest = await test.context.queue.enqueue(
-		test.context.worker.getId(), test.context.session, {
-			action: 'action-create-card',
-			context: test.context.context,
-			card: typeCard.id,
-			type: typeCard.type,
-			arguments: {
-				reason: null,
-				properties: {
-					slug: 'foo',
-					version: '1.0.0'
-				}
-			}
-		})
-
-	await test.context.flush(test.context.session, 1)
-	const createResult = await test.context.queue.waitResults(
-		test.context.context, createRequest)
-	test.false(createResult.error)
-
-	const updateRequest = await test.context.queue.enqueue(
-		test.context.worker.getId(), test.context.session, {
-			action: 'action-upsert-card',
-			context: test.context.context,
-			card: typeCard.id,
-			type: typeCard.type,
-			arguments: {
-				reason: 'This card should have been inactive',
-				properties: {
-					slug: createResult.data.slug,
-					version: '1.0.0',
-					active: false
-				}
+				]
 			}
 		})
 
@@ -2831,93 +2698,46 @@ ava('should create a new card along with a reason', async (test) => {
 	test.is(timeline[0].name, 'My new card')
 })
 
-ava('should upsert a new card along with a reason', async (test) => {
+ava('should update a card to set active to false using the card slug as input', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card')
-
-	const upsertRequest = await test.context.queue.enqueue(
+	const createRequest = await test.context.queue.enqueue(
 		test.context.worker.getId(), test.context.session, {
-			action: 'action-upsert-card',
+			action: 'action-create-card',
 			context: test.context.context,
 			card: typeCard.id,
 			type: typeCard.type,
 			arguments: {
-				reason: 'New card!',
+				reason: null,
 				properties: {
-					slug: 'foo-bar-baz-qux',
 					version: '1.0.0',
-					active: false
+					slug: 'foo-bar-baz'
 				}
 			}
 		})
-
-	await test.context.flush(test.context.session, 1)
-	const upsertResult = await test.context.queue.waitResults(
-		test.context.context, upsertRequest)
-	test.false(upsertResult.error)
-
-	const timeline = await test.context.jellyfish.query(
-		test.context.context, test.context.session, {
-			type: 'object',
-			additionalProperties: true,
-			required: [ 'type', 'data' ],
-			properties: {
-				type: {
-					type: 'string',
-					const: 'create'
-				},
-				data: {
-					type: 'object',
-					required: [ 'target' ],
-					additionalProperties: true,
-					properties: {
-						target: {
-							type: 'string',
-							const: upsertResult.data.id
-						}
-					}
-				}
-			}
-		})
-
-	test.is(timeline.length, 1)
-	test.is(timeline[0].name, 'New card!')
-})
-
-ava('should update a card to set active to false using the card slug as input', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
-	const createRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-create-card',
-		context: test.context.context,
-		card: typeCard.id,
-		type: typeCard.type,
-		arguments: {
-			reason: null,
-			properties: {
-				version: '1.0.0',
-				slug: 'foo-bar-baz'
-			}
-		}
-	})
 
 	await test.context.flush(test.context.session, 1)
 	const createResult = await test.context.queue.waitResults(
 		test.context.context, createRequest)
 	test.false(createResult.error)
 
-	const updateRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-update-card',
-		context: test.context.context,
-		card: 'foo-bar-baz',
-		type: 'card',
-		arguments: {
-			reason: null,
-			properties: {
-				version: '1.0.0',
-				active: false
+	const updateRequest = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, {
+			action: 'action-update-card',
+			context: test.context.context,
+			card: 'foo-bar-baz',
+			type: 'card',
+			arguments: {
+				reason: null,
+				patch: [
+					{
+						op: 'replace',
+						path: '/active',
+						value: false
+					}
+				]
 			}
-		}
-	})
+		})
 
 	await test.context.flush(test.context.session, 1)
 	const updateResult = await test.context.queue.waitResults(
@@ -2964,21 +2784,23 @@ ava('should update a card to override an array property', async (test) => {
 		test.context.context, createRequest)
 	test.false(createResult.error)
 
-	const updateRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-update-card',
-		context: test.context.context,
-		card: createResult.data.id,
-		type: createResult.data.type,
-		arguments: {
-			reason: null,
-			properties: {
-				version: '1.0.0',
-				data: {
-					roles: []
-				}
+	const updateRequest = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, {
+			action: 'action-update-card',
+			context: test.context.context,
+			card: createResult.data.id,
+			type: createResult.data.type,
+			arguments: {
+				reason: null,
+				patch: [
+					{
+						op: 'replace',
+						path: '/data/roles',
+						value: []
+					}
+				]
 			}
-		}
-	})
+		})
 
 	await test.context.flush(test.context.session, 1)
 	const updateResult = await test.context.queue.waitResults(
@@ -3035,12 +2857,13 @@ ava('should add an update event if updating a card', async (test) => {
 		type: createResult.data.type,
 		arguments: {
 			reason: null,
-			properties: {
-				version: '1.0.0',
-				data: {
-					foo: 2
+			patch: [
+				{
+					op: 'replace',
+					path: '/data/foo',
+					value: 2
 				}
-			}
+			]
 		}
 	})
 
@@ -3190,19 +3013,23 @@ ava('should delete a card using action-update-card', async (test) => {
 		test.context.context, createRequest)
 	test.false(createResult.error)
 
-	const updateRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-update-card',
-		context: test.context.context,
-		card: createResult.data.id,
-		type: createResult.data.type,
-		arguments: {
-			reason: null,
-			properties: {
-				version: '1.0.0',
-				active: false
+	const updateRequest = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, {
+			action: 'action-update-card',
+			context: test.context.context,
+			card: createResult.data.id,
+			type: createResult.data.type,
+			arguments: {
+				reason: null,
+				patch: [
+					{
+						op: 'replace',
+						path: '/active',
+						value: false
+					}
+				]
 			}
-		}
-	})
+		})
 
 	await test.context.flush(test.context.session, 1)
 	const updateResult = await test.context.queue.waitResults(
@@ -3506,9 +3333,13 @@ ava('Updating a cards markers should update the markers of attached events', asy
 			type: cardResult.data.type,
 			arguments: {
 				reason: null,
-				properties: {
-					markers: [ marker ]
-				}
+				patch: [
+					{
+						op: 'replace',
+						path: '/markers',
+						value: [ marker ]
+					}
+				]
 			}
 		})
 
@@ -3658,9 +3489,93 @@ ava('should be able to upsert a deeply nested card', async (test) => {
 			type: createResult.data.type,
 			arguments: {
 				reason: null,
-				properties: {
-					data
-				}
+				patch: [
+					{
+						op: 'add',
+						path: '/data/foo',
+						value: {}
+					},
+					{
+						op: 'add',
+						path: '/data/foo/bar',
+						value: {}
+					},
+					{
+						op: 'add',
+						path: '/data/foo/bar/baz',
+						value: {}
+					},
+					{
+						op: 'add',
+						path: '/data/foo/bar/baz/qux',
+						value: {}
+					},
+					{
+						op: 'add',
+						path: '/data/foo/bar/baz/qux/foo',
+						value: {}
+					},
+					{
+						op: 'add',
+						path: '/data/foo/bar/baz/qux/foo/bar',
+						value: {}
+					},
+					{
+						op: 'add',
+						path: '/data/foo/bar/baz/qux/foo/bar/baz',
+						value: {}
+					},
+					{
+						op: 'add',
+						path: '/data/foo/bar/baz/qux/foo/bar/baz/qux',
+						value: {}
+					},
+					{
+						op: 'add',
+						path: '/data/foo/bar/baz/qux/foo/bar/baz/qux/foo',
+						value: {}
+					},
+					{
+						op: 'add',
+						path: '/data/foo/bar/baz/qux/foo/bar/baz/qux/foo/bar',
+						value: {}
+					},
+					{
+						op: 'add',
+						path: '/data/foo/bar/baz/qux/foo/bar/baz/qux/foo/bar/baz',
+						value: {}
+					},
+					{
+						op: 'add',
+						path: '/data/foo/bar/baz/qux/foo/bar/baz/qux/foo/bar/baz/qux',
+						value: {}
+					},
+					{
+						op: 'add',
+						path: '/data/foo/bar/baz/qux/foo/bar/baz/qux/foo/bar/baz/qux/foo',
+						value: {}
+					},
+					{
+						op: 'add',
+						path: '/data/foo/bar/baz/qux/foo/bar/baz/qux/foo/bar/baz/qux/foo/bar',
+						value: {}
+					},
+					{
+						op: 'add',
+						path: '/data/foo/bar/baz/qux/foo/bar/baz/qux/foo/bar/baz/qux/foo/bar/baz',
+						value: {}
+					},
+					{
+						op: 'add',
+						path: '/data/foo/bar/baz/qux/foo/bar/baz/qux/foo/bar/baz/qux/foo/bar/baz/qux',
+						value: {}
+					},
+					{
+						op: 'add',
+						path: '/data/foo/bar/baz/qux/foo/bar/baz/qux/foo/bar/baz/qux/foo/bar/baz/qux/test',
+						value: 1
+					}
+				]
 			}
 		})
 

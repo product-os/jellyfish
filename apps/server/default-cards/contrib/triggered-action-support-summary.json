@@ -69,11 +69,13 @@
     },
     "arguments": {
       "reason": "Closed with #summary tag",
-      "properties": {
-        "data": {
-          "status": "closed"
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/data/status",
+          "value": "closed"
         }
-      }
+      ]
     }
   },
   "requires": [],

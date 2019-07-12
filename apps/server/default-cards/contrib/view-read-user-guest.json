@@ -168,6 +168,9 @@
                   "const": "action-update-card"
                 },
                 {
+                  "const": "action-upsert-card"
+                },
+                {
                   "const": "action-create-event"
                 },
                 {

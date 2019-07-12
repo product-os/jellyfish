@@ -192,11 +192,27 @@ ava.serial('Users should be able to change their own email addresses', async (te
 
 	await sdk.auth.login(userDetails)
 
-	user.data.email = 'test@example.com'
+	const result = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: user.slug,
+			type: user.type,
+			action: 'action-update-card',
+			arguments: {
+				reason: null,
+				patch: [
+					{
+						op: 'replace',
+						path: '/data/email',
+						value: 'test@example.com'
+					}
+				]
+			}
+		}, {
+			Authorization: `Bearer ${sdk.getAuthToken()}`
+		})
 
-	await test.notThrowsAsync(() => {
-		return sdk.card.update(user.id, user)
-	})
+	test.is(result.code, 200)
+	test.false(result.response.error)
 })
 
 ava.serial('Updating a user should not remove their org membership', async (test) => {
@@ -246,11 +262,27 @@ ava.serial('Updating a user should not remove their org membership', async (test
 
 	const linkedUser = await sdk.auth.whoami()
 
-	user.data.email = 'test@example.com'
+	const result = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: user.slug,
+			type: user.type,
+			action: 'action-update-card',
+			arguments: {
+				reason: null,
+				patch: [
+					{
+						op: 'replace',
+						path: '/data/email',
+						value: 'test@example.com'
+					}
+				]
+			}
+		}, {
+			Authorization: `Bearer ${sdk.getAuthToken()}`
+		})
 
-	await test.notThrowsAsync(() => {
-		return sdk.card.update(user.id, user)
-	})
+	test.is(result.code, 200)
+	test.false(result.response.error)
 
 	const updatedUser = await sdk.auth.whoami()
 
@@ -426,12 +458,29 @@ ava.serial('timeline cards should reference the correct actor', async (test) => 
 		required: [ 'id' ]
 	}
 
-	await test.context.executeThenWait(() => {
-		return sdk.card.update(thread.id, _.assign(thread, {
-			data: {
-				description: 'Lorem ipsum dolor sit amet'
-			}
-		}))
+	await test.context.executeThenWait(async () => {
+		const result = await test.context.http(
+			'POST', '/api/v2/action', {
+				card: thread.slug,
+				type: thread.type,
+				action: 'action-update-card',
+				arguments: {
+					reason: null,
+					patch: [
+						{
+							op: 'add',
+							path: '/data/description',
+							value: 'Lorem ipsum dolor sit amet'
+						}
+					]
+				}
+			}, {
+				Authorization: `Bearer ${sdk.getAuthToken()}`
+			})
+
+		if (result.code !== 200) {
+			throw new Error(`Error code: ${result.code}`)
+		}
 	}, waitQuery)
 
 	const card = await sdk.card.getWithTimeline(thread.id, {
@@ -595,21 +644,30 @@ ava.serial('When updating a user, inaccessible fields should not be removed', as
 
 	await sdk.auth.login(userDetails)
 
-	await sdk.card.update(
-		user.id,
-		_.merge(
-			_.omit(user, [ 'data', 'hash' ]),
-			{
-				type: user.type,
-				data: {
-					email: 'test@example.com'
-				}
+	const result = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: user.slug,
+			type: user.type,
+			action: 'action-update-card',
+			arguments: {
+				reason: null,
+				patch: [
+					{
+						op: 'replace',
+						path: '/data/email',
+						value: 'test@example.com'
+					}
+				]
 			}
-		)
-	)
+		}, {
+			Authorization: `Bearer ${sdk.getAuthToken()}`
+		})
 
-	const rawUserCard =
-		await test.context.jellyfish.getCardById(test.context.context, test.context.session, user.id, {
+	test.is(result.code, 200)
+	test.false(result.response.error)
+
+	const rawUserCard = await test.context.jellyfish.getCardById(
+		test.context.context, test.context.session, user.id, {
 			type: 'user'
 		})
 
@@ -1353,7 +1411,7 @@ ava.serial('should fail with a user error given an arguments mismatch', async (t
 	})
 })
 
-ava.serial('an upsert that renders a card invalid for its type is a user error', async (test) => {
+ava.serial('an update that renders a card invalid for its type is a user error', async (test) => {
 	const admin = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'user-admin', {
 			type: 'user'
@@ -1396,18 +1454,18 @@ ava.serial('an upsert that renders a card invalid for its type is a user error',
 
 	const result2 = await test.context.http(
 		'POST', '/api/v2/action', {
-			card: 'ping',
-			type: 'type',
-			action: 'action-upsert-card',
+			card: result1.response.data.id,
+			type: result1.response.data.type,
+			action: 'action-update-card',
 			arguments: {
 				reason: null,
-				properties: {
-					slug,
-					version: '1.0.0',
-					data: {
-						timestamp: 'foo'
+				patch: [
+					{
+						op: 'replace',
+						path: '/data/timestamp',
+						value: 'foo'
 					}
-				}
+				]
 			}
 		}, {
 			Authorization: `Bearer ${session.id}`
