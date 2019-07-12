@@ -1,4 +1,18 @@
 - commits:
+    - subject: Integrate Danger.js to automate code reviews
+      hash: 2d2115dc11e6f6c9cdf215620846630135a589d5
+      body: ''
+      footer:
+        See: 'https://danger.systems'
+        see: 'https://danger.systems'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 18.0.1
+  date: 2019-07-12T21:00:00.773Z
+- commits:
     - subject: 'test: Ensure all test users have access to action-upsert-card'
       hash: 3cb7b9f43d1d3b4bc1a4a70fb9bc3cd9d7339864
       body: ''
