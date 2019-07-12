@@ -1,4 +1,43 @@
 - commits:
+    - subject: 'test: Ensure all test users have access to action-upsert-card'
+      hash: 3cb7b9f43d1d3b4bc1a4a70fb9bc3cd9d7339864
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'worker: Remove action-upsert-card tests'
+      hash: ee746cac432420bdfd87e5d898af905b63b0729b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'sdk: Backwards compatibility layer on .card.update()'
+      hash: 5d76957fbe6a1dae1eb03c68cd4de78ced80737e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'action-library: Take JSON Patch in action-update-card'
+      hash: 13a5ca95d7205f619a0067907c5e89e2e0b174b4
+      body: ''
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 18.0.0
+  date: 2019-07-12T20:03:18.985Z
+- commits:
     - subject: 'action-library: Use .patchCard() in sync engine'
       hash: fa97de4ffc53f5e6fee9411eaabf2d05e3441761
       body: ''
