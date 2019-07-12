@@ -1,4 +1,34 @@
 - commits:
+    - subject: 'action-library: Use .patchCard() in action-upsert-card'
+      hash: 79f2a0d1950563b85f392b1d738fe15703c730f7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'action-library: Use .patchCard() in action-update-card'
+      hash: 19463c787c4f574c4c7cf1b2218e0c65d2bccd77
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'worker/action-library: Introduce .patchCard()'
+      hash: 3254241b8e268dde4f534c71e7467157f6efd994
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 17.66.1
+  date: 2019-07-12T06:48:48.938Z
+- commits:
     - subject: Add opportunity relationships
       hash: aee4e6cb5c9ad125f9018b09d540d73ed3bf8cc9
       body: ''
