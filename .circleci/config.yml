@@ -173,6 +173,35 @@ jobs:
           paths:
             - .nyc_output/*.json
 
+  sync_tests_outreach:
+    <<: *job_defaults
+
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: .
+
+      - run:
+          name: Start PostgreSQL
+          command: service postgresql start && su - postgres -c "psql -U postgres -d postgres -c \"alter user postgres with password 'postgres';\""
+      - run:
+          name: Start Redis
+          command: service redis-server start
+
+      - run:
+          name: Sync Tests
+          command: make test FILES=./test/e2e/sync/outreach-*.spec.js COVERAGE=1 INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET
+
+      - run:
+          name: Sync End To End Tests Without Tokens
+          command: make test FILES=./test/e2e/sync/outreach-*.spec.js COVERAGE=1 INTEGRATION_OUTREACH_APP_ID= INTEGRATION_OUTREACH_APP_SECRET=
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .nyc_output/*.json
+
   sync_tests_discourse:
     <<: *job_defaults
 
@@ -416,6 +445,11 @@ workflows:
                     - build
                 <<: *workflow_filter
 
+            - sync_tests_outreach:
+                requires:
+                    - build
+                <<: *workflow_filter
+
             - sync_tests_discourse:
                 requires:
                     - build
@@ -439,6 +473,7 @@ workflows:
                   - e2e_tests
                   - flaky_ui_tests
                   - sync_tests_front
+                  - sync_tests_outreach
                   - sync_tests_discourse
                   - sync_tests_balena_api
                   - sync_tests_github
