@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'outreach: Add an example end to end mirror test suite'
+      hash: 2f23d6345dc1d6f82c749152146fab8bc3416503
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 18.0.2
+  date: 2019-07-13T22:08:28.363Z
+- commits:
     - subject: Integrate Danger.js to automate code reviews
       hash: 2d2115dc11e6f6c9cdf215620846630135a589d5
       body: ''
