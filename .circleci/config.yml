@@ -96,6 +96,9 @@ jobs:
           at: .
 
       - run:
+          name: Start RabbitMQ
+          command: service rabbitmq-server start
+      - run:
           name: Start PostgreSQL
           command: service postgresql start && su - postgres -c "psql -U postgres -d postgres -c \"alter user postgres with password 'postgres';\""
       - run:
@@ -127,6 +130,9 @@ jobs:
           at: .
 
       - run:
+          name: Start RabbitMQ
+          command: service rabbitmq-server start
+      - run:
           name: Start PostgreSQL
           command: service postgresql start && su - postgres -c "psql -U postgres -d postgres -c \"alter user postgres with password 'postgres';\""
       - run:
@@ -155,6 +161,9 @@ jobs:
           at: .
 
       - run:
+          name: Start RabbitMQ
+          command: service rabbitmq-server start
+      - run:
           name: Start PostgreSQL
           command: service postgresql start && su - postgres -c "psql -U postgres -d postgres -c \"alter user postgres with password 'postgres';\""
       - run:
@@ -182,6 +191,9 @@ jobs:
       - attach_workspace:
           at: .
 
+      - run:
+          name: Start RabbitMQ
+          command: service rabbitmq-server start
       - run:
           name: Start PostgreSQL
           command: service postgresql start && su - postgres -c "psql -U postgres -d postgres -c \"alter user postgres with password 'postgres';\""
@@ -212,6 +224,9 @@ jobs:
           at: .
 
       - run:
+          name: Start RabbitMQ
+          command: service rabbitmq-server start
+      - run:
           name: Start PostgreSQL
           command: service postgresql start && su - postgres -c "psql -U postgres -d postgres -c \"alter user postgres with password 'postgres';\""
       - run:
@@ -240,6 +255,9 @@ jobs:
           at: .
 
       - run:
+          name: Start RabbitMQ
+          command: service rabbitmq-server start
+      - run:
           name: Start PostgreSQL
           command: service postgresql start && su - postgres -c "psql -U postgres -d postgres -c \"alter user postgres with password 'postgres';\""
       - run:
@@ -267,6 +285,9 @@ jobs:
       - attach_workspace:
           at: .
 
+      - run:
+          name: Start RabbitMQ
+          command: service rabbitmq-server start
       - run:
           name: Start PostgreSQL
           command: service postgresql start && su - postgres -c "psql -U postgres -d postgres -c \"alter user postgres with password 'postgres';\""
@@ -307,6 +328,9 @@ jobs:
           at: .
 
       - run:
+          name: Start RabbitMQ
+          command: service rabbitmq-server start
+      - run:
           name: Start PostgreSQL
           command: service postgresql start && su - postgres -c "psql -U postgres -d postgres -c \"alter user postgres with password 'postgres';\""
       - run:
@@ -342,6 +366,9 @@ jobs:
       - attach_workspace:
           at: .
 
+      - run:
+          name: Start RabbitMQ
+          command: service rabbitmq-server start
       - run:
           name: Start PostgreSQL
           command: service postgresql start && su - postgres -c "psql -U postgres -d postgres -c \"alter user postgres with password 'postgres';\""
