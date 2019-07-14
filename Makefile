@@ -12,6 +12,7 @@
 	start-server \
 	start-worker \
 	start-tick \
+	start-queue \
 	start-redis \
 	start-static \
 	start-postgres \
@@ -40,6 +41,19 @@ POSTGRES_HOST ?= localhost
 export POSTGRES_HOST
 POSTGRES_DATABASE ?= jellyfish
 export POSTGRES_DATABASE
+
+RABBITMQ_QUEUE ?= jellyfish_action_requests
+export RABBITMQ_QUEUE
+RABBITMQ_PORT ?= 5672
+export RABBITMQ_PORT
+RABBITMQ_HOST ?= localhost
+export RABBITMQ_HOST
+RABBITMQ_PROTOCOL ?= amqp
+export RABBITMQ_PROTOCOL
+RABBITMQ_USERNAME ?= guest
+export RABBITMQ_USERNAME
+RABBITMQ_PASSWORD ?= guest
+export RABBITMQ_PASSWORD
 
 PORT ?= 8000
 export PORT
@@ -81,8 +95,6 @@ REDIS_PORT ?= 6379
 export REDIS_PORT
 REDIS_HOST ?= localhost
 export REDIS_HOST
-LOCKFILE ?=
-export LOCKFILE
 POD_NAME ?= localhost
 export POD_NAME
 OAUTH_REDIRECT_BASE_URL ?= $(SERVER_HOST):$(UI_PORT)
@@ -189,7 +201,7 @@ COVERAGE ?= 1
 export COVERAGE
 
 ifeq ($(SCRUB),1)
-SCRUB_COMMAND = ./scripts/postgres-delete-test-databases.js
+SCRUB_COMMAND = ./scripts/postgres-delete-test-databases.js && ./scripts/rabbitmq-delete-test-queues.sh
 else
 SCRUB_COMMAND =
 endif
@@ -234,6 +246,7 @@ clean:
 		webpack-bundle-report.html \
 		webpack-bundle-report.chat-widget.html \
 		jellyfish-files \
+		rabbit_data \
 		dist \
 		.cache-loader
 
@@ -355,6 +368,12 @@ start-worker:
 start-tick: LOGLEVEL = info
 start-tick:
 	$(NODE) $(NODE_ARGS) apps/action-server/tick.js
+
+start-queue:
+	RABBITMQ_NODE_PORT=$(RABBITMQ_PORT) \
+	RABBITMQ_CONFIG_FILE=$(shell pwd)/rabbitmq.conf \
+  RABBITMQ_MNESIA_BASE=$(shell pwd)/rabbit_data \
+	rabbitmq-server
 
 start-redis:
 	redis-server --port $(REDIS_PORT)

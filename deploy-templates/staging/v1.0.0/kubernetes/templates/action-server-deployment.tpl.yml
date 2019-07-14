@@ -17,10 +17,6 @@ spec:
       containers:
       - image: {{{jellyfish-action-server-image}}}
         name: action-server
-        lifecycle:
-          preStop:
-            exec:
-              command: [ 'node', 'scripts/production/lock.js', '/tmp/worker.lock' ]
         env:
         - name: POD_NAME
           valueFrom:
@@ -42,6 +38,14 @@ spec:
           value: {{REDIS_HOST}}
         - name: REDIS_PASSWORD
           value: {{{REDIS_PASSWORD}}}
+        - name: RABBITMQ_USERNAME
+          value: {{RABBITMQ_USERNAME}}
+        - name: RABBITMQ_PASSWORD
+          value: {{{RABBITMQ_PASSWORD}}}
+        - name: RABBITMQ_PORT
+          value: '{{RABBITMQ_PORT}}'
+        - name: RABBITMQ_HOST
+          value: {{{RABBITMQ_HOST}}}
         - name: NODE_ENV
           value: {{{NODE_ENV}}}
         - name: SENTRY_DSN_SERVER
