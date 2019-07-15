@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'Actions: Allow empty strings for the "name" field when updating cards'
+      hash: 5a7aec75b75c6129bc54e965e450936e4e43fa89
+      body: |
+        Connects to #2190
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 18.0.4
+  date: 2019-07-15T08:33:15.590Z
+- commits:
     - subject: 'scripts: Add a create-card perf test script'
       hash: f95aba72012f6d3b5df68c78ec8a9a1943333660
       body: ''
