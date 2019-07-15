@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'UI: Test that suport threads can be closed'
+      hash: da268dd485dfcdb5e2568da82368d208fce6a6ac
+      body: |
+        Fixes #2190
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 18.0.5
+  date: 2019-07-15T12:38:15.139Z
+- commits:
     - subject: 'Actions: Allow empty strings for the "name" field when updating cards'
       hash: 5a7aec75b75c6129bc54e965e450936e4e43fa89
       body: |
