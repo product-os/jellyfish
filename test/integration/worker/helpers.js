@@ -4,6 +4,7 @@
  * Proprietary and confidential.
  */
 
+const Bluebird = require('bluebird')
 const Worker = require('../../../lib/worker')
 const helpers = require('../queue/helpers')
 
@@ -58,6 +59,11 @@ exports.worker = {
 				if (expect <= 0) {
 					return
 				}
+
+				// Don't retry synchronously, otherwise we might
+				// not give any processor space to the network
+				// part of things.
+				await Bluebird.delay(1)
 
 				await test.context.flush(session, expect)
 				return

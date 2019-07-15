@@ -48,7 +48,9 @@ exports.backend = {
 		}
 
 		test.context.backend = new Backend(
-			test.context.cache, errors, Object.assign({}, environment.database.options, {
+			test.context.cache,
+			errors,
+			Object.assign({}, environment.database.options, {
 				database: dbName
 			}))
 
