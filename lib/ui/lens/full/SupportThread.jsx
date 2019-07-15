@@ -326,6 +326,7 @@ class SupportThreadBase extends React.Component {
 							<Button
 								plain
 								mr={3}
+								data-test="support-thread__close-thread"
 								tooltip={{
 									placement: 'bottom',
 									text: 'Close this support thread'

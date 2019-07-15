@@ -243,3 +243,34 @@ ava.serial('Support thread timeline should revert to "whisper" mode after sendin
 
 	test.is(rand, messageText.trim())
 })
+
+ava.serial('Users should be able to close a support thread', async (test) => {
+	const {
+		page
+	} = context
+
+	const supportThread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'support-thread',
+			data: {
+				inbox: 'S/Paid_Support'
+			}
+		})
+	})
+
+	await page.goto(`http://localhost:${environment.ui.port}/${supportThread.id}`)
+
+	await page.waitForSelector('.column--support-thread')
+
+	await macros.waitForThenClickSelector(page, '[data-test="support-thread__close-thread"]')
+
+	// Wait for the success alert as a heuristic for the action completing
+	// successfully
+	await page.waitForSelector('[data-test="alert--success"]')
+
+	const thread = await page.evaluate((id) => {
+		return window.sdk.card.get(id)
+	}, supportThread.id)
+
+	test.is(thread.data.status, 'closed')
+})
