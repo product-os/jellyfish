@@ -1139,7 +1139,7 @@ ava('.execute() should be able to AGGREGATE based on the card timeline', async (
 		}
 	})
 
-	await test.context.flush(test.context.session, 1)
+	await test.context.flush(test.context.session, 2)
 	const messageResult1 = await test.context.queue.waitResults(
 		test.context.context, messageRequest1)
 	const messageResult2 = await test.context.queue.waitResults(

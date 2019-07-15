@@ -25,8 +25,7 @@ exports.server = {
 
 		test.context.server = await bootstrap(test.context.context)
 		test.context.tickWorker = await actionServer.tick(test.context.context, workerOptions)
-		test.context.actionWorker1 = await actionServer.worker(test.context.context, workerOptions)
-		test.context.actionWorker2 = await actionServer.worker(test.context.context, workerOptions)
+		test.context.actionWorker = await actionServer.worker(test.context.context, workerOptions)
 
 		test.context.jellyfish = test.context.server.jellyfish
 		test.context.queue = test.context.server.queue
@@ -127,8 +126,7 @@ exports.server = {
 	},
 
 	afterEach: async (test) => {
-		await test.context.actionWorker2.stop()
-		await test.context.actionWorker1.stop()
+		await test.context.actionWorker.stop()
 		await test.context.tickWorker.stop()
 		await test.context.server.close()
 	}
