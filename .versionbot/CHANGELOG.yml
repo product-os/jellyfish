@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'scripts: Add a create-card perf test script'
+      hash: f95aba72012f6d3b5df68c78ec8a9a1943333660
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 18.0.3
+  date: 2019-07-14T19:31:19.090Z
+- commits:
     - subject: 'outreach: Add an example end to end mirror test suite'
       hash: 2f23d6345dc1d6f82c749152146fab8bc3416503
       body: ''
