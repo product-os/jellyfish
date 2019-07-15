@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'test: Various test related fixes'
+      hash: 8c0155959757578abf36759dc325349f4f3c8489
+      body: |
+        From https://github.com/balena-io/jellyfish/pull/2192
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 18.0.6
+  date: 2019-07-15T16:40:50.711Z
+- commits:
     - subject: 'UI: Test that suport threads can be closed'
       hash: da268dd485dfcdb5e2568da82368d208fce6a6ac
       body: |
