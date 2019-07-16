@@ -18,31 +18,37 @@ import Icon from './Icon'
 
 const GRAVATAR_URL = 'https://www.gravatar.com/avatar/'
 
+Bluebird.config({
+	cancellation: true
+})
+
 const getGravatar = (() => {
 	const cache = {}
 
-	return async (email) => {
-		if (_.has(cache, email)) {
-			return cache[email]
-		}
+	return (email) => {
+		return Bluebird.try(async () => {
+			if (_.has(cache, email)) {
+				return cache[email]
+			}
 
-		const url = await new Bluebird((resolve) => {
-			// The query string makes gravatar return a 404 if the image is not found.
-			// Ordinarily gravatar will return a default image if the avatar isn't found
-			const avatarUrl = `${GRAVATAR_URL + md5(email.trim())}?d=404`
-			const img = new Image()
-			img.src = avatarUrl
-			img.onload = () => {
-				return resolve(avatarUrl)
-			}
-			img.onerror = () => {
-				return resolve('')
-			}
+			const url = await new Bluebird((resolve) => {
+				// The query string makes gravatar return a 404 if the image is not found.
+				// Ordinarily gravatar will return a default image if the avatar isn't found
+				const avatarUrl = `${GRAVATAR_URL + md5(email.trim())}?d=404`
+				const img = new Image()
+				img.src = avatarUrl
+				img.onload = () => {
+					return resolve(avatarUrl)
+				}
+				img.onerror = () => {
+					return resolve('')
+				}
+			})
+
+			cache[email] = url
+
+			return url
 		})
-
-		cache[email] = url
-
-		return url
 	}
 })()
 
@@ -55,6 +61,12 @@ export default class Gravatar extends React.Component {
 
 		if (this.props.email) {
 			this.load(this.props.email)
+		}
+	}
+
+	componentWillUnmount () {
+		if (this.loadPromise) {
+			this.loadPromise.cancel()
 		}
 	}
 
@@ -71,7 +83,11 @@ export default class Gravatar extends React.Component {
 	}
 
 	load (email) {
-		getGravatar(email)
+		if (this.loadPromise) {
+			this.loadPromise.cancel()
+		}
+		this.loadPromise = getGravatar(email)
+		this.loadPromise
 			.then((avatarUrl) => {
 				return this.setState({
 					avatarUrl
