@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'action-library: Implement action-maintain-contact'
+      hash: e7dc93f332cb526c189af2eda61d052cd109db80
+      body: |
+        This action is supposed to create a corresponding contact for a user if
+        it doesn't exist, or maintain the existing one.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 18.1.0
+  date: 2019-07-16T19:53:01.685Z
+- commits:
     - subject: 'server: Define slug field on contact card type'
       hash: c911b7f762a4790b69194c97045a2d2fce782d13
       body: ''
