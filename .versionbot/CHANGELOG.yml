@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'server: Define slug field on contact card type'
+      hash: c911b7f762a4790b69194c97045a2d2fce782d13
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 18.0.7
+  date: 2019-07-16T16:46:09.241Z
+- commits:
     - subject: 'test: Various test related fixes'
       hash: 8c0155959757578abf36759dc325349f4f3c8489
       body: |
