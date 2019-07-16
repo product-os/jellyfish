@@ -4,6 +4,9 @@
  * Proprietary and confidential.
  */
 
+import {
+	commaListsAnd
+} from 'common-tags'
 import copy from 'copy-to-clipboard'
 import {
 	circularDeepEqual
@@ -32,6 +35,27 @@ import {
 	ActionLink
 } from '../../shame/ActionLink'
 import Icon from '../../shame/Icon'
+
+const generateJSONPatchDescription = (payload) => {
+	const items = []
+	for (const patch of payload) {
+		switch (patch.op) {
+			case 'add':
+				items.push(`added value to path "${patch.path}"`)
+				break
+			case 'remove':
+				items.push(`removed path "${patch.path}"`)
+				break
+			case 'replace':
+				items.push(`changed value at path "${patch.path}"`)
+				break
+			default:
+				items.push(`path "${patch.path}" was modified`)
+		}
+	}
+
+	return items
+}
 
 const getTargetId = (card) => {
 	return _.get(card, [ 'data', 'target' ]) || card.id
@@ -110,6 +134,13 @@ class Update extends React.Component {
 
 		const timestamp = _.get(card, [ 'data', 'timestamp' ]) || card.created_at
 
+		let description = null
+
+		if (_.some(card.data.payload, 'op')) {
+			console.log('PAYLOAD', card.data.payload)
+			description = generateJSONPatchDescription(card.data.payload)
+		}
+
 		return (
 			<UpdateWrapper
 				{...props}
@@ -166,6 +197,14 @@ class Update extends React.Component {
 						<Icon name="level-up-alt" rotate="90" />
 
 						<Txt ml={3}><em>{card.name}</em></Txt>
+					</Flex>
+				)}
+
+				{!card.name && Boolean(description) && (
+					<Flex align="center" ml="23px">
+						<Icon name="level-up-alt" rotate="90" />
+
+						<Txt ml={3}><em>{commaListsAnd `${description}`}</em></Txt>
 					</Flex>
 				)}
 			</UpdateWrapper>
