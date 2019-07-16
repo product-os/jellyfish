@@ -21,6 +21,10 @@
         "name": {
           "type": "string"
         },
+        "slug": {
+          "type": "string",
+          "pattern": "^contact-[a-z0-9-]+$"
+        },
         "data": {
           "type": "object",
           "properties": {
