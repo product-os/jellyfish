@@ -346,9 +346,15 @@ export default class Timeline extends React.Component {
 
 		// Due to a bug in syncing, sometimes there can be duplicate cards in tail
 		const sortedTail = _.uniqBy(_.sortBy(tail, 'data.timestamp'), 'id')
+
+		// Remove non-message and non-whisper cards and update cards that don't have
+		// a "name" field. Update cards with a "name" field provide a human readable
+		// reason for the change in the "name" field, so should typically be
+		// displayed by default
 		if (messagesOnly) {
 			_.remove(sortedTail, (card) => {
-				return card.type !== 'message' && card.type !== 'whisper'
+				return (card.type === 'update' && !card.name) &&
+					(card.type !== 'message' && card.type !== 'whisper')
 			})
 		}
 
