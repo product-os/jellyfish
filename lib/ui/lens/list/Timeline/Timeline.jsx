@@ -20,6 +20,7 @@ import {
 import styled from 'styled-components'
 import uuid from 'uuid/v4'
 import Event from '../../../components/Event'
+import Update from '../../../components/Update'
 import {
 	analytics,
 	sdk
@@ -353,8 +354,10 @@ export default class Timeline extends React.Component {
 		// displayed by default
 		if (messagesOnly) {
 			_.remove(sortedTail, (card) => {
-				return (card.type === 'update' && !card.name) &&
-					(card.type !== 'message' && card.type !== 'whisper')
+				if (card.type === 'update' && Boolean(card.name)) {
+					return false
+				}
+				return card.type !== 'message' && card.type !== 'whisper'
 			})
 		}
 
@@ -427,6 +430,18 @@ export default class Timeline extends React.Component {
 							return (
 								<Box p={3}>
 									<Icon name="cog" spin /><em>{' '}Uploading file...</em>
+								</Box>
+							)
+						}
+
+						if (card.type === 'update') {
+							return (
+								<Box key={card.id}>
+									<Update
+										onCardVisible={this.handleCardVisible}
+										card={card}
+										user={this.props.user}
+									/>
 								</Box>
 							)
 						}
