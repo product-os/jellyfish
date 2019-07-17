@@ -187,6 +187,36 @@ ava.before(async (test) => {
 			})
 		}, getMirrorWaitSchema(slug))
 	}
+
+	const listResourceUntil = async (fn, id, predicate, retries = 10) => {
+		const result = await fn({
+			conversation_id: id
+		})
+
+		// eslint-disable-next-line no-underscore-dangle
+		const elements = result._results
+
+		if (predicate(elements)) {
+			return elements
+		}
+
+		if (retries <= 0) {
+			throw new Error('Condition never true')
+		}
+
+		await Bluebird.delay(1000)
+		return listResourceUntil(fn, id, predicate, retries - 1)
+	}
+
+	test.context.getFrontCommentsUntil = async (id, fn) => {
+		return listResourceUntil(
+			test.context.front.conversation.listComments, id, fn)
+	}
+
+	test.context.getFrontMessagesUntil = async (id, fn) => {
+		return listResourceUntil(
+			test.context.front.conversation.listMessages, id, fn)
+	}
 })
 
 ava.after(helpers.mirror.after)
@@ -273,7 +303,7 @@ avaTest('should re-open a closed support thread if an attached issue is closed',
 
 avaTest('should be able to reply to a moved inbound message', async (test) => {
 	const supportThread = await test.context.startSupportThread(
-		`My Issue ${uuid()}`,
+		`My Moved Issue ${uuid()}`,
 		`Foo Bar ${uuid()}`,
 		test.context.inboxes[0])
 
@@ -286,12 +316,11 @@ avaTest('should be able to reply to a moved inbound message', async (test) => {
 
 	await test.context.createMessage(supportThread,
 		test.context.getMessageSlug(), 'Message in another inbox')
-	const result = await test.context.front.conversation.listMessages({
-		conversation_id: conversationId
-	})
 
-	// eslint-disable-next-line no-underscore-dangle
-	const messages = result._results
+	const messages = await test.context.getFrontMessagesUntil(
+		conversationId, (elements) => {
+			return elements.length > 1
+		})
 
 	test.is(messages.length, 2)
 	test.is(messages[0].body, '<p>Message in another inbox</p>\n')
@@ -317,12 +346,11 @@ avaTest('should be able to reply to an inbound message', async (test) => {
 
 	await test.context.createMessage(supportThread,
 		test.context.getMessageSlug(), 'First message')
-	const result = await test.context.front.conversation.listMessages({
-		conversation_id: _.last(supportThread.data.mirrors[0].split('/'))
-	})
 
-	// eslint-disable-next-line no-underscore-dangle
-	const messages = result._results
+	const messages = await test.context.getFrontMessagesUntil(
+		_.last(supportThread.data.mirrors[0].split('/')), (elements) => {
+			return elements.length > 1
+		})
 
 	test.is(messages.length, 2)
 	test.is(messages[0].body, '<p>First message</p>\n')
@@ -342,12 +370,10 @@ avaTest('should be able to post a complex code comment', async (test) => {
 	await test.context.createComment(supportThread,
 		test.context.getWhisperSlug(), message)
 
-	const result = await test.context.front.conversation.listComments({
-		conversation_id: _.last(supportThread.data.mirrors[0].split('/'))
-	})
-
-	// eslint-disable-next-line no-underscore-dangle
-	const comments = result._results
+	const comments = await test.context.getFrontCommentsUntil(
+		_.last(supportThread.data.mirrors[0].split('/')), (elements) => {
+			return elements.length > 0
+		})
 
 	test.true(comments.length > 0)
 	test.is(comments[0].body, message)
@@ -363,12 +389,11 @@ avaTest('should be able to comment using triple backticks', async (test) => {
 
 	await test.context.createComment(supportThread,
 		test.context.getWhisperSlug(), '```Foo\nBar```')
-	const result = await test.context.front.conversation.listComments({
-		conversation_id: _.last(supportThread.data.mirrors[0].split('/'))
-	})
 
-	// eslint-disable-next-line no-underscore-dangle
-	const comments = result._results
+	const comments = await test.context.getFrontCommentsUntil(
+		_.last(supportThread.data.mirrors[0].split('/')), (elements) => {
+			return elements.length > 0
+		})
 
 	test.true(comments.length > 0)
 	test.is(comments[0].body, '```Foo\nBar```')
@@ -384,12 +409,10 @@ avaTest('should be able to comment using brackets', async (test) => {
 
 	await test.context.createComment(supportThread,
 		test.context.getWhisperSlug(), 'Hello <world> foo <bar>')
-	const result = await test.context.front.conversation.listComments({
-		conversation_id: _.last(supportThread.data.mirrors[0].split('/'))
-	})
-
-	// eslint-disable-next-line no-underscore-dangle
-	const comments = result._results
+	const comments = await test.context.getFrontCommentsUntil(
+		_.last(supportThread.data.mirrors[0].split('/')), (elements) => {
+			return elements.length > 0
+		})
 
 	test.true(comments.length > 0)
 	test.is(comments[0].body, 'Hello <world> foo <bar>')
@@ -434,12 +457,10 @@ avaTest('should be able to comment on an inbound message', async (test) => {
 
 	await test.context.createComment(supportThread,
 		test.context.getWhisperSlug(), 'First comment')
-	const result = await test.context.front.conversation.listComments({
-		conversation_id: _.last(supportThread.data.mirrors[0].split('/'))
-	})
-
-	// eslint-disable-next-line no-underscore-dangle
-	const comments = result._results
+	const comments = await test.context.getFrontCommentsUntil(
+		_.last(supportThread.data.mirrors[0].split('/')), (elements) => {
+			return elements.length > 0
+		})
 
 	test.is(comments.length, 1)
 	test.is(comments[0].body, 'First comment')
