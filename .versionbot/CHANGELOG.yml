@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'outreach: Don''t create prospects if email domain is excluded'
+      hash: 2fdaffb7167f639c78f472a28a8a885e78a6e72f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 18.1.1
+  date: 2019-07-17T13:21:58.264Z
+- commits:
     - subject: 'action-library: Implement action-maintain-contact'
       hash: e7dc93f332cb526c189af2eda61d052cd109db80
       body: |
