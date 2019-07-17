@@ -567,7 +567,7 @@ ava('should throw if actor is not associated with service and there is no defaul
 				return data[object.id]
 			}
 		}
-	}), errors.SyncOAuthError)
+	}), errors.SyncOAuthNoUserError)
 
 	nock.cleanAll()
 })
@@ -697,7 +697,7 @@ ava('should throw if neither the actor nor the default user are associated with 
 				return data[object.id]
 			}
 		}
-	}), errors.SyncOAuthError)
+	}), errors.SyncOAuthNoUserError)
 
 	nock.cleanAll()
 })
