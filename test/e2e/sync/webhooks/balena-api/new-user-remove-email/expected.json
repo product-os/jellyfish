@@ -9,7 +9,6 @@
     "requires": [],
     "capabilities": [],
     "data": {
-      "email": "new@change.me",
       "roles": [ "user-community" ],
       "mirrors": [
         "https://api.balena-cloud.com/v5/user(999)"
@@ -81,9 +80,8 @@
             "value": "2019-04-17T15:25:45.231Z"
           },
           {
-            "op": "replace",
-            "path": "/data/email",
-            "value": "new@change.me"
+            "op": "remove",
+            "path": "/data/email"
           }
         ]
       }

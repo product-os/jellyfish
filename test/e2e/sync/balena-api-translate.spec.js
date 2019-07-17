@@ -377,7 +377,6 @@ avaTest('should change the remote username to an existing user while removing ex
 	test.false(janeDoe.active)
 	test.deepEqual(janeDoe.data, {
 		translateDate: '2019-04-17T15:26:49.231Z',
-		email: 'new@change.me',
 		roles: [ 'user-community' ],
 		origin: johnDoe.data.origin,
 		mirrors: [],
@@ -498,7 +497,6 @@ avaTest('should change the remote username to an existing user and add a name', 
 
 	test.false(janeDoe.active)
 	test.deepEqual(janeDoe.data, {
-		email: 'new@change.me',
 		translateDate: '2019-04-17T15:26:49.231Z',
 		roles: [ 'user-community' ],
 		origin: johnDoe.data.origin,
@@ -619,7 +617,6 @@ avaTest('should change the remote username to an existing user while removing th
 	test.false(janeDoe.active)
 	test.deepEqual(janeDoe.data, {
 		translateDate: '2019-04-17T15:26:49.231Z',
-		email: 'new@change.me',
 		roles: [ 'user-community' ],
 		origin: johnDoe.data.origin,
 		mirrors: []
@@ -1037,7 +1034,6 @@ avaTest('should change the remote username while filling in the company', async 
 		test.context.context, test.context.session, 'user-johndoe123')
 
 	test.deepEqual(oldUsername.data, {
-		email: 'new@change.me',
 		translateDate: '2019-04-17T15:26:45.231Z',
 		roles: [ 'user-community' ],
 		origin: oldUsername.data.origin,
@@ -1119,7 +1115,6 @@ avaTest('should change the remote username while filling in the first name', asy
 		test.context.context, test.context.session, 'user-johndoe123')
 
 	test.deepEqual(oldUsername.data, {
-		email: 'new@change.me',
 		translateDate: '2019-04-17T15:26:45.231Z',
 		roles: [ 'user-community' ],
 		origin: oldUsername.data.origin,
@@ -1203,7 +1198,6 @@ avaTest('should change the remote username while filling in the last name', asyn
 		test.context.context, test.context.session, 'user-johndoe123')
 
 	test.deepEqual(oldUsername.data, {
-		email: 'new@change.me',
 		translateDate: '2019-04-17T15:26:45.231Z',
 		roles: [ 'user-community' ],
 		origin: oldUsername.data.origin,
@@ -1286,7 +1280,6 @@ avaTest('should change the remote username while not changing anything else', as
 		test.context.context, test.context.session, 'user-johndoe123')
 
 	test.deepEqual(oldUsername.data, {
-		email: 'new@change.me',
 		translateDate: '2019-04-17T15:26:45.231Z',
 		roles: [ 'user-community' ],
 		origin: oldUsername.data.origin,

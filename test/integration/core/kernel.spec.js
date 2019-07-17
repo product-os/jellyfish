@@ -494,7 +494,7 @@ ava('.patchCardBySlug() should not break the type schema', async (test) => {
 		test.context.context, test.context.kernel.sessions.admin, card.slug, [
 			{
 				op: 'remove',
-				path: '/data/email'
+				path: '/data/roles'
 			}
 		], {
 			type: card.type
