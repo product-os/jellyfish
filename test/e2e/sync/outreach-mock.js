@@ -262,6 +262,22 @@ exports.reset = () => {
 	DATA = []
 }
 
+exports.getProspectByEmail = (email) => {
+	const results = _.filter(DATA, (entry) => {
+		return entry.type === 'prospect' && entry.attributes.emails.includes(email)
+	})
+
+	return {
+		code: 200,
+		response: {
+			data: results,
+			meta: {
+				count: results.length
+			}
+		}
+	}
+}
+
 exports.postProspect = (body) => {
 	const date = new Date().toISOString()
 	const index = DATA.length

@@ -5,6 +5,7 @@
  */
 
 const ava = require('ava')
+const querystring = require('querystring')
 const Bluebird = require('bluebird')
 const request = require('request')
 const _ = require('lodash')
@@ -95,6 +96,19 @@ ava.beforeEach(async (test) => {
 	outreachMock.reset()
 
 	await nock('https://api.outreach.io', NOCK_OPTS)
+		.persist()
+		.get('/api/v2/prospects')
+		.query((object) => {
+			return object.filter && object.filter.emails
+		})
+		.reply((uri, body, callback) => {
+			const params = querystring.parse(_.last(uri.split('?')))
+			const result = outreachMock.getProspectByEmail(params['filter[emails]'])
+			return callback(null, [ result.code, result.response ])
+		})
+
+	await nock('https://api.outreach.io', NOCK_OPTS)
+		.persist()
 		.post('/api/v2/prospects')
 		.reply((uri, body, callback) => {
 			const result = outreachMock.postProspect(body)
@@ -102,6 +116,7 @@ ava.beforeEach(async (test) => {
 		})
 
 	await nock('https://api.outreach.io', NOCK_OPTS)
+		.persist()
 		.patch(/^\/api\/v2\/prospects\/\d+$/)
 		.reply((uri, body, callback) => {
 			const id = _.parseInt(_.last(uri.split('/')))
@@ -114,6 +129,7 @@ ava.beforeEach(async (test) => {
 		})
 
 	await nock('https://api.outreach.io', NOCK_OPTS)
+		.persist()
 		.get(/^\/api\/v2\/prospects\/\d+$/)
 		.reply((uri, body, callback) => {
 			const result = outreachMock.getProspect(
@@ -130,6 +146,65 @@ ava.afterEach(async (test) => {
 // Skip all tests if there is no Outreach app id and secret
 const avaTest = _.some(_.values(TOKEN), _.isEmpty) ? ava.serial.skip : ava.serial
 
+avaTest('should link a use with an existing prospect', async (test) => {
+	const username = `test-${uuid()}`
+
+	const prospectResult = await outreachMock.postProspect({
+		data: {
+			type: 'prospect',
+			attributes: {
+				emails: [ `${username}@test.io` ],
+				firstName: 'John',
+				lastName: 'Doe'
+			}
+		}
+	})
+
+	test.is(prospectResult.code, 201)
+
+	const createResult = await test.context.sdk.card.create({
+		slug: `user-${username}`,
+		type: 'user',
+		data: {
+			email: `${username}@test.io`,
+			hash: '$2b$12$tnb9eMnlGpEXld1IYmIlDOud.v4vSUbnuEsjFQz3d/24sqA6XmaBq',
+			roles: [ 'user-community' ],
+			profile: {
+				city: 'Oxford',
+				country: 'United Kingdom'
+			}
+		}
+	})
+
+	const user = await test.context.sdk.card.get(createResult.id)
+
+	test.deepEqual(user.data, {
+		email: `${username}@test.io`,
+		hash: '$2b$12$tnb9eMnlGpEXld1IYmIlDOud.v4vSUbnuEsjFQz3d/24sqA6XmaBq',
+		mirrors: user.data.mirrors,
+		profile: {
+			city: 'Oxford',
+			country: 'United Kingdom',
+			name: {
+				first: 'John',
+				last: 'Doe'
+			}
+		},
+		roles: [ 'user-community' ]
+	})
+
+	test.is(user.data.mirrors.length, 1)
+	test.true(user.data.mirrors[0].startsWith('https://api.outreach.io/api/v2/prospects/'))
+	const prospectId = _.parseInt(_.last(user.data.mirrors[0].split('/')))
+	const prospect = await test.context.getProspect(prospectId)
+
+	test.deepEqual(prospect.data.attributes.emails, [ `${username}@test.io` ])
+	test.is(prospect.data.attributes.firstName, 'John')
+	test.is(prospect.data.attributes.lastName, 'Doe')
+	test.is(prospect.data.attributes.addressCity, 'Oxford')
+	test.is(prospect.data.attributes.addressCountry, 'United Kingdom')
+})
+
 avaTest('should create a simple user', async (test) => {
 	const username = `test-${uuid()}`
 
@@ -137,7 +212,7 @@ avaTest('should create a simple user', async (test) => {
 		slug: `user-${username}`,
 		type: 'user',
 		data: {
-			email: 'johndoe@test.io',
+			email: `${username}@test.io`,
 			hash: '$2b$12$tnb9eMnlGpEXld1IYmIlDOud.v4vSUbnuEsjFQz3d/24sqA6XmaBq',
 			roles: [ 'user-community' ]
 		}
@@ -146,15 +221,18 @@ avaTest('should create a simple user', async (test) => {
 	const user = await test.context.sdk.card.get(createResult.id)
 
 	test.deepEqual(user.data, {
-		email: 'johndoe@test.io',
+		email: `${username}@test.io`,
 		hash: '$2b$12$tnb9eMnlGpEXld1IYmIlDOud.v4vSUbnuEsjFQz3d/24sqA6XmaBq',
-		mirrors: [ 'https://api.outreach.io/api/v2/prospects/1' ],
+		mirrors: user.data.mirrors,
 		roles: [ 'user-community' ]
 	})
 
-	const prospect = await test.context.getProspect(1)
+	test.is(user.data.mirrors.length, 1)
+	test.true(user.data.mirrors[0].startsWith('https://api.outreach.io/api/v2/prospects/'))
+	const prospectId = _.parseInt(_.last(user.data.mirrors[0].split('/')))
+	const prospect = await test.context.getProspect(prospectId)
 
-	test.deepEqual(prospect.data.attributes.emails, [ 'johndoe@test.io' ])
+	test.deepEqual(prospect.data.attributes.emails, [ `${username}@test.io` ])
 	test.is(prospect.data.attributes.name, username)
 	test.is(prospect.data.attributes.nickname, username)
 })
@@ -166,7 +244,7 @@ avaTest('should not create a prospect with an excluded email address', async (te
 		slug: `user-${username}`,
 		type: 'user',
 		data: {
-			email: 'johndoe@balena.io',
+			email: `${username}@balena.io`,
 			hash: '$2b$12$tnb9eMnlGpEXld1IYmIlDOud.v4vSUbnuEsjFQz3d/24sqA6XmaBq',
 			roles: [ 'user-community' ]
 		}
@@ -175,11 +253,19 @@ avaTest('should not create a prospect with an excluded email address', async (te
 	const user = await test.context.sdk.card.get(createResult.id)
 
 	test.deepEqual(user.data, {
-		email: 'johndoe@balena.io',
+		email: `${username}@balena.io`,
 		hash: '$2b$12$tnb9eMnlGpEXld1IYmIlDOud.v4vSUbnuEsjFQz3d/24sqA6XmaBq',
 		roles: [ 'user-community' ]
 	})
 
-	const prospect = await test.context.getProspect(1)
-	test.falsy(prospect)
+	const results = await outreachMock.getProspectByEmail(`${username}@balena.io`)
+	test.deepEqual(results, {
+		code: 200,
+		response: {
+			data: [],
+			meta: {
+				count: 0
+			}
+		}
+	})
 })
