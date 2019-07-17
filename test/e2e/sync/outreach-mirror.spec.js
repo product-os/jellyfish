@@ -146,6 +146,62 @@ ava.afterEach(async (test) => {
 // Skip all tests if there is no Outreach app id and secret
 const avaTest = _.some(_.values(TOKEN), _.isEmpty) ? ava.serial.skip : ava.serial
 
+avaTest('should link a use with an existing prospect', async (test) => {
+	const username = `test-${uuid()}`
+
+	const prospectResult = await outreachMock.postProspect({
+		data: {
+			type: 'prospect',
+			attributes: {
+				emails: [ 'johndoe@test.io' ],
+				firstName: 'John',
+				lastName: 'Doe'
+			}
+		}
+	})
+
+	test.is(prospectResult.code, 201)
+
+	const createResult = await test.context.sdk.card.create({
+		slug: `user-${username}`,
+		type: 'user',
+		data: {
+			email: 'johndoe@test.io',
+			hash: '$2b$12$tnb9eMnlGpEXld1IYmIlDOud.v4vSUbnuEsjFQz3d/24sqA6XmaBq',
+			roles: [ 'user-community' ],
+			profile: {
+				city: 'Oxford',
+				country: 'United Kingdom'
+			}
+		}
+	})
+
+	const user = await test.context.sdk.card.get(createResult.id)
+
+	test.deepEqual(user.data, {
+		email: 'johndoe@test.io',
+		hash: '$2b$12$tnb9eMnlGpEXld1IYmIlDOud.v4vSUbnuEsjFQz3d/24sqA6XmaBq',
+		mirrors: [ 'https://api.outreach.io/api/v2/prospects/1' ],
+		profile: {
+			city: 'Oxford',
+			country: 'United Kingdom',
+			name: {
+				first: 'John',
+				last: 'Doe'
+			}
+		},
+		roles: [ 'user-community' ]
+	})
+
+	const prospect = await test.context.getProspect(1)
+
+	test.deepEqual(prospect.data.attributes.emails, [ 'johndoe@test.io' ])
+	test.is(prospect.data.attributes.firstName, 'John')
+	test.is(prospect.data.attributes.lastName, 'Doe')
+	test.is(prospect.data.attributes.addressCity, 'Oxford')
+	test.is(prospect.data.attributes.addressCountry, 'United Kingdom')
+})
+
 avaTest('should create a simple user', async (test) => {
 	const username = `test-${uuid()}`
 
