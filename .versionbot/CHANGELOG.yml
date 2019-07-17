@@ -1,6 +1,6 @@
 - commits:
-    - subject: 'sync: Use a different error to signal that there is no linked user'
-      hash: d96b011e82c31f8dcc546434143238b7f38f5331
+    - subject: 'kubefish: Better container autocompletion and new explore commands'
+      hash: 2a52204a45f9f3ac80c12bc29a077c1685e2c57d
       body: ''
       footer:
         Change-type: patch
@@ -9,7 +9,7 @@
         signed-off-by: Juan Cruz Viotti <juan@balena.io>
       author: Juan Cruz Viotti
   version: 18.2.1
-  date: 2019-07-17T18:23:58.504Z
+  date: 2019-07-17T19:02:25.392Z
 - commits:
     - subject: 'core/sync: Get rid of email stubs and make emails optional'
       hash: ec432afa405c92020a30581116c721779f537438

@@ -7,7 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 # v18.2.1
 ## (2019-07-17)
 
-* sync: Use a different error to signal that there is no linked user [Juan Cruz Viotti]
+* kubefish: Better container autocompletion and new explore commands [Juan Cruz Viotti]
 
 # v18.2.0
 ## (2019-07-17)
