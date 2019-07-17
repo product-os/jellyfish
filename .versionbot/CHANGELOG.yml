@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'outreach: Test what happens if creating a prospect without emails'
+      hash: 69248fce258d3ec0e7bcd8932afd1023f1fcde06
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 18.1.2
+  date: 2019-07-17T13:49:39.470Z
+- commits:
     - subject: 'outreach: Don''t create prospects if email domain is excluded'
       hash: 2fdaffb7167f639c78f472a28a8a885e78a6e72f
       body: ''
