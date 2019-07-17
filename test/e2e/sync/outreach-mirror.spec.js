@@ -153,7 +153,7 @@ avaTest('should link a use with an existing prospect', async (test) => {
 		data: {
 			type: 'prospect',
 			attributes: {
-				emails: [ 'johndoe@test.io' ],
+				emails: [ `${username}@test.io` ],
 				firstName: 'John',
 				lastName: 'Doe'
 			}
@@ -166,7 +166,7 @@ avaTest('should link a use with an existing prospect', async (test) => {
 		slug: `user-${username}`,
 		type: 'user',
 		data: {
-			email: 'johndoe@test.io',
+			email: `${username}@test.io`,
 			hash: '$2b$12$tnb9eMnlGpEXld1IYmIlDOud.v4vSUbnuEsjFQz3d/24sqA6XmaBq',
 			roles: [ 'user-community' ],
 			profile: {
@@ -179,9 +179,9 @@ avaTest('should link a use with an existing prospect', async (test) => {
 	const user = await test.context.sdk.card.get(createResult.id)
 
 	test.deepEqual(user.data, {
-		email: 'johndoe@test.io',
+		email: `${username}@test.io`,
 		hash: '$2b$12$tnb9eMnlGpEXld1IYmIlDOud.v4vSUbnuEsjFQz3d/24sqA6XmaBq',
-		mirrors: [ 'https://api.outreach.io/api/v2/prospects/1' ],
+		mirrors: user.data.mirrors,
 		profile: {
 			city: 'Oxford',
 			country: 'United Kingdom',
@@ -193,9 +193,12 @@ avaTest('should link a use with an existing prospect', async (test) => {
 		roles: [ 'user-community' ]
 	})
 
-	const prospect = await test.context.getProspect(1)
+	test.is(user.data.mirrors.length, 1)
+	test.true(user.data.mirrors[0].startsWith('https://api.outreach.io/api/v2/prospects/'))
+	const prospectId = _.parseInt(_.last(user.data.mirrors[0].split('/')))
+	const prospect = await test.context.getProspect(prospectId)
 
-	test.deepEqual(prospect.data.attributes.emails, [ 'johndoe@test.io' ])
+	test.deepEqual(prospect.data.attributes.emails, [ `${username}@test.io` ])
 	test.is(prospect.data.attributes.firstName, 'John')
 	test.is(prospect.data.attributes.lastName, 'Doe')
 	test.is(prospect.data.attributes.addressCity, 'Oxford')
@@ -209,7 +212,7 @@ avaTest('should create a simple user', async (test) => {
 		slug: `user-${username}`,
 		type: 'user',
 		data: {
-			email: 'johndoe@test.io',
+			email: `${username}@test.io`,
 			hash: '$2b$12$tnb9eMnlGpEXld1IYmIlDOud.v4vSUbnuEsjFQz3d/24sqA6XmaBq',
 			roles: [ 'user-community' ]
 		}
@@ -218,15 +221,18 @@ avaTest('should create a simple user', async (test) => {
 	const user = await test.context.sdk.card.get(createResult.id)
 
 	test.deepEqual(user.data, {
-		email: 'johndoe@test.io',
+		email: `${username}@test.io`,
 		hash: '$2b$12$tnb9eMnlGpEXld1IYmIlDOud.v4vSUbnuEsjFQz3d/24sqA6XmaBq',
-		mirrors: [ 'https://api.outreach.io/api/v2/prospects/1' ],
+		mirrors: user.data.mirrors,
 		roles: [ 'user-community' ]
 	})
 
-	const prospect = await test.context.getProspect(1)
+	test.is(user.data.mirrors.length, 1)
+	test.true(user.data.mirrors[0].startsWith('https://api.outreach.io/api/v2/prospects/'))
+	const prospectId = _.parseInt(_.last(user.data.mirrors[0].split('/')))
+	const prospect = await test.context.getProspect(prospectId)
 
-	test.deepEqual(prospect.data.attributes.emails, [ 'johndoe@test.io' ])
+	test.deepEqual(prospect.data.attributes.emails, [ `${username}@test.io` ])
 	test.is(prospect.data.attributes.name, username)
 	test.is(prospect.data.attributes.nickname, username)
 })
@@ -238,7 +244,7 @@ avaTest('should not create a prospect with an excluded email address', async (te
 		slug: `user-${username}`,
 		type: 'user',
 		data: {
-			email: 'johndoe@balena.io',
+			email: `${username}@balena.io`,
 			hash: '$2b$12$tnb9eMnlGpEXld1IYmIlDOud.v4vSUbnuEsjFQz3d/24sqA6XmaBq',
 			roles: [ 'user-community' ]
 		}
@@ -247,12 +253,12 @@ avaTest('should not create a prospect with an excluded email address', async (te
 	const user = await test.context.sdk.card.get(createResult.id)
 
 	test.deepEqual(user.data, {
-		email: 'johndoe@balena.io',
+		email: `${username}@balena.io`,
 		hash: '$2b$12$tnb9eMnlGpEXld1IYmIlDOud.v4vSUbnuEsjFQz3d/24sqA6XmaBq',
 		roles: [ 'user-community' ]
 	})
 
-	const results = await outreachMock.getProspectByEmail('johndoe@balena.io')
+	const results = await outreachMock.getProspectByEmail(`${username}@balena.io`)
 	test.deepEqual(results, {
 		code: 200,
 		response: {
@@ -262,7 +268,4 @@ avaTest('should not create a prospect with an excluded email address', async (te
 			}
 		}
 	})
-
-	const prospect = await test.context.getProspect(1)
-	test.falsy(prospect)
 })
