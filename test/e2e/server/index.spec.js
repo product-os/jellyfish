@@ -527,14 +527,14 @@ ava.serial('the guest user should not be able to change other users passwords', 
 
 	const error = await test.throwsAsync(sdk.card.update(
 		targetUser.id,
-		{
-			type: 'user',
-			data: {
-				password: {
-					hash: '6dafdadfffffffaaaaa'
-				}
+		targetUser.type,
+		[
+			{
+				op: 'replace',
+				path: '/data/hash',
+				value: '6dafdadfffffffaaaaa'
 			}
-		}
+		]
 	))
 
 	test.is(error.name, 'JellyfishNoElement')
@@ -555,14 +555,14 @@ ava.serial('users with the "user-community" role should not be able to change ot
 
 	const error = await test.throwsAsync(sdk.card.update(
 		targetUser.id,
-		{
-			type: 'user',
-			data: {
-				password: {
-					hash: '6dafdadfffffffaaaaa'
-				}
+		targetUser.type,
+		[
+			{
+				op: 'replace',
+				path: '/data/hash',
+				value: '6dafdadfffffffaaaaa'
 			}
-		}
+		]
 	))
 
 	test.is(error.name, 'JellyfishSchemaMismatch')

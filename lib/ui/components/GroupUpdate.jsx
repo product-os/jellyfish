@@ -21,6 +21,9 @@ import {
 	analytics,
 	sdk
 } from '../core'
+import {
+	patchPath
+} from '../services/helpers'
 
 const DELIMITER = '___'
 
@@ -48,22 +51,21 @@ export default class GroupUpdate extends React.Component {
 			}
 			const flattenedKey = _.keys(this.state.updateData).shift()
 			const keys = _.trimStart(flattenedKey, DELIMITER).split(DELIMITER)
-			const update = {}
-			_.set(update, keys, this.state.updateData[flattenedKey])
+			const value = this.state.updateData[flattenedKey]
 			this.setState({
 				processing: true
 			})
 			const length = this.props.cards.length
 			let processed = 0
-			Bluebird.map(this.props.cards, ({
-				id, type
-			}) => {
-				return sdk.card.update(id, update)
+			Bluebird.map(this.props.cards, (card) => {
+				const patch = patchPath(card, keys, value)
+
+				return sdk.card.update(card.id, card.type, patch)
 					.then(() => {
 						analytics.track('element.update', {
 							element: {
-								id,
-								type
+								id: card.id,
+								type: card.type
 							}
 						})
 						processed++

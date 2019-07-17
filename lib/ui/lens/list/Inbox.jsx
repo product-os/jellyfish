@@ -29,6 +29,9 @@ import {
 	sdk
 } from '../../core'
 import {
+	patchPath
+} from '../../services/helpers'
+import {
 	ActionLink
 } from '../../shame/ActionLink'
 import Icon from '../../shame/Icon'
@@ -72,11 +75,9 @@ class Inbox extends React.Component {
 				const readBy = _.get(card, [ 'data', 'readBy' ], [])
 
 				if (!_.includes(readBy, userSlug)) {
-					readBy.push(userSlug)
+					const patch = patchPath(card, [ 'data', 'readBy' ], [ ...readBy, userSlug ])
 
-					card.data.readBy = readBy
-
-					return sdk.card.update(card.id, card)
+					return sdk.card.update(card.id, card.type, patch)
 						.catch((error) => {
 							console.error(error)
 						})

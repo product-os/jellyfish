@@ -19,7 +19,6 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return bindActionCreators({
-		saveSubscription: actionCreators.saveSubscription,
 		setDefault: actionCreators.setDefault
 	}, dispatch)
 }

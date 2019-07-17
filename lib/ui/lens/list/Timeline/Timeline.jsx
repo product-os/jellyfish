@@ -243,11 +243,9 @@ export default class Timeline extends React.Component {
 				const readBy = _.get(card, [ 'data', 'readBy' ], [])
 
 				if (!_.includes(readBy, userSlug)) {
-					readBy.push(userSlug)
+					const patch = helpers.patchPath(card, [ 'data', 'readBy' ], [ ...readBy, userSlug ])
 
-					card.data.readBy = readBy
-
-					sdk.card.update(card.id, card)
+					sdk.card.update(card.id, card.type, patch)
 						.catch((error) => {
 							console.error(error)
 						})
