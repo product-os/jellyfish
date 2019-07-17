@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'core/sync: Get rid of email stubs and make emails optional'
+      hash: ec432afa405c92020a30581116c721779f537438
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 18.2.0
+  date: 2019-07-17T16:17:52.907Z
+- commits:
     - subject: 'outreach: Test what happens if creating a prospect without emails'
       hash: 69248fce258d3ec0e7bcd8932afd1023f1fcde06
       body: ''
