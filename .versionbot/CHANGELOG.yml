@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'sync: Use a different error to signal that there is no linked user'
+      hash: d96b011e82c31f8dcc546434143238b7f38f5331
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 18.2.1
+  date: 2019-07-17T18:23:58.504Z
+- commits:
     - subject: 'core/sync: Get rid of email stubs and make emails optional'
       hash: ec432afa405c92020a30581116c721779f537438
       body: ''
