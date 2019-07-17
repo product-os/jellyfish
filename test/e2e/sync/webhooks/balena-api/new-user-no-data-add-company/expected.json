@@ -9,7 +9,6 @@
     "requires": [],
     "capabilities": [],
     "data": {
-      "email": "new@change.me",
       "roles": [ "user-community" ],
       "mirrors": [
         "https://api.balena-cloud.com/v5/user(999)"
@@ -41,7 +40,6 @@
           "requires": [],
           "capabilities": [],
           "data": {
-            "email": "new@change.me",
             "roles": [ "user-community" ],
             "mirrors": [
               "https://api.balena-cloud.com/v5/user(999)"
