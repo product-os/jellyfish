@@ -5,6 +5,7 @@
  */
 
 const ava = require('ava')
+const querystring = require('querystring')
 const Bluebird = require('bluebird')
 const request = require('request')
 const _ = require('lodash')
@@ -95,6 +96,19 @@ ava.beforeEach(async (test) => {
 	outreachMock.reset()
 
 	await nock('https://api.outreach.io', NOCK_OPTS)
+		.persist()
+		.get('/api/v2/prospects')
+		.query((object) => {
+			return object.filter && object.filter.emails
+		})
+		.reply((uri, body, callback) => {
+			const params = querystring.parse(_.last(uri.split('?')))
+			const result = outreachMock.getProspectByEmail(params['filter[emails]'])
+			return callback(null, [ result.code, result.response ])
+		})
+
+	await nock('https://api.outreach.io', NOCK_OPTS)
+		.persist()
 		.post('/api/v2/prospects')
 		.reply((uri, body, callback) => {
 			const result = outreachMock.postProspect(body)
@@ -102,6 +116,7 @@ ava.beforeEach(async (test) => {
 		})
 
 	await nock('https://api.outreach.io', NOCK_OPTS)
+		.persist()
 		.patch(/^\/api\/v2\/prospects\/\d+$/)
 		.reply((uri, body, callback) => {
 			const id = _.parseInt(_.last(uri.split('/')))
@@ -114,6 +129,7 @@ ava.beforeEach(async (test) => {
 		})
 
 	await nock('https://api.outreach.io', NOCK_OPTS)
+		.persist()
 		.get(/^\/api\/v2\/prospects\/\d+$/)
 		.reply((uri, body, callback) => {
 			const result = outreachMock.getProspect(
@@ -178,6 +194,17 @@ avaTest('should not create a prospect with an excluded email address', async (te
 		email: 'johndoe@balena.io',
 		hash: '$2b$12$tnb9eMnlGpEXld1IYmIlDOud.v4vSUbnuEsjFQz3d/24sqA6XmaBq',
 		roles: [ 'user-community' ]
+	})
+
+	const results = await outreachMock.getProspectByEmail('johndoe@balena.io')
+	test.deepEqual(results, {
+		code: 200,
+		response: {
+			data: [],
+			meta: {
+				count: 0
+			}
+		}
 	})
 
 	const prospect = await test.context.getProspect(1)
