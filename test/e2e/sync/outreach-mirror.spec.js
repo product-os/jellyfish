@@ -92,6 +92,8 @@ ava.beforeEach(async (test) => {
 	nock.disableNetConnect()
 	nock.enableNetConnect('localhost')
 
+	outreachMock.reset()
+
 	await nock('https://api.outreach.io', NOCK_OPTS)
 		.post('/api/v2/prospects')
 		.reply((uri, body, callback) => {
@@ -135,6 +137,35 @@ avaTest('should create a simple user', async (test) => {
 		slug: `user-${username}`,
 		type: 'user',
 		data: {
+			email: 'johndoe@test.io',
+			hash: '$2b$12$tnb9eMnlGpEXld1IYmIlDOud.v4vSUbnuEsjFQz3d/24sqA6XmaBq',
+			roles: [ 'user-community' ]
+		}
+	})
+
+	const user = await test.context.sdk.card.get(createResult.id)
+
+	test.deepEqual(user.data, {
+		email: 'johndoe@test.io',
+		hash: '$2b$12$tnb9eMnlGpEXld1IYmIlDOud.v4vSUbnuEsjFQz3d/24sqA6XmaBq',
+		mirrors: [ 'https://api.outreach.io/api/v2/prospects/1' ],
+		roles: [ 'user-community' ]
+	})
+
+	const prospect = await test.context.getProspect(1)
+
+	test.deepEqual(prospect.data.attributes.emails, [ 'johndoe@test.io' ])
+	test.is(prospect.data.attributes.name, username)
+	test.is(prospect.data.attributes.nickname, username)
+})
+
+avaTest('should not create a prospect with an excluded email address', async (test) => {
+	const username = `test-${uuid()}`
+
+	const createResult = await test.context.sdk.card.create({
+		slug: `user-${username}`,
+		type: 'user',
+		data: {
 			email: 'johndoe@balena.io',
 			hash: '$2b$12$tnb9eMnlGpEXld1IYmIlDOud.v4vSUbnuEsjFQz3d/24sqA6XmaBq',
 			roles: [ 'user-community' ]
@@ -146,13 +177,9 @@ avaTest('should create a simple user', async (test) => {
 	test.deepEqual(user.data, {
 		email: 'johndoe@balena.io',
 		hash: '$2b$12$tnb9eMnlGpEXld1IYmIlDOud.v4vSUbnuEsjFQz3d/24sqA6XmaBq',
-		mirrors: [ 'https://api.outreach.io/api/v2/prospects/1' ],
 		roles: [ 'user-community' ]
 	})
 
 	const prospect = await test.context.getProspect(1)
-
-	test.deepEqual(prospect.data.attributes.emails, [ 'johndoe@balena.io' ])
-	test.is(prospect.data.attributes.name, username)
-	test.is(prospect.data.attributes.nickname, username)
+	test.falsy(prospect)
 })

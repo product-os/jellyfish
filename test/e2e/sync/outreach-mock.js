@@ -6,7 +6,7 @@
 
 const _ = require('lodash')
 
-const DATA = []
+let DATA = []
 const CREATOR_ID = 9999
 
 const DEFAULT_ATTRIBUTES = {
@@ -258,6 +258,10 @@ const getRelationships = (id) => {
 	}
 }
 
+exports.reset = () => {
+	DATA = []
+}
+
 exports.postProspect = (body) => {
 	const date = new Date().toISOString()
 	const index = DATA.length
@@ -265,6 +269,26 @@ exports.postProspect = (body) => {
 
 	body.data.attributes.name = body.data.attributes.name ||
 		body.data.attributes.nickname
+
+	if (_.some(body.data.attributes.emails, (email) => {
+		return /@balena\.io$/.test(email)
+	})) {
+		return {
+			code: 422,
+			response: {
+				errors: [
+					{
+						id: 'validationError',
+						source: {
+							pointer: '/data'
+						},
+						title: 'Validation Error',
+						detail: 'Contacts contact is using an excluded email address.'
+					}
+				]
+			}
+		}
+	}
 
 	DATA[index] = {
 		type: 'prospect',
