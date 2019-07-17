@@ -1,4 +1,43 @@
 - commits:
+    - subject: 'outreach: Randomize mirror tests data'
+      hash: e2bb5ccd9e1a7c6bdf17c3135b99266a2d65f7e7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'outreach: Link users to existing prospects'
+      hash: 0372e0049e779ee075fc2f05fadd9dcac54cee66
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'outreach: Add support for getting prospects by email in mock'
+      hash: 199d9f2270dd288971e63cab8a0c54b31043d85f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'kubefish: Better container autocompletion and new explore commands'
+      hash: 2a52204a45f9f3ac80c12bc29a077c1685e2c57d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 18.2.2
+  date: 2019-07-17T19:10:02.110Z
+- commits:
     - subject: 'kubefish: Better container autocompletion and new explore commands'
       hash: 2a52204a45f9f3ac80c12bc29a077c1685e2c57d
       body: ''
