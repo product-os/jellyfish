@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'outreach: Sync contacts and not users'
+      hash: 3f67471876ef0f65a2f1738f666c86db9a68b625
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 18.4.0
+  date: 2019-07-18T13:23:59.408Z
+- commits:
     - subject: 'outreach: Remove unnecessary conditional'
       hash: 9f1f2ce8c41205622843198c75c5de37d020a949
       body: ''
