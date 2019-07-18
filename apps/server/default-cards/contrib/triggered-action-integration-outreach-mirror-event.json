@@ -13,7 +13,7 @@
       "properties": {
         "type": {
           "type": "string",
-          "const": "user"
+          "const": "contact"
         }
       }
     },
