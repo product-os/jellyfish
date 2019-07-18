@@ -19,7 +19,7 @@
           }
         },
         "name": {
-          "type": "string"
+          "type": [ "string", "null" ]
         },
         "slug": {
           "type": "string",
@@ -64,7 +64,6 @@
         }
       },
       "required": [
-        "name",
         "data"
       ]
     },
