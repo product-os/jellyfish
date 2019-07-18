@@ -1,4 +1,26 @@
 - commits:
+    - subject: 'UI: Update to use new JSON patch syntax for updates'
+      hash: eb1b6226077edcef663a648a59b949c5167abb48
+      body: ''
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'action-library: Remove the action-upsert-card action'
+      hash: bf62c29ca874c260ef12234c48ab925baf439a5f
+      body: |
+        Clients are expected to move to `action-update-card` and JSON Patch.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 19.0.0
+  date: 2019-07-18T15:38:02.410Z
+- commits:
     - subject: 'UI: Add rudimentary descriptions to updates'
       hash: 3d70d067596e24f82397e8fc0596a5e3230d7ec4
       body: ''
