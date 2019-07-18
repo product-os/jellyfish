@@ -121,7 +121,7 @@ ava('should be able to refresh an expired OAuth token and retry if needed', asyn
 				info: _.noop,
 				warn: _.noop
 			},
-			getElementById: async (type, id) => {
+			getElementById: async (id) => {
 				return data[id]
 			},
 			upsertElement: async (type, object, options) => {
@@ -249,12 +249,12 @@ ava('should be able to refresh an expired OAuth token and retry if needed using 
 				info: _.noop,
 				warn: _.noop
 			},
-			getElementBySlug: async (type, slug) => {
+			getElementBySlug: async (slug) => {
 				return _.find(_.values(data), {
 					slug
 				})
 			},
-			getElementById: async (type, id) => {
+			getElementById: async (id) => {
 				return data[id]
 			},
 			upsertElement: async (type, object, options) => {
@@ -355,7 +355,7 @@ ava('should not refresh an OAuth token if not needed', async (test) => {
 				info: _.noop,
 				warn: _.noop
 			},
-			getElementById: async (type, id) => {
+			getElementById: async (id) => {
 				return data[id]
 			},
 			upsertElement: async (type, object, options) => {
@@ -457,12 +457,12 @@ ava('should not refresh an OAuth token if not needed when using the default user
 				info: _.noop,
 				warn: _.noop
 			},
-			getElementBySlug: async (type, slug) => {
+			getElementBySlug: async (slug) => {
 				return _.find(_.values(data), {
 					slug
 				})
 			},
-			getElementById: async (type, id) => {
+			getElementById: async (id) => {
 				return data[id]
 			},
 			upsertElement: async (type, object, options) => {
@@ -553,12 +553,12 @@ ava('should throw if actor is not associated with service and there is no defaul
 				info: _.noop,
 				warn: _.noop
 			},
-			getElementBySlug: async (type, slug) => {
+			getElementBySlug: async (slug) => {
 				return _.find(_.values(data), {
 					slug
 				})
 			},
-			getElementById: async (type, id) => {
+			getElementById: async (id) => {
 				return data[id]
 			},
 			upsertElement: async (type, object, options) => {
@@ -615,12 +615,12 @@ ava('should throw if actor is not associated with service and the default user i
 				info: _.noop,
 				warn: _.noop
 			},
-			getElementBySlug: async (type, slug) => {
+			getElementBySlug: async (slug) => {
 				return _.find(_.values(data), {
 					slug
 				})
 			},
-			getElementById: async (type, id) => {
+			getElementById: async (id) => {
 				return data[id]
 			},
 			upsertElement: async (type, object, options) => {
@@ -683,12 +683,12 @@ ava('should throw if neither the actor nor the default user are associated with 
 				info: _.noop,
 				warn: _.noop
 			},
-			getElementBySlug: async (type, slug) => {
+			getElementBySlug: async (slug) => {
 				return _.find(_.values(data), {
 					slug
 				})
 			},
-			getElementById: async (type, id) => {
+			getElementById: async (id) => {
 				return data[id]
 			},
 			upsertElement: async (type, object, options) => {
