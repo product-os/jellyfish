@@ -1,4 +1,43 @@
 - commits:
+    - subject: 'UI: Add rudimentary descriptions to updates'
+      hash: 3d70d067596e24f82397e8fc0596a5e3230d7ec4
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Improve display of update cards'
+      hash: bc6dd89c09eb89084a643f2e138a9da1e26bf4e3
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Display update reasons in timelines'
+      hash: d91f4a4fecb0a7501219e4b73fcba3c22c2cfce0
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Cancel gravatar promise if component unmounts'
+      hash: b908b1470993653e6f78392e59a99a51a0f6ab69
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 18.5.0
+  date: 2019-07-18T14:39:15.313Z
+- commits:
     - subject: 'outreach: Sync contacts and not users'
       hash: 3f67471876ef0f65a2f1738f666c86db9a68b625
       body: ''
