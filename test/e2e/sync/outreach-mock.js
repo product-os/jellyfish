@@ -333,6 +333,26 @@ exports.patchProspect = (body) => {
 		id: body.data.id
 	})
 
+	if (body.data.attributes.emails && _.some(body.data.attributes.emails, (email) => {
+		return /@balena\.io$/.test(email)
+	})) {
+		return {
+			code: 422,
+			response: {
+				errors: [
+					{
+						id: 'validationError',
+						source: {
+							pointer: '/data'
+						},
+						title: 'Validation Error',
+						detail: 'Contacts contact is using an excluded email address.'
+					}
+				]
+			}
+		}
+	}
+
 	DATA[index].attributes = Object.assign({},
 		DATA[index].attributes, body.data.attributes)
 

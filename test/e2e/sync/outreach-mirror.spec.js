@@ -146,6 +146,44 @@ ava.afterEach(async (test) => {
 // Skip all tests if there is no Outreach app id and secret
 const avaTest = _.some(_.values(TOKEN), _.isEmpty) ? ava.serial.skip : ava.serial
 
+avaTest('should not update a synced contact with an excluded address', async (test) => {
+	const username = `test-${uuid()}`
+
+	const createResult = await test.context.sdk.card.create({
+		slug: `contact-${username}`,
+		type: 'contact',
+		data: {
+			profile: {
+				email: `${username}@test.io`
+			}
+		}
+	})
+
+	await test.context.sdk.card.update(createResult.id, createResult.type, [
+		{
+			op: 'replace',
+			path: '/data/profile/email',
+			value: `${username}@balena.io`
+		}
+	])
+
+	const contact = await test.context.sdk.card.get(createResult.id)
+
+	test.deepEqual(contact.data, {
+		mirrors: contact.data.mirrors,
+		profile: {
+			email: `${username}@balena.io`
+		}
+	})
+
+	test.is(contact.data.mirrors.length, 1)
+	test.true(contact.data.mirrors[0].startsWith('https://api.outreach.io/api/v2/prospects/'))
+	const prospectId = _.parseInt(_.last(contact.data.mirrors[0].split('/')))
+	const prospect = await test.context.getProspect(prospectId)
+
+	test.deepEqual(prospect.data.attributes.emails, [ `${username}@test.io` ])
+})
+
 avaTest('should link a user with an existing prospect', async (test) => {
 	const username = `test-${uuid()}`
 
