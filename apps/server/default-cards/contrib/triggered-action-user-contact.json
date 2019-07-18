@@ -1,0 +1,28 @@
+{
+  "slug": "triggered-action-user-contact",
+  "type": "triggered-action",
+  "version": "1.0.0",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "filter": {
+      "type": "object",
+      "required": [ "type" ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "user"
+        }
+      }
+    },
+    "action": "action-maintain-contact",
+    "target": {
+      "$eval": "source.id"
+    },
+    "arguments": {}
+  },
+  "requires": [],
+  "capabilities": []
+}

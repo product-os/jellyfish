@@ -1291,7 +1291,8 @@ ava.serial('should apply a user patch to a contact that diverged', async (test) 
 		data: {
 			profile: {
 				email: 'johndoe@example.com',
-				title: 'Senior Frontend Engineer'
+				title: 'Senior Frontend Engineer',
+				name: {}
 			}
 		}
 	})
@@ -1383,7 +1384,8 @@ ava.serial('should update the name of existing contact', async (test) => {
 		data: {
 			profile: {
 				email: 'johndoe@example.com',
-				title: 'Frontend Engineer'
+				title: 'Frontend Engineer',
+				name: {}
 			}
 		}
 	})
@@ -1475,7 +1477,8 @@ ava.serial('should delete an existing contact if the user is deleted', async (te
 		data: {
 			profile: {
 				email: 'johndoe@example.com',
-				title: 'Frontend Engineer'
+				title: 'Frontend Engineer',
+				name: {}
 			}
 		}
 	})
@@ -1567,7 +1570,8 @@ ava.serial('should replace a property from an existing linked contact', async (t
 		data: {
 			profile: {
 				email: 'johndoe@example.com',
-				title: 'Senior Frontend Engineer'
+				title: 'Senior Frontend Engineer',
+				name: {}
 			}
 		}
 	})
@@ -1658,7 +1662,8 @@ ava.serial('should not remove a property from an existing linked contact', async
 		data: {
 			profile: {
 				email: 'johndoe@example.com',
-				title: 'Frontend Engineer'
+				title: 'Frontend Engineer',
+				name: {}
 			}
 		}
 	})
@@ -1732,7 +1737,8 @@ ava.serial('should merge and relink a diverging contact with a matching slug', a
 			profile: {
 				email: 'johndoe@example.com',
 				title: 'Frontend developer',
-				company: 'Balena'
+				company: 'Balena',
+				name: {}
 			}
 		}
 	})
@@ -1826,7 +1832,8 @@ ava.serial('should add a property to an existing linked contact', async (test) =
 		data: {
 			profile: {
 				email: 'johndoe@example.com',
-				company: 'Balena'
+				company: 'Balena',
+				name: {}
 			}
 		}
 	})
@@ -1880,7 +1887,8 @@ ava.serial('should create a contact for a user with little profile info', async 
 		updated_at: contactCard.updated_at,
 		data: {
 			profile: {
-				email: 'johndoe@example.com'
+				email: 'johndoe@example.com',
+				name: {}
 			}
 		}
 	})
@@ -1935,7 +1943,8 @@ ava.serial('should use the user name when creating a contact', async (test) => {
 		updated_at: contactCard.updated_at,
 		data: {
 			profile: {
-				email: 'johndoe@example.com'
+				email: 'johndoe@example.com',
+				name: {}
 			}
 		}
 	})
@@ -1990,7 +1999,8 @@ ava.serial('should create an inactive contact given an inactive user', async (te
 		updated_at: contactCard.updated_at,
 		data: {
 			profile: {
-				email: 'johndoe@example.com'
+				email: 'johndoe@example.com',
+				name: {}
 			}
 		}
 	})
