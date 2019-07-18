@@ -203,6 +203,7 @@ avaTest('should link a use with an existing prospect', async (test) => {
 	test.is(prospect.data.attributes.lastName, 'Doe')
 	test.is(prospect.data.attributes.addressCity, 'Oxford')
 	test.is(prospect.data.attributes.addressCountry, 'United Kingdom')
+	test.falsy(prospect.data.attributes.githubUsername)
 })
 
 avaTest('should create a simple user', async (test) => {
@@ -235,6 +236,41 @@ avaTest('should create a simple user', async (test) => {
 	test.deepEqual(prospect.data.attributes.emails, [ `${username}@test.io` ])
 	test.is(prospect.data.attributes.name, username)
 	test.is(prospect.data.attributes.nickname, username)
+	test.falsy(prospect.data.attributes.githubUsername)
+})
+
+avaTest('should use username as GitHub handle if slug starts with user-gh- (from Balena Cloud)', async (test) => {
+	const handle = uuid()
+	const username = `gh-${handle}`
+
+	const createResult = await test.context.sdk.card.create({
+		slug: `user-${username}`,
+		type: 'user',
+		data: {
+			email: `${username}@test.io`,
+			hash: '$2b$12$tnb9eMnlGpEXld1IYmIlDOud.v4vSUbnuEsjFQz3d/24sqA6XmaBq',
+			roles: [ 'user-community' ]
+		}
+	})
+
+	const user = await test.context.sdk.card.get(createResult.id)
+
+	test.deepEqual(user.data, {
+		email: `${username}@test.io`,
+		hash: '$2b$12$tnb9eMnlGpEXld1IYmIlDOud.v4vSUbnuEsjFQz3d/24sqA6XmaBq',
+		mirrors: user.data.mirrors,
+		roles: [ 'user-community' ]
+	})
+
+	test.is(user.data.mirrors.length, 1)
+	test.true(user.data.mirrors[0].startsWith('https://api.outreach.io/api/v2/prospects/'))
+	const prospectId = _.parseInt(_.last(user.data.mirrors[0].split('/')))
+	const prospect = await test.context.getProspect(prospectId)
+
+	test.deepEqual(prospect.data.attributes.emails, [ `${username}@test.io` ])
+	test.is(prospect.data.attributes.name, username)
+	test.is(prospect.data.attributes.githubUsername, handle)
+	test.is(prospect.data.attributes.nickname, username)
 })
 
 avaTest('should create a simple user without an email', async (test) => {
@@ -265,6 +301,7 @@ avaTest('should create a simple user without an email', async (test) => {
 	test.deepEqual(prospect.data.attributes.emails, [])
 	test.is(prospect.data.attributes.name, username)
 	test.is(prospect.data.attributes.nickname, username)
+	test.falsy(prospect.data.attributes.githubUsername)
 })
 
 avaTest('should not create a prospect with an excluded email address', async (test) => {
@@ -330,6 +367,7 @@ avaTest('should not sync emails on users with new@change.me', async (test) => {
 	test.deepEqual(prospect.data.attributes.emails, [])
 	test.is(prospect.data.attributes.name, username)
 	test.is(prospect.data.attributes.nickname, username)
+	test.falsy(prospect.data.attributes.githubUsername)
 })
 
 avaTest('should not sync emails on users with unknown@change.me', async (test) => {
@@ -362,4 +400,5 @@ avaTest('should not sync emails on users with unknown@change.me', async (test) =
 	test.deepEqual(prospect.data.attributes.emails, [])
 	test.is(prospect.data.attributes.name, username)
 	test.is(prospect.data.attributes.nickname, username)
+	test.falsy(prospect.data.attributes.githubUsername)
 })
