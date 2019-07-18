@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'front: Fix mirror flaky tests when getting messages/comments'
+      hash: 0ac01a163a96406fcd677df9626f5e6108aeee43
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 18.2.4
+  date: 2019-07-18T07:12:51.369Z
+- commits:
     - subject: 'outreach: Randomize mirror tests data'
       hash: e2bb5ccd9e1a7c6bdf17c3135b99266a2d65f7e7
       body: ''
