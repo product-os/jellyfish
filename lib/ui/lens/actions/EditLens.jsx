@@ -5,6 +5,7 @@
  */
 
 import clone from 'deep-copy'
+import * as jsonpatch from 'fast-json-patch'
 import * as _ from 'lodash'
 import React from 'react'
 import {
@@ -83,7 +84,9 @@ class EditLens extends React.Component {
 			id, type
 		} = card
 
-		sdk.card.update(id, updatedEntry)
+		const patch = jsonpatch.compare(card, updatedEntry)
+
+		sdk.card.update(id, type, patch)
 			.then(() => {
 				analytics.track('element.update', {
 					element: {

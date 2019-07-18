@@ -190,8 +190,10 @@ class Kanban extends BaseLens {
 		if (!targetValue) {
 			return
 		}
-		_.set(card, slice.path.replace(/properties\./g, ''), targetValue)
-		sdk.card.update(card.id, card)
+
+		const patch = helpers.patchPath(card, slice.path.replace(/properties\./g, ''), targetValue)
+
+		sdk.card.update(card.id, card.type, patch)
 			.then(() => {
 				analytics.track('element.update', {
 					element: {

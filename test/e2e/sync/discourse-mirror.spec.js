@@ -291,12 +291,13 @@ avaTest('should re-open a closed support thread if an attached issue is closed',
 	await test.context.sdk.card.link(
 		supportThread, issue, 'support thread is attached to issue')
 
-	await test.context.sdk.card.update(supportThread.id, {
-		type: supportThread.type,
-		data: {
-			status: 'closed'
+	await test.context.sdk.card.update(supportThread.id, supportThread.type, [
+		{
+			op: 'replace',
+			path: '/data/status',
+			value: 'closed'
 		}
-	})
+	])
 
 	const mirrorId = supportThread.data.mirrors[0]
 	const topicBefore = await test.context.getTopic(_.last(mirrorId.split('/')))
@@ -305,12 +306,13 @@ avaTest('should re-open a closed support thread if an attached issue is closed',
 	test.false(topicBefore.closed)
 	test.true(topicBefore.visible)
 
-	await test.context.sdk.card.update(issue.id, {
-		type: issue.type,
-		data: {
-			status: 'closed'
+	await test.context.sdk.card.update(issue.id, issue.type, [
+		{
+			op: 'replace',
+			path: '/data/status',
+			value: 'closed'
 		}
-	})
+	])
 
 	const newSupportThread =
 		await test.context.sdk.card.get(supportThread.id)
@@ -352,12 +354,13 @@ avaTest('should not update a post by defining no new tags', async (test) => {
 	await helpers.mirror.beforeEach(
 		test, environment.test.integration.discourse.username)
 
-	await test.context.sdk.card.update(supportThread.id, {
-		type: supportThread.type,
-		data: {
-			tags: []
+	await test.context.sdk.card.update(supportThread.id, supportThread.type, [
+		{
+			op: 'replace',
+			path: '/tags',
+			value: []
 		}
-	})
+	])
 
 	const mirrorId = supportThread.data.mirrors[0]
 	const topic = await test.context.getTopic(_.last(mirrorId.split('/')))
@@ -375,19 +378,21 @@ avaTest('should not re-open a closed thread by marking a message as read', async
 	const message = await test.context.createMessage(supportThread,
 		test.context.getMessageSlug(), 'Hello')
 
-	await test.context.sdk.card.update(supportThread.id, {
-		type: supportThread.type,
-		data: {
-			status: 'closed'
+	await test.context.sdk.card.update(supportThread.id, supportThread.type, [
+		{
+			op: 'replace',
+			path: '/data/status',
+			value: 'closed'
 		}
-	})
+	])
 
-	await test.context.sdk.card.update(message.id, {
-		type: message.type,
-		data: {
-			readBy: [ 'johndoe' ]
+	await test.context.sdk.card.update(message.id, message.type, [
+		{
+			op: 'add',
+			path: '/data/readBy',
+			value: [ 'johndoe' ]
 		}
-	})
+	])
 
 	const thread = await test.context.sdk.getById(supportThread.id)
 	test.true(thread.active)
@@ -412,12 +417,13 @@ avaTest('should not re-open a closed thread with a whisper', async (test) => {
 		`My Issue ${uuid()}`,
 		`Foo Bar ${uuid()}`)
 
-	await test.context.sdk.card.update(supportThread.id, {
-		type: supportThread.type,
-		data: {
-			status: 'closed'
+	await test.context.sdk.card.update(supportThread.id, supportThread.type, [
+		{
+			op: 'replace',
+			path: '/data/status',
+			value: 'closed'
 		}
-	})
+	])
 
 	await test.context.createWhisper(supportThread,
 		test.context.getWhisperSlug(), 'Hello')
@@ -433,12 +439,13 @@ avaTest('should not re-open an archived thread with a whisper', async (test) => 
 		`My Issue ${uuid()}`,
 		`Foo Bar ${uuid()}`)
 
-	await test.context.sdk.card.update(supportThread.id, {
-		type: supportThread.type,
-		data: {
-			status: 'archived'
+	await test.context.sdk.card.update(supportThread.id, supportThread.type, [
+		{
+			op: 'replace',
+			path: '/data/status',
+			value: 'archived'
 		}
-	})
+	])
 
 	await test.context.createWhisper(supportThread,
 		test.context.getWhisperSlug(), 'Hello')
@@ -454,12 +461,13 @@ avaTest('should re-open a closed thread with a message', async (test) => {
 		`My Issue ${uuid()}`,
 		`Foo Bar ${uuid()}`)
 
-	await test.context.sdk.card.update(supportThread.id, {
-		type: supportThread.type,
-		data: {
-			status: 'closed'
+	await test.context.sdk.card.update(supportThread.id, supportThread.type, [
+		{
+			op: 'replace',
+			path: '/data/status',
+			value: 'closed'
 		}
-	})
+	])
 
 	await test.context.createMessage(supportThread,
 		test.context.getMessageSlug(), 'Hello')
@@ -475,12 +483,13 @@ avaTest('should re-open an archived thread with a message', async (test) => {
 		`My Issue ${uuid()}`,
 		`Foo Bar ${uuid()}`)
 
-	await test.context.sdk.card.update(supportThread.id, {
-		type: supportThread.type,
-		data: {
-			status: 'archived'
+	await test.context.sdk.card.update(supportThread.id, supportThread.type, [
+		{
+			op: 'replace',
+			path: '/data/status',
+			value: 'archived'
 		}
-	})
+	])
 
 	await test.context.createMessage(supportThread,
 		test.context.getMessageSlug(), 'Hello')
@@ -522,19 +531,21 @@ avaTest('should add and remove a thread tag', async (test) => {
 		`My Issue ${uuid()}`,
 		`Foo Bar ${uuid()}`)
 
-	await test.context.sdk.card.update(supportThread.id, {
-		type: supportThread.type,
-		data: {
-			tags: [ 'foo' ]
+	await test.context.sdk.card.update(supportThread.id, supportThread.type, [
+		{
+			op: 'replace',
+			path: '/tags',
+			value: [ 'foo' ]
 		}
-	})
+	])
 
-	await test.context.sdk.card.update(supportThread.id, {
-		type: supportThread.type,
-		data: {
-			tags: []
+	await test.context.sdk.card.update(supportThread.id, supportThread.type, [
+		{
+			op: 'replace',
+			path: '/tags',
+			value: []
 		}
-	})
+	])
 
 	const mirrorId = supportThread.data.mirrors[0]
 	const topic = await test.context.getTopic(_.last(mirrorId.split('/')))
@@ -547,12 +558,13 @@ avaTest('should add a thread tag', async (test) => {
 		`My Issue ${uuid()}`,
 		`Foo Bar ${uuid()}`)
 
-	await test.context.sdk.card.update(supportThread.id, {
-		type: supportThread.type,
-		data: {
-			tags: [ 'foo' ]
+	await test.context.sdk.card.update(supportThread.id, supportThread.type, [
+		{
+			op: 'add',
+			path: '/data/tags',
+			value: [ 'foo' ]
 		}
-	})
+	])
 
 	const mirrorId = supportThread.data.mirrors[0]
 	const topic = await test.context.getTopic(_.last(mirrorId.split('/')))
@@ -565,10 +577,13 @@ avaTest('should not sync top level tags', async (test) => {
 		`My Issue ${uuid()}`,
 		`Foo Bar ${uuid()}`)
 
-	await test.context.sdk.card.update(supportThread.id, {
-		type: supportThread.type,
-		tags: [ 'foo' ]
-	})
+	await test.context.sdk.card.update(supportThread.id, supportThread.type, [
+		{
+			op: 'replace',
+			path: '/tags',
+			value: [ 'foo' ]
+		}
+	])
 
 	const mirrorId = supportThread.data.mirrors[0]
 	const topic = await test.context.getTopic(_.last(mirrorId.split('/')))
@@ -605,14 +620,13 @@ avaTest('should update a whisper', async (test) => {
 	const mirrorId = supportThread.data.mirrors[0]
 	const topicBefore = await test.context.getTopic(_.last(mirrorId.split('/')))
 
-	await test.context.sdk.card.update(whisper.id, {
-		type: whisper.type,
-		data: {
-			payload: {
-				message: 'Edited whisper'
-			}
+	await test.context.sdk.card.update(whisper.id, whisper.type, [
+		{
+			op: 'replace',
+			path: '/data/payload/message',
+			value: 'Edited whisper'
 		}
-	})
+	])
 
 	const topicAfter = await test.context.getTopic(_.last(mirrorId.split('/')))
 	const lastPost = _.last(topicAfter.post_stream.posts)
@@ -653,14 +667,13 @@ avaTest('should update a message', async (test) => {
 	const mirrorId = supportThread.data.mirrors[0]
 	const topicBefore = await test.context.getTopic(_.last(mirrorId.split('/')))
 
-	await test.context.sdk.card.update(message.id, {
-		type: message.type,
-		data: {
-			payload: {
-				message: 'Edited comment'
-			}
+	await test.context.sdk.card.update(message.id, message.type, [
+		{
+			op: 'replace',
+			path: '/data/payload/message',
+			value: 'Edited comment'
 		}
-	})
+	])
 
 	const topicAfter = await test.context.getTopic(_.last(mirrorId.split('/')))
 	const lastPost = _.last(topicAfter.post_stream.posts)
@@ -679,10 +692,13 @@ avaTest('should update the thread title', async (test) => {
 
 	const newTitle = `New issue title ${uuid()}`
 
-	await test.context.sdk.card.update(supportThread.id, {
-		type: supportThread.type,
-		name: newTitle
-	})
+	await test.context.sdk.card.update(supportThread.id, supportThread.type, [
+		{
+			op: 'replace',
+			path: '/name',
+			value: newTitle
+		}
+	])
 
 	const mirrorId = supportThread.data.mirrors[0]
 	const topic = await test.context.getTopic(_.last(mirrorId.split('/')))

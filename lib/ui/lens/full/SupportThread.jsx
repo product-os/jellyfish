@@ -5,7 +5,6 @@
  */
 
 import * as Bluebird from 'bluebird'
-import clone from 'deep-copy'
 import {
 	circularDeepEqual
 } from 'fast-equals'
@@ -78,11 +77,13 @@ class SupportThreadBase extends React.Component {
 				isClosing: true
 			})
 
-			sdk.card.update(this.props.card.id, _.merge({}, this.props.card, {
-				data: {
-					status: 'open'
-				}
-			}))
+			const {
+				card
+			} = this.props
+
+			const patch = helpers.patchPath(card, [ 'data', 'status' ], 'open')
+
+			sdk.card.update(card.id, card.type, patch)
 				.then(() => {
 					this.props.actions.addNotification('success', 'Opened support thread')
 					this.props.actions.removeChannel(this.props.channel)
@@ -100,11 +101,13 @@ class SupportThreadBase extends React.Component {
 				isClosing: true
 			})
 
-			sdk.card.update(this.props.card.id, _.merge({}, this.props.card, {
-				data: {
-					status: 'closed'
-				}
-			}))
+			const {
+				card
+			} = this.props
+
+			const patch = helpers.patchPath(card, [ 'data', 'status' ], 'closed')
+
+			sdk.card.update(card.id, card.type, patch)
 				.then(() => {
 					this.props.actions.addNotification('success', 'Closed support thread')
 					this.props.actions.removeChannel(this.props.channel)
@@ -122,11 +125,13 @@ class SupportThreadBase extends React.Component {
 				isClosing: true
 			})
 
-			sdk.card.update(this.props.card.id, _.merge({}, this.props.card, {
-				data: {
-					status: 'archived'
-				}
-			}))
+			const {
+				card
+			} = this.props
+
+			const patch = helpers.patchPath(card, [ 'data', 'status' ], 'archived')
+
+			sdk.card.update(card.id, card.type, patch)
 				.then(() => {
 					this.props.actions.addNotification('success', 'Archived support thread')
 					this.props.actions.removeChannel(this.props.channel)
@@ -175,16 +180,18 @@ class SupportThreadBase extends React.Component {
 	setCategory (event) {
 		event.preventDefault()
 
+		const {
+			card
+		} = this.props
 		const category = event.target.dataset.category
 
-		if (category === _.get(this.props.card, [ 'data', 'category' ])) {
+		if (category === _.get(card, [ 'data', 'category' ])) {
 			return
 		}
 
-		const update = clone(this.props.card)
-		_.set(update, [ 'data', 'category' ], category)
+		const patch = helpers.patchPath(card, [ 'data', 'category' ], category)
 
-		sdk.card.update(update.id, update)
+		sdk.card.update(card.id, card.type, patch)
 			.then(() => {
 				this.props.actions.addNotification('success', `Successfully set support thread category to: ${category}`)
 			})

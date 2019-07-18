@@ -267,12 +267,13 @@ avaTest('should re-open a closed support thread if an attached issue is closed',
 
 	const conversationId = _.last(supportThread.data.mirrors[0].split('/'))
 
-	await test.context.sdk.card.update(supportThread.id, {
-		type: supportThread.type,
-		data: {
-			status: 'closed'
+	await test.context.sdk.card.update(supportThread.id, supportThread.type, [
+		{
+			op: 'replace',
+			path: '/data/status',
+			value: 'closed'
 		}
-	})
+	])
 
 	const remoteConversationBefore =
 		await test.context.front.conversation.get({
@@ -281,12 +282,13 @@ avaTest('should re-open a closed support thread if an attached issue is closed',
 
 	test.is(remoteConversationBefore.status, 'archived')
 
-	await test.context.sdk.card.update(issue.id, {
-		type: issue.type,
-		data: {
-			status: 'closed'
+	await test.context.sdk.card.update(issue.id, issue.type, [
+		{
+			op: 'replace',
+			path: '/data/status',
+			value: 'closed'
 		}
-	})
+	])
 
 	const newSupportThread =
 		await test.context.sdk.card.get(supportThread.id)
@@ -433,10 +435,13 @@ avaTest('should be able to tag an unassigned conversation', async (test) => {
 		assignee_id: null
 	})
 
-	await test.context.sdk.card.update(supportThread.id, {
-		type: supportThread.type,
-		tags: [ 'foo' ]
-	})
+	await test.context.sdk.card.update(supportThread.id, supportThread.type, [
+		{
+			op: 'replace',
+			path: '/tags',
+			value: [ 'foo' ]
+		}
+	])
 
 	const result = await wait(() => {
 		return test.context.front.conversation.get({
@@ -474,12 +479,13 @@ avaTest('should be able to close an inbound message', async (test) => {
 		`Foo Bar ${uuid()}`,
 		test.context.inboxes[0])
 
-	await test.context.sdk.card.update(supportThread.id, {
-		type: supportThread.type,
-		data: {
-			status: 'closed'
+	await test.context.sdk.card.update(supportThread.id, supportThread.type, [
+		{
+			op: 'replace',
+			path: '/data/status',
+			value: 'closed'
 		}
-	})
+	])
 
 	const result = await wait(() => {
 		return test.context.front.conversation.get({
@@ -498,12 +504,13 @@ avaTest('should be able to archive an inbound message', async (test) => {
 		`Foo Bar ${uuid()}`,
 		test.context.inboxes[0])
 
-	await test.context.sdk.card.update(supportThread.id, {
-		type: supportThread.type,
-		data: {
-			status: 'archived'
+	await test.context.sdk.card.update(supportThread.id, supportThread.type, [
+		{
+			op: 'replace',
+			path: '/data/status',
+			value: 'archived'
 		}
-	})
+	])
 
 	const result = await wait(() => {
 		return test.context.front.conversation.get({
