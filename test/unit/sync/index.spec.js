@@ -338,7 +338,7 @@ ava('.associate() should return null given an invalid integration', async (test)
 		log: {
 			warn: _.noop
 		},
-		getElementBySlug: async (type, slug) => {
+		getElementBySlug: async (slug) => {
 			return data[slug]
 		},
 		upsertElement: async (type, object, options) => {
@@ -369,7 +369,7 @@ ava('.associate() should return null given no token', async (test) => {
 		log: {
 			warn: _.noop
 		},
-		getElementBySlug: async (type, slug) => {
+		getElementBySlug: async (slug) => {
 			return data[slug]
 		},
 		upsertElement: async (type, object, options) => {
@@ -402,7 +402,7 @@ ava('.associate() should return null given no appId', async (test) => {
 		log: {
 			warn: _.noop
 		},
-		getElementBySlug: async (type, slug) => {
+		getElementBySlug: async (slug) => {
 			return data[slug]
 		},
 		upsertElement: async (type, object, options) => {
@@ -435,7 +435,7 @@ ava('.associate() should return null given no appSecret', async (test) => {
 		log: {
 			warn: _.noop
 		},
-		getElementBySlug: async (type, slug) => {
+		getElementBySlug: async (slug) => {
 			return data[slug]
 		},
 		upsertElement: async (type, object, options) => {
@@ -461,7 +461,7 @@ ava('.associate() should return null if the user does not exist', async (test) =
 		log: {
 			warn: _.noop
 		},
-		getElementBySlug: async (type, slug) => {
+		getElementBySlug: async (slug) => {
 			return data[slug]
 		},
 		upsertElement: async (type, object, options) => {
@@ -526,7 +526,7 @@ ava('.associate() should set the access token in the user card', async (test) =>
 		log: {
 			warn: _.noop
 		},
-		getElementBySlug: async (type, slug) => {
+		getElementBySlug: async (slug) => {
 			return data[slug]
 		},
 		upsertElement: async (type, object, options) => {
@@ -615,7 +615,7 @@ ava('.associate() should not replace other integrations', async (test) => {
 		log: {
 			warn: _.noop
 		},
-		getElementBySlug: async (type, slug) => {
+		getElementBySlug: async (slug) => {
 			return data[slug]
 		},
 		upsertElement: async (type, object, options) => {
@@ -711,7 +711,7 @@ ava('.associate() should replace previous integration data', async (test) => {
 		log: {
 			warn: _.noop
 		},
-		getElementBySlug: async (type, slug) => {
+		getElementBySlug: async (slug) => {
 			return data[slug]
 		},
 		upsertElement: async (type, object, options) => {
@@ -795,7 +795,7 @@ ava('.associate() should throw given a code mismatch', async (test) => {
 		log: {
 			warn: _.noop
 		},
-		getElementBySlug: async (type, slug) => {
+		getElementBySlug: async (slug) => {
 			return data[slug]
 		},
 		upsertElement: async (type, object, options) => {
