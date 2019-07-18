@@ -269,3 +269,67 @@ avaTest('should not create a prospect with an excluded email address', async (te
 		}
 	})
 })
+
+avaTest('should not sync emails on users with new@change.me', async (test) => {
+	const username = `test-${uuid()}`
+
+	const createResult = await test.context.sdk.card.create({
+		slug: `user-${username}`,
+		type: 'user',
+		data: {
+			email: 'new@change.me',
+			hash: '$2b$12$tnb9eMnlGpEXld1IYmIlDOud.v4vSUbnuEsjFQz3d/24sqA6XmaBq',
+			roles: [ 'user-community' ]
+		}
+	})
+
+	const user = await test.context.sdk.card.get(createResult.id)
+
+	test.deepEqual(user.data, {
+		email: 'new@change.me',
+		hash: '$2b$12$tnb9eMnlGpEXld1IYmIlDOud.v4vSUbnuEsjFQz3d/24sqA6XmaBq',
+		mirrors: user.data.mirrors,
+		roles: [ 'user-community' ]
+	})
+
+	test.is(user.data.mirrors.length, 1)
+	test.true(user.data.mirrors[0].startsWith('https://api.outreach.io/api/v2/prospects/'))
+	const prospectId = _.parseInt(_.last(user.data.mirrors[0].split('/')))
+	const prospect = await test.context.getProspect(prospectId)
+
+	test.deepEqual(prospect.data.attributes.emails, [])
+	test.is(prospect.data.attributes.name, username)
+	test.is(prospect.data.attributes.nickname, username)
+})
+
+avaTest('should not sync emails on users with unknown@change.me', async (test) => {
+	const username = `test-${uuid()}`
+
+	const createResult = await test.context.sdk.card.create({
+		slug: `user-${username}`,
+		type: 'user',
+		data: {
+			email: 'unknown@change.me',
+			hash: '$2b$12$tnb9eMnlGpEXld1IYmIlDOud.v4vSUbnuEsjFQz3d/24sqA6XmaBq',
+			roles: [ 'user-community' ]
+		}
+	})
+
+	const user = await test.context.sdk.card.get(createResult.id)
+
+	test.deepEqual(user.data, {
+		email: 'unknown@change.me',
+		hash: '$2b$12$tnb9eMnlGpEXld1IYmIlDOud.v4vSUbnuEsjFQz3d/24sqA6XmaBq',
+		mirrors: user.data.mirrors,
+		roles: [ 'user-community' ]
+	})
+
+	test.is(user.data.mirrors.length, 1)
+	test.true(user.data.mirrors[0].startsWith('https://api.outreach.io/api/v2/prospects/'))
+	const prospectId = _.parseInt(_.last(user.data.mirrors[0].split('/')))
+	const prospect = await test.context.getProspect(prospectId)
+
+	test.deepEqual(prospect.data.attributes.emails, [])
+	test.is(prospect.data.attributes.name, username)
+	test.is(prospect.data.attributes.nickname, username)
+})
