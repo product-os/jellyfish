@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'server: Add a triggered action to maintain contacts for all users'
+      hash: f1b6b6c91c9dd00eef1132cbea03c67eda28e310
+      body: |
+        Runs `action-maintain-contact` on any user update.
+      footer:
+        See: 'https://github.com/balena-io/jellyfish/pull/2200'
+        see: 'https://github.com/balena-io/jellyfish/pull/2200'
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 18.3.0
+  date: 2019-07-18T08:12:48.414Z
+- commits:
     - subject: 'front: Fix mirror flaky tests when getting messages/comments'
       hash: 0ac01a163a96406fcd677df9626f5e6108aeee43
       body: ''
