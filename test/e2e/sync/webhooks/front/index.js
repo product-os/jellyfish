@@ -5,6 +5,16 @@
  */
 
 module.exports = {
+	'sales-inbound-whisper-outbound': {
+		expected: require('./sales-inbound-whisper-outbound/expected.json'),
+		steps: [
+			require('./sales-inbound-whisper-outbound/01.json'),
+			require('./sales-inbound-whisper-outbound/02.json'),
+			require('./sales-inbound-whisper-outbound/03.json'),
+			require('./sales-inbound-whisper-outbound/04.json'),
+			require('./sales-inbound-whisper-outbound/05.json')
+		]
+	},
 	'unknown-inbox': {
 		expected: require('./unknown-inbox/expected.json'),
 		steps: [

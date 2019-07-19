@@ -1,0 +1,28 @@
+{
+  "_pagination": {
+    "prev": null,
+    "next": null
+  },
+  "_links": {
+    "self": "https://api2.frontapp.com/conversations/cnv_23kgkub/inboxes"
+  },
+  "_results": [
+    {
+      "_links": {
+        "self": "https://api2.frontapp.com/inboxes/inb_srn",
+        "related": {
+          "channels": "https://api2.frontapp.com/inboxes/inb_srn/channels",
+          "conversations": "https://api2.frontapp.com/inboxes/inb_srn/conversations",
+          "teammates": "https://api2.frontapp.com/inboxes/inb_srn/teammates",
+          "owner": "https://api2.frontapp.com/teams/tim_qh"
+        }
+      },
+      "id": "inb_srn",
+      "name": "Z/Solutions",
+      "is_private": false,
+      "address": "34951c78ebfd2e90",
+      "send_as": "34951c78ebfd2e90",
+      "type": "custom"
+    }
+  ]
+}

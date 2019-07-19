@@ -1,0 +1,40 @@
+{
+  "_pagination": {
+    "prev": null,
+    "next": null
+  },
+  "_links": {
+    "self": "https://api2.frontapp.com/conversations/cnv_23kgkub/comments"
+  },
+  "_results": [
+    {
+      "_links": {
+        "self": "https://api2.frontapp.com/comments/com_6tgbyb",
+        "related": {
+          "conversation": "https://api2.frontapp.com/conversations/cnv_23kgkub",
+          "mentions": "https://api2.frontapp.com/comments/com_6tgbyb/mentions"
+        }
+      },
+      "id": "com_6tgbyb",
+      "body": "This is mirrored in [flowdock sales thread 7HndgwH12oTQU4wMTpqSF9SbHkU](https://www.flowdock.com/app/rulemotion/s-sales/threads/7HndgwH12oTQU4wMTpqSF9SbHkU)\n[](https://www.balena-cloud.com?hidden=murmur&source=flowdock&flow=rulemotion/s-sales&thread=7HndgwH12oTQU4wMTpqSF9SbHkU&hmac=537b7c35482d33428454a74d430e475f7f345017570f3b003bfffbb2c2203f6b)",
+      "posted_at": 1563538814.313,
+      "author": {
+        "_links": {
+          "self": "https://api2.frontapp.com/teammates/tea_1urh",
+          "related": {
+            "inboxes": "https://api2.frontapp.com/teammates/tea_1urh/inboxes",
+            "conversations": "https://api2.frontapp.com/teammates/tea_1urh/conversations"
+          }
+        },
+        "id": "tea_1urh",
+        "email": "syncbot@resin.io",
+        "username": "syncbot",
+        "first_name": "Syncbot",
+        "last_name": "Bot",
+        "is_admin": false,
+        "is_available": true,
+        "is_blocked": false
+      }
+    }
+  ]
+}
