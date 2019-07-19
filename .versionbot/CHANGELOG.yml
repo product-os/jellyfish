@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'action-library: Log input card when updating user contact'
+      hash: 19770bf7241773285de40c968feb54295bb536ce
+      body: |
+        For debugging purposes.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 19.1.1
+  date: 2019-07-19T17:17:14.229Z
+- commits:
     - subject: 'front: Support syncing conversations from Z/Solutions'
       hash: 15676ca234cfc5a5b1aeb7813168cbfccdf40a09
       body: ''
