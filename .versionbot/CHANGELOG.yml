@@ -1,4 +1,34 @@
 - commits:
+    - subject: 'front: Extract thread type to a constant'
+      hash: 74f416a42350748fcdb91c8a590cddc64cb75bfc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'sync: Don''t require types in id/slug getters'
+      hash: 7fdbfd0b25f0a121ff1f399aa05f3998114732fc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'outreach: Handle updates that add an excluded email'
+      hash: 88d8979bdf72dd0abcbf03f9f1532b2fc186db41
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 19.0.1
+  date: 2019-07-19T07:25:55.008Z
+- commits:
     - subject: 'UI: Update to use new JSON patch syntax for updates'
       hash: eb1b6226077edcef663a648a59b949c5167abb48
       body: ''
