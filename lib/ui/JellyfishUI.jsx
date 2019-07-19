@@ -50,7 +50,6 @@ import {
 } from 'react-router-dom'
 
 // Register the mermaid and markdown widgets for rendition forms
-// Register the extra format widgets to the Form component
 Form.registerWidget('markdown', MarkdownWidget)
 Form.registerWidget('mermaid', MermaidWidget)
 
