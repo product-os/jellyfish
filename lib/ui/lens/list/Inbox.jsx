@@ -153,6 +153,7 @@ class Inbox extends React.Component {
 					<Button
 						onClick={this.markAllAsRead}
 						disabled={markingAllAsRead || tail.length === 0}
+						data-test="inbox__mark-all-as-read"
 					>
 						{markingAllAsRead
 							? <Icon name="cog" spin />
