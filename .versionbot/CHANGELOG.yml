@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'front: Support syncing conversations from Z/Solutions'
+      hash: 15676ca234cfc5a5b1aeb7813168cbfccdf40a09
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 19.1.0
+  date: 2019-07-19T15:36:52.423Z
+- commits:
     - subject: 'Package: Update version codename'
       hash: d8ea8a49cb9ec3f8ff46f0191d97ac01f754a264
       body: |
