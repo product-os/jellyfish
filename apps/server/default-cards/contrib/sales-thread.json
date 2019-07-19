@@ -1,0 +1,65 @@
+{
+  "slug": "sales-thread",
+  "name": "Sales Thread",
+  "version": "1.0.0",
+  "type": "type",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": [ "string", "null" ]
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "mirrors": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "inbox": {
+              "type": "string"
+            },
+            "status": {
+              "title": "Status",
+              "type": "string",
+              "default": "open",
+              "enum": [
+                "open",
+                "closed",
+                "archived"
+              ]
+            }
+          }
+        }
+      },
+      "additionalProperties": true,
+      "required": [
+        "data"
+      ]
+    },
+    "slices": [
+      "properties.data.properties.status"
+    ]
+  },
+  "requires": [],
+  "capabilities": []
+}

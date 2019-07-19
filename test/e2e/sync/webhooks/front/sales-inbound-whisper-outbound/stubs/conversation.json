@@ -1,0 +1,100 @@
+{
+  "_links": {
+    "self": "https://api2.frontapp.com/conversations/cnv_23kgkub",
+    "related": {
+      "events": "https://api2.frontapp.com/conversations/cnv_23kgkub/events",
+      "followers": "https://api2.frontapp.com/conversations/cnv_23kgkub/followers",
+      "messages": "https://api2.frontapp.com/conversations/cnv_23kgkub/messages",
+      "comments": "https://api2.frontapp.com/conversations/cnv_23kgkub/comments",
+      "inboxes": "https://api2.frontapp.com/conversations/cnv_23kgkub/inboxes"
+    }
+  },
+  "id": "cnv_23kgkub",
+  "subject": "Re: Sales Inbound Test",
+  "status": "assigned",
+  "assignee": {
+    "_links": {
+      "self": "https://api2.frontapp.com/teammates/tea_grc",
+      "related": {
+        "inboxes": "https://api2.frontapp.com/teammates/tea_grc/inboxes",
+        "conversations": "https://api2.frontapp.com/teammates/tea_grc/conversations"
+      }
+    },
+    "id": "tea_grc",
+    "email": "juan@balena.io",
+    "username": "jviotti",
+    "first_name": "Juan Cruz",
+    "last_name": "Viotti",
+    "is_admin": true,
+    "is_available": true,
+    "is_blocked": false
+  },
+  "recipient": {
+    "_links": {
+      "related": {
+        "contact": "https://api2.frontapp.com/contacts/crd_chkozn"
+      }
+    },
+    "handle": "jv@jviotti.com",
+    "role": "to"
+  },
+  "tags": [],
+  "last_message": {
+    "_links": {
+      "self": "https://api2.frontapp.com/messages/msg_44t177n",
+      "related": {
+        "conversation": "https://api2.frontapp.com/conversations/cnv_23kgkub"
+      }
+    },
+    "id": "msg_44t177n",
+    "type": "email",
+    "is_inbound": false,
+    "created_at": 1563538852.296,
+    "blurb": "Test email reply",
+    "body": "<div>Test email reply</div><br><div class=\"front-signature fa-uid_3ceb624a81164f46da606d90470c85fb\"><div>—</div><div>Juan Cruz Viotti,</div><div>Software Engineer, Resin.io (https://resin.io)</div><div>twt: @resin_io</div></div><br><blockquote type=\"cite\" class=\"front-blockquote\">On July 19, 2019, 1:20 PM GMT+1 <a href=\"mailto:jv@jviotti.com\" target=\"_blank\" rel=\"noopener noreferrer\">jv@jviotti.com</a> wrote:<br /><br /><div id=\"fae_44t177n-n94dtz\">Test<br /><br />-- <br />Juan Cruz Viotti<br />Software Engineer<br /><a rel=\"noopener noreferrer\" href=\"https://www.jviotti.com/\" target=\"_blank\">https://www.jviotti.com</a><br /></div></blockquote>",
+    "text": "Test email reply",
+    "is_draft": false,
+    "error_type": null,
+    "metadata": {},
+    "author": {
+      "_links": {
+        "self": "https://api2.frontapp.com/teammates/tea_grc",
+        "related": {
+          "inboxes": "https://api2.frontapp.com/teammates/tea_grc/inboxes",
+          "conversations": "https://api2.frontapp.com/teammates/tea_grc/conversations"
+        }
+      },
+      "id": "tea_grc",
+      "email": "juan@balena.io",
+      "username": "jviotti",
+      "first_name": "Juan Cruz",
+      "last_name": "Viotti",
+      "is_admin": true,
+      "is_available": true,
+      "is_blocked": false
+    },
+    "recipients": [
+      {
+        "_links": {
+          "related": {
+            "contact": "https://api2.frontapp.com/contacts/crd_8jbeiz"
+          }
+        },
+        "handle": "sales@balena.io",
+        "role": "from"
+      },
+      {
+        "_links": {
+          "related": {
+            "contact": "https://api2.frontapp.com/contacts/crd_chkozn"
+          }
+        },
+        "handle": "jv@jviotti.com",
+        "role": "to"
+      }
+    ],
+    "attachments": []
+  },
+  "created_at": 1563538811.885,
+  "is_private": false
+}

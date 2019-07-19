@@ -1,0 +1,253 @@
+{
+  "head": {
+    "name": "Sales Inbound Test",
+    "type": "sales-thread",
+    "version": "1.0.0",
+    "active": true,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "inbox": "Z/Solutions",
+      "environment": "production",
+      "mirrors": [
+        "https://api2.frontapp.com/conversations/cnv_23kgkub"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "",
+      "status": "open"
+    }
+  },
+  "tail": [
+    {
+      "type": "message",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": {
+          "active": true,
+          "slug": "user-jv-jviotti-com"
+        },
+        "mirrors": [
+          "https://api2.frontapp.com/messages/msg_44t0vsz"
+        ],
+        "timestamp": "2019-07-19T12:20:11.786Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "attachments": [
+            {
+              "bytesize": 849,
+              "mime": "application/pgp-signature",
+              "name": "signature.asc",
+              "url": "https://api2.frontapp.com/download/fil_691uv7n"
+            }
+          ],
+          "message": "Test\n\\--\nJuan Cruz Viotti\nSoftware Engineer\n[https://www.jviotti.com](https://www.jviotti.com)"
+        }
+      }
+    },
+    {
+      "type": "create",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": {
+          "active": true,
+          "slug": "user-jv-jviotti-com"
+        },
+        "timestamp": "2019-07-19T12:20:11.885Z",
+        "payload": {
+          "name": "Sales Inbound Test",
+          "type": "sales-thread",
+          "version": "1.0.0",
+          "active": true,
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "inbox": "Z/Solutions",
+            "environment": "production",
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_23kgkub"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open"
+          }
+        }
+      }
+    },
+    {
+      "type": "whisper",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": {
+          "active": true,
+          "slug": "user-syncbot"
+        },
+        "mirrors": [
+          "https://api2.frontapp.com/comments/com_6tgbyb"
+        ],
+        "timestamp": "2019-07-19T12:20:14.313Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "This is mirrored in [flowdock sales thread 7HndgwH12oTQU4wMTpqSF9SbHkU](https://www.flowdock.com/app/rulemotion/s-sales/threads/7HndgwH12oTQU4wMTpqSF9SbHkU)\n[](https://www.balena-cloud.com?hidden=murmur&source=flowdock&flow=rulemotion/s-sales&thread=7HndgwH12oTQU4wMTpqSF9SbHkU&hmac=537b7c35482d33428454a74d430e475f7f345017570f3b003bfffbb2c2203f6b)"
+        }
+      }
+    },
+    {
+      "type": "update",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": {
+          "active": true,
+          "slug": "user-syncbot"
+        },
+        "timestamp": "2019-07-19T12:20:14.338Z",
+        "target": "dee1f877-9159-405a-8fbd-43aebdd4ffbc",
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2019-07-19T12:20:14.338Z"
+          }
+        ]
+      }
+    },
+    {
+      "type": "whisper",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
+        "mirrors": [
+          "https://api2.frontapp.com/comments/com_6tgc5f"
+        ],
+        "timestamp": "2019-07-19T12:20:22.339Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "Test whisper"
+        }
+      }
+    },
+    {
+      "type": "update",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
+        "timestamp": "2019-07-19T12:20:22.592Z",
+        "target": "dee1f877-9159-405a-8fbd-43aebdd4ffbc",
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2019-07-19T12:20:22.592Z"
+          }
+        ]
+      }
+    },
+    {
+      "type": "message",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
+        "mirrors": [
+          "https://api2.frontapp.com/messages/msg_44t177n"
+        ],
+        "timestamp": "2019-07-19T12:20:52.296Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "Test email reply\n\n—\n\nJuan Cruz Viotti,\n\nSoftware Engineer, Resin.io (https://resin.io)\n\ntwt: @resin\\_io\n\n> On July 19, 2019, 1:20 PM GMT+1 [jv@jviotti.com](mailto:jv@jviotti.com) wrote:\n> \n> Test\n> \\--\n> Juan Cruz Viotti\n> Software Engineer\n> [https://www.jviotti.com](https://www.jviotti.com/)"
+        }
+      }
+    },
+    {
+      "type": "update",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
+        "timestamp": "2019-07-19T12:20:34.837Z",
+        "target": "dee1f877-9159-405a-8fbd-43aebdd4ffbc",
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2019-07-19T12:20:34.837Z"
+          }
+        ]
+      }
+    },
+    {
+      "id": "25bd10a2-c5ef-41a6-ae14-6f5ef58cfc18",
+      "type": "update",
+      "active": true,
+      "version": "1.0.0",
+      "name": null,
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": {
+          "slug": "user-jviotti",
+          "active": true
+        },
+        "target": "ec436330-bcd2-45d8-a38d-458c4d3f8880",
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2019-07-19T12:20:52.296Z"
+          }
+        ],
+        "timestamp": "2019-07-19T12:20:52.296Z"
+      }
+    }
+  ]
+}

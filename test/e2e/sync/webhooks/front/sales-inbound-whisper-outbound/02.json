@@ -1,0 +1,139 @@
+{
+  "headers": {
+    "accept": "application/json",
+    "user-agent": "Needle/1.3.0 (Node.js v10.15.1; linux x64)",
+    "x-front-signature": "YwxbIOc8SMMheDG7NNzhpfU1RmI=",
+    "content-length": "3004",
+    "content-type": "application/json; charset=utf-8",
+    "host": "363b7a48.ngrok.io",
+    "connection": "close",
+    "x-forwarded-proto": "https",
+    "x-forwarded-for": "54.176.208.236"
+  },
+  "payload": {
+    "_links": {
+      "self": "https://api2.frontapp.com/events/evt_b8lp937"
+    },
+    "id": "evt_b8lp937",
+    "type": "comment",
+    "emitted_at": 1563538814.338,
+    "conversation": {
+      "_links": {
+        "self": "https://api2.frontapp.com/conversations/cnv_23kgkub",
+        "related": {
+          "events": "https://api2.frontapp.com/conversations/cnv_23kgkub/events",
+          "followers": "https://api2.frontapp.com/conversations/cnv_23kgkub/followers",
+          "messages": "https://api2.frontapp.com/conversations/cnv_23kgkub/messages",
+          "comments": "https://api2.frontapp.com/conversations/cnv_23kgkub/comments",
+          "inboxes": "https://api2.frontapp.com/conversations/cnv_23kgkub/inboxes"
+        }
+      },
+      "id": "cnv_23kgkub",
+      "subject": "Sales Inbound Test",
+      "status": "unassigned",
+      "assignee": null,
+      "recipient": {
+        "_links": {
+          "related": {
+            "contact": null
+          }
+        },
+        "handle": "jv@jviotti.com",
+        "role": "from"
+      },
+      "tags": [],
+      "last_message": {
+        "_links": {
+          "self": "https://api2.frontapp.com/messages/msg_44t0vsz",
+          "related": {
+            "conversation": "https://api2.frontapp.com/conversations/cnv_23kgkub"
+          }
+        },
+        "id": "msg_44t0vsz",
+        "type": "email",
+        "is_inbound": true,
+        "created_at": 1563538811.786,
+        "blurb": "Test -- Juan Cruz Viotti Software Engineer https://www.jviotti.com ",
+        "body": "Test<br><br>-- <br>Juan Cruz Viotti<br>Software Engineer<br><a href=\"https://www.jviotti.com\" target=\"_blank\" rel=\"noopener noreferrer\">https://www.jviotti.com</a><br>",
+        "text": "Test\n\n-- \nJuan Cruz Viotti\nSoftware Engineer\nhttps://www.jviotti.com\n",
+        "is_draft": false,
+        "error_type": "id_usurpation",
+        "metadata": {},
+        "author": null,
+        "recipients": [
+          {
+            "_links": {
+              "related": {
+                "contact": null
+              }
+            },
+            "handle": "jv@jviotti.com",
+            "role": "from"
+          },
+          {
+            "_links": {
+              "related": {
+                "contact": "https://api2.frontapp.com/contacts/crd_8jbeiz"
+              }
+            },
+            "handle": "sales@balena.io",
+            "role": "to"
+          }
+        ],
+        "attachments": [
+          {
+            "url": "https://api2.frontapp.com/download/fil_691uv7n",
+            "filename": "signature.asc",
+            "content_type": "application/pgp-signature",
+            "size": 849,
+            "metadata": {
+              "is_inline": false
+            }
+          }
+        ]
+      },
+      "created_at": 1563538811.885,
+      "is_private": false
+    },
+    "source": {
+      "_meta": {
+        "type": "api"
+      },
+      "data": null
+    },
+    "target": {
+      "_meta": {
+        "type": "comment"
+      },
+      "data": {
+        "_links": {
+          "self": "https://api2.frontapp.com/comments/com_6tgbyb",
+          "related": {
+            "conversation": "https://api2.frontapp.com/conversations/cnv_23kgkub",
+            "mentions": "https://api2.frontapp.com/comments/com_6tgbyb/mentions"
+          }
+        },
+        "id": "com_6tgbyb",
+        "body": "This is mirrored in [flowdock sales thread 7HndgwH12oTQU4wMTpqSF9SbHkU](https://www.flowdock.com/app/rulemotion/s-sales/threads/7HndgwH12oTQU4wMTpqSF9SbHkU)\n[](https://www.balena-cloud.com?hidden=murmur&source=flowdock&flow=rulemotion/s-sales&thread=7HndgwH12oTQU4wMTpqSF9SbHkU&hmac=537b7c35482d33428454a74d430e475f7f345017570f3b003bfffbb2c2203f6b)",
+        "posted_at": 1563538814.313,
+        "author": {
+          "_links": {
+            "self": "https://api2.frontapp.com/teammates/tea_1urh",
+            "related": {
+              "inboxes": "https://api2.frontapp.com/teammates/tea_1urh/inboxes",
+              "conversations": "https://api2.frontapp.com/teammates/tea_1urh/conversations"
+            }
+          },
+          "id": "tea_1urh",
+          "email": "syncbot@resin.io",
+          "username": "syncbot",
+          "first_name": "Syncbot",
+          "last_name": "Bot",
+          "is_admin": false,
+          "is_available": true,
+          "is_blocked": false
+        }
+      }
+    }
+  }
+}
