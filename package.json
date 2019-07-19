@@ -1,7 +1,7 @@
 {
   "name": "jellyfish",
   "version": "19.0.2",
-  "codename": "cyanea",
+  "codename": "cephea",
   "private": true,
   "description": "The Jellyfish Project",
   "main": "apps/server/index.js",
