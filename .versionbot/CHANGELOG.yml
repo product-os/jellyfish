@@ -1,4 +1,36 @@
 - commits:
+    - subject: 'Package: Update version codename'
+      hash: d8ea8a49cb9ec3f8ff46f0191d97ac01f754a264
+      body: |
+        https://en.wikipedia.org/wiki/Cephea
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Add a regression test for "mark all as read" functionality'
+      hash: 21551f05f91c599790998376decaa8b39b050143
+      body: |
+        Fixes #2195
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Refactor "mark as read" functionality into an SDK method'
+      hash: 3661edaae3b888800ca84491fd1981e773a0a77f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 19.0.3
+  date: 2019-07-19T10:08:32.943Z
+- commits:
     - subject: 'sync/action-library: Fix upsert race condition'
       hash: ae031adf5fa1620f0b7989f7b7e3b2c56c8690ec
       body: ''
