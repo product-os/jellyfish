@@ -55,7 +55,3 @@ properties:
       type: string
   - INTEGRATION_DISCOURSE_SIGNATURE_KEY:
       type: string
-  - INTEGRATION_OUTREACH_APP_ID:
-      type: string
-  - INTEGRATION_OUTREACH_APP_SECRET:
-      type: string
