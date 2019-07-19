@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'action-library: Fix nested property path issues in maintain-contact'
+      hash: 269e5c8201f133be0ece807032359a929bcdaacf
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 19.1.2
+  date: 2019-07-19T18:23:42.534Z
+- commits:
     - subject: 'action-library: Log input card when updating user contact'
       hash: 19770bf7241773285de40c968feb54295bb536ce
       body: |
