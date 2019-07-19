@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'Revert "deploy-templates: Remove Outreach secrets"'
+      hash: 4709754826233801847c8f4852a0173d0e63dec5
+      body: |
+        This reverts commit 6a969fe71bc6277f211397b0018b4aa668e8250d.
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Juan Cruz Viotti
+  version: 19.1.4
+  date: 2019-07-19T20:14:13.486Z
+- commits:
     - subject: 'deploy-templates: Remove Outreach secrets'
       hash: 6a969fe71bc6277f211397b0018b4aa668e8250d
       body: |
