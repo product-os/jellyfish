@@ -29,9 +29,6 @@ import {
 	sdk
 } from '../../core'
 import {
-	patchPath
-} from '../../services/helpers'
-import {
 	ActionLink
 } from '../../shame/ActionLink'
 import Icon from '../../shame/Icon'
@@ -65,27 +62,11 @@ class Inbox extends React.Component {
 		this.markAllAsRead = this.markAllAsRead.bind(this)
 	}
 
-	async setCardRead (card) {
-		const userSlug = this.props.user.slug
-		if (card.type === 'message' || card.type === 'whisper') {
-			const message = _.get(card, [ 'data', 'payload', 'message' ], '')
-
-			// Only continue if the message mentions the current user
-			if (message.includes(`@${userSlug.slice(5)}`) || message.includes(`!${userSlug.slice(5)}`)) {
-				const readBy = _.get(card, [ 'data', 'readBy' ], [])
-
-				if (!_.includes(readBy, userSlug)) {
-					const patch = patchPath(card, [ 'data', 'readBy' ], [ ...readBy, userSlug ])
-
-					return sdk.card.update(card.id, card.type, patch)
-						.catch((error) => {
-							console.error(error)
-						})
-				}
-			}
-		}
-
-		return null
+	setCardRead (card) {
+		sdk.card.markAsRead(this.props.user.slug, card)
+			.catch((error) => {
+				console.error(error)
+			})
 	}
 
 	async handleCardRead (event) {
@@ -172,6 +153,7 @@ class Inbox extends React.Component {
 					<Button
 						onClick={this.markAllAsRead}
 						disabled={markingAllAsRead || tail.length === 0}
+						data-test="inbox__mark-all-as-read"
 					>
 						{markingAllAsRead
 							? <Icon name="cog" spin />

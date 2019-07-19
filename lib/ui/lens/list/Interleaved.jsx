@@ -172,24 +172,10 @@ export class Interleaved extends React.Component {
 	}
 
 	handleCardVisible (card) {
-		const userSlug = this.props.user.slug
-		if (card.type === 'message' || card.type === 'whisper') {
-			const message = _.get(card, [ 'data', 'payload', 'message' ], '')
-
-			// Only continue if the message mentions the current user
-			if (message.includes(`@${userSlug.slice(5)}`) || message.includes(`!${userSlug.slice(5)}`)) {
-				const readBy = _.get(card, [ 'data', 'readBy' ], [])
-
-				if (!_.includes(readBy, userSlug)) {
-					const patch = helpers.patchPath(card, [ 'data', 'readBy' ], [ ...readBy, userSlug ])
-
-					sdk.card.update(card.id, card.type, patch)
-						.catch((error) => {
-							console.error(error)
-						})
-				}
-			}
-		}
+		sdk.card.markAsRead(this.props.user.slug, card)
+			.catch((error) => {
+				console.error(error)
+			})
 	}
 
 	bindScrollArea (ref) {

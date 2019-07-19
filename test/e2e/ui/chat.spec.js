@@ -175,15 +175,52 @@ ava.serial('Messages that ping a user should appear in their inbox', async (test
 
 	await macros.createChatMessage(page, columnSelector, msg)
 
-	await macros.waitForThenClickSelector(incognitoPage, '.user-menu-toggle')
-	await macros.waitForThenClickSelector(
-		incognitoPage,
-		'[data-test="home-channel__item--view-my-inbox"]'
-	)
+	// Navigate to the inbox page
+	await incognitoPage.goto(`http://localhost:${environment.ui.port}/view-my-inbox`)
 
 	const messageText = await macros.getElementText(incognitoPage, '[data-test="event-card__message"]')
 
 	test.is(messageText.trim(), msg)
 
 	test.pass()
+})
+
+ava.serial('Users should be able to mark all messages as read from their inbox', async (test) => {
+	const {
+		user2,
+		page,
+		incognitoPage
+	} = context
+
+	const thread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'thread'
+		})
+	})
+
+	// Navigate to the thread page
+	await page.goto(`http://localhost:${environment.ui.port}/${thread.id}`)
+
+	const columnSelector = `.column--slug-${thread.slug}`
+	await page.waitForSelector(columnSelector)
+
+	const msg = `@${user2.slug.slice(5)} ${uuid()}`
+
+	await page.waitForSelector('.new-message-input')
+
+	await macros.createChatMessage(page, columnSelector, msg)
+
+	// Navigate to the inbox page
+	await incognitoPage.goto(`http://localhost:${environment.ui.port}/view-my-inbox`)
+
+	await macros.waitForThenClickSelector(incognitoPage, '[data-test="inbox__mark-all-as-read"]')
+
+	// Leave a small delay for the message to be marked as read and for the change
+	// to be propogated to the UI
+	await Bluebird.delay(4000)
+
+	const messages = await incognitoPage.$$('[data-test="event-card__message"]')
+
+	// Assert that there are no longer messages in the inbox
+	test.is(messages.length, 0)
 })
