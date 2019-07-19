@@ -5,6 +5,13 @@
  */
 
 module.exports = {
+	'unknown-inbox': {
+		expected: require('./unknown-inbox/expected.json'),
+		steps: [
+			require('./unknown-inbox/01.json'),
+			require('./unknown-inbox/02.json')
+		]
+	},
 	'inbound-attachment': {
 		expected: require('./inbound-attachment/expected.json'),
 		steps: [
