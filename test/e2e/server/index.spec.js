@@ -1185,6 +1185,104 @@ ava.serial('should link the contact to the user', async (test) => {
 	])
 })
 
+ava.serial('should be able to sync updates to user first names', async (test) => {
+	const slug = test.context.generateRandomSlug({
+		prefix: 'user'
+	})
+
+	const userCard = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			slug,
+			type: 'user',
+			data: {
+				email: 'johndoe@example.com',
+				roles: [ 'user-community' ],
+				profile: {
+					title: 'Frontend Engineer',
+					name: {
+						first: 'John'
+					}
+				}
+			}
+		})
+
+	const result1 = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: userCard.id,
+			type: userCard.type,
+			action: 'action-maintain-contact',
+			arguments: {}
+		}, {
+			Authorization: `Bearer ${test.context.session}`
+		})
+
+	test.false(result1.response.error)
+
+	const result2 = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: userCard.id,
+			type: userCard.type,
+			action: 'action-update-card',
+			arguments: {
+				reason: null,
+				patch: [
+					{
+						op: 'replace',
+						path: '/data/profile/name/first',
+						value: 'Johnny'
+					}
+				]
+			}
+		}, {
+			Authorization: `Bearer ${test.context.session}`
+		})
+
+	test.false(result2.response.error)
+
+	const result3 = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: userCard.id,
+			type: userCard.type,
+			action: 'action-maintain-contact',
+			arguments: {}
+		}, {
+			Authorization: `Bearer ${test.context.session}`
+		})
+
+	test.false(result3.response.error)
+
+	const contactCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, result3.response.data.slug, {
+			type: result3.response.data.type
+		})
+
+	test.deepEqual(contactCard, {
+		id: contactCard.id,
+		slug: contactCard.slug.replace('user-', 'contact-'),
+		name: '',
+		tags: [],
+		type: 'contact',
+		links: {},
+		active: true,
+		markers: [],
+		version: '1.0.0',
+		requires: [],
+		capabilities: [],
+		linked_at: contactCard.linked_at,
+		created_at: contactCard.created_at,
+		updated_at: contactCard.updated_at,
+		data: {
+			profile: {
+				email: 'johndoe@example.com',
+				title: 'Frontend Engineer',
+				name: {
+					first: 'Johnny'
+				}
+			}
+		}
+	})
+})
+
 ava.serial('should apply a user patch to a contact that diverged', async (test) => {
 	const slug = test.context.generateRandomSlug({
 		prefix: 'user'
@@ -1737,8 +1835,7 @@ ava.serial('should merge and relink a diverging contact with a matching slug', a
 			profile: {
 				email: 'johndoe@example.com',
 				title: 'Frontend developer',
-				company: 'Balena',
-				name: {}
+				company: 'Balena'
 			}
 		}
 	})
