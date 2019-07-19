@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'sync/action-library: Fix upsert race condition'
+      hash: ae031adf5fa1620f0b7989f7b7e3b2c56c8690ec
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 19.0.2
+  date: 2019-07-19T08:06:29.342Z
+- commits:
     - subject: 'front: Extract thread type to a constant'
       hash: 74f416a42350748fcdb91c8a590cddc64cb75bfc
       body: ''
