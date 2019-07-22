@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'action-library: Capitalize/prettify contact names'
+      hash: 3171e1ad11e620a5d2e5ea0d1dda19aa33c83059
+      body: |
+        So that @chrisrwilkes doesn't have to manually do it anymore :)
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 19.1.7
+  date: 2019-07-22T17:26:20.161Z
+- commits:
     - subject: 'UI: Fix markdown formatted input fields'
       hash: ba031b6661dcb8e77849bbbddb03b9e4adde7084
       body: |
