@@ -17,6 +17,15 @@ import {
 	Provider
 } from 'rendition'
 import {
+	Form
+} from 'rendition/dist/unstable'
+import {
+	MarkdownWidget
+} from 'rendition/dist/extra/Form/markdown'
+import {
+	MermaidWidget
+} from 'rendition/dist/extra/Form/mermaid'
+import {
 	saveAs
 } from 'file-saver'
 import HomeChannel from './components/HomeChannel'
@@ -41,8 +50,9 @@ import {
 } from 'react-router-dom'
 
 // Register the mermaid and markdown widgets for rendition forms
-import 'rendition/dist/extra/Form/markdown'
-import 'rendition/dist/extra/Form/mermaid'
+// Register the extra format widgets to the Form component
+Form.registerWidget('markdown', MarkdownWidget)
+Form.registerWidget('mermaid', MermaidWidget)
 
 // Check if the path begins with a hash fragment, followed by a slash: /#/ OR
 // A path that begins with a type and a tilde
