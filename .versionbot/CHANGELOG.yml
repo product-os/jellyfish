@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'UI: Fix markdown formatted input fields'
+      hash: ba031b6661dcb8e77849bbbddb03b9e4adde7084
+      body: |
+        Fixes #2198
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 19.1.6
+  date: 2019-07-22T14:44:20.459Z
+- commits:
     - subject: 'UI: Ensure View lens respects lens sort order'
       hash: 197dabb1de2e12a3b9ff2eef31a621527f20406e
       body: ''
