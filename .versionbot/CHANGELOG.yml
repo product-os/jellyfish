@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'UI: Ensure View lens respects lens sort order'
+      hash: 197dabb1de2e12a3b9ff2eef31a621527f20406e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 19.1.5
+  date: 2019-07-22T08:48:30.389Z
+- commits:
     - subject: 'Revert "deploy-templates: Remove Outreach secrets"'
       hash: 4709754826233801847c8f4852a0173d0e63dec5
       body: |
