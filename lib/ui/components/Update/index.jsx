@@ -137,7 +137,6 @@ class Update extends React.Component {
 		let description = null
 
 		if (_.some(card.data.payload, 'op')) {
-			console.log('PAYLOAD', card.data.payload)
 			description = generateJSONPatchDescription(card.data.payload)
 		}
 
