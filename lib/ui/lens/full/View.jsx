@@ -414,7 +414,13 @@ class ViewRenderer extends React.Component {
 			return <Redirect push to={redirectTo} />
 		}
 
-		const tail = this.props.tail && _.sortBy(this.props.tail, this.state.options.sortBy)
+		const options = this.getQueryOptions(activeLens)
+
+		const tail = this.props.tail && _.sortBy(this.props.tail, options.sortBy)
+
+		if (tail && options.sortDir === 'desc') {
+			tail.reverse()
+		}
 
 		const lenses = this.lenses
 		const useFilters = Boolean(tailType) && tailType.slug !== 'view'
