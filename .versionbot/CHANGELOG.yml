@@ -1,4 +1,34 @@
 - commits:
+    - subject: 'UI: Remove debug message in Update component'
+      hash: 174851e2658e908d1b3704e099e15ed139e0e6e4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: Add a view for showing all sales threads
+      hash: 4e488596dd90b03c24308af1258a707b918ae49c
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'Permissions: Allow community users to view the sales-thread type'
+      hash: 32a73b61a8a32a2423601eaa637d6a4093502d96
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 19.2.0
+  date: 2019-07-23T08:45:39.691Z
+- commits:
     - subject: 'action-library: Capitalize/prettify contact names'
       hash: 3171e1ad11e620a5d2e5ea0d1dda19aa33c83059
       body: |
