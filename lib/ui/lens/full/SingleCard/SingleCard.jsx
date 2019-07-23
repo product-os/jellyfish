@@ -15,10 +15,19 @@ import {
 	Tab,
 	Tabs
 } from 'rendition'
+import styled from 'styled-components'
 import Segment from './Segment'
 import CardFields from '../../../components/CardFields'
 import CardLayout from '../../../layouts/CardLayout'
 import Timeline from '../../list/Timeline'
+
+const SingleCardTabs = styled(Tabs) `
+	flex: 1
+
+	> [role="tabpanel"] {
+		flex: 1
+	}
+`
 
 export default class SingleCardFull extends React.Component {
 	shouldComponentUpdate (nextProps) {
@@ -46,11 +55,7 @@ export default class SingleCardFull extends React.Component {
 			>
 				<Divider width="100%" color="#eee" />
 
-				<Tabs
-					style={{
-						flex: 1
-					}}
-				>
+				<SingleCardTabs>
 					<Tab title="Timeline">
 						<Timeline.data.renderer
 							card={this.props.card}
@@ -83,7 +88,7 @@ export default class SingleCardFull extends React.Component {
 							</Tab>
 						)
 					})}
-				</Tabs>
+				</SingleCardTabs>
 			</CardLayout>
 		)
 	}
