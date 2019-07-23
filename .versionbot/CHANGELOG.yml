@@ -1,4 +1,70 @@
 - commits:
+    - subject: 'UI: Use support thread lens for sales threads'
+      hash: 50259aa0910fa8d6b0e51175f2a1afd317696b38
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Display timeline tab first if there are messages to show'
+      hash: ea3f57cfd0c5ed01f01eae64a5897d19a9e8c53f
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Make single card lens timeline full height'
+      hash: fb9e3eb567f36d218da6ad3f8af74d01a563b528
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Allow whispers on timelines by default when rendering cards'
+      hash: 1358a08aeaee1a3155aa3d7bf4b6644d51c420a9
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Display Timeline tab first'
+      hash: 62383356f1465db237e8201fdf2089e9a3bbce92
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Remove unnecessary tab props'
+      hash: 994c0598ba42e2edb0742cb1910a53af172f08dd
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: Update name of "All sales threads" view
+      hash: 5c6b7995c012c81e9a3327a29364dea16ee75cac
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 19.5.0
+  date: 2019-07-23T14:52:49.760Z
+- commits:
     - subject: 'server: Fix opportunity card trailing comma'
       hash: 03bd80456ca0af2ef75a7c9d83f6580095a5b2c0
       body: ''
