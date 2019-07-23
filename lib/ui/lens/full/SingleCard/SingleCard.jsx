@@ -15,14 +15,45 @@ import {
 	Tab,
 	Tabs
 } from 'rendition'
+import styled from 'styled-components'
 import Segment from './Segment'
 import CardFields from '../../../components/CardFields'
 import CardLayout from '../../../layouts/CardLayout'
 import Timeline from '../../list/Timeline'
 
+const SingleCardTabs = styled(Tabs) `
+	flex: 1
+
+	> [role="tabpanel"] {
+		flex: 1
+	}
+`
+
 export default class SingleCardFull extends React.Component {
-	shouldComponentUpdate (nextProps) {
-		return !circularDeepEqual(nextProps, this.props)
+	constructor (props) {
+		super(props)
+
+		const tail = _.get(this.props.card.links, [ 'has attached element' ], [])
+
+		const comms = _.filter(tail, (item) => {
+			return item.type === 'message' || item.type === 'whisper'
+		})
+
+		this.state = {
+			activeIndex: comms.length ? 1 : 0
+		}
+
+		this.setActiveIndex = this.setActiveIndex.bind(this)
+	}
+
+	shouldComponentUpdate (nextProps, nextState) {
+		return	!circularDeepEqual(nextState, this.state) || !circularDeepEqual(nextProps, this.props)
+	}
+
+	setActiveIndex (activeIndex) {
+		this.setState({
+			activeIndex
+		})
 	}
 
 	render () {
@@ -36,15 +67,8 @@ export default class SingleCardFull extends React.Component {
 			slug: card.type
 		})
 
-		const tabs = [ 'Info', 'Timeline' ]
-
 		const relationships = _.get(type, [ 'data', 'meta', 'relationships' ])
-
-		if (relationships) {
-			for (const segment of relationships) {
-				tabs.push(segment.title)
-			}
-		}
+		const tail = _.get(this.props.card.links, [ 'has attached element' ], [])
 
 		return (
 			<CardLayout
@@ -54,11 +78,9 @@ export default class SingleCardFull extends React.Component {
 			>
 				<Divider width="100%" color="#eee" />
 
-				<Tabs
-					tabs={tabs}
-					style={{
-						flex: 1
-					}}
+				<SingleCardTabs
+					activeIndex={this.state.activeIndex}
+					onActive={this.setActiveIndex}
 				>
 					<Tab title="Info">
 						<Box p={3}>
@@ -72,8 +94,9 @@ export default class SingleCardFull extends React.Component {
 
 					<Tab title="Timeline">
 						<Timeline.data.renderer
-							card={this.props.card}
-							tail={_.get(this.props.card.links, [ 'has attached element' ], [])}
+							card={card}
+							allowWhispers
+							tail={tail}
 						/>
 					</Tab>
 
@@ -91,7 +114,7 @@ export default class SingleCardFull extends React.Component {
 							</Tab>
 						)
 					})}
-				</Tabs>
+				</SingleCardTabs>
 			</CardLayout>
 		)
 	}

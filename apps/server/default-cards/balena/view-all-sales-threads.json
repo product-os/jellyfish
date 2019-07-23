@@ -1,6 +1,6 @@
 {
   "slug": "view-all-sales-threads",
-  "name": "General",
+  "name": "All sales threads",
   "version": "1.0.0",
   "type": "view",
   "markers": [ "org-balena" ],
@@ -49,7 +49,7 @@
       }
     ],
     "lenses": [
-      "lens-list"
+      "lens-support-threads"
     ]
   },
   "requires": [],
