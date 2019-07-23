@@ -1,0 +1,57 @@
+{
+  "slug": "view-all-sales-threads",
+  "name": "General",
+  "version": "1.0.0",
+  "type": "view",
+  "markers": [ "org-balena" ],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "namespace": "Sales",
+    "allOf": [
+      {
+        "name": "Active cards",
+        "schema": {
+          "$$links": {
+            "has attached element": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "enum": [
+                    "message",
+                    "update",
+                    "create",
+                    "whisper"
+                  ]
+                }
+              },
+              "additionalProperties": true
+            }
+          },
+          "type": "object",
+          "properties": {
+            "active": {
+              "const": true,
+              "type": "boolean"
+            },
+            "type": {
+              "type": "string",
+              "const": "sales-thread"
+            }
+          },
+          "required": [
+            "active",
+            "type"
+          ],
+          "additionalProperties": true
+        }
+      }
+    ],
+    "lenses": [
+      "lens-list"
+    ]
+  },
+  "requires": [],
+  "capabilities": []
+}
