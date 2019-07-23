@@ -182,6 +182,7 @@ avaTest('should not update a synced contact with an excluded address', async (te
 	const prospect = await test.context.getProspect(prospectId)
 
 	test.deepEqual(prospect.data.attributes.emails, [ `${username}@test.io` ])
+	test.is(prospect.data.attributes.custom1, `https://jel.ly.fish/${contact.id}`)
 })
 
 avaTest('should link a user with an existing prospect', async (test) => {
@@ -238,6 +239,7 @@ avaTest('should link a user with an existing prospect', async (test) => {
 	test.is(prospect.data.attributes.addressCity, 'Oxford')
 	test.is(prospect.data.attributes.addressCountry, 'United Kingdom')
 	test.falsy(prospect.data.attributes.githubUsername)
+	test.is(prospect.data.attributes.custom1, `https://jel.ly.fish/${contact.id}`)
 })
 
 avaTest('should create a simple contact', async (test) => {
@@ -271,6 +273,7 @@ avaTest('should create a simple contact', async (test) => {
 	test.is(prospect.data.attributes.name, username)
 	test.is(prospect.data.attributes.nickname, username)
 	test.falsy(prospect.data.attributes.githubUsername)
+	test.is(prospect.data.attributes.custom1, `https://jel.ly.fish/${contact.id}`)
 })
 
 avaTest('should use username as GitHub handle if slug starts with user-gh- (from Balena Cloud)', async (test) => {
@@ -305,6 +308,7 @@ avaTest('should use username as GitHub handle if slug starts with user-gh- (from
 	test.is(prospect.data.attributes.name, username)
 	test.is(prospect.data.attributes.githubUsername, handle)
 	test.is(prospect.data.attributes.nickname, username)
+	test.is(prospect.data.attributes.custom1, `https://jel.ly.fish/${contact.id}`)
 })
 
 avaTest('should create a simple contact without an email', async (test) => {
@@ -331,6 +335,7 @@ avaTest('should create a simple contact without an email', async (test) => {
 	test.is(prospect.data.attributes.name, username)
 	test.is(prospect.data.attributes.nickname, username)
 	test.falsy(prospect.data.attributes.githubUsername)
+	test.is(prospect.data.attributes.custom1, `https://jel.ly.fish/${contact.id}`)
 })
 
 avaTest('should not mirror a user card type', async (test) => {
@@ -431,6 +436,7 @@ avaTest('should not sync emails on contacts with new@change.me', async (test) =>
 	test.is(prospect.data.attributes.name, username)
 	test.is(prospect.data.attributes.nickname, username)
 	test.falsy(prospect.data.attributes.githubUsername)
+	test.is(prospect.data.attributes.custom1, `https://jel.ly.fish/${contact.id}`)
 })
 
 avaTest('should not sync emails on contacts with unknown@change.me', async (test) => {
@@ -464,4 +470,5 @@ avaTest('should not sync emails on contacts with unknown@change.me', async (test
 	test.is(prospect.data.attributes.name, username)
 	test.is(prospect.data.attributes.nickname, username)
 	test.falsy(prospect.data.attributes.githubUsername)
+	test.is(prospect.data.attributes.custom1, `https://jel.ly.fish/${contact.id}`)
 })
