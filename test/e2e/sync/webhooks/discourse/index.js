@@ -205,5 +205,12 @@ module.exports = {
 			require('./internal-inbound-message-whisper/03.json'),
 			require('./internal-inbound-message-whisper/04.json')
 		]
+	},
+	'inbound-null-name': {
+		expected: require('./inbound-null-name/expected.json'),
+		steps: [
+			require('./inbound-null-name/01.json'),
+			require('./inbound-null-name/02.json')
+		]
 	}
 }
