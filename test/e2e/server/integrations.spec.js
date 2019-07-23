@@ -121,7 +121,7 @@ outreachTest('/api/v2/oauth should return a url given outreach', async (test) =>
 		'response_type=code',
 		`client_id=${environment.integration.outreach.appId}`,
 		`redirect_uri=${encodeURIComponent(redirectUri)}`,
-		'scope=prospects.all',
+		'scope=prospects.all+sequences.all+sequenceStates.all+sequenceSteps.all+sequenceTemplates.all+mailboxes.all',
 		'state=user-test'
 	].join('&')
 	test.deepEqual(result, {

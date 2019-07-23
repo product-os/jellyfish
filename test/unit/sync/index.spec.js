@@ -13,6 +13,7 @@ const jws = require('jsonwebtoken')
 const jose = require('node-jose')
 const sync = require('../../../lib/sync')
 const oauth = require('../../../lib/sync/oauth')
+const outreach = require('../../../lib/sync/integrations/outreach')
 
 ava('.isValidEvent() should return true for Front given anything', async (test) => {
 	const result = await sync.isValidEvent('front', {
@@ -300,7 +301,7 @@ ava('.getAssociateUrl() should be able to generate an Outreach URL', (test) => {
 		'response_type=code',
 		'client_id=dJyXQHeh8PLKUr4gdsoUYQ8vFvqJ1D20lnFMxBLg',
 		'redirect_uri=https%3A%2F%2Fjel.ly.fish%2Foauth%2Foutreach',
-		'scope=prospects.all',
+		`scope=${outreach.OAUTH_SCOPES.join('+')}`,
 		'state=user-jellyfish'
 	].join('&')
 
