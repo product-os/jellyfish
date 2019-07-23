@@ -40,7 +40,7 @@
               "type": "number",
               "format": "currency",
               "minimum": 0
-            },
+            }
           },
           "required": [
             "status"
