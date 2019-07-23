@@ -36,15 +36,7 @@ export default class SingleCardFull extends React.Component {
 			slug: card.type
 		})
 
-		const tabs = [ 'Info', 'Timeline' ]
-
 		const relationships = _.get(type, [ 'data', 'meta', 'relationships' ])
-
-		if (relationships) {
-			for (const segment of relationships) {
-				tabs.push(segment.title)
-			}
-		}
 
 		return (
 			<CardLayout
@@ -55,7 +47,6 @@ export default class SingleCardFull extends React.Component {
 				<Divider width="100%" color="#eee" />
 
 				<Tabs
-					tabs={tabs}
 					style={{
 						flex: 1
 					}}
