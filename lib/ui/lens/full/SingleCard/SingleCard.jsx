@@ -54,6 +54,7 @@ export default class SingleCardFull extends React.Component {
 					<Tab title="Timeline">
 						<Timeline.data.renderer
 							card={this.props.card}
+							allowWhispers
 							tail={_.get(this.props.card.links, [ 'has attached element' ], [])}
 						/>
 					</Tab>
