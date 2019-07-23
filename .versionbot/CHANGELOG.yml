@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'outreach: Add permissions to manage webhooks'
+      hash: 5012a00bcdde4b576a014175c52ddb539b0e1b2e
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 19.6.0
+  date: 2019-07-23T15:22:13.701Z
+- commits:
     - subject: 'UI: Use support thread lens for sales threads'
       hash: 50259aa0910fa8d6b0e51175f2a1afd317696b38
       body: ''
