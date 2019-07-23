@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'outreach: Add Jellyfish permalink as a custom prospect field'
+      hash: 140b5234c3df5ee1e3cc8126926d4a7517f8999b
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 19.3.0
+  date: 2019-07-23T11:18:39.812Z
+- commits:
     - subject: 'UI: Remove debug message in Update component'
       hash: 174851e2658e908d1b3704e099e15ed139e0e6e4
       body: ''
