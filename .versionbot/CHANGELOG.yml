@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'server: Fix opportunity card trailing comma'
+      hash: 03bd80456ca0af2ef75a7c9d83f6580095a5b2c0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 19.4.1
+  date: 2019-07-23T13:02:13.746Z
+- commits:
     - subject: 'outreach: Require sequences and sequence states permissions'
       hash: 4add3591d6d3ef0b01107e833bcf6b4f3849d8e1
       body: |
