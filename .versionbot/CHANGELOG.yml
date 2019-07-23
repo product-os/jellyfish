@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'outreach: Require sequences and sequence states permissions'
+      hash: 4add3591d6d3ef0b01107e833bcf6b4f3849d8e1
+      body: |
+        This will be necessary in order to manage and trigger sequences.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 19.4.0
+  date: 2019-07-23T12:38:36.771Z
+- commits:
     - subject: 'discourse: Handle null names'
       hash: bc80843b6ce3414094bdeb2775eb7e3f00582cf4
       body: ''
