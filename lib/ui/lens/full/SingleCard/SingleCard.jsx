@@ -30,8 +30,30 @@ const SingleCardTabs = styled(Tabs) `
 `
 
 export default class SingleCardFull extends React.Component {
-	shouldComponentUpdate (nextProps) {
-		return !circularDeepEqual(nextProps, this.props)
+	constructor (props) {
+		super(props)
+
+		const tail = _.get(this.props.card.links, [ 'has attached element' ], [])
+
+		const comms = _.filter(tail, (item) => {
+			return item.type === 'message' || item.type === 'whisper'
+		})
+
+		this.state = {
+			activeIndex: comms.length ? 1 : 0
+		}
+
+		this.setActiveIndex = this.setActiveIndex.bind(this)
+	}
+
+	shouldComponentUpdate (nextProps, nextState) {
+		return	!circularDeepEqual(nextState, this.state) || !circularDeepEqual(nextProps, this.props)
+	}
+
+	setActiveIndex (activeIndex) {
+		this.setState({
+			activeIndex
+		})
 	}
 
 	render () {
@@ -46,6 +68,7 @@ export default class SingleCardFull extends React.Component {
 		})
 
 		const relationships = _.get(type, [ 'data', 'meta', 'relationships' ])
+		const tail = _.get(this.props.card.links, [ 'has attached element' ], [])
 
 		return (
 			<CardLayout
@@ -55,15 +78,10 @@ export default class SingleCardFull extends React.Component {
 			>
 				<Divider width="100%" color="#eee" />
 
-				<SingleCardTabs>
-					<Tab title="Timeline">
-						<Timeline.data.renderer
-							card={this.props.card}
-							allowWhispers
-							tail={_.get(this.props.card.links, [ 'has attached element' ], [])}
-						/>
-					</Tab>
-
+				<SingleCardTabs
+					activeIndex={this.state.activeIndex}
+					onActive={this.setActiveIndex}
+				>
 					<Tab title="Info">
 						<Box p={3}>
 							<CardFields
@@ -72,6 +90,14 @@ export default class SingleCardFull extends React.Component {
 								type={type}
 							/>
 						</Box>
+					</Tab>
+
+					<Tab title="Timeline">
+						<Timeline.data.renderer
+							card={card}
+							allowWhispers
+							tail={tail}
+						/>
 					</Tab>
 
 					{_.map(relationships, (segment, index) => {
