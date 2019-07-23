@@ -51,6 +51,13 @@ export default class SingleCardFull extends React.Component {
 						flex: 1
 					}}
 				>
+					<Tab title="Timeline">
+						<Timeline.data.renderer
+							card={this.props.card}
+							tail={_.get(this.props.card.links, [ 'has attached element' ], [])}
+						/>
+					</Tab>
+
 					<Tab title="Info">
 						<Box p={3}>
 							<CardFields
@@ -59,13 +66,6 @@ export default class SingleCardFull extends React.Component {
 								type={type}
 							/>
 						</Box>
-					</Tab>
-
-					<Tab title="Timeline">
-						<Timeline.data.renderer
-							card={this.props.card}
-							tail={_.get(this.props.card.links, [ 'has attached element' ], [])}
-						/>
 					</Tab>
 
 					{_.map(relationships, (segment, index) => {
