@@ -1,4 +1,43 @@
 - commits:
+    - subject: 'UI: Use lens system when displaying segment relationships'
+      hash: 7e43cdf67e6ca8b48206f663383da0f684ff7c56
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Never show a timeline for user cards'
+      hash: 0a1febf3d68e82b220feb49df9753d85fc653ca3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: Add meta relationships to user card
+      hash: bf599d2fb289adc60dd87386a5dd2ccf89c7c530
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Link usernames in messages to their full card display'
+      hash: c437d7947493daeb74e3c21fd88bb97561f5e53f
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 19.7.0
+  date: 2019-07-24T09:40:19.895Z
+- commits:
     - subject: 'outreach: Add permissions to manage webhooks'
       hash: 5012a00bcdde4b576a014175c52ddb539b0e1b2e
       body: ''
