@@ -93,6 +93,38 @@ ava.before(async (test) => {
 		}, getMirrorWaitSchema(slug))
 	}
 
+	test.context.deleteTopic = async (id) => {
+		return new Bluebird((resolve, reject) => {
+			request({
+				method: 'DELETE',
+				baseUrl: 'https://forums.balena.io',
+				json: true,
+				uri: `/t/${id}.json`,
+				qs: {
+					api_key: TOKEN.api,
+					api_username: TOKEN.username
+				}
+			}, (error, response, body) => {
+				if (error) {
+					return reject(error)
+				}
+
+				if (response.statusCode === 429) {
+					return test.context.deleteTopic(id)
+						.then(resolve)
+						.catch(reject)
+				}
+
+				if (response.statusCode !== 200) {
+					return reject(new Error(
+						`Got ${response.statusCode}: ${JSON.stringify(body, null, 2)}`))
+				}
+
+				return resolve()
+			})
+		})
+	}
+
 	test.context.getTopic = async (id) => {
 		return new Bluebird((resolve, reject) => {
 			request({
@@ -208,6 +240,74 @@ ava.afterEach(helpers.mirror.afterEach)
 
 // Skip all tests if there is no Discourse token
 const avaTest = _.some(_.values(TOKEN), _.isEmpty) ? ava.skip : ava.serial
+
+avaTest('should send, but not sync, a whisper to a deleted thread', async (test) => {
+	const supportThread = await test.context.startSupportThread(
+		test.context.username,
+		`My deleted summary issue ${uuid()}`,
+		`Foo Bar ${uuid()}`)
+
+	await helpers.mirror.beforeEach(
+		test, environment.test.integration.discourse.username)
+
+	const mirrorId = supportThread.data.mirrors[0]
+	const topicId = _.last(mirrorId.split('/'))
+	await test.context.deleteTopic(topicId)
+
+	const eventResponse = await test.context.sdk.event.create({
+		slug: test.context.getWhisperSlug(),
+		target: supportThread,
+		type: 'whisper',
+		payload: {
+			mentionsUser: [],
+			alertsUser: [],
+			message: '#summary Foo Bar'
+		}
+	})
+
+	// Give it some time to make sure that no syncing took place
+	await Bluebird.delay(5000)
+
+	const thread = await test.context.sdk.getById(eventResponse.id)
+	test.falsy(thread.data.mirrors)
+
+	const topic = await test.context.getTopic(topicId)
+	test.is(topic.post_stream.posts.length, 1)
+})
+
+avaTest('should send, but not sync, a message to a deleted thread', async (test) => {
+	const supportThread = await test.context.startSupportThread(
+		test.context.username,
+		`My deleted summary issue ${uuid()}`,
+		`Foo Bar ${uuid()}`)
+
+	await helpers.mirror.beforeEach(
+		test, environment.test.integration.discourse.username)
+
+	const mirrorId = supportThread.data.mirrors[0]
+	const topicId = _.last(mirrorId.split('/'))
+	await test.context.deleteTopic(topicId)
+
+	const eventResponse = await test.context.sdk.event.create({
+		slug: test.context.getMessageSlug(),
+		target: supportThread,
+		type: 'message',
+		payload: {
+			mentionsUser: [],
+			alertsUser: [],
+			message: 'Test message'
+		}
+	})
+
+	// Give it some time to make sure that no syncing took place
+	await Bluebird.delay(5000)
+
+	const thread = await test.context.sdk.getById(eventResponse.id)
+	test.falsy(thread.data.mirrors)
+
+	const topic = await test.context.getTopic(topicId)
+	test.is(topic.post_stream.posts.length, 1)
+})
 
 avaTest('should send a whisper as a non moderator user', async (test) => {
 	const supportThread = await test.context.startSupportThread(
