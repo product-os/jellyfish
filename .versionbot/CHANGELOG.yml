@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'UI: Fix bug where type card relationships would be mutated'
+      hash: 2f4d412d0d14f0ba8944ff97abe47e7e89c3f2b4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 19.7.1
+  date: 2019-07-24T10:38:46.237Z
+- commits:
     - subject: 'UI: Use lens system when displaying segment relationships'
       hash: 7e43cdf67e6ca8b48206f663383da0f684ff7c56
       body: ''
