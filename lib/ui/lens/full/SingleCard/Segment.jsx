@@ -5,6 +5,7 @@
  */
 
 import Bluebird from 'bluebird'
+import clone from 'deep-copy'
 import {
 	circularDeepEqual
 } from 'fast-equals'
@@ -89,7 +90,7 @@ export default class Segment extends React.Component {
 					context = getLinks(card, relation.link)
 				} else {
 					const mapped = await Bluebird.map(context, (item) => {
-						return queryAPI(evalSchema(relation, {
+						return queryAPI(evalSchema(clone(relation), {
 							result: item
 						}))
 					})
