@@ -146,6 +146,49 @@ ava.afterEach(async (test) => {
 // Skip all tests if there is no Outreach app id and secret
 const avaTest = _.some(_.values(TOKEN), _.isEmpty) ? ava.serial.skip : ava.serial
 
+avaTest('should avoid race conditions on multiple contacts with the same email', async (test) => {
+	for (const time of _.range(10)) {
+		const username = `test-${time}-${uuid()}`
+
+		const results = await Bluebird.all([
+			test.context.sdk.card.create({
+				slug: `contact-${username}-1`,
+				type: 'contact',
+				data: {
+					profile: {
+						email: `${username}@test.io`
+					}
+				}
+			}),
+			test.context.sdk.card.create({
+				slug: `contact-${username}-2`,
+				type: 'contact',
+				data: {
+					profile: {
+						email: `${username}@test.io`
+					}
+				}
+			}),
+			test.context.sdk.card.create({
+				slug: `contact-${username}-3`,
+				type: 'contact',
+				data: {
+					profile: {
+						email: `${username}@test.io`
+					}
+				}
+			})
+		])
+
+		const mirrors = _.uniq(await Bluebird.reduce(results, async (accumulator, result) => {
+			const contact = await test.context.sdk.card.get(result.id)
+			return accumulator.concat(contact.data.mirrors)
+		}, []))
+
+		test.is(mirrors.length, 1)
+	}
+})
+
 avaTest('should not update a synced contact with an excluded address', async (test) => {
 	const username = `test-${uuid()}`
 
