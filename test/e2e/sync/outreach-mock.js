@@ -306,6 +306,26 @@ exports.postProspect = (body) => {
 		}
 	}
 
+	if (_.some(body.data.attributes.emails, (email) => {
+		return exports.getProspectByEmail(email).response.meta.count > 0
+	})) {
+		return {
+			code: 422,
+			response: {
+				errors: [
+					{
+						id: 'validationError',
+						source: {
+							pointer: '/data'
+						},
+						title: 'Validation Error',
+						detail: 'Contacts email hash has already been taken.'
+					}
+				]
+			}
+		}
+	}
+
 	DATA[index] = {
 		type: 'prospect',
 		id,
@@ -347,6 +367,28 @@ exports.patchProspect = (body) => {
 						},
 						title: 'Validation Error',
 						detail: 'Contacts contact is using an excluded email address.'
+					}
+				]
+			}
+		}
+	}
+
+	if (body.data.attributes.emails && _.some(body.data.attributes.emails, (email) => {
+		const prospect = exports.getProspectByEmail(email)
+		return prospect.response.meta.count > 0 &&
+			prospect.response.data[0].id !== body.data.id
+	})) {
+		return {
+			code: 422,
+			response: {
+				errors: [
+					{
+						id: 'validationError',
+						source: {
+							pointer: '/data'
+						},
+						title: 'Validation Error',
+						detail: 'Contacts email hash has already been taken.'
 					}
 				]
 			}
