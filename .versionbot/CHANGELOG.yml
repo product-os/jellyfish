@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'discourse: Don''t sync posts to deleted topics'
+      hash: ed918c5f8aa3f9e64e6dea81231802b92e970d83
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 19.7.4
+  date: 2019-07-24T17:14:50.609Z
+- commits:
     - subject: 'discourse: More actor related logs'
       hash: 61ee9aaf23acec36523de36ff09b3f70d096dd85
       body: ''
