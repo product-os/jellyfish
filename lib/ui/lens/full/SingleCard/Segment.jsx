@@ -16,9 +16,11 @@ import {
 	Flex
 } from 'rendition'
 import {
+	getLens
+} from '../../../lens'
+import {
 	evalSchema
 } from '../../../services/helpers'
-import Link from '../../../components/Link'
 import LinkModal from '../../../components/LinkModal'
 import Icon from '../../../shame/Icon'
 
@@ -151,22 +153,24 @@ export default class Segment extends React.Component {
 			)
 		}
 
+		const lens = getLens('list', results)
+
 		return (
-			<Box p={3}>
-				{results.length === 0 && (
-					<strong>There are no results</strong>
+			<React.Fragment>
+				{Boolean(results.length) && (
+					<lens.data.renderer
+						tail={results}
+					/>
 				)}
 
-				{_.map(results, (result) => {
-					return (
-						<div key={result.id}>
-							<Link append={result.slug || result.id}>{result.name || result.slug}</Link>
-						</div>
-					)
-				})}
+				{results.length === 0 && (
+					<Box px={3}>
+						<strong>There are no results</strong>
+					</Box>
+				)}
 
-				{segment.link && (
-					<Flex mt={4}>
+				{!results.length && segment.link && (
+					<Flex mt={4} px={3}>
 						<Button
 							mr={2}
 							success
@@ -192,7 +196,7 @@ export default class Segment extends React.Component {
 					show={showLinkModal}
 					onHide={this.hideLinkModal}
 				/>
-			</Box>
+			</React.Fragment>
 		)
 	}
 }

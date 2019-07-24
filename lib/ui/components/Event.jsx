@@ -41,6 +41,7 @@ import ContextMenu from '../components/ContextMenu'
 import {
 	tagStyle
 } from '../components/Tag'
+import Link from '../components/Link'
 import * as helpers from '../services/helpers'
 import {
 	ActionLink
@@ -452,12 +453,19 @@ class Event extends React.Component {
 									<Txt
 										tooltip={actor ? actor.email : 'loading...'}
 									>
-										<strong>
-											{actor
-												? actor.name
-												: <ActorPlaceholder>Loading...</ActorPlaceholder>
-											}
-										</strong>
+										{Boolean(actor) && Boolean(actor.card) && (
+											<Link color="black" append={actor.card.slug}>
+												<strong>{actor.name}</strong>
+											</Link>
+										)}
+
+										{Boolean(actor) && !actor.card && (
+											<strong>Unknown user</strong>
+										)}
+
+										{!actor && (
+											<ActorPlaceholder>Loading...</ActorPlaceholder>
+										)}
 									</Txt>
 								)}
 

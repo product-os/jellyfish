@@ -68,7 +68,13 @@ export default class SingleCardFull extends React.Component {
 		})
 
 		const relationships = _.get(type, [ 'data', 'meta', 'relationships' ])
-		const tail = _.get(this.props.card.links, [ 'has attached element' ], [])
+		const tail = _.get(card.links, [ 'has attached element' ], [])
+
+		// Never display a timeline segment for a user card. The `contact` card type
+		// is meant for discussing a user and exposing the timeline on the user card
+		// is more than likely going to cause people to accidentally expose internal
+		// comments about a user to the user themselves. Disaster!
+		const displayTimeline = card.type !== 'user'
 
 		return (
 			<CardLayout
@@ -92,13 +98,15 @@ export default class SingleCardFull extends React.Component {
 						</Box>
 					</Tab>
 
-					<Tab title="Timeline">
-						<Timeline.data.renderer
-							card={card}
-							allowWhispers
-							tail={tail}
-						/>
-					</Tab>
+					{displayTimeline && (
+						<Tab title="Timeline">
+							<Timeline.data.renderer
+								card={card}
+								allowWhispers
+								tail={tail}
+							/>
+						</Tab>
+					)}
 
 					{_.map(relationships, (segment, index) => {
 						return (
