@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'discourse: More actor related logs'
+      hash: 61ee9aaf23acec36523de36ff09b3f70d096dd85
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 19.7.3
+  date: 2019-07-24T16:49:50.023Z
+- commits:
     - subject: 'outreach: Retry creating prospects when email exists'
       hash: a313ecb01196479b2f40b4c708e721d05c35d189
       body: ''
