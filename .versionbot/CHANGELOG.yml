@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'outreach: Retry creating prospects when email exists'
+      hash: a313ecb01196479b2f40b4c708e721d05c35d189
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 19.7.2
+  date: 2019-07-24T11:31:10.186Z
+- commits:
     - subject: 'UI: Fix bug where type card relationships would be mutated'
       hash: 2f4d412d0d14f0ba8944ff97abe47e7e89c3f2b4
       body: ''
