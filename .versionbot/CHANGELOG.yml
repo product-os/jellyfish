@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'discourse: Obtain user emails through /u/{username}/emails.json'
+      hash: 3d3d490bd26ac19be7212d65014b3e9d58f6ab72
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 19.7.7
+  date: 2019-07-25T12:10:49.989Z
+- commits:
     - subject: 'front: Smarter rate limit delays'
       hash: e5d9198a5b62dffa23eb0e80497429bacab48f28
       body: ''
