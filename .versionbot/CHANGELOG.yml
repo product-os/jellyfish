@@ -1,4 +1,84 @@
 - commits:
+    - subject: 'front: Ignore webhook timeout errors in mirror suite'
+      hash: 0d6896753d98b08feaa10f2a01012b6307ebd87c
+      body: |
+        This would result in abnormal messages lengths that would confuse some
+        test cases.
+
+        This is an example of a webhook timeout error coming from the list of
+        messages endpoint:
+
+        ```json
+        {
+          "_links": {
+            "self": "https://api2.frontapp.com/messages/msg_39hoiki",
+            "related": {
+              "conversation": "https://api2.frontapp.com/conversations/cnv_1slqrr6"
+            }
+          },
+          "id": "msg_39hoiki",
+          "type": "custom",
+          "is_inbound": false,
+          "created_at": 1564061242.59,
+          "blurb": "Message in another inbox",
+          "body": "<p>Message in another inbox</p>\n",
+          "text": "Message in another inbox",
+          "is_draft": true,
+          "error_type": "webhook_timeout",
+          "metadata": {
+            "headers": {
+              "in_reply_to": "6fd6b5ce5a3bb216"
+            }
+          },
+          "author": {
+            "_links": {
+              "self": "https://api2.frontapp.com/teammates/tea_1zq0",
+              "related": {
+                "inboxes": "https://api2.frontapp.com/teammates/tea_1zq0/inboxes",
+                "conversations": "https://api2.frontapp.com/teammates/tea_1zq0/conversations"
+              }
+            },
+            "id": "tea_1zq0",
+            "email": "accounts+front-dev@resin.io",
+            "username": "accounts_front_dev",
+            "first_name": "balena",
+            "last_name": "dev team",
+            "is_admin": true,
+            "is_available": true,
+            "is_blocked": false
+          },
+          "recipients": [
+            {
+              "_links": {
+                "related": {
+                  "contact": null
+                }
+              },
+              "handle": "736345766ddd0685",
+              "role": "from"
+            },
+            {
+              "_links": {
+                "related": {
+                  "contact": null
+                }
+              },
+              "handle": "jellytest-7594",
+              "role": "to"
+            }
+          ],
+          "attachments": []
+        },
+        ```
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 19.8.1
+  date: 2019-07-25T15:24:31.603Z
+- commits:
     - subject: 'server: Implement a /dev/null hook handler for testing purposes'
       hash: 7bf9d513c9c2ddf1d39da9b562d5252c0609638c
       body: |
