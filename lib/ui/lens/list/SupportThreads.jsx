@@ -30,6 +30,9 @@ import CardChatSummary from '../../components/CardChatSummary'
 
 const SLUG = 'lens-support-threads'
 
+// Two days in milliseconds
+const ENGINEER_RESPONSE_TIMEOUT = 1000 * 60 * 60 * 48
+
 const timestampSort = (cards) => {
 	return _.sortBy(cards, (element) => {
 		const timestamps = _.map(
@@ -147,12 +150,14 @@ export class SupportThreads extends React.Component {
 						break
 					}
 
-					// If the message contains the 'pendinguserresponse' tag, then we are
-					// waiting on a response from the user and can break out of the loop
+					// If the message contains the 'pendingengineerresponse' tag and its
+					// been less than 48hours since the message was created, then we are
+					// waiting on a response from an engineer and can break out of the loop
 					if (
 						!hasEngineerResponse &&
 						event.data.payload.message &&
-						event.data.payload.message.match(/#pendingengineerresponse/gi)
+						event.data.payload.message.match(/#pendingengineerresponse/gi) &&
+						new Date(event.data.timestamp).getTime() + ENGINEER_RESPONSE_TIMEOUT > Date.now()
 					) {
 						isPendingEngineerResponse = true
 						break
