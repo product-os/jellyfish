@@ -10,6 +10,9 @@ import {
 	connect
 } from 'react-redux'
 import {
+	bindActionCreators
+} from 'redux'
+import {
 	Box,
 	Button,
 	Flex,
@@ -19,6 +22,7 @@ import {
 import BaseLens from './common/BaseLens'
 import Link from '../components/Link'
 import {
+	actionCreators,
 	selectors
 } from '../core'
 import Column from '../shame/Column'
@@ -101,13 +105,22 @@ const mapStateToProps = (state) => {
 	}
 }
 
+const mapDispatchToProps = (dispatch) => {
+	return {
+		actions: bindActionCreators(
+			_.pick(actionCreators, [
+				'addChannel'
+			]), dispatch)
+	}
+}
+
 const lens = {
 	slug: 'lens-table',
 	type: 'lens',
 	version: '1.0.0',
 	name: 'Default table lens',
 	data: {
-		renderer: connect(mapStateToProps)(CardTable),
+		renderer: connect(mapStateToProps, mapDispatchToProps)(CardTable),
 		icon: 'table',
 		type: '*',
 		filter: {
