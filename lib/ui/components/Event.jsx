@@ -96,9 +96,15 @@ const getMessage = (card) => {
 	const message = _.get(card, [ 'data', 'payload', 'message' ], '')
 
 	// Fun hack to extract attached images embedded in HTML from synced front messages
-	if (message.includes('<div></div><img src="/api/1/companies/resin_io/attachments')) {
-		const source = message.match(/".*"/)[0]
-		return `![Attached image](https://app.frontapp.com${source.replace(/"/g, '')})`
+	if (message.includes('<img src="/api/1/companies/resin_io/attachments')) {
+		const match = message.match(/\/api\/1\/companies\/resin_io\/attachments\/[a-z0-9]+\?resource_link_id=\d+/)
+		let formatted = message
+		match.forEach((source) => {
+			const index = formatted.indexOf(match)
+			formatted = `${formatted.slice(0, index)}https://app.frontapp.com${formatted.slice(index)}`
+		})
+
+		return formatted
 	}
 
 	// Fun hack to extract attached images from synced front messages embedded in
