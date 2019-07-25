@@ -104,6 +104,7 @@ module.exports = async (context, jellyfish, worker, session) => {
 		await loadCard('balena/view-investigating-support-threads.json'),
 		await loadCard('balena/view-os-test-results.json'),
 		await loadCard('balena/view-product-specs.json'),
+		await loadCard('balena/view-security-support-threads.json'),
 		await loadCard('balena/view-support-threads-pending-update.json'),
 		await loadCard('balena/view-support-threads-to-audit.json')
 	], async (card) => {
