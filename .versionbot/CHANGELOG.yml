@@ -1,4 +1,43 @@
 - commits:
+    - subject: 'front: Actions done by Gmail are done by the admin'
+      hash: cc4482d91486dfc8f1c1f50bec679b2c87bd7104
+      body: >
+        ```
+
+        2019-07-24 15:09:35.993
+
+        crit Execute error
+
+        {"namespace":"worker/index","version":"19.7.2","context":{"id":"REQUEST-19.7.2-7ba5aac7-1dde-4ad2-9aa2-f50aef577f4c","api":"SERVER-19.7.2-jellyfish-69c856b5f8-hg2cz-3a7024e8-db86
+
+        -4809-ad49-9e986b6663c3","worker":"WORKER-19.7.2-eb0d045f-e7a3-4a81-ac15-3e6fda0796b7"},"data":{"error":{"name":"TypeError","message":"Cannot
+        read property 'data' of
+
+        undefined","stack":"TypeError: Cannot read property 'data' of
+        undefined\n    at FrontIntegration.getLocalUser
+        (/usr/src/app/lib/sync/integrations/front.js:1140:30)\n    at
+
+        FrontIntegration.translate
+
+        (/usr/src/app/lib/sync/integrations/front.js:773:28)"},"input":{"id":"5f73ee50-6c3c-484c-8c36-b53411e87006"},"action":"action-create-card","time":304},"level":"crit","message":"E
+
+        xecute error","timestamp":"2019-07-24T15:09:35.841Z"}
+
+        ```
+
+
+        And the external event is:
+
+        `external-event-460da0af-a588-4a9f-9727-f71a6a1a9eb2`.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 19.8.2
+  date: 2019-07-25T16:18:56.800Z
+- commits:
     - subject: 'front: Ignore webhook timeout errors in mirror suite'
       hash: 0d6896753d98b08feaa10f2a01012b6307ebd87c
       body: |
