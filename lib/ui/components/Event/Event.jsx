@@ -49,13 +49,21 @@ const ActorPlaceholder = styled.span `
 const MESSAGE_COLLAPSED_HEIGHT = 400
 
 const getAttachments = (card) => {
-	return _.get(card, [ 'data', 'payload', 'attachments' ], []).map((attachment) => {
+	// Start by mapping sync attachments
+	const attachments = _.get(card, [ 'data', 'payload', 'attachments' ], []).map((attachment) => {
 		return {
 			slug: attachment.url.split('/').pop(),
 			mime: attachment.mime,
 			name: attachment.name
 		}
 	})
+
+	// Attach files directly uploaded in Jellyfish
+	if (_.get(card, [ 'data', 'payload', 'file' ])) {
+		attachments.push(card.data.payload.file)
+	}
+
+	return attachments
 }
 
 const tagMatchRE = helpers.createPrefixRegExp('@|#|!')
@@ -401,10 +409,6 @@ export default class Event extends React.Component {
 
 		const attachments = getAttachments(card)
 
-		if (_.get(card, [ 'data', 'payload', 'file' ])) {
-			attachments.push(card.data.payload.file)
-		}
-
 		const timestamp = _.get(card, [ 'data', 'timestamp' ]) || card.created_at
 		const messageOverflows = this.state.messageHeight >= MESSAGE_COLLAPSED_HEIGHT
 
@@ -500,7 +504,7 @@ export default class Event extends React.Component {
 
 						{Boolean(attachments) && _.map(attachments, (attachment) => {
 							// If the mime type is of an image, display the file as an image
-							// Additionally, if there are many attachements, skip trying to
+							// Additionally, if there are many attachments, skip trying to
 							// render them
 							if (attachments.length < 3 && attachment.mime && attachment.mime.match(/image\//)) {
 								return (
