@@ -284,6 +284,12 @@ module.exports = (application, jellyfish, worker, queue) => {
 			source: request.params.provider
 		})
 
+		// A dummy /dev/null that we can use in various
+		// services for testing purposes.
+		if (request.params.provider === 'none') {
+			return response.status(200).end()
+		}
+
 		const integrationToken =
 			environment.integration[request.params.provider]
 
