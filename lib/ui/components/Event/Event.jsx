@@ -79,7 +79,7 @@ const getTargetId = (card) => {
 	return _.get(card, [ 'data', 'target' ]) || card.id
 }
 
-const getMessage = (card) => {
+export const getMessage = (card) => {
 	const message = _.get(card, [ 'data', 'payload', 'message' ], '')
 
 	// Fun hack to extract attached images embedded in HTML from synced front messages
