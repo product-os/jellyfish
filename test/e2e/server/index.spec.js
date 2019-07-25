@@ -713,6 +713,15 @@ ava.serial('Users should not be able to login as the core admin user', async (te
 	test.is(error2.name, 'WorkerAuthenticationError')
 })
 
+ava.serial('should post a dummy "none" event', async (test) => {
+	const result = await test.context.http('POST', '/api/v2/hooks/none', {
+		foo: 'bar',
+		bar: 'baz'
+	})
+
+	test.is(result.code, 200)
+})
+
 ava.serial('should not be able to post an unsupported external event', async (test) => {
 	const result = await test.context.http('POST', '/api/v2/hooks/test', {
 		foo: 'bar',
