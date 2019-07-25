@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'server: Implement a /dev/null hook handler for testing purposes'
+      hash: 7bf9d513c9c2ddf1d39da9b562d5252c0609638c
+      body: |
+        I'll create Front channels pointing at this.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 19.8.0
+  date: 2019-07-25T14:04:12.641Z
+- commits:
     - subject: 'discourse: Obtain user emails through /u/{username}/emails.json'
       hash: 3d3d490bd26ac19be7212d65014b3e9d58f6ab72
       body: ''
