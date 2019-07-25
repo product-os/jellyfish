@@ -8,19 +8,10 @@ import copy from 'copy-to-clipboard'
 import {
 	circularDeepEqual
 } from 'fast-equals'
-import {
-	saveAs
-} from 'file-saver'
 import _ from 'lodash'
 import Mark from 'mark.js'
 import React from 'react'
-import {
-	connect
-} from 'react-redux'
 import VisibilitySensor from 'react-visibility-sensor'
-import {
-	bindActionCreators
-} from 'redux'
 import {
 	Box,
 	Button,
@@ -32,22 +23,18 @@ import {
 	Markdown
 } from 'rendition/dist/extra/Markdown'
 import styled from 'styled-components'
-import {
-	actionCreators,
-	sdk
-} from '../core'
-import AuthenticatedImage from '../components/AuthenticatedImage'
-import ContextMenu from '../components/ContextMenu'
+import AuthenticatedImage from '../../components/AuthenticatedImage'
+import ContextMenu from '../../components/ContextMenu'
 import {
 	tagStyle
-} from '../components/Tag'
-import Link from '../components/Link'
-import * as helpers from '../services/helpers'
+} from '../../components/Tag'
+import Link from '../../components/Link'
+import * as helpers from '../../services/helpers'
 import {
 	ActionLink
-} from '../shame/ActionLink'
-import Gravatar from '../shame/Gravatar'
-import Icon from '../shame/Icon'
+} from '../../shame/ActionLink'
+import Gravatar from '../../shame/Gravatar'
+import Icon from '../../shame/Icon'
 
 const ActorPlaceholder = styled.span `
 	width: 80px;
@@ -239,7 +226,7 @@ const WhisperWrapper = styled(Box) `
 
 `
 
-class Event extends React.Component {
+export default class Event extends React.Component {
 	constructor (props) {
 		super(props)
 
@@ -317,23 +304,7 @@ class Event extends React.Component {
 			slug: attachmentSlug
 		})
 
-		const {
-			slug,
-			name,
-			mime
-		} = attachment
-
-		sdk.getFile(this.props.card.id, slug)
-			.then((data) => {
-				const blob = new Blob([ data ], {
-					type: mime
-				})
-
-				saveAs(blob, name)
-			})
-			.catch((error) => {
-				this.props.actions.addNotification('danger', error.message || error)
-			})
+		this.props.actions.downloadFile(this.props.card.id, attachment)
 	}
 
 	processText () {
@@ -604,15 +575,3 @@ class Event extends React.Component {
 		)
 	}
 }
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		actions: bindActionCreators(
-			_.pick(actionCreators, [
-				'addNotification',
-				'getActor'
-			]), dispatch)
-	}
-}
-
-export default connect(null, mapDispatchToProps)(Event)
