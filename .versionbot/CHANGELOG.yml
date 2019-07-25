@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'front: Smarter rate limit delays'
+      hash: e5d9198a5b62dffa23eb0e80497429bacab48f28
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 19.7.6
+  date: 2019-07-25T11:12:55.132Z
+- commits:
     - subject: 'front: Test closing threads with a summary tag'
       hash: 6eb2b7a61dfb2762848f3f0358eb6418f69d2a52
       body: ''
