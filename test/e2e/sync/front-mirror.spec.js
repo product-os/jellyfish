@@ -194,7 +194,11 @@ ava.before(async (test) => {
 		})
 
 		// eslint-disable-next-line no-underscore-dangle
-		const elements = result._results
+		const elements = result._results.filter((element) => {
+			// Ignore webhook errors, as we know already that
+			// we are not listening to them in these tests.
+			return element.error_type !== 'webhook_timeout'
+		})
 
 		if (predicate(elements)) {
 			return elements
