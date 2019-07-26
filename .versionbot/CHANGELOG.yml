@@ -1,4 +1,85 @@
 - commits:
+    - subject: Add security category to support threads
+      hash: 140f40749cde5a44192552f0801d502022cb7c9b
+      body: |
+        Fixes #2186
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Fix bug where link graph cannot be closed'
+      hash: d2807d5f6b5348a7e15f650abfb6e4c37d30dd78
+      body: |
+        Fixes #2203
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Fix bug where file data can''t be retrieved when downloading'
+      hash: cc0f55b68384147e72455d182c8d92085e03766d
+      body: |
+        Connects to #1998
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Fix issue where new cards can''t be created from a Table lens'
+      hash: b157624dc689875a8239d69273ea9d436d3f3c69
+      body: |
+        Fixes #2205
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Add test coverage for Event message parsing'
+      hash: 75f7b30571d4ff38e79fc49759ea45b395cde2cc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Add basic component testing for Event'
+      hash: 59487d256c3f5a03c1b2e5c21ef0df792f431c49
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Improve image rendering from Front'
+      hash: 75864e3d22801f643bccd405f62e52ae0ac7cfbe
+      body: |
+        Fixes #2253
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Thread will only be in "pending engineer response" queue for 2 days'
+      hash: 5fa51ab06822b762ae95f8122d72b436df7bcfd9
+      body: |
+        Fixes #2245
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 19.9.0
+  date: 2019-07-26T08:18:11.821Z
+- commits:
     - subject: 'front: Actions done by Gmail are done by the admin'
       hash: cc4482d91486dfc8f1c1f50bec679b2c87bd7104
       body: >
