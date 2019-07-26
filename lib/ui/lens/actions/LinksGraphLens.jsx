@@ -200,6 +200,10 @@ class CreateLens extends React.Component {
 	}
 
 	render () {
+		const {
+			channel
+		} = this.props
+
 		return (
 			<Column>
 				<ReactResizeObserver onResize={this.resizeCanvas}/>
@@ -210,6 +214,7 @@ class CreateLens extends React.Component {
 						right: 26
 					}}
 					onClick={this.close}
+					channel={channel}
 				/>
 				<canvas
 					ref={this.bindCanvas}

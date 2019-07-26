@@ -8,19 +8,10 @@ import copy from 'copy-to-clipboard'
 import {
 	circularDeepEqual
 } from 'fast-equals'
-import {
-	saveAs
-} from 'file-saver'
 import _ from 'lodash'
 import Mark from 'mark.js'
 import React from 'react'
-import {
-	connect
-} from 'react-redux'
 import VisibilitySensor from 'react-visibility-sensor'
-import {
-	bindActionCreators
-} from 'redux'
 import {
 	Box,
 	Button,
@@ -32,22 +23,18 @@ import {
 	Markdown
 } from 'rendition/dist/extra/Markdown'
 import styled from 'styled-components'
-import {
-	actionCreators,
-	sdk
-} from '../core'
-import AuthenticatedImage from '../components/AuthenticatedImage'
-import ContextMenu from '../components/ContextMenu'
+import AuthenticatedImage from '../../components/AuthenticatedImage'
+import ContextMenu from '../../components/ContextMenu'
 import {
 	tagStyle
-} from '../components/Tag'
-import Link from '../components/Link'
-import * as helpers from '../services/helpers'
+} from '../../components/Tag'
+import Link from '../../components/Link'
+import * as helpers from '../../services/helpers'
 import {
 	ActionLink
-} from '../shame/ActionLink'
-import Gravatar from '../shame/Gravatar'
-import Icon from '../shame/Icon'
+} from '../../shame/ActionLink'
+import Gravatar from '../../shame/Gravatar'
+import Icon from '../../shame/Icon'
 
 const ActorPlaceholder = styled.span `
 	width: 80px;
@@ -62,13 +49,21 @@ const ActorPlaceholder = styled.span `
 const MESSAGE_COLLAPSED_HEIGHT = 400
 
 const getAttachments = (card) => {
-	return _.get(card, [ 'data', 'payload', 'attachments' ], []).map((attachment) => {
+	// Start by mapping sync attachments
+	const attachments = _.get(card, [ 'data', 'payload', 'attachments' ], []).map((attachment) => {
 		return {
 			slug: attachment.url.split('/').pop(),
 			mime: attachment.mime,
 			name: attachment.name
 		}
 	})
+
+	// Attach files directly uploaded in Jellyfish
+	if (_.get(card, [ 'data', 'payload', 'file' ])) {
+		attachments.push(card.data.payload.file)
+	}
+
+	return attachments
 }
 
 const tagMatchRE = helpers.createPrefixRegExp('@|#|!')
@@ -92,13 +87,19 @@ const getTargetId = (card) => {
 	return _.get(card, [ 'data', 'target' ]) || card.id
 }
 
-const getMessage = (card) => {
+export const getMessage = (card) => {
 	const message = _.get(card, [ 'data', 'payload', 'message' ], '')
 
 	// Fun hack to extract attached images embedded in HTML from synced front messages
-	if (message.includes('<div></div><img src="/api/1/companies/resin_io/attachments')) {
-		const source = message.match(/".*"/)[0]
-		return `![Attached image](https://app.frontapp.com${source.replace(/"/g, '')})`
+	if (message.includes('<img src="/api/1/companies/resin_io/attachments')) {
+		const match = message.match(/\/api\/1\/companies\/resin_io\/attachments\/[a-z0-9]+\?resource_link_id=\d+/)
+		let formatted = message
+		match.forEach((source) => {
+			const index = formatted.indexOf(match)
+			formatted = `${formatted.slice(0, index)}https://app.frontapp.com${formatted.slice(index)}`
+		})
+
+		return formatted
 	}
 
 	// Fun hack to extract attached images from synced front messages embedded in
@@ -233,7 +234,7 @@ const WhisperWrapper = styled(Box) `
 
 `
 
-class Event extends React.Component {
+export default class Event extends React.Component {
 	constructor (props) {
 		super(props)
 
@@ -311,23 +312,7 @@ class Event extends React.Component {
 			slug: attachmentSlug
 		})
 
-		const {
-			slug,
-			name,
-			mime
-		} = attachment
-
-		sdk.getFile(this.props.card.id, slug)
-			.then((data) => {
-				const blob = new Blob([ data ], {
-					type: mime
-				})
-
-				saveAs(blob, name)
-			})
-			.catch((error) => {
-				this.props.actions.addNotification('danger', error.message || error)
-			})
+		this.props.actions.downloadFile(this.props.card.id, attachment)
 	}
 
 	processText () {
@@ -424,10 +409,6 @@ class Event extends React.Component {
 
 		const attachments = getAttachments(card)
 
-		if (_.get(card, [ 'data', 'payload', 'file' ])) {
-			attachments.push(card.data.payload.file)
-		}
-
 		const timestamp = _.get(card, [ 'data', 'timestamp' ]) || card.created_at
 		const messageOverflows = this.state.messageHeight >= MESSAGE_COLLAPSED_HEIGHT
 
@@ -523,7 +504,7 @@ class Event extends React.Component {
 
 						{Boolean(attachments) && _.map(attachments, (attachment) => {
 							// If the mime type is of an image, display the file as an image
-							// Additionally, if there are many attachements, skip trying to
+							// Additionally, if there are many attachments, skip trying to
 							// render them
 							if (attachments.length < 3 && attachment.mime && attachment.mime.match(/image\//)) {
 								return (
@@ -598,15 +579,3 @@ class Event extends React.Component {
 		)
 	}
 }
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		actions: bindActionCreators(
-			_.pick(actionCreators, [
-				'addNotification',
-				'getActor'
-			]), dispatch)
-	}
-}
-
-export default connect(null, mapDispatchToProps)(Event)
