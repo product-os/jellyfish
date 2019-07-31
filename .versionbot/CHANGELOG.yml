@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'deploy-templates: Increase action-server replicas to 12'
+      hash: 0b0078f5322b6ce002512cf5d48e059dd7564add
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Michael Angelos Simos <michalis@balena.io>
+        signed-off-by: Michael Angelos Simos <michalis@balena.io>
+      author: Michael Angelos Simos
+  version: 19.10.0
+  date: 2019-07-31T13:33:21.378Z
+- commits:
     - subject: Precalculate gravatar URLs when a user is updated
       hash: e23eac0c2ba115ee5b4601552fea60c7b34c2779
       body: ''
