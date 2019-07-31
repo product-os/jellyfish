@@ -6,6 +6,8 @@
 
 const ava = require('ava')
 const Bluebird = require('bluebird')
+const md5 = require('blueimp-md5')
+const nock = require('nock')
 const uuid = require('uuid/v4')
 const _ = require('lodash')
 const helpers = require('../sdk/helpers')
@@ -170,6 +172,7 @@ ava.serial('creating a user with a community user session should succeed', async
 	test.deepEqual(card, test.context.jellyfish.defaults({
 		created_at: card.created_at,
 		linked_at: card.linked_at,
+		updated_at: card.updated_at,
 		type: 'user',
 		slug: `user-${newUserDetails.username}`,
 		id: card.id,
@@ -177,7 +180,10 @@ ava.serial('creating a user with a community user session should succeed', async
 		data: {
 			email: newUserDetails.email,
 			roles: [ 'user-community' ],
-			hash: card.data.hash
+			hash: card.data.hash,
+			profile: {
+				gravatar: null
+			}
 		}
 	}))
 })
@@ -1058,7 +1064,7 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 					Object.assign({}, targetUser, {
 						links: results[0].links['is attached to'][0].links,
 						linked_at: results[0].links['is attached to'][0].linked_at,
-						data: _.omit(targetUser.data, [ 'hash', 'roles' ])
+						data: _.omit(targetUser.data, [ 'hash', 'roles', 'profile' ])
 					})
 				]
 			},
@@ -3467,4 +3473,52 @@ ava.serial('Users should not be able to create action requests', async (test) =>
 	})
 
 	test.is(error.name, 'JellyfishSchemaMismatch')
+})
+
+ava.serial('Users should have a gravatar value set to null if it doesn\'t exist', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const userDetails = createUserDetails()
+
+	await test.context.createUser(userDetails)
+
+	await sdk.auth.login(userDetails)
+
+	const user = await sdk.auth.whoami()
+
+	// Since the email is randomly generated, we expect the gravatar value to be
+	// null
+	test.is(user.data.profile.gravatar, null)
+})
+
+// TODO: Get nock to successfully intercept calls to Gravatar so we can enable
+// this test
+ava.serial.skip('Users should have a gravatar value calculated on signup', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	// Use nock to simulate a successful gravatar request
+	nock.cleanAll()
+	await nock('https://www.gravatar.com')
+		.head((uri) => {
+			uri.includes('avatar')
+		})
+		.reply(200, 'domain matched')
+
+	const userDetails = createUserDetails()
+
+	await test.context.createUser(userDetails)
+
+	await sdk.auth.login(userDetails)
+
+	const user = await sdk.auth.whoami()
+
+	const avatarUrl = `https://www.gravatar.com/avatar/${md5(user.data.email.trim())}?d=404`
+
+	test.is(user.data.profile.gravatar, avatarUrl)
+
+	nock.cleanAll()
 })
