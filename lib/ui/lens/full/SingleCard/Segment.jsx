@@ -154,6 +154,8 @@ export default class Segment extends React.Component {
 			)
 		}
 
+		// TODO: Add a way to specify that cards created by a lens should be linked
+		// to the head card
 		const lens = getLens('list', results)
 
 		return (

@@ -334,6 +334,9 @@ const lens = {
 				properties: {
 					id: {
 						type: 'string'
+					},
+					type: {
+						const: 'support-thread'
 					}
 				}
 			}

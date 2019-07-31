@@ -47,20 +47,12 @@ class CardList extends BaseLens {
 		}
 		this.rowRenderer = (rowProps) => {
 			const {
-				tail, channel: {
-					data: {
-						head
-					}
-				}
+				tail
 			} = this.props
 			const card = tail[rowProps.index]
 
 			const lens = getLens('snippet', card, {})
 
-			// Don't show the card if its the head, this can happen on view types
-			if (card.id === head.id) {
-				return null
-			}
 			return (
 				<CellMeasurer
 					cache={this.cache}
@@ -101,8 +93,14 @@ class CardList extends BaseLens {
 
 	render () {
 		const {
-			tail
+			tail,
+			types
 		} = this.props
+
+		const type = _.find(types, {
+			slug: _.get(_.first(tail), [ 'type' ])
+		})
+
 		return (
 			<Column flex="1" overflowY>
 				<Box flex="1" style={{
@@ -135,7 +133,7 @@ class CardList extends BaseLens {
 					)}
 				</Box>
 
-				{Boolean(this.props.type) && (
+				{Boolean(type) && (
 					<React.Fragment>
 						<Flex
 							p={3}
@@ -146,10 +144,10 @@ class CardList extends BaseLens {
 						>
 							<Button
 								success={true}
-								className={`btn--add-${this.props.type.slug}`}
+								className={`btn--add-${type.slug}`}
 								onClick={this.openCreateChannel}
 							>
-								Add {this.props.type.name || this.props.type.slug}
+								Add {type.name || type.slug}
 							</Button>
 						</Flex>
 					</React.Fragment>
@@ -161,7 +159,8 @@ class CardList extends BaseLens {
 
 const mapStateToProps = (state) => {
 	return {
-		user: selectors.getCurrentUser(state)
+		user: selectors.getCurrentUser(state),
+		types: selectors.getTypes(state)
 	}
 }
 
