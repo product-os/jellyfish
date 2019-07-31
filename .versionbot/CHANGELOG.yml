@@ -1,4 +1,16 @@
 - commits:
+    - subject: Precalculate gravatar URLs when a user is updated
+      hash: e23eac0c2ba115ee5b4601552fea60c7b34c2779
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 19.9.1
+  date: 2019-07-31T10:49:35.849Z
+- commits:
     - subject: Add security category to support threads
       hash: 140f40749cde5a44192552f0801d502022cb7c9b
       body: |
