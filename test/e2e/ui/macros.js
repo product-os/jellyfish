@@ -118,9 +118,18 @@ exports.createChatMessage = async (page, scopeSelector, messageText) => {
 	await page.waitForSelector('.new-message-input', exports.WAIT_OPTS)
 	await page.type('textarea', messageText)
 	await bluebird.delay(500)
+
+	// If the message triggers an autocomplete widget, dismiss it before
+	// continuing. If it is not dismissed the autocomplete will swallow the
+	// "Enter" keypress and the message won't be sent
+	if (await page.$('.rta__autocomplete') !== null) {
+		await page.keyboard.press('Escape')
+	}
+
 	await page.keyboard.down('Shift')
 	await page.keyboard.press('Enter')
 	await page.keyboard.up('Shift')
+
 	await page.waitForSelector(`${scopeSelector} [data-test="event-card__message"]`, exports.WAIT_OPTS)
 }
 

@@ -403,7 +403,12 @@ class SupportThreadBase extends React.Component {
 				>
 					<Flex alignItems="center" mb={1} wrap="true">
 						<ColorHashPill value={_.get(card, [ 'data', 'inbox' ])} mr={2} mb={1} />
-						<ColorHashPill value={_.get(card, [ 'data', 'status' ])} mr={2} mb={1} />
+						<ColorHashPill
+							data-test={`status-${_.get(card, [ 'data', 'status' ])}`}
+							value={_.get(card, [ 'data', 'status' ])}
+							mr={2}
+							mb={1}
+						/>
 
 						{Boolean(card.tags) && _.map(card.tags, (tag) => {
 							if (tag === 'status' || tag === 'summary' || tag === 'pendinguserresponse') {
