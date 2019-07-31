@@ -400,7 +400,10 @@ avaTest('should not mirror a user card type', async (test) => {
 	test.deepEqual(user.data, {
 		email: `${username}@balena.io`,
 		roles: [ 'user-community' ],
-		hash: '$2b$12$tnb9eMnlGpEXld1IYmIlDOud.v4vSUbnuEsjFQz3d/24sqA6XmaBq'
+		hash: '$2b$12$tnb9eMnlGpEXld1IYmIlDOud.v4vSUbnuEsjFQz3d/24sqA6XmaBq',
+		profile: {
+			gravatar: null
+		}
 	})
 
 	const results = await outreachMock.getProspectByEmail(`${username}@balena.io`)

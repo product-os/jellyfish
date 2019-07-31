@@ -1091,6 +1091,7 @@ ava.serial('.auth.signup() should work with a valid token', async (test) => {
 	test.deepEqual(card, test.context.jellyfish.defaults({
 		created_at: card.created_at,
 		linked_at: card.linked_at,
+		updated_at: card.updated_at,
 		type: 'user',
 		slug: `user-${details.username}`,
 		id: card.id,
@@ -1098,7 +1099,10 @@ ava.serial('.auth.signup() should work with a valid token', async (test) => {
 		data: {
 			email: details.email,
 			roles: [ 'user-community' ],
-			hash: card.data.hash
+			hash: card.data.hash,
+			profile: {
+				gravatar: null
+			}
 		}
 	}))
 })
