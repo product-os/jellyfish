@@ -14,7 +14,9 @@ import {
 } from 'redux'
 import {
 	Flex,
-	Provider
+	Modal,
+	Provider,
+	Txt
 } from 'rendition'
 import {
 	Form
@@ -25,6 +27,9 @@ import {
 import {
 	MermaidWidget
 } from 'rendition/dist/extra/Form/mermaid'
+import {
+	Markdown
+} from 'rendition/dist/extra/Markdown'
 import {
 	saveAs
 } from 'file-saver'
@@ -89,6 +94,24 @@ class JellyfishUI extends React.Component {
 
 			saveAs(blob, `jellyfish-ui-dump__${new Date().toISOString()}.json`)
 		}
+
+		this.state = {
+			showChangelog: null
+		}
+
+		this.hideChangelog = () => {
+			this.setState({
+				showChangelog: null
+			})
+		}
+	}
+
+	componentDidUpdate (prevProps) {
+		if (prevProps.version && prevProps.version !== this.props.version) {
+			this.setState({
+				showChangelog: prevProps.version
+			})
+		}
 	}
 
 	render () {
@@ -119,6 +142,18 @@ class JellyfishUI extends React.Component {
 						<Redirect to={transformLegacyPath(path)} />
 					)}
 
+					{this.state.showChangelog && (
+						<Modal
+							title={`Whats new in v${this.props.version}`}
+							done={this.hideChangelog}
+						>
+							<Txt pb={3}>There has been a few changes since you were last here:</Txt>
+							<Markdown>
+								{this.props.changelog.split(`# ${this.state.showChangelog}`)[0]}
+							</Markdown>
+						</Modal>
+					)}
+
 					<Flex flex="1" style={{
 						height: '100%'
 					}}>
@@ -140,7 +175,9 @@ class JellyfishUI extends React.Component {
 const mapStateToProps = (state) => {
 	return {
 		channels: selectors.getChannels(state),
-		status: selectors.getStatus(state)
+		status: selectors.getStatus(state),
+		version: selectors.getAppVersion(state),
+		changelog: selectors.getChangelog(state)
 	}
 }
 
