@@ -30,6 +30,9 @@ import CardChatSummary from '../../../ui-components/CardChatSummary'
 
 const SLUG = 'lens-support-threads'
 
+// This name is added to update events that reopen issues
+const THREAD_REOPEN_NAME = 'Re-opened because linked issue was closed'
+
 // Two days in milliseconds
 const ENGINEER_RESPONSE_TIMEOUT = 1000 * 60 * 60 * 48
 
@@ -136,6 +139,12 @@ export class SupportThreads extends React.Component {
 
 			// Iterate over the timeline
 			for (const event of timeline) {
+				// If the thread has re-opened then the we are waiting on action
+				// from the agent and can break out of the loop
+				if (event.type === 'update' && event.name === THREAD_REOPEN_NAME) {
+					break
+				}
+
 				if (event.type === 'message' || event.type === 'whisper') {
 					// If the message contains the 'pendingagentresponse' tag, then we are
 					// waiting on a response from the agent and can break out of the loop
