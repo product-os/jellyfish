@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'UI: Links rendered with markdown should always open in a new tab'
+      hash: 2c1940b1d9232411533d458ca8aea9c2785b124a
+      body: |
+        Fixes #1661
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 19.10.1
+  date: 2019-07-31T17:06:35.130Z
+- commits:
     - subject: 'deploy-templates: Increase action-server replicas to 12'
       hash: 0b0078f5322b6ce002512cf5d48e059dd7564add
       body: ''
