@@ -17,7 +17,7 @@ import {
 } from 'rendition'
 import styled from 'styled-components'
 import Segment from './Segment'
-import CardFields from '../../../components/CardFields'
+import CardFields from '../../../../ui-components/CardFields'
 import CardLayout from '../../../layouts/CardLayout'
 import Timeline from '../../list/Timeline'
 

@@ -14,7 +14,7 @@ import {
 } from 'rendition'
 import Column from '../../../shame/Column'
 import Icon from '../../../shame/Icon'
-import CardChatSummary from '../../../components/CardChatSummary'
+import CardChatSummary from '../../../../ui-components/CardChatSummary'
 
 export const SLUG = 'lens-support-threads-to-audit'
 

@@ -24,12 +24,12 @@ import {
 	Txt
 } from 'rendition'
 import styled from 'styled-components'
-import CardFields from '../../components/CardFields'
-import Event from '../../components/Event'
-import RouterLink from '../../components/Link'
+import CardFields from '../../../ui-components/CardFields'
+import Event from '../../../ui-components/Event'
+import RouterLink from '../../../ui-components/Link'
 import {
 	Tag
-} from '../../components/Tag'
+} from '../../../ui-components/Tag'
 import {
 	actionCreators,
 	selectors,

@@ -10,7 +10,7 @@ import {
 	Flex,
 	Heading
 } from 'rendition'
-import CardActions from '../../components/CardActions'
+import CardActions from '../../../ui-components/CardActions'
 import {
 	CloseButton
 } from '../../shame/CloseButton'

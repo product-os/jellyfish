@@ -26,11 +26,11 @@ import {
 } from 'rendition'
 import skhema from 'skhema'
 import styled from 'styled-components'
-import ContextMenu from '../components/ContextMenu'
-import GroupUpdate from '../components/GroupUpdate'
+import ContextMenu from '../../ui-components/ContextMenu'
+import GroupUpdate from '../../ui-components/GroupUpdate'
 import {
 	Tag
-} from '../components/Tag'
+} from '../../ui-components/Tag'
 import {
 	actionCreators,
 	analytics,

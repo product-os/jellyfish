@@ -28,12 +28,12 @@ import {
 import {
 	saveAs
 } from 'file-saver'
-import HomeChannel from './components/HomeChannel'
-import Login from './components/Login'
-import Notifications from './components/Notifications'
-import Oauth from './components/Oauth'
-import RouteHandler from './components/RouteHandler'
-import Splash from './components/Splash'
+import HomeChannel from '../ui-components/HomeChannel'
+import Login from '../ui-components/Login'
+import Notifications from '../ui-components/Notifications'
+import Oauth from '../ui-components/Oauth'
+import RouteHandler from '../ui-components/RouteHandler'
+import Splash from '../ui-components/Splash'
 import {
 	actionCreators,
 	selectors

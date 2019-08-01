@@ -13,7 +13,7 @@ import {
 	Box,
 	Flex
 } from 'rendition'
-import Link from '../../../components/Link'
+import Link from '../../../../ui-components/Link'
 
 export default class SingleCard extends React.Component {
 	shouldComponentUpdate (nextProps) {

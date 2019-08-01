@@ -13,11 +13,11 @@ import {
 	Box,
 	Txt
 } from 'rendition'
-import CardFields from '../../../components/CardFields'
-import Link from '../../../components/Link'
+import CardFields from '../../../../ui-components/CardFields'
+import Link from '../../../../ui-components/Link'
 import {
 	Tag
-} from '../../../components/Tag'
+} from '../../../../ui-components/Tag'
 
 export default class SingleCard extends React.Component {
 	shouldComponentUpdate (nextProps) {

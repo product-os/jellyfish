@@ -20,7 +20,7 @@ import {
 	Txt
 } from 'rendition'
 import BaseLens from './common/BaseLens'
-import Link from '../components/Link'
+import Link from '../../ui-components/Link'
 import {
 	actionCreators,
 	selectors
