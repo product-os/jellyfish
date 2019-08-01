@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'UI: Show latest changes in a modal if the version has changed'
+      hash: 097663cddae02da6895533122292bcc7ae0fc86c
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 19.13.0
+  date: 2019-08-01T14:25:16.506Z
+- commits:
     - subject: 'UI: Show update reason as last message in card chat summary'
       hash: 43968238f08f6601204f057a6a8de064cc1a2da7
       body: ''
