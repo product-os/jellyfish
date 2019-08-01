@@ -78,13 +78,24 @@ export default class CardChatSummary extends React.Component {
 	async setActors () {
 		const card = this.props.card
 		const timeline = _.sortBy(_.get(card.links, [ 'has attached element' ], []), 'data.timestamp')
-		const messages = _.filter(timeline, (event) => {
-			return event.type === 'message' || event.type === 'whisper'
-		})
-		const lastMessageOrWhisper = _.last(messages)
+		let lastEvent = null
+
+		// Find the most recent message, whisper or named event
+		for (let index = timeline.length - 1; index >= 0; index--) {
+			const event = timeline[index]
+			if (
+				event.type === 'message' ||
+				event.type === 'whisper' ||
+				(event.type === 'update' && Boolean(event.name))
+			) {
+				lastEvent = event
+				break
+			}
+		}
+
 		const actor = await helpers.getCreator(this.props.getActor, card)
-		const lastActor = lastMessageOrWhisper
-			? await this.props.getActor(_.get(lastMessageOrWhisper, [ 'data', 'actor' ]))
+		const lastActor = lastEvent
+			? await this.props.getActor(_.get(lastEvent, [ 'data', 'actor' ]))
 			: null
 
 		this.setState({
@@ -116,7 +127,23 @@ export default class CardChatSummary extends React.Component {
 		const messages = _.filter(timeline, (event) => {
 			return event.type === 'message' || event.type === 'whisper'
 		})
-		const lastMessageOrWhisper = _.last(messages)
+
+		let latestText = null
+
+		// Find the most recent message, whisper or named event
+		for (let index = timeline.length - 1; index >= 0; index--) {
+			const event = timeline[index]
+			if (event.type === 'message' || event.type === 'whisper') {
+				latestText = _.get(event, [ 'data', 'payload', 'message' ], '')
+					.split('\n')
+					.shift()
+				break
+			}
+			if (event.type === 'update' && Boolean(event.name)) {
+				latestText = event.name
+				break
+			}
+		}
 
 		const style = {
 			borderLeftColor: helpers.colorHash(card.id)
@@ -129,7 +156,7 @@ export default class CardChatSummary extends React.Component {
 
 		const to = helpers.appendToChannelPath(this.props.channel, card)
 
-		const Container = (lastMessageOrWhisper || {}).type === 'whisper'
+		const Container = (_.last(messages) || {}).type === 'whisper'
 			? SummaryWhisper
 			: SummaryMessage
 
@@ -164,18 +191,14 @@ export default class CardChatSummary extends React.Component {
 					</Txt>
 				</Flex>
 				<Txt my={2}>{messages.length} message{messages.length !== 1 && 's'}</Txt>
-				{lastMessageOrWhisper && (
+				{latestText && (
 					<Flex>
 						<Gravatar small pr={2} email={lastActor ? lastActor.email : null}/>
 
 						<Container
 							data-test="card-chat-summary__message"
 						>
-							{
-								_.get(lastMessageOrWhisper, [ 'data', 'payload', 'message' ], '')
-									.split('\n')
-									.shift()
-							}
+							{latestText}
 						</Container>
 					</Flex>
 				)}
