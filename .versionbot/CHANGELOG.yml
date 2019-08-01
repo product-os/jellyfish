@@ -1,4 +1,26 @@
 - commits:
+    - subject: 'UI: Show update reason as last message in card chat summary'
+      hash: 43968238f08f6601204f057a6a8de064cc1a2da7
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Move re-opened support threads back to "pending agent response"'
+      hash: 8b62ce79187a53fcf62ddc8a2e088b9510027c74
+      body: |
+        Fixes #2269
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 19.12.0
+  date: 2019-08-01T12:24:16.141Z
+- commits:
     - subject: 'Chat: Add base for developing a standalon chat widget'
       hash: e0cf11f933ce5d68a19f115c66857e0602c49a12
       body: ''
