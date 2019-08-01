@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'Chat: Add base for developing a standalon chat widget'
+      hash: e0cf11f933ce5d68a19f115c66857e0602c49a12
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Kakhaber
+  version: 19.11.0
+  date: 2019-08-01T09:07:41.213Z
+- commits:
     - subject: 'UI: Links rendered with markdown should always open in a new tab'
       hash: 2c1940b1d9232411533d458ca8aea9c2785b124a
       body: |
