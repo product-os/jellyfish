@@ -22,7 +22,7 @@ import {
 import {
 	evalSchema
 } from '../../../services/helpers'
-import LinkModal from '../../../components/LinkModal'
+import LinkModal from '../../../../ui-components/LinkModal'
 import Icon from '../../../shame/Icon'
 
 export default class Segment extends React.Component {

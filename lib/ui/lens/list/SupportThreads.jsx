@@ -26,7 +26,7 @@ import {
 } from '../../core'
 import Column from '../../shame/Column'
 import Icon from '../../shame/Icon'
-import CardChatSummary from '../../components/CardChatSummary'
+import CardChatSummary from '../../../ui-components/CardChatSummary'
 
 const SLUG = 'lens-support-threads'
 

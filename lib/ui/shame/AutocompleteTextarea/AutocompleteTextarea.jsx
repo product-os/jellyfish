@@ -19,7 +19,7 @@ import {
 	sdk,
 	store
 } from '../../core'
-import Link from '../../components/Link'
+import Link from '../../../ui-components/Link'
 import * as helpers from '../../services/helpers'
 import * as environment from '../../environment'
 import Icon from '../Icon'

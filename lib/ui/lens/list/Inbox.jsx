@@ -22,7 +22,7 @@ import {
 	Button,
 	Flex
 } from 'rendition'
-import Event from '../../components/Event'
+import Event from '../../../ui-components/Event'
 import {
 	actionCreators,
 	selectors,

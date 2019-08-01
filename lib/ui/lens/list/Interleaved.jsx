@@ -24,7 +24,7 @@ import {
 	Theme
 } from 'rendition'
 import uuid from 'uuid/v4'
-import Event from '../../components/Event'
+import Event from '../../../ui-components/Event'
 import {
 	actionCreators,
 	analytics,

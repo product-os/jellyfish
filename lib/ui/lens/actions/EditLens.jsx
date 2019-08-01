@@ -29,8 +29,8 @@ import {
 	analytics,
 	sdk
 } from '../../core'
-import AutoCompleteWidget from '../../components/AutoCompleteWidget'
-import FreeFieldForm from '../../components/FreeFieldForm'
+import AutoCompleteWidget from '../../../ui-components/AutoCompleteWidget'
+import FreeFieldForm from '../../../ui-components/FreeFieldForm'
 
 class EditLens extends React.Component {
 	constructor (props) {

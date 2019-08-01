@@ -25,7 +25,7 @@ import {
 	SchemaSieve
 } from 'rendition'
 import uuid from 'uuid/v4'
-import Filters from '../../components/Filters'
+import Filters from '../../../ui-components/Filters'
 import {
 	actionCreators,
 	analytics,

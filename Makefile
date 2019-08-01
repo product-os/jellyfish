@@ -246,6 +246,7 @@ build-ui:
 	rm -rf $(NYC_TMP_DIR) && mkdir -p $(NYC_TMP_DIR)
 	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/ui $(NYC_TMP_DIR)/ui
 	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/sdk $(NYC_TMP_DIR)/sdk
+	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/ui-components $(NYC_TMP_DIR)/ui-components
 	NODE_ENV=test UI_DIRECTORY="./$(NYC_TMP_DIR)/ui" \
 		SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
 		./node_modules/.bin/webpack
@@ -347,6 +348,10 @@ start-static:
 
 dev-ui: NODE_ENV = development
 dev-ui:
+	./node_modules/.bin/webpack-dev-server --color
+
+dev-chat-widget: NODE_ENV = development
+dev-chat-widget:
 	./node_modules/.bin/webpack-dev-server --color
 
 dev-storybook:
