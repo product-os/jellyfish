@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'UI: Fix bug where full UI changelog is shown instead of just the delta'
+      hash: 6213609f193b5be9a04ed0c6b10e36600c50b07b
+      body: |
+        Fixes #2295
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 19.14.1
+  date: 2019-08-02T12:59:56.119Z
+- commits:
     - subject: Add base webpack config
       hash: e4abfccdecf6fda153646dd5019e02e8b1d93f34
       body: ''
