@@ -1,4 +1,14 @@
 - commits:
+    - subject: Add base webpack config
+      hash: e4abfccdecf6fda153646dd5019e02e8b1d93f34
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 19.14.0
+  date: 2019-08-02T11:37:51.613Z
+- commits:
     - subject: 'Fix bug where #summary doesn''t close support threads'
       hash: 949d2ae12e9b49d6e73026873d128c70d64ff57b
       body: |
