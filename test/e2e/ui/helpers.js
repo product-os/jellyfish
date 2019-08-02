@@ -21,7 +21,7 @@ exports.browser = {
 	beforeEach: async (test) => {
 		await helpers.server.beforeEach(test)
 
-		const distDir = path.resolve(ROOT_PATH, 'dist')
+		const distDir = path.resolve(ROOT_PATH, 'dist/ui')
 
 		const application = express()
 

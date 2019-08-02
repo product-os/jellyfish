@@ -1,11 +1,13 @@
 .PHONY: clean \
 	lint \
 	dev-ui \
+	dev-chat-widget \
 	dev-storybook \
 	coverage \
 	node \
 	test \
 	build-ui \
+	build-chat-widget \
 	compose \
 	start-server \
 	start-worker \
@@ -224,6 +226,7 @@ clean:
 		coverage \
 		postgres_data \
 		webpack-bundle-report.html \
+		webpack-bundle-report.chat-widget.html \
 		jellyfish-files \
 		dist \
 		.cache-loader
@@ -254,6 +257,22 @@ else
 build-ui:
 	UI_DIRECTORY="./lib/ui" SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
 		./node_modules/.bin/webpack
+endif
+
+ifeq ($(COVERAGE),1)
+build-chat-widget:
+	rm -rf $(NYC_TMP_DIR) && mkdir -p $(NYC_TMP_DIR)
+	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/ui $(NYC_TMP_DIR)/ui
+	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/sdk $(NYC_TMP_DIR)/sdk
+	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/ui-components $(NYC_TMP_DIR)/ui-components
+	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/chat-widget $(NYC_TMP_DIR)/chat-widget
+	NODE_ENV=test UI_DIRECTORY="./$(NYC_TMP_DIR)/chat-widget" \
+		SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
+		./node_modules/.bin/webpack --config=./webpack.config.chat-widget.js
+else
+build-chat-widget:
+	UI_DIRECTORY="./lib/chat-widget" SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
+		./node_modules/.bin/webpack --config=./webpack.config.chat-widget.js
 endif
 
 lint:
@@ -352,7 +371,7 @@ dev-ui:
 
 dev-chat-widget: NODE_ENV = development
 dev-chat-widget:
-	./node_modules/.bin/webpack-dev-server --color
+	./node_modules/.bin/webpack-dev-server --config=./webpack.config.chat-widget.js --color
 
 dev-storybook:
 	./node_modules/.bin/start-storybook -p 6006
