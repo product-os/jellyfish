@@ -149,7 +149,7 @@ class JellyfishUI extends React.Component {
 						>
 							<Txt pb={3}>There has been a few changes since you were last here:</Txt>
 							<Markdown>
-								{this.props.changelog.split(`# ${this.state.showChangelog}`)[0]}
+								{this.props.changelog.split(`# v${this.state.showChangelog}`)[0]}
 							</Markdown>
 						</Modal>
 					)}
