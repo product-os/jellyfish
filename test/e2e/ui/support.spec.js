@@ -63,7 +63,8 @@ ava.serial('Updates to support threads should be reflected in the support thread
 		return window.sdk.card.create({
 			type: 'support-thread',
 			data: {
-				inbox: 'S/Paid_Support'
+				inbox: 'S/Paid_Support',
+				status: 'open'
 			}
 		})
 	})
@@ -97,7 +98,8 @@ ava.serial('You should be able to link support threads to existing support issue
 			type: 'support-issue',
 			name: cardName,
 			data: {
-				inbox: 'S/Paid_Support'
+				inbox: 'S/Paid_Support',
+				status: 'open'
 			}
 		})
 	}, name)
@@ -139,7 +141,8 @@ ava.serial('Support thread timeline should default to sending whispers', async (
 		return window.sdk.card.create({
 			type: 'support-thread',
 			data: {
-				inbox: 'S/Paid_Support'
+				inbox: 'S/Paid_Support',
+				status: 'open'
 			}
 		})
 	})
@@ -167,7 +170,8 @@ ava.serial('Support thread timeline should send a message if the input is prefix
 		return window.sdk.card.create({
 			type: 'support-thread',
 			data: {
-				inbox: 'S/Paid_Support'
+				inbox: 'S/Paid_Support',
+				status: 'open'
 			}
 		})
 	})
@@ -195,7 +199,8 @@ ava.serial('Support thread timeline should send a message if the whisper button 
 		return window.sdk.card.create({
 			type: 'support-thread',
 			data: {
-				inbox: 'S/Paid_Support'
+				inbox: 'S/Paid_Support',
+				status: 'open'
 			}
 		})
 	})
@@ -225,7 +230,8 @@ ava.serial('Support thread timeline should revert to "whisper" mode after sendin
 		return window.sdk.card.create({
 			type: 'support-thread',
 			data: {
-				inbox: 'S/Paid_Support'
+				inbox: 'S/Paid_Support',
+				status: 'open'
 			}
 		})
 	})
@@ -253,7 +259,8 @@ ava.serial('Users should be able to close a support thread', async (test) => {
 		return window.sdk.card.create({
 			type: 'support-thread',
 			data: {
-				inbox: 'S/Paid_Support'
+				inbox: 'S/Paid_Support',
+				status: 'open'
 			}
 		})
 	})
@@ -267,6 +274,40 @@ ava.serial('Users should be able to close a support thread', async (test) => {
 	// Wait for the success alert as a heuristic for the action completing
 	// successfully
 	await page.waitForSelector('[data-test="alert--success"]')
+
+	const thread = await page.evaluate((id) => {
+		return window.sdk.card.get(id)
+	}, supportThread.id)
+
+	test.is(thread.data.status, 'closed')
+})
+
+ava.serial('Users should be able to close a support thread by sending a message with #summary', async (test) => {
+	const {
+		page
+	} = context
+
+	const supportThread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'support-thread',
+			data: {
+				inbox: 'S/Paid_Support',
+				status: 'open'
+			}
+		})
+	})
+
+	await page.goto(`http://localhost:${environment.ui.port}/${supportThread.id}`)
+
+	const columnSelector = '.column--support-thread'
+
+	await page.waitForSelector(columnSelector)
+
+	await macros.createChatMessage(page, columnSelector, '#summary')
+
+	// Wait for the status to change as a heuristic for the action completing
+	// successfully
+	await page.waitForSelector('[data-test="status-closed"]')
 
 	const thread = await page.evaluate((id) => {
 		return window.sdk.card.get(id)
