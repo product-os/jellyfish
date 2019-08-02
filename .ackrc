@@ -7,3 +7,4 @@
 --ignore-dir=match:/.0x$/
 --ignore-dir=.cache-loader
 --ignore-file=is:webpack-bundle-report.html
+--ignore-file=is:webpack-bundle-report.chat-widget.html
