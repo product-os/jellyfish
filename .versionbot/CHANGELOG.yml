@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'Fix bug where #summary doesn''t close support threads'
+      hash: 949d2ae12e9b49d6e73026873d128c70d64ff57b
+      body: |
+        Fixes #2233
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 19.13.1
+  date: 2019-08-02T09:23:35.422Z
+- commits:
     - subject: 'UI: Show latest changes in a modal if the version has changed'
       hash: 097663cddae02da6895533122292bcc7ae0fc86c
       body: ''
