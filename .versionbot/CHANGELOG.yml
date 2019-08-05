@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'Postgres: Increase database working memory'
+      hash: bc9d01740b3bc5dc361275df35575424c07f0e38
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 19.14.3
+  date: 2019-08-05T14:09:35.619Z
+- commits:
     - subject: 'changelog: fix up tense typo'
       hash: a08dfa95d9632853978ba01ef51d8780eede37d9
       body: ''
