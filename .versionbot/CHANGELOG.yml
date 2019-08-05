@@ -1,4 +1,25 @@
 - commits:
+    - subject: Use a generic "avatar" key instead of being gravatar specific
+      hash: 32305cbfe4b4b2ab458cef12a9e629e092ff40d3
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: User precalculated avatar URL'
+      hash: 6ab6179b8d5331a863957bb6d33b28f4e55c5ffb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 19.15.0
+  date: 2019-08-05T15:21:32.997Z
+- commits:
     - subject: 'Postgres: Increase database working memory'
       hash: bc9d01740b3bc5dc361275df35575424c07f0e38
       body: ''
