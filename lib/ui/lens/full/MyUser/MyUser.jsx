@@ -161,7 +161,7 @@ export default class MyUser extends React.Component {
 							<Flex>
 								<Avatar
 									name={user.name || user.slug.replace('user-', '')}
-									url={_.get(user, [ 'data', 'profile', 'gravatar' ])}
+									url={_.get(user, [ 'data', 'avatar' ])}
 								/>
 
 								<Box ml={2}>

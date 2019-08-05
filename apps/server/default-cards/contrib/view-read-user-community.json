@@ -323,8 +323,11 @@
                 "email": {
                   "type": "string"
                 },
-                "profile": {
-                  "type": "object"
+                "avatar": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 }
               },
               "additionalProperties": false

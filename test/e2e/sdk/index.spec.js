@@ -1100,9 +1100,7 @@ ava.serial('.auth.signup() should work with a valid token', async (test) => {
 			email: details.email,
 			roles: [ 'user-community' ],
 			hash: card.data.hash,
-			profile: {
-				gravatar: null
-			}
+			avatar: null
 		}
 	}))
 })

@@ -401,9 +401,7 @@ avaTest('should not mirror a user card type', async (test) => {
 		email: `${username}@balena.io`,
 		roles: [ 'user-community' ],
 		hash: '$2b$12$tnb9eMnlGpEXld1IYmIlDOud.v4vSUbnuEsjFQz3d/24sqA6XmaBq',
-		profile: {
-			gravatar: null
-		}
+		avatar: null
 	})
 
 	const results = await outreachMock.getProspectByEmail(`${username}@balena.io`)

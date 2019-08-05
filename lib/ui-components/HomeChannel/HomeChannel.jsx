@@ -241,7 +241,7 @@ export default class HomeChannel extends React.Component {
 					<Button plain={true} className="user-menu-toggle" py={3} pl={3} pr={2} onClick={this.showMenu}>
 						<Avatar
 							name={username}
-							url={_.get(user, [ 'data', 'profile', 'gravatar' ])}
+							url={_.get(user, [ 'data', 'avatar' ])}
 						/>
 
 						{Boolean(username) && <Txt mx={2}>{username}</Txt>}
