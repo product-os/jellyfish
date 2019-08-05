@@ -322,6 +322,12 @@
               "properties": {
                 "email": {
                   "type": "string"
+                },
+                "avatar": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 }
               },
               "additionalProperties": false

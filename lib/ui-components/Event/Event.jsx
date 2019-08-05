@@ -33,7 +33,7 @@ import * as helpers from '../../ui/services/helpers'
 import {
 	ActionLink
 } from '../../ui/shame/ActionLink'
-import Gravatar from '../../ui/shame/Gravatar'
+import Avatar from '../../ui/shame/Avatar'
 import Icon from '../../ui/shame/Icon'
 
 const ActorPlaceholder = styled.span `
@@ -420,7 +420,11 @@ export default class Event extends React.Component {
 					<EventButton onClick={this.openChannel} style={{
 						borderLeftColor: helpers.colorHash(getTargetId(card))
 					}}>
-						<Gravatar small email={actor ? actor.email : null}/>
+						<Avatar
+							small
+							name={actor ? actor.name : null}
+							url={actor ? actor.avatarUrl : null}
+						/>
 					</EventButton>
 					<InnerWrapper
 						flex="1"

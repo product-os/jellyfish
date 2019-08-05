@@ -25,7 +25,7 @@ import {
 import * as skhema from 'skhema'
 import * as helpers from '../../../services/helpers'
 import CardLayout from '../../../layouts/CardLayout'
-import Gravatar from '../../../shame/Gravatar'
+import Avatar from '../../../shame/Avatar'
 import Icon from '../../../shame/Icon'
 
 const SLUG = 'lens-my-user'
@@ -159,7 +159,10 @@ export default class MyUser extends React.Component {
 					<Tab title="Profile">
 						<Box mt={3}>
 							<Flex>
-								<Gravatar email={user.data.email}/>
+								<Avatar
+									name={user.name || user.slug.replace('user-', '')}
+									url={_.get(user, [ 'data', 'avatar' ])}
+								/>
 
 								<Box ml={2}>
 									<strong>{user.slug.replace('user-', '')}</strong>

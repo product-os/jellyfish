@@ -181,9 +181,7 @@ ava.serial('creating a user with a community user session should succeed', async
 			email: newUserDetails.email,
 			roles: [ 'user-community' ],
 			hash: card.data.hash,
-			profile: {
-				gravatar: null
-			}
+			avatar: null
 		}
 	}))
 })
@@ -3475,7 +3473,7 @@ ava.serial('Users should not be able to create action requests', async (test) =>
 	test.is(error.name, 'JellyfishSchemaMismatch')
 })
 
-ava.serial('Users should have a gravatar value set to null if it doesn\'t exist', async (test) => {
+ava.serial('Users should have an avatar value set to null if it doesn\'t exist', async (test) => {
 	const {
 		sdk
 	} = test.context
@@ -3490,12 +3488,12 @@ ava.serial('Users should have a gravatar value set to null if it doesn\'t exist'
 
 	// Since the email is randomly generated, we expect the gravatar value to be
 	// null
-	test.is(user.data.profile.gravatar, null)
+	test.is(user.data.avatar, null)
 })
 
 // TODO: Get nock to successfully intercept calls to Gravatar so we can enable
 // this test
-ava.serial.skip('Users should have a gravatar value calculated on signup', async (test) => {
+ava.serial.skip('Users should have an avatar value calculated on signup', async (test) => {
 	const {
 		sdk
 	} = test.context
@@ -3518,7 +3516,7 @@ ava.serial.skip('Users should have a gravatar value calculated on signup', async
 
 	const avatarUrl = `https://www.gravatar.com/avatar/${md5(user.data.email.trim())}?d=404`
 
-	test.is(user.data.profile.gravatar, avatarUrl)
+	test.is(user.data.avatar, avatarUrl)
 
 	nock.cleanAll()
 })

@@ -23,7 +23,7 @@ import MentionsCount from '../MentionsCount'
 import TreeMenu from './TreeMenu'
 import RouterLink from '../Link'
 import ViewLink from '../ViewLink'
-import Gravatar from '../../ui/shame/Gravatar'
+import Avatar from '../../ui/shame/Avatar'
 import Icon from '../../ui/shame/Icon'
 import MenuPanel from '../../ui/shame/MenuPanel'
 
@@ -209,8 +209,7 @@ export default class HomeChannel extends React.Component {
 			tail
 		} = this.state
 		const activeChannel = channels.length > 1 ? channels[1] : null
-		const email = user ? user.data.email : null
-		const username = user ? user.slug.replace(/user-/, '') : null
+		const username = user ? (user.name || user.slug.replace(/user-/, '')) : null
 		if (!head) {
 			return (
 				<Box p={3}>
@@ -240,7 +239,10 @@ export default class HomeChannel extends React.Component {
 					position: 'relative'
 				}}>
 					<Button plain={true} className="user-menu-toggle" py={3} pl={3} pr={2} onClick={this.showMenu}>
-						<Gravatar email={email}/>
+						<Avatar
+							name={username}
+							url={_.get(user, [ 'data', 'avatar' ])}
+						/>
 
 						{Boolean(username) && <Txt mx={2}>{username}</Txt>}
 

@@ -1,5 +1,5 @@
 {
-  "slug": "triggered-action-user-gravatar",
+  "slug": "triggered-action-set-user-avatar",
   "type": "triggered-action",
   "version": "1.0.0",
   "markers": [],
@@ -17,7 +17,7 @@
         }
       }
     },
-    "action": "action-get-gravatar",
+    "action": "action-set-user-avatar",
     "target": {
       "$eval": "source.id"
     },
