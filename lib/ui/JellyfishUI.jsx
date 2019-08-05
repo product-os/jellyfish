@@ -107,7 +107,10 @@ class JellyfishUI extends React.Component {
 	}
 
 	componentDidUpdate (prevProps) {
-		if (prevProps.version && prevProps.version !== this.props.version) {
+		if (
+			prevProps.version && this.props.version &&
+			prevProps.version !== this.props.version
+		) {
 			this.setState({
 				showChangelog: prevProps.version
 			})
