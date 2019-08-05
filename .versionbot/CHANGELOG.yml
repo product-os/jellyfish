@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'changelog: fix up tense typo'
+      hash: a08dfa95d9632853978ba01ef51d8780eede37d9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Matthew McGinn <matthew@balena.io>
+        signed-off-by: Matthew McGinn <matthew@balena.io>
+      author: Matthew McGinn
+  version: 19.14.2
+  date: 2019-08-05T09:18:52.033Z
+- commits:
     - subject: 'UI: Fix bug where full UI changelog is shown instead of just the delta'
       hash: 6213609f193b5be9a04ed0c6b10e36600c50b07b
       body: |
