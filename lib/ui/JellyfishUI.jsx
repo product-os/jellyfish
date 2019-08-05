@@ -147,7 +147,7 @@ class JellyfishUI extends React.Component {
 							title={`Whats new in v${this.props.version}`}
 							done={this.hideChangelog}
 						>
-							<Txt pb={3}>There has been a few changes since you were last here:</Txt>
+							<Txt pb={3}>There have been a few changes since you were last here:</Txt>
 							<Markdown>
 								{this.props.changelog.split(`# v${this.state.showChangelog}`)[0]}
 							</Markdown>
