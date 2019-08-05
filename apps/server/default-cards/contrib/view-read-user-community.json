@@ -322,6 +322,9 @@
               "properties": {
                 "email": {
                   "type": "string"
+                },
+                "profile": {
+                  "type": "object"
                 }
               },
               "additionalProperties": false

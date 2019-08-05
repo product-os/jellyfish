@@ -19,7 +19,7 @@ import styled from 'styled-components'
 import Link from '../Link'
 import * as helpers from '../../ui/services/helpers'
 import ColorHashPill from '../../ui/shame/ColorHashPill'
-import Gravatar from '../../ui/shame/Gravatar'
+import Avatar from '../../ui/shame/Avatar'
 
 const SummaryWrapper = styled(Link) `
 	display: block;
@@ -193,7 +193,12 @@ export default class CardChatSummary extends React.Component {
 				<Txt my={2}>{messages.length} message{messages.length !== 1 && 's'}</Txt>
 				{latestText && (
 					<Flex>
-						<Gravatar small pr={2} email={lastActor ? lastActor.email : null}/>
+						<Avatar
+							small
+							pr={2}
+							name={lastActor ? lastActor.name : null}
+							url={lastActor ? lastActor.avatarUrl : null}
+						/>
 
 						<Container
 							data-test="card-chat-summary__message"
