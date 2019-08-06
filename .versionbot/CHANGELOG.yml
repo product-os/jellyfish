@@ -1,4 +1,26 @@
 - commits:
+    - subject: Further increase DB work memory to improve perf on sorting
+      hash: a12f6b0e9178af3651b694375306f34650bc3637
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Improve Username autocompletion'
+      hash: 47a36043ae25d546fb760588c72151164553eb8f
+      body: |
+        Fixes #2304
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 19.17.0
+  date: 2019-08-06T08:22:45.358Z
+- commits:
     - subject: 'UI: Deduplicate cards before storing them in state'
       hash: d77cff1fb5ed650d05e5df46aa2c5537af89a143
       body: |
