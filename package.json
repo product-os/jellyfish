@@ -68,6 +68,8 @@
     "@babel/preset-react": "^7.0.0",
     "@json-schema-org/tests": "^1.0.0",
     "@storybook/react": "^4.0.2",
+    "@types/dompurify": "0.0.33",
+    "@types/react-dom": "^16.8.5",
     "ava": "^1.4.1",
     "browser-env": "^3.2.5",
     "cli-spinner": "^0.2.8",
@@ -98,6 +100,7 @@
     "puppeteer": "1.13.0",
     "request": "^2.88.0",
     "sinon": "^7.3.2",
+    "ts-loader": "^6.0.4",
     "webpack": "^4.1.1",
     "webpack-bundle-analyzer": "^2.13.1",
     "webpack-cli": "^2.0.12",
@@ -126,6 +129,7 @@
     "d3": "^5.9.2",
     "debounce-promise": "^3.1.0",
     "deep-copy": "^1.4.2",
+    "dompurify": "^1.0.11",
     "errio": "^1.2.2",
     "esprima": "^4.0.0",
     "express": "^4.16.2",
@@ -185,6 +189,7 @@
     "styled-components": "^4.2.0",
     "turndown": "^5.0.3",
     "typed-errors": "^1.1.0",
+    "typescript": "^3.5.3",
     "uuid": "^3.2.1",
     "winston": "^3.1.0"
   }

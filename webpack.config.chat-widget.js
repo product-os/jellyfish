@@ -25,12 +25,34 @@ const packageJSON = require('./package.json')
 console.log(`Generating bundle from ${uiRoot}`)
 
 const config = mergeConfig(baseConfig, {
-	entry: path.join(uiRoot, 'index.jsx'),
+	entry: path.join(uiRoot, 'index.tsx'),
 
 	output: {
 		filename: 'bundle.[hash].js',
 		path: outDir,
 		publicPath: '/'
+	},
+
+	resolve: {
+		extensions: [ '.ts', '.tsx' ]
+	},
+
+	module: {
+		rules: [
+			{
+				test: /\.tsx?$/,
+				use: [
+					'babel-loader',
+					{
+						loader: 'ts-loader',
+						options: {
+							// disable type checker - we will use it in fork plugin
+							transpileOnly: true,
+						},
+					},
+				],
+			},
+		]
 	},
 
 	devServer: {
