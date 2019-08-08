@@ -1,4 +1,21 @@
 - commits:
+    - subject: 'UI: Fix bug that would cause high memory consumption'
+      hash: ce8e8624db917403b6916e85657ef83d6a58f140
+      body: |
+        Fixes #2314
+
+        This was caused by Redux state changes triggering router updates which
+        then (somehow?) caused styled component updates. The theory is that
+        there was a conflict in the React contexts being used
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 19.17.1
+  date: 2019-08-08T09:05:55.675Z
+- commits:
     - subject: Further increase DB work memory to improve perf on sorting
       hash: a12f6b0e9178af3651b694375306f34650bc3637
       body: ''
