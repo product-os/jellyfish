@@ -1,4 +1,17 @@
 - commits:
+    - subject: Add Postgres support for formatMaximum|formatMinimum
+      hash: 16f84ef5e094d892023cc6cf8d079bc09081aaaf
+      body: |
+        Fixes #2284
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 19.18.0
+  date: 2019-08-08T13:26:26.102Z
+- commits:
     - subject: 'UI: Fix bug that would cause high memory consumption'
       hash: ce8e8624db917403b6916e85657ef83d6a58f140
       body: |
