@@ -15,7 +15,6 @@ import {
 import {
 	Flex,
 	Modal,
-	Provider,
 	Txt
 } from 'rendition'
 import {
@@ -48,7 +47,6 @@ import {
 } from 'react-dnd'
 import ReactDndHtml5Backend from 'react-dnd-html5-backend'
 import {
-	BrowserRouter as Router,
 	Route,
 	Redirect,
 	Switch
@@ -125,52 +123,45 @@ class JellyfishUI extends React.Component {
 		}
 		if (this.props.status === 'unauthorized') {
 			return (
-				<Provider>
+				<React.Fragment>
 					<Login />
 					<Notifications />
-				</Provider>
+				</React.Fragment>
 			)
 		}
 		const [ home ] = this.props.channels
 
 		return (
-			<Provider
-				style={{
-					height: '100%',
-					fontSize: 14
-				}}
-			>
-				<Router>
-					{isLegacyPath(path) && (
-						<Redirect to={transformLegacyPath(path)} />
-					)}
+			<React.Fragment>
+				{isLegacyPath(path) && (
+					<Redirect to={transformLegacyPath(path)} />
+				)}
 
-					{this.state.showChangelog && (
-						<Modal
-							title={`Whats new in v${this.props.version}`}
-							done={this.hideChangelog}
-						>
-							<Txt pb={3}>There have been a few changes since you were last here:</Txt>
-							<Markdown>
-								{this.props.changelog.split(`# v${this.state.showChangelog}`)[0]}
-							</Markdown>
-						</Modal>
-					)}
+				{this.state.showChangelog && (
+					<Modal
+						title={`Whats new in v${this.props.version}`}
+						done={this.hideChangelog}
+					>
+						<Txt pb={3}>There have been a few changes since you were last here:</Txt>
+						<Markdown>
+							{this.props.changelog.split(`# v${this.state.showChangelog}`)[0]}
+						</Markdown>
+					</Modal>
+				)}
 
-					<Flex flex="1" style={{
-						height: '100%'
-					}}>
-						<HomeChannel channel={home}/>
+				<Flex flex="1" style={{
+					height: '100%'
+				}}>
+					<HomeChannel channel={home}/>
 
-						<Switch>
-							<Route path="/oauth/:integration" component={Oauth} />
-							<Route path="/*" component={RouteHandler} />
-						</Switch>
-					</Flex>
+					<Switch>
+						<Route path="/oauth/:integration" component={Oauth} />
+						<Route path="/*" component={RouteHandler} />
+					</Switch>
+				</Flex>
 
-					<Notifications />
-				</Router>
-			</Provider>
+				<Notifications />
+			</React.Fragment>
 		)
 	}
 }

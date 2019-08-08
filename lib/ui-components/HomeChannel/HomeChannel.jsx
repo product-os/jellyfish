@@ -243,7 +243,6 @@ export default class HomeChannel extends React.Component {
 							name={username}
 							url={_.get(user, [ 'data', 'avatar' ])}
 						/>
-
 						{Boolean(username) && <Txt mx={2}>{username}</Txt>}
 
 						<Icon name="caret-down"/>

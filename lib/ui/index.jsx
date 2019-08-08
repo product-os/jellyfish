@@ -13,6 +13,7 @@ import {
 	Provider
 } from 'react-redux'
 import {
+	Provider as RProvider,
 	Theme
 } from 'rendition'
 import {
@@ -24,6 +25,9 @@ import {
 import JellyfishUI from './JellyfishUI'
 import ErrorBoundary from './shame/ErrorBoundary'
 import * as environment from './environment'
+import {
+	BrowserRouter as Router
+} from 'react-router-dom'
 
 if (environment.isProduction() && environment.sentry.dsn !== '0') {
 	Sentry.init({
@@ -59,15 +63,24 @@ const GlobalStyle = createGlobalStyle `
 
 ReactDOM.render(
 	(
-		<Provider store={store}>
-			<React.Fragment>
-				<GlobalStyle />
+		<Router>
+			<RProvider
+				style={{
+					height: '100%',
+					fontSize: 14
+				}}
+			>
+				<Provider store={store}>
+					<React.Fragment>
+						<GlobalStyle />
 
-				<ErrorBoundary>
-					<JellyfishUI />
-				</ErrorBoundary>
-			</React.Fragment>
-		</Provider>
+						<ErrorBoundary>
+							<JellyfishUI />
+						</ErrorBoundary>
+					</React.Fragment>
+				</Provider>
+			</RProvider>
+		</Router>
 	),
 	document.getElementById('app')
 )
