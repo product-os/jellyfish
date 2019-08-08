@@ -15,6 +15,7 @@ const cards = require('../../../../../../lib/core/backend/postgres/cards')
 const links = require('../../../../../../lib/core/backend/postgres/links')
 const errors = require('../../../../../../lib/core/errors')
 const regexpTestSuite = require('./regexp')
+const formatMaxMinTestSuite = require('./formatMaxMin')
 const IS_POSTGRES = environment.database.type === 'postgres'
 
 /*
@@ -66,7 +67,8 @@ const SUPPORTED_SUITES = [
 	'type',
 	// uniqueItems
 
-	'regexp'
+	'regexp',
+	'formatMaximum|formatMinimum'
 ]
 /* eslint-enable capitalized-comments, lines-around-comment */
 
@@ -175,6 +177,13 @@ const testSuites = jsonSchemaTestSuite.draft6()
  * see: https://github.com/epoberezkin/ajv-keywords#regexp
  */
 testSuites.push(regexpTestSuite)
+
+/*
+ * Add a test suite for the non-standard key words "formatMaximum" and
+ * "formatMinimum" that are used by the client for query against dates
+ * see: https://github.com/epoberezkin/ajv-keywords#formatmaximum--formatminimum-and-formatexclusivemaximum--formatexclusiveminimum
+ */
+testSuites.push(formatMaxMinTestSuite)
 
 /*
  * The JSON Schema tests are divided in suites, where
