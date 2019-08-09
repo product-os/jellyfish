@@ -27,6 +27,9 @@ import {
 import Column from '../../shame/Column'
 import Icon from '../../shame/Icon'
 import CardChatSummary from '../../../ui-components/CardChatSummary'
+import {
+	InfiniteList
+} from '../../../ui-components/InfiniteList'
 
 const SLUG = 'lens-support-threads'
 
@@ -58,26 +61,10 @@ export class SupportThreads extends React.Component {
 			segments: []
 		}
 
-		this.handleScroll = async () => {
-			const {
-				scrollArea, loadingPage
-			} = this
-			if (!scrollArea) {
-				return
-			}
-			this.scrollBottomOffset = scrollArea.scrollHeight - (scrollArea.scrollTop + scrollArea.offsetHeight)
-			if (loadingPage) {
-				return
-			}
-			if (this.scrollBottomOffset > 200) {
-				return
-			}
-			this.loadingPage = true
+		this.handleScrollEnding = async () => {
 			await this.props.setPage(this.props.page + 1)
-			this.loadingPage = false
 		}
 
-		this.bindScrollArea = this.bindScrollArea.bind(this)
 		this.setActiveIndex = this.setActiveIndex.bind(this)
 	}
 
@@ -230,10 +217,6 @@ export class SupportThreads extends React.Component {
 		})
 	}
 
-	bindScrollArea (ref) {
-		this.scrollArea = ref
-	}
-
 	render () {
 		const threadTargets = _.map(this.props.channels, 'data.target')
 
@@ -255,14 +238,12 @@ export class SupportThreads extends React.Component {
 					{segments.map((segment) => {
 						return (
 							<Tab key={segment.name} title={segment.name}>
-								<div
-									ref={this.bindScrollArea}
+								<InfiniteList
 									key={segment.name}
-									onScroll={this.handleScroll}
+									onScrollEnding={this.handleScrollEnding}
 									style={{
 										height: '100%',
-										paddingBottom: 16,
-										overflowY: 'auto'
+										paddingBottom: 16
 									}}
 								>
 									{!(this.props.totalPages > this.props.page + 1) && segment.cards.length === 0 && (
@@ -288,7 +269,7 @@ export class SupportThreads extends React.Component {
 											<Icon spin name="cog"/>
 										</Box>
 									)}
-								</div>
+								</InfiniteList>
 							</Tab>
 						)
 					})}
