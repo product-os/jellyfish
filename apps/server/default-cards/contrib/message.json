@@ -62,6 +62,9 @@
                 "message": {
                   "type": "string",
                   "format": "markdown"
+                },
+                "html": {
+                  "type": "string"
                 }
               }
             },

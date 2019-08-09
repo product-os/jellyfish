@@ -142,6 +142,10 @@ module provides a set of functions that the backend uses for logging purposes.
 - The logger is able to pipe logs to a central location when running in
 	production
 
+### [`lib/markdown`](https://github.com/balena-io/jellyfish/tree/master/lib/markdown)
+
+Utilities for working with markdown strings.
+
 ### [`lib/queue`](https://github.com/balena-io/jellyfish/tree/master/lib/queue)
 
 The Jellyfish system processes incoming action requests and adds them to a

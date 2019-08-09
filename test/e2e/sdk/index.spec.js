@@ -1017,6 +1017,7 @@ ava.serial('.event.create() should create a new event', async (test) => {
 		target: card.id,
 		payload: {
 			message: 'Foo',
+			html: '<p>Foo</p>\n',
 			test: 1
 		}
 	})

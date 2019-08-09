@@ -21,6 +21,7 @@ COPY lib/sdk ./lib/sdk
 COPY lib/ui-components ./lib/ui-components
 COPY lib/chat-widget ./lib/chat-widget
 COPY lib/uuid ./lib/uuid
+COPY lib/markdown ./lib/markdown
 COPY Makefile .
 
 ARG ENABLE_COVERAGE=0

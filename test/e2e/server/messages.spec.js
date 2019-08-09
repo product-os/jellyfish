@@ -5,6 +5,10 @@
  */
 
 const ava = require('ava')
+const {
+	stripIndent
+} = require('common-tags')
+const uuid = require('uuid/v4')
 const helpers = require('../sdk/helpers')
 
 ava.before(helpers.before)
@@ -12,6 +16,14 @@ ava.after(helpers.after)
 
 ava.beforeEach(helpers.beforeEach)
 ava.afterEach(helpers.afterEach)
+
+const createUserDetails = () => {
+	return {
+		username: uuid(),
+		email: `${uuid()}@example.com`,
+		password: 'foobarbaz'
+	}
+}
 
 ava.serial('should sanely handle line breaks before tags in messages/whispers', async (test) => {
 	const thread = await test.context.sdk.card.create({
@@ -241,4 +253,96 @@ ava.serial('should create a new tag when one is found in a message', async (test
 		slug: tag.slug,
 		type: 'tag'
 	})
+})
+
+ava.serial('Message markdown should be pre-processed into html', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const userDetails = createUserDetails()
+
+	// Create a new user
+	await test.context.createUser(userDetails)
+
+	// Login as the new user
+	await sdk.auth.login(userDetails)
+
+	// Create a new thread element
+	const thread = await sdk.card.create({
+		type: 'thread',
+		slug: test.context.generateRandomSlug({
+			prefix: 'thread'
+		}),
+		version: '1.0.0',
+		name: 'test-thread',
+		data: {}
+	})
+
+	const result = await sdk.event.create({
+		type: 'message',
+		tags: [],
+		target: thread,
+		payload: {
+			message: '@lucianbuzzo\n >lorem ipsum dolor sit amet'
+		}
+	})
+
+	const message = await sdk.card.get(result.id)
+
+	test.deepEqual(
+		message.data.payload.html.trim(),
+		stripIndent `
+			<p><span class="rendition-tag--hl rendition-tag--user-lucianbuzzo">@lucianbuzzo</span></p>
+			<blockquote>
+			<p>lorem ipsum dolor sit amet</p>
+			</blockquote>
+		`
+	)
+})
+
+ava.serial('Whisper markdown should be pre-processed into html', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const userDetails = createUserDetails()
+
+	// Create a new user
+	await test.context.createUser(userDetails)
+
+	// Login as the new user
+	await sdk.auth.login(userDetails)
+
+	// Create a new thread element
+	const thread = await sdk.card.create({
+		type: 'thread',
+		slug: test.context.generateRandomSlug({
+			prefix: 'thread'
+		}),
+		version: '1.0.0',
+		name: 'test-thread',
+		data: {}
+	})
+
+	const result = await sdk.event.create({
+		type: 'whisper',
+		tags: [],
+		target: thread,
+		payload: {
+			message: '@lucianbuzzo\n >lorem ipsum dolor sit amet'
+		}
+	})
+
+	const whisper = await sdk.card.get(result.id)
+
+	test.deepEqual(
+		whisper.data.payload.html.trim(),
+		stripIndent `
+			<p><span class="rendition-tag--hl rendition-tag--user-lucianbuzzo">@lucianbuzzo</span></p>
+			<blockquote>
+			<p>lorem ipsum dolor sit amet</p>
+			</blockquote>
+		`
+	)
 })

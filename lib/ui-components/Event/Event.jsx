@@ -9,7 +9,6 @@ import {
 	circularDeepEqual
 } from 'fast-equals'
 import _ from 'lodash'
-import Mark from 'mark.js'
 import React from 'react'
 import VisibilitySensor from 'react-visibility-sensor'
 import {
@@ -20,12 +19,16 @@ import {
 	Txt
 }	from 'rendition'
 import {
-	Markdown
+	Markdown,
+	GitHubMarkdown
 } from 'rendition/dist/extra/Markdown'
 import styled from 'styled-components'
 import {
 	saveAs
 } from 'file-saver'
+import {
+	preprocessMessage
+} from '../../markdown'
 import AuthenticatedImage from '../AuthenticatedImage'
 import ContextMenu from '../ContextMenu'
 import {
@@ -69,7 +72,6 @@ const getAttachments = (card) => {
 	return attachments
 }
 
-const tagMatchRE = helpers.createPrefixRegExp('@|#|!')
 const EventButton = styled.button `
 	cursor: pointer;
 	border: 0;
@@ -83,38 +85,8 @@ const EventButton = styled.button `
 	border-left-width: 3px;
 `
 
-const FRONT_IMG_RE = /^\[\/api\/1\/companies\/resin_io\/attachments\/[a-z0-9]+\?resource_link_id=\d+\]$/
-
 const getTargetId = (card) => {
 	return _.get(card, [ 'data', 'target' ]) || card.id
-}
-
-export const getMessage = (card) => {
-	const message = _.get(card, [ 'data', 'payload', 'message' ], '')
-
-	// Fun hack to extract attached images embedded in HTML from synced front messages
-	if (message.includes('<img src="/api/1/companies/resin_io/attachments')) {
-		const match = message.match(/\/api\/1\/companies\/resin_io\/attachments\/[a-z0-9]+\?resource_link_id=\d+/)
-		let formatted = message
-		match.forEach((source) => {
-			const index = formatted.indexOf(match)
-			formatted = `${formatted.slice(0, index)}https://app.frontapp.com${formatted.slice(index)}`
-		})
-
-		return formatted
-	}
-
-	// Fun hack to extract attached images from synced front messages embedded in
-	// a different way
-	if (message.match(FRONT_IMG_RE)) {
-		return `![Attached image](https://app.frontapp.com${message.slice(1, -1)})`
-	}
-
-	if (message.includes('#jellyfish-hidden')) {
-		return ''
-	}
-
-	return message
 }
 
 const downloadFile = async (sdk, cardId, file) => {
@@ -208,7 +180,7 @@ const MessageContainer = styled(Box) `
 		color: #333;
 		background-color: #f6f8fa;
 	}
-	  
+
 	${/* eslint-disable no-nested-ternary */
 	(props) => {
 		return props.whisper ? `
@@ -324,38 +296,21 @@ export default class Event extends React.Component {
 			return
 		}
 
-		// Modify all links in the message to open in a new tab
-		// TODO: Make this an option in the rendition <Markdown /> component.
-		Array.from(this.messageElement.querySelectorAll('a')).forEach((node) => {
-			node.setAttribute('target', '_blank')
-		})
-		const instance = new Mark(this.messageElement)
-
-		const readBy = this.props.card.data.readBy || []
 		const userSlug = this.props.user.slug
 		const username = userSlug.slice(5)
 
-		instance.markRegExp(tagMatchRE, {
-			element: 'span',
-			className: 'rendition-tag--hl',
-			ignoreGroups: 1,
-			each (element) {
-				const text = element.innerText
-				if (text.charAt(0) === '#') {
-					return
-				}
+		// Highlight tags that are referencing the current user
+		this.messageElement.querySelectorAll('.rendition-tag--hl').forEach((element) => {
+			const text = element.innerText
 
-				const trimmed = text.slice(1)
+			if (text.charAt(0) === '#') {
+				return
+			}
 
-				if (trimmed === username) {
-					element.className += ' rendition-tag--personal'
-				}
-				if (!readBy.length) {
-					return
-				}
-				if (_.includes(readBy, `user-${trimmed}`)) {
-					element.className += ' rendition-tag--read'
-				}
+			const trimmed = text.slice(1)
+
+			if (trimmed === username) {
+				element.className += ' rendition-tag--personal'
 			}
 		})
 	}
@@ -417,7 +372,14 @@ export default class Event extends React.Component {
 		])
 		const isMessage = card.type === 'message' || card.type === 'whisper'
 
-		const message = getMessage(card)
+		const readBy = _.get(card, [ 'data', 'readBy' ])
+		const rawMessage = _.get(card, [ 'data', 'payload', 'message' ], '')
+
+		const html = _.get(card, [ 'data', 'payload', 'html' ])
+
+		// Only bother processing the message is there isn't already html data
+		// available
+		const message = html ? '' : preprocessMessage(rawMessage, readBy)
 
 		const attachments = getAttachments(card)
 
@@ -562,7 +524,7 @@ export default class Event extends React.Component {
 							)
 						})}
 
-						{isMessage && Boolean(message) && (
+						{isMessage && (Boolean(message) || Boolean(html)) && (
 							<MessageContainer
 								ref={this.setMessageElement}
 								whisper={card.type === 'whisper'}
@@ -571,20 +533,28 @@ export default class Event extends React.Component {
 								px={3}
 								mr={1}
 							>
-								<Markdown
-									py='3px'
-									style={{
-										fontSize: 'inherit',
-										overflow: messageOverflows ? 'hidden' : 'initial',
-										maxHeight: !this.state.expanded && messageOverflows
-											? MESSAGE_COLLAPSED_HEIGHT
-											: 'none'
-									}}
-									data-test={card.pending ? '' : 'event-card__message'}
-									flex={0}
-								>
-									{message}
-								</Markdown>
+								{!html && (
+									<Markdown
+										py='3px'
+										style={{
+											fontSize: 'inherit',
+											overflow: messageOverflows ? 'hidden' : 'initial',
+											maxHeight: !this.state.expanded && messageOverflows
+												? MESSAGE_COLLAPSED_HEIGHT
+												: 'none'
+										}}
+										data-test={card.pending ? '' : 'event-card__message'}
+										flex={0}
+									>
+										{message}
+									</Markdown>
+								)}
+
+								{Boolean(html) && (
+									<GitHubMarkdown dangerouslySetInnerHTML={{
+										__html: html
+									}} />
+								)}
 
 								{messageOverflows && (
 									<Button

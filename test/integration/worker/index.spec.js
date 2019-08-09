@@ -4305,7 +4305,8 @@ ava('should post a broadcast message to an empty thread', async (test) => {
 				payload: {
 					alertsUser: [],
 					mentionsUser: [],
-					message: 'Broadcast test'
+					message: 'Broadcast test',
+					html: '<p>Broadcast test</p>\n'
 				}
 			}
 		}
@@ -4397,7 +4398,8 @@ ava('should post a broadcast message to a non empty thread', async (test) => {
 				timestamp: timeline[0].data.timestamp,
 				target: thread.id,
 				payload: {
-					message: 'Foo'
+					message: 'Foo',
+					html: '<p>Foo</p>\n'
 				}
 			}
 		},
@@ -4411,7 +4413,8 @@ ava('should post a broadcast message to a non empty thread', async (test) => {
 				payload: {
 					alertsUser: [],
 					mentionsUser: [],
-					message: 'Broadcast test'
+					message: 'Broadcast test',
+					html: '<p>Broadcast test</p>\n'
 				}
 			}
 		}
@@ -4521,7 +4524,8 @@ ava('should not broadcast the same message twice', async (test) => {
 				payload: {
 					alertsUser: [],
 					mentionsUser: [],
-					message: 'Broadcast test'
+					message: 'Broadcast test',
+					html: '<p>Broadcast test</p>\n'
 				}
 			}
 		},
@@ -4533,7 +4537,8 @@ ava('should not broadcast the same message twice', async (test) => {
 				timestamp: timeline[1].data.timestamp,
 				target: thread.id,
 				payload: {
-					message: 'Foo'
+					message: 'Foo',
+					html: '<p>Foo</p>\n'
 				}
 			}
 		}
@@ -4643,7 +4648,8 @@ ava('should broadcast different messages', async (test) => {
 				payload: {
 					alertsUser: [],
 					mentionsUser: [],
-					message: 'Broadcast test 1'
+					message: 'Broadcast test 1',
+					html: '<p>Broadcast test 1</p>\n'
 				}
 			}
 		},
@@ -4655,7 +4661,8 @@ ava('should broadcast different messages', async (test) => {
 				timestamp: timeline[1].data.timestamp,
 				target: thread.id,
 				payload: {
-					message: 'Foo'
+					message: 'Foo',
+					html: '<p>Foo</p>\n'
 				}
 			}
 		},
@@ -4669,7 +4676,8 @@ ava('should broadcast different messages', async (test) => {
 				payload: {
 					alertsUser: [],
 					mentionsUser: [],
-					message: 'Broadcast test 2'
+					message: 'Broadcast test 2',
+					html: '<p>Broadcast test 2</p>\n'
 				}
 			}
 		}
@@ -4783,7 +4791,8 @@ ava('should broadcast the same message twice given different actors', async (tes
 				timestamp: timeline[0].data.timestamp,
 				target: thread.id,
 				payload: {
-					message: 'Broadcast test'
+					message: 'Broadcast test',
+					html: '<p>Broadcast test</p>\n'
 				}
 			}
 		},
@@ -4797,7 +4806,8 @@ ava('should broadcast the same message twice given different actors', async (tes
 				payload: {
 					alertsUser: [],
 					mentionsUser: [],
-					message: 'Broadcast test'
+					message: 'Broadcast test',
+					html: '<p>Broadcast test</p>\n'
 				}
 			}
 		}
