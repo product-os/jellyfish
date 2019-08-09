@@ -1,4 +1,14 @@
 - commits:
+    - subject: Make infinite list as reusable component
+      hash: 58f02b555d6f41c763dc073855b97b8e4affc5f1
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 19.19.0
+  date: 2019-08-09T10:01:57.634Z
+- commits:
     - subject: Add Postgres support for formatMaximum|formatMinimum
       hash: 16f84ef5e094d892023cc6cf8d079bc09081aaaf
       body: |
