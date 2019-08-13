@@ -286,6 +286,23 @@ exports.postProspect = (body) => {
 	body.data.attributes.name = body.data.attributes.name ||
 		body.data.attributes.nickname
 
+	// We don't really know what the exact limit is, and the
+	// Outreach API is not very helpful.
+	if (body.data.attributes.firstName && body.data.attributes.firstName.length > 50) {
+		return {
+			code: 422,
+			response: {
+				errors: [
+					{
+						id: 'validationDataTooLongError',
+						title: 'Validation Data Too Long Error',
+						detail: 'Data provided is too long.'
+					}
+				]
+			}
+		}
+	}
+
 	if (_.some(body.data.attributes.emails, (email) => {
 		return /@balena\.io$/.test(email)
 	})) {

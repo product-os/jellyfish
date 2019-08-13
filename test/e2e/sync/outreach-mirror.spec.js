@@ -319,6 +319,88 @@ avaTest('should create a simple contact', async (test) => {
 	test.is(prospect.data.attributes.custom1, `https://jel.ly.fish/${contact.id}`)
 })
 
+avaTest('should truncate long first names', async (test) => {
+	const username = `test-${uuid()}`
+
+	const createResult = await test.context.sdk.card.create({
+		slug: `contact-${username}`,
+		type: 'contact',
+		data: {
+			profile: {
+				email: `${username}@test.io`,
+				name: {
+					first: 'Long Long Long Long Long Long Long Long Long Long Long'
+				}
+			}
+		}
+	})
+
+	const contact = await test.context.sdk.card.get(createResult.id)
+
+	test.deepEqual(contact.data, {
+		mirrors: contact.data.mirrors,
+		profile: {
+			email: `${username}@test.io`,
+			name: {
+				first: 'Long Long Long Long Long Long Long Long Long Long Long'
+			}
+		}
+	})
+
+	test.is(contact.data.mirrors.length, 1)
+	test.true(contact.data.mirrors[0].startsWith('https://api.outreach.io/api/v2/prospects/'))
+	const prospectId = _.parseInt(_.last(contact.data.mirrors[0].split('/')))
+	const prospect = await test.context.getProspect(prospectId)
+
+	test.deepEqual(prospect.data.attributes.emails, [ `${username}@test.io` ])
+	test.is(prospect.data.attributes.name, username)
+	test.is(prospect.data.attributes.nickname, username)
+	test.is(prospect.data.attributes.firstName, 'Long Long Long Long Long Long Long Long Long Lo...')
+	test.falsy(prospect.data.attributes.githubUsername)
+	test.is(prospect.data.attributes.custom1, `https://jel.ly.fish/${contact.id}`)
+})
+
+avaTest('should truncate long last names', async (test) => {
+	const username = `test-${uuid()}`
+
+	const createResult = await test.context.sdk.card.create({
+		slug: `contact-${username}`,
+		type: 'contact',
+		data: {
+			profile: {
+				email: `${username}@test.io`,
+				name: {
+					last: 'Last Last Last Last Last Last Last Last Last Last Last'
+				}
+			}
+		}
+	})
+
+	const contact = await test.context.sdk.card.get(createResult.id)
+
+	test.deepEqual(contact.data, {
+		mirrors: contact.data.mirrors,
+		profile: {
+			email: `${username}@test.io`,
+			name: {
+				last: 'Last Last Last Last Last Last Last Last Last Last Last'
+			}
+		}
+	})
+
+	test.is(contact.data.mirrors.length, 1)
+	test.true(contact.data.mirrors[0].startsWith('https://api.outreach.io/api/v2/prospects/'))
+	const prospectId = _.parseInt(_.last(contact.data.mirrors[0].split('/')))
+	const prospect = await test.context.getProspect(prospectId)
+
+	test.deepEqual(prospect.data.attributes.emails, [ `${username}@test.io` ])
+	test.is(prospect.data.attributes.name, username)
+	test.is(prospect.data.attributes.nickname, username)
+	test.is(prospect.data.attributes.lastName, 'Last Last Last Last Last Last Last Last Last La...')
+	test.falsy(prospect.data.attributes.githubUsername)
+	test.is(prospect.data.attributes.custom1, `https://jel.ly.fish/${contact.id}`)
+})
+
 avaTest('should use username as GitHub handle if slug starts with user-gh- (from Balena Cloud)', async (test) => {
 	const handle = uuid()
 	const username = `gh-${handle}`
