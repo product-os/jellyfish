@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'webhook-capturer: Correctly parse Outreach JSON'
+      hash: eea706eb22643aa9c6d55159323b542e5697fb98
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 19.20.7
+  date: 2019-08-13T14:43:22.796Z
+- commits:
     - subject: 'front: Correctly handle bad attachments'
       hash: d3d19a2491eb8666047c25dc16ccdedd704a6325
       body: "This is an example problematic reponse:\n\n\tGET https://api2.frontapp.com/download/fil_78b47b7\n\n\tHTTP/1.1 500 Internal Server Error\n\tConnection: keep-alive\n\tContent-Length: 52\n\tContent-Type: application/json; charset=utf-8\n\tDate: Tue, 13 Aug 2019 08:27:58 GMT\n\tETag: W/\"34-zWc8gW+EWeg2mrqPaNjNywdzhTk\"\n\tVary: Accept\n\tX-Front-Time: 1327\n\tcontent-disposition: attachment; filename=\"fcfcee30d4feab3f68201478b340e658_05.08.2019_18_11_49+0000.txt\"\n\tx-protected-by: Sqreen\n\tx-ratelimit-limit: 200\n\tx-ratelimit-remaining: 177\n\tx-ratelimit-reset: 1565684894.182\n\n\t{\n\t\t\t\"_error\": {\n\t\t\t\t\t\"message\": \"An internal error occurred.\"\n\t\t\t}\n\t}\n"
