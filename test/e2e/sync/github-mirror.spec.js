@@ -156,6 +156,43 @@ avaTest('should be able to create an issue without comments', async (test) => {
 	test.deepEqual(external.data.labels, [])
 })
 
+avaTest('should sync issues given the mirror url if the repository changes', async (test) => {
+	const slug = test.context.getIssueSlug()
+	const title = `Test Issue ${uuid()}`
+	const issue = await test.context.createIssue(
+		test.context.repository, slug, title, {
+			body: 'Issue body',
+			status: 'open',
+			archived: false
+		})
+
+	await test.context.sdk.card.update(issue.id, issue.type, [
+		{
+			op: 'replace',
+			path: '/data/repository',
+			value: `${test.context.repository.owner}/${test.context.repository.repo}-${uuid()}`
+		}
+	])
+
+	const messageSlug = test.context.getMessageSlug()
+	await test.context.createMessage(issue, messageSlug, 'First comment')
+
+	const mirror = issue.data.mirrors[0]
+	const external = await test.context.github.issues.get({
+		owner: test.context.repository.owner,
+		repo: test.context.repository.repo,
+		number: _.last(mirror.split('/'))
+	})
+
+	const currentUser = await test.context.github.users.getAuthenticated()
+	test.is(external.data.user.login, currentUser.data.login)
+	test.is(external.data.state, 'open')
+	test.is(external.data.title, title)
+	test.is(external.data.body, `[${test.context.username}] Issue body`)
+	test.is(external.data.comments, 1)
+	test.deepEqual(external.data.labels, [])
+})
+
 avaTest('should be able to create an issue with a comment', async (test) => {
 	const issueSlug = test.context.getIssueSlug()
 	const title = `Test Issue ${uuid()}`
