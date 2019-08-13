@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'github: Retry on rate limit'
+      hash: 0e1ea1bd18273c7e02b0bb5b5e1108601ad0bc92
+      body: |
+        Using https://github.com/octokit/plugin-throttling.js.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 19.20.2
+  date: 2019-08-13T09:17:44.005Z
+- commits:
     - subject: 'github: Retry API requests on various 4xx/5xx codes'
       hash: 955b651a56f20df53682b0cd3eb3f4c17feb2e13
       body: |
