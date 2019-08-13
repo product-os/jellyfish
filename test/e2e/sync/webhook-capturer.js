@@ -18,7 +18,11 @@ app.set('port', 3000)
 app.set('route', '/event')
 
 app.use(morgan('dev'))
-app.use(bodyParser.json())
+app.use(bodyParser.json({
+	// Services such as Outreach sent a content
+	// type "application/vnd.api+json"
+	type: [ 'application/*+json', 'application/json' ]
+}))
 
 let counter = 1
 
