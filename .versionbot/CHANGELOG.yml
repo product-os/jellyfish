@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'sync: Retry HTTP requests on 503'
+      hash: 2a0d20c44885a68e3901a1777406ecd324f26d12
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 19.20.4
+  date: 2019-08-13T12:19:50.564Z
+- commits:
     - subject: 'front: Increase and log rate limit retries'
       hash: 028c6b7123ca4204acb1043eea58085b6c167755
       body: ''
