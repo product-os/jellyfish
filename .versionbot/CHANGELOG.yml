@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'outreach: Truncate very long first/last names'
+      hash: 86d649d36dcded87e04e391a57e749d22380ac2e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 19.20.5
+  date: 2019-08-13T13:25:55.944Z
+- commits:
     - subject: 'sync: Retry HTTP requests on 503'
       hash: 2a0d20c44885a68e3901a1777406ecd324f26d12
       body: ''
