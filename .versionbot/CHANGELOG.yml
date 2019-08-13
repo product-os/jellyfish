@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'github: Retry API requests on various 4xx/5xx codes'
+      hash: 955b651a56f20df53682b0cd3eb3f4c17feb2e13
+      body: |
+        Using https://github.com/octokit/plugin-retry.js.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 19.20.1
+  date: 2019-08-13T08:21:38.977Z
+- commits:
     - subject: Setup chat-widget store
       hash: 1801b6024a0e231536a204e8e524b6ab07094d96
       body: ''
