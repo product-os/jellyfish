@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'github: Handle issue mirror url and data.repository mismatches'
+      hash: b3869178850fb6ed3d4e1465bb02f85bf9e4e13c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 19.20.8
+  date: 2019-08-13T15:10:19.050Z
+- commits:
     - subject: 'webhook-capturer: Correctly parse Outreach JSON'
       hash: eea706eb22643aa9c6d55159323b542e5697fb98
       body: ''
