@@ -8,6 +8,7 @@ const ava = require('ava')
 const _ = require('lodash')
 const uuid = require('uuid/v4')
 const Octokit = require('@octokit/rest')
+	.plugin(require('@octokit/plugin-retry'))
 const packageJSON = require('../../../package.json')
 const helpers = require('./helpers')
 const environment = require('../../../lib/environment')
@@ -102,6 +103,9 @@ ava.before(async (test) => {
 	}
 
 	test.context.github = new Octokit({
+		request: {
+			retries: 5
+		},
 		headers: {
 			accept: 'application/vnd.github.v3+json',
 			'user-agent': `${packageJSON.name} v${packageJSON.version} (${__dirname})`
