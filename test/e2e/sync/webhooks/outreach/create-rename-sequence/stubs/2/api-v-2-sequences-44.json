@@ -1,0 +1,33 @@
+{
+  "data": {
+    "type": "sequence",
+    "id": 44,
+    "attributes": {
+      "createdAt": "2019-08-14T10:47:35.000Z",
+      "updatedAt": "2019-08-14T10:47:58.000Z",
+      "lastUsedAt": "2019-08-14T10:47:35.000Z",
+      "primaryReplyPauseDuration": 172800,
+      "secondaryReplyPauseDuration": 172800,
+      "throttleMaxAddsPerDay": 50,
+      "name": "Renamed Sequence Name"
+    },
+    "relationships": {
+      "creator": {
+        "type": "creator",
+        "id": 23
+      },
+      "owner": {
+        "type": "owner",
+        "id": 23
+      },
+      "ruleset": {
+        "type": "ruleset",
+        "id": 1
+      },
+      "updater": {
+        "type": "updater",
+        "id": 23
+      }
+    }
+  }
+}

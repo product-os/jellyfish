@@ -1,0 +1,34 @@
+{
+  "data": {
+    "type": "sequence",
+    "id": 49,
+    "attributes": {
+      "createdAt": "2019-08-14T11:43:32.000Z",
+      "updatedAt": "2019-08-14T11:43:43.000Z",
+      "lastUsedAt": "2019-08-14T11:43:32.000Z",
+      "primaryReplyPauseDuration": 172800,
+      "secondaryReplyPauseDuration": 172800,
+      "throttleMaxAddsPerDay": 50,
+      "name": "My private sequence 2",
+      "shareType": "read_only"
+    },
+    "relationships": {
+      "creator": {
+        "type": "creator",
+        "id": 23
+      },
+      "owner": {
+        "type": "owner",
+        "id": 23
+      },
+      "ruleset": {
+        "type": "ruleset",
+        "id": 1
+      },
+      "updater": {
+        "type": "updater",
+        "id": 23
+      }
+    }
+  }
+}

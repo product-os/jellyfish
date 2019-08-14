@@ -29,6 +29,7 @@
         "timestamp": "2019-08-14T11:45:45.000Z",
         "payload": {
           "name": "My public sequence 1",
+          "type": "email-sequence",
           "version": "1.0.0",
           "active": true,
           "tags": [],
@@ -56,6 +57,11 @@
         },
         "timestamp": "2019-08-14T11:45:56.000Z",
         "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2019-08-14T11:45:56.264Z"
+          },
           {
             "op": "replace",
             "path": "/active",

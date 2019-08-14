@@ -230,6 +230,10 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 					'/linked_at/has attached element'
 				].includes(operation.path)
 			})
+
+			if (card.data.payload.length === 0) {
+				return null
+			}
 		} else if (card.data.payload) {
 			Reflect.deleteProperty(card.data.payload, 'slug')
 			Reflect.deleteProperty(card.data.payload, 'links')
@@ -270,7 +274,7 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 		return card
 	})
 
-	test.deepEqual(expectedTail, actualTail)
+	test.deepEqual(expectedTail, _.compact(actualTail))
 }
 
 const deleteExtraLinks = (expected, result) => {
@@ -318,6 +322,8 @@ exports.translate = {
 			require('../../../apps/server/default-cards/contrib/issue.json'))
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 			require('../../../apps/server/default-cards/contrib/pull-request.json'))
+		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
+			require('../../../apps/server/default-cards/contrib/email-sequence.json'))
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 			require('../../../apps/server/default-cards/contrib/repository.json'))
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
@@ -381,6 +387,10 @@ exports.translate = {
 
 				// eslint-disable-next-line no-loop-func
 				fn(`(${variation.name}) ${testCaseName}`, async (test) => {
+					if (suite.pre) {
+						await suite.pre(test)
+					}
+
 					await webhookScenario(test, {
 						steps: variation.combination,
 						prepareEvent: suite.prepareEvent || prepareEventNoop,

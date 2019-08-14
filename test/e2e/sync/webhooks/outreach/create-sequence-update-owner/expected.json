@@ -29,6 +29,7 @@
         "timestamp": "2019-08-14T10:48:51.000Z",
         "payload": {
           "name": "Test Sequence",
+          "type": "email-sequence",
           "version": "1.0.0",
           "active": true,
           "tags": [],
@@ -40,6 +41,28 @@
             ]
           }
         }
+      }
+    },
+    {
+      "type": "update",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": {
+          "slug": "user-admin",
+          "active": true
+        },
+        "timestamp": "2019-08-14T10:49:01.000Z",
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2019-08-14T10:49:01.681Z"
+          }
+        ]
       }
     }
   ]

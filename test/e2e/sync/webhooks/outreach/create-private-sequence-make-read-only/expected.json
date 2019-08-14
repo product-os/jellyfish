@@ -1,4 +1,69 @@
 {
-  "head": null,
-  "tail": []
+  "head": {
+    "name": "My private sequence 2",
+    "type": "email-sequence",
+    "version": "1.0.0",
+    "active": false,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "mirrors": [
+        "https://api.outreach.io/api/v2/sequences/49"
+      ]
+    }
+  },
+  "tail": [
+    {
+      "type": "create",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": {
+          "active": true,
+          "slug": "user-admin"
+        },
+        "timestamp": "2019-08-14T11:43:32.000Z",
+        "payload": {
+          "name": "My private sequence 2",
+          "type": "email-sequence",
+          "version": "1.0.0",
+          "active": false,
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "mirrors": [
+              "https://api.outreach.io/api/v2/sequences/49"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "update",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": {
+          "slug": "user-admin",
+          "active": true
+        },
+        "timestamp": "2019-08-14T11:43:43.000Z",
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2019-08-14T11:43:44.050Z"
+          }
+        ]
+      }
+    }
+  ]
 }
