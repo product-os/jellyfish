@@ -1,4 +1,23 @@
 - commits:
+    - subject: 'queue: Re-implement using RabbitMQ'
+      hash: 355c42e7fdfb37ee6fea2d6adc6fcbd063f94315
+      body: |
+        The benefits are:
+
+        - A lot less code, as RabbitMQ supports the exact same way our queue
+        works like
+        - A decent speed boost
+        - A lot less queries against PostgreSQL, allowing us to have much more
+        workers with little overhead
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 20.0.0
+  date: 2019-08-14T12:50:00.415Z
+- commits:
     - subject: 'outreach: Add simple sequence webhook scenarios'
       hash: 8de826025ee3ed2e71a6fcf6608aef78780a4833
       body: |
