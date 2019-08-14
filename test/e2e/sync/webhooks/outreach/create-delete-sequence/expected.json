@@ -1,0 +1,68 @@
+{
+  "head": {
+    "name": "Delete me sequence",
+    "type": "email-sequence",
+    "version": "1.0.0",
+    "active": false,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "mirrors": [
+        "https://api.outreach.io/api/v2/sequences/43"
+      ]
+    }
+  },
+  "tail": [
+    {
+      "type": "create",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": {
+          "active": true,
+          "slug": "user-admin"
+        },
+        "timestamp": "2019-08-14T10:46:08.000Z",
+        "payload": {
+          "name": "Delete me sequence",
+          "version": "1.0.0",
+          "active": true,
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "mirrors": [
+              "https://api.outreach.io/api/v2/sequences/43"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "update",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": {
+          "active": true,
+          "slug": "user-admin"
+        },
+        "timestamp": "2019-08-14T10:46:28.219+00:00",
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/active",
+            "value": false
+          }
+        ]
+      }
+    }
+  ]
+}

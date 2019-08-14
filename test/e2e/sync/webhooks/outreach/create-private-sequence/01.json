@@ -1,0 +1,54 @@
+{
+  "headers": {
+    "accept-encoding": "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
+    "accept": "*/*",
+    "user-agent": "Ruby",
+    "content-type": "application/vnd.api+json",
+    "outreach-org-id": "e4bf9dea-9b0a-4996-ae2a-e52856bb577c",
+    "outreach-webhook-id": "8",
+    "outreach-webhook-event-id": "3382120c-e59c-45c8-8033-5ed44054577d",
+    "connection": "close",
+    "host": "ff5a6f4a.ngrok.io",
+    "content-length": "566",
+    "x-forwarded-proto": "https",
+    "x-forwarded-for": "52.26.10.143"
+  },
+  "payload": {
+    "data": {
+      "type": "sequence",
+      "id": 46,
+      "attributes": {
+        "createdAt": "2019-08-14T10:58:57.000Z",
+        "updatedAt": "2019-08-14T10:58:57.000Z",
+        "lastUsedAt": "2019-08-14T10:58:57.000Z",
+        "primaryReplyPauseDuration": 172800,
+        "secondaryReplyPauseDuration": 172800,
+        "throttleMaxAddsPerDay": 50,
+        "name": "My Private Sequence",
+        "shareType": "private"
+      },
+      "relationships": {
+        "creator": {
+          "type": "creator",
+          "id": 23
+        },
+        "owner": {
+          "type": "owner",
+          "id": 23
+        },
+        "ruleset": {
+          "type": "ruleset",
+          "id": 1
+        },
+        "updater": {
+          "type": "updater",
+          "id": 23
+        }
+      }
+    },
+    "meta": {
+      "deliveredAt": "2019-08-14T10:58:57.738+00:00",
+      "eventName": "sequence.created"
+    }
+  }
+}

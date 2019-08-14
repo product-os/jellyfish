@@ -1,0 +1,24 @@
+{
+  "slug": "email-sequence",
+  "type": "type",
+  "version": "1.0.0",
+  "name": "Email Sequence",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "required": [ "name" ],
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "requires": [],
+  "capabilities": []
+}

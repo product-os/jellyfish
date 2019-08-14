@@ -1,0 +1,46 @@
+{
+  "head": {
+    "name": "Test Sequence",
+    "type": "email-sequence",
+    "version": "1.0.0",
+    "active": true,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "mirrors": [
+        "https://api.outreach.io/api/v2/sequences/45"
+      ]
+    }
+  },
+  "tail": [
+    {
+      "type": "create",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": {
+          "active": true,
+          "slug": "user-admin"
+        },
+        "timestamp": "2019-08-14T10:48:51.000Z",
+        "payload": {
+          "name": "Test Sequence",
+          "version": "1.0.0",
+          "active": true,
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "mirrors": [
+              "https://api.outreach.io/api/v2/sequences/45"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}
