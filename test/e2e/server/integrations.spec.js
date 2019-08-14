@@ -126,6 +126,7 @@ outreachTest('/api/v2/oauth should return a url given outreach', async (test) =>
 	].join('&')
 	test.deepEqual(result, {
 		code: 200,
+		headers: result.headers,
 		response: {
 			url: `https://api.outreach.io/oauth/authorize?${qs}`
 		}
@@ -180,6 +181,7 @@ outreachTest('should be able to associate a user with Outreach', async (test) =>
 
 	test.deepEqual(result, {
 		code: 200,
+		headers: result.headers,
 		response: {
 			error: false,
 			slug: userCard.slug
@@ -252,6 +254,7 @@ outreachTest('should not be able to associate a user with Outreach given the wro
 
 	test.deepEqual(result, {
 		code: 401,
+		headers: result.headers,
 		response: {
 			error: true,
 			data: {

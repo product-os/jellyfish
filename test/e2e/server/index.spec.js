@@ -28,11 +28,70 @@ const createUserDetails = () => {
 	}
 }
 
+ava.serial('should include the request and api ids on responses', async (test) => {
+	const userDetails = createUserDetails()
+	const user = await test.context.createUser(userDetails)
+
+	const result = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: user.slug,
+			type: 'user',
+			action: 'action-create-session',
+			arguments: {
+				password: userDetails.password
+			}
+		})
+
+	test.is(result.code, 200)
+	test.truthy(result.headers['x-request-id'])
+	test.truthy(result.headers['x-api-id'])
+})
+
+ava.serial('should create different request ids for every response', async (test) => {
+	const userDetails = createUserDetails()
+	const user = await test.context.createUser(userDetails)
+
+	const result1 = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: user.slug,
+			type: 'user',
+			action: 'action-create-session',
+			arguments: {
+				password: userDetails.password
+			}
+		})
+
+	const result2 = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: user.slug,
+			type: 'user',
+			action: 'action-create-session',
+			arguments: {
+				password: userDetails.password
+			}
+		})
+
+	const result3 = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: user.slug,
+			type: 'user',
+			action: 'action-create-session',
+			arguments: {
+				password: userDetails.password
+			}
+		})
+
+	test.not(result1.headers['x-request-id'], result2.headers['x-request-id'])
+	test.not(result2.headers['x-request-id'], result3.headers['x-request-id'])
+	test.not(result3.headers['x-request-id'], result1.headers['x-request-id'])
+})
+
 ava.serial('/api/v2/oauth should return 400 given an unknown oauth integration', async (test) => {
 	const result = await test.context.http(
 		'GET', '/api/v2/oauth/helloworld/user-test')
 	test.deepEqual(result, {
 		code: 400,
+		headers: result.headers,
 		response: {
 			url: null
 		}
@@ -45,6 +104,7 @@ ava.serial('should return 404 given a non existent attachment in a card', async 
 		'GET', `/api/v2/file/${test.context.session}/fil_3e7h9zv`)
 	test.deepEqual(result, {
 		code: 404,
+		headers: result.headers,
 		response: 'Not Found'
 	})
 })
@@ -54,6 +114,7 @@ ava.serial('should return 404 given an attachment in a non existent card', async
 		'GET', '/api/v2/file/23cb39dc-f333-4197-b332-c46812abadf9/fil_3e7h9zv')
 	test.deepEqual(result, {
 		code: 404,
+		headers: result.headers,
 		response: 'Not Found'
 	})
 })
