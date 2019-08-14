@@ -21,10 +21,6 @@ services:
      - POSTGRES_HOST=database
      - REDIS_HOST=redis
      - REDIS_PASSWORD=12345678
-     - RABBITMQ_USERNAME=guest
-     - RABBITMQ_PASSWORD=guest
-     - RABBITMQ_HOST=queue
-     - RABBITMQ_PROTOCOL=amqp
      - NODE_ENV=debug
   tick:
     build:
@@ -46,10 +42,6 @@ services:
      - POSTGRES_HOST=database
      - REDIS_HOST=redis
      - REDIS_PASSWORD=12345678
-     - RABBITMQ_USERNAME=guest
-     - RABBITMQ_PASSWORD=guest
-     - RABBITMQ_HOST=queue
-     - RABBITMQ_PROTOCOL=amqp
      - NODE_ENV=debug
   worker:
     build:
@@ -71,10 +63,6 @@ services:
      - POSTGRES_HOST=database
      - REDIS_HOST=redis
      - REDIS_PASSWORD=12345678
-     - RABBITMQ_USERNAME=guest
-     - RABBITMQ_PASSWORD=guest
-     - RABBITMQ_HOST=queue
-     - RABBITMQ_PROTOCOL=amqp
      - NODE_ENV=debug
   ui:
     build:
@@ -103,10 +91,3 @@ services:
      - REDIS_PASSWORD=12345678
     ports:
      - "6379:6379"
-  queue:
-    image: rabbitmq:3.7-management
-    environment:
-     - RABBITMQ_DEFAULT_USER=guest
-     - RABBITMQ_DEFAULT_PASS=guest
-    ports:
-     - "5672:5672"
