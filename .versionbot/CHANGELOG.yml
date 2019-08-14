@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'queue/worker: Add dequeue test helper'
+      hash: f06d344cb6b4d86881ce2298aaa0da2b4fe8da8a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 19.20.9
+  date: 2019-08-13T17:04:38.181Z
+- commits:
     - subject: 'github: Handle issue mirror url and data.repository mismatches'
       hash: b3869178850fb6ed3d4e1465bb02f85bf9e4e13c
       body: ''
