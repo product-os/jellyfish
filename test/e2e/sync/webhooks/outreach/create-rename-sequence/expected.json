@@ -1,0 +1,68 @@
+{
+  "head": {
+    "name": "Renamed Sequence Name",
+    "type": "email-sequence",
+    "version": "1.0.0",
+    "active": true,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "mirrors": [
+        "https://api.outreach.io/api/v2/sequences/44"
+      ]
+    }
+  },
+  "tail": [
+    {
+      "type": "create",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": {
+          "active": true,
+          "slug": "user-admin"
+        },
+        "timestamp": "2019-08-14T10:47:35.000Z",
+        "payload": {
+          "name": "Initial Sequence Name",
+          "version": "1.0.0",
+          "active": true,
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "mirrors": [
+              "https://api.outreach.io/api/v2/sequences/44"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "update",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": {
+          "active": true,
+          "slug": "user-admin"
+        },
+        "timestamp": "2019-08-14T10:47:58.000Z",
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/name",
+            "value": "Renamed Sequence Name"
+          }
+        ]
+      }
+    }
+  ]
+}

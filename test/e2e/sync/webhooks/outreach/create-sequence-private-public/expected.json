@@ -1,0 +1,90 @@
+{
+  "head": {
+    "name": "My public sequence 3",
+    "type": "email-sequence",
+    "version": "1.0.0",
+    "active": true,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "mirrors": [
+        "https://api.outreach.io/api/v2/sequences/54"
+      ]
+    }
+  },
+  "tail": [
+    {
+      "type": "create",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": {
+          "active": true,
+          "slug": "user-admin"
+        },
+        "timestamp": "2019-08-14T11:47:18.000Z",
+        "payload": {
+          "name": "My public sequence 3",
+          "version": "1.0.0",
+          "active": true,
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "mirrors": [
+              "https://api.outreach.io/api/v2/sequences/54"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "update",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": {
+          "active": true,
+          "slug": "user-admin"
+        },
+        "timestamp": "2019-08-14T11:47:29.000Z",
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/active",
+            "value": false
+          }
+        ]
+      }
+    },
+    {
+      "type": "update",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": {
+          "active": true,
+          "slug": "user-admin"
+        },
+        "timestamp": "2019-08-14T11:47:33.000Z",
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/active",
+            "value": true
+          }
+        ]
+      }
+    }
+  ]
+}

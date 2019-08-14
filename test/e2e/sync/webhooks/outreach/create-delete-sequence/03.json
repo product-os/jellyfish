@@ -1,0 +1,76 @@
+{
+  "headers": {
+    "accept-encoding": "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
+    "accept": "*/*",
+    "user-agent": "Ruby",
+    "content-type": "application/vnd.api+json",
+    "outreach-org-id": "e4bf9dea-9b0a-4996-ae2a-e52856bb577c",
+    "outreach-webhook-id": "7",
+    "outreach-webhook-event-id": "fae5610d-e91a-44b1-92ce-a0bf579314c7",
+    "connection": "close",
+    "host": "dc793c12.ngrok.io",
+    "content-length": "1026",
+    "x-forwarded-proto": "https",
+    "x-forwarded-for": "54.69.47.25"
+  },
+  "payload": {
+    "data": {
+      "type": "sequence",
+      "id": 43,
+      "attributes": {
+        "bounceCount": 0,
+        "clickCount": 0,
+        "deliverCount": 0,
+        "failureCount": 0,
+        "negativeReplyCount": 0,
+        "neutralReplyCount": 0,
+        "openCount": 0,
+        "optOutCount": 0,
+        "positiveReplyCount": 0,
+        "replyCount": 0,
+        "scheduleCount": 0,
+        "createdAt": "2019-08-14T10:46:08.000Z",
+        "updatedAt": "2019-08-14T10:46:08.000Z",
+        "finishOnReply": true,
+        "enabledAt": null,
+        "lastUsedAt": "2019-08-14T10:46:08.000Z",
+        "lockedAt": null,
+        "throttlePausedAt": null,
+        "maxActivations": 150,
+        "primaryReplyPauseDuration": 172800,
+        "secondaryReplyPauseDuration": 172800,
+        "throttleCapacity": null,
+        "throttleMaxAddsPerDay": 50,
+        "description": null,
+        "name": "Delete me sequence",
+        "primaryReplyAction": "finish",
+        "scheduleIntervalType": "calendar",
+        "secondaryReplyAction": "finish",
+        "sequenceType": "interval",
+        "shareType": "shared"
+      },
+      "relationships": {
+        "creator": {
+          "type": "creator",
+          "id": 23
+        },
+        "owner": {
+          "type": "owner",
+          "id": 23
+        },
+        "ruleset": {
+          "type": "ruleset",
+          "id": 1
+        },
+        "updater": {
+          "type": "updater",
+          "id": 23
+        }
+      }
+    },
+    "meta": {
+      "deliveredAt": "2019-08-14T10:46:28.219+00:00",
+      "eventName": "sequence.destroyed"
+    }
+  }
+}

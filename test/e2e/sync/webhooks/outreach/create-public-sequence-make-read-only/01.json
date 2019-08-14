@@ -1,0 +1,53 @@
+{
+  "headers": {
+    "accept-encoding": "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
+    "accept": "*/*",
+    "user-agent": "Ruby",
+    "content-type": "application/vnd.api+json",
+    "outreach-org-id": "e4bf9dea-9b0a-4996-ae2a-e52856bb577c",
+    "outreach-webhook-id": "9",
+    "outreach-webhook-event-id": "337b3e10-4cd0-4cbd-824d-3601da87f1b5",
+    "connection": "close",
+    "host": "a1c68d15.ngrok.io",
+    "content-length": "545",
+    "x-forwarded-proto": "https",
+    "x-forwarded-for": "52.38.97.38"
+  },
+  "payload": {
+    "data": {
+      "type": "sequence",
+      "id": 53,
+      "attributes": {
+        "createdAt": "2019-08-14T11:46:20.000Z",
+        "updatedAt": "2019-08-14T11:46:20.000Z",
+        "lastUsedAt": "2019-08-14T11:46:20.000Z",
+        "primaryReplyPauseDuration": 172800,
+        "secondaryReplyPauseDuration": 172800,
+        "throttleMaxAddsPerDay": 50,
+        "name": "My public sequence 2"
+      },
+      "relationships": {
+        "creator": {
+          "type": "creator",
+          "id": 23
+        },
+        "owner": {
+          "type": "owner",
+          "id": 23
+        },
+        "ruleset": {
+          "type": "ruleset",
+          "id": 1
+        },
+        "updater": {
+          "type": "updater",
+          "id": 23
+        }
+      }
+    },
+    "meta": {
+      "deliveredAt": "2019-08-14T11:46:20.314+00:00",
+      "eventName": "sequence.created"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "headers": {
+    "accept-encoding": "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
+    "accept": "*/*",
+    "user-agent": "Ruby",
+    "content-type": "application/vnd.api+json",
+    "outreach-org-id": "e4bf9dea-9b0a-4996-ae2a-e52856bb577c",
+    "outreach-webhook-id": "9",
+    "outreach-webhook-event-id": "57370ec5-1990-41fe-804c-9cdd1312eb46",
+    "connection": "close",
+    "host": "a1c68d15.ngrok.io",
+    "content-length": "219",
+    "x-forwarded-proto": "https",
+    "x-forwarded-for": "52.26.10.143"
+  },
+  "payload": {
+    "data": {
+      "type": "sequence",
+      "id": 49,
+      "attributes": {
+        "updatedAt": "2019-08-14T11:43:43.000Z",
+        "shareType": "read_only"
+      },
+      "relationships": {}
+    },
+    "meta": {
+      "deliveredAt": "2019-08-14T11:43:44.050+00:00",
+      "eventName": "sequence.updated"
+    }
+  }
+}
