@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'queue: Pass amqp host as "hostname"'
+      hash: 78a9921bde43b73732b943677c6f2c25ce0fcb44
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 20.0.1
+  date: 2019-08-14T14:15:01.026Z
+- commits:
     - subject: 'queue: Re-implement using RabbitMQ'
       hash: 355c42e7fdfb37ee6fea2d6adc6fcbd063f94315
       body: |
