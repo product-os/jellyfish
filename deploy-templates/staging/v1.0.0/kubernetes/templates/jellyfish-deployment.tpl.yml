@@ -56,6 +56,14 @@ spec:
           value: {{REDIS_HOST}}
         - name: REDIS_PASSWORD
           value: {{{REDIS_PASSWORD}}}
+        - name: RABBITMQ_USERNAME
+          value: {{RABBITMQ_USERNAME}}
+        - name: RABBITMQ_PASSWORD
+          value: {{{RABBITMQ_PASSWORD}}}
+        - name: RABBITMQ_PORT
+          value: '{{RABBITMQ_PORT}}'
+        - name: RABBITMQ_HOST
+          value: {{{RABBITMQ_HOST}}}
         - name: NODE_ENV
           value: {{{NODE_ENV}}}
         - name: SENTRY_DSN_SERVER

@@ -12,3 +12,4 @@ node_modules
 docker-compose.local.yml
 Dockerfile
 postgres_data
+rabbit_data
