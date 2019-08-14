@@ -4,7 +4,6 @@
  * Proprietary and confidential.
  */
 
-const uuid = require('uuid/v4')
 const Bluebird = require('bluebird')
 const ava = require('ava')
 const errors = require('../../../lib/queue/errors')
@@ -12,13 +11,12 @@ const helpers = require('./helpers')
 
 ava.beforeEach(async (test) => {
 	await helpers.queue.beforeEach(test)
-	test.context.queueActor = uuid()
 })
 
 ava.afterEach(helpers.queue.afterEach)
 
 ava('.dequeue() should return nothing if no requests', async (test) => {
-	const request = await test.context.queue.dequeue(
+	const request = await test.context.dequeue(
 		test.context.context, test.context.queueActor)
 	test.falsy(request)
 })
@@ -44,7 +42,7 @@ ava('.enqueue() should include the actor from the passed session', async (test) 
 		}
 	})
 
-	const request = await test.context.queue.dequeue(
+	const request = await test.context.dequeue(
 		test.context.context, test.context.queueActor)
 	test.is(session.data.actor, request.data.actor)
 })
@@ -70,7 +68,7 @@ ava('.enqueue() should include the whole passed action', async (test) => {
 		}
 	})
 
-	const request = await test.context.queue.dequeue(
+	const request = await test.context.dequeue(
 		test.context.context, test.context.queueActor)
 	test.deepEqual(request.data.action, actionCard.slug)
 })
@@ -92,7 +90,7 @@ ava('.enqueue() should set an originator', async (test) => {
 		}
 	})
 
-	const request = await test.context.queue.dequeue(
+	const request = await test.context.dequeue(
 		test.context.context, test.context.queueActor)
 	test.is(request.data.originator, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
 })
@@ -117,7 +115,7 @@ ava('.enqueue() should take a current date', async (test) => {
 	})
 
 	const dequeue = async (times = 10) => {
-		const request = await test.context.queue.dequeue(
+		const request = await test.context.dequeue(
 			test.context.context, test.context.queueActor)
 		if (request) {
 			return request
@@ -155,13 +153,13 @@ ava('.dequeue() should not let the same owner take a request twice', async (test
 			}
 		})
 
-	const request1 = await test.context.queue.dequeue(
+	const request1 = await test.context.dequeue(
 		test.context.context, test.context.queueActor)
 
 	test.truthy(request1)
 	test.is(request1.slug, actionRequest.slug)
 
-	const request2 = await test.context.queue.dequeue(
+	const request2 = await test.context.dequeue(
 		test.context.context, test.context.queueActor)
 
 	test.falsy(request2)
@@ -187,7 +185,7 @@ ava('.enqueue() should set a present timestamp', async (test) => {
 		}
 	})
 
-	const request = await test.context.queue.dequeue(
+	const request = await test.context.dequeue(
 		test.context.context, test.context.queueActor)
 	test.true(new Date(request.data.timestamp) >= currentDate)
 })

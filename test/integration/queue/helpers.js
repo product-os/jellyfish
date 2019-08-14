@@ -4,6 +4,8 @@
  * Proprietary and confidential.
  */
 
+const Bluebird = require('bluebird')
+const uuid = require('uuid/v4')
 const helpers = require('../core/helpers')
 const Queue = require('../../../lib/queue')
 const actionLibrary = require('../../../lib/action-library')
@@ -61,6 +63,24 @@ exports.queue = {
 		})
 
 		await test.context.queue.initialize(test.context.context)
+
+		test.context.queueActor = uuid()
+
+		test.context.dequeue = async (context, actor, times = 50) => {
+			const request = await test.context.queue.dequeue(
+				test.context.context, test.context.queueActor)
+
+			if (!request) {
+				if (times <= 0) {
+					return null
+				}
+
+				await Bluebird.delay(1)
+				return test.context.dequeue(context, actor, times - 1)
+			}
+
+			return request
+		}
 	},
 	afterEach: async (test) => {
 		await test.context.queue.destroy()
