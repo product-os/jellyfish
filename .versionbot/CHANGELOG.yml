@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'Revert "queue: Re-implement using RabbitMQ"'
+      hash: 8dc4e864007d639b5770abf96c6bb61abb3ba383
+      body: |
+        This reverts commit 355c42e7fdfb37ee6fea2d6adc6fcbd063f94315.
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'Revert "queue: Pass amqp host as "hostname""'
+      hash: dec5fa573c28e7687c19e95696b9aa0ba75036b0
+      body: |
+        This reverts commit 78a9921bde43b73732b943677c6f2c25ce0fcb44.
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Juan Cruz Viotti
+  version: 21.0.0
+  date: 2019-08-14T15:50:56.093Z
+- commits:
     - subject: Dummy change to trigger re-deploy
       hash: ee91f5bb12d39ba35545273e9f6f42dcabe0add1
       body: ''
