@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'outreach: Add simple sequence webhook scenarios'
+      hash: 8de826025ee3ed2e71a6fcf6608aef78780a4833
+      body: |
+        Enough to keep track of references to Outreach sequences and be able to
+        trigger them from Jellyfish. We will create more involved scenarios as
+        we need them.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 19.21.1
+  date: 2019-08-14T12:10:09.258Z
+- commits:
     - subject: 'server: Add request and api ids as response headers'
       hash: f3e929ef028e0fc9b57ae28db357b6d224baa753
       body: ''
