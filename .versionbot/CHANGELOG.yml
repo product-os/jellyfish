@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'server: Add request and api ids as response headers'
+      hash: f3e929ef028e0fc9b57ae28db357b6d224baa753
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 19.21.0
+  date: 2019-08-14T10:46:19.939Z
+- commits:
     - subject: 'queue/worker: Add dequeue test helper'
       hash: f06d344cb6b4d86881ce2298aaa0da2b4fe8da8a
       body: ''
