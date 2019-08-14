@@ -54,6 +54,7 @@ exports.server = {
 
 					return resolve({
 						code: response.statusCode,
+						headers: response.headers,
 						response: body
 					})
 				})

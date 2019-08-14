@@ -58,6 +58,9 @@ module.exports = (rootContext, application, jellyfish, options) => {
 				uri: request.originalUrl
 			})
 
+			response.header('X-Request-Id', context.id)
+			response.header('X-Api-Id', context.api)
+
 			request.context = context
 			return next()
 		}).catch(next)
