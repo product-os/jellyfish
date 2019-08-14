@@ -1,4 +1,16 @@
 - commits:
+    - subject: Dummy change to trigger re-deploy
+      hash: ee91f5bb12d39ba35545273e9f6f42dcabe0add1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 20.0.2
+  date: 2019-08-14T15:19:07.522Z
+- commits:
     - subject: 'queue: Pass amqp host as "hostname"'
       hash: 78a9921bde43b73732b943677c6f2c25ce0fcb44
       body: ''
