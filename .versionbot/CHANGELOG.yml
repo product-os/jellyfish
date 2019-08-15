@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'outreach: Check webhook signatures'
+      hash: 4f4f0139b71467e7d2982619f0f0d6e12d21fff5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 21.2.1
+  date: 2019-08-15T20:27:03.960Z
+- commits:
     - subject: 'scripts: Add CLI to manage Outreach webhooks'
       hash: 4cded2204762879d569a5796a3fdabc0434ca6f9
       body: |
