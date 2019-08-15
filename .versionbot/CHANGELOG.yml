@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'outreach: Translate email sequence resources'
+      hash: 126b674d643b98b9d3a411bedcc486ec467992a2
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 21.1.0
+  date: 2019-08-15T19:04:57.042Z
+- commits:
     - subject: 'Revert "queue: Re-implement using RabbitMQ"'
       hash: 8dc4e864007d639b5770abf96c6bb61abb3ba383
       body: |
