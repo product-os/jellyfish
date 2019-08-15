@@ -78,6 +78,8 @@ spec:
           value: {{{INTEGRATION_OUTREACH_APP_ID}}}
         - name: INTEGRATION_OUTREACH_APP_SECRET
           value: {{{INTEGRATION_OUTREACH_APP_SECRET}}}
+        - name: INTEGRATION_OUTREACH_SIGNATURE_KEY
+          value: {{{INTEGRATION_OUTREACH_SIGNATURE_KEY}}}
 
       imagePullSecrets:
         - name: com.docker.hub.travisciresin
