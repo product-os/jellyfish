@@ -15,10 +15,6 @@ spec:
       containers:
       - image: {{{jellyfish-tick-server-image}}}
         name: tick-server
-        lifecycle:
-          preStop:
-            exec:
-              command: [ 'node', 'scripts/production/lock.js', '/tmp/worker.lock' ]
         env:
         - name: DATABASE
           value: postgres
@@ -52,8 +48,6 @@ spec:
           value: {{{LOGENTRIES_TOKEN}}}
         - name: LOGLEVEL
           value: {{{LOGLEVEL}}}
-        - name: LOCKFILE
-          value: /tmp/worker.lock
         - name: INTEGRATION_BALENA_API_PRIVATE_KEY
           value: {{{INTEGRATION_BALENA_API_PRIVATE_KEY}}}
         - name: INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION
