@@ -108,9 +108,47 @@ ava.serial('should not ignore a GitHub signature mismatch', async (test) => {
 
 const outreachTest =
 	environment.integration.outreach.appId &&
-	environment.integration.outreach.appSecret
+	environment.integration.outreach.appSecret &&
+	environment.integration.outreach.signature
 		? ava.serial
 		: ava.serial.skip
+
+outreachTest('should not be able to post an Outreach event without a signature', async (test) => {
+	const result = await test.context.http('POST', '/api/v2/hooks/outreach', {
+		foo: 'bar',
+		bar: 'baz'
+	})
+
+	test.is(result.code, 401)
+	test.true(result.response.error)
+})
+
+outreachTest('should take an Outreach event with a valid signature', async (test) => {
+	// eslint-disable-next-line max-len
+	const object = '{"data":{"type":"sequence","id":54,"attributes":{"updatedAt":"2019-08-15T19:52:07.000Z","throttleMaxAddsPerDay":70},"relationships":{}},"meta":{"deliveredAt":"2019-08-15T19:52:07.697+00:00","eventName":"sequence.updated"}}'
+	const hash = crypto.createHmac('sha256', environment.integration.outreach.signature)
+		.update(object)
+		.digest('hex')
+
+	const result = await test.context.http('POST', '/api/v2/hooks/outreach', JSON.parse(object), {
+		'outreach-webhook-signature': hash
+	})
+
+	test.is(result.code, 200)
+	test.false(result.response.error)
+})
+
+ava.serial('should not ignore an Outreach signature mismatch', async (test) => {
+	const result = await test.context.http('POST', '/api/v2/hooks/outreach', {
+		foo: 'bar',
+		bar: 'baz'
+	}, {
+		'outreach-webhook-signature': 'xxxxxxxxxxxxxxx'
+	})
+
+	test.is(result.code, 401)
+	test.true(result.response.error)
+})
 
 outreachTest('/api/v2/oauth should return a url given outreach', async (test) => {
 	const result = await test.context.http(
