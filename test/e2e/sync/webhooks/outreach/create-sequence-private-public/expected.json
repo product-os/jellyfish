@@ -29,6 +29,7 @@
         "timestamp": "2019-08-14T11:47:18.000Z",
         "payload": {
           "name": "My public sequence 3",
+          "type": "email-sequence",
           "version": "1.0.0",
           "active": true,
           "tags": [],
@@ -58,6 +59,11 @@
         "payload": [
           {
             "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2019-08-14T11:47:29.423Z"
+          },
+          {
+            "op": "replace",
             "path": "/active",
             "value": false
           }
@@ -78,6 +84,11 @@
         },
         "timestamp": "2019-08-14T11:47:33.000Z",
         "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2019-08-14T11:47:33.509Z"
+          },
           {
             "op": "replace",
             "path": "/active",

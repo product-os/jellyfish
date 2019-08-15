@@ -1,0 +1,33 @@
+{
+  "data": {
+    "type": "sequence",
+    "id": 45,
+    "attributes": {
+      "createdAt": "2019-08-14T10:48:51.000Z",
+      "updatedAt": "2019-08-14T10:49:01.000Z",
+      "lastUsedAt": "2019-08-14T10:48:51.000Z",
+      "primaryReplyPauseDuration": 172800,
+      "secondaryReplyPauseDuration": 172800,
+      "throttleMaxAddsPerDay": 50,
+      "name": "Test Sequence"
+    },
+    "relationships": {
+      "creator": {
+        "type": "creator",
+        "id": 23
+      },
+      "owner": {
+        "type": "owner",
+        "id": 5
+      },
+      "ruleset": {
+        "type": "ruleset",
+        "id": 1
+      },
+      "updater": {
+        "type": "updater",
+        "id": 23
+      }
+    }
+  }
+}

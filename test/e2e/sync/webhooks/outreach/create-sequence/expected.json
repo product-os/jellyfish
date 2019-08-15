@@ -29,6 +29,7 @@
         "timestamp": "2019-08-14T10:44:29.000Z",
         "payload": {
           "name": "My Public Sequence",
+          "type": "email-sequence",
           "version": "1.0.0",
           "active": true,
           "tags": [],

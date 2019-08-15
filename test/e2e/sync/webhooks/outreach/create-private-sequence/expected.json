@@ -1,4 +1,47 @@
 {
-  "head": null,
-  "tail": []
+  "head": {
+    "name": "My Private Sequence",
+    "type": "email-sequence",
+    "version": "1.0.0",
+    "active": false,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "mirrors": [
+        "https://api.outreach.io/api/v2/sequences/46"
+      ]
+    }
+  },
+  "tail": [
+    {
+      "type": "create",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": {
+          "active": true,
+          "slug": "user-admin"
+        },
+        "timestamp": "2019-08-14T10:58:57.000Z",
+        "payload": {
+          "name": "My Private Sequence",
+          "type": "email-sequence",
+          "version": "1.0.0",
+          "active": false,
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "mirrors": [
+              "https://api.outreach.io/api/v2/sequences/46"
+            ]
+          }
+        }
+      }
+    }
+  ]
 }

@@ -29,6 +29,7 @@
         "timestamp": "2019-08-14T10:46:08.000Z",
         "payload": {
           "name": "Delete me sequence",
+          "type": "email-sequence",
           "version": "1.0.0",
           "active": true,
           "tags": [],
@@ -54,8 +55,13 @@
           "active": true,
           "slug": "user-admin"
         },
-        "timestamp": "2019-08-14T10:46:28.219+00:00",
+        "timestamp": "2019-08-14T10:46:28.219Z",
         "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2019-08-14T10:46:28.219Z"
+          },
           {
             "op": "replace",
             "path": "/active",
