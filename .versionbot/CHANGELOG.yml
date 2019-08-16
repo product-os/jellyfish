@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'outreach: Take a webhook signature key from the environment'
+      hash: 2c0937d6cdab0a94d905531e66cdc686ae2fdcfc
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 21.3.0
+  date: 2019-08-15T20:56:17.806Z
+- commits:
     - subject: 'outreach: Check webhook signatures'
       hash: 4f4f0139b71467e7d2982619f0f0d6e12d21fff5
       body: ''
