@@ -26,7 +26,7 @@
           "properties": {
             "source": {
               "type": "string",
-              "enum": [ "balena-api", "front", "discourse", "github" ]
+              "enum": [ "balena-api", "front", "discourse", "github", "outreach" ]
             }
           }
         }
