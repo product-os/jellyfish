@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'outreach: Start translating external events'
+      hash: 607846700081a98c9fc79211cf7f629c6c9439ef
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 21.3.1
+  date: 2019-08-16T14:20:02.017Z
+- commits:
     - subject: 'outreach: Take a webhook signature key from the environment'
       hash: 2c0937d6cdab0a94d905531e66cdc686ae2fdcfc
       body: ''
