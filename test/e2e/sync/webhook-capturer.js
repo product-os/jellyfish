@@ -19,7 +19,7 @@ app.set('route', '/event')
 
 app.use(morgan('dev'))
 app.use(bodyParser.json({
-	// Services such as Outreach sent a content
+	// Services such as Outreach send a content
 	// type "application/vnd.api+json"
 	type: [ 'application/*+json', 'application/json' ]
 }))

@@ -18,6 +18,10 @@ module.exports = (rootContext, application, jellyfish, options) => {
 		// as sometimes they end up being huge.
 		limit: '5mb',
 
+		// Services such as Outreach send a content
+		// type "application/vnd.api+json"
+		type: [ 'application/*+json', 'application/json' ],
+
 		// A small trick to preserve the unparsed JSON
 		verify: (request, response, buffer, encoding) => {
 			request.rawBody = buffer.toString('utf8')
