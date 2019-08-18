@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'worker: Ensure crashy requests are not re-enqueued'
+      hash: 73acba4fbb8dcecc94bc5e61941d320fcf9f471d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 21.3.4
+  date: 2019-08-18T12:43:03.323Z
+- commits:
     - subject: 'server: Correctly parse application/vnd.api+json data'
       hash: df44b62e24b2adfceb1eb789e849887169548800
       body: ''
