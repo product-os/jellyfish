@@ -6,9 +6,11 @@
 
 const ava = require('ava')
 const _ = require('lodash')
+const Bluebird = require('bluebird')
 const helpers = require('./helpers')
 const actionLibrary = require('../../../lib/action-library')
 const Worker = require('../../../lib/worker')
+const uuid = require('../../../lib/uuid')
 
 ava.beforeEach(async (test) => {
 	await helpers.worker.beforeEach(test, actionLibrary)
@@ -53,6 +55,130 @@ ava('.getId() different workers should get different ids', async (test) => {
 	test.not(worker1.getId(), worker2.getId())
 	test.not(worker1.getId(), worker3.getId())
 	test.not(worker2.getId(), worker3.getId())
+})
+
+ava('should not re-enqueue requests after duplicated execute events', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card')
+
+	await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, {
+			action: 'action-create-card',
+			context: test.context.context,
+			card: typeCard.id,
+			type: typeCard.type,
+			arguments: {
+				reason: null,
+				properties: {
+					slug: 'foo',
+					version: '1.0.0',
+					data: {
+						foo: 'bar'
+					}
+				}
+			}
+		})
+
+	const dequeue = async (times = 100) => {
+		const result = await test.context.queue.dequeue(
+			test.context.context, test.context.worker.getId())
+		if (!result) {
+			if (times <= 0) {
+				return null
+			}
+
+			await Bluebird.delay(5)
+			return dequeue(times - 1)
+		}
+
+		return result
+	}
+
+	const enqueuedRequest1 = await dequeue()
+
+	await test.context.queue.postResults(
+		await uuid.random(), test.context.context, enqueuedRequest1, {
+			error: false,
+			data: {
+				id: await uuid.random(),
+				type: 'card',
+				slug: 'foo'
+			}
+		})
+
+	await test.throwsAsync(
+		test.context.worker.execute(test.context.session, enqueuedRequest1),
+		test.context.jellyfish.errors.JellyfishElementAlreadyExists)
+
+	const enqueuedRequest2 = await dequeue()
+	test.falsy(enqueuedRequest2)
+})
+
+ava('should not re-enqueue requests after execute failure', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card')
+
+	await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, {
+			action: 'action-create-card',
+			context: test.context.context,
+			card: typeCard.id,
+			type: typeCard.type,
+			arguments: {
+				reason: null,
+				properties: {
+					slug: 'foo',
+					version: '1.0.0',
+					data: {
+						foo: 'bar'
+					}
+				}
+			}
+		})
+
+	const dequeue = async (times = 100) => {
+		const result = await test.context.queue.dequeue(
+			test.context.context, test.context.worker.getId())
+		if (!result) {
+			if (times <= 0) {
+				return null
+			}
+
+			await Bluebird.delay(5)
+			return dequeue(times - 1)
+		}
+
+		return result
+	}
+
+	const enqueuedRequest1 = await dequeue()
+
+	await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			slug: 'foo',
+			type: 'card',
+			version: '1.0.0',
+			data: {
+				foo: 'bar'
+			}
+		})
+
+	await test.context.queue.postResults(
+		await uuid.random(), test.context.context, enqueuedRequest1, {
+			error: false,
+			data: {
+				id: await uuid.random(),
+				type: 'card',
+				slug: 'foo'
+			}
+		})
+
+	await test.throwsAsync(
+		test.context.worker.execute(test.context.session, enqueuedRequest1),
+		test.context.jellyfish.errors.JellyfishElementAlreadyExists)
+
+	const enqueuedRequest2 = await dequeue()
+	test.falsy(enqueuedRequest2)
 })
 
 ava('should not store the password in the queue when using action-create-user', async (test) => {
