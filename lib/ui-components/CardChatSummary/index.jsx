@@ -20,6 +20,9 @@ import Link from '../Link'
 import * as helpers from '../../ui/services/helpers'
 import ColorHashPill from '../../ui/shame/ColorHashPill'
 import Avatar from '../../ui/shame/Avatar'
+import {
+	Tag
+} from '../Tag'
 
 const SummaryWrapper = styled(Link) `
 	display: block;
@@ -176,6 +179,22 @@ export default class CardChatSummary extends React.Component {
 
 					<Txt>Created {helpers.formatTimestamp(card.created_at)}</Txt>
 				</Flex>
+
+				{Boolean(card.tags) && (
+					<Flex mb={2} alignItems="flex-start">
+						{_.map(card.tags, (tag) => {
+							if (
+								tag === 'status' ||
+								tag === 'summary' ||
+								tag.includes('pending')
+							) {
+								return null
+							}
+							return <Tag key={tag} mr={2} mb={1}>{tag}</Tag>
+						})}
+					</Flex>
+				)}
+
 				<Flex justifyContent="space-between">
 					<Box>
 						{Boolean(card.name) && (
