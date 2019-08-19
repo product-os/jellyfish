@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'server: Parse application/jose as JSON'
+      hash: 9406666aa7a9e34322f986cc816812d9d29d5b20
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 21.4.1
+  date: 2019-08-19T14:26:36.928Z
+- commits:
     - subject: 'UI: Add button to scroll to top of timeline'
       hash: c2500285b9edf6444dc67cc9c8b9d3ecf48ccf22
       body: ''
