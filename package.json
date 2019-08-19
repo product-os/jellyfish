@@ -146,7 +146,7 @@
     "jsonwebtoken": "^8.5.1",
     "le_node": "^1.8.0",
     "localforage": "^1.6.0",
-    "lodash": "^4.17.5",
+    "lodash": "^4.17.15",
     "lru-cache": "^5.1.1",
     "mark.js": "^8.11.1",
     "marked": "^0.6.2",
