@@ -76,6 +76,7 @@ export default class Timeline extends React.Component {
 		this.toggleWhisper = this.toggleWhisper.bind(this)
 		this.handleFileChange = this.handleFileChange.bind(this)
 		this.handleEventToggle = this.handleEventToggle.bind(this)
+		this.handleJumpToTop = this.handleJumpToTop.bind(this)
 		this.handleNewMessageSubmit = this.handleNewMessageSubmit.bind(this)
 		this.handleNewMessageChange = _.debounce(this.handleNewMessageChange.bind(this), 100)
 		this.handleWhisperToggle = this.handleWhisperToggle.bind(this)
@@ -89,6 +90,16 @@ export default class Timeline extends React.Component {
 		}, 1500)
 
 		this.handleScroll = this.handleScroll.bind(this)
+	}
+
+	handleJumpToTop (event) {
+		event.preventDefault()
+
+		this.setState({
+			page: Infinity
+		}, () => {
+			this.scrollArea.scrollTop = 0
+		})
 	}
 
 	handleNewMessageChange (event) {
@@ -360,6 +371,17 @@ export default class Timeline extends React.Component {
 		return (
 			<Column>
 				<Flex my={2} mr={2} justifyContent="flex-end">
+					<Button
+						plain
+						tooltip={{
+							placement: 'left',
+							text: 'Jump to first message'
+						}}
+						ml={2}
+						onClick={this.handleJumpToTop}
+						icon={<Icon name="chevron-circle-up"/>}
+					/>
+
 					<Button
 						plain
 						tooltip={{
