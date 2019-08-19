@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'UI: Add button to scroll to top of timeline'
+      hash: c2500285b9edf6444dc67cc9c8b9d3ecf48ccf22
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 21.4.0
+  date: 2019-08-19T13:25:13.609Z
+- commits:
     - subject: 'UI: Fix bug when handling missing actor IDs'
       hash: 7f2a590e095f982b0228397bb210398fb863d64e
       body: |
