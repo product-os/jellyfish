@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'UI: Fix bug when handling missing actor IDs'
+      hash: 7f2a590e095f982b0228397bb210398fb863d64e
+      body: |
+        Fixes #2360
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 21.3.5
+  date: 2019-08-19T12:29:01.430Z
+- commits:
     - subject: 'worker: Ensure crashy requests are not re-enqueued'
       hash: 73acba4fbb8dcecc94bc5e61941d320fcf9f471d
       body: ''
