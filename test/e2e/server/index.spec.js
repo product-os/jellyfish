@@ -28,6 +28,27 @@ const createUserDetails = () => {
 	}
 }
 
+ava.serial('should parse application/jose bodies as JSON', async (test) => {
+	const userDetails = createUserDetails()
+	const user = await test.context.createUser(userDetails)
+
+	const result = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: user.slug,
+			type: 'user',
+			action: 'action-create-session',
+			arguments: {
+				password: userDetails.password
+			}
+		}, {
+			'Content-Type': 'application/jose'
+		})
+
+	test.is(result.code, 200)
+	test.truthy(result.headers['x-request-id'])
+	test.truthy(result.headers['x-api-id'])
+})
+
 ava.serial('should parse application/vnd.api+json bodies', async (test) => {
 	const userDetails = createUserDetails()
 	const user = await test.context.createUser(userDetails)

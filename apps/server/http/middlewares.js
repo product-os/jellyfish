@@ -20,7 +20,7 @@ module.exports = (rootContext, application, jellyfish, options) => {
 
 		// Services such as Outreach send a content
 		// type "application/vnd.api+json"
-		type: [ 'application/*+json', 'application/json' ],
+		type: [ 'application/*+json', 'application/json', 'application/jose' ],
 
 		// A small trick to preserve the unparsed JSON
 		verify: (request, response, buffer, encoding) => {
