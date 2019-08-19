@@ -1,8 +1,7 @@
-.PHONY: clean \
+PHONY: clean \
 	lint \
 	dev-ui \
 	dev-chat-widget \
-	dev-storybook \
 	coverage \
 	node \
 	test \
@@ -283,7 +282,7 @@ lint:
 	./scripts/lint/check-filenames.sh
 	shellcheck ./scripts/*.sh ./scripts/*/*.sh ./.circleci/*.sh ./deploy-templates/*.sh
 	./node_modules/.bin/deplint
-	./node_modules/.bin/depcheck --ignore-bin-package --ignores='@storybook/*,@babel/*'
+	./node_modules/.bin/depcheck --ignore-bin-package --ignores='@babel/*'
 
 coverage:
 	./node_modules/.bin/nyc $(NYC_GLOBAL_OPS) --reporter=text --reporter=html --reporter=json report
@@ -374,6 +373,3 @@ dev-ui:
 dev-chat-widget: NODE_ENV = development
 dev-chat-widget:
 	./node_modules/.bin/webpack-dev-server --config=./webpack.config.chat-widget.js --color
-
-dev-storybook:
-	./node_modules/.bin/start-storybook -p 6006
