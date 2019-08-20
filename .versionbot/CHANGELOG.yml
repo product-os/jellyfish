@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'server: Log webhook error request body'
+      hash: 2f8b1a242690b66ffcfc1c4d740d21b31333b4b6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 21.6.1
+  date: 2019-08-20T20:33:06.974Z
+- commits:
     - subject: 'UI: Add chart reports for support threads'
       hash: 15aa6831b5f6da83fe83c76f77f95dcde82580ec
       body: ''
