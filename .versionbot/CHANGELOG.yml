@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'Issue: Make repository field required'
+      hash: bd2bd4a891e2fba28704d9e9f93b8234255038f8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 21.5.2
+  date: 2019-08-20T12:24:04.715Z
+- commits:
     - subject: Update open-balena-base to 8.0.3
       hash: ae54edb9efc515e7bd6f47e010a4b3e790244b94
       body: |
