@@ -58,7 +58,10 @@
               "type": "boolean",
               "default": false
             }
-          }
+          },
+          "required": [
+            "repository"
+          ]
         }
       },
       "additionalProperties": true,
