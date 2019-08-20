@@ -63,7 +63,8 @@
     ],
     "lenses": [
       "lens-support-threads-to-audit",
-      "lens-kanban"
+      "lens-kanban",
+      "lens-support-audit-chart"
     ]
   },
   "requires": [],

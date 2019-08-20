@@ -160,6 +160,22 @@ class ViewRenderer extends React.Component {
 		if (!lens) {
 			return
 		}
+
+		if (this.state.activeLens === lens.slug) {
+			return
+		}
+
+		const {
+			head
+		} = this.props.channel.data
+		const syntheticViewCard = createSyntheticViewCard(head, this.state.filters)
+
+		this.props.actions.clearViewData(head.id)
+		this.props.actions.loadViewResults(
+			syntheticViewCard,
+			this.getQueryOptions(lens.slug)
+		)
+
 		this.setState({
 			activeLens: lens.slug
 		})
@@ -224,6 +240,7 @@ class ViewRenderer extends React.Component {
 				name: USER_FILTER_NAME
 			}), 'schema')
 			: []
+
 		const lenses = _.chain(head)
 			.get([ 'data', 'lenses' ])
 			.map((slug) => { return getLensBySlug(slug) })

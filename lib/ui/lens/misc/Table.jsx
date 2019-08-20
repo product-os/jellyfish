@@ -19,13 +19,13 @@ import {
 	Table,
 	Txt
 } from 'rendition'
-import BaseLens from './common/BaseLens'
-import Link from '../../ui-components/Link'
+import BaseLens from '../common/BaseLens'
+import Link from '../../../ui-components/Link'
 import {
 	actionCreators,
 	selectors
-} from '../core'
-import Column from '../shame/Column'
+} from '../../core'
+import Column from '../../shame/Column'
 
 const COLUMNS = [
 	{
