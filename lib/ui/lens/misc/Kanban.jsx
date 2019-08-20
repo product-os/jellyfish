@@ -26,20 +26,20 @@ import {
 } from 'rendition'
 import skhema from 'skhema'
 import styled from 'styled-components'
-import ContextMenu from '../../ui-components/ContextMenu'
-import GroupUpdate from '../../ui-components/GroupUpdate'
+import ContextMenu from '../../../ui-components/ContextMenu'
+import GroupUpdate from '../../../ui-components/GroupUpdate'
 import {
 	Tag
-} from '../../ui-components/Tag'
+} from '../../../ui-components/Tag'
 import {
 	actionCreators,
 	analytics,
 	selectors,
 	sdk
-} from '../core'
-import * as helpers from '../services/helpers'
-import BaseLens from './common/BaseLens'
-import Icon from '../shame/Icon'
+} from '../../core'
+import * as helpers from '../../services/helpers'
+import BaseLens from '../common/BaseLens'
+import Icon from '../../shame/Icon'
 
 const UNSORTED_GROUP_ID = 'JELLYFISH_UNSORTED_GROUP'
 const EllipsisButton = styled(Button) `
