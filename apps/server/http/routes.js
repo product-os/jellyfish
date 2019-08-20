@@ -384,6 +384,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 				})
 			})
 		}).catch((error) => {
+			error.body = request.body
 			logger.exception(request.context, 'Webhook error', error)
 			return response.status(500).json({
 				error: true,
