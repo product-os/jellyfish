@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'UI: Surface tags on card chat summary'
+      hash: c34b5e6801f9c5b06e3cef70c78c092fadeb0fc4
+      body: |
+        Fixes #2320
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 21.5.0
+  date: 2019-08-20T08:28:27.619Z
+- commits:
     - subject: 'server: Parse application/jose as JSON'
       hash: 9406666aa7a9e34322f986cc816812d9d29d5b20
       body: ''
