@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'UI: Add chart reports for support threads'
+      hash: 15aa6831b5f6da83fe83c76f77f95dcde82580ec
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 21.6.0
+  date: 2019-08-20T14:58:27.913Z
+- commits:
     - subject: 'Issue: Make repository field required'
       hash: bd2bd4a891e2fba28704d9e9f93b8234255038f8
       body: ''
