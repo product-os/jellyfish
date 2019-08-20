@@ -1,4 +1,40 @@
 - commits:
+    - subject: Update open-balena-base to 8.0.3
+      hash: ae54edb9efc515e7bd6f47e010a4b3e790244b94
+      body: |
+        Update open-balena-base from 8.0.1 to 8.0.3
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested:
+        - commits:
+            - subject: "\U0001F512: Update Node to 10.16.3 and NPM to 6.10.3"
+              hash: 8714ca3fee1ff44187e0a0c4b6c648d0c2fe550c
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Connects-to: '#91'
+                connects-to: '#91'
+                Signed-off-by: Andreas Fitzek <andreas@balena.io>
+                signed-off-by: Andreas Fitzek <andreas@balena.io>
+              author: Andreas Fitzek
+          version: open-balena-base-8.0.3
+          date: 2019-08-16T12:10:08.587Z
+        - commits:
+            - subject: Update nodejs to 10.16.1 and npm to 6.10.2
+              hash: 11a141feb88985b698d5f4358505767e9065a200
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Pagan Gazzard
+          version: open-balena-base-8.0.2
+          date: 2019-08-06T13:52:12.883Z
+  version: 21.5.1
+  date: 2019-08-20T11:46:26.898Z
+- commits:
     - subject: 'UI: Surface tags on card chat summary'
       hash: c34b5e6801f9c5b06e3cef70c78c092fadeb0fc4
       body: |
