@@ -1,4 +1,43 @@
 - commits:
+    - subject: 'action-library: Log top level syncing errors'
+      hash: e8bceb2dd5220b1b6d99889639a0e786ac5210aa
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'balena-api: Handle usernames that are invalid slugs'
+      hash: 5426cd86fd574e246f682c4281d3fc8bf6083cfa
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'balena-api: Fix broken syncing'
+      hash: 5f93194280e909447b7e9d04f86984bfaefd5e54
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'balena-api: Fix translate'
+      hash: e03036475861c7bc00c8d50016b5af87c4a57788
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 21.7.3
+  date: 2019-08-21T17:54:07.237Z
+- commits:
     - subject: 'balena-api: Print sequence logs'
       hash: 5e27287a36b4bcc1f6bdc0229c097d9ea338f028
       body: ''
