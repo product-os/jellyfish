@@ -8,51 +8,46 @@
   "links": {},
   "active": true,
   "data": {
-    "allOf": [
-      {
-        "name": "Active cards",
-        "schema": {
-          "$$links": {
-            "has attached element": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "enum": [
-                    "message",
-                    "update",
-                    "create",
-                    "whisper"
-                  ]
-                }
-              },
-              "additionalProperties": true
-            }
-          },
+    "schema": {
+      "$$links": {
+        "has attached element": {
           "type": "object",
           "properties": {
-            "active": {
-              "const": true,
-              "type": "boolean"
-            },
             "type": {
-              "type": "string",
-              "const": "changelog"
-            },
-            "markers": {
-              "type": "array",
-              "contains": {
-                "const": "org-balena"
-              }
+              "enum": [
+                "message",
+                "update",
+                "create",
+                "whisper"
+              ]
             }
           },
-          "required": [
-            "active",
-            "type"
-          ],
           "additionalProperties": true
         }
-      }
-    ],
+      },
+      "type": "object",
+      "properties": {
+        "active": {
+          "const": true,
+          "type": "boolean"
+        },
+        "type": {
+          "type": "string",
+          "const": "changelog"
+        },
+        "markers": {
+          "type": "array",
+          "contains": {
+            "const": "org-balena"
+          }
+        }
+      },
+      "required": [
+        "active",
+        "type"
+      ],
+      "additionalProperties": true
+    },
     "lenses": [
       "lens-table",
       "lens-kanban"

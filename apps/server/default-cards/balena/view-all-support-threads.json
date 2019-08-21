@@ -9,58 +9,53 @@
   "active": true,
   "data": {
     "namespace": "Support",
-    "allOf": [
-      {
-        "name": "Active cards",
-        "schema": {
-          "$$links": {
-            "has attached element": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "enum": [
-                    "message",
-                    "update",
-                    "create",
-                    "whisper"
-                  ]
-                }
-              },
-              "additionalProperties": true
-            }
-          },
+    "schema": {
+      "$$links": {
+        "has attached element": {
           "type": "object",
           "properties": {
-            "active": {
-              "const": true,
-              "type": "boolean"
-            },
             "type": {
-              "type": "string",
-              "const": "support-thread"
-            },
-            "data": {
-              "type": "object",
-              "properties": {
-                "inbox": {
-                  "type": "string",
-                  "enum": [ "S/Paid_Support", "S/Forums" ]
-                },
-                "category": {
-                  "description": "This field is not required and should match cases where the field is not present OR is 'general'",
-                  "const": "general"
-                }
-              }
+              "enum": [
+                "message",
+                "update",
+                "create",
+                "whisper"
+              ]
             }
           },
-          "required": [
-            "active",
-            "type"
-          ],
           "additionalProperties": true
         }
-      }
-    ],
+      },
+      "type": "object",
+      "properties": {
+        "active": {
+          "const": true,
+          "type": "boolean"
+        },
+        "type": {
+          "type": "string",
+          "const": "support-thread"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "inbox": {
+              "type": "string",
+              "enum": [ "S/Paid_Support", "S/Forums" ]
+            },
+            "category": {
+              "description": "This field is not required and should match cases where the field is not present OR is 'general'",
+              "const": "general"
+            }
+          }
+        }
+      },
+      "required": [
+        "active",
+        "type"
+      ],
+      "additionalProperties": true
+    },
     "lenses": [
       "lens-support-threads",
       "lens-kanban"

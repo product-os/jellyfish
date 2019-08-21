@@ -8,33 +8,28 @@
   "links": {},
   "active": true,
   "data": {
-    "allOf": [
-      {
-        "name": "Triggered actions",
-        "schema": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "active": {
+          "type": "boolean",
+          "const": true
+        },
+        "type": {
+          "type": "string",
+          "const": "triggered-action"
+        },
+        "data": {
           "type": "object",
-          "properties": {
-            "active": {
-              "type": "boolean",
-              "const": true
-            },
-            "type": {
-              "type": "string",
-              "const": "triggered-action"
-            },
-            "data": {
-              "type": "object",
-              "additionalProperties": true
-            }
-          },
-          "required": [
-            "active",
-            "type",
-            "data"
-          ]
+          "additionalProperties": true
         }
-      }
-    ]
+      },
+      "required": [
+        "active",
+        "type",
+        "data"
+      ]
+    }
   },
   "requires": [],
   "capabilities": []

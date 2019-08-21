@@ -117,23 +117,18 @@ ava('.getViewSchema() should preserve template interpolations in user properties
 		type: 'view',
 		version: '1.0.0',
 		data: {
-			allOf: [
-				{
-					name: 'foo',
-					schema: {
-						type: 'object',
-						properties: {
-							foo: {
-								type: 'string',
-								const: {
-									$eval: 'user.slug'
-								}
-							}
-						},
-						required: [ 'foo' ]
+			schema: {
+				type: 'object',
+				properties: {
+					foo: {
+						type: 'string',
+						const: {
+							$eval: 'user.slug'
+						}
 					}
-				}
-			]
+				},
+				required: [ 'foo' ]
+			}
 		}
 	}))
 
@@ -156,22 +151,17 @@ ava('.getViewSchema() should preserve template interpolations in schema properti
 		type: 'view',
 		version: '1.0.0',
 		data: {
-			allOf: [
-				{
-					name: 'foo',
-					schema: {
-						type: 'object',
-						properties: {
-							foo: {
-								type: {
-									$eval: 'user.type'
-								}
-							}
-						},
-						required: [ 'foo' ]
+			schema: {
+				type: 'object',
+				properties: {
+					foo: {
+						type: {
+							$eval: 'user.type'
+						}
 					}
-				}
-			]
+				},
+				required: [ 'foo' ]
+			}
 		}
 	}))
 
@@ -185,331 +175,6 @@ ava('.getViewSchema() should preserve template interpolations in schema properti
 			}
 		},
 		required: [ 'foo' ]
-	})
-})
-
-ava('.getViewSchema() should return a schema given a view card with two conjunctions', (test) => {
-	const schema = permissionFilter.getViewSchema(test.context.kernel.defaults({
-		type: 'view',
-		version: '1.0.0',
-		data: {
-			allOf: [
-				{
-					name: 'foo',
-					schema: {
-						type: 'object',
-						properties: {
-							foo: {
-								type: 'string',
-								minLength: 1
-							}
-						},
-						required: [ 'foo' ]
-					}
-				},
-				{
-					name: 'bar',
-					schema: {
-						type: 'object',
-						properties: {
-							foo: {
-								type: 'string',
-								maxLength: 5
-							}
-						},
-						required: [ 'foo' ]
-					}
-				}
-			]
-		}
-	}))
-
-	test.deepEqual(schema, {
-		type: 'object',
-		properties: {
-			foo: {
-				type: 'string',
-				minLength: 1,
-				maxLength: 5
-			}
-		},
-		required: [ 'foo' ]
-	})
-})
-
-ava('.getViewSchema() should return a schema given a view card with two conjunctions and empty disjunctions', (test) => {
-	const schema = permissionFilter.getViewSchema(test.context.kernel.defaults({
-		type: 'view',
-		version: '1.0.0',
-		data: {
-			anyOf: [],
-			allOf: [
-				{
-					name: 'foo',
-					schema: {
-						type: 'object',
-						properties: {
-							foo: {
-								type: 'string',
-								minLength: 1
-							}
-						},
-						required: [ 'foo' ]
-					}
-				},
-				{
-					name: 'bar',
-					schema: {
-						type: 'object',
-						properties: {
-							foo: {
-								type: 'string',
-								maxLength: 5
-							}
-						},
-						required: [ 'foo' ]
-					}
-				}
-			]
-		}
-	}))
-
-	test.deepEqual(schema, {
-		type: 'object',
-		properties: {
-			foo: {
-				type: 'string',
-				minLength: 1,
-				maxLength: 5
-			}
-		},
-		required: [ 'foo' ]
-	})
-})
-
-ava('.getViewSchema() should return a schema given a view card with two disjunctions', (test) => {
-	const schema = permissionFilter.getViewSchema(test.context.kernel.defaults({
-		type: 'view',
-		version: '1.0.0',
-		data: {
-			anyOf: [
-				{
-					name: 'foo',
-					schema: {
-						type: 'object',
-						properties: {
-							type: {
-								type: 'string',
-								const: 'view'
-							}
-						},
-						required: [ 'type' ]
-					}
-				},
-				{
-					name: 'bar',
-					schema: {
-						type: 'object',
-						properties: {
-							type: {
-								type: 'string',
-								const: 'action'
-							}
-						},
-						required: [ 'type' ]
-					}
-				}
-			]
-		}
-	}))
-
-	test.deepEqual(schema, {
-		type: 'object',
-		anyOf: [
-			{
-				type: 'object',
-				properties: {
-					type: {
-						type: 'string',
-						const: 'view'
-					}
-				},
-				required: [ 'type' ]
-			},
-			{
-				type: 'object',
-				properties: {
-					type: {
-						type: 'string',
-						const: 'action'
-					}
-				},
-				required: [ 'type' ]
-			}
-		]
-	})
-})
-
-ava('.getViewSchema() should return a schema given a view card with two disjunctions and empty conjunctions', (test) => {
-	const schema = permissionFilter.getViewSchema(test.context.kernel.defaults({
-		type: 'view',
-		version: '1.0.0',
-		data: {
-			allOf: [],
-			anyOf: [
-				{
-					name: 'foo',
-					schema: {
-						type: 'object',
-						properties: {
-							type: {
-								type: 'string',
-								const: 'view'
-							}
-						},
-						required: [ 'type' ]
-					}
-				},
-				{
-					name: 'bar',
-					schema: {
-						type: 'object',
-						properties: {
-							type: {
-								type: 'string',
-								const: 'action'
-							}
-						},
-						required: [ 'type' ]
-					}
-				}
-			]
-		}
-	}))
-
-	test.deepEqual(schema, {
-		type: 'object',
-		anyOf: [
-			{
-				type: 'object',
-				properties: {
-					type: {
-						type: 'string',
-						const: 'view'
-					}
-				},
-				required: [ 'type' ]
-			},
-			{
-				type: 'object',
-				properties: {
-					type: {
-						type: 'string',
-						const: 'action'
-					}
-				},
-				required: [ 'type' ]
-			}
-		]
-	})
-})
-
-ava('.getViewSchema() should return a schema given a view card with two disjunctions and two conjunctions', (test) => {
-	const schema = permissionFilter.getViewSchema(test.context.kernel.defaults({
-		type: 'view',
-		version: '1.0.0',
-		data: {
-			anyOf: [
-				{
-					name: 'foo',
-					schema: {
-						type: 'object',
-						properties: {
-							type: {
-								type: 'string',
-								const: 'view'
-							}
-						},
-						required: [ 'type' ]
-					}
-				},
-				{
-					name: 'bar',
-					schema: {
-						type: 'object',
-						properties: {
-							type: {
-								type: 'string',
-								const: 'action'
-							}
-						},
-						required: [ 'type' ]
-					}
-				}
-			],
-			allOf: [
-				{
-					name: 'foo',
-					schema: {
-						type: 'object',
-						properties: {
-							foo: {
-								type: 'string',
-								minLength: 1
-							}
-						},
-						required: [ 'foo' ]
-					}
-				},
-				{
-					name: 'bar',
-					schema: {
-						type: 'object',
-						properties: {
-							foo: {
-								type: 'string',
-								maxLength: 5
-							}
-						},
-						required: [ 'foo' ]
-					}
-				}
-			]
-		}
-	}))
-
-	test.deepEqual(schema, {
-		type: 'object',
-		properties: {
-			foo: {
-				type: 'string',
-				minLength: 1,
-				maxLength: 5
-			}
-		},
-		required: [ 'foo' ],
-		anyOf: [
-			{
-				type: 'object',
-				properties: {
-					type: {
-						type: 'string',
-						const: 'view'
-					}
-				},
-				required: [ 'type' ]
-			},
-			{
-				type: 'object',
-				properties: {
-					type: {
-						type: 'string',
-						const: 'action'
-					}
-				},
-				required: [ 'type' ]
-			}
-		]
 	})
 })
 

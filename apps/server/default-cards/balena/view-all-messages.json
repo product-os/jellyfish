@@ -8,35 +8,29 @@
   "links": {},
   "active": true,
   "data": {
-    "allOf": [
-      {
-        "name": "Active cards",
-        "schema": {
-
-          "type": "object",
-          "properties": {
-            "active": {
-              "const": true,
-              "type": "boolean"
-            },
-            "type": {
-              "const": "message"
-            }
-          },
-          "markers": {
-            "type": "array",
-            "contains": {
-              "const": "org-balena"
-            }
-          },
-          "required": [
-            "active",
-            "type"
-          ],
-          "additionalProperties": true
+    "schema": {
+      "type": "object",
+      "properties": {
+        "active": {
+          "const": true,
+          "type": "boolean"
+        },
+        "type": {
+          "const": "message"
         }
-      }
-    ],
+      },
+      "markers": {
+        "type": "array",
+        "contains": {
+          "const": "org-balena"
+        }
+      },
+      "required": [
+        "active",
+        "type"
+      ],
+      "additionalProperties": true
+    },
     "lenses": [
       "lens-interleaved"
     ]

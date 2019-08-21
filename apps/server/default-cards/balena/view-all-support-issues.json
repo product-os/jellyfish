@@ -9,24 +9,19 @@
   "active": true,
   "data": {
     "namespace": "Support",
-    "allOf": [
-      {
-        "name": "All support issues",
-        "schema": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "string",
-              "const": "support-issue"
-            }
-          },
-          "additionalProperties": true,
-          "required": [
-            "type"
-          ]
+    "schema": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "support-issue"
         }
-      }
-    ],
+      },
+      "additionalProperties": true,
+      "required": [
+        "type"
+      ]
+    },
     "lenses": [
       "lens-list",
       "lens-support-issue-table"

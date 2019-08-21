@@ -9,58 +9,53 @@
   "active": true,
   "data": {
     "namespace": "Support",
-    "allOf": [
-      {
-        "name": "Active cards",
-        "schema": {
-          "$$links": {
-            "has attached element": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "enum": [
-                    "message",
-                    "update",
-                    "create",
-                    "whisper"
-                  ]
-                }
-              },
-              "additionalProperties": true
-            }
-          },
+    "schema": {
+      "$$links": {
+        "has attached element": {
           "type": "object",
           "properties": {
-            "active": {
-              "const": true,
-              "type": "boolean"
-            },
             "type": {
-              "type": "string",
-              "const": "support-thread"
-            },
-            "data": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "const": "closed"
-                }
-              },
-              "required": [
-                "status"
+              "enum": [
+                "message",
+                "update",
+                "create",
+                "whisper"
               ]
             }
           },
-          "required": [
-            "active",
-            "type",
-            "data"
-          ],
           "additionalProperties": true
         }
-      }
-    ],
+      },
+      "type": "object",
+      "properties": {
+        "active": {
+          "const": true,
+          "type": "boolean"
+        },
+        "type": {
+          "type": "string",
+          "const": "support-thread"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "const": "closed"
+            }
+          },
+          "required": [
+            "status"
+          ]
+        }
+      },
+      "required": [
+        "active",
+        "type",
+        "data"
+      ],
+      "additionalProperties": true
+    },
     "lenses": [
       "lens-support-threads-to-audit",
       "lens-kanban",

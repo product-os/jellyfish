@@ -40,7 +40,6 @@ module.exports = async (context, jellyfish, worker, session) => {
 		// Internal views
 		await loadCard('contrib/view-active-triggered-actions.json'),
 		await loadCard('contrib/view-active.json'),
-		await loadCard('contrib/view-non-executed-action-requests.json'),
 
 		// Types
 		await loadCard('contrib/ping.json'),

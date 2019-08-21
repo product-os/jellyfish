@@ -8,24 +8,19 @@
   "links": {},
   "active": true,
   "data": {
-    "allOf": [
-      {
-        "name": "All users",
-        "schema": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "string",
-              "const": "user"
-            }
-          },
-          "additionalProperties": true,
-          "required": [
-            "type"
-          ]
+    "schema": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "user"
         }
-      }
-    ],
+      },
+      "additionalProperties": true,
+      "required": [
+        "type"
+      ]
+    },
     "lenses": [
       "lens-list",
       "lens-kanban"

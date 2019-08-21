@@ -8,31 +8,26 @@
   "links": {},
   "active": true,
   "data": {
-    "allOf": [
-      {
-        "name": "Active cards",
-        "schema": {
-          "type": "object",
-          "properties": {
-            "active": {
-              "type": "boolean",
-              "const": true
-            },
-            "type": {
-              "not": {
-                "enum": [
-                  "session"
-                ]
-              }
-            }
-          },
-          "required": [
-            "active"
-          ],
-          "additionalProperties": true
+    "schema": {
+      "type": "object",
+      "properties": {
+        "active": {
+          "type": "boolean",
+          "const": true
+        },
+        "type": {
+          "not": {
+            "enum": [
+              "session"
+            ]
+          }
         }
-      }
-    ],
+      },
+      "required": [
+        "active"
+      ],
+      "additionalProperties": true
+    },
     "lenses": [
       "lens-default-list",
       "lens-default-card"

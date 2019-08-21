@@ -8,34 +8,29 @@
   "links": {},
   "active": true,
   "data": {
-    "allOf": [
-      {
-        "name": "My todo items",
-        "schema": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "todo"
+        },
+        "data": {
           "type": "object",
           "properties": {
-            "type": {
-              "const": "todo"
-            },
-            "data": {
-              "type": "object",
-              "properties": {
-                "actor": {
-                  "const": {
-                    "$eval": "user.id"
-                  }
-                }
-              },
-              "required": [
-                "actor"
-              ],
-              "additionalProperties": true
+            "actor": {
+              "const": {
+                "$eval": "user.id"
+              }
             }
           },
+          "required": [
+            "actor"
+          ],
           "additionalProperties": true
         }
-      }
-    ],
+      },
+      "additionalProperties": true
+    },
     "lenses": [
       "lens-todolist"
     ]

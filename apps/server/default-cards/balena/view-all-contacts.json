@@ -9,29 +9,24 @@
   "active": true,
   "data": {
     "namespace": "Sales",
-    "allOf": [
-      {
-        "name": "Active contacts",
-        "schema": {
-          "type": "object",
-          "properties": {
-            "active": {
-              "const": true,
-              "type": "boolean"
-            },
-            "type": {
-              "type": "string",
-              "const": "contact"
-            }
-          },
-          "required": [
-            "active",
-            "type"
-          ],
-          "additionalProperties": true
+    "schema": {
+      "type": "object",
+      "properties": {
+        "active": {
+          "const": true,
+          "type": "boolean"
+        },
+        "type": {
+          "type": "string",
+          "const": "contact"
         }
-      }
-    ],
+      },
+      "required": [
+        "active",
+        "type"
+      ],
+      "additionalProperties": true
+    },
     "lenses": [
       "lens-list",
       "lens-kanban"
