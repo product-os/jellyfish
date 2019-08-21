@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'server: Ensure correct application/jose webhook parsing'
+      hash: a48e8212396d8ff9eb5805e002800e8fb0f0fb30
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 21.6.3
+  date: 2019-08-21T10:45:12.482Z
+- commits:
     - subject: 'core: Remove concept of write mode'
       hash: 159f010cc6fb694a4bba664fa6b2a9b92b51f1ce
       body: ''
