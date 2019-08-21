@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'balena-api: Print sequence logs'
+      hash: 5e27287a36b4bcc1f6bdc0229c097d9ea338f028
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 21.7.2
+  date: 2019-08-21T16:39:43.184Z
+- commits:
     - subject: 'action-maintain-contact: More logs'
       hash: fe40c02c4294f43ac7de3cf1c29bd043b41fd6b4
       body: ''
