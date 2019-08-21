@@ -5,6 +5,12 @@
  */
 
 module.exports = {
+	'new-user-invalid-slug': {
+		expected: require('./new-user-invalid-slug/expected.json'),
+		steps: [
+			require('./new-user-invalid-slug/01.json')
+		]
+	},
 	'new-user-delete': {
 		expected: require('./new-user-delete/expected.json'),
 		steps: [
