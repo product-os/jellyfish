@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'action-maintain-contact: More logs'
+      hash: fe40c02c4294f43ac7de3cf1c29bd043b41fd6b4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 21.7.1
+  date: 2019-08-21T15:45:07.334Z
+- commits:
     - subject: Add temporary jf token for chat widget as env
       hash: 1d8e61778d267dbd75c0037fcc26c7063ba25f15
       body: ''
