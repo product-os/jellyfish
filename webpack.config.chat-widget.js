@@ -51,6 +51,7 @@ const config = mergeConfig(baseConfig, {
 				NODE_ENV: JSON.stringify(process.env.NODE_ENV),
 				SENTRY_DSN_UI: JSON.stringify(process.env.SENTRY_DSN_UI),
 				MIXPANEL_TOKEN_UI: JSON.stringify(process.env.MIXPANEL_TOKEN_UI),
+				CHAT_WIDGET_JELLYFISH_TOKEN: JSON.stringify(process.env.CHAT_WIDGET_JELLYFISH_TOKEN),
 
 				// So that it matches git tags
 				VERSION: JSON.stringify(`v${packageJSON.version}`)

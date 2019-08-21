@@ -136,6 +136,10 @@ export INTEGRATION_OUTREACH_APP_SECRET
 INTEGRATION_OUTREACH_SIGNATURE_KEY ?=
 export INTEGRATION_OUTREACH_SIGNATURE_KEY
 
+# Temporary token for chat widget
+CHAT_WIDGET_JELLYFISH_TOKEN ?=
+export CHAT_WIDGET_JELLYFISH_TOKEN
+
 # -----------------------------------------------
 # Test Runtime Configuration
 # -----------------------------------------------
@@ -270,10 +274,12 @@ build-chat-widget:
 	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/chat-widget $(NYC_TMP_DIR)/chat-widget
 	NODE_ENV=test UI_DIRECTORY="./$(NYC_TMP_DIR)/chat-widget" \
 		SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
+		CHAT_WIDGET_JELLYFISH_TOKEN=$(CHAT_WIDGET_JELLYFISH_TOKEN) \
 		./node_modules/.bin/webpack --config=./webpack.config.chat-widget.js
 else
 build-chat-widget:
 	UI_DIRECTORY="./lib/chat-widget" SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
+	CHAT_WIDGET_JELLYFISH_TOKEN=$(CHAT_WIDGET_JELLYFISH_TOKEN) \
 		./node_modules/.bin/webpack --config=./webpack.config.chat-widget.js
 endif
 
@@ -373,6 +379,7 @@ dev-ui:
 
 dev-chat-widget: NODE_ENV = development
 dev-chat-widget:
+	CHAT_WIDGET_JELLYFISH_TOKEN=$(CHAT_WIDGET_JELLYFISH_TOKEN) \
 	./node_modules/.bin/webpack-dev-server --config=./webpack.config.chat-widget.js --color
 
 dev-storybook:
