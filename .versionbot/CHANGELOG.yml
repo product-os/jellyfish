@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'action-library: Don''t break the mirror sync chain on different services'
+      hash: 39ba979c86b08317a61499ef3da600565f7241a5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 21.8.1
+  date: 2019-08-21T23:35:17.750Z
+- commits:
     - subject: 'outreach: Sync prospect company name'
       hash: 8ee016edbdd50a4a2310e9ac87fcf049f79fbab3
       body: ''
