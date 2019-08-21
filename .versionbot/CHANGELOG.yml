@@ -1,4 +1,14 @@
 - commits:
+    - subject: Add temporary jf token for chat widget as env
+      hash: 1d8e61778d267dbd75c0037fcc26c7063ba25f15
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 21.7.0
+  date: 2019-08-21T13:28:08.910Z
+- commits:
     - subject: 'server: Ensure correct application/jose webhook parsing'
       hash: a48e8212396d8ff9eb5805e002800e8fb0f0fb30
       body: ''
