@@ -7,6 +7,10 @@
 const ava = require('ava')
 const crypto = require('crypto')
 const querystring = require('querystring')
+const jose = require('node-jose')
+const uuid = require('uuid/v4')
+const randomstring = require('randomstring')
+const jws = require('jsonwebtoken')
 const nock = require('nock')
 const _ = require('lodash')
 const helpers = require('../sdk/helpers')
@@ -18,6 +22,48 @@ ava.after(helpers.sdk.afterEach)
 // Logout of the SDK after each test
 ava.afterEach(async (test) => {
 	await test.context.sdk.auth.logout()
+})
+
+const balenaAvaTest = _.some(_.values(environment.integration['balena-api']), _.isEmpty)
+	? ava.skip
+	: ava.serial
+
+balenaAvaTest('should take application/jose balena-api webhooks', async (test) => {
+	const token = environment.integration['balena-api']
+	const object = {
+		test: 1
+	}
+
+	const signedToken = jws.sign({
+		data: object
+	}, Buffer.from(token.privateKey, 'base64'), {
+		algorithm: 'ES256',
+		expiresIn: 10 * 60 * 1000,
+		audience: 'jellyfish',
+		issuer: 'api.balena-cloud.com',
+		jwtid: randomstring.generate(20),
+		subject: uuid()
+	})
+
+	const keyValue = Buffer.from(token.production.publicKey, 'base64')
+	const encryptionKey = await jose.JWK.asKey(keyValue, 'pem')
+
+	const cipher = jose.JWE.createEncrypt({
+		format: 'compact'
+	}, encryptionKey)
+	cipher.update(signedToken)
+	const string = await cipher.final()
+
+	const result = await test.context.http(
+		'POST', '/api/v2/hooks/balena-api', string, {
+			'Content-Type': 'application/jose'
+		}, {
+			json: false
+		})
+
+	test.is(result.code, 200)
+	const response = JSON.parse(result.response)
+	test.false(response.error)
 })
 
 const githubAvaTest = _.some(_.values(environment.integration.github), _.isEmpty)

@@ -311,7 +311,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 			if (!await sync.isValidEvent(
 				request.params.provider,
 				integrationToken, {
-					raw: request.rawBody,
+					raw: request.rawBody || request.body,
 					headers: request.headers
 				})) {
 				logger.warn(request.context, 'Webhook rejected', {

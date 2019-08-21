@@ -5,6 +5,7 @@
  */
 
 const Bluebird = require('bluebird')
+const _ = require('lodash')
 const request = require('request')
 const uuid = require('uuid/v4')
 const helpers = require('../../integration/core/helpers')
@@ -33,21 +34,21 @@ exports.server = {
 		test.context.guestSession = test.context.server.guestSession
 		test.context.generateRandomSlug = helpers.generateRandomSlug
 
-		test.context.http = (method, uri, payload, headers) => {
+		test.context.http = (method, uri, payload, headers, options = {}) => {
 			return new Bluebird((resolve, reject) => {
-				const options = {
+				const requestOptions = {
 					method,
 					baseUrl: `http://localhost:${test.context.server.port}`,
 					url: uri,
-					json: true,
+					json: _.isNil(options.json) ? true : options.json,
 					headers
 				}
 
 				if (payload) {
-					options.body = payload
+					requestOptions.body = payload
 				}
 
-				request(options, (error, response, body) => {
+				request(requestOptions, (error, response, body) => {
 					if (error) {
 						return reject(error)
 					}

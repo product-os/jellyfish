@@ -12,6 +12,10 @@ const uuid = require('../../../lib/uuid')
 const packageJSON = require('../../../package.json')
 
 module.exports = (rootContext, application, jellyfish, options) => {
+	application.use(bodyParser.text({
+		type: [ 'application/jose' ]
+	}))
+
 	application.use(bodyParser.json({
 		// Handle big payloads without a `PayloadTooLarge` error.
 		// This is particularly important when receiving web hooks,
@@ -20,7 +24,7 @@ module.exports = (rootContext, application, jellyfish, options) => {
 
 		// Services such as Outreach send a content
 		// type "application/vnd.api+json"
-		type: [ 'application/*+json', 'application/json', 'application/jose' ],
+		type: [ 'application/*+json', 'application/json' ],
 
 		// A small trick to preserve the unparsed JSON
 		verify: (request, response, buffer, encoding) => {
