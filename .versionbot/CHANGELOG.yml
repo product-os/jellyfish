@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'outreach: Include tag with prospect origin'
+      hash: 0c5280e0082c116b9f91ba05d1530f56c4012c38
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 21.10.0
+  date: 2019-08-22T11:39:16.907Z
+- commits:
     - subject: 'outreach: Mirror contact type'
       hash: 041944afcd74f1b0e4bfcdb4d283720b622ab27d
       body: ''
