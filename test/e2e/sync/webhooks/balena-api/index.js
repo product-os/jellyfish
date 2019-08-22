@@ -5,6 +5,12 @@
  */
 
 module.exports = {
+	'new-user-id-only': {
+		expected: require('./new-user-id-only/expected.json'),
+		steps: [
+			require('./new-user-id-only/01.json')
+		]
+	},
 	'new-user-invalid-slug': {
 		expected: require('./new-user-invalid-slug/expected.json'),
 		steps: [

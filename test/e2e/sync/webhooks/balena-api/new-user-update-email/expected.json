@@ -51,6 +51,7 @@
               "https://api.balena-cloud.com/v5/user(999)"
             ],
             "profile": {
+              "type": "professional",
               "company": "Souvlaki Tek",
               "name": {
                 "first": "John",
@@ -79,6 +80,10 @@
             "op": "replace",
             "path": "/data/translateDate",
             "value": "2019-04-17T15:25:45.231Z"
+          },
+          {
+            "op": "remove",
+            "path": "/data/profile/type"
           },
           {
             "op": "replace",
