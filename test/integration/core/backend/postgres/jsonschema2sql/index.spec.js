@@ -899,3 +899,90 @@ avaTest('jsonb_pattern - pattern keyword should be case sensitive', async (test)
 	test.is(results.length, 1)
 	test.deepEqual(results[0].slug, elements[0].slug)
 })
+
+avaTest('minItems keyword should work on TEXT array columns', async (test) => {
+	const table = 'minitems_text_array'
+
+	const schema = {
+		type: 'object',
+		required: [ 'markers' ],
+		properties: {
+			markers: {
+				type: 'array',
+				minItems: 1
+			}
+		},
+		additionalProperties: true
+	}
+
+	const elements = [
+		{
+			slug: 'test-1',
+			version: '1.0.0',
+			type: 'card',
+			active: true,
+			markers: [ 'foobar' ]
+		},
+		{
+			slug: 'test-2',
+			version: '1.0.0',
+			type: 'card',
+			active: true
+		}
+	]
+
+	const results = await runner({
+		connection: test.context.connection,
+		database: test.context.database,
+		table,
+		elements,
+		schema
+	})
+
+	test.is(results.length, 1)
+	test.deepEqual(results[0].slug, elements[0].slug)
+})
+
+avaTest('maxItems keyword should work on TEXT array columns', async (test) => {
+	const table = 'maxitems_text_array'
+
+	const schema = {
+		type: 'object',
+		required: [ 'markers' ],
+		properties: {
+			markers: {
+				type: 'array',
+				maxItems: 1
+			}
+		},
+		additionalProperties: true
+	}
+
+	const elements = [
+		{
+			slug: 'test-1',
+			version: '1.0.0',
+			type: 'card',
+			active: true,
+			markers: [ 'foobar' ]
+		},
+		{
+			slug: 'test-2',
+			version: '1.0.0',
+			type: 'card',
+			active: true,
+			markers: [ 'foobar', 'bazbuzz' ]
+		}
+	]
+
+	const results = await runner({
+		connection: test.context.connection,
+		database: test.context.database,
+		table,
+		elements,
+		schema
+	})
+
+	test.is(results.length, 1)
+	test.deepEqual(results[0].slug, elements[0].slug)
+})
