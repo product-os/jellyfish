@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'logger: Better log non-errors'
+      hash: 2c8f4d092f4a66b08a2f778469e188f6994bd508
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 21.8.2
+  date: 2019-08-22T08:11:23.763Z
+- commits:
     - subject: 'action-library: Don''t break the mirror sync chain on different services'
       hash: 39ba979c86b08317a61499ef3da600565f7241a5
       body: ''
