@@ -1,4 +1,43 @@
 - commits:
+    - subject: 'outreach: Mirror contact type'
+      hash: 041944afcd74f1b0e4bfcdb4d283720b622ab27d
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'action-maintain-contact: Sync the user account type'
+      hash: 5a06b827ca459261dcc6836b8b1a2b62554ca704
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'balena-api: Sync account types'
+      hash: e8736729606f3e8ace1f6fbaa2fceccf0968a38a
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'balena-api: Handle user create events with just an id'
+      hash: 8e04471dea8e0572b40366343e0d4de9d946337e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 21.9.0
+  date: 2019-08-22T10:01:33.324Z
+- commits:
     - subject: 'logger: Better log non-errors'
       hash: 2c8f4d092f4a66b08a2f778469e188f6994bd508
       body: ''
