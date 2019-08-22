@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'outreach: Support slug contact external event origin'
+      hash: 9216d1df04036468b270b9787bb36aa91ff51281
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 21.10.2
+  date: 2019-08-22T18:24:09.168Z
+- commits:
     - subject: 'JSONSchema2sql: Handle min/maxItems on top level columns'
       hash: c78eaf0e13c7a0c88776f073db164d25e288e668
       body: |
