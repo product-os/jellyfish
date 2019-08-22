@@ -15,6 +15,7 @@
         "https://api.balena-cloud.com/v5/user(999)"
       ],
       "profile": {
+        "type": "professional",
         "company": "Souvlaki Tek",
         "name": {
           "first": "John",
@@ -51,6 +52,7 @@
               "https://api.balena-cloud.com/v5/user(999)"
             ],
             "profile": {
+              "type": "professional",
               "company": "Souvlaki Tek",
               "name": {
                 "first": "John",
