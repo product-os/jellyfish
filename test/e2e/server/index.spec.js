@@ -2278,6 +2278,7 @@ ava.serial('should create a contact for a user with plenty of info', async (test
 				profile: {
 					company: 'Balena.io',
 					title: 'Senior Directory of the Jellyfish Task Force',
+					type: 'professional',
 					country: 'Republic of Balena',
 					city: 'Contractshire',
 					name: {
@@ -2326,6 +2327,7 @@ ava.serial('should create a contact for a user with plenty of info', async (test
 				title: 'Senior Directory of the Jellyfish Task Force',
 				country: 'Republic of Balena',
 				city: 'Contractshire',
+				type: 'professional',
 				name: {
 					first: 'John',
 					last: 'Doe'

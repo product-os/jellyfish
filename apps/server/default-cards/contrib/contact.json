@@ -41,6 +41,9 @@
                 "title": {
                   "type": "string"
                 },
+                "type": {
+                  "type": "string"
+                },
                 "country": {
                   "type": "string"
                 },
