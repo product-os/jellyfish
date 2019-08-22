@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'JSONSchema2sql: Handle min/maxItems on top level columns'
+      hash: c78eaf0e13c7a0c88776f073db164d25e288e668
+      body: |
+        Fixes #2389
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 21.10.1
+  date: 2019-08-22T13:17:31.465Z
+- commits:
     - subject: 'outreach: Include tag with prospect origin'
       hash: 0c5280e0082c116b9f91ba05d1530f56c4012c38
       body: ''
