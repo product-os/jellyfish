@@ -357,7 +357,17 @@ export default class Event extends React.Component {
 	}
 
 	handleVisibilityChange (isVisible) {
-		if (isVisible && this.props.onCardVisible) {
+		const {
+			card
+		} = this.props
+
+		const isMessage = card.type === 'message' || card.type === 'whisper'
+
+		if (
+			isMessage &&
+			isVisible &&
+			this.props.onCardVisible
+		) {
 			this.props.onCardVisible(this.props.card)
 		}
 	}

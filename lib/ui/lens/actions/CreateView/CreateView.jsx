@@ -57,10 +57,7 @@ export default class CreateLens extends React.Component {
 		const {
 			user
 		} = this.props
-		console.log(event.currentTarget.dataset)
 		const id = event.currentTarget.dataset.userid
-
-		console.log('creating view, targeting', id)
 
 		const targetUser = _.find(this.state.users, {
 			id

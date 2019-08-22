@@ -1056,7 +1056,7 @@ ava.serial('.query() additionalProperties should not affect listing users as a n
 	test.deepEqual(_.map(results1, 'id'), _.map(results2, 'id'))
 })
 
-ava.serialcreated_at('should apply permissions on resolved links', async (test) => {
+ava.serial('should apply permissions on resolved links', async (test) => {
 	const {
 		sdk
 	} = test.context
