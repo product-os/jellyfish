@@ -36,6 +36,7 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: redux.bindActionCreators(
 			_.pick(actionCreators, [
+				'addChannel',
 				'loadViewResults',
 				'logout',
 				'removeViewNotice',

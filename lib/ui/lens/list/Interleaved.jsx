@@ -31,9 +31,9 @@ import {
 	sdk,
 	selectors
 } from '../../core'
-import * as helpers from '../../services/helpers'
 import Column from '../../shame/Column'
 import Icon from '../../shame/Icon'
+import BaseLens from '../common/BaseLens'
 
 const NONE_MESSAGE_TIMELINE_TYPES = [
 	'create',
@@ -45,7 +45,7 @@ const isHiddenEventType = (type) => {
 	return _.includes(NONE_MESSAGE_TIMELINE_TYPES, type)
 }
 
-export class Interleaved extends React.Component {
+export class Interleaved extends BaseLens {
 	constructor (props) {
 		super(props)
 		this.shouldScroll = true
@@ -73,12 +73,9 @@ export class Interleaved extends React.Component {
 				console.warn('.addThread() called, but there is no head card')
 				return
 			}
-			const schema = helpers.getViewSchema(head, this.props.user)
-			if (!schema) {
-				console.warn('.addThread() called, but there is no view schema available')
-				return
-			}
-			const cardData = helpers.getUpdateObjectFromSchema(schema)
+
+			const cardData = this.getSeedData()
+
 			cardData.slug = `thread-${uuid()}`
 			cardData.type = 'thread'
 			if (!cardData.data) {

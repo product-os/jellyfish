@@ -47,6 +47,10 @@ export default class BaseLens extends React.Component {
 		if (!schema) {
 			return {}
 		}
-		return helpers.getUpdateObjectFromSchema(schema)
+
+		// Always inherit markers from the head card
+		return Object.assign(helpers.getUpdateObjectFromSchema(schema), {
+			markers: head.markers
+		})
 	}
 }
