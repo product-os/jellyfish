@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'server: Send HTTP headers in middleware errors'
+      hash: 79508a916310dba1391ea7f3e12f36b87bb9f746
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 21.10.3
+  date: 2019-08-22T19:31:47.181Z
+- commits:
     - subject: 'outreach: Support slug contact external event origin'
       hash: 9216d1df04036468b270b9787bb36aa91ff51281
       body: ''
