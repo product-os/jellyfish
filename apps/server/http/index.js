@@ -31,6 +31,7 @@ module.exports = (context, jellyfish, worker, queue, configuration, options) => 
 		error.url = request.url
 		error.method = request.method
 		error.ip = request.ip
+		error.headers = request.headers
 
 		const errorObject = errio.toObject(error, {
 			stack: true
