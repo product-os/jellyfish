@@ -363,7 +363,7 @@ export default class Event extends React.Component {
 	}
 
 	getTimelineElement (card) {
-		const targetCard = _.get(card, [ 'links', 'is attached to', '0' ], {})
+		const targetCard = _.get(card, [ 'links', 'is attached to', '0' ], card)
 		if (targetCard.type === 'user') {
 			return (
 				<Txt color={Theme.colors.text.light}>
@@ -372,15 +372,18 @@ export default class Event extends React.Component {
 			)
 		}
 		let text = `${targetCard.name || targetCard.slug || targetCard.type || ''}`
-		if (card.type === 'create') {
-			text += ' created by'
-		}
+
 		if (card.type === 'update') {
 			text += ' updated by'
+		} else {
+			text += ' created by'
 		}
-		return (<Txt color={Theme.colors.text.light}>
-			<em>{text}</em> <strong>{this.state.actor ? this.state.actor.name : ''}</strong>
-		</Txt>)
+
+		return (
+			<Txt color={Theme.colors.text.light}>
+				<em>{text}</em> <strong>{this.state.actor ? this.state.actor.name : ''}</strong>
+			</Txt>
+		)
 	}
 
 	render () {
