@@ -320,6 +320,46 @@ avaTest('should create a simple contact', async (test) => {
 	test.is(prospect.data.attributes.custom1, `https://jel.ly.fish/${contact.id}`)
 })
 
+avaTest('should sync the contact type', async (test) => {
+	const username = `test-${uuid()}`
+
+	const createResult = await test.context.sdk.card.create({
+		slug: `contact-${username}`,
+		type: 'contact',
+		data: {
+			profile: {
+				type: 'professional',
+				email: `${username}@test.io`,
+				company: 'Balena'
+			}
+		}
+	})
+
+	const contact = await test.context.sdk.card.get(createResult.id)
+
+	test.deepEqual(contact.data, {
+		mirrors: contact.data.mirrors,
+		profile: {
+			company: 'Balena',
+			type: 'professional',
+			email: `${username}@test.io`
+		}
+	})
+
+	test.is(contact.data.mirrors.length, 1)
+	test.true(contact.data.mirrors[0].startsWith('https://api.outreach.io/api/v2/prospects/'))
+	const prospectId = _.parseInt(_.last(contact.data.mirrors[0].split('/')))
+	const prospect = await test.context.getProspect(prospectId)
+
+	test.deepEqual(prospect.data.attributes.emails, [ `${username}@test.io` ])
+	test.is(prospect.data.attributes.name, username)
+	test.is(prospect.data.attributes.nickname, username)
+	test.is(prospect.data.attributes.occupation, 'Balena')
+	test.is(prospect.data.attributes.title, 'professional')
+	test.falsy(prospect.data.attributes.githubUsername)
+	test.is(prospect.data.attributes.custom1, `https://jel.ly.fish/${contact.id}`)
+})
+
 avaTest('should sync company name', async (test) => {
 	const username = `test-${uuid()}`
 
