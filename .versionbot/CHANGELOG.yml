@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'Dockerfile: Add rabbitmqctl to the base images'
+      hash: 3a77dec025a47aa0a5c996c45b13dc600965692f
+      body: |
+        For production debugging purposes.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 22.1.0
+  date: 2019-08-23T12:59:27.835Z
+- commits:
     - subject: 's3-fs: Support bucket name configuration'
       hash: 1b7bc824fbc658c5d70e042e62f53b5e02576b6e
       body: ''
