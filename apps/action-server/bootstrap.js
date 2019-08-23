@@ -6,8 +6,6 @@
 
 const Bluebird = require('bluebird')
 const _ = require('lodash')
-const path = require('path')
-const lockfile = Bluebird.promisifyAll(require('lockfile'))
 const actionLibrary = require('../../lib/action-library')
 const logger = require('../../lib/logger').getLogger(__filename)
 const Worker = require('../../lib/worker')
@@ -78,10 +76,7 @@ const bootstrap = async (context, library, options) => {
 	})
 
 	const session = jellyfish.sessions.admin
-	const queue = new Queue(context, jellyfish, session, {
-		enablePriorityBuffer: true
-	})
-
+	const queue = new Queue(context, jellyfish, session, environment.rabbitmq)
 	await queue.initialize(context)
 
 	queue.once('error', (error) => {
@@ -102,30 +97,12 @@ const bootstrap = async (context, library, options) => {
 	let refreshingTriggers = Bluebird.resolve()
 	let currentIteration = Bluebird.resolve()
 
-	const lockPath = environment.lockfile || path.join(
-		process.cwd(), `${context.id}.lock`)
-
 	const loop = async () => {
-		logger.debug(context, 'Acquiring lock', {
-			lockfile: lockPath
-		})
-
-		await lockfile.lockAsync(lockPath, {
-			wait: 60000,
-			stale: 30000
-		})
-
 		if (run) {
 			currentIteration = options.onLoop(
 				context, jellyfish, worker, queue, session)
 			await currentIteration
 		}
-
-		logger.debug(context, 'Releasing lock', {
-			lockfile: lockPath
-		})
-
-		await lockfile.unlockAsync(lockPath)
 
 		if (!run) {
 			return Bluebird.resolve()
@@ -211,7 +188,7 @@ const bootstrap = async (context, library, options) => {
 
 exports.worker = async (context, options) => {
 	return bootstrap(context, actionLibrary, {
-		delay: 500,
+		delay: 50,
 		onError: options.onError,
 		onLoop: async (serverContext, jellyfish, worker, queue, session) => {
 			const actionRequest = await queue.dequeue(serverContext, worker.getId())

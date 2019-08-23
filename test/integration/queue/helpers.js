@@ -5,9 +5,10 @@
  */
 
 const Bluebird = require('bluebird')
-const uuid = require('uuid/v4')
 const helpers = require('../core/helpers')
+const uuid = require('../../../lib/uuid')
 const Queue = require('../../../lib/queue')
+const environment = require('../../../lib/environment')
 const actionLibrary = require('../../../lib/action-library')
 
 exports.jellyfish = {
@@ -56,7 +57,9 @@ exports.queue = {
 			test.context.context,
 			test.context.jellyfish,
 			test.context.session,
-			options)
+			Object.assign({}, environment.rabbitmq, {
+				name: `test_${await uuid.random()}`
+			}, options))
 
 		test.context.queue.once('error', (error) => {
 			throw error
@@ -64,7 +67,7 @@ exports.queue = {
 
 		await test.context.queue.initialize(test.context.context)
 
-		test.context.queueActor = uuid()
+		test.context.queueActor = await uuid.random()
 
 		test.context.dequeue = async (context, actor, times = 50) => {
 			const request = await test.context.queue.dequeue(

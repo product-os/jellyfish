@@ -1,0 +1,27 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: rabbitmq
+  namespace: jellyfish
+spec:
+  selector:
+    matchLabels:
+      app: rabbitmq
+  template:
+    metadata:
+      labels:
+        app: rabbitmq
+    spec:
+      containers:
+      - image: {{{jellyfish-rabbitmq-image}}}
+        name: rabbitmq
+        env:
+        - name: RABBITMQ_DEFAULT_USER
+          value: {{{RABBITMQ_USERNAME}}}
+        - name: RABBITMQ_DEFAULT_PASS
+          value: {{{RABBITMQ_PASSWORD}}}
+        ports:
+        - containerPort: 5672
+          name: data-port
+      imagePullSecrets:
+        - name: com.docker.hub.travisciresin
