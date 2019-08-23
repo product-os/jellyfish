@@ -92,6 +92,7 @@ export default class HomeChannel extends React.Component {
 		this.hideMenu = this.hideMenu.bind(this)
 		this.toggleExpandGroup = this.toggleExpandGroup.bind(this)
 		this.isExpanded = this.isExpanded.bind(this)
+		this.openCreateViewChannel = this.openCreateViewChannel.bind(this)
 
 		if (this.props.channel.data.head) {
 			this.props.actions.loadViewResults(this.props.channel.data.head)
@@ -100,6 +101,18 @@ export default class HomeChannel extends React.Component {
 
 		this.props.actions.loadViewResults('view-my-inbox')
 		this.props.actions.streamView('view-my-inbox')
+	}
+
+	openCreateViewChannel () {
+		this.props.actions.addChannel({
+			head: {
+				action: 'create-view',
+				onDone: {
+					action: 'open'
+				}
+			},
+			canonical: false
+		})
 	}
 
 	groupViews (tail) {
@@ -119,7 +132,7 @@ export default class HomeChannel extends React.Component {
 		groups.defaults = defaults
 
 		const [ myViews, otherViews ] = _.partition(nonDefaults, (view) => {
-			return _.includes(view.markers, this.props.user.slug)
+			return _.startsWith(view.slug, 'view-121') || _.includes(view.markers, this.props.user.slug)
 		})
 		if (myViews.length) {
 			groups.main.children.push(viewsToTree(myViews, {
@@ -315,6 +328,26 @@ export default class HomeChannel extends React.Component {
 							viewNotices={this.props.viewNotices}
 						/>
 					)}
+				</Box>
+
+				<Box
+					style={{
+						borderTop: '1px solid #eee',
+						borderBottom: '1px solid #eee'
+					}}
+					px={3}
+					py={2}
+				>
+					<Button
+						plain
+						icon={<Icon name="plus" />}
+						data-test="create-private-conversation"
+						onClick={this.openCreateViewChannel}
+						tooltip={{
+							placement: 'right',
+							text: 'Create a new private conversation'
+						}}
+					/>
 				</Box>
 
 				<Link

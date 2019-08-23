@@ -64,6 +64,7 @@ ava.before(async () => {
 	await context.addUserToBalenaOrg(user2.id)
 	await incognitoPage.reload()
 
+	context.user1 = user1
 	context.user2 = user2
 
 	context.incognitoPage = incognitoPage
@@ -223,4 +224,63 @@ ava.serial('Users should be able to mark all messages as read from their inbox',
 
 	// Assert that there are no longer messages in the inbox
 	test.is(messages.length, 0)
+})
+
+ava.serial('Users should be able to create private conversations', async (test) => {
+	const {
+		user1,
+		page,
+		user2,
+		incognitoPage
+	} = context
+
+	const rootUrl = `http://localhost:${environment.ui.port}/`
+
+	// Clean up the URL
+	await page.goto(rootUrl)
+
+	const anticipatedSlug = `view-121-${user2.slug}-${user1.slug}`
+
+	// First check that user1 can create a private conversation view with user2
+	await macros.waitForThenClickSelector(page, '[data-test="create-private-conversation"]')
+	await page.waitForSelector('[data-test="private-conversation-search-input"]')
+	await macros.setInputValue(page, '[data-test="private-conversation-search-input"]', user2.slug)
+	await macros.waitForThenClickSelector(page, `[data-test="private-conversation-${user2.slug}"]`)
+	await page.waitForSelector(`.column--${anticipatedSlug}`)
+
+	// Make sure the view is also accessible for user2
+	await incognitoPage.goto(`${rootUrl}${anticipatedSlug}`)
+	await incognitoPage.waitForSelector(`.column--${anticipatedSlug}`)
+
+	// Check that a thread created from this view is also private
+	await macros.waitForThenClickSelector(page, '.btn--add-thread')
+	await page.waitForSelector('.column--thread')
+
+	const rand = uuid()
+
+	await page.waitForSelector('.new-message-input')
+	await macros.createChatMessage(page, '.column--thread', rand)
+
+	const [ viewSlug, threadSlug ] = page.url().replace(rootUrl, '').split('/')
+
+	const view = await context.jellyfish.getCardBySlug(
+		context.context,
+		context.session,
+		viewSlug
+	)
+	const thread = await context.jellyfish.getCardBySlug(
+		context.context,
+		context.session,
+		threadSlug
+	)
+
+	test.deepEqual(view.markers, [
+		`${user2.slug}+${user1.slug}`
+	])
+
+	test.deepEqual(thread.markers, [
+		`${user2.slug}+${user1.slug}`
+	])
+
+	test.pass()
 })
