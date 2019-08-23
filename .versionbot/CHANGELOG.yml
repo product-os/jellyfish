@@ -1,4 +1,35 @@
 - commits:
+    - subject: 'UI: Only try to mark messages and whispers as "read"'
+      hash: fc291821c380eb8b5330563f3b48da4aeb5dd543
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Improve rendering of non-event cards in Event component'
+      hash: 0361e9f35d96fdc5173b61e9f217c6e7582e49ba
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Add ability to create private conversations'
+      hash: 0baf6c13ecf48507294a5791a3db9e4ae2d7740c
+      body: |
+        Fixes #2388
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 21.11.0
+  date: 2019-08-23T06:54:07.593Z
+- commits:
     - subject: 'server: Send HTTP headers in middleware errors'
       hash: 79508a916310dba1391ea7f3e12f36b87bb9f746
       body: ''
