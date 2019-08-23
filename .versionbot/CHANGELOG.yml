@@ -1,4 +1,16 @@
 - commits:
+    - subject: 's3-fs: Support bucket name configuration'
+      hash: 1b7bc824fbc658c5d70e042e62f53b5e02576b6e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Michael Angelos Simos <michalis@balena.io>
+        signed-off-by: Michael Angelos Simos <michalis@balena.io>
+      author: Michael Angelos Simos
+  version: 22.0.3
+  date: 2019-08-23T12:11:09.533Z
+- commits:
     - subject: 'queue: Remove RabbitMQ migration specific error handlers'
       hash: 97b55fb435f85a4875dc9a474b2235d90b4d9759
       body: ''
