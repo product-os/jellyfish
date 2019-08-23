@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'queue: Remove RabbitMQ migration specific error handlers'
+      hash: 97b55fb435f85a4875dc9a474b2235d90b4d9759
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 22.0.2
+  date: 2019-08-23T10:48:07.484Z
+- commits:
     - subject: 'deploy-templates: Include s3 env vars in config-manifest'
       hash: 4eda315ecbc062700c9dd056d2ef9d271c92ff4f
       body: ''
