@@ -443,6 +443,6 @@ rules:
   react/display-name:
     - off
   react/jsx-no-bind:
-    - error
+    - off
   react/no-children-prop:
     - off
