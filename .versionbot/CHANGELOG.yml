@@ -1,4 +1,52 @@
 - commits:
+    - subject: 'queue: Ack action requests on result post errors'
+      hash: d93d8d719c6d912e2ce309e66ec973625d7e15a7
+      body: |
+        This commit, or at least part of it, should be reverted once we fully
+        migrate to RabbitMQ.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'deploy-templates: Remove legacy worker lock system settings'
+      hash: c2e49ae823d9b59d8bfe7ece5265f6b53b0d8954
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'queue: Pass amqp host as "hostname"'
+      hash: 79e781bf1ec0bcc883475f73e7ce9dbf41360aaa
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'queue: Re-implement using RabbitMQ'
+      hash: 6ccfebaee29d654a67e36c5cd01ef53d23b9e34d
+      body: |
+        The benefits are:
+
+        - A lot less code, as RabbitMQ supports the exact same way our queue
+        works like
+        - A decent speed boost
+        - A lot less queries against PostgreSQL, allowing us to have much more
+        workers with little overhead
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 22.0.0
+  date: 2019-08-23T08:50:56.766Z
+- commits:
     - subject: 'UI: Only try to mark messages and whispers as "read"'
       hash: fc291821c380eb8b5330563f3b48da4aeb5dd543
       body: ''
