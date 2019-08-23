@@ -34,6 +34,14 @@ spec:
           timeoutSeconds: 8
           failureThreshold: 30
         env:
+        - name: AWS_ACCESS_KEY_ID
+          value: {{{AWS_ACCESS_KEY_ID}}}
+        - name: AWS_S3_BUCKET_NAME
+          value: {{{AWS_S3_BUCKET_NAME}}}
+        - name: AWS_SECRET_ACCESS_KEY
+          value: {{{AWS_SECRET_ACCESS_KEY}}}
+        - name: FS_DRIVER
+          value: {{{FS_DRIVER}}}
         - name: POD_NAME
           valueFrom:
             fieldRef:
@@ -100,12 +108,6 @@ spec:
           value: {{{INTEGRATION_OUTREACH_APP_SECRET}}}
         - name: INTEGRATION_OUTREACH_SIGNATURE_KEY
           value: {{{INTEGRATION_OUTREACH_SIGNATURE_KEY}}}
-        - name: FS_DRIVER
-          value: {{{FS_DRIVER}}}
-        - name: AWS_ACCESS_KEY_ID
-          value: {{{AWS_ACCESS_KEY_ID}}}
-        - name: AWS_SECRET_ACCESS_KEY
-          value: {{{AWS_SECRET_ACCESS_KEY}}}
         ports:
         - containerPort: 8000
           name: jellyfish-api

@@ -4,6 +4,8 @@ properties:
       type: string
   - AWS_SECRET_ACCESS_KEY:
       type: string
+  - AWS_S3_BUCKET_NAME:
+      type: string
   - FS_DRIVER:
       type: string
   - JELLYFISH_HOST:
