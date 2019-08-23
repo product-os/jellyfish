@@ -1,5 +1,11 @@
 ---
 properties:
+  - AWS_ACCESS_KEY_ID:
+      type: string
+  - AWS_SECRET_ACCESS_KEY:
+      type: string
+  - FS_DRIVER:
+      type: string
   - JELLYFISH_HOST:
       type: hostname
   - JELLYFISH_API_HOST:
