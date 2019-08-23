@@ -24,7 +24,7 @@ module.exports = class S3FS {
 			secretAccessKey: environment.aws.secretAccessKey
 		}
 		this.numberOfRetries = 1
-		this.BUCKET_NAME = 'jellyfish-files'
+		this.BUCKET_NAME = environment.aws.s3BucketName
 	}
 
 	store (scope, name, data) {
