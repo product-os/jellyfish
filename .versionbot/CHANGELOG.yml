@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'deploy-templates: Include s3 env vars in config-manifest'
+      hash: 4eda315ecbc062700c9dd056d2ef9d271c92ff4f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Michael Angelos Simos <michalis@balena.io>
+        signed-off-by: Michael Angelos Simos <michalis@balena.io>
+      author: Michael Angelos Simos
+    - subject: Add S3 related env vars to deployment template
+      hash: cb7a6a4424ca8e79d41ecfd2205cd8706e23a380
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 22.0.1
+  date: 2019-08-23T10:10:47.348Z
+- commits:
     - subject: 'queue: Ack action requests on result post errors'
       hash: d93d8d719c6d912e2ce309e66ec973625d7e15a7
       body: |
