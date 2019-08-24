@@ -43,7 +43,6 @@
                   "items": {
                     "type": "object",
                     "required": [ "url", "name", "mime", "bytesize" ],
-                    "additionalProperties": false,
                     "properties": {
                       "url": {
                         "type": "string"
@@ -64,8 +63,7 @@
                   "type": "string",
                   "format": "markdown"
                 }
-              },
-              "additionalProperties": true
+              }
             },
             "readBy": {
               "description": "Users that have seen this message",
@@ -81,8 +79,7 @@
             "payload"
           ]
         }
-      },
-      "additionalProperties": true
+      }
     },
     "lenses": [
       "lens-interleaved"

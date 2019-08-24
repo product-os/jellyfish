@@ -34,8 +34,7 @@
             "message"
           ]
         }
-      },
-      "additionalProperties": true
+      }
     },
     "lenses": [
       "lens-interleaved"

@@ -84,7 +84,6 @@
           }
         }
       },
-      "additionalProperties": true,
       "required": [
         "data"
       ]

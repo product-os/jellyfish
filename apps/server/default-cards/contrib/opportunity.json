@@ -46,8 +46,7 @@
             "status"
           ]
         }
-      },
-      "additionalProperties": true
+      }
     },
     "meta": {
       "relationships": [

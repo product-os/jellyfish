@@ -126,8 +126,7 @@
                 "type": {
                   "const": "support-thread"
                 }
-              },
-              "additionalProperties": true
+              }
             }
           ]
         }

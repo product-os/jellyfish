@@ -15,8 +15,7 @@
         "name": {
           "type": "string"
         }
-      },
-      "additionalProperties": true
+      }
     }
   },
   "requires": [],

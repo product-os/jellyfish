@@ -49,7 +49,6 @@
           }
         }
       },
-      "additionalProperties": true,
       "required": [
         "data"
       ]

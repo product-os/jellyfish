@@ -87,8 +87,7 @@
       },
       "required": [
         "name"
-      ],
-      "additionalProperties": true
+      ]
     },
     "slices": [
       "properties.data.properties.severity"

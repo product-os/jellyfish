@@ -64,7 +64,6 @@
           ]
         }
       },
-      "additionalProperties": true,
       "required": [
         "data"
       ]

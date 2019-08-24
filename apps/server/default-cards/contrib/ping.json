@@ -12,7 +12,6 @@
   "data": {
     "schema": {
       "type": "object",
-      "additionalProperties": true,
       "required": [ "data" ],
       "properties": {
         "data": {

@@ -28,8 +28,7 @@
             }
           }
         }
-      },
-      "additionalProperties": true
+      }
     }
   },
   "requires": [],

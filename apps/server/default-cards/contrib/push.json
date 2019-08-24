@@ -35,7 +35,6 @@
               "type": "string"
             }
           },
-          "additionalProperties": true,
           "required": [
             "before",
             "after",
@@ -43,7 +42,6 @@
           ]
         }
       },
-      "additionalProperties": true,
       "required": [
         "data"
       ]
