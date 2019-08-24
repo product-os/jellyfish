@@ -24,8 +24,7 @@
                     "whisper"
                   ]
                 }
-              },
-              "additionalProperties": true
+              }
             }
           },
           "type": "object",
@@ -63,8 +62,7 @@
           "required": [
             "active",
             "type"
-          ],
-          "additionalProperties": true
+          ]
         }
       }
     ],

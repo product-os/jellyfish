@@ -63,7 +63,6 @@
           }
         }
       },
-      "additionalProperties": true,
       "required": [
         "data"
       ]

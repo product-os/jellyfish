@@ -19,7 +19,6 @@
               "const": "user"
             }
           },
-          "additionalProperties": true,
           "required": [
             "type"
           ]

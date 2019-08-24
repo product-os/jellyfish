@@ -27,8 +27,7 @@
           "required": [
             "active",
             "type"
-          ],
-          "additionalProperties": true
+          ]
         }
       }
     ],
