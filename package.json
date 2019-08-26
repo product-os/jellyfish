@@ -1,6 +1,6 @@
 {
   "name": "jellyfish",
-  "version": "22.1.0",
+  "version": "22.1.1",
   "codename": "cephea",
   "private": true,
   "description": "The Jellyfish Project",
@@ -38,9 +38,13 @@
   },
   "ava": {
     "babel": {
-      "extensions": [ "jsx" ]
+      "extensions": [
+        "jsx"
+      ]
     },
-    "extensions": [ "js" ],
+    "extensions": [
+      "js"
+    ],
     "timeout": "5m",
     "verbose": true,
     "serial": true,

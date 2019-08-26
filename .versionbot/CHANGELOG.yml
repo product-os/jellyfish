@@ -1,4 +1,34 @@
 - commits:
+    - subject: 'queue: Reconnect on enqueue broken connection retry'
+      hash: aed1227d4568674f5620706d5c9fe16c5fc38c1d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: Dummy change to trigger deploy
+      hash: edb4aec03c0f7a67d1b4e475ee07ce1141c81c3b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'queue: Try reconnectng to RabbitMQ on queue if needed'
+      hash: 10fd6449f8bc4d41f14c7426fa88562f71b21d8e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 22.1.1
+  date: 2019-08-26T10:14:13.438Z
+- commits:
     - subject: 'Dockerfile: Add rabbitmqctl to the base images'
       hash: 3a77dec025a47aa0a5c996c45b13dc600965692f
       body: |
