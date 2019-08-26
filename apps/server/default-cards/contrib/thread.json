@@ -34,8 +34,7 @@
             }
           }
         }
-      },
-      "additionalProperties": true
+      }
     }
   },
   "requires": [],
