@@ -24,7 +24,7 @@ export const Layout = ({
 
 	React.useEffect(() => {
 		fetchThreads.exec({
-			limit: 2
+			limit: 15
 		})
 
 		setCurrentUser.exec()
@@ -33,9 +33,9 @@ export const Layout = ({
 	return (
 		<Flex {...rest} flexDirection="column">
 			<Header />
-			<Box flex={1}>
+			<Flex flex={1} flexDirection="column">
 				<Task task={combinedTask}>{() => { return children }}</Task>
-			</Box>
+			</Flex>
 		</Flex>
 	)
 }

@@ -10,6 +10,7 @@ import {
 } from 'rendition'
 import {
 	ChatRoute,
+	FullThreadListRoute,
 	IndexRoute,
 	NewThreadRoute
 } from '../routes'
@@ -54,6 +55,7 @@ export const App = React.memo(() => {
 										<Route path="/" exact component={IndexRoute} />
 										<Route path="/chat/:thread" exact component={ChatRoute} />
 										<Route path="/new_thread" exact component={NewThreadRoute} />
+										<Route path="/full_thread_list" exact component={FullThreadListRoute} />
 									</Layout>
 								</Router>
 							</ThemeProvider>

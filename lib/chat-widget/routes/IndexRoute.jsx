@@ -3,11 +3,11 @@ import {
 	useSelector
 } from 'react-redux'
 import {
+	Link,
 	Redirect
 } from 'react-router-dom'
 import {
 	Box,
-	Button,
 	Flex
 } from 'rendition'
 import CardChatSummary from '../../ui-components/CardChatSummary'
@@ -24,12 +24,7 @@ import {
 
 export const IndexRoute = () => {
 	const actions = useActions()
-	const router = useRouter()
 	const threads = useSelector(selectThreads())
-
-	const handleStartNewThread = React.useCallback(() => {
-		router.history.push('/new_thread')
-	}, [])
 
 	const renderTaskChildren = React.useCallback(({
 		thread
@@ -63,7 +58,13 @@ export const IndexRoute = () => {
 				})}
 			</Box>
 			<Box p={16}>
-				<Button onClick={handleStartNewThread}>Start new conversation</Button>
+				<Link to="/new_thread">
+					Start new conversation
+				</Link>
+
+				{threads.length > 2 && (
+					<Link to="/full_thread_list">View all conversations</Link>
+				)}
 			</Box>
 		</Flex>
 	)
