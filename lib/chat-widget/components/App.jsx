@@ -3,28 +3,64 @@ import {
 	Provider as StoreProvider
 } from 'react-redux'
 import {
-	BrowserRouter as Router, Route
+	MemoryRouter as Router, Route
 } from 'react-router-dom'
 import {
 	Provider as ThemeProvider
 } from 'rendition'
 import {
-	InitialRoute
+	ChatRoute,
+	IndexRoute,
+	NewThreadRoute
 } from '../routes'
+import {
+	useSetupStreamTask
+} from '../hooks'
 import {
 	createStore
 } from '../store'
+import {
+	Layout
+} from './Layout'
+import {
+	StreamProvider
+} from './StreamProvider'
+import {
+	Task
+} from './Task'
 
 export const App = React.memo(() => {
-	const store = createStore()
+	const store = React.useMemo(() => {
+		return createStore()
+	}, [])
+
+	const setupStreamTask = useSetupStreamTask()
+
+	React.useEffect(() => {
+		setupStreamTask.exec()
+	}, [])
 
 	return (
-		<StoreProvider store={store}>
-			<ThemeProvider>
-				<Router>
-					<Route path="/" exact component={InitialRoute} />
-				</Router>
-			</ThemeProvider>
-		</StoreProvider>
+		<Task task={setupStreamTask}>
+			{(stream) => {
+				return (
+					<StreamProvider stream={stream}>
+						<StoreProvider store={store}>
+							<ThemeProvider style={{
+								height: '100%', display: 'flex', flexDirection: 'column'
+							}}>
+								<Router>
+									<Layout flex={1}>
+										<Route path="/" exact component={IndexRoute} />
+										<Route path="/chat/:thread" exact component={ChatRoute} />
+										<Route path="/new_thread" exact component={NewThreadRoute} />
+									</Layout>
+								</Router>
+							</ThemeProvider>
+						</StoreProvider>
+					</StreamProvider>
+				)
+			}}
+		</Task>
 	)
 })
