@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'default-cards: No additionalProperties in types'
+      hash: 1353558d547ae15cd124df9141ed842b8aba4ed7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'action-library/core/queue/worker: No additionalProperties in cards'
+      hash: 80ebd6c71332beb38faab233b64d60392f4ffe50
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 22.1.2
+  date: 2019-08-26T11:19:20.815Z
+- commits:
     - subject: 'queue: Reconnect on enqueue broken connection retry'
       hash: aed1227d4568674f5620706d5c9fe16c5fc38c1d
       body: ''
