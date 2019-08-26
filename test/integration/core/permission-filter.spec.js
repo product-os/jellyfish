@@ -118,21 +118,16 @@ ava('.getViews() should return the schema of a single view', async (test) => {
 		type: 'view',
 		version: '1.0.0',
 		data: {
-			allOf: [
-				{
-					name: 'Active cards',
-					schema: {
-						type: 'object',
-						properties: {
-							active: {
-								type: 'boolean',
-								const: true
-							}
-						},
-						required: [ 'active' ]
+			schema: {
+				type: 'object',
+				properties: {
+					active: {
+						type: 'boolean',
+						const: true
 					}
-				}
-			]
+				},
+				required: [ 'active' ]
+			}
 		}
 	})
 
@@ -164,21 +159,16 @@ ava('.getViews() should ignore undefined views', async (test) => {
 		type: 'view',
 		version: '1.0.0',
 		data: {
-			allOf: [
-				{
-					name: 'Active cards',
-					schema: {
-						type: 'object',
-						properties: {
-							active: {
-								type: 'boolean',
-								const: true
-							}
-						},
-						required: [ 'active' ]
+			schema: {
+				type: 'object',
+				properties: {
+					active: {
+						type: 'boolean',
+						const: true
 					}
-				}
-			]
+				},
+				required: [ 'active' ]
+			}
 		}
 	})
 
@@ -212,21 +202,16 @@ ava('.getViews() should ignore cards that are not views', async (test) => {
 		type: 'card',
 		version: '1.0.0',
 		data: {
-			allOf: [
-				{
-					name: 'Action cards',
-					schema: {
-						type: 'object',
-						properties: {
-							type: {
-								type: 'string',
-								const: 'action'
-							}
-						},
-						required: [ 'type' ]
+			schema: {
+				type: 'object',
+				properties: {
+					type: {
+						type: 'string',
+						const: 'action'
 					}
-				}
-			]
+				},
+				required: [ 'type' ]
+			}
 		}
 	})
 
@@ -235,21 +220,16 @@ ava('.getViews() should ignore cards that are not views', async (test) => {
 		type: 'view',
 		version: '1.0.0',
 		data: {
-			allOf: [
-				{
-					name: 'Active cards',
-					schema: {
-						type: 'object',
-						properties: {
-							active: {
-								type: 'boolean',
-								const: true
-							}
-						},
-						required: [ 'active' ]
+			schema: {
+				type: 'object',
+				properties: {
+					active: {
+						type: 'boolean',
+						const: true
 					}
-				}
-			]
+				},
+				required: [ 'active' ]
+			}
 		}
 	})
 
@@ -282,21 +262,16 @@ ava('.getViews() should return the schemas of two roles', async (test) => {
 		type: 'view',
 		version: '1.0.0',
 		data: {
-			allOf: [
-				{
-					name: 'Active cards',
-					schema: {
-						type: 'object',
-						properties: {
-							active: {
-								type: 'boolean',
-								const: true
-							}
-						},
-						required: [ 'active' ]
+			schema: {
+				type: 'object',
+				properties: {
+					active: {
+						type: 'boolean',
+						const: true
 					}
-				}
-			]
+				},
+				required: [ 'active' ]
+			}
 		}
 	})
 
@@ -305,21 +280,16 @@ ava('.getViews() should return the schemas of two roles', async (test) => {
 		type: 'view',
 		version: '1.0.0',
 		data: {
-			allOf: [
-				{
-					name: 'Action cards',
-					schema: {
-						type: 'object',
-						properties: {
-							type: {
-								type: 'string',
-								const: 'action'
-							}
-						},
-						required: [ 'type' ]
+			schema: {
+				type: 'object',
+				properties: {
+					type: {
+						type: 'string',
+						const: 'action'
 					}
-				}
-			]
+				},
+				required: [ 'type' ]
+			}
 		}
 	})
 
@@ -366,23 +336,18 @@ ava('.getViewSchema() should preserve template interpolations in user properties
 		type: 'view',
 		version: '1.0.0',
 		data: {
-			allOf: [
-				{
-					name: 'foo',
-					schema: {
-						type: 'object',
-						properties: {
-							foo: {
-								type: 'string',
-								const: {
-									$eval: 'user.slug'
-								}
-							}
-						},
-						required: [ 'foo' ]
+			schema: {
+				type: 'object',
+				properties: {
+					foo: {
+						type: 'string',
+						const: {
+							$eval: 'user.slug'
+						}
 					}
-				}
-			]
+				},
+				required: [ 'foo' ]
+			}
 		}
 	}))
 
@@ -405,22 +370,17 @@ ava('.getViewSchema() should preserve template interpolations in schema properti
 		type: 'view',
 		version: '1.0.0',
 		data: {
-			allOf: [
-				{
-					name: 'foo',
-					schema: {
-						type: 'object',
-						properties: {
-							foo: {
-								type: {
-									$eval: 'user.type'
-								}
-							}
-						},
-						required: [ 'foo' ]
+			schema: {
+				type: 'object',
+				properties: {
+					foo: {
+						type: {
+							$eval: 'user.type'
+						}
 					}
-				}
-			]
+				},
+				required: [ 'foo' ]
+			}
 		}
 	}))
 

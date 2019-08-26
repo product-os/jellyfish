@@ -612,36 +612,24 @@ ava('.patchCardBySlug() should be able to patch cards hidden to the user', async
 		type: 'view',
 		version: '1.0.0',
 		data: {
-			allOf: [
-				{
-					name: 'Types',
-					schema: {
+			schema: {
+				type: 'object',
+				properties: {
+					slug: {
+						type: 'string',
+						const: [ 'user', 'type' ]
+					},
+					type: {
+						type: 'string',
+						const: 'type'
+					},
+					data: {
 						type: 'object',
-						properties: {
-							slug: {
-								type: 'string',
-								anyOf: [
-									{
-										const: 'user'
-									},
-									{
-										const: 'type'
-									}
-								]
-							},
-							type: {
-								type: 'string',
-								const: 'type'
-							},
-							data: {
-								type: 'object',
-								additionalProperties: true
-							}
-						},
-						required: [ 'slug', 'type', 'data' ]
+						additionalProperties: true
 					}
-				}
-			]
+				},
+				required: [ 'slug', 'type', 'data' ]
+			}
 		}
 	})
 
@@ -698,11 +686,10 @@ ava('.patchCardBySlug() should not allow updates in hidden fields', async (test)
 		type: 'view',
 		version: '1.0.0',
 		data: {
-			anyOf: [
-				{
-					name: 'Users',
-					schema: {
-						type: 'object',
+			schema: {
+				type: 'object',
+				anyOf: [
+					{
 						required: [ 'slug', 'type', 'data' ],
 						properties: {
 							slug: {
@@ -723,23 +710,13 @@ ava('.patchCardBySlug() should not allow updates in hidden fields', async (test)
 								}
 							}
 						}
-					}
-				},
-				{
-					name: 'Types',
-					schema: {
-						type: 'object',
+					},
+					{
+						required: [ 'slug', 'type', 'data' ],
 						properties: {
 							slug: {
 								type: 'string',
-								anyOf: [
-									{
-										const: 'user'
-									},
-									{
-										const: 'type'
-									}
-								]
+								enum: [ 'user', 'type' ]
 							},
 							type: {
 								type: 'string',
@@ -749,11 +726,10 @@ ava('.patchCardBySlug() should not allow updates in hidden fields', async (test)
 								type: 'object',
 								additionalProperties: true
 							}
-						},
-						required: [ 'slug', 'type', 'data' ]
+						}
 					}
-				}
-			]
+				]
+			}
 		}
 	})
 
@@ -814,11 +790,10 @@ ava('.patchCardBySlug() should not return the full card', async (test) => {
 		type: 'view',
 		version: '1.0.0',
 		data: {
-			anyOf: [
-				{
-					name: 'Users',
-					schema: {
-						type: 'object',
+			schema: {
+				type: 'object',
+				anyOf: [
+					{
 						required: [ 'slug', 'type', 'data' ],
 						properties: {
 							slug: {
@@ -839,23 +814,13 @@ ava('.patchCardBySlug() should not return the full card', async (test) => {
 								}
 							}
 						}
-					}
-				},
-				{
-					name: 'Types',
-					schema: {
-						type: 'object',
+					},
+					{
+						required: [ 'slug', 'type', 'data' ],
 						properties: {
 							slug: {
 								type: 'string',
-								anyOf: [
-									{
-										const: 'user'
-									},
-									{
-										const: 'type'
-									}
-								]
+								enum: [ 'user', 'type' ]
 							},
 							type: {
 								type: 'string',
@@ -865,11 +830,10 @@ ava('.patchCardBySlug() should not return the full card', async (test) => {
 								type: 'object',
 								additionalProperties: true
 							}
-						},
-						required: [ 'slug', 'type', 'data' ]
+						}
 					}
-				}
-			]
+				]
+			}
 		}
 	})
 
@@ -939,11 +903,10 @@ ava('.patchCardBySlug() should not allow a patch that makes a card inaccessible'
 		type: 'view',
 		version: '1.0.0',
 		data: {
-			anyOf: [
-				{
-					name: 'Random',
-					schema: {
-						type: 'object',
+			schema: {
+				type: 'object',
+				anyOf: [
+					{
 						required: [ 'data' ],
 						additionalProperties: true,
 						properties: {
@@ -959,26 +922,13 @@ ava('.patchCardBySlug() should not allow a patch that makes a card inaccessible'
 								}
 							}
 						}
-					}
-				},
-				{
-					name: 'Types',
-					schema: {
-						type: 'object',
+					},
+					{
+						required: [ 'slug', 'type', 'data' ],
 						properties: {
 							slug: {
 								type: 'string',
-								anyOf: [
-									{
-										const: 'card'
-									},
-									{
-										const: 'user'
-									},
-									{
-										const: 'type'
-									}
-								]
+								enum: [ 'card', 'user', 'type' ]
 							},
 							type: {
 								type: 'string',
@@ -988,11 +938,10 @@ ava('.patchCardBySlug() should not allow a patch that makes a card inaccessible'
 								type: 'object',
 								additionalProperties: true
 							}
-						},
-						required: [ 'slug', 'type', 'data' ]
+						}
 					}
-				}
-			]
+				]
+			}
 		}
 	})
 
@@ -1063,11 +1012,10 @@ ava('.patchCardBySlug() should not remove inaccessible fields', async (test) => 
 		type: 'view',
 		version: '1.0.0',
 		data: {
-			anyOf: [
-				{
-					name: 'Users',
-					schema: {
-						type: 'object',
+			schema: {
+				type: 'object',
+				anyOf: [
+					{
 						required: [ 'slug', 'type', 'data' ],
 						properties: {
 							slug: {
@@ -1088,23 +1036,13 @@ ava('.patchCardBySlug() should not remove inaccessible fields', async (test) => 
 								}
 							}
 						}
-					}
-				},
-				{
-					name: 'Types',
-					schema: {
-						type: 'object',
+					},
+					{
+						required: [ 'slug', 'type', 'data' ],
 						properties: {
 							slug: {
 								type: 'string',
-								anyOf: [
-									{
-										const: 'user'
-									},
-									{
-										const: 'type'
-									}
-								]
+								enum: [ 'user', 'type' ]
 							},
 							type: {
 								type: 'string',
@@ -1114,11 +1052,10 @@ ava('.patchCardBySlug() should not remove inaccessible fields', async (test) => 
 								type: 'object',
 								additionalProperties: true
 							}
-						},
-						required: [ 'slug', 'type', 'data' ]
+						}
 					}
-				}
-			]
+				]
+			}
 		}
 	})
 
@@ -1179,11 +1116,10 @@ ava('.patchCardBySlug() should not add an inaccesible field', async (test) => {
 		type: 'view',
 		version: '1.0.0',
 		data: {
-			anyOf: [
-				{
-					name: 'Users',
-					schema: {
-						type: 'object',
+			schema: {
+				type: 'object',
+				anyOf: [
+					{
 						required: [ 'slug', 'type', 'data' ],
 						properties: {
 							slug: {
@@ -1204,23 +1140,13 @@ ava('.patchCardBySlug() should not add an inaccesible field', async (test) => {
 								}
 							}
 						}
-					}
-				},
-				{
-					name: 'Types',
-					schema: {
-						type: 'object',
+					},
+					{
+						required: [ 'slug', 'type', 'data' ],
 						properties: {
 							slug: {
 								type: 'string',
-								anyOf: [
-									{
-										const: 'user'
-									},
-									{
-										const: 'type'
-									}
-								]
+								enum: [ 'user', 'type' ]
 							},
 							type: {
 								type: 'string',
@@ -1230,11 +1156,10 @@ ava('.patchCardBySlug() should not add an inaccesible field', async (test) => {
 								type: 'object',
 								additionalProperties: true
 							}
-						},
-						required: [ 'slug', 'type', 'data' ]
+						}
 					}
-				}
-			]
+				]
+			}
 		}
 	})
 
@@ -1573,19 +1498,15 @@ ava('.insertCard() read access on a property should not allow to write other pro
 		type: 'view',
 		version: '1.0.0',
 		data: {
-			anyOf: [
-				{
-					name: 'Types',
-					schema: {
+			schema: {
+				type: 'object',
+				anyOf: [
+					{
 						type: 'object',
 						properties: {
 							slug: {
 								type: 'string',
-								anyOf: [
-									{
-										const: 'user'
-									}
-								]
+								const: 'user'
 							},
 							type: {
 								type: 'string',
@@ -1604,11 +1525,8 @@ ava('.insertCard() read access on a property should not allow to write other pro
 						},
 						additionalProperties: true,
 						required: [ 'slug', 'type', 'data' ]
-					}
-				},
-				{
-					name: 'User IDs',
-					schema: {
+					},
+					{
 						type: 'object',
 						properties: {
 							id: {
@@ -1622,8 +1540,8 @@ ava('.insertCard() read access on a property should not allow to write other pro
 						additionalProperties: false,
 						required: [ 'id', 'type' ]
 					}
-				}
-			]
+				]
+			}
 		}
 	})
 
@@ -2172,31 +2090,26 @@ ava('.query() should take roles into account', async (test) => {
 		type: 'view',
 		version: '1.0.0',
 		data: {
-			allOf: [
-				{
-					name: 'Types',
-					schema: {
+			schema: {
+				type: 'object',
+				required: [ 'type', 'data' ],
+				properties: {
+					type: {
+						type: 'string',
+						const: 'type'
+					},
+					data: {
 						type: 'object',
-						required: [ 'type', 'data' ],
+						required: [ 'schema' ],
 						properties: {
-							type: {
-								type: 'string',
-								const: 'type'
-							},
-							data: {
+							schema: {
 								type: 'object',
-								required: [ 'schema' ],
-								properties: {
-									schema: {
-										type: 'object',
-										additionalProperties: true
-									}
-								}
+								additionalProperties: true
 							}
 						}
 					}
 				}
-			]
+			}
 		}
 	})
 
@@ -2252,24 +2165,19 @@ ava('.query() should ignore queries to properties not whitelisted by a role', as
 		type: 'view',
 		version: '1.0.0',
 		data: {
-			allOf: [
-				{
-					name: 'Types',
-					schema: {
-						type: 'object',
-						additionalProperties: false,
-						properties: {
-							slug: {
-								type: 'string'
-							},
-							type: {
-								type: 'string',
-								const: 'type'
-							}
-						}
+			schema: {
+				type: 'object',
+				additionalProperties: false,
+				properties: {
+					slug: {
+						type: 'string'
+					},
+					type: {
+						type: 'string',
+						const: 'type'
 					}
 				}
-			]
+			}
 		}
 	})
 
@@ -2327,25 +2235,20 @@ ava('.query() should ignore $id properties in roles', async (test) => {
 			type: 'view',
 			version: '1.0.0',
 			data: {
-				allOf: [
-					{
-						name: 'Types',
-						schema: {
-							type: 'object',
-							$id: 'foobar',
-							additionalProperties: false,
-							properties: {
-								slug: {
-									type: 'string'
-								},
-								type: {
-									type: 'string',
-									const: 'type'
-								}
-							}
+				schema: {
+					type: 'object',
+					$id: 'foobar',
+					additionalProperties: false,
+					properties: {
+						slug: {
+							type: 'string'
+						},
+						type: {
+							type: 'string',
+							const: 'type'
 						}
 					}
-				]
+				}
 			}
 		})
 
@@ -2402,24 +2305,19 @@ ava('.query() should ignore queries to disallowed properties with additionalProp
 		type: 'view',
 		version: '1.0.0',
 		data: {
-			allOf: [
-				{
-					name: 'Types',
-					schema: {
-						type: 'object',
-						additionalProperties: false,
-						properties: {
-							slug: {
-								type: 'string'
-							},
-							type: {
-								type: 'string',
-								const: 'type'
-							}
-						}
+			schema: {
+				type: 'object',
+				additionalProperties: false,
+				properties: {
+					slug: {
+						type: 'string'
+					},
+					type: {
+						type: 'string',
+						const: 'type'
 					}
 				}
-			]
+			}
 		}
 	})
 
