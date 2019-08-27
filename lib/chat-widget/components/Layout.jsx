@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-	Flex, Box
+	Flex
 } from 'rendition'
 import {
 	Header

@@ -9,7 +9,9 @@ import {
 export const NewThreadRoute = () => {
 	const router = useRouter()
 
-	const handleSuccess = React.useCallback(({ thread }) => {
+	const handleSuccess = React.useCallback(({
+		thread
+	}) => {
 		router.history.replace(`/chat/${thread.id}`)
 	}, [])
 

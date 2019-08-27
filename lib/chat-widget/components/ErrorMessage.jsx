@@ -1,15 +1,17 @@
 import React from 'react'
 import {
-    Txt
+	Txt
 } from 'rendition'
 import {
-    useTheme
+	useTheme
 } from '../hooks'
 
-export const ErrorMessage = ({ error, ...rest }) => {
-    const theme = useTheme()
+export const ErrorMessage = ({
+	error, ...rest
+}) => {
+	const theme = useTheme()
 
-    return (
-        <Txt.span color={theme.colors.danger.main} {...rest}>{error.message}</Txt.span>
-    )
+	return (
+		<Txt.span color={theme.colors.danger.main} {...rest}>{error.message}</Txt.span>
+	)
 }
