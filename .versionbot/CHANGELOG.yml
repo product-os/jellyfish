@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'queue: Handle connection retry on RabbitMQ ack'
+      hash: dce0af22fce82e92b13870e2823af769e4f53602
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 22.2.2
+  date: 2019-08-27T20:23:43.242Z
+- commits:
     - subject: 'front: Retry on Intercom 500 and 503 responses'
       hash: 3734438a2a82aa4cdbe92134036a499cb37ad53e
       body: |
