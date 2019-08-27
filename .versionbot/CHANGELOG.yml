@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'front: Retry on Intercom 500 and 503 responses'
+      hash: 3734438a2a82aa4cdbe92134036a499cb37ad53e
+      body: |
+        We've been getting quite some issues from Intercom recently.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 22.2.1
+  date: 2019-08-27T19:27:31.617Z
+- commits:
     - subject: 'front: Sync D/Security conversations'
       hash: edf46be010569a3c9b347f431a9c584b1b4811d2
       body: ''
