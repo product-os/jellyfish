@@ -189,6 +189,55 @@ avaTest('should add a tag with the linked user external event slug origin type',
 	test.is(prospect.data.attributes.custom1, `https://jel.ly.fish/${contact.id}`)
 })
 
+avaTest('should store the user country and city', async (test) => {
+	const username = `test-${uuid()}`
+
+	const event = await test.context.sdk.card.create({
+		slug: `external-event-${uuid()}`,
+		type: 'external-event',
+		data: {
+			source: 'my-fake-service',
+			headers: {},
+			payload: {
+				test: 1
+			}
+		}
+	})
+
+	test.truthy(event.id)
+
+	const user = await test.context.sdk.card.create({
+		slug: `user-${username}`,
+		type: 'user',
+		data: {
+			email: `${username}@test.io`,
+			origin: event.id,
+			roles: [ 'user-community' ],
+			hash: '$2b$12$tnb9eMnlGpEXld1IYmIlDOud.v4vSUbnuEsjFQz3d/24sqA6XmaBq',
+			profile: {
+				country: 'GB',
+				city: 'Oxford'
+			}
+		}
+	})
+
+	test.truthy(user.id)
+
+	const contact = await test.context.sdk.card.get(`contact-${username}`)
+	test.is(contact.data.mirrors.length, 1)
+	test.true(contact.data.mirrors[0].startsWith('https://api.outreach.io/api/v2/prospects/'))
+	const prospectId = _.parseInt(_.last(contact.data.mirrors[0].split('/')))
+	const prospect = await test.context.getProspect(prospectId)
+
+	test.deepEqual(prospect.data.attributes.emails, [ `${username}@test.io` ])
+	test.is(prospect.data.attributes.name, username)
+	test.deepEqual(prospect.data.attributes.tags, [ 'my-fake-service' ])
+	test.is(prospect.data.attributes.nickname, username)
+	test.is(prospect.data.attributes.addressCity, 'Oxford')
+	test.is(prospect.data.attributes.addressCountry, 'GB')
+	test.is(prospect.data.attributes.custom1, `https://jel.ly.fish/${contact.id}`)
+})
+
 avaTest('should add a tag with the linked user external event id origin type', async (test) => {
 	const username = `test-${uuid()}`
 
