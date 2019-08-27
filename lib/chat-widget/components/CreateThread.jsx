@@ -4,13 +4,12 @@ import {
 } from 'react-redux'
 import {
 	Box,
-	Button,
 	Input
 } from 'rendition'
 import MessageInput from '../../ui-components/Timeline/MessageInput'
 import {
-	Task
-} from '../components/Task'
+	TaskButton
+} from '../components/TaskButton'
 import {
 	useActions,
 	useTask
@@ -19,8 +18,10 @@ import {
 	selectCurrentUser
 } from '../store/selectors'
 
-export const NewThread = ({
-	renderTaskChildren, ...rest
+export const CreateThread = ({
+	renderTaskChildren,
+	onSuccess,
+	...rest
 }) => {
 	const currentUser = useSelector(selectCurrentUser())
 	const [ subject, setSubject ] = React.useState('')
@@ -41,16 +42,20 @@ export const NewThread = ({
 		setFiles([ ...event.target.files ])
 	}, [])
 
-	const handleSubmit = React.useCallback(() => {
+	const handleSubmit = React.useCallback(async () => {
 		if (!subject || !text) {
 			return
 		}
 
-		initiateThreadTask.exec({
+		const taskState = await initiateThreadTask.exec({
 			subject,
 			text,
 			files
 		})
+
+		if (taskState.finished && !taskState.error) {
+			onSuccess(taskState.result)
+		}
 	}, [ subject, text, files ])
 
 	return (
@@ -72,11 +77,9 @@ export const NewThread = ({
 				onSubmit={handleSubmit}
 			/>
 			<Box p={16}>
-				<Button onClick={handleSubmit} disabled={initiateThreadTask.started}>
-					<Task task={initiateThreadTask} idle="Start thread">
-						{renderTaskChildren}
-					</Task>
-				</Button>
+				<TaskButton task={initiateThreadTask} onClick={handleSubmit}>
+					Start thread
+				</TaskButton>
 			</Box>
 		</Box>
 	)

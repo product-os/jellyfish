@@ -1,10 +1,15 @@
 import React from 'react'
+import {
+	Txt
+} from 'rendition'
 import Icon from '../../ui/shame/Icon'
+import {
+	ErrorMessage
+} from './ErrorMessage'
 
 export const Task = ({
 	task,
 	loader = <Icon spin name="cog"/>,
-	idle = loader,
 	children
 }) => {
 	React.useEffect(() => {
@@ -14,17 +19,13 @@ export const Task = ({
 	}, [ task.error ])
 
 	if (!task.finished) {
-		if (task.started) {
-			return loader
-		}
-
-		return idle
+		return loader
 	}
 
 	if (task.error) {
 		return (
 			<React.Fragment>
-				{task.error.message}&nbsp;<span onClick={task.retry}>Retry</span>
+				<ErrorMessage error={task.error} />{' '}<Txt.span onClick={task.retry}>Retry</Txt.span>
 			</React.Fragment>
 		)
 	}

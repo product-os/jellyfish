@@ -1,23 +1,19 @@
 import React from 'react'
 import {
-	Redirect
-} from 'react-router-dom'
+	CreateThread
+} from '../components/CreateThread'
 import {
-	NewThread
-} from '../components/NewThread'
+	useRouter
+} from '../hooks'
 
 export const NewThreadRoute = () => {
-	const renderTaskChildren = React.useCallback(({
-		thread
-	}) => {
-		return (
-			<Redirect to={`/chat/${thread.id}`} />
-		)
+	const router = useRouter()
+
+	const handleSuccess = React.useCallback(({ thread }) => {
+		router.history.replace(`/chat/${thread.id}`)
 	}, [])
 
 	return (
-		<NewThread
-			renderTaskChildren={renderTaskChildren}
-		/>
+		<CreateThread onSuccess={handleSuccess} />
 	)
 }

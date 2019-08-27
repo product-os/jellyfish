@@ -3,8 +3,7 @@ import {
 	useSelector
 } from 'react-redux'
 import {
-	Link,
-	Redirect
+	Link
 } from 'react-router-dom'
 import {
 	Box,
@@ -12,8 +11,8 @@ import {
 } from 'rendition'
 import CardChatSummary from '../../ui-components/CardChatSummary'
 import {
-	NewThread
-} from '../components/NewThread'
+	CreateThread
+} from '../components/CreateThread'
 import {
 	useActions,
 	useRouter
@@ -24,21 +23,17 @@ import {
 
 export const IndexRoute = () => {
 	const actions = useActions()
+	const router = useRouter()
 	const threads = useSelector(selectThreads())
+	const isInCreateThreadMode = React.useMemo(() => !threads.length, [])
 
-	const renderTaskChildren = React.useCallback(({
-		thread
-	}) => {
-		return (
-			<Redirect to={`/chat/${thread.id}`} push />
-		)
+	const handleCreateThreadSuccess = React.useCallback(({ thread }) => {
+		router.history.push(`/chat/${thread.id}`)
 	}, [])
 
-	if (!threads.length) {
+	if (isInCreateThreadMode) {
 		return (
-			<NewThread
-				renderTaskChildren={renderTaskChildren}
-			/>
+			<CreateThread onSuccess={handleCreateThreadSuccess} />
 		)
 	}
 
@@ -61,7 +56,7 @@ export const IndexRoute = () => {
 				<Link to="/new_thread">
 					Start new conversation
 				</Link>
-
+				{' '}
 				{threads.length > 2 && (
 					<Link to="/full_thread_list">View all conversations</Link>
 				)}
