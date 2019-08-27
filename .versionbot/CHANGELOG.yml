@@ -1,4 +1,61 @@
 - commits:
+    - subject: 'front: Sync D/Security conversations'
+      hash: edf46be010569a3c9b347f431a9c584b1b4811d2
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'outreach: Test that user''s city/country info is mirrored'
+      hash: cea32268847899f003e200773b41502a762ec2ee
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'balena-api: Fetch user''s location from ip'
+      hash: 6b1807b313980fc653db344444b96df73bfe1a23
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'deploy-templates: Lock RabbitMQ to a particular version'
+      hash: 3d6b5937a16657865dbe8924a3dd2b275013f191
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'sync: Retry HTTP requests on ECONNRESET'
+      hash: 79d68fe95b9e1a70d54770fa69d8bdaa659a7efe
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'core: Support a "schema" property in view cards'
+      hash: 0e4416dd1c1314dbbefde3f0c446d7cb4804c2bc
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 22.2.0
+  date: 2019-08-27T15:05:21.517Z
+- commits:
     - subject: 'default-cards: No additionalProperties in types'
       hash: 1353558d547ae15cd124df9141ed842b8aba4ed7
       body: ''
