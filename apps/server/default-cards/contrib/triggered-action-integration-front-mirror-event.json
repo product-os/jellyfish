@@ -35,7 +35,11 @@
               "properties": {
                 "inbox": {
                   "type": "string",
-                  "enum": [ "S/Paid_Support", "Jellyfish Test Inbox", "Jellyfish Testfront" ]
+                  "enum": [
+                    "S/Paid_Support",
+                    "D/Security",
+                    "Jellyfish Test Inbox",
+                    "Jellyfish Testfront" ]
                 }
               }
             }
