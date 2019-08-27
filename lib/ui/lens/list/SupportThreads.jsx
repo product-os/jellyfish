@@ -25,6 +25,7 @@ import {
 	selectors
 } from '../../core'
 import Column from '../../shame/Column'
+import * as helpers from '../../services/helpers'
 import Icon from '../../shame/Icon'
 import CardChatSummary from '../../../ui-components/CardChatSummary'
 import {
@@ -259,7 +260,7 @@ export class SupportThreads extends React.Component {
 													_.includes(threadTargets, card.slug) || _.includes(threadTargets, card.id)
 												}
 												card={card}
-												channel={this.props.channel}
+												to={helpers.appendToChannelPath(this.props.channel, card)}
 											/>
 										)
 									})}
