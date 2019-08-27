@@ -52,7 +52,7 @@ children:
             url: 'https://github.com/balena-io/balena-redis.git'
       jellyfish-rabbitmq:
         slug: jellyfish-rabbitmq
-        version: latest
+        version: 3.7-management
         type: sw.containerized-application
         assets:
           image:
