@@ -284,6 +284,10 @@ jobs:
           name: End To End Server Tests (without Redis)
           command: make test-e2e-server COVERAGE=1 DISABLE_REDIS=1
 
+      - run:
+          name: Postgres Dump
+          command: ./scripts/postgres-dump.sh ./dump.gz
+
       # Store artifacts for debugging purposes
       - store_test_results:
           path: /tmp/test-results
@@ -295,6 +299,7 @@ jobs:
           root: .
           paths:
             - .nyc_output/*.json
+            - dump.gz
 
   # UI tests seem to contain most of the flaky tests
   # Lets really make sure they are stable
