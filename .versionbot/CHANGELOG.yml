@@ -1,4 +1,14 @@
 - commits:
+    - subject: 'CardChatSummary: Remove channel logic'
+      hash: 944281f293724820822fe84af980f5dc339340f3
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 22.3.0
+  date: 2019-08-28T05:35:17.161Z
+- commits:
     - subject: 'queue: Handle connection retry on RabbitMQ ack'
       hash: dce0af22fce82e92b13870e2823af769e4f53602
       body: ''
