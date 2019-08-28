@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'deploy-templates: Disable RabbitMQ management interface'
+      hash: 9ed3fec2ffb91630f4cc7eb713c4dce53b6469ab
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 22.4.3
+  date: 2019-08-28T11:02:17.404Z
+- commits:
     - subject: 'queue: Log RabbitMQ connection attempts'
       hash: be809bbb956a8356a6c5e351be4bc810ca07b8ee
       body: ''
