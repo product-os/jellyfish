@@ -3,26 +3,35 @@ import {
 	Provider as StoreProvider
 } from 'react-redux'
 import {
-	BrowserRouter as Router, Route
+	MemoryRouter as Router, Route
 } from 'react-router-dom'
 import {
 	Provider as ThemeProvider
 } from 'rendition'
 import {
-	InitialRoute
+	IndexRoute
 } from '../routes'
 import {
 	createStore
 } from '../store'
+import {
+	Layout
+} from './Layout'
 
 export const App = React.memo(() => {
-	const store = createStore()
+	const store = React.useMemo(() => {
+		return createStore()
+	}, [])
 
 	return (
 		<StoreProvider store={store}>
-			<ThemeProvider>
+			<ThemeProvider style={{
+				height: '100%', display: 'flex', flexDirection: 'column'
+			}}>
 				<Router>
-					<Route path="/" exact component={InitialRoute} />
+					<Layout flex={1}>
+						<Route path="/" exact component={IndexRoute} />
+					</Layout>
 				</Router>
 			</ThemeProvider>
 		</StoreProvider>
