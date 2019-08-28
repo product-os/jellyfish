@@ -15,6 +15,7 @@ import {
 import Column from '../../../shame/Column'
 import Icon from '../../../shame/Icon'
 import CardChatSummary from '../../../../ui-components/CardChatSummary'
+import * as helpers from '../../../services/helpers'
 
 export const SLUG = 'lens-support-threads-to-audit'
 
@@ -86,7 +87,7 @@ export default class SupportThreadsToAudit extends React.Component {
 								key={card.id}
 								active={_.includes(threadTargets, card.slug) || _.includes(threadTargets, card.id)}
 								card={card}
-								channel={channel}
+								to={helpers.appendToChannelPath(channel, card)}
 							/>
 						)
 					})}
