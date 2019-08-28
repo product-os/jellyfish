@@ -76,6 +76,7 @@ const SubAuto = (props) => {
 				loadingComponent={Loader}
 				trigger={ACTIVE ? getTrigger() : {}}
 				placeholder={placeholder}
+				maxRows={12}
 			/>
 		</Container>
 	)
