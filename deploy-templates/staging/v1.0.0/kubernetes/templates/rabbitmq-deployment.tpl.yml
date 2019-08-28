@@ -23,5 +23,11 @@ spec:
         ports:
         - containerPort: 5672
           name: data-port
+        - containerPort: 15673
+          name: management-port
+        - containerPort: 4369
+          name: epmd-port
+        - containerPort: 35197
+          name: cluster-port
       imagePullSecrets:
         - name: com.docker.hub.travisciresin
