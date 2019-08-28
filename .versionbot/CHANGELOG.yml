@@ -1,4 +1,14 @@
 - commits:
+    - subject: Use SetupProvider for sdk and analytics
+      hash: 15c33327e2b8763d4430de8d3bb876be065179d0
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 22.5.0
+  date: 2019-08-28T16:39:11.258Z
+- commits:
     - subject: Update lodash dependency to fix security issues
       hash: a28aa0f8ed80ebc39307005a6bc668a7aa050f10
       body: |
