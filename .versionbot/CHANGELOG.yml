@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'queue: Log warning when handling RabbitMQ reconnects'
+      hash: 7d615e987c296ccf9b6adaaaeeb88412a06b57a6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 22.5.1
+  date: 2019-08-28T19:28:14.050Z
+- commits:
     - subject: Use SetupProvider for sdk and analytics
       hash: 15c33327e2b8763d4430de8d3bb876be065179d0
       body: ''
