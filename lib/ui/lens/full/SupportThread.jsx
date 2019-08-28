@@ -504,6 +504,8 @@ class SupportThreadBase extends React.Component {
 												key={statusEvent.id}
 												card={statusEvent}
 												user={this.props.user}
+												getActor={this.props.actions.getActor}
+												addNotification={this.props.actions.addNotification}
 												mb={1}
 											/>
 										)

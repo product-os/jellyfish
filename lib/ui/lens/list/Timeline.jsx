@@ -28,14 +28,15 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-	return {
-		actions: bindActionCreators(
-			_.pick(actionCreators, [
-				'addNotification',
-				'setTimelineMessage',
-				'signalTyping'
-			]), dispatch)
-	}
+	return bindActionCreators(
+		_.pick(actionCreators, [
+			'addNotification',
+			'setTimelineMessage',
+			'signalTyping',
+			'getActor'
+		]),
+		dispatch
+	)
 }
 
 const lens = {
