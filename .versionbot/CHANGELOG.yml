@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'UI: Set a maximum height for message input'
+      hash: 10e22e241c788bda1ecfc83448c6498d8b1fccb6
+      body: |
+        Fixes #2371
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 22.4.1
+  date: 2019-08-28T09:28:18.136Z
+- commits:
     - subject: Add short thread list
       hash: 47dd12393f0f67f5ceac18676da2a20504e87455
       body: ''
