@@ -23,6 +23,9 @@ import {
 	Markdown
 } from 'rendition/dist/extra/Markdown'
 import styled from 'styled-components'
+import {
+	saveAs
+} from 'file-saver'
 import AuthenticatedImage from '../AuthenticatedImage'
 import ContextMenu from '../ContextMenu'
 import {
@@ -113,6 +116,21 @@ export const getMessage = (card) => {
 	}
 
 	return message
+}
+
+const downloadFile = async (sdk, cardId, file) => {
+	const {
+		slug,
+		name,
+		mime
+	} = file
+
+	const data = await sdk.getFile(cardId, slug)
+	const blob = new Blob([ data ], {
+		type: mime
+	})
+
+	saveAs(blob, name)
 }
 
 // Min-width is used to stop text from overflowing the flex container, see
@@ -299,7 +317,7 @@ export default class Event extends React.Component {
 		})
 
 		const actorId = _.get(this.props.card, [ 'data', 'actor' ]) || _.get(createCard, [ 'data', 'actor' ])
-		const actor = await this.props.actions.getActor(actorId)
+		const actor = await this.props.getActor(actorId)
 		this.setState({
 			actor
 		})
@@ -312,7 +330,11 @@ export default class Event extends React.Component {
 			slug: attachmentSlug
 		})
 
-		this.props.actions.downloadFile(this.props.card.id, attachment)
+		try {
+			downloadFile(this.props.sdk, this.props.card.id, attachment)
+		} catch (error) {
+			this.props.addNotification('danger', error.message || error)
+		}
 	}
 
 	processText () {

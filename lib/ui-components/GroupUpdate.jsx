@@ -18,16 +18,15 @@ import {
 	Form
 } from 'rendition/dist/unstable'
 import {
-	analytics,
-	sdk
-} from '../ui/core'
-import {
 	patchPath
 } from '../ui/services/helpers'
+import {
+	withSetup
+} from './SetupProvider'
 
 const DELIMITER = '___'
 
-export default class GroupUpdate extends React.Component {
+class GroupUpdate extends React.Component {
 	constructor (props) {
 		super(props)
 		this.setSchema = (schema) => {
@@ -60,9 +59,9 @@ export default class GroupUpdate extends React.Component {
 			Bluebird.map(this.props.cards, (card) => {
 				const patch = patchPath(card, keys, value)
 
-				return sdk.card.update(card.id, card.type, patch)
+				return this.props.sdk.card.update(card.id, card.type, patch)
 					.then(() => {
-						analytics.track('element.update', {
+						this.props.analytics.track('element.update', {
 							element: {
 								id: card.id,
 								type: card.type
@@ -168,3 +167,5 @@ export default class GroupUpdate extends React.Component {
 		)
 	}
 }
+
+export default withSetup(GroupUpdate)

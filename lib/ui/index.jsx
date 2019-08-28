@@ -20,6 +20,8 @@ import {
 	createGlobalStyle
 } from 'styled-components'
 import {
+	analytics,
+	sdk,
 	store
 } from './core'
 import JellyfishUI from './JellyfishUI'
@@ -28,6 +30,9 @@ import * as environment from './environment'
 import {
 	BrowserRouter as Router
 } from 'react-router-dom'
+import {
+	SetupProvider
+} from '../ui-components/SetupProvider'
 
 if (environment.isProduction() && environment.sentry.dsn !== '0') {
 	Sentry.init({
@@ -70,15 +75,17 @@ ReactDOM.render(
 					fontSize: 14
 				}}
 			>
-				<Provider store={store}>
-					<React.Fragment>
-						<GlobalStyle />
+				<SetupProvider sdk={sdk} analytics={analytics}>
+					<Provider store={store}>
+						<React.Fragment>
+							<GlobalStyle />
 
-						<ErrorBoundary>
-							<JellyfishUI />
-						</ErrorBoundary>
-					</React.Fragment>
-				</Provider>
+							<ErrorBoundary>
+								<JellyfishUI />
+							</ErrorBoundary>
+						</React.Fragment>
+					</Provider>
+				</SetupProvider>
 			</RProvider>
 		</Router>
 	),

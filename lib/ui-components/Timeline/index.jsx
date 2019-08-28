@@ -21,14 +21,13 @@ import styled from 'styled-components'
 import uuid from 'uuid/v4'
 import Event from '../Event'
 import Update from '../Update'
-import {
-	analytics,
-	sdk
-} from '../../ui/core'
 import * as helpers from '../../ui/services/helpers'
 import Column from '../../ui/shame/Column'
 import Icon from '../../ui/shame/Icon'
 import MessageInput from './MessageInput'
+import {
+	withSetup
+} from '../SetupProvider'
 
 const messageSymbolRE = /^\s*%\s*/
 
@@ -53,7 +52,7 @@ const TypingNotice = styled.div `
 
 const PAGE_SIZE = 20
 
-export default class Timeline extends React.Component {
+class Timeline extends React.Component {
 	constructor (props) {
 		super(props)
 		this.shouldScroll = true
@@ -82,11 +81,11 @@ export default class Timeline extends React.Component {
 		this.handleWhisperToggle = this.handleWhisperToggle.bind(this)
 
 		this.signalTyping = _.throttle(() => {
-			this.props.actions.signalTyping(this.props.card.id)
+			this.props.signalTyping(this.props.card.id)
 		}, 1500)
 
 		this.preserveMessage = _.debounce((newMessage) => {
-			this.props.actions.setTimelineMessage(this.props.card.id, newMessage)
+			this.props.setTimelineMessage(this.props.card.id, newMessage)
 		}, 1500)
 
 		this.handleScroll = this.handleScroll.bind(this)
@@ -154,20 +153,20 @@ export default class Timeline extends React.Component {
 			uploadingFiles: this.state.uploadingFiles.concat(message.slug)
 		})
 
-		sdk.event.create(message)
+		this.props.sdk.event.create(message)
 			.then(() => {
 				this.setState({
 					uploadingFiles: _.without(this.state.uploadingFiles, message.slug)
 				})
 
-				analytics.track('element.create', {
+				this.props.analytics.track('element.create', {
 					element: {
 						type
 					}
 				})
 			})
 			.catch((error) => {
-				this.props.actions.addNotification('danger', error.message || error)
+				this.props.addNotification('danger', error.message || error)
 			})
 	}
 
@@ -245,7 +244,7 @@ export default class Timeline extends React.Component {
 	}
 
 	handleCardVisible (card) {
-		sdk.card.markAsRead(this.props.user.slug, card)
+		this.props.sdk.card.markAsRead(this.props.user.slug, card)
 			.catch((error) => {
 				console.error(error)
 			})
@@ -271,7 +270,7 @@ export default class Timeline extends React.Component {
 			whisper: allowWhispers,
 			messageSymbol: false
 		})
-		this.props.actions.setTimelineMessage(this.props.card.id, '')
+		this.props.setTimelineMessage(this.props.card.id, '')
 		const mentions = helpers.getUserSlugsByPrefix('@', newMessage)
 		const alerts = helpers.getUserSlugsByPrefix('!', newMessage)
 		const tags = helpers.findWordsByPrefix('#', newMessage).map((tag) => {
@@ -306,16 +305,16 @@ export default class Timeline extends React.Component {
 			})
 		})
 
-		sdk.event.create(message)
+		this.props.sdk.event.create(message)
 			.then(() => {
-				analytics.track('element.create', {
+				this.props.analytics.track('element.create', {
 					element: {
 						type: message.type
 					}
 				})
 			})
 			.catch((error) => {
-				this.props.actions.addNotification('danger', error.message || error)
+				this.props.addNotification('danger', error.message || error)
 			})
 	}
 
@@ -447,6 +446,7 @@ export default class Timeline extends React.Component {
 										onCardVisible={this.handleCardVisible}
 										card={card}
 										user={this.props.user}
+										getActor={this.props.getActor}
 									/>
 								</Box>
 							)
@@ -458,6 +458,8 @@ export default class Timeline extends React.Component {
 									onCardVisible={this.handleCardVisible}
 									card={card}
 									user={this.props.user}
+									getActor={this.props.getActor}
+									addNotification={this.props.addNotification}
 								/>
 							</Box>
 						)
@@ -469,6 +471,8 @@ export default class Timeline extends React.Component {
 								<Event
 									user={this.props.user}
 									card={item}
+									getActor={this.props.getActor}
+									addNotification={this.props.addNotification}
 								/>
 							</Box>
 						)
@@ -497,3 +501,5 @@ export default class Timeline extends React.Component {
 		)
 	}
 }
+
+export default withSetup(Timeline)

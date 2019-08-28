@@ -14,21 +14,12 @@ import {
 import _ from 'lodash'
 import React from 'react'
 import {
-	connect
-} from 'react-redux'
-import {
-	bindActionCreators
-} from 'redux'
-import {
 	Box,
 	Button,
 	Flex,
 	Txt
 }	from 'rendition'
 import styled from 'styled-components'
-import {
-	actionCreators
-} from '../../ui/core'
 import ContextMenu from '../ContextMenu'
 import * as helpers from '../../ui/services/helpers'
 import {
@@ -80,7 +71,7 @@ const UpdateWrapper = styled(Box) `
 	}
 `
 
-class Update extends React.Component {
+export default class Update extends React.Component {
 	constructor (props) {
 		super(props)
 
@@ -112,7 +103,7 @@ class Update extends React.Component {
 		})
 
 		const actorId = _.get(this.props.card, [ 'data', 'actor' ]) || _.get(createCard, [ 'data', 'actor' ])
-		const actor = await this.props.actions.getActor(actorId)
+		const actor = await this.props.getActor(actorId)
 		this.setState({
 			actor
 		})
@@ -210,14 +201,3 @@ class Update extends React.Component {
 		)
 	}
 }
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		actions: bindActionCreators(
-			_.pick(actionCreators, [
-				'getActor'
-			]), dispatch)
-	}
-}
-
-export default connect(null, mapDispatchToProps)(Update)

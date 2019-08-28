@@ -179,6 +179,8 @@ class Inbox extends React.Component {
 									user={this.props.user}
 									openChannel={this.openChannel}
 									card={card}
+									getActor={this.props.actions.getActor}
+									addNotification={this.props.actions.addNotification}
 									menuOptions={(
 										<ActionLink
 											data-cardid={card.id}
@@ -213,7 +215,8 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: bindActionCreators(
 			_.pick(actionCreators, [
-				'addNotification'
+				'addNotification',
+				'getActor'
 			]),
 			dispatch
 		)

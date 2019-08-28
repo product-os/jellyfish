@@ -8,14 +8,14 @@ import * as _ from 'lodash'
 import React from 'react'
 import AsyncCreatableSelect from 'react-select/lib/AsyncCreatable'
 import {
-	sdk
-} from '../ui/core'
+	withSetup
+} from './SetupProvider'
 
 const	formatCreateLabel = (value) => {
 	return `Use "${value}"`
 }
 
-export default class AutoCompleteWidget extends React.Component {
+class AutoCompleteWidget extends React.Component {
 	constructor (props) {
 		super(props)
 
@@ -64,7 +64,7 @@ export default class AutoCompleteWidget extends React.Component {
 			}
 		})
 
-		const results = await sdk.query(schema)
+		const results = await props.sdk.query(schema)
 
 		return _.uniq(_.map(results, props.options.keyPath)).map((repo) => {
 			return {
@@ -97,3 +97,5 @@ export default class AutoCompleteWidget extends React.Component {
 		)
 	}
 }
+
+export default withSetup(AutoCompleteWidget)
