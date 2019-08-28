@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update lodash dependency to fix security issues
+      hash: a28aa0f8ed80ebc39307005a6bc668a7aa050f10
+      body: |
+        Connects to #2345
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 22.4.5
+  date: 2019-08-28T15:50:01.887Z
+- commits:
     - subject: 'queue: Retry RabbitMQ connections on ECONNREFUSED'
       hash: 75c0c941368cd654f49f19bcce387c180bff61a4
       body: ''
