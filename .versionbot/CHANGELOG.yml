@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'queue: Log RabbitMQ connection attempts'
+      hash: be809bbb956a8356a6c5e351be4bc810ca07b8ee
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'queue: Retry connecting to RabbitMQ on ETIMEDOUT'
+      hash: b47dd5b16860c0d81f6def29289b9a2f2f162ebc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 22.4.2
+  date: 2019-08-28T10:18:51.503Z
+- commits:
     - subject: 'UI: Set a maximum height for message input'
       hash: 10e22e241c788bda1ecfc83448c6498d8b1fccb6
       body: |
