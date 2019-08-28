@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'queue: Retry RabbitMQ connections on ECONNREFUSED'
+      hash: 75c0c941368cd654f49f19bcce387c180bff61a4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 22.4.4
+  date: 2019-08-28T11:58:31.856Z
+- commits:
     - subject: 'deploy-templates: Disable RabbitMQ management interface'
       hash: 9ed3fec2ffb91630f4cc7eb713c4dce53b6469ab
       body: ''
