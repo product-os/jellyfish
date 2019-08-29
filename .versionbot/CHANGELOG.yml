@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'sync: Retry HTTP requests that failed with 504'
+      hash: 3203ec1af8adee9862ad23273858b8d253ff59da
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 22.5.2
+  date: 2019-08-29T08:15:11.410Z
+- commits:
     - subject: 'queue: Log warning when handling RabbitMQ reconnects'
       hash: 7d615e987c296ccf9b6adaaaeeb88412a06b57a6
       body: ''
