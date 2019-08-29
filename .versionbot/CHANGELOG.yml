@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'Revert "queue: Re-implement using RabbitMQ"'
+      hash: a26d00da8c079c3fbe52fd74ab51e31d561414ae
+      body: |
+        This reverts commit 6ccfebaee29d654a67e36c5cd01ef53d23b9e34d.
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.0.0
+  date: 2019-08-29T18:01:01.911Z
+- commits:
     - subject: 'UI: Always show the last message or whisper in card chat summaries'
       hash: 6698bb1f8cd41b4592bfd8542f8829652f964398
       body: |
