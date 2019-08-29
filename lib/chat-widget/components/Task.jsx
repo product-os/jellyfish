@@ -2,18 +2,19 @@ import React from 'react'
 import {
 	Txt
 } from 'rendition'
-import Icon from '../../ui/shame/Icon'
 import {
 	ErrorMessage
 } from './ErrorMessage'
+import {
+	Loader
+} from './Loader'
 
 export const Task = ({
 	task,
-	loader = <Icon spin name="cog"/>,
 	children
 }) => {
 	if (!task.finished) {
-		return loader
+		return <Loader />
 	}
 
 	if (task.error) {
@@ -24,5 +25,5 @@ export const Task = ({
 		)
 	}
 
-	return children(task.result)
+	return children ? children(task.result) : null
 }

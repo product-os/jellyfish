@@ -10,6 +10,9 @@ import {
 	useCombineTasks,
 	useTask
 } from '../hooks'
+import {
+	Header
+} from './Header'
 
 export const Layout = ({
 	children, ...rest
@@ -29,7 +32,7 @@ export const Layout = ({
 
 	return (
 		<Flex {...rest} flexDirection="column">
-			Header
+			<Header />
 			<Flex flex={1} flexDirection="column">
 				<Task task={combinedTask}>{() => { return children }}</Task>
 			</Flex>

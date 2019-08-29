@@ -3,6 +3,9 @@ import {
 	useSelector
 } from 'react-redux'
 import {
+	Link
+} from 'react-router-dom'
+import {
 	Box,
 	Flex
 } from 'rendition'
@@ -32,6 +35,11 @@ export const IndexRoute = () => {
 						/>
 					)
 				})}
+			</Box>
+			<Box p={16}>
+				{threads.length > 2 && (
+					<Link to="/full_thread_list">View all conversations</Link>
+				)}
 			</Box>
 		</Flex>
 	)
