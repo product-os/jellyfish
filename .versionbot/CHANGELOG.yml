@@ -1,4 +1,17 @@
 - commits:
+    - subject: Dummy PR to trigger deploy
+      hash: 6ef9349e06091a17fda4f3f52a5ca52ea2338df4
+      body: |
+        Previous deploy failed due to unused cluster secrets.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.0.1
+  date: 2019-08-29T21:21:31.646Z
+- commits:
     - subject: 'Revert "queue: Re-implement using RabbitMQ"'
       hash: a26d00da8c079c3fbe52fd74ab51e31d561414ae
       body: |
