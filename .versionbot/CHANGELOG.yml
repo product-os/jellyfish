@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'UI: Always show the last message or whisper in card chat summaries'
+      hash: 6698bb1f8cd41b4592bfd8542f8829652f964398
+      body: |
+        Fixes #2336
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 22.7.0
+  date: 2019-08-29T15:08:31.163Z
+- commits:
     - subject: 'UI: Fix bug when actor was not found for event'
       hash: c2bdaa496b7c1b39a715fbfb8e08319d45c27259
       body: |
