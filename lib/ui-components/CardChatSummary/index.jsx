@@ -133,17 +133,13 @@ export default class CardChatSummary extends React.Component {
 
 		let latestText = null
 
-		// Find the most recent message, whisper or named event
+		// Find the most recent message or whisper
 		for (let index = timeline.length - 1; index >= 0; index--) {
 			const event = timeline[index]
 			if (event.type === 'message' || event.type === 'whisper') {
 				latestText = _.get(event, [ 'data', 'payload', 'message' ], '')
 					.split('\n')
 					.shift()
-				break
-			}
-			if (event.type === 'update' && Boolean(event.name)) {
-				latestText = event.name
 				break
 			}
 		}
