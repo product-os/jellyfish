@@ -1,4 +1,14 @@
 - commits:
+    - subject: Add full thread list
+      hash: 16eb456f12f324fe3fc9fe100d39b3858ae98526
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 22.6.0
+  date: 2019-08-29T09:48:51.422Z
+- commits:
     - subject: 'sync: Retry HTTP requests that failed with 504'
       hash: 3203ec1af8adee9862ad23273858b8d253ff59da
       body: ''
