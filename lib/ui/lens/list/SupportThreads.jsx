@@ -164,12 +164,14 @@ export class SupportThreads extends React.Component {
 					// we can simply break out of the loop
 					const actor = await this.props.actions.getActor(event.data.actor)
 
-					if (actor.proxy) {
-						break
-					}
+					if (actor) {
+						if (actor.proxy) {
+							break
+						}
 
-					if (!actor.proxy) {
-						hasEngineerResponse = true
+						if (!actor.proxy) {
+							hasEngineerResponse = true
+						}
 					}
 				}
 			}
