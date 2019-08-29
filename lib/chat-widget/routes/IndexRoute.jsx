@@ -11,7 +11,11 @@ import {
 } from 'rendition'
 import CardChatSummary from '../../ui-components/CardChatSummary'
 import {
-	useActions
+	CreateThread
+} from '../components/CreateThread'
+import {
+	useActions,
+	useRouter
 } from '../hooks'
 import {
 	selectThreads
@@ -19,10 +23,29 @@ import {
 
 export const IndexRoute = () => {
 	const actions = useActions()
+	const router = useRouter()
 	const threads = useSelector(selectThreads())
+	const isInCreateThreadMode = React.useMemo(() => {
+		return !threads.length
+	}, [])
+
+	const handleCreateThreadSuccess = React.useCallback(({
+		thread
+	}) => {
+		router.history.push(`/chat/${thread.id}`)
+	}, [])
+
+	if (isInCreateThreadMode) {
+		return (
+			<CreateThread onSuccess={handleCreateThreadSuccess} />
+		)
+	}
 
 	return (
 		<Flex flex={1} flexDirection="column">
+			<Box p={16}>
+				<Link to="/new_thread">Start new conversation</Link>
+			</Box>
 			<Box>
 				{threads.slice(0, 2).map((thread) => {
 					return (
