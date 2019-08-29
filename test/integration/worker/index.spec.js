@@ -108,7 +108,7 @@ ava('should not re-enqueue requests after duplicated execute events', async (tes
 
 	await test.throwsAsync(
 		test.context.worker.execute(test.context.session, enqueuedRequest1),
-		test.context.queue.errors.QueueInvalidRequest)
+		test.context.jellyfish.errors.JellyfishElementAlreadyExists)
 
 	const enqueuedRequest2 = await dequeue()
 	test.falsy(enqueuedRequest2)
@@ -175,7 +175,7 @@ ava('should not re-enqueue requests after execute failure', async (test) => {
 
 	await test.throwsAsync(
 		test.context.worker.execute(test.context.session, enqueuedRequest1),
-		test.context.queue.errors.QueueInvalidRequest)
+		test.context.jellyfish.errors.JellyfishElementAlreadyExists)
 
 	const enqueuedRequest2 = await dequeue()
 	test.falsy(enqueuedRequest2)
