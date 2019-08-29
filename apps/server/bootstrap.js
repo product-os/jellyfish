@@ -31,8 +31,7 @@ module.exports = async (context) => {
 
 	logger.info(context, 'Creating queue instance')
 	const queue = new Queue(
-		context, jellyfish, jellyfish.sessions.admin, environment.rabbitmq)
-
+		context, jellyfish, jellyfish.sessions.admin)
 	logger.info(context, 'Initializing queue instance')
 	await queue.initialize(context)
 

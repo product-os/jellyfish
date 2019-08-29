@@ -50,13 +50,3 @@ children:
             url: 'balena/balena-redis:latest'
           repo:
             url: 'https://github.com/balena-io/balena-redis.git'
-      jellyfish-rabbitmq:
-        slug: jellyfish-rabbitmq
-        version: latest
-        type: sw.containerized-application
-        assets:
-          image:
-            url: rabbitmq:3.7-management
-          repo:
-            url: 'https://github.com/rabbitmq/rabbitmq-server.git'
-
