@@ -2,7 +2,7 @@
 # Runtime
 ###########################################################
 
-FROM resinci/jellyfish-base:f36ab6b14
+FROM resinci/jellyfish-base:c9d3a76a
 
 WORKDIR /usr/src/app
 
