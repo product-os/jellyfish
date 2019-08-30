@@ -370,6 +370,21 @@ exports.patchProspect = (body) => {
 		id: body.data.id
 	})
 
+	if (index <= -1) {
+		return {
+			code: 404,
+			response: {
+				errors: [
+					{
+						id: 'resourceNotFound',
+						title: 'Resource Not Found',
+						detail: `Could not find 'prospect' with ID '${body.data.id}'.`
+					}
+				]
+			}
+		}
+	}
+
 	if (body.data.attributes.emails && _.some(body.data.attributes.emails, (email) => {
 		return /@balena\.io$/.test(email)
 	})) {

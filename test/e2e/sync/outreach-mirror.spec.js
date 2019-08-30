@@ -146,6 +146,47 @@ ava.afterEach(async (test) => {
 // Skip all tests if there is no Outreach app id and secret
 const avaTest = _.some(_.values(TOKEN), _.isEmpty) ? ava.serial.skip : ava.serial
 
+avaTest('should not update remote prospects that do not exist', async (test) => {
+	const username = `test-${uuid()}`
+
+	const createResult = await test.context.sdk.card.create({
+		slug: `contact-${username}`,
+		type: 'contact',
+		data: {
+			profile: {
+				email: `${username}@test.io`
+			}
+		}
+	})
+
+	const mirrorUrl = 'https://api.outreach.io/api/v2/prospects/99999999999'
+
+	await test.context.sdk.card.update(createResult.id, createResult.type, [
+		{
+			op: 'replace',
+			path: '/data/mirrors',
+			value: [
+				mirrorUrl
+			]
+		}
+	])
+
+	const contact = await test.context.sdk.card.get(createResult.id)
+
+	test.deepEqual(contact.data, {
+		mirrors: [
+			mirrorUrl
+		],
+		profile: {
+			email: `${username}@test.io`
+		}
+	})
+
+	const prospectId = _.parseInt(_.last(contact.data.mirrors[0].split('/')))
+	const prospect = await test.context.getProspect(prospectId)
+	test.falsy(prospect)
+})
+
 avaTest('should add a tag with the linked user external event slug origin type', async (test) => {
 	const username = `test-${uuid()}`
 
