@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'outreach: Handle inexisting remote prospect urls'
+      hash: 394ec3ef324ed286a1899c046067b1481bccf90d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.0.2
+  date: 2019-08-30T10:47:30.604Z
+- commits:
     - subject: Dummy PR to trigger deploy
       hash: 6ef9349e06091a17fda4f3f52a5ca52ea2338df4
       body: |
