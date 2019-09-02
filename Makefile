@@ -258,6 +258,7 @@ build-ui:
 	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/ui $(NYC_TMP_DIR)/ui
 	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/sdk $(NYC_TMP_DIR)/sdk
 	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/ui-components $(NYC_TMP_DIR)/ui-components
+	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/uuid $(NYC_TMP_DIR)/uuid
 	NODE_ENV=test UI_DIRECTORY="./$(NYC_TMP_DIR)/ui" \
 		SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
 		./node_modules/.bin/webpack
