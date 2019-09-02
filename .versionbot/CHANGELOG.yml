@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'core/sdk/worker: Re-use uuid utilities across the code base'
+      hash: 2db18f672e36a2945af9f5cbd3aeba21938f3589
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.1.1
+  date: 2019-09-02T10:56:10.700Z
+- commits:
     - subject: Add create thread page
       hash: 8afd10648f3f1fb98faa9907e3b7107fdfe5afd8
       body: ''
