@@ -7,7 +7,7 @@ gathers all information company wide and makes it a platform to implement
 processes that enhance the team's productivity and understanding. Think of it
 as a cross between Slack and Excel!
 
-| [**New Relic**](https://github.com/balena-io/jellyfish/blob/master/docs/newrelic.markdown) | [**Balena CI**](https://github.com/balena-io/jellyfish/blob/master/docs/balenaci.markdown) |
+| [**New Relic**](https://github.com/balena-io/jellyfish/blob/master/docs/newrelic.markdown) | [**Balena CI**](https://github.com/balena-io/jellyfish/blob/master/docs/balenaci.markdown) | [**Sentry**](https://github.com/balena-io/jellyfish/blob/master/docs/sentry.markdown) |
 
 Running on Docker Compose
 -------------------------
