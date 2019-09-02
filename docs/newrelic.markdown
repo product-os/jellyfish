@@ -37,3 +37,6 @@ This view gives you a customisable breakdown by region and duration. In this
 example, we can see that the "London, England, UK" pings spend some time
 connecting to the server due to latency, as the servers live in the US at the
 moment of this writing.
+
+You might want to subscribe yourself to Synthethics email notifications to get
+alerts when something goes wrong.
