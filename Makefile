@@ -3,7 +3,6 @@
 	coverage \
 	node \
 	test \
-	dev-storybook \
 	build-ui \
 	build-chat-widget \
 	start-server \
@@ -264,7 +263,7 @@ lint:
 	./scripts/lint/check-licenses.sh
 	shellcheck ./scripts/*.sh ./scripts/*/*.sh ./.circleci/*.sh ./deploy-templates/*.sh
 	./node_modules/.bin/deplint
-	./node_modules/.bin/depcheck --ignore-bin-package --ignores='@storybook/*,@babel/*'
+	./node_modules/.bin/depcheck --ignore-bin-package --ignores='@babel/*'
 
 coverage:
 	./node_modules/.bin/nyc $(NYC_GLOBAL_OPS) --reporter=text --reporter=html --reporter=json report
@@ -392,6 +391,3 @@ dev-%:
 	./node_modules/.bin/webpack-dev-server \
 		--config=./apps/$(subst dev-,,$@)/webpack.config.js \
 		--color
-
-dev-storybook:
-	./node_modules/.bin/start-storybook -p 6006

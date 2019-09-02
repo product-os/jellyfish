@@ -2,7 +2,6 @@
 .tmp
 .cache-loader
 .nyc_ouput
-.storybook
 .versionbot
 coverage
 dist

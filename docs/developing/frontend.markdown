@@ -7,7 +7,6 @@ a real-time frontend web development experience:
 ```sh
 make dev-ui
 make dev-chat-widget
-make dev-storybook
 ```
 
 You can run the UI relevant unit and end to end test suites as follows:
