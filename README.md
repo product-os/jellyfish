@@ -7,7 +7,7 @@ gathers all information company wide and makes it a platform to implement
 processes that enhance the team's productivity and understanding. Think of it
 as a cross between Slack and Excel!
 
-| [**New Relic**](https://github.com/balena-io/jellyfish/blob/master/docs/newrelic.markdown) |
+| [**New Relic**](https://github.com/balena-io/jellyfish/blob/master/docs/newrelic.markdown) | [**Balena CI**](https://github.com/balena-io/jellyfish/blob/master/docs/balenaci.markdown) |
 
 Running on Docker Compose
 -------------------------
@@ -45,7 +45,7 @@ make start-postgres
 make start-redis
 make start-server
 make start-tick
-make start-worker # Run more than one for more workers
+make start-worker # Run more than once for more workers
 make build-ui start-static COVERAGE=0
 ```
 
