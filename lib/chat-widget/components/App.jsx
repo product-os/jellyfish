@@ -17,7 +17,8 @@ import {
 } from '../hooks'
 import {
 	IndexRoute,
-	FullThreadListRoute
+	FullThreadListRoute,
+	NewThreadRoute
 } from '../routes'
 import {
 	createStore
@@ -45,6 +46,7 @@ export const App = React.memo(() => {
 						<Layout flex={1}>
 							<Route path="/" exact component={IndexRoute} />
 							<Route path="/full_thread_list" exact component={FullThreadListRoute} />
+							<Route path="/new_thread" exact component={NewThreadRoute} />
 						</Layout>
 					</Router>
 				</ThemeProvider>
