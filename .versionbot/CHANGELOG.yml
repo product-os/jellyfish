@@ -1,4 +1,14 @@
 - commits:
+    - subject: Add create thread page
+      hash: 8afd10648f3f1fb98faa9907e3b7107fdfe5afd8
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 23.1.0
+  date: 2019-08-30T12:01:54.012Z
+- commits:
     - subject: 'outreach: Handle inexisting remote prospect urls'
       hash: 394ec3ef324ed286a1899c046067b1481bccf90d
       body: ''
