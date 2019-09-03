@@ -48,14 +48,14 @@ jobs:
             key: v2-dependencies-{{ checksum "package.json" }}
 
         - run:
+            name: Lint
+            command: make lint
+        - run:
             name: Generate Docs
             command: make ARCHITECTURE.markdown
         - run:
             name: No Unstaged Files
             command: git status -s && (echo "There are unstaged changes" && exit 1)
-        - run:
-            name: Lint
-            command: make lint
 
         - persist_to_workspace:
             root: .
