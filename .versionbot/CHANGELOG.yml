@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'scripts/circleci: Revise webpack-bundle-report artifact locations'
+      hash: c1168f1dfbcb79db981fe749797503453f832555
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'Makefile: Revise some of the rules'
+      hash: 8bc32b97138be9058786d3ee52c3d587b21d08a2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.2.5
+  date: 2019-09-03T16:23:59.605Z
+- commits:
     - subject: 'chat-widget: Take token as an unexported JELLYFISH_TOKEN'
       hash: 2d3eae5c70dba3f2895a4479841e3db25ccaf566
       body: |
