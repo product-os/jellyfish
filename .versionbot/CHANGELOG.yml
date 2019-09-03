@@ -1,4 +1,52 @@
 - commits:
+    - subject: Generate ARCHITECTURE.markdown
+      hash: 7cf1f1b61578d4bd7fd7ac89ffeb7dd55510896f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'circleci: Run linter before doc generation'
+      hash: 64a31dc35deb1c085d12bcf59da6b9dc520c18ad
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'scripts: Fix "find" Linux issues'
+      hash: bb23c172582f849a8d4a89fe2cad778c6138a01f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: Generate ARCHITECTURE.markdown
+      hash: b89d10a27c6e57b6ea8567d7d20e8d552e8ac22f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: Add module descriptions
+      hash: 5c77a8a2eb94d362d44b67f854cc5d0522072b77
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.2.6
+  date: 2019-09-03T16:58:15.962Z
+- commits:
     - subject: 'scripts/circleci: Revise webpack-bundle-report artifact locations'
       hash: c1168f1dfbcb79db981fe749797503453f832555
       body: ''
