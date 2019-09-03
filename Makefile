@@ -8,7 +8,6 @@
 	test \
 	build-ui \
 	build-chat-widget \
-	compose \
 	start-server \
 	start-worker \
 	start-tick \
@@ -246,10 +245,6 @@ dist/docs.html: apps/server/api.yaml | dist
 postgres_data:
 	initdb --pgdata $@
 
-docker-compose.local.yml:
-	echo "version: \"3\"" > $@
-	echo "# Use this file to make local docker-compose changes" >> $@
-
 ifeq ($(COVERAGE),1)
 build-ui:
 	rm -rf $(NYC_TMP_DIR) && mkdir -p $(NYC_TMP_DIR)
@@ -330,13 +325,6 @@ test-ui:
 
 ngrok-%:
 	ngrok start -config ./ngrok.yml $(subst ngrok-,,$@)
-
-compose: LOGLEVEL = info
-compose: docker-compose.local.yml
-	docker-compose -f docker-compose.dev.yml -f $< up
-
-compose-build-%: docker-compose.local.yml
-	docker-compose -f docker-compose.dev.yml build $(subst compose-build-,,$@)
 
 node:
 	node $(NODE_DEBUG_ARGS) $(FILE)
