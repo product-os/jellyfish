@@ -1,7 +1,9 @@
 version: "3"
 services:
   api:
-    build: .
+    build:
+      context: .
+      dockerfile: apps/server/Dockerfile
     command: make start-server
     ports:
      - "8000:8000"
@@ -25,7 +27,7 @@ services:
   tick:
     build:
       context: .
-      dockerfile: Dockerfile.tick
+      dockerfile: apps/action-server/Dockerfile.tick
     command: make start-tick
     links:
      - database
@@ -46,7 +48,7 @@ services:
   worker:
     build:
       context: .
-      dockerfile: Dockerfile.worker
+      dockerfile: apps/action-server/Dockerfile.worker
     command: make start-worker
     links:
      - database
@@ -71,7 +73,7 @@ services:
        - SERVER_HOST=http://localhost
        - SERVER_PORT=8000
        - SENTRY_DSN_UI=0
-      dockerfile: Dockerfile.ui
+      dockerfile: apps/ui/Dockerfile
     ports:
      - "9000:80"
     links:

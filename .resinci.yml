@@ -2,18 +2,18 @@ reviewers: 1
 docker:
   builds:
     - path: .
-      dockerfile: Dockerfile
+      dockerfile: apps/server/Dockerfile
       docker_repo: balena/jellyfish
       publish: true
     - path: .
-      dockerfile: Dockerfile.tick
+      dockerfile: apps/action-server/Dockerfile.tick
       docker_repo: balena/jellyfish-tick-server
       publish: true
     - path: .
-      dockerfile: Dockerfile.worker
+      dockerfile: apps/action-server/Dockerfile.worker
       docker_repo: balena/jellyfish-action-server
       publish: true
     - path: .
-      dockerfile: Dockerfile.ui
+      dockerfile: apps/ui/Dockerfile
       docker_repo: balena/jellyfish-ui
       publish: true
