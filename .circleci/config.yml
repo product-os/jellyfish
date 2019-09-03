@@ -377,10 +377,10 @@ jobs:
 
       - run:
           name: Webpack Bundle Report For UI
-          command: make build-ui COVERAGE=0 NODE_ENV=test && mkdir -p /tmp/test-results && cp webpack-bundle-report.html /tmp/test-results/webpack-bundle-report.html
+          command: make build-ui COVERAGE=0 NODE_ENV=test && mkdir -p /tmp/test-results && cp dist/ui/webpack-bundle-report.html /tmp/test-results/webpack-bundle-report.html
       - run:
           name: Webpack Bundle Report For Chat Widget
-          command: make build-chat-widget COVERAGE=0 NODE_ENV=test && mkdir -p /tmp/test-results && cp webpack-bundle-report.chat-widget.html /tmp/test-results/webpack-bundle-report.chat-widget.html
+          command: make build-chat-widget COVERAGE=0 NODE_ENV=test && mkdir -p /tmp/test-results && cp dist/chat-widget/webpack-bundle-report.html /tmp/test-results/webpack-bundle-report.chat-widget.html
       - run:
           name: Generate Coverage Results
           command: mkdir -p /tmp/test-results && tar czf /tmp/test-results/nyc_output.tar.gz .nyc_output && make coverage && cp -rf coverage /tmp/test-results

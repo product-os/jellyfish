@@ -9,9 +9,9 @@ const path = require('path')
 const DefinePlugin = require('webpack/lib/DefinePlugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const mergeConfig = require('webpack-merge')
-const baseConfig = require('./webpack.config.base.js')
+const baseConfig = require('../../webpack.config.base.js')
 
-const root = path.resolve(__dirname, '.')
+const root = path.resolve(__dirname, '..', '..')
 const resourcesRoot = path.join(root, 'lib', 'chat-widget')
 
 // eslint-disable-next-line no-process-env
@@ -20,7 +20,7 @@ const UI_DIRECTORY = process.env.UI_DIRECTORY || 'lib/chat-widget'
 const uiRoot = path.join(root, UI_DIRECTORY)
 const indexFilePath = path.join(resourcesRoot, 'index.html')
 const outDir = path.join(root, 'dist/chat-widget')
-const packageJSON = require('./package.json')
+const packageJSON = require('../../package.json')
 
 console.log(`Generating bundle from ${uiRoot}`)
 
@@ -66,7 +66,7 @@ if (process.env.NODE_ENV !== 'production') {
 	config.plugins.push(
 		new BundleAnalyzerPlugin({
 			analyzerMode: 'static',
-			reportFilename: '../../webpack-bundle-report.chat-widget.html',
+			reportFilename: path.resolve(outDir, 'webpack-bundle-report.chat-widget.html'),
 			openAnalyzer: false
 		})
 	)

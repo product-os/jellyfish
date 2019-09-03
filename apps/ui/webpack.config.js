@@ -10,9 +10,9 @@ const path = require('path')
 const DefinePlugin = require('webpack/lib/DefinePlugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const mergeConfig = require('webpack-merge')
-const baseConfig = require('./webpack.config.base.js')
+const baseConfig = require('../../webpack.config.base.js')
 
-const root = path.resolve(__dirname, '.')
+const root = path.resolve(__dirname, '..', '..')
 const resourcesRoot = path.join(root, 'lib', 'ui')
 
 // eslint-disable-next-line no-process-env
@@ -24,7 +24,7 @@ const iconsFolderPath = path.join(resourcesRoot, 'icons')
 const audioFolderPath = path.join(resourcesRoot, 'audio')
 const faviconPath = path.join(resourcesRoot, 'favicon.ico')
 const outDir = path.join(root, 'dist/ui')
-const packageJSON = require('./package.json')
+const packageJSON = require('../../package.json')
 
 console.log(`Generating bundle from ${uiRoot}`)
 
@@ -90,7 +90,7 @@ if (process.env.NODE_ENV !== 'production') {
 	config.plugins.push(
 		new BundleAnalyzerPlugin({
 			analyzerMode: 'static',
-			reportFilename: '../../webpack-bundle-report.html',
+			reportFilename: path.resolve(outDir, 'webpack-bundle-report.html'),
 			openAnalyzer: false
 		})
 	)
