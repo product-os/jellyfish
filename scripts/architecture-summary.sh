@@ -8,7 +8,7 @@
 
 set -eu
 
-MODULES="$(find lib -depth 1 -type d)"
+MODULES="$(find lib -maxdepth 1 -type d)"
 CWD="$(pwd)"
 
 echo "# Jellyfish Architecture"
