@@ -1,11 +1,12 @@
 .PHONY: clean \
 	lint \
-	dev-ui \
-	dev-chat-widget \
-	dev-storybook \
 	coverage \
 	node \
 	test \
+	dev-ui \
+	dev-chat-widget \
+	dev-storybook \
+	dev-create-user \
 	build-ui \
 	build-chat-widget \
 	start-server \
@@ -239,40 +240,6 @@ dist:
 postgres_data:
 	initdb --pgdata $@
 
-ifeq ($(COVERAGE),1)
-build-ui:
-	rm -rf $(NYC_TMP_DIR) && mkdir -p $(NYC_TMP_DIR)
-	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/ui $(NYC_TMP_DIR)/ui
-	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/sdk $(NYC_TMP_DIR)/sdk
-	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/ui-components $(NYC_TMP_DIR)/ui-components
-	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/uuid $(NYC_TMP_DIR)/uuid
-	NODE_ENV=test UI_DIRECTORY="./$(NYC_TMP_DIR)/ui" \
-		SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
-		./node_modules/.bin/webpack --config=./apps/ui/webpack.config.js
-else
-build-ui:
-	UI_DIRECTORY="./lib/ui" SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
-		./node_modules/.bin/webpack --config=./apps/ui/webpack.config.js
-endif
-
-ifeq ($(COVERAGE),1)
-build-chat-widget:
-	rm -rf $(NYC_TMP_DIR) && mkdir -p $(NYC_TMP_DIR)/{lib,apps}
-	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/ui $(NYC_TMP_DIR)/lib/ui
-	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/sdk $(NYC_TMP_DIR)/lib/sdk
-	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/ui-components $(NYC_TMP_DIR)/lib/ui-components
-	./node_modules/.bin/nyc instrument $(NYC_OPTS) apps/chat-widget $(NYC_TMP_DIR)/apps/chat-widget
-	NODE_ENV=test \
-		SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
-		JELLYFISH_TOKEN=$(JELLYFISH_TOKEN) \
-		./node_modules/.bin/webpack --config=./apps/chat-widget/webpack.config.js
-else
-build-chat-widget:
-	SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
-	JELLYFISH_TOKEN=$(JELLYFISH_TOKEN) \
-		./node_modules/.bin/webpack --config=./apps/chat-widget/webpack.config.js
-endif
-
 lint:
 	./node_modules/.bin/eslint --ext .js,.jsx $(ESLINT_OPTION_FIX) \
 		lib apps scripts test *.js
@@ -283,10 +250,6 @@ lint:
 
 coverage:
 	./node_modules/.bin/nyc $(NYC_GLOBAL_OPS) --reporter=text --reporter=html --reporter=json report
-
-create-user: LOGLEVEL = warning
-create-user:
-	./scripts/dev/create-user.js
 
 test: LOGLEVEL = warning
 test:
@@ -353,8 +316,54 @@ start-static:
 	cd dist && python2 -m SimpleHTTPServer $(UI_PORT)
 
 # -----------------------------------------------
+# Build
+# -----------------------------------------------
+
+ifeq ($(COVERAGE),1)
+build-ui:
+	rm -rf $(NYC_TMP_DIR) && mkdir -p $(NYC_TMP_DIR)
+	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/ui $(NYC_TMP_DIR)/ui
+	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/sdk $(NYC_TMP_DIR)/sdk
+	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/ui-components $(NYC_TMP_DIR)/ui-components
+	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/uuid $(NYC_TMP_DIR)/uuid
+	NODE_ENV=test UI_DIRECTORY="./$(NYC_TMP_DIR)/ui" \
+		SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
+		./node_modules/.bin/webpack --config=./apps/ui/webpack.config.js
+else
+build-ui:
+	SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
+		./node_modules/.bin/webpack --config=./apps/ui/webpack.config.js
+endif
+
+ifeq ($(COVERAGE),1)
+build-chat-widget:
+	rm -rf $(NYC_TMP_DIR) && mkdir -p $(NYC_TMP_DIR)/{lib,apps}
+	# TODO: The chat-widget should not require us to instrument the UI
+	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/ui $(NYC_TMP_DIR)/lib/ui
+	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/sdk $(NYC_TMP_DIR)/lib/sdk
+	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/ui-components $(NYC_TMP_DIR)/lib/ui-components
+	./node_modules/.bin/nyc instrument $(NYC_OPTS) apps/chat-widget $(NYC_TMP_DIR)/apps/chat-widget
+	NODE_ENV=test UI_DIRECTORY="./$(NYC_TMP_DIR)/apps/chat-widget"\
+		SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
+		JELLYFISH_TOKEN=$(JELLYFISH_TOKEN) \
+		./node_modules/.bin/webpack --config=./apps/chat-widget/webpack.config.js
+else
+build-chat-widget:
+	SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
+	JELLYFISH_TOKEN=$(JELLYFISH_TOKEN) \
+		./node_modules/.bin/webpack --config=./apps/chat-widget/webpack.config.js
+endif
+
+# -----------------------------------------------
 # Development
 # -----------------------------------------------
+
+# TODO: This should not be a rule, but something
+# that start-server should do out of the box when
+# running in development mode.
+dev-create-user: LOGLEVEL = warning
+dev-create-user:
+	./scripts/dev/create-user.js
 
 dev-ui: NODE_ENV = development
 dev-ui:
