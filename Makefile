@@ -242,9 +242,6 @@ clean:
 dist:
 	mkdir $@
 
-dist/docs.html: apps/server/api.yaml | dist
-	redoc-cli bundle -o $@ $<
-
 postgres_data:
 	initdb --pgdata $@
 
