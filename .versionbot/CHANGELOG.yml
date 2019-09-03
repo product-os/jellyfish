@@ -1,4 +1,14 @@
 - commits:
+    - subject: Add chat route
+      hash: 6d417985142034db1fb9ca26951b26096b95c663
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 23.2.0
+  date: 2019-09-03T12:26:01.624Z
+- commits:
     - subject: 'apps: Move Dockerfiles to apps/'
       hash: da1f837e0d40200e9a6210c53a0831eb0d95f811
       body: ''
