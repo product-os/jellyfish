@@ -8,7 +8,7 @@
 
 set -eu
 
-DIRECTORIES="lib test scripts stress"
+DIRECTORIES="lib test scripts"
 
 # Ignore .tsx and .d.ts files
 RESULT="$(find "$DIRECTORIES" | grep -v -E '\.tsx$|\.d\.ts$' | grep '/[A-Z]' || true)"

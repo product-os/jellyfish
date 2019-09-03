@@ -9,18 +9,6 @@ as a cross between Slack and Excel!
 
 | [**New Relic**](https://github.com/balena-io/jellyfish/blob/master/docs/newrelic.markdown) | [**Balena CI**](https://github.com/balena-io/jellyfish/blob/master/docs/balenaci.markdown) | [**Sentry**](https://github.com/balena-io/jellyfish/blob/master/docs/sentry.markdown) |
 
-Running on Docker Compose
--------------------------
-
-You can run Jellyfish through [Docker
-Compose](https://github.com/balena-io/jellyfish/blob/master/docker-compose.dev.yml) by running:
-
-```sh
-make compose
-```
-
-This will create a `docker-compose.local.yml` file that you can use to make local edits.
-
 Running natively
 ----------------
 

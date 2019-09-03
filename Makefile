@@ -8,7 +8,6 @@
 	test \
 	build-ui \
 	build-chat-widget \
-	compose \
 	start-server \
 	start-worker \
 	start-tick \
@@ -233,22 +232,16 @@ clean:
 		.nyc_output \
 		coverage \
 		postgres_data \
-		jellyfish-files \
+		webpack-bundle-report.html \
+		webpack-bundle-report.chat-widget.html \
 		dist \
 		.cache-loader
 
 dist:
 	mkdir $@
 
-dist/docs.html: apps/server/api.yaml | dist
-	redoc-cli bundle -o $@ $<
-
 postgres_data:
 	initdb --pgdata $@
-
-docker-compose.local.yml:
-	echo "version: \"3\"" > $@
-	echo "# Use this file to make local docker-compose changes" >> $@
 
 ifeq ($(COVERAGE),1)
 build-ui:
@@ -286,7 +279,7 @@ endif
 
 lint:
 	./node_modules/.bin/eslint --ext .js,.jsx $(ESLINT_OPTION_FIX) \
-		lib apps scripts test stress *.js
+		lib apps scripts test *.js
 	./scripts/lint/check-filenames.sh
 	shellcheck ./scripts/*.sh ./scripts/*/*.sh ./.circleci/*.sh ./deploy-templates/*.sh
 	./node_modules/.bin/deplint
@@ -330,13 +323,6 @@ test-ui:
 
 ngrok-%:
 	ngrok start -config ./ngrok.yml $(subst ngrok-,,$@)
-
-compose: LOGLEVEL = info
-compose: docker-compose.local.yml
-	docker-compose -f docker-compose.dev.yml -f $< up
-
-compose-build-%: docker-compose.local.yml
-	docker-compose -f docker-compose.dev.yml build $(subst compose-build-,,$@)
 
 node:
 	node $(NODE_DEBUG_ARGS) $(FILE)
