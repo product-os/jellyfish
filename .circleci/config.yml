@@ -55,7 +55,7 @@ jobs:
             command: make ARCHITECTURE.markdown
         - run:
             name: No Unstaged Files
-            command: git status -s && (echo "There are unstaged changes" && exit 1)
+            command: ./scripts/ci/unstaged.sh
 
         - persist_to_workspace:
             root: .

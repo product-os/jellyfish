@@ -6,7 +6,7 @@ action request queue-related operations.
 No module that interacts with the action request queue should try to bypass
 this module.
 
-### Goals
+#### Goals
 
 - The queue aims to be fast
 - The queue aims to be a layer on top of the core to effectively manage action

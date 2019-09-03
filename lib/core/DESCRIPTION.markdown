@@ -2,7 +2,7 @@ The Jellyfish core is a low-level internal SDK to interact with cards in the
 database, providing functions like `.getCardById()` or `.insertCard()`. The
 core provides the foundation library for the rest of system.
 
-### Goals
+#### Goals
 
 - The core aims to expose a small and simple interface
 - The core aims to **not** expose any details about the underlying database

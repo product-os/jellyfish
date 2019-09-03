@@ -1,7 +1,7 @@
 The Jellyfish backend strongly discourages the use of `console.log()`. This
 module provides a set of functions that the backend uses for logging purposes.
 
-### Goals
+#### Goals
 
 - The logger takes a request ID parameter to easily filter down logss that
 	correspond to a single system request
