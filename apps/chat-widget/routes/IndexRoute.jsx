@@ -9,7 +9,7 @@ import {
 	Box,
 	Flex
 } from 'rendition'
-import CardChatSummary from '../../ui-components/CardChatSummary'
+import CardChatSummary from '../../../lib/ui-components/CardChatSummary'
 import {
 	CreateThread
 } from '../components/CreateThread'

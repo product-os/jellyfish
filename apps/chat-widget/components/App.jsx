@@ -10,7 +10,7 @@ import {
 } from 'rendition'
 import {
 	SetupProvider
-} from '../../ui-components/SetupProvider'
+} from '../../../lib/ui-components/SetupProvider'
 import {
 	useAnalytics,
 	useSdk

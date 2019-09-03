@@ -1,7 +1,7 @@
 import React from 'react'
 import {
 	getSdk
-} from '../../sdk'
+} from '../../../lib/sdk'
 import * as environment from '../environment'
 
 export const useSdk = () => {

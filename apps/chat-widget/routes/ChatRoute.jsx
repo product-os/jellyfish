@@ -3,7 +3,7 @@ import React from 'react'
 import {
 	useSelector
 } from 'react-redux'
-import Timeline from '../../ui-components/Timeline'
+import Timeline from '../../../lib/ui-components/Timeline'
 import {
 	Task
 } from '../components/Task'

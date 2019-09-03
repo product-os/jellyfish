@@ -12,12 +12,12 @@ const mergeConfig = require('webpack-merge')
 const baseConfig = require('../../webpack.config.base.js')
 
 const root = path.resolve(__dirname, '..', '..')
-const resourcesRoot = path.join(root, 'lib', 'chat-widget')
+const resourcesRoot = __dirname
 
 // eslint-disable-next-line no-process-env
-const UI_DIRECTORY = process.env.UI_DIRECTORY || 'lib/chat-widget'
+const UI_DIRECTORY = process.env.UI_DIRECTORY || __dirname
 
-const uiRoot = path.join(root, UI_DIRECTORY)
+const uiRoot = path.resolve(root, UI_DIRECTORY)
 const indexFilePath = path.join(resourcesRoot, 'index.html')
 const outDir = path.join(root, 'dist/chat-widget')
 const packageJSON = require('../../package.json')
