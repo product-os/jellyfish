@@ -50,6 +50,12 @@ jobs:
         - run:
             name: Lint
             command: make lint
+        - run:
+            name: Generate Docs
+            command: make ARCHITECTURE.markdown
+        - run:
+            name: No Unstaged Files
+            command: ./scripts/ci/unstaged.sh
 
         - persist_to_workspace:
             root: .
