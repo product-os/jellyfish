@@ -10,8 +10,8 @@ import {
 	Button,
 	Flex
 } from 'rendition'
-import AutocompleteTextarea from '../../ui/shame/AutocompleteTextarea'
-import Icon from '../../ui/shame/Icon'
+import AutocompleteTextarea from '../../../apps/ui/shame/AutocompleteTextarea'
+import Icon from '../../../apps/ui/shame/Icon'
 
 export default class MessageInput extends React.PureComponent {
 	constructor (props) {

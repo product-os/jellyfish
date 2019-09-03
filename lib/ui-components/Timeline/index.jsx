@@ -21,9 +21,9 @@ import styled from 'styled-components'
 import uuid from 'uuid/v4'
 import Event from '../Event'
 import Update from '../Update'
-import * as helpers from '../../ui/services/helpers'
-import Column from '../../ui/shame/Column'
-import Icon from '../../ui/shame/Icon'
+import * as helpers from '../../../apps/ui/services/helpers'
+import Column from '../../../apps/ui/shame/Column'
+import Icon from '../../../apps/ui/shame/Icon'
 import MessageInput from './MessageInput'
 import {
 	withSetup

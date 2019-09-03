@@ -21,7 +21,7 @@ import styled from 'styled-components'
 import {
 	actionCreators,
 	selectors
-} from '../ui/core'
+} from '../../apps/ui/core'
 
 const MessageText = styled.span `
 	white-space: pre;

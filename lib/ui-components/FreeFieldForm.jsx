@@ -18,7 +18,9 @@ import {
 import {
 	Form
 } from 'rendition/dist/unstable'
-import Icon from '../ui/shame/Icon'
+
+// TODO: This ui-components -> ui import should not happen
+import Icon from '../../apps/ui/shame/Icon'
 
 export default class FreeFieldForm extends React.Component {
 	constructor (props) {

@@ -13,7 +13,7 @@ import {
 } from 'redux'
 import {
 	actionCreators
-} from '../../ui/core'
+} from '../../../apps/ui/core'
 import Login from './Login'
 
 const mapDispatchToProps = (dispatch) => {

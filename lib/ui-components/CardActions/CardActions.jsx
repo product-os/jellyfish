@@ -22,14 +22,14 @@ import {
 	actionCreators,
 	sdk,
 	selectors
-}	from '../../ui/core'
+}	from '../../../apps/ui/core'
 import CardLinker from '../CardLinker'
 import ContextMenu from '../ContextMenu'
-import * as helpers from '../../ui/services/helpers'
+import * as helpers from '../../../apps/ui/services/helpers'
 import {
 	ActionLink
-} from '../../ui/shame/ActionLink'
-import Icon from '../../ui/shame/Icon'
+} from '../../../apps/ui/shame/ActionLink'
+import Icon from '../../../apps/ui/shame/Icon'
 
 class CardActions extends React.Component {
 	constructor (props) {

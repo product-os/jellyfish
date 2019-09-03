@@ -21,11 +21,11 @@ import {
 }	from 'rendition'
 import styled from 'styled-components'
 import ContextMenu from '../ContextMenu'
-import * as helpers from '../../ui/services/helpers'
+import * as helpers from '../../../apps/ui/services/helpers'
 import {
 	ActionLink
-} from '../../ui/shame/ActionLink'
-import Icon from '../../ui/shame/Icon'
+} from '../../../apps/ui/shame/ActionLink'
+import Icon from '../../../apps/ui/shame/Icon'
 
 const generateJSONPatchDescription = (payload) => {
 	const items = []

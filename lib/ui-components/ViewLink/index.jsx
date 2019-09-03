@@ -7,7 +7,7 @@ import {
 import {
 	selectors,
 	actionCreators
-} from '../../ui/core'
+} from '../../../apps/ui/core'
 import ViewLink from './ViewLink'
 
 const mapStateToProps = (state, ownProps) => {

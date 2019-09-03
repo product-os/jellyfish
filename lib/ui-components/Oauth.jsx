@@ -19,11 +19,14 @@ import {
 import {
 	Markdown
 } from 'rendition/dist/extra/Markdown'
-import Icon from '../ui/shame/Icon'
+
+// TODO: This ui-components -> ui import should not happen
+import Icon from '../../apps/ui/shame/Icon'
+
 import {
 	actionCreators,
 	selectors
-} from '../ui/core'
+} from '../../apps/ui/core'
 
 class Oauth extends React.Component {
 	constructor (props) {

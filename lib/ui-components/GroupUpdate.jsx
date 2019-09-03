@@ -19,7 +19,7 @@ import {
 } from 'rendition/dist/unstable'
 import {
 	patchPath
-} from '../ui/services/helpers'
+} from '../../apps/ui/services/helpers'
 import {
 	withSetup
 } from './SetupProvider'

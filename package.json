@@ -4,7 +4,6 @@
   "codename": "cephea",
   "private": true,
   "description": "The Jellyfish Project",
-  "main": "apps/server/index.js",
   "homepage": "https://github.com/resin-io/jellyfish",
   "repository": {
     "type": "git",
@@ -16,14 +15,9 @@
   },
   "deplint": {
     "files": [
-      "lib/**/*.js !lib/ui/**/*.js",
-      "apps/**/*.js !apps/*/webpack.config.js"
+      "lib/**/*.js"
     ],
     "modules": [
-      "apps/server",
-      "apps/ui",
-      "apps/action-server",
-      "apps/chat-widget",
       "lib/core",
       "lib/action-library",
       "lib/environment",
@@ -35,8 +29,7 @@
       "lib/uuid",
       "lib/sdk",
       "lib/sync",
-      "lib/worker",
-      "lib/ui"
+      "lib/worker"
     ]
   },
   "ava": {
@@ -55,7 +48,8 @@
     "files": [
       "test/unit/**/*.spec.js",
       "test/e2e/**/*.spec.js",
-      "lib/ui/**/*.spec.js"
+      "apps/ui/**/*.spec.jsx",
+      "apps/ui/**/*.spec.js"
     ],
     "require": [
       "./test/register",

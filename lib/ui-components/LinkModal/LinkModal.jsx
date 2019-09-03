@@ -16,8 +16,8 @@ import {
 } from 'rendition'
 import {
 	constants
-} from '../../ui/core'
-import * as helpers from '../../ui/services/helpers'
+} from '../../../apps/ui/core'
+import * as helpers from '../../../apps/ui/services/helpers'
 
 export default class LinkModal extends React.Component {
 	constructor (props) {

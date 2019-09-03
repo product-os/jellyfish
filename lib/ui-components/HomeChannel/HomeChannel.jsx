@@ -23,9 +23,9 @@ import MentionsCount from '../MentionsCount'
 import TreeMenu from './TreeMenu'
 import RouterLink from '../Link'
 import ViewLink from '../ViewLink'
-import Avatar from '../../ui/shame/Avatar'
-import Icon from '../../ui/shame/Icon'
-import MenuPanel from '../../ui/shame/MenuPanel'
+import Avatar from '../../../apps/ui/shame/Avatar'
+import Icon from '../../../apps/ui/shame/Icon'
+import MenuPanel from '../../../apps/ui/shame/MenuPanel'
 
 // View slugs that should be displayed first
 const DEFAULT_VIEWS = [

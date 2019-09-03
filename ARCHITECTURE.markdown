@@ -112,10 +112,6 @@ useful functionality to the web UI and any other clients.
 This module contains an integration syncing engine built on top of Jellyfish,
 along with a set of integrations with third party services.
 
-### [`lib/ui`](https://github.com/balena-io/jellyfish/tree/master/lib/ui)
-
-The UI is the main web based interface of the Jellyfish system.
-
 ### [`lib/ui-components`](https://github.com/balena-io/jellyfish/tree/master/lib/ui-components)
 
 This module is a collection of re-usable React component that Jellyfish uses to

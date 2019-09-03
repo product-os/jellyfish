@@ -21,6 +21,8 @@ require('@babel/register')({
 		'@babel/preset-react'
 	],
 	only: [
-		/lib\/ui/
+		/lib\/ui-components/,
+		/apps\/ui/,
+		/apps\/chat-widget/
 	]
 })

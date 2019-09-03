@@ -234,7 +234,7 @@ clean:
 		dist \
 		.cache-loader
 
-ARCHITECTURE.markdown: scripts/architecture-summary.sh lib/*/DESCRIPTION.markdown
+ARCHITECTURE.markdown: scripts/architecture-summary.sh lib/*/DESCRIPTION.markdown apps/*/DESCRIPTION.markdown
 	./$< > $@
 
 dist:
@@ -282,7 +282,7 @@ test-e2e-%:
 		AVA_OPTS="--serial" make test
 
 test-ui:
-	FILES="'./lib/ui/**/*.spec.{js,jsx}'" SCRUB=0 make test
+	FILES="'./apps/ui/**/*.spec.{js,jsx}'" SCRUB=0 make test
 
 ngrok-%:
 	ngrok start -config ./ngrok.yml $(subst ngrok-,,$@)
@@ -325,12 +325,12 @@ start-static:
 
 ifeq ($(COVERAGE),1)
 build-ui:
-	rm -rf $(NYC_TMP_DIR) && mkdir -p $(NYC_TMP_DIR)
-	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/ui $(NYC_TMP_DIR)/ui
-	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/sdk $(NYC_TMP_DIR)/sdk
-	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/ui-components $(NYC_TMP_DIR)/ui-components
-	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/uuid $(NYC_TMP_DIR)/uuid
-	NODE_ENV=test UI_DIRECTORY="./$(NYC_TMP_DIR)/ui" \
+	rm -rf $(NYC_TMP_DIR) && mkdir -p $(NYC_TMP_DIR)/{lib,apps}
+	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/sdk $(NYC_TMP_DIR)/lib/sdk
+	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/ui-components $(NYC_TMP_DIR)/lib/ui-components
+	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/uuid $(NYC_TMP_DIR)/lib/uuid
+	./node_modules/.bin/nyc instrument $(NYC_OPTS) apps/ui $(NYC_TMP_DIR)/apps/ui
+	NODE_ENV=test UI_DIRECTORY="./$(NYC_TMP_DIR)/apps/ui" \
 		SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
 		./node_modules/.bin/webpack --config=./apps/ui/webpack.config.js
 else
@@ -343,7 +343,7 @@ ifeq ($(COVERAGE),1)
 build-chat-widget:
 	rm -rf $(NYC_TMP_DIR) && mkdir -p $(NYC_TMP_DIR)/{lib,apps}
 	# TODO: The chat-widget should not require us to instrument the UI
-	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/ui $(NYC_TMP_DIR)/lib/ui
+	./node_modules/.bin/nyc instrument $(NYC_OPTS) apps/ui $(NYC_TMP_DIR)/apps/ui
 	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/sdk $(NYC_TMP_DIR)/lib/sdk
 	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/ui-components $(NYC_TMP_DIR)/lib/ui-components
 	./node_modules/.bin/nyc instrument $(NYC_OPTS) apps/chat-widget $(NYC_TMP_DIR)/apps/chat-widget

@@ -16,7 +16,7 @@ import {
 	Input,
 	Txt
 } from 'rendition'
-import Icon from '../../ui/shame/Icon'
+import Icon from '../../../apps/ui/shame/Icon'
 
 export default class Login extends React.Component {
 	constructor (props) {

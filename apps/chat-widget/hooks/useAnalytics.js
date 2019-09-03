@@ -1,5 +1,5 @@
 import React from 'react'
-import Analytics from '../../../lib/ui/services/analytics'
+import Analytics from '../../ui/services/analytics'
 import * as environment from '../environment'
 
 export const useAnalytics = () => {

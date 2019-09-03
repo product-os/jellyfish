@@ -12,7 +12,7 @@ import * as redux from 'redux'
 import {
 	actionCreators,
 	selectors
-} from '../../ui/core'
+} from '../../../apps/ui/core'
 
 import HomeChannel from './HomeChannel'
 

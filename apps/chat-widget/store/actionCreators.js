@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import * as uuid from 'uuid'
-import * as helpers from '../../../lib/ui/services/helpers'
+import * as helpers from '../../ui/services/helpers'
 import {
 	SET_CARDS,
 	SET_CURRENT_USER

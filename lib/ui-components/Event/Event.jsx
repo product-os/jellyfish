@@ -32,12 +32,12 @@ import {
 	tagStyle
 } from '../Tag'
 import Link from '../Link'
-import * as helpers from '../../ui/services/helpers'
+import * as helpers from '../../../apps/ui/services/helpers'
 import {
 	ActionLink
-} from '../../ui/shame/ActionLink'
-import Avatar from '../../ui/shame/Avatar'
-import Icon from '../../ui/shame/Icon'
+} from '../../../apps/ui/shame/ActionLink'
+import Avatar from '../../../apps/ui/shame/Avatar'
+import Icon from '../../../apps/ui/shame/Icon'
 
 const ActorPlaceholder = styled.span `
 	width: 80px;
