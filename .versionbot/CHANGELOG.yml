@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'chat-widget/ui: Move relevant webpack configs to apps/'
+      hash: a4c58d17219cdbbab283ec1b8c4f68325ab996d3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: Store webpack bundle reports in dist
+      hash: eb1f6eeb3c7872e2a5c5542ecb1a37921621797c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.2.1
+  date: 2019-09-03T13:46:01.957Z
+- commits:
     - subject: Add chat route
       hash: 6d417985142034db1fb9ca26951b26096b95c663
       body: ''
