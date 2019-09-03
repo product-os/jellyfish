@@ -10,7 +10,7 @@
 export const api = {
 	prefix: process.env.API_PREFIX || 'api/v2',
 	url: process.env.API_URL || window.location.origin,
-	token: process.env.CHAT_WIDGET_JELLYFISH_TOKEN
+	token: process.env.JELLYFISH_TOKEN
 }
 
 export const analytics = {
