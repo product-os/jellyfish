@@ -234,6 +234,9 @@ clean:
 		dist \
 		.cache-loader
 
+ARCHITECTURE.markdown: lib/*/README.markdown
+	./scripts/architecture-summary.sh
+
 dist:
 	mkdir $@
 
