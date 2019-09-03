@@ -6,7 +6,7 @@ import {
 	Box,
 	Input
 } from 'rendition'
-import MessageInput from '../../ui-components/Timeline/MessageInput'
+import MessageInput from '../../../lib/ui-components/Timeline/MessageInput'
 import {
 	TaskButton
 } from '../components/TaskButton'
