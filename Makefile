@@ -233,8 +233,6 @@ clean:
 		.nyc_output \
 		coverage \
 		postgres_data \
-		webpack-bundle-report.html \
-		webpack-bundle-report.chat-widget.html \
 		jellyfish-files \
 		dist \
 		.cache-loader

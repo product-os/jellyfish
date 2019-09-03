@@ -66,7 +66,7 @@ if (process.env.NODE_ENV !== 'production') {
 	config.plugins.push(
 		new BundleAnalyzerPlugin({
 			analyzerMode: 'static',
-			reportFilename: '../../webpack-bundle-report.chat-widget.html',
+			reportFilename: path.resolve(__dirname, 'dist', 'chat-widget', 'webpack-bundle-report.chat-widget.html'),
 			openAnalyzer: false
 		})
 	)

@@ -90,7 +90,7 @@ if (process.env.NODE_ENV !== 'production') {
 	config.plugins.push(
 		new BundleAnalyzerPlugin({
 			analyzerMode: 'static',
-			reportFilename: '../../webpack-bundle-report.html',
+			reportFilename: path.resolve(__dirname, 'dist', 'ui', 'webpack-bundle-report.html'),
 			openAnalyzer: false
 		})
 	)
