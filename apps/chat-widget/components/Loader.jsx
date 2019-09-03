@@ -2,7 +2,7 @@ import React from 'react'
 import {
 	Flex
 } from 'rendition'
-import Icon from '../../../lib/ui/shame/Icon'
+import Icon from '../../ui/shame/Icon'
 
 export const Loader = (props) => {
 	return (

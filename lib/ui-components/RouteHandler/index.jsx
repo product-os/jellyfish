@@ -22,7 +22,7 @@ import {
 import {
 	actionCreators,
 	selectors
-} from '../../ui/core'
+} from '../../../apps/ui/core'
 import ChannelRenderer from '../ChannelRenderer'
 
 const PATH_SEPARATOR = '...'

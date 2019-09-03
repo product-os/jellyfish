@@ -12,7 +12,7 @@ import {
 	Flex
 } from 'rendition'
 import ViewLink from '../ViewLink'
-import Icon from '../../ui/shame/Icon'
+import Icon from '../../../apps/ui/shame/Icon'
 
 const TreeMenu = (props) => {
 	const {

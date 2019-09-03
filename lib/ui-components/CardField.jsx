@@ -11,7 +11,9 @@ import {
 	Mermaid
 } from 'rendition/dist/extra/Mermaid'
 import Label from './Label'
-import * as helpers from '../ui/services/helpers'
+
+// TODO: This ui-components -> ui import should not happen
+import * as helpers from '../../apps/ui/services/helpers'
 
 const transformMirror = (mirror) => {
 	if (mirror.includes('frontapp.com')) {

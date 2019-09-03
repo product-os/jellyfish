@@ -17,9 +17,9 @@ import {
 } from 'rendition'
 import styled from 'styled-components'
 import Link from '../Link'
-import * as helpers from '../../ui/services/helpers'
-import ColorHashPill from '../../ui/shame/ColorHashPill'
-import Avatar from '../../ui/shame/Avatar'
+import * as helpers from '../../../apps/ui/services/helpers'
+import ColorHashPill from '../../../apps/ui/shame/ColorHashPill'
+import Avatar from '../../../apps/ui/shame/Avatar'
 import {
 	Tag
 } from '../Tag'

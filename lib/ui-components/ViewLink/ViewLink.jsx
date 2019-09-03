@@ -16,9 +16,9 @@ import {
 } from 'rendition'
 import Link from '../Link'
 import MentionsCount from '../MentionsCount'
-import * as helpers from '../../ui/services/helpers'
+import * as helpers from '../../../apps/ui/services/helpers'
 import ContextMenu from '../ContextMenu'
-import Icon from '../../ui/shame/Icon'
+import Icon from '../../../apps/ui/shame/Icon'
 
 export default class ViewLink extends React.Component {
 	constructor (props) {

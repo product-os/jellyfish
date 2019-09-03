@@ -20,16 +20,18 @@ import {
 	bindActionCreators
 } from 'redux'
 import styled from 'styled-components'
-import ErrorBoundary from '../ui/shame/ErrorBoundary'
-import Icon from '../ui/shame/Icon'
+
+// TODO: These ui-components -> ui imports should not happen
+import ErrorBoundary from '../../apps/ui/shame/ErrorBoundary'
+import Icon from '../../apps/ui/shame/Icon'
 import LinkModal from './LinkModal'
 import {
 	actionCreators,
 	selectors
-} from '../ui/core'
+} from '../../apps/ui/core'
 import {
 	getLens
-} from '../ui/lens'
+} from '../../apps/ui/lens'
 
 const ErrorNotFound = styled.h1 `
 	color: white;

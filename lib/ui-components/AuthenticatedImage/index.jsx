@@ -11,7 +11,7 @@ import {
 import * as redux from 'redux'
 import {
 	actionCreators
-} from '../../ui/core'
+} from '../../../apps/ui/core'
 
 import AuthenticatedImage from './AuthenticatedImage'
 

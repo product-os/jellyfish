@@ -14,10 +14,10 @@ import {
 } from 'rendition'
 import {
 	constants
-} from '../../ui/core'
+} from '../../../apps/ui/core'
 import ContextMenu from '../ContextMenu'
 import LinkModal from '../LinkModal'
-import Icon from '../../ui/shame/Icon'
+import Icon from '../../../apps/ui/shame/Icon'
 
 const {
 	LINKS

@@ -13,7 +13,7 @@ import {
 } from 'redux'
 import {
 	actionCreators
-} from '../../ui/core'
+} from '../../../apps/ui/core'
 import CardLinker from './CardLinker'
 
 const mapDispatchToProps = (dispatch) => {
