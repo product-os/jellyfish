@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'chat-widget: Take token as an unexported JELLYFISH_TOKEN'
+      hash: 2d3eae5c70dba3f2895a4479841e3db25ccaf566
+      body: |
+        - There is no need to export the env var in the Makefile, as its passed
+        to Webpack directly
+        - The `CHAT_WIDGET_` prefix is implicit based on where its being used
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.2.4
+  date: 2019-09-03T15:42:12.467Z
+- commits:
     - subject: 'chat-widget: Move source code to apps/'
       hash: e021f10f7ec9616e31d512345c1406ba91407eb3
       body: ''
