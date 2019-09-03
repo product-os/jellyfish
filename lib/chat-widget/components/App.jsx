@@ -17,6 +17,7 @@ import {
 } from '../hooks'
 import {
 	IndexRoute,
+	ChatRoute,
 	FullThreadListRoute,
 	NewThreadRoute
 } from '../routes'
@@ -47,6 +48,7 @@ export const App = React.memo(() => {
 							<Route path="/" exact component={IndexRoute} />
 							<Route path="/full_thread_list" exact component={FullThreadListRoute} />
 							<Route path="/new_thread" exact component={NewThreadRoute} />
+							<Route path="/chat/:thread" exact component={ChatRoute} />
 						</Layout>
 					</Router>
 				</ThemeProvider>
