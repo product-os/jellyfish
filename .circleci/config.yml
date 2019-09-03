@@ -297,40 +297,6 @@ jobs:
           paths:
             - .nyc_output/*.json
 
-  stress_tests:
-    <<: *job_defaults
-
-    steps:
-      - checkout
-
-      - attach_workspace:
-          at: .
-
-      - run:
-          name: Start PostgreSQL
-          command: service postgresql start && su - postgres -c "psql -U postgres -d postgres -c \"alter user postgres with password 'postgres';\""
-      - run:
-          name: Start Redis
-          command: service redis-server start
-
-      # Stress Testing
-      - run:
-          name: Serial Core Inserts
-          command: make node FILE=stress/core/insert-serial.js
-      - run:
-          name: Parallel Core Inserts
-          command: make node FILE=stress/core/insert-parallel.js
-      # There is no Postgres on the previous commit yet
-      # - run:
-          # name: Previous Commit
-          # command: git checkout HEAD~1 && npm ci
-      # - run:
-          # name: Serial Core Inserts (previous)
-          # command: node stress/core/insert-serial.js
-      # - run:
-          # name: Parallel Core Inserts (previous)
-          # command: node stress/core/insert-parallel.js
-
   # UI tests seem to contain most of the flaky tests
   # Lets really make sure they are stable
   flaky_ui_tests:
@@ -434,11 +400,6 @@ workflows:
                 <<: *workflow_filter
 
             - flaky_ui_tests:
-                requires:
-                    - build
-                <<: *workflow_filter
-
-            - stress_tests:
                 requires:
                     - build
                 <<: *workflow_filter
