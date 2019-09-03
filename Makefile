@@ -259,11 +259,11 @@ build-ui:
 	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/uuid $(NYC_TMP_DIR)/uuid
 	NODE_ENV=test UI_DIRECTORY="./$(NYC_TMP_DIR)/ui" \
 		SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
-		./node_modules/.bin/webpack
+		./node_modules/.bin/webpack --config=./apps/ui/webpack.config.js
 else
 build-ui:
 	UI_DIRECTORY="./lib/ui" SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
-		./node_modules/.bin/webpack
+		./node_modules/.bin/webpack --config=./apps/ui/webpack.config.js
 endif
 
 ifeq ($(COVERAGE),1)
@@ -276,12 +276,12 @@ build-chat-widget:
 	NODE_ENV=test UI_DIRECTORY="./$(NYC_TMP_DIR)/chat-widget" \
 		SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
 		CHAT_WIDGET_JELLYFISH_TOKEN=$(CHAT_WIDGET_JELLYFISH_TOKEN) \
-		./node_modules/.bin/webpack --config=./webpack.config.chat-widget.js
+		./node_modules/.bin/webpack --config=./apps/chat-widget/webpack.config.js
 else
 build-chat-widget:
 	UI_DIRECTORY="./lib/chat-widget" SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
 	CHAT_WIDGET_JELLYFISH_TOKEN=$(CHAT_WIDGET_JELLYFISH_TOKEN) \
-		./node_modules/.bin/webpack --config=./webpack.config.chat-widget.js
+		./node_modules/.bin/webpack --config=./apps/chat-widget/webpack.config.js
 endif
 
 lint:
@@ -376,12 +376,12 @@ start-static:
 
 dev-ui: NODE_ENV = development
 dev-ui:
-	./node_modules/.bin/webpack-dev-server --color
+	./node_modules/.bin/webpack-dev-server --config=./apps/ui/webpack.config.js --color
 
 dev-chat-widget: NODE_ENV = development
 dev-chat-widget:
 	CHAT_WIDGET_JELLYFISH_TOKEN=$(CHAT_WIDGET_JELLYFISH_TOKEN) \
-	./node_modules/.bin/webpack-dev-server --config=./webpack.config.chat-widget.js --color
+	./node_modules/.bin/webpack-dev-server --config=./apps/chat-widget/webpack.config.js --color
 
 dev-storybook:
 	./node_modules/.bin/start-storybook -p 6006

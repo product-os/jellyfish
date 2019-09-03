@@ -17,11 +17,13 @@
   "deplint": {
     "files": [
       "lib/**/*.js !lib/ui/**/*.js",
-      "apps/**/*.js"
+      "apps/**/*.js !apps/*/webpack.config.js"
     ],
     "modules": [
       "apps/server",
+      "apps/ui",
       "apps/action-server",
+      "apps/chat-widget",
       "lib/core",
       "lib/action-library",
       "lib/environment",
@@ -29,6 +31,7 @@
       "lib/logger",
       "lib/queue",
       "lib/assert",
+      "lib/ui-components",
       "lib/uuid",
       "lib/sdk",
       "lib/sync",
