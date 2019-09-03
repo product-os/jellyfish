@@ -1,4 +1,57 @@
 - commits:
+    - subject: Remove Danger.js integration
+      hash: a010242b11ea5580ee2970860735065d90e16feb
+      body: |
+        We don't use it very much and it chokes half of the time.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'server: Remove OpenAPI docs'
+      hash: 856f3245ee930aa3c1989b4709bf73a3a8b1993d
+      body: |
+        We need to start this over anyways.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: Remove old unused stress/ suite
+      hash: 9f67b550081f26770bfd264202e1a39cc0999574
+      body: |
+        We need to do better, from scratch.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'server: Store local uploads in .tmp'
+      hash: 16ec53f08b767f2102a749aca0c95b0a5bddc4ef
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: Get rid of Docker Compose
+      hash: 67bf8feca303f24c0cb462fc5eb64128449a9672
+      body: |
+        No-one is using it, it tends to be broken as a result, and we are
+        talking about how to setup a more standard dev env through BoB.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.2.2
+  date: 2019-09-03T14:10:41.764Z
+- commits:
     - subject: 'chat-widget/ui: Move relevant webpack configs to apps/'
       hash: a4c58d17219cdbbab283ec1b8c4f68325ab996d3
       body: ''
