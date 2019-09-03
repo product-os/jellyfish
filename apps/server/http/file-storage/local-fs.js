@@ -8,11 +8,12 @@ const Bluebird = require('bluebird')
 const fs = require('fs')
 const mkdirp = require('mkdirp-promise')
 const path = require('path')
+const ROOT = path.resolve(__dirname, '../../../..')
 
 module.exports = class LocalFS {
 	constructor () {
 		this.numberOfRetries = 1
-		this.STORAGE_DIR = 'jellyfish-files'
+		this.STORAGE_DIR = path.resolve(ROOT, '.tmp', 'jellyfish-files')
 	}
 
 	store (scope, name, data) {

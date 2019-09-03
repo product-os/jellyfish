@@ -67,9 +67,6 @@ dump.rdb
 .tar.gz
 *.lock
 
-# Used by LocalFS file storage driver
-jellyfish-files
-
 # Built files
 dist/
 .cache-loader/
