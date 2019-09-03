@@ -288,7 +288,7 @@ endif
 
 lint:
 	./node_modules/.bin/eslint --ext .js,.jsx $(ESLINT_OPTION_FIX) \
-		lib apps scripts test stress *.js
+		lib apps scripts test *.js
 	./scripts/lint/check-filenames.sh
 	shellcheck ./scripts/*.sh ./scripts/*/*.sh ./.circleci/*.sh ./deploy-templates/*.sh
 	./node_modules/.bin/deplint
