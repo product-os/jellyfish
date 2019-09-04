@@ -258,6 +258,7 @@ lint:
 	./scripts/lint/check-filenames.sh
 	./scripts/lint/check-descriptions.sh
 	./scripts/lint/check-tests.sh
+	./scripts/lint/check-licenses.sh
 	shellcheck ./scripts/*.sh ./scripts/*/*.sh ./.circleci/*.sh ./deploy-templates/*.sh
 	./node_modules/.bin/deplint
 	./node_modules/.bin/depcheck --ignore-bin-package --ignores='@storybook/*,@babel/*'
