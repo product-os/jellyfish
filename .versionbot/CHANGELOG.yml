@@ -1,4 +1,22 @@
 - commits:
+    - subject: 'ui: Move component tests to test/unit'
+      hash: 8f5786f426d9ab4e251bbc3b9bbf70f532c9bcc5
+      body: |
+        - The `test-ui` command is the only test command that doesn't follow our
+        `test-<type>-<component>`, making it tricky to document, as it needs to
+        be an exception to our convention
+
+        The `../../` things are a bit weird, but we probably need to figure that
+        out for other modules anyways.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.2.8
+  date: 2019-09-04T10:07:22.222Z
+- commits:
     - subject: 'ui: Move UI code to apps/'
       hash: 3af19a3f3b58eb5bcdfe44c488de0e8369c50912
       body: ''
