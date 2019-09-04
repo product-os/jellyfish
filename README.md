@@ -99,7 +99,7 @@ Reporting problems
 ------------------
 
 If you're having any problem, please [raise an
-issue](https://github.com/balena-io/etcher/issues/new) on GitHub and the
+issue](https://github.com/balena-io/jellyfish/issues/new) on GitHub and the
 Jellyfish team will be happy to help.
 
 License
