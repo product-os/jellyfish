@@ -1,4 +1,16 @@
 - commits:
+    - subject: Revise docs
+      hash: aa2ad88fa4ef88db673e791689d6dcfedb01c775
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.4.1
+  date: 2019-09-04T15:35:40.507Z
+- commits:
     - subject: 'server: Create dev default test user on boot'
       hash: f172e264b2ab923542311b36dfadcf1a2236c0db
       body: ''
