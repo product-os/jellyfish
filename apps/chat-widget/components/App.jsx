@@ -33,6 +33,9 @@ import {
 import {
 	Layout
 } from './Layout'
+import {
+	StreamProviderTask
+} from './StreamProviderTask'
 
 export const App = React.memo(() => {
 	const sdk = useSdk()
@@ -49,14 +52,20 @@ export const App = React.memo(() => {
 				<ThemeProvider style={{
 					height: '100%', display: 'flex', flexDirection: 'column'
 				}}>
-					<Router>
-						<Layout flex={1}>
-							<Route path="/" exact component={IndexRoute} />
-							<Route path="/full_thread_list" exact component={FullThreadListRoute} />
-							<Route path="/new_thread" exact component={NewThreadRoute} />
-							<Route path="/chat/:thread" exact component={ChatRoute} />
-						</Layout>
-					</Router>
+					<StreamProviderTask>
+						{() => {
+							return (
+								<Router>
+									<Layout flex={1}>
+										<Route path="/" exact component={IndexRoute} />
+										<Route path="/full_thread_list" exact component={FullThreadListRoute} />
+										<Route path="/new_thread" exact component={NewThreadRoute} />
+										<Route path="/chat/:thread" exact component={ChatRoute} />
+									</Layout>
+								</Router>
+							)
+						}}
+					</StreamProviderTask>
 				</ThemeProvider>
 			</SetupProvider>
 		</StoreProvider>
