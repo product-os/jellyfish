@@ -47,9 +47,8 @@
     "failWithoutAssertions": true,
     "files": [
       "test/unit/**/*.spec.js",
-      "test/e2e/**/*.spec.js",
-      "apps/ui/**/*.spec.jsx",
-      "apps/ui/**/*.spec.js"
+      "test/unit/**/*.spec.jsx",
+      "test/e2e/**/*.spec.js"
     ],
     "require": [
       "./test/register",

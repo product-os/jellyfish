@@ -272,7 +272,7 @@ test-e2e:
 		AVA_OPTS="--serial" make test
 
 test-unit-%:
-	FILES="'./test/unit/$(subst test-unit-,,$@)/**/*.spec.js'" SCRUB=0 make test
+	FILES="'./test/unit/$(subst test-unit-,,$@)/**/*.spec.{js,jsx}'" SCRUB=0 make test
 
 test-integration-%:
 	FILES="'./test/integration/$(subst test-integration-,,$@)/**/*.spec.js'" make test
@@ -280,9 +280,6 @@ test-integration-%:
 test-e2e-%:
 	FILES="'./test/e2e/$(subst test-e2e-,,$@)/**/*.spec.{js,jsx}'" \
 		AVA_OPTS="--serial" make test
-
-test-ui:
-	FILES="'./apps/ui/**/*.spec.{js,jsx}'" SCRUB=0 make test
 
 ngrok-%:
 	ngrok start -config ./ngrok.yml $(subst ngrok-,,$@)

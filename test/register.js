@@ -22,6 +22,7 @@ require('@babel/register')({
 	],
 	only: [
 		/lib\/ui-components/,
+		/\.jsx$/,
 		/apps\/ui/,
 		/apps\/chat-widget/
 	]
