@@ -8,13 +8,13 @@
 
 set -eu
 
-LICENSE="/*
+LICENSE_JS="/*
  * Copyright (C) Balena.io - All Rights Reserved
  * Unauthorized copying of this file, via any medium is strictly prohibited.
  * Proprietary and confidential.
  */"
 
-LICENSE_SHEBANG="#!/usr/bin/env node
+LICENSE_SHEBANG_JS="#!/usr/bin/env node
 
 /*
  * Copyright (C) Balena.io - All Rights Reserved
@@ -22,7 +22,21 @@ LICENSE_SHEBANG="#!/usr/bin/env node
  * Proprietary and confidential.
  */"
 
+LICENSE_SHEBANG_SH="#!/bin/bash
+
+###
+# Copyright (C) Balena.io - All Rights Reserved
+# Unauthorized copying of this file, via any medium is strictly prohibited.
+# Proprietary and confidential.
+###"
+
 JAVASCRIPT_FILES="$(find . -name '*.js?' \
+	-and -not -path './*node_modules/*' \
+	-and -not -path './coverage/*' \
+	-and -not -path './dist/*' \
+	-and -not -path './.tmp/*')"
+
+SHELL_FILES="$(find . -name '*.sh' \
 	-and -not -path './*node_modules/*' \
 	-and -not -path './coverage/*' \
 	-and -not -path './dist/*' \
@@ -36,16 +50,26 @@ for file in $JAVASCRIPT_FILES; do
 		continue
 	fi
 
-	if [ "$(head -n 5 "$file")" != "$LICENSE" ] && \
-		[ "$(head -n 7 "$file")" != "$LICENSE_SHEBANG" ]; then
+	if [ "$(head -n 5 "$file")" != "$LICENSE_JS" ] && \
+		[ "$(head -n 7 "$file")" != "$LICENSE_SHEBANG_JS" ]; then
 		echo "Invalid license header: $file" 1>&2
 		echo "Should be:" 1>&2
 		echo "" 1>&2
-		echo "$LICENSE" 1>&2
+		echo "$LICENSE_JS" 1>&2
 		echo "" 1>&2
 		echo "Or:" 1>&2
 		echo "" 1>&2
-		echo "$LICENSE_SHEBANG" 1>&2
+		echo "$LICENSE_SHEBANG_JS" 1>&2
+		exit 1
+	fi
+done
+
+for file in $SHELL_FILES; do
+	if [ "$(head -n 7 "$file")" != "$LICENSE_SHEBANG_SH" ]; then
+		echo "Invalid license header: $file" 1>&2
+		echo "Should be:" 1>&2
+		echo "" 1>&2
+		echo "$LICENSE_SHEBANG_SH" 1>&2
 		exit 1
 	fi
 done
