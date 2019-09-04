@@ -9,7 +9,7 @@ import {
 	shallow
 } from 'enzyme'
 import React from 'react'
-import MyUser from '../MyUser'
+import MyUser from '../../../../../../apps/ui/lens/full/MyUser/MyUser'
 import {
 	user,
 	userType

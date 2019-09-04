@@ -9,12 +9,10 @@ import {
 	shallow
 } from 'enzyme'
 import React from 'react'
-import SupportThreadsToAudit from '../SupportThreadsToAudit'
+import CreateView from '../../../../../../apps/ui/lens/actions/CreateView/CreateView'
 
 ava('It should render', (test) => {
 	test.notThrows(() => {
-		shallow(
-			<SupportThreadsToAudit />
-		)
+		shallow(<CreateView />)
 	})
 })
