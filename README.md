@@ -34,10 +34,17 @@ make start-redis
 make start-server
 make start-tick
 make start-worker # Run more than once for more workers
-make build-ui start-static COVERAGE=0
+make build-ui start-static-ui COVERAGE=0
 ```
 
-The API will listen on `8000` and the UI will listen on `9000`.
+The API will listen on `8000` and the UI will listen on `9000`. Open
+http://localhost:9000 and login as:
+
+- Username: `jellyfish`
+- Password: `jellyfish`
+
+> Note: The development user is not available in production
+> (`NODE_ENV=production`)
 
 Developing
 ----------

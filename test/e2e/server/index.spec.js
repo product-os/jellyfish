@@ -9,6 +9,7 @@ const Bluebird = require('bluebird')
 const uuid = require('uuid/v4')
 const _ = require('lodash')
 const helpers = require('../sdk/helpers')
+const environment = require('../../../lib/environment')
 
 ava.before(helpers.sdk.beforeEach)
 ava.after(helpers.sdk.afterEach)
@@ -46,6 +47,36 @@ ava.serial('should parse application/vnd.api+json bodies', async (test) => {
 	test.truthy(result.headers['x-request-id'])
 	test.truthy(result.headers['x-api-id'])
 })
+
+if (environment.isProduction()) {
+	ava.serial('should not login as the default test user', async (test) => {
+		const result = await test.context.http(
+			'POST', '/api/v2/action', {
+				card: `user-${environment.test.user.username}`,
+				type: 'user',
+				action: 'action-create-session',
+				arguments: {
+					password: environment.test.user.password
+				}
+			})
+
+		test.is(result.code, 400)
+	})
+} else {
+	ava.serial('should login as the default test user', async (test) => {
+		const result = await test.context.http(
+			'POST', '/api/v2/action', {
+				card: `user-${environment.test.user.username}`,
+				type: 'user',
+				action: 'action-create-session',
+				arguments: {
+					password: environment.test.user.password
+				}
+			})
+
+		test.is(result.code, 200)
+	})
+}
 
 ava.serial('should include the request and api ids on responses', async (test) => {
 	const userDetails = createUserDetails()

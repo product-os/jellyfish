@@ -6,14 +6,12 @@
 	dev-ui \
 	dev-chat-widget \
 	dev-storybook \
-	dev-create-user \
 	build-ui \
 	build-chat-widget \
 	start-server \
 	start-worker \
 	start-tick \
 	start-redis \
-	start-static \
 	start-postgres \
 	test-unit \
 	test-integration \
@@ -98,6 +96,17 @@ AWS_S3_BUCKET_NAME ?=
 export AWS_S3_BUCKET_NAME
 INTEGRATION_DEFAULT_USER ?= admin
 export INTEGRATION_DEFAULT_USER
+
+# Automatically created user
+# when not running in production
+TEST_USER_USERNAME ?= jellyfish
+export TEST_USER_USERNAME
+TEST_USER_PASSWORD ?= jellyfish
+export TEST_USER_PASSWORD
+TEST_USER_ROLE ?= user-community
+export TEST_USER_ROLE
+TEST_USER_ORGANIZATION ?= balena
+export TEST_USER_ORGANIZATION
 
 # Front
 INTEGRATION_INTERCOM_TOKEN ?=
@@ -328,8 +337,8 @@ start-redis:
 start-postgres: postgres_data
 	postgres -N 100 -D $< -p $(POSTGRES_PORT)
 
-start-static:
-	cd dist && python2 -m SimpleHTTPServer $(UI_PORT)
+start-static-%:
+	cd dist/$(subst start-static-,,$@) && python2 -m SimpleHTTPServer $(UI_PORT)
 
 # -----------------------------------------------
 # Build
@@ -373,13 +382,6 @@ endif
 # -----------------------------------------------
 # Development
 # -----------------------------------------------
-
-# TODO: This should not be a rule, but something
-# that start-server should do out of the box when
-# running in development mode.
-dev-create-user: LOGLEVEL = warning
-dev-create-user:
-	./scripts/dev/create-user.js
 
 dev-ui: NODE_ENV = development
 dev-ui:
