@@ -1,4 +1,16 @@
 - commits:
+    - subject: Force UI related unit tests to live alongside the code
+      hash: 8893d7f10327959b49b931dc9d22719708738caa
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.2.10
+  date: 2019-09-04T11:59:01.592Z
+- commits:
     - subject: 'test: Reorganize e2e server test suites'
       hash: 618383246fd2f6e6c14987a9c687a952535b7107
       body: ''
