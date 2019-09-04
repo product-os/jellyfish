@@ -52,7 +52,7 @@ jobs:
             command: make lint
         - run:
             name: Generate Docs
-            command: make ARCHITECTURE.markdown
+            command: make ARCHITECTURE.md
         - run:
             name: No Unstaged Files
             command: ./scripts/ci/unstaged.sh
@@ -281,8 +281,8 @@ jobs:
           command: make test-e2e-server COVERAGE=1 NODE_ENV=production
 
       - run:
-          name: End To End Tests (without Redis)
-          command: make test-e2e-sdk COVERAGE=1 DISABLE_REDIS=1 && make test-e2e-server COVERAGE=1 DISABLE_REDIS=1 && make test-e2e-ui COVERAGE=0 DISABLE_REDIS=1
+          name: End To End Server Tests (without Redis)
+          command: make test-e2e-server COVERAGE=1 DISABLE_REDIS=1
 
       # Store artifacts for debugging purposes
       - store_test_results:

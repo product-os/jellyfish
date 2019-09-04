@@ -14,6 +14,8 @@ CWD="$(pwd)"
 
 echo "# Jellyfish Architecture"
 echo ""
+echo "TODO"
+echo ""
 echo "## Deployable Components"
 echo ""
 for app in $APPS; do

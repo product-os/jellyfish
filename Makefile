@@ -243,7 +243,7 @@ clean:
 		dist \
 		.cache-loader
 
-ARCHITECTURE.markdown: scripts/architecture-summary.sh lib/*/DESCRIPTION.markdown apps/*/DESCRIPTION.markdown
+ARCHITECTURE.md: scripts/architecture-summary.sh lib/*/DESCRIPTION.markdown apps/*/DESCRIPTION.markdown
 	./$< > $@
 
 dist:
@@ -383,14 +383,11 @@ endif
 # Development
 # -----------------------------------------------
 
-dev-ui: NODE_ENV = development
-dev-ui:
-	./node_modules/.bin/webpack-dev-server --config=./apps/ui/webpack.config.js --color
-
-dev-chat-widget: NODE_ENV = development
-dev-chat-widget:
+dev-%: NODE_ENV = development
 	JELLYFISH_TOKEN=$(JELLYFISH_TOKEN) \
-	./node_modules/.bin/webpack-dev-server --config=./apps/chat-widget/webpack.config.js --color
+	./node_modules/.bin/webpack-dev-server \
+		--config=./apps/$(subst start-static-,,$@)/webpack.config.js \
+		--color
 
 dev-storybook:
 	./node_modules/.bin/start-storybook -p 6006

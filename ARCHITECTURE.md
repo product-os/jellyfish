@@ -1,5 +1,7 @@
 # Jellyfish Architecture
 
+TODO
+
 ## Deployable Components
 
 ### [`apps/action-server`](https://github.com/balena-io/jellyfish/tree/master/apps/action-server)

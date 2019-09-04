@@ -4,14 +4,10 @@
   "codename": "cephea",
   "private": true,
   "description": "The Jellyfish Project",
-  "homepage": "https://github.com/resin-io/jellyfish",
+  "homepage": "https://github.com/balena-io/jellyfish",
   "repository": {
     "type": "git",
-    "url": "git@github.com:resin-io/jellyfish.git"
-  },
-  "scripts": {
-    "start": "make start-server",
-    "test": "make lint test"
+    "url": "git@github.com:balena-io/jellyfish.git"
   },
   "deplint": {
     "files": [
@@ -55,7 +51,7 @@
       "./test/e2e/ui/browser-setup.js"
     ]
   },
-  "author": "Resin Inc. <hello@resin.io>",
+  "author": "Balena.io. <hello@balena.io>",
   "license": "UNLICENSED",
   "devDependencies": {
     "@babel/cli": "^7.2.3",

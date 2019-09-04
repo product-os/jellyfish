@@ -1,4 +1,3 @@
 * @lucianbuzzo @jviotti @nazrhom
 deploy-templates @mikesimos
-lib/ui @lucianbuzzo
-lib/sdk @lucianbuzzo
+apps/chat-widget @karaxuna

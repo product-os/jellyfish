@@ -1,5 +1,5 @@
-Sentry
-======
+Using Sentry
+============
 
 We use [Sentry](https://sentry.io/) to track *unexpected* errors throughout the
 Jellyfish infrastructure.
