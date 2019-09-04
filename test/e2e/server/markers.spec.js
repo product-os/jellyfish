@@ -16,6 +16,14 @@ ava.afterEach(async (test) => {
 	await test.context.sdk.auth.logout()
 })
 
+const createUserDetails = () => {
+	return {
+		username: uuid(),
+		email: `${uuid()}@example.com`,
+		password: 'foobarbaz'
+	}
+}
+
 const users = {
 	community: {
 		username: `johndoe-${uuid()}`,
@@ -312,3 +320,146 @@ ava.serial(
 
 		test.deepEqual(userReadThread, thread)
 	})
+
+ava.serial('Updating a user should not remove their org membership', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const userDetails = createUserDetails()
+	const user = await test.context.createUser(userDetails)
+	await sdk.auth.login(userDetails)
+
+	const waitQuery = {
+		type: 'object',
+		$$links: {
+			'is member of': {
+				type: 'object',
+				required: [ 'slug' ],
+				properties: {
+					slug: {
+						type: 'string',
+						const: 'org-balena'
+					}
+				}
+			}
+		},
+		properties: {
+			id: {
+				type: 'string',
+				const: user.id
+			},
+			type: {
+				type: 'string',
+				const: 'user'
+			}
+		},
+		required: [ 'id', 'type' ],
+		additionalProperties: true
+	}
+
+	const balenaOrg = await sdk.card.get('org-balena', {
+		type: 'org'
+	})
+
+	await test.context.executeThenWait(() => {
+		return sdk.card.link(balenaOrg, user, 'has member')
+	}, waitQuery)
+
+	const linkedUser = await sdk.auth.whoami()
+
+	const result = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: user.slug,
+			type: user.type,
+			action: 'action-update-card',
+			arguments: {
+				reason: null,
+				patch: [
+					{
+						op: 'replace',
+						path: '/data/email',
+						value: 'test@example.com'
+					}
+				]
+			}
+		}, {
+			Authorization: `Bearer ${sdk.getAuthToken()}`
+		})
+
+	test.is(result.code, 200)
+	test.false(result.response.error)
+
+	const updatedUser = await sdk.auth.whoami()
+
+	test.deepEqual(updatedUser.links['is member of'], linkedUser.links['is member of'])
+})
+
+ava.serial('.query() should be able to see previously restricted cards after an org change', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const {
+		jellyfish
+	} = test.context.server
+	const {
+		defaults
+	} = jellyfish
+
+	const userDetails = createUserDetails()
+
+	const user = await test.context.createUser(userDetails)
+
+	test.truthy(user, 'User should be defined')
+	await sdk.auth.login(userDetails)
+
+	const orgCard = await jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'org-balena', {
+			type: 'org'
+		})
+
+	test.truthy(orgCard, 'Org should exist')
+	const entry = await jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			markers: [ orgCard.slug ],
+			type: 'support-issue',
+			slug: test.context.generateRandomSlug({
+				prefix: 'support-issue'
+			}),
+			version: '1.0.0',
+			name: 'Test entry'
+		})
+
+	test.truthy(entry, 'Entry should be defined')
+	const unprivilegedResults = await sdk.card.get(entry.id, {
+		type: 'support-issue'
+	})
+
+	test.deepEqual(unprivilegedResults, null)
+
+	await jellyfish.replaceCard(
+		test.context.context, test.context.session, defaults({
+			slug: `link-${orgCard.id}-has-member-${user.id}`,
+			type: 'link',
+			name: 'has member',
+			data: {
+				inverseName: 'is member of',
+				from: {
+					id: orgCard.id,
+					type: orgCard.type
+				},
+				to: {
+					id: user.id,
+					type: user.type
+				}
+			}
+		}))
+
+	const privilegedResults = await sdk.card.get(entry.id, {
+		type: 'support-issue'
+	})
+
+	test.truthy(privilegedResults)
+	test.deepEqual(privilegedResults.id, entry.id)
+})
