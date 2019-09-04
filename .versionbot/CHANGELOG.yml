@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'test: Reorganize e2e server test suites'
+      hash: 618383246fd2f6e6c14987a9c687a952535b7107
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.2.9
+  date: 2019-09-04T11:07:12.211Z
+- commits:
     - subject: 'ui: Move component tests to test/unit'
       hash: 8f5786f426d9ab4e251bbc3b9bbf70f532c9bcc5
       body: |
