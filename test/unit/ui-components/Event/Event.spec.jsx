@@ -11,7 +11,7 @@ import {
 import React from 'react'
 import Event, {
 	getMessage
-} from '../Event'
+} from '../../../../lib/ui-components/Event'
 import {
 	card
 } from './fixtures'

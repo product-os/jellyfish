@@ -9,7 +9,7 @@ import {
 	shallow
 } from 'enzyme'
 import React from 'react'
-import ViewLink from '../ViewLink'
+import ViewLink from '../../../../lib/ui-components/ViewLink'
 
 const view = {
 	id: 'ffc200db-0f81-4ce3-a280-01515f94869f',

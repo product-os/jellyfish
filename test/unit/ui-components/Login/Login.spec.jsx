@@ -9,20 +9,10 @@ import {
 	shallow
 } from 'enzyme'
 import React from 'react'
-import Filters from '../'
-
-const schema = {
-	type: 'object',
-	properties: {
-		Name: {
-			title: 'Pokemon Name',
-			type: 'string'
-		}
-	}
-}
+import Login from '../../../../lib/ui-components/Login'
 
 ava('It should render', (test) => {
 	test.notThrows(() => {
-		shallow(<Filters schema={schema} />)
+		shallow(<Login />)
 	})
 })

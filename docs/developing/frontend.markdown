@@ -14,6 +14,7 @@ You can run the UI relevant unit and end to end test suites as follows:
 
 ```sh
 make test-unit-ui COVERAGE=0
+make test-unit-ui-components COVERAGE=0
 make build-ui test-e2e-ui COVERAGE=0 VISUAL=1
 ```
 

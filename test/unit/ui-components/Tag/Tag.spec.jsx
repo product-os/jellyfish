@@ -9,10 +9,12 @@ import {
 	shallow
 } from 'enzyme'
 import React from 'react'
-import CardLinker from '../CardLinker'
+import {
+	Tag
+} from '../../../../lib/ui-components/Tag'
 
 ava('It should render', (test) => {
 	test.notThrows(() => {
-		shallow(<CardLinker />)
+		shallow(<Tag>#foobar</Tag>)
 	})
 })

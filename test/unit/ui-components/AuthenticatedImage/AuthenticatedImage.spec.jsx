@@ -9,7 +9,7 @@ import {
 	shallow
 } from 'enzyme'
 import React from 'react'
-import AuthenticatedImage from '../AuthenticatedImage'
+import AuthenticatedImage from '../../../../lib/ui-components/AuthenticatedImage'
 
 // Borrowed from https://gist.github.com/nolanlawson/0eac306e4dac2114c752
 const getFile = async () => {

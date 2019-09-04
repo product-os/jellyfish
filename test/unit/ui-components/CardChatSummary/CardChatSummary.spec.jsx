@@ -12,7 +12,7 @@ import {
 } from 'enzyme'
 import React from 'react'
 import sinon from 'sinon'
-import CardChatSummary from '../'
+import CardChatSummary from '../../../../lib/ui-components/CardChatSummary'
 import card from './fixtures/card.json'
 import user1 from './fixtures/user1.json'
 import user2 from './fixtures/user2.json'
