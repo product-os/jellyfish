@@ -46,9 +46,9 @@
     "serial": true,
     "failWithoutAssertions": true,
     "files": [
-      "test/unit/**/*.spec.js",
-      "test/unit/**/*.spec.jsx",
-      "test/e2e/**/*.spec.js"
+      "test/**/*.spec.{js,jsx}",
+      "lib/**/*.spec.{js,jsx}",
+      "apps/**/*.spec.{js,jsx}"
     ],
     "require": [
       "./test/register",

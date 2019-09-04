@@ -5,7 +5,7 @@
  */
 
 const ava = require('ava')
-const helpers = require('../../../../apps/ui/services/helpers')
+const helpers = require('./helpers')
 
 ava('.createPrefixRegExp() match underscore characters', (test) => {
 	const matchRE = helpers.createPrefixRegExp('@')

@@ -274,6 +274,20 @@ test-e2e:
 test-unit-%:
 	FILES="'./test/unit/$(subst test-unit-,,$@)/**/*.spec.{js,jsx}'" SCRUB=0 make test
 
+# As a company policy, UI unit tests shall live alongside the
+# production code. This policy only applies to *unit* tests,
+# and integration/e2e UI tests will still live under `test`.
+#
+# These Make rules override the above conventions for this case.
+test-unit-ui-components:
+	FILES="'./lib/$(subst test-unit-,,$@)/**/*.spec.{js,jsx}'" SCRUB=0 make test
+test-unit-sdk:
+	FILES="'./lib/$(subst test-unit-,,$@)/**/*.spec.{js,jsx}'" SCRUB=0 make test
+test-unit-ui:
+	FILES="'./apps/$(subst test-unit-,,$@)/**/*.spec.{js,jsx}'" SCRUB=0 make test
+test-unit-chat-widget:
+	FILES="'./apps/$(subst test-unit-,,$@)/**/*.spec.{js,jsx}'" SCRUB=0 make test
+
 test-integration-%:
 	FILES="'./test/integration/$(subst test-integration-,,$@)/**/*.spec.js'" make test
 
