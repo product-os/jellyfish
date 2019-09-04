@@ -4,10 +4,10 @@
  * Proprietary and confidential.
  */
 const ava = require('ava')
-const actions = require('../../../../../apps/ui/core/store/actions').default
+const actions = require('./actions').default
 const {
 	reducer
-} = require('../../../../../apps/ui/core/store/reducer')
+} = require('./reducer')
 
 ava('reducer should create a default state if one is not provided', (test) => {
 	const initialState = reducer()
