@@ -1,5 +1,5 @@
-New Relic
-=========
+Using New Relic
+===============
 
 [New Relic](https://www.newrelic.com) is a monitoring platform with many
 sub-products. Jellyfish uses only

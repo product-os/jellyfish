@@ -7,7 +7,20 @@ gathers all information company wide and makes it a platform to implement
 processes that enhance the team's productivity and understanding. Think of it
 as a cross between Slack and Excel!
 
-| [**New Relic**](https://github.com/balena-io/jellyfish/blob/master/docs/newrelic.markdown) | [**Balena CI**](https://github.com/balena-io/jellyfish/blob/master/docs/balenaci.markdown) | [**Sentry**](https://github.com/balena-io/jellyfish/blob/master/docs/sentry.markdown) |
+***
+
+- **Contributing**
+	- [**Architecture overview**](https://github.com/balena-io/jellyfish/blob/master/ARCHITECTURE.md)
+	- [**Working with the frontend**](https://github.com/balena-io/jellyfish/blob/master/docs/developing/frontend.markdown)
+- **Services**
+	- [**Using New Relic**](https://github.com/balena-io/jellyfish/blob/master/docs/newrelic.markdown)
+	- [**Using Balena CI**](https://github.com/balena-io/jellyfish/blob/master/docs/balenaci.markdown)
+	- [**Using Sentry**](https://github.com/balena-io/jellyfish/blob/master/docs/sentry.markdown)
+
+Running with Katapult
+---------------------
+
+TODO
 
 Running natively
 ----------------
@@ -46,11 +59,6 @@ http://localhost:9000 and login as:
 > Note: The development user is not available in production
 > (`NODE_ENV=production`)
 
-Developing
-----------
-
-- [**Working with the frontend**](https://github.com/balena-io/jellyfish/blob/master/docs/developing/frontend.markdown)
-
 Testing
 -------
 
@@ -63,9 +71,11 @@ make lint FIX=1 # Optionally try to fix some of the linting issues
 
 The tests live in `test/<type>/<component>/**/*.spec.js`, where `type` is
 `unit`, `integration`, or `e2e` and `component` corresponds to any of the
-directories inside `lib` or `apps`.
+directories inside `lib` or `apps`. As an exception to the rule, the frontend
+components store their unit tests along with the production code (company
+policy).
 
-You can run tests through GNU Make as follows
+We provide GNU Make utility rules to run different test suites, for example:
 
 ```sh
 make test-integration-queue                      # Run all the queue integration tests
@@ -77,7 +87,7 @@ make test FILES=./test/unit/worker/utils.spec.js # Run a specific unit test file
 The tests run with code coverage instrumentation by default unless you pass
 `COVERAGE=0`. The tests don't generate a coverage report until you run `make
 coverage`, which will accumulate all the code coverage information stored until
-that point in `.nyc_output`.
+that point from `.nyc_output`.
 
 Some suites may provide or require various options. Consult the corresponding
 ["Developing"

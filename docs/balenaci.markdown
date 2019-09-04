@@ -1,5 +1,5 @@
-Balena CI
-=========
+Using Balena CI
+===============
 
 We use [Balena
 CI](https://ci.balena-dev.com/teams/main/pipelines/github-events-resin) to run
