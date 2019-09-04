@@ -1,0 +1,666 @@
+/*
+ * Copyright (C) Balena.io - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited.
+ * Proprietary and confidential.
+ */
+
+const ava = require('ava')
+const uuid = require('uuid/v4')
+const _ = require('lodash')
+const helpers = require('../sdk/helpers')
+
+ava.before(helpers.sdk.beforeEach)
+ava.after(helpers.sdk.afterEach)
+
+// Logout of the SDK after each test
+ava.afterEach(async (test) => {
+	await test.context.sdk.auth.logout()
+})
+
+const createUserDetails = () => {
+	return {
+		username: uuid(),
+		email: `${uuid()}@example.com`,
+		password: 'foobarbaz'
+	}
+}
+
+ava.serial('creating a user with the guest user session should fail', async (test) => {
+	const userDetails = createUserDetails()
+	const username = `user-${userDetails.username.toLowerCase()}`
+
+	const result = await test.context.http('POST', '/api/v2/action', {
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			email: userDetails.email,
+			username,
+			password: userDetails.password
+		}
+	})
+
+	test.is(result.code, 400)
+	test.deepEqual(result.response, {
+		error: true,
+		data: {
+			context: result.response.data.context,
+			name: 'QueueInvalidAction',
+			message: 'No such action: action-create-user'
+		}
+	})
+})
+
+ava.serial('creating a user with the guest user session using action-create-card should fail', async (test) => {
+	const username = `user-${createUserDetails().username}`
+
+	const result = await test.context.http('POST', '/api/v2/action', {
+		card: 'user',
+		type: 'type',
+		action: 'action-create-card',
+		arguments: {
+			reason: null,
+			properties: {
+				slug: username,
+				type: 'user'
+			}
+		}
+	})
+
+	test.is(result.code, 400)
+	test.deepEqual(result.response, {
+		error: true,
+		data: {
+			context: result.response.data.context,
+			name: 'QueueInvalidAction',
+			message: 'No such action: action-create-card'
+		}
+	})
+})
+
+ava.serial('creating a user with a community user session should succeed', async (test) => {
+	const userDetails = createUserDetails()
+
+	const user = await test.context.createUser(userDetails)
+
+	const result1 = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: user.slug,
+			type: 'user',
+			action: 'action-create-session',
+			arguments: {
+				password: userDetails.password
+			}
+		})
+
+	test.is(result1.code, 200)
+
+	const token = result1.response.data.id
+
+	const newUserDetails = createUserDetails()
+
+	const result2 = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: 'user',
+			type: 'type',
+			action: 'action-create-user',
+			arguments: {
+				email: newUserDetails.email,
+				username: `user-${newUserDetails.username}`,
+				password: newUserDetails.password
+			}
+		}, {
+			Authorization: `Bearer ${token}`
+		})
+
+	test.is(result2.code, 200)
+
+	const newUserId = result2.response.data.id
+
+	const card = await test.context.jellyfish.getCardById(test.context.context,
+		test.context.session, newUserId, {
+			type: 'user'
+		})
+
+	test.deepEqual(card, test.context.jellyfish.defaults({
+		created_at: card.created_at,
+		linked_at: card.linked_at,
+		updated_at: card.updated_at,
+		type: 'user',
+		slug: `user-${newUserDetails.username}`,
+		id: card.id,
+		name: null,
+		data: {
+			email: newUserDetails.email,
+			roles: [ 'user-community' ],
+			hash: card.data.hash,
+			avatar: null
+		}
+	}))
+})
+
+ava.serial('Users should be able to change their own email addresses', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const userDetails = createUserDetails()
+	const user = await test.context.createUser(userDetails)
+
+	await sdk.auth.login(userDetails)
+
+	const result = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: user.slug,
+			type: user.type,
+			action: 'action-update-card',
+			arguments: {
+				reason: null,
+				patch: [
+					{
+						op: 'replace',
+						path: '/data/email',
+						value: 'test@example.com'
+					}
+				]
+			}
+		}, {
+			Authorization: `Bearer ${sdk.getAuthToken()}`
+		})
+
+	test.is(result.code, 200)
+	test.false(result.response.error)
+})
+
+ava.serial('Users should not be able to view other users passwords', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const targetUser = await test.context.createUser(createUserDetails())
+
+	const activeUserDetails = createUserDetails()
+
+	await test.context.createUser(activeUserDetails)
+	await sdk.auth.login(activeUserDetails)
+
+	const fetchedUser = await sdk.card.get(targetUser.id, {
+		type: 'user'
+	})
+
+	test.is(fetchedUser.data.password, undefined)
+})
+
+ava.serial('.query() the guest user should only see its own private fields', async (test) => {
+	await test.context.createUser({
+		username: uuid(),
+		email: `${uuid()}@example.com`,
+		password: 'foobarbaz'
+	})
+
+	await test.context.sdk.auth.logout()
+	const results = await test.context.sdk.query({
+		type: 'object',
+		required: [ 'type', 'data' ],
+		properties: {
+			type: {
+				type: 'string',
+				const: 'user'
+			},
+			data: {
+				type: 'object',
+				properties: {
+					email: {
+						type: 'string'
+					}
+				}
+			}
+		},
+		additionalProperties: true
+	})
+
+	_.map(results, (user) => {
+		test.false(user.slug === 'user-admin')
+		if (user.slug === 'user-guest') {
+			// The "guest-user" should be fetched with all fields
+			test.is(user.data.email, 'accounts+jellyfish@resin.io')
+		} else {
+			// The other users would only have non-private fields
+			test.is(user.data, undefined)
+		}
+	})
+})
+
+ava.serial('timeline cards should reference the correct actor', async (test) => {
+	const {
+		sdk
+	} = test.context
+	const userDetails = createUserDetails()
+
+	const user = await test.context.createUser(userDetails)
+
+	await sdk.auth.login(userDetails)
+
+	const thread = await sdk.card.create({
+		type: 'thread'
+	})
+
+	// Set up the watcher before the card is updated to stop race conditions from
+	// happening
+	// Wait for links to be materialized
+	const waitQuery = {
+		type: 'object',
+		additionalProperties: true,
+		$$links: {
+			'has attached element': {
+				type: 'object',
+				required: [ 'type' ],
+				properties: {
+					type: {
+						type: 'string',
+						const: 'update'
+					}
+				}
+			}
+		},
+		properties: {
+			id: {
+				type: 'string',
+				const: thread.id
+			}
+		},
+		required: [ 'id' ]
+	}
+
+	await test.context.executeThenWait(async () => {
+		const result = await test.context.http(
+			'POST', '/api/v2/action', {
+				card: thread.slug,
+				type: thread.type,
+				action: 'action-update-card',
+				arguments: {
+					reason: null,
+					patch: [
+						{
+							op: 'add',
+							path: '/data/description',
+							value: 'Lorem ipsum dolor sit amet'
+						}
+					]
+				}
+			}, {
+				Authorization: `Bearer ${sdk.getAuthToken()}`
+			})
+
+		if (result.code !== 200) {
+			throw new Error(`Error code: ${result.code}`)
+		}
+	}, waitQuery)
+
+	const card = await sdk.card.getWithTimeline(thread.id, {
+		type: 'thread'
+	})
+	test.truthy(card)
+
+	const timelineActors = _.uniq(card.links['has attached element'].map((item) => {
+		return item.data.actor
+	}))
+
+	test.deepEqual(timelineActors, [ user.id ])
+})
+
+ava.serial('.query() community users should be able to query views', async (test) => {
+	const userDetails = createUserDetails()
+
+	await test.context.createUser(userDetails)
+
+	await test.context.sdk.auth.login(userDetails)
+
+	const results = await test.context.sdk.query({
+		type: 'object',
+		properties: {
+			slug: {
+				type: 'string'
+			},
+			type: {
+				type: 'string',
+				const: 'view'
+			}
+		}
+	})
+
+	test.true(_.includes(_.map(results, 'slug'), 'view-all-views'))
+})
+
+ava.serial('the guest user should not be able to change other users passwords', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const targetUser = await test.context.createUser(createUserDetails())
+
+	const error = await test.throwsAsync(sdk.card.update(
+		targetUser.id,
+		targetUser.type,
+		[
+			{
+				op: 'replace',
+				path: '/data/hash',
+				value: '6dafdadfffffffaaaaa'
+			}
+		]
+	))
+
+	test.is(error.name, 'JellyfishSchemaMismatch')
+})
+
+ava.serial('users with the "user-community" role should not be able to change other users passwords', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const targetUser = await test.context.createUser(createUserDetails())
+
+	const communityUserDetails = createUserDetails()
+
+	await test.context.createUser(communityUserDetails)
+
+	await sdk.auth.login(communityUserDetails)
+
+	const error = await test.throwsAsync(sdk.card.update(
+		targetUser.id,
+		targetUser.type,
+		[
+			{
+				op: 'replace',
+				path: '/data/hash',
+				value: '6dafdadfffffffaaaaa'
+			}
+		]
+	))
+
+	test.is(error.name, 'JellyfishSchemaMismatch')
+})
+
+ava.serial('When updating a user, inaccessible fields should not be removed', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const userDetails = createUserDetails()
+
+	// Create a new user
+	const user = await test.context.createUser(userDetails)
+
+	await sdk.auth.login(userDetails)
+
+	const result = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: user.slug,
+			type: user.type,
+			action: 'action-update-card',
+			arguments: {
+				reason: null,
+				patch: [
+					{
+						op: 'replace',
+						path: '/data/email',
+						value: 'test@example.com'
+					}
+				]
+			}
+		}, {
+			Authorization: `Bearer ${sdk.getAuthToken()}`
+		})
+
+	test.is(result.code, 200)
+	test.false(result.response.error)
+
+	const rawUserCard = await test.context.jellyfish.getCardById(
+		test.context.context, test.context.session, user.id, {
+			type: 'user'
+		})
+
+	test.is(rawUserCard.data.email, 'test@example.com')
+	test.is(_.has(rawUserCard, [ 'data', 'roles' ]), true)
+	test.is(_.has(rawUserCard, [ 'data', 'hash' ]), true)
+})
+
+ava.serial('Users should not be able to login as the core admin user', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	// First check that the guest user cannot login
+	sdk.auth.logout()
+
+	const error1 = await test.throwsAsync(sdk.auth.login({
+		username: 'admin'
+	}))
+
+	test.is(error1.name, 'WorkerAuthenticationError')
+
+	const role = 'user-community'
+
+	const userData = createUserDetails()
+
+	const user = await test.context.createUser(userData)
+
+	await test.context.jellyfish.replaceCard(test.context.context,
+		test.context.session,
+		_.merge(user, {
+			data: {
+				roles: [ role ]
+			}
+		}))
+
+	await sdk.auth.login(userData)
+
+	const error2 = await test.throwsAsync(sdk.auth.login({
+		username: 'admin'
+	}))
+
+	test.is(error2.name, 'WorkerAuthenticationError')
+})
+
+ava.serial('.query() additionalProperties should not affect listing users as a new user', async (test) => {
+	const id = uuid()
+	await test.context.createUser(createUserDetails())
+	const userDetails = createUserDetails()
+	await test.context.createUser(userDetails)
+	await test.context.sdk.auth.login(userDetails)
+	const results1 = await test.context.sdk.query({
+		type: 'object',
+		required: [ 'type' ],
+		properties: {
+			type: {
+				type: 'string',
+				const: 'user'
+			},
+			id: {
+				type: 'string',
+				const: id
+			}
+		}
+	})
+	const results2 = await test.context.sdk.query({
+		type: 'object',
+		additionalProperties: true,
+		required: [ 'type' ],
+		properties: {
+			type: {
+				type: 'string',
+				const: 'user'
+			},
+			id: {
+				type: 'string',
+				const: id
+			}
+		}
+	})
+	test.deepEqual(_.map(results1, 'id'), _.map(results2, 'id'))
+})
+
+ava.serial('should apply permissions on resolved links', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const user1Details = createUserDetails()
+
+	await test.context.createUser(user1Details)
+
+	const targetUser = await test.context.createUser(createUserDetails())
+
+	await test.context.sdk.auth.login(user1Details)
+
+	const id = uuid()
+
+	const messageRequest = await sdk.event.create({
+		type: 'message',
+		tags: [],
+		target: targetUser,
+		payload: {
+			message: id
+		}
+	})
+
+	const message = await sdk.card.get(messageRequest.id)
+
+	const results = await sdk.query({
+		$$links: {
+			'is attached to': {
+				type: 'object',
+				additionalProperties: true,
+				required: [ 'type' ],
+				properties: {
+					type: {
+						type: 'string',
+						const: 'user'
+					}
+				}
+			}
+		},
+		type: 'object',
+		required: [ 'type', 'links', 'data' ],
+		properties: {
+			id: {
+				type: 'string'
+			},
+			type: {
+				type: 'string',
+				const: 'message'
+			},
+			links: {
+				type: 'object',
+				additionalProperties: true
+			},
+			data: {
+				type: 'object',
+				required: [ 'payload' ],
+				properties: {
+					payload: {
+						type: 'object',
+						required: [ 'message' ],
+						properties: {
+							message: {
+								type: 'string',
+								const: id
+							}
+						}
+					}
+				},
+				additionalProperties: true
+			},
+			slug: {
+				type: 'string'
+			}
+		}
+	})
+
+	test.deepEqual(results, [
+		{
+			id: message.id,
+			slug: message.slug,
+			type: 'message',
+			markers: [],
+			links: {
+				'is attached to': [
+					Object.assign({}, targetUser, {
+						links: results[0].links['is attached to'][0].links,
+						linked_at: results[0].links['is attached to'][0].linked_at,
+						data: _.omit(targetUser.data, [ 'hash', 'roles', 'profile' ])
+					})
+				]
+			},
+			data: message.data
+		}
+	])
+})
+
+ava.serial('Users should not be able to create sessions as other users', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const user1Details = createUserDetails()
+
+	await test.context.createUser(user1Details)
+
+	const targetUser = await test.context.createUser(createUserDetails())
+
+	await test.context.sdk.auth.login(user1Details)
+
+	const error = await test.throwsAsync(async () => {
+		await sdk.card.create({
+			slug: `session-${targetUser.slug}-${Date.now()}`,
+			type: 'session',
+			data: {
+				actor: targetUser.id,
+				expiration: new Date(Date.now() + 1000 * 120).toISOString()
+			}
+		})
+	})
+
+	test.is(error.name, 'JellyfishSchemaMismatch')
+})
+
+ava.serial('Users should not be able to create action requests', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const actionRequest = {
+		type: 'action-request',
+		slug: 'action-request-8202f128-dbc2-4629-8318-609cdbc20336',
+		data: {
+			epoch: 1559123116431,
+			timestamp: '2019-05-29T09:45:16.431Z',
+			context: {
+				id: 'REQUEST-17.21.6-237c6999-64bb-4df0-ba7f-2f303003a609',
+				api: 'SERVER-17.21.6-localhost-e0f6fe9b-60e3-4d41-b575-1e719febe55b'
+			},
+			actor: 'ea04afb6-5574-483f-bf06-7490e54e0a74',
+			action: 'action-create-session',
+			input: {
+				id: '42d1cd57-a052-49df-b416-3ade986c1aec'
+			},
+			arguments: {
+				password:
+					'696dba0661d2ab3eb0c1fe5c417ca8c18278f5a324ebc8827dbcef829e07c20'
+			}
+		}
+	}
+
+	const userDetails = createUserDetails()
+
+	await test.context.createUser(userDetails)
+
+	await test.context.sdk.auth.login(userDetails)
+
+	const error = await test.throwsAsync(async () => {
+		await sdk.card.create(actionRequest)
+	})
+
+	test.is(error.name, 'JellyfishSchemaMismatch')
+})
