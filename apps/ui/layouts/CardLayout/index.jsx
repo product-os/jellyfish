@@ -13,8 +13,8 @@ import {
 import CardActions from '../../../../lib/ui-components/CardActions'
 import {
 	CloseButton
-} from '../../shame/CloseButton'
-import Column from '../../shame/Column'
+} from '@jellyfish/ui-components/shame/CloseButton'
+import Column from '@jellyfish/ui-components/shame/Column'
 
 export default function CardLayout (props) {
 	const {

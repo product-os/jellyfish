@@ -10,7 +10,7 @@ import {
 } from 'react-router-dom'
 import {
 	pathWithoutChannel
-} from '../services/helpers'
+} from '../../../apps/ui/services/helpers'
 import {
 	Button
 } from 'rendition'

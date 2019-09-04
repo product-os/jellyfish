@@ -20,7 +20,7 @@ import {
 } from 'rendition/dist/unstable'
 
 // TODO: This ui-components -> ui import should not happen
-import Icon from '../../apps/ui/shame/Icon'
+import Icon from '@jellyfish/ui-components/shame/Icon'
 
 export default class FreeFieldForm extends React.Component {
 	constructor (props) {

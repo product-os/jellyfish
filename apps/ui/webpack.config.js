@@ -39,13 +39,6 @@ const config = mergeConfig(baseConfig, {
 		publicPath: '/'
 	},
 
-	resolve: {
-		alias: {
-			'@jellyfish-ui-components': path.resolve(uiRoot, 'components'),
-			'@jellyfish-ui-shame': path.resolve(uiRoot, 'shame')
-		}
-	},
-
 	devServer: {
 		contentBase: outDir,
 		port: 9000

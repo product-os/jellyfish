@@ -4,6 +4,7 @@
  * Proprietary and confidential.
  */
 
+const path = require('path')
 const IgnorePlugin = require('webpack/lib/IgnorePlugin')
 
 const config = {
@@ -11,7 +12,10 @@ const config = {
 	target: 'web',
 
 	resolve: {
-		extensions: [ '.js', '.jsx', '.json' ]
+		extensions: [ '.js', '.jsx', '.json' ],
+		alias: {
+			'@jellyfish': path.resolve(__dirname, 'lib/')
+		}
 	},
 
 	module: {

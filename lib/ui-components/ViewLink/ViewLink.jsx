@@ -18,7 +18,7 @@ import Link from '../Link'
 import MentionsCount from '../MentionsCount'
 import * as helpers from '../../../apps/ui/services/helpers'
 import ContextMenu from '../ContextMenu'
-import Icon from '../../../apps/ui/shame/Icon'
+import Icon from '@jellyfish/ui-components/shame/Icon'
 
 export default class ViewLink extends React.Component {
 	constructor (props) {

@@ -38,8 +38,8 @@ import {
 } from '../'
 import {
 	CloseButton
-} from '../../shame/CloseButton'
-import Icon from '../../shame/Icon'
+} from '@jellyfish/ui-components/shame/CloseButton'
+import Icon from '@jellyfish/ui-components/shame/Icon'
 
 const USER_FILTER_NAME = 'user-generated-filter'
 

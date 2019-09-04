@@ -35,9 +35,9 @@ import Link from '../Link'
 import * as helpers from '../../../apps/ui/services/helpers'
 import {
 	ActionLink
-} from '../../../apps/ui/shame/ActionLink'
-import Avatar from '../../../apps/ui/shame/Avatar'
-import Icon from '../../../apps/ui/shame/Icon'
+} from '@jellyfish/ui-components/shame/ActionLink'
+import Avatar from '@jellyfish/ui-components/shame/Avatar'
+import Icon from '@jellyfish/ui-components/shame/Icon'
 
 const ActorPlaceholder = styled.span `
 	width: 80px;

@@ -263,7 +263,7 @@ lint:
 	./scripts/lint/check-licenses.sh
 	shellcheck ./scripts/*.sh ./scripts/*/*.sh ./.circleci/*.sh ./deploy-templates/*.sh
 	./node_modules/.bin/deplint
-	./node_modules/.bin/depcheck --ignore-bin-package --ignores='@babel/*'
+	./node_modules/.bin/depcheck --ignore-bin-package --ignores='@babel/*,@jellyfish/*'
 
 coverage:
 	./node_modules/.bin/nyc $(NYC_GLOBAL_OPS) --reporter=text --reporter=html --reporter=json report

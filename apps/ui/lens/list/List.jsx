@@ -37,7 +37,7 @@ import BaseLens from '../common/BaseLens'
 import {
 	getLens
 } from '../'
-import Column from '../../shame/Column'
+import Column from '@jellyfish/ui-components/shame/Column'
 
 class CardList extends BaseLens {
 	constructor (props) {

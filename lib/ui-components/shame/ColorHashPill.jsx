@@ -11,7 +11,7 @@ import {
 } from 'rendition'
 import {
 	colorHash
-} from '../services/helpers'
+} from '../../../apps/ui/services/helpers'
 
 export default (props) => {
 	const value = props.value

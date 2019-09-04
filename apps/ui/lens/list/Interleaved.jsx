@@ -31,8 +31,8 @@ import {
 	sdk,
 	selectors
 } from '../../core'
-import Column from '../../shame/Column'
-import Icon from '../../shame/Icon'
+import Column from '@jellyfish/ui-components/shame/Column'
+import Icon from '@jellyfish/ui-components/shame/Icon'
 import BaseLens from '../common/BaseLens'
 
 const NONE_MESSAGE_TIMELINE_TYPES = [

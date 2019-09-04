@@ -18,8 +18,8 @@ import {
 } from 'rendition'
 import styled from 'styled-components'
 import * as helpers from '../../../services/helpers'
-import Avatar from '../../../shame/Avatar'
-import Icon from '../../../shame/Icon'
+import Avatar from '@jellyfish/ui-components/shame/Avatar'
+import Icon from '@jellyfish/ui-components/shame/Icon'
 import CardLayout from '../../../layouts/CardLayout'
 import {
 	analytics,

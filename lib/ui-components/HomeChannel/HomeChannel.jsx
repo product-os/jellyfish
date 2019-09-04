@@ -23,9 +23,9 @@ import MentionsCount from '../MentionsCount'
 import TreeMenu from './TreeMenu'
 import RouterLink from '../Link'
 import ViewLink from '../ViewLink'
-import Avatar from '../../../apps/ui/shame/Avatar'
-import Icon from '../../../apps/ui/shame/Icon'
-import MenuPanel from '../../../apps/ui/shame/MenuPanel'
+import Avatar from '@jellyfish/ui-components/shame/Avatar'
+import Icon from '@jellyfish/ui-components/shame/Icon'
+import MenuPanel from '@jellyfish/ui-components/shame/MenuPanel'
 
 // View slugs that should be displayed first
 const DEFAULT_VIEWS = [
