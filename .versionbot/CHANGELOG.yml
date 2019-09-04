@@ -1,4 +1,25 @@
 - commits:
+    - subject: Check shell script licenses
+      hash: 3c799f9bb397364953d6d756a0482882346cb75f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: Automatically check JavaScript licenses
+      hash: aac7e14cf115eeb8f71d746094914fd74345d355
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.4.2
+  date: 2019-09-04T16:11:47.474Z
+- commits:
     - subject: Revise docs
       hash: aa2ad88fa4ef88db673e791689d6dcfedb01c775
       body: ''
