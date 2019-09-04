@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'scripts: Add script to validate test locations'
+      hash: 4cd9cb65eb1b03cba568f6ebb5a204566acf5864
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.2.11
+  date: 2019-09-04T13:00:38.400Z
+- commits:
     - subject: Force UI related unit tests to live alongside the code
       hash: 8893d7f10327959b49b931dc9d22719708738caa
       body: ''
