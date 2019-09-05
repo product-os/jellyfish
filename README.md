@@ -8,6 +8,8 @@ gathers all information company wide and makes it a platform to implement
 processes that enhance the team's productivity and understanding. Think of it
 as a cross between Slack and Excel!
 
+***
+
 ![Jellyfish Screenshot](./screenshot.png)
 
 ***
