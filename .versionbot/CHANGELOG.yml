@@ -1,4 +1,14 @@
 - commits:
+    - subject: Update last message in chat summary component
+      hash: cc8cb24ee0e79171908a52d1ca282e67714c8485
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 23.6.0
+  date: 2019-09-05T12:42:22.235Z
+- commits:
     - subject: Add README banner image
       hash: 8e1ca97118a46425a68d6bec6dcb1d358cfbe0bc
       body: ''
