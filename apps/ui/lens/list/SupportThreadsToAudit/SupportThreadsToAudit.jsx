@@ -81,12 +81,18 @@ export default class SupportThreadsToAudit extends React.Component {
 					)}
 
 					{_.map(tail, (card) => {
+						const timeline = _.sortBy(
+							_.get(card.links, [ 'has attached element' ], []),
+							'data.timestamp'
+						)
+
 						return (
 							<CardChatSummary
 								getActor={this.props.actions.getActor}
 								key={card.id}
 								active={_.includes(threadTargets, card.slug) || _.includes(threadTargets, card.id)}
 								card={card}
+								timeline={timeline}
 								to={helpers.appendToChannelPath(channel, card)}
 							/>
 						)

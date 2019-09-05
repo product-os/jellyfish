@@ -4,9 +4,9 @@
  * Proprietary and confidential.
  */
 
+import _ from 'lodash'
 import ava from 'ava'
 import Bluebird from 'bluebird'
-import deepCopy from 'deep-copy'
 import {
 	shallow
 } from 'enzyme'
@@ -25,12 +25,17 @@ const getActor = async (id) => {
 	return user2
 }
 
+const getTimeline = (target) => {
+	return _.sortBy(_.get(target.links, [ 'has attached element' ], []), 'data.timestamp')
+}
+
 ava('It should render', (test) => {
 	test.notThrows(() => {
 		shallow(
 			<CardChatSummary
 				active
 				card={card}
+				timeline={getTimeline(card)}
 				getActor={getActor}
 			/>
 		)
@@ -39,18 +44,18 @@ ava('It should render', (test) => {
 
 ava('It should change the actor after an update', async (test) => {
 	const spy = sinon.spy(getActor)
+	const timeline = getTimeline(card)
 
 	const component = shallow(
 		<CardChatSummary
 			active
 			card={card}
+			timeline={timeline}
 			getActor={spy}
 		/>
 	)
 
 	test.is(spy.callCount, 1)
-
-	const update = deepCopy(card)
 
 	const newWhisper = {
 		id: 'acbfc1ec-bf55-44aa-9361-910f52df3c05',
@@ -81,10 +86,12 @@ ava('It should change the actor after an update', async (test) => {
 		capabilities: []
 	}
 
-	update.links['has attached element'].push(newWhisper)
-
 	component.setProps({
-		card: update
+		timeline: timeline.slice().splice(
+			_.sortedIndexBy(timeline, newWhisper, 'data.timestamp'),
+			0,
+			newWhisper
+		)
 	})
 
 	test.is(spy.callCount, 2)

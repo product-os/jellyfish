@@ -15,12 +15,13 @@ import {
 	Box,
 	Flex
 } from 'rendition'
-import CardChatSummary from '../../../lib/ui-components/CardChatSummary'
 import {
 	CreateThread
 } from '../components/CreateThread'
 import {
-	useActions,
+	ThreadListItem
+} from '../components/ThreadListItem'
+import {
 	useRouter
 } from '../hooks'
 import {
@@ -28,7 +29,6 @@ import {
 } from '../store/selectors'
 
 export const IndexRoute = () => {
-	const actions = useActions()
 	const router = useRouter()
 	const threads = useSelector(selectThreads())
 	const isInCreateThreadMode = React.useMemo(() => {
@@ -55,12 +55,9 @@ export const IndexRoute = () => {
 			<Box>
 				{threads.slice(0, 2).map((thread) => {
 					return (
-						<CardChatSummary
+						<ThreadListItem
 							key={thread.id}
-							getActor={actions.getActor}
-							card={thread}
-							to={`/chat/${thread.id}`}
-							active={false}
+							thread={thread}
 						/>
 					)
 				})}

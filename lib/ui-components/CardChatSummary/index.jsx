@@ -80,7 +80,7 @@ export default class CardChatSummary extends React.Component {
 
 	async setActors () {
 		const card = this.props.card
-		const timeline = _.sortBy(_.get(card.links, [ 'has attached element' ], []), 'data.timestamp')
+		const timeline = this.props.timeline
 		let lastEvent = null
 
 		// Find the most recent message, whisper or named event
@@ -109,9 +109,7 @@ export default class CardChatSummary extends React.Component {
 
 	componentDidUpdate (prevProps) {
 		// If there is a new timeline element, recalculate the actors
-		const timeline = _.get(this.props.card.links, [ 'has attached element' ], [])
-		const prevTimeline = _.get(prevProps.card.links, [ 'has attached element' ], [])
-		if (timeline.length !== prevTimeline.length) {
+		if (prevProps.timeline.length !== this.props.length) {
 			this.setActors()
 		}
 	}
@@ -126,16 +124,15 @@ export default class CardChatSummary extends React.Component {
 		} = this.state
 
 		const card = props.card
-		const timeline = _.sortBy(_.get(card.links, [ 'has attached element' ], []), 'data.timestamp')
-		const messages = _.filter(timeline, (event) => {
+		const messages = _.filter(props.timeline, (event) => {
 			return event.type === 'message' || event.type === 'whisper'
 		})
 
 		let latestText = null
 
 		// Find the most recent message or whisper
-		for (let index = timeline.length - 1; index >= 0; index--) {
-			const event = timeline[index]
+		for (let index = props.timeline.length - 1; index >= 0; index--) {
+			const event = props.timeline[index]
 			if (event.type === 'message' || event.type === 'whisper') {
 				latestText = _.get(event, [ 'data', 'payload', 'message' ], '')
 					.split('\n')
