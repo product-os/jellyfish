@@ -10,17 +10,19 @@ import {
 } from 'react-redux'
 import * as actionCreators from '../store/actionCreators'
 import {
-	useSdk
+	useSdk,
+	useStream
 } from '.'
 
 export const useActions = () => {
 	const store = useStore()
 	const sdk = useSdk()
+	const stream = useStream()
 
 	return React.useMemo(() => {
 		return Object.keys(actionCreators).reduce((actions, method) => {
 			actions[method] = actionCreators[method]({
-				store, sdk
+				store, sdk, stream
 			})
 			return actions
 		}, {})
