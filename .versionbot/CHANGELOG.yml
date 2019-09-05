@@ -1,4 +1,34 @@
 - commits:
+    - subject: 'circleci: Correctly store postgres dump'
+      hash: d92e04b406dd21a58a9df94b9ece50385e6220b4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: Add screenshot
+      hash: 4fc722dd658fcacc061e4ae180f17cfa02ebc16d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: Add Mermaid based architecture diagram
+      hash: 02ccebc98fff1369e6ae38304d656378b0733f7a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.7.1
+  date: 2019-09-05T14:49:45.437Z
+- commits:
     - subject: 'scripts/circleci: Produce and store Postgres dump on e2e tests'
       hash: 754ed82b3cc978d8763ddba305310057591172d5
       body: ''
