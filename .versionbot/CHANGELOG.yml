@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'scripts/circleci: Produce and store Postgres dump on e2e tests'
+      hash: 754ed82b3cc978d8763ddba305310057591172d5
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.7.0
+  date: 2019-09-05T13:29:55.418Z
+- commits:
     - subject: Update last message in chat summary component
       hash: cc8cb24ee0e79171908a52d1ca282e67714c8485
       body: ''
