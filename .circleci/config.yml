@@ -52,7 +52,7 @@ jobs:
             command: make lint
         - run:
             name: Generate Docs
-            command: make ARCHITECTURE.md
+            command: make docs/assets/architecture.png ARCHITECTURE.md
         - run:
             name: No Unstaged Files
             command: ./scripts/ci/unstaged.sh

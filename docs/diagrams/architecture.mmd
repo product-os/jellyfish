@@ -1,0 +1,59 @@
+graph TD
+
+Computer1[User]
+Computer2[User]
+Computer3[User]
+
+LoadBalancerUI[jel.ly.fish]
+LoadBalancerAPI[api.ly.fish]
+
+UI1[UI Container]
+UI2[UI Container]
+
+API1[API Container]
+API2[API Container]
+
+TickServer[Tick Server]
+
+Worker1[Worker]
+Worker2[Worker]
+Worker3[Worker]
+
+Redis
+PostgreSQL
+
+ExternalService[External Services]
+ExternalService -->|WebHooks| LoadBalancerAPI
+Worker1 -->|HTTP| ExternalService
+Worker2 -->|HTTP| ExternalService
+Worker3 -->|HTTP| ExternalService
+
+Computer1 -->|HTTP| LoadBalancerUI
+Computer2 -->|HTTP| LoadBalancerUI
+Computer3 -->|HTTP| LoadBalancerUI
+LoadBalancerUI --> UI1
+LoadBalancerUI --> UI2
+
+UI1 -->|AJAX| LoadBalancerAPI
+UI2 -->|AJAX| LoadBalancerAPI
+UI1 -->|WebSockets| LoadBalancerAPI
+UI2 -->|WebSockets| LoadBalancerAPI
+LoadBalancerAPI --> API1
+LoadBalancerAPI --> API2
+
+API1 -->|Memory Cache| Redis
+API2 -->|Memory Cache| Redis
+API1 -->|WebSockets| Redis
+API2 -->|WebSockets| Redis
+API1 --> PostgreSQL
+API2 --> PostgreSQL
+
+TickServer --> PostgreSQL
+TickServer -->|Memory Cache| Redis
+
+Worker1 --> PostgreSQL
+Worker2 --> PostgreSQL
+Worker3 --> PostgreSQL
+Worker1 -->|Memory Cache| Redis
+Worker2 -->|Memory Cache| Redis
+Worker3 -->|Memory Cache| Redis
