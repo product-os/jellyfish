@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add README banner image
+      hash: 8e1ca97118a46425a68d6bec6dcb1d358cfbe0bc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.5.1
+  date: 2019-09-05T10:44:30.894Z
+- commits:
     - subject: 'ChatWidget: Add real time updates'
       hash: 5add47f91a460950a671c48216d79b997c1091f8
       body: ''
