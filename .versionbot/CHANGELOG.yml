@@ -1,4 +1,14 @@
 - commits:
+    - subject: 'ChatWidget: Add real time updates'
+      hash: 5add47f91a460950a671c48216d79b997c1091f8
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 23.5.0
+  date: 2019-09-05T09:05:58.585Z
+- commits:
     - subject: Fix make dev-% commands
       hash: 097813e6cdb55629418de37dceb98e7bd6d2b8f1
       body: ''
