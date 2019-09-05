@@ -1,4 +1,30 @@
 - commits:
+    - subject: Fix make dev-% commands
+      hash: 097813e6cdb55629418de37dceb98e7bd6d2b8f1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Kakhaber
+    - subject: Add basic PR template
+      hash: df280e4fb854947d6ae984b15c4357e3c32836ac
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: Fix README link
+      hash: 9fddc410a3ecbd050b8e2387b9385fb1078607b2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Juan Cruz Viotti
+  version: 23.4.3
+  date: 2019-09-04T20:18:38.348Z
+- commits:
     - subject: Check shell script licenses
       hash: 3c799f9bb397364953d6d756a0482882346cb75f
       body: ''
