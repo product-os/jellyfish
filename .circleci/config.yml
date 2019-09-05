@@ -286,7 +286,7 @@ jobs:
 
       - run:
           name: Postgres Dump
-          command: ./scripts/postgres-dump.sh /tmp/test-results/dump.gz
+          command: ./scripts/postgres-dump.sh dump.gz
 
       # Store artifacts for debugging purposes
       - store_test_results:
@@ -344,6 +344,10 @@ jobs:
 
       - attach_workspace:
           at: .
+
+      - run:
+          name: Postgres Dump
+          command: mkdir -p /tmp/test-results && cp dump.gz /tmp/test-results
 
       - run:
           name: Webpack Bundle Report For UI
