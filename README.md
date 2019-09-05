@@ -8,11 +8,14 @@ gathers all information company wide and makes it a platform to implement
 processes that enhance the team's productivity and understanding. Think of it
 as a cross between Slack and Excel!
 
+![Jellyfish Screenshot](./screenshot.png)
+
 ***
 
 - **Contributing**
 	- [**Architecture overview**](https://github.com/balena-io/jellyfish/blob/master/ARCHITECTURE.md)
 	- [**Working with the frontend**](https://github.com/balena-io/jellyfish/blob/master/docs/developing/frontend.markdown)
+	- [**Working with the backend**](https://github.com/balena-io/jellyfish/blob/master/docs/developing/backend.markdown)
 - **Services**
 	- [**Using New Relic**](https://github.com/balena-io/jellyfish/blob/master/docs/newrelic.markdown)
 	- [**Using Balena CI**](https://github.com/balena-io/jellyfish/blob/master/docs/balenaci.markdown)

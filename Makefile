@@ -241,7 +241,12 @@ clean:
 		dist \
 		.cache-loader
 
-ARCHITECTURE.md: scripts/architecture-summary.sh lib/*/DESCRIPTION.markdown apps/*/DESCRIPTION.markdown
+docs/assets/architecture.png: docs/diagrams/architecture.mmd
+	./node_modules/.bin/mmdc -i $< -o $@ -w 2560 -H 1600
+
+ARCHITECTURE.md: scripts/architecture-summary.sh \
+	lib/*/DESCRIPTION.markdown apps/*/DESCRIPTION.markdown \
+	docs/assets/architecture.png
 	./$< > $@
 
 dist:

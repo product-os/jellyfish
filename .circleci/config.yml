@@ -52,7 +52,7 @@ jobs:
             command: make lint
         - run:
             name: Generate Docs
-            command: make ARCHITECTURE.md
+            command: make docs/assets/architecture.png ARCHITECTURE.md
         - run:
             name: No Unstaged Files
             command: ./scripts/ci/unstaged.sh
@@ -286,7 +286,7 @@ jobs:
 
       - run:
           name: Postgres Dump
-          command: ./scripts/postgres-dump.sh ./dump.gz
+          command: ./scripts/postgres-dump.sh /tmp/test-results/dump.gz
 
       # Store artifacts for debugging purposes
       - store_test_results:
