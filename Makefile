@@ -3,8 +3,6 @@
 	coverage \
 	node \
 	test \
-	dev-ui \
-	dev-chat-widget \
 	dev-storybook \
 	build-ui \
 	build-chat-widget \
@@ -384,10 +382,10 @@ endif
 # Development
 # -----------------------------------------------
 
-dev-%: NODE_ENV = development
-	JELLYFISH_TOKEN=$(JELLYFISH_TOKEN) \
+dev-%:
+	NODE_ENV=development JELLYFISH_TOKEN=$(JELLYFISH_TOKEN) \
 	./node_modules/.bin/webpack-dev-server \
-		--config=./apps/$(subst start-static-,,$@)/webpack.config.js \
+		--config=./apps/$(subst dev-,,$@)/webpack.config.js \
 		--color
 
 dev-storybook:
