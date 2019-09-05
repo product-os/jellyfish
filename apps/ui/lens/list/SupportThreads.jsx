@@ -254,6 +254,11 @@ export class SupportThreads extends React.Component {
 									)}
 
 									{_.map(segment.cards, (card) => {
+										const timeline = _.sortBy(
+											_.get(card.links, [ 'has attached element' ], []),
+											'data.timestamp'
+										)
+
 										return (
 											<CardChatSummary
 												getActor={this.props.actions.getActor}
@@ -262,6 +267,7 @@ export class SupportThreads extends React.Component {
 													_.includes(threadTargets, card.slug) || _.includes(threadTargets, card.id)
 												}
 												card={card}
+												timeline={timeline}
 												to={helpers.appendToChannelPath(this.props.channel, card)}
 											/>
 										)

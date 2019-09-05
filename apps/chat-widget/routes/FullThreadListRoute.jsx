@@ -12,13 +12,15 @@ import {
 	Box,
 	Flex
 } from 'rendition'
-import CardChatSummary from '../../../lib/ui-components/CardChatSummary'
 import {
 	InfiniteList
 } from '../../../lib/ui-components/InfiniteList'
 import {
 	Loader
 } from '../components/Loader'
+import {
+	ThreadListItem
+} from '../components/ThreadListItem'
 import {
 	useActions,
 	useTask
@@ -50,12 +52,9 @@ export const FullThreadListRoute = () => {
 				}}>
 					{threads.map((thread) => {
 						return (
-							<CardChatSummary
+							<ThreadListItem
 								key={thread.id}
-								getActor={actions.getActor}
-								card={thread}
-								to={`/chat/${thread.id}`}
-								active={false}
+								thread={thread}
 							/>
 						)
 					})}

@@ -4,6 +4,8 @@
  * Proprietary and confidential.
  */
 
+import _ from 'lodash'
+
 export const selectCardsByType = (type) => {
 	return (state) => {
 		return state.cards.filter((card) => {
@@ -32,8 +34,10 @@ export const selectCurrentUser = () => {
 
 export const selectMessages = (threadId) => {
 	return (state) => {
-		return selectCardsByType('message')(state).filter((message) => {
-			return message.data.target === threadId
-		})
+		const messages = selectCardsByType('message')(state)
+		return _.chain(messages)
+			.filter([ 'data.target', threadId ])
+			.sortBy('data.timestamp')
+			.value()
 	}
 }

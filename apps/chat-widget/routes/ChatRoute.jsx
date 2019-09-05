@@ -9,6 +9,9 @@ import React from 'react'
 import {
 	useSelector
 } from 'react-redux'
+import {
+	Box
+} from 'rendition'
 import Timeline from '../../../lib/ui-components/Timeline'
 import {
 	Task
@@ -45,17 +48,27 @@ export const ChatRoute = () => {
 		<Task task={fetchThreadTask}>
 			{() => {
 				return (
-					<Timeline
-						allowWhispers={false}
-						card={thread}
-						tail={messages}
-						usersTyping={usersTyping}
-						user={currentUser}
-						getActor={actions.getActor}
-						addNotification={actions.addNotification}
-						signalTyping={_.noop}
-						setTimelineMessage={_.noop}
-					/>
+					<Box flex={1} style={{
+						position: 'relative'
+					}}>
+						<Box style={{
+							position: 'absolute',
+							width: '100%',
+							height: '100%'
+						}}>
+							<Timeline
+								allowWhispers={false}
+								card={thread}
+								tail={messages}
+								usersTyping={usersTyping}
+								user={currentUser}
+								getActor={actions.getActor}
+								addNotification={actions.addNotification}
+								signalTyping={_.noop}
+								setTimelineMessage={_.noop}
+							/>
+						</Box>
+					</Box>
 				)
 			}}
 		</Task>

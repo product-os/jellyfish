@@ -104,7 +104,11 @@ export const fetchThreads = (ctx) => {
 			}
 		)
 
-		setCards(ctx)(threads)
+		setCards(ctx)(
+			threads.reduce((cards, thread) => {
+				return cards.concat(thread, thread.links['has attached element'])
+			}, [])
+		)
 	}
 }
 
