@@ -39,7 +39,7 @@ import {
 } from '../../core'
 import * as helpers from '../../services/helpers'
 import BaseLens from '../common/BaseLens'
-import Icon from '../../shame/Icon'
+import Icon from '@jellyfish/ui-components/shame/Icon'
 
 const UNSORTED_GROUP_ID = 'JELLYFISH_UNSORTED_GROUP'
 const EllipsisButton = styled(Button) `

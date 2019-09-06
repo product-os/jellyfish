@@ -16,7 +16,7 @@ import {
 	selectors,
 	sdk,
 	store
-} from '../../core'
+} from '../../../../apps/ui/core'
 
 const AUTOCOMPLETE_DEBOUNCE = 250
 

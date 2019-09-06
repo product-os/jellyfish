@@ -22,7 +22,7 @@ import {
 	Txt
 } from 'rendition'
 import * as helpers from '../../services/helpers'
-import Icon from '../../shame/Icon'
+import Icon from '@jellyfish/ui-components/shame/Icon'
 import CardLayout from '../../layouts/CardLayout'
 import {
 	Form

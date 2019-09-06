@@ -22,8 +22,8 @@ import {
 import styled from 'styled-components'
 
 // TODO: These ui-components -> ui imports should not happen
-import ErrorBoundary from '../../apps/ui/shame/ErrorBoundary'
-import Icon from '../../apps/ui/shame/Icon'
+import ErrorBoundary from '@jellyfish/ui-components/shame/ErrorBoundary'
+import Icon from '@jellyfish/ui-components/shame/Icon'
 import LinkModal from './LinkModal'
 import {
 	actionCreators,

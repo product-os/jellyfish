@@ -18,10 +18,10 @@ import {
 	selectors,
 	sdk,
 	store
-} from '../../core'
-import Link from '../../../../lib/ui-components/Link'
-import * as helpers from '../../services/helpers'
-import * as environment from '../../environment'
+} from '../../../../apps/ui/core'
+import Link from '../../../ui-components/Link'
+import * as helpers from '../../../../apps/ui/services/helpers'
+import * as environment from '../../../../apps/ui/environment'
 import Icon from '../Icon'
 import Container from './Container'
 import {

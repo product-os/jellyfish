@@ -24,8 +24,8 @@ import ContextMenu from '../ContextMenu'
 import * as helpers from '../../../apps/ui/services/helpers'
 import {
 	ActionLink
-} from '../../../apps/ui/shame/ActionLink'
-import Icon from '../../../apps/ui/shame/Icon'
+} from '@jellyfish/ui-components/shame/ActionLink'
+import Icon from '@jellyfish/ui-components/shame/Icon'
 
 const generateJSONPatchDescription = (payload) => {
 	const items = []

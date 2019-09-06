@@ -13,7 +13,7 @@ import {
 import {
 	Box
 } from 'rendition'
-import Column from '../../../shame/Column'
+import Column from '@jellyfish/ui-components/shame/Column'
 import {
 	colorHash
 } from '../../../services/helpers'
