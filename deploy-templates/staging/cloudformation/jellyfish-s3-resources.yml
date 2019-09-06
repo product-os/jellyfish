@@ -1,0 +1,80 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  JFS3BucketName:
+    Description: The Jellyfish S3 Bucket name
+    Type: String
+    MinLength: 1
+    MaxLength: 64
+    AllowedPattern: "[a-z][a-z0-9-.]*"
+    ConstraintDescription: The bucket name must contain only lowercase letters, numbers, periods (.), and dashes (-)
+Resources:
+  JFS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: Private
+      BucketName:
+        Ref: JFS3BucketName
+    DeletionPolicy: Retain
+  JFIAMUser:
+    Type: AWS::IAM::User
+    Properties:
+      Policies:
+        - PolicyName: S3Access
+          PolicyDocument:
+            Statement:
+              - Action: s3:ListBucket
+                Effect: Allow
+                Resource:
+                  Fn::Join:
+                  - ''
+                  -   - 'arn:aws:s3:::'
+                      -   Ref: JFS3Bucket
+              - Effect: Allow
+                Action:
+                - s3:PutObject
+                - s3:GetObject
+                - s3:DeleteObject
+                Resource:
+                  Fn::Join:
+                  - ''
+                  -   - 'arn:aws:s3:::'
+                      -   Ref: JFS3Bucket
+                      - "/*"
+  JFS3BucketBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket:
+        Ref: JFS3BucketName
+      PolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS:
+                - Fn::GetAtt:
+                  - JFIAMUser
+                  - Arn
+            Action: s3:*
+            Resource:
+              Fn::Join:
+              - ''
+              - - 'arn:aws:s3:::'
+                - Ref: JFS3Bucket
+                - '/*'
+  JFAccessKey:
+    Type: AWS::IAM::AccessKey
+    Properties:
+      UserName:
+        Ref: JFIAMUser
+Outputs:
+
+  JFAccessKey:
+    Description: JF access key
+    Value:
+      Ref: JFAccessKey
+  JFSecretAccessKey:
+    Description: JF secret access key
+    Value:
+      Fn::GetAtt:
+        - JFAccessKey
+        - SecretAccessKey
