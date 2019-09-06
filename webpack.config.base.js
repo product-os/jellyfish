@@ -7,6 +7,9 @@
 const path = require('path')
 const IgnorePlugin = require('webpack/lib/IgnorePlugin')
 
+// eslint-disable-next-line no-process-env
+const WITH_COVERAGE = process.env.COVERAGE === '1'
+
 const config = {
 	mode: 'development',
 	target: 'web',
@@ -14,7 +17,10 @@ const config = {
 	resolve: {
 		extensions: [ '.js', '.jsx', '.json' ],
 		alias: {
-			'@jellyfish': path.resolve(__dirname, 'lib/')
+			// We need to change the resolution location if instrumenting code for
+			// coverage (via nyc). Otherwise module requires will load the
+			// un-instrumented version.
+			'@jellyfish': path.resolve(__dirname, WITH_COVERAGE ? '.tmp/nyc-lib/lib/' : 'lib/')
 		}
 	},
 
