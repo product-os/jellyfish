@@ -1,4 +1,23 @@
 - commits:
+    - subject: Change resolution directory if instrumenting code
+      hash: f1f275dee9ee35231505ddd262653246e80ff058
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: Move shameful components outside ui
+      hash: b757bc5aec89a15427812657da587add3240a91c
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 23.8.0
+  date: 2019-09-06T16:41:18.129Z
+- commits:
     - subject: 'postgres: Don''t refresh card_markers on user changes'
       hash: c8d5ba5b44f6e9271eddc2a73e1d007104f234c7
       body: |
