@@ -1,4 +1,23 @@
 - commits:
+    - subject: Remove unused storybook files
+      hash: ac8567d8cf553e0fadd7e021e86132bba63f84ea
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: Update README.md
+      hash: c13da9c216c6d24931f2bbc80889dd47ae944be2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Juan Cruz Viotti
+  version: 23.7.2
+  date: 2019-09-06T08:33:01.866Z
+- commits:
     - subject: 'circleci: Correctly store postgres dump'
       hash: d92e04b406dd21a58a9df94b9ece50385e6220b4
       body: ''
