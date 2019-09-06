@@ -1,4 +1,34 @@
 - commits:
+    - subject: 'cloudformation: Add s3 resources cf template'
+      hash: 9139f1f35b4320c774439c7de182b2083ae5ac9a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Michael Angelos Simos <michalis@balena.io>
+        signed-off-by: Michael Angelos Simos <michalis@balena.io>
+      author: Michael Angelos Simos
+    - subject: 'cloudformation: Include analytics db cf template'
+      hash: a07679446032b4b2b84eff8a3a260c141626f67e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Michael Angelos Simos <michalis@balena.io>
+        signed-off-by: Michael Angelos Simos <michalis@balena.io>
+      author: Michael Angelos Simos
+    - subject: 'cloudformation: Include db cf template'
+      hash: 6b58336921ec167f1c554af16fd08f8fcc257f5d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Michael Angelos Simos <michalis@balena.io>
+        signed-off-by: Michael Angelos Simos <michalis@balena.io>
+      author: Michael Angelos Simos
+  version: 23.7.5
+  date: 2019-09-06T13:46:29.077Z
+- commits:
     - subject: 'core: Don''t sort by data.timestamp by default'
       hash: 1508a2c8dcd422d97d34302a373cf215396b4f93
       body: ''
