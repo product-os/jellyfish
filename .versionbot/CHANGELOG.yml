@@ -1,4 +1,35 @@
 - commits:
+    - subject: 'postgres: Keep track of cards_markers view triggers'
+      hash: 2d80a4b9dec3a7d344534967c55683494d7d5cb4
+      body: |
+        For debugging purposes.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'action-library: Test executing action-set-password to other users'
+      hash: 21c43b16eb080f9ff6d24ed32b6cd11b0cb3cb39
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'github: Fix PULL_REQUEST_TEMPLATE typo'
+      hash: 2dce64b6c1297b73b59607a41a57ca3838c0ffab
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.7.6
+  date: 2019-09-06T15:18:55.046Z
+- commits:
     - subject: 'cloudformation: Add s3 resources cf template'
       hash: 9139f1f35b4320c774439c7de182b2083ae5ac9a
       body: ''
