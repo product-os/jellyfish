@@ -257,6 +257,7 @@ ava.serial('.query() should accept a "limit" option', async (test) => {
 		},
 		additionalProperties: true
 	}, {
+		sortBy: 'created_at',
 		limit
 	})
 
@@ -356,6 +357,7 @@ ava.serial('.query() should accept a "skip" option', async (test) => {
 		},
 		additionalProperties: true
 	}, {
+		sortBy: 'created_at',
 		limit,
 		skip
 	})

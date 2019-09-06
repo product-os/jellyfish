@@ -3136,6 +3136,8 @@ ava('should add an update event if updating a card', async (test) => {
 				}
 			}
 		}
+	}, {
+		sortBy: 'created_at'
 	})
 
 	test.deepEqual(timeline, [

@@ -1802,6 +1802,7 @@ ava('.query() should be able to limit the results', async (test) => {
 		},
 		required: [ 'type' ]
 	}, {
+		sortBy: 'created_at',
 		limit: 2
 	})
 
@@ -1850,6 +1851,7 @@ ava('.query() should be able to skip the results', async (test) => {
 		},
 		required: [ 'type' ]
 	}, {
+		sortBy: 'created_at',
 		skip: 2
 	})
 
