@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'circleci: Store dump.gz in results section'
+      hash: bb67abd1b5c5e2a4796669d729235335fcc8ebfe
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.7.3
+  date: 2019-09-06T11:21:21.944Z
+- commits:
     - subject: Remove unused storybook files
       hash: ac8567d8cf553e0fadd7e021e86132bba63f84ea
       body: ''
