@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'core: Don''t sort by data.timestamp by default'
+      hash: 1508a2c8dcd422d97d34302a373cf215396b4f93
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.7.4
+  date: 2019-09-06T13:11:51.439Z
+- commits:
     - subject: 'circleci: Store dump.gz in results section'
       hash: bb67abd1b5c5e2a4796669d729235335fcc8ebfe
       body: ''
