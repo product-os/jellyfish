@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'postgres: Don''t refresh card_markers on user changes'
+      hash: c8d5ba5b44f6e9271eddc2a73e1d007104f234c7
+      body: |
+        Changes to a user card can never change the set of markers they are
+        associated with.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.7.7
+  date: 2019-09-06T15:52:43.578Z
+- commits:
     - subject: 'postgres: Keep track of cards_markers view triggers'
       hash: 2d80a4b9dec3a7d344534967c55683494d7d5cb4
       body: |
