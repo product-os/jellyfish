@@ -25,6 +25,279 @@ const createUserDetails = () => {
 	}
 }
 
+ava.serial('a community user should not be able to reset other user\'s passwords given the right password', async (test) => {
+	const userDetails = createUserDetails()
+	const user = await test.context.createUser(userDetails)
+
+	const result1 = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: user.slug,
+			type: 'user',
+			action: 'action-create-session',
+			arguments: {
+				password: userDetails.password
+			}
+		})
+
+	test.is(result1.code, 200)
+
+	const token = result1.response.data.id
+
+	const newUserDetails = createUserDetails()
+	const result2 = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: 'user',
+			type: 'type',
+			action: 'action-create-user',
+			arguments: {
+				email: newUserDetails.email,
+				username: `user-${newUserDetails.username}`,
+				password: newUserDetails.password
+			}
+		}, {
+			Authorization: `Bearer ${token}`
+		})
+
+	test.is(result2.code, 200)
+
+	const newUser = await test.context.jellyfish.getCardById(
+		test.context.context, test.context.session, result2.response.data.id, {
+			type: 'user'
+		})
+
+	test.truthy(newUser.data.hash)
+	test.deepEqual(newUser.data, {
+		email: newUserDetails.email,
+		hash: newUser.data.hash,
+		avatar: null,
+		roles: [ 'user-community' ]
+	})
+
+	const result3 = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: newUser.id,
+			type: 'user',
+			action: 'action-set-password',
+			arguments: {
+				newPassword: 'foobarbaz',
+				currentPassword: newUserDetails.password
+			}
+		}, {
+			Authorization: `Bearer ${token}`
+		})
+
+	test.is(result3.code, 400)
+	test.true(result3.response.error)
+	test.is(result3.response.data.name, 'WorkerAuthenticationError')
+
+	const newUserAfter = await test.context.jellyfish.getCardById(
+		test.context.context, test.context.session, newUser.id)
+
+	test.deepEqual(newUserAfter.data, newUser.data)
+})
+
+ava.serial('a community user should not be able to reset other user\'s passwords given an incorrect password', async (test) => {
+	const userDetails = createUserDetails()
+	const user = await test.context.createUser(userDetails)
+
+	const result1 = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: user.slug,
+			type: 'user',
+			action: 'action-create-session',
+			arguments: {
+				password: userDetails.password
+			}
+		})
+
+	test.is(result1.code, 200)
+
+	const token = result1.response.data.id
+
+	const newUserDetails = createUserDetails()
+	const result2 = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: 'user',
+			type: 'type',
+			action: 'action-create-user',
+			arguments: {
+				email: newUserDetails.email,
+				username: `user-${newUserDetails.username}`,
+				password: newUserDetails.password
+			}
+		}, {
+			Authorization: `Bearer ${token}`
+		})
+
+	test.is(result2.code, 200)
+
+	const newUser = await test.context.jellyfish.getCardById(
+		test.context.context, test.context.session, result2.response.data.id, {
+			type: 'user'
+		})
+
+	test.truthy(newUser.data.hash)
+	test.deepEqual(newUser.data, {
+		email: newUserDetails.email,
+		hash: newUser.data.hash,
+		avatar: null,
+		roles: [ 'user-community' ]
+	})
+
+	const result3 = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: newUser.id,
+			type: 'user',
+			action: 'action-set-password',
+			arguments: {
+				newPassword: 'foobarbaz',
+				currentPassword: 'incorrect password'
+			}
+		}, {
+			Authorization: `Bearer ${token}`
+		})
+
+	test.is(result3.code, 400)
+	test.true(result3.response.error)
+	test.is(result3.response.data.name, 'WorkerAuthenticationError')
+
+	const newUserAfter = await test.context.jellyfish.getCardById(
+		test.context.context, test.context.session, newUser.id)
+
+	test.deepEqual(newUserAfter.data, newUser.data)
+})
+
+ava.serial('a community user should not be able to reset other user\'s passwords given no password', async (test) => {
+	const userDetails = createUserDetails()
+	const user = await test.context.createUser(userDetails)
+
+	const result1 = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: user.slug,
+			type: 'user',
+			action: 'action-create-session',
+			arguments: {
+				password: userDetails.password
+			}
+		})
+
+	test.is(result1.code, 200)
+
+	const token = result1.response.data.id
+
+	const newUserDetails = createUserDetails()
+	const result2 = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: 'user',
+			type: 'type',
+			action: 'action-create-user',
+			arguments: {
+				email: newUserDetails.email,
+				username: `user-${newUserDetails.username}`,
+				password: newUserDetails.password
+			}
+		}, {
+			Authorization: `Bearer ${token}`
+		})
+
+	test.is(result2.code, 200)
+
+	const newUser = await test.context.jellyfish.getCardById(
+		test.context.context, test.context.session, result2.response.data.id, {
+			type: 'user'
+		})
+
+	test.truthy(newUser.data.hash)
+	test.deepEqual(newUser.data, {
+		email: newUserDetails.email,
+		hash: newUser.data.hash,
+		avatar: null,
+		roles: [ 'user-community' ]
+	})
+
+	const result3 = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: newUser.id,
+			type: 'user',
+			action: 'action-set-password',
+			arguments: {
+				newPassword: 'foobarbaz',
+				currentPassword: null
+			}
+		}, {
+			Authorization: `Bearer ${token}`
+		})
+
+	test.is(result3.code, 400)
+	test.true(result3.response.error)
+	test.is(result3.response.data.name, 'WorkerAuthenticationError')
+
+	const newUserAfter = await test.context.jellyfish.getCardById(
+		test.context.context, test.context.session, newUser.id)
+
+	test.deepEqual(newUserAfter.data, newUser.data)
+})
+
+ava.serial('a community user should not be able to set a first time password to another user', async (test) => {
+	const userDetails = createUserDetails()
+	const user = await test.context.createUser(userDetails)
+
+	const result1 = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: user.slug,
+			type: 'user',
+			action: 'action-create-session',
+			arguments: {
+				password: userDetails.password
+			}
+		})
+
+	test.is(result1.code, 200)
+
+	const token = result1.response.data.id
+
+	const newUserDetails = createUserDetails()
+	const newUser = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			slug: `user-${newUserDetails.username}`,
+			type: 'user',
+			data: {
+				email: newUserDetails.email,
+				roles: [ 'user-community' ]
+			}
+		})
+
+	test.deepEqual(newUser.data, {
+		email: newUserDetails.email,
+		roles: [ 'user-community' ]
+	})
+
+	const result2 = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: newUser.id,
+			type: 'user',
+			action: 'action-set-password',
+			arguments: {
+				newPassword: newUserDetails.password,
+				currentPassword: null
+			}
+		}, {
+			Authorization: `Bearer ${token}`
+		})
+
+	test.is(result2.code, 400)
+	test.true(result2.response.error)
+	test.is(result2.response.data.name, 'WorkerAuthenticationError')
+
+	const newUserAfter = await test.context.jellyfish.getCardById(
+		test.context.context, test.context.session, newUser.id)
+
+	test.deepEqual(newUserAfter.data, {
+		email: newUserDetails.email,
+		roles: [ 'user-community' ]
+	})
+})
+
 ava.serial('creating a user with the guest user session should fail', async (test) => {
 	const userDetails = createUserDetails()
 	const username = `user-${userDetails.username.toLowerCase()}`
