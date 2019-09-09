@@ -253,6 +253,45 @@ jobs:
           paths:
             - .nyc_output/*.json
 
+  e2e_tests_previous_dump: &e2e_tests_previous_dump
+    <<: *job_defaults
+
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: .
+
+      - run:
+          name: Start PostgreSQL
+          command: service postgresql start && su - postgres -c "psql -U postgres -d postgres -c \"alter user postgres with password 'postgres';\""
+      - run:
+          name: Start Redis
+          command: service redis-server start
+
+      # Setup artifact store for UI integration test screenshots
+      - run: mkdir -p /tmp/test-results/screenshots
+
+      - run:
+          name: Restoring Postgres Dump
+          command: ./scripts/ci/postgres-get-previous-dump-url.sh && ls -l && gunzip dump.gz && ./scripts/ci/postgres-import-snapshot.sh ./dump
+
+      - run:
+          name: End To End Tests
+          command: make test-e2e-sdk COVERAGE=1 && make test-e2e-server COVERAGE=1 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY && make test-e2e-ui COVERAGE=0
+
+      # Store artifacts for debugging purposes
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .nyc_output/*.json
+
   e2e_tests: &e2e_tests
     <<: *job_defaults
 
@@ -407,6 +446,11 @@ workflows:
                     - build
                 <<: *workflow_filter
 
+            - e2e_tests_previous_dump:
+                requires:
+                    - build
+                <<: *workflow_filter
+
             - flaky_ui_tests:
                 requires:
                     - build
@@ -443,6 +487,7 @@ workflows:
 
                   - integration_tests
                   - e2e_tests
+                  - e2e_tests_previous_dump
                   - flaky_ui_tests
                   - sync_tests_front
                   - sync_tests_outreach
