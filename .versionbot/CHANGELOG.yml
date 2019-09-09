@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'deploy-templates: Fix cf db parameter format'
+      hash: 15d0ef2fe07e4dd7fdfed410afcb549129f85b94
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Michael Angelos Simos <michalis@balena.io>
+        signed-off-by: Michael Angelos Simos <michalis@balena.io>
+      author: Michael Angelos Simos
+  version: 23.8.2
+  date: 2019-09-09T08:50:11.180Z
+- commits:
     - subject: Tune database for better sort performance
       hash: 32cf959f6df43657cc45ea3b076991fdb6fcaaad
       body: ''
