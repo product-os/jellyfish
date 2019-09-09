@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'circleci: Run e2e tests on previous Postgres dump'
+      hash: 2f3e8536425767636e918ebe2fc4937ae401c6d1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.8.3
+  date: 2019-09-09T14:32:11.286Z
+- commits:
     - subject: 'deploy-templates: Fix cf db parameter format'
       hash: 15d0ef2fe07e4dd7fdfed410afcb549129f85b94
       body: ''
