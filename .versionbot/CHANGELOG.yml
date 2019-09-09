@@ -1,4 +1,16 @@
 - commits:
+    - subject: Tune database for better sort performance
+      hash: 32cf959f6df43657cc45ea3b076991fdb6fcaaad
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 23.8.1
+  date: 2019-09-09T07:51:01.776Z
+- commits:
     - subject: Change resolution directory if instrumenting code
       hash: f1f275dee9ee35231505ddd262653246e80ff058
       body: ''
