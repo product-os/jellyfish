@@ -129,6 +129,7 @@ Resources:
         log_min_duration_statement: '200'
         max_connections: '5000'
         statement_timeout: '120000'
+        work_mem: '64MB'
   JellyfishDB:
     Type: AWS::RDS::DBInstance
     Properties:
