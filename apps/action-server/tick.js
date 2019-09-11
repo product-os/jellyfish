@@ -9,12 +9,21 @@ const uuid = require('../../lib/uuid')
 const packageJSON = require('../../package.json')
 const bootstrap = require('./bootstrap')
 
-const onError = (serverContext, error) => {
-	logger.exception(serverContext, 'Tick worker error', error)
+const DEFAULT_ERROR_CONTEXT = {
+	id: `TICK-ERROR-${packageJSON.version}`
+}
+
+const onError = (serverContext, error, message = 'Tick worker error') => {
+	// eslint-disable-next-line jellyfish/logger-string-expression
+	logger.exception(serverContext, message, error)
 	setTimeout(() => {
 		process.exit(1)
-	}, 5000)
+	}, 1000)
 }
+
+process.on('unhandledRejection', (error) => {
+	return onError(DEFAULT_ERROR_CONTEXT, error, 'Unhandled Tick Error')
+})
 
 const startDate = new Date()
 uuid.random().then((id) => {
@@ -41,7 +50,5 @@ uuid.random().then((id) => {
 		return onError(context, error)
 	})
 }).catch((error) => {
-	return onError({
-		id: `TICK-ERROR-${packageJSON.version}`
-	}, error)
+	return onError(DEFAULT_ERROR_CONTEXT, error)
 })
