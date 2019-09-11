@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'action-server/server: Crash on unhandled rejections'
+      hash: 20b168ad1d8e39ab13e83c910a5749848bd15a07
+      body: |
+        As a last resort in case things go wrong.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.9.1
+  date: 2019-09-11T09:32:51.190Z
+- commits:
     - subject: 'sync: Implement Flowdock integration skeleton'
       hash: 2d7b590554d73be00caf49eb0e9b73defcde44a1
       body: ''
