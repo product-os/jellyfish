@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'sync: Implement Flowdock integration skeleton'
+      hash: 2d7b590554d73be00caf49eb0e9b73defcde44a1
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.9.0
+  date: 2019-09-11T07:38:51.332Z
+- commits:
     - subject: 'circleci: Run e2e tests on previous Postgres dump'
       hash: 2f3e8536425767636e918ebe2fc4937ae401c6d1
       body: ''
