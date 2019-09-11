@@ -1,4 +1,16 @@
 - commits:
+    - subject: Remove default sort behaviour from View lens
+      hash: cc10c584001b8d2a8c54ebb931d442281c3354a0
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 23.10.0
+  date: 2019-09-11T12:09:36.136Z
+- commits:
     - subject: 'action-server/server: Crash on unhandled rejections'
       hash: 20b168ad1d8e39ab13e83c910a5749848bd15a07
       body: |
