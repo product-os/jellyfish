@@ -10,6 +10,22 @@ const packageJSON = require('../../package.json')
 const bootstrap = require('./bootstrap')
 const environment = require('../../lib/environment')
 
+const DEFAULT_CONTEXT = {
+	id: `SERVER-ERROR-${environment.pod.name}-${packageJSON.version}`
+}
+
+const onError = (error, message = 'Server error', context = DEFAULT_CONTEXT) => {
+	// eslint-disable-next-line jellyfish/logger-string-expression
+	logger.exception(context, message, error)
+	setTimeout(() => {
+		process.exit(1)
+	}, 1000)
+}
+
+process.on('unhandledRejection', (error) => {
+	return onError(error, 'Unhandled Server Error')
+})
+
 uuid.random().then((id) => {
 	const context = {
 		id: `SERVER-${packageJSON.version}-${environment.pod.name}-${id}`
@@ -36,15 +52,8 @@ uuid.random().then((id) => {
 		}
 	}).catch((error) => {
 		logger.exception(context, 'Server error', error)
-		setTimeout(() => {
-			process.exit(1)
-		}, 5000)
+		process.exit(1)
 	})
 }).catch((error) => {
-	logger.exception({
-		id: `SERVER-ERROR-${environment.pod.name}-${packageJSON.version}`
-	}, 'Server error', error)
-	setTimeout(() => {
-		process.exit(1)
-	}, 5000)
+	return onError(error)
 })
