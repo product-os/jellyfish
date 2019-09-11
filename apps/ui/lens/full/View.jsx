@@ -101,9 +101,7 @@ class ViewRenderer extends React.Component {
 			options: {
 				page: 0,
 				totalPages: Infinity,
-				limit: 30,
-				sortBy: 'created_at',
-				sortDir: 'desc'
+				limit: 30
 			}
 		}
 
@@ -324,11 +322,11 @@ class ViewRenderer extends React.Component {
 				slug: lensSlug
 			})
 			: _.first(this.lenses)
+
+		// TODO: improve backend sort efficiency so we can apply a default sort here
 		const options = _.merge({
 			limit: 30,
-			page: 0,
-			sortBy: 'created_at',
-			sortDir: 'desc'
+			page: 0
 		},
 		this.state.options,
 		_.get(lens, [ 'data', 'queryOptions' ])
