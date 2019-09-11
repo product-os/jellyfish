@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'discourse: Return max amount of posts in topic post streams'
+      hash: e92b1b2bd6f6301aa68fab0657f0a71f84c1e7be
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.10.1
+  date: 2019-09-11T14:25:19.065Z
+- commits:
     - subject: Remove default sort behaviour from View lens
       hash: cc10c584001b8d2a8c54ebb931d442281c3354a0
       body: ''
