@@ -10,7 +10,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import {
 	App
-} from './components/App'
+} from '@jellyfish/chat-widget'
 
 ReactDOM.render(
 	<App />,
