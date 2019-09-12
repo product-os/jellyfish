@@ -1,4 +1,14 @@
 - commits:
+    - subject: 'ChatWidget: library part moved to lib'
+      hash: ae5f2188d7b38b0aeb2ff50e30a267a60fa61428
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 23.11.0
+  date: 2019-09-12T11:23:08.085Z
+- commits:
     - subject: 'discourse: Return max amount of posts in topic post streams'
       hash: e92b1b2bd6f6301aa68fab0657f0a71f84c1e7be
       body: ''
