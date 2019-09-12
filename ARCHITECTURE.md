@@ -52,10 +52,9 @@ services as needed using actions.
 The action server worker, which dequeues action requests from the database
 and executes them with the configured action library.
 
-### [`apps/chat-widget`](https://github.com/balena-io/jellyfish/tree/master/apps/chat-widget)
+### [`apps/chat-widget-demo`](https://github.com/balena-io/jellyfish/tree/master/apps/chat-widget-demo)
 
-The chat widget is an embeddable component to allow external clients to send
-and receive messages using the Jellyfish system.
+This is the demo project for developing chat-widget.
 
 ### [`apps/server`](https://github.com/balena-io/jellyfish/tree/master/apps/server)
 
@@ -86,6 +85,11 @@ The Jellyfish system distinguishes between two types of errors:
 This module provides a handy set of functions to write concise assertions for
 both types of errors, and remove the amount of error handling `if` conditionals
 throughout the code
+
+### [`lib/chat-widget`](https://github.com/balena-io/jellyfish/tree/master/lib/chat-widget)
+
+The chat widget is an embeddable component to allow external clients to send
+and receive messages using the Jellyfish system.
 
 ### [`lib/core`](https://github.com/balena-io/jellyfish/tree/master/lib/core)
 

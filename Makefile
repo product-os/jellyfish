@@ -300,9 +300,9 @@ test-unit-ui-components:
 	FILES="'./lib/$(subst test-unit-,,$@)/**/*.spec.{js,jsx}'" SCRUB=0 make test
 test-unit-sdk:
 	FILES="'./lib/$(subst test-unit-,,$@)/**/*.spec.{js,jsx}'" SCRUB=0 make test
-test-unit-ui:
-	FILES="'./apps/$(subst test-unit-,,$@)/**/*.spec.{js,jsx}'" SCRUB=0 make test
 test-unit-chat-widget:
+	FILES="'./lib/$(subst test-unit-,,$@)/**/*.spec.{js,jsx}'" SCRUB=0 make test
+test-unit-ui:
 	FILES="'./apps/$(subst test-unit-,,$@)/**/*.spec.{js,jsx}'" SCRUB=0 make test
 
 test-integration-%:
@@ -374,16 +374,16 @@ build-chat-widget:
 	./node_modules/.bin/nyc instrument $(NYC_OPTS) apps/ui $(NYC_TMP_DIR)/apps/ui
 	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/sdk $(NYC_TMP_DIR)/lib/sdk
 	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/ui-components $(NYC_TMP_DIR)/lib/ui-components
-	./node_modules/.bin/nyc instrument $(NYC_OPTS) apps/chat-widget $(NYC_TMP_DIR)/apps/chat-widget
-	NODE_ENV=test UI_DIRECTORY="./$(NYC_TMP_DIR)/apps/chat-widget"\
+	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/chat-widget $(NYC_TMP_DIR)/lib/chat-widget
+	NODE_ENV=test UI_DIRECTORY="./$(NYC_TMP_DIR)/lib/chat-widget"\
 		SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
 		JELLYFISH_TOKEN=$(JELLYFISH_TOKEN) \
-		./node_modules/.bin/webpack --config=./apps/chat-widget/webpack.config.js
+		./node_modules/.bin/webpack --config=./lib/chat-widget/webpack.config.js
 else
 build-chat-widget:
 	SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
 	JELLYFISH_TOKEN=$(JELLYFISH_TOKEN) \
-		./node_modules/.bin/webpack --config=./apps/chat-widget/webpack.config.js
+		./node_modules/.bin/webpack --config=./lib/chat-widget/webpack.config.js
 endif
 
 # -----------------------------------------------
