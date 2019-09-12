@@ -6,7 +6,7 @@
 
 import React from 'react'
 import {
-	Flex
+	Flex, useTheme
 } from 'rendition'
 import {
 	Task
@@ -27,6 +27,7 @@ export const Layout = ({
 	const fetchThreads = useTask(actions.fetchThreads)
 	const setCurrentUser = useTask(actions.setCurrentUser)
 	const combinedTask = useCombineTasks(fetchThreads, setCurrentUser)
+	const theme = useTheme()
 
 	React.useEffect(() => {
 		fetchThreads.exec({
@@ -37,7 +38,7 @@ export const Layout = ({
 	}, [])
 
 	return (
-		<Flex {...rest} flexDirection="column">
+		<Flex {...rest} flexDirection="column" color={theme.colors.secondary.main}>
 			<Header />
 			<Flex flex={1} flexDirection="column">
 				<Task task={combinedTask}>{() => { return children }}</Task>
