@@ -1,4 +1,21 @@
 - commits:
+    - subject: 'Header: Add agent availability status'
+      hash: ba3b233b52a0052da4746fdf01a815d0e16c203b
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+    - subject: 'ChatWidget: Style header'
+      hash: 26824f9c750d71af6b36f643b9e1e6e78f2344aa
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 23.12.0
+  date: 2019-09-13T09:56:01.529Z
+- commits:
     - subject: 'ChatWidget: library part moved to lib'
       hash: ae5f2188d7b38b0aeb2ff50e30a267a60fa61428
       body: ''
