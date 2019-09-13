@@ -13,6 +13,9 @@ import * as logoSrc from '../assets/images/support-logo.svg'
 import {
 	useRouter
 } from '../hooks'
+import {
+	AvailabilityStatus
+} from './AvailabilityStatus'
 
 const Separator = () => {
 	return (
@@ -53,6 +56,8 @@ export const Header = () => {
 				<Txt.span bold>balena</Txt.span>&nbsp;
 				<Txt.span color={theme.colors.tertiary.light}>chat</Txt.span>
 			</Box>
+
+			<AvailabilityStatus />
 		</Flex>
 	)
 }
