@@ -28,6 +28,9 @@
         "data": {
           "type": "object",
           "properties": {
+            "source": {
+              "type": "string"
+            },
             "profile": {
               "type": "object",
               "properties": {
