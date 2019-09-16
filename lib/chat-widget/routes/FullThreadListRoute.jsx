@@ -16,6 +16,9 @@ import {
 	InfiniteList
 } from '../../../lib/ui-components/InfiniteList'
 import {
+	ButtonLink
+} from '../components/ButtonLink'
+import {
 	Loader
 } from '../components/Loader'
 import {
@@ -41,8 +44,8 @@ export const FullThreadListRoute = () => {
 	}, [])
 
 	return (
-		<Flex flexDirection="column" flex={1}>
-			<Box flex={1} style={{
+		<Flex flexDirection="column" flex={1} alignItems="center">
+			<Box flex={1} alignSelf="stretch" style={{
 				position: 'relative'
 			}}>
 				<InfiniteList onScrollEnding={handleScrollEnding} style={{
@@ -64,6 +67,9 @@ export const FullThreadListRoute = () => {
 						}}
 					/>
 				</InfiniteList>
+			</Box>
+			<Box p={30}>
+				<ButtonLink primary to="/new_thread">Start new conversation</ButtonLink>
 			</Box>
 		</Flex>
 	)

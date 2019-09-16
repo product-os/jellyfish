@@ -38,7 +38,10 @@ export const Layout = ({
 	}, [])
 
 	return (
-		<Flex {...rest} flexDirection="column" color={theme.colors.secondary.main}>
+		<Flex {...rest}
+			flexDirection="column"
+			color={theme.colors.secondary.main}
+			backgroundColor={theme.colors.quartenary.light}>
 			<Header />
 			<Flex flex={1} flexDirection="column">
 				<Task task={combinedTask}>{() => { return children }}</Task>
