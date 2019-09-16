@@ -1,4 +1,14 @@
 - commits:
+    - subject: 'ChatWidget: style main page and add nav buttons'
+      hash: 9f5cc9138ad1748de75941eecbc619eb9730ae10
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 23.13.0
+  date: 2019-09-16T11:49:11.517Z
+- commits:
     - subject: 'Header: Add agent availability status'
       hash: ba3b233b52a0052da4746fdf01a815d0e16c203b
       body: ''
