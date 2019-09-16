@@ -9,15 +9,18 @@ import {
 	useSelector
 } from 'react-redux'
 import {
-	Link
-} from 'react-router-dom'
-import {
 	Box,
 	Flex
 } from 'rendition'
 import {
+	ButtonLink
+} from '../components/ButtonLink'
+import {
 	CreateThread
 } from '../components/CreateThread'
+import {
+	Heading
+} from '../components/Heading'
 import {
 	ThreadListItem
 } from '../components/ThreadListItem'
@@ -48,11 +51,17 @@ export const IndexRoute = () => {
 	}
 
 	return (
-		<Flex flex={1} flexDirection="column">
-			<Box p={16}>
-				<Link to="/new_thread">Start new conversation</Link>
-			</Box>
+		<Flex flex={1} p={16} flexDirection="column" alignItems="center">
 			<Box>
+				<Heading
+					primaryText="Welcome"
+					secondaryText="Our team will reply to your questions & solve your problems in realtime as soon as possible."
+				/>
+			</Box>
+			<Box mb={30}>
+				<ButtonLink primary to="/new_thread">Start new conversation</ButtonLink>
+			</Box>
+			<Box alignSelf="stretch">
 				{threads.slice(0, 2).map((thread) => {
 					return (
 						<ThreadListItem
@@ -62,9 +71,9 @@ export const IndexRoute = () => {
 					)
 				})}
 			</Box>
-			<Box p={16}>
+			<Box mt={30}>
 				{threads.length > 2 && (
-					<Link to="/full_thread_list">View all conversations</Link>
+					<ButtonLink to="/full_thread_list" underline>View all conversations</ButtonLink>
 				)}
 			</Box>
 		</Flex>
