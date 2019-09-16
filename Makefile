@@ -21,6 +21,9 @@ MAKEFILE_PATH := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 # Runtime Configuration
 # -----------------------------------------------
 
+# Project name
+NAME ?= jellyfish
+
 DATABASE ?= postgres
 export DATABASE
 
@@ -389,6 +392,12 @@ endif
 # -----------------------------------------------
 # Development
 # -----------------------------------------------
+
+compose-%:
+	docker-compose \
+		--file docker-compose.yml \
+		--project-name $(NAME) \
+		--compatibility $(subst compose-,,$@)
 
 dev-%:
 	NODE_ENV=development JELLYFISH_TOKEN=$(JELLYFISH_TOKEN) \
