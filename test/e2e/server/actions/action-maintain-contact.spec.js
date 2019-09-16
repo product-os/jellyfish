@@ -5,6 +5,7 @@
  */
 
 const ava = require('ava')
+const uuid = require('uuid/v4')
 const helpers = require('../../sdk/helpers')
 
 ava.before(helpers.sdk.beforeEach)
@@ -13,6 +14,87 @@ ava.after(helpers.sdk.afterEach)
 // Logout of the SDK after each test
 ava.afterEach(async (test) => {
 	await test.context.sdk.auth.logout()
+})
+
+ava.serial('should elevate external event source', async (test) => {
+	const slug = test.context.generateRandomSlug({
+		prefix: 'user'
+	})
+
+	const event = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			slug: `external-event-${uuid()}`,
+			type: 'external-event',
+			data: {
+				source: 'my-fake-service',
+				headers: {},
+				payload: {
+					test: 1
+				}
+			}
+		})
+
+	const userCard = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			slug,
+			type: 'user',
+			data: {
+				email: 'johndoe@example.com',
+				roles: [ 'user-community' ],
+				origin: event.id,
+				profile: {
+					name: {
+						first: 'John',
+						last: 'Doe'
+					}
+				}
+			}
+		})
+
+	const result = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: userCard.id,
+			type: userCard.type,
+			action: 'action-maintain-contact',
+			arguments: {}
+		}, {
+			Authorization: `Bearer ${test.context.session}`
+		})
+
+	test.false(result.response.error)
+
+	const contactCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, result.response.data.slug, {
+			type: result.response.data.type
+		})
+
+	test.deepEqual(contactCard, {
+		id: contactCard.id,
+		slug: contactCard.slug.replace('user-', 'contact-'),
+		name: '',
+		tags: [],
+		type: 'contact',
+		links: {},
+		active: true,
+		markers: [],
+		version: '1.0.0',
+		requires: [],
+		capabilities: [],
+		linked_at: contactCard.linked_at,
+		created_at: contactCard.created_at,
+		updated_at: contactCard.updated_at,
+		data: {
+			origin: event.id,
+			source: 'my-fake-service',
+			profile: {
+				email: 'johndoe@example.com',
+				name: {
+					first: 'John',
+					last: 'Doe'
+				}
+			}
+		}
+	})
 })
 
 ava.serial('should prettify name when creating user contact', async (test) => {
