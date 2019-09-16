@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'action-maintain-contact: Elevate external event source'
+      hash: 4a884af6eff3bc52dba06f6ed91bec9c3b40a385
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.14.0
+  date: 2019-09-16T14:39:00.977Z
+- commits:
     - subject: 'ChatWidget: style main page and add nav buttons'
       hash: 9f5cc9138ad1748de75941eecbc619eb9730ae10
       body: ''
