@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'sdk: Isolate e2e tests from the service internals'
+      hash: 21d450c5f40764f1d501a8e913479923785e5b7f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'server: Create a new "test" role for dev test user'
+      hash: c0d741df2ffa4fc3994968ee371816f9cf01c8a5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.16.2
+  date: 2019-09-17T15:16:52.188Z
+- commits:
     - subject: 'circleci: Install docker-compose on test Dockerfile'
       hash: 71aabf3c27c3295daaa2834e21c8f067158407f0
       body: ''
