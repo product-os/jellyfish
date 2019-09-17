@@ -23,10 +23,28 @@ as a cross between Slack and Excel!
 	- [**Using Balena CI**](https://github.com/balena-io/jellyfish/blob/master/docs/balenaci.markdown)
 	- [**Using Sentry**](https://github.com/balena-io/jellyfish/blob/master/docs/sentry.markdown)
 
-Running with Katapult
----------------------
+Running with Docker Compose
+---------------------------
 
-TODO
+This is the easiest way to run Jellyfish locally given you have [Docker
+Compose](https://docs.docker.com/compose/) installed. First build all the
+containers:
+
+```sh
+make compose-build
+```
+
+Run them with:
+
+```sh
+make compose-up
+```
+
+The API will listen on `8000` and the UI will listen on `9000`. Open
+http://localhost:9000 and login as:
+
+- Username: `jellyfish`
+- Password: `jellyfish`
 
 Running natively
 ----------------
