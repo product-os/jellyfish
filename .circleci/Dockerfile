@@ -1,10 +1,12 @@
-FROM resinci/jellyfish-base:c9d3a76a as base
+FROM resinci/jellyfish-base:ffea33d27 as base
 
-# Install node, git and packages required to run headless chrome
-RUN apt-get update && apt-get install -y gnuplot gitstats \
+RUN git clone git://github.com/hoxu/gitstats.git && cd gitstats && make install
+
+RUN apt-get update && apt-get install -y docker-compose gnuplot \
 	python-pip libx11-xcb1 libxcomposite1 \
 	libxcursor1 libxdamage1 libxi6 libxtst6 libnss3 libcups2 libxss1 libxrandr2 \
-	libgconf2-4 libasound2 libatk1.0-0 libgtk-3-0 shellcheck redis-server postgresql
+	gconf-gsettings-backend libasound2 libatk1.0-0 libgtk-3-0 \
+	shellcheck redis-server postgresql-11
 
 # Redis will try to set ulimit at startup, and that won't work
 # in non-privileged containers
