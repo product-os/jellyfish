@@ -1,4 +1,16 @@
 - commits:
+    - subject: Re-add Docker Compose support
+      hash: e5474c6e9397db93cfa139dd7cbd39f95b3ac778
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.15.1
+  date: 2019-09-17T11:32:02.126Z
+- commits:
     - subject: 'UI: Improve information surfaced when viewing a contact snippet'
       hash: 713a7a73f5e4aa435aaf17466497610367b29cdc
       body: ''
