@@ -8,6 +8,7 @@ const Bluebird = require('bluebird')
 const path = require('path')
 const $RefParser = require('json-schema-ref-parser')
 const logger = require('../../lib/logger').getLogger(__filename)
+const environment = require('../../lib/environment')
 
 const loadCard = async (cardPath) => {
 	return $RefParser.dereference(path.join(__dirname, 'default-cards', cardPath))
@@ -36,6 +37,7 @@ module.exports = async (context, jellyfish, worker, session) => {
 		// Roles
 		await loadCard('contrib/view-read-user-community.json'),
 		await loadCard('contrib/view-read-user-guest.json'),
+		!environment.isProduction() && await loadCard('contrib/view-read-user-test.json'),
 
 		// Internal views
 		await loadCard('contrib/view-active-triggered-actions.json'),
@@ -109,6 +111,10 @@ module.exports = async (context, jellyfish, worker, session) => {
 		await loadCard('balena/view-support-threads-pending-update.json'),
 		await loadCard('balena/view-support-threads-to-audit.json')
 	], async (card) => {
+		if (!card) {
+			return
+		}
+
 		const typeCard = await jellyfish.getCardBySlug(context, session, card.type, {
 			type: 'type'
 		})
@@ -118,7 +124,7 @@ module.exports = async (context, jellyfish, worker, session) => {
 			type: card.type
 		})
 
-		return worker.replaceCard(context, session, typeCard, {
+		await worker.replaceCard(context, session, typeCard, {
 			attachEvents: false
 		}, card)
 	})
