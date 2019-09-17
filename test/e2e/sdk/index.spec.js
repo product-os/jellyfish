@@ -11,20 +11,21 @@ const uuid = require('uuid/v4')
 const helpers = require('./helpers')
 const environment = require('../../../lib/environment')
 
-ava.before(helpers.sdk.beforeEach)
-ava.after(helpers.sdk.afterEach)
+ava.before(helpers.sdk.before)
+ava.after(helpers.sdk.after)
+
+ava.beforeEach(helpers.sdk.beforeEach)
 
 // Logout of the SDK after each test
 ava.afterEach(async (test) => {
 	await test.context.sdk.auth.logout()
+	await helpers.sdk.afterEach(test)
 })
 
 ava.serial('.action() should be able to successfully create a new card', async (test) => {
 	const {
 		sdk
 	} = test.context
-
-	sdk.setAuthToken(test.context.session)
 
 	const name = `test-card-${uuid()}`
 
@@ -74,8 +75,6 @@ ava.serial('.action() should resolve with the slug, id and type of the card', as
 	const {
 		sdk
 	} = test.context
-
-	sdk.setAuthToken(test.context.session)
 
 	const name = `test-card-${uuid()}`
 	const slug = test.context.generateRandomSlug({
@@ -127,8 +126,6 @@ ava.serial('.query() should run a query on the server', async (test) => {
 		tags: [],
 		data: {}
 	})
-
-	sdk.setAuthToken(test.context.session)
 
 	const results = await sdk.query({
 		type: 'object',
@@ -233,8 +230,6 @@ ava.serial('.query() should accept a "limit" option', async (test) => {
 		tags: []
 	})
 
-	sdk.setAuthToken(test.context.session)
-
 	const results = await sdk.query({
 		type: 'object',
 		required: [ 'type', 'data' ],
@@ -332,8 +327,6 @@ ava.serial('.query() should accept a "skip" option', async (test) => {
 		markers: [],
 		tags: []
 	})
-
-	sdk.setAuthToken(test.context.session)
 
 	const results = await sdk.query({
 		type: 'object',
@@ -445,8 +438,6 @@ ava.serial('.query() should accept a "sortBy" option as a single key', async (te
 		tags: []
 	})
 
-	sdk.setAuthToken(test.context.session)
-
 	const results = await sdk.query({
 		type: 'object',
 		required: [ 'type', 'data' ],
@@ -555,8 +546,6 @@ ava.serial('.query() should accept a "sortBy" option as an array of keys', async
 		tags: []
 	})
 
-	sdk.setAuthToken(test.context.session)
-
 	const results = await sdk.query({
 		type: 'object',
 		required: [ 'type', 'data' ],
@@ -628,8 +617,6 @@ ava.serial('.card.get() should return a single element', async (test) => {
 		data: {}
 	})
 
-	sdk.setAuthToken(test.context.session)
-
 	const result = await sdk.card.get(card.id, {
 		type: 'card'
 	})
@@ -678,8 +665,6 @@ ava.serial('.card.get() should work with slugs', async (test) => {
 		tags: [],
 		data: {}
 	})
-
-	sdk.setAuthToken(test.context.session)
 
 	const result = await sdk.card.get(slug, {
 		type: 'card'
@@ -731,8 +716,6 @@ ava.serial('.card.get() should work for ids without a type option', async (test)
 		data: {}
 	})
 
-	sdk.setAuthToken(test.context.session)
-
 	const result = await sdk.card.get(card.id)
 
 	test.deepEqual(result, card)
@@ -780,8 +763,6 @@ ava.serial('.card.get() should work for slugs without a type option', async (tes
 		data: {}
 	})
 
-	sdk.setAuthToken(test.context.session)
-
 	const result = await sdk.card.get(slug)
 
 	test.deepEqual(result, card)
@@ -791,8 +772,6 @@ ava.serial('.card.create() should create a new card', async (test) => {
 	const {
 		sdk
 	} = test.context
-
-	sdk.setAuthToken(test.context.session)
 
 	const slug = test.context.generateRandomSlug({
 		prefix: 'card'
@@ -833,8 +812,6 @@ ava.serial('.card.create() should resolve with the slug, id and type of the crea
 		sdk
 	} = test.context
 
-	sdk.setAuthToken(test.context.session)
-
 	const slug = test.context.generateRandomSlug({
 		prefix: 'card'
 	})
@@ -857,8 +834,6 @@ ava.serial('.card.remove() should be able to delete a card', async (test) => {
 		sdk
 	} = test.context
 
-	sdk.setAuthToken(test.context.session)
-
 	const card = await sdk.card.create({
 		type: 'card',
 		slug: test.context.generateRandomSlug({
@@ -878,8 +853,6 @@ ava.serial('.event.create() should create a new event', async (test) => {
 	const {
 		sdk
 	} = test.context
-
-	sdk.setAuthToken(test.context.session)
 
 	const slug = test.context.generateRandomSlug({
 		prefix: 'card'
@@ -958,7 +931,6 @@ ava.serial.cb('.stream() should stream new cards', (test) => {
 	const slug1 = `test-card-${uuid()}`.toLowerCase()
 	const slug2 = `test-card-${uuid()}`.toLowerCase()
 
-	sdk.setAuthToken(test.context.session)
 	sdk.stream({
 		type: 'object',
 		properties: {
@@ -1025,7 +997,6 @@ ava.serial.cb('.stream() should emit an event using the .type() method', (test) 
 		sdk
 	} = test.context
 
-	sdk.setAuthToken(test.context.session)
 	sdk.stream()
 		.then(async (stream1) => {
 			const stream2 = await sdk.stream()
@@ -1074,8 +1045,6 @@ ava.serial('.auth.signup() should work with a valid token', async (test) => {
 	const {
 		sdk
 	} = test.context
-
-	sdk.setAuthToken(test.context.session)
 
 	const details = {
 		username: `testuser-${uuid()}`,
@@ -1140,8 +1109,6 @@ ava.serial('.auth.loginWithToken() should refresh your session token', async (te
 })
 
 ava.serial('.auth.refreshToken() should not throw if called multiple times in a row', async (test) => {
-	test.context.sdk.setAuthToken(test.context.session)
-
 	await test.notThrowsAsync(async () => {
 		await test.context.sdk.auth.refreshToken()
 		await test.context.sdk.auth.refreshToken()
@@ -1159,8 +1126,6 @@ ava.serial('.auth.refreshToken() should not throw if called multiple times in a 
 })
 
 ava.serial('should broadcast github issue links', async (test) => {
-	test.context.sdk.setAuthToken(test.context.session)
-
 	const issueSlug = test.context.generateRandomSlug({
 		prefix: 'issue'
 	})
@@ -1216,8 +1181,6 @@ ava.serial('should broadcast github issue links', async (test) => {
 })
 
 ava.serial('should link two cards together', async (test) => {
-	test.context.sdk.setAuthToken(test.context.session)
-
 	const issueSlug = test.context.generateRandomSlug({
 		prefix: 'issue'
 	})
@@ -1312,8 +1275,6 @@ ava.serial('should link two cards together', async (test) => {
 })
 
 ava.serial('linking two cards should be idempotent', async (test) => {
-	test.context.sdk.setAuthToken(test.context.session)
-
 	const issueSlug = test.context.generateRandomSlug({
 		prefix: 'issue'
 	})

@@ -416,10 +416,10 @@ exports.translate = {
 
 exports.mirror = {
 	before: async (test) => {
-		await helpers.sdk.beforeEach(test)
+		await helpers.sdk.before(test)
 	},
 	after: async (test) => {
-		await helpers.sdk.afterEach(test)
+		await helpers.sdk.after(test)
 	},
 	beforeEach: async (test, username) => {
 		test.context.username = username
