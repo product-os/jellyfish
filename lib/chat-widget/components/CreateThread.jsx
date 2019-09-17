@@ -10,6 +10,7 @@ import {
 } from 'react-redux'
 import {
 	Box,
+	Flex,
 	Input
 } from 'rendition'
 import MessageInput from '../../../lib/ui-components/Timeline/MessageInput'
@@ -68,25 +69,28 @@ export const CreateThread = ({
 		<Box {...rest}>
 			<Box
 				flex="1"
-				p={3}>
+				p={3}
+				backgroundColor="white">
 				<Input
 					placeholder="Subject"
 					value={subject}
 					onChange={handleSubjectChage}
 				/>
 			</Box>
-			<MessageInput
-				user={currentUser}
-				value={text}
-				onChange={handleTextChange}
-				onFileChange={handleFileChange}
-				onSubmit={handleSubmit}
-			/>
-			<Box p={16}>
-				<TaskButton task={initiateThreadTask} onClick={handleSubmit}>
-					Start thread
-				</TaskButton>
+			<Box>
+				<MessageInput
+					user={currentUser}
+					value={text}
+					onChange={handleTextChange}
+					onFileChange={handleFileChange}
+					onSubmit={handleSubmit}
+				/>
 			</Box>
+			<Flex p={16} flexDirection="column" alignItems="center">
+				<TaskButton task={initiateThreadTask} primary onClick={handleSubmit}>
+					Start conversation
+				</TaskButton>
+			</Flex>
 		</Box>
 	)
 }

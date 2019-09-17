@@ -18,7 +18,7 @@ import {
 export const TaskButton = ({
 	task, children, ...rest
 }) => {
-	const icon = task.started && <Loader />
+	const icon = task.started && <Loader color="white" />
 
 	return (
 		<React.Fragment>
