@@ -1,0 +1,31 @@
+{
+  "slug": "view-read-user-test",
+  "name": "Test role read permissions",
+  "version": "1.0.0",
+  "type": "view",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "allOf": [
+      {
+        "name": "All cards",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "active": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "active"
+          ]
+        }
+      }
+    ],
+    "anyOf": []
+  },
+  "requires": [],
+  "capabilities": []
+}
