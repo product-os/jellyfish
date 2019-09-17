@@ -5,59 +5,65 @@
  */
 
 const Bluebird = require('bluebird')
+const _ = require('lodash')
 const helpers = require('../server/helpers')
 const {
 	getSdk
 } = require('../../../lib/sdk')
 const environment = require('../../../lib/environment')
 
+exports.before = async (test) => {
+	// Since AVA tests are running concurrently, set up an SDK instance that will
+	// communicate with whichever port this server instance bound to
+	test.context.sdk = getSdk({
+		apiPrefix: 'api/v2',
+		apiUrl: `${environment.http.host}:${environment.http.port}`
+	})
+
+	test.context.executeThenWait = async (asyncFn, waitQuery, times = 20) => {
+		if (times === 0) {
+			throw new Error('The wait query did not resolve')
+		}
+
+		if (asyncFn) {
+			await asyncFn()
+		}
+
+		const results = await test.context.sdk.query(waitQuery)
+		if (results.length > 0) {
+			return results[0]
+		}
+
+		await Bluebird.delay(1000)
+		return test.context.executeThenWait(null, waitQuery, times - 1)
+	}
+}
+
+exports.after = _.noop
+
+exports.beforeEach = (test, token) => {
+	test.context.sdk.setAuthToken(token)
+}
+
+exports.afterEach = (test) => {
+	test.context.sdk.cancelAllStreams()
+	test.context.sdk.cancelAllRequests()
+}
+
 exports.sdk = {
 	before: async (test) => {
 		await helpers.server.beforeEach(test)
-
-		// Since AVA tests are running concurrently, set up an SDK instance that will
-		// communicate with whichever port this server instance bound to
-		test.context.sdk = getSdk({
-			apiPrefix: 'api/v2',
-			apiUrl: `http://localhost:${environment.http.port}`
-		})
-
-		const session = await test.context.sdk.auth.login({
-			username: environment.test.user.username,
-			password: environment.test.user.password
-		})
-
-		test.context.token = session.id
-
-		test.context.executeThenWait = async (asyncFn, waitQuery, times = 20) => {
-			if (times === 0) {
-				throw new Error('The wait query did not resolve')
-			}
-
-			if (asyncFn) {
-				await asyncFn()
-			}
-
-			const results = await test.context.sdk.query(waitQuery)
-			if (results.length > 0) {
-				return results[0]
-			}
-
-			await Bluebird.delay(1000)
-			return test.context.executeThenWait(null, waitQuery, times - 1)
-		}
+		await exports.before(test)
 	},
 
 	after: async (test) => {
+		await exports.after(test)
 		await helpers.server.afterEach(test)
 	},
 
 	beforeEach: (test) => {
-		test.context.sdk.setAuthToken(test.context.token)
+		exports.beforeEach(test, test.context.token)
 	},
 
-	afterEach: (test) => {
-		test.context.sdk.cancelAllStreams()
-		test.context.sdk.cancelAllRequests()
-	}
+	afterEach: exports.afterEach
 }
