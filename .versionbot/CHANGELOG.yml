@@ -1,4 +1,14 @@
 - commits:
+    - subject: Chat widget style new thread
+      hash: eb679f90e181c514a25af1b8c6d25bedc9892e92
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 23.16.0
+  date: 2019-09-17T13:47:41.668Z
+- commits:
     - subject: 'test: Sort out sdk test hooks messy situation'
       hash: f799a543ac38c574e2335b3737935716fe044591
       body: |
