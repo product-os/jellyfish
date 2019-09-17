@@ -22,6 +22,15 @@ ava.afterEach(async (test) => {
 	await helpers.sdk.afterEach(test)
 })
 
+const generateRandomSlug = (options) => {
+	const suffix = uuid()
+	if (options.prefix) {
+		return `${options.prefix}-${suffix}`
+	}
+
+	return suffix
+}
+
 ava.serial('.action() should be able to successfully create a new card', async (test) => {
 	const {
 		sdk
@@ -36,7 +45,7 @@ ava.serial('.action() should be able to successfully create a new card', async (
 		arguments: {
 			reason: null,
 			properties: {
-				slug: test.context.generateRandomSlug({
+				slug: generateRandomSlug({
 					prefix: 'card'
 				}),
 				version: '1.0.0',
@@ -45,26 +54,24 @@ ava.serial('.action() should be able to successfully create a new card', async (
 		}
 	})
 
-	const results = await test.context.jellyfish.query(test.context.context,
-		test.context.session,
-		{
-			type: 'object',
-			properties: {
-				name: {
-					type: 'string',
-					const: name
-				},
-				type: {
-					type: 'string',
-					const: 'card'
-				}
+	const results = await sdk.query({
+		type: 'object',
+		properties: {
+			name: {
+				type: 'string',
+				const: name
 			},
-			required: [ 'name' ]
-		}
-	)
+			type: {
+				type: 'string',
+				const: 'card'
+			}
+		},
+		required: [ 'name' ]
+	})
 
 	test.deepEqual(results, [
 		{
+			markers: [],
 			type: 'card',
 			name
 		}
@@ -77,7 +84,7 @@ ava.serial('.action() should resolve with the slug, id and type of the card', as
 	} = test.context
 
 	const name = `test-card-${uuid()}`
-	const slug = test.context.generateRandomSlug({
+	const slug = generateRandomSlug({
 		prefix: 'card'
 	})
 
@@ -104,16 +111,15 @@ ava.serial('.action() should resolve with the slug, id and type of the card', as
 
 ava.serial('.query() should run a query on the server', async (test) => {
 	const {
-		sdk,
-		server
+		sdk
 	} = test.context
 
 	const name = `test-card-${uuid()}`
-	const slug = test.context.generateRandomSlug({
+	const slug = generateRandomSlug({
 		prefix: 'card'
 	})
 
-	await server.jellyfish.insertCard(test.context.context, test.context.session, {
+	await sdk.card.create({
 		name,
 		slug,
 		version: '1.0.0',
@@ -147,7 +153,7 @@ ava.serial('.query() should run a query on the server', async (test) => {
 		id: results[0].id,
 		created_at: results[0].created_at,
 		updated_at: null,
-		linked_at: {},
+		linked_at: results[0].linked_at,
 		name,
 		slug,
 		version: '1.0.0',
@@ -164,8 +170,7 @@ ava.serial('.query() should run a query on the server', async (test) => {
 
 ava.serial('.query() should accept a "limit" option', async (test) => {
 	const {
-		sdk,
-		server
+		sdk
 	} = test.context
 
 	const limit = 2
@@ -173,9 +178,9 @@ ava.serial('.query() should accept a "limit" option', async (test) => {
 	const baseTime = 1539092025937
 	const id = uuid()
 
-	const card1 = await server.jellyfish.insertCard(test.context.context, test.context.session, {
+	const card1 = await sdk.card.create({
 		version: '1.0.0',
-		slug: test.context.generateRandomSlug({
+		slug: generateRandomSlug({
 			prefix: 'card'
 		}),
 		data: {
@@ -192,9 +197,9 @@ ava.serial('.query() should accept a "limit" option', async (test) => {
 		tags: []
 	})
 
-	const card2 = await server.jellyfish.insertCard(test.context.context, test.context.session, {
+	const card2 = await sdk.card.create({
 		version: '1.0.0',
-		slug: test.context.generateRandomSlug({
+		slug: generateRandomSlug({
 			prefix: 'card'
 		}),
 		data: {
@@ -211,9 +216,9 @@ ava.serial('.query() should accept a "limit" option', async (test) => {
 		tags: []
 	})
 
-	await server.jellyfish.insertCard(test.context.context, test.context.session, {
+	await sdk.card.create({
 		version: '1.0.0',
-		slug: test.context.generateRandomSlug({
+		slug: generateRandomSlug({
 			prefix: 'card'
 		}),
 		data: {
@@ -256,13 +261,15 @@ ava.serial('.query() should accept a "limit" option', async (test) => {
 		limit
 	})
 
-	test.deepEqual(results, [ card1, card2 ])
+	test.deepEqual(results, [
+		await sdk.card.get(card1.id),
+		await sdk.card.get(card2.id)
+	])
 })
 
 ava.serial('.query() should accept a "skip" option', async (test) => {
 	const {
-		sdk,
-		server
+		sdk
 	} = test.context
 
 	const limit = 2
@@ -271,9 +278,9 @@ ava.serial('.query() should accept a "skip" option', async (test) => {
 	const baseTime = 1539092025937
 	const id = uuid()
 
-	await server.jellyfish.insertCard(test.context.context, test.context.session, {
+	await sdk.card.create({
 		version: '1.0.0',
-		slug: test.context.generateRandomSlug({
+		slug: generateRandomSlug({
 			prefix: 'card'
 		}),
 		data: {
@@ -290,9 +297,9 @@ ava.serial('.query() should accept a "skip" option', async (test) => {
 		tags: []
 	})
 
-	const card2 = await server.jellyfish.insertCard(test.context.context, test.context.session, {
+	const card2 = await sdk.card.create({
 		version: '1.0.0',
-		slug: test.context.generateRandomSlug({
+		slug: generateRandomSlug({
 			prefix: 'card'
 		}),
 		data: {
@@ -309,9 +316,9 @@ ava.serial('.query() should accept a "skip" option', async (test) => {
 		tags: []
 	})
 
-	const card3 = await server.jellyfish.insertCard(test.context.context, test.context.session, {
+	const card3 = await sdk.card.create({
 		version: '1.0.0',
-		slug: test.context.generateRandomSlug({
+		slug: generateRandomSlug({
 			prefix: 'card'
 		}),
 		data: {
@@ -355,20 +362,22 @@ ava.serial('.query() should accept a "skip" option', async (test) => {
 		skip
 	})
 
-	test.deepEqual(results, [ card2, card3 ])
+	test.deepEqual(results, [
+		await sdk.card.get(card2.id),
+		await sdk.card.get(card3.id)
+	])
 })
 
 ava.serial('.query() should accept a "sortBy" option as a single key', async (test) => {
 	const {
-		sdk,
-		server
+		sdk
 	} = test.context
 
 	const id = uuid()
 
-	const card1 = await server.jellyfish.insertCard(test.context.context, test.context.session, {
+	const card1 = await sdk.card.create({
 		version: '1.0.0',
-		slug: test.context.generateRandomSlug({
+		slug: generateRandomSlug({
 			prefix: 'card'
 		}),
 		name: 'd',
@@ -384,9 +393,9 @@ ava.serial('.query() should accept a "sortBy" option as a single key', async (te
 		tags: []
 	})
 
-	const card2 = await server.jellyfish.insertCard(test.context.context, test.context.session, {
+	const card2 = await sdk.card.create({
 		version: '1.0.0',
-		slug: test.context.generateRandomSlug({
+		slug: generateRandomSlug({
 			prefix: 'card'
 		}),
 		name: 'a',
@@ -402,9 +411,9 @@ ava.serial('.query() should accept a "sortBy" option as a single key', async (te
 		tags: []
 	})
 
-	const card3 = await server.jellyfish.insertCard(test.context.context, test.context.session, {
+	const card3 = await sdk.card.create({
 		version: '1.0.0',
-		slug: test.context.generateRandomSlug({
+		slug: generateRandomSlug({
 			prefix: 'card'
 		}),
 		name: 'c',
@@ -420,9 +429,9 @@ ava.serial('.query() should accept a "sortBy" option as a single key', async (te
 		tags: []
 	})
 
-	const card4 = await server.jellyfish.insertCard(test.context.context, test.context.session, {
+	const card4 = await sdk.card.create({
 		version: '1.0.0',
-		slug: test.context.generateRandomSlug({
+		slug: generateRandomSlug({
 			prefix: 'card'
 		}),
 		name: 'b',
@@ -463,20 +472,24 @@ ava.serial('.query() should accept a "sortBy" option as a single key', async (te
 		sortBy: 'name'
 	})
 
-	test.deepEqual(results, [ card2, card4, card3, card1 ])
+	test.deepEqual(results, [
+		await sdk.card.get(card2.id),
+		await sdk.card.get(card4.id),
+		await sdk.card.get(card3.id),
+		await sdk.card.get(card1.id)
+	])
 })
 
 ava.serial('.query() should accept a "sortBy" option as an array of keys', async (test) => {
 	const {
-		sdk,
-		server
+		sdk
 	} = test.context
 
 	const id = uuid()
 
-	const card1 = await server.jellyfish.insertCard(test.context.context, test.context.session, {
+	const card1 = await sdk.card.create({
 		version: '1.0.0',
-		slug: test.context.generateRandomSlug({
+		slug: generateRandomSlug({
 			prefix: 'card'
 		}),
 		data: {
@@ -492,9 +505,9 @@ ava.serial('.query() should accept a "sortBy" option as an array of keys', async
 		tags: []
 	})
 
-	const card2 = await server.jellyfish.insertCard(test.context.context, test.context.session, {
+	const card2 = await sdk.card.create({
 		version: '1.0.0',
-		slug: test.context.generateRandomSlug({
+		slug: generateRandomSlug({
 			prefix: 'card'
 		}),
 		data: {
@@ -510,9 +523,9 @@ ava.serial('.query() should accept a "sortBy" option as an array of keys', async
 		tags: []
 	})
 
-	const card3 = await server.jellyfish.insertCard(test.context.context, test.context.session, {
+	const card3 = await sdk.card.create({
 		version: '1.0.0',
-		slug: test.context.generateRandomSlug({
+		slug: generateRandomSlug({
 			prefix: 'card'
 		}),
 		data: {
@@ -528,9 +541,9 @@ ava.serial('.query() should accept a "sortBy" option as an array of keys', async
 		tags: []
 	})
 
-	const card4 = await server.jellyfish.insertCard(test.context.context, test.context.session, {
+	const card4 = await sdk.card.create({
 		version: '1.0.0',
-		slug: test.context.generateRandomSlug({
+		slug: generateRandomSlug({
 			prefix: 'card'
 		}),
 		data: {
@@ -571,13 +584,17 @@ ava.serial('.query() should accept a "sortBy" option as an array of keys', async
 		sortBy: [ 'data', 'code' ]
 	})
 
-	test.deepEqual(results, [ card2, card4, card3, card1 ])
+	test.deepEqual(results, [
+		await sdk.card.get(card2.id),
+		await sdk.card.get(card4.id),
+		await sdk.card.get(card3.id),
+		await sdk.card.get(card1.id)
+	])
 })
 
 ava.serial('.card.get() should return a single element', async (test) => {
 	const {
-		sdk,
-		server
+		sdk
 	} = test.context
 
 	const name = `test-card-${uuid()}`
@@ -585,9 +602,9 @@ ava.serial('.card.get() should return a single element', async (test) => {
 	let cardsToInsert = 5
 
 	while (cardsToInsert--) {
-		await server.jellyfish.insertCard(test.context.context, test.context.session, {
+		await sdk.card.create({
 			version: '1.0.0',
-			slug: test.context.generateRandomSlug({
+			slug: generateRandomSlug({
 				prefix: 'card'
 			}),
 			type: 'card',
@@ -601,10 +618,10 @@ ava.serial('.card.get() should return a single element', async (test) => {
 		})
 	}
 
-	const card = await server.jellyfish.insertCard(test.context.context, test.context.session, {
+	const card = await sdk.card.create({
 		version: '1.0.0',
 		name,
-		slug: test.context.generateRandomSlug({
+		slug: generateRandomSlug({
 			prefix: 'card'
 		}),
 		type: 'card',
@@ -621,25 +638,40 @@ ava.serial('.card.get() should return a single element', async (test) => {
 		type: 'card'
 	})
 
-	test.deepEqual(result, card)
+	test.deepEqual(result, {
+		id: card.id,
+		type: card.type,
+		slug: card.slug,
+		active: true,
+		capabilities: [],
+		created_at: result.created_at,
+		data: {},
+		linked_at: result.linked_at,
+		links: {},
+		markers: [],
+		name,
+		requires: [],
+		tags: [],
+		updated_at: null,
+		version: '1.0.0'
+	})
 })
 
 ava.serial('.card.get() should work with slugs', async (test) => {
 	const {
-		sdk,
-		server
+		sdk
 	} = test.context
 
-	const slug = test.context.generateRandomSlug({
+	const slug = generateRandomSlug({
 		prefix: 'card'
 	})
 
 	let cardsToInsert = 5
 
 	while (cardsToInsert--) {
-		await server.jellyfish.insertCard(test.context.context, test.context.session, {
+		await sdk.card.create({
 			version: '1.0.0',
-			slug: test.context.generateRandomSlug({
+			slug: generateRandomSlug({
 				prefix: 'card'
 			}),
 			type: 'card',
@@ -653,7 +685,7 @@ ava.serial('.card.get() should work with slugs', async (test) => {
 		})
 	}
 
-	const card = await server.jellyfish.insertCard(test.context.context, test.context.session, {
+	const card = await sdk.card.create({
 		version: '1.0.0',
 		slug,
 		type: 'card',
@@ -670,13 +702,28 @@ ava.serial('.card.get() should work with slugs', async (test) => {
 		type: 'card'
 	})
 
-	test.deepEqual(result, card)
+	test.deepEqual(result, {
+		id: card.id,
+		type: card.type,
+		slug: card.slug,
+		name: null,
+		active: true,
+		capabilities: [],
+		created_at: result.created_at,
+		data: {},
+		linked_at: result.linked_at,
+		links: {},
+		markers: [],
+		requires: [],
+		tags: [],
+		updated_at: null,
+		version: '1.0.0'
+	})
 })
 
 ava.serial('.card.get() should work for ids without a type option', async (test) => {
 	const {
-		sdk,
-		server
+		sdk
 	} = test.context
 
 	const name = `test-card-${uuid()}`
@@ -684,9 +731,9 @@ ava.serial('.card.get() should work for ids without a type option', async (test)
 	let cardsToInsert = 5
 
 	while (cardsToInsert--) {
-		await server.jellyfish.insertCard(test.context.context, test.context.session, {
+		await sdk.card.create({
 			version: '1.0.0',
-			slug: test.context.generateRandomSlug({
+			slug: generateRandomSlug({
 				prefix: 'card'
 			}),
 			type: 'card',
@@ -700,10 +747,10 @@ ava.serial('.card.get() should work for ids without a type option', async (test)
 		})
 	}
 
-	const card = await server.jellyfish.insertCard(test.context.context, test.context.session, {
+	const card = await sdk.card.create({
 		version: '1.0.0',
 		name,
-		slug: test.context.generateRandomSlug({
+		slug: generateRandomSlug({
 			prefix: 'card'
 		}),
 		type: 'card',
@@ -718,25 +765,40 @@ ava.serial('.card.get() should work for ids without a type option', async (test)
 
 	const result = await sdk.card.get(card.id)
 
-	test.deepEqual(result, card)
+	test.deepEqual(result, {
+		id: card.id,
+		type: card.type,
+		slug: card.slug,
+		name,
+		active: true,
+		capabilities: [],
+		created_at: result.created_at,
+		data: {},
+		linked_at: result.linked_at,
+		links: {},
+		markers: [],
+		requires: [],
+		tags: [],
+		updated_at: null,
+		version: '1.0.0'
+	})
 })
 
 ava.serial('.card.get() should work for slugs without a type option', async (test) => {
 	const {
-		sdk,
-		server
+		sdk
 	} = test.context
 
-	const slug = test.context.generateRandomSlug({
+	const slug = generateRandomSlug({
 		prefix: 'card'
 	})
 
 	let cardsToInsert = 5
 
 	while (cardsToInsert--) {
-		await server.jellyfish.insertCard(test.context.context, test.context.session, {
+		await sdk.card.create({
 			version: '1.0.0',
-			slug: test.context.generateRandomSlug({
+			slug: generateRandomSlug({
 				prefix: 'card'
 			}),
 			type: 'card',
@@ -750,7 +812,7 @@ ava.serial('.card.get() should work for slugs without a type option', async (tes
 		})
 	}
 
-	const card = await server.jellyfish.insertCard(test.context.context, test.context.session, {
+	const card = await sdk.card.create({
 		version: '1.0.0',
 		slug,
 		type: 'card',
@@ -765,7 +827,23 @@ ava.serial('.card.get() should work for slugs without a type option', async (tes
 
 	const result = await sdk.card.get(slug)
 
-	test.deepEqual(result, card)
+	test.deepEqual(result, {
+		id: card.id,
+		type: card.type,
+		slug: card.slug,
+		name: null,
+		active: true,
+		capabilities: [],
+		created_at: result.created_at,
+		data: {},
+		linked_at: result.linked_at,
+		links: {},
+		markers: [],
+		requires: [],
+		tags: [],
+		updated_at: null,
+		version: '1.0.0'
+	})
 })
 
 ava.serial('.card.create() should create a new card', async (test) => {
@@ -773,7 +851,7 @@ ava.serial('.card.create() should create a new card', async (test) => {
 		sdk
 	} = test.context
 
-	const slug = test.context.generateRandomSlug({
+	const slug = generateRandomSlug({
 		prefix: 'card'
 	})
 
@@ -783,25 +861,23 @@ ava.serial('.card.create() should create a new card', async (test) => {
 		slug
 	})
 
-	const results = await test.context.jellyfish.query(test.context.context,
-		test.context.session,
-		{
-			type: 'object',
-			properties: {
-				slug: {
-					type: 'string',
-					const: slug
-				},
-				type: {
-					type: 'string',
-					const: 'card'
-				}
+	const results = await sdk.query({
+		type: 'object',
+		properties: {
+			slug: {
+				type: 'string',
+				const: slug
 			},
-			required: [ 'slug', 'type' ]
-		}
-	)
+			type: {
+				type: 'string',
+				const: 'card'
+			}
+		},
+		required: [ 'slug', 'type' ]
+	})
 
 	test.deepEqual(_.first(results), {
+		markers: [],
 		type: 'card',
 		slug
 	})
@@ -812,7 +888,7 @@ ava.serial('.card.create() should resolve with the slug, id and type of the crea
 		sdk
 	} = test.context
 
-	const slug = test.context.generateRandomSlug({
+	const slug = generateRandomSlug({
 		prefix: 'card'
 	})
 
@@ -836,7 +912,7 @@ ava.serial('.card.remove() should be able to delete a card', async (test) => {
 
 	const card = await sdk.card.create({
 		type: 'card',
-		slug: test.context.generateRandomSlug({
+		slug: generateRandomSlug({
 			prefix: 'card'
 		}),
 		version: '1.0.0'
@@ -854,7 +930,7 @@ ava.serial('.event.create() should create a new event', async (test) => {
 		sdk
 	} = test.context
 
-	const slug = test.context.generateRandomSlug({
+	const slug = generateRandomSlug({
 		prefix: 'card'
 	})
 
@@ -875,39 +951,36 @@ ava.serial('.event.create() should create a new event', async (test) => {
 
 	await sdk.event.create(event)
 
-	const results = await test.context.server.jellyfish.query(test.context.context,
-		test.context.session,
-		{
-			type: 'object',
-			properties: {
-				data: {
-					type: 'object',
-					properties: {
-						target: {
-							type: 'string',
-							const: card.id
-						},
-						payload: {
-							type: 'object',
-							properties: {
-								test: {
-									type: 'number'
-								}
-							},
-							required: [ 'test' ]
-						}
+	const results = await sdk.query({
+		type: 'object',
+		properties: {
+			data: {
+				type: 'object',
+				properties: {
+					target: {
+						type: 'string',
+						const: card.id
 					},
-					required: [ 'target', 'payload' ],
-					additionalProperties: false
+					payload: {
+						type: 'object',
+						properties: {
+							test: {
+								type: 'number'
+							}
+						},
+						required: [ 'test' ]
+					}
 				},
-				type: {
-					type: 'string',
-					const: 'message'
-				}
+				required: [ 'target', 'payload' ],
+				additionalProperties: false
 			},
-			additionalProperties: false
-		}
-	)
+			type: {
+				type: 'string',
+				const: 'message'
+			}
+		},
+		additionalProperties: false
+	})
 
 	const result = _.first(results)
 
@@ -924,12 +997,11 @@ ava.serial('.event.create() should create a new event', async (test) => {
 
 ava.serial.cb('.stream() should stream new cards', (test) => {
 	const {
-		sdk,
-		server
+		sdk
 	} = test.context
 
-	const slug1 = `test-card-${uuid()}`.toLowerCase()
-	const slug2 = `test-card-${uuid()}`.toLowerCase()
+	const slug1 = `test-card-one-${uuid()}`.toLowerCase()
+	const slug2 = `test-card-two-${uuid()}`.toLowerCase()
 
 	sdk.stream({
 		type: 'object',
@@ -961,6 +1033,7 @@ ava.serial.cb('.stream() should stream new cards', (test) => {
 				test.is(update.data.before, null)
 				test.deepEqual(_.omit(update.data.after, [ 'id' ]), {
 					slug: slug1,
+					markers: [],
 					data: {
 						test: 1
 					}
@@ -971,14 +1044,14 @@ ava.serial.cb('.stream() should stream new cards', (test) => {
 
 			try {
 				await Bluebird.all([
-					server.jellyfish.insertCard(test.context.context, test.context.session, {
+					sdk.card.create({
 						type: 'card',
 						slug: slug1,
 						data: {
 							test: 1
 						}
 					}),
-					server.jellyfish.insertCard(test.context.context, test.context.session, {
+					sdk.card.create({
 						type: 'card',
 						slug: slug2,
 						data: {
@@ -989,7 +1062,7 @@ ava.serial.cb('.stream() should stream new cards', (test) => {
 			} catch (error) {
 				throw error
 			}
-		})
+		}).catch(test.end)
 })
 
 ava.serial.cb('.stream() should emit an event using the .type() method', (test) => {
@@ -1020,7 +1093,7 @@ ava.serial.cb('.stream() should emit an event using the .type() method', (test) 
 			})
 
 			stream2.type(user, card)
-		})
+		}).catch(test.end)
 })
 
 ava.serial('.auth.signup() should fail with an invalid token', async (test) => {
@@ -1053,18 +1126,21 @@ ava.serial('.auth.signup() should work with a valid token', async (test) => {
 	}
 
 	const user = await sdk.auth.signup(details)
+	const card = await sdk.card.get(user.id)
 
-	const card = await test.context.jellyfish.getCardById(test.context.context,
-		test.context.session, user.id, {
-			type: 'user'
-		})
-
-	test.deepEqual(card, test.context.jellyfish.defaults({
+	test.deepEqual(card, {
 		created_at: card.created_at,
 		linked_at: card.linked_at,
 		updated_at: card.updated_at,
 		type: 'user',
 		slug: `user-${details.username}`,
+		version: '1.0.0',
+		active: true,
+		links: {},
+		markers: [],
+		requires: [],
+		tags: [],
+		capabilities: [],
 		id: card.id,
 		name: null,
 		data: {
@@ -1073,7 +1149,7 @@ ava.serial('.auth.signup() should work with a valid token', async (test) => {
 			hash: card.data.hash,
 			avatar: null
 		}
-	}))
+	})
 })
 
 ava.serial('.auth.loginWithToken() should work with a valid token', async (test) => {
@@ -1081,7 +1157,9 @@ ava.serial('.auth.loginWithToken() should work with a valid token', async (test)
 		sdk
 	} = test.context
 
-	await test.notThrowsAsync(sdk.auth.loginWithToken(test.context.session))
+	const session = sdk.getAuthToken()
+	test.truthy(session)
+	await test.notThrowsAsync(sdk.auth.loginWithToken(session))
 })
 
 ava.serial('.auth.loginWithToken() should throw with an invalid token', async (test) => {
@@ -1099,9 +1177,10 @@ ava.serial('.auth.loginWithToken() should refresh your session token', async (te
 		sdk
 	} = test.context
 
-	const newToken = await sdk.auth.loginWithToken(test.context.session)
+	const session = sdk.getAuthToken()
+	const newToken = await sdk.auth.loginWithToken(session)
 
-	test.not(newToken, test.context.session)
+	test.not(newToken, session)
 
 	test.is(newToken, sdk.getAuthToken())
 
@@ -1126,11 +1205,11 @@ ava.serial('.auth.refreshToken() should not throw if called multiple times in a 
 })
 
 ava.serial('should broadcast github issue links', async (test) => {
-	const issueSlug = test.context.generateRandomSlug({
+	const issueSlug = generateRandomSlug({
 		prefix: 'issue'
 	})
 
-	const threadSlug = test.context.generateRandomSlug({
+	const threadSlug = generateRandomSlug({
 		prefix: 'thread'
 	})
 
@@ -1181,11 +1260,11 @@ ava.serial('should broadcast github issue links', async (test) => {
 })
 
 ava.serial('should link two cards together', async (test) => {
-	const issueSlug = test.context.generateRandomSlug({
+	const issueSlug = generateRandomSlug({
 		prefix: 'issue'
 	})
 
-	const threadSlug = test.context.generateRandomSlug({
+	const threadSlug = generateRandomSlug({
 		prefix: 'thread'
 	})
 
@@ -1275,11 +1354,11 @@ ava.serial('should link two cards together', async (test) => {
 })
 
 ava.serial('linking two cards should be idempotent', async (test) => {
-	const issueSlug = test.context.generateRandomSlug({
+	const issueSlug = generateRandomSlug({
 		prefix: 'issue'
 	})
 
-	const threadSlug = test.context.generateRandomSlug({
+	const threadSlug = generateRandomSlug({
 		prefix: 'thread'
 	})
 

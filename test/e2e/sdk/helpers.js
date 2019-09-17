@@ -9,6 +9,7 @@ const helpers = require('../server/helpers')
 const {
 	getSdk
 } = require('../../../lib/sdk')
+const environment = require('../../../lib/environment')
 
 exports.sdk = {
 	before: async (test) => {
@@ -18,8 +19,15 @@ exports.sdk = {
 		// communicate with whichever port this server instance bound to
 		test.context.sdk = getSdk({
 			apiPrefix: 'api/v2',
-			apiUrl: `http://localhost:${test.context.server.port}`
+			apiUrl: `http://localhost:${environment.http.port}`
 		})
+
+		const session = await test.context.sdk.auth.login({
+			username: environment.test.user.username,
+			password: environment.test.user.password
+		})
+
+		test.context.token = session.id
 
 		test.context.executeThenWait = async (asyncFn, waitQuery, times = 20) => {
 			if (times === 0) {
@@ -45,7 +53,7 @@ exports.sdk = {
 	},
 
 	beforeEach: (test) => {
-		test.context.sdk.setAuthToken(test.context.session)
+		test.context.sdk.setAuthToken(test.context.token)
 	},
 
 	afterEach: (test) => {
