@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'UI: Improve information surfaced when viewing a contact snippet'
+      hash: 713a7a73f5e4aa435aaf17466497610367b29cdc
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 23.15.0
+  date: 2019-09-17T08:31:58.816Z
+- commits:
     - subject: 'action-maintain-contact: Elevate external event source'
       hash: 4a884af6eff3bc52dba06f6ed91bec9c3b40a385
       body: ''
