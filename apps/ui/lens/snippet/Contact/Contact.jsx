@@ -25,13 +25,24 @@ export default class SingleCard extends React.Component {
 			card
 		} = this.props
 
+		const first = _.get(card, [ 'data', 'profile', 'name', 'first' ])
+		const last = _.get(card, [ 'data', 'profile', 'name', 'last' ])
+
+		const fullName = (first && last) ? `${first} ${last}` : null
+
 		return (
 			<Box pb={3}>
 				<Flex>
 					<Box flex="1" mr={3}>
 						<Link append={card.slug || card.id}>
-							<strong>{card.name || card.slug}</strong>
+							<strong>{fullName || card.name || card.slug}</strong>
 						</Link>
+					</Box>
+					<Box flex="1" mr={3}>
+						<em>{_.get(card, [ 'data', 'profile', 'type' ])}</em>
+					</Box>
+					<Box flex="1" mr={3}>
+						<em>{_.get(card, [ 'data', 'profile', 'company' ])}</em>
 					</Box>
 					<Box flex="1">
 						{_.get(card, [ 'data', 'profile', 'email' ])}
