@@ -11,7 +11,7 @@ const {
 } = require('../../../lib/sdk')
 
 exports.sdk = {
-	beforeEach: async (test) => {
+	before: async (test) => {
 		await helpers.server.beforeEach(test)
 
 		// Since AVA tests are running concurrently, set up an SDK instance that will
@@ -40,9 +40,16 @@ exports.sdk = {
 		}
 	},
 
-	afterEach: async (test) => {
+	after: async (test) => {
+		await helpers.server.afterEach(test)
+	},
+
+	beforeEach: (test) => {
+		test.context.sdk.setAuthToken(test.context.session)
+	},
+
+	afterEach: (test) => {
 		test.context.sdk.cancelAllStreams()
 		test.context.sdk.cancelAllRequests()
-		await helpers.server.afterEach(test)
 	}
 }

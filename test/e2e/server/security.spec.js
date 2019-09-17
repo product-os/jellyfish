@@ -9,8 +9,8 @@ const uuid = require('uuid/v4')
 const _ = require('lodash')
 const helpers = require('../sdk/helpers')
 
-ava.before(helpers.sdk.beforeEach)
-ava.after(helpers.sdk.afterEach)
+ava.before(helpers.sdk.before)
+ava.after(helpers.sdk.after)
 
 // Logout of the SDK after each test
 ava.afterEach(async (test) => {
