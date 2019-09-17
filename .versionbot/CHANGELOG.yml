@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'circleci: Install docker-compose on test Dockerfile'
+      hash: 71aabf3c27c3295daaa2834e21c8f067158407f0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.16.1
+  date: 2019-09-17T14:36:44.370Z
+- commits:
     - subject: Chat widget style new thread
       hash: eb679f90e181c514a25af1b8c6d25bedc9892e92
       body: ''
