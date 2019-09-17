@@ -1,4 +1,20 @@
 - commits:
+    - subject: 'test: Sort out sdk test hooks messy situation'
+      hash: f799a543ac38c574e2335b3737935716fe044591
+      body: |
+        - `beforeEach` and `afterEach` should be `before` and `after`
+        - We need new `beforeEach` and `afterEach` hooks to keep track of the
+        SDK session
+        - Therefore we don't need `sdk.setAuthToken()` in every test case
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.15.2
+  date: 2019-09-17T12:51:12.628Z
+- commits:
     - subject: Re-add Docker Compose support
       hash: e5474c6e9397db93cfa139dd7cbd39f95b3ac778
       body: ''
