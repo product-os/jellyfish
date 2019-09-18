@@ -380,12 +380,10 @@ build-chat-widget:
 	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/chat-widget $(NYC_TMP_DIR)/lib/chat-widget
 	NODE_ENV=test UI_DIRECTORY="./$(NYC_TMP_DIR)/lib/chat-widget"\
 		SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
-		JELLYFISH_TOKEN=$(JELLYFISH_TOKEN) \
 		./node_modules/.bin/webpack --config=./lib/chat-widget/webpack.config.js
 else
 build-chat-widget:
 	SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
-	JELLYFISH_TOKEN=$(JELLYFISH_TOKEN) \
 		./node_modules/.bin/webpack --config=./lib/chat-widget/webpack.config.js
 endif
 

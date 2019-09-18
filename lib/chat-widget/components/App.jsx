@@ -19,7 +19,7 @@ import {
 } from '../../../lib/ui-components/SetupProvider'
 import {
 	useAnalytics,
-	useSdk
+	useCreateSdk
 } from '../hooks'
 import {
 	IndexRoute,
@@ -37,8 +37,12 @@ import {
 	StreamProviderTask
 } from './StreamProviderTask'
 
-export const App = React.memo(() => {
-	const sdk = useSdk()
+export const App = React.memo(({
+	authToken
+}) => {
+	const sdk = useCreateSdk({
+		authToken
+	})
 	const analytics = useAnalytics()
 	const store = React.useMemo(() => {
 		return createStore()

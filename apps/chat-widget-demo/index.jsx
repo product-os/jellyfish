@@ -11,8 +11,9 @@ import ReactDOM from 'react-dom'
 import {
 	App
 } from '@jellyfish/chat-widget'
+import * as environment from './environment'
 
 ReactDOM.render(
-	<App />,
+	<App authToken={environment.api.token} />,
 	document.getElementById('app')
 )
