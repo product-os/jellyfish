@@ -1,4 +1,14 @@
 - commits:
+    - subject: 'ChatWidget: Accept jellyfish api token as a prop'
+      hash: 9f308211baf31bdbbf16033f95d6c78a469a273b
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 23.17.0
+  date: 2019-09-18T09:48:52.344Z
+- commits:
     - subject: 'sdk: Isolate e2e tests from the service internals'
       hash: 21d450c5f40764f1d501a8e913479923785e5b7f
       body: ''
