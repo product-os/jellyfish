@@ -1,4 +1,14 @@
 - commits:
+    - subject: 'ChatWidget: Add e2e test skeleton'
+      hash: bf159097607dc65d696e2e38942a51f4330d7765
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 23.18.0
+  date: 2019-09-19T10:09:59.409Z
+- commits:
     - subject: 'ChatWidget: Accept jellyfish api token as a prop'
       hash: 9f308211baf31bdbbf16033f95d6c78a469a273b
       body: ''
