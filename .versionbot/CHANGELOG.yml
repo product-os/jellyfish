@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'sync: Retry on 500 external service responses'
+      hash: 717c46d0673596fb536d33da29ea38179b2ad9b6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.18.1
+  date: 2019-09-19T13:37:15.685Z
+- commits:
     - subject: 'ChatWidget: Add e2e test skeleton'
       hash: bf159097607dc65d696e2e38942a51f4330d7765
       body: ''
