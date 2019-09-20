@@ -7,22 +7,7 @@
 const ava = require('ava')
 const uuid = require('uuid/v4')
 const helpers = require('../sdk/helpers')
-
-ava.before(helpers.sdk.before)
-ava.after(helpers.sdk.after)
-
-// Logout of the SDK after each test
-ava.afterEach(async (test) => {
-	await test.context.sdk.auth.logout()
-})
-
-const createUserDetails = () => {
-	return {
-		username: uuid(),
-		email: `${uuid()}@example.com`,
-		password: 'foobarbaz'
-	}
-}
+const environment = require('../../../lib/environment')
 
 const users = {
 	community: {
@@ -32,18 +17,52 @@ const users = {
 	}
 }
 
+ava.before(async (test) => {
+	await helpers.sdk.before(test)
+
+	const session = await test.context.sdk.auth.login({
+		username: environment.test.user.username,
+		password: environment.test.user.password
+	})
+
+	test.context.token = session.id
+
+	await test.context.sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${users.community.username}`,
+			email: users.community.email,
+			password: users.community.password
+		}
+	})
+})
+
+ava.after(helpers.sdk.after)
+
+ava.beforeEach(async (test) => {
+	await helpers.sdk.beforeEach(test, test.context.token)
+})
+
+ava.afterEach(helpers.sdk.afterEach)
+
+const createUserDetails = () => {
+	return {
+		username: uuid(),
+		email: `${uuid()}@example.com`,
+		password: 'foobarbaz'
+	}
+}
+
 ava.serial('Users should be able to view an element with no markers', async (test) => {
 	const {
 		sdk
 	} = test.context
-	const {
-		jellyfish
-	} = test.context.server
 
-	await test.context.createUser(users.community)
 	await sdk.auth.login(users.community)
 
-	const thread = await jellyfish.insertCard(test.context.context, test.context.session, {
+	const thread = await sdk.card.create({
 		slug: `thread-${uuid()}`,
 		type: 'thread',
 		name: 'Test thread'
@@ -53,23 +72,49 @@ ava.serial('Users should be able to view an element with no markers', async (tes
 		type: 'thread'
 	})
 
-	test.deepEqual(thread, userReadThread)
+	test.deepEqual(thread, {
+		id: userReadThread.id,
+		type: userReadThread.type,
+		slug: userReadThread.slug
+	})
 })
 
 ava.serial('Users should not be able to view an element that has a marker they don\'t have access to', async (test) => {
 	const {
 		sdk
 	} = test.context
-	const {
-		jellyfish
-	} = test.context.server
 
-	const thread = await jellyfish.insertCard(test.context.context, test.context.session, {
+	const orgSlug = `org-balena-${uuid()}`
+
+	const org = await sdk.card.create({
+		type: 'org',
+		slug: orgSlug,
+		name: 'Balena',
+		version: '1.0.0'
+	})
+
+	await sdk.card.link(await sdk.auth.whoami(), org, 'is member of')
+
+	const thread = await sdk.card.create({
 		slug: `thread-${uuid()}`,
 		type: 'thread',
 		name: 'Test entry',
-		markers: [ 'org-private' ]
+		markers: [ orgSlug ]
 	})
+
+	const userDetails = createUserDetails()
+	await sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${userDetails.username}`,
+			email: userDetails.email,
+			password: userDetails.password
+		}
+	})
+
+	await sdk.auth.login(users.community)
 
 	const userReadThread = await sdk.card.get(thread.id, {
 		type: 'thread'
@@ -82,15 +127,6 @@ ava.serial('Users should be able to view an element if all of their markers matc
 	const {
 		sdk
 	} = test.context
-	const {
-		jellyfish
-	} = test.context.server
-
-	await sdk.auth.login(users.community)
-	const user = await sdk.auth.whoami()
-
-	// Sign in as the admin
-	await sdk.setAuthToken(test.context.session)
 
 	const orgSlug = `org-balena-${uuid()}`
 
@@ -102,12 +138,14 @@ ava.serial('Users should be able to view an element if all of their markers matc
 		version: '1.0.0'
 	})
 
+	const user = await sdk.card.get(`user-${users.community.username}`)
+
 	// Make the user a member of the org
 	await sdk.card.link(user, org, 'is member of')
 
 	await sdk.auth.login(users.community)
 
-	const thread = await jellyfish.insertCard(test.context.context, test.context.session, {
+	const thread = await sdk.card.create({
 		slug: `thread-${uuid()}`,
 		type: 'thread',
 		name: 'Test entry',
@@ -118,7 +156,11 @@ ava.serial('Users should be able to view an element if all of their markers matc
 		type: 'thread'
 	})
 
-	test.deepEqual(userReadThread, thread)
+	test.deepEqual(thread, {
+		id: userReadThread.id,
+		type: userReadThread.type,
+		slug: userReadThread.slug
+	})
 })
 
 ava.serial(
@@ -127,19 +169,16 @@ ava.serial(
 		const {
 			sdk
 		} = test.context
-		const {
-			jellyfish
-		} = test.context.server
 
-		await sdk.auth.login(users.community)
-		const user = await sdk.auth.whoami()
-
-		const thread = await jellyfish.insertCard(test.context.context, test.context.session, {
+		const whoami = await sdk.auth.whoami()
+		const thread = await sdk.card.create({
 			slug: `thread-${uuid()}`,
 			type: 'thread',
 			name: 'Test entry',
-			markers: [ user.slug, 'org-balena' ]
+			markers: [ whoami.slug, 'org-balena' ]
 		})
+
+		await sdk.auth.login(users.community)
 
 		const userReadThread = await sdk.card.get(thread.id, {
 			type: 'thread'
@@ -152,14 +191,11 @@ ava.serial('Users should be able to view an element using compound markers', asy
 	const {
 		sdk
 	} = test.context
-	const {
-		jellyfish
-	} = test.context.server
 
 	await sdk.auth.login(users.community)
 	const user = await sdk.auth.whoami()
 
-	const thread = await jellyfish.insertCard(test.context.context, test.context.session, {
+	const thread = await sdk.card.create({
 		slug: `thread-${uuid()}`,
 		type: 'thread',
 		name: 'Test entry',
@@ -170,7 +206,11 @@ ava.serial('Users should be able to view an element using compound markers', asy
 		type: 'thread'
 	})
 
-	test.deepEqual(userReadThread, thread)
+	test.deepEqual(thread, {
+		id: userReadThread.id,
+		type: userReadThread.type,
+		slug: userReadThread.slug
+	})
 })
 
 ava.serial(
@@ -179,25 +219,26 @@ ava.serial(
 		const {
 			sdk
 		} = test.context
-		const {
-			jellyfish
-		} = test.context.server
 
-		await sdk.auth.login(users.community)
-		const user = await sdk.auth.whoami()
+		const orgSlug = `org-balena-${uuid()}`
+		const org = await sdk.card.create({
+			type: 'org',
+			slug: orgSlug,
+			name: 'Balena',
+			version: '1.0.0'
+		})
 
-		// Sign in as the admin
-		await sdk.setAuthToken(test.context.session)
+		await sdk.card.link(await sdk.auth.whoami(), org, 'is member of')
 
-		await sdk.auth.login(users.community)
-
-		const thread = await jellyfish.insertCard(test.context.context, test.context.session, {
+		const user = await sdk.card.get(`user-${environment.test.user.username}`)
+		const thread = await sdk.card.create({
 			slug: `thread-${uuid()}`,
 			type: 'thread',
 			name: 'Test entry',
-			markers: [ `${user.slug}+user-ash`, 'org-private' ]
+			markers: [ `${user.slug}+user-ash`, orgSlug ]
 		})
 
+		await sdk.auth.login(users.community)
 		const userReadThread = await sdk.card.get(thread.id, {
 			type: 'thread'
 		})
@@ -211,15 +252,6 @@ ava.serial(
 		const {
 			sdk
 		} = test.context
-		const {
-			jellyfish
-		} = test.context.server
-
-		await sdk.auth.login(users.community)
-		const user = await sdk.auth.whoami()
-
-		// Sign in as the admin
-		await sdk.setAuthToken(test.context.session)
 
 		const orgSlug = `org-balena-${uuid()}`
 
@@ -231,38 +263,39 @@ ava.serial(
 			version: '1.0.0'
 		})
 
-		// Make the user a member of the org
-		await sdk.card.link(user, org, 'is member of')
+		await sdk.card.link(await sdk.card.get(
+			`user-${users.community.username}`), org, 'is member of')
 
 		await sdk.auth.login(users.community)
 
-		const thread = await jellyfish.insertCard(test.context.context, test.context.session, {
+		const thread = await sdk.card.create({
 			slug: `thread-${uuid()}`,
 			type: 'thread',
 			name: 'Test entry',
 			version: '1.0.0',
-			markers: [ `${user.slug}+user-ash`, orgSlug ]
+			markers: [ `user-${users.community.username}+user-ash`, orgSlug ]
 		})
 
 		const userReadThread = await sdk.card.get(thread.id, {
 			type: 'thread'
 		})
 
-		test.deepEqual(userReadThread, thread)
+		test.deepEqual(thread, {
+			id: userReadThread.id,
+			type: userReadThread.type,
+			slug: userReadThread.slug
+		})
 	})
 
 ava.serial('Users should be able to view an element using compound markers with more than two values', async (test) => {
 	const {
 		sdk
 	} = test.context
-	const {
-		jellyfish
-	} = test.context.server
 
 	await sdk.auth.login(users.community)
 	const user = await sdk.auth.whoami()
 
-	const thread = await jellyfish.insertCard(test.context.context, test.context.session, {
+	const thread = await sdk.card.create({
 		slug: `thread-${uuid()}`,
 		type: 'thread',
 		name: 'Test entry',
@@ -273,7 +306,11 @@ ava.serial('Users should be able to view an element using compound markers with 
 		type: 'thread'
 	})
 
-	test.deepEqual(userReadThread, thread)
+	test.deepEqual(thread, {
+		id: userReadThread.id,
+		type: userReadThread.type,
+		slug: userReadThread.slug
+	})
 })
 
 ava.serial(
@@ -282,15 +319,8 @@ ava.serial(
 		const {
 			sdk
 		} = test.context
-		const {
-			jellyfish
-		} = test.context.server
 
-		await sdk.auth.login(users.community)
-		const user = await sdk.auth.whoami()
-
-		// Sign in as the admin
-		await sdk.setAuthToken(test.context.session)
+		const user = await sdk.card.get(`user-${users.community.username}`)
 
 		const orgSlug = `org-balena-${uuid()}`
 
@@ -305,20 +335,24 @@ ava.serial(
 		// Make the user a member of the org
 		await sdk.card.link(user, org, 'is member of')
 
-		await sdk.auth.login(users.community)
-
-		const thread = await jellyfish.insertCard(test.context.context, test.context.session, {
+		const thread = await sdk.card.create({
 			slug: `thread-${uuid()}`,
 			type: 'thread',
 			name: 'Test entry',
-			markers: [ `${orgSlug}+org-private` ]
+			markers: [ `${orgSlug}+user-${environment.test.user.username}` ]
 		})
+
+		await sdk.auth.login(users.community)
 
 		const userReadThread = await sdk.card.get(thread.id, {
 			type: 'thread'
 		})
 
-		test.deepEqual(userReadThread, thread)
+		test.deepEqual(thread, {
+			id: userReadThread.id,
+			type: userReadThread.type,
+			slug: userReadThread.slug
+		})
 	})
 
 ava.serial('Updating a user should not remove their org membership', async (test) => {
@@ -327,7 +361,17 @@ ava.serial('Updating a user should not remove their org membership', async (test
 	} = test.context
 
 	const userDetails = createUserDetails()
-	const user = await test.context.createUser(userDetails)
+	const user = await test.context.sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${userDetails.username}`,
+			email: userDetails.email,
+			password: userDetails.password
+		}
+	})
+
 	await sdk.auth.login(userDetails)
 
 	const waitQuery = {
@@ -400,61 +444,39 @@ ava.serial('.query() should be able to see previously restricted cards after an 
 		sdk
 	} = test.context
 
-	const {
-		jellyfish
-	} = test.context.server
-	const {
-		defaults
-	} = jellyfish
-
 	const userDetails = createUserDetails()
+	const user = await test.context.sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${userDetails.username}`,
+			email: userDetails.email,
+			password: userDetails.password
+		}
+	})
 
-	const user = await test.context.createUser(userDetails)
+	const orgCard = await sdk.card.get('org-balena')
+	const entry = await sdk.card.create({
+		markers: [ orgCard.slug ],
+		type: 'support-issue',
+		slug: test.context.generateRandomSlug({
+			prefix: 'support-issue'
+		}),
+		version: '1.0.0',
+		name: 'Test entry'
+	})
 
-	test.truthy(user, 'User should be defined')
 	await sdk.auth.login(userDetails)
-
-	const orgCard = await jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'org-balena', {
-			type: 'org'
-		})
-
-	test.truthy(orgCard, 'Org should exist')
-	const entry = await jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			markers: [ orgCard.slug ],
-			type: 'support-issue',
-			slug: test.context.generateRandomSlug({
-				prefix: 'support-issue'
-			}),
-			version: '1.0.0',
-			name: 'Test entry'
-		})
-
-	test.truthy(entry, 'Entry should be defined')
 	const unprivilegedResults = await sdk.card.get(entry.id, {
 		type: 'support-issue'
 	})
 
 	test.deepEqual(unprivilegedResults, null)
 
-	await jellyfish.replaceCard(
-		test.context.context, test.context.session, defaults({
-			slug: `link-${orgCard.id}-has-member-${user.id}`,
-			type: 'link',
-			name: 'has member',
-			data: {
-				inverseName: 'is member of',
-				from: {
-					id: orgCard.id,
-					type: orgCard.type
-				},
-				to: {
-					id: user.id,
-					type: user.type
-				}
-			}
-		}))
+	sdk.setAuthToken(test.context.token)
+	await sdk.card.link(orgCard, user, 'has member')
+	await sdk.auth.login(userDetails)
 
 	const privilegedResults = await sdk.card.get(entry.id, {
 		type: 'support-issue'

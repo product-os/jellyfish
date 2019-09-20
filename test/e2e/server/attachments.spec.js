@@ -5,20 +5,15 @@
  */
 
 const ava = require('ava')
+const uuid = require('uuid/v4')
 const helpers = require('../sdk/helpers')
 
 ava.before(helpers.sdk.before)
 ava.after(helpers.sdk.after)
 
-// Logout of the SDK after each test
-ava.afterEach(async (test) => {
-	await test.context.sdk.auth.logout()
-})
-
 ava.serial('should return 404 given a non existent attachment in a card', async (test) => {
-	// The current user can always see its own session
 	const result = await test.context.http(
-		'GET', `/api/v2/file/${test.context.session}/fil_3e7h9zv`)
+		'GET', `/api/v2/file/${uuid()}/fil_3e7h9zv`)
 	test.deepEqual(result, {
 		code: 404,
 		headers: result.headers,
