@@ -6,14 +6,26 @@
 
 const ava = require('ava')
 const helpers = require('../sdk/helpers')
+const environment = require('../../../lib/environment')
 
-ava.before(helpers.sdk.before)
+ava.before(async (test) => {
+	await helpers.sdk.before(test)
+
+	const session = await test.context.sdk.auth.login({
+		username: environment.test.user.username,
+		password: environment.test.user.password
+	})
+
+	test.context.token = session.id
+})
+
 ava.after(helpers.sdk.after)
 
-// Logout of the SDK after each test
-ava.afterEach(async (test) => {
-	await test.context.sdk.auth.logout()
+ava.beforeEach(async (test) => {
+	await helpers.sdk.beforeEach(test, test.context.token)
 })
+
+ava.afterEach(helpers.sdk.afterEach)
 
 ava.serial('should fail with a user error given the wrong username during login', async (test) => {
 	const result = await test.context.http('POST', '/api/v2/action', {
@@ -31,23 +43,19 @@ ava.serial('should fail with a user error given the wrong username during login'
 })
 
 ava.serial('should fail with a user error when querying an id with an expired session', async (test) => {
-	const admin = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-admin', {
-			type: 'user'
-		})
+	const admin = await test.context.sdk.card.get('user-admin')
 
-	const session = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			type: 'session',
-			slug: test.context.generateRandomSlug({
-				prefix: 'session'
-			}),
-			version: '1.0.0',
-			data: {
-				actor: admin.id,
-				expiration: '2015-04-10T23:00:00.000Z'
-			}
-		})
+	const session = await test.context.sdk.card.create({
+		type: 'session',
+		slug: test.context.generateRandomSlug({
+			prefix: 'session'
+		}),
+		version: '1.0.0',
+		data: {
+			actor: admin.id,
+			expiration: '2015-04-10T23:00:00.000Z'
+		}
+	})
 
 	const result = await test.context.http(
 		'GET', '/api/v2/id/4a962ad9-20b5-4dd8-a707-bf819593cc84', null, {
@@ -66,23 +74,19 @@ ava.serial('should fail with a user error when querying an id with an expired se
 })
 
 ava.serial('should fail with a user error when querying a slug with an expired session', async (test) => {
-	const admin = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-admin', {
-			type: 'user'
-		})
+	const admin = await test.context.sdk.card.get('user-admin')
 
-	const session = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			type: 'session',
-			slug: test.context.generateRandomSlug({
-				prefix: 'session'
-			}),
-			version: '1.0.0',
-			data: {
-				actor: admin.id,
-				expiration: '2015-04-10T23:00:00.000Z'
-			}
-		})
+	const session = await test.context.sdk.card.create({
+		type: 'session',
+		slug: test.context.generateRandomSlug({
+			prefix: 'session'
+		}),
+		version: '1.0.0',
+		data: {
+			actor: admin.id,
+			expiration: '2015-04-10T23:00:00.000Z'
+		}
+	})
 
 	const result = await test.context.http(
 		'GET', '/api/v2/slug/user-admin', null, {
@@ -101,23 +105,19 @@ ava.serial('should fail with a user error when querying a slug with an expired s
 })
 
 ava.serial('should fail with a user error when querying with an expired session', async (test) => {
-	const admin = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-admin', {
-			type: 'user'
-		})
+	const admin = await test.context.sdk.card.get('user-admin')
 
-	const session = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			type: 'session',
-			slug: test.context.generateRandomSlug({
-				prefix: 'session'
-			}),
-			version: '1.0.0',
-			data: {
-				actor: admin.id,
-				expiration: '2015-04-10T23:00:00.000Z'
-			}
-		})
+	const session = await test.context.sdk.card.create({
+		type: 'session',
+		slug: test.context.generateRandomSlug({
+			prefix: 'session'
+		}),
+		version: '1.0.0',
+		data: {
+			actor: admin.id,
+			expiration: '2015-04-10T23:00:00.000Z'
+		}
+	})
 
 	const result = await test.context.http(
 		'POST', '/api/v2/query', {
@@ -149,23 +149,19 @@ ava.serial('should fail with a user error when querying with an expired session'
 })
 
 ava.serial('should fail with a user error when posting an action with an expired session', async (test) => {
-	const admin = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-admin', {
-			type: 'user'
-		})
+	const admin = await test.context.sdk.card.get('user-admin')
 
-	const session = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			type: 'session',
-			slug: test.context.generateRandomSlug({
-				prefix: 'session'
-			}),
-			version: '1.0.0',
-			data: {
-				actor: admin.id,
-				expiration: '2015-04-10T23:00:00.000Z'
-			}
-		})
+	const session = await test.context.sdk.card.create({
+		type: 'session',
+		slug: test.context.generateRandomSlug({
+			prefix: 'session'
+		}),
+		version: '1.0.0',
+		data: {
+			actor: admin.id,
+			expiration: '2015-04-10T23:00:00.000Z'
+		}
+	})
 
 	const result = await test.context.http(
 		'POST', '/api/v2/action', {
