@@ -16,9 +16,24 @@ const _ = require('lodash')
 const helpers = require('../sdk/helpers')
 const environment = require('../../../lib/environment')
 
-ava.before(helpers.sdk.before)
+ava.before(async (test) => {
+	await helpers.sdk.before(test)
+
+	const session = await test.context.sdk.auth.login({
+		username: environment.test.user.username,
+		password: environment.test.user.password
+	})
+
+	test.context.token = session.id
+})
+
 ava.after(helpers.sdk.after)
 
+ava.beforeEach(async (test) => {
+	await helpers.sdk.beforeEach(test, test.context.token)
+})
+
+ava.afterEach(helpers.sdk.afterEach)
 const balenaAvaTest = _.some(_.values(environment.integration['balena-api']), _.isEmpty)
 	? ava.skip
 	: ava.serial
@@ -95,10 +110,7 @@ githubAvaTest('should take a GitHub event with a valid signature', async (test) 
 		test.context.context, result.response.data)
 
 	test.false(requestResult.error)
-	const card = await test.context.jellyfish.getCardById(test.context.context,
-		test.context.session, requestResult.data.id, {
-			type: 'external-event'
-		})
+	const card = await test.context.sdk.card.get(requestResult.data.id)
 
 	test.deepEqual(card, {
 		created_at: card.created_at,
@@ -213,18 +225,17 @@ outreachTest('/api/v2/oauth should return a url given outreach', async (test) =>
 })
 
 outreachTest('should be able to associate a user with Outreach', async (test) => {
-	const userCard = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			type: 'user',
-			slug: test.context.generateRandomSlug({
-				prefix: 'user-oauth-test'
-			}),
-			version: '1.0.0',
-			data: {
-				email: 'test@jellysync.io',
-				roles: [ 'user-community' ]
-			}
-		})
+	const userCard = await test.context.sdk.card.create({
+		type: 'user',
+		slug: test.context.generateRandomSlug({
+			prefix: 'user-oauth-test'
+		}),
+		version: '1.0.0',
+		data: {
+			email: 'test@jellysync.io',
+			roles: [ 'user-community' ]
+		}
+	})
 
 	nock.cleanAll()
 
@@ -267,10 +278,7 @@ outreachTest('should be able to associate a user with Outreach', async (test) =>
 		}
 	})
 
-	const newUserCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, userCard.slug, {
-			type: userCard.type
-		})
+	const newUserCard = await test.context.sdk.card.get(userCard.slug)
 
 	test.deepEqual(newUserCard.data.oauth, {
 		outreach: {
@@ -286,18 +294,17 @@ outreachTest('should be able to associate a user with Outreach', async (test) =>
 })
 
 outreachTest('should not be able to associate a user with Outreach given the wrong code', async (test) => {
-	const userCard = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			type: 'user',
-			slug: test.context.generateRandomSlug({
-				prefix: 'user-oauth-test'
-			}),
-			version: '1.0.0',
-			data: {
-				email: 'test@jellysync.io',
-				roles: [ 'user-community' ]
-			}
-		})
+	const userCard = await test.context.sdk.card.create({
+		type: 'user',
+		slug: test.context.generateRandomSlug({
+			prefix: 'user-oauth-test'
+		}),
+		version: '1.0.0',
+		data: {
+			email: 'test@jellysync.io',
+			roles: [ 'user-community' ]
+		}
+	})
 
 	nock.cleanAll()
 
@@ -343,28 +350,23 @@ outreachTest('should not be able to associate a user with Outreach given the wro
 		}
 	})
 
-	const newUserCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, userCard.slug, {
-			type: userCard.type
-		})
-
+	const newUserCard = await test.context.sdk.card.get(userCard.slug)
 	test.falsy(newUserCard.data.oauth)
 	nock.cleanAll()
 })
 
 outreachTest('should not be able to associate a user with Outreach given no state', async (test) => {
-	const userCard = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			type: 'user',
-			slug: test.context.generateRandomSlug({
-				prefix: 'user-oauth-test'
-			}),
-			version: '1.0.0',
-			data: {
-				email: 'test@jellysync.io',
-				roles: [ 'user-community' ]
-			}
-		})
+	const userCard = await test.context.sdk.card.create({
+		type: 'user',
+		slug: test.context.generateRandomSlug({
+			prefix: 'user-oauth-test'
+		}),
+		version: '1.0.0',
+		data: {
+			email: 'test@jellysync.io',
+			roles: [ 'user-community' ]
+		}
+	})
 
 	nock.cleanAll()
 
@@ -400,28 +402,23 @@ outreachTest('should not be able to associate a user with Outreach given no stat
 
 	test.is(result.code, 401)
 
-	const newUserCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, userCard.slug, {
-			type: userCard.type
-		})
-
+	const newUserCard = await test.context.sdk.card.get(userCard.slug)
 	test.falsy(newUserCard.data.oauth)
 	nock.cleanAll()
 })
 
 outreachTest('should not be able to associate a user with Outreach given an invalid state', async (test) => {
-	const userCard = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			type: 'user',
-			slug: test.context.generateRandomSlug({
-				prefix: 'user-oauth-test'
-			}),
-			version: '1.0.0',
-			data: {
-				email: 'test@jellysync.io',
-				roles: [ 'user-community' ]
-			}
-		})
+	const userCard = await test.context.sdk.card.create({
+		type: 'user',
+		slug: test.context.generateRandomSlug({
+			prefix: 'user-oauth-test'
+		}),
+		version: '1.0.0',
+		data: {
+			email: 'test@jellysync.io',
+			roles: [ 'user-community' ]
+		}
+	})
 
 	nock.cleanAll()
 
@@ -457,11 +454,7 @@ outreachTest('should not be able to associate a user with Outreach given an inva
 
 	test.is(result.code, 401)
 
-	const newUserCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, userCard.slug, {
-			type: userCard.type
-		})
-
+	const newUserCard = await test.context.sdk.card.get(userCard.slug)
 	test.falsy(newUserCard.data.oauth)
 	nock.cleanAll()
 })
