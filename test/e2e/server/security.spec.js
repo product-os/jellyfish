@@ -8,14 +8,26 @@ const ava = require('ava')
 const uuid = require('uuid/v4')
 const _ = require('lodash')
 const helpers = require('../sdk/helpers')
+const environment = require('../../../lib/environment')
 
-ava.before(helpers.sdk.before)
+ava.before(async (test) => {
+	await helpers.sdk.before(test)
+
+	const session = await test.context.sdk.auth.login({
+		username: environment.test.user.username,
+		password: environment.test.user.password
+	})
+
+	test.context.token = session.id
+})
+
 ava.after(helpers.sdk.after)
 
-// Logout of the SDK after each test
-ava.afterEach(async (test) => {
-	await test.context.sdk.auth.logout()
+ava.beforeEach(async (test) => {
+	await helpers.sdk.beforeEach(test, test.context.token)
 })
+
+ava.afterEach(helpers.sdk.afterEach)
 
 const createUserDetails = () => {
 	return {
@@ -60,10 +72,7 @@ ava.serial('a community user should not be able to reset other user\'s passwords
 
 	test.is(result2.code, 200)
 
-	const newUser = await test.context.jellyfish.getCardById(
-		test.context.context, test.context.session, result2.response.data.id, {
-			type: 'user'
-		})
+	const newUser = await test.context.sdk.card.get(result2.response.data.id)
 
 	test.truthy(newUser.data.hash)
 	test.deepEqual(newUser.data, {
@@ -90,9 +99,7 @@ ava.serial('a community user should not be able to reset other user\'s passwords
 	test.true(result3.response.error)
 	test.is(result3.response.data.name, 'WorkerAuthenticationError')
 
-	const newUserAfter = await test.context.jellyfish.getCardById(
-		test.context.context, test.context.session, newUser.id)
-
+	const newUserAfter = await test.context.sdk.card.get(newUser.id)
 	test.deepEqual(newUserAfter.data, newUser.data)
 })
 
@@ -131,11 +138,7 @@ ava.serial('a community user should not be able to reset other user\'s passwords
 
 	test.is(result2.code, 200)
 
-	const newUser = await test.context.jellyfish.getCardById(
-		test.context.context, test.context.session, result2.response.data.id, {
-			type: 'user'
-		})
-
+	const newUser = await test.context.sdk.card.get(result2.response.data.id)
 	test.truthy(newUser.data.hash)
 	test.deepEqual(newUser.data, {
 		email: newUserDetails.email,
@@ -161,9 +164,7 @@ ava.serial('a community user should not be able to reset other user\'s passwords
 	test.true(result3.response.error)
 	test.is(result3.response.data.name, 'WorkerAuthenticationError')
 
-	const newUserAfter = await test.context.jellyfish.getCardById(
-		test.context.context, test.context.session, newUser.id)
-
+	const newUserAfter = await test.context.sdk.card.get(newUser.id)
 	test.deepEqual(newUserAfter.data, newUser.data)
 })
 
@@ -202,11 +203,7 @@ ava.serial('a community user should not be able to reset other user\'s passwords
 
 	test.is(result2.code, 200)
 
-	const newUser = await test.context.jellyfish.getCardById(
-		test.context.context, test.context.session, result2.response.data.id, {
-			type: 'user'
-		})
-
+	const newUser = await test.context.sdk.card.get(result2.response.data.id)
 	test.truthy(newUser.data.hash)
 	test.deepEqual(newUser.data, {
 		email: newUserDetails.email,
@@ -232,9 +229,7 @@ ava.serial('a community user should not be able to reset other user\'s passwords
 	test.true(result3.response.error)
 	test.is(result3.response.data.name, 'WorkerAuthenticationError')
 
-	const newUserAfter = await test.context.jellyfish.getCardById(
-		test.context.context, test.context.session, newUser.id)
-
+	const newUserAfter = await test.context.sdk.card.get(newUser.id)
 	test.deepEqual(newUserAfter.data, newUser.data)
 })
 
@@ -257,19 +252,20 @@ ava.serial('a community user should not be able to set a first time password to 
 	const token = result1.response.data.id
 
 	const newUserDetails = createUserDetails()
-	const newUser = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			slug: `user-${newUserDetails.username}`,
-			type: 'user',
-			data: {
-				email: newUserDetails.email,
-				roles: [ 'user-community' ]
-			}
-		})
+	const newUser = await test.context.sdk.card.create({
+		slug: `user-${newUserDetails.username}`,
+		type: 'user',
+		data: {
+			email: newUserDetails.email,
+			roles: [ 'user-community' ]
+		}
+	})
 
-	test.deepEqual(newUser.data, {
+	const newUserCard = await test.context.sdk.card.get(newUser.id)
+	test.deepEqual(newUserCard.data, {
 		email: newUserDetails.email,
-		roles: [ 'user-community' ]
+		roles: [ 'user-community' ],
+		avatar: null
 	})
 
 	const result2 = await test.context.http(
@@ -289,12 +285,12 @@ ava.serial('a community user should not be able to set a first time password to 
 	test.true(result2.response.error)
 	test.is(result2.response.data.name, 'WorkerAuthenticationError')
 
-	const newUserAfter = await test.context.jellyfish.getCardById(
-		test.context.context, test.context.session, newUser.id)
+	const newUserAfter = await test.context.sdk.card.get(newUser.id)
 
 	test.deepEqual(newUserAfter.data, {
 		email: newUserDetails.email,
-		roles: [ 'user-community' ]
+		roles: [ 'user-community' ],
+		avatar: null
 	})
 })
 
@@ -390,15 +386,19 @@ ava.serial('creating a user with a community user session should succeed', async
 
 	const newUserId = result2.response.data.id
 
-	const card = await test.context.jellyfish.getCardById(test.context.context,
-		test.context.session, newUserId, {
-			type: 'user'
-		})
+	const card = await test.context.sdk.card.get(newUserId)
 
-	test.deepEqual(card, test.context.jellyfish.defaults({
+	test.deepEqual(card, {
 		created_at: card.created_at,
 		linked_at: card.linked_at,
 		updated_at: card.updated_at,
+		tags: [],
+		capabilities: [],
+		requires: [],
+		links: {},
+		version: '1.0.0',
+		markers: [],
+		active: true,
 		type: 'user',
 		slug: `user-${newUserDetails.username}`,
 		id: card.id,
@@ -409,7 +409,7 @@ ava.serial('creating a user with a community user session should succeed', async
 			hash: card.data.hash,
 			avatar: null
 		}
-	}))
+	})
 })
 
 ava.serial('Users should be able to change their own email addresses', async (test) => {
@@ -610,6 +610,8 @@ ava.serial('the guest user should not be able to change other users passwords', 
 		sdk
 	} = test.context
 
+	await sdk.auth.logout()
+
 	const targetUser = await test.context.createUser(createUserDetails())
 
 	const error = await test.throwsAsync(sdk.card.update(
@@ -689,11 +691,7 @@ ava.serial('When updating a user, inaccessible fields should not be removed', as
 	test.is(result.code, 200)
 	test.false(result.response.error)
 
-	const rawUserCard = await test.context.jellyfish.getCardById(
-		test.context.context, test.context.session, user.id, {
-			type: 'user'
-		})
-
+	const rawUserCard = await test.context.sdk.card.get(user.id)
 	test.is(rawUserCard.data.email, 'test@example.com')
 	test.is(_.has(rawUserCard, [ 'data', 'roles' ]), true)
 	test.is(_.has(rawUserCard, [ 'data', 'hash' ]), true)
@@ -713,20 +711,9 @@ ava.serial('Users should not be able to login as the core admin user', async (te
 
 	test.is(error1.name, 'WorkerAuthenticationError')
 
-	const role = 'user-community'
-
 	const userData = createUserDetails()
 
-	const user = await test.context.createUser(userData)
-
-	await test.context.jellyfish.replaceCard(test.context.context,
-		test.context.session,
-		_.merge(user, {
-			data: {
-				roles: [ role ]
-			}
-		}))
-
+	await test.context.createUser(userData)
 	await sdk.auth.login(userData)
 
 	const error2 = await test.throwsAsync(sdk.auth.login({
