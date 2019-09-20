@@ -8,33 +8,28 @@ const ava = require('ava')
 const Bluebird = require('bluebird')
 const _ = require('lodash')
 const helpers = require('../../sdk/helpers')
+const environment = require('../../../../lib/environment')
 
-ava.before(helpers.sdk.before)
-ava.after(helpers.sdk.after)
+ava.before(async (test) => {
+	await helpers.sdk.before(test)
 
-// Logout of the SDK after each test
-ava.afterEach(async (test) => {
-	await test.context.sdk.auth.logout()
+	const session = await test.context.sdk.auth.login({
+		username: environment.test.user.username,
+		password: environment.test.user.password
+	})
+
+	test.context.token = session.id
 })
 
+ava.after(helpers.sdk.after)
+
+ava.beforeEach(async (test) => {
+	await helpers.sdk.beforeEach(test, test.context.token)
+})
+
+ava.afterEach(helpers.sdk.afterEach)
+
 ava.serial('should create a new tag using using action-increment-tag', async (test) => {
-	const admin = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-admin', {
-			type: 'user'
-		})
-
-	const session = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			type: 'session',
-			slug: test.context.generateRandomSlug({
-				prefix: 'session'
-			}),
-			version: '1.0.0',
-			data: {
-				actor: admin.id
-			}
-		})
-
 	const name = test.context.generateRandomSlug({
 		prefix: 'increment-tag-test'
 	})
@@ -49,20 +44,24 @@ ava.serial('should create a new tag using using action-increment-tag', async (te
 				name
 			}
 		}, {
-			Authorization: `Bearer ${session.id}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	test.is(result.response.data.length, 1)
 
 	const id = result.response.data[0].id
+	const tag = await test.context.sdk.card.get(id)
 
-	const tag = await test.context.jellyfish.getCardById(test.context.context,
-		test.context.session, id, {
-			type: 'tag'
-		})
-
-	test.deepEqual(tag, test.context.jellyfish.defaults({
+	test.deepEqual(tag, {
 		created_at: tag.created_at,
+		updated_at: tag.updated_at,
+		version: '1.0.0',
+		active: true,
+		links: {},
+		markers: [],
+		tags: [],
+		capabilities: [],
+		requires: [],
 		data: {
 			count: 1
 		},
@@ -71,29 +70,12 @@ ava.serial('should create a new tag using using action-increment-tag', async (te
 		name,
 		slug: tag.slug,
 		type: 'tag'
-	}))
+	})
 })
 
 ava.serial('action-increment-tag should not try two concurrent inserts', async (test) => {
-	const admin = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-admin', {
-			type: 'user'
-		})
-
-	const session = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			type: 'session',
-			slug: test.context.generateRandomSlug({
-				prefix: 'session'
-			}),
-			version: '1.0.0',
-			data: {
-				actor: admin.id
-			}
-		})
-
 	const headers = {
-		Authorization: `Bearer ${session.id}`
+		Authorization: `Bearer ${test.context.token}`
 	}
 
 	for (const time of _.range(10)) {
@@ -121,23 +103,6 @@ ava.serial('action-increment-tag should not try two concurrent inserts', async (
 })
 
 ava.serial('should increment an existing tag using using action-increment-tag', async (test) => {
-	const admin = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-admin', {
-			type: 'user'
-		})
-
-	const session = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			type: 'session',
-			slug: test.context.generateRandomSlug({
-				prefix: 'session'
-			}),
-			version: '1.0.0',
-			data: {
-				actor: admin.id
-			}
-		})
-
 	const name = test.context.generateRandomSlug({
 		prefix: 'increment-tag-test'
 	})
@@ -158,7 +123,7 @@ ava.serial('should increment an existing tag using using action-increment-tag', 
 				}
 			}
 		}, {
-			Authorization: `Bearer ${session.id}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	const id = result.response.data.id
@@ -173,24 +138,28 @@ ava.serial('should increment an existing tag using using action-increment-tag', 
 				name
 			}
 		}, {
-			Authorization: `Bearer ${session.id}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
-	const tag = await test.context.jellyfish.getCardById(test.context.context,
-		test.context.session, id, {
-			type: 'tag'
-		})
+	const tag = await test.context.sdk.card.get(id)
 
-	test.deepEqual(tag, test.context.jellyfish.defaults({
+	test.deepEqual(tag, {
 		created_at: tag.created_at,
 		data: {
 			count: 2
 		},
+		updated_at: tag.updated_at,
+		version: '1.0.0',
+		active: true,
+		links: {},
+		markers: [],
+		tags: [],
+		capabilities: [],
+		requires: [],
 		id: tag.id,
 		linked_at: tag.linked_at,
 		name,
 		slug: tag.slug,
-		type: 'tag',
-		updated_at: tag.updated_at
-	}))
+		type: 'tag'
+	})
 })
