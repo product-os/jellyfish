@@ -10,11 +10,6 @@ const helpers = require('../sdk/helpers')
 ava.before(helpers.sdk.before)
 ava.after(helpers.sdk.after)
 
-// Logout of the SDK after each test
-ava.afterEach(async (test) => {
-	await test.context.sdk.auth.logout()
-})
-
 ava.serial('should post a dummy "none" event', async (test) => {
 	const result = await test.context.http('POST', '/api/v2/hooks/none', {
 		foo: 'bar',

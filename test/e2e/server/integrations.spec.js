@@ -19,11 +19,6 @@ const environment = require('../../../lib/environment')
 ava.before(helpers.sdk.before)
 ava.after(helpers.sdk.after)
 
-// Logout of the SDK after each test
-ava.afterEach(async (test) => {
-	await test.context.sdk.auth.logout()
-})
-
 const balenaAvaTest = _.some(_.values(environment.integration['balena-api']), _.isEmpty)
 	? ava.skip
 	: ava.serial

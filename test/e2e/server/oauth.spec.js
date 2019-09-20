@@ -10,11 +10,6 @@ const helpers = require('../sdk/helpers')
 ava.before(helpers.sdk.before)
 ava.after(helpers.sdk.after)
 
-// Logout of the SDK after each test
-ava.afterEach(async (test) => {
-	await test.context.sdk.auth.logout()
-})
-
 ava.serial('/api/v2/oauth should return 400 given an unknown oauth integration', async (test) => {
 	const result = await test.context.http(
 		'GET', '/api/v2/oauth/helloworld/user-test')
