@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'sdk: Run e2e tests using Docker Compose'
+      hash: 5d49f914a72331b881013d6c7396ae3d080ea2d4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.18.2
+  date: 2019-09-20T12:34:21.758Z
+- commits:
     - subject: 'sync: Retry on 500 external service responses'
       hash: 717c46d0673596fb536d33da29ea38179b2ad9b6
       body: ''
