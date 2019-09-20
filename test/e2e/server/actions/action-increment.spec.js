@@ -6,32 +6,40 @@
 
 const ava = require('ava')
 const helpers = require('../../sdk/helpers')
+const environment = require('../../../../lib/environment')
 
-ava.before(helpers.sdk.before)
-ava.after(helpers.sdk.after)
+ava.before(async (test) => {
+	await helpers.sdk.before(test)
 
-// Logout of the SDK after each test
-ava.afterEach(async (test) => {
-	await test.context.sdk.auth.logout()
+	const session = await test.context.sdk.auth.login({
+		username: environment.test.user.username,
+		password: environment.test.user.password
+	})
+
+	test.context.token = session.id
 })
 
-ava.serial('should increment a card value using action-increment', async (test) => {
-	const admin = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-admin', {
-			type: 'user'
-		})
+ava.after(helpers.sdk.after)
 
-	const session = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			type: 'session',
-			slug: test.context.generateRandomSlug({
-				prefix: 'session'
-			}),
-			version: '1.0.0',
-			data: {
-				actor: admin.id
-			}
-		})
+ava.beforeEach(async (test) => {
+	await helpers.sdk.beforeEach(test, test.context.token)
+})
+
+ava.afterEach(helpers.sdk.afterEach)
+
+ava.serial('should increment a card value using action-increment', async (test) => {
+	const admin = await test.context.sdk.card.get('user-admin')
+
+	const session = await test.context.sdk.card.create({
+		type: 'session',
+		slug: test.context.generateRandomSlug({
+			prefix: 'session'
+		}),
+		version: '1.0.0',
+		data: {
+			actor: admin.id
+		}
+	})
 
 	const result1 = await test.context.http(
 		'POST', '/api/v2/action', {
@@ -68,11 +76,7 @@ ava.serial('should increment a card value using action-increment', async (test) 
 			Authorization: `Bearer ${session.id}`
 		})
 
-	const updatedCard1 = await test.context.jellyfish.getCardById(test.context.context,
-		test.context.session, card.id, {
-			type: 'card'
-		})
-
+	const updatedCard1 = await test.context.sdk.card.get(card.id)
 	test.is(updatedCard1.data.count, 1)
 
 	await test.context.http(
@@ -91,10 +95,6 @@ ava.serial('should increment a card value using action-increment', async (test) 
 			Authorization: `Bearer ${session.id}`
 		})
 
-	const updatedCard2 = await test.context.jellyfish.getCardById(test.context.context,
-		test.context.session, card.id, {
-			type: 'card'
-		})
-
+	const updatedCard2 = await test.context.sdk.card.get(card.id)
 	test.is(updatedCard2.data.count, 2)
 })
