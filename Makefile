@@ -193,11 +193,22 @@ SCRUB ?= 1
 export SCRUB
 FIX ?=
 CI ?=
+DETACH ?=
 export CI
 VISUAL ?=
 export VISUAL
 COVERAGE ?= 1
 export COVERAGE
+
+DOCKER_COMPOSE_OPTIONS = \
+	--file docker-compose.yml \
+	--project-name $(NAME) \
+	--compatibility
+ifeq ($(DETACH),1)
+DOCKER_COMPOSE_COMMAND_OPTIONS = --detach
+else
+DOCKER_COMPOSE_COMMAND_OPTIONS =
+endif
 
 ifeq ($(SCRUB),1)
 SCRUB_COMMAND = ./scripts/postgres-delete-test-databases.js
@@ -391,11 +402,14 @@ endif
 # Development
 # -----------------------------------------------
 
+compose-exec-%:
+	docker-compose $(DOCKER_COMPOSE_OPTIONS) \
+		exec $(subst compose-exec-,,$@) $(COMMAND) $(ARGS) \
+		$(DOCKER_COMPOSE_COMMAND_OPTIONS)
+
 compose-%:
-	docker-compose \
-		--file docker-compose.yml \
-		--project-name $(NAME) \
-		--compatibility $(subst compose-,,$@)
+	docker-compose $(DOCKER_COMPOSE_OPTIONS) $(subst compose-,,$@) \
+		$(DOCKER_COMPOSE_COMMAND_OPTIONS)
 
 dev-%:
 	NODE_ENV=development JELLYFISH_TOKEN=$(JELLYFISH_TOKEN) \
