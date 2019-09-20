@@ -461,8 +461,6 @@ ava.serial('should be able to resolve links', async (test) => {
 })
 
 ava.serial('should display up to date information after resolving an action', async (test) => {
-	await test.context.sdk.setAuthToken(test.context.session)
-
 	for (const time in _.range(0, 50)) {
 		const card = await test.context.sdk.card.create({
 			type: 'card',

@@ -39,7 +39,16 @@ const createUserDetails = () => {
 
 ava.serial('a community user should not be able to reset other user\'s passwords given the right password', async (test) => {
 	const userDetails = createUserDetails()
-	const user = await test.context.createUser(userDetails)
+	const user = await test.context.sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${userDetails.username}`,
+			email: userDetails.email,
+			password: userDetails.password
+		}
+	})
 
 	const result1 = await test.context.http(
 		'POST', '/api/v2/action', {
@@ -105,7 +114,16 @@ ava.serial('a community user should not be able to reset other user\'s passwords
 
 ava.serial('a community user should not be able to reset other user\'s passwords given an incorrect password', async (test) => {
 	const userDetails = createUserDetails()
-	const user = await test.context.createUser(userDetails)
+	const user = await test.context.sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${userDetails.username}`,
+			email: userDetails.email,
+			password: userDetails.password
+		}
+	})
 
 	const result1 = await test.context.http(
 		'POST', '/api/v2/action', {
@@ -170,7 +188,16 @@ ava.serial('a community user should not be able to reset other user\'s passwords
 
 ava.serial('a community user should not be able to reset other user\'s passwords given no password', async (test) => {
 	const userDetails = createUserDetails()
-	const user = await test.context.createUser(userDetails)
+	const user = await test.context.sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${userDetails.username}`,
+			email: userDetails.email,
+			password: userDetails.password
+		}
+	})
 
 	const result1 = await test.context.http(
 		'POST', '/api/v2/action', {
@@ -235,7 +262,16 @@ ava.serial('a community user should not be able to reset other user\'s passwords
 
 ava.serial('a community user should not be able to set a first time password to another user', async (test) => {
 	const userDetails = createUserDetails()
-	const user = await test.context.createUser(userDetails)
+	const user = await test.context.sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${userDetails.username}`,
+			email: userDetails.email,
+			password: userDetails.password
+		}
+	})
 
 	const result1 = await test.context.http(
 		'POST', '/api/v2/action', {
@@ -350,7 +386,16 @@ ava.serial('creating a user with the guest user session using action-create-card
 ava.serial('creating a user with a community user session should succeed', async (test) => {
 	const userDetails = createUserDetails()
 
-	const user = await test.context.createUser(userDetails)
+	const user = await test.context.sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${userDetails.username}`,
+			email: userDetails.email,
+			password: userDetails.password
+		}
+	})
 
 	const result1 = await test.context.http(
 		'POST', '/api/v2/action', {
@@ -418,7 +463,16 @@ ava.serial('Users should be able to change their own email addresses', async (te
 	} = test.context
 
 	const userDetails = createUserDetails()
-	const user = await test.context.createUser(userDetails)
+	const user = await test.context.sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${userDetails.username}`,
+			email: userDetails.email,
+			password: userDetails.password
+		}
+	})
 
 	await sdk.auth.login(userDetails)
 
@@ -450,11 +504,30 @@ ava.serial('Users should not be able to view other users passwords', async (test
 		sdk
 	} = test.context
 
-	const targetUser = await test.context.createUser(createUserDetails())
+	const userDetails = createUserDetails()
+	const targetUser = await test.context.sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${userDetails.username}`,
+			email: userDetails.email,
+			password: userDetails.password
+		}
+	})
 
 	const activeUserDetails = createUserDetails()
 
-	await test.context.createUser(activeUserDetails)
+	await test.context.sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${activeUserDetails.username}`,
+			email: activeUserDetails.email,
+			password: activeUserDetails.password
+		}
+	})
 	await sdk.auth.login(activeUserDetails)
 
 	const fetchedUser = await sdk.card.get(targetUser.id, {
@@ -465,10 +538,21 @@ ava.serial('Users should not be able to view other users passwords', async (test
 })
 
 ava.serial('.query() the guest user should only see its own private fields', async (test) => {
-	await test.context.createUser({
+	const userDetails = {
 		username: uuid(),
 		email: `${uuid()}@example.com`,
 		password: 'foobarbaz'
+	}
+
+	await test.context.sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${userDetails.username}`,
+			email: userDetails.email,
+			password: userDetails.password
+		}
 	})
 
 	await test.context.sdk.auth.logout()
@@ -510,7 +594,16 @@ ava.serial('timeline cards should reference the correct actor', async (test) => 
 	} = test.context
 	const userDetails = createUserDetails()
 
-	const user = await test.context.createUser(userDetails)
+	const user = await test.context.sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${userDetails.username}`,
+			email: userDetails.email,
+			password: userDetails.password
+		}
+	})
 
 	await sdk.auth.login(userDetails)
 
@@ -585,7 +678,16 @@ ava.serial('timeline cards should reference the correct actor', async (test) => 
 ava.serial('.query() community users should be able to query views', async (test) => {
 	const userDetails = createUserDetails()
 
-	await test.context.createUser(userDetails)
+	await test.context.sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${userDetails.username}`,
+			email: userDetails.email,
+			password: userDetails.password
+		}
+	})
 
 	await test.context.sdk.auth.login(userDetails)
 
@@ -610,9 +712,19 @@ ava.serial('the guest user should not be able to change other users passwords', 
 		sdk
 	} = test.context
 
-	await sdk.auth.logout()
+	const userDetails = createUserDetails()
+	const targetUser = await test.context.sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${userDetails.username}`,
+			email: userDetails.email,
+			password: userDetails.password
+		}
+	})
 
-	const targetUser = await test.context.createUser(createUserDetails())
+	await sdk.auth.logout()
 
 	const error = await test.throwsAsync(sdk.card.update(
 		targetUser.id,
@@ -634,11 +746,29 @@ ava.serial('users with the "user-community" role should not be able to change ot
 		sdk
 	} = test.context
 
-	const targetUser = await test.context.createUser(createUserDetails())
+	const userDetails = createUserDetails()
+	const targetUser = await test.context.sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${userDetails.username}`,
+			email: userDetails.email,
+			password: userDetails.password
+		}
+	})
 
 	const communityUserDetails = createUserDetails()
-
-	await test.context.createUser(communityUserDetails)
+	await test.context.sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${communityUserDetails.username}`,
+			email: communityUserDetails.email,
+			password: communityUserDetails.password
+		}
+	})
 
 	await sdk.auth.login(communityUserDetails)
 
@@ -665,7 +795,16 @@ ava.serial('When updating a user, inaccessible fields should not be removed', as
 	const userDetails = createUserDetails()
 
 	// Create a new user
-	const user = await test.context.createUser(userDetails)
+	const user = await test.context.sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${userDetails.username}`,
+			email: userDetails.email,
+			password: userDetails.password
+		}
+	})
 
 	await sdk.auth.login(userDetails)
 
@@ -711,9 +850,20 @@ ava.serial('Users should not be able to login as the core admin user', async (te
 
 	test.is(error1.name, 'WorkerAuthenticationError')
 
+	sdk.setAuthToken(test.context.token)
 	const userData = createUserDetails()
 
-	await test.context.createUser(userData)
+	await test.context.sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${userData.username}`,
+			email: userData.email,
+			password: userData.password
+		}
+	})
+
 	await sdk.auth.login(userData)
 
 	const error2 = await test.throwsAsync(sdk.auth.login({
@@ -725,9 +875,30 @@ ava.serial('Users should not be able to login as the core admin user', async (te
 
 ava.serial('.query() additionalProperties should not affect listing users as a new user', async (test) => {
 	const id = uuid()
-	await test.context.createUser(createUserDetails())
+
+	const details = createUserDetails()
+	await test.context.sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${details.username}`,
+			email: details.email,
+			password: details.password
+		}
+	})
+
 	const userDetails = createUserDetails()
-	await test.context.createUser(userDetails)
+	await test.context.sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${userDetails.username}`,
+			email: userDetails.email,
+			password: userDetails.password
+		}
+	})
 	await test.context.sdk.auth.login(userDetails)
 	const results1 = await test.context.sdk.query({
 		type: 'object',
@@ -767,10 +938,28 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 	} = test.context
 
 	const user1Details = createUserDetails()
-
-	await test.context.createUser(user1Details)
-
-	const targetUser = await test.context.createUser(createUserDetails())
+	const targetDetails = createUserDetails()
+	await test.context.sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${user1Details.username}`,
+			email: user1Details.email,
+			password: user1Details.password
+		}
+	})
+	const targetUserInfo = await test.context.sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${targetDetails.username}`,
+			email: targetDetails.email,
+			password: targetDetails.password
+		}
+	})
+	const targetUser = await test.context.sdk.card.get(targetUserInfo.id)
 
 	await test.context.sdk.auth.login(user1Details)
 
@@ -864,10 +1053,28 @@ ava.serial('Users should not be able to create sessions as other users', async (
 	} = test.context
 
 	const user1Details = createUserDetails()
-
-	await test.context.createUser(user1Details)
-
-	const targetUser = await test.context.createUser(createUserDetails())
+	const targetDetails = createUserDetails()
+	await test.context.sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${user1Details.username}`,
+			email: user1Details.email,
+			password: user1Details.password
+		}
+	})
+	const targetUserInfo = await test.context.sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${targetDetails.username}`,
+			email: targetDetails.email,
+			password: targetDetails.password
+		}
+	})
+	const targetUser = await test.context.sdk.card.get(targetUserInfo.id)
 
 	await test.context.sdk.auth.login(user1Details)
 
@@ -914,7 +1121,16 @@ ava.serial('Users should not be able to create action requests', async (test) =>
 
 	const userDetails = createUserDetails()
 
-	await test.context.createUser(userDetails)
+	await test.context.sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${userDetails.username}`,
+			email: userDetails.email,
+			password: userDetails.password
+		}
+	})
 
 	await test.context.sdk.auth.login(userDetails)
 

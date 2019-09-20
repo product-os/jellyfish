@@ -9,14 +9,26 @@ const md5 = require('blueimp-md5')
 const nock = require('nock')
 const uuid = require('uuid/v4')
 const helpers = require('../sdk/helpers')
+const environment = require('../../../lib/environment')
 
-ava.before(helpers.sdk.before)
+ava.before(async (test) => {
+	await helpers.sdk.before(test)
+
+	const session = await test.context.sdk.auth.login({
+		username: environment.test.user.username,
+		password: environment.test.user.password
+	})
+
+	test.context.token = session.id
+})
+
 ava.after(helpers.sdk.after)
 
-// Logout of the SDK after each test
-ava.afterEach(async (test) => {
-	await test.context.sdk.auth.logout()
+ava.beforeEach(async (test) => {
+	await helpers.sdk.beforeEach(test, test.context.token)
 })
+
+ava.afterEach(helpers.sdk.afterEach)
 
 const createUserDetails = () => {
 	return {
@@ -33,7 +45,16 @@ ava.serial('Users should have an avatar value set to null if it doesn\'t exist',
 
 	const userDetails = createUserDetails()
 
-	await test.context.createUser(userDetails)
+	await test.context.sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${userDetails.username}`,
+			email: userDetails.email,
+			password: userDetails.password
+		}
+	})
 
 	await sdk.auth.login(userDetails)
 
@@ -61,7 +82,16 @@ ava.serial.skip('Users should have an avatar value calculated on signup', async 
 
 	const userDetails = createUserDetails()
 
-	await test.context.createUser(userDetails)
+	await test.context.sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${userDetails.username}`,
+			email: userDetails.email,
+			password: userDetails.password
+		}
+	})
 
 	await sdk.auth.login(userDetails)
 
