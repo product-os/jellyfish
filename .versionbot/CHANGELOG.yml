@@ -1,4 +1,34 @@
 - commits:
+    - subject: 'server: Blackbox e2e action-increment tests'
+      hash: f956db8a9f8b8362fd59f70cd1b2582b5221df78
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'server: Blackbox e2e tests on security suite'
+      hash: 9ce797832dc9aa0f5e10978877d0967ba11fee3b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'server: Make marker e2e tests blackbox'
+      hash: 68445f8883e8a5d7d1105c07530c78f3de446582
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.18.3
+  date: 2019-09-20T13:49:41.823Z
+- commits:
     - subject: 'sdk: Run e2e tests using Docker Compose'
       hash: 5d49f914a72331b881013d6c7396ae3d080ea2d4
       body: ''
