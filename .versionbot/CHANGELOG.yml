@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'ui: Make e2e tests blackbox'
+      hash: fde0fc04ea981ea7fcb928795fd7a8aa535df96b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.18.5
+  date: 2019-09-23T11:39:22.697Z
+- commits:
     - subject: 'server: Decouple e2e tests from helpers'
       hash: ca8d2b6b757881794fd591793b7921c250b69455
       body: ''
