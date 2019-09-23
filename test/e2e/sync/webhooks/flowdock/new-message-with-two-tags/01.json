@@ -1,0 +1,45 @@
+{
+  "headers": {
+    "content-type": "application/json",
+    "x-flowdock-signature": "sha1=dc4e518c6f68900b31926a3d45ed6979f50f39d4",
+    "host": "20c83952.ngrok.io",
+    "content-length": "675",
+    "connection": "close",
+    "x-forwarded-proto": "https",
+    "x-forwarded-for": "94.67.135.140"
+  },
+  "payload": {
+    "thread_id": "O8oELfA7P2xrZT-82zNn4l1PP3r",
+    "event": "message",
+    "tags": [
+      "hello",
+      "world"
+    ],
+    "uuid": "Llq5tn1Er7q4FFB-",
+    "thread": {
+      "body": "",
+      "external_url": null,
+      "external_comments": 0,
+      "activities": 0,
+      "id": "O8oELfA7P2xrZT-82zNn4l1PP3r",
+      "flow": "bed6fa5a-6a31-4a31-9b3b-9184b158c2b8",
+      "status": null,
+      "fields": [],
+      "actions": [],
+      "created_at": 1569248688597,
+      "title": "#hello #world message",
+      "updated_at": "2019-09-23T14:24:48.597Z",
+      "initial_message": 113584,
+      "internal_comments": 1
+    },
+    "id": 113584,
+    "flow": "bed6fa5a-6a31-4a31-9b3b-9184b158c2b8",
+    "content": "#hello #world message",
+    "sent": 1569248688597,
+    "app": "chat",
+    "created_at": "2019-09-23T14:24:48.597Z",
+    "attachments": [],
+    "emojiReactions": {},
+    "user": "345062"
+  }
+}
