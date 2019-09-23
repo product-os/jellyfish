@@ -105,46 +105,6 @@ githubAvaTest('should take a GitHub event with a valid signature', async (test) 
 
 	test.is(result.code, 200)
 	test.false(result.response.error)
-
-	const requestResult = await test.context.queue.waitResults(
-		test.context.context, result.response.data)
-
-	test.false(requestResult.error)
-	const card = await test.context.sdk.card.get(requestResult.data.id)
-
-	test.deepEqual(card, {
-		created_at: card.created_at,
-		updated_at: null,
-		linked_at: card.linked_at,
-		id: requestResult.data.id,
-		type: 'external-event',
-		slug: requestResult.data.slug,
-		name: null,
-		version: '1.0.0',
-		active: true,
-		tags: [],
-		markers: [],
-		links: card.links,
-		requires: [],
-		capabilities: [],
-		data: {
-			source: 'github',
-			headers: {
-				accept: 'application/json',
-				connection: 'close',
-				'content-length': '42',
-				'content-type': 'application/json',
-				host: `localhost:${test.context.server.port}`,
-				'x-hub-signature': `sha1=${hash}`
-			},
-			payload: {
-				foo: 'bar',
-				sender: {
-					login: 'johndoe'
-				}
-			}
-		}
-	})
 })
 
 ava.serial('should not ignore a GitHub signature mismatch', async (test) => {
