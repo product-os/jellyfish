@@ -39,7 +39,7 @@ ava.before(async () => {
 		browser
 	} = context
 
-	await page.goto(`http://localhost:${environment.ui.port}`)
+	await page.goto(`${environment.ui.host}:${environment.ui.port}`)
 	const user1 = await context.createUser(userDetails1)
 	await macros.loginUser(page, userDetails1)
 	await context.addUserToBalenaOrg(user1.id)
@@ -58,7 +58,7 @@ ava.before(async () => {
 		console.log(err)
 	})
 
-	await incognitoPage.goto(`http://localhost:${environment.ui.port}`)
+	await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}`)
 	const user2 = await context.createUser(userDetails2)
 	await macros.loginUser(incognitoPage, userDetails2)
 	await context.addUserToBalenaOrg(user2.id)
@@ -90,8 +90,8 @@ ava.serial('A notice should be displayed when another user is typing', async (te
 	})
 
 	// Navigate to the thread page
-	await incognitoPage.goto(`http://localhost:${environment.ui.port}/${thread.id}`)
-	await page.goto(`http://localhost:${environment.ui.port}/${thread.id}`)
+	await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
 
 	await page.waitForSelector('.column--thread')
 	await incognitoPage.waitForSelector('.column--thread')
@@ -126,7 +126,7 @@ ava.serial('Messages typed but not sent should be preserved when navigating away
 	})
 
 	// Navigate to the thread page
-	await page.goto(`http://localhost:${environment.ui.port}/${thread1.id}`)
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread1.id}`)
 	await page.waitForSelector(`.column--slug-${thread1.slug}`)
 
 	const rand = uuid()
@@ -138,10 +138,10 @@ ava.serial('Messages typed but not sent should be preserved when navigating away
 	// to the message preservation being debounced in the UI
 	await Bluebird.delay(5000)
 
-	await page.goto(`http://localhost:${environment.ui.port}/${thread2.id}`)
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread2.id}`)
 	await page.waitForSelector(`.column--slug-${thread2.slug}`)
 
-	await page.goto(`http://localhost:${environment.ui.port}/${thread1.id}`)
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread1.id}`)
 	await page.waitForSelector(`.column--slug-${thread1.slug}`)
 
 	const messageText = await macros.getElementText(page, 'textarea')
@@ -165,7 +165,7 @@ ava.serial('Messages that ping a user should appear in their inbox', async (test
 	})
 
 	// Navigate to the thread page
-	await page.goto(`http://localhost:${environment.ui.port}/${thread.id}`)
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
 
 	const columnSelector = `.column--slug-${thread.slug}`
 	await page.waitForSelector(columnSelector)
@@ -177,7 +177,7 @@ ava.serial('Messages that ping a user should appear in their inbox', async (test
 	await macros.createChatMessage(page, columnSelector, msg)
 
 	// Navigate to the inbox page
-	await incognitoPage.goto(`http://localhost:${environment.ui.port}/view-my-inbox`)
+	await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}/view-my-inbox`)
 
 	const messageText = await macros.getElementText(incognitoPage, '[data-test="event-card__message"]')
 
@@ -200,7 +200,7 @@ ava.serial('Users should be able to mark all messages as read from their inbox',
 	})
 
 	// Navigate to the thread page
-	await page.goto(`http://localhost:${environment.ui.port}/${thread.id}`)
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
 
 	const columnSelector = `.column--slug-${thread.slug}`
 	await page.waitForSelector(columnSelector)
@@ -212,7 +212,7 @@ ava.serial('Users should be able to mark all messages as read from their inbox',
 	await macros.createChatMessage(page, columnSelector, msg)
 
 	// Navigate to the inbox page
-	await incognitoPage.goto(`http://localhost:${environment.ui.port}/view-my-inbox`)
+	await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}/view-my-inbox`)
 
 	await macros.waitForThenClickSelector(incognitoPage, '[data-test="inbox__mark-all-as-read"]')
 
@@ -234,7 +234,7 @@ ava.serial('Users should be able to create private conversations', async (test) 
 		incognitoPage
 	} = context
 
-	const rootUrl = `http://localhost:${environment.ui.port}/`
+	const rootUrl = `${environment.ui.host}:${environment.ui.port}/`
 
 	// Clean up the URL
 	await page.goto(rootUrl)
@@ -263,16 +263,12 @@ ava.serial('Users should be able to create private conversations', async (test) 
 
 	const [ viewSlug, threadSlug ] = page.url().replace(rootUrl, '').split('/')
 
-	const view = await context.jellyfish.getCardBySlug(
-		context.context,
-		context.session,
-		viewSlug
-	)
-	const thread = await context.jellyfish.getCardBySlug(
-		context.context,
-		context.session,
-		threadSlug
-	)
+	const view = await page.evaluate((slug) => {
+		return window.sdk.card.get(slug)
+	}, viewSlug)
+	const thread = await page.evaluate((slug) => {
+		return window.sdk.card.get(slug)
+	}, threadSlug)
 
 	test.deepEqual(view.markers, [
 		`${user2.slug}+${user1.slug}`

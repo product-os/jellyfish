@@ -29,10 +29,7 @@ exports.server = {
 		test.context.tickWorker = await actionServer.tick(test.context.context, workerOptions)
 		test.context.actionWorker = await actionServer.worker(test.context.context, workerOptions)
 
-		test.context.jellyfish = test.context.server.jellyfish
 		test.context.queue = test.context.server.queue
-		test.context.session = test.context.jellyfish.sessions.admin
-		test.context.guestSession = test.context.server.guestSession
 		test.context.generateRandomSlug = helpers.generateRandomSlug
 
 		test.context.http = (method, uri, payload, headers, options = {}) => {

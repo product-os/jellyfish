@@ -175,6 +175,7 @@ services:
       - NODE_ENV
       - SERVER_HOST=http://api
       - SERVER_PORT
+      - UI_HOST=http://ui
     depends_on:
       - api
       - ui

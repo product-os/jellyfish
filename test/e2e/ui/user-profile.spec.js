@@ -54,7 +54,7 @@ ava.serial('The send command should default to "shift+enter"', async (test) => {
 	})
 
 	// Navigate to the user profile page
-	await page.goto(`http://localhost:${environment.ui.port}/${user.id}/${thread.id}`)
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${user.id}/${thread.id}`)
 
 	await page.waitForSelector('[data-test="lens--lens-my-user"]')
 
@@ -103,7 +103,7 @@ ava.serial('You should be able to change the send command to "enter"', async (te
 		})
 	})
 
-	await page.goto(`http://localhost:${environment.ui.port}/${thread.id}`)
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
 
 	await page.waitForSelector('.column--thread')
 
@@ -124,7 +124,7 @@ ava.serial('You should be able to change the send command to "ctrl+enter"', asyn
 		user
 	} = context
 
-	await page.goto(`http://localhost:${environment.ui.port}/${user.id}`)
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${user.id}`)
 
 	await macros.waitForThenClickSelector(page, 'button[role="tab"]:nth-of-type(3)')
 
@@ -147,7 +147,7 @@ ava.serial('You should be able to change the send command to "ctrl+enter"', asyn
 		})
 	})
 
-	await page.goto(`http://localhost:${environment.ui.port}/${thread.id}`)
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
 
 	await page.waitForSelector('.column--thread')
 

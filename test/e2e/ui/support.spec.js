@@ -147,7 +147,7 @@ ava.serial('Support thread timeline should default to sending whispers', async (
 		})
 	})
 
-	await page.goto(`http://localhost:${environment.ui.port}/${supportThread.id}`)
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${supportThread.id}`)
 
 	const columnSelector = '.column--support-thread'
 	await page.waitForSelector(columnSelector)
@@ -176,7 +176,7 @@ ava.serial('Support thread timeline should send a message if the input is prefix
 		})
 	})
 
-	await page.goto(`http://localhost:${environment.ui.port}/${supportThread.id}`)
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${supportThread.id}`)
 
 	const columnSelector = '.column--support-thread'
 	await page.waitForSelector(columnSelector)
@@ -205,7 +205,7 @@ ava.serial('Support thread timeline should send a message if the whisper button 
 		})
 	})
 
-	await page.goto(`http://localhost:${environment.ui.port}/${supportThread.id}`)
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${supportThread.id}`)
 
 	const columnSelector = '.column--support-thread'
 	await page.waitForSelector(columnSelector)
@@ -236,7 +236,7 @@ ava.serial('Support thread timeline should revert to "whisper" mode after sendin
 		})
 	})
 
-	await page.goto(`http://localhost:${environment.ui.port}/${supportThread.id}`)
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${supportThread.id}`)
 
 	const columnSelector = '.column--support-thread'
 	await page.waitForSelector(columnSelector)
@@ -265,7 +265,7 @@ ava.serial('Users should be able to close a support thread', async (test) => {
 		})
 	})
 
-	await page.goto(`http://localhost:${environment.ui.port}/${supportThread.id}`)
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${supportThread.id}`)
 
 	await page.waitForSelector('.column--support-thread')
 
@@ -297,7 +297,7 @@ ava.serial('Users should be able to close a support thread by sending a message 
 		})
 	})
 
-	await page.goto(`http://localhost:${environment.ui.port}/${supportThread.id}`)
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${supportThread.id}`)
 
 	const columnSelector = '.column--support-thread'
 
