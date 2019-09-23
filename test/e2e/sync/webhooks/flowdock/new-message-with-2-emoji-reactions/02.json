@@ -1,0 +1,29 @@
+{
+  "headers": {
+    "content-type": "application/json",
+    "x-flowdock-signature": "sha1=4660153dca0155044c0313f04a7e78587c92031d",
+    "host": "20c83952.ngrok.io",
+    "content-length": "292",
+    "connection": "close",
+    "x-forwarded-proto": "https",
+    "x-forwarded-for": "94.67.135.140"
+  },
+  "payload": {
+    "event": "emoji-reaction",
+    "tags": [],
+    "uuid": null,
+    "id": 113621,
+    "flow": "bed6fa5a-6a31-4a31-9b3b-9184b158c2b8",
+    "content": {
+      "message": 113620,
+      "emoji": "grinning",
+      "type": "add"
+    },
+    "sent": 1569253103515,
+    "app": null,
+    "created_at": "2019-09-23T15:38:23.515Z",
+    "attachments": [],
+    "emojiReactions": {},
+    "user": "345062"
+  }
+}

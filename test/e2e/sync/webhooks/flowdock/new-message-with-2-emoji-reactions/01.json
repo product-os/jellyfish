@@ -1,0 +1,42 @@
+{
+  "headers": {
+    "content-type": "application/json",
+    "x-flowdock-signature": "sha1=90cd4db4bcdf1df91afd31b0dcec9cc3efdea1ff",
+    "host": "20c83952.ngrok.io",
+    "content-length": "624",
+    "connection": "close",
+    "x-forwarded-proto": "https",
+    "x-forwarded-for": "94.67.135.140"
+  },
+  "payload": {
+    "thread_id": "aG7VqJgA879VyRrM_YBvydY-Una",
+    "event": "message",
+    "tags": [],
+    "uuid": "ktad5efd-FY-A7zR",
+    "thread": {
+      "body": "",
+      "external_url": null,
+      "external_comments": 0,
+      "activities": 0,
+      "id": "aG7VqJgA879VyRrM_YBvydY-Una",
+      "flow": "bed6fa5a-6a31-4a31-9b3b-9184b158c2b8",
+      "status": null,
+      "fields": [],
+      "actions": [],
+      "created_at": 1569253083706,
+      "title": "bar",
+      "updated_at": "2019-09-23T15:38:03.706Z",
+      "initial_message": 113620,
+      "internal_comments": 1
+    },
+    "id": 113620,
+    "flow": "bed6fa5a-6a31-4a31-9b3b-9184b158c2b8",
+    "content": "bar",
+    "sent": 1569253083706,
+    "app": "chat",
+    "created_at": "2019-09-23T15:38:03.706Z",
+    "attachments": [],
+    "emojiReactions": {},
+    "user": "345062"
+  }
+}
