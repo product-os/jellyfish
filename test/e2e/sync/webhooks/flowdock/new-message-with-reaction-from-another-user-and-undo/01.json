@@ -1,0 +1,42 @@
+{
+  "headers": {
+    "content-type": "application/json",
+    "x-flowdock-signature": "sha1=10f7067c90442f9e42cce1f19ce32ed41b755b59",
+    "host": "20c83952.ngrok.io",
+    "content-length": "626",
+    "connection": "close",
+    "x-forwarded-proto": "https",
+    "x-forwarded-for": "94.67.135.140"
+  },
+  "payload": {
+    "thread_id": "F73Ev8WqELWbxcYM4Ic5qs3-_Kn",
+    "event": "message",
+    "tags": [],
+    "uuid": "5U6IIi1i24MWGx_O",
+    "thread": {
+      "body": "",
+      "external_url": null,
+      "external_comments": 0,
+      "activities": 0,
+      "id": "F73Ev8WqELWbxcYM4Ic5qs3-_Kn",
+      "flow": "bed6fa5a-6a31-4a31-9b3b-9184b158c2b8",
+      "status": null,
+      "fields": [],
+      "actions": [],
+      "created_at": 1569253493806,
+      "title": "fizz",
+      "updated_at": "2019-09-23T15:44:53.806Z",
+      "initial_message": 113627,
+      "internal_comments": 1
+    },
+    "id": 113627,
+    "flow": "bed6fa5a-6a31-4a31-9b3b-9184b158c2b8",
+    "content": "fizz",
+    "sent": 1569253493806,
+    "app": "chat",
+    "created_at": "2019-09-23T15:44:53.806Z",
+    "attachments": [],
+    "emojiReactions": {},
+    "user": "345062"
+  }
+}
