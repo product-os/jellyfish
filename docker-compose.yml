@@ -151,7 +151,7 @@ services:
       context: .
       dockerfile: apps/ui/Dockerfile
       args:
-        - SERVER_HOST=http://localhost
+        - SERVER_HOST=http://api
         - SERVER_PORT=${PORT}
         - SENTRY_DSN_UI=0
     environment:
@@ -176,6 +176,7 @@ services:
       - SERVER_HOST=http://api
       - SERVER_PORT
       - UI_HOST=http://ui
+      - UI_PORT=80
     depends_on:
       - api
       - ui
