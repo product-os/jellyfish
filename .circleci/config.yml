@@ -112,7 +112,7 @@ jobs:
           paths:
             - .nyc_output/*.json
 
-  sync_tests_github:
+  sync_tests_github_translate:
     <<: *job_defaults
 
     steps:
@@ -130,17 +130,17 @@ jobs:
 
       - run:
           name: Sync Tests
-          command: make test FILES=./test/e2e/sync/github-*.spec.js COVERAGE=1 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY
+          command: make test FILES=./test/e2e/sync/github-translate.spec.js COVERAGE=1 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY
       - run:
           name: Sync End To End Tests Without Tokens
-          command: make test FILES=./test/e2e/sync/github-*.spec.js COVERAGE=1 INTEGRATION_GITHUB_TOKEN=
+          command: make test FILES=./test/e2e/sync/github-translate.spec.js COVERAGE=1 INTEGRATION_GITHUB_TOKEN=
 
       - persist_to_workspace:
           root: .
           paths:
             - .nyc_output/*.json
 
-  sync_tests_front:
+  sync_tests_github_mirror:
     <<: *job_defaults
 
     steps:
@@ -158,17 +158,17 @@ jobs:
 
       - run:
           name: Sync Tests
-          command: make test FILES=./test/e2e/sync/front-*.spec.js COVERAGE=1 INTEGRATION_FRONT_TOKEN=$FRONT_TOKEN INTEGRATION_INTERCOM_TOKEN=$INTERCOM_TOKEN
+          command: make test FILES=./test/e2e/sync/github-mirror.spec.js COVERAGE=1 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY
       - run:
           name: Sync End To End Tests Without Tokens
-          command: make test FILES=./test/e2e/sync/front-*.spec.js COVERAGE=1 INTEGRATION_FRONT_TOKEN=
+          command: make test FILES=./test/e2e/sync/github-mirror.spec.js COVERAGE=1 INTEGRATION_GITHUB_TOKEN=
 
       - persist_to_workspace:
           root: .
           paths:
             - .nyc_output/*.json
 
-  sync_tests_outreach:
+  sync_tests_front_translate:
     <<: *job_defaults
 
     steps:
@@ -186,18 +186,17 @@ jobs:
 
       - run:
           name: Sync Tests
-          command: make test FILES=./test/e2e/sync/outreach-*.spec.js COVERAGE=1 INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY
-
+          command: make test FILES=./test/e2e/sync/front-translate.spec.js COVERAGE=1 INTEGRATION_FRONT_TOKEN=$FRONT_TOKEN INTEGRATION_INTERCOM_TOKEN=$INTERCOM_TOKEN
       - run:
           name: Sync End To End Tests Without Tokens
-          command: make test FILES=./test/e2e/sync/outreach-*.spec.js COVERAGE=1 INTEGRATION_OUTREACH_APP_ID= INTEGRATION_OUTREACH_APP_SECRET= INTEGRATION_OUTREACH_SIGNATURE_KEY=
+          command: make test FILES=./test/e2e/sync/front-translate.spec.js COVERAGE=1 INTEGRATION_FRONT_TOKEN=
 
       - persist_to_workspace:
           root: .
           paths:
             - .nyc_output/*.json
 
-  sync_tests_discourse:
+  sync_tests_front_mirror:
     <<: *job_defaults
 
     steps:
@@ -215,17 +214,17 @@ jobs:
 
       - run:
           name: Sync Tests
-          command: make test FILES=./test/e2e/sync/discourse-*.spec.js COVERAGE=1 INTEGRATION_DISCOURSE_TOKEN=$DISCOURSE_TOKEN INTEGRATION_DISCOURSE_SIGNATURE_KEY=$DISCOURSE_SIGNATURE_KEY INTEGRATION_DISCOURSE_USERNAME=$DISCOURSE_USERNAME
+          command: make test FILES=./test/e2e/sync/front-mirror.spec.js COVERAGE=1 INTEGRATION_FRONT_TOKEN=$FRONT_TOKEN INTEGRATION_INTERCOM_TOKEN=$INTERCOM_TOKEN
       - run:
           name: Sync End To End Tests Without Tokens
-          command: make test FILES=./test/e2e/sync/discourse-*.spec.js COVERAGE=1 INTEGRATION_DISCOURSE_TOKEN=
+          command: make test FILES=./test/e2e/sync/front-mirror.spec.js COVERAGE=1 INTEGRATION_FRONT_TOKEN=
 
       - persist_to_workspace:
           root: .
           paths:
             - .nyc_output/*.json
 
-  sync_tests_balena_api:
+  sync_tests_outreach_translate:
     <<: *job_defaults
 
     steps:
@@ -243,10 +242,124 @@ jobs:
 
       - run:
           name: Sync Tests
-          command: make test FILES=./test/e2e/sync/balena-api-*.spec.js COVERAGE=1 INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION=$BALENA_API_PUBLIC_KEY_PRODUCTION INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING=$BALENA_API_PUBLIC_KEY_STAGING INTEGRATION_BALENA_API_PRIVATE_KEY=$BALENA_API_PRIVATE_KEY
+          command: make test FILES=./test/e2e/sync/outreach-translate.spec.js COVERAGE=1 INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY
+
       - run:
           name: Sync End To End Tests Without Tokens
-          command: make test FILES=./test/e2e/sync/balena-api-*.spec.js COVERAGE=1 INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION= INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING= INTEGRATION_BALENA_API_PRIVATE_KEY=
+          command: make test FILES=./test/e2e/sync/outreach-translate.spec.js COVERAGE=1 INTEGRATION_OUTREACH_APP_ID= INTEGRATION_OUTREACH_APP_SECRET= INTEGRATION_OUTREACH_SIGNATURE_KEY=
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .nyc_output/*.json
+
+  sync_tests_outreach_mirror:
+    <<: *job_defaults
+
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: .
+
+      - run:
+          name: Start PostgreSQL
+          command: service postgresql start && su - postgres -c "psql -U postgres -d postgres -c \"alter user postgres with password 'postgres';\""
+      - run:
+          name: Start Redis
+          command: service redis-server start
+
+      - run:
+          name: Sync Tests
+          command: make test FILES=./test/e2e/sync/outreach-mirror.spec.js COVERAGE=1 INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY
+
+      - run:
+          name: Sync End To End Tests Without Tokens
+          command: make test FILES=./test/e2e/sync/outreach-mirror.spec.js COVERAGE=1 INTEGRATION_OUTREACH_APP_ID= INTEGRATION_OUTREACH_APP_SECRET= INTEGRATION_OUTREACH_SIGNATURE_KEY=
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .nyc_output/*.json
+
+  sync_tests_discourse_translate:
+    <<: *job_defaults
+
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: .
+
+      - run:
+          name: Start PostgreSQL
+          command: service postgresql start && su - postgres -c "psql -U postgres -d postgres -c \"alter user postgres with password 'postgres';\""
+      - run:
+          name: Start Redis
+          command: service redis-server start
+
+      - run:
+          name: Sync Tests
+          command: make test FILES=./test/e2e/sync/discourse-translate.spec.js COVERAGE=1 INTEGRATION_DISCOURSE_TOKEN=$DISCOURSE_TOKEN INTEGRATION_DISCOURSE_SIGNATURE_KEY=$DISCOURSE_SIGNATURE_KEY INTEGRATION_DISCOURSE_USERNAME=$DISCOURSE_USERNAME
+      - run:
+          name: Sync End To End Tests Without Tokens
+          command: make test FILES=./test/e2e/sync/discourse-translate.spec.js COVERAGE=1 INTEGRATION_DISCOURSE_TOKEN=
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .nyc_output/*.json
+
+  sync_tests_discourse_mirror:
+    <<: *job_defaults
+
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: .
+
+      - run:
+          name: Start PostgreSQL
+          command: service postgresql start && su - postgres -c "psql -U postgres -d postgres -c \"alter user postgres with password 'postgres';\""
+      - run:
+          name: Start Redis
+          command: service redis-server start
+
+      - run:
+          name: Sync Tests
+          command: make test FILES=./test/e2e/sync/discourse-mirror.spec.js COVERAGE=1 INTEGRATION_DISCOURSE_TOKEN=$DISCOURSE_TOKEN INTEGRATION_DISCOURSE_SIGNATURE_KEY=$DISCOURSE_SIGNATURE_KEY INTEGRATION_DISCOURSE_USERNAME=$DISCOURSE_USERNAME
+      - run:
+          name: Sync End To End Tests Without Tokens
+          command: make test FILES=./test/e2e/sync/discourse-mirror.spec.js COVERAGE=1 INTEGRATION_DISCOURSE_TOKEN=
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .nyc_output/*.json
+
+  sync_tests_balena_api_translate:
+    <<: *job_defaults
+
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: .
+
+      - run:
+          name: Start PostgreSQL
+          command: service postgresql start && su - postgres -c "psql -U postgres -d postgres -c \"alter user postgres with password 'postgres';\""
+      - run:
+          name: Start Redis
+          command: service redis-server start
+
+      - run:
+          name: Sync Tests
+          command: make test FILES=./test/e2e/sync/balena-api-translate.spec.js COVERAGE=1 INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION=$BALENA_API_PUBLIC_KEY_PRODUCTION INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING=$BALENA_API_PUBLIC_KEY_STAGING INTEGRATION_BALENA_API_PRIVATE_KEY=$BALENA_API_PRIVATE_KEY
+      - run:
+          name: Sync End To End Tests Without Tokens
+          command: make test FILES=./test/e2e/sync/balena-api-translate.spec.js COVERAGE=1 INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION= INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING= INTEGRATION_BALENA_API_PRIVATE_KEY=
 
       - persist_to_workspace:
           root: .
@@ -375,27 +488,47 @@ workflows:
                     - build
                 <<: *workflow_filter
 
-            - sync_tests_front:
+            - sync_tests_front_translate:
                 requires:
                     - build
                 <<: *workflow_filter
 
-            - sync_tests_outreach:
+            - sync_tests_outreach_translate:
                 requires:
                     - build
                 <<: *workflow_filter
 
-            - sync_tests_discourse:
+            - sync_tests_discourse_translate:
                 requires:
                     - build
                 <<: *workflow_filter
 
-            - sync_tests_balena_api:
+            - sync_tests_balena_api_translate:
                 requires:
                     - build
                 <<: *workflow_filter
 
-            - sync_tests_github:
+            - sync_tests_github_translate:
+                requires:
+                    - build
+                <<: *workflow_filter
+
+            - sync_tests_front_mirror:
+                requires:
+                    - build
+                <<: *workflow_filter
+
+            - sync_tests_outreach_mirror:
+                requires:
+                    - build
+                <<: *workflow_filter
+
+            - sync_tests_discourse_mirror:
+                requires:
+                    - build
+                <<: *workflow_filter
+
+            - sync_tests_github_mirror:
                 requires:
                     - build
                 <<: *workflow_filter
@@ -403,14 +536,17 @@ workflows:
             - results:
                 requires:
                   - unit_tests
-
                   - integration_tests
                   - e2e_tests
-                  - sync_tests_front
-                  - sync_tests_outreach
-                  - sync_tests_discourse
-                  - sync_tests_balena_api
-                  - sync_tests_github
+                  - sync_tests_front_translate
+                  - sync_tests_outreach_translate
+                  - sync_tests_discourse_translate
+                  - sync_tests_balena_api_translate
+                  - sync_tests_github_translate
+                  - sync_tests_front_mirror
+                  - sync_tests_outreach_mirror
+                  - sync_tests_discourse_mirror
+                  - sync_tests_github_mirror
                 <<: *workflow_filter
 
             - eslint_jellyfish:
