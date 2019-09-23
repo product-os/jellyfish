@@ -6,42 +6,36 @@
 
 const ava = require('ava')
 const helpers = require('../sdk/helpers')
+const environment = require('../../../lib/environment')
 
-ava.before(helpers.sdk.before)
-ava.after(helpers.sdk.after)
+ava.before(async (test) => {
+	await helpers.sdk.before(test)
 
-// Logout of the SDK after each test
-ava.afterEach(async (test) => {
-	await test.context.sdk.auth.logout()
+	const session = await test.context.sdk.auth.login({
+		username: environment.test.user.username,
+		password: environment.test.user.password
+	})
+
+	test.context.token = session.id
 })
 
+ava.after(helpers.sdk.after)
+
+ava.beforeEach(async (test) => {
+	await helpers.sdk.beforeEach(test, test.context.token)
+})
+
+ava.afterEach(helpers.sdk.afterEach)
+
 ava.serial('should sanely handle line breaks before tags in messages/whispers', async (test) => {
-	const admin = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-admin', {
-			type: 'user'
-		})
-
-	const session = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			type: 'session',
-			slug: test.context.generateRandomSlug({
-				prefix: 'session'
-			}),
-			version: '1.0.0',
-			data: {
-				actor: admin.id
-			}
-		})
-
-	const thread = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			type: 'card',
-			slug: test.context.generateRandomSlug({
-				prefix: 'thread'
-			}),
-			version: '1.0.0',
-			data: {}
-		})
+	const thread = await test.context.sdk.card.create({
+		type: 'card',
+		slug: test.context.generateRandomSlug({
+			prefix: 'thread'
+		}),
+		version: '1.0.0',
+		data: {}
+	})
 
 	const tagName = test.context.generateRandomSlug({
 		prefix: 'test-tag'
@@ -67,16 +61,21 @@ ava.serial('should sanely handle line breaks before tags in messages/whispers', 
 			action: 'action-create-event',
 			arguments: args
 		}, {
-			Authorization: `Bearer ${session.id}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
-	const tag = await test.context.jellyfish.getCardBySlug(test.context.context,
-		test.context.session, `tag-${tagName}`, {
-			type: 'tag'
-		})
+	const tag = await test.context.sdk.card.get(`tag-${tagName}`)
 
-	test.deepEqual(tag, test.context.jellyfish.defaults({
+	test.deepEqual(tag, {
 		created_at: tag.created_at,
+		updated_at: tag.updated_at,
+		version: '1.0.0',
+		active: true,
+		markers: [],
+		links: {},
+		tags: [],
+		requires: [],
+		capabilities: [],
 		data: {
 			count: 1
 		},
@@ -85,36 +84,18 @@ ava.serial('should sanely handle line breaks before tags in messages/whispers', 
 		name: tagName,
 		slug: tag.slug,
 		type: 'tag'
-	}))
+	})
 })
 
 ava.serial('should sanely handle multiple tags in messages/whispers', async (test) => {
-	const admin = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-admin', {
-			type: 'user'
-		})
-
-	const session = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			type: 'session',
-			slug: test.context.generateRandomSlug({
-				prefix: 'session'
-			}),
-			version: '1.0.0',
-			data: {
-				actor: admin.id
-			}
-		})
-
-	const thread = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			type: 'card',
-			slug: test.context.generateRandomSlug({
-				prefix: 'thread'
-			}),
-			version: '1.0.0',
-			data: {}
-		})
+	const thread = await test.context.sdk.card.create({
+		type: 'card',
+		slug: test.context.generateRandomSlug({
+			prefix: 'thread'
+		}),
+		version: '1.0.0',
+		data: {}
+	})
 
 	const tagName1 = test.context.generateRandomSlug({
 		prefix: 'test-tag'
@@ -148,26 +129,23 @@ ava.serial('should sanely handle multiple tags in messages/whispers', async (tes
 			action: 'action-create-event',
 			arguments: args
 		}, {
-			Authorization: `Bearer ${session.id}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
-	const tag1 = await test.context.jellyfish.getCardBySlug(test.context.context,
-		test.context.session, `tag-${tagName1}`, {
-			type: 'tag'
-		})
+	const tag1 = await test.context.sdk.card.get(`tag-${tagName1}`)
+	const tag2 = await test.context.sdk.card.get(`tag-${tagName2}`)
+	const tag3 = await test.context.sdk.card.get(`tag-${tagName3}`)
 
-	const tag2 = await test.context.jellyfish.getCardBySlug(test.context.context,
-		test.context.session, `tag-${tagName2}`, {
-			type: 'tag'
-		})
-
-	const tag3 = await test.context.jellyfish.getCardBySlug(test.context.context,
-		test.context.session, `tag-${tagName3}`, {
-			type: 'tag'
-		})
-
-	test.deepEqual(tag1, test.context.jellyfish.defaults({
+	test.deepEqual(tag1, {
 		created_at: tag1.created_at,
+		updated_at: tag1.updated_at,
+		version: '1.0.0',
+		active: true,
+		markers: [],
+		links: {},
+		tags: [],
+		requires: [],
+		capabilities: [],
 		data: {
 			count: 1
 		},
@@ -176,10 +154,18 @@ ava.serial('should sanely handle multiple tags in messages/whispers', async (tes
 		name: tagName1,
 		slug: tag1.slug,
 		type: 'tag'
-	}))
+	})
 
-	test.deepEqual(tag2, test.context.jellyfish.defaults({
+	test.deepEqual(tag2, {
 		created_at: tag2.created_at,
+		updated_at: tag2.updated_at,
+		version: '1.0.0',
+		active: true,
+		markers: [],
+		links: {},
+		tags: [],
+		requires: [],
+		capabilities: [],
 		data: {
 			count: 1
 		},
@@ -188,10 +174,18 @@ ava.serial('should sanely handle multiple tags in messages/whispers', async (tes
 		name: tagName2,
 		slug: tag2.slug,
 		type: 'tag'
-	}))
+	})
 
-	test.deepEqual(tag3, test.context.jellyfish.defaults({
+	test.deepEqual(tag3, {
 		created_at: tag3.created_at,
+		updated_at: tag3.updated_at,
+		version: '1.0.0',
+		active: true,
+		markers: [],
+		links: {},
+		tags: [],
+		requires: [],
+		capabilities: [],
 		data: {
 			count: 1
 		},
@@ -200,36 +194,18 @@ ava.serial('should sanely handle multiple tags in messages/whispers', async (tes
 		name: tagName3,
 		slug: tag3.slug,
 		type: 'tag'
-	}))
+	})
 })
 
 ava.serial('should create a new tag when one is found in a message', async (test) => {
-	const admin = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-admin', {
-			type: 'user'
-		})
-
-	const session = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			type: 'session',
-			slug: test.context.generateRandomSlug({
-				prefix: 'session'
-			}),
-			version: '1.0.0',
-			data: {
-				actor: admin.id
-			}
-		})
-
-	const thread = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			type: 'card',
-			slug: test.context.generateRandomSlug({
-				prefix: 'thread'
-			}),
-			version: '1.0.0',
-			data: {}
-		})
+	const thread = await test.context.sdk.card.create({
+		type: 'card',
+		slug: test.context.generateRandomSlug({
+			prefix: 'thread'
+		}),
+		version: '1.0.0',
+		data: {}
+	})
 
 	const tagName = test.context.generateRandomSlug({
 		prefix: 'test-tag'
@@ -255,16 +231,21 @@ ava.serial('should create a new tag when one is found in a message', async (test
 			action: 'action-create-event',
 			arguments: args
 		}, {
-			Authorization: `Bearer ${session.id}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
-	const tag = await test.context.jellyfish.getCardBySlug(test.context.context,
-		test.context.session, `tag-${tagName}`, {
-			type: 'tag'
-		})
+	const tag = await test.context.sdk.card.get(`tag-${tagName}`)
 
-	test.deepEqual(tag, test.context.jellyfish.defaults({
+	test.deepEqual(tag, {
 		created_at: tag.created_at,
+		updated_at: tag.updated_at,
+		version: '1.0.0',
+		active: true,
+		markers: [],
+		links: {},
+		tags: [],
+		requires: [],
+		capabilities: [],
 		data: {
 			count: 1
 		},
@@ -273,5 +254,5 @@ ava.serial('should create a new tag when one is found in a message', async (test
 		name: tagName,
 		slug: tag.slug,
 		type: 'tag'
-	}))
+	})
 })

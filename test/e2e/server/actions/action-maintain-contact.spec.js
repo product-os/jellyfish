@@ -7,49 +7,59 @@
 const ava = require('ava')
 const uuid = require('uuid/v4')
 const helpers = require('../../sdk/helpers')
+const environment = require('../../../../lib/environment')
 
-ava.before(helpers.sdk.before)
+ava.before(async (test) => {
+	await helpers.sdk.before(test)
+
+	const session = await test.context.sdk.auth.login({
+		username: environment.test.user.username,
+		password: environment.test.user.password
+	})
+
+	test.context.token = session.id
+})
+
 ava.after(helpers.sdk.after)
 
-// Logout of the SDK after each test
-ava.afterEach(async (test) => {
-	await test.context.sdk.auth.logout()
+ava.beforeEach(async (test) => {
+	await helpers.sdk.beforeEach(test, test.context.token)
 })
+
+ava.afterEach(helpers.sdk.afterEach)
 
 ava.serial('should elevate external event source', async (test) => {
 	const slug = test.context.generateRandomSlug({
 		prefix: 'user'
 	})
 
-	const event = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			slug: `external-event-${uuid()}`,
-			type: 'external-event',
-			data: {
-				source: 'my-fake-service',
-				headers: {},
-				payload: {
-					test: 1
-				}
+	const event = await test.context.sdk.card.create({
+		slug: `external-event-${uuid()}`,
+		type: 'external-event',
+		data: {
+			source: 'my-fake-service',
+			headers: {},
+			payload: {
+				test: 1
 			}
-		})
+		}
+	})
 
-	const userCard = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			slug,
-			type: 'user',
-			data: {
-				email: 'johndoe@example.com',
-				roles: [ 'user-community' ],
-				origin: event.id,
-				profile: {
-					name: {
-						first: 'John',
-						last: 'Doe'
-					}
+	const userCard = await test.context.sdk.card.create({
+		slug,
+		type: 'user',
+		data: {
+			email: 'johndoe@example.com',
+			roles: [ 'user-community' ],
+			origin: event.id,
+			profile: {
+				name: {
+					first: 'John',
+					last: 'Doe'
 				}
 			}
-		})
+		}
+	})
 
 	const result = await test.context.http(
 		'POST', '/api/v2/action', {
@@ -58,15 +68,12 @@ ava.serial('should elevate external event source', async (test) => {
 			action: 'action-maintain-contact',
 			arguments: {}
 		}, {
-			Authorization: `Bearer ${test.context.session}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	test.false(result.response.error)
 
-	const contactCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, result.response.data.slug, {
-			type: result.response.data.type
-		})
+	const contactCard = await test.context.sdk.card.get(result.response.data.slug)
 
 	test.deepEqual(contactCard, {
 		id: contactCard.id,
@@ -102,21 +109,20 @@ ava.serial('should prettify name when creating user contact', async (test) => {
 		prefix: 'user'
 	})
 
-	const userCard = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			slug,
-			type: 'user',
-			data: {
-				email: 'johndoe@example.com',
-				roles: [ 'user-community' ],
-				profile: {
-					name: {
-						first: 'john   ',
-						last: '  dOE '
-					}
+	const userCard = await test.context.sdk.card.create({
+		slug,
+		type: 'user',
+		data: {
+			email: 'johndoe@example.com',
+			roles: [ 'user-community' ],
+			profile: {
+				name: {
+					first: 'john   ',
+					last: '  dOE '
 				}
 			}
-		})
+		}
+	})
 
 	const result = await test.context.http(
 		'POST', '/api/v2/action', {
@@ -125,15 +131,12 @@ ava.serial('should prettify name when creating user contact', async (test) => {
 			action: 'action-maintain-contact',
 			arguments: {}
 		}, {
-			Authorization: `Bearer ${test.context.session}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	test.false(result.response.error)
 
-	const contactCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, result.response.data.slug, {
-			type: result.response.data.type
-		})
+	const contactCard = await test.context.sdk.card.get(result.response.data.slug)
 
 	test.deepEqual(contactCard, {
 		id: contactCard.id,
@@ -167,15 +170,14 @@ ava.serial('should link the contact to the user', async (test) => {
 		prefix: 'user'
 	})
 
-	const userCard = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			slug,
-			type: 'user',
-			data: {
-				email: 'johndoe@example.com',
-				roles: [ 'user-community' ]
-			}
-		})
+	const userCard = await test.context.sdk.card.create({
+		slug,
+		type: 'user',
+		data: {
+			email: 'johndoe@example.com',
+			roles: [ 'user-community' ]
+		}
+	})
 
 	const result = await test.context.http(
 		'POST', '/api/v2/action', {
@@ -184,12 +186,10 @@ ava.serial('should link the contact to the user', async (test) => {
 			action: 'action-maintain-contact',
 			arguments: {}
 		}, {
-			Authorization: `Bearer ${test.context.session}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	test.false(result.response.error)
-
-	await test.context.sdk.auth.loginWithToken(test.context.session)
 
 	const results = await test.context.sdk.query({
 		$$links: {
@@ -231,6 +231,7 @@ ava.serial('should link the contact to the user', async (test) => {
 	test.deepEqual(results[0].links['has contact'], [
 		{
 			id: result.response.data.id,
+			markers: [],
 			slug: result.response.data.slug,
 			type: result.response.data.type
 		}
@@ -242,21 +243,20 @@ ava.serial('should be able to sync updates to user first names', async (test) =>
 		prefix: 'user'
 	})
 
-	const userCard = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			slug,
-			type: 'user',
-			data: {
-				email: 'johndoe@example.com',
-				roles: [ 'user-community' ],
-				profile: {
-					title: 'Frontend Engineer',
-					name: {
-						first: 'John'
-					}
+	const userCard = await test.context.sdk.card.create({
+		slug,
+		type: 'user',
+		data: {
+			email: 'johndoe@example.com',
+			roles: [ 'user-community' ],
+			profile: {
+				title: 'Frontend Engineer',
+				name: {
+					first: 'John'
 				}
 			}
-		})
+		}
+	})
 
 	const result1 = await test.context.http(
 		'POST', '/api/v2/action', {
@@ -265,7 +265,7 @@ ava.serial('should be able to sync updates to user first names', async (test) =>
 			action: 'action-maintain-contact',
 			arguments: {}
 		}, {
-			Authorization: `Bearer ${test.context.session}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	test.false(result1.response.error)
@@ -286,7 +286,7 @@ ava.serial('should be able to sync updates to user first names', async (test) =>
 				]
 			}
 		}, {
-			Authorization: `Bearer ${test.context.session}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	test.false(result2.response.error)
@@ -298,15 +298,12 @@ ava.serial('should be able to sync updates to user first names', async (test) =>
 			action: 'action-maintain-contact',
 			arguments: {}
 		}, {
-			Authorization: `Bearer ${test.context.session}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	test.false(result3.response.error)
 
-	const contactCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, result3.response.data.slug, {
-			type: result3.response.data.type
-		})
+	const contactCard = await test.context.sdk.card.get(result3.response.data.slug)
 
 	test.deepEqual(contactCard, {
 		id: contactCard.id,
@@ -340,18 +337,17 @@ ava.serial('should apply a user patch to a contact that diverged', async (test) 
 		prefix: 'user'
 	})
 
-	const userCard = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			slug,
-			type: 'user',
-			data: {
-				email: 'johndoe@example.com',
-				roles: [ 'user-community' ],
-				profile: {
-					title: 'Frontend Engineer'
-				}
+	const userCard = await test.context.sdk.card.create({
+		slug,
+		type: 'user',
+		data: {
+			email: 'johndoe@example.com',
+			roles: [ 'user-community' ],
+			profile: {
+				title: 'Frontend Engineer'
 			}
-		})
+		}
+	})
 
 	const result1 = await test.context.http(
 		'POST', '/api/v2/action', {
@@ -360,7 +356,7 @@ ava.serial('should apply a user patch to a contact that diverged', async (test) 
 			action: 'action-maintain-contact',
 			arguments: {}
 		}, {
-			Authorization: `Bearer ${test.context.session}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	test.false(result1.response.error)
@@ -380,7 +376,7 @@ ava.serial('should apply a user patch to a contact that diverged', async (test) 
 				]
 			}
 		}, {
-			Authorization: `Bearer ${test.context.session}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	test.false(result2.response.error)
@@ -401,7 +397,7 @@ ava.serial('should apply a user patch to a contact that diverged', async (test) 
 				]
 			}
 		}, {
-			Authorization: `Bearer ${test.context.session}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	test.false(result3.response.error)
@@ -413,15 +409,12 @@ ava.serial('should apply a user patch to a contact that diverged', async (test) 
 			action: 'action-maintain-contact',
 			arguments: {}
 		}, {
-			Authorization: `Bearer ${test.context.session}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	test.false(result4.response.error)
 
-	const contactCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, result4.response.data.slug, {
-			type: result4.response.data.type
-		})
+	const contactCard = await test.context.sdk.card.get(result4.response.data.slug)
 
 	test.deepEqual(contactCard, {
 		id: contactCard.id,
@@ -453,18 +446,17 @@ ava.serial('should update the name of existing contact', async (test) => {
 		prefix: 'user'
 	})
 
-	const userCard = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			slug,
-			type: 'user',
-			data: {
-				email: 'johndoe@example.com',
-				roles: [ 'user-community' ],
-				profile: {
-					title: 'Frontend Engineer'
-				}
+	const userCard = await test.context.sdk.card.create({
+		slug,
+		type: 'user',
+		data: {
+			email: 'johndoe@example.com',
+			roles: [ 'user-community' ],
+			profile: {
+				title: 'Frontend Engineer'
 			}
-		})
+		}
+	})
 
 	const result1 = await test.context.http(
 		'POST', '/api/v2/action', {
@@ -473,7 +465,7 @@ ava.serial('should update the name of existing contact', async (test) => {
 			action: 'action-maintain-contact',
 			arguments: {}
 		}, {
-			Authorization: `Bearer ${test.context.session}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	test.false(result1.response.error)
@@ -494,7 +486,7 @@ ava.serial('should update the name of existing contact', async (test) => {
 				]
 			}
 		}, {
-			Authorization: `Bearer ${test.context.session}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	test.false(result2.response.error)
@@ -506,15 +498,12 @@ ava.serial('should update the name of existing contact', async (test) => {
 			action: 'action-maintain-contact',
 			arguments: {}
 		}, {
-			Authorization: `Bearer ${test.context.session}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	test.false(result3.response.error)
 
-	const contactCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, result3.response.data.slug, {
-			type: result3.response.data.type
-		})
+	const contactCard = await test.context.sdk.card.get(result3.response.data.slug)
 
 	test.deepEqual(contactCard, {
 		id: contactCard.id,
@@ -546,18 +535,17 @@ ava.serial('should delete an existing contact if the user is deleted', async (te
 		prefix: 'user'
 	})
 
-	const userCard = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			slug,
-			type: 'user',
-			data: {
-				email: 'johndoe@example.com',
-				roles: [ 'user-community' ],
-				profile: {
-					title: 'Frontend Engineer'
-				}
+	const userCard = await test.context.sdk.card.create({
+		slug,
+		type: 'user',
+		data: {
+			email: 'johndoe@example.com',
+			roles: [ 'user-community' ],
+			profile: {
+				title: 'Frontend Engineer'
 			}
-		})
+		}
+	})
 
 	const result1 = await test.context.http(
 		'POST', '/api/v2/action', {
@@ -566,7 +554,7 @@ ava.serial('should delete an existing contact if the user is deleted', async (te
 			action: 'action-maintain-contact',
 			arguments: {}
 		}, {
-			Authorization: `Bearer ${test.context.session}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	test.false(result1.response.error)
@@ -587,7 +575,7 @@ ava.serial('should delete an existing contact if the user is deleted', async (te
 				]
 			}
 		}, {
-			Authorization: `Bearer ${test.context.session}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	test.false(result2.response.error)
@@ -599,15 +587,12 @@ ava.serial('should delete an existing contact if the user is deleted', async (te
 			action: 'action-maintain-contact',
 			arguments: {}
 		}, {
-			Authorization: `Bearer ${test.context.session}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	test.false(result3.response.error)
 
-	const contactCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, result3.response.data.slug, {
-			type: result3.response.data.type
-		})
+	const contactCard = await test.context.sdk.card.get(result3.response.data.slug)
 
 	test.deepEqual(contactCard, {
 		id: contactCard.id,
@@ -639,18 +624,17 @@ ava.serial('should replace a property from an existing linked contact', async (t
 		prefix: 'user'
 	})
 
-	const userCard = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			slug,
-			type: 'user',
-			data: {
-				email: 'johndoe@example.com',
-				roles: [ 'user-community' ],
-				profile: {
-					title: 'Frontend Engineer'
-				}
+	const userCard = await test.context.sdk.card.create({
+		slug,
+		type: 'user',
+		data: {
+			email: 'johndoe@example.com',
+			roles: [ 'user-community' ],
+			profile: {
+				title: 'Frontend Engineer'
 			}
-		})
+		}
+	})
 
 	const result1 = await test.context.http(
 		'POST', '/api/v2/action', {
@@ -659,7 +643,7 @@ ava.serial('should replace a property from an existing linked contact', async (t
 			action: 'action-maintain-contact',
 			arguments: {}
 		}, {
-			Authorization: `Bearer ${test.context.session}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	test.false(result1.response.error)
@@ -680,7 +664,7 @@ ava.serial('should replace a property from an existing linked contact', async (t
 				]
 			}
 		}, {
-			Authorization: `Bearer ${test.context.session}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	test.false(result2.response.error)
@@ -692,15 +676,12 @@ ava.serial('should replace a property from an existing linked contact', async (t
 			action: 'action-maintain-contact',
 			arguments: {}
 		}, {
-			Authorization: `Bearer ${test.context.session}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	test.false(result3.response.error)
 
-	const contactCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, result3.response.data.slug, {
-			type: result3.response.data.type
-		})
+	const contactCard = await test.context.sdk.card.get(result3.response.data.slug)
 
 	test.deepEqual(contactCard, {
 		id: contactCard.id,
@@ -732,18 +713,17 @@ ava.serial('should not remove a property from an existing linked contact', async
 		prefix: 'user'
 	})
 
-	const userCard = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			slug,
-			type: 'user',
-			data: {
-				email: 'johndoe@example.com',
-				roles: [ 'user-community' ],
-				profile: {
-					title: 'Frontend Engineer'
-				}
+	const userCard = await test.context.sdk.card.create({
+		slug,
+		type: 'user',
+		data: {
+			email: 'johndoe@example.com',
+			roles: [ 'user-community' ],
+			profile: {
+				title: 'Frontend Engineer'
 			}
-		})
+		}
+	})
 
 	const result1 = await test.context.http(
 		'POST', '/api/v2/action', {
@@ -752,7 +732,7 @@ ava.serial('should not remove a property from an existing linked contact', async
 			action: 'action-maintain-contact',
 			arguments: {}
 		}, {
-			Authorization: `Bearer ${test.context.session}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	test.false(result1.response.error)
@@ -772,7 +752,7 @@ ava.serial('should not remove a property from an existing linked contact', async
 				]
 			}
 		}, {
-			Authorization: `Bearer ${test.context.session}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	test.false(result2.response.error)
@@ -784,15 +764,12 @@ ava.serial('should not remove a property from an existing linked contact', async
 			action: 'action-maintain-contact',
 			arguments: {}
 		}, {
-			Authorization: `Bearer ${test.context.session}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	test.false(result3.response.error)
 
-	const contactCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, result3.response.data.slug, {
-			type: result3.response.data.type
-		})
+	const contactCard = await test.context.sdk.card.get(result3.response.data.slug)
 
 	test.deepEqual(contactCard, {
 		id: contactCard.id,
@@ -824,31 +801,33 @@ ava.serial('should merge and relink a diverging contact with a matching slug', a
 		prefix: 'user'
 	})
 
-	const userCard = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			slug,
-			type: 'user',
-			data: {
-				email: 'johndoe@example.com',
-				profile: {
-					company: 'Balena'
-				},
-				roles: [ 'user-community' ]
-			}
-		})
+	const userCard = await test.context.sdk.card.create({
+		slug,
+		type: 'user',
+		data: {
+			email: 'johndoe@example.com',
+			profile: {
+				company: 'Balena'
+			},
+			roles: [ 'user-community' ]
+		}
+	})
 
-	const contactCard = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			slug: slug.replace(/^user-/, 'contact-'),
-			name: '',
-			type: 'contact',
-			data: {
-				profile: {
-					email: 'janedoe@example.com',
-					title: 'Frontend developer'
-				}
-			}
-		})
+	const contact = await test.context.sdk.card.get(
+		slug.replace(/^user-/, 'contact-'))
+
+	const contactCard = await test.context.sdk.card.update(contact.id, contact.type, [
+		{
+			op: 'replace',
+			path: '/data/profile/email',
+			value: 'janedoe@example.com'
+		},
+		{
+			op: 'add',
+			path: '/data/profile/title',
+			value: 'Frontend developer'
+		}
+	])
 
 	const result = await test.context.http(
 		'POST', '/api/v2/action', {
@@ -857,16 +836,13 @@ ava.serial('should merge and relink a diverging contact with a matching slug', a
 			action: 'action-maintain-contact',
 			arguments: {}
 		}, {
-			Authorization: `Bearer ${test.context.session}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	test.false(result.response.error)
 	test.is(result.response.data.id, contactCard.id)
 
-	const newContactCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, result.response.data.slug, {
-			type: result.response.data.type
-		})
+	const newContactCard = await test.context.sdk.card.get(result.response.data.slug)
 
 	test.deepEqual(newContactCard, {
 		id: contactCard.id,
@@ -887,7 +863,8 @@ ava.serial('should merge and relink a diverging contact with a matching slug', a
 			profile: {
 				email: 'johndoe@example.com',
 				title: 'Frontend developer',
-				company: 'Balena'
+				company: 'Balena',
+				name: {}
 			}
 		}
 	})
@@ -898,15 +875,14 @@ ava.serial('should add a property to an existing linked contact', async (test) =
 		prefix: 'user'
 	})
 
-	const userCard = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			slug,
-			type: 'user',
-			data: {
-				email: 'johndoe@example.com',
-				roles: [ 'user-community' ]
-			}
-		})
+	const userCard = await test.context.sdk.card.create({
+		slug,
+		type: 'user',
+		data: {
+			email: 'johndoe@example.com',
+			roles: [ 'user-community' ]
+		}
+	})
 
 	const result1 = await test.context.http(
 		'POST', '/api/v2/action', {
@@ -915,7 +891,7 @@ ava.serial('should add a property to an existing linked contact', async (test) =
 			action: 'action-maintain-contact',
 			arguments: {}
 		}, {
-			Authorization: `Bearer ${test.context.session}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	test.false(result1.response.error)
@@ -941,7 +917,7 @@ ava.serial('should add a property to an existing linked contact', async (test) =
 				]
 			}
 		}, {
-			Authorization: `Bearer ${test.context.session}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	test.false(result2.response.error)
@@ -953,15 +929,12 @@ ava.serial('should add a property to an existing linked contact', async (test) =
 			action: 'action-maintain-contact',
 			arguments: {}
 		}, {
-			Authorization: `Bearer ${test.context.session}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	test.false(result3.response.error)
 
-	const contactCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, result3.response.data.slug, {
-			type: result3.response.data.type
-		})
+	const contactCard = await test.context.sdk.card.get(result3.response.data.slug)
 
 	test.deepEqual(contactCard, {
 		id: contactCard.id,
@@ -993,15 +966,14 @@ ava.serial('should create a contact for a user with little profile info', async 
 		prefix: 'user'
 	})
 
-	const userCard = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			slug,
-			type: 'user',
-			data: {
-				email: 'johndoe@example.com',
-				roles: [ 'user-community' ]
-			}
-		})
+	const userCard = await test.context.sdk.card.create({
+		slug,
+		type: 'user',
+		data: {
+			email: 'johndoe@example.com',
+			roles: [ 'user-community' ]
+		}
+	})
 
 	const result = await test.context.http(
 		'POST', '/api/v2/action', {
@@ -1010,14 +982,11 @@ ava.serial('should create a contact for a user with little profile info', async 
 			action: 'action-maintain-contact',
 			arguments: {}
 		}, {
-			Authorization: `Bearer ${test.context.session}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	test.false(result.response.error)
-	const contactCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, result.response.data.slug, {
-			type: result.response.data.type
-		})
+	const contactCard = await test.context.sdk.card.get(result.response.data.slug)
 
 	test.deepEqual(contactCard, {
 		id: contactCard.id,
@@ -1048,16 +1017,15 @@ ava.serial('should use the user name when creating a contact', async (test) => {
 		prefix: 'user'
 	})
 
-	const userCard = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			slug,
-			name: 'John Doe',
-			type: 'user',
-			data: {
-				email: 'johndoe@example.com',
-				roles: [ 'user-community' ]
-			}
-		})
+	const userCard = await test.context.sdk.card.create({
+		slug,
+		name: 'John Doe',
+		type: 'user',
+		data: {
+			email: 'johndoe@example.com',
+			roles: [ 'user-community' ]
+		}
+	})
 
 	const result = await test.context.http(
 		'POST', '/api/v2/action', {
@@ -1066,14 +1034,11 @@ ava.serial('should use the user name when creating a contact', async (test) => {
 			action: 'action-maintain-contact',
 			arguments: {}
 		}, {
-			Authorization: `Bearer ${test.context.session}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	test.false(result.response.error)
-	const contactCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, result.response.data.slug, {
-			type: result.response.data.type
-		})
+	const contactCard = await test.context.sdk.card.get(result.response.data.slug)
 
 	test.deepEqual(contactCard, {
 		id: contactCard.id,
@@ -1104,16 +1069,15 @@ ava.serial('should create an inactive contact given an inactive user', async (te
 		prefix: 'user'
 	})
 
-	const userCard = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			slug,
-			active: false,
-			type: 'user',
-			data: {
-				email: 'johndoe@example.com',
-				roles: [ 'user-community' ]
-			}
-		})
+	const userCard = await test.context.sdk.card.create({
+		slug,
+		active: false,
+		type: 'user',
+		data: {
+			email: 'johndoe@example.com',
+			roles: [ 'user-community' ]
+		}
+	})
 
 	const result = await test.context.http(
 		'POST', '/api/v2/action', {
@@ -1122,14 +1086,11 @@ ava.serial('should create an inactive contact given an inactive user', async (te
 			action: 'action-maintain-contact',
 			arguments: {}
 		}, {
-			Authorization: `Bearer ${test.context.session}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	test.false(result.response.error)
-	const contactCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, result.response.data.slug, {
-			type: result.response.data.type
-		})
+	const contactCard = await test.context.sdk.card.get(result.response.data.slug)
 
 	test.deepEqual(contactCard, {
 		id: contactCard.id,
@@ -1160,26 +1121,25 @@ ava.serial('should create a contact for a user with plenty of info', async (test
 		prefix: 'user'
 	})
 
-	const userCard = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			slug,
-			type: 'user',
-			data: {
-				email: 'johndoe@example.com',
-				roles: [ 'user-community' ],
-				profile: {
-					company: 'Balena.io',
-					title: 'Senior Directory of the Jellyfish Task Force',
-					type: 'professional',
-					country: 'Republic of Balena',
-					city: 'Contractshire',
-					name: {
-						first: 'John',
-						last: 'Doe'
-					}
+	const userCard = await test.context.sdk.card.create({
+		slug,
+		type: 'user',
+		data: {
+			email: 'johndoe@example.com',
+			roles: [ 'user-community' ],
+			profile: {
+				company: 'Balena.io',
+				title: 'Senior Directory of the Jellyfish Task Force',
+				type: 'professional',
+				country: 'Republic of Balena',
+				city: 'Contractshire',
+				name: {
+					first: 'John',
+					last: 'Doe'
 				}
 			}
-		})
+		}
+	})
 
 	const result = await test.context.http(
 		'POST', '/api/v2/action', {
@@ -1188,14 +1148,11 @@ ava.serial('should create a contact for a user with plenty of info', async (test
 			action: 'action-maintain-contact',
 			arguments: {}
 		}, {
-			Authorization: `Bearer ${test.context.session}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	test.false(result.response.error)
-	const contactCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, result.response.data.slug, {
-			type: result.response.data.type
-		})
+	const contactCard = await test.context.sdk.card.get(result.response.data.slug)
 
 	test.deepEqual(contactCard, {
 		id: contactCard.id,

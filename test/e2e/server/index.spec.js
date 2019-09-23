@@ -11,13 +11,24 @@ const _ = require('lodash')
 const helpers = require('../sdk/helpers')
 const environment = require('../../../lib/environment')
 
-ava.before(helpers.sdk.before)
+ava.before(async (test) => {
+	await helpers.sdk.before(test)
+
+	const session = await test.context.sdk.auth.login({
+		username: environment.test.user.username,
+		password: environment.test.user.password
+	})
+
+	test.context.token = session.id
+})
+
 ava.after(helpers.sdk.after)
 
-// Logout of the SDK after each test
-ava.afterEach(async (test) => {
-	await test.context.sdk.auth.logout()
+ava.beforeEach(async (test) => {
+	await helpers.sdk.beforeEach(test, test.context.token)
 })
+
+ava.afterEach(helpers.sdk.afterEach)
 
 const createUserDetails = () => {
 	return {
@@ -29,7 +40,16 @@ const createUserDetails = () => {
 
 ava.serial('should parse application/vnd.api+json bodies', async (test) => {
 	const userDetails = createUserDetails()
-	const user = await test.context.createUser(userDetails)
+	const user = await test.context.sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${userDetails.username}`,
+			email: userDetails.email,
+			password: userDetails.password
+		}
+	})
 
 	const result = await test.context.http(
 		'POST', '/api/v2/action', {
@@ -80,7 +100,16 @@ if (environment.isProduction()) {
 
 ava.serial('should include the request and api ids on responses', async (test) => {
 	const userDetails = createUserDetails()
-	const user = await test.context.createUser(userDetails)
+	const user = await test.context.sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${userDetails.username}`,
+			email: userDetails.email,
+			password: userDetails.password
+		}
+	})
 
 	const result = await test.context.http(
 		'POST', '/api/v2/action', {
@@ -99,7 +128,16 @@ ava.serial('should include the request and api ids on responses', async (test) =
 
 ava.serial('should create different request ids for every response', async (test) => {
 	const userDetails = createUserDetails()
-	const user = await test.context.createUser(userDetails)
+	const user = await test.context.sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${userDetails.username}`,
+			email: userDetails.email,
+			password: userDetails.password
+		}
+	})
 
 	const result1 = await test.context.http(
 		'POST', '/api/v2/action', {
@@ -159,7 +197,16 @@ ava.serial('AGGREGATE($events): should work when creating cards via the SDK', as
 	const userDetails = createUserDetails()
 
 	// Create a new user
-	await test.context.createUser(userDetails)
+	await test.context.sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${userDetails.username}`,
+			email: userDetails.email,
+			password: userDetails.password
+		}
+	})
 
 	// Login as the new user
 	await sdk.auth.login(userDetails)
@@ -218,52 +265,50 @@ ava.serial('should add and evaluate a time triggered action', async (test) => {
 	const {
 		sdk
 	} = test.context
-	const {
-		jellyfish
-	} = test.context.server
-	const {
-		defaults
-	} = jellyfish
 
-	const typeCard = await jellyfish.getCardBySlug(test.context.context,
-		test.context.session, 'card', {
-			type: 'type'
-		})
-
+	const typeCard = await sdk.card.get('card')
 	const userDetails = createUserDetails()
 
-	await test.context.createUser(userDetails)
+	await test.context.sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${userDetails.username}`,
+			email: userDetails.email,
+			password: userDetails.password
+		}
+	})
 
-	await sdk.auth.login(userDetails)
-
-	const trigger = await jellyfish.replaceCard(
-		test.context.context, test.context.session, defaults({
-			type: 'triggered-action',
-			slug: test.context.generateRandomSlug({
-				prefix: 'triggered-action'
-			}),
-			version: '1.0.0',
-			data: {
-				action: 'action-create-card',
-				target: typeCard.id,
-				interval: 'PT1S',
-				arguments: {
-					reason: null,
-					properties: {
-						version: '1.0.0',
-						slug: {
-							$eval: 'str(epoch)'
-						},
-						data: {
-							origin: 'time-trigger'
-						}
+	const trigger = await sdk.card.create({
+		type: 'triggered-action',
+		slug: test.context.generateRandomSlug({
+			prefix: 'triggered-action'
+		}),
+		version: '1.0.0',
+		data: {
+			action: 'action-create-card',
+			target: typeCard.id,
+			interval: 'PT1S',
+			arguments: {
+				reason: null,
+				properties: {
+					version: '1.0.0',
+					slug: {
+						$eval: 'str(epoch)'
+					},
+					data: {
+						origin: 'time-trigger'
 					}
 				}
 			}
-		}))
+		}
+	})
+
+	await sdk.auth.login(userDetails)
 
 	const waitUntilResults = async (length, times = 0) => {
-		const results = await test.context.jellyfish.query(test.context.context, test.context.session, {
+		const results = await sdk.query({
 			type: 'object',
 			required: [ 'type', 'data' ],
 			properties: {
@@ -295,19 +340,11 @@ ava.serial('should add and evaluate a time triggered action', async (test) => {
 		return waitUntilResults(length, times + 1)
 	}
 
+	sdk.setAuthToken(test.context.token)
 	const results = await waitUntilResults(3)
 	test.true(results.length >= 3)
 
-	await test.context.jellyfish.patchCardBySlug(
-		test.context.context, test.context.session, trigger.slug, [
-			{
-				op: 'replace',
-				path: '/active',
-				value: false
-			}
-		], {
-			type: trigger.type
-		})
+	await sdk.card.remove(trigger.id, trigger.type)
 })
 
 ava.serial('should be able to resolve links', async (test) => {
@@ -317,7 +354,16 @@ ava.serial('should be able to resolve links', async (test) => {
 
 	const userDetails = createUserDetails()
 
-	await test.context.createUser(userDetails)
+	await test.context.sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${userDetails.username}`,
+			email: userDetails.email,
+			password: userDetails.password
+		}
+	})
 
 	await test.context.sdk.auth.login(userDetails)
 
@@ -415,8 +461,6 @@ ava.serial('should be able to resolve links', async (test) => {
 })
 
 ava.serial('should display up to date information after resolving an action', async (test) => {
-	await test.context.sdk.setAuthToken(test.context.session)
-
 	for (const time in _.range(0, 50)) {
 		const card = await test.context.sdk.card.create({
 			type: 'card',
@@ -452,64 +496,29 @@ ava.serial('should fail with a user error given no input card', async (test) => 
 })
 
 ava.serial('should get all elements by type', async (test) => {
-	const admin = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-admin', {
-			type: 'user'
-		})
-
-	const session = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			type: 'session',
-			slug: test.context.generateRandomSlug({
-				prefix: 'session'
-			}),
-			version: '1.0.0',
-			data: {
-				actor: admin.id
-			}
-		})
-
 	const result = await test.context.http(
 		'GET', '/api/v2/type/user', null, {
-			Authorization: `Bearer ${session.id}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	test.is(result.code, 200)
 
-	const users = await test.context.jellyfish.query(
-		test.context.context, test.context.session, {
-			type: 'object',
-			required: [ 'type' ],
-			additionalProperties: true,
-			properties: {
-				type: {
-					type: 'string',
-					const: 'user'
-				}
+	const users = await test.context.sdk.query({
+		type: 'object',
+		required: [ 'type' ],
+		additionalProperties: true,
+		properties: {
+			type: {
+				type: 'string',
+				const: 'user'
 			}
-		})
+		}
+	})
 
 	test.deepEqual(result.response, users)
 })
 
 ava.serial('should fail with a user error when executing an unknown action', async (test) => {
-	const admin = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-admin', {
-			type: 'user'
-		})
-
-	const session = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			type: 'session',
-			slug: test.context.generateRandomSlug({
-				prefix: 'session'
-			}),
-			version: '1.0.0',
-			data: {
-				actor: admin.id
-			}
-		})
-
 	const result = await test.context.http(
 		'POST', '/api/v2/action', {
 			card: 'user-admin',
@@ -519,7 +528,7 @@ ava.serial('should fail with a user error when executing an unknown action', asy
 				foo: 'bar'
 			}
 		}, {
-			Authorization: `Bearer ${session.id}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	test.is(result.code, 400)
@@ -534,23 +543,6 @@ ava.serial('should fail with a user error when executing an unknown action', asy
 })
 
 ava.serial('should fail with a user error given an arguments mismatch', async (test) => {
-	const admin = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-admin', {
-			type: 'user'
-		})
-
-	const session = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			type: 'session',
-			slug: test.context.generateRandomSlug({
-				prefix: 'session'
-			}),
-			version: '1.0.0',
-			data: {
-				actor: admin.id
-			}
-		})
-
 	const result = await test.context.http(
 		'POST', '/api/v2/action', {
 			card: 'user',
@@ -560,7 +552,7 @@ ava.serial('should fail with a user error given an arguments mismatch', async (t
 				foo: 'bar'
 			}
 		}, {
-			Authorization: `Bearer ${session.id}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	test.is(result.code, 400)
@@ -574,23 +566,6 @@ ava.serial('should fail with a user error given an arguments mismatch', async (t
 })
 
 ava.serial('an update that renders a card invalid for its type is a user error', async (test) => {
-	const admin = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-admin', {
-			type: 'user'
-		})
-
-	const session = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			type: 'session',
-			slug: test.context.generateRandomSlug({
-				prefix: 'session'
-			}),
-			version: '1.0.0',
-			data: {
-				actor: admin.id
-			}
-		})
-
 	const slug = `ping-test-${uuid()}`
 
 	const result1 = await test.context.http(
@@ -609,7 +584,7 @@ ava.serial('an update that renders a card invalid for its type is a user error',
 				}
 			}
 		}, {
-			Authorization: `Bearer ${session.id}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	test.is(result1.code, 200)
@@ -630,7 +605,7 @@ ava.serial('an update that renders a card invalid for its type is a user error',
 				]
 			}
 		}, {
-			Authorization: `Bearer ${session.id}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	test.is(result2.code, 400)
@@ -644,23 +619,6 @@ ava.serial('an update that renders a card invalid for its type is a user error',
 })
 
 ava.serial('should fail with a user error if no action card type', async (test) => {
-	const admin = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-admin', {
-			type: 'user'
-		})
-
-	const session = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			type: 'session',
-			slug: test.context.generateRandomSlug({
-				prefix: 'session'
-			}),
-			version: '1.0.0',
-			data: {
-				actor: admin.id
-			}
-		})
-
 	const slug = `ping-test-${uuid()}`
 
 	const result = await test.context.http(
@@ -678,7 +636,7 @@ ava.serial('should fail with a user error if no action card type', async (test) 
 				}
 			}
 		}, {
-			Authorization: `Bearer ${session.id}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	test.is(result.code, 400)
@@ -689,32 +647,14 @@ ava.serial('should fail with a user error if no action card type', async (test) 
 })
 
 ava.serial('should report a user error if creating the same event twice', async (test) => {
-	const admin = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-admin', {
-			type: 'user'
-		})
-
-	const session = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			type: 'session',
-			slug: test.context.generateRandomSlug({
-				prefix: 'session'
-			}),
-			version: '1.0.0',
-			data: {
-				actor: admin.id
-			}
-		})
-
-	const thread = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			type: 'card',
-			slug: test.context.generateRandomSlug({
-				prefix: 'thread'
-			}),
-			version: '1.0.0',
-			data: {}
-		})
+	const thread = await test.context.sdk.card.create({
+		type: 'card',
+		slug: test.context.generateRandomSlug({
+			prefix: 'thread'
+		}),
+		version: '1.0.0',
+		data: {}
+	})
 
 	const args = {
 		slug: test.context.generateRandomSlug({
@@ -736,7 +676,7 @@ ava.serial('should report a user error if creating the same event twice', async 
 			action: 'action-create-event',
 			arguments: args
 		}, {
-			Authorization: `Bearer ${session.id}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	const result2 = await test.context.http(
@@ -746,7 +686,7 @@ ava.serial('should report a user error if creating the same event twice', async 
 			action: 'action-create-event',
 			arguments: args
 		}, {
-			Authorization: `Bearer ${session.id}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	test.is(result1.code, 200)
@@ -761,23 +701,6 @@ ava.serial('should report a user error if creating the same event twice', async 
 })
 
 ava.serial('should respond with an error given a payload middleware exception', async (test) => {
-	const admin = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-admin', {
-			type: 'user'
-		})
-
-	const session = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			type: 'session',
-			slug: test.context.generateRandomSlug({
-				prefix: 'session'
-			}),
-			version: '1.0.0',
-			data: {
-				actor: admin.id
-			}
-		})
-
 	const data = {}
 
 	for (const time of _.range(0, 1000)) {
@@ -807,7 +730,7 @@ ava.serial('should respond with an error given a payload middleware exception', 
 				}
 			}
 		}, {
-			Authorization: `Bearer ${session.id}`
+			Authorization: `Bearer ${test.context.token}`
 		})
 
 	test.is(result.code, 413)
@@ -833,23 +756,6 @@ ava.serial('should respond with an error given a payload middleware exception', 
 })
 
 ava.serial('/query endpoint should allow you to query using a view\'s slug', async (test) => {
-	const admin = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-admin', {
-			type: 'user'
-		})
-
-	const session = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			type: 'session',
-			slug: test.context.generateRandomSlug({
-				prefix: 'session'
-			}),
-			version: '1.0.0',
-			data: {
-				actor: admin.id
-			}
-		})
-
 	const result = await test.context.http(
 		'POST',
 		'/api/v2/query',
@@ -857,7 +763,7 @@ ava.serial('/query endpoint should allow you to query using a view\'s slug', asy
 			query: 'view-all-views'
 		},
 		{
-			Authorization: `Bearer ${session.id}`
+			Authorization: `Bearer ${test.context.token}`
 		}
 	)
 
@@ -866,28 +772,7 @@ ava.serial('/query endpoint should allow you to query using a view\'s slug', asy
 })
 
 ava.serial('/query endpoint should allow you to query using a view\'s id', async (test) => {
-	const admin = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-admin', {
-			type: 'user'
-		})
-
-	const view = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'view-all-views', {
-			type: 'view'
-		})
-
-	const session = await test.context.jellyfish.insertCard(
-		test.context.context, test.context.session, {
-			type: 'session',
-			slug: test.context.generateRandomSlug({
-				prefix: 'session'
-			}),
-			version: '1.0.0',
-			data: {
-				actor: admin.id
-			}
-		})
-
+	const view = await test.context.sdk.card.get('view-all-views')
 	const result = await test.context.http(
 		'POST',
 		'/api/v2/query',
@@ -895,7 +780,7 @@ ava.serial('/query endpoint should allow you to query using a view\'s id', async
 			query: view.id
 		},
 		{
-			Authorization: `Bearer ${session.id}`
+			Authorization: `Bearer ${test.context.token}`
 		}
 	)
 

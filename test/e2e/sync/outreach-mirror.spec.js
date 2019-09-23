@@ -39,27 +39,6 @@ ava.beforeEach(async (test) => {
 	await helpers.mirror.beforeEach(
 		test, environment.integration.default.user)
 
-	await test.context.sdk.auth.loginWithToken(
-		test.context.jellyfish.sessions.admin)
-
-	await test.context.jellyfish.patchCardBySlug(
-		test.context.context,
-		test.context.jellyfish.sessions.admin,
-		`user-${environment.integration.default.user}`, [
-			{
-				op: 'add',
-				path: '/data/oauth',
-				value: {}
-			},
-			{
-				op: 'add',
-				path: '/data/oauth/outreach',
-				value: OAUTH_DETAILS
-			}
-		], {
-			type: 'user'
-		})
-
 	test.context.getProspect = async (id) => {
 		return new Bluebird((resolve, reject) => {
 			request({
@@ -136,6 +115,22 @@ ava.beforeEach(async (test) => {
 				_.parseInt(_.last(uri.split('/'))))
 			return callback(null, [ result.code, result.response ])
 		})
+
+	const user = await test.context.sdk.card.get(
+		`user-${environment.integration.default.user}`)
+
+	await test.context.sdk.card.update(user.id, user.type, [
+		{
+			op: 'add',
+			path: '/data/oauth',
+			value: {}
+		},
+		{
+			op: 'add',
+			path: '/data/oauth/outreach',
+			value: OAUTH_DETAILS
+		}
+	])
 })
 
 ava.afterEach(async (test) => {

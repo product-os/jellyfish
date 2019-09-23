@@ -12,6 +12,7 @@ const path = require('path')
 const _ = require('lodash')
 const helpers = require('../sdk/helpers')
 const syncHelpers = require('../../integration/sync/helpers')
+const environment = require('../../../lib/environment')
 
 const TRANSLATE_PREFIX = uuid()
 
@@ -417,64 +418,52 @@ exports.translate = {
 exports.mirror = {
 	before: async (test) => {
 		await helpers.sdk.before(test)
+
+		const session = await test.context.sdk.auth.login({
+			username: environment.test.user.username,
+			password: environment.test.user.password
+		})
+
+		test.context.token = session.id
 	},
 	after: async (test) => {
 		await helpers.sdk.after(test)
 	},
 	beforeEach: async (test, username) => {
+		await helpers.sdk.beforeEach(test, test.context.token)
 		test.context.username = username
 
 		// Create the user, only if it doesn't exist yet
-		const userCard = await test.context.jellyfish.getCardBySlug(test.context.context,
-			test.context.jellyfish.sessions.admin,
-			`user-${test.context.username}`, {
-				type: 'user'
-			}) ||
-			await test.context.createUser({
-				username: test.context.username,
-				email: `${test.context.username}@example.com`,
-				password: 'foobarbaz'
+		const userCard = await test.context.sdk.card.get(`user-${test.context.username}`) ||
+			await test.context.sdk.action({
+				card: 'user',
+				type: 'type',
+				action: 'action-create-user',
+				arguments: {
+					username: `user-${test.context.username}`,
+					email: `${test.context.username}@example.com`,
+					password: 'foobarbaz'
+				}
 			})
 
 		// So it can access all the necessary cards, make the user a member of the
 		// balena org
-		const orgCard = await test.context.jellyfish.getCardBySlug(test.context.context,
-			test.context.session, 'org-balena', {
-				type: 'org'
-			})
+		const orgCard = await test.context.sdk.card.get('org-balena')
 
-		await test.context.jellyfish.replaceCard(test.context.context, test.context.session, {
-			slug: `link-${orgCard.id}-has-member-${userCard.id}`,
-			type: 'link',
-			name: 'has member',
-			data: {
-				inverseName: 'is member of',
-				from: {
-					id: orgCard.id,
-					type: orgCard.type
-				},
-				to: {
-					id: userCard.id,
-					type: userCard.type
-				}
-			}
-		})
+		await test.context.sdk.card.link(userCard, orgCard, 'is member of')
 
 		// Force login, even if we don't know the password
-		const session = await test.context.jellyfish.insertCard(test.context.context,
-			test.context.jellyfish.sessions.admin, {
-				slug: `session-${userCard.slug}-integration-tests-${uuid()}`,
-				type: 'session',
-				version: '1.0.0',
-				data: {
-					actor: userCard.id
-				}
-			})
+		const session = await test.context.sdk.card.create({
+			slug: `session-${userCard.slug}-integration-tests-${uuid()}`,
+			type: 'session',
+			version: '1.0.0',
+			data: {
+				actor: userCard.id
+			}
+		})
 
 		await test.context.sdk.auth.loginWithToken(session.id)
 		test.context.user = await test.context.sdk.auth.whoami()
 	},
-	afterEach: async (test) => {
-		await test.context.sdk.auth.logout()
-	}
+	afterEach: helpers.sdk.afterEach
 }
