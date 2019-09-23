@@ -5,6 +5,7 @@
  */
 
 const ava = require('ava')
+const _ = require('lodash')
 const uuid = require('uuid/v4')
 const helpers = require('./helpers')
 const macros = require('./macros')
@@ -27,16 +28,18 @@ ava.before(async () => {
 		context
 	})
 
-	const userCard = await context.createUser(user)
-	await context.addUserToBalenaOrg(userCard.id)
-	await macros.loginUser(context.page, user)
-	const card = await context.insertCard({
+	const card = await context.sdk.card.create({
 		slug: `thread-${uuid()}`,
 		type: 'thread'
 	})
-	context.testCard = card
+
+	const userCard = await context.createUser(user)
+	await context.addUserToBalenaOrg(userCard.id)
+	await macros.loginUser(context.page, user)
+
+	context.testCard = await context.sdk.card.get(card.id)
 	await context.page.goto(
-		`http://localhost:${environment.ui.port}/${card.id}`)
+		`${environment.ui.host}:${environment.ui.port}/${card.id}`)
 	await context.page.waitForSelector('.column--thread')
 })
 
@@ -78,7 +81,9 @@ ava.serial('should let users copy a card as JSON', async (test) => {
 		return window.navigator.clipboard.readText()
 	})
 
-	test.deepEqual(testCard, JSON.parse(copiedJSON))
+	test.deepEqual(
+		_.omit(testCard, [ 'links' ]),
+		_.omit(JSON.parse(copiedJSON), [ 'links' ]))
 })
 
 ava.serial('should let users delete a card', async (test) => {

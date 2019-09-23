@@ -51,14 +51,16 @@ DB_USER ?=
 export DB_USER
 DB_PASSWORD ?=
 export DB_PASSWORD
-UI_PORT ?= 9000
-export UI_PORT
 SERVER_HOST ?= http://localhost
 export SERVER_HOST
 SERVER_PORT ?= $(PORT)
 export SERVER_PORT
 SERVER_DATABASE ?= jellyfish
 export SERVER_DATABASE
+UI_PORT ?= 9000
+export UI_PORT
+UI_HOST ?= $(SERVER_HOST)
+export UI_HOST
 DB_CERT ?=
 export DB_CERT
 DISABLE_CACHE ?=

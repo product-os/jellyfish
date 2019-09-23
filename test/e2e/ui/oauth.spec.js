@@ -48,7 +48,7 @@ outreachTest('A user should be able to connect their account to outreach', async
 		page
 	} = context
 
-	await page.goto(`http://localhost:${environment.ui.port}`)
+	await page.goto(`${environment.ui.host}:${environment.ui.port}`)
 	const user = await context.createUser(userDetails)
 
 	await context.addUserToBalenaOrg(user.id)
@@ -56,7 +56,7 @@ outreachTest('A user should be able to connect their account to outreach', async
 	await macros.loginUser(page, userDetails)
 
 	// Navigate to the user profile page
-	await page.goto(`http://localhost:${environment.ui.port}/${user.slug}`)
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${user.slug}`)
 
 	await macros.waitForThenClickSelector(page, 'button[role="tab"]:nth-of-type(4)')
 
@@ -115,7 +115,7 @@ outreachTest('A user should be able to connect their account to outreach', async
 			} ])
 		})
 
-	await page.goto(`http://localhost:${environment.ui.port}/oauth/outreach?code=123456&state=${user.slug}`)
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/oauth/outreach?code=123456&state=${user.slug}`)
 
 	await page.waitForSelector('[data-test="lens--lens-my-user"]')
 

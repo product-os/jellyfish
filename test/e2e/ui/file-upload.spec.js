@@ -39,7 +39,7 @@ ava.serial('Users should be able to upload an image', async (test) => {
 		page
 	} = context
 
-	await page.goto(`http://localhost:${environment.ui.port}`)
+	await page.goto(`${environment.ui.host}:${environment.ui.port}`)
 	const user = await context.createUser(userDetails)
 	await page.waitForSelector('.login-page')
 
@@ -61,7 +61,7 @@ ava.serial('Users should be able to upload an image', async (test) => {
 	})
 
 	// Navigate to the user profile page
-	await page.goto(`http://localhost:${environment.ui.port}/${thread.id}`)
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
 
 	await page.waitForSelector(`.column--slug-${thread.slug}`)
 
@@ -87,7 +87,7 @@ ava.serial('Users should be able to upload an image to a support thread', async 
 	})
 
 	// Navigate to the user profile page
-	await page.goto(`http://localhost:${environment.ui.port}/${thread.id}`)
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
 
 	const selector = '.column--support-thread'
 
@@ -114,7 +114,7 @@ ava.serial('Users should be able to upload a text file', async (test) => {
 	})
 
 	// Navigate to the user profile page
-	await page.goto(`http://localhost:${environment.ui.port}/${thread.id}`)
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
 
 	await page.waitForSelector(`.column--slug-${thread.slug}`)
 
@@ -140,7 +140,7 @@ ava.serial('Users should be able to upload a text file to a support thread', asy
 	})
 
 	// Navigate to the user profile page
-	await page.goto(`http://localhost:${environment.ui.port}/${thread.id}`)
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
 
 	const selector = '.column--support-thread'
 

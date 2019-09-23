@@ -40,7 +40,7 @@ ava.serial('A lens selection should be remembered', async (test) => {
 		page
 	} = context
 
-	await page.goto(`http://localhost:${environment.ui.port}`)
+	await page.goto(`${environment.ui.host}:${environment.ui.port}`)
 	const user = await context.createUser(userDetails)
 	await page.waitForSelector('.login-page')
 

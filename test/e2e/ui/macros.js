@@ -45,7 +45,7 @@ exports.getElementValue = async (page, selector) => {
 }
 
 exports.loginUser = async (page, user) => {
-	await page.goto(`http://localhost:${environment.ui.port}`)
+	await page.goto(`${environment.ui.host}:${environment.ui.port}`)
 
 	await page.waitForSelector('.login-page')
 
