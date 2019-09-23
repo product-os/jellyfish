@@ -1,4 +1,70 @@
 - commits:
+    - subject: 'server: Decouple e2e tests from helpers'
+      hash: ca8d2b6b757881794fd591793b7921c250b69455
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'server: Blackbox e2e tests'
+      hash: 06630e70b8f2f696a3eb4bb7d48d318d73aa8c70
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'server: Blackbox e2e action-maintain-contact tests'
+      hash: e443f5ab5b16e18f354c7daebfa1310c0f150c04
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'server: Blackbox e2e messages tests'
+      hash: 26154f37ae3e37fc4f5c332e08e0c9401edd33eb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'server: Blackbox e2e integrations tests'
+      hash: 2f53f978113f97897cda5a6bb83d7d7eba80a9a2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'server: Blackbox sessions e2e tests'
+      hash: d617ffa5571efecfde7fd3b8d4a49a7c1dcbcf3f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'server: Blackbox action-increment-tag tests'
+      hash: c04e54bf5303787cd99688049c02bba0fc81c58a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.18.4
+  date: 2019-09-23T10:31:21.180Z
+- commits:
     - subject: 'server: Blackbox e2e action-increment tests'
       hash: f956db8a9f8b8362fd59f70cd1b2582b5221df78
       body: ''
