@@ -6,16 +6,16 @@
 
 const ava = require('ava')
 const _ = require('lodash')
-const helpers = require('./helpers')
+const scenario = require('./scenario')
 const environment = require('../../../lib/environment')
 const TOKEN = environment.integration.github
 
-ava.beforeEach(helpers.translate.beforeEach)
-ava.afterEach(helpers.translate.afterEach)
+ava.beforeEach(scenario.beforeEach)
+ava.afterEach(scenario.afterEach)
 
 const avaTest = _.some(_.values(TOKEN), _.isEmpty) ? ava.skip : ava
 
-helpers.translate.scenario(avaTest, {
+scenario.run(avaTest, {
 	integration: require('../../../lib/sync/integrations/github'),
 	scenarios: require('./webhooks/github'),
 	slices: _.range(0, 3),

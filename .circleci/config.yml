@@ -127,10 +127,10 @@ jobs:
 
       - run:
           name: Sync Tests
-          command: make test FILES=./test/e2e/sync/github-translate.spec.js COVERAGE=1 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY
+          command: make test FILES=./test/integration/sync/github-translate.spec.js COVERAGE=1 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY
       - run:
           name: Sync End To End Tests Without Tokens
-          command: make test FILES=./test/e2e/sync/github-translate.spec.js COVERAGE=1 INTEGRATION_GITHUB_TOKEN=
+          command: make test FILES=./test/integration/sync/github-translate.spec.js COVERAGE=1 INTEGRATION_GITHUB_TOKEN=
 
       - persist_to_workspace:
           root: .
@@ -183,10 +183,10 @@ jobs:
 
       - run:
           name: Sync Tests
-          command: make test FILES=./test/e2e/sync/front-translate.spec.js COVERAGE=1 INTEGRATION_FRONT_TOKEN=$FRONT_TOKEN INTEGRATION_INTERCOM_TOKEN=$INTERCOM_TOKEN
+          command: make test FILES=./test/integration/sync/front-translate.spec.js COVERAGE=1 INTEGRATION_FRONT_TOKEN=$FRONT_TOKEN INTEGRATION_INTERCOM_TOKEN=$INTERCOM_TOKEN
       - run:
           name: Sync End To End Tests Without Tokens
-          command: make test FILES=./test/e2e/sync/front-translate.spec.js COVERAGE=1 INTEGRATION_FRONT_TOKEN=
+          command: make test FILES=./test/integration/sync/front-translate.spec.js COVERAGE=1 INTEGRATION_FRONT_TOKEN=
 
       - persist_to_workspace:
           root: .
@@ -239,11 +239,11 @@ jobs:
 
       - run:
           name: Sync Tests
-          command: make test FILES=./test/e2e/sync/outreach-translate.spec.js COVERAGE=1 INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY
+          command: make test FILES=./test/integration/sync/outreach-translate.spec.js COVERAGE=1 INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY
 
       - run:
           name: Sync End To End Tests Without Tokens
-          command: make test FILES=./test/e2e/sync/outreach-translate.spec.js COVERAGE=1 INTEGRATION_OUTREACH_APP_ID= INTEGRATION_OUTREACH_APP_SECRET= INTEGRATION_OUTREACH_SIGNATURE_KEY=
+          command: make test FILES=./test/integration/sync/outreach-translate.spec.js COVERAGE=1 INTEGRATION_OUTREACH_APP_ID= INTEGRATION_OUTREACH_APP_SECRET= INTEGRATION_OUTREACH_SIGNATURE_KEY=
 
       - persist_to_workspace:
           root: .
@@ -297,10 +297,10 @@ jobs:
 
       - run:
           name: Sync Tests
-          command: make test FILES=./test/e2e/sync/discourse-translate.spec.js COVERAGE=1 INTEGRATION_DISCOURSE_TOKEN=$DISCOURSE_TOKEN INTEGRATION_DISCOURSE_SIGNATURE_KEY=$DISCOURSE_SIGNATURE_KEY INTEGRATION_DISCOURSE_USERNAME=$DISCOURSE_USERNAME
+          command: make test FILES=./test/integration/sync/discourse-translate.spec.js COVERAGE=1 INTEGRATION_DISCOURSE_TOKEN=$DISCOURSE_TOKEN INTEGRATION_DISCOURSE_SIGNATURE_KEY=$DISCOURSE_SIGNATURE_KEY INTEGRATION_DISCOURSE_USERNAME=$DISCOURSE_USERNAME
       - run:
           name: Sync End To End Tests Without Tokens
-          command: make test FILES=./test/e2e/sync/discourse-translate.spec.js COVERAGE=1 INTEGRATION_DISCOURSE_TOKEN=
+          command: make test FILES=./test/integration/sync/discourse-translate.spec.js COVERAGE=1 INTEGRATION_DISCOURSE_TOKEN=
 
       - persist_to_workspace:
           root: .
@@ -353,10 +353,10 @@ jobs:
 
       - run:
           name: Sync Tests
-          command: make test FILES=./test/e2e/sync/balena-api-translate.spec.js COVERAGE=1 INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION=$BALENA_API_PUBLIC_KEY_PRODUCTION INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING=$BALENA_API_PUBLIC_KEY_STAGING INTEGRATION_BALENA_API_PRIVATE_KEY=$BALENA_API_PRIVATE_KEY
+          command: make test FILES=./test/integration/sync/balena-api-translate.spec.js COVERAGE=1 INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION=$BALENA_API_PUBLIC_KEY_PRODUCTION INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING=$BALENA_API_PUBLIC_KEY_STAGING INTEGRATION_BALENA_API_PRIVATE_KEY=$BALENA_API_PRIVATE_KEY
       - run:
           name: Sync End To End Tests Without Tokens
-          command: make test FILES=./test/e2e/sync/balena-api-translate.spec.js COVERAGE=1 INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION= INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING= INTEGRATION_BALENA_API_PRIVATE_KEY=
+          command: make test FILES=./test/integration/sync/balena-api-translate.spec.js COVERAGE=1 INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION= INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING= INTEGRATION_BALENA_API_PRIVATE_KEY=
 
       - persist_to_workspace:
           root: .
