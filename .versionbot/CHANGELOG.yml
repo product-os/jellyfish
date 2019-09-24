@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'server: Don''t use queue class during e2e tests'
+      hash: ffd9fe5c4aaff2c29cbdfa4da80d1b63e38f73e6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.18.7
+  date: 2019-09-24T07:52:58.347Z
+- commits:
     - subject: 'ui: Run Puppeteer tests over Docker Compose'
       hash: d029175a89df9c6849899ff5950f85d406f1be56
       body: ''
