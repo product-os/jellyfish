@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'action-server/server: Don''t allow turning Redis off'
+      hash: 7173a997c0775ea791ad90acdead064117dab171
+      body: |
+        We are quite invested at this point and its unlikely that we will make
+        use of this turning off feature.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.18.9
+  date: 2019-09-24T14:39:02.977Z
+- commits:
     - subject: 'circleci: Create different for translate/mirror sync suites'
       hash: fd11dd01394b5e421dbb6f12ac5a56bd30120d0e
       body: |
