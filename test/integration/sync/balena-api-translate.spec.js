@@ -12,12 +12,12 @@ const url = require('url')
 const jose = require('node-jose')
 const jws = require('jsonwebtoken')
 const uuid = require('uuid/v4')
-const helpers = require('./helpers')
+const scenario = require('./scenario')
 const environment = require('../../../lib/environment')
 const TOKEN = environment.integration['balena-api']
 
-ava.beforeEach(helpers.translate.beforeEach)
-ava.afterEach(helpers.translate.afterEach)
+ava.beforeEach(scenario.beforeEach)
+ava.afterEach(scenario.afterEach)
 
 const avaTest = _.some(_.values(TOKEN), _.isEmpty) ? ava.skip : ava.serial
 
@@ -1618,7 +1618,7 @@ avaTest('should link an existing user by adding no data', async (test) => {
 	})
 })
 
-helpers.translate.scenario(_.some(_.values(TOKEN), _.isEmpty) ? ava.skip : ava, {
+scenario.run(_.some(_.values(TOKEN), _.isEmpty) ? ava.skip : ava, {
 	integration: require('../../../lib/sync/integrations/balena-api'),
 	scenarios: require('./webhooks/balena-api'),
 	baseUrl: 'https://api.balena-cloud.com',
