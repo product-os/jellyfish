@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'circleci: Create different for translate/mirror sync suites'
+      hash: fd11dd01394b5e421dbb6f12ac5a56bd30120d0e
+      body: |
+        As the translate ones are really integration tests.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.18.8
+  date: 2019-09-24T09:26:01.640Z
+- commits:
     - subject: 'server: Don''t use queue class during e2e tests'
       hash: ffd9fe5c4aaff2c29cbdfa4da80d1b63e38f73e6
       body: ''
