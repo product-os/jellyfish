@@ -11,14 +11,13 @@ const request = require('request')
 const _ = require('lodash')
 const nock = require('nock')
 const uuid = require('uuid/v4')
-const helpers = require('./helpers')
 const outreachMock = require('./outreach-mock')
 const environment = require('../../../lib/environment')
+const helpers = require('./helpers')
 const TOKEN = environment.integration.outreach
 
-ava.before(async (test) => {
-	await helpers.mirror.before(test)
-})
+ava.before(helpers.before)
+ava.after(helpers.after)
 
 const OAUTH_DETAILS = {
 	access_token: 'MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3',
@@ -34,10 +33,8 @@ const NOCK_OPTS = {
 	}
 }
 
-ava.after(helpers.mirror.after)
 ava.beforeEach(async (test) => {
-	await helpers.mirror.beforeEach(
-		test, environment.integration.default.user)
+	await helpers.beforeEach(test)
 
 	test.context.getProspect = async (id) => {
 		return new Bluebird((resolve, reject) => {
@@ -70,7 +67,7 @@ ava.beforeEach(async (test) => {
 
 	nock.cleanAll()
 	nock.disableNetConnect()
-	nock.enableNetConnect(/^(localhost|api)$/)
+	nock.enableNetConnect('localhost')
 
 	outreachMock.reset()
 
@@ -134,8 +131,8 @@ ava.beforeEach(async (test) => {
 })
 
 ava.afterEach(async (test) => {
+	await helpers.afterEach(test)
 	nock.cleanAll()
-	await helpers.mirror.afterEach(test)
 })
 
 // Skip all tests if there is no Outreach app id and secret

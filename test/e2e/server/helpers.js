@@ -7,28 +7,11 @@
 const Bluebird = require('bluebird')
 const _ = require('lodash')
 const request = require('request')
-const uuid = require('uuid/v4')
 const helpers = require('../../integration/core/helpers')
-const bootstrap = require('../../../apps/server/bootstrap')
-const actionServer = require('../../../apps/action-server/bootstrap')
 const environment = require('../../../lib/environment')
-
-const workerOptions = {
-	onError: (context, error) => {
-		throw error
-	}
-}
 
 exports.server = {
 	beforeEach: async (test) => {
-		test.context.context = {
-			id: `SERVER-TEST-${uuid()}`
-		}
-
-		test.context.server = await bootstrap(test.context.context)
-		test.context.tickWorker = await actionServer.tick(test.context.context, workerOptions)
-		test.context.actionWorker = await actionServer.worker(test.context.context, workerOptions)
-
 		test.context.generateRandomSlug = helpers.generateRandomSlug
 
 		test.context.http = (method, uri, payload, headers, options = {}) => {
@@ -60,9 +43,5 @@ exports.server = {
 		}
 	},
 
-	afterEach: async (test) => {
-		await test.context.actionWorker.stop()
-		await test.context.tickWorker.stop()
-		await test.context.server.close()
-	}
+	afterEach: _.noop
 }

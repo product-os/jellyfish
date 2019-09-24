@@ -7,9 +7,26 @@
 const ava = require('ava')
 const uuid = require('uuid/v4')
 const helpers = require('../sdk/helpers')
+const environment = require('../../../lib/environment')
 
-ava.before(helpers.sdk.before)
-ava.after(helpers.sdk.after)
+ava.before(async (test) => {
+	await helpers.before(test)
+
+	const session = await test.context.sdk.auth.login({
+		username: environment.test.user.username,
+		password: environment.test.user.password
+	})
+
+	test.context.token = session.id
+})
+
+ava.after(helpers.after)
+
+ava.beforeEach(async (test) => {
+	await helpers.beforeEach(test, test.context.token)
+})
+
+ava.afterEach(helpers.afterEach)
 
 ava.serial('should return 404 given a non existent attachment in a card', async (test) => {
 	const result = await test.context.http(

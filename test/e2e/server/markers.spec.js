@@ -18,7 +18,7 @@ const users = {
 }
 
 ava.before(async (test) => {
-	await helpers.sdk.before(test)
+	await helpers.before(test)
 
 	const session = await test.context.sdk.auth.login({
 		username: environment.test.user.username,
@@ -39,13 +39,13 @@ ava.before(async (test) => {
 	})
 })
 
-ava.after(helpers.sdk.after)
+ava.after(helpers.after)
 
 ava.beforeEach(async (test) => {
-	await helpers.sdk.beforeEach(test, test.context.token)
+	await helpers.beforeEach(test, test.context.token)
 })
 
-ava.afterEach(helpers.sdk.afterEach)
+ava.afterEach(helpers.afterEach)
 
 const createUserDetails = () => {
 	return {

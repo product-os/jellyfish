@@ -5,7 +5,6 @@
  */
 
 const Bluebird = require('bluebird')
-const _ = require('lodash')
 const helpers = require('../server/helpers')
 const {
 	getSdk
@@ -13,6 +12,8 @@ const {
 const environment = require('../../../lib/environment')
 
 exports.before = async (test) => {
+	await helpers.server.beforeEach(test)
+
 	test.context.sdk = getSdk({
 		apiPrefix: 'api/v2',
 		apiUrl: `${environment.http.host}:${environment.http.port}`
@@ -37,7 +38,9 @@ exports.before = async (test) => {
 	}
 }
 
-exports.after = _.noop
+exports.after = async (test) => {
+	await helpers.server.afterEach(test)
+}
 
 exports.beforeEach = (test, token) => {
 	test.context.sdk.setAuthToken(token)
