@@ -13,8 +13,6 @@ const {
 const environment = require('../../../lib/environment')
 
 exports.before = async (test) => {
-	// Since AVA tests are running concurrently, set up an SDK instance that will
-	// communicate with whichever port this server instance bound to
 	test.context.sdk = getSdk({
 		apiPrefix: 'api/v2',
 		apiUrl: `${environment.http.host}:${environment.http.port}`
