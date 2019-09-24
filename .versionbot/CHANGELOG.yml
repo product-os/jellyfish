@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'sync: Move translate tests to test/integration'
+      hash: 47659275c90626ef3551c058e6da19424c3b82c9
+      body: |
+        As they are truly integration tests
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.18.10
+  date: 2019-09-24T15:11:28.350Z
+- commits:
     - subject: 'action-server/server: Don''t allow turning Redis off'
       hash: 7173a997c0775ea791ad90acdead064117dab171
       body: |
