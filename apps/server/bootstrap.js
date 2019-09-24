@@ -18,9 +18,7 @@ const socket = require('./socket')
 
 module.exports = async (context) => {
 	logger.info(context, 'Setting up cache')
-	const cache = environment.cache.disable
-		? null
-		: new core.MemoryCache(environment.redis)
+	const cache = new core.MemoryCache(environment.redis)
 	if (cache) {
 		await cache.connect(context)
 	}

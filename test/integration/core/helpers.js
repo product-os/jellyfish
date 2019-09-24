@@ -25,19 +25,10 @@ exports.backend = {
 		const suffix = options.suffix || uuid()
 		const dbName = `test_${suffix.replace(/-/g, '_')}`
 
-		if (environment.cache.disable) {
-			test.context.cache = null
-		} else if (environment.redis.disable) {
-			test.context.cache = new Cache({
-				mock: true,
+		test.context.cache = new Cache(
+			Object.assign({}, environment.redis, {
 				namespace: dbName
-			})
-		} else {
-			test.context.cache = new Cache(
-				Object.assign({}, environment.redis, {
-					namespace: dbName
-				}))
-		}
+			}))
 
 		test.context.context = {
 			id: `CORE-TEST-${uuid()}`
@@ -109,17 +100,10 @@ exports.jellyfish = {
 
 exports.cache = {
 	beforeEach: async (test) => {
-		if (environment.redis.disable) {
-			test.context.cache = new Cache({
-				mock: true,
+		test.context.cache = new Cache(
+			Object.assign({}, environment.redis, {
 				namespace: `test_${uuid()}`
-			})
-		} else {
-			test.context.cache = new Cache(
-				Object.assign({}, environment.redis, {
-					namespace: `test_${uuid()}`
-				}))
-		}
+			}))
 
 		await test.context.cache.connect()
 	},

@@ -98,11 +98,8 @@ jobs:
           command: service redis-server start
 
       - run:
-          name: Integration Tests (with Redis)
+          name: Integration Tests
           command: make test-integration COVERAGE=1
-      - run:
-          name: Integration Tests (without Redis)
-          command: make test-integration COVERAGE=1 DISABLE_REDIS=1
       - run:
           name: Integration Tests (with debug logs)
           command: make test-integration COVERAGE=1 LOGLEVEL=debug
@@ -395,10 +392,6 @@ jobs:
       - run:
           name: End To End Tests
           command: make test-e2e-server COVERAGE=1 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$FLOWDOCK_SIGNATURE_KEY
-
-      - run:
-          name: End To End Server Tests (without Redis)
-          command: make test-e2e-server COVERAGE=1 DISABLE_REDIS=1
 
       - run:
           name: Postgres Dump
