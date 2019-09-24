@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'ui: Run Puppeteer tests over Docker Compose'
+      hash: d029175a89df9c6849899ff5950f85d406f1be56
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.18.6
+  date: 2019-09-23T16:42:01.503Z
+- commits:
     - subject: 'ui: Make e2e tests blackbox'
       hash: fde0fc04ea981ea7fcb928795fd7a8aa535df96b
       body: ''
