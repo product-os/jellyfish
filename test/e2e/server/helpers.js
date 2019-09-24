@@ -29,7 +29,6 @@ exports.server = {
 		test.context.tickWorker = await actionServer.tick(test.context.context, workerOptions)
 		test.context.actionWorker = await actionServer.worker(test.context.context, workerOptions)
 
-		test.context.queue = test.context.server.queue
 		test.context.generateRandomSlug = helpers.generateRandomSlug
 
 		test.context.http = (method, uri, payload, headers, options = {}) => {
