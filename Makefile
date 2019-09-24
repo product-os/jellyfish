@@ -279,6 +279,7 @@ lint:
 	./scripts/lint/check-descriptions.sh
 	./scripts/lint/check-tests.sh
 	./scripts/lint/check-licenses.sh
+	./scripts/lint/check-apps.sh
 	shellcheck ./scripts/*.sh ./scripts/*/*.sh ./.circleci/*.sh ./deploy-templates/*.sh
 	./node_modules/.bin/deplint
 	./node_modules/.bin/depcheck --ignore-bin-package --ignores='@babel/*,@jellyfish/*'
