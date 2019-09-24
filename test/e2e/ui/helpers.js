@@ -10,16 +10,12 @@ const path = require('path')
 const uuid = require('uuid/v4')
 const mkdirp = require('mkdirp')
 const fs = require('fs')
-const Bluebird = require('bluebird')
-const express = require('express')
-const http = require('http')
 const environment = require('../../../lib/environment')
 const helpers = require('../sdk/helpers')
-const ROOT_PATH = path.resolve(__dirname, '..', '..', '..')
 
 exports.browser = {
 	beforeEach: async (test) => {
-		await helpers.sdk.before(test)
+		await helpers.before(test)
 
 		const session = await test.context.sdk.auth.login({
 			username: environment.test.user.username,
@@ -28,25 +24,7 @@ exports.browser = {
 
 		test.context.token = session.id
 
-		await helpers.sdk.beforeEach(test, test.context.token)
-
-		const distDir = path.resolve(ROOT_PATH, 'dist/ui')
-
-		const application = express()
-
-		// Serve static files from the dist directory
-		application.use(express.static(distDir))
-
-		// If a file isn't found, just serve index.html
-		application.use((req, res) => {
-			return res.sendFile(path.resolve(distDir, 'index.html'))
-		})
-		test.context.express = http.Server(application)
-		await new Bluebird((resolve, reject) => {
-			test.context.express.once('error', reject)
-			test.context.express.once('listening', resolve)
-			test.context.express.listen(environment.ui.port)
-		})
+		await helpers.beforeEach(test, test.context.token)
 
 		const options = {
 			headless: !environment.flags.visual,
@@ -118,12 +96,7 @@ exports.browser = {
 
 		await test.context.browser.close()
 
-		await new Bluebird((resolve) => {
-			test.context.express.once('close', resolve)
-			test.context.express.close()
-		})
-
-		await helpers.sdk.afterEach(test)
-		await helpers.sdk.after(test)
+		await helpers.afterEach(test)
+		await helpers.after(test)
 	}
 }

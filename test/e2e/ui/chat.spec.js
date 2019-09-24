@@ -5,6 +5,7 @@
  */
 
 const ava = require('ava')
+const _ = require('lodash')
 const Bluebird = require('bluebird')
 const uuid = require('uuid/v4')
 const helpers = require('./helpers')
@@ -234,7 +235,9 @@ ava.serial('Users should be able to create private conversations', async (test) 
 		incognitoPage
 	} = context
 
-	const rootUrl = `${environment.ui.host}:${environment.ui.port}/`
+	const rootUrl = _.parseInt(environment.ui.port) === 80
+		? `${environment.ui.host}/`
+		: `${environment.ui.host}:${environment.ui.port}/`
 
 	// Clean up the URL
 	await page.goto(rootUrl)
