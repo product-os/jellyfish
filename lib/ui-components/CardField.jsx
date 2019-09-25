@@ -43,7 +43,7 @@ const CardField = ({
 				<Label my={3}>{field}</Label>
 				{_.map(value, (mirror) => {
 					const url = transformMirror(mirror)
-					return <Link blank href={url} key={mirror}>{url}</Link>
+					return <div><Link blank href={url} key={mirror}>{url}</Link></div>
 				})}
 			</React.Fragment>
 		)
