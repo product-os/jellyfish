@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'sync: Transform Outreach mirror tests into integration tests'
+      hash: 221d366f082abccfc7491972c208b1d310285007
+      body: |
+        These tests will never be able to run as proper e2e tests as they would
+        require HTTP stubbing in all containers because of OAuth.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.18.11
+  date: 2019-09-24T15:56:32.120Z
+- commits:
     - subject: 'sync: Move translate tests to test/integration'
       hash: 47659275c90626ef3551c058e6da19424c3b82c9
       body: |
