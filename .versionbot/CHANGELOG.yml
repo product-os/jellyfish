@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'UI: Fix bug where multiple thread mirrors appear on one line'
+      hash: 084045e7a74a805c10b8f918d400ddcb54f18a97
+      body: |
+        Fixes #2529
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 23.18.14
+  date: 2019-09-25T15:26:02.583Z
+- commits:
     - subject: 'circleci: Build Docker Compose on the build step'
       hash: 2a1d088d5c4890a35a6ee7a68c91d1314b75773c
       body: ''
