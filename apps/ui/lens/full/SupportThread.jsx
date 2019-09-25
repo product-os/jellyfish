@@ -401,7 +401,7 @@ class SupportThreadBase extends React.Component {
 					px={3}
 					pt={3}
 				>
-					<Flex alignItems="center" mb={1} wrap="true">
+					<Flex alignItems="center" mb={1} flexWrap="wrap">
 						<ColorHashPill value={_.get(card, [ 'data', 'inbox' ])} mr={2} mb={1} />
 						<ColorHashPill
 							data-test={`status-${_.get(card, [ 'data', 'status' ])}`}
