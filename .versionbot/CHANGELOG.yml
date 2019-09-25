@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'circleci: Use Docker Compose for sync mirror tests'
+      hash: f2612e536615245b8c1d0f2ce80adfbce49dba21
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.18.12
+  date: 2019-09-25T09:39:21.996Z
+- commits:
     - subject: 'sync: Transform Outreach mirror tests into integration tests'
       hash: 221d366f082abccfc7491972c208b1d310285007
       body: |
