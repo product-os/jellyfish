@@ -146,24 +146,26 @@ jobs:
       - attach_workspace:
           at: .
 
+      - setup_remote_docker:
+          docker_layer_caching: true
       - run:
-          name: Start PostgreSQL
-          command: service postgresql start && su - postgres -c "psql -U postgres -d postgres -c \"alter user postgres with password 'postgres';\""
-      - run:
-          name: Start Redis
-          command: service redis-server start
-
+          name: Compose Up
+          command: make compose-up DETACH=1 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY
       - run:
           name: Sync Tests
-          command: make test FILES=./test/e2e/sync/github-mirror.spec.js COVERAGE=1 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY
+          command: make compose-exec-sidecar COMMAND="make" ARGS="test COVERAGE=0 FILES=./test/e2e/sync/github-mirror.spec.js SCRUB=0 COVERAGE=0 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY"
+      - run:
+          name: Compose Down
+          command: make compose-down
+      - run:
+          name: Compose Up Without Tokens
+          command: make compose-up DETACH=1
       - run:
           name: Sync End To End Tests Without Tokens
-          command: make test FILES=./test/e2e/sync/github-mirror.spec.js COVERAGE=1 INTEGRATION_GITHUB_TOKEN=
-
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .nyc_output/*.json
+          command: make compose-exec-sidecar COMMAND="make" ARGS="test COVERAGE=0 FILES=./test/e2e/sync/github-mirror.spec.js SCRUB=0 COVERAGE=0 INTEGRATION_GITHUB_TOKEN="
+      - run:
+          name: Compose Down
+          command: make compose-down
 
   sync_tests_front_translate:
     <<: *job_defaults
@@ -202,24 +204,26 @@ jobs:
       - attach_workspace:
           at: .
 
+      - setup_remote_docker:
+          docker_layer_caching: true
       - run:
-          name: Start PostgreSQL
-          command: service postgresql start && su - postgres -c "psql -U postgres -d postgres -c \"alter user postgres with password 'postgres';\""
-      - run:
-          name: Start Redis
-          command: service redis-server start
-
+          name: Compose Up
+          command: make compose-up DETACH=1 INTEGRATION_FRONT_TOKEN=$FRONT_TOKEN INTEGRATION_INTERCOM_TOKEN=$INTERCOM_TOKEN
       - run:
           name: Sync Tests
-          command: make test FILES=./test/e2e/sync/front-mirror.spec.js COVERAGE=1 INTEGRATION_FRONT_TOKEN=$FRONT_TOKEN INTEGRATION_INTERCOM_TOKEN=$INTERCOM_TOKEN
+          command: make compose-exec-sidecar COMMAND="make" ARGS="test COVERAGE=0 FILES=./test/e2e/sync/front-mirror.spec.js SCRUB=0 COVERAGE=0 INTEGRATION_FRONT_TOKEN=$FRONT_TOKEN INTEGRATION_INTERCOM_TOKEN=$INTERCOM_TOKEN"
+      - run:
+          name: Compose Down
+          command: make compose-down
+      - run:
+          name: Compose Up Without Tokens
+          command: make compose-up DETACH=1
       - run:
           name: Sync End To End Tests Without Tokens
-          command: make test FILES=./test/e2e/sync/front-mirror.spec.js COVERAGE=1 INTEGRATION_FRONT_TOKEN=
-
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .nyc_output/*.json
+          command: make compose-exec-sidecar COMMAND="make" ARGS="test COVERAGE=0 FILES=./test/e2e/sync/front-mirror.spec.js SCRUB=0 COVERAGE=0 INTEGRATION_FRONT_TOKEN="
+      - run:
+          name: Compose Down
+          command: make compose-down
 
   sync_tests_outreach_translate:
     <<: *job_defaults
@@ -269,7 +273,6 @@ jobs:
       - run:
           name: Sync Tests
           command: make test FILES=./test/integration/sync/outreach-mirror.spec.js COVERAGE=1 INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY
-
       - run:
           name: Sync End To End Tests Without Tokens
           command: make test FILES=./test/integration/sync/outreach-mirror.spec.js COVERAGE=1 INTEGRATION_OUTREACH_APP_ID= INTEGRATION_OUTREACH_APP_SECRET= INTEGRATION_OUTREACH_SIGNATURE_KEY=
@@ -316,24 +319,26 @@ jobs:
       - attach_workspace:
           at: .
 
+      - setup_remote_docker:
+          docker_layer_caching: true
       - run:
-          name: Start PostgreSQL
-          command: service postgresql start && su - postgres -c "psql -U postgres -d postgres -c \"alter user postgres with password 'postgres';\""
-      - run:
-          name: Start Redis
-          command: service redis-server start
-
+          name: Compose Up
+          command: make compose-up DETACH=1 INTEGRATION_DISCOURSE_TOKEN=$DISCOURSE_TOKEN INTEGRATION_DISCOURSE_SIGNATURE_KEY=$DISCOURSE_SIGNATURE_KEY INTEGRATION_DISCOURSE_USERNAME=$DISCOURSE_USERNAME
       - run:
           name: Sync Tests
-          command: make test FILES=./test/e2e/sync/discourse-mirror.spec.js COVERAGE=1 INTEGRATION_DISCOURSE_TOKEN=$DISCOURSE_TOKEN INTEGRATION_DISCOURSE_SIGNATURE_KEY=$DISCOURSE_SIGNATURE_KEY INTEGRATION_DISCOURSE_USERNAME=$DISCOURSE_USERNAME
+          command: make compose-exec-sidecar COMMAND="make" ARGS="test COVERAGE=0 FILES=./test/e2e/sync/discourse-mirror.spec.js SCRUB=0 COVERAGE=0 INTEGRATION_DISCOURSE_TOKEN=$DISCOURSE_TOKEN INTEGRATION_DISCOURSE_SIGNATURE_KEY=$DISCOURSE_SIGNATURE_KEY INTEGRATION_DISCOURSE_USERNAME=$DISCOURSE_USERNAME"
+      - run:
+          name: Compose Down
+          command: make compose-down
+      - run:
+          name: Compose Up Without Tokens
+          command: make compose-up DETACH=1
       - run:
           name: Sync End To End Tests Without Tokens
-          command: make test FILES=./test/e2e/sync/discourse-mirror.spec.js COVERAGE=1 INTEGRATION_DISCOURSE_TOKEN=
-
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .nyc_output/*.json
+          command: make compose-exec-sidecar COMMAND="make" ARGS="test COVERAGE=0 FILES=./test/e2e/sync/discourse-mirror.spec.js SCRUB=0 COVERAGE=0 INTEGRATION_DISCOURSE_TOKEN="
+      - run:
+          name: Compose Down
+          command: make compose-down
 
   sync_tests_balena_api_translate:
     <<: *job_defaults

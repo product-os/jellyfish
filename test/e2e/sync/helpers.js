@@ -6,11 +6,13 @@
 
 const uuid = require('uuid/v4')
 const helpers = require('../sdk/helpers')
+const coreHelpers = require('../../integration/core/helpers')
 const environment = require('../../../lib/environment')
 
 exports.mirror = {
 	before: async (test) => {
-		await helpers.sdk.before(test)
+		await helpers.before(test)
+		test.context.generateRandomSlug = coreHelpers.generateRandomSlug
 
 		const session = await test.context.sdk.auth.login({
 			username: environment.test.user.username,
@@ -20,10 +22,10 @@ exports.mirror = {
 		test.context.token = session.id
 	},
 	after: async (test) => {
-		await helpers.sdk.after(test)
+		await helpers.after(test)
 	},
 	beforeEach: async (test, username) => {
-		await helpers.sdk.beforeEach(test, test.context.token)
+		await helpers.beforeEach(test, test.context.token)
 		test.context.username = username
 
 		// Create the user, only if it doesn't exist yet
@@ -58,5 +60,5 @@ exports.mirror = {
 		await test.context.sdk.auth.loginWithToken(session.id)
 		test.context.user = await test.context.sdk.auth.whoami()
 	},
-	afterEach: helpers.sdk.afterEach
+	afterEach: helpers.afterEach
 }

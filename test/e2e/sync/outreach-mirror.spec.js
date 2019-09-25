@@ -70,7 +70,7 @@ ava.beforeEach(async (test) => {
 
 	nock.cleanAll()
 	nock.disableNetConnect()
-	nock.enableNetConnect('localhost')
+	nock.enableNetConnect(/^(localhost|api)$/)
 
 	outreachMock.reset()
 
