@@ -181,7 +181,7 @@ export default class CardChatSummary extends React.Component {
 							) {
 								return null
 							}
-							return <Tag key={tag} mr={2} mb={1}>{tag}</Tag>
+							return <Tag color="text.main" key={tag} mr={2} mb={1}>{tag}</Tag>
 						})}
 					</Flex>
 				)}
