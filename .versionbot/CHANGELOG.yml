@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'server: Run e2e tests on Docker Compose'
+      hash: a956c9926258fcd40172989d86b8645c1206c565
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.18.15
+  date: 2019-09-25T20:19:01.828Z
+- commits:
     - subject: 'UI: Fix bug where multiple thread mirrors appear on one line'
       hash: 084045e7a74a805c10b8f918d400ddcb54f18a97
       body: |
