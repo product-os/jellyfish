@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'test: Refactor e2e helpers'
+      hash: 564746c8546d663cfb56c4b5f1f0cb4519810f1c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'test: Remove helpers.sdk unused functions'
+      hash: 7dfe5165b2a6704fb8fa01157ccb2fb90bfcf4a1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.18.16
+  date: 2019-09-26T07:54:42.034Z
+- commits:
     - subject: 'server: Run e2e tests on Docker Compose'
       hash: a956c9926258fcd40172989d86b8645c1206c565
       body: ''
