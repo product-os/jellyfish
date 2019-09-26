@@ -6,18 +6,16 @@
 
 const ava = require('ava')
 const crypto = require('crypto')
-const querystring = require('querystring')
 const jose = require('node-jose')
 const uuid = require('uuid/v4')
 const randomstring = require('randomstring')
 const jws = require('jsonwebtoken')
-const nock = require('nock')
 const _ = require('lodash')
 const helpers = require('../sdk/helpers')
 const environment = require('../../../lib/environment')
 
 ava.before(async (test) => {
-	await helpers.sdk.before(test)
+	await helpers.before(test)
 
 	const session = await test.context.sdk.auth.login({
 		username: environment.test.user.username,
@@ -27,13 +25,13 @@ ava.before(async (test) => {
 	test.context.token = session.id
 })
 
-ava.after(helpers.sdk.after)
+ava.after(helpers.after)
 
 ava.beforeEach(async (test) => {
-	await helpers.sdk.beforeEach(test, test.context.token)
+	await helpers.beforeEach(test, test.context.token)
 })
 
-ava.afterEach(helpers.sdk.afterEach)
+ava.afterEach(helpers.afterEach)
 const balenaAvaTest = _.some(_.values(environment.integration['balena-api']), _.isEmpty)
 	? ava.skip
 	: ava.serial
@@ -182,239 +180,4 @@ outreachTest('/api/v2/oauth should return a url given outreach', async (test) =>
 			url: `https://api.outreach.io/oauth/authorize?${qs}`
 		}
 	})
-})
-
-outreachTest('should be able to associate a user with Outreach', async (test) => {
-	const userCard = await test.context.sdk.card.create({
-		type: 'user',
-		slug: test.context.generateRandomSlug({
-			prefix: 'user-oauth-test'
-		}),
-		version: '1.0.0',
-		data: {
-			email: 'test@jellysync.io',
-			roles: [ 'user-community' ]
-		}
-	})
-
-	nock.cleanAll()
-
-	await nock('https://api.outreach.io')
-		.post('/oauth/token')
-		.reply(function (uri, request, callback) {
-			const body = querystring.decode(request)
-
-			if (_.isEqual(body, {
-				grant_type: 'authorization_code',
-				client_id: environment.integration.outreach.appId,
-				client_secret: environment.integration.outreach.appSecret,
-				redirect_uri: `${environment.oauth.redirectBaseUrl}/oauth/outreach`,
-				code: '123456'
-			})) {
-				return callback(null, [ 200, {
-					access_token: 'KSTWMqidua67hjM2NDE1ZTZjNGZmZjI3',
-					token_type: 'bearer',
-					expires_in: 3600,
-					refresh_token: 'POolsdYTlmM2YxOTQ5MGE3YmNmMDFkNTVk',
-					scope: 'create'
-				} ])
-			}
-
-			return callback(null, [ 400, {
-				error: 'invalid_request',
-				error_description: 'Something went wrong'
-			} ])
-		})
-
-	const result = await test.context.http(
-		'GET', `/oauth/outreach?code=123456&state=${userCard.slug}`)
-
-	test.deepEqual(result, {
-		code: 200,
-		headers: result.headers,
-		response: {
-			error: false,
-			slug: userCard.slug
-		}
-	})
-
-	const newUserCard = await test.context.sdk.card.get(userCard.slug)
-
-	test.deepEqual(newUserCard.data.oauth, {
-		outreach: {
-			access_token: 'KSTWMqidua67hjM2NDE1ZTZjNGZmZjI3',
-			token_type: 'bearer',
-			expires_in: 3600,
-			refresh_token: 'POolsdYTlmM2YxOTQ5MGE3YmNmMDFkNTVk',
-			scope: 'create'
-		}
-	})
-
-	nock.cleanAll()
-})
-
-outreachTest('should not be able to associate a user with Outreach given the wrong code', async (test) => {
-	const userCard = await test.context.sdk.card.create({
-		type: 'user',
-		slug: test.context.generateRandomSlug({
-			prefix: 'user-oauth-test'
-		}),
-		version: '1.0.0',
-		data: {
-			email: 'test@jellysync.io',
-			roles: [ 'user-community' ]
-		}
-	})
-
-	nock.cleanAll()
-
-	await nock('https://api.outreach.io')
-		.post('/oauth/token')
-		.reply(function (uri, request, callback) {
-			const body = querystring.decode(request)
-
-			if (_.isEqual(body, {
-				grant_type: 'authorization_code',
-				client_id: environment.integration.outreach.appId,
-				client_secret: environment.integration.outreach.appSecret,
-				redirect_uri: `${environment.oauth.redirectBaseUrl}/oauth/outreach`,
-				code: '123456'
-			})) {
-				return callback(null, [ 200, {
-					access_token: 'KSTWMqidua67hjM2NDE1ZTZjNGZmZjI3',
-					token_type: 'bearer',
-					expires_in: 3600,
-					refresh_token: 'POolsdYTlmM2YxOTQ5MGE3YmNmMDFkNTVk',
-					scope: 'create'
-				} ])
-			}
-
-			return callback(null, [ 400, {
-				error: 'invalid_request',
-				error_description: 'Something went wrong'
-			} ])
-		})
-
-	const result = await test.context.http(
-		'GET', `/oauth/outreach?code=999999999&state=${userCard.slug}`)
-
-	test.deepEqual(result, {
-		code: 401,
-		headers: result.headers,
-		response: {
-			error: true,
-			data: {
-				message: result.response.data.message,
-				name: 'OAuthUnsuccessfulResponse'
-			}
-		}
-	})
-
-	const newUserCard = await test.context.sdk.card.get(userCard.slug)
-	test.falsy(newUserCard.data.oauth)
-	nock.cleanAll()
-})
-
-outreachTest('should not be able to associate a user with Outreach given no state', async (test) => {
-	const userCard = await test.context.sdk.card.create({
-		type: 'user',
-		slug: test.context.generateRandomSlug({
-			prefix: 'user-oauth-test'
-		}),
-		version: '1.0.0',
-		data: {
-			email: 'test@jellysync.io',
-			roles: [ 'user-community' ]
-		}
-	})
-
-	nock.cleanAll()
-
-	await nock('https://api.outreach.io')
-		.post('/oauth/token')
-		.reply(function (uri, request, callback) {
-			const body = querystring.decode(request)
-
-			if (_.isEqual(body, {
-				grant_type: 'authorization_code',
-				client_id: environment.integration.outreach.appId,
-				client_secret: environment.integration.outreach.appSecret,
-				redirect_uri: `${environment.oauth.redirectBaseUrl}/oauth/outreach`,
-				code: '123456'
-			})) {
-				return callback(null, [ 200, {
-					access_token: 'KSTWMqidua67hjM2NDE1ZTZjNGZmZjI3',
-					token_type: 'bearer',
-					expires_in: 3600,
-					refresh_token: 'POolsdYTlmM2YxOTQ5MGE3YmNmMDFkNTVk',
-					scope: 'create'
-				} ])
-			}
-
-			return callback(null, [ 400, {
-				error: 'invalid_request',
-				error_description: 'Something went wrong'
-			} ])
-		})
-
-	const result = await test.context.http(
-		'GET', '/oauth/outreach?code=123456')
-
-	test.is(result.code, 401)
-
-	const newUserCard = await test.context.sdk.card.get(userCard.slug)
-	test.falsy(newUserCard.data.oauth)
-	nock.cleanAll()
-})
-
-outreachTest('should not be able to associate a user with Outreach given an invalid state', async (test) => {
-	const userCard = await test.context.sdk.card.create({
-		type: 'user',
-		slug: test.context.generateRandomSlug({
-			prefix: 'user-oauth-test'
-		}),
-		version: '1.0.0',
-		data: {
-			email: 'test@jellysync.io',
-			roles: [ 'user-community' ]
-		}
-	})
-
-	nock.cleanAll()
-
-	await nock('https://api.outreach.io')
-		.post('/oauth/token')
-		.reply(function (uri, request, callback) {
-			const body = querystring.decode(request)
-
-			if (_.isEqual(body, {
-				grant_type: 'authorization_code',
-				client_id: environment.integration.outreach.appId,
-				client_secret: environment.integration.outreach.appSecret,
-				redirect_uri: `${environment.oauth.redirectBaseUrl}/oauth/outreach`,
-				code: '123456'
-			})) {
-				return callback(null, [ 200, {
-					access_token: 'KSTWMqidua67hjM2NDE1ZTZjNGZmZjI3',
-					token_type: 'bearer',
-					expires_in: 3600,
-					refresh_token: 'POolsdYTlmM2YxOTQ5MGE3YmNmMDFkNTVk',
-					scope: 'create'
-				} ])
-			}
-
-			return callback(null, [ 400, {
-				error: 'invalid_request',
-				error_description: 'Something went wrong'
-			} ])
-		})
-
-	const result = await test.context.http(
-		'GET', '/oauth/outreach?code=123456&state=testtesttesttest')
-
-	test.is(result.code, 401)
-
-	const newUserCard = await test.context.sdk.card.get(userCard.slug)
-	test.falsy(newUserCard.data.oauth)
-	nock.cleanAll()
 })
