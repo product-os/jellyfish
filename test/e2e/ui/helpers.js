@@ -16,15 +16,7 @@ const helpers = require('../sdk/helpers')
 exports.browser = {
 	beforeEach: async (test) => {
 		await helpers.before(test)
-
-		const session = await test.context.sdk.auth.login({
-			username: environment.test.user.username,
-			password: environment.test.user.password
-		})
-
-		test.context.token = session.id
-
-		await helpers.beforeEach(test, test.context.token)
+		await helpers.beforeEach(test)
 
 		const options = {
 			headless: !environment.flags.visual,

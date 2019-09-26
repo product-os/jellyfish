@@ -10,8 +10,8 @@ const request = require('request')
 const helpers = require('../../integration/core/helpers')
 const environment = require('../../../lib/environment')
 
-exports.server = {
-	beforeEach: async (test) => {
+module.exports = {
+	before: async (test) => {
 		test.context.generateRandomSlug = helpers.generateRandomSlug
 
 		test.context.http = (method, uri, payload, headers, options = {}) => {
@@ -43,5 +43,5 @@ exports.server = {
 		}
 	},
 
-	afterEach: _.noop
+	after: _.noop
 }

@@ -11,23 +11,10 @@ const _ = require('lodash')
 const helpers = require('../sdk/helpers')
 const environment = require('../../../lib/environment')
 
-ava.before(async (test) => {
-	await helpers.before(test)
-
-	const session = await test.context.sdk.auth.login({
-		username: environment.test.user.username,
-		password: environment.test.user.password
-	})
-
-	test.context.token = session.id
-})
-
+ava.before(helpers.before)
 ava.after(helpers.after)
 
-ava.beforeEach(async (test) => {
-	await helpers.beforeEach(test, test.context.token)
-})
-
+ava.beforeEach(helpers.beforeEach)
 ava.afterEach(helpers.afterEach)
 
 const createUserDetails = () => {
