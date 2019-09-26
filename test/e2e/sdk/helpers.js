@@ -12,12 +12,19 @@ const {
 const environment = require('../../../lib/environment')
 
 exports.before = async (test) => {
-	await helpers.server.beforeEach(test)
+	await helpers.before(test)
 
 	test.context.sdk = getSdk({
 		apiPrefix: 'api/v2',
 		apiUrl: `${environment.http.host}:${environment.http.port}`
 	})
+
+	const session = await test.context.sdk.auth.login({
+		username: environment.test.user.username,
+		password: environment.test.user.password
+	})
+
+	test.context.token = session.id
 
 	test.context.executeThenWait = async (asyncFn, waitQuery, times = 20) => {
 		if (times === 0) {
@@ -39,11 +46,11 @@ exports.before = async (test) => {
 }
 
 exports.after = async (test) => {
-	await helpers.server.afterEach(test)
+	await helpers.after(test)
 }
 
-exports.beforeEach = (test, token) => {
-	test.context.sdk.setAuthToken(token)
+exports.beforeEach = (test) => {
+	test.context.sdk.setAuthToken(test.context.token)
 }
 
 exports.afterEach = (test) => {
