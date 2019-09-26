@@ -50,21 +50,3 @@ exports.afterEach = (test) => {
 	test.context.sdk.cancelAllStreams()
 	test.context.sdk.cancelAllRequests()
 }
-
-exports.sdk = {
-	before: async (test) => {
-		await helpers.server.beforeEach(test)
-		await exports.before(test)
-	},
-
-	after: async (test) => {
-		await exports.after(test)
-		await helpers.server.afterEach(test)
-	},
-
-	beforeEach: (test) => {
-		exports.beforeEach(test, test.context.token)
-	},
-
-	afterEach: exports.afterEach
-}
