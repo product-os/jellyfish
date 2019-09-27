@@ -30,7 +30,6 @@
               "enum": [
                 "general",
                 "customer-success",
-                "investigating",
                 "devices",
                 "fleetops",
                 "security"
