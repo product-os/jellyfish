@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'sync: Retry requests that respond with 429'
+      hash: 0d2ca40f7cbb3d8e683cc2b576500b7eaa134f10
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.19.1
+  date: 2019-09-27T15:41:28.732Z
+- commits:
     - subject: Remove investigating category from support threads
       hash: 5f6ced53016bdd32d33dd03da45a359ea9237a76
       body: |
