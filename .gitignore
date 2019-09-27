@@ -83,3 +83,6 @@ dist/
 
 # Execution files
 .tar.gz
+
+# NYC instrumented code
+.nyc-root

@@ -20,7 +20,7 @@ const config = {
 			// We need to change the resolution location if instrumenting code for
 			// coverage (via nyc). Otherwise module requires will load the
 			// un-instrumented version.
-			'@jellyfish': path.resolve(__dirname, WITH_COVERAGE ? '.tmp/nyc-lib/lib/' : 'lib/')
+			'@jellyfish': path.resolve(__dirname, WITH_COVERAGE ? '.nyc-root/lib/' : 'lib/')
 		}
 	},
 

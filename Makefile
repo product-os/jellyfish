@@ -224,8 +224,8 @@ else
 ESLINT_OPTION_FIX = --fix
 endif
 
-NYC_TMP_DIR = .tmp/nyc-lib
-NYC_GLOBAL_OPS = --extension .js --extension .jsx --extension .svg
+NYC_TMP_DIR = .nyc-root
+NYC_GLOBAL_OPS = --extension .js --extension .jsx --extension .json --extension .svg
 NYC_OPTS = $(NYC_GLOBAL_OPS) --exclude '**/*.spec.js' --exclude '**/*.spec.jsx' --compact=false
 ifeq ($(COVERAGE),1)
 COVERAGE_COMMAND = ./node_modules/.bin/nyc --no-clean $(NYC_OPTS) --exclude 'test/e2e/ui/macros.js'
