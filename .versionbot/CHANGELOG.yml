@@ -1,4 +1,21 @@
 - commits:
+    - subject: Remove investigating category from support threads
+      hash: 5f6ced53016bdd32d33dd03da45a359ea9237a76
+      body: |
+        After using this category in production it has become a place where
+        support threads go to die and is largely unmaintained. We determined
+        that it was harmful and we need to rethink our strategy for support
+        threads that need long running investigations. In the meantime we are
+        removing this category
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 23.19.0
+  date: 2019-09-27T09:00:25.770Z
+- commits:
     - subject: 'test: Refactor e2e helpers'
       hash: 564746c8546d663cfb56c4b5f1f0cb4519810f1c
       body: ''
