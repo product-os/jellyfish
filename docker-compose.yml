@@ -163,6 +163,21 @@ services:
       - api
     ports:
      - "${UI_PORT}:80"
+  livechat:
+    build:
+      context: .
+      dockerfile: apps/livechat/Dockerfile
+      args:
+        - SERVER_HOST=http://api
+        - SERVER_PORT=${SERVER_PORT}
+    environment:
+      - NGINX_PORT=80
+    links:
+      - api
+    depends_on:
+      - api
+    ports:
+     - "${LIVECHAT_PORT}:80"
   sidecar:
     build:
       context: .
@@ -180,6 +195,7 @@ services:
     depends_on:
       - api
       - ui
+      - livechat
     links:
       - api
       - ui

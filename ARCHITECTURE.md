@@ -52,7 +52,7 @@ services as needed using actions.
 The action server worker, which dequeues action requests from the database
 and executes them with the configured action library.
 
-### [`apps/chat-widget-demo`](https://github.com/balena-io/jellyfish/tree/master/apps/chat-widget-demo)
+### [`apps/livechat`](https://github.com/balena-io/jellyfish/tree/master/apps/livechat)
 
 This is the demo project for developing chat-widget.
 
