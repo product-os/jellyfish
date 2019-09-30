@@ -1,4 +1,16 @@
 - commits:
+    - subject: Persist nyc output reports on Docker Compose jobs
+      hash: c8dd52d5f7bc584905df10bb8ecfac3df680469e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.21.3
+  date: 2019-09-30T16:31:38.845Z
+- commits:
     - subject: 'circleci: Don''t run Docker Compose on build job'
       hash: 5e114f8dc672b39ed8daa316f44e24065896622f
       body: ''
