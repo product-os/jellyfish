@@ -1,4 +1,27 @@
 - commits:
+    - subject: 'Makefile: Instrument code with nyc in .nyc-root'
+      hash: 76fd0743a6d011839acf9325fc6af43e01c2c04e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'Makefile: Don''t enable code coverage by default'
+      hash: 2f7f50f432d314ccb20b9fa7a78f85cde520aca4
+      body: |
+        We will make it an opt-in now that we will add support for it on Docker
+        Compose.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.21.1
+  date: 2019-09-30T11:46:49.789Z
+- commits:
     - subject: >-
         test/e2e/sync/flowdock: Add captured events for new message containing
         text in markdown format
