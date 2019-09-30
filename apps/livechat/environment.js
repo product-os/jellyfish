@@ -7,13 +7,9 @@
 /* global process */
 /* eslint-disable no-process-env */
 
-export const api = {
-	prefix: process.env.API_PREFIX || 'api/v2',
-	url: process.env.API_URL || window.location.origin
-}
-
-export const analytics = {
-	mixpanel: {
-		token: process.env.MIXPANEL_TOKEN_CHAT_WIDGET
+export const test = {
+	user: {
+		username: process.env.TEST_USER_USERNAME,
+		password: process.env.TEST_USER_PASSWORD
 	}
 }

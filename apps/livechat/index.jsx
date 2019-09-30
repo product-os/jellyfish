@@ -6,14 +6,22 @@
 
 import '@babel/polyfill'
 import 'circular-std'
-import React from 'react'
-import ReactDOM from 'react-dom'
 import {
-	App
+	mount,
+	createSdk
 } from '@jellyfish/chat-widget'
 import * as environment from './environment'
 
-ReactDOM.render(
-	<App authToken={environment.api.token} />,
-	document.getElementById('app')
-)
+(async () => {
+	const sdk = createSdk()
+	window.sdk = sdk
+
+	await sdk.auth.login({
+		username: environment.test.user.username,
+		password: environment.test.user.password
+	})
+
+	mount(document.getElementById('app'), {
+		sdk
+	})
+})()

@@ -40,7 +40,7 @@ jobs:
       # --unsafe-perm flag allows the postinstall script to run correctly
       - run:
           name: Install Dependencies
-          command: npm ci --unsafe-perm && make build-ui COVERAGE=1 NODE_ENV=test
+          command: npm ci --unsafe-perm && make build-ui COVERAGE=1 NODE_ENV=test && COVERAGE=1 NODE_ENV=test make build-livechat
 
       - save_cache:
           paths:
@@ -427,7 +427,7 @@ jobs:
           command: make build-ui COVERAGE=0 NODE_ENV=test && mkdir -p /tmp/test-results/ui && cp dist/ui/webpack-bundle-report.html /tmp/test-results/ui/webpack-bundle-report.html
       - run:
           name: Webpack Bundle Report For Chat Widget
-          command: make build-chat-widget COVERAGE=0 NODE_ENV=test && mkdir -p /tmp/test-results/chat-widget && cp dist/chat-widget/webpack-bundle-report.html /tmp/test-results/chat-widget/webpack-bundle-report.html
+          command: make build-livechat COVERAGE=0 NODE_ENV=test && mkdir -p /tmp/test-results/livechat && cp dist/livechat/webpack-bundle-report.html /tmp/test-results/livechat/webpack-bundle-report.html
       - run:
           name: Generate Coverage Results
           command: mkdir -p /tmp/test-results && tar czf /tmp/test-results/nyc_output.tar.gz .nyc_output && make coverage && cp -rf coverage /tmp/test-results

@@ -8,9 +8,11 @@
 
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path')
+const DynamicCdnWebpackPlugin = require('dynamic-cdn-webpack-plugin')
 const DefinePlugin = require('webpack/lib/DefinePlugin')
 const mergeConfig = require('webpack-merge')
 const baseConfig = require('../../webpack.config.base.js')
+const libConfig = require('./webpack.config.lib')
 
 const root = path.resolve(__dirname, '..', '..')
 const resourcesRoot = __dirname
@@ -20,8 +22,7 @@ const UI_DIRECTORY = process.env.UI_DIRECTORY || __dirname
 
 const uiRoot = path.resolve(root, UI_DIRECTORY)
 const indexFilePath = path.join(resourcesRoot, 'index.html')
-const outDir = path.join(root, 'dist/chat-widget')
-const packageJSON = require('../../package.json')
+const outDir = path.join(root, 'dist/livechat')
 
 console.log(`Generating bundle from ${uiRoot}`)
 
@@ -34,32 +35,37 @@ const config = mergeConfig(baseConfig, {
 		publicPath: '/'
 	},
 
-	devServer: {
-		contentBase: outDir,
-		port: 9100
-	},
-
 	plugins: [
 		new HtmlWebpackPlugin({
 			template: indexFilePath
 		}),
 
+		new DynamicCdnWebpackPlugin({
+			only: [ '@jellyfish/chat-widget' ],
+			resolver (name) {
+				return {
+					name,
+					var: 'ChatWidget',
+					url: '/chat-widget.js',
+					version: ''
+				}
+			}
+		}),
+
 		new DefinePlugin({
 			/* eslint-disable no-process-env */
 			'process.env': {
-				API_URL: JSON.stringify(process.env.API_URL),
-				API_PREFIX: JSON.stringify(process.env.API_PREFIX || 'api/v2/'),
-				NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-				SENTRY_DSN_UI: JSON.stringify(process.env.SENTRY_DSN_UI),
-				MIXPANEL_TOKEN_UI: JSON.stringify(process.env.MIXPANEL_TOKEN_UI),
-				JELLYFISH_TOKEN: JSON.stringify(process.env.JELLYFISH_TOKEN),
-
-				// So that it matches git tags
-				VERSION: JSON.stringify(`v${packageJSON.version}`)
+				TEST_USER_USERNAME: JSON.stringify(process.env.TEST_USER_USERNAME),
+				TEST_USER_PASSWORD: JSON.stringify(process.env.TEST_USER_PASSWORD)
 			}
 			/* eslint-enable no-process-env */
 		})
-	]
+	],
+
+	devServer: {
+		// eslint-disable-next-line no-process-env
+		port: process.env.LIVECHAT_PORT
+	}
 })
 
-module.exports = config
+module.exports = [ config, libConfig ]

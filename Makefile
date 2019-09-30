@@ -4,7 +4,7 @@
 	node \
 	test \
 	build-ui \
-	build-chat-widget \
+	build-livechat \
 	start-server \
 	start-worker \
 	start-tick \
@@ -59,6 +59,8 @@ SERVER_DATABASE ?= jellyfish
 export SERVER_DATABASE
 UI_PORT ?= 9000
 export UI_PORT
+LIVECHAT_PORT ?= 9100
+export LIVECHAT_PORT
 UI_HOST ?= $(SERVER_HOST)
 export UI_HOST
 DB_CERT ?=
@@ -223,7 +225,7 @@ ESLINT_OPTION_FIX = --fix
 endif
 
 NYC_TMP_DIR = .tmp/nyc-lib
-NYC_GLOBAL_OPS = --extension .js --extension .jsx
+NYC_GLOBAL_OPS = --extension .js --extension .jsx --extension .svg
 NYC_OPTS = $(NYC_GLOBAL_OPS) --exclude '**/*.spec.js' --exclude '**/*.spec.jsx' --compact=false
 ifeq ($(COVERAGE),1)
 COVERAGE_COMMAND = ./node_modules/.bin/nyc --no-clean $(NYC_OPTS) --exclude 'test/e2e/ui/macros.js'
@@ -380,20 +382,22 @@ build-ui:
 endif
 
 ifeq ($(COVERAGE),1)
-build-chat-widget:
+build-livechat:
 	rm -rf $(NYC_TMP_DIR) && mkdir -p $(NYC_TMP_DIR)/{lib,apps}
 	# TODO: The chat-widget should not require us to instrument the UI
 	./node_modules/.bin/nyc instrument $(NYC_OPTS) apps/ui $(NYC_TMP_DIR)/apps/ui
+	./node_modules/.bin/nyc instrument $(NYC_OPTS) apps/livechat $(NYC_TMP_DIR)/apps/livechat
 	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/sdk $(NYC_TMP_DIR)/lib/sdk
 	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/ui-components $(NYC_TMP_DIR)/lib/ui-components
+	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/uuid $(NYC_TMP_DIR)/lib/uuid
 	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/chat-widget $(NYC_TMP_DIR)/lib/chat-widget
-	NODE_ENV=test UI_DIRECTORY="./$(NYC_TMP_DIR)/lib/chat-widget"\
-		SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
-		./node_modules/.bin/webpack --config=./lib/chat-widget/webpack.config.js
+	NODE_ENV=test UI_DIRECTORY="./$(NYC_TMP_DIR)/apps/livechat" \
+	API_URL=$(SERVER_HOST):$(SERVER_PORT) \
+		./node_modules/.bin/webpack --config=./apps/livechat/webpack.config.js
 else
-build-chat-widget:
-	SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
-		./node_modules/.bin/webpack --config=./lib/chat-widget/webpack.config.js
+build-livechat:
+	API_URL=$(SERVER_HOST):$(SERVER_PORT) \
+		./node_modules/.bin/webpack --config=./apps/livechat/webpack.config.js
 endif
 
 # -----------------------------------------------
@@ -410,7 +414,7 @@ compose-%:
 		$(DOCKER_COMPOSE_COMMAND_OPTIONS)
 
 dev-%:
-	NODE_ENV=development JELLYFISH_TOKEN=$(JELLYFISH_TOKEN) \
+	NODE_ENV=development \
 	./node_modules/.bin/webpack-dev-server \
 		--config=./apps/$(subst dev-,,$@)/webpack.config.js \
 		--color

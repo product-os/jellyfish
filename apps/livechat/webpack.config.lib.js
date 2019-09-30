@@ -15,15 +15,14 @@ const baseConfig = require('../../webpack.config.base.js')
 const root = path.resolve(__dirname, '..', '..')
 
 // eslint-disable-next-line no-process-env
-const UI_DIRECTORY = process.env.UI_DIRECTORY || __dirname
+const UI_DIRECTORY = process.env.UI_DIRECTORY || path.resolve(root, 'lib/chat-widget')
 
 const uiRoot = path.resolve(root, UI_DIRECTORY)
-const outDir = path.join(root, 'dist/chat-widget')
+const outDir = path.join(root, 'dist/livechat')
 
 console.log(`Generating bundle from ${uiRoot}`)
 
 const config = mergeConfig(baseConfig, {
-	context: path.resolve(__dirname, '../'),
 	entry: path.join(uiRoot, 'index.jsx'),
 
 	output: {
@@ -38,10 +37,7 @@ const config = mergeConfig(baseConfig, {
 			/* eslint-disable no-process-env */
 			'process.env': {
 				API_URL: JSON.stringify(process.env.API_URL),
-				API_PREFIX: JSON.stringify(process.env.API_PREFIX || 'api/v2/'),
-				NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-				SENTRY_DSN_UI: JSON.stringify(process.env.SENTRY_DSN_UI),
-				MIXPANEL_TOKEN_UI: JSON.stringify(process.env.MIXPANEL_TOKEN_UI)
+				NODE_ENV: JSON.stringify(process.env.NODE_ENV)
 			}
 			/* eslint-enable no-process-env */
 		})
