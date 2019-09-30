@@ -1,4 +1,6 @@
 version: "3"
+volumes:
+  .nyc_output:
 services:
   postgres:
     image: balena/open-balena-db:3.0.1
@@ -55,6 +57,8 @@ services:
       - INTEGRATION_OUTREACH_SIGNATURE_KEY
     ports:
       - "${PORT}:${PORT}"
+    volumes:
+      - .nyc_output:/usr/src/app/.nyc_output
     depends_on:
       - postgres
       - redis
@@ -102,6 +106,8 @@ services:
     depends_on:
       - postgres
       - redis
+    volumes:
+      - .nyc_output:/usr/src/app/.nyc_output
     links:
       - postgres
       - redis
@@ -143,6 +149,8 @@ services:
     depends_on:
       - postgres
       - redis
+    volumes:
+      - .nyc_output:/usr/src/app/.nyc_output
     links:
       - postgres
       - redis
