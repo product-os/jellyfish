@@ -5,11 +5,55 @@
  */
 
 const ava = require('ava')
+const uuid = require('uuid/v4')
+const environment = require('../../../lib/environment')
+const helpers = require('./helpers')
 
-ava.skip('Initial create conversation page', async (test) => {
-	test.pass('should be displayed when there are no conversations')
-	test.pass('should create a conversation and navigate to it')
-	test.pass('should navigate to initial short conversation list page when pressing back button')
+const context = {
+	context: {
+		id: `LIVECHAT-INTEGRATION-TEST-${uuid()}`
+	}
+}
+
+ava.before(async () => {
+	await helpers.browser.beforeEach({
+		context
+	})
+})
+
+ava.after(async () => {
+	await helpers.browser.afterEach({
+		context
+	})
+})
+
+ava('Initial create conversation page', async (test) => {
+	const {
+		page
+	} = context
+
+	await page.goto(`${environment.livechat.host}:${environment.livechat.port}`)
+
+	await test.notThrowsAsync(
+		page.waitForSelector('[data-test="initial-create-conversation-page"]'),
+		'should be displayed when there are no conversations'
+	)
+
+	await page.type('[data-test="conversation-subject"]', 'Conversation subject')
+	await page.type('.new-message-input', 'Conversation first message')
+	await page.click('[data-test="start-conversation-button"]')
+
+	await test.notThrowsAsync(
+		page.waitForSelector('[data-test="chat-page"]'),
+		'should navigate to created conversation chat page'
+	)
+
+	await page.click('[data-test="navigate-back-button"]')
+
+	await test.notThrowsAsync(
+		page.waitForSelector('[data-test="initial-short-conversation-page"]'),
+		'should navigate to initial short conversation list page when pressing back button'
+	)
 })
 
 ava.skip('Initial short conversation list page', async (test) => {
