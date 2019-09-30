@@ -57,13 +57,6 @@ jobs:
           name: No Unstaged Files
           command: ./scripts/ci/unstaged.sh
 
-      - setup_remote_docker:
-          docker_layer_caching: true
-
-      - run:
-          name: Docker Compose
-          command: make compose-build
-
       - persist_to_workspace:
           root: .
           paths:
