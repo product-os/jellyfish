@@ -1,4 +1,25 @@
 - commits:
+    - subject: Support running Docker Compose containers with coverage info
+      hash: 50cc7906c04d83585811aeb37f61fd648f13afc9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'apps: Add code coverage handlers'
+      hash: 50f307cb5f4fe4ec278f64ebe33786d34291d71c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.21.4
+  date: 2019-09-30T17:05:39.552Z
+- commits:
     - subject: Persist nyc output reports on Docker Compose jobs
       hash: c8dd52d5f7bc584905df10bb8ecfac3df680469e
       body: ''
