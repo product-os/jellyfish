@@ -49,6 +49,7 @@ export const Header = () => {
 					plain
 					icon={<BackIcon size="20px" />}
 					onClick={handleBackButtonClick}
+					data-test="navigate-back-button"
 				/>
 			)}
 

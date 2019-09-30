@@ -192,6 +192,8 @@ services:
       - SERVER_PORT
       - UI_HOST=http://ui
       - UI_PORT=80
+      - LIVECHAT_HOST=http://livechat
+      - LIVECHAT_PORT=80
     depends_on:
       - api
       - ui
@@ -199,3 +201,4 @@ services:
     links:
       - api
       - ui
+      - livechat

@@ -46,7 +46,12 @@ export const IndexRoute = () => {
 
 	if (isInCreateThreadMode) {
 		return (
-			<Flex flex={1} p={16} flexDirection="column" alignItems="center">
+			<Flex
+				flex={1}
+				p={16}
+				flexDirection="column"
+				alignItems="center"
+				data-test="initial-create-conversation-page">
 				<Box>
 					<Heading
 						primaryText="Welcome"
@@ -62,7 +67,12 @@ export const IndexRoute = () => {
 	}
 
 	return (
-		<Flex flex={1} p={16} flexDirection="column" alignItems="center">
+		<Flex
+			flex={1}
+			p={16}
+			flexDirection="column"
+			alignItems="center"
+			data-test="initial-short-conversation-page">
 			<Box>
 				<Heading
 					primaryText="Welcome"

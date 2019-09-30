@@ -75,6 +75,7 @@ export const CreateThread = ({
 					placeholder="Subject"
 					value={subject}
 					onChange={handleSubjectChage}
+					data-test="conversation-subject"
 				/>
 			</Box>
 			<Box>
@@ -87,7 +88,11 @@ export const CreateThread = ({
 				/>
 			</Box>
 			<Flex p={16} flexDirection="column" alignItems="center">
-				<TaskButton task={initiateThreadTask} primary onClick={handleSubmit}>
+				<TaskButton
+					task={initiateThreadTask}
+					primary
+					onClick={handleSubmit}
+					data-test="start-conversation-button">
 					Start conversation
 				</TaskButton>
 			</Flex>
