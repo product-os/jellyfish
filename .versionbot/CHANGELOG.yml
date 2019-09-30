@@ -1,4 +1,18 @@
 - commits:
+    - subject: >-
+        test/e2e/sync/flowdock: Add captured events for new message containing
+        text in markdown format
+      hash: 3b4205893c0812edb6b73da3e41e748464baf536
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+  version: 23.21.0
+  date: 2019-09-30T10:47:35.988Z
+- commits:
     - subject: 'scripts: Ensure that there are no deployable libraries in lib'
       hash: 7a389dd05e59af07ad4ac016563995a19d526d70
       body: ''
