@@ -1,4 +1,14 @@
 - commits:
+    - subject: 'ChatWidget: Setup e2e test environment'
+      hash: 888fbc8189143efad88ecaea7c9c0a3ed322169d
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 23.20.0
+  date: 2019-09-30T09:04:55.304Z
+- commits:
     - subject: 'sync: Retry requests that respond with 429'
       hash: 0d2ca40f7cbb3d8e683cc2b576500b7eaa134f10
       body: ''
