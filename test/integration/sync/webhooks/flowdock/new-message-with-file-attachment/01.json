@@ -1,0 +1,60 @@
+{
+  "headers": {
+    "content-type": "application/json",
+    "x-flowdock-signature": "sha1=300e107fe8ddf389cd0d3032f948fc487d9c53b4",
+    "host": "20c83952.ngrok.io",
+    "content-length": "1021",
+    "connection": "close",
+    "x-forwarded-proto": "https",
+    "x-forwarded-for": "94.67.135.140"
+  },
+  "payload": {
+    "thread_id": "CMT86r2XsbzFE4XjMrhMkOJJgBE",
+    "event": "file",
+    "tags": [
+      ":file"
+    ],
+    "uuid": "0CG2H_86xX1aHwS1",
+    "thread": {
+      "body": "",
+      "source": null,
+      "external_url": null,
+      "external_comments": 0,
+      "activities": 0,
+      "id": "CMT86r2XsbzFE4XjMrhMkOJJgBE",
+      "flow": "bed6fa5a-6a31-4a31-9b3b-9184b158c2b8",
+      "status": null,
+      "fields": [],
+      "actions": [],
+      "created_at": 1569247763956,
+      "title": "Uploaded File foo.txt",
+      "updated_at": "2019-09-23T14:09:23.956Z",
+      "initial_message": 113580,
+      "internal_comments": 1
+    },
+    "id": 113580,
+    "flow": "bed6fa5a-6a31-4a31-9b3b-9184b158c2b8",
+    "content": {
+      "path": "/files/151242/0Tv27r-WlBBemOGdBpkX8A/foo.txt",
+      "file_name": "foo.txt",
+      "file_size": 8,
+      "content_type": "text/plain",
+      "content_disposition": "inline; filename*=UTF-8''foo.txt"
+    },
+    "sent": 1569247763956,
+    "app": "chat",
+    "created_at": "2019-09-23T14:09:23.956Z",
+    "edited": null,
+    "attachments": [
+      {
+        "path": "/files/151242/0Tv27r-WlBBemOGdBpkX8A/foo.txt",
+        "file_name": "foo.txt",
+        "file_size": 8,
+        "content_type": "text/plain",
+        "content_disposition": "inline; filename*=UTF-8''foo.txt"
+      }
+    ],
+    "emojiReactions": {},
+    "user": "345062"
+  }
+}

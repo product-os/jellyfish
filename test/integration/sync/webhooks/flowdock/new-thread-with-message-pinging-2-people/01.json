@@ -1,0 +1,47 @@
+{
+  "headers": {
+    "content-type": "application/json",
+    "x-flowdock-signature": "sha1=b9795f0a036ea5779c63d3125473131f223fd2f0",
+    "host": "ea7347f8.ngrok.io",
+    "content-length": "751",
+    "connection": "close",
+    "x-forwarded-proto": "https",
+    "x-forwarded-for": "94.65.77.102"
+  },
+  "payload": {
+    "thread_id": "512m_cOphYpK5SRDES9SD-q06CT",
+    "event": "message",
+    "tags": [
+      ":user:32684",
+      ":unread:32684",
+      ":user:263186",
+      ":unread:263186"
+    ],
+    "uuid": "Jcs1tsed9cVC7XmG",
+    "thread": {
+      "body": "",
+      "external_url": null,
+      "external_comments": 0,
+      "activities": 0,
+      "id": "512m_cOphYpK5SRDES9SD-q06CT",
+      "flow": "bed6fa5a-6a31-4a31-9b3b-9184b158c2b8",
+      "status": null,
+      "fields": [],
+      "actions": [],
+      "created_at": 1568897652229,
+      "title": "@apostolism, @testbot this is a test",
+      "updated_at": "2019-09-19T12:54:12.229Z",
+      "initial_message": 112927,
+      "internal_comments": 1
+    },
+    "id": 112927,
+    "flow": "bed6fa5a-6a31-4a31-9b3b-9184b158c2b8",
+    "content": "@apostolism, @testbot this is a test",
+    "sent": 1568897652229,
+    "app": "chat",
+    "created_at": "2019-09-19T12:54:12.229Z",
+    "attachments": [],
+    "emojiReactions": {},
+    "user": "345062"
+  }
+}

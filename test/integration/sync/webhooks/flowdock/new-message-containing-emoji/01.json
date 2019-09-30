@@ -1,0 +1,42 @@
+{
+  "headers": {
+    "content-type": "application/json",
+    "x-flowdock-signature": "sha1=82c5baa0a3ab4b9a60bed6d660ac9e67877a5da3",
+    "host": "20c83952.ngrok.io",
+    "content-length": "639",
+    "connection": "close",
+    "x-forwarded-proto": "https",
+    "x-forwarded-for": "94.67.135.140"
+  },
+  "payload": {
+    "thread_id": "nLtFx7m9TTLCyMnhL6PDxrHuFik",
+    "event": "message",
+    "tags": [],
+    "uuid": "bYsPvGnnuirPfqhE",
+    "thread": {
+      "body": "",
+      "external_url": null,
+      "external_comments": 0,
+      "activities": 0,
+      "id": "nLtFx7m9TTLCyMnhL6PDxrHuFik",
+      "flow": "bed6fa5a-6a31-4a31-9b3b-9184b158c2b8",
+      "status": null,
+      "fields": [],
+      "actions": [],
+      "created_at": "2019-09-23T13:45:35.000Z",
+      "title": "foo",
+      "updated_at": "2019-09-23T14:32:29.749Z",
+      "initial_message": 113570,
+      "internal_comments": 5
+    },
+    "id": 113590,
+    "flow": "bed6fa5a-6a31-4a31-9b3b-9184b158c2b8",
+    "content": "😎 ",
+    "sent": 1569249670277,
+    "app": "chat",
+    "created_at": "2019-09-23T14:41:10.277Z",
+    "attachments": [],
+    "emojiReactions": {},
+    "user": "345062"
+  }
+}

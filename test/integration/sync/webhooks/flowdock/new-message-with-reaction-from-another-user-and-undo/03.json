@@ -1,0 +1,29 @@
+{
+  "headers": {
+    "content-type": "application/json",
+    "x-flowdock-signature": "sha1=5b77a5eb2c712ee0ec06c647dce8515e97e8f611",
+    "host": "20c83952.ngrok.io",
+    "content-length": "296",
+    "connection": "close",
+    "x-forwarded-proto": "https",
+    "x-forwarded-for": "94.67.135.140"
+  },
+  "payload": {
+    "event": "emoji-reaction",
+    "tags": [],
+    "uuid": null,
+    "id": 113629,
+    "flow": "bed6fa5a-6a31-4a31-9b3b-9184b158c2b8",
+    "content": {
+      "message": 113627,
+      "emoji": "jellyfish",
+      "type": "remove"
+    },
+    "sent": 1569253538197,
+    "app": null,
+    "created_at": "2019-09-23T15:45:38.197Z",
+    "attachments": [],
+    "emojiReactions": {},
+    "user": "263186"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "headers": {
+    "content-type": "application/json",
+    "x-flowdock-signature": "sha1=dd1f6ba126118a865acebfa09e021fbf26c9b97a",
+    "host": "ea7347f8.ngrok.io",
+    "content-length": "648",
+    "connection": "close",
+    "x-forwarded-proto": "https",
+    "x-forwarded-for": "94.65.77.102"
+  },
+  "payload": {
+    "thread_id": "9dnOwMoN32F9ImxVJ42zD2m5HbG",
+    "event": "message",
+    "tags": [],
+    "uuid": "CYKcGWXnnAi7NBHs",
+    "thread": {
+      "body": "",
+      "external_url": null,
+      "external_comments": 0,
+      "activities": 0,
+      "id": "9dnOwMoN32F9ImxVJ42zD2m5HbG",
+      "flow": "bed6fa5a-6a31-4a31-9b3b-9184b158c2b8",
+      "status": null,
+      "fields": [],
+      "actions": [],
+      "created_at": 1568898513467,
+      "title": "@notAuser hello",
+      "updated_at": "2019-09-19T13:08:33.467Z",
+      "initial_message": 112934,
+      "internal_comments": 1
+    },
+    "id": 112934,
+    "flow": "bed6fa5a-6a31-4a31-9b3b-9184b158c2b8",
+    "content": "@notAuser hello",
+    "sent": 1568898513467,
+    "app": "chat",
+    "created_at": "2019-09-19T13:08:33.467Z",
+    "attachments": [],
+    "emojiReactions": {},
+    "user": "345062"
+  }
+}

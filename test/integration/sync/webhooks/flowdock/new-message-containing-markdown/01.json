@@ -1,0 +1,44 @@
+{
+  "headers": {
+    "content-type": "application/json",
+    "x-flowdock-signature": "sha1=066fb88a0a38d1d78be903b0a3b76ce98c532cd2",
+    "host": "20c83952.ngrok.io",
+    "content-length": "844",
+    "connection": "close",
+    "x-forwarded-proto": "https",
+    "x-forwarded-for": "94.67.135.140"
+  },
+  "payload": {
+    "thread_id": "O7YhZxp_HVWEQoG7_X3rbPmaqGv",
+    "event": "message",
+    "tags": [
+      ":url"
+    ],
+    "uuid": "qPhL5f_nQmUek5W5",
+    "thread": {
+      "body": "",
+      "external_url": null,
+      "external_comments": 0,
+      "activities": 0,
+      "id": "O7YhZxp_HVWEQoG7_X3rbPmaqGv",
+      "flow": "bed6fa5a-6a31-4a31-9b3b-9184b158c2b8",
+      "status": null,
+      "fields": [],
+      "actions": [],
+      "created_at": 1569255848927,
+      "title": "## Getting started",
+      "updated_at": "2019-09-23T16:24:08.927Z",
+      "initial_message": 113644,
+      "internal_comments": 1
+    },
+    "id": 113644,
+    "flow": "bed6fa5a-6a31-4a31-9b3b-9184b158c2b8",
+    "content": "## Getting started\n\n- Sign up on [balena.io](https://balena.io/) and follow our [Getting Started Guide](https://balena.io/docs/learn/getting-started).\n- Clone this repository to your local workspace.",
+    "sent": 1569255848927,
+    "app": "chat",
+    "created_at": "2019-09-23T16:24:08.927Z",
+    "attachments": [],
+    "emojiReactions": {},
+    "user": "345062"
+  }
+}

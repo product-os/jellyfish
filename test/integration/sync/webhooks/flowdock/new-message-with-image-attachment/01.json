@@ -1,0 +1,68 @@
+{
+  "headers": {
+    "content-type": "application/json",
+    "x-flowdock-signature": "sha1=3486e176cea8281ff2b8c468d78c6458e6213b20",
+    "host": "20c83952.ngrok.io",
+    "content-length": "1317",
+    "connection": "close",
+    "x-forwarded-proto": "https",
+    "x-forwarded-for": "94.67.135.140"
+  },
+  "payload": {
+    "thread_id": "U1h0s7fqGVqIxYj1euzRTZm-KFM",
+    "event": "file",
+    "tags": [
+      ":file"
+    ],
+    "uuid": "HmFsMuwzzL-pnn7s",
+    "thread": {
+      "body": "",
+      "source": null,
+      "external_url": null,
+      "external_comments": 0,
+      "activities": 0,
+      "id": "U1h0s7fqGVqIxYj1euzRTZm-KFM",
+      "flow": "bed6fa5a-6a31-4a31-9b3b-9184b158c2b8",
+      "status": null,
+      "fields": [],
+      "actions": [],
+      "created_at": 1569247347598,
+      "title": "Uploaded File Screenshot 2019-09-23 at 17.01.48.png",
+      "updated_at": "2019-09-23T14:02:27.598Z",
+      "initial_message": 113579,
+      "internal_comments": 1
+    },
+    "id": 113579,
+    "flow": "bed6fa5a-6a31-4a31-9b3b-9184b158c2b8",
+    "content": {
+      "path": "/files/151242/K9XxJNPNdgafnXIigYTkRA/Screenshot 2019-09-23 at 17.01.48.png",
+      "file_name": "Screenshot 2019-09-23 at 17.01.48.png",
+      "image": {
+        "width": 64,
+        "height": 134
+      },
+      "file_size": 15557,
+      "content_type": "image/png",
+      "content_disposition": "inline; filename*=UTF-8''Screenshot%202019-09-23%20at%2017.01.48.png"
+    },
+    "sent": 1569247347598,
+    "app": "chat",
+    "created_at": "2019-09-23T14:02:27.598Z",
+    "edited": null,
+    "attachments": [
+      {
+        "path": "/files/151242/K9XxJNPNdgafnXIigYTkRA/Screenshot 2019-09-23 at 17.01.48.png",
+        "file_name": "Screenshot 2019-09-23 at 17.01.48.png",
+        "image": {
+          "width": 64,
+          "height": 134
+        },
+        "file_size": 15557,
+        "content_type": "image/png",
+        "content_disposition": "inline; filename*=UTF-8''Screenshot%202019-09-23%20at%2017.01.48.png"
+      }
+    ],
+    "emojiReactions": {},
+    "user": "345062"
+  }
+}
