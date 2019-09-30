@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'circleci: Don''t run Docker Compose on build job'
+      hash: 5e114f8dc672b39ed8daa316f44e24065896622f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.21.2
+  date: 2019-09-30T14:11:45.506Z
+- commits:
     - subject: 'Makefile: Instrument code with nyc in .nyc-root'
       hash: 76fd0743a6d011839acf9325fc6af43e01c2c04e
       body: ''
