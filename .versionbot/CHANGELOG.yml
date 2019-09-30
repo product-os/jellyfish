@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'scripts: Ensure that there are no deployable libraries in lib'
+      hash: 7a389dd05e59af07ad4ac016563995a19d526d70
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'scripts: Check that apps/ contain Dockerfiles'
+      hash: e5e561c1590dbce83a6fe33ba636f37903373f30
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.20.1
+  date: 2019-09-30T09:55:01.115Z
+- commits:
     - subject: 'ChatWidget: Setup e2e test environment'
       hash: 888fbc8189143efad88ecaea7c9c0a3ed322169d
       body: ''
