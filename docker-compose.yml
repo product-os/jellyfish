@@ -22,6 +22,8 @@ services:
     build:
       context: .
       dockerfile: apps/server/Dockerfile
+      args:
+        - ENABLE_COVERAGE=${COVERAGE}
     restart: always
     deploy:
       mode: replicated
@@ -71,6 +73,8 @@ services:
     build:
       context: .
       dockerfile: apps/action-server/Dockerfile.worker
+      args:
+        - ENABLE_COVERAGE=${COVERAGE}
     restart: always
     deploy:
       mode: replicated
@@ -115,6 +119,8 @@ services:
     build:
       context: .
       dockerfile: apps/action-server/Dockerfile.tick
+      args:
+        - ENABLE_COVERAGE=${COVERAGE}
     restart: always
     deploy:
       mode: global
