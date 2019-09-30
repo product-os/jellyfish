@@ -4,14 +4,14 @@
 
 FROM resinci/jellyfish-base:ffea33d27 as base
 
-WORKDIR /usr/src/app
+WORKDIR /usr/src/jellyfish
 
-COPY package.json package-lock.json /usr/src/app/
+COPY package.json package-lock.json /usr/src/jellyfish/
 RUN mkdir -p scripts/eslint-plugin-jellyfish
 COPY scripts/eslint-plugin-jellyfish/package.json \
-	/usr/src/app/scripts/eslint-plugin-jellyfish
+	/usr/src/jellyfish/scripts/eslint-plugin-jellyfish
 RUN npm ci
-COPY . /usr/src/app
+COPY . /usr/src/jellyfish
 
 ARG SERVER_HOST=https://api.ly.fish
 ARG SERVER_PORT=443
@@ -30,6 +30,6 @@ RUN make build-ui \
 ###########################################################
 
 FROM nginx:1.15
-WORKDIR /usr/src/app
-COPY --from=base /usr/src/app/dist/ui /usr/share/nginx/html
+WORKDIR /usr/src/jellyfish
+COPY --from=base /usr/src/jellyfish/dist/ui /usr/share/nginx/html
 COPY apps/ui/conf/nginx.conf /etc/nginx/conf.d/default.conf
