@@ -1,4 +1,4 @@
-.PHONY: clean \
+.PHONY: .nyc-root clean \
 	lint \
 	coverage \
 	node \
@@ -245,6 +245,14 @@ endif
 # Rules
 # -----------------------------------------------
 
+.nyc-root: lib apps
+	rm -rf $@ && mkdir -p $@ && mkdir -p .nyc_output
+	for directory in $^; do \
+		./node_modules/.bin/nyc \
+			instrument $(NYC_OPTS) $$directory $@/$$directory; \
+	done
+	cp package.json $@
+
 clean:
 	rm -rf \
 		*.0x \
@@ -339,16 +347,31 @@ node:
 # -----------------------------------------------
 
 start-server: LOGLEVEL = info
+ifeq ($(COVERAGE),1)
+start-server: .nyc-root
+	$(NODE) $(NODE_ARGS) $^/apps/server/index.js
+else
 start-server:
 	$(NODE) $(NODE_ARGS) apps/server/index.js
+endif
 
 start-worker: LOGLEVEL = info
+ifeq ($(COVERAGE),1)
+start-worker: .nyc-root
+	$(NODE) $(NODE_ARGS) $^/apps/action-server/worker.js
+else
 start-worker:
 	$(NODE) $(NODE_ARGS) apps/action-server/worker.js
+endif
 
 start-tick: LOGLEVEL = info
+ifeq ($(COVERAGE),1)
+start-tick: .nyc-root
+	$(NODE) $(NODE_ARGS) $^/apps/action-server/tick.js
+else
 start-tick:
 	$(NODE) $(NODE_ARGS) apps/action-server/tick.js
+endif
 
 start-redis:
 	redis-server --port $(REDIS_PORT)
