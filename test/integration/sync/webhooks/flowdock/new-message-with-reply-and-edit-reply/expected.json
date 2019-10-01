@@ -1,98 +1,98 @@
 {
-  head: {
-    name: "",
-    type: "chat-thread",
-    version: "1.0.0",
-    active: true,
-    tags: []
-    requires: [],
-    capabilities: [],
-    data: {
-      mirrors: [
+  "head": {
+    "name": "",
+    "type": "chat-thread",
+    "version": "1.0.0",
+    "active": true,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "mirrors": [
         "https://api.flowdock.com/flows/rulemotion/testing/threads/qqzY819nJ8xakOiBipnZAQqiGWD"
       ],
-      flow: "testing",
-      mentionsUser: [],
-      alertsUser: [],
-      description: "",
+      "flow": "testing",
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": ""
     }
   },
-  tail: [
+  "tail": [
     {
-      type: "create",
-      version: "1.0.0",
-      active: true,
-      tags: []
-      requires: [],
-      capabilities: [],
-      data: {
-        timestamp: "2019-09-23T13:40:08.351Z",
-        actor: {
-          slug: "user-mbalamat"
-          active: true
+      "type": "create",
+      "version": "1.0.0",
+      "active": true,
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "timestamp": "2019-09-23T13:40:08.351Z",
+        "actor": {
+          "slug": "user-mbalamat",
+          "active": true
         },
-        payload: {
-          name: "",
-          type: "chat-thread",
-          version: "1.0.0",
-          active: true,
-          tags: []
-          requires: [],
-          capabilities: [],
-          data: {
-            mirrors: [
+        "payload": {
+          "name": "",
+          "type": "chat-thread",
+          "version": "1.0.0",
+          "active": true,
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "mirrors": [
               "https://api.flowdock.com/flows/rulemotion/testing/threads/qqzY819nJ8xakOiBipnZAQqiGWD"
             ],
-            flow: "testing",
-            mentionsUser: [],
-            alertsUser: [],
-            description: "",
+            "flow": "testing",
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": ""
           }
         }
       }
     },
     {
-      type: "message",
-      version: "1.0.0",
-      active: true,
-      tags: []
-      requires: [],
-      capabilities: [],
-      data: {
-        timestamp: "2019-09-23T13:40:08.351Z",
-        actor: {
-          slug: "user-mbalamat"
-          active: true
+      "type": "message",
+      "version": "1.0.0",
+      "active": true,
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "timestamp": "2019-09-23T13:40:08.351Z",
+        "actor": {
+          "slug": "user-mbalamat",
+          "active": true
         },
-        payload: {
-          message: "foo",
-          mentionsUser: [],
-          alertsUser: [],
+        "payload": {
+          "message": "foo",
+          "mentionsUser": [],
+          "alertsUser": []
         },
-        mirrors: [
+        "mirrors": [
           "https://api.flowdock.com/flows/rulemotion/testing/threads/qqzY819nJ8xakOiBipnZAQqiGWD/messages/113564"
         ]
       }
     },
     {
-      type: "message",
-      version: "1.0.0",
-      active: true,
-      tags: []
-      requires: [],
-      capabilities: [],
-      data: {
-        timestamp: "2019-09-23T13:40:45.639Z",
-        actor: {
-          slug: "user-testbot"
-          active: true
+      "type": "message",
+      "version": "1.0.0",
+      "active": true,
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "timestamp": "2019-09-23T13:40:45.639Z",
+        "actor": {
+          "slug": "user-testbot",
+          "active": true
         },
-        payload: {
-          message: "baz",
-          mentionsUser: [],
-          alertsUser: [],
+        "payload": {
+          "message": "baz",
+          "mentionsUser": [],
+          "alertsUser": []
         },
-        mirrors: [
+        "mirrors": [
           "https://api.flowdock.com/flows/rulemotion/testing/threads/qqzY819nJ8xakOiBipnZAQqiGWD/messages/113566"
         ]
       }
