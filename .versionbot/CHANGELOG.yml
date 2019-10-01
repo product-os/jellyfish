@@ -1,4 +1,21 @@
 - commits:
+    - subject: 'Chat-widget: Add short convo list e2e tests'
+      hash: e7e8105c037dbd68f311a3c634785d465d06da9e
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+    - subject: 'ChatWidget: Add initial page e2e tests'
+      hash: 0c30fc4511734889ee7488b33c6cdcb57bad2e28
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 23.22.0
+  date: 2019-10-01T12:32:05.919Z
+- commits:
     - subject: Support running Docker Compose containers with coverage info
       hash: 50cc7906c04d83585811aeb37f61fd648f13afc9
       body: ''
