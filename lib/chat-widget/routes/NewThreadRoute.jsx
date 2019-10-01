@@ -29,7 +29,12 @@ export const NewThreadRoute = () => {
 	}, [])
 
 	return (
-		<Flex flex={1} p={16} flexDirection="column" alignItems="center">
+		<Flex
+			flex={1}
+			p={16}
+			flexDirection="column"
+			alignItems="center"
+			data-test="create-new-conversation-page">
 			<Box>
 				<Heading
 					primaryText="Welcome"

@@ -399,6 +399,9 @@ jobs:
           name: End To End Tests (UI)
           command: make compose-exec-sidecar COMMAND="make" ARGS="test-e2e-ui COVERAGE=0 SCRUB=0"
       - run:
+          name: End To End Tests (Livechat)
+          command: make compose-exec-sidecar COMMAND="make" ARGS="test-e2e-livechat COVERAGE=0 SCRUB=0"
+      - run:
           name: Docker Compose Down
           command: make compose-down
 

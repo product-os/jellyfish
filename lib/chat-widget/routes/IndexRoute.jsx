@@ -46,7 +46,12 @@ export const IndexRoute = () => {
 
 	if (isInCreateThreadMode) {
 		return (
-			<Flex flex={1} p={16} flexDirection="column" alignItems="center">
+			<Flex
+				flex={1}
+				p={16}
+				flexDirection="column"
+				alignItems="center"
+				data-test="initial-create-conversation-page">
 				<Box>
 					<Heading
 						primaryText="Welcome"
@@ -62,7 +67,12 @@ export const IndexRoute = () => {
 	}
 
 	return (
-		<Flex flex={1} p={16} flexDirection="column" alignItems="center">
+		<Flex
+			flex={1}
+			p={16}
+			flexDirection="column"
+			alignItems="center"
+			data-test="initial-short-conversation-page">
 			<Box>
 				<Heading
 					primaryText="Welcome"
@@ -70,7 +80,12 @@ export const IndexRoute = () => {
 				/>
 			</Box>
 			<Box mb={30}>
-				<ButtonLink primary to="/new_thread">Start new conversation</ButtonLink>
+				<ButtonLink
+					primary
+					to="/new_thread"
+					data-test="start-new-conversation-button">
+					Start new conversation
+				</ButtonLink>
 			</Box>
 			<Box alignSelf="stretch">
 				{threads.slice(0, 2).map((thread) => {
@@ -84,7 +99,12 @@ export const IndexRoute = () => {
 			</Box>
 			<Box mt={30}>
 				{threads.length > 2 && (
-					<ButtonLink to="/full_thread_list" underline>View all conversations</ButtonLink>
+					<ButtonLink
+						to="/full_thread_list"
+						underline
+						data-test="view-all-conversations-button">
+						View all conversations
+					</ButtonLink>
 				)}
 			</Box>
 		</Flex>

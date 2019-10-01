@@ -44,7 +44,11 @@ export const FullThreadListRoute = () => {
 	}, [])
 
 	return (
-		<Flex flexDirection="column" flex={1} alignItems="center">
+		<Flex
+			flexDirection="column"
+			flex={1}
+			alignItems="center"
+			data-test="full-conversation-list-page">
 			<Box flex={1} alignSelf="stretch" style={{
 				position: 'relative'
 			}}>
