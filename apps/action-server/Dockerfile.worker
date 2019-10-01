@@ -7,11 +7,11 @@ FROM resinci/jellyfish-base:ffea33d27
 WORKDIR /usr/src/app
 
 ARG ENABLE_COVERAGE=0
+ENV OAUTH_REDIRECT_BASE_URL https://jel.ly.fish
+ENV COVERAGE ${ENABLE_COVERAGE}
 
 COPY package.json package-lock.json /usr/src/app/
 RUN NODE_ENV=production npm ci
 COPY . /usr/src/app
 
-CMD [ "make", "start-worker", \
-			"OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish", \
-			"COVERAGE=${ENABLE_COVERAGE}" ]
+CMD [ "make", "start-worker" ]
