@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'action-server/server: Extract env vars from CMD'
+      hash: f54cceb5dd34805fbda61a13dca870c3156b6c5b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.22.1
+  date: 2019-10-01T16:33:19.641Z
+- commits:
     - subject: 'Chat-widget: Add short convo list e2e tests'
       hash: e7e8105c037dbd68f311a3c634785d465d06da9e
       body: ''
