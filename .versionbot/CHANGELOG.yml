@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'coverage: Trigger report generation on SIGTERM'
+      hash: 8f20f1ba8fc398a7fe5d1c4c3ea1cc581d02b153
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.22.3
+  date: 2019-10-02T10:16:06.259Z
+- commits:
     - subject: 'Makefile: Use "exec" in start-* rules'
       hash: d11885d76f7ea70209056bcbe01f956f50958476
       body: ''
