@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'docker-compose: Expose POSTGRES_DATABASE to API and workers'
+      hash: 48cdbb7d23c010ee8c220cf5dc93577fa6e55c15
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.23.1
+  date: 2019-10-02T12:52:19.698Z
+- commits:
     - subject: 'ChatWidget: Add full convo list e2e tests'
       hash: c074379fa51144e814df64f673a1fa9b162b732c
       body: ''
