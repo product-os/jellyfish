@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'scripts: Fix license check'
+      hash: ed010bb02b215dfbc60879bff8214f106c6bd8c8
+      body: |
+        It was not checking `.js` before.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.23.3
+  date: 2019-10-02T14:28:38.818Z
+- commits:
     - subject: 'circleci: Teardown Compose with "stop" instead of "down"'
       hash: 82b88856a55bd36500f603e388e44dbdf1398bc3
       body: ''
