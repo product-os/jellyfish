@@ -11,7 +11,13 @@ ENV OAUTH_REDIRECT_BASE_URL https://jel.ly.fish
 ENV COVERAGE ${ENABLE_COVERAGE}
 
 COPY package.json package-lock.json /usr/src/app/
-RUN NODE_ENV=production npm ci
+RUN mkdir -p scripts/eslint-plugin-jellyfish
+COPY scripts/eslint-plugin-jellyfish/package.json \
+	/usr/src/app/scripts/eslint-plugin-jellyfish
+RUN npm ci
 COPY . /usr/src/app
 
-CMD [ "make", "start-worker" ]
+RUN echo "#!/bin/sh" > run.sh && \
+	make --dry-run start-worker >> run.sh && \
+	chmod +x run.sh
+CMD [ "sh", "run.sh" ]
