@@ -41,7 +41,7 @@ export POSTGRES_DATABASE
 
 PORT ?= 8000
 export PORT
-LOGLEVEL ?= debug
+LOGLEVEL ?= info
 export LOGLEVEL
 DB_HOST ?= localhost
 export DB_HOST
