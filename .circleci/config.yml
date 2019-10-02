@@ -156,7 +156,7 @@ jobs:
           command: make compose-exec-sidecar COMMAND="make" ARGS="test COVERAGE=0 FILES=./test/e2e/sync/github-mirror.spec.js SCRUB=0 COVERAGE=0 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY"
       - run:
           name: Compose Down
-          command: make compose-down
+          command: make compose-stop
       - run:
           name: Compose Up Without Tokens
           command: make compose-up DETACH=1
@@ -165,7 +165,7 @@ jobs:
           command: make compose-exec-sidecar COMMAND="make" ARGS="test COVERAGE=0 FILES=./test/e2e/sync/github-mirror.spec.js SCRUB=0 COVERAGE=0 INTEGRATION_GITHUB_TOKEN="
       - run:
           name: Compose Down
-          command: make compose-down
+          command: make compose-stop
 
   sync_tests_front_translate:
     <<: *job_defaults
@@ -214,7 +214,7 @@ jobs:
           command: make compose-exec-sidecar COMMAND="make" ARGS="test COVERAGE=0 FILES=./test/e2e/sync/front-mirror.spec.js SCRUB=0 COVERAGE=0 INTEGRATION_FRONT_TOKEN=$FRONT_TOKEN INTEGRATION_INTERCOM_TOKEN=$INTERCOM_TOKEN"
       - run:
           name: Compose Down
-          command: make compose-down
+          command: make compose-stop
       - run:
           name: Compose Up Without Tokens
           command: make compose-up DETACH=1
@@ -223,7 +223,7 @@ jobs:
           command: make compose-exec-sidecar COMMAND="make" ARGS="test COVERAGE=0 FILES=./test/e2e/sync/front-mirror.spec.js SCRUB=0 COVERAGE=0 INTEGRATION_FRONT_TOKEN="
       - run:
           name: Compose Down
-          command: make compose-down
+          command: make compose-stop
 
   sync_tests_outreach_translate:
     <<: *job_defaults
@@ -329,7 +329,7 @@ jobs:
           command: make compose-exec-sidecar COMMAND="make" ARGS="test COVERAGE=0 FILES=./test/e2e/sync/discourse-mirror.spec.js SCRUB=0 COVERAGE=0 INTEGRATION_DISCOURSE_TOKEN=$DISCOURSE_TOKEN INTEGRATION_DISCOURSE_SIGNATURE_KEY=$DISCOURSE_SIGNATURE_KEY INTEGRATION_DISCOURSE_USERNAME=$DISCOURSE_USERNAME"
       - run:
           name: Compose Down
-          command: make compose-down
+          command: make compose-stop
       - run:
           name: Compose Up Without Tokens
           command: make compose-up DETACH=1
@@ -338,7 +338,7 @@ jobs:
           command: make compose-exec-sidecar COMMAND="make" ARGS="test COVERAGE=0 FILES=./test/e2e/sync/discourse-mirror.spec.js SCRUB=0 COVERAGE=0 INTEGRATION_DISCOURSE_TOKEN="
       - run:
           name: Compose Down
-          command: make compose-down
+          command: make compose-stop
 
   sync_tests_balena_api_translate:
     <<: *job_defaults
@@ -388,7 +388,7 @@ jobs:
           command: make compose-exec-sidecar COMMAND="make" ARGS="test-e2e-server COVERAGE=0 SCRUB=0 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$FLOWDOCK_SIGNATURE_KEY OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish"
       - run:
           name: Docker Compose Down
-          command: make compose-down
+          command: make compose-stop
       - run:
           name: Docker Compose Up
           command: make compose-up DETACH=1
@@ -403,7 +403,7 @@ jobs:
           command: make compose-exec-sidecar COMMAND="make" ARGS="test-e2e-livechat COVERAGE=0 SCRUB=0"
       - run:
           name: Docker Compose Down
-          command: make compose-down
+          command: make compose-stop
 
   results:
     <<: *job_defaults
