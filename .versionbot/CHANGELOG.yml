@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'action-server/server: Use Makefile to generate CMD'
+      hash: 9d08d8d47888cbd10a99b619b8a5ffe4b6a3ebb8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.23.4
+  date: 2019-10-02T15:44:54.788Z
+- commits:
     - subject: 'scripts: Fix license check'
       hash: ed010bb02b215dfbc60879bff8214f106c6bd8c8
       body: |
