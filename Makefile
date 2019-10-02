@@ -351,42 +351,42 @@ node:
 start-server: LOGLEVEL = info
 ifeq ($(COVERAGE),1)
 start-server: .nyc-root
-	$(NODE) $(NODE_ARGS) $^/apps/server/index.js
+	exec $(NODE) $(NODE_ARGS) $^/apps/server/index.js
 else
 start-server:
-	$(NODE) $(NODE_ARGS) apps/server/index.js
+	exec $(NODE) $(NODE_ARGS) apps/server/index.js
 endif
 
 start-worker: LOGLEVEL = info
 ifeq ($(COVERAGE),1)
 start-worker: .nyc-root
-	$(NODE) $(NODE_ARGS) $^/apps/action-server/worker.js
+	exec $(NODE) $(NODE_ARGS) $^/apps/action-server/worker.js
 else
 start-worker:
-	$(NODE) $(NODE_ARGS) apps/action-server/worker.js
+	exec $(NODE) $(NODE_ARGS) apps/action-server/worker.js
 endif
 
 start-tick: LOGLEVEL = info
 ifeq ($(COVERAGE),1)
 start-tick: .nyc-root
-	$(NODE) $(NODE_ARGS) $^/apps/action-server/tick.js
+	exec $(NODE) $(NODE_ARGS) $^/apps/action-server/tick.js
 else
 start-tick:
-	$(NODE) $(NODE_ARGS) apps/action-server/tick.js
+	exec $(NODE) $(NODE_ARGS) apps/action-server/tick.js
 endif
 
 start-redis:
-	redis-server --port $(REDIS_PORT)
+	exec redis-server --port $(REDIS_PORT)
 
 # You might need to increase the maximum amount of semaphores
 # system-wide in order to set the max connections parameters.
 # In OpenBSD, set kern.seminfo.semmns=200 in /etc/sysctl.conf
 # See https://www.postgresql.org/docs/11/kernel-resources.html
 start-postgres: postgres_data
-	postgres -N 100 -D $< -p $(POSTGRES_PORT)
+	exec postgres -N 100 -D $< -p $(POSTGRES_PORT)
 
 start-static-%:
-	cd dist/$(subst start-static-,,$@) && python2 -m SimpleHTTPServer $(UI_PORT)
+	cd dist/$(subst start-static-,,$@) && exec python2 -m SimpleHTTPServer $(UI_PORT)
 
 # -----------------------------------------------
 # Build
