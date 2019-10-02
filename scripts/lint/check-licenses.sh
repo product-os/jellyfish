@@ -30,7 +30,7 @@ LICENSE_SHEBANG_SH="#!/bin/bash
 # Proprietary and confidential.
 ###"
 
-JAVASCRIPT_FILES="$(find . -name '*.js?' \
+JAVASCRIPT_FILES="$(find . \( -name '*.js' -or -name '*.jsx' \) \
 	-and -not -path './*node_modules/*' \
 	-and -not -path './coverage/*' \
 	-and -not -path './dist/*' \
