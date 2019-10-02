@@ -16,6 +16,9 @@ import {
 	InfiniteList
 } from '../../../lib/ui-components/InfiniteList'
 import {
+	FETCH_MORE_CONVERSATIONS_LIMIT
+} from '../constants'
+import {
 	ButtonLink
 } from '../components/ButtonLink'
 import {
@@ -39,7 +42,7 @@ export const FullThreadListRoute = () => {
 
 	const handleScrollEnding = React.useCallback(async () => {
 		await fetchMoreThreadsTask.exec({
-			limit: 30
+			limit: FETCH_MORE_CONVERSATIONS_LIMIT
 		})
 	}, [])
 
@@ -73,7 +76,12 @@ export const FullThreadListRoute = () => {
 				</InfiniteList>
 			</Box>
 			<Box p={30}>
-				<ButtonLink primary to="/new_thread">Start new conversation</ButtonLink>
+				<ButtonLink
+					primary
+					to="/new_thread"
+					data-test="start-new-conversation-button">
+					Start new conversation
+				</ButtonLink>
 			</Box>
 		</Flex>
 	)

@@ -7,9 +7,15 @@
 const ava = require('ava')
 const uuid = require('uuid/v4')
 const environment = require('../../../lib/environment')
+const {
+	INITIAL_FETCH_CONVERSATIONS_LIMIT
+} = require('../../../lib/chat-widget/constants')
 const helpers = require('./helpers')
 const {
-	createThreads, getRenderedConversationIds
+	createConversation,
+	createThreads,
+	getRenderedConversationIds,
+	scrollToLatestConversationListItem
 } = require('./macros')
 
 const context = {
@@ -60,9 +66,7 @@ ava.serial('Initial create conversation page', async (test) => {
 		'should be displayed when there are no conversations'
 	)
 
-	await page.type('[data-test="conversation-subject"]', 'Conversation subject')
-	await page.type('.new-message-input', 'Conversation first message')
-	await page.click('[data-test="start-conversation-button"]')
+	await createConversation(context)
 
 	await test.notThrowsAsync(
 		page.waitForSelector('[data-test="chat-page"]'),
@@ -135,7 +139,7 @@ ava.serial('Initial short conversation list page', async (test) => {
 		'should not display "View all conversations" link when there are less then three conversations'
 	)
 
-	await createThreads(context, 2, 3)
+	await createThreads(context, 2, 1)
 
 	await test.notThrowsAsync(
 		page.waitForSelector('[data-test="view-all-conversations-button"]'),
@@ -157,18 +161,111 @@ ava.serial('Initial short conversation list page', async (test) => {
 	)
 })
 
-ava.skip('Full conversation list page', async (test) => {
-	test.pass('should display conversations sorted by last update date (newest first)')
-	test.pass('should load older conversations when scrolled down')
-	test.pass('should navigate to respective chat page when clicked on the conversation')
-	test.pass('should navigate back to full conversation list page when pressing back button')
-	test.pass('should navigate to create conversation page when clicking "Start new conversation" button')
-	test.pass('should navigate back to full conversation list page when pressing back button')
+ava.serial('Full conversation list page', async (test) => {
+	const {
+		page
+	} = context
+
+	const threads = await createThreads(context, 0, INITIAL_FETCH_CONVERSATIONS_LIMIT + 1)
+
+	await page.reload()
+
+	await test.notThrowsAsync(
+		page.waitForSelector('[data-test="initial-short-conversation-page"]'),
+		'should be displayed initially when there is at least one conversation'
+	)
+
+	await page.click('[data-test="view-all-conversations-button"]')
+
+	await test.notThrowsAsync(
+		page.waitForSelector('[data-test="full-conversation-list-page"]'),
+		'should navigate to full conversation list page when pressing "View all conversations" link'
+	)
+
+	const conversationIds = await getRenderedConversationIds(context)
+
+	test.deepEqual(
+		conversationIds,
+		threads
+			.reverse()
+			.slice(0, INITIAL_FETCH_CONVERSATIONS_LIMIT)
+			.map((thread) => {
+				return thread.id
+			}),
+		`should display latest ${INITIAL_FETCH_CONVERSATIONS_LIMIT} conversations`
+	)
+
+	await scrollToLatestConversationListItem(context)
+
+	await test.notThrowsAsync(
+		page.waitForSelector(`[data-test-component="card-chat-summary"][data-test-id="${threads[0].id}"]`),
+		'should load older conversations when scrolled down'
+	)
+
+	const dynamicallyCreatedThread = (await createThreads(context, INITIAL_FETCH_CONVERSATIONS_LIMIT + 1, 1))[0]
+
+	await test.notThrowsAsync(
+		page.waitForSelector(`[data-test-component="card-chat-summary"][data-test-id="${dynamicallyCreatedThread.id}"]`),
+		'should display dynamically created conversation'
+	)
+
+	await page.click(`[data-test-component="card-chat-summary"][data-test-id="${dynamicallyCreatedThread.id}"]`)
+
+	await test.notThrowsAsync(
+		page.waitForSelector(`[data-test="chat-page"][data-test-id="${dynamicallyCreatedThread.id}"]`),
+		'should navigate to respective chat page when clicked on the conversation'
+	)
+
+	await page.click('[data-test="navigate-back-button"]')
+
+	await test.notThrowsAsync(
+		page.waitForSelector('[data-test="full-conversation-list-page"]'),
+		'should navigate back to full conversation list page when pressing back button'
+	)
+
+	await page.click('[data-test="start-new-conversation-button"]')
+
+	await test.notThrowsAsync(
+		page.waitForSelector('[data-test="create-new-conversation-page"]'),
+		'should navigate to create conversation page when clicking "Start new conversation" button'
+	)
+
+	await page.click('[data-test="navigate-back-button"]')
+
+	await test.notThrowsAsync(
+		page.waitForSelector('[data-test="full-conversation-list-page"]'),
+		'should navigate back to full conversation list page when pressing back button'
+	)
 })
 
-ava.skip('Create conversation page', async (test) => {
-	test.pass('should create a conversation and navigate to it')
-	test.pass('should navigate back to create conversation page when pressing back button')
+ava.serial('Create conversation page', async (test) => {
+	const {
+		page
+	} = context
+
+	await createThreads(context, 0, 1)
+
+	await page.reload()
+
+	await page.waitForSelector('[data-test="initial-short-conversation-page"]')
+
+	await page.click('[data-test="start-new-conversation-button"]')
+
+	await page.waitForSelector('[data-test="create-new-conversation-page"]')
+
+	await createConversation(context)
+
+	await test.notThrowsAsync(
+		page.waitForSelector('[data-test="chat-page"]'),
+		'should navigate to created conversation chat page'
+	)
+
+	await page.click('[data-test="navigate-back-button"]')
+
+	await test.notThrowsAsync(
+		page.waitForSelector('[data-test="initial-short-conversation-page"]'),
+		'should navigate back to short conversation list page when pressing back button'
+	)
 })
 
 ava.skip('Chat page', async (test) => {

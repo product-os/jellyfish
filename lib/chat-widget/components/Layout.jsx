@@ -17,6 +17,9 @@ import {
 	useTask
 } from '../hooks'
 import {
+	INITIAL_FETCH_CONVERSATIONS_LIMIT
+} from '../constants'
+import {
 	Header
 } from './Header'
 
@@ -31,7 +34,7 @@ export const Layout = ({
 
 	React.useEffect(() => {
 		fetchThreads.exec({
-			limit: 15
+			limit: INITIAL_FETCH_CONVERSATIONS_LIMIT
 		})
 
 		setCurrentUser.exec()
