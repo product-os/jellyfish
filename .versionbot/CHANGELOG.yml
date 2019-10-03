@@ -1,4 +1,14 @@
 - commits:
+    - subject: 'ChatWidget: Add chat page e2e tests'
+      hash: 6a9f2ed63150029765d128ad14fd131b873e03e9
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 23.24.0
+  date: 2019-10-03T11:45:28.376Z
+- commits:
     - subject: 'action-server/server: Use Makefile to generate CMD'
       hash: 9d08d8d47888cbd10a99b619b8a5ffe4b6a3ebb8
       body: ''
