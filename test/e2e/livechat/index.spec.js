@@ -10,6 +10,9 @@ const environment = require('../../../lib/environment')
 const {
 	INITIAL_FETCH_CONVERSATIONS_LIMIT
 } = require('../../../lib/chat-widget/constants')
+const {
+	createChatMessage
+} = require('../ui/macros')
 const helpers = require('./helpers')
 const {
 	createConversation,
@@ -268,8 +271,22 @@ ava.serial('Create conversation page', async (test) => {
 	)
 })
 
-ava.skip('Chat page', async (test) => {
-	test.pass('should send message when pressing shift+enter')
-	test.pass('should display sent message')
-	test.pass('should display received message')
+ava.serial('Chat page', async (test) => {
+	const {
+		page
+	} = context
+
+	const thread = (await createThreads(context, 0, 1))[0]
+
+	await page.reload()
+
+	await page.waitForSelector('[data-test="initial-short-conversation-page"]')
+
+	await page.click(`[data-test-component="card-chat-summary"][data-test-id="${thread.id}"]`)
+
+	await page.waitForSelector('[data-test="chat-page"]')
+
+	await createChatMessage(page, '', 'First message')
+
+	test.pass()
 })
