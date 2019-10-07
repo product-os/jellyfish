@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'circleci: Fetch and store e2e Postgres dump as before'
+      hash: cb46474e40403701b3bea880fbceed189e731849
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.24.2
+  date: 2019-10-07T19:14:31.853Z
+- commits:
     - subject: Persist nyc output reports on Docker Compose jobs
       hash: 35770ea0fed23df7105663c7dd418061fdf46e55
       body: ''
