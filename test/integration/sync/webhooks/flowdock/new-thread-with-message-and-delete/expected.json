@@ -1,0 +1,78 @@
+{
+  "head": {
+    "name": "",
+    "type": "chat-thread",
+    "version": "1.0.0",
+    "active": true,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "mirrors": [
+        "https://api.flowdock.com/flows/rulemotion/testing/threads/dsyCw39W_NTJS_N7BW2six8RcLg"
+      ],
+      "flow": "testing",
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": ""
+    }
+  },
+  "tail": [
+    {
+      "type": "create",
+      "version": "1.0.0",
+      "active": true,
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "timestamp": "2019-09-19T09:44:55.371Z",
+        "actor": {
+          "slug": "user-mbalamat",
+          "active": true
+        },
+        "payload": {
+          "name": "",
+          "type": "chat-thread",
+          "version": "1.0.0",
+          "active": true,
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "mirrors": [
+              "https://api.flowdock.com/flows/rulemotion/testing/threads/dsyCw39W_NTJS_N7BW2six8RcLg"
+            ],
+            "flow": "testing",
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": ""
+          }
+        }
+      }
+    },
+    {
+      "type": "message",
+      "version": "1.0.0",
+      "active": true,
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "timestamp": "2019-09-19T09:45:00.694Z",
+        "actor": {
+          "slug": "user-mbalamat",
+          "active": true
+        },
+        "payload": {
+          "message": "",
+          "mentionsUser": [],
+          "alertsUser": []
+        },
+        "mirrors": [
+          "https://api.flowdock.com/flows/rulemotion/testing/threads/dsyCw39W_NTJS_N7BW2six8RcLg/messages/112888"
+        ]
+      }
+    }
+  ]
+}
