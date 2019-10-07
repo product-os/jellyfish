@@ -218,6 +218,9 @@ services:
     environment:
       - DATABASE
       - NODE_ENV
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_HOST=postgres
       - SERVER_HOST=http://api
       - SERVER_PORT
       - UI_HOST=http://ui
@@ -230,10 +233,12 @@ services:
       timeout: 10s
       retries: 10
     depends_on:
+      - postgres
       - api
       - ui
       - livechat
     links:
+      - postgres
       - api
       - ui
       - livechat

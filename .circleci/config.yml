@@ -429,6 +429,9 @@ jobs:
           name: End To End Tests (Livechat)
           command: make compose-exec-sidecar COMMAND="make" ARGS="test-e2e-livechat COVERAGE=0 SCRUB=0"
       - run:
+          name: Postgres Dump
+          command: make compose-exec-sidecar COMMAND="./scripts/postgres-dump.sh" ARGS="dump.gz" && docker cp jellyfish_sidecar_1:/usr/src/jellyfish/dump.gz dump.gz
+      - run:
           name: Docker Compose Down
           command: make compose-stop
       - run:
@@ -439,6 +442,7 @@ jobs:
           root: .
           paths:
             - .nyc_output/*.json
+            - dump.gz
 
   results:
     <<: *job_defaults
@@ -449,9 +453,9 @@ jobs:
       - attach_workspace:
           at: .
 
-      # - run:
-          # name: Postgres Dump
-          # command: mkdir -p /tmp/test-results && cp dump.gz /tmp/test-results
+      - run:
+          name: Postgres Dump
+          command: mkdir -p /tmp/test-results && cp dump.gz /tmp/test-results
 
       - run:
           name: Webpack Bundle Report For UI
