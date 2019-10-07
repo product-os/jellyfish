@@ -436,6 +436,10 @@ compose-exec-%:
 		exec $(subst compose-exec-,,$@) $(COMMAND) $(ARGS) \
 		$(DOCKER_COMPOSE_COMMAND_OPTIONS)
 
+compose-up-%:
+	docker-compose $(DOCKER_COMPOSE_OPTIONS) \
+		up $(DOCKER_COMPOSE_COMMAND_OPTIONS) $(subst compose-up-,,$@) $(ARGS)
+
 compose-%:
 	docker-compose $(DOCKER_COMPOSE_OPTIONS) $(subst compose-,,$@) \
 		$(DOCKER_COMPOSE_COMMAND_OPTIONS)

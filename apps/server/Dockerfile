@@ -4,18 +4,18 @@
 
 FROM resinci/jellyfish-base:ffea33d27
 
-WORKDIR /usr/src/app
+WORKDIR /usr/src/jellyfish
 
 ARG ENABLE_COVERAGE=0
 ENV OAUTH_REDIRECT_BASE_URL https://jel.ly.fish
 ENV COVERAGE ${ENABLE_COVERAGE}
 
-COPY package.json package-lock.json /usr/src/app/
+COPY package.json package-lock.json /usr/src/jellyfish/
 RUN mkdir -p scripts/eslint-plugin-jellyfish
 COPY scripts/eslint-plugin-jellyfish/package.json \
-	/usr/src/app/scripts/eslint-plugin-jellyfish
+	/usr/src/jellyfish/scripts/eslint-plugin-jellyfish
 RUN npm ci
-COPY . /usr/src/app
+COPY . /usr/src/jellyfish
 
 RUN echo "#!/bin/sh" > run.sh && \
 	make --dry-run start-server >> run.sh && \

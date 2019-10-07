@@ -4,12 +4,12 @@
 
 FROM resinci/jellyfish-base:ffea33d27
 
-WORKDIR /usr/src/app
+WORKDIR /usr/src/jellyfish
 
-COPY package.json package-lock.json /usr/src/app/
+COPY package.json package-lock.json /usr/src/jellyfish/
 RUN mkdir -p scripts/eslint-plugin-jellyfish
 COPY scripts/eslint-plugin-jellyfish/package.json \
-	/usr/src/app/scripts/eslint-plugin-jellyfish
+	/usr/src/jellyfish/scripts/eslint-plugin-jellyfish
 RUN npm ci
 
 RUN apt-get update && apt-get install -y \
@@ -17,7 +17,7 @@ RUN apt-get update && apt-get install -y \
 	libxi6 libxtst6 libnss3 libcups2 libxss1 libxrandr2 \
 	gconf-gsettings-backend libasound2 libatk1.0-0 libgtk-3-0
 
-COPY . /usr/src/app
+COPY . /usr/src/jellyfish
 
 # Sleep forever
 # See: https://stackoverflow.com/a/35770783
