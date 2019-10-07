@@ -421,7 +421,7 @@ jobs:
           command: make compose-up DETACH=1 COVERAGE=1
       - run:
           name: End To End Tests (SDK)
-          command: make compose-exec-sidecar COMMAND="make" ARGS="test-e2e-sdk COVERAGE=0 SCRUB=0"
+          command: make compose-exec-sidecar COMMAND="make" ARGS="test-e2e-sdk COVERAGE=1 SCRUB=0"
       - run:
           name: End To End Tests (UI)
           command: make compose-exec-sidecar COMMAND="make" ARGS="test-e2e-ui COVERAGE=0 SCRUB=0"

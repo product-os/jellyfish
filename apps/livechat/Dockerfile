@@ -13,12 +13,13 @@ COPY scripts/eslint-plugin-jellyfish/package.json \
 RUN npm ci
 COPY . /usr/src/jellyfish
 
+ARG ENABLE_COVERAGE=0
 ARG SERVER_HOST=https://api.ly.fish
 ARG SERVER_PORT=443
 
 RUN make build-livechat \
 	NODE_ENV=production \
-	COVERAGE=0 \
+	COVERAGE=${ENABLE_COVERAGE} \
 	SERVER_HOST=$SERVER_HOST \
 	SERVER_PORT=$SERVER_PORT
 
