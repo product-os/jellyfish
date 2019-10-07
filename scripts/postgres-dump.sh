@@ -10,6 +10,7 @@ set -e
 ARGV_OUTPUT="$1"
 USER="$POSTGRES_USER"
 PASSWORD="$POSTGRES_PASSWORD"
+HOST="$POSTGRES_HOST"
 set -u
 
 if [ -z "$ARGV_OUTPUT" ]; then
@@ -27,7 +28,7 @@ fi
 pg_dump \
 	--file="$ARGV_OUTPUT" \
 	--format=p \
-	--host=localhost \
+	--host="$HOST" \
 	--compress=9 \
 	--username="$USER" \
 	"$DATABASE"
