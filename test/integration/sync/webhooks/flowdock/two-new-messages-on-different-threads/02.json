@@ -1,42 +1,41 @@
 {
   "headers": {
     "content-type": "application/json",
-    "x-flowdock-signature": "sha1=db867b505f6baf15f9e298fa3f122c7f266f8180",
-    "host": "20c83952.ngrok.io",
-    "content-length": "637",
+    "x-flowdock-signature": "sha1=ee09154adce1214392cfc41d54f4783f80a926b5",
+    "host": "70582b81.ngrok.io",
+    "content-length": "624",
     "connection": "close",
-    "x-forwarded-proto": "https",
-    "x-forwarded-for": "94.67.135.140"
+    "x-forwarded-for": "94.67.47.34"
   },
   "payload": {
-    "thread_id": "qqzY819nJ8xakOiBipnZAQqiGWD",
+    "thread_id": "OmWAPFYW52osG5X0CJtHlGY8lcf",
     "event": "message",
     "tags": [],
-    "uuid": "-YxppDdIDkJ_nrAa",
+    "uuid": "nx4RkskNl2n8F_SM",
     "thread": {
       "body": "",
       "external_url": null,
       "external_comments": 0,
       "activities": 0,
-      "id": "qqzY819nJ8xakOiBipnZAQqiGWD",
+      "id": "OmWAPFYW52osG5X0CJtHlGY8lcf",
       "flow": "bed6fa5a-6a31-4a31-9b3b-9184b158c2b8",
       "status": null,
       "fields": [],
       "actions": [],
-      "created_at": "2019-09-23T13:40:08.000Z",
-      "title": "foo",
-      "updated_at": "2019-09-23T13:40:34.822Z",
-      "initial_message": 113564,
-      "internal_comments": 3
+      "created_at": 1570454108375,
+      "title": "bar",
+      "updated_at": "2019-10-07T13:15:08.375Z",
+      "initial_message": 113718,
+      "internal_comments": 1
     },
-    "id": 113577,
+    "id": 113718,
     "flow": "bed6fa5a-6a31-4a31-9b3b-9184b158c2b8",
     "content": "bar",
-    "sent": 1569246875996,
+    "sent": 1570454108375,
     "app": "chat",
-    "created_at": "2019-09-23T13:54:35.996Z",
+    "created_at": "2019-10-07T13:15:08.375Z",
     "attachments": [],
     "emojiReactions": {},
-    "user": "263186"
+    "user": "345062"
   }
 }
