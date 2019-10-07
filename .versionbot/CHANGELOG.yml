@@ -1,4 +1,16 @@
 - commits:
+    - subject: Persist nyc output reports on Docker Compose jobs
+      hash: 35770ea0fed23df7105663c7dd418061fdf46e55
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.24.1
+  date: 2019-10-07T16:32:21.629Z
+- commits:
     - subject: 'ChatWidget: Add chat page e2e tests'
       hash: 6a9f2ed63150029765d128ad14fd131b873e03e9
       body: ''
