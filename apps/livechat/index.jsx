@@ -9,7 +9,7 @@ import 'circular-std'
 import {
 	mount,
 	createSdk
-} from '@jellyfish/chat-widget'
+} from 'chat-widget'
 import * as environment from './environment'
 
 (async () => {

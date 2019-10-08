@@ -18,8 +18,8 @@ import {
 import styled from 'styled-components'
 import Link from '../Link'
 import * as helpers from '../../../apps/ui/services/helpers'
-import ColorHashPill from '@jellyfish/ui-components/shame/ColorHashPill'
-import Avatar from '@jellyfish/ui-components/shame/Avatar'
+import ColorHashPill from '../shame/ColorHashPill'
+import Avatar from '../shame/Avatar'
 import {
 	Tag
 } from '../Tag'

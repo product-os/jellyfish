@@ -41,7 +41,7 @@ const config = mergeConfig(baseConfig, {
 		}),
 
 		new DynamicCdnWebpackPlugin({
-			only: [ '@jellyfish/chat-widget' ],
+			only: [ 'chat-widget' ],
 			resolver (name) {
 				return {
 					name,

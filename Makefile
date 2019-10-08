@@ -449,3 +449,6 @@ dev-%:
 	./node_modules/.bin/webpack-dev-server \
 		--config=./apps/$(subst dev-,,$@)/webpack.config.js \
 		--color
+
+bootstrap:
+	./node_modules/.bin/lerna bootstrap

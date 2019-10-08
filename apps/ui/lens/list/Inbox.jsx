@@ -30,9 +30,9 @@ import {
 } from '../../core'
 import {
 	ActionLink
-} from '@jellyfish/ui-components/shame/ActionLink'
-import Icon from '@jellyfish/ui-components/shame/Icon'
-import Column from '@jellyfish/ui-components/shame/Column'
+} from 'ui-components/shame/ActionLink'
+import Icon from 'ui-components/shame/Icon'
+import Column from 'ui-components/shame/Column'
 
 const INBOX_VIEW_SLUG = 'view-my-inbox'
 

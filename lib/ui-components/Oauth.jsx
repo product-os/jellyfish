@@ -20,9 +20,9 @@ import {
 	Markdown
 } from 'rendition/dist/extra/Markdown'
 
-// TODO: This ui-components -> ui import should not happen
-import Icon from '@jellyfish/ui-components/shame/Icon'
+import Icon from './shame/Icon'
 
+// TODO: This ui-components -> ui import should not happen
 import {
 	actionCreators,
 	selectors

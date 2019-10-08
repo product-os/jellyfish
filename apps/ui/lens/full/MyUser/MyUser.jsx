@@ -25,8 +25,8 @@ import {
 import * as skhema from 'skhema'
 import * as helpers from '../../../services/helpers'
 import CardLayout from '../../../layouts/CardLayout'
-import Avatar from '@jellyfish/ui-components/shame/Avatar'
-import Icon from '@jellyfish/ui-components/shame/Icon'
+import Avatar from 'ui-components/shame/Avatar'
+import Icon from 'ui-components/shame/Icon'
 
 const SLUG = 'lens-my-user'
 

@@ -1,0 +1,7 @@
+{
+    "name": "chat-widget",
+    "version": "0.0.1",
+    "dependencies": {
+        "ui-components": "^0.0.1"
+    }
+}

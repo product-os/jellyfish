@@ -25,7 +25,7 @@ import {
 	store
 } from './core'
 import JellyfishUI from './JellyfishUI'
-import ErrorBoundary from '@jellyfish/ui-components/shame/ErrorBoundary'
+import ErrorBoundary from 'ui-components/shame/ErrorBoundary'
 import * as environment from './environment'
 import {
 	BrowserRouter as Router

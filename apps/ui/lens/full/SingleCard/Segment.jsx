@@ -23,7 +23,7 @@ import {
 	evalSchema
 } from '../../../services/helpers'
 import LinkModal from '../../../../../lib/ui-components/LinkModal'
-import Icon from '@jellyfish/ui-components/shame/Icon'
+import Icon from 'ui-components/shame/Icon'
 
 export default class Segment extends React.Component {
 	constructor (props) {

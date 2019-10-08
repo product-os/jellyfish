@@ -8,7 +8,7 @@ import React from 'react'
 import {
 	Flex
 } from 'rendition'
-import Icon from '@jellyfish/ui-components/shame/Icon'
+import Icon from 'ui-components/shame/Icon'
 
 export const Loader = (props) => {
 	return (

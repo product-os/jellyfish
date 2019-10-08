@@ -9,6 +9,9 @@
     "type": "git",
     "url": "git@github.com:balena-io/jellyfish.git"
   },
+  "scripts": {
+    "postinstall": "make bootstrap"
+  },
   "deplint": {
     "files": [
       "lib/**/*.js",
@@ -84,6 +87,7 @@
     "html-webpack-plugin": "^3.0.6",
     "js-combinatorics": "^0.5.4",
     "js-yaml": "^3.12.0",
+    "lerna": "^3.16.4",
     "mermaid.cli": "^0.5.1",
     "morgan": "^1.9.1",
     "nock": "^10.0.0",

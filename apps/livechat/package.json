@@ -1,0 +1,8 @@
+{
+    "name": "livechat",
+    "version": "0.0.1",
+    "main": "./index.jsx",
+    "dependencies": {
+        "chat-widget": "^0.0.1"
+    }
+}

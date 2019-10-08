@@ -38,8 +38,8 @@ import {
 import * as helpers from '../../services/helpers'
 import Timeline from '../list/Timeline'
 import CardLayout from '../../layouts/CardLayout'
-import ColorHashPill from '@jellyfish/ui-components/shame/ColorHashPill'
-import Icon from '@jellyfish/ui-components/shame/Icon'
+import ColorHashPill from 'ui-components/shame/ColorHashPill'
+import Icon from 'ui-components/shame/Icon'
 
 const JellyIcon = styled.img.attrs({
 	src: '/icons/jellyfish.svg'

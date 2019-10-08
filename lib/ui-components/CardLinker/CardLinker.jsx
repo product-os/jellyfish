@@ -17,7 +17,7 @@ import {
 } from '../../../apps/ui/core'
 import ContextMenu from '../ContextMenu'
 import LinkModal from '../LinkModal'
-import Icon from '@jellyfish/ui-components/shame/Icon'
+import Icon from '../shame/Icon'
 
 const {
 	LINKS

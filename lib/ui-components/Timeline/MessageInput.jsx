@@ -10,8 +10,8 @@ import {
 	Button,
 	Flex
 } from 'rendition'
-import AutocompleteTextarea from '@jellyfish/ui-components/shame/AutocompleteTextarea'
-import Icon from '@jellyfish/ui-components/shame/Icon'
+import AutocompleteTextarea from '../shame/AutocompleteTextarea'
+import Icon from '../shame/Icon'
 
 export default class MessageInput extends React.PureComponent {
 	constructor (props) {

@@ -25,7 +25,7 @@ import {
 	actionCreators,
 	selectors
 } from '../../core'
-import Column from '@jellyfish/ui-components/shame/Column'
+import Column from 'ui-components/shame/Column'
 
 const COLUMNS = [
 	{

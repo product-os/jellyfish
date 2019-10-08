@@ -14,8 +14,8 @@ import * as redux from 'redux'
 import * as helpers from '../../services/helpers'
 import {
 	CloseButton
-} from '@jellyfish/ui-components/shame/CloseButton'
-import Column from '@jellyfish/ui-components/shame/Column'
+} from 'ui-components/shame/CloseButton'
+import Column from 'ui-components/shame/Column'
 import {
 	actionCreators,
 	sdk
