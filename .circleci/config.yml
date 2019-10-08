@@ -444,6 +444,57 @@ jobs:
             - .nyc_output/*.json
             - dump.gz
 
+  e2e_tests_previous_dump: &e2e_tests_previous_dump
+    <<: *job_defaults
+
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: .
+
+      - setup_remote_docker:
+          docker_layer_caching: true
+
+      - run:
+          name: Docker Compose Up (with integration tokens)
+          command: make compose-up DETACH=1 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$FLOWDOCK_SIGNATURE_KEY OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish COVERAGE=1
+      - run:
+          name: Fetch Old Postgres Dump
+          command: ./scripts/ci/postgres-get-previous-dump.sh && ls -l && gunzip dump.gz
+      - run:
+          name: Import Postgres Dump
+          command: docker cp dump jellyfish_sidecar_1:/usr/src/jellyfish/dump && make compose-exec-sidecar COMMAND="./scripts/ci/postgres-import-snapshot.sh" ARGS="/usr/src/jellyfish/dump"
+      - run:
+          name: End To End Tests (Server)
+          command: make compose-exec-sidecar COMMAND="make" ARGS="test-e2e-server COVERAGE=0 SCRUB=0 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$FLOWDOCK_SIGNATURE_KEY OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish"
+      - run:
+          name: Docker Compose Down
+          command: make compose-stop
+      - run:
+          name: Docker Compose Up
+          command: make compose-up DETACH=1 COVERAGE=1
+      - run:
+          name: End To End Tests (SDK)
+          command: make compose-exec-sidecar COMMAND="make" ARGS="test-e2e-sdk COVERAGE=1 SCRUB=0"
+      - run:
+          name: End To End Tests (UI)
+          command: make compose-exec-sidecar COMMAND="make" ARGS="test-e2e-ui COVERAGE=0 SCRUB=0"
+      - run:
+          name: End To End Tests (Livechat)
+          command: make compose-exec-sidecar COMMAND="make" ARGS="test-e2e-livechat COVERAGE=0 SCRUB=0"
+      - run:
+          name: Docker Compose Down
+          command: make compose-stop
+      - run:
+          name: Copy Code Coverage Reports
+          command: make compose-up-worker DETACH=1 && docker cp jellyfish_worker_1:/usr/src/jellyfish/.nyc_output .nyc_output && make compose-stop
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .nyc_output/*.json
+
   results:
     <<: *job_defaults
 
@@ -515,6 +566,11 @@ workflows:
                     - build
                 <<: *workflow_filter
 
+            - e2e_tests_previous_dump:
+                requires:
+                    - build
+                <<: *workflow_filter
+
             - sync_tests_front_translate:
                 requires:
                     - build
@@ -565,6 +621,7 @@ workflows:
                   - unit_tests
                   - integration_tests
                   - e2e_tests
+                  - e2e_tests_previous_dump
                   - sync_tests_front_translate
                   - sync_tests_outreach_translate
                   - sync_tests_discourse_translate

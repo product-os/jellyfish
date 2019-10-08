@@ -222,6 +222,7 @@ services:
       - POSTGRES_USER=docker
       - POSTGRES_PASSWORD=docker
       - POSTGRES_HOST=postgres
+      - POSTGRES_DATABASE
       - SERVER_HOST=http://api
       - SERVER_PORT
       - UI_HOST=http://ui
