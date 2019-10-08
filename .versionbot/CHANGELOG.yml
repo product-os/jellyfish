@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'UI: Fix issue where tags are unreadable on active chat summaries'
+      hash: 4d57133c91c0b9bc12a81f705364494af9ed314d
+      body: |
+        Fixes #2538
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 23.24.3
+  date: 2019-10-08T08:00:46.408Z
+- commits:
     - subject: 'circleci: Fetch and store e2e Postgres dump as before'
       hash: cb46474e40403701b3bea880fbceed189e731849
       body: ''
