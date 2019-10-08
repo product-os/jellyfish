@@ -451,4 +451,4 @@ dev-%:
 		--color
 
 bootstrap:
-	./node_modules/.bin/lerna bootstrap
+	./node_modules/.bin/lerna bootstrap --hoist
