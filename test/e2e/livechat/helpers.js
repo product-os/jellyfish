@@ -5,12 +5,8 @@
  */
 
 const puppeteer = require('puppeteer')
-const _ = require('lodash')
-const path = require('path')
-const uuid = require('uuid/v4')
-const mkdirp = require('mkdirp')
-const fs = require('fs')
 const environment = require('../../../lib/environment')
+const coverage = require('../../../lib/coverage')
 const helpers = require('../sdk/helpers')
 
 exports.browser = {
@@ -44,23 +40,8 @@ exports.browser = {
 	},
 
 	afterEach: async (test) => {
-		const coverageReport = await test.context.page.evaluate(() => {
-			// eslint-disable-next-line no-underscore-dangle
-			return window.__coverage__
-		})
-
-		if (coverageReport && !_.isEmpty(coverageReport)) {
-			const NYC_OUTPUT_BASE = path.resolve(__dirname, '..', '..', '..', '.nyc_output')
-			mkdirp.sync(NYC_OUTPUT_BASE)
-			const NYC_OUTPUT_DEST = path.resolve(NYC_OUTPUT_BASE, `${uuid()}.json`)
-			console.log(`Storing code coverage results at ${NYC_OUTPUT_DEST}`)
-			fs.writeFileSync(NYC_OUTPUT_DEST, JSON.stringify(coverageReport), {
-				encoding: 'utf8'
-			})
-		}
-
+		await coverage.puppeteer(test.context.page)
 		await test.context.browser.close()
-
 		await helpers.afterEach(test)
 		await helpers.after(test)
 	}
