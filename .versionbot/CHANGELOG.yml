@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'UI: Fix bug where many tags don''t wrap onto a new line'
+      hash: 57baeaa7079c3bd4542bdbf148c7faa198f68fd3
+      body: |
+        Fixes #2505
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 23.24.4
+  date: 2019-10-08T09:00:51.826Z
+- commits:
     - subject: 'UI: Fix issue where tags are unreadable on active chat summaries'
       hash: 4d57133c91c0b9bc12a81f705364494af9ed314d
       body: |
