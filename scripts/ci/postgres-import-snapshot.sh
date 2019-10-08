@@ -15,17 +15,17 @@ if [ -z "$ARGV_SNAPSHOT" ]; then
 	exit 1
 fi
 
-DATABASE=jellyfish
+DATABASE="$POSTGRES_DATABASE"
 OWNER="$POSTGRES_USER"
 
 PGPASSWORD="$POSTGRES_PASSWORD" psql template1 \
-	--host=localhost --username="$POSTGRES_USER" \
+	--host="$POSTGRES_HOST" --username="$POSTGRES_USER" \
 	-c "create user $OWNER;" || true
 PGPASSWORD="$POSTGRES_PASSWORD" psql template1 \
-	--host=localhost --username="$POSTGRES_USER" \
+	--host="$POSTGRES_HOST" --username="$POSTGRES_USER" \
 	-c "drop database $DATABASE;" || true
 PGPASSWORD="$POSTGRES_PASSWORD" psql template1 \
-	--host=localhost --username="$POSTGRES_USER" \
+	--host="$POSTGRES_HOST" --username="$POSTGRES_USER" \
 	-c "create database $DATABASE with owner $OWNER;" || true
 PGPASSWORD="$POSTGRES_PASSWORD" psql "$DATABASE" \
-	--host=localhost --username="$POSTGRES_USER" < "$ARGV_SNAPSHOT"
+	--host="$POSTGRES_HOST" --username="$POSTGRES_USER" < "$ARGV_SNAPSHOT"
