@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'ui/livechat: Gather puppeteer code coverage reports'
+      hash: 38212e50eca82ddba1efeb7938f95392851e5886
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'coverage: Unify code coverage generation code'
+      hash: 0987208c59ed15a9181abdd303b653b6ba6f20fd
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.24.5
+  date: 2019-10-08T13:54:24.483Z
+- commits:
     - subject: 'UI: Fix bug where many tags don''t wrap onto a new line'
       hash: 57baeaa7079c3bd4542bdbf148c7faa198f68fd3
       body: |
