@@ -9,7 +9,7 @@
     "capabilities": [],
     "data": {
       "mirrors": [
-        "https://api.flowdock.com/flows/rulemotion/testing/threads/CMT86r2XsbzFE4XjMrhMkOJJgBE"
+        "https://api.flowdock.com/flows/rulemotion/testing/threads/U1h0s7fqGVqIxYj1euzRTZm-KFM"
       ],
       "flow": "testing",
       "mentionsUser": [],
@@ -41,7 +41,7 @@
           "capabilities": [],
           "data": {
             "mirrors": [
-              "https://api.flowdock.com/flows/rulemotion/testing/threads/CMT86r2XsbzFE4XjMrhMkOJJgBE"
+              "https://api.flowdock.com/flows/rulemotion/testing/threads/U1h0s7fqGVqIxYj1euzRTZm-KFM"
             ],
             "flow": "testing",
             "mentionsUser": [],
@@ -70,7 +70,7 @@
           "alertsUser": []
         },
         "mirrors": [
-          "https://api.flowdock.com/flows/rulemotion/testing/threads/CMT86r2XsbzFE4XjMrhMkOJJgBE/messages/113579"
+          "https://api.flowdock.com/flows/rulemotion/testing/threads/U1h0s7fqGVqIxYj1euzRTZm-KFM/messages/113579"
         ]
       }
     }
