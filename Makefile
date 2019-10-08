@@ -305,7 +305,7 @@ test:
 		./node_modules/.bin/ava $(AVA_ARGS) $(FILES)
 
 test-unit:
-	FILES="'./test/unit/**/*.spec.js'" SCRUB=0 make test
+	FILES="'./{test/unit,lib,apps}/**/*.spec.{js,jsx}'" SCRUB=0 make test
 
 test-integration:
 	FILES="'./test/integration/**/*.spec.js'" make test
