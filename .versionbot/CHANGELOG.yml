@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'circleci: Run e2e tests with old Postgres dump'
+      hash: 7aebb98e27a568d4738c54bc9611225460c55c6b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.24.6
+  date: 2019-10-08T16:45:01.013Z
+- commits:
     - subject: 'ui/livechat: Gather puppeteer code coverage reports'
       hash: 38212e50eca82ddba1efeb7938f95392851e5886
       body: ''
