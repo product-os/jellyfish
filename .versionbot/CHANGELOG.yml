@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'front: Log Intercom API calls'
+      hash: 159b714ce2731bc88ff77fe9c9dd3be3246fe330
+      body: |
+        For debugging purposes.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.25.1
+  date: 2019-10-09T14:31:31.209Z
+- commits:
     - subject: Disconnect AuthenticatedImage from redux
       hash: 2827ba4093317298ce1d34492bd1136e1c38bc80
       body: ''
