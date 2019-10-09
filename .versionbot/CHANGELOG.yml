@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'discourse: Use external category as thread inbox'
+      hash: 450ee402a4aff6c1518c86b22ebfb83c82c50ac9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.25.3
+  date: 2019-10-09T17:38:43.124Z
+- commits:
     - subject: 'Makefile: Instrument UI related code on .nyc-root'
       hash: 5b5966469d647985bfd8b7ecf7a7799b30d98f16
       body: |
