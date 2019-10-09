@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'Makefile: Instrument UI related code on .nyc-root'
+      hash: 5b5966469d647985bfd8b7ecf7a7799b30d98f16
+      body: |
+        So that we re-use the same instrumentation logic between the UI and the
+        backend.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.25.2
+  date: 2019-10-09T17:02:26.243Z
+- commits:
     - subject: 'front: Log Intercom API calls'
       hash: 159b714ce2731bc88ff77fe9c9dd3be3246fe330
       body: |
