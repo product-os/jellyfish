@@ -1,4 +1,14 @@
 - commits:
+    - subject: Disconnect AuthenticatedImage from redux
+      hash: 2827ba4093317298ce1d34492bd1136e1c38bc80
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 23.25.0
+  date: 2019-10-09T09:51:21.374Z
+- commits:
     - subject: 'circleci: Run e2e tests with old Postgres dump'
       hash: 7aebb98e27a568d4738c54bc9611225460c55c6b
       body: ''
