@@ -181,7 +181,7 @@ services:
       context: .
       dockerfile: apps/ui/Dockerfile
       args:
-        - SERVER_HOST=http://api
+        - SERVER_HOST=http://localhost
         - SERVER_PORT=${PORT}
         - SENTRY_DSN_UI=0
         - ENABLE_COVERAGE=${COVERAGE}
@@ -199,7 +199,7 @@ services:
       context: .
       dockerfile: apps/livechat/Dockerfile
       args:
-        - SERVER_HOST=http://api
+        - SERVER_HOST=http://localhost
         - SERVER_PORT=${SERVER_PORT}
     environment:
       - NGINX_PORT=80
@@ -223,14 +223,14 @@ services:
       - POSTGRES_PASSWORD=docker
       - POSTGRES_HOST=postgres
       - POSTGRES_DATABASE
-      - SERVER_HOST=http://api
+      - SERVER_HOST=http://localhost
       - SERVER_PORT
       - UI_HOST=http://ui
       - UI_PORT=80
       - LIVECHAT_HOST=http://livechat
       - LIVECHAT_PORT=80
     healthcheck:
-      test: [ "CMD", "curl", "--fail", "http://api:${SERVER_PORT}/ping" ]
+      test: [ "CMD", "curl", "--fail", "http://localhost:${SERVER_PORT}/ping" ]
       interval: 10s
       timeout: 10s
       retries: 10
