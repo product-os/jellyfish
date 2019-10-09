@@ -10,7 +10,7 @@
     "data": {
       "environment": "production",
       "tags": [],
-      "inbox": "S/Forums",
+      "inbox": "Sandbox",
       "mirrors": [
         "https://forums.balena.io/t/6108"
       ],
@@ -45,7 +45,7 @@
           "data": {
             "environment": "production",
             "tags": [],
-            "inbox": "S/Forums",
+            "inbox": "Sandbox",
             "mirrors": [
               "https://forums.balena.io/t/6108"
             ],

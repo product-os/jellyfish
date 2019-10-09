@@ -10,7 +10,7 @@
     "data": {
       "environment": "production",
       "tags": [ "wifi" ],
-      "inbox": "S/Forums",
+      "inbox": "Sandbox",
       "mirrors": [
         "https://forums.balena.io/t/6084"
       ],
@@ -45,7 +45,7 @@
           "data": {
             "environment": "production",
             "tags": [ "wifi" ],
-            "inbox": "S/Forums",
+            "inbox": "Sandbox",
             "mirrors": [
               "https://forums.balena.io/t/6084"
             ],

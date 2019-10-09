@@ -30,14 +30,7 @@
               "const": "support-thread"
             },
             "data": {
-              "type": "object",
-              "required": [ "inbox" ],
-              "properties": {
-                "inbox": {
-                  "type": "string",
-                  "enum": [ "S/Forums" ]
-                }
-              }
+              "type": "object"
             }
           }
         }
