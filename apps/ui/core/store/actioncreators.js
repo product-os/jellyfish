@@ -190,7 +190,6 @@ export default class ActionCreator {
 			'dumpState',
 			'getIntegrationAuthUrl',
 			'getActor',
-			'getFile',
 			'getCardWithLinks',
 			'getLinks',
 			'loadChannelData',
@@ -323,12 +322,6 @@ export default class ActionCreator {
 		methods.forEach((method) => {
 			this[method] = this[method].bind(this)
 		})
-	}
-
-	getFile (cardId, fileName) {
-		return (dispatch) => {
-			return this.sdk.getFile(cardId, fileName)
-		}
 	}
 
 	getIntegrationAuthUrl (user, integration) {

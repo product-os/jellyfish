@@ -4,25 +4,54 @@
  * Proprietary and confidential.
  */
 
-import * as _ from 'lodash'
+import React from 'react'
+import styled from 'styled-components'
 import {
-	connect
-} from 'react-redux'
-import * as redux from 'redux'
-import {
-	actionCreators
-} from '../../../apps/ui/core'
+	withSetup
+} from '../SetupProvider'
 
-import AuthenticatedImage from './AuthenticatedImage'
+const ResponsiveImg = styled.img `
+	height: auto;
+	max-width: 100%;
+`
 
-const mapDispatchToProps = (dispatch) => {
-	return {
-		actions: redux.bindActionCreators(
-			_.pick(actionCreators, [
-				'getFile',
-				'addNotification'
-			]), dispatch)
+class AuthenticatedImage extends React.Component {
+	constructor (props) {
+		super(props)
+		this.state = {
+			imageSrc: null
+		}
+	}
+
+	componentDidMount () {
+		this.props.sdk.getFile(this.props.cardId, this.props.fileName)
+			.then((data) => {
+				const blob = new Blob([ data ])
+				this.setState({
+					imageSrc: URL.createObjectURL(blob)
+				})
+			})
+			.catch((error) => {
+				this.props.addNotification('danger', error.message || error)
+			})
+	}
+
+	render () {
+		const {
+			imageSrc
+		} = this.state
+
+		if (!imageSrc) {
+			return null
+		}
+
+		return (
+			<ResponsiveImg
+				src={imageSrc}
+				data-test={this.props['data-test']}
+			/>
+		)
 	}
 }
 
-export default connect(null, mapDispatchToProps)(AuthenticatedImage)
+export default withSetup(AuthenticatedImage)

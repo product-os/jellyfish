@@ -420,7 +420,8 @@ export default class Event extends React.Component {
 
 	render () {
 		const {
-			card
+			card,
+			addNotification
 		} = this.props
 		const {
 			actor
@@ -429,7 +430,8 @@ export default class Event extends React.Component {
 			'card',
 			'menuOptions',
 			'onCardVisible',
-			'openChannel'
+			'openChannel',
+			'addNotification'
 		])
 		const isMessage = card.type === 'message' || card.type === 'whisper'
 
@@ -552,6 +554,7 @@ export default class Event extends React.Component {
 										key={attachment.slug}
 										cardId={card.id}
 										fileName={attachment.slug}
+										addNotification={addNotification}
 									/>
 								)
 							}
