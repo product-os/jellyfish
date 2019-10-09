@@ -1,0 +1,130 @@
+{
+  "headers": {
+    "accept": "application/json",
+    "user-agent": "Needle/1.3.0 (Node.js v9.11.1; linux x64)",
+    "x-front-signature": "HfxDGNCaU6N10T41nNj8cIgCsWQ=",
+    "content-length": "2645",
+    "content-type": "application/json; charset=utf-8",
+    "host": "a5dc0268.ngrok.io",
+    "connection": "close",
+    "x-forwarded-proto": "https",
+    "x-forwarded-for": "13.57.255.141"
+  },
+  "payload": {
+    "_links": {
+      "self": "https://api2.frontapp.com/events/evt_59rqiz7"
+    },
+    "id": "evt_59rqiz7",
+    "type": "comment",
+    "emitted_at": 1545923313.53,
+    "conversation": {
+      "_links": {
+        "self": "https://api2.frontapp.com/conversations/cnv_162d17f",
+        "related": {
+          "events": "https://api2.frontapp.com/conversations/cnv_162d17f/events",
+          "followers": "https://api2.frontapp.com/conversations/cnv_162d17f/followers",
+          "messages": "https://api2.frontapp.com/conversations/cnv_162d17f/messages",
+          "comments": "https://api2.frontapp.com/conversations/cnv_162d17f/comments",
+          "inboxes": "https://api2.frontapp.com/conversations/cnv_162d17f/inboxes"
+        }
+      },
+      "id": "cnv_162d17f",
+      "subject": "",
+      "status": "unassigned",
+      "assignee": null,
+      "recipient": {
+        "_links": {
+          "related": {
+            "contact": null
+          }
+        },
+        "handle": "5457936368f6f465d7002858",
+        "role": "from"
+      },
+      "tags": [],
+      "last_message": {
+        "_links": {
+          "self": "https://api2.frontapp.com/messages/msg_27e04ar",
+          "related": {
+            "conversation": "https://api2.frontapp.com/conversations/cnv_162d17f"
+          }
+        },
+        "id": "msg_27e04ar",
+        "type": "intercom",
+        "is_inbound": true,
+        "created_at": 1545923308,
+        "blurb": " Test test 2 ",
+        "body": "<div><p>Test test 2</p>\n</div>",
+        "text": "Test test 2",
+        "is_draft": false,
+        "error_type": null,
+        "metadata": {
+          "intercom_url": "https://app.intercom.io/a/apps/yg02r5dz/inbox/conversation/20199552045"
+        },
+        "author": null,
+        "recipients": [
+          {
+            "_links": {
+              "related": {
+                "contact": null
+              }
+            },
+            "handle": "5457936368f6f465d7002858",
+            "role": "from"
+          },
+          {
+            "_links": {
+              "related": {
+                "contact": "https://api2.frontapp.com/contacts/crd_5gqtnd"
+              }
+            },
+            "handle": "yg02r5dz",
+            "role": "to"
+          }
+        ],
+        "attachments": []
+      },
+      "created_at": 1545923310.43,
+      "is_private": false
+    },
+    "source": {
+      "_meta": {
+        "type": "api"
+      },
+      "data": null
+    },
+    "target": {
+      "_meta": {
+        "type": "comment"
+      },
+      "data": {
+        "_links": {
+          "self": "https://api2.frontapp.com/comments/com_2j3o0r",
+          "related": {
+            "conversation": "https://api2.frontapp.com/conversations/cnv_162d17f",
+            "mentions": "https://api2.frontapp.com/comments/com_2j3o0r/mentions"
+          }
+        },
+        "id": "com_2j3o0r",
+        "body": "This is mirrored in [flowdock premium thread 3o8hhRVDQOwJwh-u9_2Sq7cMYi4](https://www.flowdock.com/app/rulemotion/public-s-premium/threads/3o8hhRVDQOwJwh-u9_2Sq7cMYi4)\n[](https://www.balena-cloud.com?hidden=murmur&source=flowdock&flow=rulemotion/public-s-premium&thread=3o8hhRVDQOwJwh-u9_2Sq7cMYi4&hmac=18535b24330510d884ec4bd6c4327d2cc20a9971bbf12e9a6c96c4ee994a42dc)",
+        "posted_at": 1545923313.489,
+        "author": {
+          "_links": {
+            "self": "https://api2.frontapp.com/teammates/tea_1urh",
+            "related": {
+              "inboxes": "https://api2.frontapp.com/teammates/tea_1urh/inboxes",
+              "conversations": "https://api2.frontapp.com/teammates/tea_1urh/conversations"
+            }
+          },
+          "id": "tea_1urh",
+          "email": "syncbot@resin.io",
+          "username": "syncbot",
+          "first_name": "Syncbot",
+          "last_name": "Bot",
+          "is_admin": false,
+          "is_available": true
+        }
+      }
+    }
+  }
+}
