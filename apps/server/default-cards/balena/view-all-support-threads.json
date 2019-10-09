@@ -42,10 +42,6 @@
             "data": {
               "type": "object",
               "properties": {
-                "inbox": {
-                  "type": "string",
-                  "enum": [ "S/Paid_Support", "S/Forums" ]
-                },
                 "category": {
                   "description": "This field is not required and should match cases where the field is not present OR is 'general'",
                   "const": "general"

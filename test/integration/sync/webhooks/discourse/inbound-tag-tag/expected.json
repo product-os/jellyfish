@@ -10,7 +10,7 @@
     "data": {
       "environment": "production",
       "tags": [ "raspberrypi3", "docker" ],
-      "inbox": "S/Forums",
+      "inbox": "Sandbox",
       "mirrors": [
         "https://forums.balena.io/t/6061"
       ],
@@ -45,7 +45,7 @@
           "data": {
             "environment": "production",
             "tags": [],
-            "inbox": "S/Forums",
+            "inbox": "Sandbox",
             "mirrors": [
               "https://forums.balena.io/t/6061"
             ],
