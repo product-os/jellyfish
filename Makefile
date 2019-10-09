@@ -393,14 +393,9 @@ start-static-%:
 # -----------------------------------------------
 
 ifeq ($(COVERAGE),1)
-build-ui:
-	rm -rf $(NYC_TMP_DIR) && mkdir -p $(NYC_TMP_DIR)/{lib,apps}
-	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/sdk $(NYC_TMP_DIR)/lib/sdk
-	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/ui-components $(NYC_TMP_DIR)/lib/ui-components
-	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/uuid $(NYC_TMP_DIR)/lib/uuid
-	./node_modules/.bin/nyc instrument $(NYC_OPTS) apps/ui $(NYC_TMP_DIR)/apps/ui
-	NODE_ENV=test UI_DIRECTORY="./$(NYC_TMP_DIR)/apps/ui" \
-		SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
+build-ui: .nyc-root
+	NODE_ENV=test UI_DIRECTORY="./$</apps/ui" \
+	SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
 		./node_modules/.bin/webpack --config=./apps/ui/webpack.config.js
 else
 build-ui:
@@ -409,16 +404,8 @@ build-ui:
 endif
 
 ifeq ($(COVERAGE),1)
-build-livechat:
-	rm -rf $(NYC_TMP_DIR) && mkdir -p $(NYC_TMP_DIR)/{lib,apps}
-	# TODO: The chat-widget should not require us to instrument the UI
-	./node_modules/.bin/nyc instrument $(NYC_OPTS) apps/ui $(NYC_TMP_DIR)/apps/ui
-	./node_modules/.bin/nyc instrument $(NYC_OPTS) apps/livechat $(NYC_TMP_DIR)/apps/livechat
-	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/sdk $(NYC_TMP_DIR)/lib/sdk
-	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/ui-components $(NYC_TMP_DIR)/lib/ui-components
-	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/uuid $(NYC_TMP_DIR)/lib/uuid
-	./node_modules/.bin/nyc instrument $(NYC_OPTS) lib/chat-widget $(NYC_TMP_DIR)/lib/chat-widget
-	NODE_ENV=test UI_DIRECTORY="./$(NYC_TMP_DIR)/apps/livechat" \
+build-livechat: .nyc-root
+	NODE_ENV=test UI_DIRECTORY="./$</apps/livechat" \
 	API_URL=$(SERVER_HOST):$(SERVER_PORT) \
 		./node_modules/.bin/webpack --config=./apps/livechat/webpack.config.js
 else
