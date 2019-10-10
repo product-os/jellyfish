@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'discourse: Cache responses from the /emails.json endpoint'
+      hash: 8951e918691ca2f7f5b24fb97c2bf30961c664ff
+      body: |
+        For rate limiting purposes.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.25.4
+  date: 2019-10-09T19:23:03.101Z
+- commits:
     - subject: 'discourse: Use external category as thread inbox'
       hash: 450ee402a4aff6c1518c86b22ebfb83c82c50ac9
       body: ''
