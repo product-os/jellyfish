@@ -15,7 +15,7 @@ const baseConfig = require('../../webpack.config.base.js')
 const root = path.resolve(__dirname, '..', '..')
 
 // eslint-disable-next-line no-process-env
-const UI_DIRECTORY = process.env.UI_DIRECTORY || path.resolve(root, 'lib/chat-widget')
+const UI_DIRECTORY = process.env.CHAT_WIDGET_DIR || path.resolve(root, 'lib/chat-widget')
 
 const uiRoot = path.resolve(root, UI_DIRECTORY)
 const outDir = path.join(root, 'dist/livechat')

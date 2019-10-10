@@ -18,7 +18,7 @@ const root = path.resolve(__dirname, '..', '..')
 const resourcesRoot = __dirname
 
 // eslint-disable-next-line no-process-env
-const UI_DIRECTORY = process.env.UI_DIRECTORY || __dirname
+const UI_DIRECTORY = process.env.LIVECHAT_DIR || __dirname
 
 const uiRoot = path.resolve(root, UI_DIRECTORY)
 const indexFilePath = path.join(resourcesRoot, 'index.html')
