@@ -5,6 +5,15 @@
  */
 
 module.exports = {
+	'intercom-inbound-archive-email-prefix': {
+		expected: require('./intercom-inbound-archive-email-prefix/expected.json'),
+		steps: [
+			require('./intercom-inbound-archive-email-prefix/01.json'),
+			require('./intercom-inbound-archive-email-prefix/02.json'),
+			require('./intercom-inbound-archive-email-prefix/03.json'),
+			require('./intercom-inbound-archive-email-prefix/04.json')
+		]
+	},
 	'sales-inbound-whisper-outbound': {
 		expected: require('./sales-inbound-whisper-outbound/expected.json'),
 		steps: [
