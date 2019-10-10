@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'livechat: Enable e2e code coverage reports'
+      hash: f8b019a3746124e24550e70c190494393fe1888c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.25.6
+  date: 2019-10-10T15:05:44.039Z
+- commits:
     - subject: 'front: Handle email/username old :: prefixes'
       hash: c0e5cc97cac031c58ce030f9413e43d46e71654d
       body: ''
