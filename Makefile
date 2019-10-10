@@ -405,7 +405,9 @@ endif
 
 ifeq ($(COVERAGE),1)
 build-livechat: .nyc-root
-	NODE_ENV=test UI_DIRECTORY="./$</apps/livechat" \
+	NODE_ENV=test \
+	LIVECHAT_DIR="./$</apps/livechat" \
+	CHAT_WIDGET_DIR="./$</lib/chat-widget" \
 	API_URL=$(SERVER_HOST):$(SERVER_PORT) \
 		./node_modules/.bin/webpack --config=./apps/livechat/webpack.config.js
 else
