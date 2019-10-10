@@ -1,4 +1,26 @@
 - commits:
+    - subject: 'front: Handle email/username old :: prefixes'
+      hash: c0e5cc97cac031c58ce030f9413e43d46e71654d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'front: More user creation from payload logs'
+      hash: c2b1729526f2fc7e21e9c904f012f5bc75eddf96
+      body: |
+        For debugging purposes.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.25.5
+  date: 2019-10-10T14:13:20.453Z
+- commits:
     - subject: 'discourse: Cache responses from the /emails.json endpoint'
       hash: 8951e918691ca2f7f5b24fb97c2bf30961c664ff
       body: |
