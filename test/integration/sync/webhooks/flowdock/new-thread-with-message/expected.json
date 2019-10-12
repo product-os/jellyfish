@@ -9,7 +9,7 @@
     "capabilities": [],
     "data": {
       "mirrors": [
-        "https://api.flowdock.com/flows/rulemotion/testing/threads/qqzY819nJ8xakOiBipnZAQqiGWD"
+        "https://api.flowdock.com/flows/rulemotion/testing/threads/0A7SJPrD8q1-6WXONtTDYz--f0t"
       ],
       "flow": "testing",
       "mentionsUser": [],
@@ -26,7 +26,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "timestamp": "2019-09-23T13:40:08.351Z",
+        "timestamp": "2019-09-19T07:29:23.281Z",
         "actor": {
           "slug": "user-mbalamat",
           "active": true
@@ -41,7 +41,7 @@
           "capabilities": [],
           "data": {
             "mirrors": [
-              "https://api.flowdock.com/flows/rulemotion/testing/threads/qqzY819nJ8xakOiBipnZAQqiGWD"
+              "https://api.flowdock.com/flows/rulemotion/testing/threads/0A7SJPrD8q1-6WXONtTDYz--f0t"
             ],
             "flow": "testing",
             "mentionsUser": [],
@@ -59,7 +59,7 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "timestamp": "2019-09-23T13:40:08.351Z",
+        "timestamp": "2019-09-19T07:29:23.281Z",
         "actor": {
           "slug": "user-mbalamat",
           "active": true
@@ -70,30 +70,7 @@
           "alertsUser": []
         },
         "mirrors": [
-          "https://api.flowdock.com/flows/rulemotion/testing/threads/qqzY819nJ8xakOiBipnZAQqiGWD/messages/113564"
-        ]
-      }
-    },
-    {
-      "type": "message",
-      "version": "1.0.0",
-      "active": true,
-      "tags": [],
-      "requires": [],
-      "capabilities": [],
-      "data": {
-        "timestamp": "2019-09-23T13:40:45.639Z",
-        "actor": {
-          "slug": "user-testbot",
-          "active": true
-        },
-        "payload": {
-          "message": "baz",
-          "mentionsUser": [],
-          "alertsUser": []
-        },
-        "mirrors": [
-          "https://api.flowdock.com/flows/rulemotion/testing/threads/qqzY819nJ8xakOiBipnZAQqiGWD/messages/113566"
+          "https://api.flowdock.com/flows/rulemotion/testing/threads/0A7SJPrD8q1-6WXONtTDYz--f0t/messages/112843"
         ]
       }
     }
