@@ -1,4 +1,18 @@
 - commits:
+    - subject: >-
+        test/integration/sync/webhooks/flowdock: Remove two messages on
+        different threads test case
+      hash: 0a9d10304438ec6473ba2c53058552277c6947df
+      body: ''
+      footer:
+        Change-type: Minor
+        change-type: Minor
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+  version: 23.26.0
+  date: 2019-10-11T12:40:08.229Z
+- commits:
     - subject: 'livechat: Enable e2e code coverage reports'
       hash: f8b019a3746124e24550e70c190494393fe1888c
       body: ''
