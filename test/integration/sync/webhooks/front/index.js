@@ -5,6 +5,14 @@
  */
 
 module.exports = {
+	'inbound-comment-edit-blank': {
+		expected: require('./inbound-comment-edit-blank/expected.json'),
+		steps: [
+			require('./inbound-comment-edit-blank/01.json'),
+			require('./inbound-comment-edit-blank/02.json'),
+			require('./inbound-comment-edit-blank/03.json')
+		]
+	},
 	'intercom-inbound-archive-email-prefix': {
 		expected: require('./intercom-inbound-archive-email-prefix/expected.json'),
 		steps: [

@@ -200,7 +200,17 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 	)
 
 	const tailFilter = (card) => {
-		return !testCase.ignoreUpdateEvents || card.type !== 'update'
+		if (testCase.ignoreUpdateEvents && card.type === 'update') {
+			return false
+		}
+
+		if (card.type === 'message' || card.type === 'whisper') {
+			if (!card.active && card.data.payload.message.trim().length === 0) {
+				return false
+			}
+		}
+
+		return true
 	}
 
 	const actualTail = await Bluebird.map(_.sortBy(_.filter(timeline, tailFilter), tailSort), async (card) => {

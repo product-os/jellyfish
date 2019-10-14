@@ -1,0 +1,149 @@
+{
+  "head": {
+    "name": "Comment Edit Test",
+    "type": "support-thread",
+    "version": "1.0.0",
+    "active": true,
+    "requires": [],
+    "capabilities": [],
+    "tags": [],
+    "data": {
+      "environment": "production",
+      "inbox": "Demo Inbox",
+      "mirrors": [
+        "https://api2.frontapp.com/conversations/cnv_1bolr9e"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "",
+      "status": "open"
+    }
+  },
+  "tail": [
+    {
+      "type": "create",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": {
+          "active": true,
+          "slug": "user-juan-balena-io"
+        },
+        "timestamp": "2019-03-13T19:54:20.843Z",
+        "payload": {
+          "name": "Comment Edit Test",
+          "type": "support-thread",
+          "version": "1.0.0",
+          "active": true,
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "environment": "production",
+            "inbox": "Demo Inbox",
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_1bolr9e"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open"
+          }
+        }
+      }
+    },
+    {
+      "type": "message",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": {
+          "active": true,
+          "slug": "user-juan-balena-io"
+        },
+        "mirrors": [
+          "https://api2.frontapp.com/messages/msg_2ged8ve"
+        ],
+        "timestamp": "2019-03-13T19:54:20.108Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "Foo Bar"
+        }
+      }
+    },
+    {
+      "type": "whisper",
+      "active": false,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": {
+          "active": true,
+          "slug": "user-accounts-front-dev"
+        },
+        "mirrors": [
+          "https://api2.frontapp.com/comments/com_2q8hiy"
+        ],
+        "timestamp": "2019-03-13T19:55:24.478Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": ""
+        }
+      }
+    },
+    {
+      "type": "update",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": {
+          "active": true,
+          "slug": "user-accounts-front-dev"
+        },
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2019-03-13T19:55:24.556Z"
+          }
+        ],
+        "timestamp": "2019-03-13T19:55:24.556Z"
+      }
+    },
+    {
+      "type": "update",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": {
+          "active": true,
+          "slug": "user-accounts-front-dev"
+        },
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2019-03-13T19:55:25.000Z"
+          }
+        ],
+        "timestamp": "2019-03-13T19:55:25.000Z"
+      }
+    }
+  ]
+}
