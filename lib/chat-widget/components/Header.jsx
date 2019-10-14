@@ -6,6 +6,10 @@
 
 import * as React from 'react'
 import BackIcon from 'react-icons/lib/fa/angle-left'
+import CloseIcon from 'react-icons/lib/fa/close'
+import {
+	useSelector
+} from 'react-redux'
 import {
 	Box, Button, Flex, Txt, Img, useTheme
 } from 'rendition'
@@ -23,9 +27,14 @@ const Separator = () => {
 	)
 }
 
-export const Header = () => {
+export const Header = ({
+	onClose
+}) => {
 	const router = useRouter()
 	const theme = useTheme()
+	const productTitle = useSelector((state) => {
+		return state.productTitle
+	})
 
 	const handleBackButtonClick = React.useCallback(() => {
 		router.history.goBack()
@@ -54,11 +63,18 @@ export const Header = () => {
 			)}
 
 			<Box flex="1" fontSize="20px" mt="2px" ml="12px">
-				<Txt.span bold>balena</Txt.span>&nbsp;
+				<Txt.span bold>{productTitle}</Txt.span>&nbsp;
 				<Txt.span color={theme.colors.tertiary.light}>chat</Txt.span>
 			</Box>
 
 			<AvailabilityStatus />
+
+			<Button
+				ml="20px"
+				plain
+				icon={<CloseIcon size="14px" />}
+				onClick={onClose}
+			/>
 		</Flex>
 	)
 }

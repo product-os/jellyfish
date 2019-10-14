@@ -10,7 +10,10 @@ exports.createThreads = async (context, start, count) => {
 	for (let index = start; index < start + count; index++) {
 		const thread = await context.sdk.card.create({
 			type: 'support-thread',
-			name: `Thread subject ${index}`
+			name: `Thread subject ${index}`,
+			data: {
+				product: 'jellyfish'
+			}
 		})
 
 		threads.push(thread)

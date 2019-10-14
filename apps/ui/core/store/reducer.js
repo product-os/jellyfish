@@ -101,7 +101,10 @@ const getDefaultState = () => {
 				sidebar: {
 					expanded: []
 				},
-				timelines: {}
+				timelines: {},
+				chatWidget: {
+					open: false
+				}
 			}
 		},
 		views: {

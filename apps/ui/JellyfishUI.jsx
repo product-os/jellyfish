@@ -32,6 +32,9 @@ import {
 import {
 	saveAs
 } from 'file-saver'
+import {
+	ChatWidgetSidebar
+} from '../../lib/ui-components/ChatWidgetSidebar'
 import HomeChannel from '../../lib/ui-components/HomeChannel'
 import Login from '../../lib/ui-components/Login'
 import Notifications from '../../lib/ui-components/Notifications'
@@ -102,6 +105,10 @@ class JellyfishUI extends React.Component {
 				showChangelog: null
 			})
 		}
+
+		this.handleChatWidgetClose = () => {
+			this.props.actions.setChatWidgetOpen(false)
+		}
 	}
 
 	componentDidUpdate (prevProps) {
@@ -160,6 +167,12 @@ class JellyfishUI extends React.Component {
 					</Switch>
 				</Flex>
 
+				{this.props.isChatWidgetOpen && (
+					<ChatWidgetSidebar
+						onClose={this.handleChatWidgetClose}
+					/>
+				)}
+
 				<Notifications />
 			</React.Fragment>
 		)
@@ -171,7 +184,8 @@ const mapStateToProps = (state) => {
 		channels: selectors.getChannels(state),
 		status: selectors.getStatus(state),
 		version: selectors.getAppVersion(state),
-		changelog: selectors.getChangelog(state)
+		changelog: selectors.getChangelog(state),
+		isChatWidgetOpen: selectors.getChatWidgetOpen(state)
 	}
 }
 
@@ -179,7 +193,8 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: bindActionCreators(
 			_.pick(actionCreators, [
-				'dumpState'
+				'dumpState',
+				'setChatWidgetOpen'
 			]), dispatch)
 	}
 }

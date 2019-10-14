@@ -45,6 +45,9 @@
                 "category": {
                   "description": "This field is not required and should match cases where the field is not present OR is 'general'",
                   "const": "general"
+                },
+                "product": {
+                  "const": "balenaCloud"
                 }
               }
             }
