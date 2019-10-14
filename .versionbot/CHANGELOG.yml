@@ -1,4 +1,14 @@
 - commits:
+    - subject: Add sidebar support chat widget in ui
+      hash: 3ef47bac555cbebfb5244bde9eed32d657d5514e
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 23.27.0
+  date: 2019-10-14T08:45:53.732Z
+- commits:
     - subject: >-
         test/integration/sync/webhooks/flowdock: Remove two messages on
         different threads test case
