@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'front: Delete blanked out whispers'
+      hash: 3abe44b46a91d071adc48d0d13e2512d49214632
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.27.2
+  date: 2019-10-14T13:16:42.896Z
+- commits:
     - subject: 'ChatWidget: ignore events from other products'
       hash: 4726f7bd0955eed6dbdf58b273e765190417129d
       body: ''
