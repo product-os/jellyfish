@@ -395,7 +395,7 @@ module.exports = {
 				permutations: suite.source !== 'github' && suite.source !== 'flowdock'
 			})) {
 				// TODO: We should remove this check
-				if (suite.source === 'github' &&
+				if ((suite.source === 'github' || suite.source === 'flowdock') &&
 					variation.combination.length !== testCase.steps.length) {
 					continue
 				}
