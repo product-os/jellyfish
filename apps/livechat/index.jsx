@@ -22,6 +22,8 @@ import * as environment from './environment'
 	})
 
 	mount(document.getElementById('app'), {
-		sdk
+		sdk,
+		productTitle: 'Jelly',
+		product: 'jellyfish'
 	})
 })()

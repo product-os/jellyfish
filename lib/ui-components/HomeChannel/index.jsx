@@ -40,6 +40,7 @@ const mapDispatchToProps = (dispatch) => {
 				'loadViewResults',
 				'logout',
 				'removeViewNotice',
+				'setChatWidgetOpen',
 				'setUIState',
 				'streamView'
 			]), dispatch)

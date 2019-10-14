@@ -37,12 +37,18 @@ import {
 } from './StreamProviderTask'
 
 export const App = React.memo(({
-	sdk
+	sdk,
+	productTitle,
+	product,
+	onClose
 }) => {
 	const analytics = useAnalytics()
 	const store = React.useMemo(() => {
-		return createStore()
-	}, [])
+		return createStore({
+			product,
+			productTitle
+		})
+	}, [ product, productTitle ])
 
 	return (
 		<StoreProvider store={store}>
@@ -56,7 +62,7 @@ export const App = React.memo(({
 						{() => {
 							return (
 								<Router>
-									<Layout flex={1}>
+									<Layout flex={1} onClose={onClose}>
 										<Route path="/" exact component={IndexRoute} />
 										<Route path="/full_thread_list" exact component={FullThreadListRoute} />
 										<Route path="/new_thread" exact component={NewThreadRoute} />

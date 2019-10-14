@@ -128,6 +128,9 @@ export const selectors = {
 	getTimelineMessage: (state, target) => {
 		return _.get(state.core, [ 'ui', 'timelines', target, 'message' ], '')
 	},
+	getChatWidgetOpen: (state) => {
+		return _.get(state.core, [ 'ui', 'chatWidget', 'open' ])
+	},
 	getTypes: (state) => { return state.core.types },
 	getUIState: (state) => { return state.core.ui },
 	getLensState: (state, lensSlug, cardId) => {
@@ -204,6 +207,7 @@ export default class ActionCreator {
 			'removeViewNotice',
 			'setAuthToken',
 			'setChannels',
+			'setChatWidgetOpen',
 			'setDefault',
 			'setOrgs',
 			'setPassword',
@@ -562,6 +566,22 @@ export default class ActionCreator {
 					dispatch(this.loadChannelData(channel))
 				}
 			}
+		}
+	}
+
+	setChatWidgetOpen (open) {
+		return (dispatch, getState) => {
+			const uiState = getState().core.ui
+
+			dispatch({
+				type: actions.SET_UI_STATE,
+				value: {
+					...uiState,
+					chatWidget: {
+						open
+					}
+				}
+			})
 		}
 	}
 

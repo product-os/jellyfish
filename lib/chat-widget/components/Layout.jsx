@@ -24,7 +24,7 @@ import {
 } from './Header'
 
 export const Layout = ({
-	children, ...rest
+	onClose, children, ...rest
 }) => {
 	const actions = useActions()
 	const fetchThreads = useTask(actions.fetchThreads)
@@ -45,7 +45,7 @@ export const Layout = ({
 			flexDirection="column"
 			color={theme.colors.secondary.main}
 			backgroundColor={theme.colors.quartenary.light}>
-			<Header />
+			<Header onClose={onClose} />
 			<Flex flex={1} flexDirection="column">
 				<Task task={combinedTask}>{() => { return children }}</Task>
 			</Flex>

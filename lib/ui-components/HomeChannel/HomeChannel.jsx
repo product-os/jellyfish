@@ -93,6 +93,7 @@ export default class HomeChannel extends React.Component {
 		this.toggleExpandGroup = this.toggleExpandGroup.bind(this)
 		this.isExpanded = this.isExpanded.bind(this)
 		this.openCreateViewChannel = this.openCreateViewChannel.bind(this)
+		this.openChatWidget = this.openChatWidget.bind(this)
 
 		if (this.props.channel.data.head) {
 			this.props.actions.loadViewResults(this.props.channel.data.head)
@@ -113,6 +114,10 @@ export default class HomeChannel extends React.Component {
 			},
 			canonical: false
 		})
+	}
+
+	openChatWidget () {
+		this.props.actions.setChatWidgetOpen(true)
 	}
 
 	groupViews (tail) {
@@ -346,6 +351,18 @@ export default class HomeChannel extends React.Component {
 						tooltip={{
 							placement: 'right',
 							text: 'Create a new private conversation'
+						}}
+					/>
+
+					<Button
+						ml={2}
+						plain
+						icon={<Icon name="comment-alt" />}
+						data-test="open-chat-widget"
+						onClick={this.openChatWidget}
+						tooltip={{
+							placement: 'right',
+							text: 'Open a chat widget'
 						}}
 					/>
 				</Box>
