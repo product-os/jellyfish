@@ -30,14 +30,6 @@
     ]
   },
   "ava": {
-    "babel": {
-      "extensions": [
-        "jsx"
-      ]
-    },
-    "extensions": [
-      "js"
-    ],
     "timeout": "5m",
     "verbose": true,
     "serial": true,
