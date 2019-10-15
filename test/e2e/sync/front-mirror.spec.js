@@ -362,10 +362,12 @@ avaTest('should be able to reply to a moved inbound message', async (test) => {
 	await test.context.createMessage(supportThread,
 		test.context.getMessageSlug(), 'Message in another inbox')
 
-	const messages = await test.context.getFrontMessagesUntil(
+	const messages = _.reject(await test.context.getFrontMessagesUntil(
 		conversationId, (elements) => {
 			return elements.length > 1
-		})
+		}), {
+		is_draft: true
+	})
 
 	test.is(messages.length, 2)
 	test.is(messages[0].body, '<p>Message in another inbox</p>\n')
@@ -392,10 +394,12 @@ avaTest('should be able to reply to an inbound message', async (test) => {
 	await test.context.createMessage(supportThread,
 		test.context.getMessageSlug(), 'First message')
 
-	const messages = await test.context.getFrontMessagesUntil(
+	const messages = _.reject(await test.context.getFrontMessagesUntil(
 		_.last(supportThread.data.mirrors[0].split('/')), (elements) => {
 			return elements.length > 1
-		})
+		}), {
+		is_draft: true
+	})
 
 	test.is(messages.length, 2)
 	test.is(messages[0].body, '<p>First message</p>\n')
