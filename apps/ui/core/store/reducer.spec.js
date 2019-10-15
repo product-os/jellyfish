@@ -45,7 +45,10 @@ ava('reducer should create a default state if one is not provided', (test) => {
 				sidebar: {
 					expanded: []
 				},
-				timelines: {}
+				timelines: {},
+				chatWidget: {
+					open: false
+				}
 			}
 		},
 		views: {
