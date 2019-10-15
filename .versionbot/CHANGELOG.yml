@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'sync: Warn when using the "intercom" actor'
+      hash: e5b338279657f7c3763d7f023d885df49afe1398
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.27.4
+  date: 2019-10-15T14:20:44.228Z
+- commits:
     - subject: 'Makefile: Run UI tests on test-unit'
       hash: f83fccb5ae8075fda9f82d1a725c97a5a82ffff5
       body: ''
