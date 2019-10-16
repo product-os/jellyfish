@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'UI: Fix warning about "bg" prop'
+      hash: a5a2f06ab8f1d14d74979c218e53f70d78168a22
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 23.27.6
+  date: 2019-10-16T15:10:13.791Z
+- commits:
     - subject: 'front: Fix flaky mirror test case assertion'
       hash: 6dc7b7045a9b36d101ad800d16a9200875f21358
       body: ''
