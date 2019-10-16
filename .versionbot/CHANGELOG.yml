@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'front: Fix flaky mirror test case assertion'
+      hash: 6dc7b7045a9b36d101ad800d16a9200875f21358
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.27.5
+  date: 2019-10-16T12:04:49.388Z
+- commits:
     - subject: 'sync: Warn when using the "intercom" actor'
       hash: e5b338279657f7c3763d7f023d885df49afe1398
       body: ''
