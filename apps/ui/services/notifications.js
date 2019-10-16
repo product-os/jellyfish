@@ -19,13 +19,17 @@ const sound = new Howl({
 	src: '/audio/dustyroom_cartoon_bubble_pop.mp3'
 })
 
-let canUseNotifications = Notification.permission === 'granted'
+let canUseNotifications = false
 
-if (Notification && Notification.permission !== 'denied') {
-	Notification.requestPermission((status) => {
-		// Status is "granted", if accepted by user
-		canUseNotifications = status === 'granted'
-	})
+if (typeof Notification !== 'undefined') {
+	if (Notification.permission === 'granted') {
+		canUseNotifications = true
+	} else if (Notification.permission !== 'denied') {
+		Notification.requestPermission((status) => {
+			// Status is "granted", if accepted by user
+			canUseNotifications = status === 'granted'
+		})
+	}
 }
 
 export const createNotification = ({
