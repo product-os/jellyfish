@@ -248,6 +248,111 @@ ava('.getElementBySlug() should fetch an element given its slug', async (test) =
 	test.deepEqual(result, element)
 })
 
+ava('.getElementBySlug() should return null if the slug@latest is not present', async (test) => {
+	const result = await test.context.backend.getElementBySlug(
+		test.context.context, 'foo@latest', {
+			type: 'card'
+		})
+
+	test.deepEqual(result, null)
+})
+
+ava('.getElementBySlug() should return null given the wrong version', async (test) => {
+	await test.context.backend.upsertElement(test.context.context, {
+		slug: 'example',
+		type: 'card',
+		version: '1.0.0',
+		links: {},
+		linked_at: {},
+		data: {},
+		tags: [],
+		markers: [],
+		requires: [],
+		capabilities: [],
+		created_at: new Date().toISOString(),
+		active: true
+	})
+
+	const result = await test.context.backend.getElementBySlug(
+		test.context.context, 'example@2.0.0', {
+			type: 'card'
+		})
+
+	test.deepEqual(result, null)
+})
+
+ava('.getElementBySlug() should fetch an element given the correct version', async (test) => {
+	const element = await test.context.backend.upsertElement(test.context.context, {
+		slug: 'example',
+		type: 'card',
+		version: '1.0.0',
+		links: {},
+		linked_at: {},
+		data: {},
+		tags: [],
+		markers: [],
+		requires: [],
+		capabilities: [],
+		created_at: new Date().toISOString(),
+		active: true
+	})
+
+	const result = await test.context.backend.getElementBySlug(
+		test.context.context, 'example@1.0.0', {
+			type: 'card'
+		})
+
+	test.deepEqual(result, element)
+})
+
+ava('.getElementBySlug() should fetch the latest version other than 1.0.0 using @latest', async (test) => {
+	const element = await test.context.backend.upsertElement(test.context.context, {
+		slug: 'example',
+		type: 'card',
+		version: '3.0.0',
+		links: {},
+		linked_at: {},
+		data: {},
+		tags: [],
+		markers: [],
+		requires: [],
+		capabilities: [],
+		created_at: new Date().toISOString(),
+		active: true
+	})
+
+	const result = await test.context.backend.getElementBySlug(
+		test.context.context, 'example@latest', {
+			type: 'card'
+		})
+
+	test.deepEqual(result, element)
+})
+
+ava('.getElementBySlug() should fetch an element given its slug@latest', async (test) => {
+	const element = await test.context.backend.upsertElement(test.context.context, {
+		slug: 'example',
+		type: 'card',
+		version: '1.0.0',
+		links: {},
+		linked_at: {},
+		data: {},
+		tags: [],
+		markers: [],
+		requires: [],
+		capabilities: [],
+		created_at: new Date().toISOString(),
+		active: true
+	})
+
+	const result = await test.context.backend.getElementBySlug(
+		test.context.context, 'example@latest', {
+			type: 'card'
+		})
+
+	test.deepEqual(result, element)
+})
+
 ava('.insertElement() should not insert an element without a slug nor an id to an existing table', async (test) => {
 	await test.throwsAsync(test.context.backend.insertElement(test.context.context, {
 		version: '1.0.0',
