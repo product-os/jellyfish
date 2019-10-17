@@ -1,0 +1,8 @@
+build-variables:
+  global:
+    - ENABLE_COVERAGE=0
+    - SENTRY_DSN_UI=0
+  services:
+    ui:
+      - SERVER_HOST=http://api.jellyfish.local
+      - SERVER_PORT=80

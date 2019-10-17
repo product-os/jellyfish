@@ -1,0 +1,124 @@
+{
+	"defaults": [
+		"timeout connect 5000",
+		"timeout client 60000",
+		"timeout server 60000",
+		"default-server init-addr last,libc,none"
+	],
+	"resolvers": [
+		{
+			"id": "docker-bridge-resolver",
+			"nameservers": {
+				"docker-resolver": "127.0.0.11:53"
+			},
+			"hold": {
+				"valid": "0ms"
+			}
+		}
+	],
+	"ui": {
+		"backend": [
+			{
+				"url": "http://ui:80",
+				"server": {
+					"resolvers": "docker-bridge-resolver",
+					"resolve-prefer": "ipv4",
+					"check": null,
+					"port": "<port>"
+				}
+			}
+		],
+		"frontend": [
+			{
+				"protocol": "http",
+				"domain": "jellyfish.local",
+				"subdomain": "ui",
+				"port": "80"
+			}
+		]
+	},
+	"redis": {
+		"backend": [
+			{
+				"url": "http://redis:6379",
+				"server": {
+					"resolvers": "docker-bridge-resolver",
+					"resolve-prefer": "ipv4",
+					"check": null,
+					"port": "<port>"
+				}
+			}
+		],
+		"frontend": [
+			{
+				"protocol": "http",
+				"domain": "jellyfish.local",
+				"subdomain": "redis",
+				"port": "6379"
+			}
+		]
+	},
+	"postgres": {
+		"backend": [
+			{
+				"url": "http://postgres:5432",
+				"server": {
+					"resolvers": "docker-bridge-resolver",
+					"resolve-prefer": "ipv4",
+					"check": null,
+					"port": "<port>"
+				}
+			}
+		],
+		"frontend": [
+			{
+				"protocol": "http",
+				"domain": "jellyfish.local",
+				"subdomain": "postgres",
+				"port": "5432"
+			}
+		]
+	},
+	"livechat": {
+		"backend": [
+			{
+				"url": "http://livechat:80",
+				"server": {
+					"resolvers": "docker-bridge-resolver",
+					"resolve-prefer": "ipv4",
+					"check": null,
+					"port": "<port>"
+				}
+			}
+		],
+		"frontend": [
+			{
+				"protocol": "http",
+				"domain": "jellyfish.local",
+				"subdomain": "livechat",
+				"port": "80"
+			}
+		]
+	},
+	"api": {
+		"backend": [
+			{
+				"url": "http://api:8000",
+				"server": {
+					"resolvers": "docker-bridge-resolver",
+					"resolve-prefer": "ipv4",
+					"check": null,
+					"port": "<port>"
+				}
+			}
+		],
+		"frontend": [
+			{
+				"protocol": "http",
+				"domain": "jellyfish.local",
+				"subdomain": "api",
+				"port": "80"
+			}
+		]
+	}
+}

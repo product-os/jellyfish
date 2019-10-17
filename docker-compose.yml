@@ -1,249 +1,302 @@
-version: "3"
-volumes:
-  .nyc_output:
+version: '2.1'
+
 services:
+  api:
+    build:
+      args:
+        ENABLE_COVERAGE: '0'
+      context: .
+      dockerfile: apps/server/Dockerfile
+    networks:
+      - internal
+    depends_on:
+      - postgres
+      - redis
+      - tick
+      - worker
+      - balena-mdns-publisher
+    environment:
+      - DATABASE=postgres
+      - LOGENTRIES_TOKEN=''
+      - LOGLEVEL=info
+      - NODE_ENV=test
+      - POD_NAME=localhost
+      - PORT=8000
+      - POSTGRES_DATABASE=jellyfish
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=docker
+      - REDIS_HOST=redis
+      - REDIS_PASSWORD=redis
+      - REDIS_PORT=6379
+      - SENTRY_DSN_SERVER=''
+      - SERVER_DATABASE=jellyfish
+      - SERVER_HOST=http://localhost
+      - SERVER_PORT=8000
+      - TEST_USER_ORGANIZATION=balena
+      - TEST_USER_PASSWORD=jellyfish
+      - TEST_USER_ROLE=user-test
+      - TEST_USER_USERNAME=jellyfish
+      - INTEGRATION_BALENA_API_PRIVATE_KEY
+      - INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION
+      - INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING
+      - INTEGRATION_DEFAULT_USER
+      - INTEGRATION_INTERCOM_TOKEN
+      - INTEGRATION_FRONT_TOKEN
+      - INTEGRATION_GITHUB_TOKEN
+      - INTEGRATION_GITHUB_SIGNATURE_KEY
+      - INTEGRATION_FLOWDOCK_SIGNATURE_KEY
+      - INTEGRATION_DISCOURSE_TOKEN
+      - INTEGRATION_DISCOURSE_USERNAME
+      - INTEGRATION_DISCOURSE_SIGNATURE_KEY
+      - INTEGRATION_OUTREACH_APP_ID
+      - INTEGRATION_OUTREACH_APP_SECRET
+      - INTEGRATION_OUTREACH_SIGNATURE_KEY
+    healthcheck:
+      interval: 30s
+      retries: 5
+      test:
+        - CMD
+        - curl
+        - --fail
+        - http://localhost:8000/health
+      timeout: 10s
+    expose:
+      - 80
+    restart: always
+    volumes:
+      - nyc_output:/usr/src/jellyfish/.nyc_output:rw
+  livechat:
+    build:
+      args:
+        ENABLE_COVERAGE: '0'
+        SERVER_HOST: http://api
+        SERVER_PORT: 8000
+      context: .
+      dockerfile: apps/livechat/Dockerfile
+    depends_on:
+      - api
+      - balena-mdns-publisher
+    networks:
+      - internal
+    environment:
+      NGINX_PORT: 80
   postgres:
     image: balena/open-balena-db:3.0.1
     restart: always
-    deploy:
-      mode: global
-      replicas: 1
-    ports:
-      - "${POSTGRES_PORT}:5432"
+    networks:
+      - internal
   redis:
     image: balena/balena-redis:0.0.3
     restart: always
-    deploy:
-      mode: replicated
-      replicas: 1
-    ports:
-      - "${REDIS_PORT}:6379"
-  api:
-    build:
-      context: .
-      dockerfile: apps/server/Dockerfile
-      args:
-        - ENABLE_COVERAGE=${COVERAGE}
-    restart: always
-    deploy:
-      mode: replicated
-      replicas: 1
-    environment:
-      - PORT
-      - DATABASE
-      - POSTGRES_HOST=postgres
-      - POSTGRES_PORT
-      - POSTGRES_USER=docker
-      - POSTGRES_PASSWORD=docker
-      - POSTGRES_DATABASE
-      - REDIS_HOST=redis
-      - REDIS_PORT
-      - REDIS_PASSWORD=redis
-      - NODE_ENV
-      - LOGLEVEL
-      - SENTRY_DSN_SERVER
-      - LOGENTRIES_TOKEN
-      - POD_NAME
-      - SERVER_HOST
-      - SERVER_PORT
-      - SERVER_DATABASE
-      - TEST_USER_USERNAME
-      - TEST_USER_PASSWORD
-      - TEST_USER_ROLE
-      - TEST_USER_ORGANIZATION
-      - INTEGRATION_BALENA_API_PRIVATE_KEY
-      - INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION
-      - INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING
-      - INTEGRATION_DEFAULT_USER
-      - INTEGRATION_INTERCOM_TOKEN
-      - INTEGRATION_FRONT_TOKEN
-      - INTEGRATION_GITHUB_TOKEN
-      - INTEGRATION_GITHUB_SIGNATURE_KEY
-      - INTEGRATION_FLOWDOCK_SIGNATURE_KEY
-      - INTEGRATION_DISCOURSE_TOKEN
-      - INTEGRATION_DISCOURSE_USERNAME
-      - INTEGRATION_DISCOURSE_SIGNATURE_KEY
-      - INTEGRATION_OUTREACH_APP_ID
-      - INTEGRATION_OUTREACH_APP_SECRET
-      - INTEGRATION_OUTREACH_SIGNATURE_KEY
-    ports:
-      - "${PORT}:${PORT}"
-    healthcheck:
-      test: [ "CMD", "curl", "--fail", "http://localhost:${PORT}/health" ]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-    volumes:
-      - .nyc_output:/usr/src/jellyfish/.nyc_output
-    depends_on:
-      - postgres
-      - redis
-      - worker
-      - tick
-    links:
-      - postgres
-      - redis
-  worker:
-    build:
-      context: .
-      dockerfile: apps/action-server/Dockerfile.worker
-      args:
-        - ENABLE_COVERAGE=${COVERAGE}
-    restart: always
-    deploy:
-      mode: replicated
-      replicas: 5
-    environment:
-      - DATABASE
-      - POSTGRES_HOST=postgres
-      - POSTGRES_PORT
-      - POSTGRES_USER=docker
-      - POSTGRES_PASSWORD=docker
-      - POSTGRES_DATABASE
-      - REDIS_HOST=redis
-      - REDIS_PORT
-      - REDIS_PASSWORD=redis
-      - NODE_ENV
-      - LOGLEVEL
-      - SENTRY_DSN_SERVER
-      - LOGENTRIES_TOKEN
-      - INTEGRATION_BALENA_API_PRIVATE_KEY
-      - INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION
-      - INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING
-      - INTEGRATION_DEFAULT_USER
-      - INTEGRATION_INTERCOM_TOKEN
-      - INTEGRATION_FRONT_TOKEN
-      - INTEGRATION_GITHUB_TOKEN
-      - INTEGRATION_GITHUB_SIGNATURE_KEY
-      - INTEGRATION_FLOWDOCK_SIGNATURE_KEY
-      - INTEGRATION_DISCOURSE_TOKEN
-      - INTEGRATION_DISCOURSE_USERNAME
-      - INTEGRATION_DISCOURSE_SIGNATURE_KEY
-      - INTEGRATION_OUTREACH_APP_ID
-      - INTEGRATION_OUTREACH_APP_SECRET
-      - INTEGRATION_OUTREACH_SIGNATURE_KEY
-    depends_on:
-      - postgres
-      - redis
-    volumes:
-      - .nyc_output:/usr/src/jellyfish/.nyc_output
-    links:
-      - postgres
-      - redis
-  tick:
-    build:
-      context: .
-      dockerfile: apps/action-server/Dockerfile.tick
-      args:
-        - ENABLE_COVERAGE=${COVERAGE}
-    restart: always
-    deploy:
-      mode: global
-    environment:
-      - DATABASE
-      - POSTGRES_HOST=postgres
-      - POSTGRES_PORT
-      - POSTGRES_USER=docker
-      - POSTGRES_PASSWORD=docker
-      - POSTGRES_DATABASE
-      - REDIS_HOST=redis
-      - REDIS_PORT
-      - REDIS_PASSWORD=redis
-      - NODE_ENV
-      - LOGLEVEL
-      - SENTRY_DSN_SERVER
-      - LOGENTRIES_TOKEN
-      - INTEGRATION_BALENA_API_PRIVATE_KEY
-      - INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION
-      - INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING
-      - INTEGRATION_DEFAULT_USER
-      - INTEGRATION_INTERCOM_TOKEN
-      - INTEGRATION_FRONT_TOKEN
-      - INTEGRATION_GITHUB_TOKEN
-      - INTEGRATION_GITHUB_SIGNATURE_KEY
-      - INTEGRATION_FLOWDOCK_SIGNATURE_KEY
-      - INTEGRATION_DISCOURSE_TOKEN
-      - INTEGRATION_DISCOURSE_USERNAME
-      - INTEGRATION_DISCOURSE_SIGNATURE_KEY
-      - INTEGRATION_OUTREACH_APP_ID
-      - INTEGRATION_OUTREACH_APP_SECRET
-      - INTEGRATION_OUTREACH_SIGNATURE_KEY
-    depends_on:
-      - postgres
-      - redis
-    volumes:
-      - .nyc_output:/usr/src/jellyfish/.nyc_output
-    links:
-      - postgres
-      - redis
-  ui:
-    build:
-      context: .
-      dockerfile: apps/ui/Dockerfile
-      args:
-        - SERVER_HOST=http://api
-        - SERVER_PORT=${PORT}
-        - SENTRY_DSN_UI=0
-        - ENABLE_COVERAGE=${COVERAGE}
-    environment:
-      - NGINX_PORT=80
-      - NODE_ENV
-    links:
-      - api
-    depends_on:
-      - api
-    ports:
-     - "${UI_PORT}:80"
-  livechat:
-    build:
-      context: .
-      dockerfile: apps/livechat/Dockerfile
-      args:
-        - SERVER_HOST=http://api
-        - SERVER_PORT=${SERVER_PORT}
-        - ENABLE_COVERAGE=${COVERAGE}
-    environment:
-      - NGINX_PORT=80
-    links:
-      - api
-    depends_on:
-      - api
-    ports:
-     - "${LIVECHAT_PORT}:80"
+    networks:
+      - internal
   sidecar:
     build:
       context: .
       dockerfile: apps/sidecar/Dockerfile
-    restart: always
-    deploy:
-      mode: global
+    depends_on:
+      - api
+      - livechat
+      - postgres
+      - ui
+      - balena-mdns-publisher
     environment:
-      - DATABASE
-      - NODE_ENV
-      - POSTGRES_USER=docker
-      - POSTGRES_PASSWORD=docker
-      - POSTGRES_HOST=postgres
-      - POSTGRES_DATABASE
-      - SERVER_HOST=http://api
-      - SERVER_PORT
-      - UI_HOST=http://ui
-      - UI_PORT=80
-      - LIVECHAT_HOST=http://livechat
-      - LIVECHAT_PORT=80
+      DATABASE: postgres
+      LIVECHAT_HOST: http://livechat
+      LIVECHAT_PORT: 80
+      NODE_ENV: test
+      POSTGRES_DATABASE: jellyfish
+      POSTGRES_HOST: postgres
+      POSTGRES_PASSWORD: docker
+      POSTGRES_USER: docker
+      SERVER_HOST: http://api
+      SERVER_PORT: 8000
+      UI_HOST: http://ui
+      UI_PORT: 80
+    networks:
+      - internal
     healthcheck:
-      test: [ "CMD", "curl", "--fail", "http://api:${SERVER_PORT}/ping" ]
       interval: 10s
-      timeout: 10s
       retries: 10
+      test:
+        - CMD
+        - curl
+        - --fail
+        - http://api:8000/ping
+      timeout: 10s
+    restart: always
     volumes:
-      - .nyc_output:/usr/src/jellyfish/.nyc_output
+      - nyc_output:/usr/src/jellyfish/.nyc_output:rw
+  tick:
+    build:
+      args:
+        ENABLE_COVERAGE: '0'
+      context: .
+      dockerfile: apps/action-server/Dockerfile.tick
     depends_on:
       - postgres
+      - redis
+      - balena-mdns-publisher
+    environment:
+      - DATABASE=postgres
+      - LOGENTRIES_TOKEN=''
+      - LOGLEVEL=info
+      - NODE_ENV=test
+      - POSTGRES_DATABASE=jellyfish
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=docker
+      - REDIS_HOST=redis
+      - REDIS_PASSWORD=redis
+      - REDIS_PORT=6379
+      - SENTRY_DSN_SERVER=''
+      - NODE_ENV
+      - LOGLEVEL
+      - SENTRY_DSN_SERVER
+      - LOGENTRIES_TOKEN
+      - INTEGRATION_BALENA_API_PRIVATE_KEY
+      - INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION
+      - INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING
+      - INTEGRATION_DEFAULT_USER
+      - INTEGRATION_INTERCOM_TOKEN
+      - INTEGRATION_FRONT_TOKEN
+      - INTEGRATION_GITHUB_TOKEN
+      - INTEGRATION_GITHUB_SIGNATURE_KEY
+      - INTEGRATION_FLOWDOCK_SIGNATURE_KEY
+      - INTEGRATION_DISCOURSE_TOKEN
+      - INTEGRATION_DISCOURSE_USERNAME
+      - INTEGRATION_DISCOURSE_SIGNATURE_KEY
+      - INTEGRATION_OUTREACH_APP_ID
+      - INTEGRATION_OUTREACH_APP_SECRET
+      - INTEGRATION_OUTREACH_SIGNATURE_KEY
+    restart: always
+    networks:
+      - internal
+    volumes:
+      - nyc_output:/usr/src/jellyfish/.nyc_output:rw
+  ui:
+    build:
+      args:
+        ENABLE_COVERAGE: '0'
+        SENTRY_DSN_UI: '0'
+        SERVER_HOST: http://api
+        SERVER_PORT: 8000
+      context: .
+      dockerfile: apps/ui/Dockerfile
+    depends_on:
       - api
-      - ui
-      - livechat
-    links:
+      - balena-mdns-publisher
+    environment:
+      NGINX_PORT: 80
+      NODE_ENV: test
+    networks:
+      - internal
+  worker:
+    build:
+      args:
+        ENABLE_COVERAGE: '0'
+      context: .
+      dockerfile: apps/action-server/Dockerfile.worker
+    depends_on:
       - postgres
-      - api
+      - redis
+      - balena-mdns-publisher
+    environment:
+      DATABASE: postgres
+      LOGENTRIES_TOKEN: ''
+      LOGLEVEL: info
+      NODE_ENV: test
+      POSTGRES_DATABASE: jellyfish
+      POSTGRES_HOST: postgres
+      POSTGRES_PASSWORD: docker
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: docker
+      REDIS_HOST: redis
+      REDIS_PASSWORD: redis
+      REDIS_PORT: 6379
+      SENTRY_DSN_SERVER: ''
+    restart: always
+    networks:
+      - internal
+    volumes:
+      - nyc_output:/usr/src/jellyfish/.nyc_output:rw
+  balena-mdns-publisher:
+    image: 'balena/balena-mdns-publisher:master'
+    network_mode: host
+    cap_add:
+      - SYS_RESOURCE
+      - SYS_ADMIN
+    security_opt:
+      - 'apparmor:unconfined'
+    tmpfs:
+      - /run
+      - /sys/fs/cgroup
+    labels:
+      io.balena.features.dbus: '1'
+      io.balena.features.supervisor-api: '1'
+    environment:
+      MDNS_TLD: jellyfish.local
+      MDNS_SUBDOMAINS: >-
+        ["worker", "ui", "tick", "sidecar", "redis", "postgres",
+        "livechat", "api"]
+      DBUS_SESSION_BUS_ADDRESS: 'unix:path=/host/run/dbus/system_bus_socket'
+      CONFD_BACKEND: 'ENV'
+  haproxy:
+    image: 'balena/open-balena-haproxy:master'
+    cap_add:
+      - SYS_RESOURCE
+      - SYS_ADMIN
+    security_opt:
+      - 'apparmor:unconfined'
+    tmpfs:
+      - /run
+      - /sys/fs/cgroup
+    depends_on:
+      - worker
       - ui
+      - tick
+      - sidecar
+      - redis
+      - postgres
       - livechat
+      - api
+      - balena-mdns-publisher
+    ports:
+      - '80:80'
+      - '222:222'
+      - '443:443'
+      - '1936:1936'
+      - '2222:2222'
+      - '3001:3001'
+      - '3128:3128'
+      - '5432:5432'
+      - '6379:6379'
+      - '9001:9001'
+    networks:
+      internal:
+        aliases:
+          - worker.jellyfish.local
+          - ui.jellyfish.local
+          - tick.jellyfish.local
+          - sidecar.jellyfish.local
+          - redis.jellyfish.local
+          - postgres.jellyfish.local
+          - livechat.jellyfish.local
+          - api.jellyfish.local
+    environment:
+      DOMAIN_INC_UUID: 'false'
+      AUTOGENERATE_CERTS: 'false'
+      AUTH_TOKEN: <token>
+      STATIC_DNS_IP: <ip>
+      CONFD_BACKEND: 'ENV'
+      PROXY_CONFIG: >-
+        ew0KCSJkZWZhdWx0cyI6IFsNCgkJInRpbWVvdXQgY29ubmVjdCA1MDAwIiwNCgkJInRpbWVvdXQgY2xpZW50IDYwMDAwIiwNCgkJInRpbWVvdXQgc2VydmVyIDYwMDAwIiwNCgkJImRlZmF1bHQtc2VydmVyIGluaXQtYWRkciBsYXN0LGxpYmMsbm9uZSINCgldLA0KCSJyZXNvbHZlcnMiOiBbDQoJCXsNCgkJCSJpZCI6ICJkb2NrZXItYnJpZGdlLXJlc29sdmVyIiwNCgkJCSJuYW1lc2VydmVycyI6IHsNCgkJCQkiZG9ja2VyLXJlc29sdmVyIjogIjEyNy4wLjAuMTE6NTMiDQoJCQl9LA0KCQkJImhvbGQiOiB7DQoJCQkJInZhbGlkIjogIjBtcyINCgkJCX0NCgkJfQ0KCV0sDQoJInVpIjogew0KCQkiYmFja2VuZCI6IFsNCgkJCXsNCgkJCQkidXJsIjogImh0dHA6Ly91aTo4MCIsDQoJCQkJInNlcnZlciI6IHsNCgkJCQkJInJlc29sdmVycyI6ICJkb2NrZXItYnJpZGdlLXJlc29sdmVyIiwNCgkJCQkJInJlc29sdmUtcHJlZmVyIjogImlwdjQiLA0KCQkJCQkiY2hlY2siOiBudWxsLA0KCQkJCQkicG9ydCI6ICI8cG9ydD4iDQoJCQkJfQ0KCQkJfQ0KCQldLA0KCQkiZnJvbnRlbmQiOiBbDQoJCQl7DQoJCQkJInByb3RvY29sIjogImh0dHAiLA0KCQkJCSJkb21haW4iOiAiamVsbHlmaXNoLmxvY2FsIiwNCgkJCQkic3ViZG9tYWluIjogInVpIiwNCgkJCQkicG9ydCI6ICI4MCINCgkJCX0NCgkJXQ0KCX0sDQoJInJlZGlzIjogew0KCQkiYmFja2VuZCI6IFsNCgkJCXsNCgkJCQkidXJsIjogImh0dHA6Ly9yZWRpczo2Mzc5IiwNCgkJCQkic2VydmVyIjogew0KCQkJCQkicmVzb2x2ZXJzIjogImRvY2tlci1icmlkZ2UtcmVzb2x2ZXIiLA0KCQkJCQkicmVzb2x2ZS1wcmVmZXIiOiAiaXB2NCIsDQoJCQkJCSJjaGVjayI6IG51bGwsDQoJCQkJCSJwb3J0IjogIjxwb3J0PiINCgkJCQl9DQoJCQl9DQoJCV0sDQoJCSJmcm9udGVuZCI6IFsNCgkJCXsNCgkJCQkicHJvdG9jb2wiOiAiaHR0cCIsDQoJCQkJImRvbWFpbiI6ICJqZWxseWZpc2gubG9jYWwiLA0KCQkJCSJzdWJkb21haW4iOiAicmVkaXMiLA0KCQkJCSJwb3J0IjogIjYzNzkiDQoJCQl9DQoJCV0NCgl9LA0KCSJwb3N0Z3JlcyI6IHsNCgkJImJhY2tlbmQiOiBbDQoJCQl7DQoJCQkJInVybCI6ICJodHRwOi8vcG9zdGdyZXM6NTQzMiIsDQoJCQkJInNlcnZlciI6IHsNCgkJCQkJInJlc29sdmVycyI6ICJkb2NrZXItYnJpZGdlLXJlc29sdmVyIiwNCgkJCQkJInJlc29sdmUtcHJlZmVyIjogImlwdjQiLA0KCQkJCQkiY2hlY2siOiBudWxsLA0KCQkJCQkicG9ydCI6ICI8cG9ydD4iDQoJCQkJfQ0KCQkJfQ0KCQldLA0KCQkiZnJvbnRlbmQiOiBbDQoJCQl7DQoJCQkJInByb3RvY29sIjogImh0dHAiLA0KCQkJCSJkb21haW4iOiAiamVsbHlmaXNoLmxvY2FsIiwNCgkJCQkic3ViZG9tYWluIjogInBvc3RncmVzIiwNCgkJCQkicG9ydCI6ICI1NDMyIg0KCQkJfQ0KCQldDQoJfSwNCgkibGl2ZWNoYXQiOiB7DQoJCSJiYWNrZW5kIjogWw0KCQkJew0KCQkJCSJ1cmwiOiAiaHR0cDovL2xpdmVjaGF0OjgwIiwNCgkJCQkic2VydmVyIjogew0KCQkJCQkicmVzb2x2ZXJzIjogImRvY2tlci1icmlkZ2UtcmVzb2x2ZXIiLA0KCQkJCQkicmVzb2x2ZS1wcmVmZXIiOiAiaXB2NCIsDQoJCQkJCSJjaGVjayI6IG51bGwsDQoJCQkJCSJwb3J0IjogIjxwb3J0PiINCgkJCQl9DQoJCQl9DQoJCV0sDQoJCSJmcm9udGVuZCI6IFsNCgkJCXsNCgkJCQkicHJvdG9jb2wiOiAiaHR0cCIsDQoJCQkJImRvbWFpbiI6ICJqZWxseWZpc2gubG9jYWwiLA0KCQkJCSJzdWJkb21haW4iOiAibGl2ZWNoYXQiLA0KCQkJCSJwb3J0IjogIjgwIg0KCQkJfQ0KCQldDQoJfSwNCgkiYXBpIjogew0KCQkiYmFja2VuZCI6IFsNCgkJCXsNCgkJCQkidXJsIjogImh0dHA6Ly9hcGk6ODAwMCIsDQoJCQkJInNlcnZlciI6IHsNCgkJCQkJInJlc29sdmVycyI6ICJkb2NrZXItYnJpZGdlLXJlc29sdmVyIiwNCgkJCQkJInJlc29sdmUtcHJlZmVyIjogImlwdjQiLA0KCQkJCQkiY2hlY2siOiBudWxsLA0KCQkJCQkicG9ydCI6ICI8cG9ydD4iDQoJCQkJfQ0KCQkJfQ0KCQldLA0KCQkiZnJvbnRlbmQiOiBbDQoJCQl7DQoJCQkJInByb3RvY29sIjogImh0dHAiLA0KCQkJCSJkb21haW4iOiAiamVsbHlmaXNoLmxvY2FsIiwNCgkJCQkic3ViZG9tYWluIjogImFwaSIsDQoJCQkJInBvcnQiOiAiODAiDQoJCQl9DQoJCV0NCgl9DQp9DQo=
+
+volumes:
+  nyc_output: {}
+
+networks:
+  internal: {}
