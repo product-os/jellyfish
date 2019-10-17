@@ -434,6 +434,7 @@ compose-%:
 		$(DOCKER_COMPOSE_COMMAND_OPTIONS)
 
 dev-%:
+	API_URL=$(SERVER_HOST):$(SERVER_PORT) \
 	NODE_ENV=development \
 	./node_modules/.bin/webpack-dev-server \
 		--config=./apps/$(subst dev-,,$@)/webpack.config.js \
