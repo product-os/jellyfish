@@ -80,7 +80,6 @@ ava('.getElementsById() should return an found element', async (test) => {
 		updated_at: null,
 		data: {},
 		links: {},
-		test: 'foo',
 		active: true
 	})
 
@@ -95,7 +94,6 @@ ava('.getElementsById() should omit not found elements', async (test) => {
 	const element = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'example',
 		type: 'card',
-		test: 'foo',
 		version: '1.0.0',
 		tags: [],
 		markers: [],
@@ -120,7 +118,6 @@ ava('.getElementsById() should get deterministic results', async (test) => {
 	const element = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'example',
 		type: 'card',
-		test: 'foo',
 		version: '1.0.0',
 		tags: [],
 		linked_at: {},
@@ -164,7 +161,6 @@ ava('.getElementById() should not break the cache if trying to query a valid slu
 	const element = await test.context.backend.upsertElement(test.context.context, {
 		slug: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		type: 'card',
-		test: 'foo',
 		links: {},
 		data: {},
 		linked_at: {},
@@ -196,7 +192,6 @@ ava('.getElementBySlug() should not break the cache if trying to query a valid i
 	const element = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'example',
 		type: 'card',
-		test: 'foo',
 		version: '1.0.0',
 		linked_at: {},
 		links: {},
@@ -234,7 +229,6 @@ ava('.getElementBySlug() should fetch an element given its slug', async (test) =
 	const element = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'example',
 		type: 'card',
-		test: 'foo',
 		version: '1.0.0',
 		links: {},
 		linked_at: {},
@@ -256,7 +250,6 @@ ava('.getElementBySlug() should fetch an element given its slug', async (test) =
 
 ava('.insertElement() should not insert an element without a slug nor an id to an existing table', async (test) => {
 	await test.throwsAsync(test.context.backend.insertElement(test.context.context, {
-		test: 'foo',
 		version: '1.0.0',
 		tags: [],
 		markers: [],
@@ -282,8 +275,7 @@ ava('.insertElement() should not insert an element without a type', async (test)
 		capabilities: [],
 		linked_at: {},
 		created_at: new Date().toISOString(),
-		active: true,
-		test: 'foo'
+		active: true
 	}), errors.JellyfishDatabaseError)
 })
 
@@ -532,7 +524,6 @@ ava('.insertElement() should fail to insert an element with a non-existent id bu
 
 ava('.upsertElement() should not be able to change a slug', async (test) => {
 	const result1 = await test.context.backend.upsertElement(test.context.context, {
-		test: 'foo',
 		type: 'card',
 		slug: 'foo',
 		data: {},
@@ -581,7 +572,6 @@ ava('.upsertElement() should not insert an element without a type', async (test)
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
-		test: 'foo',
 		active: true
 	}), errors.JellyfishDatabaseError)
 })
@@ -590,7 +580,6 @@ ava('.upsertElement() should insert a card with a slug', async (test) => {
 	const result = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'example',
 		type: 'card',
-		test: 'foo',
 		version: '1.0.0',
 		links: {},
 		tags: [],
@@ -615,7 +604,6 @@ ava('.upsertElement() should replace an element given the slug but no id', async
 	const result1 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'example',
 		type: 'card',
-		test: 'foo',
 		hello: 'world',
 		data: {},
 		linked_at: {},
@@ -632,7 +620,6 @@ ava('.upsertElement() should replace an element given the slug but no id', async
 	const result2 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'example',
 		type: 'card',
-		test: 'bar',
 		version: '1.0.0',
 		links: {},
 		linked_at: {},
@@ -667,8 +654,7 @@ ava('.upsertElement() should not let clients pick their own ids', async (test) =
 		markers: [],
 		requires: [],
 		capabilities: [],
-		created_at: new Date().toISOString(),
-		test: 'foo'
+		created_at: new Date().toISOString()
 	})
 
 	test.not(result.id, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
@@ -683,7 +669,6 @@ ava('.upsertElement() should not let clients pick their own ids', async (test) =
 
 ava('.upsertElement() should not be able to upsert without a slug nor an id', async (test) => {
 	await test.throwsAsync(test.context.backend.upsertElement(test.context.context, {
-		test: 'foo',
 		version: '1.0.0',
 		tags: [],
 		data: {},
@@ -726,8 +711,7 @@ ava('.upsertElement() should not consider ids when inserting an element with an 
 		markers: [],
 		requires: [],
 		capabilities: [],
-		created_at: new Date().toISOString(),
-		test: 'foo'
+		created_at: new Date().toISOString()
 	})
 
 	const result3 = await test.context.backend.upsertElement(test.context.context, {
@@ -735,7 +719,6 @@ ava('.upsertElement() should not consider ids when inserting an element with an 
 		slug: 'example',
 		type: 'card',
 		links: {},
-		test: 'foo',
 		data: {},
 		version: '1.0.0',
 		linked_at: {},
@@ -762,8 +745,7 @@ ava('.upsertElement() should not consider ids when inserting an element with an 
 		markers: [],
 		requires: [],
 		data: {},
-		slug: 'example',
-		test: 'foo'
+		slug: 'example'
 	})
 })
 
@@ -789,7 +771,6 @@ ava('.upsertElement() should replace an element with an existing id and the slug
 		slug: 'example',
 		links: {},
 		data: {},
-		test: 'foo',
 		version: '1.0.0',
 		linked_at: {},
 		tags: [],
@@ -830,7 +811,6 @@ ava('.upsertElement() should ignore the id when' +
 		slug: 'example',
 		type: 'card',
 		links: {},
-		test: 'foo',
 		version: '1.0.0',
 		linked_at: {},
 		tags: [],
@@ -858,15 +838,13 @@ ava('.upsertElement() should ignore the id when' +
 		capabilities: [],
 		active: true,
 		slug: 'example',
-		type: 'card',
-		test: 'foo'
+		type: 'card'
 	})
 })
 
 ava('.upsertElement() should not insert an element with a non-matching id nor slug', async (test) => {
 	await test.throwsAsync(test.context.backend.upsertElement(test.context.context, {
 		id: '9af7cf33-1a29-4f0c-a73b-f6a2b149850c',
-		test: 'foo',
 		version: '1.0.0',
 		tags: [],
 		data: {},
@@ -1086,7 +1064,6 @@ ava('.query() should give the same results when omitting additionalProperties an
 		linked_at: {},
 		capabilities: [],
 		created_at: new Date().toISOString(),
-		test: 1,
 		active: true
 	})
 
@@ -1102,7 +1079,6 @@ ava('.query() should give the same results when omitting additionalProperties an
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
-		test: 2,
 		active: true
 	})
 
@@ -1118,7 +1094,6 @@ ava('.query() should give the same results when omitting additionalProperties an
 		data: {},
 		capabilities: [],
 		created_at: new Date().toISOString(),
-		test: 3,
 		active: true
 	})
 
@@ -1199,7 +1174,6 @@ ava('.query() should fail to query an element by its id', async (test) => {
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
-		test: 1,
 		active: true
 	})
 
