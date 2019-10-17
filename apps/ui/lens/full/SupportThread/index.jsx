@@ -24,22 +24,23 @@ import {
 	Txt
 } from 'rendition'
 import styled from 'styled-components'
-import CardFields from '../../../../lib/ui-components/CardFields'
-import Event from '../../../../lib/ui-components/Event'
-import RouterLink from '../../../../lib/ui-components/Link'
-import {
-	Tag
-} from '../../../../lib/ui-components/Tag'
 import {
 	actionCreators,
 	selectors,
 	sdk
-} from '../../core'
-import * as helpers from '../../services/helpers'
-import Timeline from '../list/Timeline'
-import CardLayout from '../../layouts/CardLayout'
+} from '../../../core'
+import * as helpers from '../../../services/helpers'
+import Timeline from '../../list/Timeline'
+import CardLayout from '../../../layouts/CardLayout'
+import CardFields from '@jellyfish/ui-components/CardFields'
+import Event from '@jellyfish/ui-components/Event'
+import RouterLink from '@jellyfish/ui-components/Link'
+import {
+	Tag
+} from '@jellyfish/ui-components/Tag'
 import ColorHashPill from '@jellyfish/ui-components/shame/ColorHashPill'
 import Icon from '@jellyfish/ui-components/shame/Icon'
+import AuditPanel from './AuditPanel'
 
 const JellyIcon = styled.img.attrs({
 	src: '/icons/jellyfish.svg'
@@ -86,7 +87,6 @@ class SupportThreadBase extends React.Component {
 			sdk.card.update(card.id, card.type, patch)
 				.then(() => {
 					this.props.actions.addNotification('success', 'Opened support thread')
-					this.props.actions.removeChannel(this.props.channel)
 				})
 				.catch((error) => {
 					this.props.actions.addNotification('danger', error.message || error)
@@ -120,7 +120,7 @@ class SupportThreadBase extends React.Component {
 				})
 		}
 
-		this.archive = () => {
+		this.archiveCard = () => {
 			this.setState({
 				isClosing: true
 			})
@@ -201,6 +201,20 @@ class SupportThreadBase extends React.Component {
 	}
 
 	loadLinks (id) {
+		const baseSchema = {
+			type: 'object',
+			properties: {
+				id: {
+					type: 'string',
+					const: id
+				},
+				type: {
+					type: 'string',
+					const: 'support-thread'
+				}
+			},
+			additionalProperties: true
+		}
 		Bluebird.all([
 			sdk.query({
 				$$links: {
@@ -209,19 +223,8 @@ class SupportThreadBase extends React.Component {
 						additionalProperties: true
 					}
 				},
-				type: 'object',
 				description: `Support thread by id ${id} attached to support issue`,
-				properties: {
-					id: {
-						type: 'string',
-						const: id
-					},
-					type: {
-						type: 'string',
-						const: 'support-thread'
-					}
-				},
-				additionalProperties: true
+				...baseSchema
 			}),
 			sdk.query({
 				$$links: {
@@ -230,19 +233,8 @@ class SupportThreadBase extends React.Component {
 						additionalProperties: true
 					}
 				},
-				type: 'object',
 				description: `Support thread by id ${id} attached to issue`,
-				properties: {
-					id: {
-						type: 'string',
-						const: id
-					},
-					type: {
-						type: 'string',
-						const: 'support-thread'
-					}
-				},
-				additionalProperties: true
+				...baseSchema
 			})
 		])
 			.then(([ supportIssueResult, issueResult ]) => {
@@ -265,9 +257,11 @@ class SupportThreadBase extends React.Component {
 				}
 			})
 	}
+
 	shouldComponentUpdate (nextProps, nextState) {
 		return !circularDeepEqual(nextProps, this.props) || !circularDeepEqual(nextState, this.state)
 	}
+
 	componentWillUpdate (nextProps) {
 		const verb1 = 'support thread is attached to support issue'
 		const verb2 = 'support thread is attached to issue'
@@ -279,6 +273,7 @@ class SupportThreadBase extends React.Component {
 			this.loadLinks(nextProps.card.id)
 		}
 	}
+
 	render () {
 		const {
 			card,
@@ -310,24 +305,26 @@ class SupportThreadBase extends React.Component {
 				card={card}
 				channel={channel}
 				title={(
-					<Flex flex={1} justifyContent="space-between">
-						<DropDownButton
-							primary
-							label={_.get(card, [ 'data', 'category' ], defaultCategory)}
-							joined
-						>
-							{_.map(categoryOptions, (item) => {
-								return (
-									<Link
-										data-category={item}
-										key={item}
-										onClick={this.setCategory}
-									>
-										{item}
-									</Link>
-								)
-							})}
-						</DropDownButton>
+					<Flex flex={1} justifyContent={status === 'open' ? 'space-between' : 'flex-end'}>
+						{status === 'open' && (
+							<DropDownButton
+								primary
+								label={_.get(card, [ 'data', 'category' ], defaultCategory)}
+								joined
+							>
+								{_.map(categoryOptions, (item) => {
+									return (
+										<Link
+											data-category={item}
+											key={item}
+											onClick={this.setCategory}
+										>
+											{item}
+										</Link>
+									)
+								})}
+							</DropDownButton>
+						)}
 
 						{status === 'open' && (
 							<Button
@@ -356,7 +353,7 @@ class SupportThreadBase extends React.Component {
 									placement: 'bottom',
 									text: 'Archive this support thread'
 								}}
-								onClick={this.archive}
+								onClick={this.archiveCard}
 								icon={
 									<Icon
 										name={isClosing ? 'cog' : 'box'}
@@ -397,6 +394,15 @@ class SupportThreadBase extends React.Component {
 					</React.Fragment>
 				)}
 			>
+				{card.data.status === 'closed' && (
+					<AuditPanel
+						card={card}
+						types={this.props.types}
+						actions={this.props.actions}
+						archiveCard={this.archiveCard}
+					/>
+				)}
+
 				<Box
 					px={3}
 					pt={3}
@@ -563,6 +569,7 @@ const mapDispatchToProps = (dispatch) => {
 		actions: redux.bindActionCreators(
 			_.pick(actionCreators, [
 				'addNotification',
+				'addChannel',
 				'getActor',
 				'removeChannel'
 			]),

@@ -54,16 +54,30 @@ class CreateLens extends React.Component {
 		let selectedTypeTarget = null
 		let linkOption = null
 
+		// If the intention is to link the created card to another upon completion,
+		// only show type options that are valid link targets
 		if (onDone && onDone.action === 'link') {
-			linkOption = _.find(constants.LINKS, {
-				data: {
-					from: onDone.target.type
-				}
-			})
+			// If types have been specified, select the first specified type
+			if (types) {
+				selectedTypeTarget = _.first(_.castArray(types))
 
-			selectedTypeTarget = _.find(allTypes, {
-				slug: linkOption.data.to
-			})
+				linkOption = _.find(constants.LINKS, {
+					data: {
+						from: onDone.target.type,
+						to: selectedTypeTarget.slug
+					}
+				})
+			} else {
+				linkOption = _.find(constants.LINKS, {
+					data: {
+						from: onDone.target.type
+					}
+				})
+
+				selectedTypeTarget = _.find(allTypes, {
+					slug: linkOption.data.to
+				})
+			}
 		} else {
 			selectedTypeTarget = _.first(_.castArray(types))
 		}
@@ -208,6 +222,10 @@ class CreateLens extends React.Component {
 			this.props.actions.createLink(card, newCard, linkOption.name)
 			this.close()
 		}
+
+		if (onDone.callback) {
+			onDone.callback()
+		}
 	}
 
 	render () {
@@ -295,6 +313,7 @@ class CreateLens extends React.Component {
 				onClose={this.close}
 				card={card}
 				channel={channel}
+				data-test="create-lens"
 				title={(
 					<Heading.h4>
 						Add {linkOption ? linkOption.data.title : selectedTypeTarget.name}

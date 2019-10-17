@@ -63,7 +63,6 @@ class CardLinker extends React.Component {
 		this.props.actions.addChannel({
 			head: {
 				action: 'create',
-				types: this.getAvailableTypes(),
 				seed: {
 					markers: this.props.card.markers
 				},
