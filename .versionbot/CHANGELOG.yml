@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix long text inside linked github issue
+      hash: 789dcc98dc64801b318f56d18339fbe231877426
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Connects-to: '#2291'
+        connects-to: '#2291'
+      author: Kakhaber
+  version: 23.27.7
+  date: 2019-10-16T17:06:58.201Z
+- commits:
     - subject: 'UI: Fix warning about "bg" prop'
       hash: a5a2f06ab8f1d14d74979c218e53f70d78168a22
       body: ''
