@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'CODEOWNERS: Add @ffissore'
+      hash: ff949e26e711b6b5c8d3740f33a8b200092b205b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.28.1
+  date: 2019-10-17T14:14:43.230Z
+- commits:
     - subject: 'core: Support @x.y.z and @latest suffixes in get by slug'
       hash: 23fc75163541006152aeca09503282c62d53c419
       body: |
