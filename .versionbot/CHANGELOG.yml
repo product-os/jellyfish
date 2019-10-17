@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'UI: Add an audit panel to closed support threads'
+      hash: ff6834ad6019ff62cccf6d430d783ae7a6f567eb
+      body: |
+        The audit panel guides auditors through the teardown process, providing
+        feedback to participating support agents and opening additional issues
+        and topics.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 23.29.0
+  date: 2019-10-17T15:01:23.087Z
+- commits:
     - subject: 'CODEOWNERS: Add @ffissore'
       hash: ff949e26e711b6b5c8d3740f33a8b200092b205b
       body: ''
