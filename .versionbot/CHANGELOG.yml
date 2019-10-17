@@ -1,4 +1,33 @@
 - commits:
+    - subject: 'core: Support @x.y.z and @latest suffixes in get by slug'
+      hash: 23fc75163541006152aeca09503282c62d53c419
+      body: |
+        The rules are:
+
+        - Fetching an element as `slug` is the same as `slug@latest`
+        - `slug@latest` fetches the latest version (the only one right now)
+        - `slug@x.y.z` fetches a particular version
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'core: Remove ignored "test" properties in backend tests'
+      hash: 1b96ce49c2b76f29bbd4211adc7060924eae1ce7
+      body: |
+        Not sure why these top level ignored properties were there on the first
+        place (maybe very old code) but they are completely ignored and don't
+        contribute to the tests at all.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.28.0
+  date: 2019-10-17T12:56:51.667Z
+- commits:
     - subject: 'Makefile: Set API_URL correctly in dev-* commands'
       hash: 9f7b9605eaf736940781eaecfe9a86abbf187dc9
       body: ''
