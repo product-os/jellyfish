@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'Makefile: Set API_URL correctly in dev-* commands'
+      hash: 9f7b9605eaf736940781eaecfe9a86abbf187dc9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.27.8
+  date: 2019-10-17T11:46:03.032Z
+- commits:
     - subject: Fix long text inside linked github issue
       hash: 789dcc98dc64801b318f56d18339fbe231877426
       body: ''
