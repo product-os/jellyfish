@@ -90,9 +90,7 @@ module.exports = async (context, jellyfish, worker, session) => {
 
 		// Balena org cards
 		await loadCard('balena/org-balena.json'),
-		await loadCard('balena/architecture-topic.json'),
 		await loadCard('balena/os-test-result.json'),
-		await loadCard('balena/view-all-architecture-topics.json'),
 		await loadCard('balena/view-all-contacts.json'),
 		await loadCard('balena/view-all-customers.json'),
 		await loadCard('balena/view-all-issues.json'),
@@ -103,6 +101,7 @@ module.exports = async (context, jellyfish, worker, session) => {
 		await loadCard('balena/view-all-support-threads.json'),
 		await loadCard('balena/view-all-jellyfish-support-threads.json'),
 		await loadCard('balena/view-all-users.json'),
+		await loadCard('balena/view-architecture-call-topics.json'),
 		await loadCard('balena/view-changelogs.json'),
 		await loadCard('balena/view-customer-success-support-threads.json'),
 		await loadCard('balena/view-devices-support-threads.json'),
