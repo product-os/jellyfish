@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add a discussion topic card type
+      hash: e1bb6df6232e9d295d08cce99a4b1dbd6e04ef40
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 23.30.0
+  date: 2019-10-18T08:44:37.455Z
+- commits:
     - subject: 'UI: Add an audit panel to closed support threads'
       hash: ff6834ad6019ff62cccf6d430d783ae7a6f567eb
       body: |
