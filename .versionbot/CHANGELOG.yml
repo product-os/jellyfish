@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'core: Support version suffixes in Kernel#getCardBySlug()'
+      hash: 0782286a858dde32300e0d3eb6465413c83be8d3
+      body: |
+        It basically converts expressions like `slug@x.y.z` or `slug@latest`
+        into the right JSON Schemas.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.32.0
+  date: 2019-10-18T16:42:56.703Z
+- commits:
     - subject: Add a view for architecture call topics
       hash: 91641383a8369ca7686cbcf54bf745021591fc57
       body: |
