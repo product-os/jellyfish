@@ -1,4 +1,5 @@
 type: docker-compose
+sut: sidecar
 upstream:
   - repo: 'open-balena-base'
     url: 'https://github.com/balena-io/open-balena-base'
