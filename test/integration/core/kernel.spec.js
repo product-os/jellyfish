@@ -2448,7 +2448,7 @@ ava('.query() should query all cards of a certain type', async (test) => {
 	test.deepEqual(_.sortBy(_.map(results, 'slug')), [ 'user-admin' ])
 })
 
-ava('.query() should return all action request cards', async (test) => {
+ava.skip('.query() should return all action request cards', async (test) => {
 	const date = new Date()
 	const request = {
 		type: 'action-request',
@@ -2510,7 +2510,7 @@ ava('.query() should return all action request cards', async (test) => {
 	])
 })
 
-ava('.query() should be able to return both action requests and other cards', async (test) => {
+ava.skip('.query() should be able to return both action requests and other cards', async (test) => {
 	const date = new Date()
 	const result1 = await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
 		type: 'action-request',
@@ -3582,7 +3582,7 @@ ava.cb('.stream() should be able to attach a large number of streams', (test) =>
 	}).catch(test.end)
 })
 
-ava.cb('.stream() should report back action requests', (test) => {
+ava.cb.skip('.stream() should report back action requests', (test) => {
 	test.context.kernel.stream(test.context.context, test.context.kernel.sessions.admin, {
 		type: 'object',
 		properties: {
@@ -4155,7 +4155,7 @@ ava('.unlock() should be able to let other owner take the same slug', async (tes
 	test.is(lockResult2, card.slug)
 })
 
-ava('.query() should return an unexecuted action request', async (test) => {
+ava.skip('.query() should return an unexecuted action request', async (test) => {
 	const date = new Date()
 	const request = await test.context.kernel.insertCard(
 		test.context.context, test.context.kernel.sessions.admin, {
@@ -4208,7 +4208,7 @@ ava('.query() should return an unexecuted action request', async (test) => {
 	])
 })
 
-ava('.query() should be able to limit', async (test) => {
+ava.skip('.query() should be able to limit', async (test) => {
 	const date = new Date()
 	await test.context.kernel.insertCard(
 		test.context.context, test.context.kernel.sessions.admin, {
@@ -4305,7 +4305,7 @@ ava('.query() should be able to limit', async (test) => {
 	test.not(result1[0].slug, result2[0].slug)
 })
 
-ava('.query() should be able to skip', async (test) => {
+ava.skip('.query() should be able to skip', async (test) => {
 	const date = new Date()
 	await test.context.kernel.insertCard(
 		test.context.context, test.context.kernel.sessions.admin, {
