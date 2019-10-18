@@ -4,6 +4,8 @@
  * Proprietary and confidential.
  */
 
+process.setMaxListeners(100)
+
 const ava = require('ava')
 const _ = require('lodash')
 const Bluebird = require('bluebird')
@@ -958,6 +960,121 @@ ava('.execute() should execute a triggered action', async (test) => {
 		test.context.context, test.context.session, 'foo')
 
 	test.is(resultCard.data.command, 'foo-bar-baz')
+})
+
+ava.only('a triggered action can update a dynamic list of cards', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card')
+	const actionCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'action-create-card')
+
+	for (const idx of [ 1, 2, 3 ]) {
+		const request = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+			action: actionCard.slug,
+			context: test.context.context,
+			card: typeCard.id,
+			type: typeCard.type,
+			arguments: {
+				reason: null,
+				properties: {
+					slug: `foo${idx}`,
+					version: '1.0.0',
+					data: {
+						id: `id${idx}`
+					}
+				}
+			}
+		})
+
+		await test.context.flush(test.context.session, 1)
+		const result = await test.context.queue.waitResults(
+			test.context.context, request)
+		test.false(result.error)
+	}
+
+	const cardIds = []
+	for (const idx of [ 1, 2, 3 ]) {
+		const card = await test.context.jellyfish.getCardBySlug(
+			test.context.context, test.context.session, `foo${idx}`)
+		cardIds.push(card.id)
+	}
+
+	console.log(cardIds)
+
+	test.context.worker.setTriggers(test.context.context, [
+		{
+			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			filter: {
+				type: 'object',
+				required: [ 'data' ],
+				properties: {
+					data: {
+						type: 'object',
+						required: [ 'cards' ],
+						properties: {
+							cards: {
+								type: 'array',
+								items: {
+									type: 'string'
+								}
+								// items: {
+								// 	type: 'object',
+								// 	required: [ 'id' ],
+								// 	properties: {
+								// 		id: {
+								// 			type: 'string'
+								// 		}
+								// 	}
+								// }
+							}
+						}
+					}
+				}
+			},
+			action: 'action-update-card',
+			card: {
+				$eval: 'source.data.cards'
+			},
+			arguments: {
+				reason: null,
+				patch: [
+					{
+						op: 'add',
+						path: '/data/counter',
+						value: 1
+					}
+				]
+			}
+		}
+	])
+
+	const request = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, {
+			action: actionCard.slug,
+			context: test.context.context,
+			card: typeCard.id,
+			type: typeCard.type,
+			arguments: {
+				reason: null,
+				properties: {
+					data: {
+						cards: cardIds
+					}
+				}
+			}
+		})
+
+	await test.context.flush(test.context.session, 1)
+	const result = await test.context.queue.waitResults(
+		test.context.context, request)
+	test.false(result.error)
+
+	for (const idx of [ 1, 2, 3 ]) {
+		const card = await test.context.jellyfish.getCardBySlug(
+			test.context.context, test.context.session, `foo${idx}`)
+		console.log(card)
+		test.is(card.data.counter, 1)
+	}
 })
 
 ava('.execute() should execute a triggered action given a matching mode', async (test) => {
