@@ -329,7 +329,7 @@ const lens = {
 			}
 		},
 		queryOptions: {
-			limit: 30,
+			limit: 100,
 			sortBy: [ 'created_at' ],
 			sortDir: 'desc'
 		}
