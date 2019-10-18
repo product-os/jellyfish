@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'UI: Increase the page limit for support threads'
+      hash: 00bc9125320c0b519c1c4e133083676983ee94c2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 23.30.1
+  date: 2019-10-18T09:51:23.426Z
+- commits:
     - subject: Add a discussion topic card type
       hash: e1bb6df6232e9d295d08cce99a4b1dbd6e04ef40
       body: ''
