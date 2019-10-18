@@ -1,0 +1,50 @@
+{
+  "slug": "view-architecture-call-topics",
+  "name": "Architecture call topics",
+  "version": "1.0.0",
+  "type": "view",
+  "markers": [ "org-balena" ],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "namespace": "Brainstorms",
+    "allOf": [
+      {
+        "name": "Architecture call topics",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "discussion-topic"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "architecture"
+                }
+              },
+              "required": [
+                "type"
+              ]
+            }
+          },
+          "additionalProperties": true,
+          "required": [
+            "data",
+            "type"
+          ]
+        }
+      }
+    ],
+    "lenses": [
+      "lens-list",
+      "lens-kanban"
+    ]
+  },
+  "requires": [],
+  "capabilities": []
+}
