@@ -1232,6 +1232,26 @@ ava('.insertCard() should throw an error if the element does not adhere to the t
 	}), errors.JellyfishSchemaMismatch)
 })
 
+ava('.insertCard() should throw an error if the slug contains @latest', async (test) => {
+	await test.throwsAsync(test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'test-1@latest',
+			type: 'card',
+			version: '1.0.0',
+			data: {}
+		}), errors.JellyfishSchemaMismatch)
+})
+
+ava('.insertCard() should throw an error if the slug contains a version', async (test) => {
+	await test.throwsAsync(test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'test-1@1.0.0',
+			type: 'card',
+			version: '1.0.0',
+			data: {}
+		}), errors.JellyfishSchemaMismatch)
+})
+
 ava('.insertCard() should throw an error if the card type does not exist', async (test) => {
 	await test.throwsAsync(test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
 		slug: 'foo',
@@ -1715,6 +1735,66 @@ ava('.getCardBySlug() should find an active card by its slug', async (test) => {
 	})
 
 	const card = await test.context.kernel.getCardBySlug(test.context.context, test.context.kernel.sessions.admin, 'foo-bar')
+	test.deepEqual(card, result)
+})
+
+ava('.getCardBySlug() should find an active card by its slug and its version', async (test) => {
+	const result = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'foo-bar',
+			type: 'card',
+			version: '1.0.0',
+			data: {}
+		})
+
+	const card = await test.context.kernel.getCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, 'foo-bar@1.0.0', {
+			type: 'card'
+		})
+
+	test.deepEqual(card, result)
+})
+
+ava('.getCardBySlug() should not find an active card by its slug and the wrong version', async (test) => {
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'foo-bar',
+			type: 'card',
+			version: '1.0.0',
+			data: {}
+		})
+
+	const card = await test.context.kernel.getCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, 'foo-bar@1.0.1', {
+			type: 'card'
+		})
+
+	test.falsy(card)
+})
+
+ava('.getCardBySlug() should not find an invalid slug when using @latest', async (test) => {
+	const card = await test.context.kernel.getCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, 'foo-bar@latest', {
+			type: 'card'
+		})
+
+	test.falsy(card)
+})
+
+ava('.getCardBySlug() should find an active card by its slug using @latest', async (test) => {
+	const result = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'foo-bar',
+			type: 'card',
+			version: '1.0.0',
+			data: {}
+		})
+
+	const card = await test.context.kernel.getCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, 'foo-bar@latest', {
+			type: 'card'
+		})
+
 	test.deepEqual(card, result)
 })
 
