@@ -1,0 +1,57 @@
+{
+  "slug": "discussion-topic",
+  "name": "discussion-topic",
+  "version": "1.0.0",
+  "type": "type",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^.*\\S.*$"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "$$formula": "AGGREGATE($events, 'tags')"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string",
+              "format": "markdown"
+            },
+            "type": {
+              "type": "string"
+            },
+            "status": {
+              "title": "Status",
+              "type": "string",
+              "default": "open",
+              "enum": [
+                "open",
+                "closed"
+              ]
+            }
+          }
+        }
+      },
+      "required": [
+        "data"
+      ]
+    },
+    "slices": [
+      "properties.data.properties.status"
+    ]
+  },
+  "requires": [],
+  "capabilities": []
+}
