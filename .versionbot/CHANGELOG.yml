@@ -1,4 +1,18 @@
 - commits:
+    - subject: Add a view for architecture call topics
+      hash: 91641383a8369ca7686cbcf54bf745021591fc57
+      body: |
+        Also remove old unused architecture topics cards, in favour of the more
+        generic "discussion-topic" card
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 23.31.0
+  date: 2019-10-18T10:47:37.260Z
+- commits:
     - subject: 'UI: Increase the page limit for support threads'
       hash: 00bc9125320c0b519c1c4e133083676983ee94c2
       body: ''
