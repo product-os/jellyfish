@@ -34,10 +34,15 @@ scenario.run(avaTest, {
 		token: TOKEN
 	},
 	pre: async (test) => {
+		const userCard = await test.context.jellyfish.getCardBySlug(
+			test.context.context,
+			test.context.jellyfish.sessions.admin,
+			`user-${environment.integration.default.user}`)
+
 		await test.context.jellyfish.patchCardBySlug(
 			test.context.context,
 			test.context.jellyfish.sessions.admin,
-			`user-${environment.integration.default.user}`, [
+			`${userCard.slug}@${userCard.version}`, [
 				{
 					op: 'add',
 					path: '/data/oauth',

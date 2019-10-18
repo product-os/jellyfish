@@ -71,7 +71,7 @@ ava('.disconnect() should gracefully close streams', async (test) => {
 
 ava('.patchCardBySlug() should throw an error if the element does not exist', async (test) => {
 	await test.throwsAsync(test.context.kernel.patchCardBySlug(
-		test.context.context, test.context.kernel.sessions.admin, 'foobarbaz', [
+		test.context.context, test.context.kernel.sessions.admin, 'foobarbaz@1.0.0', [
 			{
 				op: 'replace',
 				path: '/active',
@@ -95,7 +95,8 @@ ava('.patchCardBySlug() should apply a single operation', async (test) => {
 		})
 
 	await test.context.kernel.patchCardBySlug(
-		test.context.context, test.context.kernel.sessions.admin, card.slug, [
+		test.context.context,
+		test.context.kernel.sessions.admin, `${card.slug}@${card.version}`, [
 			{
 				op: 'replace',
 				path: '/data/foo',
@@ -144,7 +145,8 @@ ava('.patchCardBySlug() should add an element to an array', async (test) => {
 		})
 
 	await test.context.kernel.patchCardBySlug(
-		test.context.context, test.context.kernel.sessions.admin, card.slug, [
+		test.context.context,
+		test.context.kernel.sessions.admin, `${card.slug}@${card.version}`, [
 			{
 				op: 'add',
 				path: '/markers/0',
@@ -194,7 +196,7 @@ ava('.patchCardBySlug() should delete a property inside data', async (test) => {
 		})
 
 	await test.context.kernel.patchCardBySlug(
-		test.context.context, test.context.kernel.sessions.admin, card.slug, [
+		test.context.context, test.context.kernel.sessions.admin, `${card.slug}@${card.version}`, [
 			{
 				op: 'remove',
 				path: '/data/foo'
@@ -240,7 +242,7 @@ ava('.patchCardBySlug() should apply more than one operation', async (test) => {
 		})
 
 	await test.context.kernel.patchCardBySlug(
-		test.context.context, test.context.kernel.sessions.admin, card.slug, [
+		test.context.context, test.context.kernel.sessions.admin, `${card.slug}@${card.version}`, [
 			{
 				op: 'add',
 				path: '/data/foo',
@@ -302,7 +304,7 @@ ava('.patchCardBySlug() should not be able to delete an id', async (test) => {
 		})
 
 	const patched = await test.context.kernel.patchCardBySlug(
-		test.context.context, test.context.kernel.sessions.admin, card.slug, [
+		test.context.context, test.context.kernel.sessions.admin, `${card.slug}@${card.version}`, [
 			{
 				op: 'remove',
 				path: '/id'
@@ -333,7 +335,7 @@ ava('.patchCardBySlug() should not be able to delete a top level property', asyn
 		})
 
 	await test.throwsAsync(test.context.kernel.patchCardBySlug(
-		test.context.context, test.context.kernel.sessions.admin, card.slug, [
+		test.context.context, test.context.kernel.sessions.admin, `${card.slug}@${card.version}`, [
 			{
 				op: 'remove',
 				path: '/tags'
@@ -363,7 +365,7 @@ ava('.patchCardBySlug() should throw if the patch does not match', async (test) 
 		})
 
 	await test.throwsAsync(test.context.kernel.patchCardBySlug(
-		test.context.context, test.context.kernel.sessions.admin, card.slug, [
+		test.context.context, test.context.kernel.sessions.admin, `${card.slug}@${card.version}`, [
 			{
 				op: 'delete',
 				path: '/data/hello'
@@ -393,7 +395,7 @@ ava('.patchCardBySlug() should throw if adding to non existent property', async 
 		})
 
 	await test.throwsAsync(test.context.kernel.patchCardBySlug(
-		test.context.context, test.context.kernel.sessions.admin, card.slug, [
+		test.context.context, test.context.kernel.sessions.admin, `${card.slug}@${card.version}`, [
 			{
 				op: 'add',
 				path: '/data/hello/world',
@@ -424,7 +426,7 @@ ava('.patchCardBySlug() should throw given an invalid operation', async (test) =
 		})
 
 	await test.throwsAsync(test.context.kernel.patchCardBySlug(
-		test.context.context, test.context.kernel.sessions.admin, card.slug, [
+		test.context.context, test.context.kernel.sessions.admin, `${card.slug}@${card.version}`, [
 			{
 				op: 'bar',
 				path: '/data/foo',
@@ -455,7 +457,7 @@ ava('.patchCardBySlug() should not apply half matching patches', async (test) =>
 		})
 
 	await test.throwsAsync(test.context.kernel.patchCardBySlug(
-		test.context.context, test.context.kernel.sessions.admin, card.slug, [
+		test.context.context, test.context.kernel.sessions.admin, `${card.slug}@${card.version}`, [
 			{
 				op: 'add',
 				path: '/data/test',
@@ -491,7 +493,7 @@ ava('.patchCardBySlug() should not break the type schema', async (test) => {
 		})
 
 	await test.throwsAsync(test.context.kernel.patchCardBySlug(
-		test.context.context, test.context.kernel.sessions.admin, card.slug, [
+		test.context.context, test.context.kernel.sessions.admin, `${card.slug}@${card.version}`, [
 			{
 				op: 'remove',
 				path: '/data/roles'
@@ -521,7 +523,7 @@ ava('.patchCardBySlug() should apply a no-op patch', async (test) => {
 		})
 
 	const patched = await test.context.kernel.patchCardBySlug(
-		test.context.context, test.context.kernel.sessions.admin, card.slug, [
+		test.context.context, test.context.kernel.sessions.admin, `${card.slug}@${card.version}`, [
 			{
 				op: 'replace',
 				path: '/data/foo',
@@ -553,7 +555,7 @@ ava('.patchCardBySlug() should apply an empty set of patches', async (test) => {
 		})
 
 	const patched = await test.context.kernel.patchCardBySlug(
-		test.context.context, test.context.kernel.sessions.admin, card.slug, [], {
+		test.context.context, test.context.kernel.sessions.admin, `${card.slug}@${card.version}`, [], {
 			type: card.type
 		})
 
@@ -579,7 +581,7 @@ ava('.patchCardBySlug() should ignore changes to read-only properties', async (t
 		})
 
 	const patched = await test.context.kernel.patchCardBySlug(
-		test.context.context, test.context.kernel.sessions.admin, card.slug, [
+		test.context.context, test.context.kernel.sessions.admin, `${card.slug}@${card.version}`, [
 			{
 				op: 'add',
 				path: '/links/foo',
@@ -664,7 +666,7 @@ ava('.patchCardBySlug() should be able to patch cards hidden to the user', async
 		}))
 
 	await test.throwsAsync(test.context.kernel.patchCardBySlug(
-		test.context.context, session.id, userCard.slug, [
+		test.context.context, session.id, `${userCard.slug}@${userCard.version}`, [
 			{
 				op: 'add',
 				path: '/data/foo',
@@ -768,7 +770,7 @@ ava('.patchCardBySlug() should not allow updates in hidden fields', async (test)
 	})
 
 	await test.throwsAsync(test.context.kernel.patchCardBySlug(
-		test.context.context, session.id, userCard.slug, [
+		test.context.context, session.id, `${userCard.slug}@${userCard.version}`, [
 			{
 				op: 'replace',
 				path: '/data/roles',
@@ -873,7 +875,7 @@ ava('.patchCardBySlug() should not return the full card', async (test) => {
 	})
 
 	const patched = await test.context.kernel.patchCardBySlug(
-		test.context.context, session.id, userCard.slug, [
+		test.context.context, session.id, `${userCard.slug}@${userCard.version}`, [
 			{
 				op: 'replace',
 				path: '/data/email',
@@ -990,7 +992,7 @@ ava('.patchCardBySlug() should not allow a patch that makes a card inaccessible'
 	test.deepEqual(filteredCard, randomCard)
 
 	await test.throwsAsync(test.context.kernel.patchCardBySlug(
-		test.context.context, session.id, randomCard.slug, [
+		test.context.context, session.id, `${randomCard.slug}@${randomCard.version}`, [
 			{
 				op: 'replace',
 				path: '/data/foo',
@@ -1095,7 +1097,7 @@ ava('.patchCardBySlug() should not remove inaccessible fields', async (test) => 
 	})
 
 	await test.throwsAsync(test.context.kernel.patchCardBySlug(
-		test.context.context, session.id, userCard.slug, [
+		test.context.context, session.id, `${userCard.slug}@${userCard.version}`, [
 			{
 				op: 'remove',
 				path: '/data/hash'
@@ -1199,7 +1201,7 @@ ava('.patchCardBySlug() should not add an inaccesible field', async (test) => {
 	})
 
 	await test.throwsAsync(test.context.kernel.patchCardBySlug(
-		test.context.context, session.id, userCard.slug, [
+		test.context.context, session.id, `${userCard.slug}@${userCard.version}`, [
 			{
 				op: 'add',
 				path: '/data/special',

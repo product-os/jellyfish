@@ -306,6 +306,9 @@
               "not": {
                 "const": "user-admin"
               }
+            },
+            "version": {
+              "type": "string"
             }
           },
           "additionalProperties": false,
