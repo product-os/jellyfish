@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'core: Require an explicit version suffix in Backend#getElementBySlug()'
+      hash: 79e16e36a2d5b60273af211aceb789a5c9c63aa7
+      body: |
+        As a small step towards moving to a world where all slug references have
+        a concrete type suffix.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.32.1
+  date: 2019-10-20T08:01:43.096Z
+- commits:
     - subject: 'core: Support version suffixes in Kernel#getCardBySlug()'
       hash: 0782286a858dde32300e0d3eb6465413c83be8d3
       body: |
