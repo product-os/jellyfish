@@ -4,7 +4,7 @@ services:
   api:
     build:
       args:
-        ENABLE_COVERAGE: '0'
+        ENABLE_COVERAGE: '1'
       context: .
       dockerfile: apps/server/Dockerfile
     networks:
@@ -70,7 +70,7 @@ services:
   livechat:
     build:
       args:
-        ENABLE_COVERAGE: '0'
+        ENABLE_COVERAGE: '1'
         SERVER_HOST: http://api
         SERVER_PORT: 8000
       context: .
@@ -132,7 +132,7 @@ services:
   tick:
     build:
       args:
-        ENABLE_COVERAGE: '0'
+        ENABLE_COVERAGE: '1'
       context: .
       dockerfile: apps/action-server/Dockerfile.tick
     depends_on:
@@ -180,7 +180,7 @@ services:
   ui:
     build:
       args:
-        ENABLE_COVERAGE: '0'
+        ENABLE_COVERAGE: '1'
         SENTRY_DSN_UI: '0'
         SERVER_HOST: http://api
         SERVER_PORT: 8000
@@ -197,7 +197,7 @@ services:
   worker:
     build:
       args:
-        ENABLE_COVERAGE: '0'
+        ENABLE_COVERAGE: '1'
       context: .
       dockerfile: apps/action-server/Dockerfile.worker
     depends_on:
@@ -205,19 +205,35 @@ services:
       - redis
       - balena-mdns-publisher
     environment:
-      DATABASE: postgres
-      LOGENTRIES_TOKEN: ''
-      LOGLEVEL: info
-      NODE_ENV: test
-      POSTGRES_DATABASE: jellyfish
-      POSTGRES_HOST: postgres
-      POSTGRES_PASSWORD: docker
-      POSTGRES_PORT: 5432
-      POSTGRES_USER: docker
-      REDIS_HOST: redis
-      REDIS_PASSWORD: redis
-      REDIS_PORT: 6379
-      SENTRY_DSN_SERVER: ''
+      - DATABASE=postgres
+      - LOGENTRIES_TOKEN=''
+      - LOGLEVEL=info
+      - NODE_ENV=test
+      - POSTGRES_DATABASE=jellyfish
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=docker
+      - REDIS_HOST=redis
+      - REDIS_PASSWORD=redis
+      - REDIS_PORT=6379
+      - SENTRY_DSN_SERVER
+      - LOGENTRIES_TOKEN
+      - INTEGRATION_BALENA_API_PRIVATE_KEY
+      - INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION
+      - INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING
+      - INTEGRATION_DEFAULT_USER
+      - INTEGRATION_INTERCOM_TOKEN
+      - INTEGRATION_FRONT_TOKEN
+      - INTEGRATION_GITHUB_TOKEN
+      - INTEGRATION_GITHUB_SIGNATURE_KEY
+      - INTEGRATION_FLOWDOCK_SIGNATURE_KEY
+      - INTEGRATION_DISCOURSE_TOKEN
+      - INTEGRATION_DISCOURSE_USERNAME
+      - INTEGRATION_DISCOURSE_SIGNATURE_KEY
+      - INTEGRATION_OUTREACH_APP_ID
+      - INTEGRATION_OUTREACH_APP_SECRET
+      - INTEGRATION_OUTREACH_SIGNATURE_KEY
     restart: always
     networks:
       - internal
