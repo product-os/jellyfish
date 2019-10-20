@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'core: Make in-memory cache store version-aware'
+      hash: 348a4dc53c9ee3b4b10a51e8dbf4a989b5f0a515
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.32.2
+  date: 2019-10-20T10:02:13.376Z
+- commits:
     - subject: 'core: Require an explicit version suffix in Backend#getElementBySlug()'
       hash: 79e16e36a2d5b60273af211aceb789a5c9c63aa7
       body: |
