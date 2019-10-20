@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'worker: Don''t support object snapshots in update events anymore'
+      hash: 3d5bf1713c7aef5ca771390934381af58f4171e9
+      body: |
+        We should be fine with only supporting JSON Patch documents at this
+        point.
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.0.0
+  date: 2019-10-20T19:45:23.378Z
+- commits:
     - subject: 'worker: Force create/update cards to remain at version 1.0.0'
       hash: 3e2803db6d78649a6248f518445717af774a6e5a
       body: ''
