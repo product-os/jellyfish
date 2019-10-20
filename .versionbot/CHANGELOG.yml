@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'worker: Force create/update cards to remain at version 1.0.0'
+      hash: 3e2803db6d78649a6248f518445717af774a6e5a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.33.1
+  date: 2019-10-20T16:21:06.765Z
+- commits:
     - subject: 'core: Require version suffixes in .getCardBySlug()'
       hash: 46d837fb2c549bd2d5ef2556debae6c251fcba90
       body: ''
