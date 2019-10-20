@@ -126,7 +126,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 		const PING_SLUG = 'ping-api'
 
 		const getTypeStartDate = new Date()
-		return jellyfish.getCardBySlug(request.context, jellyfish.sessions.admin, PING_TYPE, {
+		return jellyfish.getCardBySlug(request.context, jellyfish.sessions.admin, `${PING_TYPE}@latest`, {
 			type: 'type'
 		}).then(async (typeCard) => {
 			const getTypeEndDate = new Date()
@@ -271,7 +271,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 
 	application.get('/api/v2/slug/:slug', (request, response) => {
 		jellyfish.getCardBySlug(
-			request.context, request.sessionToken, request.params.slug, {
+			request.context, request.sessionToken, `${request.params.slug}@latest`, {
 				type: request.params.type
 			}).then((card) => {
 			if (card) {
@@ -343,7 +343,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 
 			const EXTERNAL_EVENT_TYPE = 'external-event'
 			return jellyfish.getCardBySlug(
-				request.context, jellyfish.sessions.admin, EXTERNAL_EVENT_TYPE, {
+				request.context, jellyfish.sessions.admin, `${EXTERNAL_EVENT_TYPE}@latest`, {
 					type: 'type'
 				}).then((typeCard) => {
 				if (!typeCard) {
@@ -560,7 +560,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 
 			// Now try and load the view by slug
 			const viewCardFromSlug = await jellyfish.getCardBySlug(
-				request.context, request.sessionToken, request.body.query, {
+				request.context, request.sessionToken, `${request.body.query}@latest`, {
 					type: 'view'
 				})
 

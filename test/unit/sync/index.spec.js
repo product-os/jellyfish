@@ -15,6 +15,21 @@ const sync = require('../../../lib/sync')
 const oauth = require('../../../lib/sync/oauth')
 const outreach = require('../../../lib/sync/integrations/outreach')
 
+const getElementBySlugFromCollection = async (data, slug) => {
+	const [ base, version ] = slug.split('@')
+
+	if (version !== 'latest') {
+		return _.find(_.values(data), {
+			slug: base,
+			version
+		})
+	}
+
+	return _.last(_.sortBy(_.filter(_.values(data), {
+		slug: base
+	}), [ 'version' ]))
+}
+
 ava('.isValidEvent() should return true for Front given anything', async (test) => {
 	const result = await sync.isValidEvent('front', {
 		api: 'xxxxxxx'
@@ -325,6 +340,7 @@ ava('.associate() should return null given an invalid integration', async (test)
 	const data = {
 		'user-johndoe': {
 			type: 'user',
+			version: '1.0.0',
 			slug: 'user-johndoe',
 			data: {
 				email: 'johndoe@test.com'
@@ -340,7 +356,7 @@ ava('.associate() should return null given an invalid integration', async (test)
 			warn: _.noop
 		},
 		getElementBySlug: async (slug) => {
-			return data[slug]
+			return getElementBySlugFromCollection(data, slug)
 		},
 		upsertElement: async (type, object, options) => {
 			data[object.slug] = Object.assign({}, object, {
@@ -359,6 +375,7 @@ ava('.associate() should return null given no token', async (test) => {
 	const data = {
 		'user-johndoe': {
 			type: 'user',
+			version: '1.0.0',
 			slug: 'user-johndoe',
 			data: {
 				email: 'johndoe@test.com'
@@ -371,7 +388,7 @@ ava('.associate() should return null given no token', async (test) => {
 			warn: _.noop
 		},
 		getElementBySlug: async (slug) => {
-			return data[slug]
+			return getElementBySlugFromCollection(data, slug)
 		},
 		upsertElement: async (type, object, options) => {
 			data[object.slug] = Object.assign({}, object, {
@@ -390,6 +407,7 @@ ava('.associate() should return null given no appId', async (test) => {
 	const data = {
 		'user-johndoe': {
 			type: 'user',
+			version: '1.0.0',
 			slug: 'user-johndoe',
 			data: {
 				email: 'johndoe@test.com'
@@ -404,7 +422,7 @@ ava('.associate() should return null given no appId', async (test) => {
 			warn: _.noop
 		},
 		getElementBySlug: async (slug) => {
-			return data[slug]
+			return getElementBySlugFromCollection(data, slug)
 		},
 		upsertElement: async (type, object, options) => {
 			data[object.slug] = Object.assign({}, object, {
@@ -423,6 +441,7 @@ ava('.associate() should return null given no appSecret', async (test) => {
 	const data = {
 		'user-johndoe': {
 			type: 'user',
+			version: '1.0.0',
 			slug: 'user-johndoe',
 			data: {
 				email: 'johndoe@test.com'
@@ -437,7 +456,7 @@ ava('.associate() should return null given no appSecret', async (test) => {
 			warn: _.noop
 		},
 		getElementBySlug: async (slug) => {
-			return data[slug]
+			return getElementBySlugFromCollection(data, slug)
 		},
 		upsertElement: async (type, object, options) => {
 			data[object.slug] = Object.assign({}, object, {
@@ -463,7 +482,7 @@ ava('.associate() should return null if the user does not exist', async (test) =
 			warn: _.noop
 		},
 		getElementBySlug: async (slug) => {
-			return data[slug]
+			return getElementBySlugFromCollection(data, slug)
 		},
 		upsertElement: async (type, object, options) => {
 			data[object.slug] = Object.assign({}, object, {
@@ -483,6 +502,7 @@ ava('.associate() should set the access token in the user card', async (test) =>
 	const data = {
 		'user-johndoe': {
 			type: 'user',
+			version: '1.0.0',
 			slug: 'user-johndoe',
 			data: {
 				email: 'johndoe@test.com'
@@ -528,7 +548,7 @@ ava('.associate() should set the access token in the user card', async (test) =>
 			warn: _.noop
 		},
 		getElementBySlug: async (slug) => {
-			return data[slug]
+			return getElementBySlugFromCollection(data, slug)
 		},
 		upsertElement: async (type, object, options) => {
 			data[object.slug] = Object.assign({}, object, {
@@ -546,6 +566,7 @@ ava('.associate() should set the access token in the user card', async (test) =>
 	test.deepEqual(data, {
 		'user-johndoe': {
 			type: 'user',
+			version: '1.0.0',
 			slug: 'user-johndoe',
 			data: {
 				email: 'johndoe@test.com',
@@ -567,6 +588,7 @@ ava('.associate() should not replace other integrations', async (test) => {
 	const data = {
 		'user-johndoe': {
 			type: 'user',
+			version: '1.0.0',
 			slug: 'user-johndoe',
 			data: {
 				email: 'johndoe@test.com',
@@ -617,7 +639,7 @@ ava('.associate() should not replace other integrations', async (test) => {
 			warn: _.noop
 		},
 		getElementBySlug: async (slug) => {
-			return data[slug]
+			return getElementBySlugFromCollection(data, slug)
 		},
 		upsertElement: async (type, object, options) => {
 			data[object.slug] = Object.assign({}, object, {
@@ -635,6 +657,7 @@ ava('.associate() should not replace other integrations', async (test) => {
 	test.deepEqual(data, {
 		'user-johndoe': {
 			type: 'user',
+			version: '1.0.0',
 			slug: 'user-johndoe',
 			data: {
 				email: 'johndoe@test.com',
@@ -659,6 +682,7 @@ ava('.associate() should replace previous integration data', async (test) => {
 	const data = {
 		'user-johndoe': {
 			type: 'user',
+			version: '1.0.0',
 			slug: 'user-johndoe',
 			data: {
 				email: 'johndoe@test.com',
@@ -713,7 +737,7 @@ ava('.associate() should replace previous integration data', async (test) => {
 			warn: _.noop
 		},
 		getElementBySlug: async (slug) => {
-			return data[slug]
+			return getElementBySlugFromCollection(data, slug)
 		},
 		upsertElement: async (type, object, options) => {
 			data[object.slug] = Object.assign({}, object, {
@@ -731,6 +755,7 @@ ava('.associate() should replace previous integration data', async (test) => {
 	test.deepEqual(data, {
 		'user-johndoe': {
 			type: 'user',
+			version: '1.0.0',
 			slug: 'user-johndoe',
 			data: {
 				email: 'johndoe@test.com',
@@ -752,6 +777,7 @@ ava('.associate() should throw given a code mismatch', async (test) => {
 	const data = {
 		'user-johndoe': {
 			type: 'user',
+			version: '1.0.0',
 			slug: 'user-johndoe',
 			data: {
 				email: 'johndoe@test.com'
@@ -797,7 +823,7 @@ ava('.associate() should throw given a code mismatch', async (test) => {
 			warn: _.noop
 		},
 		getElementBySlug: async (slug) => {
-			return data[slug]
+			return getElementBySlugFromCollection(data, slug)
 		},
 		upsertElement: async (type, object, options) => {
 			data[object.slug] = Object.assign({}, object, {

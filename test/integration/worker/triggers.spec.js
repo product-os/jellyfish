@@ -14,7 +14,8 @@ ava.beforeEach(helpers.jellyfish.beforeEach)
 ava.afterEach(helpers.jellyfish.afterEach)
 
 ava('.getRequest() should return null if the filter only has a type but there is no match', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const trigger = {
 		mode: 'insert',
 		filter: {
@@ -55,7 +56,8 @@ ava('.getRequest() should return null if the filter only has a type but there is
 })
 
 ava('.getRequest() should return a request if the filter only has a type and there is a match', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const trigger = {
 		id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 		mode: 'insert',
@@ -110,7 +112,8 @@ ava('.getRequest() should return a request if the filter only has a type and the
 })
 
 ava('.getRequest() should return a request if the input card is null', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const trigger = {
 		id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 		mode: 'insert',
@@ -157,7 +160,8 @@ ava('.getRequest() should return a request if the input card is null', async (te
 })
 
 ava('.getRequest() should return null if referencing source when no input card', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const trigger = {
 		id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 		mode: 'insert',
@@ -193,7 +197,8 @@ ava('.getRequest() should return null if referencing source when no input card',
 })
 
 ava('.getRequest() should return a request given a complex matching filter', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const trigger = {
 		id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 		mode: 'insert',
@@ -259,7 +264,8 @@ ava('.getRequest() should return a request given a complex matching filter', asy
 })
 
 ava('.getRequest() should return null given a complex non-matching filter', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const trigger = {
 		mode: 'insert',
 		filter: {
@@ -311,7 +317,8 @@ ava('.getRequest() should return null given a complex non-matching filter', asyn
 })
 
 ava('.getRequest() should parse source templates in the triggered action arguments', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const trigger = {
 		id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 		mode: 'insert',
@@ -386,7 +393,8 @@ ava('.getRequest() should parse source templates in the triggered action argumen
 })
 
 ava('.getRequest() should return the request if the mode matches on update', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const trigger = {
 		id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 		filter: {
@@ -461,7 +469,8 @@ ava('.getRequest() should return the request if the mode matches on update', asy
 })
 
 ava('.getRequest() should return the request if the mode matches on insert', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const trigger = {
 		id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 		filter: {
@@ -536,7 +545,8 @@ ava('.getRequest() should return the request if the mode matches on insert', asy
 })
 
 ava('.getRequest() should return null if the mode does not match', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const trigger = {
 		id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 		filter: {
@@ -597,7 +607,8 @@ ava('.getRequest() should return null if the mode does not match', async (test) 
 })
 
 ava('.getRequest() should parse timestamp templates in the triggered action arguments', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const trigger = {
 		id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 		mode: 'insert',
@@ -655,7 +666,8 @@ ava('.getRequest() should parse timestamp templates in the triggered action argu
 })
 
 ava('.getRequest() should return null if one of the templates is unsatisfied', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const trigger = {
 		mode: 'insert',
 		filter: {
@@ -712,7 +724,8 @@ ava('.getRequest() should return null if one of the templates is unsatisfied', a
 })
 
 ava('.getTypeTriggers() should return a trigger card with a matching type', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const cards = [
 		{
 			type: 'triggered-action',
@@ -771,7 +784,8 @@ ava('.getTypeTriggers() should return a trigger card with a matching type', asyn
 })
 
 ava('.getTypeTriggers() should not return inactive cards', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const cards = [
 		{
 			type: 'triggered-action',
@@ -825,7 +839,8 @@ ava('.getTypeTriggers() should not return inactive cards', async (test) => {
 })
 
 ava('.getTypeTriggers() should ignore non-matching cards', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const cards = [
 		{
 			type: 'triggered-action',
@@ -925,7 +940,8 @@ ava('.getTypeTriggers() should ignore non-matching cards', async (test) => {
 })
 
 ava('.getTypeTriggers() should ignore cards that are not triggered actions', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const cards = [
 		{
 			type: 'triggered-action',
@@ -1024,7 +1040,8 @@ ava('.getTypeTriggers() should ignore cards that are not triggered actions', asy
 })
 
 ava('.getTypeTriggers() should not return triggered actions not associated with a type', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const cards = [
 		{
 			type: 'triggered-action',
@@ -1076,7 +1093,8 @@ ava('.getTypeTriggers() should not return triggered actions not associated with 
 })
 
 ava('.getStartDate() should return epoch if the trigger has no start date', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const result = triggers.getStartDate({
 		type: 'triggered-action',
 		slug: test.context.generateRandomSlug({
@@ -1105,7 +1123,8 @@ ava('.getStartDate() should return epoch if the trigger has no start date', asyn
 })
 
 ava('.getStartDate() should return epoch if the trigger has an invalid date', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const result = triggers.getStartDate({
 		type: 'triggered-action',
 		slug: test.context.generateRandomSlug({
@@ -1136,7 +1155,8 @@ ava('.getStartDate() should return epoch if the trigger has an invalid date', as
 
 ava('.getStartDate() should return the specified date if valid', async (test) => {
 	const date = new Date()
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const result = triggers.getStartDate({
 		type: 'triggered-action',
 		slug: test.context.generateRandomSlug({
@@ -1167,7 +1187,8 @@ ava('.getStartDate() should return the specified date if valid', async (test) =>
 
 ava('.getNextExecutionDate() should return null if no interval', async (test) => {
 	const date = new Date()
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const result = triggers.getNextExecutionDate({
 		type: 'triggered-action',
 		slug: test.context.generateRandomSlug({
@@ -1196,7 +1217,8 @@ ava('.getNextExecutionDate() should return null if no interval', async (test) =>
 })
 
 ava('.getNextExecutionDate() should return epoch if no last execution date', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const result = triggers.getNextExecutionDate({
 		type: 'triggered-action',
 		slug: test.context.generateRandomSlug({
@@ -1223,7 +1245,8 @@ ava('.getNextExecutionDate() should return epoch if no last execution date', asy
 })
 
 ava('.getNextExecutionDate() should return epoch if last execution date is not a valid date', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const result = triggers.getNextExecutionDate({
 		type: 'triggered-action',
 		slug: test.context.generateRandomSlug({
@@ -1250,7 +1273,8 @@ ava('.getNextExecutionDate() should return epoch if last execution date is not a
 })
 
 ava('.getNextExecutionDate() should return epoch if last execution date is not a date', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const result = triggers.getNextExecutionDate({
 		type: 'triggered-action',
 		slug: test.context.generateRandomSlug({
@@ -1278,7 +1302,8 @@ ava('.getNextExecutionDate() should return epoch if last execution date is not a
 
 ava('.getNextExecutionDate() should throw if the interval is invalid', async (test) => {
 	const date = new Date()
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 
 	test.throws(() => {
 		triggers.getNextExecutionDate({
@@ -1306,7 +1331,8 @@ ava('.getNextExecutionDate() should throw if the interval is invalid', async (te
 })
 
 ava('.getNextExecutionDate() should return the next interval after the last execution', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const result = triggers.getNextExecutionDate({
 		type: 'triggered-action',
 		slug: test.context.generateRandomSlug({
@@ -1335,7 +1361,8 @@ ava('.getNextExecutionDate() should return the next interval after the last exec
 
 ava('.getNextExecutionDate() should return the start date if the last execution ' +
 				'happened way before the start date', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const result = triggers.getNextExecutionDate({
 		type: 'triggered-action',
 		slug: test.context.generateRandomSlug({
@@ -1364,7 +1391,8 @@ ava('.getNextExecutionDate() should return the start date if the last execution 
 
 ava('.getNextExecutionDate() should return the subsequent interval if the last ' +
 				' execution happened just before the start date', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const result = triggers.getNextExecutionDate({
 		type: 'triggered-action',
 		slug: test.context.generateRandomSlug({
@@ -1392,7 +1420,8 @@ ava('.getNextExecutionDate() should return the subsequent interval if the last '
 })
 
 ava('.getNextExecutionDate() should return the next interval if the last execution is the start date', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const result = triggers.getNextExecutionDate({
 		type: 'triggered-action',
 		slug: test.context.generateRandomSlug({

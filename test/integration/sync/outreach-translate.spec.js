@@ -37,7 +37,7 @@ scenario.run(avaTest, {
 		const userCard = await test.context.jellyfish.getCardBySlug(
 			test.context.context,
 			test.context.jellyfish.sessions.admin,
-			`user-${environment.integration.default.user}`)
+			`user-${environment.integration.default.user}@latest`)
 
 		await test.context.jellyfish.patchCardBySlug(
 			test.context.context,

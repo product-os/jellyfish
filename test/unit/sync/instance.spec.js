@@ -43,10 +43,26 @@ class OAuthTokenRefreshTestIntegration {
 OAuthTokenRefreshTestIntegration.OAUTH_BASE_URL = 'https://api.balena-cloud.com'
 OAuthTokenRefreshTestIntegration.OAUTH_SCOPES = [ 'users' ]
 
+const getElementBySlugFromCollection = async (data, slug) => {
+	const [ base, version ] = slug.split('@')
+
+	if (version !== 'latest') {
+		return _.find(_.values(data), {
+			slug: base,
+			version
+		})
+	}
+
+	return _.last(_.sortBy(_.filter(_.values(data), {
+		slug: base
+	}), [ 'version' ]))
+}
+
 ava('should be able to refresh an expired OAuth token and retry if needed', async (test) => {
 	const data = {
 		'b5fc8487-cd6b-46aa-84ec-2407d5989e92': {
 			id: 'b5fc8487-cd6b-46aa-84ec-2407d5989e92',
+			version: '1.0.0',
 			type: 'user',
 			slug: 'user-synctest',
 			data: {
@@ -149,6 +165,7 @@ ava('should be able to refresh an expired OAuth token and retry if needed', asyn
 			id: 'b5fc8487-cd6b-46aa-84ec-2407d5989e92',
 			type: 'user',
 			slug: 'user-synctest',
+			version: '1.0.0',
 			data: {
 				oauth: {
 					'balena-cloud': {
@@ -170,12 +187,14 @@ ava('should be able to refresh an expired OAuth token and retry if needed using 
 			id: 'b5fc8487-cd6b-46aa-84ec-2407d5989e92',
 			type: 'user',
 			slug: 'user-synctest',
+			version: '1.0.0',
 			data: {}
 		},
 		'ecc47582-bc08-45dc-ac8b-16072a843835': {
 			id: 'ecc47582-bc08-45dc-ac8b-16072a843835',
 			type: 'user',
 			slug: 'user-jellysync',
+			version: '1.0.0',
 			data: {
 				oauth: {
 					'balena-cloud': {
@@ -250,9 +269,7 @@ ava('should be able to refresh an expired OAuth token and retry if needed using 
 				warn: _.noop
 			},
 			getElementBySlug: async (slug) => {
-				return _.find(_.values(data), {
-					slug
-				})
+				return getElementBySlugFromCollection(data, slug)
 			},
 			getElementById: async (id) => {
 				return data[id]
@@ -282,12 +299,14 @@ ava('should be able to refresh an expired OAuth token and retry if needed using 
 			id: 'b5fc8487-cd6b-46aa-84ec-2407d5989e92',
 			type: 'user',
 			slug: 'user-synctest',
+			version: '1.0.0',
 			data: {}
 		},
 		'ecc47582-bc08-45dc-ac8b-16072a843835': {
 			id: 'ecc47582-bc08-45dc-ac8b-16072a843835',
 			type: 'user',
 			slug: 'user-jellysync',
+			version: '1.0.0',
 			data: {
 				oauth: {
 					'balena-cloud': {
@@ -309,6 +328,7 @@ ava('should not refresh an OAuth token if not needed', async (test) => {
 			id: 'b5fc8487-cd6b-46aa-84ec-2407d5989e92',
 			type: 'user',
 			slug: 'user-synctest',
+			version: '1.0.0',
 			data: {
 				oauth: {
 					'balena-cloud': {
@@ -383,6 +403,7 @@ ava('should not refresh an OAuth token if not needed', async (test) => {
 			id: 'b5fc8487-cd6b-46aa-84ec-2407d5989e92',
 			type: 'user',
 			slug: 'user-synctest',
+			version: '1.0.0',
 			data: {
 				oauth: {
 					'balena-cloud': {
@@ -404,12 +425,14 @@ ava('should not refresh an OAuth token if not needed when using the default user
 			id: 'b5fc8487-cd6b-46aa-84ec-2407d5989e92',
 			type: 'user',
 			slug: 'user-synctest',
+			version: '1.0.0',
 			data: {}
 		},
 		'ecc47582-bc08-45dc-ac8b-16072a843835': {
 			id: 'ecc47582-bc08-45dc-ac8b-16072a843835',
 			type: 'user',
 			slug: 'user-jellysync',
+			version: '1.0.0',
 			data: {
 				oauth: {
 					'balena-cloud': {
@@ -458,9 +481,7 @@ ava('should not refresh an OAuth token if not needed when using the default user
 				warn: _.noop
 			},
 			getElementBySlug: async (slug) => {
-				return _.find(_.values(data), {
-					slug
-				})
+				return getElementBySlugFromCollection(data, slug)
 			},
 			getElementById: async (id) => {
 				return data[id]
@@ -490,12 +511,14 @@ ava('should not refresh an OAuth token if not needed when using the default user
 			id: 'b5fc8487-cd6b-46aa-84ec-2407d5989e92',
 			type: 'user',
 			slug: 'user-synctest',
+			version: '1.0.0',
 			data: {}
 		},
 		'ecc47582-bc08-45dc-ac8b-16072a843835': {
 			id: 'ecc47582-bc08-45dc-ac8b-16072a843835',
 			type: 'user',
 			slug: 'user-jellysync',
+			version: '1.0.0',
 			data: {
 				oauth: {
 					'balena-cloud': {
@@ -517,6 +540,7 @@ ava('should throw if actor is not associated with service and there is no defaul
 			id: 'b5fc8487-cd6b-46aa-84ec-2407d5989e92',
 			type: 'user',
 			slug: 'user-synctest',
+			version: '1.0.0',
 			data: {}
 		}
 	}
@@ -554,9 +578,7 @@ ava('should throw if actor is not associated with service and there is no defaul
 				warn: _.noop
 			},
 			getElementBySlug: async (slug) => {
-				return _.find(_.values(data), {
-					slug
-				})
+				return getElementBySlugFromCollection(data, slug)
 			},
 			getElementById: async (id) => {
 				return data[id]
@@ -578,6 +600,7 @@ ava('should throw if actor is not associated with service and the default user i
 			id: 'b5fc8487-cd6b-46aa-84ec-2407d5989e92',
 			type: 'user',
 			slug: 'user-synctest',
+			version: '1.0.0',
 			data: {}
 		}
 	}
@@ -616,9 +639,7 @@ ava('should throw if actor is not associated with service and the default user i
 				warn: _.noop
 			},
 			getElementBySlug: async (slug) => {
-				return _.find(_.values(data), {
-					slug
-				})
+				return getElementBySlugFromCollection(data, slug)
 			},
 			getElementById: async (id) => {
 				return data[id]
@@ -640,12 +661,14 @@ ava('should throw if neither the actor nor the default user are associated with 
 			id: 'b5fc8487-cd6b-46aa-84ec-2407d5989e92',
 			type: 'user',
 			slug: 'user-synctest',
+			version: '1.0.0',
 			data: {}
 		},
 		'ecc47582-bc08-45dc-ac8b-16072a843835': {
 			id: 'ecc47582-bc08-45dc-ac8b-16072a843835',
 			type: 'user',
 			slug: 'user-jellysync',
+			version: '1.0.0',
 			data: {}
 		}
 	}
@@ -684,9 +707,7 @@ ava('should throw if neither the actor nor the default user are associated with 
 				warn: _.noop
 			},
 			getElementBySlug: async (slug) => {
-				return _.find(_.values(data), {
-					slug
-				})
+				return getElementBySlugFromCollection(data, slug)
 			},
 			getElementById: async (id) => {
 				return data[id]

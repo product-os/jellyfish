@@ -47,7 +47,7 @@ for (const key in CARDS) {
 		const card = await CARDS[key]
 		card.name = _.isString(card.name) ? card.name : null
 		const element = await test.context.kernel.getCardBySlug(
-			test.context.context, test.context.kernel.sessions.admin, card.slug)
+			test.context.context, test.context.kernel.sessions.admin, `${card.slug}@${card.version}`)
 		test.deepEqual(card, _.omit(element, [ 'created_at', 'id', 'updated_at', 'linked_at' ]))
 	})
 }
@@ -107,7 +107,7 @@ ava('.patchCardBySlug() should apply a single operation', async (test) => {
 		})
 
 	const result = await test.context.kernel.getCardBySlug(
-		test.context.context, test.context.kernel.sessions.admin, card.slug, {
+		test.context.context, test.context.kernel.sessions.admin, `${card.slug}@${card.version}`, {
 			type: card.type
 		})
 
@@ -157,7 +157,7 @@ ava('.patchCardBySlug() should add an element to an array', async (test) => {
 		})
 
 	const result = await test.context.kernel.getCardBySlug(
-		test.context.context, test.context.kernel.sessions.admin, card.slug, {
+		test.context.context, test.context.kernel.sessions.admin, `${card.slug}@${card.version}`, {
 			type: card.type
 		})
 
@@ -206,7 +206,7 @@ ava('.patchCardBySlug() should delete a property inside data', async (test) => {
 		})
 
 	const result = await test.context.kernel.getCardBySlug(
-		test.context.context, test.context.kernel.sessions.admin, card.slug, {
+		test.context.context, test.context.kernel.sessions.admin, `${card.slug}@${card.version}`, {
 			type: card.type
 		})
 
@@ -263,7 +263,7 @@ ava('.patchCardBySlug() should apply more than one operation', async (test) => {
 		})
 
 	const result = await test.context.kernel.getCardBySlug(
-		test.context.context, test.context.kernel.sessions.admin, card.slug, {
+		test.context.context, test.context.kernel.sessions.admin, `${card.slug}@${card.version}`, {
 			type: card.type
 		})
 
@@ -314,7 +314,7 @@ ava('.patchCardBySlug() should not be able to delete an id', async (test) => {
 		})
 
 	const result = await test.context.kernel.getCardBySlug(
-		test.context.context, test.context.kernel.sessions.admin, card.slug, {
+		test.context.context, test.context.kernel.sessions.admin, `${card.slug}@${card.version}`, {
 			type: card.type
 		})
 
@@ -345,7 +345,7 @@ ava('.patchCardBySlug() should not be able to delete a top level property', asyn
 		}), errors.JellyfishSchemaMismatch)
 
 	const result = await test.context.kernel.getCardBySlug(
-		test.context.context, test.context.kernel.sessions.admin, card.slug, {
+		test.context.context, test.context.kernel.sessions.admin, `${card.slug}@${card.version}`, {
 			type: card.type
 		})
 
@@ -375,7 +375,7 @@ ava('.patchCardBySlug() should throw if the patch does not match', async (test) 
 		}), errors.JellyfishSchemaMismatch)
 
 	const result = await test.context.kernel.getCardBySlug(
-		test.context.context, test.context.kernel.sessions.admin, card.slug, {
+		test.context.context, test.context.kernel.sessions.admin, `${card.slug}@${card.version}`, {
 			type: card.type
 		})
 
@@ -406,7 +406,7 @@ ava('.patchCardBySlug() should throw if adding to non existent property', async 
 		}), errors.JellyfishInvalidPatch)
 
 	const result = await test.context.kernel.getCardBySlug(
-		test.context.context, test.context.kernel.sessions.admin, card.slug, {
+		test.context.context, test.context.kernel.sessions.admin, `${card.slug}@${card.version}`, {
 			type: card.type
 		})
 
@@ -437,7 +437,7 @@ ava('.patchCardBySlug() should throw given an invalid operation', async (test) =
 		}), errors.JellyfishInvalidPatch)
 
 	const result = await test.context.kernel.getCardBySlug(
-		test.context.context, test.context.kernel.sessions.admin, card.slug, {
+		test.context.context, test.context.kernel.sessions.admin, `${card.slug}@${card.version}`, {
 			type: card.type
 		})
 
@@ -473,7 +473,7 @@ ava('.patchCardBySlug() should not apply half matching patches', async (test) =>
 		}), errors.JellyfishInvalidPatch)
 
 	const result = await test.context.kernel.getCardBySlug(
-		test.context.context, test.context.kernel.sessions.admin, card.slug, {
+		test.context.context, test.context.kernel.sessions.admin, `${card.slug}@${card.version}`, {
 			type: card.type
 		})
 
@@ -503,7 +503,7 @@ ava('.patchCardBySlug() should not break the type schema', async (test) => {
 		}), errors.JellyfishSchemaMismatch)
 
 	const result = await test.context.kernel.getCardBySlug(
-		test.context.context, test.context.kernel.sessions.admin, card.slug, {
+		test.context.context, test.context.kernel.sessions.admin, `${card.slug}@${card.version}`, {
 			type: card.type
 		})
 
@@ -534,7 +534,7 @@ ava('.patchCardBySlug() should apply a no-op patch', async (test) => {
 		})
 
 	const result = await test.context.kernel.getCardBySlug(
-		test.context.context, test.context.kernel.sessions.admin, card.slug, {
+		test.context.context, test.context.kernel.sessions.admin, `${card.slug}@${card.version}`, {
 			type: card.type
 		})
 
@@ -560,7 +560,7 @@ ava('.patchCardBySlug() should apply an empty set of patches', async (test) => {
 		})
 
 	const result = await test.context.kernel.getCardBySlug(
-		test.context.context, test.context.kernel.sessions.admin, card.slug, {
+		test.context.context, test.context.kernel.sessions.admin, `${card.slug}@${card.version}`, {
 			type: card.type
 		})
 
@@ -602,7 +602,7 @@ ava('.patchCardBySlug() should ignore changes to read-only properties', async (t
 		})
 
 	const result = await test.context.kernel.getCardBySlug(
-		test.context.context, test.context.kernel.sessions.admin, card.slug, {
+		test.context.context, test.context.kernel.sessions.admin, `${card.slug}@${card.version}`, {
 			type: card.type
 		})
 
@@ -661,7 +661,7 @@ ava('.patchCardBySlug() should be able to patch cards hidden to the user', async
 		})
 
 	test.falsy(await test.context.kernel.getCardBySlug(
-		test.context.context, session.id, userCard.slug, {
+		test.context.context, session.id, `${userCard.slug}@${userCard.version}`, {
 			type: userCard.type
 		}))
 
@@ -677,7 +677,7 @@ ava('.patchCardBySlug() should be able to patch cards hidden to the user', async
 		}), errors.JellyfishNoElement)
 
 	const result = await test.context.kernel.getCardBySlug(
-		test.context.context, test.context.kernel.sessions.admin, userCard.slug, {
+		test.context.context, test.context.kernel.sessions.admin, `${userCard.slug}@${userCard.version}`, {
 			type: userCard.type
 		})
 
@@ -761,7 +761,7 @@ ava('.patchCardBySlug() should not allow updates in hidden fields', async (test)
 		})
 
 	const filteredUser = await test.context.kernel.getCardBySlug(
-		test.context.context, session.id, userCard.slug, {
+		test.context.context, session.id, `${userCard.slug}@${userCard.version}`, {
 			type: userCard.type
 		})
 
@@ -781,7 +781,7 @@ ava('.patchCardBySlug() should not allow updates in hidden fields', async (test)
 		}), errors.JellyfishSchemaMismatch)
 
 	const result = await test.context.kernel.getCardBySlug(
-		test.context.context, test.context.kernel.sessions.admin, userCard.slug, {
+		test.context.context, test.context.kernel.sessions.admin, `${userCard.slug}@${userCard.version}`, {
 			type: userCard.type
 		})
 
@@ -866,7 +866,7 @@ ava('.patchCardBySlug() should not return the full card', async (test) => {
 		})
 
 	const filteredUser = await test.context.kernel.getCardBySlug(
-		test.context.context, session.id, userCard.slug, {
+		test.context.context, session.id, `${userCard.slug}@${userCard.version}`, {
 			type: userCard.type
 		})
 
@@ -890,7 +890,7 @@ ava('.patchCardBySlug() should not return the full card', async (test) => {
 	})
 
 	const result = await test.context.kernel.getCardBySlug(
-		test.context.context, test.context.kernel.sessions.admin, userCard.slug, {
+		test.context.context, test.context.kernel.sessions.admin, `${userCard.slug}@${userCard.version}`, {
 			type: userCard.type
 		})
 
@@ -985,7 +985,7 @@ ava('.patchCardBySlug() should not allow a patch that makes a card inaccessible'
 		})
 
 	const filteredCard = await test.context.kernel.getCardBySlug(
-		test.context.context, session.id, randomCard.slug, {
+		test.context.context, session.id, `${randomCard.slug}@${randomCard.version}`, {
 			type: randomCard.type
 		})
 
@@ -1003,7 +1003,7 @@ ava('.patchCardBySlug() should not allow a patch that makes a card inaccessible'
 		}), errors.JellyfishSchemaMismatch)
 
 	const result = await test.context.kernel.getCardBySlug(
-		test.context.context, test.context.kernel.sessions.admin, randomCard.slug, {
+		test.context.context, test.context.kernel.sessions.admin, `${randomCard.slug}@${randomCard.version}`, {
 			type: randomCard.type
 		})
 
@@ -1088,7 +1088,7 @@ ava('.patchCardBySlug() should not remove inaccessible fields', async (test) => 
 		})
 
 	const filteredUser = await test.context.kernel.getCardBySlug(
-		test.context.context, session.id, userCard.slug, {
+		test.context.context, session.id, `${userCard.slug}@${userCard.version}`, {
 			type: userCard.type
 		})
 
@@ -1107,7 +1107,7 @@ ava('.patchCardBySlug() should not remove inaccessible fields', async (test) => 
 		}), errors.JellyfishSchemaMismatch)
 
 	const result = await test.context.kernel.getCardBySlug(
-		test.context.context, test.context.kernel.sessions.admin, userCard.slug, {
+		test.context.context, test.context.kernel.sessions.admin, `${userCard.slug}@${userCard.version}`, {
 			type: userCard.type
 		})
 
@@ -1192,7 +1192,7 @@ ava('.patchCardBySlug() should not add an inaccesible field', async (test) => {
 		})
 
 	const filteredUser = await test.context.kernel.getCardBySlug(
-		test.context.context, session.id, userCard.slug, {
+		test.context.context, session.id, `${userCard.slug}@${userCard.version}`, {
 			type: userCard.type
 		})
 
@@ -1212,7 +1212,8 @@ ava('.patchCardBySlug() should not add an inaccesible field', async (test) => {
 		}), errors.JellyfishSchemaMismatch)
 
 	const result = await test.context.kernel.getCardBySlug(
-		test.context.context, test.context.kernel.sessions.admin, userCard.slug, {
+		test.context.context,
+		test.context.kernel.sessions.admin, `${userCard.slug}@${userCard.version}`, {
 			type: userCard.type
 		})
 
@@ -1682,7 +1683,8 @@ ava('.replaceCard() should not be able to set links when overriding a card', asy
 })
 
 ava('.getCardBySlug() there should be an admin card', async (test) => {
-	const card = await test.context.kernel.getCardBySlug(test.context.context, test.context.kernel.sessions.admin, 'user-admin')
+	const card = await test.context.kernel.getCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, 'user-admin@latest')
 	test.truthy(card)
 })
 
@@ -1729,18 +1731,6 @@ ava('.getCardById() should not find an active card by its id but an invalid type
 })
 
 ava('.getCardBySlug() should find an active card by its slug', async (test) => {
-	const result = await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
-		slug: 'foo-bar',
-		type: 'card',
-		version: '1.0.0',
-		data: {}
-	})
-
-	const card = await test.context.kernel.getCardBySlug(test.context.context, test.context.kernel.sessions.admin, 'foo-bar')
-	test.deepEqual(card, result)
-})
-
-ava('.getCardBySlug() should find an active card by its slug and its version', async (test) => {
 	const result = await test.context.kernel.insertCard(
 		test.context.context, test.context.kernel.sessions.admin, {
 			slug: 'foo-bar',
@@ -1750,10 +1740,7 @@ ava('.getCardBySlug() should find an active card by its slug and its version', a
 		})
 
 	const card = await test.context.kernel.getCardBySlug(
-		test.context.context, test.context.kernel.sessions.admin, 'foo-bar@1.0.0', {
-			type: 'card'
-		})
-
+		test.context.context, test.context.kernel.sessions.admin, 'foo-bar@1.0.0')
 	test.deepEqual(card, result)
 })
 
@@ -1801,31 +1788,35 @@ ava('.getCardBySlug() should find an active card by its slug using @latest', asy
 })
 
 ava('.getCardBySlug() should find an active card by its slug and its type', async (test) => {
-	const result = await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
-		slug: 'foo-bar',
-		type: 'card',
-		version: '1.0.0',
-		data: {}
-	})
+	const result = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'foo-bar',
+			type: 'card',
+			version: '1.0.0',
+			data: {}
+		})
 
-	const card = await test.context.kernel.getCardBySlug(test.context.context, test.context.kernel.sessions.admin, 'foo-bar', {
-		type: 'card'
-	})
+	const card = await test.context.kernel.getCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, 'foo-bar@1.0.0', {
+			type: 'card'
+		})
 
 	test.deepEqual(card, result)
 })
 
 ava('.getCardBySlug() should not find an active card by its slug but an invalid type', async (test) => {
-	await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
-		slug: 'foo-bar',
-		type: 'card',
-		version: '1.0.0',
-		data: {}
-	})
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'foo-bar',
+			type: 'card',
+			version: '1.0.0',
+			data: {}
+		})
 
-	const card = await test.context.kernel.getCardBySlug(test.context.context, test.context.kernel.sessions.admin, 'foo-bar', {
-		type: 'session'
-	})
+	const card = await test.context.kernel.getCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, 'foo-bar@1.0.0', {
+			type: 'session'
+		})
 
 	test.deepEqual(card, null)
 })

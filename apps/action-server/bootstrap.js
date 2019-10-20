@@ -18,9 +18,10 @@ const uuid = require('../../lib/uuid')
 
 const getActorKey = async (context, jellyfish, session, actorId) => {
 	const keySlug = `session-action-${actorId}`
-	const key = await jellyfish.getCardBySlug(context, session, keySlug, {
-		type: 'session'
-	})
+	const key = await jellyfish.getCardBySlug(
+		context, session, `${keySlug}@latest`, {
+			type: 'session'
+		})
 
 	if (key && key.data.actor === actorId) {
 		return key

@@ -102,7 +102,7 @@ module.exports = async (context) => {
 
 		const orgCard = await jellyfish.getCardBySlug(
 			context, jellyfish.sessions.admin,
-			`org-${environment.test.user.organization}`, {
+			`org-${environment.test.user.organization}@latest`, {
 				type: 'org'
 			})
 
