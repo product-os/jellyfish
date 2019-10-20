@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'core: Require version suffixes in .getCardBySlug()'
+      hash: 46d837fb2c549bd2d5ef2556debae6c251fcba90
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 23.33.0
+  date: 2019-10-20T15:12:33.725Z
+- commits:
     - subject: 'core: Make in-memory cache store version-aware'
       hash: 348a4dc53c9ee3b4b10a51e8dbf4a989b5f0a515
       body: ''
