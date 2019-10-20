@@ -125,10 +125,10 @@ avaTest('should change the remote username to an existing unsynced user', async 
 	}
 
 	const johnDoe = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-johndoe')
+		test.context.context, test.context.session, 'user-johndoe@latest')
 
 	const janeDoe = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-janedoe')
+		test.context.context, test.context.session, 'user-janedoe@latest')
 
 	test.true(johnDoe.active)
 	test.deepEqual(johnDoe.data, {
@@ -240,10 +240,10 @@ avaTest('should change the remote username to an existing user', async (test) =>
 	}
 
 	const johnDoe = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-johndoe')
+		test.context.context, test.context.session, 'user-johndoe@latest')
 
 	const janeDoe = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-janedoe')
+		test.context.context, test.context.session, 'user-janedoe@latest')
 
 	test.true(johnDoe.active)
 	test.deepEqual(johnDoe.data, {
@@ -353,10 +353,10 @@ avaTest('should change the remote username to an existing user while removing ex
 	}
 
 	const johnDoe = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-johndoe')
+		test.context.context, test.context.session, 'user-johndoe@latest')
 
 	const janeDoe = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-janedoe')
+		test.context.context, test.context.session, 'user-janedoe@latest')
 
 	test.true(johnDoe.active)
 	test.deepEqual(johnDoe.data, {
@@ -474,10 +474,10 @@ avaTest('should change the remote username to an existing user and add a name', 
 	}
 
 	const johnDoe = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-johndoe')
+		test.context.context, test.context.session, 'user-johndoe@latest')
 
 	const janeDoe = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-janedoe')
+		test.context.context, test.context.session, 'user-janedoe@latest')
 
 	test.true(johnDoe.active)
 	test.deepEqual(johnDoe.data, {
@@ -593,10 +593,10 @@ avaTest('should change the remote username to an existing user while removing th
 	}
 
 	const johnDoe = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-johndoe')
+		test.context.context, test.context.session, 'user-johndoe@latest')
 
 	const janeDoe = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-janedoe')
+		test.context.context, test.context.session, 'user-janedoe@latest')
 
 	test.true(johnDoe.active)
 	test.deepEqual(johnDoe.data, {
@@ -713,10 +713,10 @@ avaTest('should change the remote username to an existing user while removing th
 	}
 
 	const johnDoe = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-johndoe')
+		test.context.context, test.context.session, 'user-johndoe@latest')
 
 	const janeDoe = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-janedoe')
+		test.context.context, test.context.session, 'user-janedoe@latest')
 
 	test.true(johnDoe.active)
 	test.deepEqual(johnDoe.data, {
@@ -842,10 +842,10 @@ avaTest('should change the remote username to an existing user with a name', asy
 	}
 
 	const johnDoe = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-johndoe')
+		test.context.context, test.context.session, 'user-johndoe@latest')
 
 	const janeDoe = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-janedoe')
+		test.context.context, test.context.session, 'user-janedoe@latest')
 
 	test.true(johnDoe.active)
 	test.deepEqual(johnDoe.data, {
@@ -946,10 +946,10 @@ avaTest('should change the remote username', async (test) => {
 	}
 
 	const oldUsername = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-johndoe')
+		test.context.context, test.context.session, 'user-johndoe@latest')
 
 	const newUsername = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-johndoe123')
+		test.context.context, test.context.session, 'user-johndoe123@latest')
 
 	test.deepEqual(oldUsername.data, {
 		email: 'admin@souvlakitek.com',
@@ -1028,10 +1028,10 @@ avaTest('should change the remote username while filling in the company', async 
 	}
 
 	const oldUsername = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-johndoe')
+		test.context.context, test.context.session, 'user-johndoe@latest')
 
 	const newUsername = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-johndoe123')
+		test.context.context, test.context.session, 'user-johndoe123@latest')
 
 	test.deepEqual(oldUsername.data, {
 		translateDate: '2019-04-17T15:26:45.231Z',
@@ -1109,10 +1109,10 @@ avaTest('should change the remote username while filling in the first name', asy
 	}
 
 	const oldUsername = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-johndoe')
+		test.context.context, test.context.session, 'user-johndoe@latest')
 
 	const newUsername = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-johndoe123')
+		test.context.context, test.context.session, 'user-johndoe123@latest')
 
 	test.deepEqual(oldUsername.data, {
 		translateDate: '2019-04-17T15:26:45.231Z',
@@ -1192,10 +1192,10 @@ avaTest('should change the remote username while filling in the last name', asyn
 	}
 
 	const oldUsername = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-johndoe')
+		test.context.context, test.context.session, 'user-johndoe@latest')
 
 	const newUsername = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-johndoe123')
+		test.context.context, test.context.session, 'user-johndoe123@latest')
 
 	test.deepEqual(oldUsername.data, {
 		translateDate: '2019-04-17T15:26:45.231Z',
@@ -1274,10 +1274,10 @@ avaTest('should change the remote username while not changing anything else', as
 	}
 
 	const oldUsername = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-johndoe')
+		test.context.context, test.context.session, 'user-johndoe@latest')
 
 	const newUsername = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'user-johndoe123')
+		test.context.context, test.context.session, 'user-johndoe123@latest')
 
 	test.deepEqual(oldUsername.data, {
 		translateDate: '2019-04-17T15:26:45.231Z',

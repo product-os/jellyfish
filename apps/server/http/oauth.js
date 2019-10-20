@@ -35,7 +35,7 @@ exports.associate = async (context, jellyfish, worker, queue, session, provider,
 	}
 
 	const actorCard = await jellyfish.getCardBySlug(
-		context, session, options.actor)
+		context, session, `${options.actor}@latest`)
 	if (!actorCard) {
 		return null
 	}

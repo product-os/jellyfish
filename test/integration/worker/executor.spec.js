@@ -52,7 +52,8 @@ ava.beforeEach(async (test) => {
 ava.afterEach(helpers.jellyfish.afterEach)
 
 ava('.insertCard() should insert a card', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const result = await executor.insertCard(test.context.context, test.context.jellyfish, test.context.session, typeCard, {
 		currentTime: new Date(),
 		attachEvents: false,
@@ -82,7 +83,8 @@ ava('.insertCard() should insert a card', async (test) => {
 })
 
 ava('.insertCard() should ignore an explicit type property', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const result = await executor.insertCard(test.context.context, test.context.jellyfish, test.context.session, typeCard, {
 		currentTime: new Date(),
 		attachEvents: false,
@@ -111,7 +113,8 @@ ava('.insertCard() should ignore an explicit type property', async (test) => {
 })
 
 ava('.insertCard() should default active to true', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const result = await executor.insertCard(test.context.context, test.context.jellyfish, test.context.session, typeCard, {
 		currentTime: new Date(),
 		attachEvents: false,
@@ -131,7 +134,7 @@ ava('.insertCard() should default active to true', async (test) => {
 
 ava('.patchCard() should ignore pointless updates', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'card')
+		test.context.context, test.context.session, 'card@latest')
 
 	const result1 = await executor.insertCard(
 		test.context.context, test.context.jellyfish, test.context.session, typeCard, {
@@ -184,7 +187,8 @@ ava('.patchCard() should ignore pointless updates', async (test) => {
 })
 
 ava('.insertCard() should be able to set active to false', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const result = await executor.insertCard(test.context.context, test.context.jellyfish, test.context.session, typeCard, {
 		currentTime: new Date(),
 		attachEvents: false,
@@ -204,7 +208,8 @@ ava('.insertCard() should be able to set active to false', async (test) => {
 })
 
 ava('.insertCard() should provide sane defaults for links', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const result = await executor.insertCard(test.context.context, test.context.jellyfish, test.context.session, typeCard, {
 		currentTime: new Date(),
 		attachEvents: false,
@@ -223,7 +228,8 @@ ava('.insertCard() should provide sane defaults for links', async (test) => {
 })
 
 ava('.insertCard() should provide sane defaults for tags', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const result = await executor.insertCard(test.context.context, test.context.jellyfish, test.context.session, typeCard, {
 		currentTime: new Date(),
 		attachEvents: false,
@@ -242,7 +248,8 @@ ava('.insertCard() should provide sane defaults for tags', async (test) => {
 })
 
 ava('.insertCard() should provide sane defaults for data', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const result = await executor.insertCard(test.context.context, test.context.jellyfish, test.context.session, typeCard, {
 		currentTime: new Date(),
 		attachEvents: false,
@@ -261,7 +268,8 @@ ava('.insertCard() should provide sane defaults for data', async (test) => {
 })
 
 ava('.insertCard() should be able to set a slug', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const result = await executor.insertCard(test.context.context, test.context.jellyfish, test.context.session, typeCard, {
 		currentTime: new Date(),
 		attachEvents: false,
@@ -280,7 +288,8 @@ ava('.insertCard() should be able to set a slug', async (test) => {
 })
 
 ava('.insertCard() should be able to set a name', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const result = await executor.insertCard(test.context.context, test.context.jellyfish, test.context.session, typeCard, {
 		currentTime: new Date(),
 		attachEvents: false,
@@ -306,7 +315,8 @@ ava('.patchCard() should not upsert if no changes were made', async (test) => {
 		version: '1.0.0'
 	})
 
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	await executor.patchCard(test.context.context, test.context.jellyfish, test.context.session, typeCard, {
 		currentTime: new Date(),
 		attachEvents: true,
@@ -326,7 +336,8 @@ ava('.patchCard() should set a card to inactive', async (test) => {
 		version: '1.0.0'
 	})
 
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	await executor.patchCard(test.context.context, test.context.jellyfish, test.context.session, typeCard, {
 		currentTime: new Date(),
 		attachEvents: false,
@@ -354,7 +365,8 @@ ava('.insertCard() throw if card already exists and override is false', async (t
 		version: '1.0.0'
 	})
 
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	await test.throwsAsync(executor.insertCard(test.context.context, test.context.jellyfish, test.context.session, typeCard, {
 		currentTime: new Date(),
 		attachEvents: false,
@@ -371,7 +383,7 @@ ava('.insertCard() throw if card already exists and override is false', async (t
 
 ava('.insertCard() should add a create event if attachEvents is true', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'card')
+		test.context.context, test.context.session, 'card@latest')
 	const result = await executor.insertCard(
 		test.context.context, test.context.jellyfish, test.context.session, typeCard, {
 			currentTime: new Date(),
@@ -419,7 +431,8 @@ ava('.patchCard() should add an update event if attachEvents is true', async (te
 		version: '1.0.0'
 	})
 
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const result = await executor.patchCard(test.context.context, test.context.jellyfish, test.context.session, typeCard, {
 		currentTime: new Date(),
 		attachEvents: true,
@@ -464,7 +477,7 @@ ava('.patchCard() should add an update event if attachEvents is true', async (te
 
 ava('.insertCard() should pass a triggered action as an action originator', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'card')
+		test.context.context, test.context.session, 'card@latest')
 	const triggers = [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
@@ -525,7 +538,7 @@ ava('.insertCard() should pass a triggered action as an action originator', asyn
 		})
 
 	const resultCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'foo-bar-baz', {
+		test.context.context, test.context.session, 'foo-bar-baz@1.0.0', {
 			type: typeCard.slug
 		})
 
@@ -534,7 +547,7 @@ ava('.insertCard() should pass a triggered action as an action originator', asyn
 
 ava('.insertCard() should be able to override a triggered action originator', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'card')
+		test.context.context, test.context.session, 'card@latest')
 	const triggers = [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
@@ -596,7 +609,7 @@ ava('.insertCard() should be able to override a triggered action originator', as
 		})
 
 	const resultCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'foo-bar-baz', {
+		test.context.context, test.context.session, 'foo-bar-baz@1.0.0', {
 			type: typeCard.slug
 		})
 
@@ -604,7 +617,8 @@ ava('.insertCard() should be able to override a triggered action originator', as
 })
 
 ava('.insertCard() should execute one matching triggered action', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const triggers = [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
@@ -678,7 +692,7 @@ ava('.insertCard() should execute one matching triggered action', async (test) =
 	test.deepEqual(test.context.stubQueue, [])
 
 	const resultCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'foo-bar-baz', {
+		test.context.context, test.context.session, 'foo-bar-baz@1.0.0', {
 			type: typeCard.slug
 		})
 
@@ -686,7 +700,8 @@ ava('.insertCard() should execute one matching triggered action', async (test) =
 })
 
 ava('.insertCard() should not execute non-matching triggered actions', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const triggers = [
 		{
 			filter: {
@@ -733,7 +748,7 @@ ava('.insertCard() should not execute non-matching triggered actions', async (te
 
 	test.deepEqual(test.context.stubQueue, [])
 	const resultCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'foo-bar-baz', {
+		test.context.context, test.context.session, 'foo-bar-baz@1.0.0', {
 			type: typeCard.slug
 		})
 
@@ -741,7 +756,8 @@ ava('.insertCard() should not execute non-matching triggered actions', async (te
 })
 
 ava('.insertCard() should execute more than one matching triggered action', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const triggers = [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
@@ -818,12 +834,12 @@ ava('.insertCard() should execute more than one matching triggered action', asyn
 	test.deepEqual(test.context.stubQueue, [])
 
 	const resultCard1 = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'foo-bar-baz', {
+		test.context.context, test.context.session, 'foo-bar-baz@1.0.0', {
 			type: typeCard.slug
 		})
 
 	const resultCard2 = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'bar-baz-qux', {
+		test.context.context, test.context.session, 'bar-baz-qux@1.0.0', {
 			type: typeCard.slug
 		})
 
@@ -833,7 +849,7 @@ ava('.insertCard() should execute more than one matching triggered action', asyn
 
 ava('.insertCard() should execute the matching triggered actions given more than one', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'card')
+		test.context.context, test.context.session, 'card@latest')
 	const triggers = [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
@@ -910,12 +926,12 @@ ava('.insertCard() should execute the matching triggered actions given more than
 	test.deepEqual(test.context.stubQueue, [])
 
 	const resultCard1 = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'foo-bar-baz', {
+		test.context.context, test.context.session, 'foo-bar-baz@1.0.0', {
 			type: typeCard.slug
 		})
 
 	const resultCard2 = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'bar-baz-qux', {
+		test.context.context, test.context.session, 'bar-baz-qux@1.0.0', {
 			type: typeCard.slug
 		})
 
@@ -924,7 +940,8 @@ ava('.insertCard() should execute the matching triggered actions given more than
 })
 
 ava('.insertCard() should remove previously inserted type triggered actions if inserting a type', async (test) => {
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	const cards = [
 		{
 			type: 'triggered-action',
@@ -1018,7 +1035,8 @@ ava('.insertCard() should remove previously inserted type triggered actions if i
 		test.context.context,
 		test.context.jellyfish,
 		test.context.session,
-		await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'type'),
+		await test.context.jellyfish.getCardBySlug(
+			test.context.context, test.context.session, 'type@latest'),
 		{
 			currentTime: new Date(),
 			attachEvents: false,
@@ -1073,7 +1091,8 @@ ava('.patchCard() should remove previously inserted type triggered actions if de
 		}
 	})
 
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 	await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
 		type: 'triggered-action',
 		slug: test.context.generateRandomSlug({
@@ -1119,7 +1138,8 @@ ava('.patchCard() should remove previously inserted type triggered actions if de
 		test.context.context,
 		test.context.jellyfish,
 		test.context.session,
-		await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'type'),
+		await test.context.jellyfish.getCardBySlug(
+			test.context.context, test.context.session, 'type@latest'),
 		{
 			currentTime: new Date(),
 			attachEvents: false,
@@ -1158,7 +1178,8 @@ ava('.patchCard() should remove previously inserted type triggered actions if de
 })
 
 ava('.insertCard() should add a triggered action given a type with an AGGREGATE formula', async (test) => {
-	const typeType = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'type')
+	const typeType = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'type@latest')
 	await executor.insertCard(test.context.context, test.context.jellyfish, test.context.session, typeType, {
 		currentTime: new Date(),
 		attachEvents: false,
@@ -1239,7 +1260,8 @@ ava('.insertCard() should add a triggered action given a type with an AGGREGATE 
 })
 
 ava('.insertCard() should pre-register a triggered action if using AGGREGATE', async (test) => {
-	const typeType = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'type')
+	const typeType = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'type@latest')
 	await executor.insertCard(test.context.context, test.context.jellyfish, test.context.session, typeType, {
 		currentTime: new Date(),
 		attachEvents: false,
@@ -1299,7 +1321,8 @@ ava('.insertCard() should pre-register a triggered action if using AGGREGATE', a
 })
 
 ava('.insertCard() should update pre-registered triggered actions if removing an AGGREGATE', async (test) => {
-	const typeType = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'type')
+	const typeType = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'type@latest')
 	const element = await executor.insertCard(
 		test.context.context, test.context.jellyfish, test.context.session, typeType, {
 			currentTime: new Date(),
@@ -1358,7 +1381,8 @@ ava('.insertCard() should update pre-registered triggered actions if removing an
 })
 
 ava('.insertCard() should add multiple triggered actions given a type with an AGGREGATE formula', async (test) => {
-	const typeType = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'type')
+	const typeType = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'type@latest')
 	const type = {
 		slug: 'test-thread',
 		version: '1.0.0',
@@ -1453,8 +1477,9 @@ ava('.insertCard() should add multiple triggered actions given a type with an AG
 
 ava('.run() should create a card', async (test) => {
 	const actionCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'action-create-card')
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+		test.context.context, test.context.session, 'action-create-card@latest')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 
 	const result = await executor.run(test.context.jellyfish, test.context.session, test.context.actionContext, {
 		'action-create-card': actionLibrary['action-create-card']
@@ -1483,7 +1508,7 @@ ava('.run() should create a card', async (test) => {
 
 ava('.run() should throw if the input card does not exist', async (test) => {
 	const actionCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'action-create-card')
+		test.context.context, test.context.session, 'action-create-card@latest')
 	await test.throwsAsync(executor.run(test.context.jellyfish, test.context.session, test.context.actionContext, {
 		'action-create-card': actionLibrary['action-create-card']
 	}, {
@@ -1504,8 +1529,9 @@ ava('.run() should throw if the input card does not exist', async (test) => {
 
 ava('.run() should throw if the actor does not exist', async (test) => {
 	const actionCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'action-create-card')
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+		test.context.context, test.context.session, 'action-create-card@latest')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 
 	await test.throwsAsync(executor.run(test.context.jellyfish, test.context.session, test.context.actionContext, {
 		'action-create-card': actionLibrary['action-create-card']
@@ -1527,7 +1553,7 @@ ava('.run() should throw if the actor does not exist', async (test) => {
 
 ava('.run() should throw if input card does not match the action filter', async (test) => {
 	const actionCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'action-create-card')
+		test.context.context, test.context.session, 'action-create-card@latest')
 	await test.throwsAsync(executor.run(test.context.jellyfish, test.context.session, test.context.actionContext, {
 		'action-create-card': actionLibrary['action-create-card']
 	}, {
@@ -1548,8 +1574,9 @@ ava('.run() should throw if input card does not match the action filter', async 
 
 ava('.run() should throw if the arguments do not match the action', async (test) => {
 	const actionCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'action-create-card')
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+		test.context.context, test.context.session, 'action-create-card@latest')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 
 	await test.throwsAsync(executor.run(test.context.jellyfish, test.context.session, test.context.actionContext, {
 		'action-create-card': actionLibrary['action-create-card']
@@ -1569,8 +1596,9 @@ ava('.run() should throw if the arguments do not match the action', async (test)
 
 ava('.run() should throw if the action has no corresponding implementation', async (test) => {
 	const actionCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'action-create-card')
-	const typeCard = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'card')
+		test.context.context, test.context.session, 'action-create-card@latest')
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
 
 	await test.throwsAsync(executor.run(test.context.jellyfish, test.context.session, test.context.actionContext, {}, {
 		actor: test.context.actor.id,
