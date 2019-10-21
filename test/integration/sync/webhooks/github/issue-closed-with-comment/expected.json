@@ -29,6 +29,10 @@
       "capabilities": [],
       "data": {
         "timestamp": "2018-09-20T18:27:24.000Z",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "payload": {
           "name": "Issue closed with comment",
           "active": true,
@@ -63,6 +67,10 @@
           "https://github.com/resin-io/jellyfish/issues/713#issuecomment-423286402"
         ],
         "timestamp": "2018-09-20T18:28:35.000Z",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
@@ -79,6 +87,10 @@
       "capabilities": [],
       "data": {
         "timestamp": "2018-09-20T18:28:35.000Z",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "payload": [
           {
             "op": "replace",

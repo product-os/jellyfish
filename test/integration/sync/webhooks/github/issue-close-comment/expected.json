@@ -29,6 +29,10 @@
       "capabilities": [],
       "data": {
         "timestamp": "2018-09-26T17:54:37.000Z",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "payload": {
           "name": "Comment on closed issue",
           "type": "issue",
@@ -60,6 +64,10 @@
       "capabilities": [],
       "data": {
         "timestamp": "2018-09-26T17:56:59.000Z",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "payload": [
           {
             "op": "replace",
@@ -81,6 +89,10 @@
           "https://github.com/resin-io/jellyfish/issues/722#issuecomment-424811824"
         ],
         "timestamp": "2018-09-26T17:58:16.000Z",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],

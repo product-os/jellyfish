@@ -265,12 +265,6 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 		card.id = _.get(actualTail, [ index, 'id' ])
 		card.name = _.get(actualTail, [ index, 'name' ])
 
-		// TODO: This shouldn't be necessary anymore
-		if (integration.source === 'github') {
-			card.data.actor = _.get(actualTail, [ index, 'data', 'actor' ])
-			card.data.timestamp = _.get(actualTail, [ index, 'data', 'timestamp' ])
-		}
-
 		card.data.target = head.id
 
 		// If we have to ignore the update events, then we can't also

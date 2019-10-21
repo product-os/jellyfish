@@ -29,6 +29,10 @@
       "capabilities": [],
       "data": {
         "timestamp": "2018-09-27T15:46:26.000Z",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "payload": {
           "name": "Issue re-open",
           "active": true,
@@ -60,6 +64,10 @@
       "capabilities": [],
       "data": {
         "timestamp": "2018-09-27T15:47:33.000Z",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "payload": [
           {
             "op": "replace",
@@ -78,6 +86,10 @@
       "capabilities": [],
       "data": {
         "timestamp": "2018-09-27T15:48:47.000Z",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "payload": [
           {
             "op": "replace",

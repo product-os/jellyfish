@@ -37,6 +37,10 @@
       "capabilities": [],
       "data": {
         "timestamp": "2018-10-10T09:09:36.000Z",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "payload": {
           "name": "Open close PR",
           "active": true,
@@ -76,6 +80,10 @@
       "capabilities": [],
       "data": {
         "timestamp": "2018-10-10T09:11:51.000Z",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "payload": [
           {
             "op": "replace",

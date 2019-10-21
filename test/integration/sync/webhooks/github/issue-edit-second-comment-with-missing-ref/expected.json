@@ -29,6 +29,10 @@
       "capabilities": [],
       "data": {
         "timestamp": "2018-09-25T17:19:51.000Z",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "payload": {
           "name": "Issue with edition in second comment",
           "active": true,
@@ -63,6 +67,10 @@
           "https://github.com/resin-io/jellyfish/issues/719#issuecomment-424428899"
         ],
         "timestamp": "2018-09-25T17:20:36.000Z",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
@@ -82,6 +90,10 @@
           "https://github.com/resin-io/jellyfish/issues/719#issuecomment-424429646"
         ],
         "timestamp": "2018-09-25T17:24:19.000Z",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],

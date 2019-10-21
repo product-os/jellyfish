@@ -29,6 +29,10 @@
       "capabilities": [],
       "data": {
         "timestamp": "2018-09-20T18:23:16.000Z",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "payload": {
           "name": "Issue comment edit",
           "active": true,
@@ -63,6 +67,10 @@
           "https://github.com/resin-io/jellyfish/issues/712#issuecomment-423285064"
         ],
         "timestamp": "2018-09-20T18:25:19.000Z",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],

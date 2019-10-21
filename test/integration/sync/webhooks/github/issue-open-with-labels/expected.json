@@ -32,6 +32,10 @@
       "capabilities": [],
       "data": {
         "timestamp": "2018-09-20T18:01:54.000Z",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "payload": {
           "name": "Issue with labels",
           "active": true,

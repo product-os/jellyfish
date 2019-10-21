@@ -37,6 +37,10 @@
       "capabilities": [],
       "data": {
         "timestamp": "2018-10-10T10:04:00.000Z",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "payload": {
           "name": "Open close PR",
           "type": "pull-request",
