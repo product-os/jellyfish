@@ -1,4 +1,20 @@
 - commits:
+    - subject: >-
+        Rename field of trigger from `card` to `target`, for consistency with
+        its schema
+      hash: 831f344252186daa9797f64ef0e92948b7f1ad43
+      body: ''
+      footer:
+        Connects-to: '#2630'
+        connects-to: '#2630'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@fissore.org>
+        signed-off-by: Federico Fissore <federico@fissore.org>
+      author: Federico Fissore
+  version: 24.0.1
+  date: 2019-10-21T12:29:56.563Z
+- commits:
     - subject: 'worker: Don''t support object snapshots in update events anymore'
       hash: 3d5bf1713c7aef5ca771390934381af58f4171e9
       body: |
