@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'core: Remove options argument from .getCardById() and .getCardBySlug()'
+      hash: 9017ec095950f22de70f6401e4ba9d63e7345fd9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.0.2
+  date: 2019-10-21T19:21:44.344Z
+- commits:
     - subject: >-
         Rename field of trigger from `card` to `target`, for consistency with
         its schema
