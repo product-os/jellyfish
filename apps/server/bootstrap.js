@@ -102,9 +102,7 @@ module.exports = async (context) => {
 
 		const orgCard = await jellyfish.getCardBySlug(
 			context, jellyfish.sessions.admin,
-			`org-${environment.test.user.organization}@latest`, {
-				type: 'org'
-			})
+			`org-${environment.test.user.organization}@latest`)
 
 		assert.INTERNAL(context, orgCard,
 			jellyfish.errors.JellyfishNoElement,

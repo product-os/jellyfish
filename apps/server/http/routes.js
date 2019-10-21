@@ -126,9 +126,8 @@ module.exports = (application, jellyfish, worker, queue) => {
 		const PING_SLUG = 'ping-api'
 
 		const getTypeStartDate = new Date()
-		return jellyfish.getCardBySlug(request.context, jellyfish.sessions.admin, `${PING_TYPE}@latest`, {
-			type: 'type'
-		}).then(async (typeCard) => {
+		return jellyfish.getCardBySlug(
+			request.context, jellyfish.sessions.admin, `${PING_TYPE}@latest`).then(async (typeCard) => {
 			const getTypeEndDate = new Date()
 			if (!typeCard) {
 				throw new Error(`No type card: ${PING_TYPE}`)
@@ -343,9 +342,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 
 			const EXTERNAL_EVENT_TYPE = 'external-event'
 			return jellyfish.getCardBySlug(
-				request.context, jellyfish.sessions.admin, `${EXTERNAL_EVENT_TYPE}@latest`, {
-					type: 'type'
-				}).then((typeCard) => {
+				request.context, jellyfish.sessions.admin, `${EXTERNAL_EVENT_TYPE}@latest`).then((typeCard) => {
 				if (!typeCard) {
 					throw new Error(`No type card: ${EXTERNAL_EVENT_TYPE}`)
 				}
@@ -404,9 +401,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 		}
 
 		const sessionCard = await jellyfish.getCardById(
-			request.context, request.sessionToken, request.sessionToken, {
-				type: 'session'
-			})
+			request.context, request.sessionToken, request.sessionToken)
 		if (!sessionCard) {
 			return response.send(401)
 		}
@@ -560,9 +555,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 
 			// Now try and load the view by slug
 			const viewCardFromSlug = await jellyfish.getCardBySlug(
-				request.context, request.sessionToken, `${request.body.query}@latest`, {
-					type: 'view'
-				})
+				request.context, request.sessionToken, `${request.body.query}@latest`)
 
 			if (viewCardFromSlug && viewCardFromSlug.type === 'view') {
 				return viewCardFromSlug
@@ -571,9 +564,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 			try {
 				// Try and load the view by id first
 				const viewCardFromId = await jellyfish.getCardById(
-					request.context, request.sessionToken, request.body.query, {
-						type: 'view'
-					})
+					request.context, request.sessionToken, request.body.query)
 
 				if (!viewCardFromId || viewCardFromId.type !== 'view') {
 					throw new jellyfish.errors.JellyfishNoView(

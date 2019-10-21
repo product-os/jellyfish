@@ -1715,21 +1715,6 @@ ava('.getCardById() should find an active card by its id and type', async (test)
 	test.deepEqual(card, result)
 })
 
-ava('.getCardById() should not find an active card by its id but an invalid type', async (test) => {
-	const result = await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
-		slug: 'foo-bar',
-		type: 'card',
-		version: '1.0.0',
-		data: {}
-	})
-
-	const card = await test.context.kernel.getCardById(test.context.context, test.context.kernel.sessions.admin, result.id, {
-		type: 'session'
-	})
-
-	test.deepEqual(card, null)
-})
-
 ava('.getCardBySlug() should find an active card by its slug', async (test) => {
 	const result = await test.context.kernel.insertCard(
 		test.context.context, test.context.kernel.sessions.admin, {
@@ -1802,23 +1787,6 @@ ava('.getCardBySlug() should find an active card by its slug and its type', asyn
 		})
 
 	test.deepEqual(card, result)
-})
-
-ava('.getCardBySlug() should not find an active card by its slug but an invalid type', async (test) => {
-	await test.context.kernel.insertCard(
-		test.context.context, test.context.kernel.sessions.admin, {
-			slug: 'foo-bar',
-			type: 'card',
-			version: '1.0.0',
-			data: {}
-		})
-
-	const card = await test.context.kernel.getCardBySlug(
-		test.context.context, test.context.kernel.sessions.admin, 'foo-bar@1.0.0', {
-			type: 'session'
-		})
-
-	test.deepEqual(card, null)
 })
 
 ava('.getCardById() should return an inactive card by its id', async (test) => {
