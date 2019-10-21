@@ -117,9 +117,7 @@ module.exports = async (context, jellyfish, worker, session) => {
 		}
 
 		const typeCard = await jellyfish.getCardBySlug(
-			context, session, `${card.type}@${card.version}`, {
-				type: 'type'
-			})
+			context, session, `${card.type}@${card.version}`)
 
 		logger.info(context, 'Inserting default card using worker', {
 			slug: card.slug,
