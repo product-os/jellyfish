@@ -147,7 +147,7 @@ const bootstrap = async (context, library, options) => {
 			const object = {
 				id: trigger.id,
 				action: trigger.data.action,
-				card: trigger.data.target,
+				target: trigger.data.target,
 				arguments: trigger.data.arguments
 			}
 

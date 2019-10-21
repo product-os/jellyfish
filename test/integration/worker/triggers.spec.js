@@ -72,7 +72,7 @@ ava('.getRequest() should return a request if the filter only has a type and the
 			}
 		},
 		action: 'action-create-card',
-		card: typeCard.id,
+		target: typeCard.id,
 		arguments: {
 			properties: {
 				slug: 'foo-bar-baz'
@@ -128,7 +128,7 @@ ava('.getRequest() should return a request if the input card is null', async (te
 			}
 		},
 		action: 'action-create-card',
-		card: typeCard.id,
+		target: typeCard.id,
 		arguments: {
 			properties: {
 				slug: 'foo-bar-baz'
@@ -176,7 +176,7 @@ ava('.getRequest() should return null if referencing source when no input card',
 			}
 		},
 		action: 'action-create-card',
-		card: typeCard.id,
+		target: typeCard.id,
 		arguments: {
 			properties: {
 				slug: {
@@ -222,7 +222,7 @@ ava('.getRequest() should return a request given a complex matching filter', asy
 			}
 		},
 		action: 'action-create-card',
-		card: typeCard.id,
+		target: typeCard.id,
 		arguments: {
 			properties: {
 				slug: 'foo-bar-baz'
@@ -288,7 +288,7 @@ ava('.getRequest() should return null given a complex non-matching filter', asyn
 			}
 		},
 		action: 'action-create-card',
-		card: typeCard.id,
+		target: typeCard.id,
 		arguments: {
 			properties: {
 				slug: 'foo-bar-baz'
@@ -339,7 +339,7 @@ ava('.getRequest() should parse source templates in the triggered action argumen
 			}
 		},
 		action: 'action-create-card',
-		card: typeCard.id,
+		target: typeCard.id,
 		arguments: {
 			properties: {
 				slug: {
@@ -414,7 +414,7 @@ ava('.getRequest() should return the request if the mode matches on update', asy
 			}
 		},
 		action: 'action-create-card',
-		card: typeCard.id,
+		target: typeCard.id,
 		mode: 'update',
 		arguments: {
 			properties: {
@@ -490,7 +490,7 @@ ava('.getRequest() should return the request if the mode matches on insert', asy
 			}
 		},
 		action: 'action-create-card',
-		card: typeCard.id,
+		target: typeCard.id,
 		mode: 'insert',
 		arguments: {
 			properties: {
@@ -566,7 +566,7 @@ ava('.getRequest() should return null if the mode does not match', async (test) 
 			}
 		},
 		action: 'action-create-card',
-		card: typeCard.id,
+		target: typeCard.id,
 		mode: 'update',
 		arguments: {
 			properties: {
@@ -616,7 +616,7 @@ ava('.getRequest() should parse timestamp templates in the triggered action argu
 			type: 'object'
 		},
 		action: 'action-create-card',
-		card: typeCard.id,
+		target: typeCard.id,
 		arguments: {
 			properties: {
 				data: {
@@ -687,7 +687,7 @@ ava('.getRequest() should return null if one of the templates is unsatisfied', a
 			}
 		},
 		action: 'action-create-card',
-		card: typeCard.id,
+		target: typeCard.id,
 		arguments: {
 			properties: {
 				slug: {

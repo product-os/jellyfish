@@ -498,7 +498,7 @@ ava('.insertCard() should pass a triggered action as an action originator', asyn
 				}
 			},
 			action: 'action-test-originator',
-			card: typeCard.id,
+			target: typeCard.id,
 			type: typeCard.type,
 			arguments: {
 				properties: {
@@ -568,7 +568,7 @@ ava('.insertCard() should be able to override a triggered action originator', as
 				}
 			},
 			action: 'action-test-originator',
-			card: typeCard.id,
+			target: typeCard.id,
 			type: typeCard.type,
 			arguments: {
 				properties: {
@@ -639,7 +639,7 @@ ava('.insertCard() should execute one matching triggered action', async (test) =
 				}
 			},
 			action: 'action-create-card',
-			card: typeCard.id,
+			target: typeCard.id,
 			type: typeCard.type,
 			arguments: {
 				properties: {
@@ -721,7 +721,7 @@ ava('.insertCard() should not execute non-matching triggered actions', async (te
 				}
 			},
 			action: 'action-create-card',
-			card: typeCard.id,
+			target: typeCard.id,
 			arguments: {
 				properties: {
 					slug: 'foo-bar-baz'
@@ -778,7 +778,7 @@ ava('.insertCard() should execute more than one matching triggered action', asyn
 				}
 			},
 			action: 'action-create-card',
-			card: typeCard.id,
+			target: typeCard.id,
 			type: typeCard.type,
 			arguments: {
 				properties: {
@@ -805,7 +805,7 @@ ava('.insertCard() should execute more than one matching triggered action', asyn
 				}
 			},
 			action: 'action-create-card',
-			card: typeCard.id,
+			target: typeCard.id,
 			type: typeCard.type,
 			arguments: {
 				properties: {
@@ -870,7 +870,7 @@ ava('.insertCard() should execute the matching triggered actions given more than
 				}
 			},
 			action: 'action-create-card',
-			card: typeCard.id,
+			target: typeCard.id,
 			type: typeCard.type,
 			arguments: {
 				properties: {
@@ -897,7 +897,7 @@ ava('.insertCard() should execute the matching triggered actions given more than
 				}
 			},
 			action: 'action-create-card',
-			card: typeCard.id,
+			target: typeCard.id,
 			type: typeCard.type,
 			arguments: {
 				properties: {
@@ -1302,7 +1302,7 @@ ava('.insertCard() should pre-register a triggered action if using AGGREGATE', a
 		{
 			id: test.context.triggers[0].id,
 			action: 'action-set-add',
-			card: {
+			target: {
 				$eval: 'source.links[\'is attached to\'][0].id'
 			},
 			filter: test.context.triggers[0].filter,
