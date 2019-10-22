@@ -1,0 +1,15 @@
+{
+  "slug": "product-balena-cloud",
+  "type": "product",
+  "version": "1.0.0",
+  "name": "Balena Product",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+      "url": "https://github.com/balena-io/balena/"
+  },
+  "requires": [],
+  "capabilities": []
+}

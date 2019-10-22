@@ -1,0 +1,59 @@
+{
+  "slug": "product-improvement",
+  "name": "Product improvement",
+  "version": "1.0.0",
+  "type": "type",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^.*\\S.*$"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "mentionsUser": {
+              "type": "array",
+              "$$formula": "AGGREGATE($events, 'data.payload.mentionsUser')"
+            },
+            "alertsUser": {
+              "type": "array",
+              "$$formula": "AGGREGATE($events, 'data.payload.alertsUser')"
+            },
+            "description": {
+              "type": "string",
+              "format": "markdown"
+            },
+            "status": {
+              "title": "Status",
+              "type": "string",
+              "enum": [
+                "open",
+                "closed"
+              ]
+            }
+          },
+          "required": [
+            "status",
+            "description"
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "data"
+      ]
+    },
+    "slices": [
+      "properties.data.properties.status"
+    ]
+  },
+  "requires": [],
+  "capabilities": []
+}

@@ -1,0 +1,36 @@
+{
+  "slug": "view-all-products",
+  "name": "Products",
+  "version": "1.0.0",
+  "type": "view",
+  "markers": [ "org-balena" ],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "allOf": [
+      {
+        "name": "All Balena Products",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "product"
+            }
+          },
+          "additionalProperties": true,
+          "required": [
+            "type"
+          ]
+        }
+      }
+    ],
+    "lenses": [
+      "lens-list",
+      "lens-kanban"
+    ]
+  },
+  "requires": [],
+  "capabilities": []
+}
