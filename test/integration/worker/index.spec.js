@@ -1239,6 +1239,117 @@ ava('should fail to set a trigger when the list of card ids contains duplicates'
 	}, test.context.worker.errors.WorkerInvalidTrigger)
 })
 
+ava('trigger should fail to update card if triggerd by a user not owning the card', async (test) => {
+	const card = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			slug: 'foo-admin',
+			type: 'card',
+			version: '1.0.0',
+			data: {
+				id: 'id-admin'
+			}
+		})
+
+	test.context.worker.setTriggers(test.context.context, [
+		{
+			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			filter: {
+				type: 'object',
+				required: [ 'data' ],
+				properties: {
+					data: {
+						type: 'object',
+						required: [ 'cards' ],
+						properties: {
+							cards: {
+								type: 'array',
+								items: {
+									type: 'object',
+									required: [ 'id' ],
+									properties: {
+										id: {
+											type: 'string'
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			action: 'action-update-card',
+			target: {
+				$map: {
+					$eval: 'source.data.cards[0:]'
+				},
+				'each(card)': {
+					$eval: 'card.id'
+				}
+			},
+			arguments: {
+				reason: null,
+				patch: [
+					{
+						op: 'add',
+						path: '/data/updated',
+						value: true
+					}
+				]
+			}
+		}
+	])
+
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'type@latest')
+	const actionCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'action-create-card@latest')
+
+	const userJohnDoe = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			type: 'user',
+			version: '1.0.0',
+			slug: 'user-john-doe-user',
+			data: {
+				email: 'accounts+jellyfish@resin.io',
+				roles: [ 'user-community' ],
+				hash: 'PASSWORDLESS'
+			}
+		})
+
+	const sessionOfJohnDoe = await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			type: 'session',
+			version: '1.0.0',
+			slug: 'session-john-doe-user',
+			data: {
+				actor: userJohnDoe.id
+			}
+		})
+	const sessionIdOfJohnDoe = sessionOfJohnDoe.id
+
+	await test.context.queue.enqueue(
+		test.context.worker.getId(), sessionIdOfJohnDoe, {
+			action: actionCard.slug,
+			context: test.context.context,
+			card: typeCard.id,
+			type: typeCard.type,
+			arguments: {
+				reason: null,
+				properties: {
+					data: {
+						cards: [ {
+							id: card.id
+						} ],
+						schema: {}
+					}
+				}
+			}
+		})
+
+	await test.throwsAsync(test.context.flush(sessionIdOfJohnDoe, 1),
+		test.context.worker.errors.WorkerNoElement)
+})
+
 ava('.execute() should execute a triggered action given a matching mode', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
