@@ -6,8 +6,10 @@
 
 import Contact from './Contact'
 import SingleCard from './SingleCard'
+import Specification from './Specification'
 
 export default [
 	Contact,
-	SingleCard
+	SingleCard,
+	Specification
 ]
