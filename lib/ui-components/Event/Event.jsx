@@ -78,8 +78,7 @@ const EventButton = styled.button `
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding-left: 8px;
-	padding-right: 8px;
+	padding: 8px;
 	border-left-style: solid;
 	border-left-width: 3px;
 `
@@ -152,10 +151,9 @@ const EventWrapper = styled(Flex) `
 	.rendition-tag--hl {
 		position: relative;
 		${tagStyle}
-	}
-
-	a .rendition-tag--hl {
-		color: #333;
+		background: none;
+		color: inherit;
+		border-color: inherit;
 	}
 
 	.rendition-tag--personal {
@@ -183,53 +181,14 @@ const EventWrapper = styled(Flex) `
 	}
 `
 
-const MessageWrapper = styled(Box) `
-	min-width: 0;
-	position: relative;
-	box-shadow: rgba(0, 0, 0, 0.25) 0px 0px 3px;
-	margin: 0 8px 16px 0;
-	border-radius: 10px;
-`
-
-const ProxyWrapper = styled(Box) `
-	min-width: 0;
-	position: relative;
-	background: #f5fcff;
-	box-shadow: #d7f3ff 0px 0px 0px 3px;
-	margin: 0 8px 16px 0;
-	border-radius: 10px;
-`
-
-const WhisperWrapper = styled(Box) `
-	min-width: 0;
-	position: relative;
-	background: #333;
-	color: white;
-	border-radius: 4px;
-	margin-right: 80px;
-	margin-bottom: 8px;
-
-	.event-card--actions,
-	.event-card__expand {
-		color: white;
-	}
-
-	.rendition-tag--hl {
-		background: none;
-	}
+const MessageContainer = styled(Box) `
+	border-radius: 6px;
+	border-top-left-radius: 0;
+	box-shadow: -5px 4.5px 10.5px 0 rgba(152, 173, 227, 0.08);
 
 	a {
-		color: white;
+		color: inherit;
 		text-decoration: underline;
-	}
-
-	.context-menu,
-	.context-menu a {
-		color: black;
-	}
-
-	a .rendition-tag--hl {
-		color: white;
 	}
 
 	a .rendition-tag--personal,
@@ -249,7 +208,24 @@ const WhisperWrapper = styled(Box) `
 		color: #333;
 		background-color: #f6f8fa;
 	}
+	  
+	${/* eslint-disable no-nested-ternary */
+	(props) => {
+		return props.whisper ? `
+				background: ${props.theme.colors.secondary.main};
+				color: white;
 
+				blockquote {
+					color: lightgray;
+				}
+			` : props.proxy ? `
+				background: ${props.theme.colors.quartenary.main};
+			` : `
+				border: solid 0.5px #e8ebf2;
+				background: white;
+			`
+	}
+	/* eslint-enable no-nested-ternary */}
 `
 
 export default class Event extends React.Component {
@@ -435,13 +411,6 @@ export default class Event extends React.Component {
 		])
 		const isMessage = card.type === 'message' || card.type === 'whisper'
 
-		let InnerWrapper = MessageWrapper
-		if (card.type === 'whisper') {
-			InnerWrapper = WhisperWrapper
-		} else if (actor && actor.proxy) {
-			InnerWrapper = ProxyWrapper
-		}
-
 		const message = getMessage(card)
 
 		const attachments = getAttachments(card)
@@ -463,26 +432,30 @@ export default class Event extends React.Component {
 							url={actor ? actor.avatarUrl : null}
 						/>
 					</EventButton>
-					<InnerWrapper
-						flex="1"
+					<Box
 						pt={2}
-						px="12px"
+						flex="1"
 						pb={messageOverflows ? 0 : 2}
+						style={{
+							minWidth: 0
+						}}
 					>
-						<Flex justifyContent="space-between" mb={2}>
-							<Flex mt={isMessage ? 0 : '5px'} align="center">
+						<Flex justifyContent="space-between" mb={1}>
+							<Flex mt={isMessage ? 0 : 1} align="center" style={{
+								lineHeight: 1.75
+							}}>
 								{isMessage && (
 									<Txt
 										tooltip={actor ? actor.email : 'loading...'}
 									>
 										{Boolean(actor) && Boolean(actor.card) && (
 											<Link color="black" append={actor.card.slug}>
-												<strong>{actor.name}</strong>
+												<Txt.span>{actor.name}</Txt.span>
 											</Link>
 										)}
 
 										{Boolean(actor) && !actor.card && (
-											<strong>Unknown user</strong>
+											<Txt.span>Unknown user</Txt.span>
 										)}
 
 										{!actor && (
@@ -520,7 +493,6 @@ export default class Event extends React.Component {
 								<Button
 									className="event-card--actions"
 									px={2}
-									mr={card.type === 'whisper' ? -12 : -1}
 									plain
 									onClick={this.toggleMenu}
 									icon={<Icon name="ellipsis-v"/>}
@@ -576,9 +548,13 @@ export default class Event extends React.Component {
 						})}
 
 						{isMessage && Boolean(message) && (
-							<Box
+							<MessageContainer
 								ref={this.setMessageElement}
-								py='3px'
+								whisper={card.type === 'whisper'}
+								proxy={actor && actor.proxy}
+								py={2}
+								px={3}
+								mr={1}
 							>
 								<Markdown
 									py='3px'
@@ -609,13 +585,13 @@ export default class Event extends React.Component {
 										<Icon name={`chevron-${this.state.expanded ? 'up' : 'down'}`} />
 									</Button>
 								)}
-							</Box>
+							</MessageContainer>
 						)}
 
 						{!isMessage && Boolean(card.name) && (
 							<Txt>{card.name}</Txt>
 						)}
-					</InnerWrapper>
+					</Box>
 				</EventWrapper>
 			</VisibilitySensor>
 		)

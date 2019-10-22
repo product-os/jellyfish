@@ -50,6 +50,13 @@ const TypingNotice = styled.div `
 	}
 `
 
+const EventsContainer = styled(Box) `
+	flex: 1;
+	overflow-y: auto;
+	border-top: 1px solid #eee;
+	background-color: ${(props) => { return props.theme.colors.quartenary.light }}
+`
+
 const PAGE_SIZE = 20
 
 class Timeline extends React.Component {
@@ -411,15 +418,10 @@ class Timeline extends React.Component {
 					/>
 				</Flex>
 
-				<div
+				<EventsContainer
+					pt={2}
 					ref={this.bindScrollArea}
 					onScroll={this.handleScroll}
-					style={{
-						flex: 1,
-						overflowY: 'auto',
-						borderTop: '1px solid #eee',
-						paddingTop: 8
-					}}
 				>
 					{!sortedTail && (<Box p={3}>
 						<Icon spin name="cog"/>
@@ -477,7 +479,7 @@ class Timeline extends React.Component {
 							</Box>
 						)
 					})}
-				</div>
+				</EventsContainer>
 
 				{typingMessage && (
 					<TypingNotice data-test="typing-notice">
