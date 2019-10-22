@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add ability to create specifications
+      hash: 3b99bfa0bcff94303bf3aeb14e461b5df8da92d1
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 24.1.0
+  date: 2019-10-22T16:23:44.820Z
+- commits:
     - subject: 'core: Remove options argument from .getCardById() and .getCardBySlug()'
       hash: 9017ec095950f22de70f6401e4ba9d63e7345fd9
       body: ''
