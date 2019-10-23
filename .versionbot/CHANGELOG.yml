@@ -1,4 +1,18 @@
 - commits:
+    - subject: do not assume Notifications framework is available
+      hash: a62ae3a1edda28069a57cc12e96c37fbc9516aa6
+      body: ''
+      footer:
+        Connects-to: '#2597'
+        connects-to: '#2597'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Will Boyce <will@balena.io>
+        signed-off-by: Will Boyce <will@balena.io>
+      author: Will Boyce
+  version: 24.3.1
+  date: 2019-10-23T11:41:10.172Z
+- commits:
     - subject: Add new cards
       hash: 9cc2d4f2daa0e920ff01293bf139b3cddfda85e7
       body: |
