@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'circleci: Install balena-cli in test image'
+      hash: a76492f814855a220fc50b5de3ec509eb48fc1a1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.3.2
+  date: 2019-10-23T14:47:50.873Z
+- commits:
     - subject: do not assume Notifications framework is available
       hash: a62ae3a1edda28069a57cc12e96c37fbc9516aa6
       body: ''
