@@ -22,6 +22,9 @@ aliases:
         DATABASE: postgres
         POSTGRES_USER: postgres
         POSTGRES_PASSWORD: postgres
+        DEVICE_TYPE: "qemux86-64"
+        OS_VERSION: "2.38.0+rev1"
+        OS_IMAGE: "resin/resinos:2.38.0_rev1.dev-qemux86-64"
 
 version: 2
 dependencies:
@@ -414,6 +417,110 @@ jobs:
           paths:
             - .nyc_output/*.json
 
+  balenaos: &balenaos
+    <<: *job_defaults
+
+    working_directory: /usr/src/test
+
+    steps:
+      - checkout
+
+      - setup_remote_docker:
+          docker_layer_caching: true
+
+      - run:
+          name: Log into balenaCloud
+          command: |
+            balena login --token "${BALENA_API_TOKEN}"
+
+      - run:
+          name: Set up test application
+          command: |
+            set -x
+            APP_NAME="${CIRCLE_PROJECT_REPONAME:0:14}-${CIRCLE_SHA1:0:6}-${CIRCLE_BUILD_NUM}"
+            echo "export APP_NAME=${APP_NAME}" >> $BASH_ENV
+            balena app create "${APP_NAME}" --type "${DEVICE_TYPE}"
+
+      - run:
+          name: Push code to application
+          command: |
+            jq -n --arg username "$PRIVATE_REGISTRY_USER" --arg password "$PRIVATE_REGISTRY_PASSWORD" '{"https://index.docker.io/v1/": {username: $username, password: $password}}' > secrets.json
+            balena push --registry-secrets secrets.json "${APP_NAME}"
+
+      - run:
+          name: Get balenaOS in container code
+          command: |
+            cd /usr/src/
+            git clone git@github.com:balena-os/balenaos-in-container.git
+            cd balenaos-in-container
+            # Need a modified version of balenaOS-in-container script
+            git checkout -b test 472f5ecd698c7ced5bfc282cb47597323ccebbe4
+
+      - run:
+          name: Spin up device
+          command: |
+            set -x
+            cd /usr/src/balenaos-in-container
+            UUID=$(balena device register "${APP_NAME}" | awk '{ print $4 }')
+            echo "export UUID=${UUID}" >> $BASH_ENV
+            balena config generate -d "${UUID}" --version "${OS_VERSION}" --generate-device-api-key --output config.json --network ethernet --appUpdatePollInterval 10
+            # workaround because of https://circleci.com/docs/2.0/building-docker-images/#mounting-folders
+            ./balenaos-in-container.sh -c config.json --image "${OS_IMAGE}" --id ${CIRCLE_SHA1} -d || true
+            docker create -v "balena-boot-${CIRCLE_SHA1}":/mnt/boot/ -v "balena-systemd-${CIRCLE_SHA1}":/systemd/ --name configs alpine:3.10 /bin/true
+            docker cp config.json configs:/mnt/boot/config.json
+            docker cp conf/systemd-watchdog.conf configs:/systemd/watchdog.conf
+            docker rm configs || true
+            ./balenaos-in-container.sh -c config.json --image "${OS_IMAGE}" --id ${CIRCLE_SHA1} -d
+            # balenaOS is running
+            balena device public-url enable "${UUID}"
+            TARGET_COMMIT=$(balena app "${APP_NAME}" | grep COMMIT | awk '{ print $2 }')
+            DEVICE_COMMIT=""
+            # wait for the virtual device to download the commit, but only up to ~1 hour
+            loopcount=0
+            while [[ "$DEVICE_COMMIT" != "${TARGET_COMMIT}" ]]; do
+              echo "Device is not yet on target state"
+              sleep 10
+              DEVICE_COMMIT=$(balena device "${UUID}" | grep COMMIT | awk '{ print $2 }') || true
+              if (( ((loopcount++)) > 360 )); then break; fi
+            done
+
+      - run:
+          name: Ping test
+          command: |
+            set -x
+            RESPONSE=$(curl --retry 10 --fail https://${UUID}.balena-devices.com/ping) || TEST_EXIT=1
+            if [[ "$RESPONSE" != "OK" ]]; then
+                echo "Ping response is unexpected."
+                TEST_EXIT=2
+            fi
+            echo "export TEST_EXIT=${TEST_EXIT}" >> $BASH_ENV
+
+      - run:
+          name: E2E tests
+          command: |
+            set -x
+            if ! docker exec -ti balena-container-${CIRCLE_SHA1} /bin/bash -c 'SIDECAR=$(balena ps --filter "name=sidecar" -q); balena exec $SIDECAR make test-e2e-ui' ; then
+                TEST_EXIT=3
+            fi
+            echo "export TEST_EXIT=${TEST_EXIT}" >> $BASH_ENV
+
+      - run:
+          name: Stop balenaOS container
+          command: |
+            CONTAINER_NAME="balena-container-${CIRCLE_SHA1}"
+            docker stop "${CONTAINER_NAME}" || true
+
+      - run:
+          name: Remove Application
+          command: |
+            balena app rm "${APP_NAME}" --yes || true
+
+      - run:
+          name: Return test results after cleanup
+          command: |
+            echo "If tests failed, see earlier steps for exact logs!"
+            exit ${TEST_EXIT}
+
   results:
     <<: *job_defaults
 
@@ -515,6 +622,11 @@ workflows:
                     - build
                 <<: *workflow_filter
 
+            - balenaos:
+                requires:
+                    - build
+                <<: *workflow_filter
+
             - results:
                 requires:
                   - unit_and_sync_tests
@@ -526,6 +638,7 @@ workflows:
                   - sync_tests_front_mirror
                   - sync_tests_discourse_mirror
                   - sync_tests_github_mirror
+                  - balenaos
                 <<: *workflow_filter
 
             - eslint_jellyfish:
