@@ -1,4 +1,20 @@
 - commits:
+    - subject: Add new cards
+      hash: 9cc2d4f2daa0e920ff01293bf139b3cddfda85e7
+      body: |
+        - product-balena-cloud
+        - product-jellyfish
+        - view-all-product-improvements
+        - view-all-products
+        - product-improvement
+        - product
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Carol Schulze
+  version: 24.3.0
+  date: 2019-10-23T10:45:33.569Z
+- commits:
     - subject: 'UI: Allow issues and discussion topics to be linked'
       hash: 6006d717ec56aa0ab1f81dff27b9c32edbb4f632
       body: |
