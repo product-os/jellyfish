@@ -1,4 +1,14 @@
 - commits:
+    - subject: Change chat design
+      hash: d784dc63d0cafcc0aadce0f8ddc6fcd82284a59b
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 24.4.0
+  date: 2019-10-23T16:34:00.742Z
+- commits:
     - subject: 'circleci: Install balena-cli in test image'
       hash: a76492f814855a220fc50b5de3ec509eb48fc1a1
       body: ''
