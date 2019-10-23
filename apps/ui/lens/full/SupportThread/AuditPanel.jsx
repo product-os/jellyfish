@@ -63,21 +63,16 @@ export default function AuditPanel (props) {
 		setStep(step + 1)
 	}
 
-	const createProductIssue = () => {
+	const createProductImprovement = () => {
 		props.actions.addChannel({
 			head: {
 				action: 'create',
 				types: _.find(props.types, {
-					slug: 'issue'
+					slug: 'product-improvement'
 				}),
-				seed: {
-					data: {
-						repository: 'balena-io/balena'
-					}
-				},
 				onDone: {
 					action: 'link',
-					name: 'support thread is attached to issue',
+					name: 'support thread is attached to product improvement',
 					target: props.card,
 					callback: skipStep
 				}
@@ -136,7 +131,7 @@ export default function AuditPanel (props) {
 					status={step > 0 ? 'completed' : 'pending'}
 					onClick={step > 0 ? () => setStep(0) : null}
 				>
-					Create product issue
+					Suggest product improvements
 				</Step>
 				<Step
 					status={step > 1 ? 'completed' : 'pending'}
@@ -170,10 +165,10 @@ export default function AuditPanel (props) {
 							<Button
 								mr={2}
 								primary
-								onClick={createProductIssue}
-								data-test="create-product-issue"
+								onClick={createProductImprovement}
+								data-test="create-product-improvement"
 							>
-								Create a new product issue
+								Suggest a product improvement
 							</Button>
 
 							<Button
