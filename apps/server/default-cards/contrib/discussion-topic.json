@@ -30,7 +30,12 @@
               "format": "markdown"
             },
             "type": {
-              "type": "string"
+              "type": "string",
+              "default": "architecture",
+              "enum": [
+                "architecture",
+                "product"
+              ]
             },
             "status": {
               "title": "Status",
