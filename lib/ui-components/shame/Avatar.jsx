@@ -4,55 +4,60 @@
  * Proprietary and confidential.
  */
 
-import _ from 'lodash'
 import React from 'react'
+import styled from 'styled-components'
 import {
 	Box,
 	Flex,
-	Img,
-	Theme
+	Img
 } from 'rendition'
-import Icon from './Icon'
+import UserIcon from 'react-icons/lib/fa/user'
 
-export default function Avatar (props) {
-	const {
-		small
-	} = props
-	const passthroughProps = _.omit(props, [ 'small', 'email' ])
-	const style = {
-		borderRadius: 3,
-		width: 36,
-		height: 36,
-		textAlign: 'center'
-	}
+const dimensions = (props) => {
+	const size = props.small ? 24 : 36
+	return `
+		width: ${size}px;
+		height: ${size}px;
+	`
+}
 
-	if (small) {
-		style.width = 24
-		style.height = 24
-	}
+const OuterWrapper = styled(Box) `
+	box-sizing: content-box;
+	${dimensions}
+`
 
-	if (props.url) {
-		return (
-			<Box {...props}>
-				<Img style={style} src={props.url}/>
-			</Box>
-		)
-	}
+const InnerWrapper = styled(Box) `
+	border-radius: 100%;
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+`
 
-	style.padding = 4
+const IconWrapper = styled(Flex) `
+	width: 100%;
+	height: 100%;
+	background: ${(props) => { return props.theme.colors.quartenary.dark }};
+	color: white;
+	flex-direction: column;
+	justify-content: center;
+    align-items: center;
+`
 
+export default function Avatar ({
+	url,
+	...rest
+}) {
 	return (
-		<Box {...passthroughProps}>
-			<Flex
-				p='4px'
-				bg={Theme.colors.text.light}
-				color='white'
-				flexDirection='column'
-				justifyContent='center'
-				style={style}
-			>
-				<Icon name="user"/>
-			</Flex>
-		</Box>
+		<OuterWrapper {...rest}>
+			<InnerWrapper>
+				{url ? (
+					<Img src={url} />
+				) : (
+					<IconWrapper>
+						<UserIcon name="user" />
+					</IconWrapper>
+				)}
+			</InnerWrapper>
+		</OuterWrapper>
 	)
 }
