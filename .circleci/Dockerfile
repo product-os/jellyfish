@@ -23,3 +23,5 @@ RUN apt-get update && apt-get install -y gnuplot \
 # Redis will try to set ulimit at startup, and that won't work
 # in non-privileged containers
 RUN sed -i 's/[ \t]*ulimit.*/:/g' /etc/init.d/redis-server
+
+RUN npm install --unsafe --global balena-cli
