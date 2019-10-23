@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'UI: Allow issues and discussion topics to be linked'
+      hash: 6006d717ec56aa0ab1f81dff27b9c32edbb4f632
+      body: |
+        Fixes #2614
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 24.2.0
+  date: 2019-10-22T17:52:13.116Z
+- commits:
     - subject: Add ability to create specifications
       hash: 3b99bfa0bcff94303bf3aeb14e461b5df8da92d1
       body: ''
