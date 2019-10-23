@@ -1,0 +1,38 @@
+{
+  "slug": "product",
+  "type": "type",
+  "version": "1.0.0",
+  "name": "Product",
+  "markers": [],
+  "requires": [],
+  "capabilities": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "required": ["name", "slug"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^.*\\S.*$"
+        },
+        "slug": {
+          "type": "string",
+          "pattern": "^product-[a-z0-9-]+$"
+        },
+        "data": {
+          "type": "object",
+          "required": ["url"],
+          "properties": {
+            "url": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        }
+      }
+    }
+  }
+}
