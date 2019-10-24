@@ -153,6 +153,10 @@ export INTEGRATION_OUTREACH_APP_SECRET
 INTEGRATION_OUTREACH_SIGNATURE_KEY ?=
 export INTEGRATION_OUTREACH_SIGNATURE_KEY
 
+# Google Meet
+INTEGRATION_GOOGLE_MEET_CREDENTIALS ?=
+export INTEGRATION_GOOGLE_MEET_CREDENTIALS
+
 # -----------------------------------------------
 # Test Runtime Configuration
 # -----------------------------------------------
