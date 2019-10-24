@@ -403,7 +403,7 @@ ava.serial('Users should be able to audit a support thread', async (test) => {
 	// Add a small delay to allow for the link creation to occur
 	// TODO: Add a "wait" method to the SDK that will resolve once a matching
 	// document is found in the database
-	await Bluebird.delay(2000)
+	await Bluebird.delay(8000)
 
 	const threadWithFeedback = await page.evaluate((id) => {
 		return window.sdk.card.getWithLinks(id, 'is source for')
