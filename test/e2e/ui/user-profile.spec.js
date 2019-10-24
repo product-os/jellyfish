@@ -63,6 +63,8 @@ ava.serial('The send command should default to "shift+enter"', async (test) => {
 	await macros.waitForThenClickSelector(page, '[data-test="lens-my-user__send-command-select"]')
 	await macros.waitForThenClickSelector(page, '[role="menubar"] > div:nth-of-type(1) > button[role="menuitem"]')
 
+	await page.waitForSelector('[data-test="lens-my-user__send-command-select"][value="shift+enter"]')
+
 	const value = await macros.getElementValue(page, '[data-test="lens-my-user__send-command-select"]')
 	test.is(value, 'shift+enter')
 
@@ -87,14 +89,14 @@ ava.serial('You should be able to change the send command to "enter"', async (te
 	await macros.waitForThenClickSelector(page, '[data-test="lens-my-user__send-command-select"]')
 	await macros.waitForThenClickSelector(page, '[role="menubar"] > div:nth-of-type(3) > button[role="menuitem"]')
 
-	await bluebird.delay(1000)
-
-	const value = await macros.getElementValue(page, '[data-test="lens-my-user__send-command-select"]')
-	test.is(value, 'enter')
-
 	// Wait for the success alert as a heuristic for the action completing
 	// successfully
 	await page.waitForSelector('[data-test="alert--success"]')
+
+	await page.waitForSelector('[data-test="lens-my-user__send-command-select"][value="enter"]')
+
+	const value = await macros.getElementValue(page, '[data-test="lens-my-user__send-command-select"]')
+	test.is(value, 'enter')
 
 	// Create a new thread
 	const thread = await page.evaluate(() => {
@@ -131,7 +133,7 @@ ava.serial('You should be able to change the send command to "ctrl+enter"', asyn
 	await macros.waitForThenClickSelector(page, '[data-test="lens-my-user__send-command-select"]')
 	await macros.waitForThenClickSelector(page, '[role="menubar"] > div:nth-of-type(2) > button[role="menuitem"]')
 
-	await bluebird.delay(1000)
+	await page.waitForSelector('[data-test="lens-my-user__send-command-select"][value="ctrl+enter"]')
 
 	const value = await macros.getElementValue(page, '[data-test="lens-my-user__send-command-select"]')
 	test.is(value, 'ctrl+enter')
