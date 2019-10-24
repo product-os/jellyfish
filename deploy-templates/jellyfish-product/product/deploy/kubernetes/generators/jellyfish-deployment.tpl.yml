@@ -102,6 +102,12 @@ spec:
           value: '{{{INTEGRATION_OUTREACH_APP_SECRET}}}'
         - name: INTEGRATION_OUTREACH_SIGNATURE_KEY
           value: {{{INTEGRATION_OUTREACH_SIGNATURE_KEY}}}
+        - name: TEST_USER_USERNAME
+          value: jellyfish
+        - name: TEST_USER_ROLE
+          value: user-community
+        - name: SERVER_PORT
+          value: 8000
         ports:
         - containerPort: 8000
           name: jellyfish-api

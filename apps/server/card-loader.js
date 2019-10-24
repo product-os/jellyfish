@@ -135,6 +135,11 @@ module.exports = async (context, jellyfish, worker, session) => {
 		await worker.replaceCard(context, session, typeCard, {
 			attachEvents: false
 		}, card)
+
+		logger.info(context, 'Inserted default card using worker', {
+			slug: card.slug,
+			type: card.type
+		})
 	})
 
 	return {
