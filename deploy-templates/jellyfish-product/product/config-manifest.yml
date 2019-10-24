@@ -70,17 +70,3 @@ properties:
     type: string?
   INTEGRATION_OUTREACH_SIGNATURE_KEY:
     type: string?
-
-
-  # BALENA_DEVICE_UUID:
-  #   type: string?
-  #   description: >-
-  #     Optional UUID
-  # PRODUCTION_MODE:
-  #   type: string
-  #   pattern: ^[true | false]$
-  # JSON_WEB_TOKEN_SECRET:
-  #   type: string
-  #   pattern: ^[0-9A-Za-z_]{16,64}$
-  # GENERATE_TEST:
-  #   type: string?

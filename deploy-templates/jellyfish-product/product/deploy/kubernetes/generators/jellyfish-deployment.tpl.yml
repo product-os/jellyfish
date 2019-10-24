@@ -107,7 +107,7 @@ spec:
         - name: TEST_USER_ROLE
           value: user-community
         - name: SERVER_PORT
-          value: 8000
+          value: '8000'
         ports:
         - containerPort: 8000
           name: jellyfish-api

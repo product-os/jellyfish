@@ -15,4 +15,4 @@ fi
 wget -O kubectl "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl" && chmod +x ./kubectl && mv kubectl /usr/local/bin/
 
 # Deploy with katapult
-KATAPULT_KUBE_CONFIG="$(echo "$KATAPULT_KUBE_CONFIG" | base64 -d)" katapult deploy -t kubernetes -e jellfish-product
+KATAPULT_KUBE_CONFIG="$(echo "$KATAPULT_KUBE_CONFIG" | base64 -d)" katapult deploy -t kubernetes -e jellyfish-product
