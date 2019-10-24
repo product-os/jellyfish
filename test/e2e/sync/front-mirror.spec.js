@@ -146,7 +146,7 @@ ava.before(async (test) => {
 			subject: title,
 			body: description,
 			sender: {
-				handle: `jellytest-${uuid().slice(0, 4)}`
+				handle: `jellytest-${uuid()}`
 			}
 		})
 
