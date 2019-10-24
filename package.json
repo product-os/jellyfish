@@ -124,6 +124,7 @@
     "formulajs": "^1.0.8",
     "front-sdk": "^0.7.1",
     "geoip-lite": "^1.3.7",
+    "googleapis": "^32.0.0",
     "howler": "^2.0.12",
     "intercom-client": "^2.10.4",
     "json-e": "^2.6.0",
