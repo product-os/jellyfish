@@ -12,7 +12,7 @@ API_URL="https://circleci.com/api/v1.1/project/github/$CIRCLE_PROJECT_USERNAME/$
 ARTIFACT_COVERAGE="test-results/coverage/index.html"
 ARTIFACT_GITSTATS="test-results/gitstats/index.html"
 ARTIFACT_UI_WEBPACK_REPORT="test-results/ui/webpack-bundle-report.html"
-ARTIFACT_CHAT_WIDGET_WEBPACK_REPORT="test-results/chat-widget/webpack-bundle-report.html"
+ARTIFACT_LIVECHAT_WEBPACK_REPORT="test-results/livechat/webpack-bundle-report.html"
 ARTIFACT_PG_DUMP="test-results/dump.gz"
 
 get_artifact_link() (
@@ -24,7 +24,7 @@ echo ""
 echo "- [Code Coverage]($(get_artifact_link "$ARTIFACT_COVERAGE"))"
 echo "- [Repo Stats]($(get_artifact_link "$ARTIFACT_GITSTATS"))"
 echo "- [Webpack Bundle Report (UI)]($(get_artifact_link "$ARTIFACT_UI_WEBPACK_REPORT"))"
-echo "- [Webpack Bundle Report (Chat Widget)]($(get_artifact_link "$ARTIFACT_CHAT_WIDGET_WEBPACK_REPORT"))"
+echo "- [Webpack Bundle Report (Livechat)]($(get_artifact_link "$ARTIFACT_LIVECHAT_WEBPACK_REPORT"))"
 echo "- [PostgreSQL Dump (e2e)]($(get_artifact_link "$ARTIFACT_PG_DUMP"))"
 echo ""
 ./scripts/ci/hotfiles.sh
