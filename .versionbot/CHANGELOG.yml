@@ -1,4 +1,25 @@
 - commits:
+    - subject: Increase delay in UI test code to avoid failures
+      hash: ffdb894bed339a1368a56485216440cc6e33a29a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Cameron Diver <cameron@balena.io>
+        signed-off-by: Cameron Diver <cameron@balena.io>
+      author: Cameron Diver
+    - subject: Add docker-compose file for jellyfish-on-balena
+      hash: a7df847a0ce499eb58256c265b3b01988d01e102
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Cameron Diver <cameron@balena.io>
+        signed-off-by: Cameron Diver <cameron@balena.io>
+      author: Cameron Diver
+  version: 24.5.0
+  date: 2019-10-24T11:33:40.448Z
+- commits:
     - subject: Change chat design
       hash: d784dc63d0cafcc0aadce0f8ddc6fcd82284a59b
       body: ''
