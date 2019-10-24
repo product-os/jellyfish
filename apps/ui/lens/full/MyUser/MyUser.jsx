@@ -38,6 +38,7 @@ export default class MyUser extends React.Component {
 
 		this.bindMethods([
 			'handlePasswordFormChange',
+			'handleProfileFormSubmit',
 			'changePassword',
 			'startAuthorize'
 		])
@@ -45,7 +46,10 @@ export default class MyUser extends React.Component {
 		this.state = {
 			updatingSendCommand: false,
 			settingPassword: false,
-			changePassword: {}
+			changePassword: {},
+			profile: {
+				avatar: props.card.data.avatar || ''
+			}
 		}
 	}
 
@@ -82,6 +86,17 @@ export default class MyUser extends React.Component {
 		this.setState({
 			changePassword: Object.assign({}, data.formData)
 		})
+	}
+
+	handleProfileFormSubmit (data) {
+		const url = data.formData.avatar
+		this.setState({
+			profile: {
+				avatar: url
+			}
+		})
+
+		this.props.actions.setAvatarUrl(url)
 	}
 
 	async changePassword () {
@@ -158,7 +173,7 @@ export default class MyUser extends React.Component {
 				>
 					<Tab title="Profile">
 						<Box mt={3}>
-							<Flex>
+							<Flex mb={3}>
 								<Avatar
 									name={user.name || user.slug.replace('user-', '')}
 									url={_.get(user, [ 'data', 'avatar' ])}
@@ -171,6 +186,20 @@ export default class MyUser extends React.Component {
 									<strong>{user.data.email}</strong>
 								</Box>
 							</Flex>
+
+							<Form
+								schema={{
+									type: 'object',
+									properties: {
+										avatar: {
+											title: 'Avatar URL',
+											type: 'string'
+										}
+									}
+								}}
+								onFormSubmit={this.handleProfileFormSubmit}
+								value={this.state.profile}
+							/>
 						</Box>
 					</Tab>
 
