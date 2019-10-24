@@ -1,0 +1,86 @@
+# Main config schema for the product (jellyfish)
+version: "1"
+title: Config manifest
+properties:
+  REGISTRY_SECRET:
+    type: string
+  JELLYFISH_HOST:
+    type: string
+  JELLYFISH_API_HOST:
+    type: string
+  AWS_ACCESS_KEY_ID:
+    type: string
+  AWS_S3_BUCKET_NAME:
+    type: string
+  AWS_SECRET_ACCESS_KEY:
+    type: string
+  FS_DRIVER:
+    type: string
+  POSTGRES_DATABASE:
+    type: string
+  POSTGRES_USER:
+    type: string
+  POSTGRES_PASSWORD:
+    type: string
+  POSTGRES_PORT:
+    type: string
+  POSTGRES_HOST:
+    type: string
+  REDIS_HOST:
+    type: string
+  REDIS_PASSWORD:
+    type: string
+  NODE_ENV:
+    type: string
+  SENTRY_DSN_SERVER:
+    type: string?
+  LOGENTRIES_TOKEN:
+    type: string?
+  LOGLEVEL:
+    type: string?
+  LOCKFILE:
+    type: string
+  INTEGRATION_BALENA_API_PRIVATE_KEY:
+    type: string?
+  INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION:
+    type: string?
+  INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING:
+    type: string?
+  INTEGRATION_DEFAULT_USER:
+    type: string?
+  INTEGRATION_INTERCOM_TOKEN:
+    type: string?
+  INTEGRATION_FRONT_TOKEN:
+    type: string?
+  INTEGRATION_GITHUB_TOKEN:
+    type: string?
+  INTEGRATION_GITHUB_SIGNATURE_KEY:
+    type: string?
+  INTEGRATION_FLOWDOCK_SIGNATURE_KEY:
+    type: string?
+  INTEGRATION_DISCOURSE_TOKEN:
+    type: string?
+  INTEGRATION_DISCOURSE_USERNAME:
+    type: string?
+  INTEGRATION_DISCOURSE_SIGNATURE_KEY:
+    type: string?
+  INTEGRATION_OUTREACH_APP_ID:
+    type: string?
+  INTEGRATION_OUTREACH_APP_SECRET:
+    type: string?
+  INTEGRATION_OUTREACH_SIGNATURE_KEY:
+    type: string?
+
+
+  # BALENA_DEVICE_UUID:
+  #   type: string?
+  #   description: >-
+  #     Optional UUID
+  # PRODUCTION_MODE:
+  #   type: string
+  #   pattern: ^[true | false]$
+  # JSON_WEB_TOKEN_SECRET:
+  #   type: string
+  #   pattern: ^[0-9A-Za-z_]{16,64}$
+  # GENERATE_TEST:
+  #   type: string?

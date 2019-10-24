@@ -1,0 +1,4 @@
+kind: namespace
+apiVersion: v1
+metadata:
+  name: {{{KATAPULT_KUBE_NAMESPACE}}}

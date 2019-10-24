@@ -2,7 +2,7 @@ kind: Ingress
 apiVersion: extensions/v1beta1
 metadata:
   name: jellyfish-api
-  namespace: jellyfish
+  namespace: {{{KATAPULT_KUBE_NAMESPACE}}}
   annotations:
     kubernetes.io/tls-acme: 'true'
     ingress.kubernetes.io/affinity: "cookie"

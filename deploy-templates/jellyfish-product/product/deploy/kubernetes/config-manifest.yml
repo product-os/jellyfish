@@ -1,0 +1,6 @@
+# Main config schema for the product (jellyfish)
+version: "1"
+title: Config manifest
+properties:
+  KATAPULT_KUBE_NAMESPACE:
+    type: string

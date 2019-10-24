@@ -54,6 +54,19 @@ module.exports = async (context) => {
 	const results = await cardLoader(
 		context, jellyfish, worker, jellyfish.sessions.admin)
 
+	logger.info(context, 'Inserting test user', {
+		username: environment.test.user.username,
+		role: environment.test.user.role
+	})
+
+	assert.INTERNAL(context, environment.test.user.username,
+		jellyfish.errors.JellyfishInvalidEnvironmentVariable,
+		`No test username: ${environment.test.user.username}`)
+
+	assert.INTERNAL(context, environment.test.user.role,
+		jellyfish.errors.JellyfishInvalidEnvironmentVariable,
+		`No test role: ${environment.test.user.role}`)
+
 	const userCard = await jellyfish.replaceCard(
 		context, jellyfish.sessions.admin, {
 			slug: `user-${environment.test.user.username}`,
