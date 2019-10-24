@@ -41,6 +41,12 @@ properties:
         - warning
         - info
         - debug
+  - TEST_USER_USERNAME:
+      type: string
+  - TEST_USER_ROLE:
+      type: string
+  - SERVER_PORT:
+      type: string
   - INTEGRATION_BALENA_API_PRIVATE_KEY:
       type: string
   - INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION:
