@@ -43,6 +43,7 @@ class JellyFishAlert extends React.Component {
 			<Alert
 				key={id}
 				mb={2}
+				emphasized
 				success={type === 'success'}
 				danger={type === 'danger'}
 				warning={type === 'warning'}

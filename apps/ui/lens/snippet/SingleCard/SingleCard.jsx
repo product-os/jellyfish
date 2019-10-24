@@ -11,6 +11,7 @@ import _ from 'lodash'
 import React from 'react'
 import {
 	Box,
+	Flex,
 	Txt
 } from 'rendition'
 import CardFields from '../../../../../lib/ui-components/CardFields'
@@ -18,6 +19,7 @@ import Link from '../../../../../lib/ui-components/Link'
 import {
 	Tag
 } from '../../../../../lib/ui-components/Tag'
+import Icon from '@jellyfish/ui-components/shame/Icon'
 
 export default class SingleCard extends React.Component {
 	shouldComponentUpdate (nextProps) {
@@ -33,13 +35,28 @@ export default class SingleCard extends React.Component {
 			slug: card.type
 		})
 
+		// Count the number of non-event links the card has
+		const numLinks = _.reduce(card.links, (carry, value, key) => {
+			return key === 'has attached element' ? carry : carry + value.length
+		}, 0)
+
 		return (
 			<Box pb={3}>
-				<Txt>
-					<Link append={card.slug || card.id}>
-						<strong>{card.name || card.slug}</strong>
-					</Link>
-				</Txt>
+				<Flex justifyContent="space-between">
+					<Txt>
+						<Link append={card.slug || card.id}>
+							<strong>{card.name || card.slug}</strong>
+						</Link>
+					</Txt>
+
+					{numLinks > 0 && (
+						<Box>
+							{numLinks}
+							{' '}
+							<Icon name="bezier-curve" />
+						</Box>
+					)}
+				</Flex>
 
 				{Boolean(card.tags) && card.tags.length > 0 && (
 					<Box mb={1}>

@@ -1,0 +1,51 @@
+{
+  "slug": "agenda",
+  "name": "Agenda",
+  "version": "1.0.0",
+  "type": "type",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^.*\\S.*$"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "$$formula": "AGGREGATE($events, 'tags')"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "date": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        }
+      },
+      "required": [
+        "data"
+      ]
+    },
+		"meta": {
+			"relationships": [
+				{
+					"title": "Discussion topics",
+          "link": "has",
+					"type": "discussion-topic"
+				}
+			]
+		}
+  },
+  "requires": [],
+  "capabilities": []
+}

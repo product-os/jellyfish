@@ -1,6 +1,6 @@
 {
-  "slug": "view-all-product-improvements",
-  "name": "Product improvements",
+  "slug": "view-all-agendas",
+  "name": "Agendas",
   "version": "1.0.0",
   "type": "view",
   "markers": [ "org-balena" ],
@@ -8,32 +8,32 @@
   "links": {},
   "active": true,
   "data": {
+    "namespace": "Brainstorms",
     "allOf": [
       {
-        "name": "All Product Improvements",
+        "name": "Active cards",
         "schema": {
-          "$$links": {
-            "support thread is attached to product improvement": {
-              "type": "object"
-            }
-          },
           "type": "object",
           "properties": {
+            "active": {
+              "const": true,
+              "type": "boolean"
+            },
             "type": {
               "type": "string",
-              "const": "product-improvement"
-            }
+              "const": "agenda"
+            },
           },
-          "additionalProperties": true,
           "required": [
+            "active",
             "type"
-          ]
+          ],
+          "additionalProperties": true
         }
       }
     ],
     "lenses": [
-      "lens-list",
-      "lens-kanban"
+      "lens-list"
     ]
   },
   "requires": [],
