@@ -86,3 +86,6 @@ dist/
 
 # NYC instrumented code
 .nyc-root
+
+# Katapult generated files
+deploy-templates/jellyfish-product/product/deploy/kubernetes/templates

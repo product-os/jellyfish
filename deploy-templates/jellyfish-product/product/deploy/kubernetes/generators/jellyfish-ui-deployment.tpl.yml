@@ -2,7 +2,7 @@ apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
   name: jellyfish-ui
-  namespace: jellyfish
+  namespace: {{{KATAPULT_KUBE_NAMESPACE}}}
 spec:
   selector:
     matchLabels:
@@ -14,7 +14,7 @@ spec:
         app: jellyfish-ui
     spec:
       containers:
-      - image: {{{jellyfish-ui-image}}}
+      - image: <<%&children.sw.containerized-application.jellyfish-ui.data.assets.image.url%>>
         name: jellyfish-ui
         imagePullPolicy: Always
         livenessProbe:

@@ -1,53 +1,25 @@
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: jellyfish
-  namespace: jellyfish
+  name: tick-server
+  namespace: {{{KATAPULT_KUBE_NAMESPACE}}}
 spec:
   selector:
     matchLabels:
-      app: jellyfish
-  replicas: 3
+      app: tick-server
   template:
     metadata:
       labels:
-        app: jellyfish
+        app: tick-server
     spec:
-      terminationGracePeriodSeconds: 120
       containers:
-      - image: {{{jellyfish-api-image}}}
-        name: jellyfish
-        imagePullPolicy: Always
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 8000
-          initialDelaySeconds: 20
-          periodSeconds: 10
-          timeoutSeconds: 8
-        readinessProbe:
-          httpGet:
-            path: /health
-            port: 8000
-          initialDelaySeconds: 20
-          periodSeconds: 10
-          timeoutSeconds: 8
-          failureThreshold: 30
+      - image: <<%&children.sw.containerized-application.jellyfish-tick-server.data.assets.image.url%>>
+        name: tick-server
+        lifecycle:
+          preStop:
+            exec:
+              command: [ 'node', 'scripts/production/lock.js', '/tmp/worker.lock' ]
         env:
-        - name: AWS_ACCESS_KEY_ID
-          value: {{{AWS_ACCESS_KEY_ID}}}
-        - name: AWS_S3_BUCKET_NAME
-          value: {{{AWS_S3_BUCKET_NAME}}}
-        - name: AWS_SECRET_ACCESS_KEY
-          value: {{{AWS_SECRET_ACCESS_KEY}}}
-        - name: FS_DRIVER
-          value: {{{FS_DRIVER}}}
-        - name: POD_NAME
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.name
-        - name: PORT
-          value: '8000'
         - name: DATABASE
           value: postgres
         - name: POSTGRES_DATABASE
@@ -72,6 +44,8 @@ spec:
           value: {{{LOGENTRIES_TOKEN}}}
         - name: LOGLEVEL
           value: {{{LOGLEVEL}}}
+        - name: LOCKFILE
+          value: /tmp/worker.lock
         - name: INTEGRATION_BALENA_API_PRIVATE_KEY
           value: {{{INTEGRATION_BALENA_API_PRIVATE_KEY}}}
         - name: INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION
@@ -102,8 +76,6 @@ spec:
           value: {{{INTEGRATION_OUTREACH_APP_SECRET}}}
         - name: INTEGRATION_OUTREACH_SIGNATURE_KEY
           value: {{{INTEGRATION_OUTREACH_SIGNATURE_KEY}}}
-        ports:
-        - containerPort: 8000
-          name: jellyfish-api
+
       imagePullSecrets:
         - name: com.docker.hub.travisciresin

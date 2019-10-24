@@ -2,7 +2,7 @@ apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
   name: action-server
-  namespace: jellyfish
+  namespace: {{{KATAPULT_KUBE_NAMESPACE}}}
 spec:
   replicas: 12
   selector:
@@ -15,7 +15,7 @@ spec:
     spec:
       terminationGracePeriodSeconds: 120
       containers:
-      - image: {{{jellyfish-action-server-image}}}
+      - image: <<%&children.sw.containerized-application.jellyfish-action-server.data.assets.image.url%>>
         name: action-server
         lifecycle:
           preStop:

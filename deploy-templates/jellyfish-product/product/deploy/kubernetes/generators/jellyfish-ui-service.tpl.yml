@@ -3,7 +3,7 @@ kind: Service
 metadata:
   labels:
     name: jellyfish-ui
-  namespace: jellyfish
+  namespace: {{{KATAPULT_KUBE_NAMESPACE}}}
   name: jellyfish-ui
 spec:
   selector:
