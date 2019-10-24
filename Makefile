@@ -21,6 +21,8 @@ MAKEFILE_PATH := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 # Runtime Configuration
 # -----------------------------------------------
 
+SHELL=/bin/bash
+
 # Project name
 NAME ?= jellyfish
 
@@ -426,12 +428,42 @@ compose-exec-%:
 		$(DOCKER_COMPOSE_COMMAND_OPTIONS)
 
 compose-up-%:
+	@\
+	docker pull resinci/jellyfish-base:ffea33d27 & \
+	docker pull nginx:1.15 & \
+	docker pull balena/open-balena-db:3.0.1 & \
+	docker pull balena/balena-redis:0.0.3 & \
+	docker pull balena/balena-mdns-publisher:master & \
+	docker pull balena/open-balena-haproxy:master & \
+	docker-compose $(DOCKER_COMPOSE_OPTIONS) build api & \
+	docker-compose $(DOCKER_COMPOSE_OPTIONS) build livechat & \
+	docker-compose $(DOCKER_COMPOSE_OPTIONS) build sidecar & \
+	docker-compose $(DOCKER_COMPOSE_OPTIONS) build tick & \
+	docker-compose $(DOCKER_COMPOSE_OPTIONS) build ui & \
+	docker-compose $(DOCKER_COMPOSE_OPTIONS) build worker & \
 	docker-compose $(DOCKER_COMPOSE_OPTIONS) \
-		up $(DOCKER_COMPOSE_COMMAND_OPTIONS) $(subst compose-up-,,$@) $(ARGS)
+		up $(DOCKER_COMPOSE_COMMAND_OPTIONS) $(subst compose-up-,,$@) $(ARGS) & \
+	wait
 
 compose-%:
+	@\
+	if [[ $@ == compose-up* ]]; then \
+		docker pull resinci/jellyfish-base:ffea33d27 & \
+		docker pull nginx:1.15 & \
+		docker pull balena/open-balena-db:3.0.1 & \
+		docker pull balena/balena-redis:0.0.3 & \
+		docker pull balena/balena-mdns-publisher:master & \
+		docker pull balena/open-balena-haproxy:master & \
+		docker-compose $(DOCKER_COMPOSE_OPTIONS) build api & \
+		docker-compose $(DOCKER_COMPOSE_OPTIONS) build livechat & \
+		docker-compose $(DOCKER_COMPOSE_OPTIONS) build sidecar & \
+		docker-compose $(DOCKER_COMPOSE_OPTIONS) build tick & \
+		docker-compose $(DOCKER_COMPOSE_OPTIONS) build ui & \
+		docker-compose $(DOCKER_COMPOSE_OPTIONS) build worker & \
+	fi; \
 	docker-compose $(DOCKER_COMPOSE_OPTIONS) $(subst compose-,,$@) \
-		$(DOCKER_COMPOSE_COMMAND_OPTIONS)
+		$(DOCKER_COMPOSE_COMMAND_OPTIONS) & \
+	wait
 
 dev-%:
 	API_URL=$(SERVER_HOST):$(SERVER_PORT) \
