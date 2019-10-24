@@ -1,4 +1,25 @@
 - commits:
+    - subject: Fix deploy template
+      hash: f284f255010ca91e28ee2acacda1f09d6a19bf47
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Giovanni Garufi <giovanni@balena.io>
+        signed-off-by: Giovanni Garufi <giovanni@balena.io>
+      author: Giovanni Garufi
+    - subject: 'Test: Fix flakiness where test case does not wait for input value'
+      hash: 2bdf2b114918dda6b3427991c88f37bd418f038f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 24.5.2
+  date: 2019-10-24T21:00:00.806Z
+- commits:
     - subject: 'server: Startup debug logs'
       hash: 9d5e9834a5d9940ca86df741771d3261ba528946
       body: ''
