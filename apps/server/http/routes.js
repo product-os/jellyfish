@@ -9,6 +9,7 @@ const Bluebird = require('bluebird')
 const fs = require('fs')
 const errio = require('errio')
 const multer = require('multer')
+const urlParser = require('url')
 const Storage = require('./file-storage')
 const oauth = require('./oauth')
 const logger = require('../../../lib/logger').getLogger(__filename)
@@ -82,6 +83,29 @@ const sendHTTPError = (request, response, error) => {
 }
 
 module.exports = (application, jellyfish, worker, queue) => {
+	application.get('/cors.html', (request, response) => {
+		const referer = request.header('referer')
+
+		if (!referer) {
+			return response
+				.status(500)
+				.send('Referer header missing.')
+		}
+
+		const hostname = urlParser.parse(referer).hostname
+
+		return response
+			.set('Content-Type', 'text/html')
+			.send(`
+				<!DOCTYPE html>
+				<html>
+					<body>
+						<script>document.domain='${hostname.split('.').slice(1).join('.')}'</script>
+					</body>
+				</html>
+			`)
+	})
+
 	application.get('/api/v2/config', (request, response) => {
 		response.send({
 			changelog,
