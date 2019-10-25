@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'UI: Allow users to change their avatar'
+      hash: 6460f469a3b8ce0aa850847ef4c26deef0013c6c
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 24.7.0
+  date: 2019-10-25T12:35:21.065Z
+- commits:
     - subject: Fix broken permissions and view for product improvements
       hash: 65083cdcf9294a913bd6fd765d29aa1c9f064524
       body: ''
