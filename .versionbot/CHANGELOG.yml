@@ -1,4 +1,16 @@
 - commits:
+    - subject: Delete unused env vars from the config manifest
+      hash: 3931cca43578454ee2e6443b504847b6126888b7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Giovanni Garufi <giovanni@balena.io>
+        signed-off-by: Giovanni Garufi <giovanni@balena.io>
+      author: Giovanni Garufi
+  version: 24.5.3
+  date: 2019-10-24T23:22:44.226Z
+- commits:
     - subject: Fix deploy template
       hash: f284f255010ca91e28ee2acacda1f09d6a19bf47
       body: ''
