@@ -1,4 +1,24 @@
 - commits:
+    - subject: 'github: Don''t use underscores in GitHub links slugs'
+      hash: e59e2615d21d2171e9cc9f0089e7cfe51f3b74cd
+      body: >
+        For example:
+
+
+        ```
+
+        link-gh-push-12ca7ff3b56cdac73f555fcc8bcf0791248f3c61-to-repository-balena-io-modules-cloudwatch_exporter
+
+        ```
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.7.1
+  date: 2019-10-25T14:15:00.972Z
+- commits:
     - subject: 'UI: Allow users to change their avatar'
       hash: 6460f469a3b8ce0aa850847ef4c26deef0013c6c
       body: ''
