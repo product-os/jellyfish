@@ -1,4 +1,27 @@
 - commits:
+    - subject: >-
+        Implement cards and links to support the left side of the production
+        loop
+      hash: e8948d78397667438f7849d225f5d33e940a47b2
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: Allow product improvements to be linked to support threads
+      hash: 06b6aa61da16bf973167e3bcb05adc28a9fd2396
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 24.6.0
+  date: 2019-10-25T06:05:20.667Z
+- commits:
     - subject: Delete unused env vars from the config manifest
       hash: 3931cca43578454ee2e6443b504847b6126888b7
       body: ''
