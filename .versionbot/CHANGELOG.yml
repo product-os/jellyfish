@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix broken permissions and view for product improvements
+      hash: 65083cdcf9294a913bd6fd765d29aa1c9f064524
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 24.6.2
+  date: 2019-10-25T10:01:10.561Z
+- commits:
     - subject: 'ui: Only copy necessary files to the container'
       hash: adb9d08677946a11417d460b55dd0c1c961dfd94
       body: ''
