@@ -1,6 +1,4 @@
-<p align="center">
-	<img src="./banner.png" height="160" />
-</p>
+![JF](https://raw.githubusercontent.com/balena-io/jellyfish/master/banner.png?token=ABFYXXBBGJST3CAVJM5WUAS5XPQSQ)
 
 Jellyfish is a social knowledge database that the team uses to collaborate,
 without being blocked by departmental or hierarchal divisions. Jellyfish
