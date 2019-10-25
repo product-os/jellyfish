@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'ui: Only copy necessary files to the container'
+      hash: adb9d08677946a11417d460b55dd0c1c961dfd94
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.6.1
+  date: 2019-10-25T07:41:31.449Z
+- commits:
     - subject: >-
         Implement cards and links to support the left side of the production
         loop
