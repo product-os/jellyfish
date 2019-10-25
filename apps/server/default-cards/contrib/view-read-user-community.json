@@ -269,6 +269,7 @@
               "type": "string",
               "enum": [
                 "account",
+                "agenda",
                 "architecture-topic",
                 "contact",
                 "discussion-topic",

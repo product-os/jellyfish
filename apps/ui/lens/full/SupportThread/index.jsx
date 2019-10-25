@@ -17,7 +17,6 @@ import * as redux from 'redux'
 import {
 	Box,
 	Button,
-	DropDownButton,
 	Flex,
 	Link,
 	Theme,
@@ -161,12 +160,11 @@ class SupportThreadBase extends React.Component {
 			isClosing: false,
 			linkedSupportIssues: [],
 			linkedGitHubIssues: [],
+			linkedProductImprovements: [],
 			showHighlights: false,
 			expanded: false
 		}
 		this.loadLinks(props.card.id)
-
-		this.setCategory = this.setCategory.bind(this)
 	}
 
 	async componentDidMount () {
@@ -175,29 +173,6 @@ class SupportThreadBase extends React.Component {
 		this.setState({
 			actor
 		})
-	}
-
-	setCategory (event) {
-		event.preventDefault()
-
-		const {
-			card
-		} = this.props
-		const category = event.target.dataset.category
-
-		if (category === _.get(card, [ 'data', 'category' ])) {
-			return
-		}
-
-		const patch = helpers.patchPath(card, [ 'data', 'category' ], category)
-
-		sdk.card.update(card.id, card.type, patch)
-			.then(() => {
-				this.props.actions.addNotification('success', `Successfully set support thread category to: ${category}`)
-			})
-			.catch((error) => {
-				this.props.actions.addNotification('danger', error.message || error)
-			})
 	}
 
 	loadLinks (id) {
@@ -235,9 +210,19 @@ class SupportThreadBase extends React.Component {
 				},
 				description: `Support thread by id ${id} attached to issue`,
 				...baseSchema
+			}),
+			sdk.query({
+				$$links: {
+					'support thread is attached to product improvement': {
+						type: 'object',
+						additionalProperties: true
+					}
+				},
+				description: `Support thread by id ${id} attached to product improvements`,
+				...baseSchema
 			})
 		])
-			.then(([ supportIssueResult, issueResult ]) => {
+			.then(([ supportIssueResult, issueResult, productImprovementResult ]) => {
 				if (supportIssueResult.length) {
 					this.setState({
 						linkedSupportIssues: _.get(
@@ -255,6 +240,15 @@ class SupportThreadBase extends React.Component {
 						)
 					})
 				}
+
+				if (productImprovementResult.length) {
+					this.setState({
+						linkedProductImprovements: _.get(
+							productImprovementResult[0],
+							[ 'links', 'support thread is attached to product improvement' ]
+						)
+					})
+				}
 			})
 	}
 
@@ -265,10 +259,12 @@ class SupportThreadBase extends React.Component {
 	componentWillUpdate (nextProps) {
 		const verb1 = 'support thread is attached to support issue'
 		const verb2 = 'support thread is attached to issue'
+		const verb3 = 'support thread is attached to product improvement'
 		if (
 			(nextProps.card.id !== this.props.card.id) ||
 			(nextProps.card.linked_at[verb1] !== this.props.card.linked_at[verb1]) ||
-			(nextProps.card.linked_at[verb2] !== this.props.card.linked_at[verb2])
+			(nextProps.card.linked_at[verb2] !== this.props.card.linked_at[verb2]) ||
+			(nextProps.card.linked_at[verb3] !== this.props.card.linked_at[verb3])
 		) {
 			this.loadLinks(nextProps.card.id)
 		}
@@ -282,14 +278,12 @@ class SupportThreadBase extends React.Component {
 		} = this.props
 		const {
 			linkedSupportIssues,
-			linkedGitHubIssues
+			linkedGitHubIssues,
+			linkedProductImprovements
 		} = this.state
 		const typeCard = _.find(this.props.types, {
 			slug: card.type
 		})
-		const typeSchema = _.get(typeCard, [ 'data', 'schema' ])
-		const defaultCategory = _.get(typeSchema, [ 'properties', 'data', 'properties', 'category', 'default' ])
-		const categoryOptions = _.get(typeSchema, [ 'properties', 'data', 'properties', 'category', 'enum' ])
 
 		const {
 			actor,
@@ -305,26 +299,27 @@ class SupportThreadBase extends React.Component {
 				card={card}
 				channel={channel}
 				title={(
-					<Flex flex={1} justifyContent={status === 'open' ? 'space-between' : 'flex-end'}>
-						{status === 'open' && (
-							<DropDownButton
-								primary
-								label={_.get(card, [ 'data', 'category' ], defaultCategory)}
-								joined
-							>
-								{_.map(categoryOptions, (item) => {
-									return (
-										<Link
-											data-category={item}
-											key={item}
-											onClick={this.setCategory}
-										>
-											{item}
-										</Link>
-									)
-								})}
-							</DropDownButton>
-						)}
+					<Flex flex={1} justifyContent="space-between">
+						<Flex
+							style={{
+								transform: 'translateY(2px)'
+							}}
+						>
+							<ColorHashPill value={_.get(card, [ 'data', 'inbox' ])} mr={2} mb={1} />
+							<ColorHashPill
+								data-test={`status-${_.get(card, [ 'data', 'status' ])}`}
+								value={_.get(card, [ 'data', 'status' ])}
+								mr={2}
+								mb={1}
+							/>
+
+							{Boolean(card.tags) && _.map(card.tags, (tag) => {
+								if (tag === 'status' || tag === 'summary' || tag === 'pendinguserresponse') {
+									return null
+								}
+								return <Tag key={tag} mr={2} mb={1}>{tag}</Tag>
+							})}
+						</Flex>
 
 						{status === 'open' && (
 							<Button
@@ -405,24 +400,9 @@ class SupportThreadBase extends React.Component {
 
 				<Box
 					px={3}
-					pt={3}
+					pt={2}
 				>
 					<Flex alignItems="center" mb={1} flexWrap="wrap">
-						<ColorHashPill value={_.get(card, [ 'data', 'inbox' ])} mr={2} mb={1} />
-						<ColorHashPill
-							data-test={`status-${_.get(card, [ 'data', 'status' ])}`}
-							value={_.get(card, [ 'data', 'status' ])}
-							mr={2}
-							mb={1}
-						/>
-
-						{Boolean(card.tags) && _.map(card.tags, (tag) => {
-							if (tag === 'status' || tag === 'summary' || tag === 'pendinguserresponse') {
-								return null
-							}
-							return <Tag key={tag} mr={2} mb={1}>{tag}</Tag>
-						})}
-
 						{Boolean(linkedGitHubIssues && linkedGitHubIssues.length) && _.map(linkedGitHubIssues, (entry) => {
 							return (
 								<Tag key={entry.id} mr={2} mb={1} tooltip={entry.name}>
@@ -454,13 +434,31 @@ class SupportThreadBase extends React.Component {
 								</Tag>
 							)
 						})}
+
+						{_.map(linkedProductImprovements, (entry) => {
+							return (
+								<Tag key={entry.id} mr={2} mb={1} tooltip={entry.name}>
+									<JellyIcon />
+									<Link
+										ml={1}
+										href={`/${entry.slug || entry.id}`}
+										key={entry.id}
+										data-test="support-thread__linked-support-issue"
+									>
+										{entry.name}
+									</Link>
+								</Tag>
+							)
+						})}
 					</Flex>
 
-					{Boolean(actor) && (
-						<Txt mb={1} tooltip={actor.email}>
-							Conversation with <strong>{actor.name}</strong>
-						</Txt>
-					)}
+					<Flex>
+						{Boolean(actor) && (
+							<Txt mb={1} tooltip={actor.email}>
+								Conversation with <strong>{actor.name}</strong>
+							</Txt>
+						)}
+					</Flex>
 
 					{Boolean(card.name) && (
 						<Box mb={1}>

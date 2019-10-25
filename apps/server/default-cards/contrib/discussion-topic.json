@@ -55,7 +55,26 @@
     },
     "slices": [
       "properties.data.properties.status"
-    ]
+    ],
+		"meta": {
+			"relationships": [
+				{
+					"title": "Product improvement",
+          "link": "discussion topic has attached product improvement",
+					"type": "product-improvement"
+				},
+				{
+					"title": "Specification",
+          "link": "is source for",
+					"type": "specification"
+				},
+				{
+					"title": "Agenda",
+          "link": "appears in",
+					"type": "agenda"
+				}
+			]
+		}
   },
   "requires": [],
   "capabilities": []

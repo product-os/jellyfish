@@ -42,7 +42,21 @@
       "required": [
         "data"
       ]
-    }
+    },
+		"meta": {
+			"relationships": [
+				{
+					"title": "Discussion topic",
+          "link": "comes from",
+					"type": "discussion-topic"
+				},
+				{
+					"title": "GitHub issue",
+          "link": "is source for",
+					"type": "issue"
+				}
+			]
+		}
   },
   "requires": [],
   "capabilities": []

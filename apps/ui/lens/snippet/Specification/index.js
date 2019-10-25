@@ -28,7 +28,13 @@ const lens = {
 		icon: 'address-card',
 		renderer: connect(mapStateToProps)(Specification),
 		filter: {
-			type: 'object'
+			type: 'object',
+			properties: {
+				type: {
+					type: 'string',
+					const: 'specification'
+				}
+			}
 		}
 	}
 }
