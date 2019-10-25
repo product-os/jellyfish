@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'scripts: Fix livechat Webpack bundle link'
+      hash: a61d2ab4eeabd9549cbf927de07950c0dc687335
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.7.2
+  date: 2019-10-25T14:59:34.472Z
+- commits:
     - subject: 'github: Don''t use underscores in GitHub links slugs'
       hash: e59e2615d21d2171e9cc9f0089e7cfe51f3b74cd
       body: >
