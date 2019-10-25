@@ -102,6 +102,7 @@ services:
       - postgres
       - ui
       - balena-mdns-publisher
+      - haproxy
     environment:
       DATABASE: postgres
       LIVECHAT_HOST: http://livechat.ly.fish.local
@@ -271,7 +272,6 @@ services:
       - worker
       - ui
       - tick
-      - sidecar
       - redis
       - postgres
       - livechat
