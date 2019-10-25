@@ -2,8 +2,6 @@
 version: "1"
 title: Config manifest
 properties:
-  REGISTRY_SECRET:
-    type: string
   JELLYFISH_HOST:
     type: string
   JELLYFISH_API_HOST:
@@ -38,8 +36,6 @@ properties:
     type: string?
   LOGLEVEL:
     type: string?
-  LOCKFILE:
-    type: string
   INTEGRATION_BALENA_API_PRIVATE_KEY:
     type: string?
   INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION:
