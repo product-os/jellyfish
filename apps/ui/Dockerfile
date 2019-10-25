@@ -11,7 +11,14 @@ RUN mkdir -p scripts/eslint-plugin-jellyfish
 COPY scripts/eslint-plugin-jellyfish/package.json \
 	/usr/src/jellyfish/scripts/eslint-plugin-jellyfish
 RUN npm ci
-COPY . /usr/src/jellyfish
+
+COPY webpack.config.base.js .
+COPY apps/ui ./apps/ui
+COPY lib/sdk ./lib/sdk
+COPY lib/ui-components ./lib/ui-components
+COPY lib/chat-widget ./lib/chat-widget
+COPY lib/uuid ./lib/uuid
+COPY Makefile .
 
 ARG ENABLE_COVERAGE=0
 ARG SERVER_HOST=https://api.ly.fish
