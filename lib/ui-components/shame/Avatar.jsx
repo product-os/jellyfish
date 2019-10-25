@@ -31,6 +31,9 @@ const InnerWrapper = styled(Box) `
 	overflow: hidden;
 	width: 100%;
 	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
 `
 
 const IconWrapper = styled(Flex) `
