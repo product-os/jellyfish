@@ -7,6 +7,7 @@
 const Bluebird = require('bluebird')
 const Worker = require('../../../lib/worker')
 const helpers = require('../queue/helpers')
+const errio = require('errio')
 
 exports.jellyfish = {
 	beforeEach: async (test) => {
@@ -77,7 +78,9 @@ exports.worker = {
 					test.context.jellyfish.errors[result.data.name] ||
 					Error
 
-				throw new Constructor(result.data.message)
+				const error = new Constructor(result.data.message)
+				error.stack = errio.fromObject(result.data).stack
+				throw error
 			}
 
 			await test.context.flush(session, expect - 1)
