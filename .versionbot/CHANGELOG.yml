@@ -1,4 +1,20 @@
 - commits:
+    - subject: >-
+        When throwing the wrapped error, we now use and print the original stack
+        trace
+      hash: 60aa8c7de7f7275b9046d072426b99170210fe62
+      body: ''
+      footer:
+        Connects-to: '#2637'
+        connects-to: '#2637'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@fissore.org>
+        signed-off-by: Federico Fissore <federico@fissore.org>
+      author: Federico Fissore
+  version: 24.7.3
+  date: 2019-10-26T07:15:47.272Z
+- commits:
     - subject: 'scripts: Fix livechat Webpack bundle link'
       hash: a61d2ab4eeabd9549cbf927de07950c0dc687335
       body: ''
