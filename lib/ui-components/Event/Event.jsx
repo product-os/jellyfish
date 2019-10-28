@@ -468,7 +468,7 @@ export default class Event extends React.Component {
 
 								{Boolean(card.data) && Boolean(timestamp) && (
 									<Txt
-										color={card.type === 'whisper' ? 'white' : Theme.colors.text.light}
+										color={Theme.colors.text.light}
 										fontSize={1}
 										ml="6px"
 									>
