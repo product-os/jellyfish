@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add copy raw option to message actions
+      hash: 3087a2964650bc81a4c5a2ca1263e45681252450
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Connects-to: '#2495'
+        connects-to: '#2495'
+      author: Kakhaber
+  version: 24.8.0
+  date: 2019-10-29T10:41:17.312Z
+- commits:
     - subject: Make whisper timestamp show clearly
       hash: 9696212daa5dd3135525f3a16bec0ae006a4007c
       body: ''
