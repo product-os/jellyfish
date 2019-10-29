@@ -258,6 +258,12 @@ export default class Event extends React.Component {
 			copy(JSON.stringify(this.props.card, null, 2))
 		}
 
+		this.copyRawMessage = (event) => {
+			event.preventDefault()
+			event.stopPropagation()
+			copy(this.props.card.data.payload.message)
+		}
+
 		this.toggleMenu = () => {
 			this.setState({
 				showMenu: !this.state.showMenu
@@ -507,6 +513,15 @@ export default class Event extends React.Component {
 											}}>
 												Copy as JSON
 											</ActionLink>
+
+											{isMessage && (
+												<ActionLink onClick={this.copyRawMessage} tooltip={{
+													text: 'Message copied!',
+													trigger: 'click'
+												}}>
+													Copy raw message
+												</ActionLink>
+											)}
 
 											{this.props.menuOptions}
 										</React.Fragment>
