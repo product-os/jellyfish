@@ -1,4 +1,16 @@
 - commits:
+    - subject: Make whisper timestamp show clearly
+      hash: 9696212daa5dd3135525f3a16bec0ae006a4007c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Connects-to: '#2657'
+        connects-to: '#2657'
+      author: Kakhaber
+  version: 24.7.4
+  date: 2019-10-28T19:03:44.868Z
+- commits:
     - subject: >-
         When throwing the wrapped error, we now use and print the original stack
         trace
