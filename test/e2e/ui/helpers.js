@@ -8,6 +8,7 @@ const puppeteer = require('puppeteer')
 const environment = require('../../../lib/environment')
 const coverage = require('../../../lib/coverage')
 const helpers = require('../sdk/helpers')
+const Bluebird = require('bluebird')
 
 exports.browser = {
 	beforeEach: async (test) => {
@@ -71,5 +72,38 @@ exports.browser = {
 		await test.context.browser.close()
 		await helpers.afterEach(test)
 		await helpers.after(test)
+	}
+}
+
+/**
+ * Run a polled test assertion until it succeeds or max tries is exhausted
+ *
+ * @param {Function} test - Ava's Assertions instance
+ * @param {Function} testFn - check to be executed
+ * @param {Number} [maxRetries=10] - max number of times to try fn check
+ * @param {Number} [delayInMillis=1000] - delay between checks in milliseconds
+ */
+exports.pollTest = async (
+	test,
+	testFn,
+	maxRetries = 10,
+	delayInMillis = 1000
+) => {
+	const performTry = async (retries = 0) => {
+		if (retries <= 0) {
+			return false
+		}
+		await Bluebird.delay(delayInMillis)
+		if (await testFn()) {
+			return true
+		}
+		const testResult = await performTry(retries - 1)
+		return testResult
+	}
+
+	if (await performTry(maxRetries)) {
+		test.pass()
+	} else {
+		test.fail()
 	}
 }

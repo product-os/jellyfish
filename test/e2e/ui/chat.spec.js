@@ -217,14 +217,12 @@ ava.serial('Users should be able to mark all messages as read from their inbox',
 
 	await macros.waitForThenClickSelector(incognitoPage, '[data-test="inbox__mark-all-as-read"]')
 
-	// Leave a small delay for the message to be marked as read and for the change
-	// to be propogated to the UI
-	await Bluebird.delay(4000)
-
-	const messages = await incognitoPage.$$('[data-test="event-card__message"]')
-
-	// Assert that there are no longer messages in the inbox
-	test.is(messages.length, 0)
+	await helpers.pollTest(
+		test,
+		async () => { return (await incognitoPage.$$('[data-test="event-card__message"]')).length === 0 },
+		10,
+		1000
+	)
 })
 
 ava.serial('Users should be able to create private conversations', async (test) => {
