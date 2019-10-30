@@ -305,9 +305,7 @@ export default class ActionCreator {
 						proxy = true
 						let handle = actor.name || _.get(actor, [ 'data', 'handle' ])
 						if (!handle) {
-							handle = email === 'new@change.me' || email
-								? actor.slug.replace(/^(account|user)-/, '')
-								: email
+							handle = email || actor.slug.replace(/^(account|user)-/, '')
 						}
 						name = `[${handle}]`
 					}
