@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix actor handle on timeline
+      hash: 56b7151e1237bfb7bd30483bb32275c72af290e1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Connects-to: '#2680'
+        connects-to: '#2680'
+      author: Kakhaber
+  version: 24.8.1
+  date: 2019-10-30T12:32:24.174Z
+- commits:
     - subject: Add copy raw option to message actions
       hash: 3087a2964650bc81a4c5a2ca1263e45681252450
       body: ''
