@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'ui: allow app to operate as an iOS web app, outside Safari'
+      hash: 19876dae5222e3d36eb6b87522793d1a4246647f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Will Boyce <will@balena.io>
+        signed-off-by: Will Boyce <will@balena.io>
+      author: Will Boyce
+  version: 24.9.1
+  date: 2019-11-01T15:43:13.922Z
+- commits:
     - subject: Add Project and Checkin type cards
       hash: 725ab243021e1a5d9be46b9383a4699712ed9d6d
       body: ''
