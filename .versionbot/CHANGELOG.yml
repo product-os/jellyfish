@@ -1,4 +1,18 @@
 - commits:
+    - subject: Add Project and Checkin type cards
+      hash: 725ab243021e1a5d9be46b9383a4699712ed9d6d
+      body: ''
+      footer:
+        Connects-to: '#2553'
+        connects-to: '#2553'
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 24.9.0
+  date: 2019-11-01T14:47:24.251Z
+- commits:
     - subject: Fix actor handle on timeline
       hash: 56b7151e1237bfb7bd30483bb32275c72af290e1
       body: ''
