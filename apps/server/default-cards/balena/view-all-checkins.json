@@ -1,0 +1,37 @@
+{
+  "slug": "view-all-checkins",
+  "name": "Checkins",
+  "version": "1.0.0",
+  "type": "view",
+  "markers": [ "org-balena" ],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "namespace": "Projects",
+    "allOf": [
+      {
+        "name": "All checkins",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "checkin"
+            }
+          },
+          "additionalProperties": true,
+          "required": [
+            "type"
+          ]
+        }
+      }
+    ],
+    "lenses": [
+      "lens-list",
+      "lens-kanban"
+    ]
+  },
+  "requires": [],
+  "capabilities": []
+}

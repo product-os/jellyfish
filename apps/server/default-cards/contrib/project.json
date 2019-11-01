@@ -1,0 +1,49 @@
+{
+  "slug": "project",
+  "name": "Project",
+  "version": "1.0.0",
+  "type": "type",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^.*\\S.*$"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "$$formula": "AGGREGATE($events, 'tags')"
+        }
+      }
+    },
+		"meta": {
+			"relationships": [
+				{
+					"title": "Coordinator",
+					"link": "is coordinated by",
+					"type": "user"
+				},
+				{
+					"title": "Members",
+					"link": "has member",
+					"type": "user"
+				},
+				{
+					"title": "Advisors",
+					"link": "has advisor",
+					"type": "user"
+				}
+      ]
+    }
+  },
+  "requires": [],
+  "capabilities": []
+}
