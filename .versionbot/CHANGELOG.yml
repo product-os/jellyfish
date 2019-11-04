@@ -1,4 +1,14 @@
 - commits:
+    - subject: Cache preflight requests
+      hash: 48df52092b052eae595e15700b9081047594854b
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 24.10.0
+  date: 2019-11-04T10:51:23.374Z
+- commits:
     - subject: >-
         check-filenames.sh should ignore UI folders as React component names are
         usually CamelCase
