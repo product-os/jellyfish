@@ -21,7 +21,23 @@ import {
 const AUTOCOMPLETE_DEBOUNCE = 250
 
 const getUsers = async (value) => {
+	const user = selectors.getCurrentUser(store.getState())
+
+	// Get the current user's organisations
+	const orgs = _.map(user.links['is member of'], 'slug')
+
+	// Return all matching users in the same organisation(s)
 	const results = await sdk.query({
+		$$links: {
+			'is member of': {
+				type: 'object',
+				properties: {
+					slug: {
+						enum: orgs
+					}
+				}
+			}
+		},
 		type: 'object',
 		properties: {
 			type: {

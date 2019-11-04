@@ -240,7 +240,7 @@ export class SupportThreads extends React.Component {
 				>
 					{segments.map((segment) => {
 						return (
-							<Tab key={segment.name} title={segment.name}>
+							<Tab key={segment.name} title={`${segment.name} (${segment.cards.length})`}>
 								<InfiniteList
 									key={segment.name}
 									onScrollEnding={this.handleScrollEnding}
