@@ -220,5 +220,14 @@ module.exports = {
 			require('./inbound-null-name/01.json'),
 			require('./inbound-null-name/02.json')
 		]
+	},
+	'inbound-message-delete-no-user-id': {
+		expected: require('./inbound-message-delete-no-user-id/expected.json'),
+		steps: [
+			require('./inbound-message-delete-no-user-id/01.json'),
+			require('./inbound-message-delete-no-user-id/02.json'),
+			require('./inbound-message-delete-no-user-id/03.json'),
+			require('./inbound-message-delete-no-user-id/04.json')
+		]
 	}
 }

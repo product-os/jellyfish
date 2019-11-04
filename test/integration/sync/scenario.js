@@ -59,6 +59,7 @@ const getVariations = (sequence, options = {}) => {
 
 const requireStub = (basePath, offset, name) => {
 	if (offset === 0) {
+		console.warn(`Stub not found: ${name}`)
 		return null
 	}
 
