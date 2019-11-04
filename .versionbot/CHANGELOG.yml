@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'server: Correctly handle S3 file retrieval exceptions'
+      hash: 5c9df156c26dbe13ce0351eb12e4195426a3c4dc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.11.4
+  date: 2019-11-04T22:19:17.572Z
+- commits:
     - subject: 'discourse: Handle post destroy events without a user_id'
       hash: 9d70481287d760261ffc026053c721cc6830e581
       body: |
