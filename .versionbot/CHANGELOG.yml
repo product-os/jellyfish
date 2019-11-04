@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'discourse: Assert that there is a user id in event payload'
+      hash: fe81766957ebf2826a77d281cc5295ed58a86830
+      body: |
+        Will help for debugging purposes. We have a case where `userId` is
+        `undefined`, but its proving hard to track down without more info. We'll
+        know more next time.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.11.2
+  date: 2019-11-04T16:44:45.271Z
+- commits:
     - subject: 'discourse: Better handle non-existent users'
       hash: 82a995ce28809cb6632f4af8dc2150d91d0d5e54
       body: ''
