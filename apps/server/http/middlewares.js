@@ -34,6 +34,7 @@ module.exports = (rootContext, application, jellyfish, options) => {
 
 	application.use((request, response, next) => {
 		response.header('Access-Control-Allow-Origin', '*')
+		response.header('Access-Control-Max-Age', '86400')
 		response.header('Access-Control-Allow-Headers', [
 			'Accept',
 			'Authorization',
@@ -51,7 +52,7 @@ module.exports = (rootContext, application, jellyfish, options) => {
 			'PUT'
 		].join(', '))
 
-		return next()
+		next()
 	})
 
 	application.use((request, response, next) => {
