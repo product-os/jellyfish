@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'discourse: Better handle non-existent users'
+      hash: 82a995ce28809cb6632f4af8dc2150d91d0d5e54
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.11.1
+  date: 2019-11-04T15:00:23.488Z
+- commits:
     - subject: 'UI: Restrict username autocomplete to users in your org'
       hash: 536af71a1370d8230bd66428af588f6cd567e08f
       body: |
