@@ -5,6 +5,14 @@
  */
 
 module.exports = {
+	'inbound-delete-topic-no-user': {
+		expected: require('./inbound-delete-topic-no-user/expected.json'),
+		steps: [
+			require('./inbound-delete-topic-no-user/01.json'),
+			require('./inbound-delete-topic-no-user/02.json'),
+			require('./inbound-delete-topic-no-user/03.json')
+		]
+	},
 	'inbound-message-delete-user': {
 		expected: require('./inbound-message-delete-user/expected.json'),
 		steps: [

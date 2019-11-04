@@ -59,7 +59,7 @@ const getVariations = (sequence, options = {}) => {
 
 const requireStub = (basePath, offset, name) => {
 	if (offset === 0) {
-		throw new Error(`Couldn't find stub: ${name} at ${basePath}`)
+		return null
 	}
 
 	const stubPath = path.join(basePath, `${offset}`, `${name}.json`)
