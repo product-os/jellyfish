@@ -1,4 +1,20 @@
 - commits:
+    - subject: 'discourse: Handle post destroy events without a user_id'
+      hash: 9d70481287d760261ffc026053c721cc6830e581
+      body: |
+        We've seen in the wild a post destroy event without a `user_id`
+        property, but with a `username` instead.
+
+        This could be because of a recent Discourse change.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.11.3
+  date: 2019-11-04T20:45:13.625Z
+- commits:
     - subject: 'discourse: Assert that there is a user id in event payload'
       hash: fe81766957ebf2826a77d281cc5295ed58a86830
       body: |
