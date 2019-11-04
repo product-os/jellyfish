@@ -1,4 +1,20 @@
 - commits:
+    - subject: >-
+        check-filenames.sh should ignore UI folders as React component names are
+        usually CamelCase
+      hash: 11b8443b375f740e45cbc090621ec59d4afc9d7e
+      body: ''
+      footer:
+        Connects-to: '#2640'
+        connects-to: '#2640'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@fissore.org>
+        signed-off-by: Federico Fissore <federico@fissore.org>
+      author: Federico Fissore
+  version: 24.9.2
+  date: 2019-11-04T08:35:23.582Z
+- commits:
     - subject: 'ui: allow app to operate as an iOS web app, outside Safari'
       hash: 19876dae5222e3d36eb6b87522793d1a4246647f
       body: ''
