@@ -8,10 +8,11 @@
 
 set -eu
 
-DIRECTORIES="lib test scripts"
+DIRECTORIES=(lib test scripts)
+EXCLUDED_FOLDERS='node_modules|lib/ui-components|lib/ui-components|lib/chat-widget/components|lib/chat-widget/routes'
 
 # Ignore .tsx and .d.ts files
-RESULT="$(find "$DIRECTORIES" | grep -v -E '\.tsx$|\.d\.ts$' | grep '/[A-Z]' || true)"
+RESULT="$(find "${DIRECTORIES[@]}" | grep -v -E '\.tsx$|\.d\.ts$' | grep -vE 'DESCRIPTION|LICENSE' | grep -vE "${EXCLUDED_FOLDERS}" | grep '/[A-Z]' || true)"
 
 if [ -n "$RESULT" ]; then
 	echo "These files should not have capital letters:" 1>&2
