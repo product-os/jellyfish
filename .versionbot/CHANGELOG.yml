@@ -1,4 +1,26 @@
 - commits:
+    - subject: 'UI: Restrict username autocomplete to users in your org'
+      hash: 536af71a1370d8230bd66428af588f6cd567e08f
+      body: |
+        Fixes #2303
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Show number of support threads in each tab'
+      hash: 51b8d43c945177e5d6ce8b35d55bfba6bd18b272
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 24.11.0
+  date: 2019-11-04T13:00:23.709Z
+- commits:
     - subject: Cache preflight requests
       hash: 48df52092b052eae595e15700b9081047594854b
       body: ''
