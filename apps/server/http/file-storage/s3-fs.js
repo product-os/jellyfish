@@ -63,6 +63,7 @@ module.exports = class S3FS {
 							.then((file) => {
 								resolve(file)
 							})
+							.catch(reject)
 					}
 
 					return reject(err)
