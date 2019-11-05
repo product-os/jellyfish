@@ -1,4 +1,16 @@
 - commits:
+    - subject: Make view all convo button visible
+      hash: 314f14607ffdbdd9babce8ef68d0e6c7ad09fab5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Connects-to: '#2700'
+        connects-to: '#2700'
+      author: Kakhaber
+  version: 24.11.6
+  date: 2019-11-05T09:36:14.056Z
+- commits:
     - subject: 'ChatWidget: Create thread with initial open status'
       hash: 4b9248fcb05bc2ede7c90566f8639d9f10988990
       body: ''
