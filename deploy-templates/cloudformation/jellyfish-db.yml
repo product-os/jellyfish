@@ -1,0 +1,193 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  JellyfishDBAllocatedStorage:
+    Default: '50'
+    Description: The size of the Jellyfish database (Gb)
+    Type: Number
+    MinValue: '5'
+    MaxValue: '1024'
+    ConstraintDescription: must be between 5 and 1024Gb.
+  MultiAZ:
+    Description: Enable MultiAZ database deployment
+    Type: String
+    Default: false
+    AllowedValues:
+      - true
+      - false
+  DBInstanceClass:
+    Description: The database instance type
+    Type: String
+    Default: db.t3.small
+    AllowedValues:
+    - db.t3.micro
+    - db.t3.small
+    - db.t3.medium
+    - db.t3.large
+    - db.t3.xlarge
+    - db.t3.2xlarge
+    - db.r5.large
+    - db.r5.xlarge
+    - db.r5.2xlarge
+    - db.r5.4xlarge
+    - db.r5.12xlarge
+    - db.r5.24xlarge
+    - db.x1e.xlarge
+    - db.x1e.2xlarge
+    - db.x1e.4xlarge
+    - db.x1e.8xlarge
+    - db.x1e.16xlarge
+    - db.x1e.32xlarge
+    - db.m5.large
+    - db.m5.xlarge
+    - db.m5.2xlarge
+    - db.m5.4xlarge
+    - db.m5.12xlarge
+    - db.m5.24xlarge
+    ConstraintDescription: must select a valid database instance type.
+  JellyfishDBName:
+    Default: jellyfish
+    Description: The Jellyfish database name
+    Type: String
+    MinLength: '0'
+    MaxLength: '64'
+  JellyfishDBSnapshotIdentifier:
+    Description: The Jellyfish database snapshot identifier
+    Type: String
+    MinLength: '0'
+    MaxLength: '64'
+  JellyfishDBUsername:
+    Default: jellyfish
+    Description: The Jellyfish database admin account username
+    Type: String
+    MinLength: '1'
+    MaxLength: '64'
+  JellyfishDBPassword:
+    NoEcho: 'true'
+    Description: The Jellyfish database admin account password
+    Type: String
+    MinLength: '8'
+    MaxLength: '64'
+    AllowedPattern: "[a-zA-Z0-9]*"
+    ConstraintDescription: must contain only alphanumeric characters.
+  KubernetesVPC:
+    Type: AWS::EC2::VPC::Id
+    Description: VPC ID of the kubernetes cluster
+  KubernetesSubnetIDs:
+    Type: List<AWS::EC2::Subnet::Id>
+    Description: List of kubernetes node subnet IDs
+  JellyfishDBStorageType:
+    Description: Jellyfish Database instance class
+    Default: gp2
+    Type: String
+    AllowedValues:
+      - standard
+      - gp2
+      - io1
+    ConstraintDescription: must select a valid database storage type.
+  JellyfishDBStorageIops:
+    Description: The number of reserved iops for 'io1' storage type
+    Type: String
+Resources:
+  JellyfishDBSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: Subnets available for the Jellyfish RDS DB Instance
+      SubnetIds:
+        Ref: KubernetesSubnetIDs
+  JellyfishDBSecurityGroup:
+    Type: AWS::RDS::DBSecurityGroup
+    Properties:
+      GroupDescription: Allow PSQL access
+      DBSecurityGroupIngress:
+      - CIDRIP: 172.20.0.0/8
+      EC2VpcId:
+        Ref: KubernetesVPC
+  EnhancedMonitoringRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: ''
+            Effect: Allow
+            Principal:
+              Service: monitoring.rds.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole
+  JellyfishDBParameterGroup:
+    Type: AWS::RDS::DBParameterGroup
+    Properties:
+      Description: Jellyfish DB Parameter group
+      Family: postgres10
+      Parameters:
+        autovacuum_analyze_scale_factor: '0.1'
+        autovacuum_naptime: '60'
+        autovacuum_vacuum_scale_factor: '0.2'
+        log_autovacuum_min_duration: '100'
+        log_min_duration_statement: '200'
+        max_connections: '5000'
+        statement_timeout: '120000'
+        work_mem: '64000'
+  JellyfishDB:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBInstanceIdentifier: jellyfish
+      DBName:
+        Ref: JellyfishDBName
+      DBSnapshotIdentifier:
+        Ref: JellyfishDBSnapshotIdentifier
+      AllocatedStorage:
+        Ref: JellyfishDBAllocatedStorage
+      DBInstanceClass:
+        Ref: DBInstanceClass
+      Engine: postgres
+      MasterUsername:
+        Ref: JellyfishDBUsername
+      MasterUserPassword:
+        Ref: JellyfishDBPassword
+      BackupRetentionPeriod: '7'
+      DBSubnetGroupName:
+        Ref: JellyfishDBSubnetGroup
+      DBSecurityGroups:
+        - Ref: JellyfishDBSecurityGroup
+      MultiAZ: false
+      MonitoringInterval: 30
+      MonitoringRoleArn:
+        Fn::GetAtt:
+        - EnhancedMonitoringRole
+        - Arn
+      PubliclyAccessible: false
+      StorageType:
+        Ref: JellyfishDBStorageType
+      Iops:
+        Ref: JellyfishDBStorageIops
+      DBParameterGroupName:
+        Ref: JellyfishDBParameterGroup
+      Tags:
+      - Key: Name
+        Value: jellyfish
+Outputs:
+  dbEndpoint:
+    Description: Connection string for the database
+    Value:
+      Fn::Join:
+      - ''
+      - - psql://
+        - Fn::GetAtt:
+          - JellyfishDB
+          - Endpoint.Address
+        - ":"
+        - Fn::GetAtt:
+          - JellyfishDB
+          - Endpoint.Port
+
+  JellyfishDB:
+    Value:
+      Ref: JellyfishDB
+    Description: ID of JellyfishDB
+    Export:
+      Name:
+        Fn::Sub: "${AWS::StackName}-JellyfishDB"
+
