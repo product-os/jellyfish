@@ -5,6 +5,7 @@
  */
 
 const ava = require('ava')
+const _ = require('lodash')
 const helpers = require('./helpers')
 const actionLibrary = require('../../../lib/action-library')
 const errors = require('../../../lib/worker/errors')
@@ -50,6 +51,93 @@ ava.beforeEach(async (test) => {
 })
 
 ava.afterEach(helpers.jellyfish.afterEach)
+
+ava('.replaceCard() updating a card must have the correct tail', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'card@latest')
+	const result1 = await executor.insertCard(
+		test.context.context, test.context.jellyfish, test.context.session, typeCard, {
+			currentTime: new Date(),
+			attachEvents: true,
+			context: test.context.actionContext,
+			library: actionLibrary,
+			actor: test.context.actor.id,
+			executeAction: test.context.executeAction
+		}, {
+			slug: 'foo',
+			version: '1.0.0',
+			data: {
+				foo: 1
+			}
+		})
+
+	await executor.replaceCard(
+		test.context.context, test.context.jellyfish, test.context.session, typeCard, {
+			currentTime: new Date(),
+			attachEvents: true,
+			context: test.context.actionContext,
+			library: actionLibrary,
+			actor: test.context.actor.id,
+			executeAction: test.context.executeAction
+		}, {
+			slug: 'foo',
+			version: '1.0.0',
+			data: {
+				foo: 2
+			}
+		})
+
+	test.deepEqual(test.context.stubQueue, [])
+	const card = await test.context.jellyfish.getCardById(
+		test.context.context, test.context.session, result1.id)
+	test.deepEqual(card, test.context.jellyfish.defaults({
+		created_at: result1.created_at,
+		updated_at: card.updated_at,
+		linked_at: card.linked_at,
+		id: result1.id,
+		name: null,
+		slug: 'foo',
+		type: 'card',
+		data: {
+			foo: 2
+		}
+	}))
+
+	const tail = await test.context.jellyfish.query(
+		test.context.context, test.context.session, {
+			type: 'object',
+			additionalProperties: true,
+			required: [ 'type', 'data' ],
+			properties: {
+				type: {
+					type: 'string',
+					enum: [ 'create', 'update' ]
+				},
+				data: {
+					type: 'object',
+					required: [ 'target' ],
+					properties: {
+						target: {
+							type: 'string',
+							const: result1.id
+						}
+					}
+				}
+			}
+		})
+
+	// "Replace" is an operation that will go away once the database
+	// becomes fully immutable, so we don't attempt to calculate a
+	// JSON Patch update for it, as we treat it as an exception
+	test.is(tail.length, 1)
+	test.is(tail[0].type, 'create')
+	test.deepEqual(tail[0].data.payload, _.pick(result1, [
+		'data',
+		'slug',
+		'type',
+		'version'
+	]))
+})
 
 ava('.insertCard() should insert a card', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
