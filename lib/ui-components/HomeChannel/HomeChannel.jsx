@@ -29,7 +29,6 @@ import MenuPanel from '@jellyfish/ui-components/shame/MenuPanel'
 
 // View slugs that should be displayed first
 const DEFAULT_VIEWS = [
-	'view-my-inbox',
 	'view-my-todo-items',
 	'view-my-orgs'
 ]
@@ -275,17 +274,43 @@ export default class HomeChannel extends React.Component {
 					<Fixed top={true} right={true} bottom={true} left={true} z={9999999} onClick={this.hideMenu}>
 						<MenuPanel className="user-menu" mx={3} p={3}>
 							{user && (
-								<RouterLink
-									mb={2}
-									to={`/${user.slug}`}
-								>
-									Settings
-								</RouterLink>
+								<div>
+									<RouterLink
+										mb={2}
+										to={`/${user.slug}`}
+									>
+										Settings
+									</RouterLink>
+								</div>
 							)}
+
+							<RouterLink
+								mb={2}
+								to="/inbox"
+								style={{
+									display: 'block'
+								}}
+							>
+								<Flex justifyContent="space-between">
+									Inbox
+
+									{(mentions && mentions.length > 0) && (
+										<MentionsCount mr={2}>{mentions.length}</MentionsCount>
+									)}
+								</Flex>
+							</RouterLink>
 
 							{_.map(defaultViews, (card) => {
 								const isActive = card.slug === activeChannelTarget ||
 									card.id === activeChannelTarget
+
+								// The inbox view is only used to easily facilitate streaming of
+								// mentions
+								// TODO find a more elegant way to handle this
+								if (card.slug === 'view-my-inbox') {
+									return null
+								}
+
 								return (
 									<Box mx={-3} key={card.id}>
 										<ViewLink

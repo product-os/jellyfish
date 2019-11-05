@@ -4,9 +4,7 @@
  * Proprietary and confidential.
  */
 
-import * as Bluebird from 'bluebird'
 import _ from 'lodash'
-import path from 'path'
 import React from 'react'
 import {
 	connect
@@ -18,11 +16,8 @@ import {
 	bindActionCreators
 } from 'redux'
 import {
-	Box,
-	Button,
-	Flex
+	Box
 } from 'rendition'
-import Event from '../../../../lib/ui-components/Event'
 import {
 	actionCreators,
 	selectors,
@@ -31,42 +26,30 @@ import {
 import {
 	ActionLink
 } from '@jellyfish/ui-components/shame/ActionLink'
-import Icon from '@jellyfish/ui-components/shame/Icon'
 import Column from '@jellyfish/ui-components/shame/Column'
+import Event from '@jellyfish/ui-components/Event'
 
-const INBOX_VIEW_SLUG = 'view-my-inbox'
-
-class Inbox extends React.Component {
+class MessageList extends React.Component {
 	constructor (props) {
 		super(props)
 
 		this.loadingPage = false
 
 		this.openChannel = (target) => {
-			this.props.history.push(
-				path.join(window.location.pathname, target)
-			)
+			this.props.history.push(`/${target}`)
 		}
 
 		this.state = {
 			creatingCard: false,
 			newMessage: '',
 			showNewCardModal: false,
-			loadingPage: false,
-			markingAllAsRead: false
+			loadingPage: false
 		}
 
 		this.bindScrollArea = this.bindScrollArea.bind(this)
 		this.handleCardRead = this.handleCardRead.bind(this)
+		this.handleCardUnread = this.handleCardUnread.bind(this)
 		this.handleScroll = this.handleScroll.bind(this)
-		this.markAllAsRead = this.markAllAsRead.bind(this)
-	}
-
-	setCardRead (card) {
-		sdk.card.markAsRead(this.props.user.slug, card)
-			.catch((error) => {
-				console.error(error)
-			})
 	}
 
 	async handleCardRead (event) {
@@ -76,33 +59,30 @@ class Inbox extends React.Component {
 			id
 		})
 
-		this.setCardRead(card)
+		sdk.card.markAsRead(this.props.user.slug, card)
+			.catch((error) => {
+				console.error(error)
+			})
 	}
 
-	async markAllAsRead () {
-		this.setState({
-			markingAllAsRead: true
+	async handleCardUnread (event) {
+		const id = event.target.dataset.cardid
+
+		const card = _.find(this.props.tail, {
+			id
 		})
 
-		try {
-			const cards = await sdk.query(INBOX_VIEW_SLUG)
-
-			await Bluebird.map(cards, (card) => {
-				return this.setCardRead(card)
+		sdk.card.markAsUnread(this.props.user.slug, card)
+			.catch((error) => {
+				console.error(error)
 			})
-		} catch (error) {
-			this.props.actions.addNotification('danger', error.message || error)
-		}
-
-		this.setState({
-			markingAllAsRead: false
-		})
 	}
 
 	async handleScroll () {
 		const {
 			scrollArea, loadingPage
 		} = this
+
 		if (!scrollArea) {
 			return
 		}
@@ -127,10 +107,6 @@ class Inbox extends React.Component {
 	}
 
 	render () {
-		const {
-			markingAllAsRead
-		} = this.state
-
 		let tail = this.props.tail ? this.props.tail.slice() : null
 
 		if (tail) {
@@ -145,23 +121,6 @@ class Inbox extends React.Component {
 					position: 'relative'
 				}}
 			>
-				<Flex
-					justifyContent="flex-end"
-					px={3}
-					pb={3}
-				>
-					<Button
-						onClick={this.markAllAsRead}
-						disabled={markingAllAsRead || tail.length === 0}
-						data-test="inbox__mark-all-as-read"
-					>
-						{markingAllAsRead
-							? <Icon name="cog" spin />
-							: 'Mark all as read'
-						}
-					</Button>
-				</Flex>
-
 				<div
 					ref={this.bindScrollArea}
 					onScroll={this.handleScroll}
@@ -181,7 +140,14 @@ class Inbox extends React.Component {
 									card={card}
 									getActor={this.props.actions.getActor}
 									addNotification={this.props.actions.addNotification}
-									menuOptions={(
+									menuOptions={_.includes(card.data.readBy, this.props.user.slug) ? (
+										<ActionLink
+											data-cardid={card.id}
+											onClick={this.handleCardUnread}
+										>
+											Mark as unread
+										</ActionLink>
+									) : (
 										<ActionLink
 											data-cardid={card.id}
 											onClick={this.handleCardRead}
@@ -193,12 +159,6 @@ class Inbox extends React.Component {
 							</Box>
 						)
 					})}
-
-					{this.props.totalPages > this.props.page + 1 && (
-						<Box p={3}>
-							<Icon spin name="cog"/>
-						</Box>
-					)}
 				</div>
 			</Column>
 		)
@@ -223,32 +183,4 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-const lens = {
-	slug: 'lens-inbox',
-	type: 'lens',
-	version: '1.0.0',
-	name: 'Inbox lens',
-	data: {
-		icon: 'list',
-		format: 'list',
-		renderer: withRouter(connect(mapStateToProps, mapDispatchToProps)(Inbox)),
-		filter: {
-			type: 'array',
-			items: {
-				type: 'object',
-				properties: {
-					id: {
-						type: 'string'
-					}
-				}
-			}
-		},
-		queryOptions: {
-			limit: 30,
-			sortBy: 'created_at',
-			sortDir: 'desc'
-		}
-	}
-}
-
-export default lens
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MessageList))
