@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'ChatWidget: Create thread with initial open status'
+      hash: 4b9248fcb05bc2ede7c90566f8639d9f10988990
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Connects-to: '#2697'
+        connects-to: '#2697'
+      author: Kakhaber
+  version: 24.11.5
+  date: 2019-11-05T08:02:13.803Z
+- commits:
     - subject: 'server: Correctly handle S3 file retrieval exceptions'
       hash: 5c9df156c26dbe13ce0351eb12e4195426a3c4dc
       body: ''
