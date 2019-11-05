@@ -1,0 +1,166 @@
+{
+  "head": {
+    "name": "",
+    "type": "pull-request",
+    "version": "1.0.0",
+    "active": true,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "repository": "loop-os/test",
+      "head": {
+        "branch": "status-checks-here",
+        "sha": "0ec32a7e51f9224785b52d99f1c1a46e8804c017"
+      },
+      "base": {
+        "branch": "master",
+        "sha": "5010ab1bb94c923f3f589cc8d8d2de237976a245"
+      },
+      "mirrors": [
+        "https://api.github.com/repos/loop-os/test/pulls/4"
+      ],
+      "statusChecks": {
+        "A whateverCi": "success",
+        "B whateverCi": "failure"
+      },
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>",
+      "status": "open",
+      "archived": false
+    }
+  },
+  "tail": [
+    {
+      "type": "create",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "timestamp": "2019-10-22T15:57:15Z",
+        "payload": {
+          "type": "pull-request",
+          "name": "test: Testing status check scenario",
+          "active": true,
+          "version": "1.0.0",
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "repository": "loop-os/test",
+            "head": {
+              "branch": "status-checks-here",
+              "sha": "0ec32a7e51f9224785b52d99f1c1a46e8804c017"
+            },
+            "base": {
+              "branch": "master",
+              "sha": "5010ab1bb94c923f3f589cc8d8d2de237976a245"
+            }, 
+            "statusChecks": {},
+            "mirrors": [
+              "https://api.github.com/repos/loop-os/test/pulls/4"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open",
+            "archived": false
+          }
+        }
+      }
+    },
+    {
+      "type": "update",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "timestamp": "2019-10-22T15:58:11+00:00",
+        "payload": [
+          {
+            "op": "add",
+            "path": "/data/statusChecks/A whateverCi",
+            "value": "pending"
+          }
+        ]
+      }
+    },
+    {
+      "type": "update",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "timestamp": "2019-10-22T15:58:11+00:00",
+        "payload": [
+          {
+            "op": "add",
+            "path": "/data/statusChecks/A whateverCi",
+            "value": "pending"
+          }
+        ]
+      }
+    },
+    {
+      "type": "update",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "timestamp": "2019-10-22T15:59:15+00:00",
+        "payload": [
+          {
+            "op": "add",
+            "path": "/data/statusChecks/B whateverCi",
+            "value": "pending"
+          }
+        ]
+      }
+    },
+    {
+      "type": "update",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "timestamp": "2019-10-22T15:59:45+00:00",
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/statusChecks/A whateverCi",
+            "value": "success"
+          }
+        ]
+      }
+    },
+    {
+      "type": "update",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "timestamp": "2019-10-22T16:00:52+00:00",
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/statusChecks/B whateverCi",
+            "value": "failure"
+          }
+        ]
+      }
+    }
+  ]
+}
