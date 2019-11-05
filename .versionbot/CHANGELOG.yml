@@ -1,4 +1,34 @@
 - commits:
+    - subject: Add analytics db CF resources
+      hash: 4d88a216ddce8a7ac2810b83a8167338e6f5428d
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Michael Angelos Simos <michalis@balena.io>
+        signed-off-by: Michael Angelos Simos <michalis@balena.io>
+      author: Michael Angelos Simos
+    - subject: Add main db CF resources
+      hash: 954a3fd722a7ba07fea1f555ea917fecd87e74a9
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Michael Angelos Simos <michalis@balena.io>
+        signed-off-by: Michael Angelos Simos <michalis@balena.io>
+      author: Michael Angelos Simos
+    - subject: Add s3 resources CF template
+      hash: e0829cab05c80849f1ce63ea23e77cf76de7f7a8
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Michael Angelos Simos <michalis@balena.io>
+        signed-off-by: Michael Angelos Simos <michalis@balena.io>
+      author: Michael Angelos Simos
+  version: 24.12.0
+  date: 2019-11-05T11:15:44.087Z
+- commits:
     - subject: Make view all convo button visible
       hash: 314f14607ffdbdd9babce8ef68d0e6c7ad09fab5
       body: ''
