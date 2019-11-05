@@ -1,4 +1,18 @@
 - commits:
+    - subject: (trying to) speed up circleci
+      hash: 48c622c212a22cf451b689ba5081a72015714be9
+      body: ''
+      footer:
+        Connects-to: '#2677'
+        connects-to: '#2677'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@fissore.org>
+        signed-off-by: Federico Fissore <federico@fissore.org>
+      author: Federico Fissore
+  version: 24.12.1
+  date: 2019-11-05T11:43:03.664Z
+- commits:
     - subject: Add analytics db CF resources
       hash: 4d88a216ddce8a7ac2810b83a8167338e6f5428d
       body: ''
