@@ -44,9 +44,17 @@ export const Layout = ({
 		<Flex {...rest}
 			flexDirection="column"
 			color={theme.colors.secondary.main}
-			backgroundColor={theme.colors.quartenary.light}>
+			backgroundColor={theme.colors.quartenary.light}
+			style={{
+				overflow: 'hidden'
+			}}>
 			<Header onClose={onClose} />
-			<Flex flex={1} flexDirection="column">
+			<Flex
+				flex={1}
+				flexDirection="column"
+				style={{
+					overflow: 'hidden'
+				}}>
 				<Task task={combinedTask}>{() => { return children }}</Task>
 			</Flex>
 		</Flex>

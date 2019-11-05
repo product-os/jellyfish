@@ -72,7 +72,10 @@ export const IndexRoute = () => {
 			p={16}
 			flexDirection="column"
 			alignItems="center"
-			data-test="initial-short-conversation-page">
+			data-test="initial-short-conversation-page"
+			style={{
+				overflow: 'hidden'
+			}}>
 			<Box>
 				<Heading
 					primaryText="Welcome"
@@ -87,7 +90,9 @@ export const IndexRoute = () => {
 					Start new conversation
 				</ButtonLink>
 			</Box>
-			<Box alignSelf="stretch">
+			<Box alignSelf="stretch" style={{
+				overflowY: 'auto'
+			}}>
 				{threads.slice(0, 2).map((thread) => {
 					return (
 						<ThreadListItem
