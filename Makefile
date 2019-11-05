@@ -178,8 +178,7 @@ export TEST_INTEGRATION_DISCOURSE_NON_MODERATOR_USERNAME
 NODE_ARGS = --abort-on-uncaught-exception --stack-trace-limit=100
 NODE_DEBUG_ARGS = $(NODE_ARGS) \
 									--trace-warnings \
-									--stack_trace_on_illegal \
-									--abort_on_stack_or_string_length_overflow
+									--stack_trace_on_illegal
 
 ifeq ($(NODE_ENV),profile)
 # See https://github.com/davidmarkclements/0x

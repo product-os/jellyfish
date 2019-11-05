@@ -2,7 +2,7 @@
 # Base
 ###########################################################
 
-FROM resinci/jellyfish-base:ffea33d27 as base
+FROM resinci/jellyfish-base:a966886d as base
 
 WORKDIR /usr/src/jellyfish
 

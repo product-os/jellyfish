@@ -1,4 +1,4 @@
-FROM resinci/jellyfish-base:ffea33d27 as base
+FROM resinci/jellyfish-base:a966886d as base
 
 RUN git clone git://github.com/hoxu/gitstats.git && cd gitstats && make install
 
