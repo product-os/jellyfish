@@ -151,7 +151,6 @@ services:
       - REDIS_HOST=redis
       - REDIS_PASSWORD=redis
       - REDIS_PORT={{REDIS_PORT}}
-      - SENTRY_DSN_SERVER
       - LOGLEVEL={{LOGLEVEL}}
       - SENTRY_DSN_SERVER
       - INTEGRATION_BALENA_API_PRIVATE_KEY

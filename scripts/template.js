@@ -17,3 +17,4 @@ console.error(`Opening ${TEMPLATE}`)
 const contents = fs.readFileSync(TEMPLATE, 'utf8')
 
 console.log(mustache.render(contents, process.env))
+console.error(`Done rendering ${TEMPLATE}`)

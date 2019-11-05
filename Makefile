@@ -21,10 +21,6 @@ MAKEFILE_PATH := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 # Runtime Configuration
 # -----------------------------------------------
 
-# Docker Compose
-HAPROXY_CONFIG = $(shell cat haproxy.manifest.json | base64)
-export HAPROXY_CONFIG
-
 # Project name
 NAME ?= jellyfish
 
@@ -258,8 +254,15 @@ endif
 	done
 	cp package.json $@
 
-docker-compose.yml: docker-compose.tpl.yml
+.tmp:
+	mkdir -p $@
+
+.tmp/haproxy.manifest.json: haproxy.manifest.tpl.json | .tmp
 	node scripts/template.js $< > $@
+
+docker-compose.yml: docker-compose.tpl.yml .tmp/haproxy.manifest.json | .tmp
+	HAPROXY_CONFIG=$(shell cat $(word 2,$^) | base64 | tr -d '\n') \
+		node scripts/template.js $< > $@
 
 clean:
 	rm -rf \
@@ -426,16 +429,16 @@ endif
 # Development
 # -----------------------------------------------
 
-compose-exec-%:
+compose-exec-%: docker-compose.yml
 	docker-compose $(DOCKER_COMPOSE_OPTIONS) \
 		exec $(subst compose-exec-,,$@) $(COMMAND) $(ARGS) \
 		$(DOCKER_COMPOSE_COMMAND_OPTIONS)
 
-compose-up-%:
+compose-up-%: docker-compose.yml
 	docker-compose $(DOCKER_COMPOSE_OPTIONS) \
 		up $(DOCKER_COMPOSE_COMMAND_OPTIONS) $(subst compose-up-,,$@) $(ARGS)
 
-compose-%:
+compose-%: docker-compose.yml
 	docker-compose $(DOCKER_COMPOSE_OPTIONS) $(subst compose-,,$@) \
 		$(DOCKER_COMPOSE_COMMAND_OPTIONS)
 
