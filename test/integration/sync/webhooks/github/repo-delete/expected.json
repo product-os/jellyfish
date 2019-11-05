@@ -1,0 +1,73 @@
+{
+  "head": {
+    "name": "",
+    "type": "repository",
+    "version": "1.0.0",
+    "active": false,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "owner": "loop-os",
+      "name": "delete-this",
+      "git_url": "git://github.com/loop-os/delete-this.git",
+      "html_url": "https://github.com/loop-os/delete-this",
+      "mirrors": [
+        "https://api.github.com/repos/loop-os/delete-this"
+      ]
+    }
+  },
+  "tail": [
+    {
+      "type": "create",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "type": "repository",
+        "timestamp": "2019-11-04T14:12:37Z",
+        "actor": {
+          "slug": "user-mbalamat",
+          "active": true
+        },
+        "payload": {
+          "name": "",
+          "active": true,
+          "version": "1.0.0",
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "owner": "loop-os",
+            "name": "delete-this",
+            "git_url": "git://github.com/loop-os/delete-this.git",
+            "html_url": "https://github.com/loop-os/delete-this",
+            "mirrors": [
+              "https://api.github.com/repos/loop-os/delete-this"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "update",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "timestamp": "2019-11-04T14:13:28Z",
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/active",
+            "value": false
+          }
+        ]
+      }
+    }
+  ]
+}
