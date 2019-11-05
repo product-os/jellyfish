@@ -54,8 +54,8 @@ jobs:
           name: Lint
           command: make lint
       - run:
-          name: Generate Docs
-          command: make docs/assets/architecture.png ARCHITECTURE.md
+          name: Generate Files
+          command: make docs/assets/architecture.png ARCHITECTURE.md docker-compose.yml
       - run:
           name: No Unstaged Files
           command: ./scripts/ci/unstaged.sh

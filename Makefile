@@ -21,6 +21,10 @@ MAKEFILE_PATH := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 # Runtime Configuration
 # -----------------------------------------------
 
+# Docker Compose
+HAPROXY_CONFIG = $(shell cat haproxy.manifest.json | base64)
+export HAPROXY_CONFIG
+
 # Project name
 NAME ?= jellyfish
 
@@ -253,6 +257,9 @@ endif
 			instrument $(NYC_OPTS) $$directory $@/$$directory; \
 	done
 	cp package.json $@
+
+docker-compose.yml: docker-compose.tpl.yml
+	node scripts/template.js $< > $@
 
 clean:
 	rm -rf \
