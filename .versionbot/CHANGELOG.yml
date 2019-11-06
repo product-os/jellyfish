@@ -1,4 +1,20 @@
 - commits:
+    - subject: >-
+        Making the handle longer, so we are more sure that it won't collide with
+        what's already stored on front
+      hash: 5fa77ff0350dce7c19f25662bfa2fd4ce097d7c3
+      body: ''
+      footer:
+        Connects-to: '#2662'
+        connects-to: '#2662'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@fissore.org>
+        signed-off-by: Federico Fissore <federico@fissore.org>
+      author: Federico Fissore
+  version: 24.13.2
+  date: 2019-11-06T10:41:21.768Z
+- commits:
     - subject: 'worker: Fix create/update event sync race condition'
       hash: 9ca635cf27d8a4c941150bf546a1f1073aa05b4d
       body: |
