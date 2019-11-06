@@ -4,7 +4,7 @@
  * Proprietary and confidential.
  */
 
-const pgp = require('pg-promise')()
+const pgp = require('../../lib/core/backend/postgres/pg-promise')
 const environment = require('../../lib/environment')
 
 const COMMAND = process.argv[2]
