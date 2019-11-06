@@ -1,4 +1,43 @@
 - commits:
+    - subject: 'integration/github: Add test scenario for moving repository between orgs'
+      hash: 734b1019b66d6b59ab8fe789f22f8efb850748fc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+    - subject: 'integration/github: Add test scenario for a PR that requires changes'
+      hash: 5561bab8cd56264ca6d10eeb33220fe5803b17dc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+    - subject: 'integration/github: Add test scenario for approved PR'
+      hash: ec25c6f8148d02d0bcf6068844d70dcbca418390
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+    - subject: 'integration/github: Add test scenario for repository creation'
+      hash: 013706e4c6a04bfa26c564293aeba9afef149570
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+  version: 24.13.5
+  date: 2019-11-06T13:09:34.610Z
+- commits:
     - subject: Remove check from deploy script
       hash: 96512124cb319d5bb267d39d7f70925171ab48c7
       body: ''
