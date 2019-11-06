@@ -1,4 +1,124 @@
 - commits:
+    - subject: 'docker-compose: Use templating in haproxy config'
+      hash: f5504e6c40ae5881e7801322c830e7f3520f1258
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: Use Mustache to reduce duplication in docker-compose
+      hash: 6d6f09fdef35672368455fdee9b513e6daa54409
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'discourse: Throw a nicer error when post edit is not allowed'
+      hash: 1907dc2d524c4286afaf82f9a2c73ed1e2d5f8c8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'core/action-library: Print more information about sync upserts'
+      hash: b7667ac46604422509ea87375db61d8c1d2b0763
+      body: |
+        For debugging purposes.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: Update jellyfish-base base image references
+      hash: 6286f7315b81566323699b1e16110dd890760eed
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: Speeding up postgres by using prepared statements
+      hash: 0197773bd215b2d2e45b21c624c540c5f017a9d9
+      body: ''
+      footer:
+        Connects-to: '#2677'
+        connects-to: '#2677'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@fissore.org>
+        signed-off-by: Federico Fissore <federico@fissore.org>
+      author: Federico Fissore
+    - subject: Update open-balena-base to 9.0.0
+      hash: a966886d8676ff3ed02f56a936e30a7c823a4f17
+      body: |
+        Update open-balena-base from 8.0.3 to 9.0.0
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Pagan Gazzard
+      nested:
+        - commits:
+            - subject: Update to nodejs 12
+              hash: cde7021d266cfba7e6b7055421c7afb0c0dd2781
+              body: ''
+              footer:
+                Change-type: major
+                change-type: major
+              author: Pagan Gazzard
+          version: open-balena-base-9.0.0
+          date: 2019-10-21T09:37:45.197Z
+        - commits:
+            - subject: Respect BALENA_TLD env variable in nosystemd variant
+              hash: 66ad0ec93fadc749c3104443a3313ff73bf04946
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Roman Mazur <roman@balena.io>
+                signed-off-by: Roman Mazur <roman@balena.io>
+              author: Roman Mazur
+            - subject: Optimize for caching
+              hash: 652a3e18545079de46bfe21c3891523467d6163f
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Roman Mazur <roman@balena.io>
+                signed-off-by: Roman Mazur <roman@balena.io>
+              author: Roman Mazur
+            - subject: Use balena node base image
+              hash: b7c1e12773a414a5f843cfaaba943eabf3425e71
+              body: ''
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Roman Mazur <roman@balena.io>
+                signed-off-by: Roman Mazur <roman@balena.io>
+              author: Roman Mazur
+            - subject: Add a base image without systemd
+              hash: d7e44872d9594b9ef0557f78b8f38c6e449bbe54
+              body: >
+                Also configures circleCI to publish no-systemd variant in
+                parallel.
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Roman Mazur <roman@balena.io>
+                signed-off-by: Roman Mazur <roman@balena.io>
+              author: Roman Mazur
+          version: open-balena-base-8.1.0
+          date: 2019-09-24T16:07:27.946Z
+  version: 24.13.0
+  date: 2019-11-06T00:32:22.414Z
+- commits:
     - subject: (trying to) speed up circleci
       hash: 48c622c212a22cf451b689ba5081a72015714be9
       body: ''
