@@ -1,4 +1,16 @@
 - commits:
+    - subject: Remove check from deploy script
+      hash: 96512124cb319d5bb267d39d7f70925171ab48c7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Giovanni Garufi <giovanni@balena.io>
+        signed-off-by: Giovanni Garufi <giovanni@balena.io>
+      author: Giovanni Garufi
+  version: 24.13.4
+  date: 2019-11-06T12:14:49.485Z
+- commits:
     - subject: Add actor information in github integration tests
       hash: ed8e785747fc054e6d4a00c4b7d10feebe76b6e0
       body: ''
