@@ -219,7 +219,7 @@ ava.serial('Users should be able to mark all messages as read from their inbox',
 
 	// Leave a small delay for the message to be marked as read and for the change
 	// to be propogated to the UI
-	await Bluebird.delay(4000)
+	await Bluebird.delay(10000)
 
 	const messages = await incognitoPage.$$('[data-test="event-card__message"]')
 
