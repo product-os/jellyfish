@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add actor information in github integration tests
+      hash: ed8e785747fc054e6d4a00c4b7d10feebe76b6e0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Giovanni Garufi <giovanni@balena.io>
+        signed-off-by: Giovanni Garufi <giovanni@balena.io>
+      author: Giovanni Garufi
+  version: 24.13.3
+  date: 2019-11-06T11:30:14.852Z
+- commits:
     - subject: >-
         Making the handle longer, so we are more sure that it won't collide with
         what's already stored on front
