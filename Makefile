@@ -254,6 +254,16 @@ endif
 	done
 	cp package.json $@
 
+.tmp:
+	mkdir -p $@
+
+.tmp/haproxy.manifest.json: haproxy.manifest.tpl.json | .tmp
+	node scripts/template.js $< > $@
+
+docker-compose.yml: docker-compose.tpl.yml .tmp/haproxy.manifest.json | .tmp
+	HAPROXY_CONFIG=$(shell cat $(word 2,$^) | base64 | tr -d '\n') \
+		node scripts/template.js $< > $@
+
 clean:
 	rm -rf \
 		*.0x \
@@ -419,16 +429,16 @@ endif
 # Development
 # -----------------------------------------------
 
-compose-exec-%:
+compose-exec-%: docker-compose.yml
 	docker-compose $(DOCKER_COMPOSE_OPTIONS) \
 		exec $(subst compose-exec-,,$@) $(COMMAND) $(ARGS) \
 		$(DOCKER_COMPOSE_COMMAND_OPTIONS)
 
-compose-up-%:
+compose-up-%: docker-compose.yml
 	docker-compose $(DOCKER_COMPOSE_OPTIONS) \
 		up $(DOCKER_COMPOSE_COMMAND_OPTIONS) $(subst compose-up-,,$@) $(ARGS)
 
-compose-%:
+compose-%: docker-compose.yml
 	docker-compose $(DOCKER_COMPOSE_OPTIONS) $(subst compose-,,$@) \
 		$(DOCKER_COMPOSE_COMMAND_OPTIONS)
 

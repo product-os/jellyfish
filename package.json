@@ -78,6 +78,7 @@
     "js-yaml": "^3.12.0",
     "mermaid.cli": "^0.5.1",
     "morgan": "^1.9.1",
+    "mustache": "^3.1.0",
     "nock": "^10.0.0",
     "nyc": "^14.1.1",
     "puppeteer": "1.13.0",

@@ -16,28 +16,28 @@ services:
       - worker
       - balena-mdns-publisher
     environment:
-      - DATABASE=postgres
+      - DATABASE={{DATABASE}}
       - LOGENTRIES_TOKEN
-      - LOGLEVEL=info
-      - NODE_ENV=test
-      - POD_NAME=localhost
-      - PORT=8000
-      - POSTGRES_DATABASE=jellyfish
+      - LOGLEVEL={{LOGLEVEL}}
+      - NODE_ENV={{NODE_ENV}}
+      - POD_NAME={{POD_NAME}}
+      - PORT={{PORT}}
+      - POSTGRES_DATABASE={{POSTGRES_DATABASE}}
       - POSTGRES_HOST=postgres
       - POSTGRES_PASSWORD=docker
-      - POSTGRES_PORT=5432
+      - POSTGRES_PORT={{POSTGRES_PORT}}
       - POSTGRES_USER=docker
       - REDIS_HOST=redis
       - REDIS_PASSWORD=redis
-      - REDIS_PORT=6379
+      - REDIS_PORT={{REDIS_PORT}}
       - SENTRY_DSN_SERVER
-      - SERVER_DATABASE=jellyfish
-      - SERVER_HOST=http://localhost
-      - SERVER_PORT=8000
-      - TEST_USER_ORGANIZATION=balena
-      - TEST_USER_PASSWORD=jellyfish
-      - TEST_USER_ROLE=user-test
-      - TEST_USER_USERNAME=jellyfish
+      - SERVER_DATABASE={{SERVER_DATABASE}}
+      - SERVER_HOST={{& SERVER_HOST}}
+      - SERVER_PORT={{SERVER_PORT}}
+      - TEST_USER_ORGANIZATION={{TEST_USER_ORGANIZATION}}
+      - TEST_USER_PASSWORD={{TEST_USER_PASSWORD}}
+      - TEST_USER_ROLE={{TEST_USER_ROLE}}
+      - TEST_USER_USERNAME={{TEST_USER_USERNAME}}
       - INTEGRATION_BALENA_API_PRIVATE_KEY
       - INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION
       - INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING
@@ -60,7 +60,7 @@ services:
         - CMD
         - curl
         - --fail
-        - http://localhost:8000/health
+        - http://localhost:{{SERVER_PORT}}/health
       timeout: 10s
     expose:
       - 80
@@ -72,7 +72,7 @@ services:
       args:
         ENABLE_COVERAGE: ${COVERAGE}
         SERVER_HOST: http://api
-        SERVER_PORT: 8000
+        SERVER_PORT: {{SERVER_PORT}}
       context: .
       dockerfile: apps/livechat/Dockerfile
     depends_on:
@@ -103,16 +103,16 @@ services:
       - ui
       - balena-mdns-publisher
     environment:
-      DATABASE: postgres
+      DATABASE: {{DATABASE}}
       LIVECHAT_HOST: http://livechat
       LIVECHAT_PORT: 80
-      NODE_ENV: test
-      POSTGRES_DATABASE: jellyfish
+      NODE_ENV: {{NODE_ENV}}
+      POSTGRES_DATABASE: {{POSTGRES_DATABASE}}
       POSTGRES_HOST: postgres
       POSTGRES_PASSWORD: docker
       POSTGRES_USER: docker
       SERVER_HOST: http://api
-      SERVER_PORT: 8000
+      SERVER_PORT: {{SERVER_PORT}}
       UI_HOST: http://ui
       UI_PORT: 80
     networks:
@@ -140,18 +140,18 @@ services:
       - redis
       - balena-mdns-publisher
     environment:
-      - DATABASE=postgres
+      - DATABASE={{DATABASE}}
       - LOGENTRIES_TOKEN
-      - NODE_ENV=test
-      - POSTGRES_DATABASE=jellyfish
+      - NODE_ENV={{NODE_ENV}}
+      - POSTGRES_DATABASE={{POSTGRES_DATABASE}}
       - POSTGRES_HOST=postgres
       - POSTGRES_PASSWORD=docker
-      - POSTGRES_PORT=5432
+      - POSTGRES_PORT={{POSTGRES_PORT}}
       - POSTGRES_USER=docker
       - REDIS_HOST=redis
       - REDIS_PASSWORD=redis
-      - REDIS_PORT=6379
-      - LOGLEVEL=info
+      - REDIS_PORT={{REDIS_PORT}}
+      - LOGLEVEL={{LOGLEVEL}}
       - SENTRY_DSN_SERVER
       - INTEGRATION_BALENA_API_PRIVATE_KEY
       - INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION
@@ -179,7 +179,7 @@ services:
         ENABLE_COVERAGE: ${COVERAGE}
         SENTRY_DSN_UI: '0'
         SERVER_HOST: http://api
-        SERVER_PORT: 8000
+        SERVER_PORT: {{SERVER_PORT}}
       context: .
       dockerfile: apps/ui/Dockerfile
     depends_on:
@@ -187,7 +187,7 @@ services:
       - balena-mdns-publisher
     environment:
       NGINX_PORT: 80
-      NODE_ENV: test
+      NODE_ENV: {{NODE_ENV}}
     networks:
       - internal
   worker:
@@ -201,17 +201,17 @@ services:
       - redis
       - balena-mdns-publisher
     environment:
-      - DATABASE=postgres
-      - LOGLEVEL=info
-      - NODE_ENV=test
-      - POSTGRES_DATABASE=jellyfish
+      - DATABASE={{DATABASE}}
+      - LOGLEVEL={{LOGLEVEL}}
+      - NODE_ENV={{NODE_ENV}}
+      - POSTGRES_DATABASE={{POSTGRES_DATABASE}}
       - POSTGRES_HOST=postgres
       - POSTGRES_PASSWORD=docker
-      - POSTGRES_PORT=5432
+      - POSTGRES_PORT={{POSTGRES_PORT}}
       - POSTGRES_USER=docker
       - REDIS_HOST=redis
       - REDIS_PASSWORD=redis
-      - REDIS_PORT=6379
+      - REDIS_PORT={{REDIS_PORT}}
       - SENTRY_DSN_SERVER
       - LOGENTRIES_TOKEN
       - INTEGRATION_BALENA_API_PRIVATE_KEY
@@ -276,8 +276,8 @@ services:
       - balena-mdns-publisher
     ports:
       - '80:80'
-      - '5432:5432'
-      - '6379:6379'
+      - '{{POSTGRES_PORT}}:{{POSTGRES_PORT}}'
+      - '{{REDIS_PORT}}:{{REDIS_PORT}}'
     networks:
       internal:
         aliases:
@@ -290,11 +290,10 @@ services:
       AUTH_TOKEN: <token>
       STATIC_DNS_IP: <ip>
       CONFD_BACKEND: 'ENV'
-      PROXY_CONFIG: ewoJImRlZmF1bHRzIjogWwoJCSJ0aW1lb3V0IGNvbm5lY3QgNTAwMCIsCgkJInRpbWVvdXQgY2xpZW50IDYwMDAwIiwKCQkidGltZW91dCBzZXJ2ZXIgNjAwMDAiLAoJCSJkZWZhdWx0LXNlcnZlciBpbml0LWFkZHIgbGFzdCxsaWJjLG5vbmUiCgldLAoJInJlc29sdmVycyI6IFsKCQl7CgkJCSJpZCI6ICJkb2NrZXItYnJpZGdlLXJlc29sdmVyIiwKCQkJIm5hbWVzZXJ2ZXJzIjogewoJCQkJImRvY2tlci1yZXNvbHZlciI6ICIxMjcuMC4wLjExOjUzIgoJCQl9LAoJCQkiaG9sZCI6IHsKCQkJCSJ2YWxpZCI6ICIwbXMiCgkJCX0KCQl9CgldLAoJInVpIjogewoJCSJiYWNrZW5kIjogWwoJCQl7CgkJCQkidXJsIjogImh0dHA6Ly91aTo4MCIsCgkJCQkic2VydmVyIjogewoJCQkJCSJyZXNvbHZlcnMiOiAiZG9ja2VyLWJyaWRnZS1yZXNvbHZlciIsCgkJCQkJInJlc29sdmUtcHJlZmVyIjogImlwdjQiLAoJCQkJCSJjaGVjayI6IG51bGwsCgkJCQkJInBvcnQiOiAiPHBvcnQ+IgoJCQkJfQoJCQl9CgkJXSwKCQkiZnJvbnRlbmQiOiBbCgkJCXsKCQkJCSJwcm90b2NvbCI6ICJodHRwIiwKCQkJCSJkb21haW4iOiAibHkuZmlzaC5sb2NhbCIsCgkJCQkic3ViZG9tYWluIjogImplbCIsCgkJCQkicG9ydCI6ICI4MCIKCQkJfQoJCV0KCX0sCgkicmVkaXMiOiB7CgkJImJhY2tlbmQiOiBbCgkJCXsKCQkJCSJ1cmwiOiAiaHR0cDovL3JlZGlzOjYzNzkiLAoJCQkJInNlcnZlciI6IHsKCQkJCQkicmVzb2x2ZXJzIjogImRvY2tlci1icmlkZ2UtcmVzb2x2ZXIiLAoJCQkJCSJyZXNvbHZlLXByZWZlciI6ICJpcHY0IiwKCQkJCQkiY2hlY2siOiBudWxsLAoJCQkJCSJwb3J0IjogIjxwb3J0PiIKCQkJCX0KCQkJfQoJCV0sCgkJImZyb250ZW5kIjogWwoJCQl7CgkJCQkicHJvdG9jb2wiOiAiaHR0cCIsCgkJCQkiZG9tYWluIjogImx5LmZpc2gubG9jYWwiLAoJCQkJInN1YmRvbWFpbiI6ICJyZWRpcyIsCgkJCQkicG9ydCI6ICI2Mzc5IgoJCQl9CgkJXQoJfSwKCSJwb3N0Z3JlcyI6IHsKCQkiYmFja2VuZCI6IFsKCQkJewoJCQkJInVybCI6ICJodHRwOi8vcG9zdGdyZXM6NTQzMiIsCgkJCQkic2VydmVyIjogewoJCQkJCSJyZXNvbHZlcnMiOiAiZG9ja2VyLWJyaWRnZS1yZXNvbHZlciIsCgkJCQkJInJlc29sdmUtcHJlZmVyIjogImlwdjQiLAoJCQkJCSJjaGVjayI6IG51bGwsCgkJCQkJInBvcnQiOiAiPHBvcnQ+IgoJCQkJfQoJCQl9CgkJXSwKCQkiZnJvbnRlbmQiOiBbCgkJCXsKCQkJCSJwcm90b2NvbCI6ICJodHRwIiwKCQkJCSJkb21haW4iOiAibHkuZmlzaC5sb2NhbCIsCgkJCQkic3ViZG9tYWluIjogInBvc3RncmVzIiwKCQkJCSJwb3J0IjogIjU0MzIiCgkJCX0KCQldCgl9LAoJImxpdmVjaGF0IjogewoJCSJiYWNrZW5kIjogWwoJCQl7CgkJCQkidXJsIjogImh0dHA6Ly9saXZlY2hhdDo4MCIsCgkJCQkic2VydmVyIjogewoJCQkJCSJyZXNvbHZlcnMiOiAiZG9ja2VyLWJyaWRnZS1yZXNvbHZlciIsCgkJCQkJInJlc29sdmUtcHJlZmVyIjogImlwdjQiLAoJCQkJCSJjaGVjayI6IG51bGwsCgkJCQkJInBvcnQiOiAiPHBvcnQ+IgoJCQkJfQoJCQl9CgkJXSwKCQkiZnJvbnRlbmQiOiBbCgkJCXsKCQkJCSJwcm90b2NvbCI6ICJodHRwIiwKCQkJCSJkb21haW4iOiAibHkuZmlzaC5sb2NhbCIsCgkJCQkic3ViZG9tYWluIjogImxpdmVjaGF0IiwKCQkJCSJwb3J0IjogIjgwIgoJCQl9CgkJXQoJfSwKCSJhcGkiOiB7CgkJImJhY2tlbmQiOiBbCgkJCXsKCQkJCSJ1cmwiOiAiaHR0cDovL2FwaTo4MDAwIiwKCQkJCSJzZXJ2ZXIiOiB7CgkJCQkJInJlc29sdmVycyI6ICJkb2NrZXItYnJpZGdlLXJlc29sdmVyIiwKCQkJCQkicmVzb2x2ZS1wcmVmZXIiOiAiaXB2NCIsCgkJCQkJImNoZWNrIjogbnVsbCwKCQkJCQkicG9ydCI6ICI8cG9ydD4iCgkJCQl9CgkJCX0KCQldLAoJCSJmcm9udGVuZCI6IFsKCQkJewoJCQkJInByb3RvY29sIjogImh0dHAiLAoJCQkJImRvbWFpbiI6ICJseS5maXNoLmxvY2FsIiwKCQkJCSJzdWJkb21haW4iOiAiYXBpIiwKCQkJCSJwb3J0IjogIjgwIgoJCQl9CgkJXQoJfQp9Cgo=
+      PROXY_CONFIG: {{& HAPROXY_CONFIG}}
 
 volumes:
   nyc_output: {}
 
 networks:
   internal: {}
-
