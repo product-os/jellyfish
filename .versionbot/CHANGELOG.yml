@@ -1,4 +1,26 @@
 - commits:
+    - subject: 'e2e-ui/chat: lengthen check to allow test work in slower environments'
+      hash: f86fa87f4ca61408c2caca018865f83153c2ef17
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Gergely Imreh <gergely@balena.io>
+        signed-off-by: Gergely Imreh <gergely@balena.io>
+      author: Gergely Imreh
+    - subject: 'circleci: test with balenaOS device'
+      hash: 5636a6d6d78accdd7a51747cb30a75a141f90353
+      body: |
+        Add extra test that runs on a balenaCloud device spun up on demand.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Gergely Imreh <gergely@balena.io>
+        signed-off-by: Gergely Imreh <gergely@balena.io>
+      author: Gergely Imreh
+  version: 24.14.0
+  date: 2019-11-06T14:05:35.707Z
+- commits:
     - subject: 'integration/github: Add test scenario for moving repository between orgs'
       hash: 734b1019b66d6b59ab8fe789f22f8efb850748fc
       body: ''
