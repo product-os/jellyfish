@@ -36,7 +36,11 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "timestamp": "2018-10-10T09:09:36.000Z",
+        "timestamp": "2018-12-18T11:08:45.000Z",
+        "actor": {
+          "active": true,
+          "slug": "user-nazrhom"
+        },
         "payload": {
           "name": "Update readme",
           "active": true,
@@ -75,7 +79,11 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "timestamp": "2018-10-10T09:11:51.000Z",
+        "timestamp": "2018-12-18T11:09:19.000Z",
+        "actor": {
+          "active": true,
+          "slug": "user-nazrhom"
+        },
         "payload": [
           {
             "op": "replace",

@@ -29,6 +29,10 @@
       "capabilities": [],
       "data": {
         "timestamp": "2018-09-20T18:19:14.000Z",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "payload": {
           "name": "Issue body edits",
           "active": true,
@@ -60,6 +64,10 @@
       "capabilities": [],
       "data": {
         "timestamp": "2018-09-20T18:20:28.000Z",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "payload": [
           {
             "op": "replace",

@@ -37,6 +37,10 @@
       "capabilities": [],
       "data": {
         "timestamp": "2018-10-10T10:34:00.000Z",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "payload": {
           "name": "Test PR",
           "type": "pull-request",
@@ -76,6 +80,10 @@
       "capabilities": [],
       "data": {
         "timestamp": "2018-10-10T10:44:15.000Z",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "payload": [
           {
             "op": "replace",

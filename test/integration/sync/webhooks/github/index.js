@@ -32,7 +32,7 @@ module.exports = {
 		]
 	},
 	'open-pr-and-create-repos': {
-		expected: require('./pr-open-close/expected-1.json'),
+		expected: require('./open-pr-and-create-repos/expected.json'),
 		headIndex: 1,
 		steps: [
 			require('./pr-open-close/01-pr-opened.json')

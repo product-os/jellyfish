@@ -18,7 +18,6 @@ const avaTest = _.some(_.values(TOKEN), _.isEmpty) ? ava.skip : ava
 scenario.run(avaTest, {
 	integration: require('../../../lib/sync/integrations/github'),
 	scenarios: require('./webhooks/github'),
-	slices: _.range(0, 3),
 	baseUrl: 'https://api.github.com',
 	stubRegex: /.*/,
 	source: 'github',

@@ -29,6 +29,10 @@
       "capabilities": [],
       "data": {
         "timestamp": "2018-09-20T18:30:59.000Z",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "payload": {
           "name": "Issue delete comment",
           "active": true,
@@ -63,6 +67,10 @@
           "https://github.com/resin-io/jellyfish/issues/714#issuecomment-423287504"
         ],
         "timestamp": "2018-09-20T18:32:15.000Z",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],

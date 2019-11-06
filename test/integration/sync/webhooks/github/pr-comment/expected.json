@@ -37,6 +37,10 @@
       "capabilities": [],
       "data": {
         "timestamp": "2018-10-10T09:17:00.000Z",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "payload": {
           "name": "PR comment",
           "active": true,
@@ -79,6 +83,10 @@
           "https://github.com/resin-io/jellyfish/pull/773#issuecomment-428505538"
         ],
         "timestamp": "2018-10-10T09:35:37.000Z",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],

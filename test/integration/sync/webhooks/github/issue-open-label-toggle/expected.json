@@ -29,6 +29,10 @@
       "capabilities": [],
       "data": {
         "timestamp": "2018-09-27T13:47:52.000Z",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "payload": {
           "name": "Issue label removal",
           "active": true,
@@ -60,6 +64,10 @@
       "capabilities": [],
       "data": {
         "timestamp": "2018-09-27T13:49:06.000Z",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "payload": [
           {
             "op": "add",
@@ -78,6 +86,10 @@
       "capabilities": [],
       "data": {
         "timestamp": "2018-09-27T13:50:48.000Z",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
         "payload": [
           {
             "op": "remove",
