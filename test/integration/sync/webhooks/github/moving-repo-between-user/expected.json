@@ -1,0 +1,55 @@
+{
+  "head": {
+    "name": "",
+    "type": "repository",
+    "version": "1.0.0",
+    "active": true,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "owner": "loop-os-staging",
+      "name": "users-repo-to-be-moved",
+      "git_url": "git://github.com/loop-os-staging/users-repo-to-be-moved.git",
+      "html_url": "https://github.com/loop-os-staging/users-repo-to-be-moved",
+      "mirrors": [
+        "https://api.github.com/repos/loop-os-staging/users-repo-to-be-moved"
+      ]
+    }
+  },
+  "tail": [
+    {
+      "type": "create",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "type": "repository",
+        "timestamp": "2019-10-22T14:14:41Z",
+        "actor": {
+          "slug": "user-mbalamat",
+          "active": true
+        },
+        "payload": {
+          "name": "",
+          "active": true,
+          "version": "1.0.0",
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "owner": "loop-os-staging",
+            "name": "users-repo-to-be-moved",
+            "git_url": "git://github.com/loop-os-staging/users-repo-to-be-moved.git",
+            "html_url": "https://github.com/loop-os-staging/users-repo-to-be-moved",
+            "mirrors": [
+              "https://api.github.com/repos/loop-os-staging/users-repo-to-be-moved"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

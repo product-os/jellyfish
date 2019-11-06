@@ -1,0 +1,88 @@
+{
+  "head": {
+    "name": "",
+    "type": "repository",
+    "version": "1.0.0",
+    "active": true,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "owner": "loop-os",
+      "name": "renamed",
+      "git_url": "git://github.com/loop-os/renamed.git",
+      "html_url": "https://github.com/loop-os/renamed",
+      "mirrors": [
+        "https://api.github.com/repos/loop-os/renamed"
+      ]
+    }
+  },
+  "tail": [
+    {
+      "type": "create",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "type": "repository",
+        "timestamp": "2019-11-04T14:12:37Z",
+        "actor": {
+          "slug": "user-mbalamat",
+          "active": true
+        },
+        "payload": {
+          "name": "",
+          "active": true,
+          "version": "1.0.0",
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "owner": "loop-os",
+            "name": "rename-this",
+            "git_url": "git://github.com/loop-os/rename-this.git",
+            "html_url": "https://github.com/loop-os/rename-this",
+            "mirrors": [
+              "https://api.github.com/repos/loop-os/rename-this"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "update",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "timestamp": "2019-11-04T14:35:49Z",
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/name",
+            "value": "renamed"
+          },
+          {
+            "op": "replace",
+            "path": "/data/git_url",
+            "value": "git://github.com/loop-os/renamed.git"
+          },
+          {
+            "op": "replace",
+            "path": "/data/html_url",
+            "value": "https://github.com/loop-os/renamed"
+          },
+          {
+            "op": "replace",
+            "path": "/data/mirrors/0",
+            "value": "https://api.github.com/repos/loop-os/renamed"
+          }
+        ]
+      }
+    }
+  ]
+}
