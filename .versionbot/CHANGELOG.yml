@@ -1,4 +1,22 @@
 - commits:
+    - subject: 'worker: Fix create/update event sync race condition'
+      hash: 9ca635cf27d8a4c941150bf546a1f1073aa05b4d
+      body: |
+        Consider a piece of code that checks whether a card exists in order to
+        call the `.insertCard()` or `.patchCard()` worker method. If the outcome
+        is to insert, but the card gets inserted in the mean-time, then by the
+        time the executor runs, it will check again in order to decide if it
+        should post a `create` or an `update` event, which means we can end up
+        with a `create` event that has the payload of an `update` event.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.13.1
+  date: 2019-11-06T08:59:27.975Z
+- commits:
     - subject: 'docker-compose: Use templating in haproxy config'
       hash: f5504e6c40ae5881e7801322c830e7f3520f1258
       body: ''
