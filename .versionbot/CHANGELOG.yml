@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'sync: Keep more than one email in actors if needed'
+      hash: 64a332f34d90c06c84fd91ed8a8189b4d3e8c44d
+      body: |
+        To avoid tons of update events defining a different e-mail for a user.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.15.1
+  date: 2019-11-07T20:10:44.211Z
+- commits:
     - subject: 'core: Support multiple email addresses in users'
       hash: 91b14c7971a02bd3fecdfff1887e6a622d740855
       body: ''
