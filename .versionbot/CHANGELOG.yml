@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'circleci: Create Postgres dumps for every e2e suite'
+      hash: 2e8b37421723ac93ca7ad3fe17e1d712894c648e
+      body: |
+        This is an initial step towards splitting the e2e tests into multiple
+        jobs.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.14.1
+  date: 2019-11-07T09:06:51.803Z
+- commits:
     - subject: 'e2e-ui/chat: lengthen check to allow test work in slower environments'
       hash: f86fa87f4ca61408c2caca018865f83153c2ef17
       body: ''
