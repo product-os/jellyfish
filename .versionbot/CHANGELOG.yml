@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'circleci: Split e2e test jobs'
+      hash: f0ad8b8b6ab6c388cff16c8164ff148e189ac8bf
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.14.3
+  date: 2019-11-07T14:07:47.660Z
+- commits:
     - subject: Fix security issues of our dependencies
       hash: ee492207ef17aca5e16845f8187c0ebb85713c0e
       body: ''
