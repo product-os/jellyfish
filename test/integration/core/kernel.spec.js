@@ -4362,3 +4362,70 @@ ava('.query() should be able to skip', async (test) => {
 	test.is(result2.length, 1)
 	test.not(result1[0].slug, result2[0].slug)
 })
+
+ava('.insertCard() should create a user with two email addressses', async (test) => {
+	const card = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'user-johndoe',
+			type: 'user',
+			version: '1.0.0',
+			data: {
+				email: [ 'johndoe@example.com', 'johndoe@gmail.com' ],
+				roles: []
+			}
+		})
+
+	test.deepEqual(card.data.email, [ 'johndoe@example.com', 'johndoe@gmail.com' ])
+})
+
+ava('.insertCard() should not create a user with an empty email list', async (test) => {
+	await test.throwsAsync(test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'user-johndoe',
+			type: 'user',
+			version: '1.0.0',
+			data: {
+				email: [],
+				roles: []
+			}
+		}), errors.JellyfishSchemaMismatch)
+})
+
+ava('.insertCard() should not create a user with an invalid email', async (test) => {
+	await test.throwsAsync(test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'user-johndoe',
+			type: 'user',
+			version: '1.0.0',
+			data: {
+				email: [ 'foo' ],
+				roles: []
+			}
+		}), errors.JellyfishSchemaMismatch)
+})
+
+ava('.insertCard() should not create a user with an invalid and a valid email', async (test) => {
+	await test.throwsAsync(test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'user-johndoe',
+			type: 'user',
+			version: '1.0.0',
+			data: {
+				email: [ 'johndoe@example.com', 'foo' ],
+				roles: []
+			}
+		}), errors.JellyfishSchemaMismatch)
+})
+
+ava('.insertCard() should not create a user with duplicated emails', async (test) => {
+	await test.throwsAsync(test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'user-johndoe',
+			type: 'user',
+			version: '1.0.0',
+			data: {
+				email: [ 'johndoe@example.com', 'johndoe@example.com' ],
+				roles: []
+			}
+		}), errors.JellyfishSchemaMismatch)
+})
