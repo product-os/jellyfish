@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'core: Support multiple email addresses in users'
+      hash: 91b14c7971a02bd3fecdfff1887e6a622d740855
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.15.0
+  date: 2019-11-07T19:02:48.176Z
+- commits:
     - subject: 'circleci: Split e2e test jobs'
       hash: f0ad8b8b6ab6c388cff16c8164ff148e189ac8bf
       body: ''
