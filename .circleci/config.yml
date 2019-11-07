@@ -383,7 +383,7 @@ jobs:
           command: make compose-up DETACH=1 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$FLOWDOCK_SIGNATURE_KEY OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish COVERAGE=1
       - run:
           name: Fetch Old Postgres Dump
-          command: ./scripts/ci/postgres-get-previous-dump.sh && ls -l && gunzip dump.gz
+          command: ./scripts/ci/postgres-get-previous-dump.sh server && ls -l && gunzip dump.gz
       - run:
           name: Import Postgres Dump
           command: docker cp dump jellyfish_sidecar_1:/usr/src/jellyfish/dump && make compose-exec-sidecar COMMAND="./scripts/ci/postgres-import-snapshot.sh" ARGS="/usr/src/jellyfish/dump"
@@ -532,7 +532,7 @@ jobs:
 
       - run:
           name: Postgres Dump
-          command: mkdir -p /tmp/test-results && cp dump.gz /tmp/test-results
+          command: mkdir -p /tmp/test-results && cp dump.gz /tmp/test-results/dump-server.gz && cp dump.gz /tmp/test-results/dump-ui.gz && cp dump.gz /tmp/test-results/dump-livechat.gz && cp dump.gz /tmp/test-results/dump-sync.gz && cp dump.gz /tmp/test-results/dump-sdk.gz
 
       - run:
           name: Webpack Bundle Report For UI
