@@ -18,6 +18,12 @@ if [ -z "$CIRCLE_TOKEN" ]; then
 	exit 1
 fi
 
+TYPE="$1"
+if [ -z "$TYPE" ]; then
+	echo "Usage: $0 <type>" 1>&2
+	exit 1
+fi
+
 set -u
 
 echo "Preparing to fetch previous Postgres dump"
@@ -54,7 +60,7 @@ for commit in $COMMITS; do
 	TARGET_URL="$(echo "$RESULTS" | jq -r '.target_url' | cut -d '?' -f 1)"
 	API_URL="${TARGET_URL/\/gh\///api/v1.1/project/github/}"
 	echo "    --> Circle CI API: $API_URL"
-	DUMP_URL="$(get_artifact_link "$API_URL" "test-results/dump.gz")"
+	DUMP_URL="$(get_artifact_link "$API_URL" "test-results/dump-$TYPE.gz")"
 	echo "    --> Postgres dump URL: $DUMP_URL"
 	set +e
 	curl -v -o dump.gz -L "$DUMP_URL?circle-token=$CIRCLE_TOKEN"
