@@ -178,7 +178,7 @@ jobs:
           command: make compose-stop
       - run:
           name: Copy Code Coverage Reports
-          command: make compose-up-worker DETACH=1 && docker cp jellyfish_worker_1:/usr/src/jellyfish/.nyc_output .nyc_output && make compose-stop
+          command: make compose-up-worker_1 DETACH=1 && docker cp jellyfish_worker_1_1:/usr/src/jellyfish/.nyc_output .nyc_output && make compose-stop
 
       - persist_to_workspace:
           root: .
@@ -244,7 +244,7 @@ jobs:
           command: make compose-stop
       - run:
           name: Copy Code Coverage Reports
-          command: make compose-up-worker DETACH=1 && docker cp jellyfish_worker_1:/usr/src/jellyfish/.nyc_output .nyc_output && make compose-stop
+          command: make compose-up-worker_1 DETACH=1 && docker cp jellyfish_worker_1_1:/usr/src/jellyfish/.nyc_output .nyc_output && make compose-stop
 
       - persist_to_workspace:
           root: .
@@ -310,7 +310,7 @@ jobs:
           command: make compose-stop
       - run:
           name: Copy Code Coverage Reports
-          command: make compose-up-worker DETACH=1 && docker cp jellyfish_worker_1:/usr/src/jellyfish/.nyc_output .nyc_output && make compose-stop
+          command: make compose-up-worker_1 DETACH=1 && docker cp jellyfish_worker_1_1:/usr/src/jellyfish/.nyc_output .nyc_output && make compose-stop
 
       - persist_to_workspace:
           root: .
@@ -343,7 +343,7 @@ jobs:
           command: make compose-stop
       - run:
           name: Copy Code Coverage Reports
-          command: make compose-up-worker DETACH=1 && docker cp jellyfish_worker_1:/usr/src/jellyfish/.nyc_output .nyc_output && make compose-stop
+          command: make compose-up-worker_1 DETACH=1 && docker cp jellyfish_worker_1_1:/usr/src/jellyfish/.nyc_output .nyc_output && make compose-stop
 
       - persist_to_workspace:
           root: .
@@ -377,7 +377,7 @@ jobs:
           command: make compose-stop
       - run:
           name: Copy Code Coverage Reports
-          command: make compose-up-worker DETACH=1 && docker cp jellyfish_worker_1:/usr/src/jellyfish/.nyc_output .nyc_output && make compose-stop
+          command: make compose-up-worker_1 DETACH=1 && docker cp jellyfish_worker_1_1:/usr/src/jellyfish/.nyc_output .nyc_output && make compose-stop
 
       - persist_to_workspace:
           root: .
@@ -411,7 +411,7 @@ jobs:
           command: make compose-stop
       - run:
           name: Copy Code Coverage Reports
-          command: make compose-up-worker DETACH=1 && docker cp jellyfish_worker_1:/usr/src/jellyfish/.nyc_output .nyc_output && make compose-stop
+          command: make compose-up-worker_1 DETACH=1 && docker cp jellyfish_worker_1_1:/usr/src/jellyfish/.nyc_output .nyc_output && make compose-stop
 
       - persist_to_workspace:
           root: .
@@ -445,7 +445,7 @@ jobs:
           command: make compose-stop
       - run:
           name: Copy Code Coverage Reports
-          command: make compose-up-worker DETACH=1 && docker cp jellyfish_worker_1:/usr/src/jellyfish/.nyc_output .nyc_output && make compose-stop
+          command: make compose-up-worker_1 DETACH=1 && docker cp jellyfish_worker_1_1:/usr/src/jellyfish/.nyc_output .nyc_output && make compose-stop
 
       - persist_to_workspace:
           root: .
@@ -482,7 +482,7 @@ jobs:
           command: make compose-stop
       - run:
           name: Copy Code Coverage Reports
-          command: make compose-up-worker DETACH=1 && docker cp jellyfish_worker_1:/usr/src/jellyfish/.nyc_output .nyc_output && make compose-stop
+          command: make compose-up-worker_1 DETACH=1 && docker cp jellyfish_worker_1_1:/usr/src/jellyfish/.nyc_output .nyc_output && make compose-stop
 
       - persist_to_workspace:
           root: .
@@ -518,7 +518,7 @@ jobs:
           command: make compose-stop
       - run:
           name: Copy Code Coverage Reports
-          command: make compose-up-worker DETACH=1 && docker cp jellyfish_worker_1:/usr/src/jellyfish/.nyc_output .nyc_output && make compose-stop
+          command: make compose-up-worker_1 DETACH=1 && docker cp jellyfish_worker_1_1:/usr/src/jellyfish/.nyc_output .nyc_output && make compose-stop
 
       - persist_to_workspace:
           root: .
@@ -554,7 +554,7 @@ jobs:
           command: make compose-stop
       - run:
           name: Copy Code Coverage Reports
-          command: make compose-up-worker DETACH=1 && docker cp jellyfish_worker_1:/usr/src/jellyfish/.nyc_output .nyc_output && make compose-stop
+          command: make compose-up-worker_1 DETACH=1 && docker cp jellyfish_worker_1_1:/usr/src/jellyfish/.nyc_output .nyc_output && make compose-stop
 
       - persist_to_workspace:
           root: .
@@ -590,7 +590,7 @@ jobs:
           command: make compose-stop
       - run:
           name: Copy Code Coverage Reports
-          command: make compose-up-worker DETACH=1 && docker cp jellyfish_worker_1:/usr/src/jellyfish/.nyc_output .nyc_output && make compose-stop
+          command: make compose-up-worker_1 DETACH=1 && docker cp jellyfish_worker_1_1:/usr/src/jellyfish/.nyc_output .nyc_output && make compose-stop
 
       - persist_to_workspace:
           root: .
