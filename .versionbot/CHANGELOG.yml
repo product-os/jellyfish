@@ -1,4 +1,18 @@
 - commits:
+    - subject: Fix security issues of our dependencies
+      hash: ee492207ef17aca5e16845f8187c0ebb85713c0e
+      body: ''
+      footer:
+        Connects-to: '#2345'
+        connects-to: '#2345'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@fissore.org>
+        signed-off-by: Federico Fissore <federico@fissore.org>
+      author: Federico Fissore
+  version: 24.14.2
+  date: 2019-11-07T10:57:43.706Z
+- commits:
     - subject: 'circleci: Create Postgres dumps for every e2e suite'
       hash: 2e8b37421723ac93ca7ad3fe17e1d712894c648e
       body: |
