@@ -13,7 +13,9 @@ services:
       - postgres
       - redis
       - tick
-      - worker
+      - worker_1
+      - worker_2
+      - worker_3
       - balena-mdns-publisher
     environment:
       - DATABASE={{DATABASE}}
@@ -190,7 +192,95 @@ services:
       NODE_ENV: {{NODE_ENV}}
     networks:
       - internal
-  worker:
+  worker_1:
+    build:
+      args:
+        ENABLE_COVERAGE: ${COVERAGE}
+      context: .
+      dockerfile: apps/action-server/Dockerfile.worker
+    depends_on:
+      - postgres
+      - redis
+      - balena-mdns-publisher
+    environment:
+      - DATABASE={{DATABASE}}
+      - LOGLEVEL={{LOGLEVEL}}
+      - NODE_ENV={{NODE_ENV}}
+      - POSTGRES_DATABASE={{POSTGRES_DATABASE}}
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_PORT={{POSTGRES_PORT}}
+      - POSTGRES_USER=docker
+      - REDIS_HOST=redis
+      - REDIS_PASSWORD=redis
+      - REDIS_PORT={{REDIS_PORT}}
+      - SENTRY_DSN_SERVER
+      - LOGENTRIES_TOKEN
+      - INTEGRATION_BALENA_API_PRIVATE_KEY
+      - INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION
+      - INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING
+      - INTEGRATION_DEFAULT_USER
+      - INTEGRATION_INTERCOM_TOKEN
+      - INTEGRATION_FRONT_TOKEN
+      - INTEGRATION_GITHUB_TOKEN
+      - INTEGRATION_GITHUB_SIGNATURE_KEY
+      - INTEGRATION_FLOWDOCK_SIGNATURE_KEY
+      - INTEGRATION_DISCOURSE_TOKEN
+      - INTEGRATION_DISCOURSE_USERNAME
+      - INTEGRATION_DISCOURSE_SIGNATURE_KEY
+      - INTEGRATION_OUTREACH_APP_ID
+      - INTEGRATION_OUTREACH_APP_SECRET
+      - INTEGRATION_OUTREACH_SIGNATURE_KEY
+    restart: always
+    networks:
+      - internal
+    volumes:
+      - nyc_output:/usr/src/jellyfish/.nyc_output:rw
+  worker_2:
+    build:
+      args:
+        ENABLE_COVERAGE: ${COVERAGE}
+      context: .
+      dockerfile: apps/action-server/Dockerfile.worker
+    depends_on:
+      - postgres
+      - redis
+      - balena-mdns-publisher
+    environment:
+      - DATABASE={{DATABASE}}
+      - LOGLEVEL={{LOGLEVEL}}
+      - NODE_ENV={{NODE_ENV}}
+      - POSTGRES_DATABASE={{POSTGRES_DATABASE}}
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_PORT={{POSTGRES_PORT}}
+      - POSTGRES_USER=docker
+      - REDIS_HOST=redis
+      - REDIS_PASSWORD=redis
+      - REDIS_PORT={{REDIS_PORT}}
+      - SENTRY_DSN_SERVER
+      - LOGENTRIES_TOKEN
+      - INTEGRATION_BALENA_API_PRIVATE_KEY
+      - INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION
+      - INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING
+      - INTEGRATION_DEFAULT_USER
+      - INTEGRATION_INTERCOM_TOKEN
+      - INTEGRATION_FRONT_TOKEN
+      - INTEGRATION_GITHUB_TOKEN
+      - INTEGRATION_GITHUB_SIGNATURE_KEY
+      - INTEGRATION_FLOWDOCK_SIGNATURE_KEY
+      - INTEGRATION_DISCOURSE_TOKEN
+      - INTEGRATION_DISCOURSE_USERNAME
+      - INTEGRATION_DISCOURSE_SIGNATURE_KEY
+      - INTEGRATION_OUTREACH_APP_ID
+      - INTEGRATION_OUTREACH_APP_SECRET
+      - INTEGRATION_OUTREACH_SIGNATURE_KEY
+    restart: always
+    networks:
+      - internal
+    volumes:
+      - nyc_output:/usr/src/jellyfish/.nyc_output:rw
+  worker_3:
     build:
       args:
         ENABLE_COVERAGE: ${COVERAGE}
@@ -265,7 +355,9 @@ services:
       - /run
       - /sys/fs/cgroup
     depends_on:
-      - worker
+      - worker_1
+      - worker_2
+      - worker_3
       - ui
       - tick
       - sidecar
