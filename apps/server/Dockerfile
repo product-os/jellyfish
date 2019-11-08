@@ -20,6 +20,7 @@ RUN make .nyc-root && \
 	echo "#!/bin/sh" > run.sh && \
 	make --dry-run start-server >> run.sh && \
 	chmod +x run.sh && cat run.sh
+RUN node scripts/npm-subset.js apps/server/index.js .
 
 ###########################################################
 # Runtime
@@ -31,9 +32,14 @@ WORKDIR /usr/src/jellyfish
 
 ENV OAUTH_REDIRECT_BASE_URL https://jel.ly.fish
 
-COPY . /usr/src/jellyfish
+COPY --from=base /usr/src/jellyfish/lib /usr/src/jellyfish/lib
+COPY --from=base /usr/src/jellyfish/apps /usr/src/jellyfish/apps
 COPY --from=base /usr/src/jellyfish/.nyc-root /usr/src/jellyfish/.nyc-root
 COPY --from=base /usr/src/jellyfish/run.sh /usr/src/jellyfish/
+COPY --from=base /usr/src/jellyfish/package.json /usr/src/jellyfish/package.json
+COPY --from=base /usr/src/jellyfish/package-lock.json /usr/src/jellyfish/package-lock.json
+
+RUN cat /usr/src/jellyfish/package.json
 
 RUN NODE_ENV=production npm ci
 
