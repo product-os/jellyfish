@@ -290,5 +290,64 @@ module.exports = {
 		steps: [
 			require('./issue-open-without-body/01-issue-opened.json')
 		]
+	},
+	'repo-create': {
+		expected: require('./repo-create/expected.json'),
+		steps: [
+			require('./repo-create/01.json')
+		]
+	},
+	'repo-delete': {
+		expected: require('./repo-delete/expected.json'),
+		steps: [
+			require('./repo-delete/01.json'),
+			require('./repo-delete/02.json')
+		]
+	},
+	'repo-rename': {
+		expected: require('./repo-rename/expected.json'),
+		steps: [
+			require('./repo-rename/01.json'),
+			require('./repo-rename/02.json')
+		]
+	},
+	'moving-repo-between-orgs': {
+		expected: require('./moving-repo-between-orgs/expected.json'),
+		steps: [
+			require('./moving-repo-between-orgs/01.json')
+		]
+	},
+	'moving-repo-between-user': {
+		expected: require('./moving-repo-between-user/expected.json'),
+		steps: [
+			require('./moving-repo-between-user/01.json')
+		]
+	},
+	'approved-pr': {
+		expected: require('./approved-pr/expected.json'),
+		steps: [
+			require('./approved-pr/01.json'),
+			require('./approved-pr/02.json')
+		]
+	},
+	'not-approved-pr': {
+		expected: require('./not-approved-pr/expected.json'),
+		steps: [
+			require('./not-approved-pr/01.json'),
+			require('./not-approved-pr/02.json')
+		]
+	},
+	'status-checks-workflow': {
+		expected: require('./status-checks-workflow/expected.json'),
+		steps: [
+			require('./status-checks-workflow/01.json'),
+			require('./status-checks-workflow/02.json'),
+			require('./status-checks-workflow/03.json'),
+			require('./status-checks-workflow/04.json'),
+			require('./status-checks-workflow/05.json')
+		]
 	}
+
+	// Note: There is also setting-required-checks test case, which we have to investigate further because
+	// no events where emitted when going through the test scenario.
 }
