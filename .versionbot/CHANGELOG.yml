@@ -1,4 +1,20 @@
 - commits:
+    - subject: 'docker-compose: Setup 3 worker replicas'
+      hash: 1cb8fed82249eb4ae8af3e4d1249ad0e267f3c4e
+      body: |
+        We have to copy paste the component definition as Balena's Docker
+        Compose implementation doesn't support the `replicas` keyword.
+
+        This change should hopefully speed up the e2e tests.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.15.2
+  date: 2019-11-07T21:08:13.483Z
+- commits:
     - subject: 'sync: Keep more than one email in actors if needed'
       hash: 64a332f34d90c06c84fd91ed8a8189b4d3e8c44d
       body: |
