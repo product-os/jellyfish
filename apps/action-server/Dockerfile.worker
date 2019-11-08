@@ -1,13 +1,12 @@
 ###########################################################
-# Runtime
+# Base
 ###########################################################
 
-FROM resinci/jellyfish-base:a966886d
+FROM resinci/jellyfish-base:a966886d as base
 
 WORKDIR /usr/src/jellyfish
 
 ARG ENABLE_COVERAGE=0
-ENV OAUTH_REDIRECT_BASE_URL https://jel.ly.fish
 ENV COVERAGE ${ENABLE_COVERAGE}
 
 COPY package.json package-lock.json /usr/src/jellyfish/
@@ -17,7 +16,25 @@ COPY scripts/eslint-plugin-jellyfish/package.json \
 RUN npm ci
 COPY . /usr/src/jellyfish
 
-RUN echo "#!/bin/sh" > run.sh && \
+RUN make .nyc-root && \
+	echo "#!/bin/sh" > run.sh && \
 	make --dry-run start-worker >> run.sh && \
-	chmod +x run.sh
+	chmod +x run.sh && cat run.sh
+
+###########################################################
+# Runtime
+###########################################################
+
+FROM resinci/jellyfish-base:a966886d as runtime
+
+WORKDIR /usr/src/jellyfish
+
+ENV OAUTH_REDIRECT_BASE_URL https://jel.ly.fish
+
+COPY . /usr/src/jellyfish
+COPY --from=base /usr/src/jellyfish/.nyc-root /usr/src/jellyfish/.nyc-root
+COPY --from=base /usr/src/jellyfish/run.sh /usr/src/jellyfish/
+
+RUN NODE_ENV=production npm ci
+
 CMD [ "sh", "run.sh" ]
