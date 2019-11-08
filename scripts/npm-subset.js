@@ -23,6 +23,35 @@ const getRealPackageName = (name) => {
 		.join('/')
 }
 
+const getTreeMissingDependencies = (tree) => {
+	return _.reduce(tree, (accumulator, value) => {
+		for (const dependency of _.keys(value.requires || {})) {
+			if (!tree[dependency]) {
+				accumulator.add(dependency)
+			}
+		}
+
+		return accumulator
+	}, new Set())
+}
+
+const populateTree = (tree, universe) => {
+	const missing = getTreeMissingDependencies(tree)
+	for (const dependency of Array.from(missing)) {
+		if (universe[dependency]) {
+			tree[dependency] = _.cloneDeep(universe[dependency])
+		} else {
+			missing.delete(dependency)
+		}
+	}
+
+	if (missing.size === 0) {
+		return tree
+	}
+
+	return populateTree(tree, universe)
+}
+
 hawthorn([ FILE ], {
 	directory: process.cwd(),
 	types: [ 'local', 'module' ]
@@ -55,6 +84,7 @@ hawthorn([ FILE ], {
 				continue
 			}
 
+			allDependencies.add(getRealPackageName(dependency.path))
 			directDependencies.add(getRealPackageName(dependency.path))
 		}
 	}
@@ -78,13 +108,19 @@ hawthorn([ FILE ], {
 	}, null, 2))
 
 	console.log(`Writing ${packageLockJSONOutput}`)
-	fs.writeFileSync(packageLockJSONOutput, JSON.stringify({
+	const lockDependencies =
+		_.pick(_.cloneDeep(packageLockJSON.dependencies), Array.from(allDependencies))
+
+	const lockfile = {
 		name: packageJSON.name,
 		version: packageJSON.version,
 		lockfileVersion: packageLockJSON.lockfileVersion,
 		requires: packageLockJSON.requires,
-		dependencies: _.pick(packageLockJSON.dependencies, Array.from(allDependencies))
-	}, null, 2))
+		dependencies: populateTree(lockDependencies, packageLockJSON.dependencies)
+	}
+
+	fs.writeFileSync(packageLockJSONOutput,
+		JSON.stringify(lockfile, null, 2))
 }).catch((error) => {
 	console.error(error)
 	process.exit(1)

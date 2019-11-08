@@ -40,6 +40,7 @@ COPY --from=base /usr/src/jellyfish/package.json /usr/src/jellyfish/package.json
 COPY --from=base /usr/src/jellyfish/package-lock.json /usr/src/jellyfish/package-lock.json
 
 RUN cat /usr/src/jellyfish/package.json
+RUN cat /usr/src/jellyfish/package-lock.json
 
 RUN NODE_ENV=production npm ci
 
