@@ -1,0 +1,9 @@
+{
+  "name": "template",
+  "version": "1.0.0",
+  "description": "",
+  "main": "template.js",
+  "dependencies": {
+    "mustache": "^3.1.0"
+  }
+}

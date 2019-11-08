@@ -263,11 +263,15 @@ endif
 	mkdir -p $@
 
 .tmp/haproxy.manifest.json: haproxy.manifest.tpl.json | .tmp
-	node scripts/template.js $< > $@
+	cd scripts/template; \
+	npm i; \
+	node template.js ../../$< > ../../$@
 
 docker-compose.yml: docker-compose.tpl.yml .tmp/haproxy.manifest.json | .tmp
+	cd scripts/template; \
+	npm i; \
 	HAPROXY_CONFIG=$(shell cat $(word 2,$^) | base64 | tr -d '\n') \
-		node scripts/template.js $< > $@
+		node template.js ../../$< > ../../$@
 
 clean:
 	rm -rf \
