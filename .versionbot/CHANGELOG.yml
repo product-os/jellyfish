@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update user-community permissions to view users with multiple emails
+      hash: 0109fe041c8f9bd378fbde2d9a86e61b876aa5c8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.15.3
+  date: 2019-11-08T10:33:50.282Z
+- commits:
     - subject: 'docker-compose: Setup 3 worker replicas'
       hash: 1cb8fed82249eb4ae8af3e4d1249ad0e267f3c4e
       body: |
