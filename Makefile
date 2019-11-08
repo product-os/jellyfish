@@ -1,4 +1,4 @@
-.PHONY: .nyc-root clean \
+.PHONY: clean \
 	lint \
 	coverage \
 	node \
@@ -246,13 +246,18 @@ endif
 # Rules
 # -----------------------------------------------
 
+ifeq ($(COVERAGE),1)
 .nyc-root: lib apps
-	rm -rf $@ && mkdir -p $@ && mkdir -p .nyc_output
+	rm -rf $@ && mkdir -p $@ .nyc_output
 	for directory in $^; do \
 		./node_modules/.bin/nyc \
 			instrument $(NYC_OPTS) $$directory $@/$$directory; \
 	done
 	cp package.json $@
+else
+.nyc-root:
+	rm -rf $@ && mkdir -p $@ .nyc_output
+endif
 
 .tmp:
 	mkdir -p $@
@@ -437,6 +442,10 @@ compose-exec-%: docker-compose.yml
 compose-up-%: docker-compose.yml
 	docker-compose $(DOCKER_COMPOSE_OPTIONS) \
 		up $(DOCKER_COMPOSE_COMMAND_OPTIONS) $(subst compose-up-,,$@) $(ARGS)
+
+compose-logs-%: docker-compose.yml
+	docker-compose $(DOCKER_COMPOSE_OPTIONS) \
+		logs $(subst compose-logs-,,$@) $(DOCKER_COMPOSE_COMMAND_OPTIONS)
 
 compose-%: docker-compose.yml
 	docker-compose $(DOCKER_COMPOSE_OPTIONS) $(subst compose-,,$@) \
