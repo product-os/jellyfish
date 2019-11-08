@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'server: Only include production dependencies in Docker image'
+      hash: 0b547964dd1ba7253160fd07425c1d778c02aaa2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.15.4
+  date: 2019-11-08T20:49:31.270Z
+- commits:
     - subject: Update user-community permissions to view users with multiple emails
       hash: 0109fe041c8f9bd378fbde2d9a86e61b876aa5c8
       body: ''
