@@ -328,7 +328,7 @@
               "type": "object",
               "properties": {
                 "email": {
-                  "type": "string"
+                  "type": [ "string", "array" ]
                 },
                 "avatar": {
                   "type": [
