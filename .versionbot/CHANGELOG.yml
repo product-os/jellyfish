@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'action-server: Only install production npm dependencies'
+      hash: 48f70b36c2b1f4f455d44f77f83e07e825a8fc3c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.15.5
+  date: 2019-11-08T21:36:01.156Z
+- commits:
     - subject: 'server: Only include production dependencies in Docker image'
       hash: 0b547964dd1ba7253160fd07425c1d778c02aaa2
       body: ''
