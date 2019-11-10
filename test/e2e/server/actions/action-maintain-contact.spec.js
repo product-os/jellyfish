@@ -1171,3 +1171,73 @@ ava.serial('should create a contact for a user with plenty of info', async (test
 		}
 	})
 })
+
+ava.serial('should create a contact for a user with multiple emails', async (test) => {
+	const slug = test.context.generateRandomSlug({
+		prefix: 'user'
+	})
+
+	const userCard = await test.context.sdk.card.create({
+		slug,
+		type: 'user',
+		data: {
+			email: [ 'johndoe@example.com', 'johndoe@gmail.com' ],
+			roles: [ 'user-community' ],
+			profile: {
+				company: 'Balena.io',
+				title: 'Senior Directory of the Jellyfish Task Force',
+				type: 'professional',
+				country: 'Republic of Balena',
+				city: 'Contractshire',
+				name: {
+					first: 'John',
+					last: 'Doe'
+				}
+			}
+		}
+	})
+
+	const result = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: userCard.id,
+			type: userCard.type,
+			action: 'action-maintain-contact',
+			arguments: {}
+		}, {
+			Authorization: `Bearer ${test.context.token}`
+		})
+
+	test.false(result.response.error)
+	const contactCard = await test.context.sdk.card.get(result.response.data.slug)
+
+	test.deepEqual(contactCard, {
+		id: contactCard.id,
+		slug: contactCard.slug.replace('user-', 'contact-'),
+		name: '',
+		tags: [],
+		type: 'contact',
+		links: {},
+		active: true,
+		markers: [],
+		version: '1.0.0',
+		requires: [],
+		capabilities: [],
+		linked_at: contactCard.linked_at,
+		created_at: contactCard.created_at,
+		updated_at: contactCard.updated_at,
+		data: {
+			profile: {
+				email: [ 'johndoe@example.com', 'johndoe@gmail.com' ],
+				company: 'Balena.io',
+				title: 'Senior Directory of the Jellyfish Task Force',
+				country: 'Republic of Balena',
+				city: 'Contractshire',
+				type: 'professional',
+				name: {
+					first: 'John',
+					last: 'Doe'
+				}
+			}
+		}
+	})
+})
