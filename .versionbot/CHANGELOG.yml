@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'outreach/server/action-library: Support multiple emails in contacts'
+      hash: 398573389c10ad9a0543bb371b134f74a0dfc491
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.15.6
+  date: 2019-11-10T14:35:43.505Z
+- commits:
     - subject: 'action-server: Only install production npm dependencies'
       hash: 48f70b36c2b1f4f455d44f77f83e07e825a8fc3c
       body: ''
