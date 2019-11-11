@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'server: Log attachment uploads'
+      hash: 100c74dc8fd1bfe50eb5c541b20bbcf2d81a738a
+      body: |
+        For debugging purposes.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.15.8
+  date: 2019-11-11T15:23:25.689Z
+- commits:
     - subject: 'outreach: Correctly mirror contacts with multiple emails'
       hash: ba9445fa17f374433ad2c3c38b0892c6d0702e10
       body: ''
