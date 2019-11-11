@@ -263,11 +263,11 @@ endif
 	mkdir -p $@
 
 .tmp/haproxy.manifest.json: haproxy.manifest.tpl.json | .tmp
-	node scripts/template.js $< > $@
+	node scripts/template $< > $@
 
 docker-compose.yml: docker-compose.tpl.yml .tmp/haproxy.manifest.json | .tmp
 	HAPROXY_CONFIG=$(shell cat $(word 2,$^) | base64 | tr -d '\n') \
-		node scripts/template.js $< > $@
+		node scripts/template $< > $@
 
 clean:
 	rm -rf \
@@ -307,7 +307,7 @@ lint:
 	./scripts/lint/check-deployable-lib.sh
 	shellcheck ./scripts/*.sh ./scripts/*/*.sh ./.circleci/*.sh ./deploy-templates/*.sh
 	./node_modules/.bin/deplint
-	./node_modules/.bin/depcheck --ignore-bin-package --ignores='@babel/*,@jellyfish/*'
+	./node_modules/.bin/depcheck --ignore-bin-package --ignores='@babel/*,@jellyfish/*,scripts-template'
 
 coverage:
 	./node_modules/.bin/nyc $(NYC_GLOBAL_OPS) --reporter=text --reporter=html --reporter=json report
