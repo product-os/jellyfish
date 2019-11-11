@@ -357,6 +357,50 @@ avaTest('should avoid race conditions on multiple contacts with the same email',
 	}
 })
 
+avaTest('should correctly add an email address to a contact with more than one address', async (test) => {
+	const username = `test-${uuid()}`
+
+	const createResult = await test.context.sdk.card.create({
+		slug: `contact-${username}`,
+		type: 'contact',
+		data: {
+			profile: {
+				email: [ `${username}@test.io`, `${username}@foo.io` ]
+			}
+		}
+	})
+
+	await test.context.sdk.card.update(createResult.id, createResult.type, [
+		{
+			op: 'replace',
+			path: '/data/profile/email',
+			value: [ `${username}@test.io`, `${username}@foo.io`, `${username}@gmail.io` ]
+		}
+	])
+
+	const contact = await test.context.sdk.card.get(createResult.id)
+
+	test.deepEqual(contact.data, {
+		mirrors: contact.data.mirrors,
+		profile: {
+			email: [ `${username}@test.io`, `${username}@foo.io`, `${username}@gmail.io` ]
+		}
+	})
+
+	test.is(contact.data.mirrors.length, 1)
+	test.true(contact.data.mirrors[0].startsWith('https://api.outreach.io/api/v2/prospects/'))
+	const prospectId = _.parseInt(_.last(contact.data.mirrors[0].split('/')))
+	const prospect = await test.context.getProspect(prospectId)
+
+	test.deepEqual(prospect.data.attributes.emails, [
+		`${username}@test.io`,
+		`${username}@foo.io`,
+		`${username}@gmail.io`
+	])
+
+	test.is(prospect.data.attributes.custom1, `https://jel.ly.fish/${contact.id}`)
+})
+
 avaTest('should not update a synced contact with an excluded address', async (test) => {
 	const username = `test-${uuid()}`
 
@@ -449,6 +493,47 @@ avaTest('should link a user with an existing prospect', async (test) => {
 	test.is(prospect.data.attributes.lastName, 'Doe')
 	test.is(prospect.data.attributes.addressCity, 'Oxford')
 	test.is(prospect.data.attributes.addressCountry, 'United Kingdom')
+	test.falsy(prospect.data.attributes.githubUsername)
+	test.is(prospect.data.attributes.custom1, `https://jel.ly.fish/${contact.id}`)
+})
+
+avaTest('should sync a contact with multiple emails', async (test) => {
+	const username = `test-${uuid()}`
+
+	const createResult = await test.context.sdk.card.create({
+		slug: `contact-${username}`,
+		type: 'contact',
+		data: {
+			profile: {
+				email: [ `${username}@test.io`, `${username}@gmail.com` ],
+				company: 'Balena'
+			}
+		}
+	})
+
+	const contact = await test.context.sdk.card.get(createResult.id)
+
+	test.deepEqual(contact.data, {
+		mirrors: contact.data.mirrors,
+		profile: {
+			company: 'Balena',
+			email: [ `${username}@test.io`, `${username}@gmail.com` ]
+		}
+	})
+
+	test.is(contact.data.mirrors.length, 1)
+	test.true(contact.data.mirrors[0].startsWith('https://api.outreach.io/api/v2/prospects/'))
+	const prospectId = _.parseInt(_.last(contact.data.mirrors[0].split('/')))
+	const prospect = await test.context.getProspect(prospectId)
+
+	test.deepEqual(prospect.data.attributes.emails, [
+		`${username}@test.io`,
+		`${username}@gmail.com`
+	])
+
+	test.is(prospect.data.attributes.name, username)
+	test.is(prospect.data.attributes.nickname, username)
+	test.is(prospect.data.attributes.occupation, 'Balena')
 	test.falsy(prospect.data.attributes.githubUsername)
 	test.is(prospect.data.attributes.custom1, `https://jel.ly.fish/${contact.id}`)
 })

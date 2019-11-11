@@ -263,8 +263,16 @@ exports.reset = () => {
 }
 
 exports.getProspectByEmail = (email) => {
+	if (!_.isString(email)) {
+		return {
+			code: 400,
+			response: {}
+		}
+	}
+
 	const results = _.filter(DATA, (entry) => {
-		return entry.type === 'prospect' && entry.attributes.emails.includes(email)
+		return entry.type === 'prospect' &&
+			entry.attributes.emails.includes(email)
 	})
 
 	return {
