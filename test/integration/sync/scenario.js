@@ -352,6 +352,8 @@ module.exports = {
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 			require('../../../apps/server/default-cards/contrib/sales-thread.json'))
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
+			require('../../../apps/server/default-cards/contrib/thread.json'))
+		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 			require('../../../apps/server/default-cards/contrib/whisper.json'))
 
 		nock.cleanAll()

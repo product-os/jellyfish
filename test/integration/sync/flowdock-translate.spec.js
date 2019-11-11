@@ -25,6 +25,6 @@ scenario.run(avaTest, {
 		token: TOKEN
 	},
 	isAuthorized: (self, request) => {
-		return request.headers.authorization === `Basic ${self.options.token.api}`
+		return request.headers.authorization === `Basic ${Buffer.from(self.options.token.api).toString('base64')}`
 	}
 })
