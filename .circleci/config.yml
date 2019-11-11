@@ -79,6 +79,9 @@ jobs:
           docker_layer_caching: true
 
       - run:
+          name: Install scripts-template dependencies
+          command: cd scripts/template; npm install
+      - run:
           name: Compose Build
           command: make compose-build COVERAGE=1
       - run:
@@ -186,6 +189,9 @@ jobs:
           command: docker load -i /images.tar
 
       - run:
+          name: Install scripts-template dependencies
+          command: cd scripts/template; npm install
+      - run:
           name: Compose Up
           command: make compose-up DETACH=1 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY COVERAGE=1
       - run:
@@ -258,6 +264,9 @@ jobs:
           name: Load Docker image layers
           command: docker load -i /images.tar
 
+      - run:
+          name: Install scripts-template dependencies
+          command: cd scripts/template; npm install
       - run:
           name: Compose Up
           command: make compose-up DETACH=1 INTEGRATION_FRONT_TOKEN=$FRONT_TOKEN INTEGRATION_INTERCOM_TOKEN=$INTERCOM_TOKEN COVERAGE=1
@@ -332,6 +341,9 @@ jobs:
           command: docker load -i /images.tar
 
       - run:
+          name: Install scripts-template dependencies
+          command: cd scripts/template; npm install
+      - run:
           name: Compose Up
           command: make compose-up DETACH=1 INTEGRATION_DISCOURSE_TOKEN=$DISCOURSE_TOKEN INTEGRATION_DISCOURSE_SIGNATURE_KEY=$DISCOURSE_SIGNATURE_KEY INTEGRATION_DISCOURSE_USERNAME=$DISCOURSE_USERNAME COVERAGE=1
       - run:
@@ -377,6 +389,9 @@ jobs:
           command: docker load -i /images.tar
 
       - run:
+          name: Install scripts-template dependencies
+          command: cd scripts/template; npm install
+      - run:
           name: Docker Compose Up (with integration tokens)
           command: make compose-up DETACH=1 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$FLOWDOCK_SIGNATURE_KEY OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish COVERAGE=1
       - run:
@@ -416,6 +431,9 @@ jobs:
           name: Load Docker image layers
           command: docker load -i /images.tar
 
+      - run:
+          name: Install scripts-template dependencies
+          command: cd scripts/template; npm install
       - run:
           name: Docker Compose Up
           command: make compose-up DETACH=1 COVERAGE=1
@@ -457,6 +475,9 @@ jobs:
           command: docker load -i /images.tar
 
       - run:
+          name: Install scripts-template dependencies
+          command: cd scripts/template; npm install
+      - run:
           name: Docker Compose Up
           command: make compose-up DETACH=1 COVERAGE=1
       - run:
@@ -497,6 +518,9 @@ jobs:
           command: docker load -i /images.tar
 
       - run:
+          name: Install scripts-template dependencies
+          command: cd scripts/template; npm install
+      - run:
           name: Docker Compose Up
           command: make compose-up DETACH=1 COVERAGE=1
       - run:
@@ -536,6 +560,9 @@ jobs:
           name: Load Docker image layers
           command: docker load -i /images.tar
 
+      - run:
+          name: Install scripts-template dependencies
+          command: cd scripts/template; npm install
       - run:
           name: Docker Compose Up (with integration tokens)
           command: make compose-up DETACH=1 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$FLOWDOCK_SIGNATURE_KEY OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish COVERAGE=1
@@ -579,6 +606,9 @@ jobs:
           command: docker load -i /images.tar
 
       - run:
+          name: Install scripts-template dependencies
+          command: cd scripts/template; npm install
+      - run:
           name: Docker Compose Up
           command: make compose-up DETACH=1 COVERAGE=1
       - run:
@@ -621,6 +651,9 @@ jobs:
           command: docker load -i /images.tar
 
       - run:
+          name: Install scripts-template dependencies
+          command: cd scripts/template; npm install
+      - run:
           name: Docker Compose Up
           command: make compose-up DETACH=1 COVERAGE=1
       - run:
@@ -662,6 +695,9 @@ jobs:
           name: Load Docker image layers
           command: docker load -i /images.tar
 
+      - run:
+          name: Install scripts-template dependencies
+          command: cd scripts/template; npm install
       - run:
           name: Docker Compose Up
           command: make compose-up DETACH=1 COVERAGE=1
