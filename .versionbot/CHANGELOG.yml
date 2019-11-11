@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'outreach: Correctly mirror contacts with multiple emails'
+      hash: ba9445fa17f374433ad2c3c38b0892c6d0702e10
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.15.7
+  date: 2019-11-11T14:25:43.837Z
+- commits:
     - subject: 'outreach/server/action-library: Support multiple emails in contacts'
       hash: 398573389c10ad9a0543bb371b134f74a0dfc491
       body: ''
