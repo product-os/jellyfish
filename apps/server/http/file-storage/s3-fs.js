@@ -29,21 +29,11 @@ module.exports = class S3FS {
 
 	store (scope, name, data) {
 		const s3 = new AWS.S3(this.config)
-
-		return new Bluebird((resolve, reject) => {
-			s3.putObject({
-				Body: data,
-				Key: `${scope}/${name}`,
-				Bucket: this.BUCKET_NAME
-			},
-			(err) => {
-				if (err) {
-					return reject(err)
-				}
-
-				return resolve()
-			})
-		})
+		return s3.putObject({
+			Body: data,
+			Key: `${scope}/${name}`,
+			Bucket: this.BUCKET_NAME
+		}).promise()
 	}
 
 	retrieve (scope, name, retries = 0) {

@@ -516,6 +516,11 @@ module.exports = (application, jellyfish, worker, queue) => {
 				const cardId = results.data.id
 
 				for (const item of files) {
+					logger.info(request.context, 'Uploading attachment', {
+						card: cardId,
+						key: item.name
+					})
+
 					await fileStore.store(cardId, item.name, item.buffer)
 				}
 			}
