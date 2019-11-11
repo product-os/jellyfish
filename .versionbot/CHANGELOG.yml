@@ -1,4 +1,49 @@
 - commits:
+    - subject: >-
+        Turned scripts/template into a nicer module, adding it as a dependency
+        in root package.json. Also added call to `npm install` in config.yml
+        right before any calls to `docker-compose`
+      hash: a544b27230c8301de77639951897d4ff7a3ca033
+      body: ''
+      footer:
+        Connects-to: '#2677'
+        connects-to: '#2677'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@fissore.org>
+        signed-off-by: Federico Fissore <federico@fissore.org>
+      author: Federico Fissore
+    - subject: >-
+        Separate job for docker-compose build so we can build images once and
+        use them in downstream jobs, saving some time
+      hash: a88ea1f8ec4512001a96059a09148cc1b907767b
+      body: ''
+      footer:
+        Connects-to: '#2677'
+        connects-to: '#2677'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@fissore.org>
+        signed-off-by: Federico Fissore <federico@fissore.org>
+      author: Federico Fissore
+    - subject: >-
+        Move template.js into its own module, so that we can generate templates
+        even with an empty main node_modules folder. Updated Makefile
+        accordingly Removed mustache from main package.json as it's no longer
+        needed
+      hash: b438082e074de512e01e4f0857d2dfb78476f86b
+      body: ''
+      footer:
+        Connects-to: '#2677'
+        connects-to: '#2677'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@fissore.org>
+        signed-off-by: Federico Fissore <federico@fissore.org>
+      author: Federico Fissore
+  version: 24.15.9
+  date: 2019-11-11T16:25:31.897Z
+- commits:
     - subject: 'server: Log attachment uploads'
       hash: 100c74dc8fd1bfe50eb5c541b20bbcf2d81a738a
       body: |
