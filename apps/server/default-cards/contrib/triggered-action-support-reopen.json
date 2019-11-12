@@ -48,7 +48,7 @@
     "action": "action-update-card",
     "target": {
       "$map": {
-        "$eval": "source.links['is attached to'][0:].id"
+        "$eval": "source.links['is attached to'][0:]"
       },
       "each(link)": {
         "$eval": "link.id"

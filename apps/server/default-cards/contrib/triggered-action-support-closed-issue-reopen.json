@@ -58,7 +58,7 @@
     "action": "action-update-card",
     "target": {
       "$map": {
-        "$eval": "source.links['issue has attached support thread'][0:].id"
+        "$eval": "source.links['issue has attached support thread'][0:]"
       },
       "each(link)": {
         "$eval": "link.id"
