@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add convenient links in README
+      hash: 77d7c7264583353044a99c890241429907b26bb8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.15.12
+  date: 2019-11-12T15:19:00.087Z
+- commits:
     - subject: 'circleci: Run UI tests with an S3 file store'
       hash: 45269f9af150aaf3bf3fc4fb8a74985122f9b9f4
       body: ''
