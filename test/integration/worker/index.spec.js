@@ -311,6 +311,7 @@ ava('should not store the passwords when using action-set-password on a first ti
 			type: 'user',
 			data: {
 				email: 'johndoe@example.com',
+				hash: 'PASSWORDLESS',
 				roles: [ 'user-community' ]
 			}
 		})
@@ -345,6 +346,7 @@ ava('should not change the password of a password-less user given a password', a
 			type: 'user',
 			data: {
 				email: 'johndoe@example.com',
+				hash: 'PASSWORDLESS',
 				roles: [ 'user-community' ]
 			}
 		})
@@ -368,6 +370,7 @@ ava('should change the password of a password-less user given no password', asyn
 			type: 'user',
 			data: {
 				email: 'johndoe@example.com',
+				hash: 'PASSWORDLESS',
 				roles: [ 'user-community' ]
 			}
 		})
@@ -2523,6 +2526,7 @@ ava('should not be able to login as a password-less user', async (test) => {
 			slug: 'user-johndoe',
 			data: {
 				email: 'johndoe@example.com',
+				hash: 'PASSWORDLESS',
 				roles: []
 			}
 		})
@@ -2549,6 +2553,7 @@ ava('should not be able to login as a password-less user given a random password
 			slug: 'user-johndoe',
 			data: {
 				email: 'johndoe@example.com',
+				hash: 'PASSWORDLESS',
 				roles: []
 			}
 		})
@@ -2573,6 +2578,7 @@ ava('should not be able to login as a password-less non-disallowed user', async 
 			data: {
 				disallowLogin: false,
 				email: 'johndoe@example.com',
+				hash: 'PASSWORDLESS',
 				roles: []
 			}
 		})
@@ -2600,6 +2606,7 @@ ava('should not be able to login as a password-less disallowed user', async (tes
 			data: {
 				disallowLogin: true,
 				email: 'johndoe@example.com',
+				hash: 'PASSWORDLESS',
 				roles: []
 			}
 		})
@@ -3320,33 +3327,17 @@ ava('should post an error execute event if logging in as a disallowed user', asy
 	const adminCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'user-admin@latest')
 
-	const loginRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-create-session',
-		context: test.context.context,
-		card: adminCard.id,
-		type: adminCard.type,
-		arguments: {
-			password: 'foobarbaz'
-		}
-	})
-
 	await test.throwsAsync(
-		test.context.flush(test.context.session, 1),
-		test.context.worker.errors.WorkerAuthenticationError)
-
-	const loginResult = await test.context.queue.waitResults(
-		test.context.context, loginRequest)
-	test.deepEqual(loginResult, {
-		error: true,
-		timestamp: loginResult.timestamp,
-		data: {
-			expected: true,
+		test.context.worker.pre(test.context.session, {
+			action: 'action-create-session',
 			context: test.context.context,
-			message: 'Login disallowed',
-			name: 'WorkerAuthenticationError',
-			stack: loginResult.data.stack
-		}
-	})
+			card: adminCard.id,
+			type: adminCard.type,
+			arguments: {
+				password: 'foobarbaz'
+			}
+		}),
+		test.context.worker.errors.WorkerAuthenticationError)
 })
 
 ava('action-create-event should create a link card', async (test) => {
@@ -4316,6 +4307,7 @@ ava('should broadcast the same message twice given different actors', async (tes
 			slug: 'user-admin-fake-test',
 			data: {
 				email: 'accounts+jellyfish@resin.io',
+				hash: 'PASSWORDLESS',
 				roles: [ 'user-community' ]
 			}
 		})

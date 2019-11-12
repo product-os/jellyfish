@@ -36,6 +36,7 @@ ava.serial('should elevate external event source', async (test) => {
 		type: 'user',
 		data: {
 			email: 'johndoe@example.com',
+			hash: 'PASSWORDLESS',
 			roles: [ 'user-community' ],
 			origin: event.id,
 			profile: {
@@ -101,6 +102,7 @@ ava.serial('should prettify name when creating user contact', async (test) => {
 		data: {
 			email: 'johndoe@example.com',
 			roles: [ 'user-community' ],
+			hash: 'PASSWORDLESS',
 			profile: {
 				name: {
 					first: 'john   ',
@@ -161,7 +163,8 @@ ava.serial('should link the contact to the user', async (test) => {
 		type: 'user',
 		data: {
 			email: 'johndoe@example.com',
-			roles: [ 'user-community' ]
+			roles: [ 'user-community' ],
+			hash: 'PASSWORDLESS'
 		}
 	})
 
@@ -235,6 +238,7 @@ ava.serial('should be able to sync updates to user first names', async (test) =>
 		data: {
 			email: 'johndoe@example.com',
 			roles: [ 'user-community' ],
+			hash: 'PASSWORDLESS',
 			profile: {
 				title: 'Frontend Engineer',
 				name: {
@@ -329,6 +333,7 @@ ava.serial('should apply a user patch to a contact that diverged', async (test) 
 		data: {
 			email: 'johndoe@example.com',
 			roles: [ 'user-community' ],
+			hash: 'PASSWORDLESS',
 			profile: {
 				title: 'Frontend Engineer'
 			}
@@ -438,6 +443,7 @@ ava.serial('should update the name of existing contact', async (test) => {
 		data: {
 			email: 'johndoe@example.com',
 			roles: [ 'user-community' ],
+			hash: 'PASSWORDLESS',
 			profile: {
 				title: 'Frontend Engineer'
 			}
@@ -527,6 +533,7 @@ ava.serial('should delete an existing contact if the user is deleted', async (te
 		data: {
 			email: 'johndoe@example.com',
 			roles: [ 'user-community' ],
+			hash: 'PASSWORDLESS',
 			profile: {
 				title: 'Frontend Engineer'
 			}
@@ -616,6 +623,7 @@ ava.serial('should replace a property from an existing linked contact', async (t
 		data: {
 			email: 'johndoe@example.com',
 			roles: [ 'user-community' ],
+			hash: 'PASSWORDLESS',
 			profile: {
 				title: 'Frontend Engineer'
 			}
@@ -705,6 +713,7 @@ ava.serial('should not remove a property from an existing linked contact', async
 		data: {
 			email: 'johndoe@example.com',
 			roles: [ 'user-community' ],
+			hash: 'PASSWORDLESS',
 			profile: {
 				title: 'Frontend Engineer'
 			}
@@ -792,6 +801,7 @@ ava.serial('should merge and relink a diverging contact with a matching slug', a
 		type: 'user',
 		data: {
 			email: 'johndoe@example.com',
+			hash: 'PASSWORDLESS',
 			profile: {
 				company: 'Balena'
 			},
@@ -866,6 +876,7 @@ ava.serial('should add a property to an existing linked contact', async (test) =
 		type: 'user',
 		data: {
 			email: 'johndoe@example.com',
+			hash: 'PASSWORDLESS',
 			roles: [ 'user-community' ]
 		}
 	})
@@ -957,6 +968,7 @@ ava.serial('should create a contact for a user with little profile info', async 
 		type: 'user',
 		data: {
 			email: 'johndoe@example.com',
+			hash: 'PASSWORDLESS',
 			roles: [ 'user-community' ]
 		}
 	})
@@ -1009,6 +1021,7 @@ ava.serial('should use the user name when creating a contact', async (test) => {
 		type: 'user',
 		data: {
 			email: 'johndoe@example.com',
+			hash: 'PASSWORDLESS',
 			roles: [ 'user-community' ]
 		}
 	})
@@ -1061,6 +1074,7 @@ ava.serial('should create an inactive contact given an inactive user', async (te
 		type: 'user',
 		data: {
 			email: 'johndoe@example.com',
+			hash: 'PASSWORDLESS',
 			roles: [ 'user-community' ]
 		}
 	})
@@ -1112,6 +1126,7 @@ ava.serial('should create a contact for a user with plenty of info', async (test
 		type: 'user',
 		data: {
 			email: 'johndoe@example.com',
+			hash: 'PASSWORDLESS',
 			roles: [ 'user-community' ],
 			profile: {
 				company: 'Balena.io',
@@ -1182,6 +1197,7 @@ ava.serial('should create a contact for a user with multiple emails', async (tes
 		type: 'user',
 		data: {
 			email: [ 'johndoe@example.com', 'johndoe@gmail.com' ],
+			hash: 'PASSWORDLESS',
 			roles: [ 'user-community' ],
 			profile: {
 				company: 'Balena.io',

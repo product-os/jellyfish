@@ -488,6 +488,7 @@ ava('.patchCardBySlug() should not break the type schema', async (test) => {
 			version: '1.0.0',
 			data: {
 				email: 'johndoe@example.com',
+				hash: 'PASSWORDLESS',
 				roles: []
 			}
 		})
@@ -644,6 +645,7 @@ ava('.patchCardBySlug() should be able to patch cards hidden to the user', async
 			version: '1.0.0',
 			data: {
 				email: 'johndoe@example.com',
+				hash: 'PASSWORDLESS',
 				roles: []
 			}
 		})
@@ -744,6 +746,7 @@ ava('.patchCardBySlug() should not allow updates in hidden fields', async (test)
 			version: '1.0.0',
 			data: {
 				email: 'johndoe@example.com',
+				hash: 'PASSWORDLESS',
 				roles: []
 			}
 		})
@@ -1576,6 +1579,7 @@ ava('.insertCard() read access on a property should not allow to write other pro
 		version: '1.0.0',
 		data: {
 			email: 'johndoe@example.com',
+			hash: 'PASSWORDLESS',
 			roles: []
 		}
 	})
@@ -1586,6 +1590,7 @@ ava('.insertCard() read access on a property should not allow to write other pro
 		version: '1.0.0',
 		data: {
 			email: 'janedoe@example.com',
+			hash: 'PASSWORDLESS',
 			roles: []
 		}
 	})
@@ -1608,6 +1613,7 @@ ava('.insertCard() read access on a property should not allow to write other pro
 		version: '1.0.0',
 		data: {
 			email: 'pwned@example.com',
+			hash: 'PASSWORDLESS',
 			roles: []
 		}
 	}), errors.JellyfishSchemaMismatch)
@@ -3852,6 +3858,7 @@ ava('.lock() should not let a user lock a card it does not have access to', asyn
 			version: '1.0.0',
 			data: {
 				email: 'johndoe@example.com',
+				hash: 'PASSWORDLESS',
 				roles: []
 			}
 		})
@@ -3942,6 +3949,7 @@ ava('.unlock() should not let a user unlock an unlocked card it does not have ac
 			version: '1.0.0',
 			data: {
 				email: 'johndoe@example.com',
+				hash: 'PASSWORDLESS',
 				roles: []
 			}
 		})
@@ -4032,6 +4040,7 @@ ava('.unlock() should not let a user unlock a locked card it does not have acces
 			version: '1.0.0',
 			data: {
 				email: 'johndoe@example.com',
+				hash: 'PASSWORDLESS',
 				roles: []
 			}
 		})
@@ -4371,6 +4380,7 @@ ava('.insertCard() should create a user with two email addressses', async (test)
 			version: '1.0.0',
 			data: {
 				email: [ 'johndoe@example.com', 'johndoe@gmail.com' ],
+				hash: 'PASSWORDLESS',
 				roles: []
 			}
 		})
@@ -4386,6 +4396,7 @@ ava('.insertCard() should not create a user with an empty email list', async (te
 			version: '1.0.0',
 			data: {
 				email: [],
+				hash: 'PASSWORDLESS',
 				roles: []
 			}
 		}), errors.JellyfishSchemaMismatch)
@@ -4399,6 +4410,7 @@ ava('.insertCard() should not create a user with an invalid email', async (test)
 			version: '1.0.0',
 			data: {
 				email: [ 'foo' ],
+				hash: 'PASSWORDLESS',
 				roles: []
 			}
 		}), errors.JellyfishSchemaMismatch)
@@ -4412,6 +4424,7 @@ ava('.insertCard() should not create a user with an invalid and a valid email', 
 			version: '1.0.0',
 			data: {
 				email: [ 'johndoe@example.com', 'foo' ],
+				hash: 'PASSWORDLESS',
 				roles: []
 			}
 		}), errors.JellyfishSchemaMismatch)
@@ -4425,6 +4438,7 @@ ava('.insertCard() should not create a user with duplicated emails', async (test
 			version: '1.0.0',
 			data: {
 				email: [ 'johndoe@example.com', 'johndoe@example.com' ],
+				hash: 'PASSWORDLESS',
 				roles: []
 			}
 		}), errors.JellyfishSchemaMismatch)

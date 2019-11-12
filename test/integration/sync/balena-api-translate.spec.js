@@ -56,6 +56,7 @@ avaTest('should change the remote username to an existing unsynced user', async 
 			version: '1.0.0',
 			data: {
 				email: 'foo@bar.com',
+				hash: 'PASSWORDLESS',
 				roles: []
 			}
 		})
@@ -133,6 +134,7 @@ avaTest('should change the remote username to an existing unsynced user', async 
 	test.true(johnDoe.active)
 	test.deepEqual(johnDoe.data, {
 		email: 'jane@balena.io',
+		hash: 'PASSWORDLESS',
 		translateDate: '2019-04-17T15:26:45.231Z',
 		roles: [],
 		origin: johnDoe.data.origin,
@@ -145,6 +147,7 @@ avaTest('should change the remote username to an existing unsynced user', async 
 	test.false(janeDoe.active)
 	test.deepEqual(janeDoe.data, {
 		email: 'jane@balena.io',
+		hash: 'PASSWORDLESS',
 		translateDate: '2019-04-17T15:26:45.231Z',
 		roles: [ 'user-community' ],
 		origin: johnDoe.data.origin,
@@ -249,6 +252,7 @@ avaTest('should change the remote username to an existing user', async (test) =>
 	test.deepEqual(johnDoe.data, {
 		translateDate: '2019-04-17T15:26:45.231Z',
 		email: 'jane@balena.io',
+		hash: 'PASSWORDLESS',
 		roles: [ 'user-community' ],
 		origin: johnDoe.data.origin,
 		mirrors: [ 'https://api.balena-cloud.com/v5/user(124)' ],
@@ -261,6 +265,7 @@ avaTest('should change the remote username to an existing user', async (test) =>
 	test.deepEqual(janeDoe.data, {
 		translateDate: '2019-04-17T15:26:45.231Z',
 		email: 'jane@balena.io',
+		hash: 'PASSWORDLESS',
 		roles: [ 'user-community' ],
 		origin: johnDoe.data.origin,
 		mirrors: [],
@@ -362,6 +367,7 @@ avaTest('should change the remote username to an existing user while removing ex
 	test.deepEqual(johnDoe.data, {
 		translateDate: '2019-04-17T15:26:49.231Z',
 		email: 'john@souvlakitek.com',
+		hash: 'PASSWORDLESS',
 		roles: [ 'user-community' ],
 		origin: johnDoe.data.origin,
 		mirrors: [ 'https://api.balena-cloud.com/v5/user(124)' ],
@@ -377,6 +383,7 @@ avaTest('should change the remote username to an existing user while removing ex
 	test.false(janeDoe.active)
 	test.deepEqual(janeDoe.data, {
 		translateDate: '2019-04-17T15:26:49.231Z',
+		hash: 'PASSWORDLESS',
 		roles: [ 'user-community' ],
 		origin: johnDoe.data.origin,
 		mirrors: [],
@@ -483,6 +490,7 @@ avaTest('should change the remote username to an existing user and add a name', 
 	test.deepEqual(johnDoe.data, {
 		email: 'john@souvlakitek.com',
 		translateDate: '2019-04-17T15:26:49.231Z',
+		hash: 'PASSWORDLESS',
 		roles: [ 'user-community' ],
 		origin: johnDoe.data.origin,
 		mirrors: [ 'https://api.balena-cloud.com/v5/user(124)' ],
@@ -500,6 +508,7 @@ avaTest('should change the remote username to an existing user and add a name', 
 		translateDate: '2019-04-17T15:26:49.231Z',
 		roles: [ 'user-community' ],
 		origin: johnDoe.data.origin,
+		hash: 'PASSWORDLESS',
 		mirrors: [],
 		profile: {
 			name: {
@@ -604,6 +613,7 @@ avaTest('should change the remote username to an existing user while removing th
 		email: 'john@souvlakitek.com',
 		roles: [ 'user-community' ],
 		origin: johnDoe.data.origin,
+		hash: 'PASSWORDLESS',
 		mirrors: [ 'https://api.balena-cloud.com/v5/user(124)' ],
 		profile: {
 			company: 'Souvlaki Tek',
@@ -618,6 +628,7 @@ avaTest('should change the remote username to an existing user while removing th
 	test.deepEqual(janeDoe.data, {
 		translateDate: '2019-04-17T15:26:49.231Z',
 		roles: [ 'user-community' ],
+		hash: 'PASSWORDLESS',
 		origin: johnDoe.data.origin,
 		mirrors: []
 	})
@@ -722,6 +733,7 @@ avaTest('should change the remote username to an existing user while removing th
 	test.deepEqual(johnDoe.data, {
 		translateDate: '2019-04-17T15:26:45.231Z',
 		email: 'john@souvlakitek.com',
+		hash: 'PASSWORDLESS',
 		roles: [ 'user-community' ],
 		origin: johnDoe.data.origin,
 		mirrors: [ 'https://api.balena-cloud.com/v5/user(124)' ],
@@ -738,6 +750,7 @@ avaTest('should change the remote username to an existing user while removing th
 	test.deepEqual(janeDoe.data, {
 		email: 'jane@balena.io',
 		translateDate: '2019-04-17T15:26:45.231Z',
+		hash: 'PASSWORDLESS',
 		roles: [ 'user-community' ],
 		origin: johnDoe.data.origin,
 		mirrors: [],
@@ -852,6 +865,7 @@ avaTest('should change the remote username to an existing user with a name', asy
 		email: 'jane@balena.io',
 		translateDate: '2019-04-17T15:26:45.231Z',
 		roles: [ 'user-community' ],
+		hash: 'PASSWORDLESS',
 		origin: johnDoe.data.origin,
 		mirrors: [ 'https://api.balena-cloud.com/v5/user(124)' ],
 		profile: {
@@ -868,6 +882,7 @@ avaTest('should change the remote username to an existing user with a name', asy
 		email: 'jane@balena.io',
 		translateDate: '2019-04-17T15:26:45.231Z',
 		roles: [ 'user-community' ],
+		hash: 'PASSWORDLESS',
 		origin: johnDoe.data.origin,
 		mirrors: [],
 		profile: {
@@ -955,6 +970,7 @@ avaTest('should change the remote username', async (test) => {
 		email: 'admin@souvlakitek.com',
 		translateDate: '2019-04-17T15:26:45.231Z',
 		roles: [ 'user-community' ],
+		hash: 'PASSWORDLESS',
 		origin: oldUsername.data.origin,
 		mirrors: [ 'https://api.balena-cloud.com/v5/user(123)' ],
 		profile: {
@@ -1036,6 +1052,7 @@ avaTest('should change the remote username while filling in the company', async 
 	test.deepEqual(oldUsername.data, {
 		translateDate: '2019-04-17T15:26:45.231Z',
 		roles: [ 'user-community' ],
+		hash: 'PASSWORDLESS',
 		origin: oldUsername.data.origin,
 		mirrors: [ 'https://api.balena-cloud.com/v5/user(123)' ],
 		profile: {
@@ -1117,6 +1134,7 @@ avaTest('should change the remote username while filling in the first name', asy
 	test.deepEqual(oldUsername.data, {
 		translateDate: '2019-04-17T15:26:45.231Z',
 		roles: [ 'user-community' ],
+		hash: 'PASSWORDLESS',
 		origin: oldUsername.data.origin,
 		mirrors: [ 'https://api.balena-cloud.com/v5/user(123)' ],
 		profile: {
@@ -1200,6 +1218,7 @@ avaTest('should change the remote username while filling in the last name', asyn
 	test.deepEqual(oldUsername.data, {
 		translateDate: '2019-04-17T15:26:45.231Z',
 		roles: [ 'user-community' ],
+		hash: 'PASSWORDLESS',
 		origin: oldUsername.data.origin,
 		mirrors: [ 'https://api.balena-cloud.com/v5/user(123)' ],
 		profile: {
@@ -1282,6 +1301,7 @@ avaTest('should change the remote username while not changing anything else', as
 	test.deepEqual(oldUsername.data, {
 		translateDate: '2019-04-17T15:26:45.231Z',
 		roles: [ 'user-community' ],
+		hash: 'PASSWORDLESS',
 		origin: oldUsername.data.origin,
 		mirrors: [ 'https://api.balena-cloud.com/v5/user(123)' ]
 	})
@@ -1297,6 +1317,7 @@ avaTest('should add a company and email to an existing user', async (test) => {
 		version: '1.0.0',
 		data: {
 			email: 'foo@bar.com',
+			hash: 'PASSWORDLESS',
 			roles: []
 		}
 	})
@@ -1363,6 +1384,7 @@ avaTest('should add a company and email to an existing user', async (test) => {
 	test.deepEqual(updatedCard.data, {
 		email: 'admin@souvlakitek.com',
 		translateDate: '2019-04-17T15:25:45.231Z',
+		hash: 'PASSWORDLESS',
 		roles: [],
 		origin: updatedCard.data.origin,
 		mirrors: [ 'https://api.balena-cloud.com/v5/user(123)' ],
@@ -1380,6 +1402,7 @@ avaTest('should add a first name to an existing user', async (test) => {
 		version: '1.0.0',
 		data: {
 			email: 'foo@bar.com',
+			hash: 'PASSWORDLESS',
 			roles: []
 		}
 	})
@@ -1445,6 +1468,7 @@ avaTest('should add a first name to an existing user', async (test) => {
 	test.deepEqual(updatedCard.data, {
 		email: 'foo@bar.com',
 		roles: [],
+		hash: 'PASSWORDLESS',
 		translateDate: '2019-04-17T15:25:45.231Z',
 		origin: updatedCard.data.origin,
 		mirrors: [ 'https://api.balena-cloud.com/v5/user(123)' ],
@@ -1464,6 +1488,7 @@ avaTest('should add a last name to an existing user', async (test) => {
 		version: '1.0.0',
 		data: {
 			email: 'foo@bar.com',
+			hash: 'PASSWORDLESS',
 			roles: []
 		}
 	})
@@ -1529,6 +1554,7 @@ avaTest('should add a last name to an existing user', async (test) => {
 	test.deepEqual(updatedCard.data, {
 		email: 'foo@bar.com',
 		roles: [],
+		hash: 'PASSWORDLESS',
 		translateDate: '2019-04-17T15:25:45.231Z',
 		origin: updatedCard.data.origin,
 		mirrors: [ 'https://api.balena-cloud.com/v5/user(123)' ],
@@ -1548,6 +1574,7 @@ avaTest('should link an existing user by adding no data', async (test) => {
 		version: '1.0.0',
 		data: {
 			email: 'foo@bar.com',
+			hash: 'PASSWORDLESS',
 			roles: []
 		}
 	})
@@ -1613,6 +1640,7 @@ avaTest('should link an existing user by adding no data', async (test) => {
 		email: 'foo@bar.com',
 		translateDate: '2019-04-17T15:25:45.231Z',
 		roles: [],
+		hash: 'PASSWORDLESS',
 		origin: updatedCard.data.origin,
 		mirrors: [ 'https://api.balena-cloud.com/v5/user(123)' ]
 	})

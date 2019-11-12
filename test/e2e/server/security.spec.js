@@ -279,6 +279,7 @@ ava.serial('a community user should not be able to set a first time password to 
 		type: 'user',
 		data: {
 			email: newUserDetails.email,
+			hash: 'PASSWORDLESS',
 			roles: [ 'user-community' ]
 		}
 	})
@@ -286,6 +287,7 @@ ava.serial('a community user should not be able to set a first time password to 
 	const newUserCard = await test.context.sdk.card.get(newUser.id)
 	test.deepEqual(newUserCard.data, {
 		email: newUserDetails.email,
+		hash: 'PASSWORDLESS',
 		roles: [ 'user-community' ],
 		avatar: null
 	})
@@ -311,6 +313,7 @@ ava.serial('a community user should not be able to set a first time password to 
 
 	test.deepEqual(newUserAfter.data, {
 		email: newUserDetails.email,
+		hash: 'PASSWORDLESS',
 		roles: [ 'user-community' ],
 		avatar: null
 	})

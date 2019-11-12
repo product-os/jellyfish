@@ -11,6 +11,7 @@
     "data": {
       "email": "johndoe@souvlakitek.com",
       "roles": [ "user-community" ],
+      "hash": "PASSWORDLESS",
       "mirrors": [
         "https://api.balena-cloud.com/v5/user(999)"
       ],
@@ -48,6 +49,7 @@
           "data": {
             "email": "johndoe@souvlakitek.com",
             "roles": [ "user-community" ],
+            "hash": "PASSWORDLESS",
             "mirrors": [
               "https://api.balena-cloud.com/v5/user(999)"
             ],

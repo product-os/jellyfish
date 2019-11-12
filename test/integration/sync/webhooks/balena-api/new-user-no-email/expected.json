@@ -10,6 +10,7 @@
     "capabilities": [],
     "data": {
       "roles": [ "user-community" ],
+      "hash": "PASSWORDLESS",
       "mirrors": [
         "https://api.balena-cloud.com/v5/user(999)"
       ],
@@ -46,6 +47,7 @@
           "capabilities": [],
           "data": {
             "roles": [ "user-community" ],
+            "hash": "PASSWORDLESS",
             "mirrors": [
               "https://api.balena-cloud.com/v5/user(999)"
             ],
