@@ -113,7 +113,8 @@ class Filters extends React.Component {
 		this.state.edit.push(this.getCleanEditModel())
 	}
 
-	componentWillReceiveProps (nextProps) {
+	// eslint-disable-next-line camelcase
+	UNSAFE_componentWillReceiveProps (nextProps) {
 		const newState = {}
 
 		// If the schema prop updates, also update the internal 'flat' schema

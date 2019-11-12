@@ -41,7 +41,8 @@ class RouteHandler extends React.Component {
 		this.setChannelsFromPath()
 	}
 
-	componentWillReceiveProps (nextProps) {
+	// eslint-disable-next-line camelcase
+	UNSAFE_componentWillReceiveProps (nextProps) {
 		this.calcWidth(nextProps.channels)
 	}
 

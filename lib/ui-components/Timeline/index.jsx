@@ -181,7 +181,8 @@ class Timeline extends React.Component {
 		return !circularDeepEqual(nextState, this.state) || !circularDeepEqual(nextProps, this.props)
 	}
 
-	componentWillReceiveProps (nextProps) {
+	// eslint-disable-next-line camelcase
+	UNSAFE_componentWillReceiveProps (nextProps) {
 		const {
 			pendingMessages
 		} = this.state
@@ -205,7 +206,8 @@ class Timeline extends React.Component {
 		this.scrollToBottom()
 	}
 
-	componentWillUpdate (nextProps, nextState) {
+	// eslint-disable-next-line camelcase
+	UNSAFE_componentWillUpdate (nextProps, nextState) {
 		if (this.scrollArea) {
 			// Only set the scroll flag if the scroll area is already at the bottom
 			this.shouldScroll = this.scrollArea.scrollTop >= this.scrollArea.scrollHeight - this.scrollArea.offsetHeight
