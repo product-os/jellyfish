@@ -479,7 +479,7 @@ jobs:
           command: cd scripts/template; npm install
       - run:
           name: Docker Compose Up
-          command: make compose-up DETACH=1 COVERAGE=1
+          command: make compose-up DETACH=1 COVERAGE=1 FS_DRIVER=s3FS
       - run:
           name: End To End Tests (UI)
           command: make compose-exec-sidecar COMMAND="make" ARGS="test-e2e-ui COVERAGE=0 SCRUB=0"
