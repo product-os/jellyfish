@@ -1,4 +1,16 @@
 - commits:
+    - subject: Make @karaxuna a full-fledged code owner
+      hash: 3c159a068ba78788cfcb61c750fb5b20c10492a4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 24.15.10
+  date: 2019-11-12T10:58:06.438Z
+- commits:
     - subject: >-
         Turned scripts/template into a nicer module, adding it as a dependency
         in root package.json. Also added call to `npm install` in config.yml
