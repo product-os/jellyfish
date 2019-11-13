@@ -28,7 +28,6 @@
             "type": {
               "type": "string",
               "enum": [
-                "type",
                 "link",
                 "account",
                 "agenda",
@@ -67,7 +66,22 @@
           "properties": {
             "slug": {
               "type": "string",
-              "enum": [ "session", "user", "contact" ]
+              "enum": [
+                "session",
+                "user",
+                "account",
+                "link",
+                "action-request",
+                "contact",
+                "view",
+                "tag",
+                "message",
+                "whisper",
+                "issue",
+                "support-thread",
+                "support-issue",
+                "thread"
+              ]
             },
             "type": {
               "type": "string",
@@ -140,7 +154,7 @@
         {
           "type": "object",
           "additionalProperties": true,
-          "required": [ "slug", "type" ],
+          "required": [ "slug", "type", "data" ],
           "properties": {
             "type": {
               "type": "string",
@@ -156,6 +170,10 @@
                   "view-all-users"
                 ]
               }
+            },
+            "data": {
+              "type": "object",
+              "additionalProperties": true
             }
           }
         },
