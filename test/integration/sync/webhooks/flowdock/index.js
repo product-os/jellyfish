@@ -128,6 +128,32 @@ module.exports = {
 			require('./new-message-with-two-tags/01.json')
 		]
 	},
+	'new-message-without-whispers': {
+		expected: require('./new-message-without-whispers/expected.json'),
+		steps: [
+			require('./new-message-without-whispers/01.json'),
+			require('./new-message-without-whispers/02.json')
+		]
+	},
+	'new-thread-non-whisper-and-whisper': {
+		expected: require('./new-thread-non-whisper-and-whisper/expected.json'),
+		steps: [
+			require('./new-thread-non-whisper-and-whisper/01.json'),
+			require('./new-thread-non-whisper-and-whisper/02.json')
+		]
+	},
+	'new-thread-starting-with-double-percentage': {
+		expected: require('./new-thread-starting-with-double-percentage/expected.json'),
+		steps: [
+			require('./new-thread-starting-with-double-percentage/01.json')
+		]
+	},
+	'new-thread-starting-with-space-percentage': {
+		expected: require('./new-thread-starting-with-space-percentage/expected.json'),
+		steps: [
+			require('./new-thread-starting-with-space-percentage/01.json')
+		]
+	},
 	'new-thread-with-message': {
 		expected: require('./new-thread-with-message/expected.json'),
 		steps: [
