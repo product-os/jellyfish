@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'core: Always set user''s data.hash'
+      hash: 77e1bddaa5b46d70c162485f9dd12eaac4761db5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Fixes: 'https://github.com/balena-io/jellyfish/issues/2011'
+        fixes: 'https://github.com/balena-io/jellyfish/issues/2011'
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.17.3
+  date: 2019-11-13T21:32:30.315Z
+- commits:
     - subject: 'core: Don''t crash on string queries on the UUID column'
       hash: 997cbb268b065dbc30de19559064b8de3457f834
       body: ''
