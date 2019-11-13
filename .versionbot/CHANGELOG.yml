@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'core: Don''t crash on string queries on the UUID column'
+      hash: 997cbb268b065dbc30de19559064b8de3457f834
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Fixes: 'https://github.com/balena-io/jellyfish/issues/2748'
+        fixes: 'https://github.com/balena-io/jellyfish/issues/2748'
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.17.2
+  date: 2019-11-13T19:15:48.525Z
+- commits:
     - subject: 'core: Apply a max limit for database queries'
       hash: 3b045b1af548823bec88f4d9ee2b0bf7d9a97c27
       body: ''
