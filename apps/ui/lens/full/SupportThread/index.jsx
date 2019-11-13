@@ -256,7 +256,8 @@ class SupportThreadBase extends React.Component {
 		return !circularDeepEqual(nextProps, this.props) || !circularDeepEqual(nextState, this.state)
 	}
 
-	componentWillUpdate (nextProps) {
+	// eslint-disable-next-line camelcase
+	UNSAFE_componentWillUpdate (nextProps) {
 		const verb1 = 'support thread is attached to support issue'
 		const verb2 = 'support thread is attached to issue'
 		const verb3 = 'support thread is attached to product improvement'

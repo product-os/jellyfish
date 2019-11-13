@@ -337,7 +337,8 @@ class ViewRenderer extends React.Component {
 		return options
 	}
 
-	componentWillReceiveProps (nextProps) {
+	// eslint-disable-next-line camelcase
+	UNSAFE_componentWillReceiveProps (nextProps) {
 		// TODO: Get an actual total count from the API
 		if (nextProps.tail && nextProps.tail.length < 30) {
 			this.setState({

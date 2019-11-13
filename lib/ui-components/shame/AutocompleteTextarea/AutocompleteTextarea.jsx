@@ -218,7 +218,8 @@ class AutoCompleteArea extends React.Component {
 		}
 	}
 
-	componentWillUpdate (nextProps) {
+	// eslint-disable-next-line camelcase
+	UNSAFE_componentWillUpdate (nextProps) {
 		if (nextProps.value !== this.props.value) {
 			this.setState({
 				value: nextProps.value || ''

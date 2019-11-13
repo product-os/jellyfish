@@ -12,7 +12,11 @@ const {
 } = require('howler')
 const _ = require('lodash')
 
-browserEnv()
+browserEnv({
+	// Throws security error without this line.
+	// See: https://github.com/jsdom/jsdom/issues/2383
+	url: 'http://localhost/'
+})
 
 Enzyme.configure({
 	adapter: new Adapter()
