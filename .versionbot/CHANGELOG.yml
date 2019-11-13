@@ -1,4 +1,14 @@
 - commits:
+    - subject: Style thread list
+      hash: 2b306bd3d0b943109192ec68328aa2f02d7d896d
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 24.17.0
+  date: 2019-11-13T14:41:55.248Z
+- commits:
     - subject: Small fix to package-lock.json
       hash: e2207c83c9d386cdd689775f1284c0181e913f3c
       body: ''
