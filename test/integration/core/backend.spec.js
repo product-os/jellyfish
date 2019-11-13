@@ -1353,6 +1353,252 @@ ava('.query() should not return unspecified properties', async (test) => {
 	])
 })
 
+ava('.query() should handle integer float limits', async (test) => {
+	for (const index of _.range(0, 1000)) {
+		await test.context.backend.insertElement(test.context.context, {
+			type: 'card',
+			slug: `foo-${index}`,
+			version: '1.0.0',
+			tags: [],
+			links: {},
+			markers: [],
+			linked_at: {},
+			requires: [],
+			capabilities: [],
+			created_at: new Date().toISOString(),
+			updated_at: null,
+			active: true,
+			data: {
+				test: index
+			}
+		})
+	}
+
+	const results = await test.context.backend.query(test.context.context, {
+		type: 'object',
+		additionalProperties: true,
+		properties: {
+			type: {
+				type: 'string',
+				const: 'card'
+			}
+		},
+		required: [ 'type' ]
+	}, {
+		limit: 15.0
+	})
+
+	test.is(results.length, 15)
+})
+
+ava('.query() should throw given float limits', async (test) => {
+	await test.throwsAsync(test.context.backend.query(test.context.context, {
+		type: 'object',
+		additionalProperties: true,
+		properties: {
+			type: {
+				type: 'string',
+				const: 'card'
+			}
+		},
+		required: [ 'type' ]
+	}, {
+		limit: 59.8
+	}), errors.JellyfishInvalidLimit)
+})
+
+ava('.query() should apply a maximum limit by default', async (test) => {
+	for (const index of _.range(0, 1000)) {
+		await test.context.backend.insertElement(test.context.context, {
+			type: 'card',
+			slug: `foo-${index}`,
+			version: '1.0.0',
+			tags: [],
+			links: {},
+			markers: [],
+			linked_at: {},
+			requires: [],
+			capabilities: [],
+			created_at: new Date().toISOString(),
+			updated_at: null,
+			active: true,
+			data: {
+				test: index
+			}
+		})
+	}
+
+	const results = await test.context.backend.query(test.context.context, {
+		type: 'object',
+		additionalProperties: true,
+		properties: {
+			type: {
+				type: 'string',
+				const: 'card'
+			}
+		},
+		required: [ 'type' ]
+	})
+
+	test.is(results.length, 200)
+})
+
+ava('.query() return nothing given a zero limit', async (test) => {
+	for (const index of _.range(0, 1000)) {
+		await test.context.backend.insertElement(test.context.context, {
+			type: 'card',
+			slug: `foo-${index}`,
+			version: '1.0.0',
+			tags: [],
+			links: {},
+			markers: [],
+			linked_at: {},
+			requires: [],
+			capabilities: [],
+			created_at: new Date().toISOString(),
+			updated_at: null,
+			active: true,
+			data: {
+				test: index
+			}
+		})
+	}
+
+	const results = await test.context.backend.query(test.context.context, {
+		type: 'object',
+		additionalProperties: true,
+		properties: {
+			type: {
+				type: 'string',
+				const: 'card'
+			}
+		},
+		required: [ 'type' ]
+	}, {
+		limit: 0
+	})
+
+	test.is(results.length, 0)
+})
+
+ava('.query() should apply a maximum limit by default given sortBy', async (test) => {
+	for (const index of _.range(0, 1000)) {
+		await test.context.backend.insertElement(test.context.context, {
+			type: 'card',
+			slug: `foo-${index}`,
+			version: '1.0.0',
+			tags: [],
+			links: {},
+			markers: [],
+			linked_at: {},
+			requires: [],
+			capabilities: [],
+			created_at: new Date().toISOString(),
+			updated_at: null,
+			active: true,
+			data: {
+				test: index
+			}
+		})
+	}
+
+	const results = await test.context.backend.query(test.context.context, {
+		type: 'object',
+		additionalProperties: true,
+		properties: {
+			type: {
+				type: 'string',
+				const: 'card'
+			}
+		},
+		required: [ 'type' ]
+	}, {
+		sortBy: 'created_at'
+	})
+
+	test.is(results.length, 200)
+})
+
+ava('.query() should throw if limit is negative', async (test) => {
+	await test.throwsAsync(test.context.backend.query(test.context.context, {
+		type: 'object',
+		additionalProperties: true,
+		properties: {
+			type: {
+				type: 'string',
+				const: 'card'
+			}
+		},
+		required: [ 'type' ]
+	}, {
+		limit: -1
+	}), errors.JellyfishInvalidLimit)
+})
+
+ava('.query() should throw if limit is too large', async (test) => {
+	await test.throwsAsync(test.context.backend.query(test.context.context, {
+		type: 'object',
+		additionalProperties: true,
+		properties: {
+			type: {
+				type: 'string',
+				const: 'card'
+			}
+		},
+		required: [ 'type' ]
+	}, {
+		limit: 300
+	}), errors.JellyfishInvalidLimit)
+})
+
+ava('.query() should throw if limit is Infinity', async (test) => {
+	await test.throwsAsync(test.context.backend.query(test.context.context, {
+		type: 'object',
+		additionalProperties: true,
+		properties: {
+			type: {
+				type: 'string',
+				const: 'card'
+			}
+		},
+		required: [ 'type' ]
+	}, {
+		limit: Infinity
+	}), errors.JellyfishInvalidLimit)
+})
+
+ava('.query() should throw if limit is -Infinity', async (test) => {
+	await test.throwsAsync(test.context.backend.query(test.context.context, {
+		type: 'object',
+		additionalProperties: true,
+		properties: {
+			type: {
+				type: 'string',
+				const: 'card'
+			}
+		},
+		required: [ 'type' ]
+	}, {
+		limit: -Infinity
+	}), errors.JellyfishInvalidLimit)
+})
+
+ava('.query() should throw if limit is NaN', async (test) => {
+	await test.throwsAsync(test.context.backend.query(test.context.context, {
+		type: 'object',
+		additionalProperties: true,
+		properties: {
+			type: {
+				type: 'string',
+				const: 'card'
+			}
+		},
+		required: [ 'type' ]
+	}, {
+		limit: NaN
+	}), errors.JellyfishInvalidLimit)
+})
+
 ava('.query() should be able to limit the results', async (test) => {
 	const result1 = await test.context.backend.upsertElement(test.context.context, {
 		type: 'card',
@@ -1449,6 +1695,9 @@ ava('.query() should be able to skip the results', async (test) => {
 		}
 	})
 
+	// To ensure the created_at dates are different
+	await Bluebird.delay(10)
+
 	await test.context.backend.upsertElement(test.context.context, {
 		type: 'card',
 		slug: 'bar',
@@ -1467,6 +1716,9 @@ ava('.query() should be able to skip the results', async (test) => {
 			timestamp: '2018-08-20T23:15:45.702Z'
 		}
 	})
+
+	// To ensure the created_at dates are different
+	await Bluebird.delay(10)
 
 	const result3 = await test.context.backend.upsertElement(test.context.context, {
 		type: 'card',
