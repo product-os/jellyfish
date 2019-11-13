@@ -1,4 +1,14 @@
 - commits:
+    - subject: Fix dev-mode webpack error
+      hash: a68b8bd20be3b5371a6c09a8c352ed1ca72891a7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Kakhaber
+  version: 24.15.13
+  date: 2019-11-13T00:26:00.820Z
+- commits:
     - subject: Add convenient links in README
       hash: 77d7c7264583353044a99c890241429907b26bb8
       body: ''
