@@ -1,0 +1,42 @@
+{
+  "headers": {
+    "content-type": "application/json",
+    "x-flowdock-signature": "sha1=ed3f9c5a7a71e348539b29a29cfafa301a71d721",
+    "host": "2e88a99e.ngrok.io",
+    "content-length": "759",
+    "connection": "close",
+    "x-forwarded-proto": "https",
+    "x-forwarded-for": "94.65.78.172"
+  },
+  "payload": {
+    "thread_id": "hlQXUW0NUed9eEW4Iao4WcGI_5v",
+    "event": "message",
+    "tags": [],
+    "uuid": "R9sh4TihuzHVb2DR",
+    "thread": {
+      "body": "",
+      "external_url": null,
+      "external_comments": 0,
+      "activities": 0,
+      "id": "hlQXUW0NUed9eEW4Iao4WcGI_5v",
+      "flow": "bed6fa5a-6a31-4a31-9b3b-9184b158c2b8",
+      "status": null,
+      "fields": [],
+      "actions": [],
+      "created_at": 1573660440777,
+      "title": "% this is a message (not a whisper) starting with space and percentage",
+      "updated_at": "2019-11-13T15:54:00.777Z",
+      "initial_message": 113879,
+      "internal_comments": 1
+    },
+    "id": 113879,
+    "flow": "bed6fa5a-6a31-4a31-9b3b-9184b158c2b8",
+    "content": " % this is a message (not a whisper) starting with space and percentage",
+    "sent": 1573660440777,
+    "app": "chat",
+    "created_at": "2019-11-13T15:54:00.777Z",
+    "attachments": [],
+    "emojiReactions": {},
+    "user": "345062"
+  }
+}
