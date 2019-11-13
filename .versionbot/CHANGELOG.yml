@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'core: Apply a max limit for database queries'
+      hash: 3b045b1af548823bec88f4d9ee2b0bf7d9a97c27
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Fixes: 'https://github.com/balena-io/jellyfish/issues/2401'
+        fixes: 'https://github.com/balena-io/jellyfish/issues/2401'
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.17.1
+  date: 2019-11-13T18:26:49.877Z
+- commits:
     - subject: Style thread list
       hash: 2b306bd3d0b943109192ec68328aa2f02d7d896d
       body: ''
