@@ -33,6 +33,7 @@ outreachTest('should be able to associate a user with Outreach', async (test) =>
 		version: '1.0.0',
 		data: {
 			email: 'test@jellysync.io',
+			hash: 'PASSWORDLESS',
 			roles: [ 'user-community' ]
 		}
 	})
@@ -102,6 +103,7 @@ outreachTest('should not be able to associate a user with Outreach given the wro
 		version: '1.0.0',
 		data: {
 			email: 'test@jellysync.io',
+			hash: 'PASSWORDLESS',
 			roles: [ 'user-community' ]
 		}
 	})
@@ -164,6 +166,7 @@ outreachTest('should not be able to associate a user with Outreach given no stat
 		version: '1.0.0',
 		data: {
 			email: 'test@jellysync.io',
+			hash: 'PASSWORDLESS',
 			roles: [ 'user-community' ]
 		}
 	})
@@ -216,6 +219,7 @@ outreachTest('should not be able to associate a user with Outreach given an inva
 		version: '1.0.0',
 		data: {
 			email: 'test@jellysync.io',
+			hash: 'PASSWORDLESS',
 			roles: [ 'user-community' ]
 		}
 	})

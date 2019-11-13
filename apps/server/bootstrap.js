@@ -81,6 +81,7 @@ module.exports = async (context) => {
 			active: true,
 			data: {
 				email: 'test@jel.ly.fish',
+				hash: 'PASSWORDLESS',
 				roles: [ environment.test.user.role ]
 			}
 		})

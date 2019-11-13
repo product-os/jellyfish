@@ -40,15 +40,17 @@ ava('.getSessionUser() should throw if the session actor is invalid', async (tes
 })
 
 ava('.getSessionUser() should get the session user given the session did not expire', async (test) => {
-	const result = await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
-		slug: 'user-johndoe',
-		type: 'user',
-		version: '1.0.0',
-		data: {
-			email: 'johndoe@example.com',
-			roles: [ 'foo', 'bar' ]
-		}
-	})
+	const result = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'user-johndoe',
+			type: 'user',
+			version: '1.0.0',
+			data: {
+				email: 'johndoe@example.com',
+				hash: 'PASSWORDLESS',
+				roles: [ 'foo', 'bar' ]
+			}
+		})
 
 	const date = new Date()
 	date.setDate(date.getDate() + 1)
@@ -76,15 +78,17 @@ ava('.getSessionUser() should get the session user given the session did not exp
 })
 
 ava('.getSessionUser() should throw if the session expired', async (test) => {
-	const user = await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
-		slug: 'user-johndoe',
-		type: 'user',
-		version: '1.0.0',
-		data: {
-			email: 'johndoe@example.com',
-			roles: [ 'foo', 'bar' ]
-		}
-	})
+	const user = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'user-johndoe',
+			type: 'user',
+			version: '1.0.0',
+			data: {
+				email: 'johndoe@example.com',
+				hash: 'PASSWORDLESS',
+				roles: [ 'foo', 'bar' ]
+			}
+		})
 
 	const date = new Date()
 	date.setDate(date.getDate() - 1)

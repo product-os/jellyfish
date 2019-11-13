@@ -27,6 +27,7 @@ avaTest('should not change the same user email', async (test) => {
 			version: '1.0.0',
 			data: {
 				email: 'juan@resin.io',
+				hash: 'PASSWORDLESS',
 				roles: []
 			}
 		})
@@ -94,6 +95,7 @@ avaTest('should not change the same user email', async (test) => {
 	test.true(user.active)
 	test.deepEqual(user.data, {
 		email: 'juan@resin.io',
+		hash: 'PASSWORDLESS',
 		roles: [],
 		profile: {
 			title: 'Software Engineer',
@@ -112,6 +114,7 @@ avaTest('should add a new e-mail to a user', async (test) => {
 			version: '1.0.0',
 			data: {
 				email: 'foo@bar.com',
+				hash: 'PASSWORDLESS',
 				roles: []
 			}
 		})
@@ -180,6 +183,7 @@ avaTest('should add a new e-mail to a user', async (test) => {
 	test.deepEqual(user.data, {
 		email: [ 'foo@bar.com', 'juan@resin.io' ],
 		roles: [],
+		hash: 'PASSWORDLESS',
 		profile: {
 			title: 'Software Engineer',
 			name: {
