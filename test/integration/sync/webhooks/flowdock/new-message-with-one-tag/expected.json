@@ -52,7 +52,7 @@
       }
     },
     {
-      "type": "message",
+      "type": "whisper",
       "version": "1.0.0",
       "active": true,
       "tags": [
