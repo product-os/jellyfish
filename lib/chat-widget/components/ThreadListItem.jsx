@@ -17,13 +17,15 @@ import {
 } from '../store/selectors'
 
 export const ThreadListItem = ({
-	thread
+	thread,
+	...rest
 }) => {
 	const actions = useActions()
 	const timeline = useSelector(selectMessages(thread.id))
 
 	return (
 		<CardChatSummary
+			{...rest}
 			getActor={actions.getActor}
 			card={thread}
 			timeline={timeline}

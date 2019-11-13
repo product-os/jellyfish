@@ -66,10 +66,21 @@ const GlobalStyle = createGlobalStyle `
   }
 `
 
+const customTheme = {
+	colors: {
+		text: {
+			main: Theme.colors.secondary.main,
+			light: Theme.colors.secondary.light,
+			dark: Theme.colors.secondary.dark
+		}
+	}
+}
+
 ReactDOM.render(
 	(
 		<Router>
 			<RProvider
+				theme={customTheme}
 				style={{
 					height: '100%',
 					fontSize: 14

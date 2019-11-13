@@ -15,6 +15,7 @@ import {
 	connect
 } from 'react-redux'
 import * as redux from 'redux'
+import styled from 'styled-components'
 import {
 	Box,
 	Tab,
@@ -31,6 +32,14 @@ import CardChatSummary from '../../../../lib/ui-components/CardChatSummary'
 import {
 	InfiniteList
 } from '../../../../lib/ui-components/InfiniteList'
+
+const StyledTabs = styled(Tabs) `
+	flex: 1
+
+	> [role="tabpanel"] {
+		flex: 1
+	}
+`
 
 const SLUG = 'lens-support-threads'
 
@@ -229,7 +238,7 @@ export class SupportThreads extends React.Component {
 
 		return (
 			<Column data-test={`lens--${SLUG}`}>
-				<Tabs
+				<StyledTabs
 					activeIndex={this.props.lensState.activeIndex}
 					onActive={this.setActiveIndex}
 					style={{
@@ -242,6 +251,7 @@ export class SupportThreads extends React.Component {
 						return (
 							<Tab key={segment.name} title={`${segment.name} (${segment.cards.length})`}>
 								<InfiniteList
+									bg="#f8f9fd"
 									key={segment.name}
 									onScrollEnding={this.handleScrollEnding}
 									style={{
@@ -282,7 +292,7 @@ export class SupportThreads extends React.Component {
 							</Tab>
 						)
 					})}
-				</Tabs>
+				</StyledTabs>
 			</Column>
 		)
 	}

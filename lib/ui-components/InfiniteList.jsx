@@ -5,9 +5,12 @@
  */
 
 import React from 'react'
+import {
+	Box
+} from 'rendition'
 import styled from 'styled-components'
 
-const ScrollArea = styled.div `
+const ScrollArea = styled(Box) `
     overflow-y: auto;
     height: 100%;
 `

@@ -4,13 +4,17 @@
  * Proprietary and confidential.
  */
 
-import * as rendition from 'rendition'
+import React from 'react'
+import {
+	Txt,
+	Theme
+} from 'rendition'
 import styled from 'styled-components'
 
 export const tagStyle = `
 	background: #efefef;
-	padding: 2px 2px;
-	border-radius: ${rendition.Theme.radius}px;
+	padding: 2px 5px 1px;
+	border-radius: ${Theme.radius}px;
 	border: 1px solid #c3c3c3;
 	line-height: 1;
 	white-space: nowrap;
@@ -23,6 +27,23 @@ export const tagStyle = `
 	}
 `
 
-export const Tag = styled(rendition.Txt.span) `
+const StyledTag = styled(Txt.span) `
 	${tagStyle}
 `
+
+const TAG_SYMBOL = '#'
+
+export const Tag = ({
+	children,
+	...rest
+}) => {
+	let content = children
+
+	if (content && typeof content === 'string' && !content.startsWith(TAG_SYMBOL)) {
+		content = `${TAG_SYMBOL}${content}`
+	}
+
+	return (
+		<StyledTag {...rest}>{content}</StyledTag>
+	)
+}
