@@ -12,61 +12,60 @@ import * as React from 'react'
 import {
 	Box,
 	Flex,
-	Theme,
 	Txt
 } from 'rendition'
-import styled from 'styled-components'
+import styled, {
+	withTheme
+} from 'styled-components'
 import Link from '../Link'
 import * as helpers from '../../../apps/ui/services/helpers'
 import ColorHashPill from '@jellyfish/ui-components/shame/ColorHashPill'
-import Avatar from '@jellyfish/ui-components/shame/Avatar'
+import Icon from '../shame/Icon'
 import {
 	Tag
 } from '../Tag'
 
 const SummaryWrapper = styled(Link) `
 	display: block;
+	padding: 18px 16px;
 	border-left-style: solid;
-	border-left-width: 3px;
+	border-left-width: 4px;
 	border-bottom: 1px solid #eee;
 	cursor: pointer;
-	color: black;
+	color: ${(props) => { return props.theme.colors.text.main }};
+	box-shadow: -5px 4.5px 10.5px 0 rgba(152, 173, 227, 0.08);
+
+	${(props) => {
+		return props.active ? `
+			background: ${props.theme.colors.info.light};
+			border-left-color: ${props.theme.colors.info.main};
+		` : `
+			background: white;
+			border-left-color: transparent;
+		`
+	}}
 
 	&:hover {
-		background: ${Theme.colors.gray.light};
+		color: ${(props) => { return props.theme.colors.text.main }};
+		background: ${(props) => { return props.theme.colors.quartenary.light }};
 	}
 `
 
-const SummaryMessage = styled(Txt) `
+const LatestMessage = styled(Txt) `
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	border: 1px solid #eee;
-	border-radius: 10px;
-	padding: 4px 16px;
-	color: #333;
-	background: white;
+	border-radius: 6px;
+	padding-left: 10px;
 	flex: 1;
 `
 
-const SummaryWhisper = styled(Txt) `
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	border-radius: 10px;
-	padding: 4px 16px;
-	color: white;
-	background: #333;
-	flex: 1;
-`
-
-export default class CardChatSummary extends React.Component {
+class CardChatSummary extends React.Component {
 	constructor (props) {
 		super(props)
 
 		this.state = {
-			actor: null,
-			lastActor: null
+			actor: null
 		}
 	}
 
@@ -80,100 +79,53 @@ export default class CardChatSummary extends React.Component {
 
 	async setActors () {
 		const card = this.props.card
-		const timeline = this.props.timeline
-		let lastEvent = null
-
-		// Find the most recent message, whisper or named event
-		for (let index = timeline.length - 1; index >= 0; index--) {
-			const event = timeline[index]
-			if (
-				event.type === 'message' ||
-				event.type === 'whisper' ||
-				(event.type === 'update' && Boolean(event.name))
-			) {
-				lastEvent = event
-				break
-			}
-		}
-
 		const actor = await helpers.getCreator(this.props.getActor, card)
-		const lastActor = lastEvent
-			? await this.props.getActor(_.get(lastEvent, [ 'data', 'actor' ]))
-			: null
 
 		this.setState({
-			actor,
-			lastActor
+			actor
 		})
-	}
-
-	componentDidUpdate (prevProps) {
-		// If there is a new timeline element, recalculate the actors
-		if (prevProps.timeline.length !== this.props.length) {
-			this.setActors()
-		}
 	}
 
 	render () {
 		const {
-			props
-		} = this
+			card,
+			timeline,
+			active,
+			to,
+			theme,
+			...rest
+		} = this.props
+
 		const {
-			actor,
-			lastActor
+			actor
 		} = this.state
 
-		const card = props.card
-		const messages = _.filter(props.timeline, (event) => {
-			return event.type === 'message' || event.type === 'whisper'
-		})
+		let latestMessageText = ''
 
-		let latestText = null
-
-		// Find the most recent message or whisper
-		for (let index = props.timeline.length - 1; index >= 0; index--) {
-			const event = props.timeline[index]
+		// Get latest message text
+		for (let index = timeline.length - 1; index >= 0; index--) {
+			const event = timeline[index]
 			if (event.type === 'message' || event.type === 'whisper') {
-				latestText = _.get(event, [ 'data', 'payload', 'message' ], '')
+				latestMessageText = _.get(event, [ 'data', 'payload', 'message' ], '')
 					.split('\n')
 					.shift()
 				break
 			}
 		}
 
-		const style = {
-			borderLeftColor: helpers.colorHash(card.id)
-		}
-
-		if (props.active) {
-			style.background = '#9f9f9f'
-			style.color = 'white'
-		}
-
-		const Container = (_.last(messages) || {}).type === 'whisper'
-			? SummaryWhisper
-			: SummaryMessage
-
 		return (
 			<SummaryWrapper
 				data-test-component="card-chat-summary"
 				data-test-id={card.id}
-				p={3}
-				style={style}
-				to={props.to}
+				active={active}
+				to={to}
+				{...rest}
 			>
-				<Flex justifyContent="space-between">
-					<Flex mb={2} alignItems="flex-start">
+				<Flex justifyContent="space-between" mb={3}>
+					<Flex alignItems="flex-start">
 						<ColorHashPill value={_.get(card, [ 'data', 'inbox' ])} mr={2} />
 						<ColorHashPill value={_.get(card, [ 'data', 'status' ])} mr={2} />
-					</Flex>
-
-					<Txt>Created {helpers.formatTimestamp(card.created_at)}</Txt>
-				</Flex>
-
-				{Boolean(card.tags) && (
-					<Flex mb={2} alignItems="flex-start">
-						{_.map(card.tags, (tag) => {
+						{Boolean(card.tags) && _.map(card.tags, (tag) => {
 							if (
 								tag === 'status' ||
 								tag === 'summary' ||
@@ -181,43 +133,62 @@ export default class CardChatSummary extends React.Component {
 							) {
 								return null
 							}
-							return <Tag color="text.main" key={tag} mr={2} mb={1}>{tag}</Tag>
+							return (
+								<Tag
+									key={tag}
+									mr={2}
+									style={{
+										lineHeight: 1.5,
+										fontSize: 10,
+										letterSpacing: 0.5
+									}}>
+									{tag}
+								</Tag>
+							)
 						})}
 					</Flex>
-				)}
 
-				<Flex justifyContent="space-between">
-					<Box>
-						{Boolean(card.name) && (
-							<Txt bold>{card.name}</Txt>
-						)}
-						{!card.name && Boolean(actor) && (
-							<Txt bold>{`Conversation with ${actor.name}`}</Txt>
-						)}
-					</Box>
-
-					<Txt>
+					<Txt color="text.light" fontSize={12}>
 						Updated {helpers.timeAgo(_.get(helpers.getLastUpdate(card), [ 'data', 'timestamp' ]))}
 					</Txt>
 				</Flex>
-				<Txt my={2}>{messages.length} message{messages.length !== 1 && 's'}</Txt>
-				{latestText && (
-					<Flex>
-						<Avatar
-							small
-							pr={2}
-							name={lastActor ? lastActor.name : null}
-							url={lastActor ? lastActor.avatarUrl : null}
+
+				<Flex justifyContent="space-between" mb={1}>
+					<Box style={{
+						flex: 1,
+						minWidth: 0,
+						marginRight: 10
+					}}>
+						<Txt
+							bold
+							style={{
+								whiteSpace: 'nowrap',
+								overflow: 'hidden',
+								textOverflow: 'ellipsis'
+							}}>
+							{card.name || (actor && `Conversation with ${actor.name}`) || <React.Fragment>&nbsp;</React.Fragment>}
+						</Txt>
+					</Box>
+				</Flex>
+
+				{latestMessageText && (
+					<Flex alignItems="center">
+						<Icon
+							name="reply"
+							rotate={180}
+							style={{
+								color: active ? theme.colors.info.main : theme.colors.quartenary.dark
+							}}
 						/>
 
-						<Container
-							data-test="card-chat-summary__message"
-						>
-							{latestText}
-						</Container>
+						<LatestMessage data-test="card-chat-summary__message">
+							{latestMessageText}
+						</LatestMessage>
 					</Flex>
 				)}
 			</SummaryWrapper>
 		)
 	}
 }
+
+export default withTheme(CardChatSummary)
