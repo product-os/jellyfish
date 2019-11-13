@@ -1,0 +1,1117 @@
+{
+    "id": "bed6fa5a-6a31-4a31-9b3b-9184b158c2b8",
+    "name": "r/sandbox",
+    "parameterized_name": "testing",
+    "email": "testing@rulemotion.flowdock.com",
+    "description": "A place for playing about with Flowdock",
+    "url": "https://api.flowdock.com/flows/rulemotion/testing",
+    "web_url": "https://www.flowdock.com/app/rulemotion/testing",
+    "access_mode": "invitation",
+    "flow_admin": true,
+    "_links": {
+        "self": {
+            "methods": [
+                "GET",
+                "PUT"
+            ],
+            "fields": [
+                "name",
+                "access_mode"
+            ]
+        },
+        "invitations": {
+            "href": "https://api.flowdock.com/flows/rulemotion/testing/invitations",
+            "methods": [
+                "GET",
+                "POST"
+            ]
+        },
+        "users": {
+            "href": "https://api.flowdock.com/flows/rulemotion/testing/users",
+            "methods": [
+                "GET",
+                "PUT"
+            ],
+            "fields": [
+                "disabled"
+            ]
+        },
+        "sources": {
+            "href": "https://api.flowdock.com/flows/rulemotion/testing/sources",
+            "methods": [
+                "GET",
+                "POST",
+                "DELETE"
+            ]
+        },
+        "join_url": {
+            "href": "https://api.flowdock.com/flows/rulemotion/testing/join_url",
+            "methods": [
+                "GET",
+                "POST",
+                "DELETE"
+            ]
+        },
+        "api_token": {
+            "href": "https://api.flowdock.com/flows/rulemotion/testing/api_token",
+            "methods": [
+                "POST"
+            ]
+        },
+        "emoji": {
+            "href": "https://api.flowdock.com/organizations/rulemotion/emoji",
+            "methods": [
+                "GET"
+            ]
+        },
+        "messages": {
+            "href": "https://api.flowdock.com/flows/rulemotion/testing/messages",
+            "methods": [
+                "GET",
+                "POST"
+            ]
+        },
+        "chat_messages": {
+            "href": "https://api.flowdock.com/flows/rulemotion/testing/messages?app=chat",
+            "methods": [
+                "GET"
+            ]
+        },
+        "inbox_messages": {
+            "href": "https://api.flowdock.com/flows/rulemotion/testing/messages?app=influx",
+            "methods": [
+                "GET"
+            ]
+        },
+        "files": {
+            "href": "https://api.flowdock.com/files/151242",
+            "methods": [
+                "POST"
+            ]
+        }
+    },
+    "api_token": "8786239cd8fad67b9fb400ba272370ba",
+    "open": true,
+    "joined": true,
+    "last_message_at": "2019-11-13T15:54:00.776Z",
+    "last_message_id": 113879,
+    "team_notifications": false,
+    "organization": {
+        "active": true,
+        "billing_method": "stripe",
+        "id": 14849,
+        "name": "Rulemotion Ltd",
+        "parameterized_name": "rulemotion",
+        "url": "https://api.flowdock.com/organizations/rulemotion",
+        "user_count": 140,
+        "user_limit": 0,
+        "flow_admins": false
+    },
+    "emoji": [
+        {
+            "id": "migraine",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/0b214fc2dda6e1321eeca0117f0b1dc4ca39fc3be2c9fd1aeea8148a29e16890"
+        },
+        {
+            "id": "golang",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/bc69814a8970abb46ee0e0058f3d45cd01b5941b990e49260d86c3a58ce774a3"
+        },
+        {
+            "id": "beagle",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/262080396f6a6c0ff8f1aaae432313b913ea9f25d6263f4e5216004e9b91d1a8"
+        },
+        {
+            "id": "intel",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/58191f4d8f7573c1725a946403ba24cb7534e5b3afe9a9f79424fd82cf77dd7e"
+        },
+        {
+            "id": "meyoung",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/46e9c3bdfe0f3c2731c3782afa531203eb6f215b95303959fadbcd0f7378a174"
+        },
+        {
+            "id": "grinch",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/1fe48dbd64ac057d3d3f376c743c03f907bf4575f87b467fc2d06dcd2f3015e9"
+        },
+        {
+            "id": "smore",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/6a76e5ab1c166cbdb6a8f2414a5f6d110037aff4d50f01b778ab065bf0f3cac3"
+        },
+        {
+            "id": "rebel",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/482ff4484acb5b7ad6134392b7aab19a355712290947cbbd44f1303fbf5c9afa"
+        },
+        {
+            "id": "whisky",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/43047c8c9d142c3725d2579eacc7d4698239b8d5ad98efe27683b2df267a7187"
+        },
+        {
+            "id": "spam",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/2d95ff4ecd77c2b96d3b62cfe895d2dad7fd54d1f6c3efd0254f31ffe66b288f"
+        },
+        {
+            "id": "c3po",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/8e41a8f2f9d4451e2886bae52d4d56f30296cc796c773c5d598b5d901023aecd"
+        },
+        {
+            "id": "r2d2",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/4b46f814056b6e78931810857f80ce8e7eae16d66b1716a094e4ae6ce671b920"
+        },
+        {
+            "id": "xwing",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/fa9dd509f5fb606b58dc85e40b3609520210d9cca74be6c9338de0ce599926af"
+        },
+        {
+            "id": "resin",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/2cb8a401cc8d4d5b02ac89df586a8691d96364b5224d849a076f83fd95dfb551"
+        },
+        {
+            "id": "winning",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/a3500a3a38f6c030ccec89d3828ba2820b0c185eca70df616006630ccd830f42"
+        },
+        {
+            "id": "raspberrypi",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/b01bc3ee6a53dd503b004e6349ab3fcc1cdd69483a7728d1822a4c563968365b"
+        },
+        {
+            "id": "fortza",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/cb99e21a16c70a7e13e0b01d4580162f8b049ae6f26cbf4ba01dde59d0fc5432"
+        },
+        {
+            "id": "artikcloud",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/fbe206df98887a6b9ada01cda8b7d4d34519653c00ce268da02431917bd04695"
+        },
+        {
+            "id": "unicorn",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/f9e26ae2b63b425a7f192f0674d66e247bf1b674775861dad3072af4e94bda22"
+        },
+        {
+            "id": "fedora",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/8a47e869fb98368a69a70243543e7c5f5d2781f8e846d1220b905d1f18918eba"
+        },
+        {
+            "id": "batman",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/7d1a3eb2e410acd551ae8d0c1b7858066c76a99f70300d53fd856aeef4a81c0c"
+        },
+        {
+            "id": "whynotboth",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/cc9021f6ebe791f4de1f97e20bdac31bbe7888ea31fd64702d7752de1ffe2527"
+        },
+        {
+            "id": "sherlock",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/8067b2b9b9cace19fc20540227d3e9c1703bc2b3afc595202429299d607df2d3"
+        },
+        {
+            "id": "github",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/00a635dd12b1ee88dc02682dac87a4b7f1dcb58e581f39dd227d9e184b418c5d"
+        },
+        {
+            "id": "docker",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/58e688ca0a7fbecaf804e6030762752e47c04c2e5d1a16598e976f3cb87614af"
+        },
+        {
+            "id": "linux",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/0eec3772163c26c9f86a15f8d3fe25925632cd1eaed9aad3d9cd6221b97baf92"
+        },
+        {
+            "id": "bonus_star",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/5492b438ce425bd53c5f7874fbcbc15ac00a0a22ac08f74386b7552065f7ab4f"
+        },
+        {
+            "id": "sadalex",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/6b78c58437dadb2f2cf6b63dff913393799fd8ec91569e2599e57e5d9b9702d7"
+        },
+        {
+            "id": "stewie",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/6e443cbb59204438576be22edaa24a9fb9e97cb264f04d29f4f252ea1497b205"
+        },
+        {
+            "id": "windows",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/78228612c9dd263eba3200b25ee1c04acedffd8badc0ded600cb6c8436c37c5c"
+        },
+        {
+            "id": "archlinux",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/11654324e54c1045fe48c65884abe3b8079cdb0e6dabdf5dae704d1ab65e04f4"
+        },
+        {
+            "id": "secretsquirrel",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/56170fbea5733b7e03e028c917e4a1de991de39a217c27395a0f0b086d6c0eb5"
+        },
+        {
+            "id": "jira",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/ddf1ccd81ae41f732122fa55e99b379290869ead938c9b283b042cf7fd969e1c"
+        },
+        {
+            "id": "lolobear",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/035a2424b195a089bbbcebcbe4723954b2b580753e10eeb944298a22bf424986"
+        },
+        {
+            "id": "livelongandprosper",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/c02a69d22dee621cd0c1459f8738783956eb16483891d2b7d20a53a70787d219"
+        },
+        {
+            "id": "x-all-the-y",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/52960a5b9b272c7e46c1653bfda767126c509a00e6d283ff343be97b71904464"
+        },
+        {
+            "id": "lada",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/d8b78c44589f2db0914071901c40915d0cae60b19b7585a22b69c71b5bd681f5"
+        },
+        {
+            "id": "wrs",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/d8f7599f94d8011da695324b9c579e86feabf14394caff3a0c81e25bb101708e"
+        },
+        {
+            "id": "ge",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/7cc50db5ed52ef915d7c4b8933cae93738b9e38e196b55a30cb80515bcd41bb1"
+        },
+        {
+            "id": "romania",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/7f3fab79e148b1391ad12fe29988bf9a58455a117bc550415842e77dc0520822"
+        },
+        {
+            "id": "sykrim",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/5a51f9b331b2e18b9c62aa412b1e65a4136f4162b153f27a9919d3d9fea125cc"
+        },
+        {
+            "id": "loloiswatchingyou",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/17e5e7be12aceac29f96abc7bb5b47b140c7e09e1f75ac03169bbdc94d7d5aaa"
+        },
+        {
+            "id": "etcher",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/6249be79161fd13758808a49946b080fb27f1320f68d6ac24753e5ca54f58675"
+        },
+        {
+            "id": "head_explode",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/c9c6fa83d3dacc80041c25335e0986f5ed54d86fd4c2a8af1fc33c27d4b448de"
+        },
+        {
+            "id": "devon",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/c94ea81522359495d1b91f5da8effce42489b159825b4af9cdb12d5602bea198"
+        },
+        {
+            "id": "titanic",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/62728507bfee8a97c864f18f3200d91d8de75bf4d5d340f7a515cc56cd5aeb24"
+        },
+        {
+            "id": "facepalm",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/24adc3222dd518a22aaf31534168562b6dfce4cf5613ebac466d068b1c10682b"
+        },
+        {
+            "id": "soy_sauce",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/006ca8cffa5d0daf69bb694be6adef444742b8753127e44189ad3c7922165e5c"
+        },
+        {
+            "id": "trump",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/7fc09b2cd70245c2dc06e74258c1b9664645c9da6916ba9e113bf7bf664eb969"
+        },
+        {
+            "id": "hubot",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/741cd4b80e5f2f872de10f68a60424775e902166dc58970ad182bc35347edc6a"
+        },
+        {
+            "id": "kitsch_heart",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/a9b452d0bcdb18bcfbeb06a1559a6e5a16caea596cf31b58fe2eae62e89743ad"
+        },
+        {
+            "id": "ma-cosa-dici",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/ebcdc14211cf534c85403ad3dfb349e11a4328210533770ceddd40fc9b345d72"
+        },
+        {
+            "id": "arsenal",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/83c0ea694a9bd71a05c1fe43278c3941d7118a76bb99b4197ecae74ecfa514c3"
+        },
+        {
+            "id": "manutd",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/776a4944912a3531f1c049448d7c937248858277cd3f167ff4f821b4d35cf72c"
+        },
+        {
+            "id": "ma-cosa-dici-2",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/0bfd5c0180ebaad326a188398648f6ab4f69dbc41f705219883a66d121d16366"
+        },
+        {
+            "id": "troflo",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/9554ccf0f6cc06c391da5b5085a278c7fed0528c61cc70bd116dae1d76410d13"
+        },
+        {
+            "id": "notcool",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/bb142bcfab0d6069f4a3c97db378b0ab41e0cf8d6973d084d51e4493e88250ba"
+        },
+        {
+            "id": "flowdock",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/32a1d6ec5cce4c92f90648249a11e54cacff7c487e80be4da4a8978c9dd98a60"
+        },
+        {
+            "id": "turnip",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/6c9af950065fc6db7e40c1fc3a8346d485ef8abd022535aa481565abdf8535f2"
+        },
+        {
+            "id": "shaka",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/ced0a775e6b6061b98285b1d62323cbb11bf61c432224f3cf88a52665cf9eeb5"
+        },
+        {
+            "id": "moka",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/c1f1487e982f874f36e59444ee4194344a6a66f0af970b25e48d2c8a586ef428"
+        },
+        {
+            "id": "katapult",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/e41d9b133d86378c509ad103a80d39e479b4da023458078b692abfd53e7d331d"
+        },
+        {
+            "id": "donut",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/082563ffc15c0e429894284ec1a7b3a357debb2c5eaa7ed87c04854c699e425e"
+        },
+        {
+            "id": "duck",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/e6b263445aa83db05c955574dc5dcb96c8bfbcb2d7023e3ff2060cd6b2119906"
+        },
+        {
+            "id": "approved",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/599822840c4bd94a66963161ee8dd04dddd0335959626aa1a5824a1cd85818d7"
+        },
+        {
+            "id": "zipper-mouth",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/b2cbbce96feaa9c4380e73425c3d28c54ff51e0e5f6ae887c803c068122a5da3"
+        },
+        {
+            "id": "nintendo-switch",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/873500a27a3b3310721203c19511a4c9a2639afdd03e2c0f331018469307573d"
+        },
+        {
+            "id": "ferrari",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/b554187e31d655566b6d7db51db1c8043cfbcbba6600c331f3f9bb7a7869d3c8"
+        },
+        {
+            "id": "minion",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/b4e7665064fc621f8c2f4a37e86d8fef8cd315bee6e50d022de7e607118c0c4e"
+        },
+        {
+            "id": "salt-shaker",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/b8f0ee9cac268044b7b27633374ac99039f86accd4fa8377839d16a5355e20b0"
+        },
+        {
+            "id": "shakespeare",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/ec237a51e0b645d7ed9ad7fac0a734d26ab165765a9effb7757df41759ed5eba"
+        },
+        {
+            "id": "partyparrot",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/0acc5ac8c81b56e34d2fcfe0f6c54547c3d5ead6c14f0045fb22c50c057fa507"
+        },
+        {
+            "id": "thunderstorm",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/57b3e803f6f554e782b51bf5df35e860ada010a7f972bff7ec8263d5c1c1a71a"
+        },
+        {
+            "id": "thunderstorms",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/05d1457f556fd0d12de533e5adafcdddc123792d1014aaa9f1aba1617a5e9c39"
+        },
+        {
+            "id": "pitchfork",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/26a6bda0c6315da8db3801fdf1834dd7416b8cae7a1cc065288854c2f0d9248d"
+        },
+        {
+            "id": "heatwave",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/78384a0dac31f5c6328d8e5dfbcc4f1ea8b8c61854bf036774b299433d1ad58b"
+        },
+        {
+            "id": "papagal",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/fbcd75d996b3880dfa86d864096b84729e726237c266f9802a4d75dffbb86c1b"
+        },
+        {
+            "id": "rubberstamp",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/e89c16aee954fedbb3d5eaa4a3d96e610906b15472a7ede18d203d004c734406"
+        },
+        {
+            "id": "rust",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/4bd634d0d87c16e1613d2791b5127f90742946302878dd1ae9cb901f4ca57300"
+        },
+        {
+            "id": "pizzaparrot",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/765ddbf4385df40ad19ff2318f1965bb5f08c9b502c03fa9b55cd516876d3aa2"
+        },
+        {
+            "id": "gentlemanparrot",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/c19ade5cc6144da230cbf4a51203344280a753be781d296dc8f2bf21654bd298"
+        },
+        {
+            "id": "tripletsparrot",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/e3d7076703198ed0ad4776edbbcc18d6971721b9e8026cf4b196a5fab7e64020"
+        },
+        {
+            "id": "thumbsupparrot",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/865b16156501f7fb6e1a9f4224e3b6205e2dc1a36137cbb635dd53fc53fb8f75"
+        },
+        {
+            "id": "mustacheparrot",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/3ebc177e6d189fcac1be94b897c5226b7f033b8ad58164131bf2a1f3b5ff6070"
+        },
+        {
+            "id": "canada",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/99bd75e8f3db5d651c84cfa31c5b2a4d3daba16534b770b3e5c9f78efc0a4300"
+        },
+        {
+            "id": "tesla",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/59f335bd2660cffddd0e8dca7fcb52332fb0c6036adf777d5f502d14f1d928e1"
+        },
+        {
+            "id": "olympiakos",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/c11e7b17dea89ab0ae2c005ee7a71cce18b4230cb62e3c8613130a606643a0fd"
+        },
+        {
+            "id": "jenkins",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/6027ea26fa5ee9dd7883a3aa49cfd2effb7bcf06079f0480625fee872e153c50"
+        },
+        {
+            "id": "facepalm-emoji",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/604c630c353158361e1e0148788641feede53c21a06bdb6e9d544cd98f9302b6"
+        },
+        {
+            "id": "bass-logo",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/aa5ca507189fc76f24d89daee199587d102afea7dafa487b98e7b38547fcd0b7"
+        },
+        {
+            "id": "uhh",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/0a80d9ba215865302462429a9c41ee74dbb7e3036a35dc57902d56c1e9c5a36f"
+        },
+        {
+            "id": "success",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/1f5ce0e1e9777220467d471f6bb42ac7539d7184b44aa3ec87f40658cc31d436"
+        },
+        {
+            "id": "summit2019",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/d4faafb11e62d399e25621d83ea225c2776700b893580454d358d7f160b576f1"
+        },
+        {
+            "id": "tip-of-the-hat",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/b19fffec5b42cff3e2f858083a646a9d1d615419e142d225f4202f8b89d13060"
+        },
+        {
+            "id": "argentina",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/20d4279789a8b37d2c3df6753e1a920209502cc5ea2b0b1804292c746c53f87a"
+        },
+        {
+            "id": "ignite",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/30492fdd10628770026a9f5b69af32557779b816f6d874198856e3dd5a22bde8"
+        },
+        {
+            "id": "redbull2",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/19a138e9065555f85dbe1de70f7c41a2b0859be40ea1935dae6b86d205a12c7c"
+        },
+        {
+            "id": "excellent",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/8450f229f5a33760fd6542139aabf21076c66a547814b6d0f6e9f22019c4e26a"
+        },
+        {
+            "id": "man-dancing_1f57a",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/f99ad7f5ef88875c2a7aec11c4df3764471589aea921090681ab3559f0495a8f"
+        },
+        {
+            "id": "rock",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/3cb37752e231887d3337f642d7810f12d0d3e6fad4ad8a4579eb0126b35e88eb"
+        },
+        {
+            "id": "mario",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/253d7ce2e1de0c1d187faebf4b75f36cf162b8d8ad6e3e89f1f2773d1903772b"
+        },
+        {
+            "id": "fingers-crossed",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/c75dc53c50f5288331cf48016ed8d75c7af6ff12eee197c34b7c9794c0199ef4"
+        },
+        {
+            "id": "head",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/7d8faeeb10c31d0260082e70db0d53f6e7bf8ec4d6d33490af918239b32d8cca"
+        },
+        {
+            "id": "lama",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/183b636d34b513675ce2ea74a7c01e9dc93a9bf9c7b59710c5c3a94f83edc207"
+        },
+        {
+            "id": "shaun-likes-this",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/b37c9db06e716bbc8107db78621f65ac8ddf3c02aa04132e7f43168637f5de9c"
+        },
+        {
+            "id": "tongueit",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/fc3f48359b37830c24a23a94477c8bebbacbebb69b579a66fecdc873e31e1f8f"
+        },
+        {
+            "id": "balenafin",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/d9dd01ef7cc88d870c991d8556875eac2846c0ac4db265c5572152c7cf79d83f"
+        },
+        {
+            "id": "balenacloud",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/54289ec2304b81ef50b1421584de919cb2b472672c53afe126f6a1ab0d5d9076"
+        },
+        {
+            "id": "balena",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/f09be25efc8d2c5bda70aa0933f42a36932c5a836f48d474d07ae5b2f93e9f40"
+        },
+        {
+            "id": "balenaengine",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/c53b3451bd6b5383c0ac978f9eeb5f37e390fdba7ec3f2541442064df7c32a77"
+        },
+        {
+            "id": "balenaetcher",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/60000d54ccd91d1e0fc90ede4170e16926e1ea1ec57af41f59c83336bf97828a"
+        },
+        {
+            "id": "balenaos",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/ff8f930303b57769eefcf3ec4860d1918edababff1364b36f9bc98a79721d4c9"
+        },
+        {
+            "id": "openbalena",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/cae70ac3c7e1562a85e28aad1846fa2f6ac10e15327755bfcce2ac2f72a7b60d"
+        },
+        {
+            "id": "dharma",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/a94614426a7cb8926dc8a183c6b6b499cd6ad0be22d0634978b070f4706f3f5b"
+        },
+        {
+            "id": "jellyfish",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/b27412fdf07bdb8214bb6db8b8eb3f713058078a38d48dfa47a2071195e84aee"
+        },
+        {
+            "id": "che",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/19bb7eeedd45d1282bec02133836e31f0083d5d130b8c8d0f3a5fd13b6609996"
+        },
+        {
+            "id": "thinking-face",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/b8578526b41e96731107a4ce0a38b82965ad774a923ff2069869f33370ca2ec9"
+        },
+        {
+            "id": "fsm",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/b5e2bff0afffe3decba1bf85d07f4612aaf4239a7b8a35f43456036ea97a0b50"
+        },
+        {
+            "id": "flyingspaghettimonster",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/34a75fd5f5a2104b43ea888f5259575ec7a3a549ec04209853d361ab5e6e16c6"
+        },
+        {
+            "id": "redbull",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/c82ec86081828edd85ad4c7bcdd74d43fbc7178584f6e015429e519376b74b48"
+        },
+        {
+            "id": "pogchamp",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/4c12076f98c3ab9a60976ff79d026b9778cd9c245cf97b6db99469e92cb1489c"
+        },
+        {
+            "id": "usa",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/eae46d831b3678830e68b92052e63da1d2a594329bfb512cddd49ea0242364af"
+        },
+        {
+            "id": "ninja",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/4858f85908850e7b7397885f77be3908d1bdb831178be0dd39f8f085814b9158"
+        },
+        {
+            "id": "lfc",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/966bb6e839ab0a05f5e6ce46897246108f9d6cb72b36b6ccf12dd91ae0797056"
+        },
+        {
+            "id": "firefox",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/09d9247d2be321daf16bfb82f42841c310becd19889ff7c68bb0db7a27c892c5"
+        },
+        {
+            "id": "python",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/fcc45995b80021ac4c17b101e78f4cef6c6e11c505803f65a7ef367b9002043b"
+        },
+        {
+            "id": "starbucks",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/0fb3926194e9591b3627d83ec91e8cc29ea82aa081f7053fae3142b0db24d5ab"
+        },
+        {
+            "id": "popcorn",
+            "image_url": "https://dsefbl7lavc0l.cloudfront.net/emoji/742abf16d116fb9561c183dcacf77faa9b813ec9c19917fb5d83696f7a18d062"
+        }
+    ],
+    "integrations": [
+        {
+            "service": {
+                "name": "resinctl",
+                "id": 2472,
+                "icon_url": "https://dxgv4vuja9avs.cloudfront.net/applications/2472/8946cad2e6f1c721.svg",
+                "published": false,
+                "_links": {
+                    "setup": {
+                        "href": "http://www.flowdock.com/rest/applications/2472/setup"
+                    }
+                }
+            },
+            "source": "activity"
+        },
+        {
+            "service": {
+                "name": "resin.io deploy bot",
+                "id": 1210,
+                "icon_url": "https://dxgv4vuja9avs.cloudfront.net/applications/1210/dc449c4f7969b489.svg",
+                "published": false,
+                "_links": {
+                    "setup": {
+                        "href": "http://www.flowdock.com/rest/applications/1210/setup"
+                    }
+                }
+            },
+            "source": "activity"
+        },
+        {
+            "service": {
+                "name": "resinctl-test",
+                "id": 1843,
+                "icon_url": "https://d2cxspbh1aoie1.cloudfront.net/assets/icons/application-placeholder-da8f1aa654d016634c985a5c33491970.png",
+                "published": false,
+                "_links": {
+                    "setup": {
+                        "href": "http://www.flowdock.com/rest/applications/1843/setup"
+                    }
+                }
+            },
+            "source": "activity"
+        },
+        {
+            "service": {
+                "name": "Email",
+                "id": 823,
+                "icon_url": "https://dxgv4vuja9avs.cloudfront.net/applications/823/d1658c086ac8b00d.png",
+                "published": true,
+                "_links": {
+                    "setup": {
+                        "href": "http://www.flowdock.com/rest/applications/823/setup"
+                    }
+                }
+            },
+            "source": "activity"
+        }
+    ],
+    "sources": [
+        {
+            "id": 616682,
+            "name": "resinctl source",
+            "url": "https://api.flowdock.com/flows/rulemotion/testing/sources/616682",
+            "created_at": "2018-08-22T16:23:13.857Z",
+            "updated_at": "2018-08-22T16:23:13.857Z",
+            "_links": {},
+            "external_url": null,
+            "creator": {
+                "id": 32693,
+                "nick": "Page-",
+                "email": "page@balena.io",
+                "avatar": "https://d2cxspbh1aoie1.cloudfront.net/avatars/local/859d09bb0cd3a590e40418700d42d439e6e6043af1369cf0232d4d9123d122ba/",
+                "name": "Pagan Gazzard",
+                "website": "https://plus.google.com/105340102186975744755"
+            },
+            "error_message": "",
+            "application": {
+                "id": 2472,
+                "name": "resinctl",
+                "icon_url": "https://dxgv4vuja9avs.cloudfront.net/applications/2472/8946cad2e6f1c721.svg",
+                "url": "http://www.flowdock.com/oauth/applications/2472",
+                "published": false,
+                "_links": {
+                    "setup": {
+                        "href": "http://www.flowdock.com/rest/applications/2472/setup"
+                    }
+                }
+            }
+        },
+        {
+            "id": 538693,
+            "name": "resinctl testing",
+            "url": "https://api.flowdock.com/flows/rulemotion/testing/sources/538693",
+            "created_at": "2017-07-05T00:53:30.718Z",
+            "updated_at": "2017-07-05T00:53:30.718Z",
+            "_links": {},
+            "external_url": null,
+            "creator": {
+                "id": 226181,
+                "nick": "brownjohnf",
+                "email": "jack@balena.io",
+                "avatar": "https://d2cxspbh1aoie1.cloudfront.net/avatars/0c233e6c61d19548704bcfc6a91716e5/",
+                "name": "Jack",
+                "website": "https://resin.io"
+            },
+            "error_message": "",
+            "application": {
+                "id": 1210,
+                "name": "resin.io deploy bot",
+                "icon_url": "https://dxgv4vuja9avs.cloudfront.net/applications/1210/dc449c4f7969b489.svg",
+                "url": "http://www.flowdock.com/oauth/applications/1210",
+                "published": false,
+                "_links": {
+                    "setup": {
+                        "href": "http://www.flowdock.com/rest/applications/1210/setup"
+                    }
+                }
+            }
+        },
+        {
+            "id": 517350,
+            "name": "resinctl-test source",
+            "url": "https://api.flowdock.com/flows/rulemotion/testing/sources/517350",
+            "created_at": "2017-05-11T11:27:43.390Z",
+            "updated_at": "2017-05-11T11:27:43.390Z",
+            "_links": {},
+            "external_url": null,
+            "creator": {
+                "id": 192358,
+                "nick": "lekkas",
+                "email": "kostas@balena.io",
+                "avatar": "https://d2cxspbh1aoie1.cloudfront.net/avatars/local/872c4f0bfd5c45734c4cbd6b002a8e196431469fbb952762c2f6f6e63fd5b201/",
+                "name": "Kostas Lekkas",
+                "website": ""
+            },
+            "error_message": "",
+            "application": {
+                "id": 1843,
+                "name": "resinctl-test",
+                "icon_url": "https://d2cxspbh1aoie1.cloudfront.net/assets/icons/application-placeholder-da8f1aa654d016634c985a5c33491970.png",
+                "url": "http://www.flowdock.com/oauth/applications/1843",
+                "published": false,
+                "_links": {
+                    "setup": {
+                        "href": "http://www.flowdock.com/rest/applications/1843/setup"
+                    }
+                }
+            }
+        },
+        {
+            "id": 477645,
+            "name": "r/sandbox <testing@rulemotion.flowdock.com>",
+            "url": "https://api.flowdock.com/flows/rulemotion/testing/sources/477645",
+            "created_at": "2016-12-07T12:03:12.230Z",
+            "updated_at": "2016-12-07T12:03:12.230Z",
+            "_links": {},
+            "external_url": null,
+            "creator": null,
+            "error_message": "",
+            "application": {
+                "id": 823,
+                "name": "Email",
+                "icon_url": "https://dxgv4vuja9avs.cloudfront.net/applications/823/d1658c086ac8b00d.png",
+                "url": "http://www.flowdock.com/oauth/applications/823",
+                "published": true,
+                "_links": {
+                    "setup": {
+                        "href": "http://www.flowdock.com/rest/applications/823/setup"
+                    }
+                }
+            }
+        }
+    ],
+    "users": [
+        {
+            "id": 231533,
+            "nick": "imrehg",
+            "email": "gergely@balena.io",
+            "avatar": "https://d2cxspbh1aoie1.cloudfront.net/avatars/local/8266e99544016939b4064095d2dbca04be0c0fd101f850bc9c21d5da8534bb99/",
+            "name": "Gergely Imreh",
+            "website": "https://gergely.imreh.net",
+            "disabled": false,
+            "team_notifications": false,
+            "in_flow": false,
+            "status": null,
+            "flow_admin": true,
+            "last_activity": 0,
+            "last_ping": 0
+        },
+        {
+            "id": 345062,
+            "nick": "mbalamat",
+            "email": "marios@balena.io",
+            "avatar": "https://d2cxspbh1aoie1.cloudfront.net/avatars/local/99517276d5599e2f34818004b1326338e26e9f094fb5bb75f301ee25c7c556ff/",
+            "name": "Marios Balamatsias",
+            "website": "",
+            "disabled": false,
+            "team_notifications": false,
+            "in_flow": true,
+            "status": null,
+            "flow_admin": true,
+            "last_activity": 0,
+            "last_ping": 0
+        },
+        {
+            "id": 316222,
+            "nick": "fotiosg",
+            "email": "fotis@balena.io",
+            "avatar": "https://d2cxspbh1aoie1.cloudfront.net/avatars/local/27a33cf3bda000346c0071be167ba2746ee9618d825c47bd3229f43fd6d40971/",
+            "name": "Fotis Geragotelis",
+            "website": null,
+            "disabled": false,
+            "team_notifications": false,
+            "in_flow": true,
+            "status": null,
+            "flow_admin": true,
+            "last_activity": 0,
+            "last_ping": 0
+        },
+        {
+            "id": 32684,
+            "nick": "apostolism",
+            "email": "apostolis@balena.io",
+            "avatar": "https://d2cxspbh1aoie1.cloudfront.net/avatars/local/d8778c0f53bf6cf3d45fadb385e21953a1637e3361f25c81905c28145e76d627/",
+            "name": "Apostolis Michalakos",
+            "website": "",
+            "disabled": false,
+            "team_notifications": false,
+            "in_flow": true,
+            "status": null,
+            "flow_admin": true,
+            "last_activity": 0,
+            "last_ping": 0
+        },
+        {
+            "id": 339295,
+            "nick": "richbayliss",
+            "email": "rich@balena.io",
+            "avatar": "https://d2cxspbh1aoie1.cloudfront.net/avatars/local/a144e3251c7e38d9328beaf136d3e19f31b17dc1cc3f4b683e21027a1c760097/",
+            "name": "Rich Bayliss",
+            "website": null,
+            "disabled": false,
+            "team_notifications": false,
+            "in_flow": false,
+            "status": null,
+            "flow_admin": true,
+            "last_activity": 0,
+            "last_ping": 0
+        },
+        {
+            "id": 91789,
+            "nick": "shaunmulligan",
+            "email": "shaun@balena.io",
+            "avatar": "https://d2cxspbh1aoie1.cloudfront.net/avatars/local/3c29465e9fc48f57eda91efb214ce94aaabd34a960164941a784a66803acf312/",
+            "name": "Shaun Mulligan",
+            "website": "",
+            "disabled": false,
+            "team_notifications": false,
+            "in_flow": true,
+            "status": null,
+            "flow_admin": true,
+            "last_activity": 0,
+            "last_ping": 0
+        },
+        {
+            "id": 266120,
+            "nick": "lucianbuzzo",
+            "email": "lucian@balena.io",
+            "avatar": "https://d2cxspbh1aoie1.cloudfront.net/avatars/local/77e2840b4931dcba3469844e5f60ce2177ea0b5e68eff92f0a52730949033c36/",
+            "name": "Lucian Buzzo",
+            "website": "",
+            "disabled": false,
+            "team_notifications": false,
+            "in_flow": false,
+            "status": null,
+            "flow_admin": true,
+            "last_activity": 0,
+            "last_ping": 0
+        },
+        {
+            "id": 242543,
+            "nick": "alisondavis17",
+            "email": "alison@balena.io",
+            "avatar": "https://d2cxspbh1aoie1.cloudfront.net/avatars/local/b1cfe75a4384add49ee74d9d8549d8300dbc1caedab70e5510883830b580d30b/",
+            "name": "Alison Davis Riddell",
+            "website": "",
+            "disabled": false,
+            "team_notifications": true,
+            "in_flow": false,
+            "status": null,
+            "flow_admin": true,
+            "last_activity": 0,
+            "last_ping": 0
+        },
+        {
+            "id": 67011,
+            "nick": "jviotti",
+            "email": "juan@balena.io",
+            "avatar": "https://d2cxspbh1aoie1.cloudfront.net/avatars/6d3e5b989821b29ff1b04a0eaa5cd8a9/",
+            "name": "Juan Cruz Viotti",
+            "website": "https://github.com/jviotti",
+            "disabled": false,
+            "team_notifications": false,
+            "in_flow": true,
+            "status": null,
+            "flow_admin": true,
+            "last_activity": 0,
+            "last_ping": 0
+        },
+        {
+            "id": 259369,
+            "nick": "wrboyce",
+            "email": "will@balena.io",
+            "avatar": "https://d2cxspbh1aoie1.cloudfront.net/avatars/566e12f9c9b32963266397993254a998/",
+            "name": "Will Boyce",
+            "website": null,
+            "disabled": false,
+            "team_notifications": false,
+            "in_flow": true,
+            "status": null,
+            "flow_admin": true,
+            "last_activity": 0,
+            "last_ping": 0
+        },
+        {
+            "id": 263186,
+            "nick": "testbot",
+            "email": "hubot+test@balena.io",
+            "avatar": "https://d2cxspbh1aoie1.cloudfront.net/avatars/991323e0b56858c3438de17c7bcbdc3b/",
+            "name": "Hubot test",
+            "website": "",
+            "disabled": false,
+            "team_notifications": false,
+            "in_flow": true,
+            "status": null,
+            "flow_admin": true,
+            "last_activity": 0,
+            "last_ping": 0
+        },
+        {
+            "id": 254005,
+            "nick": "Stefsak",
+            "email": "stefanos@balena.io",
+            "avatar": "https://d2cxspbh1aoie1.cloudfront.net/avatars/local/9a65c907a070fdc9e4f1e752216b859bea67335cc382006eb806e13c71581324/",
+            "name": "Stefanos Sakellariou",
+            "website": null,
+            "disabled": false,
+            "team_notifications": false,
+            "in_flow": true,
+            "status": null,
+            "flow_admin": true,
+            "last_activity": 0,
+            "last_ping": 0
+        },
+        {
+            "id": 154523,
+            "nick": "floion",
+            "email": "florin@balena.io",
+            "avatar": "https://d2cxspbh1aoie1.cloudfront.net/avatars/local/2292adcae1b3fc564f365f1a67477327647d60f3e1c49f80f95c0bc3135dc6f4/",
+            "name": "Florin-Ionut Sarbu",
+            "website": " ",
+            "disabled": false,
+            "team_notifications": false,
+            "in_flow": true,
+            "status": null,
+            "flow_admin": true,
+            "last_activity": 0,
+            "last_ping": 0
+        },
+        {
+            "id": 32706,
+            "nick": "petrosagg",
+            "email": "petrosagg@balena.io",
+            "avatar": "https://d2cxspbh1aoie1.cloudfront.net/avatars/7486a31f2f0a82477d66b44b69000e9b/",
+            "name": "Petros Angelatos",
+            "website": "https://petrosagg.com",
+            "disabled": false,
+            "team_notifications": false,
+            "in_flow": true,
+            "status": null,
+            "flow_admin": true,
+            "last_activity": 0,
+            "last_ping": 0
+        },
+        {
+            "id": 32707,
+            "nick": "alexandrosm",
+            "email": "alexandros@balena.io",
+            "avatar": "https://d2cxspbh1aoie1.cloudfront.net/avatars/local/10b52369e8cc9241cc56281760575f7c718e9093ca5f137dace2cf58e6c2193b/",
+            "name": "Alexandros Marinos",
+            "website": "https://plus.google.com/100342936156558658304",
+            "disabled": false,
+            "team_notifications": false,
+            "in_flow": false,
+            "status": null,
+            "flow_admin": true,
+            "last_activity": 0,
+            "last_ping": 0
+        },
+        {
+            "id": 106717,
+            "nick": "nghiant2710",
+            "email": "james@balena.io",
+            "avatar": "https://d2cxspbh1aoie1.cloudfront.net/avatars/local/9e51811e7db59040730d3e263e2cb2e0adc353279f4c8920f51af693c161df73/",
+            "name": "Trong Nghia Nguyen",
+            "website": "",
+            "disabled": false,
+            "team_notifications": true,
+            "in_flow": false,
+            "status": null,
+            "flow_admin": true,
+            "last_activity": 0,
+            "last_ping": 0
+        },
+        {
+            "id": 257107,
+            "nick": "CameronDiver",
+            "email": "cameron@balena.io",
+            "avatar": "https://d2cxspbh1aoie1.cloudfront.net/avatars/local/b48781824b0e51bb3db91029ee19b51b1ebe860f8ad7f0293cadf0bc9d9260d2/",
+            "name": "Cameron Diver",
+            "website": "",
+            "disabled": false,
+            "team_notifications": false,
+            "in_flow": true,
+            "status": null,
+            "flow_admin": true,
+            "last_activity": 0,
+            "last_ping": 0
+        },
+        {
+            "id": 32693,
+            "nick": "Page-",
+            "email": "page@balena.io",
+            "avatar": "https://d2cxspbh1aoie1.cloudfront.net/avatars/local/859d09bb0cd3a590e40418700d42d439e6e6043af1369cf0232d4d9123d122ba/",
+            "name": "Pagan Gazzard",
+            "website": "https://plus.google.com/105340102186975744755",
+            "disabled": false,
+            "team_notifications": false,
+            "in_flow": false,
+            "status": null,
+            "flow_admin": true,
+            "last_activity": 0,
+            "last_ping": 0
+        },
+        {
+            "id": 226148,
+            "nick": "curcuz",
+            "email": "carlo@balena.io",
+            "avatar": "https://d2cxspbh1aoie1.cloudfront.net/avatars/local/a3ef44aabf3fe18ca649ba9d503537f55677aba3e769680fccdd56f55b108b34/",
+            "name": "Carlo Curinga",
+            "website": null,
+            "disabled": false,
+            "team_notifications": false,
+            "in_flow": true,
+            "status": null,
+            "flow_admin": true,
+            "last_activity": 0,
+            "last_ping": 0
+        },
+        {
+            "id": 236727,
+            "nick": "hedss",
+            "email": "hedley@balena.io",
+            "avatar": "https://d2cxspbh1aoie1.cloudfront.net/avatars/local/244569e36093685df31fcf9b973f6205579aa3da0d6058df6f7efa7820df2186/",
+            "name": "Hedley Simons",
+            "website": null,
+            "disabled": false,
+            "team_notifications": false,
+            "in_flow": true,
+            "status": null,
+            "flow_admin": true,
+            "last_activity": 0,
+            "last_ping": 0
+        },
+        {
+            "id": 274497,
+            "nick": "majorz",
+            "email": "zahari@balena.io",
+            "avatar": "https://d2cxspbh1aoie1.cloudfront.net/avatars/local/f169c0929925fc4da7d5d20710560d4b8f55060cde36f2e75a9fb0fbca76ae67/",
+            "name": "Zahari Petkov",
+            "website": "http://www.polydraw.com",
+            "disabled": false,
+            "team_notifications": false,
+            "in_flow": false,
+            "status": null,
+            "flow_admin": true,
+            "last_activity": 0,
+            "last_ping": 0
+        }
+    ],
+    "join_url": "https://www.flowdock.com/invitations/208267a0bda0f250b7d7acb2be780413968ff0ad",
+    "invitations": [],
+    "flow_groups": []
+}

@@ -1,0 +1,33 @@
+{
+    "user": "263186",
+    "content": "",
+    "event": "message",
+    "edited": 1569246355055,
+    "emojiReactions": {},
+    "tags": [],
+    "id": 113572,
+    "sent": 1569246350069,
+    "attachments": [],
+    "uuid": "aafrWMzeS9mhgzP2",
+    "thread_id": "nLtFx7m9TTLCyMnhL6PDxrHuFik",
+    "app": "chat",
+    "thread": {
+        "id": "nLtFx7m9TTLCyMnhL6PDxrHuFik",
+        "title": "foo",
+        "body": "",
+        "external_url": null,
+        "status": null,
+        "actions": [],
+        "fields": [],
+        "source": null,
+        "activities": 0,
+        "internal_comments": 0,
+        "external_comments": 0,
+        "updated_at": null,
+        "created_at": null,
+        "initial_message": 113570
+    },
+    "flow": "bed6fa5a-6a31-4a31-9b3b-9184b158c2b8",
+    "created_at": "2019-09-23T13:45:50.069Z",
+    "edited_at": "2019-09-23T13:45:55.055Z"
+}
