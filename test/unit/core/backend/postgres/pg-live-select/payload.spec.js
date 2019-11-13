@@ -6,7 +6,7 @@
 
 const ava = require('ava')
 const payload = require(
-	'../../../../../../../lib/core/backend/postgres/streams/pg-live-select/payload')
+	'../../../../../../lib/core/backend/postgres/pg-live-select/payload')
 
 ava('.parse() should parse a simple object', (test) => {
 	const data = '9BB58F26192E4BA00F01E2E7B136BBD8:1:1:{"foo":"bar"}'

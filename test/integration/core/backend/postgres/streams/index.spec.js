@@ -8,7 +8,7 @@ const ava = require('ava')
 const _ = require('lodash')
 const Bluebird = require('bluebird')
 const uuid = require('uuid/v4')
-const pgp = require('pg-promise')()
+const pgp = require('../../../../../../lib/core/backend/postgres/pg-promise')
 const streams = require('../../../../../../lib/core/backend/postgres/streams')
 const environment = require('../../../../../../lib/environment')
 

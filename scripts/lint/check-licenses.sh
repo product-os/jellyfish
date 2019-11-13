@@ -46,9 +46,9 @@ SHELL_FILES="$(find . -name '*.sh' \
 
 for file in $JAVASCRIPT_FILES; do
 	# Exceptions
-	if [ "$file" = "./lib/core/backend/postgres/streams/pg-live-select/trigger-sql.js" ] || \
-		[ "$file" = "./lib/core/backend/postgres/streams/pg-live-select/index.js" ] || \
-		[ "$file" = "./lib/core/backend/postgres/streams/pg-live-select/payload.js" ]; then
+	if [ "$file" = "./lib/core/backend/postgres/pg-live-select/trigger-sql.js" ] || \
+		[ "$file" = "./lib/core/backend/postgres/pg-live-select/index.js" ] || \
+		[ "$file" = "./lib/core/backend/postgres/pg-live-select/payload.js" ]; then
 		continue
 	fi
 

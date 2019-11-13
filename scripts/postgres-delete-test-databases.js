@@ -6,7 +6,7 @@
  * Proprietary and confidential.
  */
 
-const pgp = require('pg-promise')()
+const pgp = require('../lib/core/backend/postgres/pg-promise')
 const Bluebird = require('bluebird')
 const Spinner = require('cli-spinner').Spinner
 const environment = require('../lib/environment')
