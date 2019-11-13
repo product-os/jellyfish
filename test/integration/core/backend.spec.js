@@ -910,6 +910,26 @@ ava('.upsertElement() should not insert an element with a non-matching id nor sl
 	}), errors.JellyfishDatabaseError)
 })
 
+ava('.query() should correctly take string contraints on the uuid', async (test) => {
+	const results = await test.context.backend.query(
+		test.context.context, {
+			type: 'object',
+			additionalProperties: true,
+			required: [ 'id' ],
+			properties: {
+				id: {
+					type: 'string',
+					regexp: {
+						pattern: 'assume',
+						flags: 'i'
+					}
+				}
+			}
+		})
+
+	test.deepEqual(results, [])
+})
+
 ava('.query() should query the database using JSON schema', async (test) => {
 	const result1 = await test.context.backend.upsertElement(test.context.context, {
 		type: 'example',
