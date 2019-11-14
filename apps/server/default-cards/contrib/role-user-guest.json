@@ -1,0 +1,193 @@
+{
+  "slug": "role-user-guest",
+  "name": "Guest role permissions",
+  "version": "1.0.0",
+  "type": "role",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "requires": [],
+  "capabilities": [],
+  "active": true,
+  "data": {
+    "read": {
+      "type": "object",
+      "required": [ "active" ],
+      "properties": {
+        "active": {
+          "type": "boolean",
+          "const": true
+        }
+      },
+      "anyOf": [
+        {
+          "type": "object",
+          "required": [ "slug", "type", "data" ],
+          "properties": {
+            "slug": {
+              "type": "string",
+              "enum": [
+                "execute",
+                "link",
+                "user",
+                "card",
+                "action",
+                "create",
+                "update",
+                "session"
+              ]
+            },
+            "type": {
+              "type": "string",
+              "const": "type"
+            },
+            "data": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [ "id", "type", "data" ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string",
+              "enum": [ "create", "update" ]
+            },
+            "data": {
+              "type": "object",
+              "required": [ "timestamp", "target", "actor", "payload" ],
+              "properties": {
+                "timestamp": {
+                  "type": "string"
+                },
+                "target": {
+                  "type": "string"
+                },
+                "actor": {
+                  "type": "string",
+                  "const": {
+                    "$eval": "user.id"
+                  }
+                },
+                "payload": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [ "type", "data" ],
+          "additionalProperties": true,
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "link"
+            },
+            "data": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [ "id", "slug", "type", "data" ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "slug": {
+              "type": "string",
+              "enum": [
+                "action-create-session",
+                "action-update-card",
+                "action-upsert-card",
+                "action-create-event",
+                "action-oauth-associate"
+              ]
+            },
+            "type": {
+              "type": "string",
+              "const": "action"
+            },
+            "data": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [ "type", "data" ],
+          "additionalProperties": true,
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [ "execute", "session" ]
+            },
+            "data": {
+              "type": "object",
+              "additionalProperties": true,
+              "required": [ "actor" ],
+              "properties": {
+                "actor": {
+                  "type": "string",
+                  "const": {
+                    "$eval": "user.id"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [ "slug", "type" ],
+          "additionalProperties": true,
+          "properties": {
+            "slug": {
+              "type": "string",
+              "const": {
+                "$eval": "user.slug"
+              }
+            },
+            "type": {
+              "type": "string",
+              "const": "user"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [ "id", "type", "slug", "version" ],
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string",
+              "const": "user"
+            },
+            "slug": {
+              "type": "string",
+              "not": {
+                "const": "user-admin"
+              }
+            },
+            "version": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

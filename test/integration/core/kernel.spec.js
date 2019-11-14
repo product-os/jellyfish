@@ -613,11 +613,11 @@ ava('.patchCardBySlug() should ignore changes to read-only properties', async (t
 
 ava('.patchCardBySlug() should be able to patch cards hidden to the user', async (test) => {
 	await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
-		slug: 'view-read-user-johndoe',
-		type: 'view',
+		slug: 'role-user-johndoe',
+		type: 'role',
 		version: '1.0.0',
 		data: {
-			schema: {
+			read: {
 				type: 'object',
 				properties: {
 					slug: {
@@ -688,11 +688,11 @@ ava('.patchCardBySlug() should be able to patch cards hidden to the user', async
 
 ava('.patchCardBySlug() should not allow updates in hidden fields', async (test) => {
 	await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
-		slug: 'view-read-user-johndoe',
-		type: 'view',
+		slug: 'role-user-johndoe',
+		type: 'role',
 		version: '1.0.0',
 		data: {
-			schema: {
+			read: {
 				type: 'object',
 				anyOf: [
 					{
@@ -793,11 +793,11 @@ ava('.patchCardBySlug() should not allow updates in hidden fields', async (test)
 
 ava('.patchCardBySlug() should not return the full card', async (test) => {
 	await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
-		slug: 'view-read-user-johndoe',
-		type: 'view',
+		slug: 'role-user-johndoe',
+		type: 'role',
 		version: '1.0.0',
 		data: {
-			schema: {
+			read: {
 				type: 'object',
 				anyOf: [
 					{
@@ -906,11 +906,11 @@ ava('.patchCardBySlug() should not return the full card', async (test) => {
 
 ava('.patchCardBySlug() should not allow a patch that makes a card inaccessible', async (test) => {
 	await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
-		slug: 'view-read-user-johndoe',
-		type: 'view',
+		slug: 'role-user-johndoe',
+		type: 'role',
 		version: '1.0.0',
 		data: {
-			schema: {
+			read: {
 				type: 'object',
 				anyOf: [
 					{
@@ -1015,11 +1015,11 @@ ava('.patchCardBySlug() should not allow a patch that makes a card inaccessible'
 
 ava('.patchCardBySlug() should not remove inaccessible fields', async (test) => {
 	await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
-		slug: 'view-read-user-johndoe',
-		type: 'view',
+		slug: 'role-user-johndoe',
+		type: 'role',
 		version: '1.0.0',
 		data: {
-			schema: {
+			read: {
 				type: 'object',
 				anyOf: [
 					{
@@ -1119,11 +1119,11 @@ ava('.patchCardBySlug() should not remove inaccessible fields', async (test) => 
 
 ava('.patchCardBySlug() should not add an inaccesible field', async (test) => {
 	await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
-		slug: 'view-read-user-johndoe',
-		type: 'view',
+		slug: 'role-user-johndoe',
+		type: 'role',
 		version: '1.0.0',
 		data: {
-			schema: {
+			read: {
 				type: 'object',
 				anyOf: [
 					{
@@ -1522,11 +1522,11 @@ ava('.insertCard() should not add a link if not inserting a card with a target',
 
 ava('.insertCard() read access on a property should not allow to write other properties', async (test) => {
 	await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
-		slug: 'view-read-user-johndoe',
-		type: 'view',
+		slug: 'role-user-johndoe',
+		type: 'role',
 		version: '1.0.0',
 		data: {
-			schema: {
+			read: {
 				type: 'object',
 				anyOf: [
 					{
@@ -2137,11 +2137,11 @@ ava('.query() should take roles into account', async (test) => {
 	})
 
 	await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
-		slug: 'view-read-foo',
-		type: 'view',
+		slug: 'role-foo',
+		type: 'role',
 		version: '1.0.0',
 		data: {
-			schema: {
+			read: {
 				type: 'object',
 				required: [ 'type', 'data' ],
 				properties: {
@@ -2212,11 +2212,11 @@ ava('.query() should ignore queries to properties not whitelisted by a role', as
 	})
 
 	await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
-		slug: 'view-read-foo',
-		type: 'view',
+		slug: 'role-foo',
+		type: 'role',
 		version: '1.0.0',
 		data: {
-			schema: {
+			read: {
 				type: 'object',
 				additionalProperties: false,
 				properties: {
@@ -2282,11 +2282,11 @@ ava('.query() should ignore $id properties in roles', async (test) => {
 
 	await test.context.kernel.insertCard(
 		test.context.context, test.context.kernel.sessions.admin, {
-			slug: 'view-read-foo',
-			type: 'view',
+			slug: 'role-foo',
+			type: 'role',
 			version: '1.0.0',
 			data: {
-				schema: {
+				read: {
 					type: 'object',
 					$id: 'foobar',
 					additionalProperties: false,
@@ -2352,11 +2352,11 @@ ava('.query() should ignore queries to disallowed properties with additionalProp
 	})
 
 	await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
-		slug: 'view-read-foo',
-		type: 'view',
+		slug: 'role-foo',
+		type: 'role',
 		version: '1.0.0',
 		data: {
-			schema: {
+			read: {
 				type: 'object',
 				additionalProperties: false,
 				properties: {
@@ -2565,73 +2565,76 @@ ava('.query() should return inactive cards', async (test) => {
 })
 
 ava('.query() should take a view card with two filters', async (test) => {
-	await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
-		slug: 'foo',
-		type: 'card',
-		version: '1.0.0',
-		tags: [ 'foo' ],
-		data: {
-			number: 1
-		}
-	})
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'foo',
+			type: 'card',
+			version: '1.0.0',
+			tags: [ 'foo' ],
+			data: {
+				number: 1
+			}
+		})
 
-	await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
-		slug: 'bar',
-		type: 'card',
-		version: '1.0.0',
-		data: {
-			number: 1
-		}
-	})
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'bar',
+			type: 'card',
+			version: '1.0.0',
+			data: {
+				number: 1
+			}
+		})
 
-	const results = await test.context.kernel.query(test.context.context, test.context.kernel.sessions.admin, {
-		slug: 'view-myview',
-		type: 'view',
-		version: '1.0.0',
-		tags: [],
-		markers: [],
-		links: {},
-		active: true,
-		data: {
-			allOf: [
-				{
-					name: 'foo',
-					schema: {
-						type: 'object',
-						properties: {
-							data: {
-								type: 'object',
-								properties: {
-									number: {
-										type: 'number',
-										const: 1
-									}
-								},
-								required: [ 'number' ]
-							}
-						},
-						required: [ 'data' ]
-					}
-				},
-				{
-					name: 'bar',
-					schema: {
-						type: 'object',
-						properties: {
-							tags: {
-								type: 'array',
-								contains: {
-									type: 'string',
-									const: 'foo'
+	const results = await test.context.kernel.query(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'view-myview',
+			type: 'view',
+			version: '1.0.0',
+			tags: [],
+			markers: [],
+			links: {},
+			active: true,
+			data: {
+				allOf: [
+					{
+						name: 'foo',
+						schema: {
+							type: 'object',
+							properties: {
+								data: {
+									type: 'object',
+									properties: {
+										number: {
+											type: 'number',
+											const: 1
+										}
+									},
+									required: [ 'number' ]
 								}
-							}
-						},
-						required: [ 'tags' ]
+							},
+							required: [ 'data' ]
+						}
+					},
+					{
+						name: 'bar',
+						schema: {
+							type: 'object',
+							properties: {
+								tags: {
+									type: 'array',
+									contains: {
+										type: 'string',
+										const: 'foo'
+									}
+								}
+							},
+							required: [ 'tags' ]
+						}
 					}
-				}
-			]
-		}
-	})
+				]
+			}
+		})
 
 	test.deepEqual(results, [
 		{
@@ -3814,40 +3817,35 @@ ava('.lock() should not let the same owner take a lock twice without unlocking',
 ava('.lock() should not let a user lock a card it does not have access to', async (test) => {
 	await test.context.kernel.insertCard(
 		test.context.context, test.context.kernel.sessions.admin, {
-			slug: 'view-read-user-johndoe',
-			type: 'view',
+			slug: 'role-user-johndoe',
+			type: 'role',
 			version: '1.0.0',
 			data: {
-				allOf: [
-					{
-						name: 'Types',
-						schema: {
-							type: 'object',
-							properties: {
-								slug: {
-									type: 'string',
-									anyOf: [
-										{
-											const: 'user'
-										},
-										{
-											const: 'type'
-										}
-									]
+				read: {
+					type: 'object',
+					properties: {
+						slug: {
+							type: 'string',
+							anyOf: [
+								{
+									const: 'user'
 								},
-								type: {
-									type: 'string',
+								{
 									const: 'type'
-								},
-								data: {
-									type: 'object',
-									additionalProperties: true
 								}
-							},
-							required: [ 'slug', 'type', 'data' ]
+							]
+						},
+						type: {
+							type: 'string',
+							const: 'type'
+						},
+						data: {
+							type: 'object',
+							additionalProperties: true
 						}
-					}
-				]
+					},
+					required: [ 'slug', 'type', 'data' ]
+				}
 			}
 		})
 
@@ -3905,40 +3903,35 @@ ava('.lock() should not let a user lock a card it does not have access to', asyn
 ava('.unlock() should not let a user unlock an unlocked card it does not have access to', async (test) => {
 	await test.context.kernel.insertCard(
 		test.context.context, test.context.kernel.sessions.admin, {
-			slug: 'view-read-user-johndoe',
-			type: 'view',
+			slug: 'role-user-johndoe',
+			type: 'role',
 			version: '1.0.0',
 			data: {
-				allOf: [
-					{
-						name: 'Types',
-						schema: {
-							type: 'object',
-							properties: {
-								slug: {
-									type: 'string',
-									anyOf: [
-										{
-											const: 'user'
-										},
-										{
-											const: 'type'
-										}
-									]
+				read: {
+					type: 'object',
+					properties: {
+						slug: {
+							type: 'string',
+							anyOf: [
+								{
+									const: 'user'
 								},
-								type: {
-									type: 'string',
+								{
 									const: 'type'
-								},
-								data: {
-									type: 'object',
-									additionalProperties: true
 								}
-							},
-							required: [ 'slug', 'type', 'data' ]
+							]
+						},
+						type: {
+							type: 'string',
+							const: 'type'
+						},
+						data: {
+							type: 'object',
+							additionalProperties: true
 						}
-					}
-				]
+					},
+					required: [ 'slug', 'type', 'data' ]
+				}
 			}
 		})
 
@@ -3996,40 +3989,35 @@ ava('.unlock() should not let a user unlock an unlocked card it does not have ac
 ava('.unlock() should not let a user unlock a locked card it does not have access to', async (test) => {
 	await test.context.kernel.insertCard(
 		test.context.context, test.context.kernel.sessions.admin, {
-			slug: 'view-read-user-johndoe',
-			type: 'view',
+			slug: 'role-user-johndoe',
+			type: 'role',
 			version: '1.0.0',
 			data: {
-				allOf: [
-					{
-						name: 'Types',
-						schema: {
-							type: 'object',
-							properties: {
-								slug: {
-									type: 'string',
-									anyOf: [
-										{
-											const: 'user'
-										},
-										{
-											const: 'type'
-										}
-									]
+				read: {
+					type: 'object',
+					properties: {
+						slug: {
+							type: 'string',
+							anyOf: [
+								{
+									const: 'user'
 								},
-								type: {
-									type: 'string',
+								{
 									const: 'type'
-								},
-								data: {
-									type: 'object',
-									additionalProperties: true
 								}
-							},
-							required: [ 'slug', 'type', 'data' ]
+							]
+						},
+						type: {
+							type: 'string',
+							const: 'type'
+						},
+						data: {
+							type: 'object',
+							additionalProperties: true
 						}
-					}
-				]
+					},
+					required: [ 'slug', 'type', 'data' ]
+				}
 			}
 		})
 

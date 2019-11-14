@@ -35,9 +35,9 @@ module.exports = async (context, jellyfish, worker, session) => {
 
 	await Bluebird.each([
 		// Roles
-		await loadCard('contrib/view-read-user-community.json'),
-		await loadCard('contrib/view-read-user-guest.json'),
-		!environment.isProduction() && await loadCard('contrib/view-read-user-test.json'),
+		await loadCard('contrib/role-user-community.json'),
+		await loadCard('contrib/role-user-guest.json'),
+		!environment.isProduction() && await loadCard('contrib/role-user-test.json'),
 
 		// Internal views
 		await loadCard('contrib/view-active-triggered-actions.json'),

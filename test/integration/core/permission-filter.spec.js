@@ -112,32 +112,35 @@ ava('.getSessionUser() should throw if the session expired', async (test) => {
 })
 
 ava('.getViews() should return an empty array given no views', async (test) => {
-	const filters = await permissionFilter.getViews(test.context.context, test.context.backend, [])
+	const filters = await permissionFilter.getViews(
+		test.context.context, test.context.backend, [])
 	test.deepEqual(filters, [])
 })
 
-ava('.getViews() should return the schema of a single view', async (test) => {
-	await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
-		slug: 'view-read-foo',
-		type: 'view',
-		version: '1.0.0',
-		data: {
-			schema: {
-				type: 'object',
-				properties: {
-					active: {
-						type: 'boolean',
-						const: true
-					}
-				},
-				required: [ 'active' ]
+ava('.getViews() should return the schema of a single role', async (test) => {
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'role-foo',
+			type: 'role',
+			version: '1.0.0',
+			data: {
+				read: {
+					type: 'object',
+					properties: {
+						active: {
+							type: 'boolean',
+							const: true
+						}
+					},
+					required: [ 'active' ]
+				}
 			}
-		}
-	})
+		})
 
-	const views = await permissionFilter.getViews(test.context.context, test.context.backend, [
-		'view-read-foo'
-	])
+	const views = await permissionFilter.getViews(
+		test.context.context, test.context.backend, [
+			'role-foo'
+		])
 
 	const filters = views.map((view) => {
 		return permissionFilter.getViewSchema(view)
@@ -157,30 +160,32 @@ ava('.getViews() should return the schema of a single view', async (test) => {
 	])
 })
 
-ava('.getViews() should ignore undefined views', async (test) => {
-	await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
-		slug: 'view-read-foo',
-		type: 'view',
-		version: '1.0.0',
-		data: {
-			schema: {
-				type: 'object',
-				properties: {
-					active: {
-						type: 'boolean',
-						const: true
-					}
-				},
-				required: [ 'active' ]
+ava('.getViews() should ignore undefined roles', async (test) => {
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'role-foo',
+			type: 'role',
+			version: '1.0.0',
+			data: {
+				read: {
+					type: 'object',
+					properties: {
+						active: {
+							type: 'boolean',
+							const: true
+						}
+					},
+					required: [ 'active' ]
+				}
 			}
-		}
-	})
+		})
 
-	const views = await permissionFilter.getViews(test.context.context, test.context.backend, [
-		'view-hello',
-		'view-read-foo',
-		'view-world'
-	])
+	const views = await permissionFilter.getViews(
+		test.context.context, test.context.backend, [
+			'role-hello',
+			'role-foo',
+			'role-write-world'
+		])
 
 	const filters = views.map((view) => {
 		return permissionFilter.getViewSchema(view)
@@ -201,46 +206,49 @@ ava('.getViews() should ignore undefined views', async (test) => {
 })
 
 ava('.getViews() should ignore cards that are not views', async (test) => {
-	await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
-		slug: 'view-read-hello',
-		type: 'card',
-		version: '1.0.0',
-		data: {
-			schema: {
-				type: 'object',
-				properties: {
-					type: {
-						type: 'string',
-						const: 'action'
-					}
-				},
-				required: [ 'type' ]
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'role-hello',
+			type: 'card',
+			version: '1.0.0',
+			data: {
+				schema: {
+					type: 'object',
+					properties: {
+						type: {
+							type: 'string',
+							const: 'action'
+						}
+					},
+					required: [ 'type' ]
+				}
 			}
-		}
-	})
+		})
 
-	await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
-		slug: 'view-read-foo',
-		type: 'view',
-		version: '1.0.0',
-		data: {
-			schema: {
-				type: 'object',
-				properties: {
-					active: {
-						type: 'boolean',
-						const: true
-					}
-				},
-				required: [ 'active' ]
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'role-foo',
+			type: 'role',
+			version: '1.0.0',
+			data: {
+				read: {
+					type: 'object',
+					properties: {
+						active: {
+							type: 'boolean',
+							const: true
+						}
+					},
+					required: [ 'active' ]
+				}
 			}
-		}
-	})
+		})
 
-	const views = await permissionFilter.getViews(test.context.context, test.context.backend, [
-		'view-read-hello',
-		'view-read-foo'
-	])
+	const views = await permissionFilter.getViews(
+		test.context.context, test.context.backend, [
+			'role-hello',
+			'role-foo'
+		])
 
 	const filters = views.map((view) => {
 		return permissionFilter.getViewSchema(view)
@@ -261,46 +269,49 @@ ava('.getViews() should ignore cards that are not views', async (test) => {
 })
 
 ava('.getViews() should return the schemas of two roles', async (test) => {
-	await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
-		slug: 'view-read-foo',
-		type: 'view',
-		version: '1.0.0',
-		data: {
-			schema: {
-				type: 'object',
-				properties: {
-					active: {
-						type: 'boolean',
-						const: true
-					}
-				},
-				required: [ 'active' ]
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'role-foo',
+			type: 'role',
+			version: '1.0.0',
+			data: {
+				read: {
+					type: 'object',
+					properties: {
+						active: {
+							type: 'boolean',
+							const: true
+						}
+					},
+					required: [ 'active' ]
+				}
 			}
-		}
-	})
+		})
 
-	await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
-		slug: 'view-read-bar',
-		type: 'view',
-		version: '1.0.0',
-		data: {
-			schema: {
-				type: 'object',
-				properties: {
-					type: {
-						type: 'string',
-						const: 'action'
-					}
-				},
-				required: [ 'type' ]
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'role-bar',
+			type: 'role',
+			version: '1.0.0',
+			data: {
+				read: {
+					type: 'object',
+					properties: {
+						type: {
+							type: 'string',
+							const: 'action'
+						}
+					},
+					required: [ 'type' ]
+				}
 			}
-		}
-	})
+		})
 
-	const views = await permissionFilter.getViews(test.context.context, test.context.backend, [
-		'view-read-foo',
-		'view-read-bar'
-	])
+	const views = await permissionFilter.getViews(
+		test.context.context, test.context.backend, [
+			'role-foo',
+			'role-bar'
+		])
 
 	const filters = views.map((view) => {
 		return permissionFilter.getViewSchema(view)

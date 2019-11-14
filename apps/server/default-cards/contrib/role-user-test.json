@@ -1,0 +1,17 @@
+{
+  "slug": "role-user-test",
+  "name": "Test role permissions",
+  "version": "1.0.0",
+  "type": "role",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "read": {
+      "type": "object"
+    }
+  },
+  "requires": [],
+  "capabilities": []
+}
