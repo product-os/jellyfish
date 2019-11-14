@@ -21,6 +21,15 @@
             "type": "string"
           },
           "$$formula": "AGGREGATE($events, 'tags')"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "specification": {
+              "type": "string",
+              "format": "markdown"
+            }
+          }
         }
       }
     },
