@@ -36,21 +36,31 @@
 		"meta": {
 			"relationships": [
 				{
-					"title": "Coordinator",
-					"link": "is coordinated by",
+					"title": "Owner",
+					"link": "is owned by",
 					"type": "user"
 				},
 				{
-					"title": "Members",
+					"title": "Guide",
+					"link": "is guided by",
+					"type": "user"
+				},
+				{
+					"title": "Dedicated members",
 					"link": "has member",
 					"type": "user"
 				},
 				{
-					"title": "Advisors",
-					"link": "has advisor",
+					"title": "Contributors",
+					"link": "is contributed to by",
 					"type": "user"
 				},
 				{
+					"title": "Observers",
+					"link": "is observed by",
+					"type": "user"
+				},
+        {
 					"title": "Checkins",
 					"link": "has",
 					"type": "checkin"
