@@ -1,4 +1,18 @@
 - commits:
+    - subject: Introduce "role" card for view role schemas
+      hash: 834b57c9fe7c68317d8a309f142f9d78970c4195
+      body: |
+        This new type allows us to define roles in a more isolated and effective
+        way, giving us security and speed improvements.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.19.0
+  date: 2019-11-14T14:53:15.159Z
+- commits:
     - subject: 'core: Set user''s data.hash as required'
       hash: 46d8c0dcf8c81ef78d2a94cd355c972fbf37fec2
       body: ''
