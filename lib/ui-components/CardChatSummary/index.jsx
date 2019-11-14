@@ -166,7 +166,7 @@ class CardChatSummary extends React.Component {
 								overflow: 'hidden',
 								textOverflow: 'ellipsis'
 							}}>
-							{card.name || (actor && `Conversation with ${actor.name}`) || <React.Fragment>&nbsp;</React.Fragment>}
+							{card.name || (actor && `Conversation with ${actor.name}`) || card.slug}
 						</Txt>
 					</Box>
 				</Flex>
