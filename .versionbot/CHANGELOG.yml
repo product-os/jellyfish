@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'core: Set user''s data.hash as required'
+      hash: 46d8c0dcf8c81ef78d2a94cd355c972fbf37fec2
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Fixes: 'https://github.com/balena-io/jellyfish/issues/2011'
+        fixes: 'https://github.com/balena-io/jellyfish/issues/2011'
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.18.0
+  date: 2019-11-13T22:39:23.731Z
+- commits:
     - subject: 'core: Always set user''s data.hash'
       hash: 77e1bddaa5b46d70c162485f9dd12eaac4761db5
       body: ''
