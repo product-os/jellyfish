@@ -40,6 +40,11 @@
 					"title": "Advisors",
 					"link": "has advisor",
 					"type": "user"
+				},
+				{
+					"title": "Checkins",
+					"link": "has",
+					"type": "checkin"
 				}
       ]
     }

@@ -97,6 +97,11 @@
 					"title": "Attendees",
 					"link": "is attended by",
 					"type": "user"
+				},
+				{
+					"title": "Project",
+					"link": "is of",
+					"type": "project"
 				}
       ]
     }
