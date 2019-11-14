@@ -83,6 +83,35 @@
             "minutes": {
               "type": "string",
               "format": "markdown"
+            },
+            "extra_attendees_needed": {
+              "title": "Extra attendees needed",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "user": {
+                    "type": "string"
+                  },
+                  "role": {
+                    "type": "string",
+                    "enum": [
+                      "owner",
+                      "guide",
+                      "dedicated",
+                      "contributor",
+                      "observer"
+                    ]
+                  }
+                }
+              }
+            },
+            "unnecessary_attendees": {
+              "title": "Unnecessary attendees",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             }
           }
         }

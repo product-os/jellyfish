@@ -131,6 +131,7 @@ class EditLens extends React.Component {
 		})
 	}
 
+	// TODO: Homogenise form rendering between the create and edit lenses
 	render () {
 		const localSchema = helpers.getLocalSchema(this.state.editModel)
 		const {
@@ -150,14 +151,35 @@ class EditLens extends React.Component {
 			}
 			: {}
 
-		// Add autocompletion for the repository field
-		_.set(uiSchema, [ 'data', 'repository' ], {
-			'ui:widget': AutoCompleteWidget,
-			'ui:options': {
-				resource: 'issue',
-				keyPath: 'data.repository'
-			}
-		})
+		// TODO: Encode these relationships in the type card, instead of hacking it
+		// into the UI
+		if (card.type === 'issue') {
+			_.set(uiSchema, [ 'data', 'repository' ], {
+				'ui:widget': AutoCompleteWidget,
+				'ui:options': {
+					resource: 'issue',
+					keyPath: 'data.repository'
+				}
+			})
+		}
+
+		if (card.type === 'checkin') {
+			_.set(uiSchema, [ 'data', 'unnecessary_attendees', 'items' ], {
+				'ui:widget': AutoCompleteWidget,
+				'ui:options': {
+					resource: 'user',
+					keyPath: 'slug'
+				}
+			})
+
+			_.set(uiSchema, [ 'data', 'extra_attendees_needed', 'items', 'user' ], {
+				'ui:widget': AutoCompleteWidget,
+				'ui:options': {
+					resource: 'user',
+					keyPath: 'slug'
+				}
+			})
+		}
 
 		const schema = this.state.schema
 

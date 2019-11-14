@@ -15,6 +15,51 @@ const	formatCreateLabel = (value) => {
 	return `Use "${value}"`
 }
 
+// TODO: Make this an SDK method
+// Generates a schema that will pattern match a field on a specific card type
+const generateKeyPathQuerySchema = (keyPath, resource, value) => {
+	const schema = {
+		type: 'object',
+		description: `Find by pattern on type ${resource}`,
+		properties: {
+			active: {
+				const: true
+			},
+			type: {
+				const: resource
+			}
+		},
+		required: [ 'type', 'active' ]
+	}
+
+	const keyPathParts = keyPath.split('.')
+
+	// Set a case insensitive pattern match schema at the location specified in
+	// the keypath
+	const schemaKeyPath = `properties.${keyPathParts.join('.properties.')}`
+	_.set(schema, schemaKeyPath, {
+		regexp: {
+			pattern: value,
+			flags: 'i'
+		}
+	})
+
+	// Ensure that each subfield in the schema is marked as required
+	let node = schema
+
+	for (const key of keyPathParts) {
+		if (!node.required) {
+			node.required = []
+		}
+
+		node.required.push(key)
+
+		node = node.properties[key]
+	}
+
+	return schema
+}
+
 class AutoCompleteWidget extends React.Component {
 	constructor (props) {
 		super(props)
@@ -31,38 +76,8 @@ class AutoCompleteWidget extends React.Component {
 		const {
 			props
 		} = this
-		const schema = {
-			type: 'object',
-			description: `Find by pattern on type ${props.options.resource}`,
-			properties: {
-				active: {
-					const: true
-				},
-				type: {
-					const: props.options.resource
-				},
-				data: {
-					type: 'object',
-					properties: {
-						repository: {
-							regexp: {
-								pattern: value,
-								flags: 'i'
-							}
-						}
-					},
-					required: [ 'repository' ]
-				}
-			},
-			required: [ 'type', 'data', 'active' ]
-		}
-		const schemaKeyPath = props.options.keyPath.split('.').join('.properties.')
-		_.set(schemaKeyPath, {
-			regexp: {
-				pattern: value,
-				flags: 'i'
-			}
-		})
+
+		const schema = generateKeyPathQuerySchema(props.options.keyPath, props.options.resource, value)
 
 		const results = await props.sdk.query(schema)
 
