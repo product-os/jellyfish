@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'support-issues: rename to "Support knowledge base"'
+      hash: 161f8d007af835bcf9daeb0cdc11fac54233e6e4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Connects-to: '#2526'
+        connects-to: '#2526'
+        Signed-off-by: Matthew McGinn <matthew@balena.io>
+        signed-off-by: Matthew McGinn <matthew@balena.io>
+      author: Matthew McGinn
+  version: 24.21.2
+  date: 2019-11-15T16:43:50.482Z
+- commits:
     - subject: Fix triggered actions $map syntax
       hash: 076d564a2907d84320deb2592520b402771c1745
       body: ''
