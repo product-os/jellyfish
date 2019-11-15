@@ -1,4 +1,55 @@
 - commits:
+    - subject: Fix triggered actions $map syntax
+      hash: 076d564a2907d84320deb2592520b402771c1745
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: >-
+        Make triggered-action cards use json-e map template so that we can
+        update multiple cards in one swoop
+      hash: 2925678ade7a15566b08a57145bb0c9857328013
+      body: ''
+      footer:
+        Connects-to: '#2547'
+        connects-to: '#2547'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@fissore.org>
+        signed-off-by: Federico Fissore <federico@fissore.org>
+      author: Federico Fissore
+    - subject: >-
+        Test that a trigger cannot update a card when triggeed by a user with no
+        access to the target card
+      hash: 5352dc6ecf65af49e6c6cad020d5ddc9c50823e4
+      body: ''
+      footer:
+        Connects-to: '#2547'
+        connects-to: '#2547'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@fissore.org>
+        signed-off-by: Federico Fissore <federico@fissore.org>
+      author: Federico Fissore
+    - subject: >-
+        Added support to triggers to work on multiple cards. Field `card` can
+        now be a json-e template that returns an array of card ids
+      hash: e739a53eaf896130d31a6b8ee687102c2e9b6d00
+      body: ''
+      footer:
+        Connects-to: '#2547'
+        connects-to: '#2547'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@fissore.org>
+        signed-off-by: Federico Fissore <federico@fissore.org>
+      author: Federico Fissore
+  version: 24.21.1
+  date: 2019-11-15T14:09:05.274Z
+- commits:
     - subject: 'core: Remove permission filter role check in .getViewSchema()'
       hash: 18783b86db495d0bbf6f88130eccdc2159285d13
       body: ''
