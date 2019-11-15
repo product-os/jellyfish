@@ -178,7 +178,7 @@ ava.serial('Messages that ping a user should appear in their inbox', async (test
 	await macros.createChatMessage(page, columnSelector, msg)
 
 	// Navigate to the inbox page
-	await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}/view-my-inbox`)
+	await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}/inbox`)
 
 	const messageText = await macros.getElementText(incognitoPage, '[data-test="event-card__message"]')
 
@@ -213,7 +213,7 @@ ava.serial('Users should be able to mark all messages as read from their inbox',
 	await macros.createChatMessage(page, columnSelector, msg)
 
 	// Navigate to the inbox page
-	await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}/view-my-inbox`)
+	await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}/inbox`)
 
 	await macros.waitForThenClickSelector(incognitoPage, '[data-test="inbox__mark-all-as-read"]')
 

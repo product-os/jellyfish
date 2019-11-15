@@ -41,6 +41,7 @@ import Notifications from '../../lib/ui-components/Notifications'
 import Oauth from '../../lib/ui-components/Oauth'
 import RouteHandler from '../../lib/ui-components/RouteHandler'
 import Splash from '../../lib/ui-components/Splash'
+import Inbox from './components/Inbox'
 import {
 	actionCreators,
 	selectors
@@ -163,6 +164,7 @@ class JellyfishUI extends React.Component {
 
 					<Switch>
 						<Route path="/oauth/:integration" component={Oauth} />
+						<Route path="/inbox" component={Inbox} />
 						<Route path="/*" component={RouteHandler} />
 					</Switch>
 				</Flex>
