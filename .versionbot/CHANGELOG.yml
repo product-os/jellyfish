@@ -1,4 +1,18 @@
 - commits:
+    - subject: Ensure community users can't create role cards
+      hash: 6a284c4333ac457010d932c2433324fda318283f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Fixes: 'https://github.com/balena-io/jellyfish/issues/2015'
+        fixes: 'https://github.com/balena-io/jellyfish/issues/2015'
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.21.3
+  date: 2019-11-15T18:39:50.170Z
+- commits:
     - subject: 'support-issues: rename to "Support knowledge base"'
       hash: 161f8d007af835bcf9daeb0cdc11fac54233e6e4
       body: ''
