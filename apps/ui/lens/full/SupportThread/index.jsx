@@ -380,7 +380,7 @@ class SupportThreadBase extends React.Component {
 				)}
 				actionItems={(
 					<React.Fragment>
-						<RouterLink append="view-all-support-issues">
+						<RouterLink append="view-support-knowledge-base">
 							Search support issues
 						</RouterLink>
 
