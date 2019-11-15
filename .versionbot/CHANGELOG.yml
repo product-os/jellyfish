@@ -1,4 +1,63 @@
 - commits:
+    - subject: 'core: Remove permission filter role check in .getViewSchema()'
+      hash: 18783b86db495d0bbf6f88130eccdc2159285d13
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'core: Implement permissionFilter.getMask()'
+      hash: e8947997b6492b9041d4a4e8247c6f324b7ef008
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'core: Group markers functions in permission filter'
+      hash: 8d41db19411fbd143189a31ec1cabc5330706c77
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'core: Add non-matching role view if no roles were found'
+      hash: 1a5d9cc7c3848e64477a77cbd2537f605058cdd2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'core: Get rid of .getViews() in permission filter'
+      hash: 0388860f532f32f3806de14feb954b98cae2e3de
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: Narrowing the scope of the trigger so we don't cause useless load on JF
+      hash: dfa007486ea1cc6872c5917b4fcd4b7e0b3eb507
+      body: ''
+      footer:
+        Connects-to: '#2710'
+        connects-to: '#2710'
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Federico Fissore <federico@fissore.org>
+        signed-off-by: Federico Fissore <federico@fissore.org>
+      author: Federico Fissore
+  version: 24.21.0
+  date: 2019-11-15T12:56:35.711Z
+- commits:
     - subject: 'UI: Add a new custom route for sent/received messages'
       hash: 62313016124a221e2922a2a121ef96810d4c8cff
       body: |
