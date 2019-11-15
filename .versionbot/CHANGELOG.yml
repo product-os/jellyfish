@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'UI: Add a new custom route for sent/received messages'
+      hash: 62313016124a221e2922a2a121ef96810d4c8cff
+      body: |
+        Fixes #2658
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 24.20.0
+  date: 2019-11-14T15:57:13.121Z
+- commits:
     - subject: Introduce "role" card for view role schemas
       hash: 834b57c9fe7c68317d8a309f142f9d78970c4195
       body: |
