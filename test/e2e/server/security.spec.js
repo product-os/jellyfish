@@ -345,6 +345,95 @@ ava.serial('creating a user with the guest user session should fail', async (tes
 	})
 })
 
+ava.serial('creating a role with a user community session using action-create-card should fail', async (test) => {
+	const userDetails = createUserDetails()
+
+	const user = await test.context.sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${userDetails.username}`,
+			email: userDetails.email,
+			password: userDetails.password
+		}
+	})
+
+	const result1 = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: user.slug,
+			type: 'user',
+			action: 'action-create-session',
+			arguments: {
+				password: userDetails.password
+			}
+		})
+
+	test.is(result1.code, 200)
+
+	const token = result1.response.data.id
+
+	const result2 = await test.context.http('POST', '/api/v2/action', {
+		card: 'role',
+		type: 'type',
+		action: 'action-create-card',
+		arguments: {
+			reason: null,
+			properties: {
+				slug: `role-test-${uuid()}`,
+				data: {
+					read: {
+						type: 'object',
+						additionalProperties: true
+					}
+				}
+			}
+		}
+	}, {
+		Authorization: `Bearer ${token}`
+	})
+
+	test.is(result2.code, 400)
+	test.deepEqual(result2.response, {
+		error: true,
+		data: {
+			context: result2.response.data.context,
+			name: 'QueueInvalidRequest',
+			message: 'No such input card: role'
+		}
+	})
+})
+
+ava.serial('creating a role with the guest user session using action-create-card should fail', async (test) => {
+	const result = await test.context.http('POST', '/api/v2/action', {
+		card: 'role',
+		type: 'type',
+		action: 'action-create-card',
+		arguments: {
+			reason: null,
+			properties: {
+				slug: `role-test-${uuid()}`,
+				data: {
+					read: {
+						type: 'object',
+						additionalProperties: true
+					}
+				}
+			}
+		}
+	})
+
+	test.is(result.code, 400)
+	test.deepEqual(result.response, {
+		error: true,
+		data: {
+			context: result.response.data.context,
+			name: 'QueueInvalidAction',
+			message: 'No such action: action-create-card'
+		}
+	})
+})
+
 ava.serial('creating a user with the guest user session using action-create-card should fail', async (test) => {
 	const username = `user-${createUserDetails().username}`
 
