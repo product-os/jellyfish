@@ -119,7 +119,6 @@ export const selectors = {
 	getOrgs: (state) => { return state.core.orgs },
 	getAppVersion: (state) => { return _.get(state.core, [ 'config', 'version' ]) || null },
 	getAppCodename: (state) => { return _.get(state.core, [ 'config', 'codename' ]) || null },
-	getChangelog: (state) => { return _.get(state.core, [ 'config', 'changelog' ]) || null },
 	getChannels: (state) => { return state.core.channels },
 	getCurrentUser: (state) => { return _.get(state.core, [ 'session', 'user' ]) || null },
 	getNotifications: (state) => { return state.core.notifications || [] },
