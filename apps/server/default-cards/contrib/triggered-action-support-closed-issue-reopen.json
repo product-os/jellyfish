@@ -57,7 +57,12 @@
     },
     "action": "action-update-card",
     "target": {
-      "$eval": "source.links['issue has attached support thread'][0].id"
+      "$map": {
+        "$eval": "source.links['issue has attached support thread'][0:]"
+      },
+      "each(link)": {
+        "$eval": "link.id"
+      }
     },
     "arguments": {
       "reason": "Re-opened because linked issue was closed",

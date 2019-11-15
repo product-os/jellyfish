@@ -65,7 +65,12 @@
     },
     "action": "action-update-card",
     "target": {
-      "$eval": "source.links['is attached to'][0].id"
+      "$map": {
+        "$eval": "source.links['is attached to'][0:]"
+      },
+      "each(link)": {
+        "$eval": "link.id"
+      }
     },
     "arguments": {
       "reason": "Closed with #summary tag",
