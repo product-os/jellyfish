@@ -130,6 +130,7 @@ ava.serial('should fail with a user error when querying with an expired session'
 	test.deepEqual(result.response, {
 		error: true,
 		data: {
+			context: result.response.data.context,
 			name: 'JellyfishSessionExpired',
 			message: result.response.data.message
 		}
