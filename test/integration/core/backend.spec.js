@@ -1639,6 +1639,9 @@ ava('.query() should be able to limit the results', async (test) => {
 		}
 	})
 
+	// To ensure the created_at dates are different
+	await Bluebird.delay(10)
+
 	const result2 = await test.context.backend.upsertElement(test.context.context, {
 		type: 'card',
 		slug: 'bar',
@@ -1657,6 +1660,9 @@ ava('.query() should be able to limit the results', async (test) => {
 			timestamp: '2018-08-20T23:15:45.702Z'
 		}
 	})
+
+	// To ensure the created_at dates are different
+	await Bluebird.delay(10)
 
 	await test.context.backend.upsertElement(test.context.context, {
 		type: 'card',
