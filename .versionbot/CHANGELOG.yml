@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'server: Use .sendHTTPError() in query endpoint'
+      hash: 77b4d00a86d5d8a055e11b6cf7e6676dea02c960
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.21.11
+  date: 2019-11-18T20:59:19.511Z
+- commits:
     - subject: 'core: Test that we can correctly get all properties of cards'
       hash: c0e8f696e64e68221c178ff4a2132a017a1e49df
       body: ''
