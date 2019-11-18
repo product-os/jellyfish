@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'core: Extract out .getViewSchema() from permission filter'
+      hash: 59bbf79662df27896bab0dd363a8344f1d8c23fc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.21.4
+  date: 2019-11-16T23:09:14.057Z
+- commits:
     - subject: Ensure community users can't create role cards
       hash: 6a284c4333ac457010d932c2433324fda318283f
       body: ''
