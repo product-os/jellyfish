@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'server: Test user write access over user roles'
+      hash: 6f3dd197f0005b43a62b61527a110eee1adc65d6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Fixes: 'https://github.com/balena-io/jellyfish/issues/2016'
+        fixes: 'https://github.com/balena-io/jellyfish/issues/2016'
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.21.8
+  date: 2019-11-18T16:37:10.890Z
+- commits:
     - subject: 'core: Add test to query all cards linked to a card with no properties'
       hash: 9ebd79a01ce2a8476ea9b5251b85a579a57ebd07
       body: ''
