@@ -107,17 +107,19 @@ ava.serial('should fail with a user error when querying with an expired session'
 
 	const result = await test.context.http(
 		'POST', '/api/v2/query', {
-			type: 'object',
-			additionalProperties: true,
-			required: [ 'slug', 'type' ],
-			properties: {
-				slug: {
-					type: 'string',
-					const: 'user-admin'
-				},
-				type: {
-					type: 'string',
-					cons: 'user'
+			query: {
+				type: 'object',
+				additionalProperties: true,
+				required: [ 'slug', 'type' ],
+				properties: {
+					slug: {
+						type: 'string',
+						const: 'user-admin'
+					},
+					type: {
+						type: 'string',
+						cons: 'user'
+					}
 				}
 			}
 		}, {
