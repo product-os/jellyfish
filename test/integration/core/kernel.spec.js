@@ -2687,7 +2687,7 @@ ava('.query() should take a view card with two filters', async (test) => {
 	])
 })
 
-ava('.query() should be able to request all cards linked to a card', async (test) => {
+ava('.query() should be able to request all cards (with no properties) linked to a card', async (test) => {
 	const parent = await test.context.kernel.insertCard(
 		test.context.context, test.context.kernel.sessions.admin, {
 			slug: 'foo',
@@ -2752,6 +2752,9 @@ ava('.query() should be able to request all cards linked to a card', async (test
 			}
 		})
 
+	// This is by design, as we want to catch the case where
+	// we send a JSON Schema that doesn't try to get any
+	// properties back.
 	test.deepEqual(results, [
 		{}
 	])
