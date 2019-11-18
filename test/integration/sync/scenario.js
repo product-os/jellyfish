@@ -392,7 +392,7 @@ module.exports = {
 			}
 
 			for (const variation of getVariations(testCase.steps, {
-				permutations: suite.source !== 'github'
+				permutations: suite.source !== 'github' && suite.source !== 'flowdock'
 			})) {
 				// TODO: We should remove this check
 				if (suite.source === 'github' &&
