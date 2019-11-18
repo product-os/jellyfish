@@ -147,7 +147,26 @@
             },
             "data": {
               "type": "object",
-              "additionalProperties": true
+              "additionalProperties": false,
+              "properties": {
+                "email": {
+                  "type": [ "string", "array" ]
+                },
+                "hash": {
+                  "type": "string"
+                },
+                "avatar": {
+                  "type": [ "string", "null" ]
+                },
+                "oauth": {
+                  "type": "object",
+                  "additionalProperties": true
+                },
+                "profile": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
             }
           }
         },

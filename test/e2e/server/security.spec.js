@@ -785,6 +785,63 @@ ava.serial('.query() community users should be able to query views', async (test
 	test.true(_.includes(_.map(results, 'slug'), 'view-all-views'))
 })
 
+ava.serial('the guest user should not be able to add a new role to another user', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const userDetails = createUserDetails()
+	const targetUser = await test.context.sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${userDetails.username}`,
+			email: userDetails.email,
+			password: userDetails.password
+		}
+	})
+
+	await sdk.auth.logout()
+
+	const error = await test.throwsAsync(sdk.card.update(
+		targetUser.id,
+		targetUser.type,
+		[
+			{
+				op: 'replace',
+				path: '/data/roles/1',
+				value: 'test'
+			}
+		]
+	))
+
+	test.is(error.name, 'JellyfishSchemaMismatch')
+})
+
+ava.serial('the guest user should not be able to change its own roles', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const user = await sdk.card.get('user-guest')
+	await sdk.auth.logout()
+
+	const error = await test.throwsAsync(sdk.card.update(
+		user.id,
+		user.type,
+		[
+			{
+				op: 'replace',
+				path: '/data/roles/1',
+				value: [ 'user-community' ]
+			}
+		]
+	))
+
+	test.is(error.name, 'JellyfishSchemaMismatch')
+})
+
 ava.serial('the guest user should not be able to change other users passwords', async (test) => {
 	const {
 		sdk
@@ -865,6 +922,121 @@ ava.serial('users with the "user-community" role should not be able to change ot
 	test.is(error.name, 'JellyfishSchemaMismatch')
 })
 
+ava.serial('users with the "user-community" role should not be able to change other users roles', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const userDetails = createUserDetails()
+	const targetUser = await test.context.sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${userDetails.username}`,
+			email: userDetails.email,
+			password: userDetails.password
+		}
+	})
+
+	const communityUserDetails = createUserDetails()
+	await test.context.sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${communityUserDetails.username}`,
+			email: communityUserDetails.email,
+			password: communityUserDetails.password
+		}
+	})
+
+	await sdk.auth.login(communityUserDetails)
+
+	const error = await test.throwsAsync(sdk.card.update(
+		targetUser.id,
+		targetUser.type,
+		[
+			{
+				op: 'replace',
+				path: '/data/roles',
+				value: [ 'user-community', 'test' ]
+			}
+		]
+	))
+
+	test.is(error.name, 'JellyfishSchemaMismatch')
+})
+
+ava.serial('users with the "user-community" role should not be able to change the guest user roles', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const communityUserDetails = createUserDetails()
+	await test.context.sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${communityUserDetails.username}`,
+			email: communityUserDetails.email,
+			password: communityUserDetails.password
+		}
+	})
+
+	const targetUser = await sdk.card.get('user-guest')
+	await sdk.auth.login(communityUserDetails)
+
+	const error = await test.throwsAsync(sdk.card.update(
+		targetUser.id,
+		targetUser.type,
+		[
+			{
+				op: 'replace',
+				path: '/data/roles',
+				value: [ 'user-community', 'test' ]
+			}
+		]
+	))
+
+	test.is(error.name, 'WorkerNoElement')
+})
+
+ava.serial('users with the "user-community" role should not be able to change its own roles', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const communityUserDetails = createUserDetails()
+	const targetUser = await test.context.sdk.action({
+		card: 'user',
+		type: 'type',
+		action: 'action-create-user',
+		arguments: {
+			username: `user-${communityUserDetails.username}`,
+			email: communityUserDetails.email,
+			password: communityUserDetails.password
+		}
+	})
+
+	await sdk.auth.login(communityUserDetails)
+
+	const error = await test.throwsAsync(sdk.card.update(
+		targetUser.id,
+		targetUser.type,
+		[
+			{
+				op: 'replace',
+				path: '/data/roles',
+				value: [ 'user-community', 'test' ]
+			}
+		]
+	))
+
+	test.is(error.name, 'JellyfishSchemaMismatch')
+})
+
 ava.serial('When updating a user, inaccessible fields should not be removed', async (test) => {
 	const {
 		sdk
@@ -908,6 +1080,7 @@ ava.serial('When updating a user, inaccessible fields should not be removed', as
 	test.is(result.code, 200)
 	test.false(result.response.error)
 
+	await sdk.auth.loginWithToken(test.context.token)
 	const rawUserCard = await test.context.sdk.card.get(user.id)
 	test.is(rawUserCard.data.email, 'test@example.com')
 	test.is(_.has(rawUserCard, [ 'data', 'roles' ]), true)
