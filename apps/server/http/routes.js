@@ -599,21 +599,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 				data
 			})
 		}).catch((error) => {
-			if (error.expected) {
-				response.status(400).json({
-					error: true,
-					data: {
-						name: error.name,
-						message: error.message
-					}
-				})
-				return
-			}
-
-			response.status(500).json({
-				error: true,
-				data: error.message
-			})
+			return sendHTTPError(request, response, error)
 		})
 	})
 }
