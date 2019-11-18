@@ -2646,6 +2646,76 @@ ava('.query() should take a view card with two filters', async (test) => {
 	])
 })
 
+ava('.query() should be able to request all cards linked to a card', async (test) => {
+	const parent = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'foo',
+			type: 'card',
+			version: '1.0.0',
+			data: {
+				thread: true,
+				number: 1
+			}
+		})
+
+	const card = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'baz',
+			type: 'card',
+			version: '1.0.0',
+			data: {
+				thread: false,
+				count: 1
+			}
+		})
+
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: `link-${card.slug}-is-appended-to-${parent.slug}`,
+			type: 'link',
+			version: '1.0.0',
+			name: 'is appended to',
+			active: true,
+			data: {
+				inverseName: 'has appended element',
+				from: {
+					id: card.id,
+					type: card.type
+				},
+				to: {
+					id: parent.id,
+					type: parent.type
+				}
+			}
+		})
+
+	const results = await test.context.kernel.query(
+		test.context.context, test.context.kernel.sessions.admin, {
+			type: 'object',
+			additionalProperties: false,
+			$$links: {
+				'is appended to': {
+					type: 'object',
+					required: [ 'slug', 'type' ],
+					properties: {
+						slug: {
+							type: 'string',
+							const: parent.slug
+						},
+						type: {
+							type: 'string',
+							const: parent.type
+						}
+					}
+				}
+			}
+		})
+
+	test.deepEqual(results, [
+		{}
+	])
+})
+
 ava('.query() should take into account newly inserted links when processing null link queries', async (test) => {
 	const parent1 = await test.context.kernel.insertCard(
 		test.context.context, test.context.kernel.sessions.admin, {
