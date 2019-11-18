@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'core: Test that we can correctly get all properties of cards'
+      hash: c0e8f696e64e68221c178ff4a2132a017a1e49df
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.21.10
+  date: 2019-11-18T18:22:15.153Z
+- commits:
     - subject: 'core: Don''t expand view type schemas in permissions filter'
       hash: 882759be18c4647e02220232d5ac9de36939fb2c
       body: ''
