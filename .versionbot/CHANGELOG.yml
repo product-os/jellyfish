@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'core: Add test to query all cards linked to a card with no properties'
+      hash: 9ebd79a01ce2a8476ea9b5251b85a579a57ebd07
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.21.7
+  date: 2019-11-18T15:37:27.836Z
+- commits:
     - subject: 'worker: Get necessary fields on markers linked card queries'
       hash: 2517c346813d18b50e13514a05f9ddce18d5e3f5
       body: ''
