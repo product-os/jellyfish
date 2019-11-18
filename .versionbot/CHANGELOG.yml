@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'worker: Get necessary fields on markers linked card queries'
+      hash: 2517c346813d18b50e13514a05f9ddce18d5e3f5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.21.6
+  date: 2019-11-18T13:44:10.017Z
+- commits:
     - subject: 'core: Fix backend date based flaky test'
       hash: b9bd61744320fb7c3ea6fe2655f96a9ca78da867
       body: ''
