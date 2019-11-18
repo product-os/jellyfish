@@ -2716,6 +2716,34 @@ ava('.query() should be able to request all cards linked to a card', async (test
 	])
 })
 
+ava('.query() should get all properties of all cards', async (test) => {
+	const results = await test.context.kernel.query(
+		test.context.context, test.context.kernel.sessions.admin, {
+			type: 'object',
+			additionalProperties: true
+		})
+
+	const properties = _.sortBy(_.intersection(..._.map(results, _.keys)))
+
+	test.deepEqual(properties, [
+		'active',
+		'capabilities',
+		'created_at',
+		'data',
+		'id',
+		'linked_at',
+		'links',
+		'markers',
+		'name',
+		'requires',
+		'slug',
+		'tags',
+		'type',
+		'updated_at',
+		'version'
+	])
+})
+
 ava('.query() should take into account newly inserted links when processing null link queries', async (test) => {
 	const parent1 = await test.context.kernel.insertCard(
 		test.context.context, test.context.kernel.sessions.admin, {
