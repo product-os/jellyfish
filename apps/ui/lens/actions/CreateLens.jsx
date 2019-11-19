@@ -265,14 +265,35 @@ class CreateLens extends React.Component {
 			}
 			: {}
 
-		// Add autocompletion for the repository field
-		_.set(uiSchema, [ 'data', 'repository' ], {
-			'ui:widget': AutoCompleteWidget,
-			'ui:options': {
-				resource: 'issue',
-				keyPath: 'data.repository'
-			}
-		})
+		// TODO: Encode these relationships in the type card, instead of hacking it
+		// into the UI
+		if (selectedTypeTarget.slug === 'issue') {
+			_.set(uiSchema, [ 'data', 'repository' ], {
+				'ui:widget': AutoCompleteWidget,
+				'ui:options': {
+					resource: 'issue',
+					keyPath: 'data.repository'
+				}
+			})
+		}
+
+		if (selectedTypeTarget.slug === 'checkin') {
+			_.set(uiSchema, [ 'data', 'unnecessary_attendees', 'items' ], {
+				'ui:widget': AutoCompleteWidget,
+				'ui:options': {
+					resource: 'user',
+					keyPath: 'slug'
+				}
+			})
+
+			_.set(uiSchema, [ 'data', 'extra_attendees_needed', 'items', 'user' ], {
+				'ui:widget': AutoCompleteWidget,
+				'ui:options': {
+					resource: 'user',
+					keyPath: 'slug'
+				}
+			})
+		}
 
 		// Always show tags input
 		if (!schema.properties.tags) {
