@@ -220,7 +220,6 @@ ava.serial('should link the contact to the user', async (test) => {
 	test.deepEqual(results[0].links['has contact'], [
 		{
 			id: result.response.data.id,
-			markers: [],
 			slug: result.response.data.slug,
 			type: result.response.data.type
 		}
