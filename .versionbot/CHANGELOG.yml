@@ -1,4 +1,43 @@
 - commits:
+    - subject: 'UI: Fallback to displaying a card slug on chat summary component'
+      hash: 214f04ce512e3e24b0c9eaf0a5288c18b6d542fc
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: Add new fields for attendees to checkin card type
+      hash: eb1cb5ecb92726ec31328081ee43ae0eeb0f66ad
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: Rework relationships between users and projects
+      hash: 5e309ce79e9bc9a2464f227a624c2ff34cd0b9b5
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: Create link relationship between projects and checkins
+      hash: 7e9a0c575520e7c580795c947b8b1bf715f4c71d
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 24.22.0
+  date: 2019-11-19T09:09:25.571Z
+- commits:
     - subject: 'server: Use .sendHTTPError() in query endpoint'
       hash: 77b4d00a86d5d8a055e11b6cf7e6676dea02c960
       body: ''
