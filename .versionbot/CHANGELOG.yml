@@ -1,4 +1,43 @@
 - commits:
+    - subject: Reviewed index creation column
+      hash: 2cddea1193ed948371ee42cef8674ba92a1cddbc
+      body: ''
+      footer:
+        Connects-to: '#2780'
+        connects-to: '#2780'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@fissore.org>
+        signed-off-by: Federico Fissore <federico@fissore.org>
+      author: Federico Fissore
+    - subject: Using the @> operator on array columns as well
+      hash: 2d0595c1a697b15cdffe55bbe2cdfa421dd5e4d3
+      body: ''
+      footer:
+        Connects-to: '#2780'
+        connects-to: '#2780'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@fissore.org>
+        signed-off-by: Federico Fissore <federico@fissore.org>
+      author: Federico Fissore
+    - subject: >-
+        Introducing jsonschema2sql 'shortcuts', a first impl of schema
+        lookahead. In this impl, the jsonb operator @> is used to filter arrays
+        that contain a given value
+      hash: ef0c483f27566626bce04cfd3f012a72e3ed22e8
+      body: ''
+      footer:
+        Connects-to: '#2780'
+        connects-to: '#2780'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@fissore.org>
+        signed-off-by: Federico Fissore <federico@fissore.org>
+      author: Federico Fissore
+  version: 24.23.1
+  date: 2019-11-19T17:24:59.957Z
+- commits:
     - subject: Stop showing changelog in a modal
       hash: 4757bffd27794ee756ec059e9b8376db98b3cfc6
       body: |
