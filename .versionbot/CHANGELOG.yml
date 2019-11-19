@@ -1,4 +1,18 @@
 - commits:
+    - subject: Stop showing changelog in a modal
+      hash: 4757bffd27794ee756ec059e9b8376db98b3cfc6
+      body: |
+        Displaying changelog items to end users is not meaningful as many of the
+        changes don't have any bearing on users of the UI.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 24.23.0
+  date: 2019-11-19T11:57:33.215Z
+- commits:
     - subject: 'UI: Fallback to displaying a card slug on chat summary component'
       hash: 214f04ce512e3e24b0c9eaf0a5288c18b6d542fc
       body: ''
