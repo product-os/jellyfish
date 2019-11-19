@@ -6,7 +6,6 @@
 
 const _ = require('lodash')
 const Bluebird = require('bluebird')
-const fs = require('fs')
 const errio = require('errio')
 const multer = require('multer')
 const Storage = require('./file-storage')
@@ -23,30 +22,6 @@ const fileStore = new Storage({
 const upload = multer({
 	storage: multer.memoryStorage()
 })
-
-// Finds the nthIndex of a pattern in a string
-const nthIndex = (source, pattern, nth) => {
-	let target = nth
-	const length = source.length
-	let index = -1
-	while (target-- && index++ < length) {
-		index = source.indexOf(pattern, index)
-		if (index < 0) {
-			break
-		}
-	}
-	return index
-}
-
-// Changelog
-const rawChangelog = fs.readFileSync('./CHANGELOG.md', 'utf8')
-
-// Strip the semantic version header from the changelog, and only use the last
-// 10 version bumps
-const changelog = rawChangelog.slice(
-	rawChangelog.indexOf('# v'),
-	nthIndex(rawChangelog, '# v', 20)
-)
 
 const sendHTTPError = (request, response, error) => {
 	// Add more debugging information in case we pass an invalid object
@@ -84,7 +59,6 @@ const sendHTTPError = (request, response, error) => {
 module.exports = (application, jellyfish, worker, queue) => {
 	application.get('/api/v2/config', (request, response) => {
 		response.send({
-			changelog,
 			codename: packageJSON.codename,
 			version: packageJSON.version
 		})

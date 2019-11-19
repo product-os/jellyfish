@@ -13,9 +13,7 @@ import {
 	bindActionCreators
 } from 'redux'
 import {
-	Flex,
-	Modal,
-	Txt
+	Flex
 } from 'rendition'
 import {
 	Form
@@ -26,9 +24,6 @@ import {
 import {
 	MermaidWidget
 } from 'rendition/dist/extra/Form/mermaid'
-import {
-	Markdown
-} from 'rendition/dist/extra/Markdown'
 import {
 	saveAs
 } from 'file-saver'
@@ -97,29 +92,8 @@ class JellyfishUI extends React.Component {
 			saveAs(blob, `jellyfish-ui-dump__${new Date().toISOString()}.json`)
 		}
 
-		this.state = {
-			showChangelog: null
-		}
-
-		this.hideChangelog = () => {
-			this.setState({
-				showChangelog: null
-			})
-		}
-
 		this.handleChatWidgetClose = () => {
 			this.props.actions.setChatWidgetOpen(false)
-		}
-	}
-
-	componentDidUpdate (prevProps) {
-		if (
-			prevProps.version && this.props.version &&
-			prevProps.version !== this.props.version
-		) {
-			this.setState({
-				showChangelog: prevProps.version
-			})
 		}
 	}
 
@@ -143,18 +117,6 @@ class JellyfishUI extends React.Component {
 			<React.Fragment>
 				{isLegacyPath(path) && (
 					<Redirect to={transformLegacyPath(path)} />
-				)}
-
-				{this.state.showChangelog && (
-					<Modal
-						title={`Whats new in v${this.props.version}`}
-						done={this.hideChangelog}
-					>
-						<Txt pb={3}>There have been a few changes since you were last here:</Txt>
-						<Markdown>
-							{this.props.changelog.split(`# v${this.state.showChangelog}`)[0]}
-						</Markdown>
-					</Modal>
 				)}
 
 				<Flex flex="1" style={{
@@ -186,7 +148,6 @@ const mapStateToProps = (state) => {
 		channels: selectors.getChannels(state),
 		status: selectors.getStatus(state),
 		version: selectors.getAppVersion(state),
-		changelog: selectors.getChangelog(state),
 		isChatWidgetOpen: selectors.getChatWidgetOpen(state)
 	}
 }
