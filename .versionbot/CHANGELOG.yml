@@ -1,4 +1,22 @@
 - commits:
+    - subject: 'core: Refactor and simplify permission filter code'
+      hash: 7e6440630bfa19778d01bb1799ff64fd84c60be7
+      body: |
+        Most of these test changes are caused by the fact that we are replacing
+        a custom "merge" logic set of statements with the more proper
+        `skhema.merge()` function, which highlighted some semantic issues.
+
+        As far as I can tell, these changes to how we use `additionalProperties`
+        are correct, while the previous ones were ambiguous in some cases.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.24.2
+  date: 2019-11-20T14:51:54.731Z
+- commits:
     - subject: 'server: Fix incorrect logger level call'
       hash: 162c858d3c3c38ae2769ed23d7aec5e1904672a5
       body: |
