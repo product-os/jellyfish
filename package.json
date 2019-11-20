@@ -98,7 +98,7 @@
     "@octokit/plugin-throttling": "^2.6.0",
     "@octokit/rest": "^16.6.1",
     "@sentry/browser": "^4.4.2",
-    "@sentry/node": "^4.4.2",
+    "@sentry/node": "^5.9.0",
     "@webscopeio/react-textarea-autocomplete": "^4.5.0",
     "aws-sdk": "^2.289.0",
     "axios": "^0.18.1",
