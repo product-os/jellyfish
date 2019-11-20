@@ -2564,7 +2564,7 @@ ava('.query() should return inactive cards', async (test) => {
 	])
 })
 
-ava.only('.query() should take a view card with two filters', async (test) => {
+ava('.query() should take a view card with two filters', async (test) => {
 	await test.context.kernel.insertCard(
 		test.context.context, test.context.kernel.sessions.admin, {
 			slug: 'foo',
