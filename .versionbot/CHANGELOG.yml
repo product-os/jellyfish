@@ -1,4 +1,18 @@
 - commits:
+    - subject: Forgot to remove a `.only` in a test suite
+      hash: bdae5ad1196f89610545791dda1bc30e3faa2e65
+      body: ''
+      footer:
+        Connects-to: '#2780'
+        connects-to: '#2780'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@fissore.org>
+        signed-off-by: Federico Fissore <federico@fissore.org>
+      author: Federico Fissore
+  version: 24.23.2
+  date: 2019-11-19T20:23:03.988Z
+- commits:
     - subject: Reviewed index creation column
       hash: 2cddea1193ed948371ee42cef8674ba92a1cddbc
       body: ''
