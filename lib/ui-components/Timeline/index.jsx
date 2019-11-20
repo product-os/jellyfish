@@ -57,6 +57,10 @@ const EventsContainer = styled(Box) `
 	background-color: ${(props) => { return props.theme.colors.quartenary.light }}
 `
 
+const getSendCommand = (user) => {
+	return _.get(user.data, [ 'profile', 'sendCommand' ], 'shift+enter')
+}
+
 const PAGE_SIZE = 20
 
 class Timeline extends React.Component {
@@ -142,9 +146,9 @@ class Timeline extends React.Component {
 		})
 	}
 
-	handleFileChange (event) {
+	handleFileChange (files) {
 		const type = this.props.allowWhispers ? 'whisper' : 'message'
-		const file = _.first(event.target.files)
+		const file = _.first(files)
 		const message = {
 			target: this.props.card,
 			tags: [],
@@ -339,7 +343,8 @@ class Timeline extends React.Component {
 		const {
 			allowWhispers,
 			tail,
-			usersTyping
+			usersTyping,
+			wide
 		} = this.props
 		const whisper = allowWhispers && this.state.messageSymbol ? false : this.state.whisper
 		const {
@@ -375,6 +380,8 @@ class Timeline extends React.Component {
 
 			typingMessage = commaListsAnd `${typing} are typing...`
 		}
+
+		const sendCommand = getSendCommand(this.props.user)
 
 		return (
 			<Column>
@@ -492,10 +499,14 @@ class Timeline extends React.Component {
 				)}
 
 				<MessageInput
+					wide={wide}
+					style={{
+						borderTop: '1px solid #eee'
+					}}
 					allowWhispers={allowWhispers}
 					whisper={whisper}
 					toggleWhisper={this.toggleWhisper}
-					user={this.props.user}
+					sendCommand={sendCommand}
 					value={this.state.newMessage}
 					onChange={this.handleNewMessageChange}
 					onSubmit={this.handleNewMessageSubmit}

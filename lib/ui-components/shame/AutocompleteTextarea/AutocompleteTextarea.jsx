@@ -62,6 +62,7 @@ const SubAuto = (props) => {
 		'onKeyPress',
 		'placeholder'
 	])
+
 	return (
 		<Container {...rest}>
 			<ReactTextareaAutocomplete
@@ -119,10 +120,6 @@ class QuickSearchItem extends React.Component {
 }
 
 const ConnectedQuickSearchItem = reactDnD.DragSource('channel', cardSource, collect)(QuickSearchItem)
-
-const getSendCommand = (user) => {
-	return _.get(user.data, [ 'profile', 'sendCommand' ], 'shift+enter')
-}
 
 class AutoCompleteArea extends React.Component {
 	constructor (props) {
@@ -191,7 +188,7 @@ class AutoCompleteArea extends React.Component {
 	}
 
 	handleOnKeyPress (event) {
-		const sendCommand = getSendCommand(this.props.user)
+		const sendCommand = this.props.sendCommand
 
 		let shouldSend = false
 
@@ -237,8 +234,7 @@ class AutoCompleteArea extends React.Component {
 	render () {
 		const {
 			className,
-			placeholder,
-			user
+			placeholder
 		} = this.props
 
 		const rest = _.omit(this.props, [
@@ -246,11 +242,9 @@ class AutoCompleteArea extends React.Component {
 			'onChange',
 			'onSubmit',
 			'placeholder',
-			'user',
+			'sendCommand',
 			'value'
 		])
-
-		const sendCommand = getSendCommand(user)
 
 		return (
 			<React.Fragment>
@@ -262,16 +256,6 @@ class AutoCompleteArea extends React.Component {
 					placeholder={placeholder}
 					{...rest}
 				/>
-
-				<Txt
-					style={{
-						textAlign: 'right',
-						opacity: 0.75
-					}}
-					fontSize={11}
-				>
-					Press {sendCommand} to send
-				</Txt>
 
 				{this.state.showQuickSearchPanel && (
 					<QuickSearchPanel p={3}>
