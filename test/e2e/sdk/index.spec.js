@@ -163,6 +163,19 @@ ava.serial('.query() should run a query on the server', async (test) => {
 	})
 })
 
+ava.serial('.query() should fail with a user error if "limit" is beyond the limit', async (test) => {
+	const LIMIT = 1000
+	const error = await test.throwsAsync(test.context.sdk.query({
+		type: 'object',
+		additionalProperties: true
+	}, {
+		limit: LIMIT
+	}))
+
+	test.is(error.message, `Query limit must be a finite integer less than 200: ${LIMIT}`)
+	test.true(error.expected)
+})
+
 ava.serial('.query() should accept a "limit" option', async (test) => {
 	const {
 		sdk
