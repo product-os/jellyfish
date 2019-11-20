@@ -27,7 +27,7 @@ const sendHTTPError = (request, response, error) => {
 	// Add more debugging information in case we pass an invalid object
 	// to `errio` (which doesn't handle other data very well).
 	if (!_.isError(error)) {
-		logger.crit(request.context, 'Invalid error object', {
+		logger.error(request.context, 'Invalid error object', {
 			ip: request.ip,
 			error
 		})
