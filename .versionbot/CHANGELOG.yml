@@ -1,4 +1,14 @@
 - commits:
+    - subject: Style message input
+      hash: e0bdf0e1ad61a5b3d9c3a9c279d1ff4d5c0c106b
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 24.24.0
+  date: 2019-11-20T10:24:33.828Z
+- commits:
     - subject: Updated some dependencies for security reasons
       hash: cffd9c64150d69d4f00d3f56c82ea9437a2c834b
       body: ''
