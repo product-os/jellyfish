@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'server: Fix incorrect logger level call'
+      hash: 162c858d3c3c38ae2769ed23d7aec5e1904672a5
+      body: |
+        The method is `error`, not `crit`.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Fixes: 'https://sentry.io/share/issue/836594f187be4814935f8078f8903551/'
+        fixes: 'https://sentry.io/share/issue/836594f187be4814935f8078f8903551/'
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.24.1
+  date: 2019-11-20T12:31:04.361Z
+- commits:
     - subject: Style message input
       hash: e0bdf0e1ad61a5b3d9c3a9c279d1ff4d5c0c106b
       body: ''
