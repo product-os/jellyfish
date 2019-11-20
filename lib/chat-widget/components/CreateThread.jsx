@@ -13,6 +13,7 @@ import {
 	Flex,
 	Input
 } from 'rendition'
+import styled from 'styled-components'
 import MessageInput from '../../../lib/ui-components/Timeline/MessageInput'
 import {
 	TaskButton
@@ -24,6 +25,15 @@ import {
 import {
 	selectCurrentUser
 } from '../store/selectors'
+
+const StyledMessageInput = styled(MessageInput) `
+	border: 1px solid #DDE1f0;
+	border-radius: ${(props) => { return props.theme.radius }}px;
+
+	&:focus-within {
+		border-color: ${(props) => { return props.theme.colors.tertiary.main }};
+	}
+`
 
 export const CreateThread = ({
 	renderTaskChildren,
@@ -68,20 +78,21 @@ export const CreateThread = ({
 	return (
 		<Box {...rest}>
 			<Box
-				flex="1"
-				p={3}
-				backgroundColor="white">
+				flex="1">
 				<Input
+					bg="white"
 					placeholder="Subject"
 					value={subject}
 					onChange={handleSubjectChage}
 					data-test="conversation-subject"
 				/>
 			</Box>
-			<Box>
-				<MessageInput
+			<Box mt={1}>
+				<StyledMessageInput
+					wide={false}
 					user={currentUser}
 					value={text}
+					placeholder="Type your message"
 					onChange={handleTextChange}
 					onFileChange={handleFileChange}
 					onSubmit={handleSubmit}

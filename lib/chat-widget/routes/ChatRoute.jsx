@@ -62,6 +62,7 @@ export const ChatRoute = () => {
 							height: '100%'
 						}}>
 							<Timeline
+								wide={false}
 								allowWhispers={false}
 								card={thread}
 								tail={messages}

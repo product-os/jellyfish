@@ -8,98 +8,201 @@ import React from 'react'
 import {
 	Box,
 	Button,
-	Flex
+	Flex,
+	Txt,
+	useTheme
 } from 'rendition'
+import styled from 'styled-components'
 import AutocompleteTextarea from '@jellyfish/ui-components/shame/AutocompleteTextarea'
-import Icon from '@jellyfish/ui-components/shame/Icon'
+import FileIcon from 'react-icons/lib/fa/paperclip'
+import UseSecretIcon from 'react-icons/lib/fa/user-secret'
+import {
+	FileUploadButton
+} from '@jellyfish/ui-components/FileUploader'
 
-export default class MessageInput extends React.PureComponent {
-	constructor (props) {
-		super(props)
+const PlainAutocompleteTextarea = styled(AutocompleteTextarea) `
+	border: 0 !important;
+	background-color: transparent !important;
+	box-shadow: none !important;
+	outline: none !important;
+	padding: 0 !important;
+	color: inherit;
+`
 
-		this.bindFileInput = this.bindFileInput.bind(this)
-		this.handleUploadButtonClick = this.handleUploadButtonClick.bind(this)
+const InputWrapper = styled(Box) `
+	position: relative;
+	border: solid 1px ${(props) => { return props.borderColor || props.theme.colors.gray.main }};
+	border-radius: ${(props) => { return props.theme.radius }}px;
+
+	&:focus-within {
+		border-color: ${(props) => { return props.borderColorWhenFocused || props.theme.colors.secondary.main }};
 	}
 
-	bindFileInput (ref) {
-		this.fileInputElement = ref
-	}
+	${(props) => {
+		return props.bubble ? `
+			&::after {
+				content: ' ';
+				position: absolute;
+				top: calc(50% - 6px);
+				right: -6px;
+				width: 0;
+				height: 0;
+				border-top: 6px solid transparent;
+				border-bottom: 6px solid transparent;
+				border-left: 6px solid ${props.borderColor};
+			}
+		` : ''
+	}}
+`
 
-	handleUploadButtonClick () {
-		const element = this.fileInputElement
-		if (element) {
-			element.click()
-		}
-	}
+const MessageInput = React.memo(({
+	allowWhispers,
+	whisper,
+	placeholder = whisper ? 'Type your private comment...' : 'Type your public reply...',
+	toggleWhisper,
+	sendCommand,
+	value,
+	onChange,
+	onSubmit,
+	onFileChange,
+	wide = true,
+	style,
+	...rest
+}) => {
+	const theme = useTheme()
 
-	render () {
-		const {
-			allowWhispers,
-			whisper,
-			toggleWhisper,
-			user,
-			value,
-			onChange,
-			onSubmit,
-			onFileChange
-		} = this.props
+	const textInput = (
+		<InputWrapper
+			bubble={whisper}
+			py={2}
+			px={3}
+			{...(whisper ? {
+				color: 'white',
+				bg: theme.colors.secondary.main,
+				borderColor: theme.colors.secondary.main
+			} : {
+				color: theme.text.main,
+				borderColor: 'white',
+				bg: 'white',
+				borderColorWhenFocused: 'white',
+				...(wide ? {
+					px: 0
+				} : {})
+			})}>
+			<PlainAutocompleteTextarea
+				sendCommand={sendCommand}
+				className="new-message-input"
+				value={value}
+				onChange={onChange}
+				onSubmit={onSubmit}
+				placeholder={placeholder}
+			/>
+		</InputWrapper>
+	)
 
+	const toggleWhisperButton = Boolean(allowWhispers) && (
+		<Button
+			p={1}
+			fontSize="18px"
+			plain
+			onClick={toggleWhisper}
+			data-test="timeline__whisper-toggle"
+			tooltip={{
+				placement: 'left',
+				text: `Toggle response visibility (currently ${whisper ? 'private' : 'public'})`
+			}}
+			icon={<UseSecretIcon />}
+			style={{
+				opacity: whisper ? 1 : 0.6
+			}}
+		/>
+	)
+
+	const fileUploadButton = (
+		<FileUploadButton
+			fontSize="18px"
+			plain
+			p={2}
+			onChange={onFileChange}
+			icon={<FileIcon />}
+		/>
+	)
+
+	const sendCommandText = sendCommand && (
+		<Txt fontSize={11} italic color="#859CB0">
+			Press {sendCommand} to send
+		</Txt>
+	)
+
+	if (wide) {
 		return (
-			<Flex
+			<Box
+				{...rest}
+				pt={3}
+				pb={1}
+				pl={3}
+				bg="white"
 				style={{
-					borderTop: '1px solid #eee'
+					...style,
+					display: 'grid',
+					gridTemplateColumns: 'auto fit-content(100%)',
+					gridTemplateRows: 'auto auto',
+					alignItems: 'center'
 				}}
-				bg={whisper ? '#eee' : 'white'}
 			>
-				{allowWhispers && (
-					<Button
-						px={2}
-						mb={1}
-						plain
-						onClick={toggleWhisper}
-						data-test="timeline__whisper-toggle"
-						tooltip={{
-							placement: 'right',
-							text: `Toggle response visibility (currently ${whisper ? 'private' : 'public'})`
-						}}
-						icon={<Icon name={whisper ? 'eye-slash' : 'eye'}/>}
-					/>
-				)}
-
-				<Box
-					flex="1"
-					pt={3}
-					pb={2}
-					pr={3}
-					pl={allowWhispers ? 0 : 3}
-				>
-					<AutocompleteTextarea
-						user={user}
-						className="new-message-input"
-						value={value}
-						onChange={onChange}
-						onSubmit={onSubmit}
-						placeholder={whisper ? 'Type your private comment...' : 'Type your public reply...'}
-					/>
+				<Box flex={1} style={{
+					gridColumn: 1,
+					gridRow: 1
+				}}>
+					{textInput}
 				</Box>
-
-				<Button
-					plain
-					mr={3}
-					mb={1}
-					onClick={this.handleUploadButtonClick}
-					icon={<Icon name="image"/>}
-				/>
-
-				<input
-					style={{
-						display: 'none'
-					}}
-					type="file"
-					ref={this.bindFileInput}
-					onChange={onFileChange}
-				/>
-			</Flex>
+				<Box px={2} style={{
+					gridColumn: 2,
+					gridRow: 1
+				}}>
+					{toggleWhisperButton}
+					{fileUploadButton}
+				</Box>
+				<Box style={{
+					gridColumn: 1,
+					gridRow: 2
+				}}>
+					{sendCommandText}
+				</Box>
+			</Box>
 		)
 	}
-}
+
+	return (
+		<Flex
+			{...rest}
+			style={style}
+			bg="white"
+			flexDirection="column"
+		>
+			<Box
+				flex="1"
+				px={1}
+			>
+				{textInput}
+			</Box>
+
+			<Flex px={2} style={{
+				borderTop: 'solid 1px rgb(238, 238, 238)',
+				borderTopStyle: 'dashed'
+			}}>
+				<Flex alignSelf="flex-start" p={1}>
+					{toggleWhisperButton}
+					{fileUploadButton}
+				</Flex>
+				<Box style={{
+					marginLeft: 'auto'
+				}}>
+					{sendCommandText}
+				</Box>
+			</Flex>
+		</Flex>
+	)
+})
+
+export default MessageInput
