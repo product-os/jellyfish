@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'core/sdk: Make query exceeded limit number a user error'
+      hash: 7ef1d6ae4ce79bead3e2707c870640453d7bfaf8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Fixes: 'https://sentry.io/share/issue/925a4a9bd65947eaa7b9d8e07ce653bf/'
+        fixes: 'https://sentry.io/share/issue/925a4a9bd65947eaa7b9d8e07ce653bf/'
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.24.3
+  date: 2019-11-20T16:38:43.911Z
+- commits:
     - subject: 'core: Refactor and simplify permission filter code'
       hash: 7e6440630bfa19778d01bb1799ff64fd84c60be7
       body: |
