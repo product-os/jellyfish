@@ -112,7 +112,7 @@ export class SupportThreads extends React.Component {
 			 *    for a response
 			 */
 
-			// Sort the timeline by timestamp rathern than created_at as they might
+			// Sort the timeline by timestamp rather than created_at as they might
 			// not be the same value if the card was backsynced
 			const timeline = _.sortBy(
 				_.get(card.links, [ 'has attached element' ], []),
