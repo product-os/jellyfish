@@ -176,6 +176,23 @@ ava.serial('.query() should fail with a user error if "limit" is beyond the limi
 	test.true(error.expected)
 })
 
+ava.serial('.query() should fail with a user error given an invalid regex', async (test) => {
+	const error = await test.throwsAsync(test.context.sdk.query({
+		type: 'object',
+		additionalProperties: true,
+		required: [ 'slug' ],
+		properties: {
+			slug: {
+				type: 'string',
+				pattern: '-(^[xx'
+			}
+		}
+	}))
+
+	test.true(error.message.startsWith('Invalid pattern in schema'))
+	test.true(error.expected)
+})
+
 ava.serial('.query() should accept a "limit" option', async (test) => {
 	const {
 		sdk

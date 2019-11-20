@@ -1807,6 +1807,21 @@ ava('.getCardById() should return an inactive card by its id', async (test) => {
 	test.deepEqual(card, result)
 })
 
+ava('.query() should throw an error given an invalid regex', async (test) => {
+	await test.throwsAsync(test.context.kernel.query(
+		test.context.context, test.context.kernel.sessions.admin, {
+			type: 'object',
+			additionalProperties: true,
+			required: [ 'slug' ],
+			properties: {
+				slug: {
+					type: 'string',
+					pattern: '-(^[xx'
+				}
+			}
+		}), errors.JellyfishInvalidRegularExpression)
+})
+
 ava('.query() should be able to limit the results', async (test) => {
 	const result1 = await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
 		slug: 'foo',
