@@ -406,7 +406,8 @@ ava.serial('should be able to resolve links', async (test) => {
 			}
 		},
 		type: 'object',
-		required: [ 'type', 'links' ],
+		required: [ 'type', 'links', 'data', 'slug' ],
+		additionalProperties: true,
 		properties: {
 			type: {
 				type: 'string',
@@ -427,15 +428,24 @@ ava.serial('should be able to resolve links', async (test) => {
 
 	test.deepEqual(results, [
 		{
+			id: message.id,
+			active: true,
 			slug: message.slug,
 			type: 'message',
+			version: '1.0.0',
+			name: null,
+			updated_at: null,
+			created_at: message.created_at,
+			linked_at: message.linked_at,
+			requires: [],
+			capabilities: [],
+			tags: [],
 			markers: [],
 			links: {
 				'is attached to': [
 					{
 						id: thread.id,
 						type: 'thread',
-						markers: [],
 						data: {
 							uuid: id
 						}

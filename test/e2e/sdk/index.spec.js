@@ -51,6 +51,7 @@ ava.serial('.action() should be able to successfully create a new card', async (
 
 	const results = await sdk.query({
 		type: 'object',
+		additionalProperties: false,
 		properties: {
 			name: {
 				type: 'string',
@@ -66,7 +67,6 @@ ava.serial('.action() should be able to successfully create a new card', async (
 
 	test.deepEqual(results, [
 		{
-			markers: [],
 			type: 'card',
 			name
 		}
@@ -858,6 +858,7 @@ ava.serial('.card.create() should create a new card', async (test) => {
 
 	const results = await sdk.query({
 		type: 'object',
+		additionalProperties: false,
 		properties: {
 			slug: {
 				type: 'string',
@@ -872,7 +873,6 @@ ava.serial('.card.create() should create a new card', async (test) => {
 	})
 
 	test.deepEqual(_.first(results), {
-		markers: [],
 		type: 'card',
 		slug
 	})
@@ -1000,6 +1000,7 @@ ava.serial.cb('.stream() should stream new cards', (test) => {
 
 	sdk.stream({
 		type: 'object',
+		additionalProperties: false,
 		properties: {
 			slug: {
 				type: 'string',
@@ -1028,7 +1029,6 @@ ava.serial.cb('.stream() should stream new cards', (test) => {
 				test.is(update.data.before, null)
 				test.deepEqual(_.omit(update.data.after, [ 'id' ]), {
 					slug: slug1,
-					markers: [],
 					data: {
 						test: 1
 					}

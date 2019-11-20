@@ -121,6 +121,7 @@ ava('.getSchema() should return a schema given a view card with two conjunctions
 
 	test.deepEqual(schema, {
 		type: 'object',
+		additionalProperties: true,
 		properties: {
 			foo: {
 				type: 'string',
@@ -171,6 +172,7 @@ ava('.getSchema() should return a schema given a view card with two conjunctions
 
 	test.deepEqual(schema, {
 		type: 'object',
+		additionalProperties: true,
 		properties: {
 			foo: {
 				type: 'string',
@@ -220,6 +222,7 @@ ava('.getSchema() should return a schema given a view card with two disjunctions
 
 	test.deepEqual(schema, {
 		type: 'object',
+		additionalProperties: true,
 		anyOf: [
 			{
 				type: 'object',
@@ -284,6 +287,7 @@ ava('.getSchema() should return a schema given a view card with two disjunctions
 
 	test.deepEqual(schema, {
 		type: 'object',
+		additionalProperties: true,
 		anyOf: [
 			{
 				type: 'object',
@@ -375,6 +379,7 @@ ava('.getSchema() should return a schema given a view card with two disjunctions
 
 	test.deepEqual(schema, {
 		type: 'object',
+		additionalProperties: true,
 		properties: {
 			foo: {
 				type: 'string',

@@ -1242,7 +1242,7 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 			}
 		},
 		type: 'object',
-		required: [ 'type', 'links', 'data' ],
+		required: [ 'id', 'type', 'links', 'data', 'slug' ],
 		properties: {
 			id: {
 				type: 'string'
@@ -1283,6 +1283,15 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 			id: message.id,
 			slug: message.slug,
 			type: 'message',
+			version: '1.0.0',
+			updated_at: null,
+			linked_at: message.linked_at,
+			created_at: message.created_at,
+			name: null,
+			active: true,
+			tags: [],
+			requires: [],
+			capabilities: [],
 			markers: [],
 			links: {
 				'is attached to': [
