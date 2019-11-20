@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'github: Handle label events without `payload.label`'
+      hash: b8ce9fded2578fe9c2cc7382dfa08458106b18c2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Fixes: 'https://sentry.io/share/issue/de257e15fecc48b4879db5724b6f3d59/'
+        fixes: 'https://sentry.io/share/issue/de257e15fecc48b4879db5724b6f3d59/'
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.24.6
+  date: 2019-11-20T19:41:45.257Z
+- commits:
     - subject: 'core: Clarify query link test case'
       hash: d1e2191ea7e7a7d55802f7b53f1065d632343513
       body: ''
