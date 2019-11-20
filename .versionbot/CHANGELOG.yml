@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'core: Throw a better error when querying with an invalid regex'
+      hash: 940721e3dc02b79e596eec4b2e5f298102f35faf
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Fixes: 'https://sentry.io/share/issue/eae2bff153b64dfc8ade1e3fe4721c24/'
+        fixes: 'https://sentry.io/share/issue/eae2bff153b64dfc8ade1e3fe4721c24/'
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.24.4
+  date: 2019-11-20T16:59:40.265Z
+- commits:
     - subject: 'core/sdk: Make query exceeded limit number a user error'
       hash: 7ef1d6ae4ce79bead3e2707c870640453d7bfaf8
       body: ''
