@@ -1,4 +1,14 @@
 - commits:
+    - subject: 'ChatWidget: Fix full convo list crash'
+      hash: 61e74dbbd1442827cae63454ac0e180d9b4a77ab
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Kakhaber
+  version: 24.24.8
+  date: 2019-11-21T15:31:27.723Z
+- commits:
     - subject: Setup Mergify to perform automated merges
       hash: 54ac1c3902e9eee9161732fa90948685b0a3a4ca
       body: ''
