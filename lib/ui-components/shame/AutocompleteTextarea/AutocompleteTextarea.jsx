@@ -212,14 +212,9 @@ class AutoCompleteArea extends React.Component {
 
 		if ((event.which === 13 || event.keyCode === 13) && shouldSend && this.props.onSubmit) {
 			this.props.onSubmit(event)
-		}
-	}
 
-	// eslint-disable-next-line camelcase
-	UNSAFE_componentWillUpdate (nextProps) {
-		if (nextProps.value !== this.props.value) {
 			this.setState({
-				value: nextProps.value || ''
+				value: ''
 			})
 		}
 	}
