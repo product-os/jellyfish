@@ -1,4 +1,16 @@
 - commits:
+    - subject: Setup Mergify to perform automated merges
+      hash: 54ac1c3902e9eee9161732fa90948685b0a3a4ca
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.24.7
+  date: 2019-11-20T20:40:33.762Z
+- commits:
     - subject: 'github: Handle label events without `payload.label`'
       hash: b8ce9fded2578fe9c2cc7382dfa08458106b18c2
       body: ''
