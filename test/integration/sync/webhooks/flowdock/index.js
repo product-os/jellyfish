@@ -44,25 +44,10 @@ module.exports = {
 			require('./new-message-pinging-user-and-sees-the-message/02.json')
 		]
 	},
-	'new-message-with-2-emoji-reactions': {
-		expected: require('./new-message-with-2-emoji-reactions/expected.json'),
-		steps: [
-			require('./new-message-with-2-emoji-reactions/01.json'),
-			require('./new-message-with-2-emoji-reactions/02.json'),
-			require('./new-message-with-2-emoji-reactions/03.json')
-		]
-	},
 	'new-message-with-big-body': {
 		expected: require('./new-message-with-big-body/expected.json'),
 		steps: [
 			require('./new-message-with-big-body/01.json')
-		]
-	},
-	'new-message-with-emoji-reaction': {
-		expected: require('./new-message-with-emoji-reaction/expected.json'),
-		steps: [
-			require('./new-message-with-emoji-reaction/01.json'),
-			require('./new-message-with-emoji-reaction/02.json')
 		]
 	},
 	'new-message-with-file-attachment': {
@@ -77,10 +62,21 @@ module.exports = {
 			require('./new-message-with-image-attachment/01.json')
 		]
 	},
-	'new-message-with-one-tag': {
-		expected: require('./new-message-with-one-tag/expected.json'),
+
+	/*
+	'new-message-with-2-emoji-reactions': {
+		expected: require('./new-message-with-2-emoji-reactions/expected.json'),
 		steps: [
-			require('./new-message-with-one-tag/01.json')
+			require('./new-message-with-2-emoji-reactions/01.json'),
+			require('./new-message-with-2-emoji-reactions/02.json'),
+			require('./new-message-with-2-emoji-reactions/03.json')
+		]
+	},
+	'new-message-with-emoji-reaction': {
+		expected: require('./new-message-with-emoji-reaction/expected.json'),
+		steps: [
+			require('./new-message-with-emoji-reaction/01.json'),
+			require('./new-message-with-emoji-reaction/02.json')
 		]
 	},
 	'new-message-with-reaction-from-another-user': {
@@ -96,6 +92,13 @@ module.exports = {
 			require('./new-message-with-reaction-from-another-user-and-undo/01.json'),
 			require('./new-message-with-reaction-from-another-user-and-undo/02.json'),
 			require('./new-message-with-reaction-from-another-user-and-undo/03.json')
+		]
+	},
+	*/
+	'new-message-with-one-tag': {
+		expected: require('./new-message-with-one-tag/expected.json'),
+		steps: [
+			require('./new-message-with-one-tag/01.json')
 		]
 	},
 	'new-message-with-reply-and-delete-reply': {
