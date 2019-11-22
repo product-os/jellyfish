@@ -573,6 +573,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 				data
 			})
 		}).catch((error) => {
+			logger.warn(request.context, 'JSON Schema query error', request.body)
 			return sendHTTPError(request, response, error)
 		})
 	})
