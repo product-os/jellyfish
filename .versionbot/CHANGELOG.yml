@@ -1,4 +1,14 @@
 - commits:
+    - subject: Improve getActor performance
+      hash: 1356cdeee5c46fd841b9a496fa0f4d84e797d444
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 24.25.0
+  date: 2019-11-22T12:32:17.840Z
+- commits:
     - subject: Finish off porting queries to prepared statements
       hash: 743964f1bced82fe3ccb47fa0d60459a063c5b28
       body: ''
