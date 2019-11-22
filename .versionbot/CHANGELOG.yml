@@ -1,4 +1,27 @@
 - commits:
+    - subject: Finish off porting queries to prepared statements
+      hash: 743964f1bced82fe3ccb47fa0d60459a063c5b28
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@fissore.org>
+        signed-off-by: Federico Fissore <federico@fissore.org>
+      author: Federico Fissore
+    - subject: >-
+        `version` is not a procedure, it's a function Newer version of
+        node-postgres will complain, so we must use `select version()`
+      hash: cf8bf32fa8f116464e3bfbb97a0886ffe59485a8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@fissore.org>
+        signed-off-by: Federico Fissore <federico@fissore.org>
+      author: Federico Fissore
+  version: 24.24.9
+  date: 2019-11-21T17:18:05.843Z
+- commits:
     - subject: 'ChatWidget: Fix full convo list crash'
       hash: 61e74dbbd1442827cae63454ac0e180d9b4a77ab
       body: ''
