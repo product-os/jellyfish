@@ -7,7 +7,6 @@
 /* eslint-disable class-methods-use-this */
 
 import * as Bluebird from 'bluebird'
-import debounce from 'debounce-promise'
 import clone from 'deep-copy'
 import * as fastEquals from 'fast-equals'
 import * as _ from 'lodash'
@@ -114,7 +113,10 @@ const getViewId = (query) => {
 export const selectors = {
 	getAccounts: (state) => { return state.core.accounts },
 	getActor: (state, id) => {
-		return _.get(state.core, [ 'actors', id ], null)
+		// Return false if there is no card in state.
+		// Actor can be null, setting default value to null makes it impossible
+		// to determine whether it existed in state or not.
+		return _.get(state.core, [ 'actors', id ], false)
 	},
 	getOrgs: (state) => { return state.core.orgs },
 	getAppVersion: (state) => { return _.get(state.core, [ 'config', 'version' ]) || null },
@@ -228,31 +230,35 @@ export default class ActionCreator {
 			'upsertViewData'
 		])
 
+		// Card exists here until it's loaded
+		const loadingCardCache = {}
+
 		// This is a function that memoizes a debounce function, this allows us to
 		// create different debounce lists depending on the args passed to
 		// 'getActor'
-		this.getActorInternal = _.memoize((id) => {
-			return debounce(
-				async (dispatch, getState) => {
-					let actor = null
-					let name = 'unknown user'
-					let email = null
+		this.getActorInternal = (id) => {
+			return async (dispatch, getState) => {
+				let actor = null
+				let name = 'unknown user'
+				let email = null
 
-					// IF proxy is true, it indicates that the actor has been created as a proxy
-					// for a real user in JF, usually as a result of syncing from an external
-					// service
-					let proxy = false
+				// IF proxy is true, it indicates that the actor has been created as a proxy
+				// for a real user in JF, usually as a result of syncing from an external
+				// service
+				let proxy = false
 
-					if (!id) {
-						return null
-					}
+				if (!id) {
+					return null
+				}
 
-					const cachedCard = selectors.getActor(getState(), id)
+				const cachedActor = selectors.getActor(getState(), id)
+				const actorFoundInState = cachedActor !== false
 
-					if (cachedCard) {
-						actor = cachedCard
-					} else {
-						const result = await this.sdk.query({
+				if (actorFoundInState) {
+					actor = cachedActor
+				} else {
+					if (!Reflect.has(loadingCardCache, id)) {
+						loadingCardCache[id] = this.sdk.query({
 							$$links: {
 								'is member of': {
 									type: 'object'
@@ -267,57 +273,61 @@ export default class ActionCreator {
 							additionalProperties: true
 						}, {
 							limit: 1
-						})
-
-						if (result.length) {
-							actor = result[0]
-						} else {
-							actor = await this.sdk.card.get(id)
-						}
-
-						dispatch({
-							type: actions.SET_ACTOR,
-							value: {
-								actor,
-								id
+						}).then((result) => {
+							if (result.length) {
+								return result[0]
 							}
+							return this.sdk.card.get(id)
+						}).finally(() => {
+							Reflect.deleteProperty(loadingCardCache, id)
 						})
 					}
 
-					if (!actor) {
-						return null
-					}
+					actor = await loadingCardCache[id]
 
-					email = _.get(actor, [ 'data', 'email' ], '')
-
-					const isBalenaTeam = _.find(
-						_.get(actor, [ 'links', 'is member of' ], []),
-						{
-							slug: 'org-balena'
+					dispatch({
+						type: actions.SET_ACTOR,
+						value: {
+							actor,
+							id
 						}
-					)
+					})
+				}
 
-					// Check if the user is part of the balena org
-					if (isBalenaTeam) {
-						name = actor.name || actor.slug.replace('user-', '')
-					} else {
-						proxy = true
-						let handle = actor.name || _.get(actor, [ 'data', 'handle' ])
-						if (!handle) {
-							handle = email || actor.slug.replace(/^(account|user)-/, '')
-						}
-						name = `[${handle}]`
-					}
+				if (!actor) {
+					return null
+				}
 
-					return {
-						name,
-						email,
-						avatarUrl: _.get(actor, [ 'data', 'avatar' ]),
-						proxy,
-						card: actor
+				email = _.get(actor, [ 'data', 'email' ], '')
+
+				const isBalenaTeam = _.find(
+					_.get(actor, [ 'links', 'is member of' ], []),
+					{
+						slug: 'org-balena'
 					}
-				}, 50)
-		})
+				)
+
+				// Check if the user is part of the balena org
+				if (isBalenaTeam) {
+					name = actor.name || actor.slug.replace('user-', '')
+				} else {
+					proxy = true
+					let handle = actor.name || _.get(actor, [ 'data', 'handle' ])
+					if (!handle) {
+						handle = email || actor.slug.replace(/^(account|user)-/, '')
+					}
+					name = `[${handle}]`
+				}
+
+				return {
+					name,
+					email,
+					avatarUrl: _.get(actor, [ 'data', 'avatar' ]),
+					proxy,
+					card: actor
+				}
+			}
+		}
 	}
 
 	bindMethods (methods) {
