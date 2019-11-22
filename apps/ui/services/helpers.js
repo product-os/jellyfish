@@ -380,10 +380,18 @@ export const colorHash = _.memoize((input) => {
 	return new ColorHash().hex(input)
 })
 
+// Get the actor from the create event if it is available, otherwise use the
+// first message creator
 export const getCreator = async (getActorFn, card) => {
-	const createCard = _.find(_.get(card.links, [ 'has attached element' ], []), {
+	const timeline = _.sortBy(_.get(card.links, [ 'has attached element' ], []), 'data.timestamp')
+	let createCard = _.find(timeline, {
 		type: 'create'
 	})
+	if (!createCard) {
+		createCard = _.find(timeline, {
+			type: 'message'
+		})
+	}
 	const actor = await getActorFn(_.get(createCard, [ 'data', 'actor' ]))
 	return actor
 }
