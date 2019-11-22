@@ -1,4 +1,16 @@
 - commits:
+    - subject: Improve load speed of the support threads view
+      hash: f6a934e52091fb841ce9b678b993f1787121313b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 24.25.1
+  date: 2019-11-22T14:02:29.454Z
+- commits:
     - subject: Improve getActor performance
       hash: 1356cdeee5c46fd841b9a496fa0f4d84e797d444
       body: ''
