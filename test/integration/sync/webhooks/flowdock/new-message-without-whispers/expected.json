@@ -88,7 +88,7 @@
           "active": true
         },
         "payload": {
-          "message": "fizz bazz",
+          "message": "fizz baz",
           "mentionsUser": [],
           "alertsUser": []
         },

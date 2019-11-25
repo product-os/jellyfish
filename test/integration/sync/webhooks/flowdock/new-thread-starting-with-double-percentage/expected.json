@@ -52,7 +52,7 @@
       }
     },
     {
-      "type": "whisper",
+      "type": "message",
       "version": "1.0.0",
       "active": true,
       "tags": [],
@@ -65,7 +65,7 @@
           "active": true
         },
         "payload": {
-          "message": "%fizz baz bar foo",
+          "message": "fizz baz bar foo",
           "mentionsUser": [],
           "alertsUser": []
         },

@@ -67,7 +67,8 @@
         "payload": {
           "message": "@mbalamat, ",
           "mentionsUser": ["mbalamat"],
-          "alertsUser": []
+          "alertsUser": [],
+          "readBy": ["mbalamat"]
         },
         "mirrors": [
           "https://api.flowdock.com/flows/rulemotion/testing/threads/4RD9YR8MupYSkv6sTe9PiOc2Bkz/messages/112897"
