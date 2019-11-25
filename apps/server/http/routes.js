@@ -212,6 +212,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 	})
 
 	application.get('/api/v2/type/:type', (request, response) => {
+		const [ base, version ] = request.params.type.split('@')
 		jellyfish.query(request.context, request.sessionToken, {
 			type: 'object',
 			additionalProperties: true,
@@ -219,7 +220,10 @@ module.exports = (application, jellyfish, worker, queue) => {
 			properties: {
 				type: {
 					type: 'string',
-					const: request.params.type
+
+					// TODO: Get rid of this enum once we have
+					// versions supported all across the system.
+					enum: [ base, `${base}@${version || '1.0.0'}` ]
 				}
 			}
 		}).then((results) => {
