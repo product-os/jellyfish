@@ -41,9 +41,7 @@ FROM cards
 WHERE
 (cards.type = 'support-thread')
 AND
-((cards.data->'mirrors' IS NOT NULL)
-AND
-(cards.data->'mirrors' @> '"https://api2.frontapp.com/conversations/cnv_2q9efia"'))`
+(cards.data->'mirrors' @> '"https://api2.frontapp.com/conversations/cnv_2q9efia"')`
 
 	test.deepEqual(expected, query)
 })
@@ -82,9 +80,7 @@ FROM cards
 WHERE
 (cards.type = 'support-thread')
 AND
-((cards.data->'mirrors' IS NOT NULL)
-AND
-(cards.data->'mirrors' @> '42'))`
+(cards.data->'mirrors' @> '42')`
 	test.deepEqual(expected, query)
 })
 
@@ -121,9 +117,7 @@ cards."data",
 cards."tags"
 FROM cards
 WHERE
-((cards.data->'number' IS NOT NULL)
-AND
-(cards.data->'number' @> '1'))
+(cards.data->'number' @> '1')
 AND
 (cards.tags @> ARRAY['foo'])`
 	test.deepEqual(expected, query)
