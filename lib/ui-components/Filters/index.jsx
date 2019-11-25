@@ -113,8 +113,7 @@ class Filters extends React.Component {
 		this.state.edit.push(this.getCleanEditModel())
 	}
 
-	// eslint-disable-next-line camelcase
-	UNSAFE_componentWillReceiveProps (nextProps) {
+	getSnapshotBeforeUpdate (nextProps) {
 		const newState = {}
 
 		// If the schema prop updates, also update the internal 'flat' schema
@@ -135,7 +134,15 @@ class Filters extends React.Component {
 		}
 
 		if (!isEmpty(newState)) {
-			this.setState(newState)
+			return newState
+		}
+
+		return null
+	}
+
+	componentDidUpdate (prevPros, prevState, snapshot) {
+		if (snapshot) {
+			this.setState(snapshot)
 		}
 	}
 
