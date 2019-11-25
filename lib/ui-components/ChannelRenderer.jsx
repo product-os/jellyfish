@@ -4,7 +4,6 @@
  * Proprietary and confidential.
  */
 
-import _ from 'lodash'
 import React from 'react'
 import {
 	DropTarget
@@ -86,7 +85,8 @@ class ChannelRenderer extends React.Component {
 			connectDropTarget,
 			isOver,
 			types,
-			user
+			user,
+			width
 		} = this.props
 
 		const {
@@ -100,9 +100,8 @@ class ChannelRenderer extends React.Component {
 		} = this.state
 
 		const style = {
-			position: 'absolute',
-			width: _.get(this.props.space, [ 'width' ], 'auto'),
-			left: _.get(this.props.space, [ 'left' ], 'auto'),
+			position: 'relative',
+			width,
 			height: '100%',
 			transition: 'all ease-in-out 150ms',
 			background: isOver ? '#ccc' : 'white',
