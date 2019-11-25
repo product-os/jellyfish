@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'server: Log problematic queries'
+      hash: 38d0ae1f08ebe771c1cd1c2048863c7b0c76e003
+      body: |
+        For debugging purposes. Sometimes we get Rapid7 alerts about problems on
+        `/api/v2/query`, but no information whatsoever about what query was ran,
+        which makes it difficult to make any progress.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.25.2
+  date: 2019-11-22T16:28:24.537Z
+- commits:
     - subject: Improve load speed of the support threads view
       hash: f6a934e52091fb841ce9b678b993f1787121313b
       body: ''
