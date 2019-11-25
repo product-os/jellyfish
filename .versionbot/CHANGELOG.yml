@@ -1,4 +1,17 @@
 - commits:
+    - subject: Allow users to read user card that don't have an email field
+      hash: ab5136052f4a3d82bd869844b9fa3415093a4617
+      body: |
+        Fixes #2801
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 24.25.4
+  date: 2019-11-25T15:05:29.855Z
+- commits:
     - subject: 'sync: Automatically retry on 408 Request Time-out'
       hash: 2b5ad13414eb8c668a3a9859880ce2410bd520a9
       body: ''
