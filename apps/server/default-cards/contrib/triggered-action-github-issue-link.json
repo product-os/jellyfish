@@ -16,7 +16,7 @@
       "properties": {
         "type": {
           "type": "string",
-          "const": "link"
+          "enum": [ "link", "link@1.0.0" ]
         },
         "data": {
           "type": "object",
@@ -28,7 +28,7 @@
               "properties": {
                 "type": {
                   "type": "string",
-                  "enum": [ "support-thread" ]
+                  "enum": [ "support-thread", "support-thread@1.0.0" ]
                 }
               }
             },
@@ -38,7 +38,12 @@
               "properties": {
                 "type": {
                   "type": "string",
-                  "enum": [ "issue", "pull-request" ]
+                  "enum": [
+                    "issue",
+                    "pull-request",
+                    "issue@1.0.0",
+                    "pull-request@1.0.0"
+                  ]
                 }
               }
             }
