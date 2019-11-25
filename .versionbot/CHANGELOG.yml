@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'sync: Automatically retry on 408 Request Time-out'
+      hash: 2b5ad13414eb8c668a3a9859880ce2410bd520a9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Fixes: 'https://sentry.io/share/issue/5203747ecace4d78a7ccbd776e889585/'
+        fixes: 'https://sentry.io/share/issue/5203747ecace4d78a7ccbd776e889585/'
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.25.3
+  date: 2019-11-25T14:08:28.111Z
+- commits:
     - subject: 'server: Log problematic queries'
       hash: 38d0ae1f08ebe771c1cd1c2048863c7b0c76e003
       body: |
