@@ -1374,6 +1374,7 @@ avaTest('should add a company and email to an existing user', async (test) => {
 		{
 			id: userCard.id,
 			slug: userCard.slug,
+			version: userCard.version,
 			type: 'user'
 		}
 	])
@@ -1458,6 +1459,7 @@ avaTest('should add a first name to an existing user', async (test) => {
 		{
 			id: userCard.id,
 			slug: userCard.slug,
+			version: userCard.version,
 			type: 'user'
 		}
 	])
@@ -1544,6 +1546,7 @@ avaTest('should add a last name to an existing user', async (test) => {
 		{
 			id: userCard.id,
 			slug: userCard.slug,
+			version: userCard.version,
 			type: 'user'
 		}
 	])
@@ -1629,6 +1632,7 @@ avaTest('should link an existing user by adding no data', async (test) => {
 		{
 			id: userCard.id,
 			slug: userCard.slug,
+			version: userCard.version,
 			type: 'user'
 		}
 	])

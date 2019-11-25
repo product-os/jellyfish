@@ -65,6 +65,7 @@ ava.serial('Users should be able to view an element with no markers', async (tes
 	test.deepEqual(thread, {
 		id: userReadThread.id,
 		type: userReadThread.type,
+		version: userReadThread.version,
 		slug: userReadThread.slug
 	})
 })
@@ -149,6 +150,7 @@ ava.serial('Users should be able to view an element if all of their markers matc
 	test.deepEqual(thread, {
 		id: userReadThread.id,
 		type: userReadThread.type,
+		version: userReadThread.version,
 		slug: userReadThread.slug
 	})
 })
@@ -199,6 +201,7 @@ ava.serial('Users should be able to view an element using compound markers', asy
 	test.deepEqual(thread, {
 		id: userReadThread.id,
 		type: userReadThread.type,
+		version: userReadThread.version,
 		slug: userReadThread.slug
 	})
 })
@@ -273,6 +276,7 @@ ava.serial(
 		test.deepEqual(thread, {
 			id: userReadThread.id,
 			type: userReadThread.type,
+			version: userReadThread.version,
 			slug: userReadThread.slug
 		})
 	})
@@ -299,6 +303,7 @@ ava.serial('Users should be able to view an element using compound markers with 
 	test.deepEqual(thread, {
 		id: userReadThread.id,
 		type: userReadThread.type,
+		version: userReadThread.version,
 		slug: userReadThread.slug
 	})
 })
@@ -341,6 +346,7 @@ ava.serial(
 		test.deepEqual(thread, {
 			id: userReadThread.id,
 			type: userReadThread.type,
+			version: userReadThread.version,
 			slug: userReadThread.slug
 		})
 	})

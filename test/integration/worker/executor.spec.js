@@ -1590,6 +1590,7 @@ ava('.run() should create a card', async (test) => {
 	test.deepEqual(result, {
 		id: result.id,
 		type: 'card',
+		version: '1.0.0',
 		slug: 'foo-bar-baz'
 	})
 })
