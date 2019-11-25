@@ -25,7 +25,7 @@ ava('.getSessionUser() should throw if the session actor is invalid', async (tes
 		slug: test.context.generateRandomSlug({
 			prefix: 'session'
 		}),
-		type: 'session',
+		type: 'session@1.0.0',
 		version: '1.0.0',
 		data: {
 			actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
@@ -42,7 +42,7 @@ ava('.getSessionUser() should get the session user given the session did not exp
 	const result = await test.context.kernel.insertCard(
 		test.context.context, test.context.kernel.sessions.admin, {
 			slug: 'user-johndoe',
-			type: 'user',
+			type: 'user@1.0.0',
 			version: '1.0.0',
 			data: {
 				email: 'johndoe@example.com',
@@ -58,7 +58,7 @@ ava('.getSessionUser() should get the session user given the session did not exp
 		slug: test.context.generateRandomSlug({
 			prefix: 'session'
 		}),
-		type: 'session',
+		type: 'session@1.0.0',
 		version: '1.0.0',
 		data: {
 			actor: result.id,
@@ -80,7 +80,7 @@ ava('.getSessionUser() should throw if the session expired', async (test) => {
 	const user = await test.context.kernel.insertCard(
 		test.context.context, test.context.kernel.sessions.admin, {
 			slug: 'user-johndoe',
-			type: 'user',
+			type: 'user@1.0.0',
 			version: '1.0.0',
 			data: {
 				email: 'johndoe@example.com',
@@ -96,7 +96,7 @@ ava('.getSessionUser() should throw if the session expired', async (test) => {
 		slug: test.context.generateRandomSlug({
 			prefix: 'session'
 		}),
-		type: 'session',
+		type: 'session@1.0.0',
 		version: '1.0.0',
 		data: {
 			actor: user.id,

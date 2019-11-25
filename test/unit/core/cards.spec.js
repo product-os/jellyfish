@@ -29,7 +29,7 @@ _.each(CARDS, async (value, key) => {
 	ava(`The "${key}" card should validate against the card type and its own type`, async (test) => {
 		const card = await value
 		const cardSchema = (await CARDS.card).data.schema
-		const typeSchema = (await CARDS[card.type]).data.schema
+		const typeSchema = (await CARDS[card.type.split('@')[0]]).data.schema
 		const cardWithCreation = addCreatedField(card)
 
 		test.true(skhema.isValid(cardSchema, cardWithCreation))
