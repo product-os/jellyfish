@@ -1,4 +1,112 @@
 - commits:
+    - subject: 'test/integration/flowdock: Fix wrong information on expectations'
+      hash: fab3a483222c31a67bb0a3dde1e4b66d500bdec7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+    - subject: 'test/integration/flowdock: Stop emoji reaction tests from running'
+      hash: 15b73ee900a0b546806a340a6246f16cf8278d53
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+    - subject: 'test/integration/flowdock: Add readBy property on message expectation'
+      hash: a8f7ddd41fde100c198aefdae2585200e308bf19
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+    - subject: >-
+        test/integration/flowdock: Change all the expectation cards from
+        chat-thread to thread
+      hash: a4ba41d11c77d1c90a045ba55b1c3a95cb21dde4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+    - subject: 'test/integration/flowdock: Add new test scenarios'
+      hash: e9c0d669f17a065b2a9d9824d3d26de9ab4ecc72
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+    - subject: 'test/integration/flowdock: Add missing stubs'
+      hash: fb3ee4deced843815d2eb6aab65e4d04178cd84d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+    - subject: >-
+        test/integration/flowdock: Add test case of message starting with space
+        and percentage
+      hash: c20d6aa28b4a1330ef784daf7115061429e81c60
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+    - subject: >-
+        test/integration/flowdock: Add test case of thread with whisper and non
+        whisper
+      hash: 7f7e69430518e527634d505141f9b1a9392602b7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+    - subject: 'test/integration/flowdock: Add test case of a message starting with %%'
+      hash: a075dcbd40ab08bf7e50ba85adbf8ae0e7dc69d0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+    - subject: 'test/integration/flowdock: Add test case of new thread without whispers'
+      hash: 95b58e7da1729103080ef0acde0613ab8fc6b4c4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+    - subject: 'test/integration/flowdock: Change card type message to whisper'
+      hash: d33fa6256b33bf63f650dd2f0ca0d27a20e3992c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+  version: 24.26.4
+  date: 2019-11-26T21:13:29.616Z
+- commits:
     - subject: 'action-library: Backwards compatible version support in actions'
       hash: b2c8ad9782c23b5e00f0973501d80ddd63ee61e5
       body: ''
