@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'server: Backwards compatible version support in triggered actions'
+      hash: 0838aae50116fb4d2728513ccd5639ee27d05083
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.26.2
+  date: 2019-11-26T14:17:11.031Z
+- commits:
     - subject: 'server: Backwards compatible version support in /api/v2/type'
       hash: d2855fa59f11ce607c56ad86a82bf2532401de1f
       body: ''
