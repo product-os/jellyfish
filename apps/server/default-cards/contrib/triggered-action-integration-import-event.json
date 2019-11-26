@@ -16,7 +16,7 @@
       "properties": {
         "type": {
           "type": "string",
-          "const": "external-event"
+          "enum": [ "external-event", "external-event@1.0.0" ]
         },
         "data": {
           "type": "object",

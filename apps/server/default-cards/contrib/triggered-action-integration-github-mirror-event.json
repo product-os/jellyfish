@@ -18,7 +18,10 @@
           "enum": [
             "message",
             "issue",
-            "pull-request"
+            "pull-request",
+            "message@1.0.0",
+            "issue@1.0.0",
+            "pull-request@1.0.0"
           ]
         }
       }
