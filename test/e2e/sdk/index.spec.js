@@ -100,6 +100,7 @@ ava.serial('.action() should resolve with the slug, id and type of the card', as
 	test.deepEqual(card, {
 		id: card.id,
 		slug,
+		version: card.version,
 		type: 'card'
 	})
 })
@@ -926,6 +927,7 @@ ava.serial('.card.create() should resolve with the slug, id and type of the crea
 	test.deepEqual(card, {
 		id: card.id,
 		slug,
+		version: card.version,
 		type: 'card'
 	})
 })
@@ -1371,11 +1373,11 @@ ava.serial('should link two cards together', async (test) => {
 
 	test.deepEqual(thread, _.pick(_.find(expandedIssue.links['issue has attached support thread'], {
 		id: thread.id
-	}), [ 'id', 'type', 'slug' ]))
+	}), [ 'id', 'type', 'slug', 'version' ]))
 
 	test.deepEqual(issue, _.pick(_.find(expandedThread.links['support thread is attached to issue'], {
 		id: issue.id
-	}), [ 'id', 'type', 'slug' ]))
+	}), [ 'id', 'type', 'slug', 'version' ]))
 })
 
 ava.serial('linking two cards should be idempotent', async (test) => {
@@ -1471,9 +1473,9 @@ ava.serial('linking two cards should be idempotent', async (test) => {
 
 	test.deepEqual(thread, _.pick(_.find(expandedIssue.links['issue has attached support thread'], {
 		id: thread.id
-	}), [ 'id', 'type', 'slug' ]))
+	}), [ 'id', 'type', 'slug', 'version' ]))
 
 	test.deepEqual(issue, _.pick(_.find(expandedThread.links['support thread is attached to issue'], {
 		id: issue.id
-	}), [ 'id', 'type', 'slug' ]))
+	}), [ 'id', 'type', 'slug', 'version' ]))
 })
