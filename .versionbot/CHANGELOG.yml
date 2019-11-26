@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'server: Backwards compatible version support in /api/v2/type'
+      hash: d2855fa59f11ce607c56ad86a82bf2532401de1f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.26.1
+  date: 2019-11-26T12:54:27.849Z
+- commits:
     - subject: 'action-library: Return card versions in most actions'
       hash: e3e24373933a78ea58097ced9e7601f657d54a91
       body: |
