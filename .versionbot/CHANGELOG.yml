@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'action-library: Backwards compatible version support in actions'
+      hash: b2c8ad9782c23b5e00f0973501d80ddd63ee61e5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.26.3
+  date: 2019-11-26T15:55:58.173Z
+- commits:
     - subject: 'server: Backwards compatible version support in triggered actions'
       hash: 0838aae50116fb4d2728513ccd5639ee27d05083
       body: ''
