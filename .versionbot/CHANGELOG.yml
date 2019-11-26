@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'action-library: Return card versions in most actions'
+      hash: e3e24373933a78ea58097ced9e7601f657d54a91
+      body: |
+        Its handy to have them once all cards are versioned, otherwise we need
+        to request the full card again in most cases.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.26.0
+  date: 2019-11-25T17:23:37.629Z
+- commits:
     - subject: Allow users to read user card that don't have an email field
       hash: ab5136052f4a3d82bd869844b9fa3415093a4617
       body: |
