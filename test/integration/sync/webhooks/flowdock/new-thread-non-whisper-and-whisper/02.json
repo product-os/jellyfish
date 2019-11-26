@@ -1,0 +1,42 @@
+{
+  "headers": {
+    "content-type": "application/json",
+    "x-flowdock-signature": "sha1=11f5673b9542502007c48f253168837ae6ca5794",
+    "host": "2e88a99e.ngrok.io",
+    "content-length": "678",
+    "connection": "close",
+    "x-forwarded-proto": "https",
+    "x-forwarded-for": "94.65.78.172"
+  },
+  "payload": {
+    "thread_id": "KvxgRzRSwG1272qT56q1Lf4uui1",
+    "event": "message",
+    "tags": [],
+    "uuid": "MvgAdxbvpc1v0zZT",
+    "thread": {
+      "body": "",
+      "external_url": null,
+      "external_comments": 0,
+      "activities": 0,
+      "id": "KvxgRzRSwG1272qT56q1Lf4uui1",
+      "flow": "bed6fa5a-6a31-4a31-9b3b-9184b158c2b8",
+      "status": null,
+      "fields": [],
+      "actions": [],
+      "created_at": "2019-11-13T15:33:38.000Z",
+      "title": "% This is NOT a secret message",
+      "updated_at": "2019-11-13T15:33:38.503Z",
+      "initial_message": 113871,
+      "internal_comments": 2
+    },
+    "id": 113873,
+    "flow": "bed6fa5a-6a31-4a31-9b3b-9184b158c2b8",
+    "content": "this is a whisper",
+    "sent": 1573659227470,
+    "app": "chat",
+    "created_at": "2019-11-13T15:33:47.470Z",
+    "attachments": [],
+    "emojiReactions": {},
+    "user": "345062"
+  }
+}

@@ -1,7 +1,7 @@
 {
   "head": {
     "name": "",
-    "type": "chat-thread",
+    "type": "thread",
     "version": "1.0.0",
     "active": true,
     "tags": [],
@@ -33,7 +33,7 @@
         },
         "payload": {
           "name": "",
-          "type": "chat-thread",
+          "type": "thread",
           "version": "1.0.0",
           "active": true,
           "tags": [],
@@ -52,7 +52,7 @@
       }
     },
     {
-      "type": "message",
+      "type": "whisper",
       "version": "1.0.0",
       "active": true,
       "tags": [],
@@ -67,7 +67,8 @@
         "payload": {
           "message": "hi @testbot ",
           "mentionsUser": ["testbot"],
-          "alertsUser": []
+          "alertsUser": [],
+          "readBy": ["testbot"]
         },
         "mirrors": [
           "https://api.flowdock.com/flows/rulemotion/testing/threads/l5s1THMXqKJeCEVrgx-OZNWvLHK/messages/113639"

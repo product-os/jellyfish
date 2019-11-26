@@ -1,0 +1,101 @@
+{
+  "head": {
+    "name": "",
+    "type": "thread",
+    "version": "1.0.0",
+    "active": true,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "mirrors": [
+        "https://api.flowdock.com/flows/rulemotion/testing/threads/OYQgPR7MbCtdQJgMZLxpkyptQzK"
+      ],
+      "flow": "testing",
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": ""
+    }
+  },
+  "tail": [
+    {
+      "type": "create",
+      "version": "1.0.0",
+      "active": true,
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "timestamp": "2019-11-13T11:00:21.472Z",
+        "actor": {
+          "slug": "user-mbalamat",
+          "active": true
+        },
+        "payload": {
+          "name": "",
+          "type": "thread",
+          "version": "1.0.0",
+          "active": true,
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "mirrors": [
+              "https://api.flowdock.com/flows/rulemotion/testing/threads/OYQgPR7MbCtdQJgMZLxpkyptQzK"
+            ],
+            "flow": "testing",
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": ""
+          }
+        }
+      }
+    },
+    {
+      "type": "message",
+      "version": "1.0.0",
+      "active": true,
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "timestamp": "2019-11-13T11:00:21.472Z",
+        "actor": {
+          "slug": "user-mbalamat",
+          "active": true
+        },
+        "payload": {
+          "message": "foo bar",
+          "mentionsUser": [],
+          "alertsUser": []
+        },
+        "mirrors": [
+          "https://api.flowdock.com/flows/rulemotion/testing/threads/OYQgPR7MbCtdQJgMZLxpkyptQzK/messages/113857"
+        ]
+      }
+    },
+    {
+      "type": "message",
+      "version": "1.0.0",
+      "active": true,
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "timestamp": "2019-11-13T11:00:36.176Z",
+        "actor": {
+          "slug": "user-mbalamat",
+          "active": true
+        },
+        "payload": {
+          "message": "fizz baz",
+          "mentionsUser": [],
+          "alertsUser": []
+        },
+        "mirrors": [
+          "https://api.flowdock.com/flows/rulemotion/testing/threads/OYQgPR7MbCtdQJgMZLxpkyptQzK/messages/113859"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "head": {
+    "name": "",
+    "type": "thread",
+    "version": "1.0.0",
+    "active": true,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "mirrors": [
+        "https://api.flowdock.com/flows/rulemotion/testing/threads/hlQXUW0NUed9eEW4Iao4WcGI_5v"
+      ],
+      "flow": "testing",
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": ""
+    }
+  },
+  "tail": [
+    {
+      "type": "create",
+      "version": "1.0.0",
+      "active": true,
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "timestamp": "2019-11-13T15:54:00.777Z",
+        "actor": {
+          "slug": "user-mbalamat",
+          "active": true
+        },
+        "payload": {
+          "name": "",
+          "type": "thread",
+          "version": "1.0.0",
+          "active": true,
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "mirrors": [
+              "https://api.flowdock.com/flows/rulemotion/testing/threads/hlQXUW0NUed9eEW4Iao4WcGI_5v"
+            ],
+            "flow": "testing",
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": ""
+          }
+        }
+      }
+    },
+    {
+      "type": "message",
+      "version": "1.0.0",
+      "active": true,
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "timestamp": "2019-11-13T15:54:00.777Z",
+        "actor": {
+          "slug": "user-mbalamat",
+          "active": true
+        },
+        "payload": {
+          "message": "this is a message (not a whisper) starting with space and percentage",
+          "mentionsUser": [],
+          "alertsUser": []
+        },
+        "mirrors": [
+          "https://api.flowdock.com/flows/rulemotion/testing/threads/hlQXUW0NUed9eEW4Iao4WcGI_5v/messages/113879"
+        ]
+      }
+    }
+  ]
+}
