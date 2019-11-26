@@ -333,9 +333,11 @@ ava.serial('Users should be able to mark all messages as read from their inbox',
 
 	await macros.waitForThenClickSelector(incognitoPage, '[data-test="inbox__mark-all-as-read"]')
 
-	// Leave a small delay for the message to be marked as read and for the change
-	// to be propogated to the UI
-	await Bluebird.delay(10000)
+	// Loading started
+	await page.waitForSelector('[data-test="inbox__mark-all-as-read-loading"]')
+
+	// Loading finished
+	await page.waitForSelector('[data-test="inbox__mark-all-as-read-idle"]')
 
 	await macros.waitForSelectorToDisappear(incognitoPage, '[data-test="event-card__message"]')
 

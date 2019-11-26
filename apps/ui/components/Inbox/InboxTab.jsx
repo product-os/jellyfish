@@ -196,7 +196,9 @@ export default (props) => {
 						disabled={isMarkingAllAsRead}
 						onClick={markAllAsRead}
 						data-test="inbox__mark-all-as-read"
-						icon={isMarkingAllAsRead ? <Icon name="cog" spin /> : <Icon name="check-circle" />}
+						icon={isMarkingAllAsRead
+							? <Icon name="cog" spin data-test="inbox__mark-all-as-read-loading" />
+							: <Icon name="check-circle" data-test="inbox__mark-all-as-read-idle" />}
 					>
 						Mark all read
 					</Button>
