@@ -1,5 +1,28 @@
 - commits:
     - subject: >-
+        Move query logic to a separate module, `QueryFacade`, that knows nothing
+        about http Introduce `AuthFacade` that leverages `QueryFacade`
+      hash: 95538a2e4e7f7d124621660e2a3771f8ee4d1e4e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@fissore.org>
+        signed-off-by: Federico Fissore <federico@fissore.org>
+      author: Federico Fissore
+    - subject: Move SDK whoami() method to the server
+      hash: 9655f70a1cdbc66ba15b9ee4ed9af8d5d8a78553
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 24.27.0
+  date: 2019-11-27T12:15:28.804Z
+- commits:
+    - subject: >-
         Don't check the type in keywords.pattern if schema.type is present,
         because type check was already added by keywords.type
       hash: 3ebe17ab6c7fb8bdc40324694ba287ddd8908a76
