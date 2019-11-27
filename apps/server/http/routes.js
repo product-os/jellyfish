@@ -15,6 +15,8 @@ const environment = require('../../../lib/environment')
 const sync = require('../../../lib/sync')
 const uuid = require('../../../lib/uuid')
 const packageJSON = require('../../../package.json')
+const QueryFacade = require('../../../lib/core/facade/query')
+const AuthFacade = require('../../../lib/core/facade/auth')
 
 const fileStore = new Storage({
 	driver: environment.fileStorage.driver
@@ -57,6 +59,9 @@ const sendHTTPError = (request, response, error) => {
 }
 
 module.exports = (application, jellyfish, worker, queue) => {
+	const queryFacade = new QueryFacade(jellyfish)
+	const authFacade = new AuthFacade(jellyfish)
+
 	application.get('/api/v2/config', (request, response) => {
 		response.send({
 			codename: packageJSON.codename,
@@ -523,49 +528,6 @@ module.exports = (application, jellyfish, worker, queue) => {
 		})
 	})
 
-	const queryAPI = (context, sessionToken, query, options, request) => {
-		return Bluebird.try(async () => {
-			if (!_.isString(query)) {
-				return query
-			}
-
-			// Now try and load the view by slug
-			const viewCardFromSlug = await jellyfish.getCardBySlug(
-				context, sessionToken, `${query}@latest`)
-
-			if (viewCardFromSlug && viewCardFromSlug.type === 'view') {
-				return viewCardFromSlug
-			}
-
-			try {
-				// Try and load the view by id first
-				const viewCardFromId = await jellyfish.getCardById(context, sessionToken, query)
-
-				if (!viewCardFromId || viewCardFromId.type !== 'view') {
-					throw new jellyfish.errors.JellyfishNoView(
-						`Unknown view: ${query}`)
-				}
-
-				return viewCardFromId
-			} catch (error) {
-				throw new jellyfish.errors.JellyfishNoView(
-					`Unknown view: ${query}`)
-			}
-		}).then(async (schema) => {
-			const startDate = new Date()
-			const data = await jellyfish.query(context, sessionToken, schema, options)
-			const endDate = new Date()
-			const queryTime = endDate.getTime() - startDate.getTime()
-			logger.info(context, 'JSON Schema query', {
-				time: queryTime,
-				ip: request.ip,
-				schema
-			})
-
-			return data
-		})
-	}
-
 	application.post('/api/v2/query', (request, response) => {
 		if (_.isEmpty(request.body)) {
 			return response.status(400).json({
@@ -574,113 +536,33 @@ module.exports = (application, jellyfish, worker, queue) => {
 			})
 		}
 
-		return queryAPI(
+		return queryFacade.queryAPI(
 			request.context,
 			request.sessionToken,
 			request.body.query,
 			request.body.options,
-			request
-		)
-			.then((data) => {
-				return response.status(200).json({
-					error: false,
-					data
-				})
-			}).catch((error) => {
-				if (error.expected) {
-					response.status(400).json({
-						error: true,
-						data: {
-							name: error.name,
-							message: error.message
-						}
-					})
-					return
-				}
-
-				response.status(500).json({
-					error: true,
-					data: error.message
-				})
+			request.ip
+		).then((data) => {
+			return response.status(200).json({
+				error: false,
+				data
 			})
+		}).catch((error) => {
+			logger.warn(request.context, 'JSON Schema query error', request.body)
+			return sendHTTPError(request, response, error)
+		})
 	})
 
 	application.get('/api/v2/whoami', async (request, response) => {
 		try {
-			const result = await jellyfish.getCardById(
-				request.context, request.sessionToken, request.sessionToken)
-
-			if (!result) {
-				throw new Error('Could not retrieve session data')
-			}
-
-			const schema = {
-				type: 'object',
-				$$links: {
-					'is member of': {
-						type: 'object',
-						additionalProperties: true
-					}
-				},
-				properties: {
-					id: {
-						type: 'string',
-						const: result.data.actor
-					},
-					type: {
-						type: 'string',
-						const: 'user'
-					},
-					links: {
-						type: 'object',
-						additionalProperties: true
-					}
-				},
-				required: [ 'id' ],
-				additionalProperties: true
-			}
-
-			// Try and load the user with attached org data, otherwise load them
-			// without it.
-			// TODO: Fix our broken queries so that we can optionally get linked
-			// data
-			let user = await queryAPI(
-				request.context,
-				request.sessionToken,
-				schema,
-				{
-					limit: 1
-				},
-				request
-			)
-				.then((elements) => {
-					return elements[0] || null
-				})
-
-			if (!user) {
-				user = await jellyfish.getCardById(
-					request.context, request.sessionToken, result.data.actor)
-			}
+			const user = await authFacade.whoami(request.context, request.sessionToken, request.ip)
 
 			return response.status(200).json({
 				error: false,
 				data: user
 			})
 		} catch (error) {
-			if (error.expected) {
-				return response.status(400).json({
-					error: true,
-					data: {
-						name: error.name,
-						message: error.message
-					}
-				})
-			}
-
-			return response.status(500).json({
-				error: true,
-				data: error.message
-			})
+			return sendHTTPError(request, response, error)
 		}
 	})
 }
