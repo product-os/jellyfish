@@ -1,4 +1,69 @@
 - commits:
+    - subject: >-
+        Don't check the type in keywords.pattern if schema.type is present,
+        because type check was already added by keywords.type
+      hash: 3ebe17ab6c7fb8bdc40324694ba287ddd8908a76
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@fissore.org>
+        signed-off-by: Federico Fissore <federico@fissore.org>
+      author: Federico Fissore
+    - subject: >-
+        Use content of `required` to list the columns to fetch/return when no
+        properties/clauses are provided in the schema
+      hash: 1de6f78285a787aa7ce2d0739a7f0c54698d3972
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@fissore.org>
+        signed-off-by: Federico Fissore <federico@fissore.org>
+      author: Federico Fissore
+    - subject: >-
+        Don't add `is not null` if field is listed in `properties` with some
+        additional schema: it's implied
+      hash: 11af7bd1018e92f6b8fe8ad9668532de96b88981
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@fissore.org>
+        signed-off-by: Federico Fissore <federico@fissore.org>
+      author: Federico Fissore
+    - subject: Don't add `is null` clause if property is required
+      hash: 7ba3381e3c53a2c6e50b8b04a0dbce482157e8dc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@fissore.org>
+        signed-off-by: Federico Fissore <federico@fissore.org>
+      author: Federico Fissore
+    - subject: >-
+        Avoid field type checking when schema has `const`: type checking is
+        implied
+      hash: 73e4fe0990583edc00a79412083adcbfdaed87f6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@fissore.org>
+        signed-off-by: Federico Fissore <federico@fissore.org>
+      author: Federico Fissore
+    - subject: Skip keywords.pattern check if provided `pattern` is empty
+      hash: 9bf8c6854d035e63e57b28c9dbd44ab0ee0a982d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@fissore.org>
+        signed-off-by: Federico Fissore <federico@fissore.org>
+      author: Federico Fissore
+  version: 24.26.5
+  date: 2019-11-27T09:46:17.177Z
+- commits:
     - subject: 'test/integration/flowdock: Fix wrong information on expectations'
       hash: fab3a483222c31a67bb0a3dde1e4b66d500bdec7
       body: ''
