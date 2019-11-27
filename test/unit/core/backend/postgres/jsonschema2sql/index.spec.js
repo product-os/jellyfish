@@ -35,17 +35,15 @@ ava('when querying for jsonb array field that contains string const we use the @
 			}
 	})
 
-	test.deepEqual(query, `SELECT
+	const expected = `SELECT
 *
 FROM cards
 WHERE
 (cards.type = 'support-thread')
 AND
-((cards.data->'mirrors' IS NOT NULL)
-AND
-((cards.data->'mirrors' IS NULL)
-OR
-(cards.data->'mirrors' @> '"https://api2.frontapp.com/conversations/cnv_2q9efia"')))`)
+(cards.data->'mirrors' @> '"https://api2.frontapp.com/conversations/cnv_2q9efia"')`
+
+	test.deepEqual(expected, query)
 })
 
 ava('when querying for jsonb array field that contains number const we use the @> operator', (test) => {
@@ -76,17 +74,14 @@ ava('when querying for jsonb array field that contains number const we use the @
 			}
 	})
 
-	test.deepEqual(query, `SELECT
+	const expected = `SELECT
 *
 FROM cards
 WHERE
 (cards.type = 'support-thread')
 AND
-((cards.data->'mirrors' IS NOT NULL)
-AND
-((cards.data->'mirrors' IS NULL)
-OR
-(cards.data->'mirrors' @> '42')))`)
+(cards.data->'mirrors' @> '42')`
+	test.deepEqual(expected, query)
 })
 
 ava('when querying for array that contains string const we use the @> operator', (test) => {
@@ -117,18 +112,51 @@ ava('when querying for array that contains string const we use the @> operator',
 		additionalProperties: false
 	})
 
-	test.deepEqual(query, `SELECT
+	const expected = `SELECT
 cards."data",
 cards."tags"
 FROM cards
 WHERE
-((cards.data->'number' IS NOT NULL)
+(cards.data->'number' @> '1')
 AND
-((cards.data->'number' IS NULL)
-OR
-((jsonb_typeof(cards.data->'number') = 'number')
-AND
-(cards.data->'number' @> '1'))))
-AND
-(cards.tags @> ARRAY['foo'])`)
+(cards.tags @> ARRAY['foo'])`
+	test.deepEqual(expected, query)
+})
+
+ava('when querying without filters and additionalProperties=false, ' +
+	'query should use required to list columns to select', (test) => {
+	const query = jsonschema2sql('cards', {
+		type: 'object',
+		anyOf: [ {
+			type: 'object'
+		} ],
+		required: [ 'data', 'tags' ],
+		additionalProperties: false
+	})
+
+	const expected = `SELECT
+cards."data",
+cards."tags"
+FROM cards
+WHERE
+true`
+	test.deepEqual(expected, query)
+})
+
+ava('when querying without filters and additionalProperties=true, query should select *', (test) => {
+	const query = jsonschema2sql('cards', {
+		type: 'object',
+		anyOf: [ {
+			type: 'object'
+		} ],
+		required: [ 'data', 'tags' ],
+		additionalProperties: true
+	})
+
+	const expected = `SELECT
+*
+FROM cards
+WHERE
+true`
+	test.deepEqual(expected, query)
 })

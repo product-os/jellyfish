@@ -182,27 +182,38 @@ ava('.exists() should expand given an top level required property without a pref
 })
 
 ava('.notExists() should return true given a prefix', (test) => {
-	test.true(builder.notExists([ 'cards' ]))
+	test.true(builder.notExists([ 'cards' ], new Set()))
 })
 
 ava('.notExists() should return true given no path', (test) => {
-	test.true(builder.notExists([]))
+	test.true(builder.notExists([], new Set()))
 })
 
 ava('.notExists() should return false given a top level required property', (test) => {
-	test.false(builder.notExists([ 'cards', 'data' ]))
+	test.false(builder.notExists([ 'cards', 'data' ], new Set()))
+})
+
+ava('.notExists() should return false given a required property', (test) => {
+	test.false(builder.notExists(
+		[ 'cards', 'data', 'description' ],
+		new Set().add([ 'cards', 'data', 'description' ].toString()))
+	)
 })
 
 ava('.notExists() should expand given a top level optional property', (test) => {
-	test.is(builder.notExists([ 'cards', 'name' ]), 'cards.name IS NULL')
+	test.is(builder.notExists([ 'cards', 'name' ], new Set()), 'cards.name IS NULL')
 })
 
 ava('.notExists() should expand given an invalid top level optional property', (test) => {
-	test.is(builder.notExists([ 'cards', 'xxx' ]), 'cards.xxx IS NULL')
+	test.is(builder.notExists([ 'cards', 'xxx' ], new Set()), 'cards.xxx IS NULL')
 })
 
 ava('.notExists() should expand given an top level required property without a prefix', (test) => {
-	test.is(builder.notExists([ null, 'data' ]), 'data IS NULL')
+	test.is(builder.notExists([ null, 'data' ], new Set()), 'data IS NULL')
+})
+
+ava('.notExists() should return false is column is required', (test) => {
+	test.is(builder.notExists([ null, 'data' ], new Set()), 'data IS NULL')
 })
 
 ava('.and() should return true given nothing', (test) => {
