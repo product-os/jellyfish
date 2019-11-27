@@ -15,6 +15,8 @@ const environment = require('../../../lib/environment')
 const sync = require('../../../lib/sync')
 const uuid = require('../../../lib/uuid')
 const packageJSON = require('../../../package.json')
+const QueryFacade = require('../../../lib/core/facade/query')
+const AuthFacade = require('../../../lib/core/facade/auth')
 
 const fileStore = new Storage({
 	driver: environment.fileStorage.driver
@@ -57,6 +59,9 @@ const sendHTTPError = (request, response, error) => {
 }
 
 module.exports = (application, jellyfish, worker, queue) => {
+	const queryFacade = new QueryFacade(jellyfish)
+	const authFacade = new AuthFacade(jellyfish)
+
 	application.get('/api/v2/config', (request, response) => {
 		response.send({
 			codename: packageJSON.codename,
@@ -531,47 +536,13 @@ module.exports = (application, jellyfish, worker, queue) => {
 			})
 		}
 
-		return Bluebird.try(async () => {
-			if (!_.isString(request.body.query)) {
-				return request.body.query
-			}
-
-			// Now try and load the view by slug
-			const viewCardFromSlug = await jellyfish.getCardBySlug(
-				request.context, request.sessionToken, `${request.body.query}@latest`)
-
-			if (viewCardFromSlug && viewCardFromSlug.type === 'view') {
-				return viewCardFromSlug
-			}
-
-			try {
-				// Try and load the view by id first
-				const viewCardFromId = await jellyfish.getCardById(
-					request.context, request.sessionToken, request.body.query)
-
-				if (!viewCardFromId || viewCardFromId.type !== 'view') {
-					throw new jellyfish.errors.JellyfishNoView(
-						`Unknown view: ${request.body.query}`)
-				}
-
-				return viewCardFromId
-			} catch (error) {
-				throw new jellyfish.errors.JellyfishNoView(
-					`Unknown view: ${request.body.query}`)
-			}
-		}).then(async (schema) => {
-			request.payload = schema
-			const startDate = new Date()
-			const data = await jellyfish.query(
-				request.context, request.sessionToken, schema, request.body.options)
-			const endDate = new Date()
-			const queryTime = endDate.getTime() - startDate.getTime()
-			logger.info(request.context, 'JSON Schema query', {
-				time: queryTime,
-				ip: request.ip,
-				schema
-			})
-
+		return queryFacade.queryAPI(
+			request.context,
+			request.sessionToken,
+			request.body.query,
+			request.body.options,
+			request.ip
+		).then((data) => {
 			return response.status(200).json({
 				error: false,
 				data
@@ -580,5 +551,18 @@ module.exports = (application, jellyfish, worker, queue) => {
 			logger.warn(request.context, 'JSON Schema query error', request.body)
 			return sendHTTPError(request, response, error)
 		})
+	})
+
+	application.get('/api/v2/whoami', async (request, response) => {
+		try {
+			const user = await authFacade.whoami(request.context, request.sessionToken, request.ip)
+
+			return response.status(200).json({
+				error: false,
+				data: user
+			})
+		} catch (error) {
+			return sendHTTPError(request, response, error)
+		}
 	})
 }
