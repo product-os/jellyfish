@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'server: Backward compatible version support in roles'
+      hash: fd1b67ad0b92506f261288fddfedec7844da4439
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.27.1
+  date: 2019-11-27T20:35:27.965Z
+- commits:
     - subject: >-
         Move query logic to a separate module, `QueryFacade`, that knows nothing
         about http Introduce `AuthFacade` that leverages `QueryFacade`
