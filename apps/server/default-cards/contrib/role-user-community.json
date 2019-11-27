@@ -54,7 +54,34 @@
                 "thread",
                 "todo",
                 "triggered-action",
-                "whisper"
+                "whisper",
+                "link@1.0.0",
+                "account@1.0.0",
+                "agenda@1.0.0",
+                "architecture-topic@1.0.0",
+                "contact@1.0.0",
+                "checkin@1.0.0",
+                "discussion-topic@1.0.0",
+                "feedback-item@1.0.0",
+                "issue@1.0.0",
+                "message@1.0.0",
+                "opportunity@1.0.0",
+                "org@1.0.0",
+                "organizer@1.0.0",
+                "os-test-result@1.0.0",
+                "pull-request@1.0.0",
+                "product-improvement@1.0.0",
+                "project@1.0.0",
+                "sales-thread@1.0.0",
+                "specification@1.0.0",
+                "support-issue@1.0.0",
+                "support-thread@1.0.0",
+                "symptom@1.0.0",
+                "tag@1.0.0",
+                "thread@1.0.0",
+                "todo@1.0.0",
+                "triggered-action@1.0.0",
+                "whisper@1.0.0"
               ]
             }
           }
@@ -85,7 +112,7 @@
             },
             "type": {
               "type": "string",
-              "const": "type"
+              "enum": [ "type", "type@1.0.0" ]
             }
           }
         },
@@ -98,7 +125,14 @@
             },
             "type": {
               "type": "string",
-              "enum": [ "action", "create", "update" ]
+              "enum": [
+                "action",
+                "create",
+                "update",
+                "action@1.0.0",
+                "create@1.0.0",
+                "update@1.0.0"
+              ]
             },
             "data": {
               "type": "object",
@@ -113,7 +147,14 @@
           "properties": {
             "type": {
               "type": "string",
-              "enum": [ "view", "session", "execute" ]
+              "enum": [
+                "view",
+                "session",
+                "execute",
+                "view@1.0.0",
+                "session@1.0.0",
+                "execute@1.0.0"
+              ]
             },
             "data": {
               "type": "object",
@@ -143,7 +184,7 @@
             },
             "type": {
               "type": "string",
-              "const": "user"
+              "enum": [ "user", "user@1.0.0" ]
             },
             "data": {
               "type": "object",
@@ -177,7 +218,7 @@
           "properties": {
             "type": {
               "type": "string",
-              "const": "view"
+              "enum": [ "view", "view@1.0.0" ]
             },
             "slug": {
               "type": "string",
@@ -198,6 +239,7 @@
         },
         {
           "type": "object",
+          "additionalProperties": true,
           "required": [ "id", "type", "data", "slug" ],
           "properties": {
             "id": {
@@ -214,7 +256,7 @@
             },
             "type": {
               "type": "string",
-              "const": "user"
+              "enum": [ "user", "user@1.0.0" ]
             },
             "data": {
               "type": "object",
