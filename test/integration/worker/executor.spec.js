@@ -97,7 +97,7 @@ ava('.replaceCard() updating a card must have the correct tail', async (test) =>
 		id: result1.id,
 		name: null,
 		slug: 'foo',
-		type: 'card',
+		type: 'card@1.0.0',
 		data: {
 			foo: 2
 		}
@@ -111,7 +111,7 @@ ava('.replaceCard() updating a card must have the correct tail', async (test) =>
 			properties: {
 				type: {
 					type: 'string',
-					enum: [ 'create', 'update' ]
+					enum: [ 'create@1.0.0', 'update@1.0.0' ]
 				},
 				data: {
 					type: 'object',
@@ -130,7 +130,7 @@ ava('.replaceCard() updating a card must have the correct tail', async (test) =>
 	// becomes fully immutable, so we don't attempt to calculate a
 	// JSON Patch update for it, as we treat it as an exception
 	test.is(tail.length, 1)
-	test.is(tail[0].type, 'create')
+	test.is(tail[0].type, 'create@1.0.0')
 	test.deepEqual(tail[0].data.payload, _.pick(result1, [
 		'data',
 		'slug',
@@ -142,28 +142,30 @@ ava('.replaceCard() updating a card must have the correct tail', async (test) =>
 ava('.insertCard() should insert a card', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
-	const result = await executor.insertCard(test.context.context, test.context.jellyfish, test.context.session, typeCard, {
-		currentTime: new Date(),
-		attachEvents: false,
-		context: test.context.actionContext,
-		library: actionLibrary,
-		actor: test.context.actor.id,
-		executeAction: test.context.executeAction
-	}, {
-		slug: 'foo',
-		data: {
-			foo: 1
-		}
-	})
+	const result = await executor.insertCard(
+		test.context.context, test.context.jellyfish, test.context.session, typeCard, {
+			currentTime: new Date(),
+			attachEvents: false,
+			context: test.context.actionContext,
+			library: actionLibrary,
+			actor: test.context.actor.id,
+			executeAction: test.context.executeAction
+		}, {
+			slug: 'foo',
+			data: {
+				foo: 1
+			}
+		})
 
 	test.deepEqual(test.context.stubQueue, [])
-	const card = await test.context.jellyfish.getCardById(test.context.context, test.context.session, result.id)
+	const card = await test.context.jellyfish.getCardById(
+		test.context.context, test.context.session, result.id)
 	test.deepEqual(card, test.context.jellyfish.defaults({
 		created_at: result.created_at,
 		id: result.id,
 		name: null,
 		slug: 'foo',
-		type: 'card',
+		type: 'card@1.0.0',
 		data: {
 			foo: 1
 		}
@@ -183,7 +185,7 @@ ava('.insertCard() should ignore an explicit type property', async (test) => {
 	}, {
 		active: true,
 		slug: 'foo',
-		type: 'foo',
+		type: 'foo@1.0.0',
 		version: '1.0.0',
 		links: {},
 		tags: [],
@@ -197,7 +199,7 @@ ava('.insertCard() should ignore an explicit type property', async (test) => {
 
 	test.deepEqual(test.context.stubQueue, [])
 	const card = await test.context.jellyfish.getCardById(test.context.context, test.context.session, result.id)
-	test.is(card.type, 'card')
+	test.is(card.type, 'card@1.0.0')
 })
 
 ava('.insertCard() should default active to true', async (test) => {
@@ -399,7 +401,7 @@ ava('.insertCard() should be able to set a name', async (test) => {
 ava('.patchCard() should not upsert if no changes were made', async (test) => {
 	const element = await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
 		slug: 'foo-bar-baz',
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0'
 	})
 
@@ -420,7 +422,7 @@ ava('.patchCard() should not upsert if no changes were made', async (test) => {
 ava('.patchCard() should set a card to inactive', async (test) => {
 	const previousCard = await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
 		slug: 'foo-bar-baz',
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0'
 	})
 
@@ -449,7 +451,7 @@ ava('.patchCard() should set a card to inactive', async (test) => {
 ava('.insertCard() throw if card already exists and override is false', async (test) => {
 	await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
 		slug: 'foo-bar-baz',
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0'
 	})
 
@@ -494,7 +496,7 @@ ava('.insertCard() should add a create event if attachEvents is true', async (te
 			properties: {
 				type: {
 					type: 'string',
-					const: 'create'
+					const: 'create@1.0.0'
 				},
 				data: {
 					type: 'object',
@@ -515,7 +517,7 @@ ava('.insertCard() should add a create event if attachEvents is true', async (te
 ava('.patchCard() should add an update event if attachEvents is true', async (test) => {
 	const element = await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
 		slug: 'foo-bar-baz',
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0'
 	})
 
@@ -545,7 +547,7 @@ ava('.patchCard() should add an update event if attachEvents is true', async (te
 			properties: {
 				type: {
 					type: 'string',
-					const: 'update'
+					const: 'update@1.0.0'
 				},
 				data: {
 					type: 'object',
@@ -761,7 +763,7 @@ ava('.insertCard() should execute one matching triggered action', async (test) =
 			properties: {
 				type: {
 					type: 'string',
-					const: 'create'
+					const: 'create@1.0.0'
 				},
 				data: {
 					type: 'object',
@@ -1032,13 +1034,13 @@ ava('.insertCard() should remove previously inserted type triggered actions if i
 		test.context.context, test.context.session, 'card@latest')
 	const cards = [
 		{
-			type: 'triggered-action',
+			type: 'triggered-action@1.0.0',
 			slug: test.context.generateRandomSlug({
 				prefix: 'triggered-action'
 			}),
 			version: '1.0.0',
 			data: {
-				type: 'foo',
+				type: 'foo@1.0.0',
 				filter: {
 					type: 'object',
 					required: [ 'data' ],
@@ -1073,13 +1075,13 @@ ava('.insertCard() should remove previously inserted type triggered actions if i
 			}
 		},
 		{
-			type: 'triggered-action',
+			type: 'triggered-action@1.0.0',
 			slug: test.context.generateRandomSlug({
 				prefix: 'triggered-action'
 			}),
 			version: '1.0.0',
 			data: {
-				type: 'bar',
+				type: 'bar@1.0.0',
 				filter: {
 					type: 'object',
 					required: [ 'data' ],
@@ -1154,7 +1156,7 @@ ava('.insertCard() should remove previously inserted type triggered actions if i
 			},
 			type: {
 				type: 'string',
-				const: 'triggered-action'
+				const: 'triggered-action@1.0.0'
 			}
 		}
 	})
@@ -1169,7 +1171,7 @@ ava('.insertCard() should remove previously inserted type triggered actions if i
 
 ava('.patchCard() should remove previously inserted type triggered actions if deactivating a type', async (test) => {
 	const type = await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
-		type: 'type',
+		type: 'type@1.0.0',
 		version: '1.0.0',
 		slug: 'foo',
 		data: {
@@ -1182,13 +1184,13 @@ ava('.patchCard() should remove previously inserted type triggered actions if de
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
 	await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
-		type: 'triggered-action',
+		type: 'triggered-action@1.0.0',
 		slug: test.context.generateRandomSlug({
 			prefix: 'triggered-action'
 		}),
 		version: '1.0.0',
 		data: {
-			type: 'foo',
+			type: 'foo@1.0.0',
 			filter: {
 				type: 'object',
 				required: [ 'data' ],
@@ -1257,7 +1259,7 @@ ava('.patchCard() should remove previously inserted type triggered actions if de
 			},
 			type: {
 				type: 'string',
-				const: 'triggered-action'
+				const: 'triggered-action@1.0.0'
 			}
 		}
 	})
@@ -1285,7 +1287,7 @@ ava('.insertCard() should add a triggered action given a type with an AGGREGATE 
 				properties: {
 					type: {
 						type: 'string',
-						const: 'test-thread'
+						const: 'test-thread@1.0.0'
 					},
 					data: {
 						type: 'object',
@@ -1315,7 +1317,7 @@ ava('.insertCard() should add a triggered action given a type with an AGGREGATE 
 			},
 			type: {
 				type: 'string',
-				const: 'triggered-action'
+				const: 'triggered-action@1.0.0'
 			}
 		}
 	})
@@ -1327,7 +1329,7 @@ ava('.insertCard() should add a triggered action given a type with an AGGREGATE 
 			linked_at: triggers[0].linked_at,
 			id: triggers[0].id,
 			slug: 'triggered-action-test-thread-data-mentions',
-			type: 'triggered-action',
+			type: 'triggered-action@1.0.0',
 			version: '1.0.0',
 			name: null,
 			active: true,
@@ -1337,7 +1339,7 @@ ava('.insertCard() should add a triggered action given a type with an AGGREGATE 
 			requires: [],
 			capabilities: [],
 			data: {
-				type: 'test-thread',
+				type: 'test-thread@1.0.0',
 				target: triggers[0].data.target,
 				action: triggers[0].data.action,
 				arguments: triggers[0].data.arguments,
@@ -1367,7 +1369,7 @@ ava('.insertCard() should pre-register a triggered action if using AGGREGATE', a
 				properties: {
 					type: {
 						type: 'string',
-						const: 'test-thread'
+						const: 'test-thread@1.0.0'
 					},
 					data: {
 						type: 'object',
@@ -1430,7 +1432,7 @@ ava('.insertCard() should update pre-registered triggered actions if removing an
 					properties: {
 						type: {
 							type: 'string',
-							const: 'test-thread'
+							const: 'test-thread@1.0.0'
 						},
 						data: {
 							type: 'object',
@@ -1480,7 +1482,7 @@ ava('.insertCard() should add multiple triggered actions given a type with an AG
 				properties: {
 					type: {
 						type: 'string',
-						const: 'test-thread'
+						const: 'test-thread@1.0.0'
 					},
 					data: {
 						type: 'object',
@@ -1555,7 +1557,7 @@ ava('.insertCard() should add multiple triggered actions given a type with an AG
 			},
 			type: {
 				type: 'string',
-				const: 'triggered-action'
+				const: 'triggered-action@1.0.0'
 			}
 		}
 	})
@@ -1589,7 +1591,7 @@ ava('.run() should create a card', async (test) => {
 
 	test.deepEqual(result, {
 		id: result.id,
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		slug: 'foo-bar-baz'
 	})
@@ -1606,7 +1608,7 @@ ava('.run() should throw if the input card does not exist', async (test) => {
 		context: test.context.context,
 		timestamp: '2018-07-04T00:22:52.247Z',
 		card: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
-		type: 'card',
+		type: 'card@1.0.0',
 		arguments: {
 			properties: {
 				version: '1.0.0',

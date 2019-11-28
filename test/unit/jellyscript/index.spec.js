@@ -280,7 +280,7 @@ ava('.evaluateObject() should not do anything if the schema has no formulas', as
 ava('.getTypeTriggers() should report back watchers when aggregating events', async (test) => {
 	const triggers = jellyscript.getTypeTriggers({
 		slug: 'thread',
-		type: 'type',
+		type: 'type@1.0.0',
 		version: '1.0.0',
 		data: {
 			schema: {
@@ -302,7 +302,7 @@ ava('.getTypeTriggers() should report back watchers when aggregating events', as
 
 	test.deepEqual(triggers, [
 		{
-			type: 'triggered-action',
+			type: 'triggered-action@1.0.0',
 			version: '1.0.0',
 			slug: 'triggered-action-thread-data-mentions',
 			requires: [],
@@ -312,7 +312,7 @@ ava('.getTypeTriggers() should report back watchers when aggregating events', as
 			links: {},
 			markers: [],
 			data: {
-				type: 'thread',
+				type: 'thread@1.0.0',
 				action: 'action-set-add',
 				target: {
 					$eval: 'source.links[\'is attached to\'][0].id'
@@ -336,7 +336,7 @@ ava('.getTypeTriggers() should report back watchers when aggregating events', as
 							properties: {
 								type: {
 									type: 'string',
-									const: 'thread'
+									enum: [ 'thread', 'thread@1.0.0' ]
 								}
 							}
 						}

@@ -101,7 +101,7 @@ ava('should not re-enqueue requests after duplicated execute events', async (tes
 			error: false,
 			data: {
 				id: await uuid.random(),
-				type: 'card',
+				type: 'card@1.0.0',
 				slug: 'foo'
 			}
 		})
@@ -156,7 +156,7 @@ ava('should not re-enqueue requests after execute failure', async (test) => {
 	await test.context.jellyfish.insertCard(
 		test.context.context, test.context.session, {
 			slug: 'foo',
-			type: 'card',
+			type: 'card@1.0.0',
 			version: '1.0.0',
 			data: {
 				foo: 'bar'
@@ -168,7 +168,7 @@ ava('should not re-enqueue requests after execute failure', async (test) => {
 			error: false,
 			data: {
 				id: await uuid.random(),
-				type: 'card',
+				type: 'card@1.0.0',
 				slug: 'foo'
 			}
 		})
@@ -308,7 +308,7 @@ ava('should not store the passwords when using action-set-password on a first ti
 	const userCard = await test.context.jellyfish.insertCard(
 		test.context.context, test.context.session, {
 			slug: 'user-johndoe',
-			type: 'user',
+			type: 'user@1.0.0',
 			data: {
 				email: 'johndoe@example.com',
 				hash: 'PASSWORDLESS',
@@ -343,7 +343,7 @@ ava('should not change the password of a password-less user given a password', a
 	const userCard = await test.context.jellyfish.insertCard(
 		test.context.context, test.context.session, {
 			slug: 'user-johndoe',
-			type: 'user',
+			type: 'user@1.0.0',
 			data: {
 				email: 'johndoe@example.com',
 				hash: 'PASSWORDLESS',
@@ -367,7 +367,7 @@ ava('should change the password of a password-less user given no password', asyn
 	const userCard = await test.context.jellyfish.insertCard(
 		test.context.context, test.context.session, {
 			slug: 'user-johndoe',
-			type: 'user',
+			type: 'user@1.0.0',
 			data: {
 				email: 'johndoe@example.com',
 				hash: 'PASSWORDLESS',
@@ -636,7 +636,7 @@ ava('should fail to create an event with an action-create-card', async (test) =>
 						properties: {
 							type: {
 								type: 'string',
-								const: 'test-thread'
+								const: 'test-thread@1.0.0'
 							},
 							data: {
 								type: 'object',
@@ -971,7 +971,7 @@ ava('a triggered action can update a dynamic list of cards (ids as array of stri
 		const card = await test.context.jellyfish.insertCard(
 			test.context.context, test.context.session, {
 				slug: `foo${idx}`,
-				type: 'card',
+				type: 'card@1.0.0',
 				version: '1.0.0',
 				data: {
 					id: `id${idx}`
@@ -1057,7 +1057,7 @@ ava('a triggered action can update a dynamic list of cards (ids as array of obje
 		const card = await test.context.jellyfish.insertCard(
 			test.context.context, test.context.session, {
 				slug: `foo${idx}`,
-				type: 'card',
+				type: 'card@1.0.0',
 				version: '1.0.0',
 				data: {
 					id: `id${idx}`
@@ -1151,7 +1151,7 @@ ava('a triggered action can update a dynamic list of cards (ids as array of obje
 ava('should fail when attempting to insert a triggered-action card with duplicate targets', async (test) => {
 	const trigger = {
 		id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
-		type: 'triggered-action',
+		type: 'triggered-action@1.0.0',
 		slug: 'triggered-action-12345',
 		data: {
 			filter: {
@@ -1193,7 +1193,7 @@ ava('should fail to set a trigger when the list of card ids contains duplicates'
 	const card = await test.context.jellyfish.insertCard(
 		test.context.context, test.context.session, {
 			slug: 'foo1',
-			type: 'card',
+			type: 'card@1.0.0',
 			version: '1.0.0',
 			data: {
 				id: 'id1'
@@ -1239,11 +1239,11 @@ ava('should fail to set a trigger when the list of card ids contains duplicates'
 	}, test.context.worker.errors.WorkerInvalidTrigger)
 })
 
-ava('trigger should fail to update card if triggerd by a user not owning the card', async (test) => {
+ava('trigger should fail to update card if triggered by a user not owning the card', async (test) => {
 	const card = await test.context.jellyfish.insertCard(
 		test.context.context, test.context.session, {
 			slug: 'foo-admin',
-			type: 'card',
+			type: 'card@1.0.0',
 			version: '1.0.0',
 			data: {
 				id: 'id-admin'
@@ -1306,7 +1306,7 @@ ava('trigger should fail to update card if triggerd by a user not owning the car
 
 	const userJohnDoe = await test.context.jellyfish.insertCard(
 		test.context.context, test.context.session, {
-			type: 'user',
+			type: 'user@1.0.0',
 			version: '1.0.0',
 			slug: 'user-john-doe-user',
 			data: {
@@ -1318,7 +1318,7 @@ ava('trigger should fail to update card if triggerd by a user not owning the car
 
 	const sessionOfJohnDoe = await test.context.jellyfish.insertCard(
 		test.context.context, test.context.session, {
-			type: 'session',
+			type: 'session@1.0.0',
 			version: '1.0.0',
 			slug: 'session-john-doe-user',
 			data: {
@@ -1679,104 +1679,108 @@ ava('.execute() should add a create event when creating a card', async (test) =>
 	})
 
 	test.is(timeline.length, 1)
-	test.is(timeline[0].type, 'create')
+	test.is(timeline[0].type, 'create@1.0.0')
 })
 
 ava('.execute() should be able to AGGREGATE based on the card timeline', async (test) => {
 	const typeType = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'type@latest')
 
-	const request = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-create-card',
-		context: test.context.context,
-		card: typeType.id,
-		type: typeType.type,
-		arguments: {
-			reason: null,
-			properties: {
-				slug: 'test-thread',
-				version: '1.0.0',
-				data: {
-					schema: {
-						type: 'object',
-						properties: {
-							type: {
-								type: 'string',
-								const: 'test-thread'
-							},
-							data: {
-								type: 'object',
-								properties: {
-									mentions: {
-										type: 'array',
-										$$formula: 'AGGREGATE($events, "data.payload.mentions")'
-									}
+	const request = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, {
+			action: 'action-create-card',
+			context: test.context.context,
+			card: typeType.id,
+			type: typeType.type,
+			arguments: {
+				reason: null,
+				properties: {
+					slug: 'test-thread',
+					version: '1.0.0',
+					data: {
+						schema: {
+							type: 'object',
+							properties: {
+								type: {
+									type: 'string',
+									const: 'test-thread@1.0.0'
 								},
-								additionalProperties: true
-							}
-						},
-						additionalProperties: true,
-						required: [ 'type', 'data' ]
+								data: {
+									type: 'object',
+									properties: {
+										mentions: {
+											type: 'array',
+											$$formula: 'AGGREGATE($events, "data.payload.mentions")'
+										}
+									},
+									additionalProperties: true
+								}
+							},
+							additionalProperties: true,
+							required: [ 'type', 'data' ]
+						}
 					}
 				}
 			}
-		}
-	})
+		})
 
 	await test.context.flush(test.context.session, 1)
 	const typeResult = await test.context.queue.waitResults(
 		test.context.context, request)
 	test.false(typeResult.error)
 
-	const threadRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-create-card',
-		context: test.context.context,
-		card: typeResult.data.id,
-		type: typeResult.data.type,
-		arguments: {
-			reason: null,
-			properties: {
-				version: '1.0.0',
-				slug: 'foo',
-				data: {
-					mentions: []
+	const threadRequest = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, {
+			action: 'action-create-card',
+			context: test.context.context,
+			card: typeResult.data.id,
+			type: typeResult.data.type,
+			arguments: {
+				reason: null,
+				properties: {
+					version: '1.0.0',
+					slug: 'foo',
+					data: {
+						mentions: []
+					}
 				}
 			}
-		}
-	})
+		})
 
 	await test.context.flush(test.context.session, 1)
 	const threadResult = await test.context.queue.waitResults(
 		test.context.context, threadRequest)
 	test.false(threadResult.error)
 
-	const messageRequest1 = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-create-event',
-		context: test.context.context,
-		card: threadResult.data.id,
-		type: threadResult.data.type,
-		arguments: {
-			type: 'message',
-			payload: {
-				mentions: [ 'johndoe' ],
-				message: 'Hello'
+	const messageRequest1 = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, {
+			action: 'action-create-event',
+			context: test.context.context,
+			card: threadResult.data.id,
+			type: threadResult.data.type,
+			arguments: {
+				type: 'message',
+				payload: {
+					mentions: [ 'johndoe' ],
+					message: 'Hello'
+				}
 			}
-		}
-	})
+		})
 
-	const messageRequest2 = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-create-event',
-		context: test.context.context,
-		card: threadResult.data.id,
-		type: threadResult.data.type,
-		arguments: {
-			type: 'message',
-			payload: {
-				mentions: [ 'janedoe', 'johnsmith' ],
-				message: 'Hello'
+	const messageRequest2 = await test.context.queue.enqueue(
+		test.context.worker.getId(), test.context.session, {
+			action: 'action-create-event',
+			context: test.context.context,
+			card: threadResult.data.id,
+			type: threadResult.data.type,
+			arguments: {
+				type: 'message',
+				payload: {
+					mentions: [ 'janedoe', 'johnsmith' ],
+					message: 'Hello'
+				}
 			}
-		}
-	})
+		})
 
 	await test.context.flush(test.context.session, 2)
 	const messageResult1 = await test.context.queue.waitResults(
@@ -1786,8 +1790,11 @@ ava('.execute() should be able to AGGREGATE based on the card timeline', async (
 	test.false(messageResult1.error)
 	test.false(messageResult2.error)
 
-	const thread = await test.context.jellyfish.getCardById(test.context.context, test.context.session, threadResult.data.id)
-	test.deepEqual(_.sortBy(thread.data.mentions), _.sortBy([ 'johndoe', 'janedoe', 'johnsmith' ]))
+	const thread = await test.context.jellyfish.getCardById(
+		test.context.context, test.context.session, threadResult.data.id)
+	test.deepEqual(
+		_.sortBy(thread.data.mentions),
+		_.sortBy([ 'johndoe', 'janedoe', 'johnsmith' ]))
 })
 
 ava('.execute() AGGREGATE should create a property on the target if it does not exist', async (test) => {
@@ -1810,7 +1817,7 @@ ava('.execute() AGGREGATE should create a property on the target if it does not 
 						properties: {
 							type: {
 								type: 'string',
-								const: 'test-thread'
+								const: 'test-thread@1.0.0'
 							},
 							data: {
 								type: 'object',
@@ -1900,7 +1907,7 @@ ava('.execute() AGGREGATE should work with $$ prefixed properties', async (test)
 						properties: {
 							type: {
 								type: 'string',
-								const: 'test-thread'
+								const: 'test-thread@1.0.0'
 							},
 							data: {
 								type: 'object',
@@ -1993,7 +2000,7 @@ ava('.execute() should create a message with tags', async (test) => {
 						properties: {
 							type: {
 								type: 'string',
-								const: 'test-thread'
+								const: 'test-thread@1.0.0'
 							}
 						},
 						additionalProperties: true,
@@ -2140,7 +2147,7 @@ ava('.setTriggers() should be able to set triggers', (test) => {
 			id: 'd6cacdef-f53b-4b5b-8aa2-8476e48248a4',
 			action: 'action-foo-bar',
 			target: 'a13474e4-7b44-453b-9f3e-aa783b8f37ea',
-			type: 'card',
+			type: 'card@1.0.0',
 			filter: {
 				type: 'object'
 			},
@@ -2556,7 +2563,7 @@ ava('.tick() should evaluate the current timestamp in a time triggered action', 
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: actionCard.slug,
-			type: 'card',
+			type: 'card@1.0.0',
 			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			context: test.context.context,
 			interval: 'PT1D',
@@ -2593,7 +2600,7 @@ ava('.tick() should enqueue an action if there is a time trigger with a past sta
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: actionCard.slug,
-			type: 'card',
+			type: 'card@1.0.0',
 			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			context: test.context.context,
 			interval: 'PT1D',
@@ -2647,7 +2654,7 @@ ava('.tick() should enqueue an action if there is a time trigger with a present 
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: actionCard.slug,
-			type: 'card',
+			type: 'card@1.0.0',
 			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			context: test.context.context,
 			interval: 'PT1D',
@@ -2702,7 +2709,7 @@ ava('.tick() should not enqueue an action using a past timestamp', async (test) 
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: actionCard.slug,
-			type: 'card',
+			type: 'card@1.0.0',
 			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			context: test.context.context,
 			interval: 'PT1H',
@@ -2733,7 +2740,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 		test.context.jellyfish.defaults({
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			action: actionCard.slug,
-			type: 'card',
+			type: 'card@1.0.0',
 			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			context: test.context.context,
 			interval: 'PT1D',
@@ -2749,7 +2756,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 		test.context.jellyfish.defaults({
 			id: '673bc300-88f7-4376-92ed-d32543d69429',
 			action: actionCard.slug,
-			type: 'card',
+			type: 'card@1.0.0',
 			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			context: test.context.context,
 			interval: 'PT2D',
@@ -2891,7 +2898,7 @@ ava('should be able to login as a user with a password', async (test) => {
 		id: session.id,
 		slug: session.slug,
 		version: '1.0.0',
-		type: 'session',
+		type: 'session@1.0.0',
 		links: session.links,
 		data: {
 			actor: signupResult.data.id,
@@ -2906,7 +2913,7 @@ ava('should be able to login as a user with a password', async (test) => {
 ava('should not be able to login as a password-less user', async (test) => {
 	const user = await test.context.jellyfish.insertCard(
 		test.context.context, test.context.session, {
-			type: 'user',
+			type: 'user@1.0.0',
 			version: '1.0.0',
 			slug: 'user-johndoe',
 			data: {
@@ -2933,7 +2940,7 @@ ava('should not be able to login as a password-less user', async (test) => {
 ava('should not be able to login as a password-less user given a random password', async (test) => {
 	const user = await test.context.jellyfish.insertCard(
 		test.context.context, test.context.session, {
-			type: 'user',
+			type: 'user@1.0.0',
 			version: '1.0.0',
 			slug: 'user-johndoe',
 			data: {
@@ -2957,7 +2964,7 @@ ava('should not be able to login as a password-less user given a random password
 ava('should not be able to login as a password-less non-disallowed user', async (test) => {
 	const user = await test.context.jellyfish.insertCard(
 		test.context.context, test.context.session, {
-			type: 'user',
+			type: 'user@1.0.0',
 			version: '1.0.0',
 			slug: 'user-johndoe',
 			data: {
@@ -2985,7 +2992,7 @@ ava('should not be able to login as a password-less non-disallowed user', async 
 ava('should not be able to login as a password-less disallowed user', async (test) => {
 	const user = await test.context.jellyfish.insertCard(
 		test.context.context, test.context.session, {
-			type: 'user',
+			type: 'user@1.0.0',
 			version: '1.0.0',
 			slug: 'user-johndoe',
 			data: {
@@ -3154,7 +3161,7 @@ ava('should update a card to add an extra property', async (test) => {
 		slug: 'foo',
 		name: null,
 		version: '1.0.0',
-		type: 'card',
+		type: 'card@1.0.0',
 		links: card.links,
 		data: {
 			foo: 'bar',
@@ -3217,7 +3224,7 @@ ava('should update a card to set active to false', async (test) => {
 		version: '1.0.0',
 		name: null,
 		slug: 'foo',
-		type: 'card',
+		type: 'card@1.0.0',
 		active: false,
 		links: card.links
 	}))
@@ -3277,7 +3284,7 @@ ava('should update a card along with a reason', async (test) => {
 			properties: {
 				type: {
 					type: 'string',
-					const: 'update'
+					const: 'update@1.0.0'
 				},
 				data: {
 					type: 'object',
@@ -3328,7 +3335,7 @@ ava('should create a new card along with a reason', async (test) => {
 			properties: {
 				type: {
 					type: 'string',
-					const: 'create'
+					const: 'create@1.0.0'
 				},
 				data: {
 					type: 'object',
@@ -3376,7 +3383,7 @@ ava('should update a card to set active to false using the card slug as input', 
 			action: 'action-update-card',
 			context: test.context.context,
 			card: 'foo-bar-baz',
-			type: 'card',
+			type: 'card@1.0.0',
 			arguments: {
 				reason: null,
 				patch: [
@@ -3401,7 +3408,7 @@ ava('should update a card to set active to false using the card slug as input', 
 		updated_at: card.updated_at,
 		linked_at: card.linked_at,
 		id: updateResult.data.id,
-		type: 'card',
+		type: 'card@1.0.0',
 		name: null,
 		version: '1.0.0',
 		slug: 'foo-bar-baz',
@@ -3466,7 +3473,7 @@ ava('should update a card to override an array property', async (test) => {
 		updated_at: card.updated_at,
 		linked_at: card.linked_at,
 		id: updateResult.data.id,
-		type: 'card',
+		type: 'card@1.0.0',
 		name: null,
 		slug: 'foo',
 		version: '1.0.0',
@@ -3553,7 +3560,7 @@ ava('should add an update event if updating a card', async (test) => {
 			id: timeline[0].id,
 			name: null,
 			version: '1.0.0',
-			type: 'create',
+			type: 'create@1.0.0',
 			slug: timeline[0].slug,
 			links: timeline[0].links,
 			data: {
@@ -3562,7 +3569,7 @@ ava('should add an update event if updating a card', async (test) => {
 				timestamp: timeline[0].data.timestamp,
 				payload: {
 					slug: 'foo',
-					type: 'card',
+					type: 'card@1.0.0',
 					version: '1.0.0',
 					data: {
 						foo: 1
@@ -3577,7 +3584,7 @@ ava('should add an update event if updating a card', async (test) => {
 			id: timeline[1].id,
 			name: null,
 			version: '1.0.0',
-			type: 'update',
+			type: 'update@1.0.0',
 			slug: timeline[1].slug,
 			links: timeline[1].links,
 			data: {
@@ -3641,7 +3648,7 @@ ava('should delete a card using action-delete-card', async (test) => {
 		name: null,
 		version: '1.0.0',
 		slug: 'foo',
-		type: 'card',
+		type: 'card@1.0.0',
 		active: false,
 		links: card.links
 	}))
@@ -3700,7 +3707,7 @@ ava('should delete a card using action-update-card', async (test) => {
 		linked_at: card.linked_at,
 		id: updateResult.data.id,
 		name: null,
-		type: 'card',
+		type: 'card@1.0.0',
 		slug: 'foo',
 		version: '1.0.0',
 		active: false,
@@ -3769,7 +3776,7 @@ ava('action-create-event should create a link card', async (test) => {
 		properties: {
 			type: {
 				type: 'string',
-				const: 'link'
+				const: 'link@1.0.0'
 			},
 			data: {
 				type: 'object',
@@ -3797,16 +3804,16 @@ ava('action-create-event should create a link card', async (test) => {
 		id: link.id,
 		slug: link.slug,
 		name: 'is attached to',
-		type: 'link',
+		type: 'link@1.0.0',
 		data: {
 			inverseName: 'has attached element',
 			from: {
 				id: messageResult.data.id,
-				type: 'message'
+				type: 'message@1.0.0'
 			},
 			to: {
 				id: cardResult.data.id,
-				type: 'card'
+				type: 'card@1.0.0'
 			}
 		}
 	}))
@@ -4242,7 +4249,7 @@ ava('should be able to upsert a deeply nested card', async (test) => {
 ava('should post a broadcast message to an empty thread', async (test) => {
 	const thread = await test.context.jellyfish.insertCard(
 		test.context.context, test.context.session, {
-			type: 'card',
+			type: 'card@1.0.0',
 			version: '1.0.0',
 			slug: 'thread-1',
 			data: {}
@@ -4296,7 +4303,7 @@ ava('should post a broadcast message to an empty thread', async (test) => {
 		return _.pick(card, [ 'type', 'slug', 'data' ])
 	}), [
 		{
-			type: 'message',
+			type: 'message@1.0.0',
 			slug: result.data.slug,
 			data: {
 				actor: timeline[0].data.actor,
@@ -4315,7 +4322,7 @@ ava('should post a broadcast message to an empty thread', async (test) => {
 ava('should post a broadcast message to a non empty thread', async (test) => {
 	const thread = await test.context.jellyfish.insertCard(
 		test.context.context, test.context.session, {
-			type: 'card',
+			type: 'card@1.0.0',
 			version: '1.0.0',
 			slug: 'thread-1',
 			data: {}
@@ -4390,7 +4397,7 @@ ava('should post a broadcast message to a non empty thread', async (test) => {
 		return _.pick(card, [ 'type', 'slug', 'data' ])
 	}), [
 		{
-			type: 'message',
+			type: 'message@1.0.0',
 			slug: timeline[0].slug,
 			data: {
 				actor: timeline[0].data.actor,
@@ -4402,7 +4409,7 @@ ava('should post a broadcast message to a non empty thread', async (test) => {
 			}
 		},
 		{
-			type: 'message',
+			type: 'message@1.0.0',
 			slug: result.data.slug,
 			data: {
 				actor: timeline[1].data.actor,
@@ -4421,7 +4428,7 @@ ava('should post a broadcast message to a non empty thread', async (test) => {
 ava('should not broadcast the same message twice', async (test) => {
 	const thread = await test.context.jellyfish.insertCard(
 		test.context.context, test.context.session, {
-			type: 'card',
+			type: 'card@1.0.0',
 			version: '1.0.0',
 			slug: 'thread-1',
 			data: {}
@@ -4512,7 +4519,7 @@ ava('should not broadcast the same message twice', async (test) => {
 		return _.pick(card, [ 'type', 'slug', 'data' ])
 	}), [
 		{
-			type: 'message',
+			type: 'message@1.0.0',
 			slug: result1.data.slug,
 			data: {
 				actor: timeline[0].data.actor,
@@ -4526,7 +4533,7 @@ ava('should not broadcast the same message twice', async (test) => {
 			}
 		},
 		{
-			type: 'message',
+			type: 'message@1.0.0',
 			slug: timeline[1].slug,
 			data: {
 				actor: timeline[1].data.actor,
@@ -4543,7 +4550,7 @@ ava('should not broadcast the same message twice', async (test) => {
 ava('should broadcast different messages', async (test) => {
 	const thread = await test.context.jellyfish.insertCard(
 		test.context.context, test.context.session, {
-			type: 'card',
+			type: 'card@1.0.0',
 			version: '1.0.0',
 			slug: 'thread-1',
 			data: {}
@@ -4634,7 +4641,7 @@ ava('should broadcast different messages', async (test) => {
 		return _.pick(card, [ 'type', 'slug', 'data' ])
 	}), [
 		{
-			type: 'message',
+			type: 'message@1.0.0',
 			slug: result1.data.slug,
 			data: {
 				actor: timeline[0].data.actor,
@@ -4648,7 +4655,7 @@ ava('should broadcast different messages', async (test) => {
 			}
 		},
 		{
-			type: 'message',
+			type: 'message@1.0.0',
 			slug: timeline[1].slug,
 			data: {
 				actor: timeline[1].data.actor,
@@ -4660,7 +4667,7 @@ ava('should broadcast different messages', async (test) => {
 			}
 		},
 		{
-			type: 'message',
+			type: 'message@1.0.0',
 			slug: result2.data.slug,
 			data: {
 				actor: timeline[2].data.actor,
@@ -4679,7 +4686,7 @@ ava('should broadcast different messages', async (test) => {
 ava('should broadcast the same message twice given different actors', async (test) => {
 	const thread = await test.context.jellyfish.insertCard(
 		test.context.context, test.context.session, {
-			type: 'card',
+			type: 'card@1.0.0',
 			version: '1.0.0',
 			slug: 'thread-1',
 			data: {}
@@ -4687,7 +4694,7 @@ ava('should broadcast the same message twice given different actors', async (tes
 
 	const rogueUser = await test.context.jellyfish.insertCard(
 		test.context.context, test.context.session, {
-			type: 'user',
+			type: 'user@1.0.0',
 			version: '1.0.0',
 			slug: 'user-admin-fake-test',
 			data: {
@@ -4699,7 +4706,7 @@ ava('should broadcast the same message twice given different actors', async (tes
 
 	const rogueSession = await test.context.jellyfish.insertCard(
 		test.context.context, test.context.session, {
-			type: 'session',
+			type: 'session@1.0.0',
 			version: '1.0.0',
 			slug: 'session-rogue-user-test',
 			data: {
@@ -4776,7 +4783,7 @@ ava('should broadcast the same message twice given different actors', async (tes
 		return _.pick(card, [ 'type', 'slug', 'data' ])
 	}), [
 		{
-			type: 'message',
+			type: 'message@1.0.0',
 			slug: result1.data.slug,
 			data: {
 				actor: timeline[0].data.actor,
@@ -4788,7 +4795,7 @@ ava('should broadcast the same message twice given different actors', async (tes
 			}
 		},
 		{
-			type: 'message',
+			type: 'message@1.0.0',
 			slug: result2.data.slug,
 			data: {
 				actor: timeline[1].data.actor,
