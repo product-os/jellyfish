@@ -15,7 +15,7 @@ const cards = require('../../../../../../lib/core/backend/postgres/cards')
 const links = require('../../../../../../lib/core/backend/postgres/links')
 const errors = require('../../../../../../lib/core/errors')
 const regexpTestSuite = require('./regexp')
-const formatMaxMinTestSuite = require('./formatMaxMin')
+const formatMaxMinTestSuite = require('./format-max-min')
 const IS_POSTGRES = environment.database.type === 'postgres'
 
 /*
