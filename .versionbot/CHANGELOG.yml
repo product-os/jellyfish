@@ -1,4 +1,17 @@
 - commits:
+    - subject: Revert faulty "change channelWidth to use css"
+      hash: 1d8f0e7078b5e38a26b23ae5587981dacd08127e
+      body: |
+        This reverts commit 2d61bee04cd3ecf45c943164f448b5855375caa0.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+  version: 24.28.2
+  date: 2019-11-28T12:35:28.333Z
+- commits:
     - subject: change channelWidth to use css
       hash: 2d61bee04cd3ecf45c943164f448b5855375caa0
       body: ''
