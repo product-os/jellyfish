@@ -38,6 +38,7 @@ module.exports = async (context, jellyfish, worker, session) => {
 		await loadCard('contrib/role-user-community.json'),
 		await loadCard('contrib/role-user-guest.json'),
 		!environment.isProduction() && await loadCard('contrib/role-user-test.json'),
+		await loadCard('contrib/role-user-external-support.json'),
 
 		// Internal views
 		await loadCard('contrib/view-active-triggered-actions.json'),
