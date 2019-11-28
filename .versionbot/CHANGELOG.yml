@@ -1,4 +1,34 @@
 - commits:
+    - subject: change channelWidth to use css
+      hash: 2d61bee04cd3ecf45c943164f448b5855375caa0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+    - subject: refactor UNSAFE_ methods to modern supported methods
+      hash: 74cd11d563c476e78c06a92860aabec597e83e20
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+    - subject: move clearing of texarea to onsubmit event
+      hash: 55d569230a231e16bbc73becdb16a0c167f17e45
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+  version: 24.28.1
+  date: 2019-11-28T08:01:43.888Z
+- commits:
     - subject: Add chat widget role
       hash: 2f1a1730178a68dce44e1d3dd1eb725fdf2c779b
       body: ''
