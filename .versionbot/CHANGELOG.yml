@@ -1,4 +1,19 @@
 - commits:
+    - subject: >-
+        UI: Fix bug where state updates from a stream can happen in the wrong
+        order
+      hash: 5d89d45ed0928c2f2a6512961be92e2622e45db9
+      body: |
+        Fixes #2736
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 24.28.3
+  date: 2019-11-28T14:03:58.879Z
+- commits:
     - subject: Revert faulty "change channelWidth to use css"
       hash: 1d8f0e7078b5e38a26b23ae5587981dacd08127e
       body: |
