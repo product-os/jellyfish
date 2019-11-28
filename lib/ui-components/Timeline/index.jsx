@@ -185,40 +185,34 @@ class Timeline extends React.Component {
 		return !circularDeepEqual(nextState, this.state) || !circularDeepEqual(nextProps, this.props)
 	}
 
-	// eslint-disable-next-line camelcase
-	UNSAFE_componentWillReceiveProps (nextProps) {
-		const {
-			pendingMessages
-		} = this.state
-
-		if (pendingMessages.length) {
-			const stillPending = pendingMessages.filter((item) => {
-				const match = _.find(nextProps.tail, {
-					slug: item.slug
-				})
-				return !match
-			})
-
-			this.setState({
-				pendingMessages: stillPending
-			})
-		}
-	}
-
 	componentDidMount () {
 		this.shouldScroll = true
 		this.scrollToBottom()
 	}
 
-	// eslint-disable-next-line camelcase
-	UNSAFE_componentWillUpdate (nextProps, nextState) {
+	getSnapshotBeforeUpdate (nextProps, nextState) {
 		if (this.scrollArea) {
 			// Only set the scroll flag if the scroll area is already at the bottom
 			this.shouldScroll = this.scrollArea.scrollTop >= this.scrollArea.scrollHeight - this.scrollArea.offsetHeight
 		}
+
+		const {
+			pendingMessages
+		} = this.state
+
+		if (pendingMessages.length) {
+			return pendingMessages.filter((item) => {
+				const match = _.find(nextProps.tail, {
+					slug: item.slug
+				})
+				return !match
+			})
+		}
+
+		return null
 	}
 
-	componentDidUpdate (prevProps, prevState) {
+	componentDidUpdate (prevProps, prevState, snapshot) {
 		// Scroll to bottom if the component has been updated with new items
 		this.scrollToBottom()
 		if (
@@ -228,6 +222,12 @@ class Timeline extends React.Component {
 		) {
 			this.scrollArea.scrollTop = this.scrollArea.scrollHeight - (this.scrollArea.offsetHeight + this.scrollBottomOffset)
 			this.scrollBottomOffset = this.scrollArea.scrollHeight - this.scrollArea.offsetHeight - this.scrollArea.scrollTop
+		}
+
+		if (snapshot) {
+			this.setState({
+				pendingMessages: snapshot
+			})
 		}
 	}
 

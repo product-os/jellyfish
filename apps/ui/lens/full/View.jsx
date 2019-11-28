@@ -337,17 +337,19 @@ class ViewRenderer extends React.Component {
 		return options
 	}
 
-	// eslint-disable-next-line camelcase
-	UNSAFE_componentWillReceiveProps (nextProps) {
-		// TODO: Get an actual total count from the API
+	static getDerivedStateFromProps (nextProps, prevState) {
 		if (nextProps.tail && nextProps.tail.length < 30) {
-			this.setState({
-				options: Object.assign(this.state.options, {
+			return {
+				options: Object.assign(prevState.options, {
 					totalPages: 1
 				})
-			})
+			}
 		}
 
+		return null
+	}
+
+	componentDidUpdate (nextProps) {
 		if (this.props.channel.data.target !== nextProps.channel.data.target) {
 			this.setState({
 				ready: false
