@@ -17,9 +17,14 @@ import * as helpers from '../../services/helpers'
 import {
 	createNotification
 } from '../../services/notifications'
+import {
+	getQueue
+} from './asyncDispatchQueue'
 
 // Refresh the session token once every 3 hours
 const TOKEN_REFRESH_INTERVAL = 3 * 60 * 60 * 1000
+
+const asyncDispatchQueue = getQueue()
 
 const notify = ({
 	user,
@@ -1025,6 +1030,7 @@ export default class ActionCreator {
 					streams[viewId] = subscribeToCoreFeed(
 						'update',
 						/* eslint-disable consistent-return */
+						/*
 						async (response) => {
 							const {
 								after, before
@@ -1064,6 +1070,59 @@ export default class ActionCreator {
 
 								return dispatch(this.appendViewData(query, card))
 							}
+						}
+						*/
+						(response) => {
+							// Use the async dispatch queue here, as we want to ensure that
+							// each update causes a store update one at a time, to prevent
+							// race conditions. For example, removing a data item happens
+							// quicker then adding a data item as we don't need to load links
+							asyncDispatchQueue.enqueue((async () => {
+								const {
+									after, before
+								} = response.data
+								const afterValid = after && skhema.isValid(schema, after)
+								const beforeValid = before && skhema.isValid(schema, before)
+
+								// If before is non-null then the card has been updated
+								if (beforeValid) {
+									// If after is null, the item has been removed from the result set
+									if (!after || !afterValid) {
+										return this.removeViewDataItem(query, before)
+									}
+
+									const card = await this.getCardWithLinks(schema, after)
+
+									if (!card) {
+										return
+									}
+
+									return this.upsertViewData(query, {
+										...after,
+										links: card.links
+									})
+								}
+								if (!before && afterValid) {
+									// Otherwise, if before is null, this is a new item
+									const card = await this.getCardWithLinks(schema, after)
+
+									if (viewId === 'view-my-inbox') {
+										notify({
+											user: selectors.getCurrentUser(getState()),
+											card: after
+										})
+									}
+
+									if (!card) {
+										return
+									}
+
+									return this.appendViewData(query, {
+										...after,
+										links: card.links
+									})
+								}
+							})(), dispatch)
 						}
 					)
 				})

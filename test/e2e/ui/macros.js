@@ -143,3 +143,19 @@ exports.getElementText = async (page, selector) => {
 		return text
 	})
 }
+
+exports.waitForSelectorToDisappear = async (page, selector) => {
+	return exports.retry(30, async () => {
+		try {
+			await page.waitForSelector(selector, {
+				timeout: 1000
+			})
+		} catch (error) {
+			return true
+		}
+
+		await bluebird.delay(1000)
+
+		throw new Error(`Element still exists: ${selector}`)
+	})
+}
