@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add chat widget role
+      hash: 2f1a1730178a68dce44e1d3dd1eb725fdf2c779b
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Connects-to: '#2723'
+        connects-to: '#2723'
+      author: Kakhaber
+  version: 24.28.0
+  date: 2019-11-27T22:11:33.589Z
+- commits:
     - subject: 'server: Backward compatible version support in roles'
       hash: fd1b67ad0b92506f261288fddfedec7844da4439
       body: ''
