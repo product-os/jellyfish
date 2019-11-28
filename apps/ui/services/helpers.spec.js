@@ -19,8 +19,7 @@ ava('.getUpdateObjectFromSchema() should parse the `const` keyword', (test) => {
 		type: 'object',
 		properties: {
 			type: {
-				type: 'string',
-				const: 'message'
+				const: 'message@1.0.0'
 			},
 			data: {
 				type: 'object',
@@ -42,7 +41,7 @@ ava('.getUpdateObjectFromSchema() should parse the `const` keyword', (test) => {
 	const result = helpers.getUpdateObjectFromSchema(schema)
 
 	test.deepEqual(result, {
-		type: 'message',
+		type: 'message@1.0.0',
 		data: {
 			number: 1,
 			string: 'foobar',

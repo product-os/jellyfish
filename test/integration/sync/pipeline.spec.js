@@ -28,7 +28,7 @@ ava('.importCards() should throw if the type is invalid', async (test) => {
 			actor: test.context.actor.id,
 			card: {
 				slug: 'hello-world',
-				type: 'xxxxxxxxxxxxx',
+				type: 'xxxxxxxxxxxxx@1.0.0',
 				version: '1.0.0',
 				data: {
 					test: 1
@@ -45,7 +45,7 @@ ava('.importCards() should import a single card', async (test) => {
 			actor: test.context.actor.id,
 			card: {
 				slug: 'hello-world',
-				type: 'card',
+				type: 'card@1.0.0',
 				version: '1.0.0',
 				data: {
 					test: 1
@@ -61,7 +61,7 @@ ava('.importCards() should import a single card', async (test) => {
 			name: null,
 			slug: 'hello-world',
 			links: result[0].links,
-			type: 'card',
+			type: 'card@1.0.0',
 			version: '1.0.0',
 			data: {
 				test: 1
@@ -72,7 +72,7 @@ ava('.importCards() should import a single card', async (test) => {
 
 ava('.importCards() should patch an existing card', async (test) => {
 	const card = await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
-		type: 'card',
+		type: 'card@1.0.0',
 		slug: 'foo',
 		version: '1.0.0',
 		data: {
@@ -87,7 +87,7 @@ ava('.importCards() should patch an existing card', async (test) => {
 			card: test.context.kernel.defaults({
 				id: card.id,
 				slug: 'foo',
-				type: 'card',
+				type: 'card@1.0.0',
 				version: '1.0.0',
 				active: false,
 				data: {
@@ -104,7 +104,7 @@ ava('.importCards() should patch an existing card', async (test) => {
 			id: card.id,
 			name: null,
 			slug: 'foo',
-			type: 'card',
+			type: 'card@1.0.0',
 			version: '1.0.0',
 			active: false,
 			links: result[0].links,
@@ -121,7 +121,7 @@ ava('.importCards() should import two independent cards', async (test) => {
 			time: new Date(),
 			actor: test.context.actor.id,
 			card: {
-				type: 'card',
+				type: 'card@1.0.0',
 				slug: 'foo',
 				version: '1.0.0',
 				data: {
@@ -133,7 +133,7 @@ ava('.importCards() should import two independent cards', async (test) => {
 			time: new Date(),
 			actor: test.context.actor.id,
 			card: {
-				type: 'card',
+				type: 'card@1.0.0',
 				slug: 'bar',
 				version: '1.0.0',
 				data: {
@@ -150,7 +150,7 @@ ava('.importCards() should import two independent cards', async (test) => {
 			name: null,
 			slug: 'foo',
 			links: result[0].links,
-			type: 'card',
+			type: 'card@1.0.0',
 			version: '1.0.0',
 			data: {
 				test: 1
@@ -162,7 +162,7 @@ ava('.importCards() should import two independent cards', async (test) => {
 			name: null,
 			slug: 'bar',
 			links: result[1].links,
-			type: 'card',
+			type: 'card@1.0.0',
 			version: '1.0.0',
 			data: {
 				test: 2
@@ -178,7 +178,7 @@ ava('.importCards() should import two parallel cards', async (test) => {
 				time: new Date(),
 				actor: test.context.actor.id,
 				card: {
-					type: 'card',
+					type: 'card@1.0.0',
 					slug: 'foo',
 					version: '1.0.0',
 					data: {
@@ -190,7 +190,7 @@ ava('.importCards() should import two parallel cards', async (test) => {
 				time: new Date(),
 				actor: test.context.actor.id,
 				card: {
-					type: 'card',
+					type: 'card@1.0.0',
 					slug: 'bar',
 					version: '1.0.0',
 					data: {
@@ -210,7 +210,7 @@ ava('.importCards() should import two parallel cards', async (test) => {
 			links: sortedResult[0].links,
 			name: null,
 			slug: 'foo',
-			type: 'card',
+			type: 'card@1.0.0',
 			version: '1.0.0',
 			data: {
 				test: 1
@@ -222,7 +222,7 @@ ava('.importCards() should import two parallel cards', async (test) => {
 			links: sortedResult[1].links,
 			name: null,
 			slug: 'bar',
-			type: 'card',
+			type: 'card@1.0.0',
 			version: '1.0.0',
 			data: {
 				test: 2
@@ -237,7 +237,7 @@ ava('.importCards() should import dependent cards', async (test) => {
 			time: new Date(),
 			actor: test.context.actor.id,
 			card: {
-				type: 'card',
+				type: 'card@1.0.0',
 				slug: 'foo',
 				version: '1.0.0',
 				data: {
@@ -249,7 +249,7 @@ ava('.importCards() should import dependent cards', async (test) => {
 			time: new Date(),
 			actor: test.context.actor.id,
 			card: {
-				type: 'card',
+				type: 'card@1.0.0',
 				slug: 'bar',
 				version: '1.0.0',
 				data: {
@@ -271,7 +271,7 @@ ava('.importCards() should import dependent cards', async (test) => {
 			links: result[0].links,
 			markers: [],
 			tags: [],
-			type: 'card',
+			type: 'card@1.0.0',
 			version: '1.0.0',
 			data: {
 				test: 1
@@ -286,7 +286,7 @@ ava('.importCards() should import dependent cards', async (test) => {
 			links: result[1].links,
 			markers: [],
 			tags: [],
-			type: 'card',
+			type: 'card@1.0.0',
 			version: '1.0.0',
 			data: {
 				target: result[0].id
@@ -301,7 +301,7 @@ ava('.importCards() should not throw given string interpolation', async (test) =
 			time: new Date(),
 			actor: test.context.actor.id,
 			card: {
-				type: 'card',
+				type: 'card@1.0.0',
 				slug: 'bar',
 				version: '1.0.0',
 				data: {
@@ -318,7 +318,7 @@ ava('.importCards() should not throw given string interpolation', async (test) =
 			slug: 'bar',
 			created_at: results[0].created_at,
 			name: null,
-			type: 'card',
+			type: 'card@1.0.0',
 			data: {
 				// eslint-disable-next-line no-template-curly-in-string
 				foo: 'Hello ${world}:$foo #{bar}'
@@ -333,7 +333,7 @@ ava('.importCards() should throw if a template does not evaluate', async (test) 
 			time: new Date(),
 			actor: test.context.actor.id,
 			card: {
-				type: 'card',
+				type: 'card@1.0.0',
 				slug: 'foo',
 				version: '1.0.0',
 				data: {
@@ -345,7 +345,7 @@ ava('.importCards() should throw if a template does not evaluate', async (test) 
 			time: new Date(),
 			actor: test.context.actor.id,
 			card: {
-				type: 'card',
+				type: 'card@1.0.0',
 				slug: 'bar',
 				version: '1.0.0',
 				data: {
@@ -364,7 +364,7 @@ ava('.importCards() should import a dependent card in parallel segment', async (
 			time: new Date(),
 			actor: test.context.actor.id,
 			card: {
-				type: 'card',
+				type: 'card@1.0.0',
 				slug: 'foo',
 				version: '1.0.0',
 				data: {
@@ -377,7 +377,7 @@ ava('.importCards() should import a dependent card in parallel segment', async (
 				time: new Date(),
 				actor: test.context.actor.id,
 				card: {
-					type: 'card',
+					type: 'card@1.0.0',
 					slug: 'bar',
 					version: '1.0.0',
 					data: {
@@ -389,7 +389,7 @@ ava('.importCards() should import a dependent card in parallel segment', async (
 				time: new Date(),
 				actor: test.context.actor.id,
 				card: {
-					type: 'card',
+					type: 'card@1.0.0',
 					slug: 'baz',
 					version: '1.0.0',
 					data: {
@@ -412,7 +412,7 @@ ava('.importCards() should import a dependent card in parallel segment', async (
 			links: sortedResult[0].links,
 			name: null,
 			slug: 'foo',
-			type: 'card',
+			type: 'card@1.0.0',
 			version: '1.0.0',
 			data: {
 				test: 1
@@ -424,7 +424,7 @@ ava('.importCards() should import a dependent card in parallel segment', async (
 			links: sortedResult[1].links,
 			name: null,
 			slug: 'bar',
-			type: 'card',
+			type: 'card@1.0.0',
 			version: '1.0.0',
 			data: {
 				test: 2
@@ -436,7 +436,7 @@ ava('.importCards() should import a dependent card in parallel segment', async (
 			links: sortedResult[2].links,
 			name: null,
 			slug: 'baz',
-			type: 'card',
+			type: 'card@1.0.0',
 			version: '1.0.0',
 			data: {
 				test: 3,
@@ -453,7 +453,7 @@ ava('.importCards() should add create events', async (test) => {
 			actor: test.context.actor.id,
 			card: {
 				slug: 'hello-world',
-				type: 'card',
+				type: 'card@1.0.0',
 				version: '1.0.0',
 				data: {
 					test: 1
@@ -484,7 +484,7 @@ ava('.importCards() should add create events', async (test) => {
 	})
 
 	test.is(timeline.length, 1)
-	test.is(timeline[0].type, 'create')
+	test.is(timeline[0].type, 'create@1.0.0')
 })
 
 ava('.translateExternalEvent() should pass the originator to the sync context', async (test) => {
@@ -502,7 +502,7 @@ ava('.translateExternalEvent() should pass the originator to the sync context', 
 	const result = await pipeline.translateExternalEvent(
 		TestIntegration, test.context.kernel.defaults({
 			id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			type: 'external-event',
+			type: 'external-event@1.0.0',
 			slug,
 			version: '1.0.0',
 			data: {
@@ -529,7 +529,7 @@ ava('.translateExternalEvent() should pass the originator to the sync context', 
 			created_at: result[0].created_at,
 			id: result[0].id,
 			slug,
-			type: 'card',
+			type: 'card@1.0.0',
 			name: null,
 			version: '1.0.0',
 			links: result[0].links,
@@ -560,7 +560,7 @@ ava('.translateExternalEvent() should translate an external event through the no
 
 	const result = await pipeline.translateExternalEvent(TestIntegration, test.context.kernel.defaults({
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-		type: 'external-event',
+		type: 'external-event@1.0.0',
 		slug,
 		version: '1.0.0',
 		data: {
@@ -585,7 +585,7 @@ ava('.translateExternalEvent() should translate an external event through the no
 			created_at: result[0].created_at,
 			id: result[0].id,
 			slug,
-			type: 'card',
+			type: 'card@1.0.0',
 			name: null,
 			version: '1.0.0',
 			links: result[0].links,
@@ -614,7 +614,7 @@ ava('.translateExternalEvent() should destroy the integration even if there was 
 		slug: test.context.generateRandomSlug({
 			prefix: 'external-event'
 		}),
-		type: 'invalid-type',
+		type: 'invalid-type@1.0.0',
 		version: '1.0.0',
 		data: {
 			source: 'test',
@@ -651,7 +651,7 @@ ava('.translateExternalEvent() should destroy the integration even if there was 
 
 	await test.throwsAsync(pipeline.translateExternalEvent(BrokenIntegration, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-		type: 'invalid-type',
+		type: 'invalid-type@1.0.0',
 		slug: test.context.generateRandomSlug({
 			prefix: 'external-event'
 		}),

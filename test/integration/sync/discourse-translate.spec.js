@@ -23,7 +23,7 @@ avaTest('should not change the same user email', async (test) => {
 	await test.context.jellyfish.insertCard(
 		test.context.context, test.context.session, {
 			slug: 'user-jviotti',
-			type: 'user',
+			type: 'user@1.0.0',
 			version: '1.0.0',
 			data: {
 				email: 'juan@resin.io',
@@ -67,7 +67,7 @@ avaTest('should not change the same user email', async (test) => {
 	]) {
 		const event = await test.context.jellyfish.insertCard(test.context.context,
 			test.context.session, {
-				type: 'external-event',
+				type: 'external-event@1.0.0',
 				slug: `external-event-${uuid()}`,
 				version: '1.0.0',
 				data: externalEvent
@@ -110,7 +110,7 @@ avaTest('should add a new e-mail to a user', async (test) => {
 	await test.context.jellyfish.insertCard(
 		test.context.context, test.context.session, {
 			slug: 'user-jviotti',
-			type: 'user',
+			type: 'user@1.0.0',
 			version: '1.0.0',
 			data: {
 				email: 'foo@bar.com',
@@ -154,7 +154,7 @@ avaTest('should add a new e-mail to a user', async (test) => {
 	]) {
 		const event = await test.context.jellyfish.insertCard(test.context.context,
 			test.context.session, {
-				type: 'external-event',
+				type: 'external-event@1.0.0',
 				slug: `external-event-${uuid()}`,
 				version: '1.0.0',
 				data: externalEvent

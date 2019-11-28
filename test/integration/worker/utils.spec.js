@@ -14,7 +14,7 @@ ava.afterEach(helpers.jellyfish.afterEach)
 ava('.hasCard() id = yes (exists), slug = yes (exists)', async (test) => {
 	const card = await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
 		slug: 'foo-bar',
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0'
 	})
 
@@ -28,7 +28,7 @@ ava('.hasCard() id = yes (exists), slug = yes (exists)', async (test) => {
 ava('.hasCard() id = yes (exists), slug = yes (not exist)', async (test) => {
 	const card = await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
 		slug: 'bar-baz',
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0'
 	})
 
@@ -42,7 +42,7 @@ ava('.hasCard() id = yes (exists), slug = yes (not exist)', async (test) => {
 ava('.hasCard() id = yes (not exist), slug = yes (exists)', async (test) => {
 	await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
 		slug: 'foo-bar',
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0'
 	})
 
@@ -64,7 +64,7 @@ ava('.hasCard() id = yes (not exist), slug = yes (not exist)', async (test) => {
 ava('.hasCard() id = no, slug = yes (exists)', async (test) => {
 	await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
 		slug: 'foo-bar',
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0'
 	})
 

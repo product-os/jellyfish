@@ -122,7 +122,7 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 
 		const event = await test.context.jellyfish.insertCard(test.context.context,
 			test.context.session, {
-				type: 'external-event',
+				type: 'external-event@1.0.0',
 				slug: test.context.generateRandomSlug({
 					prefix: 'external-event'
 				}),
@@ -161,7 +161,9 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 
 	// TODO: Remove once we fully support versioned
 	// slug references in the sync module.
-	head.type = `${head.type}@1.0.0`
+	if (!head.type.includes('@')) {
+		head.type = `${head.type}@1.0.0`
+	}
 
 	deleteExtraLinks(testCase.expected.head, head)
 	Reflect.deleteProperty(head, 'markers')
@@ -231,7 +233,9 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 
 		// TODO: Remove once we fully support versioned
 		// slug references in the sync module.
-		card.type = `${card.type}@1.0.0`
+		if (!card.type.includes('@')) {
+			card.type = `${card.type}@1.0.0`
+		}
 
 		const actorCard = await test.context.jellyfish.getCardById(
 			test.context.context, test.context.session, card.data.actor)
@@ -268,7 +272,7 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 
 			// TODO: Remove once we fully support versioned
 			// slug references in the sync module.
-			if (card.data.payload.type) {
+			if (card.data.payload.type && !card.data.payload.type.includes('@')) {
 				card.data.payload.type = `${card.data.payload.type}@1.0.0`
 			}
 		}
