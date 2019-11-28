@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'server: Backwards compatible version support in external support role'
+      hash: f5ca6487aebce37d2cc9f7497b4a33096164c516
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.29.0
+  date: 2019-11-28T18:00:24.194Z
+- commits:
     - subject: >-
         UI: Fix bug where state updates from a stream can happen in the wrong
         order
