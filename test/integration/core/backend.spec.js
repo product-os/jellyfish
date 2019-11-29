@@ -60,7 +60,7 @@ ava('.disconnect() should gracefully close streams', async (test) => {
 
 ava('.getElementsById() should return an empty array given one non-existent element', async (test) => {
 	const result = await test.context.backend.getElementsById(test.context.context, [ '4a962ad9-20b5-4dd8-a707-bf819593cc84' ], {
-		type: 'card'
+		type: 'card@1.0.0'
 	})
 
 	test.deepEqual(result, [])
@@ -69,7 +69,7 @@ ava('.getElementsById() should return an empty array given one non-existent elem
 ava('.getElementsById() should return an found element', async (test) => {
 	const element = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'example',
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		tags: [],
 		markers: [],
@@ -84,7 +84,7 @@ ava('.getElementsById() should return an found element', async (test) => {
 	})
 
 	const result = await test.context.backend.getElementsById(test.context.context, [ element.id ], {
-		type: 'card'
+		type: 'card@1.0.0'
 	})
 
 	test.deepEqual(result, [ element ])
@@ -93,7 +93,7 @@ ava('.getElementsById() should return an found element', async (test) => {
 ava('.getElementsById() should omit not found elements', async (test) => {
 	const element = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'example',
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		tags: [],
 		markers: [],
@@ -108,7 +108,7 @@ ava('.getElementsById() should omit not found elements', async (test) => {
 
 	const result = await test.context.backend.getElementsById(
 		test.context.context, [ element.id, '4a962ad9-20b5-4dd8-a707-bf819593cc84' ], {
-			type: 'card'
+			type: 'card@1.0.0'
 		})
 
 	test.deepEqual(result, [ element ])
@@ -117,7 +117,7 @@ ava('.getElementsById() should omit not found elements', async (test) => {
 ava('.getElementsById() should get deterministic results', async (test) => {
 	const element = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'example',
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		tags: [],
 		linked_at: {},
@@ -132,17 +132,17 @@ ava('.getElementsById() should get deterministic results', async (test) => {
 
 	const result1 = await test.context.backend.getElementsById(
 		test.context.context, [ element.id, '4a962ad9-20b5-4dd8-a707-bf819593cc84' ], {
-			type: 'card'
+			type: 'card@1.0.0'
 		})
 
 	const result2 = await test.context.backend.getElementsById(
 		test.context.context, [ element.id, '4a962ad9-20b5-4dd8-a707-bf819593cc84' ], {
-			type: 'card'
+			type: 'card@1.0.0'
 		})
 
 	const result3 = await test.context.backend.getElementsById(
 		test.context.context, [ element.id, '4a962ad9-20b5-4dd8-a707-bf819593cc84' ], {
-			type: 'card'
+			type: 'card@1.0.0'
 		})
 
 	test.deepEqual(result1, result2)
@@ -151,7 +151,7 @@ ava('.getElementsById() should get deterministic results', async (test) => {
 
 ava('.getElementById() should return null if the element id is not present', async (test) => {
 	const result = await test.context.backend.getElementById(test.context.context, '4a962ad9-20b5-4dd8-a707-bf819593cc84', {
-		type: 'card'
+		type: 'card@1.0.0'
 	})
 
 	test.deepEqual(result, null)
@@ -160,7 +160,7 @@ ava('.getElementById() should return null if the element id is not present', asy
 ava('.getElementById() should not break the cache if trying to query a valid slug with it', async (test) => {
 	const element = await test.context.backend.upsertElement(test.context.context, {
 		slug: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-		type: 'card',
+		type: 'card@1.0.0',
 		links: {},
 		data: {},
 		linked_at: {},
@@ -175,14 +175,14 @@ ava('.getElementById() should not break the cache if trying to query a valid slu
 
 	const result1 = await test.context.backend.getElementById(
 		test.context.context, '4a962ad9-20b5-4dd8-a707-bf819593cc84', {
-			type: 'card'
+			type: 'card@1.0.0'
 		})
 
 	test.deepEqual(result1, null)
 
 	const result2 = await test.context.backend.getElementBySlug(
 		test.context.context, '4a962ad9-20b5-4dd8-a707-bf819593cc84@1.0.0', {
-			type: 'card'
+			type: 'card@1.0.0'
 		})
 
 	test.deepEqual(result2, element)
@@ -191,7 +191,7 @@ ava('.getElementById() should not break the cache if trying to query a valid slu
 ava('.getElementBySlug() should not break the cache if trying to query a valid id with it', async (test) => {
 	const element = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'example',
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		linked_at: {},
 		links: {},
@@ -206,14 +206,14 @@ ava('.getElementBySlug() should not break the cache if trying to query a valid i
 
 	const result1 = await test.context.backend.getElementBySlug(
 		test.context.context, `${element.id}@${element.version}`, {
-			type: 'card'
+			type: 'card@1.0.0'
 		})
 
 	test.deepEqual(result1, null)
 
 	const result2 = await test.context.backend.getElementById(
 		test.context.context, element.id, {
-			type: 'card'
+			type: 'card@1.0.0'
 		})
 
 	test.deepEqual(result2, element)
@@ -222,7 +222,7 @@ ava('.getElementBySlug() should not break the cache if trying to query a valid i
 ava('.getElementBySlug() should return null if the element slug is not present', async (test) => {
 	const result = await test.context.backend.getElementBySlug(
 		test.context.context, 'foo@1.0.0', {
-			type: 'card'
+			type: 'card@1.0.0'
 		})
 
 	test.deepEqual(result, null)
@@ -231,7 +231,7 @@ ava('.getElementBySlug() should return null if the element slug is not present',
 ava('.getElementBySlug() should fetch an element given its slug', async (test) => {
 	const element = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'example',
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		links: {},
 		linked_at: {},
@@ -246,7 +246,7 @@ ava('.getElementBySlug() should fetch an element given its slug', async (test) =
 
 	const result = await test.context.backend.getElementBySlug(
 		test.context.context, 'example@1.0.0', {
-			type: 'card'
+			type: 'card@1.0.0'
 		})
 
 	test.deepEqual(result, element)
@@ -255,7 +255,7 @@ ava('.getElementBySlug() should fetch an element given its slug', async (test) =
 ava('.getElementBySlug() should return null given the wrong version', async (test) => {
 	await test.context.backend.upsertElement(test.context.context, {
 		slug: 'example',
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		links: {},
 		linked_at: {},
@@ -270,7 +270,7 @@ ava('.getElementBySlug() should return null given the wrong version', async (tes
 
 	const result = await test.context.backend.getElementBySlug(
 		test.context.context, 'example@2.0.0', {
-			type: 'card'
+			type: 'card@1.0.0'
 		})
 
 	test.deepEqual(result, null)
@@ -279,7 +279,7 @@ ava('.getElementBySlug() should return null given the wrong version', async (tes
 ava('.getElementBySlug() should fetch an element given the correct version', async (test) => {
 	const element = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'example',
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		links: {},
 		linked_at: {},
@@ -294,7 +294,7 @@ ava('.getElementBySlug() should fetch an element given the correct version', asy
 
 	const result = await test.context.backend.getElementBySlug(
 		test.context.context, 'example@1.0.0', {
-			type: 'card'
+			type: 'card@1.0.0'
 		})
 
 	test.deepEqual(result, element)
@@ -343,7 +343,7 @@ ava('.insertElement() should fail to insert an element with a very long slug', a
 		capabilities: [],
 		linked_at: {},
 		created_at: new Date().toISOString(),
-		type: 'card',
+		type: 'card@1.0.0',
 		active: true
 	}), errors.JellyfishInvalidSlug)
 })
@@ -361,11 +361,11 @@ ava('.insertElement() should insert an element with a non-existent slug', async 
 		capabilities: [],
 		created_at: new Date().toISOString(),
 		active: true,
-		type: 'card'
+		type: 'card@1.0.0'
 	})
 
 	const element = await test.context.backend.getElementById(test.context.context, result.id, {
-		type: 'card'
+		type: 'card@1.0.0'
 	})
 
 	test.deepEqual(element, result)
@@ -385,14 +385,14 @@ ava('.insertElement() should not insert an element with a user defined id', asyn
 		linked_at: {},
 		capabilities: [],
 		created_at: new Date().toISOString(),
-		type: 'card',
+		type: 'card@1.0.0',
 		foo: 'bar'
 	})
 
 	test.not(result.id, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
 
 	const element = await test.context.backend.getElementById(test.context.context, result.id, {
-		type: 'card'
+		type: 'card@1.0.0'
 	})
 
 	test.deepEqual(Object.assign({}, element, {
@@ -414,14 +414,14 @@ ava('.insertElement() should insert an element with a non-existent id and slug',
 		linked_at: {},
 		created_at: new Date().toISOString(),
 		slug: 'example',
-		type: 'card',
+		type: 'card@1.0.0',
 		foo: 'bar'
 	})
 
 	test.not(result.id, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
 
 	const element = await test.context.backend.getElementById(test.context.context, result.id, {
-		type: 'card'
+		type: 'card@1.0.0'
 	})
 
 	test.deepEqual(Object.assign({}, element, {
@@ -442,7 +442,7 @@ ava('.insertElement() should not re-use the id when inserting an element with an
 		capabilities: [],
 		linked_at: {},
 		created_at: new Date().toISOString(),
-		type: 'card',
+		type: 'card@1.0.0',
 		foo: 'bar'
 	})
 
@@ -459,7 +459,7 @@ ava('.insertElement() should not re-use the id when inserting an element with an
 		linked_at: {},
 		created_at: new Date().toISOString(),
 		active: true,
-		type: 'card',
+		type: 'card@1.0.0',
 		foo: 'baz'
 	})
 
@@ -479,7 +479,7 @@ ava('.insertElement() should fail to insert an element with an existent slug', a
 		linked_at: {},
 		created_at: new Date().toISOString(),
 		active: true,
-		type: 'card'
+		type: 'card@1.0.0'
 	})
 
 	await test.throwsAsync(test.context.backend.insertElement(test.context.context, {
@@ -494,7 +494,7 @@ ava('.insertElement() should fail to insert an element with an existent slug', a
 		capabilities: [],
 		linked_at: {},
 		created_at: new Date().toISOString(),
-		type: 'card',
+		type: 'card@1.0.0',
 		foo: 'baz'
 	}), errors.JellyfishElementAlreadyExists)
 })
@@ -513,7 +513,7 @@ ava('.insertElement() should not re-use ids when inserting an' +
 		capabilities: [],
 		linked_at: {},
 		created_at: new Date().toISOString(),
-		type: 'card',
+		type: 'card@1.0.0',
 		foo: 'bar'
 	})
 
@@ -530,7 +530,7 @@ ava('.insertElement() should not re-use ids when inserting an' +
 		linked_at: {},
 		created_at: new Date().toISOString(),
 		active: true,
-		type: 'card',
+		type: 'card@1.0.0',
 		foo: 'baz'
 	})
 
@@ -550,7 +550,7 @@ ava('.insertElement() should fail to insert an element with a non-existent id bu
 		linked_at: {},
 		created_at: new Date().toISOString(),
 		active: true,
-		type: 'card',
+		type: 'card@1.0.0',
 		foo: 'bar'
 	})
 
@@ -558,7 +558,7 @@ ava('.insertElement() should fail to insert an element with a non-existent id bu
 
 	await test.throwsAsync(test.context.backend.insertElement(test.context.context, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		tags: [],
 		links: {},
@@ -576,7 +576,7 @@ ava('.insertElement() should fail to insert an element with a non-existent id bu
 
 ava('.upsertElement() should not be able to change a slug', async (test) => {
 	const result1 = await test.context.backend.upsertElement(test.context.context, {
-		type: 'card',
+		type: 'card@1.0.0',
 		slug: 'foo',
 		data: {},
 		hello: 'world',
@@ -593,7 +593,7 @@ ava('.upsertElement() should not be able to change a slug', async (test) => {
 
 	const result2 = await test.context.backend.upsertElement(test.context.context, {
 		id: result1.id,
-		type: 'card',
+		type: 'card@1.0.0',
 		slug: 'bar',
 		links: {},
 		hello: 'world',
@@ -631,7 +631,7 @@ ava('.upsertElement() should not insert an element without a type', async (test)
 ava('.upsertElement() should insert a card with a slug', async (test) => {
 	const result = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'example',
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		links: {},
 		tags: [],
@@ -646,7 +646,7 @@ ava('.upsertElement() should insert a card with a slug', async (test) => {
 
 	test.not(result.id, 'example')
 	const element = await test.context.backend.getElementById(test.context.context, result.id, {
-		type: 'card'
+		type: 'card@1.0.0'
 	})
 
 	test.deepEqual(element, result)
@@ -655,7 +655,7 @@ ava('.upsertElement() should insert a card with a slug', async (test) => {
 ava('.upsertElement() should replace an element given the slug but no id', async (test) => {
 	const result1 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'example',
-		type: 'card',
+		type: 'card@1.0.0',
 		hello: 'world',
 		data: {},
 		linked_at: {},
@@ -671,7 +671,7 @@ ava('.upsertElement() should replace an element given the slug but no id', async
 
 	const result2 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'example',
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		links: {},
 		linked_at: {},
@@ -686,7 +686,7 @@ ava('.upsertElement() should replace an element given the slug but no id', async
 
 	test.is(result1.id, result2.id)
 	const element = await test.context.backend.getElementById(test.context.context, result1.id, {
-		type: 'card'
+		type: 'card@1.0.0'
 	})
 
 	test.deepEqual(element, result2)
@@ -695,7 +695,7 @@ ava('.upsertElement() should replace an element given the slug but no id', async
 ava('.upsertElement() should not let clients pick their own ids', async (test) => {
 	const result = await test.context.backend.upsertElement(test.context.context, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-		type: 'card',
+		type: 'card@1.0.0',
 		active: true,
 		slug: 'example',
 		links: {},
@@ -711,7 +711,7 @@ ava('.upsertElement() should not let clients pick their own ids', async (test) =
 
 	test.not(result.id, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
 	const element = await test.context.backend.getElementById(test.context.context, result.id, {
-		type: 'card'
+		type: 'card@1.0.0'
 	})
 
 	test.deepEqual(Object.assign({}, element, {
@@ -748,13 +748,13 @@ ava('.upsertElement() should not consider ids when inserting an element with an 
 		requires: [],
 		capabilities: [],
 		created_at: new Date().toISOString(),
-		type: 'card'
+		type: 'card@1.0.0'
 	})
 
 	const result2 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'bar',
 		active: true,
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		links: {},
 		tags: [],
@@ -769,7 +769,7 @@ ava('.upsertElement() should not consider ids when inserting an element with an 
 	const result3 = await test.context.backend.upsertElement(test.context.context, {
 		id: result2.id,
 		slug: 'example',
-		type: 'card',
+		type: 'card@1.0.0',
 		links: {},
 		data: {},
 		version: '1.0.0',
@@ -789,7 +789,7 @@ ava('.upsertElement() should not consider ids when inserting an element with an 
 		capabilities: [],
 		active: true,
 		name: null,
-		type: 'card',
+		type: 'card@1.0.0',
 		linked_at: {},
 		version: '1.0.0',
 		links: {},
@@ -803,7 +803,7 @@ ava('.upsertElement() should not consider ids when inserting an element with an 
 
 ava('.upsertElement() should replace an element with an existing id and the slug of the same element', async (test) => {
 	const result1 = await test.context.backend.upsertElement(test.context.context, {
-		type: 'card',
+		type: 'card@1.0.0',
 		slug: 'example',
 		version: '1.0.0',
 		links: {},
@@ -819,7 +819,7 @@ ava('.upsertElement() should replace an element with an existing id and the slug
 
 	const result2 = await test.context.backend.upsertElement(test.context.context, {
 		id: result1.id,
-		type: 'card',
+		type: 'card@1.0.0',
 		slug: 'example',
 		links: {},
 		data: {},
@@ -835,7 +835,7 @@ ava('.upsertElement() should replace an element with an existing id and the slug
 
 	test.is(result1.id, result2.id)
 	const element = await test.context.backend.getElementById(test.context.context, result1.id, {
-		type: 'card'
+		type: 'card@1.0.0'
 	})
 
 	test.deepEqual(element, result2)
@@ -845,7 +845,7 @@ ava('.upsertElement() should ignore the id when' +
 					' inserting an element with a non existing id and the slug of an element', async (test) => {
 	const result1 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'example',
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		links: {},
 		data: {},
@@ -861,7 +861,7 @@ ava('.upsertElement() should ignore the id when' +
 	const result2 = await test.context.backend.upsertElement(test.context.context, {
 		id: '9af7cf33-1a29-4f0c-a73b-f6a2b149850c',
 		slug: 'example',
-		type: 'card',
+		type: 'card@1.0.0',
 		links: {},
 		version: '1.0.0',
 		linked_at: {},
@@ -890,7 +890,7 @@ ava('.upsertElement() should ignore the id when' +
 		capabilities: [],
 		active: true,
 		slug: 'example',
-		type: 'card'
+		type: 'card@1.0.0'
 	})
 })
 
@@ -1031,7 +1031,7 @@ ava('.query() should escape malicious query keys', async (test) => {
 							properties: {
 								'Robert\'); DROP TABLE cards; --': {
 									type: 'string',
-									const: 'foo'
+									const: 'foo@1.0.0'
 								}
 							}
 						}
@@ -1051,7 +1051,7 @@ ava('.query() should escape malicious query values', async (test) => {
 			properties: {
 				[injection]: {
 					type: 'string',
-					const: 'foo'
+					const: 'foo@1.0.0'
 				}
 			},
 			required: [ injection ]
@@ -1376,7 +1376,7 @@ ava('.query() should not return unspecified properties', async (test) => {
 ava('.query() should handle integer float limits', async (test) => {
 	for (const index of _.range(0, 1000)) {
 		await test.context.backend.insertElement(test.context.context, {
-			type: 'card',
+			type: 'card@1.0.0',
 			slug: `foo-${index}`,
 			version: '1.0.0',
 			tags: [],
@@ -1400,7 +1400,7 @@ ava('.query() should handle integer float limits', async (test) => {
 		properties: {
 			type: {
 				type: 'string',
-				const: 'card'
+				const: 'card@1.0.0'
 			}
 		},
 		required: [ 'type' ]
@@ -1418,7 +1418,7 @@ ava('.query() should throw given float limits', async (test) => {
 		properties: {
 			type: {
 				type: 'string',
-				const: 'card'
+				const: 'card@1.0.0'
 			}
 		},
 		required: [ 'type' ]
@@ -1430,7 +1430,7 @@ ava('.query() should throw given float limits', async (test) => {
 ava('.query() should apply a maximum limit by default', async (test) => {
 	for (const index of _.range(0, 1000)) {
 		await test.context.backend.insertElement(test.context.context, {
-			type: 'card',
+			type: 'card@1.0.0',
 			slug: `foo-${index}`,
 			version: '1.0.0',
 			tags: [],
@@ -1454,7 +1454,7 @@ ava('.query() should apply a maximum limit by default', async (test) => {
 		properties: {
 			type: {
 				type: 'string',
-				const: 'card'
+				const: 'card@1.0.0'
 			}
 		},
 		required: [ 'type' ]
@@ -1466,7 +1466,7 @@ ava('.query() should apply a maximum limit by default', async (test) => {
 ava('.query() return nothing given a zero limit', async (test) => {
 	for (const index of _.range(0, 1000)) {
 		await test.context.backend.insertElement(test.context.context, {
-			type: 'card',
+			type: 'card@1.0.0',
 			slug: `foo-${index}`,
 			version: '1.0.0',
 			tags: [],
@@ -1490,7 +1490,7 @@ ava('.query() return nothing given a zero limit', async (test) => {
 		properties: {
 			type: {
 				type: 'string',
-				const: 'card'
+				const: 'card@1.0.0'
 			}
 		},
 		required: [ 'type' ]
@@ -1504,7 +1504,7 @@ ava('.query() return nothing given a zero limit', async (test) => {
 ava('.query() should apply a maximum limit by default given sortBy', async (test) => {
 	for (const index of _.range(0, 1000)) {
 		await test.context.backend.insertElement(test.context.context, {
-			type: 'card',
+			type: 'card@1.0.0',
 			slug: `foo-${index}`,
 			version: '1.0.0',
 			tags: [],
@@ -1528,7 +1528,7 @@ ava('.query() should apply a maximum limit by default given sortBy', async (test
 		properties: {
 			type: {
 				type: 'string',
-				const: 'card'
+				const: 'card@1.0.0'
 			}
 		},
 		required: [ 'type' ]
@@ -1546,7 +1546,7 @@ ava('.query() should throw if limit is negative', async (test) => {
 		properties: {
 			type: {
 				type: 'string',
-				const: 'card'
+				const: 'card@1.0.0'
 			}
 		},
 		required: [ 'type' ]
@@ -1562,7 +1562,7 @@ ava('.query() should throw if limit is too large', async (test) => {
 		properties: {
 			type: {
 				type: 'string',
-				const: 'card'
+				const: 'card@1.0.0'
 			}
 		},
 		required: [ 'type' ]
@@ -1578,7 +1578,7 @@ ava('.query() should throw if limit is Infinity', async (test) => {
 		properties: {
 			type: {
 				type: 'string',
-				const: 'card'
+				const: 'card@1.0.0'
 			}
 		},
 		required: [ 'type' ]
@@ -1594,7 +1594,7 @@ ava('.query() should throw if limit is -Infinity', async (test) => {
 		properties: {
 			type: {
 				type: 'string',
-				const: 'card'
+				const: 'card@1.0.0'
 			}
 		},
 		required: [ 'type' ]
@@ -1610,7 +1610,7 @@ ava('.query() should throw if limit is NaN', async (test) => {
 		properties: {
 			type: {
 				type: 'string',
-				const: 'card'
+				const: 'card@1.0.0'
 			}
 		},
 		required: [ 'type' ]
@@ -1621,7 +1621,7 @@ ava('.query() should throw if limit is NaN', async (test) => {
 
 ava('.query() should be able to limit the results', async (test) => {
 	const result1 = await test.context.backend.upsertElement(test.context.context, {
-		type: 'card',
+		type: 'card@1.0.0',
 		slug: 'foo',
 		version: '1.0.0',
 		tags: [],
@@ -1643,7 +1643,7 @@ ava('.query() should be able to limit the results', async (test) => {
 	await Bluebird.delay(10)
 
 	const result2 = await test.context.backend.upsertElement(test.context.context, {
-		type: 'card',
+		type: 'card@1.0.0',
 		slug: 'bar',
 		version: '1.0.0',
 		links: {},
@@ -1665,7 +1665,7 @@ ava('.query() should be able to limit the results', async (test) => {
 	await Bluebird.delay(10)
 
 	await test.context.backend.upsertElement(test.context.context, {
-		type: 'card',
+		type: 'card@1.0.0',
 		slug: 'baz',
 		version: '1.0.0',
 		links: {},
@@ -1689,7 +1689,7 @@ ava('.query() should be able to limit the results', async (test) => {
 		properties: {
 			type: {
 				type: 'string',
-				const: 'card'
+				const: 'card@1.0.0'
 			}
 		},
 		required: [ 'type' ]
@@ -1703,7 +1703,7 @@ ava('.query() should be able to limit the results', async (test) => {
 
 ava('.query() should be able to skip the results', async (test) => {
 	await test.context.backend.upsertElement(test.context.context, {
-		type: 'card',
+		type: 'card@1.0.0',
 		slug: 'foo',
 		version: '1.0.0',
 		links: {},
@@ -1725,7 +1725,7 @@ ava('.query() should be able to skip the results', async (test) => {
 	await Bluebird.delay(10)
 
 	await test.context.backend.upsertElement(test.context.context, {
-		type: 'card',
+		type: 'card@1.0.0',
 		slug: 'bar',
 		version: '1.0.0',
 		links: {},
@@ -1747,7 +1747,7 @@ ava('.query() should be able to skip the results', async (test) => {
 	await Bluebird.delay(10)
 
 	const result3 = await test.context.backend.upsertElement(test.context.context, {
-		type: 'card',
+		type: 'card@1.0.0',
 		slug: 'baz',
 		links: {},
 		version: '1.0.0',
@@ -1771,7 +1771,7 @@ ava('.query() should be able to skip the results', async (test) => {
 		properties: {
 			type: {
 				type: 'string',
-				const: 'card'
+				const: 'card@1.0.0'
 			}
 		},
 		required: [ 'type' ]
@@ -1785,7 +1785,7 @@ ava('.query() should be able to skip the results', async (test) => {
 
 ava('.query() should be able to skip the results of a one-element query', async (test) => {
 	const card = await test.context.backend.upsertElement(test.context.context, {
-		type: 'card',
+		type: 'card@1.0.0',
 		slug: 'foo',
 		links: {},
 		version: '1.0.0',
@@ -1821,7 +1821,7 @@ ava('.query() should be able to skip the results of a one-element query', async 
 
 ava('.query() should not skip the results of a one-element query if skip is set to zero', async (test) => {
 	const card = await test.context.backend.upsertElement(test.context.context, {
-		type: 'card',
+		type: 'card@1.0.0',
 		slug: 'foo',
 		version: '1.0.0',
 		links: {},
@@ -1861,7 +1861,7 @@ ava('.query() should not skip the results of a one-element query if skip is set 
 
 ava('.query() should be able to limit the results of a one-element query to 0', async (test) => {
 	const card = await test.context.backend.upsertElement(test.context.context, {
-		type: 'card',
+		type: 'card@1.0.0',
 		slug: 'foo',
 		version: '1.0.0',
 		links: {},
@@ -1897,7 +1897,7 @@ ava('.query() should be able to limit the results of a one-element query to 0', 
 
 ava('.query() should not omit the results of a one-element query if limit is set to one', async (test) => {
 	const card = await test.context.backend.upsertElement(test.context.context, {
-		type: 'card',
+		type: 'card@1.0.0',
 		slug: 'foo',
 		version: '1.0.0',
 		links: {},
@@ -1937,7 +1937,7 @@ ava('.query() should not omit the results of a one-element query if limit is set
 
 ava('.query() should be able to limit and skip the results', async (test) => {
 	await test.context.backend.upsertElement(test.context.context, {
-		type: 'card',
+		type: 'card@1.0.0',
 		slug: 'foo',
 		version: '1.0.0',
 		tags: [],
@@ -1956,7 +1956,7 @@ ava('.query() should be able to limit and skip the results', async (test) => {
 	})
 
 	const result2 = await test.context.backend.upsertElement(test.context.context, {
-		type: 'card',
+		type: 'card@1.0.0',
 		slug: 'bar',
 		version: '1.0.0',
 		links: {},
@@ -1975,7 +1975,7 @@ ava('.query() should be able to limit and skip the results', async (test) => {
 	})
 
 	await test.context.backend.upsertElement(test.context.context, {
-		type: 'card',
+		type: 'card@1.0.0',
 		slug: 'baz',
 		version: '1.0.0',
 		links: {},
@@ -1999,7 +1999,7 @@ ava('.query() should be able to limit and skip the results', async (test) => {
 		properties: {
 			type: {
 				type: 'string',
-				const: 'card'
+				const: 'card@1.0.0'
 			}
 		},
 		required: [ 'type' ]
@@ -2014,7 +2014,7 @@ ava('.query() should be able to limit and skip the results', async (test) => {
 ava('.query() should be able to sort the query using a key', async (test) => {
 	const card1 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'foo',
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		tags: [],
 		links: {},
@@ -2031,7 +2031,7 @@ ava('.query() should be able to sort the query using a key', async (test) => {
 
 	const card2 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'bar',
-		type: 'card',
+		type: 'card@1.0.0',
 		active: true,
 		version: '1.0.0',
 		links: {},
@@ -2048,7 +2048,7 @@ ava('.query() should be able to sort the query using a key', async (test) => {
 
 	const card3 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'baz',
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		links: {},
 		tags: [],
@@ -2065,7 +2065,7 @@ ava('.query() should be able to sort the query using a key', async (test) => {
 
 	const card4 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'qux',
-		type: 'card',
+		type: 'card@1.0.0',
 		links: {},
 		active: true,
 		version: '1.0.0',
@@ -2086,7 +2086,7 @@ ava('.query() should be able to sort the query using a key', async (test) => {
 		properties: {
 			type: {
 				type: 'string',
-				const: 'card'
+				const: 'card@1.0.0'
 			}
 		},
 		required: [ 'type' ]
@@ -2100,7 +2100,7 @@ ava('.query() should be able to sort the query using a key', async (test) => {
 ava('.query() should be able to sort the query in descending order', async (test) => {
 	const card1 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'foo',
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		links: {},
 		tags: [],
@@ -2117,7 +2117,7 @@ ava('.query() should be able to sort the query in descending order', async (test
 
 	const card2 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'bar',
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		links: {},
 		tags: [],
@@ -2134,7 +2134,7 @@ ava('.query() should be able to sort the query in descending order', async (test
 
 	const card3 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'baz',
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		links: {},
 		tags: [],
@@ -2151,7 +2151,7 @@ ava('.query() should be able to sort the query in descending order', async (test
 
 	const card4 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'qux',
-		type: 'card',
+		type: 'card@1.0.0',
 		links: {},
 		linked_at: {},
 		version: '1.0.0',
@@ -2172,7 +2172,7 @@ ava('.query() should be able to sort the query in descending order', async (test
 		properties: {
 			type: {
 				type: 'string',
-				const: 'card'
+				const: 'card@1.0.0'
 			}
 		},
 		required: [ 'type' ]
@@ -2187,7 +2187,7 @@ ava('.query() should be able to sort the query in descending order', async (test
 ava('.query() should be able to sort the query using an array of keys', async (test) => {
 	const card1 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'foo',
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		links: {},
 		tags: [],
@@ -2205,7 +2205,7 @@ ava('.query() should be able to sort the query using an array of keys', async (t
 
 	const card2 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'bar',
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		links: {},
 		tags: [],
@@ -2223,7 +2223,7 @@ ava('.query() should be able to sort the query using an array of keys', async (t
 
 	const card3 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'baz',
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		links: {},
 		tags: [],
@@ -2241,7 +2241,7 @@ ava('.query() should be able to sort the query using an array of keys', async (t
 
 	const card4 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'qux',
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		links: {},
 		tags: [],
@@ -2263,7 +2263,7 @@ ava('.query() should be able to sort the query using an array of keys', async (t
 		properties: {
 			type: {
 				type: 'string',
-				const: 'card'
+				const: 'card@1.0.0'
 			}
 		},
 		required: [ 'type' ]
@@ -2277,7 +2277,7 @@ ava('.query() should be able to sort the query using an array of keys', async (t
 ava('.query() should apply sort before skip', async (test) => {
 	const card1 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'foo',
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		links: {},
 		tags: [],
@@ -2294,7 +2294,7 @@ ava('.query() should apply sort before skip', async (test) => {
 
 	await test.context.backend.upsertElement(test.context.context, {
 		slug: 'bar',
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		links: {},
 		tags: [],
@@ -2311,7 +2311,7 @@ ava('.query() should apply sort before skip', async (test) => {
 
 	const card3 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'baz',
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		links: {},
 		tags: [],
@@ -2328,7 +2328,7 @@ ava('.query() should apply sort before skip', async (test) => {
 
 	await test.context.backend.upsertElement(test.context.context, {
 		slug: 'qux',
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		links: {},
 		tags: [],
@@ -2349,7 +2349,7 @@ ava('.query() should apply sort before skip', async (test) => {
 		properties: {
 			type: {
 				type: 'string',
-				const: 'card'
+				const: 'card@1.0.0'
 			}
 		},
 		required: [ 'type' ]
@@ -2364,7 +2364,7 @@ ava('.query() should apply sort before skip', async (test) => {
 ava('.query() should apply sort before limit', async (test) => {
 	await test.context.backend.upsertElement(test.context.context, {
 		slug: 'foo',
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		links: {},
 		tags: [],
@@ -2381,7 +2381,7 @@ ava('.query() should apply sort before limit', async (test) => {
 
 	const card2 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'bar',
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		links: {},
 		tags: [],
@@ -2398,7 +2398,7 @@ ava('.query() should apply sort before limit', async (test) => {
 
 	await test.context.backend.upsertElement(test.context.context, {
 		slug: 'baz',
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		links: {},
 		tags: [],
@@ -2415,7 +2415,7 @@ ava('.query() should apply sort before limit', async (test) => {
 
 	const card4 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'qux',
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		links: {},
 		tags: [],
@@ -2436,7 +2436,7 @@ ava('.query() should apply sort before limit', async (test) => {
 		properties: {
 			type: {
 				type: 'string',
-				const: 'card'
+				const: 'card@1.0.0'
 			}
 		},
 		required: [ 'type' ]
@@ -2457,7 +2457,7 @@ ava('.query() should escape malicious sortBy statements', async (test) => {
 			properties: {
 				type: {
 					type: 'string',
-					const: 'card'
+					const: 'card@1.0.0'
 				}
 			},
 			required: [ 'type' ]
@@ -2624,7 +2624,7 @@ ava('.query() should correctly honour top level additionalProperties: true', asy
 
 ava('.query() should resolve "limit" after resolving links', async (test) => {
 	await test.context.backend.upsertElement(test.context.context, {
-		type: 'thread',
+		type: 'thread@1.0.0',
 		slug: 'foo',
 		links: {},
 		version: '1.0.0',
@@ -2640,7 +2640,7 @@ ava('.query() should resolve "limit" after resolving links', async (test) => {
 	})
 
 	const thread2 = await test.context.backend.upsertElement(test.context.context, {
-		type: 'thread',
+		type: 'thread@1.0.0',
 		slug: 'bar',
 		links: {},
 		version: '1.0.0',
@@ -2656,7 +2656,7 @@ ava('.query() should resolve "limit" after resolving links', async (test) => {
 	})
 
 	const card1 = await test.context.backend.upsertElement(test.context.context, {
-		type: 'message',
+		type: 'message@1.0.0',
 		slug: 'qux',
 		links: {},
 		version: '1.0.0',
@@ -2675,7 +2675,7 @@ ava('.query() should resolve "limit" after resolving links', async (test) => {
 	})
 
 	const link = await test.context.backend.upsertElement(test.context.context, {
-		type: 'link',
+		type: 'link@1.0.0',
 		slug: `link-${card1.slug}-is-attached-to-${thread2.slug}`,
 		links: {},
 		version: '1.0.0',
@@ -2714,7 +2714,7 @@ ava('.query() should resolve "limit" after resolving links', async (test) => {
 		properties: {
 			type: {
 				type: 'string',
-				const: 'thread'
+				const: 'thread@1.0.0'
 			}
 		}
 	}, {
@@ -2746,7 +2746,7 @@ ava('.query() should resolve "limit" after resolving links', async (test) => {
 
 ava('adding a link should update the linked_at field', async (test) => {
 	const thread = await test.context.backend.upsertElement(test.context.context, {
-		type: 'thread',
+		type: 'thread@1.0.0',
 		slug: 'foo',
 		links: {},
 		version: '1.0.0',
@@ -2762,7 +2762,7 @@ ava('adding a link should update the linked_at field', async (test) => {
 	})
 
 	const card = await test.context.backend.upsertElement(test.context.context, {
-		type: 'message',
+		type: 'message@1.0.0',
 		slug: 'qux',
 		links: {},
 		active: true,
@@ -2778,7 +2778,7 @@ ava('adding a link should update the linked_at field', async (test) => {
 	})
 
 	const link = await test.context.backend.upsertElement(test.context.context, {
-		type: 'link',
+		type: 'link@1.0.0',
 		slug: `link-${card.slug}-is-attached-to-${thread.slug}`,
 		links: {},
 		version: '1.0.0',
@@ -2869,7 +2869,7 @@ ava('adding a link should update the linked_at field', async (test) => {
 
 ava('adding a link should augment an existing linked_at field', async (test) => {
 	const thread = await test.context.backend.upsertElement(test.context.context, {
-		type: 'thread',
+		type: 'thread@1.0.0',
 		slug: 'foo',
 		links: {},
 		version: '1.0.0',
@@ -2885,7 +2885,7 @@ ava('adding a link should augment an existing linked_at field', async (test) => 
 	})
 
 	const card = await test.context.backend.upsertElement(test.context.context, {
-		type: 'message',
+		type: 'message@1.0.0',
 		slug: 'qux',
 		links: {},
 		active: true,
@@ -2901,7 +2901,7 @@ ava('adding a link should augment an existing linked_at field', async (test) => 
 	})
 
 	const link = await test.context.backend.upsertElement(test.context.context, {
-		type: 'link',
+		type: 'link@1.0.0',
 		slug: `link-${card.slug}-is-attached-to-${thread.slug}`,
 		links: {},
 		version: '1.0.0',
@@ -2928,7 +2928,7 @@ ava('adding a link should augment an existing linked_at field', async (test) => 
 	})
 
 	const card2 = await test.context.backend.upsertElement(test.context.context, {
-		type: 'message',
+		type: 'message@1.0.0',
 		slug: 'qux',
 		links: {},
 		active: true,
@@ -2944,7 +2944,7 @@ ava('adding a link should augment an existing linked_at field', async (test) => 
 	})
 
 	const link2 = await test.context.backend.upsertElement(test.context.context, {
-		type: 'link',
+		type: 'link@1.0.0',
 		slug: `link-${card2.slug}-is-attached-to-${thread.slug}`,
 		links: {},
 		version: '1.0.0',
@@ -3005,7 +3005,7 @@ ava('adding a link should augment an existing linked_at field', async (test) => 
 
 ava('.query() should be able to query using links', async (test) => {
 	const thread1 = await test.context.backend.upsertElement(test.context.context, {
-		type: 'thread',
+		type: 'thread@1.0.0',
 		slug: 'foo',
 		links: {},
 		version: '1.0.0',
@@ -3021,7 +3021,7 @@ ava('.query() should be able to query using links', async (test) => {
 	})
 
 	const thread2 = await test.context.backend.upsertElement(test.context.context, {
-		type: 'thread',
+		type: 'thread@1.0.0',
 		slug: 'bar',
 		links: {},
 		version: '1.0.0',
@@ -3037,7 +3037,7 @@ ava('.query() should be able to query using links', async (test) => {
 	})
 
 	await test.context.backend.upsertElement(test.context.context, {
-		type: 'thread',
+		type: 'thread@1.0.0',
 		slug: 'baz',
 		links: {},
 		version: '1.0.0',
@@ -3053,7 +3053,7 @@ ava('.query() should be able to query using links', async (test) => {
 	})
 
 	const card1 = await test.context.backend.upsertElement(test.context.context, {
-		type: 'message',
+		type: 'message@1.0.0',
 		slug: 'qux',
 		links: {},
 		active: true,
@@ -3072,7 +3072,7 @@ ava('.query() should be able to query using links', async (test) => {
 	})
 
 	await test.context.backend.upsertElement(test.context.context, {
-		type: 'link',
+		type: 'link@1.0.0',
 		slug: `link-${card1.slug}-is-attached-to-${thread1.slug}`,
 		links: {},
 		version: '1.0.0',
@@ -3099,7 +3099,7 @@ ava('.query() should be able to query using links', async (test) => {
 	})
 
 	const card2 = await test.context.backend.upsertElement(test.context.context, {
-		type: 'message',
+		type: 'message@1.0.0',
 		slug: 'tux',
 		links: {},
 		version: '1.0.0',
@@ -3118,7 +3118,7 @@ ava('.query() should be able to query using links', async (test) => {
 	})
 
 	await test.context.backend.upsertElement(test.context.context, {
-		type: 'link',
+		type: 'link@1.0.0',
 		slug: `link-${card2.slug}-is-attached-to-${thread1.slug}`,
 		links: {},
 		version: '1.0.0',
@@ -3145,7 +3145,7 @@ ava('.query() should be able to query using links', async (test) => {
 	})
 
 	const card3 = await test.context.backend.upsertElement(test.context.context, {
-		type: 'message',
+		type: 'message@1.0.0',
 		slug: 'fux',
 		links: {},
 		version: '1.0.0',
@@ -3164,7 +3164,7 @@ ava('.query() should be able to query using links', async (test) => {
 	})
 
 	await test.context.backend.upsertElement(test.context.context, {
-		type: 'link',
+		type: 'link@1.0.0',
 		slug: `link-${card3.slug}-is-attached-to-${thread2.slug}`,
 		links: {},
 		version: '1.0.0',
@@ -3203,7 +3203,7 @@ ava('.query() should be able to query using links', async (test) => {
 					},
 					type: {
 						type: 'string',
-						const: 'thread'
+						const: 'thread@1.0.0'
 					}
 				},
 				additionalProperties: false
@@ -3212,7 +3212,7 @@ ava('.query() should be able to query using links', async (test) => {
 		properties: {
 			type: {
 				type: 'string',
-				const: 'message'
+				const: 'message@1.0.0'
 			},
 			links: {
 				type: 'object',
@@ -3237,12 +3237,12 @@ ava('.query() should be able to query using links', async (test) => {
 
 	test.deepEqual(results, [
 		{
-			type: 'message',
+			type: 'message@1.0.0',
 			links: {
 				'is attached to': [
 					{
 						id: thread1.id,
-						type: 'thread'
+						type: 'thread@1.0.0'
 					}
 				]
 			},
@@ -3252,12 +3252,12 @@ ava('.query() should be able to query using links', async (test) => {
 			}
 		},
 		{
-			type: 'message',
+			type: 'message@1.0.0',
 			links: {
 				'is attached to': [
 					{
 						id: thread1.id,
-						type: 'thread'
+						type: 'thread@1.0.0'
 					}
 				]
 			},
@@ -3267,12 +3267,12 @@ ava('.query() should be able to query using links', async (test) => {
 			}
 		},
 		{
-			type: 'message',
+			type: 'message@1.0.0',
 			links: {
 				'is attached to': [
 					{
 						id: thread2.id,
-						type: 'thread'
+						type: 'thread@1.0.0'
 					}
 				]
 			},
@@ -3286,7 +3286,7 @@ ava('.query() should be able to query using links', async (test) => {
 
 ava('.query() should be able to query using links when getting an element by id', async (test) => {
 	const thread = await test.context.backend.upsertElement(test.context.context, {
-		type: 'thread',
+		type: 'thread@1.0.0',
 		links: {},
 		version: '1.0.0',
 		tags: [],
@@ -3304,7 +3304,7 @@ ava('.query() should be able to query using links when getting an element by id'
 	})
 
 	const message = await test.context.backend.upsertElement(test.context.context, {
-		type: 'message',
+		type: 'message@1.0.0',
 		links: {},
 		slug: 'bar',
 		version: '1.0.0',
@@ -3322,7 +3322,7 @@ ava('.query() should be able to query using links when getting an element by id'
 	})
 
 	const link = await test.context.backend.upsertElement(test.context.context, {
-		type: 'link',
+		type: 'link@1.0.0',
 		links: {},
 		version: '1.0.0',
 		tags: [],
@@ -3379,7 +3379,7 @@ ava('.query() should be able to query using links when getting an element by id'
 	test.deepEqual(results, [
 		{
 			id: message.id,
-			type: 'message',
+			type: 'message@1.0.0',
 			links: {
 				'is attached to': [
 					{
@@ -3401,7 +3401,7 @@ ava('.query() should be able to query using links when getting an element by id'
 						capabilities: [],
 						id: thread.id,
 						links: results[0].links['is attached to'][0].links,
-						type: 'thread'
+						type: 'thread@1.0.0'
 					}
 				]
 			},
@@ -3414,7 +3414,7 @@ ava('.query() should be able to query using links when getting an element by id'
 
 ava('.query() should be able to query using links when getting an element by slug', async (test) => {
 	const thread = await test.context.backend.upsertElement(test.context.context, {
-		type: 'thread',
+		type: 'thread@1.0.0',
 		slug: 'foo',
 		version: '1.0.0',
 		links: {},
@@ -3433,7 +3433,7 @@ ava('.query() should be able to query using links when getting an element by slu
 
 	const message = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'message-foobar',
-		type: 'message',
+		type: 'message@1.0.0',
 		version: '1.0.0',
 		links: {},
 		tags: [],
@@ -3450,7 +3450,7 @@ ava('.query() should be able to query using links when getting an element by slu
 	})
 
 	const link = await test.context.backend.upsertElement(test.context.context, {
-		type: 'link',
+		type: 'link@1.0.0',
 		slug: `link-${message.slug}-is-attached-to-${thread.slug}`,
 		version: '1.0.0',
 		links: {},
@@ -3507,7 +3507,7 @@ ava('.query() should be able to query using links when getting an element by slu
 	test.deepEqual(results, [
 		{
 			slug: message.slug,
-			type: 'message',
+			type: 'message@1.0.0',
 			links: {
 				'is attached to': [
 					{
@@ -3529,7 +3529,7 @@ ava('.query() should be able to query using links when getting an element by slu
 						tags: [],
 						version: '1.0.0',
 						links: results[0].links['is attached to'][0].links,
-						type: 'thread'
+						type: 'thread@1.0.0'
 					}
 				]
 			},
@@ -3542,7 +3542,7 @@ ava('.query() should be able to query using links when getting an element by slu
 
 ava('.query() should be able to query using links and an inverse name', async (test) => {
 	const thread = await test.context.backend.upsertElement(test.context.context, {
-		type: 'thread',
+		type: 'thread@1.0.0',
 		slug: 'mythread',
 		version: '1.0.0',
 		links: {},
@@ -3560,7 +3560,7 @@ ava('.query() should be able to query using links and an inverse name', async (t
 	})
 
 	const message1 = await test.context.backend.upsertElement(test.context.context, {
-		type: 'message',
+		type: 'message@1.0.0',
 		slug: 'foo',
 		version: '1.0.0',
 		links: {},
@@ -3578,7 +3578,7 @@ ava('.query() should be able to query using links and an inverse name', async (t
 	})
 
 	const message2 = await test.context.backend.upsertElement(test.context.context, {
-		type: 'message',
+		type: 'message@1.0.0',
 		slug: 'bar',
 		version: '1.0.0',
 		links: {},
@@ -3596,7 +3596,7 @@ ava('.query() should be able to query using links and an inverse name', async (t
 	})
 
 	const link1 = await test.context.backend.upsertElement(test.context.context, {
-		type: 'link',
+		type: 'link@1.0.0',
 		slug: `link-${message1.slug}-is-attached-to-${thread.slug}`,
 		version: '1.0.0',
 		links: {},
@@ -3623,7 +3623,7 @@ ava('.query() should be able to query using links and an inverse name', async (t
 	})
 
 	const link2 = await test.context.backend.upsertElement(test.context.context, {
-		type: 'link',
+		type: 'link@1.0.0',
 		slug: `link-${message2.slug}-is-attached-to-${thread.slug}`,
 		version: '1.0.0',
 		links: {},
@@ -3680,7 +3680,7 @@ ava('.query() should be able to query using links and an inverse name', async (t
 	test.deepEqual(results, [
 		{
 			id: thread.id,
-			type: 'thread',
+			type: 'thread@1.0.0',
 			links: {
 				'has attached element': [
 					{
@@ -3699,7 +3699,7 @@ ava('.query() should be able to query using links and an inverse name', async (t
 						tags: [],
 						version: '1.0.0',
 						links: results[0].links['has attached element'][0].links,
-						type: 'message',
+						type: 'message@1.0.0',
 						data: {
 							payload: 'foo'
 						}
@@ -3720,7 +3720,7 @@ ava('.query() should be able to query using links and an inverse name', async (t
 						tags: [],
 						version: '1.0.0',
 						links: results[0].links['has attached element'][1].links,
-						type: 'message',
+						type: 'message@1.0.0',
 						data: {
 							payload: 'foo'
 						}
@@ -3736,7 +3736,7 @@ ava('.query() should be able to query using links and an inverse name', async (t
 
 ava('.query() should omit a result if a link does not match', async (test) => {
 	const thread = await test.context.backend.upsertElement(test.context.context, {
-		type: 'thread',
+		type: 'thread@1.0.0',
 		slug: 'mythread',
 		version: '1.0.0',
 		links: {},
@@ -3752,7 +3752,7 @@ ava('.query() should omit a result if a link does not match', async (test) => {
 	})
 
 	const foo = await test.context.backend.upsertElement(test.context.context, {
-		type: 'foo',
+		type: 'foo@1.0.0',
 		slug: 'foo',
 		version: '1.0.0',
 		links: {},
@@ -3768,7 +3768,7 @@ ava('.query() should omit a result if a link does not match', async (test) => {
 	})
 
 	const card1 = await test.context.backend.upsertElement(test.context.context, {
-		type: 'message',
+		type: 'message@1.0.0',
 		slug: 'bar',
 		version: '1.0.0',
 		tags: [],
@@ -3786,7 +3786,7 @@ ava('.query() should omit a result if a link does not match', async (test) => {
 	})
 
 	const link1 = await test.context.backend.upsertElement(test.context.context, {
-		type: 'link',
+		type: 'link@1.0.0',
 		slug: `link-${card1.slug}-is-attached-to-${thread.slug}`,
 		version: '1.0.0',
 		links: {},
@@ -3813,7 +3813,7 @@ ava('.query() should omit a result if a link does not match', async (test) => {
 	})
 
 	const card2 = await test.context.backend.upsertElement(test.context.context, {
-		type: 'message',
+		type: 'message@1.0.0',
 		slug: 'baz',
 		version: '1.0.0',
 		links: {},
@@ -3831,7 +3831,7 @@ ava('.query() should omit a result if a link does not match', async (test) => {
 	})
 
 	await test.context.backend.upsertElement(test.context.context, {
-		type: 'link',
+		type: 'link@1.0.0',
 		slug: `link-${card2.slug}-is-attached-to-${foo.slug}`,
 		version: '1.0.0',
 		links: {},
@@ -3870,7 +3870,7 @@ ava('.query() should omit a result if a link does not match', async (test) => {
 					},
 					type: {
 						type: 'string',
-						const: 'thread'
+						const: 'thread@1.0.0'
 					}
 				}
 			}
@@ -3878,7 +3878,7 @@ ava('.query() should omit a result if a link does not match', async (test) => {
 		properties: {
 			type: {
 				type: 'string',
-				const: 'message'
+				const: 'message@1.0.0'
 			},
 			links: {
 				type: 'object',
@@ -3898,7 +3898,7 @@ ava('.query() should omit a result if a link does not match', async (test) => {
 
 	test.deepEqual(results, [
 		{
-			type: 'message',
+			type: 'message@1.0.0',
 			links: {
 				'is attached to': [
 					{
@@ -3918,7 +3918,7 @@ ava('.query() should omit a result if a link does not match', async (test) => {
 						version: '1.0.0',
 						links: results[0].links['is attached to'][0].links,
 						slug: 'mythread',
-						type: 'thread'
+						type: 'thread@1.0.0'
 					}
 				]
 			},
@@ -3935,7 +3935,7 @@ ava.cb('.stream() should report back new elements that match a certain type', (t
 		properties: {
 			type: {
 				type: 'string',
-				const: 'foo'
+				const: 'foo@1.0.0'
 			},
 			data: {
 				type: 'object',
@@ -3953,7 +3953,7 @@ ava.cb('.stream() should report back new elements that match a certain type', (t
 			test.is(change.type, 'insert')
 			test.is(change.before, null)
 			test.deepEqual(_.omit(change.after, [ 'id' ]), {
-				type: 'foo',
+				type: 'foo@1.0.0',
 				data: {
 					test: 1
 				}
@@ -3978,7 +3978,7 @@ ava.cb('.stream() should report back new elements that match a certain type', (t
 
 		promise = Bluebird.all([
 			test.context.backend.insertElement(test.context.context, {
-				type: 'foo',
+				type: 'foo@1.0.0',
 				version: '1.0.0',
 				tags: [],
 				links: {},
@@ -3995,7 +3995,7 @@ ava.cb('.stream() should report back new elements that match a certain type', (t
 				}
 			}),
 			test.context.backend.insertElement(test.context.context, {
-				type: 'bar',
+				type: 'bar@1.0.0',
 				version: '1.0.0',
 				tags: [],
 				links: {},
@@ -4017,7 +4017,7 @@ ava.cb('.stream() should report back new elements that match a certain type', (t
 
 ava.cb('.stream() should report back changes to certain elements', (test) => {
 	test.context.backend.insertElement(test.context.context, {
-		type: 'foo',
+		type: 'foo@1.0.0',
 		version: '1.0.0',
 		links: {},
 		tags: [],
@@ -4034,7 +4034,7 @@ ava.cb('.stream() should report back changes to certain elements', (test) => {
 		}
 	}).then(() => {
 		return test.context.backend.insertElement(test.context.context, {
-			type: 'bar',
+			type: 'bar@1.0.0',
 			version: '1.0.0',
 			tags: [],
 			links: {},
@@ -4059,7 +4059,7 @@ ava.cb('.stream() should report back changes to certain elements', (test) => {
 				},
 				type: {
 					type: 'string',
-					const: 'foo'
+					const: 'foo@1.0.0'
 				},
 				data: {
 					type: 'object',
@@ -4082,7 +4082,7 @@ ava.cb('.stream() should report back changes to certain elements', (test) => {
 			test.is(change.type, 'update')
 			test.deepEqual(_.omit(change.before, [ 'id' ]), {
 				slug: 'hello',
-				type: 'foo',
+				type: 'foo@1.0.0',
 				data: {
 					test: 1
 				}
@@ -4090,7 +4090,7 @@ ava.cb('.stream() should report back changes to certain elements', (test) => {
 
 			test.deepEqual(_.omit(change.after, [ 'id' ]), {
 				slug: 'hello',
-				type: 'foo',
+				type: 'foo@1.0.0',
 				data: {
 					test: 2
 				}
@@ -4125,7 +4125,7 @@ ava.cb('.stream() should report back changes to certain elements', (test) => {
 			updated_at: null,
 			linked_at: {},
 			active: true,
-			type: 'foo',
+			type: 'foo@1.0.0',
 			data: {
 				test: 2
 			}
@@ -4142,7 +4142,7 @@ ava.cb('.stream() should report back changes to certain elements', (test) => {
 				created_at: new Date().toISOString(),
 				updated_at: null,
 				linked_at: {},
-				type: 'bar',
+				type: 'bar@1.0.0',
 				data: {
 					test: 2
 				}
@@ -4153,7 +4153,7 @@ ava.cb('.stream() should report back changes to certain elements', (test) => {
 
 ava.cb('.stream() should report back changes to large elements', (test) => {
 	test.context.backend.insertElement(test.context.context, {
-		type: 'foo',
+		type: 'foo@1.0.0',
 		active: true,
 		links: {},
 		version: '1.0.0',
@@ -4177,7 +4177,7 @@ ava.cb('.stream() should report back changes to large elements', (test) => {
 				},
 				type: {
 					type: 'string',
-					const: 'foo'
+					const: 'foo@1.0.0'
 				},
 				data: {
 					type: 'object',
@@ -4202,7 +4202,7 @@ ava.cb('.stream() should report back changes to large elements', (test) => {
 				_.isNull(change.before) &&
 				_.isEqual(_.omit(change.after, [ 'id' ]), {
 					slug: 'hello',
-					type: 'foo',
+					type: 'foo@1.0.0',
 					data: {
 						test: new Array(5000).join('foobar')
 					}
@@ -4213,7 +4213,7 @@ ava.cb('.stream() should report back changes to large elements', (test) => {
 			test.is(change.type, 'update')
 			test.deepEqual(_.omit(change.after, [ 'id' ]), {
 				slug: 'hello',
-				type: 'foo',
+				type: 'foo@1.0.0',
 				data: {
 					test: new Array(5000).join('bazbuzz')
 				}
@@ -4248,7 +4248,7 @@ ava.cb('.stream() should report back changes to large elements', (test) => {
 			linked_at: {},
 			created_at: new Date().toISOString(),
 			updated_at: null,
-			type: 'foo',
+			type: 'foo@1.0.0',
 			data: {
 				test: new Array(5000).join('bazbuzz')
 			}
@@ -4286,7 +4286,7 @@ ava.cb('.stream() should set "before" to null if it previously did not match the
 		created_at: new Date().toISOString(),
 		updated_at: null,
 		linked_at: {},
-		type: 'foo',
+		type: 'foo@1.0.0',
 		data: {
 			test: '1'
 		}
@@ -4299,7 +4299,7 @@ ava.cb('.stream() should set "before" to null if it previously did not match the
 				},
 				type: {
 					type: 'string',
-					const: 'foo'
+					const: 'foo@1.0.0'
 				},
 				data: {
 					type: 'object',
@@ -4318,7 +4318,7 @@ ava.cb('.stream() should set "before" to null if it previously did not match the
 			test.deepEqual(change.before, null)
 			test.deepEqual(_.omit(change.after, [ 'id' ]), {
 				slug: 'foobarbaz',
-				type: 'foo',
+				type: 'foo@1.0.0',
 				data: {
 					test: 1
 				}
@@ -4353,7 +4353,7 @@ ava.cb('.stream() should set "before" to null if it previously did not match the
 			linked_at: {},
 			created_at: new Date().toISOString(),
 			updated_at: null,
-			type: 'foo',
+			type: 'foo@1.0.0',
 			data: {
 				test: 1
 			}
@@ -4363,7 +4363,7 @@ ava.cb('.stream() should set "before" to null if it previously did not match the
 
 ava.cb('.stream() should filter the "before" section of a change', (test) => {
 	test.context.backend.insertElement(test.context.context, {
-		type: 'foo',
+		type: 'foo@1.0.0',
 		active: true,
 		links: {},
 		version: '1.0.0',
@@ -4388,7 +4388,7 @@ ava.cb('.stream() should filter the "before" section of a change', (test) => {
 				},
 				type: {
 					type: 'string',
-					const: 'foo'
+					const: 'foo@1.0.0'
 				},
 				data: {
 					type: 'object',
@@ -4413,7 +4413,7 @@ ava.cb('.stream() should filter the "before" section of a change', (test) => {
 			if (change.type === 'insert' &&
 				_.isNull(change.before) &&
 				_.isEqual(_.omit(change.after, [ 'id' ]), {
-					type: 'foo',
+					type: 'foo@1.0.0',
 					slug: 'hello',
 					data: {
 						test: 1
@@ -4424,7 +4424,7 @@ ava.cb('.stream() should filter the "before" section of a change', (test) => {
 
 			test.deepEqual(_.omit(change.before, [ 'id' ]), {
 				slug: 'hello',
-				type: 'foo',
+				type: 'foo@1.0.0',
 				data: {
 					test: 1
 				}
@@ -4432,7 +4432,7 @@ ava.cb('.stream() should filter the "before" section of a change', (test) => {
 
 			test.deepEqual(_.omit(change.after, [ 'id' ]), {
 				slug: 'hello',
-				type: 'foo',
+				type: 'foo@1.0.0',
 				data: {
 					test: 2
 				}
@@ -4467,7 +4467,7 @@ ava.cb('.stream() should filter the "before" section of a change', (test) => {
 			linked_at: {},
 			updated_at: null,
 			active: true,
-			type: 'foo',
+			type: 'foo@1.0.0',
 			data: {
 				test: 2,
 				extra: true
@@ -4588,7 +4588,7 @@ ava('.lock() should be able to lock a non-locked slug', async (test) => {
 	const card = {
 		slug: 'locktest-1234',
 		links: {},
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		tags: [],
 		markers: [],
@@ -4610,7 +4610,7 @@ ava('.lock() should not be able to lock a locked slug if the owner differs', asy
 	const card = {
 		slug: 'locktest-1234',
 		links: {},
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		tags: [],
 		markers: [],
@@ -4636,7 +4636,7 @@ ava('.lock() should unlock when locking an old entry even if the owner does not 
 	const card = {
 		slug: 'locktest-1234',
 		links: {},
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		tags: [],
 		markers: [],
@@ -4663,7 +4663,7 @@ ava('.lock() should not unlock when locking an old entry if the owner matches', 
 	const card = {
 		slug: 'locktest-1234',
 		links: {},
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		tags: [],
 		markers: [],
@@ -4690,7 +4690,7 @@ ava('.lock() should not be able to lock a locked slug if the owner is the same',
 	const card = {
 		slug: 'locktest-1234',
 		links: {},
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		tags: [],
 		markers: [],
@@ -4716,7 +4716,7 @@ ava('.unlock() should not be able to unlock a non-locked slug', async (test) => 
 	const card = {
 		slug: 'locktest-1234',
 		links: {},
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		tags: [],
 		markers: [],
@@ -4738,7 +4738,7 @@ ava('.unlock() should be able to unlock a locked slug by the same owner', async 
 	const card = {
 		slug: 'locktest-1234',
 		links: {},
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		tags: [],
 		markers: [],
@@ -4764,7 +4764,7 @@ ava('.unlock() should be able to let other owner take the same slug', async (tes
 	const card = {
 		slug: 'locktest-1234',
 		links: {},
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		tags: [],
 		markers: [],
@@ -4794,7 +4794,7 @@ ava('.unlock() should be able to let the same owner take the same slug', async (
 	const card = {
 		slug: 'locktest-1234',
 		links: {},
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		tags: [],
 		markers: [],
@@ -4824,7 +4824,7 @@ ava('.unlock() should not be able to unlock a locked slug if the owner differs',
 	const card = {
 		slug: 'locktest-1234',
 		links: {},
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		tags: [],
 		markers: [],
@@ -4851,7 +4851,7 @@ ava('.lock() only one owner can lock a slug at a time', async (test) => {
 		const card = {
 			slug: `locktest-${time}`,
 			links: {},
-			type: 'card',
+			type: 'card@1.0.0',
 			version: '1.0.0',
 			tags: [],
 			markers: [],

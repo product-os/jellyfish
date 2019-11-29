@@ -507,7 +507,7 @@ ava.serial('should get all elements by type', async (test) => {
 		properties: {
 			type: {
 				type: 'string',
-				const: 'user'
+				enum: [ 'user', 'user@1.0.0' ]
 			}
 		}
 	})

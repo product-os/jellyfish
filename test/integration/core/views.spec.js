@@ -19,7 +19,7 @@ ava('.getSchema() should return null if the card is not a view', (test) => {
 
 ava('.getSchema() should preserve template interpolations in user properties', (test) => {
 	const schema = views.getSchema(test.context.kernel.defaults({
-		type: 'view',
+		type: 'view@1.0.0',
 		version: '1.0.0',
 		data: {
 			schema: {
@@ -53,7 +53,7 @@ ava('.getSchema() should preserve template interpolations in user properties', (
 
 ava('.getSchema() should preserve template interpolations in schema properties', (test) => {
 	const schema = views.getSchema(test.context.kernel.defaults({
-		type: 'view',
+		type: 'view@1.0.0',
 		version: '1.0.0',
 		data: {
 			schema: {
@@ -85,7 +85,7 @@ ava('.getSchema() should preserve template interpolations in schema properties',
 
 ava('.getSchema() should return a schema given a view card with two conjunctions', (test) => {
 	const schema = views.getSchema(test.context.kernel.defaults({
-		type: 'view',
+		type: 'view@1.0.0',
 		version: '1.0.0',
 		data: {
 			allOf: [
@@ -135,7 +135,7 @@ ava('.getSchema() should return a schema given a view card with two conjunctions
 
 ava('.getSchema() should return a schema given a view card with two conjunctions and empty disjunctions', (test) => {
 	const schema = views.getSchema(test.context.kernel.defaults({
-		type: 'view',
+		type: 'view@1.0.0',
 		version: '1.0.0',
 		data: {
 			anyOf: [],
@@ -186,7 +186,7 @@ ava('.getSchema() should return a schema given a view card with two conjunctions
 
 ava('.getSchema() should return a schema given a view card with two disjunctions', (test) => {
 	const schema = views.getSchema(test.context.kernel.defaults({
-		type: 'view',
+		type: 'view@1.0.0',
 		version: '1.0.0',
 		data: {
 			anyOf: [
@@ -250,7 +250,7 @@ ava('.getSchema() should return a schema given a view card with two disjunctions
 
 ava('.getSchema() should return a schema given a view card with two disjunctions and empty conjunctions', (test) => {
 	const schema = views.getSchema(test.context.kernel.defaults({
-		type: 'view',
+		type: 'view@1.0.0',
 		version: '1.0.0',
 		data: {
 			allOf: [],
@@ -315,7 +315,7 @@ ava('.getSchema() should return a schema given a view card with two disjunctions
 
 ava('.getSchema() should return a schema given a view card with two disjunctions and two conjunctions', (test) => {
 	const schema = views.getSchema(test.context.kernel.defaults({
-		type: 'view',
+		type: 'view@1.0.0',
 		version: '1.0.0',
 		data: {
 			anyOf: [
@@ -326,7 +326,7 @@ ava('.getSchema() should return a schema given a view card with two disjunctions
 						properties: {
 							type: {
 								type: 'string',
-								const: 'view'
+								const: 'view@1.0.0'
 							}
 						},
 						required: [ 'type' ]
@@ -394,7 +394,7 @@ ava('.getSchema() should return a schema given a view card with two disjunctions
 				properties: {
 					type: {
 						type: 'string',
-						const: 'view'
+						const: 'view@1.0.0'
 					}
 				},
 				required: [ 'type' ]
@@ -415,7 +415,7 @@ ava('.getSchema() should return a schema given a view card with two disjunctions
 
 ava('.getSchema() should return null given a view card with no filters', (test) => {
 	const schema = views.getSchema({
-		type: 'view',
+		type: 'view@1.0.0',
 		version: '1.0.0',
 		data: {}
 	})

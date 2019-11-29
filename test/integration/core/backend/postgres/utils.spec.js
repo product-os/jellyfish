@@ -23,7 +23,7 @@ ava('.getPendingRequests() should return an unexecuted action request', async (t
 	const date = new Date()
 	const request = await test.context.backend.insertElement(
 		test.context.context, {
-			type: 'action-request',
+			type: 'action-request@1.0.0',
 			created_at: date.toISOString(),
 			updated_at: null,
 			linked_at: {},
@@ -71,7 +71,7 @@ ava('.getPendingRequests() should return an unexecuted action request', async (t
 ava('.getPendingRequests() should return two unexecuted action requests', async (test) => {
 	const date = new Date()
 	const request1 = await test.context.backend.insertElement(test.context.context, {
-		type: 'action-request',
+		type: 'action-request@1.0.0',
 		created_at: date.toISOString(),
 		updated_at: null,
 		linked_at: {},
@@ -98,7 +98,7 @@ ava('.getPendingRequests() should return two unexecuted action requests', async 
 	})
 
 	const request2 = await test.context.backend.insertElement(test.context.context, {
-		type: 'action-request',
+		type: 'action-request@1.0.0',
 		created_at: date.toISOString(),
 		updated_at: null,
 		linked_at: {},
@@ -146,7 +146,7 @@ ava('.getPendingRequests() should return two unexecuted action requests', async 
 ava('.getPendingRequests() should be able to limit', async (test) => {
 	const date = new Date()
 	await test.context.backend.insertElement(test.context.context, {
-		type: 'action-request',
+		type: 'action-request@1.0.0',
 		created_at: date.toISOString(),
 		updated_at: null,
 		linked_at: {},
@@ -173,7 +173,7 @@ ava('.getPendingRequests() should be able to limit', async (test) => {
 	})
 
 	await test.context.backend.insertElement(test.context.context, {
-		type: 'action-request',
+		type: 'action-request@1.0.0',
 		created_at: date.toISOString(),
 		version: '1.0.0',
 		active: true,
@@ -235,7 +235,7 @@ ava('.getPendingRequests() should be able to limit', async (test) => {
 ava('.getPendingRequests() should be able to skip', async (test) => {
 	const date = new Date()
 	await test.context.backend.insertElement(test.context.context, {
-		type: 'action-request',
+		type: 'action-request@1.0.0',
 		created_at: date.toISOString(),
 		updated_at: null,
 		linked_at: {},
@@ -262,7 +262,7 @@ ava('.getPendingRequests() should be able to skip', async (test) => {
 	})
 
 	await test.context.backend.insertElement(test.context.context, {
-		type: 'action-request',
+		type: 'action-request@1.0.0',
 		created_at: date.toISOString(),
 		updated_at: null,
 		linked_at: {},
@@ -325,7 +325,7 @@ ava('.getPendingRequests() should be able to skip', async (test) => {
 ava('.getPendingRequests() should omit an executed action request', async (test) => {
 	const date = new Date()
 	const request = await test.context.backend.insertElement(test.context.context, {
-		type: 'action-request',
+		type: 'action-request@1.0.0',
 		created_at: date.toISOString(),
 		updated_at: null,
 		linked_at: {},
@@ -352,7 +352,7 @@ ava('.getPendingRequests() should omit an executed action request', async (test)
 	})
 
 	const execute = await test.context.backend.insertElement(test.context.context, {
-		type: 'execute',
+		type: 'execute@1.0.0',
 		created_at: date.toISOString(),
 		updated_at: null,
 		linked_at: {},
@@ -381,7 +381,7 @@ ava('.getPendingRequests() should omit an executed action request', async (test)
 	})
 
 	await test.context.backend.insertElement(test.context.context, {
-		type: 'link',
+		type: 'link@1.0.0',
 		name: 'executes',
 		created_at: date.toISOString(),
 		updated_at: null,
