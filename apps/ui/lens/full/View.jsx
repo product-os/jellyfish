@@ -188,34 +188,39 @@ class ViewRenderer extends React.Component {
 		})
 	}
 
-	async setPage (page) {
+	setPage (page) {
 		const {
 			channel
 		} = this.props
 		if (page + 1 >= this.state.options.totalPages) {
-			return
+			return null
 		}
 		const options = _.merge(this.state.options, {
 			page
 		})
 		if (!channel) {
-			return
+			return null
 		}
 		this.setState({
 			options
 		})
 		const syntheticViewCard = createSyntheticViewCard(channel.data.head, this.state.filters)
-		const data = await this.props.actions.loadViewResults(
+
+		// There is no need to catch the response here, as `loadViewResults` will
+		// show an error notification if anything goes wrong
+		return this.props.actions.loadViewResults(
 			syntheticViewCard,
 			this.getQueryOptions(this.state.activeLens)
 		)
-		if (data.length < this.state.options.limit) {
-			this.setState({
-				options: Object.assign(this.state.options, {
-					totalPages: this.state.options.page + 1
-				})
+			.then((data) => {
+				if (data.length < this.state.options.limit) {
+					this.setState({
+						options: Object.assign(this.state.options, {
+							totalPages: this.state.options.page + 1
+						})
+					})
+				}
 			})
-		}
 	}
 
 	componentDidMount () {
