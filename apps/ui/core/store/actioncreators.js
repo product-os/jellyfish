@@ -19,7 +19,7 @@ import {
 } from '../../services/notifications'
 import {
 	getQueue
-} from './asyncDispatchQueue'
+} from './async-dispatch-queue'
 
 // Refresh the session token once every 3 hours
 const TOKEN_REFRESH_INTERVAL = 3 * 60 * 60 * 1000
