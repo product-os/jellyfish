@@ -15,8 +15,7 @@ const environment = require('../../../lib/environment')
 const sync = require('../../../lib/sync')
 const uuid = require('../../../lib/uuid')
 const packageJSON = require('../../../package.json')
-const QueryFacade = require('../../../lib/core/facade/query')
-const AuthFacade = require('../../../lib/core/facade/auth')
+const facades = require('./facades')
 
 const fileStore = new Storage({
 	driver: environment.fileStorage.driver
@@ -59,8 +58,8 @@ const sendHTTPError = (request, response, error) => {
 }
 
 module.exports = (application, jellyfish, worker, queue) => {
-	const queryFacade = new QueryFacade(jellyfish)
-	const authFacade = new AuthFacade(jellyfish)
+	const queryFacade = new facades.QueryFacade(jellyfish)
+	const authFacade = new facades.AuthFacade(jellyfish)
 
 	application.get('/api/v2/config', (request, response) => {
 		response.send({
