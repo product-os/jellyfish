@@ -4325,7 +4325,10 @@ ava('.query() should return an unexecuted action request', async (test) => {
 
 	test.deepEqual(result, [
 		Object.assign({}, request, {
-			updated_at: result[0].updated_at
+			updated_at: result[0].updated_at,
+			links: {
+				'is executed by': []
+			}
 		})
 	])
 })
