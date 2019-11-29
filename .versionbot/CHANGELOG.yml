@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'UI: Intentionally swallow errors when paging in view lens'
+      hash: 58079f8eac35aabb1d9c676643d4d22d4183837c
+      body: |
+        Fixes #2811
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 24.30.3
+  date: 2019-11-29T17:19:58.328Z
+- commits:
     - subject: Lint requirements on apps/server and apps/action-server
       hash: fed40f8ad7065a8d77aa17a0b32c28ca0b6a6b93
       body: ''
