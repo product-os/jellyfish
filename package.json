@@ -11,17 +11,22 @@
   },
   "deplint": {
     "files": [
-      "lib/**/*.js",
-      "!lib/chat-widget/**"
+      "lib/**/*.{js,jsx}",
+      "apps/action-server/**/*.js",
+      "apps/server/**/*.js"
     ],
     "modules": [
+      "apps/server",
+      "apps/action-server",
       "lib/core",
       "lib/action-library",
+      "lib/chat-widget",
       "lib/environment",
       "lib/jellyscript",
       "lib/logger",
       "lib/queue",
       "lib/assert",
+      "lib/coverage",
       "lib/ui-components",
       "lib/uuid",
       "lib/sdk",
