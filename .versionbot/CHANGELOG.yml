@@ -1,4 +1,17 @@
 - commits:
+    - subject: Ensure all project code files are named in kebab case
+      hash: 0c81f9f2646aaf674f1c12ca495b081d0d1848e5
+      body: |
+        Just for consistency reasons.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.30.1
+  date: 2019-11-29T14:21:48.324Z
+- commits:
     - subject: 'core: Add backwards compatible support for versions'
       hash: d6cedcfed36bc848dfe50b0e2878dd8591911eec
       body: ''
