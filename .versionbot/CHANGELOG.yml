@@ -1,4 +1,16 @@
 - commits:
+    - subject: Lint requirements on apps/server and apps/action-server
+      hash: fed40f8ad7065a8d77aa17a0b32c28ca0b6a6b93
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.30.2
+  date: 2019-11-29T15:01:47.974Z
+- commits:
     - subject: Ensure all project code files are named in kebab case
       hash: 0c81f9f2646aaf674f1c12ca495b081d0d1848e5
       body: |
