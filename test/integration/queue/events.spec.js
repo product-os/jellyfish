@@ -30,7 +30,7 @@ ava('.post() should insert an active execute card', async (test) => {
 
 	const card = await test.context.jellyfish.getCardById(test.context.context, test.context.session, event.id)
 	test.true(card.active)
-	test.is(card.type, 'execute')
+	test.is(card.type, 'execute@1.0.0')
 })
 
 ava('.post() should set a present timestamp', async (test) => {
@@ -155,7 +155,7 @@ ava('.wait() should return if the card already exists', async (test) => {
 		actor: '57692206-8da2-46e1-91c9-159b2c6928ef'
 	})
 
-	test.is(card.type, 'execute')
+	test.is(card.type, 'execute@1.0.0')
 	test.is(card.data.target, '414f2345-4f5e-4571-820f-28a49731733d')
 	test.is(card.data.actor, '57692206-8da2-46e1-91c9-159b2c6928ef')
 	test.is(card.data.payload.card, '033d9184-70b2-4ec9-bc39-9a249b186422')
@@ -287,7 +287,7 @@ ava('.getLastExecutionEvent() should return the last execution event given one e
 		id: card.id,
 		name: null,
 		slug: event.slug,
-		type: 'execute',
+		type: 'execute@1.0.0',
 		version: '1.0.0',
 		links: {},
 		data: {
@@ -341,7 +341,7 @@ ava('.getLastExecutionEvent() should return the last event given a matching and 
 		created_at: card1.created_at,
 		id: card1.id,
 		slug: event.slug,
-		type: 'execute',
+		type: 'execute@1.0.0',
 		name: null,
 		version: '1.0.0',
 		links: {},
@@ -397,7 +397,7 @@ ava('.getLastExecutionEvent() should return the last execution event given two m
 		id: card1.id,
 		slug: event.slug,
 		name: null,
-		type: 'execute',
+		type: 'execute@1.0.0',
 		version: '1.0.0',
 		links: {},
 		data: {
@@ -439,7 +439,7 @@ ava('.getLastExecutionEvent() should return null given no matching event', async
 
 ava('.getLastExecutionEvent() should only consider execute cards', async (test) => {
 	await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
-		type: 'card',
+		type: 'card@1.0.0',
 		slug: 'foobarbaz',
 		version: '1.0.0',
 		data: {
