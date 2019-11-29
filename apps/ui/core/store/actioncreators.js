@@ -965,6 +965,7 @@ export default class ActionCreator {
 			} catch (error) {
 				console.error(error)
 				dispatch(this.addNotification('danger', error.message || error))
+				throw error
 			}
 		}
 	}
