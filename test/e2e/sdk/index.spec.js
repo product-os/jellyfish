@@ -33,9 +33,9 @@ ava.serial('.action() should be able to successfully create a new card', async (
 
 	const name = `test-card-${uuid()}`
 
-	await sdk.action({
-		card: 'card',
-		type: 'type',
+	const actionResult = await sdk.action({
+		card: 'card@1.0.0',
+		type: 'type@1.0.0',
 		action: 'action-create-card',
 		arguments: {
 			reason: null,
@@ -59,7 +59,7 @@ ava.serial('.action() should be able to successfully create a new card', async (
 			},
 			type: {
 				type: 'string',
-				const: 'card'
+				enum: [ 'card', 'card@1.0.0' ]
 			}
 		},
 		required: [ 'name' ]
@@ -67,7 +67,7 @@ ava.serial('.action() should be able to successfully create a new card', async (
 
 	test.deepEqual(results, [
 		{
-			type: 'card',
+			type: actionResult.type,
 			name
 		}
 	])
@@ -84,8 +84,8 @@ ava.serial('.action() should resolve with the slug, id and type of the card', as
 	})
 
 	const card = await sdk.action({
-		card: 'card',
-		type: 'type',
+		card: 'card@1.0.0',
+		type: 'type@1.0.0',
 		action: 'action-create-card',
 		arguments: {
 			reason: null,
@@ -101,7 +101,7 @@ ava.serial('.action() should resolve with the slug, id and type of the card', as
 		id: card.id,
 		slug,
 		version: card.version,
-		type: 'card'
+		type: card.type
 	})
 })
 
@@ -119,7 +119,7 @@ ava.serial('.query() should run a query on the server', async (test) => {
 		name,
 		slug,
 		version: '1.0.0',
-		type: 'card',
+		type: 'card@1.0.0',
 		active: true,
 		links: {},
 		requires: [],
@@ -138,7 +138,7 @@ ava.serial('.query() should run a query on the server', async (test) => {
 			},
 			type: {
 				type: 'string',
-				const: 'card'
+				enum: [ 'card', 'card@1.0.0' ]
 			}
 		},
 		required: [ 'name', 'type' ],
@@ -153,7 +153,7 @@ ava.serial('.query() should run a query on the server', async (test) => {
 		name,
 		slug,
 		version: '1.0.0',
-		type: 'card',
+		type: results[0].type,
 		active: true,
 		links: {},
 		requires: [],
@@ -214,7 +214,7 @@ ava.serial('.query() should accept a "limit" option', async (test) => {
 			uuid: id
 		},
 		name: 'card1',
-		type: 'card',
+		type: 'card@1.0.0',
 		active: true,
 		links: {},
 		requires: [],
@@ -233,7 +233,7 @@ ava.serial('.query() should accept a "limit" option', async (test) => {
 			uuid: id
 		},
 		name: 'card2',
-		type: 'card',
+		type: 'card@1.0.0',
 		active: true,
 		links: {},
 		requires: [],
@@ -252,7 +252,7 @@ ava.serial('.query() should accept a "limit" option', async (test) => {
 			uuid: id
 		},
 		name: 'card3',
-		type: 'card',
+		type: 'card@1.0.0',
 		active: true,
 		links: {},
 		requires: [],
@@ -267,7 +267,7 @@ ava.serial('.query() should accept a "limit" option', async (test) => {
 		properties: {
 			type: {
 				type: 'string',
-				const: 'card'
+				enum: [ 'card', 'card@1.0.0' ]
 			},
 			data: {
 				type: 'object',
@@ -314,7 +314,7 @@ ava.serial('.query() should accept a "skip" option', async (test) => {
 			uuid: id
 		},
 		name: 'card1',
-		type: 'card',
+		type: 'card@1.0.0',
 		active: true,
 		links: {},
 		requires: [],
@@ -333,7 +333,7 @@ ava.serial('.query() should accept a "skip" option', async (test) => {
 			uuid: id
 		},
 		name: 'card2',
-		type: 'card',
+		type: 'card@1.0.0',
 		active: true,
 		links: {},
 		requires: [],
@@ -352,7 +352,7 @@ ava.serial('.query() should accept a "skip" option', async (test) => {
 			uuid: id
 		},
 		name: 'card3',
-		type: 'card',
+		type: 'card@1.0.0',
 		active: true,
 		links: {},
 		requires: [],
@@ -367,7 +367,7 @@ ava.serial('.query() should accept a "skip" option', async (test) => {
 		properties: {
 			type: {
 				type: 'string',
-				const: 'card'
+				enum: [ 'card', 'card@1.0.0' ]
 			},
 			data: {
 				type: 'object',
@@ -410,7 +410,7 @@ ava.serial('.query() should accept a "sortBy" option as a single key', async (te
 		data: {
 			uuid: id
 		},
-		type: 'card',
+		type: 'card@1.0.0',
 		active: true,
 		links: {},
 		requires: [],
@@ -428,7 +428,7 @@ ava.serial('.query() should accept a "sortBy" option as a single key', async (te
 		data: {
 			uuid: id
 		},
-		type: 'card',
+		type: 'card@1.0.0',
 		active: true,
 		links: {},
 		requires: [],
@@ -446,7 +446,7 @@ ava.serial('.query() should accept a "sortBy" option as a single key', async (te
 		data: {
 			uuid: id
 		},
-		type: 'card',
+		type: 'card@1.0.0',
 		active: true,
 		links: {},
 		requires: [],
@@ -464,7 +464,7 @@ ava.serial('.query() should accept a "sortBy" option as a single key', async (te
 		data: {
 			uuid: id
 		},
-		type: 'card',
+		type: 'card@1.0.0',
 		active: true,
 		links: {},
 		requires: [],
@@ -479,7 +479,7 @@ ava.serial('.query() should accept a "sortBy" option as a single key', async (te
 		properties: {
 			type: {
 				type: 'string',
-				const: 'card'
+				enum: [ 'card', 'card@1.0.0' ]
 			},
 			data: {
 				type: 'object',
@@ -522,7 +522,7 @@ ava.serial('.query() should accept a "sortBy" option as an array of keys', async
 			code: 'd',
 			uuid: id
 		},
-		type: 'card',
+		type: 'card@1.0.0',
 		active: true,
 		links: {},
 		requires: [],
@@ -540,7 +540,7 @@ ava.serial('.query() should accept a "sortBy" option as an array of keys', async
 			code: 'a',
 			uuid: id
 		},
-		type: 'card',
+		type: 'card@1.0.0',
 		active: true,
 		links: {},
 		requires: [],
@@ -558,7 +558,7 @@ ava.serial('.query() should accept a "sortBy" option as an array of keys', async
 			code: 'c',
 			uuid: id
 		},
-		type: 'card',
+		type: 'card@1.0.0',
 		active: true,
 		links: {},
 		requires: [],
@@ -576,7 +576,7 @@ ava.serial('.query() should accept a "sortBy" option as an array of keys', async
 			code: 'b',
 			uuid: id
 		},
-		type: 'card',
+		type: 'card@1.0.0',
 		active: true,
 		links: {},
 		requires: [],
@@ -591,7 +591,7 @@ ava.serial('.query() should accept a "sortBy" option as an array of keys', async
 		properties: {
 			type: {
 				type: 'string',
-				const: 'card'
+				enum: [ 'card', 'card@1.0.0' ]
 			},
 			data: {
 				type: 'object',
@@ -633,7 +633,7 @@ ava.serial('.card.get() should return a single element', async (test) => {
 			slug: generateRandomSlug({
 				prefix: 'card'
 			}),
-			type: 'card',
+			type: 'card@1.0.0',
 			active: true,
 			links: {},
 			requires: [],
@@ -650,7 +650,7 @@ ava.serial('.card.get() should return a single element', async (test) => {
 		slug: generateRandomSlug({
 			prefix: 'card'
 		}),
-		type: 'card',
+		type: 'card@1.0.0',
 		active: true,
 		links: {},
 		requires: [],
@@ -661,7 +661,7 @@ ava.serial('.card.get() should return a single element', async (test) => {
 	})
 
 	const result = await sdk.card.get(card.id, {
-		type: 'card'
+		type: 'card@1.0.0'
 	})
 
 	test.deepEqual(result, {
@@ -700,7 +700,7 @@ ava.serial('.card.get() should work with slugs', async (test) => {
 			slug: generateRandomSlug({
 				prefix: 'card'
 			}),
-			type: 'card',
+			type: 'card@1.0.0',
 			active: true,
 			links: {},
 			requires: [],
@@ -714,7 +714,7 @@ ava.serial('.card.get() should work with slugs', async (test) => {
 	const card = await sdk.card.create({
 		version: '1.0.0',
 		slug,
-		type: 'card',
+		type: 'card@1.0.0',
 		active: true,
 		links: {},
 		requires: [],
@@ -724,8 +724,8 @@ ava.serial('.card.get() should work with slugs', async (test) => {
 		data: {}
 	})
 
-	const result = await sdk.card.get(slug, {
-		type: 'card'
+	const result = await sdk.card.get(`${slug}@1.0.0`, {
+		type: 'card@1.0.0'
 	})
 
 	test.deepEqual(result, {
@@ -762,7 +762,7 @@ ava.serial('.card.get() should work for ids without a type option', async (test)
 			slug: generateRandomSlug({
 				prefix: 'card'
 			}),
-			type: 'card',
+			type: 'card@1.0.0',
 			active: true,
 			links: {},
 			requires: [],
@@ -779,7 +779,7 @@ ava.serial('.card.get() should work for ids without a type option', async (test)
 		slug: generateRandomSlug({
 			prefix: 'card'
 		}),
-		type: 'card',
+		type: 'card@1.0.0',
 		active: true,
 		links: {},
 		requires: [],
@@ -827,7 +827,7 @@ ava.serial('.card.get() should work for slugs without a type option', async (tes
 			slug: generateRandomSlug({
 				prefix: 'card'
 			}),
-			type: 'card',
+			type: 'card@1.0.0',
 			active: true,
 			links: {},
 			requires: [],
@@ -841,7 +841,7 @@ ava.serial('.card.get() should work for slugs without a type option', async (tes
 	const card = await sdk.card.create({
 		version: '1.0.0',
 		slug,
-		type: 'card',
+		type: 'card@1.0.0',
 		active: true,
 		links: {},
 		requires: [],
@@ -851,7 +851,7 @@ ava.serial('.card.get() should work for slugs without a type option', async (tes
 		data: {}
 	})
 
-	const result = await sdk.card.get(slug)
+	const result = await sdk.card.get(`${slug}@1.0.0`)
 
 	test.deepEqual(result, {
 		id: card.id,
@@ -881,8 +881,8 @@ ava.serial('.card.create() should create a new card', async (test) => {
 		prefix: 'card'
 	})
 
-	await sdk.card.create({
-		type: 'card',
+	const card = await sdk.card.create({
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		slug
 	})
@@ -897,14 +897,14 @@ ava.serial('.card.create() should create a new card', async (test) => {
 			},
 			type: {
 				type: 'string',
-				const: 'card'
+				enum: [ 'card', 'card@1.0.0' ]
 			}
 		},
 		required: [ 'slug', 'type' ]
 	})
 
 	test.deepEqual(_.first(results), {
-		type: 'card',
+		type: card.type,
 		slug
 	})
 })
@@ -919,7 +919,7 @@ ava.serial('.card.create() should resolve with the slug, id and type of the crea
 	})
 
 	const card = await sdk.card.create({
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		slug
 	})
@@ -928,7 +928,7 @@ ava.serial('.card.create() should resolve with the slug, id and type of the crea
 		id: card.id,
 		slug,
 		version: card.version,
-		type: 'card'
+		type: card.type
 	})
 })
 
@@ -938,7 +938,7 @@ ava.serial('.card.remove() should be able to delete a card', async (test) => {
 	} = test.context
 
 	const card = await sdk.card.create({
-		type: 'card',
+		type: 'card@1.0.0',
 		slug: generateRandomSlug({
 			prefix: 'card'
 		}),
@@ -947,7 +947,7 @@ ava.serial('.card.remove() should be able to delete a card', async (test) => {
 
 	await sdk.card.remove(card.id, card.type)
 	const result = await sdk.card.get(card.id, {
-		type: 'card'
+		type: 'card@1.0.0'
 	})
 	test.false(result.active)
 })
@@ -962,7 +962,7 @@ ava.serial('.event.create() should create a new event', async (test) => {
 	})
 
 	const card = await sdk.card.create({
-		type: 'card',
+		type: 'card@1.0.0',
 		version: '1.0.0',
 		slug
 	})
@@ -976,7 +976,7 @@ ava.serial('.event.create() should create a new event', async (test) => {
 		}
 	}
 
-	await sdk.event.create(event)
+	const eventCard = await sdk.event.create(event)
 
 	const results = await sdk.query({
 		type: 'object',
@@ -1003,7 +1003,7 @@ ava.serial('.event.create() should create a new event', async (test) => {
 			},
 			type: {
 				type: 'string',
-				const: 'message'
+				enum: [ 'message', 'message@1.0.0' ]
 			}
 		},
 		additionalProperties: false
@@ -1011,7 +1011,7 @@ ava.serial('.event.create() should create a new event', async (test) => {
 
 	const result = _.first(results)
 
-	test.is(result.type, 'message')
+	test.is(result.type, eventCard.type)
 
 	test.deepEqual(result.data, {
 		target: card.id,
@@ -1047,8 +1047,7 @@ ava.serial.cb('.stream() should stream new cards', (test) => {
 					}
 				}
 			}
-		},
-		required: [ 'type' ]
+		}
 	})
 		.then(async (stream) => {
 			stream.on('error', test.end)
@@ -1072,14 +1071,14 @@ ava.serial.cb('.stream() should stream new cards', (test) => {
 			try {
 				await Bluebird.all([
 					sdk.card.create({
-						type: 'card',
+						type: 'card@1.0.0',
 						slug: slug1,
 						data: {
 							test: 1
 						}
 					}),
 					sdk.card.create({
-						type: 'card',
+						type: 'card@1.0.0',
 						slug: slug2,
 						data: {
 							test: 3
@@ -1159,7 +1158,7 @@ ava.serial('.auth.signup() should work with a valid token', async (test) => {
 		created_at: card.created_at,
 		linked_at: card.linked_at,
 		updated_at: card.updated_at,
-		type: 'user',
+		type: user.type,
 		slug: `user-${details.username}`,
 		version: '1.0.0',
 		active: true,
@@ -1171,10 +1170,10 @@ ava.serial('.auth.signup() should work with a valid token', async (test) => {
 		id: card.id,
 		name: null,
 		data: {
+			avatar: null,
 			email: details.email,
 			roles: [ 'user-community' ],
-			hash: card.data.hash,
-			avatar: null
+			hash: card.data.hash
 		}
 	})
 })
@@ -1241,7 +1240,7 @@ ava.serial('should broadcast github issue links', async (test) => {
 	})
 
 	const issue = await test.context.sdk.card.create({
-		type: 'issue',
+		type: 'issue@1.0.0',
 		version: '1.0.0',
 		slug: issueSlug,
 		name: 'Test Issue',
@@ -1255,7 +1254,7 @@ ava.serial('should broadcast github issue links', async (test) => {
 	})
 
 	const thread = await test.context.sdk.card.create({
-		type: 'support-thread',
+		type: 'support-thread@1.0.0',
 		version: '1.0.0',
 		slug: threadSlug,
 		name: 'Test Thread',
@@ -1271,19 +1270,20 @@ ava.serial('should broadcast github issue links', async (test) => {
 	test.truthy(issue)
 	test.truthy(thread)
 
-	await test.context.sdk.card.link(thread, issue, 'support thread is attached to issue')
+	await test.context.sdk.card.link(
+		thread, issue, 'support thread is attached to issue')
 
 	const fullCard = await test.context.sdk.card.getWithTimeline(issue.id, {
 		type: issue.type
 	})
 
-	const broadcast = _.find(fullCard.links['has attached element'], {
-		type: 'message'
+	const broadcast = _.find(fullCard.links['has attached element'], (link) => {
+		return [ 'message', 'message@1.0.0' ].includes(link.type)
 	})
 
 	test.truthy(broadcast)
 	test.is(broadcast.data.payload.message,
-		`This issue has attached support thread https://jel.ly.fish/#/support-thread~${thread.id}`)
+		`This issue has attached support thread https://jel.ly.fish/#/${thread.type}~${thread.id}`)
 })
 
 ava.serial('should link two cards together', async (test) => {
@@ -1296,7 +1296,7 @@ ava.serial('should link two cards together', async (test) => {
 	})
 
 	const issue = await test.context.sdk.card.create({
-		type: 'issue',
+		type: 'issue@1.0.0',
 		version: '1.0.0',
 		slug: issueSlug,
 		name: 'Test Issue',
@@ -1310,7 +1310,7 @@ ava.serial('should link two cards together', async (test) => {
 	})
 
 	const thread = await test.context.sdk.card.create({
-		type: 'support-thread',
+		type: 'support-thread@1.0.0',
 		version: '1.0.0',
 		slug: threadSlug,
 		name: 'Test Thread',
@@ -1390,7 +1390,7 @@ ava.serial('linking two cards should be idempotent', async (test) => {
 	})
 
 	const issue = await test.context.sdk.card.create({
-		type: 'issue',
+		type: 'issue@1.0.0',
 		version: '1.0.0',
 		slug: issueSlug,
 		name: 'Test Issue',
@@ -1404,7 +1404,7 @@ ava.serial('linking two cards should be idempotent', async (test) => {
 	})
 
 	const thread = await test.context.sdk.card.create({
-		type: 'support-thread',
+		type: 'support-thread@1.0.0',
 		version: '1.0.0',
 		slug: threadSlug,
 		name: 'Test Thread',
