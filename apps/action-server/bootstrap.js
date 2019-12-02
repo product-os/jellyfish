@@ -76,7 +76,7 @@ const bootstrap = async (context, library, options) => {
 
 	const session = jellyfish.sessions.admin
 	const queue = new Queue(context, jellyfish, session, {
-		enablePriorityBuffer: true
+		enablePriorityBuffer: options.enablePriorityBuffer
 	})
 
 	await queue.initialize(context)
@@ -208,6 +208,7 @@ const bootstrap = async (context, library, options) => {
 
 exports.worker = async (context, options) => {
 	return bootstrap(context, actionLibrary, {
+		enablePriorityBuffer: true,
 		delay: 500,
 		onError: options.onError,
 		onLoop: async (serverContext, jellyfish, worker, queue, session) => {
@@ -227,6 +228,7 @@ exports.worker = async (context, options) => {
 
 exports.tick = async (context, options) => {
 	return bootstrap(context, actionLibrary, {
+		enablePriorityBuffer: false,
 		delay: 2000,
 		onError: options.onError,
 		onLoop: async (serverContext, jellyfish, worker, queue, session) => {
