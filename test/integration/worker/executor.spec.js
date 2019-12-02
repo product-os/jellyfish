@@ -1285,7 +1285,7 @@ ava('.insertCard() should add a triggered action given a type with an AGGREGATE 
 				properties: {
 					type: {
 						type: 'string',
-						const: 'test-thread'
+						const: 'test-thread@1.0.0'
 					},
 					data: {
 						type: 'object',
@@ -1315,7 +1315,7 @@ ava('.insertCard() should add a triggered action given a type with an AGGREGATE 
 			},
 			type: {
 				type: 'string',
-				const: 'triggered-action'
+				const: 'triggered-action@1.0.0'
 			}
 		}
 	})
@@ -1327,7 +1327,7 @@ ava('.insertCard() should add a triggered action given a type with an AGGREGATE 
 			linked_at: triggers[0].linked_at,
 			id: triggers[0].id,
 			slug: 'triggered-action-test-thread-data-mentions',
-			type: 'triggered-action',
+			type: triggers[0].type,
 			version: '1.0.0',
 			name: null,
 			active: true,
@@ -1337,7 +1337,7 @@ ava('.insertCard() should add a triggered action given a type with an AGGREGATE 
 			requires: [],
 			capabilities: [],
 			data: {
-				type: 'test-thread',
+				type: triggers[0].data.type,
 				target: triggers[0].data.target,
 				action: triggers[0].data.action,
 				arguments: triggers[0].data.arguments,
@@ -1367,7 +1367,7 @@ ava('.insertCard() should pre-register a triggered action if using AGGREGATE', a
 				properties: {
 					type: {
 						type: 'string',
-						const: 'test-thread'
+						const: 'test-thread@1.0.0'
 					},
 					data: {
 						type: 'object',
@@ -1430,7 +1430,7 @@ ava('.insertCard() should update pre-registered triggered actions if removing an
 					properties: {
 						type: {
 							type: 'string',
-							const: 'test-thread'
+							const: 'test-thread@1.0.0'
 						},
 						data: {
 							type: 'object',
@@ -1480,7 +1480,7 @@ ava('.insertCard() should add multiple triggered actions given a type with an AG
 				properties: {
 					type: {
 						type: 'string',
-						const: 'test-thread'
+						const: 'test-thread@1.0.0'
 					},
 					data: {
 						type: 'object',
@@ -1555,7 +1555,7 @@ ava('.insertCard() should add multiple triggered actions given a type with an AG
 			},
 			type: {
 				type: 'string',
-				const: 'triggered-action'
+				const: 'triggered-action@1.0.0'
 			}
 		}
 	})
