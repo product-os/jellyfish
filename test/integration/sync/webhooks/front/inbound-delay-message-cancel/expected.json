@@ -1,7 +1,7 @@
 {
   "head": {
     "name": "Delay cancel",
-    "type": "support-thread",
+    "type": "support-thread@1.0.0",
     "version": "1.0.0",
     "active": true,
     "tags": [],
@@ -21,7 +21,7 @@
   },
   "tail": [
     {
-      "type": "message",
+      "type": "message@1.0.0",
       "version": "1.0.0",
       "active": true,
       "tags": [],
@@ -44,7 +44,7 @@
       }
     },
     {
-      "type": "create",
+      "type": "create@1.0.0",
       "version": "1.0.0",
       "active": true,
       "tags": [],
@@ -58,7 +58,7 @@
         "timestamp": "2018-10-10T22:19:18.438Z",
         "payload": {
           "name": "Delay cancel",
-          "type": "support-thread",
+          "type": "support-thread@1.0.0",
           "version": "1.0.0",
           "active": true,
           "tags": [],
@@ -97,7 +97,7 @@
       },
       "requires": [],
       "tags": [],
-      "type": "update",
+      "type": "update@1.0.0",
       "version": "1.0.0"
     }
   ]

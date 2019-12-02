@@ -1,7 +1,7 @@
 {
   "head": {
     "name": "Reconfiguration of wifi adapter settings for static IP not sticking",
-    "type": "support-thread",
+    "type": "support-thread@1.0.0",
     "version": "1.0.0",
     "active": true,
     "tags": [],

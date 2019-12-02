@@ -2,7 +2,7 @@
   "head": {
     "name": "Test Reply",
     "version": "1.0.0",
-    "type": "support-thread",
+    "type": "support-thread@1.0.0",
     "active": true,
     "tags": [],
     "requires": [],
@@ -21,7 +21,7 @@
   },
   "tail": [
     {
-      "type": "message",
+      "type": "message@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],
@@ -44,7 +44,7 @@
       }
     },
     {
-      "type": "create",
+      "type": "create@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],
@@ -58,7 +58,7 @@
         "timestamp": "2018-10-10T22:13:53.011Z",
         "payload": {
           "name": "Test Reply",
-          "type": "support-thread",
+          "type": "support-thread@1.0.0",
           "active": true,
           "version": "1.0.0",
           "tags": [],
@@ -97,11 +97,11 @@
       },
       "requires": [],
       "tags": [],
-      "type": "update",
+      "type": "update@1.0.0",
       "version": "1.0.0"
     },
     {
-      "type": "message",
+      "type": "message@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],
@@ -142,7 +142,7 @@
       },
       "requires": [],
       "tags": [],
-      "type": "update",
+      "type": "update@1.0.0",
       "version": "1.0.0"
     }
   ]

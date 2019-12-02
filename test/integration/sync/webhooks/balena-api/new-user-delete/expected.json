@@ -2,7 +2,7 @@
   "head": {
     "name": null,
     "slug": "user-johndoe",
-    "type": "user",
+    "type": "user@1.0.0",
     "version": "1.0.0",
     "active": false,
     "tags": [],
@@ -25,7 +25,7 @@
   },
   "tail": [
     {
-      "type": "create",
+      "type": "create@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],
@@ -38,7 +38,7 @@
         },
         "timestamp": "2019-04-17T15:24:08.731Z",
         "payload": {
-          "type": "user",
+          "type": "user@1.0.0",
           "version": "1.0.0",
           "active": true,
           "tags": [],
@@ -64,7 +64,7 @@
       }
     },
     {
-      "type": "update",
+      "type": "update@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],

@@ -159,6 +159,10 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 			type: cards[testCase.headIndex].type
 		})
 
+	// TODO: Remove once we fully support versioned
+	// slug references in the sync module.
+	head.type = `${head.type}@1.0.0`
+
 	deleteExtraLinks(testCase.expected.head, head)
 	Reflect.deleteProperty(head, 'markers')
 	Reflect.deleteProperty(head.data, 'origin')
@@ -201,11 +205,12 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 	)
 
 	const tailFilter = (card) => {
-		if (testCase.ignoreUpdateEvents && card.type === 'update') {
+		const baseType = card.type.split('@')[0]
+		if (testCase.ignoreUpdateEvents && baseType === 'update') {
 			return false
 		}
 
-		if (card.type === 'message' || card.type === 'whisper') {
+		if (baseType === 'message' || baseType === 'whisper') {
 			if (!card.active && card.data.payload.message.trim().length === 0) {
 				return false
 			}
@@ -224,6 +229,10 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 		Reflect.deleteProperty(card.data, 'origin')
 		Reflect.deleteProperty(card.data, 'translateDate')
 
+		// TODO: Remove once we fully support versioned
+		// slug references in the sync module.
+		card.type = `${card.type}@1.0.0`
+
 		const actorCard = await test.context.jellyfish.getCardById(
 			test.context.context, test.context.session, card.data.actor)
 		card.data.actor = actorCard
@@ -233,7 +242,7 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 			}
 			: card.data.actor
 
-		if (card.type === 'update') {
+		if (card.type.split('@')[0] === 'update') {
 			card.data.payload = card.data.payload.filter((operation) => {
 				return ![
 					'/data/origin',
@@ -256,6 +265,12 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 				Reflect.deleteProperty(card.data.payload.data, 'origin')
 				Reflect.deleteProperty(card.data.payload.data, 'translateDate')
 			}
+
+			// TODO: Remove once we fully support versioned
+			// slug references in the sync module.
+			if (card.data.payload.type) {
+				card.data.payload.type = `${card.data.payload.type}@1.0.0`
+			}
 		}
 
 		return card
@@ -270,7 +285,7 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 		// If we have to ignore the update events, then we can't also
 		// trust the create event to be what it should have been at
 		// the beginning, as services might not preserve that information.
-		if (testCase.ignoreUpdateEvents && card.type === 'create') {
+		if (testCase.ignoreUpdateEvents && card.type.split('@')[0] === 'create') {
 			card.data.payload = _.get(actualTail, [ index, 'data', 'payload' ])
 			card.data.timestamp = _.get(actualTail, [ index, 'data', 'timestamp' ])
 		}

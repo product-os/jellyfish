@@ -1,7 +1,7 @@
 {
   "head": {
     "name": "My public sequence 2",
-    "type": "email-sequence",
+    "type": "email-sequence@1.0.0",
     "version": "1.0.0",
     "active": false,
     "tags": [],
@@ -15,7 +15,7 @@
   },
   "tail": [
     {
-      "type": "create",
+      "type": "create@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],
@@ -29,7 +29,7 @@
         "timestamp": "2019-08-14T11:46:20.000Z",
         "payload": {
           "name": "My public sequence 2",
-          "type": "email-sequence",
+          "type": "email-sequence@1.0.0",
           "version": "1.0.0",
           "active": true,
           "tags": [],
@@ -44,7 +44,7 @@
       }
     },
     {
-      "type": "update",
+      "type": "update@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],

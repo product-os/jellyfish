@@ -1,7 +1,7 @@
 {
   "head": {
     "name": "Update readme",
-    "type": "pull-request",
+    "type": "pull-request@1.0.0",
     "version": "1.0.0",
     "active": true,
     "tags": [],
@@ -29,7 +29,7 @@
   },
   "tail": [
     {
-      "type": "create",
+      "type": "create@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],
@@ -67,12 +67,12 @@
             "status": "open",
             "archived": false
           },
-          "type": "pull-request"
+          "type": "pull-request@1.0.0"
         }
       }
     },
     {
-      "type": "update",
+      "type": "update@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],

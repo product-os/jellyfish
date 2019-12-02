@@ -1,7 +1,7 @@
 {
   "head": {
     "name": "Issue with assignee",
-    "type": "issue",
+    "type": "issue@1.0.0",
     "version": "1.0.0",
     "active": true,
     "tags": [],
@@ -21,7 +21,7 @@
   },
   "tail": [
     {
-      "type": "create",
+      "type": "create@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],
@@ -51,7 +51,7 @@
             "status": "open",
             "archived": false
           },
-          "type": "issue"
+          "type": "issue@1.0.0"
         }
       }
     }
