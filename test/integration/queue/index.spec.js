@@ -285,9 +285,7 @@ ava('.dequeue() should cope with link materialization failures', async (test) =>
 
 	const currentRequest = await test.context.jellyfish.getCardBySlug(
 		test.context.context,
-		test.context.session, `${actionRequest.slug}@${actionRequest.version}`, {
-			type: actionRequest.type
-		})
+		test.context.session, `${actionRequest.slug}@${actionRequest.version}`)
 
 	test.deepEqual(currentRequest.links, {})
 

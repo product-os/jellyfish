@@ -20,7 +20,7 @@ ava.afterEach(helpers.queue.afterEach)
 const insertRequest = async (test) => {
 	return test.context.kernel.insertCard(
 		test.context.context, test.context.kernel.sessions.admin, {
-			type: 'action-request',
+			type: 'action-request@1.0.0',
 			slug: test.context.generateRandomSlug({
 				prefix: 'action-request'
 			}),

@@ -788,7 +788,7 @@ ava('.execute() should add an execution event to the action request', async (tes
 	})
 
 	test.is(timeline.length, 1)
-	test.is(timeline[0].type, 'execute')
+	test.is(timeline[0].type, 'execute@1.0.0')
 })
 
 ava('.insertCard() should pass a triggered action originator', async (test) => {
@@ -2619,7 +2619,7 @@ ava('.tick() should enqueue an action if there is a time trigger with a past sta
 		name: null,
 		links: request.links,
 		slug: request.slug,
-		type: 'action-request',
+		type: 'action-request@1.0.0',
 		data: {
 			input: {
 				id: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
@@ -2674,7 +2674,7 @@ ava('.tick() should enqueue an action if there is a time trigger with a present 
 		links: request.links,
 		created_at: request.created_at,
 		updated_at: null,
-		type: 'action-request',
+		type: 'action-request@1.0.0',
 		data: {
 			input: {
 				id: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
@@ -2776,7 +2776,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 			properties: {
 				type: {
 					type: 'string',
-					const: 'action-request'
+					const: 'action-request@1.0.0'
 				}
 			}
 		}), (actionRequest) => {
@@ -2790,7 +2790,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 			name: null,
 			links: actionRequests[0].links,
 			created_at: actionRequests[0].created_at,
-			type: 'action-request',
+			type: 'action-request@1.0.0',
 			data: {
 				input: {
 					id: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
@@ -2816,7 +2816,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 			name: null,
 			links: actionRequests[1].links,
 			created_at: actionRequests[1].created_at,
-			type: 'action-request',
+			type: 'action-request@1.0.0',
 			data: {
 				input: {
 					id: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
