@@ -1,7 +1,7 @@
 {
   "head": {
     "name": "Send me a comment",
-    "type": "support-thread",
+    "type": "support-thread@1.0.0",
     "version": "1.0.0",
     "active": true,
     "requires": [],
@@ -21,7 +21,7 @@
   },
   "tail": [
     {
-      "type": "create",
+      "type": "create@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],
@@ -35,7 +35,7 @@
         "timestamp": "2018-10-08T18:42:30.582Z",
         "payload": {
           "name": "Send me a comment",
-          "type": "support-thread",
+          "type": "support-thread@1.0.0",
           "version": "1.0.0",
           "active": true,
           "tags": [],
@@ -74,11 +74,11 @@
       },
       "requires": [],
       "tags": [],
-      "type": "update",
+      "type": "update@1.0.0",
       "version": "1.0.0"
     },
     {
-      "type": "whisper",
+      "type": "whisper@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],
@@ -101,7 +101,7 @@
       }
     },
     {
-      "type": "whisper",
+      "type": "whisper@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],
@@ -142,7 +142,7 @@
       },
       "requires": [],
       "tags": [],
-      "type": "update",
+      "type": "update@1.0.0",
       "version": "1.0.0"
     }
   ]

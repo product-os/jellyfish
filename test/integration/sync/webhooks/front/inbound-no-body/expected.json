@@ -1,7 +1,7 @@
 {
   "head": {
     "name": "No body",
-    "type": "support-thread",
+    "type": "support-thread@1.0.0",
     "version": "1.0.0",
     "active": true,
     "tags": [],
@@ -21,7 +21,7 @@
   },
   "tail": [
     {
-      "type": "create",
+      "type": "create@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],
@@ -35,7 +35,7 @@
         "timestamp": "2018-10-08T18:38:51.127Z",
         "payload": {
           "name": "No body",
-          "type": "support-thread",
+          "type": "support-thread@1.0.0",
           "active": true,
           "version": "1.0.0",
           "tags": [],

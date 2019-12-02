@@ -1,6 +1,6 @@
 {
   "head": {
-    "type": "gh-push",
+    "type": "gh-push@1.0.0",
     "version": "1.0.0",
     "active": true,
     "tags": [],
@@ -41,7 +41,7 @@
   },
   "tail": [
     {
-      "type": "create",
+      "type": "create@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],
@@ -54,7 +54,7 @@
           "slug": "user-nazrhom"
         },
         "payload": {
-          "type": "gh-push",
+          "type": "gh-push@1.0.0",
           "active": true,
           "capabilities": [],
           "name": "Push Event",

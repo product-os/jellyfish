@@ -1,7 +1,7 @@
 {
   "head": {
     "name": "Reconfiguration of wifi adapter settings for static IP not sticking",
-    "type": "support-thread",
+    "type": "support-thread@1.0.0",
     "version": "1.0.0",
     "active": true,
     "tags": [],
@@ -30,7 +30,7 @@
         },
         "payload": {
           "name": "Reconfiguration of wifi adapter settings for static IP not sticking",
-          "type": "support-thread",
+          "type": "support-thread@1.0.0",
           "version": "1.0.0",
           "active": true,
           "tags": [],
@@ -52,14 +52,14 @@
       },
       "requires": [],
       "tags": [],
-      "type": "create",
+      "type": "create@1.0.0",
       "version": "1.0.0"
     },
     {
       "version": "1.0.0",
       "tags": [],
       "capabilities": [],
-      "type": "message",
+      "type": "message@1.0.0",
       "active": true,
       "requires": [],
       "data": {

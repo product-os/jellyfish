@@ -1,7 +1,7 @@
 {
   "head": {
     "name": "Issue close label toggle",
-    "type": "issue",
+    "type": "issue@1.0.0",
     "version": "1.0.0",
     "active": true,
     "tags": [],
@@ -21,7 +21,7 @@
   },
   "tail": [
     {
-      "type": "create",
+      "type": "create@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],
@@ -35,7 +35,7 @@
         },
         "payload": {
           "name": "Issue close label toggle",
-          "type": "issue",
+          "type": "issue@1.0.0",
           "active": true,
           "version": "1.0.0",
           "tags": [],
@@ -56,7 +56,7 @@
       }
     },
     {
-      "type": "update",
+      "type": "update@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],
@@ -78,7 +78,7 @@
       }
     },
     {
-      "type": "update",
+      "type": "update@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],
@@ -100,7 +100,7 @@
       }
     },
     {
-      "type": "update",
+      "type": "update@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],

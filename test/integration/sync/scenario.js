@@ -122,7 +122,7 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 
 		const event = await test.context.jellyfish.insertCard(test.context.context,
 			test.context.session, {
-				type: 'external-event',
+				type: 'external-event@1.0.0',
 				slug: test.context.generateRandomSlug({
 					prefix: 'external-event'
 				}),
@@ -201,11 +201,11 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 	)
 
 	const tailFilter = (card) => {
-		if (testCase.ignoreUpdateEvents && card.type === 'update') {
+		if (testCase.ignoreUpdateEvents && card.type === 'update@1.0.0') {
 			return false
 		}
 
-		if (card.type === 'message' || card.type === 'whisper') {
+		if (card.type === 'message@1.0.0' || card.type === 'whisper@1.0.0') {
 			if (!card.active && card.data.payload.message.trim().length === 0) {
 				return false
 			}
@@ -233,7 +233,7 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 			}
 			: card.data.actor
 
-		if (card.type === 'update') {
+		if (card.type === 'update@1.0.0') {
 			card.data.payload = card.data.payload.filter((operation) => {
 				return ![
 					'/data/origin',
@@ -270,7 +270,7 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 		// If we have to ignore the update events, then we can't also
 		// trust the create event to be what it should have been at
 		// the beginning, as services might not preserve that information.
-		if (testCase.ignoreUpdateEvents && card.type === 'create') {
+		if (testCase.ignoreUpdateEvents && card.type === 'create@1.0.0') {
 			card.data.payload = _.get(actualTail, [ index, 'data', 'payload' ])
 			card.data.timestamp = _.get(actualTail, [ index, 'data', 'timestamp' ])
 		}

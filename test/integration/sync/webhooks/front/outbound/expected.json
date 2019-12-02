@@ -1,7 +1,7 @@
 {
   "head": {
     "name": "Outbound test",
-    "type": "support-thread",
+    "type": "support-thread@1.0.0",
     "version": "1.0.0",
     "active": true,
     "tags": [],
@@ -21,7 +21,7 @@
   },
   "tail": [
     {
-      "type": "create",
+      "type": "create@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],
@@ -35,7 +35,7 @@
         "timestamp": "2018-10-10T22:08:57.175Z",
         "payload": {
           "name": "Outbound test",
-          "type": "support-thread",
+          "type": "support-thread@1.0.0",
           "active": true,
           "version": "1.0.0",
           "tags": [],
@@ -56,7 +56,7 @@
       }
     },
     {
-      "type": "message",
+      "type": "message@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],

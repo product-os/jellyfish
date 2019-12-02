@@ -1,7 +1,7 @@
 {
   "head": {
     "name": "Inbound delete",
-    "type": "support-thread",
+    "type": "support-thread@1.0.0",
     "version": "1.0.0",
     "active": true,
     "tags": [],
@@ -21,7 +21,7 @@
   },
   "tail": [
     {
-      "type": "message",
+      "type": "message@1.0.0",
       "version": "1.0.0",
       "active": true,
       "tags": [],
@@ -44,7 +44,7 @@
       }
     },
     {
-      "type": "create",
+      "type": "create@1.0.0",
       "version": "1.0.0",
       "active": true,
       "tags": [],
@@ -58,7 +58,7 @@
         "timestamp": "2018-10-08T18:35:23.129Z",
         "payload": {
           "name": "Inbound delete",
-          "type": "support-thread",
+          "type": "support-thread@1.0.0",
           "active": true,
           "tags": [],
           "version": "1.0.0",
@@ -79,7 +79,7 @@
       }
     },
     {
-      "type": "update",
+      "type": "update@1.0.0",
       "version": "1.0.0",
       "active": true,
       "tags": [],

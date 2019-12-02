@@ -1,7 +1,7 @@
 {
   "head": {
     "name": "",
-    "type": "repository",
+    "type": "repository@1.0.0",
     "version": "1.0.0",
     "active": true,
     "tags": [],
@@ -19,14 +19,14 @@
   },
   "tail": [
     {
-      "type": "create",
+      "type": "create@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],
       "requires": [],
       "capabilities": [],
       "data": {
-        "type": "repository",
+        "type": "repository@1.0.0",
         "timestamp": "2019-11-04T14:12:37Z",
         "actor": {
           "slug": "user-mbalamat",
@@ -52,7 +52,7 @@
       }
     },
     {
-      "type": "update",
+      "type": "update@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],

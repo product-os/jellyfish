@@ -1,7 +1,7 @@
 {
   "head": {
     "name": "Undelete",
-    "type": "support-thread",
+    "type": "support-thread@1.0.0",
     "active": true,
     "version": "1.0.0",
     "tags": [],
@@ -21,7 +21,7 @@
   },
   "tail": [
     {
-      "type": "create",
+      "type": "create@1.0.0",
       "version": "1.0.0",
       "active": true,
       "tags": [],
@@ -51,12 +51,12 @@
             "description": "",
             "status": "open"
           },
-          "type": "support-thread"
+          "type": "support-thread@1.0.0"
         }
       }
     },
     {
-      "type": "update",
+      "type": "update@1.0.0",
       "version": "1.0.0",
       "active": true,
       "tags": [],
@@ -83,7 +83,7 @@
       }
     },
     {
-      "type": "update",
+      "type": "update@1.0.0",
       "version": "1.0.0",
       "active": true,
       "tags": [],

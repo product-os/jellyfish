@@ -52,7 +52,7 @@ avaTest('should change the remote username to an existing unsynced user', async 
 	await test.context.jellyfish.insertCard(
 		test.context.context, test.context.session, {
 			slug: 'user-johndoe',
-			type: 'user',
+			type: 'user@1.0.0',
 			version: '1.0.0',
 			data: {
 				email: 'foo@bar.com',
@@ -103,7 +103,7 @@ avaTest('should change the remote username to an existing unsynced user', async 
 	]) {
 		const event = await test.context.jellyfish.insertCard(test.context.context,
 			test.context.session, {
-				type: 'external-event',
+				type: 'external-event@1.0.0',
 				slug: `external-event-${uuid()}`,
 				version: '1.0.0',
 				data: await prepareEvent(externalEvent)
@@ -220,7 +220,7 @@ avaTest('should change the remote username to an existing user', async (test) =>
 	]) {
 		const event = await test.context.jellyfish.insertCard(test.context.context,
 			test.context.session, {
-				type: 'external-event',
+				type: 'external-event@1.0.0',
 				slug: `external-event-${uuid()}`,
 				version: '1.0.0',
 				data: await prepareEvent(externalEvent)
@@ -335,7 +335,7 @@ avaTest('should change the remote username to an existing user while removing ex
 	]) {
 		const event = await test.context.jellyfish.insertCard(test.context.context,
 			test.context.session, {
-				type: 'external-event',
+				type: 'external-event@1.0.0',
 				slug: `external-event-${uuid()}`,
 				version: '1.0.0',
 				data: await prepareEvent(externalEvent)
@@ -458,7 +458,7 @@ avaTest('should change the remote username to an existing user and add a name', 
 	]) {
 		const event = await test.context.jellyfish.insertCard(test.context.context,
 			test.context.session, {
-				type: 'external-event',
+				type: 'external-event@1.0.0',
 				slug: `external-event-${uuid()}`,
 				version: '1.0.0',
 				data: await prepareEvent(externalEvent)
@@ -579,7 +579,7 @@ avaTest('should change the remote username to an existing user while removing th
 	]) {
 		const event = await test.context.jellyfish.insertCard(test.context.context,
 			test.context.session, {
-				type: 'external-event',
+				type: 'external-event@1.0.0',
 				slug: `external-event-${uuid()}`,
 				version: '1.0.0',
 				data: await prepareEvent(externalEvent)
@@ -701,7 +701,7 @@ avaTest('should change the remote username to an existing user while removing th
 	]) {
 		const event = await test.context.jellyfish.insertCard(test.context.context,
 			test.context.session, {
-				type: 'external-event',
+				type: 'external-event@1.0.0',
 				slug: `external-event-${uuid()}`,
 				version: '1.0.0',
 				data: await prepareEvent(externalEvent)
@@ -832,7 +832,7 @@ avaTest('should change the remote username to an existing user with a name', asy
 	]) {
 		const event = await test.context.jellyfish.insertCard(test.context.context,
 			test.context.session, {
-				type: 'external-event',
+				type: 'external-event@1.0.0',
 				slug: `external-event-${uuid()}`,
 				version: '1.0.0',
 				data: await prepareEvent(externalEvent)
@@ -938,7 +938,7 @@ avaTest('should change the remote username', async (test) => {
 	]) {
 		const event = await test.context.jellyfish.insertCard(test.context.context,
 			test.context.session, {
-				type: 'external-event',
+				type: 'external-event@1.0.0',
 				slug: `external-event-${uuid()}`,
 				version: '1.0.0',
 				data: await prepareEvent(externalEvent)
@@ -1021,7 +1021,7 @@ avaTest('should change the remote username while filling in the company', async 
 	]) {
 		const event = await test.context.jellyfish.insertCard(test.context.context,
 			test.context.session, {
-				type: 'external-event',
+				type: 'external-event@1.0.0',
 				slug: `external-event-${uuid()}`,
 				version: '1.0.0',
 				data: await prepareEvent(externalEvent)
@@ -1103,7 +1103,7 @@ avaTest('should change the remote username while filling in the first name', asy
 	]) {
 		const event = await test.context.jellyfish.insertCard(test.context.context,
 			test.context.session, {
-				type: 'external-event',
+				type: 'external-event@1.0.0',
 				slug: `external-event-${uuid()}`,
 				version: '1.0.0',
 				data: await prepareEvent(externalEvent)
@@ -1187,7 +1187,7 @@ avaTest('should change the remote username while filling in the last name', asyn
 	]) {
 		const event = await test.context.jellyfish.insertCard(test.context.context,
 			test.context.session, {
-				type: 'external-event',
+				type: 'external-event@1.0.0',
 				slug: `external-event-${uuid()}`,
 				version: '1.0.0',
 				data: await prepareEvent(externalEvent)
@@ -1270,7 +1270,7 @@ avaTest('should change the remote username while not changing anything else', as
 	]) {
 		const event = await test.context.jellyfish.insertCard(test.context.context,
 			test.context.session, {
-				type: 'external-event',
+				type: 'external-event@1.0.0',
 				slug: `external-event-${uuid()}`,
 				version: '1.0.0',
 				data: await prepareEvent(externalEvent)
@@ -1313,7 +1313,7 @@ avaTest('should add a company and email to an existing user', async (test) => {
 	const username = uuid()
 	const userCard = await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
 		slug: `user-${username}`,
-		type: 'user',
+		type: 'user@1.0.0',
 		version: '1.0.0',
 		data: {
 			email: 'foo@bar.com',
@@ -1347,7 +1347,7 @@ avaTest('should add a company and email to an existing user', async (test) => {
 	]) {
 		const event = await test.context.jellyfish.insertCard(test.context.context,
 			test.context.session, {
-				type: 'external-event',
+				type: 'external-event@1.0.0',
 				slug: `external-event-${uuid()}`,
 				version: '1.0.0',
 				data: await prepareEvent(externalEvent)
@@ -1375,7 +1375,7 @@ avaTest('should add a company and email to an existing user', async (test) => {
 			id: userCard.id,
 			slug: userCard.slug,
 			version: userCard.version,
-			type: 'user'
+			type: 'user@1.0.0'
 		}
 	])
 
@@ -1399,7 +1399,7 @@ avaTest('should add a first name to an existing user', async (test) => {
 	const username = uuid()
 	const userCard = await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
 		slug: `user-${username}`,
-		type: 'user',
+		type: 'user@1.0.0',
 		version: '1.0.0',
 		data: {
 			email: 'foo@bar.com',
@@ -1432,7 +1432,7 @@ avaTest('should add a first name to an existing user', async (test) => {
 	]) {
 		const event = await test.context.jellyfish.insertCard(test.context.context,
 			test.context.session, {
-				type: 'external-event',
+				type: 'external-event@1.0.0',
 				slug: `external-event-${uuid()}`,
 				version: '1.0.0',
 				data: await prepareEvent(externalEvent)
@@ -1460,7 +1460,7 @@ avaTest('should add a first name to an existing user', async (test) => {
 			id: userCard.id,
 			slug: userCard.slug,
 			version: userCard.version,
-			type: 'user'
+			type: 'user@1.0.0'
 		}
 	])
 
@@ -1486,7 +1486,7 @@ avaTest('should add a last name to an existing user', async (test) => {
 	const username = uuid()
 	const userCard = await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
 		slug: `user-${username}`,
-		type: 'user',
+		type: 'user@1.0.0',
 		version: '1.0.0',
 		data: {
 			email: 'foo@bar.com',
@@ -1519,7 +1519,7 @@ avaTest('should add a last name to an existing user', async (test) => {
 	]) {
 		const event = await test.context.jellyfish.insertCard(test.context.context,
 			test.context.session, {
-				type: 'external-event',
+				type: 'external-event@1.0.0',
 				slug: `external-event-${uuid()}`,
 				version: '1.0.0',
 				data: await prepareEvent(externalEvent)
@@ -1547,7 +1547,7 @@ avaTest('should add a last name to an existing user', async (test) => {
 			id: userCard.id,
 			slug: userCard.slug,
 			version: userCard.version,
-			type: 'user'
+			type: 'user@1.0.0'
 		}
 	])
 
@@ -1573,7 +1573,7 @@ avaTest('should link an existing user by adding no data', async (test) => {
 	const username = uuid()
 	const userCard = await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
 		slug: `user-${username}`,
-		type: 'user',
+		type: 'user@1.0.0',
 		version: '1.0.0',
 		data: {
 			email: 'foo@bar.com',
@@ -1605,7 +1605,7 @@ avaTest('should link an existing user by adding no data', async (test) => {
 	]) {
 		const event = await test.context.jellyfish.insertCard(test.context.context,
 			test.context.session, {
-				type: 'external-event',
+				type: 'external-event@1.0.0',
 				slug: `external-event-${uuid()}`,
 				version: '1.0.0',
 				data: await prepareEvent(externalEvent)
@@ -1633,7 +1633,7 @@ avaTest('should link an existing user by adding no data', async (test) => {
 			id: userCard.id,
 			slug: userCard.slug,
 			version: userCard.version,
-			type: 'user'
+			type: 'user@1.0.0'
 		}
 	])
 

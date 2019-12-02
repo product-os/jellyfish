@@ -1,7 +1,7 @@
 {
   "head": {
     "name": "Sales Inbound Test",
-    "type": "sales-thread",
+    "type": "sales-thread@1.0.0",
     "version": "1.0.0",
     "active": true,
     "tags": [],
@@ -21,7 +21,7 @@
   },
   "tail": [
     {
-      "type": "message",
+      "type": "message@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],
@@ -52,7 +52,7 @@
       }
     },
     {
-      "type": "create",
+      "type": "create@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],
@@ -66,7 +66,7 @@
         "timestamp": "2019-07-19T12:20:11.885Z",
         "payload": {
           "name": "Sales Inbound Test",
-          "type": "sales-thread",
+          "type": "sales-thread@1.0.0",
           "version": "1.0.0",
           "active": true,
           "tags": [],
@@ -87,7 +87,7 @@
       }
     },
     {
-      "type": "whisper",
+      "type": "whisper@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],
@@ -110,7 +110,7 @@
       }
     },
     {
-      "type": "update",
+      "type": "update@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],
@@ -133,7 +133,7 @@
       }
     },
     {
-      "type": "whisper",
+      "type": "whisper@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],
@@ -156,7 +156,7 @@
       }
     },
     {
-      "type": "update",
+      "type": "update@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],
@@ -179,7 +179,7 @@
       }
     },
     {
-      "type": "message",
+      "type": "message@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],
@@ -202,7 +202,7 @@
       }
     },
     {
-      "type": "update",
+      "type": "update@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],
@@ -226,7 +226,7 @@
     },
     {
       "id": "25bd10a2-c5ef-41a6-ae14-6f5ef58cfc18",
-      "type": "update",
+      "type": "update@1.0.0",
       "active": true,
       "version": "1.0.0",
       "name": null,
