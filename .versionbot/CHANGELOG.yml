@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'queue: Backwards compatible slug version references support'
+      hash: f7410ee2b46267223271e4be198c6cfd88bc8a81
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.31.0
+  date: 2019-12-02T08:34:04.153Z
+- commits:
     - subject: 'UI: Intentionally swallow errors when paging in view lens'
       hash: 58079f8eac35aabb1d9c676643d4d22d4183837c
       body: |
