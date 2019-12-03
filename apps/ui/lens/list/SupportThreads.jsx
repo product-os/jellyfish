@@ -181,6 +181,13 @@ export class SupportThreads extends React.Component {
 						if (!actor.proxy) {
 							hasEngineerResponse = true
 						}
+					} else {
+						// If the actor can't be loaded, behave as if the message came from
+						// a user. This means that we behave in a much safer way if the user
+						// can't be loaded for some reason, as it will prevent
+						// "pendinguserresponse" threads from being hidden if they have
+						// a response.
+						break
 					}
 				}
 			}
