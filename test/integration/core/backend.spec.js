@@ -3591,7 +3591,7 @@ ava('.query() should be able to query using links and an inverse name', async (t
 		linked_at: {},
 		active: true,
 		data: {
-			payload: 'foo'
+			payload: 'bar'
 		}
 	})
 
@@ -3722,7 +3722,7 @@ ava('.query() should be able to query using links and an inverse name', async (t
 						links: results[0].links['has attached element'][1].links,
 						type: 'message@1.0.0',
 						data: {
-							payload: 'foo'
+							payload: 'bar'
 						}
 					}
 				]
