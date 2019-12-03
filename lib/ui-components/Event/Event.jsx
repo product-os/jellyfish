@@ -44,7 +44,6 @@ const ActorPlaceholder = styled.span `
 	line-height: inherit;
 	background: #eee;
 	display: inline-block;
-	color: #eee;
 	border-radius: 10px;
 	text-align: center;
 `
@@ -208,7 +207,7 @@ const MessageContainer = styled(Box) `
 		color: #333;
 		background-color: #f6f8fa;
 	}
-	  
+
 	${/* eslint-disable no-nested-ternary */
 	(props) => {
 		return props.whisper ? `
