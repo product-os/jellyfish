@@ -28,7 +28,7 @@ const Container = styled.div `
     position: absolute;
     bottom: 10px;
     right: 10px;
-    z-index: 2147483000;
+    z-index: 9999;
 `
 
 export const ChatWidgetSidebar = ({
