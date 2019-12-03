@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'sdk: Future proof e2e tests for versions support'
+      hash: c6234e95a65c670bb69c341395875337e61d9379
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.33.1
+  date: 2019-12-03T11:27:58.899Z
+- commits:
     - subject: 'jellyscript: Output version compatible AGGREGATE triggered actions'
       hash: c528b50c80921cee045cc95fd94a4166bdb9e392
       body: ''
