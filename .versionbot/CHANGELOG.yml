@@ -1,4 +1,23 @@
 - commits:
+    - subject: 'action-server: Don''t enable queue priority buffer on tick server'
+      hash: fd57f3cbec7ee7d188a339f12635b4589cd9df5e
+      body: |
+        Enabling the priority buffer on a queue instance means that the queue
+        also opens a stream for action requests and attempts to consume from
+        there before finding the action request on the requests table, as an
+        optimisation.
+
+        We don't need this optimisation on the tick's queue, as we don't consume
+        incoming action requests like the other types of action servers.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.32.1
+  date: 2019-12-03T09:18:18.025Z
+- commits:
     - subject: 'sync: Use versioned slug references in translate webhooks'
       hash: d05a836aeccc8d96bd1178936950930298ac10bf
       body: ''
