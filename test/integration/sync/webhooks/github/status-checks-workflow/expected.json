@@ -1,7 +1,7 @@
 {
   "head": {
     "name": "",
-    "type": "pull-request",
+    "type": "pull-request@1.0.0",
     "version": "1.0.0",
     "active": true,
     "tags": [],
@@ -33,7 +33,7 @@
   },
   "tail": [
     {
-      "type": "create",
+      "type": "create@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],
@@ -42,7 +42,7 @@
       "data": {
         "timestamp": "2019-10-22T15:57:15Z",
         "payload": {
-          "type": "pull-request",
+          "type": "pull-request@1.0.0",
           "name": "test: Testing status check scenario",
           "active": true,
           "version": "1.0.0",
@@ -73,7 +73,7 @@
       }
     },
     {
-      "type": "update",
+      "type": "update@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],
@@ -91,7 +91,7 @@
       }
     },
     {
-      "type": "update",
+      "type": "update@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],
@@ -109,7 +109,7 @@
       }
     },
     {
-      "type": "update",
+      "type": "update@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],
@@ -127,7 +127,7 @@
       }
     },
     {
-      "type": "update",
+      "type": "update@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],
@@ -145,7 +145,7 @@
       }
     },
     {
-      "type": "update",
+      "type": "update@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],

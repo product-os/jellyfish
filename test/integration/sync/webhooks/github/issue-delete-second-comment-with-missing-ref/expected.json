@@ -1,7 +1,7 @@
 {
   "head": {
     "name": "Issue delete second comment",
-    "type": "issue",
+    "type": "issue@1.0.0",
     "version": "1.0.0",
     "active": true,
     "tags": [],
@@ -21,7 +21,7 @@
   },
   "tail": [
     {
-      "type": "create",
+      "type": "create@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],
@@ -51,12 +51,12 @@
             "status": "open",
             "archived": false
           },
-          "type": "issue"
+          "type": "issue@1.0.0"
         }
       }
     },
     {
-      "type": "message",
+      "type": "message@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],
@@ -79,7 +79,7 @@
       }
     },
     {
-      "type": "message",
+      "type": "message@1.0.0",
       "active": false,
       "version": "1.0.0",
       "tags": [],

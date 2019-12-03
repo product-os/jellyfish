@@ -1,7 +1,7 @@
 {
   "head": {
     "name": "",
-    "type": "support-thread",
+    "type": "support-thread@1.0.0",
     "version": "1.0.0",
     "active": true,
     "tags": [],
@@ -30,7 +30,7 @@
         },
         "payload": {
           "name": "",
-          "type": "support-thread",
+          "type": "support-thread@1.0.0",
           "version": "1.0.0",
           "active": true,
           "tags": [],
@@ -52,11 +52,11 @@
       },
       "requires": [],
       "tags": [],
-      "type": "create",
+      "type": "create@1.0.0",
       "version": "1.0.0"
     },
     {
-      "type": "message",
+      "type": "message@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],
@@ -107,7 +107,7 @@
       },
       "requires": [],
       "tags": [],
-      "type": "update",
+      "type": "update@1.0.0",
       "version": "1.0.0"
     },
     {
@@ -133,7 +133,7 @@
       },
       "requires": [],
       "tags": [],
-      "type": "update",
+      "type": "update@1.0.0",
       "version": "1.0.0"
     }
   ]

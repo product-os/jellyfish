@@ -1,7 +1,7 @@
 {
   "head": {
     "name": "Tag Backsync Test",
-    "type": "support-thread",
+    "type": "support-thread@1.0.0",
     "version": "1.0.0",
     "active": true,
     "tags": [ "testTag" ],
@@ -21,7 +21,7 @@
   },
   "tail": [
     {
-      "type": "create",
+      "type": "create@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],
@@ -35,7 +35,7 @@
         "timestamp": "2019-01-18T16:34:53.073Z",
         "payload": {
           "name": "Tag Backsync Test",
-          "type": "support-thread",
+          "type": "support-thread@1.0.0",
           "active": true,
           "version": "1.0.0",
           "tags": [],
@@ -79,11 +79,11 @@
       },
       "requires": [],
       "tags": [],
-      "type": "update",
+      "type": "update@1.0.0",
       "version": "1.0.0"
     },
     {
-      "type": "message",
+      "type": "message@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],
@@ -106,7 +106,7 @@
       }
     },
     {
-      "type": "whisper",
+      "type": "whisper@1.0.0",
       "active": true,
       "version": "1.0.0",
       "tags": [],
@@ -147,7 +147,7 @@
       },
       "requires": [],
       "tags": [],
-      "type": "update",
+      "type": "update@1.0.0",
       "version": "1.0.0"
     }
   ]
