@@ -21,7 +21,8 @@
                   "enum": [
                     "message",
                     "create",
-                    "whisper"
+                    "whisper",
+                    "update"
                   ]
                 }
               },
