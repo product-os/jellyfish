@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'sync: Use versioned slug references in translate webhooks'
+      hash: d05a836aeccc8d96bd1178936950930298ac10bf
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.32.0
+  date: 2019-12-02T22:35:35.802Z
+- commits:
     - subject: 'queue: Backwards compatible slug version references support'
       hash: f7410ee2b46267223271e4be198c6cfd88bc8a81
       body: ''
