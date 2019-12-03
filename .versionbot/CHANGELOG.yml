@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'jellyscript: Output version compatible AGGREGATE triggered actions'
+      hash: c528b50c80921cee045cc95fd94a4166bdb9e392
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.33.0
+  date: 2019-12-03T10:16:03.147Z
+- commits:
     - subject: 'action-server: Don''t enable queue priority buffer on tick server'
       hash: fd57f3cbec7ee7d188a339f12635b4589cd9df5e
       body: |
