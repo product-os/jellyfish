@@ -1,4 +1,49 @@
 - commits:
+    - subject: Revert change to support threads view
+      hash: 393c2e58e54535b1cdcde78f935ed375a0d60f82
+      body: |
+        The "update" events are required to find tickets that have re-opened
+        due to attached github issues being closed.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Use a darker font for username loading placeholder'
+      hash: e9221455ea149259a239b20049d78a87fd7462c1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Make support threads lens more resilient to network failures'
+      hash: eb62ef419968220e8dd47d1ea8ab9fb665211db5
+      body: |
+        If the actor cannot be loaded for some reason, behave as if the message
+        was sent from an external user. This helps mitigate issues where
+        external users can't be loaded and "pendinguserresponse" threads won't
+        be surfaced.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: 'UI: Flish the actor cache on startup'
+      hash: e393d7ff215a8938c5819096003914168f16a95f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 24.34.1
+  date: 2019-12-03T15:56:57.714Z
+- commits:
     - subject: Run unit & integration tests with FEATURE_FLAG_EXPERIMENTAL = 1
       hash: c99ddaf061720e40ac6bd19feafee7d70f42a30e
       body: ''
