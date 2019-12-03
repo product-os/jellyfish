@@ -214,7 +214,7 @@ ava.serial('AGGREGATE($events): should work when creating cards via the SDK', as
 		properties: {
 			type: {
 				type: 'string',
-				const: 'thread'
+				enum: [ 'thread', 'thread@1.0.0' ]
 			},
 			data: {
 				type: 'object',

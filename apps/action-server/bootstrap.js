@@ -52,7 +52,14 @@ const SCHEMA_ACTIVE_TRIGGERS = {
 		},
 		type: {
 			type: 'string',
-			const: 'triggered-action'
+			enum: [
+
+				// TODO: Remove this OR operator once the whole
+				// system relies on versioned references.
+				'triggered-action',
+
+				'triggered-action@1.0.0'
+			]
 		},
 		data: {
 			type: 'object',
