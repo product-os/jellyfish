@@ -46,6 +46,9 @@ localForage.getItem(STORAGE_KEY)
 			// Remove view data
 			_.set(state, [ 'views', 'viewData' ], {})
 
+			// Remove cached actor data
+			_.set(state, [ 'core', 'actors' ], {})
+
 			_.set(state, [ 'core', 'channels' ], _.get(state, [ 'core', 'channels' ], []).slice(0, 1))
 
 			// Typing notices should be removed on reload, otherwise you can end up
