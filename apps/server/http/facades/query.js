@@ -23,7 +23,7 @@ module.exports = class QueryFacade {
 			const viewCardFromSlug = await this.jellyfish.getCardBySlug(
 				context, sessionToken, `${query}@latest`)
 
-			if (viewCardFromSlug && viewCardFromSlug.type === 'view') {
+			if (viewCardFromSlug && viewCardFromSlug.type.split('@')[0] === 'view') {
 				return viewCardFromSlug
 			}
 
@@ -31,7 +31,7 @@ module.exports = class QueryFacade {
 				// Try and load the view by id first
 				const viewCardFromId = await this.jellyfish.getCardById(context, sessionToken, query)
 
-				if (!viewCardFromId || viewCardFromId.type !== 'view') {
+				if (!viewCardFromId || viewCardFromId.type.split('@')[0] !== 'view') {
 					throw new this.jellyfish.errors.JellyfishNoView(`Unknown view: ${query}`)
 				}
 

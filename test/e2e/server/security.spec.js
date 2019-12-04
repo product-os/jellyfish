@@ -522,7 +522,7 @@ ava.serial('creating a user with a community user session should succeed', async
 		version: '1.0.0',
 		markers: [],
 		active: true,
-		type: 'user',
+		type: card.type,
 		slug: `user-${newUserDetails.username}`,
 		id: card.id,
 		name: null,
@@ -640,7 +640,7 @@ ava.serial('.query() the guest user should only see its own private fields', asy
 		properties: {
 			type: {
 				type: 'string',
-				const: 'user'
+				enum: [ 'user', 'user@1.0.0' ]
 			},
 			data: {
 				type: 'object',
@@ -702,7 +702,7 @@ ava.serial('timeline cards should reference the correct actor', async (test) => 
 				properties: {
 					type: {
 						type: 'string',
-						const: 'update'
+						enum: [ 'update', 'update@1.0.0' ]
 					}
 				}
 			}
@@ -742,7 +742,7 @@ ava.serial('timeline cards should reference the correct actor', async (test) => 
 	}, waitQuery)
 
 	const card = await sdk.card.getWithTimeline(thread.id, {
-		type: 'thread'
+		type: 'thread@1.0.0'
 	})
 	test.truthy(card)
 
@@ -777,7 +777,7 @@ ava.serial('.query() community users should be able to query views', async (test
 			},
 			type: {
 				type: 'string',
-				const: 'view'
+				enum: [ 'view', 'view@1.0.0' ]
 			}
 		}
 	})
@@ -1157,7 +1157,7 @@ ava.serial('.query() additionalProperties should not affect listing users as a n
 		properties: {
 			type: {
 				type: 'string',
-				const: 'user'
+				enum: [ 'user', 'user@1.0.0' ]
 			},
 			id: {
 				type: 'string',
@@ -1172,7 +1172,7 @@ ava.serial('.query() additionalProperties should not affect listing users as a n
 		properties: {
 			type: {
 				type: 'string',
-				const: 'user'
+				enum: [ 'user', 'user@1.0.0' ]
 			},
 			id: {
 				type: 'string',
@@ -1236,7 +1236,7 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 				properties: {
 					type: {
 						type: 'string',
-						const: 'user'
+						enum: [ 'user', 'user@1.0.0' ]
 					}
 				}
 			}
@@ -1249,7 +1249,7 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 			},
 			type: {
 				type: 'string',
-				const: 'message'
+				enum: [ 'message', 'message@1.0.0' ]
 			},
 			links: {
 				type: 'object',
@@ -1282,7 +1282,7 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 		{
 			id: message.id,
 			slug: message.slug,
-			type: 'message',
+			type: message.type,
 			version: '1.0.0',
 			updated_at: null,
 			linked_at: message.linked_at,
