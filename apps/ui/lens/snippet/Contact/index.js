@@ -32,7 +32,7 @@ const lens = {
 			properties: {
 				type: {
 					type: 'string',
-					const: 'contact'
+					enum: [ 'contact', 'contact@1.0.0' ]
 				}
 			}
 		}

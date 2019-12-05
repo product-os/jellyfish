@@ -99,7 +99,11 @@ export default class CreateLens extends React.Component {
 												'message',
 												'update',
 												'create',
-												'whisper'
+												'whisper',
+												'message@1.0.0',
+												'update@1.0.0',
+												'create@1.0.0',
+												'whisper@1.0.0'
 											]
 										}
 									},
@@ -110,7 +114,7 @@ export default class CreateLens extends React.Component {
 							properties: {
 								type: {
 									type: 'string',
-									const: 'thread'
+									enum: [ 'thread', 'thread@1.0.0' ]
 								},
 								markers: {
 									type: 'array',
@@ -243,7 +247,7 @@ export default class CreateLens extends React.Component {
 					type: 'object',
 					properties: {
 						type: {
-							const: 'user'
+							enum: [ 'user', 'user@1.0.0' ]
 						}
 					},
 					additionalProperties: true
