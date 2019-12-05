@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'server: Forwards compatible e2e tests with versions support'
+      hash: a9830f463bdc2eb307be703a956b4d0041f02874
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.34.2
+  date: 2019-12-04T20:21:16.401Z
+- commits:
     - subject: Revert change to support threads view
       hash: 393c2e58e54535b1cdcde78f935ed375a0d60f82
       body: |
