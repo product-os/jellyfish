@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'ui-components: Backwards compatible version reference support'
+      hash: ee376cd12b095827e206de97e9fd8be2161fb16e
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.35.0
+  date: 2019-12-05T10:11:33.427Z
+- commits:
     - subject: 'server: Forwards compatible e2e tests with versions support'
       hash: a9830f463bdc2eb307be703a956b4d0041f02874
       body: ''
