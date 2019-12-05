@@ -41,7 +41,7 @@ const getUsers = async (value) => {
 		type: 'object',
 		properties: {
 			type: {
-				const: 'user'
+				enum: [ 'user', 'user@1.0.0' ]
 			},
 			slug: {
 				pattern: `^user-${value}`
@@ -158,7 +158,7 @@ export const getTrigger = _.memoize(() => {
 					description: `Tag that matches ${matcher}`,
 					properties: {
 						type: {
-							const: 'tag'
+							enum: [ 'tag', 'tag@1.0.0' ]
 						},
 						name: {
 							pattern: `^${matcher}`

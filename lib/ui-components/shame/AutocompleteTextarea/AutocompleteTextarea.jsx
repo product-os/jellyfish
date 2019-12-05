@@ -143,7 +143,7 @@ class AutoCompleteArea extends React.Component {
 		const filter = helpers.createFullTextSearchFilter(typeCard.data.schema, value)
 		_.set(filter, [ 'properties', 'type' ], {
 			type: 'string',
-			const: typeCard.slug
+			enum: [ typeCard.slug, `${typeCard.slug}@${typeCard.version}` ]
 		})
 		sdk.query(filter, {
 			limit: 20,
