@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'CODEOWNERS: Add @StefKors to the list'
+      hash: 9f69ed80eea883fabfec3e91c3b59e5766da1c09
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.36.1
+  date: 2019-12-05T13:46:43.294Z
+- commits:
     - subject: 'action-library: Backwards compatible versioned slug references'
       hash: c02567b917c910afd423496f4b764251cfb78693
       body: ''
