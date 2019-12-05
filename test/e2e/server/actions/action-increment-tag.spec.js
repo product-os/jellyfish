@@ -55,7 +55,7 @@ ava.serial('should create a new tag using using action-increment-tag', async (te
 		linked_at: tag.linked_at,
 		name,
 		slug: tag.slug,
-		type: 'tag'
+		type: tag.type
 	})
 })
 
@@ -146,6 +146,6 @@ ava.serial('should increment an existing tag using using action-increment-tag', 
 		linked_at: tag.linked_at,
 		name,
 		slug: tag.slug,
-		type: 'tag'
+		type: tag.type
 	})
 })

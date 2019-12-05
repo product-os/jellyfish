@@ -16,7 +16,7 @@
           "properties": {
             "type": {
               "type": "string",
-              "const": "view"
+              "enum": [ "view", "view@1.0.0" ]
             }
           },
           "additionalProperties": true,

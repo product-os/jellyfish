@@ -301,7 +301,7 @@ ava.serial('should add and evaluate a time triggered action', async (test) => {
 			properties: {
 				type: {
 					type: 'string',
-					const: 'card'
+					enum: [ 'card', 'card@1.0.0' ]
 				},
 				data: {
 					type: 'object',
@@ -389,7 +389,7 @@ ava.serial('should be able to resolve links', async (test) => {
 					},
 					type: {
 						type: 'string',
-						const: 'thread'
+						enum: [ 'thread', 'thread@1.0.0' ]
 					},
 					data: {
 						additionalProperties: true,
@@ -411,7 +411,7 @@ ava.serial('should be able to resolve links', async (test) => {
 		properties: {
 			type: {
 				type: 'string',
-				const: 'message'
+				enum: [ 'message', 'message@1.0.0' ]
 			},
 			links: {
 				type: 'object',
@@ -431,7 +431,7 @@ ava.serial('should be able to resolve links', async (test) => {
 			id: message.id,
 			active: true,
 			slug: message.slug,
-			type: 'message',
+			type: message.type,
 			version: '1.0.0',
 			name: null,
 			updated_at: null,
@@ -445,7 +445,7 @@ ava.serial('should be able to resolve links', async (test) => {
 				'is attached to': [
 					{
 						id: thread.id,
-						type: 'thread',
+						type: thread.type,
 						data: {
 							uuid: id
 						}
@@ -765,7 +765,9 @@ ava.serial('/query endpoint should allow you to query using a view\'s slug', asy
 	)
 
 	test.is(result.code, 200)
-	test.deepEqual(_.uniq(_.map(result.response.data, 'type')), [ 'view' ])
+	test.deepEqual(_.uniq(_.map(result.response.data, (card) => {
+		return _.first(card.type.split('@'))
+	})), [ 'view' ])
 })
 
 ava.serial('/query endpoint should allow you to query using a view\'s id', async (test) => {
@@ -782,5 +784,7 @@ ava.serial('/query endpoint should allow you to query using a view\'s id', async
 	)
 
 	test.is(result.code, 200)
-	test.deepEqual(_.uniq(_.map(result.response.data, 'type')), [ 'view' ])
+	test.deepEqual(_.uniq(_.map(result.response.data, (card) => {
+		return _.first(card.type.split('@'))
+	})), [ 'view' ])
 })

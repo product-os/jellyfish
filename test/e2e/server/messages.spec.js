@@ -69,7 +69,7 @@ ava.serial('should sanely handle line breaks before tags in messages/whispers', 
 		linked_at: tag.linked_at,
 		name: tagName,
 		slug: tag.slug,
-		type: 'tag'
+		type: tag.type
 	})
 })
 
@@ -139,7 +139,7 @@ ava.serial('should sanely handle multiple tags in messages/whispers', async (tes
 		linked_at: tag1.linked_at,
 		name: tagName1,
 		slug: tag1.slug,
-		type: 'tag'
+		type: tag1.type
 	})
 
 	test.deepEqual(tag2, {
@@ -159,7 +159,7 @@ ava.serial('should sanely handle multiple tags in messages/whispers', async (tes
 		linked_at: tag2.linked_at,
 		name: tagName2,
 		slug: tag2.slug,
-		type: 'tag'
+		type: tag2.type
 	})
 
 	test.deepEqual(tag3, {
@@ -179,7 +179,7 @@ ava.serial('should sanely handle multiple tags in messages/whispers', async (tes
 		linked_at: tag3.linked_at,
 		name: tagName3,
 		slug: tag3.slug,
-		type: 'tag'
+		type: tag3.type
 	})
 })
 
@@ -239,6 +239,6 @@ ava.serial('should create a new tag when one is found in a message', async (test
 		linked_at: tag.linked_at,
 		name: tagName,
 		slug: tag.slug,
-		type: 'tag'
+		type: tag.type
 	})
 })

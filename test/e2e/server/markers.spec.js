@@ -391,7 +391,7 @@ ava.serial('Updating a user should not remove their org membership', async (test
 			},
 			type: {
 				type: 'string',
-				const: 'user'
+				enum: [ 'user', 'user@1.0.0' ]
 			}
 		},
 		required: [ 'id', 'type' ],

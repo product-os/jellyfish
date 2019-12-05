@@ -48,7 +48,7 @@ ava.serial('Users should have an avatar value set to null if it doesn\'t exist',
 
 	// Since the email is randomly generated, we expect the gravatar value to be
 	// null
-	test.is(user.data.avatar, null)
+	test.falsy(user.data.avatar)
 })
 
 // TODO: Get nock to successfully intercept calls to Gravatar so we can enable
