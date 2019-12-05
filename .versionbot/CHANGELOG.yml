@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'action-library: Backwards compatible versioned slug references'
+      hash: c02567b917c910afd423496f4b764251cfb78693
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.36.0
+  date: 2019-12-05T11:53:12.190Z
+- commits:
     - subject: 'ui-components: Backwards compatible version reference support'
       hash: ee376cd12b095827e206de97e9fd8be2161fb16e
       body: ''
