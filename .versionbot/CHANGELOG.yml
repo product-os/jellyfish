@@ -1,4 +1,63 @@
 - commits:
+    - subject: 'test/integration/flowdock: Add version in type attribute in expectations'
+      hash: ceef202351c27494b5d24efd8f09940940870bdd
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+    - subject: 'circleci: Include flowdock translate tests'
+      hash: f6b55d00007df49bb927885ba52eb83a18a910b0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+    - subject: 'Makefile: Add INTEGRATION_FLOWDOCK_TOKEN env var'
+      hash: b2f7d047f976063943be6ce7e5d365e2ed65bc0d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+    - subject: >-
+        integration/flowdock/translate: Add implementation for JF translation of
+        FD events
+      hash: 376bdac3e09ec2f9976e0794a809a39836c4e80a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+    - subject: 'flowdock: Set up translate tests'
+      hash: dcf80d7df1415de1d457e92b99d4b61d13bd1774
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'test/integration/flowdock: Stop event variations for flowdock'
+      hash: a2ccd201b7d4f085438eb8aee5fde67d1a829f54
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+  version: 24.36.2
+  date: 2019-12-06T16:13:38.144Z
+- commits:
     - subject: 'CODEOWNERS: Add @StefKors to the list'
       hash: 9f69ed80eea883fabfec3e91c3b59e5766da1c09
       body: ''
