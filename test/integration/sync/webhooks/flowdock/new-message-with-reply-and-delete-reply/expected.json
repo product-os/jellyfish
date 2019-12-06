@@ -1,7 +1,7 @@
 {
   "head": {
     "name": "",
-    "type": "thread",
+    "type": "thread@1.0.0",
     "version": "1.0.0",
     "active": true,
     "tags": [],
@@ -19,7 +19,7 @@
   },
   "tail": [
     {
-      "type": "create",
+      "type": "create@1.0.0",
       "version": "1.0.0",
       "active": true,
       "tags": [],
@@ -33,7 +33,7 @@
         },
         "payload": {
           "name": "",
-          "type": "thread",
+          "type": "thread@1.0.0",
           "version": "1.0.0",
           "active": true,
           "tags": [],
@@ -52,7 +52,7 @@
       }
     },
     {
-      "type": "whisper",
+      "type": "whisper@1.0.0",
       "version": "1.0.0",
       "active": true,
       "tags": [],
@@ -75,7 +75,7 @@
       }
     },
     {
-      "type": "whisper",
+      "type": "whisper@1.0.0",
       "version": "1.0.0",
       "active": true,
       "tags": [],

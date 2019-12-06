@@ -307,6 +307,34 @@ jobs:
           root: .
           paths:
             - .nyc_output/*.json
+            
+  sync_tests_flowdock_translate:
+    <<: *job_defaults
+
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: .
+
+      - run:
+          name: Start PostgreSQL
+          command: service postgresql start && su - postgres -c "psql -U postgres -d postgres -c \"alter user postgres with password 'postgres';\""
+      - run:
+          name: Start Redis
+          command: service redis-server start
+
+      - run:
+          name: Sync Tests
+          command: make test FILES=./test/integration/sync/flowdock-translate.spec.js COVERAGE=1 INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$FLOWDOCK_SIGNATURE_KEY INTEGRATION_FLOWDOCK_TOKEN=$FLOWDOCK_TOKEN
+      - run:
+          name: Sync End To End Tests Without Tokens
+          command: make test FILES=./test/integration/sync/flowdock-translate.spec.js COVERAGE=1 INTEGRATION_FLOWDOCK_SIGNATURE_KEY= INTEGRATION_FLOWDOCK_TOKEN=
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .nyc_output/*.json
 
   sync_tests_discourse_translate:
     <<: *job_defaults
@@ -969,6 +997,11 @@ workflows:
                     - build
                 <<: *workflow_filter
 
+            - sync_tests_flowdock_translate:
+                requires:
+                    - build
+                <<: *workflow_filter
+
             - sync_tests_front_mirror:
                 requires:
                     - compose-build
@@ -1005,6 +1038,7 @@ workflows:
                   - e2e_tests_livechat_previous_dump
                   - sync_tests_front_translate
                   - sync_tests_discourse_translate
+                  - sync_tests_flowdock_translate
                   - sync_tests_front_mirror
                   - sync_tests_discourse_mirror
                   - sync_tests_github_mirror

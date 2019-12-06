@@ -26,7 +26,14 @@
           "properties": {
             "source": {
               "type": "string",
-              "enum": [ "balena-api", "front", "discourse", "github", "outreach" ]
+              "enum": [
+                "balena-api",
+                "front",
+                "discourse",
+                "github",
+                "outreach",
+                "flowdock"
+              ]
             }
           }
         }

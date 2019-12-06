@@ -352,6 +352,8 @@ module.exports = {
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 			require('../../../apps/server/default-cards/contrib/sales-thread.json'))
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
+			require('../../../apps/server/default-cards/contrib/thread.json'))
+		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 			require('../../../apps/server/default-cards/contrib/whisper.json'))
 
 		nock.cleanAll()
@@ -392,10 +394,10 @@ module.exports = {
 			}
 
 			for (const variation of getVariations(testCase.steps, {
-				permutations: suite.source !== 'github'
+				permutations: suite.source !== 'github' && suite.source !== 'flowdock'
 			})) {
 				// TODO: We should remove this check
-				if (suite.source === 'github' &&
+				if ((suite.source === 'github' || suite.source === 'flowdock') &&
 					variation.combination.length !== testCase.steps.length) {
 					continue
 				}
