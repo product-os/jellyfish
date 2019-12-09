@@ -32,6 +32,11 @@ const sendHTTPError = (request, response, error) => {
 			ip: request.ip,
 			error
 		})
+
+		return response.status(500).json({
+			error: true,
+			data: error
+		})
 	}
 
 	const errorObject = errio.toObject(error, {
