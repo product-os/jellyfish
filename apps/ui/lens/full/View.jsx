@@ -491,7 +491,7 @@ class ViewRenderer extends React.Component {
 		return (
 			<Flex
 				flex={this.props.flex}
-				className={`column--${head ? head.slug || head.type : 'unknown'}`}
+				className={`column--${head ? head.slug || head.type.split('@')[0] : 'unknown'}`}
 				flexDirection="column"
 				style={{
 					height: '100%', overflowY: 'auto', position: 'relative'

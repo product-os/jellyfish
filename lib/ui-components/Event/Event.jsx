@@ -293,8 +293,8 @@ export default class Event extends React.Component {
 	async componentDidMount () {
 		this.processText()
 
-		const createCard = _.find(_.get(this.props.card, [ 'links', 'has attached element' ]), {
-			type: 'create'
+		const createCard = _.find(_.get(this.props.card, [ 'links', 'has attached element' ]), (linkedCard) => {
+			return [ 'create', 'create@1.0.0' ].includes(linkedCard.type)
 		})
 
 		const actorId = _.get(this.props.card, [ 'data', 'actor' ]) || _.get(createCard, [ 'data', 'actor' ])
@@ -364,7 +364,8 @@ export default class Event extends React.Component {
 			card
 		} = this.props
 
-		const isMessage = card.type === 'message' || card.type === 'whisper'
+		const typeBase = card.type.split('@')[0]
+		const isMessage = typeBase === 'message' || typeBase === 'whisper'
 
 		if (
 			isMessage &&
@@ -377,7 +378,8 @@ export default class Event extends React.Component {
 
 	getTimelineElement (card) {
 		const targetCard = _.get(card, [ 'links', 'is attached to', '0' ], card)
-		if (targetCard.type === 'user') {
+		const typeBase = targetCard.type.split('@')[0]
+		if (typeBase === 'user') {
 			return (
 				<Txt color={Theme.colors.text.light}>
 					<strong>{targetCard.slug.replace('user-', '')}</strong> joined
@@ -386,7 +388,7 @@ export default class Event extends React.Component {
 		}
 		let text = `${targetCard.name || targetCard.slug || targetCard.type || ''}`
 
-		if (card.type === 'update') {
+		if (typeBase === 'update') {
 			text += ' updated by'
 		} else {
 			text += ' created by'
@@ -414,7 +416,9 @@ export default class Event extends React.Component {
 			'openChannel',
 			'addNotification'
 		])
-		const isMessage = card.type === 'message' || card.type === 'whisper'
+
+		const typeBase = card.type.split('@')[0]
+		const isMessage = typeBase === 'message' || typeBase === 'whisper'
 
 		const message = getMessage(card)
 
@@ -427,7 +431,7 @@ export default class Event extends React.Component {
 			<VisibilitySensor
 				onChange={this.handleVisibilityChange}
 			>
-				<EventWrapper {...props} className={`event-card--${card.type}`}>
+				<EventWrapper {...props} className={`event-card--${typeBase}`}>
 					<EventButton onClick={this.openChannel} style={{
 						borderLeftColor: helpers.colorHash(getTargetId(card))
 					}}>
@@ -550,7 +554,7 @@ export default class Event extends React.Component {
 									key={attachment.url}
 									data-attachmentslug={attachment.slug}
 									onClick={this.downloadAttachment}
-									light={card.type === 'whisper'}
+									light={card.type === 'whisper' || card.type === 'whisper@1.0.0'}
 									data-test="event-card__file"
 									mr={2}
 									mb={2}
@@ -564,7 +568,7 @@ export default class Event extends React.Component {
 						{isMessage && Boolean(message) && (
 							<MessageContainer
 								ref={this.setMessageElement}
-								whisper={card.type === 'whisper'}
+								whisper={card.type === 'whisper' || card.type === 'whisper@1.0.0'}
 								proxy={actor && actor.proxy}
 								py={2}
 								px={3}

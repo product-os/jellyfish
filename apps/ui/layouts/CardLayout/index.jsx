@@ -27,9 +27,11 @@ export default function CardLayout (props) {
 		overflowY
 	} = props
 
+	const typeBase = card.type && card.type.split('@')[0]
+
 	return (
 		<Column
-			className={`column--${card.type || 'unknown'} column--slug-${card.slug || 'unkown'}`}
+			className={`column--${typeBase || 'unknown'} column--slug-${card.slug || 'unkown'}`}
 			overflowY={overflowY}
 			data-test={props['data-test']}
 		>

@@ -98,8 +98,8 @@ export default class Update extends React.Component {
 	}
 
 	async componentDidMount () {
-		const createCard = _.find(_.get(this.props.card, [ 'links', 'has attached element' ]), {
-			type: 'create'
+		const createCard = _.find(_.get(this.props.card, [ 'links', 'has attached element' ]), (linkedCard) => {
+			return [ 'create', 'create@1.0.0' ].includes(linkedCard.type)
 		})
 
 		const actorId = _.get(this.props.card, [ 'data', 'actor' ]) || _.get(createCard, [ 'data', 'actor' ])
@@ -124,6 +124,7 @@ export default class Update extends React.Component {
 		])
 
 		const timestamp = _.get(card, [ 'data', 'timestamp' ]) || card.created_at
+		const typeBase = card.type.split('@')[0]
 
 		let description = null
 
@@ -136,7 +137,7 @@ export default class Update extends React.Component {
 				{...props}
 				pl="40px"
 				pb={2}
-				className={`event-card--${card.type}`}
+				className={`event-card--${typeBase}`}
 				style={{
 					borderLeftColor: helpers.colorHash(getTargetId(card))
 				}}
@@ -159,7 +160,7 @@ export default class Update extends React.Component {
 						<Button
 							className="event-card--actions"
 							px={2}
-							mr={card.type === 'whisper' ? -12 : -1}
+							mr={typeBase === 'whisper' ? -12 : -1}
 							plain
 							onClick={this.toggleMenu}
 							icon={<Icon name="ellipsis-v"/>}

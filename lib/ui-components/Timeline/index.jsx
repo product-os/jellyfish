@@ -366,10 +366,11 @@ class Timeline extends React.Component {
 		// displayed by default
 		if (messagesOnly) {
 			_.remove(sortedTail, (card) => {
-				if (card.type === 'update' && Boolean(card.name)) {
+				const typeBase = card.type.split('@')[0]
+				if (typeBase === 'update' && Boolean(card.name)) {
 					return false
 				}
-				return card.type !== 'message' && card.type !== 'whisper'
+				return typeBase !== 'message' && typeBase !== 'whisper'
 			})
 		}
 
@@ -442,7 +443,7 @@ class Timeline extends React.Component {
 
 					{(Boolean(sortedTail) && sortedTail.length > 0) &&
 					_.map(sortedTail.slice(0 - (PAGE_SIZE * this.state.page)), (card) => {
-						if (hideWhispers && card.type === 'whisper') {
+						if (hideWhispers && (card.type === 'whisper' || card.type === 'whisper@1.0.0')) {
 							return null
 						}
 
@@ -454,7 +455,7 @@ class Timeline extends React.Component {
 							)
 						}
 
-						if (card.type === 'update') {
+						if (card.type === 'update' || card.type === 'update@1.0.0') {
 							return (
 								<Box key={card.id}>
 									<Update

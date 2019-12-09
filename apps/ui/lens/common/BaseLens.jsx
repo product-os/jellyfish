@@ -40,7 +40,7 @@ export default class BaseLens extends React.Component {
 		const {
 			head
 		} = this.props.channel.data
-		if (!head || head.type !== 'view') {
+		if (!head || (head.type !== 'view' && head.type !== 'view@1.0.0')) {
 			return {}
 		}
 		const schema = helpers.getViewSchema(head, this.props.user)

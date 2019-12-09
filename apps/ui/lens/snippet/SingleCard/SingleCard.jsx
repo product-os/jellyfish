@@ -32,7 +32,7 @@ export default class SingleCard extends React.Component {
 			fieldOrder
 		} = this.props
 		const typeCard = _.find(this.props.types, {
-			slug: card.type
+			slug: card.type.split('@')[0]
 		})
 
 		// Count the number of non-event links the card has

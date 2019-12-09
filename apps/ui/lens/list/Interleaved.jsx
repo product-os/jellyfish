@@ -38,7 +38,10 @@ import BaseLens from '../common/BaseLens'
 const NONE_MESSAGE_TIMELINE_TYPES = [
 	'create',
 	'event',
-	'update'
+	'update',
+	'create@1.0.0',
+	'event@1.0.0',
+	'update@1.0.0'
 ]
 
 const isHiddenEventType = (type) => {

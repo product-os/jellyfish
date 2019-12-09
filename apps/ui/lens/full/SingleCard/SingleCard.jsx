@@ -36,7 +36,8 @@ export default class SingleCardFull extends React.Component {
 		const tail = _.get(this.props.card.links, [ 'has attached element' ], [])
 
 		const comms = _.filter(tail, (item) => {
-			return item.type === 'message' || item.type === 'whisper'
+			const typeBase = item.type.split('@')[0]
+			return typeBase === 'message' || typeBase === 'whisper'
 		})
 
 		this.state = {
@@ -64,7 +65,7 @@ export default class SingleCardFull extends React.Component {
 			types
 		} = this.props
 		const type = _.find(types, {
-			slug: card.type
+			slug: card.type.split('@')[0]
 		})
 
 		const relationships = _.get(type, [ 'data', 'meta', 'relationships' ])
