@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'ui: Backwards compatible versioned slug support'
+      hash: 91d644cfcc29125567a0d3bb85bec7573bc302a3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.36.5
+  date: 2019-12-09T17:22:38.783Z
+- commits:
     - subject: >-
         UI: Split webpack bundle in vendor and local, use HashedModuleIdsPlugin
         so that the hash reflects each file contents. Vendor bundle is made of
