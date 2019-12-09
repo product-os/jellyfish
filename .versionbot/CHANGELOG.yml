@@ -1,4 +1,20 @@
 - commits:
+    - subject: >-
+        UI: Split webpack bundle in vendor and local, use HashedModuleIdsPlugin
+        so that the hash reflects each file contents. Vendor bundle is made of
+        our dependencies, so it's unlikely to change: this way browser can cache
+        it more easily
+      hash: 6e041d535ba7671fea2dfd65b45c76c6803250ea
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.36.4
+  date: 2019-12-09T15:47:30.872Z
+- commits:
     - subject: 'chat-widget: Backward compatible versioned slug support'
       hash: 8584acd57aa67f298e6d3178f10d522e4ce91fe5
       body: ''
