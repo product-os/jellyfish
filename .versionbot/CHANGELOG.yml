@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'chat-widget: Backward compatible versioned slug support'
+      hash: 8584acd57aa67f298e6d3178f10d522e4ce91fe5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.36.3
+  date: 2019-12-09T10:28:28.429Z
+- commits:
     - subject: 'test/integration/flowdock: Add version in type attribute in expectations'
       hash: ceef202351c27494b5d24efd8f09940940870bdd
       body: ''
