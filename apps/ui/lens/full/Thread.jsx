@@ -105,7 +105,7 @@ const lens = {
 			properties: {
 				type: {
 					type: 'string',
-					const: 'thread'
+					enum: [ 'thread', 'thread@1.0.0' ]
 				}
 			}
 		}

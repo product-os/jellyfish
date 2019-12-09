@@ -19,6 +19,7 @@ ava('.getUpdateObjectFromSchema() should parse the `const` keyword', (test) => {
 		type: 'object',
 		properties: {
 			type: {
+				type: 'string',
 				const: 'message'
 			},
 			data: {
