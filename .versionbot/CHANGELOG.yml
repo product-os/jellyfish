@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'flowdock: Backwards compatible versions support'
+      hash: f7d395028456c2d085e968cf784e23b32c1dd147
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.36.6
+  date: 2019-12-09T18:20:26.055Z
+- commits:
     - subject: 'ui: Backwards compatible versioned slug support'
       hash: 91d644cfcc29125567a0d3bb85bec7573bc302a3
       body: ''
