@@ -55,6 +55,7 @@
                 "todo",
                 "triggered-action",
                 "whisper",
+                "workflow",
                 "link@1.0.0",
                 "account@1.0.0",
                 "agenda@1.0.0",
@@ -81,7 +82,8 @@
                 "thread@1.0.0",
                 "todo@1.0.0",
                 "triggered-action@1.0.0",
-                "whisper@1.0.0"
+                "whisper@1.0.0",
+                "workflow@1.0.0"
               ]
             }
           }
@@ -104,6 +106,7 @@
                 "tag",
                 "message",
                 "whisper",
+                "workflow",
                 "issue",
                 "support-thread",
                 "support-issue",

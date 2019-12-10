@@ -1,0 +1,35 @@
+{
+  "slug": "view-workflows",
+  "name": "Workflows",
+  "version": "1.0.0",
+  "type": "view",
+  "markers": [ "org-balena" ],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "allOf": [
+      {
+        "name": "Workflows",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "workflow"
+            }
+          },
+          "additionalProperties": true,
+          "required": [
+            "type"
+          ]
+        }
+      }
+    ],
+    "lenses": [
+      "lens-list"
+    ]
+  },
+  "requires": [],
+  "capabilities": []
+}
