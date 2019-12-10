@@ -1,4 +1,32 @@
 - commits:
+    - subject: 'front: Correctly throw error object from request-promise'
+      hash: d7cf1809609cd593efe1d2b288b33336f91f8c8c
+      body: |
+        According to the docs at https://github.com/request/request-promise, the
+        error object that the promise rejects with looks like this:
+
+        ```
+        cause: err,
+        error: err,
+        options: options,
+        response: response
+        ```
+
+        And apparently the actual error can be either on `cause` or on `error`,
+        but its unclear why they have such distinction or on what cases
+        `error.error` is a string.
+
+        We should probably refactor this to not use `request-promise`, but then
+        we're ditching Front anyways, so it might not be worth the effort.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.37.3
+  date: 2019-12-10T20:49:58.209Z
+- commits:
     - subject: 'server: Return early if error is not an error object'
       hash: 8bd3e9b73c55d938fb396806a1ee041bfc03cd9f
       body: |
