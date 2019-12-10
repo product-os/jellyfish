@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'SDK: Stop exposing the session token in get requests'
+      hash: ffeef0ae92cbeb60689669d2c222c838eefce010
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 24.36.8
+  date: 2019-12-10T12:38:28.467Z
+- commits:
     - subject: 'UI: Improve performance of marking all inbox messages as read'
       hash: 57383c358776c175f1914500ce08888afc8a3107
       body: ''
