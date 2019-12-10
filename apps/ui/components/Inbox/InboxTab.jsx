@@ -4,6 +4,7 @@
  * Proprietary and confidential.
  */
 
+import * as Bluebird from 'bluebird'
 import React, {
 	useCallback,
 	useEffect,
@@ -15,6 +16,7 @@ import {
 } from 'react-redux'
 import {
 	Box,
+	Button,
 	Flex,
 	Search
 } from 'rendition'
@@ -52,18 +54,20 @@ const DebouncedSearch = (props) => {
 	)
 }
 
-// TODO An Inbox tab should stream updates from the API
 export default (props) => {
 	const user = useSelector(selectors.getCurrentUser)
 
-	// State controllers for managing canonical data from the API
+	// State controller for managing canonical data from the API
 	const [ results, setResults ] = useState([])
 
-	// State controllers for paginating over the results in each tab
+	// State controller for paginating over the results in each tab
 	const [ page, setPage ] = useState(1)
 
-	// State controllers for search terms in each tab
+	// State controller for search terms in each tab
 	const [ searchTerm, setSearchTerm ] = useState('')
+
+	// State controller for showing loading icon when marking all as read
+	const [ isMarkingAllAsRead, setIsMarkingAllAsRead ] = useState(false)
 
 	// A little awkward, but we want to access the referenced results value in the
 	// stream event handler below. See https://github.com/facebook/react/issues/16154
@@ -79,6 +83,18 @@ export default (props) => {
 		sortBy: 'created_at',
 		sortDir: 'desc'
 	}
+
+	const markAllAsRead = useCallback(async () => {
+		setIsMarkingAllAsRead(true)
+
+		await Bluebird.map(results, (card) => {
+			return sdk.card.markAsRead(user.slug, card)
+		}, {
+			concurrency: 10
+		})
+
+		setIsMarkingAllAsRead(false)
+	}, [ user.id, results ])
 
 	const loadResults = (term, pageNumber) => {
 		const query = props.getQuery(user, term)
@@ -174,7 +190,17 @@ export default (props) => {
 					onChange={setSearchTerm}
 				/>
 
-				{props.children}
+				{props.canMarkAsRead && (
+					<Button
+						ml={3}
+						disabled={isMarkingAllAsRead}
+						onClick={markAllAsRead}
+						data-test="inbox__mark-all-as-read"
+						icon={isMarkingAllAsRead ? <Icon name="cog" spin /> : <Icon name="check-circle" />}
+					>
+						Mark all read
+					</Button>
+				)}
 			</Flex>
 
 			{!results && (
