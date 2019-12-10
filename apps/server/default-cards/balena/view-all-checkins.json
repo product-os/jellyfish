@@ -17,7 +17,7 @@
           "properties": {
             "type": {
               "type": "string",
-              "const": "checkin"
+              "enum": [ "checkin", "checkin@1.0.0" ]
             }
           },
           "additionalProperties": true,

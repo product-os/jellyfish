@@ -20,7 +20,10 @@
                   "enum": [
                     "message",
                     "update",
-                    "create"
+                    "create",
+                    "message@1.0.0",
+                    "update@1.0.0",
+                    "create@1.0.0"
                   ]
                 }
               },
@@ -35,7 +38,7 @@
             },
             "type": {
               "type": "string",
-              "const": "os-test-result"
+              "enum": [ "os-test-result", "os-test-result@1.0.0" ]
             },
             "markers": {
               "type": "array",

@@ -20,7 +20,8 @@
               "type": "boolean"
             },
             "type": {
-              "const": "message"
+              "type": "string",
+              "enum": [ "message", "message@1.0.0" ]
             }
           },
           "markers": {

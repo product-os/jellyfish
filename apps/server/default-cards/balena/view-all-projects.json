@@ -17,7 +17,7 @@
           "properties": {
             "type": {
               "type": "string",
-              "const": "project"
+              "enum": [ "project", "project@1.0.0" ]
             }
           },
           "additionalProperties": true,

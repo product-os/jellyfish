@@ -19,7 +19,7 @@
             },
             "type": {
               "type": "string",
-              "const": "action-request"
+              "enum": [ "action-request", "action-request@1.0.0" ]
             },
             "data": {
               "type": "object",

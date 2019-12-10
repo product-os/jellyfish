@@ -10,7 +10,12 @@
   "data": {
     "schema": {
       "type": "object",
+      "required": [ "version", "data" ],
       "properties": {
+        "version": {
+          "type": "string",
+          "const": "1.0.0"
+        },
         "data": {
           "type": "object",
           "properties": {

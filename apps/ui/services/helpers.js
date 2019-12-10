@@ -64,14 +64,16 @@ export const getTypeFromViewCard = (card) => {
 	}
 	if (card.data.allOf) {
 		for (const item of card.data.allOf) {
-			let found = _.get(item.schema, [ 'properties', 'type', 'const' ])
+			let found = _.get(item.schema, [ 'properties', 'type', 'const' ]) ||
+				_.get(item.schema, [ 'properties', 'type', 'enum', 0 ])
 			if (found) {
 				value = found
 				break
 			}
 			if (item.schema.anyOf) {
 				for (const subschema of item.schema.anyOf) {
-					found = _.get(subschema, [ 'properties', 'type', 'const' ])
+					found = _.get(subschema, [ 'properties', 'type', 'const' ]) ||
+						_.get(subschema, [ 'properties', 'type', 'enum', 0 ])
 					if (found) {
 						break
 					}
@@ -85,7 +87,8 @@ export const getTypeFromViewCard = (card) => {
 	}
 	if (!value && card.data.oneOf) {
 		for (const item of card.data.allOf) {
-			const found = _.get(item.schema, [ 'properties', 'type', 'const' ])
+			const found = _.get(item.schema, [ 'properties', 'type', 'const' ]) ||
+				_.get(item.schema, [ 'properties', 'type', 'enum', 0 ])
 			if (found) {
 				value = found
 				break
@@ -290,7 +293,8 @@ export const getViewSlices = (view, types) => {
 	let slices = null
 	const viewTypeSlug = _.chain(view.data.allOf)
 		.map((def) => {
-			return _.get(def.schema, [ 'properties', 'type', 'const' ])
+			return _.get(def.schema, [ 'properties', 'type', 'const' ]) ||
+				_.get(def.schema, [ 'properties', 'type', 'enum', 0 ])
 		})
 		.compact()
 		.first()

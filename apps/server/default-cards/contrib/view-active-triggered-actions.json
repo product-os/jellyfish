@@ -20,7 +20,7 @@
             },
             "type": {
               "type": "string",
-              "const": "triggered-action"
+              "enum": [ "triggered-action", "triggered-action@1.0.0" ]
             },
             "data": {
               "type": "object",

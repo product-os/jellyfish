@@ -21,7 +21,7 @@
             },
             "type": {
               "type": "string",
-              "const": "opportunity"
+              "enum": [ "opportunity", "opportunity@1.0.0" ]
             }
           },
           "required": [

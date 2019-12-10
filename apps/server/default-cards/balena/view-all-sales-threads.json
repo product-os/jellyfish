@@ -22,7 +22,11 @@
                     "message",
                     "update",
                     "create",
-                    "whisper"
+                    "whisper",
+                    "message@1.0.0",
+                    "update@1.0.0",
+                    "create@1.0.0",
+                    "whisper@1.0.0"
                   ]
                 }
               },
@@ -37,7 +41,7 @@
             },
             "type": {
               "type": "string",
-              "const": "sales-thread"
+              "enum": [ "sales-thread", "sales-thread@1.0.0" ]
             }
           },
           "required": [
