@@ -9,27 +9,15 @@ import {
 	circularDeepEqual
 } from 'fast-equals'
 import React, {
-	useCallback,
 	useState
 } from 'react'
 import {
-	useSelector
-} from 'react-redux'
-import {
-	Button,
 	Flex,
 	Heading,
 	Tabs,
 	Tab
 } from 'rendition'
-import {
-	useSetup
-} from '@jellyfish/ui-components/SetupProvider'
 import Column from '@jellyfish/ui-components/shame/Column'
-import Icon from '@jellyfish/ui-components/shame/Icon'
-import {
-	selectors
-} from '../../core'
 import InboxTab from './InboxTab'
 
 // Generates a basic query that matches messages against a user slug
@@ -171,27 +159,6 @@ export default React.memo((props) => {
 	// State controller for managing the active tab
 	const [ currentTab, setCurrentTab ] = useState(0)
 
-	// State controller for showing loading icon when marking all as read
-	const [ isMarkingAllAsRead, setIsMarkingAllAsRead ] = useState(false)
-
-	const {
-		sdk
-	} = useSetup()
-
-	const user = useSelector(selectors.getCurrentUser)
-
-	const markAllAsRead = useCallback(async () => {
-		setIsMarkingAllAsRead(true)
-
-		const cards = await sdk.query(getUnreadQuery(user, ''))
-
-		for (const card of cards) {
-			await sdk.card.markAsRead(user.slug, card)
-		}
-
-		setIsMarkingAllAsRead(false)
-	}, [ user.id ])
-
 	return (
 		<Column>
 			<Flex p={3} justifyContent="space-between">
@@ -205,17 +172,11 @@ export default React.memo((props) => {
 				onActive={setCurrentTab}
 			>
 				<Tab title="Unread">
-					<InboxTab key={currentTab} getQuery={getUnreadQuery}>
-						<Button
-							ml={3}
-							disabled={isMarkingAllAsRead}
-							onClick={markAllAsRead}
-							data-test="inbox__mark-all-as-read"
-							icon={isMarkingAllAsRead ? <Icon name="cog" spin /> : <Icon name="check-circle" />}
-						>
-							Mark all read
-						</Button>
-					</InboxTab>
+					<InboxTab
+						key={currentTab}
+						getQuery={getUnreadQuery}
+						canMarkAsRead
+					/>
 				</Tab>
 
 				<Tab title="Read">
