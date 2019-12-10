@@ -242,6 +242,20 @@ module.exports = {
 			require('./issue-open-close/02-issue-closed.json')
 		]
 	},
+	'issue-open-close-semi-valid-email': {
+		expected: require('./issue-open-close-semi-valid-email/expected.json'),
+		steps: [
+			require('./issue-open-close-semi-valid-email/01-issue-opened.json'),
+			require('./issue-open-close-semi-valid-email/02-issue-closed.json')
+		]
+	},
+	'issue-open-close-invalid-email': {
+		expected: require('./issue-open-close-invalid-email/expected.json'),
+		steps: [
+			require('./issue-open-close-invalid-email/01-issue-opened.json'),
+			require('./issue-open-close-invalid-email/02-issue-closed.json')
+		]
+	},
 	'issue-open-with-assignee': {
 		expected: require('./issue-open-with-assignee/expected.json'),
 		steps: [

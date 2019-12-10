@@ -1,0 +1,81 @@
+{
+  "head": {
+    "name": "Test Issue",
+    "type": "issue@1.0.0",
+    "version": "1.0.0",
+    "active": true,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "repository": "resin-io/jellyfish",
+      "mirrors": [
+        "https://github.com/resin-io/jellyfish/issues/705"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "Foo Bar",
+      "status": "closed",
+      "archived": false
+    }
+  },
+  "tail": [
+    {
+      "type": "create@1.0.0",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "timestamp": "2018-09-20T17:59:02.000Z",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
+        "payload": {
+          "name": "Test Issue",
+          "active": true,
+          "version": "1.0.0",
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "repository": "resin-io/jellyfish",
+            "mirrors": [
+              "https://github.com/resin-io/jellyfish/issues/705"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "Foo Bar",
+            "status": "open",
+            "archived": false
+          },
+          "type": "issue@1.0.0"
+        }
+      }
+    },
+    {
+      "type": "update@1.0.0",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "timestamp": "2018-09-20T17:59:57.000Z",
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/status",
+            "value": "closed"
+          }
+        ]
+      }
+    }
+  ]
+}
