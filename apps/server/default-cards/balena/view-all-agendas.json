@@ -21,8 +21,8 @@
             },
             "type": {
               "type": "string",
-              "const": "agenda"
-            },
+              "enum": [ "agenda", "agenda@1.0.0" ]
+            }
           },
           "required": [
             "active",

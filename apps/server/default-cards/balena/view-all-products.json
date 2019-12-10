@@ -16,7 +16,7 @@
           "properties": {
             "type": {
               "type": "string",
-              "const": "product"
+              "enum": [ "product", "product@1.0.0" ]
             }
           },
           "additionalProperties": true,

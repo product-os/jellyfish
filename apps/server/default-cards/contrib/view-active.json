@@ -21,7 +21,8 @@
             "type": {
               "not": {
                 "enum": [
-                  "session"
+                  "session",
+                  "session@1.0.0"
                 ]
               }
             }
