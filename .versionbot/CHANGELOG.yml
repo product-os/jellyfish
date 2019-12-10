@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'default-cards: Backwards compatible versioned cards'
+      hash: 773341f19ebe34b27d6c1cad79d89b13a015ecbe
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.38.0
+  date: 2019-12-10T23:03:59.045Z
+- commits:
     - subject: 'front: Correctly throw error object from request-promise'
       hash: d7cf1809609cd593efe1d2b288b33336f91f8c8c
       body: |
