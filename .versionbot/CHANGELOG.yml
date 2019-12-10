@@ -1,4 +1,20 @@
 - commits:
+    - subject: >-
+        Re-introduce view-all-support-issues with active set to false Update
+        view-all-views to filter out inactive views
+      hash: 56d0952abbe4107666d88c202a849840f601295a
+      body: ''
+      footer:
+        Connects-to: '#2815'
+        connects-to: '#2815'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.37.1
+  date: 2019-12-10T16:33:47.671Z
+- commits:
     - subject: 'Support schema queries with nested `$$links`, a.k.a. graph traversal'
       hash: 38169d920b6a6f9345c191b1b99d2639db060444
       body: ''
