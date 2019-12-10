@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'Support schema queries with nested `$$links`, a.k.a. graph traversal'
+      hash: 38169d920b6a6f9345c191b1b99d2639db060444
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+    - subject: Move graph-like queries code into is own module
+      hash: 40b981c90bba9dd0e3b841159cd0378f525068df
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.37.0
+  date: 2019-12-10T15:25:54.289Z
+- commits:
     - subject: 'SDK: Stop exposing the session token in get requests'
       hash: ffeef0ae92cbeb60689669d2c222c838eefce010
       body: ''
