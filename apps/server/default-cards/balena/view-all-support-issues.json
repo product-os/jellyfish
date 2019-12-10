@@ -1,26 +1,23 @@
 {
-  "slug": "view-all-views",
-  "name": "All views",
+  "slug": "view-all-support-issues",
+  "name": "All support issues",
   "version": "1.0.0",
   "type": "view",
-  "markers": [],
+  "markers": [ "org-balena" ],
   "tags": [],
   "links": {},
-  "active": true,
+  "active": false,
   "data": {
+    "namespace": "Support",
     "allOf": [
       {
-        "name": "Card type view",
+        "name": "All support issues",
         "schema": {
           "type": "object",
           "properties": {
             "type": {
               "type": "string",
-              "enum": [ "view", "view@1.0.0" ]
-            },
-            "active": {
-              "type": "boolean",
-              "const": true
+              "const": "support-issue"
             }
           },
           "additionalProperties": true,
@@ -29,6 +26,10 @@
           ]
         }
       }
+    ],
+    "lenses": [
+      "lens-list",
+      "lens-support-issue-table"
     ]
   },
   "requires": [],
