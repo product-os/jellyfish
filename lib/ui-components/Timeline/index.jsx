@@ -197,15 +197,19 @@ class Timeline extends React.Component {
 		}
 
 		const {
+			tail
+		} = this.props
+
+		const {
 			pendingMessages
 		} = this.state
 
-		if (pendingMessages.length) {
+		if (tail.length !== nextProps.tail.length) {
 			return pendingMessages.filter((item) => {
 				const match = _.find(nextProps.tail, {
 					slug: item.slug
 				})
-				return !match
+				return match
 			})
 		}
 
