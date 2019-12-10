@@ -245,32 +245,162 @@ AND
 (cards.active = 'true')
 ORDER BY cards.created_at DESC
 LIMIT 100
+), query_0 AS (
+SELECT null AS "$link direction$", null AS "$link type$", null::uuid AS "$parent id$", main.* FROM main
 )
-SELECT null AS "$link direction$", null AS "$link type$", main.id AS "$main id$", main.* FROM main
-UNION ALL
-SELECT 'outgoing', 'has attached element', links.fromid, cards.*
+, query_1_0 AS (
+SELECT 'outgoing', links.inversename, links.toid, cards.*
 FROM cards
-INNER JOIN links ON (links.toid = cards.id AND links.name = 'has attached element')
-WHERE links.fromid IN (SELECT id FROM main)
-AND cards.type IN ('message', 'create', 'whisper')
+INNER JOIN links ON (cards.id = links.fromid AND links.inversename = 'has attached element')
+INNER JOIN query_0 on (query_0.id = links.toid)
+WHERE cards.type IN ('message', 'create', 'whisper')
 UNION ALL
-SELECT 'incoming', 'has attached element', links.toid, cards.*
+SELECT 'incoming', links.name, links.fromid, cards.*
 FROM cards
-INNER JOIN links ON (links.fromid = cards.id AND links.inverseName = 'has attached element')
-WHERE links.toid IN (SELECT id FROM main)
-AND cards.type IN ('message', 'create', 'whisper')
+INNER JOIN links ON (cards.id = links.toid AND links.name = 'has attached element')
+INNER JOIN query_0 on (query_0.id = links.fromid)
+WHERE cards.type IN ('message', 'create', 'whisper')
+)
+, query_1_1 AS (
+SELECT 'outgoing', links.inversename, links.toid, cards.*
+FROM cards
+INNER JOIN links ON (cards.id = links.fromid AND links.inversename = 'is this and that')
+INNER JOIN query_0 on (query_0.id = links.toid)
+WHERE true
 UNION ALL
-SELECT 'outgoing', 'is this and that', links.fromid, cards.*
+SELECT 'incoming', links.name, links.fromid, cards.*
 FROM cards
-INNER JOIN links ON (links.toid = cards.id AND links.name = 'is this and that')
-WHERE links.fromid IN (SELECT id FROM main)
-AND true
+INNER JOIN links ON (cards.id = links.toid AND links.name = 'is this and that')
+INNER JOIN query_0 on (query_0.id = links.fromid)
+WHERE true
+)
+SELECT * FROM query_0
 UNION ALL
-SELECT 'incoming', 'is this and that', links.toid, cards.*
+SELECT * FROM query_1_0
+UNION ALL
+SELECT * FROM query_1_1`
+
+	const query = jsonschema2sql('cards', payload.query, payload.options)
+
+	test.deepEqual(expected, query)
+})
+
+ava('when specifying nested links, we traverse the graph and return the matching verteces', (test) => {
+	const payload = {
+		query: {
+			type: 'object',
+			additionalProperties: true,
+			$$links: {
+				'has attached element': {
+					type: 'object',
+					properties: {
+						type: {
+							enum: [ 'message', 'create', 'whisper' ]
+						}
+					},
+					additionalProperties: true,
+					$$links: {
+						'is this and that': {
+							type: 'object',
+							additionalProperties: true
+						}
+					}
+				}
+			},
+			required: [ 'active', 'type' ],
+			name: 'user-generated-filter',
+			title: 'is',
+			description: 'Status is open',
+			properties: {
+				data: {
+					type: 'object',
+					properties: {
+						product: {
+							const: 'balenaCloud'
+						},
+						category: {
+							const: 'general'
+						},
+						status: {
+							const: 'open'
+						}
+					}
+				},
+				type: {
+					type: 'string',
+					const: 'support-thread'
+				},
+				active: {
+					type: 'boolean',
+					const: true
+				}
+			}
+		},
+		options: {
+			experimental: true,
+			limit: 100,
+			skip: 0,
+			sortBy: [ 'created_at' ],
+			sortDir: 'desc'
+		}
+	}
+
+	const expected = `WITH main AS (
+SELECT
+cards.*
 FROM cards
-INNER JOIN links ON (links.fromid = cards.id AND links.inverseName = 'is this and that')
-WHERE links.toid IN (SELECT id FROM main)
-AND true`
+WHERE
+(((cards.data->'product' IS NULL)
+OR
+(cards.data->'product' @> '"balenaCloud"'))
+AND
+((cards.data->'category' IS NULL)
+OR
+(cards.data->'category' @> '"general"'))
+AND
+((cards.data->'status' IS NULL)
+OR
+(cards.data->'status' @> '"open"')))
+AND
+(cards.type = 'support-thread')
+AND
+(cards.active = 'true')
+ORDER BY cards.created_at DESC
+LIMIT 100
+), query_0 AS (
+SELECT null AS "$link direction$", null AS "$link type$", null::uuid AS "$parent id$", main.* FROM main
+)
+, query_1_0 AS (
+SELECT 'outgoing', links.inversename, links.toid, cards.*
+FROM cards
+INNER JOIN links ON (cards.id = links.fromid AND links.inversename = 'has attached element')
+INNER JOIN query_0 on (query_0.id = links.toid)
+WHERE cards.type IN ('message', 'create', 'whisper')
+UNION ALL
+SELECT 'incoming', links.name, links.fromid, cards.*
+FROM cards
+INNER JOIN links ON (cards.id = links.toid AND links.name = 'has attached element')
+INNER JOIN query_0 on (query_0.id = links.fromid)
+WHERE cards.type IN ('message', 'create', 'whisper')
+)
+, query_1_0_0 AS (
+SELECT 'outgoing', links.inversename, links.toid, cards.*
+FROM cards
+INNER JOIN links ON (cards.id = links.fromid AND links.inversename = 'is this and that')
+INNER JOIN query_1_0 on (query_1_0.id = links.toid)
+WHERE true
+UNION ALL
+SELECT 'incoming', links.name, links.fromid, cards.*
+FROM cards
+INNER JOIN links ON (cards.id = links.toid AND links.name = 'is this and that')
+INNER JOIN query_1_0 on (query_1_0.id = links.fromid)
+WHERE true
+)
+SELECT * FROM query_0
+UNION ALL
+SELECT * FROM query_1_0
+UNION ALL
+SELECT * FROM query_1_0_0`
 
 	const query = jsonschema2sql('cards', payload.query, payload.options)
 
