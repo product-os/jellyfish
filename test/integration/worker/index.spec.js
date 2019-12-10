@@ -4391,17 +4391,19 @@ ava('should post a broadcast message to a non empty thread', async (test) => {
 
 	const timeline = threadWithLinks[0].links['has attached element']
 
-	test.deepEqual(_.map(_.sortBy(timeline, (card) => {
+	const sortedTimeline = _.map(_.sortBy(timeline, (card) => {
 		return card.data.timestamp
 	}), (card) => {
 		return _.pick(card, [ 'type', 'slug', 'data' ])
-	}), [
+	})
+
+	test.deepEqual(sortedTimeline, [
 		{
 			type: 'message@1.0.0',
-			slug: timeline[0].slug,
+			slug: sortedTimeline[0].slug,
 			data: {
-				actor: timeline[0].data.actor,
-				timestamp: timeline[0].data.timestamp,
+				actor: sortedTimeline[0].data.actor,
+				timestamp: sortedTimeline[0].data.timestamp,
 				target: thread.id,
 				payload: {
 					message: 'Foo'
@@ -4412,8 +4414,8 @@ ava('should post a broadcast message to a non empty thread', async (test) => {
 			type: 'message@1.0.0',
 			slug: result.data.slug,
 			data: {
-				actor: timeline[1].data.actor,
-				timestamp: timeline[1].data.timestamp,
+				actor: sortedTimeline[1].data.actor,
+				timestamp: sortedTimeline[1].data.timestamp,
 				target: thread.id,
 				payload: {
 					alertsUser: [],
@@ -4513,17 +4515,19 @@ ava('should not broadcast the same message twice', async (test) => {
 
 	const timeline = threadWithLinks[0].links['has attached element']
 
-	test.deepEqual(_.map(_.sortBy(timeline, (card) => {
+	const sortedTimeline = _.map(_.sortBy(timeline, (card) => {
 		return card.data.timestamp
 	}), (card) => {
 		return _.pick(card, [ 'type', 'slug', 'data' ])
-	}), [
+	})
+
+	test.deepEqual(sortedTimeline, [
 		{
 			type: 'message@1.0.0',
 			slug: result1.data.slug,
 			data: {
-				actor: timeline[0].data.actor,
-				timestamp: timeline[0].data.timestamp,
+				actor: sortedTimeline[0].data.actor,
+				timestamp: sortedTimeline[0].data.timestamp,
 				target: thread.id,
 				payload: {
 					alertsUser: [],
@@ -4534,10 +4538,10 @@ ava('should not broadcast the same message twice', async (test) => {
 		},
 		{
 			type: 'message@1.0.0',
-			slug: timeline[1].slug,
+			slug: sortedTimeline[1].slug,
 			data: {
-				actor: timeline[1].data.actor,
-				timestamp: timeline[1].data.timestamp,
+				actor: sortedTimeline[1].data.actor,
+				timestamp: sortedTimeline[1].data.timestamp,
 				target: thread.id,
 				payload: {
 					message: 'Foo'
@@ -4635,17 +4639,19 @@ ava('should broadcast different messages', async (test) => {
 
 	const timeline = threadWithLinks[0].links['has attached element']
 
-	test.deepEqual(_.map(_.sortBy(timeline, (card) => {
+	const sortedTimeline = _.map(_.sortBy(timeline, (card) => {
 		return card.data.timestamp
 	}), (card) => {
 		return _.pick(card, [ 'type', 'slug', 'data' ])
-	}), [
+	})
+
+	test.deepEqual(sortedTimeline, [
 		{
 			type: 'message@1.0.0',
 			slug: result1.data.slug,
 			data: {
-				actor: timeline[0].data.actor,
-				timestamp: timeline[0].data.timestamp,
+				actor: sortedTimeline[0].data.actor,
+				timestamp: sortedTimeline[0].data.timestamp,
 				target: thread.id,
 				payload: {
 					alertsUser: [],
@@ -4656,10 +4662,10 @@ ava('should broadcast different messages', async (test) => {
 		},
 		{
 			type: 'message@1.0.0',
-			slug: timeline[1].slug,
+			slug: sortedTimeline[1].slug,
 			data: {
-				actor: timeline[1].data.actor,
-				timestamp: timeline[1].data.timestamp,
+				actor: sortedTimeline[1].data.actor,
+				timestamp: sortedTimeline[1].data.timestamp,
 				target: thread.id,
 				payload: {
 					message: 'Foo'
@@ -4670,8 +4676,8 @@ ava('should broadcast different messages', async (test) => {
 			type: 'message@1.0.0',
 			slug: result2.data.slug,
 			data: {
-				actor: timeline[2].data.actor,
-				timestamp: timeline[2].data.timestamp,
+				actor: sortedTimeline[2].data.actor,
+				timestamp: sortedTimeline[2].data.timestamp,
 				target: thread.id,
 				payload: {
 					alertsUser: [],
@@ -4777,17 +4783,19 @@ ava('should broadcast the same message twice given different actors', async (tes
 
 	const timeline = threadWithLinks[0].links['has attached element']
 
-	test.deepEqual(_.map(_.sortBy(timeline, (card) => {
+	const sortedTimeline = _.map(_.sortBy(timeline, (card) => {
 		return card.data.timestamp
 	}), (card) => {
 		return _.pick(card, [ 'type', 'slug', 'data' ])
-	}), [
+	})
+
+	test.deepEqual(sortedTimeline, [
 		{
 			type: 'message@1.0.0',
 			slug: result1.data.slug,
 			data: {
-				actor: timeline[0].data.actor,
-				timestamp: timeline[0].data.timestamp,
+				actor: sortedTimeline[0].data.actor,
+				timestamp: sortedTimeline[0].data.timestamp,
 				target: thread.id,
 				payload: {
 					message: 'Broadcast test'
@@ -4798,8 +4806,8 @@ ava('should broadcast the same message twice given different actors', async (tes
 			type: 'message@1.0.0',
 			slug: result2.data.slug,
 			data: {
-				actor: timeline[1].data.actor,
-				timestamp: timeline[1].data.timestamp,
+				actor: sortedTimeline[1].data.actor,
+				timestamp: sortedTimeline[1].data.timestamp,
 				target: thread.id,
 				payload: {
 					alertsUser: [],
