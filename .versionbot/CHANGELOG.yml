@@ -1,4 +1,21 @@
 - commits:
+    - subject: 'server: Return early if error is not an error object'
+      hash: 8bd3e9b73c55d938fb396806a1ee041bfc03cd9f
+      body: |
+        We log the warning in the conditional, but we let it through anyways,
+        which causes `errio` to then throw in a more obscure way.
+
+        Returning with an error earlier in this case will unclutter Sentry and
+        the logs.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.37.2
+  date: 2019-12-10T18:23:07.551Z
+- commits:
     - subject: >-
         Re-introduce view-all-support-issues with active set to false Update
         view-all-views to filter out inactive views
