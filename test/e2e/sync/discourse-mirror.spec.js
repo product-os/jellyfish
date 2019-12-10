@@ -100,9 +100,9 @@ ava.before(async (test) => {
 				baseUrl: 'https://forums.balena.io',
 				json: true,
 				uri: `/t/${id}.json`,
-				qs: {
-					api_key: TOKEN.api,
-					api_username: TOKEN.username
+				headers: {
+					'Api-Key': TOKEN.api,
+					'Api-Username': TOKEN.username
 				}
 			}, (error, response, body) => {
 				if (error) {
@@ -132,9 +132,9 @@ ava.before(async (test) => {
 				baseUrl: 'https://forums.balena.io',
 				json: true,
 				uri: `/t/${id}.json`,
-				qs: {
-					api_key: TOKEN.api,
-					api_username: TOKEN.username
+				headers: {
+					'Api-Key': TOKEN.api,
+					'Api-Username': TOKEN.username
 				}
 			}, (error, response, body) => {
 				if (error) {
@@ -173,9 +173,9 @@ ava.before(async (test) => {
 					raw: description,
 					category: _.parseInt(test.context.category)
 				},
-				qs: {
-					api_key: TOKEN.api,
-					api_username: username
+				headers: {
+					'Api-Key': TOKEN.api,
+					'Api-Username': username
 				}
 			}, (error, response, body) => {
 				if (error) {
