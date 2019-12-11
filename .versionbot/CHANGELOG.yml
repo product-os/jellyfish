@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'github: Deal with invalid and semi-valid email addresses'
+      hash: 6f5ba826cc72a51a0bbf6998cb60217b4a262e78
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.38.2
+  date: 2019-12-11T10:33:01.361Z
+- commits:
     - subject: Load view-all-support-issues.json so it's updated
       hash: 9b0813d7226b5440b1d686cd3b8a76333e3fa991
       body: ''
