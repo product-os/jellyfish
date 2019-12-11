@@ -8,6 +8,15 @@
 // using babel during Ava's test step.
 // See https://github.com/avajs/ava/blob/master/docs/recipes/babel.md#compile-sources
 
+/// // require.extensions['.css'] = () => {}
+
+const hook = require('node-hook')
+const _ = require('lodash')
+
+// Some modules (such as rendition) import CSS files, as a result we need to
+// stub these imports when testing UI code with ava.
+hook.hook('.css', _.constant(''))
+
 require('@babel/register')({
 	presets: [
 		[
