@@ -1,17 +1,17 @@
 {
   "slug": "view-all-support-issues",
-  "name": "All support issues",
+  "name": "Support knowledge base",
   "version": "1.0.0",
   "type": "view",
   "markers": [ "org-balena" ],
   "tags": [],
   "links": {},
-  "active": false,
+  "active": true,
   "data": {
     "namespace": "Support",
     "allOf": [
       {
-        "name": "All support issues",
+        "name": "Support knowledge base",
         "schema": {
           "type": "object",
           "properties": {

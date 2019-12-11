@@ -76,8 +76,8 @@ ava.serial('should stop users from seeing messages attached to cards they can\'t
 
 	await macros.waitForThenClickSelector(page, '[data-test="home-channel__group-toggle--org-balena"]')
 	await macros.waitForThenClickSelector(page, '[data-test="home-channel__group-toggle--Support"]')
-	await macros.waitForThenClickSelector(page, '[data-test="home-channel__item--view-support-knowledge-base"]')
-	await page.waitForSelector('.column--view-support-knowledge-base')
+	await macros.waitForThenClickSelector(page, '[data-test="home-channel__item--view-all-support-issues"]')
+	await page.waitForSelector('.column--view-all-support-issues')
 	await macros.waitForThenClickSelector(page, '.btn--add-support-issue')
 
 	await page.waitForSelector('.rendition-form__field--root_name', WAIT_OPTS)
