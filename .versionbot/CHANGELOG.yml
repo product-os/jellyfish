@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'UI: Fix bug where form unnecessarily runs a full re-render'
+      hash: cdcdb85b65b4f64d1a6bed645ac83c30d0f02403
+      body: |
+        Fixes #2689
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 24.38.4
+  date: 2019-12-11T16:03:28.918Z
+- commits:
     - subject: >-
         Disable view-support-knowledge-base and re-enable renamed
         view-all-support-issues
