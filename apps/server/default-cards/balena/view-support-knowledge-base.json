@@ -6,7 +6,7 @@
   "markers": [ "org-balena" ],
   "tags": [],
   "links": {},
-  "active": true,
+  "active": false,
   "data": {
     "namespace": "Support",
     "allOf": [
