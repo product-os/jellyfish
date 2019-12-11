@@ -1,4 +1,18 @@
 - commits:
+    - subject: Load view-all-support-issues.json so it's updated
+      hash: 9b0813d7226b5440b1d686cd3b8a76333e3fa991
+      body: ''
+      footer:
+        Connects-to: '#2816'
+        connects-to: '#2816'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.38.1
+  date: 2019-12-11T09:30:09.591Z
+- commits:
     - subject: 'default-cards: Backwards compatible versioned cards'
       hash: 773341f19ebe34b27d6c1cad79d89b13a015ecbe
       body: ''
