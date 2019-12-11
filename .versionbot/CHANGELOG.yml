@@ -1,4 +1,20 @@
 - commits:
+    - subject: >-
+        Disable view-support-knowledge-base and re-enable renamed
+        view-all-support-issues
+      hash: ca2e17ff5ff77cc3a06714b3c6c33412f511d8d0
+      body: ''
+      footer:
+        Connects-to: '#2815'
+        connects-to: '#2815'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.38.3
+  date: 2019-12-11T14:33:27.834Z
+- commits:
     - subject: 'github: Deal with invalid and semi-valid email addresses'
       hash: 6f5ba826cc72a51a0bbf6998cb60217b4a262e78
       body: ''
