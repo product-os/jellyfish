@@ -89,3 +89,6 @@ dist/
 
 # Katapult generated files
 deploy-templates/jellyfish-product/product/deploy/kubernetes/templates
+
+# tmp directory
+tmp/
