@@ -5,8 +5,11 @@
  */
 
 const ava = require('ava')
-const Bluebird = require('bluebird')
+const bluebird = require('bluebird')
+const _ = require('lodash')
+const path = require('path')
 const uuid = require('uuid/v4')
+const environment = require('../../../lib/environment')
 const helpers = require('./helpers')
 const macros = require('./macros')
 
@@ -38,10 +41,32 @@ const users = {
 	}
 }
 
+// If the current user is not the community user, logout, then login as the
+// community user.
+const ensureCommunityLogin = async (page) => {
+	const currentUser = await page.evaluate(() => {
+		return window.sdk.auth.whoami()
+	})
+
+	if (currentUser.slug !== `user-${users.community.username}`) {
+		await macros.logout(page)
+		await macros.loginUser(page, users.community)
+
+		return page.evaluate(() => {
+			return window.sdk.auth.whoami()
+		})
+	}
+
+	return currentUser
+}
+
 ava.before(async () => {
 	await helpers.browser.beforeEach({
 		context
 	})
+
+	const user = await context.createUser(users.community)
+	await context.addUserToBalenaOrg(user.id)
 })
 
 ava.after(async () => {
@@ -50,29 +75,25 @@ ava.after(async () => {
 	})
 })
 
-ava.serial('should let users login', async (test) => {
+// Core
+// ============================================================================
+
+ava.serial('core: should let users login', async (test) => {
 	const {
 		page
 	} = context
-
-	await context.createUser(users.community)
 
 	await macros.loginUser(page, users.community)
 
 	test.pass()
 })
 
-ava.serial('should stop users from seeing messages attached to cards they can\'t view', async (test) => {
+ava.serial('core: should stop users from seeing messages attached to cards they can\'t view', async (test) => {
 	const {
 		page
 	} = context
 
-	const communityUser = await page.evaluate(() => {
-		return window.sdk.auth.whoami()
-	})
-
-	await context.addUserToBalenaOrg(communityUser.id)
-	await page.reload()
+	await ensureCommunityLogin(page)
 
 	await macros.waitForThenClickSelector(page, '[data-test="home-channel__group-toggle--org-balena"]')
 	await macros.waitForThenClickSelector(page, '[data-test="home-channel__group-toggle--Support"]')
@@ -105,7 +126,7 @@ ava.serial('should stop users from seeing messages attached to cards they can\'t
 
 	// Wait for a small delay then check again, this means the test will fail if
 	// there is a render issue in a subcomponent
-	await Bluebird.delay(500)
+	await bluebird.delay(500)
 	await page.waitForSelector('.column--support-issue')
 
 	await macros.logout(page)
@@ -142,4 +163,421 @@ ava.serial('should stop users from seeing messages attached to cards they can\'t
 	}, messageText)
 
 	test.not(messageText, lastMessage)
+})
+
+// Card actions
+// ============================================================================
+
+// TODO: Re-enable these tests once we are serving the UI
+// over HTTPS in Docker Compose, as otherwise Chromium
+// disables `navigator.clipboard`
+// See https://stackoverflow.com/a/51823007
+ava.serial.skip('card actions: should let users copy a working permalink', async (test) => {
+	const {
+		page
+	} = context
+
+	await ensureCommunityLogin(page)
+
+	const card = await context.sdk.card.create({
+		slug: `thread-${uuid()}`,
+		type: 'thread'
+	})
+
+	await context.page.goto(
+		`${environment.ui.host}:${environment.ui.port}/${card.id}`)
+
+	await context.page.waitForSelector('.column--thread')
+	await macros.waitForThenClickSelector(page, '[data-test="card-action-menu"]')
+	await macros.waitForThenClickSelector(page, '[data-test="card-action-menu__permalink"]')
+
+	const permalink = await page.evaluate(() => {
+		return window.navigator.clipboard.readText()
+	})
+
+	await page.goto(permalink)
+	await page.reload()
+	await context.page.waitForSelector('.column--thread')
+
+	test.pass()
+})
+
+// TODO: Re-enable these tests once we are serving the UI
+// over HTTPS in Docker Compose, as otherwise Chromium
+// disables `navigator.clipboard`
+// See https://stackoverflow.com/a/51823007
+ava.serial.skip('card actions: should let users copy a card as JSON', async (test) => {
+	const {
+		page
+	} = context
+
+	await ensureCommunityLogin(page)
+
+	const card = await context.sdk.card.create({
+		slug: `thread-${uuid()}`,
+		type: 'thread'
+	})
+
+	await context.page.goto(
+		`${environment.ui.host}:${environment.ui.port}/${card.id}`)
+
+	await macros.waitForThenClickSelector(page, '[data-test="card-action-menu"]')
+	await macros.waitForThenClickSelector(page, '[data-test="card-action-menu__json"]')
+
+	const copiedJSON = await page.evaluate(() => {
+		return window.navigator.clipboard.readText()
+	})
+
+	test.deepEqual(
+		_.omit(card, [ 'links' ]),
+		_.omit(JSON.parse(copiedJSON), [ 'links' ]))
+})
+
+// TODO: Re-enable these tests once we are serving the UI
+// over HTTPS in Docker Compose, as otherwise Chromium
+// disables `navigator.clipboard`
+// See https://stackoverflow.com/a/51823007
+ava.serial.skip('card actions: should let users delete a card', async (test) => {
+	const {
+		page
+	} = context
+
+	await ensureCommunityLogin(page)
+
+	const card = await context.sdk.card.create({
+		slug: `thread-${uuid()}`,
+		type: 'thread'
+	})
+
+	await context.page.goto(
+		`${environment.ui.host}:${environment.ui.port}/${card.id}`)
+
+	await macros.waitForThenClickSelector(page, '[data-test="card-action-menu__delete"]')
+	await macros.waitForThenClickSelector(page, '[data-test="card-delete__submit"]')
+
+	// Wait for the success alert as a heuristic for the action completing
+	// successfully
+	await page.waitForSelector('[data-test="alert--success"]')
+
+	test.pass()
+})
+
+// File upload
+// =============================================================================
+
+ava.serial('files upload: Users should be able to upload an image', async (test) => {
+	const {
+		page
+	} = context
+
+	await ensureCommunityLogin(page)
+
+	// Create a new thread
+	const thread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'thread'
+		})
+	})
+
+	// Navigate to the user profile page
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
+
+	await page.waitForSelector(`.column--slug-${thread.slug}`)
+
+	await page.waitForSelector('input[type="file"]')
+	const input = await page.$('input[type="file"]')
+	await input.uploadFile(path.join(__dirname, 'assets', 'test.png'))
+
+	await page.waitForSelector('.column--thread [data-test="event-card__image"]')
+
+	test.pass()
+})
+
+ava.serial('file upload: Users should be able to upload an image to a support thread', async (test) => {
+	const {
+		page
+	} = context
+
+	await ensureCommunityLogin(page)
+
+	// Create a new thread
+	const thread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'support-thread'
+		})
+	})
+
+	// Navigate to the user profile page
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
+
+	const selector = '.column--support-thread'
+
+	await page.waitForSelector(selector)
+	await page.waitForSelector('input[type="file"]')
+	const input = await page.$('input[type="file"]')
+	await input.uploadFile(path.join(__dirname, 'assets', 'test.png'))
+
+	await page.waitForSelector(`${selector} [data-test="event-card__image"]`)
+
+	test.pass()
+})
+
+ava.serial('file upload: Users should be able to upload a text file', async (test) => {
+	const {
+		page
+	} = context
+
+	await ensureCommunityLogin(page)
+
+	// Create a new thread
+	const thread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'thread'
+		})
+	})
+
+	// Navigate to the user profile page
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
+
+	await page.waitForSelector(`.column--slug-${thread.slug}`)
+
+	await page.waitForSelector('input[type="file"]')
+	const input = await page.$('input[type="file"]')
+	await input.uploadFile(path.join(__dirname, 'assets', 'test.txt'))
+
+	await page.waitForSelector('.column--thread [data-test="event-card__file"]')
+
+	test.pass()
+})
+
+ava.serial('file upload: Users should be able to upload a text file to a support thread', async (test) => {
+	const {
+		page
+	} = context
+
+	await ensureCommunityLogin(page)
+
+	// Create a new thread
+	const thread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'support-thread'
+		})
+	})
+
+	// Navigate to the user profile page
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
+
+	const selector = '.column--support-thread'
+
+	await page.waitForSelector(selector)
+	await page.waitForSelector('input[type="file"]')
+	const input = await page.$('input[type="file"]')
+	await input.uploadFile(path.join(__dirname, 'assets', 'test.txt'))
+
+	await page.waitForSelector(`${selector} [data-test="event-card__file"]`)
+
+	test.pass()
+})
+
+// Lenses
+// =============================================================================
+
+ava.serial('lens: A lens selection should be remembered', async (test) => {
+	const {
+		page
+	} = context
+
+	await ensureCommunityLogin(page)
+
+	await macros.waitForThenClickSelector(page, '[data-test="home-channel__group-toggle--org-balena"]')
+	await macros.waitForThenClickSelector(page, '[data-test="home-channel__group-toggle--Support"]')
+	await macros.waitForThenClickSelector(page, '[data-test="home-channel__item--view-all-support-threads"]')
+
+	await page.waitForSelector('.column--view-all-support-threads')
+
+	await macros.waitForThenClickSelector(page, '[data-test="lens-selector--lens-support-threads"]')
+
+	await bluebird.delay(2000)
+
+	await page.waitForSelector('[data-test="lens--lens-support-threads"]')
+
+	await macros.waitForThenClickSelector(page, '[data-test="home-channel__item--view-all-support-issues"]')
+	await page.waitForSelector('.column--view-all-support-issues')
+
+	await macros.waitForThenClickSelector(page, '[data-test="home-channel__item--view-all-support-threads"]')
+	await page.waitForSelector('.column--view-all-support-threads')
+
+	// Wait for a while as reload can take some time
+	await page.waitForSelector('[data-test="lens--lens-support-threads"]')
+
+	test.pass()
+})
+
+// User Profile
+// =============================================================================
+
+ava.serial('user profile: The send command should default to "shift+enter"', async (test) => {
+	const {
+		page
+	} = context
+
+	const user = await ensureCommunityLogin(page)
+
+	// Create a new thread
+	const thread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'thread'
+		})
+	})
+
+	// Navigate to the user profile page
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${user.id}/${thread.id}`)
+
+	await page.waitForSelector('[data-test="lens--lens-my-user"]')
+
+	await macros.waitForThenClickSelector(page, 'button[role="tab"]:nth-of-type(3)')
+
+	await macros.waitForThenClickSelector(page, '[data-test="lens-my-user__send-command-select"]')
+	await macros.waitForThenClickSelector(page, '[role="menubar"] > div:nth-of-type(1) > button[role="menuitem"]')
+
+	await page.waitForSelector('[data-test="lens-my-user__send-command-select"][value="shift+enter"]')
+
+	const value = await macros.getElementValue(page, '[data-test="lens-my-user__send-command-select"]')
+	test.is(value, 'shift+enter')
+
+	const rand = uuid()
+
+	await page.waitForSelector('.new-message-input')
+	await page.type('textarea', rand)
+	await bluebird.delay(500)
+	await page.keyboard.down('Shift')
+	await page.keyboard.press('Enter')
+	await page.keyboard.up('Shift')
+	await page.waitForSelector('.column--thread [data-test="event-card__message"]')
+
+	test.pass()
+})
+
+ava.serial('user profile: You should be able to change the send command to "enter"', async (test) => {
+	const {
+		page
+	} = context
+
+	await ensureCommunityLogin(page)
+
+	await macros.waitForThenClickSelector(page, '[data-test="lens-my-user__send-command-select"]')
+	await macros.waitForThenClickSelector(page, '[role="menubar"] > div:nth-of-type(3) > button[role="menuitem"]')
+
+	// Wait for the success alert as a heuristic for the action completing
+	// successfully
+	await page.waitForSelector('[data-test="alert--success"]')
+
+	await page.waitForSelector('[data-test="lens-my-user__send-command-select"][value="enter"]')
+
+	const value = await macros.getElementValue(page, '[data-test="lens-my-user__send-command-select"]')
+	test.is(value, 'enter')
+
+	// Create a new thread
+	const thread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'thread'
+		})
+	})
+
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
+
+	await page.waitForSelector('.column--thread')
+
+	const rand = uuid()
+
+	await page.waitForSelector('.new-message-input')
+	await page.type('textarea', rand)
+	await bluebird.delay(500)
+	await page.keyboard.press('Enter')
+	await page.waitForSelector('.column--thread [data-test="event-card__message"]')
+
+	test.pass()
+})
+
+ava.serial('user profile: You should be able to change the send command to "ctrl+enter"', async (test) => {
+	const {
+		page
+	} = context
+
+	const user = await ensureCommunityLogin(page)
+
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${user.id}`)
+
+	await macros.waitForThenClickSelector(page, 'button[role="tab"]:nth-of-type(3)')
+
+	await macros.waitForThenClickSelector(page, '[data-test="lens-my-user__send-command-select"]')
+	await macros.waitForThenClickSelector(page, '[role="menubar"] > div:nth-of-type(2) > button[role="menuitem"]')
+
+	await page.waitForSelector('[data-test="lens-my-user__send-command-select"][value="ctrl+enter"]')
+
+	const value = await macros.getElementValue(page, '[data-test="lens-my-user__send-command-select"]')
+	test.is(value, 'ctrl+enter')
+
+	// Wait for the success alert as a heuristic for the action completing
+	// successfully
+	await page.waitForSelector('[data-test="alert--success"]')
+
+	// Create a new thread
+	const thread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'thread'
+		})
+	})
+
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
+
+	await page.waitForSelector('.column--thread')
+
+	// Unfortunately puppeteer Control+Enter doesn't seem to work at all
+	// TODO: Fix this test so it works
+	/*
+	const rand = uuid()
+
+	await page.waitForSelector('.new-message-input')
+	await page.type('textarea', rand)
+	await page.keyboard.down('ControlLeft')
+	await page.keyboard.press('Enter')
+	await page.keyboard.up('ControlLeft')
+	await page.waitForSelector('.column--thread [data-test="event-card__message"]')
+	*/
+
+	test.pass()
+})
+
+// Views
+// =============================================================================
+
+ava.serial('views: Should be able to save a new view', async (test) => {
+	const {
+		page
+	} = context
+
+	await ensureCommunityLogin(page)
+
+	const name = `test-view-${uuid()}`
+
+	// Navigate to the all messages view
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/view-all-messages`)
+
+	await page.waitForSelector('.column--view-all-messages')
+
+	await macros.waitForThenClickSelector(page, '[data-test="filters__add-filter"]')
+
+	await page.waitForSelector('[data-test="filters__filter-edit-form"] input')
+
+	await macros.setInputValue(page, '[data-test="filters__filter-edit-form"] input', 'foobar')
+	await macros.waitForThenClickSelector(page, '[data-test="filters__save-filter"]')
+	await macros.waitForThenClickSelector(page, '[data-test="filters__open-save-view-modal"]')
+	await macros.setInputValue(page, '[data-test="filters__save-view-name"]', name)
+	await macros.waitForThenClickSelector(page, '[data-test="filters__save-view"]')
+
+	await macros.waitForThenClickSelector(page, '[data-test="home-channel__group-toggle--__myViews"]')
+	await macros.waitForThenClickSelector(page, `[data-test*="${name}"]`)
+
+	test.pass()
 })
