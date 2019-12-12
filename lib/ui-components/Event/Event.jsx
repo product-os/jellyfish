@@ -344,7 +344,7 @@ export default class Event extends React.Component {
 					return
 				}
 
-				const trimmed = text.slice(1)
+				const trimmed = text.slice(1).toLowerCase()
 
 				if (trimmed === username) {
 					element.className += ' rendition-tag--personal'
