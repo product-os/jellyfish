@@ -1,4 +1,27 @@
 - commits:
+    - subject: 'ui: Fix broken support test'
+      hash: faf8be531de908708b5f4f3cbd485b91426ff9c3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: >-
+        sync/worker/action-library: Backwards compatible version support in
+        slugs
+      hash: f066daa590b9122fa47b4e4fe1d297e3e4a529f9
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.43.0
+  date: 2019-12-12T20:56:37.637Z
+- commits:
     - subject: 'Oauth: Add env vars for balena api'
       hash: a4b22b34be3332cfd155d9b14ca34e74822e00ad
       body: ''
