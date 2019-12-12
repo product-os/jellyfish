@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'e2e: Improve e2e UI test speed by condensing tests into one file'
+      hash: df8fa57c248015e2d0cfdbde1f8a4b37b5453dcf
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 24.40.1
+  date: 2019-12-12T16:05:27.557Z
+- commits:
     - subject: Add "Workflows" card type and view
       hash: 17f38091b7508535cc67bf1b7f5735f736e8ad4c
       body: ''
