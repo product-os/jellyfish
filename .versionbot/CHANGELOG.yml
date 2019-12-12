@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix pending messages in timeline lifecycle
+      hash: e14b0463b77d3aafa38e452d0f7c1825708b5963
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+  version: 24.38.5
+  date: 2019-12-11T16:45:57.722Z
+- commits:
     - subject: 'UI: Fix bug where form unnecessarily runs a full re-render'
       hash: cdcdb85b65b4f64d1a6bed645ac83c30d0f02403
       body: |
