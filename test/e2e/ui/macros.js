@@ -107,14 +107,22 @@ exports.setInputValue = async (page, selector, value) => {
 }
 
 exports.logout = async (page) => {
-	await exports.waitForThenClickSelector(page, '.user-menu-toggle')
-	await page.waitForSelector('.user-menu', exports.WAIT_OPTS)
-	await exports.waitForThenClickSelector(page, '.user-menu__logout')
-	await exports.retry(3, async () => {
+	// First check if the user is already logged out
+	try {
 		await page.waitForSelector('.login-page', {
-			timeout: 2 * 1000
+			timeout: 500
 		})
-	})
+		return
+	} catch (error) {
+		await exports.waitForThenClickSelector(page, '.user-menu-toggle')
+		await page.waitForSelector('.user-menu', exports.WAIT_OPTS)
+		await exports.waitForThenClickSelector(page, '.user-menu__logout')
+		await exports.retry(3, async () => {
+			await page.waitForSelector('.login-page', {
+				timeout: 2 * 1000
+			})
+		})
+	}
 }
 
 exports.waitForThenClickSelector = async (page, selector) => {
