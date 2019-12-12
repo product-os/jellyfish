@@ -48,8 +48,8 @@ const COLUMNS = [
 class CardTable extends BaseLens {
 	render () {
 		const tail = this.props.tail ? _.map(this.props.tail, (card) => {
-			const update = _.find(_.get(card, [ 'links', 'has attached element' ]), {
-				type: 'update'
+			const update = _.find(_.get(card, [ 'links', 'has attached element' ]), (linkedCard) => {
+				return [ 'update', 'update@1.0.0' ].includes(linkedCard.type)
 			})
 			return {
 				name: card.name,

@@ -84,9 +84,10 @@ const OrgCard = (props) => {
 }
 
 const cardMapper = (card) => {
-	const message = _.find(_.get(card, [ 'links', 'has attached element' ]), {
-		type: 'message'
+	const message = _.find(_.get(card, [ 'links', 'has attached element' ]), (linkedCard) => {
+		return [ 'message', 'message@1.0.0' ].includes(linkedCard.type)
 	})
+
 	return {
 		id: card.id,
 		type: card.type,

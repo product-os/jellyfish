@@ -37,7 +37,8 @@ ava.beforeEach(async () => {
 	const threads = await context.sdk.query({
 		properties: {
 			type: {
-				const: 'support-thread'
+				type: 'string',
+				enum: [ 'support-thread', 'support-thread@1.0.0' ]
 			},
 			active: {
 				const: true

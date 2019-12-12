@@ -389,10 +389,14 @@ export const colorHash = _.memoize((input) => {
 export const getCreator = async (getActorFn, card) => {
 	const timeline = _.sortBy(_.get(card.links, [ 'has attached element' ], []), 'data.timestamp')
 	let createCard = _.find(timeline, {
+		type: 'create@1.0.0'
+	}) || _.find(timeline, {
 		type: 'create'
 	})
 	if (!createCard) {
 		createCard = _.find(timeline, {
+			type: 'message@1.0.0'
+		}) || _.find(timeline, {
 			type: 'message'
 		})
 	}

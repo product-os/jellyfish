@@ -136,13 +136,15 @@ export class SupportThreads extends React.Component {
 
 			// Iterate over the timeline
 			for (const event of timeline) {
+				const typeBase = event.type.split('@')[0]
+
 				// If the thread has re-opened then the we are waiting on action
 				// from the agent and can break out of the loop
-				if (event.type === 'update' && event.name === THREAD_REOPEN_NAME) {
+				if (typeBase === 'update' && event.name === THREAD_REOPEN_NAME) {
 					break
 				}
 
-				if (event.type === 'message' || event.type === 'whisper') {
+				if (typeBase === 'message' || typeBase === 'whisper') {
 					// If the message contains the 'pendingagentresponse' tag, then we are
 					// waiting on a response from the agent and can break out of the loop
 					if (event.data.payload.message && event.data.payload.message.match(/#pendingagentresponse/gi)) {

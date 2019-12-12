@@ -105,7 +105,8 @@ class CardChatSummary extends React.Component {
 		// Get latest message text
 		for (let index = timeline.length - 1; index >= 0; index--) {
 			const event = timeline[index]
-			if (event.type === 'message' || event.type === 'whisper') {
+			const typeBase = event.type.split('@')[0]
+			if (typeBase === 'message' || typeBase === 'whisper') {
 				latestMessageText = _.get(event, [ 'data', 'payload', 'message' ], '')
 					.split('\n')
 					.shift()

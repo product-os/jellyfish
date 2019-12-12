@@ -42,7 +42,7 @@ class EditLens extends React.Component {
 		} = this.props.channel.data.head
 
 		const cardType = _.find(types, {
-			slug: card.type
+			slug: card.type.split('@')[0]
 		})
 
 		// Omit known computed values from the schema

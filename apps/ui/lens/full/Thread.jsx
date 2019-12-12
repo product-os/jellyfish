@@ -41,7 +41,7 @@ class Thread extends React.Component {
 		} = this.props
 
 		const typeCard = _.find(types, {
-			slug: card.type
+			slug: card.type.split('@')[0]
 		})
 
 		return (

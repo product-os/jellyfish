@@ -72,7 +72,7 @@ ava('It should change the actor after an update', async (test) => {
 		name: null,
 		slug: 'whisper-c643e8ee-df73-4592-b9d3-7c6e4f5ca72e',
 		tags: [],
-		type: 'whisper',
+		type: 'whisper@1.0.0',
 		links: {},
 		active: true,
 		markers: [],

@@ -63,14 +63,14 @@ class CreateLens extends React.Component {
 
 				linkOption = _.find(constants.LINKS, {
 					data: {
-						from: onDone.target.type,
+						from: onDone.target.type.split('@')[0],
 						to: selectedTypeTarget.slug
 					}
 				})
 			} else {
 				linkOption = _.find(constants.LINKS, {
 					data: {
-						from: onDone.target.type
+						from: onDone.target.type.split('@')[0]
 					}
 				})
 
@@ -145,7 +145,7 @@ class CreateLens extends React.Component {
 			type: selectedTypeTarget.slug
 		}, this.state.newCardModel))
 
-		if (newCard.type === 'org' && newCard.name) {
+		if (newCard.type.split('@')[0] === 'org' && newCard.name) {
 			newCard.slug = `org-${helpers.slugify(newCard.name)}`
 		}
 

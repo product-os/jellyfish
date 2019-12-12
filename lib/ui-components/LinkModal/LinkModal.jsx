@@ -28,7 +28,8 @@ export default class LinkModal extends React.Component {
 			target
 		} = props
 
-		const linkType = _.find(constants.LINKS, [ 'data.from', card.type ])
+		const linkType = _.find(constants.LINKS, [ 'data.from', card.type ]) ||
+			_.find(constants.LINKS, [ 'data.from', card.type.split('@')[0] ])
 
 		this.state = {
 			results: [],
@@ -96,7 +97,7 @@ export default class LinkModal extends React.Component {
 
 			// Retrieve the target type of the selected link
 			const typeCard = _.find(this.props.types, {
-				slug: linkType.data.to
+				slug: linkType.data.to.split('@')[0]
 			})
 
 			// Create full text search query based on the target type and search term
@@ -146,11 +147,13 @@ export default class LinkModal extends React.Component {
 			return null
 		}
 
+		const type = card.type.split('@')[0]
+
 		// Create an array of available link types, then map over them and move the
 		// data.title file to the root of the object, as the rendition Select
 		// component can't use a non-root field for the `labelKey` prop
 		// TODO make the Select component allow nested fields for the `labelKey` prop
-		let linkTypeTargets = _.filter(constants.LINKS, [ 'data.from', card.type ])
+		let linkTypeTargets = _.filter(constants.LINKS, [ 'data.from', type ])
 			.map((constraint) => {
 				return Object.assign({}, constraint, {
 					title: constraint.data.title
@@ -160,11 +163,11 @@ export default class LinkModal extends React.Component {
 		// If the target prop was provided, restrict link options to those that can
 		// link to the target
 		if (target) {
-			linkTypeTargets = _.filter(linkTypeTargets, [ 'data.to', target.type ])
+			linkTypeTargets = _.filter(linkTypeTargets, [ 'data.to', target.type.split('@')[0] ])
 		}
 
 		if (!linkTypeTargets.length) {
-			console.error(`No known link types for ${card.type}`)
+			console.error(`No known link types for ${type}`)
 
 			return null
 		}
@@ -176,8 +179,8 @@ export default class LinkModal extends React.Component {
 			label: selectedTarget.name || selectedTarget.slug
 		} : null
 
-		const typeCard = _.find(types, [ 'slug', card.type ])
-		const typeName = typeCard ? typeCard.name : card.type
+		const typeCard = _.find(types, [ 'slug', type ])
+		const typeName = typeCard ? typeCard.name : type
 
 		const title = `Link this ${typeName} to ${linkTypeTargets.length === 1
 			? linkTypeTargets[0].title : 'another element'}`

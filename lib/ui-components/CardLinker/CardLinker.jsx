@@ -94,7 +94,7 @@ class CardLinker extends React.Component {
 		const availableTypes = types.filter((type) => {
 			return _.find(LINKS, {
 				data: {
-					from: card.type
+					from: card.type.split('@')[0]
 				}
 			})
 		})
@@ -112,11 +112,15 @@ class CardLinker extends React.Component {
 			showLinkModal
 		} = this.state
 
-		if (!_.some(LINKS, [ 'data.from', card.type ])) {
+		const type = card.type.split('@')[0]
+
+		if (!_.some(LINKS, [ 'data.from', card.type ]) &&
+			!_.some(LINKS, [ 'data.from', type ])) {
 			return null
 		}
-		const typeCard = _.find(types, [ 'slug', card.type ])
-		const typeName = typeCard ? typeCard.name : card.type
+		const typeCard = _.find(types, [ 'slug', card.type ]) ||
+			_.find(types, [ 'slug', type ])
+		const typeName = typeCard ? typeCard.name : type
 
 		return connectDragSource(
 			<div>

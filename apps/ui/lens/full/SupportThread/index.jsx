@@ -57,7 +57,8 @@ const Extract = styled(Box) `
 
 const getHighlights = (card) => {
 	const list = _.sortBy(_.filter(_.get(card, [ 'links', 'has attached element' ]), (event) => {
-		if (!_.includes([ 'message', 'whisper' ], event.type)) {
+		const typeBase = event.type.split('@')[0]
+		if (!_.includes([ 'message', 'whisper' ], typeBase)) {
 			return false
 		}
 		const message = _.get(event, [ 'data', 'payload', 'message' ])
@@ -282,7 +283,7 @@ class SupportThreadBase extends React.Component {
 			linkedProductImprovements
 		} = this.state
 		const typeCard = _.find(this.props.types, {
-			slug: card.type
+			slug: card.type.split('@')[0]
 		})
 
 		const {
