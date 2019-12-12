@@ -97,7 +97,7 @@ module.exports = class NoOpIntegration {
 				time: new Date(),
 				actor: event.data.payload.actor,
 				card: {
-					type: 'card',
+					type: 'card@1.0.0',
 					slug: event.slug,
 					version: '1.0.0',
 					data: {

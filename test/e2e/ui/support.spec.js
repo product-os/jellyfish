@@ -123,7 +123,7 @@ ava.serial('You should be able to link support threads to existing support issue
 
 	test.is(
 		issueWithLinks.links['support issue has attached support thread'][0].type,
-		'support-thread'
+		'support-thread@1.0.0'
 	)
 })
 
