@@ -7,6 +7,7 @@
 const bluebird = require('bluebird')
 const _ = require('lodash')
 const environment = require('../../../lib/environment')
+const fs = require('fs')
 
 exports.WAIT_OPTS = {
 	timeout: 60 * 1000
@@ -15,7 +16,16 @@ exports.WAIT_OPTS = {
 // Useful for debugging failed tests
 exports.screenshot = async (test, page) => {
 	test.context.screenshots = (test.context.screenshots || 0) + 1
-	const dir = '/tmp/test-results/screenshots'
+
+	const dir = './tmp/test-results/screenshots'
+
+	// Make directory before using it
+	fs.mkdir(dir, {
+		recursive: true
+	}, (err) => {
+		if (err) throw err
+	})
+
 	const file = `${test.title}.${test.context.screenshots}.png`
 	const path = `${dir}/${file}`
 	await page.screenshot({

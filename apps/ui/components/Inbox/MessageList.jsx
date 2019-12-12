@@ -124,6 +124,7 @@ class MessageList extends React.Component {
 				<div
 					ref={this.bindScrollArea}
 					onScroll={this.handleScroll}
+					data-test={'messageList-ListWrapper'}
 					style={{
 						flex: 1,
 						overflowY: 'auto',

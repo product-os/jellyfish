@@ -187,6 +187,86 @@ ava.serial('Messages that ping a user should appear in their inbox', async (test
 	test.pass()
 })
 
+ava.serial('Only messages that ping a user should appear in their inbox', async (test) => {
+	const {
+		user2,
+		page,
+		incognitoPage
+	} = context
+
+	// Do things with the SDK to trigger the "status messages"
+	// like getting refresh tokens
+	await page.evaluate(() => {
+		return window.sdk.auth.refreshToken()
+	})
+
+	await page.evaluate(() => {
+		return window.sdk.auth.refreshToken()
+	})
+
+	await page.evaluate(() => {
+		return window.sdk.auth.refreshToken()
+	})
+
+	// Making a thread
+	const thread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'thread'
+		})
+	})
+
+	// Then we send 2 tagged messages to the user
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
+
+	const columnSelector = `.column--slug-${thread.slug}`
+	await page.waitForSelector(columnSelector)
+
+	const msg = `@${user2.slug.slice(5)} ${uuid()}`
+
+	await page.waitForSelector('.new-message-input')
+
+	await macros.createChatMessage(page, columnSelector, msg)
+	await macros.createChatMessage(page, columnSelector, msg)
+
+	// Navigate to the inbox page
+	await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}/inbox`)
+
+	await Bluebird.delay(10000)
+
+	// Get all children of the messageList-ListWrapper
+	// These should be all messages
+	const children = await incognitoPage.$$('[data-test="messageList-ListWrapper"] > div')
+
+	const messagesWithUser = []
+
+	// Loop throught all the children to get the labels
+	for (const key in children) {
+		if (children.hasOwnProperty(key)) {
+			const child = children[key]
+
+			// Get the labels
+			const text = await incognitoPage.evaluate((ele) => {
+				return ele.textContent
+			}, child)
+
+			// Check if labels include the @user2
+			if (text.includes(user2.slug.slice(5))) {
+				// Push all texts to an array
+				messagesWithUser.push(true)
+			} else {
+				messagesWithUser.push(false)
+			}
+		}
+	}
+
+	// Check if array is Expected length
+	test.is(messagesWithUser.every((currentValue) => {
+		return currentValue === true
+	}), true)
+
+	test.pass()
+})
+
 ava.serial('Users should be able to mark all messages as read from their inbox', async (test) => {
 	const {
 		user2,
@@ -220,6 +300,8 @@ ava.serial('Users should be able to mark all messages as read from their inbox',
 	// Leave a small delay for the message to be marked as read and for the change
 	// to be propogated to the UI
 	await Bluebird.delay(10000)
+
+	await macros.waitForSelectorToDisappear(incognitoPage, '[data-test="event-card__message"]')
 
 	const messages = await incognitoPage.$$('[data-test="event-card__message"]')
 
