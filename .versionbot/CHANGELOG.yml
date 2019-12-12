@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'Oauth: Add env vars for balena api'
+      hash: a4b22b34be3332cfd155d9b14ca34e74822e00ad
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Connects-to: '#2724'
+        connects-to: '#2724'
+      author: Kakhaber
+  version: 24.42.0
+  date: 2019-12-12T19:10:35.125Z
+- commits:
     - subject: 'ui/ui-components/livechat/chat-widget: Versions support'
       hash: c576d143df176015339f51be836e8428935f89bd
       body: ''
