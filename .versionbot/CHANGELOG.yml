@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add "Workflows" card type and view
+      hash: 17f38091b7508535cc67bf1b7f5735f736e8ad4c
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 24.40.0
+  date: 2019-12-12T13:57:19.407Z
+- commits:
     - subject: 'Module: Update skhema to patched version'
       hash: 54bf0f71e92e7cacd2806c6133ee293373359d3d
       body: ''
