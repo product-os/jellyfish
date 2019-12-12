@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'SDK: Allow short usernames'
+      hash: 92553cb35919d4e1709162d4173b7141a6b94850
+      body: |
+        This better mirrors what is available in the API
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 24.39.0
+  date: 2019-12-12T09:23:28.400Z
+- commits:
     - subject: Fix pending messages in timeline lifecycle
       hash: e14b0463b77d3aafa38e452d0f7c1825708b5963
       body: ''
