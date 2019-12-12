@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'ui/ui-components/livechat/chat-widget: Versions support'
+      hash: c576d143df176015339f51be836e8428935f89bd
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.41.0
+  date: 2019-12-12T17:38:28.859Z
+- commits:
     - subject: 'e2e: Improve e2e UI test speed by condensing tests into one file'
       hash: df8fa57c248015e2d0cfdbde1f8a4b37b5453dcf
       body: ''
