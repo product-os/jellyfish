@@ -11,6 +11,9 @@
     "schema": {
       "type": "object",
       "properties": {
+        "name": {
+          "type": [ "string", "null" ]
+        },
         "tags": {
           "type": "array",
           "items": {
