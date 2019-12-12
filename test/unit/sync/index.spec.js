@@ -332,8 +332,8 @@ ava('.OAUTH_INTEGRATIONS should contain no duplicates', (test) => {
 	test.deepEqual(sync.OAUTH_INTEGRATIONS, _.uniq(sync.OAUTH_INTEGRATIONS))
 })
 
-ava('.OAUTH_INTEGRATIONS should contain outreach', (test) => {
-	test.true(sync.OAUTH_INTEGRATIONS.includes('outreach'))
+ava('.OAUTH_INTEGRATIONS should contain outreach and balena-api', (test) => {
+	test.deepEqual([ 'balena-api', 'outreach' ], _.sortBy(sync.OAUTH_INTEGRATIONS))
 })
 
 ava('.associate() should return null given an invalid integration', async (test) => {
