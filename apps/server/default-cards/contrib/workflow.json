@@ -1,0 +1,38 @@
+{
+  "slug": "workflow",
+  "type": "type",
+  "version": "1.0.0",
+  "name": "Workflow",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "$$formula": "AGGREGATE($events, 'tags')"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string"
+            },
+            "diagram": {
+              "type": "string",
+              "format": "mermaid"
+            }
+          }
+        }
+      }
+    }
+  },
+  "requires": [],
+  "capabilities": []
+}
