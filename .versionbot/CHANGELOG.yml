@@ -1,4 +1,29 @@
 - commits:
+    - subject: 'Module: Update skhema to patched version'
+      hash: 54bf0f71e92e7cacd2806c6133ee293373359d3d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+        Co-Authored-By: Lucian Buzzo <lucianbuzzo@users.noreply.github.com>
+        co-authored-by: Lucian Buzzo <lucianbuzzo@users.noreply.github.com>
+      author: StefKors
+    - subject: 'Test: Only messages that @user should appear in their inbox'
+      hash: 97c175b23175d9c83cace6c3e6fd1c4480e91504
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+        Co-Authored-By: Lucian Buzzo <lucianbuzzo@users.noreply.github.com>
+        co-authored-by: Lucian Buzzo <lucianbuzzo@users.noreply.github.com>
+      author: StefKors
+  version: 24.39.1
+  date: 2019-12-12T12:47:17.515Z
+- commits:
     - subject: 'SDK: Allow short usernames'
       hash: 92553cb35919d4e1709162d4173b7141a6b94850
       body: |
