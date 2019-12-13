@@ -1,4 +1,16 @@
 - commits:
+    - subject: Use subquery instead of join when querying cards with links
+      hash: 2779a48d036a65695f68699fb7cf2b8d62472c4a
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.45.0
+  date: 2019-12-13T08:01:24.240Z
+- commits:
     - subject: Move slugify to utils
       hash: 52a451fd4e19adfb5dde8db5b1fee45e01e60a2c
       body: ''
