@@ -255,17 +255,25 @@ export default class HomeChannel extends React.Component {
 				<Flex justifyContent="space-between" style={{
 					position: 'relative'
 				}}>
-					<Button plain={true} className="user-menu-toggle" py={3} pl={3} pr={2} onClick={this.showMenu}>
+					<Button plain={true} className="user-menu-toggle" py={3} pl={3} pr={2} onClick={this.showMenu} style={{
+						display: 'flex',
+						maxWidth: '100%'
+					}}>
 						<Avatar
 							name={username}
 							url={_.get(user, [ 'data', 'avatar' ])}
 						/>
-						{Boolean(username) && <Txt mx={2}>{username}</Txt>}
+						{Boolean(username) && <Txt mx={2} style={{
+							textOverflow: 'ellipsis',
+							flex: '1 1 0%',
+							whiteSpace: 'nowrap',
+							overflow: 'hidden'
+						}}>{username}</Txt>}
 
 						<Icon name="caret-down"/>
 
 						{mentions && mentions.length > 0 && (
-							<MentionsCount>{mentions.length}</MentionsCount>
+							<MentionsCount>{(mentions.length >= 100) ? '99+' : mentions.length}</MentionsCount>
 						)}
 					</Button>
 				</Flex>
