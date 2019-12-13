@@ -1,4 +1,43 @@
 - commits:
+    - subject: 'Fix: keep MentionsCount a circle at numbers < 10'
+      hash: 53498ee1f8c703a7eb4d30db336830a42d6df6b2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+    - subject: 'Fix: remove fixed width on username'
+      hash: 977b1aa768c7708a7862bc542b18d1cd1e36aa42
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+    - subject: 'UI: Move MentionsCount to make space for longer usernames'
+      hash: bafd647cf35cab1d1d5c41fb60844853f42a2733
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+    - subject: 'Fix #2878: Truncate long usernames'
+      hash: 0e82113f40a518bfe412ea09eacc8cb9877890c1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+  version: 24.46.1
+  date: 2019-12-13T14:53:56.064Z
+- commits:
     - subject: 'Integrations: change balena-api integration role'
       hash: 0f0d8c21ef51f5b408a709b431ea88f5a77c283b
       body: ''
