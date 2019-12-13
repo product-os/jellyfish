@@ -255,14 +255,18 @@ export default class HomeChannel extends React.Component {
 				<Flex justifyContent="space-between" style={{
 					position: 'relative'
 				}}>
-					<Button plain={true} className="user-menu-toggle" py={3} pl={3} pr={2} onClick={this.showMenu}>
+					<Button plain={true} className="user-menu-toggle" py={3} pl={3} pr={2} onClick={this.showMenu} style={{
+						display: 'flex',
+						maxWidth: '100%'
+					}}>
 						<Avatar
 							name={username}
 							url={_.get(user, [ 'data', 'avatar' ])}
 						/>
 						{Boolean(username) && <Txt mx={2} style={{
 							textOverflow: 'ellipsis',
-							width: '90px',
+							flex: '1 1 0%',
+							whiteSpace: 'nowrap',
 							overflow: 'hidden'
 						}}>{username}</Txt>}
 
