@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'Integrations: change balena-api integration role'
+      hash: 0f0d8c21ef51f5b408a709b431ea88f5a77c283b
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Connects-to: '#2724'
+        connects-to: '#2724'
+      author: Kakhaber
+  version: 24.46.0
+  date: 2019-12-13T13:34:45.932Z
+- commits:
     - subject: 'Sync: Fix bug where messages aren''t synced on unversioned threads'
       hash: 5886b646f8213453ce2b7b64e1f87405e0a4e6d7
       body: ''
