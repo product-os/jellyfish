@@ -25,6 +25,7 @@ const MentionsCount = styled(Box) `
 	background: rgb(255, 197, 35);
 	color: white;
 	width: auto;
+	min-width: 18px;
 	height: 18px;
 	padding: 0px 4px;
 	border-radius: 18px;
