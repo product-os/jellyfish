@@ -24,14 +24,17 @@ const getFontSize = (string) => {
 const MentionsCount = styled(Box) `
 	background: rgb(255, 197, 35);
 	color: white;
-	width: 18px;
+	width: auto;
 	height: 18px;
-	padding: 2px;
-	border-radius: 100%;
+	padding: 0px 4px;
+	border-radius: 18px;
 	transform: translateX(6px);
 	display: inline-flex;
 	justify-content: center;
 	align-items: center;
+	position: absolute;
+	left: 30px;
+	bottom: 10px;
 	font-size: ${(props) => {
 		return getFontSize(props.children)
 	}}px;
