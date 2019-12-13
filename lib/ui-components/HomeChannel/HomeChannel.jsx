@@ -260,12 +260,16 @@ export default class HomeChannel extends React.Component {
 							name={username}
 							url={_.get(user, [ 'data', 'avatar' ])}
 						/>
-						{Boolean(username) && <Txt mx={2}>{username}</Txt>}
+						{Boolean(username) && <Txt mx={2} style={{
+							textOverflow: 'ellipsis',
+							width: '90px',
+							overflow: 'hidden'
+						}}>{username}</Txt>}
 
 						<Icon name="caret-down"/>
 
 						{mentions && mentions.length > 0 && (
-							<MentionsCount>{mentions.length}</MentionsCount>
+							<MentionsCount>{(mentions.length >= 100) ? '99+' : mentions.length}</MentionsCount>
 						)}
 					</Button>
 				</Flex>
