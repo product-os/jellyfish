@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'Sync: Fix bug where messages aren''t synced on unversioned threads'
+      hash: 5886b646f8213453ce2b7b64e1f87405e0a4e6d7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 24.45.1
+  date: 2019-12-13T10:07:14.203Z
+- commits:
     - subject: Use subquery instead of join when querying cards with links
       hash: 2779a48d036a65695f68699fb7cf2b8d62472c4a
       body: ''
