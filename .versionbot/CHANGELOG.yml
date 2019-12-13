@@ -1,4 +1,16 @@
 - commits:
+    - subject: Move slugify to utils
+      hash: 52a451fd4e19adfb5dde8db5b1fee45e01e60a2c
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Connects-to: '#2724'
+        connects-to: '#2724'
+      author: Kakhaber
+  version: 24.44.0
+  date: 2019-12-12T22:12:14.946Z
+- commits:
     - subject: 'ui: Fix broken support test'
       hash: faf8be531de908708b5f4f3cbd485b91426ff9c3
       body: ''
