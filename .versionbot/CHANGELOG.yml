@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'UI: Update rendition to fix bug in sequence diagrams'
+      hash: 49e1e9f21e066ab7566b3c268f5a78942fbbf624
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+    - subject: Add name property to workflow schema
+      hash: 9f0404b111a44a97df0e3883020e41c621c2bf6a
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 24.47.0
+  date: 2019-12-13T17:35:09.923Z
+- commits:
     - subject: 'Fix: keep MentionsCount a circle at numbers < 10'
       hash: 53498ee1f8c703a7eb4d30db336830a42d6df6b2
       body: ''
