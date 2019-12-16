@@ -5,6 +5,9 @@
  */
 
 import clone from 'deep-copy'
+import {
+	circularDeepEqual
+} from 'fast-equals'
 import * as jsonpatch from 'fast-json-patch'
 import * as _ from 'lodash'
 import React from 'react'
@@ -65,8 +68,11 @@ class EditLens extends React.Component {
 		this.setFreeFieldData = this.setFreeFieldData.bind(this)
 		this.setLocalSchema = this.setLocalSchema.bind(this)
 		this.close = this.close.bind(this)
+		this.handleFormChange = this.handleFormChange.bind(this)
+	}
 
-		this.handleFormChange = _.debounce(this.handleFormChange.bind(this), 500)
+	shouldComponentUpdate (nextProps, nextState) {
+		return !(circularDeepEqual(nextProps, this.props) && circularDeepEqual(nextState, this.state))
 	}
 
 	close () {
@@ -114,7 +120,7 @@ class EditLens extends React.Component {
 	}
 
 	setFreeFieldData (data) {
-		const model = _.clone(this.state.editModel)
+		const model = clone(this.state.editModel)
 		_.forEach(data, (value, key) => {
 			_.set(model, [ 'data', key ], value)
 		})
