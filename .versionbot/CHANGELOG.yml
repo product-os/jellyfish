@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'Oauth: Split authorize and associate actions'
+      hash: d73a2ca09dde558a807729fab7f902a2e6aecc16
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Connects-to: '#2724'
+        connects-to: '#2724'
+      author: Kakhaber
+  version: 24.48.0
+  date: 2019-12-16T20:51:58.908Z
+- commits:
     - subject: Fix workflow view schema to match versioned workflows
       hash: 1988ae704ffbe6c1c984efea7b4c2af2d07256a9
       body: ''
