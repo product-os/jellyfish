@@ -16,7 +16,7 @@
           "properties": {
             "type": {
               "type": "string",
-              "const": "workflow"
+              "enum": [ "workflow", "workflow@1.0.0" ]
             }
           },
           "additionalProperties": true,
