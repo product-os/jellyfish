@@ -1,4 +1,16 @@
 - commits:
+    - subject: move absolute positioning to specific usecase
+      hash: d505b57c21d98deba15c15eb46a3be7e45a7d6fe
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+  version: 24.47.2
+  date: 2019-12-16T10:50:21.414Z
+- commits:
     - subject: >-
         Remove test jobs with "FEATURE_FLAG_EXPERIMENTAL: 1", as we don't use
         graph-like queries
