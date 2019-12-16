@@ -114,7 +114,7 @@ class EditLens extends React.Component {
 	}
 
 	setFreeFieldData (data) {
-		const model = this.state.editModel
+		const model = _.clone(this.state.editModel)
 		_.forEach(data, (value, key) => {
 			_.set(model, [ 'data', key ], value)
 		})
@@ -133,18 +133,22 @@ class EditLens extends React.Component {
 
 	// TODO: Homogenise form rendering between the create and edit lenses
 	render () {
-		const localSchema = helpers.getLocalSchema(this.state.editModel)
+		const {
+			editModel
+		} = this.state
+		const localSchema = helpers.getLocalSchema(editModel)
 		const {
 			card
 		} = this.props.channel.data.head
 
 		const freeFieldData = _.reduce(localSchema.properties, (carry, _value, key) => {
-			const cardValue = _.get(card, [ 'data', key ])
+			const cardValue = _.get(editModel, [ 'data', key ])
 			if (cardValue) {
 				carry[key] = cardValue
 			}
 			return carry
 		}, {})
+
 		const uiSchema = _.get(this.state.schema, [ 'properties', 'name' ])
 			? {
 				'ui:order': [ 'name', '*' ]
@@ -193,7 +197,7 @@ class EditLens extends React.Component {
 			})
 		}
 
-		const isValid = skhema.isValid(this.state.schema, helpers.removeUndefinedArrayItems(this.state.editModel)) &&
+		const isValid = skhema.isValid(this.state.schema, helpers.removeUndefinedArrayItems(editModel)) &&
             skhema.isValid(localSchema, helpers.removeUndefinedArrayItems(freeFieldData))
 
 		return (
@@ -213,7 +217,7 @@ class EditLens extends React.Component {
 					<Form
 						uiSchema={uiSchema}
 						schema={schema}
-						value={this.state.editModel}
+						value={editModel}
 						onFormChange={this.handleFormChange}
 						hideSubmitButton={true}
 					/>
