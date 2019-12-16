@@ -273,7 +273,11 @@ export default class HomeChannel extends React.Component {
 						<Icon name="caret-down"/>
 
 						{mentions && mentions.length > 0 && (
-							<MentionsCount>{(mentions.length >= 100) ? '99+' : mentions.length}</MentionsCount>
+							<MentionsCount style={{
+								position: 'absolute',
+								left: '30px',
+								bottom: '10px'
+							}}>{(mentions.length >= 100) ? '99+' : mentions.length}</MentionsCount>
 						)}
 					</Button>
 				</Flex>

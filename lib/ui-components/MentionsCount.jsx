@@ -33,9 +33,7 @@ const MentionsCount = styled(Box) `
 	display: inline-flex;
 	justify-content: center;
 	align-items: center;
-	position: absolute;
-	left: 30px;
-	bottom: 10px;
+	font-weight: bold;
 	font-size: ${(props) => {
 		return getFontSize(props.children)
 	}}px;
