@@ -70,7 +70,7 @@ module.exports = async (context) => {
 	const userCard = await jellyfish.replaceCard(
 		context, jellyfish.sessions.admin, {
 			slug: `user-${environment.test.user.username}`,
-			type: 'user',
+			type: 'user@1.0.0',
 			version: '1.0.0',
 			requires: [],
 			capabilities: [],
@@ -124,7 +124,7 @@ module.exports = async (context) => {
 
 		await jellyfish.replaceCard(
 			context, jellyfish.sessions.admin, {
-				type: 'link',
+				type: 'link@1.0.0',
 				name: 'has member',
 				slug: `link-${orgCard.id}-has-member-${userCard.id}`,
 				data: {

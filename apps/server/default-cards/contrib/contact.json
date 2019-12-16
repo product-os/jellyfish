@@ -1,6 +1,6 @@
 {
   "slug": "contact",
-  "type": "type",
+  "type": "type@1.0.0",
   "name": "Contact",
   "version": "1.0.0",
   "markers": [],

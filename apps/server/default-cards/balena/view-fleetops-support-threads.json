@@ -2,7 +2,7 @@
   "slug": "view-fleetops-support-threads",
   "name": "FleetOps",
   "version": "1.0.0",
-  "type": "view",
+  "type": "view@1.0.0",
   "markers": [ "org-balena" ],
   "tags": [],
   "links": {},

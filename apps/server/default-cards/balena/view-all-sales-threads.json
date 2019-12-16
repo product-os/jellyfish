@@ -2,7 +2,7 @@
   "slug": "view-all-sales-threads",
   "name": "All sales threads",
   "version": "1.0.0",
-  "type": "view",
+  "type": "view@1.0.0",
   "markers": [ "org-balena" ],
   "tags": [],
   "links": {},

@@ -1,6 +1,6 @@
 {
   "slug": "whisper",
-  "type": "type",
+  "type": "type@1.0.0",
   "version": "1.0.0",
   "name": "Whisper message",
   "markers": [],
