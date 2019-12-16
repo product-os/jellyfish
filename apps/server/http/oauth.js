@@ -22,26 +22,15 @@ exports.getAuthorizeUrl = (provider, userSlug) => {
 		})
 }
 
-exports.associate = async (context, jellyfish, worker, queue, session, provider, options) => {
+exports.authorize = async (context, worker, queue, session, provider, options) => {
 	logger.info(context, 'OAuth authorization', {
 		ip: options.ip,
 		provider,
-		code: options.code,
-		state: options.actor
+		code: options.code
 	})
 
-	if (!options.actor) {
-		return null
-	}
-
-	const actorCard = await jellyfish.getCardBySlug(
-		context, session, `${options.actor}@latest`)
-	if (!actorCard) {
-		return null
-	}
-
 	const data = await worker.pre(session, {
-		action: 'action-oauth-associate',
+		action: 'action-oauth-authorize',
 		context,
 		card: options.actor,
 		type: 'user',
@@ -54,16 +43,43 @@ exports.associate = async (context, jellyfish, worker, queue, session, provider,
 
 	const actionRequest = await queue.enqueue(
 		worker.getId(), session, data)
+
 	const results = await queue.waitResults(
 		context, actionRequest)
 
 	if (results.error) {
-		const errorObject = errio.fromObject(results.data)
-		if (!results.data.expected) {
-			logger.exception(context, 'OAuth error', errorObject)
-		}
+		throw errio.fromObject(results.data)
+	}
 
-		throw errorObject
+	return results.data
+}
+
+exports.associate = async (context, worker, queue, session, provider, user, credentials, options) => {
+	logger.info(context, 'OAuth association', {
+		ip: options.ip,
+		provider,
+		user: user.id
+	})
+
+	const data = await worker.pre(session, {
+		action: 'action-oauth-associate',
+		context,
+		card: user.id,
+		type: 'user',
+		arguments: {
+			provider,
+			credentials
+		}
+	})
+
+	const actionRequest = await queue.enqueue(
+		worker.getId(), session, data)
+
+	const results = await queue.waitResults(
+		context, actionRequest)
+
+	if (results.error) {
+		return errio.fromObject(results.data)
 	}
 
 	return results.data

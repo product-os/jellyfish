@@ -14,21 +14,7 @@ const jose = require('node-jose')
 const sync = require('../../../lib/sync')
 const oauth = require('../../../lib/sync/oauth')
 const outreach = require('../../../lib/sync/integrations/outreach')
-
-const getElementBySlugFromCollection = async (data, slug) => {
-	const [ base, version ] = slug.split('@')
-
-	if (version !== 'latest') {
-		return _.find(_.values(data), {
-			slug: base,
-			version
-		})
-	}
-
-	return _.last(_.sortBy(_.filter(_.values(data), {
-		slug: base
-	}), [ 'version' ]))
-}
+const errors = require('../../../lib/sync/errors')
 
 ava('.isValidEvent() should return true for Front given anything', async (test) => {
 	const result = await sync.isValidEvent('front', {
@@ -336,180 +322,56 @@ ava('.OAUTH_INTEGRATIONS should contain outreach and balena-api', (test) => {
 	test.deepEqual([ 'balena-api', 'outreach' ], _.sortBy(sync.OAUTH_INTEGRATIONS))
 })
 
-ava('.associate() should return null given an invalid integration', async (test) => {
-	const data = {
-		'user-johndoe': {
-			type: 'user',
-			version: '1.0.0',
-			slug: 'user-johndoe',
-			data: {
-				email: 'johndoe@test.com'
-			}
-		}
-	}
-
-	const result = await sync.associate('helloworld', {
+ava('.authorize() should throw given an invalid integration', async (test) => {
+	await test.throwsAsync(sync.authorize('helloworld', {
 		appId: 'dJyXQHeh8PLKUr4gdsoUYQ8vFvqJ1D20lnFMxBLg',
 		appSecret: 'NlfY38rTt5xxa+Ehi2kV/2rA85C98iDdMF7xD9xr'
-	}, 'user-johndoe', {
-		log: {
-			warn: _.noop
-		},
-		getElementBySlug: async (slug) => {
-			return getElementBySlugFromCollection(data, slug)
-		},
-		upsertElement: async (type, object, options) => {
-			data[object.slug] = Object.assign({}, object, {
-				type
-			})
+	}, {
+		OAUTH_INTEGRATIONS: {}
+	}, {
+		code: '12345',
+		origin: 'https://jel.ly.fish/oauth/helloworld'
+	}), errors.SyncNoCompatibleIntegration)
+})
+
+ava('.authorize() should throw given no token', async (test) => {
+	await test.throwsAsync(sync.authorize('helloworld', null, {
+		OAUTH_INTEGRATIONS: {
+			helloworld: {}
 		}
 	}, {
 		code: '12345',
 		origin: 'https://jel.ly.fish/oauth/helloworld'
-	})
-
-	test.falsy(result)
+	}), errors.SyncNoIntegrationAppCredentials)
 })
 
-ava('.associate() should return null given no token', async (test) => {
-	const data = {
-		'user-johndoe': {
-			type: 'user',
-			version: '1.0.0',
-			slug: 'user-johndoe',
-			data: {
-				email: 'johndoe@test.com'
-			}
-		}
-	}
-
-	const result = await sync.associate('outreach', null, 'user-johndoe', {
-		log: {
-			warn: _.noop
-		},
-		getElementBySlug: async (slug) => {
-			return getElementBySlugFromCollection(data, slug)
-		},
-		upsertElement: async (type, object, options) => {
-			data[object.slug] = Object.assign({}, object, {
-				type
-			})
-		}
-	}, {
-		code: '12345',
-		origin: 'https://jel.ly.fish/oauth/outreach'
-	})
-
-	test.falsy(result)
-})
-
-ava('.associate() should return null given no appId', async (test) => {
-	const data = {
-		'user-johndoe': {
-			type: 'user',
-			version: '1.0.0',
-			slug: 'user-johndoe',
-			data: {
-				email: 'johndoe@test.com'
-			}
-		}
-	}
-
-	const result = await sync.associate('outreach', {
+ava('.authorize() should throw given no appId', async (test) => {
+	await test.throwsAsync(sync.authorize('helloworld', {
 		appSecret: 'NlfY38rTt5xxa+Ehi2kV/2rA85C98iDdMF7xD9xr'
-	}, 'user-johndoe', {
-		log: {
-			warn: _.noop
-		},
-		getElementBySlug: async (slug) => {
-			return getElementBySlugFromCollection(data, slug)
-		},
-		upsertElement: async (type, object, options) => {
-			data[object.slug] = Object.assign({}, object, {
-				type
-			})
+	}, {
+		OAUTH_INTEGRATIONS: {
+			helloworld: {}
 		}
 	}, {
 		code: '12345',
-		origin: 'https://jel.ly.fish/oauth/outreach'
-	})
-
-	test.falsy(result)
+		origin: 'https://jel.ly.fish/oauth/helloworld'
+	}), errors.SyncNoIntegrationAppCredentials)
 })
 
-ava('.associate() should return null given no appSecret', async (test) => {
-	const data = {
-		'user-johndoe': {
-			type: 'user',
-			version: '1.0.0',
-			slug: 'user-johndoe',
-			data: {
-				email: 'johndoe@test.com'
-			}
-		}
-	}
-
-	const result = await sync.associate('outreach', {
+ava('.authorize() should throw given no appSecret', async (test) => {
+	await test.throwsAsync(sync.authorize('helloworld', {
 		appId: 'dJyXQHeh8PLKUr4gdsoUYQ8vFvqJ1D20lnFMxBLg'
-	}, 'user-johndoe', {
-		log: {
-			warn: _.noop
-		},
-		getElementBySlug: async (slug) => {
-			return getElementBySlugFromCollection(data, slug)
-		},
-		upsertElement: async (type, object, options) => {
-			data[object.slug] = Object.assign({}, object, {
-				type
-			})
+	}, {
+		OAUTH_INTEGRATIONS: {
+			helloworld: {}
 		}
 	}, {
 		code: '12345',
-		origin: 'https://jel.ly.fish/oauth/outreach'
-	})
-
-	test.falsy(result)
+		origin: 'https://jel.ly.fish/oauth/helloworld'
+	}), errors.SyncNoIntegrationAppCredentials)
 })
 
-ava('.associate() should return null if the user does not exist', async (test) => {
-	const data = {}
-
-	const result = await sync.associate('outreach', {
-		appId: 'dJyXQHeh8PLKUr4gdsoUYQ8vFvqJ1D20lnFMxBLg',
-		appSecret: 'NlfY38rTt5xxa+Ehi2kV/2rA85C98iDdMF7xD9xr'
-	}, 'user-johndoe', {
-		log: {
-			warn: _.noop
-		},
-		getElementBySlug: async (slug) => {
-			return getElementBySlugFromCollection(data, slug)
-		},
-		upsertElement: async (type, object, options) => {
-			data[object.slug] = Object.assign({}, object, {
-				type
-			})
-		}
-	}, {
-		code: '12345',
-		origin: 'https://jel.ly.fish/oauth/outreach'
-	})
-
-	test.falsy(result)
-	test.deepEqual(data, {})
-})
-
-ava('.associate() should set the access token in the user card', async (test) => {
-	const data = {
-		'user-johndoe': {
-			type: 'user',
-			version: '1.0.0',
-			slug: 'user-johndoe',
-			data: {
-				email: 'johndoe@test.com'
-			}
-		}
-	}
-
+ava('.authorize() should throw given a code mismatch', async (test) => {
 	nock.cleanAll()
 	nock.disableNetConnect()
 
@@ -540,44 +402,78 @@ ava('.associate() should set the access token in the user card', async (test) =>
 			} ])
 		})
 
-	const result = await sync.associate('outreach', {
+	await test.throwsAsync(sync.authorize('outreach', {
 		appId: 'dJyXQHeh8PLKUr4gdsoUYQ8vFvqJ1D20lnFMxBLg',
 		appSecret: 'NlfY38rTt5xxa+Ehi2kV/2rA85C98iDdMF7xD9xr'
-	}, 'user-johndoe', {
-		log: {
-			warn: _.noop
-		},
-		getElementBySlug: async (slug) => {
-			return getElementBySlugFromCollection(data, slug)
+	}, {}, {
+		code: 'invalidcode',
+		origin: 'https://jel.ly.fish/oauth/outreach'
+	}), oauth.OAuthUnsuccessfulResponse)
+
+	nock.cleanAll()
+})
+
+ava('.associate() should throw given an invalid integration', async (test) => {
+	const data = {
+		'user-johndoe': {
+			type: 'user',
+			version: '1.0.0',
+			slug: 'user-johndoe',
+			data: {
+				email: 'johndoe@test.com'
+			}
+		}
+	}
+
+	await test.throwsAsync(sync.associate('helloworld', data['user-johndoe'], {
+		token_type: 'Bearer',
+		access_token: 'NlfY38rTt5xxa+Ehi2kV/2rA85C98iDdMF7xD9xr'
+	}, {
+		OAUTH_INTEGRATIONS: {},
+		upsertElement: async (type, object, options) => {
+			data[object.slug] = Object.assign({}, object, {
+				type
+			})
+		}
+	}), errors.SyncNoCompatibleIntegration)
+})
+
+ava('.associate() should set the access token in the user card', async (test) => {
+	const data = {
+		'user-johndoe': {
+			type: 'user',
+			version: '1.0.0',
+			slug: 'user-johndoe',
+			data: {
+				email: 'johndoe@test.com'
+			}
+		}
+	}
+
+	await sync.associate('helloworld', data['user-johndoe'], {
+		token_type: 'Bearer',
+		access_token: 'NlfY38rTt5xxa+Ehi2kV/2rA85C98iDdMF7xD9xr'
+	}, {
+		OAUTH_INTEGRATIONS: {
+			helloworld: {}
 		},
 		upsertElement: async (type, object, options) => {
 			data[object.slug] = Object.assign({}, object, {
 				type
 			})
 		}
-	}, {
-		code: '12345',
-		origin: 'https://jel.ly.fish/oauth/outreach'
 	})
 
-	nock.cleanAll()
-
-	test.falsy(result)
-	test.deepEqual(data, {
-		'user-johndoe': {
-			type: 'user',
-			version: '1.0.0',
-			slug: 'user-johndoe',
-			data: {
-				email: 'johndoe@test.com',
-				oauth: {
-					outreach: {
-						access_token: 'KSTWMqidua67hjM2NDE1ZTZjNGZmZjI3',
-						token_type: 'bearer',
-						expires_in: 3600,
-						refresh_token: 'POolsdYTlmM2YxOTQ5MGE3YmNmMDFkNTVk',
-						scope: 'create'
-					}
+	test.deepEqual(data['user-johndoe'], {
+		type: 'user',
+		version: '1.0.0',
+		slug: 'user-johndoe',
+		data: {
+			email: 'johndoe@test.com',
+			oauth: {
+				helloworld: {
+					token_type: 'Bearer',
+					access_token: 'NlfY38rTt5xxa+Ehi2kV/2rA85C98iDdMF7xD9xr'
 				}
 			}
 		}
@@ -593,85 +489,43 @@ ava('.associate() should not replace other integrations', async (test) => {
 			data: {
 				email: 'johndoe@test.com',
 				oauth: {
-					foo: {
-						secret: 'bar'
+					'other-integration': {
+						token_type: 'Bearer',
+						access_token: 'HjShbdbsd+Ehi2kV/723ib4njksndrtv'
 					}
 				}
 			}
 		}
 	}
 
-	nock.cleanAll()
-	nock.disableNetConnect()
-
-	await nock('https://api.outreach.io')
-		.post('/oauth/token')
-		.reply(function (uri, request, callback) {
-			const body = querystring.decode(request)
-
-			if (_.isEqual(body, {
-				grant_type: 'authorization_code',
-				client_id: 'dJyXQHeh8PLKUr4gdsoUYQ8vFvqJ1D20lnFMxBLg',
-				client_secret: 'NlfY38rTt5xxa+Ehi2kV/2rA85C98iDdMF7xD9xr',
-				redirect_uri: 'https://jel.ly.fish/oauth/outreach',
-				code: '12345'
-			})) {
-				return callback(null, [ 200, {
-					access_token: 'KSTWMqidua67hjM2NDE1ZTZjNGZmZjI3',
-					token_type: 'bearer',
-					expires_in: 3600,
-					refresh_token: 'POolsdYTlmM2YxOTQ5MGE3YmNmMDFkNTVk',
-					scope: 'create'
-				} ])
-			}
-
-			return callback(null, [ 400, {
-				error: 'invalid_request',
-				error_description: 'Something went wrong'
-			} ])
-		})
-
-	const result = await sync.associate('outreach', {
-		appId: 'dJyXQHeh8PLKUr4gdsoUYQ8vFvqJ1D20lnFMxBLg',
-		appSecret: 'NlfY38rTt5xxa+Ehi2kV/2rA85C98iDdMF7xD9xr'
-	}, 'user-johndoe', {
-		log: {
-			warn: _.noop
-		},
-		getElementBySlug: async (slug) => {
-			return getElementBySlugFromCollection(data, slug)
+	await sync.associate('helloworld', data['user-johndoe'], {
+		token_type: 'Bearer',
+		access_token: 'NlfY38rTt5xxa+Ehi2kV/2rA85C98iDdMF7xD9xr'
+	}, {
+		OAUTH_INTEGRATIONS: {
+			helloworld: {}
 		},
 		upsertElement: async (type, object, options) => {
 			data[object.slug] = Object.assign({}, object, {
 				type
 			})
 		}
-	}, {
-		code: '12345',
-		origin: 'https://jel.ly.fish/oauth/outreach'
 	})
 
-	nock.cleanAll()
-
-	test.falsy(result)
-	test.deepEqual(data, {
-		'user-johndoe': {
-			type: 'user',
-			version: '1.0.0',
-			slug: 'user-johndoe',
-			data: {
-				email: 'johndoe@test.com',
-				oauth: {
-					foo: {
-						secret: 'bar'
-					},
-					outreach: {
-						access_token: 'KSTWMqidua67hjM2NDE1ZTZjNGZmZjI3',
-						token_type: 'bearer',
-						expires_in: 3600,
-						refresh_token: 'POolsdYTlmM2YxOTQ5MGE3YmNmMDFkNTVk',
-						scope: 'create'
-					}
+	test.deepEqual(data['user-johndoe'], {
+		type: 'user',
+		version: '1.0.0',
+		slug: 'user-johndoe',
+		data: {
+			email: 'johndoe@test.com',
+			oauth: {
+				'other-integration': {
+					token_type: 'Bearer',
+					access_token: 'HjShbdbsd+Ehi2kV/723ib4njksndrtv'
+				},
+				helloworld: {
+					token_type: 'Bearer',
+					access_token: 'NlfY38rTt5xxa+Ehi2kV/2rA85C98iDdMF7xD9xr'
 				}
 			}
 		}
@@ -687,153 +541,41 @@ ava('.associate() should replace previous integration data', async (test) => {
 			data: {
 				email: 'johndoe@test.com',
 				oauth: {
-					outreach: {
-						access_token: 'KSTWMqidua67hjM2NDE1ZTZjNGZmZjI3',
-						token_type: 'bearer',
-						expires_in: 3600,
-						refresh_token: 'yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy',
-						scope: 'create'
+					helloworld: {
+						token_type: 'Bearer',
+						access_token: 'HjShbdbsd+Ehi2kV/723ib4njksndrtv'
 					}
 				}
 			}
 		}
 	}
 
-	nock.cleanAll()
-	nock.disableNetConnect()
-
-	await nock('https://api.outreach.io')
-		.post('/oauth/token')
-		.reply(function (uri, request, callback) {
-			const body = querystring.decode(request)
-
-			if (_.isEqual(body, {
-				grant_type: 'authorization_code',
-				client_id: 'dJyXQHeh8PLKUr4gdsoUYQ8vFvqJ1D20lnFMxBLg',
-				client_secret: 'NlfY38rTt5xxa+Ehi2kV/2rA85C98iDdMF7xD9xr',
-				redirect_uri: 'https://jel.ly.fish/oauth/outreach',
-				code: '12345'
-			})) {
-				return callback(null, [ 200, {
-					access_token: 'KSTWMqidua67hjM2NDE1ZTZjNGZmZjI3',
-					token_type: 'bearer',
-					expires_in: 3600,
-					refresh_token: 'POolsdYTlmM2YxOTQ5MGE3YmNmMDFkNTVk',
-					scope: 'create'
-				} ])
-			}
-
-			return callback(null, [ 400, {
-				error: 'invalid_request',
-				error_description: 'Something went wrong'
-			} ])
-		})
-
-	const result = await sync.associate('outreach', {
-		appId: 'dJyXQHeh8PLKUr4gdsoUYQ8vFvqJ1D20lnFMxBLg',
-		appSecret: 'NlfY38rTt5xxa+Ehi2kV/2rA85C98iDdMF7xD9xr'
-	}, 'user-johndoe', {
-		log: {
-			warn: _.noop
-		},
-		getElementBySlug: async (slug) => {
-			return getElementBySlugFromCollection(data, slug)
+	await sync.associate('helloworld', data['user-johndoe'], {
+		token_type: 'Bearer',
+		access_token: 'NlfY38rTt5xxa+Ehi2kV/2rA85C98iDdMF7xD9xr'
+	}, {
+		OAUTH_INTEGRATIONS: {
+			helloworld: {}
 		},
 		upsertElement: async (type, object, options) => {
 			data[object.slug] = Object.assign({}, object, {
 				type
 			})
 		}
-	}, {
-		code: '12345',
-		origin: 'https://jel.ly.fish/oauth/outreach'
 	})
 
-	nock.cleanAll()
-
-	test.falsy(result)
-	test.deepEqual(data, {
-		'user-johndoe': {
-			type: 'user',
-			version: '1.0.0',
-			slug: 'user-johndoe',
-			data: {
-				email: 'johndoe@test.com',
-				oauth: {
-					outreach: {
-						access_token: 'KSTWMqidua67hjM2NDE1ZTZjNGZmZjI3',
-						token_type: 'bearer',
-						expires_in: 3600,
-						refresh_token: 'POolsdYTlmM2YxOTQ5MGE3YmNmMDFkNTVk',
-						scope: 'create'
-					}
+	test.deepEqual(data['user-johndoe'], {
+		type: 'user',
+		version: '1.0.0',
+		slug: 'user-johndoe',
+		data: {
+			email: 'johndoe@test.com',
+			oauth: {
+				helloworld: {
+					token_type: 'Bearer',
+					access_token: 'NlfY38rTt5xxa+Ehi2kV/2rA85C98iDdMF7xD9xr'
 				}
 			}
 		}
 	})
-})
-
-ava('.associate() should throw given a code mismatch', async (test) => {
-	const data = {
-		'user-johndoe': {
-			type: 'user',
-			version: '1.0.0',
-			slug: 'user-johndoe',
-			data: {
-				email: 'johndoe@test.com'
-			}
-		}
-	}
-
-	nock.cleanAll()
-	nock.disableNetConnect()
-
-	await nock('https://api.outreach.io')
-		.post('/oauth/token')
-		.reply(function (uri, request, callback) {
-			const body = querystring.decode(request)
-
-			if (_.isEqual(body, {
-				grant_type: 'authorization_code',
-				client_id: 'dJyXQHeh8PLKUr4gdsoUYQ8vFvqJ1D20lnFMxBLg',
-				client_secret: 'NlfY38rTt5xxa+Ehi2kV/2rA85C98iDdMF7xD9xr',
-				redirect_uri: 'https://jel.ly.fish/oauth/outreach',
-				code: '12345'
-			})) {
-				return callback(null, [ 200, {
-					access_token: 'KSTWMqidua67hjM2NDE1ZTZjNGZmZjI3',
-					token_type: 'bearer',
-					expires_in: 3600,
-					refresh_token: 'POolsdYTlmM2YxOTQ5MGE3YmNmMDFkNTVk',
-					scope: 'create'
-				} ])
-			}
-
-			return callback(null, [ 400, {
-				error: 'invalid_request',
-				error_description: 'Something went wrong'
-			} ])
-		})
-
-	await test.throwsAsync(sync.associate('outreach', {
-		appId: 'dJyXQHeh8PLKUr4gdsoUYQ8vFvqJ1D20lnFMxBLg',
-		appSecret: 'NlfY38rTt5xxa+Ehi2kV/2rA85C98iDdMF7xD9xr'
-	}, 'user-johndoe', {
-		log: {
-			warn: _.noop
-		},
-		getElementBySlug: async (slug) => {
-			return getElementBySlugFromCollection(data, slug)
-		},
-		upsertElement: async (type, object, options) => {
-			data[object.slug] = Object.assign({}, object, {
-				type
-			})
-		}
-	}, {
-		code: 'invalidcode',
-		origin: 'https://jel.ly.fish/oauth/outreach'
-	}), oauth.OAuthUnsuccessfulResponse)
-
-	nock.cleanAll()
 })

@@ -115,7 +115,7 @@
                 "action-update-card",
                 "action-upsert-card",
                 "action-create-event",
-                "action-oauth-associate"
+                "action-oauth-authorize"
               ]
             },
             "type": {

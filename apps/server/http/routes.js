@@ -179,26 +179,32 @@ module.exports = (application, jellyfish, worker, queue) => {
 	})
 
 	const oauthAssociate = async (request, response, slug, code) => {
-		return oauth.associate(
-			request.context,
-			jellyfish,
-			worker,
-			queue,
-			request.sessionToken,
-			request.params.provider, {
-				actor: slug,
-				code,
-				ip: request.ip
-			}).then((results) => {
-			if (!results) {
-				return response.send(401)
-			}
+		if (!slug) {
+			return response.sendStatus(401)
+		}
 
-			return response.status(200).json({
-				error: false,
-				slug: results.slug
-			})
-		}).catch((error) => {
+		const user = await jellyfish.getCardBySlug(
+			request.context, jellyfish.sessions.admin, `${slug}@latest`)
+
+		if (!user) {
+			return response.sendStatus(401)
+		}
+
+		let credentials = null
+
+		try {
+			credentials = await oauth.authorize(
+				request.context,
+				worker,
+				queue,
+				request.sessionToken,
+				request.params.provider, {
+					code,
+					ip: request.ip,
+					actor: user.id
+				}
+			)
+		} catch (error) {
 			if (error.name === 'OAuthUnsuccessfulResponse') {
 				return response.status(401).json({
 					error: true,
@@ -207,6 +213,28 @@ module.exports = (application, jellyfish, worker, queue) => {
 			}
 
 			return sendHTTPError(request, response, error)
+		}
+
+		if (!credentials) {
+			return response.sendStatus(401)
+		}
+
+		await oauth.associate(
+			request.context,
+			worker,
+			queue,
+			jellyfish.sessions.admin,
+			request.params.provider,
+			user,
+			credentials, {
+				code,
+				ip: request.ip
+			}
+		)
+
+		return response.status(200).json({
+			error: false,
+			slug: user.slug
 		})
 	}
 

@@ -103,7 +103,8 @@
               "enum": [
                 "action-create-session",
                 "action-create-card",
-                "action-create-event"
+                "action-create-event",
+                "action-oauth-associate"
               ]
             },
             "type": {
