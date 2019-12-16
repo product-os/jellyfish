@@ -1,4 +1,29 @@
 - commits:
+    - subject: >-
+        Remove test jobs with "FEATURE_FLAG_EXPERIMENTAL: 1", as we don't use
+        graph-like queries
+      hash: 0f185c18efc7ce0153828c30bf17451a302b927d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+    - subject: >-
+        Add indexes to `links` table on fromid+name and toid+inversename: they
+        make queries faster
+      hash: 1b06b2feadd276dbab9f5ebab4df2ec355c8d52d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.47.1
+  date: 2019-12-16T09:20:38.331Z
+- commits:
     - subject: 'UI: Update rendition to fix bug in sequence diagrams'
       hash: 49e1e9f21e066ab7566b3c268f5a78942fbbf624
       body: ''
