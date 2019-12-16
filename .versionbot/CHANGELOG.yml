@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix workflow view schema to match versioned workflows
+      hash: 1988ae704ffbe6c1c984efea7b4c2af2d07256a9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 24.47.3
+  date: 2019-12-16T15:56:09.216Z
+- commits:
     - subject: move absolute positioning to specific usecase
       hash: d505b57c21d98deba15c15eb46a3be7e45a7d6fe
       body: ''
