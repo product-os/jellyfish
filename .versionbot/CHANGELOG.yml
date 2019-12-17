@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'action-library: Add versions to built-in actions'
+      hash: 13631593504f693ea0e0adb3d82d9da56228ac62
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.50.0
+  date: 2019-12-17T18:46:52.831Z
+- commits:
     - subject: 'server/action-server: Use versioned types in backend containers'
       hash: fc601bb038fa71c3e6c5af0076b075e164a0c8e4
       body: ''
