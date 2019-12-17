@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'ChatWidget: Fix tooltips not appearing'
+      hash: 9b41123ba7b7a47b57c7c9c97da76a1576d35885
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Connects-to: '#2740'
+        connects-to: '#2740'
+      author: Kakhaber
+  version: 24.48.1
+  date: 2019-12-17T12:07:28.291Z
+- commits:
     - subject: 'Oauth: Split authorize and associate actions'
       hash: d73a2ca09dde558a807729fab7f902a2e6aecc16
       body: ''
