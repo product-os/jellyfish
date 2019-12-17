@@ -184,7 +184,7 @@ avaTest('should add a tag with the linked user external event slug origin type',
 
 	const event = await test.context.sdk.card.create({
 		slug: `external-event-${uuid()}`,
-		type: 'external-event',
+		type: 'external-event@1.0.0',
 		data: {
 			source: 'my-fake-service',
 			headers: {},
@@ -201,7 +201,7 @@ avaTest('should add a tag with the linked user external event slug origin type',
 		type: 'user',
 		data: {
 			email: `${username}@test.io`,
-			origin: event.slug,
+			origin: `${event.slug}@${event.version}`,
 			roles: [ 'user-community' ],
 			hash: '$2b$12$tnb9eMnlGpEXld1IYmIlDOud.v4vSUbnuEsjFQz3d/24sqA6XmaBq'
 		}
@@ -227,7 +227,7 @@ avaTest('should store the user country and city', async (test) => {
 
 	const event = await test.context.sdk.card.create({
 		slug: `external-event-${uuid()}`,
-		type: 'external-event',
+		type: 'external-event@1.0.0',
 		data: {
 			source: 'my-fake-service',
 			headers: {},
@@ -276,7 +276,7 @@ avaTest('should add a tag with the linked user external event id origin type', a
 
 	const event = await test.context.sdk.card.create({
 		slug: `external-event-${uuid()}`,
-		type: 'external-event',
+		type: 'external-event@1.0.0',
 		data: {
 			source: 'my-fake-service',
 			headers: {},
