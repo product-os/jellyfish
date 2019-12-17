@@ -1,4 +1,31 @@
 - commits:
+    - subject: >-
+        UI: Fix issue where rerenders would cause cursor to reset position when
+        editing
+      hash: c16e477eb668677fec0d9469b91deb47dc1af506
+      body: ''
+      footer:
+        Connects-to: '#2689'
+        connects-to: '#2689'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+    - subject: 'UI: Fix bug where custom fields could not be edited'
+      hash: 1d6247a6450a981bb4c3f14d5989e1a8d398531b
+      body: ''
+      footer:
+        Connects-to: '#2689'
+        connects-to: '#2689'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 24.48.2
+  date: 2019-12-17T15:03:58.207Z
+- commits:
     - subject: 'ChatWidget: Fix tooltips not appearing'
       hash: 9b41123ba7b7a47b57c7c9c97da76a1576d35885
       body: ''
