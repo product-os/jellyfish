@@ -19,7 +19,7 @@ const uuid = require('../../lib/uuid')
 const getActorKey = async (context, jellyfish, session, actorId) => {
 	const keySlug = `session-action-${actorId}`
 	const key = await jellyfish.getCardBySlug(
-		context, session, `${keySlug}@latest`)
+		context, session, `${keySlug}@1.0.0`)
 
 	if (key && key.data.actor === actorId) {
 		return key
@@ -33,7 +33,7 @@ const getActorKey = async (context, jellyfish, session, actorId) => {
 	return jellyfish.replaceCard(context, session, jellyfish.defaults({
 		slug: keySlug,
 		version: '1.0.0',
-		type: 'session',
+		type: 'session@1.0.0',
 		data: {
 			actor: actorId
 		}

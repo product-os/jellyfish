@@ -1,6 +1,6 @@
 {
   "slug": "product-jellyfish",
-  "type": "product",
+  "type": "product@1.0.0",
   "version": "1.0.0",
   "name": "Jellyfish Product",
   "markers": [],
