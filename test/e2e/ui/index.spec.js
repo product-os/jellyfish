@@ -44,6 +44,12 @@ const users = {
 // If the current user is not the community user, logout, then login as the
 // community user.
 const ensureCommunityLogin = async (page) => {
+	const baseURL = `${environment.ui.host}:${environment.ui.port}`
+
+	if (!page.url().includes(baseURL)) {
+		await page.goto(baseURL)
+	}
+
 	const currentUser = await page.evaluate(() => {
 		return window.sdk.auth.whoami()
 	})
@@ -262,6 +268,47 @@ ava.serial.skip('card actions: should let users delete a card', async (test) => 
 	test.pass()
 })
 
+ava.serial('card actions: should let users add a custom field to a card', async (test) => {
+	const {
+		page
+	} = context
+
+	await ensureCommunityLogin(page)
+
+	const fieldName = 'test'
+	const fieldValue = 'lorem ipsom dolor sit amet'
+
+	const card = await context.sdk.card.create({
+		slug: `thread-${uuid()}`,
+		type: 'thread'
+	})
+
+	await context.page.goto(
+		`${environment.ui.host}:${environment.ui.port}/${card.id}`)
+
+	// Edit the card
+	await macros.waitForThenClickSelector(page, '.card-actions__btn--edit')
+
+	// Add a new custom field called "test"
+	await page.waitForSelector('[data-test="card-edit__free-field-name-input"]')
+	await macros.setInputValue(page, '[data-test="card-edit__free-field-name-input"]', fieldName)
+	await macros.waitForThenClickSelector(page, '[data-test="card-edit__add-free-field"]')
+
+	// Input a value to the new field and save the changes
+	await page.waitForSelector('#root_test')
+	await macros.setInputValue(page, '#root_test', fieldValue)
+	await macros.waitForThenClickSelector(page, '[data-test="card-edit__submit"]')
+
+	// Wait for the success alert as a heuristic for the action completing
+	// successfully
+	await page.waitForSelector('[data-test="alert--success"]')
+
+	// Check that the card now has the expected value
+	const updatedCard = await context.sdk.card.get(card.id)
+
+	test.is(updatedCard.data[fieldName], fieldValue)
+})
+
 // File upload
 // =============================================================================
 
@@ -463,7 +510,20 @@ ava.serial('user profile: You should be able to change the send command to "ente
 		page
 	} = context
 
-	await ensureCommunityLogin(page)
+	const user = await ensureCommunityLogin(page)
+
+	// Create a new thread
+	const thread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'thread'
+		})
+	})
+
+	// Navigate to the user profile page
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${user.id}/${thread.id}`)
+
+	await page.waitForSelector('[data-test="lens--lens-my-user"]')
+	await macros.waitForThenClickSelector(page, 'button[role="tab"]:nth-of-type(3)')
 
 	await macros.waitForThenClickSelector(page, '[data-test="lens-my-user__send-command-select"]')
 	await macros.waitForThenClickSelector(page, '[role="menubar"] > div:nth-of-type(3) > button[role="menuitem"]')
@@ -476,17 +536,6 @@ ava.serial('user profile: You should be able to change the send command to "ente
 
 	const value = await macros.getElementValue(page, '[data-test="lens-my-user__send-command-select"]')
 	test.is(value, 'enter')
-
-	// Create a new thread
-	const thread = await page.evaluate(() => {
-		return window.sdk.card.create({
-			type: 'thread'
-		})
-	})
-
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
-
-	await page.waitForSelector('.column--thread')
 
 	const rand = uuid()
 
@@ -506,7 +555,15 @@ ava.serial('user profile: You should be able to change the send command to "ctrl
 
 	const user = await ensureCommunityLogin(page)
 
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${user.id}`)
+	// Create a new thread
+	const thread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'thread'
+		})
+	})
+
+	// Navigate to the user profile page
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${user.id}/${thread.id}`)
 
 	await macros.waitForThenClickSelector(page, 'button[role="tab"]:nth-of-type(3)')
 
@@ -521,17 +578,6 @@ ava.serial('user profile: You should be able to change the send command to "ctrl
 	// Wait for the success alert as a heuristic for the action completing
 	// successfully
 	await page.waitForSelector('[data-test="alert--success"]')
-
-	// Create a new thread
-	const thread = await page.evaluate(() => {
-		return window.sdk.card.create({
-			type: 'thread'
-		})
-	})
-
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
-
-	await page.waitForSelector('.column--thread')
 
 	// Unfortunately puppeteer Control+Enter doesn't seem to work at all
 	// TODO: Fix this test so it works

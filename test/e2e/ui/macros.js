@@ -20,7 +20,7 @@ exports.screenshot = async (test, page) => {
 	const dir = './tmp/test-results/screenshots'
 
 	// Make directory before using it
-	fs.mkdir(dir, {
+	fs.mkdirSync(dir, {
 		recursive: true
 	}, (err) => {
 		if (err) throw err

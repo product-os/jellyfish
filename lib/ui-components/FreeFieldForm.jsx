@@ -135,6 +135,7 @@ export default class FreeFieldForm extends React.Component {
 						value={this.state.key}
 						onChange={this.setFieldTitle}
 						placeholder="Enter the field title"
+						data-test="card-edit__free-field-name-input"
 					/>
 
 					<Select
@@ -148,6 +149,7 @@ export default class FreeFieldForm extends React.Component {
 						success
 						onClick={this.addField}
 						icon={<Icon name="plus"/>}
+						data-test="card-edit__add-free-field"
 					>
 						Add field
 					</Button>
