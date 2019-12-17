@@ -72,6 +72,8 @@ jobs:
   compose-build:
     <<: *job_defaults
 
+    resource_class: xlarge
+
     steps:
       - checkout
 
@@ -465,6 +467,8 @@ jobs:
 
   e2e_tests_ui: &e2e_tests_ui
     <<: *job_defaults
+
+    resource_class: xlarge
 
     steps:
       - checkout
