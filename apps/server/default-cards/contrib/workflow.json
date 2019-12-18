@@ -24,8 +24,25 @@
         "data": {
           "type": "object",
           "properties": {
-            "description": {
+            "status": {
+              "title": "Status",
+              "type": "string",
+              "default": "draft",
+              "enum": [
+                "draft",
+                "candidate",
+                "complete"
+              ]
+            },
+            "loop": {
               "type": "string"
+            },
+            "lifecycle": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string",
+              "format": "markdown"
             },
             "diagram": {
               "type": "string",
@@ -34,7 +51,10 @@
           }
         }
       }
-    }
+    },
+    "slices": [
+      "properties.data.properties.status"
+    ]
   },
   "requires": [],
   "capabilities": []

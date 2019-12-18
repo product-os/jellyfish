@@ -191,6 +191,24 @@ class EditLens extends React.Component {
 			})
 		}
 
+		if (card.type === 'workflow') {
+			_.set(uiSchema, [ 'data', 'loop' ], {
+				'ui:widget': AutoCompleteWidget,
+				'ui:options': {
+					resource: 'workflow',
+					keyPath: 'data.loop'
+				}
+			})
+
+			_.set(uiSchema, [ 'data', 'lifecycle' ], {
+				'ui:widget': AutoCompleteWidget,
+				'ui:options': {
+					resource: 'workflow',
+					keyPath: 'data.lifecycle'
+				}
+			})
+		}
+
 		const schema = this.state.schema
 
 		// Always show tags input

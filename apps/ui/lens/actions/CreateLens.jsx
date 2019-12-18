@@ -295,6 +295,24 @@ class CreateLens extends React.Component {
 			})
 		}
 
+		if (selectedTypeTarget.slug === 'workflow') {
+			_.set(uiSchema, [ 'data', 'loop' ], {
+				'ui:widget': AutoCompleteWidget,
+				'ui:options': {
+					resource: 'workflow',
+					keyPath: 'data.loop'
+				}
+			})
+
+			_.set(uiSchema, [ 'data', 'lifecycle' ], {
+				'ui:widget': AutoCompleteWidget,
+				'ui:options': {
+					resource: 'workflow',
+					keyPath: 'data.lifecycle'
+				}
+			})
+		}
+
 		// Always show tags input
 		if (!schema.properties.tags) {
 			_.set(schema, [ 'properties', 'tags' ], {
