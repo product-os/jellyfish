@@ -2,7 +2,7 @@
   "slug": "gh-push",
   "name": "Push",
   "version": "1.0.0",
-  "type": "type",
+  "type": "type@1.0.0",
   "markers": [],
   "tags": [],
   "links": {},

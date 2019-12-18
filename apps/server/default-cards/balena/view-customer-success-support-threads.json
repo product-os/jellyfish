@@ -2,7 +2,7 @@
   "slug": "view-customer-success-support-threads",
   "name": "Customer success",
   "version": "1.0.0",
-  "type": "view",
+  "type": "view@1.0.0",
   "markers": [ "org-balena" ],
   "tags": [],
   "links": {},

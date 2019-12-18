@@ -2,7 +2,7 @@
   "slug": "role-user-community",
   "name": "Community role permissions",
   "version": "1.0.0",
-  "type": "role",
+  "type": "role@1.0.0",
   "tags": [],
   "markers": [],
   "links": {},

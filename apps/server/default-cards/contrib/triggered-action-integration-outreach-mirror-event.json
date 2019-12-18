@@ -1,6 +1,6 @@
 {
   "slug": "triggered-action-integration-outreach-mirror-event",
-  "type": "triggered-action",
+  "type": "triggered-action@1.0.0",
   "version": "1.0.0",
   "tags": [],
   "markers": [],

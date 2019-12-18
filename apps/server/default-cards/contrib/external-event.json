@@ -1,6 +1,6 @@
 {
   "slug": "external-event",
-  "type": "type",
+  "type": "type@1.0.0",
   "version": "1.0.0",
   "markers": [],
   "tags": [],
