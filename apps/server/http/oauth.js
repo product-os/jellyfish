@@ -33,7 +33,7 @@ exports.authorize = async (context, worker, queue, session, provider, options) =
 		action: 'action-oauth-authorize',
 		context,
 		card: options.actor,
-		type: 'user@1.0.0',
+		type: 'user',
 		arguments: {
 			provider,
 			code: options.code,

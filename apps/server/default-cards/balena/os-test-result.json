@@ -2,7 +2,7 @@
   "slug": "os-test-result",
   "name": "OS test result",
   "version": "1.0.0",
-  "type": "type@1.0.0",
+  "type": "type",
   "markers": [ "org-balena" ],
   "tags": [],
   "links": {},

@@ -2,7 +2,7 @@
   "slug": "role-user-test",
   "name": "Test role permissions",
   "version": "1.0.0",
-  "type": "role@1.0.0",
+  "type": "role",
   "markers": [],
   "tags": [],
   "links": {},

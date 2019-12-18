@@ -1,6 +1,6 @@
 {
   "slug": "triggered-action-integration-github-mirror-event",
-  "type": "triggered-action@1.0.0",
+  "type": "triggered-action",
   "version": "1.0.0",
   "tags": [],
   "markers": [],

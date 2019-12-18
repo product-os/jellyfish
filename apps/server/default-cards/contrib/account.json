@@ -1,6 +1,6 @@
 {
   "slug": "account",
-  "type": "type@1.0.0",
+  "type": "type",
   "name": "Account",
   "version": "1.0.0",
   "markers": [],

@@ -29,7 +29,7 @@ module.exports = class AuthFacade extends QueryFacade {
 				},
 				type: {
 					type: 'string',
-					const: 'user@1.0.0'
+					const: 'user'
 				},
 				links: {
 					type: 'object',

@@ -2,7 +2,7 @@
   "slug": "role-user-external-support",
   "name": "External support user role permissions",
   "version": "1.0.0",
-  "type": "role@1.0.0",
+  "type": "role",
   "markers": [],
   "tags": [],
   "links": {},

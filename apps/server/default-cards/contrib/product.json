@@ -1,6 +1,6 @@
 {
   "slug": "product",
-  "type": "type@1.0.0",
+  "type": "type",
   "version": "1.0.0",
   "name": "Product",
   "markers": [],

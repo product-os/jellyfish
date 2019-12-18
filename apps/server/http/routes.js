@@ -105,12 +105,12 @@ module.exports = (application, jellyfish, worker, queue) => {
 	})
 
 	application.get('/ping', (request, response) => {
-		const PING_TYPE = 'ping@1.0.0'
+		const PING_TYPE = 'ping'
 		const PING_SLUG = 'ping-api'
 
 		const getTypeStartDate = new Date()
 		return jellyfish.getCardBySlug(
-			request.context, jellyfish.sessions.admin, PING_TYPE).then(async (typeCard) => {
+			request.context, jellyfish.sessions.admin, `${PING_TYPE}@latest`).then(async (typeCard) => {
 			const getTypeEndDate = new Date()
 			if (!typeCard) {
 				throw new Error(`No type card: ${PING_TYPE}`)
@@ -355,9 +355,9 @@ module.exports = (application, jellyfish, worker, queue) => {
 				time: validateDate.getTime() - startDate.getTime()
 			})
 
-			const EXTERNAL_EVENT_TYPE = 'external-event@1.0.0'
+			const EXTERNAL_EVENT_TYPE = 'external-event'
 			return jellyfish.getCardBySlug(
-				request.context, jellyfish.sessions.admin, EXTERNAL_EVENT_TYPE).then((typeCard) => {
+				request.context, jellyfish.sessions.admin, `${EXTERNAL_EVENT_TYPE}@latest`).then((typeCard) => {
 				if (!typeCard) {
 					throw new Error(`No type card: ${EXTERNAL_EVENT_TYPE}`)
 				}

@@ -2,7 +2,7 @@
   "slug": "view-all-projects",
   "name": "All projects",
   "version": "1.0.0",
-  "type": "view@1.0.0",
+  "type": "view",
   "markers": [ "org-balena" ],
   "tags": [],
   "links": {},

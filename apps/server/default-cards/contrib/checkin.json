@@ -2,7 +2,7 @@
   "slug": "checkin",
   "name": "Checkin",
   "version": "1.0.0",
-  "type": "type@1.0.0",
+  "type": "type",
   "markers": [],
   "tags": [],
   "links": {},

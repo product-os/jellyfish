@@ -2,7 +2,7 @@
   "slug": "view-architecture-call-topics",
   "name": "Architecture call topics",
   "version": "1.0.0",
-  "type": "view@1.0.0",
+  "type": "view",
   "markers": [ "org-balena" ],
   "tags": [],
   "links": {},
