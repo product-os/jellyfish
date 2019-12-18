@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'server: Use versions correctly in Outreach mirror tests'
+      hash: b4e0f9dc0f38416fe76c2f5de869414773d3f7b3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.52.1
+  date: 2019-12-18T15:05:16.729Z
+- commits:
     - subject: 'action-library: Add versions to built-in actions'
       hash: eae1003daee9ff726b77d755b9a76843395dfe0e
       body: ''
