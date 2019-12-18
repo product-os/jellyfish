@@ -1,4 +1,25 @@
 - commits:
+    - subject: Deal with merge commits only when looking for previous db dump
+      hash: e7471ca96148ec4d8add3d30ab18c0c73e2a8255
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+    - subject: Update dependency as required by `npm audit`
+      hash: 2abac0b70fc3d8760fa5ec51f2a7bf3f9233d598
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.51.0
+  date: 2019-12-18T10:04:11.419Z
+- commits:
     - subject: 'server: Use versions correctly in Outreach mirror tests'
       hash: b5cbd2a48bbda2f4d29084f2c915dc44a83fb145
       body: ''
