@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'UI: Fix bug where name fields were included in search'
+      hash: 80c0f3c6d036d948107585ba52dc7fa40d145158
+      body: |
+        Fixes #2914
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 24.52.2
+  date: 2019-12-18T16:15:05.034Z
+- commits:
     - subject: 'server: Use versions correctly in Outreach mirror tests'
       hash: b4e0f9dc0f38416fe76c2f5de869414773d3f7b3
       body: ''
