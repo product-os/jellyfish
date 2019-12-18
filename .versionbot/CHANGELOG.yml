@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'action-library: Add versions to built-in actions'
+      hash: eae1003daee9ff726b77d755b9a76843395dfe0e
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.52.0
+  date: 2019-12-18T12:41:28.126Z
+- commits:
     - subject: >-
         Run flowdock translate tests together with the other translate tests:
         they are fast and it takes longer to spin up a new worker than to run
