@@ -1,4 +1,19 @@
 - commits:
+    - subject: >-
+        Run flowdock translate tests together with the other translate tests:
+        they are fast and it takes longer to spin up a new worker than to run
+        the tests
+      hash: f21fab92a7b7ef2df2384f722fbbf33ab2dcee91
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.51.1
+  date: 2019-12-18T11:54:59.978Z
+- commits:
     - subject: Deal with merge commits only when looking for previous db dump
       hash: e7471ca96148ec4d8add3d30ab18c0c73e2a8255
       body: ''
