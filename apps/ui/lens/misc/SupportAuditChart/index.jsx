@@ -62,7 +62,7 @@ const lens = {
 
 				return query
 			},
-			limit: 5000,
+			limit: 1000,
 			sortBy: [ 'created_at' ],
 			sortDir: 'desc'
 		}

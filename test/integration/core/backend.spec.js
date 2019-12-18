@@ -1428,7 +1428,7 @@ ava('.query() should throw given float limits', async (test) => {
 })
 
 ava('.query() should apply a maximum limit by default', async (test) => {
-	for (const index of _.range(0, 1000)) {
+	for (const index of _.range(0, 1100)) {
 		await test.context.backend.insertElement(test.context.context, {
 			type: 'card@1.0.0',
 			slug: `foo-${index}`,
@@ -1460,7 +1460,7 @@ ava('.query() should apply a maximum limit by default', async (test) => {
 		required: [ 'type' ]
 	})
 
-	test.is(results.length, 200)
+	test.is(results.length, 1000)
 })
 
 ava('.query() return nothing given a zero limit', async (test) => {
@@ -1502,7 +1502,7 @@ ava('.query() return nothing given a zero limit', async (test) => {
 })
 
 ava('.query() should apply a maximum limit by default given sortBy', async (test) => {
-	for (const index of _.range(0, 1000)) {
+	for (const index of _.range(0, 1100)) {
 		await test.context.backend.insertElement(test.context.context, {
 			type: 'card@1.0.0',
 			slug: `foo-${index}`,
@@ -1536,7 +1536,7 @@ ava('.query() should apply a maximum limit by default given sortBy', async (test
 		sortBy: 'created_at'
 	})
 
-	test.is(results.length, 200)
+	test.is(results.length, 1000)
 })
 
 ava('.query() should throw if limit is negative', async (test) => {
@@ -1567,7 +1567,7 @@ ava('.query() should throw if limit is too large', async (test) => {
 		},
 		required: [ 'type' ]
 	}, {
-		limit: 300
+		limit: 3000
 	}), errors.JellyfishInvalidLimit)
 })
 
