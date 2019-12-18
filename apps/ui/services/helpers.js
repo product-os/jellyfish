@@ -335,10 +335,11 @@ export const regexEscape = (str) => {
 	return str.replace(matchOperatorsRe, '\\$&')
 }
 
+// TODO normalize this with the text search created by Rendition Filters
 export const createFullTextSearchFilter = (schema, term) => {
 	const flatSchema = SchemaSieve.flattenSchema(schema)
 	const stringKeys = _.reduce(flatSchema.properties, (carry, item, key) => {
-		if (item.type === 'string') {
+		if (item.type === 'string' || (_.isArray(item.type) && _.includes(item.type, 'string'))) {
 			carry.push(key)
 		}
 		return carry
