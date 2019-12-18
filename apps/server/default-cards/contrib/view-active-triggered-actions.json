@@ -2,7 +2,7 @@
   "slug": "view-active-triggered-actions",
   "name": "Active Triggered Actions",
   "version": "1.0.0",
-  "type": "view@1.0.0",
+  "type": "view",
   "markers": [],
   "tags": [],
   "links": {},

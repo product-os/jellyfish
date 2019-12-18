@@ -28,8 +28,7 @@ set -u
 
 echo "Preparing to fetch previous Postgres dump"
 
-COMMITS="$(git log --pretty="%P %s" |
-	grep "Merge pull request" |
+COMMITS="$(git log --merges --pretty="%P %s" |
 	cut -d ' ' -f 2 |
 	head -n 10)"
 

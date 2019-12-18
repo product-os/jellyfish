@@ -2,7 +2,7 @@
   "slug": "view-devices-support-threads",
   "name": "Devices",
   "version": "1.0.0",
-  "type": "view@1.0.0",
+  "type": "view",
   "markers": [ "org-balena" ],
   "tags": [],
   "links": {},

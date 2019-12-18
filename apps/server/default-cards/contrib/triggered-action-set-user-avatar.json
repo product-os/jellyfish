@@ -1,6 +1,6 @@
 {
   "slug": "triggered-action-set-user-avatar",
-  "type": "triggered-action@1.0.0",
+  "type": "triggered-action",
   "version": "1.0.0",
   "markers": [],
   "tags": [],

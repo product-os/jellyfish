@@ -1,6 +1,6 @@
 {
   "slug": "ping",
-  "type": "type@1.0.0",
+  "type": "type",
   "version": "1.0.0",
   "name": "The ping card",
   "markers": [],

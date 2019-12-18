@@ -1,6 +1,6 @@
 {
   "slug": "product-balena-cloud",
-  "type": "product@1.0.0",
+  "type": "product",
   "version": "1.0.0",
   "name": "Balena Product",
   "markers": [],

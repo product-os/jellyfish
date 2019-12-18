@@ -24,7 +24,7 @@ module.exports = async (context, jellyfish, worker, session) => {
 		context, session, jellyfish.defaults({
 			slug: 'session-guest',
 			version: '1.0.0',
-			type: 'session@1.0.0',
+			type: 'session',
 			data: {
 				actor: guestUser.id
 			}

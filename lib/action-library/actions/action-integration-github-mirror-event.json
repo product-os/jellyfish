@@ -1,6 +1,6 @@
 {
   "slug": "action-integration-github-mirror-event",
-  "type": "action@1.0.0",
+  "type": "action",
   "version": "1.0.0",
   "tags": [],
   "markers": [],

@@ -1,6 +1,6 @@
 {
   "slug": "user-guest",
-  "type": "user@1.0.0",
+  "type": "user",
   "version": "1.0.0",
   "name": "The guest user",
   "markers": [],
