@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'Fix: 2912 by removing audit panel from view'
+      hash: 1dd6fbd0044384cb09dfcc83bb96afa5630c759a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+  version: 24.52.3
+  date: 2019-12-18T20:52:03.952Z
+- commits:
     - subject: 'UI: Fix bug where name fields were included in search'
       hash: 80c0f3c6d036d948107585ba52dc7fa40d145158
       body: |
