@@ -39,7 +39,6 @@ import {
 } from '@jellyfish/ui-components/Tag'
 import ColorHashPill from '@jellyfish/ui-components/shame/ColorHashPill'
 import Icon from '@jellyfish/ui-components/shame/Icon'
-import AuditPanel from './AuditPanel'
 
 const JellyIcon = styled.img.attrs({
 	src: '/icons/jellyfish.svg'
@@ -390,14 +389,6 @@ class SupportThreadBase extends React.Component {
 					</React.Fragment>
 				)}
 			>
-				{card.data.status === 'closed' && (
-					<AuditPanel
-						card={card}
-						types={this.props.types}
-						actions={this.props.actions}
-						archiveCard={this.archiveCard}
-					/>
-				)}
 
 				<Box
 					px={3}
