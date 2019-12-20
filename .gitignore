@@ -63,6 +63,7 @@ jspm_packages/
 # End of https://www.gitignore.io/api/node
 
 postgres_data
+rabbit_data
 dump.rdb
 .tar.gz
 *.lock

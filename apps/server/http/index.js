@@ -12,7 +12,7 @@ const middlewares = require('./middlewares')
 const routes = require('./routes')
 const logger = require('../../../lib/logger').getLogger(__filename)
 
-module.exports = (context, jellyfish, worker, queue, configuration, options) => {
+module.exports = (context, jellyfish, worker, producer, configuration, options) => {
 	const application = express()
 	const server = http.Server(application)
 	application.set('port', configuration.port)
@@ -21,7 +21,7 @@ module.exports = (context, jellyfish, worker, queue, configuration, options) => 
 		guestSession: options.guestSession
 	})
 
-	routes(application, jellyfish, worker, queue, {
+	routes(application, jellyfish, worker, producer, {
 		guestSession: options.guestSession
 	})
 

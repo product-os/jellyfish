@@ -11,6 +11,7 @@ const helpers = require('./helpers')
 const actionLibrary = require('../../../lib/action-library')
 const Worker = require('../../../lib/worker')
 const uuid = require('../../../lib/uuid')
+const errors = require('../../../lib/core/errors')
 
 ava.beforeEach(async (test) => {
 	await helpers.worker.beforeEach(test, actionLibrary)
@@ -61,7 +62,7 @@ ava('should not re-enqueue requests after duplicated execute events', async (tes
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
 
-	await test.context.queue.enqueue(
+	await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, {
 			action: 'action-create-card@1.0.0',
 			context: test.context.context,
@@ -79,24 +80,9 @@ ava('should not re-enqueue requests after duplicated execute events', async (tes
 			}
 		})
 
-	const dequeue = async (times = 100) => {
-		const result = await test.context.queue.dequeue(
-			test.context.context, test.context.worker.getId())
-		if (!result) {
-			if (times <= 0) {
-				return null
-			}
+	const enqueuedRequest1 = await test.context.dequeue()
 
-			await Bluebird.delay(5)
-			return dequeue(times - 1)
-		}
-
-		return result
-	}
-
-	const enqueuedRequest1 = await dequeue()
-
-	await test.context.queue.postResults(
+	await test.context.queue.consumer.postResults(
 		await uuid.random(), test.context.context, enqueuedRequest1, {
 			error: false,
 			data: {
@@ -108,9 +94,9 @@ ava('should not re-enqueue requests after duplicated execute events', async (tes
 
 	await test.throwsAsync(
 		test.context.worker.execute(test.context.session, enqueuedRequest1),
-		test.context.jellyfish.errors.JellyfishElementAlreadyExists)
+		errors.JellyfishElementAlreadyExists)
 
-	const enqueuedRequest2 = await dequeue()
+	const enqueuedRequest2 = await test.context.dequeue()
 	test.falsy(enqueuedRequest2)
 })
 
@@ -118,7 +104,7 @@ ava('should not re-enqueue requests after execute failure', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
 
-	await test.context.queue.enqueue(
+	await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, {
 			action: 'action-create-card@1.0.0',
 			context: test.context.context,
@@ -136,22 +122,7 @@ ava('should not re-enqueue requests after execute failure', async (test) => {
 			}
 		})
 
-	const dequeue = async (times = 100) => {
-		const result = await test.context.queue.dequeue(
-			test.context.context, test.context.worker.getId())
-		if (!result) {
-			if (times <= 0) {
-				return null
-			}
-
-			await Bluebird.delay(5)
-			return dequeue(times - 1)
-		}
-
-		return result
-	}
-
-	const enqueuedRequest1 = await dequeue()
+	const enqueuedRequest1 = await test.context.dequeue()
 
 	await test.context.jellyfish.insertCard(
 		test.context.context, test.context.session, {
@@ -163,7 +134,7 @@ ava('should not re-enqueue requests after execute failure', async (test) => {
 			}
 		})
 
-	await test.context.queue.postResults(
+	await test.context.queue.consumer.postResults(
 		await uuid.random(), test.context.context, enqueuedRequest1, {
 			error: false,
 			data: {
@@ -175,9 +146,9 @@ ava('should not re-enqueue requests after execute failure', async (test) => {
 
 	await test.throwsAsync(
 		test.context.worker.execute(test.context.session, enqueuedRequest1),
-		test.context.jellyfish.errors.JellyfishElementAlreadyExists)
+		errors.JellyfishElementAlreadyExists)
 
-	const enqueuedRequest2 = await dequeue()
+	const enqueuedRequest2 = await test.context.dequeue()
 	test.falsy(enqueuedRequest2)
 })
 
@@ -198,12 +169,12 @@ ava('should not store the password in the queue when using action-create-user', 
 		}
 	})
 
-	const createUserRequest = await test.context.queue.enqueue(
+	const createUserRequest = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, request)
 	test.not(createUserRequest.data.arguments.password.string, password)
 
 	await test.context.flush(test.context.session, 1)
-	const result = await test.context.queue.waitResults(
+	const result = await test.context.queue.producer.waitResults(
 		test.context.context, createUserRequest)
 	test.false(result.error)
 })
@@ -224,11 +195,11 @@ ava('should not store the password in the queue when using action-create-session
 		}
 	})
 
-	const createUserRequest = await test.context.queue.enqueue(
+	const createUserRequest = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, request1)
 
 	await test.context.flush(test.context.session, 1)
-	const result = await test.context.queue.waitResults(
+	const result = await test.context.queue.producer.waitResults(
 		test.context.context, createUserRequest)
 	test.false(result.error)
 
@@ -244,11 +215,12 @@ ava('should not store the password in the queue when using action-create-session
 		}
 	})
 
-	await test.context.queue.enqueue(
+	await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, request2)
 
-	const request = await test.context.dequeue(
-		test.context.context, test.context.worker.getId())
+	await Bluebird.delay(2000)
+
+	const request = await test.context.dequeue()
 
 	test.truthy(request)
 	test.not(request.data.arguments.password, plaintextPassword)
@@ -270,11 +242,11 @@ ava('should not store the passwords in the queue when using action-set-password'
 		}
 	})
 
-	const createUserRequest = await test.context.queue.enqueue(
+	const createUserRequest = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, request1)
 
 	await test.context.flush(test.context.session, 1)
-	const result = await test.context.queue.waitResults(
+	const result = await test.context.queue.producer.waitResults(
 		test.context.context, createUserRequest)
 	test.false(result.error)
 
@@ -291,11 +263,10 @@ ava('should not store the passwords in the queue when using action-set-password'
 		}
 	})
 
-	await test.context.queue.enqueue(
+	await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, request2)
 
-	const request = await test.context.dequeue(
-		test.context.context, test.context.worker.getId())
+	const request = await test.context.dequeue()
 
 	test.truthy(request)
 	test.truthy(request.data.arguments.currentPassword)
@@ -327,11 +298,10 @@ ava('should not store the passwords when using action-set-password on a first ti
 		}
 	})
 
-	await test.context.queue.enqueue(
+	await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, resetRequest)
 
-	const request = await test.context.dequeue(
-		test.context.context, test.context.worker.getId())
+	const request = await test.context.dequeue()
 
 	test.truthy(request)
 	test.falsy(request.data.arguments.currentPassword)
@@ -386,10 +356,10 @@ ava('should change the password of a password-less user given no password', asyn
 		}
 	})
 
-	const resetRequest = await test.context.queue.enqueue(
+	const resetRequest = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, resetRequestPre)
 	await test.context.flush(test.context.session, 1)
-	const resetResult = await test.context.queue.waitResults(
+	const resetResult = await test.context.queue.producer.waitResults(
 		test.context.context, resetRequest)
 	test.false(resetResult.error)
 
@@ -403,10 +373,10 @@ ava('should change the password of a password-less user given no password', asyn
 		}
 	})
 
-	const loginRequest = await test.context.queue.enqueue(
+	const loginRequest = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, loginRequestPre)
 	await test.context.flush(test.context.session, 1)
-	const loginResult = await test.context.queue.waitResults(
+	const loginResult = await test.context.queue.producer.waitResults(
 		test.context.context, loginRequest)
 	test.false(loginResult.error)
 
@@ -431,11 +401,11 @@ ava('should change a user password', async (test) => {
 		}
 	})
 
-	const createUserRequest = await test.context.queue.enqueue(
+	const createUserRequest = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, request1)
 
 	await test.context.flush(test.context.session, 1)
-	const signupResult = await test.context.queue.waitResults(
+	const signupResult = await test.context.queue.producer.waitResults(
 		test.context.context, createUserRequest)
 	test.false(signupResult.error)
 
@@ -452,10 +422,10 @@ ava('should change a user password', async (test) => {
 		}
 	})
 
-	const request = await test.context.queue.enqueue(
+	const request = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, request2)
 	await test.context.flush(test.context.session, 1)
-	const result = await test.context.queue.waitResults(
+	const result = await test.context.queue.producer.waitResults(
 		test.context.context, request)
 	test.false(result.error)
 
@@ -479,10 +449,10 @@ ava('should change a user password', async (test) => {
 		}
 	})
 
-	const loginRequest = await test.context.queue.enqueue(
+	const loginRequest = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, request3)
 	await test.context.flush(test.context.session, 1)
-	const loginResult = await test.context.queue.waitResults(
+	const loginResult = await test.context.queue.producer.waitResults(
 		test.context.context, loginRequest)
 	test.false(loginResult.error)
 })
@@ -503,11 +473,11 @@ ava('should not change a user password given invalid current password', async (t
 		}
 	})
 
-	const createUserRequest = await test.context.queue.enqueue(
+	const createUserRequest = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, request1)
 
 	await test.context.flush(test.context.session, 1)
-	const signupResult = await test.context.queue.waitResults(
+	const signupResult = await test.context.queue.producer.waitResults(
 		test.context.context, createUserRequest)
 	test.false(signupResult.error)
 
@@ -539,11 +509,11 @@ ava('should not change a user password given a null current password', async (te
 		}
 	})
 
-	const createUserRequest = await test.context.queue.enqueue(
+	const createUserRequest = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, request1)
 
 	await test.context.flush(test.context.session, 1)
-	const signupResult = await test.context.queue.waitResults(
+	const signupResult = await test.context.queue.producer.waitResults(
 		test.context.context, createUserRequest)
 	test.false(signupResult.error)
 
@@ -575,11 +545,11 @@ ava('should change the hash when updating a user password', async (test) => {
 		}
 	})
 
-	const createUserRequest = await test.context.queue.enqueue(
+	const createUserRequest = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, request1)
 
 	await test.context.flush(test.context.session, 1)
-	const signupResult = await test.context.queue.waitResults(
+	const signupResult = await test.context.queue.producer.waitResults(
 		test.context.context, createUserRequest)
 	test.false(signupResult.error)
 
@@ -599,10 +569,10 @@ ava('should change the hash when updating a user password', async (test) => {
 		}
 	})
 
-	const request = await test.context.queue.enqueue(
+	const request = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, request2)
 	await test.context.flush(test.context.session, 1)
-	const result = await test.context.queue.waitResults(
+	const result = await test.context.queue.producer.waitResults(
 		test.context.context, request)
 	test.false(result.error)
 
@@ -620,7 +590,7 @@ ava('should fail to create an event with an action-create-card', async (test) =>
 	const typeType = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'type@latest')
 
-	const id = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+	const id = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeType.id,
@@ -658,11 +628,11 @@ ava('should fail to create an event with an action-create-card', async (test) =>
 	})
 
 	await test.context.flush(test.context.session, 1)
-	const typeResult = await test.context.queue.waitResults(
+	const typeResult = await test.context.queue.producer.waitResults(
 		test.context.context, id)
 	test.false(typeResult.error)
 
-	const threadId = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+	const threadId = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeResult.data.id,
@@ -680,11 +650,11 @@ ava('should fail to create an event with an action-create-card', async (test) =>
 	})
 
 	await test.context.flush(test.context.session, 1)
-	const threadResult = await test.context.queue.waitResults(
+	const threadResult = await test.context.queue.producer.waitResults(
 		test.context.context, threadId)
 	test.false(threadResult.error)
 
-	await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+	await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-create-card@1.0.0',
 		card: cardType.id,
 		context: test.context.context,
@@ -715,7 +685,7 @@ ava('should fail to create an event with an action-create-card', async (test) =>
 ava('.execute() should execute an action', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
-	const request = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+	const request = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeCard.id,
@@ -733,7 +703,7 @@ ava('.execute() should execute an action', async (test) => {
 	})
 
 	await test.context.flush(test.context.session, 1)
-	const result = await test.context.queue.waitResults(
+	const result = await test.context.queue.producer.waitResults(
 		test.context.context, request)
 	test.false(result.error)
 	const card = await test.context.jellyfish.getCardById(test.context.context, test.context.session, result.data.id)
@@ -746,7 +716,7 @@ ava('.execute() should add an execution event to the action request', async (tes
 	const actionCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'action-create-card@latest')
 
-	const request = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+	const request = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: `${actionCard.slug}@${actionCard.version}`,
 		context: test.context.context,
 		card: typeCard.id,
@@ -764,7 +734,7 @@ ava('.execute() should add an execution event to the action request', async (tes
 	})
 
 	await test.context.flush(test.context.session, 1)
-	const result = await test.context.queue.waitResults(
+	const result = await test.context.queue.producer.waitResults(
 		test.context.context, request)
 	test.false(result.error)
 
@@ -932,7 +902,7 @@ ava('.execute() should execute a triggered action', async (test) => {
 		}
 	])
 
-	const request = await test.context.queue.enqueue(
+	const request = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, {
 			action: `${actionCard.slug}@${actionCard.version}`,
 			context: test.context.context,
@@ -951,7 +921,7 @@ ava('.execute() should execute a triggered action', async (test) => {
 		})
 
 	await test.context.flush(test.context.session, 1)
-	const result = await test.context.queue.waitResults(
+	const result = await test.context.queue.producer.waitResults(
 		test.context.context, request)
 	test.false(result.error)
 
@@ -1023,7 +993,7 @@ ava('a triggered action can update a dynamic list of cards (ids as array of stri
 	const actionCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'action-create-card@latest')
 
-	const request = await test.context.queue.enqueue(
+	const request = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, {
 			action: `${actionCard.slug}@${actionCard.version}`,
 			context: test.context.context,
@@ -1040,7 +1010,7 @@ ava('a triggered action can update a dynamic list of cards (ids as array of stri
 		})
 
 	await test.context.flush(test.context.session, 1)
-	const result = await test.context.queue.waitResults(
+	const result = await test.context.queue.producer.waitResults(
 		test.context.context, request)
 	test.false(result.error)
 
@@ -1120,7 +1090,7 @@ ava('a triggered action can update a dynamic list of cards (ids as array of obje
 	const actionCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'action-create-card@latest')
 
-	const request = await test.context.queue.enqueue(
+	const request = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, {
 			action: `${actionCard.slug}@${actionCard.version}`,
 			context: test.context.context,
@@ -1137,7 +1107,7 @@ ava('a triggered action can update a dynamic list of cards (ids as array of obje
 		})
 
 	await test.context.flush(test.context.session, 1)
-	const result = await test.context.queue.waitResults(
+	const result = await test.context.queue.producer.waitResults(
 		test.context.context, request)
 	test.false(result.error)
 
@@ -1327,7 +1297,7 @@ ava('trigger should fail to update card if triggered by a user not owning the ca
 		})
 	const sessionIdOfJohnDoe = sessionOfJohnDoe.id
 
-	await test.context.queue.enqueue(
+	await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), sessionIdOfJohnDoe, {
 			action: `${actionCard.slug}@${actionCard.version}`,
 			context: test.context.context,
@@ -1388,7 +1358,7 @@ ava('.execute() should execute a triggered action given a matching mode', async 
 		}
 	])
 
-	const request = await test.context.queue.enqueue(
+	const request = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, {
 			action: `${actionCard.slug}@${actionCard.version}`,
 			context: test.context.context,
@@ -1407,7 +1377,7 @@ ava('.execute() should execute a triggered action given a matching mode', async 
 		})
 
 	await test.context.flush(test.context.session, 1)
-	const result = await test.context.queue.waitResults(
+	const result = await test.context.queue.producer.waitResults(
 		test.context.context, request)
 	test.false(result.error)
 
@@ -1459,7 +1429,7 @@ ava('.execute() should not execute a triggered action given a non matching mode'
 		}
 	])
 
-	const request = await test.context.queue.enqueue(
+	const request = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, {
 			action: `${actionCard.slug}@${actionCard.version}`,
 			context: test.context.context,
@@ -1478,7 +1448,7 @@ ava('.execute() should not execute a triggered action given a non matching mode'
 		})
 
 	await test.context.flush(test.context.session, 1)
-	const result = await test.context.queue.waitResults(
+	const result = await test.context.queue.producer.waitResults(
 		test.context.context, request)
 	test.false(result.error)
 
@@ -1530,7 +1500,7 @@ ava('.execute() should not execute a triggered action with a future start date',
 		}
 	])
 
-	const request = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+	const request = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: `${actionCard.slug}@${actionCard.version}`,
 		context: test.context.context,
 		card: typeCard.id,
@@ -1548,7 +1518,7 @@ ava('.execute() should not execute a triggered action with a future start date',
 	})
 
 	await test.context.flush(test.context.session, 1)
-	const result = await test.context.queue.waitResults(
+	const result = await test.context.queue.producer.waitResults(
 		test.context.context, request)
 	test.false(result.error)
 
@@ -1604,7 +1574,7 @@ ava('.execute() should execute a triggered action with a top level anyOf', async
 		}
 	])
 
-	const request = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+	const request = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: `${actionCard.slug}@${actionCard.version}`,
 		context: test.context.context,
 		card: typeCard.id,
@@ -1622,7 +1592,7 @@ ava('.execute() should execute a triggered action with a top level anyOf', async
 	})
 
 	await test.context.flush(test.context.session, 1)
-	const result = await test.context.queue.waitResults(
+	const result = await test.context.queue.producer.waitResults(
 		test.context.context, request)
 	test.false(result.error)
 
@@ -1637,7 +1607,7 @@ ava('.execute() should add a create event when creating a card', async (test) =>
 	const actionCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'action-create-card@latest')
 
-	const request = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+	const request = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: `${actionCard.slug}@${actionCard.version}`,
 		context: test.context.context,
 		card: typeCard.id,
@@ -1655,7 +1625,7 @@ ava('.execute() should add a create event when creating a card', async (test) =>
 	})
 
 	await test.context.flush(test.context.session, 1)
-	const result = await test.context.queue.waitResults(
+	const result = await test.context.queue.producer.waitResults(
 		test.context.context, request)
 	test.false(result.error)
 
@@ -1686,7 +1656,7 @@ ava('.execute() should be able to AGGREGATE based on the card timeline', async (
 	const typeType = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'type@latest')
 
-	const request = await test.context.queue.enqueue(
+	const request = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, {
 			action: 'action-create-card@1.0.0',
 			context: test.context.context,
@@ -1725,11 +1695,11 @@ ava('.execute() should be able to AGGREGATE based on the card timeline', async (
 		})
 
 	await test.context.flush(test.context.session, 1)
-	const typeResult = await test.context.queue.waitResults(
+	const typeResult = await test.context.queue.producer.waitResults(
 		test.context.context, request)
 	test.false(typeResult.error)
 
-	const threadRequest = await test.context.queue.enqueue(
+	const threadRequest = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, {
 			action: 'action-create-card@1.0.0',
 			context: test.context.context,
@@ -1748,11 +1718,11 @@ ava('.execute() should be able to AGGREGATE based on the card timeline', async (
 		})
 
 	await test.context.flush(test.context.session, 1)
-	const threadResult = await test.context.queue.waitResults(
+	const threadResult = await test.context.queue.producer.waitResults(
 		test.context.context, threadRequest)
 	test.false(threadResult.error)
 
-	const messageRequest1 = await test.context.queue.enqueue(
+	const messageRequest1 = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, {
 			action: 'action-create-event@1.0.0',
 			context: test.context.context,
@@ -1767,7 +1737,7 @@ ava('.execute() should be able to AGGREGATE based on the card timeline', async (
 			}
 		})
 
-	const messageRequest2 = await test.context.queue.enqueue(
+	const messageRequest2 = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, {
 			action: 'action-create-event@1.0.0',
 			context: test.context.context,
@@ -1783,9 +1753,9 @@ ava('.execute() should be able to AGGREGATE based on the card timeline', async (
 		})
 
 	await test.context.flush(test.context.session, 2)
-	const messageResult1 = await test.context.queue.waitResults(
+	const messageResult1 = await test.context.queue.producer.waitResults(
 		test.context.context, messageRequest1)
-	const messageResult2 = await test.context.queue.waitResults(
+	const messageResult2 = await test.context.queue.producer.waitResults(
 		test.context.context, messageRequest2)
 	test.false(messageResult1.error)
 	test.false(messageResult2.error)
@@ -1801,7 +1771,7 @@ ava('.execute() AGGREGATE should create a property on the target if it does not 
 	const typeType = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'type@latest')
 
-	const request = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+	const request = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeType.id,
@@ -1839,11 +1809,11 @@ ava('.execute() AGGREGATE should create a property on the target if it does not 
 	})
 
 	await test.context.flush(test.context.session, 1)
-	const typeResult = await test.context.queue.waitResults(
+	const typeResult = await test.context.queue.producer.waitResults(
 		test.context.context, request)
 	test.false(typeResult.error)
 
-	const threadRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+	const threadRequest = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeResult.data.id,
@@ -1859,11 +1829,11 @@ ava('.execute() AGGREGATE should create a property on the target if it does not 
 	})
 
 	await test.context.flush(test.context.session, 1)
-	const threadResult = await test.context.queue.waitResults(
+	const threadResult = await test.context.queue.producer.waitResults(
 		test.context.context, threadRequest)
 	test.false(threadResult.error)
 
-	const messageRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+	const messageRequest = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-create-event@1.0.0',
 		context: test.context.context,
 		card: threadResult.data.id,
@@ -1879,7 +1849,7 @@ ava('.execute() AGGREGATE should create a property on the target if it does not 
 	})
 
 	await test.context.flush(test.context.session, 1)
-	const messageResult = await test.context.queue.waitResults(
+	const messageResult = await test.context.queue.producer.waitResults(
 		test.context.context, messageRequest)
 	test.false(messageResult.error)
 
@@ -1891,7 +1861,7 @@ ava('.execute() AGGREGATE should work with $$ prefixed properties', async (test)
 	const typeType = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'type@latest')
 
-	const request = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+	const request = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeType.id,
@@ -1929,11 +1899,11 @@ ava('.execute() AGGREGATE should work with $$ prefixed properties', async (test)
 	})
 
 	await test.context.flush(test.context.session, 1)
-	const typeResult = await test.context.queue.waitResults(
+	const typeResult = await test.context.queue.producer.waitResults(
 		test.context.context, request)
 	test.false(typeResult.error)
 
-	const threadRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+	const threadRequest = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeResult.data.id,
@@ -1951,11 +1921,11 @@ ava('.execute() AGGREGATE should work with $$ prefixed properties', async (test)
 	})
 
 	await test.context.flush(test.context.session, 1)
-	const threadResult = await test.context.queue.waitResults(
+	const threadResult = await test.context.queue.producer.waitResults(
 		test.context.context, threadRequest)
 	test.false(threadResult.error)
 
-	const messageRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+	const messageRequest = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-create-event@1.0.0',
 		card: threadResult.data.id,
 		context: test.context.context,
@@ -1971,7 +1941,7 @@ ava('.execute() AGGREGATE should work with $$ prefixed properties', async (test)
 	})
 
 	await test.context.flush(test.context.session, 1)
-	const messageResult = await test.context.queue.waitResults(
+	const messageResult = await test.context.queue.producer.waitResults(
 		test.context.context, messageRequest)
 	test.false(messageResult.error)
 
@@ -1984,7 +1954,7 @@ ava('.execute() should create a message with tags', async (test) => {
 	const typeType = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'type@latest')
 
-	const request = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+	const request = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeType.id,
@@ -2012,11 +1982,11 @@ ava('.execute() should create a message with tags', async (test) => {
 	})
 
 	await test.context.flush(test.context.session, 1)
-	const typeResult = await test.context.queue.waitResults(
+	const typeResult = await test.context.queue.producer.waitResults(
 		test.context.context, request)
 	test.false(typeResult.error)
 
-	const threadRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+	const threadRequest = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeResult.data.id,
@@ -2031,11 +2001,11 @@ ava('.execute() should create a message with tags', async (test) => {
 	})
 
 	await test.context.flush(test.context.session, 1)
-	const threadResult = await test.context.queue.waitResults(
+	const threadResult = await test.context.queue.producer.waitResults(
 		test.context.context, threadRequest)
 	test.false(threadResult.error)
 
-	const messageRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+	const messageRequest = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-create-event@1.0.0',
 		context: test.context.context,
 		card: threadResult.data.id,
@@ -2051,7 +2021,7 @@ ava('.execute() should create a message with tags', async (test) => {
 	})
 
 	await test.context.flush(test.context.session, 1)
-	const messageResult = await test.context.queue.waitResults(
+	const messageResult = await test.context.queue.producer.waitResults(
 		test.context.context, messageRequest)
 	test.false(messageResult.error)
 
@@ -2504,8 +2474,7 @@ ava('.tick() should not enqueue actions if there are no triggers', async (test) 
 		currentDate: new Date()
 	})
 
-	const request = await test.context.dequeue(
-		test.context.context, test.context.worker.getId())
+	const request = await test.context.dequeue()
 	test.falsy(request)
 })
 
@@ -2528,8 +2497,7 @@ ava('.tick() should not enqueue actions if there are no time triggers', async (t
 		currentDate: new Date()
 	})
 
-	const request = await test.context.dequeue(
-		test.context.context, test.context.worker.getId())
+	const request = await test.context.dequeue()
 	test.falsy(request)
 })
 
@@ -2551,8 +2519,7 @@ ava('.tick() should not enqueue an action if there is a time trigger with a futu
 		currentDate: new Date('2018-08-05T12:00:00.000Z')
 	})
 
-	const request = await test.context.dequeue(
-		test.context.context, test.context.worker.getId())
+	const request = await test.context.dequeue()
 	test.falsy(request)
 })
 
@@ -2586,8 +2553,7 @@ ava('.tick() should evaluate the current timestamp in a time triggered action', 
 		currentDate: new Date('2018-08-06T12:00:00.000Z')
 	})
 
-	const request = await test.context.dequeue(
-		test.context.context, test.context.worker.getId())
+	const request = await test.context.dequeue()
 	test.deepEqual(request.data.arguments.properties.data, {
 		timestamp: '2018-08-06T12:00:00.000Z'
 	})
@@ -2618,8 +2584,7 @@ ava('.tick() should enqueue an action if there is a time trigger with a past sta
 		currentDate: new Date('2018-08-06T12:00:00.000Z')
 	})
 
-	const request = await test.context.dequeue(
-		test.context.context, test.context.worker.getId())
+	const request = await test.context.dequeue()
 	test.deepEqual(request, test.context.jellyfish.defaults({
 		id: request.id,
 		created_at: request.created_at,
@@ -2672,8 +2637,7 @@ ava('.tick() should enqueue an action if there is a time trigger with a present 
 		currentDate: new Date('2018-08-05T12:00:00.000Z')
 	})
 
-	const request = await test.context.dequeue(
-		test.context.context, test.context.worker.getId())
+	const request = await test.context.dequeue()
 	test.deepEqual(request, test.context.jellyfish.defaults({
 		id: request.id,
 		slug: request.slug,
@@ -2727,8 +2691,7 @@ ava('.tick() should not enqueue an action using a past timestamp', async (test) 
 		currentDate: new Date('2050-08-06T12:00:00.000Z')
 	})
 
-	const request = await test.context.dequeue(
-		test.context.context, test.context.worker.getId())
+	const request = await test.context.dequeue()
 	const requestDate = new Date(request.data.timestamp)
 	test.false(requestDate.getTime() < Date.now())
 })
@@ -2862,11 +2825,11 @@ ava('should be able to login as a user with a password', async (test) => {
 		}
 	})
 
-	const createUserRequest = await test.context.queue.enqueue(
+	const createUserRequest = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, request1)
 
 	await test.context.flush(test.context.session, 1)
-	const signupResult = await test.context.queue.waitResults(
+	const signupResult = await test.context.queue.producer.waitResults(
 		test.context.context, createUserRequest)
 	test.false(signupResult.error)
 
@@ -2880,11 +2843,11 @@ ava('should be able to login as a user with a password', async (test) => {
 		}
 	})
 
-	const loginRequest = await test.context.queue.enqueue(
+	const loginRequest = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, request2)
 
 	await test.context.flush(test.context.session, 1)
-	const loginResult = await test.context.queue.waitResults(
+	const loginResult = await test.context.queue.producer.waitResults(
 		test.context.context, loginRequest)
 	test.false(loginResult.error)
 
@@ -2923,7 +2886,7 @@ ava('should not be able to login as a password-less user', async (test) => {
 			}
 		})
 
-	await test.context.queue.enqueue(
+	await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, {
 			action: 'action-create-session@1.0.0',
 			context: test.context.context,
@@ -2975,7 +2938,7 @@ ava('should not be able to login as a password-less non-disallowed user', async 
 			}
 		})
 
-	await test.context.queue.enqueue(
+	await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, {
 			action: 'action-create-session@1.0.0',
 			context: test.context.context,
@@ -3003,7 +2966,7 @@ ava('should not be able to login as a password-less disallowed user', async (tes
 			}
 		})
 
-	await test.context.queue.enqueue(
+	await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, {
 			action: 'action-create-session@1.0.0',
 			context: test.context.context,
@@ -3033,11 +2996,11 @@ ava('should fail if signing up with the wrong password', async (test) => {
 		}
 	})
 
-	const createUserRequest = await test.context.queue.enqueue(
+	const createUserRequest = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, request1)
 
 	await test.context.flush(test.context.session, 1)
-	const signupResult = await test.context.queue.waitResults(
+	const signupResult = await test.context.queue.producer.waitResults(
 		test.context.context, createUserRequest)
 	test.false(signupResult.error)
 
@@ -3055,7 +3018,7 @@ ava('should fail if signing up with the wrong password', async (test) => {
 ava('should fail to update a card if the schema does not match', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
-	const request = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+	const request = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeCard.id,
@@ -3073,11 +3036,11 @@ ava('should fail to update a card if the schema does not match', async (test) =>
 	})
 
 	await test.context.flush(test.context.session, 1)
-	const result = await test.context.queue.waitResults(
+	const result = await test.context.queue.producer.waitResults(
 		test.context.context, request)
 	test.false(result.error)
 
-	await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+	await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-update-card@1.0.0',
 		context: test.context.context,
 		card: result.data.id,
@@ -3102,7 +3065,7 @@ ava('should fail to update a card if the schema does not match', async (test) =>
 ava('should update a card to add an extra property', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
-	const createRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+	const createRequest = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeCard.id,
@@ -3120,11 +3083,11 @@ ava('should update a card to add an extra property', async (test) => {
 	})
 
 	await test.context.flush(test.context.session, 1)
-	const createResult = await test.context.queue.waitResults(
+	const createResult = await test.context.queue.producer.waitResults(
 		test.context.context, createRequest)
 	test.false(createResult.error)
 
-	const updateRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+	const updateRequest = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-update-card@1.0.0',
 		context: test.context.context,
 		card: createResult.data.id,
@@ -3142,7 +3105,7 @@ ava('should update a card to add an extra property', async (test) => {
 	})
 
 	await test.context.flush(test.context.session, 1)
-	const updateResult = await test.context.queue.waitResults(
+	const updateResult = await test.context.queue.producer.waitResults(
 		test.context.context, updateRequest)
 	test.false(updateResult.error)
 
@@ -3173,7 +3136,7 @@ ava('should update a card to add an extra property', async (test) => {
 ava('should update a card to set active to false', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
-	const createRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+	const createRequest = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeCard.id,
@@ -3188,11 +3151,11 @@ ava('should update a card to set active to false', async (test) => {
 	})
 
 	await test.context.flush(test.context.session, 1)
-	const createResult = await test.context.queue.waitResults(
+	const createResult = await test.context.queue.producer.waitResults(
 		test.context.context, createRequest)
 	test.false(createResult.error)
 
-	const updateRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+	const updateRequest = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-update-card@1.0.0',
 		context: test.context.context,
 		card: createResult.data.id,
@@ -3210,7 +3173,7 @@ ava('should update a card to set active to false', async (test) => {
 	})
 
 	await test.context.flush(test.context.session, 1)
-	const updateResult = await test.context.queue.waitResults(
+	const updateResult = await test.context.queue.producer.waitResults(
 		test.context.context, updateRequest)
 	test.false(updateResult.error)
 
@@ -3233,7 +3196,7 @@ ava('should update a card to set active to false', async (test) => {
 ava('should update a card along with a reason', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
-	const createRequest = await test.context.queue.enqueue(
+	const createRequest = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, {
 			action: 'action-create-card@1.0.0',
 			context: test.context.context,
@@ -3249,11 +3212,11 @@ ava('should update a card along with a reason', async (test) => {
 		})
 
 	await test.context.flush(test.context.session, 1)
-	const createResult = await test.context.queue.waitResults(
+	const createResult = await test.context.queue.producer.waitResults(
 		test.context.context, createRequest)
 	test.false(createResult.error)
 
-	const updateRequest = await test.context.queue.enqueue(
+	const updateRequest = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, {
 			action: 'action-update-card@1.0.0',
 			context: test.context.context,
@@ -3272,7 +3235,7 @@ ava('should update a card along with a reason', async (test) => {
 		})
 
 	await test.context.flush(test.context.session, 1)
-	const updateResult = await test.context.queue.waitResults(
+	const updateResult = await test.context.queue.producer.waitResults(
 		test.context.context, updateRequest)
 	test.false(updateResult.error)
 
@@ -3307,7 +3270,7 @@ ava('should update a card along with a reason', async (test) => {
 ava('should create a new card along with a reason', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
-	const createRequest = await test.context.queue.enqueue(
+	const createRequest = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, {
 			action: 'action-create-card@1.0.0',
 			context: test.context.context,
@@ -3323,7 +3286,7 @@ ava('should create a new card along with a reason', async (test) => {
 		})
 
 	await test.context.flush(test.context.session, 1)
-	const createResult = await test.context.queue.waitResults(
+	const createResult = await test.context.queue.producer.waitResults(
 		test.context.context, createRequest)
 	test.false(createResult.error)
 
@@ -3358,7 +3321,7 @@ ava('should create a new card along with a reason', async (test) => {
 ava('should update a card to set active to false using the card slug as input', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
-	const createRequest = await test.context.queue.enqueue(
+	const createRequest = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, {
 			action: 'action-create-card@1.0.0',
 			context: test.context.context,
@@ -3374,11 +3337,11 @@ ava('should update a card to set active to false using the card slug as input', 
 		})
 
 	await test.context.flush(test.context.session, 1)
-	const createResult = await test.context.queue.waitResults(
+	const createResult = await test.context.queue.producer.waitResults(
 		test.context.context, createRequest)
 	test.false(createResult.error)
 
-	const updateRequest = await test.context.queue.enqueue(
+	const updateRequest = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, {
 			action: 'action-update-card@1.0.0',
 			context: test.context.context,
@@ -3397,7 +3360,7 @@ ava('should update a card to set active to false using the card slug as input', 
 		})
 
 	await test.context.flush(test.context.session, 1)
-	const updateResult = await test.context.queue.waitResults(
+	const updateResult = await test.context.queue.producer.waitResults(
 		test.context.context, updateRequest)
 	test.false(updateResult.error)
 
@@ -3420,7 +3383,7 @@ ava('should update a card to set active to false using the card slug as input', 
 ava('should update a card to override an array property', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
-	const createRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+	const createRequest = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeCard.id,
@@ -3438,11 +3401,11 @@ ava('should update a card to override an array property', async (test) => {
 	})
 
 	await test.context.flush(test.context.session, 1)
-	const createResult = await test.context.queue.waitResults(
+	const createResult = await test.context.queue.producer.waitResults(
 		test.context.context, createRequest)
 	test.false(createResult.error)
 
-	const updateRequest = await test.context.queue.enqueue(
+	const updateRequest = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, {
 			action: 'action-update-card@1.0.0',
 			context: test.context.context,
@@ -3461,7 +3424,7 @@ ava('should update a card to override an array property', async (test) => {
 		})
 
 	await test.context.flush(test.context.session, 1)
-	const updateResult = await test.context.queue.waitResults(
+	const updateResult = await test.context.queue.producer.waitResults(
 		test.context.context, updateRequest)
 	test.false(updateResult.error)
 
@@ -3487,7 +3450,7 @@ ava('should update a card to override an array property', async (test) => {
 ava('should add an update event if updating a card', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
-	const createRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+	const createRequest = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeCard.id,
@@ -3505,11 +3468,11 @@ ava('should add an update event if updating a card', async (test) => {
 	})
 
 	await test.context.flush(test.context.session, 1)
-	const createResult = await test.context.queue.waitResults(
+	const createResult = await test.context.queue.producer.waitResults(
 		test.context.context, createRequest)
 	test.false(createResult.error)
 
-	const updateRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+	const updateRequest = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-update-card@1.0.0',
 		context: test.context.context,
 		card: createResult.data.id,
@@ -3527,7 +3490,7 @@ ava('should add an update event if updating a card', async (test) => {
 	})
 
 	await test.context.flush(test.context.session, 1)
-	const updateResult = await test.context.queue.waitResults(
+	const updateResult = await test.context.queue.producer.waitResults(
 		test.context.context, updateRequest)
 	test.false(updateResult.error)
 
@@ -3606,7 +3569,7 @@ ava('should add an update event if updating a card', async (test) => {
 ava('should delete a card using action-delete-card', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
-	const createRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+	const createRequest = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeCard.id,
@@ -3621,11 +3584,11 @@ ava('should delete a card using action-delete-card', async (test) => {
 	})
 
 	await test.context.flush(test.context.session, 1)
-	const createResult = await test.context.queue.waitResults(
+	const createResult = await test.context.queue.producer.waitResults(
 		test.context.context, createRequest)
 	test.false(createResult.error)
 
-	const deleteRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+	const deleteRequest = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-delete-card@1.0.0',
 		context: test.context.context,
 		card: createResult.data.id,
@@ -3634,7 +3597,7 @@ ava('should delete a card using action-delete-card', async (test) => {
 	})
 
 	await test.context.flush(test.context.session, 1)
-	const deleteResult = await test.context.queue.waitResults(
+	const deleteResult = await test.context.queue.producer.waitResults(
 		test.context.context, deleteRequest)
 	test.false(deleteResult.error)
 
@@ -3657,7 +3620,7 @@ ava('should delete a card using action-delete-card', async (test) => {
 ava('should delete a card using action-update-card', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
-	const createRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+	const createRequest = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeCard.id,
@@ -3672,11 +3635,11 @@ ava('should delete a card using action-update-card', async (test) => {
 	})
 
 	await test.context.flush(test.context.session, 1)
-	const createResult = await test.context.queue.waitResults(
+	const createResult = await test.context.queue.producer.waitResults(
 		test.context.context, createRequest)
 	test.false(createResult.error)
 
-	const updateRequest = await test.context.queue.enqueue(
+	const updateRequest = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, {
 			action: 'action-update-card@1.0.0',
 			context: test.context.context,
@@ -3695,7 +3658,7 @@ ava('should delete a card using action-update-card', async (test) => {
 		})
 
 	await test.context.flush(test.context.session, 1)
-	const updateResult = await test.context.queue.waitResults(
+	const updateResult = await test.context.queue.producer.waitResults(
 		test.context.context, updateRequest)
 	test.false(updateResult.error)
 
@@ -3736,7 +3699,7 @@ ava('action-create-event should create a link card', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
 
-	const cardRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+	const cardRequest = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeCard.id,
@@ -3748,11 +3711,11 @@ ava('action-create-event should create a link card', async (test) => {
 	})
 
 	await test.context.flush(test.context.session, 1)
-	const cardResult = await test.context.queue.waitResults(
+	const cardResult = await test.context.queue.producer.waitResults(
 		test.context.context, cardRequest)
 	test.false(cardResult.error)
 
-	const messageRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+	const messageRequest = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-create-event@1.0.0',
 		context: test.context.context,
 		card: cardResult.data.id,
@@ -3767,7 +3730,7 @@ ava('action-create-event should create a link card', async (test) => {
 	})
 
 	await test.context.flush(test.context.session, 1)
-	const messageResult = await test.context.queue.waitResults(
+	const messageResult = await test.context.queue.producer.waitResults(
 		test.context.context, messageRequest)
 	test.false(messageResult.error)
 
@@ -3823,7 +3786,7 @@ ava('action-create-event: should be able to add an event name', async (test) => 
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
 
-	const cardRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+	const cardRequest = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeCard.id,
@@ -3835,11 +3798,11 @@ ava('action-create-event: should be able to add an event name', async (test) => 
 	})
 
 	await test.context.flush(test.context.session, 1)
-	const cardResult = await test.context.queue.waitResults(
+	const cardResult = await test.context.queue.producer.waitResults(
 		test.context.context, cardRequest)
 	test.false(cardResult.error)
 
-	const messageRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+	const messageRequest = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-create-event@1.0.0',
 		context: test.context.context,
 		card: cardResult.data.id,
@@ -3855,7 +3818,7 @@ ava('action-create-event: should be able to add an event name', async (test) => 
 	})
 
 	await test.context.flush(test.context.session, 1)
-	const messageResult = await test.context.queue.waitResults(
+	const messageResult = await test.context.queue.producer.waitResults(
 		test.context.context, messageRequest)
 	test.false(messageResult.error)
 
@@ -3880,7 +3843,7 @@ ava('events should always inherit their parent\'s markers', async (test) => {
 			type: 'type'
 		})
 
-	const cardRequest = await test.context.queue.enqueue(
+	const cardRequest = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), session, {
 			action: 'action-create-card@1.0.0',
 			context: test.context.context,
@@ -3895,11 +3858,11 @@ ava('events should always inherit their parent\'s markers', async (test) => {
 		})
 
 	await test.context.flush(test.context.session, 1)
-	const cardResult = await test.context.queue.waitResults(
+	const cardResult = await test.context.queue.producer.waitResults(
 		test.context.context, cardRequest)
 	test.false(cardResult.error)
 
-	const messageRequest = await test.context.queue.enqueue(
+	const messageRequest = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), session, {
 			action: 'action-create-event@1.0.0',
 			context: test.context.context,
@@ -3915,7 +3878,7 @@ ava('events should always inherit their parent\'s markers', async (test) => {
 		})
 
 	await test.context.flush(test.context.session, 1)
-	const messageResult = await test.context.queue.waitResults(
+	const messageResult = await test.context.queue.producer.waitResults(
 		test.context.context, messageRequest)
 	test.false(messageResult.error)
 
@@ -3939,7 +3902,7 @@ ava('Updating a cards markers should update the markers of attached events', asy
 			type: 'type'
 		})
 
-	const cardRequest = await test.context.queue.enqueue(
+	const cardRequest = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), session, {
 			action: 'action-create-card@1.0.0',
 			context: test.context.context,
@@ -3952,11 +3915,11 @@ ava('Updating a cards markers should update the markers of attached events', asy
 		})
 
 	await test.context.flush(test.context.session, 1)
-	const cardResult = await test.context.queue.waitResults(
+	const cardResult = await test.context.queue.producer.waitResults(
 		test.context.context, cardRequest)
 	test.false(cardResult.error)
 
-	const messageRequest = await test.context.queue.enqueue(
+	const messageRequest = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), session, {
 			action: 'action-create-event@1.0.0',
 			context: test.context.context,
@@ -3972,11 +3935,11 @@ ava('Updating a cards markers should update the markers of attached events', asy
 		})
 
 	await test.context.flush(session)
-	const messageResult = await test.context.queue.waitResults(
+	const messageResult = await test.context.queue.producer.waitResults(
 		test.context.context, messageRequest)
 	test.false(messageResult.error)
 
-	const updateRequest = await test.context.queue.enqueue(
+	const updateRequest = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), session, {
 			action: 'action-update-card@1.0.0',
 			context: test.context.context,
@@ -3995,7 +3958,7 @@ ava('Updating a cards markers should update the markers of attached events', asy
 		})
 
 	await test.context.flush(session)
-	await test.context.queue.waitResults(
+	await test.context.queue.producer.waitResults(
 		test.context.context, updateRequest)
 
 	const message = await jellyfish.getCardById(
@@ -4043,7 +4006,7 @@ ava('should be able to insert a deeply nested card', async (test) => {
 
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
-	const createRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
+	const createRequest = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeCard.id,
@@ -4059,7 +4022,7 @@ ava('should be able to insert a deeply nested card', async (test) => {
 	})
 
 	await test.context.flush(test.context.session, 1)
-	const createResult = await test.context.queue.waitResults(
+	const createResult = await test.context.queue.producer.waitResults(
 		test.context.context, createRequest)
 	test.false(createResult.error)
 
@@ -4112,7 +4075,7 @@ ava('should be able to upsert a deeply nested card', async (test) => {
 
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
-	const createRequest = await test.context.queue.enqueue(
+	const createRequest = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, {
 			action: 'action-create-card@1.0.0',
 			context: test.context.context,
@@ -4129,11 +4092,11 @@ ava('should be able to upsert a deeply nested card', async (test) => {
 		})
 
 	await test.context.flush(test.context.session, 1)
-	const createResult = await test.context.queue.waitResults(
+	const createResult = await test.context.queue.producer.waitResults(
 		test.context.context, createRequest)
 	test.false(createResult.error)
 
-	const updateRequest = await test.context.queue.enqueue(
+	const updateRequest = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, {
 			action: 'action-update-card@1.0.0',
 			context: test.context.context,
@@ -4232,7 +4195,7 @@ ava('should be able to upsert a deeply nested card', async (test) => {
 		})
 
 	await test.context.flush(test.context.session, 1)
-	const updateResult = await test.context.queue.waitResults(
+	const updateResult = await test.context.queue.producer.waitResults(
 		test.context.context, updateRequest)
 	test.false(updateResult.error)
 
@@ -4255,7 +4218,7 @@ ava('should post a broadcast message to an empty thread', async (test) => {
 			data: {}
 		})
 
-	const request = await test.context.queue.enqueue(
+	const request = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, {
 			action: 'action-broadcast@1.0.0',
 			card: thread.id,
@@ -4267,7 +4230,7 @@ ava('should post a broadcast message to an empty thread', async (test) => {
 		})
 
 	await test.context.flush(test.context.session, 1)
-	const result = await test.context.queue.waitResults(
+	const result = await test.context.queue.producer.waitResults(
 		test.context.context, request)
 	test.false(result.error)
 
@@ -4328,7 +4291,7 @@ ava('should post a broadcast message to a non empty thread', async (test) => {
 			data: {}
 		})
 
-	const messageRequest = await test.context.queue.enqueue(test.context.worker.getId(),
+	const messageRequest = await test.context.queue.producer.enqueue(test.context.worker.getId(),
 		test.context.session, {
 			action: 'action-create-event@1.0.0',
 			context: test.context.context,
@@ -4343,11 +4306,11 @@ ava('should post a broadcast message to a non empty thread', async (test) => {
 		})
 
 	await test.context.flush(test.context.session, 1)
-	const messageResult = await test.context.queue.waitResults(
+	const messageResult = await test.context.queue.producer.waitResults(
 		test.context.context, messageRequest)
 	test.false(messageResult.error)
 
-	const request = await test.context.queue.enqueue(
+	const request = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, {
 			action: 'action-broadcast@1.0.0',
 			card: thread.id,
@@ -4359,7 +4322,7 @@ ava('should post a broadcast message to a non empty thread', async (test) => {
 		})
 
 	await test.context.flush(test.context.session, 1)
-	const result = await test.context.queue.waitResults(
+	const result = await test.context.queue.producer.waitResults(
 		test.context.context, request)
 	test.false(result.error)
 
@@ -4436,7 +4399,7 @@ ava('should not broadcast the same message twice', async (test) => {
 			data: {}
 		})
 
-	const request1 = await test.context.queue.enqueue(
+	const request1 = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, {
 			action: 'action-broadcast@1.0.0',
 			card: thread.id,
@@ -4448,11 +4411,11 @@ ava('should not broadcast the same message twice', async (test) => {
 		})
 
 	await test.context.flush(test.context.session, 1)
-	const result1 = await test.context.queue.waitResults(
+	const result1 = await test.context.queue.producer.waitResults(
 		test.context.context, request1)
 	test.false(result1.error)
 
-	const messageRequest = await test.context.queue.enqueue(test.context.worker.getId(),
+	const messageRequest = await test.context.queue.producer.enqueue(test.context.worker.getId(),
 		test.context.session, {
 			action: 'action-create-event@1.0.0',
 			context: test.context.context,
@@ -4467,11 +4430,11 @@ ava('should not broadcast the same message twice', async (test) => {
 		})
 
 	await test.context.flush(test.context.session, 1)
-	const messageResult = await test.context.queue.waitResults(
+	const messageResult = await test.context.queue.producer.waitResults(
 		test.context.context, messageRequest)
 	test.false(messageResult.error)
 
-	const request2 = await test.context.queue.enqueue(
+	const request2 = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, {
 			action: 'action-broadcast@1.0.0',
 			card: thread.id,
@@ -4483,7 +4446,7 @@ ava('should not broadcast the same message twice', async (test) => {
 		})
 
 	await test.context.flush(test.context.session, 1)
-	const result2 = await test.context.queue.waitResults(
+	const result2 = await test.context.queue.producer.waitResults(
 		test.context.context, request2)
 	test.false(result2.error)
 
@@ -4560,7 +4523,7 @@ ava('should broadcast different messages', async (test) => {
 			data: {}
 		})
 
-	const request1 = await test.context.queue.enqueue(
+	const request1 = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, {
 			action: 'action-broadcast@1.0.0',
 			card: thread.id,
@@ -4572,11 +4535,11 @@ ava('should broadcast different messages', async (test) => {
 		})
 
 	await test.context.flush(test.context.session, 1)
-	const result1 = await test.context.queue.waitResults(
+	const result1 = await test.context.queue.producer.waitResults(
 		test.context.context, request1)
 	test.false(result1.error)
 
-	const messageRequest = await test.context.queue.enqueue(test.context.worker.getId(),
+	const messageRequest = await test.context.queue.producer.enqueue(test.context.worker.getId(),
 		test.context.session, {
 			action: 'action-create-event@1.0.0',
 			context: test.context.context,
@@ -4591,11 +4554,11 @@ ava('should broadcast different messages', async (test) => {
 		})
 
 	await test.context.flush(test.context.session, 1)
-	const messageResult = await test.context.queue.waitResults(
+	const messageResult = await test.context.queue.producer.waitResults(
 		test.context.context, messageRequest)
 	test.false(messageResult.error)
 
-	const request2 = await test.context.queue.enqueue(
+	const request2 = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, {
 			action: 'action-broadcast@1.0.0',
 			card: thread.id,
@@ -4607,7 +4570,7 @@ ava('should broadcast different messages', async (test) => {
 		})
 
 	await test.context.flush(test.context.session, 1)
-	const result2 = await test.context.queue.waitResults(
+	const result2 = await test.context.queue.producer.waitResults(
 		test.context.context, request2)
 	test.false(result2.error)
 
@@ -4720,7 +4683,7 @@ ava('should broadcast the same message twice given different actors', async (tes
 			}
 		})
 
-	const request1 = await test.context.queue.enqueue(test.context.worker.getId(),
+	const request1 = await test.context.queue.producer.enqueue(test.context.worker.getId(),
 		rogueSession.id, {
 			action: 'action-create-event@1.0.0',
 			context: test.context.context,
@@ -4735,11 +4698,11 @@ ava('should broadcast the same message twice given different actors', async (tes
 		})
 
 	await test.context.flush(test.context.session, 1)
-	const result1 = await test.context.queue.waitResults(
+	const result1 = await test.context.queue.producer.waitResults(
 		test.context.context, request1)
 	test.false(result1.error)
 
-	const request2 = await test.context.queue.enqueue(
+	const request2 = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, {
 			action: 'action-broadcast@1.0.0',
 			card: thread.id,
@@ -4751,7 +4714,7 @@ ava('should broadcast the same message twice given different actors', async (tes
 		})
 
 	await test.context.flush(test.context.session, 1)
-	const result2 = await test.context.queue.waitResults(
+	const result2 = await test.context.queue.producer.waitResults(
 		test.context.context, request2)
 	test.false(result2.error)
 

@@ -8,11 +8,13 @@
 	start-server \
 	start-worker \
 	start-tick \
+	start-rabbitmq \
 	start-redis \
 	start-postgres \
 	test-unit \
 	test-integration \
-	test-e2e
+	test-e2e \
+	scrub
 
 # See https://stackoverflow.com/a/18137056
 MAKEFILE_PATH := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
@@ -38,6 +40,15 @@ POSTGRES_HOST ?= localhost
 export POSTGRES_HOST
 POSTGRES_DATABASE ?= jellyfish
 export POSTGRES_DATABASE
+
+RABBITMQ_QUEUE_NAME ?= jellyfish_action_requests
+export RABBITMQ_QUEUE_NAME
+RABBITMQ_HOSTNAME ?= localhost
+export RABBITMQ_HOSTNAME
+RABBITMQ_USERNAME ?= guest
+export RABBITMQ_USERNAME
+RABBITMQ_PASSWORD ?= guest
+export RABBITMQ_PASSWORD
 
 PORT ?= 8000
 export PORT
@@ -81,8 +92,6 @@ REDIS_PORT ?= 6379
 export REDIS_PORT
 REDIS_HOST ?= localhost
 export REDIS_HOST
-LOCKFILE ?=
-export LOCKFILE
 POD_NAME ?= localhost
 export POD_NAME
 OAUTH_REDIRECT_BASE_URL ?= $(SERVER_HOST):$(UI_PORT)
@@ -220,7 +229,7 @@ DOCKER_COMPOSE_COMMAND_OPTIONS =
 endif
 
 ifeq ($(SCRUB),1)
-SCRUB_COMMAND = ./scripts/postgres-delete-test-databases.js
+SCRUB_COMMAND = ./scripts/postgres-delete-test-databases.js && ./scripts/rabbitmq-delete-test-queues.js
 else
 SCRUB_COMMAND =
 endif
@@ -287,6 +296,7 @@ clean:
 		postgres_data \
 		webpack-bundle-report.html \
 		webpack-bundle-report.chat-widget.html \
+		rabbit_data \
 		dist \
 		.cache-loader
 
@@ -320,9 +330,11 @@ lint:
 coverage:
 	./node_modules/.bin/nyc $(NYC_GLOBAL_OPS) --reporter=text --reporter=html --reporter=json report
 
-test: LOGLEVEL = warning
-test:
+scrub:
 	$(SCRUB_COMMAND)
+
+test: LOGLEVEL = warning
+test: scrub
 	$(COVERAGE_COMMAND) node $(NODE_DEBUG_ARGS) \
 		./node_modules/.bin/ava $(AVA_ARGS) $(FILES)
 
@@ -333,7 +345,7 @@ test-integration:
 	FILES="'./test/integration/**/*.spec.js'" make test
 
 test-e2e:
-	FILES="'./test/e2e/**/*.spec.{js,jsx}'" make test
+	FILES="'./test/e2e/**/*.spec.{js,jsx}'" SCRUB=0 make test
 
 test-unit-%:
 	FILES="'./test/unit/$(subst test-unit-,,$@)/**/*.spec.{js,jsx}'" SCRUB=0 make test
@@ -394,6 +406,11 @@ else
 start-tick:
 	exec $(NODE) $(NODE_ARGS) apps/action-server/tick.js
 endif
+
+start-rabbitmq:
+	RABBITMQ_CONFIG_FILE=$(shell pwd)/rabbitmq.conf \
+	RABBITMQ_MNESIA_BASE=$(shell pwd)/rabbit_data \
+	rabbitmq-server
 
 start-redis:
 	exec redis-server --port $(REDIS_PORT)

@@ -73,7 +73,7 @@ avaTest('should not change the same user email', async (test) => {
 				data: externalEvent
 			})
 
-		const request = await test.context.queue.enqueue(
+		const request = await test.context.queue.producer.enqueue(
 			test.context.worker.getId(),
 			test.context.session, {
 				context: test.context.context,
@@ -84,7 +84,7 @@ avaTest('should not change the same user email', async (test) => {
 			})
 
 		await test.context.flush(test.context.session, 1)
-		const result = await test.context.queue.waitResults(
+		const result = await test.context.queue.producer.waitResults(
 			test.context.context, request)
 		test.false(result.error)
 	}
@@ -160,7 +160,7 @@ avaTest('should add a new e-mail to a user', async (test) => {
 				data: externalEvent
 			})
 
-		const request = await test.context.queue.enqueue(
+		const request = await test.context.queue.producer.enqueue(
 			test.context.worker.getId(),
 			test.context.session, {
 				context: test.context.context,
@@ -171,7 +171,7 @@ avaTest('should add a new e-mail to a user', async (test) => {
 			})
 
 		await test.context.flush(test.context.session, 1)
-		const result = await test.context.queue.waitResults(
+		const result = await test.context.queue.producer.waitResults(
 			test.context.context, request)
 		test.false(result.error)
 	}

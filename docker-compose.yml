@@ -12,6 +12,7 @@ services:
     depends_on:
       - postgres
       - redis
+      - rabbitmq
       - tick
       - worker_1
       - worker_2
@@ -32,6 +33,10 @@ services:
       - REDIS_HOST=redis
       - REDIS_PASSWORD=redis
       - REDIS_PORT=6379
+      - RABBITMQ_QUEUE_NAME=jellyfish_action_requests
+      - RABBITMQ_HOSTNAME=rabbitmq
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
       - SENTRY_DSN_SERVER
       - SERVER_DATABASE=jellyfish
       - SERVER_HOST=http://localhost
@@ -101,6 +106,13 @@ services:
     restart: always
     networks:
       - internal
+  rabbitmq:
+    image: rabbitmq:3.8-management-alpine
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    networks:
+      - internal
   sidecar:
     build:
       context: .
@@ -147,6 +159,7 @@ services:
     depends_on:
       - postgres
       - redis
+      - rabbitmq
       - balena-mdns-publisher
     environment:
       - DATABASE=postgres
@@ -160,6 +173,10 @@ services:
       - REDIS_HOST=redis
       - REDIS_PASSWORD=redis
       - REDIS_PORT=6379
+      - RABBITMQ_QUEUE_NAME=jellyfish_action_requests
+      - RABBITMQ_HOSTNAME=rabbitmq
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
       - LOGLEVEL=info
       - SENTRY_DSN_SERVER
       - FS_DRIVER
@@ -215,6 +232,7 @@ services:
     depends_on:
       - postgres
       - redis
+      - rabbitmq
       - balena-mdns-publisher
     environment:
       - DATABASE=postgres
@@ -228,6 +246,10 @@ services:
       - REDIS_HOST=redis
       - REDIS_PASSWORD=redis
       - REDIS_PORT=6379
+      - RABBITMQ_QUEUE_NAME=jellyfish_action_requests
+      - RABBITMQ_HOSTNAME=rabbitmq
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
       - SENTRY_DSN_SERVER
       - LOGENTRIES_TOKEN
       - FS_DRIVER
@@ -266,6 +288,7 @@ services:
     depends_on:
       - postgres
       - redis
+      - rabbitmq
       - balena-mdns-publisher
     environment:
       - DATABASE=postgres
@@ -279,6 +302,10 @@ services:
       - REDIS_HOST=redis
       - REDIS_PASSWORD=redis
       - REDIS_PORT=6379
+      - RABBITMQ_QUEUE_NAME=jellyfish_action_requests
+      - RABBITMQ_HOSTNAME=rabbitmq
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
       - SENTRY_DSN_SERVER
       - LOGENTRIES_TOKEN
       - FS_DRIVER
@@ -317,6 +344,7 @@ services:
     depends_on:
       - postgres
       - redis
+      - rabbitmq
       - balena-mdns-publisher
     environment:
       - DATABASE=postgres
@@ -330,6 +358,10 @@ services:
       - REDIS_HOST=redis
       - REDIS_PASSWORD=redis
       - REDIS_PORT=6379
+      - RABBITMQ_QUEUE_NAME=jellyfish_action_requests
+      - RABBITMQ_HOSTNAME=rabbitmq
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
       - SENTRY_DSN_SERVER
       - LOGENTRIES_TOKEN
       - FS_DRIVER
@@ -396,8 +428,6 @@ services:
       - ui
       - tick
       - sidecar
-      - redis
-      - postgres
       - livechat
       - api
       - balena-mdns-publisher

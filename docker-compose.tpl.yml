@@ -12,6 +12,7 @@ services:
     depends_on:
       - postgres
       - redis
+      - rabbitmq
       - tick
       {{#workers}}
       - worker_{{idx}}
@@ -32,6 +33,10 @@ services:
       - REDIS_HOST=redis
       - REDIS_PASSWORD=redis
       - REDIS_PORT={{REDIS_PORT}}
+      - RABBITMQ_QUEUE_NAME={{RABBITMQ_QUEUE_NAME}}
+      - RABBITMQ_HOSTNAME=rabbitmq
+      - RABBITMQ_USERNAME={{RABBITMQ_USERNAME}}
+      - RABBITMQ_PASSWORD={{RABBITMQ_PASSWORD}}
       - SENTRY_DSN_SERVER
       - SERVER_DATABASE={{SERVER_DATABASE}}
       - SERVER_HOST={{& SERVER_HOST}}
@@ -101,6 +106,13 @@ services:
     restart: always
     networks:
       - internal
+  rabbitmq:
+    image: rabbitmq:3.8-management-alpine
+    environment:
+      - RABBITMQ_DEFAULT_USER={{RABBITMQ_USERNAME}}
+      - RABBITMQ_DEFAULT_PASS={{RABBITMQ_PASSWORD}}
+    networks:
+      - internal
   sidecar:
     build:
       context: .
@@ -147,6 +159,7 @@ services:
     depends_on:
       - postgres
       - redis
+      - rabbitmq
       - balena-mdns-publisher
     environment:
       - DATABASE={{DATABASE}}
@@ -160,6 +173,10 @@ services:
       - REDIS_HOST=redis
       - REDIS_PASSWORD=redis
       - REDIS_PORT={{REDIS_PORT}}
+      - RABBITMQ_QUEUE_NAME={{RABBITMQ_QUEUE_NAME}}
+      - RABBITMQ_HOSTNAME=rabbitmq
+      - RABBITMQ_USERNAME={{RABBITMQ_USERNAME}}
+      - RABBITMQ_PASSWORD={{RABBITMQ_PASSWORD}}
       - LOGLEVEL={{LOGLEVEL}}
       - SENTRY_DSN_SERVER
       - FS_DRIVER
@@ -216,6 +233,7 @@ services:
     depends_on:
       - postgres
       - redis
+      - rabbitmq
       - balena-mdns-publisher
     environment:
       - DATABASE={{DATABASE}}
@@ -229,6 +247,10 @@ services:
       - REDIS_HOST=redis
       - REDIS_PASSWORD=redis
       - REDIS_PORT={{REDIS_PORT}}
+      - RABBITMQ_QUEUE_NAME={{RABBITMQ_QUEUE_NAME}}
+      - RABBITMQ_HOSTNAME=rabbitmq
+      - RABBITMQ_USERNAME={{RABBITMQ_USERNAME}}
+      - RABBITMQ_PASSWORD={{RABBITMQ_PASSWORD}}
       - SENTRY_DSN_SERVER
       - LOGENTRIES_TOKEN
       - FS_DRIVER
@@ -296,8 +318,6 @@ services:
       - ui
       - tick
       - sidecar
-      - redis
-      - postgres
       - livechat
       - api
       - balena-mdns-publisher

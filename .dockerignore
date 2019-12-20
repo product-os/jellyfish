@@ -9,3 +9,4 @@ dump.rdb
 node_modules
 Dockerfile
 postgres_data
+rabbit_data
