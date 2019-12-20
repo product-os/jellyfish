@@ -54,12 +54,6 @@ import {
 Form.registerWidget('markdown', MarkdownWidget)
 Form.registerWidget('mermaid', MermaidEditor)
 
-// Check if the path begins with a hash fragment, followed by a slash: /#/ OR
-// A path that begins with a type and a tilde
-<<<<<<< HEAD
-const LEGACY_PATH = /(^\/#\/|[a-z-]+~|[a-z-].+@\d+\.\d+\.\d+~)/g
-=======
-// const LEGACY_PATH_CHECK_RE = /(^\/#\/|[a-z-].+~|[a-z-].+@\d+\.\d+\.\d+~)/g
 const LEGACY_PATH_CHECK_RE = /(\/[a-z-].+?(~)|\/[a-z-].+@\d+\.\d+\.\d+~)/g
 
 const cleanUrl = (path) => {
@@ -67,7 +61,6 @@ const cleanUrl = (path) => {
 	return path.replace(CHECK_EMPTRY_HASH, '')
 }
 
->>>>>>> 723a04ee... UI: fix regex redirect check
 const isLegacyPath = (path) => {
 	if (cleanUrl(path).match(LEGACY_PATH_CHECK_RE)) {
 		return true

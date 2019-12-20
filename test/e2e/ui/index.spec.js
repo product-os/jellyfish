@@ -173,6 +173,77 @@ ava.serial('core: should stop users from seeing messages attached to cards they 
 	test.not(messageText, lastMessage)
 })
 
+ava.serial('versioned urls should resolve to the correct url', async (test) => {
+	const {
+		page
+	} = context
+
+	const pathNames = [
+		{
+			input: '/support-thread@1.0.0~4bfcbda8-2030-45dd-a0ec-eb056bc192b2',
+			expectedOutput: '/4bfcbda8-2030-45dd-a0ec-eb056bc192b2'
+		},
+		{
+			input: '/#/support-thread@1.0.0~041b5b68-500d-4950-9ad4-747e0dca42c5',
+			expectedOutput: '/041b5b68-500d-4950-9ad4-747e0dca42c5'
+		},
+		{
+			input: '/#/support-thread~4bfcbda8-2030-45dd-a0ec-eb056bc192b2/support-thread~4bfcbda8-2030-45dd-a0ec-eb056bc192b2',
+			expectedOutput: '/4bfcbda8-2030-45dd-a0ec-eb056bc192b2/4bfcbda8-2030-45dd-a0ec-eb056bc192b2'
+		},
+		{
+			input: '/041b5b68-500d-4950-9ad4-747e0dca42b3',
+			expectedOutput: '/041b5b68-500d-4950-9ad4-747e0dca42b3'
+		},
+		{
+			// eslint-disable-next-line max-len
+			input: '/#/support-thread~4bfcba8-2030-45dd-a0ec-eb056bc192b2/support-thread~4bfcbda8-2030-4sdfsdf0ec-eb056bc192b2/support-thread~4bfcbda8-sdfsdf-45dd-a0ec-sdfsdf/support-thread~4bfcbda8-2030-45dd-a0ec-eb056bc192b2/support-thread@1.0.0~4bfcbda8-2030-45dd-a0ec-sdfsdf/support-thread@1.0.0~4bfcbda8-2030-45dd-a0ec-sdfsdf',
+			// eslint-disable-next-line max-len
+			expectedOutput: '/4bfcba8-2030-45dd-a0ec-eb056bc192b2/4bfcbda8-2030-4sdfsdf0ec-eb056bc192b2/4bfcbda8-sdfsdf-45dd-a0ec-sdfsdf/4bfcbda8-2030-45dd-a0ec-eb056bc192b2/4bfcbda8-2030-45dd-a0ec-sdfsdf/4bfcbda8-2030-45dd-a0ec-sdfsdf'
+		}
+	]
+
+	// Check if everything works, puppeteer version 2.0 upgrade
+	await ensureCommunityLogin(page)
+
+	const results = []
+
+	const checkPathName = async (pathName) => {
+		// Navigate to the input url
+		await page.goto(`${environment.ui.host}:${environment.ui.port}${pathName.input}`)
+
+		// Then wait 20 seconds
+		await bluebird.delay(20000)
+
+		// Wait for the homechannel class
+		await page.waitForSelector('.home-channel')
+
+		// Now that the page is loaded, compare the page url with the expectedOutput
+		if (page.url() === (`${environment.ui.host}:${environment.ui.port}${pathName.expectedOutput}`)) {
+			return true
+		}
+
+		return false
+	}
+
+	for (const key in pathNames) {
+		if (pathNames.hasOwnProperty(key)) {
+			const pathName = pathNames[key]
+			results.push(await checkPathName(pathName))
+		}
+	}
+
+	const isTrue = (value) => {
+		return value === true
+	}
+
+	console.log('results', results)
+	console.log('results.every(isTrue)', results.every(isTrue))
+	console.log('results.length === pathNames.length', results.length === pathNames.length)
+
+	test.true(results.every(isTrue) && (results.length === pathNames.length))
+})
+
 // Card actions
 // ============================================================================
 
