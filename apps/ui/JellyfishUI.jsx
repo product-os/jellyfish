@@ -56,9 +56,20 @@ Form.registerWidget('mermaid', MermaidEditor)
 
 // Check if the path begins with a hash fragment, followed by a slash: /#/ OR
 // A path that begins with a type and a tilde
-const LEGACY_PATH_CHECK_RE = /^\/(#\/|[a-z-].+~)/
+<<<<<<< HEAD
+const LEGACY_PATH = /(^\/#\/|[a-z-]+~|[a-z-].+@\d+\.\d+\.\d+~)/g
+=======
+// const LEGACY_PATH_CHECK_RE = /(^\/#\/|[a-z-].+~|[a-z-].+@\d+\.\d+\.\d+~)/g
+const LEGACY_PATH_CHECK_RE = /(\/[a-z-].+?(~)|\/[a-z-].+@\d+\.\d+\.\d+~)/g
+
+const cleanUrl = (path) => {
+	const CHECK_EMPTRY_HASH = /(^\/#)/g
+	return path.replace(CHECK_EMPTRY_HASH, '')
+}
+
+>>>>>>> 723a04ee... UI: fix regex redirect check
 const isLegacyPath = (path) => {
-	if (path.match(LEGACY_PATH_CHECK_RE)) {
+	if (cleanUrl(path).match(LEGACY_PATH_CHECK_RE)) {
 		return true
 	}
 
@@ -66,9 +77,8 @@ const isLegacyPath = (path) => {
 }
 
 // Removes # fragment prefix and type prefixes for a url path
-const LEGACY_PATH_REPLACE_RE = /(^\/#\/|[a-z-]+~)/g
 const transformLegacyPath = (path) => {
-	return path.replace(LEGACY_PATH_REPLACE_RE, '')
+	return cleanUrl(path).replace(LEGACY_PATH_CHECK_RE, '/')
 }
 
 class JellyfishUI extends React.Component {
