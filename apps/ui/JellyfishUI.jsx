@@ -22,9 +22,6 @@ import {
 	MarkdownWidget
 } from 'rendition/dist/extra/Form/markdown'
 import {
-	MermaidWidget
-} from 'rendition/dist/extra/Form/mermaid'
-import {
 	saveAs
 } from 'file-saver'
 import {
@@ -32,6 +29,7 @@ import {
 } from '../../lib/ui-components/ChatWidgetSidebar'
 import HomeChannel from '../../lib/ui-components/HomeChannel'
 import Login from '../../lib/ui-components/Login'
+import MermaidEditor from '../../lib/ui-components/shame/MermaidEditor'
 import Notifications from '../../lib/ui-components/Notifications'
 import Oauth from '../../lib/ui-components/Oauth'
 import RouteHandler from '../../lib/ui-components/RouteHandler'
@@ -54,7 +52,7 @@ import {
 // Register the mermaid and markdown widgets for rendition forms
 // Register the extra format widgets to the Form component
 Form.registerWidget('markdown', MarkdownWidget)
-Form.registerWidget('mermaid', MermaidWidget)
+Form.registerWidget('mermaid', MermaidEditor)
 
 // Check if the path begins with a hash fragment, followed by a slash: /#/ OR
 // A path that begins with a type and a tilde

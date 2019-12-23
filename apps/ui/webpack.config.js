@@ -8,7 +8,9 @@
 
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
 const path = require('path')
+const webpack = require('webpack')
 const DefinePlugin = require('webpack/lib/DefinePlugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const HashedModuleIdsPlugin = require('webpack/lib/HashedModuleIdsPlugin')
@@ -89,7 +91,14 @@ const config = mergeConfig(baseConfig, {
 			hashFunction: 'sha256',
 			hashDigest: 'hex',
 			hashDigestLength: 20
-		})
+		}),
+
+		new webpack.ContextReplacementPlugin(
+			/monaco-editor(\\|\/)esm(\\|\/)vs(\\|\/)editor(\\|\/)common(\\|\/)services/,
+			__dirname
+		),
+
+		new MonacoWebpackPlugin()
 	]
 })
 

@@ -627,3 +627,42 @@ ava.serial('views: Should be able to save a new view', async (test) => {
 
 	test.pass()
 })
+
+// Workflows
+// =============================================================================
+
+ava.serial('workflows: Should be able to create a new workflow', async (test) => {
+	const {
+		page
+	} = context
+
+	await ensureCommunityLogin(page)
+
+	// Navigate to the workflows view
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/view-workflows`)
+
+	await macros.waitForThenClickSelector(page, '.btn--add-workflow')
+
+	const name = `test-workflow-${uuid()}`
+
+	await page.waitForSelector('#root_name')
+	await macros.setInputValue(
+		page,
+		'#root_name',
+		name
+	)
+
+	await page.type('.monaco-editor textarea', 'sequenceDiagram\nactor1->>actor2: hello!')
+
+	// Wait a small time to allow for form update debouncing
+	await require('bluebird').delay(2000)
+
+	await page.click('[data-test="card-creator__submit"]')
+
+	await page.waitForSelector('.column--workflow')
+
+	// Check that a mermaid SVG has been rendered
+	await page.waitForSelector('svg[id^="rendition-mermaid"]')
+
+	test.pass()
+})
