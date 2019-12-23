@@ -16,7 +16,7 @@ COPY scripts/eslint-plugin-jellyfish/package.json \
 RUN mkdir -p scripts/template
 COPY scripts/template/package*.json \
 	/usr/src/jellyfish/scripts/template/
-RUN npm ci
+RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
 COPY . /usr/src/jellyfish
 
 RUN make .nyc-root && \
@@ -34,10 +34,11 @@ WORKDIR /usr/src/jellyfish
 
 ENV OAUTH_REDIRECT_BASE_URL https://jel.ly.fish
 
+COPY package.json package-lock.json /usr/src/jellyfish/
+RUN NODE_ENV=production npm ci
 COPY . /usr/src/jellyfish
+
 COPY --from=base /usr/src/jellyfish/.nyc-root /usr/src/jellyfish/.nyc-root
 COPY --from=base /usr/src/jellyfish/run.sh /usr/src/jellyfish/
-
-RUN NODE_ENV=production npm ci
 
 CMD [ "sh", "run.sh" ]

@@ -13,7 +13,7 @@ COPY scripts/eslint-plugin-jellyfish/package.json \
 RUN mkdir -p scripts/template
 COPY scripts/template/package*.json \
 	/usr/src/jellyfish/scripts/template/
-RUN npm ci
+RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
 COPY . /usr/src/jellyfish
 
 ARG ENABLE_COVERAGE=0
