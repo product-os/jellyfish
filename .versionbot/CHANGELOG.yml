@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add additional fields to workflows
+      hash: d21f56c661e4a0eb7de2122b0b46a0f94829bc39
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 24.53.0
+  date: 2019-12-23T15:50:28.072Z
+- commits:
     - subject: Optimize docker builds
       hash: a84c81e7226fd1454d9e940d09cd4955438adda6
       body: ''
