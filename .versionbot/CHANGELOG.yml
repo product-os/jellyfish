@@ -1,4 +1,18 @@
 - commits:
+    - subject: >-
+        Add specific index on data->'mirrors' because sysdig reports it's a
+        frequent query and it takes (tens of) seconds
+      hash: ecafa2bbe693d518cd75c98e1ba933f6a49a79e2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.52.4
+  date: 2019-12-23T08:14:39.288Z
+- commits:
     - subject: 'Fix: 2912 by removing audit panel from view'
       hash: 1dd6fbd0044384cb09dfcc83bb96afa5630c759a
       body: ''
