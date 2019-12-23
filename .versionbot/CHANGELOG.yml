@@ -1,4 +1,16 @@
 - commits:
+    - subject: Optimize docker builds
+      hash: a84c81e7226fd1454d9e940d09cd4955438adda6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 24.52.6
+  date: 2019-12-23T14:23:47.795Z
+- commits:
     - subject: 'UI: Add a prototype editor for mermaid charts based on Monaco'
       hash: 02c64ec70ea0773053161bb092b0c8c4604732f8
       body: ''
