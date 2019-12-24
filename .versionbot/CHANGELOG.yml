@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'UI: Allow case-insensitive user pings'
+      hash: f581ca80b35155cafe4ece520b8e415501002d85
+      body: |
+        Fixes #2880
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 24.53.1
+  date: 2019-12-24T10:50:58.733Z
+- commits:
     - subject: Add additional fields to workflows
       hash: d21f56c661e4a0eb7de2122b0b46a0f94829bc39
       body: ''
