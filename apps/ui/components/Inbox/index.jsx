@@ -43,9 +43,15 @@ const getBasePingQuery = (user, searchTerm) => {
 							message: {
 								anyOf: [
 									{
-										pattern: `@${user.slug.slice(5)}`
+										regexp: {
+											pattern: `@${user.slug.slice(5)}`,
+											flags: 'i'
+										}
 									}, {
-										pattern: `!${user.slug.slice(5)}`
+										regexp: {
+											pattern: `!${user.slug.slice(5)}`,
+											flags: 'i'
+										}
 									}
 								],
 								regexp: {

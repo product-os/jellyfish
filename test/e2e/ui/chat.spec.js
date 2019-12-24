@@ -226,6 +226,7 @@ ava.serial('Only messages that ping a user should appear in their inbox', async 
 	await page.waitForSelector('.new-message-input')
 
 	await macros.createChatMessage(page, columnSelector, msg)
+
 	await macros.createChatMessage(page, columnSelector, msg)
 
 	// Navigate to the inbox page
@@ -263,6 +264,41 @@ ava.serial('Only messages that ping a user should appear in their inbox', async 
 	test.is(messagesWithUser.every((currentValue) => {
 		return currentValue === true
 	}), true)
+
+	test.pass()
+})
+
+ava.serial('Username pings should be case insensitive', async (test) => {
+	const {
+		user2,
+		page,
+		incognitoPage
+	} = context
+
+	const thread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'thread'
+		})
+	})
+
+	// Navigate to the thread page
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
+
+	const columnSelector = `.column--slug-${thread.slug}`
+	await page.waitForSelector(columnSelector)
+
+	const msg = `@${user2.slug.slice(5).toUpperCase()} ${uuid()}`
+
+	await page.waitForSelector('.new-message-input')
+
+	await macros.createChatMessage(page, columnSelector, msg)
+
+	// Navigate to the inbox page
+	await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}/inbox`)
+
+	const messageText = await macros.getElementText(incognitoPage, '[data-test="event-card__message"]')
+
+	test.is(messageText.trim(), msg)
 
 	test.pass()
 })
