@@ -15,7 +15,7 @@ module.exports = class ActionFacade {
 		this.worker = worker
 	}
 
-	async processAction (context, sessionToken, action, options, ipAddress) {
+	async processAction (context, sessionToken, action, options = {}) {
 		const files = []
 
 		return uuid.random().then(async (id) => {

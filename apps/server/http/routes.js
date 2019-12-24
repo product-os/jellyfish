@@ -590,4 +590,51 @@ module.exports = (application, jellyfish, worker, queue) => {
 			return sendHTTPError(request, response, error)
 		}
 	})
+
+	application.post('/api/v2/signup', async (request, response) => {
+		const {
+			username,
+			email,
+			password
+		} = request.body
+
+		// Normalize username and email to lower case
+		const name = username.toLowerCase()
+		const mail = email.toLowerCase()
+
+		const action = {
+			card: 'user',
+			type: 'type',
+			action: 'action-create-user@1.0.0',
+			arguments: {
+				email: mail,
+				username: `user-${name}`,
+				password
+			}
+		}
+
+		return actionFacade.processAction(
+			request.context,
+			request.sessionToken,
+			action
+		)
+			.then((results) => {
+				if (results.error) {
+					if (results.data.expected) {
+						return response.status(400).json({
+							error: true,
+							data: _.pick(errio.fromObject(results.data), [ 'name', 'message' ])
+						})
+					}
+
+					logger.exception(request.context,
+						'HTTP response error', errio.fromObject(results.data))
+				}
+
+				const code = results.error ? 500 : 200
+				return response.status(code).json(results)
+			}).catch((error) => {
+				return sendHTTPError(request, response, error)
+			})
+	})
 }
