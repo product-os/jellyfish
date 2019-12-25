@@ -1,0 +1,14 @@
+name: jellyfish-buildkite
+title: InSpec Profile for Jellyfish Buildkite
+maintainer: Josh Bowling
+copyright: (C) Balena.io - All Rights Reserved
+copyright_email: hello@balena.io
+license: null
+summary: Verify the Jellyfish Buildkite Terraform deployment
+version: 1.0.0
+inspec_version: '>= 4.18.51'
+depends:
+  - name: inspec-aws
+    url: https://github.com/inspec/inspec-aws/archive/v1.5.1.tar.gz
+supports:
+  - platform: aws

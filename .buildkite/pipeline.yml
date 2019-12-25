@@ -1,0 +1,12 @@
+steps:
+  - command: "npm ci --unsafe-perm && make build-ui COVERAGE=1 NODE_ENV=test && COVERAGE=1 NODE_ENV=test make build-livechat"
+    plugins:
+      - docker#v3.3.0:
+          image: "resinci/jellyfish-test:latest"
+          always-pull: true
+          workdir: "/jellyfish"
+          environment:
+            - "NPM_CONFIG_CACHE=/node-cache"
+          volumes:
+            - "node-cache:/node-cache"
+            - "$BUILDKITE_BUILD_CHECKOUT_PATH:/jellyfish"
