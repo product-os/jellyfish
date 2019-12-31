@@ -79,7 +79,7 @@ ava.serial('Updates to support threads should be reflected in the support thread
 
 	const messageText = await macros.getElementText(page, messageSelector)
 
-	test.is(rand, messageText)
+	test.is(rand, messageText.trim())
 })
 
 ava.serial('You should be able to link support threads to existing support issues', async (test) => {

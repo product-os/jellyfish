@@ -14,6 +14,9 @@ import {
 	Flex,
 	Txt
 } from 'rendition'
+import {
+	Markdown
+} from 'rendition/dist/extra/Markdown'
 import styled, {
 	withTheme
 } from 'styled-components'
@@ -51,13 +54,19 @@ const SummaryWrapper = styled(Link) `
 	}
 `
 
-const LatestMessage = styled(Txt) `
+const LatestMessage = styled(Markdown) `
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	border-radius: 6px;
 	padding-left: 10px;
 	flex: 1;
+
+	> p {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
 `
 
 class CardChatSummary extends React.Component {
