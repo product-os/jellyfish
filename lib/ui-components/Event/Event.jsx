@@ -182,17 +182,6 @@ const EventWrapper = styled(Flex) `
     right: -4px;
     font-size: 10px;
 	}
-
-	/*
-	 * Emojis created in the balena forums get embedded in the message as images,
-	 * we need to add an override style so that the message renders nicely
-	 */
-	img[src^="https://sjc1.discourse-cdn.com/business5/images/emoji/"],
-	img[src^="https://forums.balena.io/images/emoji"] {
-    width: 20px;
-    height: 20px;
-    vertical-align: middle;
-	}
 `
 
 const MessageContainer = styled(Box) `
@@ -215,6 +204,16 @@ const MessageContainer = styled(Box) `
 			border-radius: 5px;
 			font-size: 8px;
 			padding: 2px;
+		}
+	}
+
+	img {
+		background-color: transparent !important;
+
+		&.emoji {
+			width: 20px;
+			height: 20px;
+			vertical-align: middle;
 		}
 	}
 
