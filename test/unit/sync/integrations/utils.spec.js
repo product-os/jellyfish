@@ -137,7 +137,7 @@ ava('.parseHTML() should remove style tags', (test) => {
 		<div lang="EN-US" class="foo">Hello</div>
 	</div>`
 	// eslint-disable-next-line max-len
-	const expected = 'Hello'
+	const expected = '<div><div lang="EN-US" class="foo">Hello</div></div>'
 	const result = utils.parseHTML(string, {
 		baseUrl: 'https://jel.ly.fish'
 	})
@@ -149,6 +149,35 @@ ava('.parseHTML() should strip out 1x1px images', (test) => {
 	// eslint-disable-next-line max-len
 	const string = '<img border="0" width="1" height="1" style="width:.0104in;height:.0104in" id="_x0000_i1072" src="foo.png"><p>Hello</p>'
 	const expected = 'Hello'
+	const result = utils.parseHTML(string, {
+		baseUrl: 'https://jel.ly.fish'
+	})
+
+	test.is(result, expected)
+})
+
+ava('.parseHTML() should preserve structure from discourse previews', (test) => {
+	const string = `<aside class="onebox whitelistedgeneric">
+		<header class="source">
+				<img src="https://aws1.discourse-cdn.com/business5/uploads/balena/original/2X/5/5bc5313312a92568b6ea4acd18562be895630a45.png" class="site-icon" width="" height="">
+				<a href="https://docs.docker.com/engine/reference/run/#network-settings" target="_blank" title="12:45PM - 28 August 2019" rel="nofollow noopener">Docker Documentation – 28 Aug 19</a>
+		</header>
+		<article class="onebox-body">
+			<img src="https://aws1.discourse-cdn.com/business5/uploads/balena/original/2X/5/5bc5313312a92568b6ea4acd18562be895630a45.png" class="thumbnail" width="" height="">
+
+	<h3><a href="https://docs.docker.com/engine/reference/run/#network-settings" target="_blank" rel="nofollow noopener">| Docker Documentation</a></h3>
+
+	<p>Docker run reference Docker runs processes in isolated containers...</p>
+
+
+		</article>
+		<div class="onebox-metadata">
+		</div>
+		<div style="clear: both"></div>
+	</aside>`
+
+	const expected = '<aside class="onebox whitelistedgeneric"><header class="source"><img src="https://aws1.discourse-cdn.com/business5/uploads/balena/original/2X/5/5bc5313312a92568b6ea4acd18562be895630a45.png" class="site-icon" width="" height=""> \\[Docker Documentation – 28 Aug 19\\](https://docs.docker.com/engine/reference/run/#network-settings "12:45PM - 28 August 2019")</header><article class="onebox-body"><img src="https://aws1.discourse-cdn.com/business5/uploads/balena/original/2X/5/5bc5313312a92568b6ea4acd18562be895630a45.png" class="thumbnail" width="" height=""> ### \\[| Docker Documentation\\](https://docs.docker.com/engine/reference/run/#network-settings) Docker run reference Docker runs processes in isolated containers...</article></aside>'
+
 	const result = utils.parseHTML(string, {
 		baseUrl: 'https://jel.ly.fish'
 	})

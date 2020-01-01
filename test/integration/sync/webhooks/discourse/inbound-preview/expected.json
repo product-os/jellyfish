@@ -99,7 +99,7 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "Test with preview\n\n> Foo Bar c2760be2-22a2-47a0-8466-b137c46b0065"
+          "message": "Test with preview\n\n<aside class=\"quote\" data-post=\"1\" data-topic=\"6949\">&gt; Foo Bar c2760be2-22a2-47a0-8466-b137c46b0065</aside>"
         }
       }
     }
