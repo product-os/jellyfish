@@ -5,6 +5,7 @@
  */
 
 // TODO move this editor into a standalone package
+import * as _ from 'lodash'
 import React from 'react'
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.main.js'
 import {
@@ -43,16 +44,32 @@ class MermaidEditor extends React.Component {
 		this.state = {
 			preview: false,
 			fullscreen: false,
-			splitview: false
+			splitview: false,
+			previewValue: this.props.value
 		}
 
 		this.setSplitView = this.setSplitView.bind(this)
 		this.setFullScreen = this.setFullScreen.bind(this)
 		this.setPreview = this.setPreview.bind(this)
+
+		// Debouncing setting the preview value improves performance as it will only
+		// periodically update the preview, instead of re-rendering it on every
+		// change
+		this.setPreviewValue = _.debounce(this.setPreviewValue.bind(this), 500)
 	}
 
 	componentDidMount () {
 		this.initMonaco()
+	}
+
+	componentDidUpdate () {
+		this.setPreviewValue(this.props.value)
+	}
+
+	setPreviewValue (previewValue) {
+		this.setState({
+			previewValue
+		})
 	}
 
 	initMonaco () {
@@ -184,8 +201,8 @@ class MermaidEditor extends React.Component {
 
 						{(splitview || preview) && (
 							<Mermaid
-								key={this.props.value}
-								flex={1} value={this.props.value}
+								key={this.state.previewValue}
+								flex={1} value={this.state.previewValue}
 							/>
 						)}
 					</Flex>
