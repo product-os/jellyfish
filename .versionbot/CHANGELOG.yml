@@ -1,4 +1,16 @@
 - commits:
+    - subject: Improve render performance of the mermaid editor component
+      hash: 8511ab217d97bf3ad5617d1a3a7b89e1a72ed417
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 24.53.3
+  date: 2019-12-31T13:03:49.306Z
+- commits:
     - subject: 'ChatWidget: Fix threads sorting'
       hash: 5d5e3fc63e6a20b6df52cbf3be797f181a2756cc
       body: ''
