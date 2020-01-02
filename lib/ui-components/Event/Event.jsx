@@ -440,6 +440,27 @@ export default class Event extends React.Component {
 							name={actor ? actor.name : null}
 							url={actor ? actor.avatarUrl : null}
 						/>
+
+						{this.props.openChannel &&
+							<Box
+								tooltip={{
+									placement: 'bottom',
+									text: `Open ${card.type.split('@')[0]}`
+								}}
+							>
+								<Icon
+									style={{
+										marginLeft: 6,
+										marginTop: 16,
+										fontSize: '18px',
+										transform: 'scale(1, -1)',
+										color: '#2e587a'
+									}}
+									name="share"
+								/>
+							</Box>
+						}
+
 					</EventButton>
 					<Box
 						pt={2}
