@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'UI: Never cache index.html and always cache JS assets'
+      hash: 3aa95770ac9d6905cc95f6ce5902a8c2b2aef445
+      body: |
+        Fixes #2919
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 24.53.5
+  date: 2020-01-03T11:35:48.879Z
+- commits:
     - subject: 'UI: Correctly render markdown in card chat summaries'
       hash: 55b54c1b8b6e025d104e0fada61631706c72d77c
       body: |
