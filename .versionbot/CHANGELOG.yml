@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'UI: Allow default browser link behaviour when pressing modifier keys'
+      hash: 19f3d0340452c8974690d29de09b17f5d06043fd
+      body: |
+        Fixes #2337
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 24.53.6
+  date: 2020-01-03T14:59:28.640Z
+- commits:
     - subject: 'UI: Never cache index.html and always cache JS assets'
       hash: 3aa95770ac9d6905cc95f6ce5902a8c2b2aef445
       body: |
