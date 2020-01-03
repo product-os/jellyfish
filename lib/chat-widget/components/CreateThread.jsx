@@ -55,8 +55,8 @@ export const CreateThread = ({
 		setText(event.target.value)
 	}, [])
 
-	const handleFileChange = React.useCallback((event) => {
-		setFiles([ ...event.target.files ])
+	const handleFileChange = React.useCallback((value) => {
+		setFiles([ ...value ])
 	}, [])
 
 	const handleSubmit = React.useCallback(async () => {
