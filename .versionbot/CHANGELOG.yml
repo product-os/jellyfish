@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'Chat: Fix broken reference in file upload handler'
+      hash: 02915e850ab83adb633a2f7c6f2319258a646854
+      body: |
+        Fixes #2804
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 24.53.7
+  date: 2020-01-03T16:24:58.788Z
+- commits:
     - subject: 'UI: Allow default browser link behaviour when pressing modifier keys'
       hash: 19f3d0340452c8974690d29de09b17f5d06043fd
       body: |
