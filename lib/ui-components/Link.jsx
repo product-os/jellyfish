@@ -40,6 +40,11 @@ class RouterLink extends React.Component {
 	}
 
 	navigate (event) {
+		// If control or meta keys are pressed, then use default browser behaviour
+		if (event.ctrlKey || event.metaKey) {
+			return
+		}
+
 		event.preventDefault()
 		const {
 			history
