@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'UI: Add click area on message body'
+      hash: 8f77850460f48d69bbcc4ee9effc2cfe10867901
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+  version: 24.53.8
+  date: 2020-01-03T17:25:44.543Z
+- commits:
     - subject: 'Chat: Fix broken reference in file upload handler'
       hash: 02915e850ab83adb633a2f7c6f2319258a646854
       body: |
