@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'ChatWidget: Fix null is not an object error'
+      hash: 58cdc2d95d1d93ee50ab90ff53f8f53bb95a9679
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Connects-to: '#2805'
+        connects-to: '#2805'
+      author: Kakhaber
+  version: 24.53.9
+  date: 2020-01-04T11:48:58.589Z
+- commits:
     - subject: 'UI: Add click area on message body'
       hash: 8f77850460f48d69bbcc4ee9effc2cfe10867901
       body: ''
