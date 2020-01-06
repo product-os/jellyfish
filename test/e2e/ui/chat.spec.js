@@ -4,6 +4,8 @@
  * Proprietary and confidential.
  */
 
+require('./browser-setup')
+
 const ava = require('ava')
 const _ = require('lodash')
 const Bluebird = require('bluebird')
