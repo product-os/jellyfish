@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'default-cards: Set versions in types'
+      hash: 610fb607e4f9284fb4e378da2ad967ea8f6c1191
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.54.0
+  date: 2020-01-06T14:27:02.636Z
+- commits:
     - subject: 'ChatWidget: Fix null is not an object error'
       hash: 58cdc2d95d1d93ee50ab90ff53f8f53bb95a9679
       body: ''
