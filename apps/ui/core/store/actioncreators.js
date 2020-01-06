@@ -648,26 +648,30 @@ export default class ActionCreator {
 								slug
 							} = card
 							const allChannels = selectors.getChannels(getState())
-							const channel = _.find(allChannels, (item) => {
+							const channels = _.filter(allChannels, (item) => {
 								const target = _.get(item, [ 'data', 'target' ])
 								return target === slug || target === id
 							})
-							if (channel) {
-								const clonedChannel = clone(channel)
+							if (channels) {
+								for (const key in channels) {
+									const channel = channels[key]
 
-								const cardWithTimeline = _.get(card.linked_at, [ 'has attached element' ])
-									? await this.sdk.card.getWithTimeline(card.id)
-									: card
+									const clonedChannel = clone(channel)
 
-								// Don't bother is the channel head card hasn't changed
-								if (fastEquals.deepEqual(clonedChannel.data.head, cardWithTimeline)) {
-									return
+									const cardWithTimeline = _.get(card.linked_at, [ 'has attached element' ])
+										? await this.sdk.card.getWithTimeline(card.id)
+										: card
+
+									// Don't bother is the channel head card hasn't changed
+									if (fastEquals.deepEqual(clonedChannel.data.head, cardWithTimeline)) {
+										return
+									}
+									clonedChannel.data.head = cardWithTimeline
+									dispatch({
+										type: actions.UPDATE_CHANNEL,
+										value: clonedChannel
+									})
 								}
-								clonedChannel.data.head = cardWithTimeline
-								dispatch({
-									type: actions.UPDATE_CHANNEL,
-									value: clonedChannel
-								})
 							}
 						}
 					})
