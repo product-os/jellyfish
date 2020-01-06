@@ -56,7 +56,7 @@
       "$eval": "source.data.to.id"
     },
     "arguments": {
-      "message": "This ${source.data.inverseName} https://jel.ly.fish/#/${source.data.from.type}~${source.data.from.id}"
+      "message": "This ${source.data.inverseName} https://jel.ly.fish/#/${source.data.from.id}"
     }
   },
   "requires": [],
