@@ -1,4 +1,21 @@
 - commits:
+    - subject: 'test: Only setup browser environment on necessary tests'
+      hash: 7297ab590643e75f11c15b2d327f6168ae2eddfc
+      body: |
+        Looks like we were accidentally setting up a browser environment for all
+        our tests, which meant that on server e2e tests, the SDK would use, on
+        Node.js, `jsdom` instead of `http` to make HTTP calls, which could
+        potentially be the root cause of some of the mysterious "Network Error"
+        test flakiness on the e2e suites.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.54.2
+  date: 2020-01-06T19:43:01.080Z
+- commits:
     - subject: 'queue: Don''t execute `.getCardBySlug` when not needed'
       hash: ed76be4bedad35ee3dada5644907df9a0be53068
       body: >
