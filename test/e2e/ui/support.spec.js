@@ -4,6 +4,8 @@
  * Proprietary and confidential.
  */
 
+require('./browser-setup')
+
 const ava = require('ava')
 const Bluebird = require('bluebird')
 const uuid = require('uuid/v4')
