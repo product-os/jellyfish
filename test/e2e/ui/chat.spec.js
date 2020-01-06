@@ -270,6 +270,37 @@ ava.serial('Only messages that ping a user should appear in their inbox', async 
 	test.pass()
 })
 
+ava.serial('When having two chats side-by-side both should update with new messages', async (test) => {
+	const {
+		user1,
+		page
+	} = context
+
+	const thread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'thread'
+		})
+	})
+
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}/${thread.id}`)
+
+	const columnSelector = `.column--slug-${thread.slug}`
+	await page.waitForSelector(columnSelector)
+
+	await page.waitForSelector('.new-message-input')
+
+	const msg = `@${user1.slug.slice(5)} ${uuid()}`
+	await macros.createChatMessage(page, columnSelector, msg)
+
+	await Bluebird.delay(5000)
+
+	const messagesOnPages = await page.$$('.event-card--message')
+
+	test.is(messagesOnPages.length === 2, true)
+
+	test.pass()
+})
+
 ava.serial('Username pings should be case insensitive', async (test) => {
 	const {
 		user2,
