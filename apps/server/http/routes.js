@@ -183,17 +183,10 @@ module.exports = (application, jellyfish, worker, queue) => {
 			return response.sendStatus(401)
 		}
 
-		const user = await jellyfish.getCardBySlug(
-			request.context, jellyfish.sessions.admin, `${slug}@latest`)
-
-		if (!user) {
-			return response.sendStatus(401)
-		}
-
-		let credentials = null
+		let result = null
 
 		try {
-			credentials = await oauth.authorize(
+			result = await oauth.authorize(
 				request.context,
 				worker,
 				queue,
@@ -201,11 +194,11 @@ module.exports = (application, jellyfish, worker, queue) => {
 				request.params.provider, {
 					code,
 					ip: request.ip,
-					actor: user.id
+					slug
 				}
 			)
 		} catch (error) {
-			if (error.name === 'OAuthUnsuccessfulResponse') {
+			if ([ 'OAuthUnsuccessfulResponse', 'SyncNoMatchingUser' ].includes(error.name)) {
 				return response.status(401).json({
 					error: true,
 					data: _.pick(error, [ 'name', 'message' ])
@@ -215,9 +208,10 @@ module.exports = (application, jellyfish, worker, queue) => {
 			return sendHTTPError(request, response, error)
 		}
 
-		if (!credentials) {
-			return response.sendStatus(401)
-		}
+		const {
+			user,
+			credentials
+		} = result
 
 		await oauth.associate(
 			request.context,
@@ -232,9 +226,42 @@ module.exports = (application, jellyfish, worker, queue) => {
 			}
 		)
 
+		const sessionTypeCard = await jellyfish.getCardBySlug(
+			request.context, jellyfish.sessions.admin, 'session@1.0.0')
+
+		/*
+		 * This allows us to differentiate two login requests
+		 * coming on the same millisecond, unlikely but possible.
+		 */
+		const suffix = await uuid.random()
+
+		const actionRequest = await queue.enqueue(worker.getId(), jellyfish.sessions.admin, {
+			action: 'action-create-card',
+			card: sessionTypeCard.id,
+			type: sessionTypeCard.type,
+			context: request.context,
+			arguments: {
+				reason: null,
+				properties: {
+					version: '1.0.0',
+					slug: `session-${user.slug}-${Date.now()}-${suffix}`,
+					data: {
+						actor: user.id
+					}
+				}
+			}
+		})
+
+		const createSessionResult = await queue.waitResults(
+			request.context, actionRequest)
+
+		if (createSessionResult.error) {
+			throw errio.fromObject(createSessionResult.data)
+		}
+
 		return response.status(200).json({
-			error: false,
-			slug: user.slug
+			access_token: createSessionResult.data.id,
+			token_type: 'Bearer'
 		})
 	}
 
