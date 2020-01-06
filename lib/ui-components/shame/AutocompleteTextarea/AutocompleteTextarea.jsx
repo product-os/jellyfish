@@ -78,6 +78,9 @@ const SubAuto = (props) => {
 				trigger={ACTIVE ? getTrigger() : {}}
 				placeholder={placeholder}
 				maxRows={12}
+				listStyle={{
+					color: 'black'
+				}}
 			/>
 		</Container>
 	)
