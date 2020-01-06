@@ -8,11 +8,11 @@ const ava = require('ava')
 const uuid = require('uuid/v4')
 const _ = require('lodash')
 const Bluebird = require('bluebird')
-const errors = require('../../../lib/core/errors')
+const errors = require('../../../../lib/core/errors')
 const helpers = require('./helpers')
 
-ava.beforeEach(helpers.backend.beforeEach)
-ava.afterEach(helpers.backend.afterEach)
+ava.beforeEach(helpers.beforeEach)
+ava.afterEach(helpers.afterEach)
 
 ava('should only expose the required methods', (test) => {
 	const methods = Object.getOwnPropertyNames(

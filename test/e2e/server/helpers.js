@@ -4,10 +4,10 @@
  * Proprietary and confidential.
  */
 
+const uuid = require('uuid/v4')
 const Bluebird = require('bluebird')
 const _ = require('lodash')
 const request = require('request')
-const helpers = require('../../integration/core/helpers')
 const environment = require('../../../lib/environment')
 
 const waitForServer = async (test, retries = 50) => {
@@ -28,7 +28,14 @@ const waitForServer = async (test, retries = 50) => {
 
 module.exports = {
 	before: async (test) => {
-		test.context.generateRandomSlug = helpers.generateRandomSlug
+		test.context.generateRandomSlug = (options) => {
+			const suffix = uuid()
+			if (options.prefix) {
+				return `${options.prefix}-${suffix}`
+			}
+
+			return suffix
+		}
 
 		test.context.http = (method, uri, payload, headers, options = {}) => {
 			return new Bluebird((resolve, reject) => {

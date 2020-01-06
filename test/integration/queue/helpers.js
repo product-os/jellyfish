@@ -12,7 +12,8 @@ const actionLibrary = require('../../../lib/action-library')
 
 exports.jellyfish = {
 	beforeEach: async (test, options) => {
-		await helpers.jellyfish.beforeEach(test, options)
+		await helpers.beforeEach(test, options)
+		test.context.jellyfish = test.context.kernel
 		test.context.session = test.context.jellyfish.sessions.admin
 
 		const session = await test.context.jellyfish.getCardById(
@@ -42,7 +43,7 @@ exports.jellyfish = {
 	},
 
 	afterEach: async (test) => {
-		await helpers.jellyfish.afterEach(test)
+		await helpers.afterEach(test)
 	}
 }
 
