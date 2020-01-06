@@ -1,4 +1,35 @@
 - commits:
+    - subject: 'queue: Don''t execute `.getCardBySlug` when not needed'
+      hash: ed76be4bedad35ee3dada5644907df9a0be53068
+      body: >
+        There is a (tiny) chance that the stream resolves a wait match before
+
+        (or while) we attempted to run `.getCardBySlug()`.
+
+
+        We've seen this happening on Circle CI, where the race condition showed
+
+        itself as:
+
+
+        ```
+          ✔ events › .wait() should ignore cards that do not match the id (521ms)
+        Uncaught AbortError: EXEC can't be processed. The connection is already
+        closed.
+
+
+        FROM
+          ✖ test/integration/queue/events.spec.js exited due to SIGILL
+        ```
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.54.1
+  date: 2020-01-06T18:32:55.744Z
+- commits:
     - subject: 'default-cards: Set versions in types'
       hash: 610fb607e4f9284fb4e378da2ad967ea8f6c1191
       body: ''
