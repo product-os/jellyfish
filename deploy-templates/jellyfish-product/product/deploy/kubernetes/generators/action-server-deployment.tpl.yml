@@ -17,10 +17,6 @@ spec:
       containers:
       - image: <<%&children.sw.containerized-application.jellyfish-action-server.data.assets.image.url%>>
         name: action-server
-        lifecycle:
-          preStop:
-            exec:
-              command: [ 'node', 'scripts/production/lock.js', '/tmp/worker.lock' ]
         env:
         - name: POD_NAME
           valueFrom:
@@ -58,8 +54,6 @@ spec:
           value: {{{LOGENTRIES_TOKEN}}}
         - name: LOGLEVEL
           value: {{{LOGLEVEL}}}
-        - name: LOCKFILE
-          value: /tmp/worker.lock
         - name: INTEGRATION_BALENA_API_PRIVATE_KEY
           value: {{{INTEGRATION_BALENA_API_PRIVATE_KEY}}}
         - name: INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION
