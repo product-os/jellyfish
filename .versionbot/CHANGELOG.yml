@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'server: Fix GitHub broadcast mirror event URL'
+      hash: 1408f80978b6ff45e99c0bcb1c907aeacaa7f926
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.56.1
+  date: 2020-01-07T14:53:29.261Z
+- commits:
     - subject: 'server/action-server: Use versioned types in backend containers'
       hash: 69977481fc168e6729beb9c92290c17845309487
       body: ''
