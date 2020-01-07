@@ -1283,7 +1283,7 @@ ava.serial('should broadcast github issue links', async (test) => {
 
 	test.truthy(broadcast)
 	test.is(broadcast.data.payload.message,
-		`This issue has attached support thread https://jel.ly.fish/#/${thread.type}~${thread.id}`)
+		`This issue has attached support thread https://jel.ly.fish/#/${thread.id}`)
 })
 
 ava.serial('should link two cards together', async (test) => {
