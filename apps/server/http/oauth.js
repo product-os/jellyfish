@@ -29,15 +29,19 @@ exports.authorize = async (context, worker, queue, session, provider, options) =
 		code: options.code
 	})
 
+	const sessionCard = await worker.jellyfish.getCardById(
+		context, session, session)
+
 	const data = await worker.pre(session, {
 		action: 'action-oauth-authorize',
 		context,
-		card: options.actor,
+		card: sessionCard.data.actor,
 		type: 'user',
 		arguments: {
 			provider,
 			code: options.code,
-			origin: exports.getRedirectUrl(provider)
+			origin: exports.getRedirectUrl(provider),
+			slug: options.slug
 		}
 	})
 
@@ -79,7 +83,7 @@ exports.associate = async (context, worker, queue, session, provider, user, cred
 		context, actionRequest)
 
 	if (results.error) {
-		return errio.fromObject(results.data)
+		throw errio.fromObject(results.data)
 	}
 
 	return results.data

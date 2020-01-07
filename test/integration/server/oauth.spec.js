@@ -18,6 +18,13 @@ const outreachTest =
 		? ava.serial
 		: ava.serial.skip
 
+const balenaApiTest =
+	environment.integration['balena-api'].appId &&
+	environment.integration['balena-api'].appSecret &&
+	environment.integration['balena-api'].oauthBaseUrl
+		? ava.serial
+		: ava.serial.skip
+
 ava.before(helpers.before)
 ava.after(helpers.after)
 
@@ -70,14 +77,9 @@ outreachTest('should be able to associate a user with Outreach', async (test) =>
 	const result = await test.context.http(
 		'GET', `/oauth/outreach?code=123456&state=${userCard.slug}`)
 
-	test.deepEqual(result, {
-		code: 200,
-		headers: result.headers,
-		response: {
-			error: false,
-			slug: userCard.slug
-		}
-	})
+	test.is(result.code, 200)
+	test.is(typeof result.response.access_token, 'string')
+	test.is(result.response.token_type, 'Bearer')
 
 	const newUserCard = await test.context.sdk.card.get(userCard.slug)
 
@@ -260,5 +262,78 @@ outreachTest('should not be able to associate a user with Outreach given an inva
 
 	const newUserCard = await test.context.sdk.card.get(userCard.slug)
 	test.falsy(newUserCard.data.oauth)
+	nock.cleanAll()
+})
+
+balenaApiTest('should be able to associate a user with Balena Api', async (test) => {
+	const userCard = await test.context.sdk.card.create({
+		type: 'user',
+		slug: test.context.generateRandomSlug({
+			prefix: 'user-oauth-test'
+		}),
+		version: '1.0.0',
+		data: {
+			email: 'test@jellysync.io',
+			hash: 'PASSWORDLESS',
+			roles: [ 'user-external-support' ]
+		}
+	})
+
+	nock.cleanAll()
+
+	await nock(environment.integration['balena-api'].oauthBaseUrl)
+		.get('/user/v1/whoami')
+		.reply(function (uri, request, callback) {
+			callback(null, [ 200, {
+				username: userCard.slug.substring('user-'.length)
+			} ])
+		})
+
+	await nock(environment.integration['balena-api'].oauthBaseUrl)
+		.post('/oauth/token')
+		.reply(function (uri, request, callback) {
+			const body = querystring.decode(request)
+
+			if (_.isEqual(body, {
+				grant_type: 'authorization_code',
+				client_id: environment.integration['balena-api'].appId,
+				client_secret: environment.integration['balena-api'].appSecret,
+				redirect_uri: `${environment.oauth.redirectBaseUrl}/oauth/balena-api`,
+				code: '123456'
+			})) {
+				return callback(null, [ 200, {
+					access_token: 'KSTWMqidua67hjM2NDE1ZTZjNGZmZjI3',
+					token_type: 'bearer',
+					expires_in: 3600,
+					refresh_token: 'POolsdYTlmM2YxOTQ5MGE3YmNmMDFkNTVk',
+					scope: 'create'
+				} ])
+			}
+
+			return callback(null, [ 400, {
+				error: 'invalid_request',
+				error_description: 'Something went wrong'
+			} ])
+		})
+
+	const result = await test.context.http(
+		'GET', '/oauth/balena-api?code=123456')
+
+	test.is(result.code, 200)
+	test.is(typeof result.response.access_token, 'string')
+	test.is(result.response.token_type, 'Bearer')
+
+	const newUserCard = await test.context.sdk.card.get(userCard.slug)
+
+	test.deepEqual(newUserCard.data.oauth, {
+		'balena-api': {
+			access_token: 'KSTWMqidua67hjM2NDE1ZTZjNGZmZjI3',
+			token_type: 'bearer',
+			expires_in: 3600,
+			refresh_token: 'POolsdYTlmM2YxOTQ5MGE3YmNmMDFkNTVk',
+			scope: 'create'
+		}
+	})
+
 	nock.cleanAll()
 })
