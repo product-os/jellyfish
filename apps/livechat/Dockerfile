@@ -2,7 +2,7 @@
 # Base
 ###########################################################
 
-FROM resinci/jellyfish-base:a966886d as base
+FROM balena/open-balena-base:v9.0.3 as base
 
 WORKDIR /usr/src/jellyfish
 
