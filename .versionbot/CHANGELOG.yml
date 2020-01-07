@@ -1,4 +1,31 @@
 - commits:
+    - subject: Using balena/open-balena-base instead of resinci/jellyfish-base
+      hash: b8b6e863bd3041d8d255bef5a0a1eae2c818aba3
+      body: ''
+      footer:
+        Connects-to: '#2936'
+        connects-to: '#2936'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+    - subject: >-
+        Move base and test Dockefiles to
+        https://github.com/balena-io/jellyfish-base-images
+      hash: e35c016b5729653f1b1e15946da8432d25655af1
+      body: ''
+      footer:
+        Connects-to: '#2936'
+        connects-to: '#2936'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.55.2
+  date: 2020-01-07T11:12:03.022Z
+- commits:
     - subject: 'UI: Increase API limits and adjust lens limits'
       hash: b2c59c46be133dadf00d5a8193be6655f0dad40b
       body: |
