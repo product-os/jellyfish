@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'server/action-server: Use versioned types in backend containers'
+      hash: 69977481fc168e6729beb9c92290c17845309487
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.56.0
+  date: 2020-01-07T13:18:27.080Z
+- commits:
     - subject: Using balena/open-balena-base instead of resinci/jellyfish-base
       hash: b8b6e863bd3041d8d255bef5a0a1eae2c818aba3
       body: ''
