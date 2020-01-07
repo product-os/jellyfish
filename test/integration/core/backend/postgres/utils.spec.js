@@ -8,10 +8,10 @@ const ava = require('ava')
 const _ = require('lodash')
 const Bluebird = require('bluebird')
 const utils = require('../../../../../lib/core/backend/postgres/utils')
-const helpers = require('../../helpers')
+const helpers = require('../helpers')
 
-ava.beforeEach(helpers.backend.beforeEach)
-ava.afterEach(helpers.backend.afterEach)
+ava.beforeEach(helpers.beforeEach)
+ava.afterEach(helpers.afterEach)
 
 ava('.getPendingRequests() should return nothing by default', async (test) => {
 	const result = await utils.getPendingRequests(

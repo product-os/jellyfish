@@ -5,10 +5,10 @@
  */
 
 const ava = require('ava')
-const helpers = require('./helpers')
+const helpers = require('../helpers')
 
-ava.afterEach(helpers.cache.afterEach)
-ava.beforeEach(helpers.cache.beforeEach)
+ava.afterEach(helpers.afterEach)
+ava.beforeEach(helpers.beforeEach)
 
 ava('.set() should be able to retrieve item by id', async (test) => {
 	const element1 = {

@@ -9,8 +9,8 @@ const views = require('../../../lib/core/views')
 const CARDS = require('../../../lib/core/cards')
 const helpers = require('./helpers')
 
-ava.beforeEach(helpers.kernel.beforeEach)
-ava.afterEach(helpers.kernel.afterEach)
+ava.beforeEach(helpers.beforeEach)
+ava.afterEach(helpers.afterEach)
 
 ava('.getSchema() should return null if the card is not a view', (test) => {
 	const schema = views.getSchema(CARDS['user-admin'])
