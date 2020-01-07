@@ -41,6 +41,13 @@ uuid.random().then((id) => {
 			return onError(serverContext, error)
 		}
 	}).then((server) => {
+		process.once('SIGINT', async () => {
+			await server.stop()
+		})
+		process.once('SIGTERM', async () => {
+			await server.stop()
+		})
+
 		const endDate = new Date()
 		const timeToStart = endDate.getTime() - startDate.getTime()
 
