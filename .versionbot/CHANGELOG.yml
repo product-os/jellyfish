@@ -1,4 +1,29 @@
 - commits:
+    - subject: 'test: Simplify and re-organize lifecycle helpers in integration/queue'
+      hash: 9ae3501afb61bf80d019275f742922c3e8d5feb9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'test: Simplify and re-organize lifecycle helpers in integration/core'
+      hash: 8a74a1323b20253c45934576bade4cc064926986
+      body: |
+        The idea is that each test helper file only exposes `before`,
+        `beforeEach`, `after`, and `afterEach`, without using namespaces such as
+        `helpers.jellyfish`, `helpers.cache`, etc that make everything more
+        confusing than it should be.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.56.3
+  date: 2020-01-07T19:22:05.902Z
+- commits:
     - subject: 'worker: Log expected action execution errors as warnings'
       hash: 5d9df056216ba27f6b8090a5d35722550debcb4b
       body: |
