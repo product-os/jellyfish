@@ -339,6 +339,12 @@ class ViewRenderer extends React.Component {
 
 		options.page = this.state.options.page
 
+		// The backend will throw an error if you make a request with a "limit"
+		// higher than 1000, so normalize it here
+		if (options.limit > 1000) {
+			options.limit = 1000
+		}
+
 		return options
 	}
 
