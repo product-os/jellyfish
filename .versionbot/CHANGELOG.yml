@@ -1,4 +1,20 @@
 - commits:
+    - subject: 'UI: Increase API limits and adjust lens limits'
+      hash: b2c59c46be133dadf00d5a8193be6655f0dad40b
+      body: |
+        Increased API limits make it much easier to analyse sets of data client
+        side.
+
+        Fixes #2884
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 24.55.1
+  date: 2020-01-07T10:26:15.445Z
+- commits:
     - subject: 'Oauth: Add balena api handshake'
       hash: 7790a650090702c52027c846449211d99099091b
       body: ''
