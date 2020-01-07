@@ -11,7 +11,7 @@ const errio = require('errio')
 
 exports.jellyfish = {
 	beforeEach: async (test) => {
-		await helpers.queue.beforeEach(test)
+		await helpers.beforeEach(test)
 
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 			require('../../../lib/worker/cards/update'))
@@ -22,13 +22,13 @@ exports.jellyfish = {
 	},
 
 	afterEach: async (test) => {
-		await helpers.queue.afterEach(test)
+		await helpers.afterEach(test)
 	}
 }
 
 exports.worker = {
 	beforeEach: async (test, actionLibrary, options = {}) => {
-		await helpers.queue.beforeEach(test, {
+		await helpers.beforeEach(test, {
 			enablePriorityBuffer: true,
 			suffix: options.suffix
 		})
@@ -86,5 +86,5 @@ exports.worker = {
 			await test.context.flush(session, expect - 1)
 		}
 	},
-	afterEach: helpers.queue.afterEach
+	afterEach: helpers.afterEach
 }

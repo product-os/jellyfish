@@ -10,12 +10,12 @@ const Bluebird = require('bluebird')
 const helpers = require('./helpers')
 
 ava.beforeEach(async (test) => {
-	await helpers.queue.beforeEach(test, {
+	await helpers.beforeEach(test, {
 		enablePriorityBuffer: true
 	})
 })
 
-ava.afterEach(helpers.queue.afterEach)
+ava.afterEach(helpers.afterEach)
 
 const insertRequest = async (test) => {
 	return test.context.kernel.insertCard(
