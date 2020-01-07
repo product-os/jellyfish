@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'scripts: Retry "curl" calls on transient issues'
+      hash: a2c9b79db2b832e101ae2dcb7803745357f5f54e
+      body: "From the man page:\n\n```\n --retry <num>\n\t\t\t\tIf a transient error is returned when curl  tries  to  perform  a\n\t\t\t\ttransfer,  it  will  retry this number of times before giving up.\n\t\t\t\tSetting the number to 0 makes curl do no retries  (which  is  the\n\t\t\t\tdefault).  Transient  error  means  either: a timeout, an FTP 4xx\n\t\t\t\tresponse code or an HTTP 408 or 5xx response code.\n```\n\nConsider https://circleci.com/gh/balena-io/jellyfish/63262 as an\nexample. cURL failed with 504 Gateway Timeout when trying to fetch the\nPostgres build.\n"
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.54.3
+  date: 2020-01-06T21:14:47.846Z
+- commits:
     - subject: 'test: Only setup browser environment on necessary tests'
       hash: 7297ab590643e75f11c15b2d327f6168ae2eddfc
       body: |
