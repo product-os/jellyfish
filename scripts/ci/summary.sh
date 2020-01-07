@@ -15,7 +15,7 @@ ARTIFACT_UI_WEBPACK_REPORT="test-results/ui/webpack-bundle-report.html"
 ARTIFACT_LIVECHAT_WEBPACK_REPORT="test-results/livechat/webpack-bundle-report.html"
 
 get_artifact_link() (
-	curl -u "$CIRCLE_TOKEN:" "$API_URL/artifacts" | jq -r ".[] | select(.path==\"$1\") .url"
+	curl --retry 5 -u "$CIRCLE_TOKEN:" "$API_URL/artifacts" | jq -r ".[] | select(.path==\"$1\") .url"
 )
 
 echo "Ship shape and ready to sail!"
