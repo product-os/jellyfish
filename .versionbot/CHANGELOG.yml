@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'UI: Fix link constraint lookups when creating a new card'
+      hash: 9832ff497b505c8a0c45299613e8c62bb04d84cd
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 24.56.4
+  date: 2020-01-08T09:26:58.938Z
+- commits:
     - subject: 'test: Simplify and re-organize lifecycle helpers in integration/queue'
       hash: 9ae3501afb61bf80d019275f742922c3e8d5feb9
       body: ''
