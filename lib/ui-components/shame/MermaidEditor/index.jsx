@@ -189,7 +189,9 @@ class MermaidEditor extends React.Component {
 							plain onClick={this.setFullScreen}
 						/>
 					</Box>
-					<Flex flex='1'>
+					<Flex flex='1' style={{
+						minHeight: 0
+					}}>
 						<div
 							style={{
 								display: (!splitview && !preview) || splitview ? 'block' : 'none',
@@ -200,10 +202,14 @@ class MermaidEditor extends React.Component {
 						/>
 
 						{(splitview || preview) && (
-							<Mermaid
-								key={this.state.previewValue}
-								flex={1} value={this.state.previewValue}
-							/>
+							<Box flex={1} style={{
+								overflowY: 'scroll'
+							}}>
+								<Mermaid
+									key={this.state.previewValue}
+									flex={1} value={this.state.previewValue}
+								/>
+							</Box>
 						)}
 					</Flex>
 				</Flex>
