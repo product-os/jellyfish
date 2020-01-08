@@ -1,4 +1,16 @@
 - commits:
+    - subject: Scroll mermaid chart if it overflows editor
+      hash: 2ddb46fbea536fb77f01566596f78aba8b676b95
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 24.56.5
+  date: 2020-01-08T13:24:35.813Z
+- commits:
     - subject: 'UI: Fix link constraint lookups when creating a new card'
       hash: 9832ff497b505c8a0c45299613e8c62bb04d84cd
       body: ''
