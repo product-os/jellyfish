@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'Test: create test to check side-by-side chats syncing correctly'
+      hash: 5be9ceee884ae8553601a33b7043112a327c6974
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+    - subject: 'UI: update actioncreator stream to handle all target channels'
+      hash: 52718c0986ba0e8fa943bae30dadda02e3195dcc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+  version: 24.56.7
+  date: 2020-01-08T16:09:30.267Z
+- commits:
     - subject: Restore .dockerignore as it is used by balena push
       hash: 4187d13343bffa30041f95ff7d9fe412b6ae1848
       body: ''
