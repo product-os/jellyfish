@@ -1,4 +1,16 @@
 - commits:
+    - subject: Restore .dockerignore as it is used by balena push
+      hash: 4187d13343bffa30041f95ff7d9fe412b6ae1848
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.56.6
+  date: 2020-01-08T14:09:34.775Z
+- commits:
     - subject: Scroll mermaid chart if it overflows editor
       hash: 2ddb46fbea536fb77f01566596f78aba8b676b95
       body: ''
