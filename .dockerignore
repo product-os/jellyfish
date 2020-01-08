@@ -1,0 +1,11 @@
+.git
+.tmp
+.cache-loader
+.nyc_ouput
+.versionbot
+coverage
+dist
+dump.rdb
+node_modules
+Dockerfile
+postgres_data
