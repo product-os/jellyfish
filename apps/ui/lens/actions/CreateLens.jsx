@@ -337,7 +337,7 @@ class CreateLens extends React.Component {
 			// data.title file to the root of the object, as the rendition Select
 			// component can't use a non-root field for the `labelKey` prop
 			// TODO make the Select component allow nested fields for the `labelKey` prop
-			linkTypeTargets = _.filter(constants.LINKS, [ 'data.from', target.type ])
+			linkTypeTargets = _.filter(constants.LINKS, [ 'data.from', target.type.split('@')[0] ])
 				.map((constraint) => {
 					return Object.assign({}, constraint, {
 						title: constraint.data.title
