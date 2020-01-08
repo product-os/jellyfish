@@ -45,6 +45,16 @@ children:
               url: 'balena/jellyfish-ui:#JF_VERSION#'
             repo:
               url: 'https://github.com/balena-io/jellyfish.git'
+      jellyfish-livechat:
+        slug: jellyfish-livechat
+        version: #JF_VERSION#
+        type: sw.containerized-application
+        data:
+          assets:
+            image:
+              url: 'balena/jellyfish-livechat:#JF_VERSION#'
+            repo:
+              url: 'https://github.com/balena-io/jellyfish.git'
       jellyfish-redis:
         slug: jellyfish-redis
         version: latest

@@ -6,6 +6,8 @@ properties:
     type: string
   JELLYFISH_API_HOST:
     type: string
+  JELLYFISH_LIVECHAT_HOST:
+    type: string
   AWS_ACCESS_KEY_ID:
     type: string
   AWS_S3_BUCKET_NAME:
