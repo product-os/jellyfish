@@ -96,11 +96,15 @@ services:
     restart: always
     networks:
       - internal
+    ports:
+      - 5432:5432
   redis:
     image: balena/balena-redis:0.0.3
     restart: always
     networks:
       - internal
+    ports:
+      - 6379:6379
   sidecar:
     build:
       context: .
@@ -403,8 +407,6 @@ services:
       - balena-mdns-publisher
     ports:
       - '80:80'
-      - '5432:5432'
-      - '6379:6379'
     networks:
       internal:
         aliases:

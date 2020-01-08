@@ -96,11 +96,15 @@ services:
     restart: always
     networks:
       - internal
+    ports:
+      - {{POSTGRES_PORT}}:{{POSTGRES_PORT}}
   redis:
     image: balena/balena-redis:0.0.3
     restart: always
     networks:
       - internal
+    ports:
+      - {{REDIS_PORT}}:{{REDIS_PORT}}
   sidecar:
     build:
       context: .
@@ -403,8 +407,6 @@ services:
       - balena-mdns-publisher
     ports:
       - '80:80'
-      - '{{POSTGRES_PORT}}:{{POSTGRES_PORT}}'
-      - '{{REDIS_PORT}}:{{REDIS_PORT}}'
     networks:
       internal:
         aliases:

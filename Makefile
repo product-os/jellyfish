@@ -8,8 +8,6 @@
 	start-server \
 	start-worker \
 	start-tick \
-	start-redis \
-	start-postgres \
 	test-unit \
 	test-integration \
 	test-e2e
@@ -28,9 +26,9 @@ DATABASE ?= postgres
 export DATABASE
 
 # The default postgres user is your local user
-POSTGRES_USER ?= $(shell whoami)
+POSTGRES_USER ?= docker
 export POSTGRES_USER
-POSTGRES_PASSWORD ?=
+POSTGRES_PASSWORD ?= docker
 export POSTGRES_PASSWORD
 POSTGRES_PORT ?= 5432
 export POSTGRES_PORT
@@ -75,7 +73,7 @@ NODE_ENV ?= test
 export NODE_ENV
 REDIS_NAMESPACE ?= $(SERVER_DATABASE)
 export REDIS_NAMESPACE
-REDIS_PASSWORD ?=
+REDIS_PASSWORD ?= redis
 export REDIS_PASSWORD
 REDIS_PORT ?= 6379
 export REDIS_PORT
@@ -395,16 +393,6 @@ start-tick:
 	exec $(NODE) $(NODE_ARGS) apps/action-server/tick.js
 endif
 
-start-redis:
-	exec redis-server --port $(REDIS_PORT)
-
-# You might need to increase the maximum amount of semaphores
-# system-wide in order to set the max connections parameters.
-# In OpenBSD, set kern.seminfo.semmns=200 in /etc/sysctl.conf
-# See https://www.postgresql.org/docs/11/kernel-resources.html
-start-postgres: postgres_data
-	exec postgres -N 100 -D $< -p $(POSTGRES_PORT)
-
 start-static-%:
 	cd dist/$(subst start-static-,,$@) && exec python2 -m SimpleHTTPServer $(UI_PORT)
 
@@ -452,6 +440,10 @@ compose-up-%: docker-compose.yml
 compose-logs-%: docker-compose.yml
 	docker-compose $(DOCKER_COMPOSE_OPTIONS) \
 		logs $(subst compose-logs-,,$@) $(DOCKER_COMPOSE_COMMAND_OPTIONS)
+
+compose-servers: docker-compose.yml
+	docker-compose $(DOCKER_COMPOSE_OPTIONS) \
+		$(DOCKER_COMPOSE_COMMAND_OPTIONS) up postgres redis
 
 compose-%: docker-compose.yml
 	docker-compose $(DOCKER_COMPOSE_OPTIONS) $(subst compose-,,$@) \

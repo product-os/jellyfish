@@ -78,8 +78,7 @@ You can then run these commands in different terminal emulators, which will run
 all services in non-daemon mode:
 
 ```sh
-make start-postgres
-make start-redis
+make compose-servers
 make start-server
 make start-tick
 make start-worker # Run more than once for more workers
