@@ -4,6 +4,7 @@
  * Proprietary and confidential.
  */
 
+import clone from 'deep-copy'
 import * as _ from 'lodash'
 import React from 'react'
 import {
@@ -97,7 +98,7 @@ class CreateLens extends React.Component {
 			'setLocalSchema'
 		])
 
-		this.handleFormChange = _.debounce(this.handleFormChange, 500)
+		this.handleFormChange = this.handleFormChange.bind(this)
 	}
 
 	bindMethods (methods) {
@@ -117,7 +118,7 @@ class CreateLens extends React.Component {
 	}
 
 	setFreeFieldData (data) {
-		const model = this.state.newCardModel
+		const model = clone(this.state.newCardModel)
 		_.forEach(data, (value, key) => {
 			_.set(model, [ 'data', key ], value)
 		})
