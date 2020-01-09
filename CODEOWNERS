@@ -1,2 +1,16 @@
-* @lucianbuzzo @jviotti @ffissore @nazrhom @karaxuna @StefKors
+* @lucianbuzzo @jviotti @ffissore @karaxuna @StefKors @joshbwlng
 deploy-templates @mikesimos
+
+#UI folders
+!lib/ui-components @ffissore @jviotti @joshbwlng
+!lib/chat-widget @ffissore @jviotti @joshbwlng
+!apps/livechat @ffissore @jviotti @joshbwlng
+!apps/ui @ffissore @jviotti @joshbwlng
+
+#backend folders
+!apps/action-server @lucianbuzzo @karaxuna @StefKors
+!apps/server @lucianbuzzo @karaxuna @StefKors
+!apps/sidecar @lucianbuzzo @karaxuna @StefKors
+!lib/core @lucianbuzzo @karaxuna @StefKors
+!lib/queue @lucianbuzzo @karaxuna @StefKors
+!lib/worker @lucianbuzzo @karaxuna @StefKors
