@@ -1,4 +1,20 @@
 - commits:
+    - subject: >-
+        On production, start a new, unused rabbitmq instance, so we can check
+        its wiring
+      hash: 211f0f33daa5f4643bd9fe678b4db8243d23066d
+      body: ''
+      footer:
+        Connects-to: '#2796'
+        connects-to: '#2796'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.56.9
+  date: 2020-01-09T13:42:06.797Z
+- commits:
     - subject: 'UI: Fix a bug where the cursor would reset when creating a new card'
       hash: 56b28aa2100f19728c161bf11bc362f66c5d8961
       body: |
