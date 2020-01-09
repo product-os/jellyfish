@@ -173,7 +173,7 @@ ava.serial('core: should stop users from seeing messages attached to cards they 
 	test.not(messageText, lastMessage)
 })
 
-ava.serial('versioned urls should resolve to the correct url', async (test) => {
+ava.serial.only('versioned urls should resolve to the correct url', async (test) => {
 	const {
 		page
 	} = context
@@ -204,16 +204,17 @@ ava.serial('versioned urls should resolve to the correct url', async (test) => {
 	]
 
 	// Check if everything works, puppeteer version 2.0 upgrade
+	const results = []
 	await ensureCommunityLogin(page)
 
-	const results = []
-
 	const checkPathName = async (pathName) => {
+		// Move to inbox first to aid in navigating
+		await page.goto(`${environment.ui.host}:${environment.ui.port}/inbox`)
+
 		// Navigate to the input url
 		await page.goto(`${environment.ui.host}:${environment.ui.port}${pathName.input}`)
 
 		// Then wait 20 seconds
-		await bluebird.delay(20000)
 
 		// Wait for the homechannel class
 		await page.waitForSelector('.home-channel')
@@ -226,6 +227,7 @@ ava.serial('versioned urls should resolve to the correct url', async (test) => {
 		return false
 	}
 
+	// For loop
 	for (const key in pathNames) {
 		if (pathNames.hasOwnProperty(key)) {
 			const pathName = pathNames[key]
