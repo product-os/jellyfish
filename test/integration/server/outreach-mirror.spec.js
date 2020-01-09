@@ -179,6 +179,50 @@ avaTest('should not update remote prospects that do not exist', async (test) => 
 	test.falsy(prospect)
 })
 
+avaTest('should handle pointless contact updates', async (test) => {
+	const username = `test-${uuid()}`
+
+	const createResult = await test.context.sdk.card.create({
+		slug: `contact-${username}`,
+		type: 'contact',
+		data: {
+			profile: {
+				email: `${username}@test.io`
+			}
+		}
+	})
+
+	const contact = await test.context.sdk.card.get(createResult.id)
+
+	test.deepEqual(contact.data, {
+		mirrors: contact.data.mirrors,
+		profile: {
+			email: `${username}@test.io`
+		}
+	})
+
+	// To trigger mirroring
+	await test.context.sdk.card.update(contact.id, contact.type, [
+		{
+			op: 'add',
+			path: '/data/foo',
+			value: 'bar'
+		}
+	])
+
+	test.is(contact.data.mirrors.length, 1)
+	test.true(contact.data.mirrors[0].startsWith('https://api.outreach.io/api/v2/prospects/'))
+	const prospectId = _.parseInt(_.last(contact.data.mirrors[0].split('/')))
+	const prospect = await test.context.getProspect(prospectId)
+
+	test.deepEqual(prospect.data.attributes.emails, [ `${username}@test.io` ])
+	test.is(prospect.data.attributes.name, username)
+	test.is(prospect.data.attributes.nickname, username)
+	test.falsy(prospect.data.attributes.githubUsername)
+	test.falsy(prospect.data.attributes.occupation)
+	test.is(prospect.data.attributes.custom1, `https://jel.ly.fish/${contact.id}`)
+})
+
 avaTest('should add a tag with the linked user external event slug origin type', async (test) => {
 	const username = `test-${uuid()}`
 
