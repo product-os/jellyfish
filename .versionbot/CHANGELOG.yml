@@ -1,4 +1,16 @@
 - commits:
+    - subject: Limit gitstats report to 1 month in the past
+      hash: 625423de956473c71164efb419daa67e548c601a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.56.12
+  date: 2020-01-09T17:25:20.300Z
+- commits:
     - subject: >-
         Add josh as codeowner, ping backend ppl for backend changes, UI ppl for
         UI changes
