@@ -861,7 +861,7 @@ jobs:
           command: mkdir -p /tmp/test-results && tar czf /tmp/test-results/nyc_output.tar.gz .nyc_output && make coverage && cp -rf coverage /tmp/test-results
       - run:
           name: Git Stats
-          command: gitstats . /tmp/test-results/gitstats
+          command: gitstats -c start_date="1 month ago" . /tmp/test-results/gitstats
 
       # Store artifacts for debugging purposes
       - store_test_results:
