@@ -1,4 +1,18 @@
 - commits:
+    - subject: >-
+        Add josh as codeowner, ping backend ppl for backend changes, UI ppl for
+        UI changes
+      hash: ff1077ab3e5a235c9de00539e20ff3484728499e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.56.11
+  date: 2020-01-09T16:22:00.764Z
+- commits:
     - subject: Set rabbitmq replicas to 1
       hash: 8cbfef6ad2ef07e450548a21537a0dc37864abc0
       body: ''
