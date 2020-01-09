@@ -1,4 +1,20 @@
 - commits:
+    - subject: 'UI: Fix a bug where the cursor would reset when creating a new card'
+      hash: 56b28aa2100f19728c161bf11bc362f66c5d8961
+      body: |
+        Fixes #2689
+
+        The previous patch related to this issue only fixed the bug when
+        *editing* and not when creating a new card.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 24.56.8
+  date: 2020-01-09T11:34:05.340Z
+- commits:
     - subject: 'Test: create test to check side-by-side chats syncing correctly'
       hash: 5be9ceee884ae8553601a33b7043112a327c6974
       body: ''
