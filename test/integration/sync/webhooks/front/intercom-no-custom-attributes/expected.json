@@ -1,0 +1,127 @@
+{
+  "head": {
+    "name": "",
+    "type": "support-thread@1.0.0",
+    "version": "1.0.0",
+    "active": true,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "environment": "production",
+      "inbox": "S/Paid_Support",
+      "mirrors": [
+        "https://api2.frontapp.com/conversations/cnv_173u3mz"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "",
+      "status": "open"
+    }
+  },
+  "tail": [
+    {
+      "type": "message@1.0.0",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti2"
+        },
+        "mirrors": [
+          "https://api2.frontapp.com/messages/msg_29osuib"
+        ],
+        "timestamp": "2019-01-17T10:18:32.000Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "JF test, please ignore"
+        }
+      }
+    },
+    {
+      "type": "create@1.0.0",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti2"
+        },
+        "timestamp": "2019-01-17T10:18:34.252Z",
+        "payload": {
+          "name": "",
+          "type": "support-thread@1.0.0",
+          "version": "1.0.0",
+          "active": true,
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "environment": "production",
+            "inbox": "S/Paid_Support",
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_173u3mz"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open"
+          }
+        }
+      }
+    },
+    {
+      "type": "whisper@1.0.0",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": {
+          "active": true,
+          "slug": "user-syncbot"
+        },
+        "mirrors": [
+          "https://api2.frontapp.com/comments/com_2njvtn"
+        ],
+        "timestamp": "2019-01-17T10:18:38.078Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "This is mirrored in [flowdock premium thread bH_y1MpNztvrG4oEUbZfPVqiMJg](https://www.flowdock.com/app/rulemotion/public-s-premium/threads/bH_y1MpNztvrG4oEUbZfPVqiMJg)\n[](https://www.balena-cloud.com?hidden=murmur&source=flowdock&flow=rulemotion/public-s-premium&thread=bH_y1MpNztvrG4oEUbZfPVqiMJg&hmac=73f3e2d8c0e6acf0cd24bb7c0760cfc65157c6ef13551e45dba93e65e18070d0)"
+        }
+      }
+    },
+    {
+      "active": true,
+      "capabilities": [],
+      "data": {
+        "actor": {
+          "active": true,
+          "slug": "user-syncbot"
+        },
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2019-01-17T10:18:38.133Z"
+          }
+        ],
+        "timestamp": "2019-01-17T10:18:38.133Z"
+      },
+      "requires": [],
+      "tags": [],
+      "type": "update@1.0.0",
+      "version": "1.0.0"
+    }
+  ]
+}

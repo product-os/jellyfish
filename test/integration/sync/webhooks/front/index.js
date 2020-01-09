@@ -98,6 +98,13 @@ module.exports = {
 			require('./intercom-draft-comment/02.json')
 		]
 	},
+	'intercom-no-custom-attributes': {
+		expected: require('./intercom-no-custom-attributes/expected.json'),
+		steps: [
+			require('./intercom-no-custom-attributes/01.json'),
+			require('./intercom-no-custom-attributes/02.json')
+		]
+	},
 	'intercom-inbound-archive': {
 		expected: require('./intercom-inbound-archive/expected.json'),
 		steps: [
