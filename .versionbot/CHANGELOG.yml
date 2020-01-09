@@ -1,4 +1,16 @@
 - commits:
+    - subject: Set rabbitmq replicas to 1
+      hash: 8cbfef6ad2ef07e450548a21537a0dc37864abc0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.56.10
+  date: 2020-01-09T15:26:49.390Z
+- commits:
     - subject: >-
         On production, start a new, unused rabbitmq instance, so we can check
         its wiring
