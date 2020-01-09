@@ -35,6 +35,7 @@ Compose](https://docs.docker.com/compose/) installed. First build all the
 containers:
 
 ```sh
+npm install
 make compose-build
 ```
 
@@ -44,8 +45,14 @@ Run them with:
 make compose-up
 ```
 
-The API will listen on `8000` and the UI will listen on `9000`. Open
-http://localhost:9000 and login as:
+Add endpoints to local hosts file:
+
+```
+127.0.0.1 livechat.ly.fish.local api.ly.fish.local jel.ly.fish.local
+```
+
+The API will listen on `http://api.ly.fish.local:80` and the UI will listen on `http://jel.ly.fish.local:80`.
+Open `http://jel.ly.fish.local` and login as:
 
 - Username: `jellyfish`
 - Password: `jellyfish`
