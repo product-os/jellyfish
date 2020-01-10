@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'SDK: Switch to using unit tests with nock'
+      hash: 4b8b5d387242c857f5c5f2dfd7ecd98009e06c19
+      body: |
+        Most e2e tests with the SDK duplicate behaviour already covered in the
+        UI e2e tests. This commit strips down the SDK tests, and runs them as
+        unit tests with a mock API using nock.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 24.57.0
+  date: 2020-01-10T14:49:45.692Z
+- commits:
     - subject: 'Add @joshbwlng as codeowner, remove @nazrhom'
       hash: f7a2bf4122718b2555c52eb309888d3b7f100b7b
       body: ''
