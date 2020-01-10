@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'Add @joshbwlng as codeowner, remove @nazrhom'
+      hash: f7a2bf4122718b2555c52eb309888d3b7f100b7b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.56.13
+  date: 2020-01-10T10:59:27.689Z
+- commits:
     - subject: Limit gitstats report to 1 month in the past
       hash: 625423de956473c71164efb419daa67e548c601a
       body: ''
