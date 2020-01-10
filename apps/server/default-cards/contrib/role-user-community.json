@@ -27,64 +27,26 @@
           "properties": {
             "type": {
               "type": "string",
-              "enum": [
-                "link",
-                "account",
-                "agenda",
-                "architecture-topic",
-                "contact",
-                "checkin",
-                "discussion-topic",
-                "feedback-item",
-                "issue",
-                "message",
-                "opportunity",
-                "org",
-                "organizer",
-                "os-test-result",
-                "pull-request",
-                "product-improvement",
-                "project",
-                "sales-thread",
-                "specification",
-                "support-issue",
-                "support-thread",
-                "symptom",
-                "tag",
-                "thread",
-                "todo",
-                "triggered-action",
-                "whisper",
-                "workflow",
-                "link@1.0.0",
-                "account@1.0.0",
-                "agenda@1.0.0",
-                "architecture-topic@1.0.0",
-                "contact@1.0.0",
-                "checkin@1.0.0",
-                "discussion-topic@1.0.0",
-                "feedback-item@1.0.0",
-                "issue@1.0.0",
-                "message@1.0.0",
-                "opportunity@1.0.0",
-                "org@1.0.0",
-                "organizer@1.0.0",
-                "os-test-result@1.0.0",
-                "pull-request@1.0.0",
-                "product-improvement@1.0.0",
-                "project@1.0.0",
-                "sales-thread@1.0.0",
-                "specification@1.0.0",
-                "support-issue@1.0.0",
-                "support-thread@1.0.0",
-                "symptom@1.0.0",
-                "tag@1.0.0",
-                "thread@1.0.0",
-                "todo@1.0.0",
-                "triggered-action@1.0.0",
-                "whisper@1.0.0",
-                "workflow@1.0.0"
-              ]
+              "not": {
+                "enum": [
+                  "action-request",
+                  "action-request@1.0.0",
+                  "event",
+                  "event@1.0.0",
+                  "external-event",
+                  "external-event@1.0.0",
+                  "role",
+                  "role@1.0.0",
+                  "session",
+                  "session@1.0.0",
+                  "type",
+                  "type@1.0.0",
+                  "user",
+                  "user@1.0.0",
+                  "view",
+                  "view@1.0.0"
+                ]
+              }
             }
           }
         },
@@ -94,24 +56,20 @@
           "additionalProperties": true,
           "properties": {
             "slug": {
-              "type": "string",
-              "enum": [
-                "session",
-                "user",
-                "account",
-                "link",
-                "action-request",
-                "contact",
-                "view",
-                "tag",
-                "message",
-                "whisper",
-                "workflow",
-                "issue",
-                "support-thread",
-                "support-issue",
-                "thread"
-              ]
+              "not": {
+                "enum": [
+                  "card",
+                  "card@1.0.0",
+                  "action",
+                  "action@1.0.0",
+                  "event",
+                  "event@1.0.0",
+                  "external-event",
+                  "external-event@1.0.0",
+                  "role",
+                  "role@1.0.0"
+                ]
+              }
             },
             "type": {
               "type": "string",
@@ -121,30 +79,7 @@
         },
         {
           "type": "object",
-          "required": [ "id", "type", "data" ],
-          "properties": {
-            "id": {
-              "type": "string"
-            },
-            "type": {
-              "type": "string",
-              "enum": [
-                "action",
-                "create",
-                "update",
-                "action@1.0.0",
-                "create@1.0.0",
-                "update@1.0.0"
-              ]
-            },
-            "data": {
-              "type": "object",
-              "additionalProperties": true
-            }
-          }
-        },
-        {
-          "type": "object",
+          "description": "User can view their own execute, session and view cards",
           "additionalProperties": true,
           "required": [ "data", "type" ],
           "properties": {
