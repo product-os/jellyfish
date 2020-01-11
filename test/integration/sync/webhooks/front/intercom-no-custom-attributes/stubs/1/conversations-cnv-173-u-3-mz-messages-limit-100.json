@@ -1,0 +1,53 @@
+{
+  "_pagination": {
+    "prev": null,
+    "next": null
+  },
+  "_links": {
+    "self": "https://api2.frontapp.com/conversations/cnv_173u3mz/messages?"
+  },
+  "_results": [
+    {
+      "_links": {
+        "self": "https://api2.frontapp.com/messages/msg_29osuib",
+        "related": {
+          "conversation": "https://api2.frontapp.com/conversations/cnv_173u3mz"
+        }
+      },
+      "id": "msg_29osuib",
+      "type": "intercom",
+      "is_inbound": true,
+      "created_at": 1547720312,
+      "blurb": " JF test, please ignore ",
+      "body": "<div><p>JF test, please ignore</p>\n</div>",
+      "text": "JF test, please ignore",
+      "is_draft": false,
+      "error_type": null,
+      "metadata": {
+        "intercom_url": "https://app.intercom.io/a/apps/yg02r5dz/inbox/conversation/20454340990"
+      },
+      "author": null,
+      "recipients": [
+        {
+          "_links": {
+            "related": {
+              "contact": null
+            }
+          },
+          "handle": "5457936368f6f465d7002858",
+          "role": "from"
+        },
+        {
+          "_links": {
+            "related": {
+              "contact": "https://api2.frontapp.com/contacts/crd_5gqtnd"
+            }
+          },
+          "handle": "yg02r5dz",
+          "role": "to"
+        }
+      ],
+      "attachments": []
+    }
+  ]
+}
