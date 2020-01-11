@@ -1,4 +1,20 @@
 - commits:
+    - subject: 'github: Don''t pass versioned types to revertEventChanges'
+      hash: 161384ce69cf236b53b51093f6d41b37bee1f029
+      body: |
+        This function expects properties from the GitHub webhook payload, not
+        Jellyfish types.
+      footer:
+        Fixes: 'https://sentry.io/share/issue/9b548c1f976e42848bd31d88344d003e/'
+        fixes: 'https://sentry.io/share/issue/9b548c1f976e42848bd31d88344d003e/'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.57.1
+  date: 2020-01-10T17:31:47.689Z
+- commits:
     - subject: 'SDK: Switch to using unit tests with nock'
       hash: 4b8b5d387242c857f5c5f2dfd7ecd98009e06c19
       body: |
