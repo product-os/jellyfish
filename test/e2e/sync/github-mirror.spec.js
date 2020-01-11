@@ -130,6 +130,49 @@ ava.afterEach(helpers.mirror.afterEach)
 // Skip all tests if there is no GitHub token
 const avaTest = _.some(_.values(TOKEN), _.isEmpty) ? ava.serial.skip : ava.serial
 
+avaTest('should be able to create an issue with a comment and update the comment after remote deletion', async (test) => {
+	const issueSlug = test.context.getIssueSlug()
+	const title = `Test Issue ${uuid()}`
+	const issue = await test.context.createIssue(
+		test.context.repository, issueSlug, title, {
+			body: 'Issue body',
+			status: 'open',
+			archived: false
+		})
+
+	const messageSlug = test.context.getMessageSlug()
+	const message = await test.context.createMessage(issue, messageSlug, 'First comment')
+	const mirror = message.data.mirrors[0]
+
+	await test.context.github.issues.deleteComment({
+		owner: test.context.repository.owner,
+		repo: test.context.repository.repo,
+		comment_id: _.last(_.split(mirror, '-'))
+	})
+
+	await test.context.sdk.card.update(message.id, message.type, [
+		{
+			op: 'replace',
+			path: '/data/payload/message',
+			value: 'Edited message'
+		}
+	])
+
+	const externalIssue = await test.context.github.issues.get({
+		owner: test.context.repository.owner,
+		repo: test.context.repository.repo,
+		number: _.last(issue.data.mirrors[0].split('/'))
+	})
+
+	test.is(externalIssue.data.body, `[${test.context.username}] Issue body`)
+	test.is(externalIssue.data.comments, 0)
+
+	const messageCard = await test.context.sdk.card.get(message.id)
+
+	// Normal users can't see deleted cards
+	test.falsy(messageCard)
+})
+
 avaTest('should be able to create an issue without comments', async (test) => {
 	const slug = test.context.getIssueSlug()
 	const title = `Test Issue ${uuid()}`
