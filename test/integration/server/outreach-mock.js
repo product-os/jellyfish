@@ -435,8 +435,27 @@ exports.patchProspect = (body) => {
 		}
 	}
 
-	DATA[index].attributes = Object.assign({},
-		DATA[index].attributes, body.data.attributes)
+	const currentAttributes = _.cloneDeep(DATA[index].attributes)
+	const newAttributes = _.cloneDeep(
+		Object.assign({}, DATA[index].attributes, body.data.attributes))
+
+	// When nothing really changes
+	if (_.isEqual(currentAttributes, newAttributes)) {
+		return {
+			code: 422,
+			response: {
+				errors: [
+					{
+						id: 'validationDuplicateValueError',
+						title: 'Validation Duplicate Value Error',
+						detail: 'A Contact with this email_hash already exists.'
+					}
+				]
+			}
+		}
+	}
+
+	DATA[index].attributes = newAttributes
 
 	return {
 		code: 200,
