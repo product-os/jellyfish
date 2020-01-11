@@ -1,4 +1,20 @@
 - commits:
+    - subject: 'front: Handle Intercom users without custom attributes'
+      hash: 3e22248706dd778bdc14648167a02f5c040ec824
+      body: |
+        Most Intercom associated users have custom attributes, but not all of
+        them.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Fixes: 'https://sentry.io/share/issue/b127a7fe0160441097aef29da8315c26/'
+        fixes: 'https://sentry.io/share/issue/b127a7fe0160441097aef29da8315c26/'
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.57.3
+  date: 2020-01-11T02:26:35.930Z
+- commits:
     - subject: 'outreach: Gracefully handle pointless contact updates'
       hash: 85057b57e0309b96649bf8df30ebfdd84733decc
       body: |
