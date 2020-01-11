@@ -1,4 +1,20 @@
 - commits:
+    - subject: 'outreach: Gracefully handle pointless contact updates'
+      hash: 85057b57e0309b96649bf8df30ebfdd84733decc
+      body: |
+        Apparently the Outreach API returns 422 if we try to patch a contact
+        with already up to date information.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Fixes: 'https://sentry.io/share/issue/c3df9ba3e4c2493f80a6af19db9d743d/'
+        fixes: 'https://sentry.io/share/issue/c3df9ba3e4c2493f80a6af19db9d743d/'
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.57.2
+  date: 2020-01-11T01:31:16.598Z
+- commits:
     - subject: 'github: Don''t pass versioned types to revertEventChanges'
       hash: 161384ce69cf236b53b51093f6d41b37bee1f029
       body: |
