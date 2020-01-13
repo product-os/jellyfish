@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'UI: Fix errors that stop Kanban lens from rendering'
+      hash: c4f932eae26cf9f80eaa4be21c8aa407d254f26b
+      body: |
+        Fixes #2985
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 24.57.6
+  date: 2020-01-13T13:14:58.513Z
+- commits:
     - subject: 'UI: set autocomplete suggestion color to black'
       hash: 4d8243456e9504192f5230f721d513d57e5f4ee7
       body: ''
