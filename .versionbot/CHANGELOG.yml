@@ -1,4 +1,16 @@
 - commits:
+    - subject: Use the Kanban lens for the workflows view
+      hash: 353354e13a8dfa8766f2e5d68379994a8bd34e1d
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 24.58.0
+  date: 2020-01-13T16:00:29.760Z
+- commits:
     - subject: 'UI: Fix errors that stop Kanban lens from rendering'
       hash: c4f932eae26cf9f80eaa4be21c8aa407d254f26b
       body: |
