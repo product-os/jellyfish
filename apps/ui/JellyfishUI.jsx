@@ -46,7 +46,8 @@ import ReactDndHtml5Backend from 'react-dnd-html5-backend'
 import {
 	Route,
 	Redirect,
-	Switch
+	Switch,
+	withRouter
 } from 'react-router-dom'
 
 // Register the mermaid and markdown widgets for rendition forms
@@ -62,10 +63,10 @@ const cleanUrl = (path) => {
 }
 
 const isLegacyPath = (path) => {
-	if (cleanUrl(path).match(LEGACY_PATH_CHECK_RE)) {
+	const matchedPath = cleanUrl(path).match(LEGACY_PATH_CHECK_RE)
+	if (matchedPath) {
 		return true
 	}
-
 	return false
 }
 
@@ -164,5 +165,5 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default DragDropContext(ReactDndHtml5Backend)(
-	connect(mapStateToProps, mapDispatchToProps)(JellyfishUI)
+	withRouter(connect(mapStateToProps, mapDispatchToProps)(JellyfishUI))
 )
