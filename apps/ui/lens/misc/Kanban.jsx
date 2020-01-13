@@ -19,18 +19,9 @@ import {
 } from 'redux'
 import {
 	Button,
-	Flex,
-	Box,
-	Badge,
-	Txt
+	Flex
 } from 'rendition'
 import skhema from 'skhema'
-import styled from 'styled-components'
-import ContextMenu from '../../../../lib/ui-components/ContextMenu'
-import GroupUpdate from '../../../../lib/ui-components/GroupUpdate'
-import {
-	Tag
-} from '../../../../lib/ui-components/Tag'
 import {
 	actionCreators,
 	analytics,
@@ -39,49 +30,8 @@ import {
 } from '../../core'
 import * as helpers from '../../services/helpers'
 import BaseLens from '../common/BaseLens'
-import Icon from '@jellyfish/ui-components/shame/Icon'
 
 const UNSORTED_GROUP_ID = 'JELLYFISH_UNSORTED_GROUP'
-const EllipsisButton = styled(Button) `
-	float: right;
-	color: #c3c3c3;
-
-	&:hover,
-	&:focus {
-		color: white;
-	}
-`
-
-const OrgCard = (props) => {
-	const {
-		card
-	} = props
-
-	const arr = _.get(card, [ 'data', 'profile', 'projectedArr' ])
-
-	return (
-		<Box p={2}>
-			{Boolean(card.tags) && _.map(card.tags, (tag) => {
-				return (
-					<Tag
-						key={tag}
-						mr={2}
-					>
-						{tag}
-					</Tag>
-				)
-			})}
-			<Txt>{card.name}</Txt>
-
-			{arr && (
-				<Badge bg="#2297DE">
-					Projected ARR: {arr.toFixed(2)}
-				</Badge>
-			)}
-
-		</Box>
-	)
-}
 
 const cardMapper = (card) => {
 	const message = _.find(_.get(card, [ 'links', 'has attached element' ]), (linkedCard) => {
@@ -94,60 +44,6 @@ const cardMapper = (card) => {
 		title: card.name || card.slug || `${card.type}: ${card.id.substr(0, 7)}`,
 		card,
 		description: _.get(message, [ 'data', 'payload', 'message' ])
-	}
-}
-
-class CustomLaneHeader extends React.Component {
-	constructor (props) {
-		super(props)
-
-		this.toggleMenu = () => {
-			this.setState({
-				showMenu: !this.state.showMenu
-			})
-		}
-
-		this.toggleUpdateModal = () => {
-			this.setState({
-				showUpdateModal: !this.state.showUpdateModal
-			})
-		}
-
-		this.state = {
-			showMenu: false,
-			showUpdateModal: false
-		}
-	}
-
-	render () {
-		const {
-			props
-		} = this
-
-		return (
-			<div>
-				<strong>{props.title}</strong>
-				<EllipsisButton px={2} plain onClick={this.toggleMenu}>
-					<Icon name="ellipsis-v"/>
-				</EllipsisButton>
-
-				{this.state.showMenu && (
-					<ContextMenu position="bottom" onClose={this.toggleMenu}>
-						<Button plain onClick={this.toggleUpdateModal}>
-						Update all items in this list
-						</Button>
-					</ContextMenu>
-				)}
-
-				{this.state.showUpdateModal && (
-					<GroupUpdate
-						cards={props.cards}
-						schema={props.schema}
-						onClose={this.toggleUpdateModal}
-					/>
-				)}
-			</div>
-		)
 	}
 }
 
@@ -228,7 +124,10 @@ class Kanban extends BaseLens {
 			path: activeSlice
 		}) || slices[0]
 		if (!slice) {
-			return []
+			return [ {
+				id: UNSORTED_GROUP_ID,
+				cards: cards.map(cardMapper)
+			} ]
 		}
 		slice.values.forEach((value) => {
 			const lane = {
@@ -275,6 +174,8 @@ class Kanban extends BaseLens {
 
 		const typeName = type ? type.name || type.slug : ''
 
+		const components = {}
+
 		return (
 			<Flex
 				flexDirection="column"
@@ -287,15 +188,12 @@ class Kanban extends BaseLens {
 						padding: '0 12px',
 						background: 'none'
 					}}
-					customCardLayout={type.slug === 'org'}
-					customLaneHeader={type ? <CustomLaneHeader schema={type.data.schema}/> : null}
+					components={components}
 					data={data}
 					draggable={true}
 					handleDragEnd={this.handleDragEnd}
 					onCardClick={this.onCardClick}
-				>
-					<OrgCard />
-				</ReactTrello>
+				/>
 
 				{Boolean(type) && (
 					<React.Fragment>
