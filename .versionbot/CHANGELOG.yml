@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'UI: set autocomplete suggestion color to black'
+      hash: 4d8243456e9504192f5230f721d513d57e5f4ee7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+  version: 24.57.5
+  date: 2020-01-13T10:20:26.131Z
+- commits:
     - subject: 'github: Handle edits to deleted messages'
       hash: 85c57415ecfa78f0eef97867469efdfd35891285
       body: |
