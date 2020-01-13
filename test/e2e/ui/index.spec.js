@@ -182,25 +182,26 @@ ava.serial.only('versioned urls should resolve to the correct url', async (test)
 		{
 			input: '/support-thread@1.0.0~4bfcbda8-2030-45dd-a0ec-eb056bc192b2',
 			expectedOutput: '/4bfcbda8-2030-45dd-a0ec-eb056bc192b2'
-		},
-		{
-			input: '/#/support-thread@1.0.0~041b5b68-500d-4950-9ad4-747e0dca42c5',
-			expectedOutput: '/041b5b68-500d-4950-9ad4-747e0dca42c5'
-		},
-		{
-			input: '/#/support-thread~4bfcbda8-2030-45dd-a0ec-eb056bc192b2/support-thread~4bfcbda8-2030-45dd-a0ec-eb056bc192b2',
-			expectedOutput: '/4bfcbda8-2030-45dd-a0ec-eb056bc192b2/4bfcbda8-2030-45dd-a0ec-eb056bc192b2'
-		},
-		{
-			input: '/041b5b68-500d-4950-9ad4-747e0dca42b3',
-			expectedOutput: '/041b5b68-500d-4950-9ad4-747e0dca42b3'
-		},
-		{
-			// eslint-disable-next-line max-len
-			input: '/#/support-thread~4bfcba8-2030-45dd-a0ec-eb056bc192b2/support-thread~4bfcbda8-2030-4sdfsdf0ec-eb056bc192b2/support-thread~4bfcbda8-sdfsdf-45dd-a0ec-sdfsdf/support-thread~4bfcbda8-2030-45dd-a0ec-eb056bc192b2/support-thread@1.0.0~4bfcbda8-2030-45dd-a0ec-sdfsdf/support-thread@1.0.0~4bfcbda8-2030-45dd-a0ec-sdfsdf',
-			// eslint-disable-next-line max-len
-			expectedOutput: '/4bfcba8-2030-45dd-a0ec-eb056bc192b2/4bfcbda8-2030-4sdfsdf0ec-eb056bc192b2/4bfcbda8-sdfsdf-45dd-a0ec-sdfsdf/4bfcbda8-2030-45dd-a0ec-eb056bc192b2/4bfcbda8-2030-45dd-a0ec-sdfsdf/4bfcbda8-2030-45dd-a0ec-sdfsdf'
 		}
+
+		// {
+		// 	input: '/#/support-thread@1.0.0~041b5b68-500d-4950-9ad4-747e0dca42c5',
+		// 	expectedOutput: '/041b5b68-500d-4950-9ad4-747e0dca42c5'
+		// },
+		// {
+		// 	input: '/#/support-thread~4bfcbda8-2030-45dd-a0ec-eb056bc192b2/support-thread~4bfcbda8-2030-45dd-a0ec-eb056bc192b2',
+		// 	expectedOutput: '/4bfcbda8-2030-45dd-a0ec-eb056bc192b2/4bfcbda8-2030-45dd-a0ec-eb056bc192b2'
+		// },
+		// {
+		// 	input: '/041b5b68-500d-4950-9ad4-747e0dca42b3',
+		// 	expectedOutput: '/041b5b68-500d-4950-9ad4-747e0dca42b3'
+		// },
+		// {
+		// 	// eslint-disable-next-line max-len
+		// 	input: '/#/support-thread~4bfcba8-2030-45dd-a0ec-eb056bc192b2/support-thread~4bfcbda8-2030-4sdfsdf0ec-eb056bc192b2/support-thread~4bfcbda8-sdfsdf-45dd-a0ec-sdfsdf/support-thread~4bfcbda8-2030-45dd-a0ec-eb056bc192b2/support-thread@1.0.0~4bfcbda8-2030-45dd-a0ec-sdfsdf/support-thread@1.0.0~4bfcbda8-2030-45dd-a0ec-sdfsdf',
+		// 	// eslint-disable-next-line max-len
+		// 	expectedOutput: '/4bfcba8-2030-45dd-a0ec-eb056bc192b2/4bfcbda8-2030-4sdfsdf0ec-eb056bc192b2/4bfcbda8-sdfsdf-45dd-a0ec-sdfsdf/4bfcbda8-2030-45dd-a0ec-eb056bc192b2/4bfcbda8-2030-45dd-a0ec-sdfsdf/4bfcbda8-2030-45dd-a0ec-sdfsdf'
+		// }
 	]
 
 	// Check if everything works, puppeteer version 2.0 upgrade
@@ -215,6 +216,7 @@ ava.serial.only('versioned urls should resolve to the correct url', async (test)
 		await page.goto(`${environment.ui.host}:${environment.ui.port}${pathName.input}`)
 
 		// Then wait 20 seconds
+		await bluebird.delay(20000)
 
 		// Wait for the homechannel class
 		await page.waitForSelector('.home-channel')
