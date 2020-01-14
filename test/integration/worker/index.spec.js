@@ -63,7 +63,7 @@ ava('should not re-enqueue requests after duplicated execute events', async (tes
 
 	await test.context.queue.enqueue(
 		test.context.worker.getId(), test.context.session, {
-			action: 'action-create-card',
+			action: 'action-create-card@1.0.0',
 			context: test.context.context,
 			card: typeCard.id,
 			type: typeCard.type,
@@ -120,7 +120,7 @@ ava('should not re-enqueue requests after execute failure', async (test) => {
 
 	await test.context.queue.enqueue(
 		test.context.worker.getId(), test.context.session, {
-			action: 'action-create-card',
+			action: 'action-create-card@1.0.0',
 			context: test.context.context,
 			card: typeCard.id,
 			type: typeCard.type,
@@ -187,7 +187,7 @@ ava('should not store the password in the queue when using action-create-user', 
 	const password = 'foobarbaz'
 
 	const request = await test.context.worker.pre(test.context.session, {
-		action: 'action-create-user',
+		action: 'action-create-user@1.0.0',
 		context: test.context.context,
 		card: userCard.id,
 		type: userCard.type,
@@ -213,7 +213,7 @@ ava('should not store the password in the queue when using action-create-session
 		test.context.context, test.context.session, 'user@latest')
 
 	const request1 = await test.context.worker.pre(test.context.session, {
-		action: 'action-create-user',
+		action: 'action-create-user@1.0.0',
 		context: test.context.context,
 		card: userCard.id,
 		type: userCard.type,
@@ -235,7 +235,7 @@ ava('should not store the password in the queue when using action-create-session
 	const plaintextPassword = 'foobarbaz'
 
 	const request2 = await test.context.worker.pre(test.context.session, {
-		action: 'action-create-session',
+		action: 'action-create-session@1.0.0',
 		context: test.context.context,
 		card: result.data.id,
 		type: result.data.type,
@@ -259,7 +259,7 @@ ava('should not store the passwords in the queue when using action-set-password'
 		test.context.context, test.context.session, 'user@latest')
 
 	const request1 = await test.context.worker.pre(test.context.session, {
-		action: 'action-create-user',
+		action: 'action-create-user@1.0.0',
 		context: test.context.context,
 		card: userCard.id,
 		type: userCard.type,
@@ -281,7 +281,7 @@ ava('should not store the passwords in the queue when using action-set-password'
 	const plaintextPassword = 'foobarbaz'
 
 	const request2 = await test.context.worker.pre(test.context.session, {
-		action: 'action-set-password',
+		action: 'action-set-password@1.0.0',
 		context: test.context.context,
 		card: result.data.id,
 		type: result.data.type,
@@ -317,7 +317,7 @@ ava('should not store the passwords when using action-set-password on a first ti
 		})
 
 	const resetRequest = await test.context.worker.pre(test.context.session, {
-		action: 'action-set-password',
+		action: 'action-set-password@1.0.0',
 		context: test.context.context,
 		card: userCard.id,
 		type: userCard.type,
@@ -352,7 +352,7 @@ ava('should not change the password of a password-less user given a password', a
 		})
 
 	await test.throwsAsync(test.context.worker.pre(test.context.session, {
-		action: 'action-set-password',
+		action: 'action-set-password@1.0.0',
 		context: test.context.context,
 		card: userCard.id,
 		type: userCard.type,
@@ -376,7 +376,7 @@ ava('should change the password of a password-less user given no password', asyn
 		})
 
 	const resetRequestPre = await test.context.worker.pre(test.context.session, {
-		action: 'action-set-password',
+		action: 'action-set-password@1.0.0',
 		context: test.context.context,
 		card: userCard.id,
 		type: userCard.type,
@@ -394,7 +394,7 @@ ava('should change the password of a password-less user given no password', asyn
 	test.false(resetResult.error)
 
 	const loginRequestPre = await test.context.worker.pre(test.context.session, {
-		action: 'action-create-session',
+		action: 'action-create-session@1.0.0',
 		card: userCard.id,
 		context: test.context.context,
 		type: userCard.type,
@@ -420,7 +420,7 @@ ava('should change a user password', async (test) => {
 		test.context.context, test.context.session, 'user@latest')
 
 	const request1 = await test.context.worker.pre(test.context.session, {
-		action: 'action-create-user',
+		action: 'action-create-user@1.0.0',
 		context: test.context.context,
 		card: userCard.id,
 		type: userCard.type,
@@ -442,7 +442,7 @@ ava('should change a user password', async (test) => {
 	const plaintextPassword = 'foobarbaz'
 
 	const request2 = await test.context.worker.pre(test.context.session, {
-		action: 'action-set-password',
+		action: 'action-set-password@1.0.0',
 		context: test.context.context,
 		card: signupResult.data.id,
 		type: signupResult.data.type,
@@ -460,7 +460,7 @@ ava('should change a user password', async (test) => {
 	test.false(result.error)
 
 	await test.throwsAsync(test.context.worker.pre(test.context.session, {
-		action: 'action-create-session',
+		action: 'action-create-session@1.0.0',
 		card: signupResult.data.id,
 		context: test.context.context,
 		type: signupResult.data.type,
@@ -470,7 +470,7 @@ ava('should change a user password', async (test) => {
 	}), test.context.worker.errors.WorkerAuthenticationError)
 
 	const request3 = await test.context.worker.pre(test.context.session, {
-		action: 'action-create-session',
+		action: 'action-create-session@1.0.0',
 		card: signupResult.data.id,
 		context: test.context.context,
 		type: signupResult.data.type,
@@ -492,7 +492,7 @@ ava('should not change a user password given invalid current password', async (t
 		test.context.context, test.context.session, 'user@latest')
 
 	const request1 = await test.context.worker.pre(test.context.session, {
-		action: 'action-create-user',
+		action: 'action-create-user@1.0.0',
 		context: test.context.context,
 		card: userCard.id,
 		type: userCard.type,
@@ -512,7 +512,7 @@ ava('should not change a user password given invalid current password', async (t
 	test.false(signupResult.error)
 
 	await test.throwsAsync(test.context.worker.pre(test.context.session, {
-		action: 'action-set-password',
+		action: 'action-set-password@1.0.0',
 		context: test.context.context,
 		card: signupResult.data.id,
 		type: signupResult.data.type,
@@ -528,7 +528,7 @@ ava('should not change a user password given a null current password', async (te
 		test.context.context, test.context.session, 'user@latest')
 
 	const request1 = await test.context.worker.pre(test.context.session, {
-		action: 'action-create-user',
+		action: 'action-create-user@1.0.0',
 		context: test.context.context,
 		card: userCard.id,
 		type: userCard.type,
@@ -548,7 +548,7 @@ ava('should not change a user password given a null current password', async (te
 	test.false(signupResult.error)
 
 	await test.throwsAsync(test.context.worker.pre(test.context.session, {
-		action: 'action-set-password',
+		action: 'action-set-password@1.0.0',
 		context: test.context.context,
 		card: signupResult.data.id,
 		type: signupResult.data.type,
@@ -564,7 +564,7 @@ ava('should change the hash when updating a user password', async (test) => {
 		test.context.context, test.context.session, 'user@latest')
 
 	const request1 = await test.context.worker.pre(test.context.session, {
-		action: 'action-create-user',
+		action: 'action-create-user@1.0.0',
 		context: test.context.context,
 		card: userCard.id,
 		type: userCard.type,
@@ -589,7 +589,7 @@ ava('should change the hash when updating a user password', async (test) => {
 	const plaintextPassword = 'foobarbaz'
 
 	const request2 = await test.context.worker.pre(test.context.session, {
-		action: 'action-set-password',
+		action: 'action-set-password@1.0.0',
 		context: test.context.context,
 		card: signupResult.data.id,
 		type: signupResult.data.type,
@@ -621,7 +621,7 @@ ava('should fail to create an event with an action-create-card', async (test) =>
 		test.context.context, test.context.session, 'type@latest')
 
 	const id = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-create-card',
+		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeType.id,
 		type: typeType.type,
@@ -663,7 +663,7 @@ ava('should fail to create an event with an action-create-card', async (test) =>
 	test.false(typeResult.error)
 
 	const threadId = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-create-card',
+		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeResult.data.id,
 		type: typeResult.data.type,
@@ -685,7 +685,7 @@ ava('should fail to create an event with an action-create-card', async (test) =>
 	test.false(threadResult.error)
 
 	await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-create-card',
+		action: 'action-create-card@1.0.0',
 		card: cardType.id,
 		context: test.context.context,
 		type: cardType.type,
@@ -716,7 +716,7 @@ ava('.execute() should execute an action', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
 	const request = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-create-card',
+		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeCard.id,
 		type: typeCard.type,
@@ -747,7 +747,7 @@ ava('.execute() should add an execution event to the action request', async (tes
 		test.context.context, test.context.session, 'action-create-card@latest')
 
 	const request = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: actionCard.slug,
+		action: `${actionCard.slug}@${actionCard.version}`,
 		context: test.context.context,
 		card: typeCard.id,
 		type: typeCard.type,
@@ -814,7 +814,7 @@ ava('.insertCard() should pass a triggered action originator', async (test) => {
 					}
 				}
 			},
-			action: 'action-test-originator',
+			action: 'action-test-originator@1.0.0',
 			target: typeCard.id,
 			arguments: {
 				properties: {
@@ -866,7 +866,7 @@ ava('.insertCard() should take an originator option', async (test) => {
 					}
 				}
 			},
-			action: 'action-test-originator',
+			action: 'action-test-originator@1.0.0',
 			target: typeCard.id,
 			arguments: {
 				properties: {
@@ -920,7 +920,7 @@ ava('.execute() should execute a triggered action', async (test) => {
 					}
 				}
 			},
-			action: 'action-create-card',
+			action: 'action-create-card@1.0.0',
 			target: typeCard.id,
 			arguments: {
 				reason: null,
@@ -934,7 +934,7 @@ ava('.execute() should execute a triggered action', async (test) => {
 
 	const request = await test.context.queue.enqueue(
 		test.context.worker.getId(), test.context.session, {
-			action: actionCard.slug,
+			action: `${actionCard.slug}@${actionCard.version}`,
 			context: test.context.context,
 			card: typeCard.id,
 			type: typeCard.type,
@@ -1001,7 +1001,7 @@ ava('a triggered action can update a dynamic list of cards (ids as array of stri
 					}
 				}
 			},
-			action: 'action-update-card',
+			action: 'action-update-card@1.0.0',
 			target: {
 				$eval: 'source.data.cards'
 			},
@@ -1025,7 +1025,7 @@ ava('a triggered action can update a dynamic list of cards (ids as array of stri
 
 	const request = await test.context.queue.enqueue(
 		test.context.worker.getId(), test.context.session, {
-			action: actionCard.slug,
+			action: `${actionCard.slug}@${actionCard.version}`,
 			context: test.context.context,
 			card: typeCard.id,
 			type: typeCard.type,
@@ -1093,7 +1093,7 @@ ava('a triggered action can update a dynamic list of cards (ids as array of obje
 					}
 				}
 			},
-			action: 'action-update-card',
+			action: 'action-update-card@1.0.0',
 			target: {
 				$map: {
 					$eval: 'source.data.cards[0:]'
@@ -1122,7 +1122,7 @@ ava('a triggered action can update a dynamic list of cards (ids as array of obje
 
 	const request = await test.context.queue.enqueue(
 		test.context.worker.getId(), test.context.session, {
-			action: actionCard.slug,
+			action: `${actionCard.slug}@${actionCard.version}`,
 			context: test.context.context,
 			card: typeCard.id,
 			type: typeCard.type,
@@ -1170,7 +1170,7 @@ ava('should fail when attempting to insert a triggered-action card with duplicat
 					}
 				}
 			},
-			action: 'action-update-card',
+			action: 'action-update-card@1.0.0',
 			target: [ '1', '1', '1' ],
 			arguments: {
 				reason: null,
@@ -1219,7 +1219,7 @@ ava('should fail to set a trigger when the list of card ids contains duplicates'
 					}
 				}
 			},
-			action: 'action-update-card',
+			action: 'action-update-card@1.0.0',
 			target: [ card.id, card.id, card.id ],
 			arguments: {
 				reason: null,
@@ -1277,7 +1277,7 @@ ava('trigger should fail to update card if triggered by a user not owning the ca
 					}
 				}
 			},
-			action: 'action-update-card',
+			action: 'action-update-card@1.0.0',
 			target: {
 				$map: {
 					$eval: 'source.data.cards[0:]'
@@ -1329,7 +1329,7 @@ ava('trigger should fail to update card if triggered by a user not owning the ca
 
 	await test.context.queue.enqueue(
 		test.context.worker.getId(), sessionIdOfJohnDoe, {
-			action: actionCard.slug,
+			action: `${actionCard.slug}@${actionCard.version}`,
 			context: test.context.context,
 			card: typeCard.id,
 			type: typeCard.type,
@@ -1376,7 +1376,7 @@ ava('.execute() should execute a triggered action given a matching mode', async 
 				}
 			},
 			mode: 'insert',
-			action: 'action-create-card',
+			action: 'action-create-card@1.0.0',
 			target: typeCard.id,
 			arguments: {
 				reason: null,
@@ -1390,7 +1390,7 @@ ava('.execute() should execute a triggered action given a matching mode', async 
 
 	const request = await test.context.queue.enqueue(
 		test.context.worker.getId(), test.context.session, {
-			action: actionCard.slug,
+			action: `${actionCard.slug}@${actionCard.version}`,
 			context: test.context.context,
 			card: typeCard.id,
 			type: typeCard.type,
@@ -1447,7 +1447,7 @@ ava('.execute() should not execute a triggered action given a non matching mode'
 				}
 			},
 			mode: 'update',
-			action: 'action-create-card',
+			action: 'action-create-card@1.0.0',
 			target: typeCard.id,
 			arguments: {
 				reason: null,
@@ -1461,7 +1461,7 @@ ava('.execute() should not execute a triggered action given a non matching mode'
 
 	const request = await test.context.queue.enqueue(
 		test.context.worker.getId(), test.context.session, {
-			action: actionCard.slug,
+			action: `${actionCard.slug}@${actionCard.version}`,
 			context: test.context.context,
 			card: typeCard.id,
 			type: typeCard.type,
@@ -1518,7 +1518,7 @@ ava('.execute() should not execute a triggered action with a future start date',
 				}
 			},
 			startDate: '2500-01-01T00:00:00.000Z',
-			action: 'action-create-card',
+			action: 'action-create-card@1.0.0',
 			target: typeCard.id,
 			arguments: {
 				reason: null,
@@ -1531,7 +1531,7 @@ ava('.execute() should not execute a triggered action with a future start date',
 	])
 
 	const request = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: actionCard.slug,
+		action: `${actionCard.slug}@${actionCard.version}`,
 		context: test.context.context,
 		card: typeCard.id,
 		type: typeCard.type,
@@ -1592,7 +1592,7 @@ ava('.execute() should execute a triggered action with a top level anyOf', async
 					}
 				]
 			},
-			action: 'action-create-card',
+			action: 'action-create-card@1.0.0',
 			target: typeCard.id,
 			arguments: {
 				reason: null,
@@ -1605,7 +1605,7 @@ ava('.execute() should execute a triggered action with a top level anyOf', async
 	])
 
 	const request = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: actionCard.slug,
+		action: `${actionCard.slug}@${actionCard.version}`,
 		context: test.context.context,
 		card: typeCard.id,
 		type: typeCard.type,
@@ -1638,7 +1638,7 @@ ava('.execute() should add a create event when creating a card', async (test) =>
 		test.context.context, test.context.session, 'action-create-card@latest')
 
 	const request = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: actionCard.slug,
+		action: `${actionCard.slug}@${actionCard.version}`,
 		context: test.context.context,
 		card: typeCard.id,
 		type: typeCard.type,
@@ -1688,7 +1688,7 @@ ava('.execute() should be able to AGGREGATE based on the card timeline', async (
 
 	const request = await test.context.queue.enqueue(
 		test.context.worker.getId(), test.context.session, {
-			action: 'action-create-card',
+			action: 'action-create-card@1.0.0',
 			context: test.context.context,
 			card: typeType.id,
 			type: typeType.type,
@@ -1731,7 +1731,7 @@ ava('.execute() should be able to AGGREGATE based on the card timeline', async (
 
 	const threadRequest = await test.context.queue.enqueue(
 		test.context.worker.getId(), test.context.session, {
-			action: 'action-create-card',
+			action: 'action-create-card@1.0.0',
 			context: test.context.context,
 			card: typeResult.data.id,
 			type: typeResult.data.type,
@@ -1754,7 +1754,7 @@ ava('.execute() should be able to AGGREGATE based on the card timeline', async (
 
 	const messageRequest1 = await test.context.queue.enqueue(
 		test.context.worker.getId(), test.context.session, {
-			action: 'action-create-event',
+			action: 'action-create-event@1.0.0',
 			context: test.context.context,
 			card: threadResult.data.id,
 			type: threadResult.data.type,
@@ -1769,7 +1769,7 @@ ava('.execute() should be able to AGGREGATE based on the card timeline', async (
 
 	const messageRequest2 = await test.context.queue.enqueue(
 		test.context.worker.getId(), test.context.session, {
-			action: 'action-create-event',
+			action: 'action-create-event@1.0.0',
 			context: test.context.context,
 			card: threadResult.data.id,
 			type: threadResult.data.type,
@@ -1802,7 +1802,7 @@ ava('.execute() AGGREGATE should create a property on the target if it does not 
 		test.context.context, test.context.session, 'type@latest')
 
 	const request = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-create-card',
+		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeType.id,
 		type: typeType.type,
@@ -1844,7 +1844,7 @@ ava('.execute() AGGREGATE should create a property on the target if it does not 
 	test.false(typeResult.error)
 
 	const threadRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-create-card',
+		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeResult.data.id,
 		type: typeResult.data.type,
@@ -1864,7 +1864,7 @@ ava('.execute() AGGREGATE should create a property on the target if it does not 
 	test.false(threadResult.error)
 
 	const messageRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-create-event',
+		action: 'action-create-event@1.0.0',
 		context: test.context.context,
 		card: threadResult.data.id,
 		type: threadResult.data.type,
@@ -1892,7 +1892,7 @@ ava('.execute() AGGREGATE should work with $$ prefixed properties', async (test)
 		test.context.context, test.context.session, 'type@latest')
 
 	const request = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-create-card',
+		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeType.id,
 		type: typeType.type,
@@ -1934,7 +1934,7 @@ ava('.execute() AGGREGATE should work with $$ prefixed properties', async (test)
 	test.false(typeResult.error)
 
 	const threadRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-create-card',
+		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeResult.data.id,
 		type: 'type',
@@ -1956,7 +1956,7 @@ ava('.execute() AGGREGATE should work with $$ prefixed properties', async (test)
 	test.false(threadResult.error)
 
 	const messageRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-create-event',
+		action: 'action-create-event@1.0.0',
 		card: threadResult.data.id,
 		context: test.context.context,
 		type: 'test-thread',
@@ -1985,7 +1985,7 @@ ava('.execute() should create a message with tags', async (test) => {
 		test.context.context, test.context.session, 'type@latest')
 
 	const request = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-create-card',
+		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeType.id,
 		type: typeType.type,
@@ -2017,7 +2017,7 @@ ava('.execute() should create a message with tags', async (test) => {
 	test.false(typeResult.error)
 
 	const threadRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-create-card',
+		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeResult.data.id,
 		type: typeResult.data.type,
@@ -2036,7 +2036,7 @@ ava('.execute() should create a message with tags', async (test) => {
 	test.false(threadResult.error)
 
 	const messageRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-create-event',
+		action: 'action-create-event@1.0.0',
 		context: test.context.context,
 		card: threadResult.data.id,
 		type: threadResult.data.type,
@@ -2072,7 +2072,7 @@ ava('.setTriggers() should be able to set a trigger with a start date', (test) =
 	test.context.worker.setTriggers(test.context.context, [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
-			action: 'action-foo-bar',
+			action: 'action-foo-bar@1.0.0',
 			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			startDate: '2008-01-01T00:00:00.000Z',
 			filter: {
@@ -2089,7 +2089,7 @@ ava('.setTriggers() should be able to set a trigger with a start date', (test) =
 	test.deepEqual(triggers, [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
-			action: 'action-foo-bar',
+			action: 'action-foo-bar@1.0.0',
 			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			startDate: '2008-01-01T00:00:00.000Z',
 			filter: {
@@ -2106,7 +2106,7 @@ ava('.setTriggers() should be able to set a trigger with an interval', (test) =>
 	test.context.worker.setTriggers(test.context.context, [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
-			action: 'action-foo-bar',
+			action: 'action-foo-bar@1.0.0',
 			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			interval: 'PT1H',
 			arguments: {
@@ -2120,7 +2120,7 @@ ava('.setTriggers() should be able to set a trigger with an interval', (test) =>
 	test.deepEqual(triggers, [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
-			action: 'action-foo-bar',
+			action: 'action-foo-bar@1.0.0',
 			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			interval: 'PT1H',
 			arguments: {
@@ -2134,7 +2134,7 @@ ava('.setTriggers() should be able to set triggers', (test) => {
 	test.context.worker.setTriggers(test.context.context, [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
-			action: 'action-foo-bar',
+			action: 'action-foo-bar@1.0.0',
 			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			filter: {
 				type: 'object'
@@ -2145,7 +2145,7 @@ ava('.setTriggers() should be able to set triggers', (test) => {
 		},
 		{
 			id: 'd6cacdef-f53b-4b5b-8aa2-8476e48248a4',
-			action: 'action-foo-bar',
+			action: 'action-foo-bar@1.0.0',
 			target: 'a13474e4-7b44-453b-9f3e-aa783b8f37ea',
 			type: 'card@1.0.0',
 			filter: {
@@ -2162,7 +2162,7 @@ ava('.setTriggers() should be able to set triggers', (test) => {
 	test.deepEqual(triggers, [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
-			action: 'action-foo-bar',
+			action: 'action-foo-bar@1.0.0',
 			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			filter: {
 				type: 'object'
@@ -2173,7 +2173,7 @@ ava('.setTriggers() should be able to set triggers', (test) => {
 		},
 		{
 			id: 'd6cacdef-f53b-4b5b-8aa2-8476e48248a4',
-			action: 'action-foo-bar',
+			action: 'action-foo-bar@1.0.0',
 			target: 'a13474e4-7b44-453b-9f3e-aa783b8f37ea',
 			filter: {
 				type: 'object'
@@ -2191,7 +2191,7 @@ ava('.setTriggers() should not store extra properties', (test) => {
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			foo: 'bar',
 			bar: 'baz',
-			action: 'action-foo-bar',
+			action: 'action-foo-bar@1.0.0',
 			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			filter: {
 				type: 'object'
@@ -2207,7 +2207,7 @@ ava('.setTriggers() should not store extra properties', (test) => {
 	test.deepEqual(triggers, [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
-			action: 'action-foo-bar',
+			action: 'action-foo-bar@1.0.0',
 			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			filter: {
 				type: 'object'
@@ -2224,7 +2224,7 @@ ava('.setTriggers() should store a mode', (test) => {
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			mode: 'update',
-			action: 'action-foo-bar',
+			action: 'action-foo-bar@1.0.0',
 			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			filter: {
 				type: 'object'
@@ -2240,7 +2240,7 @@ ava('.setTriggers() should store a mode', (test) => {
 	test.deepEqual(triggers, [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
-			action: 'action-foo-bar',
+			action: 'action-foo-bar@1.0.0',
 			mode: 'update',
 			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			filter: {
@@ -2259,7 +2259,7 @@ ava('.setTriggers() should throw if no interval nor filter', (test) => {
 			{
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-				action: 'action-create-card',
+				action: 'action-create-card@1.0.0',
 				arguments: {
 					reason: null,
 					foo: 'bar'
@@ -2274,7 +2274,7 @@ ava('.setTriggers() should throw if mode is not a string', (test) => {
 		test.context.worker.setTriggers(test.context.context, [
 			{
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
-				action: 'action-foo-bar',
+				action: 'action-foo-bar@1.0.0',
 				target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 				mode: 1,
 				filter: {
@@ -2298,7 +2298,7 @@ ava('.setTriggers() should throw if both interval and filter', (test) => {
 				filter: {
 					type: 'object'
 				},
-				action: 'action-create-card',
+				action: 'action-create-card@1.0.0',
 				arguments: {
 					reason: null,
 					foo: 'bar'
@@ -2313,7 +2313,7 @@ ava('.setTriggers() should throw if no id', (test) => {
 		test.context.worker.setTriggers(test.context.context, [
 			{
 				target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-				action: 'action-create-card',
+				action: 'action-create-card@1.0.0',
 				filter: {
 					type: 'object'
 				},
@@ -2332,7 +2332,7 @@ ava('.setTriggers() should throw if id is not a string', (test) => {
 			{
 				id: 999,
 				target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-				action: 'action-create-card',
+				action: 'action-create-card@1.0.0',
 				filter: {
 					type: 'object'
 				},
@@ -2351,7 +2351,7 @@ ava('.setTriggers() should throw if interval is not a string', (test) => {
 			{
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-				action: 'action-create-card',
+				action: 'action-create-card@1.0.0',
 				interval: 999,
 				arguments: {
 					reason: null,
@@ -2402,7 +2402,7 @@ ava('.setTriggers() should throw if no target', (test) => {
 		test.context.worker.setTriggers(test.context.context, [
 			{
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
-				action: 'action-create-card',
+				action: 'action-create-card@1.0.0',
 				filter: {
 					type: 'object'
 				},
@@ -2420,7 +2420,7 @@ ava('.setTriggers() should throw if target is not a string', (test) => {
 		test.context.worker.setTriggers(test.context.context, [
 			{
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
-				action: 'action-create-card',
+				action: 'action-create-card@1.0.0',
 				target: 1,
 				filter: {
 					type: 'object'
@@ -2439,7 +2439,7 @@ ava('.setTriggers() should throw if no filter', (test) => {
 		test.context.worker.setTriggers(test.context.context, [
 			{
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
-				action: 'action-create-card',
+				action: 'action-create-card@1.0.0',
 				target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 				arguments: {
 					reason: null,
@@ -2455,7 +2455,7 @@ ava('.setTriggers() should throw if filter is not an object', (test) => {
 		test.context.worker.setTriggers(test.context.context, [
 			{
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
-				action: 'action-create-card',
+				action: 'action-create-card@1.0.0',
 				target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 				filter: 'foo',
 				arguments: {
@@ -2472,7 +2472,7 @@ ava('.setTriggers() should throw if no arguments', (test) => {
 		test.context.worker.setTriggers(test.context.context, [
 			{
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
-				action: 'action-create-card',
+				action: 'action-create-card@1.0.0',
 				target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 				filter: {
 					type: 'object'
@@ -2487,7 +2487,7 @@ ava('.setTriggers() should throw if arguments is not an object', (test) => {
 		test.context.worker.setTriggers(test.context.context, [
 			{
 				id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
-				action: 'action-create-card',
+				action: 'action-create-card@1.0.0',
 				target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 				filter: {
 					type: 'object'
@@ -2513,7 +2513,7 @@ ava('.tick() should not enqueue actions if there are no time triggers', async (t
 	test.context.worker.setTriggers(test.context.context, [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
-			action: 'action-foo-bar',
+			action: 'action-foo-bar@1.0.0',
 			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			filter: {
 				type: 'object'
@@ -2537,7 +2537,7 @@ ava('.tick() should not enqueue an action if there is a time trigger with a futu
 	test.context.worker.setTriggers(test.context.context, [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
-			action: 'action-foo-bar',
+			action: 'action-foo-bar@1.0.0',
 			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			interval: 'PT1H',
 			startDate: '2018-09-05T12:00:00.000Z',
@@ -2562,7 +2562,7 @@ ava('.tick() should evaluate the current timestamp in a time triggered action', 
 	test.context.worker.setTriggers(test.context.context, [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
-			action: actionCard.slug,
+			action: `${actionCard.slug}@${actionCard.version}`,
 			type: 'card@1.0.0',
 			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			context: test.context.context,
@@ -2599,7 +2599,7 @@ ava('.tick() should enqueue an action if there is a time trigger with a past sta
 	test.context.worker.setTriggers(test.context.context, [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
-			action: actionCard.slug,
+			action: `${actionCard.slug}@${actionCard.version}`,
 			type: 'card@1.0.0',
 			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			context: test.context.context,
@@ -2632,7 +2632,7 @@ ava('.tick() should enqueue an action if there is a time trigger with a past sta
 				id: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
 			},
 			context: test.context.context,
-			action: actionCard.slug,
+			action: `${actionCard.slug}@${actionCard.version}`,
 			actor: test.context.actor.id,
 			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			timestamp: '2018-08-06T12:00:00.000Z',
@@ -2653,7 +2653,7 @@ ava('.tick() should enqueue an action if there is a time trigger with a present 
 	test.context.worker.setTriggers(test.context.context, [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
-			action: actionCard.slug,
+			action: `${actionCard.slug}@${actionCard.version}`,
 			type: 'card@1.0.0',
 			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			context: test.context.context,
@@ -2687,7 +2687,7 @@ ava('.tick() should enqueue an action if there is a time trigger with a present 
 				id: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
 			},
 			context: test.context.context,
-			action: actionCard.slug,
+			action: `${actionCard.slug}@${actionCard.version}`,
 			actor: test.context.actor.id,
 			originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			timestamp: '2018-08-05T12:00:00.000Z',
@@ -2708,7 +2708,7 @@ ava('.tick() should not enqueue an action using a past timestamp', async (test) 
 	test.context.worker.setTriggers(test.context.context, [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
-			action: actionCard.slug,
+			action: `${actionCard.slug}@${actionCard.version}`,
 			type: 'card@1.0.0',
 			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			context: test.context.context,
@@ -2739,7 +2739,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 	test.context.worker.setTriggers(test.context.context, [
 		test.context.jellyfish.defaults({
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
-			action: actionCard.slug,
+			action: `${actionCard.slug}@${actionCard.version}`,
 			type: 'card@1.0.0',
 			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			context: test.context.context,
@@ -2755,7 +2755,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 		}),
 		test.context.jellyfish.defaults({
 			id: '673bc300-88f7-4376-92ed-d32543d69429',
-			action: actionCard.slug,
+			action: `${actionCard.slug}@${actionCard.version}`,
 			type: 'card@1.0.0',
 			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			context: test.context.context,
@@ -2803,7 +2803,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 					id: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
 				},
 				context: test.context.context,
-				action: actionCard.slug,
+				action: `${actionCard.slug}@${actionCard.version}`,
 				actor: test.context.actor.id,
 				originator: '673bc300-88f7-4376-92ed-d32543d69429',
 				timestamp: '2018-08-06T12:00:00.000Z',
@@ -2829,7 +2829,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 					id: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
 				},
 				context: test.context.context,
-				action: actionCard.slug,
+				action: `${actionCard.slug}@${actionCard.version}`,
 				actor: test.context.actor.id,
 				originator: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 				timestamp: '2018-08-06T12:00:00.000Z',
@@ -2851,7 +2851,7 @@ ava('should be able to login as a user with a password', async (test) => {
 		test.context.context, test.context.session, 'user@latest')
 
 	const request1 = await test.context.worker.pre(test.context.session, {
-		action: 'action-create-user',
+		action: 'action-create-user@1.0.0',
 		card: typeCard.id,
 		context: test.context.context,
 		type: typeCard.type,
@@ -2871,7 +2871,7 @@ ava('should be able to login as a user with a password', async (test) => {
 	test.false(signupResult.error)
 
 	const request2 = await test.context.worker.pre(test.context.session, {
-		action: 'action-create-session',
+		action: 'action-create-session@1.0.0',
 		card: signupResult.data.id,
 		context: test.context.context,
 		type: signupResult.data.type,
@@ -2925,7 +2925,7 @@ ava('should not be able to login as a password-less user', async (test) => {
 
 	await test.context.queue.enqueue(
 		test.context.worker.getId(), test.context.session, {
-			action: 'action-create-session',
+			action: 'action-create-session@1.0.0',
 			context: test.context.context,
 			card: user.id,
 			type: user.type,
@@ -2951,7 +2951,7 @@ ava('should not be able to login as a password-less user given a random password
 		})
 
 	await test.throwsAsync(test.context.worker.pre(test.context.session, {
-		action: 'action-create-session',
+		action: 'action-create-session@1.0.0',
 		context: test.context.context,
 		card: user.id,
 		type: user.type,
@@ -2977,7 +2977,7 @@ ava('should not be able to login as a password-less non-disallowed user', async 
 
 	await test.context.queue.enqueue(
 		test.context.worker.getId(), test.context.session, {
-			action: 'action-create-session',
+			action: 'action-create-session@1.0.0',
 			context: test.context.context,
 			card: user.id,
 			type: user.type,
@@ -3005,7 +3005,7 @@ ava('should not be able to login as a password-less disallowed user', async (tes
 
 	await test.context.queue.enqueue(
 		test.context.worker.getId(), test.context.session, {
-			action: 'action-create-session',
+			action: 'action-create-session@1.0.0',
 			context: test.context.context,
 			card: user.id,
 			type: user.type,
@@ -3022,7 +3022,7 @@ ava('should fail if signing up with the wrong password', async (test) => {
 		test.context.context, test.context.session, 'user@latest')
 
 	const request1 = await test.context.worker.pre(test.context.session, {
-		action: 'action-create-user',
+		action: 'action-create-user@1.0.0',
 		context: test.context.context,
 		card: typeCard.id,
 		type: typeCard.type,
@@ -3042,7 +3042,7 @@ ava('should fail if signing up with the wrong password', async (test) => {
 	test.false(signupResult.error)
 
 	await test.throwsAsync(test.context.worker.pre(test.context.session, {
-		action: 'action-create-session',
+		action: 'action-create-session@1.0.0',
 		context: test.context.context,
 		card: signupResult.data.id,
 		type: signupResult.data.type,
@@ -3056,7 +3056,7 @@ ava('should fail to update a card if the schema does not match', async (test) =>
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
 	const request = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-create-card',
+		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeCard.id,
 		type: typeCard.type,
@@ -3078,7 +3078,7 @@ ava('should fail to update a card if the schema does not match', async (test) =>
 	test.false(result.error)
 
 	await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-update-card',
+		action: 'action-update-card@1.0.0',
 		context: test.context.context,
 		card: result.data.id,
 		type: result.data.type,
@@ -3103,7 +3103,7 @@ ava('should update a card to add an extra property', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
 	const createRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-create-card',
+		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeCard.id,
 		type: typeCard.type,
@@ -3125,7 +3125,7 @@ ava('should update a card to add an extra property', async (test) => {
 	test.false(createResult.error)
 
 	const updateRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-update-card',
+		action: 'action-update-card@1.0.0',
 		context: test.context.context,
 		card: createResult.data.id,
 		type: createResult.data.type,
@@ -3174,7 +3174,7 @@ ava('should update a card to set active to false', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
 	const createRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-create-card',
+		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeCard.id,
 		type: typeCard.type,
@@ -3193,7 +3193,7 @@ ava('should update a card to set active to false', async (test) => {
 	test.false(createResult.error)
 
 	const updateRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-update-card',
+		action: 'action-update-card@1.0.0',
 		context: test.context.context,
 		card: createResult.data.id,
 		type: createResult.data.type,
@@ -3235,7 +3235,7 @@ ava('should update a card along with a reason', async (test) => {
 		test.context.context, test.context.session, 'card@latest')
 	const createRequest = await test.context.queue.enqueue(
 		test.context.worker.getId(), test.context.session, {
-			action: 'action-create-card',
+			action: 'action-create-card@1.0.0',
 			context: test.context.context,
 			card: typeCard.id,
 			type: typeCard.type,
@@ -3255,7 +3255,7 @@ ava('should update a card along with a reason', async (test) => {
 
 	const updateRequest = await test.context.queue.enqueue(
 		test.context.worker.getId(), test.context.session, {
-			action: 'action-update-card',
+			action: 'action-update-card@1.0.0',
 			context: test.context.context,
 			card: createResult.data.id,
 			type: createResult.data.type,
@@ -3309,7 +3309,7 @@ ava('should create a new card along with a reason', async (test) => {
 		test.context.context, test.context.session, 'card@latest')
 	const createRequest = await test.context.queue.enqueue(
 		test.context.worker.getId(), test.context.session, {
-			action: 'action-create-card',
+			action: 'action-create-card@1.0.0',
 			context: test.context.context,
 			card: typeCard.id,
 			type: typeCard.type,
@@ -3360,7 +3360,7 @@ ava('should update a card to set active to false using the card slug as input', 
 		test.context.context, test.context.session, 'card@latest')
 	const createRequest = await test.context.queue.enqueue(
 		test.context.worker.getId(), test.context.session, {
-			action: 'action-create-card',
+			action: 'action-create-card@1.0.0',
 			context: test.context.context,
 			card: typeCard.id,
 			type: typeCard.type,
@@ -3380,7 +3380,7 @@ ava('should update a card to set active to false using the card slug as input', 
 
 	const updateRequest = await test.context.queue.enqueue(
 		test.context.worker.getId(), test.context.session, {
-			action: 'action-update-card',
+			action: 'action-update-card@1.0.0',
 			context: test.context.context,
 			card: 'foo-bar-baz',
 			type: 'card@1.0.0',
@@ -3421,7 +3421,7 @@ ava('should update a card to override an array property', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
 	const createRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-create-card',
+		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeCard.id,
 		type: typeCard.type,
@@ -3444,7 +3444,7 @@ ava('should update a card to override an array property', async (test) => {
 
 	const updateRequest = await test.context.queue.enqueue(
 		test.context.worker.getId(), test.context.session, {
-			action: 'action-update-card',
+			action: 'action-update-card@1.0.0',
 			context: test.context.context,
 			card: createResult.data.id,
 			type: createResult.data.type,
@@ -3488,7 +3488,7 @@ ava('should add an update event if updating a card', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
 	const createRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-create-card',
+		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeCard.id,
 		type: typeCard.type,
@@ -3510,7 +3510,7 @@ ava('should add an update event if updating a card', async (test) => {
 	test.false(createResult.error)
 
 	const updateRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-update-card',
+		action: 'action-update-card@1.0.0',
 		context: test.context.context,
 		card: createResult.data.id,
 		type: createResult.data.type,
@@ -3607,7 +3607,7 @@ ava('should delete a card using action-delete-card', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
 	const createRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-create-card',
+		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeCard.id,
 		type: typeCard.type,
@@ -3626,7 +3626,7 @@ ava('should delete a card using action-delete-card', async (test) => {
 	test.false(createResult.error)
 
 	const deleteRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-delete-card',
+		action: 'action-delete-card@1.0.0',
 		context: test.context.context,
 		card: createResult.data.id,
 		type: createResult.data.type,
@@ -3658,7 +3658,7 @@ ava('should delete a card using action-update-card', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
 	const createRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-create-card',
+		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeCard.id,
 		type: typeCard.type,
@@ -3678,7 +3678,7 @@ ava('should delete a card using action-update-card', async (test) => {
 
 	const updateRequest = await test.context.queue.enqueue(
 		test.context.worker.getId(), test.context.session, {
-			action: 'action-update-card',
+			action: 'action-update-card@1.0.0',
 			context: test.context.context,
 			card: createResult.data.id,
 			type: createResult.data.type,
@@ -3721,7 +3721,7 @@ ava('should post an error execute event if logging in as a disallowed user', asy
 
 	await test.throwsAsync(
 		test.context.worker.pre(test.context.session, {
-			action: 'action-create-session',
+			action: 'action-create-session@1.0.0',
 			context: test.context.context,
 			card: adminCard.id,
 			type: adminCard.type,
@@ -3737,7 +3737,7 @@ ava('action-create-event should create a link card', async (test) => {
 		test.context.context, test.context.session, 'card@latest')
 
 	const cardRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-create-card',
+		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeCard.id,
 		type: typeCard.type,
@@ -3753,7 +3753,7 @@ ava('action-create-event should create a link card', async (test) => {
 	test.false(cardResult.error)
 
 	const messageRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-create-event',
+		action: 'action-create-event@1.0.0',
 		context: test.context.context,
 		card: cardResult.data.id,
 		type: cardResult.data.type,
@@ -3824,7 +3824,7 @@ ava('action-create-event: should be able to add an event name', async (test) => 
 		test.context.context, test.context.session, 'card@latest')
 
 	const cardRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-create-card',
+		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeCard.id,
 		type: typeCard.type,
@@ -3840,7 +3840,7 @@ ava('action-create-event: should be able to add an event name', async (test) => 
 	test.false(cardResult.error)
 
 	const messageRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-create-event',
+		action: 'action-create-event@1.0.0',
 		context: test.context.context,
 		card: cardResult.data.id,
 		type: cardResult.data.type,
@@ -3882,7 +3882,7 @@ ava('events should always inherit their parent\'s markers', async (test) => {
 
 	const cardRequest = await test.context.queue.enqueue(
 		test.context.worker.getId(), session, {
-			action: 'action-create-card',
+			action: 'action-create-card@1.0.0',
 			context: test.context.context,
 			card: typeCard.id,
 			type: typeCard.type,
@@ -3901,7 +3901,7 @@ ava('events should always inherit their parent\'s markers', async (test) => {
 
 	const messageRequest = await test.context.queue.enqueue(
 		test.context.worker.getId(), session, {
-			action: 'action-create-event',
+			action: 'action-create-event@1.0.0',
 			context: test.context.context,
 			card: cardResult.data.id,
 			type: cardResult.data.type,
@@ -3941,7 +3941,7 @@ ava('Updating a cards markers should update the markers of attached events', asy
 
 	const cardRequest = await test.context.queue.enqueue(
 		test.context.worker.getId(), session, {
-			action: 'action-create-card',
+			action: 'action-create-card@1.0.0',
 			context: test.context.context,
 			card: typeCard.id,
 			type: typeCard.type,
@@ -3958,7 +3958,7 @@ ava('Updating a cards markers should update the markers of attached events', asy
 
 	const messageRequest = await test.context.queue.enqueue(
 		test.context.worker.getId(), session, {
-			action: 'action-create-event',
+			action: 'action-create-event@1.0.0',
 			context: test.context.context,
 			card: cardResult.data.id,
 			type: cardResult.data.type,
@@ -3978,7 +3978,7 @@ ava('Updating a cards markers should update the markers of attached events', asy
 
 	const updateRequest = await test.context.queue.enqueue(
 		test.context.worker.getId(), session, {
-			action: 'action-update-card',
+			action: 'action-update-card@1.0.0',
 			context: test.context.context,
 			card: cardResult.data.id,
 			type: cardResult.data.type,
@@ -4044,7 +4044,7 @@ ava('should be able to insert a deeply nested card', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
 	const createRequest = await test.context.queue.enqueue(test.context.worker.getId(), test.context.session, {
-		action: 'action-create-card',
+		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeCard.id,
 		type: typeCard.type,
@@ -4114,7 +4114,7 @@ ava('should be able to upsert a deeply nested card', async (test) => {
 		test.context.context, test.context.session, 'card@latest')
 	const createRequest = await test.context.queue.enqueue(
 		test.context.worker.getId(), test.context.session, {
-			action: 'action-create-card',
+			action: 'action-create-card@1.0.0',
 			context: test.context.context,
 			card: typeCard.id,
 			type: typeCard.type,
@@ -4135,7 +4135,7 @@ ava('should be able to upsert a deeply nested card', async (test) => {
 
 	const updateRequest = await test.context.queue.enqueue(
 		test.context.worker.getId(), test.context.session, {
-			action: 'action-update-card',
+			action: 'action-update-card@1.0.0',
 			context: test.context.context,
 			card: createResult.data.id,
 			type: createResult.data.type,
@@ -4257,7 +4257,7 @@ ava('should post a broadcast message to an empty thread', async (test) => {
 
 	const request = await test.context.queue.enqueue(
 		test.context.worker.getId(), test.context.session, {
-			action: 'action-broadcast',
+			action: 'action-broadcast@1.0.0',
 			card: thread.id,
 			type: thread.type,
 			context: test.context.context,
@@ -4330,7 +4330,7 @@ ava('should post a broadcast message to a non empty thread', async (test) => {
 
 	const messageRequest = await test.context.queue.enqueue(test.context.worker.getId(),
 		test.context.session, {
-			action: 'action-create-event',
+			action: 'action-create-event@1.0.0',
 			context: test.context.context,
 			card: thread.id,
 			type: thread.type,
@@ -4349,7 +4349,7 @@ ava('should post a broadcast message to a non empty thread', async (test) => {
 
 	const request = await test.context.queue.enqueue(
 		test.context.worker.getId(), test.context.session, {
-			action: 'action-broadcast',
+			action: 'action-broadcast@1.0.0',
 			card: thread.id,
 			type: thread.type,
 			context: test.context.context,
@@ -4438,7 +4438,7 @@ ava('should not broadcast the same message twice', async (test) => {
 
 	const request1 = await test.context.queue.enqueue(
 		test.context.worker.getId(), test.context.session, {
-			action: 'action-broadcast',
+			action: 'action-broadcast@1.0.0',
 			card: thread.id,
 			type: thread.type,
 			context: test.context.context,
@@ -4454,7 +4454,7 @@ ava('should not broadcast the same message twice', async (test) => {
 
 	const messageRequest = await test.context.queue.enqueue(test.context.worker.getId(),
 		test.context.session, {
-			action: 'action-create-event',
+			action: 'action-create-event@1.0.0',
 			context: test.context.context,
 			card: thread.id,
 			type: thread.type,
@@ -4473,7 +4473,7 @@ ava('should not broadcast the same message twice', async (test) => {
 
 	const request2 = await test.context.queue.enqueue(
 		test.context.worker.getId(), test.context.session, {
-			action: 'action-broadcast',
+			action: 'action-broadcast@1.0.0',
 			card: thread.id,
 			type: thread.type,
 			context: test.context.context,
@@ -4562,7 +4562,7 @@ ava('should broadcast different messages', async (test) => {
 
 	const request1 = await test.context.queue.enqueue(
 		test.context.worker.getId(), test.context.session, {
-			action: 'action-broadcast',
+			action: 'action-broadcast@1.0.0',
 			card: thread.id,
 			type: thread.type,
 			context: test.context.context,
@@ -4578,7 +4578,7 @@ ava('should broadcast different messages', async (test) => {
 
 	const messageRequest = await test.context.queue.enqueue(test.context.worker.getId(),
 		test.context.session, {
-			action: 'action-create-event',
+			action: 'action-create-event@1.0.0',
 			context: test.context.context,
 			card: thread.id,
 			type: thread.type,
@@ -4597,7 +4597,7 @@ ava('should broadcast different messages', async (test) => {
 
 	const request2 = await test.context.queue.enqueue(
 		test.context.worker.getId(), test.context.session, {
-			action: 'action-broadcast',
+			action: 'action-broadcast@1.0.0',
 			card: thread.id,
 			type: thread.type,
 			context: test.context.context,
@@ -4722,7 +4722,7 @@ ava('should broadcast the same message twice given different actors', async (tes
 
 	const request1 = await test.context.queue.enqueue(test.context.worker.getId(),
 		rogueSession.id, {
-			action: 'action-create-event',
+			action: 'action-create-event@1.0.0',
 			context: test.context.context,
 			card: thread.id,
 			type: thread.type,
@@ -4741,7 +4741,7 @@ ava('should broadcast the same message twice given different actors', async (tes
 
 	const request2 = await test.context.queue.enqueue(
 		test.context.worker.getId(), test.context.session, {
-			action: 'action-broadcast',
+			action: 'action-broadcast@1.0.0',
 			card: thread.id,
 			type: thread.type,
 			context: test.context.context,

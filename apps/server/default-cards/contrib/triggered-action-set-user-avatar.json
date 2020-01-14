@@ -17,7 +17,7 @@
         }
       }
     },
-    "action": "action-set-user-avatar",
+    "action": "action-set-user-avatar@1.0.0",
     "target": {
       "$eval": "source.id"
     },

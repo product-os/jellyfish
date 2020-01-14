@@ -77,7 +77,7 @@ avaTest('should not change the same user email', async (test) => {
 			test.context.worker.getId(),
 			test.context.session, {
 				context: test.context.context,
-				action: 'action-integration-import-event',
+				action: 'action-integration-import-event@1.0.0',
 				card: event.id,
 				type: event.type,
 				arguments: {}
@@ -164,7 +164,7 @@ avaTest('should add a new e-mail to a user', async (test) => {
 			test.context.worker.getId(),
 			test.context.session, {
 				context: test.context.context,
-				action: 'action-integration-import-event',
+				action: 'action-integration-import-event@1.0.0',
 				card: event.id,
 				type: event.type,
 				arguments: {}

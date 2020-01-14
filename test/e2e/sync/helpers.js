@@ -23,7 +23,7 @@ exports.mirror = {
 			await test.context.sdk.action({
 				card: 'user@1.0.0',
 				type: 'type',
-				action: 'action-create-user',
+				action: 'action-create-user@1.0.0',
 				arguments: {
 					username: `user-${test.context.username}`,
 					email: `${test.context.username}@example.com`,

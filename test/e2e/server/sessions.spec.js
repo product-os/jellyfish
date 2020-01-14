@@ -17,7 +17,7 @@ ava.serial('should fail with a user error given the wrong username during login'
 	const result = await test.context.http('POST', '/api/v2/action', {
 		card: 'user-nonexistentuser12345@1.0.0',
 		type: 'user',
-		action: 'action-create-session',
+		action: 'action-create-session@1.0.0',
 		arguments: {
 			password: '1234'
 		}
@@ -156,7 +156,7 @@ ava.serial('should fail with a user error when posting an action with an expired
 		'POST', '/api/v2/action', {
 			card: 'user-nonexistentuser12345@1.0.0',
 			type: 'user',
-			action: 'action-create-session',
+			action: 'action-create-session@1.0.0',
 			arguments: {
 				password: '1234'
 			}

@@ -24,7 +24,7 @@ ava('.enqueue() should include the actor from the passed session', async (test) 
 	const session = await test.context.jellyfish.getCardById(
 		test.context.context, test.context.session, test.context.session)
 	await test.context.queue.enqueue(test.context.queueActor, test.context.session, {
-		action: 'action-create-card',
+		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeCard.id,
 		type: typeCard.type,
@@ -50,7 +50,7 @@ ava('.enqueue() should include the whole passed action', async (test) => {
 	const actionCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'action-create-card@latest')
 	await test.context.queue.enqueue(test.context.queueActor, test.context.session, {
-		action: 'action-create-card',
+		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeCard.id,
 		type: typeCard.type,
@@ -67,14 +67,14 @@ ava('.enqueue() should include the whole passed action', async (test) => {
 
 	const request = await test.context.dequeue(
 		test.context.context, test.context.queueActor)
-	test.deepEqual(request.data.action, actionCard.slug)
+	test.deepEqual(request.data.action, `${actionCard.slug}@${actionCard.version}`)
 })
 
 ava('.enqueue() should set an originator', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
 	await test.context.queue.enqueue(test.context.queueActor, test.context.session, {
-		action: 'action-create-card',
+		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeCard.id,
 		type: typeCard.type,
@@ -98,7 +98,7 @@ ava('.enqueue() should take a current date', async (test) => {
 	const date = new Date()
 
 	await test.context.queue.enqueue(test.context.queueActor, test.context.session, {
-		action: 'action-create-card',
+		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeCard.id,
 		type: typeCard.type,
@@ -135,7 +135,7 @@ ava('.dequeue() should not let the same owner take a request twice', async (test
 		test.context.context, test.context.session, 'card@latest')
 	const actionRequest = await test.context.queue.enqueue(
 		test.context.queueActor, test.context.session, {
-			action: 'action-create-card',
+			action: 'action-create-card@1.0.0',
 			context: test.context.context,
 			card: typeCard.id,
 			type: typeCard.type,
@@ -167,7 +167,7 @@ ava('.enqueue() should set a present timestamp', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
 	await test.context.queue.enqueue(test.context.queueActor, test.context.session, {
-		action: 'action-create-card',
+		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeCard.id,
 		type: typeCard.type,
@@ -190,7 +190,7 @@ ava('.enqueue() should set a present timestamp', async (test) => {
 ava('.enqueue() should throw if the type is a slug and was not found', async (test) => {
 	await test.throwsAsync(test.context.queue.enqueue(
 		test.context.queueActor, test.context.session, {
-			action: 'action-create-card',
+			action: 'action-create-card@1.0.0',
 			context: test.context.context,
 			card: 'foo-bar-baz-qux',
 			type: 'type',
@@ -211,7 +211,7 @@ ava('.enqueue() should throw if the action was not found', async (test) => {
 		test.context.context, test.context.session, 'card@latest')
 	await test.throwsAsync(test.context.queue.enqueue(
 		test.context.queueActor, test.context.session, {
-			action: 'action-foo-bar',
+			action: 'action-foo-bar@1.0.0',
 			context: test.context.context,
 			card: typeCard.id,
 			type: typeCard.type,
@@ -232,7 +232,7 @@ ava('.enqueue() should throw if the session was not found', async (test) => {
 		test.context.context, test.context.session, 'card@latest')
 	const id = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'
 	await test.throwsAsync(test.context.queue.enqueue(test.context.queueActor, id, {
-		action: 'action-create-card',
+		action: 'action-create-card@1.0.0',
 		context: test.context.context,
 		card: typeCard.id,
 		type: typeCard.type,
@@ -254,7 +254,7 @@ ava('.dequeue() should cope with link materialization failures', async (test) =>
 
 	const actionRequest = await test.context.queue.enqueue(
 		test.context.queueActor, test.context.session, {
-			action: 'action-create-card',
+			action: 'action-create-card@1.0.0',
 			context: test.context.context,
 			card: typeCard.id,
 			type: typeCard.type,

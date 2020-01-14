@@ -889,7 +889,7 @@ export default class ActionCreator {
 				const user = selectors.getCurrentUser(getState())
 				await this.sdk.action({
 					card: user.id,
-					action: 'action-set-password',
+					action: 'action-set-password@1.0.0',
 					type: user.type,
 					arguments: {
 						currentPassword,

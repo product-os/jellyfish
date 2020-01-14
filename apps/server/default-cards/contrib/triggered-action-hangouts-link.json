@@ -40,7 +40,7 @@
         }
       }
     },
-    "action": "action-create-card",
+    "action": "action-create-card@1.0.0",
     "target": "message",
     "arguments": {
       "reason": null,

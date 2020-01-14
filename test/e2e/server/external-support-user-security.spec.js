@@ -27,7 +27,7 @@ const createUser = async (test, org, role, details) => {
 	const user = await test.context.sdk.action({
 		card: 'user@1.0.0',
 		type: 'type',
-		action: 'action-create-user',
+		action: 'action-create-user@1.0.0',
 		arguments: {
 			username: `user-${details.username}`,
 			email: details.email,

@@ -39,7 +39,7 @@
         }
       }
     },
-    "action": "action-integration-import-event",
+    "action": "action-integration-import-event@1.0.0",
     "target": {
       "$eval": "source.id"
     },

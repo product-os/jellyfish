@@ -34,7 +34,7 @@ ava.serial('Users should have an avatar value set to null if it doesn\'t exist',
 	await test.context.sdk.action({
 		card: 'user@1.0.0',
 		type: 'type',
-		action: 'action-create-user',
+		action: 'action-create-user@1.0.0',
 		arguments: {
 			username: `user-${userDetails.username}`,
 			email: userDetails.email,
@@ -71,7 +71,7 @@ ava.serial.skip('Users should have an avatar value calculated on signup', async 
 	await test.context.sdk.action({
 		card: 'user@1.0.0',
 		type: 'type',
-		action: 'action-create-user',
+		action: 'action-create-user@1.0.0',
 		arguments: {
 			username: `user-${userDetails.username}`,
 			email: userDetails.email,
@@ -102,7 +102,7 @@ ava.serial('Users should be able to read other users, even if they don\'t have a
 	await sdk.action({
 		card: 'user@1.0.0',
 		type: 'type',
-		action: 'action-create-user',
+		action: 'action-create-user@1.0.0',
 		arguments: {
 			username: `user-${user1Details.username}`,
 			email: user1Details.email,
@@ -126,7 +126,7 @@ ava.serial('Users should be able to read other users, even if they don\'t have a
 	await sdk.action({
 		card: 'user@1.0.0',
 		type: 'type',
-		action: 'action-create-user',
+		action: 'action-create-user@1.0.0',
 		arguments: {
 			username: `user-${user2Details.username}`,
 			email: user2Details.email,

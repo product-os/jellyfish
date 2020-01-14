@@ -44,7 +44,7 @@ ava.serial('should sanely handle line breaks before tags in messages/whispers', 
 		'POST', '/api/v2/action', {
 			card: thread.id,
 			type: thread.type,
-			action: 'action-create-event',
+			action: 'action-create-event@1.0.0',
 			arguments: args
 		}, {
 			Authorization: `Bearer ${test.context.token}`
@@ -112,7 +112,7 @@ ava.serial('should sanely handle multiple tags in messages/whispers', async (tes
 		'POST', '/api/v2/action', {
 			card: thread.id,
 			type: thread.type,
-			action: 'action-create-event',
+			action: 'action-create-event@1.0.0',
 			arguments: args
 		}, {
 			Authorization: `Bearer ${test.context.token}`
@@ -214,7 +214,7 @@ ava.serial('should create a new tag when one is found in a message', async (test
 		'POST', '/api/v2/action', {
 			card: thread.id,
 			type: thread.type,
-			action: 'action-create-event',
+			action: 'action-create-event@1.0.0',
 			arguments: args
 		}, {
 			Authorization: `Bearer ${test.context.token}`

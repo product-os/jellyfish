@@ -17,7 +17,7 @@
         }
       }
     },
-    "action": "action-integration-outreach-mirror-event",
+    "action": "action-integration-outreach-mirror-event@1.0.0",
     "target": {
       "$eval": "source.id"
     },

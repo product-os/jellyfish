@@ -38,7 +38,7 @@
         }
       ]
     },
-    "action": "action-integration-discourse-mirror-event",
+    "action": "action-integration-discourse-mirror-event@1.0.0",
     "target": {
       "$eval": "source.id"
     },
