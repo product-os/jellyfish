@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'deploy-templates: Deploy livechat'
+      hash: f916dd4bead673cc0c99a8397f686b97a7bbaa3b
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.59.0
+  date: 2020-01-14T17:48:48.584Z
+- commits:
     - subject: 'Permissions: Simplify community user permissions and use blacklist'
       hash: 65e527f6400191333144d34443fba788422e1a49
       body: ''
