@@ -1,0 +1,48 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: jellyfish-livechat
+  namespace: {{{KATAPULT_KUBE_NAMESPACE}}}
+spec:
+  selector:
+    matchLabels:
+      app: jellyfish-livechat
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: jellyfish-livechat
+    spec:
+      containers:
+      - image: <<%&children.sw.containerized-application.jellyfish-livechat.data.assets.image.url%>>
+        name: jellyfish-livechat
+        imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 2
+          periodSeconds: 5
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 5
+          failureThreshold: 4
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: NGINX_PORT
+          value: '80'
+        - name: NODE_ENV
+          value: {{{NODE_ENV}}}
+        ports:
+        - containerPort: 80
+          name: jellyfish-livechat
+      imagePullSecrets:
+        - name: com.docker.hub.travisciresin
