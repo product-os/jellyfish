@@ -26,7 +26,7 @@ const createUserDetails = () => {
 ava.serial('a community user should not be able to reset other user\'s passwords given the right password', async (test) => {
 	const userDetails = createUserDetails()
 	const user = await test.context.sdk.action({
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user',
 		arguments: {
@@ -38,7 +38,7 @@ ava.serial('a community user should not be able to reset other user\'s passwords
 
 	const result1 = await test.context.http(
 		'POST', '/api/v2/action', {
-			card: user.slug,
+			card: `${user.slug}@${user.version}`,
 			type: 'user',
 			action: 'action-create-session',
 			arguments: {
@@ -53,7 +53,7 @@ ava.serial('a community user should not be able to reset other user\'s passwords
 	const newUserDetails = createUserDetails()
 	const result2 = await test.context.http(
 		'POST', '/api/v2/action', {
-			card: 'user',
+			card: 'user@1.0.0',
 			type: 'type',
 			action: 'action-create-user',
 			arguments: {
@@ -101,7 +101,7 @@ ava.serial('a community user should not be able to reset other user\'s passwords
 ava.serial('a community user should not be able to reset other user\'s passwords given an incorrect password', async (test) => {
 	const userDetails = createUserDetails()
 	const user = await test.context.sdk.action({
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user',
 		arguments: {
@@ -113,7 +113,7 @@ ava.serial('a community user should not be able to reset other user\'s passwords
 
 	const result1 = await test.context.http(
 		'POST', '/api/v2/action', {
-			card: user.slug,
+			card: `${user.slug}@${user.version}`,
 			type: 'user',
 			action: 'action-create-session',
 			arguments: {
@@ -128,7 +128,7 @@ ava.serial('a community user should not be able to reset other user\'s passwords
 	const newUserDetails = createUserDetails()
 	const result2 = await test.context.http(
 		'POST', '/api/v2/action', {
-			card: 'user',
+			card: 'user@1.0.0',
 			type: 'type',
 			action: 'action-create-user',
 			arguments: {
@@ -175,7 +175,7 @@ ava.serial('a community user should not be able to reset other user\'s passwords
 ava.serial('a community user should not be able to reset other user\'s passwords given no password', async (test) => {
 	const userDetails = createUserDetails()
 	const user = await test.context.sdk.action({
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user',
 		arguments: {
@@ -187,7 +187,7 @@ ava.serial('a community user should not be able to reset other user\'s passwords
 
 	const result1 = await test.context.http(
 		'POST', '/api/v2/action', {
-			card: user.slug,
+			card: `${user.slug}@${user.version}`,
 			type: 'user',
 			action: 'action-create-session',
 			arguments: {
@@ -202,7 +202,7 @@ ava.serial('a community user should not be able to reset other user\'s passwords
 	const newUserDetails = createUserDetails()
 	const result2 = await test.context.http(
 		'POST', '/api/v2/action', {
-			card: 'user',
+			card: 'user@1.0.0',
 			type: 'type',
 			action: 'action-create-user',
 			arguments: {
@@ -249,7 +249,7 @@ ava.serial('a community user should not be able to reset other user\'s passwords
 ava.serial('a community user should not be able to set a first time password to another user', async (test) => {
 	const userDetails = createUserDetails()
 	const user = await test.context.sdk.action({
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user',
 		arguments: {
@@ -261,7 +261,7 @@ ava.serial('a community user should not be able to set a first time password to 
 
 	const result1 = await test.context.http(
 		'POST', '/api/v2/action', {
-			card: user.slug,
+			card: `${user.slug}@${user.version}`,
 			type: 'user',
 			action: 'action-create-session',
 			arguments: {
@@ -324,7 +324,7 @@ ava.serial('creating a user with the guest user session should fail', async (tes
 	const username = `user-${userDetails.username.toLowerCase()}`
 
 	const result = await test.context.http('POST', '/api/v2/action', {
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user',
 		arguments: {
@@ -349,7 +349,7 @@ ava.serial('creating a role with a user community session using action-create-ca
 	const userDetails = createUserDetails()
 
 	const user = await test.context.sdk.action({
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user',
 		arguments: {
@@ -361,7 +361,7 @@ ava.serial('creating a role with a user community session using action-create-ca
 
 	const result1 = await test.context.http(
 		'POST', '/api/v2/action', {
-			card: user.slug,
+			card: `${user.slug}@${user.version}`,
 			type: 'user',
 			action: 'action-create-session',
 			arguments: {
@@ -374,7 +374,7 @@ ava.serial('creating a role with a user community session using action-create-ca
 	const token = result1.response.data.id
 
 	const result2 = await test.context.http('POST', '/api/v2/action', {
-		card: 'role',
+		card: 'role@1.0.0',
 		type: 'type',
 		action: 'action-create-card',
 		arguments: {
@@ -399,14 +399,14 @@ ava.serial('creating a role with a user community session using action-create-ca
 		data: {
 			context: result2.response.data.context,
 			name: 'QueueInvalidRequest',
-			message: 'No such input card: role'
+			message: 'No such input card: role@1.0.0'
 		}
 	})
 })
 
 ava.serial('creating a role with the guest user session using action-create-card should fail', async (test) => {
 	const result = await test.context.http('POST', '/api/v2/action', {
-		card: 'role',
+		card: 'role@1.0.0',
 		type: 'type',
 		action: 'action-create-card',
 		arguments: {
@@ -438,7 +438,7 @@ ava.serial('creating a user with the guest user session using action-create-card
 	const username = `user-${createUserDetails().username}`
 
 	const result = await test.context.http('POST', '/api/v2/action', {
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-card',
 		arguments: {
@@ -465,7 +465,7 @@ ava.serial('creating a user with a community user session should succeed', async
 	const userDetails = createUserDetails()
 
 	const user = await test.context.sdk.action({
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user',
 		arguments: {
@@ -477,7 +477,7 @@ ava.serial('creating a user with a community user session should succeed', async
 
 	const result1 = await test.context.http(
 		'POST', '/api/v2/action', {
-			card: user.slug,
+			card: `${user.slug}@${user.version}`,
 			type: 'user',
 			action: 'action-create-session',
 			arguments: {
@@ -493,7 +493,7 @@ ava.serial('creating a user with a community user session should succeed', async
 
 	const result2 = await test.context.http(
 		'POST', '/api/v2/action', {
-			card: 'user',
+			card: 'user@1.0.0',
 			type: 'type',
 			action: 'action-create-user',
 			arguments: {
@@ -542,7 +542,7 @@ ava.serial('Users should be able to change their own email addresses', async (te
 
 	const userDetails = createUserDetails()
 	const user = await test.context.sdk.action({
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user',
 		arguments: {
@@ -556,7 +556,7 @@ ava.serial('Users should be able to change their own email addresses', async (te
 
 	const result = await test.context.http(
 		'POST', '/api/v2/action', {
-			card: user.slug,
+			card: `${user.slug}@${user.version}`,
 			type: user.type,
 			action: 'action-update-card',
 			arguments: {
@@ -584,7 +584,7 @@ ava.serial('Users should not be able to view other users passwords', async (test
 
 	const userDetails = createUserDetails()
 	const targetUser = await test.context.sdk.action({
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user',
 		arguments: {
@@ -597,7 +597,7 @@ ava.serial('Users should not be able to view other users passwords', async (test
 	const activeUserDetails = createUserDetails()
 
 	await test.context.sdk.action({
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user',
 		arguments: {
@@ -623,7 +623,7 @@ ava.serial('.query() the guest user should only see its own private fields', asy
 	}
 
 	await test.context.sdk.action({
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user',
 		arguments: {
@@ -673,7 +673,7 @@ ava.serial('timeline cards should reference the correct actor', async (test) => 
 	const userDetails = createUserDetails()
 
 	const user = await test.context.sdk.action({
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user',
 		arguments: {
@@ -719,7 +719,7 @@ ava.serial('timeline cards should reference the correct actor', async (test) => 
 	await test.context.executeThenWait(async () => {
 		const result = await test.context.http(
 			'POST', '/api/v2/action', {
-				card: thread.slug,
+				card: `${thread.slug}@${thread.version}`,
 				type: thread.type,
 				action: 'action-update-card',
 				arguments: {
@@ -757,7 +757,7 @@ ava.serial('.query() community users should be able to query views', async (test
 	const userDetails = createUserDetails()
 
 	await test.context.sdk.action({
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user',
 		arguments: {
@@ -792,7 +792,7 @@ ava.serial('the guest user should not be able to add a new role to another user'
 
 	const userDetails = createUserDetails()
 	const targetUser = await test.context.sdk.action({
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user',
 		arguments: {
@@ -849,7 +849,7 @@ ava.serial('the guest user should not be able to change other users passwords', 
 
 	const userDetails = createUserDetails()
 	const targetUser = await test.context.sdk.action({
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user',
 		arguments: {
@@ -883,7 +883,7 @@ ava.serial('users with the "user-community" role should not be able to change ot
 
 	const userDetails = createUserDetails()
 	const targetUser = await test.context.sdk.action({
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user',
 		arguments: {
@@ -895,7 +895,7 @@ ava.serial('users with the "user-community" role should not be able to change ot
 
 	const communityUserDetails = createUserDetails()
 	await test.context.sdk.action({
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user',
 		arguments: {
@@ -929,7 +929,7 @@ ava.serial('users with the "user-community" role should not be able to change ot
 
 	const userDetails = createUserDetails()
 	const targetUser = await test.context.sdk.action({
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user',
 		arguments: {
@@ -941,7 +941,7 @@ ava.serial('users with the "user-community" role should not be able to change ot
 
 	const communityUserDetails = createUserDetails()
 	await test.context.sdk.action({
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user',
 		arguments: {
@@ -975,7 +975,7 @@ ava.serial('users with the "user-community" role should not be able to change th
 
 	const communityUserDetails = createUserDetails()
 	await test.context.sdk.action({
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user',
 		arguments: {
@@ -1010,7 +1010,7 @@ ava.serial('users with the "user-community" role should not be able to change it
 
 	const communityUserDetails = createUserDetails()
 	const targetUser = await test.context.sdk.action({
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user',
 		arguments: {
@@ -1046,7 +1046,7 @@ ava.serial('When updating a user, inaccessible fields should not be removed', as
 
 	// Create a new user
 	const user = await test.context.sdk.action({
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user',
 		arguments: {
@@ -1060,7 +1060,7 @@ ava.serial('When updating a user, inaccessible fields should not be removed', as
 
 	const result = await test.context.http(
 		'POST', '/api/v2/action', {
-			card: user.slug,
+			card: `${user.slug}@${user.version}`,
 			type: user.type,
 			action: 'action-update-card',
 			arguments: {
@@ -1105,7 +1105,7 @@ ava.serial('Users should not be able to login as the core admin user', async (te
 	const userData = createUserDetails()
 
 	await test.context.sdk.action({
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user',
 		arguments: {
@@ -1129,7 +1129,7 @@ ava.serial('.query() additionalProperties should not affect listing users as a n
 
 	const details = createUserDetails()
 	await test.context.sdk.action({
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user',
 		arguments: {
@@ -1141,7 +1141,7 @@ ava.serial('.query() additionalProperties should not affect listing users as a n
 
 	const userDetails = createUserDetails()
 	await test.context.sdk.action({
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user',
 		arguments: {
@@ -1191,7 +1191,7 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 	const user1Details = createUserDetails()
 	const targetDetails = createUserDetails()
 	await test.context.sdk.action({
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user',
 		arguments: {
@@ -1201,7 +1201,7 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 		}
 	})
 	const targetUserInfo = await test.context.sdk.action({
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user',
 		arguments: {
@@ -1315,7 +1315,7 @@ ava.serial('Users should not be able to create sessions as other users', async (
 	const user1Details = createUserDetails()
 	const targetDetails = createUserDetails()
 	await sdk.action({
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user',
 		arguments: {
@@ -1325,7 +1325,7 @@ ava.serial('Users should not be able to create sessions as other users', async (
 		}
 	})
 	const targetUserInfo = await sdk.action({
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user',
 		arguments: {
@@ -1382,7 +1382,7 @@ ava.serial('Users should not be able to create action requests', async (test) =>
 	const userDetails = createUserDetails()
 
 	await test.context.sdk.action({
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user',
 		arguments: {

@@ -46,7 +46,7 @@
       }
     },
     "action": "action-increment-tag",
-    "target": "tag",
+    "target": "tag@1.0.0",
     "arguments": {
       "reason": null,
       "name": {

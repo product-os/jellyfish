@@ -29,7 +29,7 @@ ava.serial('should increment a card value using action-increment', async (test) 
 
 	const result1 = await test.context.http(
 		'POST', '/api/v2/action', {
-			card: 'card',
+			card: 'card@1.0.0',
 			type: 'type',
 			action: 'action-create-card',
 			arguments: {

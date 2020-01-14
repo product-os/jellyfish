@@ -22,7 +22,7 @@ ava.serial('should create a new tag using using action-increment-tag', async (te
 
 	const result = await test.context.http(
 		'POST', '/api/v2/action', {
-			card: 'tag',
+			card: 'tag@1.0.0',
 			type: 'type',
 			action: 'action-increment-tag',
 			arguments: {
@@ -66,7 +66,7 @@ ava.serial('action-increment-tag should not try two concurrent inserts', async (
 
 	for (const time of _.range(10)) {
 		const options = {
-			card: 'tag',
+			card: 'tag@1.0.0',
 			type: 'type',
 			action: 'action-increment-tag',
 			arguments: {
@@ -95,7 +95,7 @@ ava.serial('should increment an existing tag using using action-increment-tag', 
 
 	const result = await test.context.http(
 		'POST', '/api/v2/action', {
-			card: 'tag',
+			card: 'tag@1.0.0',
 			type: 'type',
 			action: 'action-create-card',
 			arguments: {
@@ -116,7 +116,7 @@ ava.serial('should increment an existing tag using using action-increment-tag', 
 
 	await test.context.http(
 		'POST', '/api/v2/action', {
-			card: 'tag',
+			card: 'tag@1.0.0',
 			type: 'type',
 			action: 'action-increment-tag',
 			arguments: {
