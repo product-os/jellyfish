@@ -6,13 +6,14 @@ FROM balena/open-balena-base:v9.0.3
 
 WORKDIR /usr/src/jellyfish
 
+COPY ./scripts ./scripts
 COPY package.json package-lock.json /usr/src/jellyfish/
-RUN mkdir -p scripts/eslint-plugin-jellyfish
-COPY scripts/eslint-plugin-jellyfish/package.json \
-	/usr/src/jellyfish/scripts/eslint-plugin-jellyfish
-RUN mkdir -p scripts/template
-COPY scripts/template/package*.json \
-	/usr/src/jellyfish/scripts/template/
+# RUN mkdir -p scripts/eslint-plugin-jellyfish
+# COPY scripts/eslint-plugin-jellyfish/package.json \
+# 	/usr/src/jellyfish/scripts/eslint-plugin-jellyfish
+# RUN mkdir -p scripts/template
+# COPY scripts/template/package*.json \
+# 	/usr/src/jellyfish/scripts/template/
 RUN npm ci
 
 RUN apt-get update && apt-get install -y \
@@ -21,7 +22,16 @@ RUN apt-get update && apt-get install -y \
 	gconf-gsettings-backend libasound2 libatk1.0-0 libgtk-3-0 \
 	postgresql-client-11
 
-COPY . /usr/src/jellyfish
+COPY ./lib/core ./lib/core
+COPY ./lib/coverage ./lib/coverage
+COPY ./lib/chat-widget ./lib/chat-widget
+COPY ./lib/environment ./lib/environment
+COPY ./lib/sdk ./lib/sdk
+COPY ./lib/sync ./lib/sync
+COPY ./lib/uuid ./lib/uuid
+
+COPY ./test ./test
+COPY ./Makefile ./Makefile
 
 # Sleep forever
 # See: https://stackoverflow.com/a/35770783

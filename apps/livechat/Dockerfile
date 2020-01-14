@@ -14,7 +14,18 @@ RUN mkdir -p scripts/template
 COPY scripts/template/package*.json \
 	/usr/src/jellyfish/scripts/template/
 RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
-COPY . /usr/src/jellyfish
+
+COPY webpack.config.base.js .
+# TODO: When
+# https://github.com/balena-io/jellyfish/issues/3004
+# is solved, remove the below
+COPY apps/ui ./apps/ui
+COPY apps/livechat ./apps/livechat
+COPY lib/sdk ./lib/sdk
+COPY lib/ui-components ./lib/ui-components
+COPY lib/chat-widget ./lib/chat-widget
+COPY lib/uuid ./lib/uuid
+COPY Makefile .
 
 ARG ENABLE_COVERAGE=0
 ARG SERVER_HOST=https://api.ly.fish
