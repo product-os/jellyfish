@@ -1607,7 +1607,7 @@ ava('.run() should throw if the input card does not exist', async (test) => {
 		action: actionCard,
 		context: test.context.context,
 		timestamp: '2018-07-04T00:22:52.247Z',
-		card: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
+		card: 'foobarbaz@9.9.9',
 		type: 'card@1.0.0',
 		arguments: {
 			properties: {

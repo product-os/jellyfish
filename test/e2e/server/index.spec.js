@@ -28,7 +28,7 @@ const createUserDetails = () => {
 ava.serial('should parse application/vnd.api+json bodies', async (test) => {
 	const userDetails = createUserDetails()
 	const user = await test.context.sdk.action({
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user',
 		arguments: {
@@ -40,7 +40,7 @@ ava.serial('should parse application/vnd.api+json bodies', async (test) => {
 
 	const result = await test.context.http(
 		'POST', '/api/v2/action', {
-			card: user.slug,
+			card: `${user.slug}@${user.version}`,
 			type: 'user',
 			action: 'action-create-session',
 			arguments: {
@@ -59,7 +59,7 @@ if (environment.isProduction()) {
 	ava.serial('should not login as the default test user', async (test) => {
 		const result = await test.context.http(
 			'POST', '/api/v2/action', {
-				card: `user-${environment.test.user.username}`,
+				card: `user-${environment.test.user.username}@1.0.0`,
 				type: 'user',
 				action: 'action-create-session',
 				arguments: {
@@ -73,7 +73,7 @@ if (environment.isProduction()) {
 	ava.serial('should login as the default test user', async (test) => {
 		const result = await test.context.http(
 			'POST', '/api/v2/action', {
-				card: `user-${environment.test.user.username}`,
+				card: `user-${environment.test.user.username}@1.0.0`,
 				type: 'user',
 				action: 'action-create-session',
 				arguments: {
@@ -88,7 +88,7 @@ if (environment.isProduction()) {
 ava.serial('should include the request and api ids on responses', async (test) => {
 	const userDetails = createUserDetails()
 	const user = await test.context.sdk.action({
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user',
 		arguments: {
@@ -100,7 +100,7 @@ ava.serial('should include the request and api ids on responses', async (test) =
 
 	const result = await test.context.http(
 		'POST', '/api/v2/action', {
-			card: user.slug,
+			card: `${user.slug}@${user.version}`,
 			type: 'user',
 			action: 'action-create-session',
 			arguments: {
@@ -116,7 +116,7 @@ ava.serial('should include the request and api ids on responses', async (test) =
 ava.serial('should create different request ids for every response', async (test) => {
 	const userDetails = createUserDetails()
 	const user = await test.context.sdk.action({
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user',
 		arguments: {
@@ -128,7 +128,7 @@ ava.serial('should create different request ids for every response', async (test
 
 	const result1 = await test.context.http(
 		'POST', '/api/v2/action', {
-			card: user.slug,
+			card: `${user.slug}@${user.version}`,
 			type: 'user',
 			action: 'action-create-session',
 			arguments: {
@@ -138,7 +138,7 @@ ava.serial('should create different request ids for every response', async (test
 
 	const result2 = await test.context.http(
 		'POST', '/api/v2/action', {
-			card: user.slug,
+			card: `${user.slug}@${user.version}`,
 			type: 'user',
 			action: 'action-create-session',
 			arguments: {
@@ -148,7 +148,7 @@ ava.serial('should create different request ids for every response', async (test
 
 	const result3 = await test.context.http(
 		'POST', '/api/v2/action', {
-			card: user.slug,
+			card: `${user.slug}@${user.version}`,
 			type: 'user',
 			action: 'action-create-session',
 			arguments: {
@@ -185,7 +185,7 @@ ava.serial('AGGREGATE($events): should work when creating cards via the SDK', as
 
 	// Create a new user
 	await test.context.sdk.action({
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user',
 		arguments: {
@@ -257,7 +257,7 @@ ava.serial('should add and evaluate a time triggered action', async (test) => {
 	const userDetails = createUserDetails()
 
 	await test.context.sdk.action({
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user',
 		arguments: {
@@ -342,7 +342,7 @@ ava.serial('should be able to resolve links', async (test) => {
 	const userDetails = createUserDetails()
 
 	await test.context.sdk.action({
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user',
 		arguments: {
@@ -518,7 +518,7 @@ ava.serial('should get all elements by type', async (test) => {
 ava.serial('should fail with a user error when executing an unknown action', async (test) => {
 	const result = await test.context.http(
 		'POST', '/api/v2/action', {
-			card: 'user-admin',
+			card: 'user-admin@1.0.0',
 			type: 'user',
 			action: 'action-foo-bar-baz-qux',
 			arguments: {
@@ -542,7 +542,7 @@ ava.serial('should fail with a user error when executing an unknown action', asy
 ava.serial('should fail with a user error given an arguments mismatch', async (test) => {
 	const result = await test.context.http(
 		'POST', '/api/v2/action', {
-			card: 'user',
+			card: 'user@1.0.0',
 			type: 'type',
 			action: 'action-create-card',
 			arguments: {
@@ -567,7 +567,7 @@ ava.serial('an update that renders a card invalid for its type is a user error',
 
 	const result1 = await test.context.http(
 		'POST', '/api/v2/action', {
-			card: 'ping',
+			card: 'ping@1.0.0',
 			type: 'type',
 			action: 'action-create-card',
 			arguments: {
@@ -620,7 +620,7 @@ ava.serial('should fail with a user error if no action card type', async (test) 
 
 	const result = await test.context.http(
 		'POST', '/api/v2/action', {
-			card: 'ping',
+			card: 'ping@1.0.0',
 			action: 'action-create-card',
 			arguments: {
 				reason: null,
@@ -713,7 +713,7 @@ ava.serial('should respond with an error given a payload middleware exception', 
 
 	const result = await test.context.http(
 		'POST', '/api/v2/action', {
-			card: 'card',
+			card: 'card@1.0.0',
 			type: 'type',
 			action: 'action-create-card',
 			arguments: {
@@ -734,9 +734,9 @@ ava.serial('should respond with an error given a payload middleware exception', 
 	test.deepEqual(result.response, {
 		error: true,
 		data: {
-			expected: 98061078,
+			expected: 98061084,
 			expose: true,
-			length: 98061078,
+			length: 98061084,
 			limit: 5242880,
 			headers: result.response.data.headers,
 			ip: result.response.data.ip,

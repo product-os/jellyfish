@@ -15,7 +15,7 @@ ava.afterEach(helpers.afterEach)
 
 ava.serial('should fail with a user error given the wrong username during login', async (test) => {
 	const result = await test.context.http('POST', '/api/v2/action', {
-		card: 'user-nonexistentuser12345',
+		card: 'user-nonexistentuser12345@1.0.0',
 		type: 'user',
 		action: 'action-create-session',
 		arguments: {
@@ -154,7 +154,7 @@ ava.serial('should fail with a user error when posting an action with an expired
 
 	const result = await test.context.http(
 		'POST', '/api/v2/action', {
-			card: 'user-nonexistentuser12345',
+			card: 'user-nonexistentuser12345@1.0.0',
 			type: 'user',
 			action: 'action-create-session',
 			arguments: {

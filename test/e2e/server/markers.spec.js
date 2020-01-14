@@ -21,7 +21,7 @@ ava.before(async (test) => {
 	await helpers.before(test)
 
 	await test.context.sdk.action({
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user',
 		arguments: {
@@ -95,7 +95,7 @@ ava.serial('Users should not be able to view an element that has a marker they d
 
 	const userDetails = createUserDetails()
 	await sdk.action({
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user',
 		arguments: {
@@ -358,7 +358,7 @@ ava.serial('Updating a user should not remove their org membership', async (test
 
 	const userDetails = createUserDetails()
 	const user = await test.context.sdk.action({
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user',
 		arguments: {
@@ -410,7 +410,7 @@ ava.serial('Updating a user should not remove their org membership', async (test
 
 	const result = await test.context.http(
 		'POST', '/api/v2/action', {
-			card: user.slug,
+			card: `${user.slug}@${user.version}`,
 			type: user.type,
 			action: 'action-update-card',
 			arguments: {
@@ -442,7 +442,7 @@ ava.serial('.query() should be able to see previously restricted cards after an 
 
 	const userDetails = createUserDetails()
 	const user = await test.context.sdk.action({
-		card: 'user',
+		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user',
 		arguments: {

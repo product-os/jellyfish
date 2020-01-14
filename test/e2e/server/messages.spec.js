@@ -15,7 +15,7 @@ ava.afterEach(helpers.afterEach)
 
 ava.serial('should sanely handle line breaks before tags in messages/whispers', async (test) => {
 	const thread = await test.context.sdk.card.create({
-		type: 'card',
+		type: 'card@1.0.0',
 		slug: test.context.generateRandomSlug({
 			prefix: 'thread'
 		}),

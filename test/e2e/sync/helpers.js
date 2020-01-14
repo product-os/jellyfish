@@ -21,7 +21,7 @@ exports.mirror = {
 		// Create the user, only if it doesn't exist yet
 		const userCard = await test.context.sdk.card.get(`user-${test.context.username}`) ||
 			await test.context.sdk.action({
-				card: 'user',
+				card: 'user@1.0.0',
 				type: 'type',
 				action: 'action-create-user',
 				arguments: {
