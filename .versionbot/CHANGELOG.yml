@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'server/sync/ui/worker: Use versioned action input cards slugs'
+      hash: d1ed55f377e78025199aa859ef3a24825582d04e
+      body: |
+        In a backwards compatible way.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.59.1
+  date: 2020-01-14T19:31:44.192Z
+- commits:
     - subject: 'deploy-templates: Deploy livechat'
       hash: f916dd4bead673cc0c99a8397f686b97a7bbaa3b
       body: ''
