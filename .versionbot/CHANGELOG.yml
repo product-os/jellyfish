@@ -1,4 +1,21 @@
 - commits:
+    - subject: Reduce source interdependencies in dockerfiles
+      hash: eb61c0a1d88b0d95edfdb1f29a7fa46fdab2e6d3
+      body: |
+        Before this change, every container depended on every file in the
+        repository. We instead include only the files that we need in the
+        container, which should help both circle and livepush caching, decrease
+        the container size and make the project easier to reason about in
+        general.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Cameron Diver <cameron@balena.io>
+        signed-off-by: Cameron Diver <cameron@balena.io>
+      author: Cameron Diver
+  version: 24.58.1
+  date: 2020-01-14T14:26:39.036Z
+- commits:
     - subject: Use the Kanban lens for the workflows view
       hash: 353354e13a8dfa8766f2e5d68379994a8bd34e1d
       body: ''
