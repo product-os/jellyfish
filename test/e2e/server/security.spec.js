@@ -1314,7 +1314,7 @@ ava.serial('Users should not be able to create sessions as other users', async (
 
 	const user1Details = createUserDetails()
 	const targetDetails = createUserDetails()
-	await test.context.sdk.action({
+	await sdk.action({
 		card: 'user',
 		type: 'type',
 		action: 'action-create-user',
@@ -1324,7 +1324,7 @@ ava.serial('Users should not be able to create sessions as other users', async (
 			password: user1Details.password
 		}
 	})
-	const targetUserInfo = await test.context.sdk.action({
+	const targetUserInfo = await sdk.action({
 		card: 'user',
 		type: 'type',
 		action: 'action-create-user',
@@ -1334,7 +1334,7 @@ ava.serial('Users should not be able to create sessions as other users', async (
 			password: targetDetails.password
 		}
 	})
-	const targetUser = await test.context.sdk.card.get(targetUserInfo.id)
+	const targetUser = await sdk.card.get(targetUserInfo.id)
 
 	await test.context.sdk.auth.login(user1Details)
 
