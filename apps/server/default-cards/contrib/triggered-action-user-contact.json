@@ -17,7 +17,7 @@
         }
       }
     },
-    "action": "action-maintain-contact",
+    "action": "action-maintain-contact@1.0.0",
     "target": {
       "$eval": "source.id"
     },

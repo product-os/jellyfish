@@ -33,7 +33,7 @@ exports.authorize = async (context, worker, queue, session, provider, options) =
 		context, session, session)
 
 	const data = await worker.pre(session, {
-		action: 'action-oauth-authorize',
+		action: 'action-oauth-authorize@1.0.0',
 		context,
 		card: sessionCard.data.actor,
 		type: 'user@1.0.0',
@@ -66,7 +66,7 @@ exports.associate = async (context, worker, queue, session, provider, user, cred
 	})
 
 	const data = await worker.pre(session, {
-		action: 'action-oauth-associate',
+		action: 'action-oauth-associate@1.0.0',
 		context,
 		card: user.id,
 		type: 'user',

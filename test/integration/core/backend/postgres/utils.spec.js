@@ -40,7 +40,7 @@ ava('.getPendingRequests() should return an unexecuted action request', async (t
 				timestamp: date.toISOString(),
 				context: test.context.context,
 				actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-				action: 'action-foo',
+				action: 'action-foo@1.0.0',
 				input: {
 					id: '98853c0c-d055-4d25-a7be-682a2d5decc5',
 					type: 'card'
@@ -88,7 +88,7 @@ ava('.getPendingRequests() should return two unexecuted action requests', async 
 			timestamp: date.toISOString(),
 			context: test.context.context,
 			actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			action: 'action-foo',
+			action: 'action-foo@1.0.0',
 			input: {
 				id: '98853c0c-d055-4d25-a7be-682a2d5decc5',
 				type: 'card'
@@ -115,7 +115,7 @@ ava('.getPendingRequests() should return two unexecuted action requests', async 
 			timestamp: date.toISOString(),
 			context: test.context.context,
 			actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			action: 'action-foo',
+			action: 'action-foo@1.0.0',
 			input: {
 				id: '98853c0c-d055-4d25-a7be-682a2d5decc5',
 				type: 'card'
@@ -163,7 +163,7 @@ ava('.getPendingRequests() should be able to limit', async (test) => {
 			timestamp: date.toISOString(),
 			context: test.context.context,
 			actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			action: 'action-foo',
+			action: 'action-foo@1.0.0',
 			input: {
 				id: '98853c0c-d055-4d25-a7be-682a2d5decc5',
 				type: 'card'
@@ -189,7 +189,7 @@ ava('.getPendingRequests() should be able to limit', async (test) => {
 			timestamp: date.toISOString(),
 			context: test.context.context,
 			actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			action: 'action-foo',
+			action: 'action-foo@1.0.0',
 			input: {
 				id: '98853c0c-d055-4d25-a7be-682a2d5decc5',
 				type: 'card'
@@ -252,7 +252,7 @@ ava('.getPendingRequests() should be able to skip', async (test) => {
 			timestamp: date.toISOString(),
 			context: test.context.context,
 			actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			action: 'action-foo',
+			action: 'action-foo@1.0.0',
 			input: {
 				id: '98853c0c-d055-4d25-a7be-682a2d5decc5',
 				type: 'card'
@@ -279,7 +279,7 @@ ava('.getPendingRequests() should be able to skip', async (test) => {
 			timestamp: date.toISOString(),
 			context: test.context.context,
 			actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			action: 'action-foo',
+			action: 'action-foo@1.0.0',
 			input: {
 				id: '98853c0c-d055-4d25-a7be-682a2d5decc5',
 				type: 'card'
@@ -342,7 +342,7 @@ ava('.getPendingRequests() should omit an executed action request', async (test)
 			timestamp: date.toISOString(),
 			context: test.context.context,
 			actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			action: 'action-foo',
+			action: 'action-foo@1.0.0',
 			input: {
 				id: '98853c0c-d055-4d25-a7be-682a2d5decc5',
 				type: 'card'
@@ -369,7 +369,7 @@ ava('.getPendingRequests() should omit an executed action request', async (test)
 			target: request.id,
 			actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			payload: {
-				action: 'action-foo',
+				action: 'action-foo@1.0.0',
 				card: '98853c0c-d055-4d25-a7be-682a2d5decc5',
 				timestamp: date.toISOString(),
 				error: false,

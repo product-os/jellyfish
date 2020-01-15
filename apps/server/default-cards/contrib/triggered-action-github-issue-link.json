@@ -51,7 +51,7 @@
         }
       }
     },
-    "action": "action-broadcast",
+    "action": "action-broadcast@1.0.0",
     "target": {
       "$eval": "source.data.to.id"
     },

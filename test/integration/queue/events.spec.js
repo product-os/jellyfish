@@ -65,7 +65,7 @@ ava('.post() should not use a passed id', async (test) => {
 ava('.post() should fail if no result error', async (test) => {
 	await test.throwsAsync(events.post(test.context.context, test.context.jellyfish, test.context.session, {
 		id: '414f2345-4f5e-4571-820f-28a49731733d',
-		action: 'action-create-card',
+		action: 'action-create-card@1.0.0',
 		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
 		actor: '57692206-8da2-46e1-91c9-159b2c6928ef',
 		timestamp: '2018-06-30T19:34:42.829Z'

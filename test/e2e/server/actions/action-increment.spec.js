@@ -31,7 +31,7 @@ ava.serial('should increment a card value using action-increment', async (test) 
 		'POST', '/api/v2/action', {
 			card: 'card@1.0.0',
 			type: 'type',
-			action: 'action-create-card',
+			action: 'action-create-card@1.0.0',
 			arguments: {
 				reason: null,
 				properties: {
@@ -50,7 +50,7 @@ ava.serial('should increment a card value using action-increment', async (test) 
 		'POST', '/api/v2/action', {
 			card: card.id,
 			type: card.type,
-			action: 'action-increment',
+			action: 'action-increment@1.0.0',
 			arguments: {
 				reason: null,
 				path: [
@@ -69,7 +69,7 @@ ava.serial('should increment a card value using action-increment', async (test) 
 		'POST', '/api/v2/action', {
 			card: card.id,
 			type: card.type,
-			action: 'action-increment',
+			action: 'action-increment@1.0.0',
 			arguments: {
 				reason: null,
 				path: [

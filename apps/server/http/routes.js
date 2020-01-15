@@ -123,7 +123,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 
 			const enqueueStartDate = new Date()
 			const actionRequest = await queue.enqueue(worker.getId(), jellyfish.sessions.admin, {
-				action: 'action-ping',
+				action: 'action-ping@1.0.0',
 				card: typeCard.id,
 				type: typeCard.type,
 				context: request.context,
@@ -236,7 +236,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 		const suffix = await uuid.random()
 
 		const actionRequest = await queue.enqueue(worker.getId(), jellyfish.sessions.admin, {
-			action: 'action-create-card',
+			action: 'action-create-card@1.0.0',
 			card: sessionTypeCard.id,
 			type: sessionTypeCard.type,
 			context: request.context,
@@ -392,7 +392,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 
 				return uuid.random().then((id) => {
 					return queue.enqueue(worker.getId(), jellyfish.sessions.admin, {
-						action: 'action-create-card',
+						action: 'action-create-card@1.0.0',
 						card: typeCard.id,
 						type: typeCard.type,
 						context: request.context,

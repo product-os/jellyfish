@@ -728,7 +728,7 @@ ava('.insertCard() should execute one matching triggered action', async (test) =
 					}
 				}
 			},
-			action: 'action-create-card',
+			action: 'action-create-card@1.0.0',
 			target: typeCard.id,
 			type: typeCard.type,
 			arguments: {
@@ -810,7 +810,7 @@ ava('.insertCard() should not execute non-matching triggered actions', async (te
 					}
 				}
 			},
-			action: 'action-create-card',
+			action: 'action-create-card@1.0.0',
 			target: typeCard.id,
 			arguments: {
 				properties: {
@@ -867,7 +867,7 @@ ava('.insertCard() should execute more than one matching triggered action', asyn
 					}
 				}
 			},
-			action: 'action-create-card',
+			action: 'action-create-card@1.0.0',
 			target: typeCard.id,
 			type: typeCard.type,
 			arguments: {
@@ -894,7 +894,7 @@ ava('.insertCard() should execute more than one matching triggered action', asyn
 					}
 				}
 			},
-			action: 'action-create-card',
+			action: 'action-create-card@1.0.0',
 			target: typeCard.id,
 			type: typeCard.type,
 			arguments: {
@@ -959,7 +959,7 @@ ava('.insertCard() should execute the matching triggered actions given more than
 					}
 				}
 			},
-			action: 'action-create-card',
+			action: 'action-create-card@1.0.0',
 			target: typeCard.id,
 			type: typeCard.type,
 			arguments: {
@@ -986,7 +986,7 @@ ava('.insertCard() should execute the matching triggered actions given more than
 					}
 				}
 			},
-			action: 'action-create-card',
+			action: 'action-create-card@1.0.0',
 			target: typeCard.id,
 			type: typeCard.type,
 			arguments: {
@@ -1057,7 +1057,7 @@ ava('.insertCard() should remove previously inserted type triggered actions if i
 						}
 					}
 				},
-				action: 'action-create-card',
+				action: 'action-create-card@1.0.0',
 				target: typeCard.id,
 				arguments: {
 					properties: {
@@ -1098,7 +1098,7 @@ ava('.insertCard() should remove previously inserted type triggered actions if i
 						}
 					}
 				},
-				action: 'action-create-card',
+				action: 'action-create-card@1.0.0',
 				target: typeCard.id,
 				arguments: {
 					properties: {
@@ -1207,7 +1207,7 @@ ava('.patchCard() should remove previously inserted type triggered actions if de
 					}
 				}
 			},
-			action: 'action-create-card',
+			action: 'action-create-card@1.0.0',
 			target: typeCard.id,
 			arguments: {
 				properties: {
@@ -1391,7 +1391,7 @@ ava('.insertCard() should pre-register a triggered action if using AGGREGATE', a
 	test.deepEqual(test.context.triggers, [
 		{
 			id: test.context.triggers[0].id,
-			action: 'action-set-add',
+			action: 'action-set-add@1.0.0',
 			target: {
 				$eval: 'source.links[\'is attached to\'][0].id'
 			},

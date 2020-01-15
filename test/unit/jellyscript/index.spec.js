@@ -313,7 +313,7 @@ ava('.getTypeTriggers() should report back watchers when aggregating events', as
 			markers: [],
 			data: {
 				type: 'thread@1.0.0',
-				action: 'action-set-add',
+				action: 'action-set-add@1.0.0',
 				target: {
 					$eval: 'source.links[\'is attached to\'][0].id'
 				},

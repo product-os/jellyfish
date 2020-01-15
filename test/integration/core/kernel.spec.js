@@ -2449,7 +2449,7 @@ ava('.query() should return all action request cards', async (test) => {
 		version: '1.0.0',
 		data: {
 			epoch: date.valueOf(),
-			action: 'action-foo',
+			action: 'action-foo@1.0.0',
 			context: test.context.context,
 			actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			timestamp: date.toISOString(),
@@ -2487,7 +2487,7 @@ ava('.query() should return all action request cards', async (test) => {
 		{
 			type: 'action-request@1.0.0',
 			data: {
-				action: 'action-foo',
+				action: 'action-foo@1.0.0',
 				context: test.context.context,
 				actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 				epoch: date.valueOf(),
@@ -2514,7 +2514,7 @@ ava('.query() should be able to return both action requests and other cards', as
 		version: '1.0.0',
 		data: {
 			epoch: date.valueOf(),
-			action: 'action-foo',
+			action: 'action-foo@1.0.0',
 			context: test.context.context,
 			actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
@@ -3751,7 +3751,7 @@ ava.cb('.stream() should report back action requests', (test) => {
 				data: {
 					context: test.context.context,
 					epoch: 1521170969543,
-					action: 'action-delete-card',
+					action: 'action-delete-card@1.0.0',
 					actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 					input: {
 						id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
@@ -3788,7 +3788,7 @@ ava.cb('.stream() should report back action requests', (test) => {
 				version: '1.0.0',
 				data: {
 					context: test.context.context,
-					action: 'action-delete-card',
+					action: 'action-delete-card@1.0.0',
 					actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 					epoch: 1521170969543,
 					timestamp: '2018-03-16T03:29:29.543Z',
@@ -4298,7 +4298,7 @@ ava('.query() should return an unexecuted action request', async (test) => {
 				timestamp: date.toISOString(),
 				context: test.context.context,
 				actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-				action: 'action-foo',
+				action: 'action-foo@1.0.0',
 				input: {
 					id: '98853c0c-d055-4d25-a7be-682a2d5decc5',
 					type: 'card@1.0.0'
@@ -4349,7 +4349,7 @@ ava('.query() should be able to limit', async (test) => {
 				timestamp: date.toISOString(),
 				context: test.context.context,
 				actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-				action: 'action-foo',
+				action: 'action-foo@1.0.0',
 				input: {
 					id: '98853c0c-d055-4d25-a7be-682a2d5decc5',
 					type: 'card@1.0.0'
@@ -4375,7 +4375,7 @@ ava('.query() should be able to limit', async (test) => {
 				timestamp: date.toISOString(),
 				context: test.context.context,
 				actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-				action: 'action-foo',
+				action: 'action-foo@1.0.0',
 				input: {
 					id: '98853c0c-d055-4d25-a7be-682a2d5decc5',
 					type: 'card@1.0.0'
@@ -4446,7 +4446,7 @@ ava('.query() should be able to skip', async (test) => {
 				timestamp: date.toISOString(),
 				context: test.context.context,
 				actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-				action: 'action-foo',
+				action: 'action-foo@1.0.0',
 				input: {
 					id: '98853c0c-d055-4d25-a7be-682a2d5decc5',
 					type: 'card@1.0.0'
@@ -4472,7 +4472,7 @@ ava('.query() should be able to skip', async (test) => {
 				timestamp: date.toISOString(),
 				context: test.context.context,
 				actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-				action: 'action-foo',
+				action: 'action-foo@1.0.0',
 				input: {
 					id: '98853c0c-d055-4d25-a7be-682a2d5decc5',
 					type: 'card@1.0.0'

@@ -23,7 +23,7 @@ ava.before(async (test) => {
 	await test.context.sdk.action({
 		card: 'user@1.0.0',
 		type: 'type',
-		action: 'action-create-user',
+		action: 'action-create-user@1.0.0',
 		arguments: {
 			username: `user-${users.community.username}`,
 			email: users.community.email,
@@ -97,7 +97,7 @@ ava.serial('Users should not be able to view an element that has a marker they d
 	await sdk.action({
 		card: 'user@1.0.0',
 		type: 'type',
-		action: 'action-create-user',
+		action: 'action-create-user@1.0.0',
 		arguments: {
 			username: `user-${userDetails.username}`,
 			email: userDetails.email,
@@ -360,7 +360,7 @@ ava.serial('Updating a user should not remove their org membership', async (test
 	const user = await test.context.sdk.action({
 		card: 'user@1.0.0',
 		type: 'type',
-		action: 'action-create-user',
+		action: 'action-create-user@1.0.0',
 		arguments: {
 			username: `user-${userDetails.username}`,
 			email: userDetails.email,
@@ -412,7 +412,7 @@ ava.serial('Updating a user should not remove their org membership', async (test
 		'POST', '/api/v2/action', {
 			card: `${user.slug}@${user.version}`,
 			type: user.type,
-			action: 'action-update-card',
+			action: 'action-update-card@1.0.0',
 			arguments: {
 				reason: null,
 				patch: [
@@ -444,7 +444,7 @@ ava.serial('.query() should be able to see previously restricted cards after an 
 	const user = await test.context.sdk.action({
 		card: 'user@1.0.0',
 		type: 'type',
-		action: 'action-create-user',
+		action: 'action-create-user@1.0.0',
 		arguments: {
 			username: `user-${userDetails.username}`,
 			email: userDetails.email,

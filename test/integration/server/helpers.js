@@ -48,9 +48,9 @@ module.exports = {
 		const slug = `user-${test.context.username}`
 		const userCard = await test.context.sdk.card.get(slug) ||
 			await test.context.sdk.action({
-				card: 'user',
+				card: 'user@1.0.0',
 				type: 'type',
-				action: 'action-create-user',
+				action: 'action-create-user@1.0.0',
 				arguments: {
 					username: slug,
 					email: `${test.context.username}@example.com`,

@@ -113,7 +113,7 @@ avaTest('should change the remote username to an existing unsynced user', async 
 			test.context.worker.getId(),
 			test.context.session, {
 				context: test.context.context,
-				action: 'action-integration-import-event',
+				action: 'action-integration-import-event@1.0.0',
 				card: event.id,
 				type: event.type,
 				arguments: {}
@@ -230,7 +230,7 @@ avaTest('should change the remote username to an existing user', async (test) =>
 			test.context.worker.getId(),
 			test.context.session, {
 				context: test.context.context,
-				action: 'action-integration-import-event',
+				action: 'action-integration-import-event@1.0.0',
 				card: event.id,
 				type: event.type,
 				arguments: {}
@@ -345,7 +345,7 @@ avaTest('should change the remote username to an existing user while removing ex
 			test.context.worker.getId(),
 			test.context.session, {
 				context: test.context.context,
-				action: 'action-integration-import-event',
+				action: 'action-integration-import-event@1.0.0',
 				card: event.id,
 				type: event.type,
 				arguments: {}
@@ -468,7 +468,7 @@ avaTest('should change the remote username to an existing user and add a name', 
 			test.context.worker.getId(),
 			test.context.session, {
 				context: test.context.context,
-				action: 'action-integration-import-event',
+				action: 'action-integration-import-event@1.0.0',
 				card: event.id,
 				type: event.type,
 				arguments: {}
@@ -589,7 +589,7 @@ avaTest('should change the remote username to an existing user while removing th
 			test.context.worker.getId(),
 			test.context.session, {
 				context: test.context.context,
-				action: 'action-integration-import-event',
+				action: 'action-integration-import-event@1.0.0',
 				card: event.id,
 				type: event.type,
 				arguments: {}
@@ -711,7 +711,7 @@ avaTest('should change the remote username to an existing user while removing th
 			test.context.worker.getId(),
 			test.context.session, {
 				context: test.context.context,
-				action: 'action-integration-import-event',
+				action: 'action-integration-import-event@1.0.0',
 				card: event.id,
 				type: event.type,
 				arguments: {}
@@ -842,7 +842,7 @@ avaTest('should change the remote username to an existing user with a name', asy
 			test.context.worker.getId(),
 			test.context.session, {
 				context: test.context.context,
-				action: 'action-integration-import-event',
+				action: 'action-integration-import-event@1.0.0',
 				card: event.id,
 				type: event.type,
 				arguments: {}
@@ -948,7 +948,7 @@ avaTest('should change the remote username', async (test) => {
 			test.context.worker.getId(),
 			test.context.session, {
 				context: test.context.context,
-				action: 'action-integration-import-event',
+				action: 'action-integration-import-event@1.0.0',
 				card: event.id,
 				type: event.type,
 				arguments: {}
@@ -1031,7 +1031,7 @@ avaTest('should change the remote username while filling in the company', async 
 			test.context.worker.getId(),
 			test.context.session, {
 				context: test.context.context,
-				action: 'action-integration-import-event',
+				action: 'action-integration-import-event@1.0.0',
 				card: event.id,
 				type: event.type,
 				arguments: {}
@@ -1113,7 +1113,7 @@ avaTest('should change the remote username while filling in the first name', asy
 			test.context.worker.getId(),
 			test.context.session, {
 				context: test.context.context,
-				action: 'action-integration-import-event',
+				action: 'action-integration-import-event@1.0.0',
 				card: event.id,
 				type: event.type,
 				arguments: {}
@@ -1197,7 +1197,7 @@ avaTest('should change the remote username while filling in the last name', asyn
 			test.context.worker.getId(),
 			test.context.session, {
 				context: test.context.context,
-				action: 'action-integration-import-event',
+				action: 'action-integration-import-event@1.0.0',
 				card: event.id,
 				type: event.type,
 				arguments: {}
@@ -1280,7 +1280,7 @@ avaTest('should change the remote username while not changing anything else', as
 			test.context.worker.getId(),
 			test.context.session, {
 				context: test.context.context,
-				action: 'action-integration-import-event',
+				action: 'action-integration-import-event@1.0.0',
 				card: event.id,
 				type: event.type,
 				arguments: {}
@@ -1357,7 +1357,7 @@ avaTest('should add a company and email to an existing user', async (test) => {
 			test.context.worker.getId(),
 			test.context.session, {
 				context: test.context.context,
-				action: 'action-integration-import-event',
+				action: 'action-integration-import-event@1.0.0',
 				card: event.id,
 				type: event.type,
 				arguments: {}
@@ -1442,7 +1442,7 @@ avaTest('should add a first name to an existing user', async (test) => {
 			test.context.worker.getId(),
 			test.context.session, {
 				context: test.context.context,
-				action: 'action-integration-import-event',
+				action: 'action-integration-import-event@1.0.0',
 				card: event.id,
 				type: event.type,
 				arguments: {}
@@ -1529,7 +1529,7 @@ avaTest('should add a last name to an existing user', async (test) => {
 			test.context.worker.getId(),
 			test.context.session, {
 				context: test.context.context,
-				action: 'action-integration-import-event',
+				action: 'action-integration-import-event@1.0.0',
 				card: event.id,
 				type: event.type,
 				arguments: {}
@@ -1615,7 +1615,7 @@ avaTest('should link an existing user by adding no data', async (test) => {
 			test.context.worker.getId(),
 			test.context.session, {
 				context: test.context.context,
-				action: 'action-integration-import-event',
+				action: 'action-integration-import-event@1.0.0',
 				card: event.id,
 				type: event.type,
 				arguments: {}

@@ -27,7 +27,7 @@ const insertRequest = async (test) => {
 			version: '1.0.0',
 			data: {
 				context: test.context.context,
-				action: 'action-delete-card',
+				action: 'action-delete-card@1.0.0',
 				actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 				epoch: 1521170969543,
 				timestamp: '2018-03-16T03:29:29.543Z',

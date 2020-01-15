@@ -97,7 +97,7 @@ module.exports = async (context) => {
 			`Test user does not exist: ${environment.test.user.username}`)
 
 		const requestOptions = await worker.pre(jellyfish.sessions.admin, {
-			action: 'action-set-password',
+			action: 'action-set-password@1.0.0',
 			context,
 			card: userCard.id,
 			type: userCard.type,

@@ -63,7 +63,7 @@
         }
       }
     },
-    "action": "action-update-card",
+    "action": "action-update-card@1.0.0",
     "target": {
       "$map": {
         "$eval": "source.links['is attached to'][0:]"

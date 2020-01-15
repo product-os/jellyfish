@@ -52,7 +52,7 @@ ava.serial('should elevate external event source', async (test) => {
 		'POST', '/api/v2/action', {
 			card: userCard.id,
 			type: userCard.type,
-			action: 'action-maintain-contact',
+			action: 'action-maintain-contact@1.0.0',
 			arguments: {}
 		}, {
 			Authorization: `Bearer ${test.context.token}`
@@ -116,7 +116,7 @@ ava.serial('should prettify name when creating user contact', async (test) => {
 		'POST', '/api/v2/action', {
 			card: userCard.id,
 			type: userCard.type,
-			action: 'action-maintain-contact',
+			action: 'action-maintain-contact@1.0.0',
 			arguments: {}
 		}, {
 			Authorization: `Bearer ${test.context.token}`
@@ -172,7 +172,7 @@ ava.serial('should link the contact to the user', async (test) => {
 		'POST', '/api/v2/action', {
 			card: userCard.id,
 			type: userCard.type,
-			action: 'action-maintain-contact',
+			action: 'action-maintain-contact@1.0.0',
 			arguments: {}
 		}, {
 			Authorization: `Bearer ${test.context.token}`
@@ -251,7 +251,7 @@ ava.serial('should be able to sync updates to user first names', async (test) =>
 		'POST', '/api/v2/action', {
 			card: userCard.id,
 			type: userCard.type,
-			action: 'action-maintain-contact',
+			action: 'action-maintain-contact@1.0.0',
 			arguments: {}
 		}, {
 			Authorization: `Bearer ${test.context.token}`
@@ -263,7 +263,7 @@ ava.serial('should be able to sync updates to user first names', async (test) =>
 		'POST', '/api/v2/action', {
 			card: userCard.id,
 			type: userCard.type,
-			action: 'action-update-card',
+			action: 'action-update-card@1.0.0',
 			arguments: {
 				reason: null,
 				patch: [
@@ -284,7 +284,7 @@ ava.serial('should be able to sync updates to user first names', async (test) =>
 		'POST', '/api/v2/action', {
 			card: userCard.id,
 			type: userCard.type,
-			action: 'action-maintain-contact',
+			action: 'action-maintain-contact@1.0.0',
 			arguments: {}
 		}, {
 			Authorization: `Bearer ${test.context.token}`
@@ -343,7 +343,7 @@ ava.serial('should apply a user patch to a contact that diverged', async (test) 
 		'POST', '/api/v2/action', {
 			card: userCard.id,
 			type: userCard.type,
-			action: 'action-maintain-contact',
+			action: 'action-maintain-contact@1.0.0',
 			arguments: {}
 		}, {
 			Authorization: `Bearer ${test.context.token}`
@@ -355,7 +355,7 @@ ava.serial('should apply a user patch to a contact that diverged', async (test) 
 		'POST', '/api/v2/action', {
 			card: result1.response.data.id,
 			type: result1.response.data.type,
-			action: 'action-update-card',
+			action: 'action-update-card@1.0.0',
 			arguments: {
 				reason: null,
 				patch: [
@@ -375,7 +375,7 @@ ava.serial('should apply a user patch to a contact that diverged', async (test) 
 		'POST', '/api/v2/action', {
 			card: userCard.id,
 			type: userCard.type,
-			action: 'action-update-card',
+			action: 'action-update-card@1.0.0',
 			arguments: {
 				reason: null,
 				patch: [
@@ -396,7 +396,7 @@ ava.serial('should apply a user patch to a contact that diverged', async (test) 
 		'POST', '/api/v2/action', {
 			card: userCard.id,
 			type: userCard.type,
-			action: 'action-maintain-contact',
+			action: 'action-maintain-contact@1.0.0',
 			arguments: {}
 		}, {
 			Authorization: `Bearer ${test.context.token}`
@@ -453,7 +453,7 @@ ava.serial('should update the name of existing contact', async (test) => {
 		'POST', '/api/v2/action', {
 			card: userCard.id,
 			type: userCard.type,
-			action: 'action-maintain-contact',
+			action: 'action-maintain-contact@1.0.0',
 			arguments: {}
 		}, {
 			Authorization: `Bearer ${test.context.token}`
@@ -465,7 +465,7 @@ ava.serial('should update the name of existing contact', async (test) => {
 		'POST', '/api/v2/action', {
 			card: userCard.id,
 			type: userCard.type,
-			action: 'action-update-card',
+			action: 'action-update-card@1.0.0',
 			arguments: {
 				reason: null,
 				patch: [
@@ -486,7 +486,7 @@ ava.serial('should update the name of existing contact', async (test) => {
 		'POST', '/api/v2/action', {
 			card: userCard.id,
 			type: userCard.type,
-			action: 'action-maintain-contact',
+			action: 'action-maintain-contact@1.0.0',
 			arguments: {}
 		}, {
 			Authorization: `Bearer ${test.context.token}`
@@ -543,7 +543,7 @@ ava.serial('should delete an existing contact if the user is deleted', async (te
 		'POST', '/api/v2/action', {
 			card: userCard.id,
 			type: userCard.type,
-			action: 'action-maintain-contact',
+			action: 'action-maintain-contact@1.0.0',
 			arguments: {}
 		}, {
 			Authorization: `Bearer ${test.context.token}`
@@ -555,7 +555,7 @@ ava.serial('should delete an existing contact if the user is deleted', async (te
 		'POST', '/api/v2/action', {
 			card: userCard.id,
 			type: userCard.type,
-			action: 'action-update-card',
+			action: 'action-update-card@1.0.0',
 			arguments: {
 				reason: null,
 				patch: [
@@ -576,7 +576,7 @@ ava.serial('should delete an existing contact if the user is deleted', async (te
 		'POST', '/api/v2/action', {
 			card: userCard.id,
 			type: userCard.type,
-			action: 'action-maintain-contact',
+			action: 'action-maintain-contact@1.0.0',
 			arguments: {}
 		}, {
 			Authorization: `Bearer ${test.context.token}`
@@ -633,7 +633,7 @@ ava.serial('should replace a property from an existing linked contact', async (t
 		'POST', '/api/v2/action', {
 			card: userCard.id,
 			type: userCard.type,
-			action: 'action-maintain-contact',
+			action: 'action-maintain-contact@1.0.0',
 			arguments: {}
 		}, {
 			Authorization: `Bearer ${test.context.token}`
@@ -645,7 +645,7 @@ ava.serial('should replace a property from an existing linked contact', async (t
 		'POST', '/api/v2/action', {
 			card: userCard.id,
 			type: userCard.type,
-			action: 'action-update-card',
+			action: 'action-update-card@1.0.0',
 			arguments: {
 				reason: null,
 				patch: [
@@ -666,7 +666,7 @@ ava.serial('should replace a property from an existing linked contact', async (t
 		'POST', '/api/v2/action', {
 			card: userCard.id,
 			type: userCard.type,
-			action: 'action-maintain-contact',
+			action: 'action-maintain-contact@1.0.0',
 			arguments: {}
 		}, {
 			Authorization: `Bearer ${test.context.token}`
@@ -723,7 +723,7 @@ ava.serial('should not remove a property from an existing linked contact', async
 		'POST', '/api/v2/action', {
 			card: userCard.id,
 			type: userCard.type,
-			action: 'action-maintain-contact',
+			action: 'action-maintain-contact@1.0.0',
 			arguments: {}
 		}, {
 			Authorization: `Bearer ${test.context.token}`
@@ -735,7 +735,7 @@ ava.serial('should not remove a property from an existing linked contact', async
 		'POST', '/api/v2/action', {
 			card: userCard.id,
 			type: userCard.type,
-			action: 'action-update-card',
+			action: 'action-update-card@1.0.0',
 			arguments: {
 				reason: null,
 				patch: [
@@ -755,7 +755,7 @@ ava.serial('should not remove a property from an existing linked contact', async
 		'POST', '/api/v2/action', {
 			card: userCard.id,
 			type: userCard.type,
-			action: 'action-maintain-contact',
+			action: 'action-maintain-contact@1.0.0',
 			arguments: {}
 		}, {
 			Authorization: `Bearer ${test.context.token}`
@@ -828,7 +828,7 @@ ava.serial.only('should merge and relink a diverging contact with a matching slu
 		'POST', '/api/v2/action', {
 			card: userCard.id,
 			type: userCard.type,
-			action: 'action-maintain-contact',
+			action: 'action-maintain-contact@1.0.0',
 			arguments: {}
 		}, {
 			Authorization: `Bearer ${test.context.token}`
@@ -884,7 +884,7 @@ ava.serial('should add a property to an existing linked contact', async (test) =
 		'POST', '/api/v2/action', {
 			card: userCard.id,
 			type: userCard.type,
-			action: 'action-maintain-contact',
+			action: 'action-maintain-contact@1.0.0',
 			arguments: {}
 		}, {
 			Authorization: `Bearer ${test.context.token}`
@@ -896,7 +896,7 @@ ava.serial('should add a property to an existing linked contact', async (test) =
 		'POST', '/api/v2/action', {
 			card: userCard.id,
 			type: userCard.type,
-			action: 'action-update-card',
+			action: 'action-update-card@1.0.0',
 			arguments: {
 				reason: null,
 				patch: [
@@ -922,7 +922,7 @@ ava.serial('should add a property to an existing linked contact', async (test) =
 		'POST', '/api/v2/action', {
 			card: userCard.id,
 			type: userCard.type,
-			action: 'action-maintain-contact',
+			action: 'action-maintain-contact@1.0.0',
 			arguments: {}
 		}, {
 			Authorization: `Bearer ${test.context.token}`
@@ -976,7 +976,7 @@ ava.serial('should create a contact for a user with little profile info', async 
 		'POST', '/api/v2/action', {
 			card: userCard.id,
 			type: userCard.type,
-			action: 'action-maintain-contact',
+			action: 'action-maintain-contact@1.0.0',
 			arguments: {}
 		}, {
 			Authorization: `Bearer ${test.context.token}`
@@ -1029,7 +1029,7 @@ ava.serial('should use the user name when creating a contact', async (test) => {
 		'POST', '/api/v2/action', {
 			card: userCard.id,
 			type: userCard.type,
-			action: 'action-maintain-contact',
+			action: 'action-maintain-contact@1.0.0',
 			arguments: {}
 		}, {
 			Authorization: `Bearer ${test.context.token}`
@@ -1082,7 +1082,7 @@ ava.serial('should create an inactive contact given an inactive user', async (te
 		'POST', '/api/v2/action', {
 			card: userCard.id,
 			type: userCard.type,
-			action: 'action-maintain-contact',
+			action: 'action-maintain-contact@1.0.0',
 			arguments: {}
 		}, {
 			Authorization: `Bearer ${test.context.token}`
@@ -1145,7 +1145,7 @@ ava.serial('should create a contact for a user with plenty of info', async (test
 		'POST', '/api/v2/action', {
 			card: userCard.id,
 			type: userCard.type,
-			action: 'action-maintain-contact',
+			action: 'action-maintain-contact@1.0.0',
 			arguments: {}
 		}, {
 			Authorization: `Bearer ${test.context.token}`
@@ -1216,7 +1216,7 @@ ava.serial('should create a contact for a user with multiple emails', async (tes
 		'POST', '/api/v2/action', {
 			card: userCard.id,
 			type: userCard.type,
-			action: 'action-maintain-contact',
+			action: 'action-maintain-contact@1.0.0',
 			arguments: {}
 		}, {
 			Authorization: `Bearer ${test.context.token}`

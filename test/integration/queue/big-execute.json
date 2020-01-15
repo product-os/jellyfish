@@ -19519,7 +19519,7 @@
         "capabilities": []
       },
       "error": false,
-      "action": "action-update-card",
+      "action": "action-update-card@1.0.0",
       "timestamp": "2019-03-29T20:00:17.266Z"
     },
     "timestamp": "2019-03-29T20:00:21.922Z"
