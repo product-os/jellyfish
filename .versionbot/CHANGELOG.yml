@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix incorrect project link constraints
+      hash: 0307b418e9f1c916bcebf3bf98842c855dfb8927
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 24.59.2
+  date: 2020-01-15T12:10:19.208Z
+- commits:
     - subject: 'server/sync/ui/worker: Use versioned action input cards slugs'
       hash: d1ed55f377e78025199aa859ef3a24825582d04e
       body: |
