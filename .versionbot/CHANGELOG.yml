@@ -1,4 +1,16 @@
 - commits:
+    - subject: Backwards compatible versioned actions references in action requests
+      hash: b2be9559ceddc5a55e5c503145b8279fb28793d6
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.60.0
+  date: 2020-01-15T14:11:19.264Z
+- commits:
     - subject: Fix incorrect project link constraints
       hash: 0307b418e9f1c916bcebf3bf98842c855dfb8927
       body: ''
