@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'outreach: Prevent taken address infinite loop during upserts'
+      hash: 86a4ec4e1fb242db5873c95c139da23c0cbf7ce7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.60.1
+  date: 2020-01-15T17:18:48.759Z
+- commits:
     - subject: Backwards compatible versioned actions references in action requests
       hash: b2be9559ceddc5a55e5c503145b8279fb28793d6
       body: ''
