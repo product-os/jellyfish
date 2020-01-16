@@ -1,4 +1,24 @@
 - commits:
+    - subject: 'sync: Always execute translate''s `afterEach`'
+      hash: ae88d72448f28323d8c0ad1020767b50041ca7b3
+      body: |
+        Consider running the thousands of test cases we generate on translate
+        without using Ava's `--fail-fast` mode. If a test case fails, then its
+        `afterEach()` won't be executed, which means that we would have a
+        full-blown `lib/core` instance that is never uninitialised.
+
+        Given the large amount of tests we generate, we may end up consuming all
+        the available connections and make all the remaining tests fail:
+        https://circleci.com/gh/balena-io/jellyfish/64449.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.63.3
+  date: 2020-01-16T20:37:42.022Z
+- commits:
     - subject: 'core: Throw a better error when a JSON Patch operation lacks a "path"'
       hash: 782787789e33c9256b43b10d11e1191807e31148
       body: ''
