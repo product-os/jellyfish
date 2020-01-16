@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'Server: Move SDK signup method to server'
+      hash: 3c0d0e93fd14bc8ea7f0a012d41ca561386c9fc1
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+    - subject: 'Server: Abstract action logic behind a facade'
+      hash: 48a647a92683f7edb5a2552a6c252ebcc9f63034
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 24.63.0
+  date: 2020-01-16T15:54:08.205Z
+- commits:
     - subject: 'action-server/server: Copy scripts/production into backend containers'
       hash: d606bacf46fc9a7ce4058cb116c06eb1d2808b2e
       body: |
