@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'deploy-templates: Fix port name warning'
+      hash: c2b1e129cd6b55cee3e38141dbc5122021890b06
+      body: |
+        The warning is: `name` must be at most 15 chars.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.63.1
+  date: 2020-01-16T16:40:38.281Z
+- commits:
     - subject: 'Server: Move SDK signup method to server'
       hash: 3c0d0e93fd14bc8ea7f0a012d41ca561386c9fc1
       body: ''
