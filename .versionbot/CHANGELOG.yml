@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'core: Throw a better error when a JSON Patch operation lacks a "path"'
+      hash: 782787789e33c9256b43b10d11e1191807e31148
+      body: ''
+      footer:
+        Fixes: 'https://sentry.io/share/issue/028f311e89584f99854e7763e330e4c3/'
+        fixes: 'https://sentry.io/share/issue/028f311e89584f99854e7763e330e4c3/'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.63.2
+  date: 2020-01-16T19:47:19.011Z
+- commits:
     - subject: 'deploy-templates: Fix port name warning'
       hash: c2b1e129cd6b55cee3e38141dbc5122021890b06
       body: |
