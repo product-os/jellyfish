@@ -17,7 +17,7 @@ const environment = require('../../../lib/environment')
 const TOKEN = environment.integration['balena-api']
 
 ava.beforeEach(scenario.beforeEach)
-ava.afterEach(scenario.afterEach)
+ava.afterEach.always(scenario.afterEach)
 
 const avaTest = _.some(_.values(TOKEN), _.isEmpty) ? ava.skip : ava.serial
 
