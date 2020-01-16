@@ -11,7 +11,7 @@ const environment = require('../../../lib/environment')
 const TOKEN = environment.integration.front
 
 ava.beforeEach(scenario.beforeEach)
-ava.afterEach(scenario.afterEach)
+ava.afterEach.always(scenario.afterEach)
 
 const avaTest = _.some(_.values(TOKEN), _.isEmpty) ? ava.skip : ava
 
