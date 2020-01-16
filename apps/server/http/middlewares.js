@@ -40,7 +40,8 @@ module.exports = (rootContext, application, jellyfish, options) => {
 			'Authorization',
 			'Content-Type',
 			'Origin',
-			'X-Requested-With'
+			'X-Requested-With',
+			'x-balena-client'
 		].join(', '))
 		response.header('Access-Control-Allow-Methods', [
 			'DELETE',

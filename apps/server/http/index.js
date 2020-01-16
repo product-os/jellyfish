@@ -21,7 +21,9 @@ module.exports = (context, jellyfish, worker, queue, configuration, options) => 
 		guestSession: options.guestSession
 	})
 
-	routes(application, jellyfish, worker, queue)
+	routes(application, jellyfish, worker, queue, {
+		guestSession: options.guestSession
+	})
 
 	// We must define 4 arguments even if we don't use them
 	// otherwise Express doesn't take it as an error handler.
