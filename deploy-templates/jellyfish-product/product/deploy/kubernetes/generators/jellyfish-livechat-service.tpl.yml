@@ -10,4 +10,3 @@ spec:
     app: jellyfish-livechat
   ports:
   - port: 80
-    name: jellyfish-livechat

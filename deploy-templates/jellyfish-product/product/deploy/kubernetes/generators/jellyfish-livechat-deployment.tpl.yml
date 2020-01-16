@@ -43,6 +43,5 @@ spec:
           value: {{{NODE_ENV}}}
         ports:
         - containerPort: 80
-          name: jellyfish-livechat
       imagePullSecrets:
         - name: com.docker.hub.travisciresin
