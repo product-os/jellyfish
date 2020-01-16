@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'UI: Update monaco dependencies'
+      hash: c15af5b627d2f60bfcced77ae9431a8386d2fe1e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 24.60.3
+  date: 2020-01-16T11:26:54.243Z
+- commits:
     - subject: 'Revert "deploy-templates: Deploy livechat"'
       hash: 7ee3c99dc9fc3fa4aaa3e833a497e9f739cce27c
       body: |
