@@ -2,7 +2,7 @@
 # Base
 ###########################################################
 
-FROM balena/open-balena-base:v9.0.3 as base
+FROM balena/open-balena-base:v9.0.4 as base
 
 WORKDIR /usr/src/jellyfish
 
@@ -45,7 +45,7 @@ RUN make .nyc-root && \
 # Runtime
 ###########################################################
 
-FROM balena/open-balena-base:v9.0.3 as runtime
+FROM balena/open-balena-base:v9.0.4 as runtime
 
 WORKDIR /usr/src/jellyfish
 
