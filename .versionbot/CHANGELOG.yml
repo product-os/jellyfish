@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'action-server/server: Copy scripts/production into backend containers'
+      hash: d606bacf46fc9a7ce4058cb116c06eb1d2808b2e
+      body: |
+        These scripts are incredibly handy to have for when things go wrong and
+        we need to figure out what happened, so we don't have to manually
+        copy them over SSH.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.62.0
+  date: 2020-01-16T13:21:50.298Z
+- commits:
     - subject: 'deploy-templates: Deploy livechat'
       hash: 5efb094494df54672a30db02fdae845f2872d3dd
       body: ''
