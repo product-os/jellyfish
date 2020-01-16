@@ -6,5 +6,6 @@
 
 module.exports = {
 	QueryFacade: require('./query'),
-	AuthFacade: require('./auth')
+	AuthFacade: require('./auth'),
+	ActionFacade: require('./action')
 }

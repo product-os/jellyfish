@@ -65,6 +65,7 @@ const sendHTTPError = (request, response, error) => {
 module.exports = (application, jellyfish, worker, queue) => {
 	const queryFacade = new facades.QueryFacade(jellyfish)
 	const authFacade = new facades.AuthFacade(jellyfish)
+	const actionFacade = new facades.ActionFacade(worker, queue, fileStore)
 
 	application.get('/api/v2/config', (request, response) => {
 		response.send({
@@ -524,68 +525,32 @@ module.exports = (application, jellyfish, worker, queue) => {
 			})
 		}
 
-		const files = []
-
-		return uuid.random().then(async (id) => {
-			if (request.files) {
-				// Upload magic
-				request.files.forEach((file) => {
-					const name = `${id}.${file.originalname}`
-
-					_.set(action.arguments.payload, file.fieldname, {
-						name: file.originalname,
-						slug: name,
-						mime: file.mimetype,
-						bytesize: file.buffer.byteLength
-					})
-
-					files.push({
-						buffer: file.buffer,
-						name
-					})
-				})
+		return actionFacade.processAction(
+			request.context,
+			request.sessionToken,
+			action,
+			{
+				files: request.files
 			}
+		)
+			.then((results) => {
+				if (results.error) {
+					if (results.data.expected) {
+						return response.status(400).json({
+							error: true,
+							data: _.pick(errio.fromObject(results.data), [ 'name', 'message' ])
+						})
+					}
 
-			request.payload = action
-			action.context = request.context
-
-			const finalRequest = await worker.pre(request.sessionToken, action)
-			return queue.enqueue(worker.getId(), request.sessionToken, finalRequest)
-		}).then((actionRequest) => {
-			return queue.waitResults(request.context, actionRequest)
-		}).then(async (results) => {
-			logger.info(request.context, 'Got action results', results)
-			if (!results.error && request.files) {
-				const cardId = results.data.id
-
-				for (const item of files) {
-					logger.info(request.context, 'Uploading attachment', {
-						card: cardId,
-						key: item.name
-					})
-
-					await fileStore.store(cardId, item.name, item.buffer)
-				}
-			}
-			return results
-		}).then((results) => {
-			if (results.error) {
-				if (results.data.expected) {
-					return response.status(400).json({
-						error: true,
-						data: _.pick(errio.fromObject(results.data), [ 'name', 'message' ])
-					})
+					logger.exception(request.context,
+						'HTTP response error', errio.fromObject(results.data))
 				}
 
-				logger.exception(request.context,
-					'HTTP response error', errio.fromObject(results.data))
-			}
-
-			const code = results.error ? 500 : 200
-			return response.status(code).json(results)
-		}).catch((error) => {
-			return sendHTTPError(request, response, error)
-		})
+				const code = results.error ? 500 : 200
+				return response.status(code).json(results)
+			}).catch((error) => {
+				return sendHTTPError(request, response, error)
+			})
 	})
 
 	application.post('/api/v2/query', (request, response) => {
@@ -624,5 +589,52 @@ module.exports = (application, jellyfish, worker, queue) => {
 		} catch (error) {
 			return sendHTTPError(request, response, error)
 		}
+	})
+
+	application.post('/api/v2/signup', async (request, response) => {
+		const {
+			username,
+			email,
+			password
+		} = request.body
+
+		// Normalize username and email to lower case
+		const name = username.toLowerCase()
+		const mail = email.toLowerCase()
+
+		const action = {
+			card: 'user',
+			type: 'type',
+			action: 'action-create-user@1.0.0',
+			arguments: {
+				email: mail,
+				username: `user-${name}`,
+				password
+			}
+		}
+
+		return actionFacade.processAction(
+			request.context,
+			request.sessionToken,
+			action
+		)
+			.then((results) => {
+				if (results.error) {
+					if (results.data.expected) {
+						return response.status(400).json({
+							error: true,
+							data: _.pick(errio.fromObject(results.data), [ 'name', 'message' ])
+						})
+					}
+
+					logger.exception(request.context,
+						'HTTP response error', errio.fromObject(results.data))
+				}
+
+				const code = results.error ? 500 : 200
+				return response.status(code).json(results)
+			}).catch((error) => {
+				return sendHTTPError(request, response, error)
+			})
 	})
 }
