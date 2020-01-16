@@ -353,6 +353,29 @@ ava('.patchCardBySlug() should not be able to delete a top level property', asyn
 	test.deepEqual(result, card)
 })
 
+ava('.patchCardBySlug() should throw given an operation without a path', async (test) => {
+	const card = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'foobarbaz',
+			tags: [],
+			type: 'card@1.0.0',
+			version: '1.0.0',
+			data: {
+				foo: 'bar'
+			}
+		})
+
+	await test.throwsAsync(test.context.kernel.patchCardBySlug(
+		test.context.context, test.context.kernel.sessions.admin, `${card.slug}@${card.version}`, [
+			{
+				op: 'add',
+				value: 'foo'
+			}
+		], {
+			type: card.type
+		}), errors.JellyfishInvalidPatch)
+})
+
 ava('.patchCardBySlug() should throw if the patch does not match', async (test) => {
 	const card = await test.context.kernel.insertCard(
 		test.context.context, test.context.kernel.sessions.admin, {
