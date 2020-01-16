@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: jellyfish-livechat
+  namespace: {{{KATAPULT_KUBE_NAMESPACE}}}
+  name: jellyfish-livechat
+spec:
+  selector:
+    app: jellyfish-livechat
+  ports:
+  - port: 80
+    name: jellyfish-livechat
