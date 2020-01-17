@@ -17,3 +17,7 @@ docker:
       dockerfile: apps/ui/Dockerfile
       docker_repo: balena/jellyfish-ui
       publish: true
+    - path: .
+      dockerfile: apps/livechat/Dockerfile
+      docker_repo: balena/jellyfish-livechat
+      publish: true
