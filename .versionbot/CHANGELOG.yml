@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix docker-compose API endpoint vars for local development
+      hash: 3c5a87243f235c4845daa31c311268254bc5b47a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 24.63.5
+  date: 2020-01-17T02:11:29.729Z
+- commits:
     - subject: Accept balena API oauth request
       hash: 7c552dce8b37b8095700ca0742a6d676abb66bc6
       body: ''
