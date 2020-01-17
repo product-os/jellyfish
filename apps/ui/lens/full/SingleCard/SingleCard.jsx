@@ -20,6 +20,9 @@ import Segment from './Segment'
 import CardFields from '../../../../../lib/ui-components/CardFields'
 import CardLayout from '../../../layouts/CardLayout'
 import Timeline from '../../list/Timeline'
+import {
+	colorHash
+} from '../../../services/helpers'
 
 const SingleCardTabs = styled(Tabs) `
 	flex: 1
@@ -83,7 +86,7 @@ export default class SingleCardFull extends React.Component {
 				card={card}
 				channel={channel}
 			>
-				<Divider width="100%" color="#eee" />
+				<Divider width="100%" color={colorHash(card.type)} />
 
 				<SingleCardTabs
 					activeIndex={this.state.activeIndex}

@@ -4,30 +4,43 @@
  * Proprietary and confidential.
  */
 
+import * as _ from 'lodash'
 import React from 'react'
+import {
+	connect
+} from 'react-redux'
 import {
 	Box,
 	Flex,
-	Heading
+	Heading,
+	Txt
 } from 'rendition'
-import CardActions from '../../../../lib/ui-components/CardActions'
 import {
 	CloseButton
 } from '@jellyfish/ui-components/shame/CloseButton'
 import Column from '@jellyfish/ui-components/shame/Column'
+import CardActions from '../../../../lib/ui-components/CardActions'
+import {
+	selectors
+} from '../../core'
 
-export default function CardLayout (props) {
+const CardLayout = (props) => {
 	const {
 		actionItems,
 		card,
 		channel,
 		children,
 		noActions,
+		overflowY,
 		title,
-		overflowY
+		types
 	} = props
 
 	const typeBase = card.type && card.type.split('@')[0]
+
+	const typeName = _.get(_.find(types, {
+		slug: typeBase
+	}), [ 'name' ], null)
 
 	return (
 		<Column
@@ -40,9 +53,15 @@ export default function CardLayout (props) {
 					{title}
 
 					{!title && (
-						<Heading.h4>
-							{card.name || card.slug || card.type}
-						</Heading.h4>
+						<div>
+							<Heading.h4>
+								{card.name || card.slug || card.type}
+							</Heading.h4>
+
+							{Boolean(typeName) && (
+								<Txt color="text.light" fontSize="0">{typeName}</Txt>
+							)}
+						</div>
 					)}
 
 					<Flex align="baseline">
@@ -65,3 +84,11 @@ export default function CardLayout (props) {
 		</Column>
 	)
 }
+
+const mapStateToProps = (state) => {
+	return {
+		types: selectors.getTypes(state)
+	}
+}
+
+export default connect(mapStateToProps)(CardLayout)
