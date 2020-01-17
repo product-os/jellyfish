@@ -62,7 +62,7 @@ const sendHTTPError = (request, response, error) => {
 	})
 }
 
-module.exports = (application, jellyfish, worker, queue) => {
+module.exports = (application, jellyfish, worker, queue, options) => {
 	const queryFacade = new facades.QueryFacade(jellyfish)
 	const authFacade = new facades.AuthFacade(jellyfish)
 	const actionFacade = new facades.ActionFacade(worker, queue, fileStore)
@@ -191,7 +191,7 @@ module.exports = (application, jellyfish, worker, queue) => {
 				request.context,
 				worker,
 				queue,
-				request.sessionToken,
+				options.guestSession,
 				request.params.provider, {
 					code,
 					ip: request.ip,
