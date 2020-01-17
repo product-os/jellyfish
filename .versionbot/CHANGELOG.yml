@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update open-balena-base to 9.0.4
+      hash: 1133f2bb89cc7a79b0c5bb8f843764328a472f36
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.63.6
+  date: 2020-01-17T08:41:38.732Z
+- commits:
     - subject: Fix docker-compose API endpoint vars for local development
       hash: 3c5a87243f235c4845daa31c311268254bc5b47a
       body: ''
