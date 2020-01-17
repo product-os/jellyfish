@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'doc: Add a guide for adding a new type'
+      hash: 7fa8fa378de1adf6c239a4b46a41d3cf4afe3da6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 24.63.7
+  date: 2020-01-17T10:48:28.933Z
+- commits:
     - subject: Update open-balena-base to 9.0.4
       hash: 1133f2bb89cc7a79b0c5bb8f843764328a472f36
       body: ''
