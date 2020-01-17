@@ -1,4 +1,14 @@
 - commits:
+    - subject: Accept balena API oauth request
+      hash: 7c552dce8b37b8095700ca0742a6d676abb66bc6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Kakhaber
+  version: 24.63.4
+  date: 2020-01-16T23:04:29.145Z
+- commits:
     - subject: 'sync: Always execute translate''s `afterEach`'
       hash: ae88d72448f28323d8c0ad1020767b50041ca7b3
       body: |
