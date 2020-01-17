@@ -2,7 +2,7 @@
 # Runtime
 ###########################################################
 
-FROM balena/open-balena-base:v9.0.3
+FROM balena/open-balena-base:v9.0.4
 
 WORKDIR /usr/src/jellyfish
 
