@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'UI: Show card type and color code by type on single card layout'
+      hash: 2be3c6c2244dee75efe28ae497c85be9b74eb753
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 24.63.8
+  date: 2020-01-17T11:51:58.274Z
+- commits:
     - subject: 'doc: Add a guide for adding a new type'
       hash: 7fa8fa378de1adf6c239a4b46a41d3cf4afe3da6
       body: ''
