@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'fixes #2989: set auth schema to use enum for user type'
+      hash: ebb8cb39dcd813e68361a49e7b54d958641b0d52
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+  version: 24.64.1
+  date: 2020-01-20T17:19:58.605Z
+- commits:
     - subject: 'Livechat: Make it loadable via iframe'
       hash: 18cba7d45d87fe3938ced4c1cb6ca989d1c9d09b
       body: ''
