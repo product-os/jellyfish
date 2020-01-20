@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'livechat: Publish container to balena/jellyfish-livechat'
+      hash: 7f7142f379ecfcc36977b5bf305def19d489a19d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.63.10
+  date: 2020-01-20T12:35:28.936Z
+- commits:
     - subject: 'action-server/server: Fix production scripts copying'
       hash: 6c3b29a260c959d86741fbb54491b4544154b2e5
       body: ''
