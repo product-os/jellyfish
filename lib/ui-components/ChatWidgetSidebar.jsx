@@ -7,7 +7,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import {
-	mount
+	App
 } from '@jellyfish/chat-widget'
 import {
 	useSetup
@@ -37,18 +37,15 @@ export const ChatWidgetSidebar = ({
 	const {
 		sdk
 	} = useSetup()
-	const container = React.useRef(null)
-
-	React.useEffect(() => {
-		mount(container.current, {
-			sdk,
-			productTitle: 'Jelly',
-			product: 'jellyfish',
-			onClose
-		})
-	}, [ sdk, onClose ])
 
 	return (
-		<Container ref={container} />
+		<Container>
+			<App
+				sdk={sdk}
+				productTitle={'Jelly'}
+				product={'jellyfish'}
+				onClose={onClose}
+			/>
+		</Container>
 	)
 }
