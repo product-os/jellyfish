@@ -1,4 +1,14 @@
 - commits:
+    - subject: 'Livechat: Make it loadable via iframe'
+      hash: 18cba7d45d87fe3938ced4c1cb6ca989d1c9d09b
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 24.64.0
+  date: 2020-01-20T14:39:00.680Z
+- commits:
     - subject: 'livechat: Publish container to balena/jellyfish-livechat'
       hash: 7f7142f379ecfcc36977b5bf305def19d489a19d
       body: ''
