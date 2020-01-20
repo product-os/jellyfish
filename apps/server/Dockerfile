@@ -18,9 +18,6 @@ COPY scripts/template/package*.json \
 	/usr/src/jellyfish/scripts/template/
 RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
 
-# Production debugging scripts
-COPY ./scripts/production ./scripts/production
-
 COPY ./lib/action-library ./lib/action-library
 COPY ./lib/assert ./lib/assert
 COPY ./lib/core ./lib/core
@@ -58,5 +55,8 @@ COPY --from=base /usr/src/jellyfish/apps ./apps
 
 COPY --from=base /usr/src/jellyfish/.nyc-root /usr/src/jellyfish/.nyc-root
 COPY --from=base /usr/src/jellyfish/run.sh /usr/src/jellyfish/
+
+# Production debugging scripts
+COPY ./scripts/production ./scripts/production
 
 CMD [ "sh", "run.sh" ]
