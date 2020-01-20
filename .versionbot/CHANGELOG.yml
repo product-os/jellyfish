@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'action-server/server: Fix production scripts copying'
+      hash: 6c3b29a260c959d86741fbb54491b4544154b2e5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.63.9
+  date: 2020-01-17T16:09:58.642Z
+- commits:
     - subject: 'UI: Show card type and color code by type on single card layout'
       hash: 2be3c6c2244dee75efe28ae497c85be9b74eb753
       body: ''
