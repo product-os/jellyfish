@@ -4,26 +4,53 @@
  * Proprietary and confidential.
  */
 
+import React from 'react'
+import ReactDOM from 'react-dom'
 import '@babel/polyfill'
 import 'circular-std'
+import qs from 'query-string'
 import {
-	mount,
+	App,
 	createSdk
 } from '@jellyfish/chat-widget'
-import * as environment from './environment'
 
-(async () => {
+const init = async ({
+	product,
+	productTitle,
+	authToken,
+	onClose
+}) => {
 	const sdk = createSdk()
 	window.sdk = sdk
 
-	await sdk.auth.login({
-		username: environment.test.user.username,
-		password: environment.test.user.password
-	})
+	sdk.setAuthToken(authToken)
 
-	mount(document.getElementById('app'), {
-		sdk,
-		productTitle: 'Jelly',
-		product: 'jellyfish'
+	return new Promise((resolve) => {
+		ReactDOM.render((
+			<App
+				sdk={sdk}
+				product={product}
+				productTitle={productTitle}
+				onClose={onClose}
+			/>
+		), document.getElementById('app'), resolve)
 	})
-})()
+}
+
+const params = qs.parse(window.location.search)
+
+init({
+	product: params.product,
+	productTitle: params.productTitle,
+	authToken: params.authToken,
+	onClose: () => {
+		const event = {
+			type: 'close'
+		}
+
+		parent.postMessage(
+			JSON.stringify(event),
+			'*'
+		)
+	}
+})

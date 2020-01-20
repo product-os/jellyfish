@@ -4,8 +4,6 @@
  * Proprietary and confidential.
  */
 
-import React from 'react'
-import ReactDOM from 'react-dom'
 import {
 	getSdk
 } from '../../lib/sdk'
@@ -22,6 +20,6 @@ export const createSdk = (options) => {
 	})
 }
 
-export const mount = (element, options) => {
-	ReactDOM.render(<App {...options} />, element)
+export {
+	App
 }

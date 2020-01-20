@@ -7,12 +7,11 @@
 /* eslint-env node */
 
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const path = require('path')
-const DynamicCdnWebpackPlugin = require('dynamic-cdn-webpack-plugin')
 const DefinePlugin = require('webpack/lib/DefinePlugin')
 const mergeConfig = require('webpack-merge')
 const baseConfig = require('../../webpack.config.base.js')
-const libConfig = require('./webpack.config.lib')
 
 const root = path.resolve(__dirname, '..', '..')
 const resourcesRoot = __dirname
@@ -40,23 +39,11 @@ const config = mergeConfig(baseConfig, {
 			template: indexFilePath
 		}),
 
-		new DynamicCdnWebpackPlugin({
-			only: [ '@jellyfish/chat-widget' ],
-			resolver (name) {
-				return {
-					name,
-					var: 'ChatWidget',
-					url: '/chat-widget.js',
-					version: ''
-				}
-			}
-		}),
-
 		new DefinePlugin({
 			/* eslint-disable no-process-env */
 			'process.env': {
-				TEST_USER_USERNAME: JSON.stringify(process.env.TEST_USER_USERNAME),
-				TEST_USER_PASSWORD: JSON.stringify(process.env.TEST_USER_PASSWORD)
+				API_URL: JSON.stringify(process.env.API_URL),
+				NODE_ENV: JSON.stringify(process.env.NODE_ENV)
 			}
 			/* eslint-enable no-process-env */
 		})
@@ -68,4 +55,15 @@ const config = mergeConfig(baseConfig, {
 	}
 })
 
-module.exports = [ config, libConfig ]
+// eslint-disable-next-line no-process-env
+if (process.env.NODE_ENV !== 'production') {
+	config.plugins.push(
+		new BundleAnalyzerPlugin({
+			analyzerMode: 'static',
+			reportFilename: path.resolve(outDir, 'webpack-bundle-report.html'),
+			openAnalyzer: false
+		})
+	)
+}
+
+module.exports = config
