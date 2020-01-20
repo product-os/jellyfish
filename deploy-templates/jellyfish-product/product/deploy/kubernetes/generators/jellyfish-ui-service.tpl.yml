@@ -10,4 +10,3 @@ spec:
     app: jellyfish-ui
   ports:
   - port: 80
-    name: jellyfish-ui
