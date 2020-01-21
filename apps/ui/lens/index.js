@@ -17,6 +17,7 @@ import LinksGraphLens from './actions/LinksGraphLens'
 import Kanban from './misc/Kanban'
 import SupportAuditChart from './misc/SupportAuditChart'
 import Table from './misc/Table'
+import BetterTable from './misc/BetterTable'
 
 import FullLenses from './full'
 import ListLenses from './list'
@@ -31,7 +32,8 @@ const lenses = {
 	misc: [
 		Kanban,
 		SupportAuditChart,
-		Table
+		Table,
+		BetterTable
 	]
 }
 
