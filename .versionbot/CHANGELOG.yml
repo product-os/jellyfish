@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'discourse: Retry HTTP requests on 403'
+      hash: b60c93c80a098837638970f4024acb80f978ef11
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Fixes: 'https://sentry.io/share/issue/21327cdb91df4c07903772637b975618/'
+        fixes: 'https://sentry.io/share/issue/21327cdb91df4c07903772637b975618/'
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.64.2
+  date: 2020-01-21T01:51:19.283Z
+- commits:
     - subject: 'fixes #2989: set auth schema to use enum for user type'
       hash: ebb8cb39dcd813e68361a49e7b54d958641b0d52
       body: ''
