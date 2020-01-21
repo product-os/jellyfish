@@ -174,7 +174,7 @@
     "redis-mock": "^0.39.0",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
-    "rendition": "^11.34.3",
+    "rendition": "^13.0.1-DropDownButton-background-prop-cc15d3d533fb4527870a7635f2c5d3a2b2f5e0b8",
     "request-promise": "^4.2.2",
     "response-time": "^2.3.2",
     "skhema": "5.2.9",
