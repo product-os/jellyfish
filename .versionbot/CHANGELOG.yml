@@ -1,4 +1,29 @@
 - commits:
+    - subject: Enable signals processing in coverage only when coverage is enabled
+      hash: 2be48207d81fb8921aaef9639c7826684b85ba72
+      body: ''
+      footer:
+        Connects-to: '#2796'
+        connects-to: '#2796'
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+    - subject: Gracefully shut down worker/tick when SIGINT or SIGTERM are received
+      hash: ba1a76b203d9e121ed3b5ffc7dad542841ca175f
+      body: ''
+      footer:
+        Connects-to: '#2796'
+        connects-to: '#2796'
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.65.0
+  date: 2020-01-21T13:57:12.305Z
+- commits:
     - subject: 'discourse: Retry HTTP requests on 403'
       hash: b60c93c80a098837638970f4024acb80f978ef11
       body: ''
