@@ -52,7 +52,7 @@
       "relationships": [
         {
           "title": "Account",
-          "link": "is attached to account",
+          "link": "is attached to",
           "type": "account"
         }
       ]

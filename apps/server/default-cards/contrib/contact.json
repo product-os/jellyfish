@@ -35,7 +35,7 @@
               "type": "object",
               "properties": {
                 "email": {
-                  "type": [ "string", "array" ],
+                  "type": [ "string" ],
                   "format": "email",
                   "uniqueItems": true,
                   "minItems": 1,
@@ -83,7 +83,7 @@
       "relationships": [
         {
           "title": "Account",
-          "link": "is member of account",
+          "link": "is member of",
           "type": "account"
         },
         {

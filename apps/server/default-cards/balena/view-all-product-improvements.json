@@ -13,7 +13,7 @@
         "name": "All Product Improvements",
         "schema": {
           "$$links": {
-            "product improvement has attached support thread": {
+            "has attached": {
               "type": "object"
             }
           },

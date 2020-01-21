@@ -86,7 +86,7 @@ ava.serial('should let users create new contacts attached to accounts', async (t
 	const results = await page.evaluate((nameParam) => {
 		return window.sdk.query({
 			$$links: {
-				'is member of account': {
+				'is member of': {
 					type: 'object'
 				}
 			},
@@ -107,7 +107,7 @@ ava.serial('should let users create new contacts attached to accounts', async (t
 		})
 	}, name)
 
-	test.is(results[0].links['is member of account'].length, 1)
+	test.is(results[0].links['is member of'].length, 1)
 })
 
 ava.serial('should let users create new contacts', async (test) => {

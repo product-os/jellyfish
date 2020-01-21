@@ -57,12 +57,12 @@
 			"relationships": [
 				{
 					"title": "Discussion topics",
-          "link": "product improvement is attached to discussion topic",
+          "link": "is attached to",
 					"type": "discussion-topic"
 				},
 				{
 					"title": "Support threads",
-          "link": "product improvement has attached support thread",
+          "link": "has attached",
 					"type": "support-thread"
 				}
 			]
