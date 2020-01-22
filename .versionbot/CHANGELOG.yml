@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'core: Describe non applicable patches'
+      hash: 0f5e9de3b262d476fcabdf46422c87818859e04a
+      body: |
+        For debugging purposes.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.65.2
+  date: 2020-01-22T22:19:59.277Z
+- commits:
     - subject: 'core: Try to add version suffixes into type when possible'
       hash: a4bf111caa2220a46e5a2fe906cbdb5eb0e10b7f
       body: |
