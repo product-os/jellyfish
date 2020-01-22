@@ -932,7 +932,7 @@ ava('.query() should correctly take string contraints on the uuid', async (test)
 
 ava('.query() should query the database using JSON schema', async (test) => {
 	const result1 = await test.context.backend.upsertElement(test.context.context, {
-		type: 'example',
+		type: 'example@1.0.0',
 		slug: 'foo',
 		version: '1.0.0',
 		tags: [],
@@ -950,7 +950,7 @@ ava('.query() should query the database using JSON schema', async (test) => {
 	})
 
 	await test.context.backend.upsertElement(test.context.context, {
-		type: 'test',
+		type: 'test@1.0.0',
 		slug: 'bar',
 		links: {},
 		version: '1.0.0',
@@ -968,7 +968,7 @@ ava('.query() should query the database using JSON schema', async (test) => {
 	})
 
 	const result2 = await test.context.backend.upsertElement(test.context.context, {
-		type: 'example',
+		type: 'example@1.0.0',
 		slug: 'baz',
 		version: '1.0.0',
 		links: {},
@@ -1009,7 +1009,7 @@ ava('.query() should query the database using JSON schema', async (test) => {
 			},
 			type: {
 				type: 'string',
-				pattern: '^example$'
+				pattern: '^example@1.0.0$'
 			}
 		},
 		required: [ 'id', 'active', 'slug', 'data', 'type' ]
@@ -1201,7 +1201,7 @@ ava('.query() should give the same results when omitting additionalProperties an
 
 ava('.query() should query an element by its id', async (test) => {
 	const result = await test.context.backend.upsertElement(test.context.context, {
-		type: 'example',
+		type: 'example@1.0.0',
 		version: '1.0.0',
 		links: {},
 		tags: [],
@@ -1267,7 +1267,7 @@ ava('.query() should fail to query an element by its id', async (test) => {
 
 ava('.query() should query an element by its slug', async (test) => {
 	const result = await test.context.backend.upsertElement(test.context.context, {
-		type: 'example',
+		type: 'example@1.0.0',
 		slug: 'hello',
 		links: {},
 		version: '1.0.0',
@@ -2483,7 +2483,7 @@ ava('.query() should correctly honour top level additionalProperties: true', asy
 		created_at: new Date().toISOString(),
 		updated_at: null,
 		active: true,
-		type: 'user'
+		type: 'user@1.0.0'
 	})
 
 	const user2 = await test.context.backend.insertElement(test.context.context, {
@@ -2499,7 +2499,7 @@ ava('.query() should correctly honour top level additionalProperties: true', asy
 		created_at: new Date().toISOString(),
 		updated_at: null,
 		linked_at: {},
-		type: 'user'
+		type: 'user@1.0.0'
 	})
 
 	const results1 = await test.context.backend.query(test.context.context, {
@@ -2519,7 +2519,7 @@ ava('.query() should correctly honour top level additionalProperties: true', asy
 		properties: {
 			type: {
 				type: 'string',
-				const: 'user'
+				const: 'user@1.0.0'
 			}
 		}
 	})
@@ -2542,7 +2542,7 @@ ava('.query() should correctly honour top level additionalProperties: true', asy
 		properties: {
 			type: {
 				type: 'string',
-				const: 'user'
+				const: 'user@1.0.0'
 			}
 		}
 	})
@@ -2566,7 +2566,7 @@ ava('.query() should correctly honour top level additionalProperties: true', asy
 		properties: {
 			type: {
 				type: 'string',
-				const: 'user'
+				const: 'user@1.0.0'
 			}
 		}
 	})
@@ -2590,17 +2590,17 @@ ava('.query() should correctly honour top level additionalProperties: true', asy
 		properties: {
 			type: {
 				type: 'string',
-				const: 'user'
+				const: 'user@1.0.0'
 			}
 		}
 	})
 
 	test.deepEqual(_.sortBy(results1, 'slug'), [
 		{
-			type: 'user'
+			type: 'user@1.0.0'
 		},
 		{
-			type: 'user'
+			type: 'user@1.0.0'
 		}
 	])
 	test.deepEqual(_.sortBy(results2, 'slug'), [ user2, user1 ])
@@ -2614,10 +2614,10 @@ ava('.query() should correctly honour top level additionalProperties: true', asy
 	])
 	test.deepEqual(_.sortBy(results4, 'slug'), [
 		{
-			type: 'user'
+			type: 'user@1.0.0'
 		},
 		{
-			type: 'user'
+			type: 'user@1.0.0'
 		}
 	])
 })
@@ -4781,7 +4781,7 @@ ava('.upsertElement() should handle multiple parallel insertions on the same slu
 			capabilities: [],
 			created_at: new Date().toISOString(),
 			updated_at: null,
-			type: 'stress-test',
+			type: 'stress-test@1.0.0',
 			data: {
 				time
 			}
@@ -4822,7 +4822,7 @@ ava('.insertElement() should handle multiple parallel insertions on the same slu
 		const object = {
 			slug: 'foo-bar-baz',
 			links: {},
-			type: 'stress-test',
+			type: 'stress-test@1.0.0',
 			version: '1.0.0',
 			tags: [],
 			markers: [],
