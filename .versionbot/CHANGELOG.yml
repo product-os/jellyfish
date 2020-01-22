@@ -1,4 +1,20 @@
 - commits:
+    - subject: 'core: Try to add version suffixes into type when possible'
+      hash: a4bf111caa2220a46e5a2fe906cbdb5eb0e10b7f
+      body: |
+        We can thus let the system itself help us with the migration.
+
+        This change caught some backend tests that were assuming that we could
+        insert elements without a version suffix.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.65.1
+  date: 2020-01-22T18:13:48.987Z
+- commits:
     - subject: Enable signals processing in coverage only when coverage is enabled
       hash: 2be48207d81fb8921aaef9639c7826684b85ba72
       body: ''
