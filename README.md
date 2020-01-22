@@ -98,6 +98,9 @@ http://localhost:9000 and login as:
 Testing
 -------
 
+>Note: the `make lint` script has a dependency on [shellcheck](https://github.com/koalaman/shellcheck) which must
+>be installed first.
+
 You can run the linter like this:
 
 ```sh
