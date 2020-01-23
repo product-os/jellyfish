@@ -461,7 +461,7 @@ ava('when querying cards with linked cards, we fetch links with a subquery, and 
 		}
 	}
 
-	const expected = `WITH main AS (
+	const expected = `SELECT * FROM (
 SELECT
 cards.id,
 cards.slug,
@@ -517,8 +517,7 @@ SELECT 1 FROM links
 WHERE links.inversename = 'has attached element' AND toId = cards.id
 )
 ORDER BY cards.created_at DESC
-)
-SELECT * FROM main
+) AS main
 WHERE array_length("links.has_attached_element", 1) > 0
 LIMIT 100`
 
@@ -573,7 +572,7 @@ ava('when querying cards without linked cards, we fetch links with a subquery, a
 		}
 	}
 
-	const expected = `WITH main AS (
+	const expected = `SELECT * FROM (
 SELECT
 cards.id,
 cards.slug,
@@ -629,8 +628,7 @@ SELECT 1 FROM links
 WHERE links.inversename = 'has attached element' AND toId = cards.id
 )
 ORDER BY cards.created_at DESC
-)
-SELECT * FROM main
+) AS main
 WHERE array_length("links.has_attached_element", 1) IS NULL
 LIMIT 100`
 
