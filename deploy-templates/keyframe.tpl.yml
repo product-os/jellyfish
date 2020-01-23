@@ -69,8 +69,9 @@ children:
         slug: jellyfish-rabbitmq
         version: 3.8-alpine
         type: sw.containerized-application
-        assets:
-          image:
-            url: rabbitmq:3.8-alpine
-          repo:
-            url: 'https://github.com/rabbitmq/rabbitmq-server.git'
+        data:
+          assets:
+            image:
+              url: rabbitmq:3.8-alpine
+            repo:
+              url: 'https://github.com/rabbitmq/rabbitmq-server.git'

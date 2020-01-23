@@ -10,4 +10,3 @@ spec:
     app: rabbitmq
   ports:
     - port: 5672
-      name: data-port

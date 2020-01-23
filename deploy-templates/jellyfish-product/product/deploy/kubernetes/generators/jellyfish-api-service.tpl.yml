@@ -10,5 +10,4 @@ spec:
     app: jellyfish
   ports:
   - port: 8000
-    name: jellyfish-api
   sessionAffinity: ClientIP

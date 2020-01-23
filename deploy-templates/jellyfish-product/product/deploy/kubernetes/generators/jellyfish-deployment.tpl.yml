@@ -118,6 +118,5 @@ spec:
           value: '8000'
         ports:
         - containerPort: 8000
-          name: jellyfish-api
       imagePullSecrets:
         - name: com.docker.hub.travisciresin

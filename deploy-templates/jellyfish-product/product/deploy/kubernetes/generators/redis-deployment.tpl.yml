@@ -13,13 +13,12 @@ spec:
         app: redis
     spec:
       containers:
-      - image: <<%&children.sw.containerized-application.balena-redis.data.assets.image.url%>>
-        name: redis
-        env:
-        - name: REDIS_PASSWORD
-          value: {{{REDIS_PASSWORD}}}
-        ports:
-        - containerPort: 6379
-          name: data-port
+        - image: <<%&children.sw.containerized-application.jellyfish-redis.data.assets.image.url%>>
+          name: redis
+          env:
+            - name: REDIS_PASSWORD
+              value: {{{REDIS_PASSWORD}}}
+          ports:
+            - containerPort: 6379
       imagePullSecrets:
         - name: com.docker.hub.travisciresin

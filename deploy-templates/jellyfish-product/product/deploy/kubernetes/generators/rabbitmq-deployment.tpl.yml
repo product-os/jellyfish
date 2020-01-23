@@ -14,15 +14,25 @@ spec:
         app: rabbitmq
     spec:
       containers:
-        - image: <<%&children.sw.containerized-application.rabbitmq.data.assets.image.url%>>
+        - image: <<%&children.sw.containerized-application.jellyfish-rabbitmq.data.assets.image.url%>>
           name: rabbitmq
           env:
             - name: RABBITMQ_DEFAULT_USER
               value: {{{RABBITMQ_USERNAME}}}
             - name: RABBITMQ_DEFAULT_PASS
               value: {{{RABBITMQ_PASSWORD}}}
+            - name: RABBITMQ_ERLANG_COOKIE
+              value: 'cookie used when setting up a rabbitmq cluster'
+            - name: RABBITMQ_USE_LONGNAME
+              value: "true"
           ports:
             - containerPort: 5672
-              name: data-port
+          volumeMounts:
+            - mountPath: /var/lib/rabbitmq
+              name: var-lib-rabbitmq
+      volumes:
+        - name: var-lib-rabbitmq
+          persistentVolumeClaim:
+            claimName: rabbitmq-storage
       imagePullSecrets:
         - name: com.docker.hub.travisciresin
