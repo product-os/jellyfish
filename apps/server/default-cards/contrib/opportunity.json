@@ -33,13 +33,31 @@
             "dueDate": {
               "title": "Due date",
               "type": "string",
-              "format": "date-time"
+              "format": "date"
             },
             "value": {
               "title": "Value",
               "type": "number",
               "format": "currency",
               "minimum": 0
+            },
+            "arr": {
+              "title": "Estimated ARR",
+              "type": "number",
+              "format": "currency",
+              "minimum": 0
+            },
+            "device": {
+              "title": "Device Type",
+              "type": "string"
+            },
+            "usecase": {
+              "title": "Use case(s)",
+              "type": "string"
+            },
+            "stack": {
+              "title": "Tech stack",
+              "type": "string"
             }
           },
           "required": [
