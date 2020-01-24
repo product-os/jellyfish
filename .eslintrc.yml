@@ -11,6 +11,8 @@ extends:
   - 'plugin:react/recommended'
   - standard
 settings:
+  react:
+    version: "detect"
   jsdoc:
     additionalTagNames:
       customTags:

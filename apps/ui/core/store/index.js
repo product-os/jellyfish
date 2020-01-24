@@ -8,6 +8,9 @@ import localForage from 'localforage'
 import * as redux from 'redux'
 import reduxThunk from 'redux-thunk'
 import {
+	isProduction
+} from '../../environment'
+import {
 	reducer
 } from './reducer'
 import actions from './actions'
@@ -43,8 +46,11 @@ export const setupStore = ({
 		return newState
 	}
 
+	// eslint-disable-next-line no-underscore-dangle
+	const composeEnhancers = (!isProduction() && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || redux.compose
+
 	return {
-		store: redux.createStore(reducerWrapper, redux.applyMiddleware(reduxThunk)),
+		store: redux.createStore(reducerWrapper, composeEnhancers(redux.applyMiddleware(reduxThunk))),
 		actions,
 		actionCreators: new ActionCreator({
 			sdk,
