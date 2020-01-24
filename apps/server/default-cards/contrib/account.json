@@ -24,32 +24,15 @@
         "data": {
           "type": "object",
           "properties": {
-            "status": {
-              "default": "Nominal",
+            "type": {
+              "default": "Lead",
               "enum": [
-                "Nominal",
-                "Potential",
-                "Possible",
-                "Probable",
-                "Closed Won",
-                "Needs Attention",
-                "Awaiting Response",
-                "Overages / Upgrades - Awaiting Resolution",
-                "Closed Lost",
-                "Closed Churned",
-                "Ghosted"
+                "Lead",
+                "Customer"
               ]
             },
             "industry": {
               "title": "Industry",
-              "type": "string"
-            },
-            "usecase": {
-              "title": "Use case(s)",
-              "type": "string"
-            },
-            "stack": {
-              "title": "Tech stack",
               "type": "string"
             },
             "location": {
@@ -59,10 +42,6 @@
             "stageOfBusiness": {
               "title": "Stage of business",
               "type": "string"
-            },
-            "projectedArr": {
-              "title": "Projected ARR",
-              "type": "number"
             },
             "description": {
               "type": "string",
