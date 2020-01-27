@@ -1,4 +1,16 @@
 - commits:
+    - subject: Set new deploy-templates codeowners
+      hash: 3df6b1994936e3d3c6fb051cba8062d0deff980c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.65.5
+  date: 2020-01-27T08:38:59.043Z
+- commits:
     - subject: 'dev: Add support for Redux Dev Tools'
       hash: 29d50ce0af3c1f838ad005d6dc68d00d5fafd579
       body: >
