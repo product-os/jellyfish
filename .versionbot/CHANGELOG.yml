@@ -1,4 +1,21 @@
 - commits:
+    - subject: >-
+        Since ba1a76b203d9e121ed3b5ffc7dad542841ca175f and
+        2be48207d81fb8921aaef9639c7826684b85ba72 we are properly shutting down a
+        worker, which means we call LivePg.close, which is deleting the trigger
+        Trigger code already is 'CREATE OR REPLACE' so there's no point in
+        deleting it
+      hash: 71c1737245bc04519fc6d40404d58471da0d429f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.65.6
+  date: 2020-01-28T15:47:10.166Z
+- commits:
     - subject: Set new deploy-templates codeowners
       hash: 3df6b1994936e3d3c6fb051cba8062d0deff980c
       body: ''
