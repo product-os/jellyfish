@@ -5,67 +5,11 @@
  */
 
 import clone from 'deep-copy'
+import update from 'immutability-helper'
 import * as _ from 'lodash'
 import * as redux from 'redux'
 import uuid from 'uuid/v4'
 import actions from './actions'
-
-const viewsReducer = (state, action) => {
-	if (!state) {
-		return {
-			subscriptions: {},
-			viewData: {}
-		}
-	}
-	switch (action.type) {
-		case actions.SET_VIEW_DATA: {
-			state.viewData[action.value.id] = action.value.data
-			return state
-		}
-		case actions.REMOVE_VIEW_DATA_ITEM: {
-			if (state.viewData[action.value.id]) {
-				state.viewData[action.value.id] = state.viewData[action.value.id].filter((item) => {
-					return item.id !== action.value.data.id
-				})
-			}
-			return state
-		}
-		case actions.UPSERT_VIEW_DATA_ITEM: {
-			let upsertTarget = state.viewData[action.value.id]
-			const update = action.value.data
-			if (upsertTarget) {
-				const index = _.findIndex(upsertTarget, {
-					id: update.id
-				})
-				if (index === -1) {
-					upsertTarget.push(update)
-				} else {
-					upsertTarget.splice(index, 1, update)
-				}
-			} else {
-				upsertTarget = [ update ]
-			}
-			state.viewData[action.value.id] = upsertTarget.slice()
-			return state
-		}
-		case actions.APPEND_VIEW_DATA_ITEM: {
-			const appendTarget = state.viewData[action.value.id] || []
-			if (_.isArray(action.value.data)) {
-				appendTarget.push(...action.value.data)
-			} else {
-				appendTarget.push(action.value.data)
-			}
-			state.viewData[action.value.id] = _.uniqBy(appendTarget.slice(), 'id')
-			return state
-		}
-		case actions.SAVE_SUBSCRIPTION: {
-			state.subscriptions[action.value.id] = action.value.data
-			return state
-		}
-		default:
-			return state
-	}
-}
 
 const getDefaultState = () => {
 	return {
@@ -115,162 +59,327 @@ const getDefaultState = () => {
 	}
 }
 
+const viewsReducer = (state, action) => {
+	if (!state) {
+		return getDefaultState().views
+	}
+	switch (action.type) {
+		case actions.SET_VIEW_DATA: {
+			return update(state, {
+				viewData: {
+					[action.value.id]: {
+						$set: action.value.data
+					}
+				}
+			})
+		}
+		case actions.REMOVE_VIEW_DATA_ITEM: {
+			if (state.viewData[action.value.id]) {
+				const indexToRemove = _.findIndex(state.viewData[action.value.id] || [], {
+					id: action.value.data.id
+				})
+				if (indexToRemove !== -1) {
+					return update(state, {
+						viewData: {
+							[action.value.id]: {
+								$splice: [ [ indexToRemove, 1 ] ]
+							}
+						}
+					})
+				}
+			}
+			return state
+		}
+		case actions.UPSERT_VIEW_DATA_ITEM: {
+			const indexToUpdate = _.findIndex(state.viewData[action.value.id] || [], {
+				id: action.value.data.id
+			})
+			return update(state, {
+				viewData: {
+					[action.value.id]: (dataItems) => update(dataItems || [], indexToUpdate === -1
+						? {
+							$push: [ action.value.data ]
+						}
+						: {
+							[indexToUpdate]: {
+								$set: action.value.data
+							}
+						}
+					)
+				}
+			})
+		}
+		case actions.APPEND_VIEW_DATA_ITEM: {
+			// Ensure our viewData items are new objects
+			const appendTarget = clone(state.viewData[action.value.id] || [])
+			if (_.isArray(action.value.data)) {
+				appendTarget.push(...action.value.data)
+			} else {
+				appendTarget.push(action.value.data)
+			}
+
+			// Question: Should we really use uniqBy here as it will silently discard
+			// the newly added item if there's already an item with the same id?
+			return update(state, {
+				viewData: {
+					[action.value.id]: {
+						$set: _.uniqBy(appendTarget, 'id')
+					}
+				}
+			})
+		}
+		case actions.SAVE_SUBSCRIPTION: {
+			return update(state, {
+				subscriptions: {
+					[action.value.id]: {
+						$set: action.value.data
+					}
+				}
+			})
+		}
+		default:
+			return state
+	}
+}
+
 const coreReducer = (state, action) => {
 	if (!state) {
 		return getDefaultState().core
 	}
-	let newState = clone(state)
+
 	switch (action.type) {
 		case actions.LOGOUT: {
-			newState = getDefaultState().core
-			newState.status = 'unauthorized'
-
-			return newState
+			return update(getDefaultState().core, {
+				status: {
+					$set: 'unauthorized'
+				}
+			})
 		}
 		case actions.SET_STATE: {
 			return action.value
 		}
 		case actions.UPDATE_CHANNEL: {
-			const existingChannel = _.find(newState.channels, {
+			const existingChannelIndex = _.findIndex(state.channels, {
 				id: action.value.id
 			})
-			if (existingChannel) {
-				_.assign(existingChannel, action.value)
+
+			// Note: The state will not be changed if the channel is not already
+			// in the state
+			if (existingChannelIndex !== -1) {
+				return update(state, {
+					channels: {
+						[existingChannelIndex]: {
+							$set: action.value
+						}
+					}
+				})
 			}
-			return newState
+			return state
 		}
 		case actions.ADD_CHANNEL: {
+			let newChannels = clone(state.channels)
+
 			if (action.value.data.parentChannel) {
 				// If the triggering channel is not the last channel, remove trailing
 				// channels. This creates a 'breadcrumb' effect when navigating channels
-				const triggerIndex = _.findIndex(newState.channels, {
+				const triggerIndex = _.findIndex(state.channels, {
 					id: action.value.data.parentChannel
 				})
 				if (triggerIndex > -1) {
-					const shouldTrim = triggerIndex + 1 < newState.channels.length
+					const shouldTrim = triggerIndex + 1 < state.channels.length
 					if (shouldTrim) {
-						newState.channels = _.take(newState.channels, triggerIndex + 1)
+						newChannels = _.take(newChannels, triggerIndex + 1)
 					}
 				}
 			}
-			newState.channels.push(action.value)
-			return newState
+			newChannels.push(action.value)
+			return update(state, {
+				channels: {
+					$set: newChannels
+				}
+			})
 		}
 		case actions.REMOVE_CHANNEL: {
-			_.remove(newState.channels, {
+			const index = _.findIndex(state.channels, {
 				id: action.value.id
 			})
-			return newState
+			if (index !== -1) {
+				return update(state, {
+					channels: {
+						$splice: [ [ index, 1 ] ]
+					}
+				})
+			}
+			return state
 		}
 		case actions.SET_CHANNELS: {
-			newState.channels = action.value
-			return newState
+			return update(state, {
+				channels: {
+					$set: action.value
+				}
+			})
 		}
 		case actions.SET_ACTOR: {
 			const {
 				actor,
 				id
 			} = action.value
-			_.set(newState, [ 'actors', id ], actor)
 
-			return newState
+			return update(state, {
+				actors: (actors) => update(actors || {}, {
+					[id]: {
+						$set: actor
+					}
+				})
+			})
 		}
 		case actions.SET_AUTHTOKEN: {
-			if (newState.session) {
-				newState.session.authToken = action.value
-			} else {
-				newState.session = {
-					authToken: action.value
-				}
-			}
-			return newState
+			return update(state, {
+				session: (session) => update(session || {}, {
+					authToken: {
+						$set: action.value
+					}
+				})
+			})
 		}
 		case actions.SET_USER: {
-			if (!newState.session) {
-				newState.session = {
+			return update(state, {
+				session: (session) => update(session || {
 					authToken: null
-				}
-			}
-			newState.session.user = action.value
-			return newState
+				}, {
+					user: {
+						$set: action.value
+					}
+				})
+			})
 		}
 		case actions.SET_TIMELINE_MESSAGE: {
 			const {
 				target,
 				message
 			} = action.value
-			_.set(newState, [ 'ui', 'timelines', target, 'message' ], message)
-
-			return newState
+			return update(state, {
+				ui: {
+					timelines: {
+						[target]: (tgt) => update(tgt || {}, {
+							message: {
+								$set: message
+							}
+						})
+					}
+				}
+			})
 		}
 		case actions.SET_TYPES: {
-			newState.types = action.value
-			return newState
+			return update(state, {
+				types: {
+					$set: action.value
+				}
+			})
 		}
 		case actions.SET_ORGS: {
-			newState.orgs = action.value
-			return newState
+			return update(state, {
+				orgs: {
+					$set: action.value
+				}
+			})
 		}
 		case actions.ADD_NOTIFICATION: {
-			newState.notifications.push(action.value)
+			return update(state, {
+				notifications: {
+					$apply: (notifications) => {
+						notifications.push(action.value)
 
-			// Keep at most 2 notifications
-			newState.notifications = newState.notifications.slice(-2)
-			return newState
+						// Keep at most 2 notifications
+						return notifications.slice(-2)
+					}
+				}
+			})
 		}
 		case actions.REMOVE_NOTIFICATION: {
-			newState.notifications = _.reject(newState.notifications, {
-				id: action.value
+			return update(state, {
+				notifications: {
+					$apply: (notifications) => {
+						return _.reject(notifications, {
+							id: action.value
+						})
+					}
+				}
 			})
-			return newState
 		}
 		case actions.ADD_VIEW_NOTICE: {
-			newState.viewNotices[action.value.id] = action.value
-			return newState
+			return update(state, {
+				viewNotices: {
+					[action.value.id]: {
+						$set: action.value
+					}
+				}
+			})
 		}
 		case actions.REMOVE_VIEW_NOTICE: {
-			if (newState.viewNotices[action.value]) {
-				Reflect.deleteProperty(newState.viewNotices, action.value)
-			}
-			return newState
+			return update(state, {
+				viewNotices: {
+					$unset: [ action.value ]
+				}
+			})
 		}
 		case actions.SET_STATUS: {
-			newState.status = action.value
-			return newState
+			return update(state, {
+				status: {
+					$set: action.value
+				}
+			})
 		}
 		case actions.SET_CONFIG: {
-			newState.config = action.value
-			return newState
+			return update(state, {
+				config: {
+					$set: action.value
+				}
+			})
 		}
 		case actions.SET_UI_STATE: {
-			newState.ui = action.value
-			return newState
+			return update(state, {
+				ui: {
+					$set: action.value
+				}
+			})
 		}
 		case actions.SET_LENS_STATE: {
-			const accessor = [
-				'ui',
-				'lensState',
-				action.value.lens,
-				action.value.cardId
-			]
-			const existingLensState = _.get(newState, accessor, {})
-			const newLensState = Object.assign({}, existingLensState, action.value.state)
-
-			_.set(newState, accessor, newLensState)
-
-			return newState
+			return update(state, {
+				ui: {
+					lensState: (lensState) => update(lensState || {}, {
+						[action.value.lens]: (lens) => update(lens || {}, {
+							[action.value.cardId]: (lensCard) => update(lensCard || {}, {
+								$merge: action.value.state
+							})
+						})
+					})
+				}
+			})
 		}
 		case actions.USER_STARTED_TYPING: {
-			_.set(newState, [ 'usersTyping', action.value.card, action.value.user ], true)
-			return newState
+			return update(state, {
+				usersTyping: (usersTyping) => update(usersTyping || {}, {
+					[action.value.card]: (card) => update(card || {}, {
+						[action.value.user]: {
+							$set: true
+						}
+					})
+				})
+			})
 		}
 		case actions.USER_STOPPED_TYPING: {
-			_.unset(newState, [ 'usersTyping', action.value.card, action.value.user ])
-			return newState
+			return update(state, {
+				usersTyping: (usersTyping) => update(usersTyping || {}, {
+					[action.value.card]: (card) => update(card || {}, {
+						$unset: [ action.value.user ]
+					})
+				})
+			})
 		}
 
 		default:
-			return newState
+			return state
 	}
 }
 
