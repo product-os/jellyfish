@@ -1,4 +1,24 @@
 - commits:
+    - subject: Performance improvements under the hood
+      hash: d23c14c23eb2e022115e1310eb27b01a330e985a
+      body: >
+        This should speed up Redux reducers, while ensuring that Redux state is
+        never mutated in the reducers.
+
+
+        I've added some unit tests as well to verify/explain the behavior of
+        some of the more complex reducers.
+      footer:
+        Changelog-Entry: Performance improvements under the hood
+        changelog-entry: Performance improvements under the hood
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 24.65.7
+  date: 2020-01-29T01:39:09.062Z
+- commits:
     - subject: >-
         Since ba1a76b203d9e121ed3b5ffc7dad542841ca175f and
         2be48207d81fb8921aaef9639c7826684b85ba72 we are properly shutting down a
