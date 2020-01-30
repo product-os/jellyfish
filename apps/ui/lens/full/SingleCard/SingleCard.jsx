@@ -22,7 +22,7 @@ import CardLayout from '../../../layouts/CardLayout'
 import Timeline from '../../list/Timeline'
 import {
 	colorHash
-} from '../../../services/helpers'
+} from '@jellyfish/ui-components/services/helpers'
 
 const SingleCardTabs = styled(Tabs) `
 	flex: 1
@@ -62,6 +62,7 @@ export default class SingleCardFull extends React.Component {
 
 	render () {
 		const {
+			actions,
 			card,
 			channel,
 			fieldOrder,
@@ -119,9 +120,7 @@ export default class SingleCardFull extends React.Component {
 									card={card}
 									segment={segment}
 									types={types}
-									addChannel={this.props.actions.addChannel}
-									getLinks={this.props.actions.getLinks}
-									queryAPI={this.props.actions.queryAPI}
+									actions={actions}
 								/>
 							</Tab>
 						)

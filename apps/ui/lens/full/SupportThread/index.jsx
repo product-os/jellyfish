@@ -28,7 +28,7 @@ import {
 	selectors,
 	sdk
 } from '../../../core'
-import * as helpers from '../../../services/helpers'
+import * as helpers from '@jellyfish/ui-components/services/helpers'
 import Timeline from '../../list/Timeline'
 import CardLayout from '../../../layouts/CardLayout'
 import CardFields from '@jellyfish/ui-components/CardFields'

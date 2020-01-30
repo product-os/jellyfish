@@ -13,7 +13,7 @@ import * as _ from 'lodash'
 import * as skhema from 'skhema'
 import uuid from 'uuid/v4'
 import actions from './actions'
-import * as helpers from '../../services/helpers'
+import * as helpers from '@jellyfish/ui-components/services/helpers'
 import {
 	createNotification
 } from '../../services/notifications'
@@ -154,6 +154,9 @@ export const selectors = {
 	},
 	getSubscription: (state, id) => {
 		return state.views.subscriptions[id] || null
+	},
+	getSubscriptions: (state) => {
+		return state.views.subscriptions || {}
 	},
 	getUsersViewLens: (state, viewId) => {
 		const user = selectors.getCurrentUser(state)

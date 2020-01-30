@@ -4,7 +4,7 @@
  * Proprietary and confidential.
  */
 
-import * as _ from 'lodash'
+import _ from 'lodash'
 import {
 	connect
 } from 'react-redux'
@@ -14,12 +14,19 @@ import {
 import {
 	actionCreators,
 	selectors
-} from '../../../core'
-import SingleCard from './SingleCard'
+} from '../../core'
+import {
+	getLens
+} from '../../lens'
+import RouteHandler from '@jellyfish/ui-components/RouteHandler'
 
 const mapStateToProps = (state) => {
 	return {
-		types: selectors.getTypes(state)
+		getLens,
+		types: selectors.getTypes(state),
+		channels: selectors.getChannels(state),
+		status: selectors.getStatus(state),
+		user: selectors.getCurrentUser(state)
 	}
 }
 
@@ -27,28 +34,12 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: bindActionCreators(
 			_.pick(actionCreators, [
-				'createLink',
+				'setChannels',
 				'addNotification',
-				'addChannel',
-				'getLinks',
-				'queryAPI'
+				'queryAPI',
+				'createLink'
 			]), dispatch)
 	}
 }
 
-const lens = {
-	slug: 'lens-full-default',
-	type: 'lens',
-	version: '1.0.0',
-	name: 'Default lens',
-	data: {
-		format: 'full',
-		icon: 'address-card',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(SingleCard),
-		filter: {
-			type: 'object'
-		}
-	}
-}
-
-export default lens
+export default connect(mapStateToProps, mapDispatchToProps)(RouteHandler)

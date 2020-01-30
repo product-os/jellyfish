@@ -26,7 +26,7 @@ import {
 	selectors
 } from '../../core'
 import Column from '@jellyfish/ui-components/shame/Column'
-import * as helpers from '../../services/helpers'
+import * as helpers from '@jellyfish/ui-components/services/helpers'
 import Icon from '@jellyfish/ui-components/shame/Icon'
 import CardChatSummary from '../../../../lib/ui-components/CardChatSummary'
 import {

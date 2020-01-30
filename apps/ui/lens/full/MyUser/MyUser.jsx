@@ -23,7 +23,7 @@ import {
 	Form
 } from 'rendition/dist/unstable'
 import * as skhema from 'skhema'
-import * as helpers from '../../../services/helpers'
+import * as helpers from '@jellyfish/ui-components/services/helpers'
 import CardLayout from '../../../layouts/CardLayout'
 import Avatar from '@jellyfish/ui-components/shame/Avatar'
 import Icon from '@jellyfish/ui-components/shame/Icon'

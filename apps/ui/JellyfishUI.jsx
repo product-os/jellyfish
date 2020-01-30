@@ -27,14 +27,14 @@ import {
 import {
 	ChatWidgetSidebar
 } from '../../lib/ui-components/ChatWidgetSidebar'
-import HomeChannel from '../../lib/ui-components/HomeChannel'
-import Login from '../../lib/ui-components/Login'
-import MermaidEditor from '../../lib/ui-components/shame/MermaidEditor'
-import Notifications from '../../lib/ui-components/Notifications'
-import Oauth from '../../lib/ui-components/Oauth'
-import RouteHandler from '../../lib/ui-components/RouteHandler'
-import Splash from '../../lib/ui-components/Splash'
+import HomeChannel from './components/HOC/HomeChannel'
+import Notifications from './components/HOC/Notifications'
+import RouteHandler from './components/HOC/RouteHandler'
+import Oauth from './components/HOC/Oauth'
+import Login from './components/HOC/Login'
 import Inbox from './components/Inbox'
+import MermaidEditor from '../../lib/ui-components/shame/MermaidEditor'
+import Splash from '../../lib/ui-components/Splash'
 import {
 	actionCreators,
 	selectors

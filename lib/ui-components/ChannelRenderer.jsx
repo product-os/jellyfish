@@ -13,25 +13,12 @@ import {
 	Alert,
 	Box
 } from 'rendition'
-import {
-	connect
-} from 'react-redux'
-import {
-	bindActionCreators
-} from 'redux'
 import styled from 'styled-components'
 
 // TODO: These ui-components -> ui imports should not happen
 import ErrorBoundary from '@jellyfish/ui-components/shame/ErrorBoundary'
 import Icon from '@jellyfish/ui-components/shame/Icon'
 import LinkModal from './LinkModal'
-import {
-	actionCreators,
-	selectors
-} from '../../apps/ui/core'
-import {
-	getLens
-} from '../../apps/ui/lens'
 
 const ErrorNotFound = styled.h1 `
 	color: white;
@@ -82,6 +69,8 @@ class ChannelRenderer extends React.Component {
 
 	render () {
 		const {
+			getLens,
+			actions,
 			channel,
 			connectDropTarget,
 			isOver,
@@ -156,6 +145,7 @@ class ChannelRenderer extends React.Component {
 
 				{showLinkModal && (
 					<LinkModal
+						actions={actions}
 						target={head}
 						card={linkFrom}
 						types={types}
@@ -189,20 +179,4 @@ const collect = (connector, monitor) => {
 	}
 }
 
-const mapStateToProps = (state) => {
-	return {
-		types: selectors.getTypes(state)
-	}
-}
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		actions: {
-			createLink: bindActionCreators(actionCreators.createLink, dispatch)
-		}
-	}
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(
-	DropTarget('channel', target, collect)(ChannelRenderer)
-)
+export default DropTarget('channel', target, collect)(ChannelRenderer)

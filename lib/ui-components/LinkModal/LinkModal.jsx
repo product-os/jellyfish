@@ -15,9 +15,9 @@ import {
 	Select
 } from 'rendition'
 import {
-	constants
-} from '../../../apps/ui/core'
-import * as helpers from '../../../apps/ui/services/helpers'
+	constraints as LINKS
+} from '@jellyfish/sdk/link-constraints'
+import * as helpers from '@jellyfish/ui-components/services/helpers'
 
 export default class LinkModal extends React.Component {
 	constructor (props) {
@@ -28,8 +28,8 @@ export default class LinkModal extends React.Component {
 			target
 		} = props
 
-		const linkType = _.find(constants.LINKS, [ 'data.from', card.type ]) ||
-			_.find(constants.LINKS, [ 'data.from', card.type.split('@')[0] ])
+		const linkType = _.find(LINKS, [ 'data.from', card.type ]) ||
+			_.find(LINKS, [ 'data.from', card.type.split('@')[0] ])
 
 		this.state = {
 			results: [],
@@ -153,7 +153,7 @@ export default class LinkModal extends React.Component {
 		// data.title file to the root of the object, as the rendition Select
 		// component can't use a non-root field for the `labelKey` prop
 		// TODO make the Select component allow nested fields for the `labelKey` prop
-		let linkTypeTargets = _.filter(constants.LINKS, [ 'data.from', type ])
+		let linkTypeTargets = _.filter(LINKS, [ 'data.from', type ])
 			.map((constraint) => {
 				return Object.assign({}, constraint, {
 					title: constraint.data.title

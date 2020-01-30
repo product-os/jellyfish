@@ -12,9 +12,9 @@ import * as redux from 'redux'
 import {
 	actionCreators,
 	selectors
-} from '../../../apps/ui/core'
+} from '../../core'
 
-import HomeChannel from './HomeChannel'
+import HomeChannel from '@jellyfish/ui-components/HomeChannel'
 
 const mapStateToProps = (state, ownProps) => {
 	const target = _.get(ownProps, [ 'channel', 'data', 'head', 'id' ])
@@ -24,7 +24,9 @@ const mapStateToProps = (state, ownProps) => {
 		codename: selectors.getAppCodename(state),
 		orgs: selectors.getOrgs(state),
 		tail: target ? selectors.getViewData(state, target) : null,
+		types: selectors.getTypes(state),
 		mentions: selectors.getViewData(state, 'view-my-inbox'),
+		subscriptions: selectors.getSubscriptions(state),
 		uiState: selectors.getUIState(state),
 		user,
 		version: selectors.getAppVersion(state),
@@ -41,6 +43,7 @@ const mapDispatchToProps = (dispatch) => {
 				'logout',
 				'removeViewNotice',
 				'setChatWidgetOpen',
+				'setDefault',
 				'setUIState',
 				'streamView'
 			]), dispatch)

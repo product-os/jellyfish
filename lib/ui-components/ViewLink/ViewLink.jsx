@@ -16,7 +16,7 @@ import {
 } from 'rendition'
 import Link from '../Link'
 import MentionsCount from '../MentionsCount'
-import * as helpers from '../../../apps/ui/services/helpers'
+import * as helpers from '@jellyfish/ui-components/services/helpers'
 import ContextMenu from '../ContextMenu'
 import Icon from '@jellyfish/ui-components/shame/Icon'
 
@@ -39,7 +39,7 @@ export default class ViewLink extends React.Component {
 	}
 
 	setDefault () {
-		this.props.setDefault(this.props.card)
+		this.props.actions.setDefault(this.props.card)
 	}
 
 	shouldComponentUpdate (nextProps, nextState) {

@@ -4,31 +4,17 @@
  * Proprietary and confidential.
  */
 
-import _ from 'lodash'
 import queryString from 'query-string'
 import React from 'react'
-import {
-	connect
-} from 'react-redux'
-import {
-	bindActionCreators
-} from 'redux'
 import {
 	Box
 } from 'rendition'
 import {
 	Markdown
 } from 'rendition/dist/extra/Markdown'
-
-// TODO: This ui-components -> ui import should not happen
 import Icon from '@jellyfish/ui-components/shame/Icon'
 
-import {
-	actionCreators,
-	selectors
-} from '../../apps/ui/core'
-
-class Oauth extends React.Component {
+export default class Oauth extends React.Component {
 	constructor (props) {
 		super(props)
 
@@ -85,23 +71,3 @@ class Oauth extends React.Component {
 		)
 	}
 }
-
-const mapStateToProps = (state) => {
-	return {
-		channels: selectors.getChannels(state),
-		status: selectors.getStatus(state),
-		user: selectors.getCurrentUser(state)
-	}
-}
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		actions: bindActionCreators(
-			_.pick(actionCreators, [
-				'authorizeIntegration',
-				'setChannels'
-			]), dispatch)
-	}
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Oauth)

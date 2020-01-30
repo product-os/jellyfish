@@ -21,7 +21,7 @@ import styled from 'styled-components'
 import uuid from 'uuid/v4'
 import Event from '../Event'
 import Update from '../Update'
-import * as helpers from '../../../apps/ui/services/helpers'
+import * as helpers from '@jellyfish/ui-components/services/helpers'
 import Column from '@jellyfish/ui-components/shame/Column'
 import Icon from '@jellyfish/ui-components/shame/Icon'
 import MessageInput from './MessageInput'
@@ -345,6 +345,9 @@ class Timeline extends React.Component {
 
 	render () {
 		const {
+			enableAutocomplete,
+			sdk,
+			types,
 			allowWhispers,
 			tail,
 			usersTyping,
@@ -504,6 +507,10 @@ class Timeline extends React.Component {
 				)}
 
 				<MessageInput
+					enableAutocomplete={enableAutocomplete}
+					sdk={sdk}
+					types={types}
+					user={this.props.user}
 					wide={wide}
 					style={{
 						borderTop: '1px solid #eee'

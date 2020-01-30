@@ -32,7 +32,7 @@ import {
 	selectors,
 	sdk
 } from '../../core'
-import * as helpers from '../../services/helpers'
+import * as helpers from '@jellyfish/ui-components/services/helpers'
 import {
 	getLensBySlug
 } from '../'

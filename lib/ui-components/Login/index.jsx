@@ -4,26 +4,6 @@
  * Proprietary and confidential.
  */
 
-import _ from 'lodash'
-import {
-	connect
-} from 'react-redux'
-import {
-	bindActionCreators
-} from 'redux'
-import {
-	actionCreators
-} from '../../../apps/ui/core'
 import Login from './Login'
 
-const mapDispatchToProps = (dispatch) => {
-	return {
-		actions: bindActionCreators(
-			_.pick(actionCreators, [
-				'addNotification',
-				'login'
-			]), dispatch)
-	}
-}
-
-export default connect(null, mapDispatchToProps)(Login)
+export default Login

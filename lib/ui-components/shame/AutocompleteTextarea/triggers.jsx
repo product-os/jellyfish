@@ -12,17 +12,10 @@ import {
 	Txt
 } from 'rendition'
 import debounce from 'debounce-promise'
-import {
-	selectors,
-	sdk,
-	store
-} from '../../../../apps/ui/core'
 
 const AUTOCOMPLETE_DEBOUNCE = 250
 
-const getUsers = async (value) => {
-	const user = selectors.getCurrentUser(store.getState())
-
+const getUsers = async (user, sdk, value) => {
 	// Get the current user's organisations
 	const orgs = _.map(user.links['is member of'], 'slug')
 
@@ -72,7 +65,7 @@ const EmojiItem = ({
 	)
 }
 
-export const getTrigger = _.memoize(() => {
+export const getTrigger = _.memoize((allTypes, sdk, user) => {
 	return {
 		':': {
 			dataProvider: (token) => {
@@ -89,7 +82,7 @@ export const getTrigger = _.memoize(() => {
 				if (!token) {
 					return []
 				}
-				const users = await getUsers(token)
+				const users = await getUsers(user, sdk, token)
 				const usernames = users.map(({
 					slug
 				}) => {
@@ -108,7 +101,7 @@ export const getTrigger = _.memoize(() => {
 				if (!token) {
 					return []
 				}
-				const users = await getUsers(token)
+				const users = await getUsers(user, sdk, token)
 				const usernames = users.map(({
 					slug
 				}) => {
@@ -124,7 +117,7 @@ export const getTrigger = _.memoize(() => {
 		},
 		'?': {
 			dataProvider: (token) => {
-				const types = selectors.getTypes(store.getState())
+				const types = allTypes
 					.map(({
 						slug
 					}) => { return `?${slug}` })

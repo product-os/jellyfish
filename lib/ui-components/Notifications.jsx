@@ -7,21 +7,11 @@
 import _ from 'lodash'
 import React from 'react'
 import {
-	connect
-} from 'react-redux'
-import {
-	bindActionCreators
-} from 'redux'
-import {
 	Alert,
 	Box,
 	Fixed
 } from 'rendition'
 import styled from 'styled-components'
-import {
-	actionCreators,
-	selectors
-} from '../../apps/ui/core'
 
 const MessageText = styled.span `
 	white-space: pre;
@@ -61,7 +51,7 @@ class JellyFishAlert extends React.Component {
 	}
 }
 
-class Notifications extends React.Component {
+export default class Notifications extends React.Component {
 	constructor (props) {
 		super(props)
 
@@ -110,17 +100,3 @@ class Notifications extends React.Component {
 		)
 	}
 }
-
-const mapStateToProps = (state) => {
-	return {
-		notifications: selectors.getNotifications(state)
-	}
-}
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		actions: bindActionCreators(actionCreators, dispatch)
-	}
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Notifications)

@@ -14,17 +14,19 @@ import {
 	Input
 } from 'rendition'
 import styled from 'styled-components'
-import MessageInput from '../../../lib/ui-components/Timeline/MessageInput'
+import MessageInput from '@jellyfish/ui-components/Timeline/MessageInput'
 import {
 	TaskButton
 } from '../components/TaskButton'
 import {
 	useActions,
+	useSdk,
 	useTask
 } from '../hooks'
 import {
 	selectCurrentUser
 } from '../store/selectors'
+import * as environment from '../environment'
 
 const StyledMessageInput = styled(MessageInput) `
 	border: 1px solid #DDE1f0;
@@ -40,6 +42,10 @@ export const CreateThread = ({
 	onSuccess,
 	...rest
 }) => {
+	// Using an empty types array will effectively disable the autocomplete
+	// trigger that uses the types
+	const types = []
+	const sdk = useSdk()
 	const currentUser = useSelector(selectCurrentUser())
 	const [ subject, setSubject ] = React.useState('')
 	const [ text, setText ] = React.useState('')
@@ -89,6 +95,9 @@ export const CreateThread = ({
 			</Box>
 			<Box mt={1}>
 				<StyledMessageInput
+					enableAutocomplete={!environment.isTest()}
+					sdk={sdk}
+					types={types}
 					wide={false}
 					user={currentUser}
 					value={text}

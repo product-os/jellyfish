@@ -16,7 +16,7 @@ import {
 import Column from '@jellyfish/ui-components/shame/Column'
 import {
 	colorHash
-} from '../../../services/helpers'
+} from '@jellyfish/ui-components/services/helpers'
 
 const processDataSets = (items = []) => {
 	// Create a range of dates over the last 30 days, starting from 30 days ago
