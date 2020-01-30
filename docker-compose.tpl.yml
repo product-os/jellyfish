@@ -380,7 +380,7 @@ services:
       DBUS_SESSION_BUS_ADDRESS: 'unix:path=/host/run/dbus/system_bus_socket'
       CONFD_BACKEND: 'ENV'
   haproxy:
-    image: 'balena/open-balena-haproxy:master'
+    image: 'balena/open-balena-haproxy:2.11.3'
     cap_add:
       - SYS_RESOURCE
       - SYS_ADMIN
