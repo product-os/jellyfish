@@ -1,4 +1,21 @@
 - commits:
+    - subject: Code refactor under the hood
+      hash: 67c3e83d8389c6db718adcb2b41701d988ab3f0e
+      body: >
+        Various refactors to remove imports of code from apps/ui/* in
+        lib/chat-widget and lib/ui-components files. This ensures that the
+        library code does not depend on the UI app code at all.
+      footer:
+        Changelog-Entry: Code refactor under the hood
+        changelog-entry: Code refactor under the hood
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 24.65.8
+  date: 2020-01-30T05:03:48.671Z
+- commits:
     - subject: Performance improvements under the hood
       hash: d23c14c23eb2e022115e1310eb27b01a330e985a
       body: >
