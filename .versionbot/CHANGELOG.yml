@@ -1,4 +1,19 @@
 - commits:
+    - subject: >-
+        Update open-balena-haproxy used in docker-compose to latest 2.11.3
+        Previous version relied on a possibly buggy haproxy version which caused
+        haproxy process to get stuck at 100% CPU Newer version seems unaffected
+      hash: de7229b979d335a271104ca52529bef52e330726
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.65.9
+  date: 2020-01-30T13:06:59.580Z
+- commits:
     - subject: Code refactor under the hood
       hash: 67c3e83d8389c6db718adcb2b41701d988ab3f0e
       body: >
