@@ -21,7 +21,7 @@ import styled, {
 	withTheme
 } from 'styled-components'
 import Link from '../Link'
-import * as helpers from '../../../apps/ui/services/helpers'
+import * as helpers from '@jellyfish/ui-components/services/helpers'
 import ColorHashPill from '@jellyfish/ui-components/shame/ColorHashPill'
 import Icon from '../shame/Icon'
 import {

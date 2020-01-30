@@ -213,6 +213,9 @@ export default class HomeChannel extends React.Component {
 	}
 	render () {
 		const {
+			subscriptions,
+			types,
+			actions,
 			channels, channel: {
 				data: {
 					head
@@ -221,6 +224,9 @@ export default class HomeChannel extends React.Component {
 			user,
 			mentions
 		} = this.props
+
+		const viewLinkActions = _.pick(actions, [ 'setDefault' ])
+		const treeMenuActions = _.pick(actions, [ 'setDefault' ])
 
 		const {
 			tail
@@ -326,6 +332,9 @@ export default class HomeChannel extends React.Component {
 								return (
 									<Box mx={-3} key={card.id}>
 										<ViewLink
+											subscription={subscriptions[card.id] || null}
+											types={types}
+											actions={viewLinkActions}
 											card={card}
 											isActive={isActive}
 											activeSlice={activeSlice}
@@ -363,6 +372,9 @@ export default class HomeChannel extends React.Component {
 
 					{Boolean(tail) && (
 						<TreeMenu
+							subscriptions={subscriptions}
+							types={types}
+							actions={treeMenuActions}
 							node={groups}
 							isExpanded={this.isExpanded}
 							toggleExpandGroup={this.toggleExpandGroup}

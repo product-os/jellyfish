@@ -21,7 +21,7 @@ import {
 }	from 'rendition'
 import styled from 'styled-components'
 import ContextMenu from '../ContextMenu'
-import * as helpers from '../../../apps/ui/services/helpers'
+import * as helpers from '@jellyfish/ui-components/services/helpers'
 import {
 	ActionLink
 } from '@jellyfish/ui-components/shame/ActionLink'

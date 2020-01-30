@@ -17,7 +17,7 @@ import {
 	Txt
 } from 'rendition'
 import styled from 'styled-components'
-import * as helpers from '../../../services/helpers'
+import * as helpers from '@jellyfish/ui-components/services/helpers'
 import Avatar from '@jellyfish/ui-components/shame/Avatar'
 import Icon from '@jellyfish/ui-components/shame/Icon'
 import CardLayout from '../../../layouts/CardLayout'

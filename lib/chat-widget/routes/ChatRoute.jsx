@@ -12,15 +12,17 @@ import {
 import {
 	Box
 } from 'rendition'
-import Timeline from '../../../lib/ui-components/Timeline'
+import Timeline from '@jellyfish/ui-components/Timeline'
 import {
 	Task
 } from '../components/Task'
 import {
 	useActions,
 	useRouter,
+	useSdk,
 	useTask
 } from '../hooks'
+import * as environment from '../environment'
 import {
 	selectCurrentUser,
 	selectMessages,
@@ -28,6 +30,10 @@ import {
 } from '../store/selectors'
 
 export const ChatRoute = () => {
+	// Using an empty types array will effectively disable the autocomplete
+	// trigger that uses the types
+	const types = []
+	const sdk = useSdk()
 	const router = useRouter()
 	const actions = useActions()
 	const fetchThreadTask = useTask(actions.fetchThread)
@@ -62,6 +68,9 @@ export const ChatRoute = () => {
 							height: '100%'
 						}}>
 							<Timeline
+								enableAutocomplete={!environment.isTest()}
+								sdk={sdk}
+								types={types}
 								wide={false}
 								allowWhispers={false}
 								card={thread}

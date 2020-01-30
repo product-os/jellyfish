@@ -25,7 +25,7 @@ import {
 	Form
 } from 'rendition/dist/unstable'
 import CardLayout from '../../layouts/CardLayout'
-import * as helpers from '../../services/helpers'
+import * as helpers from '@jellyfish/ui-components/services/helpers'
 import * as skhema from 'skhema'
 import {
 	actionCreators,

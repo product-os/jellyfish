@@ -21,8 +21,8 @@ import {
 } from '../../../lens'
 import {
 	evalSchema
-} from '../../../services/helpers'
-import LinkModal from '../../../../../lib/ui-components/LinkModal'
+} from '@jellyfish/ui-components/services/helpers'
+import LinkModal from '@jellyfish/ui-components/LinkModal'
 import Icon from '@jellyfish/ui-components/shame/Icon'
 
 export default class Segment extends React.Component {
@@ -74,12 +74,11 @@ export default class Segment extends React.Component {
 		const {
 			card,
 			segment,
-			queryAPI,
-			getLinks
+			actions
 		} = this.props
 
 		if (segment.link) {
-			const results = await	getLinks(card, segment.link)
+			const results = await	actions.getLinks(card, segment.link)
 			this.setState({
 				results
 			})
@@ -87,10 +86,10 @@ export default class Segment extends React.Component {
 			let context = [ card ]
 			for (const relation of _.castArray(segment.query)) {
 				if (relation.link) {
-					context = getLinks(card, relation.link)
+					context = actions.getLinks(card, relation.link)
 				} else {
 					const mapped = await Bluebird.map(context, (item) => {
-						return queryAPI(evalSchema(clone(relation), {
+						return actions.queryAPI(evalSchema(clone(relation), {
 							result: item
 						}))
 					})
@@ -106,7 +105,9 @@ export default class Segment extends React.Component {
 
 	openCreateChannel () {
 		const {
-			addChannel,
+			actions: {
+				addChannel
+			},
 			card,
 			segment,
 			types
@@ -137,6 +138,7 @@ export default class Segment extends React.Component {
 		} = this.state
 
 		const {
+			actions,
 			card,
 			segment,
 			types
@@ -192,6 +194,7 @@ export default class Segment extends React.Component {
 				)}
 
 				<LinkModal
+					actions={actions}
 					card={card}
 					types={[ type ]}
 					show={showLinkModal}

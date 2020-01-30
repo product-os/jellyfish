@@ -9,25 +9,15 @@ import {
 	deepEqual
 } from 'fast-equals'
 import React from 'react'
-import {
-	connect
-} from 'react-redux'
 import ReactResizeObserver from 'react-resize-observer'
-import {
-	bindActionCreators
-} from 'redux'
 import {
 	Flex
 } from 'rendition'
-import {
-	actionCreators,
-	selectors
-} from '../../../apps/ui/core'
 import ChannelRenderer from '../ChannelRenderer'
 
 const PATH_SEPARATOR = '...'
 
-class RouteHandler extends React.Component {
+export default class RouteHandler extends React.Component {
 	constructor (props) {
 		super(props)
 		this.state = {
@@ -156,6 +146,9 @@ class RouteHandler extends React.Component {
 
 	render () {
 		const {
+			getLens,
+			types,
+			actions,
 			channels,
 			user
 		} = this.props
@@ -188,6 +181,9 @@ class RouteHandler extends React.Component {
 				{_.map(channels.slice(1), (channel, index) => {
 					return (
 						<ChannelRenderer
+							getLens={getLens}
+							types={types}
+							actions={actions}
 							user={user}
 							key={channel.id}
 							channel={channel}
@@ -199,22 +195,3 @@ class RouteHandler extends React.Component {
 		)
 	}
 }
-
-const mapStateToProps = (state) => {
-	return {
-		channels: selectors.getChannels(state),
-		status: selectors.getStatus(state),
-		user: selectors.getCurrentUser(state)
-	}
-}
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		actions: bindActionCreators(
-			_.pick(actionCreators, [
-				'setChannels'
-			]), dispatch)
-	}
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(RouteHandler)

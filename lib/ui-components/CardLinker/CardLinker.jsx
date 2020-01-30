@@ -13,15 +13,11 @@ import {
 	Button
 } from 'rendition'
 import {
-	constants
-} from '../../../apps/ui/core'
+	constraints as LINKS
+} from '@jellyfish/sdk/link-constraints'
 import ContextMenu from '../ContextMenu'
 import LinkModal from '../LinkModal'
 import Icon from '@jellyfish/ui-components/shame/Icon'
-
-const {
-	LINKS
-} = constants
 
 class CardLinker extends React.Component {
 	constructor (props) {
@@ -104,6 +100,7 @@ class CardLinker extends React.Component {
 
 	render () {
 		const {
+			actions,
 			card,
 			connectDragSource,
 			types
@@ -182,6 +179,7 @@ class CardLinker extends React.Component {
 				</span>
 
 				<LinkModal
+					actions={actions}
 					card={card}
 					types={types}
 					show={showLinkModal}

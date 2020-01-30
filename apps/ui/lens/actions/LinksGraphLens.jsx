@@ -11,7 +11,7 @@ import {
 	connect
 } from 'react-redux'
 import * as redux from 'redux'
-import * as helpers from '../../services/helpers'
+import * as helpers from '@jellyfish/ui-components/services/helpers'
 import {
 	CloseButton
 } from '@jellyfish/ui-components/shame/CloseButton'

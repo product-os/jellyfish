@@ -22,7 +22,7 @@ import {
 	Select,
 	Txt
 } from 'rendition'
-import * as helpers from '../../services/helpers'
+import * as helpers from '@jellyfish/ui-components/services/helpers'
 import Icon from '@jellyfish/ui-components/shame/Icon'
 import CardLayout from '../../layouts/CardLayout'
 import {

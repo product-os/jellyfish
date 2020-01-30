@@ -16,6 +16,9 @@ import Icon from '@jellyfish/ui-components/shame/Icon'
 
 const TreeMenu = (props) => {
 	const {
+		subscriptions,
+		types,
+		actions,
 		node
 	} = props
 	if (!node.children.length && node.card) {
@@ -28,6 +31,9 @@ const TreeMenu = (props) => {
 		const update = props.viewNotices[card.id]
 		return (
 			<ViewLink
+				subscription={subscriptions[card.id] || null}
+				types={types}
+				actions={actions}
 				key={card.id}
 				card={card}
 				isActive={isActive}
@@ -71,6 +77,9 @@ const TreeMenu = (props) => {
 				{node.children.map((child) => {
 					return (
 						<TreeMenu
+							subscriptions={subscriptions}
+							types={types}
+							actions={actions}
 							key={child.key}
 							node={child}
 							isExpanded={props.isExpanded}

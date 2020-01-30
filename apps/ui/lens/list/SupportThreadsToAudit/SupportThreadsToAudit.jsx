@@ -15,7 +15,7 @@ import {
 import Column from '@jellyfish/ui-components/shame/Column'
 import Icon from '@jellyfish/ui-components/shame/Icon'
 import CardChatSummary from '../../../../../lib/ui-components/CardChatSummary'
-import * as helpers from '../../../services/helpers'
+import * as helpers from '@jellyfish/ui-components/services/helpers'
 
 export const SLUG = 'lens-support-threads-to-audit'
 

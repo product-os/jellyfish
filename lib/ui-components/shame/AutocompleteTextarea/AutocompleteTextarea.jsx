@@ -14,23 +14,14 @@ import {
 	Txt
 } from 'rendition'
 import styled from 'styled-components'
-import {
-	selectors,
-	sdk,
-	store
-} from '../../../../apps/ui/core'
-import Link from '../../../ui-components/Link'
-import * as helpers from '../../../../apps/ui/services/helpers'
-import * as environment from '../../../../apps/ui/environment'
+import Link from '@jellyfish/ui-components/Link'
+import * as helpers from '@jellyfish/ui-components/services/helpers'
 import Icon from '../Icon'
 import Container from './Container'
 import {
 	getTrigger
 } from './triggers'
 
-// ReactTextareaAutocomplete autocompletion doesn't work with JSDom, so disable
-// it during testing
-const ACTIVE = !environment.isTest()
 const QUICK_SEARCH_RE = /^\s*\?[\w_-]+/
 
 const QuickSearchPanel = styled(Card) `
@@ -49,6 +40,10 @@ const Loader = () => {
 
 const SubAuto = (props) => {
 	const {
+		enableAutocomplete,
+		types,
+		sdk,
+		user,
 		value,
 		className,
 		onChange,
@@ -63,6 +58,9 @@ const SubAuto = (props) => {
 		'placeholder'
 	])
 
+	// ReactTextareaAutocomplete autocompletion doesn't work with JSDom, so disable
+	// it during testing
+
 	return (
 		<Container {...rest}>
 			<ReactTextareaAutocomplete
@@ -75,7 +73,7 @@ const SubAuto = (props) => {
 				onChange={onChange}
 				onKeyPress={onKeyPress}
 				loadingComponent={Loader}
-				trigger={ACTIVE ? getTrigger() : {}}
+				trigger={enableAutocomplete ? getTrigger(types, sdk, user) : {}}
 				placeholder={placeholder}
 				maxRows={12}
 				listStyle={{
@@ -148,7 +146,7 @@ class AutoCompleteArea extends React.Component {
 			type: 'string',
 			enum: [ typeCard.slug, `${typeCard.slug}@${typeCard.version}` ]
 		})
-		sdk.query(filter, {
+		this.props.sdk.query(filter, {
 			limit: 20,
 			sortBy: 'name'
 		})
@@ -160,6 +158,9 @@ class AutoCompleteArea extends React.Component {
 	}
 
 	handleOnChange (event) {
+		const {
+			types
+		} = this.props
 		const value = event.target.value
 		this.setState({
 			value
@@ -167,7 +168,6 @@ class AutoCompleteArea extends React.Component {
 		if (value.match(QUICK_SEARCH_RE)) {
 			const [ typeSlug, ...rest ] = value.trim().split(/\s+/)
 			const slug = typeSlug.replace('?', '')
-			const types = selectors.getTypes(store.getState())
 			const typeCard = _.find(types, {
 				slug
 			})
@@ -231,7 +231,11 @@ class AutoCompleteArea extends React.Component {
 
 	render () {
 		const {
+			enableAutocomplete,
 			className,
+			types,
+			sdk,
+			user,
 			placeholder
 		} = this.props
 
@@ -247,6 +251,10 @@ class AutoCompleteArea extends React.Component {
 		return (
 			<React.Fragment>
 				<SubAuto
+					enableAutocomplete={enableAutocomplete}
+					types={types}
+					sdk={sdk}
+					user={user}
 					className={className}
 					value={this.state.value}
 					onChange={this.handleOnChange}

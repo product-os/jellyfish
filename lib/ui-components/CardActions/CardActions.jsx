@@ -5,37 +5,25 @@
  */
 
 import copy from 'copy-to-clipboard'
-import _ from 'lodash'
 import React from 'react'
-import {
-	connect
-} from 'react-redux'
-import {
-	bindActionCreators
-} from 'redux'
 import {
 	Button,
 	Flex,
 	Modal
 } from 'rendition'
-import {
-	actionCreators,
-	sdk,
-	selectors
-}	from '../../../apps/ui/core'
 import CardLinker from '../CardLinker'
 import ContextMenu from '../ContextMenu'
-import * as helpers from '../../../apps/ui/services/helpers'
+import * as helpers from '@jellyfish/ui-components/services/helpers'
 import {
 	ActionLink
 } from '@jellyfish/ui-components/shame/ActionLink'
 import Icon from '@jellyfish/ui-components/shame/Icon'
 
-class CardActions extends React.Component {
+export default class CardActions extends React.Component {
 	constructor (props) {
 		super(props)
 		this.delete = () => {
-			sdk.card.remove(this.props.card.id, this.props.card.type)
+			props.sdk.card.remove(this.props.card.id, this.props.card.type)
 				.then(() => {
 					this.props.actions.addNotification('success', 'Deleted card')
 				})
@@ -102,7 +90,7 @@ class CardActions extends React.Component {
 						icon={<Icon name="pencil-alt"/>}
 					/>
 
-					<CardLinker types={this.props.types} card={this.props.card}/>
+					<CardLinker types={this.props.types} card={this.props.card} actions={this.props.actions} />
 
 					<span>
 						<Button
@@ -168,23 +156,3 @@ class CardActions extends React.Component {
 		)
 	}
 }
-
-const mapStateToProps = (state) => {
-	return {
-		types: selectors.getTypes(state)
-	}
-}
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		actions: bindActionCreators(
-			_.pick(actionCreators, [
-				'addNotification',
-				'addChannel'
-			]),
-			dispatch
-		)
-	}
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CardActions)

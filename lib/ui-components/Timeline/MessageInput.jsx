@@ -67,6 +67,10 @@ const MessageInput = React.memo(({
 	onFileChange,
 	wide = true,
 	style,
+	enableAutocomplete,
+	types,
+	user,
+	sdk,
 	...rest
 }) => {
 	const theme = useTheme()
@@ -90,6 +94,10 @@ const MessageInput = React.memo(({
 				} : {})
 			})}>
 			<PlainAutocompleteTextarea
+				enableAutocomplete={enableAutocomplete}
+				sdk={sdk}
+				types={types}
+				user={user}
 				sendCommand={sendCommand}
 				className="new-message-input"
 				value={value}

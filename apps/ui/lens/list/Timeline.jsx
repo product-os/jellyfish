@@ -13,14 +13,19 @@ import {
 } from 'redux'
 import {
 	actionCreators,
+	sdk,
 	selectors
 } from '../../core'
-import Timeline from '../../../../lib/ui-components/Timeline'
+import * as environment from '../../environment'
+import Timeline from '@jellyfish/ui-components/Timeline'
 
 const mapStateToProps = (state, ownProps) => {
 	const card = ownProps.card
 
 	return {
+		enableAutocomplete: !environment.isTest(),
+		sdk,
+		types: selectors.getTypes(state),
 		user: selectors.getCurrentUser(state),
 		usersTyping: selectors.getUsersTypingOnCard(state, card.id),
 		timelineMessage: selectors.getTimelineMessage(state, card.id)

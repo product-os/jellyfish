@@ -19,7 +19,7 @@ import {
 	CloseButton
 } from '@jellyfish/ui-components/shame/CloseButton'
 import Column from '@jellyfish/ui-components/shame/Column'
-import CardActions from '../../../../lib/ui-components/CardActions'
+import CardActions from '../../components/HOC/CardActions'
 import {
 	selectors
 } from '../../core'
