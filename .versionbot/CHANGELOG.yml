@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update pg-promise to latest 10.4.0
+      hash: e39b86deff87b0b8acda8bc7c180200004d6cbf3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.65.11
+  date: 2020-01-31T13:22:26.685Z
+- commits:
     - subject: Silence max listeners warning when running tests
       hash: b06eb15c4216a6ac6009fae5b16992fcc612f478
       body: ''
