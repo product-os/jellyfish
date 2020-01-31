@@ -45,7 +45,8 @@
       "apps/**/*.spec.{js,jsx}"
     ],
     "require": [
-      "./test/register"
+      "./test/register",
+      "./test/max-listeners"
     ]
   },
   "author": "Balena.io. <hello@balena.io>",
