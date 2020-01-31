@@ -1,4 +1,16 @@
 - commits:
+    - subject: Silence max listeners warning when running tests
+      hash: b06eb15c4216a6ac6009fae5b16992fcc612f478
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.65.10
+  date: 2020-01-31T09:21:47.641Z
+- commits:
     - subject: >-
         Update open-balena-haproxy used in docker-compose to latest 2.11.3
         Previous version relied on a possibly buggy haproxy version which caused
