@@ -1,5 +1,19 @@
 - commits:
     - subject: >-
+        Allow to change the number of running workers in docker-compose by
+        editing scripts/template/index.js rather than copy-pasting yaml
+      hash: 1521806a1536c58529da886f9c5ba0697d91353e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.66.2
+  date: 2020-02-03T14:14:48.655Z
+- commits:
+    - subject: >-
         Attempt to skip skhema/ajv validation by looking if the input element is
         surely wrong
       hash: 0be9c06330b2b35a012799ae9793af4d91f1c0af
