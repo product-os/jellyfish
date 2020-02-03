@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'core/server: Log query times when querying with "profile" mode'
+      hash: 4de51195c7aadd065b8031e109ef5b8c3c7c57e1
+      body: |
+        For debugging and performance inspection purposes. The idea is that we
+        can set `profile: true` on a particular query and get more detailed
+        information, on the logs, about the time it took to resolve.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.66.0
+  date: 2020-02-03T12:14:10.078Z
+- commits:
     - subject: Update pg-promise to latest 10.4.0
       hash: e39b86deff87b0b8acda8bc7c180200004d6cbf3
       body: ''
