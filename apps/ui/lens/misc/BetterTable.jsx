@@ -36,7 +36,7 @@ import ColorHashPill from '@jellyfish/ui-components/shame/ColorHashPill'
 import {
 	appendToChannelPath,
 	patchPath
-} from '../../services/helpers'
+} from '@jellyfish/ui-components/services/helpers'
 
 class DropDownButtonWrapper extends Component {
 	// eslint-disable-next-line class-methods-use-this
@@ -296,6 +296,7 @@ class BetterCardTable extends BaseLens {
 						>
 							<Button
 								success
+								className={`btn--add-${this.props.type.slug}`}
 								onClick={this.openCreateChannel}
 							>
 								Add {this.props.type.name || this.props.type.slug}

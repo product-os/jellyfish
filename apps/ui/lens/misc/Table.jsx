@@ -87,6 +87,7 @@ class CardTable extends BaseLens {
 						>
 							<Button
 								success
+								className={`btn--add-${this.props.type.slug}`}
 								onClick={this.openCreateChannel}
 							>
 								Add {this.props.type.name || this.props.type.slug}

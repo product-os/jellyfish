@@ -130,3 +130,24 @@ ava.serial('should let users create new contacts', async (test) => {
 
 	test.pass()
 })
+
+ava.serial('should let users create new opportunities', async (test) => {
+	const {
+		page
+	} = context
+
+	await macros.waitForThenClickSelector(page, '[data-test="home-channel__item--view-all-opportunities"]')
+	await macros.waitForThenClickSelector(page, '.btn--add-opportunity')
+
+	const name = `test opportunity ${uuid()}`
+
+	await page.waitForSelector('#root_name')
+
+	await macros.setInputValue(page, '#root_name', name)
+	await bluebird.delay(1000)
+	await macros.waitForThenClickSelector(page, '[data-test="card-creator__submit"]')
+
+	await page.waitForSelector('.column--opportunity')
+
+	test.pass()
+})
