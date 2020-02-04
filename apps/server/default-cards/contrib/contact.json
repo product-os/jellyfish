@@ -35,14 +35,23 @@
               "type": "object",
               "properties": {
                 "email": {
-                  "type": [ "string" ],
-                  "format": "email",
-                  "uniqueItems": true,
-                  "minItems": 1,
-                  "items": {
-                    "type": "string",
-                    "format": "email"
-                  }
+                  "anyOf": [
+                    {
+                      "title": "string",
+                      "type": "string",
+                      "format": "email"
+                    },
+                    {
+                      "title": "array",
+                      "type": "array",
+                      "uniqueItems": true,
+                      "minItems": 1,
+                      "items": {
+                        "type": "string",
+                        "format": "email"
+                      }
+                    }
+                  ]
                 },
                 "company": {
                   "type": "string"
