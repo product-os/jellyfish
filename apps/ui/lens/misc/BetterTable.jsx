@@ -86,11 +86,11 @@ class DropDownButtonWrapper extends Component {
 					<span style={{
 						whiteSpace: 'nowrap'
 					}}>
-						<Badge shade={types.indexOf(label)} m={1}>{label}</Badge>
+						<Badge shade={types.indexOf(label)} xsmall m={1}>{label}</Badge>
 					</span>
 				}
 			>
-				{(option, index) => <Badge shade={index} m={1}>{option}</Badge>}
+				{(option, index) => <Badge shade={index} xsmall m={1}>{option}</Badge>}
 			</Select>
 		)
 	}
