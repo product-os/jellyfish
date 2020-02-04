@@ -11,11 +11,7 @@ import {
 	Box,
 	Fixed
 } from 'rendition'
-import styled from 'styled-components'
 
-const MessageText = styled.span `
-	white-space: pre;
-`
 class JellyFishAlert extends React.Component {
 	constructor (props) {
 		super(props)
@@ -43,9 +39,9 @@ class JellyFishAlert extends React.Component {
 				onDismiss={this.dismiss}
 				prefix={false}
 			>
-				<MessageText>
+				<span>
 					{_.isString(message) ? message : JSON.stringify(message)}
-				</MessageText>
+				</span>
 			</Alert>
 		)
 	}
