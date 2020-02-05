@@ -9,9 +9,9 @@ const logger = require('../../../../lib/logger').getLogger(__filename)
 const uuid = require('../../../../lib/uuid')
 
 module.exports = class ActionFacade {
-	constructor (worker, queue, fileStore) {
+	constructor (worker, producer, fileStore) {
 		this.fileStore = fileStore
-		this.queue = queue
+		this.producer = producer
 		this.worker = worker
 	}
 
@@ -41,9 +41,9 @@ module.exports = class ActionFacade {
 			action.context = context
 
 			const finalRequest = await this.worker.pre(sessionToken, action)
-			return this.queue.enqueue(this.worker.getId(), sessionToken, finalRequest)
+			return this.producer.enqueue(this.worker.getId(), sessionToken, finalRequest)
 		}).then((actionRequest) => {
-			return this.queue.waitResults(context, actionRequest)
+			return this.producer.waitResults(context, actionRequest)
 		}).then(async (results) => {
 			logger.info(context, 'Got action results', results)
 			if (!results.error && options.files) {

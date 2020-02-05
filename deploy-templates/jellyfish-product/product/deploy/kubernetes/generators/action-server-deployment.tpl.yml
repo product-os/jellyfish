@@ -17,10 +17,6 @@ spec:
       containers:
       - image: <<%&children.sw.containerized-application.jellyfish-action-server.data.assets.image.url%>>
         name: action-server
-        lifecycle:
-          preStop:
-            exec:
-              command: [ 'node', 'scripts/production/lock.js', '/tmp/worker.lock' ]
         env:
         - name: POD_NAME
           valueFrom:
@@ -42,14 +38,6 @@ spec:
           value: {{REDIS_HOST}}
         - name: REDIS_PASSWORD
           value: {{{REDIS_PASSWORD}}}
-        - name: RABBITMQ_QUEUE_NAME
-          value: {{{RABBITMQ_QUEUE_NAME}}}
-        - name: RABBITMQ_HOSTNAME
-          value: {{{RABBITMQ_HOSTNAME}}}
-        - name: RABBITMQ_USERNAME
-          value: {{{RABBITMQ_USERNAME}}}
-        - name: RABBITMQ_PASSWORD
-          value: {{{RABBITMQ_PASSWORD}}}
         - name: NODE_ENV
           value: {{{NODE_ENV}}}
         - name: SENTRY_DSN_SERVER
@@ -58,8 +46,6 @@ spec:
           value: {{{LOGENTRIES_TOKEN}}}
         - name: LOGLEVEL
           value: {{{LOGLEVEL}}}
-        - name: LOCKFILE
-          value: /tmp/worker.lock
         - name: INTEGRATION_BALENA_API_APP_ID
           value: '{{{INTEGRATION_BALENA_API_APP_ID}}}'
         - name: INTEGRATION_BALENA_API_APP_SECRET

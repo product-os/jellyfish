@@ -296,8 +296,6 @@ services:
       - ui
       - tick
       - sidecar
-      - redis
-      - postgres
       - livechat
       - api
       - balena-mdns-publisher

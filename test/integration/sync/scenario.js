@@ -130,7 +130,7 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 				data: await testCase.prepareEvent(data)
 			})
 
-		const request = await test.context.queue.enqueue(
+		const request = await test.context.queue.producer.enqueue(
 			test.context.worker.getId(),
 			test.context.session, {
 				context: test.context.context,
@@ -141,7 +141,7 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 			})
 
 		await test.context.flush(test.context.session, 1)
-		const result = await test.context.queue.waitResults(
+		const result = await test.context.queue.producer.waitResults(
 			test.context.context, request)
 		test.false(result.error)
 		cards.push(...result.data)

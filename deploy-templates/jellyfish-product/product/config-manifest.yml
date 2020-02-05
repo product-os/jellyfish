@@ -30,14 +30,6 @@ properties:
     type: string
   REDIS_PASSWORD:
     type: string
-  RABBITMQ_QUEUE_NAME:
-    type: string
-  RABBITMQ_HOSTNAME:
-    type: string
-  RABBITMQ_USERNAME:
-    type: string
-  RABBITMQ_PASSWORD:
-    type: string
   NODE_ENV:
     type: string
   SENTRY_DSN_SERVER:

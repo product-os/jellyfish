@@ -4,7 +4,6 @@
  * Proprietary and confidential.
  */
 
-const Bluebird = require('bluebird')
 const Worker = require('../../../lib/worker')
 const helpers = require('../queue/helpers')
 const errio = require('errio')
@@ -29,7 +28,6 @@ exports.jellyfish = {
 exports.worker = {
 	beforeEach: async (test, actionLibrary, options = {}) => {
 		await helpers.beforeEach(test, {
-			enablePriorityBuffer: true,
 			suffix: options.suffix
 		})
 
@@ -50,24 +48,19 @@ exports.worker = {
 					}
 				}
 			}, actionLibrary),
-			test.context.queue)
+			test.context.queue.consumer,
+			test.context.queue.producer)
 		await test.context.worker.initialize(test.context.context)
 
 		test.context.flush = async (session, expect = 0) => {
-			const request = await test.context.queue.dequeue(
-				test.context.context, test.context.worker.getId())
+			const request = await test.context.dequeue()
+
 			if (!request) {
 				if (expect <= 0) {
 					return
 				}
 
-				// Don't retry synchronously, otherwise we might
-				// not give any processor space to the network
-				// part of things.
-				await Bluebird.delay(1)
-
-				await test.context.flush(session, expect)
-				return
+				throw new Error('No message dequeued')
 			}
 
 			const result = await test.context.worker.execute(session, request)
