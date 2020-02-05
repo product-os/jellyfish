@@ -1,0 +1,34 @@
+{
+    "slug": "view-all-devops-plays",
+    "name": "DevOps Playbook",
+    "version": "1.0.0",
+    "type": "view@1.0.0",
+    "markers": [],
+    "tags": [],
+    "links": {},
+    "active": true,
+    "data": {
+      "allOf": [
+        {
+          "name": "DevOps Plays",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "const": "devops-play"
+              }
+            },
+            "required": [
+              "type"
+            ],
+            "additionalProperties": true
+          }
+        }
+      ],
+      "lenses": [
+        "lens-default-list"
+      ]
+    },
+    "requires": [],
+    "capabilities": []
+  }

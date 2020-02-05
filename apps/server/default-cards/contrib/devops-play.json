@@ -1,0 +1,88 @@
+{
+    "slug": "devops-play",
+    "type": "type@1.0.0",
+    "version": "1.0.0",
+    "name": "DevOps Play",
+    "markers": [],
+    "tags": [],
+    "links": [],
+    "active": true,
+    "data": {
+        "schema": {
+            "type": "object",
+            "required": [
+                "title",
+                "data",
+                "version"
+            ],
+            "properties": {
+                "title": {
+                    "title": "Title",
+                    "type": "string"
+                },
+                "version": {
+                    "title": "Version",
+                    "type": "string",
+                    "default": "1.0.0"
+                },
+                "data": {
+                    "type": "object",
+                    "required": [
+                        "problem",
+                        "solution",
+                        "last_updated"
+                    ],
+                    "properties": {
+                        "problem": {
+                            "title": "Problem",
+                            "type": "string",
+                            "format": "markdown"
+                        },
+                        "solution": {
+                            "title": "Solution",
+                            "type": "string",
+                            "format": "markdown"
+                        },
+                        "last_updated": {
+                            "title": "Due date",
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "keywords": {
+                            "title": "Keywords",
+                            "type": "string"
+                        },
+                        "fix_difficulty": {
+                            "title": "Fix Difficulty",
+                            "type": "number",
+                            "enum": [1, 2, 3, 4, 5]
+                        },
+                        "github_issue": {
+                            "title": "Github Issue",
+                            "type": "string"
+                        },
+                        "date_fixed": {
+                            "title": "Date Fixed",
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "legacy": {
+                            "title": "Legacy",
+                            "type": "boolean",
+                            "default": false
+                        },
+                        "needs_review": {
+                            "title": "Needs Review",
+                            "type": "boolean",
+                            "default": false
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "requires": [],
+    "capabilities": []
+}
+
+
