@@ -4,20 +4,20 @@ docker:
     - path: .
       dockerfile: apps/server/Dockerfile
       docker_repo: balena/jellyfish
-      publish: true
+      publish: false
     - path: .
       dockerfile: apps/action-server/Dockerfile.tick
       docker_repo: balena/jellyfish-tick-server
-      publish: true
+      publish: false
     - path: .
       dockerfile: apps/action-server/Dockerfile.worker
       docker_repo: balena/jellyfish-action-server
-      publish: true
+      publish: false
     - path: .
       dockerfile: apps/ui/Dockerfile
       docker_repo: balena/jellyfish-ui
-      publish: true
+      publish: false
     - path: .
       dockerfile: apps/livechat/Dockerfile
       docker_repo: balena/jellyfish-livechat
-      publish: true
+      publish: false
