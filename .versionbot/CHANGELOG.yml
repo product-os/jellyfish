@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'UI: Wrap long notification messages'
+      hash: cb1d8d3236b4659cf3db2890280135011c1583cf
+      body: >
+        Notification messages that are longer than the fixed width of the
+        notification box now wrap onto multiple lines, rather than being cut
+        off.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 24.66.3
+  date: 2020-02-04T15:18:58.216Z
+- commits:
     - subject: >-
         Allow to change the number of running workers in docker-compose by
         editing scripts/template/index.js rather than copy-pasting yaml
