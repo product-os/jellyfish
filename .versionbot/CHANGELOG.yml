@@ -1,4 +1,20 @@
 - commits:
+    - subject: >-
+        Speed up `make compose-build` by running `NODE_ENV=production npm ci` in
+        the base image and then copying `node_modules` to the runtime image,
+        instead of running `NODE_ENV=production npm ci` Building takes less
+        time, bandwidth, and the image is 100M smaller
+      hash: 641f0c119f67920e0cea5dac30aa6cf7c8f0dfcb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.66.4
+  date: 2020-02-05T12:26:58.891Z
+- commits:
     - subject: 'UI: Wrap long notification messages'
       hash: cb1d8d3236b4659cf3db2890280135011c1583cf
       body: >
