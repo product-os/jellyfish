@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'core: Fix query profile mode logic'
+      hash: d66e2ba75219be86bb7e06ec81dcff9635364e0d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.66.5
+  date: 2020-02-05T14:48:23.567Z
+- commits:
     - subject: >-
         Speed up `make compose-build` by running `NODE_ENV=production npm ci` in
         the base image and then copying `node_modules` to the runtime image,
