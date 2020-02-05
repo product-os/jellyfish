@@ -16,6 +16,7 @@ COPY ./lib/environment ./lib/environment
 COPY ./lib/sdk ./lib/sdk
 COPY ./lib/sync ./lib/sync
 COPY ./lib/uuid ./lib/uuid
+COPY ./lib/mail ./lib/mail
 
 COPY ./test ./test
 COPY ./Makefile ./Makefile

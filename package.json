@@ -34,7 +34,8 @@
       "lib/uuid",
       "lib/sdk",
       "lib/sync",
-      "lib/worker"
+      "lib/worker",
+      "lib/mail"
     ]
   },
   "ava": {
