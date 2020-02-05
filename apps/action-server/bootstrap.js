@@ -6,12 +6,11 @@
 
 const Bluebird = require('bluebird')
 const _ = require('lodash')
-const path = require('path')
-const lockfile = Bluebird.promisifyAll(require('lockfile'))
 const actionLibrary = require('../../lib/action-library')
 const logger = require('../../lib/logger').getLogger(__filename)
 const Worker = require('../../lib/worker')
-const Queue = require('../../lib/queue')
+const Consumer = require('../../lib/queue').Consumer
+const Producer = require('../../lib/queue').Producer
 const core = require('../../lib/core')
 const environment = require('../../lib/environment')
 const uuid = require('../../lib/uuid')
@@ -82,62 +81,18 @@ const bootstrap = async (context, library, options) => {
 	})
 
 	const session = jellyfish.sessions.admin
-	const queue = new Queue(context, jellyfish, session, {
-		enablePriorityBuffer: options.enablePriorityBuffer
-	})
-
-	await queue.initialize(context)
-
-	queue.once('error', (error) => {
-		logger.exception(context, 'Queue error', error)
-		setTimeout(() => {
-			process.exit(1)
-		}, 5000)
-	})
+	const consumer = new Consumer(jellyfish, session)
+	const producer = new Producer(jellyfish, session)
 
 	// The main server has a special worker for itself so that
 	// it can bootstrap without needing any external workers
 	// to process the default cards
 	const worker = new Worker(
-		jellyfish, session, library, queue)
+		jellyfish, session, library, consumer, producer)
 	await worker.initialize(context)
 
 	let run = true
 	let refreshingTriggers = Bluebird.resolve()
-	let currentIteration = Bluebird.resolve()
-
-	const lockPath = environment.lockfile || path.join(
-		process.cwd(), `${context.id}.lock`)
-
-	const loop = async () => {
-		logger.debug(context, 'Acquiring lock', {
-			lockfile: lockPath
-		})
-
-		await lockfile.lockAsync(lockPath, {
-			wait: 60000,
-			stale: 30000
-		})
-
-		if (run) {
-			currentIteration = options.onLoop(
-				context, jellyfish, worker, queue, session)
-			await currentIteration
-		}
-
-		logger.debug(context, 'Releasing lock', {
-			lockfile: lockPath
-		})
-
-		await lockfile.unlockAsync(lockPath)
-
-		if (!run) {
-			return Bluebird.resolve()
-		}
-
-		await Bluebird.delay(options.delay)
-		return loop()
-	}
 
 	const refreshTriggers = async () => {
 		refreshingTriggers = jellyfish.query(
@@ -176,13 +131,11 @@ const bootstrap = async (context, library, options) => {
 		context, session, SCHEMA_ACTIVE_TRIGGERS)
 
 	const closeWorker = async () => {
-		await currentIteration
 		run = false
+		await consumer.cancel()
 		triggerStream.removeAllListeners()
 		await triggerStream.close()
-		await currentIteration
 		await refreshingTriggers
-		await queue.destroy()
 		await jellyfish.disconnect(context)
 		if (cache) {
 			await cache.disconnect()
@@ -203,12 +156,36 @@ const bootstrap = async (context, library, options) => {
 
 	await refreshTriggers()
 
-	loop().catch(errorHandler)
+	// FIXME we should really have 2 workers, the consuming worker and the tick worker
+	if (options.onLoop) {
+		await producer.initialize(context)
+
+		const loop = async () => {
+			if (run) {
+				await options.onLoop(context, worker, session)
+			}
+
+			if (!run) {
+				return Bluebird.resolve()
+			}
+
+			await Bluebird.delay(options.delay)
+			return loop()
+		}
+
+		loop().catch(errorHandler)
+	} else {
+		await consumer.initializeWithEventHandler(context, async (actionRequest) => {
+			await options.onActionRequest(
+				context, jellyfish, worker, consumer, session, actionRequest, errorHandler)
+		})
+	}
 
 	return {
 		jellyfish,
 		worker,
-		queue,
+		consumer,
+		producer,
 		stop: closeWorker
 	}
 }
@@ -216,19 +193,14 @@ const bootstrap = async (context, library, options) => {
 exports.worker = async (context, options) => {
 	return bootstrap(context, actionLibrary, {
 		enablePriorityBuffer: true,
-		delay: 500,
 		onError: options.onError,
-		onLoop: async (serverContext, jellyfish, worker, queue, session) => {
-			const actionRequest = await queue.dequeue(serverContext, worker.getId())
-			if (!actionRequest) {
-				return null
-			}
-
-			return getActorKey(
-				serverContext, jellyfish, session, actionRequest.data.actor).then((key) => {
-				actionRequest.data.context.worker = serverContext.id
-				return worker.execute(key.id, actionRequest)
-			})
+		onActionRequest: async (serverContext, jellyfish, worker, queue, session, actionRequest, errorHandler) => {
+			return getActorKey(serverContext, jellyfish, session, actionRequest.data.actor)
+				.then((key) => {
+					actionRequest.data.context.worker = serverContext.id
+					return worker.execute(key.id, actionRequest)
+				})
+				.catch(errorHandler)
 		}
 	})
 }
@@ -238,7 +210,7 @@ exports.tick = async (context, options) => {
 		enablePriorityBuffer: false,
 		delay: 2000,
 		onError: options.onError,
-		onLoop: async (serverContext, jellyfish, worker, queue, session) => {
+		onLoop: async (serverContext, worker, session) => {
 			const id = await uuid.random()
 			return worker.tick({
 				id: `TICK-REQUEST-${id}`,

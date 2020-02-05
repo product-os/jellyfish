@@ -5,7 +5,8 @@
  */
 
 const core = require('../../lib/core')
-const Queue = require('../../lib/queue')
+const Producer = require('../../lib/queue').Producer
+const Consumer = require('../../lib/queue').Consumer
 const Worker = require('../../lib/worker')
 const actionLibrary = require('../../lib/action-library')
 const environment = require('../../lib/environment')
@@ -28,25 +29,22 @@ module.exports = async (context) => {
 		backend: environment.database.options
 	})
 
-	logger.info(context, 'Creating queue instance')
-	const queue = new Queue(
-		context, jellyfish, jellyfish.sessions.admin)
-	logger.info(context, 'Initializing queue instance')
-	await queue.initialize(context)
-
-	queue.once('error', (error) => {
-		logger.exception(context, 'Queue error', error)
-		setTimeout(() => {
-			process.exit(1)
-		}, 5000)
-	})
+	logger.info(context, 'Creating producer instance')
+	const producer = new Producer(jellyfish, jellyfish.sessions.admin)
+	logger.info(context, 'Initializing producer instance')
+	await producer.initialize(context)
 
 	// The main server has a special worker for itself so that
 	// it can bootstrap without needing any external workers
 	// to process the default cards
 	logger.info(context, 'Creating built-in worker')
+
+	// FIXME this abomination is due to calling worker.execute right after producer.storeRequest
+	// Fix that, and this one will disappear (but it will leave the scars)
+	const uninitializedConsumer = new Consumer(jellyfish, jellyfish.sessions.admin)
+
 	const worker = new Worker(
-		jellyfish, jellyfish.sessions.admin, actionLibrary, queue)
+		jellyfish, jellyfish.sessions.admin, actionLibrary, uninitializedConsumer)
 	logger.info(context, 'Initializing built-in worker')
 	await worker.initialize(context)
 
@@ -107,7 +105,7 @@ module.exports = async (context) => {
 			}
 		})
 
-		const request = await queue.enqueue(
+		const request = await producer.storeRequest(
 			worker.getId(), jellyfish.sessions.admin, requestOptions)
 		const result = await worker.execute(jellyfish.sessions.admin, request)
 		assert.INTERNAL(context, !result.error,
@@ -142,7 +140,7 @@ module.exports = async (context) => {
 	}
 
 	logger.info(context, 'Configuring HTTP server')
-	const webServer = await http(context, jellyfish, worker, queue, {
+	const webServer = await http(context, jellyfish, worker, producer, {
 		port: environment.http.port
 	}, {
 		guestSession: results.guestSession.id
@@ -157,13 +155,12 @@ module.exports = async (context) => {
 	return {
 		worker,
 		jellyfish,
-		queue,
+		producer,
 		guestSession: results.guestSession.id,
 		port: webServer.port,
 		close: async () => {
 			await socketServer.close()
 			await webServer.stop()
-			await queue.destroy()
 			await jellyfish.disconnect(context)
 			if (cache) {
 				await cache.disconnect()
