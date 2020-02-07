@@ -16,8 +16,8 @@ import {
 } from 'rendition'
 import {
 	constraints as LINKS
-} from '@jellyfish/sdk/link-constraints'
-import * as helpers from '@jellyfish/ui-components/services/helpers'
+} from '../../sdk/link-constraints'
+import * as helpers from '../services/helpers'
 
 export default class LinkModal extends React.Component {
 	constructor (props) {
