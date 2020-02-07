@@ -6,7 +6,8 @@
 
 import ava from 'ava'
 import {
-	shallow
+	shallow,
+	configure
 } from 'enzyme'
 import React from 'react'
 import Event, {
@@ -15,6 +16,12 @@ import Event, {
 import {
 	card
 } from './fixtures'
+
+import Adapter from 'enzyme-adapter-react-16'
+
+configure({
+	adapter: new Adapter()
+})
 
 const actions = {
 	getActor: async () => {
@@ -33,6 +40,7 @@ ava('It should render', (test) => {
 			<Event
 				actions={actions}
 				card={card}
+				getActor={actions.getActor}
 			/>
 		)
 	})
