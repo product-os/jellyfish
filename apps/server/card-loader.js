@@ -49,6 +49,7 @@ module.exports = async (context, jellyfish, worker, session) => {
 		// Types
 		await loadCard('contrib/account.json'),
 		await loadCard('contrib/agenda.json'),
+		await loadCard('contrib/blog-post.json'),
 		await loadCard('contrib/changelog.json'),
 		await loadCard('contrib/checkin.json'),
 		await loadCard('contrib/contact.json'),
@@ -111,6 +112,7 @@ module.exports = async (context, jellyfish, worker, session) => {
 		await loadCard('balena/product-balena-cloud.json'),
 		await loadCard('balena/product-jellyfish.json'),
 		await loadCard('balena/view-all-agendas.json'),
+		await loadCard('balena/view-all-blog-posts.json'),
 		await loadCard('balena/view-all-checkins.json'),
 		await loadCard('balena/view-all-contacts.json'),
 		await loadCard('balena/view-all-customers.json'),
