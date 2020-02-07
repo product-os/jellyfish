@@ -32,12 +32,12 @@ import {
 	tagStyle
 } from '../Tag'
 import Link from '../Link'
-import * as helpers from '@jellyfish/ui-components/services/helpers'
+import * as helpers from '../services/helpers'
 import {
 	ActionLink
-} from '@jellyfish/ui-components/shame/ActionLink'
-import Avatar from '@jellyfish/ui-components/shame/Avatar'
-import Icon from '@jellyfish/ui-components/shame/Icon'
+} from '../shame/ActionLink'
+import Avatar from '../shame/Avatar'
+import Icon from '../shame/Icon'
 
 const ActorPlaceholder = styled.span `
 	width: 80px;
