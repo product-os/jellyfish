@@ -60,7 +60,7 @@
 			"relationships": [
 				{
 					"title": "Product improvement",
-          "link": "discussion topic has attached product improvement",
+          "link": "has attached",
 					"type": "product-improvement"
 				},
 				{

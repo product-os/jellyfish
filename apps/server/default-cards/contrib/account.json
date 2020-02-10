@@ -83,12 +83,12 @@
       "relationships": [
         {
           "title": "Opportunities",
-          "link": "has attached opportunity",
+          "link": "has attached",
           "type": "opportunity"
         },
         {
           "title": "Contacts",
-          "link": "has contact",
+          "link": "has",
           "type": "contact"
         },
         {
