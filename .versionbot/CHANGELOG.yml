@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'worker: Require versions in action input card slugs'
+      hash: bfd5b1dfddb3e89f0811e88d06e89de588e98b08
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.67.0
+  date: 2020-02-10T12:14:38.389Z
+- commits:
     - subject: Update open-balena-base to latest 9.1.0
       hash: 1f34e975f1e3606933854d7bc05dfeab5039e421
       body: ''
