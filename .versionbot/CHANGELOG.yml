@@ -1,4 +1,25 @@
 - commits:
+    - subject: Set contact.json email property to use "anyOf"
+      hash: fda01c7a3bf17ed3c2c9004bb1ae5954aa686d8d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+    - subject: Set link-constraints without object in name
+      hash: e3ea28f747e923ad9176b54ec7c167ebd231f9f4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+  version: 24.66.6
+  date: 2020-02-10T09:53:28.485Z
+- commits:
     - subject: 'core: Fix query profile mode logic'
       hash: d66e2ba75219be86bb7e06ec81dcff9635364e0d
       body: ''
