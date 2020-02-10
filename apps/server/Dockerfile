@@ -2,7 +2,7 @@
 # Base
 ###########################################################
 
-FROM balena/open-balena-base:v9.0.4 as base
+FROM balena/open-balena-base:v9.1.0 as base
 
 WORKDIR /usr/src/jellyfish
 
@@ -47,7 +47,7 @@ RUN NODE_ENV=production npm ci
 # Runtime
 ###########################################################
 
-FROM balena/open-balena-base:v9.0.4 as runtime
+FROM balena/open-balena-base:v9.1.0 as runtime
 
 WORKDIR /usr/src/jellyfish
 
