@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update open-balena-base to latest 9.1.0
+      hash: 1f34e975f1e3606933854d7bc05dfeab5039e421
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.66.7
+  date: 2020-02-10T10:30:35.222Z
+- commits:
     - subject: Set contact.json email property to use "anyOf"
       hash: fda01c7a3bf17ed3c2c9004bb1ae5954aa686d8d
       body: ''
