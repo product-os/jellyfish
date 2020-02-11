@@ -21,11 +21,11 @@ import {
 }	from 'rendition'
 import styled from 'styled-components'
 import ContextMenu from '../ContextMenu'
-import * as helpers from '@jellyfish/ui-components/services/helpers'
+import * as helpers from '../services/helpers'
 import {
 	ActionLink
-} from '@jellyfish/ui-components/shame/ActionLink'
-import Icon from '@jellyfish/ui-components/shame/Icon'
+} from '../shame/ActionLink'
+import Icon from '../shame/Icon'
 
 const generateJSONPatchDescription = (payload) => {
 	const items = []

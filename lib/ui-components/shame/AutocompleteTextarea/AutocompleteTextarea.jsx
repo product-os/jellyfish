@@ -14,8 +14,8 @@ import {
 	Txt
 } from 'rendition'
 import styled from 'styled-components'
-import Link from '@jellyfish/ui-components/Link'
-import * as helpers from '@jellyfish/ui-components/services/helpers'
+import Link from '../../Link'
+import * as helpers from '../../services/helpers'
 import Icon from '../Icon'
 import Container from './Container'
 import {

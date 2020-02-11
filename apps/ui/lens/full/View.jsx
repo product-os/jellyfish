@@ -32,14 +32,14 @@ import {
 	selectors,
 	sdk
 } from '../../core'
-import * as helpers from '@jellyfish/ui-components/services/helpers'
+import * as helpers from '../../../../lib/ui-components/services/helpers'
 import {
 	getLensBySlug
 } from '../'
 import {
 	CloseButton
-} from '@jellyfish/ui-components/shame/CloseButton'
-import Icon from '@jellyfish/ui-components/shame/Icon'
+} from '../../../../lib/ui-components/shame/CloseButton'
+import Icon from '../../../../lib/ui-components/shame/Icon'
 
 const USER_FILTER_NAME = 'user-generated-filter'
 

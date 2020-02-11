@@ -12,7 +12,7 @@ import {
 import {
 	Box
 } from 'rendition'
-import Timeline from '@jellyfish/ui-components/Timeline'
+import Timeline from '../../ui-components/Timeline'
 import {
 	Task
 } from '../components/Task'

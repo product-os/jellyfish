@@ -14,7 +14,7 @@ import {
 	actionCreators,
 	selectors
 } from '../../core'
-import Notifications from '@jellyfish/ui-components/Notifications'
+import Notifications from '../../../../lib/ui-components/Notifications'
 
 const mapStateToProps = (state) => {
 	return {

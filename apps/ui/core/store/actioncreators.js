@@ -13,7 +13,7 @@ import * as _ from 'lodash'
 import * as skhema from 'skhema'
 import uuid from 'uuid/v4'
 import actions from './actions'
-import * as helpers from '@jellyfish/ui-components/services/helpers'
+import * as helpers from '../../../../lib/ui-components/services/helpers'
 import {
 	createNotification
 } from '../../services/notifications'

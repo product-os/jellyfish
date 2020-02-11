@@ -17,7 +17,7 @@ import {
 	Tabs,
 	Tab
 } from 'rendition'
-import Column from '@jellyfish/ui-components/shame/Column'
+import Column from '../../../../lib/ui-components/shame/Column'
 import InboxTab from './InboxTab'
 
 // Generates a basic query that matches messages against a user slug

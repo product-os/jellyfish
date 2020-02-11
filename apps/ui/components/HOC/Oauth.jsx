@@ -15,7 +15,7 @@ import {
 	actionCreators,
 	selectors
 } from '../../core'
-import Oauth from '@jellyfish/ui-components/Oauth'
+import Oauth from '../../../../lib/ui-components/Oauth'
 
 const mapStateToProps = (state) => {
 	return {
