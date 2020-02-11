@@ -10,7 +10,7 @@ import {
 } from 'react-router-dom'
 import {
 	pathWithoutChannel
-} from '@jellyfish/ui-components/services/helpers'
+} from '../services/helpers'
 import {
 	Button
 } from 'rendition'

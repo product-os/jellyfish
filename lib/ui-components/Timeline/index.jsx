@@ -21,9 +21,9 @@ import styled from 'styled-components'
 import uuid from 'uuid/v4'
 import Event from '../Event'
 import Update from '../Update'
-import * as helpers from '@jellyfish/ui-components/services/helpers'
-import Column from '@jellyfish/ui-components/shame/Column'
-import Icon from '@jellyfish/ui-components/shame/Icon'
+import * as helpers from '../services/helpers'
+import Column from '../shame/Column'
+import Icon from '../shame/Icon'
 import MessageInput from './MessageInput'
 import {
 	withSetup

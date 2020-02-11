@@ -25,9 +25,9 @@ import {
 } from '../../core'
 import {
 	ActionLink
-} from '@jellyfish/ui-components/shame/ActionLink'
-import Column from '@jellyfish/ui-components/shame/Column'
-import Event from '@jellyfish/ui-components/Event'
+} from '../../../../lib/ui-components/shame/ActionLink'
+import Column from '../../../../lib/ui-components/shame/Column'
+import Event from '../../../../lib/ui-components/Event'
 
 class MessageList extends React.Component {
 	constructor (props) {
