@@ -1,0 +1,27 @@
+{
+  "slug": "role-user-operator",
+  "name": "Operator role permissions",
+  "version": "1.0.0",
+  "type": "role@1.0.0",
+  "tags": [],
+  "markers": [],
+  "links": {},
+  "requires": [],
+  "capabilities": [],
+  "active": true,
+  "data": {
+    "read": {
+			"type": "object",
+			"additionalProperties": true,
+			"required": [ "slug", "type", "data"],
+			"properties": {
+				"type": "string",
+				"const": "view@1.0.0"
+			},
+			"slug": {
+				"type": "string",
+				"const": "view-all-users"
+			}
+    }
+  }
+}
