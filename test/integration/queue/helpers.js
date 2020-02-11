@@ -30,7 +30,8 @@ exports.beforeEach = async (test, options) => {
 		require('../../../apps/server/default-cards/contrib/role-user-community.json'))
 	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 		require('../../../apps/server/default-cards/contrib/password-reset.json'))
-
+	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
+		require('../../../apps/server/default-cards/contrib/first-time-login.json'))
 	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 		actionLibrary['action-create-card'].card)
 	await test.context.jellyfish.insertCard(test.context.context, test.context.session,

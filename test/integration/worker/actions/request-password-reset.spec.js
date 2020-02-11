@@ -21,20 +21,12 @@ const checkForKeyValue = (key, value, text) => {
 ava.beforeEach(async (test) => {
 	await helpers.worker.beforeEach(test, actionLibrary)
 	const {
-		queue,
 		worker,
 		session,
-		flush,
 		context,
-		jellyfish
+		jellyfish,
+		processAction
 	} = test.context
-
-	const processAction = async (action) => {
-		const createRequest = await queue.producer.enqueue(worker.getId(), session, action)
-
-		await flush(session)
-		return queue.producer.waitResults(context, createRequest)
-	}
 
 	const userCard = await jellyfish.getCardBySlug(context, session, 'user@latest')
 
@@ -69,8 +61,7 @@ ava.beforeEach(async (test) => {
 
 	test.context = {
 		...test.context,
-		user: await processAction(createUserAction),
-		processAction,
+		user: await processAction(session, createUserAction),
 		username,
 		userEmail,
 		userPassword,
@@ -107,7 +98,7 @@ ava('should create a password reset card and user link when arguments match a va
 		}
 	}
 
-	const requestPasswordReset = await processAction(requestPasswordResetAction)
+	const requestPasswordReset = await processAction(session, requestPasswordResetAction)
 	test.false(requestPasswordReset.error)
 
 	const [ passwordReset ] = await jellyfish.query(context, session, {
@@ -169,7 +160,7 @@ ava('should send a password-reset email when the username in the argument matche
 		}
 	}
 
-	const requestPasswordReset = await processAction(requestPasswordResetAction)
+	const requestPasswordReset = await processAction(session, requestPasswordResetAction)
 	test.false(requestPasswordReset.error)
 
 	const [ passwordReset ] = await jellyfish.query(context, session, {
@@ -231,7 +222,7 @@ ava('should fail silently if the username does not match a user', async (test) =
 		}
 	}
 
-	const requestPasswordReset = await processAction(requestPasswordResetAction)
+	const requestPasswordReset = await processAction(session, requestPasswordResetAction)
 	test.false(requestPasswordReset.error)
 
 	const [ passwordReset ] = await jellyfish.query(context, session, {
@@ -272,7 +263,7 @@ ava('should fail silently if the user is inactive', async (test) => {
 		arguments: {}
 	}
 
-	const requestDelete =	await processAction(requestDeleteCard)
+	const requestDelete =	await processAction(session, requestDeleteCard)
 	test.false(requestDelete.error)
 
 	const requestPasswordResetAction = {
@@ -285,7 +276,7 @@ ava('should fail silently if the user is inactive', async (test) => {
 		}
 	}
 
-	const requestPasswordReset = await processAction(requestPasswordResetAction)
+	const requestPasswordReset = await processAction(session, requestPasswordResetAction)
 	test.false(requestPasswordReset.error)
 
 	const [ passwordReset ] = await jellyfish.query(context, session, {
@@ -333,7 +324,7 @@ ava('should fail silently if the user does not have a hash', async (test) => {
 		}
 	}
 
-	const requestUpdate = await processAction(requestUpdateCard)
+	const requestUpdate = await processAction(session, requestUpdateCard)
 	test.false(requestUpdate.error)
 
 	const requestPasswordResetAction = {
@@ -346,7 +337,7 @@ ava('should fail silently if the user does not have a hash', async (test) => {
 		}
 	}
 
-	const requestPasswordReset = await processAction(requestPasswordResetAction)
+	const requestPasswordReset = await processAction(session, requestPasswordResetAction)
 	test.false(requestPasswordReset.error)
 
 	const [ passwordReset ] = await jellyfish.query(context, session, {
@@ -389,10 +380,10 @@ ava('should invalidate previous password reset requests', async (test) => {
 		}
 	}
 
-	const firstPasswordResetRequest = await processAction(requestPasswordResetAction)
+	const firstPasswordResetRequest = await processAction(session, requestPasswordResetAction)
 	test.false(firstPasswordResetRequest.error)
 
-	const secondPasswordResetRequest = await processAction(requestPasswordResetAction)
+	const secondPasswordResetRequest = await processAction(session, requestPasswordResetAction)
 	test.false(secondPasswordResetRequest.error)
 
 	const passwordResets = await jellyfish.query(context, session, {
@@ -443,7 +434,7 @@ ava('should not invalidate previous password reset requests from other users', a
 		}
 	})
 
-	const otherUser = await processAction(createUserAction)
+	const otherUser = await processAction(session, createUserAction)
 	test.false(otherUser.error)
 
 	const otherUserRequest = {
@@ -456,7 +447,7 @@ ava('should not invalidate previous password reset requests from other users', a
 		}
 	}
 
-	await processAction(otherUserRequest)
+	await processAction(session, otherUserRequest)
 
 	const userRequest = {
 		action: 'action-request-password-reset@1.0.0',
@@ -467,7 +458,7 @@ ava('should not invalidate previous password reset requests from other users', a
 			username
 		}
 	}
-	await processAction(userRequest)
+	await processAction(session, userRequest)
 
 	const passwordResets = await jellyfish.query(context, session, {
 		type: 'object',
@@ -519,7 +510,7 @@ ava('accounts with the same password have different request tokens', async (test
 		}
 	})
 
-	const secondUser = await processAction(createUserAction)
+	const secondUser = await processAction(session, createUserAction)
 	test.false(secondUser.error)
 
 	const firstRequest = {
@@ -532,7 +523,7 @@ ava('accounts with the same password have different request tokens', async (test
 		}
 	}
 
-	const firstPasswordResetRequest = await processAction(firstRequest)
+	const firstPasswordResetRequest = await processAction(session, firstRequest)
 	test.false(firstPasswordResetRequest.error)
 
 	const secondRequest = {
@@ -545,7 +536,7 @@ ava('accounts with the same password have different request tokens', async (test
 		}
 	}
 
-	const secondPasswordResetRequest = await processAction(secondRequest)
+	const secondPasswordResetRequest = await processAction(session, secondRequest)
 	test.false(secondPasswordResetRequest.error)
 
 	const passwordResets = await jellyfish.query(context, session, {
@@ -598,7 +589,7 @@ ava('successfully sends an email to a user with an array of emails', async (test
 		}
 	})
 
-	const newUser = await processAction(createUserAction)
+	const newUser = await processAction(session, createUserAction)
 	test.false(newUser.error)
 
 	const requestUpdateCard = {
@@ -616,7 +607,7 @@ ava('successfully sends an email to a user with an array of emails', async (test
 		}
 	}
 
-	const requestUpdate = await processAction(requestUpdateCard)
+	const requestUpdate = await processAction(session, requestUpdateCard)
 	test.false(requestUpdate.error)
 
 	const userWithEmailArray = await jellyfish.getCardById(context, session, newUser.data.id)
@@ -633,7 +624,7 @@ ava('successfully sends an email to a user with an array of emails', async (test
 		}
 	}
 
-	const passwordReset = await processAction(passwordResetRequest)
+	const passwordReset = await processAction(session, passwordResetRequest)
 	test.false(passwordReset.error)
 
 	const toIsInBody = checkForKeyValue('to', firstEmail, mailBody)

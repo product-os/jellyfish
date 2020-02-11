@@ -699,3 +699,64 @@ ava.serial('.query() users with the community role' +
 
 	test.is(viewAllUsers, undefined)
 })
+
+ava.serial('users with the "user-community" role cannot send a first-time login link to another user', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const targetUserDetails = createUserDetails()
+
+	const targetUser = await sdk.action({
+		card: 'user@1.0.0',
+		type: 'type',
+		action: 'action-create-user@1.0.0',
+		arguments: {
+			username: `user-${targetUserDetails.username}`,
+			email: targetUserDetails.email,
+			password: targetUserDetails.password
+		}
+	})
+
+	const communityUserDetails = createUserDetails()
+	const communityUser = await sdk.action({
+		card: 'user@1.0.0',
+		type: 'type',
+		action: 'action-create-user@1.0.0',
+		arguments: {
+			username: `user-${communityUserDetails.username}`,
+			email: communityUserDetails.email,
+			password: communityUserDetails.password
+		}
+	})
+
+	const session = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: `${communityUser.slug}@${communityUser.version}`,
+			type: 'user',
+			action: 'action-create-session@1.0.0',
+			arguments: {
+				password: communityUserDetails.password
+			}
+		})
+
+	const token = session.response.data.id
+
+	const result = await test.context.http('POST', '/api/v2/action', {
+		card: targetUser.id,
+		type: 'user@1.0.0',
+		action: 'action-send-first-time-login-link@1.0.0',
+		arguments: {}
+	}, {
+		Authorization: `Bearer ${token}`
+	})
+
+	test.is(result.code, 400)
+	test.deepEqual(result.response, {
+		error: true,
+		data: {
+			name: 'WorkerNoElement',
+			message: 'No such type: first-time-login'
+		}
+	})
+})

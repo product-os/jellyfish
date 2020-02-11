@@ -12,18 +12,34 @@
   "data": {
     "read": {
 			"type": "object",
-			"additionalProperties": true,
-			"required": [ "slug", "type", "data"],
-			"properties": {
-				"type": {
-					"type": "string",
-					"const": "view@1.0.0"
+			"anyOf":[
+				{
+					"type": "object",
+					"additionalProperties": true,
+					"required": [ "slug", "type", "data"],
+					"properties": {
+						"type": {
+							"type": "string",
+							"const": "view@1.0.0"
+						},
+						"slug": {
+							"type": "string",
+							"const": "view-all-users"
+						}
+					}
 				},
-				"slug": {
-					"type": "string",
-					"const": "view-all-users"
+				{
+					"type": "object",
+					"additionalProperties": true,
+				  "required": ["slug"],
+					"properties": {
+						"slug": {
+							"type": "string",
+							"const": "first-time-login"
+						}
+					}
 				}
-    	}
-  	}
-	}
+			]
+    }
+  }
 }

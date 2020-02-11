@@ -72,6 +72,16 @@ exports.worker = {
 				throw error
 			}
 		}
+
+		test.context.processAction = async (session, action) => {
+			const createRequest = await test.context.queue.producer.enqueue(
+				test.context.worker.getId(),
+				session,
+				action
+			)
+			await test.context.flush(session)
+			return test.context.queue.producer.waitResults(test.context, createRequest)
+		}
 	},
 	afterEach: helpers.afterEach
 }

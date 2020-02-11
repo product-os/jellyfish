@@ -20,20 +20,12 @@ ava.beforeEach(async (test) => {
 	await helpers.worker.beforeEach(test, actionLibrary)
 
 	const {
-		queue,
 		worker,
 		session,
-		flush,
 		jellyfish,
-		context
+		context,
+		processAction
 	} = test.context
-
-	const processAction = async (action) => {
-		const createRequest = await queue.producer.enqueue(worker.getId(), session, action)
-
-		await flush(session)
-		return queue.producer.waitResults(context, createRequest)
-	}
 
 	const userCard = await jellyfish.getCardBySlug(context, session, 'user@latest')
 
@@ -53,7 +45,7 @@ ava.beforeEach(async (test) => {
 		}
 	})
 
-	const userInfo = await processAction(createUserAction)
+	const userInfo = await processAction(session, createUserAction)
 	const user = await jellyfish.getCardById(context, session, userInfo.data.id)
 
 	const resetToken = crypto.createHmac('sha256', resetPasswordSecretToken)
@@ -72,7 +64,6 @@ ava.beforeEach(async (test) => {
 	test.context = {
 		...test.context,
 		user,
-		processAction,
 		userEmail,
 		userPassword,
 		username,
@@ -107,7 +98,7 @@ ava('should replace the user password when the requestToken is valid', async (te
 		}
 	}
 
-	const passwordReset = await processAction(requestPasswordReset)
+	const passwordReset = await processAction(session, requestPasswordReset)
 	test.false(passwordReset.error)
 
 	const completePasswordReset = await worker.pre(session, {
@@ -121,7 +112,7 @@ ava('should replace the user password when the requestToken is valid', async (te
 		}
 	})
 
-	const completePasswordResetResult = await processAction(completePasswordReset)
+	const completePasswordResetResult = await processAction(session, completePasswordReset)
 	test.false(completePasswordResetResult.error)
 
 	await test.throwsAsync(worker.pre(session, {
@@ -146,7 +137,7 @@ ava('should replace the user password when the requestToken is valid', async (te
 		}
 	})
 
-	const newPasswordLoginResult = await processAction(newPasswordLoginRequest)
+	const newPasswordLoginResult = await processAction(session, newPasswordLoginRequest)
 	test.false(newPasswordLoginResult.error)
 })
 
@@ -170,7 +161,7 @@ ava('should fail when the reset token does not match a valid card', async (test)
 		}
 	})
 
-	const error = await test.throwsAsync(processAction(completePasswordReset))
+	const error = await test.throwsAsync(processAction(session, completePasswordReset))
 
 	test.is(error.name, 'WorkerSchemaMismatch')
 	test.is(error.message, `Arguments do not match for action action-complete-password-reset: {
@@ -203,7 +194,7 @@ ava('should fail when the reset token has expired', async (test) => {
 		}
 	}
 
-	await processAction(requestPasswordReset)
+	await processAction(session, requestPasswordReset)
 
 	const [ passwordReset ] = await jellyfish.query(context, session, {
 		type: 'object',
@@ -251,7 +242,7 @@ ava('should fail when the reset token has expired', async (test) => {
 		}
 	}
 
-	const updatedCard = await processAction(requestUpdateCard)
+	const updatedCard = await processAction(session, requestUpdateCard)
 	test.false(updatedCard.error)
 
 	const completePasswordReset = await worker.pre(session, {
@@ -265,7 +256,7 @@ ava('should fail when the reset token has expired', async (test) => {
 		}
 	})
 
-	await test.throwsAsync(processAction(completePasswordReset), {
+	await test.throwsAsync(processAction(session, completePasswordReset), {
 		instanceOf: worker.errors.WorkerAuthenticationError,
 		message: 'Password reset token has expired'
 	})
@@ -295,7 +286,7 @@ ava('should fail when the reset token is not active', async (test) => {
 		}
 	}
 
-	await processAction(requestPasswordReset)
+	await processAction(session, requestPasswordReset)
 
 	const [ passwordReset ] = await jellyfish.query(context, session, {
 		type: 'object',
@@ -330,7 +321,7 @@ ava('should fail when the reset token is not active', async (test) => {
 		arguments: {}
 	}
 
-	const requestDelete =	await processAction(requestDeleteCard)
+	const requestDelete =	await processAction(session, requestDeleteCard)
 	test.false(requestDelete.error)
 
 	const completePasswordReset = await worker.pre(session, {
@@ -344,7 +335,7 @@ ava('should fail when the reset token is not active', async (test) => {
 		}
 	})
 
-	await test.throwsAsync(processAction(completePasswordReset), {
+	await test.throwsAsync(processAction(session, completePasswordReset), {
 		instanceOf: worker.errors.WorkerAuthenticationError,
 		message: 'Reset token invalid'
 	})
@@ -371,7 +362,7 @@ ava('should fail if the user becomes inactive between requesting and completing 
 		}
 	}
 
-	const requestPasswordReset = await processAction(requestPasswordResetAction)
+	const requestPasswordReset = await processAction(session, requestPasswordResetAction)
 	test.false(requestPasswordReset.error)
 
 	const requestDeleteCard = {
@@ -382,7 +373,7 @@ ava('should fail if the user becomes inactive between requesting and completing 
 		arguments: {}
 	}
 
-	const requestDelete =	await processAction(requestDeleteCard)
+	const requestDelete =	await processAction(session, requestDeleteCard)
 	test.false(requestDelete.error)
 
 	const completePasswordReset = await worker.pre(session, {
@@ -396,7 +387,7 @@ ava('should fail if the user becomes inactive between requesting and completing 
 		}
 	})
 
-	await test.throwsAsync(processAction(completePasswordReset), {
+	await test.throwsAsync(processAction(session, completePasswordReset), {
 		instanceOf: worker.errors.WorkerAuthenticationError,
 		message: 'Reset token invalid'
 	})
@@ -424,7 +415,7 @@ ava('should remove the password reset card', async (test) => {
 		}
 	}
 
-	const requestPasswordReset = await processAction(requestPasswordResetAction)
+	const requestPasswordReset = await processAction(session, requestPasswordResetAction)
 	test.false(requestPasswordReset.error)
 
 	const completePasswordReset = await worker.pre(session, {
@@ -438,7 +429,7 @@ ava('should remove the password reset card', async (test) => {
 		}
 	})
 
-	await processAction(completePasswordReset)
+	await processAction(session, completePasswordReset)
 
 	const [ passwordReset ] = await jellyfish.query(context, session, {
 		type: 'object',

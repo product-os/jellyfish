@@ -1,0 +1,34 @@
+{
+  "slug": "first-time-login",
+  "name": "first-time login",
+  "version": "1.0.0",
+  "type": "type@1.0.0",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "properties": {
+            "requestedAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "expiresAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "firstTimeLoginToken": {
+              "type": "string",
+							"format": "uuid"
+            }
+          }
+        }
+      }
+    }
+  }
+}
