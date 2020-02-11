@@ -1,0 +1,215 @@
+{
+  "slug": "role-user-operator",
+  "name": "Operator role permissions",
+  "version": "1.0.0",
+  "type": "role@1.0.0",
+  "tags": [],
+  "markers": [],
+  "links": {},
+  "requires": [],
+  "capabilities": [],
+  "active": true,
+  "data": {
+    "read": {
+      "type": "object",
+      "required": [ "active" ],
+      "properties": {
+        "active": {
+          "type": "boolean",
+          "const": true
+        }
+      },
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": true,
+          "required": [ "type" ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "not": {
+                "enum": [
+                  "action-request",
+                  "action-request@1.0.0",
+                  "event",
+                  "event@1.0.0",
+                  "external-event",
+                  "external-event@1.0.0",
+                  "role",
+                  "role@1.0.0",
+                  "session",
+                  "session@1.0.0",
+                  "type",
+                  "type@1.0.0",
+                  "user",
+                  "user@1.0.0",
+                  "view",
+                  "view@1.0.0"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [ "slug", "type" ],
+          "additionalProperties": true,
+          "properties": {
+            "slug": {
+              "not": {
+                "enum": [
+                  "card",
+                  "card@1.0.0",
+                  "action",
+                  "action@1.0.0",
+                  "event",
+                  "event@1.0.0",
+                  "external-event",
+                  "external-event@1.0.0",
+                  "role",
+                  "role@1.0.0"
+                ]
+              }
+            },
+            "type": {
+              "type": "string",
+              "enum": [ "type", "type@1.0.0" ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "description": "User can view their own execute, session and view cards",
+          "additionalProperties": true,
+          "required": [ "data", "type" ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "view",
+                "session",
+                "execute",
+                "view@1.0.0",
+                "session@1.0.0",
+                "execute@1.0.0"
+              ]
+            },
+            "data": {
+              "type": "object",
+              "required": [ "actor" ],
+              "additionalProperties": true,
+              "properties": {
+                "actor": {
+                  "type": "string",
+                  "const": {
+                    "$eval": "user.id"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": true,
+          "required": [ "slug", "type", "data" ],
+          "properties": {
+            "slug": {
+              "type": "string",
+              "const": {
+                "$eval": "user.slug"
+              }
+            },
+            "type": {
+              "type": "string",
+              "enum": [ "user", "user@1.0.0" ]
+            },
+            "data": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "email": {
+                  "type": [ "string", "array" ]
+                },
+                "hash": {
+                  "type": "string"
+                },
+                "avatar": {
+                  "type": [ "string", "null" ]
+                },
+                "oauth": {
+                  "type": "object",
+                  "additionalProperties": true
+                },
+                "profile": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": true,
+          "required": [ "slug", "type", "data" ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [ "view", "view@1.0.0" ]
+            },
+            "slug": {
+              "type": "string",
+              "not": {
+                "enum": [
+                  "view-active",
+                  "view-active-triggered-actions",
+                  "view-non-executed-action-requests",
+                ]
+              }
+            },
+            "data": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": true,
+          "required": [ "id", "type", "data", "slug" ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "slug": {
+              "type": "string",
+              "not": {
+                "enum": [
+                  "user-admin",
+                  "user-guest"
+                ]
+              }
+            },
+            "type": {
+              "type": "string",
+              "enum": [ "user", "user@1.0.0" ]
+            },
+            "data": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "email": {
+                  "type": [ "string", "array" ]
+                },
+                "avatar": {
+                  "type": [ "string", "null" ]
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
