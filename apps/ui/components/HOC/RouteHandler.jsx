@@ -18,7 +18,7 @@ import {
 import {
 	getLens
 } from '../../lens'
-import RouteHandler from '@jellyfish/ui-components/RouteHandler'
+import RouteHandler from '../../../../lib/ui-components/RouteHandler'
 
 const mapStateToProps = (state) => {
 	return {
