@@ -14,7 +14,7 @@ import {
 	selectors
 } from '../../core'
 
-import HomeChannel from '@jellyfish/ui-components/HomeChannel'
+import HomeChannel from '../../../../lib/ui-components/HomeChannel'
 
 const mapStateToProps = (state, ownProps) => {
 	const target = _.get(ownProps, [ 'channel', 'data', 'head', 'id' ])

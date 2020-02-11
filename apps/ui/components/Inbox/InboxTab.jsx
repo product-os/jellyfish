@@ -25,8 +25,8 @@ import {
 } from 'use-debounce'
 import {
 	useSetup
-} from '@jellyfish/ui-components/SetupProvider'
-import Icon from '@jellyfish/ui-components/shame/Icon'
+} from '../../../../lib/ui-components/SetupProvider'
+import Icon from '../../../../lib/ui-components/shame/Icon'
 import {
 	selectors
 } from '../../core'

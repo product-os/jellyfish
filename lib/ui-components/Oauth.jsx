@@ -12,7 +12,7 @@ import {
 import {
 	Markdown
 } from 'rendition/dist/extra/Markdown'
-import Icon from '@jellyfish/ui-components/shame/Icon'
+import Icon from './shame/Icon'
 
 export default class Oauth extends React.Component {
 	constructor (props) {

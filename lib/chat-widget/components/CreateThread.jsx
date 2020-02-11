@@ -14,7 +14,7 @@ import {
 	Input
 } from 'rendition'
 import styled from 'styled-components'
-import MessageInput from '@jellyfish/ui-components/Timeline/MessageInput'
+import MessageInput from '../../../lib/ui-components/Timeline/MessageInput'
 import {
 	TaskButton
 } from '../components/TaskButton'

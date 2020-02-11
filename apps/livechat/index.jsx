@@ -12,7 +12,7 @@ import qs from 'query-string'
 import {
 	App,
 	createSdk
-} from '@jellyfish/chat-widget'
+} from '../../lib/chat-widget'
 
 const init = async ({
 	product,

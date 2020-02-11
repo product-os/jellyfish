@@ -17,7 +17,7 @@ import {
 	Mermaid
 } from 'rendition/dist/extra/Mermaid'
 import Label from './Label'
-import * as helpers from '@jellyfish/ui-components/services/helpers'
+import * as helpers from '../../lib/ui-components/services/helpers'
 
 const transformMirror = (mirror) => {
 	if (mirror.includes('frontapp.com')) {
