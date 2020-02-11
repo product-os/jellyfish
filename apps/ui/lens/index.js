@@ -10,6 +10,7 @@ import jsone from 'json-e'
 
 // TODO: Improve the way "utility" lenses are handled
 import CreateLens from './actions/CreateLens'
+import CreateUserLens from './actions/CreateUserLens'
 import CreateViewLens from './actions/CreateView'
 import EditLens from './actions/EditLens'
 import LinksGraphLens from './actions/LinksGraphLens'
@@ -71,6 +72,9 @@ export const getLens = (format, data, user) => {
 		return LinksGraphLens
 	}
 	if (data.action === 'create') {
+		if (data.types.slug === 'user') {
+			return CreateUserLens
+		}
 		return CreateLens
 	}
 	if (data.action === 'create-view') {
