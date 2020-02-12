@@ -7,9 +7,9 @@
 /* eslint-env node */
 
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const path = require('path')
 const DefinePlugin = require('webpack/lib/DefinePlugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const mergeConfig = require('webpack-merge')
 const baseConfig = require('../../webpack.config.base.js')
 
@@ -29,9 +29,28 @@ const config = mergeConfig(baseConfig, {
 	entry: path.join(uiRoot, 'index.jsx'),
 
 	output: {
-		filename: 'bundle.[hash].js',
+		filename: '[name].[contenthash].js',
 		path: outDir,
 		publicPath: '/'
+	},
+
+	devServer: {
+		// eslint-disable-next-line no-process-env
+		port: process.env.LIVECHAT_PORT
+	},
+
+	optimization: {
+		moduleIds: 'hashed',
+		runtimeChunk: 'single',
+		splitChunks: {
+			cacheGroups: {
+				vendor: {
+					test: /[\\/]node_modules[\\/]/,
+					name: 'vendors',
+					chunks: 'all'
+				}
+			}
+		}
 	},
 
 	plugins: [
@@ -47,12 +66,7 @@ const config = mergeConfig(baseConfig, {
 			}
 			/* eslint-enable no-process-env */
 		})
-	],
-
-	devServer: {
-		// eslint-disable-next-line no-process-env
-		port: process.env.LIVECHAT_PORT
-	}
+	]
 })
 
 // eslint-disable-next-line no-process-env

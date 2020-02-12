@@ -1,4 +1,28 @@
 - commits:
+    - subject: >-
+        Improve the way webpack packs bundles, in order to make them more cache
+        friendly
+      hash: a6ed3e31a8370f321e0c052adc7f721e76d3d4a8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.68.1
+  date: 2020-02-12T09:25:08.658Z
+- commits:
+    - subject: Add balena api env vars in config manifest
+      hash: 971f2bc80a266c3ecf86d2541d65690141463e1f
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 24.68.0
+  date: 2020-02-11T14:41:26.899Z
+- commits:
     - subject: 'server: Use version suffixes in triggered actions target slugs'
       hash: d0905101bbbc0368f40d6a67cba831da3c2ae8e6
       body: ''
