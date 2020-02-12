@@ -23,20 +23,20 @@ import {
 	Select,
 	Badge
 } from 'rendition'
-import BaseLens from '../common/BaseLens'
-import Link from '../../../../lib/ui-components/Link'
+import BaseLens from '../../common/BaseLens'
+import Link from '../../../../../lib/ui-components/Link'
 import {
 	actionCreators,
 	selectors,
 	analytics,
 	sdk
-} from '../../core'
-import Column from '@jellyfish/ui-components/shame/Column'
-import ColorHashPill from '@jellyfish/ui-components/shame/ColorHashPill'
+} from '../../../core'
+import Column from '../../../../../lib/ui-components/shame/Column'
+import ColorHashPill from '../../../../../lib/ui-components/shame/ColorHashPill'
 import {
 	appendToChannelPath,
 	patchPath
-} from '@jellyfish/ui-components/services/helpers'
+} from '../../../../../lib/ui-components/services/helpers.js'
 
 class DropDownButtonWrapper extends Component {
 	// eslint-disable-next-line class-methods-use-this
@@ -97,7 +97,7 @@ class DropDownButtonWrapper extends Component {
 }
 
 // Class dropbodown button status
-class BetterCardTable extends BaseLens {
+export class BetterTable extends BaseLens {
 	constructor (props) {
 		super(props)
 
@@ -344,7 +344,7 @@ const lens = {
 	version: '1.0.0',
 	name: 'Better table lens',
 	data: {
-		renderer: connect(mapStateToProps, mapDispatchToProps)(BetterCardTable),
+		renderer: connect(mapStateToProps, mapDispatchToProps)(BetterTable),
 		format: 'full',
 		icon: 'table',
 		type: '*',

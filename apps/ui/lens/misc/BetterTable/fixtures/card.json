@@ -1,0 +1,554 @@
+{
+  "id": "a910a63f-2a71-413f-bc7d-98c683a3b08e",
+  "slug": "opportunity-airships-4ee188b0-be6e-410d-a080-d33aad6e5dc2",
+  "type": "opportunity@1.0.0",
+  "active": true,
+  "version": "1.0.0",
+  "name": "AirShips",
+  "tags": [
+    "more awesome",
+    "Big Boys"
+  ],
+  "markers": [
+    "org-balena"
+  ],
+  "created_at": "2020-01-22T16:29:27.931Z",
+  "links": {
+    "has attached element": [
+      {
+        "id": "0354316c-fbce-42d8-8657-681dd94be559",
+        "data": {
+          "actor": "a701587c-fe6d-4007-bdc3-35a2857e4b71",
+          "target": "a910a63f-2a71-413f-bc7d-98c683a3b08e",
+          "payload": [
+            {
+              "op": "replace",
+              "path": "/data/status",
+              "value": "Discovery"
+            }
+          ],
+          "timestamp": "2020-01-28T10:55:05.442Z"
+        },
+        "name": null,
+        "slug": "update-29d19be1-2b8f-447b-af36-ea9b423d46a5",
+        "tags": [],
+        "type": "update@1.0.0",
+        "links": {},
+        "active": true,
+        "markers": [
+          "org-balena"
+        ],
+        "version": "1.0.0",
+        "requires": [],
+        "linked_at": {
+          "is attached to": "2020-01-28T10:55:05.797Z"
+        },
+        "created_at": "2020-01-28T10:55:05.783Z",
+        "updated_at": null,
+        "capabilities": []
+      },
+      {
+        "id": "1b19e5d4-b84b-4a07-b034-c6ca6605d2a8",
+        "data": {
+          "actor": "a701587c-fe6d-4007-bdc3-35a2857e4b71",
+          "target": "a910a63f-2a71-413f-bc7d-98c683a3b08e",
+          "payload": [
+            {
+              "op": "replace",
+              "path": "/data/status",
+              "value": "Created"
+            }
+          ],
+          "timestamp": "2020-01-23T14:14:45.979Z"
+        },
+        "name": null,
+        "slug": "update-7ba3c840-c690-455f-8292-9edeec611d58",
+        "tags": [],
+        "type": "update@1.0.0",
+        "links": {},
+        "active": true,
+        "markers": [
+          "org-balena"
+        ],
+        "version": "1.0.0",
+        "requires": [],
+        "linked_at": {
+          "is attached to": "2020-01-23T14:14:46.480Z"
+        },
+        "created_at": "2020-01-23T14:14:46.469Z",
+        "updated_at": null,
+        "capabilities": []
+      },
+      {
+        "id": "1e502eef-16bf-4edb-8d82-fbd6232ba580",
+        "data": {
+          "actor": "a701587c-fe6d-4007-bdc3-35a2857e4b71",
+          "target": "a910a63f-2a71-413f-bc7d-98c683a3b08e",
+          "payload": [
+            {
+              "op": "replace",
+              "path": "/data/status",
+              "value": "Created"
+            }
+          ],
+          "timestamp": "2020-01-23T14:31:08.123Z"
+        },
+        "name": null,
+        "slug": "update-0fa7eaad-0a27-4a48-b0cf-6b51c6efdd6d",
+        "tags": [],
+        "type": "update@1.0.0",
+        "links": {},
+        "active": true,
+        "markers": [
+          "org-balena"
+        ],
+        "version": "1.0.0",
+        "requires": [],
+        "linked_at": {
+          "is attached to": "2020-01-23T14:31:08.242Z"
+        },
+        "created_at": "2020-01-23T14:31:08.228Z",
+        "updated_at": null,
+        "capabilities": []
+      },
+      {
+        "id": "2388b940-f1a1-4794-b753-37b89a882803",
+        "data": {
+          "actor": "a701587c-fe6d-4007-bdc3-35a2857e4b71",
+          "target": "a910a63f-2a71-413f-bc7d-98c683a3b08e",
+          "payload": [
+            {
+              "op": "replace",
+              "path": "/data/dueDate",
+              "value": "2020-01-27"
+            }
+          ],
+          "timestamp": "2020-01-27T13:45:57.645Z"
+        },
+        "name": null,
+        "slug": "update-be43ee7b-0ced-45c6-a749-46041de6528f",
+        "tags": [],
+        "type": "update@1.0.0",
+        "links": {},
+        "active": true,
+        "markers": [
+          "org-balena"
+        ],
+        "version": "1.0.0",
+        "requires": [],
+        "linked_at": {
+          "is attached to": "2020-01-27T13:45:57.812Z"
+        },
+        "created_at": "2020-01-27T13:45:57.798Z",
+        "updated_at": null,
+        "capabilities": []
+      },
+      {
+        "id": "43fe0ea4-6bb6-444b-958b-89307bdcbf9f",
+        "data": {
+          "actor": "a701587c-fe6d-4007-bdc3-35a2857e4b71",
+          "target": "a910a63f-2a71-413f-bc7d-98c683a3b08e",
+          "payload": [
+            {
+              "op": "add",
+              "path": "/data/dueDate",
+              "value": "2020-01-25"
+            }
+          ],
+          "timestamp": "2020-01-23T17:03:28.665Z"
+        },
+        "name": null,
+        "slug": "update-188b4752-bd69-486d-a40f-6e7247deade7",
+        "tags": [],
+        "type": "update@1.0.0",
+        "links": {},
+        "active": true,
+        "markers": [
+          "org-balena"
+        ],
+        "version": "1.0.0",
+        "requires": [],
+        "linked_at": {
+          "is attached to": "2020-01-23T17:03:29.544Z"
+        },
+        "created_at": "2020-01-23T17:03:29.458Z",
+        "updated_at": null,
+        "capabilities": []
+      },
+      {
+        "id": "61f88207-4509-450f-8c3c-1b18ea8cba2d",
+        "data": {
+          "actor": "a701587c-fe6d-4007-bdc3-35a2857e4b71",
+          "target": "a910a63f-2a71-413f-bc7d-98c683a3b08e",
+          "payload": [
+            {
+              "op": "add",
+              "path": "/Stage",
+              "value": "Created"
+            }
+          ],
+          "timestamp": "2020-01-23T13:25:56.425Z"
+        },
+        "name": null,
+        "slug": "update-281f75af-adac-45f7-94a6-14e79b3e317f",
+        "tags": [],
+        "type": "update@1.0.0",
+        "links": {},
+        "active": true,
+        "markers": [
+          "org-balena"
+        ],
+        "version": "1.0.0",
+        "requires": [],
+        "linked_at": {
+          "is attached to": "2020-01-23T13:25:57.038Z"
+        },
+        "created_at": "2020-01-23T13:25:57.020Z",
+        "updated_at": null,
+        "capabilities": []
+      },
+      {
+        "id": "66f30cec-45ff-4170-9b87-4c1e61c56679",
+        "data": {
+          "actor": "a701587c-fe6d-4007-bdc3-35a2857e4b71",
+          "target": "a910a63f-2a71-413f-bc7d-98c683a3b08e",
+          "payload": [
+            {
+              "op": "replace",
+              "path": "/data/status",
+              "value": "Committed "
+            }
+          ],
+          "timestamp": "2020-01-23T14:17:50.726Z"
+        },
+        "name": null,
+        "slug": "update-f69345b9-7631-4b2b-aa96-b3780be66f80",
+        "tags": [],
+        "type": "update@1.0.0",
+        "links": {},
+        "active": true,
+        "markers": [
+          "org-balena"
+        ],
+        "version": "1.0.0",
+        "requires": [],
+        "linked_at": {
+          "is attached to": "2020-01-23T14:17:51.285Z"
+        },
+        "created_at": "2020-01-23T14:17:51.272Z",
+        "updated_at": null,
+        "capabilities": []
+      },
+      {
+        "id": "70c69f59-395b-4311-91c3-5502449f443f",
+        "data": {
+          "actor": "a701587c-fe6d-4007-bdc3-35a2857e4b71",
+          "target": "a910a63f-2a71-413f-bc7d-98c683a3b08e",
+          "payload": [
+            {
+              "op": "replace",
+              "path": "/data/status",
+              "value": "Committed "
+            }
+          ],
+          "timestamp": "2020-01-23T14:31:01.663Z"
+        },
+        "name": null,
+        "slug": "update-5029620f-6e32-4f46-a980-c92b7589ffcd",
+        "tags": [],
+        "type": "update@1.0.0",
+        "links": {},
+        "active": true,
+        "markers": [
+          "org-balena"
+        ],
+        "version": "1.0.0",
+        "requires": [],
+        "linked_at": {
+          "is attached to": "2020-01-23T14:31:01.939Z"
+        },
+        "created_at": "2020-01-23T14:31:01.799Z",
+        "updated_at": null,
+        "capabilities": []
+      },
+      {
+        "id": "73f74ab8-9f37-4cad-a0af-b1167ea3c968",
+        "data": {
+          "actor": "a701587c-fe6d-4007-bdc3-35a2857e4b71",
+          "target": "a910a63f-2a71-413f-bc7d-98c683a3b08e",
+          "payload": [
+            {
+              "op": "replace",
+              "path": "/data/status",
+              "value": "Discovery"
+            }
+          ],
+          "timestamp": "2020-01-23T14:14:41.299Z"
+        },
+        "name": null,
+        "slug": "update-c39f35e6-3dc5-427b-bbcc-1860445c0eaf",
+        "tags": [],
+        "type": "update@1.0.0",
+        "links": {},
+        "active": true,
+        "markers": [
+          "org-balena"
+        ],
+        "version": "1.0.0",
+        "requires": [],
+        "linked_at": {
+          "is attached to": "2020-01-23T14:14:41.807Z"
+        },
+        "created_at": "2020-01-23T14:14:41.791Z",
+        "updated_at": null,
+        "capabilities": []
+      },
+      {
+        "id": "7adaf0e0-5ec9-402f-bbf7-20d8acca33ce",
+        "data": {
+          "actor": "a701587c-fe6d-4007-bdc3-35a2857e4b71",
+          "target": "a910a63f-2a71-413f-bc7d-98c683a3b08e",
+          "payload": [
+            {
+              "op": "replace",
+              "path": "/data/dueDate",
+              "value": "2020-01-28"
+            }
+          ],
+          "timestamp": "2020-01-27T13:46:07.340Z"
+        },
+        "name": null,
+        "slug": "update-bf02b3be-7538-4af1-8ceb-aa751bf304c7",
+        "tags": [],
+        "type": "update@1.0.0",
+        "links": {},
+        "active": true,
+        "markers": [
+          "org-balena"
+        ],
+        "version": "1.0.0",
+        "requires": [],
+        "linked_at": {
+          "is attached to": "2020-01-27T13:46:07.627Z"
+        },
+        "created_at": "2020-01-27T13:46:07.611Z",
+        "updated_at": null,
+        "capabilities": []
+      },
+      {
+        "id": "891548e1-198f-46b7-b8bb-a43c8b4239cb",
+        "data": {
+          "actor": "a701587c-fe6d-4007-bdc3-35a2857e4b71",
+          "target": "a910a63f-2a71-413f-bc7d-98c683a3b08e",
+          "payload": [
+            {
+              "op": "replace",
+              "path": "/data/status",
+              "value": "Discovery"
+            }
+          ],
+          "timestamp": "2020-01-23T14:15:33.006Z"
+        },
+        "name": null,
+        "slug": "update-c819b10a-a1af-4a8f-885e-9709b5505cac",
+        "tags": [],
+        "type": "update@1.0.0",
+        "links": {},
+        "active": true,
+        "markers": [
+          "org-balena"
+        ],
+        "version": "1.0.0",
+        "requires": [],
+        "linked_at": {
+          "is attached to": "2020-01-23T14:15:33.443Z"
+        },
+        "created_at": "2020-01-23T14:15:33.432Z",
+        "updated_at": null,
+        "capabilities": []
+      },
+      {
+        "id": "a836d03f-5c5e-4f64-87cd-337f803f0a44",
+        "data": {
+          "actor": "a701587c-fe6d-4007-bdc3-35a2857e4b71",
+          "target": "a910a63f-2a71-413f-bc7d-98c683a3b08e",
+          "payload": {
+            "data": {
+              "value": 12,
+              "status": "Closed Won"
+            },
+            "name": "AirShips",
+            "slug": "opportunity-airships-4ee188b0-be6e-410d-a080-d33aad6e5dc2",
+            "tags": [
+              "more awesome",
+              "Big Boys"
+            ],
+            "type": "opportunity@1.0.0",
+            "markers": [
+              "org-balena"
+            ],
+            "linked_at": {}
+          },
+          "timestamp": "2020-01-22T16:29:27.410Z"
+        },
+        "name": null,
+        "slug": "create-364b404a-dad4-404f-94d5-9be23e8a9262",
+        "tags": [],
+        "type": "create@1.0.0",
+        "links": {},
+        "active": true,
+        "markers": [
+          "org-balena"
+        ],
+        "version": "1.0.0",
+        "requires": [],
+        "linked_at": {
+          "is attached to": "2020-01-22T16:29:28.019Z"
+        },
+        "created_at": "2020-01-22T16:29:27.943Z",
+        "updated_at": null,
+        "capabilities": []
+      },
+      {
+        "id": "b4dc82ac-2cfd-4b68-b9a9-dde713808abb",
+        "data": {
+          "actor": "a701587c-fe6d-4007-bdc3-35a2857e4b71",
+          "target": "a910a63f-2a71-413f-bc7d-98c683a3b08e",
+          "payload": [
+            {
+              "op": "replace",
+              "path": "/data/status",
+              "value": "Closed Lost"
+            }
+          ],
+          "timestamp": "2020-01-23T18:26:57.287Z"
+        },
+        "name": null,
+        "slug": "update-a33ce1c8-aa3e-4400-8db6-4694ea692113",
+        "tags": [],
+        "type": "update@1.0.0",
+        "links": {},
+        "active": true,
+        "markers": [
+          "org-balena"
+        ],
+        "version": "1.0.0",
+        "requires": [],
+        "linked_at": {
+          "is attached to": "2020-01-23T18:26:57.861Z"
+        },
+        "created_at": "2020-01-23T18:26:57.849Z",
+        "updated_at": null,
+        "capabilities": []
+      },
+      {
+        "id": "bf19d505-ea1f-46ee-9589-f367e7ee3a4b",
+        "data": {
+          "actor": "a701587c-fe6d-4007-bdc3-35a2857e4b71",
+          "target": "a910a63f-2a71-413f-bc7d-98c683a3b08e",
+          "payload": [
+            {
+              "op": "replace",
+              "path": "/data/status",
+              "value": "Committed "
+            }
+          ],
+          "timestamp": "2020-01-23T14:57:04.971Z"
+        },
+        "name": null,
+        "slug": "update-2267c389-80ae-45cd-b385-5882e6705a84",
+        "tags": [],
+        "type": "update@1.0.0",
+        "links": {},
+        "active": true,
+        "markers": [
+          "org-balena"
+        ],
+        "version": "1.0.0",
+        "requires": [],
+        "linked_at": {
+          "is attached to": "2020-01-23T14:57:05.697Z"
+        },
+        "created_at": "2020-01-23T14:57:05.641Z",
+        "updated_at": null,
+        "capabilities": []
+      },
+      {
+        "id": "c2446abd-51a1-4221-bd9b-ef02734b656c",
+        "data": {
+          "actor": "a701587c-fe6d-4007-bdc3-35a2857e4b71",
+          "target": "a910a63f-2a71-413f-bc7d-98c683a3b08e",
+          "payload": [
+            {
+              "op": "replace",
+              "path": "/data/status",
+              "value": "Created"
+            }
+          ],
+          "timestamp": "2020-01-23T14:13:17.633Z"
+        },
+        "name": null,
+        "slug": "update-613842a1-2630-4a99-82c5-3001178c7300",
+        "tags": [],
+        "type": "update@1.0.0",
+        "links": {},
+        "active": true,
+        "markers": [
+          "org-balena"
+        ],
+        "version": "1.0.0",
+        "requires": [],
+        "linked_at": {
+          "is attached to": "2020-01-23T14:13:17.992Z"
+        },
+        "created_at": "2020-01-23T14:13:17.980Z",
+        "updated_at": null,
+        "capabilities": []
+      },
+      {
+        "id": "e00cdc23-3f6c-4a68-b893-e8600522835a",
+        "data": {
+          "actor": "a701587c-fe6d-4007-bdc3-35a2857e4b71",
+          "target": "a910a63f-2a71-413f-bc7d-98c683a3b08e",
+          "payload": [
+            {
+              "op": "replace",
+              "path": "/data/status",
+              "value": "Discovery"
+            }
+          ],
+          "timestamp": "2020-01-23T14:27:28.761Z"
+        },
+        "name": null,
+        "slug": "update-9ba34d0f-9b36-43aa-9924-996916b9c87e",
+        "tags": [],
+        "type": "update@1.0.0",
+        "links": {},
+        "active": true,
+        "markers": [
+          "org-balena"
+        ],
+        "version": "1.0.0",
+        "requires": [],
+        "linked_at": {
+          "is attached to": "2020-01-23T14:27:29.014Z"
+        },
+        "created_at": "2020-01-23T14:27:28.995Z",
+        "updated_at": null,
+        "capabilities": []
+      }
+    ]
+  },
+  "requires": [],
+  "capabilities": [],
+  "data": {
+    "value": 12,
+    "status": "Discovery",
+    "dueDate": "2020-01-28"
+  },
+  "updated_at": "2020-01-28T10:55:05.772Z",
+  "linked_at": {
+    "is attached to": "2020-01-22T16:29:28.680Z",
+    "has attached element": "2020-01-28T10:55:05.797Z"
+  }
+}

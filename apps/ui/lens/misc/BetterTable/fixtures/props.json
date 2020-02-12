@@ -1,0 +1,501 @@
+{
+    "channel": {
+        "id": "b5c999bb-40a2-494b-a1c7-71dd7b172233",
+        "created_at": "2020-02-07T13:26:16.646Z",
+        "slug": "channel-b5c999bb-40a2-494b-a1c7-71dd7b172233",
+        "type": "channel",
+        "active": true,
+        "data": {
+            "target": "view-all-opportunities",
+            "options": {},
+            "canonical": true,
+            "head": {
+                "id": "c7fcce62-b282-4036-902e-89daa12b371c",
+                "slug": "view-all-opportunities",
+                "type": "view",
+                "active": true,
+                "version": "1.0.0",
+                "name": "All opportunities",
+                "tags": [],
+                "markers": [
+                    "org-balena"
+                ],
+                "created_at": "2019-11-19T12:24:55.242Z",
+                "links": {},
+                "requires": [],
+                "capabilities": [],
+                "data": {
+                    "allOf": [
+                        {
+                            "name": "Active opportunities",
+                            "schema": {
+                                "type": "object",
+                                "$$links": {
+                                    "is attached to": {
+                                        "type": "object",
+                                        "properties": {
+                                            "type": {
+                                                "enum": [
+                                                    "account",
+                                                    "account@1.0.0"
+                                                ]
+                                            }
+                                        },
+                                        "additionalProperties": true
+                                    }
+                                },
+                                "required": [
+                                    "active",
+                                    "type"
+                                ],
+                                "properties": {
+                                    "type": {
+                                        "enum": [
+                                            "opportunity",
+                                            "opportunity@1.0.0"
+                                        ],
+                                        "type": "string"
+                                    },
+                                    "active": {
+                                        "type": "boolean",
+                                        "const": true
+                                    }
+                                },
+                                "additionalProperties": true
+                            }
+                        }
+                    ],
+                    "lenses": [
+                        "lens-list",
+                        "lens-better-table",
+                        "lens-kanban"
+                    ],
+                    "namespace": "Sales"
+                },
+                "updated_at": "2020-02-06T14:24:38.555Z",
+                "linked_at": {}
+            }
+        }
+    },
+    "tail": [
+        {
+            "id": "a910a63f-2a71-413f-bc7d-98c683a3b08e",
+            "slug": "opportunity-airships-4ee188b0-be6e-410d-a080-d33aad6e5dc2",
+            "type": "opportunity@1.0.0",
+            "active": true,
+            "version": "1.0.0",
+            "name": "AirShips",
+            "tags": [
+                "more awesome",
+                "Big Boys"
+            ],
+            "markers": [
+                "org-balena"
+            ],
+            "created_at": "2020-01-22T16:29:27.931Z",
+            "links": {
+                "is attached to": [
+                    {
+                        "id": "d7fb4522-c0bc-4ba2-8c3d-9d0879661bfa",
+                        "data": {
+                            "status": "Nominal",
+                            "usecase": "smart locks, AI"
+                        },
+                        "name": "AirBnb",
+                        "slug": "account-airbnb-c828b455-16e5-4c95-9e4e-cb3dd984e3f2",
+                        "tags": [
+                            "Awesome",
+                            "Gig workers",
+                            "Homeowners"
+                        ],
+                        "type": "account@1.0.0",
+                        "links": {},
+                        "active": true,
+                        "markers": [
+                            "org-balena"
+                        ],
+                        "version": "1.0.0",
+                        "requires": [],
+                        "linked_at": {
+                            "has attached": "2020-01-22T16:29:28.680Z",
+                            "has attached element": "2020-01-22T18:11:14.209Z"
+                        },
+                        "created_at": "2020-01-22T16:28:27.872Z",
+                        "updated_at": "2020-01-22T18:11:14.181Z",
+                        "capabilities": []
+                    }
+                ]
+            },
+            "requires": [],
+            "capabilities": [],
+            "data": {
+                "value": 12,
+                "status": "Discovery",
+                "dueDate": "2020-01-28"
+            },
+            "updated_at": "2020-01-28T10:55:05.772Z",
+            "linked_at": {
+                "is attached to": "2020-01-22T16:29:28.680Z",
+                "has attached element": "2020-01-28T10:55:05.797Z"
+            }
+        },
+        {
+            "id": "e56f1095-d4dd-4ce9-b464-41ea7dfd4184",
+            "slug": "opportunity-smart-kettles-b8afd876-9e91-41ee-8288-3262a0524dd4",
+            "type": "opportunity@1.0.0",
+            "active": true,
+            "version": "1.0.0",
+            "name": "Smart kettles",
+            "tags": [
+                "hot",
+                "topic"
+            ],
+            "markers": [
+                "org-balena"
+            ],
+            "created_at": "2020-01-22T16:30:50.742Z",
+            "links": {
+                "is attached to": [
+                    {
+                        "id": "dfd64e53-7d2e-4dd4-9249-d7cdc59e3ffa",
+                        "data": {
+                            "type": "Lead",
+                            "stack": "testing stack",
+                            "status": "Potential",
+                            "usecase": "suppoort",
+                            "industry": "working from home"
+                        },
+                        "name": "WhatsApp App",
+                        "slug": "account-new-sales-account-4f8a301e-871d-4b70-bc1e-bd46e1fabe08",
+                        "tags": [],
+                        "type": "account",
+                        "links": {},
+                        "active": true,
+                        "markers": [
+                            "org-balena"
+                        ],
+                        "version": "1.0.0",
+                        "requires": [],
+                        "linked_at": {
+                            "has attached": "2020-01-22T16:30:51.505Z",
+                            "has attached element": "2020-01-24T14:39:26.361Z"
+                        },
+                        "created_at": "2019-11-29T09:31:33.977Z",
+                        "updated_at": "2020-01-24T14:39:26.341Z",
+                        "capabilities": []
+                    }
+                ]
+            },
+            "requires": [],
+            "capabilities": [],
+            "data": {
+                "arr": 12000,
+                "stack": "Java",
+                "value": 982342,
+                "device": "Fin",
+                "status": "Evaluation",
+                "dueDate": "2020-01-31",
+                "usecase": "Aerospace Transportation Vehicles"
+            },
+            "updated_at": "2020-01-28T10:54:55.428Z",
+            "linked_at": {
+                "is attached to": "2020-01-22T16:30:51.505Z",
+                "has attached element": "2020-01-28T10:54:55.458Z"
+            }
+        },
+        {
+            "id": "f08802b4-1463-4f0d-bb2c-c9fca0f07e0c",
+            "slug": "opportunity-apple-inc-59138b48-950e-4778-8591-3975925972dc",
+            "type": "opportunity@1.0.0",
+            "active": true,
+            "version": "1.0.0",
+            "name": "Earpods",
+            "tags": [
+                "Computers",
+                "iPhone",
+                "iPod",
+                "XDR screens",
+                "need",
+                "more",
+                "tags",
+                "verylongtagswithaverylonglabel",
+                "k"
+            ],
+            "markers": [
+                "org-balena"
+            ],
+            "created_at": "2020-01-17T10:47:02.738Z",
+            "links": {
+                "is attached to": [
+                    {
+                        "id": "6a903a13-79be-4fb7-957d-9e73d385f406",
+                        "data": {
+                            "stack": "C#",
+                            "status": "Potential",
+                            "usecase": "Fin",
+                            "industry": "Ears and Bodyparts",
+                            "location": "USA",
+                            "description": "Earpods will be the next big thing",
+                            "projectedArr": 900000,
+                            "stageOfBusiness": "Early"
+                        },
+                        "name": "Apple Inc.",
+                        "slug": "account-earpods-577a715f-5c9b-4c94-8910-1022d232eb16",
+                        "tags": [],
+                        "type": "account@1.0.0",
+                        "links": {},
+                        "active": true,
+                        "markers": [
+                            "org-balena"
+                        ],
+                        "version": "1.0.0",
+                        "requires": [],
+                        "linked_at": {
+                            "has contact": "2020-01-17T13:00:59.738Z",
+                            "has attached": "2020-01-21T11:56:15.998Z",
+                            "has attached element": "2020-01-21T12:47:14.667Z",
+                            "has attached opportunity": "2020-01-17T13:00:18.941Z"
+                        },
+                        "created_at": "2020-01-17T12:59:48.306Z",
+                        "updated_at": "2020-01-21T12:47:14.647Z",
+                        "capabilities": []
+                    }
+                ]
+            },
+            "requires": [],
+            "capabilities": [],
+            "data": {
+                "value": 230000000,
+                "status": "Evaluation",
+                "dueDate": "2020-01-22"
+            },
+            "updated_at": "2020-01-28T10:51:02.658Z",
+            "linked_at": {
+                "is attached to": "2020-01-21T11:56:15.998Z",
+                "has attached element": "2020-01-28T10:51:04.228Z",
+                "is attached to account": "2020-01-17T13:00:18.941Z"
+            }
+        },
+        {
+            "id": "dbdcdf22-b9be-48a9-ab85-2048786d69f5",
+            "slug": "opportunity-banana-corp-544b6ee6-6cb2-424e-bc3a-04e149a747f1",
+            "type": "opportunity@1.0.0",
+            "active": true,
+            "version": "1.0.0",
+            "name": "Hololens",
+            "tags": [
+                "Shapewear"
+            ],
+            "markers": [
+                "org-balena"
+            ],
+            "created_at": "2020-01-17T11:24:06.959Z",
+            "links": {
+                "is attached to": [
+                    {
+                        "id": "a4b853a1-03d0-47f7-825b-739d05c96341",
+                        "data": {
+                            "type": "Customer",
+                            "stack": "DOS",
+                            "status": "Awaiting Response",
+                            "usecase": "IoT",
+                            "industry": "Personal Computing",
+                            "location": "Seattle",
+                            "description": "",
+                            "projectedArr": 20000000,
+                            "stageOfBusiness": "Enterprise"
+                        },
+                        "name": "Microsoft",
+                        "slug": "account-microsoft-303ce539-4729-4f99-883a-ba4a5cc6eef5",
+                        "tags": [],
+                        "type": "account@1.0.0",
+                        "links": {},
+                        "active": true,
+                        "markers": [
+                            "org-balena"
+                        ],
+                        "version": "1.0.0",
+                        "requires": [],
+                        "linked_at": {
+                            "has": "2020-01-24T16:18:05.154Z",
+                            "has attached": "2020-01-21T12:46:14.272Z",
+                            "has attached element": "2020-01-24T14:39:00.151Z"
+                        },
+                        "created_at": "2020-01-21T12:45:59.341Z",
+                        "updated_at": "2020-01-24T14:39:00.127Z",
+                        "capabilities": []
+                    }
+                ]
+            },
+            "requires": [],
+            "capabilities": [],
+            "data": {
+                "arr": 30002234,
+                "value": 3000000,
+                "status": "Committed ",
+                "dueDate": "2020-01-31"
+            },
+            "updated_at": "2020-01-27T13:50:48.286Z",
+            "linked_at": {
+                "is attached to": "2020-01-21T12:46:14.272Z",
+                "has attached element": "2020-01-27T13:50:48.320Z"
+            }
+        }
+    ],
+    "page": 0,
+    "totalPages": 1,
+    "type": {
+        "id": "103a23e9-e0f7-47fb-acf8-7ee93012cefa",
+        "slug": "opportunity",
+        "type": "type",
+        "active": true,
+        "version": "1.0.0",
+        "name": "Opportunity",
+        "tags": [],
+        "markers": [],
+        "created_at": "2019-11-19T12:24:54.730Z",
+        "links": {},
+        "requires": [],
+        "capabilities": [],
+        "data": {
+            "meta": {
+                "relationships": [
+                    {
+                        "link": "is attached to",
+                        "type": "account",
+                        "title": "Account"
+                    }
+                ]
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object",
+                        "required": [
+                            "status"
+                        ],
+                        "properties": {
+                            "arr": {
+                                "type": "number",
+                                "title": "Estimated ARR",
+                                "format": "currency",
+                                "minimum": 0
+                            },
+                            "stack": {
+                                "type": "string",
+                                "title": "Tech stack"
+                            },
+                            "value": {
+                                "type": "number",
+                                "title": "Value",
+                                "format": "currency",
+                                "minimum": 0
+                            },
+                            "device": {
+                                "type": "string",
+                                "title": "Device Type"
+                            },
+                            "status": {
+                                "enum": [
+                                    "Created",
+                                    "Discovery",
+                                    "Evaluation",
+                                    "Committed ",
+                                    "Closed Won",
+                                    "Closed Lost"
+                                ],
+                                "type": "string",
+                                "title": "Status",
+                                "default": "Created"
+                            },
+                            "dueDate": {
+                                "type": "string",
+                                "title": "Due date",
+                                "format": "date"
+                            },
+                            "usecase": {
+                                "type": "string",
+                                "title": "Use case(s)"
+                            }
+                        }
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "updated_at": "2020-02-06T14:24:37.435Z",
+        "linked_at": {}
+    },
+    "user": {
+        "id": "a701587c-fe6d-4007-bdc3-35a2857e4b71",
+        "slug": "user-whale",
+        "type": "user@1.0.0",
+        "active": true,
+        "version": "1.0.0",
+        "name": null,
+        "tags": [],
+        "markers": [],
+        "created_at": "2019-12-16T10:24:29.312Z",
+        "links": {
+            "is member of": [
+                {
+                    "id": "6863880b-1bc8-4900-8603-598599ee3c92",
+                    "data": {},
+                    "name": "Balena",
+                    "slug": "org-balena",
+                    "tags": [],
+                    "type": "org",
+                    "links": {},
+                    "active": true,
+                    "markers": [],
+                    "version": "1.0.0",
+                    "requires": [],
+                    "linked_at": {
+                        "has member": "2019-11-19T12:24:55.774Z"
+                    },
+                    "created_at": "2019-11-19T12:24:55.108Z",
+                    "updated_at": "2020-02-06T14:24:38.349Z",
+                    "capabilities": []
+                }
+            ]
+        },
+        "requires": [],
+        "capabilities": [],
+        "data": {
+            "hash": "$2b$12$vuLB43k5mwut.L14DK/iL.en7jCAftPVDZakLWbE1lJE/4yvKyVVG",
+            "email": "whale@whale.com",
+            "avatar": "https://vignette.wikia.nocookie.net/happytreefriends/images/a/a3/Get_Whale_Soon.jpg",
+            "profile": {
+                "viewSettings": {
+                    "1d4d5f79-655d-416b-b988-af6bdaaa6cf9": {
+                        "lens": "lens-table"
+                    },
+                    "c7fcce62-b282-4036-902e-89daa12b371c": {
+                        "lens": "lens-better-table"
+                    },
+                    "dabcdfa8-a5a8-41c3-8d3d-56c769b2ddff": {
+                        "lens": "lens-better-table"
+                    }
+                }
+            }
+        },
+        "updated_at": "2020-02-04T15:47:21.349Z",
+        "linked_at": {
+            "has contact": "2019-12-16T10:24:30.572Z",
+            "is member of": "2019-12-16T10:35:40.255Z",
+            "has attached element": "2020-02-04T15:47:21.380Z"
+        }
+    },
+    "types": [
+        "Created",
+        "Discovery",
+        "Evaluation",
+        "Committed ",
+        "Closed Won",
+        "Closed Lost"
+    ],
+    "actions": {}
+}
