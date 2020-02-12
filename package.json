@@ -39,6 +39,9 @@
     "verbose": true,
     "serial": true,
     "failWithoutAssertions": true,
+    "environmentVariables": {
+			"API_URL": "https://example.com"
+		},
     "extensions": [
       "jsx"
     ],
