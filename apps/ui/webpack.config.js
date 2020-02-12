@@ -13,7 +13,6 @@ const path = require('path')
 const webpack = require('webpack')
 const DefinePlugin = require('webpack/lib/DefinePlugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-const HashedModuleIdsPlugin = require('webpack/lib/HashedModuleIdsPlugin')
 const mergeConfig = require('webpack-merge')
 const baseConfig = require('../../webpack.config.base.js')
 
@@ -37,7 +36,7 @@ const config = mergeConfig(baseConfig, {
 	entry: path.join(uiRoot, 'index.jsx'),
 
 	output: {
-		filename: 'bundle.[contenthash].js',
+		filename: '[name].[contenthash].js',
 		path: outDir,
 		publicPath: '/'
 	},
@@ -48,8 +47,16 @@ const config = mergeConfig(baseConfig, {
 	},
 
 	optimization: {
+		moduleIds: 'hashed',
+		runtimeChunk: 'single',
 		splitChunks: {
-			chunks: 'all'
+			cacheGroups: {
+				vendor: {
+					test: /[\\/]node_modules[\\/]/,
+					name: 'vendors',
+					chunks: 'all'
+				}
+			}
 		}
 	},
 
@@ -85,12 +92,6 @@ const config = mergeConfig(baseConfig, {
 				VERSION: JSON.stringify(`v${packageJSON.version}`)
 			}
 			/* eslint-enable no-process-env */
-		}),
-
-		new HashedModuleIdsPlugin({
-			hashFunction: 'sha256',
-			hashDigest: 'hex',
-			hashDigestLength: 20
 		}),
 
 		new webpack.ContextReplacementPlugin(
