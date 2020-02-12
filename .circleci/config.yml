@@ -72,13 +72,15 @@ jobs:
   compose-build:
     <<: *job_defaults
 
-    resource_class: xlarge
+    # TODO restore when possible
+    #resource_class: xlarge
 
     steps:
       - checkout
 
       - setup_remote_docker:
-          docker_layer_caching: true
+      # TODO restore when possible
+      #    docker_layer_caching: true
 
       - run:
           name: Install scripts-template dependencies
@@ -189,7 +191,8 @@ jobs:
           at: .
 
       - setup_remote_docker:
-          docker_layer_caching: true
+      # TODO restore when possible
+      #    docker_layer_caching: true
 
       - restore_cache:
           key: jellyfish-docker-layers-{{ .Branch }}
@@ -265,7 +268,8 @@ jobs:
           at: .
 
       - setup_remote_docker:
-          docker_layer_caching: true
+      # TODO restore when possible
+      #    docker_layer_caching: true
 
       - restore_cache:
           key: jellyfish-docker-layers-{{ .Branch }}
@@ -341,7 +345,8 @@ jobs:
           at: .
 
       - setup_remote_docker:
-          docker_layer_caching: true
+      # TODO restore when possible
+      #    docker_layer_caching: true
 
       - restore_cache:
           key: jellyfish-docker-layers-{{ .Branch }}
@@ -389,7 +394,8 @@ jobs:
           at: .
 
       - setup_remote_docker:
-          docker_layer_caching: true
+      # TODO restore when possible
+      #    docker_layer_caching: true
 
       - restore_cache:
           key: jellyfish-docker-layers-{{ .Branch }}
@@ -425,7 +431,8 @@ jobs:
   e2e_tests_ui: &e2e_tests_ui
     <<: *job_defaults
 
-    resource_class: xlarge
+    # TODO restore when possible
+    #resource_class: xlarge
 
     steps:
       - checkout
@@ -434,7 +441,8 @@ jobs:
           at: .
 
       - setup_remote_docker:
-          docker_layer_caching: true
+      # TODO restore when possible
+      #    docker_layer_caching: true
 
       - restore_cache:
           key: jellyfish-docker-layers-{{ .Branch }}
@@ -477,7 +485,8 @@ jobs:
           at: .
 
       - setup_remote_docker:
-          docker_layer_caching: true
+      # TODO restore when possible
+      #    docker_layer_caching: true
 
       - restore_cache:
           key: jellyfish-docker-layers-{{ .Branch }}
@@ -520,7 +529,8 @@ jobs:
           at: .
 
       - setup_remote_docker:
-          docker_layer_caching: true
+      # TODO restore when possible
+      #    docker_layer_caching: true
 
       - restore_cache:
           key: jellyfish-docker-layers-{{ .Branch }}
@@ -565,7 +575,8 @@ jobs:
           at: .
 
       - setup_remote_docker:
-          docker_layer_caching: true
+      # TODO restore when possible
+      #    docker_layer_caching: true
 
       - restore_cache:
           key: jellyfish-docker-layers-{{ .Branch }}
@@ -610,7 +621,8 @@ jobs:
           at: .
 
       - setup_remote_docker:
-          docker_layer_caching: true
+      # TODO restore when possible
+      #    docker_layer_caching: true
 
       - restore_cache:
           key: jellyfish-docker-layers-{{ .Branch }}
@@ -654,7 +666,8 @@ jobs:
       - checkout
 
       - setup_remote_docker:
-          docker_layer_caching: true
+      # TODO restore when possible
+      #    docker_layer_caching: true
 
       - run:
           name: Log into balenaCloud
