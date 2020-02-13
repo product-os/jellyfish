@@ -38,7 +38,7 @@ import {
 	patchPath
 } from '../../../../../lib/ui-components/services/helpers.js'
 
-class DropDownButtonWrapper extends Component {
+export class SelectWrapper extends Component {
 	// eslint-disable-next-line class-methods-use-this
 	setValue (newValue, card) {
 		const patch = patchPath(card, [ 'data', 'status' ], newValue)
@@ -59,7 +59,6 @@ class DropDownButtonWrapper extends Component {
 					})
 				})
 				.then(() => {
-					console.log(`Updated ${card.name} to ${newValue}`)
 					actions.addNotification('success', `Updated ${card.name} to ${newValue}`)
 				})
 				.catch((error) => {
@@ -149,7 +148,7 @@ export class BetterTable extends BaseLens {
 								<span style={{
 									whiteSpace: 'nowrap'
 								}}>
-									<Badge xsmall shade={5}>
+									<Badge data-test="due-date" xsmall shade={5}>
 										{`Due: ${formattedDate}`}
 									</Badge>
 								</span>
@@ -160,7 +159,7 @@ export class BetterTable extends BaseLens {
 							<span style={{
 								whiteSpace: 'nowrap'
 							}}>
-								<Badge xsmall shade={11}>
+								<Badge data-test="due-date" xsmall shade={11}>
 									{formattedDate}
 								</Badge>
 							</span>
@@ -192,7 +191,7 @@ export class BetterTable extends BaseLens {
 				{
 					field: 'Stage',
 					sortable: true,
-					render: (value, item) => <DropDownButtonWrapper {...props} card={value} />
+					render: (value, item) => <SelectWrapper {...props} card={value} />
 				},
 				{
 					field: 'Account Status',
@@ -280,6 +279,7 @@ export class BetterTable extends BaseLens {
 							usePager={tail.length >= 30}
 							itemsPerPage={30}
 							pagerPosition={'both'}
+							data-test="table-component"
 						/>)}
 					{Boolean(tail) && tail.length === 0 &&
 							<Txt.p p={3}>No results found</Txt.p>}
