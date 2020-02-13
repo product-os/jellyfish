@@ -61,9 +61,11 @@ spec:
         - name: LOCKFILE
           value: /tmp/worker.lock
         - name: INTEGRATION_BALENA_API_APP_ID
-          value: {{{INTEGRATION_BALENA_API_APP_ID}}}
+          value: '{{{INTEGRATION_BALENA_API_APP_ID}}}'
         - name: INTEGRATION_BALENA_API_APP_SECRET
-          value: {{{INTEGRATION_BALENA_API_APP_SECRET}}}
+          value: '{{{INTEGRATION_BALENA_API_APP_SECRET}}}'
+        - name: INTEGRATION_BALENA_API_OAUTH_BASE_URL
+          value: '{{{INTEGRATION_BALENA_API_OAUTH_BASE_URL}}}'
         - name: INTEGRATION_BALENA_API_PRIVATE_KEY
           value: {{{INTEGRATION_BALENA_API_PRIVATE_KEY}}}
         - name: INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION
