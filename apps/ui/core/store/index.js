@@ -46,8 +46,12 @@ export const setupStore = ({
 		return newState
 	}
 
-	// eslint-disable-next-line no-underscore-dangle
-	const composeEnhancers = (typeof window !== 'undefined' && !isProduction() && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || redux.compose
+	const composeEnhancers = (
+		typeof window !== 'undefined' &&
+		!isProduction() &&
+		// eslint-disable-next-line no-underscore-dangle
+		window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+	) || redux.compose
 
 	return {
 		store: redux.createStore(reducerWrapper, composeEnhancers(redux.applyMiddleware(reduxThunk))),
