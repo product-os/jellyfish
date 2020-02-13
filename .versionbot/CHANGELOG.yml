@@ -1,4 +1,25 @@
 - commits:
+    - subject: Add balena oauth base url env var to action server deployment
+      hash: aa429ca9102f8ef832d101414b4afbd44f8122e4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+    - subject: Add balena API credentials to action server
+      hash: 4a033bf087150d578cc461fa9730427c453371cc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 24.68.2
+  date: 2020-02-13T10:25:29.483Z
+- commits:
     - subject: >-
         Improve the way webpack packs bundles, in order to make them more cache
         friendly
