@@ -32,7 +32,7 @@ COMMITS="$(git log --merges --pretty="%P %s" |
 	cut -d ' ' -f 2 |
 	head -n 10)"
 
-OWNER="balena-io"
+OWNER="product-os"
 REPO="jellyfish"
 
 function get_statuses() {

@@ -1,4 +1,25 @@
 - commits:
+    - subject: Temporary disable "previous dump" jobs in circleci
+      hash: 772dc52f5718c73dfde3e8c99388a453bb6502d5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+    - subject: Change repo owner to product-os in scripts
+      hash: 9b289b0d45b284dd09555e3f717af1d5a5fcf169
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.68.3
+  date: 2020-02-14T13:41:08.171Z
+- commits:
     - subject: Add balena oauth base url env var to action server deployment
       hash: aa429ca9102f8ef832d101414b4afbd44f8122e4
       body: ''
