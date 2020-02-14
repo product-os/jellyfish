@@ -833,20 +833,20 @@ workflows:
                     - compose-build
                 <<: *workflow_filter
 
-            - e2e_tests_server_previous_dump:
-                requires:
-                    - compose-build
-                <<: *workflow_filter
-
-            - e2e_tests_ui_previous_dump:
-                requires:
-                    - compose-build
-                <<: *workflow_filter
-
-            - e2e_tests_livechat_previous_dump:
-                requires:
-                    - compose-build
-                <<: *workflow_filter
+#            - e2e_tests_server_previous_dump:
+#                requires:
+#                    - compose-build
+#                <<: *workflow_filter
+#
+#            - e2e_tests_ui_previous_dump:
+#                requires:
+#                    - compose-build
+#                <<: *workflow_filter
+#
+#            - e2e_tests_livechat_previous_dump:
+#                requires:
+#                    - compose-build
+#                <<: *workflow_filter
 
             - sync_tests_front_translate:
                 requires:
@@ -885,9 +885,9 @@ workflows:
                   - e2e_tests_server
                   - e2e_tests_ui
                   - e2e_tests_livechat
-                  - e2e_tests_server_previous_dump
-                  - e2e_tests_ui_previous_dump
-                  - e2e_tests_livechat_previous_dump
+                  #- e2e_tests_server_previous_dump
+                  #- e2e_tests_ui_previous_dump
+                  #- e2e_tests_livechat_previous_dump
                   - sync_tests_front_translate
                   - sync_tests_discourse_translate
                   - sync_tests_front_mirror
