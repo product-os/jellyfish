@@ -2,7 +2,7 @@
 # Base
 ###########################################################
 
-FROM balena/open-balena-base:v9.0.4 as base
+FROM balena/open-balena-base:v9.1.0 as base
 
 WORKDIR /usr/src/jellyfish
 
@@ -38,24 +38,30 @@ RUN make .nyc-root && \
 	make --dry-run start-tick >> run.sh && \
 	chmod +x run.sh && cat run.sh
 
+# Optimization: in the runtime image we to run NODE_ENV=production npm ci
+# but that would require all modules to be downloaded again
+# Instead, we run it in the base image, and copy node_modules from base
+# to runtime INSTEAD OF running npm ci: this saves bandwidth and time
+RUN NODE_ENV=production npm ci
+
 ###########################################################
 # Runtime
 ###########################################################
 
-FROM balena/open-balena-base:v9.0.4 as runtime
+FROM balena/open-balena-base:v9.1.0 as runtime
 
 WORKDIR /usr/src/jellyfish
 
 ENV OAUTH_REDIRECT_BASE_URL https://jel.ly.fish
 
-COPY package.json package-lock.json /usr/src/jellyfish/
-RUN NODE_ENV=production npm ci
+COPY package.json package-lock.json ./
+COPY --from=base /usr/src/jellyfish/node_modules ./node_modules
 
 COPY --from=base /usr/src/jellyfish/lib ./lib
 COPY --from=base /usr/src/jellyfish/apps ./apps
 
-COPY --from=base /usr/src/jellyfish/.nyc-root /usr/src/jellyfish/.nyc-root
-COPY --from=base /usr/src/jellyfish/run.sh /usr/src/jellyfish/
+COPY --from=base /usr/src/jellyfish/.nyc-root ./.nyc-root
+COPY --from=base /usr/src/jellyfish/run.sh ./
 
 # Production debugging scripts
 COPY ./scripts/production ./scripts/production

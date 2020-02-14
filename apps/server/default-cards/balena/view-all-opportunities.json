@@ -13,6 +13,20 @@
       {
         "name": "Active opportunities",
         "schema": {
+          "$$links": {
+            "is attached to": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "enum": [
+                    "account",
+                    "account@1.0.0"
+                  ]
+                }
+              },
+              "additionalProperties": true
+            }
+          },
           "type": "object",
           "properties": {
             "active": {
@@ -34,6 +48,7 @@
     ],
     "lenses": [
       "lens-list",
+      "lens-better-table",
       "lens-kanban"
     ]
   },

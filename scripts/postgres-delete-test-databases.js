@@ -22,7 +22,7 @@ const scrub = async () => {
 	})
 
 	try {
-		await connection.proc('version')
+		await connection.query('select version()')
 	} catch (error) {
 		if (error.code === 'ECONNREFUSED' && error.syscall === 'connect') {
 			console.log('Couldn\'t connect to Postgres')

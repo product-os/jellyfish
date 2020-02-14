@@ -41,7 +41,7 @@
       }
     },
     "action": "action-create-card@1.0.0",
-    "target": "message",
+    "target": "message@1.0.0",
     "arguments": {
       "reason": null,
       "properties": {

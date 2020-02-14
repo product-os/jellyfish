@@ -1,4 +1,216 @@
 - commits:
+    - subject: Add balena oauth base url env var to action server deployment
+      hash: aa429ca9102f8ef832d101414b4afbd44f8122e4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+    - subject: Add balena API credentials to action server
+      hash: 4a033bf087150d578cc461fa9730427c453371cc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 24.68.2
+  date: 2020-02-13T10:25:29.483Z
+- commits:
+    - subject: >-
+        Improve the way webpack packs bundles, in order to make them more cache
+        friendly
+      hash: a6ed3e31a8370f321e0c052adc7f721e76d3d4a8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.68.1
+  date: 2020-02-12T09:25:08.658Z
+- commits:
+    - subject: Add balena api env vars in config manifest
+      hash: 971f2bc80a266c3ecf86d2541d65690141463e1f
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 24.68.0
+  date: 2020-02-11T14:41:26.899Z
+- commits:
+    - subject: 'server: Use version suffixes in triggered actions target slugs'
+      hash: d0905101bbbc0368f40d6a67cba831da3c2ae8e6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.67.1
+  date: 2020-02-10T13:31:09.551Z
+- commits:
+    - subject: 'worker: Require versions in action input card slugs'
+      hash: bfd5b1dfddb3e89f0811e88d06e89de588e98b08
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.67.0
+  date: 2020-02-10T12:14:38.389Z
+- commits:
+    - subject: Update open-balena-base to latest 9.1.0
+      hash: 1f34e975f1e3606933854d7bc05dfeab5039e421
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.66.7
+  date: 2020-02-10T10:30:35.222Z
+- commits:
+    - subject: Set contact.json email property to use "anyOf"
+      hash: fda01c7a3bf17ed3c2c9004bb1ae5954aa686d8d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+    - subject: Set link-constraints without object in name
+      hash: e3ea28f747e923ad9176b54ec7c167ebd231f9f4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+  version: 24.66.6
+  date: 2020-02-10T09:53:28.485Z
+- commits:
+    - subject: 'core: Fix query profile mode logic'
+      hash: d66e2ba75219be86bb7e06ec81dcff9635364e0d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.66.5
+  date: 2020-02-05T14:48:23.567Z
+- commits:
+    - subject: >-
+        Speed up `make compose-build` by running `NODE_ENV=production npm ci` in
+        the base image and then copying `node_modules` to the runtime image,
+        instead of running `NODE_ENV=production npm ci` Building takes less
+        time, bandwidth, and the image is 100M smaller
+      hash: 641f0c119f67920e0cea5dac30aa6cf7c8f0dfcb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.66.4
+  date: 2020-02-05T12:26:58.891Z
+- commits:
+    - subject: 'UI: Wrap long notification messages'
+      hash: cb1d8d3236b4659cf3db2890280135011c1583cf
+      body: >
+        Notification messages that are longer than the fixed width of the
+        notification box now wrap onto multiple lines, rather than being cut
+        off.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 24.66.3
+  date: 2020-02-04T15:18:58.216Z
+- commits:
+    - subject: >-
+        Allow to change the number of running workers in docker-compose by
+        editing scripts/template/index.js rather than copy-pasting yaml
+      hash: 1521806a1536c58529da886f9c5ba0697d91353e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.66.2
+  date: 2020-02-03T14:14:48.655Z
+- commits:
+    - subject: >-
+        Attempt to skip skhema/ajv validation by looking if the input element is
+        surely wrong
+      hash: 0be9c06330b2b35a012799ae9793af4d91f1c0af
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.66.1
+  date: 2020-02-03T13:02:39.141Z
+- commits:
+    - subject: 'core/server: Log query times when querying with "profile" mode'
+      hash: 4de51195c7aadd065b8031e109ef5b8c3c7c57e1
+      body: |
+        For debugging and performance inspection purposes. The idea is that we
+        can set `profile: true` on a particular query and get more detailed
+        information, on the logs, about the time it took to resolve.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.66.0
+  date: 2020-02-03T12:14:10.078Z
+- commits:
+    - subject: Update pg-promise to latest 10.4.0
+      hash: e39b86deff87b0b8acda8bc7c180200004d6cbf3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.65.11
+  date: 2020-01-31T13:22:26.685Z
+- commits:
+    - subject: Silence max listeners warning when running tests
+      hash: b06eb15c4216a6ac6009fae5b16992fcc612f478
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.65.10
+  date: 2020-01-31T09:21:47.641Z
+- commits:
     - subject: >-
         Update open-balena-haproxy used in docker-compose to latest 2.11.3
         Previous version relied on a possibly buggy haproxy version which caused
