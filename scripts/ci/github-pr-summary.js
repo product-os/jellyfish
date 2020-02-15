@@ -9,7 +9,7 @@ const _ = require('lodash')
 const Octokit = require('@octokit/rest')
 const packageJSON = require('../../package.json')
 
-const OWNER = 'balena-io'
+const OWNER = 'product-os'
 const REPO = 'jellyfish'
 const TOKEN = process.env.GITHUB_TOKEN
 const PR = process.argv[2] && parseInt(_.last(process.argv[2].split('/')), 10)

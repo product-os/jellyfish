@@ -1,4 +1,46 @@
 - commits:
+    - subject: Temporary disable "previous dump" jobs in circleci
+      hash: 772dc52f5718c73dfde3e8c99388a453bb6502d5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+    - subject: Change repo owner to product-os in scripts
+      hash: 9b289b0d45b284dd09555e3f717af1d5a5fcf169
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.68.3
+  date: 2020-02-14T13:41:08.171Z
+- commits:
+    - subject: Add balena oauth base url env var to action server deployment
+      hash: aa429ca9102f8ef832d101414b4afbd44f8122e4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+    - subject: Add balena API credentials to action server
+      hash: 4a033bf087150d578cc461fa9730427c453371cc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 24.68.2
+  date: 2020-02-13T10:25:29.483Z
+- commits:
     - subject: >-
         Improve the way webpack packs bundles, in order to make them more cache
         friendly
