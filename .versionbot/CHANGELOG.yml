@@ -1,5 +1,31 @@
 - commits:
     - subject: >-
+        Wait a bit before tearing down queue tests, as kernel is still doing
+        stuff in background This fix might put an end to those SIGILL failures
+        we have seen any now and then
+      hash: f42b487a39c998255d0e925b8281262c07b9bcf3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+    - subject: >-
+        Postpone `cloneDeep` in streams schema validation until we actually need
+        it
+      hash: f8742c042c141cdf9b0f37d384631d4d6a688848
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.68.8
+  date: 2020-02-17T15:40:58.680Z
+- commits:
+    - subject: >-
         Introduce view templates, a way to query by views which are json-e
         templates, saving callers from building complex query objects every time
         and instead use a view template referenced by slug and provide its
