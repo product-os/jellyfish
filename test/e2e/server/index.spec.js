@@ -788,3 +788,23 @@ ava.serial('/query endpoint should allow you to query using a view\'s id', async
 		return _.first(card.type.split('@'))
 	})), [ 'view' ])
 })
+
+ava.serial('/view/:slug endpoing should return the list of all views', async (test) => {
+	const result = await test.context.http(
+		'POST',
+		'/api/v2/view/view-all-by-type@1.0.0',
+		{
+			params: {
+				types: [ 'view', 'view@1.0.0' ]
+			}
+		},
+		{
+			Authorization: `Bearer ${test.context.token}`
+		}
+	)
+
+	test.is(result.code, 200)
+	test.deepEqual(_.uniq(_.map(result.response.data, (card) => {
+		return _.first(card.type.split('@'))
+	})), [ 'view' ])
+})
