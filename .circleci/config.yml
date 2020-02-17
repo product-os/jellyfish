@@ -188,8 +188,7 @@ jobs:
       - attach_workspace:
           at: .
 
-      - setup_remote_docker:
-          docker_layer_caching: true
+      - setup_remote_docker
 
       - restore_cache:
           key: jellyfish-docker-layers-{{ .Branch }}
@@ -264,8 +263,7 @@ jobs:
       - attach_workspace:
           at: .
 
-      - setup_remote_docker:
-          docker_layer_caching: true
+      - setup_remote_docker
 
       - restore_cache:
           key: jellyfish-docker-layers-{{ .Branch }}
@@ -340,8 +338,7 @@ jobs:
       - attach_workspace:
           at: .
 
-      - setup_remote_docker:
-          docker_layer_caching: true
+      - setup_remote_docker
 
       - restore_cache:
           key: jellyfish-docker-layers-{{ .Branch }}
@@ -388,8 +385,7 @@ jobs:
       - attach_workspace:
           at: .
 
-      - setup_remote_docker:
-          docker_layer_caching: true
+      - setup_remote_docker
 
       - restore_cache:
           key: jellyfish-docker-layers-{{ .Branch }}
@@ -433,8 +429,7 @@ jobs:
       - attach_workspace:
           at: .
 
-      - setup_remote_docker:
-          docker_layer_caching: true
+      - setup_remote_docker
 
       - restore_cache:
           key: jellyfish-docker-layers-{{ .Branch }}
@@ -476,8 +471,7 @@ jobs:
       - attach_workspace:
           at: .
 
-      - setup_remote_docker:
-          docker_layer_caching: true
+      - setup_remote_docker
 
       - restore_cache:
           key: jellyfish-docker-layers-{{ .Branch }}
@@ -519,8 +513,7 @@ jobs:
       - attach_workspace:
           at: .
 
-      - setup_remote_docker:
-          docker_layer_caching: true
+      - setup_remote_docker
 
       - restore_cache:
           key: jellyfish-docker-layers-{{ .Branch }}
@@ -564,8 +557,7 @@ jobs:
       - attach_workspace:
           at: .
 
-      - setup_remote_docker:
-          docker_layer_caching: true
+      - setup_remote_docker
 
       - restore_cache:
           key: jellyfish-docker-layers-{{ .Branch }}
@@ -609,8 +601,7 @@ jobs:
       - attach_workspace:
           at: .
 
-      - setup_remote_docker:
-          docker_layer_caching: true
+      - setup_remote_docker
 
       - restore_cache:
           key: jellyfish-docker-layers-{{ .Branch }}
@@ -653,8 +644,7 @@ jobs:
     steps:
       - checkout
 
-      - setup_remote_docker:
-          docker_layer_caching: true
+      - setup_remote_docker
 
       - run:
           name: Log into balenaCloud
