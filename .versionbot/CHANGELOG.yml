@@ -1,5 +1,30 @@
 - commits:
     - subject: >-
+        Disable circleci docker_layer_caching when not needed, as it costs 200
+        credit per job run https://circleci.com/docs/2.0/docker-layer-caching/
+      hash: 551f39b305f38a3db52dcda63bdff256233a3b67
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+    - subject: Update open-balena-base to latest 9.2.0
+      hash: 012e0b6b2172e28b322347e6ff19f3a13070fd17
+      body: ''
+      footer:
+        Connects-to: '#3105'
+        connects-to: '#3105'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.68.6
+  date: 2020-02-17T09:02:48.435Z
+- commits:
+    - subject: >-
         Use new jellyfish-sidecar image, to shove some minutes when building
         compose images
       hash: 94c14b487e72dfd3d84b209257e299462fb56683
