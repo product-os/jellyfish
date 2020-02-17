@@ -1,5 +1,23 @@
 - commits:
     - subject: >-
+        Introduce view templates, a way to query by views which are json-e
+        templates, saving callers from building complex query objects every time
+        and instead use a view template referenced by slug and provide its
+        params
+      hash: e642dffd50a11c78f2dab67bb4db3cd97295a64e
+      body: ''
+      footer:
+        Connects-to: '#3097'
+        connects-to: '#3097'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.68.7
+  date: 2020-02-17T13:21:58.026Z
+- commits:
+    - subject: >-
         Disable circleci docker_layer_caching when not needed, as it costs 200
         credit per job run https://circleci.com/docs/2.0/docker-layer-caching/
       hash: 551f39b305f38a3db52dcda63bdff256233a3b67
