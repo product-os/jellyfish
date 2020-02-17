@@ -1,0 +1,52 @@
+{
+  "slug": "view-all-by-type",
+  "name": "All cards by type",
+  "version": "1.0.0",
+  "type": "view@1.0.0",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "allOf": [
+      {
+        "name": "Card type view",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": {
+                "$eval": "types"
+              }
+            },
+            "active": {
+              "type": "boolean",
+              "const": true
+            }
+          },
+          "additionalProperties": true,
+          "required": [
+            "type"
+          ]
+        }
+      }
+    ],
+    "arguments": {
+      "type": "object",
+      "required": [
+        "types"
+      ],
+      "properties": {
+        "types": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "requires": [],
+  "capabilities": []
+}
