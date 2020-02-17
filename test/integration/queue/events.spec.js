@@ -115,7 +115,12 @@ ava.cb('.wait() should return when a certain execute event is inserted', (test) 
 		action: '57692206-8da2-46e1-91c9-159b2c6928ef',
 		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
 		actor: '57692206-8da2-46e1-91c9-159b2c6928ef'
-	}).then(() => {
+	}).then(async () => {
+		// Wait a bit for `postgres.upsertObject` to terminate
+		// Otherwise, we close the underlying connections while the rest
+		// of the code of upsertObject is still running, causing errors
+		// unrelated to the test
+		await Bluebird.delay(500)
 		test.end()
 	}).catch(test.end)
 
@@ -167,8 +172,14 @@ ava.cb('.wait() should be able to access the event payload of a huge event', (te
 			action: BIG_EXECUTE_CARD.data.action,
 			card: BIG_EXECUTE_CARD.data.target,
 			actor: BIG_EXECUTE_CARD.data.actor
-		}).then((card) => {
+		}).then(async (card) => {
 		test.deepEqual(card.data.payload, BIG_EXECUTE_CARD.data.payload)
+
+		// Wait a bit for `postgres.upsertObject` to terminate
+		// Otherwise, we close the underlying connections while the rest
+		// of the code of upsertObject is still running, causing errors
+		// unrelated to the test
+		await Bluebird.delay(500)
 		test.end()
 	}).catch(test.end)
 
@@ -219,8 +230,14 @@ ava.cb('.wait() should ignore cards that do not match the id', (test) => {
 		action: '57692206-8da2-46e1-91c9-159b2c6928ef',
 		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
 		actor: '57692206-8da2-46e1-91c9-159b2c6928ef'
-	}).then((request) => {
+	}).then(async (request) => {
 		test.is(request.data.payload.timestamp, '2020-06-30T19:34:42.829Z')
+
+		// Wait a bit for `postgres.upsertObject` to terminate
+		// Otherwise, we close the underlying connections while the rest
+		// of the code of upsertObject is still running, causing errors
+		// unrelated to the test
+		await Bluebird.delay(500)
 		test.end()
 	}).catch(test.end)
 
