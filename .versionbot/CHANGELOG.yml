@@ -1,4 +1,17 @@
 - commits:
+    - subject: Revert "Temporary disable "previous dump" jobs in circleci"
+      hash: 303f617e0ee1f06d7b26c1877821e0f851dffd37
+      body: |
+        This reverts commit 772dc52f5718c73dfde3e8c99388a453bb6502d5.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.68.4
+  date: 2020-02-14T16:37:52.929Z
+- commits:
     - subject: Temporary disable "previous dump" jobs in circleci
       hash: 772dc52f5718c73dfde3e8c99388a453bb6502d5
       body: ''
