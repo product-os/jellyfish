@@ -1,4 +1,18 @@
 - commits:
+    - subject: Use caching headers for livechat assets
+      hash: 7530178acd67ccc709434154cc722c1161b147b1
+      body: |
+        Since #3093, livechat assets are split as well, so we can now use
+        caching headers such as 'expires' and 'cache-control'
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.70.1
+  date: 2020-02-18T14:02:38.023Z
+- commits:
     - subject: Add external support user permissions
       hash: 8f6df376ff4491cbab2824cf59a0816efd683bc7
       body: ''
