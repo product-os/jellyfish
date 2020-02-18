@@ -1,5 +1,22 @@
 - commits:
     - subject: >-
+        Use headers rather than querystring params to send auth info to
+        discourse, as querystring params have been deprecated See
+        https://meta.discourse.org/t/discourse-api-documentation/22706
+      hash: cf02ba76caf9013eb07b7b45b50df799c1cf3c4f
+      body: ''
+      footer:
+        Connects-to: '#2865'
+        connects-to: '#2865'
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.69.0
+  date: 2020-02-18T10:23:17.684Z
+- commits:
+    - subject: >-
         Wait a bit before tearing down queue tests, as kernel is still doing
         stuff in background This fix might put an end to those SIGILL failures
         we have seen any now and then
