@@ -1,0 +1,56 @@
+FROM resinci/jellyfish-test
+
+WORKDIR /usr/src/jellyfish
+
+copy scripts ./scripts
+
+COPY package.json package-lock.json ./
+
+# --unsafe-perm flag allows the postinstall script to run correctly
+RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci --unsafe-perm
+
+COPY . ./
+
+ARG DATABASE=postgres
+ARG POSTGRES_PASSWORD=postgres
+ARG POSTGRES_USER=postgres
+
+# This is a dummy key used to run the balena api sync tests in a mocked environment
+ARG INTEGRATION_BALENA_API_PRIVATE_KEY=LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tCk1JR0hBZ0VBTUJNR0J5cUdTTTQ5QWdFR0NDcUdTTTQ5QXdFSEJHMHdhd0lCQVFRZ2NDTU5RdXYwTTZ0SFhxZVgKSTFxTmg5aUxHWGUyTE1TUHBubmx5dTM3V3dPaFJBTkNBQVNFeU83MU1JU1BvNXhoUy85TzRyWDdoeWFxSExEMgozaFBUNC9rOXdtVHEzbk1Vbk1LQXFHQWRUbTE1TThTS1BPVTM0ZGN4LzJucFd0LzNkMjVobDM3ZwotLS0tLUVORCBQUklWQVRFIEtFWS0tLS0tCg==
+
+# This is a dummy key used to run the balena api sync tests in a mocked environment
+ARG INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION=LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUZrd0V3WUhLb1pJemowQ0FRWUlLb1pJemowREFRY0RRZ0FFaE1qdTlUQ0VqNk9jWVV2L1R1SzErNGNtcWh5dwo5dDRUMCtQNVBjSms2dDV6Rkp6Q2dLaGdIVTV0ZVRQRWlqemxOK0hYTWY5cDZWcmY5M2R1WVpkKzRBPT0KLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tCg==
+
+ARG INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING=foobar
+ARG INTEGRATION_DISCOURSE_SIGNATURE_KEY=foobar
+ARG INTEGRATION_DISCOURSE_TOKEN=foobar
+ARG INTEGRATION_DISCOURSE_USERNAME=foobar
+ARG INTEGRATION_FLOWDOCK_SIGNATURE_KEY=foobar
+ARG INTEGRATION_FLOWDOCK_TOKEN=foobar
+ARG INTEGRATION_FRONT_TOKEN=foobar
+ARG INTEGRATION_GITHUB_SIGNATURE_KEY=foobar
+ARG INTEGRATION_GITHUB_TOKEN=foobar
+ARG INTEGRATION_INTERCOM_TOKEN=foobar
+ARG INTEGRATION_OUTREACH_APP_ID=foobar
+ARG INTEGRATION_OUTREACH_APP_SECRET=foobar
+ARG INTEGRATION_OUTREACH_SIGNATURE_KEY=buzzbaz
+ARG OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish
+
+################################################################################
+# Integration
+################################################################################
+
+# Integration Tests
+RUN ./test/containers/postgres-redis-start.sh && \
+	make test-integration-sync && \
+	make test-integration-core test-integration-queue test-integration-worker COVERAGE=0 && \
+	make test-integration-server COVERAGE=0 && \
+	./test/containers/postgres-redis-stop.sh
+
+################################################################################
+# Unit tests
+################################################################################
+
+RUN ./test/containers/postgres-redis-start.sh && \
+	make test-unit COVERAGE=0 && \
+	./test/containers/postgres-redis-stop.sh
