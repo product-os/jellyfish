@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add external support user permissions
+      hash: 8f6df376ff4491cbab2824cf59a0816efd683bc7
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Connects-to: '#3129'
+        connects-to: '#3129'
+      author: Kakhaber
+  version: 24.70.0
+  date: 2020-02-18T11:55:09.243Z
+- commits:
     - subject: >-
         Use headers rather than querystring params to send auth info to
         discourse, as querystring params have been deprecated See
