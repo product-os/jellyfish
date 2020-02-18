@@ -198,13 +198,13 @@
               "type": "string",
               "enum": [ "user", "user@1.0.0" ]
             },
+            "name": {
+              "type": "string"
+            },
             "data": {
               "type": "object",
               "additionalProperties": false,
               "properties": {
-                "handle": {
-                  "type": "string"
-                },
                 "email": {
                   "type": [ "string", "array" ]
                 },
@@ -212,6 +212,21 @@
                   "type": [ "string", "null" ]
                 }
               }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [ "type", "slug" ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [ "org", "org@1.0.0" ]
+            },
+            "slug": {
+              "type": "string",
+              "const": "org-balena"
             }
           }
         }
