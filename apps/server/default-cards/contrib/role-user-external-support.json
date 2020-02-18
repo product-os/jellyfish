@@ -185,6 +185,35 @@
               }
             }
           }
+        },
+        {
+          "type": "object",
+          "additionalProperties": true,
+          "required": [ "slug", "type", "data" ],
+          "properties": {
+            "slug": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string",
+              "enum": [ "user", "user@1.0.0" ]
+            },
+            "data": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "handle": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": [ "string", "array" ]
+                },
+                "avatar": {
+                  "type": [ "string", "null" ]
+                }
+              }
+            }
+          }
         }
       ]
     }
