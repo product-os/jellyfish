@@ -29,8 +29,11 @@ const audioFolderPath = path.join(resourcesRoot, 'audio')
 const faviconPath = path.join(resourcesRoot, 'favicon.ico')
 const outDir = path.join(root, 'dist/ui')
 const packageJSON = require('../../package.json')
+const environment = require('../../lib/environment')
 
 console.log(`Generating bundle from ${uiRoot}`)
+
+const publicPath = environment.isProduction() ? '//dc8ubcsrd55s5.cloudfront.net/' : '/'
 
 const config = mergeConfig(baseConfig, {
 	entry: path.join(uiRoot, 'index.jsx'),
@@ -38,7 +41,7 @@ const config = mergeConfig(baseConfig, {
 	output: {
 		filename: '[name].[contenthash].js',
 		path: outDir,
-		publicPath: '/'
+		publicPath
 	},
 
 	devServer: {

@@ -1,0 +1,27 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  jellyfish:
+    Type: 'AWS::CloudFront::Distribution'
+    Properties:
+      DistributionConfig:
+        Origins:
+          - DomainName: jel.ly.fish
+            Id: jellyfish
+            CustomOriginConfig:
+              HTTPPort: '80'
+              HTTPSPort: '443'
+              OriginProtocolPolicy: match-viewer
+        Enabled: 'true'
+        DefaultCacheBehavior:
+          TargetOriginId: jellyfish
+          SmoothStreaming: 'false'
+          ForwardedValues:
+            QueryString: 'false'
+            Cookies:
+              Forward: none
+          Compress: 'true'
+          ViewerProtocolPolicy: allow-all
+        PriceClass: PriceClass_All
+        ViewerCertificate:
+          CloudFrontDefaultCertificate: 'true'
+        IPV6Enabled: 'false'
