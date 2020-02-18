@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add view org permission to chat widget user
+      hash: d15ed78291c9e67def347610fc0628fb5d8658e9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Connects-to: '#3129'
+        connects-to: '#3129'
+      author: Kakhaber
+  version: 24.70.2
+  date: 2020-02-18T15:21:32.631Z
+- commits:
     - subject: Use caching headers for livechat assets
       hash: 7530178acd67ccc709434154cc722c1161b147b1
       body: |
