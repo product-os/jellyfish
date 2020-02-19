@@ -1,0 +1,37 @@
+{
+  "slug": "view-all-pipelines",
+  "name": "All pipelines",
+  "version": "1.0.0",
+  "type": "view@1.0.0",
+  "markers": [ "org-balena" ],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "namespace": "Pipelines",
+    "allOf": [
+      {
+        "name": "All Balena Pipelines",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [ "pipeline", "pipeline@1.0.0" ]
+            }
+          },
+          "additionalProperties": true,
+          "required": [
+            "type"
+          ]
+        }
+      }
+    ],
+    "lenses": [
+      "lens-list",
+      "lens-kanban"
+    ]
+  },
+  "requires": [],
+  "capabilities": []
+}
