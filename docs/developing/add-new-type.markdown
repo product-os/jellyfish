@@ -4,10 +4,9 @@ You can add a new type to Jellyfish by following these steps.
 
 ## Add a new type definition card
 
-New type cards should be added in the `default-cards` directory here https://github.com/balena-io/jellyfish/tree/master/apps/server/default-cards/contrib
-A type card consists of the standard contract fields and a JSON schema that
-defines the shape of the new type. For example, a new type card that defines
-a Pokémon would look like this
+New type cards should be added in the `default-cards` directory here https://github.com/balena-io/jellyfish/tree/master/apps/server/default-cards/contrib 
+
+A type card consists of the standard contract fields and a JSON schema that defines the shape of the new type. For example, a new type card that defines a Pokémon would look like this
 
 ```
 {
@@ -30,7 +29,7 @@ a Pokémon would look like this
   "tags": [],
   "links": {},
   // In Jellyfish, cards are "soft deleted" and the active field is used to
-  // indicate wether or not the card is in this state or not. An active value of
+  // indicate whether or not the card is in this state or not. An active value of
   // "false" would indicate that the card has been deleted
   "active": true,
   // The data field contains the type definition JSON schema and additional meta
@@ -92,6 +91,7 @@ For the sake of keeping things organised, the name of the file should match the
 
 Now that the card has been added, it needs to be loaded when the server starts.
 This is done by adding a line to this file https://github.com/balena-io/jellyfish/blob/master/apps/server/card-loader.js#L48
+
 Continuing with the Pokèmon card type example, the line would look like this:
 
 ```
@@ -122,7 +122,7 @@ Here is an example view that displays all Pokèmon cards:
     "allOf": [
       {
         "name": "Pokèmon cards",
-        // This is a simple schema that selects all cards the are of type
+        // This is a simple schema that selects all cards that are of type
         // "pokemon"
         "schema": {
           "type": "object",
@@ -150,12 +150,12 @@ Here is an example view that displays all Pokèmon cards:
 ```
 
 As before, this view needs to be loaded when the server starts, by adding a line to this file https://github.com/balena-io/jellyfish/blob/master/apps/server/card-loader.js#L48
+
 The line would look like this:
 
 ```
 await loadCard('contrib/view-all-pokemon.json')
 ```
 
-With this view added, you will see a new view in the left side menu with the
-title "Pokèmon cards". If you load this view you will also see a button that
-allows you to create a new Pokèmon.
+With this view added, you will see a new view in the left side menu with the title "Pokèmon cards". If you load this view you will also see a button that allows you to create a new Pokèmon.
+
