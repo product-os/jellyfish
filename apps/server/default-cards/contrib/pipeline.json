@@ -1,0 +1,63 @@
+{
+  "slug": "pipeline",
+  "name": "Pipeline",
+  "version": "1.0.0",
+  "type": "type@1.0.0",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^.*\\S.*$"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "$$formula": "AGGREGATE($events, 'tags')"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "linkToTrelloBoard": {
+              "type": "string",
+              "format": "markdown"
+            }
+          }
+        }
+      }
+    },
+		"meta": {
+			"relationships": [
+				{
+					"title": "Guide",
+					"link": "is guided by",
+					"type": "user"
+				},
+				{
+					"title": "Dedicated members",
+					"link": "has member",
+					"type": "user"
+				},
+				{
+					"title": "Contributors",
+					"link": "is contributed to by",
+					"type": "user"
+				},
+        {
+					"title": "Checkins",
+					"link": "has",
+					"type": "checkin"
+				}
+      ]
+    }
+  },
+  "requires": [],
+  "capabilities": []
+}
