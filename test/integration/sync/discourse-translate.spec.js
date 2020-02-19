@@ -5,11 +5,9 @@
  */
 
 const ava = require('ava')
-const querystring = require('querystring')
 const _ = require('lodash')
 const nock = require('nock')
 const uuid = require('uuid/v4')
-const url = require('url')
 const scenario = require('./scenario')
 const environment = require('../../../lib/environment')
 const TOKEN = environment.integration.discourse
@@ -34,18 +32,12 @@ avaTest('should not change the same user email', async (test) => {
 
 	nock('https://forums.balena.io')
 		.get('/admin/users/4.json')
-		.query({
-			api_key: TOKEN.api,
-			api_username: TOKEN.username
-		})
 		.reply(200,
 			require('./webhooks/discourse/inbound-tag-tag/stubs/1/admin-users-4-json.json'))
 
 	nock('https://forums.balena.io')
 		.get('/t/6061.json')
 		.query({
-			api_key: TOKEN.api,
-			api_username: TOKEN.username,
 			print: true
 		})
 		.reply(200,
@@ -53,10 +45,6 @@ avaTest('should not change the same user email', async (test) => {
 
 	nock('https://forums.balena.io')
 		.get('/categories.json')
-		.query({
-			api_key: TOKEN.api,
-			api_username: TOKEN.username
-		})
 		.reply(200,
 			require('./webhooks/discourse/inbound-tag-tag/stubs/1/categories-json.json'))
 
@@ -121,18 +109,12 @@ avaTest('should add a new e-mail to a user', async (test) => {
 
 	nock('https://forums.balena.io')
 		.get('/admin/users/4.json')
-		.query({
-			api_key: TOKEN.api,
-			api_username: TOKEN.username
-		})
 		.reply(200,
 			require('./webhooks/discourse/inbound-tag-tag/stubs/1/admin-users-4-json.json'))
 
 	nock('https://forums.balena.io')
 		.get('/t/6061.json')
 		.query({
-			api_key: TOKEN.api,
-			api_username: TOKEN.username,
 			print: true
 		})
 		.reply(200,
@@ -140,10 +122,6 @@ avaTest('should add a new e-mail to a user', async (test) => {
 
 	nock('https://forums.balena.io')
 		.get('/categories.json')
-		.query({
-			api_key: TOKEN.api,
-			api_username: TOKEN.username
-		})
 		.reply(200,
 			require('./webhooks/discourse/inbound-tag-tag/stubs/1/categories-json.json'))
 
@@ -203,8 +181,7 @@ scenario.run(avaTest, {
 		token: TOKEN
 	},
 	isAuthorized: (self, request) => {
-		const params = querystring.parse(url.parse(request.path).query)
-		return params.api_key === self.options.token.api &&
-			params.api_username === self.options.token.username
+		return request.headers['api-key'] === self.options.token.api &&
+			request.headers['api-username'] === self.options.token.username
 	}
 })

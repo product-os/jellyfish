@@ -1,4 +1,178 @@
 - commits:
+    - subject: Add view org permission to chat widget user
+      hash: d15ed78291c9e67def347610fc0628fb5d8658e9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Connects-to: '#3129'
+        connects-to: '#3129'
+      author: Kakhaber
+  version: 24.70.2
+  date: 2020-02-18T15:21:32.631Z
+- commits:
+    - subject: Use caching headers for livechat assets
+      hash: 7530178acd67ccc709434154cc722c1161b147b1
+      body: |
+        Since #3093, livechat assets are split as well, so we can now use
+        caching headers such as 'expires' and 'cache-control'
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.70.1
+  date: 2020-02-18T14:02:38.023Z
+- commits:
+    - subject: Add external support user permissions
+      hash: 8f6df376ff4491cbab2824cf59a0816efd683bc7
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Connects-to: '#3129'
+        connects-to: '#3129'
+      author: Kakhaber
+  version: 24.70.0
+  date: 2020-02-18T11:55:09.243Z
+- commits:
+    - subject: >-
+        Use headers rather than querystring params to send auth info to
+        discourse, as querystring params have been deprecated See
+        https://meta.discourse.org/t/discourse-api-documentation/22706
+      hash: cf02ba76caf9013eb07b7b45b50df799c1cf3c4f
+      body: ''
+      footer:
+        Connects-to: '#2865'
+        connects-to: '#2865'
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.69.0
+  date: 2020-02-18T10:23:17.684Z
+- commits:
+    - subject: >-
+        Wait a bit before tearing down queue tests, as kernel is still doing
+        stuff in background This fix might put an end to those SIGILL failures
+        we have seen any now and then
+      hash: f42b487a39c998255d0e925b8281262c07b9bcf3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+    - subject: >-
+        Postpone `cloneDeep` in streams schema validation until we actually need
+        it
+      hash: f8742c042c141cdf9b0f37d384631d4d6a688848
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.68.8
+  date: 2020-02-17T15:40:58.680Z
+- commits:
+    - subject: >-
+        Introduce view templates, a way to query by views which are json-e
+        templates, saving callers from building complex query objects every time
+        and instead use a view template referenced by slug and provide its
+        params
+      hash: e642dffd50a11c78f2dab67bb4db3cd97295a64e
+      body: ''
+      footer:
+        Connects-to: '#3097'
+        connects-to: '#3097'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.68.7
+  date: 2020-02-17T13:21:58.026Z
+- commits:
+    - subject: >-
+        Disable circleci docker_layer_caching when not needed, as it costs 200
+        credit per job run https://circleci.com/docs/2.0/docker-layer-caching/
+      hash: 551f39b305f38a3db52dcda63bdff256233a3b67
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+    - subject: Update open-balena-base to latest 9.2.0
+      hash: 012e0b6b2172e28b322347e6ff19f3a13070fd17
+      body: ''
+      footer:
+        Connects-to: '#3105'
+        connects-to: '#3105'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.68.6
+  date: 2020-02-17T09:02:48.435Z
+- commits:
+    - subject: >-
+        Use new jellyfish-sidecar image, to shove some minutes when building
+        compose images
+      hash: 94c14b487e72dfd3d84b209257e299462fb56683
+      body: ''
+      footer:
+        Connects-to: '#3103'
+        connects-to: '#3103'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.68.5
+  date: 2020-02-17T08:19:29.027Z
+- commits:
+    - subject: Revert "Temporary disable "previous dump" jobs in circleci"
+      hash: 303f617e0ee1f06d7b26c1877821e0f851dffd37
+      body: |
+        This reverts commit 772dc52f5718c73dfde3e8c99388a453bb6502d5.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.68.4
+  date: 2020-02-14T16:37:52.929Z
+- commits:
+    - subject: Temporary disable "previous dump" jobs in circleci
+      hash: 772dc52f5718c73dfde3e8c99388a453bb6502d5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+    - subject: Change repo owner to product-os in scripts
+      hash: 9b289b0d45b284dd09555e3f717af1d5a5fcf169
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.68.3
+  date: 2020-02-14T13:41:08.171Z
+- commits:
     - subject: Add balena oauth base url env var to action server deployment
       hash: aa429ca9102f8ef832d101414b4afbd44f8122e4
       body: ''
