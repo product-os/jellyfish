@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'core: Make slug versions required'
+      hash: 66899372e5ed6a0d768eb24ea3811f654ebbba8f
+      body: ''
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 25.0.0
+  date: 2020-02-20T15:54:27.983Z
+- commits:
     - subject: Leverage lazy assert error messages
       hash: 2c8444266d07674c2e1ebb9620486ce17e1523ce
       body: ''
