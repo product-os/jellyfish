@@ -1,4 +1,18 @@
 - commits:
+    - subject: >-
+        Add NODE_OPTIONS to ui run in Dockerfile In order to solve the webpack
+        memory issue
+      hash: 1ed0c6acf9f4fd294150de268573c9dcec95c0b5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucy-Jane Walsh <ljewalsh@gmail.com>
+        signed-off-by: Lucy-Jane Walsh <ljewalsh@gmail.com>
+      author: Lucy-Jane Walsh
+  version: 24.70.3
+  date: 2020-02-19T23:16:28.403Z
+- commits:
     - subject: Add view org permission to chat widget user
       hash: d15ed78291c9e67def347610fc0628fb5d8658e9
       body: ''
