@@ -2,7 +2,7 @@
 # Base
 ###########################################################
 
-FROM balena/open-balena-base:v9.1.0 as base
+FROM balena/open-balena-base:v9.2.0 as base
 
 WORKDIR /usr/src/jellyfish
 
@@ -34,8 +34,8 @@ RUN make build-ui \
 	SENTRY_DSN_UI=$SENTRY_DSN_UI \
 	SERVER_HOST=$SERVER_HOST \
 	SERVER_PORT=$SERVER_PORT \
-	OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish
-
+	OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish \
+	NODE_OPTIONS=--max-old-space-size=2048
 ###########################################################
 # Runtime
 ###########################################################

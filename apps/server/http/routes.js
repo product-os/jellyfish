@@ -66,6 +66,7 @@ module.exports = (application, jellyfish, worker, queue, options) => {
 	const queryFacade = new facades.QueryFacade(jellyfish)
 	const authFacade = new facades.AuthFacade(jellyfish)
 	const actionFacade = new facades.ActionFacade(worker, queue, fileStore)
+	const viewFacade = new facades.ViewFacade(jellyfish, queryFacade)
 
 	application.get('/api/v2/config', (request, response) => {
 		response.send({
@@ -574,6 +575,28 @@ module.exports = (application, jellyfish, worker, queue, options) => {
 			})
 		}).catch((error) => {
 			logger.warn(request.context, 'JSON Schema query error', request.body)
+			return sendHTTPError(request, response, error)
+		})
+	})
+
+	application.post('/api/v2/view/:slug', (request, response) => {
+		viewFacade.queryByView(
+			request.context,
+			request.sessionToken,
+			request.params.slug,
+			request.body.params,
+			request.body.options,
+			request.ip
+		).then((data) => {
+			if (!data) {
+				return response.status(404).end()
+			}
+
+			return response.status(200).json({
+				error: false,
+				data
+			})
+		}).catch((error) => {
 			return sendHTTPError(request, response, error)
 		})
 	})
