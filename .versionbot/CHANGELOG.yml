@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'Revert "core: Make slug versions required"'
+      hash: ecb1147bbab694a4f8ff077247252151cb4ad0e6
+      body: |
+        This reverts commit 66899372e5ed6a0d768eb24ea3811f654ebbba8f.
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Juan Cruz Viotti
+  version: 25.1.0
+  date: 2020-02-20T17:02:08.873Z
+- commits:
     - subject: 'core: Make slug versions required'
       hash: 66899372e5ed6a0d768eb24ea3811f654ebbba8f
       body: ''
