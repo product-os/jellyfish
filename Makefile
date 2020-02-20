@@ -192,7 +192,16 @@ ifeq ($(NODE_ENV),profile)
 # See https://github.com/davidmarkclements/0x
 NODE = 0x --open -- node
 else
+
+# Assumes nsolid-console is running on the background
+ifeq ($(NODE_ENV),nsolid)
+NODE = "nsolid"
+NSOLID_COMMAND ?= localhost:9001
+export NSOLID_COMMAND
+
+else
 NODE = "node"
+endif
 endif
 
 # User parameters
@@ -371,28 +380,28 @@ node:
 start-server: LOGLEVEL = info
 ifeq ($(COVERAGE),1)
 start-server: .nyc-root
-	exec $(NODE) $(NODE_ARGS) $^/apps/server/index.js
+	NSOLID_APP=server exec $(NODE) $(NODE_ARGS) $^/apps/server/index.js
 else
 start-server:
-	exec $(NODE) $(NODE_ARGS) apps/server/index.js
+	NSOLID_APP=server exec $(NODE) $(NODE_ARGS) apps/server/index.js
 endif
 
 start-worker: LOGLEVEL = info
 ifeq ($(COVERAGE),1)
 start-worker: .nyc-root
-	exec $(NODE) $(NODE_ARGS) $^/apps/action-server/worker.js
+	NSOLID_APP=worker exec $(NODE) $(NODE_ARGS) $^/apps/action-server/worker.js
 else
 start-worker:
-	exec $(NODE) $(NODE_ARGS) apps/action-server/worker.js
+	NSOLID_APP=worker exec $(NODE) $(NODE_ARGS) apps/action-server/worker.js
 endif
 
 start-tick: LOGLEVEL = info
 ifeq ($(COVERAGE),1)
 start-tick: .nyc-root
-	exec $(NODE) $(NODE_ARGS) $^/apps/action-server/tick.js
+	NSOLID_APP=tick exec $(NODE) $(NODE_ARGS) $^/apps/action-server/tick.js
 else
 start-tick:
-	exec $(NODE) $(NODE_ARGS) apps/action-server/tick.js
+	NSOLID_APP=tick exec $(NODE) $(NODE_ARGS) apps/action-server/tick.js
 endif
 
 start-redis:

@@ -1,4 +1,80 @@
 - commits:
+    - subject: 'Revert "core: Make slug versions required"'
+      hash: ecb1147bbab694a4f8ff077247252151cb4ad0e6
+      body: |
+        This reverts commit 66899372e5ed6a0d768eb24ea3811f654ebbba8f.
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Juan Cruz Viotti
+  version: 25.1.0
+  date: 2020-02-20T17:02:08.873Z
+- commits:
+    - subject: 'core: Make slug versions required'
+      hash: 66899372e5ed6a0d768eb24ea3811f654ebbba8f
+      body: ''
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 25.0.0
+  date: 2020-02-20T15:54:27.983Z
+- commits:
+    - subject: Leverage lazy assert error messages
+      hash: 2c8444266d07674c2e1ebb9620486ce17e1523ce
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+    - subject: Add support for lazy error messages to `assert` module
+      hash: 29539f334a77dc8224b30ba68214f6bd8f000e49
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+    - subject: >-
+        Improve readability of logger, exit immediately when log level doesn't
+        match
+      hash: e03c806f5b2204f1c27b43899b34953f53e10845
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.70.5
+  date: 2020-02-20T11:05:48.722Z
+- commits:
+    - subject: 'Makefile: Add support for running Jellyfish on nsolid'
+      hash: 498399366440611483461fb8bfb305fe9114cfa0
+      body: |
+        Nsolid (https://nodesource.com/products/nsolid) is a free Node.js
+        runtime with instrumentation support that can be handy for debugging and
+        profiling purposes.
+
+        If you want to run this yourself:
+
+        - Start the nsolid console: `nsolid-console`
+        - Start the services you want with `NODE_ENV=nsolid`
+        - Go to http://localhost:6753
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.70.4
+  date: 2020-02-20T09:52:13.890Z
+- commits:
     - subject: >-
         Add NODE_OPTIONS to ui run in Dockerfile In order to solve the webpack
         memory issue
