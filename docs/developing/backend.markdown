@@ -1,6 +1,12 @@
-Working with the backend
-========================
+# Working with the backend
 
+- [Working with the backend](#working-with-the-backend)
+	- [Profiling](#profiling)
+	- [Share API over the Network](#share-api-over-the-network)
+	- [ndb](#ndb)
+	- [@ffissore's collection of docker & k8s scripts](#ffissores-collection-of-docker--k8s-scripts)
+
+## Profiling
 You can run any of the backend components in profile mode using `NODE_ENV`, for
 example:
 
@@ -22,8 +28,16 @@ You can filter down the types of logs that get printed to standard output using
 make start-server LOGLEVEL=warn
 ```
 
+## Share API over the Network
 You can share your local API instance over the network using `ngrok`:
 
 ```sh
 make ngrok-server
 ```
+
+## [ndb](https://github.com/GoogleChromeLabs/ndb)
+> ndb is an improved debugging experience for Node.js, enabled by Chrome DevTools
+Lucian found ndb to be really useful for debugging backend code. It allows you to easily start a Chrome DevTools windows connected to your Node.js application.
+
+## [@ffissore's collection of docker & k8s scripts](https://github.com/ffissore/docker-k8s-scripts)
+>  A collection of scripts that ease daily docker and kubernetes usage.
