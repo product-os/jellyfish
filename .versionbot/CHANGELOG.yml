@@ -1,4 +1,36 @@
 - commits:
+    - subject: Leverage lazy assert error messages
+      hash: 2c8444266d07674c2e1ebb9620486ce17e1523ce
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+    - subject: Add support for lazy error messages to `assert` module
+      hash: 29539f334a77dc8224b30ba68214f6bd8f000e49
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+    - subject: >-
+        Improve readability of logger, exit immediately when log level doesn't
+        match
+      hash: e03c806f5b2204f1c27b43899b34953f53e10845
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 24.70.5
+  date: 2020-02-20T11:05:48.722Z
+- commits:
     - subject: 'Makefile: Add support for running Jellyfish on nsolid'
       hash: 498399366440611483461fb8bfb305fe9114cfa0
       body: |
