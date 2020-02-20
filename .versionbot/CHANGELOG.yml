@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'Makefile: Add support for running Jellyfish on nsolid'
+      hash: 498399366440611483461fb8bfb305fe9114cfa0
+      body: |
+        Nsolid (https://nodesource.com/products/nsolid) is a free Node.js
+        runtime with instrumentation support that can be handy for debugging and
+        profiling purposes.
+
+        If you want to run this yourself:
+
+        - Start the nsolid console: `nsolid-console`
+        - Start the services you want with `NODE_ENV=nsolid`
+        - Go to http://localhost:6753
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 24.70.4
+  date: 2020-02-20T09:52:13.890Z
+- commits:
     - subject: >-
         Add NODE_OPTIONS to ui run in Dockerfile In order to solve the webpack
         memory issue
