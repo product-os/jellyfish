@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'core: Warn on slugs without versions'
+      hash: 5361d19121646e823d962ba1eeb7ebaf807d2258
+      body: ''
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 26.0.0
+  date: 2020-02-21T12:37:38.742Z
+- commits:
     - subject: Upgrade deprecated Octokit headers and properties
       hash: 7a7bb17651528c501c2c72ccb21b7e99f42fdc04
       body: ''
