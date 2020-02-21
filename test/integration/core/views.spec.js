@@ -7,10 +7,42 @@
 const ava = require('ava')
 const views = require('../../../lib/core/views')
 const CARDS = require('../../../lib/core/cards')
-const helpers = require('./helpers')
+const helpers = require('../../../test/helpers')
+const uuid = require('uuid/v4')
 
-ava.beforeEach(helpers.beforeEach)
-ava.afterEach(helpers.afterEach)
+ava.beforeEach = async (test) => {
+	const dbName = `test_${uuid.replace(/-/g, '_')}`
+	const context = {
+		id: `CORE-TEST-${uuid()}`
+	}
+
+	const cache = await helpers.createCache({
+		dbName, context
+	})
+
+	const backend = await helpers.createBackend({
+		cache,
+		dbName,
+		context
+	})
+
+	test.context = {
+		...test.context,
+		cache,
+		backend,
+		context
+	}
+}
+
+ava.afterEach = async (test) => {
+	const {
+		backend,
+		context,
+		cache
+	} = test.context
+	await backend.disconnect(context)
+	await cache.disconnect()
+}
 
 ava('.getSchema() should return null if the card is not a view', (test) => {
 	const schema = views.getSchema(CARDS['user-admin'])

@@ -5,10 +5,19 @@
  */
 
 const ava = require('ava')
-const helpers = require('../helpers')
+const uuid = require('uuid/v4')
+const helpers = require('../../../../test/helpers')
 
-ava.afterEach(helpers.afterEach)
-ava.beforeEach(helpers.beforeEach)
+ava.beforeEach = async (test) => {
+	const dbName = `test_${uuid()}`
+	test.context.cache = await helpers.createCache({
+		dbName
+	})
+}
+
+ava.afterEach = async (test) => {
+	await test.context.cache.disconnect()
+}
 
 ava('.set() should be able to retrieve item by id', async (test) => {
 	const element1 = {

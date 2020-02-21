@@ -6,14 +6,84 @@
 
 const ava = require('ava')
 const _ = require('lodash')
-const helpers = require('./helpers')
+const uuid = require('uuid/v4')
+const helpers = require('../../helpers')
 const typedErrors = require('typed-errors')
 const pipeline = require('../../../lib/sync/pipeline')
 const errors = require('../../../lib/sync/errors')
 const NoOpIntegration = require('./noop-integration')
+const syncContext = require('../../../lib/action-library/sync-context')
 
-ava.beforeEach(helpers.beforeEach)
-ava.afterEach(helpers.afterEach)
+ava.beforeEach(async (test) => {
+	const suffix = uuid()
+	const dbName = `test_${suffix.replace(/-/g, '_')}`
+	const context = {
+		id: `CORE-TEST-${uuid()}`
+	}
+
+	const cache = await helpers.createCache({
+		dbName,
+		context
+	})
+
+	const backend = await helpers.createBackend({
+		cache,
+		dbName,
+		context,
+		options: {
+			suffix
+		}
+	})
+
+	const {
+		actor,
+		session,
+		kernel
+	} = await helpers.createKernel(backend, context)
+
+	const queue = await helpers.createQueue({
+		context,
+		kernel,
+		session
+	})
+
+	const worker = await helpers.createWorker({
+		context,
+		kernel,
+		session,
+		queue
+	})
+
+	const actionContext = worker.getActionContext(context)
+
+	const workerSyncContext = await syncContext.fromWorkerContext('test', actionContext, context, session)
+
+	test.context = {
+		actor,
+		worker,
+		kernel,
+		backend,
+		context,
+		cache,
+		queue,
+		syncContext: workerSyncContext,
+		session
+	}
+})
+
+ava.afterEach(async (test) => {
+	const {
+		queue,
+		kernel,
+		backend,
+		context,
+		cache
+	} = test.context
+	await queue.consumer.cancel()
+	await kernel.disconnect(context)
+	await backend.disconnect(context)
+	await cache.disconnect()
+})
 
 ava('.importCards() should import no card', async (test) => {
 	const result = await pipeline.importCards(test.context.syncContext, [])
@@ -71,7 +141,7 @@ ava('.importCards() should import a single card', async (test) => {
 })
 
 ava('.importCards() should patch an existing card', async (test) => {
-	const card = await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
+	const card = await test.context.kernel.insertCard(test.context.context, test.context.session, {
 		type: 'card@1.0.0',
 		slug: 'foo',
 		version: '1.0.0',
@@ -313,7 +383,7 @@ ava('.importCards() should not throw given string interpolation', async (test) =
 	])
 
 	test.deepEqual(results, [
-		test.context.jellyfish.defaults({
+		test.context.kernel.defaults({
 			id: results[0].id,
 			slug: 'bar',
 			created_at: results[0].created_at,
@@ -447,10 +517,20 @@ ava('.importCards() should import a dependent card in parallel segment', async (
 })
 
 ava('.importCards() should add create events', async (test) => {
-	const result = await pipeline.importCards(test.context.syncContext, [
+	const {
+		queue,
+		syncContext: testSyncContext,
+		actor,
+		session,
+		kernel,
+		worker,
+		context
+	} = test.context
+
+	const result = await pipeline.importCards(testSyncContext, [
 		{
 			time: new Date(),
-			actor: test.context.actor.id,
+			actor: actor.id,
 			card: {
 				slug: 'hello-world',
 				type: 'card@1.0.0',
@@ -462,9 +542,16 @@ ava('.importCards() should add create events', async (test) => {
 		}
 	])
 
-	await test.context.flush(test.context.session)
+	await helpers.flushQueue({
+		queue,
+		context,
+		actor,
+		kernel,
+		worker,
+		session
+	})
 
-	const timeline = await test.context.jellyfish.query(test.context.context, test.context.session, {
+	const timeline = await kernel.query(context, session, {
 		type: 'object',
 		additionalProperties: true,
 		required: [ 'data' ],
@@ -495,7 +582,7 @@ ava('.translateExternalEvent() should pass the originator to the sync context', 
 		}
 	}
 
-	const slug = test.context.generateRandomSlug({
+	const slug = helpers.generateRandomSlug({
 		prefix: 'external-event'
 	})
 
@@ -554,7 +641,7 @@ ava('.translateExternalEvent() should translate an external event through the no
 		}
 	}
 
-	const slug = test.context.generateRandomSlug({
+	const slug = helpers.generateRandomSlug({
 		prefix: 'external-event'
 	})
 
@@ -611,7 +698,7 @@ ava('.translateExternalEvent() should destroy the integration even if there was 
 
 	await test.throwsAsync(pipeline.translateExternalEvent(TestIntegration, test.context.kernel.defaults({
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-		slug: test.context.generateRandomSlug({
+		slug: helpers.generateRandomSlug({
 			prefix: 'external-event'
 		}),
 		type: 'invalid-type@1.0.0',
@@ -652,7 +739,7 @@ ava('.translateExternalEvent() should destroy the integration even if there was 
 	await test.throwsAsync(pipeline.translateExternalEvent(BrokenIntegration, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		type: 'invalid-type@1.0.0',
-		slug: test.context.generateRandomSlug({
+		slug: helpers.generateRandomSlug({
 			prefix: 'external-event'
 		}),
 		version: '1.0.0',

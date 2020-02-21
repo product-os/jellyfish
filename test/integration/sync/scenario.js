@@ -10,7 +10,8 @@ const Bluebird = require('bluebird')
 const uuid = require('uuid/v4')
 const path = require('path')
 const _ = require('lodash')
-const syncHelpers = require('../../integration/sync/helpers')
+const helpers = require('../../helpers')
+const syncContext = require('../../../lib/action-library/sync-context')
 
 const TRANSLATE_PREFIX = uuid()
 
@@ -32,7 +33,7 @@ const getVariations = (sequence, options = {}) => {
 			return _.includes(combination, invariant)
 		})
 
-		// Only consider the ones that preserve ordering for now
+	// Only consider the ones that preserve ordering for now
 		.filter((combination) => {
 			if (options.permutations) {
 				return true
@@ -335,36 +336,76 @@ const getObjDifference = (expected, obtained) => {
 
 module.exports = {
 	beforeEach: async (test) => {
-		await syncHelpers.beforeEach(test, {
-			suffix: TRANSLATE_PREFIX
+		const suffix = TRANSLATE_PREFIX
+		const dbName = `test_${suffix.replace(/-/g, '_')}`
+		const context = {
+			id: `CORE-TEST-${uuid()}`
+		}
+
+		const cache = await helpers.createCache({
+			dbName,
+			context
 		})
 
-		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../apps/server/default-cards/contrib/external-event.json'))
-		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../apps/server/default-cards/contrib/issue.json'))
-		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../apps/server/default-cards/contrib/pull-request.json'))
-		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../apps/server/default-cards/contrib/email-sequence.json'))
-		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../apps/server/default-cards/contrib/repository.json'))
-		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../apps/server/default-cards/contrib/push.json'))
-		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../apps/server/default-cards/contrib/support-thread.json'))
-		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../apps/server/default-cards/contrib/sales-thread.json'))
-		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../apps/server/default-cards/contrib/thread.json'))
-		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../apps/server/default-cards/contrib/whisper.json'))
+		const backend = await helpers.createBackend({
+			cache,
+			dbName,
+			context,
+			options: {
+				suffix
+			}
+		})
+
+		const {
+			actor,
+			session,
+			kernel
+		} = await helpers.createKernel(backend, context)
+
+		const queue = await helpers.createQueue({
+			context,
+			kernel,
+			session
+		})
+
+		const worker = await helpers.createWorker({
+			context,
+			kernel,
+			session,
+			queue
+		})
+
+		const actionContext = worker.getActionContext(context)
+
+		const workerSyncContext = await syncContext.fromWorkerContext('test', actionContext, context, session)
 
 		nock.cleanAll()
 		nock.disableNetConnect()
+
+		test.context = {
+			actor,
+			worker,
+			kernel,
+			backend,
+			context,
+			cache,
+			queue,
+			syncContext: workerSyncContext,
+			session
+		}
 	},
 	afterEach: async (test) => {
-		await syncHelpers.afterEach(test)
+		const {
+			queue,
+			kernel,
+			backend,
+			context,
+			cache
+		} = test.context
+		await queue.consumer.cancel()
+		await kernel.disconnect(context)
+		await backend.disconnect(context)
+		await cache.disconnect()
 
 		nock.cleanAll()
 	},

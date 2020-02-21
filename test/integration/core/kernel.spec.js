@@ -10,10 +10,41 @@ const Bluebird = require('bluebird')
 const uuid = require('uuid/v4')
 const errors = require('../../../lib/core/errors')
 const CARDS = require('../../../lib/core/cards')
-const helpers = require('./helpers')
+const helpers = require('../../../test/helpers')
 
-ava.beforeEach(helpers.beforeEach)
-ava.afterEach(helpers.afterEach)
+ava.beforeEach = async (test) => {
+	const dbName = `test_${uuid().replace(/-/g, '_')}`
+	const context = {
+		id: `CORE-TEST-${uuid()}`
+	}
+
+	const cache = await helpers.createCache({
+		dbName, context
+	})
+
+	const backend = await helpers.createBackend({
+		cache,
+		dbName,
+		context
+	})
+
+	test.context = {
+		...test.context,
+		cache,
+		backend,
+		context
+	}
+}
+
+ava.afterEach = async (test) => {
+	const {
+		backend,
+		context,
+		cache
+	} = test.context
+	await backend.disconnect(context)
+	await cache.disconnect()
+}
 
 ava('should only expose the required methods', (test) => {
 	const methods = Object.getOwnPropertyNames(
