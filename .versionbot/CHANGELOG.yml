@@ -1,4 +1,16 @@
 - commits:
+    - subject: Upgrade deprecated Octokit headers and properties
+      hash: 7a7bb17651528c501c2c72ccb21b7e99f42fdc04
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucy-Jane Walsh <ljewalsh@gmail.com>
+        signed-off-by: Lucy-Jane Walsh <ljewalsh@gmail.com>
+      author: Lucy-Jane Walsh
+  version: 25.1.1
+  date: 2020-02-20T23:23:55.396Z
+- commits:
     - subject: 'Revert "core: Make slug versions required"'
       hash: ecb1147bbab694a4f8ff077247252151cb4ad0e6
       body: |
