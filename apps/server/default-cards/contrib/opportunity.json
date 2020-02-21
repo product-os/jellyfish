@@ -75,6 +75,16 @@
           "title": "Account",
           "link": "is attached to",
           "type": "account"
+        },
+        {
+          "title": "Primary owner",
+          "link": "has primary owner",
+          "type": "user"
+        },
+        {
+          "title": "Secondary owners",
+          "link": "has secondary owner",
+          "type": "user"
         }
       ]
     }
