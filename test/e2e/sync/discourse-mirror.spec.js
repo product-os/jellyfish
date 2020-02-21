@@ -312,8 +312,8 @@ avaTest('should send, but not sync, a message to a deleted thread', async (test)
 avaTest('should send a whisper as a non moderator user', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		test.context.username,
-		`My Issue ${uuid()}`,
-		`Foo Bar ${uuid()}`)
+		`Whispering test ${uuid()}`,
+		`I used to think maybe you loved me now baby Im sure ${uuid()}`)
 
 	await helpers.mirror.beforeEach(
 		test, environment.test.integration.discourse.nonModeratorUsername)
@@ -349,8 +349,8 @@ avaTest('should send a whisper as a non moderator user', async (test) => {
 avaTest('should send a message as a non moderator user', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		test.context.username,
-		`My Issue ${uuid()}`,
-		`Foo Bar ${uuid()}`)
+		`My Issue for message testing ${uuid()}`,
+		`Fee fo fi thumb I smell the blood of an englishman ${uuid()}`)
 
 	await helpers.mirror.beforeEach(
 		test, environment.test.integration.discourse.nonModeratorUsername)
