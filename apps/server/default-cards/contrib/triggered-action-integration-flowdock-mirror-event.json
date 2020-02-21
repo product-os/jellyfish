@@ -1,0 +1,28 @@
+{
+  "slug": "triggered-action-integration-flowdock-mirror-event",
+  "type": "triggered-action@1.0.0",
+  "version": "1.0.0",
+  "tags": [],
+  "markers": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "filter": {
+      "type": "object",
+      "required": [ "type" ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [ "support-thread", "support-thread@1.0.0" ]
+        }
+      }
+    },
+    "action": "action-integration-flowdock-mirror-event@1.0.0",
+    "target": {
+      "$eval": "source.id"
+    },
+    "arguments": {}
+  },
+  "requires": [],
+  "capabilities": []
+}
