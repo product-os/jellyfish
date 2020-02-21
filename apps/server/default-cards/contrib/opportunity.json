@@ -1,8 +1,8 @@
 {
   "slug": "opportunity",
-  "type": "type@1.0.0",
-  "version": "1.0.0",
   "name": "Opportunity",
+  "version": "1.0.0",
+  "type": "type@1.0.0",
   "markers": [],
   "tags": [],
   "links": {},
@@ -66,6 +66,9 @@
         }
       }
     },
+    "slices": [
+      "properties.data.properties.status"
+    ],
     "meta": {
       "relationships": [
         {
