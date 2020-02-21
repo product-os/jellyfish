@@ -106,18 +106,9 @@ ava.before(async (test) => {
 		request: {
 			retries: 5
 		},
-		headers: {
-			accept: 'application/vnd.github.v3+json',
-			'user-agent': `${packageJSON.name} v${packageJSON.version} (${__dirname})`
-		}
+		userAgent: `${packageJSON.name} v${packageJSON.version} (${__dirname})`,
+		auth: TOKEN.api
 	})
-
-	if (TOKEN) {
-		test.context.github.authenticate({
-			type: 'token',
-			token: TOKEN.api
-		})
-	}
 })
 
 ava.after(helpers.mirror.after)
@@ -161,7 +152,7 @@ avaTest('should be able to create an issue with a comment and update the comment
 	const externalIssue = await test.context.github.issues.get({
 		owner: test.context.repository.owner,
 		repo: test.context.repository.repo,
-		number: _.last(issue.data.mirrors[0].split('/'))
+		issue_number: _.last(issue.data.mirrors[0].split('/'))
 	})
 
 	test.is(externalIssue.data.body, `[${test.context.username}] Issue body`)
@@ -187,7 +178,7 @@ avaTest('should be able to create an issue without comments', async (test) => {
 	const external = await test.context.github.issues.get({
 		owner: test.context.repository.owner,
 		repo: test.context.repository.repo,
-		number: _.last(mirror.split('/'))
+		issue_number: _.last(mirror.split('/'))
 	})
 
 	const currentUser = await test.context.github.users.getAuthenticated()
@@ -224,7 +215,7 @@ avaTest('should sync issues given the mirror url if the repository changes', asy
 	const external = await test.context.github.issues.get({
 		owner: test.context.repository.owner,
 		repo: test.context.repository.repo,
-		number: _.last(mirror.split('/'))
+		issue_number: _.last(mirror.split('/'))
 	})
 
 	const currentUser = await test.context.github.users.getAuthenticated()
@@ -253,7 +244,7 @@ avaTest('should be able to create an issue with a comment', async (test) => {
 	const externalIssue = await test.context.github.issues.get({
 		owner: test.context.repository.owner,
 		repo: test.context.repository.repo,
-		number: _.last(mirror.split('/'))
+		issue_number: _.last(mirror.split('/'))
 	})
 
 	test.is(externalIssue.data.body, `[${test.context.username}] Issue body`)
@@ -262,7 +253,7 @@ avaTest('should be able to create an issue with a comment', async (test) => {
 	const externalMessages = await test.context.github.issues.listComments({
 		owner: test.context.repository.owner,
 		repo: test.context.repository.repo,
-		number: externalIssue.data.number
+		issue_number: externalIssue.data.number
 	})
 
 	const currentUser = await test.context.github.users.getAuthenticated()
