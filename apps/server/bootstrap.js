@@ -159,6 +159,7 @@ module.exports = async (context) => {
 		guestSession: results.guestSession.id,
 		port: webServer.port,
 		close: async () => {
+			await producer.stop()
 			await socketServer.close()
 			await webServer.stop()
 			await jellyfish.disconnect(context)

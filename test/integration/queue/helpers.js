@@ -81,5 +81,6 @@ exports.beforeEach = async (test, options) => {
 
 exports.afterEach = async (test) => {
 	await test.context.queue.consumer.cancel()
+	await test.context.queue.producer.stop()
 	await helpers.afterEach(test)
 }

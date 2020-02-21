@@ -5,7 +5,6 @@
  */
 
 const ava = require('ava')
-const _ = require('lodash')
 const Bluebird = require('bluebird')
 const helpers = require('./helpers')
 const events = require('../../../lib/queue/events')
@@ -110,19 +109,22 @@ ava('.post() should allow an object result', async (test) => {
 })
 
 ava.cb('.wait() should return when a certain execute event is inserted', (test) => {
-	events.wait(test.context.context, test.context.jellyfish, test.context.session, {
-		id: '414f2345-4f5e-4571-820f-28a49731733d',
-		action: '57692206-8da2-46e1-91c9-159b2c6928ef',
-		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
-		actor: '57692206-8da2-46e1-91c9-159b2c6928ef'
-	}).then(async () => {
-		// Wait a bit for `postgres.upsertObject` to terminate
-		// Otherwise, we close the underlying connections while the rest
-		// of the code of upsertObject is still running, causing errors
-		// unrelated to the test
-		await Bluebird.delay(500)
-		test.end()
-	}).catch(test.end)
+	events.wait(test.context.queue.producer.executeEventsListener,
+		test.context.context, test.context.jellyfish, test.context.session, {
+			id: '414f2345-4f5e-4571-820f-28a49731733d',
+			action: '57692206-8da2-46e1-91c9-159b2c6928ef',
+			card: '033d9184-70b2-4ec9-bc39-9a249b186422',
+			actor: '57692206-8da2-46e1-91c9-159b2c6928ef'
+		})
+		.then(async () => {
+			// Wait a bit for `postgres.upsertObject` to terminate
+			// Otherwise, we close the underlying connections while the rest
+			// of the code of upsertObject is still running, causing errors
+			// unrelated to the test
+			await Bluebird.delay(500)
+			test.end()
+		})
+		.catch(test.end)
 
 	Bluebird.delay(500).then(() => {
 		return events.post(test.context.context, test.context.jellyfish, test.context.session, {
@@ -150,50 +152,18 @@ ava('.wait() should return if the card already exists', async (test) => {
 		data: '414f2345-4f5e-4571-820f-28a49731733d'
 	})
 
-	const card = await events.wait(test.context.context, test.context.jellyfish, test.context.session, {
-		id: '414f2345-4f5e-4571-820f-28a49731733d',
-		action: '57692206-8da2-46e1-91c9-159b2c6928ef',
-		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
-		actor: '57692206-8da2-46e1-91c9-159b2c6928ef'
-	})
+	const card = await events.wait(test.context.queue.producer.executeEventsListener,
+		test.context.context, test.context.jellyfish, test.context.session, {
+			id: '414f2345-4f5e-4571-820f-28a49731733d',
+			action: '57692206-8da2-46e1-91c9-159b2c6928ef',
+			card: '033d9184-70b2-4ec9-bc39-9a249b186422',
+			actor: '57692206-8da2-46e1-91c9-159b2c6928ef'
+		})
 
 	test.is(card.type, 'execute@1.0.0')
 	test.is(card.data.target, '414f2345-4f5e-4571-820f-28a49731733d')
 	test.is(card.data.actor, '57692206-8da2-46e1-91c9-159b2c6928ef')
 	test.is(card.data.payload.card, '033d9184-70b2-4ec9-bc39-9a249b186422')
-})
-
-ava.cb('.wait() should be able to access the event payload of a huge event', (test) => {
-	const BIG_EXECUTE_CARD = require('./big-execute.json')
-
-	events.wait(
-		test.context.context, test.context.jellyfish, test.context.session, {
-			id: BIG_EXECUTE_CARD.slug.replace(/^execute-/g, ''),
-			action: BIG_EXECUTE_CARD.data.action,
-			card: BIG_EXECUTE_CARD.data.target,
-			actor: BIG_EXECUTE_CARD.data.actor
-		}).then(async (card) => {
-		test.deepEqual(card.data.payload, BIG_EXECUTE_CARD.data.payload)
-
-		// Wait a bit for `postgres.upsertObject` to terminate
-		// Otherwise, we close the underlying connections while the rest
-		// of the code of upsertObject is still running, causing errors
-		// unrelated to the test
-		await Bluebird.delay(500)
-		test.end()
-	}).catch(test.end)
-
-	Bluebird.delay(500).then(() => {
-		// Use the backend class directly so we can inject "links"
-		return test.context.backend.insertElement(
-			test.context.context, BIG_EXECUTE_CARD).then((execute) => {
-			test.deepEqual(_.omit(execute, [ 'id' ]), Object.assign({}, BIG_EXECUTE_CARD, {
-				created_at: execute.created_at,
-				linked_at: execute.linked_at,
-				links: execute.links
-			}))
-		})
-	}).catch(test.end)
 })
 
 ava('.wait() should be able to access the event payload', async (test) => {
@@ -208,12 +178,13 @@ ava('.wait() should be able to access the event payload', async (test) => {
 		data: '414f2345-4f5e-4571-820f-28a49731733d'
 	})
 
-	const card = await events.wait(test.context.context, test.context.jellyfish, test.context.session, {
-		id: '414f2345-4f5e-4571-820f-28a49731733d',
-		action: '57692206-8da2-46e1-91c9-159b2c6928ef',
-		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
-		actor: '57692206-8da2-46e1-91c9-159b2c6928ef'
-	})
+	const card = await events.wait(test.context.queue.producer.executeEventsListener,
+		test.context.context, test.context.jellyfish, test.context.session, {
+			id: '414f2345-4f5e-4571-820f-28a49731733d',
+			action: '57692206-8da2-46e1-91c9-159b2c6928ef',
+			card: '033d9184-70b2-4ec9-bc39-9a249b186422',
+			actor: '57692206-8da2-46e1-91c9-159b2c6928ef'
+		})
 
 	test.deepEqual(card.data.payload, {
 		action: '57692206-8da2-46e1-91c9-159b2c6928ef',
@@ -225,21 +196,24 @@ ava('.wait() should be able to access the event payload', async (test) => {
 })
 
 ava.cb('.wait() should ignore cards that do not match the id', (test) => {
-	events.wait(test.context.context, test.context.jellyfish, test.context.session, {
-		id: 'b9999e1e-e707-4124-98b4-f4bcf1643b4c',
-		action: '57692206-8da2-46e1-91c9-159b2c6928ef',
-		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
-		actor: '57692206-8da2-46e1-91c9-159b2c6928ef'
-	}).then(async (request) => {
-		test.is(request.data.payload.timestamp, '2020-06-30T19:34:42.829Z')
+	events.wait(test.context.queue.producer.executeEventsListener,
+		test.context.context, test.context.jellyfish, test.context.session, {
+			id: 'b9999e1e-e707-4124-98b4-f4bcf1643b4c',
+			action: '57692206-8da2-46e1-91c9-159b2c6928ef',
+			card: '033d9184-70b2-4ec9-bc39-9a249b186422',
+			actor: '57692206-8da2-46e1-91c9-159b2c6928ef'
+		})
+		.then(async (request) => {
+			test.is(request.data.payload.timestamp, '2020-06-30T19:34:42.829Z')
 
-		// Wait a bit for `postgres.upsertObject` to terminate
-		// Otherwise, we close the underlying connections while the rest
-		// of the code of upsertObject is still running, causing errors
-		// unrelated to the test
-		await Bluebird.delay(500)
-		test.end()
-	}).catch(test.end)
+			// Wait a bit for `postgres.upsertObject` to terminate
+			// Otherwise, we close the underlying connections while the rest
+			// of the code of upsertObject is still running, causing errors
+			// unrelated to the test
+			await Bluebird.delay(500)
+			test.end()
+		})
+		.catch(test.end)
 
 	Bluebird.delay(500).then(async () => {
 		await events.post(test.context.context, test.context.jellyfish, test.context.session, {

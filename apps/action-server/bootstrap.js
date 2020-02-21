@@ -133,6 +133,7 @@ const bootstrap = async (context, library, options) => {
 	const closeWorker = async () => {
 		run = false
 		await consumer.cancel()
+		await producer.stop()
 		triggerStream.removeAllListeners()
 		await triggerStream.close()
 		await refreshingTriggers
