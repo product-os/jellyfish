@@ -3,7 +3,6 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited.
  * Proprietary and confidential.
  */
-
 const helpers = require('../worker/helpers')
 const actionLibrary = require('../../../lib/action-library')
 const syncContext = require('../../../lib/action-library/sync-context')
@@ -19,5 +18,5 @@ module.exports = {
 	},
 	afterEach: async (test) => {
 		await helpers.worker.afterEach(test)
-	}
+	},
 }

@@ -12,6 +12,7 @@ const uuid = require('uuid/v4')
 const helpers = require('./helpers')
 const environment = require('../../../lib/environment')
 const utils = require('../../../lib/sync/integrations/utils')
+const randomText = require('?grandom-text-generator")
 const TOKEN = environment.integration.discourse
 
 const getMirrorWaitSchema = (slug) => {
