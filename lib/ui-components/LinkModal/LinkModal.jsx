@@ -25,17 +25,18 @@ export default class LinkModal extends React.Component {
 
 		const {
 			card,
+			linkType,
 			target
 		} = props
 
-		const linkType = _.find(LINKS, [ 'data.from', card.type ]) ||
+		const initialLinkType = linkType || _.find(LINKS, [ 'data.from', card.type ]) ||
 			_.find(LINKS, [ 'data.from', card.type.split('@')[0] ])
 
 		this.state = {
 			results: [],
 			selectedTarget: target || null,
-			linkType: Object.assign({}, linkType, {
-				title: linkType.data.title
+			linkType: Object.assign({}, initialLinkType, {
+				title: initialLinkType.data.title
 			})
 		}
 
@@ -74,8 +75,15 @@ export default class LinkModal extends React.Component {
 			return
 		}
 
-		// Create the link asynchronously without waiting for the result
-		this.props.actions.createLink(card, selectedTarget, linkType.name)
+		// We'll override the success notification message with something more useful
+		const successNotificationMessage = typeof this.props.linkCreatedNotificationMessage === 'function'
+			? this.props.linkCreatedNotificationMessage(card, selectedTarget, linkType.name)
+			: this.props.linkCreatedNotificationMessage
+
+		await this.props.actions.createLink(card, selectedTarget, linkType.name, {
+			successNotificationMessage
+		})
+
 		this.setState({
 			selectedTarget: null
 		})
@@ -149,11 +157,13 @@ export default class LinkModal extends React.Component {
 
 		const type = card.type.split('@')[0]
 
+		const links = this.props.linkType ? [ this.props.linkType ] : LINKS
+
 		// Create an array of available link types, then map over them and move the
 		// data.title file to the root of the object, as the rendition Select
 		// component can't use a non-root field for the `labelKey` prop
 		// TODO make the Select component allow nested fields for the `labelKey` prop
-		let linkTypeTargets = _.filter(LINKS, [ 'data.from', type ])
+		let linkTypeTargets = _.filter(links, [ 'data.from', type ])
 			.map((constraint) => {
 				return Object.assign({}, constraint, {
 					title: constraint.data.title
@@ -203,9 +213,11 @@ export default class LinkModal extends React.Component {
 					)}
 					{linkTypeTargets.length > 1 && (
 						<Select ml={2}
+							id="card-linker--type-select"
 							value={linkType}
 							onChange={this.handleLinkTypeSelect}
 							labelKey="title"
+							data-test="card-linker--type__input"
 							options={linkTypeTargets}
 						/>
 					)}

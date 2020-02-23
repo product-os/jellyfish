@@ -4,39 +4,28 @@
  * Proprietary and confidential.
  */
 
-import _ from 'lodash'
+import {
+	compose
+} from 'redux'
 import {
 	connect
 } from 'react-redux'
 import {
-	bindActionCreators
-} from 'redux'
-import {
-	actionCreators,
-	sdk,
 	selectors
 }	from '../../core'
 import CardActions from '../../../../lib/ui-components/CardActions'
+import {
+	withSetup
+} from '../../../../lib/ui-components/SetupProvider'
 
 const mapStateToProps = (state) => {
 	return {
-		sdk,
-		types: selectors.getTypes(state)
+		types: selectors.getTypes(state),
+		user: selectors.getCurrentUser(state)
 	}
 }
 
-const mapDispatchToProps = (dispatch) => {
-	return {
-		actions: bindActionCreators(
-			_.pick(actionCreators, [
-				'addNotification',
-				'addChannel',
-				'createLink',
-				'queryAPI'
-			]),
-			dispatch
-		)
-	}
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CardActions)
+export default compose(
+	withSetup,
+	connect(mapStateToProps)
+)(CardActions)

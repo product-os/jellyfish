@@ -23,6 +23,36 @@ const user = {
 	password: 'password'
 }
 
+const createExtraUser = async () => {
+	const extraUser = {
+		username: `janedoe-${uuid()}`,
+		email: `janedoe-${uuid()}@example.com`,
+		password: 'password'
+	}
+	await context.createUser(extraUser)
+	return extraUser
+}
+
+const openCardOwnerDropdown = async (page) => {
+	// Slight css selector hack needed to select the toggle button of a Rendition dropdown!
+	return macros.waitForThenClickSelector(
+		page,
+		'[data-test="card-owner-dropdown"] [data-test="card-owner-dropdown"]:nth-child(2)'
+	)
+}
+
+const verifyCardOwner = async (test, page, isAssigned, expectedOwnerText) => {
+	const dataTestAttribute = isAssigned
+		? 'card-owner-dropdown__label--assigned'
+		: 'card-owner-dropdown__label--unassigned'
+	const selector = `//*[@data-test="${dataTestAttribute}"][text()="${expectedOwnerText}"]`
+	const cardOwner = await page.waitForXPath(selector)
+	const text = await page.evaluate((ele) => {
+		return ele.textContent
+	}, cardOwner)
+	test.is(text, expectedOwnerText)
+}
+
 ava.before(async () => {
 	await helpers.browser.beforeEach({
 		context
@@ -82,6 +112,122 @@ ava.serial('Updates to support threads should be reflected in the support thread
 	test.is(rand, messageText.trim())
 })
 
+ava.serial('You should be able to assign a support thread to yourself and unassign it', async (test) => {
+	const {
+		page
+	} = context
+
+	const supportThread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'support-thread',
+			data: {
+				inbox: 'S/Paid_Support',
+				status: 'open'
+			}
+		})
+	})
+
+	// Navigate to the thread channel and wait for it to load
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${supportThread.id}`)
+	await page.waitForSelector('[data-test="card-owner-dropdown"]')
+
+	// Verify the thread has no owner initially
+	await verifyCardOwner(test, page, false, 'Unassigned')
+
+	// Assign it to ourselves
+	await openCardOwnerDropdown(page)
+	await macros.waitForThenClickSelector(page, '[data-test="card-owner-menu__assign-to-me"]')
+	await verifyCardOwner(test, page, true, user.username)
+
+	// And now unassign it
+	await openCardOwnerDropdown(page)
+	await macros.waitForThenClickSelector(page, '[data-test="card-owner-menu__unassign"]')
+	await verifyCardOwner(test, page, false, 'Unassigned')
+})
+
+ava.serial('You should be able to assign an unassigned support thread to someone else', async (test) => {
+	const {
+		page
+	} = context
+
+	const otherUser = await createExtraUser()
+
+	const supportThread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'support-thread',
+			data: {
+				inbox: 'S/Paid_Support',
+				status: 'open'
+			}
+		})
+	})
+
+	// Navigate to the thread channel and wait for it to load
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${supportThread.id}`)
+	await page.waitForSelector('[data-test="card-owner-dropdown"]')
+
+	// Verify the thread has no owner initially
+	await verifyCardOwner(test, page, false, 'Unassigned')
+
+	// Open the LinkModal
+	await openCardOwnerDropdown(page)
+	await macros.waitForThenClickSelector(page, '[data-test="card-owner-menu__assign"]')
+
+	// Select another user
+	await macros.waitForThenClickSelector(page, '[data-test="card-linker--existing__input"]')
+	await page.type('.jellyfish-async-select__input input', otherUser.username)
+	await page.waitForSelector('.jellyfish-async-select__option--is-focused')
+	await page.keyboard.press('Enter')
+	await page.click('[data-test="card-linker--existing__submit"]')
+
+	// Verify the other user is now assigned to the thread
+	await verifyCardOwner(test, page, true, otherUser.username)
+})
+
+ava.serial('You should be able to reassign an assigned support thread to someone else', async (test) => {
+	const {
+		page
+	} = context
+
+	const otherUser = await createExtraUser()
+
+	const supportThread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'support-thread',
+			data: {
+				inbox: 'S/Paid_Support',
+				status: 'open'
+			}
+		})
+	})
+
+	// Navigate to the thread channel and wait for it to load
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${supportThread.id}`)
+	await page.waitForSelector('[data-test="card-owner-dropdown"]')
+
+	// Verify the thread has no owner initially
+	await verifyCardOwner(test, page, false, 'Unassigned')
+
+	// Assign it to ourselves
+	await openCardOwnerDropdown(page)
+	await macros.waitForThenClickSelector(page, '[data-test="card-owner-menu__assign-to-me"]')
+	await verifyCardOwner(test, page, true, user.username)
+
+	// Now open the LinkModal
+	await openCardOwnerDropdown(page)
+	await macros.waitForThenClickSelector(page, '[data-test="card-owner-menu__assign"]')
+
+	// Select another user
+	await macros.waitForThenClickSelector(page, '[data-test="card-linker--existing__input"]')
+	await page.type('.jellyfish-async-select__input input', otherUser.username)
+	await page.waitForSelector('.jellyfish-async-select__option--is-focused')
+	await page.keyboard.press('Enter')
+	await page.click('[data-test="card-linker--existing__submit"]')
+
+	// Verify the other user is now assigned to the thread
+	await verifyCardOwner(test, page, true, otherUser.username)
+})
+
 ava.serial('You should be able to link support threads to existing support issues', async (test) => {
 	const {
 		page
@@ -103,11 +249,19 @@ ava.serial('You should be able to link support threads to existing support issue
 
 	await macros.waitForThenClickSelector(page, '[data-test="card-linker-action--existing"]')
 
+	await macros.waitForThenClickSelector(page, '[data-test="card-linker--type__input"]')
+
+	// Select the 'Support issue' option from the dropdown
+	const supportIssueOption = await page.waitForXPath(
+		'//*[@id="card-linker--type-select__select-drop"]//span[text()="Support issue"]'
+	)
+	supportIssueOption.click()
+
 	await macros.waitForThenClickSelector(page, '[data-test="card-linker--existing__input"]')
 
-	await page.type('#react-select-2-input', name)
+	await page.type('.jellyfish-async-select__input input', name)
 
-	await page.waitForSelector('#react-select-2-option-0')
+	await page.waitForSelector('.jellyfish-async-select__option--is-focused')
 
 	await page.keyboard.press('Enter')
 

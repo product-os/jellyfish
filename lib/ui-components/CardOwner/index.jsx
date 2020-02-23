@@ -4,9 +4,7 @@
  * Proprietary and confidential.
  */
 
-import LinkModal from './LinkModal'
-import {
-	withSetup
-} from '../SetupProvider'
+import withLinks from '../HOC/with-links'
+import CardOwner from './CardOwner'
 
-export default withSetup(LinkModal)
+export default withLinks('is owned by')(CardOwner)

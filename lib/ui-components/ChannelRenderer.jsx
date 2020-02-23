@@ -70,7 +70,6 @@ class ChannelRenderer extends React.Component {
 	render () {
 		const {
 			getLens,
-			actions,
 			channel,
 			connectDropTarget,
 			isOver,
@@ -145,7 +144,6 @@ class ChannelRenderer extends React.Component {
 
 				{showLinkModal && (
 					<LinkModal
-						actions={actions}
 						target={head}
 						card={linkFrom}
 						types={types}

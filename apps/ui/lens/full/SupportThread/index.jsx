@@ -301,6 +301,7 @@ class SupportThreadBase extends React.Component {
 				title={(
 					<Flex flex={1} justifyContent="space-between">
 						<Flex
+							alignItems="center"
 							style={{
 								transform: 'translateY(2px)'
 							}}

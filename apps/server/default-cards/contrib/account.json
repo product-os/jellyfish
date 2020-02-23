@@ -92,13 +92,8 @@
           "type": "contact"
         },
         {
-          "title": "Primary owner",
-          "link": "has primary owner",
-          "type": "user"
-        },
-        {
-          "title": "Secondary owners",
-          "link": "has secondary owner",
+          "title": "Backup owners",
+          "link": "has backup owner",
           "type": "user"
         }
       ]

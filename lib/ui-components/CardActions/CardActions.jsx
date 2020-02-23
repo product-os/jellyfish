@@ -12,6 +12,7 @@ import {
 	Modal
 } from 'rendition'
 import CardLinker from '../CardLinker'
+import CardOwner from '../CardOwner'
 import ContextMenu from '../ContextMenu'
 import * as helpers from '../../../lib/ui-components/services/helpers'
 import {
@@ -75,9 +76,18 @@ export default class CardActions extends React.Component {
 		}
 	}
 	render () {
+		const supportsOwnership = helpers.supportsLink(this.props.card.type, 'is owned by', this.props.sdk.LINKS)
 		return (
 			<React.Fragment>
 				<Flex alignItems="center" justifyContent="flex-end">
+					{supportsOwnership && (
+						<CardOwner
+							user={this.props.user}
+							types={this.props.types}
+							card={this.props.card}
+							sdk={this.props.sdk}
+							actions={this.props.actions} />
+					)}
 					<Button
 						plain
 						mr={3}

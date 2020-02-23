@@ -36,11 +36,6 @@
 		"meta": {
 			"relationships": [
 				{
-					"title": "Owner",
-					"link": "is owned by",
-					"type": "user"
-				},
-				{
 					"title": "Guide",
 					"link": "is guided by",
 					"type": "user"

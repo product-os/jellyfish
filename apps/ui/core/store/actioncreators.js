@@ -1004,7 +1004,7 @@ export default class ActionCreator {
 				})
 
 				if (!options.skipSuccessMessage) {
-					dispatch(this.addNotification('success', 'Created new link'))
+					dispatch(this.addNotification('success', options.successNotificationMessage || 'Created new link'))
 				}
 			} catch (error) {
 				dispatch(this.addNotification('danger', error.message))
