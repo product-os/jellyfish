@@ -99,6 +99,7 @@ module.exports = async (context, jellyfish, worker, session) => {
 		await loadCard('contrib/view-all-views.json'),
 		await loadCard('contrib/view-my-inbox.json'),
 		await loadCard('contrib/view-my-orgs.json'),
+		await loadCard('contrib/view-my-conversations.json'),
 		await loadCard('contrib/view-all-by-type.json'),
 		await loadCard('contrib/view-all-pull-requests.json'),
 

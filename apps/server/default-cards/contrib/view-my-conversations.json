@@ -1,0 +1,51 @@
+{
+  "slug": "view-my-conversations",
+  "name": "My conversations",
+  "version": "1.0.0",
+  "type": "view@1.0.0",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "allOf": [
+      {
+        "name": "My conversations",
+        "schema": {
+          "$$links": {
+            "is owned by": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "const": {
+                    "$eval": "user.id"
+                  }
+                }
+              }
+            }
+          },
+          "type": "object",
+          "properties": {
+            "active": {
+              "const": true,
+              "type": "boolean"
+            },
+            "type": {
+              "enum": [
+                "support-thread@1.0.0",
+                "sales-thread@1.0.0"
+              ]
+            }
+          },
+          "additionalProperties": true
+        }
+      }
+    ],
+    "lenses": [
+      "lens-support-threads",
+      "lens-kanban"
+    ]
+  },
+  "requires": [],
+  "capabilities": []
+}
