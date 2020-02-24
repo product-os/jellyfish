@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'add-new-type: Fix minor typos'
+      hash: 53d9c04d761abb1cd8b586d149b5d71daa99ecdb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: AlidaOdendaal <alida@balena.io>
+        signed-off-by: AlidaOdendaal <alida@balena.io>
+      author: AlidaOdendaal
+  version: 26.0.1
+  date: 2020-02-24T13:23:58.320Z
+- commits:
     - subject: 'core: Warn on slugs without versions'
       hash: 5361d19121646e823d962ba1eeb7ebaf807d2258
       body: ''
