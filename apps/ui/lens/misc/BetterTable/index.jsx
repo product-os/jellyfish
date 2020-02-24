@@ -139,6 +139,8 @@ export class BetterTable extends BaseLens {
 					field: 'Due Date',
 					sortable: true,
 					render: (value, item) => {
+						if (!value) return ''
+
 						const date = Date.parse(value)
 						const due = new Date(date).valueOf() <= new Date(Date.now()).valueOf()
 						const formattedDate = new Intl.DateTimeFormat().format(date)
