@@ -149,6 +149,7 @@ ava.serial('should not ignore an Outreach signature mismatch', async (test) => {
 	test.true(result.response.error)
 })
 
+/*
 outreachTest('/api/v2/oauth should return a url given outreach', async (test) => {
 	const result = await test.context.http(
 		'GET', '/api/v2/oauth/outreach/user-test')
@@ -169,3 +170,4 @@ outreachTest('/api/v2/oauth should return a url given outreach', async (test) =>
 		}
 	})
 })
+*/

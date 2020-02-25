@@ -30,9 +30,9 @@ module.exports = {
 					valid: true
 				},
 				{
-					description: 'data that is > is ivalid',
+					description: 'data that is > is invalid',
 					data: '2020-08-08T00:00:00.000Z',
-					valid: true
+					valid: false
 				}
 			]
 		},
@@ -46,7 +46,7 @@ module.exports = {
 				{
 					description: 'data that is > is valid',
 					data: '2020-08-08T00:00:00.000Z',
-					valid: true
+					valid: false
 				},
 				{
 					description: 'data that is >= is valid',

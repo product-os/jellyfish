@@ -43,7 +43,7 @@ const config = mergeConfig(baseConfig, {
 
 	devServer: {
 		contentBase: outDir,
-		port: 9000
+		port: 80
 	},
 
 	optimization: {

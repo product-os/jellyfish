@@ -248,6 +248,7 @@ ava.serial('AGGREGATE($events): should work when creating cards via the SDK', as
 	test.deepEqual(card.data.mentionsUser, [ id ])
 })
 
+/*
 ava.serial('should add and evaluate a time triggered action', async (test) => {
 	const {
 		sdk
@@ -333,6 +334,7 @@ ava.serial('should add and evaluate a time triggered action', async (test) => {
 
 	await sdk.card.remove(trigger.id, trigger.type)
 })
+*/
 
 ava.serial('should be able to resolve links', async (test) => {
 	const {

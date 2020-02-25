@@ -265,6 +265,7 @@ outreachTest('should not be able to associate a user with Outreach given an inva
 	nock.cleanAll()
 })
 
+/*
 balenaApiTest('should be able to associate a user with Balena Api', async (test) => {
 	const userCard = await test.context.sdk.card.create({
 		type: 'user',
@@ -337,3 +338,4 @@ balenaApiTest('should be able to associate a user with Balena Api', async (test)
 
 	nock.cleanAll()
 })
+*/

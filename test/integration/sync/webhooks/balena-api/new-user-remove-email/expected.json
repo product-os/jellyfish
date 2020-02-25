@@ -9,7 +9,7 @@
     "requires": [],
     "capabilities": [],
     "data": {
-      "roles": [ "user-community" ],
+      "roles": [ "user-external-support" ],
       "hash": "PASSWORDLESS",
       "mirrors": [
         "https://api.balena-cloud.com/v5/user(999)"
@@ -47,7 +47,7 @@
           "capabilities": [],
           "data": {
             "email": "johndoe@souvlakitek.com",
-            "roles": [ "user-community" ],
+            "roles": [ "user-external-support" ],
             "hash": "PASSWORDLESS",
             "mirrors": [
               "https://api.balena-cloud.com/v5/user(999)"
