@@ -1,5 +1,19 @@
 - commits:
     - subject: >-
+        Use graphile-worker instead of our own implementation of a db based
+        queue
+      hash: 2cf183c9aa7f269e35a2d1ed9f92d47d2fee70c6
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 26.2.0
+  date: 2020-02-25T18:42:14.431Z
+- commits:
+    - subject: >-
         Don't use `process.env` as UI env vars container, because it interferes
         with some third party modules using it: the result is a different
         `vendors` bundle for each release of the UI, even if no changes involved
