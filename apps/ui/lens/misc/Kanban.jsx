@@ -199,6 +199,7 @@ class Kanban extends BaseLens {
 					<React.Fragment>
 						<Button
 							success
+							className={`btn--add-${this.props.type.slug}`}
 							onClick={this.openCreateChannel}
 							m={3}
 							style={{
