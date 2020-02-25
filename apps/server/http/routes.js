@@ -171,6 +171,80 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 		})
 	})
 
+	if (!environment.isProduction()) {
+		application.get('/benchmark', (request, response) => {
+			const TYPE_TYPE = 'type@1.0.0'
+
+			const getTypeStartDate = new Date()
+			return jellyfish.getCardBySlug(request.context, jellyfish.sessions.admin, TYPE_TYPE)
+				.then(async (typeCard) => {
+					if (!typeCard) {
+						throw new Error(`No type card: ${TYPE_TYPE}`)
+					}
+					const getTypeEndDate = new Date()
+					logger.info(request.context, 'Got type card', {
+						slug: typeCard.slug,
+						time: getTypeEndDate.getTime() - getTypeStartDate.getTime()
+					})
+
+					const suffix = await uuid.random()
+
+					const enqueueStartDate = new Date()
+					const actionRequest = await producer.enqueue(worker.getId(), jellyfish.sessions.admin, {
+						action: 'action-benchmark@1.0.0',
+						card: typeCard.id,
+						type: typeCard.type,
+						context: request.context,
+						arguments: {
+							reason: null,
+							properties: {
+								slug: `benchmark-${suffix}`,
+								version: '1.0.0',
+								data: {
+									schema: {}
+								}
+							}
+						}
+					})
+
+					const enqueueEndDate = new Date()
+					logger.info(request.context, 'Enqueue action-create-card request', {
+						slug: actionRequest.slug,
+						time: enqueueEndDate.getTime() - enqueueStartDate.getTime()
+					})
+
+					const waitStartDate = new Date()
+					const results = await producer.waitResults(
+						request.context, actionRequest)
+
+					const waitEndDate = new Date()
+					logger.info(request.context, 'Waiting for action-create-card results', {
+						slug: actionRequest.slug,
+						time: waitEndDate.getTime() - waitStartDate.getTime()
+					})
+
+					if (results.error) {
+						return response.status(500).json(results)
+					}
+
+					return response.status(200).json({
+						error: false,
+						data: _.omit(results.data, [ 'links' ])
+					})
+				}).catch((error) => {
+					const errorObject = errio.toObject(error, {
+						stack: true
+					})
+
+					logger.exception(request.context, 'Benchmark error', error)
+					return response.status(500).json({
+						error: true,
+						data: errorObject
+					})
+				})
+		})
+	}
+
 	application.get('/api/v2/oauth/:provider/:slug', (request, response) => {
 		const associateUrl = oauth.getAuthorizeUrl(
 			request.params.provider, request.params.slug)
