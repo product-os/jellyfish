@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'default-cards: Add pipeline card type with associated view'
+      hash: a44a7c5025ffd0b6fd25e13afed2940786b4e78a
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: AlidaOdendaal <alida@balena.io>
+        signed-off-by: AlidaOdendaal <alida@balena.io>
+        Connects-to: '#2854'
+        connects-to: '#2854'
+      author: AlidaOdendaal
+  version: 26.1.0
+  date: 2020-02-25T08:09:48.715Z
+- commits:
     - subject: 'ui: Fixed ''Add x'' button on Kanban view'
       hash: d154b8f9ce00b8f8e71f2a2ef79c7a20bef93031
       body: >
