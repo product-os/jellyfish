@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'ui: Fixed ''Add x'' button on Kanban view'
+      hash: d154b8f9ce00b8f8e71f2a2ef79c7a20bef93031
+      body: >
+        Clicking this button now correctly opens the form for creating a new
+        card.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 26.0.2
+  date: 2020-02-25T03:39:29.233Z
+- commits:
     - subject: 'add-new-type: Fix minor typos'
       hash: 53d9c04d761abb1cd8b586d149b5d71daa99ecdb
       body: ''
