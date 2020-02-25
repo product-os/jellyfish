@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add document about running tests
+      hash: 8856f9b3b4e7f41fa8b771244f354a4be2df1ba9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 26.1.1
+  date: 2020-02-25T10:44:38.342Z
+- commits:
     - subject: 'default-cards: Add pipeline card type with associated view'
       hash: a44a7c5025ffd0b6fd25e13afed2940786b4e78a
       body: ''
