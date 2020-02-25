@@ -1,4 +1,22 @@
 - commits:
+    - subject: >-
+        Don't use `process.env` as UI env vars container, because it interferes
+        with some third party modules using it: the result is a different
+        `vendors` bundle for each release of the UI, even if no changes involved
+        third party libraries
+      hash: 7209c70f44a6a913cdadf17a871f5f2750133d4f
+      body: ''
+      footer:
+        Connects-to: '#3134'
+        connects-to: '#3134'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 26.1.2
+  date: 2020-02-25T13:39:48.301Z
+- commits:
     - subject: Add document about running tests
       hash: 8856f9b3b4e7f41fa8b771244f354a4be2df1ba9
       body: ''
