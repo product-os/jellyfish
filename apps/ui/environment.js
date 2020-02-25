@@ -4,30 +4,29 @@
  * Proprietary and confidential.
  */
 
-/* global process */
-/* eslint-disable no-process-env */
+/* global env */
 
 export const isTest = () => {
-	return process.env.NODE_ENV === 'test'
+	return env.NODE_ENV === 'test'
 }
 
 export const isProduction = () => {
-	return process.env.NODE_ENV === 'production'
+	return env.NODE_ENV === 'production'
 }
 
 export const sentry = {
-	dsn: process.env.SENTRY_DSN_UI || '0'
+	dsn: env.SENTRY_DSN_UI || '0'
 }
 
 export const api = {
-	prefix: process.env.API_PREFIX || 'api/v2',
-	url: process.env.API_URL || window.location.origin
+	prefix: env.API_PREFIX || 'api/v2',
+	url: env.API_URL || window.location.origin
 }
 
 export const analytics = {
 	mixpanel: {
-		token: process.env.MIXPANEL_TOKEN_UI
+		token: env.MIXPANEL_TOKEN_UI
 	}
 }
 
-export const version = process.env.VERSION
+export const version = env.VERSION
