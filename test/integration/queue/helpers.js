@@ -5,16 +5,17 @@
  */
 
 const Bluebird = require('bluebird')
-const uuid = require('uuid/v4')
+const uuid = require('../../../lib/uuid')
 const helpers = require('../core/helpers')
-const Queue = require('../../../lib/queue')
+const Consumer = require('../../../lib/queue').Consumer
+const Producer = require('../../../lib/queue').Producer
 const actionLibrary = require('../../../lib/action-library')
+const queueErrors = require('../../../lib/queue/errors')
 
-exports.beforeEach = async (test, options = {}) => {
-	await helpers.beforeEach(test, {
+exports.beforeEach = async (test, options) => {
+	await helpers.beforeEach(test, options && {
 		suffix: options.suffix
 	})
-
 	test.context.jellyfish = test.context.kernel
 	test.context.session = test.context.jellyfish.sessions.admin
 
@@ -43,38 +44,42 @@ exports.beforeEach = async (test, options = {}) => {
 	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 		actionLibrary['action-delete-card'].card)
 
-	test.context.queue = new Queue(
-		test.context.context,
-		test.context.jellyfish,
-		test.context.session,
-		options)
+	test.context.queue = {}
+	test.context.queue.errors = queueErrors
 
-	test.context.queue.once('error', (error) => {
-		throw error
+	test.context.queue.consumer = new Consumer(
+		test.context.jellyfish,
+		test.context.session)
+
+	const consumedActionRequests = []
+
+	await test.context.queue.consumer.initializeWithEventHandler(test.context.context, (actionRequest) => {
+		consumedActionRequests.push(actionRequest)
 	})
 
-	await test.context.queue.initialize(test.context.context)
+	test.context.queueActor = await uuid.random()
 
-	test.context.queueActor = uuid()
-
-	test.context.dequeue = async (context, actor, times = 50) => {
-		const request = await test.context.queue.dequeue(
-			test.context.context, test.context.queueActor)
-
-		if (!request) {
+	test.context.dequeue = async (times = 50) => {
+		if (consumedActionRequests.length === 0) {
 			if (times <= 0) {
 				return null
 			}
 
 			await Bluebird.delay(1)
-			return test.context.dequeue(context, actor, times - 1)
+			return test.context.dequeue(times - 1)
 		}
 
-		return request
+		return consumedActionRequests.shift()
 	}
+
+	test.context.queue.producer = new Producer(
+		test.context.jellyfish,
+		test.context.session)
+
+	await test.context.queue.producer.initialize(test.context.context)
 }
 
 exports.afterEach = async (test) => {
-	await test.context.queue.destroy()
+	await test.context.queue.consumer.cancel()
 	await helpers.afterEach(test)
 }

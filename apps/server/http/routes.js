@@ -62,10 +62,10 @@ const sendHTTPError = (request, response, error) => {
 	})
 }
 
-module.exports = (application, jellyfish, worker, queue, options) => {
+module.exports = (application, jellyfish, worker, producer, options) => {
 	const queryFacade = new facades.QueryFacade(jellyfish)
 	const authFacade = new facades.AuthFacade(jellyfish)
-	const actionFacade = new facades.ActionFacade(worker, queue, fileStore)
+	const actionFacade = new facades.ActionFacade(worker, producer, fileStore)
 	const viewFacade = new facades.ViewFacade(jellyfish, queryFacade)
 
 	application.get('/api/v2/config', (request, response) => {
@@ -124,7 +124,7 @@ module.exports = (application, jellyfish, worker, queue, options) => {
 			})
 
 			const enqueueStartDate = new Date()
-			const actionRequest = await queue.enqueue(worker.getId(), jellyfish.sessions.admin, {
+			const actionRequest = await producer.enqueue(worker.getId(), jellyfish.sessions.admin, {
 				action: 'action-ping@1.0.0',
 				card: typeCard.id,
 				type: typeCard.type,
@@ -141,7 +141,7 @@ module.exports = (application, jellyfish, worker, queue, options) => {
 			})
 
 			const waitStartDate = new Date()
-			const results = await queue.waitResults(
+			const results = await producer.waitResults(
 				request.context, actionRequest)
 
 			const waitEndDate = new Date()
@@ -191,7 +191,7 @@ module.exports = (application, jellyfish, worker, queue, options) => {
 			result = await oauth.authorize(
 				request.context,
 				worker,
-				queue,
+				producer,
 				options.guestSession,
 				request.params.provider, {
 					code,
@@ -218,7 +218,7 @@ module.exports = (application, jellyfish, worker, queue, options) => {
 		await oauth.associate(
 			request.context,
 			worker,
-			queue,
+			producer,
 			jellyfish.sessions.admin,
 			request.params.provider,
 			user,
@@ -237,7 +237,7 @@ module.exports = (application, jellyfish, worker, queue, options) => {
 		 */
 		const suffix = await uuid.random()
 
-		const actionRequest = await queue.enqueue(worker.getId(), jellyfish.sessions.admin, {
+		const actionRequest = await producer.enqueue(worker.getId(), jellyfish.sessions.admin, {
 			action: 'action-create-card@1.0.0',
 			card: sessionTypeCard.id,
 			type: sessionTypeCard.type,
@@ -254,7 +254,7 @@ module.exports = (application, jellyfish, worker, queue, options) => {
 			}
 		})
 
-		const createSessionResult = await queue.waitResults(
+		const createSessionResult = await producer.waitResults(
 			request.context, actionRequest)
 
 		if (createSessionResult.error) {
@@ -393,7 +393,7 @@ module.exports = (application, jellyfish, worker, queue, options) => {
 				}
 
 				return uuid.random().then((id) => {
-					return queue.enqueue(worker.getId(), jellyfish.sessions.admin, {
+					return producer.enqueue(worker.getId(), jellyfish.sessions.admin, {
 						action: 'action-create-card@1.0.0',
 						card: typeCard.id,
 						type: typeCard.type,
