@@ -9,6 +9,10 @@
     "type": "git",
     "url": "git@github.com:balena-io/jellyfish.git"
   },
+  "scripts": {
+    "pretest": "ava test/beforeAll.js",
+    "test": "ava ./test/e2e/*.spec.{js,jsx}"
+    },
   "deplint": {
     "files": [
       "lib/**/*.{js,jsx}",

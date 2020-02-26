@@ -1,14 +1,14 @@
-const randomWords = require('randomWords')
+const randomWords = require('random-words')
 const uuid = require('uuid/v4')
 const Bluebird = require('bluebird')
 
-const environment = require('../lib/environment')
-const Cache = require('../lib/core/cache')
-const errors = require('../lib/core/errors')
-const Backend = require('../lib/core/backend')
-const Kernel = require('../lib/core/kernel')
-const Worker = require('../lib/worker')
-const Queue = require('../lib/queue')
+const environment = require('../../lib/environment')
+const Cache = require('../../lib/core/cache')
+const errors = require('../../lib/core/errors')
+const Backend = require('../../lib/core/backend')
+const Kernel = require('../../lib/core/kernel')
+const Worker = require('../../lib/worker')
+const Queue = require('../../lib/queue')
 
 const sdkHelpers = require('./sdk')
 
@@ -40,7 +40,7 @@ const createWorker = ({ kernel, session, queue }) => {
 						.handler(session, context, card, request)
 				}
 			}
-		}: actionLibrary),
+		}),
 		queue)
 }
 
@@ -54,18 +54,17 @@ const createCache = ({ dbName, context }) => {
 	return cache
 }
 
-const createBackend = ({ options, cache, dbName, context }) => {
+const createBackend = async ({ options, cache, dbName, context }) => {
 	const backend = new Backend(
 		cache,
 		errors,
 		Object.assign({}, environment.database.options, {
 			database: dbName
-		})
+		}))
 		if (options.skipConnect){
 			return
 		}
 		await backend.connect(context)
-	)
 }
 
 const createKernel = async (backend, testId) => {
@@ -103,7 +102,7 @@ const dequeue = async ({ queue, context, actor, queueActor, times = 50 }) => {
 	return request
 }
 
-export {
+module.exports = {
 	generateRandomWords,
 	generateRandomSlug,
 	createWorker,

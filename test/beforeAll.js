@@ -1,7 +1,8 @@
+const test = require('ava')
 const helpers = require('./helpers')
 const actionLibrary = require('../lib/action-library')
 
-const before = async (t) => {
+test.before = async (t) => {
 	const suffix = uuid()
 	const dbName = `test_${suffix.replace(/-/g, '_')}`
 	const testId = `CORE-TEST-${uuid()}`
@@ -10,11 +11,12 @@ const before = async (t) => {
 	const cache = await helpers.createCache({ dbName, context })
 	const backend = await helpers.createBackend({ options, cache, dbName, context })
 	const kernel = await createKernel(backend)
+	console.log(kernel)
 
-	const session = kernel.sessions.admin
+	const adminSession = kernel.sessions.admin
 
 	const session = await kernel.getCardById(
-		context, session, session)
+		context, adminSession, adminSession)
 
 	const actor = await kernel.getCardById(
 		context, session, session.data.actor)
@@ -63,4 +65,4 @@ const before = async (t) => {
 	}
 }
 
-export default before
+

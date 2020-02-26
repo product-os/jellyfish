@@ -7,8 +7,8 @@
 const Bluebird = require('bluebird')
 const {
 	getSdk
-} = require('../lib/sdk')
-const environment = require('../lib/environment')
+} = require('../../lib/sdk')
+const environment = require('../../lib/environment')
 
 const getTestSdk  = async () => {
 	return getSdk({
