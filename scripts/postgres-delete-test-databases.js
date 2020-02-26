@@ -18,6 +18,7 @@ const scrub = async () => {
 		user: environment.postgres.user,
 		password: environment.postgres.password,
 		database: 'postgres',
+		host: environment.postgres.host,
 		port: environment.postgres.port
 	})
 
