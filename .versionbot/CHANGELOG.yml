@@ -1,4 +1,100 @@
 - commits:
+    - subject: >-
+        Use graphile-worker instead of our own implementation of a db based
+        queue
+      hash: 2cf183c9aa7f269e35a2d1ed9f92d47d2fee70c6
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 26.2.0
+  date: 2020-02-25T18:42:14.431Z
+- commits:
+    - subject: >-
+        Don't use `process.env` as UI env vars container, because it interferes
+        with some third party modules using it: the result is a different
+        `vendors` bundle for each release of the UI, even if no changes involved
+        third party libraries
+      hash: 7209c70f44a6a913cdadf17a871f5f2750133d4f
+      body: ''
+      footer:
+        Connects-to: '#3134'
+        connects-to: '#3134'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 26.1.2
+  date: 2020-02-25T13:39:48.301Z
+- commits:
+    - subject: Add document about running tests
+      hash: 8856f9b3b4e7f41fa8b771244f354a4be2df1ba9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 26.1.1
+  date: 2020-02-25T10:44:38.342Z
+- commits:
+    - subject: 'default-cards: Add pipeline card type with associated view'
+      hash: a44a7c5025ffd0b6fd25e13afed2940786b4e78a
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: AlidaOdendaal <alida@balena.io>
+        signed-off-by: AlidaOdendaal <alida@balena.io>
+        Connects-to: '#2854'
+        connects-to: '#2854'
+      author: AlidaOdendaal
+  version: 26.1.0
+  date: 2020-02-25T08:09:48.715Z
+- commits:
+    - subject: 'ui: Fixed ''Add x'' button on Kanban view'
+      hash: d154b8f9ce00b8f8e71f2a2ef79c7a20bef93031
+      body: >
+        Clicking this button now correctly opens the form for creating a new
+        card.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 26.0.2
+  date: 2020-02-25T03:39:29.233Z
+- commits:
+    - subject: 'add-new-type: Fix minor typos'
+      hash: 53d9c04d761abb1cd8b586d149b5d71daa99ecdb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: AlidaOdendaal <alida@balena.io>
+        signed-off-by: AlidaOdendaal <alida@balena.io>
+      author: AlidaOdendaal
+  version: 26.0.1
+  date: 2020-02-24T13:23:58.320Z
+- commits:
+    - subject: 'core: Warn on slugs without versions'
+      hash: 5361d19121646e823d962ba1eeb7ebaf807d2258
+      body: ''
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 26.0.0
+  date: 2020-02-21T12:37:38.742Z
+- commits:
     - subject: Upgrade deprecated Octokit headers and properties
       hash: 7a7bb17651528c501c2c72ccb21b7e99f42fdc04
       body: ''

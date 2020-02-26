@@ -60,6 +60,7 @@ module.exports = async (context, jellyfish, worker, session) => {
 		await loadCard('contrib/message.json'),
 		await loadCard('contrib/opportunity.json'),
 		await loadCard('contrib/ping.json'),
+		await loadCard('contrib/pipeline.json'),
 		await loadCard('contrib/product-improvement.json'),
 		await loadCard('contrib/product.json'),
 		await loadCard('contrib/project.json'),
@@ -73,6 +74,7 @@ module.exports = async (context, jellyfish, worker, session) => {
 		await loadCard('contrib/tag.json'),
 		await loadCard('contrib/thread.json'),
 		await loadCard('contrib/todo.json'),
+		await loadCard('contrib/view-all-pipelines.json'),
 		await loadCard('contrib/whisper.json'),
 		await loadCard('contrib/workflow.json'),
 

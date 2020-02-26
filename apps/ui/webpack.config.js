@@ -81,7 +81,7 @@ const config = mergeConfig(baseConfig, {
 
 		new DefinePlugin({
 			/* eslint-disable no-process-env */
-			'process.env': {
+			env: {
 				API_URL: JSON.stringify(process.env.API_URL),
 				API_PREFIX: JSON.stringify(process.env.API_PREFIX || 'api/v2/'),
 				NODE_ENV: JSON.stringify(process.env.NODE_ENV),
