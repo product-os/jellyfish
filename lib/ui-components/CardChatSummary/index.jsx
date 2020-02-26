@@ -69,7 +69,7 @@ const LatestMessage = styled(Markdown) `
 	}
 `
 
-class CardChatSummary extends React.Component {
+export class CardChatSummary extends React.Component {
 	constructor (props) {
 		super(props)
 

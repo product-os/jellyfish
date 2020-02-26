@@ -8,14 +8,24 @@ import _ from 'lodash'
 import ava from 'ava'
 import Bluebird from 'bluebird'
 import {
-	shallow
+	shallow,
+	configure
 } from 'enzyme'
 import React from 'react'
 import sinon from 'sinon'
-import CardChatSummary from '../'
+import {
+	CardChatSummary
+} from '..'
+import theme from './fixtures/theme.json'
 import card from './fixtures/card.json'
 import user1 from './fixtures/user1.json'
 import user2 from './fixtures/user2.json'
+
+import Adapter from 'enzyme-adapter-react-16'
+
+configure({
+	adapter: new Adapter()
+})
 
 const getActor = async (id) => {
 	if (id === user1.id) {
@@ -35,6 +45,7 @@ ava('It should render', (test) => {
 			<CardChatSummary
 				active
 				card={card}
+				theme={theme}
 				timeline={getTimeline(card)}
 				getActor={getActor}
 			/>
@@ -50,11 +61,13 @@ ava('It should change the actor after an update', async (test) => {
 		<CardChatSummary
 			active
 			card={card}
+			theme={theme}
 			timeline={timeline}
 			getActor={spy}
 		/>
 	)
 
+	// Check if getTimeline is used
 	test.is(spy.callCount, 1)
 
 	const newWhisper = {
@@ -86,17 +99,13 @@ ava('It should change the actor after an update', async (test) => {
 		capabilities: []
 	}
 
+	// Add the new whisper to the current
+	// timeline and sort it by timestamp
 	component.setProps({
-		timeline: timeline.slice().splice(
-			_.sortedIndexBy(timeline, newWhisper, 'data.timestamp'),
-			0,
-			newWhisper
-		)
+		timeline: _.sortBy([ ...timeline, newWhisper ], 'data.timestamp')
 	})
-
-	test.is(spy.callCount, 2)
 
 	await Bluebird.delay(500)
 
-	test.is(component.state().lastActor.id, newWhisper.data.actor)
+	test.is(component.state('actor').id, newWhisper.data.actor)
 })

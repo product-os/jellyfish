@@ -6,10 +6,17 @@
 
 import ava from 'ava'
 import {
-	shallow
+	shallow,
+	configure
 } from 'enzyme'
 import React from 'react'
 import Filters from '../'
+
+import Adapter from 'enzyme-adapter-react-16'
+
+configure({
+	adapter: new Adapter()
+})
 
 const schema = {
 	type: 'object',
