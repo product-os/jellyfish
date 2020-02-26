@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'dev: Update repository code owners'
+      hash: 3a85d8cd3b817ce4152765120c14357c570c6be1
+      body: |
+        Added grahammcculloch as a code owner
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 26.2.2
+  date: 2020-02-26T13:24:03.167Z
+- commits:
     - subject: Use postgres host env var in more places
       hash: 80c5f5d748a1d49937ef08ab54f2505715eee489
       body: ''
