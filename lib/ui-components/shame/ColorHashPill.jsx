@@ -11,7 +11,7 @@ import {
 } from 'rendition'
 import {
 	colorHash
-} from '@jellyfish/ui-components/services/helpers'
+} from '../services/helpers'
 
 export default (props) => {
 	const value = props.value

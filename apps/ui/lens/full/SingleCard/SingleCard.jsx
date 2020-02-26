@@ -22,7 +22,7 @@ import CardLayout from '../../../layouts/CardLayout'
 import Timeline from '../../list/Timeline'
 import {
 	colorHash
-} from '@jellyfish/ui-components/services/helpers'
+} from '../../../../../lib/ui-components/services/helpers'
 
 const SingleCardTabs = styled(Tabs) `
 	flex: 1

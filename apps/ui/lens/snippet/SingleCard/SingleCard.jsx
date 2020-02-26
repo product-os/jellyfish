@@ -19,7 +19,7 @@ import Link from '../../../../../lib/ui-components/Link'
 import {
 	Tag
 } from '../../../../../lib/ui-components/Tag'
-import Icon from '@jellyfish/ui-components/shame/Icon'
+import Icon from '../../../../../lib/ui-components/shame/Icon'
 
 export default class SingleCard extends React.Component {
 	shouldComponentUpdate (nextProps) {

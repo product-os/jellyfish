@@ -17,8 +17,8 @@ import {
 } from 'rendition'
 import {
 	CloseButton
-} from '@jellyfish/ui-components/shame/CloseButton'
-import Column from '@jellyfish/ui-components/shame/Column'
+} from '../../../../lib/ui-components/shame/CloseButton'
+import Column from '../../../../lib/ui-components/shame/Column'
 import CardActions from '../../components/HOC/CardActions'
 import {
 	selectors

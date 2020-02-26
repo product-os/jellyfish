@@ -8,7 +8,7 @@ import _ from 'lodash'
 import React from 'react'
 import {
 	getLocalSchema
-} from '@jellyfish/ui-components/services/helpers'
+} from '../services/helpers'
 import CardField from '../CardField'
 
 export default function CardFields (props) {

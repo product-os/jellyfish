@@ -16,7 +16,7 @@ import {
 	sdk,
 	selectors
 }	from '../../core'
-import CardActions from '@jellyfish/ui-components/CardActions'
+import CardActions from '../../../../lib/ui-components/CardActions'
 
 const mapStateToProps = (state) => {
 	return {
