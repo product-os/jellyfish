@@ -5,7 +5,6 @@
  */
 
 const ava = require('ava')
-const _ = require('lodash')
 const Bluebird = require('bluebird')
 const helpers = require('./helpers')
 const events = require('../../../lib/queue/events')
@@ -14,7 +13,14 @@ ava.serial.beforeEach(helpers.beforeEach)
 ava.serial.afterEach(helpers.afterEach)
 
 ava('.post() should insert an active execute card', async (test) => {
-	const event = await events.post(test.context.context, test.context.jellyfish, test.context.session, {
+	const {
+		context,
+		redisClient,
+		jellyfish,
+		session
+	} = test.context
+
+	const event = await events.post(context, redisClient, jellyfish, session, {
 		id: '414f2345-4f5e-4571-820f-28a49731733d',
 		action: '57692206-8da2-46e1-91c9-159b2c6928ef',
 		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
@@ -25,15 +31,22 @@ ava('.post() should insert an active execute card', async (test) => {
 		data: '414f2345-4f5e-4571-820f-28a49731733d'
 	})
 
-	const card = await test.context.jellyfish.getCardById(test.context.context, test.context.session, event.id)
+	const card = await jellyfish.getCardById(context, session, event.id)
 	test.true(card.active)
 	test.is(card.type, 'execute@1.0.0')
 })
 
 ava('.post() should set a present timestamp', async (test) => {
+	const {
+		context,
+		redisClient,
+		jellyfish,
+		session
+	} = test.context
+
 	const currentDate = new Date()
 
-	const card = await events.post(test.context.context, test.context.jellyfish, test.context.session, {
+	const card = await events.post(context, redisClient, jellyfish, session, {
 		id: '414f2345-4f5e-4571-820f-28a49731733d',
 		action: '57692206-8da2-46e1-91c9-159b2c6928ef',
 		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
@@ -48,7 +61,14 @@ ava('.post() should set a present timestamp', async (test) => {
 })
 
 ava('.post() should not use a passed id', async (test) => {
-	const card = await events.post(test.context.context, test.context.jellyfish, test.context.session, {
+	const {
+		context,
+		redisClient,
+		jellyfish,
+		session
+	} = test.context
+
+	const card = await events.post(context, redisClient, jellyfish, session, {
 		id: '8fd7be57-4f68-4faf-bbc6-200a7c62c41a',
 		action: '57692206-8da2-46e1-91c9-159b2c6928ef',
 		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
@@ -63,7 +83,14 @@ ava('.post() should not use a passed id', async (test) => {
 })
 
 ava('.post() should fail if no result error', async (test) => {
-	await test.throwsAsync(events.post(test.context.context, test.context.jellyfish, test.context.session, {
+	const {
+		context,
+		redisClient,
+		jellyfish,
+		session
+	} = test.context
+
+	await test.throwsAsync(events.post(context, redisClient, jellyfish, session, {
 		id: '414f2345-4f5e-4571-820f-28a49731733d',
 		action: 'action-create-card@1.0.0',
 		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
@@ -72,12 +99,19 @@ ava('.post() should fail if no result error', async (test) => {
 	}, {
 		data: '414f2345-4f5e-4571-820f-28a49731733d'
 	}), {
-		instanceOf: test.context.jellyfish.errors.JellyfishSchemaMismatch
+		instanceOf: jellyfish.errors.JellyfishSchemaMismatch
 	})
 })
 
 ava('.post() should use the passed timestamp in the payload', async (test) => {
-	const card = await events.post(test.context.context, test.context.jellyfish, test.context.session, {
+	const {
+		context,
+		redisClient,
+		jellyfish,
+		session
+	} = test.context
+
+	const card = await events.post(context, redisClient, jellyfish, session, {
 		id: '414f2345-4f5e-4571-820f-28a49731733d',
 		action: '57692206-8da2-46e1-91c9-159b2c6928ef',
 		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
@@ -93,7 +127,14 @@ ava('.post() should use the passed timestamp in the payload', async (test) => {
 })
 
 ava('.post() should allow an object result', async (test) => {
-	const card = await events.post(test.context.context, test.context.jellyfish, test.context.session, {
+	const {
+		context,
+		redisClient,
+		jellyfish,
+		session
+	} = test.context
+
+	const card = await events.post(context, redisClient, jellyfish, session, {
 		id: '414f2345-4f5e-4571-820f-28a49731733d',
 		action: '57692206-8da2-46e1-91c9-159b2c6928ef',
 		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
@@ -112,7 +153,15 @@ ava('.post() should allow an object result', async (test) => {
 })
 
 ava.cb('.wait() should return when a certain execute event is inserted', (test) => {
-	events.wait(test.context.context, test.context.jellyfish, test.context.session, {
+	const {
+		context,
+		redisClient,
+		jellyfish,
+		session,
+		queue
+	} = test.context
+
+	events.wait(queue.producer.executeEventsListener, context, jellyfish, session, {
 		id: '414f2345-4f5e-4571-820f-28a49731733d',
 		action: '57692206-8da2-46e1-91c9-159b2c6928ef',
 		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
@@ -127,7 +176,7 @@ ava.cb('.wait() should return when a certain execute event is inserted', (test) 
 	}).catch(test.end)
 
 	Bluebird.delay(500).then(() => {
-		return events.post(test.context.context, test.context.jellyfish, test.context.session, {
+		return events.post(context, redisClient, jellyfish, session, {
 			id: '414f2345-4f5e-4571-820f-28a49731733d',
 			action: '57692206-8da2-46e1-91c9-159b2c6928ef',
 			card: '033d9184-70b2-4ec9-bc39-9a249b186422',
@@ -141,7 +190,15 @@ ava.cb('.wait() should return when a certain execute event is inserted', (test) 
 })
 
 ava('.wait() should return if the card already exists', async (test) => {
-	await events.post(test.context.context, test.context.jellyfish, test.context.session, {
+	const {
+		context,
+		redisClient,
+		jellyfish,
+		session,
+		queue
+	} = test.context
+
+	await events.post(context, redisClient, jellyfish, session, {
 		id: '414f2345-4f5e-4571-820f-28a49731733d',
 		action: '57692206-8da2-46e1-91c9-159b2c6928ef',
 		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
@@ -152,7 +209,7 @@ ava('.wait() should return if the card already exists', async (test) => {
 		data: '414f2345-4f5e-4571-820f-28a49731733d'
 	})
 
-	const card = await events.wait(test.context.context, test.context.jellyfish, test.context.session, {
+	const card = await events.wait(queue.producer.executeEventsListener, context, jellyfish, session, {
 		id: '414f2345-4f5e-4571-820f-28a49731733d',
 		action: '57692206-8da2-46e1-91c9-159b2c6928ef',
 		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
@@ -166,15 +223,22 @@ ava('.wait() should return if the card already exists', async (test) => {
 })
 
 ava.cb('.wait() should be able to access the event payload of a huge event', (test) => {
+	const {
+		context,
+		redisClient,
+		jellyfish,
+		session,
+		queue
+	} = test.context
+
 	const BIG_EXECUTE_CARD = require('./big-execute.json')
 
-	events.wait(
-		test.context.context, test.context.jellyfish, test.context.session, {
-			id: BIG_EXECUTE_CARD.slug.replace(/^execute-/g, ''),
-			action: BIG_EXECUTE_CARD.data.action,
-			card: BIG_EXECUTE_CARD.data.target,
-			actor: BIG_EXECUTE_CARD.data.actor
-		}).then(async (card) => {
+	events.wait(queue.producer.executeEventsListener, context, jellyfish, session, {
+		id: BIG_EXECUTE_CARD.slug.replace(/^execute-/g, ''),
+		action: BIG_EXECUTE_CARD.data.action,
+		card: BIG_EXECUTE_CARD.data.target,
+		actor: BIG_EXECUTE_CARD.data.actor
+	}).then(async (card) => {
 		test.deepEqual(card.data.payload, BIG_EXECUTE_CARD.data.payload)
 
 		// Wait a bit for `postgres.upsertObject` to terminate
@@ -185,21 +249,23 @@ ava.cb('.wait() should be able to access the event payload of a huge event', (te
 		test.end()
 	}).catch(test.end)
 
-	Bluebird.delay(500).then(() => {
-		// Use the backend class directly so we can inject "links"
-		return test.context.backend.insertElement(
-			test.context.context, BIG_EXECUTE_CARD).then((execute) => {
-			test.deepEqual(_.omit(execute, [ 'id' ]), Object.assign({}, BIG_EXECUTE_CARD, {
-				created_at: execute.created_at,
-				linked_at: execute.linked_at,
-				links: execute.links
-			}))
+	Bluebird.delay(500)
+		.then(() => {
+			return events.notifyExecuteEvent(redisClient, BIG_EXECUTE_CARD)
 		})
-	}).catch(test.end)
+		.catch(test.end)
 })
 
 ava('.wait() should be able to access the event payload', async (test) => {
-	await events.post(test.context.context, test.context.jellyfish, test.context.session, {
+	const {
+		context,
+		redisClient,
+		jellyfish,
+		session,
+		queue
+	} = test.context
+
+	await events.post(context, redisClient, jellyfish, session, {
 		id: '414f2345-4f5e-4571-820f-28a49731733d',
 		action: '57692206-8da2-46e1-91c9-159b2c6928ef',
 		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
@@ -210,7 +276,7 @@ ava('.wait() should be able to access the event payload', async (test) => {
 		data: '414f2345-4f5e-4571-820f-28a49731733d'
 	})
 
-	const card = await events.wait(test.context.context, test.context.jellyfish, test.context.session, {
+	const card = await events.wait(queue.producer.executeEventsListener, context, jellyfish, session, {
 		id: '414f2345-4f5e-4571-820f-28a49731733d',
 		action: '57692206-8da2-46e1-91c9-159b2c6928ef',
 		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
@@ -227,24 +293,34 @@ ava('.wait() should be able to access the event payload', async (test) => {
 })
 
 ava.cb('.wait() should ignore cards that do not match the id', (test) => {
-	events.wait(test.context.context, test.context.jellyfish, test.context.session, {
+	const {
+		context,
+		redisClient,
+		jellyfish,
+		session,
+		queue
+	} = test.context
+
+	events.wait(queue.producer.executeEventsListener, context, jellyfish, session, {
 		id: 'b9999e1e-e707-4124-98b4-f4bcf1643b4c',
 		action: '57692206-8da2-46e1-91c9-159b2c6928ef',
 		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
 		actor: '57692206-8da2-46e1-91c9-159b2c6928ef'
-	}).then(async (request) => {
-		test.is(request.data.payload.timestamp, '2020-06-30T19:34:42.829Z')
+	})
+		.then(async (request) => {
+			test.is(request.data.payload.timestamp, '2020-06-30T19:34:42.829Z')
 
-		// Wait a bit for `postgres.upsertObject` to terminate
-		// Otherwise, we close the underlying connections while the rest
-		// of the code of upsertObject is still running, causing errors
-		// unrelated to the test
-		await Bluebird.delay(500)
-		test.end()
-	}).catch(test.end)
+			// Wait a bit for `postgres.upsertObject` to terminate
+			// Otherwise, we close the underlying connections while the rest
+			// of the code of upsertObject is still running, causing errors
+			// unrelated to the test
+			await Bluebird.delay(500)
+			test.end()
+		})
+		.catch(test.end)
 
 	Bluebird.delay(500).then(async () => {
-		await events.post(test.context.context, test.context.jellyfish, test.context.session, {
+		await events.post(context, redisClient, jellyfish, session, {
 			id: '414f2345-4f5e-4571-820f-28a49731733d',
 			action: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			card: '033d9184-70b2-4ec9-bc39-9a249b186422',
@@ -255,7 +331,7 @@ ava.cb('.wait() should ignore cards that do not match the id', (test) => {
 			data: '414f2345-4f5e-4571-820f-28a49731733d'
 		})
 
-		await events.post(test.context.context, test.context.jellyfish, test.context.session, {
+		await events.post(context, redisClient, jellyfish, session, {
 			id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			action: '033d9184-70b2-4ec9-bc39-9a249b186422',
 			card: '414f2345-4f5e-4571-820f-28a49731733d',
@@ -266,7 +342,7 @@ ava.cb('.wait() should ignore cards that do not match the id', (test) => {
 			data: '414f2345-4f5e-4571-820f-28a49731733d'
 		})
 
-		await events.post(test.context.context, test.context.jellyfish, test.context.session, {
+		await events.post(context, redisClient, jellyfish, session, {
 			id: 'b9999e1e-e707-4124-98b4-f4bcf1643b4c',
 			action: '57692206-8da2-46e1-91c9-159b2c6928ef',
 			card: '033d9184-70b2-4ec9-bc39-9a249b186422',
@@ -280,7 +356,15 @@ ava.cb('.wait() should ignore cards that do not match the id', (test) => {
 })
 
 ava('.getLastExecutionEvent() should return the last execution event given one event', async (test) => {
-	const card = await events.post(test.context.context, test.context.jellyfish, test.context.session, {
+	const {
+		context,
+		redisClient,
+		jellyfish,
+		session,
+		kernel
+	} = test.context
+
+	const card = await events.post(context, redisClient, jellyfish, session, {
 		id: 'b9999e1e-e707-4124-98b4-f4bcf1643b4c',
 		action: '57692206-8da2-46e1-91c9-159b2c6928ef',
 		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
@@ -292,13 +376,9 @@ ava('.getLastExecutionEvent() should return the last execution event given one e
 		data: '414f2345-4f5e-4571-820f-28a49731733d'
 	})
 
-	const event = await events.getLastExecutionEvent(
-		test.context.context,
-		test.context.jellyfish,
-		test.context.session,
-		'cb3523c5-b37d-41c8-ae32-9e7cc9309165')
+	const event = await events.getLastExecutionEvent(context, jellyfish, session, 'cb3523c5-b37d-41c8-ae32-9e7cc9309165')
 
-	test.deepEqual(event, test.context.kernel.defaults({
+	test.deepEqual(event, kernel.defaults({
 		created_at: card.created_at,
 		id: card.id,
 		name: null,
@@ -323,7 +403,15 @@ ava('.getLastExecutionEvent() should return the last execution event given one e
 })
 
 ava('.getLastExecutionEvent() should return the last event given a matching and non-matching event', async (test) => {
-	const card1 = await events.post(test.context.context, test.context.jellyfish, test.context.session, {
+	const {
+		context,
+		redisClient,
+		jellyfish,
+		session,
+		kernel
+	} = test.context
+
+	const card1 = await events.post(context, redisClient, jellyfish, session, {
 		id: 'b9999e1e-e707-4124-98b4-f4bcf1643b4c',
 		action: '57692206-8da2-46e1-91c9-159b2c6928ef',
 		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
@@ -335,7 +423,7 @@ ava('.getLastExecutionEvent() should return the last event given a matching and 
 		data: '414f2345-4f5e-4571-820f-28a49731733d'
 	})
 
-	await events.post(test.context.context, test.context.jellyfish, test.context.session, {
+	await events.post(context, redisClient, jellyfish, session, {
 		id: '414f2345-4f5e-4571-820f-28a49731733d',
 		action: 'e4fe3f19-13ae-4421-b28f-6507af78d1f6',
 		card: '5201aae8-c937-4f92-940d-827d857bbcc2',
@@ -347,13 +435,9 @@ ava('.getLastExecutionEvent() should return the last event given a matching and 
 		data: 'a5acb93e-c949-4d2c-859c-62c8949fdfe6'
 	})
 
-	const event = await events.getLastExecutionEvent(
-		test.context.context,
-		test.context.jellyfish,
-		test.context.session,
-		'cb3523c5-b37d-41c8-ae32-9e7cc9309165')
+	const event = await events.getLastExecutionEvent(context, jellyfish, session, 'cb3523c5-b37d-41c8-ae32-9e7cc9309165')
 
-	test.deepEqual(event, test.context.kernel.defaults({
+	test.deepEqual(event, kernel.defaults({
 		created_at: card1.created_at,
 		id: card1.id,
 		slug: event.slug,
@@ -378,7 +462,15 @@ ava('.getLastExecutionEvent() should return the last event given a matching and 
 })
 
 ava('.getLastExecutionEvent() should return the last execution event given two matching events', async (test) => {
-	const card1 = await events.post(test.context.context, test.context.jellyfish, test.context.session, {
+	const {
+		context,
+		redisClient,
+		jellyfish,
+		session,
+		kernel
+	} = test.context
+
+	const card1 = await events.post(context, redisClient, jellyfish, session, {
 		id: '414f2345-4f5e-4571-820f-28a49731733d',
 		action: '57692206-8da2-46e1-91c9-159b2c6928ef',
 		card: '033d9184-70b2-4ec9-bc39-9a249b186422',
@@ -390,7 +482,7 @@ ava('.getLastExecutionEvent() should return the last execution event given two m
 		data: '414f2345-4f5e-4571-820f-28a49731733d'
 	})
 
-	await events.post(test.context.context, test.context.jellyfish, test.context.session, {
+	await events.post(context, redisClient, jellyfish, session, {
 		id: 'b9999e1e-e707-4124-98b4-f4bcf1643b4c',
 		action: 'e4fe3f19-13ae-4421-b28f-6507af78d1f6',
 		card: '5201aae8-c937-4f92-940d-827d857bbcc2',
@@ -402,13 +494,9 @@ ava('.getLastExecutionEvent() should return the last execution event given two m
 		data: 'a5acb93e-c949-4d2c-859c-62c8949fdfe6'
 	})
 
-	const event = await events.getLastExecutionEvent(
-		test.context.context,
-		test.context.jellyfish,
-		test.context.session,
-		'cb3523c5-b37d-41c8-ae32-9e7cc9309165')
+	const event = await events.getLastExecutionEvent(context, jellyfish, session, 'cb3523c5-b37d-41c8-ae32-9e7cc9309165')
 
-	test.deepEqual(event, test.context.kernel.defaults({
+	test.deepEqual(event, kernel.defaults({
 		created_at: card1.created_at,
 		id: card1.id,
 		slug: event.slug,
@@ -433,7 +521,14 @@ ava('.getLastExecutionEvent() should return the last execution event given two m
 })
 
 ava('.getLastExecutionEvent() should return null given no matching event', async (test) => {
-	await events.post(test.context.context, test.context.jellyfish, test.context.session, {
+	const {
+		context,
+		redisClient,
+		jellyfish,
+		session
+	} = test.context
+
+	await events.post(context, redisClient, jellyfish, session, {
 		id: 'b9999e1e-e707-4124-98b4-f4bcf1643b4c',
 		action: 'e4fe3f19-13ae-4421-b28f-6507af78d1f6',
 		card: '5201aae8-c937-4f92-940d-827d857bbcc2',
@@ -445,16 +540,18 @@ ava('.getLastExecutionEvent() should return null given no matching event', async
 		data: 'a5acb93e-c949-4d2c-859c-62c8949fdfe6'
 	})
 
-	const event = await events.getLastExecutionEvent(
-		test.context.context,
-		test.context.jellyfish,
-		test.context.session,
-		'cb3523c5-b37d-41c8-ae32-9e7cc9309165')
+	const event = await events.getLastExecutionEvent(context, jellyfish, session, 'cb3523c5-b37d-41c8-ae32-9e7cc9309165')
 	test.deepEqual(event, null)
 })
 
 ava('.getLastExecutionEvent() should only consider execute cards', async (test) => {
-	await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
+	const {
+		context,
+		jellyfish,
+		session
+	} = test.context
+
+	await jellyfish.insertCard(context, session, {
 		type: 'card@1.0.0',
 		slug: 'foobarbaz',
 		version: '1.0.0',
@@ -472,10 +569,6 @@ ava('.getLastExecutionEvent() should only consider execute cards', async (test) 
 		}
 	})
 
-	const event = await events.getLastExecutionEvent(
-		test.context.context,
-		test.context.jellyfish,
-		test.context.session,
-		'cb3523c5-b37d-41c8-ae32-9e7cc9309165')
+	const event = await events.getLastExecutionEvent(context, jellyfish, session, 'cb3523c5-b37d-41c8-ae32-9e7cc9309165')
 	test.deepEqual(event, null)
 })

@@ -30,7 +30,7 @@ module.exports = async (context) => {
 	})
 
 	logger.info(context, 'Creating producer instance')
-	const producer = new Producer(jellyfish, jellyfish.sessions.admin)
+	const producer = new Producer(jellyfish, jellyfish.sessions.admin, environment.redis)
 	logger.info(context, 'Initializing producer instance')
 	await producer.initialize(context)
 
@@ -44,7 +44,7 @@ module.exports = async (context) => {
 	const uninitializedConsumer = new Consumer(jellyfish, jellyfish.sessions.admin)
 
 	const worker = new Worker(
-		jellyfish, jellyfish.sessions.admin, actionLibrary, uninitializedConsumer)
+		jellyfish, jellyfish.sessions.admin, actionLibrary, uninitializedConsumer, producer, environment.redis)
 	logger.info(context, 'Initializing built-in worker')
 	await worker.initialize(context)
 
@@ -159,6 +159,7 @@ module.exports = async (context) => {
 		guestSession: results.guestSession.id,
 		port: webServer.port,
 		close: async () => {
+			await producer.stop()
 			await socketServer.close()
 			await webServer.stop()
 			await jellyfish.disconnect(context)

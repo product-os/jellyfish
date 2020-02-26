@@ -156,6 +156,7 @@
     "localforage": "^1.6.0",
     "lodash": "^4.17.15",
     "lru-cache": "^5.1.1",
+    "map-cache-ttl": "^0.1.1",
     "mark.js": "^8.11.1",
     "marked": "^0.7.0",
     "mixpanel-browser": "^2.22.4",

@@ -82,7 +82,7 @@ ava('should not re-enqueue requests after duplicated execute events', async (tes
 	const enqueuedRequest1 = await test.context.dequeue()
 
 	await test.context.queue.consumer.postResults(
-		await uuid.random(), test.context.context, enqueuedRequest1, {
+		await uuid.random(), test.context.context, test.context.redisClient, enqueuedRequest1, {
 			error: false,
 			data: {
 				id: await uuid.random(),
@@ -136,7 +136,7 @@ ava('should not re-enqueue requests after execute failure', async (test) => {
 		})
 
 	await test.context.queue.consumer.postResults(
-		await uuid.random(), test.context.context, enqueuedRequest1, {
+		await uuid.random(), test.context.context, test.context.redisClient, enqueuedRequest1, {
 			error: false,
 			data: {
 				id: await uuid.random(),

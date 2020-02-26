@@ -85,13 +85,13 @@ const bootstrap = async (context, library, options) => {
 
 	const session = jellyfish.sessions.admin
 	const consumer = new Consumer(jellyfish, session)
-	const producer = new Producer(jellyfish, session)
+	const producer = new Producer(jellyfish, session, environment.redis)
 
 	// The main server has a special worker for itself so that
 	// it can bootstrap without needing any external workers
 	// to process the default cards
 	const worker = new Worker(
-		jellyfish, session, library, consumer, producer)
+		jellyfish, session, library, consumer, producer, environment.redis)
 	await worker.initialize(context)
 
 	let run = true
@@ -137,6 +137,7 @@ const bootstrap = async (context, library, options) => {
 	const closeWorker = async () => {
 		run = false
 		await consumer.cancel()
+		await producer.stop()
 		triggerStream.removeAllListeners()
 		await triggerStream.close()
 		await refreshingTriggers

@@ -264,7 +264,7 @@ ava('.dequeue() should cope with link materialization failures', async (test) =>
 		})
 
 	await test.context.queue.consumer.postResults(
-		test.context.queueActor, test.context.context, actionRequest, {
+		test.context.queueActor, test.context.context, test.context.redisClient, actionRequest, {
 			error: false,
 			data: {
 				foo: 'true'

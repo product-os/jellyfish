@@ -11,6 +11,10 @@ const Consumer = require('../../../lib/queue').Consumer
 const Producer = require('../../../lib/queue').Producer
 const actionLibrary = require('../../../lib/action-library')
 const queueErrors = require('../../../lib/queue/errors')
+const environment = require('../../../lib/environment')
+const redis = require('redis')
+Bluebird.promisifyAll(redis.RedisClient.prototype)
+const _ = require('lodash')
 
 exports.beforeEach = async (test, options) => {
 	await helpers.beforeEach(test, options && {
@@ -74,14 +78,23 @@ exports.beforeEach = async (test, options) => {
 
 	test.context.queue.producer = new Producer(
 		test.context.jellyfish,
-		test.context.session)
+		test.context.session,
+		environment.redis)
 
 	await test.context.queue.producer.initialize(test.context.context)
+
+	test.context.redisClient = redis.createClient(environment.redis)
 }
 
 exports.afterEach = async (test) => {
-	if (test.context.queue) {
+	if (_.has(test.context, [ 'queue', 'consumer' ])) {
 		await test.context.queue.consumer.cancel()
+	}
+	if (_.has(test.context, [ 'queue', 'producer' ])) {
+		await test.context.queue.producer.stop()
+	}
+	if (test.context.redisClient) {
+		await test.context.redisClient.quit()
 	}
 
 	if (test.context.jellyfish) {
