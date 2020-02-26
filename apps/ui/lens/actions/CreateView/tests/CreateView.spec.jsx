@@ -6,10 +6,16 @@
 
 import ava from 'ava'
 import {
-	shallow
+	shallow,
+	configure
 } from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16'
 import React from 'react'
 import CreateView from '../CreateView'
+
+configure({
+	adapter: new Adapter()
+})
 
 ava('It should render', (test) => {
 	test.notThrows(() => {

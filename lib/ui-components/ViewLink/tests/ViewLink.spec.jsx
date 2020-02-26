@@ -6,10 +6,17 @@
 
 import ava from 'ava'
 import {
-	shallow
+	shallow,
+	configure
 } from 'enzyme'
 import React from 'react'
 import ViewLink from '../ViewLink'
+
+import Adapter from 'enzyme-adapter-react-16'
+
+configure({
+	adapter: new Adapter()
+})
 
 const view = {
 	id: 'ffc200db-0f81-4ce3-a280-01515f94869f',
