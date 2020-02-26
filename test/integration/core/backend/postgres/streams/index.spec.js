@@ -26,6 +26,7 @@ ava.beforeEach(async (test) => {
 		user: environment.postgres.user,
 		password: environment.postgres.password,
 		database: 'postgres',
+		host: environment.postgres.host,
 		port: environment.postgres.port
 	})
 
@@ -41,6 +42,7 @@ ava.beforeEach(async (test) => {
 			user: environment.postgres.user,
 			database: test.context.database,
 			password: environment.postgres.password,
+			host: environment.postgres.host,
 			port: environment.postgres.port
 		})
 	}
