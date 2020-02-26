@@ -83,4 +83,6 @@ localForage.getItem(STORAGE_KEY)
 		console.error(error)
 	})
 
-window.sdk = sdk
+if (typeof window !== 'undefined') {
+	window.sdk = sdk
+}
