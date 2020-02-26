@@ -148,6 +148,7 @@ ava.before(async (test) => {
 		user: environment.postgres.user,
 		password: environment.postgres.password,
 		database: 'postgres',
+		host: environment.postgres.host,
 		port: environment.postgres.port
 	}).any(`
 		CREATE DATABASE ${test.context.database} OWNER = ${environment.postgres.user};
@@ -162,6 +163,7 @@ ava.before(async (test) => {
 		user: environment.postgres.user,
 		database: test.context.database,
 		password: environment.postgres.password,
+		host: environment.postgres.host,
 		port: environment.postgres.port
 	})
 })
