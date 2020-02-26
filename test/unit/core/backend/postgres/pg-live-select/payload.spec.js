@@ -139,5 +139,7 @@ ava('.reconstruct() should throw given an invalid object', (test) => {
 			currentPage: 1,
 			message: '{"after":'
 		})
-	}, 'Invalid notification: {"after":')
+	}, {
+		message: 'Invalid notification: {"after":'
+	})
 })

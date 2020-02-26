@@ -309,7 +309,9 @@ ava('.insertElement() should not insert an element without a slug nor an id to a
 		linked_at: {},
 		created_at: new Date().toISOString(),
 		active: true
-	}), errors.JellyfishDatabaseError)
+	}), {
+		instanceOf: errors.JellyfishDatabaseError
+	})
 })
 
 ava('.insertElement() should not insert an element without a type', async (test) => {
@@ -325,7 +327,9 @@ ava('.insertElement() should not insert an element without a type', async (test)
 		linked_at: {},
 		created_at: new Date().toISOString(),
 		active: true
-	}), errors.JellyfishDatabaseError)
+	}), {
+		instanceOf: errors.JellyfishDatabaseError
+	})
 })
 
 ava('.insertElement() should fail to insert an element with a very long slug', async (test) => {
@@ -342,7 +346,9 @@ ava('.insertElement() should fail to insert an element with a very long slug', a
 		created_at: new Date().toISOString(),
 		type: 'card@1.0.0',
 		active: true
-	}), errors.JellyfishInvalidSlug)
+	}), {
+		instanceOf: errors.JellyfishInvalidSlug
+	})
 })
 
 ava('.insertElement() should insert an element with a non-existent slug', async (test) => {
@@ -493,11 +499,13 @@ ava('.insertElement() should fail to insert an element with an existent slug', a
 		created_at: new Date().toISOString(),
 		type: 'card@1.0.0',
 		foo: 'baz'
-	}), errors.JellyfishElementAlreadyExists)
+	}), {
+		instanceOf: errors.JellyfishElementAlreadyExists
+	})
 })
 
 ava('.insertElement() should not re-use ids when inserting an' +
-				' element with an existent id but non-existent slug', async (test) => {
+	' element with an existent id but non-existent slug', async (test) => {
 	const result1 = await test.context.backend.insertElement(test.context.context, {
 		slug: 'foo',
 		active: true,
@@ -568,7 +576,9 @@ ava('.insertElement() should fail to insert an element with a non-existent id bu
 		active: true,
 		slug: 'foo',
 		foo: 'baz'
-	}), errors.JellyfishElementAlreadyExists)
+	}), {
+		instanceOf: errors.JellyfishElementAlreadyExists
+	})
 })
 
 ava('.upsertElement() should not be able to change a slug', async (test) => {
@@ -622,7 +632,9 @@ ava('.upsertElement() should not insert an element without a type', async (test)
 		capabilities: [],
 		created_at: new Date().toISOString(),
 		active: true
-	}), errors.JellyfishDatabaseError)
+	}), {
+		instanceOf: errors.JellyfishDatabaseError
+	})
 })
 
 ava('.upsertElement() should insert a card with a slug', async (test) => {
@@ -728,11 +740,13 @@ ava('.upsertElement() should not be able to upsert without a slug nor an id', as
 		capabilities: [],
 		created_at: new Date().toISOString(),
 		active: true
-	}), errors.JellyfishDatabaseError)
+	}), {
+		instanceOf: errors.JellyfishDatabaseError
+	})
 })
 
 ava('.upsertElement() should not consider ids when inserting an element with an existing id' +
-					', but matching the slug of another element', async (test) => {
+	', but matching the slug of another element', async (test) => {
 	const result1 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'example',
 		active: true,
@@ -839,7 +853,7 @@ ava('.upsertElement() should replace an element with an existing id and the slug
 })
 
 ava('.upsertElement() should ignore the id when' +
-					' inserting an element with a non existing id and the slug of an element', async (test) => {
+	' inserting an element with a non existing id and the slug of an element', async (test) => {
 	const result1 = await test.context.backend.upsertElement(test.context.context, {
 		slug: 'example',
 		type: 'card@1.0.0',
@@ -904,7 +918,9 @@ ava('.upsertElement() should not insert an element with a non-matching id nor sl
 		capabilities: [],
 		created_at: new Date().toISOString(),
 		active: true
-	}), errors.JellyfishDatabaseError)
+	}), {
+		instanceOf: errors.JellyfishDatabaseError
+	})
 })
 
 ava('.query() should correctly take string contraints on the uuid', async (test) => {
@@ -1421,7 +1437,9 @@ ava('.query() should throw given float limits', async (test) => {
 		required: [ 'type' ]
 	}, {
 		limit: 59.8
-	}), errors.JellyfishInvalidLimit)
+	}), {
+		instanceOf: errors.JellyfishInvalidLimit
+	})
 })
 
 ava('.query() should apply a maximum limit by default', async (test) => {
@@ -1549,7 +1567,9 @@ ava('.query() should throw if limit is negative', async (test) => {
 		required: [ 'type' ]
 	}, {
 		limit: -1
-	}), errors.JellyfishInvalidLimit)
+	}), {
+		instanceOf: errors.JellyfishInvalidLimit
+	})
 })
 
 ava('.query() should throw if limit is too large', async (test) => {
@@ -1565,7 +1585,9 @@ ava('.query() should throw if limit is too large', async (test) => {
 		required: [ 'type' ]
 	}, {
 		limit: 3000
-	}), errors.JellyfishInvalidLimit)
+	}), {
+		instanceOf: errors.JellyfishInvalidLimit
+	})
 })
 
 ava('.query() should throw if limit is Infinity', async (test) => {
@@ -1581,7 +1603,9 @@ ava('.query() should throw if limit is Infinity', async (test) => {
 		required: [ 'type' ]
 	}, {
 		limit: Infinity
-	}), errors.JellyfishInvalidLimit)
+	}), {
+		instanceOf: errors.JellyfishInvalidLimit
+	})
 })
 
 ava('.query() should throw if limit is -Infinity', async (test) => {
@@ -1597,7 +1621,9 @@ ava('.query() should throw if limit is -Infinity', async (test) => {
 		required: [ 'type' ]
 	}, {
 		limit: -Infinity
-	}), errors.JellyfishInvalidLimit)
+	}), {
+		instanceOf: errors.JellyfishInvalidLimit
+	})
 })
 
 ava('.query() should throw if limit is NaN', async (test) => {
@@ -1613,7 +1639,9 @@ ava('.query() should throw if limit is NaN', async (test) => {
 		required: [ 'type' ]
 	}, {
 		limit: NaN
-	}), errors.JellyfishInvalidLimit)
+	}), {
+		instanceOf: errors.JellyfishInvalidLimit
+	})
 })
 
 ava('.query() should be able to limit the results', async (test) => {

@@ -194,7 +194,9 @@ ava('.enqueue() should throw if the type is a slug and was not found', async (te
 					}
 				}
 			}
-		}), errors.QueueInvalidRequest)
+		}), {
+		instanceOf: errors.QueueInvalidRequest
+	})
 })
 
 ava('.enqueue() should throw if the action was not found', async (test) => {
@@ -215,7 +217,9 @@ ava('.enqueue() should throw if the action was not found', async (test) => {
 					}
 				}
 			}
-		}), errors.QueueInvalidAction)
+		}), {
+		instanceOf: errors.QueueInvalidAction
+	})
 })
 
 ava('.enqueue() should throw if the session was not found', async (test) => {
@@ -236,7 +240,9 @@ ava('.enqueue() should throw if the session was not found', async (test) => {
 				}
 			}
 		}
-	}), test.context.jellyfish.errors.JellyfishInvalidSession)
+	}), {
+		instanceOf: test.context.jellyfish.errors.JellyfishInvalidSession
+	})
 })
 
 ava('.dequeue() should cope with link materialization failures', async (test) => {

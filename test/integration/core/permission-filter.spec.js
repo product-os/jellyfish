@@ -17,7 +17,9 @@ ava('.getSessionUser() should throw if the session is invalid', async (test) => 
 		test.context.context, test.context.backend, '4a962ad9-20b5-4dd8-a707-bf819593cc84', {
 			user: 'cards',
 			session: 'sessions'
-		}), errors.JellyfishInvalidSession)
+		}), {
+		instanceOf: errors.JellyfishInvalidSession
+	})
 })
 
 ava('.getSessionUser() should throw if the session actor is invalid', async (test) => {
@@ -35,7 +37,9 @@ ava('.getSessionUser() should throw if the session actor is invalid', async (tes
 	await test.throwsAsync(permissionFilter.getSessionUser(test.context.context, test.context.backend, session.id, {
 		user: 'cards',
 		session: 'sessions'
-	}), errors.JellyfishNoElement)
+	}), {
+		instanceOf: errors.JellyfishNoElement
+	})
 })
 
 ava('.getSessionUser() should get the session user given the session did not expire', async (test) => {
@@ -107,5 +111,7 @@ ava('.getSessionUser() should throw if the session expired', async (test) => {
 	await test.throwsAsync(permissionFilter.getSessionUser(test.context.context, test.context.backend, session.id, {
 		user: 'cards',
 		session: 'sessions'
-	}), errors.JellyfishSessionExpired)
+	}), {
+		instanceOf: errors.JellyfishSessionExpired
+	})
 })
