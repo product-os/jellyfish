@@ -108,7 +108,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
-    "@babel/register": "^7.0.0",
+    "@babel/register": "^7.8.3",
     "@octokit/plugin-retry": "^2.2.0",
     "@octokit/plugin-throttling": "^2.6.0",
     "@octokit/rest": "^16.6.1",
