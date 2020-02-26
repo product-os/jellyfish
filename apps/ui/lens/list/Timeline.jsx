@@ -17,7 +17,7 @@ import {
 	selectors
 } from '../../core'
 import * as environment from '../../environment'
-import Timeline from '@jellyfish/ui-components/Timeline'
+import Timeline from '../../../../lib/ui-components/Timeline'
 
 const mapStateToProps = (state, ownProps) => {
 	const card = ownProps.card

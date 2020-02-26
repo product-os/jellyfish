@@ -28,17 +28,17 @@ import {
 	selectors,
 	sdk
 } from '../../../core'
-import * as helpers from '@jellyfish/ui-components/services/helpers'
+import * as helpers from '../../../../../lib/ui-components/services/helpers'
 import Timeline from '../../list/Timeline'
 import CardLayout from '../../../layouts/CardLayout'
-import CardFields from '@jellyfish/ui-components/CardFields'
-import Event from '@jellyfish/ui-components/Event'
-import RouterLink from '@jellyfish/ui-components/Link'
+import CardFields from '../../../../../lib/ui-components/CardFields'
+import Event from '../../../../../lib/ui-components/Event'
+import RouterLink from '../../../../../lib/ui-components/Link'
 import {
 	Tag
-} from '@jellyfish/ui-components/Tag'
-import ColorHashPill from '@jellyfish/ui-components/shame/ColorHashPill'
-import Icon from '@jellyfish/ui-components/shame/Icon'
+} from '../../../../../lib/ui-components/Tag'
+import ColorHashPill from '../../../../../lib/ui-components/shame/ColorHashPill'
+import Icon from '../../../../../lib/ui-components/shame/Icon'
 
 const JellyIcon = styled.img.attrs({
 	src: '/icons/jellyfish.svg'
