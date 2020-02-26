@@ -1,4 +1,25 @@
 - commits:
+    - subject: Fix CardChatSummery test
+      hash: e7ec629043bafe9881b3bb359fa8f7fd87005dc9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+    - subject: Update unit tests to support future sinon versions
+      hash: 81047b0bd326a3741feaf7581f7394d020579be8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+  version: 26.2.5
+  date: 2020-02-26T19:02:28.430Z
+- commits:
     - subject: Allow window to be undefined
       hash: 726f4c0b9d16e753978c408f019d941aca32bfe2
       body: ''
