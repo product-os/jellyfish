@@ -1,4 +1,19 @@
 - commits:
+    - subject: Fix bold mistake introduced in e03c806f5b2204f1c27b43899b34953f53e10845
+      hash: 616cab2c9b67907e5e9b0a46998bba00d4a3666e
+      body: |
+        We are not currently logging unless levels matche, but that's NOT how
+        log levels work: if log level is 'debug' and we log an exception, it
+        must be logged
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 26.2.3
+  date: 2020-02-26T14:17:27.492Z
+- commits:
     - subject: 'dev: Update repository code owners'
       hash: 3a85d8cd3b817ce4152765120c14357c570c6be1
       body: |
