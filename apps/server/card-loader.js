@@ -59,6 +59,7 @@ module.exports = async (context, jellyfish, worker, session) => {
 		await loadCard('contrib/issue.json'),
 		await loadCard('contrib/message.json'),
 		await loadCard('contrib/opportunity.json'),
+		await loadCard('contrib/password-reset.json'),
 		await loadCard('contrib/ping.json'),
 		await loadCard('contrib/pipeline.json'),
 		await loadCard('contrib/product-improvement.json'),
