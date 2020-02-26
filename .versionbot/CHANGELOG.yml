@@ -1,4 +1,16 @@
 - commits:
+    - subject: Allow window to be undefined
+      hash: 726f4c0b9d16e753978c408f019d941aca32bfe2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+  version: 26.2.4
+  date: 2020-02-26T17:23:12.132Z
+- commits:
     - subject: Fix bold mistake introduced in e03c806f5b2204f1c27b43899b34953f53e10845
       hash: 616cab2c9b67907e5e9b0a46998bba00d4a3666e
       body: |
