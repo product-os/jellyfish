@@ -5,20 +5,21 @@
  */
 
 const browserEnv = require('browser-env')
-const Enzyme = require('enzyme')
+const {
+	configure
+} = require('enzyme')
 const Adapter = require('enzyme-adapter-react-16')
 const {
 	HowlerGlobal
 } = require('howler')
 const _ = require('lodash')
-
 browserEnv({
 	// Throws security error without this line.
 	// See: https://github.com/jsdom/jsdom/issues/2383
 	url: 'http://localhost/'
 })
 
-Enzyme.configure({
+configure({
 	adapter: new Adapter()
 })
 

@@ -98,7 +98,7 @@
     "puppeteer": "1.13.0",
     "request": "^2.88.0",
     "scripts-template": "file:scripts/template",
-    "sinon": "^7.3.2",
+    "sinon": "^8.1.1",
     "style-loader": "^1.0.0",
     "webpack": "^4.1.1",
     "webpack-bundle-analyzer": "^3.6.0",
