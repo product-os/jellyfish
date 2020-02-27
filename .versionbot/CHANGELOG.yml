@@ -1,4 +1,25 @@
 - commits:
+    - subject: Update webpack.config to remove the @jellyfish alias
+      hash: 43726558ab9dcae092fd36ee3f2bdd30b8cc8efa
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+    - subject: Remove webpack @jellyfish alias from ui-components
+      hash: b7783c30f3e9e03a80c8290a104e3c12f647cc6b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+  version: 26.2.7
+  date: 2020-02-27T06:57:28.450Z
+- commits:
     - subject: Update references to GitHub test repo to new location
       hash: 9afe561ed017e240f6bd1050bb89fa10e0714963
       body: ''
