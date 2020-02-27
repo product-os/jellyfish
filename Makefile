@@ -29,7 +29,7 @@ DATABASE ?= postgres
 export DATABASE
 
 # The default postgres user is your local user
-POSTGRES_USER ?= $(shell whoami)
+POSTGRES_USER ?= test
 export POSTGRES_USER
 POSTGRES_PASSWORD ?=
 export POSTGRES_PASSWORD
@@ -344,7 +344,7 @@ test-unit:
 	FILES="'./{test/unit,lib,apps}/**/*.spec.{js,jsx}'" SCRUB=0 make test
 
 test-integration:
-	FILES="'./test/integration/**/*.spec.js'" make test
+	FILES="'./test/integration/sync/pipeline.spec.js'" make test
 
 test-e2e:
 	FILES="'./test/e2e/**/*.spec.{js,jsx}'" SCRUB=0 make test

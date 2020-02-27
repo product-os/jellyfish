@@ -1,19 +1,79 @@
 /*
  * Copyright (C) Balena.io - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited.
+ * Unauthorized copying of  file, via any medium is strictly prohibited.
  * Proprietary and confidential.
  */
 
 const ava = require('ava')
 const _ = require('lodash')
-const helpers = require('./helpers')
+const uuid = require('uuid/v4')
+const actionLibrary = require('../../../lib/action-library')
+const helpers = require('../../helpers')
 const typedErrors = require('typed-errors')
 const pipeline = require('../../../lib/sync/pipeline')
 const errors = require('../../../lib/sync/errors')
 const NoOpIntegration = require('./noop-integration')
+const syncContext = require('../../../lib/action-library/sync-context')
 
-ava.beforeEach(helpers.beforeEach)
-ava.afterEach(helpers.afterEach)
+ava.beforeEach(async (test) => {
+	const suffix = uuid()
+	const dbName = `test_${suffix.replace(/-/g, '_')}`
+	const context = { id: `CORE-TEST-${uuid()}` }
+
+	const cache = await helpers.createCache({ dbName, context })
+	const backend = await helpers.createBackend({ cache, dbName, context, options: { suffix } })
+	const kernel = await helpers.createKernel(backend, context)
+	const adminSession = kernel.sessions.admin
+	const session = await kernel.getCardById(
+		context, adminSession, adminSession)
+	const actor = await kernel.getCardById(
+		context, adminSession, session.data.actor)
+
+	await kernel.insertCard(context, adminSession,
+		require('../../../apps/server/default-cards/contrib/message.json'))
+	await kernel.insertCard(context, adminSession,
+		require('../../../apps/server/default-cards/contrib/role-user-community.json'))
+
+	await kernel.insertCard(context, adminSession,
+		actionLibrary['action-create-card'].card)
+	await kernel.insertCard(context, adminSession,
+		actionLibrary['action-create-event'].card)
+	await kernel.insertCard(context, adminSession,
+		actionLibrary['action-set-add'].card)
+	await kernel.insertCard(context, adminSession,
+		actionLibrary['action-create-user'].card)
+	await kernel.insertCard(context, adminSession,
+		actionLibrary['action-create-session'].card)
+	await kernel.insertCard(context, adminSession,
+		actionLibrary['action-update-card'].card)
+	await kernel.insertCard(context, adminSession,
+		actionLibrary['action-delete-card'].card)
+
+	const queue = await helpers.createQueue({ context, kernel, session: adminSession })
+	const queueActor = uuid()
+	const dequeue = await helpers.dequeue({ queue, context, actor, queueActor })
+	const worker = await helpers.createWorker({ kernel, adminSession, queue })
+	const workerSyncContext = await syncContext.fromWorkerContext('test', worker.getActionContext(context), context, adminSession)
+	test.context = {
+		actor,
+		worker,
+		queue,
+		kernel,
+		backend,
+		context,
+		cache,
+		syncContext: workerSyncContext,
+		session: adminSession
+	}
+})
+
+ava.afterEach((test) => {
+	const { queue, kernel, backend, context, cache } = test.context
+	queue.destroy()
+	kernel.disconnect(context)
+	backend.disconnect(context)
+	cache.disconnect()
+})
 
 ava('.importCards() should import no card', async (test) => {
 	const result = await pipeline.importCards(test.context.syncContext, [])
@@ -70,8 +130,8 @@ ava('.importCards() should import a single card', async (test) => {
 	])
 })
 
-ava('.importCards() should patch an existing card', async (test) => {
-	const card = await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
+ava.only('.importCards() should patch an existing card', async (test) => {
+	const card = await test.context.kernel.insertCard(test.context.context, test.context.session, {
 		type: 'card@1.0.0',
 		slug: 'foo',
 		version: '1.0.0',
@@ -643,7 +703,7 @@ ava('.translateExternalEvent() should destroy the integration even if there was 
 			BrokenIntegration.instance = this
 		}
 
-		// eslint-disable-next-line class-methods-use-this
+		// eslint-disable-next-line class-methods-use-
 		async translate () {
 			throw new TranslateError('Foo Bar')
 		}

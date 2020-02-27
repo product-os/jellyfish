@@ -26,7 +26,7 @@ exports.jellyfish = {
 }
 
 exports.worker = {
-	beforeEach: async (test, actionLibrary, options = {}) => {
+	beforeEach: async (test,  options = {}) => {
 		await helpers.beforeEach(test, {
 			suffix: options.suffix
 		})
