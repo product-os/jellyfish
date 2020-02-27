@@ -831,7 +831,7 @@ avaTest('jsonb_pattern - inside items in a jsonb column', async (test) => {
 			name: 'active',
 			data: {
 				mirrors: [
-					'https://github.com/balena-io/jellyfish-test-github/issues/5998'
+					'https://github.com/product-os/jellyfish-test-github/issues/5998'
 				]
 			}
 		}

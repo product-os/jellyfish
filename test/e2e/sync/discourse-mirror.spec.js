@@ -380,7 +380,7 @@ avaTest('should re-open a closed support thread if an attached issue is closed',
 		type: 'issue',
 		version: '1.0.0',
 		data: {
-			repository: 'balena-io/jellyfish-test-github',
+			repository: 'product-os/jellyfish-test-github',
 			description: 'Foo bar',
 			status: 'open',
 			mentionsUser: [],
