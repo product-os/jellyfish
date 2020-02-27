@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'doc: Add documentation for data model, permissions and API queries'
+      hash: dbdd6daded5f37acd82b736a73837e272abab575
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 26.2.8
+  date: 2020-02-27T16:20:38.322Z
+- commits:
     - subject: Update webpack.config to remove the @jellyfish alias
       hash: 43726558ab9dcae092fd36ee3f2bdd30b8cc8efa
       body: ''
