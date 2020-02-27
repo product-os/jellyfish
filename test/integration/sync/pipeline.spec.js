@@ -52,8 +52,12 @@ ava.beforeEach(async (test) => {
 	const queue = await helpers.createQueue({ context, kernel, session: adminSession })
 	const queueActor = uuid()
 	const dequeue = await helpers.dequeue({ queue, context, actor, queueActor })
-	const worker = await helpers.createWorker({ kernel, adminSession, queue })
-	const workerSyncContext = await syncContext.fromWorkerContext('test', worker.getActionContext(context), context, adminSession)
+
+	const worker = await helpers.createWorker({ kernel, session: adminSession, queue })
+
+	const actionContext = worker.getActionContext(context)
+
+	const workerSyncContext = await syncContext.fromWorkerContext('test', actionContext, context, adminSession)
 	test.context = {
 		actor,
 		worker,
@@ -98,7 +102,7 @@ ava('.importCards() should throw if the type is invalid', async (test) => {
 	]), test.context.worker.errors.WorkerNoElement)
 })
 
-ava('.importCards() should import a single card', async (test) => {
+ava.only('.importCards() should import a single card', async (test) => {
 	const result = await pipeline.importCards(test.context.syncContext, [
 		{
 			time: new Date(),
@@ -130,7 +134,7 @@ ava('.importCards() should import a single card', async (test) => {
 	])
 })
 
-ava.only('.importCards() should patch an existing card', async (test) => {
+ava('.importCards() should patch an existing card', async (test) => {
 	const card = await test.context.kernel.insertCard(test.context.context, test.context.session, {
 		type: 'card@1.0.0',
 		slug: 'foo',
