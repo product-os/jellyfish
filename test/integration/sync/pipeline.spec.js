@@ -50,33 +50,32 @@ ava.beforeEach(async (test) => {
 		actionLibrary['action-delete-card'].card)
 
 	const queue = await helpers.createQueue({ context, kernel, session: adminSession })
-	const queueActor = uuid()
-	const dequeue = await helpers.dequeue({ queue, context, actor, queueActor })
 
-	const worker = await helpers.createWorker({ kernel, session: adminSession, queue })
+	const worker = await helpers.createWorker({ context, kernel, session: adminSession, queue })
 
 	const actionContext = worker.getActionContext(context)
 
 	const workerSyncContext = await syncContext.fromWorkerContext('test', actionContext, context, adminSession)
+
 	test.context = {
 		actor,
 		worker,
-		queue,
 		kernel,
 		backend,
 		context,
 		cache,
+		queue,
 		syncContext: workerSyncContext,
 		session: adminSession
 	}
 })
 
-ava.afterEach((test) => {
+ava.afterEach(async (test) => {
 	const { queue, kernel, backend, context, cache } = test.context
-	queue.destroy()
-	kernel.disconnect(context)
-	backend.disconnect(context)
-	cache.disconnect()
+	await queue.consumer.cancel()
+	await kernel.disconnect(context)
+	await backend.disconnect(context)
+	await cache.disconnect()
 })
 
 ava('.importCards() should import no card', async (test) => {
@@ -102,7 +101,7 @@ ava('.importCards() should throw if the type is invalid', async (test) => {
 	]), test.context.worker.errors.WorkerNoElement)
 })
 
-ava.only('.importCards() should import a single card', async (test) => {
+ava('.importCards() should import a single card', async (test) => {
 	const result = await pipeline.importCards(test.context.syncContext, [
 		{
 			time: new Date(),
@@ -377,7 +376,7 @@ ava('.importCards() should not throw given string interpolation', async (test) =
 	])
 
 	test.deepEqual(results, [
-		test.context.jellyfish.defaults({
+		test.context.kernel.defaults({
 			id: results[0].id,
 			slug: 'bar',
 			created_at: results[0].created_at,
@@ -511,10 +510,11 @@ ava('.importCards() should import a dependent card in parallel segment', async (
 })
 
 ava('.importCards() should add create events', async (test) => {
-	const result = await pipeline.importCards(test.context.syncContext, [
+	const { queue, syncContext, actor, session, kernel, context } = test.context
+	const result = await pipeline.importCards(syncContext, [
 		{
 			time: new Date(),
-			actor: test.context.actor.id,
+			actor: actor.id,
 			card: {
 				slug: 'hello-world',
 				type: 'card@1.0.0',
@@ -526,9 +526,9 @@ ava('.importCards() should add create events', async (test) => {
 		}
 	])
 
-	await test.context.flush(test.context.session)
+	await helpers.flushQueue({ queue, context, actor, session })
 
-	const timeline = await test.context.jellyfish.query(test.context.context, test.context.session, {
+	const timeline = await kernel.query(context, session, {
 		type: 'object',
 		additionalProperties: true,
 		required: [ 'data' ],
@@ -559,7 +559,7 @@ ava('.translateExternalEvent() should pass the originator to the sync context', 
 		}
 	}
 
-	const slug = test.context.generateRandomSlug({
+	const slug = helpers.generateRandomSlug({
 		prefix: 'external-event'
 	})
 
@@ -618,7 +618,7 @@ ava('.translateExternalEvent() should translate an external event through the no
 		}
 	}
 
-	const slug = test.context.generateRandomSlug({
+	const slug = helpers.generateRandomSlug({
 		prefix: 'external-event'
 	})
 
@@ -675,7 +675,7 @@ ava('.translateExternalEvent() should destroy the integration even if there was 
 
 	await test.throwsAsync(pipeline.translateExternalEvent(TestIntegration, test.context.kernel.defaults({
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-		slug: test.context.generateRandomSlug({
+		slug: helpers.generateRandomSlug({
 			prefix: 'external-event'
 		}),
 		type: 'invalid-type@1.0.0',
@@ -716,7 +716,7 @@ ava('.translateExternalEvent() should destroy the integration even if there was 
 	await test.throwsAsync(pipeline.translateExternalEvent(BrokenIntegration, {
 		id: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 		type: 'invalid-type@1.0.0',
-		slug: test.context.generateRandomSlug({
+		slug: helpers.generateRandomSlug({
 			prefix: 'external-event'
 		}),
 		version: '1.0.0',

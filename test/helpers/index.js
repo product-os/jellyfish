@@ -25,7 +25,7 @@ const generateRandomSlug = ({ prefix }) => {
 	return suffix
 }
 
-const createWorker = async ({ kernel, session, queue }) => {
+const createWorker = async ({ context, kernel, session, queue }) => {
 	const library = Object.assign({
 		// For testing purposes
 		'action-test-originator': {
@@ -45,7 +45,10 @@ const createWorker = async ({ kernel, session, queue }) => {
 		kernel,
 		session,
 		library,
-		queue)
+		queue.consumer,
+		queue.producer
+	)
+	await worker.initialize(context)
 	return worker
 }
 
