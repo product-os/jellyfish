@@ -168,7 +168,7 @@ export INTEGRATION_OUTREACH_SIGNATURE_KEY
 # Test Runtime Configuration
 # -----------------------------------------------
 
-TEST_INTEGRATION_GITHUB_REPO ?= balena-io/jellyfish-test-github
+TEST_INTEGRATION_GITHUB_REPO ?= product-os/jellyfish-test-github
 export TEST_INTEGRATION_GITHUB_REPO
 TEST_INTEGRATION_FRONT_INBOX_1 ?= inb_qf8q # Jellyfish Testfront
 export TEST_INTEGRATION_FRONT_INBOX_1
