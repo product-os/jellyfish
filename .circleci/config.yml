@@ -781,6 +781,18 @@ jobs:
           name: Test
           command: cd ./scripts/eslint-plugin-jellyfish && npm install && npm test
 
+  clean_old_test_data:
+    <<: *job_defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run:
+          name: Clean up old test data
+          command: |
+            make clean-github
+            make clean-front
+
 workflows:
     version: 2
     build:
@@ -879,4 +891,9 @@ workflows:
                 <<: *workflow_filter
 
             - eslint_jellyfish:
+                <<: *workflow_filter
+
+            - clean_old_test_data:
+                requires:
+                    - build
                 <<: *workflow_filter
