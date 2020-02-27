@@ -428,6 +428,7 @@ export default class Event extends React.Component {
 							small
 							name={actor ? actor.name : null}
 							url={actor ? actor.avatarUrl : null}
+							userStatus={_.get(actor, [ 'card', 'data', 'status' ])}
 						/>
 
 						{this.props.openChannel &&

@@ -177,6 +177,7 @@ export default class MyUser extends React.Component {
 								<Avatar
 									name={user.name || user.slug.replace('user-', '')}
 									url={_.get(user, [ 'data', 'avatar' ])}
+									userStatus={_.get(user, [ 'data', 'status' ])}
 								/>
 
 								<Box ml={2}>
